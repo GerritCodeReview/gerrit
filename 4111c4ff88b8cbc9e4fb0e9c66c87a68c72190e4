@@ -45,6 +45,214 @@
       "revId": "4111c4ff88b8cbc9e4fb0e9c66c87a68c72190e4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "77512c93_5f856a48",
+        "filename": "java/com/google/gerrit/extensions/restapi/Response.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-08-05T12:07:12Z",
+      "side": 1,
+      "message": "In RestApiServlet, we use the constants of HttpServletResponse. Maybe, we should do so here, too. It could be a follow-up change, though, as this change is already large enough.",
+      "parentUuid": "030a3db2_1ddf16f8",
+      "range": {
+        "startLine": 171,
+        "startChar": 13,
+        "endLine": 171,
+        "endChar": 16
+      },
+      "revId": "4111c4ff88b8cbc9e4fb0e9c66c87a68c72190e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e9a94e0c_238ac313",
+        "filename": "java/com/google/gerrit/extensions/restapi/RestCollectionCreateView.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-08-05T12:07:12Z",
+      "side": 1,
+      "message": "Here and in other similar files: Missing @.",
+      "range": {
+        "startLine": 37,
+        "startChar": 47,
+        "endLine": 37,
+        "endChar": 52
+      },
+      "revId": "4111c4ff88b8cbc9e4fb0e9c66c87a68c72190e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "081254c3_56d21c22",
+        "filename": "java/com/google/gerrit/extensions/restapi/RestCollectionDeleteMissingView.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-08-05T12:07:12Z",
+      "side": 1,
+      "message": "The text above mentions that typically 204 is returned, which would be Response.None. That implementation doesn\u0027t support caching.",
+      "range": {
+        "startLine": 49,
+        "startChar": 5,
+        "endLine": 50,
+        "endChar": 27
+      },
+      "revId": "4111c4ff88b8cbc9e4fb0e9c66c87a68c72190e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6cd51483_ff9acf2e",
+        "filename": "java/com/google/gerrit/extensions/restapi/RestCollectionModifyView.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-08-05T12:07:12Z",
+      "side": 1,
+      "message": "Maybe add: \"if the response type allows this\" as quite a few implementations (like None and Redirect) throw an UnsupportedOperationException?\n\nThis section also seems a bit problematic in the other Javadoc descriptions. Alternatively, we could leave it out.",
+      "range": {
+        "startLine": 43,
+        "startChar": 5,
+        "endLine": 44,
+        "endChar": 27
+      },
+      "revId": "4111c4ff88b8cbc9e4fb0e9c66c87a68c72190e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "028d4c66_a4704315",
+        "filename": "java/com/google/gerrit/server/restapi/account/PostWatchedProjects.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-08-05T12:07:12Z",
+      "side": 1,
+      "message": "Can we directly forward the response object?",
+      "range": {
+        "startLine": 81,
+        "startChar": 11,
+        "endLine": 81,
+        "endChar": 62
+      },
+      "revId": "4111c4ff88b8cbc9e4fb0e9c66c87a68c72190e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9ab4a458_c3cb4bd3",
+        "filename": "java/com/google/gerrit/server/restapi/account/Stars.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-08-05T12:07:12Z",
+      "side": 1,
+      "message": "As mentioned somewhere else, I would directly use the returned Response object instead of creating a new one. In this specific case, it doesn\u0027t seem to work, though, as we would need to do a cast which the compiler objects to. Honestly, considering the implementation of QueryChanges#apply, I\u0027m not even sure why we are allowed to do the cast here. The value could also be a List\u003cList\u003cChangeInfo\u003e\u003e.",
+      "range": {
+        "startLine": 108,
+        "startChar": 13,
+        "endLine": 108,
+        "endChar": 91
+      },
+      "revId": "4111c4ff88b8cbc9e4fb0e9c66c87a68c72190e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "01c0023e_4005d9a9",
+        "filename": "java/com/google/gerrit/server/restapi/project/CreateDashboard.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-08-05T12:07:12Z",
+      "side": 1,
+      "message": "Is this a TODO for a follow-up change?",
+      "range": {
+        "startLine": 55,
+        "startChar": 4,
+        "endLine": 55,
+        "endChar": 96
+      },
+      "revId": "4111c4ff88b8cbc9e4fb0e9c66c87a68c72190e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d012c1b3_8b93a18b",
+        "filename": "java/com/google/gerrit/server/restapi/project/GarbageCollect.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-08-05T12:07:12Z",
+      "side": 1,
+      "message": "Could be the wildcard \u0027?\u0027.",
+      "range": {
+        "startLine": 74,
+        "startChar": 18,
+        "endLine": 74,
+        "endChar": 24
+      },
+      "revId": "4111c4ff88b8cbc9e4fb0e9c66c87a68c72190e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ae500663_267aedd7",
+        "filename": "java/com/google/gerrit/server/restapi/project/SetDefaultDashboard.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-08-05T12:07:12Z",
+      "side": 1,
+      "message": "In theory, we could re-use the above response object.",
+      "range": {
+        "startLine": 124,
+        "startChar": 15,
+        "endLine": 124,
+        "endChar": 32
+      },
+      "revId": "4111c4ff88b8cbc9e4fb0e9c66c87a68c72190e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

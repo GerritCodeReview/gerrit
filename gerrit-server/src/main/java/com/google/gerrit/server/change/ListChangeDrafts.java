@@ -73,4 +73,16 @@ public class ListChangeDrafts implements RestReadView<ChangeResource> {
         .newCommentFormatter()
         .format(listComments(rsrc));
   }
+
+  public List<CommentInfo> getComments(ChangeResource rsrc) throws AuthException, OrmException {
+    if (requireAuthentication() && !rsrc.getUser().isIdentifiedUser()) {
+      throw new AuthException("Authentication required");
+    }
+    return commentJson
+        .get()
+        .setFillAccounts(includeAuthorInfo())
+        .setFillPatchSet(true)
+        .newCommentFormatter()
+        .formatAsList(listComments(rsrc));
+  }
 }

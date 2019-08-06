@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1ccf2ed4_35481667",
+        "filename": "polygerrit-ui/server.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2019-08-06T22:02:13Z",
+      "side": 1,
+      "message": "ideally we would be using the string builder here\nhttps://golang.org/src/strings/builder.go?s\u003d386:479#L5",
+      "range": {
+        "startLine": 196,
+        "startChar": 24,
+        "endLine": 196,
+        "endChar": 41
+      },
+      "revId": "fcfead8ba3f62561317f3ed3e9a73bd48c74fbe8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "620fb639_44c1d8e7",
+        "filename": "polygerrit-ui/server.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2019-08-06T22:02:13Z",
+      "side": 1,
+      "message": "if possible we could use golang\u0027s path helpers\nhttps://golang.org/pkg/path/filepath/#Ext",
+      "range": {
+        "startLine": 202,
+        "startChar": 29,
+        "endLine": 202,
+        "endChar": 33
+      },
+      "revId": "fcfead8ba3f62561317f3ed3e9a73bd48c74fbe8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

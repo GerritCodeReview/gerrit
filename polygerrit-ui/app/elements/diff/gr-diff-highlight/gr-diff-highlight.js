@@ -36,6 +36,10 @@
       _cachedDiffBuilder: Object,
     },
 
+    behaviors: [
+      Gerrit.FireBehavior,
+    ],
+
     listeners: {
       'comment-thread-mouseleave': '_handleCommentThreadMouseleave',
       'comment-thread-mouseenter': '_handleCommentThreadMouseenter',

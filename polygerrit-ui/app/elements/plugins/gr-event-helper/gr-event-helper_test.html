@@ -33,12 +33,17 @@ limitations under the License.
     Polymer({
       is: 'some-element',
       _legacyUndefinedCheck: true,
+
       properties: {
         fooBar: {
           type: Object,
           notify: true,
         },
       },
+
+      behaviors: [
+        Gerrit.FireBehavior,
+      ],
     });
   </script>
 </dom-element>

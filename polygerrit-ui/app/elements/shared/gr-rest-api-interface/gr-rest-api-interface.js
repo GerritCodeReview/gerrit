@@ -194,6 +194,7 @@
     _legacyUndefinedCheck: true,
 
     behaviors: [
+      Gerrit.FireBehavior,
       Gerrit.PathListBehavior,
       Gerrit.PatchSetBehavior,
       Gerrit.RESTClientBehavior,

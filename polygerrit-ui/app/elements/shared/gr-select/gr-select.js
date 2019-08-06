@@ -20,6 +20,7 @@
   Polymer({
     is: 'gr-select',
     _legacyUndefinedCheck: true,
+
     properties: {
       bindValue: {
         type: String,
@@ -27,6 +28,10 @@
         observer: '_updateValue',
       },
     },
+
+    behaviors: [
+      Gerrit.FireBehavior,
+    ],
 
     listeners: {
       'change': '_valueChanged',

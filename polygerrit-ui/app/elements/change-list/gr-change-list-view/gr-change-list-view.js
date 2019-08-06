@@ -41,6 +41,7 @@
 
     behaviors: [
       Gerrit.BaseUrlBehavior,
+      Gerrit.FireBehavior,
       Gerrit.URLEncodingBehavior,
     ],
 

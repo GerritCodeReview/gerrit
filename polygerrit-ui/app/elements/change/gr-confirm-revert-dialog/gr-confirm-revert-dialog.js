@@ -40,6 +40,10 @@
       message: String,
     },
 
+    behaviors: [
+      Gerrit.FireBehavior,
+    ],
+
     populateRevertMessage(message, commitHash) {
       // Figure out what the revert title should be.
       const originalTitle = message.split('\n')[0];

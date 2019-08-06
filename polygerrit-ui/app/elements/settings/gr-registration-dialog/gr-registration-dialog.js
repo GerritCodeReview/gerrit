@@ -60,6 +60,10 @@
       _serverConfig: Object,
     },
 
+    behaviors: [
+      Gerrit.FireBehavior,
+    ],
+
     hostAttributes: {
       role: 'dialog',
     },

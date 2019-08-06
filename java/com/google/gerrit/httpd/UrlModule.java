@@ -19,6 +19,7 @@ import static com.google.inject.Scopes.SINGLETON;
 import com.google.common.base.Strings;
 import com.google.gerrit.common.PageLinks;
 import com.google.gerrit.extensions.client.AuthType;
+import com.google.gerrit.httpd.raw.AuthorizationCheckServlet;
 import com.google.gerrit.httpd.raw.CatServlet;
 import com.google.gerrit.httpd.raw.SshInfoServlet;
 import com.google.gerrit.httpd.raw.ToolServlet;
@@ -81,6 +82,9 @@ class UrlModule extends ServletModule {
     install(new RunAsFilter.Module());
 
     serveRegex("^/(?:a/)?tools/(.*)$").with(ToolServlet.class);
+
+    // Serve auth check. Mainly used by PolyGerrit for checking if a user is still logged in.
+    serveRegex("^/(?:a/)?auth-check$").with(AuthorizationCheckServlet.class);
 
     // Bind servlets for REST root collections.
     // The '/plugins/' root collection is already handled by HttpPluginServlet

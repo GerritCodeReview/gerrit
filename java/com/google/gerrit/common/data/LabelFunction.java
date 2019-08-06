@@ -15,6 +15,7 @@
 package com.google.gerrit.common.data;
 
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import java.util.Collections;
 import java.util.LinkedHashMap;
@@ -31,9 +32,10 @@ import java.util.Optional;
  * implemented both in Prolog in {@code gerrit_common.pl} and in the {@link #check} method.
  */
 public enum LabelFunction {
-  ANY_WITH_BLOCK("AnyWithBlock", true, false, false),
-  MAX_WITH_BLOCK("MaxWithBlock", true, true, true),
-  MAX_NO_BLOCK("MaxNoBlock", false, true, true),
+  ANY_WITH_BLOCK("AnyWithBlock", true, false, false, false),
+  NEG_CAN_BLOCK("MultiMode", true, false, false, true),
+  MAX_WITH_BLOCK("MaxWithBlock", true, true, true, false),
+  MAX_NO_BLOCK("MaxNoBlock", false, true, true, false),
   NO_BLOCK("NoBlock"),
   NO_OP("NoOp"),
   PATCH_SET_LOCK("PatchSetLock");
@@ -56,16 +58,18 @@ public enum LabelFunction {
   private final boolean isBlock;
   private final boolean isRequired;
   private final boolean requiresMaxValue;
+  private final boolean isNegativeCanBlock;
 
   LabelFunction(String name) {
-    this(name, false, false, false);
+    this(name, false, false, false, false);
   }
 
-  LabelFunction(String name, boolean isBlock, boolean isRequired, boolean requiresMaxValue) {
+  LabelFunction(String name, boolean isBlock, boolean isRequired, boolean requiresMaxValue, boolean isNegativeCanBlock) {
     this.name = name;
     this.isBlock = isBlock;
     this.isRequired = isRequired;
     this.requiresMaxValue = requiresMaxValue;
+    this.isNegativeCanBlock = isNegativeCanBlock;
   }
 
   /** The function name as defined in documentation and {@code project.config}. */
@@ -88,6 +92,12 @@ public enum LabelFunction {
     return requiresMaxValue;
   }
 
+  /** Whether the label function should let negative values > lowest negative
+   * be allowed to block until a max positive vote is cast. */
+  public boolean isNegativeCanBlock() {
+    return isNegativeCanBlock;
+  }
+
   public SubmitRecord.Label check(LabelType labelType, Iterable<PatchSetApproval> approvals) {
     SubmitRecord.Label submitRecordLabel = new SubmitRecord.Label();
     submitRecordLabel.label = labelType.getName();
@@ -96,6 +106,11 @@ public enum LabelFunction {
     if (isRequired) {
       submitRecordLabel.status = SubmitRecord.Label.Status.NEED;
     }
+
+    boolean havePotentialBlocker = false;
+    Account.Id blockerId = null;
+    boolean haveMaxPositive = false;
+    Account.Id approverId = null;
 
     for (PatchSetApproval a : approvals) {
       if (a.value() == 0) {
@@ -108,6 +123,16 @@ public enum LabelFunction {
         return submitRecordLabel;
       }
 
+      if (a.value() < 0) {
+        havePotentialBlocker = true;
+        blockerId = a.accountId();
+      }
+
+      if (labelType.isMaxPositive(a)) {
+        haveMaxPositive = true;
+        approverId = a.accountId();
+      }
+
       if (labelType.isMaxPositive(a) || !requiresMaxValue) {
         submitRecordLabel.appliedBy = a.accountId();
 
@@ -115,6 +140,16 @@ public enum LabelFunction {
         if (isRequired) {
           submitRecordLabel.status = SubmitRecord.Label.Status.OK;
         }
+      }
+    }
+
+    if (isNegativeCanBlock && havePotentialBlocker) {
+      if (haveMaxPositive) {
+        submitRecordLabel.appliedBy = approverId;
+        submitRecordLabel.status = SubmitRecord.Label.Status.MAY;
+      } else {
+        submitRecordLabel.appliedBy = blockerId;
+        submitRecordLabel.status = SubmitRecord.Label.Status.REJECT;
       }
     }
 

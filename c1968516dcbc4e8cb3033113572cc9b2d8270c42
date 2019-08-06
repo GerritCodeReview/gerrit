@@ -39,6 +39,29 @@
       "revId": "c1968516dcbc4e8cb3033113572cc9b2d8270c42",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0b60a3e7_f155832a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-08-06T18:02:29Z",
+      "side": 1,
+      "message": "Seems like this was a mistake?",
+      "range": {
+        "startLine": 39,
+        "startChar": 59,
+        "endLine": 39,
+        "endChar": 60
+      },
+      "revId": "c1968516dcbc4e8cb3033113572cc9b2d8270c42",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

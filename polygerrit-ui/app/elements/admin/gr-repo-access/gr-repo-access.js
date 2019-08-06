@@ -118,6 +118,7 @@
     behaviors: [
       Gerrit.AccessBehavior,
       Gerrit.BaseUrlBehavior,
+      Gerrit.FireBehavior,
       Gerrit.URLEncodingBehavior,
     ],
 

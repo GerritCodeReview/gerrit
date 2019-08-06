@@ -211,6 +211,7 @@ default_submit([Type | Types], Tmp, Out) :-
 %% Apply the old -2..+2 style logic.
 %%
 legacy_submit_rule('MaxWithBlock', Label, Min, Max, T) :- !, max_with_block(Label, Min, Max, T).
+legacy_submit_rule('MaxUnblocks', Label, Min, Max, T) :- !, max_unblocks(Label, Min, Max, T).
 legacy_submit_rule('AnyWithBlock', Label, Min, Max, T) :- !, any_with_block(Label, Min, T).
 legacy_submit_rule('MaxNoBlock', Label, Min, Max, T) :- !, max_no_block(Label, Max, T).
 legacy_submit_rule('NoBlock', Label, Min, Max, T) :- !, T = may(_).
@@ -239,6 +240,29 @@ max_with_block(Label, Min, Max, ok(Who)) :-
   !
   .
 max_with_block(Label, Min, Max, need(Max)) :-
+  true
+  .
+
+%% max_unblocks:
+%%
+%% - The minimum can block, but max will override.
+%%
+%% Implemented like max_with_block with the order of two rules reversed.
+%%
+max_unblocks(Min, Max, Label, label(Label, S)) :-
+  number(Min), number(Max), atom(Label),
+  !,
+  max_unblocks(Label, Min, Max, S).
+max_unblocks(Label, Min, Max, ok(Who)) :-
+  \+ commit_label(label(Label, Min), _),
+  commit_label(label(Label, Max), Who),
+  !
+  .
+max_unblocks(Label, Min, Max, reject(Who)) :-
+  commit_label(label(Label, Min), Who),
+  !
+  .
+max_unblocks(Label, Min, Max, need(Max)) :-
   true
   .
 

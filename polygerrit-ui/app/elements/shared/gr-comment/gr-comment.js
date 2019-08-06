@@ -157,6 +157,7 @@
     ],
 
     behaviors: [
+      Gerrit.FireBehavior,
       Gerrit.KeyboardShortcutBehavior,
     ],
 

@@ -185,6 +185,7 @@
     behaviors: [
       Gerrit.AsyncForeachBehavior,
       Gerrit.DomUtilBehavior,
+      Gerrit.FireBehavior,
       Gerrit.KeyboardShortcutBehavior,
       Gerrit.PatchSetBehavior,
       Gerrit.PathListBehavior,

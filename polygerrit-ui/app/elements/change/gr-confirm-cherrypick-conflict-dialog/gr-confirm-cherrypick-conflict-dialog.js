@@ -21,6 +21,10 @@
     is: 'gr-confirm-cherrypick-conflict-dialog',
     _legacyUndefinedCheck: true,
 
+    behaviors: [
+      Gerrit.FireBehavior,
+    ],
+
     /**
      * Fired when the confirm button is pressed.
      *

@@ -37,6 +37,10 @@
       message: String,
     },
 
+    behaviors: [
+      Gerrit.FireBehavior,
+    ],
+
     resetFocus() {
       this.$.messageInput.textarea.focus();
     },

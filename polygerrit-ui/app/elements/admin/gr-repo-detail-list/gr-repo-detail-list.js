@@ -85,6 +85,7 @@
 
     behaviors: [
       Gerrit.ListViewBehavior,
+      Gerrit.FireBehavior,
       Gerrit.URLEncodingBehavior,
     ],
 

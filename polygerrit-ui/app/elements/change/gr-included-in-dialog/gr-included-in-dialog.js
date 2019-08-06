@@ -45,6 +45,10 @@
       },
     },
 
+    behaviors: [
+      Gerrit.FireBehavior,
+    ],
+
     loadData() {
       if (!this.changeNum) { return; }
       this._filterText = '';

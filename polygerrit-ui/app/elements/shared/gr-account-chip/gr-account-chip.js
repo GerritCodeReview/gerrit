@@ -57,6 +57,10 @@
       },
     },
 
+    behaviors: [
+      Gerrit.FireBehavior,
+    ],
+
     ready() {
       this._getHasAvatars().then(hasAvatars => {
         this.showAvatar = hasAvatars;

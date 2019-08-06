@@ -274,6 +274,7 @@
     },
 
     behaviors: [
+      Gerrit.FireBehavior,
       Gerrit.PatchSetBehavior,
     ],
 

@@ -74,6 +74,7 @@
     },
 
     behaviors: [
+      Gerrit.FireBehavior,
       Gerrit.KeyboardShortcutBehavior,
       Gerrit.PatchSetBehavior,
       Gerrit.PathListBehavior,

@@ -37,6 +37,7 @@
 
     behaviors: [
       Gerrit.BaseUrlBehavior,
+      Gerrit.FireBehavior,
     ],
 
     attached() {

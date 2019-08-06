@@ -42,6 +42,10 @@
       limit: Number,
     },
 
+    behaviors: [
+      Gerrit.FireBehavior,
+    ],
+
     _getBackgroundClass(transparent) {
       return transparent ? 'transparentBackground' : '';
     },

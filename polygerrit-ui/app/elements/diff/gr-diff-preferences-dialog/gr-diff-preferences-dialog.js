@@ -28,6 +28,10 @@
       _diffPrefsChanged: Boolean,
     },
 
+    behaviors: [
+      Gerrit.FireBehavior,
+    ],
+
     getFocusStops() {
       return {
         start: this.$.contextSelect,

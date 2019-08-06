@@ -45,6 +45,7 @@
     },
 
     behaviors: [
+      Gerrit.FireBehavior,
       Polymer.IronOverlayBehavior,
     ],
 

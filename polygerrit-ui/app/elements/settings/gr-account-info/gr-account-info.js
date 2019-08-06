@@ -69,6 +69,10 @@
       },
     },
 
+    behaviors: [
+      Gerrit.FireBehavior,
+    ],
+
     observers: [
       '_nameChanged(_account.name)',
       '_statusChanged(_account.status)',

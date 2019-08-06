@@ -41,7 +41,7 @@ public class ElasticV6QueryAccountsTest extends AbstractQueryAccountsTest {
       return;
     }
 
-    container = ElasticContainer.createAndStart(ElasticVersion.V6_7);
+    container = ElasticContainer.createAndStart(ElasticVersion.V6_8);
     nodeInfo = new ElasticNodeInfo(container.getHttpHost().getPort());
   }
 

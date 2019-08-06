@@ -26,6 +26,7 @@ import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LAB
 import static com.google.gerrit.reviewdb.client.Patch.COMMIT_MSG;
 import static com.google.gerrit.reviewdb.client.Patch.MERGE_LIST;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.stream.Collectors.toList;
 import static org.eclipse.jgit.lib.Constants.HEAD;
@@ -1054,30 +1055,76 @@ public class RevisionIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     Map<String, FileInfo> files =
         gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).files();
-    assertThat(files).hasSize(2);
-    assertThat(Iterables.all(files.keySet(), f -> f.matches(FILE_NAME + '|' + COMMIT_MSG)))
-        .isTrue();
+    assertThat(files.keySet()).containsExactly(FILE_NAME, COMMIT_MSG);
   }
 
   @Test
   public void filesOnMergeCommitChange() throws Exception {
     PushOneCommit.Result r = createMergeCommitChange("refs/for/master");
 
-    // list files against auto-merge
+    // List files against auto-merge
     assertThat(gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).files().keySet())
         .containsExactly(COMMIT_MSG, MERGE_LIST, "foo", "bar");
 
-    // list files against parent 1
+    // List files against parent 1
     assertThat(gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).files(1).keySet())
         .containsExactly(COMMIT_MSG, MERGE_LIST, "bar");
 
-    // list files against parent 2
+    // List files against parent 2
     assertThat(gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).files(2).keySet())
         .containsExactly(COMMIT_MSG, MERGE_LIST, "foo");
   }
 
   @Test
+  public void filesOnMergeCommitChangeWithInvalidParent() throws Exception {
+    PushOneCommit.Result r = createMergeCommitChange("refs/for/master");
+
+    BadRequestException thrown =
+        assertThrows(
+            BadRequestException.class,
+            () ->
+                gApi.changes()
+                    .id(r.getChangeId())
+                    .revision(r.getCommit().name())
+                    .files(3)
+                    .keySet());
+    assertThat(thrown).hasMessageThat().isEqualTo("invalid parent number: 3");
+    thrown =
+        assertThrows(
+            BadRequestException.class,
+            () ->
+                gApi.changes()
+                    .id(r.getChangeId())
+                    .revision(r.getCommit().name())
+                    .files(-1)
+                    .keySet());
+    assertThat(thrown).hasMessageThat().isEqualTo("invalid parent number: -1");
+  }
+
+  @Test
+  public void listFilesWithInvalidParent() throws Exception {
+    PushOneCommit.Result result1 = createChange();
+    String changeId = result1.getChangeId();
+    PushOneCommit.Result result2 = amendChange(changeId, SUBJECT, "b.txt", "b");
+    String revId2 = result2.getCommit().name();
+
+    BadRequestException thrown =
+        assertThrows(
+            BadRequestException.class,
+            () -> gApi.changes().id(changeId).revision(revId2).files(2).keySet());
+    assertThat(thrown).hasMessageThat().isEqualTo("invalid parent number: 2");
+
+    thrown =
+        assertThrows(
+            BadRequestException.class,
+            () -> gApi.changes().id(changeId).revision(revId2).files(-1).keySet());
+    assertThat(thrown).hasMessageThat().isEqualTo("invalid parent number: -1");
+  }
+
+  @Test
   public void listFilesOnDifferentBases() throws Exception {
+    RevCommit initialCommit = getHead(repo());
+
     PushOneCommit.Result result1 = createChange();
     String changeId = result1.getChangeId();
     PushOneCommit.Result result2 = amendChange(changeId, SUBJECT, "b.txt", "b");
@@ -1100,6 +1147,19 @@ public class RevisionIT extends AbstractDaemonTest {
         .containsExactly(COMMIT_MSG, "b.txt", "c.txt");
     assertThat(gApi.changes().id(changeId).revision(revId3).files(revId2).keySet())
         .containsExactly(COMMIT_MSG, "c.txt");
+
+    ResourceNotFoundException thrown =
+        assertThrows(
+            ResourceNotFoundException.class,
+            () -> gApi.changes().id(changeId).revision(revId3).files(initialCommit.getName()));
+    assertThat(thrown).hasMessageThat().contains(initialCommit.getName());
+
+    String invalidRev = "deadbeef";
+    thrown =
+        assertThrows(
+            ResourceNotFoundException.class,
+            () -> gApi.changes().id(changeId).revision(revId3).files(invalidRev));
+    assertThat(thrown).hasMessageThat().contains(invalidRev);
   }
 
   @Test

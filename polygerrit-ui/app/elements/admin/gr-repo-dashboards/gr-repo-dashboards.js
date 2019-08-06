@@ -33,6 +33,10 @@
       _dashboards: Array,
     },
 
+    behaviors: [
+      Gerrit.FireBehavior,
+    ],
+
     _repoChanged(repo) {
       this._loading = true;
       if (!repo) { return Promise.resolve(); }

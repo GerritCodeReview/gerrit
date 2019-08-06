@@ -75,6 +75,10 @@
       _xhrPromise: Object,
     },
 
+    behaviors: [
+      Gerrit.FireBehavior,
+    ],
+
     observers: [
       '_reviewersChanged(change.reviewers.*, change.owner)',
     ],

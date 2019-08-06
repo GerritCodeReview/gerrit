@@ -84,6 +84,11 @@
       },
     },
 
+    behaviors: [
+      // Used in the tests for gr-account-list and other elements tests.
+      Gerrit.FireBehavior,
+    ],
+
     listeners: {
       remove: '_handleRemove',
     },

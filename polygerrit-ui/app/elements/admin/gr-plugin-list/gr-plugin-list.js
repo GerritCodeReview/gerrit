@@ -65,6 +65,7 @@
     },
 
     behaviors: [
+      Gerrit.FireBehavior,
       Gerrit.ListViewBehavior,
     ],
 

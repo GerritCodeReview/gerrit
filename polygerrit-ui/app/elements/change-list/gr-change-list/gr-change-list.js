@@ -105,6 +105,7 @@
     behaviors: [
       Gerrit.BaseUrlBehavior,
       Gerrit.ChangeTableBehavior,
+      Gerrit.FireBehavior,
       Gerrit.KeyboardShortcutBehavior,
       Gerrit.RESTClientBehavior,
       Gerrit.URLEncodingBehavior,

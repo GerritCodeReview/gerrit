@@ -51,6 +51,10 @@
       },
     },
 
+    behaviors: [
+      Gerrit.FireBehavior,
+    ],
+
     observers: [
       '_computeMessage(changeStatus, commitNum, commitMessage)',
     ],

@@ -226,6 +226,7 @@
 
     behaviors: [
       Gerrit.BaseUrlBehavior,
+      Gerrit.FireBehavior,
       Gerrit.KeyboardShortcutBehavior,
       Gerrit.PatchSetBehavior,
       Gerrit.RESTClientBehavior,

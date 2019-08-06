@@ -109,6 +109,10 @@
       _schemesObj: Object,
     },
 
+    behaviors: [
+      Gerrit.FireBehavior,
+    ],
+
     observers: [
       '_handleConfigChanged(_repoConfig.*)',
     ],

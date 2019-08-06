@@ -43,6 +43,10 @@
       _selectedScheme: String,
     },
 
+    behaviors: [
+      Gerrit.FireBehavior,
+    ],
+
     hostAttributes: {
       role: 'dialog',
     },

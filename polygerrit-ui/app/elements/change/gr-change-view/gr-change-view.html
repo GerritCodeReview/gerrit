@@ -121,10 +121,6 @@ limitations under the License.
       .changeMetadata {
         border-right: 1px solid var(--border-color);
       }
-      /* Prevent plugin text from overflowing. */
-      #change_plugins {
-        word-break: break-word;
-      }
       .commitMessage {
         font-family: var(--monospace-font-family);
         margin-right: 1em;
@@ -438,10 +434,6 @@ limitations under the License.
               parent-is-current="[[_parentIsCurrent]]"
               on-show-reply-dialog="_handleShowReplyDialog">
           </gr-change-metadata>
-          <!-- Plugins insert content into following container.
-               Stop-gap until PolyGerrit plugins interface is ready.
-               This will not work with Shadow DOM. -->
-          <div id="change_plugins"></div>
         </div>
         <div id="mainChangeInfo" class="changeInfo-column mainChangeInfo">
           <div id="commitAndRelated" class="hideOnMobileOverlay">

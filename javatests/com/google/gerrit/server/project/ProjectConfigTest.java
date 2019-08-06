@@ -57,6 +57,7 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
 import org.eclipse.jgit.util.RawParseUtils;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
@@ -454,27 +455,6 @@ public class ProjectConfigTest {
   }
 
   @Test
-  public void pluginSectionIsUnsetIfAllPluginConfigsAreEmpty() throws Exception {
-    RevCommit rev =
-        tr.commit()
-            .add(
-                "project.config",
-                "[commentlink \"bugzilla\"]\n"
-                    + "  match = \"(bugs#?)(d+)\"\n"
-                    + "[plugin \"somePlugin\"]\n"
-                    + "  key = value\n")
-            .create();
-    update(rev);
-
-    ProjectConfig cfg = read(rev);
-    PluginConfig pluginCfg = cfg.getPluginConfig("somePlugin");
-    pluginCfg.unset("key");
-    rev = commit(cfg);
-    assertThat(text(rev, "project.config"))
-        .isEqualTo("[commentlink \"bugzilla\"]\n  match = \"(bugs#?)(d+)\"\n");
-  }
-
-  @Test
   public void readPluginConfigGroupReference() throws Exception {
     RevCommit rev =
         tr.commit()
@@ -659,6 +639,71 @@ public class ProjectConfigTest {
     // continues to return the default.
     assertThat(cfg.getProject().getBooleanConfig(REQUIRE_CHANGE_ID))
         .isEqualTo(InheritableBoolean.INHERIT);
+  }
+
+  @Test
+  @Ignore("TODO: fix me")
+  public void accountsSectionIsUnsetIfNoSameGroupVisibilityIsSet() throws Exception {
+    RevCommit rev =
+        tr.commit()
+            .add(
+                "project.config",
+                "[commentlink \"bugzilla\"]\n"
+                    + "  match = \"(bugs#?)(d+)\"\n"
+                    + "[accounts]\n"
+                    + "  sameGroupVisibility = group Staff\n")
+            .create();
+    update(rev);
+
+    ProjectConfig cfg = read(rev);
+    cfg.getAccountsSection().setSameGroupVisibility(ImmutableList.of());
+    rev = commit(cfg);
+    assertThat(text(rev, "project.config"))
+        .isEqualTo("[commentlink \"bugzilla\"]\n  match = \"(bugs#?)(d+)\"\n");
+  }
+
+  @Test
+  @Ignore("TODO: fix me")
+  public void accessSectionIsUnsetIfNoPermissionsAreSet() throws Exception {
+    RevCommit rev =
+        tr.commit()
+            .add(
+                "project.config",
+                "[commentlink \"bugzilla\"]\n"
+                    + "  match = \"(bugs#?)(d+)\"\n"
+                    + "[access \"refs/heads/*\"]\n"
+                    + "  submit = group Developers\n")
+            .create();
+    update(rev);
+
+    ProjectConfig cfg = read(rev);
+    AccessSection section = cfg.getAccessSection("refs/heads/*");
+    Permission submit = section.getPermission(Permission.SUBMIT);
+    submit.clearRules();
+    rev = commit(cfg);
+    assertThat(text(rev, "project.config"))
+        .isEqualTo("[commentlink \"bugzilla\"]\n  match = \"(bugs#?)(d+)\"\n");
+  }
+
+  @Test
+  public void pluginSectionIsUnsetIfAllPluginConfigsAreEmpty() throws Exception {
+    RevCommit rev =
+        tr.commit()
+            .add(
+                "project.config",
+                "[commentlink \"bugzilla\"]\n"
+                    + "  match = \"(bugs#?)(d+)\"\n"
+                    + "[plugin \"somePlugin\"]\n"
+                    + "  key = value\n")
+            .create();
+    update(rev);
+
+    ProjectConfig cfg = read(rev);
+    PluginConfig pluginCfg = cfg.getPluginConfig("somePlugin");
+    pluginCfg.unset("key");
+    rev = commit(cfg);
+    assertThat(text(rev, "project.config"))
+        .isEqualTo("[commentlink \"bugzilla\"]\n  match = \"(bugs#?)(d+)\"\n");
   }
 
   private Path writeDefaultAllProjectsConfig(String... lines) throws IOException {

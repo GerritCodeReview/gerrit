@@ -60,6 +60,7 @@
     },
 
     behaviors: [
+      Gerrit.FireBehavior,
       Gerrit.KeyboardShortcutBehavior,
       Polymer.IronFitBehavior,
     ],

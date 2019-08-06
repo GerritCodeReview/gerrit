@@ -227,6 +227,7 @@
 
     behaviors: [
       Gerrit.BaseUrlBehavior,
+      Gerrit.FireBehavior,
       Gerrit.PatchSetBehavior,
       Gerrit.URLEncodingBehavior,
     ],

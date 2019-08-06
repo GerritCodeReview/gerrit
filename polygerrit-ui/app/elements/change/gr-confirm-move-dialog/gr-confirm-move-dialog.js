@@ -47,6 +47,10 @@
       },
     },
 
+    behaviors: [
+      Gerrit.FireBehavior,
+    ],
+
     _handleConfirmTap(e) {
       e.preventDefault();
       this.fire('confirm', null, {bubbles: false});

@@ -71,6 +71,10 @@
       },
     },
 
+    behaviors: [
+      Gerrit.FireBehavior,
+    ],
+
     focusTextarea() {
       this.$$('iron-autogrow-textarea').textarea.focus();
     },

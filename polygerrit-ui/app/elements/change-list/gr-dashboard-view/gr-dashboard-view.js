@@ -76,6 +76,7 @@
     ],
 
     behaviors: [
+      Gerrit.FireBehavior,
       Gerrit.RESTClientBehavior,
     ],
 

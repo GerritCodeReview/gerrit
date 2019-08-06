@@ -58,6 +58,10 @@
       },
     },
 
+    behaviors: [
+      Gerrit.FireBehavior,
+    ],
+
     attached() {
       this.listen(document, 'server-error', '_handleServerError');
       this.listen(document, 'network-error', '_handleNetworkError');

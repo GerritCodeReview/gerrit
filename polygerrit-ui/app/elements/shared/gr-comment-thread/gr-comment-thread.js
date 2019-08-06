@@ -127,6 +127,10 @@
     },
 
     behaviors: [
+      /**
+       * Not used in this element rather other elements tests
+       */
+      Gerrit.FireBehavior,
       Gerrit.KeyboardShortcutBehavior,
       Gerrit.PathListBehavior,
     ],

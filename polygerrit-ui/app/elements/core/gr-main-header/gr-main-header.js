@@ -138,6 +138,7 @@
       Gerrit.AdminNavBehavior,
       Gerrit.BaseUrlBehavior,
       Gerrit.DocsUrlBehavior,
+      Gerrit.FireBehavior,
     ],
 
     observers: [

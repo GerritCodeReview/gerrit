@@ -76,6 +76,11 @@
 
     behaviors: [
       Gerrit.AccessBehavior,
+      /**
+       * Unused in this element, but called by other elements in tests
+       * e.g gr-access-section_test.
+       */
+      Gerrit.FireBehavior,
     ],
 
     observers: [

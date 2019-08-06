@@ -42,6 +42,10 @@
       _canCreate: Boolean,
     },
 
+    behaviors: [
+      Gerrit.FireBehavior,
+    ],
+
     attached() {
       this._loadRepo();
 

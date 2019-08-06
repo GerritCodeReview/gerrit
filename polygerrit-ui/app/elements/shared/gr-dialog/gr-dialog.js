@@ -53,6 +53,10 @@
       },
     },
 
+    behaviors: [
+      Gerrit.FireBehavior,
+    ],
+
     hostAttributes: {
       role: 'dialog',
     },

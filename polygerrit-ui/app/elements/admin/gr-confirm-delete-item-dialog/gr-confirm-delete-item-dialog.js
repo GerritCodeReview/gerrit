@@ -44,6 +44,10 @@
       itemType: String,
     },
 
+    behaviors: [
+      Gerrit.FireBehavior,
+    ],
+
     _handleConfirmTap(e) {
       e.preventDefault();
       e.stopPropagation();

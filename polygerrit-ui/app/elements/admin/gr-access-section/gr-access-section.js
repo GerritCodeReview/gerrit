@@ -71,6 +71,11 @@
 
     behaviors: [
       Gerrit.AccessBehavior,
+      /**
+       * Unused in this element, but called by other elements in tests
+       * e.g gr-repo-access_test.
+       */
+      Gerrit.FireBehavior,
     ],
 
     listeners: {

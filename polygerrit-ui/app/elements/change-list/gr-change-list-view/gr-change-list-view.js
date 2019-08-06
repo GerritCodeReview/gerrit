@@ -126,6 +126,10 @@
       },
     },
 
+    behaviors: [
+      Gerrit.FireBehavior,
+    ],
+
     listeners: {
       'next-page': '_handleNextPage',
       'previous-page': '_handlePreviousPage',

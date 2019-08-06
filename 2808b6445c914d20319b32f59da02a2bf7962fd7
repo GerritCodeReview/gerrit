@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1ab84418_bf40308b",
+        "filename": "polygerrit-ui/app/behaviors/fire-behavior/fire-behavior.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-08-06T16:00:22Z",
+      "side": 1,
+      "message": "\"composed\" is not mentioned in the docs and does not exist in the Polymer fire() implementation, so maybe remove it?",
+      "revId": "2808b6445c914d20319b32f59da02a2bf7962fd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e9bc5952_f9b280dd",
+        "filename": "polygerrit-ui/app/behaviors/fire-behavior/fire-behavior.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-08-06T16:00:22Z",
+      "side": 1,
+      "message": "this.dispatchEvent(event);\n  return event;",
+      "range": {
+        "startLine": 50,
+        "startChar": 6,
+        "endLine": 51,
+        "endChar": 22
+      },
+      "revId": "2808b6445c914d20319b32f59da02a2bf7962fd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

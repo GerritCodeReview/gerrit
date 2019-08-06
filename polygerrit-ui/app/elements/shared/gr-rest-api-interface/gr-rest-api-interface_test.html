@@ -465,7 +465,26 @@ limitations under the License.
       element.addEventListener('server-error', serverErrorStub);
       const authErrorStub = sandbox.stub();
       element.addEventListener('auth-error', authErrorStub);
-      element._fetchJSON('/bar').then(r => {
+      element._fetchJSON('/bar').finally(r => {
+        flush(() => {
+          assert.isTrue(authErrorStub.called);
+          assert.isFalse(serverErrorStub.called);
+          assert.isFalse(element._cache.has('/accounts/self/detail'));
+          done();
+        });
+      });
+    });
+
+    test('auth failure - test all failed to fetch', done => {
+      window.fetch.returns(
+          Promise.reject(new Error('Failed to fetch')));
+      // Emulate logged in.
+      element._cache.set('/accounts/self/detail', {});
+      const serverErrorStub = sandbox.stub();
+      element.addEventListener('server-error', serverErrorStub);
+      const authErrorStub = sandbox.stub();
+      element.addEventListener('auth-error', authErrorStub);
+      element._fetchJSON('/bar').finally(r => {
         flush(() => {
           assert.isTrue(authErrorStub.called);
           assert.isFalse(serverErrorStub.called);

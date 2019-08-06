@@ -326,12 +326,12 @@
         const isLoggedIn = !!this._cache.get('/accounts/self/detail');
         if (isLoggedIn && err && err.message === FAILED_TO_FETCH_ERROR) {
           this.checkCredentials();
-          return;
-        }
-        if (req.errFn) {
-          req.errFn.call(undefined, null, err);
         } else {
-          this.fire('network-error', {error: err});
+          if (req.errFn) {
+            req.errFn.call(undefined, null, err);
+          } else {
+            this.fire('network-error', {error: err});
+          }
         }
         throw err;
       });
@@ -1127,11 +1127,15 @@
       }).then(res => {
         this._credentialCheck.checking = false;
         if (res) {
-          this._cache.delete('/accounts/self/detail');
+          this._cache.set('/accounts/self/detail', res);
         }
         return res;
       }).catch(err => {
         this._credentialCheck.checking = false;
+        if (err && err.message === FAILED_TO_FETCH_ERROR) {
+          this.fire('auth-error');
+          this._cache.delete('/accounts/self/detail');
+        }
       });
     },
 

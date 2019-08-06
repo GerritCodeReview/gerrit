@@ -211,6 +211,7 @@ default_submit([Type | Types], Tmp, Out) :-
 %% Apply the old -2..+2 style logic.
 %%
 legacy_submit_rule('MaxWithBlock', Label, Min, Max, T) :- !, max_with_block(Label, Min, Max, T).
+legacy_submit_rule('NegCanBlock', Label, Min, Max, T) :- !, neg_can_block(Label, Min, Max, T).
 legacy_submit_rule('AnyWithBlock', Label, Min, Max, T) :- !, any_with_block(Label, Min, T).
 legacy_submit_rule('MaxNoBlock', Label, Min, Max, T) :- !, max_no_block(Label, Max, T).
 legacy_submit_rule('NoBlock', Label, Min, Max, T) :- !, T = may(_).
@@ -241,6 +242,38 @@ max_with_block(Label, Min, Max, ok(Who)) :-
 max_with_block(Label, Min, Max, need(Max)) :-
   true
   .
+
+%% neg_can_block:
+%%
+%% Max negative blocks.
+%% Max positive allows unless max negative.
+%% Non-max negative blocks unless max positive.
+%% No vote allows.
+%%
+neg_can_block(Min, Max, Label, label(Label, S)) :-
+  number(Min), number(Max), atom(Label),
+  !,
+  neg_can_block(Label, Min, Max, S).
+%% Max negative fully blocks submit.
+neg_can_block(Label, Min, Max, reject(Who)) :-
+  commit_label(label(Label, Min), Who),
+  !
+  .
+%% Otherwise max positive allows.
+neg_can_block(Label, Min, Max, ok(Who)) :-
+  \+ commit_label(label(Label, Min), _),
+  commit_label(label(Label, Max), Who),
+  !
+  .
+%% Non-max negative blocks unless max positive.
+neg_can_block(Label, Min, Max, reject(Who)) :-
+  \+ commit_label(label(Label, Min), _),
+  \+ commit_label(label(Label, Max), _),
+  commit_label(label(Label, Min+1), Who),
+  !
+  .
+%% All else are 'may'.
+neg_can_block(Label, Min, may(_)).
 
 %% any_with_block:
 %%

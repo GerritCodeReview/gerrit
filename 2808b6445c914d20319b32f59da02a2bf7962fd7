@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "93b2833a_9d6aab3d",
+        "filename": "polygerrit-ui/app/behaviors/fire-behavior/fire-behavior.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-08-06T16:07:05Z",
+      "side": 1,
+      "message": "This is from here https://github.com/Polymer/polymer/blob/v2.8.0/lib/legacy/legacy-element-mixin.html#L404\n\nI\u0027ve added \u0027composed\u0027 to the jsdoc.",
+      "parentUuid": "1ab84418_bf40308b",
+      "revId": "2808b6445c914d20319b32f59da02a2bf7962fd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e9bc5952_f9b280dd",
         "filename": "polygerrit-ui/app/behaviors/fire-behavior/fire-behavior.html",
         "patchSetId": 4
@@ -39,6 +57,30 @@
       "revId": "2808b6445c914d20319b32f59da02a2bf7962fd7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eae5fbda_bad26bc1",
+        "filename": "polygerrit-ui/app/behaviors/fire-behavior/fire-behavior.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-08-06T16:07:05Z",
+      "side": 1,
+      "message": "Thanks, done!",
+      "parentUuid": "e9bc5952_f9b280dd",
+      "range": {
+        "startLine": 50,
+        "startChar": 6,
+        "endLine": 51,
+        "endChar": 22
+      },
+      "revId": "2808b6445c914d20319b32f59da02a2bf7962fd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

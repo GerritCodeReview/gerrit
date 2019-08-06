@@ -120,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "4000969f_69612500",
+        "filename": "java/com/google/gerrit/extensions/restapi/Response.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-08-06T07:27:06Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "c1ce6b5d_8f293554",
+      "range": {
+        "startLine": 171,
+        "startChar": 13,
+        "endLine": 171,
+        "endChar": 16
+      },
+      "revId": "4111c4ff88b8cbc9e4fb0e9c66c87a68c72190e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e9a94e0c_238ac313",
         "filename": "java/com/google/gerrit/extensions/restapi/RestCollectionCreateView.java",
         "patchSetId": 4

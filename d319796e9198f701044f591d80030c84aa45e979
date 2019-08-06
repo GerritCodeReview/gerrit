@@ -22,6 +22,30 @@
       "revId": "d319796e9198f701044f591d80030c84aa45e979",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "900580b9_2cfe69e0",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 604,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-08-06T13:06:38Z",
+      "side": 0,
+      "message": "I totally believe that this fixes an issue, but from the commit message and the code I still have trouble to understand what is going on. A test could help or a longer commit message.",
+      "parentUuid": "1d2fda17_9408bacc",
+      "range": {
+        "startLine": 604,
+        "startChar": 6,
+        "endLine": 604,
+        "endChar": 30
+      },
+      "revId": "d319796e9198f701044f591d80030c84aa45e979",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

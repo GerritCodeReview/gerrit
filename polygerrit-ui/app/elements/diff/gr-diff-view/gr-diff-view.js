@@ -597,11 +597,11 @@
       this._initCursor(this.params);
 
       this._changeNum = value.changeNum;
+      this._path = value.path;
       this._patchRange = {
         patchNum: value.patchNum,
         basePatchNum: value.basePatchNum || PARENT,
       };
-      this._path = value.path;
 
       // NOTE: This may be called before attachment (e.g. while parentElement is
       // null). Fire title-change in an async so that, if attachment to the DOM

@@ -454,6 +454,27 @@ public class ProjectConfigTest {
   }
 
   @Test
+  public void pluginSectionIsUnsetIfAllPluginConfigsAreEmpty() throws Exception {
+    RevCommit rev =
+        tr.commit()
+            .add(
+                "project.config",
+                "[commentlink \"bugzilla\"]\n"
+                    + "  match = \"(bugs#?)(d+)\"\n"
+                    + "[plugin \"somePlugin\"]\n"
+                    + "  key = value\n")
+            .create();
+    update(rev);
+
+    ProjectConfig cfg = read(rev);
+    PluginConfig pluginCfg = cfg.getPluginConfig("somePlugin");
+    pluginCfg.unset("key");
+    rev = commit(cfg);
+    assertThat(text(rev, "project.config"))
+        .isEqualTo("[commentlink \"bugzilla\"]\n  match = \"(bugs#?)(d+)\"\n");
+  }
+
+  @Test
   public void readPluginConfigGroupReference() throws Exception {
     RevCommit rev =
         tr.commit()

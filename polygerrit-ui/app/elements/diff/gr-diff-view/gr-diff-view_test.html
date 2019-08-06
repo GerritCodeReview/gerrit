@@ -1147,5 +1147,38 @@ limitations under the License.
         1,
       ]);
     });
+
+    test('File change should trigger navigateToDiff once', () => {
+      element._fileList = ['file1', 'file2', 'file3'];
+      sandbox.stub(element, '_getLineOfInterest');
+      sandbox.stub(element, '_initCursor');
+      sandbox.stub(Gerrit.Nav, 'navigateToDiff');
+
+      // Load file1
+      element._paramsChanged({
+        view: Gerrit.Nav.View.DIFF,
+        patchNum: 1,
+        changeNum: 101,
+        project: 'test-project',
+        path: 'file1',
+      });
+      assert.isTrue(Gerrit.Nav.navigateToDiff.notCalled);
+
+      // Switch to file2
+      element.$.dropdown.value = 'file2';
+      assert.isTrue(Gerrit.Nav.navigateToDiff.calledOnce);
+
+      // This is to mock the param change triggered by above navigate
+      element._paramsChanged({
+        view: Gerrit.Nav.View.DIFF,
+        patchNum: 1,
+        changeNum: 101,
+        project: 'test-project',
+        path: 'file2',
+      });
+
+      // No extra call
+      assert.isTrue(Gerrit.Nav.navigateToDiff.calledOnce);
+    });
   });
 </script>

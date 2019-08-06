@@ -318,6 +318,10 @@
     },
 
     _editingChanged(editing, previousValue) {
+      // Polymer 2: observer fires when one of the properties is not undefined
+      // do nothing to prevent comment.__editing being overwritten
+      if (previousValue === undefined) return;
+
       this.$.container.classList.toggle('editing', editing);
       if (this.comment && this.comment.id) {
         this.$$('.cancel').hidden = !editing;

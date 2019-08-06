@@ -36,7 +36,7 @@
     _legacyUndefinedCheck: true,
 
     /**
-     * Fired when the create fix comment action is triggered.
+     * Fired when the create fix comment action is triggereGd.
      *
      * @event create-fix-comment
      */
@@ -318,6 +318,11 @@
     },
 
     _editingChanged(editing, previousValue) {
+      // Polymer 2: observer fires when at least one property is defined
+      // do nothing to prevent comment.__editing being overwritten
+      // if editing is undefined
+      if (previousValue === undefined) return;
+
       this.$.container.classList.toggle('editing', editing);
       if (this.comment && this.comment.id) {
         this.$$('.cancel').hidden = !editing;

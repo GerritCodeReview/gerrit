@@ -211,6 +211,7 @@ default_submit([Type | Types], Tmp, Out) :-
 %% Apply the old -2..+2 style logic.
 %%
 legacy_submit_rule('MaxWithBlock', Label, Min, Max, T) :- !, max_with_block(Label, Min, Max, T).
+legacy_submit_rule('MultiMode', Label, Min, Max, T) :- !, multi_mode(Label, Min, Max, T).
 legacy_submit_rule('AnyWithBlock', Label, Min, Max, T) :- !, any_with_block(Label, Min, T).
 legacy_submit_rule('MaxNoBlock', Label, Min, Max, T) :- !, max_no_block(Label, Max, T).
 legacy_submit_rule('NoBlock', Label, Min, Max, T) :- !, T = may(_).
@@ -241,6 +242,41 @@ max_with_block(Label, Min, Max, ok(Who)) :-
 max_with_block(Label, Min, Max, need(Max)) :-
   true
   .
+
+%% multi_mode:
+%%
+%% Any -2 vote blocks submit. Even if there is a +2, a -2 will still block.
+%%
+%% When -1 is the lowest negative vote the change is blocked unless there is a
+%% +2 vote.
+%%
+%% When 0 is the lowest vote the change is not blocked. For example, if there
+%% are no votes at all, the min = max = 0, and the change is not blocked.
+%%
+multi_mode(Min, Max, Label, label(Label, S)) :-
+  number(Min), number(Max), atom(Label),
+  !,
+  multi_mode(Label, Min, Max, S).
+%% Min fully blocks submit.
+multi_mode(Label, Min, Max, reject(Who)) :-
+  commit_label(label(Label, Min), Who),
+  !
+  .
+%% If no Min vote, then Max unblocks.
+multi_mode(Label, Min, Max, ok(Who)) :-
+  \+ commit_label(label(Label, Min), _),
+  commit_label(label(Label, Max), Who),
+  !
+  .
+%% -1 with no +2 blocks
+multi_mode(Label, Min, Max, reject(Who)) :-
+  \+ commit_label(label(Label, Min), _),
+  \+ commit_label(label(Label, Max), _),
+  commit_label(label(Label, Min+1), Who),
+  !
+  .
+%% All else are 'may'.
+muli_mode(Label, Min, may(_)).
 
 %% any_with_block:
 %%

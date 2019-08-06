@@ -16,6 +16,7 @@ package com.google.gerrit.server.restapi.project;
 
 import com.google.gerrit.extensions.api.projects.ConfigInfo;
 import com.google.gerrit.extensions.registration.DynamicMap;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.server.EnableSignedPush;
@@ -53,15 +54,16 @@ public class GetConfig implements RestReadView<ProjectResource> {
   }
 
   @Override
-  public ConfigInfo apply(ProjectResource resource) {
-    return new ConfigInfoImpl(
-        serverEnableSignedPush,
-        resource.getProjectState(),
-        resource.getUser(),
-        pluginConfigEntries,
-        cfgFactory,
-        allProjects,
-        uiActions,
-        views);
+  public Response<ConfigInfo> apply(ProjectResource resource) {
+    return Response.ok(
+        new ConfigInfoImpl(
+            serverEnableSignedPush,
+            resource.getProjectState(),
+            resource.getUser(),
+            pluginConfigEntries,
+            cfgFactory,
+            allProjects,
+            uiActions,
+            views));
   }
 }

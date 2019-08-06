@@ -18,6 +18,7 @@ import com.google.gerrit.extensions.common.AccountVisibility;
 import com.google.gerrit.extensions.common.SuggestedReviewerInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.change.ChangeResource;
@@ -63,18 +64,19 @@ public class SuggestChangeReviewers extends SuggestReviewers
   }
 
   @Override
-  public List<SuggestedReviewerInfo> apply(ChangeResource rsrc)
+  public Response<List<SuggestedReviewerInfo>> apply(ChangeResource rsrc)
       throws AuthException, BadRequestException, IOException, ConfigInvalidException,
           PermissionBackendException {
     if (!self.get().isIdentifiedUser()) {
       throw new AuthException("Authentication required");
     }
-    return reviewersUtil.suggestReviewers(
-        rsrc.getNotes(),
-        this,
-        projectCache.checkedGet(rsrc.getProject()),
-        getVisibility(rsrc),
-        excludeGroups);
+    return Response.ok(
+        reviewersUtil.suggestReviewers(
+            rsrc.getNotes(),
+            this,
+            projectCache.checkedGet(rsrc.getProject()),
+            getVisibility(rsrc),
+            excludeGroups));
   }
 
   private VisibilityControl getVisibility(ChangeResource rsrc) {

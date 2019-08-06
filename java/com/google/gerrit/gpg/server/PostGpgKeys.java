@@ -36,6 +36,7 @@ import com.google.gerrit.extensions.common.GpgKeyInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.git.LockFailureException;
@@ -120,7 +121,7 @@ public class PostGpgKeys implements RestModifyView<AccountResource, GpgKeysInput
   }
 
   @Override
-  public Map<String, GpgKeyInfo> apply(AccountResource rsrc, GpgKeysInput input)
+  public Response<Map<String, GpgKeyInfo>> apply(AccountResource rsrc, GpgKeysInput input)
       throws RestApiException, PGPException, IOException, ConfigInvalidException {
     GpgKeys.checkVisible(self, rsrc);
 
@@ -153,7 +154,7 @@ public class PostGpgKeys implements RestModifyView<AccountResource, GpgKeysInput
               "Update GPG Keys via API",
               rsrc.getUser().getAccountId(),
               u -> u.replaceExternalIds(toRemove.keySet(), newExtIds));
-      return toJson(newKeys, fingerprintsToRemove, store, rsrc.getUser());
+      return Response.ok(toJson(newKeys, fingerprintsToRemove, store, rsrc.getUser()));
     }
   }
 

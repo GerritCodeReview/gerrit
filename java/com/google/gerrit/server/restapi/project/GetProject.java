@@ -15,6 +15,7 @@
 package com.google.gerrit.server.restapi.project;
 
 import com.google.gerrit.extensions.common.ProjectInfo;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.project.ProjectJson;
 import com.google.gerrit.server.project.ProjectResource;
@@ -32,7 +33,7 @@ public class GetProject implements RestReadView<ProjectResource> {
   }
 
   @Override
-  public ProjectInfo apply(ProjectResource rsrc) {
-    return json.format(rsrc.getProjectState());
+  public Response<ProjectInfo> apply(ProjectResource rsrc) {
+    return Response.ok(json.format(rsrc.getProjectState()));
   }
 }

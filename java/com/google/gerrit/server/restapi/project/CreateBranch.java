@@ -23,6 +23,7 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestCollectionCreateView;
 import com.google.gerrit.reviewdb.client.BranchNameKey;
 import com.google.gerrit.reviewdb.client.RefNames;
@@ -81,7 +82,7 @@ public class CreateBranch
   }
 
   @Override
-  public BranchInfo apply(ProjectResource rsrc, IdString id, BranchInput input)
+  public Response<BranchInfo> apply(ProjectResource rsrc, IdString id, BranchInput input)
       throws BadRequestException, AuthException, ResourceConflictException, IOException,
           PermissionBackendException, NoSuchProjectException {
     String ref = id.get();
@@ -188,7 +189,7 @@ public class CreateBranch
                   ? true
                   : null;
         }
-        return info;
+        return Response.created(info);
       } catch (IOException err) {
         logger.atSevere().withCause(err).log("Cannot create branch \"%s\"", name);
         throw err;

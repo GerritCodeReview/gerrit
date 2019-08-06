@@ -19,6 +19,7 @@ import com.google.gerrit.extensions.api.changes.DeleteCommentInput;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.reviewdb.client.PatchSet;
@@ -71,7 +72,7 @@ public class DeleteComment
   }
 
   @Override
-  public CommentInfo applyImpl(
+  public Response<CommentInfo> applyImpl(
       BatchUpdate.Factory batchUpdateFactory, CommentResource rsrc, DeleteCommentInput input)
       throws RestApiException, IOException, ConfigInvalidException, PermissionBackendException,
           UpdateException {
@@ -100,7 +101,7 @@ public class DeleteComment
       throw new ResourceNotFoundException("comment not found: " + rsrc.getComment().key);
     }
 
-    return commentJson.get().newCommentFormatter().format(updatedComment.get());
+    return Response.ok(commentJson.get().newCommentFormatter().format(updatedComment.get()));
   }
 
   private static String getCommentNewMessage(String name, String reason) {

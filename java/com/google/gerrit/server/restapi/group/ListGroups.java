@@ -28,6 +28,7 @@ import com.google.gerrit.extensions.client.ListGroupsOption;
 import com.google.gerrit.extensions.client.ListOption;
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
@@ -247,14 +248,14 @@ public class ListGroups implements RestReadView<TopLevelResource> {
   }
 
   @Override
-  public SortedMap<String, GroupInfo> apply(TopLevelResource resource)
+  public Response<SortedMap<String, GroupInfo>> apply(TopLevelResource resource)
       throws RestApiException, IOException, ConfigInvalidException, PermissionBackendException {
     SortedMap<String, GroupInfo> output = new TreeMap<>();
     for (GroupInfo info : get()) {
       output.put(MoreObjects.firstNonNull(info.name, "Group " + Url.decode(info.id)), info);
       info.name = null;
     }
-    return output;
+    return Response.ok(output);
   }
 
   public List<GroupInfo> get()
@@ -276,7 +277,7 @@ public class ListGroups implements RestReadView<TopLevelResource> {
     }
 
     if (user != null) {
-      return accountGetGroups.apply(new AccountResource(userFactory.create(user)));
+      return accountGetGroups.apply(new AccountResource(userFactory.create(user))).value();
     }
 
     return getAllGroups();

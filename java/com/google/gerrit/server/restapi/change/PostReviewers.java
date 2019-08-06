@@ -18,6 +18,7 @@ import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.AddReviewerResult;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.change.ChangeResource;
@@ -59,7 +60,7 @@ public class PostReviewers
   }
 
   @Override
-  protected AddReviewerResult applyImpl(
+  protected Response<AddReviewerResult> applyImpl(
       BatchUpdate.Factory updateFactory, ChangeResource rsrc, AddReviewerInput input)
       throws IOException, RestApiException, UpdateException, PermissionBackendException,
           ConfigInvalidException {
@@ -69,7 +70,7 @@ public class PostReviewers
 
     ReviewerAddition addition = reviewerAdder.prepare(rsrc.getNotes(), rsrc.getUser(), input, true);
     if (addition.op == null) {
-      return addition.result;
+      return Response.ok(addition.result);
     }
     try (BatchUpdate bu =
         updateFactory.create(rsrc.getProject(), rsrc.getUser(), TimeUtil.nowTs())) {
@@ -81,7 +82,7 @@ public class PostReviewers
 
     // Re-read change to take into account results of the update.
     addition.gatherResults(changeDataFactory.create(rsrc.getProject(), rsrc.getId()));
-    return addition.result;
+    return Response.ok(addition.result);
   }
 
   private NotifyResolver.Result resolveNotify(ChangeResource rsrc, AddReviewerInput input)

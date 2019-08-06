@@ -59,7 +59,8 @@ public class Index implements RestModifyView<ProjectResource, IndexProjectInput>
 
     reindex(rsrc.getNameKey(), input.async);
     if (Boolean.TRUE.equals(input.indexChildren)) {
-      for (ProjectInfo child : listChildProjectsProvider.get().withRecursive(true).apply(rsrc)) {
+      for (ProjectInfo child :
+          listChildProjectsProvider.get().withRecursive(true).apply(rsrc).value()) {
         reindex(Project.nameKey(child.name), input.async);
       }
 

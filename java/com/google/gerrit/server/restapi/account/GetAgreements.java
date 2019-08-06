@@ -21,6 +21,7 @@ import com.google.gerrit.common.data.PermissionRule.Action;
 import com.google.gerrit.extensions.common.AgreementInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -61,7 +62,7 @@ public class GetAgreements implements RestReadView<AccountResource> {
   }
 
   @Override
-  public List<AgreementInfo> apply(AccountResource resource)
+  public Response<List<AgreementInfo>> apply(AccountResource resource)
       throws RestApiException, PermissionBackendException {
     if (!agreementsEnabled) {
       throw new MethodNotAllowedException("contributor agreements disabled");
@@ -97,6 +98,6 @@ public class GetAgreements implements RestReadView<AccountResource> {
         results.add(agreementJson.format(ca));
       }
     }
-    return results;
+    return Response.ok(results);
   }
 }

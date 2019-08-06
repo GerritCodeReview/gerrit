@@ -22,6 +22,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.extensions.client.ProjectWatchInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.IdentifiedUser;
@@ -55,7 +56,7 @@ public class GetWatchedProjects implements RestReadView<AccountResource> {
   }
 
   @Override
-  public List<ProjectWatchInfo> apply(AccountResource rsrc)
+  public Response<List<ProjectWatchInfo>> apply(AccountResource rsrc)
       throws AuthException, IOException, ConfigInvalidException, PermissionBackendException,
           ResourceNotFoundException {
     if (!self.get().hasSameAccountId(rsrc.getUser())) {
@@ -64,12 +65,13 @@ public class GetWatchedProjects implements RestReadView<AccountResource> {
 
     Account.Id accountId = rsrc.getUser().getAccountId();
     AccountState account = accounts.get(accountId).orElseThrow(ResourceNotFoundException::new);
-    return account.getProjectWatches().entrySet().stream()
-        .map(e -> toProjectWatchInfo(e.getKey(), e.getValue()))
-        .sorted(
-            comparing((ProjectWatchInfo pwi) -> pwi.project)
-                .thenComparing(pwi -> Strings.nullToEmpty(pwi.filter)))
-        .collect(toList());
+    return Response.ok(
+        account.getProjectWatches().entrySet().stream()
+            .map(e -> toProjectWatchInfo(e.getKey(), e.getValue()))
+            .sorted(
+                comparing((ProjectWatchInfo pwi) -> pwi.project)
+                    .thenComparing(pwi -> Strings.nullToEmpty(pwi.filter)))
+            .collect(toList()));
   }
 
   private static ProjectWatchInfo toProjectWatchInfo(

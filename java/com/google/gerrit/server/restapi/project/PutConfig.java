@@ -26,6 +26,7 @@ import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.RestView;
@@ -108,13 +109,13 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
   }
 
   @Override
-  public ConfigInfo apply(ProjectResource rsrc, ConfigInput input)
+  public Response<ConfigInfo> apply(ProjectResource rsrc, ConfigInput input)
       throws RestApiException, PermissionBackendException {
     permissionBackend
         .currentUser()
         .project(rsrc.getNameKey())
         .check(ProjectPermission.WRITE_CONFIG);
-    return apply(rsrc.getProjectState(), input);
+    return Response.ok(apply(rsrc.getProjectState(), input));
   }
 
   public ConfigInfo apply(ProjectState projectState, ConfigInput input)

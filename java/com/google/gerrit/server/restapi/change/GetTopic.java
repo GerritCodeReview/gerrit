@@ -15,6 +15,7 @@
 package com.google.gerrit.server.restapi.change;
 
 import com.google.common.base.Strings;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.inject.Singleton;
@@ -22,7 +23,7 @@ import com.google.inject.Singleton;
 @Singleton
 public class GetTopic implements RestReadView<ChangeResource> {
   @Override
-  public String apply(ChangeResource rsrc) {
-    return Strings.nullToEmpty(rsrc.getChange().getTopic());
+  public Response<String> apply(ChangeResource rsrc) {
+    return Response.ok(Strings.nullToEmpty(rsrc.getChange().getTopic()));
   }
 }

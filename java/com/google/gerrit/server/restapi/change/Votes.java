@@ -20,6 +20,7 @@ import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
@@ -71,7 +72,8 @@ public class Votes implements ChildCollection<ReviewerResource, VoteResource> {
     }
 
     @Override
-    public Map<String, Short> apply(ReviewerResource rsrc) throws MethodNotAllowedException {
+    public Response<Map<String, Short>> apply(ReviewerResource rsrc)
+        throws MethodNotAllowedException {
       if (rsrc.getRevisionResource() != null && !rsrc.getRevisionResource().isCurrent()) {
         throw new MethodNotAllowedException("Cannot list votes on non-current patch set");
       }
@@ -87,7 +89,7 @@ public class Votes implements ChildCollection<ReviewerResource, VoteResource> {
       for (PatchSetApproval psa : byPatchSetUser) {
         votes.put(psa.label(), psa.value());
       }
-      return votes;
+      return Response.ok(votes);
     }
   }
 }

@@ -16,6 +16,7 @@ package com.google.gerrit.server.restapi.change;
 
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.change.ChangeResource;
@@ -44,14 +45,15 @@ public class ListChangeComments implements RestReadView<ChangeResource> {
   }
 
   @Override
-  public Map<String, List<CommentInfo>> apply(ChangeResource rsrc)
+  public Response<Map<String, List<CommentInfo>>> apply(ChangeResource rsrc)
       throws AuthException, PermissionBackendException {
     ChangeData cd = changeDataFactory.create(rsrc.getNotes());
-    return commentJson
-        .get()
-        .setFillAccounts(true)
-        .setFillPatchSet(true)
-        .newCommentFormatter()
-        .format(commentsUtil.publishedByChange(cd.notes()));
+    return Response.ok(
+        commentJson
+            .get()
+            .setFillAccounts(true)
+            .setFillPatchSet(true)
+            .newCommentFormatter()
+            .format(commentsUtil.publishedByChange(cd.notes())));
   }
 }

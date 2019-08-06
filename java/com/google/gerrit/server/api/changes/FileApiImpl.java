@@ -56,7 +56,7 @@ class FileApiImpl implements FileApi {
   @Override
   public BinaryResult content() throws RestApiException {
     try {
-      return getContent.apply(file);
+      return getContent.apply(file).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot retrieve file content", e);
     }

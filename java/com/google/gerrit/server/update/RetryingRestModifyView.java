@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.update;
 
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.RestResource;
@@ -27,7 +28,7 @@ public abstract class RetryingRestModifyView<R extends RestResource, I, O>
   }
 
   @Override
-  public final O apply(R resource, I input) throws Exception {
+  public final Response<O> apply(R resource, I input) throws Exception {
     RetryHelper.Options retryOptions =
         RetryHelper.options()
             .caller(getClass())
@@ -37,6 +38,6 @@ public abstract class RetryingRestModifyView<R extends RestResource, I, O>
         (updateFactory) -> applyImpl(updateFactory, resource, input), retryOptions);
   }
 
-  protected abstract O applyImpl(BatchUpdate.Factory updateFactory, R resource, I input)
+  protected abstract Response<O> applyImpl(BatchUpdate.Factory updateFactory, R resource, I input)
       throws Exception;
 }

@@ -23,6 +23,7 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.server.UserInitiated;
@@ -45,7 +46,7 @@ public class PutName implements RestModifyView<GroupResource, NameInput> {
   }
 
   @Override
-  public String apply(GroupResource rsrc, NameInput input)
+  public Response<String> apply(GroupResource rsrc, NameInput input)
       throws NotInternalGroupException, AuthException, BadRequestException,
           ResourceConflictException, ResourceNotFoundException, IOException,
           ConfigInvalidException {
@@ -62,11 +63,11 @@ public class PutName implements RestModifyView<GroupResource, NameInput> {
     }
 
     if (internalGroup.getName().equals(newName)) {
-      return newName;
+      return Response.ok(newName);
     }
 
     renameGroup(internalGroup, newName);
-    return newName;
+    return Response.ok(newName);
   }
 
   private void renameGroup(GroupDescription.Internal group, String newName)

@@ -22,6 +22,7 @@ import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -54,7 +55,7 @@ public class PutOwner implements RestModifyView<GroupResource, OwnerInput> {
   }
 
   @Override
-  public GroupInfo apply(GroupResource resource, OwnerInput input)
+  public Response<GroupInfo> apply(GroupResource resource, OwnerInput input)
       throws ResourceNotFoundException, NotInternalGroupException, AuthException,
           BadRequestException, UnprocessableEntityException, IOException, ConfigInvalidException,
           PermissionBackendException {
@@ -79,6 +80,6 @@ public class PutOwner implements RestModifyView<GroupResource, OwnerInput> {
         throw new ResourceNotFoundException(String.format("Group %s not found", groupUuid));
       }
     }
-    return json.format(owner);
+    return Response.ok(json.format(owner));
   }
 }

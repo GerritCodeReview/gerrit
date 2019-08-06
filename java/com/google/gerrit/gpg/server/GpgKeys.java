@@ -27,6 +27,7 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.gpg.BouncyCastleUtil;
@@ -140,7 +141,7 @@ public class GpgKeys implements ChildCollection<AccountResource, GpgKey> {
 
   public class ListGpgKeys implements RestReadView<AccountResource> {
     @Override
-    public Map<String, GpgKeyInfo> apply(AccountResource rsrc)
+    public Response<Map<String, GpgKeyInfo>> apply(AccountResource rsrc)
         throws PGPException, IOException, ResourceNotFoundException {
       checkVisible(self, rsrc);
       Map<String, GpgKeyInfo> keys = new HashMap<>();
@@ -165,7 +166,7 @@ public class GpgKeys implements ChildCollection<AccountResource, GpgKey> {
           }
         }
       }
-      return keys;
+      return Response.ok(keys);
     }
   }
 
@@ -181,12 +182,13 @@ public class GpgKeys implements ChildCollection<AccountResource, GpgKey> {
     }
 
     @Override
-    public GpgKeyInfo apply(GpgKey rsrc) throws IOException {
+    public Response<GpgKeyInfo> apply(GpgKey rsrc) throws IOException {
       try (PublicKeyStore store = storeProvider.get()) {
-        return toJson(
-            rsrc.getKeyRing().getPublicKey(),
-            checkerFactory.create().setExpectedUser(rsrc.getUser()),
-            store);
+        return Response.ok(
+            toJson(
+                rsrc.getKeyRing().getPublicKey(),
+                checkerFactory.create().setExpectedUser(rsrc.getUser()),
+                store));
       }
     }
   }

@@ -15,6 +15,7 @@
 package com.google.gerrit.server.restapi.group;
 
 import com.google.gerrit.extensions.common.GroupOptionsInfo;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.group.GroupResource;
 import com.google.inject.Singleton;
@@ -23,7 +24,7 @@ import com.google.inject.Singleton;
 public class GetOptions implements RestReadView<GroupResource> {
 
   @Override
-  public GroupOptionsInfo apply(GroupResource resource) {
-    return GroupJson.createOptions(resource.getGroup());
+  public Response<GroupOptionsInfo> apply(GroupResource resource) {
+    return Response.ok(GroupJson.createOptions(resource.getGroup()));
   }
 }

@@ -25,6 +25,7 @@ import com.google.gerrit.extensions.api.changes.RevertInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.client.Account;
@@ -139,7 +140,7 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
   }
 
   @Override
-  public ChangeInfo applyImpl(
+  public Response<ChangeInfo> applyImpl(
       BatchUpdate.Factory updateFactory, ChangeResource rsrc, RevertInput input)
       throws IOException, RestApiException, UpdateException, NoSuchChangeException,
           PermissionBackendException, NoSuchProjectException, ConfigInvalidException {
@@ -153,7 +154,7 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
     projectCache.checkedGet(rsrc.getProject()).checkStatePermitsWrite();
 
     Change.Id revertId = revert(updateFactory, rsrc.getNotes(), rsrc.getUser(), input);
-    return json.noOptions().format(rsrc.getProject(), revertId);
+    return Response.ok(json.noOptions().format(rsrc.getProject(), revertId));
   }
 
   private Change.Id revert(

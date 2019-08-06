@@ -97,7 +97,7 @@ import org.eclipse.jgit.util.ChangeIdUtil;
 @Singleton
 public class CreateChange
     extends RetryingRestCollectionModifyView<
-        TopLevelResource, ChangeResource, ChangeInput, Response<ChangeInfo>> {
+        TopLevelResource, ChangeResource, ChangeInput, ChangeInfo> {
   private final String anonymousCowardName;
   private final GitRepositoryManager gitManager;
   private final Sequences seq;

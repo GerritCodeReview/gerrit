@@ -221,7 +221,7 @@ public class ChangeEditApiImpl implements ChangeEditApi {
   public String getCommitMessage() throws RestApiException {
     try {
       try (BinaryResult binaryResult =
-          getChangeEditCommitMessageProvider.get().apply(changeResource)) {
+          getChangeEditCommitMessageProvider.get().apply(changeResource).value()) {
         return binaryResult.asString();
       }
     } catch (Exception e) {

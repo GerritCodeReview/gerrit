@@ -71,12 +71,12 @@ public class GarbageCollect
   }
 
   @Override
-  public Object apply(ProjectResource rsrc, Input input) {
+  public Response<?> apply(ProjectResource rsrc, Input input) {
     Project.NameKey project = rsrc.getNameKey();
     if (input.async) {
       return applyAsync(project, input);
     }
-    return applySync(project, input);
+    return Response.ok(applySync(project, input));
   }
 
   private Response.Accepted applyAsync(Project.NameKey project, Input input) {

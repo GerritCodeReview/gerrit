@@ -33,13 +33,24 @@ public interface RestCollectionCreateView<P extends RestResource, C extends Rest
   /**
    * Process the view operation by creating the resource.
    *
+   * <p>The returned response defines the status code that is returned to the client. For
+   * RestCollectionCreateViews this is usually {@code 201 Created} because a resource is created,
+   * but other 2XX or 3XX status codes are also possible (e.g. {@link Response.Redirect} can be
+   * returned for {@code 302 Found}).
+   *
+   * <p>The value of the returned response is automatically converted to JSON unless it is a {@link
+   * BinaryResult}.
+   *
+   * <p>Throwing a subclass of {@link RestApiException} results in a 4XX response to the client. For
+   * any other exception the client will get a {@code 500 Internal Server Error} response.
+   *
    * @param parentResource parent resource of the resource that should be created
+   * @param id the ID of the child resource that should be created
    * @param input input after parsing from request.
-   * @return result to return to the client. Use {@link BinaryResult} to avoid automatic conversion
-   *     to JSON.
+   * @return response to return to the client
    * @throws RestApiException if the resource creation is rejected
    * @throws Exception the implementation of the view failed. The exception will be logged and HTTP
    *     500 Internal Server Error will be returned to the client.
    */
-  Object apply(P parentResource, IdString id, I input) throws Exception;
+  Response<?> apply(P parentResource, IdString id, I input) throws Exception;
 }

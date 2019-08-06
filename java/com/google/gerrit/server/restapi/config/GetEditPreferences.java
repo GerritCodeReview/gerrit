@@ -17,6 +17,7 @@ package com.google.gerrit.server.restapi.config;
 import com.google.gerrit.extensions.client.EditPreferencesInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.account.Preferences;
 import com.google.gerrit.server.config.AllUsersName;
@@ -40,10 +41,10 @@ public class GetEditPreferences implements RestReadView<ConfigResource> {
   }
 
   @Override
-  public EditPreferencesInfo apply(ConfigResource configResource)
+  public Response<EditPreferencesInfo> apply(ConfigResource configResource)
       throws BadRequestException, ResourceConflictException, IOException, ConfigInvalidException {
     try (Repository git = gitManager.openRepository(allUsersName)) {
-      return Preferences.readDefaultEditPreferences(allUsersName, git);
+      return Response.ok(Preferences.readDefaultEditPreferences(allUsersName, git));
     }
   }
 }

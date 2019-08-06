@@ -17,6 +17,7 @@ package com.google.gerrit.server.restapi.change;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Patch;
@@ -60,25 +61,28 @@ public class GetContent implements RestReadView<FileResource> {
   }
 
   @Override
-  public BinaryResult apply(FileResource rsrc)
+  public Response<BinaryResult> apply(FileResource rsrc)
       throws ResourceNotFoundException, IOException, BadRequestException {
     String path = rsrc.getPatchKey().fileName();
     if (Patch.COMMIT_MSG.equals(path)) {
       String msg = getMessage(rsrc.getRevision().getChangeResource().getNotes());
-      return BinaryResult.create(msg)
-          .setContentType(FileContentUtil.TEXT_X_GERRIT_COMMIT_MESSAGE)
-          .base64();
+      return Response.ok(
+          BinaryResult.create(msg)
+              .setContentType(FileContentUtil.TEXT_X_GERRIT_COMMIT_MESSAGE)
+              .base64());
     } else if (Patch.MERGE_LIST.equals(path)) {
       byte[] mergeList = getMergeList(rsrc.getRevision().getChangeResource().getNotes());
-      return BinaryResult.create(mergeList)
-          .setContentType(FileContentUtil.TEXT_X_GERRIT_MERGE_LIST)
-          .base64();
+      return Response.ok(
+          BinaryResult.create(mergeList)
+              .setContentType(FileContentUtil.TEXT_X_GERRIT_MERGE_LIST)
+              .base64());
     }
-    return fileContentUtil.getContent(
-        projectCache.checkedGet(rsrc.getRevision().getProject()),
-        rsrc.getRevision().getPatchSet().commitId(),
-        path,
-        parent);
+    return Response.ok(
+        fileContentUtil.getContent(
+            projectCache.checkedGet(rsrc.getRevision().getProject()),
+            rsrc.getRevision().getPatchSet().commitId(),
+            path,
+            parent));
   }
 
   private String getMessage(ChangeNotes notes) throws IOException {

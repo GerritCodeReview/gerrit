@@ -21,6 +21,7 @@ import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.GroupAuditEventInfo;
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -74,7 +75,7 @@ public class GetAuditLog implements RestReadView<GroupResource> {
   }
 
   @Override
-  public List<? extends GroupAuditEventInfo> apply(GroupResource rsrc)
+  public Response<List<? extends GroupAuditEventInfo>> apply(GroupResource rsrc)
       throws AuthException, NotInternalGroupException, IOException, ConfigInvalidException,
           PermissionBackendException {
     GroupDescription.Internal group =
@@ -139,6 +140,6 @@ public class GetAuditLog implements RestReadView<GroupResource> {
 
     // sort by date and then reverse so that the newest audit event comes first
     auditEvents.sort(comparing((GroupAuditEventInfo a) -> a.date).reversed());
-    return auditEvents;
+    return Response.ok(auditEvents);
   }
 }

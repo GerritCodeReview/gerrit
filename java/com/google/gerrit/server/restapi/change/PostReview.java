@@ -152,7 +152,7 @@ import org.eclipse.jgit.lib.ObjectId;
 
 @Singleton
 public class PostReview
-    extends RetryingRestModifyView<RevisionResource, ReviewInput, Response<ReviewResult>> {
+    extends RetryingRestModifyView<RevisionResource, ReviewInput, ReviewResult> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private static final String ERROR_ADDING_REVIEWER = "error adding reviewer";

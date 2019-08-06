@@ -61,7 +61,7 @@ public class EmailApiImpl implements EmailApi {
   @Override
   public EmailInfo get() throws RestApiException {
     try {
-      return get.apply(resource());
+      return get.apply(resource()).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot read email", e);
     }

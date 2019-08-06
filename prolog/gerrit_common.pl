@@ -211,6 +211,7 @@ default_submit([Type | Types], Tmp, Out) :-
 %% Apply the old -2..+2 style logic.
 %%
 legacy_submit_rule('MaxWithBlock', Label, Min, Max, T) :- !, max_with_block(Label, Min, Max, T).
+legacy_submit_rule('NegCanBlock', Label, Min, Max, T) :- !, neg_can_block(Label, Min, Max, T).
 legacy_submit_rule('AnyWithBlock', Label, Min, Max, T) :- !, any_with_block(Label, Min, T).
 legacy_submit_rule('MaxNoBlock', Label, Min, Max, T) :- !, max_no_block(Label, Max, T).
 legacy_submit_rule('NoBlock', Label, Min, Max, T) :- !, T = may(_).
@@ -241,6 +242,41 @@ max_with_block(Label, Min, Max, ok(Who)) :-
 max_with_block(Label, Min, Max, need(Max)) :-
   true
   .
+
+%% neg_can_block:
+%%
+%% Any -2 vote blocks submit. Even if there is a +2, a -2 will still block.
+%%
+%% When -1 is the lowest negative vote the change is blocked unless there is a
+%% +2 vote.
+%%
+%% When 0 is the lowest vote the change is not blocked. For example, if there
+%% are no votes at all, the min = max = 0, and the change is not blocked.
+%%
+neg_can_block(Min, Max, Label, label(Label, S)) :-
+  number(Min), number(Max), atom(Label),
+  !,
+  neg_can_block(Label, Min, Max, S).
+%% Min fully blocks submit.
+neg_can_block(Label, Min, Max, reject(Who)) :-
+  commit_label(label(Label, Min), Who),
+  !
+  .
+%% If no Min vote, then Max unblocks.
+neg_can_block(Label, Min, Max, ok(Who)) :-
+  \+ commit_label(label(Label, Min), _),
+  commit_label(label(Label, Max), Who),
+  !
+  .
+%% -1 with no +2 blocks
+neg_can_block(Label, Min, Max, reject(Who)) :-
+  \+ commit_label(label(Label, Min), _),
+  \+ commit_label(label(Label, Max), _),
+  commit_label(label(Label, Min+1), Who),
+  !
+  .
+%% All else are 'may'.
+neg_can_block(Label, Min, may(_)).
 
 %% any_with_block:
 %%

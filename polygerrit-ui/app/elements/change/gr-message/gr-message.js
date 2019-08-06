@@ -104,6 +104,10 @@
       },
     },
 
+    behaviors: [
+      Gerrit.FireBehavior,
+    ],
+
     observers: [
       '_updateExpandedClass(message.expanded)',
     ],

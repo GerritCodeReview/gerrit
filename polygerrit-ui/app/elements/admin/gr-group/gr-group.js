@@ -89,6 +89,10 @@
       },
     },
 
+    behaviors: [
+      Gerrit.FireBehavior,
+    ],
+
     observers: [
       '_handleConfigName(_groupConfig.name)',
       '_handleConfigOwner(_groupConfig.owner, _groupConfigOwner)',

@@ -227,10 +227,11 @@
 
     behaviors: [
       Gerrit.BaseUrlBehavior,
+      Gerrit.FireBehavior,
       Gerrit.PatchSetBehavior,
       Gerrit.URLEncodingBehavior,
     ],
-
+ 
     start() {
       if (!this._app) { return; }
       this._startRouter();

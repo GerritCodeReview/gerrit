@@ -76,6 +76,7 @@
 
     behaviors: [
       Gerrit.AnonymousNameBehavior,
+      Gerrit.FireBehavior,
     ],
 
     attached() {

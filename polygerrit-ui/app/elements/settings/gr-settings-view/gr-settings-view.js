@@ -149,6 +149,7 @@
     behaviors: [
       Gerrit.DocsUrlBehavior,
       Gerrit.ChangeTableBehavior,
+      Gerrit.FireBehavior,
     ],
 
     observers: [

@@ -58,6 +58,10 @@
       },
     },
 
+    behaviors: [
+      Gerrit.FireBehavior,
+    ],
+
     attached() {
       this.$.restAPI.getLoggedIn().then(loggedIn => {
         if (loggedIn) {

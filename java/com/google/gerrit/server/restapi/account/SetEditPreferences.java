@@ -71,7 +71,7 @@ public class SetEditPreferences implements RestModifyView<AccountResource, EditP
         accountsUpdateProvider
             .get()
             .update("Set Edit Preferences via API", id, u -> u.setEditPreferences(input))
-            .map(AccountState::getEditPreferences)
+            .map(AccountState::editPreferences)
             .orElseThrow(() -> new ResourceNotFoundException(IdString.fromDecoded(id.toString()))));
   }
 }

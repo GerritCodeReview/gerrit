@@ -131,7 +131,7 @@ public class GroupMembers {
             .filter(groupControl::canSeeMember)
             .map(accountCache::get)
             .flatMap(Streams::stream)
-            .map(AccountState::getAccount)
+            .map(AccountState::account)
             .collect(toImmutableSet());
 
     Set<Account> indirectMembers = new HashSet<>();

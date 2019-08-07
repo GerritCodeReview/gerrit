@@ -65,7 +65,7 @@ public class GetPreferences implements RestReadView<AccountResource> {
     GeneralPreferencesInfo preferencesInfo =
         accountCache
             .get(id)
-            .map(AccountState::getGeneralPreferences)
+            .map(AccountState::generalPreferences)
             .orElseThrow(() -> new ResourceNotFoundException(IdString.fromDecoded(id.toString())));
     return Response.ok(unsetDownloadSchemeIfUnsupported(preferencesInfo));
   }

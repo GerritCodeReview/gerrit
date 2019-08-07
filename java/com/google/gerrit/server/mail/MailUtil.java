@@ -62,7 +62,7 @@ public class MailUtil {
   @SuppressWarnings("deprecation")
   private static Account.Id toAccountId(AccountResolver accountResolver, String nameOrEmail)
       throws UnprocessableEntityException, IOException, ConfigInvalidException {
-    return accountResolver.resolveByNameOrEmail(nameOrEmail).asUnique().getAccount().id();
+    return accountResolver.resolveByNameOrEmail(nameOrEmail).asUnique().account().id();
   }
 
   private static boolean isReviewer(FooterLine candidateFooterLine) {

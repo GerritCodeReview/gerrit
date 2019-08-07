@@ -16,6 +16,24 @@
       "revId": "2fce67a274a575b10ab8dd09379a91f3437b9b71",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d88882f0_ea2bf62b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-alert/gr-alert.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-08-07T12:50:02Z",
+      "side": 1,
+      "message": "`:host(...) .content-wrapper` should be same as `.content-wrapper` right ?\nya some properties in `:host` can be moved to `.content-wrapper`, but some can not (like position related ones, z-index). I can move everything else to `.content-wrapper`.\nIts unlikely that more properties will be overwritten in the use case of gr-alert tho, since its top level dom (added to body directly instead of within some other components), usually you can only overwrite the style by either specifying some rules for `gr-alert` or use universal match (`*`) which is unlikely to have extra properties added to it.",
+      "parentUuid": "96a96b2b_b7b6052d",
+      "revId": "2fce67a274a575b10ab8dd09379a91f3437b9b71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

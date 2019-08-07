@@ -152,7 +152,7 @@ class ProjectOAuthFilter implements Filter {
     }
 
     Optional<AccountState> who =
-        accountCache.getByUsername(authInfo.username).filter(a -> a.getAccount().isActive());
+        accountCache.getByUsername(authInfo.username).filter(a -> a.account().isActive());
     if (!who.isPresent()) {
       logger.atWarning().log(
           authenticationFailedMsg(authInfo.username, req)
@@ -161,7 +161,7 @@ class ProjectOAuthFilter implements Filter {
       return false;
     }
 
-    Account account = who.get().getAccount();
+    Account account = who.get().account();
     AuthRequest authRequest = AuthRequest.forExternalUser(authInfo.username);
     authRequest.setEmailAddress(account.preferredEmail());
     authRequest.setDisplayName(account.fullName());

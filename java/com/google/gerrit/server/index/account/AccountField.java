@@ -44,7 +44,7 @@ import org.eclipse.jgit.lib.ObjectId;
 /** Secondary index schemas for accounts. */
 public class AccountField {
   public static final FieldDef<AccountState, Integer> ID =
-      integer("id").stored().build(a -> a.getAccount().id().get());
+      integer("id").stored().build(a -> a.account().id().get());
 
   /**
    * External IDs.
@@ -54,7 +54,7 @@ public class AccountField {
    */
   public static final FieldDef<AccountState, Iterable<String>> EXTERNAL_ID =
       exact("external_id")
-          .buildRepeatable(a -> Iterables.transform(a.getExternalIds(), id -> id.key().get()));
+          .buildRepeatable(a -> Iterables.transform(a.externalIds(), id -> id.key().get()));
 
   /**
    * Fuzzy prefix match on name and email parts.
@@ -69,7 +69,7 @@ public class AccountField {
   public static final FieldDef<AccountState, Iterable<String>> NAME_PART =
       prefix("name")
           .buildRepeatable(
-              a -> getNameParts(a, Iterables.transform(a.getExternalIds(), ExternalId::email)));
+              a -> getNameParts(a, Iterables.transform(a.externalIds(), ExternalId::email)));
 
   /**
    * Fuzzy prefix match on name and preferred email parts. Parts of secondary emails are not
@@ -77,13 +77,13 @@ public class AccountField {
    */
   public static final FieldDef<AccountState, Iterable<String>> NAME_PART_NO_SECONDARY_EMAIL =
       prefix("name2")
-          .buildRepeatable(a -> getNameParts(a, Arrays.asList(a.getAccount().preferredEmail())));
+          .buildRepeatable(a -> getNameParts(a, Arrays.asList(a.account().preferredEmail())));
 
   public static final FieldDef<AccountState, String> FULL_NAME =
-      exact("full_name").build(a -> a.getAccount().fullName());
+      exact("full_name").build(a -> a.account().fullName());
 
   public static final FieldDef<AccountState, String> ACTIVE =
-      exact("inactive").build(a -> a.getAccount().isActive() ? "1" : "0");
+      exact("inactive").build(a -> a.account().isActive() ? "1" : "0");
 
   /**
    * All emails (preferred email + secondary emails). Use this field only if the current user is
@@ -95,9 +95,9 @@ public class AccountField {
       prefix("email")
           .buildRepeatable(
               a ->
-                  FluentIterable.from(a.getExternalIds())
+                  FluentIterable.from(a.externalIds())
                       .transform(ExternalId::email)
-                      .append(Collections.singleton(a.getAccount().preferredEmail()))
+                      .append(Collections.singleton(a.account().preferredEmail()))
                       .filter(Objects::nonNull)
                       .transform(String::toLowerCase)
                       .toSet());
@@ -106,24 +106,24 @@ public class AccountField {
       prefix("preferredemail")
           .build(
               a -> {
-                String preferredEmail = a.getAccount().preferredEmail();
+                String preferredEmail = a.account().preferredEmail();
                 return preferredEmail != null ? preferredEmail.toLowerCase() : null;
               });
 
   public static final FieldDef<AccountState, String> PREFERRED_EMAIL_EXACT =
-      exact("preferredemail_exact").build(a -> a.getAccount().preferredEmail());
+      exact("preferredemail_exact").build(a -> a.account().preferredEmail());
 
   public static final FieldDef<AccountState, Timestamp> REGISTERED =
-      timestamp("registered").build(a -> a.getAccount().registeredOn());
+      timestamp("registered").build(a -> a.account().registeredOn());
 
   public static final FieldDef<AccountState, String> USERNAME =
-      exact("username").build(a -> a.getUserName().map(String::toLowerCase).orElse(""));
+      exact("username").build(a -> a.userName().map(String::toLowerCase).orElse(""));
 
   public static final FieldDef<AccountState, Iterable<String>> WATCHED_PROJECT =
       exact("watchedproject")
           .buildRepeatable(
               a ->
-                  FluentIterable.from(a.getProjectWatches().keySet())
+                  FluentIterable.from(a.projectWatches().keySet())
                       .transform(k -> k.project().get())
                       .toSet());
 
@@ -138,14 +138,14 @@ public class AccountField {
       storedOnly("ref_state")
           .buildRepeatable(
               a -> {
-                if (a.getAccount().metaId() == null) {
+                if (a.account().metaId() == null) {
                   return ImmutableList.of();
                 }
 
                 return ImmutableList.of(
                     RefState.create(
-                            RefNames.refsUsers(a.getAccount().id()),
-                            ObjectId.fromString(a.getAccount().metaId()))
+                            RefNames.refsUsers(a.account().id()),
+                            ObjectId.fromString(a.account().metaId()))
                         // We use the default AllUsers name to avoid having to pass around that
                         // variable just for indexing.
                         // This field is only used for staleness detection which will discover the
@@ -163,13 +163,13 @@ public class AccountField {
       storedOnly("external_id_state")
           .buildRepeatable(
               a ->
-                  a.getExternalIds().stream()
+                  a.externalIds().stream()
                       .filter(e -> e.blobId() != null)
                       .map(ExternalId::toByteArray)
                       .collect(toSet()));
 
   private static final Set<String> getNameParts(AccountState a, Iterable<String> emails) {
-    String fullName = a.getAccount().fullName();
+    String fullName = a.account().fullName();
     Set<String> parts = SchemaUtil.getNameParts(fullName, emails);
 
     // Additional values not currently added by getPersonParts.

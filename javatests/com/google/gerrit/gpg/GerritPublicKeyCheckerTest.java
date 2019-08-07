@@ -198,7 +198,7 @@ public class GerritPublicKeyCheckerTest {
         .update(
             "Delete External IDs",
             user.getAccountId(),
-            (a, u) -> u.deleteExternalIds(a.getExternalIds()));
+            (a, u) -> u.deleteExternalIds(a.externalIds()));
     reloadUser();
 
     TestKey key = validKeyWithSecondUserId();

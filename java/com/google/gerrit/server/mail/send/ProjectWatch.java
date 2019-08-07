@@ -66,9 +66,8 @@ public class ProjectWatch {
     Set<Account.Id> projectWatchers = new HashSet<>();
 
     for (AccountState a : args.accountQueryProvider.get().byWatchedProject(project)) {
-      Account.Id accountId = a.getAccount().id();
-      for (Map.Entry<ProjectWatchKey, ImmutableSet<NotifyType>> e :
-          a.getProjectWatches().entrySet()) {
+      Account.Id accountId = a.account().id();
+      for (Map.Entry<ProjectWatchKey, ImmutableSet<NotifyType>> e : a.projectWatches().entrySet()) {
         if (project.equals(e.getKey().project())
             && add(matching, accountId, e.getKey(), e.getValue(), type)) {
           // We only want to prevent matching All-Projects if this filter hits
@@ -78,10 +77,9 @@ public class ProjectWatch {
     }
 
     for (AccountState a : args.accountQueryProvider.get().byWatchedProject(args.allProjectsName)) {
-      for (Map.Entry<ProjectWatchKey, ImmutableSet<NotifyType>> e :
-          a.getProjectWatches().entrySet()) {
+      for (Map.Entry<ProjectWatchKey, ImmutableSet<NotifyType>> e : a.projectWatches().entrySet()) {
         if (args.allProjectsName.equals(e.getKey().project())) {
-          Account.Id accountId = a.getAccount().id();
+          Account.Id accountId = a.account().id();
           if (!projectWatchers.contains(accountId)) {
             add(matching, accountId, e.getKey(), e.getValue(), type);
           }

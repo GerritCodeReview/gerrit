@@ -304,12 +304,12 @@ public class PostGpgKeys implements RestModifyView<AccountResource, GpgKeysInput
       String msg = "GPG key " + extIdKey.get() + " associated with multiple accounts: [";
       msg =
           accountStates.stream()
-              .map(a -> a.getAccount().id().toString())
+              .map(a -> a.account().id().toString())
               .collect(joining(", ", msg, "]"));
       throw new IllegalStateException(msg);
     }
 
-    return accountStates.get(0).getAccount();
+    return accountStates.get(0).account();
   }
 
   private Map<String, GpgKeyInfo> toJson(

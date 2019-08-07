@@ -112,13 +112,13 @@ class ContainerAuthFilter implements Filter {
       username = username.toLowerCase(Locale.US);
     }
     Optional<AccountState> who =
-        accountCache.getByUsername(username).filter(a -> a.getAccount().isActive());
+        accountCache.getByUsername(username).filter(a -> a.account().isActive());
     if (!who.isPresent()) {
       rsp.sendError(SC_UNAUTHORIZED);
       return false;
     }
     WebSession ws = session.get();
-    ws.setUserAccountId(who.get().getAccount().id());
+    ws.setUserAccountId(who.get().account().id());
     ws.setAccessPathOk(AccessPath.GIT, true);
     ws.setAccessPathOk(AccessPath.REST_API, true);
     return true;

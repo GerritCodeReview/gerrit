@@ -192,7 +192,7 @@ public class AccountManagerIT extends AbstractDaemonTest {
 
     Optional<AccountState> accountState = accounts.get(accountId);
     assertThat(accountState).isPresent();
-    assertThat(accountState.get().getAccount().preferredEmail()).isEqualTo(newEmail);
+    assertThat(accountState.get().account().preferredEmail()).isEqualTo(newEmail);
   }
 
   @Test
@@ -217,7 +217,7 @@ public class AccountManagerIT extends AbstractDaemonTest {
 
     Optional<AccountState> accountState = accounts.get(accountId);
     assertThat(accountState).isPresent();
-    assertThat(accountState.get().getAccount().fullName()).isEqualTo(newName);
+    assertThat(accountState.get().account().fullName()).isEqualTo(newName);
   }
 
   @Test
@@ -296,7 +296,7 @@ public class AccountManagerIT extends AbstractDaemonTest {
     assertAuthResultForExistingAccount(authResult, accountId, gerritExtIdKey);
     Optional<AccountState> accountState = accounts.get(accountId);
     assertThat(accountState).isPresent();
-    assertThat(accountState.get().getAccount().isActive()).isTrue();
+    assertThat(accountState.get().account().isActive()).isTrue();
   }
 
   @Test
@@ -317,7 +317,7 @@ public class AccountManagerIT extends AbstractDaemonTest {
     assertAuthResultForExistingAccount(authResult, accountId, gerritExtIdKey);
     Optional<AccountState> accountState = accounts.get(accountId);
     assertThat(accountState).isPresent();
-    assertThat(accountState.get().getAccount().isActive()).isTrue();
+    assertThat(accountState.get().account().isActive()).isTrue();
   }
 
   @Test
@@ -341,7 +341,7 @@ public class AccountManagerIT extends AbstractDaemonTest {
 
     Optional<AccountState> accountState = accounts.get(accountId);
     assertThat(accountState).isPresent();
-    assertThat(accountState.get().getAccount().isActive()).isFalse();
+    assertThat(accountState.get().account().isActive()).isFalse();
   }
 
   @Test
@@ -433,7 +433,7 @@ public class AccountManagerIT extends AbstractDaemonTest {
     // Verify that the preferred email was not updated.
     Optional<AccountState> accountState = accounts.get(accountId);
     assertThat(accountState).isPresent();
-    assertThat(accountState.get().getAccount().preferredEmail()).isEqualTo(email);
+    assertThat(accountState.get().account().preferredEmail()).isEqualTo(email);
   }
 
   @Test

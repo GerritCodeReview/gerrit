@@ -104,7 +104,7 @@ public class DeleteAssignee extends RetryingRestModifyView<ChangeResource, Input
     }
 
     public Account.Id getDeletedAssignee() {
-      return deletedAssignee != null ? deletedAssignee.getAccount().id() : null;
+      return deletedAssignee != null ? deletedAssignee.account().id() : null;
     }
 
     private void addMessage(

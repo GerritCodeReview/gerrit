@@ -234,7 +234,7 @@ public class IdentifiedUser extends CurrentUser {
         groupBackend,
         enableReverseDnsLookup,
         remotePeerProvider,
-        state.getAccount().id(),
+        state.account().id(),
         realUser);
     this.state = state;
   }
@@ -323,7 +323,7 @@ public class IdentifiedUser extends CurrentUser {
    */
   @Override
   public Optional<String> getUserName() {
-    return state().getUserName();
+    return state().userName();
   }
 
   /** @return unique name of the user for logging, never {@code null} */
@@ -339,7 +339,7 @@ public class IdentifiedUser extends CurrentUser {
    * @return the account of the identified user, an empty account if the account is missing
    */
   public Account getAccount() {
-    return state().getAccount();
+    return state().account();
   }
 
   public boolean hasEmailAddress(String email) {
@@ -376,7 +376,7 @@ public class IdentifiedUser extends CurrentUser {
   @Override
   public GroupMembership getEffectiveGroups() {
     if (effectiveGroups == null) {
-      if (authConfig.isIdentityTrustable(state().getExternalIds())) {
+      if (authConfig.isIdentityTrustable(state().externalIds())) {
         effectiveGroups = groupBackend.membershipsOf(this);
         logger.atFinest().log(
             "Known groups of %s: %s", getLoggableName(), lazy(effectiveGroups::getKnownGroups));

@@ -82,7 +82,7 @@ public class Emails {
     }
 
     return executeIndexQuery(() -> queryProvider.get().byPreferredEmail(email).stream())
-        .map(a -> a.getAccount().id())
+        .map(a -> a.account().id())
         .collect(toImmutableSet());
   }
 
@@ -102,7 +102,7 @@ public class Emails {
     if (!emailsToBackfill.isEmpty()) {
       executeIndexQuery(
               () -> queryProvider.get().byPreferredEmail(emailsToBackfill).entries().stream())
-          .forEach(e -> result.put(e.getKey(), e.getValue().getAccount().id()));
+          .forEach(e -> result.put(e.getKey(), e.getValue().account().id()));
     }
     return ImmutableSetMultimap.copyOf(result);
   }

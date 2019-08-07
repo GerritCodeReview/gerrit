@@ -347,8 +347,8 @@ public class FromAddressGeneratorProviderTest {
 
   private Account.Id user(String name, String email) {
     final AccountState s = makeUser(name, email);
-    when(accountCache.get(eq(s.getAccount().id()))).thenReturn(Optional.of(s));
-    return s.getAccount().id();
+    when(accountCache.get(eq(s.account().id()))).thenReturn(Optional.of(s));
+    return s.account().id();
   }
 
   private void verifyAccountCacheGet(Account.Id id) {
@@ -357,7 +357,7 @@ public class FromAddressGeneratorProviderTest {
 
   private Account.Id userNoLookup(String name, String email) {
     final AccountState s = makeUser(name, email);
-    return s.getAccount().id();
+    return s.account().id();
   }
 
   private AccountState makeUser(String name, String email) {

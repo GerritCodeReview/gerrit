@@ -438,7 +438,7 @@
     },
 
     _computeParents(change) {
-      if (!change.current_revision ||
+      if (!change || !change.current_revision ||
           !change.revisions[change.current_revision] ||
           !change.revisions[change.current_revision].commit) {
         return undefined;

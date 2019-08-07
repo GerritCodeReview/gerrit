@@ -35,6 +35,7 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.git.LockFailureException;
 import com.google.gerrit.metrics.Counter1;
+import com.google.gerrit.metrics.Counter2;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.Field;
 import com.google.gerrit.metrics.MetricMaker;
@@ -120,6 +121,7 @@ public class RetryHelper {
   public static class Metrics {
     final Counter1<ActionType> attemptCounts;
     final Counter1<ActionType> timeoutCount;
+    final Counter2<ActionType, String> autoRetryCount;
 
     @Inject
     Metrics(MetricMaker metricMaker) {
@@ -142,6 +144,16 @@ public class RetryHelper {
                   .setCumulative()
                   .setUnit("timeouts"),
               actionTypeField);
+      autoRetryCount =
+          metricMaker.newCounter(
+              "action/auto_retry_count",
+              new Description("Number of automatic retries with tracing")
+                  .setCumulative()
+                  .setUnit("retries"),
+              actionTypeField,
+              Field.ofString("operation_name", Metadata.Builder::operationName)
+                  .description("The name of the operation that was retried.")
+                  .build());
     }
   }
 
@@ -285,15 +297,23 @@ public class RetryHelper {
                 // of the failure. If a trace was already done there is no need to retry.
                 if (retryWithTraceOnFailure
                     && opts.retryWithTrace().isPresent()
-                    && opts.retryWithTrace().get().test(t)
-                    && !traceContext.isTracing()) {
-                  traceContext
-                      .addTag(RequestId.Type.TRACE_ID, "retry-on-failure-" + new RequestId())
-                      .forceLogging();
-                  logger.atFine().withCause(t).log(
-                      "%s failed, retry with tracing enabled",
-                      opts.caller().map(Class::getSimpleName).orElse("N/A"));
-                  return true;
+                    && opts.retryWithTrace().get().test(t)) {
+                  String caller = opts.caller().map(Class::getSimpleName).orElse("N/A");
+                  if (!traceContext.isTracing()) {
+                    traceContext
+                        .addTag(RequestId.Type.TRACE_ID, "retry-on-failure-" + new RequestId())
+                        .forceLogging();
+                    logger.atFine().withCause(t).log(
+                        "%s failed, retry with tracing enabled", caller);
+                    metrics.autoRetryCount.increment(actionType, caller);
+                    return true;
+                  }
+
+                  // A non-recoverable failure occurred. We retried the operation with tracing
+                  // enabled and it failed again. Log the failure so that admin can see if it
+                  // differs from the failure that triggered the retry.
+                  logger.atFine().withCause(t).log("auto-retry of %s has failed", caller);
+                  return false;
                 }
 
                 return false;

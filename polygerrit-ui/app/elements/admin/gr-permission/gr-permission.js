@@ -197,10 +197,11 @@
       });
 
       for (const key of keys) {
-        if (!values[key]) { return; }
+        let text = values[key];
+        if (!text) { text = ''; }
         // The value from the server being used to choose which item is
         // selected is in integer form, so this must be converted.
-        valuesArr.push({value: parseInt(key, 10), text: values[key]});
+        valuesArr.push({value: parseInt(key, 10), text});
       }
       return valuesArr;
     },

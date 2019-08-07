@@ -597,7 +597,7 @@ public class TraceIT extends AbstractDaemonTest {
     try {
       RestResponse response = adminRestSession.post("/changes/" + changeId + "/submit");
       assertThat(response.getStatusCode()).isEqualTo(SC_OK);
-      assertThat(response.getHeader(RestApiServlet.X_GERRIT_TRACE)).isNull();
+      assertThat(response.getHeader(RestApiServlet.X_GERRIT_TRACE)).startsWith("retry-on-failure-");
       assertThat(traceSubmitRule.traceId).startsWith("retry-on-failure-");
       assertThat(traceSubmitRule.isLoggingForced).isTrue();
     } finally {

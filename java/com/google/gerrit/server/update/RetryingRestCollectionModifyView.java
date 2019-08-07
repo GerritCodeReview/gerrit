@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.update;
 
+import com.google.common.base.Throwables;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -21,6 +22,7 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestCollectionModifyView;
 import com.google.gerrit.extensions.restapi.RestResource;
+import java.util.concurrent.atomic.AtomicReference;
 
 public abstract class RetryingRestCollectionModifyView<
         P extends RestResource, C extends RestResource, I, O>
@@ -34,13 +36,21 @@ public abstract class RetryingRestCollectionModifyView<
   @Override
   public final Response<O> apply(P parentResource, I input)
       throws AuthException, BadRequestException, ResourceConflictException, Exception {
-    RetryHelper.Options retryOptions =
-        RetryHelper.options()
-            .caller(getClass())
-            .retryWithTrace(t -> !(t instanceof RestApiException))
-            .build();
-    return retryHelper.execute(
-        (updateFactory) -> applyImpl(updateFactory, parentResource, input), retryOptions);
+    AtomicReference<String> traceId = new AtomicReference<>(null);
+    try {
+      RetryHelper.Options retryOptions =
+          RetryHelper.options()
+              .caller(getClass())
+              .retryWithTrace(t -> !(t instanceof RestApiException))
+              .onAutoTrace(traceId::set)
+              .build();
+      return retryHelper
+          .execute((updateFactory) -> applyImpl(updateFactory, parentResource, input), retryOptions)
+          .traceId(traceId.get());
+    } catch (Exception e) {
+      Throwables.throwIfInstanceOf(e, RestApiException.class);
+      return Response.<O>internalServerError(e).traceId(traceId.get());
+    }
   }
 
   protected abstract Response<O> applyImpl(

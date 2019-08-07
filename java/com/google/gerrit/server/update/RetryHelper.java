@@ -102,6 +102,8 @@ public class RetryHelper {
 
     abstract Optional<Predicate<Throwable>> retryWithTrace();
 
+    abstract Optional<Consumer<String>> onAutoTrace();
+
     @AutoValue.Builder
     public abstract static class Builder {
       public abstract Builder listener(RetryListener listener);
@@ -111,6 +113,8 @@ public class RetryHelper {
       public abstract Builder caller(Class<?> caller);
 
       public abstract Builder retryWithTrace(Predicate<Throwable> exceptionPredicate);
+
+      public abstract Builder onAutoTrace(Consumer<String> traceIdConsumer);
 
       public abstract Options build();
     }
@@ -300,9 +304,9 @@ public class RetryHelper {
                     && opts.retryWithTrace().get().test(t)) {
                   String caller = opts.caller().map(Class::getSimpleName).orElse("N/A");
                   if (!traceContext.isTracing()) {
-                    traceContext
-                        .addTag(RequestId.Type.TRACE_ID, "retry-on-failure-" + new RequestId())
-                        .forceLogging();
+                    String traceId = "retry-on-failure-" + new RequestId();
+                    traceContext.addTag(RequestId.Type.TRACE_ID, traceId).forceLogging();
+                    opts.onAutoTrace().ifPresent(c -> c.accept(traceId));
                     logger.atFine().withCause(t).log(
                         "%s failed, retry with tracing enabled", caller);
                     metrics.autoRetryCount.increment(actionType, caller);

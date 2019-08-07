@@ -22,6 +22,23 @@
       "revId": "fb80a2d46d55d1ad97db99f697b203af09fa3763",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "59bcff85_4df054d9",
+        "filename": "prolog/gerrit_common.pl",
+        "patchSetId": 2
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-08-07T08:17:32Z",
+      "side": 1,
+      "message": "For consistency, this would need to be implemented as a LabelFunction in Java as well (see class LabelFunction).\n\nThe Prolog label functions are considered legacy.",
+      "revId": "fb80a2d46d55d1ad97db99f697b203af09fa3763",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

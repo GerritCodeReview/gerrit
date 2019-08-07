@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0e2c4d18_260486d0",
+        "filename": "polygerrit-ui/server.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2019-08-07T10:07:55Z",
+      "side": 1,
+      "message": "nit: whitespace",
+      "revId": "8950c7e153b98b946c021b4304c4faf6397c9b09",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

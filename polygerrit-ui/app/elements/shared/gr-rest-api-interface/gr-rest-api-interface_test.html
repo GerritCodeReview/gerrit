@@ -494,6 +494,15 @@ limitations under the License.
       });
     });
 
+    test('getLoggedIn returns false when network/auth failure', done => {
+      window.fetch.returns(
+          Promise.reject(new Error('Failed to fetch')));
+      element.getLoggedIn().then(isLoggedIn => {
+        assert.isFalse(isLoggedIn);
+        done();
+      });
+    });
+
     test('checkCredentials', done => {
       const responses = [
         {

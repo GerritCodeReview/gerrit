@@ -1095,6 +1095,8 @@
     getLoggedIn() {
       return this.getAccount().then(account => {
         return account != null;
+      }).catch(() => {
+        return false;
       });
     },
 

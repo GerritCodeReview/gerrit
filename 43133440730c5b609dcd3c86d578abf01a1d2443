@@ -22,6 +22,30 @@
       "revId": "43133440730c5b609dcd3c86d578abf01a1d2443",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a866114a_834261a1",
+        "filename": "java/com/google/gerrit/server/update/RetryHelper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-08-07T07:05:37Z",
+      "side": 1,
+      "message": "We just enabled tracing (force logging), hence no matter the log level, this will always be logged.",
+      "parentUuid": "c1e68975_9c804f13",
+      "range": {
+        "startLine": 293,
+        "startChar": 27,
+        "endLine": 293,
+        "endChar": 33
+      },
+      "revId": "43133440730c5b609dcd3c86d578abf01a1d2443",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

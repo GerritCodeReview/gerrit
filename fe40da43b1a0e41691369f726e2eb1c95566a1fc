@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2b25f83d_1d3fdbc6",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1701,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-08-07T07:34:23Z",
+      "side": 1,
+      "message": "Why are you disabling change index writes?",
+      "range": {
+        "startLine": 1701,
+        "startChar": 4,
+        "endLine": 1701,
+        "endChar": 28
+      },
+      "revId": "fe40da43b1a0e41691369f726e2eb1c95566a1fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "db21f961_4286a283",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1706,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-08-07T07:34:23Z",
+      "side": 1,
+      "message": "Are you basically disabling the reindex of the change and causing a stale index scenario?",
+      "range": {
+        "startLine": 1706,
+        "startChar": 6,
+        "endLine": 1706,
+        "endChar": 29
+      },
+      "revId": "fe40da43b1a0e41691369f726e2eb1c95566a1fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "605f4bf1_5271ede8",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1712,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-08-07T07:34:23Z",
+      "side": 1,
+      "message": "Looks like you are trying to cause problems intentionally here, rather than testing a real-life e2e scenario.",
+      "range": {
+        "startLine": 1711,
+        "startChar": 4,
+        "endLine": 1712,
+        "endChar": 72
+      },
+      "revId": "fe40da43b1a0e41691369f726e2eb1c95566a1fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "096e6f6c_70e3446f",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1716,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-08-07T07:34:23Z",
+      "side": 1,
+      "message": "I actually would assert the opposite: because you have forced the problem to appear, you should assert that ETag is the same.",
+      "range": {
+        "startLine": 1716,
+        "startChar": 4,
+        "endLine": 1716,
+        "endChar": 59
+      },
+      "revId": "fe40da43b1a0e41691369f726e2eb1c95566a1fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9d6df5fc_33839749",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1746,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-08-07T07:34:23Z",
+      "side": 1,
+      "message": "You are basically asserting that the ETag should change again, but actually, it changed already at L1716, right?",
+      "range": {
+        "startLine": 1746,
+        "startChar": 4,
+        "endLine": 1746,
+        "endChar": 71
+      },
+      "revId": "fe40da43b1a0e41691369f726e2eb1c95566a1fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -20,8 +20,13 @@ details of minor importance.
 
 ### <a id="scalability"> Scalability
 
-How does the solution scale? Consider both, data size increase (if
-applicable) and traffic increase (if applicable).
+How does the solution scale?
+
+If applicable, consider:
+
+* data size increase
+* traffic increase
+* effects on replication across sites (master-slave and master-master)
 
 ## <a id="alternatives-considered"> Alternatives Considered
 

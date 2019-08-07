@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "dea944c7_660444b2",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1693,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-08-07T14:46:20Z",
+      "side": 1,
+      "message": "This scenario should have a more meaningful name IMHO.\nWhat about shouldUpdateETagWhenChangeIndexingGetsDelayed ?",
+      "range": {
+        "startLine": 1693,
+        "startChar": 14,
+        "endLine": 1693,
+        "endChar": 48
+      },
+      "revId": "fe40da43b1a0e41691369f726e2eb1c95566a1fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2b25f83d_1d3fdbc6",
         "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 6
@@ -37,6 +60,30 @@
       "side": 1,
       "message": "Explanation below",
       "parentUuid": "2b25f83d_1d3fdbc6",
+      "range": {
+        "startLine": 1701,
+        "startChar": 4,
+        "endLine": 1701,
+        "endChar": 28
+      },
+      "revId": "fe40da43b1a0e41691369f726e2eb1c95566a1fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3a8bccbe_af078a64",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1701,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-08-07T14:46:20Z",
+      "side": 1,
+      "message": "Understood, shall we add a comment for the reader that you are willing to simulate a stale index scenario?",
+      "parentUuid": "43bc12da_59cafce8",
       "range": {
         "startLine": 1701,
         "startChar": 4,
@@ -143,6 +190,30 @@
     },
     {
       "key": {
+        "uuid": "fcb1f078_a9476ccf",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1712,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-08-07T14:46:20Z",
+      "side": 1,
+      "message": "The two assertions are basically checking that the index is stable, correct?\n(timestamp of the index is not the same as the timestamp of the change)",
+      "parentUuid": "73cb6a84_059cd81e",
+      "range": {
+        "startLine": 1711,
+        "startChar": 4,
+        "endLine": 1712,
+        "endChar": 72
+      },
+      "revId": "fe40da43b1a0e41691369f726e2eb1c95566a1fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "096e6f6c_70e3446f",
         "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 6
@@ -190,6 +261,30 @@
     },
     {
       "key": {
+        "uuid": "69e031e1_4063bf53",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1716,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-08-07T14:46:20Z",
+      "side": 1,
+      "message": "Gotcha, basically the reindexing did not happen so just some \"parts\" of the change are up-to-date but not others (e.g. submit record).",
+      "parentUuid": "b933c414_b3eb4657",
+      "range": {
+        "startLine": 1716,
+        "startChar": 4,
+        "endLine": 1716,
+        "endChar": 59
+      },
+      "revId": "fe40da43b1a0e41691369f726e2eb1c95566a1fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9d6df5fc_33839749",
         "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 6
@@ -225,6 +320,30 @@
       "side": 1,
       "message": "Yes but it should be different again from the one at L1716 because of re-indexing. Now \u0027last updated on\u0027 field from index should be up to date so ETag will be finally correct. That\u0027s why in the next line I\u0027m checking if the rsrc.getETag is the same as in line 1716 and the change is caused because of the index update",
       "parentUuid": "9d6df5fc_33839749",
+      "range": {
+        "startLine": 1746,
+        "startChar": 4,
+        "endLine": 1746,
+        "endChar": 71
+      },
+      "revId": "fe40da43b1a0e41691369f726e2eb1c95566a1fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f8261396_46eac2dc",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1746,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-08-07T14:46:20Z",
+      "side": 1,
+      "message": "Gotcha. I see now the whole point of the test. However, it should be made more readable for other people also, otherwise it may break in the future and other people may not get the sense of it straight away.\n\nIt is a real breakage IMHO because the submit status can change without any modification to the change data at all (e.g. advancing the target branch).\n\nCan you reproduce it also in that way?\n(push a change but DO NOT disable reindexing. Then push a commit to the target branch and check that the ETag would change).",
+      "parentUuid": "dce1a53a_94b35054",
       "range": {
         "startLine": 1746,
         "startChar": 4,

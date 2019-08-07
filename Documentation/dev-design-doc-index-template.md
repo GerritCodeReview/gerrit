@@ -1,3 +1,13 @@
+---
+title: "Design Doc - ${title}"
+sidebar: gerritdoc_sidebar
+permalink: design-doc-${folder-name}.html
+hide_sidebar: true
+hide_navtoggle: true
+toc: false
+folder: design-docs/${folder-name}
+---
+
 # Design Doc - ${title}
 
 * [Use Cases](use-cases.html)

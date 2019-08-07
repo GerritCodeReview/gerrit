@@ -60,6 +60,7 @@
   };
 
   const CHANGE_DATA_TIMING_LABEL = 'ChangeDataLoaded';
+  const CHANGE_RELOAD_TIMING_LABEL = 'ChangeReloaded';
   const SEND_REPLY_TIMING_LABEL = 'SendReply';
 
   Polymer({
@@ -1358,15 +1359,17 @@
 
     /**
      * Reload the change.
-     * @param {boolean=} opt_reloadRelatedChanges Reloads the related chanegs
-     *     when true.
+     * @param {boolean=} opt_isLocationChange Reloads the related changes
+     *     when true and ends reporting events that started on location change.
      * @return {Promise} A promise that resolves when the core data has loaded.
      *     Some non-core data loading may still be in-flight when the core data
      *     promise resolves.
      */
-    _reload(opt_reloadRelatedChanges) {
+    _reload(opt_isLocationChange) {
       this._loading = true;
       this._relatedChangesCollapsed = true;
+      this.$.reporting.time(CHANGE_RELOAD_TIMING_LABEL);
+      this.$.reporting.time(CHANGE_DATA_TIMING_LABEL);
 
       // Array to house all promises related to data requests.
       const allDataPromises = [];
@@ -1380,7 +1383,12 @@
       // change content may start appearing.
       const loadingFlagSet = detailCompletes
           .then(() => { this._loading = false; })
-          .then(() => { this.$.reporting.changeDisplayed(); });
+          .then(() => {
+            this.$.reporting.timeEnd(CHANGE_RELOAD_TIMING_LABEL);
+            if (opt_isLocationChange) {
+              this.$.reporting.changeDisplayed();
+            }
+          });
 
       // Resolves when the project config has loaded.
       const projectConfigLoaded = detailCompletes
@@ -1440,16 +1448,17 @@
         coreDataPromise = mergeabilityLoaded;
       }
 
-      if (opt_reloadRelatedChanges) {
+      if (opt_isLocationChange) {
         const relatedChangesLoaded = coreDataPromise
             .then(() => this.$.relatedChanges.reload());
         allDataPromises.push(relatedChangesLoaded);
       }
 
-      this.$.reporting.time(CHANGE_DATA_TIMING_LABEL);
       Promise.all(allDataPromises).then(() => {
         this.$.reporting.timeEnd(CHANGE_DATA_TIMING_LABEL);
-        this.$.reporting.changeFullyLoaded();
+        if (opt_isLocationChange) {
+          this.$.reporting.changeFullyLoaded();
+        }
       });
 
       return coreDataPromise;

@@ -432,7 +432,7 @@ public class AccountIT extends AbstractDaemonTest {
                   "Create Account Atomically",
                   accountId,
                   u -> u.setFullName(fullName).addExternalId(extId));
-      assertThat(accountState.getAccount().fullName()).isEqualTo(fullName);
+      assertThat(accountState.account().fullName()).isEqualTo(fullName);
 
       AccountInfo info = gApi.accounts().id(accountId.get()).get();
       assertThat(info.name).isEqualTo(fullName);
@@ -475,7 +475,7 @@ public class AccountIT extends AbstractDaemonTest {
             .get()
             .update("Set status", anonymousCoward.id(), u -> u.setStatus(status));
     assertThat(accountState).isPresent();
-    Account account = accountState.get().getAccount();
+    Account account = accountState.get().account();
     assertThat(account.fullName()).isNull();
     assertThat(account.status()).isEqualTo(status);
     assertUserBranch(anonymousCoward.id(), null, status);
@@ -598,7 +598,7 @@ public class AccountIT extends AbstractDaemonTest {
             new AccountActivationValidationListener() {
               @Override
               public void validateActivation(AccountState account) throws ValidationException {
-                String preferredEmail = account.getAccount().preferredEmail();
+                String preferredEmail = account.account().preferredEmail();
                 if (preferredEmail == null || !preferredEmail.endsWith("@activatable.com")) {
                   throw new ValidationException("not allowed to active account");
                 }
@@ -606,7 +606,7 @@ public class AccountIT extends AbstractDaemonTest {
 
               @Override
               public void validateDeactivation(AccountState account) throws ValidationException {
-                String preferredEmail = account.getAccount().preferredEmail();
+                String preferredEmail = account.account().preferredEmail();
                 if (preferredEmail == null || !preferredEmail.endsWith("@deactivatable.com")) {
                   throw new ValidationException("not allowed to deactive account");
                 }
@@ -2463,21 +2463,20 @@ public class AccountIT extends AbstractDaemonTest {
   @Test
   public void checkMetaId() throws Exception {
     // metaId is set when account is loaded
-    assertThat(accounts.get(admin.id()).get().getAccount().metaId())
-        .isEqualTo(getMetaId(admin.id()));
+    assertThat(accounts.get(admin.id()).get().account().metaId()).isEqualTo(getMetaId(admin.id()));
 
     // metaId is set when account is created
     AccountsUpdate au = accountsUpdateProvider.get();
     Account.Id accountId = Account.id(seq.nextAccountId());
     AccountState accountState = au.insert("Create Test Account", accountId, u -> {});
-    assertThat(accountState.getAccount().metaId()).isEqualTo(getMetaId(accountId));
+    assertThat(accountState.account().metaId()).isEqualTo(getMetaId(accountId));
 
     // metaId is set when account is updated
     Optional<AccountState> updatedAccountState =
         au.update("Set Full Name", accountId, u -> u.setFullName("foo"));
     assertThat(updatedAccountState).isPresent();
-    Account updatedAccount = updatedAccountState.get().getAccount();
-    assertThat(accountState.getAccount().metaId()).isNotEqualTo(updatedAccount.metaId());
+    Account updatedAccount = updatedAccountState.get().account();
+    assertThat(accountState.account().metaId()).isNotEqualTo(updatedAccount.metaId());
     assertThat(updatedAccount.metaId()).isEqualTo(getMetaId(accountId));
   }
 
@@ -2619,7 +2618,7 @@ public class AccountIT extends AbstractDaemonTest {
     assertThat(doneBgUpdate.get()).isTrue();
 
     assertThat(updatedAccountState).isPresent();
-    Account updatedAccount = updatedAccountState.get().getAccount();
+    Account updatedAccount = updatedAccountState.get().account();
     assertThat(updatedAccount.status()).isEqualTo(status);
     assertThat(updatedAccount.fullName()).isEqualTo(fullName);
 
@@ -2675,7 +2674,7 @@ public class AccountIT extends AbstractDaemonTest {
         () -> update.update("Set Full Name", admin.id(), u -> u.setFullName(fullName)));
     assertThat(bgCounter.get()).isEqualTo(status.size());
 
-    Account updatedAccount = accounts.get(admin.id()).get().getAccount();
+    Account updatedAccount = accounts.get(admin.id()).get().account();
     assertThat(updatedAccount.status()).isEqualTo(Iterables.getLast(status));
     assertThat(updatedAccount.fullName()).isEqualTo(admin.fullName());
 
@@ -2723,12 +2722,12 @@ public class AccountIT extends AbstractDaemonTest {
             "Set Status",
             admin.id(),
             (a, u) -> {
-              if ("A-1".equals(a.getAccount().status())) {
+              if ("A-1".equals(a.account().status())) {
                 bgCounterA1.getAndIncrement();
                 u.setStatus("B-1");
               }
 
-              if ("A-2".equals(a.getAccount().status())) {
+              if ("A-2".equals(a.account().status())) {
                 bgCounterA2.getAndIncrement();
                 u.setStatus("B-2");
               }
@@ -2738,8 +2737,8 @@ public class AccountIT extends AbstractDaemonTest {
     assertThat(bgCounterA2.get()).isEqualTo(1);
 
     assertThat(updatedAccountState).isPresent();
-    assertThat(updatedAccountState.get().getAccount().status()).isEqualTo("B-2");
-    assertThat(accounts.get(admin.id()).get().getAccount().status()).isEqualTo("B-2");
+    assertThat(updatedAccountState.get().account().status()).isEqualTo("B-2");
+    assertThat(accounts.get(admin.id()).get().account().status()).isEqualTo("B-2");
     assertThat(gApi.accounts().id(admin.id().get()).get().status).isEqualTo("B-2");
   }
 
@@ -2801,12 +2800,12 @@ public class AccountIT extends AbstractDaemonTest {
             "Update External ID",
             accountId,
             (a, u) -> {
-              if (a.getExternalIds().contains(extIdA1)) {
+              if (a.externalIds().contains(extIdA1)) {
                 bgCounterA1.getAndIncrement();
                 u.replaceExternalId(extIdA1, extIdB1);
               }
 
-              if (a.getExternalIds().contains(extIdA2)) {
+              if (a.externalIds().contains(extIdA2)) {
                 bgCounterA2.getAndIncrement();
                 u.replaceExternalId(extIdA2, extIdB2);
               }
@@ -2816,8 +2815,8 @@ public class AccountIT extends AbstractDaemonTest {
     assertThat(bgCounterA2.get()).isEqualTo(1);
 
     assertThat(updatedAccount).isPresent();
-    assertThat(updatedAccount.get().getExternalIds()).containsExactly(extIdB2);
-    assertThat(accounts.get(accountId).get().getExternalIds()).containsExactly(extIdB2);
+    assertThat(updatedAccount.get().externalIds()).containsExactly(extIdB2);
+    assertThat(accounts.get(accountId).get().externalIds()).containsExactly(extIdB2);
     assertThat(
             gApi.accounts().id(accountId.get()).getExternalIds().stream()
                 .map(i -> i.identity)

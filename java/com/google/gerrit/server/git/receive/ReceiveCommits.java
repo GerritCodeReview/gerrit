@@ -1579,10 +1579,10 @@ class ReceiveCommits {
       this.cmd = cmd;
       this.draft = cmd.getRefName().startsWith(MagicBranch.NEW_DRAFT_CHANGE);
       this.labelTypes = labelTypes;
-      GeneralPreferencesInfo prefs = user.state().getGeneralPreferences();
+      GeneralPreferencesInfo prefs = user.state().generalPreferences();
       this.defaultPublishComments =
           prefs != null
-              ? firstNonNull(user.state().getGeneralPreferences().publishCommentsOnPush, false)
+              ? firstNonNull(user.state().generalPreferences().publishCommentsOnPush, false)
               : false;
     }
 
@@ -1697,7 +1697,7 @@ class ReceiveCommits {
       }
 
       return projectState.is(BooleanProjectConfig.WORK_IN_PROGRESS_BY_DEFAULT)
-          || firstNonNull(user.state().getGeneralPreferences().workInProgressByDefault, false);
+          || firstNonNull(user.state().generalPreferences().workInProgressByDefault, false);
     }
 
     NotifyResolver.Result getNotifyForNewChange() {

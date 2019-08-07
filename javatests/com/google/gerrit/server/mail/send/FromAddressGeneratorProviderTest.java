@@ -367,13 +367,13 @@ public class FromAddressGeneratorProviderTest {
 
   private Account.Id user(String name, String email) {
     final AccountState s = makeUser(name, email);
-    expect(accountCache.get(eq(s.getAccount().id()))).andReturn(Optional.of(s));
-    return s.getAccount().id();
+    expect(accountCache.get(eq(s.account().id()))).andReturn(Optional.of(s));
+    return s.account().id();
   }
 
   private Account.Id userNoLookup(String name, String email) {
     final AccountState s = makeUser(name, email);
-    return s.getAccount().id();
+    return s.account().id();
   }
 
   private AccountState makeUser(String name, String email) {

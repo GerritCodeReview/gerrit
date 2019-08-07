@@ -205,7 +205,7 @@ public class MailProcessor {
       logger.atWarning().log("Mail: Account %s doesn't exist. Will delete message.", accountId);
       return;
     }
-    if (!accountState.get().getAccount().isActive()) {
+    if (!accountState.get().account().isActive()) {
       logger.atWarning().log("Mail: Account %s is inactive. Will delete message.", accountId);
       sendRejectionEmail(message, InboundEmailRejectionSender.Error.INACTIVE_ACCOUNT);
       return;

@@ -76,8 +76,7 @@ public class InternalAccountQuery extends InternalQuery<AccountState, InternalAc
       msg.append("Ambiguous external ID ").append(externalId).append(" for accounts: ");
       Joiner.on(", ")
           .appendTo(
-              msg,
-              accountStates.stream().map(a -> a.getAccount().id().toString()).collect(toList()));
+              msg, accountStates.stream().map(a -> a.account().id().toString()).collect(toList()));
       logger.atWarning().log(msg.toString());
     }
     return null;
@@ -103,7 +102,7 @@ public class InternalAccountQuery extends InternalQuery<AccountState, InternalAc
     }
 
     return query(AccountPredicates.preferredEmail(email)).stream()
-        .filter(a -> a.getAccount().preferredEmail().equals(email))
+        .filter(a -> a.account().preferredEmail().equals(email))
         .collect(toList());
   }
 
@@ -136,7 +135,7 @@ public class InternalAccountQuery extends InternalQuery<AccountState, InternalAc
       String email = emails.get(i);
       Set<AccountState> matchingAccounts =
           r.get(i).stream()
-              .filter(a -> a.getAccount().preferredEmail().equals(email))
+              .filter(a -> a.account().preferredEmail().equals(email))
               .collect(toSet());
       accountsByEmail.putAll(email, matchingAccounts);
     }

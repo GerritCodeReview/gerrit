@@ -70,7 +70,7 @@ public class SetDiffPreferences implements RestModifyView<AccountResource, DiffP
         accountsUpdateProvider
             .get()
             .update("Set Diff Preferences via API", id, u -> u.setDiffPreferences(input))
-            .map(AccountState::getDiffPreferences)
+            .map(AccountState::diffPreferences)
             .orElseThrow(() -> new ResourceNotFoundException(IdString.fromDecoded(id.toString()))));
   }
 }

@@ -1844,5 +1844,41 @@ limitations under the License.
       MockInteractions.tap(element.$.changeStar.$$('button'));
       assert.isTrue(stub.called);
     });
+
+    suite('gr-reporting tests', () => {
+      setup(() => {
+        element._patchRange = {
+            basePatchNum: 'PARENT',
+            patchNum: 1,
+        };
+        sandbox.stub(element, '_getChangeDetail').returns(Promise.resolve());
+      });
+
+      test('don\'t report changedDisplayed on reply', done => {
+        const changeDisplayStub =
+          sandbox.stub(element.$.reporting, 'changeDisplayed');
+        element._handleReplySent();
+        flush(() => {
+          assert.isFalse(changeDisplayStub.called);
+          done();
+        });
+      });
+
+      test('report changedDisplayed on _paramsChanged', done => {
+        sandbox.stub(element.$.relatedChanges, 'reload');
+        const setStub = sandbox.stub(element.$.restAPI, 'setInProjectLookup');
+        const changeDisplayStub =
+          sandbox.stub(element.$.reporting, 'changeDisplayed');
+        element._paramsChanged({
+          view: Gerrit.Nav.View.CHANGE,
+          changeNum: 101,
+          project: 'test-project',
+        });
+        flush(() => {
+          assert.isTrue(changeDisplayStub.called);
+          done();
+        });
+      });
+    });
   });
 </script>

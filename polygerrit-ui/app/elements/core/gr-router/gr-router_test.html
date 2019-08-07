@@ -670,6 +670,14 @@ limitations under the License.
         });
       });
 
+      test('_handleSettingsLegacyRoute with +', () => {
+        const data = {params: {0: 'my-token test'}};
+        assertDataToParams(data, '_handleSettingsLegacyRoute', {
+          view: Gerrit.Nav.View.SETTINGS,
+          emailToken: 'my-token+test',
+        });
+      });
+
       test('_handleSettingsRoute', () => {
         const data = {};
         assertDataToParams(data, '_handleSettingsRoute', {

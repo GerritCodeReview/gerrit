@@ -1411,9 +1411,13 @@
     },
 
     _handleSettingsLegacyRoute(data) {
+      // email tokens may contain '+' but no space.
+      // The parameter parsing replaces all '+' with a space,
+      // undo that to have valid tokens.
+      const token = data.params[0].replace(/ /g, '+');
       this._setParams({
         view: Gerrit.Nav.View.SETTINGS,
-        emailToken: data.params[0],
+        emailToken: token,
       });
     },
 

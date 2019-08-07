@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "43bc12da_59cafce8",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1701,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2019-08-07T14:24:32Z",
+      "side": 1,
+      "message": "Explanation below",
+      "parentUuid": "2b25f83d_1d3fdbc6",
+      "range": {
+        "startLine": 1701,
+        "startChar": 4,
+        "endLine": 1701,
+        "endChar": 28
+      },
+      "revId": "fe40da43b1a0e41691369f726e2eb1c95566a1fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "db21f961_4286a283",
         "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 6
@@ -36,6 +60,30 @@
       "writtenOn": "2019-08-07T07:34:23Z",
       "side": 1,
       "message": "Are you basically disabling the reindex of the change and causing a stale index scenario?",
+      "range": {
+        "startLine": 1706,
+        "startChar": 6,
+        "endLine": 1706,
+        "endChar": 29
+      },
+      "revId": "fe40da43b1a0e41691369f726e2eb1c95566a1fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "64f3f80e_a8f007f5",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1706,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2019-08-07T14:24:32Z",
+      "side": 1,
+      "message": "Yes, as I described in different comment issue is related to the situation when index is not up to date with the repository. I don\u0027t know how to simulate this situation without disabling the re-index. Basically I\u0027m not indexing one change so I can do it later manually and check if etag will be different because of \u0027last updated on\u0027 field from index changed.",
+      "parentUuid": "db21f961_4286a283",
       "range": {
         "startLine": 1706,
         "startChar": 6,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "73cb6a84_059cd81e",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1712,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2019-08-07T14:24:32Z",
+      "side": 1,
+      "message": "Explanation above, I\u0027m not sure how to reproduce it without making index stale on purpose",
+      "parentUuid": "605f4bf1_5271ede8",
+      "range": {
+        "startLine": 1711,
+        "startChar": 4,
+        "endLine": 1712,
+        "endChar": 72
+      },
+      "revId": "fe40da43b1a0e41691369f726e2eb1c95566a1fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "096e6f6c_70e3446f",
         "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 6
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "b933c414_b3eb4657",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1716,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2019-08-07T14:24:32Z",
+      "side": 1,
+      "message": "We have approved the change, indexing is disabled but repository is updated so ETag should change from the initial one but it should change because of the rsrc.getETag not because of the \u0027last updated on\u0027 field from the index. That\u0027s why I\u0027m checking if assertThat(newTs).isEqualTo(initialTs);",
+      "parentUuid": "096e6f6c_70e3446f",
+      "range": {
+        "startLine": 1716,
+        "startChar": 4,
+        "endLine": 1716,
+        "endChar": 59
+      },
+      "revId": "fe40da43b1a0e41691369f726e2eb1c95566a1fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9d6df5fc_33839749",
         "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 6
@@ -105,6 +201,30 @@
       "writtenOn": "2019-08-07T07:34:23Z",
       "side": 1,
       "message": "You are basically asserting that the ETag should change again, but actually, it changed already at L1716, right?",
+      "range": {
+        "startLine": 1746,
+        "startChar": 4,
+        "endLine": 1746,
+        "endChar": 71
+      },
+      "revId": "fe40da43b1a0e41691369f726e2eb1c95566a1fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dce1a53a_94b35054",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1746,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2019-08-07T14:24:32Z",
+      "side": 1,
+      "message": "Yes but it should be different again from the one at L1716 because of re-indexing. Now \u0027last updated on\u0027 field from index should be up to date so ETag will be finally correct. That\u0027s why in the next line I\u0027m checking if the rsrc.getETag is the same as in line 1716 and the change is caused because of the index update",
+      "parentUuid": "9d6df5fc_33839749",
       "range": {
         "startLine": 1746,
         "startChar": 4,

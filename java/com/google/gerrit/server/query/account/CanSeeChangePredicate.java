@@ -37,7 +37,7 @@ public class CanSeeChangePredicate extends PostFilterPredicate<AccountState> {
   public boolean match(AccountState accountState) {
     try {
       permissionBackend
-          .absentUser(accountState.getAccount().id())
+          .absentUser(accountState.account().id())
           .change(changeNotes)
           .check(ChangePermission.READ);
       return true;

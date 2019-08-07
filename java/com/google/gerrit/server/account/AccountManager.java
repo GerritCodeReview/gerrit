@@ -151,7 +151,7 @@ public class AccountManager {
       }
 
       // Account exists
-      Optional<Account> act = updateAccountActiveStatus(who, accountState.get().getAccount());
+      Optional<Account> act = updateAccountActiveStatus(who, accountState.get().account());
       if (!act.isPresent()) {
         // The account was deleted since we checked for it last time. This should never happen
         // since we don't support deletion of accounts.
@@ -207,7 +207,7 @@ public class AccountManager {
         throw new AccountException("Unable to deactivate account " + account.id(), e);
       }
     }
-    return byIdCache.get(account.id()).map(AccountState::getAccount);
+    return byIdCache.get(account.id()).map(AccountState::account);
   }
 
   private boolean shouldUpdateActiveStatus(AuthRequest authRequest) {
@@ -337,7 +337,7 @@ public class AccountManager {
       addGroupMember(adminGroupUuid, user);
     }
 
-    realm.onCreateAccount(who, accountState.getAccount());
+    realm.onCreateAccount(who, accountState.account());
     return new AuthResult(newId, extId.key(), true);
   }
 
@@ -421,7 +421,7 @@ public class AccountManager {
               to,
               (a, u) -> {
                 u.addExternalId(newExtId);
-                if (who.getEmailAddress() != null && a.getAccount().preferredEmail() == null) {
+                if (who.getEmailAddress() != null && a.account().preferredEmail() == null) {
                   u.setPreferredEmail(who.getEmailAddress());
                 }
               });
@@ -450,7 +450,7 @@ public class AccountManager {
             to,
             (a, u) -> {
               Set<ExternalId> filteredExtIdsByScheme =
-                  a.getExternalIds().stream()
+                  a.externalIds().stream()
                       .filter(e -> e.key().isScheme(who.getExternalIdKey().scheme()))
                       .collect(toImmutableSet());
               if (filteredExtIdsByScheme.isEmpty()) {
@@ -514,9 +514,9 @@ public class AccountManager {
             from,
             (a, u) -> {
               u.deleteExternalIds(extIds);
-              if (a.getAccount().preferredEmail() != null
+              if (a.account().preferredEmail() != null
                   && extIds.stream()
-                      .anyMatch(e -> a.getAccount().preferredEmail().equals(e.email()))) {
+                      .anyMatch(e -> a.account().preferredEmail().equals(e.email()))) {
                 u.setPreferredEmail(null);
               }
             });

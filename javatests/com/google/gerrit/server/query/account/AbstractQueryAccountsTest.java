@@ -816,7 +816,7 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
   }
 
   protected void assertAccounts(List<AccountState> accounts, AccountInfo... expectedAccounts) {
-    assertThat(accounts.stream().map(a -> a.getAccount().id().get()).collect(toList()))
+    assertThat(accounts.stream().map(a -> a.account().id().get()).collect(toList()))
         .containsExactlyElementsIn(
             Arrays.asList(expectedAccounts).stream().map(a -> a._accountId).collect(toList()));
   }

@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.account;
 
-import com.google.common.base.MoreObjects;
+import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.Nullable;
@@ -39,7 +39,8 @@ import org.eclipse.jgit.lib.ObjectId;
  * <p>Most callers should not construct AccountStates directly but rather lookup accounts via the
  * account cache (see {@link AccountCache#get(Account.Id)}).
  */
-public class AccountState {
+@AutoValue
+public abstract class AccountState {
   /**
    * Creates an AccountState from the given account config.
    *
@@ -95,8 +96,14 @@ public class AccountState {
     EditPreferencesInfo editPreferences = accountConfig.getEditPreferences();
 
     return Optional.of(
-        new AccountState(
-            account, extIds, projectWatches, generalPreferences, diffPreferences, editPreferences));
+        new AutoValue_AccountState(
+            account,
+            extIds,
+            ExternalId.getUserName(extIds),
+            projectWatches,
+            generalPreferences,
+            diffPreferences,
+            editPreferences));
   }
 
   /**
@@ -118,44 +125,20 @@ public class AccountState {
    * @return the account state
    */
   public static AccountState forAccount(Account account, Collection<ExternalId> extIds) {
-    return new AccountState(
+    return new AutoValue_AccountState(
         account,
         ImmutableSet.copyOf(extIds),
+        ExternalId.getUserName(extIds),
         ImmutableMap.of(),
         GeneralPreferencesInfo.defaults(),
         DiffPreferencesInfo.defaults(),
         EditPreferencesInfo.defaults());
   }
 
-  private final Account account;
-  private final ImmutableSet<ExternalId> externalIds;
-  private final Optional<String> userName;
-  private final ImmutableMap<ProjectWatchKey, ImmutableSet<NotifyType>> projectWatches;
-  private final GeneralPreferencesInfo generalPreferences;
-  private final DiffPreferencesInfo diffPreferences;
-  private final EditPreferencesInfo editPreferences;
-
-  private AccountState(
-      Account account,
-      ImmutableSet<ExternalId> externalIds,
-      ImmutableMap<ProjectWatchKey, ImmutableSet<NotifyType>> projectWatches,
-      GeneralPreferencesInfo generalPreferences,
-      DiffPreferencesInfo diffPreferences,
-      EditPreferencesInfo editPreferences) {
-    this.account = account;
-    this.externalIds = externalIds;
-    this.userName = ExternalId.getUserName(externalIds);
-    this.projectWatches = projectWatches;
-    this.generalPreferences = generalPreferences;
-    this.diffPreferences = diffPreferences;
-    this.editPreferences = editPreferences;
-  }
-
   /** Get the cached account metadata. */
-  public Account getAccount() {
-    return account;
-  }
-
+  public abstract Account account();
+  /** The external identities that identify the account holder. */
+  public abstract ImmutableSet<ExternalId> externalIds();
   /**
    * Get the username, if one has been declared for this user.
    *
@@ -164,39 +147,13 @@ public class AccountState {
    * @return the username, {@link Optional#empty()} if the user has no username, or if the username
    *     is empty
    */
-  public Optional<String> getUserName() {
-    return userName;
-  }
-
-  /** The external identities that identify the account holder. */
-  public ImmutableSet<ExternalId> getExternalIds() {
-    return externalIds;
-  }
-
+  public abstract Optional<String> userName();
   /** The project watches of the account. */
-  public ImmutableMap<ProjectWatchKey, ImmutableSet<NotifyType>> getProjectWatches() {
-    return projectWatches;
-  }
-
+  public abstract ImmutableMap<ProjectWatchKey, ImmutableSet<NotifyType>> projectWatches();
   /** The general preferences of the account. */
-  public GeneralPreferencesInfo getGeneralPreferences() {
-    return generalPreferences;
-  }
-
+  public abstract GeneralPreferencesInfo generalPreferences();
   /** The diff preferences of the account. */
-  public DiffPreferencesInfo getDiffPreferences() {
-    return diffPreferences;
-  }
-
+  public abstract DiffPreferencesInfo diffPreferences();
   /** The edit preferences of the account. */
-  public EditPreferencesInfo getEditPreferences() {
-    return editPreferences;
-  }
-
-  @Override
-  public String toString() {
-    MoreObjects.ToStringHelper h = MoreObjects.toStringHelper(this);
-    h.addValue(getAccount().id());
-    return h.toString();
-  }
+  public abstract EditPreferencesInfo editPreferences();
 }

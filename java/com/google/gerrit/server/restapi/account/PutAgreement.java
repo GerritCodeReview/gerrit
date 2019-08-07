@@ -93,7 +93,7 @@ public class PutAgreement implements RestModifyView<AccountResource, AgreementIn
 
     AccountState accountState = self.get().state();
     try {
-      addMembers.addMembers(uuid, ImmutableSet.of(accountState.getAccount().id()));
+      addMembers.addMembers(uuid, ImmutableSet.of(accountState.account().id()));
     } catch (NoSuchGroupException e) {
       throw new ResourceConflictException("autoverify group not found");
     }

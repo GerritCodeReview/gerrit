@@ -68,7 +68,7 @@ public class DeleteMembers implements RestModifyView<GroupResource, Input> {
 
     Set<Account.Id> membersToRemove = new HashSet<>();
     for (String nameOrEmail : input.members) {
-      membersToRemove.add(accountResolver.resolve(nameOrEmail).asUnique().getAccount().id());
+      membersToRemove.add(accountResolver.resolve(nameOrEmail).asUnique().account().id());
     }
     AccountGroup.UUID groupUuid = internalGroup.getGroupUUID();
     try {

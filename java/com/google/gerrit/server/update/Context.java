@@ -114,7 +114,7 @@ public interface Context {
   /**
    * Get the account of the user performing the update.
    *
-   * <p>Convenience method for {@code getIdentifiedUser().getAccount()}.
+   * <p>Convenience method for {@code getIdentifiedUser().account()}.
    *
    * @see CurrentUser#asIdentifiedUser()
    * @return account.

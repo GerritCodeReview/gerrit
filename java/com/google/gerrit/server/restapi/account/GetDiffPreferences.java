@@ -59,7 +59,7 @@ public class GetDiffPreferences implements RestReadView<AccountResource> {
     return Response.ok(
         accountCache
             .get(id)
-            .map(AccountState::getDiffPreferences)
+            .map(AccountState::diffPreferences)
             .orElseThrow(() -> new ResourceNotFoundException(IdString.fromDecoded(id.toString()))));
   }
 }

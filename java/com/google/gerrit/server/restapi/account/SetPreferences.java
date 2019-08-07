@@ -75,7 +75,7 @@ public class SetPreferences implements RestModifyView<AccountResource, GeneralPr
         accountsUpdateProvider
             .get()
             .update("Set General Preferences via API", id, u -> u.setGeneralPreferences(input))
-            .map(AccountState::getGeneralPreferences)
+            .map(AccountState::generalPreferences)
             .orElseThrow(() -> new ResourceNotFoundException(IdString.fromDecoded(id.toString()))));
   }
 

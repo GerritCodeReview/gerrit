@@ -129,7 +129,7 @@ class ProjectBasicAuthFilter implements Filter {
     }
 
     Optional<AccountState> accountState =
-        accountCache.getByUsername(username).filter(a -> a.getAccount().isActive());
+        accountCache.getByUsername(username).filter(a -> a.account().isActive());
     if (!accountState.isPresent()) {
       logger.atWarning().log(
           "Authentication failed for %s: account inactive or not provisioned in Gerrit", username);
@@ -141,7 +141,7 @@ class ProjectBasicAuthFilter implements Filter {
     GitBasicAuthPolicy gitBasicAuthPolicy = authConfig.getGitBasicAuthPolicy();
     if (gitBasicAuthPolicy == GitBasicAuthPolicy.HTTP
         || gitBasicAuthPolicy == GitBasicAuthPolicy.HTTP_LDAP) {
-      if (PasswordVerifier.checkPassword(who.getExternalIds(), username, password)) {
+      if (PasswordVerifier.checkPassword(who.externalIds(), username, password)) {
         return succeedAuthentication(who);
       }
     }
@@ -158,7 +158,7 @@ class ProjectBasicAuthFilter implements Filter {
       setUserIdentified(whoAuthResult.getAccountId());
       return true;
     } catch (NoSuchUserException e) {
-      if (PasswordVerifier.checkPassword(who.getExternalIds(), username, password)) {
+      if (PasswordVerifier.checkPassword(who.externalIds(), username, password)) {
         return succeedAuthentication(who);
       }
       logger.atWarning().withCause(e).log(authenticationFailedMsg(username, req));
@@ -178,7 +178,7 @@ class ProjectBasicAuthFilter implements Filter {
   }
 
   private boolean succeedAuthentication(AccountState who) {
-    setUserIdentified(who.getAccount().id());
+    setUserIdentified(who.account().id());
     return true;
   }
 

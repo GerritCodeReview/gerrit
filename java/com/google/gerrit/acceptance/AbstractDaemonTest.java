@@ -769,7 +769,7 @@ public abstract class AbstractDaemonTest {
   }
 
   protected Account getAccount(Account.Id accountId) {
-    return getAccountState(accountId).getAccount();
+    return getAccountState(accountId).account();
   }
 
   protected AccountState getAccountState(Account.Id accountId) {

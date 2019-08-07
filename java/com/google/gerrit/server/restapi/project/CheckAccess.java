@@ -73,7 +73,7 @@ public class CheckAccess implements RestModifyView<ProjectResource, AccessCheckI
       throw new BadRequestException("input requires 'account'");
     }
 
-    Account.Id match = accountResolver.resolve(input.account).asUnique().getAccount().id();
+    Account.Id match = accountResolver.resolve(input.account).asUnique().account().id();
 
     AccessCheckInfo info = new AccessCheckInfo();
     try {

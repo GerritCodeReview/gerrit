@@ -147,7 +147,7 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
       throws UnprocessableEntityException, IOException, ConfigInvalidException {
     AccountResolver.Result result = accountResolver.resolve(nameOrEmailOrId);
     try {
-      return result.asUnique().getAccount();
+      return result.asUnique().account();
     } catch (UnresolvableAccountException e) {
       switch (authType) {
         case HTTP_LDAP:
@@ -194,7 +194,7 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
       req.setSkipAuthentication(true);
       return accountCache
           .get(accountManager.authenticate(req).getAccountId())
-          .map(AccountState::getAccount);
+          .map(AccountState::account);
     } catch (AccountException e) {
       return Optional.empty();
     }

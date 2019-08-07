@@ -99,7 +99,7 @@ public class NotifyResolver {
     List<String> problems = new ArrayList<>(inputs.size());
     for (String nameOrEmail : inputs) {
       try {
-        r.add(accountResolver.resolve(nameOrEmail).asUnique().getAccount().id());
+        r.add(accountResolver.resolve(nameOrEmail).asUnique().account().id());
       } catch (UnprocessableEntityException e) {
         problems.add(e.getMessage());
       }

@@ -60,6 +60,7 @@
   };
 
   const CHANGE_DATA_TIMING_LABEL = 'ChangeDataLoaded';
+  const CHANGE_RELOAD_TIMING_LABEL = 'ChangeReloaded';
   const SEND_REPLY_TIMING_LABEL = 'SendReply';
 
   Polymer({
@@ -643,7 +644,7 @@
 
     _handleReplySent(e) {
       this.$.replyOverlay.close();
-      this._reload().then(() => {
+      this._reload().finally(() => {
         this.$.reporting.timeEnd(SEND_REPLY_TIMING_LABEL);
       });
     },
@@ -1367,6 +1368,8 @@
     _reload(opt_reloadRelatedChanges) {
       this._loading = true;
       this._relatedChangesCollapsed = true;
+      this.$.reporting.time(CHANGE_RELOAD_TIMING_LABEL);
+      this.$.reporting.time(CHANGE_DATA_TIMING_LABEL);
 
       // Array to house all promises related to data requests.
       const allDataPromises = [];
@@ -1380,7 +1383,14 @@
       // change content may start appearing.
       const loadingFlagSet = detailCompletes
           .then(() => { this._loading = false; })
-          .then(() => { this.$.reporting.changeDisplayed(); });
+          .finally(() => {
+            this.$.reporting.timeEnd(CHANGE_RELOAD_TIMING_LABEL);
+            // Reports ChangeDisplayed only on parameter (location) change
+            // opt_reloadRelatedChanges is true only on paramater change
+            if (opt_reloadRelatedChanges) {
+              this.$.reporting.changeDisplayed();
+            }
+          });
 
       // Resolves when the project config has loaded.
       const projectConfigLoaded = detailCompletes
@@ -1446,10 +1456,13 @@
         allDataPromises.push(relatedChangesLoaded);
       }
 
-      this.$.reporting.time(CHANGE_DATA_TIMING_LABEL);
-      Promise.all(allDataPromises).then(() => {
+      Promise.all(allDataPromises).finally(() => {
         this.$.reporting.timeEnd(CHANGE_DATA_TIMING_LABEL);
-        this.$.reporting.changeFullyLoaded();
+        // Reports ChangeFullyLoaded only on parameter (location) change
+        // opt_reloadRelatedChanges is true only on paramater change
+        if (opt_reloadRelatedChanges) {
+          this.$.reporting.changeFullyLoaded();
+        }
       });
 
       return coreDataPromise;

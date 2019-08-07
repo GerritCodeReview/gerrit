@@ -46,7 +46,6 @@ import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.PerformanceLogger;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.project.CreateProjectArgs;
-import com.google.gerrit.server.project.SubmitRuleOptions;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.rules.SubmitRule;
 import com.google.gerrit.server.validators.ProjectCreationValidationListener;
@@ -680,7 +679,7 @@ public class TraceIT extends AbstractDaemonTest {
     boolean failOnce;
 
     @Override
-    public Collection<SubmitRecord> evaluate(ChangeData changeData, SubmitRuleOptions options) {
+    public Collection<SubmitRecord> evaluate(ChangeData changeData) {
       if (failOnce) {
         failOnce = false;
         throw new IllegalStateException("forced failure from test");

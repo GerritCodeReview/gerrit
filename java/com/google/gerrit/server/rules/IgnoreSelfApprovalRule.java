@@ -28,7 +28,6 @@ import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
-import com.google.gerrit.server.project.SubmitRuleOptions;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -60,7 +59,7 @@ public class IgnoreSelfApprovalRule implements SubmitRule {
   IgnoreSelfApprovalRule() {}
 
   @Override
-  public Collection<SubmitRecord> evaluate(ChangeData cd, SubmitRuleOptions options) {
+  public Collection<SubmitRecord> evaluate(ChangeData cd) {
     List<LabelType> labelTypes;
     List<PatchSetApproval> approvals;
     try {

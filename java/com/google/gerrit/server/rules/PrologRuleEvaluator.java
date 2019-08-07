@@ -35,7 +35,6 @@ import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.RuleEvalException;
-import com.google.gerrit.server.project.SubmitRuleOptions;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
@@ -73,7 +72,7 @@ public class PrologRuleEvaluator {
 
   public interface Factory {
     /** Returns a new {@link PrologRuleEvaluator} with the specified options */
-    PrologRuleEvaluator create(ChangeData cd, SubmitRuleOptions options);
+    PrologRuleEvaluator create(ChangeData cd, PrologOptions options);
   }
 
   /**
@@ -95,7 +94,7 @@ public class PrologRuleEvaluator {
   private final PrologEnvironment.Factory envFactory;
   private final ChangeData cd;
   private final ProjectState projectState;
-  private final SubmitRuleOptions opts;
+  private final PrologOptions opts;
   private Term submitRule;
 
   @AssistedInject
@@ -107,7 +106,7 @@ public class PrologRuleEvaluator {
       PrologEnvironment.Factory envFactory,
       ProjectCache projectCache,
       @Assisted ChangeData cd,
-      @Assisted SubmitRuleOptions options) {
+      @Assisted PrologOptions options) {
     this.accountCache = accountCache;
     this.accounts = accounts;
     this.emails = emails;
@@ -459,22 +458,22 @@ public class PrologRuleEvaluator {
     PrologEnvironment env;
     try {
       PrologMachineCopy pmc;
-      if (opts.rule() == null) {
+      if (opts.rule().isPresent()) {
+        pmc = rulesCache.loadMachine("stdin", new StringReader(opts.rule().get()));
+      } else {
         pmc =
             rulesCache.loadMachine(
                 projectState.getNameKey(), projectState.getConfig().getRulesId());
-      } else {
-        pmc = rulesCache.loadMachine("stdin", new StringReader(opts.rule()));
       }
       env = envFactory.create(pmc);
     } catch (CompileException err) {
       String msg;
-      if (opts.rule() == null) {
+      if (opts.rule().isPresent()) {
+        msg = err.getMessage();
+      } else {
         msg =
             String.format(
                 "Cannot load rules.pl for %s: %s", projectState.getName(), err.getMessage());
-      } else {
-        msg = err.getMessage();
       }
       throw new RuleEvalException(msg, err);
     }

@@ -15,7 +15,6 @@ package com.google.gerrit.server.rules;
 
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
-import com.google.gerrit.server.project.SubmitRuleOptions;
 import com.google.gerrit.server.query.change.ChangeData;
 import java.util.Collection;
 
@@ -40,5 +39,5 @@ import java.util.Collection;
 @ExtensionPoint
 public interface SubmitRule {
   /** Returns a {@link Collection} of {@link SubmitRecord} status for the change. */
-  Collection<SubmitRecord> evaluate(ChangeData changeData, SubmitRuleOptions options);
+  Collection<SubmitRecord> evaluate(ChangeData changeData);
 }

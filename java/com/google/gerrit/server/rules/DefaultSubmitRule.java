@@ -26,7 +26,6 @@ import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
-import com.google.gerrit.server.project.SubmitRuleOptions;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -63,7 +62,7 @@ public final class DefaultSubmitRule implements SubmitRule {
   }
 
   @Override
-  public Collection<SubmitRecord> evaluate(ChangeData cd, SubmitRuleOptions options) {
+  public Collection<SubmitRecord> evaluate(ChangeData cd) {
     ProjectState projectState = projectCache.get(cd.project());
 
     // In case at least one project has a rules.pl file, we let Prolog handle it.

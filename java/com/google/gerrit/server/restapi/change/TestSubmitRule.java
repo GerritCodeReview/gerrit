@@ -31,8 +31,8 @@ import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
-import com.google.gerrit.server.project.SubmitRuleOptions;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.rules.PrologOptions;
 import com.google.gerrit.server.rules.PrologRule;
 import com.google.gerrit.server.rules.RulesCache;
 import com.google.inject.Inject;
@@ -78,19 +78,15 @@ public class TestSubmitRule implements RestModifyView<RevisionResource, TestSubm
     }
     input.filters = MoreObjects.firstNonNull(input.filters, filters);
 
-    SubmitRuleOptions opts =
-        SubmitRuleOptions.builder()
-            .skipFilters(input.filters == Filters.SKIP)
-            .rule(input.rule)
-            .logErrors(false)
-            .build();
-
     ProjectState projectState = projectCache.get(rsrc.getProject());
     if (projectState == null) {
       throw new BadRequestException("project not found");
     }
     ChangeData cd = changeDataFactory.create(rsrc.getNotes());
-    List<SubmitRecord> records = ImmutableList.copyOf(prologRule.evaluate(cd, opts));
+    List<SubmitRecord> records =
+        ImmutableList.copyOf(
+            prologRule.evaluate(
+                cd, PrologOptions.dryRunOptions(input.rule, input.filters == Filters.SKIP)));
     List<TestSubmitRuleInfo> out = Lists.newArrayListWithCapacity(records.size());
     AccountLoader accounts = accountInfoFactory.create(true);
     for (SubmitRecord r : records) {

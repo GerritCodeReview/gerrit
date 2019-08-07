@@ -77,6 +77,6 @@ public class AccountQueryProcessor extends QueryProcessor<AccountState> {
 
   @Override
   protected String formatForLogging(AccountState accountState) {
-    return accountState.getAccount().id().toString();
+    return accountState.account().id().toString();
   }
 }

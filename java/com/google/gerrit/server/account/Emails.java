@@ -73,7 +73,7 @@ public class Emails {
     return Streams.concat(
             externalIds.byEmail(email).stream().map(ExternalId::accountId),
             executeIndexQuery(() -> queryProvider.get().byPreferredEmail(email).stream())
-                .map(a -> a.getAccount().id()))
+                .map(a -> a.account().id()))
         .collect(toImmutableSet());
   }
 
@@ -88,7 +88,7 @@ public class Emails {
     externalIds.byEmails(emails).entries().stream()
         .forEach(e -> builder.put(e.getKey(), e.getValue().accountId()));
     executeIndexQuery(() -> queryProvider.get().byPreferredEmail(emails).entries().stream())
-        .forEach(e -> builder.put(e.getKey(), e.getValue().getAccount().id()));
+        .forEach(e -> builder.put(e.getKey(), e.getValue().account().id()));
     return builder.build();
   }
 

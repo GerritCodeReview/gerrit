@@ -129,7 +129,7 @@ public class AccountCacheImpl implements AccountCache {
     }
     for (Future<Optional<AccountState>> f : futures) {
       try {
-        f.get().ifPresent(s -> accountStates.put(s.getAccount().id(), s));
+        f.get().ifPresent(s -> accountStates.put(s.account().id(), s));
       } catch (InterruptedException | ExecutionException e) {
         logger.atSevere().withCause(e).log("Cannot load AccountState");
       }

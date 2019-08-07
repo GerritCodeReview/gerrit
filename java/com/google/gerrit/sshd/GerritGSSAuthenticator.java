@@ -66,7 +66,7 @@ class GerritGSSAuthenticator extends GSSAuthenticator {
     }
 
     Optional<Account> account =
-        accounts.getByUsername(username).map(AccountState::getAccount).filter(Account::isActive);
+        accounts.getByUsername(username).map(AccountState::account).filter(Account::isActive);
     if (!account.isPresent()) {
       return false;
     }

@@ -234,7 +234,7 @@ public class CreateChange
         input.workInProgress = true;
       } else {
         input.workInProgress =
-            firstNonNull(me.state().getGeneralPreferences().workInProgressByDefault, false);
+            firstNonNull(me.state().generalPreferences().workInProgressByDefault, false);
       }
     }
 
@@ -398,15 +398,14 @@ public class CreateChange
       commitMessage = ChangeIdUtil.insertId(commitMessage, id);
     }
 
-    if (Boolean.TRUE.equals(me.state().getGeneralPreferences().signedOffBy)) {
+    if (Boolean.TRUE.equals(me.state().generalPreferences().signedOffBy)) {
       commitMessage =
           Joiner.on("\n")
               .join(
                   commitMessage.trim(),
                   String.format(
                       "%s%s",
-                      SIGNED_OFF_BY_TAG,
-                      me.state().getAccount().getNameEmail(anonymousCowardName)));
+                      SIGNED_OFF_BY_TAG, me.state().account().getNameEmail(anonymousCowardName)));
     }
 
     return commitMessage;

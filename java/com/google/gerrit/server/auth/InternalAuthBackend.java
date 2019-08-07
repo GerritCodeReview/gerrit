@@ -56,14 +56,14 @@ public class InternalAuthBackend implements AuthBackend {
 
     AccountState who = accountCache.getByUsername(username).orElseThrow(UnknownUserException::new);
 
-    if (!who.getAccount().isActive()) {
+    if (!who.account().isActive()) {
       throw new UserNotAllowedException(
           "Authentication failed for "
               + username
               + ": account inactive or not provisioned in Gerrit");
     }
 
-    if (!PasswordVerifier.checkPassword(who.getExternalIds(), username, req.getPassword().get())) {
+    if (!PasswordVerifier.checkPassword(who.externalIds(), username, req.getPassword().get())) {
       throw new InvalidCredentialsException();
     }
     return new AuthUser(AuthUser.UUID.create(username), username);

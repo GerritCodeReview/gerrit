@@ -119,11 +119,7 @@ public class SubmitRuleEvaluator {
 
   private List<SubmitRecord> ruleError(String err, Exception e) {
     if (opts.logErrors()) {
-      if (e == null) {
-        logger.atSevere().log(err);
-      } else {
-        logger.atSevere().withCause(e).log(err);
-      }
+      logger.atSevere().withCause(e).log(err);
       return defaultRuleError();
     }
     return createRuleError(err);

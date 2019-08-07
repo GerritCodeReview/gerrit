@@ -17,6 +17,7 @@ limitations under the License.
 
 <link rel="import" href="/bower_components/polymer/polymer.html">
 <link rel="import" href="../../../styles/shared-styles.html">
+<link rel="import" href="../../plugins/gr-external-style/gr-external-style.html">
 
 <dom-module id="gr-fixed-panel">
   <template>
@@ -43,9 +44,11 @@ limitations under the License.
         box-shadow: 0 4px 4px rgba(0,0,0,0.1);
       }
     </style>
-    <header id="header" class$="[[_computeHeaderClass(_headerFloating, _topLast)]]">
-      <slot></slot>
-    </header>
+    <gr-external-style id="externalStyle" name="gr-fixed-panel-style">
+      <header id="header" class$="[[_computeHeaderClass(_headerFloating, _topLast)]]">
+        <slot></slot>
+      </header>
+    </gr-external-style>
   </template>
   <script src="gr-fixed-panel.js"></script>
 </dom-module>

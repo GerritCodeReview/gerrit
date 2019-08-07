@@ -29,6 +29,7 @@ import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.project.SubmitRuleOptions;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.rules.PrologOptions;
 import com.google.gerrit.server.rules.PrologRule;
 import com.google.gerrit.server.rules.RulesCache;
 import com.google.inject.Inject;
@@ -63,15 +64,10 @@ public class TestSubmitType implements RestModifyView<RevisionResource, TestSubm
     }
     input.filters = MoreObjects.firstNonNull(input.filters, filters);
 
-    SubmitRuleOptions opts =
-        SubmitRuleOptions.builder()
-            .logErrors(false)
-            .skipFilters(input.filters == Filters.SKIP)
-            .rule(input.rule)
-            .build();
-
     ChangeData cd = changeDataFactory.create(rsrc.getNotes());
-    SubmitTypeRecord rec = prologRule.getSubmitType(cd, opts);
+    SubmitTypeRecord rec =
+        prologRule.getSubmitType(
+            cd, PrologOptions.dryRunOptions(input.rule, input.filters == Filters.SKIP));
 
     if (rec.status != SubmitTypeRecord.Status.OK) {
       throw new BadRequestException(String.format("rule produced invalid result: %s", rec));

@@ -112,17 +112,14 @@ public class SubmitRuleEvaluator {
     // We evaluate all the plugin-defined evaluators,
     // and then we collect the results in one list.
     return Streams.stream(submitRules)
-        .map(c -> c.call(s -> s.evaluate(cd, opts)))
+        .map(c -> c.call(s -> s.evaluate(cd)))
         .flatMap(Collection::stream)
         .collect(Collectors.toList());
   }
 
   private List<SubmitRecord> ruleError(String err, Exception e) {
-    if (opts.logErrors()) {
-      logger.atSevere().withCause(e).log(err);
-      return defaultRuleError();
-    }
-    return createRuleError(err);
+    logger.atSevere().withCause(e).log(err);
+    return defaultRuleError();
   }
 
   /**
@@ -142,14 +139,11 @@ public class SubmitRuleEvaluator {
       return typeError("Error looking up change " + cd.getId(), e);
     }
 
-    return prologRule.getSubmitType(cd, opts);
+    return prologRule.getSubmitType(cd);
   }
 
   private SubmitTypeRecord typeError(String err, Exception e) {
-    if (opts.logErrors()) {
-      logger.atSevere().withCause(e).log(err);
-      return defaultTypeError();
-    }
-    return SubmitTypeRecord.error(err);
+    logger.atSevere().withCause(e).log(err);
+    return defaultTypeError();
   }
 }

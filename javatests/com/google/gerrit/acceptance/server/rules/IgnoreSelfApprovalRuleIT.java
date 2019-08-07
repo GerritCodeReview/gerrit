@@ -22,7 +22,6 @@ import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.common.data.SubmitRequirement;
-import com.google.gerrit.server.project.SubmitRuleOptions;
 import com.google.gerrit.server.rules.IgnoreSelfApprovalRule;
 import com.google.inject.Inject;
 import java.util.Collection;
@@ -42,8 +41,7 @@ public class IgnoreSelfApprovalRuleIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     approve(r.getChangeId());
 
-    Collection<SubmitRecord> submitRecords =
-        rule.evaluate(r.getChange(), SubmitRuleOptions.defaults());
+    Collection<SubmitRecord> submitRecords = rule.evaluate(r.getChange());
 
     assertThat(submitRecords).hasSize(1);
     SubmitRecord result = submitRecords.iterator().next();
@@ -69,8 +67,7 @@ public class IgnoreSelfApprovalRuleIT extends AbstractDaemonTest {
     // Approve as admin
     approve(r.getChangeId());
 
-    Collection<SubmitRecord> submitRecords =
-        rule.evaluate(r.getChange(), SubmitRuleOptions.defaults());
+    Collection<SubmitRecord> submitRecords = rule.evaluate(r.getChange());
     assertThat(submitRecords).isEmpty();
   }
 
@@ -81,8 +78,7 @@ public class IgnoreSelfApprovalRuleIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     approve(r.getChangeId());
 
-    Collection<SubmitRecord> submitRecords =
-        rule.evaluate(r.getChange(), SubmitRuleOptions.defaults());
+    Collection<SubmitRecord> submitRecords = rule.evaluate(r.getChange());
     assertThat(submitRecords).isEmpty();
   }
 

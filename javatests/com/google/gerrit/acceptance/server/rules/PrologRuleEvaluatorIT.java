@@ -21,8 +21,8 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.server.project.SubmitRuleOptions;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.rules.PrologOptions;
 import com.google.gerrit.server.rules.PrologRuleEvaluator;
 import com.google.gerrit.testing.TestChanges;
 import com.google.inject.Inject;
@@ -156,6 +156,6 @@ public class PrologRuleEvaluatorIT extends AbstractDaemonTest {
   }
 
   private PrologRuleEvaluator makeEvaluator() {
-    return evaluatorFactory.create(makeChangeData(), SubmitRuleOptions.defaults());
+    return evaluatorFactory.create(makeChangeData(), PrologOptions.defaultOptions());
   }
 }

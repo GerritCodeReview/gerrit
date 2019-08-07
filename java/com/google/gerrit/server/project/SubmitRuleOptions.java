@@ -15,7 +15,6 @@
 package com.google.gerrit.server.project;
 
 import com.google.auto.value.AutoValue;
-import com.google.gerrit.common.Nullable;
 
 /**
  * Stable identifier for options passed to a particular submit rule evaluator.
@@ -26,12 +25,7 @@ import com.google.gerrit.common.Nullable;
 @AutoValue
 public abstract class SubmitRuleOptions {
   private static final SubmitRuleOptions defaults =
-      new AutoValue_SubmitRuleOptions.Builder()
-          .allowClosed(false)
-          .skipFilters(false)
-          .logErrors(true)
-          .rule(null)
-          .build();
+      new AutoValue_SubmitRuleOptions.Builder().allowClosed(false).build();
 
   public static SubmitRuleOptions defaults() {
     return defaults;
@@ -43,24 +37,11 @@ public abstract class SubmitRuleOptions {
 
   public abstract boolean allowClosed();
 
-  public abstract boolean skipFilters();
-
-  public abstract boolean logErrors();
-
-  @Nullable
-  public abstract String rule();
-
   public abstract Builder toBuilder();
 
   @AutoValue.Builder
   public abstract static class Builder {
     public abstract SubmitRuleOptions.Builder allowClosed(boolean allowClosed);
-
-    public abstract SubmitRuleOptions.Builder skipFilters(boolean skipFilters);
-
-    public abstract SubmitRuleOptions.Builder rule(@Nullable String rule);
-
-    public abstract SubmitRuleOptions.Builder logErrors(boolean logErrors);
 
     public abstract SubmitRuleOptions build();
   }

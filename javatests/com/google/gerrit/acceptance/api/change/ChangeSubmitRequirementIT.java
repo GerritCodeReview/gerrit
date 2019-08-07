@@ -26,7 +26,6 @@ import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.SubmitRequirementInfo;
 import com.google.gerrit.extensions.config.FactoryModule;
-import com.google.gerrit.server.project.SubmitRuleOptions;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.rules.SubmitRule;
 import com.google.inject.Module;
@@ -67,7 +66,7 @@ public class ChangeSubmitRequirementIT extends AbstractDaemonTest {
 
   private static class CustomSubmitRule implements SubmitRule {
     @Override
-    public Collection<SubmitRecord> evaluate(ChangeData changeData, SubmitRuleOptions options) {
+    public Collection<SubmitRecord> evaluate(ChangeData changeData) {
       SubmitRecord record = new SubmitRecord();
       record.labels = new ArrayList<>();
       record.status = SubmitRecord.Status.NOT_READY;

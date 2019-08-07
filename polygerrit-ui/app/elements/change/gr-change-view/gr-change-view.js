@@ -909,8 +909,8 @@
       return 'PARENT';
     },
 
-    _computeShowPrimaryTabs(dynamicTabContentEndpoints) {
-      return dynamicTabContentEndpoints.length > 0;
+    _computeShowPrimaryTabs(dynamicTabHeaderEndpoints) {
+      return dynamicTabHeaderEndpoints.length > 0;
     },
 
     _computeChangeUrl(change) {

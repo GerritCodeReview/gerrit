@@ -14,13 +14,9 @@
 
 package com.google.gerrit.server.account;
 
-import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USERNAME;
-
 import com.google.common.base.MoreObjects;
-import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
-import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.client.EditPreferencesInfo;
@@ -34,7 +30,6 @@ import com.google.gerrit.server.account.externalids.ExternalIds;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Optional;
-import org.apache.commons.codec.DecoderException;
 import org.eclipse.jgit.lib.ObjectId;
 
 /**
@@ -45,8 +40,6 @@ import org.eclipse.jgit.lib.ObjectId;
  * account cache (see {@link AccountCache#get(Account.Id)}).
  */
 public class AccountState {
-  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-
   /**
    * Creates an AccountState from the given account config.
    *
@@ -173,29 +166,6 @@ public class AccountState {
    */
   public Optional<String> getUserName() {
     return userName;
-  }
-
-  public boolean checkPassword(@Nullable String password, String username) {
-    if (password == null) {
-      return false;
-    }
-    for (ExternalId id : getExternalIds()) {
-      // Only process the "username:$USER" entry, which is unique.
-      if (!id.isScheme(SCHEME_USERNAME) || !username.equals(id.key().id())) {
-        continue;
-      }
-
-      String hashedStr = id.password();
-      if (!Strings.isNullOrEmpty(hashedStr)) {
-        try {
-          return HashedPassword.decode(hashedStr).checkPassword(password);
-        } catch (DecoderException e) {
-          logger.atSevere().log("DecoderException for user %s: %s ", username, e.getMessage());
-          return false;
-        }
-      }
-    }
-    return false;
   }
 
   /** The external identities that identify the account holder. */

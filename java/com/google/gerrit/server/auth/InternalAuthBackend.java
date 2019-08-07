@@ -16,6 +16,7 @@ package com.google.gerrit.server.auth;
 
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.account.externalids.PasswordVerifier;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -62,7 +63,7 @@ public class InternalAuthBackend implements AuthBackend {
               + ": account inactive or not provisioned in Gerrit");
     }
 
-    if (!who.checkPassword(req.getPassword().get(), username)) {
+    if (!PasswordVerifier.checkPassword(who.getExternalIds(), username, req.getPassword().get())) {
       throw new InvalidCredentialsException();
     }
     return new AuthUser(AuthUser.UUID.create(username), username);

@@ -22,6 +22,30 @@
       "revId": "d7244b5b9ec875bf07202de4f58a278f60e2c2fa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "72db0afc_2df6ef2e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-alert/gr-alert.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-08-07T10:51:28Z",
+      "side": 1,
+      "message": "won\u0027t that be the same ? thought the alert is such a simple structure, tag selector seems sufficient. Are you thinking of it may have `div` in child components that could be affected by this in polymer 1 ?",
+      "parentUuid": "1af39dd6_f238acfc",
+      "range": {
+        "startLine": 48,
+        "startChar": 0,
+        "endLine": 48,
+        "endChar": 7
+      },
+      "revId": "d7244b5b9ec875bf07202de4f58a278f60e2c2fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

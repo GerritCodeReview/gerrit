@@ -89,14 +89,14 @@ public class EventUtil {
   }
 
   public AccountInfo accountInfo(AccountState accountState) {
-    if (accountState == null || accountState.getAccount().id() == null) {
+    if (accountState == null || accountState.account().id() == null) {
       return null;
     }
-    Account account = accountState.getAccount();
+    Account account = accountState.account();
     AccountInfo accountInfo = new AccountInfo(account.id().get());
     accountInfo.email = account.preferredEmail();
     accountInfo.name = account.fullName();
-    accountInfo.username = accountState.getUserName().orElse(null);
+    accountInfo.username = accountState.userName().orElse(null);
     return accountInfo;
   }
 
@@ -106,8 +106,7 @@ public class EventUtil {
     for (Map.Entry<String, Short> e : approvals.entrySet()) {
       Integer value = e.getValue() != null ? Integer.valueOf(e.getValue()) : null;
       result.put(
-          e.getKey(),
-          new ApprovalInfo(accountState.getAccount().id().get(), value, null, null, ts));
+          e.getKey(), new ApprovalInfo(accountState.account().id().get(), value, null, null, ts));
     }
     return result;
   }

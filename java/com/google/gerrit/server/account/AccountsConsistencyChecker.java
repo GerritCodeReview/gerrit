@@ -35,9 +35,9 @@ public class AccountsConsistencyChecker {
     List<ConsistencyProblemInfo> problems = new ArrayList<>();
 
     for (AccountState accountState : accounts.all()) {
-      Account account = accountState.getAccount();
+      Account account = accountState.account();
       if (account.preferredEmail() != null) {
-        if (!accountState.getExternalIds().stream()
+        if (!accountState.externalIds().stream()
             .anyMatch(e -> account.preferredEmail().equals(e.email()))) {
           addError(
               String.format(

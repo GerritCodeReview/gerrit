@@ -179,7 +179,7 @@ public class LdapGroupBackend implements GroupBackend {
 
   @Override
   public GroupMembership membershipsOf(IdentifiedUser user) {
-    String id = findId(user.state().getExternalIds());
+    String id = findId(user.state().externalIds());
     if (id == null) {
       return GroupMembership.EMPTY;
     }

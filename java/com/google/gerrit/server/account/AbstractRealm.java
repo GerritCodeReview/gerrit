@@ -53,7 +53,7 @@ public abstract class AbstractRealm implements Realm {
 
   @Override
   public boolean hasEmailAddress(IdentifiedUser user, String email) {
-    for (ExternalId ext : user.state().getExternalIds()) {
+    for (ExternalId ext : user.state().externalIds()) {
       if (email != null && email.equalsIgnoreCase(ext.email())) {
         return true;
       }
@@ -63,7 +63,7 @@ public abstract class AbstractRealm implements Realm {
 
   @Override
   public Set<String> getEmailAddresses(IdentifiedUser user) {
-    Collection<ExternalId> ids = user.state().getExternalIds();
+    Collection<ExternalId> ids = user.state().externalIds();
     Set<String> emails = Sets.newHashSetWithExpectedSize(ids.size());
     for (ExternalId ext : ids) {
       if (!Strings.isNullOrEmpty(ext.email())) {

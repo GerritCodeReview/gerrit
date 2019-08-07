@@ -66,7 +66,7 @@ public class AccountIndexerIT {
     List<AccountState> matchedAccountStates =
         accountQueryProvider.get().byPreferredEmail(preferredEmail);
     assertThat(matchedAccountStates).hasSize(1);
-    assertThat(matchedAccountStates.get(0).getAccount().id()).isEqualTo(accountId);
+    assertThat(matchedAccountStates.get(0).account().id()).isEqualTo(accountId);
   }
 
   @Test
@@ -82,7 +82,7 @@ public class AccountIndexerIT {
     List<AccountState> matchedAccountStates =
         accountQueryProvider.get().byPreferredEmail(preferredEmail);
     assertThat(matchedAccountStates).hasSize(1);
-    assertThat(matchedAccountStates.get(0).getAccount().id()).isEqualTo(accountId);
+    assertThat(matchedAccountStates.get(0).account().id()).isEqualTo(accountId);
   }
 
   @Test
@@ -91,10 +91,10 @@ public class AccountIndexerIT {
     loadAccountToCache(accountId);
     String status = "ooo";
     updateAccountWithoutCacheOrIndex(accountId, newAccountUpdate().setStatus(status).build());
-    assertThat(accountCache.get(accountId).get().getAccount().status()).isNull();
+    assertThat(accountCache.get(accountId).get().account().status()).isNull();
 
     accountIndexer.index(accountId);
-    assertThat(accountCache.get(accountId).get().getAccount().status()).isEqualTo(status);
+    assertThat(accountCache.get(accountId).get().account().status()).isEqualTo(status);
   }
 
   @Test
@@ -109,7 +109,7 @@ public class AccountIndexerIT {
     List<AccountState> matchedAccountStates =
         accountQueryProvider.get().byPreferredEmail(preferredEmail);
     assertThat(matchedAccountStates).hasSize(1);
-    assertThat(matchedAccountStates.get(0).getAccount().id()).isEqualTo(accountId);
+    assertThat(matchedAccountStates.get(0).account().id()).isEqualTo(accountId);
   }
 
   @Test

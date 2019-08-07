@@ -201,7 +201,7 @@ public class GerritPublicKeyChecker extends PublicKeyChecker {
   private Set<String> getAllowedUserIds(IdentifiedUser user) {
     Set<String> result = new HashSet<>();
     result.addAll(user.getEmailAddresses());
-    for (ExternalId extId : user.state().getExternalIds()) {
+    for (ExternalId extId : user.state().externalIds()) {
       if (extId.isScheme(SCHEME_GPGKEY)) {
         continue; // Omit GPG keys.
       }

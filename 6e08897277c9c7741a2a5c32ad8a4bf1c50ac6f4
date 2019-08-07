@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "048c6cc2_916c96b8",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-08-07T15:52:48Z",
+      "side": 1,
+      "message": "not sure I fully understand what these two metrics want to measure :)\n\nhere is what I read from the code:\n\n1. ChangeDataLoaded -\u003e the time that all data fetching behavior happens within the _reload ? should not this starts from the top of the _reload method (it currently starts right before the Promise.all, not a huge deal as most of actions are async in between, but definitely good for readability) ?\n2. ChangeReloaded -\u003e only measures the time of fetching changeDetail ? so getProjectConfig, reloadComments, etc are excluded",
+      "revId": "6e08897277c9c7741a2a5c32ad8a4bf1c50ac6f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ab7819b0_f3baadaa",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 1386,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-08-07T15:52:48Z",
+      "side": 1,
+      "message": "I know we did not have any error handlers on these promises, just curious what if this failed ? will the previous event being dropped and the above `time(event)` reset the start of the event ?",
+      "revId": "6e08897277c9c7741a2a5c32ad8a4bf1c50ac6f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fb7c710c_05dfafa3",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 1871,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-08-07T15:52:48Z",
+      "side": 1,
+      "message": "maybe also include changeFullyLoaded since you also changed it\u0027s behavior as well",
+      "range": {
+        "startLine": 1871,
+        "startChar": 45,
+        "endLine": 1871,
+        "endChar": 60
+      },
+      "revId": "6e08897277c9c7741a2a5c32ad8a4bf1c50ac6f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

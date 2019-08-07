@@ -87,6 +87,11 @@
     },
 
     _computeHeaderClass(headerFloating, topLast) {
+      // Polymer 2: check for undefined
+      if (Array.from(arguments).some(arg => arg === undefined)) {
+        return 1;
+      }
+
       const fixedAtTop = this.keepOnScroll && topLast === 0;
       return [
         headerFloating ? 'floating' : '',

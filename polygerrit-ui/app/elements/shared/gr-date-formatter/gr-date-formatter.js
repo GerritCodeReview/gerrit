@@ -139,8 +139,12 @@
           diff < 180 * Duration.DAY;
     },
 
-    _computeDateStr(dateStr, timeFormat, relative, showDateAndTime) {
-      if (!dateStr) { return ''; }
+    _computeDateStr(dateStr, timeFormat, relative) {
+      // Polymer 2: check for undefined
+      if (Array.from(arguments).some(arg => arg === undefined)) {
+        return '';
+      }
+
       const date = moment(util.parseDate(dateStr));
       if (!date.isValid()) { return ''; }
       if (relative) {
@@ -173,7 +177,7 @@
     },
 
     _computeFullDateStr(dateStr, timeFormat) {
-      if (!dateStr) { return ''; }
+      if (!dateStr || !timeFormat) { return ''; }
       const date = moment(util.parseDate(dateStr));
       if (!date.isValid()) { return ''; }
       let format = TimeFormats.MONTH_DAY_YEAR + ', ';

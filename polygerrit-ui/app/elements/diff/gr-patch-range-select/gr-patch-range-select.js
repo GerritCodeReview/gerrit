@@ -64,6 +64,11 @@
 
     _computeBaseDropdownContent(availablePatches, patchNum, _sortedRevisions,
         changeComments, revisionInfo) {
+      // Polymer 2: check for undefined
+      if (Array.from(arguments).some(arg => arg === undefined)) {
+        return [];
+      }
+      
       const parentCounts = revisionInfo.getParentCountMap();
       const currentParentCount = parentCounts.hasOwnProperty(patchNum) ?
           parentCounts[patchNum] : 1;
@@ -107,6 +112,11 @@
 
     _computePatchDropdownContent(availablePatches, basePatchNum,
         _sortedRevisions, changeComments) {
+      // Polymer 2: check for undefined
+      if (Array.from(arguments).some(arg => arg === undefined)) {
+        return [];
+      }
+
       const dropdownContent = [];
       for (const patch of availablePatches) {
         const patchNum = patch.num;

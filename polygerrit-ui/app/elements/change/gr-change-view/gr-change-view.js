@@ -251,10 +251,7 @@
       _submitEnabled: Boolean,
 
       /** @type {?} */
-      _mergeable: {
-        type: Boolean,
-        value: undefined,
-      },
+      _mergeable: Boolean,
       _showMessagesView: {
         type: Boolean,
         value: true,
@@ -464,8 +461,13 @@
     },
 
     _computeChangeStatusChips(change, mergeable) {
-      // Show no chips until mergeability is loaded.
-      if (mergeable === null || mergeable === undefined) { return []; }
+      // Polymer 2: check for undefined
+      if (Array.from(arguments).some(arg => arg === undefined)) {
+        return [];
+      }
+
+      // Show no chips if mergeable is null.
+      if (mergeable === null) { return []; }
 
       const options = {
         includeDerived: true,
@@ -476,6 +478,11 @@
     },
 
     _computeHideEditCommitMessage(loggedIn, editing, change, editMode) {
+      // Polymer 2: check for undefined
+      if (Array.from(arguments).some(arg => arg === undefined)) {
+        return;
+      }
+
       if (!loggedIn || editing || change.status === this.ChangeStatus.MERGED ||
           editMode) {
         return true;
@@ -770,7 +777,12 @@
       });
     },
 
-    _paramsAndChangeChanged(value) {
+    _paramsAndChangeChanged(value, change) {
+      // Polymer 2: check for undefined
+      if (Array.from(arguments).some(arg => arg === undefined)) {
+        return;
+      }
+
       // If the change number or patch range is different, then reset the
       // selected file index.
       const patchRangeState = this.viewState.patchRange;
@@ -1699,6 +1711,11 @@
     },
 
     _computeEditMode(patchRangeRecord, paramsRecord) {
+      // Polymer 2: check for undefined
+      if (Array.from(arguments).some(arg => arg === undefined)) {
+        return [];
+      }
+
       if (paramsRecord.base && paramsRecord.base.edit) { return true; }
 
       const patchRange = patchRangeRecord.base || {};

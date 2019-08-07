@@ -273,6 +273,9 @@
      * @return {!string} The class for the item button.
      */
     _computeDisabledClass(id, disabledIdsRecord) {
+      // Polymer 2: check for undefined for observers
+      if (id === undefined) return '';
+
       return disabledIdsRecord.base.includes(id) ? 'disabled' : '';
     },
 

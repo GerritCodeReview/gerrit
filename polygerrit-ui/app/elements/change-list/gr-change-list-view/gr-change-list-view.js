@@ -259,6 +259,11 @@
     },
 
     _computePage(offset, changesPerPage) {
+      // Polymer 2: check for undefined
+      if (Array.from(arguments).some(arg => arg === undefined)) {
+        return 1;
+      }
+
       return offset / changesPerPage + 1;
     },
 

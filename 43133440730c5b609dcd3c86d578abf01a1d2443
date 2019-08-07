@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c1e68975_9c804f13",
+        "filename": "java/com/google/gerrit/server/update/RetryHelper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-08-07T06:54:05Z",
+      "side": 1,
+      "message": "Could even be atInfo since these are failures in the system that we want to detect.",
+      "range": {
+        "startLine": 293,
+        "startChar": 27,
+        "endLine": 293,
+        "endChar": 33
+      },
+      "revId": "43133440730c5b609dcd3c86d578abf01a1d2443",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

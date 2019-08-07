@@ -52,6 +52,24 @@
       "revId": "2fce67a274a575b10ab8dd09379a91f3437b9b71",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "202baa7a_d675e93b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-alert/gr-alert.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-08-07T14:34:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "833bde11_8e0d78df",
+      "revId": "2fce67a274a575b10ab8dd09379a91f3437b9b71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

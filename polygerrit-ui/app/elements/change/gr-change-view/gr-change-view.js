@@ -337,17 +337,6 @@
         this._setDiffViewMode();
       });
 
-      Gerrit.awaitPluginsLoaded().then(() => {
-        this._dynamicTabHeaderEndpoints =
-            Gerrit._endpoints.getDynamicEndpoints('change-view-tab-header');
-        this._dynamicTabContentEndpoints =
-            Gerrit._endpoints.getDynamicEndpoints('change-view-tab-content');
-        if (this._dynamicTabContentEndpoints.length
-            !== this._dynamicTabHeaderEndpoints.length) {
-          console.warn('Different number of tab headers and tab content.');
-        }
-      });
-
       this.addEventListener('comment-save', this._handleCommentSave.bind(this));
       this.addEventListener('comment-refresh', this._reloadDrafts.bind(this));
       this.addEventListener('comment-discard',
@@ -733,6 +722,17 @@
 
       this._changeNum = value.changeNum;
       this.$.relatedChanges.clear();
+
+      Gerrit.awaitPluginsLoaded().then(() => {
+        this._dynamicTabHeaderEndpoints =
+            Gerrit._endpoints.getDynamicEndpoints('change-view-tab-header');
+        this._dynamicTabContentEndpoints =
+            Gerrit._endpoints.getDynamicEndpoints('change-view-tab-content');
+        if (this._dynamicTabContentEndpoints.length
+            !== this._dynamicTabHeaderEndpoints.length) {
+          console.warn('Different number of tab headers and tab content.');
+        }
+      });
 
       this._reload(true).then(() => {
         this._performPostLoadTasks();

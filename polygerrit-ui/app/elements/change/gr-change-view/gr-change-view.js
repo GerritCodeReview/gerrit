@@ -910,7 +910,7 @@
     },
 
     _computeShowPrimaryTabs(dynamicTabHeaderEndpoints) {
-      return dynamicTabHeaderEndpoints.length > 0;
+      return dynamicTabHeaderEndpoints && dynamicTabHeaderEndpoints.length > 0;
     },
 
     _computeChangeUrl(change) {

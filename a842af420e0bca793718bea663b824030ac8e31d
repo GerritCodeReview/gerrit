@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "34225499_c2323a2f",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2019-08-07T10:26:47Z",
+      "side": 1,
+      "message": "Test",
+      "revId": "a842af420e0bca793718bea663b824030ac8e31d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

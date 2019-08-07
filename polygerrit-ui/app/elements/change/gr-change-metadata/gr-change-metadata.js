@@ -447,7 +447,7 @@
     },
 
     _computeParentsLabel(parents) {
-      return parents.length > 1 ? 'Parents' : 'Parent';
+      return parents && parents.length > 1 ? 'Parents' : 'Parent';
     },
 
     _computeParentListClass(parents, parentIsCurrent) {

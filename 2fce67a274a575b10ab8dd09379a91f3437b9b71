@@ -34,6 +34,24 @@
       "revId": "2fce67a274a575b10ab8dd09379a91f3437b9b71",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "833bde11_8e0d78df",
+        "filename": "polygerrit-ui/app/elements/shared/gr-alert/gr-alert.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-08-07T13:15:13Z",
+      "side": 1,
+      "message": "You are right. Feel free to keep as is then. But it would be great to transfer some of the knowledge from this comment thread into a CSS comment, so that when we touch this in a year from now we know why .content-wrapper was introduced and why we kept other properties in :host(...).",
+      "parentUuid": "d88882f0_ea2bf62b",
+      "revId": "2fce67a274a575b10ab8dd09379a91f3437b9b71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -453,7 +453,7 @@
     _computeParentListClass(parents, parentIsCurrent) {
       return [
         'parentList',
-        parents.length > 1 ? 'merge' : 'nonMerge',
+        parents && parents.length > 1 ? 'merge' : 'nonMerge',
         parentIsCurrent ? 'current' : 'notCurrent',
       ].join(' ');
     },

@@ -60,6 +60,7 @@
   };
 
   const CHANGE_DATA_TIMING_LABEL = 'ChangeDataLoaded';
+  const CHANGE_RELOAD_TIMING_LABEL = 'ChangeReloaded';
   const SEND_REPLY_TIMING_LABEL = 'SendReply';
 
   Polymer({
@@ -1367,6 +1368,7 @@
     _reload(opt_reloadRelatedChanges) {
       this._loading = true;
       this._relatedChangesCollapsed = true;
+      this.$.reporting.time(CHANGE_RELOAD_TIMING_LABEL);
 
       // Array to house all promises related to data requests.
       const allDataPromises = [];
@@ -1380,7 +1382,14 @@
       // change content may start appearing.
       const loadingFlagSet = detailCompletes
           .then(() => { this._loading = false; })
-          .then(() => { this.$.reporting.changeDisplayed(); });
+          .then(() => {
+            this.$.reporting.timeEnd(CHANGE_RELOAD_TIMING_LABEL);
+            // Reports ChangeDisplayed only on parameter (location) change
+            // opt_reloadRelatedChanges is true only on paramater change
+            if (opt_reloadRelatedChanges) {
+              this.$.reporting.changeDisplayed();
+            }
+          });
 
       // Resolves when the project config has loaded.
       const projectConfigLoaded = detailCompletes

@@ -43,33 +43,34 @@ limitations under the License.
       <tr id="loading" class$="loadingMsg [[computeLoadingClass(_loading)]]">
         <td>Loading...</td>
       </tr>
-      <template is="dom-repeat" items="[[_auditLog]]"
-          class$="[[computeLoadingClass(_loading)]]">
-        <tr class="table">
-          <td class="date">
-            <gr-date-formatter
-                has-tooltip
-                date-str="[[item.date]]">
-            </gr-date-formatter>
-          </td>
-          <td class="type">[[itemType(item.type)]]</td>
-          <td class="member">
-            <template is="dom-if" if="[[_isGroupEvent(item.type)]]">
-              <a href$="[[_computeGroupUrl(item.member)]]">
-                [[_getNameForGroup(item.member)]]
-              </a>
-            </template>
-            <template is="dom-if" if="[[!_isGroupEvent(item.type)]]">
-              <gr-account-link account="[[item.member]]"></gr-account-link>
-              [[_getIdForUser(item.member)]]
-            </template>
-          </td>
-          <td class="by-user">
-            <gr-account-link account="[[item.user]]"></gr-account-link>
-            [[_getIdForUser(item.user)]]
-          </td>
-        </tr>
-      </template>
+      <tbody class$="[[computeLoadingClass(_loading)]]">
+        <template is="dom-repeat" items="[[_auditLog]]">
+          <tr class="table">
+            <td class="date">
+              <gr-date-formatter
+                  has-tooltip
+                  date-str="[[item.date]]">
+              </gr-date-formatter>
+            </td>
+            <td class="type">[[itemType(item.type)]]</td>
+            <td class="member">
+              <template is="dom-if" if="[[_isGroupEvent(item.type)]]">
+                <a href$="[[_computeGroupUrl(item.member)]]">
+                  [[_getNameForGroup(item.member)]]
+                </a>
+              </template>
+              <template is="dom-if" if="[[!_isGroupEvent(item.type)]]">
+                <gr-account-link account="[[item.member]]"></gr-account-link>
+                [[_getIdForUser(item.member)]]
+              </template>
+            </td>
+            <td class="by-user">
+              <gr-account-link account="[[item.user]]"></gr-account-link>
+              [[_getIdForUser(item.user)]]
+            </td>
+          </tr>
+        </template>
+      </tbody>
     </table>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>

@@ -21,10 +21,12 @@ import com.google.gerrit.extensions.api.changes.Changes;
 import com.google.gerrit.extensions.api.changes.CherryPickInput;
 import com.google.gerrit.extensions.api.changes.IncludedInInfo;
 import com.google.gerrit.extensions.api.projects.CommitApi;
+import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.project.CommitResource;
 import com.google.gerrit.server.restapi.change.CherryPickCommit;
 import com.google.gerrit.server.restapi.project.CommitIncludedIn;
+import com.google.gerrit.server.restapi.project.GetCommit;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
@@ -34,6 +36,7 @@ public class CommitApiImpl implements CommitApi {
   }
 
   private final Changes changes;
+  private final GetCommit getCommit;
   private final CherryPickCommit cherryPickCommit;
   private final CommitIncludedIn includedIn;
   private final CommitResource commitResource;
@@ -41,13 +44,24 @@ public class CommitApiImpl implements CommitApi {
   @Inject
   CommitApiImpl(
       Changes changes,
+      GetCommit getCommit,
       CherryPickCommit cherryPickCommit,
       CommitIncludedIn includedIn,
       @Assisted CommitResource commitResource) {
     this.changes = changes;
+    this.getCommit = getCommit;
     this.cherryPickCommit = cherryPickCommit;
     this.includedIn = includedIn;
     this.commitResource = commitResource;
+  }
+
+  @Override
+  public CommitInfo get() throws RestApiException {
+    try {
+      return getCommit.apply(commitResource);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot get commit info", e);
+    }
   }
 
   @Override

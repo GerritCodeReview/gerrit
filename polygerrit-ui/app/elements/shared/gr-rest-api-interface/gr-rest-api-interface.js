@@ -2763,7 +2763,7 @@
       });
     },
 
-    getCapabilities(token, opt_errFn) {
+    getCapabilities(opt_errFn) {
       return this._fetchJSON({
         url: '/config/server/capabilities',
         errFn: opt_errFn,

@@ -43,6 +43,9 @@ public class ElasticVersionTest extends GerritBaseTests {
     assertThat(ElasticVersion.forVersion("6.7.0")).isEqualTo(ElasticVersion.V6_7);
     assertThat(ElasticVersion.forVersion("6.7.1")).isEqualTo(ElasticVersion.V6_7);
 
+    assertThat(ElasticVersion.forVersion("6.8.0")).isEqualTo(ElasticVersion.V6_8);
+    assertThat(ElasticVersion.forVersion("6.8.1")).isEqualTo(ElasticVersion.V6_8);
+
     assertThat(ElasticVersion.forVersion("7.0.0")).isEqualTo(ElasticVersion.V7_0);
     assertThat(ElasticVersion.forVersion("7.0.1")).isEqualTo(ElasticVersion.V7_0);
 
@@ -51,6 +54,9 @@ public class ElasticVersionTest extends GerritBaseTests {
 
     assertThat(ElasticVersion.forVersion("7.2.0")).isEqualTo(ElasticVersion.V7_2);
     assertThat(ElasticVersion.forVersion("7.2.1")).isEqualTo(ElasticVersion.V7_2);
+
+    assertThat(ElasticVersion.forVersion("7.3.0")).isEqualTo(ElasticVersion.V7_3);
+    assertThat(ElasticVersion.forVersion("7.3.1")).isEqualTo(ElasticVersion.V7_3);
   }
 
   @Test
@@ -70,9 +76,11 @@ public class ElasticVersionTest extends GerritBaseTests {
     assertThat(ElasticVersion.V6_5.isAtLeastMinorVersion(ElasticVersion.V6_7)).isFalse();
     assertThat(ElasticVersion.V6_6.isAtLeastMinorVersion(ElasticVersion.V6_7)).isFalse();
     assertThat(ElasticVersion.V6_7.isAtLeastMinorVersion(ElasticVersion.V6_7)).isTrue();
+    assertThat(ElasticVersion.V6_8.isAtLeastMinorVersion(ElasticVersion.V6_8)).isTrue();
     assertThat(ElasticVersion.V7_0.isAtLeastMinorVersion(ElasticVersion.V6_7)).isFalse();
     assertThat(ElasticVersion.V7_1.isAtLeastMinorVersion(ElasticVersion.V6_7)).isFalse();
     assertThat(ElasticVersion.V7_2.isAtLeastMinorVersion(ElasticVersion.V6_7)).isFalse();
+    assertThat(ElasticVersion.V7_3.isAtLeastMinorVersion(ElasticVersion.V6_7)).isFalse();
   }
 
   @Test
@@ -84,9 +92,11 @@ public class ElasticVersionTest extends GerritBaseTests {
     assertThat(ElasticVersion.V6_5.isV6OrLater()).isTrue();
     assertThat(ElasticVersion.V6_6.isV6OrLater()).isTrue();
     assertThat(ElasticVersion.V6_7.isV6OrLater()).isTrue();
+    assertThat(ElasticVersion.V6_8.isV6OrLater()).isTrue();
     assertThat(ElasticVersion.V7_0.isV6OrLater()).isTrue();
     assertThat(ElasticVersion.V7_1.isV6OrLater()).isTrue();
     assertThat(ElasticVersion.V7_2.isV6OrLater()).isTrue();
+    assertThat(ElasticVersion.V7_3.isV6OrLater()).isTrue();
   }
 
   @Test
@@ -98,8 +108,10 @@ public class ElasticVersionTest extends GerritBaseTests {
     assertThat(ElasticVersion.V6_5.isV7OrLater()).isFalse();
     assertThat(ElasticVersion.V6_6.isV7OrLater()).isFalse();
     assertThat(ElasticVersion.V6_7.isV7OrLater()).isFalse();
+    assertThat(ElasticVersion.V6_8.isV7OrLater()).isFalse();
     assertThat(ElasticVersion.V7_0.isV7OrLater()).isTrue();
     assertThat(ElasticVersion.V7_1.isV7OrLater()).isTrue();
     assertThat(ElasticVersion.V7_2.isV7OrLater()).isTrue();
+    assertThat(ElasticVersion.V7_3.isV7OrLater()).isTrue();
   }
 }

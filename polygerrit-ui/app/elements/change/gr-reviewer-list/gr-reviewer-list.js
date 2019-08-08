@@ -165,6 +165,11 @@
     },
 
     _reviewersChanged(changeRecord, owner) {
+      // Polymer 2: check for undefined
+      if (Array.from(arguments).some(arg => arg === undefined)) {
+        return;
+      }
+
       let result = [];
       const reviewers = changeRecord.base;
       for (const key in reviewers) {

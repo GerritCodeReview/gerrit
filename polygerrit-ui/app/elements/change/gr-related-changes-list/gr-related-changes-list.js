@@ -292,6 +292,11 @@
 
     _resultsChanged(related, submittedTogether, conflicts,
         cherryPicks, sameTopic) {
+      // Polymer 2: check for undefined
+      if (Array.from(arguments).some(arg => arg === undefined)) {
+        return;
+      }
+
       const results = [
         related && related.changes,
         submittedTogether && submittedTogether.changes,

@@ -144,6 +144,11 @@
      * the corresponding value to be submitted.
      */
     _updateSelectedOption(rebaseOnCurrent, hasParent) {
+      // Polymer 2: check for undefined
+      if (Array.from(arguments).some(arg => arg === undefined)) {
+        return;
+      }
+
       if (this._displayParentOption(rebaseOnCurrent, hasParent)) {
         this.$.rebaseOnParentInput.checked = true;
       } else if (this._displayTipOption(rebaseOnCurrent, hasParent)) {

@@ -817,6 +817,11 @@
     },
 
     _computeFiles(filesByPath, changeComments, patchRange, reviewed, loading) {
+      // Polymer 2: check for undefined
+      if (Array.from(arguments).some(arg => arg === undefined)) {
+        return;
+      }
+
       // Await all promises resolving from reload. @See Issue 9057
       if (loading || !changeComments) { return; }
 
@@ -904,6 +909,11 @@
     },
 
     _computePatchSetDescription(revisions, patchNum) {
+      // Polymer 2: check for undefined
+      if (Array.from(arguments).some(arg => arg === undefined)) {
+        return '';
+      }
+
       const rev = this.getRevisionByPatchNum(revisions, patchNum);
       return (rev && rev.description) ?
           rev.description.substring(0, PATCH_DESC_MAX_LENGTH) : '';

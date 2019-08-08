@@ -31,6 +31,7 @@ import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.AuthRequest;
 import com.google.gerrit.server.account.AuthResult;
 import com.google.gerrit.server.account.AuthenticationFailedException;
+import com.google.gerrit.server.account.externalids.PasswordVerifier;
 import com.google.gerrit.server.auth.NoSuchUserException;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.inject.Inject;
@@ -140,7 +141,7 @@ class ProjectBasicAuthFilter implements Filter {
     GitBasicAuthPolicy gitBasicAuthPolicy = authConfig.getGitBasicAuthPolicy();
     if (gitBasicAuthPolicy == GitBasicAuthPolicy.HTTP
         || gitBasicAuthPolicy == GitBasicAuthPolicy.HTTP_LDAP) {
-      if (who.checkPassword(password, username)) {
+      if (PasswordVerifier.checkPassword(who.getExternalIds(), username, password)) {
         return succeedAuthentication(who);
       }
     }
@@ -157,7 +158,7 @@ class ProjectBasicAuthFilter implements Filter {
       setUserIdentified(whoAuthResult.getAccountId());
       return true;
     } catch (NoSuchUserException e) {
-      if (who.checkPassword(password, username)) {
+      if (PasswordVerifier.checkPassword(who.getExternalIds(), username, password)) {
         return succeedAuthentication(who);
       }
       logger.atWarning().withCause(e).log(authenticationFailedMsg(username, req));

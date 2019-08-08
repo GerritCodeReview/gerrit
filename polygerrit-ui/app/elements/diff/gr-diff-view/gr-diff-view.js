@@ -260,6 +260,11 @@
     },
 
     _getFiles(changeNum, patchRangeRecord) {
+      // Polymer 2: check for undefined
+      if ([changeNum, patchRangeRecord].some(arg => arg === undefined)) {
+        return;
+      }
+
       const patchRange = patchRangeRecord.base;
       return this.$.restAPI.getChangeFilePathsAsSpeciallySortedArray(
           changeNum, patchRange).then(files => {
@@ -680,6 +685,11 @@
     },
 
     _setReviewedObserver(_loggedIn, paramsRecord, _prefs) {
+      // Polymer 2: check for undefined
+      if ([_loggedIn, paramsRecord, _prefs].some(arg => arg === undefined)) {
+        return;
+      }
+
       const params = paramsRecord.base || {};
       if (!_loggedIn) { return; }
 

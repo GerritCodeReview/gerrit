@@ -104,6 +104,11 @@
     },
 
     _handleValueChange(value, items) {
+      // Polymer 2: check for undefined
+      if ([value, items].some(arg => arg === undefined)) {
+        return;
+      }
+
       if (!value) { return; }
       const selectedObj = items.find(item => {
         return item.value + '' === value + '';

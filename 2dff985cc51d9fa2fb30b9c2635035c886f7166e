@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f84a00e6_e4ef9427",
+        "filename": "java/com/google/gerrit/server/restapi/change/TestSubmitRule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-08-08T00:30:52Z",
+      "side": 1,
+      "message": "This is not needed.",
+      "range": {
+        "startLine": 76,
+        "startChar": 4,
+        "endLine": 78,
+        "endChar": 5
+      },
+      "revId": "2dff985cc51d9fa2fb30b9c2635035c886f7166e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -22,6 +22,30 @@
       "revId": "44a525541110a1386a5f6c7aad3cc1636957c573",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be0fc8d0_96b9ea91",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 1390,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2019-08-08T10:21:19Z",
+      "side": 1,
+      "message": "Good idea. Changed. Thanks",
+      "parentUuid": "f2848032_73749f2a",
+      "range": {
+        "startLine": 1390,
+        "startChar": 16,
+        "endLine": 1390,
+        "endChar": 40
+      },
+      "revId": "44a525541110a1386a5f6c7aad3cc1636957c573",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "bf99e1eb_11726550",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2019-08-08T10:17:30Z",
+      "side": 1,
+      "message": "I cleaned it up - so both start in the beginning of _reload.\n\nChangeReloaded - it\u0027s shorter - it\u0027s first render (from showing loading -\u003e showing first page)\n\nChangeDataLoaded - older one - it\u0027s final render - it\u0027s part of changeFullyLoaded.",
+      "parentUuid": "048c6cc2_916c96b8",
+      "revId": "6e08897277c9c7741a2a5c32ad8a4bf1c50ac6f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ab7819b0_f3baadaa",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 4
@@ -33,6 +51,24 @@
       "revId": "6e08897277c9c7741a2a5c32ad8a4bf1c50ac6f4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "60adca75_94a0cc05",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 1386,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2019-08-08T10:17:30Z",
+      "side": 1,
+      "message": "I checked it to finally. I also think finally is better, it isn\u0027t used much in polygerrit.",
+      "parentUuid": "ab7819b0_f3baadaa",
+      "revId": "6e08897277c9c7741a2a5c32ad8a4bf1c50ac6f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -56,6 +92,30 @@
       "revId": "6e08897277c9c7741a2a5c32ad8a4bf1c50ac6f4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3b60e2ca_581f5a0e",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 1871,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2019-08-08T10:17:30Z",
+      "side": 1,
+      "message": "Ok, I added test on changeFullyLoaded",
+      "parentUuid": "fb7c710c_05dfafa3",
+      "range": {
+        "startLine": 1871,
+        "startChar": 45,
+        "endLine": 1871,
+        "endChar": 60
+      },
+      "revId": "6e08897277c9c7741a2a5c32ad8a4bf1c50ac6f4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

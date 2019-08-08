@@ -66,6 +66,11 @@
      * enabled.
      */
     _updateTitle(text, limit, tooltipLimit) {
+      // Polymer 2: check for undefined
+      if ([text, limit, tooltipLimit].some(arg => arg === undefined)) {
+        return;
+      }
+
       this.hasTooltip = !!limit && !!text && text.length > limit;
       if (this.hasTooltip) {
         this.setAttribute('title', text.substr(0, tooltipLimit));

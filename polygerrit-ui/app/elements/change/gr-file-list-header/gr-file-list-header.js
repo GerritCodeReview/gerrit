@@ -137,6 +137,11 @@
     },
 
     _computePatchSetDescription(change, patchNum) {
+      // Polymer 2: check for undefined
+      if ([change, patchNum].some(arg => arg === undefined)) {
+        return;
+      }
+
       const rev = this.getRevisionByPatchNum(change.revisions, patchNum);
       this._patchsetDescription = (rev && rev.description) ?
           rev.description.substring(0, PATCH_DESC_MAX_LENGTH) : '';

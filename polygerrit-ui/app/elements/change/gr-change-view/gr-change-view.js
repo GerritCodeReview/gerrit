@@ -795,7 +795,12 @@
       });
     },
 
-    _paramsAndChangeChanged(value) {
+    _paramsAndChangeChanged(value, change) {
+      // Polymer 2: check for undefined
+      if ([value, change].some(arg => arg === undefined)) {
+        return;
+      }
+
       // If the change number or patch range is different, then reset the
       // selected file index.
       const patchRangeState = this.viewState.patchRange;

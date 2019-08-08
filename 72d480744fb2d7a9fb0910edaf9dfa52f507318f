@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ad07f8e3_379dc556",
+        "filename": "java/com/google/gerrit/server/account/UpdatedAccount.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-08-08T07:38:26Z",
+      "side": 1,
+      "message": "Bad rebase",
+      "parentUuid": "b8d138d6_8de942a2",
+      "revId": "72d480744fb2d7a9fb0910edaf9dfa52f507318f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c3f28063_81cb0827",
         "filename": "java/com/google/gerrit/server/account/UpdatedAccount.java",
         "patchSetId": 2
@@ -39,6 +57,30 @@
       "revId": "72d480744fb2d7a9fb0910edaf9dfa52f507318f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6a6f91e3_36526c4e",
+        "filename": "java/com/google/gerrit/server/account/UpdatedAccount.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-08-08T07:38:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c3f28063_81cb0827",
+      "range": {
+        "startLine": 33,
+        "startChar": 4,
+        "endLine": 33,
+        "endChar": 51
+      },
+      "revId": "72d480744fb2d7a9fb0910edaf9dfa52f507318f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

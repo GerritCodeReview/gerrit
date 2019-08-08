@@ -260,6 +260,11 @@
     },
 
     _getFiles(changeNum, patchRangeRecord) {
+      // Polymer 2: check for undefined
+      if (Array.from(arguments).some(arg => arg === undefined)) {
+        return;
+      }
+
       const patchRange = patchRangeRecord.base;
       return this.$.restAPI.getChangeFilePathsAsSpeciallySortedArray(
           changeNum, patchRange).then(files => {
@@ -680,6 +685,11 @@
     },
 
     _setReviewedObserver(_loggedIn, paramsRecord, _prefs) {
+      // Polymer 2: check for undefined
+      if (Array.from(arguments).some(arg => arg === undefined)) {
+        return;
+      }
+
       const params = paramsRecord.base || {};
       if (!_loggedIn) { return; }
 
@@ -954,6 +964,9 @@
      * @param {!Object} patchRangeRecord
      */
     _computeEditMode(patchRangeRecord) {
+      // Polymer 2: check for undefined
+      if (patchRangeRecord === undefined) return false;
+
       const patchRange = patchRangeRecord.base || {};
       return this.patchNumEquals(patchRange.patchNum, this.EDIT_NAME);
     },

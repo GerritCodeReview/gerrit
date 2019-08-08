@@ -771,6 +771,11 @@
     },
 
     _paramsAndChangeChanged(value) {
+      // Polymer 2: check for undefined
+      if (Array.from(arguments).some(arg => arg === undefined)) {
+        return;
+      }
+
       // If the change number or patch range is different, then reset the
       // selected file index.
       const patchRangeState = this.viewState.patchRange;

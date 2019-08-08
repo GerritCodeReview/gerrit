@@ -159,6 +159,11 @@
     },
 
     _computePreferences(account, preferences) {
+      // Polymer 2: check for undefined
+      if (Array.from(arguments).some(arg => arg === undefined)) {
+        return;
+      }
+
       this.changeTableColumns = this.columnNames;
 
       if (account) {

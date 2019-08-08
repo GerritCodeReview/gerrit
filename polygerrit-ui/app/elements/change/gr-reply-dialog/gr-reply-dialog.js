@@ -623,6 +623,11 @@
     },
 
     _changeUpdated(changeRecord, owner) {
+      // Polymer 2: check for undefined
+      if (Array.from(arguments).some(arg => arg === undefined)) {
+        return;
+      }
+
       this._rebuildReviewerArrays(changeRecord.base, owner);
     },
 

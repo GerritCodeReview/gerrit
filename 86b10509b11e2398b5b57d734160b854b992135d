@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fab73af3_30e579a5",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 1462,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-08-08T11:18:40Z",
+      "side": 1,
+      "message": "This comment is obsolete. Maybe remove the entire comment block. Also above.",
+      "range": {
+        "startLine": 1462,
+        "startChar": 11,
+        "endLine": 1462,
+        "endChar": 35
+      },
+      "revId": "86b10509b11e2398b5b57d734160b854b992135d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

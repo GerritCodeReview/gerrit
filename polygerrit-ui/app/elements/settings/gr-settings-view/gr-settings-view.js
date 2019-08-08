@@ -202,7 +202,7 @@
       });
     },
 
-    detach() {
+    detached() {
       this.unlisten(window, 'location-change', '_handleLocationChange');
     },
 

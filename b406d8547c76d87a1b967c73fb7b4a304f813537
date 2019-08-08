@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "97297a48_aa3d9c85",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 1457,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-08-08T14:45:45Z",
+      "side": 1,
+      "message": "not sure about the finally, as it may noisy the data with error data (with finally, metric will be reported even if some requests failed, but that could jeopardize the data we collected, since technically the data is not loaded but failed). If we really care about the failure metric, we might need to report it as another metric.",
+      "revId": "b406d8547c76d87a1b967c73fb7b4a304f813537",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

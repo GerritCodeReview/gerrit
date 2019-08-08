@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6987b61a_cc518456",
+        "filename": "java/com/google/gerrit/server/account/UpdatedAccount.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-08-08T07:31:13Z",
+      "side": 0,
+      "message": "I think I missed why this can be deleted now.",
+      "range": {
+        "startLine": 16,
+        "startChar": 22,
+        "endLine": 16,
+        "endChar": 36
+      },
+      "revId": "72d480744fb2d7a9fb0910edaf9dfa52f507318f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

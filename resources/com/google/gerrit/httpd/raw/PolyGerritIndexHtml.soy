@@ -79,11 +79,7 @@
   <link rel="stylesheet" href="{$staticResourcePath}/styles/fonts.css">{\n}
   <link rel="stylesheet" href="{$staticResourcePath}/styles/main.css">{\n}
 
-  {if $polymer2}
-    <script src="{$staticResourcePath}/bower_components/webcomponentsjs-p2/webcomponents-lite.js"></script>{\n}
-  {else}
-    <script src="{$staticResourcePath}/bower_components/webcomponentsjs/webcomponents-lite.js"></script>{\n}
-  {/if}
+  <script src="{$staticResourcePath}/bower_components/webcomponentsjs/webcomponents-lite.js"></script>{\n}
 
   // Content between webcomponents-lite and the load of the main app element
   // run before polymer-resin is installed so may have security consequences.

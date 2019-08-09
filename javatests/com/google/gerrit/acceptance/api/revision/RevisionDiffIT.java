@@ -59,6 +59,7 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class RevisionDiffIT extends AbstractDaemonTest {
@@ -2395,6 +2396,38 @@ public class RevisionDiffIT extends AbstractDaemonTest {
   }
 
   @Test
+  @Ignore
+  // TODO(aliceks): Find a way to fix this issue without breaking the other tests.
+  // This issue results from a combination of the logic to filter out files which only contain
+  // rebase hunks (in PatchListLoader) with the logic to properly handle newlines at the end of
+  // files (in PatchScriptBuilder). To fix this, we should rather filter the files in FileInfoJson.
+  // This is not that easy at that point as some details (e.g. the noContentEdits) are lost along
+  // the way from PatchListLoader.
+  public void diffOfFileWithOnlyRebaseHunksAndWithCommentReturnsFileContents() throws Exception {
+    addModifiedPatchSet(changeId, FILE_NAME, content -> content.replace("Line 2\n", "Line two\n"));
+    String previousPatchSetId = gApi.changes().id(changeId).get().currentRevision;
+    String newBaseFileContent = FILE_CONTENT + "Line 101\nLine 102\nLine 103";
+    ObjectId commit2 = addCommit(commit1, FILE_NAME, newBaseFileContent);
+    rebaseChangeOn(changeId, commit2);
+    CommentInput comment = createFileCommentInput("Test comment");
+    ReviewInput reviewInput = new ReviewInput();
+    reviewInput.comments = ImmutableMap.of(FILE_NAME, ImmutableList.of(comment));
+    gApi.changes().id(changeId).revision(previousPatchSetId).review(reviewInput);
+
+    DiffInfo diffInfo =
+        getDiffRequest(changeId, CURRENT, FILE_NAME).withBase(previousPatchSetId).get();
+    assertThat(diffInfo).content().element(0).commonLines().isNotEmpty();
+    assertThat(diffInfo).content().element(1).linesOfA().contains("");
+    assertThat(diffInfo)
+        .content()
+        .element(1)
+        .linesOfB()
+        .containsExactly("Line 101", "Line 102", "Line 103")
+        .inOrder();
+    assertThat(diffInfo).content().element(1).isDueToRebase();
+  }
+
+  @Test
   public void diffOfNonExistentFileIsAnEmptyDiffResult() throws Exception {
     addModifiedPatchSet(changeId, FILE_NAME, content -> content.replace("Line 2\n", "Line two\n"));
 
@@ -2503,6 +2536,12 @@ public class RevisionDiffIT extends AbstractDaemonTest {
     comment.range.startCharacter = startCharacter;
     comment.range.endLine = endLine;
     comment.range.endCharacter = endCharacter;
+    comment.message = message;
+    return comment;
+  }
+
+  private static CommentInput createFileCommentInput(String message) {
+    CommentInput comment = new CommentInput();
     comment.message = message;
     return comment;
   }

@@ -34,7 +34,7 @@ import java.io.IOException;
 public class EnumTypeAdapterFactory implements TypeAdapterFactory {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  @SuppressWarnings({"unchecked"})
+  @SuppressWarnings({"rawtypes", "unchecked"})
   @Override
   public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> typeToken) {
     TypeAdapter<T> defaultEnumAdapter = TypeAdapters.ENUM_FACTORY.create(gson, typeToken);
@@ -43,7 +43,7 @@ public class EnumTypeAdapterFactory implements TypeAdapterFactory {
       return null;
     }
 
-    return (TypeAdapter<T>) new EnumTypeAdapter(defaultEnumAdapter, typeToken);
+    return new EnumTypeAdapter(defaultEnumAdapter, typeToken);
   }
 
   private static class EnumTypeAdapter<T extends Enum<T>> extends TypeAdapter<T> {

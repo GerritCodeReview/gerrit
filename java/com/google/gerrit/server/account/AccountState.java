@@ -22,6 +22,7 @@ import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.client.EditPreferencesInfo;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.Preferences;
 import com.google.gerrit.server.account.ProjectWatches.NotifyType;
 import com.google.gerrit.server.account.ProjectWatches.ProjectWatchKey;
 import com.google.gerrit.server.account.externalids.ExternalId;
@@ -131,7 +132,7 @@ public class AccountState {
   private final ImmutableSet<ExternalId> externalIds;
   private final Optional<String> userName;
   private final ImmutableMap<ProjectWatchKey, ImmutableSet<NotifyType>> projectWatches;
-  private final GeneralPreferencesInfo generalPreferences;
+  private final Preferences.General generalPreferences;
   private final DiffPreferencesInfo diffPreferences;
   private final EditPreferencesInfo editPreferences;
 
@@ -146,7 +147,7 @@ public class AccountState {
     this.externalIds = externalIds;
     this.userName = ExternalId.getUserName(externalIds);
     this.projectWatches = projectWatches;
-    this.generalPreferences = generalPreferences;
+    this.generalPreferences = Preferences.General.fromInfo(generalPreferences);
     this.diffPreferences = diffPreferences;
     this.editPreferences = editPreferences;
   }
@@ -180,7 +181,7 @@ public class AccountState {
 
   /** The general preferences of the account. */
   public GeneralPreferencesInfo getGeneralPreferences() {
-    return generalPreferences;
+    return generalPreferences.toInfo();
   }
 
   /** The diff preferences of the account. */

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1d123cd0_d2751068",
+        "filename": "contrib/Show_new_Gerrit_doc_in_Chrome.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-08-09T07:29:34Z",
+      "side": 1,
+      "message": "LGTM but I would prefer to have the file name in all lower case.",
+      "revId": "b259f76a3648d44b6a1f7a892407b658fd9f080b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

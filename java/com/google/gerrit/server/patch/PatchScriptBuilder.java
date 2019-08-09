@@ -286,6 +286,12 @@ class PatchScriptBuilder {
       return;
     }
 
+    if (edits.isEmpty() && (aSize != bSize)) {
+      // Only edits due to rebase were present. If we now added the edits for the newlines, the
+      // code which later assembles the file contents would fail.
+      return;
+    }
+
     Optional<Edit> lastEdit = getLast(edits);
     if (isNewlineAtEndDeleted()) {
       Optional<Edit> lastLineEdit = lastEdit.filter(edit -> edit.getEndA() == aSize);

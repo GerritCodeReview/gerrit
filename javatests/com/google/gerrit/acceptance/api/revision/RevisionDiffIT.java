@@ -40,6 +40,7 @@ import com.google.gerrit.extensions.common.ChangeType;
 import com.google.gerrit.extensions.common.DiffInfo;
 import com.google.gerrit.extensions.common.FileInfo;
 import com.google.gerrit.extensions.restapi.BinaryResult;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.testing.ConfigSuite;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
@@ -574,6 +575,109 @@ public class RevisionDiffIT extends AbstractDaemonTest {
         gApi.changes().id(changeId).current().files(previousPatchSetId);
     assertThat(changedFiles.get(FILE_NAME)).linesInserted().isEqualTo(1);
     assertThat(changedFiles.get(FILE_NAME)).linesDeleted().isEqualTo(1);
+  }
+
+  @Test
+  public void addedNewlineAtEndOfFileIsMarkedInDiffWhenOtherwiseOnlyEditsDueToRebaseExist()
+      throws Exception {
+    addModifiedPatchSet(changeId, FILE_NAME, fileContent -> fileContent.concat("Line 101"));
+    String previousPatchSetId = gApi.changes().id(changeId).get().currentRevision;
+    String newBaseFileContent = FILE_CONTENT.replace("Line 70\n", "Line seventy\n");
+    ObjectId commit2 = addCommit(commit1, FILE_NAME, newBaseFileContent);
+    rebaseChangeOn(changeId, commit2);
+    addModifiedPatchSet(changeId, FILE_NAME, fileContent -> fileContent.concat("\n"));
+
+    DiffInfo diffInfo =
+        getDiffRequest(changeId, CURRENT, FILE_NAME)
+            .withWhitespace(DiffPreferencesInfo.Whitespace.IGNORE_NONE)
+            .withBase(previousPatchSetId)
+            .get();
+    assertThat(diffInfo).content().element(0).commonLines().isNotEmpty();
+    assertThat(diffInfo).content().element(1).isNotNull(); // Line 70 modification
+    assertThat(diffInfo).content().element(2).commonLines().isNotEmpty();
+    assertThat(diffInfo).content().element(3).linesOfA().containsExactly("Line 101");
+    assertThat(diffInfo).content().element(3).linesOfB().containsExactly("Line 101", "");
+
+    assertThat(diffInfo).metaA().totalLineCount().isEqualTo(101);
+    assertThat(diffInfo).metaB().totalLineCount().isEqualTo(102);
+  }
+
+  @Test
+  // TODO: Fix this issue. This test documents the current behavior and ensures that we at least
+  //  don't run into an internal server error.
+  public void addedNewlineAtEndOfFileIsNotIdentifiedAsDueToRebaseEvenThoughItShould()
+      throws Exception {
+    String baseFileContent = FILE_CONTENT.concat("Line 101");
+    ObjectId commit2 = addCommit(commit1, FILE_NAME, baseFileContent);
+    rebaseChangeOn(changeId, commit2);
+    // Add a comment so that file contents are not 'skipped'. To be able to add a comment, touch
+    // (= modify) the file in the change.
+    addModifiedPatchSet(
+        changeId, FILE_NAME, fileContent -> fileContent.replace("Line 2\n", "Line two\n"));
+    CommentInput comment = createCommentInput(3, 0, 4, 0, "Comment to not skip file content.");
+    addCommentTo(changeId, CURRENT, FILE_NAME, comment);
+    String previousPatchSetId = gApi.changes().id(changeId).get().currentRevision;
+    String newBaseFileContent = baseFileContent.concat("\n");
+    ObjectId commit3 = addCommit(commit2, FILE_NAME, newBaseFileContent);
+    rebaseChangeOn(changeId, commit3);
+
+    DiffInfo diffInfo =
+        getDiffRequest(changeId, CURRENT, FILE_NAME)
+            .withWhitespace(DiffPreferencesInfo.Whitespace.IGNORE_ALL)
+            .withBase(previousPatchSetId)
+            .get();
+    assertThat(diffInfo).content().element(0).commonLines().isNotEmpty();
+    assertThat(diffInfo).content().element(1).linesOfA().isNull();
+    assertThat(diffInfo).content().element(1).linesOfB().containsExactly("");
+    // This should actually be isDueToRebase().
+    assertThat(diffInfo).content().element(1).isNotDueToRebase();
+  }
+
+  @Test
+  public void
+      addedNewlineAtEndOfFileIsMarkedWhenEditDueToRebaseIncreasedLineCountAndWhitespaceConsidered()
+          throws Exception {
+    addModifiedPatchSet(changeId, FILE_NAME, fileContent -> fileContent.concat("Line 101"));
+    String previousPatchSetId = gApi.changes().id(changeId).get().currentRevision;
+    String newBaseFileContent = FILE_CONTENT.replace("Line 70\n", "Line 70\nLine 70.5\n");
+    ObjectId commit2 = addCommit(commit1, FILE_NAME, newBaseFileContent);
+    rebaseChangeOn(changeId, commit2);
+    addModifiedPatchSet(changeId, FILE_NAME, fileContent -> fileContent.concat("\n"));
+
+    DiffInfo diffInfo =
+        getDiffRequest(changeId, CURRENT, FILE_NAME)
+            .withWhitespace(DiffPreferencesInfo.Whitespace.IGNORE_NONE)
+            .withBase(previousPatchSetId)
+            .get();
+    assertThat(diffInfo).content().element(0).commonLines().isNotEmpty();
+    assertThat(diffInfo).content().element(1).isNotNull(); // Line 70.5 insertion
+    assertThat(diffInfo).content().element(2).commonLines().isNotEmpty();
+    assertThat(diffInfo).content().element(3).linesOfA().containsExactly("Line 101");
+    assertThat(diffInfo).content().element(3).linesOfB().containsExactly("Line 101", "");
+
+    assertThat(diffInfo).metaA().totalLineCount().isEqualTo(101);
+    assertThat(diffInfo).metaB().totalLineCount().isEqualTo(103);
+  }
+
+  @Test
+  // TODO: Fix this issue. This test documents the current behavior and ensures that we at least
+  //  don't run into an internal server error.
+  public void
+      addedNewlineAtEndOfFileIsNotMarkedWhenEditDueToRebaseIncreasedLineCountAndWhitespaceIgnoredEvenThoughItShould()
+          throws Exception {
+    addModifiedPatchSet(changeId, FILE_NAME, fileContent -> fileContent.concat("Line 101"));
+    String previousPatchSetId = gApi.changes().id(changeId).get().currentRevision;
+    String newBaseFileContent = FILE_CONTENT.replace("Line 70\n", "Line 70\nLine 70.5\n");
+    ObjectId commit2 = addCommit(commit1, FILE_NAME, newBaseFileContent);
+    rebaseChangeOn(changeId, commit2);
+    addModifiedPatchSet(changeId, FILE_NAME, fileContent -> fileContent.concat("\n"));
+
+    DiffInfo diffInfo =
+        getDiffRequest(changeId, CURRENT, FILE_NAME)
+            .withWhitespace(DiffPreferencesInfo.Whitespace.IGNORE_ALL)
+            .withBase(previousPatchSetId)
+            .get();
+    assertThat(diffInfo).content().element(0).numberOfSkippedLines().isGreaterThan(0);
   }
 
   @Test
@@ -2373,9 +2477,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
     addModifiedPatchSet(changeId, FILE_NAME, content -> content.replace("Line 2\n", "Line two\n"));
     String previousPatchSetId = gApi.changes().id(changeId).get().currentRevision;
     CommentInput comment = createCommentInput(2, 0, 3, 0, "Should be 'Line 2'.");
-    ReviewInput reviewInput = new ReviewInput();
-    reviewInput.comments = ImmutableMap.of(FILE_NAME, ImmutableList.of(comment));
-    gApi.changes().id(changeId).revision(previousPatchSetId).review(reviewInput);
+    addCommentTo(changeId, previousPatchSetId, FILE_NAME, comment);
     addModifiedPatchSet(
         changeId, FILE_NAME2, content -> content.replace("2nd line\n", "Second line\n"));
 
@@ -2383,6 +2485,112 @@ public class RevisionDiffIT extends AbstractDaemonTest {
         getDiffRequest(changeId, CURRENT, FILE_NAME)
             .withBase(previousPatchSetId)
             .withContext(DiffPreferencesInfo.WHOLE_FILE_CONTEXT)
+            .get();
+    // We don't list the full file contents here as that is not the focus of this test.
+    assertThat(diffInfo)
+        .content()
+        .element(0)
+        .commonLines()
+        .containsAtLeast("Line 1", "Line two", "Line 3", "Line 4", "Line 5")
+        .inOrder();
+  }
+
+  @Test
+  public void
+      diffOfFileWithOnlyRebaseHunksAndWithCommentAndConsideringWhitespaceReturnsFileContents()
+          throws Exception {
+    addModifiedPatchSet(changeId, FILE_NAME, content -> content.replace("Line 2\n", "Line two\n"));
+    String previousPatchSetId = gApi.changes().id(changeId).get().currentRevision;
+    String newBaseFileContent = FILE_CONTENT.replace("Line 70\n", "Line seventy\n");
+    ObjectId commit2 = addCommit(commit1, FILE_NAME, newBaseFileContent);
+    rebaseChangeOn(changeId, commit2);
+    CommentInput comment = createCommentInput(2, 0, 3, 0, "Should be 'Line 2'.");
+    addCommentTo(changeId, previousPatchSetId, FILE_NAME, comment);
+
+    DiffInfo diffInfo =
+        getDiffRequest(changeId, CURRENT, FILE_NAME)
+            .withBase(previousPatchSetId)
+            .withWhitespace(DiffPreferencesInfo.Whitespace.IGNORE_NONE)
+            .get();
+    // We don't list the full file contents here as that is not the focus of this test.
+    assertThat(diffInfo)
+        .content()
+        .element(0)
+        .commonLines()
+        .containsAtLeast("Line 1", "Line two", "Line 3", "Line 4", "Line 5")
+        .inOrder();
+  }
+
+  @Test
+  public void diffOfFileWithOnlyRebaseHunksAndWithCommentAndIgnoringWhitespaceReturnsFileContents()
+      throws Exception {
+    addModifiedPatchSet(changeId, FILE_NAME, content -> content.replace("Line 2\n", "Line two\n"));
+    String previousPatchSetId = gApi.changes().id(changeId).get().currentRevision;
+    String newBaseFileContent = FILE_CONTENT.replace("Line 70\n", "Line seventy\n");
+    ObjectId commit2 = addCommit(commit1, FILE_NAME, newBaseFileContent);
+    rebaseChangeOn(changeId, commit2);
+    CommentInput comment = createCommentInput(2, 0, 3, 0, "Should be 'Line 2'.");
+    addCommentTo(changeId, previousPatchSetId, FILE_NAME, comment);
+
+    DiffInfo diffInfo =
+        getDiffRequest(changeId, CURRENT, FILE_NAME)
+            .withBase(previousPatchSetId)
+            .withWhitespace(DiffPreferencesInfo.Whitespace.IGNORE_ALL)
+            .get();
+    // We don't list the full file contents here as that is not the focus of this test.
+    assertThat(diffInfo)
+        .content()
+        .element(0)
+        .commonLines()
+        .containsAtLeast("Line 1", "Line two", "Line 3", "Line 4", "Line 5")
+        .inOrder();
+  }
+
+  @Test
+  public void
+      diffOfFileWithMultilineRebaseHunkAddingNewlineAtEndOfFileAndWithCommentReturnsFileContents()
+          throws Exception {
+    String baseFileContent = FILE_CONTENT.concat("Line 101");
+    ObjectId commit2 = addCommit(commit1, FILE_NAME, baseFileContent);
+    rebaseChangeOn(changeId, commit2);
+    addModifiedPatchSet(changeId, FILE_NAME, content -> content.replace("Line 2\n", "Line two\n"));
+    String previousPatchSetId = gApi.changes().id(changeId).get().currentRevision;
+    String newBaseFileContent = baseFileContent.concat("\nLine 102\nLine 103\n");
+    ObjectId commit3 = addCommit(commit2, FILE_NAME, newBaseFileContent);
+    rebaseChangeOn(changeId, commit3);
+    CommentInput comment = createCommentInput(2, 0, 3, 0, "Should be 'Line 2'.");
+    addCommentTo(changeId, previousPatchSetId, FILE_NAME, comment);
+
+    DiffInfo diffInfo =
+        getDiffRequest(changeId, CURRENT, FILE_NAME)
+            .withBase(previousPatchSetId)
+            .withWhitespace(DiffPreferencesInfo.Whitespace.IGNORE_NONE)
+            .get();
+    // We don't list the full file contents here as that is not the focus of this test.
+    assertThat(diffInfo)
+        .content()
+        .element(0)
+        .commonLines()
+        .containsAtLeast("Line 1", "Line two", "Line 3", "Line 4", "Line 5")
+        .inOrder();
+  }
+
+  @Test
+  public void
+      diffOfFileWithMultilineRebaseHunkRemovingNewlineAtEndOfFileAndWithCommentReturnsFileContents()
+          throws Exception {
+    addModifiedPatchSet(changeId, FILE_NAME, content -> content.replace("Line 2\n", "Line two\n"));
+    String previousPatchSetId = gApi.changes().id(changeId).get().currentRevision;
+    String newBaseFileContent = FILE_CONTENT.concat("Line 101\nLine 103\nLine 104");
+    ObjectId commit2 = addCommit(commit1, FILE_NAME, newBaseFileContent);
+    rebaseChangeOn(changeId, commit2);
+    CommentInput comment = createCommentInput(2, 0, 3, 0, "Should be 'Line 2'.");
+    addCommentTo(changeId, previousPatchSetId, FILE_NAME, comment);
+
+    DiffInfo diffInfo =
+        getDiffRequest(changeId, CURRENT, FILE_NAME)
+            .withBase(previousPatchSetId)
+            .withWhitespace(DiffPreferencesInfo.Whitespace.IGNORE_NONE)
             .get();
     // We don't list the full file contents here as that is not the focus of this test.
     assertThat(diffInfo)
@@ -2403,6 +2611,44 @@ public class RevisionDiffIT extends AbstractDaemonTest {
             .withContext(DiffPreferencesInfo.WHOLE_FILE_CONTEXT)
             .get();
     assertThat(diffInfo).content().isEmpty();
+  }
+
+  // This behavior is likely a bug. A fix might not be easy as it might break syntax highlighting.
+  // TODO: Fix this issue or remove the broken parameter (at least in the documentation).
+  @Test
+  public void contextParameterIsIgnored() throws Exception {
+    addModifiedPatchSet(
+        changeId, FILE_NAME, content -> content.replace("Line 20\n", "Line twenty\n"));
+
+    DiffInfo diffInfo =
+        getDiffRequest(changeId, CURRENT, FILE_NAME)
+            .withBase(initialPatchSetId)
+            .withContext(5)
+            .get();
+    assertThat(diffInfo).content().element(0).commonLines().hasSize(19);
+    assertThat(diffInfo).content().element(1).linesOfA().containsExactly("Line 20");
+    assertThat(diffInfo).content().element(1).linesOfB().containsExactly("Line twenty");
+    assertThat(diffInfo).content().element(2).commonLines().hasSize(81);
+  }
+
+  // This behavior is likely a bug. A fix might not be easy as it might break syntax highlighting.
+  // TODO: Fix this issue or remove the broken parameter (at least in the documentation).
+  @Test
+  public void contextParameterIsIgnoredForUnmodifiedFileWithComment() throws Exception {
+    addModifiedPatchSet(
+        changeId, FILE_NAME, content -> content.replace("Line 20\n", "Line twenty\n"));
+    String previousPatchSetId = gApi.changes().id(changeId).get().currentRevision;
+    CommentInput comment = createCommentInput(20, 0, 21, 0, "Should be 'Line 20'.");
+    addCommentTo(changeId, previousPatchSetId, FILE_NAME, comment);
+    addModifiedPatchSet(
+        changeId, FILE_NAME2, content -> content.replace("2nd line\n", "Second line\n"));
+
+    DiffInfo diffInfo =
+        getDiffRequest(changeId, CURRENT, FILE_NAME)
+            .withBase(previousPatchSetId)
+            .withContext(5)
+            .get();
+    assertThat(diffInfo).content().element(0).commonLines().hasSize(101);
   }
 
   @Test
@@ -2435,9 +2681,7 @@ public class RevisionDiffIT extends AbstractDaemonTest {
     addModifiedPatchSet(changeId, FILE_NAME, content -> content.replace("Line 2\n", "Line two\n"));
     String previousPatchSetId = gApi.changes().id(changeId).get().currentRevision;
     CommentInput comment = createCommentInput(2, 0, 3, 0, "Should be 'Line 2'.");
-    ReviewInput reviewInput = new ReviewInput();
-    reviewInput.comments = ImmutableMap.of(FILE_NAME, ImmutableList.of(comment));
-    gApi.changes().id(changeId).revision(previousPatchSetId).review(reviewInput);
+    addCommentTo(changeId, previousPatchSetId, FILE_NAME, comment);
     String newFilePath = "a_new_file.txt";
     gApi.changes().id(changeId).edit().renameFile(FILE_NAME, newFilePath);
     gApi.changes().id(changeId).edit().publish();
@@ -2464,6 +2708,14 @@ public class RevisionDiffIT extends AbstractDaemonTest {
     comment.range.endCharacter = endCharacter;
     comment.message = message;
     return comment;
+  }
+
+  private void addCommentTo(
+      String changeId, String previousPatchSetId, String fileName, CommentInput comment)
+      throws RestApiException {
+    ReviewInput reviewInput = new ReviewInput();
+    reviewInput.comments = ImmutableMap.of(fileName, ImmutableList.of(comment));
+    gApi.changes().id(changeId).revision(previousPatchSetId).review(reviewInput);
   }
 
   private void assertDiffForNewFile(

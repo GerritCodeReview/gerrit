@@ -242,8 +242,13 @@
     },
 
     _updateSuggestions(text, threshold, noDebounce) {
+      // Polymer 2: check for undefined
+      if ([text, threshold, noDebounce].some(arg => arg === undefined)) {
+        return;
+      }
+
       if (this._disableSuggestions) { return; }
-      if (text === undefined || text.length < threshold) {
+      if (text.length < threshold) {
         this._suggestions = [];
         this.value = '';
         return;

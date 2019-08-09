@@ -742,6 +742,15 @@
     _whitespaceChanged(
         preferredWhitespaceLevel, loadedWhitespaceLevel,
         noRenderOnPrefsChange) {
+      // Polymer 2: check for undefined
+      if ([
+        preferredWhitespaceLevel,
+        loadedWhitespaceLevel,
+        noRenderOnPrefsChange,
+      ].some(arg => arg === undefined)) {
+        return;
+      }
+
       if (preferredWhitespaceLevel !== loadedWhitespaceLevel &&
           !noRenderOnPrefsChange) {
         this.reload();

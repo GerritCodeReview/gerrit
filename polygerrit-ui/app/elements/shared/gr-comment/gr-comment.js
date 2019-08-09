@@ -211,6 +211,11 @@
     },
 
     _calculateActionstoShow(showActions, isRobotComment) {
+      // Polymer 2: check for undefined
+      if ([showActions, isRobotComment].some(arg => arg === undefined)) {
+        return;
+      }
+
       this._showHumanActions = showActions && !isRobotComment;
       this._showRobotActions = showActions && isRobotComment;
     },
@@ -601,6 +606,11 @@
     },
 
     _loadLocalDraft(changeNum, patchNum, comment) {
+      // Polymer 2: check for undefined
+      if ([changeNum, patchNum, comment].some(arg => arg === undefined)) {
+        return;
+      }
+
       // Only apply local drafts to comments that haven't been saved
       // remotely, and haven't been given a default message already.
       //

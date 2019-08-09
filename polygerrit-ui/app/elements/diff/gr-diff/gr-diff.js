@@ -297,6 +297,11 @@
     },
 
     _enableSelectionObserver(loggedIn, isAttached) {
+      // Polymer 2: check for undefined
+      if ([loggedIn, isAttached].some(arg => arg === undefined)) {
+        return;
+      }
+
       if (loggedIn && isAttached) {
         this.listen(document, 'selectionchange', '_handleSelectionChange');
         this.listen(document, 'mouseup', '_handleMouseUp');

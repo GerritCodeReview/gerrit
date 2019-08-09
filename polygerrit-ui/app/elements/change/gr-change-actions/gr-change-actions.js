@@ -590,6 +590,15 @@
 
     _actionsChanged(actionsChangeRecord, revisionActionsChangeRecord,
         additionalActionsChangeRecord) {
+      // Polymer 2: check for undefined
+      if ([
+        actionsChangeRecord,
+        revisionActionsChangeRecord,
+        additionalActionsChangeRecord,
+      ].some(arg => arg === undefined)) {
+        return;
+      }
+
       const additionalActions = (additionalActionsChangeRecord &&
           additionalActionsChangeRecord.base) || [];
       this.hidden = this._keyCount(actionsChangeRecord) === 0 &&
@@ -620,6 +629,15 @@
 
     _editStatusChanged(editMode, editPatchsetLoaded,
         editBasedOnCurrentPatchSet, disableEdit) {
+      // Polymer 2: check for undefined
+      if ([
+        editMode,
+        editBasedOnCurrentPatchSet,
+        disableEdit,
+      ].some(arg => arg === undefined)) {
+        return;
+      }
+
       if (disableEdit) {
         this._deleteAndNotify('publishEdit');
         this._deleteAndNotify('rebaseEdit');
@@ -1344,6 +1362,17 @@
      */
     _computeAllActions(changeActionsRecord, revisionActionsRecord,
         primariesRecord, additionalActionsRecord, change) {
+      // Polymer 2: check for undefined
+      if ([
+        changeActionsRecord,
+        revisionActionsRecord,
+        primariesRecord,
+        additionalActionsRecord,
+        change,
+      ].some(arg => arg === undefined)) {
+        return [];
+      }
+
       const revisionActionValues = this._getActionValues(revisionActionsRecord,
           primariesRecord, additionalActionsRecord, ActionType.REVISION);
       const changeActionValues = this._getActionValues(changeActionsRecord,

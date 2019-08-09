@@ -60,6 +60,15 @@
     ],
 
     _computeMessage(changeStatus, commitNum, commitMessage) {
+      // Polymer 2: check for undefined
+      if ([
+        changeStatus,
+        commitNum,
+        commitMessage,
+      ].some(arg => arg === undefined)) {
+        return;
+      }
+
       let newMessage = commitMessage;
 
       if (changeStatus === 'MERGED') {

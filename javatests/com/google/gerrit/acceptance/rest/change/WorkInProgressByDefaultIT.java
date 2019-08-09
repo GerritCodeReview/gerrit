@@ -22,12 +22,16 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
+import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.extensions.api.projects.ConfigInput;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeInput;
+import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.inject.Inject;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
@@ -37,6 +41,7 @@ import org.junit.Test;
 
 public class WorkInProgressByDefaultIT extends AbstractDaemonTest {
   @Inject private ProjectOperations projectOperations;
+  @Inject private RequestScopeOperations requestScopeOperations;
 
   @Test
   public void createChangeWithWorkInProgressByDefaultForProjectDisabled() throws Exception {
@@ -175,6 +180,14 @@ public class WorkInProgressByDefaultIT extends AbstractDaemonTest {
 
     setWorkInProgressByDefaultForUser();
 
+    // Clone the repo again. The test connection keeps an AccountState internally, so we need to
+    // create a new connection after changing account properties.
+    PatchSet.Id ps1OfChange1 =
+        PatchSet.id(Change.id(gApi.changes().id(changeId1).get()._number), 1);
+    testRepo = cloneProject(project);
+    testRepo.git().fetch().setRefSpecs(RefNames.patchSetRef(ps1OfChange1) + ":c1").call();
+    testRepo.reset("c1");
+
     // Create a new patch set on the existing change and in the same push create a new successor
     // change.
     RevCommit commit1b = testRepo.amend(commit1a).create();
@@ -199,9 +212,12 @@ public class WorkInProgressByDefaultIT extends AbstractDaemonTest {
   }
 
   private void setWorkInProgressByDefaultForUser() throws Exception {
-    GeneralPreferencesInfo prefs = gApi.accounts().id(admin.id().get()).getPreferences();
+    GeneralPreferencesInfo prefs = new GeneralPreferencesInfo();
     prefs.workInProgressByDefault = true;
     gApi.accounts().id(admin.id().get()).setPreferences(prefs);
+    // Generate a new API scope. User preferences are stored in IdentifiedUser, so we need to flush
+    // that entity.
+    requestScopeOperations.setApiUser(admin.id());
   }
 
   private PushOneCommit.Result createChange(Project.NameKey p) throws Exception {

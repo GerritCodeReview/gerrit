@@ -131,9 +131,9 @@ public class AccountState {
   private final ImmutableSet<ExternalId> externalIds;
   private final Optional<String> userName;
   private final ImmutableMap<ProjectWatchKey, ImmutableSet<NotifyType>> projectWatches;
-  private final GeneralPreferencesInfo generalPreferences;
-  private final DiffPreferencesInfo diffPreferences;
-  private final EditPreferencesInfo editPreferences;
+  private final Preferences.General generalPreferences;
+  private final Preferences.Diff diffPreferences;
+  private final Preferences.Edit editPreferences;
 
   private AccountState(
       Account account,
@@ -146,9 +146,9 @@ public class AccountState {
     this.externalIds = externalIds;
     this.userName = ExternalId.getUserName(externalIds);
     this.projectWatches = projectWatches;
-    this.generalPreferences = generalPreferences;
-    this.diffPreferences = diffPreferences;
-    this.editPreferences = editPreferences;
+    this.generalPreferences = Preferences.General.fromInfo(generalPreferences);
+    this.diffPreferences = Preferences.Diff.fromInfo(diffPreferences);
+    this.editPreferences = Preferences.Edit.fromInfo(editPreferences);
   }
 
   /** Get the cached account metadata. */
@@ -180,17 +180,17 @@ public class AccountState {
 
   /** The general preferences of the account. */
   public GeneralPreferencesInfo getGeneralPreferences() {
-    return generalPreferences;
+    return generalPreferences.toInfo();
   }
 
   /** The diff preferences of the account. */
   public DiffPreferencesInfo getDiffPreferences() {
-    return diffPreferences;
+    return diffPreferences.toInfo();
   }
 
   /** The edit preferences of the account. */
   public EditPreferencesInfo getEditPreferences() {
-    return editPreferences;
+    return editPreferences.toInfo();
   }
 
   @Override

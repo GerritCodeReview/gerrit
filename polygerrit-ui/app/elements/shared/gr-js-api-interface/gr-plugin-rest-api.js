@@ -42,6 +42,23 @@
     getRestApi().invalidateReposCache();
   };
 
+  GrPluginRestApi.prototype.getAccount = function() {
+    return getRestApi().getAccount();
+  };
+
+  GrPluginRestApi.prototype.getAccountCapabilities = function(capabilities) {
+    return getRestApi().getAccountCapabilities(capabilities);
+  };
+
+  GrPluginRestApi.prototype.fetchJSON = function(req) {
+    return getRestApi()._fetchJSON(req);
+  };
+
+  GrPluginRestApi.prototype.getRepos =
+    function(filter, REPOS_PER_PAGE, opt_offset) {
+      return getRestApi().getRepos(filter, REPOS_PER_PAGE, opt_offset);
+    };
+
   /**
    * Fetch and return native browser REST API Response.
    * @param {string} method HTTP Method (GET, POST, etc)

@@ -71,6 +71,30 @@
     },
     {
       "key": {
+        "uuid": "2868703c_f9ec1402",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ListChangeDrafts.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-08-09T09:58:26Z",
+      "side": 1,
+      "message": "It\u0027s overridden in the other class and returns false there.",
+      "parentUuid": "a275d010_7f80bc4c",
+      "range": {
+        "startLine": 78,
+        "startChar": 8,
+        "endLine": 78,
+        "endChar": 35
+      },
+      "revId": "cd60516889e361bead9a8a8d2d8eb013e4581229",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3ef4f9d8_76654155",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ListChangeDrafts.java",
         "patchSetId": 4

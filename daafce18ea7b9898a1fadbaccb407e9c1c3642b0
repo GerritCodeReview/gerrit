@@ -42,6 +42,30 @@
     },
     {
       "key": {
+        "uuid": "cd162b18_5fc6fdef",
+        "filename": "Documentation/config-labels.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1025883
+      },
+      "writtenOn": "2019-08-09T21:50:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "860fc35e_6a74f073",
+      "range": {
+        "startLine": 223,
+        "startChar": 44,
+        "endLine": 223,
+        "endChar": 68
+      },
+      "revId": "daafce18ea7b9898a1fadbaccb407e9c1c3642b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4abdb7ed_ca84d7a3",
         "filename": "javatests/com/google/gerrit/common/data/NegCanBlockLabelFunctionTest.java",
         "patchSetId": 6
@@ -56,6 +80,24 @@
       "revId": "daafce18ea7b9898a1fadbaccb407e9c1c3642b0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d1590242_3858ae6d",
+        "filename": "javatests/com/google/gerrit/common/data/NegCanBlockLabelFunctionTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025883
+      },
+      "writtenOn": "2019-08-09T21:50:26Z",
+      "side": 1,
+      "message": "Originally did try adding to LabelFunctionTest.java. But in order to support the parameterized test looks like I need a standalone class. To make this parameterized test case, I followed a pattern in which the constructor on the test class accepts the parameters. Not clear to me that can be combined with the other class.\n\nMy practice with Java is a bit low. If you still think these should be combined and can provide a hint as to how to implement the parameterized test in a single, combined test class, I\u0027d be happy to accommodate.",
+      "parentUuid": "4abdb7ed_ca84d7a3",
+      "revId": "daafce18ea7b9898a1fadbaccb407e9c1c3642b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d548e114_47e7f34d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-08-09T14:06:28Z",
+      "side": 1,
+      "message": "Highlight",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 8
+      },
+      "revId": "6e9916492191acd3416e6601da41ccd6a7aa79c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

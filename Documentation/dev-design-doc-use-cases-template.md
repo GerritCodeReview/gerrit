@@ -1,3 +1,13 @@
+---
+title: "Design Doc - ${title} - Use Cases"
+sidebar: gerritdoc_sidebar
+permalink: design-doc-${folder-name}-use-cases.html
+hide_sidebar: true
+hide_navtoggle: true
+toc: false
+folder: design-docs/${folder-name}
+---
+
 # Use Cases
 
 In a few sentences, describe the use-cases as interactions between a

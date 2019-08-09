@@ -1,3 +1,13 @@
+---
+title: "Design Doc - ${title} - Conclusion"
+sidebar: gerritdoc_sidebar
+permalink: design-doc-${folder-name}-conclusion.html
+hide_sidebar: true
+hide_navtoggle: true
+toc: false
+folder: design-docs/${folder-name}
+---
+
 # Conclusion
 
 Describe which decision was made and what were the reasons for it.

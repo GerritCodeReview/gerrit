@@ -1,3 +1,13 @@
+---
+title: "Design Doc - ${title} - Solution - ${solution-name}"
+sidebar: gerritdoc_sidebar
+permalink: design-doc-${folder-name}-solution-${solution-name}.html
+hide_sidebar: true
+hide_navtoggle: true
+toc: false
+folder: design-docs/${folder-name}
+---
+
 # Solution - ${solution-name}
 
 ## <a id="overview"> Overview

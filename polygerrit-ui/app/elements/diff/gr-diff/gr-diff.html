@@ -131,8 +131,8 @@ limitations under the License.
         width: var(--content-width, 80ch);
       }
       .content.add .intraline,
-      /* If there are no intraline changes, consider everything changed */
-      .content.add.no-highlights,
+      /* If there are no intraline info, consider everything changed */
+      .content.add.no-intraline-info,
       .delta.total .content.add {
         background-color: var(--dark-add-highlight-color);
       }
@@ -140,8 +140,8 @@ limitations under the License.
         background-color: var(--light-add-highlight-color);
       }
       .content.remove .intraline,
-      /* If there are no intraline changes, consider everything changed */
-      .content.remove.no-highlights,
+      /* If there are no intraline info, consider everything changed */
+      .content.remove.no-intraline-info,
       .delta.total .content.remove {
         background-color: var(--dark-remove-highlight-color);
       }

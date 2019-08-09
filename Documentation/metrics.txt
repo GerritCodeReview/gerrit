@@ -57,6 +57,11 @@ objects needing finalization.
 * `caches/disk_cached`: Disk entries used by persistent cache.
 * `caches/disk_hit_ratio`: Disk hit ratio for persistent cache.
 
+=== Change
+
+* `change/submit_rule_evaluation`: Latency for evaluating submit rules on a change.
+* `change/submit_type_evaluation`: Latency for evaluating the submit type on a change.
+
 === HTTP
 
 * `http/server/error_count`: Rate of REST API error responses.

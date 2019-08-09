@@ -1252,7 +1252,7 @@ bower_archive(
     name = "page",
     package = "visionmedia/page.js",
     sha1 = "51a05428dd4f68fae1df5f12d0e2b61ba67f7757",
-    version = "1.7.1",
+    version = "1.11.4",
 )
 
 bower_archive(

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e5c75728_7d082d95",
+        "filename": "java/com/google/gerrit/server/account/AccountState.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-08-09T07:45:29Z",
+      "side": 1,
+      "message": "nit: add a blank line between the method declarations.  Below too.",
+      "revId": "b8884df4d1b75810b0f6c6f5f07ecb0f43fab1c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

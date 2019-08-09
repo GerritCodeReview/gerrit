@@ -425,5 +425,9 @@
     _computeShowSearchIconClass(showSearchIcon) {
       return showSearchIcon ? 'showSearchIcon' : '';
     },
+
+    _isPolymer2() {
+      return window.POLYMER2;
+    },
   });
 })();

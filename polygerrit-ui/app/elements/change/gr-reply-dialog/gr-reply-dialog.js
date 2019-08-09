@@ -331,17 +331,15 @@
         let account;
         // Remove any accounts that already exist as a CC.
         for (const splice of splices.indexSplices) {
-          for (const addedKey of splice.addedKeys) {
-            account = this.get(`_reviewers.${addedKey}`);
-            key = this._accountOrGroupKey(account);
-            index = this._ccs.findIndex(
-                account => this._accountOrGroupKey(account) === key);
-            if (index >= 0) {
-              this.splice('_ccs', index, 1);
-              const message = (account.name || account.email || key) +
-                  ' moved from CC to reviewer.';
-              this.fire('show-alert', {message});
-            }
+          account = splice.object[splice.index];
+          key = this._accountOrGroupKey(account);
+          index = this._ccs.findIndex(
+              account => this._accountOrGroupKey(account) === key);
+          if (index >= 0) {
+            this.splice('_ccs', index, 1);
+            const message = (account.name || account.email || key) +
+                ' moved from CC to reviewer.';
+            this.fire('show-alert', {message});
           }
         }
       }

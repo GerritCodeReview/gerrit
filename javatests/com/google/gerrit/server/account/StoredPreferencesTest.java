@@ -25,7 +25,7 @@ import org.junit.Test;
 import org.mockito.Mockito;
 
 /** Tests for parsing user preferences from Git. */
-public class PreferencesTest {
+public class StoredPreferencesTest {
 
   enum Unknown {
     STATE
@@ -34,8 +34,8 @@ public class PreferencesTest {
   @Test
   public void ignoreUnknownAccountPreferencesWhenParsing() {
     ValidationError.Sink errorSink = Mockito.mock(ValidationError.Sink.class);
-    Preferences preferences =
-        new Preferences(Account.id(1), configWithUnknownEntries(), new Config(), errorSink);
+    StoredPreferences preferences =
+        new StoredPreferences(Account.id(1), configWithUnknownEntries(), new Config(), errorSink);
     GeneralPreferencesInfo parsedPreferences = preferences.getGeneralPreferences();
 
     assertThat(parsedPreferences).isNotNull();
@@ -46,8 +46,8 @@ public class PreferencesTest {
   @Test
   public void ignoreUnknownDefaultAccountPreferencesWhenParsing() {
     ValidationError.Sink errorSink = Mockito.mock(ValidationError.Sink.class);
-    Preferences preferences =
-        new Preferences(Account.id(1), new Config(), configWithUnknownEntries(), errorSink);
+    StoredPreferences preferences =
+        new StoredPreferences(Account.id(1), new Config(), configWithUnknownEntries(), errorSink);
     GeneralPreferencesInfo parsedPreferences = preferences.getGeneralPreferences();
 
     assertThat(parsedPreferences).isNotNull();

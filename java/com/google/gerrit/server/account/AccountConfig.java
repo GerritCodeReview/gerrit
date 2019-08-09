@@ -68,7 +68,7 @@ import org.eclipse.jgit.revwalk.RevSort;
  *   <li>'account.config': Contains the account properties. Parsing and writing it is delegated to
  *       {@link AccountProperties}.
  *   <li>'preferences.config': Contains the preferences. Parsing and writing it is delegated to
- *       {@link Preferences}.
+ *       {@link StoredPreferences}.
  *   <li>'account.config': Contains the project watches. Parsing and writing it is delegated to
  *       {@link ProjectWatches}.
  * </ul>
@@ -85,7 +85,7 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
   private Optional<AccountProperties> loadedAccountProperties;
   private Optional<ObjectId> externalIdsRev;
   private ProjectWatches projectWatches;
-  private Preferences preferences;
+  private StoredPreferences preferences;
   private Optional<InternalAccountUpdate> accountUpdate = Optional.empty();
   private List<ValidationError> validationErrors;
 
@@ -242,10 +242,10 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
       projectWatches = new ProjectWatches(accountId, readConfig(ProjectWatches.WATCH_CONFIG), this);
 
       preferences =
-          new Preferences(
+          new StoredPreferences(
               accountId,
-              readConfig(Preferences.PREFERENCES_CONFIG),
-              Preferences.readDefaultConfig(allUsersName, repo),
+              readConfig(StoredPreferences.PREFERENCES_CONFIG),
+              StoredPreferences.readDefaultConfig(allUsersName, repo),
               this);
 
       projectWatches.parse();
@@ -256,8 +256,11 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
       projectWatches = new ProjectWatches(accountId, new Config(), this);
 
       preferences =
-          new Preferences(
-              accountId, new Config(), Preferences.readDefaultConfig(allUsersName, repo), this);
+          new StoredPreferences(
+              accountId,
+              new Config(),
+              StoredPreferences.readDefaultConfig(allUsersName, repo),
+              this);
     }
 
     Ref externalIdsRef = repo.exactRef(RefNames.REFS_EXTERNAL_IDS);
@@ -331,7 +334,7 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
     }
 
     saveConfig(
-        Preferences.PREFERENCES_CONFIG,
+        StoredPreferences.PREFERENCES_CONFIG,
         preferences.saveGeneralPreferences(
             accountUpdate.get().getGeneralPreferences(),
             accountUpdate.get().getDiffPreferences(),

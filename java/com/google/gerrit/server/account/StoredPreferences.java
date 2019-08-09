@@ -82,7 +82,7 @@ import org.eclipse.jgit.lib.Repository;
  *
  * <p>The preferences are lazily parsed.
  */
-public class Preferences {
+public class StoredPreferences {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public static final String PREFERENCES_CONFIG = "preferences.config";
@@ -96,7 +96,7 @@ public class Preferences {
   private DiffPreferencesInfo diffPreferences;
   private EditPreferencesInfo editPreferences;
 
-  Preferences(
+  StoredPreferences(
       Account.Id accountId,
       Config cfg,
       Config defaultCfg,

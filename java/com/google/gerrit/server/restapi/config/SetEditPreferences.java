@@ -24,7 +24,7 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.account.AccountCache;
-import com.google.gerrit.server.account.Preferences;
+import com.google.gerrit.server.account.StoredPreferences;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.ConfigResource;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
@@ -66,7 +66,7 @@ public class SetEditPreferences implements RestModifyView<ConfigResource, EditPr
     }
 
     try (MetaDataUpdate md = metaDataUpdateFactory.get().create(allUsersName)) {
-      EditPreferencesInfo updatedPrefs = Preferences.updateDefaultEditPreferences(md, input);
+      EditPreferencesInfo updatedPrefs = StoredPreferences.updateDefaultEditPreferences(md, input);
       accountCache.evictAll();
       return Response.ok(updatedPrefs);
     }

@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1eb3d484_4dc64664",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2019-08-09T20:08:42Z",
+      "side": 1,
+      "message": "Can you explain the use case for this new function? Maybe include why it can\u0027t or shouldn\u0027t be done with prolog rules?",
+      "revId": "daafce18ea7b9898a1fadbaccb407e9c1c3642b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "860fc35e_6a74f073",
+        "filename": "Documentation/config-labels.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2019-08-09T20:08:42Z",
+      "side": 1,
+      "message": "This phrasing had me very confused until I reviewed the other files. I think you mean a (lowest negative + 1) vote not (a lowest negative [vote]) (plus one vote). i.e. you\u0027re mentioning only 1 vote, not 2 votes. I read \u0027plus\u0027 as, \"in addition to\", not literal math. Can you make that clearer?\n\nI think the behavior is:\n\n* max negative blocks\n* max positive allows unless max negative\n* non-max negative blocks unless max positive\n* no vote allows\n\nDid I get that right?",
+      "range": {
+        "startLine": 223,
+        "startChar": 44,
+        "endLine": 223,
+        "endChar": 68
+      },
+      "revId": "daafce18ea7b9898a1fadbaccb407e9c1c3642b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4abdb7ed_ca84d7a3",
+        "filename": "javatests/com/google/gerrit/common/data/NegCanBlockLabelFunctionTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2019-08-09T20:08:42Z",
+      "side": 1,
+      "message": "Combine with javatests/com/google/gerrit/common/data/LabelFunctionTest.java ? This looks mostly copied from there.",
+      "revId": "daafce18ea7b9898a1fadbaccb407e9c1c3642b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5303c25e_b8056e97",
+        "filename": "prolog/gerrit_common.pl",
+        "patchSetId": 6
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2019-08-09T20:08:42Z",
+      "side": 1,
+      "message": "-2 might not be the max negative. +2 might not be the max positive. Probably better not to use those numbers here.",
+      "range": {
+        "startLine": 248,
+        "startChar": 7,
+        "endLine": 248,
+        "endChar": 14
+      },
+      "revId": "daafce18ea7b9898a1fadbaccb407e9c1c3642b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

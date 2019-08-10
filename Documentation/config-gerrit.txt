@@ -2089,6 +2089,13 @@ Path prefix for PolyGerrit's static resources if using a CDN.
 Path for PolyGerrit's favicon after link:#gerrit.canonicalWebUrl[default URL],
 including icon name and extension (.ico should be used).
 
+[[gerrit.faviconDataUri]]gerrit.faviconDataUri::
++
+data URI for the favicon; eg data:imagepng;base64,<bas64data>=. This value will override faviconPath.
+
++
+By default the value is null and will fall back to the faviconPath.
+
 
 [[gerrit.instanceName]]gerrit.instanceName::
 +

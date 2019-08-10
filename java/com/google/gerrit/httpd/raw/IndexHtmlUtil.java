@@ -49,13 +49,19 @@ public class IndexHtmlUtil {
       String canonicalURL,
       String cdnPath,
       String faviconPath,
+      String faviconDataUri,
       Map<String, String[]> urlParameterMap,
       Function<String, SanitizedContent> urlInScriptTagOrdainer)
       throws URISyntaxException, RestApiException {
     return ImmutableMap.<String, Object>builder()
         .putAll(
             staticTemplateData(
-                canonicalURL, cdnPath, faviconPath, urlParameterMap, urlInScriptTagOrdainer))
+                canonicalURL,
+                cdnPath,
+                faviconPath,
+                faviconDataUri,
+                urlParameterMap,
+                urlInScriptTagOrdainer))
         .putAll(dynamicTemplateData(gerritApi))
         .build();
   }
@@ -97,6 +103,7 @@ public class IndexHtmlUtil {
       String canonicalURL,
       String cdnPath,
       String faviconPath,
+      String faviconDataUri,
       Map<String, String[]> urlParameterMap,
       Function<String, SanitizedContent> urlInScriptTagOrdainer)
       throws URISyntaxException {
@@ -119,6 +126,10 @@ public class IndexHtmlUtil {
     }
     if (faviconPath != null) {
       data.put("faviconPath", faviconPath);
+    }
+    if (faviconDataUri != null) {
+      SanitizedContent sanitizedFaviconDataUri = urlInScriptTagOrdainer.apply(faviconDataUri);
+      data.put("faviconDataUri", sanitizedFaviconDataUri);
     }
     if (urlParameterMap.containsKey("p2")) {
       data.put("polymer2", "true");

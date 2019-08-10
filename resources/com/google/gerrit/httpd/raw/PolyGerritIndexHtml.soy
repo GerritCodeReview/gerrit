@@ -22,7 +22,8 @@
   {@param gerritInitialData: /** {string} map of REST endpoint to response for startup. */ ?}
   {@param? assetsPath: ?}  /** {string} URL to static assets root, if served from CDN. */
   {@param? assetsBundle: ?}  /** {string} Assets bundle .html file, served from $assetsPath. */
-  {@param? faviconPath: ?}
+  {@param? faviconPath : ?}  /** {string} favicon file relative to $cannonicalPath */
+  {@param? faviconDataUri : ?}  /** {string} data URI for the favicon; eg data:imagepng;base64,<bas64data>= */
   {@param? versionInfo: ?}
   {@param? polymer2: ?}
   {@param? polyfillCE: ?}
@@ -65,7 +66,11 @@
   {if $faviconPath}
     <link rel="icon" type="image/x-icon" href="{$canonicalPath}/{$faviconPath}">{\n}
   {else}
-    <link rel="icon" type="image/x-icon" href="{$canonicalPath}/favicon.ico">{\n}
+    {if $faviconDataUri}
+      <link rel="icon" type="image/x-icon" href="{$faviconDataUri}">{\n}
+    {else}
+      <link rel="icon" type="image/x-icon" href="{$canonicalPath}/favicon.ico">{\n}
+    {/if}
   {/if}
 
   // RobotoMono fonts are used in styles/fonts.css

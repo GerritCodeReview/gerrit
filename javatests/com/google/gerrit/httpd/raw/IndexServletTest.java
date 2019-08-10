@@ -55,8 +55,10 @@ public class IndexServletTest {
     String testCanonicalUrl = "foo-url";
     String testCdnPath = "bar-cdn";
     String testFaviconURL = "zaz-url";
+    String testFaviconDataUri = null;
     IndexServlet servlet =
-        new IndexServlet(testCanonicalUrl, testCdnPath, testFaviconURL, gerritApi);
+        new IndexServlet(
+            testCanonicalUrl, testCdnPath, testFaviconURL, testFaviconDataUri, gerritApi);
 
     FakeHttpServletResponse response = new FakeHttpServletResponse();
 

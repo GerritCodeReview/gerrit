@@ -31,6 +31,7 @@ public class IndexHtmlUtilTest {
                 "http://example.com/",
                 null,
                 null,
+                null,
                 ImmutableMap.of("p2", new String[0]),
                 IndexHtmlUtilTest::ordain))
         .containsExactly("canonicalPath", "", "polymer2", "true", "staticResourcePath", ordain(""));
@@ -40,7 +41,12 @@ public class IndexHtmlUtilTest {
   public void noPathAndNoCDN() throws Exception {
     assertThat(
             staticTemplateData(
-                "http://example.com/", null, null, new HashMap<>(), IndexHtmlUtilTest::ordain))
+                "http://example.com/",
+                null,
+                null,
+                null,
+                new HashMap<>(),
+                IndexHtmlUtilTest::ordain))
         .containsExactly("canonicalPath", "", "staticResourcePath", ordain(""));
   }
 
@@ -51,7 +57,8 @@ public class IndexHtmlUtilTest {
                 "http://example.com/gerrit/",
                 null,
                 null,
-                new HashMap<>(),
+                null,
+                ImmutableMap.of("p2", new String[0]),
                 IndexHtmlUtilTest::ordain))
         .containsExactly("canonicalPath", "/gerrit", "staticResourcePath", ordain("/gerrit"));
   }
@@ -62,6 +69,7 @@ public class IndexHtmlUtilTest {
             staticTemplateData(
                 "http://example.com/",
                 "http://my-cdn.com/foo/bar/",
+                null,
                 null,
                 new HashMap<>(),
                 IndexHtmlUtilTest::ordain))
@@ -75,6 +83,7 @@ public class IndexHtmlUtilTest {
             staticTemplateData(
                 "http://example.com/gerrit",
                 "http://my-cdn.com/foo/bar/",
+                null,
                 null,
                 new HashMap<>(),
                 IndexHtmlUtilTest::ordain))

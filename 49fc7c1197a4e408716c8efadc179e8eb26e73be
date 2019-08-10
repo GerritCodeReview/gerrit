@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "81ba7506_9f7c9ba1",
+        "filename": "java/com/google/gerrit/extensions/api/accounts/AccountApi.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-08-10T23:10:17Z",
+      "side": 1,
+      "message": "Thanks, done!",
+      "parentUuid": "7649081c_1ca4f7c4",
+      "range": {
+        "startLine": 45,
+        "startChar": 2,
+        "endLine": 45,
+        "endChar": 57
+      },
+      "revId": "49fc7c1197a4e408716c8efadc179e8eb26e73be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e7fef676_cca3be21",
         "filename": "java/com/google/gerrit/extensions/api/accounts/AccountApi.java",
         "patchSetId": 16
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "393b4134_fb67a8eb",
+        "filename": "java/com/google/gerrit/extensions/api/accounts/AccountApi.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-08-10T23:10:17Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "e7fef676_cca3be21",
+      "range": {
+        "startLine": 157,
+        "startChar": 4,
+        "endLine": 160,
+        "endChar": 5
+      },
+      "revId": "49fc7c1197a4e408716c8efadc179e8eb26e73be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c811adad_4541192c",
         "filename": "java/com/google/gerrit/extensions/api/accounts/ActiveInput.java",
         "patchSetId": 16
@@ -59,6 +107,24 @@
       "writtenOn": "2019-08-02T06:23:18Z",
       "side": 1,
       "message": "Hmm, given that in the example setPrivate that I just posted, it doesn\u0027t use an input class but just a raw string, maybe my earlier request to make this a class was unjustified.\n\nI think we can leave it like this though, unless other maintainers have an opinion.",
+      "revId": "49fc7c1197a4e408716c8efadc179e8eb26e73be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6a0b0564_99b58620",
+        "filename": "java/com/google/gerrit/extensions/api/accounts/ActiveInput.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-08-10T23:10:17Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "c811adad_4541192c",
       "revId": "49fc7c1197a4e408716c8efadc179e8eb26e73be",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -85,6 +151,30 @@
       "revId": "49fc7c1197a4e408716c8efadc179e8eb26e73be",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "244cada2_e3c103c4",
+        "filename": "java/com/google/gerrit/server/api/accounts/AccountApiImpl.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-08-10T23:10:17Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "88392591_c21f3f1c",
+      "range": {
+        "startLine": 257,
+        "startChar": 2,
+        "endLine": 260,
+        "endChar": 3
+      },
+      "revId": "49fc7c1197a4e408716c8efadc179e8eb26e73be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -132,6 +222,30 @@
       "revId": "49fc7c1197a4e408716c8efadc179e8eb26e73be",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7d2d2f2c_8c9c9389",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountIT.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 526,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-08-10T23:10:17Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "3c5dd98b_c4798624",
+      "range": {
+        "startLine": 526,
+        "startChar": 0,
+        "endLine": 526,
+        "endChar": 54
+      },
+      "revId": "49fc7c1197a4e408716c8efadc179e8eb26e73be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

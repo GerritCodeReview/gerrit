@@ -56,6 +56,10 @@
       _dynamicCellEndpoints: {
         type: Array,
       },
+      _endpointParamsSet: {
+        type: Boolean,
+        value: false,
+      },
     },
 
     behaviors: [
@@ -64,6 +68,10 @@
       Gerrit.PathListBehavior,
       Gerrit.RESTClientBehavior,
       Gerrit.URLEncodingBehavior,
+    ],
+
+    observers: [
+      '_onEndpointParamsSet(change)',
     ],
 
     attached() {
@@ -208,6 +216,15 @@
         composed: true,
         detail: {change: this.change, reviewed: newVal},
       }));
+    },
+
+    _onEndpointParamsSet(change) {
+      if (change === undefined) {
+        return;
+      }
+
+      this._onEndpointParamsSet = true;
+      return true;
     },
   });
 })();

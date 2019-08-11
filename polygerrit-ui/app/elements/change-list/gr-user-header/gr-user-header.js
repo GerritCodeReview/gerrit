@@ -50,7 +50,15 @@
         type: String,
         value: null,
       },
+      _endpointParamsSet: {
+        type: Boolean,
+        value: false,
+      },
     },
+
+    observers: [
+      '_onEndpointParamsSet(_accountDetails, loggedIn)',
+    ],
 
     _accountChanged(userId) {
       if (!userId) {
@@ -87,6 +95,15 @@
     _computeDashboardLinkClass(showDashboardLink, loggedIn) {
       return showDashboardLink && loggedIn ?
           'dashboardLink' : 'dashboardLink hide';
+    },
+
+    _onEndpointParamsSet(accountDetails, loggedIn) {
+      if ([accountDetails, loggedIn].some(arg => arg === undefined)) {
+        return;
+      }
+
+      this._endpointParamsSet = true;
+      return true;
     },
   });
 })();

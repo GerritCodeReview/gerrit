@@ -64,12 +64,14 @@ limitations under the License.
             date-str="[[_computeDetail(_accountDetails, 'registered_on')]]">
         </gr-date-formatter>
       </div>
-      <gr-endpoint-decorator name="user-header">
-        <gr-endpoint-param name="accountDetails" value="[[_accountDetails]]">
-        </gr-endpoint-param>
-        <gr-endpoint-param name="loggedIn" value="[[loggedIn]]">
-        </gr-endpoint-param>
-      </gr-endpoint-decorator>
+      <template is="dom-if" if="[[_endpointParamsSet]]">
+        <gr-endpoint-decorator name="user-header">
+          <gr-endpoint-param name="accountDetails" value="[[_accountDetails]]">
+          </gr-endpoint-param>
+          <gr-endpoint-param name="loggedIn" value="[[loggedIn]]">
+          </gr-endpoint-param>
+        </gr-endpoint-decorator>
+      </template>
     </div>
     <div class="info">
       <div class$="[[_computeDashboardLinkClass(showDashboardLink, loggedIn)]]">

@@ -122,10 +122,13 @@ suite('gr-editor-view tests', () => {
   test('reacts to content-change event', () => {
     const storeStub = sandbox.spy(element.$.storage, 'setEditableContentItem');
     element._newContent = 'test';
-    element.$.editorEndpoint.dispatchEvent(new CustomEvent('content-change', {
-      bubbles: true, composed: true,
-      detail: {value: 'new content value'},
-    }));
+    element._prefs = undefined;
+    element._type = undefined;
+    element.$$('#editorEndpoint').dispatchEvent(
+        new CustomEvent('content-change', {
+          bubbles: true, composed: true,
+          detail: {value: 'new content value'},
+        }));
     element.flushDebouncer('store');
     flushAsynchronousOperations();
 

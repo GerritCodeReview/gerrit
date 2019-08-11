@@ -140,6 +140,10 @@
           COMMITTER: 'committer',
         },
       },
+      _endpointParamsSet: {
+        type: Boolean,
+        value: false,
+      },
     },
 
     behaviors: [
@@ -150,6 +154,7 @@
       '_changeChanged(change)',
       '_labelsChanged(change.labels)',
       '_assigneeChanged(_assignee.*)',
+      '_onEndpointParamsSet(labels, change, revision)',
     ],
 
     _labelsChanged(labels) {
@@ -467,6 +472,10 @@
       // Cannot use `this.$.ID` syntax because the element exists inside of a
       // dom-if.
       this.$$('.topicEditableLabel').open();
+    },
+
+    _onEndpointParamsSet(labels, change, revision) {
+      this._endpointParamsSet = true;
     },
   });
 })();

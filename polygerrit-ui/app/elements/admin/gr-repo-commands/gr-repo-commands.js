@@ -40,10 +40,18 @@
       /** @type {?} */
       _repoConfig: Object,
       _canCreate: Boolean,
+      _endpointParamsSet: {
+        type: Boolean,
+        value: false,
+      },
     },
 
     behaviors: [
       Gerrit.FireBehavior,
+    ],
+
+    observers: [
+      '_onEndpointParamsSet(_repoConfig, repo)',
     ],
 
     attached() {
@@ -113,6 +121,10 @@
             Gerrit.Nav.navigateToRelativeUrl(Gerrit.Nav.getEditUrlForDiff(
                 change, CONFIG_PATH, INITIAL_PATCHSET));
           });
+    },
+
+    _onEndpointParamsSet(repoConfig, repo) {
+      this._endpointParamsSet = true;
     },
   });
 })();

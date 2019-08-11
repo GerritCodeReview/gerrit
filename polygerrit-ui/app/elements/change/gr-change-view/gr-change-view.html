@@ -493,12 +493,14 @@ limitations under the License.
                   [[_computeCollapseText(_commitCollapsed)]]
                 </gr-button>
               </div>
-              <gr-endpoint-decorator name="commit-container">
-                <gr-endpoint-param name="change" value="[[_change]]">
-                </gr-endpoint-param>
-                <gr-endpoint-param name="revision" value="[[_selectedRevision]]">
-                </gr-endpoint-param>
-              </gr-endpoint-decorator>
+              <template is="dom-if" if="[[_changeAndSelectedRevision]]">
+                <gr-endpoint-decorator name="commit-container">
+                  <gr-endpoint-param name="change" value="[[_change]]">
+                  </gr-endpoint-param>
+                  <gr-endpoint-param name="revision" value="[[_selectedRevision]]">
+                  </gr-endpoint-param>
+                </gr-endpoint-decorator>
+              </template>
             </div>
             <div class="relatedChanges">
               <gr-related-changes-list id="relatedChanges"
@@ -533,12 +535,14 @@ limitations under the License.
             <template is="dom-repeat" items="[[_dynamicTabHeaderEndpoints]]"
               as="tabHeader">
               <paper-tab>
+                <template is="dom-if" if="[[_changeAndSelectedRevision]]">
                   <gr-endpoint-decorator name$="[[tabHeader]]">
                       <gr-endpoint-param name="change" value="[[_change]]">
                       </gr-endpoint-param>
                       <gr-endpoint-param name="revision" value="[[_selectedRevision]]">
                       </gr-endpoint-param>
                   </gr-endpoint-decorator>
+                </template>
               </paper-tab>
             </template>
           </paper-tabs>
@@ -596,21 +600,25 @@ limitations under the License.
         </div>
 
         <template is="dom-if" if="[[!_showFileTabContent]]">
+          <template is="dom-if" if="[[_changeAndSelectedRevision]]">
             <gr-endpoint-decorator name$="[[_selectedFilesTabPluginEndpoint]]">
                 <gr-endpoint-param name="change" value="[[_change]]">
                 </gr-endpoint-param>
                 <gr-endpoint-param name="revision" value="[[_selectedRevision]]">
                 </gr-endpoint-param>
             </gr-endpoint-decorator>
+          </template>
         </template>
       </section>
 
-      <gr-endpoint-decorator name="change-view-integration">
-        <gr-endpoint-param name="change" value="[[_change]]">
-        </gr-endpoint-param>
-        <gr-endpoint-param name="revision" value="[[_selectedRevision]]">
-        </gr-endpoint-param>
-      </gr-endpoint-decorator>
+      <template is="dom-if" if="[[_changeAndSelectedRevision]]">
+        <gr-endpoint-decorator name="change-view-integration">
+          <gr-endpoint-param name="change" value="[[_change]]">
+          </gr-endpoint-param>
+          <gr-endpoint-param name="revision" value="[[_selectedRevision]]">
+          </gr-endpoint-param>
+        </gr-endpoint-decorator>
+      </template>
       <paper-tabs
           id="commentTabs"
           on-selected-changed="_handleCommentTabChange">

@@ -48,7 +48,16 @@
        *  }}
        */
       action: Object,
+
+      _endpointParamsSet: {
+        type: Boolean,
+        value: false,
+      },
     },
+
+    observers: [
+      '_onEndpointParamsSet(change, action)',
+    ],
 
     resetFocus(e) {
       this.$.dialog.resetFocus();
@@ -62,6 +71,15 @@
     _handleCancelTap(e) {
       e.preventDefault();
       this.dispatchEvent(new CustomEvent('cancel', {bubbles: false}));
+    },
+
+    _onEndpointParamsSet(change, action) {
+      if ([change, action].some(arg => arg === undefined)) {
+        return;
+      }
+
+      this._endpointParamsSet = true;
+      return true;
     },
   });
 })();

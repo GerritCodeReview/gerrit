@@ -56,6 +56,10 @@
       _dynamicCellEndpoints: {
         type: Array,
       },
+      _endpointParamsSet: {
+        type: Boolean,
+        value: false,
+      },
     },
 
     behaviors: [
@@ -65,6 +69,11 @@
       Gerrit.RESTClientBehavior,
       Gerrit.URLEncodingBehavior,
     ],
+
+    observers: [
+      '_onEndpointParamsSet(change)',
+    ],
+
 
     attached() {
       Gerrit.awaitPluginsLoaded().then(() => {
@@ -208,6 +217,15 @@
         composed: true,
         detail: {change: this.change, reviewed: newVal},
       }));
+    },
+
+    _onEndpointParamsSet(change) {
+      if (change === undefined) {
+        return;
+      }
+
+      this._onEndpointParamsSet = true;
+      return true;
     },
   });
 })();

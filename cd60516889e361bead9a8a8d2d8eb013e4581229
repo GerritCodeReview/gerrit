@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a57fb7e4_45ade78b",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/ChangeApiImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 627,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-08-11T04:24:30Z",
+      "side": 1,
+      "message": "I don\u0027t think this distinction in the error message is necessary. The equivalent methods in the revision API do not have this distinction.",
+      "parentUuid": "98eb59b8_7786792a",
+      "range": {
+        "startLine": 627,
+        "startChar": 51,
+        "endLine": 627,
+        "endChar": 52
+      },
+      "revId": "cd60516889e361bead9a8a8d2d8eb013e4581229",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "51bf8d7f_05fafc03",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/ChangeApiImpl.java",
         "patchSetId": 4
@@ -45,6 +69,30 @@
       "revId": "cd60516889e361bead9a8a8d2d8eb013e4581229",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "10bac09b_dab828e5",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/api/changes/ChangeApiImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 654,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-08-11T04:24:30Z",
+      "side": 1,
+      "message": "as above",
+      "parentUuid": "51bf8d7f_05fafc03",
+      "range": {
+        "startLine": 654,
+        "startChar": 49,
+        "endLine": 654,
+        "endChar": 50
+      },
+      "revId": "cd60516889e361bead9a8a8d2d8eb013e4581229",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -139,6 +187,30 @@
       "revId": "cd60516889e361bead9a8a8d2d8eb013e4581229",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1d86dca2_f759e551",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/change/ListChangeDrafts.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-08-11T04:24:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3ef4f9d8_76654155",
+      "range": {
+        "startLine": 81,
+        "startChar": 0,
+        "endLine": 85,
+        "endChar": 30
+      },
+      "revId": "cd60516889e361bead9a8a8d2d8eb013e4581229",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

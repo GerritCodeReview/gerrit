@@ -305,7 +305,6 @@
       '_labelsChanged(_change.labels.*)',
       '_paramsAndChangeChanged(params, _change)',
       '_patchNumChanged(_patchRange.patchNum)',
-      '_loadDynamicTabHeaderAndContent(_change, _selectedRevision)',
       '_onChangeAndSelectedRevInitialised(_change, _selectedRevision)',
     ],
 
@@ -339,6 +338,17 @@
           });
         }
         this._setDiffViewMode();
+      });
+
+      Gerrit.awaitPluginsLoaded().then(() => {
+        this._dynamicTabHeaderEndpoints =
+            Gerrit._endpoints.getDynamicEndpoints('change-view-tab-header');
+        this._dynamicTabContentEndpoints =
+            Gerrit._endpoints.getDynamicEndpoints('change-view-tab-content');
+        if (this._dynamicTabContentEndpoints.length
+            !== this._dynamicTabHeaderEndpoints.length) {
+          console.warn('Different number of tab headers and tab content.');
+        }
       });
 
       this.addEventListener('comment-save', this._handleCommentSave.bind(this));
@@ -760,41 +770,6 @@
           this._maybeScrollToMessage(window.location.hash);
         }
         this._initialLoadComplete = true;
-      });
-    },
-
-    /**
-     * We use an observer to observe 'change' and 'selectedRevision'
-     * variables. This fixes an issue under Polymer 2 so that the dynamic
-     * plugins loads when these variables load.
-     */
-    _loadDynamicTabHeaderAndContent(change, selectedRevision) {
-      // These vars are unused, but because primaryTabs extension point
-      // uses it, we makes sure we doin't load the plugin until these vars
-      // exist.
-      if (!change || !selectedRevision) return;
-
-      // We cache the _dynamicTabHeaderEndpoints and _dynamicTabContentEndpoints
-      // var so that we doin't keep loading the same dynamic plugin
-      // over and over when 'change' or 'selectedRevision' change.
-      if (this._dynamicTabHeaderEndpoints || this._dynamicTabContentEndpoints) {
-        return;
-      }
-
-      Gerrit.awaitPluginsLoaded().then(() => {
-        this._dynamicTabHeaderEndpoints =
-            Gerrit._endpoints.getDynamicEndpoints('change-view-tab-header');
-        this._dynamicTabContentEndpoints =
-            Gerrit._endpoints.getDynamicEndpoints('change-view-tab-content');
-        if (this._dynamicTabContentEndpoints.length
-            !== this._dynamicTabHeaderEndpoints.length) {
-          console.warn('Different number of tab headers and tab content.');
-        }
-      }).then(() => {
-        // We need a second then(..) to ensure that the dynamic endpoints
-        // are created before we call _performPostLoadTasks(). This ensures it has
-        // enough time before the primary tab gets selected.
-        this._performPostLoadTasks();
       });
     },
 

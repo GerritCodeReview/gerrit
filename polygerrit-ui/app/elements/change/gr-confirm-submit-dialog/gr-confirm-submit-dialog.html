@@ -48,14 +48,16 @@ limitations under the License.
         [[action.label]]
       </div>
       <div class="main" slot="main">
-        <gr-endpoint-decorator name="confirm-submit-change">
-          <p>Ready to submit &ldquo;<strong>[[change.subject]]</strong>&rdquo;?</p>
-          <template is="dom-if" if="[[change.is_private]]">
-            <p><strong>Heads Up!</strong> Submitting this private change will also make it public.</p>
-          </template>
-          <gr-endpoint-param name="change" value="[[change]]"></gr-endpoint-param>
-          <gr-endpoint-param name="action" value="[[action]]"></gr-endpoint-param>
-        </gr-endpoint-decorator>
+        <template is="dom-if" if="[[_endpointParamsSet]]">
+          <gr-endpoint-decorator name="confirm-submit-change">
+            <p>Ready to submit &ldquo;<strong>[[change.subject]]</strong>&rdquo;?</p>
+            <template is="dom-if" if="[[change.is_private]]">
+              <p><strong>Heads Up!</strong> Submitting this private change will also make it public.</p>
+            </template>
+            <gr-endpoint-param name="change" value="[[change]]"></gr-endpoint-param>
+            <gr-endpoint-param name="action" value="[[action]]"></gr-endpoint-param>
+          </gr-endpoint-decorator>
+        </template>
       </div>
     </gr-dialog>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>

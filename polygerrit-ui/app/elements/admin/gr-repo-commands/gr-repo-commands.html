@@ -55,12 +55,14 @@ limitations under the License.
               hidden$="[[!_repoConfig.actions.gc.enabled]]"
               on-command-tap="_handleRunningGC">
           </gr-repo-command>
-          <gr-endpoint-decorator name="repo-command">
-            <gr-endpoint-param name="config" value="[[_repoConfig]]">
-            </gr-endpoint-param>
-            <gr-endpoint-param name="repoName" value="[[repo]]">
-            </gr-endpoint-param>
-          </gr-endpoint-decorator>
+          <template is="dom-if" if="[[_endpointParamsSet]]">
+            <gr-endpoint-decorator name="repo-command">
+              <gr-endpoint-param name="config" value="[[_repoConfig]]">
+              </gr-endpoint-param>
+              <gr-endpoint-param name="repoName" value="[[repo]]">
+              </gr-endpoint-param>
+            </gr-endpoint-decorator>
+          </template>
         </div>
       </div>
     </main>

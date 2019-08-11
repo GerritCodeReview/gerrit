@@ -279,6 +279,10 @@
       _selectedFilesTabPluginEndpoint: {
         type: String,
       },
+      _changeAndSelectedRevision: {
+        type: Boolean,
+        value: false,
+      },
     },
 
     behaviors: [
@@ -305,6 +309,7 @@
       '_paramsAndChangeChanged(params, _change)',
       '_patchNumChanged(_patchRange.patchNum)',
       '_loadDynamicTabHeaderAndContent(_change, _selectedRevision)',
+      '_onChangeAndSelectedRevInitialised(_change, _selectedRevision)',
     ],
 
     keyboardShortcuts() {
@@ -1828,6 +1833,22 @@
 
     _computeDiffPrefsDisabled(disableDiffPrefs, loggedIn) {
       return disableDiffPrefs || !loggedIn;
+    },
+
+    /**
+     * This is used by gr-endpoint-decorator to ensure that
+     * _change and _selectedRevision variables are set.
+     * Without this, gr-endpoint-decorator can be initialised early
+     * when these variables have not been defined or are still loading.
+     * This fix is for Polymer 2.
+     */
+    _onChangeAndSelectedRevInitialised(change, rev) {
+      if ([change, rev].some(arg => arg === undefined)) {
+        return;
+      }
+
+      this._changeAndSelectedRevision = true;
+      return true;
     },
   });
 })();

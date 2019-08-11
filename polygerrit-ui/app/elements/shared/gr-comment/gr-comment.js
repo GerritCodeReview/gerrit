@@ -147,6 +147,10 @@
         type: Object,
         value: () => ({}),
       },
+      _endpointParamsSet: {
+        type: Boolean,
+        value: false,
+      },
     },
 
     observers: [
@@ -154,6 +158,7 @@
       '_loadLocalDraft(changeNum, patchNum, comment)',
       '_isRobotComment(comment)',
       '_calculateActionstoShow(showActions, isRobotComment)',
+      '_onEndpointParamsSet(comment)',
     ],
 
     behaviors: [
@@ -675,6 +680,15 @@
             this._handleCancelDeleteComment();
             this.comment = newComment;
           });
+    },
+
+    _onEndpointParamsSet(comment) {
+      if (comment === undefined) {
+        return;
+      }
+
+      this._endpointParamsSet = true;
+      return true;
     },
   });
 })();

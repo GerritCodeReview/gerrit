@@ -71,6 +71,10 @@
         computed: '_computeSaveDisabled(_content, _newContent, _saving)',
       },
       _prefs: Object,
+      _endpointParamsSet: {
+        type: Boolean,
+        value: false,
+      },
     },
 
     behaviors: [
@@ -87,6 +91,10 @@
     keyBindings: {
       'ctrl+s meta+s': '_handleSaveShortcut',
     },
+
+    observers: [
+      '_onEndpointParamsSet(_newContent, _prefs, _type)',
+    ],
 
     attached() {
       this._getEditPrefs().then(prefs => { this._prefs = prefs; });
@@ -238,6 +246,15 @@
       if (!this._saveDisabled) {
         this._saveEdit();
       }
+    },
+
+    _onEndpointParamsSet(content, prefs, type) {
+      if ([content, prefs, type].some(arg => arg === undefined)) {
+        return;
+      }
+
+      this._endpointParamsSet = true;
+      return true;
     },
   });
 })();

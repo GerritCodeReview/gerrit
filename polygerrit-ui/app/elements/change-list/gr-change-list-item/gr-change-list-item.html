@@ -225,10 +225,12 @@ limitations under the License.
     <template is="dom-repeat" items="[[_dynamicCellEndpoints]]"
       as="pluginEndpointName">
       <td class="cell endpoint">
-        <gr-endpoint-decorator name$="[[pluginEndpointName]]">
-          <gr-endpoint-param name="change" value="[[change]]">
-          </gr-endpoint-param>
-        </gr-endpoint-decorator>
+        <template is="dom-if" if="[[_endpointParamsSet]]">
+          <gr-endpoint-decorator name$="[[pluginEndpointName]]">
+            <gr-endpoint-param name="change" value="[[change]]">
+            </gr-endpoint-param>
+          </gr-endpoint-decorator>
+        </template>
       </td>
     </template>
   </template>

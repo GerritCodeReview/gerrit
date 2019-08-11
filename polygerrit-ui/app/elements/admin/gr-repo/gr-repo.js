@@ -107,6 +107,10 @@
       },
       _selectedScheme: String,
       _schemesObj: Object,
+      _endpointParamsSet: {
+        type: Boolean,
+        value: false,
+      },
     },
 
     behaviors: [
@@ -115,6 +119,7 @@
 
     observers: [
       '_handleConfigChanged(_repoConfig.*)',
+      '_onEndpointParamsSet(repo)',
     ],
 
     attached() {
@@ -345,6 +350,10 @@
     _handlePluginConfigChanged({detail: {name, config, notifyPath}}) {
       this._repoConfig.plugin_config[name] = config;
       this.notifyPath('_repoConfig.plugin_config.' + notifyPath);
+    },
+
+    _onEndpointParamsSet(repo) {
+      this._endpointParamsSet = true;
     },
   });
 })();

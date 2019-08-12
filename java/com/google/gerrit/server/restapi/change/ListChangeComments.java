@@ -14,27 +14,18 @@
 
 package com.google.gerrit.server.restapi.change;
 
-import com.google.gerrit.extensions.common.CommentInfo;
-import com.google.gerrit.extensions.restapi.AuthException;
-import com.google.gerrit.extensions.restapi.RestReadView;
+import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.change.ChangeResource;
-import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-import java.util.List;
-import java.util.Map;
 
 @Singleton
-public class ListChangeComments implements RestReadView<ChangeResource> {
-  private final Provider<ReviewDb> db;
-  private final ChangeData.Factory changeDataFactory;
-  private final Provider<CommentJson> commentJson;
-  private final CommentsUtil commentsUtil;
+public class ListChangeComments extends ListChangeDrafts {
 
   @Inject
   ListChangeComments(
@@ -42,21 +33,22 @@ public class ListChangeComments implements RestReadView<ChangeResource> {
       ChangeData.Factory changeDataFactory,
       Provider<CommentJson> commentJson,
       CommentsUtil commentsUtil) {
-    this.db = db;
-    this.changeDataFactory = changeDataFactory;
-    this.commentJson = commentJson;
-    this.commentsUtil = commentsUtil;
+    super(db, changeDataFactory, commentJson, commentsUtil);
   }
 
   @Override
-  public Map<String, List<CommentInfo>> apply(ChangeResource rsrc)
-      throws AuthException, OrmException, PermissionBackendException {
+  protected Iterable<Comment> listComments(ChangeResource rsrc) throws OrmException {
     ChangeData cd = changeDataFactory.create(db.get(), rsrc.getNotes());
-    return commentJson
-        .get()
-        .setFillAccounts(true)
-        .setFillPatchSet(true)
-        .newCommentFormatter()
-        .format(commentsUtil.publishedByChange(db.get(), cd.notes()));
+    return commentsUtil.publishedByChange(db.get(), cd.notes());
+  }
+
+  @Override
+  protected boolean includeAuthorInfo() {
+    return true;
+  }
+
+  @Override
+  public boolean requireAuthentication() {
+    return false;
   }
 }

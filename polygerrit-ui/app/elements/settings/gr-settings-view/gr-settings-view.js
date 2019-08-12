@@ -157,6 +157,9 @@
     ],
 
     attached() {
+      // Polymer 2: anchor tag won't work on shadow DOM
+      // we need to manually calling scrollIntoView when hash changed
+      this.listen(window, 'location-change', '_handleLocationChange');
       this.fire('title-change', {title: 'Settings'});
 
       this._isDark = !!window.localStorage.getItem('dark-theme');
@@ -213,7 +216,26 @@
 
       this._loadingPromise = Promise.all(promises).then(() => {
         this._loading = false;
+
+        // Handle anchor tag for initial load
+        this._handleLocationChange();
       });
+    },
+
+    detached() {
+      this.unlisten(window, 'location-change', '_handleLocationChange');
+    },
+
+    _handleLocationChange() {
+      // Handle anchor tag after dom attached
+      const urlHash = window.location.hash;
+      if (urlHash) {
+        // Use shadowRoot for Polymer 2
+        const elem = (this.shadowRoot || document).querySelector(urlHash);
+        if (elem) {
+          elem.scrollIntoView();
+        }
+      }
     },
 
     reloadAccountDetail() {

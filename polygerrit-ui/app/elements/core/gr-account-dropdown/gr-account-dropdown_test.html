@@ -80,11 +80,15 @@ limitations under the License.
     });
 
     test('switch account', () => {
+      // Missing params.
+      assert.isUndefined(element._getLinks());
+      assert.isUndefined(element._getLinks(null));
+
       // No switch account link.
-      assert.equal(element._getLinks(null).length, 2);
+      assert.equal(element._getLinks(null, '').length, 2);
 
       // Unparameterized switch account link.
-      let links = element._getLinks('/switch-account');
+      let links = element._getLinks('/switch-account', '');
       assert.equal(links.length, 3);
       assert.deepEqual(links[1], {
         name: 'Switch account',

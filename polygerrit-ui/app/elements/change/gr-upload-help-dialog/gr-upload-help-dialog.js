@@ -82,6 +82,15 @@
 
     _computeFetchCommand(revision, preferredDownloadCommand,
         preferredDownloadScheme) {
+      // Polymer 2: check for undefined
+      if ([
+        revision,
+        preferredDownloadCommand,
+        preferredDownloadScheme,
+      ].some(arg => arg === undefined)) {
+        return undefined;
+      }
+
       if (!revision) { return; }
       if (!revision || !revision.fetch) { return; }
 

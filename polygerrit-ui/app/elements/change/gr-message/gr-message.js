@@ -144,7 +144,7 @@
     },
 
     _computeShowReplyButton(message, loggedIn) {
-      return !!message.message && loggedIn &&
+      return message && !!message.message && loggedIn &&
           !this._computeIsAutomated(message);
     },
 

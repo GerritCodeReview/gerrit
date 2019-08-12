@@ -75,31 +75,40 @@ limitations under the License.
         assert.isUndefined(element._computeFetchCommand({fetch: {}}));
       });
 
+      test('not all defined', () => {
+        assert.isUndefined(
+            element._computeFetchCommand(testRev, undefined, ''));
+        assert.isUndefined(
+            element._computeFetchCommand(testRev, '', undefined));
+        assert.isUndefined(
+            element._computeFetchCommand(undefined, '', ''));
+      });
+
       test('insufficiently defined scheme', () => {
         assert.isUndefined(
-            element._computeFetchCommand(testRev, undefined, 'badscheme'));
+            element._computeFetchCommand(testRev, '', 'badscheme'));
 
         const rev = Object.assign({}, testRev);
         rev.fetch = Object.assign({}, testRev.fetch, {nocmds: {commands: {}}});
         assert.isUndefined(
-            element._computeFetchCommand(rev, undefined, 'nocmds'));
+            element._computeFetchCommand(rev, '', 'nocmds'));
 
         rev.fetch.nocmds.commands.unsupported = 'unsupported';
         assert.isUndefined(
-            element._computeFetchCommand(rev, undefined, 'nocmds'));
+            element._computeFetchCommand(rev, '', 'nocmds'));
       });
 
       test('default scheme and command', () => {
-        const cmd = element._computeFetchCommand(testRev);
+        const cmd = element._computeFetchCommand(testRev, '', '');
         assert.isTrue(cmd === 'http checkout' || cmd === 'ssh pull');
       });
 
       test('default command', () => {
         assert.strictEqual(
-            element._computeFetchCommand(testRev, undefined, 'http'),
+            element._computeFetchCommand(testRev, '', 'http'),
             'http checkout');
         assert.strictEqual(
-            element._computeFetchCommand(testRev, undefined, 'ssh'),
+            element._computeFetchCommand(testRev, '', 'ssh'),
             'ssh pull');
       });
 

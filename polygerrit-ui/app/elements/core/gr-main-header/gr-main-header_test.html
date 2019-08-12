@@ -111,13 +111,24 @@ limitations under the License.
       }];
 
       // When no admin links are passed, it should use the default.
-      assert.deepEqual(element._computeLinks(defaultLinks, [], adminLinks, []),
+      assert.deepEqual(element._computeLinks(
+          defaultLinks,
+          /* userLinks= */[],
+          adminLinks,
+          /* topMenus= */[],
+          /* docBaseUrl= */ '',
+      ),
           defaultLinks.concat({
             title: 'Browse',
             links: adminLinks,
           }));
-      assert.deepEqual(
-          element._computeLinks(defaultLinks, userLinks, adminLinks, []),
+      assert.deepEqual(element._computeLinks(
+          defaultLinks,
+          userLinks,
+          adminLinks,
+          /* topMenus= */[],
+          /* docBaseUrl= */ ''
+        ),
           defaultLinks.concat([
             {
               title: 'Your',
@@ -126,7 +137,8 @@ limitations under the License.
             {
               title: 'Browse',
               links: adminLinks,
-            }]));
+            }])
+      );
     });
 
     test('documentation links', () => {
@@ -168,7 +180,13 @@ limitations under the License.
           url: 'https://gerrit/plugins/plugin-manager/static/index.html',
         }],
       }];
-      assert.deepEqual(element._computeLinks([], [], adminLinks, topMenus), [{
+      assert.deepEqual(element._computeLinks(
+          /* defaultLinks= */ [],
+          /* userLinks= */ [],
+          adminLinks,
+          topMenus,
+          /* baseDocUrl= */ '',
+      ), [{
         title: 'Browse',
         links: adminLinks,
       },
@@ -198,7 +216,13 @@ limitations under the License.
           url: '/plugins/myplugin/index.html',
         }],
       }];
-      assert.deepEqual(element._computeLinks([], [], adminLinks, topMenus), [{
+      assert.deepEqual(element._computeLinks(
+          /* defaultLinks= */ [],
+          /* userLinks= */ [],
+          adminLinks,
+          topMenus,
+          /* baseDocUrl= */ '',
+      ), [{
         title: 'Browse',
         links: adminLinks,
       },
@@ -231,7 +255,13 @@ limitations under the License.
           url: 'https://gerrit/plugins/plugin-manager/static/create.html',
         }],
       }];
-      assert.deepEqual(element._computeLinks([], [], adminLinks, topMenus), [{
+      assert.deepEqual(element._computeLinks(
+          /* defaultLinks= */ [],
+          /* userLinks= */ [],
+          adminLinks,
+          topMenus,
+          /* baseDocUrl= */ '',
+      ), [{
         title: 'Browse',
         links: adminLinks,
       }, {
@@ -262,7 +292,13 @@ limitations under the License.
           url: 'https://gerrit/plugins/plugin-manager/static/index.html',
         }],
       }];
-      assert.deepEqual(element._computeLinks(defaultLinks, [], [], topMenus), [{
+      assert.deepEqual(element._computeLinks(
+          defaultLinks,
+          /* userLinks= */ [],
+          /* adminLinks= */ [],
+          topMenus,
+          /* baseDocUrl= */ '',
+      ), [{
         title: 'Faves',
         links: defaultLinks[0].links.concat([{
           name: 'Manage',
@@ -287,7 +323,13 @@ limitations under the License.
           url: 'https://gerrit/plugins/plugin-manager/static/index.html',
         }],
       }];
-      assert.deepEqual(element._computeLinks([], userLinks, [], topMenus), [{
+      assert.deepEqual(element._computeLinks(
+          /* defaultLinks= */ [],
+          userLinks,
+          /* adminLinks= */ [],
+          topMenus,
+          /* baseDocUrl= */ '',
+      ), [{
         title: 'Your',
         links: userLinks.concat([{
           name: 'Manage',
@@ -312,7 +354,13 @@ limitations under the License.
           url: 'https://gerrit/plugins/plugin-manager/static/index.html',
         }],
       }];
-      assert.deepEqual(element._computeLinks([], [], adminLinks, topMenus), [{
+      assert.deepEqual(element._computeLinks(
+          /* defaultLinks= */ [],
+          /* userLinks= */ [],
+          adminLinks,
+          topMenus,
+          /* baseDocUrl= */ '',
+      ), [{
         title: 'Browse',
         links: adminLinks.concat([{
           name: 'Manage',
@@ -350,4 +398,4 @@ limitations under the License.
       assert.equal(element._registerText, 'Sign up');
     });
   });
-</script>
+      </script>

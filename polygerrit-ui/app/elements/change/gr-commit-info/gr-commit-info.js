@@ -47,11 +47,21 @@
     },
 
     _computeShowWebLink(change, commitInfo, serverConfig) {
+      // Polymer 2: check for undefined
+      if ([change, commitInfo, serverConfig].some(arg => arg === undefined)) {
+        return undefined;
+      }
+
       const weblink = this._getWeblink(change, commitInfo, serverConfig);
       return !!weblink && !!weblink.url;
     },
 
     _computeWebLink(change, commitInfo, serverConfig) {
+      // Polymer 2: check for undefined
+      if ([change, commitInfo, serverConfig].some(arg => arg === undefined)) {
+        return undefined;
+      }
+
       const {url} = this._getWeblink(change, commitInfo, serverConfig) || {};
       return url;
     },

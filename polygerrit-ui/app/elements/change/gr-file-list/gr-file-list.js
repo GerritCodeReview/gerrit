@@ -847,6 +847,11 @@
     },
 
     _computeFilesShown(numFilesShown, files) {
+      // Polymer 2: check for undefined
+      if ([numFilesShown, files].some(arg => arg === undefined)) {
+        return undefined;
+      }
+
       const previousNumFilesShown = this._shownFiles ?
           this._shownFiles.length : 0;
 

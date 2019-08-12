@@ -118,6 +118,15 @@
     },
 
     _computeSaveDisabled(disabled, content, newContent) {
+      // Polymer 2: check for undefined
+      if ([
+        disabled,
+        content,
+        newContent,
+      ].some(arg => arg === undefined)) {
+        return undefined;
+      }
+
       return disabled || (content === newContent);
     },
 

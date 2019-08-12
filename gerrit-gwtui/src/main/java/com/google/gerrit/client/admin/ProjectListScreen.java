@@ -183,10 +183,10 @@ public class ProjectListScreen extends PaginatedProjectScreen {
       public void onKeyUp(KeyUpEvent event) {
         Query q = new Query(filterTxt.getValue())
           .open(event.getNativeEvent().getKeyCode() == KeyCodes.KEY_ENTER);
-        if (match.equals(q.qMatch)) {
+        if (match != null && match.equals(q.qMatch)) {
           q.start(start);
         }
-        if (q.open || !match.equals(q.qMatch)) {
+        if (q.open || match == null || !match.equals(q.qMatch)) {
           if (query == null) {
             q.run();
           }

@@ -31,7 +31,6 @@ import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.index.account.AccountField;
 import com.google.gerrit.server.index.account.AccountIndexCollection;
 import com.google.inject.Inject;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
@@ -93,15 +92,13 @@ public class InternalAccountQuery extends InternalQuery<AccountState, InternalAc
    * @return multimap of the given emails to accounts that have a preferred email that exactly
    *     matches this email
    */
-  public Multimap<String, AccountState> byPreferredEmail(String... emails) {
-    List<String> emailList = Arrays.asList(emails);
-
+  public Multimap<String, AccountState> byPreferredEmail(List<String> emails) {
     if (hasPreferredEmailExact()) {
       List<List<AccountState>> r =
-          query(emailList.stream().map(AccountPredicates::preferredEmailExact).collect(toList()));
+          query(emails.stream().map(AccountPredicates::preferredEmailExact).collect(toList()));
       Multimap<String, AccountState> accountsByEmail = ArrayListMultimap.create();
-      for (int i = 0; i < emailList.size(); i++) {
-        accountsByEmail.putAll(emailList.get(i), r.get(i));
+      for (int i = 0; i < emails.size(); i++) {
+        accountsByEmail.putAll(emails.get(i), r.get(i));
       }
       return accountsByEmail;
     }
@@ -111,10 +108,10 @@ public class InternalAccountQuery extends InternalQuery<AccountState, InternalAc
     }
 
     List<List<AccountState>> r =
-        query(emailList.stream().map(AccountPredicates::preferredEmail).collect(toList()));
+        query(emails.stream().map(AccountPredicates::preferredEmail).collect(toList()));
     Multimap<String, AccountState> accountsByEmail = ArrayListMultimap.create();
-    for (int i = 0; i < emailList.size(); i++) {
-      String email = emailList.get(i);
+    for (int i = 0; i < emails.size(); i++) {
+      String email = emails.get(i);
       Set<AccountState> matchingAccounts =
           r.get(i).stream()
               .filter(a -> a.getAccount().preferredEmail().equals(email))

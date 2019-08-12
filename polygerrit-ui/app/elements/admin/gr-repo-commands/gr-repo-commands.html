@@ -56,9 +56,9 @@ limitations under the License.
               on-command-tap="_handleRunningGC">
           </gr-repo-command>
           <gr-endpoint-decorator name="repo-command">
-            <gr-endpoint-param name="config" value="[[_repoConfig]]">
+            <gr-endpoint-param name="config" value$="[[_repoConfig]]">
             </gr-endpoint-param>
-            <gr-endpoint-param name="repoName" value="[[repo]]">
+            <gr-endpoint-param name="repoName" value$="[[repo]]">
             </gr-endpoint-param>
           </gr-endpoint-decorator>
         </div>

@@ -331,8 +331,8 @@
         let account;
         // Remove any accounts that already exist as a CC.
         for (const splice of splices.indexSplices) {
-          for (const addedKey of splice.addedKeys) {
-            account = this.get(`_reviewers.${addedKey}`);
+          for (let i = 0; i < splice.addedCount; i++) {
+            account = splice.object[splice.index + i];
             key = this._accountOrGroupKey(account);
             index = this._ccs.findIndex(
                 account => this._accountOrGroupKey(account) === key);

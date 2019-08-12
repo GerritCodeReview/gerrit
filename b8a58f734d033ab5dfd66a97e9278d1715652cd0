@@ -46,6 +46,30 @@
       "revId": "b8a58f734d033ab5dfd66a97e9278d1715652cd0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "608b82df_3935075b",
+        "filename": "java/com/google/gerrit/sshd/commands/SetAccountCommand.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-08-12T07:30:29Z",
+      "side": 1,
+      "message": "\u003e It\u0027s a non-breaking API change though. If the new parameter is not given, it should behave the same as before.\n\u003e \n\u003e (If it doesn\u0027t behave the same as before, it should be fixed so that it does).\n\nI know, however, all the implications need to be carefully evaluated. Adding features in a patch-release should be the exception rather than the norm. I would be more in favour of adding to the latest v3.0 which has been just released, rather than having to the v2.16 that has been out for several months.",
+      "parentUuid": "b327db27_2b9ea98b",
+      "range": {
+        "startLine": 91,
+        "startChar": 0,
+        "endLine": 96,
+        "endChar": 0
+      },
+      "revId": "b8a58f734d033ab5dfd66a97e9278d1715652cd0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

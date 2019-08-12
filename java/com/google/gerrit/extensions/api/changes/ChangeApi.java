@@ -272,6 +272,15 @@ public interface ChangeApi {
   Map<String, List<CommentInfo>> comments() throws RestApiException;
 
   /**
+   * Get all published comments on a change as a list.
+   *
+   * @return comments as a list; comments have the {@code revision} field set to indicate their
+   *     patch set.
+   * @throws RestApiException
+   */
+  List<CommentInfo> commentsAsList() throws RestApiException;
+
+  /**
    * Get all robot comments on a change.
    *
    * @return robot comments in a map keyed by path; robot comments have the {@code revision} field
@@ -288,6 +297,15 @@ public interface ChangeApi {
    * @throws RestApiException
    */
   Map<String, List<CommentInfo>> drafts() throws RestApiException;
+
+  /**
+   * Get all draft comments for the current user on a change as a list.
+   *
+   * @return drafts as a list; comments have the {@code revision} field set to indicate their patch
+   *     set.
+   * @throws RestApiException
+   */
+  List<CommentInfo> draftsAsList() throws RestApiException;
 
   ChangeInfo check() throws RestApiException;
 
@@ -562,12 +580,22 @@ public interface ChangeApi {
     }
 
     @Override
+    public List<CommentInfo> commentsAsList() throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
     public Map<String, List<RobotCommentInfo>> robotComments() throws RestApiException {
       throw new NotImplementedException();
     }
 
     @Override
     public Map<String, List<CommentInfo>> drafts() throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public List<CommentInfo> draftsAsList() throws RestApiException {
       throw new NotImplementedException();
     }
 

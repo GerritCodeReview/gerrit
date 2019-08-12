@@ -61,17 +61,18 @@ class PatchTable extends Composite {
     boolean isValid(Patch patch);
   }
 
-  final PatchValidator PREFERENCE_VALIDATOR =
-      new PatchValidator() {
-        @Override
-        public boolean isValid(Patch patch) {
-          return !((listenablePrefs.get().skipDeleted
-              && patch.getChangeType().equals(ChangeType.DELETED))
-              || (listenablePrefs.get().skipUncommented
-              && patch.getCommentCount() == 0));
-        }
+  final PatchValidator PREFERENCE_VALIDATOR = new PatchValidator() {
+    @Override
+    public boolean isValid(Patch patch) {
+      boolean skipDeleted = listenablePrefs.get().skipDeleted != null
+          ? listenablePrefs.get().skipDeleted : false;
+      boolean skipUncommented = listenablePrefs.get().skipUncommented != null
+          ? listenablePrefs.get().skipUncommented : false;
+      return !((skipDeleted && patch.getChangeType().equals(ChangeType.DELETED))
+          || (skipUncommented && patch.getCommentCount() == 0));
+    }
 
-      };
+  };
 
   private final FlowPanel myBody;
   private PatchSetDetail detail;

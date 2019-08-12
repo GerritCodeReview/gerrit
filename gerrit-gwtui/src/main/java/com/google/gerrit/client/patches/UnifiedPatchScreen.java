@@ -453,7 +453,8 @@ public class UnifiedPatchScreen extends Screen implements
 
     if (Gerrit.isSignedIn()) {
       boolean isReviewed = false;
-      if (isFirst && !prefs.get().manualReview) {
+      boolean manualReview = prefs.get().manualReview != null ? prefs.get().manualReview : false;
+      if (isFirst && !manualReview) {
         isReviewed = true;
         reviewedPanels.setReviewedByCurrentUser(isReviewed);
       } else {

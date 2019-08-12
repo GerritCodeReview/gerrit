@@ -117,6 +117,11 @@
     },
 
     _computeItems(messages, reviewerUpdates) {
+      // Polymer 2: check for undefined
+      if ([messages, reviewerUpdates].some(arg => arg === undefined)) {
+        return undefined;
+      }
+
       messages = messages || [];
       reviewerUpdates = reviewerUpdates || [];
       let mi = 0;

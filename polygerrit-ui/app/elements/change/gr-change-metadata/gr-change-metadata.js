@@ -250,6 +250,7 @@
 
     _computeTopicReadOnly(mutable, change) {
       return !mutable ||
+          !change ||
           !change.actions ||
           !change.actions.topic ||
           !change.actions.topic.enabled;
@@ -257,6 +258,7 @@
 
     _computeHashtagReadOnly(mutable, change) {
       return !mutable ||
+          !change ||
           !change.actions ||
           !change.actions.hashtags ||
           !change.actions.hashtags.enabled;
@@ -264,6 +266,7 @@
 
     _computeAssigneeReadOnly(mutable, change) {
       return !mutable ||
+          !change ||
           !change.actions ||
           !change.actions.assignee ||
           !change.actions.assignee.enabled;
@@ -297,7 +300,7 @@
      *     the push validation.
      */
     _computePushCertificateValidation(serverConfig, change) {
-      if (!serverConfig || !serverConfig.receive ||
+      if (!change || !serverConfig || !serverConfig.receive ||
           !serverConfig.receive.enable_signed_push) {
         return null;
       }

@@ -124,6 +124,14 @@
     },
 
     _computeUsernameMutable(config, username) {
+      // Polymer 2: check for undefined
+      if ([
+        config,
+        username,
+      ].some(arg => arg === undefined)) {
+        return undefined;
+      }
+
       return config.auth.editable_account_fields.includes('USER_NAME') &&
           !username;
     },

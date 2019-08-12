@@ -157,6 +157,11 @@
     },
 
     _computeSchemes(change, patchNum) {
+      // Polymer 2: check for undefined
+      if ([change, patchNum].some(arg => arg === undefined)) {
+        return undefined;
+      }
+
       for (const rev of Object.values(change.revisions || {})) {
         if (this.patchNumEquals(rev._number, patchNum)) {
           const fetch = rev.fetch;

@@ -325,6 +325,11 @@
     },
 
     _computeConnectedRevisions(change, patchNum, relatedChanges) {
+      // Polymer 2: check for undefined
+      if ([change, patchNum, relatedChanges].some(arg => arg === undefined)) {
+        return undefined;
+      }
+
       const connected = [];
       let changeRevision;
       if (!change) { return []; }

@@ -148,6 +148,11 @@
     },
 
     _computePermittedLabelValues(permittedLabels, label) {
+      // Polymer 2: check for undefined
+      if ([permittedLabels, label].some(arg => arg === undefined)) {
+        return undefined;
+      }
+
       return permittedLabels[label];
     },
 

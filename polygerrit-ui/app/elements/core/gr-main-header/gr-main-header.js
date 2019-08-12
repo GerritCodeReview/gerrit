@@ -181,6 +181,17 @@
     },
 
     _computeLinks(defaultLinks, userLinks, adminLinks, topMenus, docBaseUrl) {
+      // Polymer 2: check for undefined
+      if ([
+        defaultLinks,
+        userLinks,
+        adminLinks,
+        topMenus,
+        docBaseUrl,
+      ].some(arg => arg === undefined)) {
+        return undefined;
+      }
+
       const links = defaultLinks.map(menu => {
         return {
           title: menu.title,

@@ -794,6 +794,15 @@
     },
 
     _formatFilesForDropdown(fileList, patchNum, changeComments) {
+      // Polymer 2: check for undefined
+      if ([
+        fileList,
+        patchNum,
+        changeComments,
+      ].some(arg => arg === undefined)) {
+        return;
+      }
+
       if (!fileList) { return; }
       const dropdownContent = [];
       for (const path of fileList) {
@@ -931,6 +940,15 @@
     },
 
     _computeCommentSkips(commentMap, fileList, path) {
+      // Polymer 2: check for undefined
+      if ([
+        commentMap,
+        fileList,
+        path,
+      ].some(arg => arg === undefined)) {
+        return undefined;
+      }
+
       const skips = {previous: null, next: null};
       if (!fileList.length) { return skips; }
       const pathIndex = fileList.indexOf(path);
@@ -1011,6 +1029,11 @@
     },
 
     _computeFileNum(file, files) {
+      // Polymer 2: check for undefined
+      if ([file, files].some(arg => arg === undefined)) {
+        return undefined;
+      }
+
       return files.findIndex(({value}) => value === file) + 1;
     },
 

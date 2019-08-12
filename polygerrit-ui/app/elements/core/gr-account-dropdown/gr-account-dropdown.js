@@ -66,6 +66,11 @@
     },
 
     _getLinks(switchAccountUrl, path) {
+      // Polymer 2: check for undefined
+      if ([switchAccountUrl, path].some(arg => arg === undefined)) {
+        return undefined;
+      }
+
       const links = [{name: 'Settings', url: '/settings/'}];
       if (switchAccountUrl) {
         const replacements = {path};

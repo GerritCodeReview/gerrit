@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "42f73b9d_19f03743",
+        "filename": "java/com/google/gerrit/server/account/Emails.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-08-12T08:01:25Z",
+      "side": 1,
+      "message": "nit: do not import Account.Id",
+      "revId": "c8b6cca31dc8b85681407db7abd16c59ee676a4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

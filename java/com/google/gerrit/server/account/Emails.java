@@ -14,14 +14,17 @@
 
 package com.google.gerrit.server.account;
 
+import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
 
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSetMultimap;
-import com.google.common.collect.Streams;
+import com.google.common.collect.MultimapBuilder;
+import com.google.common.collect.SetMultimap;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.Account.Id;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.query.account.InternalAccountQuery;
@@ -32,6 +35,8 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 
 /** Class to access accounts by email. */
 @Singleton
@@ -65,15 +70,20 @@ public class Emails {
    * have no external ID for the preferred email. Having accounts with a preferred email that does
    * not exist as external ID is an inconsistency, but existing functionality relies on still
    * getting those accounts, which is why they are included. Accounts by preferred email are fetched
-   * from the account index.
+   * from the account index as a fallback for email addresses that could not be resolved using
+   * {@link ExternalIds}
    *
    * @see #getAccountsFor(String...)
    */
   public ImmutableSet<Account.Id> getAccountFor(String email) throws IOException {
-    return Streams.concat(
-            externalIds.byEmail(email).stream().map(ExternalId::accountId),
-            executeIndexQuery(() -> queryProvider.get().byPreferredEmail(email).stream())
-                .map(a -> a.getAccount().id()))
+    ImmutableSet<Account.Id> accounts =
+        externalIds.byEmail(email).stream().map(ExternalId::accountId).collect(toImmutableSet());
+    if (!accounts.isEmpty()) {
+      return accounts;
+    }
+
+    return executeIndexQuery(() -> queryProvider.get().byPreferredEmail(email).stream())
+        .map(a -> a.getAccount().id())
         .collect(toImmutableSet());
   }
 
@@ -84,12 +94,18 @@ public class Emails {
    */
   public ImmutableSetMultimap<String, Account.Id> getAccountsFor(String... emails)
       throws IOException {
-    ImmutableSetMultimap.Builder<String, Account.Id> builder = ImmutableSetMultimap.builder();
+    SetMultimap<String, Id> result =
+        MultimapBuilder.hashKeys(emails.length).hashSetValues(1).build();
     externalIds.byEmails(emails).entries().stream()
-        .forEach(e -> builder.put(e.getKey(), e.getValue().accountId()));
-    executeIndexQuery(() -> queryProvider.get().byPreferredEmail(emails).entries().stream())
-        .forEach(e -> builder.put(e.getKey(), e.getValue().getAccount().id()));
-    return builder.build();
+        .forEach(e -> result.put(e.getKey(), e.getValue().accountId()));
+    List<String> emailsToBackfill =
+        Arrays.stream(emails).filter(e -> !result.containsKey(e)).collect(toImmutableList());
+    if (!emailsToBackfill.isEmpty()) {
+      executeIndexQuery(
+              () -> queryProvider.get().byPreferredEmail(emailsToBackfill).entries().stream())
+          .forEach(e -> result.put(e.getKey(), e.getValue().getAccount().id()));
+    }
+    return ImmutableSetMultimap.copyOf(result);
   }
 
   /**

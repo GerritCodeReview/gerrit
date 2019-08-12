@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3c9734fd_b4295a99",
+        "filename": "java/com/google/gerrit/server/project/SubmitRuleEvaluator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-08-12T05:41:14Z",
+      "side": 1,
+      "message": "The scope of this try-block is quite wide. It means we are measuring the latency including time taken to load the change and project from caches, and in some cases it might not even include latency of executing the rule (i.e. when it returns early at L129).\n\nShould the scope rather be only around the actual execution, i.e. L134-137?",
+      "range": {
+        "startLine": 109,
+        "startChar": 4,
+        "endLine": 109,
+        "endChar": 72
+      },
+      "revId": "2edcfca47c5a2c352da5f8f966625eb13b58ecad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "32618c56_9997bedb",
+        "filename": "java/com/google/gerrit/server/project/SubmitRuleEvaluator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-08-12T05:41:14Z",
+      "side": 1,
+      "message": "Same here.  Should the measurement only be around L171?",
+      "revId": "2edcfca47c5a2c352da5f8f966625eb13b58ecad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

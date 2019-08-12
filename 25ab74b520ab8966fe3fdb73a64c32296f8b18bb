@@ -16,6 +16,24 @@
       "revId": "25ab74b520ab8966fe3fdb73a64c32296f8b18bb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9a8cc7eb_d228fbc3",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 16
+      },
+      "lineNbr": 496,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-08-12T14:07:17Z",
+      "side": 1,
+      "message": "That kind of works, but still has issues (like going from the change list to the change still has the problem where it timeouts because it carn\u0027t find the value).\n\nUsing an observer works around this so that it waits for both the values to be defined.",
+      "parentUuid": "0b2587c2_09b675ac",
+      "revId": "25ab74b520ab8966fe3fdb73a64c32296f8b18bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

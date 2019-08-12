@@ -173,6 +173,14 @@
     },
 
     _computeFullDateStr(dateStr, timeFormat) {
+      // Polymer 2: check for undefined
+      if ([
+        dateStr,
+        timeFormat,
+      ].some(arg => arg === undefined)) {
+        return undefined;
+      }
+
       if (!dateStr) { return ''; }
       const date = moment(util.parseDate(dateStr));
       if (!date.isValid()) { return ''; }

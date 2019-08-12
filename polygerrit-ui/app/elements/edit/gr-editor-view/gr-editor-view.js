@@ -210,6 +210,15 @@
     },
 
     _computeSaveDisabled(content, newContent, saving) {
+      // Polymer 2: check for undefined
+      if ([
+        content,
+        newContent,
+        saving,
+      ].some(arg => arg === undefined)) {
+        return undefined;
+      }
+
       if (saving) {
         return true;
       }

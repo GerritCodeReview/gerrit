@@ -22,6 +22,30 @@
       "revId": "b8a58f734d033ab5dfd66a97e9278d1715652cd0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b327db27_2b9ea98b",
+        "filename": "java/com/google/gerrit/sshd/commands/SetAccountCommand.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-08-12T07:14:25Z",
+      "side": 1,
+      "message": "It\u0027s a non-breaking API change though. If the new parameter is not given, it should behave the same as before.\n\n(If it doesn\u0027t behave the same as before, it should be fixed so that it does).",
+      "parentUuid": "7f6faa62_086c6dda",
+      "range": {
+        "startLine": 91,
+        "startChar": 0,
+        "endLine": 96,
+        "endChar": 0
+      },
+      "revId": "b8a58f734d033ab5dfd66a97e9278d1715652cd0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

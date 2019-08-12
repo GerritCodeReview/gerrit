@@ -205,7 +205,7 @@ public class ProjectBranchesScreen extends PaginatedProjectScreen {
       @Override
       public void onKeyUp(KeyUpEvent event) {
         Query q = new Query(filterTxt.getValue());
-        if (match.equals(q.qMatch)) {
+        if (match != null && match.equals(q.qMatch)) {
           q.start(start);
         } else {
           if (query == null) {

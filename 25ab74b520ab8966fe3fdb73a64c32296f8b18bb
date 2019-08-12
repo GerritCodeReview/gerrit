@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0b2587c2_09b675ac",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 16
+      },
+      "lineNbr": 496,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-08-12T12:13:19Z",
+      "side": 1,
+      "message": "Can you achieve the same with this slightly more concise approach?\n\n  \u003ctemplate is\u003d\"dom-if\" if\u003d\"[[!!_change \u0026\u0026 !!_selectedRevision]]\"\u003e",
+      "revId": "25ab74b520ab8966fe3fdb73a64c32296f8b18bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

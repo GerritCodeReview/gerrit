@@ -30,9 +30,14 @@
 
     /** @type {number|string} */
     this.beforeNumber = opt_beforeLine || 0;
+
     /** @type {number|string} */
     this.afterNumber = opt_afterLine || 0;
 
+    /** @type {boolean} */
+    this.hasIntralineInfo = false;
+
+    /** @type Array<GrDiffLine.Highlights> */
     this.highlights = [];
 
     /** @type {?Array<Object>} ?Array<!GrDiffGroup> */

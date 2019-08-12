@@ -437,7 +437,10 @@
       if (type !== GrDiffLine.Type.ADD) line.beforeNumber = offsetLeft + i;
       if (type !== GrDiffLine.Type.REMOVE) line.afterNumber = offsetRight + i;
       if (opt_highlights) {
+        line.hasIntralineInfo = true;
         line.highlights = opt_highlights.filter(hl => hl.contentIndex === i);
+      } else {
+        line.hasIntralineInfo = false;
       }
       return line;
     },

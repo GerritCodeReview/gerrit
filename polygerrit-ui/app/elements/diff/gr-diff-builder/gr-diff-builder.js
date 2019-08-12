@@ -332,8 +332,11 @@
     if (line.type !== GrDiffLine.Type.BLANK) {
       td.classList.add('content');
     }
-    if (line.highlights.length === 0) {
-      td.classList.add('no-highlights');
+
+    // If intraline info is not available, the entire line will be
+    // considered as changed and marked as dark red / green color
+    if (!line.hasIntralineInfo) {
+      td.classList.add('no-intraline-info');
     }
     td.classList.add(line.type);
 

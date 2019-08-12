@@ -118,6 +118,30 @@
       "revId": "b8a58f734d033ab5dfd66a97e9278d1715652cd0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cb448065_e6bf6984",
+        "filename": "java/com/google/gerrit/sshd/commands/SetAccountCommand.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-08-12T15:03:58Z",
+      "side": 1,
+      "message": "The rationale for why this is on the stable-2.16 branch (i wanted it on the 2.15 branch, but couldn\u0027t implement it there due to the limitations (no way to set the commit msg)) is that we had a user recently come to us to say they couldn\u0027t log in. We found out the account was locked. So then i think tyler went through the internal channels (asking another team) to see why they were locked. We eventually unlocked the user and so they were able to log in. It would have been really helpful if there was a commit message indicating why the user is locked.",
+      "parentUuid": "b20ca398_9e7bdf62",
+      "range": {
+        "startLine": 91,
+        "startChar": 0,
+        "endLine": 96,
+        "endChar": 0
+      },
+      "revId": "b8a58f734d033ab5dfd66a97e9278d1715652cd0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

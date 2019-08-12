@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "e1c1e5af_a2de000f",
+        "filename": "java/com/google/gerrit/server/project/SubmitRuleEvaluator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-08-12T07:19:52Z",
+      "side": 1,
+      "message": "I know, but it\u0027s actually by intention. I am interested in what latency SubmitRule computation adds to changes and if it would make sense to factor this out into a separate request when serving a change on the UI. For that, we need the whole latency. We do already have some fine-grained metrics on each submit rule, but one overall metric would help to inform aforementioned decision.\n\nI hope we don\u0027t have to factor it out though.",
+      "parentUuid": "3c9734fd_b4295a99",
+      "range": {
+        "startLine": 109,
+        "startChar": 4,
+        "endLine": 109,
+        "endChar": 72
+      },
+      "revId": "2edcfca47c5a2c352da5f8f966625eb13b58ecad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "32618c56_9997bedb",
         "filename": "java/com/google/gerrit/server/project/SubmitRuleEvaluator.java",
         "patchSetId": 2

@@ -1,0 +1,199 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6a5d21b0_2a4f1d5c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-08-12T14:59:27Z",
+      "side": 1,
+      "message": "Please add more details here. Readers of the change and later on the Git history are likely interested in:\n- What is the motivation for this change (where is the label type useful)\n- What does this commit add (A new label type, an implementation in Java, an implementation in Prolog as well as docs + tests)",
+      "revId": "09481ca13fe168cda2801a447603828dd4660a21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7dee881a_46193be1",
+        "filename": "java/com/google/gerrit/common/data/LabelFunction.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-08-12T14:59:27Z",
+      "side": 1,
+      "message": "This doesn\u0027t match the enum\u0027s name and the name mentioned in the doc.",
+      "range": {
+        "startLine": 36,
+        "startChar": 17,
+        "endLine": 36,
+        "endChar": 26
+      },
+      "revId": "09481ca13fe168cda2801a447603828dd4660a21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5c242db0_b2d99800",
+        "filename": "java/com/google/gerrit/common/data/LabelFunction.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-08-12T14:59:27Z",
+      "side": 1,
+      "message": "We could remove the booleans here and just keep:\n\nOptional\u003cAccount.Id\u003e maxPositiveVoter \u003d Optional.empty();\nOptional\u003cAccount.Id\u003e nonMaxNegativeVoter \u003d Optional.emtpy();\n\nIt spares some lines of code and removes the chance of the booleans and account IDs getting out of sync.",
+      "range": {
+        "startLine": 116,
+        "startChar": 0,
+        "endLine": 120,
+        "endChar": 33
+      },
+      "revId": "09481ca13fe168cda2801a447603828dd4660a21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "95453b31_39ded3db",
+        "filename": "javatests/com/google/gerrit/common/data/NegCanBlockLabelFunctionTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-08-12T14:59:27Z",
+      "side": 1,
+      "message": "nit: Please inline this where it is used",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 47,
+        "endChar": 71
+      },
+      "revId": "09481ca13fe168cda2801a447603828dd4660a21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f782a37_15f878ad",
+        "filename": "javatests/com/google/gerrit/common/data/NegCanBlockLabelFunctionTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-08-12T14:59:27Z",
+      "side": 1,
+      "message": "Please create a type for this. We don\u0027t use Object in Gerrit when there is a concrete type available or we can create one.\n\n@AutpValue\nstatic abstract class TestData {\n  abstract List\u003cPatchSetApproval\u003e approvals();\n  abstract SubmitRecord.Label.Status.\n}\n\nOptionally, create an @AutoValue.Builder.\n\n@Parameters\npublic static Collection\u003cTestData\u003e data() ....",
+      "range": {
+        "startLine": 50,
+        "startChar": 1,
+        "endLine": 52,
+        "endChar": 24
+      },
+      "revId": "09481ca13fe168cda2801a447603828dd4660a21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5498500e_22cbd8e0",
+        "filename": "javatests/com/google/gerrit/common/data/NegCanBlockLabelFunctionTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-08-12T14:59:27Z",
+      "side": 1,
+      "message": "nit: remove f",
+      "range": {
+        "startLine": 80,
+        "startChar": 33,
+        "endLine": 80,
+        "endChar": 43
+      },
+      "revId": "09481ca13fe168cda2801a447603828dd4660a21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "acd2b767_401b139a",
+        "filename": "javatests/com/google/gerrit/common/data/NegCanBlockLabelFunctionTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-08-12T14:59:27Z",
+      "side": 1,
+      "message": "nit: remove f",
+      "range": {
+        "startLine": 81,
+        "startChar": 36,
+        "endLine": 81,
+        "endChar": 37
+      },
+      "revId": "09481ca13fe168cda2801a447603828dd4660a21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c87c5fda_67d156df",
+        "filename": "javatests/com/google/gerrit/common/data/NegCanBlockLabelFunctionTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-08-12T14:59:27Z",
+      "side": 1,
+      "message": "nit: approval(int value) will make this easier to understand once inlined",
+      "range": {
+        "startLine": 107,
+        "startChar": 36,
+        "endLine": 107,
+        "endChar": 48
+      },
+      "revId": "09481ca13fe168cda2801a447603828dd4660a21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "29cb2c2a_256cb226",
+        "filename": "prolog/gerrit_common.pl",
+        "patchSetId": 11
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-08-12T14:59:27Z",
+      "side": 1,
+      "message": "Ideally, this would have a test. However, the other Prolog label types do not have a test, so I would feel bad to start enforcing this with this change.\n\nIf you want to write a test anyway to increase confidence, you could look at GerritCommonTest which tests Prolog code without the rest of the overhead for the Gerrit server.",
+      "revId": "09481ca13fe168cda2801a447603828dd4660a21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

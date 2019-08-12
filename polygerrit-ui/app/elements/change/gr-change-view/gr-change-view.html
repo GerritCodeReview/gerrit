@@ -494,9 +494,9 @@ limitations under the License.
                 </gr-button>
               </div>
               <gr-endpoint-decorator name="commit-container">
-                <gr-endpoint-param name="change" value="[[_change]]">
+                <gr-endpoint-param name="change" value$="[[_change]]">
                 </gr-endpoint-param>
-                <gr-endpoint-param name="revision" value="[[_selectedRevision]]">
+                <gr-endpoint-param name="revision" value$="[[_selectedRevision]]">
                 </gr-endpoint-param>
               </gr-endpoint-decorator>
             </div>
@@ -534,9 +534,9 @@ limitations under the License.
               as="tabHeader">
               <paper-tab>
                   <gr-endpoint-decorator name$="[[tabHeader]]">
-                      <gr-endpoint-param name="change" value="[[_change]]">
+                      <gr-endpoint-param name="change" value$="[[_change]]">
                       </gr-endpoint-param>
-                      <gr-endpoint-param name="revision" value="[[_selectedRevision]]">
+                      <gr-endpoint-param name="revision" value$="[[_selectedRevision]]">
                       </gr-endpoint-param>
                   </gr-endpoint-decorator>
               </paper-tab>
@@ -597,18 +597,18 @@ limitations under the License.
 
         <template is="dom-if" if="[[!_showFileTabContent]]">
             <gr-endpoint-decorator name$="[[_selectedFilesTabPluginEndpoint]]">
-                <gr-endpoint-param name="change" value="[[_change]]">
+                <gr-endpoint-param name="change" value$="[[_change]]">
                 </gr-endpoint-param>
-                <gr-endpoint-param name="revision" value="[[_selectedRevision]]">
+                <gr-endpoint-param name="revision" value$="[[_selectedRevision]]">
                 </gr-endpoint-param>
             </gr-endpoint-decorator>
         </template>
       </section>
 
       <gr-endpoint-decorator name="change-view-integration">
-        <gr-endpoint-param name="change" value="[[_change]]">
+        <gr-endpoint-param name="change" value$="[[_change]]">
         </gr-endpoint-param>
-        <gr-endpoint-param name="revision" value="[[_selectedRevision]]">
+        <gr-endpoint-param name="revision" value$="[[_selectedRevision]]">
         </gr-endpoint-param>
       </gr-endpoint-decorator>
       <paper-tabs

@@ -70,6 +70,30 @@
       "revId": "b8a58f734d033ab5dfd66a97e9278d1715652cd0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f237f4b3_cce6ac66",
+        "filename": "java/com/google/gerrit/sshd/commands/SetAccountCommand.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-08-12T07:32:39Z",
+      "side": 1,
+      "message": "OK, but then by the same argument we should\u0027t be doing changes like [1] on stable-2.16 either...\n\n\n[1] https://gerrit-review.googlesource.com/c/plugins/replication/+/230458",
+      "parentUuid": "608b82df_3935075b",
+      "range": {
+        "startLine": 91,
+        "startChar": 0,
+        "endLine": 96,
+        "endChar": 0
+      },
+      "revId": "b8a58f734d033ab5dfd66a97e9278d1715652cd0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

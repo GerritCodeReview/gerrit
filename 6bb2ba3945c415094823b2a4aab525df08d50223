@@ -126,6 +126,30 @@
     },
     {
       "key": {
+        "uuid": "a7c0c536_350a6ef2",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-attribute-helper/gr-attribute-helper.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-08-13T16:02:30Z",
+      "side": 1,
+      "message": "\u003e\u003eI don\u0027t understand the \"break something when adding binding\". We could also fire both on top of listening to both. Would this then also break something?\n\nFor example, there is an element with:\n\u003cmyelement id\u003d\"el\" myprop\u003d\"abc\"\u003e\u003c/myelement\u003e\nand the code set myprop directly:\nel.myprop\u003d\"def\"\n\nIn this case \"myprop-changed\" event is fired and GrAttributeHelper works as expected.\n\nThen code is changed to:\n\u003cmyelement id\u003d\"el\" myprop\u003d\"[[something]]\"\u003e\u003c/myelement\u003e\n\nNow GrAttributeHelper doesn\u0027t work.\n\n\u003e\u003eBut then you will miss the -changed events. Why not listen on both? -changed events can still happen, not?\n\nIt depends. If there is a binding, then this event will not fire.\n\n\u003e\u003eWe should seriously consider to just remove the attribute helper from the plugin API. I don\u0027t think anyone is using it. Then attribute helper becomes a local helper of gr-endpoint, and then I am fine with whatever local workaround we are using.\n\nI vote for this :)",
+      "parentUuid": "68e1cc72_00a0d421",
+      "range": {
+        "startLine": 25,
+        "startChar": 30,
+        "endLine": 25,
+        "endChar": 50
+      },
+      "revId": "6bb2ba3945c415094823b2a4aab525df08d50223",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0f22216d_89513389",
         "filename": "polygerrit-ui/app/elements/plugins/gr-endpoint-param/gr-endpoint-param.js",
         "patchSetId": 1
@@ -173,6 +197,24 @@
       "side": 1,
       "message": "1. We have the code under control. And gr-endpoint-params does not look like it would change \"value\".\n\n2. Is it a problem when this is fired twice?\n\nThat said, I understand the concern. Firing something that has a well defined semantic is not great.",
       "parentUuid": "5f849ebd_b7311592",
+      "revId": "6bb2ba3945c415094823b2a4aab525df08d50223",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "609ddf10_181476e5",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-endpoint-param/gr-endpoint-param.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-08-13T16:02:30Z",
+      "side": 1,
+      "message": "1. Some other component can change it, like this:\nquerySelector(\"gr-endpoint-param\").value \u003d \"abc\"\n\n2. Right now it is not a problem.\nSo yes, it will work.\n\nWith the \u0027value-changed\u0027 event instead of \u0027value-observed\u0027 I have to remember, that it can be fired twice. \n\nAnyway, both solutions have problems. If from you experience it is better to keep original name (\u0027value-changed\u0027) - let\u0027s keep it.",
+      "parentUuid": "07321bed_682fecf8",
       "revId": "6bb2ba3945c415094823b2a4aab525df08d50223",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

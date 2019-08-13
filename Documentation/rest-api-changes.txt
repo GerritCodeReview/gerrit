@@ -6831,13 +6831,6 @@ oldest. Empty if there are no related changes.
 === Requirement
 The `Requirement` entity contains information about a requirement relative to a change.
 
-type:: Alphanumerical (plus hyphens or underscores) string to identify what the requirement is and
-why it was triggered. Can be seen as a class: requirements sharing the same type were created for a
-similar reason, and the data structure will follow one set of rules.
-
-data:: (Optional) Additional key-value data linked to this requirement. This is used in templates to
-render rich status messages.
-
 [options="header",cols="1,^1,5"]
 |===========================
 |Field Name      | |Description

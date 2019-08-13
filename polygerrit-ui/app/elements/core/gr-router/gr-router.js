@@ -204,7 +204,6 @@
 
   Polymer({
     is: 'gr-router',
-    _legacyUndefinedCheck: true,
 
     properties: {
       _app: {

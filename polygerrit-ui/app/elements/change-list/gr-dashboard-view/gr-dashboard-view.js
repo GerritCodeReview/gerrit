@@ -21,7 +21,6 @@
 
   Polymer({
     is: 'gr-dashboard-view',
-    _legacyUndefinedCheck: true,
 
     /**
      * Fired when the title of the page should change.

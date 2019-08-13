@@ -60,7 +60,6 @@
    */
   Polymer({
     is: 'gr-diff-processor',
-    _legacyUndefinedCheck: true,
 
     properties: {
 

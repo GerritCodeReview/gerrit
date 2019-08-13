@@ -37,7 +37,6 @@
 
   Polymer({
     is: 'gr-diff-cursor',
-    _legacyUndefinedCheck: true,
 
     properties: {
       /**

@@ -19,7 +19,6 @@
 
   Polymer({
     is: 'gr-reviewer-list',
-    _legacyUndefinedCheck: true,
 
     /**
      * Fired when the "Add reviewer..." button is tapped.

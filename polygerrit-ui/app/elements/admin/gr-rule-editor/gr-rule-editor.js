@@ -65,7 +65,6 @@
 
   Polymer({
     is: 'gr-rule-editor',
-    _legacyUndefinedCheck: true,
 
     properties: {
       hasRange: Boolean,

@@ -31,7 +31,6 @@
 
   Polymer({
     is: 'gr-change-list-view',
-    _legacyUndefinedCheck: true,
 
     /**
      * Fired when the title of the page should change.

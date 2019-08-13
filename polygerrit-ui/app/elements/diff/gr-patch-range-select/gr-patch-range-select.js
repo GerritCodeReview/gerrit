@@ -31,7 +31,6 @@
 
   Polymer({
     is: 'gr-patch-range-select',
-    _legacyUndefinedCheck: true,
 
     properties: {
       availablePatches: Array,

@@ -19,7 +19,6 @@
 
   Polymer({
     is: 'gr-download-dialog',
-    _legacyUndefinedCheck: true,
 
     /**
      * Fired when the user presses the close button.

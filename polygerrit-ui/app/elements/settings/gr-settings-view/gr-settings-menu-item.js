@@ -19,7 +19,6 @@
 
   Polymer({
     is: 'gr-settings-menu-item',
-    _legacyUndefinedCheck: true,
     properties: {
       href: String,
       title: String,

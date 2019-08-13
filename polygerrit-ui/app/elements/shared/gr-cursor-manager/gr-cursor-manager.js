@@ -24,7 +24,6 @@
 
   Polymer({
     is: 'gr-cursor-manager',
-    _legacyUndefinedCheck: true,
 
     properties: {
       stops: {

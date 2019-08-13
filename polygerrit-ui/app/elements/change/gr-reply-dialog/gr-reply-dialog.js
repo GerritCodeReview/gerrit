@@ -861,6 +861,19 @@
 
     _computeSendButtonDisabled(buttonLabel, drafts, text, reviewersMutated,
         labelsChanged, includeComments, disabled) {
+      // Polymer 2: check for undefined
+      if ([
+        buttonLabel,
+        drafts,
+        text,
+        reviewersMutated,
+        labelsChanged,
+        includeComments,
+        disabled,
+      ].some(arg => arg === undefined)) {
+        return undefined;
+      }
+
       if (disabled) { return true; }
       if (buttonLabel === ButtonLabels.START_REVIEW) { return false; }
       const hasDrafts = includeComments && Object.keys(drafts).length;

@@ -68,31 +68,34 @@ limitations under the License.
           {
             name: 'Andrew Bonventre',
             email: 'andybons+gerrit@gmail.com',
-          }),
+          }, /* additionalText= */ ''),
           'Andrew Bonventre <andybons+gerrit@gmail.com>');
 
       assert.equal(element._computeAccountTitle(
-          {name: 'Andrew Bonventre'}),
+          {name: 'Andrew Bonventre'}, /* additionalText= */ ''),
           'Andrew Bonventre');
 
       assert.equal(element._computeAccountTitle(
           {
             email: 'andybons+gerrit@gmail.com',
-          }),
+          }, /* additionalText= */ ''),
           'Anonymous <andybons+gerrit@gmail.com>');
 
       assert.equal(element._computeShowEmailClass(
           {
             name: 'Andrew Bonventre',
             email: 'andybons+gerrit@gmail.com',
-          }), '');
+          }, /* additionalText= */ ''), '');
 
       assert.equal(element._computeShowEmailClass(
           {
             email: 'andybons+gerrit@gmail.com',
-          }), 'showEmail');
+          }, /* additionalText= */ ''), 'showEmail');
 
-      assert.equal(element._computeShowEmailClass({name: 'Andrew Bonventre'}),
+      assert.equal(element._computeShowEmailClass(
+          {name: 'Andrew Bonventre'},
+          /* additionalText= */ '',
+      ),
           '');
 
       assert.equal(element._computeShowEmailClass(undefined), '');

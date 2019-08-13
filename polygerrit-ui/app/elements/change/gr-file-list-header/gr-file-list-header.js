@@ -133,6 +133,11 @@
     },
 
     _computeDescriptionReadOnly(loggedIn, change, account) {
+      // Polymer 2: check for undefined
+      if ([loggedIn, change, account].some(arg => arg === undefined)) {
+        return undefined;
+      }
+
       return !(loggedIn && (account._account_id === change.owner._account_id));
     },
 

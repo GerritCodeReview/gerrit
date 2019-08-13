@@ -94,6 +94,15 @@
     },
 
     _computeFilteredThreads(sortedThreads, unresolvedOnly, draftsOnly) {
+      // Polymer 2: check for undefined
+      if ([
+        sortedThreads,
+        unresolvedOnly,
+        draftsOnly,
+      ].some(arg => arg === undefined)) {
+        return undefined;
+      }
+
       return sortedThreads.filter(c => {
         if (draftsOnly) {
           return c.hasDraft;

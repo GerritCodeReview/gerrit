@@ -455,8 +455,20 @@
     },
 
     _computeChangeStatusChips(change, mergeable) {
+      // Polymer 2: check for undefined
+      if ([
+        change,
+        mergeable,
+      ].some(arg => arg === undefined)) {
+        // To keep consistent with Polymer 1, we are returning undefined
+        // if not all dependencies are defined
+        return undefined;
+      }
+
       // Show no chips until mergeability is loaded.
-      if (mergeable === null || mergeable === undefined) { return []; }
+      if (mergeable === null) {
+        return [];
+      }
 
       const options = {
         includeDerived: true,
@@ -467,7 +479,8 @@
     },
 
     _computeHideEditCommitMessage(loggedIn, editing, change, editMode) {
-      if (!loggedIn || editing || change.status === this.ChangeStatus.MERGED ||
+      if (!loggedIn || editing ||
+          (change && change.status === this.ChangeStatus.MERGED) ||
           editMode) {
         return true;
       }
@@ -974,6 +987,11 @@
     },
 
     _computeChangeIdCommitMessageError(commitMessage, change) {
+      // Polymer 2: check for undefined
+      if ([commitMessage, change].some(arg => arg === undefined)) {
+        return undefined;
+      }
+
       if (!commitMessage) { return CHANGE_ID_ERROR.MISSING; }
 
       // Find the last match in the commit message:
@@ -1028,6 +1046,11 @@
     },
 
     _computeReplyButtonLabel(changeRecord, canStartReview) {
+      // Polymer 2: check for undefined
+      if ([changeRecord, canStartReview].some(arg => arg === undefined)) {
+        return undefined;
+      }
+
       if (canStartReview) {
         return 'Start review';
       }
@@ -1738,6 +1761,10 @@
     },
 
     _computeEditMode(patchRangeRecord, paramsRecord) {
+      if ([patchRangeRecord, paramsRecord].some(arg => arg === undefined)) {
+        return undefined;
+      }
+
       if (paramsRecord.base && paramsRecord.base.edit) { return true; }
 
       const patchRange = patchRangeRecord.base || {};
@@ -1823,7 +1850,7 @@
     },
 
     _computeCurrentRevision(currentRevision, revisions) {
-      return revisions && revisions[currentRevision];
+      return currentRevision && revisions && revisions[currentRevision];
     },
 
     _computeDiffPrefsDisabled(disableDiffPrefs, loggedIn) {

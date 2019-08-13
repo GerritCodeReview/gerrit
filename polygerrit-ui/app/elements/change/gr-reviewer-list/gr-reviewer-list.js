@@ -199,6 +199,11 @@
     },
 
     _computeHiddenCount(reviewers, displayedReviewers) {
+      // Polymer 2: check for undefined
+      if ([reviewers, displayedReviewers].some(arg => arg === undefined)) {
+        return undefined;
+      }
+
       return reviewers.length - displayedReviewers.length;
     },
 

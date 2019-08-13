@@ -82,7 +82,12 @@
       return null;
     },
 
-    _computeLabels(labelRecord) {
+    _computeLabels(labelRecord, account) {
+      // Polymer 2: check for undefined
+      if ([labelRecord, account].some(arg => arg === undefined)) {
+        return undefined;
+      }
+
       const labelsObj = labelRecord.base;
       if (!labelsObj) { return []; }
       return Object.keys(labelsObj).sort().map(key => {

@@ -1093,20 +1093,84 @@ limitations under the License.
 
     test('_computeSendButtonDisabled', () => {
       const fn = element._computeSendButtonDisabled.bind(element);
-      assert.isFalse(fn('Start review'));
-      assert.isTrue(fn('Send', {}, '', false, false, false));
+      assert.isFalse(fn(
+          /* buttonLabel= */ 'Start review',
+          /* drafts= */ {},
+          /* text= */ '',
+          /* reviewersMutated= */ false,
+          /* labelsChanged= */ false,
+          /* includeComments= */ false,
+          /* disabled= */ false,
+      ));
+      assert.isTrue(fn(
+          /* buttonLabel= */ 'Send',
+          /* drafts= */ {},
+          /* text= */ '',
+          /* reviewersMutated= */ false,
+          /* labelsChanged= */ false,
+          /* includeComments= */ false,
+          /* disabled= */ false,
+      ));
       // Mock nonempty comment draft array, with seding comments.
-      assert.isFalse(fn('Send', {file: ['draft']}, '', false, false, true));
+      assert.isFalse(fn(
+          /* buttonLabel= */ 'Send',
+          /* drafts= */ {file: ['draft']},
+          /* text= */ '',
+          /* reviewersMutated= */ false,
+          /* labelsChanged= */ false,
+          /* includeComments= */ true,
+          /* disabled= */ false,
+      ));
       // Mock nonempty comment draft array, without seding comments.
-      assert.isTrue(fn('Send', {file: ['draft']}, '', false, false, false));
+      assert.isTrue(fn(
+          /* buttonLabel= */ 'Send',
+          /* drafts= */ {file: ['draft']},
+          /* text= */ '',
+          /* reviewersMutated= */ false,
+          /* labelsChanged= */ false,
+          /* includeComments= */ false,
+          /* disabled= */ false,
+      ));
       // Mock nonempty change message.
-      assert.isFalse(fn('Send', {}, 'test', false, false, false));
+      assert.isFalse(fn(
+          /* buttonLabel= */ 'Send',
+          /* drafts= */ {},
+          /* text= */ 'test',
+          /* reviewersMutated= */ false,
+          /* labelsChanged= */ false,
+          /* includeComments= */ false,
+          /* disabled= */ false,
+      ));
       // Mock reviewers mutated.
-      assert.isFalse(fn('Send', {}, '', true, false, false));
+      assert.isFalse(fn(
+          /* buttonLabel= */ 'Send',
+          /* drafts= */ {},
+          /* text= */ '',
+          /* reviewersMutated= */ true,
+          /* labelsChanged= */ false,
+          /* includeComments= */ false,
+          /* disabled= */ false,
+      ));
       // Mock labels changed.
-      assert.isFalse(fn('Send', {}, '', false, true, false));
+      assert.isFalse(fn(
+          /* buttonLabel= */ 'Send',
+          /* drafts= */ {},
+          /* text= */ '',
+          /* reviewersMutated= */ false,
+          /* labelsChanged= */ true,
+          /* includeComments= */ false,
+          /* disabled= */ false,
+      ));
       // Whole dialog is disabled.
-      assert.isTrue(fn('Send', {}, '', false, true, false, true));
+      assert.isTrue(fn(
+          /* buttonLabel= */ 'Send',
+          /* drafts= */ {},
+          /* text= */ '',
+          /* reviewersMutated= */ false,
+          /* labelsChanged= */ true,
+          /* includeComments= */ false,
+          /* disabled= */ true,
+      ));
     });
 
     test('_submit blocked when no mutations exist', () => {

@@ -4345,8 +4345,10 @@ a project-specific rule.
     R = label('Any-Label-Name', reject(_)).
 ----
 
-The response is a list of link:#submit-record[SubmitRecord] entries
-describing the permutations that satisfy the tested submit rule.
+The response is a link:#submit-record[SubmitRecord] describing the
+permutations that satisfy the tested submit rule.
+
+If the submit rule was a np-op, the response is "`204 No Content`".
 
 .Response
 ----
@@ -4355,14 +4357,12 @@ describing the permutations that satisfy the tested submit rule.
   Content-Type: application/json; charset=UTF-8
 
   )]}'
-  [
-    {
-      "status": "NOT_READY",
-      "reject": {
-        "Any-Label-Name": {}
-      }
+  {
+    "status": "NOT_READY",
+    "reject": {
+      "Any-Label-Name": {}
     }
-  ]
+  }
 ----
 
 When testing with the `curl` command line client the

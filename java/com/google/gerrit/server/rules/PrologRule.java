@@ -21,8 +21,7 @@ import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import java.util.Collection;
-import java.util.Collections;
+import java.util.Optional;
 
 @Singleton
 public class PrologRule implements SubmitRule {
@@ -36,17 +35,17 @@ public class PrologRule implements SubmitRule {
   }
 
   @Override
-  public Collection<SubmitRecord> evaluate(ChangeData cd) {
+  public Optional<SubmitRecord> evaluate(ChangeData cd) {
     ProjectState projectState = projectCache.get(cd.project());
     // We only want to run the Prolog engine if we have at least one rules.pl file to use.
     if ((projectState == null || !projectState.hasPrologRules())) {
-      return Collections.emptyList();
+      return Optional.empty();
     }
 
     return evaluate(cd, PrologOptions.defaultOptions());
   }
 
-  public Collection<SubmitRecord> evaluate(ChangeData cd, PrologOptions opts) {
+  public Optional<SubmitRecord> evaluate(ChangeData cd, PrologOptions opts) {
     return getEvaluator(cd, opts).evaluate();
   }
 

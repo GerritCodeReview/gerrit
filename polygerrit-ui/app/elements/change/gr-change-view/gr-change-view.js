@@ -1048,7 +1048,7 @@
     _computeReplyButtonLabel(changeRecord, canStartReview) {
       // Polymer 2: check for undefined
       if ([changeRecord, canStartReview].some(arg => arg === undefined)) {
-        return undefined;
+        return 'Reply';
       }
 
       if (canStartReview) {

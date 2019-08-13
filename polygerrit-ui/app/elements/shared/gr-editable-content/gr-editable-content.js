@@ -124,7 +124,7 @@
         content,
         newContent,
       ].some(arg => arg === undefined)) {
-        return undefined;
+        return true;
       }
 
       return disabled || (content === newContent);

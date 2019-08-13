@@ -30,8 +30,8 @@ import com.googlecode.prolog_cafe.lang.IntegerTerm;
 import com.googlecode.prolog_cafe.lang.StructureTerm;
 import com.googlecode.prolog_cafe.lang.Term;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Test;
 
@@ -46,9 +46,9 @@ public class PrologRuleEvaluatorIT extends AbstractDaemonTest {
     StructureTerm labels = new StructureTerm("label", verifiedLabel);
 
     List<Term> terms = ImmutableList.of(makeTerm("ok", labels));
-    Collection<SubmitRecord> records = evaluator.resultsToSubmitRecord(null, terms);
+    Optional<SubmitRecord> record = evaluator.resultsToSubmitRecord(null, terms);
 
-    assertThat(records).hasSize(1);
+    assertThat(record.isPresent()).isTrue();
   }
 
   /**
@@ -113,23 +113,17 @@ public class PrologRuleEvaluatorIT extends AbstractDaemonTest {
     terms.add(makeTerm("not_ready", makeLabels(label3)));
 
     // When
-    List<SubmitRecord> records = evaluator.resultsToSubmitRecord(null, terms);
+    Optional<SubmitRecord> record = evaluator.resultsToSubmitRecord(null, terms);
 
     // assert that
-    SubmitRecord record1Expected = new SubmitRecord();
-    record1Expected.status = SubmitRecord.Status.OK;
-    record1Expected.labels = new ArrayList<>();
-    record1Expected.labels.add(submitRecordLabel2);
+    SubmitRecord expectedRecord = new SubmitRecord();
+    expectedRecord.status = SubmitRecord.Status.OK;
+    expectedRecord.labels = new ArrayList<>();
+    expectedRecord.labels.add(submitRecordLabel2);
+    expectedRecord.labels.add(submitRecordLabel3);
 
-    SubmitRecord record2Expected = new SubmitRecord();
-    record2Expected.status = SubmitRecord.Status.OK;
-    record2Expected.labels = new ArrayList<>();
-    record2Expected.labels.add(submitRecordLabel3);
-
-    assertThat(records).hasSize(2);
-
-    assertThat(records.get(0)).isEqualTo(record1Expected);
-    assertThat(records.get(1)).isEqualTo(record2Expected);
+    assertThat(record.isPresent()).isTrue();
+    assertThat(record.get()).isEqualTo(expectedRecord);
   }
 
   private static Term makeTerm(String status, StructureTerm labels) {

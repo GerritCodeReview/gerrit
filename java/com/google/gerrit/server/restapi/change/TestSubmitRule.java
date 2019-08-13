@@ -38,6 +38,7 @@ import com.google.gerrit.server.rules.RulesCache;
 import com.google.inject.Inject;
 import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Optional;
 import org.kohsuke.args4j.Option;
 
 public class TestSubmitRule implements RestModifyView<RevisionResource, TestSubmitRuleInput> {
@@ -83,10 +84,11 @@ public class TestSubmitRule implements RestModifyView<RevisionResource, TestSubm
       throw new BadRequestException("project not found");
     }
     ChangeData cd = changeDataFactory.create(rsrc.getNotes());
+    Optional<SubmitRecord> record =
+        prologRule.evaluate(
+            cd, PrologOptions.dryRunOptions(input.rule, input.filters == Filters.SKIP));
     List<SubmitRecord> records =
-        ImmutableList.copyOf(
-            prologRule.evaluate(
-                cd, PrologOptions.dryRunOptions(input.rule, input.filters == Filters.SKIP)));
+        record.isPresent() ? ImmutableList.of(record.get()) : ImmutableList.of();
     List<TestSubmitRuleInfo> out = Lists.newArrayListWithCapacity(records.size());
     AccountLoader accounts = accountInfoFactory.create(true);
     for (SubmitRecord r : records) {

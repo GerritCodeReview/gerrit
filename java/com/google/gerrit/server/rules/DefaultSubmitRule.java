@@ -31,8 +31,8 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Java implementation of Gerrit's default pre-submit rules behavior: check if the labels have the
@@ -62,13 +62,13 @@ public final class DefaultSubmitRule implements SubmitRule {
   }
 
   @Override
-  public Collection<SubmitRecord> evaluate(ChangeData cd) {
+  public Optional<SubmitRecord> evaluate(ChangeData cd) {
     ProjectState projectState = projectCache.get(cd.project());
 
     // In case at least one project has a rules.pl file, we let Prolog handle it.
     // The Prolog rules engine will also handle the labels for us.
     if (projectState == null || projectState.hasPrologRules()) {
-      return Collections.emptyList();
+      return Optional.empty();
     }
 
     SubmitRecord submitRecord = new SubmitRecord();
@@ -85,7 +85,7 @@ public final class DefaultSubmitRule implements SubmitRule {
 
       submitRecord.errorMessage = "Unable to fetch labels and approvals for the change";
       submitRecord.status = SubmitRecord.Status.RULE_ERROR;
-      return Collections.singletonList(submitRecord);
+      return Optional.of(submitRecord);
     }
 
     submitRecord.labels = new ArrayList<>(labelTypes.size());
@@ -98,7 +98,7 @@ public final class DefaultSubmitRule implements SubmitRule {
 
         submitRecord.errorMessage = "Unable to find the LabelFunction for label " + t.getName();
         submitRecord.status = SubmitRecord.Status.RULE_ERROR;
-        return Collections.singletonList(submitRecord);
+        return Optional.of(submitRecord);
       }
 
       Collection<PatchSetApproval> approvalsForLabel = getApprovalsForLabel(approvals, t);
@@ -118,7 +118,7 @@ public final class DefaultSubmitRule implements SubmitRule {
       }
     }
 
-    return Collections.singletonList(submitRecord);
+    return Optional.of(submitRecord);
   }
 
   private static List<PatchSetApproval> getApprovalsForLabel(

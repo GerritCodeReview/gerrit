@@ -50,9 +50,9 @@ import com.googlecode.prolog_cafe.lang.Term;
 import com.googlecode.prolog_cafe.lang.VariableTerm;
 import java.io.StringReader;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Evaluates a submit-like Prolog rule found in the rules.pl file of the current project and filters
@@ -143,7 +143,7 @@ public class PrologRuleEvaluator {
    * @return List of {@link SubmitRecord} objects returned from the evaluated rules, including any
    *     errors.
    */
-  public Collection<SubmitRecord> evaluate() {
+  public Optional<SubmitRecord> evaluate() {
     Change change;
     try {
       change = cd.change();
@@ -193,26 +193,29 @@ public class PrologRuleEvaluator {
    * output. Later after the loop the out collection is reversed to restore it to the original
    * ordering.
    */
-  public List<SubmitRecord> resultsToSubmitRecord(Term submitRule, List<Term> results) {
-    boolean foundOk = false;
-    List<SubmitRecord> out = new ArrayList<>(results.size());
+  public Optional<SubmitRecord> resultsToSubmitRecord(Term submitRule, List<Term> results) {
+    SubmitRecord resultSubmitRecord = new SubmitRecord();
+    resultSubmitRecord.labels = new ArrayList<>();
+
     for (int resultIdx = results.size() - 1; 0 <= resultIdx; resultIdx--) {
       Term submitRecord = results.get(resultIdx);
-      SubmitRecord rec = new SubmitRecord();
-      out.add(rec);
 
       if (!(submitRecord instanceof StructureTerm) || 1 != submitRecord.arity()) {
         return invalidResult(submitRule, submitRecord);
       }
 
-      if ("ok".equals(submitRecord.name())) {
-        rec.status = SubmitRecord.Status.OK;
-
-      } else if ("not_ready".equals(submitRecord.name())) {
-        rec.status = SubmitRecord.Status.NOT_READY;
-
-      } else {
+      if (!"ok".equals(submitRecord.name()) && !"not_ready".equals(submitRecord.name())) {
         return invalidResult(submitRule, submitRecord);
+      }
+
+      // This transformation is required to adapt Prolog's behavior to the way Gerrit handles
+      // SubmitRecords, as defined in the SubmitRecord#allRecordsOK method.
+      // When several rules are defined in Prolog, they are all matched to a SubmitRecord. We want
+      // the change to be submittable when at least one result is OK.
+      if ("ok".equals(submitRecord.name())) {
+        resultSubmitRecord.status = SubmitRecord.Status.OK;
+      } else if ("not_ready".equals(submitRecord.name()) && resultSubmitRecord.status == null) {
+        resultSubmitRecord.status = SubmitRecord.Status.NOT_READY;
       }
 
       // Unpack the one argument. This should also be a structure with one
@@ -224,8 +227,6 @@ public class PrologRuleEvaluator {
         return invalidResult(submitRule, submitRecord);
       }
 
-      rec.labels = new ArrayList<>(submitRecord.arity());
-
       for (Term state : ((StructureTerm) submitRecord).args()) {
         if (!(state instanceof StructureTerm)
             || 2 != state.arity()
@@ -234,7 +235,7 @@ public class PrologRuleEvaluator {
         }
 
         SubmitRecord.Label lbl = new SubmitRecord.Label();
-        rec.labels.add(lbl);
+        resultSubmitRecord.labels.add(lbl);
 
         lbl.label = checkLabelName(state.arg(0).name());
         Term status = state.arg(1);
@@ -265,24 +266,12 @@ public class PrologRuleEvaluator {
         }
       }
 
-      if (rec.status == SubmitRecord.Status.OK) {
-        foundOk = true;
+      if (resultSubmitRecord.status == SubmitRecord.Status.OK) {
         break;
       }
     }
-    Collections.reverse(out);
-
-    // This transformation is required to adapt Prolog's behavior to the way Gerrit handles
-    // SubmitRecords, as defined in the SubmitRecord#allRecordsOK method.
-    // When several rules are defined in Prolog, they are all matched to a SubmitRecord. We want
-    // the change to be submittable when at least one result is OK.
-    if (foundOk) {
-      for (SubmitRecord record : out) {
-        record.status = SubmitRecord.Status.OK;
-      }
-    }
-
-    return out;
+    Collections.reverse(resultSubmitRecord.labels);
+    return Optional.of(resultSubmitRecord);
   }
 
   @VisibleForTesting
@@ -299,7 +288,7 @@ public class PrologRuleEvaluator {
     return VALID_LABEL_MATCHER.retainFrom(name);
   }
 
-  private List<SubmitRecord> invalidResult(Term rule, Term record, String reason) {
+  private Optional<SubmitRecord> invalidResult(Term rule, Term record, String reason) {
     return ruleError(
         String.format(
             "Submit rule %s for change %s of %s output invalid result: %s%s",
@@ -310,20 +299,20 @@ public class PrologRuleEvaluator {
             (reason == null ? "" : ". Reason: " + reason)));
   }
 
-  private List<SubmitRecord> invalidResult(Term rule, Term record) {
+  private Optional<SubmitRecord> invalidResult(Term rule, Term record) {
     return invalidResult(rule, record, null);
   }
 
-  private List<SubmitRecord> ruleError(String err) {
+  private Optional<SubmitRecord> ruleError(String err) {
     return ruleError(err, null);
   }
 
-  private List<SubmitRecord> ruleError(String err, Exception e) {
+  private Optional<SubmitRecord> ruleError(String err, Exception e) {
     if (opts.logErrors()) {
       logger.atSevere().withCause(e).log(err);
-      return defaultRuleError();
+      return Optional.of(defaultRuleError());
     }
-    return createRuleError(err);
+    return Optional.of(createRuleError(err));
   }
 
   /**

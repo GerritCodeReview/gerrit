@@ -52,8 +52,8 @@ import com.google.gerrit.server.validators.ProjectCreationValidationListener;
 import com.google.gerrit.server.validators.ValidationException;
 import com.google.inject.Inject;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.SortedMap;
 import java.util.SortedSet;
 import org.apache.http.message.BasicHeader;
@@ -679,7 +679,7 @@ public class TraceIT extends AbstractDaemonTest {
     boolean failOnce;
 
     @Override
-    public Collection<SubmitRecord> evaluate(ChangeData changeData) {
+    public Optional<SubmitRecord> evaluate(ChangeData changeData) {
       if (failOnce) {
         failOnce = false;
         throw new IllegalStateException("forced failure from test");
@@ -691,7 +691,7 @@ public class TraceIT extends AbstractDaemonTest {
 
       SubmitRecord submitRecord = new SubmitRecord();
       submitRecord.status = SubmitRecord.Status.OK;
-      return ImmutableList.of(submitRecord);
+      return Optional.of(submitRecord);
     }
   }
 

@@ -24,8 +24,8 @@ import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.common.data.SubmitRequirement;
 import com.google.gerrit.server.rules.IgnoreSelfApprovalRule;
 import com.google.inject.Inject;
-import java.util.Collection;
 import java.util.Map;
+import java.util.Optional;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.junit.Test;
@@ -41,10 +41,10 @@ public class IgnoreSelfApprovalRuleIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     approve(r.getChangeId());
 
-    Collection<SubmitRecord> submitRecords = rule.evaluate(r.getChange());
+    Optional<SubmitRecord> submitRecords = rule.evaluate(r.getChange());
 
-    assertThat(submitRecords).hasSize(1);
-    SubmitRecord result = submitRecords.iterator().next();
+    assertThat(submitRecords.isPresent()).isTrue();
+    SubmitRecord result = submitRecords.get();
     assertThat(result.status).isEqualTo(SubmitRecord.Status.NOT_READY);
     assertThat(result.labels).isNotEmpty();
     assertThat(result.requirements)
@@ -67,8 +67,8 @@ public class IgnoreSelfApprovalRuleIT extends AbstractDaemonTest {
     // Approve as admin
     approve(r.getChangeId());
 
-    Collection<SubmitRecord> submitRecords = rule.evaluate(r.getChange());
-    assertThat(submitRecords).isEmpty();
+    Optional<SubmitRecord> submitRecords = rule.evaluate(r.getChange());
+    assertThat(submitRecords.isPresent()).isFalse();
   }
 
   @Test
@@ -78,8 +78,8 @@ public class IgnoreSelfApprovalRuleIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     approve(r.getChangeId());
 
-    Collection<SubmitRecord> submitRecords = rule.evaluate(r.getChange());
-    assertThat(submitRecords).isEmpty();
+    Optional<SubmitRecord> submitRecords = rule.evaluate(r.getChange());
+    assertThat(submitRecords.isPresent()).isFalse();
   }
 
   private void enableRule(String labelName, boolean newState) throws Exception {

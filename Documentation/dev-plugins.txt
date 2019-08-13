@@ -2600,10 +2600,8 @@ If a change is ready to be submitted, `OK`. If it is not ready and requires
 modifications, `NOT_READY`. Other statuses are available for particular cases.
 A change can be submitted if all the plugins accept the change.
 
-Plugins may also decide not to vote on a given change by returning an empty
-Collection (ie: the plugin is not enabled for this repository), or to vote
-several times (ie: one SubmitRecord per project in the hierarchy).
-The results are handled as if multiple plugins voted for the change.
+Plugins may also decide not to vote on a given change by returning an
+`Optional.empty()` (ie: the plugin is not enabled for this repository).
 
 If a plugin decides not to vote, it's name will not be displayed in the UI and
 it will not be recoded in the database.
@@ -2638,20 +2636,20 @@ changes that are marked as WIP or that are closed (abandoned, merged) can't be m
 
 [source, java]
 ----
-import java.util.Collection;
+import java.util.Optional;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.common.data.SubmitRecord.Status;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.rules.SubmitRule;
 
 public class MyPluginRules implements SubmitRule {
-  public Collection<SubmitRecord> evaluate(ChangeData changeData) {
+  public Optional<SubmitRecord> evaluate(ChangeData changeData) {
     // Implement your submitability logic here
 
     // Assuming we want to prevent this change from being submitted:
     SubmitRecord record = new SubmitRecord();
     record.status = Status.NOT_READY;
-    return record;
+    return Optional.of(record);
   }
 }
 ----

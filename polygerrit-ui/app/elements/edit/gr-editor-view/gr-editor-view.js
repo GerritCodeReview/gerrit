@@ -216,7 +216,7 @@
         newContent,
         saving,
       ].some(arg => arg === undefined)) {
-        return undefined;
+        return false;
       }
 
       if (saving) {

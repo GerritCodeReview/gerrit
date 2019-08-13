@@ -19,7 +19,6 @@
 
   Polymer({
     is: 'gr-confirm-rebase-dialog',
-    _legacyUndefinedCheck: true,
 
     /**
      * Fired when the confirm button is pressed.

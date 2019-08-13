@@ -22,7 +22,6 @@
 
   Polymer({
     is: 'gr-admin-view',
-    _legacyUndefinedCheck: true,
 
     properties: {
       /** @type {?} */

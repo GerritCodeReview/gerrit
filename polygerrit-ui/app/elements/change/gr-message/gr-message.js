@@ -22,7 +22,6 @@
 
   Polymer({
     is: 'gr-message',
-    _legacyUndefinedCheck: true,
 
     /**
      * Fired when this message's reply link is tapped.

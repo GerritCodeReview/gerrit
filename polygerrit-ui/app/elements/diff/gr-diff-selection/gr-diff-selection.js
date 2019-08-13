@@ -32,7 +32,6 @@
 
   Polymer({
     is: 'gr-diff-selection',
-    _legacyUndefinedCheck: true,
 
     properties: {
       diff: Object,

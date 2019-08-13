@@ -19,7 +19,6 @@
 
   Polymer({
     is: 'gr-autocomplete-dropdown',
-    _legacyUndefinedCheck: true,
 
     /**
      * Fired when the dropdown is closed.

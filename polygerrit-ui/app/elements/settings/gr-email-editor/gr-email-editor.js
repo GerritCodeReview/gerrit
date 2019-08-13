@@ -19,7 +19,6 @@
 
   Polymer({
     is: 'gr-email-editor',
-    _legacyUndefinedCheck: true,
 
     properties: {
       hasUnsavedChanges: {

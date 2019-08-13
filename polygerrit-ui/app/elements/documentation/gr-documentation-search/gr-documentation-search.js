@@ -19,7 +19,6 @@
 
   Polymer({
     is: 'gr-documentation-search',
-    _legacyUndefinedCheck: true,
 
     properties: {
       /**

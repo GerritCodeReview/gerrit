@@ -54,7 +54,6 @@
 
   Polymer({
     is: 'gr-textarea',
-    _legacyUndefinedCheck: true,
 
     /**
      * @event bind-value-changed

@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "ab9221e7_8e5fc95f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-08-13T15:27:13Z",
+      "side": 1,
+      "message": "ok",
+      "parentUuid": "36beb7c2_b3b168bc",
+      "revId": "6bb2ba3945c415094823b2a4aab525df08d50223",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "31dd500f_346f59f1",
         "filename": "polygerrit-ui/app/elements/plugins/gr-attribute-helper/gr-attribute-helper.js",
         "patchSetId": 1
@@ -84,6 +102,30 @@
     },
     {
       "key": {
+        "uuid": "68e1cc72_00a0d421",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-attribute-helper/gr-attribute-helper.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-08-13T15:27:13Z",
+      "side": 1,
+      "message": "But then you will miss the -changed events. Why not listen on both? -changed events can still happen, not? Especially in other elements than gr-endpoint-param?\n\nI don\u0027t understand the \"break something when adding binding\". We could also fire both on top of listening to both. Would this then also break something?\n\nWe should seriously consider to just remove the attribute helper from the plugin API. I don\u0027t think anyone is using it. Then attribute helper becomes a local helper of gr-endpoint, and then I am fine with whatever local workaround we are using.",
+      "parentUuid": "2562caf3_eb991cf4",
+      "range": {
+        "startLine": 25,
+        "startChar": 30,
+        "endLine": 25,
+        "endChar": 50
+      },
+      "revId": "6bb2ba3945c415094823b2a4aab525df08d50223",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0f22216d_89513389",
         "filename": "polygerrit-ui/app/elements/plugins/gr-endpoint-param/gr-endpoint-param.js",
         "patchSetId": 1
@@ -113,6 +155,24 @@
       "side": 1,
       "message": "In this case \"value-changed\" event can be fired twice if property value is changed from the code (i.e. without binding).",
       "parentUuid": "0f22216d_89513389",
+      "revId": "6bb2ba3945c415094823b2a4aab525df08d50223",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "07321bed_682fecf8",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-endpoint-param/gr-endpoint-param.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-08-13T15:27:13Z",
+      "side": 1,
+      "message": "1. We have the code under control. And gr-endpoint-params does not look like it would change \"value\".\n\n2. Is it a problem when this is fired twice?\n\nThat said, I understand the concern. Firing something that has a well defined semantic is not great.",
+      "parentUuid": "5f849ebd_b7311592",
       "revId": "6bb2ba3945c415094823b2a4aab525df08d50223",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9f2dbbfc_31301708",
+        "filename": "java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-08-13T20:35:29Z",
+      "side": 1,
+      "message": "This check should have excluded the submit operations, that are supposed to be allowed, as it happened in all releases before v2.16.\n\nSee the associated bug report at:\nhttps://bugs.chromium.org/p/gerrit/issues/detail?id\u003d11320",
+      "range": {
+        "startLine": 317,
+        "startChar": 3,
+        "endLine": 317,
+        "endChar": 60
+      },
+      "revId": "30325c2b7aaf95f12b2d6112c6981c6276638340",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

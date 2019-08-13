@@ -22,6 +22,30 @@
       "revId": "1b246c0922397cb465615055baa92e40ac640bd7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d94e1754_21b1666a",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-08-13T13:52:36Z",
+      "side": 0,
+      "message": "Thanks, done!",
+      "parentUuid": "17d61ad3_c5c9337f",
+      "range": {
+        "startLine": 219,
+        "startChar": 0,
+        "endLine": 219,
+        "endChar": 8
+      },
+      "revId": "1b246c0922397cb465615055baa92e40ac640bd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

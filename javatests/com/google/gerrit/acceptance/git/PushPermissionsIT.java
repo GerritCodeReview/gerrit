@@ -284,6 +284,7 @@ public class PushPermissionsIT extends AbstractDaemonTest {
     ObjectId ps1Id = forceFetch(PatchSet.id(id, 1).toRefName());
     ObjectId ps2Id = testRepo.amend(ps1Id).add("file", "content").create();
     PushResult r = push(ps2Id.name() + ":refs/for/master");
+    // Admin had ADD_PATCH_SET removed in setup.
     assertThat(r)
         .onlyRef("refs/for/master")
         .isRejected("cannot add patch set to " + id.get() + ".");

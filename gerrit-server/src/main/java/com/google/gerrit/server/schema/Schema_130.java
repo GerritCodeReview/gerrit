@@ -66,7 +66,7 @@ public class Schema_130 extends SchemaVersion {
           repoUpgraded.add(projectName);
         }
         cfg.save(serverUser, COMMIT_MSG);
-      } catch (ConfigInvalidException | IOException ex) {
+      } catch (Exception ex) {
         throw new OrmException("Cannot migrate project " + projectName, ex);
       }
     }

@@ -25,7 +25,15 @@
       value: {
         type: Object,
         notify: true,
+        observer: '_valueChanged',
       },
+    },
+
+    _valueChanged(newValue, oldValue) {
+      const detail = {
+        value: newValue,
+      };
+      this.dispatchEvent(new CustomEvent('value-observed', {detail}));
     },
   });
 })();

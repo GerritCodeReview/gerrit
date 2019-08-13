@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ae74ab95_2b560800",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-08-13T12:41:24Z",
+      "side": 1,
+      "message": "Should we maybe make this a dup of https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d11173? Or the other way around ...",
+      "revId": "6bb2ba3945c415094823b2a4aab525df08d50223",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "31dd500f_346f59f1",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-attribute-helper/gr-attribute-helper.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-08-13T12:41:24Z",
+      "side": 1,
+      "message": "I am somewhat concerned that this ties AttributeHelper too much to EndpointParam. What do you think about the following?\n\n1. Leave _getChangedEventName() as is and create another method _getObservedEventName() instead (identical to the changed version of _getChangedEventName()).\n\n2. Let bind() listen to both events.\n\n3. Let set() only use _getChangedEventName().\n\n4. Leave some documentation comments in the code explaining the background of this. (Often the content of the commit message also makes sense to have as a code comment somewhere.)",
+      "range": {
+        "startLine": 25,
+        "startChar": 30,
+        "endLine": 25,
+        "endChar": 50
+      },
+      "revId": "6bb2ba3945c415094823b2a4aab525df08d50223",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

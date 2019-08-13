@@ -21,7 +21,6 @@
 
   Polymer({
     is: 'gr-account-dropdown',
-    _legacyUndefinedCheck: true,
 
     properties: {
       account: Object,

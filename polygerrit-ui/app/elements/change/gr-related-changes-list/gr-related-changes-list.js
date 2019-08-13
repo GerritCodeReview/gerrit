@@ -19,7 +19,6 @@
 
   Polymer({
     is: 'gr-related-changes-list',
-    _legacyUndefinedCheck: true,
 
     /**
      * Fired when a new section is loaded so that the change view can determine

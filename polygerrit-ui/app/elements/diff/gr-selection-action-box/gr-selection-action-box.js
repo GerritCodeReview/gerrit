@@ -19,7 +19,6 @@
 
   Polymer({
     is: 'gr-selection-action-box',
-    _legacyUndefinedCheck: true,
 
     /**
      * Fired when the comment creation action was taken (hotkey, click).

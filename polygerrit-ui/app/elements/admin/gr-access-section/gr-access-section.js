@@ -38,7 +38,6 @@
 
   Polymer({
     is: 'gr-access-section',
-    _legacyUndefinedCheck: true,
 
     properties: {
       capabilities: Object,

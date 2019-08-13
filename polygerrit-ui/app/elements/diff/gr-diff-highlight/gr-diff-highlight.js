@@ -19,7 +19,6 @@
 
   Polymer({
     is: 'gr-diff-highlight',
-    _legacyUndefinedCheck: true,
 
     properties: {
       /** @type {!Array<!Gerrit.HoveredRange>} */

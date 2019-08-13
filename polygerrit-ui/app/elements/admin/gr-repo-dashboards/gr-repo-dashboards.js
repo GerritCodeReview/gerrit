@@ -19,7 +19,6 @@
 
   Polymer({
     is: 'gr-repo-dashboards',
-    _legacyUndefinedCheck: true,
 
     properties: {
       repo: {

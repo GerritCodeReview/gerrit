@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "17d61ad3_c5c9337f",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-08-13T13:48:09Z",
+      "side": 0,
+      "message": "probably should return true as that\u0027s the default value :) \n\nto match the p1 behavior, when some dependencies are not defined, should return the default value",
+      "range": {
+        "startLine": 219,
+        "startChar": 0,
+        "endLine": 219,
+        "endChar": 8
+      },
+      "revId": "1b246c0922397cb465615055baa92e40ac640bd7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

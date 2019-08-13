@@ -30,7 +30,7 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.rules.SubmitRule;
 import com.google.inject.Module;
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.Optional;
 import org.junit.Test;
 
 public class ChangeSubmitRequirementIT extends AbstractDaemonTest {
@@ -66,12 +66,12 @@ public class ChangeSubmitRequirementIT extends AbstractDaemonTest {
 
   private static class CustomSubmitRule implements SubmitRule {
     @Override
-    public Collection<SubmitRecord> evaluate(ChangeData changeData) {
+    public Optional<SubmitRecord> evaluate(ChangeData changeData) {
       SubmitRecord record = new SubmitRecord();
       record.labels = new ArrayList<>();
       record.status = SubmitRecord.Status.NOT_READY;
       record.requirements = ImmutableList.of(req);
-      return ImmutableList.of(record);
+      return Optional.of(record);
     }
   }
 }

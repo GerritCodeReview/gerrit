@@ -17,7 +17,6 @@ package com.google.gerrit.server.rules;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.collect.ImmutableList;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.LabelFunction;
 import com.google.gerrit.common.data.LabelType;
@@ -34,6 +33,7 @@ import com.google.inject.Singleton;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Rule to require an approval from a user that did not upload the current patch set or block
@@ -59,7 +59,7 @@ public class IgnoreSelfApprovalRule implements SubmitRule {
   IgnoreSelfApprovalRule() {}
 
   @Override
-  public Collection<SubmitRecord> evaluate(ChangeData cd) {
+  public Optional<SubmitRecord> evaluate(ChangeData cd) {
     List<LabelType> labelTypes;
     List<PatchSetApproval> approvals;
     try {
@@ -67,13 +67,13 @@ public class IgnoreSelfApprovalRule implements SubmitRule {
       approvals = cd.currentApprovals();
     } catch (StorageException e) {
       logger.atWarning().withCause(e).log(E_UNABLE_TO_FETCH_LABELS);
-      return singletonRuleError(E_UNABLE_TO_FETCH_LABELS);
+      return ruleError(E_UNABLE_TO_FETCH_LABELS);
     }
 
     boolean shouldIgnoreSelfApproval = labelTypes.stream().anyMatch(LabelType::ignoreSelfApproval);
     if (!shouldIgnoreSelfApproval) {
       // Shortcut to avoid further processing if no label should ignore uploader approvals
-      return ImmutableList.of();
+      return Optional.empty();
     }
 
     Account.Id uploader;
@@ -81,7 +81,7 @@ public class IgnoreSelfApprovalRule implements SubmitRule {
       uploader = cd.currentPatchSet().uploader();
     } catch (StorageException e) {
       logger.atWarning().withCause(e).log(E_UNABLE_TO_FETCH_UPLOADER);
-      return singletonRuleError(E_UNABLE_TO_FETCH_UPLOADER);
+      return ruleError(E_UNABLE_TO_FETCH_UPLOADER);
     }
 
     SubmitRecord submitRecord = new SubmitRecord();
@@ -123,10 +123,10 @@ public class IgnoreSelfApprovalRule implements SubmitRule {
     }
 
     if (submitRecord.labels.isEmpty()) {
-      return ImmutableList.of();
+      return Optional.empty();
     }
 
-    return ImmutableList.of(submitRecord);
+    return Optional.of(submitRecord);
   }
 
   private static boolean labelCheckPassed(SubmitRecord.Label label) {
@@ -143,11 +143,11 @@ public class IgnoreSelfApprovalRule implements SubmitRule {
     return false;
   }
 
-  private static Collection<SubmitRecord> singletonRuleError(String reason) {
+  private static Optional<SubmitRecord> ruleError(String reason) {
     SubmitRecord submitRecord = new SubmitRecord();
     submitRecord.errorMessage = reason;
     submitRecord.status = SubmitRecord.Status.RULE_ERROR;
-    return ImmutableList.of(submitRecord);
+    return Optional.of(submitRecord);
   }
 
   @VisibleForTesting

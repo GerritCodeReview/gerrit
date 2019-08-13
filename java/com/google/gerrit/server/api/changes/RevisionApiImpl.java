@@ -547,7 +547,7 @@ class RevisionApiImpl implements RevisionApi {
   }
 
   @Override
-  public List<TestSubmitRuleInfo> testSubmitRule(TestSubmitRuleInput in) throws RestApiException {
+  public TestSubmitRuleInfo testSubmitRule(TestSubmitRuleInput in) throws RestApiException {
     try {
       return testSubmitRule.get().apply(revision, in).value();
     } catch (Exception e) {

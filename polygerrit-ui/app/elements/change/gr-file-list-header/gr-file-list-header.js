@@ -227,6 +227,7 @@
 
     _handleDownloadTap(e) {
       e.preventDefault();
+      e.stopPropagation();
       this.dispatchEvent(
           new CustomEvent('open-download-dialog', {bubbles: false}));
     },
@@ -249,6 +250,7 @@
 
     _handleUploadTap(e) {
       e.preventDefault();
+      e.stopPropagation();
       this.dispatchEvent(
           new CustomEvent('open-upload-help-dialog', {bubbles: false}));
     },

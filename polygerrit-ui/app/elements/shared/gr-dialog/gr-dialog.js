@@ -65,11 +65,13 @@
       if (this.disabled) { return; }
 
       e.preventDefault();
+      e.stopPropagation();
       this.fire('confirm', null, {bubbles: false});
     },
 
     _handleCancelTap(e) {
       e.preventDefault();
+      e.stopPropagation();
       this.fire('cancel', null, {bubbles: false});
     },
 

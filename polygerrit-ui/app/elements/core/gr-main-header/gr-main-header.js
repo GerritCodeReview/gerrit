@@ -330,6 +330,7 @@
 
     _onMobileSearchTap(e) {
       e.preventDefault();
+      e.stopPropagation();
       this.fire('mobile-search', null, {bubbles: false});
     },
 

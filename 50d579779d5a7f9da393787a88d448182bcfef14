@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8b3bb366_17f5970b",
+        "filename": "java/com/google/gerrit/extensions/api/changes/RevisionApi.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-08-14T10:02:13Z",
+      "side": 1,
+      "message": "I hope this doesn\u0027t break any client implementations. But I would say the risk for this is rather low.",
+      "revId": "50d579779d5a7f9da393787a88d448182bcfef14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "efe1cbc1_ecda134b",
+        "filename": "java/com/google/gerrit/server/api/changes/RevisionApiImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 552,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-08-14T10:02:13Z",
+      "side": 1,
+      "message": "If the response is Response.None() this throws an UnsupportedOperationException. So maybe we should handle this case specially?",
+      "range": {
+        "startLine": 552,
+        "startChar": 54,
+        "endLine": 552,
+        "endChar": 59
+      },
+      "revId": "50d579779d5a7f9da393787a88d448182bcfef14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b223363b_aa56ad09",
+        "filename": "java/com/google/gerrit/server/rules/PrologRuleEvaluator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 270,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-08-14T10:02:13Z",
+      "side": 1,
+      "message": "I\u0027m a bit surprised that we can abort the loop here.\nI mean, the status would not change anymore and always stay OK, but maybe we would still collect more labels.\nAnyway, since this is not changed, I assume it\u0027s okay.",
+      "range": {
+        "startLine": 270,
+        "startChar": 8,
+        "endLine": 270,
+        "endChar": 14
+      },
+      "revId": "50d579779d5a7f9da393787a88d448182bcfef14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

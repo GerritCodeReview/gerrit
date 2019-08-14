@@ -150,6 +150,30 @@
     },
     {
       "key": {
+        "uuid": "84643fb1_97b69f85",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-attribute-helper/gr-attribute-helper.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-08-14T12:54:02Z",
+      "side": 1,
+      "message": "Changes in GrAttributeHelper were reverted.",
+      "parentUuid": "a7c0c536_350a6ef2",
+      "range": {
+        "startLine": 25,
+        "startChar": 30,
+        "endLine": 25,
+        "endChar": 50
+      },
+      "revId": "6bb2ba3945c415094823b2a4aab525df08d50223",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0f22216d_89513389",
         "filename": "polygerrit-ui/app/elements/plugins/gr-endpoint-param/gr-endpoint-param.js",
         "patchSetId": 1
@@ -218,6 +242,24 @@
       "revId": "6bb2ba3945c415094823b2a4aab525df08d50223",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8e9a81f3_8ed3f07f",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-endpoint-param/gr-endpoint-param.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-08-14T12:54:02Z",
+      "side": 1,
+      "message": "We decided to keep \"...-changed\" event, because GrAttributeHelper fire \"...-changed\" event for javascript components. Renaming can cause more breaks.",
+      "parentUuid": "609ddf10_181476e5",
+      "revId": "6bb2ba3945c415094823b2a4aab525df08d50223",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

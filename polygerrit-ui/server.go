@@ -38,11 +38,12 @@ import (
 )
 
 var (
-	plugins    = flag.String("plugins", "", "comma seperated plugin paths to serve")
-	port       = flag.String("port", ":8081", "Port to serve HTTP requests on")
-	host       = flag.String("host", "gerrit-review.googlesource.com", "Host to proxy requests to")
-	scheme     = flag.String("scheme", "https", "URL scheme")
-	cdnPattern = regexp.MustCompile("https://cdn.googlesource.com/polygerrit_ui/[0-9.]*")
+	plugins               = flag.String("plugins", "", "comma seperated plugin paths to serve")
+	port                  = flag.String("port", ":8081", "Port to serve HTTP requests on")
+	host                  = flag.String("host", "gerrit-review.googlesource.com", "Host to proxy requests to")
+	scheme                = flag.String("scheme", "https", "URL scheme")
+	cdnPattern            = regexp.MustCompile("https://cdn.googlesource.com/polygerrit_ui/[0-9.]*")
+	bundledPluginsPattern = regexp.MustCompile("https://cdn.googlesource.com/polygerrit_assets/[0-9.]*")
 )
 
 func main() {
@@ -192,6 +193,9 @@ func rewriteHostPage(reader io.Reader) io.Reader {
 	// contains window.INITIAL_DATA=...
 	// Here we rely on the fact that the <script> snippet that we want to append to is the first one.
 	if len(*plugins) > 0 {
+		// If the host page contains a reference to a plugin bundle that would be preloaded, then remove it.
+		replaced = bundledPluginsPattern.ReplaceAllString(replaced, "")
+
 		insertionPoint := strings.Index(replaced, "</script>")
 		builder := new(strings.Builder)
 		builder.WriteString(

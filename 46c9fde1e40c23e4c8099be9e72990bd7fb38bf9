@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "163a3d67_afec9a4c",
+        "filename": "javatests/com/google/gerrit/server/project/ProjectConfigTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 666,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-08-14T09:44:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9c97893b_fc377dc2",
+      "range": {
+        "startLine": 666,
+        "startChar": 43,
+        "endLine": 666,
+        "endChar": 60
+      },
+      "revId": "46c9fde1e40c23e4c8099be9e72990bd7fb38bf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ffcc288f_16047d61",
         "filename": "javatests/com/google/gerrit/server/project/ProjectConfigTest.java",
         "patchSetId": 6
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "7a920839_f66500f9",
+        "filename": "javatests/com/google/gerrit/server/project/ProjectConfigTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 690,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-08-14T09:44:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ffcc288f_16047d61",
+      "range": {
+        "startLine": 690,
+        "startChar": 38,
+        "endLine": 690,
+        "endChar": 55
+      },
+      "revId": "46c9fde1e40c23e4c8099be9e72990bd7fb38bf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3166ed9a_0cf1c9e4",
         "filename": "javatests/com/google/gerrit/server/project/ProjectConfigTest.java",
         "patchSetId": 6
@@ -68,6 +116,30 @@
       "revId": "46c9fde1e40c23e4c8099be9e72990bd7fb38bf9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "21fa2aae_be63e366",
+        "filename": "javatests/com/google/gerrit/server/project/ProjectConfigTest.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 712,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-08-14T09:44:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3166ed9a_0cf1c9e4",
+      "range": {
+        "startLine": 712,
+        "startChar": 43,
+        "endLine": 712,
+        "endChar": 60
+      },
+      "revId": "46c9fde1e40c23e4c8099be9e72990bd7fb38bf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

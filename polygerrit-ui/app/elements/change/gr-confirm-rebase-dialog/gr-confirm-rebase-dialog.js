@@ -120,6 +120,7 @@
 
     _handleConfirmTap(e) {
       e.preventDefault();
+      e.stopPropagation();
       this.dispatchEvent(new CustomEvent('confirm',
           {detail: {base: this._getSelectedBase()}}));
       this._text = '';
@@ -127,6 +128,7 @@
 
     _handleCancelTap(e) {
       e.preventDefault();
+      e.stopPropagation();
       this.dispatchEvent(new CustomEvent('cancel'));
       this._text = '';
     },

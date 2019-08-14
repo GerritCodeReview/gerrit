@@ -56,11 +56,13 @@
 
     _handleConfirmTap(e) {
       e.preventDefault();
+      e.stopPropagation();
       this.dispatchEvent(new CustomEvent('confirm', {bubbles: false}));
     },
 
     _handleCancelTap(e) {
       e.preventDefault();
+      e.stopPropagation();
       this.dispatchEvent(new CustomEvent('cancel', {bubbles: false}));
     },
   });

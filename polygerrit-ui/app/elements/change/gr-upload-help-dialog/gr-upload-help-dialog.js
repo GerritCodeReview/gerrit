@@ -77,6 +77,7 @@
 
     _handleCloseTap(e) {
       e.preventDefault();
+      e.stopPropagation();
       this.fire('close', null, {bubbles: false});
     },
 

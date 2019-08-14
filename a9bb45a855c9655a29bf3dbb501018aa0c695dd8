@@ -94,6 +94,46 @@
     },
     {
       "key": {
+        "uuid": "084a56f1_0f42ced3",
+        "filename": "javatests/com/google/gerrit/acceptance/server/rules/IgnoreSelfApprovalRuleIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-08-14T07:58:15Z",
+      "side": 1,
+      "message": "Import com.google.common.truth.Truth8.assertThat and then make this:\n\n  assertThat(submitRecords).isPresent();",
+      "range": {
+        "startLine": 46,
+        "startChar": 4,
+        "endLine": 46,
+        "endChar": 51
+      },
+      "revId": "a9bb45a855c9655a29bf3dbb501018aa0c695dd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a643b5f8_be77f1cd",
+        "filename": "javatests/com/google/gerrit/acceptance/server/rules/IgnoreSelfApprovalRuleIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-08-14T07:58:15Z",
+      "side": 1,
+      "message": "assertThat(submitRecords).isEmpty();\n\nand the same below",
+      "revId": "a9bb45a855c9655a29bf3dbb501018aa0c695dd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f30fa158_1aa5f1a0",
         "filename": "javatests/com/google/gerrit/acceptance/server/rules/PrologRuleEvaluatorIT.java",
         "patchSetId": 1
@@ -151,6 +191,30 @@
       "writtenOn": "2019-08-14T00:29:14Z",
       "side": 1,
       "message": "I think, but I\u0027m not 100% sure, that the truth library also provides a specific API for asserting that an optional has the expected value.",
+      "range": {
+        "startLine": 126,
+        "startChar": 4,
+        "endLine": 126,
+        "endChar": 55
+      },
+      "revId": "a9bb45a855c9655a29bf3dbb501018aa0c695dd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2a34842b_3e93c6f9",
+        "filename": "javatests/com/google/gerrit/acceptance/server/rules/PrologRuleEvaluatorIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-08-14T07:58:15Z",
+      "side": 1,
+      "message": "This should work:\n\n  assertThat(record).hasValue(expectedRecord)",
+      "parentUuid": "b56113dc_6936b78f",
       "range": {
         "startLine": 126,
         "startChar": 4,

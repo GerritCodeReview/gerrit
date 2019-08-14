@@ -237,6 +237,30 @@
     },
     {
       "key": {
+        "uuid": "ada73953_0c304969",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 944,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-08-14T09:48:49Z",
+      "side": 1,
+      "message": "Sure this requires an additional class, but I don\u0027t see why having this class would be an issue.\n\n\u003e What is the advantage of that over the current one?\n\nIt\u0027s cleaner and more extensible:\n\n* It\u0027s cleaner if ProjectInput has only a single field that deals with notify configs\n* If we ever want to add further functionality (e.g. update of existing notify configs) the current format would require yet another notify config field in ProjectInput.\n\nMaybe this is only a minor issue, but since this is our public API, we must keep it stable for ~forever. Hence we rather want to get it right and clean from the start.",
+      "parentUuid": "97ed2ec8_1a2c9a0f",
+      "range": {
+        "startLine": 923,
+        "startChar": 4,
+        "endLine": 944,
+        "endChar": 5
+      },
+      "revId": "4bcb670306955a3746eb3b49df52482e12ea3d02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d71dcf82_78277105",
         "filename": "Documentation/rest-api-projects.txt",
         "patchSetId": 12
@@ -519,6 +543,30 @@
     },
     {
       "key": {
+        "uuid": "61286b26_f0fe9acb",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 3317,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-08-14T09:48:49Z",
+      "side": 1,
+      "message": "Ack, I don\u0027t have a strong preference here. So we can leave it as it is.",
+      "parentUuid": "5b1e348e_ca7eef1f",
+      "range": {
+        "startLine": 3315,
+        "startChar": 0,
+        "endLine": 3317,
+        "endChar": 15
+      },
+      "revId": "4bcb670306955a3746eb3b49df52482e12ea3d02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7e446e54_f11d3013",
         "filename": "Documentation/rest-api-projects.txt",
         "patchSetId": 12
@@ -554,6 +602,30 @@
       "side": 1,
       "message": "This is NotifyConfigInfo, not Input. If it is not set in Input it is in fact set to false. Is it really necessary to specify that if it is not set it will be false, when actually for NotifyConfigInfo is always specified?",
       "parentUuid": "7e446e54_f11d3013",
+      "range": {
+        "startLine": 3319,
+        "startChar": 43,
+        "endLine": 3319,
+        "endChar": 51
+      },
+      "revId": "4bcb670306955a3746eb3b49df52482e12ea3d02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "54cf7f31_1339da51",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 3319,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-08-14T09:48:49Z",
+      "side": 1,
+      "message": "\u003e If it is not set in Input it is in fact set to false\n\nCorrect.\n\n\u003e Is it really necessary to specify that if it is not set it will be false,\n\u003e when actually for NotifyConfigInfo is always specified?\n\nIf this field is always set in NotifyConfigInfo, why did you mark it as optional here?\n\nThe point is that boolean fields *should* only be set if the value is true, and stay unset (\u003d null) if the value is false. This is how boolean values are handled in all our REST API and we should be consistent with this here too. This kind of handling boolean values is not obvious, hence it should be documented, and the way we document it in other places is by using the \"`false` if not set\" string, which is why I suggested it.\n\nFYI, the reason for not setting boolean fields if the value is false is to minimize the data that needs to be transferred to clients, since it\u0027s expected that the majority of boolean fields has false as value. In my opinion that\u0027s a weak reason, but since that design decision has been made like this, we should stick with it for consistency (if we decide differently we should adapt all of our API to the new scheme).",
+      "parentUuid": "b9220612_edda125d",
       "range": {
         "startLine": 3319,
         "startChar": 43,
@@ -613,6 +685,30 @@
     },
     {
       "key": {
+        "uuid": "e4f1236f_d7e32374",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 3329,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-08-14T09:48:49Z",
+      "side": 1,
+      "message": "\u003e I don\u0027t believe so\n\nI\u0027m looking at the code:\n\n* you set this field in ConfigInfoImpl l.129 [1] to notifyConfig.getHeader()\n* the header value in NotifyConfig should never be null since it defaults to NotifyConfig.Header.BCC if it\u0027s not set in the config [2]\n\nMaybe I\u0027m missing something, but I don\u0027t see how this field could be not set.\nCan you explain how this can happen?\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/230463/13/java/com/google/gerrit/server/restapi/project/ConfigInfoImpl.java#129\n[2] https://gerrit.googlesource.com/gerrit/+/refs/heads/master/java/com/google/gerrit/server/project/ProjectConfig.java#710",
+      "parentUuid": "9b2e770a_cc2511df",
+      "range": {
+        "startLine": 3329,
+        "startChar": 43,
+        "endLine": 3329,
+        "endChar": 51
+      },
+      "revId": "4bcb670306955a3746eb3b49df52482e12ea3d02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f6084d7b_67541d08",
         "filename": "Documentation/rest-api-projects.txt",
         "patchSetId": 12
@@ -657,6 +753,30 @@
       "revId": "4bcb670306955a3746eb3b49df52482e12ea3d02",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5aa8d400_66959d26",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 3332,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-08-14T09:48:49Z",
+      "side": 1,
+      "message": "You are right, I was misreading the code. We actually do not set this field if there is no filter or if the filter is \u0027*\u0027.",
+      "parentUuid": "49e0b341_d254fca2",
+      "range": {
+        "startLine": 3332,
+        "startChar": 43,
+        "endLine": 3332,
+        "endChar": 51
+      },
+      "revId": "4bcb670306955a3746eb3b49df52482e12ea3d02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -742,6 +862,30 @@
       "side": 1,
       "message": "So this is funny, but see NotifyConfig#setFilter.\nThe default value if not set is actually null, I don\u0027t need to specify that.\nFunnily enough, when you specify \u0027*\u0027 it will become null (based on the implementation). Maybe I should specify that? Anyway I think it is obvious that if you don\u0027t specify filter it will just not filter anything (\u003d\u003d therefore filter is \u0027*\u0027). I could add the line \"If not set, there is no filter\" but that line seems like an overkill, it\u0027s obvious that\u0027s if it is not set and I didn\u0027t specify otherwise, it means that there is no filter.",
       "parentUuid": "18029269_f20cb6dd",
+      "range": {
+        "startLine": 3372,
+        "startChar": 43,
+        "endLine": 3372,
+        "endChar": 51
+      },
+      "revId": "4bcb670306955a3746eb3b49df52482e12ea3d02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b89a923c_d65a7d69",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 3372,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-08-14T09:48:49Z",
+      "side": 1,
+      "message": "\u003e So this is funny, but see NotifyConfig#setFilter.\n\nThis is user documentation, they don\u0027t look at the code.\n\nMay be just add a sentence like:\n\n  If set to \u0027*\u0027 or if not set, all changes of the project are matched.",
+      "parentUuid": "389f62b4_157a56f4",
       "range": {
         "startLine": 3372,
         "startChar": 43,
@@ -1106,6 +1250,30 @@
     },
     {
       "key": {
+        "uuid": "2fd56c77_b9b5f347",
+        "filename": "java/com/google/gerrit/server/restapi/project/ConfigInfoImpl.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-08-14T09:48:49Z",
+      "side": 1,
+      "message": "Returning null for boolean fields instead of false was a general design decision for our REST API. We should stick to it here to be consistent with the rest of our API. Please also see my comment at [1] which explains the reasons behind this.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/230463/12..13/Documentation/rest-api-projects.txt#b3319",
+      "parentUuid": "90992794_de5d4fb6",
+      "range": {
+        "startLine": 121,
+        "startChar": 6,
+        "endLine": 125,
+        "endChar": 100
+      },
+      "revId": "4bcb670306955a3746eb3b49df52482e12ea3d02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "56a5731a_9d3a2690",
         "filename": "java/com/google/gerrit/server/restapi/project/ConfigInfoImpl.java",
         "patchSetId": 12
@@ -1247,6 +1415,30 @@
     },
     {
       "key": {
+        "uuid": "33105432_11ccef75",
+        "filename": "java/com/google/gerrit/server/restapi/project/PutConfig.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-08-14T09:48:49Z",
+      "side": 1,
+      "message": "OK. I think it would be nice to have this information in the error message, but it\u0027s not strongly required and we can always improve this later.",
+      "parentUuid": "9a123668_10054afb",
+      "range": {
+        "startLine": 186,
+        "startChar": 43,
+        "endLine": 186,
+        "endChar": 58
+      },
+      "revId": "4bcb670306955a3746eb3b49df52482e12ea3d02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f68387b5_6a97869d",
         "filename": "java/com/google/gerrit/server/restapi/project/PutConfig.java",
         "patchSetId": 12
@@ -1291,6 +1483,30 @@
       "revId": "4bcb670306955a3746eb3b49df52482e12ea3d02",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c4efeddb_79871782",
+        "filename": "java/com/google/gerrit/server/restapi/project/PutConfig.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-08-14T09:48:49Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "68230d81_318394e9",
+      "range": {
+        "startLine": 200,
+        "startChar": 29,
+        "endLine": 200,
+        "endChar": 48
+      },
+      "revId": "4bcb670306955a3746eb3b49df52482e12ea3d02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -1499,6 +1715,24 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "71022cdd_3144e81a",
+      "revId": "4bcb670306955a3746eb3b49df52482e12ea3d02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "28872b12_dd8ca53f",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/ConfigChangeIT.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-08-14T09:48:49Z",
+      "side": 1,
+      "message": "Thanks. The tests look much better now!",
+      "parentUuid": "738fdd6e_26c4038f",
       "revId": "4bcb670306955a3746eb3b49df52482e12ea3d02",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

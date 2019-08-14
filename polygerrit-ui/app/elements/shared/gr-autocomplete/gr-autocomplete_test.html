@@ -320,15 +320,12 @@ limitations under the License.
       });
     });
 
-    test('search icon shows with showSearchIcon property', done => {
-      flush(() => {
-        assert.equal(getComputedStyle(element.$$('iron-icon')).display,
-            'none');
-        element.showSearchIcon = true;
-        assert.notEqual(getComputedStyle(element.$$('iron-icon')).display,
-            'none');
-        done();
-      });
+    test('search icon shows with showSearchIcon property', () => {
+      assert.equal(getComputedStyle(element.$$('iron-icon')).display,
+          'none');
+      element.showSearchIcon = true;
+      assert.notEqual(getComputedStyle(element.$$('iron-icon')).display,
+          'none');
     });
 
     test('vertical offset overridden by param if it exists', () => {

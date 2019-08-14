@@ -25,7 +25,23 @@
       value: {
         type: Object,
         notify: true,
+        observer: '_valueChanged',
       },
+    },
+
+    _valueChanged(newValue, oldValue) {
+      /* In polymer 2 the following change was made:
+      "Property change notifications (property-changed events) aren't fired when
+      the value changes as a result of a binding from the host"
+      (see https://polymer-library.polymer-project.org/2.0/docs/about_20).
+      To workaround this problem, we fire the event from the observer.
+      In some cases this fire the event twice, but our code is
+      ready for it.
+      */
+      const detail = {
+        value: newValue,
+      };
+      this.dispatchEvent(new CustomEvent('value-changed', {detail}));
     },
   });
 })();

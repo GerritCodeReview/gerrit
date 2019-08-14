@@ -261,6 +261,30 @@
     },
     {
       "key": {
+        "uuid": "420cad2e_2bb310f6",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 944,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-08-14T14:11:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ada73953_0c304969",
+      "range": {
+        "startLine": 923,
+        "startChar": 4,
+        "endLine": 944,
+        "endChar": 5
+      },
+      "revId": "4bcb670306955a3746eb3b49df52482e12ea3d02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d71dcf82_78277105",
         "filename": "Documentation/rest-api-projects.txt",
         "patchSetId": 12
@@ -638,6 +662,30 @@
     },
     {
       "key": {
+        "uuid": "e6de6c05_84800759",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 3319,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-08-14T14:11:28Z",
+      "side": 1,
+      "message": "Good to know, thanks!",
+      "parentUuid": "54cf7f31_1339da51",
+      "range": {
+        "startLine": 3319,
+        "startChar": 43,
+        "endLine": 3319,
+        "endChar": 51
+      },
+      "revId": "4bcb670306955a3746eb3b49df52482e12ea3d02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d53d2cbc_c40ed303",
         "filename": "Documentation/rest-api-projects.txt",
         "patchSetId": 12
@@ -706,6 +754,30 @@
       "revId": "4bcb670306955a3746eb3b49df52482e12ea3d02",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9d27e60a_8c28d84e",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 3329,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-08-14T14:11:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e4f1236f_d7e32374",
+      "range": {
+        "startLine": 3329,
+        "startChar": 43,
+        "endLine": 3329,
+        "endChar": 51
+      },
+      "revId": "4bcb670306955a3746eb3b49df52482e12ea3d02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -895,6 +967,30 @@
       "revId": "4bcb670306955a3746eb3b49df52482e12ea3d02",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "db5c7a3d_873dda5d",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 3372,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-08-14T14:11:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b89a923c_d65a7d69",
+      "range": {
+        "startLine": 3372,
+        "startChar": 43,
+        "endLine": 3372,
+        "endChar": 51
+      },
+      "revId": "4bcb670306955a3746eb3b49df52482e12ea3d02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -1271,6 +1367,30 @@
       "revId": "4bcb670306955a3746eb3b49df52482e12ea3d02",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "61f9bb4e_07797e06",
+        "filename": "java/com/google/gerrit/server/restapi/project/ConfigInfoImpl.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-08-14T14:11:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2fd56c77_b9b5f347",
+      "range": {
+        "startLine": 121,
+        "startChar": 6,
+        "endLine": 125,
+        "endChar": 100
+      },
+      "revId": "4bcb670306955a3746eb3b49df52482e12ea3d02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

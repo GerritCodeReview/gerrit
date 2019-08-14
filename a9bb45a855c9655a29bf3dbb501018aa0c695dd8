@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cd767412_9b7d0a85",
+        "filename": "java/com/google/gerrit/server/restapi/change/TestSubmitRule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-08-14T00:29:14Z",
+      "side": 1,
+      "message": "Does this still need to be a list if there can now only ever be a single record returned?",
+      "range": {
+        "startLine": 90,
+        "startChar": 4,
+        "endLine": 91,
+        "endChar": 81
+      },
+      "revId": "a9bb45a855c9655a29bf3dbb501018aa0c695dd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1262cb81_d66a884f",
+        "filename": "java/com/google/gerrit/server/restapi/change/TestSubmitRule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-08-14T00:29:14Z",
+      "side": 1,
+      "message": "This can also be simplified now that there will only be a single record.",
+      "range": {
+        "startLine": 92,
+        "startChar": 4,
+        "endLine": 96,
+        "endChar": 5
+      },
+      "revId": "a9bb45a855c9655a29bf3dbb501018aa0c695dd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4d7a057f_ac04a7e2",
+        "filename": "java/com/google/gerrit/server/rules/SubmitRule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-08-14T00:29:14Z",
+      "side": 1,
+      "message": "This part also needs to be changed.",
+      "range": {
+        "startLine": 25,
+        "startChar": 18,
+        "endLine": 25,
+        "endChar": 81
+      },
+      "revId": "a9bb45a855c9655a29bf3dbb501018aa0c695dd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "88f96073_b1280aa9",
+        "filename": "javatests/com/google/gerrit/acceptance/server/rules/IgnoreSelfApprovalRuleIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-08-14T00:29:14Z",
+      "side": 1,
+      "message": "Change to submitRecord (singular) since it\u0027s no longer a collection.  Same below.",
+      "range": {
+        "startLine": 44,
+        "startChar": 27,
+        "endLine": 44,
+        "endChar": 40
+      },
+      "revId": "a9bb45a855c9655a29bf3dbb501018aa0c695dd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f30fa158_1aa5f1a0",
+        "filename": "javatests/com/google/gerrit/acceptance/server/rules/PrologRuleEvaluatorIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-08-14T00:29:14Z",
+      "side": 1,
+      "message": "Using the truth java 8 extension this can be just:\n\n  assertThat(record).isPresent();",
+      "range": {
+        "startLine": 51,
+        "startChar": 4,
+        "endLine": 51,
+        "endChar": 44
+      },
+      "revId": "a9bb45a855c9655a29bf3dbb501018aa0c695dd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bc1aeec7_42900a4e",
+        "filename": "javatests/com/google/gerrit/acceptance/server/rules/PrologRuleEvaluatorIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-08-14T00:29:14Z",
+      "side": 1,
+      "message": "assertThat(record).isPresent()",
+      "range": {
+        "startLine": 125,
+        "startChar": 4,
+        "endLine": 125,
+        "endChar": 44
+      },
+      "revId": "a9bb45a855c9655a29bf3dbb501018aa0c695dd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b56113dc_6936b78f",
+        "filename": "javatests/com/google/gerrit/acceptance/server/rules/PrologRuleEvaluatorIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-08-14T00:29:14Z",
+      "side": 1,
+      "message": "I think, but I\u0027m not 100% sure, that the truth library also provides a specific API for asserting that an optional has the expected value.",
+      "range": {
+        "startLine": 126,
+        "startChar": 4,
+        "endLine": 126,
+        "endChar": 55
+      },
+      "revId": "a9bb45a855c9655a29bf3dbb501018aa0c695dd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -25,10 +25,8 @@ import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import java.io.IOException;
 import java.util.SortedSet;
 import java.util.TreeSet;
-import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 
@@ -66,7 +64,7 @@ public class Schema_130 extends SchemaVersion {
           repoUpgraded.add(projectName);
         }
         cfg.save(serverUser, COMMIT_MSG);
-      } catch (ConfigInvalidException | IOException ex) {
+      } catch (Exception ex) {
         throw new OrmException("Cannot migrate project " + projectName, ex);
       }
     }

@@ -130,6 +130,11 @@ This endpoint decorator wraps the voting buttons in the reply dialog.
 === header-title
 This endpoint wraps the title-text in the application header.
 
+=== confirm-revert-change
+This endpoint is inside the confirm revert dialog. By default it displays a
+generic confirmation message regarding reverting the change. Plugins may add
+content to this message or replace it entirely.
+
 === confirm-submit-change
 This endpoint is inside the confirm submit dialog. By default it displays a
 generic confirmation message regarding submission of the change. Plugins may add

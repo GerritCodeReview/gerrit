@@ -56,6 +56,7 @@
 
     _handleConfirmTap(e) {
       e.preventDefault();
+      e.stopPropagation();
       this._confirm();
     },
 
@@ -65,6 +66,7 @@
 
     _handleCancelTap(e) {
       e.preventDefault();
+      e.stopPropagation();
       this.fire('cancel', null, {bubbles: false});
     },
   });

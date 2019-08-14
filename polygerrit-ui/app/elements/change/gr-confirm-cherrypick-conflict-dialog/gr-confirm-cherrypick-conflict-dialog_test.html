@@ -49,19 +49,23 @@ limitations under the License.
     test('_handleConfirmTap', () => {
       const confirmHandler = sandbox.stub();
       element.addEventListener('confirm', confirmHandler);
-      sandbox.stub(element, '_handleConfirmTap');
+      sandbox.spy(element, '_handleConfirmTap');
       element.$$('gr-dialog').fire('confirm');
       assert.isTrue(confirmHandler.called);
+      assert.isTrue(confirmHandler.calledOnce);
       assert.isTrue(element._handleConfirmTap.called);
+      assert.isTrue(element._handleConfirmTap.calledOnce);
     });
 
     test('_handleCancelTap', () => {
       const cancelHandler = sandbox.stub();
       element.addEventListener('cancel', cancelHandler);
-      sandbox.stub(element, '_handleCancelTap');
+      sandbox.spy(element, '_handleCancelTap');
       element.$$('gr-dialog').fire('cancel');
       assert.isTrue(cancelHandler.called);
+      assert.isTrue(cancelHandler.calledOnce);
       assert.isTrue(element._handleCancelTap.called);
+      assert.isTrue(element._handleCancelTap.calledOnce);
     });
   });
 </script>

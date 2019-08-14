@@ -40,8 +40,14 @@ limitations under the License.
       :host([show-avatar]) .container {
         padding-left: 0;
       }
+      gr-button.remove:hover,
+      gr-button.remove:focus {
+        --gr-button: {
+          color: #333;
+        }
+      }
       gr-button.remove {
-        --gr-remove-button-style: {
+        --gr-button: {
           border: 0;
           color: var(--deemphasized-text-color);
           font-size: 1.7rem;
@@ -51,19 +57,6 @@ limitations under the License.
           margin-left: .15em;
           padding: 0;
           text-decoration: none;
-        }
-      }
-
-      gr-button.remove:hover,
-      gr-button.remove:focus {
-        --gr-button: {
-          @apply --gr-remove-button-style
-          color: #333;
-        }
-      }
-      gr-button.remove {
-        --gr-button: {
-          @apply --gr-remove-button-style
         }
       }
       :host:focus {

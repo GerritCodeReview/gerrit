@@ -35,6 +35,7 @@ public @interface UsedAt {
   /** Enumeration of projects that call a method that would otherwise be private. */
   enum Project {
     GOOGLE,
+    COLLABNET,
     PLUGIN_DELETE_PROJECT,
     PLUGIN_SERVICEUSER,
     PLUGINS_ALL, // Use this project if a method/type is generally made available to all plugins.

@@ -22,6 +22,7 @@ import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.restapi.change.CommentJson.CommentFormatter;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -30,9 +31,9 @@ import java.util.Map;
 
 @Singleton
 public class ListChangeDrafts implements RestReadView<ChangeResource> {
-  private final ChangeData.Factory changeDataFactory;
-  private final Provider<CommentJson> commentJson;
-  private final CommentsUtil commentsUtil;
+  protected final ChangeData.Factory changeDataFactory;
+  protected final Provider<CommentJson> commentJson;
+  protected final CommentsUtil commentsUtil;
 
   @Inject
   ListChangeDrafts(
@@ -44,20 +45,41 @@ public class ListChangeDrafts implements RestReadView<ChangeResource> {
     this.commentsUtil = commentsUtil;
   }
 
+  protected Iterable<Comment> listComments(ChangeResource rsrc) {
+    ChangeData cd = changeDataFactory.create(rsrc.getNotes());
+    return commentsUtil.draftByChangeAuthor(cd.notes(), rsrc.getUser().getAccountId());
+  }
+
+  protected boolean includeAuthorInfo() {
+    return false;
+  }
+
+  public boolean requireAuthentication() {
+    return true;
+  }
+
   @Override
   public Map<String, List<CommentInfo>> apply(ChangeResource rsrc)
       throws AuthException, PermissionBackendException {
-    if (!rsrc.getUser().isIdentifiedUser()) {
+    if (requireAuthentication() && !rsrc.getUser().isIdentifiedUser()) {
       throw new AuthException("Authentication required");
     }
-    ChangeData cd = changeDataFactory.create(rsrc.getNotes());
-    List<Comment> drafts =
-        commentsUtil.draftByChangeAuthor(cd.notes(), rsrc.getUser().getAccountId());
+    return getCommentFormatter().format(listComments(rsrc));
+  }
+
+  public List<CommentInfo> getComments(ChangeResource rsrc)
+      throws AuthException, PermissionBackendException {
+    if (requireAuthentication() && !rsrc.getUser().isIdentifiedUser()) {
+      throw new AuthException("Authentication required");
+    }
+    return getCommentFormatter().formatAsList(listComments(rsrc));
+  }
+
+  private CommentFormatter getCommentFormatter() {
     return commentJson
         .get()
-        .setFillAccounts(false)
+        .setFillAccounts(includeAuthorInfo())
         .setFillPatchSet(true)
-        .newCommentFormatter()
-        .format(drafts);
+        .newCommentFormatter();
   }
 }

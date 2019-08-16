@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7a6ec697_43f8792e",
+        "filename": "java/com/google/gerrit/server/UsedAt.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-08-16T10:26:13Z",
+      "side": 1,
+      "message": "Should we add the other major Gerrit implementations also?\n- SAP\n- ERICSSON\n- GERRITFORGE\n- AXIS\n\nOthers?",
+      "range": {
+        "startLine": 38,
+        "startChar": 4,
+        "endLine": 38,
+        "endChar": 13
+      },
+      "revId": "e1ea1927b0cef42f01a4833fa646f35a30e3a758",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

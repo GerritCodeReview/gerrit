@@ -24,6 +24,7 @@ limitations under the License.
 <link rel="import" href="../gr-diff-highlight/gr-diff-highlight.html">
 <link rel="import" href="../gr-diff-selection/gr-diff-selection.html">
 <link rel="import" href="../gr-syntax-themes/gr-syntax-theme.html">
+<link rel="import" href="../gr-ranged-comment-themes/gr-ranged-comment-theme.html">
 
 <script src="../../../scripts/hiddenscroll.js"></script>
 
@@ -307,6 +308,7 @@ limitations under the License.
       }
     </style>
     <style include="gr-syntax-theme"></style>
+    <style include="gr-ranged-comment-theme"></style>
     <div id="diffHeader" hidden$="[[_computeDiffHeaderHidden(_diffHeaderItems)]]">
       <template
           is="dom-repeat"

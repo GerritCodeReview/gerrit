@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a4ba6489_cb37b542",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-rest-api.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-08-16T18:11:10Z",
+      "side": 1,
+      "message": "Let\u0027s add opt_errFn in post and put, as well. Would be difficult to do after the fact, or only in reverse parameter order.",
+      "revId": "67125ea084811121c67b809777efcbdd78c6d219",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

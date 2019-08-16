@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d97d824a_adfece40",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-endpoint-decorator/gr-endpoint-decorator.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-08-16T18:26:29Z",
+      "side": 1,
+      "message": "nope, top level template can not have `if` on it, and style in nested template won\u0027t work... gr-external-style doesn;t work either.",
+      "parentUuid": "500f0160_8db324ee",
+      "revId": "6c6f555dba9c820c9eb6f445e961c45306c28aec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fad9ce70_f6dc8e0d",
         "filename": "polygerrit-ui/app/elements/plugins/gr-endpoint-decorator/gr-endpoint-decorator.html",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2019-08-16T18:19:45Z",
       "side": 1,
       "message": "It is important that this does not get out of sync with gr-change-metadata-shared-styles.html. Can you add comments in both files in the vein of Google\u0027s IFTTT linter:\n# LINT.IfChange\n...\n# LINT.ThenChange(/polygerrit-ui/app/styles/gr-change-metadata-shared-styles.html)",
+      "revId": "6c6f555dba9c820c9eb6f445e961c45306c28aec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a72a8615_5ddcc776",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-endpoint-decorator/gr-endpoint-decorator.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-08-16T18:26:29Z",
+      "side": 1,
+      "message": "did not know we can add those to gerrit code as well!",
+      "parentUuid": "fad9ce70_f6dc8e0d",
       "revId": "6c6f555dba9c820c9eb6f445e961c45306c28aec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "7dbdd953_31d1f31a",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-endpoint-decorator/gr-endpoint-decorator.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-08-16T18:26:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ecd6911b_b1390fc5",
+      "revId": "6c6f555dba9c820c9eb6f445e961c45306c28aec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "443359cf_53355d21",
         "filename": "polygerrit-ui/app/styles/gr-change-metadata-shared-styles.html",
         "patchSetId": 3
@@ -67,6 +121,24 @@
       "revId": "6c6f555dba9c820c9eb6f445e961c45306c28aec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8a342540_0931d57e",
+        "filename": "polygerrit-ui/app/styles/gr-change-metadata-shared-styles.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-08-16T18:26:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "443359cf_53355d21",
+      "revId": "6c6f555dba9c820c9eb6f445e961c45306c28aec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

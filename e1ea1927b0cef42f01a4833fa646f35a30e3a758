@@ -46,6 +46,30 @@
       "revId": "e1ea1927b0cef42f01a4833fa646f35a30e3a758",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e4f2b56d_c1317ec7",
+        "filename": "java/com/google/gerrit/server/UsedAt.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-08-16T11:45:11Z",
+      "side": 1,
+      "message": "True, I\u0027ll post a separate change for that.",
+      "parentUuid": "24c3526e_64974b24",
+      "range": {
+        "startLine": 38,
+        "startChar": 4,
+        "endLine": 38,
+        "endChar": 13
+      },
+      "revId": "e1ea1927b0cef42f01a4833fa646f35a30e3a758",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "500f0160_8db324ee",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-endpoint-decorator/gr-endpoint-decorator.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-08-16T18:19:45Z",
+      "side": 1,
+      "message": "So conditionally adding this as a shared style at runtime did not work?",
+      "revId": "6c6f555dba9c820c9eb6f445e961c45306c28aec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fad9ce70_f6dc8e0d",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-endpoint-decorator/gr-endpoint-decorator.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-08-16T18:19:45Z",
+      "side": 1,
+      "message": "It is important that this does not get out of sync with gr-change-metadata-shared-styles.html. Can you add comments in both files in the vein of Google\u0027s IFTTT linter:\n# LINT.IfChange\n...\n# LINT.ThenChange(/polygerrit-ui/app/styles/gr-change-metadata-shared-styles.html)",
+      "revId": "6c6f555dba9c820c9eb6f445e961c45306c28aec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ecd6911b_b1390fc5",
         "filename": "polygerrit-ui/app/elements/plugins/gr-endpoint-decorator/gr-endpoint-decorator.html",
         "patchSetId": 3

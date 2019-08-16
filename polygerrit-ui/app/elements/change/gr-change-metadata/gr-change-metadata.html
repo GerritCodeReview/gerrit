@@ -18,6 +18,7 @@ limitations under the License.
 <link rel="import" href="/bower_components/polymer/polymer.html">
 <link rel="import" href="../../../behaviors/rest-client-behavior/rest-client-behavior.html">
 <link rel="import" href="../../../styles/shared-styles.html">
+<link rel="import" href="../../../styles/gr-change-metadata-shared-styles.html">
 <link rel="import" href="../../../styles/gr-voting-styles.html">
 <link rel="import" href="../../core/gr-navigation/gr-navigation.html">
 <link rel="import" href="../../plugins/gr-endpoint-decorator/gr-endpoint-decorator.html">
@@ -38,34 +39,10 @@ limitations under the License.
 
 <dom-module id="gr-change-metadata">
   <template>
+    <style include="gr-change-metadata-shared-styles"></style>
     <style include="shared-styles">
       :host {
         display: table;
-      }
-      section {
-        display: table-row;
-      }
-      section:not(:first-of-type) .title,
-      section:not(:first-of-type) .value {
-        padding-top: .5em;
-      }
-      section:not(:first-of-type) {
-        margin-top: 1em;
-      }
-      .title,
-      .value {
-        display: table-cell;
-      }
-      .title {
-        color: var(--deemphasized-text-color);
-        font-weight: var(--font-weight-bold);
-        max-width: 20em;
-        padding-left: var(--metadata-horizontal-padding);
-        padding-right: .5em;
-        word-break: break-word;
-      }
-      .value {
-        padding-right: var(--metadata-horizontal-padding);
       }
       gr-change-requirements {
         --requirements-horizontal-padding: var(--metadata-horizontal-padding);

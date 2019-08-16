@@ -20,6 +20,50 @@ limitations under the License.
 
 <dom-module id="gr-endpoint-decorator">
   <template strip-whitespace>
+    <style>
+      /**
+       * This is to support plugins that are not polymer components
+       * but manipulate dom by attaching elements directly to the element.
+       * All styles are and must be restricted to the name of the endpoint
+       * to avoid side effects.
+       */
+
+      /** BEGIN - styles for change-metadata-item endpoints */
+      /** LINT.IfChange */
+      :host([name=change-metadata-item]) section {
+        display: table-row;
+      }
+
+      :host([name=change-metadata-item]) .title,
+      :host([name=change-metadata-item]) .value {
+        padding-top: .5em;
+        display: table-cell;
+      }
+
+      :host([name=change-metadata-item]) section:not(:first-of-type) .title,
+      :host([name=change-metadata-item]) section:not(:first-of-type) .value {
+          padding-top: .5em;
+      }
+
+      :host([name=change-metadata-item]) section:not(:first-of-type) {
+          margin-top: 1em;
+      }
+
+      :host([name="change-metadata-item"]) .title {
+        color: var(--deemphasized-text-color);
+        font-weight: var(--font-weight-bold);
+        max-width: 20em;
+        padding-left: var(--metadata-horizontal-padding);
+        padding-right: .5em;
+        word-break: break-word;
+      }
+
+      :host([name="change-metadata-item"]) .value {
+        padding-right: var(--metadata-horizontal-padding);
+      }
+      /** LINT.ThenChange(/polygerrit-ui/app/styles/gr-change-metadata-shared-styles.html) */
+      /** END - styles for change-metadata-item endpoints */
+    </style>
     <slot></slot>
   </template>
   <script src="gr-endpoint-decorator.js"></script>

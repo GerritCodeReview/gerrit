@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6c5994e2_aefa76a7",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-endpoint-decorator/gr-endpoint-decorator.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-08-17T07:13:05Z",
+      "side": 1,
+      "message": "Looking at this once more it is a really ugly workaround. I think the amount of plugins that need to inherit styles is really low, and I would suggest that we first try to force them all to become a Polymer component. It think that should not be very costly for plugin owners, and for us it makes life much simpler. WDYT?",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 66,
+        "endChar": 12
+      },
+      "revId": "7a9da4bd7bbf7ed18724d34fcad3291dc987c1c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

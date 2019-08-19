@@ -100,7 +100,7 @@ public class ExternalIdCacheLoader extends CacheLoader<ObjectId, AllExternalIds>
                 .setCumulative()
                 .setUnit(Units.MILLISECONDS));
     this.enablePartialReloads =
-        config.getBoolean("cache", ExternalIdCacheImpl.CACHE_NAME, "enablePartialReloads", false);
+        config.getBoolean("cache", ExternalIdCacheImpl.CACHE_NAME, "enablePartialReloads", true);
   }
 
   @Override

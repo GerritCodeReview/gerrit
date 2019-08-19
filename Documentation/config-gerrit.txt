@@ -879,7 +879,7 @@ problematic.
 previously cached state. This applies modifications based on the Git
 diff and is almost always faster.
 `cache.external_ids_map.enablePartialReloads` turns this behavior on
-or off. The default is `false`.
+or off. The default is `true`.
 
 cache `"git_tags"`::
 +

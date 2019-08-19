@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "04735ded_202ebceb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-08-19T23:25:04Z",
+      "side": 1,
+      "message": "Please use either the abbreviated commit sha1 or the abbreviated change-Id.  The latter will get automatically hyperlinked to the change.",
+      "range": {
+        "startLine": 11,
+        "startChar": 49,
+        "endLine": 11,
+        "endChar": 55
+      },
+      "revId": "6c5c06c50aa0da277730b9bf49dbe6bf4b587e26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

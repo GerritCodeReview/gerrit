@@ -131,6 +131,24 @@
     },
     {
       "key": {
+        "uuid": "a70d11f9_12f0c3c1",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 517,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-08-19T16:15:20Z",
+      "side": 1,
+      "message": "hmm that seems not a problem if we keep the `element` as an optional parameter ? and the return is the same, you still expect people to get the className from this method and then apply it to what ever element they want, the usage pattern seems not changed.\n\nIts just giving them the option to specify an element other than the document as the parent (host) of the style they want to add.",
+      "parentUuid": "0c9c3948_1eb8f457",
+      "revId": "1f2295f1feb49b3c2f0950980feaf73f1924e663",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "db44d4f1_12c1bb99",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-shared-style.js",
         "patchSetId": 2
@@ -195,6 +213,24 @@
       "side": 1,
       "message": "I haven\u0027t seen nested \"objects\" in Gerrit namespace. Not sure, should we introduce it here or not.",
       "parentUuid": "8ad2ed99_9550ba3f",
+      "revId": "1f2295f1feb49b3c2f0950980feaf73f1924e663",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2dab6720_ec39aa43",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-shared-style.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-08-19T16:15:20Z",
+      "side": 1,
+      "message": "i think i have seen some behaviors attached to Gerrit, like `Gerrit.DomUtilBehavior`, tho they usually exposed themselves to window as well.\n\nbut tbh, I still think modifying the css and let it accept an optional second parameter seems a better choice :)",
+      "parentUuid": "a9f096b8_53eddf37",
       "revId": "1f2295f1feb49b3c2f0950980feaf73f1924e663",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

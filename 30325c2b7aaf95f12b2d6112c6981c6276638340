@@ -22,6 +22,30 @@
       "revId": "30325c2b7aaf95f12b2d6112c6981c6276638340",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f52bdaa_8bb79a81",
+        "filename": "java/com/google/gerrit/server/change/PatchSetInserter.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 1031898
+      },
+      "writtenOn": "2019-08-19T08:15:31Z",
+      "side": 1,
+      "message": "Haven\u0027t dived into the code. It seems we should have moved this check within the if block below?",
+      "parentUuid": "9f2dbbfc_31301708",
+      "range": {
+        "startLine": 317,
+        "startChar": 3,
+        "endLine": 317,
+        "endChar": 60
+      },
+      "revId": "30325c2b7aaf95f12b2d6112c6981c6276638340",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

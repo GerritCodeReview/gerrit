@@ -149,6 +149,24 @@
     },
     {
       "key": {
+        "uuid": "073ff8af_9039deaa",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 517,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-08-19T17:01:46Z",
+      "side": 1,
+      "message": "discussed offline, we can not just add a second parameter as in a lot of use cases, we don\u0027t have the `element` when creating the styles.",
+      "parentUuid": "a70d11f9_12f0c3c1",
+      "revId": "1f2295f1feb49b3c2f0950980feaf73f1924e663",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "db44d4f1_12c1bb99",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-shared-style.js",
         "patchSetId": 2
@@ -231,6 +249,24 @@
       "side": 1,
       "message": "i think i have seen some behaviors attached to Gerrit, like `Gerrit.DomUtilBehavior`, tho they usually exposed themselves to window as well.\n\nbut tbh, I still think modifying the css and let it accept an optional second parameter seems a better choice :)",
       "parentUuid": "a9f096b8_53eddf37",
+      "revId": "1f2295f1feb49b3c2f0950980feaf73f1924e663",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fb383b12_9226780d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-shared-style.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-08-19T17:01:46Z",
+      "side": 1,
+      "message": "if we go with this way, probably follow the same pattern as others and have it in `Gerrit` namespace as well ?",
+      "parentUuid": "2dab6720_ec39aa43",
       "revId": "1f2295f1feb49b3c2f0950980feaf73f1924e663",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

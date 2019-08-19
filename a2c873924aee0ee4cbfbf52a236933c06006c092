@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2788e544_05aeb031",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-shared-style.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-08-19T17:01:46Z",
+      "side": 1,
+      "message": "can be very helpful to have some JSDoc here explaining the changes compared to `Gerrit.css` as now its a two steps process:\n1. `new GrSharedStyle()` to create an instance with the styles\n2. use `instance.apply(element)` to apply the css to any element you want to apply the css on.\n\nafter switching to `class` syntax, it should help a lot on the readability",
+      "revId": "a2c873924aee0ee4cbfbf52a236933c06006c092",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5aee8ce7_d4e7638c",
+        "filename": "polygerrit-ui/app/samples/coverage-plugin.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-08-19T17:01:46Z",
+      "side": 1,
+      "message": "are coverageStyle and emptyStyle only used in following two methods and are these two methods used only for these conditions ? if so, \ncan we pass the `displayCoverage` or the `raw css rule` down to `annotateRange` and `annotateLineNumner` instead ? so the css related part will just be inside of those two methods, and the emptyStyle seems can be just replaced with `do nothing`. (will make the usage of this GrSharedStyle much clear as well).",
+      "revId": "a2c873924aee0ee4cbfbf52a236933c06006c092",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

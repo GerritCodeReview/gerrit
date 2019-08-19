@@ -738,9 +738,7 @@
       this._changeNum = value.changeNum;
       this.$.relatedChanges.clear();
 
-      this._reload(true).then(() => {
-        this._performPostLoadTasks();
-      });
+      this._reload(true);
     },
 
     _sendShowChangeEvent() {

@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5eb12ccf_4d43ad00",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 740,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-08-19T12:34:06Z",
+      "side": 1,
+      "message": "I doint think we need to do this (remove this), so I suggest reverting this instead see below comment.",
+      "revId": "14f116fa3a07c3f3d92d2c6a32c35567b3e6d4a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "44066d3b_f201481f",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 760,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-08-19T12:34:06Z",
+      "side": 1,
+      "message": "Move this line and the next 2 lines into a new function and call it here.",
+      "revId": "14f116fa3a07c3f3d92d2c6a32c35567b3e6d4a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "96dc14ee_1e4991ba",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 783,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-08-19T12:34:06Z",
+      "side": 1,
+      "message": "I think we can get rid of this check.",
+      "revId": "14f116fa3a07c3f3d92d2c6a32c35567b3e6d4a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "629de7fa_924ece3a",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 806,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-08-19T12:34:06Z",
+      "side": 1,
+      "message": "Use the new function I suggested to create in a comment above.",
+      "revId": "14f116fa3a07c3f3d92d2c6a32c35567b3e6d4a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

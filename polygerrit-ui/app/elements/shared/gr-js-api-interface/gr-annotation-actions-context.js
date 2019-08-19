@@ -43,25 +43,26 @@
    * Method to add annotations to a content line.
    * @param {number} offset The char offset where the update starts.
    * @param {number} length The number of chars that the update covers.
-   * @param {string} cssClass The name of a CSS class created using Gerrit.css.
+   * @param {GrSharedStyle} shared style for the range.
    * @param {string} side The side of the update. ('left' or 'right')
    */
   GrAnnotationActionsContext.prototype.annotateRange = function(
-      offset, length, cssClass, side) {
+      offset, length, sharedStyle, side) {
     if (this._contentEl && this._contentEl.getAttribute('data-side') == side) {
-      GrAnnotation.annotateElement(this._contentEl, offset, length, cssClass);
+      GrAnnotation.annotateElement(this._contentEl, offset, length,
+          sharedStyle.getClassName(this._contentEl));
     }
   };
 
   /**
    * Method to add a CSS class to the line number TD element.
-   * @param {string} cssClass The name of a CSS class created using Gerrit.css.
+   * @param {GrSharedStyle} shared style for the range.
    * @param {string} side The side of the update. ('left' or 'right')
    */
   GrAnnotationActionsContext.prototype.annotateLineNumber = function(
-      cssClass, side) {
+      sharedStyle, side) {
     if (this._lineNumberEl && this._lineNumberEl.classList.contains(side)) {
-      this._lineNumberEl.classList.add(cssClass);
+      sharedStyle.apply(this._lineNumberEl);
     }
   };
 

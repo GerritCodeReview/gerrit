@@ -319,6 +319,10 @@
     return new GrSettingsApi(this);
   };
 
+  Plugin.prototype.styles = function() {
+    return new GrStylesApi();
+  };
+
   /**
    * To make REST requests for plugin-provided endpoints, use
    * @example
@@ -511,7 +515,13 @@
         'Please use plugin.getPluginName() instead.');
   };
 
+  /**
+   * @deprecated Use plugin.styles().css(rulesStr) instead. Please, consult
+   * the documentation how to replace it accordingly.
+   */
   Gerrit.css = function(rulesStr) {
+    console.warn('Gerrit.css(rulesStr) is deprecated!',
+        'Use plugin.styles().css(rulesStr)');
     if (!Gerrit._customStyleSheet) {
       const styleEl = document.createElement('style');
       document.head.appendChild(styleEl);

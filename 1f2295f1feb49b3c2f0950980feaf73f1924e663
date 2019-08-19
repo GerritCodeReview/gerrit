@@ -270,6 +270,24 @@
       "revId": "1f2295f1feb49b3c2f0950980feaf73f1924e663",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b73cac85_e3749be7",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-shared-style.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-08-19T17:26:55Z",
+      "side": 1,
+      "message": "I don\u0027t mind, but let\u0027s wait for other opinions/comments before making final decision.",
+      "parentUuid": "fb383b12_9226780d",
+      "revId": "1f2295f1feb49b3c2f0950980feaf73f1924e663",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

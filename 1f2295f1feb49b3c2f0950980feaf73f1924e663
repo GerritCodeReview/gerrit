@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "8cf72e78_b1610601",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-08-19T16:09:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f101fc90_a105462d",
+      "range": {
+        "startLine": 10,
+        "startChar": 19,
+        "endLine": 10,
+        "endChar": 26
+      },
+      "revId": "1f2295f1feb49b3c2f0950980feaf73f1924e663",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cb08fe0c_8fe581b5",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
         "patchSetId": 2
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "1af196c3_0a8738b8",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 515,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-08-19T16:09:31Z",
+      "side": 1,
+      "message": "Fixed.",
+      "parentUuid": "cb08fe0c_8fe581b5",
+      "range": {
+        "startLine": 515,
+        "startChar": 17,
+        "endLine": 515,
+        "endChar": 33
+      },
+      "revId": "1f2295f1feb49b3c2f0950980feaf73f1924e663",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b6bca197_a55b9778",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
         "patchSetId": 2
@@ -59,6 +107,24 @@
       "writtenOn": "2019-08-19T15:58:00Z",
       "side": 1,
       "message": "just curious, compared to adding a new global method, why not just add a second parameter and then check if should use shadowDOM or document here ? like `css(ruleStr, element)` and `console.warn` if missing the second parameter ?",
+      "revId": "1f2295f1feb49b3c2f0950980feaf73f1924e663",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0c9c3948_1eb8f457",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 517,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-08-19T16:09:31Z",
+      "side": 1,
+      "message": "I found other usages of Gerrit.css in our google3. The typical pattern is:  get class name and store it as a constant (no element at this point) and later apply class to the element.\nI want to keep the overall idea of it - define styles separately from elements.",
+      "parentUuid": "b6bca197_a55b9778",
       "revId": "1f2295f1feb49b3c2f0950980feaf73f1924e663",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -82,6 +148,24 @@
     },
     {
       "key": {
+        "uuid": "b065d2bf_197d3027",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-shared-style.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-08-19T16:09:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "db44d4f1_12c1bb99",
+      "revId": "1f2295f1feb49b3c2f0950980feaf73f1924e663",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8ad2ed99_9550ba3f",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-shared-style.js",
         "patchSetId": 2
@@ -93,6 +177,24 @@
       "writtenOn": "2019-08-19T15:58:00Z",
       "side": 1,
       "message": "why don\u0027t we have it in Gerrit namespace instead ?",
+      "revId": "1f2295f1feb49b3c2f0950980feaf73f1924e663",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a9f096b8_53eddf37",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-shared-style.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-08-19T16:09:31Z",
+      "side": 1,
+      "message": "I haven\u0027t seen nested \"objects\" in Gerrit namespace. Not sure, should we introduce it here or not.",
+      "parentUuid": "8ad2ed99_9550ba3f",
       "revId": "1f2295f1feb49b3c2f0950980feaf73f1924e663",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

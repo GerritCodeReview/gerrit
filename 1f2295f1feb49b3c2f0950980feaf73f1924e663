@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f101fc90_a105462d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-08-19T15:58:00Z",
+      "side": 1,
+      "message": "nit: provides :)",
+      "range": {
+        "startLine": 10,
+        "startChar": 19,
+        "endLine": 10,
+        "endChar": 26
+      },
+      "revId": "1f2295f1feb49b3c2f0950980feaf73f1924e663",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cb08fe0c_8fe581b5",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 515,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-08-19T15:58:00Z",
+      "side": 1,
+      "message": "is the method name `UseGrSharedStyle` ?",
+      "range": {
+        "startLine": 515,
+        "startChar": 17,
+        "endLine": 515,
+        "endChar": 33
+      },
+      "revId": "1f2295f1feb49b3c2f0950980feaf73f1924e663",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b6bca197_a55b9778",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 517,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-08-19T15:58:00Z",
+      "side": 1,
+      "message": "just curious, compared to adding a new global method, why not just add a second parameter and then check if should use shadowDOM or document here ? like `css(ruleStr, element)` and `console.warn` if missing the second parameter ?",
+      "revId": "1f2295f1feb49b3c2f0950980feaf73f1924e663",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "db44d4f1_12c1bb99",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-shared-style.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-08-19T15:58:00Z",
+      "side": 1,
+      "message": "this sentence seems belong to the @return or above",
+      "revId": "1f2295f1feb49b3c2f0950980feaf73f1924e663",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8ad2ed99_9550ba3f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-shared-style.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-08-19T15:58:00Z",
+      "side": 1,
+      "message": "why don\u0027t we have it in Gerrit namespace instead ?",
+      "revId": "1f2295f1feb49b3c2f0950980feaf73f1924e663",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -22,6 +22,30 @@
       "revId": "7a9da4bd7bbf7ed18724d34fcad3291dc987c1c8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "84668744_9ec87d2d",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-endpoint-decorator/gr-endpoint-decorator.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-08-19T07:37:56Z",
+      "side": 1,
+      "message": "agree its ugly and hard to maintain :( my initial thought was trying to reduce the work on their shoulders as much as possible. I guess I can make a cl to them to update their plugin and use that as an example of creating plugins that need to manipulate dom and include shared styles in polymer 2",
+      "parentUuid": "6c5994e2_aefa76a7",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 66,
+        "endChar": 12
+      },
+      "revId": "7a9da4bd7bbf7ed18724d34fcad3291dc987c1c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -289,13 +289,17 @@
     _logCall(req, startTime, status) {
       const method = (req.fetchOptions && req.fetchOptions.method) ?
           req.fetchOptions.method : 'GET';
-      const elapsed = (Date.now() - startTime);
+      const endTime = Date.now();
+      const elapsed = (endTime - startTime);
+      const startAt = new Date(startTime);
+      const endAt = new Date(endTime);
       console.log([
         'HTTP',
         status,
         method,
         elapsed + 'ms',
         req.anonymizedUrl || req.url,
+        `(${startAt.toISOString()}, ${endAt.toISOString()})`,
       ].join(' '));
       if (req.anonymizedUrl) {
         this.fire('rpc-log',

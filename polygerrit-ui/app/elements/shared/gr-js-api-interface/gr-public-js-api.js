@@ -511,7 +511,11 @@
         'Please use plugin.getPluginName() instead.');
   };
 
+  /**
+   * @deprecated UseGrSharedStyle instead
+   */
   Gerrit.css = function(rulesStr) {
+    console.warn('Gerrit.css(rulesStr) is deprecated! Use GrSharedStyle');
     if (!Gerrit._customStyleSheet) {
       const styleEl = document.createElement('style');
       document.head.appendChild(styleEl);

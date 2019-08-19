@@ -225,7 +225,7 @@ public class AccountIT extends AbstractDaemonTest {
 
   @Inject
   @Named("accounts")
-  private LoadingCache<Account.Id, Optional<AccountState>> accountsCache;
+  private LoadingCache<Account.Id, AccountState> accountsCache;
 
   @Inject private AccountOperations accountOperations;
 

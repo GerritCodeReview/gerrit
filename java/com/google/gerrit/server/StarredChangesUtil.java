@@ -242,7 +242,7 @@ public class StarredChangesUtil {
       batchUpdate.setRefLogMessage("Unstar change " + changeId.get(), true);
       for (Account.Id accountId : byChangeFromIndex(changeId).keySet()) {
         String refName = RefNames.refsStarredChanges(changeId, accountId);
-        Ref ref = repo.getRefDatabase().getRef(refName);
+        Ref ref = repo.getRefDatabase().exactRef(refName);
         batchUpdate.addCommand(new ReceiveCommand(ref.getObjectId(), ObjectId.zeroId(), refName));
       }
       batchUpdate.execute(rw, NullProgressMonitor.INSTANCE);

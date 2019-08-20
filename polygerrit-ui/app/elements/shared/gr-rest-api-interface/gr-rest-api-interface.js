@@ -349,6 +349,13 @@
      * @param {Defs.FetchJSONRequest} req
      */
     _fetchJSON(req) {
+      const headers = req.fetchOptions && req.fetchOptions.headers ?
+          req.fetchOptions.headers : new Headers();
+      if (!headers.has('Accept')) {
+        headers.append('Accept', 'application/json');
+      }
+      req.fetchOptions = Object.assign(req.fetchOptions || {},
+        {headers});
       return this._fetchRawJSON(req).then(response => {
         if (!response) {
           return;

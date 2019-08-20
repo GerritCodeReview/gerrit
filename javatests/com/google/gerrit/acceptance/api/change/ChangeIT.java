@@ -93,6 +93,7 @@ import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.extensions.api.accounts.DeleteDraftCommentsInput;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.AddReviewerResult;
+import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.DeleteReviewerInput;
 import com.google.gerrit.extensions.api.changes.DeleteVoteInput;
 import com.google.gerrit.extensions.api.changes.DraftApi;
@@ -881,6 +882,71 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(thrown)
         .hasMessageThat()
         .contains("project state " + ProjectState.READ_ONLY + " does not permit write");
+  }
+
+  @Test
+  public void revertSubmission() throws Exception {
+    List<PushOneCommit.Result> resultCommits = new ArrayList<>();
+    resultCommits.add(createChange());
+    gApi.changes()
+        .id(resultCommits.get(0).getChangeId())
+        .revision(resultCommits.get(0).getCommit().name())
+        .review(ReviewInput.approve());
+    resultCommits.add(1, createChange());
+    gApi.changes()
+        .id(resultCommits.get(1).getChangeId())
+        .revision(resultCommits.get(1).getCommit().name())
+        .review(ReviewInput.approve());
+    gApi.changes()
+        .id(resultCommits.get(1).getChangeId())
+        .revision(resultCommits.get(1).getCommit().name())
+        .submit();
+
+    List<ChangeApi> reversedRevertChanges =
+        gApi.changes().id(resultCommits.get(0).getChangeId()).revertSubmission();
+    // the order of reverts was changed since we need to revert children first.
+    List<ChangeApi> revertChanges = new ArrayList<>();
+    revertChanges.add(reversedRevertChanges.get(1));
+    revertChanges.add(reversedRevertChanges.get(0));
+    // expected messages on source change:
+    // 1. Uploaded patch set 1.
+    // 2. Patch Set 1: Code-Review+2
+    // 3. Change has been successfully merged by Administrator
+    // 4. Patch Set 1: Reverted
+    List<ChangeInfo> a = gApi.changes().id(revertChanges.get(0).get()._number).submittedTogether();
+    assertThat(a).hasSize(2);
+    for (int i = 0; i < resultCommits.size(); i++) {
+      List<ChangeMessageInfo> sourceMessages =
+          new ArrayList<>(gApi.changes().id(resultCommits.get(i).getChangeId()).get().messages);
+      assertThat(sourceMessages).hasSize(4);
+      String expectedMessage =
+          String.format(
+              "Created a revert of this change as %s", revertChanges.get(i).get().changeId);
+      assertThat(sourceMessages.get(3).message).isEqualTo(expectedMessage);
+
+      List<ChangeMessageInfo> messages =
+          revertChanges.get(i).get().messages.stream().collect(toList());
+      assertThat(messages).hasSize(2);
+      assertThat(messages.get(0).message).isEqualTo("Uploaded patch set 1.");
+      String topicName = "revert-topic";
+      assertThat(messages.get(1).message).isEqualTo("Topic set to " + topicName);
+      assertThat(revertChanges.get(i).get().revertOf)
+          .isEqualTo(gApi.changes().id(resultCommits.get(i).getChangeId()).get()._number);
+    }
+  }
+
+  @Test
+  public void revertSubmissionOfSingleChange() throws Exception {
+    PushOneCommit.Result result = createChange();
+    gApi.changes()
+        .id(result.getChangeId())
+        .revision(result.getCommit().name())
+        .review(ReviewInput.approve());
+    gApi.changes().id(result.getChangeId()).revision(result.getCommit().name()).submit();
+    List<ChangeApi> revertChanges = gApi.changes().id(result.getChangeId()).revertSubmission();
+
+    assertThat(revertChanges.get(0).get().revertOf)
+        .isEqualTo(gApi.changes().id(result.getChangeId()).get()._number);
   }
 
   @FunctionalInterface

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "faa3272b_6b90fe6c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-08-20T14:51:14Z",
+      "side": 1,
+      "message": "the temporary variable `fetchOptions` seems not been used at all, you can just do `req.fetchOptions \u003d Object.assing(req.fetchOptions || {}, {headers})` :)\n\nAnd will it still support the usage of `_fetchJSON(url)` ? from the test, seems it supports that usage before. If you still need to support that, you probably need to check on the type of `req` first",
+      "revId": "7be3cec1906fecf7654e727e3f0d076c9be0c8e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

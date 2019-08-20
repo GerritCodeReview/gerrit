@@ -21,7 +21,6 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.server.account.HashedPassword;
 import java.util.Collection;
-import org.apache.commons.codec.DecoderException;
 
 /** Checks if a given username and password match a user's external IDs. */
 public class PasswordVerifier {
@@ -43,7 +42,7 @@ public class PasswordVerifier {
       if (!Strings.isNullOrEmpty(hashedStr)) {
         try {
           return HashedPassword.decode(hashedStr).checkPassword(password);
-        } catch (DecoderException e) {
+        } catch (HashedPassword.DecoderException e) {
           logger.atSevere().log("DecoderException for user %s: %s ", username, e.getMessage());
           return false;
         }

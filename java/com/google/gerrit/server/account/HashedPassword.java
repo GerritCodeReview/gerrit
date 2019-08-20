@@ -22,7 +22,6 @@ import com.google.common.primitives.Ints;
 import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;
 import java.util.List;
-import org.apache.commons.codec.DecoderException;
 import org.bouncycastle.crypto.generators.BCrypt;
 import org.bouncycastle.util.Arrays;
 
@@ -38,6 +37,14 @@ public class HashedPassword {
   // bcrypt uses 2^cost rounds. Since we use a generated random password, no need
   // for a high cost.
   private static final int DEFAULT_COST = 4;
+
+  public static class DecoderException extends Exception {
+    private static final long serialVersionUID = 1L;
+
+    public DecoderException(String message) {
+      super(message);
+    }
+  }
 
   /**
    * decodes a hashed password encoded with {@link #encode}.

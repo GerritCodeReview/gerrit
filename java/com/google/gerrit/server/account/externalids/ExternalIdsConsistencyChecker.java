@@ -30,7 +30,6 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import org.apache.commons.codec.DecoderException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
@@ -131,7 +130,7 @@ public class ExternalIdsConsistencyChecker {
     if (extId.password() != null && extId.isScheme(SCHEME_USERNAME)) {
       try {
         HashedPassword.decode(extId.password());
-      } catch (DecoderException e) {
+      } catch (HashedPassword.DecoderException e) {
         addError(
             String.format(
                 "External ID '%s' has an invalid password: %s", extId.key().get(), e.getMessage()),

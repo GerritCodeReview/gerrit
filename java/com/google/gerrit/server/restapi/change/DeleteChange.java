@@ -24,42 +24,62 @@ import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.DeleteChangeOp;
+import com.google.gerrit.server.edit.ChangeEdit;
+import com.google.gerrit.server.edit.ChangeEditUtil;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.update.BatchUpdate;
+import com.google.gerrit.server.update.BatchUpdateOp;
+import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.RetryHelper;
 import com.google.gerrit.server.update.RetryingRestModifyView;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import java.io.IOException;
+import java.util.Optional;
 
 @Singleton
 public class DeleteChange extends RetryingRestModifyView<ChangeResource, Input, Object>
     implements UiAction<ChangeResource> {
 
   private final DeleteChangeOp.Factory opFactory;
+  private final ChangeEditUtil editUtil;
 
   @Inject
-  public DeleteChange(RetryHelper retryHelper, DeleteChangeOp.Factory opFactory) {
+  public DeleteChange(
+      RetryHelper retryHelper, DeleteChangeOp.Factory opFactory, ChangeEditUtil editUtil) {
     super(retryHelper);
     this.opFactory = opFactory;
+    this.editUtil = editUtil;
   }
 
   @Override
   protected Response<Object> applyImpl(
       BatchUpdate.Factory updateFactory, ChangeResource rsrc, Input input)
-      throws RestApiException, UpdateException, PermissionBackendException {
+      throws RestApiException, UpdateException, PermissionBackendException, IOException {
     if (!isChangeDeletable(rsrc)) {
       throw new MethodNotAllowedException("delete not permitted");
     }
     rsrc.permissions().check(ChangePermission.DELETE);
-
+    Optional<ChangeEdit> edit = editUtil.byChange(rsrc.getNotes(), rsrc.getUser());
     try (BatchUpdate bu =
         updateFactory.create(rsrc.getProject(), rsrc.getUser(), TimeUtil.nowTs())) {
       Change.Id id = rsrc.getChange().getId();
       bu.addOp(id, opFactory.create(id));
+      if (edit.isPresent()) {
+        bu.addOp(
+            id,
+            new BatchUpdateOp() {
+              @Override
+              public boolean updateChange(ChangeContext ctx) throws Exception {
+                editUtil.delete(edit.get());
+                return true;
+              }
+            });
+      }
       bu.execute();
     }
     return Response.none();

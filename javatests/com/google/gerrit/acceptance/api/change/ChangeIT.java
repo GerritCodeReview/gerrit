@@ -83,6 +83,7 @@ import com.google.gerrit.acceptance.testsuite.group.GroupOperations;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.FooterConstants;
+import com.google.gerrit.common.RawInputUtil;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.LabelFunction;
 import com.google.gerrit.common.data.LabelType;
@@ -1385,6 +1386,52 @@ public class ChangeIT extends AbstractDaemonTest {
     try (Repository repo = repoManager.openRepository(allUsers)) {
       assertThat(repo.getRefDatabase().getRefsByPrefix(RefNames.refsDraftComments(num, user.id())))
           .isEmpty();
+    }
+  }
+
+  @Test
+  public void deleteChangeRemovesItsChangeEdit() throws Exception {
+    PushOneCommit.Result result = createChange();
+
+    requestScopeOperations.setApiUser(user.id());
+    String changeId = result.getChangeId();
+    gApi.changes().id(changeId).edit().create();
+    gApi.changes()
+        .id(changeId)
+        .edit()
+        .modifyFile(FILE_NAME, RawInputUtil.create("foo".getBytes(UTF_8)));
+
+    requestScopeOperations.setApiUser(admin.id());
+    try (Repository repo = repoManager.openRepository(project)) {
+      String expected =
+          RefNames.refsUsers(user.id()) + "/edit-" + result.getChange().getId() + "/1";
+      assertThat(repo.getRefDatabase().getRefsByPrefix(expected)).isNotEmpty();
+      gApi.changes().id(changeId).delete();
+      assertThat(repo.getRefDatabase().getRefsByPrefix(expected)).isEmpty();
+    }
+  }
+
+  @Test
+  public void deleteChangeDoesntRemoveOtherChangeEdits() throws Exception {
+    PushOneCommit.Result result = createChange();
+    PushOneCommit.Result irrelevantChangeResult = createChange();
+    requestScopeOperations.setApiUser(admin.id());
+    String changeId = result.getChangeId();
+    String irrelevantChangeId = irrelevantChangeResult.getChangeId();
+    gApi.changes().id(irrelevantChangeId).edit().create();
+    gApi.changes()
+        .id(irrelevantChangeId)
+        .edit()
+        .modifyFile(FILE_NAME, RawInputUtil.create("foo".getBytes(UTF_8)));
+
+    try (Repository repo = repoManager.openRepository(project)) {
+      String expected =
+          RefNames.refsUsers(admin.id())
+              + "/edit-"
+              + irrelevantChangeResult.getChange().getId()
+              + "/1";
+      gApi.changes().id(changeId).delete();
+      assertThat(repo.getRefDatabase().getRefsByPrefix(expected)).isNotEmpty();
     }
   }
 

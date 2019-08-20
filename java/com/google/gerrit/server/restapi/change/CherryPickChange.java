@@ -208,6 +208,7 @@ public class CherryPickChange {
   }
 
   /**
+<<<<<<< HEAD   (234259 AbandonIT: Fix java style, Javadocs should appear before any)
    * This function can be called directly to cherry-pick a change (or commit if sourceChange is
    * null) with a few other parameters that are especially useful for cherry-picking a commit that
    * is the revert-of another change.
@@ -225,6 +226,23 @@ public class CherryPickChange {
    *     reverted.
    * @param changeIdForNewChange The Change-Id that the new change that of the cherry pick will
    *     have.
+=======
+   * This function is called directly by revert submission to cherry pick a commit with specific
+   * parameters that matter for revert submission.
+   *
+   * @param batchUpdateFactory Used for applying changes to the database.
+   * @param sourceChange Change to cherry pick. Can be null, and then the function will only cherry
+   *     pick a commit.
+   * @param project Project name
+   * @param sourceCommit Id of the commit to be cherry picked.
+   * @param input Input object for different configurations of cherry pick.
+   * @param dest Destination branch for the cherry pick.
+   * @param topic Topic name for the change created.
+   * @param revertedChange The id of the change that is reverted. This is used for the "revertOf"
+   *     field to mark the created cherry pick change as "revertOf" the original change that was
+   *     reverted.
+   * @param changeIdForNewChange The id that the new change that of the cherry pick will have.
+>>>>>>> CHANGE (335a0b Allow revert by submission)
    * @return Result object that describes the cherry pick.
    * @throws IOException Unable to open repository or read from the database.
    * @throws InvalidChangeOperationException Parent or branch don't exist, or two changes with same
@@ -446,8 +464,13 @@ public class CherryPickChange {
             revertOf == null
                 ? messageForDestinationChange(
                     ins.getPatchSetId(), sourceBranch, sourceCommit, cherryPickCommit)
+<<<<<<< HEAD   (234259 AbandonIT: Fix java style, Javadocs should appear before any)
                 : "Uploaded patch set 1.") // For revert commits, the message should not include
         // cherry-pick information.
+=======
+                : "Uploaded patch set 1.") // if this is used for revert submission, set different
+        // message.
+>>>>>>> CHANGE (335a0b Allow revert by submission)
         .setTopic(topic)
         .setWorkInProgress(
             (sourceChange != null && sourceChange.isWorkInProgress())

@@ -19,11 +19,15 @@ import static com.google.gerrit.extensions.conditions.BooleanCondition.and;
 import static com.google.gerrit.server.permissions.RefPermission.CREATE_CHANGE;
 
 import com.google.common.flogger.FluentLogger;
+<<<<<<< HEAD   (234259 AbandonIT: Fix java style, Javadocs should appear before any)
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
+=======
+import com.google.gerrit.common.Nullable;
+>>>>>>> CHANGE (335a0b Allow revert by submission)
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.RevertInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -169,8 +173,12 @@ public class Revert
       ObjectId generatedChangeId = Change.generateChangeId();
       Change changeToRevert = notes.getChange();
       ObjectId revertCommitId =
+<<<<<<< HEAD   (234259 AbandonIT: Fix java style, Javadocs should appear before any)
           commitUtil.createRevertCommit(
               input.message, notes, user, generatedChangeId, now, oi, revWalk);
+=======
+          createCommit(input.message, notes, user, generatedChangeId, now, patch, oi, revWalk);
+>>>>>>> CHANGE (335a0b Allow revert by submission)
 
       RevCommit revertCommit = revWalk.parseCommit(revertCommitId);
 
@@ -275,5 +283,72 @@ public class Revert
       cmUtil.addChangeMessage(ctx.getUpdate(patchSetId), changeMessage);
       return true;
     }
+  }
+
+  /**
+   * @param message Commit message for the new commit.
+   * @param notes ChangeNotes of the reverted change.
+   * @param user Current User performing the revert.
+   * @return ObjectId that represents the newly created commit.
+   * @throws ResourceConflictException Can't revert the initial commit.
+   * @throws IOException Can't parse any of commit fails.
+   */
+  public ObjectId createCommit(String message, ChangeNotes notes, CurrentUser user)
+      throws ResourceConflictException, IOException {
+    message = Strings.emptyToNull(message);
+
+    Project.NameKey project = notes.getProjectName();
+    try (Repository git = repoManager.openRepository(project);
+        ObjectInserter oi = git.newObjectInserter();
+        ObjectReader reader = oi.newReader();
+        RevWalk revWalk = new RevWalk(reader)) {
+      return createCommit(
+          message, notes, user, null, TimeUtil.nowTs(), notes.getCurrentPatchSet(), oi, revWalk);
+    }
+  }
+
+  private ObjectId createCommit(
+      String message,
+      ChangeNotes notes,
+      CurrentUser user,
+      @Nullable ObjectId generatedChangeId,
+      Timestamp ts,
+      PatchSet patch,
+      ObjectInserter oi,
+      RevWalk revWalk)
+      throws ResourceConflictException, IOException {
+
+    RevCommit commitToRevert = revWalk.parseCommit(patch.commitId());
+    if (commitToRevert.getParentCount() == 0) {
+      throw new ResourceConflictException("Cannot revert initial commit");
+    }
+
+    PersonIdent committerIdent = serverIdent.get();
+    PersonIdent authorIdent =
+        user.asIdentifiedUser().newCommitterIdent(ts, committerIdent.getTimeZone());
+
+    RevCommit parentToCommitToRevert = commitToRevert.getParent(0);
+    revWalk.parseHeaders(parentToCommitToRevert);
+
+    CommitBuilder revertCommitBuilder = new CommitBuilder();
+    revertCommitBuilder.addParentId(commitToRevert);
+    revertCommitBuilder.setTreeId(parentToCommitToRevert.getTree());
+    revertCommitBuilder.setAuthor(authorIdent);
+    revertCommitBuilder.setCommitter(authorIdent);
+
+    Change changeToRevert = notes.getChange();
+    if (message == null) {
+      message =
+          MessageFormat.format(
+              ChangeMessages.get().revertChangeDefaultMessage,
+              changeToRevert.getSubject(),
+              patch.commitId().name());
+    }
+    if (generatedChangeId != null) {
+      revertCommitBuilder.setMessage(ChangeIdUtil.insertId(message, generatedChangeId, true));
+    }
+    ObjectId id = oi.insert(revertCommitBuilder);
+    oi.flush();
+    return id;
   }
 }

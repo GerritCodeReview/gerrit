@@ -162,11 +162,19 @@ public interface ChangeApi {
    */
   ChangeApi revert(RevertInput in) throws RestApiException;
 
+<<<<<<< HEAD   (234259 AbandonIT: Fix java style, Javadocs should appear before any)
   default RevertSubmissionInfo revertSubmission() throws RestApiException {
     return revertSubmission(new RevertInput());
   }
 
   RevertSubmissionInfo revertSubmission(RevertInput in) throws RestApiException;
+=======
+  default List<ChangeApi> revertSubmission() throws RestApiException {
+    return revertSubmission(new RevertInput());
+  }
+
+  List<ChangeApi> revertSubmission(RevertInput in) throws RestApiException;
+>>>>>>> CHANGE (335a0b Allow revert by submission)
 
   /** Create a merge patch set for the change. */
   ChangeInfo createMergePatchSet(MergePatchSetInput in) throws RestApiException;
@@ -509,7 +517,11 @@ public interface ChangeApi {
     }
 
     @Override
+<<<<<<< HEAD   (234259 AbandonIT: Fix java style, Javadocs should appear before any)
     public RevertSubmissionInfo revertSubmission(RevertInput in) throws RestApiException {
+=======
+    public List<ChangeApi> revertSubmission(RevertInput in) throws RestApiException {
+>>>>>>> CHANGE (335a0b Allow revert by submission)
       throw new NotImplementedException();
     }
 

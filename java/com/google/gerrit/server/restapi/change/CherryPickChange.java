@@ -34,6 +34,7 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.ApprovalsUtil;
+import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
@@ -57,6 +58,8 @@ import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.submit.IntegrationException;
 import com.google.gerrit.server.submit.MergeIdenticalTreeException;
 import com.google.gerrit.server.update.BatchUpdate;
+import com.google.gerrit.server.update.BatchUpdateOp;
+import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
@@ -105,6 +108,7 @@ public class CherryPickChange {
   private final ProjectCache projectCache;
   private final ApprovalsUtil approvalsUtil;
   private final NotifyResolver notifyResolver;
+  private final ChangeMessagesUtil cmUtil;
 
   @Inject
   CherryPickChange(
@@ -119,7 +123,8 @@ public class CherryPickChange {
       ChangeNotes.Factory changeNotesFactory,
       ProjectCache projectCache,
       ApprovalsUtil approvalsUtil,
-      NotifyResolver notifyResolver) {
+      NotifyResolver notifyResolver,
+      ChangeMessagesUtil cmUtil) {
     this.seq = seq;
     this.queryProvider = queryProvider;
     this.gitManager = gitManager;
@@ -132,6 +137,7 @@ public class CherryPickChange {
     this.projectCache = projectCache;
     this.approvalsUtil = approvalsUtil;
     this.notifyResolver = notifyResolver;
+    this.cmUtil = cmUtil;
   }
 
   public Result cherryPick(
@@ -142,8 +148,30 @@ public class CherryPickChange {
       BranchNameKey dest)
       throws IOException, InvalidChangeOperationException, IntegrationException, UpdateException,
           RestApiException, ConfigInvalidException, NoSuchProjectException {
+    return cherryPick(batchUpdateFactory, change, patch, input, dest, null, null, false);
+  }
+
+  public Result cherryPick(
+      BatchUpdate.Factory batchUpdateFactory,
+      Change change,
+      PatchSet patch,
+      CherryPickInput input,
+      BranchNameKey dest,
+      @Nullable String topic,
+      @Nullable Change.Id revertedChange,
+      boolean ignoreIdenticalTrees)
+      throws IOException, InvalidChangeOperationException, IntegrationException, UpdateException,
+          RestApiException, ConfigInvalidException, NoSuchProjectException {
     return cherryPick(
-        batchUpdateFactory, change, change.getProject(), patch.commitId(), input, dest);
+        batchUpdateFactory,
+        change,
+        change.getProject(),
+        patch.commitId(),
+        input,
+        dest,
+        topic,
+        revertedChange,
+        ignoreIdenticalTrees);
   }
 
   public Result cherryPick(
@@ -153,6 +181,22 @@ public class CherryPickChange {
       ObjectId sourceCommit,
       CherryPickInput input,
       BranchNameKey dest)
+      throws IOException, InvalidChangeOperationException, IntegrationException, UpdateException,
+          RestApiException, ConfigInvalidException, NoSuchProjectException {
+    return cherryPick(
+        batchUpdateFactory, sourceChange, project, sourceCommit, input, dest, null, null, false);
+  }
+
+  public Result cherryPick(
+      BatchUpdate.Factory batchUpdateFactory,
+      @Nullable Change sourceChange,
+      Project.NameKey project,
+      ObjectId sourceCommit,
+      CherryPickInput input,
+      BranchNameKey dest,
+      @Nullable String topic,
+      @Nullable Change.Id revertedChange,
+      boolean ignoreIdenticalTrees)
       throws IOException, InvalidChangeOperationException, IntegrationException, UpdateException,
           RestApiException, ConfigInvalidException, NoSuchProjectException {
 
@@ -218,7 +262,7 @@ public class CherryPickChange {
                 commitMessage,
                 revWalk,
                 input.parent - 1,
-                false,
+                ignoreIdenticalTrees,
                 input.allowConflicts);
 
         Change.Key changeKey;
@@ -251,8 +295,10 @@ public class CherryPickChange {
           } else {
             // Change key not found on destination branch. We can create a new
             // change.
-            String newTopic = null;
-            if (sourceChange != null && !Strings.isNullOrEmpty(sourceChange.getTopic())) {
+            String newTopic = topic;
+            if (sourceChange != null
+                && !Strings.isNullOrEmpty(sourceChange.getTopic())
+                && topic == null) {
               newTopic = sourceChange.getTopic() + "-" + newDest.shortName();
             }
             changeId =
@@ -263,7 +309,11 @@ public class CherryPickChange {
                     newTopic,
                     sourceChange,
                     sourceCommit,
-                    input);
+                    input,
+                    revertedChange);
+          }
+          if (revertedChange != null) {
+            bu.addOp(revertedChange, new PostRevertedMessageOp(computedChangeId));
           }
           bu.execute();
           return Result.create(changeId, cherryPickCommit.getFilesWithGitConflicts());
@@ -335,14 +385,19 @@ public class CherryPickChange {
       String topic,
       @Nullable Change sourceChange,
       ObjectId sourceCommit,
-      CherryPickInput input)
+      CherryPickInput input,
+      @Nullable Change.Id revertOf)
       throws IOException {
     Change.Id changeId = Change.id(seq.nextChangeId());
     ChangeInserter ins = changeInserterFactory.create(changeId, cherryPickCommit, refName);
+    ins.setRevertOf(revertOf);
     BranchNameKey sourceBranch = sourceChange == null ? null : sourceChange.getDest();
     ins.setMessage(
-            messageForDestinationChange(
-                ins.getPatchSetId(), sourceBranch, sourceCommit, cherryPickCommit))
+            revertOf == null
+                ? messageForDestinationChange(
+                    ins.getPatchSetId(), sourceBranch, sourceCommit, cherryPickCommit)
+                : "Uploaded patch set 1.") // if this is used for revert submission, set different
+        // message.
         .setTopic(topic)
         .setWorkInProgress(
             (sourceChange != null && sourceChange.isWorkInProgress())
@@ -389,5 +444,32 @@ public class CherryPickChange {
     }
 
     return stringBuilder.toString();
+  }
+
+  // Used for Revert-Submission.
+  // Changes the message of the change that was reverted to have accurate changeId (the change
+  // created by the cherry-pick)
+  private class PostRevertedMessageOp implements BatchUpdateOp {
+    private final ObjectId computedChangeId;
+
+    PostRevertedMessageOp(ObjectId computedChangeId) {
+      this.computedChangeId = computedChangeId;
+    }
+
+    @Override
+    public boolean updateChange(ChangeContext ctx) {
+      PatchSet.Id patchSetId = ctx.getChange().currentPatchSetId();
+      String lastMessageUuid =
+          cmUtil
+              .byChange(ctx.getNotes())
+              .get(cmUtil.byChange(ctx.getNotes()).size() - 1)
+              .getKey()
+              .uuid();
+      cmUtil.replaceChangeMessage(
+          ctx.getUpdate(patchSetId),
+          lastMessageUuid,
+          "Created a revert of this change as I" + computedChangeId.getName());
+      return true;
+    }
   }
 }

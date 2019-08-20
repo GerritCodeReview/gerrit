@@ -93,6 +93,7 @@ import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.extensions.api.accounts.DeleteDraftCommentsInput;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.AddReviewerResult;
+import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.DeleteReviewerInput;
 import com.google.gerrit.extensions.api.changes.DeleteVoteInput;
 import com.google.gerrit.extensions.api.changes.DraftApi;
@@ -103,6 +104,7 @@ import com.google.gerrit.extensions.api.changes.RebaseInput;
 import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.extensions.api.changes.RelatedChangeAndCommitInfo;
 import com.google.gerrit.extensions.api.changes.RevertInput;
+import com.google.gerrit.extensions.api.changes.RevertSubmissionInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.DraftHandling;
 import com.google.gerrit.extensions.api.changes.ReviewResult;
@@ -191,6 +193,7 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -882,18 +885,294 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void cantCreateRevertWithoutProjectWritePermission() throws Exception {
-    PushOneCommit.Result r = createChange();
-    gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).review(ReviewInput.approve());
-    gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).submit();
+  public void cantCreateRevertsWithoutProjectWritePermission() throws Exception {
+    PushOneCommit.Result result = createChange();
+    gApi.changes()
+        .id(result.getChangeId())
+        .revision(result.getCommit().name())
+        .review(ReviewInput.approve());
+    gApi.changes().id(result.getChangeId()).revision(result.getCommit().name()).submit();
     projectCache.checkedGet(project).getProject().setState(ProjectState.READ_ONLY);
 
+    String expected = "project state " + ProjectState.READ_ONLY + " does not permit write";
     ResourceConflictException thrown =
         assertThrows(
-            ResourceConflictException.class, () -> gApi.changes().id(r.getChangeId()).revert());
+            ResourceConflictException.class,
+            () -> gApi.changes().id(result.getChangeId()).revert());
+    assertThat(thrown).hasMessageThat().contains(expected);
+    thrown =
+        assertThrows(
+            ResourceConflictException.class,
+            () -> gApi.changes().id(result.getChangeId()).revertSubmission());
+    assertThat(thrown).hasMessageThat().contains(expected);
+  }
+
+  @Test
+  public void revertWithDifferentParent() throws Exception {
+    PushOneCommit.Result resultToRevert = createChangeWithTopicAndApproval(testRepo);
+    gApi.changes()
+        .id(resultToRevert.getChangeId())
+        .revision(resultToRevert.getCommit().name())
+        .submit();
+    PushOneCommit.Result resultParent = createChangeWithTopicAndApproval(testRepo);
+    RevertInput revertInput = new RevertInput();
+    revertInput.parentOfRevert = resultParent.getChange().currentPatchSet().commitId().getName();
+
+    ChangeInfo changeInfo =
+        gApi.changes().id(resultToRevert.getChangeId()).revert(revertInput).get();
+    assertThat(changeInfo.revertOf).isEqualTo(resultToRevert.getChange().getId().get());
+    assertThat(gApi.changes().id(changeInfo._number).submittedTogether()).hasSize(2);
+  }
+
+  @Test
+  public void cantRevertWithParentInDifferentRepo() throws Exception {
+    projectOperations.newProject().name("secondProject").create();
+    TestRepository<InMemoryRepository> secondRepo =
+        cloneProject(Project.nameKey("secondProject"), admin);
+
+    PushOneCommit.Result resultToRevert = createChangeWithTopicAndApproval(testRepo);
+    gApi.changes()
+        .id(resultToRevert.getChangeId())
+        .revision(resultToRevert.getCommit().name())
+        .submit();
+    PushOneCommit.Result resultParent = createChangeWithTopicAndApproval(secondRepo);
+
+    RevertInput revertInput = new RevertInput();
+    revertInput.parentOfRevert = resultParent.getChange().currentPatchSet().commitId().getName();
+    RestApiException thrown =
+        assertThrows(
+            RestApiException.class,
+            () -> gApi.changes().id(resultToRevert.getChangeId()).revert(revertInput).get());
     assertThat(thrown)
         .hasMessageThat()
-        .contains("project state " + ProjectState.READ_ONLY + " does not permit write");
+        .contains(
+            String.format(
+                "Cannot revert change with non-existing parent %s in that repository",
+                revertInput.parentOfRevert));
+  }
+
+  @Test
+  public void revertsWithSetTopic() throws Exception {
+    PushOneCommit.Result result = createChangeWithTopicAndApproval(testRepo);
+    gApi.changes().id(result.getChangeId()).revision(result.getCommit().name()).submit();
+    RevertInput revertInput = new RevertInput();
+    revertInput.topicOfRevert = "reverted-not-default";
+    RevertSubmissionInput revertSubmissionInput = new RevertSubmissionInput();
+    revertSubmissionInput.topicOfReverts = "reverted-not-default";
+    assertThat(gApi.changes().id(result.getChangeId()).revert(revertInput).topic())
+        .isEqualTo(revertInput.topicOfRevert);
+    assertThat(
+            gApi.changes()
+                .id(result.getChangeId())
+                .revertSubmission(revertSubmissionInput)
+                .get(0)
+                .topic())
+        .isEqualTo(revertSubmissionInput.topicOfReverts);
+  }
+
+  @Test
+  public void revertSubmissionPreservesReviewersAndCcs() throws Exception {
+    PushOneCommit.Result r = createChange();
+
+    ReviewInput in = ReviewInput.approve();
+    in.reviewer(user.email());
+    in.reviewer(accountCreator.user2().email(), ReviewerState.CC, true);
+    // Add user as reviewer that will create the revert
+    in.reviewer(accountCreator.admin2().email());
+
+    gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).review(in);
+    gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).submit();
+
+    // expect both the original reviewers and CCs to be preserved
+    // original owner should be added as reviewer, user requesting the revert (new owner) removed
+    requestScopeOperations.setApiUser(accountCreator.admin2().id());
+    Map<ReviewerState, Collection<AccountInfo>> result =
+        gApi.changes().id(r.getChangeId()).revertSubmission().get(0).get().reviewers;
+    assertThat(result).containsKey(ReviewerState.REVIEWER);
+
+    List<Integer> reviewers =
+        result.get(ReviewerState.REVIEWER).stream().map(a -> a._accountId).collect(toList());
+    assertThat(result).containsKey(ReviewerState.CC);
+    List<Integer> ccs =
+        result.get(ReviewerState.CC).stream().map(a -> a._accountId).collect(toList());
+    assertThat(ccs).containsExactly(accountCreator.user2().id().get());
+    assertThat(reviewers).containsExactly(user.id().get(), admin.id().get());
+  }
+
+  @Test
+  public void revertSubmissionNotifications() throws Exception {
+    PushOneCommit.Result firstResult = createChangeWithTopicAndApproval(testRepo);
+    gApi.changes().id(firstResult.getChangeId()).addReviewer(user.email());
+    PushOneCommit.Result secondResult = createChangeWithTopicAndApproval(testRepo);
+    gApi.changes().id(secondResult.getChangeId()).addReviewer(user.email());
+
+    gApi.changes()
+        .id(secondResult.getChangeId())
+        .revision(secondResult.getCommit().name())
+        .submit();
+
+    sender.clear();
+    gApi.changes().id(secondResult.getChangeId()).revertSubmission();
+
+    List<Message> messages = sender.getMessages();
+
+    // similar to revertNotifcations test where there are 2 messages, here there are double the
+    // messages.
+    assertThat(messages).hasSize(4);
+  }
+
+  @Test
+  public void suppressRevertSubmissionNotifications() throws Exception {
+    PushOneCommit.Result firstResult = createChangeWithTopicAndApproval(testRepo);
+    gApi.changes().id(firstResult.getChangeId()).addReviewer(user.email());
+    PushOneCommit.Result secondResult = createChangeWithTopicAndApproval(testRepo);
+    gApi.changes().id(secondResult.getChangeId()).addReviewer(user.email());
+
+    gApi.changes()
+        .id(secondResult.getChangeId())
+        .revision(secondResult.getCommit().name())
+        .submit();
+
+    RevertSubmissionInput revertSubmissionInput = new RevertSubmissionInput();
+    revertSubmissionInput.notify = NotifyHandling.NONE;
+
+    sender.clear();
+    gApi.changes().id(secondResult.getChangeId()).revertSubmission(revertSubmissionInput);
+    assertThat(sender.getMessages()).isEmpty();
+  }
+
+  @Test
+  public void revertSubmissionWithDependantChange() throws Exception {
+    List<PushOneCommit.Result> resultCommits = new ArrayList<>();
+    resultCommits.add(createChangeWithTopicAndApproval(testRepo));
+    resultCommits.add(createChangeWithTopicAndApproval(testRepo));
+    gApi.changes()
+        .id(resultCommits.get(1).getChangeId())
+        .revision(resultCommits.get(1).getCommit().name())
+        .submit();
+
+    List<ChangeApi> revertChanges =
+        gApi.changes().id(resultCommits.get(0).getChangeId()).revertSubmission();
+
+    // size 2 here confirms that the first revert is a parent of the second revert.
+    assertThat(gApi.changes().id(revertChanges.get(1).get()._number).submittedTogether())
+        .hasSize(2);
+
+    assertThat(revertChanges.get(0).get().revertOf)
+        .isEqualTo(resultCommits.get(1).getChange().change().getChangeId());
+    assertThat(revertChanges.get(1).get().revertOf)
+        .isEqualTo(resultCommits.get(0).getChange().change().getChangeId());
+  }
+
+  @Test
+  @GerritConfig(name = "change.submitWholeTopic", value = "true")
+  public void revertSubmissionDifferentRepositories() throws Exception {
+
+    projectOperations.newProject().name("secondProject").create();
+    TestRepository<InMemoryRepository> secondRepo =
+        cloneProject(Project.nameKey("secondProject"), admin);
+    List<PushOneCommit.Result> resultCommits = new ArrayList<>();
+
+    resultCommits.add(createChangeWithTopicAndApproval(testRepo));
+    resultCommits.add(createChangeWithTopicAndApproval(secondRepo));
+
+    // submit both changes
+    gApi.changes()
+        .id(resultCommits.get(1).getChangeId())
+        .revision(resultCommits.get(1).getCommit().name())
+        .submit();
+
+    List<ChangeApi> revertChanges =
+        gApi.changes().id(resultCommits.get(1).getChangeId()).revertSubmission();
+
+    // has size 2 because of the same topic, and submitWholeTopic is true.
+    assertThat(gApi.changes().id(revertChanges.get(1).get()._number).submittedTogether())
+        .hasSize(2);
+
+    assertThat(revertChanges.get(0).get().revertOf)
+        .isEqualTo(resultCommits.get(1).getChange().change().getChangeId());
+    assertThat(revertChanges.get(1).get().revertOf)
+        .isEqualTo(resultCommits.get(0).getChange().change().getChangeId());
+  }
+
+  @Test
+  @GerritConfig(name = "change.submitWholeTopic", value = "true")
+  public void revertSubmissionDifferentRepositoriesWithDependantChange() throws Exception {
+
+    projectOperations.newProject().name("secondProject").create();
+    TestRepository<InMemoryRepository> secondRepo =
+        cloneProject(Project.nameKey("secondProject"), admin);
+    List<PushOneCommit.Result> resultCommits = new ArrayList<>();
+
+    resultCommits.add(createChangeWithTopicAndApproval(testRepo));
+    resultCommits.add(createChangeWithTopicAndApproval(secondRepo));
+    resultCommits.add(createChangeWithTopicAndApproval(secondRepo));
+
+    // submit all changes
+    gApi.changes()
+        .id(resultCommits.get(0).getChangeId())
+        .revision(resultCommits.get(0).getCommit().name())
+        .submit();
+
+    List<ChangeApi> revertChanges =
+        gApi.changes().id(resultCommits.get(1).getChangeId()).revertSubmission();
+    // the order of reverts was reversed since we need to revert children first.
+    Collections.reverse(revertChanges);
+
+    // expected messages on source change:
+    // 1. Uploaded patch set 1.
+    // 2. Patch Set 1: Code-Review+2
+    // 3. Topic set to revert-topic
+    // 4. Change has been successfully merged by Administrator
+    // 5. Patch Set 1: Reverted
+
+    // has size 3 because of the same topic, and submitWholeTopic is true.
+    assertThat(gApi.changes().id(revertChanges.get(0).get()._number).submittedTogether())
+        .hasSize(3);
+
+    for (int i = 0; i < resultCommits.size(); i++) {
+      List<ChangeMessageInfo> sourceMessages =
+          new ArrayList<>(gApi.changes().id(resultCommits.get(i).getChangeId()).get().messages);
+      assertThat(sourceMessages).hasSize(5);
+      String expectedMessage =
+          String.format(
+              "Created a revert of this change as %s", revertChanges.get(i).get().changeId);
+      assertThat(sourceMessages.get(4).message).isEqualTo(expectedMessage);
+
+      List<ChangeMessageInfo> messages =
+          revertChanges.get(i).get().messages.stream().collect(toList());
+      assertThat(messages).hasSize(1);
+      assertThat(messages.get(0).message).isEqualTo("Uploaded patch set 1.");
+      assertThat(revertChanges.get(i).get().revertOf)
+          .isEqualTo(gApi.changes().id(resultCommits.get(i).getChangeId()).get()._number);
+      assertThat(revertChanges.get(i).get().topic)
+          .isEqualTo("revert-" + resultCommits.get(0).getChange().change().getSubmissionId());
+    }
+  }
+
+  @Test
+  public void revertSubmissionOfSingleChange() throws Exception {
+    PushOneCommit.Result result = createChangeWithTopicAndApproval(testRepo);
+    gApi.changes().id(result.getChangeId()).revision(result.getCommit().name()).submit();
+    List<ChangeApi> revertChanges = gApi.changes().id(result.getChangeId()).revertSubmission();
+
+    assertThat(revertChanges.get(0).get().revertOf)
+        .isEqualTo(gApi.changes().id(result.getChangeId()).get()._number);
+  }
+
+  @Test
+  public void cantRevertSubmissionWithAnOpenChange() throws Exception {
+    PushOneCommit.Result result = createChangeWithTopicAndApproval(testRepo);
+    ResourceConflictException thrown =
+        assertThrows(
+            ResourceConflictException.class,
+            () -> gApi.changes().id(result.getChangeId()).revertSubmission());
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains(
+            "submissionId doesn't exist for changeId "
+                + result.getChange().getId()
+                + ", so the change was not submitted");
   }
 
   @FunctionalInterface
@@ -4717,5 +4996,17 @@ public class ChangeIT extends AbstractDaemonTest {
       return assertThat(e);
     }
     throw new AssertionError("expected BadRequestException");
+  }
+
+  private PushOneCommit.Result createChangeWithTopicAndApproval(
+      TestRepository<InMemoryRepository> repo) throws Exception {
+    String topic = "topic";
+    PushOneCommit.Result result = createChange(repo);
+    gApi.changes()
+        .id(result.getChangeId())
+        .revision(result.getCommit().name())
+        .review(ReviewInput.approve());
+    gApi.changes().id(result.getChangeId()).topic(topic);
+    return result;
   }
 }

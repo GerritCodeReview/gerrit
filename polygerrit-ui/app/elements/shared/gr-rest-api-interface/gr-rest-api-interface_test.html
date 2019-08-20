@@ -63,8 +63,31 @@ limitations under the License.
       sandbox.restore();
     });
 
+    suite('fetchJSON()', () => {
+      test('Sets header to accept application/json', () => {
+        const authFetchStub = sandbox.stub(element._auth, 'fetch')
+            .returns(Promise.resolve());
+        element._fetchJSON({url: '/dummy/url'});
+        assert.isTrue(authFetchStub.called);
+        assert.equal(authFetchStub.lastCall.args[1].headers.get('Accept'),
+            'application/json');
+      });
+
+      test('Use header option accept when provided', () => {
+        const authFetchStub = sandbox.stub(element._auth, 'fetch')
+            .returns(Promise.resolve());
+        const headers = new Headers();
+        headers.append('Accept', '*/*');
+        const fetchOptions = {headers};
+        element._fetchJSON({url: '/dummy/url', fetchOptions});
+        assert.isTrue(authFetchStub.called);
+        assert.equal(authFetchStub.lastCall.args[1].headers.get('Accept'),
+            '*/*');
+      });
+    });
+
     test('JSON prefix is properly removed', done => {
-      element._fetchJSON('/dummy/url').then(obj => {
+      element._fetchJSON({url: '/dummy/url'}).then(obj => {
         assert.deepEqual(obj, {hello: 'bonjour'});
         done();
       });
@@ -465,7 +488,7 @@ limitations under the License.
       element.addEventListener('server-error', serverErrorStub);
       const authErrorStub = sandbox.stub();
       element.addEventListener('auth-error', authErrorStub);
-      element._fetchJSON('/bar').finally(r => {
+      element._fetchJSON({url: '/bar'}).finally(r => {
         flush(() => {
           assert.isTrue(authErrorStub.called);
           assert.isFalse(serverErrorStub.called);
@@ -484,7 +507,7 @@ limitations under the License.
       element.addEventListener('server-error', serverErrorStub);
       const authErrorStub = sandbox.stub();
       element.addEventListener('auth-error', authErrorStub);
-      element._fetchJSON('/bar').finally(r => {
+      element._fetchJSON({url: '/bar'}).finally(r => {
         flush(() => {
           assert.isTrue(authErrorStub.called);
           assert.isFalse(serverErrorStub.called);
@@ -1112,7 +1135,7 @@ limitations under the License.
 
     test('gerrit auth is used', () => {
       sandbox.stub(Gerrit.Auth, 'fetch').returns(Promise.resolve());
-      element._fetchJSON('foo');
+      element._fetchJSON({url: 'foo'});
       assert(Gerrit.Auth.fetch.called);
     });
 

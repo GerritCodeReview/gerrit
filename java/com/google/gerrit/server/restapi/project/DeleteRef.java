@@ -227,7 +227,7 @@ public class DeleteRef {
   private ReceiveCommand createDeleteCommand(
       ProjectState projectState, Repository r, String refName)
       throws IOException, ResourceConflictException, PermissionBackendException {
-    Ref ref = r.getRefDatabase().getRef(refName);
+    Ref ref = r.getRefDatabase().exactRef(refName);
     ReceiveCommand command;
     if (ref == null) {
       command = new ReceiveCommand(ObjectId.zeroId(), ObjectId.zeroId(), refName);

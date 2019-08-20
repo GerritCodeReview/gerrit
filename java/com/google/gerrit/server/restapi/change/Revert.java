@@ -40,6 +40,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.ReviewerSet;
+import com.google.gerrit.server.change.ChangeFinder;
 import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.ChangeJson;
 import com.google.gerrit.server.change.ChangeMessages;
@@ -104,6 +105,7 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
   private final ContributorAgreementsChecker contributorAgreements;
   private final ProjectCache projectCache;
   private final NotifyResolver notifyResolver;
+  private final ChangeFinder changeFinder;
 
   @Inject
   Revert(
@@ -121,7 +123,8 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
       ChangeReverted changeReverted,
       ContributorAgreementsChecker contributorAgreements,
       ProjectCache projectCache,
-      NotifyResolver notifyResolver) {
+      NotifyResolver notifyResolver,
+      ChangeFinder changeFinder) {
     super(retryHelper);
     this.permissionBackend = permissionBackend;
     this.repoManager = repoManager;
@@ -137,6 +140,7 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
     this.contributorAgreements = contributorAgreements;
     this.projectCache = projectCache;
     this.notifyResolver = notifyResolver;
+    this.changeFinder = changeFinder;
   }
 
   @Override
@@ -184,10 +188,15 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
           user.asIdentifiedUser().newCommitterIdent(now, committerIdent.getTimeZone());
 
       RevCommit parentToCommitToRevert = commitToRevert.getParent(0);
+      RevCommit actualParent = commitToRevert;
+      if (input.revertParent != null) {
+        ObjectId parentCommit = ObjectId.fromString(input.revertParent);
+        actualParent = parentCommit == null ? null : revWalk.parseCommit(parentCommit);
+      }
       revWalk.parseHeaders(parentToCommitToRevert);
 
       CommitBuilder revertCommitBuilder = new CommitBuilder();
-      revertCommitBuilder.addParentId(commitToRevert);
+      revertCommitBuilder.addParentId(actualParent);
       revertCommitBuilder.setTreeId(parentToCommitToRevert.getTree());
       revertCommitBuilder.setAuthor(authorIdent);
       revertCommitBuilder.setCommitter(authorIdent);
@@ -222,6 +231,7 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
           changeInserterFactory
               .create(changeId, revertCommit, notes.getChange().getDest().branch())
               .setTopic(changeToRevert.getTopic());
+
       ins.setMessage("Uploaded patch set 1.");
 
       ReviewerSet reviewerSet = approvalsUtil.getReviewers(notes);

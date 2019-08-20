@@ -53,7 +53,6 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
@@ -212,19 +211,21 @@ public class Submit
 
     // Read the ChangeNotes only after MergeOp is fully done (including MergeOp#close) to be sure
     // to have the correct state of the repo.
-    try {
-      change = changeNotesFactory.createChecked(change.getProject(), change.getId()).getChange();
-    } catch (NoSuchChangeException e) {
-      throw new ResourceConflictException("change is deleted");
-    }
+    ChangeNotes changeNotes = changeNotesFactory.createChecked(change.getProject(), change.getId());
+    change = changeNotes.getChange();
 
     if (change.isMerged()) {
       return change;
     }
-    if (change.isNew()) {
-      throw new RestApiException("change unexpectedly had status NEW after submit attempt");
-    }
-    throw new ResourceConflictException("change is " + ChangeUtil.status(change));
+
+    logger.atWarning().log(
+        "change %s of project %s unexpectedly had status %s after submit attempt,"
+            + " change notes were read from %s",
+        change.getId(), change.getProject(), change.getStatus(), changeNotes.getMetaId());
+    throw new RestApiException(
+        String.format(
+            "change %s unexpectedly had status %s after submit attempt",
+            change.getId(), change.getStatus()));
   }
 
   /**

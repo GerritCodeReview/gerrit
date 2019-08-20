@@ -41,5 +41,6 @@ java_library(
         "//lib/guice",
         "//lib/guice:guice-assistedinject",
         "//lib/jgit/org.eclipse.jgit:jgit",
+        "@flexmark-util//jar",
     ],
 )

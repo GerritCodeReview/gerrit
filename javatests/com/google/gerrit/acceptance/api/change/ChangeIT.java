@@ -77,12 +77,14 @@ import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
 import com.google.gerrit.acceptance.testsuite.group.GroupOperations;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.FooterConstants;
+import com.google.gerrit.common.RawInputUtil;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.LabelFunction;
 import com.google.gerrit.common.data.LabelType;
@@ -195,10 +197,12 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Stream;
+import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -1386,6 +1390,25 @@ public class ChangeIT extends AbstractDaemonTest {
       assertThat(repo.getRefDatabase().getRefsByPrefix(RefNames.refsDraftComments(num, user.id())))
           .isEmpty();
     }
+  }
+
+  @Test
+  public void deleteChangeRemovesChangeEdit() throws Exception {
+    PushOneCommit.Result result = createChange();
+
+    requestScopeOperations.setApiUser(admin.id());
+    String changeId = result.getChangeId();
+    gApi.changes().id(changeId).edit().create();
+    gApi.changes()
+        .id(changeId)
+        .edit()
+        .modifyFile(FILE_NAME, RawInputUtil.create("foo".getBytes(UTF_8)));
+
+    String expected = "refs/users/00/1000000/edit-" + result.getChange().getId() + "/1";
+    assertThat(lsRemote(project, admin)).contains(expected);
+
+    gApi.changes().id(changeId).delete();
+    assertThat(lsRemote(project, admin)).doesNotContain(expected);
   }
 
   @Test
@@ -4171,6 +4194,13 @@ public class ChangeIT extends AbstractDaemonTest {
 
     requestScopeOperations.setApiUser(admin.id());
     gApi.changes().id(changeId).current().submit();
+  }
+
+  private List<String> lsRemote(Project.NameKey p, TestAccount a) throws Exception {
+    TestRepository<?> testRepository = cloneProject(p, a);
+    try (Git git = testRepository.git()) {
+      return git.lsRemote().call().stream().map(Ref::getName).collect(toList());
+    }
   }
 
   private String getCommitMessage(String changeId) throws RestApiException, IOException {

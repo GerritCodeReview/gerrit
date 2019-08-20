@@ -17,7 +17,6 @@ package com.google.gerrit.server.account;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
-import com.google.common.base.Strings;
 import org.apache.commons.codec.DecoderException;
 import org.junit.Test;
 
@@ -44,14 +43,6 @@ public class HashedPasswordTest {
   @Test
   public void invalidDecode() throws Exception {
     assertThrows(DecoderException.class, () -> HashedPassword.decode("invalid"));
-  }
-
-  @Test
-  public void lengthLimit() throws Exception {
-    String password = Strings.repeat("1", 72);
-
-    // make sure it fits in varchar(255).
-    assertThat(HashedPassword.fromPassword(password).encode().length()).isLessThan(255);
   }
 
   @Test

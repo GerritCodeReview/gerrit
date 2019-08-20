@@ -111,6 +111,7 @@ import com.google.inject.Injector;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.assistedinject.Assisted;
+import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
@@ -363,9 +364,20 @@ class ChangeApiImpl implements ChangeApi {
   }
 
   @Override
+<<<<<<< HEAD   (234259 AbandonIT: Fix java style, Javadocs should appear before any)
   public RevertSubmissionInfo revertSubmission(RevertInput in) throws RestApiException {
     try {
       return revertSubmission.apply(change, in).value();
+=======
+  public List<ChangeApi> revertSubmission(RevertInput in) throws RestApiException {
+    try {
+      List<ChangeApi> changeApis = new ArrayList<>();
+      List<ChangeInfo> changeInfos = revertSubmission.apply(change, in).value();
+      for (ChangeInfo changeInfo : changeInfos) {
+        changeApis.add(changeApi.id(changeInfo._number));
+      }
+      return changeApis;
+>>>>>>> CHANGE (335a0b Allow revert by submission)
     } catch (Exception e) {
       throw asRestApiException("Cannot revert a change submission", e);
     }

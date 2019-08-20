@@ -39,5 +39,10 @@ java_library(
         "//lib/flogger:api",
         "//lib/guice",
         "//lib/guice:guice-assistedinject",
+<<<<<<< HEAD   (234259 AbandonIT: Fix java style, Javadocs should appear before any)
+=======
+        "//lib/jgit/org.eclipse.jgit:jgit",
+        "@flexmark-util//jar",
+>>>>>>> CHANGE (335a0b Allow revert by submission)
     ],
 )

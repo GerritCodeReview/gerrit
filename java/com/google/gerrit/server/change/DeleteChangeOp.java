@@ -19,6 +19,7 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.extensions.events.ChangeDeleted;
@@ -114,7 +115,22 @@ public class DeleteChangeOp implements BatchUpdateOp {
     String prefix = PatchSet.id(id, 1).toRefName();
     prefix = prefix.substring(0, prefix.length() - 1);
     for (Map.Entry<String, ObjectId> e : ctx.getRepoView().getRefs(prefix).entrySet()) {
-      ctx.addRefUpdate(e.getValue(), ObjectId.zeroId(), prefix + e.getKey());
+      removeRef(ctx, e, prefix);
     }
+    removeUserEdits(ctx);
+  }
+
+  private void removeUserEdits(RepoContext ctx) throws IOException {
+    String prefix = RefNames.REFS_USERS;
+    for (Map.Entry<String, ObjectId> e : ctx.getRepoView().getRefs(prefix).entrySet()) {
+      if (e.getKey().matches(String.format("(.*)/edit-%s/(.*)", id))) {
+        removeRef(ctx, e, prefix);
+      }
+    }
+  }
+
+  private void removeRef(RepoContext ctx, Map.Entry<String, ObjectId> entry, String prefix)
+      throws IOException {
+    ctx.addRefUpdate(entry.getValue(), ObjectId.zeroId(), prefix + entry.getKey());
   }
 }

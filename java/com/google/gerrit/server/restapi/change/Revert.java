@@ -19,14 +19,19 @@ import static com.google.gerrit.extensions.conditions.BooleanCondition.and;
 import static com.google.gerrit.server.permissions.RefPermission.CREATE_CHANGE;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.Iterables;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.RevertInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
@@ -40,6 +45,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.ReviewerSet;
+import com.google.gerrit.server.change.ChangeFinder;
 import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.ChangeJson;
 import com.google.gerrit.server.change.ChangeMessages;
@@ -51,6 +57,7 @@ import com.google.gerrit.server.mail.send.RevertedSender;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.notedb.Sequences;
+import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ContributorAgreementsChecker;
@@ -72,14 +79,17 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.MessageFormat;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.errors.InvalidObjectIdException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -104,6 +114,7 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
   private final ContributorAgreementsChecker contributorAgreements;
   private final ProjectCache projectCache;
   private final NotifyResolver notifyResolver;
+  private final ChangeFinder changeFinder;
 
   @Inject
   Revert(
@@ -121,7 +132,8 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
       ChangeReverted changeReverted,
       ContributorAgreementsChecker contributorAgreements,
       ProjectCache projectCache,
-      NotifyResolver notifyResolver) {
+      NotifyResolver notifyResolver,
+      ChangeFinder changeFinder) {
     super(retryHelper);
     this.permissionBackend = permissionBackend;
     this.repoManager = repoManager;
@@ -137,13 +149,14 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
     this.contributorAgreements = contributorAgreements;
     this.projectCache = projectCache;
     this.notifyResolver = notifyResolver;
+    this.changeFinder = changeFinder;
   }
 
   @Override
   public Response<ChangeInfo> applyImpl(
       BatchUpdate.Factory updateFactory, ChangeResource rsrc, RevertInput input)
       throws IOException, RestApiException, UpdateException, NoSuchChangeException,
-          PermissionBackendException, NoSuchProjectException, ConfigInvalidException {
+          PermissionBackendException, NoSuchProjectException, ConfigInvalidException{
     Change change = rsrc.getChange();
     if (!change.isMerged()) {
       throw new ResourceConflictException("change is " + ChangeUtil.status(change));
@@ -184,6 +197,21 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
           user.asIdentifiedUser().newCommitterIdent(now, committerIdent.getTimeZone());
 
       RevCommit parentToCommitToRevert = commitToRevert.getParent(0);
+      if(input.base_commit != null){
+        ObjectId parentCommit = ObjectId.fromString(input.base_commit);
+        parentToCommitToRevert = parentCommit == null ? null : revWalk.parseCommit(parentCommit);
+      }
+
+      if(input.base_change != null){
+        try {
+          ChangeNotes baseChange = getBaseChange(input.base_change);
+          ObjectId parentCommit = psUtil.current(baseChange).commitId();
+          parentToCommitToRevert = parentCommit == null ? null : revWalk.parseCommit(parentCommit);
+        }catch(PermissionBackendException e){
+          //nothing
+        }
+
+      }
       revWalk.parseHeaders(parentToCommitToRevert);
 
       CommitBuilder revertCommitBuilder = new CommitBuilder();
@@ -315,4 +343,21 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
       return true;
     }
   }
+
+  private ChangeNotes getBaseChange(String baseChange)
+      throws UnprocessableEntityException, PermissionBackendException {
+    List<ChangeNotes> notes = changeFinder.find(baseChange);
+    if (notes.size() != 1) {
+      throw new UnprocessableEntityException("Base change not found: " + baseChange);
+    }
+    ChangeNotes change = Iterables.getOnlyElement(notes);
+    try {
+      permissionBackend.currentUser().change(change).check(ChangePermission.READ);
+    } catch (AuthException e) {
+      throw new UnprocessableEntityException("Read not permitted for " + baseChange);
+    }
+
+    return change;
+  }
+
 }

@@ -24,4 +24,8 @@ public class RevertInput {
   public NotifyHandling notify = NotifyHandling.ALL;
 
   public Map<RecipientType, NotifyInfo> notifyDetails;
+
+  public String base_commit;
+
+  public String base_change;
 }

@@ -24,4 +24,9 @@ public class RevertInput {
   public NotifyHandling notify = NotifyHandling.ALL;
 
   public Map<RecipientType, NotifyInfo> notifyDetails;
+
+  /** parentOfRevert should not be specified for revertSubmission */
+  public String parentOfRevert;
+
+  public String topicOfRevert;
 }

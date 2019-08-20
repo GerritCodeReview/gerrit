@@ -63,6 +63,29 @@ limitations under the License.
       sandbox.restore();
     });
 
+    suite('fetchJSON()', () => {
+      test('Sets header to accept application/json', () => {
+        const authFetchStub = sandbox.stub(element._auth, 'fetch')
+            .returns(Promise.resolve());
+        element._fetchJSON('/dummy/url');
+        assert.isTrue(authFetchStub.called);
+        assert.equal(authFetchStub.lastCall.args[1].headers.get('Accept'),
+            'application/json');
+      });
+
+      test('Use header option accept when provided', () => {
+        const authFetchStub = sandbox.stub(element._auth, 'fetch')
+            .returns(Promise.resolve());;
+        const headers = new Headers();
+        headers.append('Accept', '*/*');
+        const fetchOptions = {headers};
+        element._fetchJSON({url: '/dummy/url', fetchOptions});
+        assert.isTrue(authFetchStub.called);
+        assert.equal(authFetchStub.lastCall.args[1].headers.get('Accept'),
+          '*/*');
+      });
+    });
+
     test('JSON prefix is properly removed', done => {
       element._fetchJSON('/dummy/url').then(obj => {
         assert.deepEqual(obj, {hello: 'bonjour'});

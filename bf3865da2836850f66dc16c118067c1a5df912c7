@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bfee59bb_7af13ac8",
+        "filename": "java/com/google/gerrit/server/restapi/change/DeleteChange.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-08-20T18:30:41Z",
+      "side": 1,
+      "message": "can you pass ChangeEdit directly here? You can do the \n\n  if (present) \n\nin the caller.\n\nYou\u0027ll probably end up with something small enough that you can inline, i.e\n\n   addOp(new BatchUpdateOp() { @Override updateChange(.. ) { .. } })",
+      "range": {
+        "startLine": 102,
+        "startChar": 49,
+        "endLine": 102,
+        "endChar": 69
+      },
+      "revId": "bf3865da2836850f66dc16c118067c1a5df912c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "91fe862b_1c21f5dc",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1407,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-08-20T18:30:41Z",
+      "side": 1,
+      "message": "can you construct this name programmatically?",
+      "range": {
+        "startLine": 1407,
+        "startChar": 22,
+        "endLine": 1407,
+        "endChar": 88
+      },
+      "revId": "bf3865da2836850f66dc16c118067c1a5df912c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

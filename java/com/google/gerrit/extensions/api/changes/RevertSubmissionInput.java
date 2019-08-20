@@ -17,15 +17,13 @@ package com.google.gerrit.extensions.api.changes;
 import com.google.gerrit.extensions.restapi.DefaultInput;
 import java.util.Map;
 
-public class RevertInput {
+public class RevertSubmissionInput {
   @DefaultInput public String message;
 
-  /** Who to send email notifications to after change is created. */
+  /** Who to send email notifications to after changes are created. */
   public NotifyHandling notify = NotifyHandling.ALL;
 
   public Map<RecipientType, NotifyInfo> notifyDetails;
 
-  public String parentOfRevert;
-
-  public String topicOfRevert;
+  public String topicOfReverts;
 }

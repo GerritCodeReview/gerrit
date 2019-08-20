@@ -74,6 +74,7 @@ import java.text.MessageFormat;
 import java.util.HashSet;
 import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.ObjectId;
@@ -184,10 +185,22 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
           user.asIdentifiedUser().newCommitterIdent(now, committerIdent.getTimeZone());
 
       RevCommit parentToCommitToRevert = commitToRevert.getParent(0);
+      RevCommit actualParent = commitToRevert;
+      if (input.parentOfRevert != null) {
+        try {
+          ObjectId parentCommit = ObjectId.fromString(input.parentOfRevert);
+          actualParent = parentCommit == null ? null : revWalk.parseCommit(parentCommit);
+        } catch (MissingObjectException ex) {
+          throw new ResourceConflictException(
+              String.format(
+                  "Cannot revert change with non-existing parent %s in that repository",
+                  input.parentOfRevert));
+        }
+      }
       revWalk.parseHeaders(parentToCommitToRevert);
 
       CommitBuilder revertCommitBuilder = new CommitBuilder();
-      revertCommitBuilder.addParentId(commitToRevert);
+      revertCommitBuilder.addParentId(actualParent);
       revertCommitBuilder.setTreeId(parentToCommitToRevert.getTree());
       revertCommitBuilder.setAuthor(authorIdent);
       revertCommitBuilder.setCommitter(authorIdent);
@@ -221,7 +234,9 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
       ChangeInserter ins =
           changeInserterFactory
               .create(changeId, revertCommit, notes.getChange().getDest().branch())
-              .setTopic(changeToRevert.getTopic());
+              .setTopic(
+                  input.topicOfRevert == null ? changeToRevert.getTopic() : input.topicOfRevert);
+
       ins.setMessage("Uploaded patch set 1.");
 
       ReviewerSet reviewerSet = approvalsUtil.getReviewers(notes);

@@ -602,7 +602,17 @@ public abstract class AbstractDaemonTest {
   }
 
   protected PushOneCommit.Result createChange(String ref) throws Exception {
-    PushOneCommit push = pushFactory.create(admin.newIdent(), testRepo);
+    return createChange(ref, testRepo);
+  }
+
+  protected PushOneCommit.Result createChange(TestRepository<InMemoryRepository> repo)
+      throws Exception {
+    return createChange("refs/for/master", repo);
+  }
+
+  protected PushOneCommit.Result createChange(String ref, TestRepository<InMemoryRepository> repo)
+      throws Exception {
+    PushOneCommit push = pushFactory.create(admin.newIdent(), repo);
     PushOneCommit.Result result = push.to(ref);
     result.assertOkStatus();
     return result;

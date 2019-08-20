@@ -79,15 +79,18 @@ limitations under the License.
 
     test('applies --primary-text-color', () => {
       assert.equal(
-          element.getComputedStyleValue('--primary-text-color'), '#F00BAA');
+          util.getComputedStyleValue('--primary-text-color', element),
+          '#F00BAA');
     });
 
     test('applies --header-background-color', () => {
-      assert.equal(element.getComputedStyleValue('--header-background-color'),
+      assert.equal(
+          util.getComputedStyleValue('--header-background-color', element),
           '#F01BAA');
     });
     test('applies --footer-background-color', () => {
-      assert.equal(element.getComputedStyleValue('--footer-background-color'),
+      assert.equal(
+          util.getComputedStyleValue('--footer-background-color', element),
           '#F02BAA');
     });
   });

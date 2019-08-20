@@ -87,14 +87,14 @@ limitations under the License.
       element = fixture('basic');
       element.prefs = Object.assign({}, MINIMAL_PREFS, {line_wrapping: true});
       flushAsynchronousOperations();
-      assert.equal(element.customStyle['--line-limit'], '80ch');
+      assert.equal(util.getComputedStyleValue('--line-limit', element), '80ch');
     });
 
     test('line limit without line_wrapping', () => {
       element = fixture('basic');
       element.prefs = Object.assign({}, MINIMAL_PREFS, {line_wrapping: false});
       flushAsynchronousOperations();
-      assert.isNotOk(element.customStyle['--line-limit']);
+      assert.isNotOk(util.getComputedStyleValue('--line-limit', element));
     });
 
     suite('_get{PatchNum|IsParentComment}ByLineAndContent', () => {

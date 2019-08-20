@@ -75,5 +75,25 @@
     return wrappedPromise;
   };
 
+  /**
+   * Get computed style value.
+   *
+   * If ShadyCSS is provided, use ShadyCSS api.
+   * If `getComputedStyleValue` is provided on the elment, use it.
+   * Otherwise fallback to native method (in polymer 2).
+   *
+   */
+  util.getComputedStyleValue = (name, el) => {
+    let style;
+    if (window.ShadyCSS) {
+      style = ShadyCSS.getComputedStyleValue(el, name);
+    } else if (el.getComputedStyleValue) {
+      style = el.getComputedStyleValue(name);
+    } else {
+      style = getComputedStyle(el).getPropertyValue(name);
+    }
+    return style;
+  };
+
   window.util = util;
 })(window);

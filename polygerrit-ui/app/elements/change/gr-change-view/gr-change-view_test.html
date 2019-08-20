@@ -92,9 +92,7 @@ limitations under the License.
     });
 
     getCustomCssValue = cssParam => {
-      // TODO: Update to be compatible with 2.x when we upgrade from
-      // 1.x to 2.x.
-      return element.getComputedStyleValue(cssParam);
+      return util.getComputedStyleValue(cssParam, element);
     };
 
     test('_handleMessageAnchorTap', () => {

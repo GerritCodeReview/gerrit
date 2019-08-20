@@ -16,6 +16,24 @@
       "revId": "7be3cec1906fecf7654e727e3f0d076c9be0c8e8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "71fffb77_5cc93f86",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2019-08-20T15:07:02Z",
+      "side": 1,
+      "message": "Ok, thanks, that\u0027s the good idea with req.fetchOptions \u003d ...\n\nActually it worked in test because _urlWithParams was stub. It would fail, since _fetchRawJSON cannot handle req as string. \n\nSo I think it\u0027s good idea to make it consistent.",
+      "parentUuid": "faa3272b_6b90fe6c",
+      "revId": "7be3cec1906fecf7654e727e3f0d076c9be0c8e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

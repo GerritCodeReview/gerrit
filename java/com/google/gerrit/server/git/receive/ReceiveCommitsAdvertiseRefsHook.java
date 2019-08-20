@@ -81,6 +81,7 @@ public class ReceiveCommitsAdvertiseRefsHook implements AdvertiseRefsHook {
         "ReceiveCommitsAdvertiseRefsHook cannot be used for UploadPack");
   }
 
+  @SuppressWarnings("deprecation")
   @Override
   public void advertiseRefs(BaseReceivePack rp) throws ServiceMayNotContinueException {
     Map<String, Ref> advertisedRefs = HookUtil.ensureAllRefsAdvertised(rp);

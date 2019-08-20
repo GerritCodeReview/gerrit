@@ -72,6 +72,7 @@ public class HackPushNegotiateHook implements AdvertiseRefsHook {
     throw new UnsupportedOperationException("HackPushNegotiateHook cannot be used for UploadPack");
   }
 
+  @SuppressWarnings("deprecation")
   @Override
   public void advertiseRefs(BaseReceivePack rp) throws ServiceMayNotContinueException {
     Map<String, Ref> r = rp.getAdvertisedRefs();
@@ -96,6 +97,7 @@ public class HackPushNegotiateHook implements AdvertiseRefsHook {
     }
 
     // Scan history until the advertisement is full.
+    @SuppressWarnings("deprecation")
     RevWalk rw = rp.getRevWalk();
     rw.reset();
     try {

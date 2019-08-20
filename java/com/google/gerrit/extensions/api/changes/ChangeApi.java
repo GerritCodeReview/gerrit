@@ -161,6 +161,12 @@ public interface ChangeApi {
    */
   ChangeApi revert(RevertInput in) throws RestApiException;
 
+  default List<ChangeApi> revertSubmission() throws RestApiException {
+    return revertSubmission(new RevertSubmissionInput());
+  }
+
+  List<ChangeApi> revertSubmission(RevertSubmissionInput in) throws RestApiException;
+
   /** Create a merge patch set for the change. */
   ChangeInfo createMergePatchSet(MergePatchSetInput in) throws RestApiException;
 
@@ -498,6 +504,11 @@ public interface ChangeApi {
 
     @Override
     public ChangeApi revert(RevertInput in) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public List<ChangeApi> revertSubmission(RevertSubmissionInput in) throws RestApiException {
       throw new NotImplementedException();
     }
 

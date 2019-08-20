@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "04273e22_09cd0521",
+        "filename": "java/com/google/gerrit/server/restapi/project/PutConfig.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-08-20T10:43:31Z",
+      "side": 1,
+      "message": "May be move everything inside if(input.notifyConfigUpdates !\u003d null) to the separate method? (for example applyNotifyConfigUpdates) ?",
+      "revId": "9d4aa7df84d9f920a077cb5bba57455b2e58a8dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cb7ffd80_c6f8e7b3",
+        "filename": "java/com/google/gerrit/server/restapi/project/PutConfig.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-08-20T10:43:31Z",
+      "side": 1,
+      "message": "Please, add exact email address here.",
+      "revId": "9d4aa7df84d9f920a077cb5bba57455b2e58a8dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "af3d5359_2f27c8f9",
+        "filename": "java/com/google/gerrit/server/restapi/project/PutConfig.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-08-20T10:43:31Z",
+      "side": 1,
+      "message": ".trim() is called for the name on line 203. Probably, it should be called here",
+      "revId": "9d4aa7df84d9f920a077cb5bba57455b2e58a8dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

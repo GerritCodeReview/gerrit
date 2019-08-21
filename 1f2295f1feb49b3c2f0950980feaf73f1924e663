@@ -288,6 +288,24 @@
       "revId": "1f2295f1feb49b3c2f0950980feaf73f1924e663",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3e9bccde_28e079eb",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-shared-style.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-08-21T09:06:11Z",
+      "side": 1,
+      "message": "See\nhttps://gerrit-review.googlesource.com/c/gerrit/+/234319/5/polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-shared-style.js#22",
+      "parentUuid": "b73cac85_e3749be7",
+      "revId": "1f2295f1feb49b3c2f0950980feaf73f1924e663",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -17,10 +17,11 @@
 (function() {
   'use strict';
 
-  const HOVER_PATH_PATTERN = /^commentRanges\.\#(\d+)\.hovering$/;
+  // Polymer 1 adds # before array's key, while Polymer 2 doesn't
+  const HOVER_PATH_PATTERN = /^commentRanges\.\#?(\d+)\.hovering$/;
 
-  const RANGE_HIGHLIGHT = 'range';
-  const HOVER_HIGHLIGHT = 'rangeHighlight';
+  const RANGE_HIGHLIGHT = 'style-scope gr-diff range';
+  const HOVER_HIGHLIGHT = 'style-scope gr-diff rangeHighlight';
 
   /** @typedef {{side: string, range: Gerrit.Range, hovering: boolean}} */
   Gerrit.HoveredRange;
@@ -54,6 +55,10 @@
     observers: [
       '_handleCommentRangesChange(commentRanges.*)',
     ],
+
+    get styleModuleName() {
+      return 'gr-ranged-comment-styles';
+    },
 
     /**
      * Layer method to add annotations to a line.

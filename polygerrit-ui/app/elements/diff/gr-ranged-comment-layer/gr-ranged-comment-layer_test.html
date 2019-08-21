@@ -132,7 +132,7 @@ limitations under the License.
         assert.equal(lastCall.args[0], el);
         assert.equal(lastCall.args[1], expectedStart);
         assert.equal(lastCall.args[2], expectedLength);
-        assert.equal(lastCall.args[3], 'range');
+        assert.equal(lastCall.args[3], 'style-scope gr-diff range');
       });
 
       test('type=Remove has-comment hovering', () => {
@@ -150,7 +150,7 @@ limitations under the License.
         assert.equal(lastCall.args[0], el);
         assert.equal(lastCall.args[1], expectedStart);
         assert.equal(lastCall.args[2], expectedLength);
-        assert.equal(lastCall.args[3], 'rangeHighlight');
+        assert.equal(lastCall.args[3], 'style-scope gr-diff rangeHighlight');
       });
 
       test('type=Both has-comment', () => {
@@ -167,7 +167,7 @@ limitations under the License.
         assert.equal(lastCall.args[0], el);
         assert.equal(lastCall.args[1], expectedStart);
         assert.equal(lastCall.args[2], expectedLength);
-        assert.equal(lastCall.args[3], 'range');
+        assert.equal(lastCall.args[3], 'style-scope gr-diff range');
       });
 
       test('type=Both has-comment off side', () => {
@@ -195,7 +195,7 @@ limitations under the License.
         assert.equal(lastCall.args[0], el);
         assert.equal(lastCall.args[1], expectedStart);
         assert.equal(lastCall.args[2], expectedLength);
-        assert.equal(lastCall.args[3], 'range');
+        assert.equal(lastCall.args[3], 'style-scope gr-diff range');
       });
     });
 

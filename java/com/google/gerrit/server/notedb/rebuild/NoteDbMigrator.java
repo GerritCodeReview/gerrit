@@ -109,11 +109,10 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.transport.ReceiveCommand;
 import org.eclipse.jgit.util.FS;
-import org.eclipse.jgit.util.io.NullOutputStream;
 
 /** One stop shop for migrating a site's change storage from ReviewDb to NoteDb. */
 public class NoteDbMigrator implements AutoCloseable {
-  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+  static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private static final String AUTO_MIGRATE = "autoMigrate";
   private static final String TRIAL = "trial";
@@ -156,7 +155,7 @@ public class NoteDbMigrator implements AutoCloseable {
     private ImmutableList<Project.NameKey> projects = ImmutableList.of();
     private ImmutableList<Project.NameKey> skipProjects = ImmutableList.of();
     private ImmutableList<Change.Id> changes = ImmutableList.of();
-    private OutputStream progressOut = NullOutputStream.INSTANCE;
+    private OutputStream progressOut = new NoteDbMigrationLoggerOut();
     private NotesMigrationState stopAtState;
     private boolean trial;
     private boolean forceRebuild;

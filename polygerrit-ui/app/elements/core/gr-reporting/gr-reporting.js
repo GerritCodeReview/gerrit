@@ -109,6 +109,9 @@
 
   const pending = [];
 
+  const pluginsLoaded = [];
+  const extensionsDetected = [];
+
   const onError = function(oldOnError, msg, url, line, column, error) {
     if (oldOnError) {
       oldOnError(msg, url, line, column, error);
@@ -184,7 +187,7 @@
     reporter(...args) {
       const report = (this._isMetricsPluginLoaded() && !pending.length) ?
         this.defaultReporter : this.cachingReporter;
-      report.apply(this, args);
+      report.apply(this, args, pluginsLoaded.join(','), extensionsDetected.join(','));
     },
 
     /**
@@ -196,12 +199,14 @@
      * @param {boolean|undefined} opt_noLog If true, the event will not be
      *     logged to the JS console.
      */
-    defaultReporter(type, category, eventName, eventValue, opt_noLog) {
+    defaultReporter(type, category, eventName, eventValue, opt_noLog, plugins, extensions) {
       const detail = {
         type,
         category,
         name: eventName,
         value: eventValue,
+        plugins,
+        extensions,
       };
       document.dispatchEvent(new CustomEvent(type, {detail}));
       if (opt_noLog) { return; }
@@ -225,8 +230,10 @@
      * @param {string|number} eventValue
      * @param {boolean|undefined} opt_noLog If true, the event will not be
      *     logged to the JS console.
+     * @param {string} plugins
+     * @param {string} extensions
      */
-    cachingReporter(type, category, eventName, eventValue, opt_noLog) {
+    cachingReporter(type, category, eventName, eventValue, opt_noLog, plugins, extensions) {
       if (type === ERROR.TYPE && category === ERROR.CATEGORY) {
         console.error(eventValue && eventValue.error || eventName);
       }
@@ -236,9 +243,9 @@
             this.reporter(...args);
           }
         }
-        this.reporter(type, category, eventName, eventValue, opt_noLog);
+        this.reporter(type, category, eventName, eventValue, opt_noLog, plugins, extensions);
       } else {
-        pending.push([type, category, eventName, eventValue, opt_noLog]);
+        pending.push([type, category, eventName, eventValue, opt_noLog, plugins, extensions]);
       }
     },
 
@@ -331,12 +338,16 @@
 
     reportExtension(name) {
       this.reporter(EXTENSION.TYPE, EXTENSION.DETECTED, name);
+      if (!extensionsDetected.includes(name)) {
+        extensionsDetected.push(name);
+      }
     },
 
     pluginLoaded(name) {
       if (name.startsWith('metrics-')) {
         this.timeEnd(TIMER.METRICS_PLUGIN_LOADED);
       }
+      pluginsLoaded.push(name);
     },
 
     pluginsLoaded(pluginsList) {

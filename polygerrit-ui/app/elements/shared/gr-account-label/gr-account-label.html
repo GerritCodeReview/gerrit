@@ -64,7 +64,13 @@ limitations under the License.
           [[_computeEmailStr(account)]]
         </span>
         <template is="dom-if" if="[[account.status]]">
-          (<gr-limited-text limit="10" text="[[account.status]]"></gr-limited-text>)
+          (
+          <gr-limited-text
+            disable-tooltip="true"
+            limit="[[_computeStatusTextLength(account, _serverConfig)]]"
+            text="[[account.status]]">
+          </gr-limited-text>
+          )
         </template>
       </span>
     </span>

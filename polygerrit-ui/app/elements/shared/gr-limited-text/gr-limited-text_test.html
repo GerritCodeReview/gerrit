@@ -92,5 +92,14 @@ limitations under the License.
       assert.equal(element._computeDisplayText('foo bar', 4), 'foo…');
       assert.equal(element._computeDisplayText('foo bar', null), 'foo bar');
     });
+
+    test('when disable tooltip', () => {
+      sandbox.spy(element, '_updateTitle');
+      element.text = 'abcdefghijklmn';
+      element.disableTooltip = true;
+      element.limit = 10;
+      flushAsynchronousOperations();
+      assert.equal(element.getAttribute('title'), null);
+    });
   });
 </script>

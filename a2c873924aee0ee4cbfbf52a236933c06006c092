@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "df7dd9d4_993078ea",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-08-21T07:20:32Z",
+      "side": 1,
+      "message": "72 chars",
+      "revId": "a2c873924aee0ee4cbfbf52a236933c06006c092",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2788e544_05aeb031",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-shared-style.js",
         "patchSetId": 5
@@ -31,6 +48,46 @@
       "side": 1,
       "message": "Yes, will do if we decide go forward with this solution.",
       "parentUuid": "2788e544_05aeb031",
+      "revId": "a2c873924aee0ee4cbfbf52a236933c06006c092",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ac3a435a_a9d92da5",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-shared-style.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-08-21T07:20:32Z",
+      "side": 1,
+      "message": "The common approach is that plugin.blaApi() would create an API instance of some sort per plugin:\n\n  Plugin.prototype.annotationApi \u003d function() {\n    return new GrAnnotationActionsInterface(this);\n  };\n\n  Plugin.prototype.changeActions \u003d function() {\n    return new GrChangeActionsInterface(this, ...);\n  };\n\n  Plugin.prototype.changeReply \u003d function() {\n    return new GrChangeReplyInterface(this, ...);\n  };\n\n  Plugin.prototype.changeView \u003d function() {\n    return new GrChangeViewApi(this);\n  };\n\n  Plugin.prototype.theme \u003d function() {\n    return new GrThemeApi(this);\n  };\n\n  Plugin.prototype.project \u003d function() {\n    return new GrRepoApi(this);\n  };\n\n  Plugin.prototype.changeMetadata \u003d function() {\n    return new GrChangeMetadataApi(this);\n  };\n\n  Plugin.prototype.admin \u003d function() {\n    return new GrAdminApi(this);\n  };\n\n  Plugin.prototype.settings \u003d function() {\n    return new GrSettingsApi(this);\n  };\n\nIt would be nice to keep this pattern, just for consistency. OTOH that would either mean that the API instance (e.g. \"StyleApi\") creates yet another instance of another class (e.g. \"StyleClass\"), or StyleAPI would have to maintain mappings of rule strings and class names.\n\nWDYT?",
+      "revId": "a2c873924aee0ee4cbfbf52a236933c06006c092",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2bb67686_f72755c5",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-shared-style.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-08-21T07:20:32Z",
+      "side": 1,
+      "message": "The naming \"SharedStyle\" conflicts with https://gerrit-review.googlesource.com/c/gerrit/+/234296.\n\nI would rather go for StyleHelper, StyleUtil or AdhocStyle or something like that. This is not really about sharing styles between plugins and the core app. This is just for (non-Polymer) plugins for creating adhoc css rules and using them within this one plugin.",
+      "range": {
+        "startLine": 22,
+        "startChar": 11,
+        "endLine": 22,
+        "endChar": 24
+      },
       "revId": "a2c873924aee0ee4cbfbf52a236933c06006c092",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

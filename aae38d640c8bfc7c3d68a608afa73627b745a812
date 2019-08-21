@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9b206266_d4c37ace",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 4203,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-08-21T10:49:02Z",
+      "side": 1,
+      "message": "There\u0027s a similar method in RefAdvertisementIT.  Can that be extracted somewhere and reused instead of duplicating here?",
+      "range": {
+        "startLine": 4198,
+        "startChar": 2,
+        "endLine": 4203,
+        "endChar": 3
+      },
+      "revId": "aae38d640c8bfc7c3d68a608afa73627b745a812",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

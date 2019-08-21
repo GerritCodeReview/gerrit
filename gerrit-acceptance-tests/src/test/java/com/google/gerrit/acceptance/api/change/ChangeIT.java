@@ -122,6 +122,7 @@ import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Branch;
@@ -879,6 +880,16 @@ public class ChangeIT extends AbstractDaemonTest {
     exception.expect(ResourceConflictException.class);
     exception.expectMessage("Change is already up to date");
     gApi.changes().id(changeId).current().rebase();
+  }
+
+  @Test
+  public void rebaseOnNonExistingChange() throws Exception {
+    String changeId = createChange().getChangeId();
+    RebaseInput in = new RebaseInput();
+    in.base = "999999";
+    exception.expect(UnprocessableEntityException.class);
+    exception.expectMessage("Base change not found: " + in.base);
+    gApi.changes().id(changeId).rebase(in);
   }
 
   @Test

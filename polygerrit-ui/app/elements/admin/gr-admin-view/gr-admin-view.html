@@ -38,6 +38,7 @@ limitations under the License.
 <link rel="import" href="../gr-repo-access/gr-repo-access.html">
 <link rel="import" href="../gr-repo-commands/gr-repo-commands.html">
 <link rel="import" href="../gr-repo-dashboards/gr-repo-dashboards.html">
+<link rel="import" href="../gr-repo-notifications/gr-repo-notifications.html">
 <link rel="import" href="../gr-repo-detail-list/gr-repo-detail-list.html">
 <link rel="import" href="../gr-repo-list/gr-repo-list.html">
 
@@ -187,6 +188,11 @@ limitations under the License.
     <template is="dom-if" if="[[_showRepoDashboards]]" restamp="true">
       <main class="table breadcrumbs">
         <gr-repo-dashboards repo="[[params.repo]]"></gr-repo-dashboards>
+      </main>
+    </template>
+    <template is="dom-if" if="[[_showRepoNotifications]]" restamp="true">
+      <main class="breadcrumbs">
+        <gr-repo-notifications repo="[[params.repo]]"></gr-repo-dashboards>
       </main>
     </template>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>

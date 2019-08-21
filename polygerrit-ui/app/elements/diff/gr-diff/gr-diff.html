@@ -305,6 +305,30 @@ limitations under the License.
       .lineNum.PARTIALLY_COVERED {
         background: linear-gradient(to right bottom, #FFD1A4 0%, #FFD1A4 50%, #E0F2F1 50%, #E0F2F1 100%);
       }
+
+      /** Select to copy */
+      .content,
+      .contextControl,
+      .blame {
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
+
+      .selected-left:not(.selected-comment) .side-by-side .left + .content .contentText,
+      .selected-right:not(.selected-comment) .side-by-side .right + .content .contentText,
+      .selected-left:not(.selected-comment) .unified .left.lineNum ~ .content:not(.both) .contentText,
+      .selected-right:not(.selected-comment) .unified .right.lineNum ~ .content .contentText,
+      .selected-left.selected-comment .side-by-side .left + .content .message,
+      .selected-right.selected-comment .side-by-side .right + .content .message :not(.collapsedContent),
+      .selected-comment .unified .message :not(.collapsedContent),
+      .selected-blame .blame {
+        -webkit-user-select: text;
+        -moz-user-select: text;
+        -ms-user-select: text;
+        user-select: text;
+      }
     </style>
     <style include="gr-syntax-theme"></style>
     <div id="diffHeader" hidden$="[[_computeDiffHeaderHidden(_diffHeaderItems)]]">

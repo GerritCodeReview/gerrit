@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<!--
+@license
+Copyright (C) 2019 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+<title>gr-notification-section</title>
+<script src="/test/common-test-setup.js"></script>
+<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+
+<script src="/bower_components/page/page.js"></script>
+<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/bower_components/web-component-tester/browser.js"></script>
+<link rel="import" href="../../../test/common-test-setup.html"/>
+<link rel="import" href="gr-notification-section.html">
+
+<script>void(0);</script>
+
+<test-fixture id="basic">
+  <template>
+    <gr-notification-section></gr-notification-section>
+  </template>
+</test-fixture>
+
+<script>
+  suite('gr-access-section tests', () => {
+    let element;
+    let sandbox;
+
+    setup(() => {
+      sandbox = sinon.sandbox.create();
+      element = fixture('basic');
+    });
+
+    teardown(() => {
+      sandbox.restore();
+    });
+
+    suite('interactive tests', () => {
+      setup(() => {
+        element.section = {
+          name: 'Rule name',
+          filter: 'owner:admin',
+          header: 'CC',
+          emails: ['abc@example.com', 'def@example.com'],
+          groups: [{id: '1', name: 'some group'}],
+          notification_types: {
+            notify_new_changes: false,
+            notify_new_patch_sets: false,
+            notify_all_comments: false,
+            notify_submitted_changes: false,
+            notify_abandoned_changes: false,
+          },
+        };
+        element.editing = false;
+        element.deleted = false;
+        flushAsynchronousOperations();
+      });
+
+      test('classes are assigned correctly', () => {
+        assert.isFalse(element.$.section.classList.contains('editing'));
+        assert.isFalse(element.$.section.classList.contains('deleted'));
+
+        element.editing = true;
+
+        assert.isTrue(element.$.section.classList.contains('editing'));
+        assert.isFalse(element.$.section.classList.contains('deleted'));
+
+        element.deleted = true;
+        assert.isFalse(element.$.section.classList.contains('editing'));
+        assert.isTrue(element.$.section.classList.contains('deleted'));
+      });
+
+      test('disabled and readonly are assigned correctly', () => {
+        const toggleButtons = element.querySelectorAll('.notificationCheckbox');
+        assert.equal(toggleButtons.length, 5);
+
+        assert.isTrue(element.$.editNameInput.disabled);
+        assert.isTrue(element.$.filterInput.disabled);
+        assert.isTrue(element.$.headerDropdown.disabled);
+        assert.isTrue(element.$.emails.readonly);
+        assert.isTrue(element.$.groups.readonly);
+
+        for (const button of toggleButtons) {
+          assert.isTrue(button.disabled);
+        }
+
+        element.editing = true;
+        assert.isFalse(element.$.editNameInput.disabled);
+        assert.isFalse(element.$.filterInput.disabled);
+        assert.isFalse(element.$.headerDropdown.disabled);
+        assert.isFalse(element.$.emails.readonly);
+        assert.isFalse(element.$.groups.readonly);
+        for (const button of toggleButtons) {
+          assert.isFalse(button.disabled);
+        }
+      });
+
+      function _testPropertyChangesPropogatedToEditor(test) {
+        assert.deepEqual(test.get_editor_value(), test.initial_value);
+        assert.deepEqual(
+            element.get(['section', test.property_path]), test.initial_value);
+
+        for (const newValue of test.new_values) {
+          element.set(['section', test.property_path], newValue);
+          assert.deepEqual(test.get_editor_value(), newValue);
+        }
+      }
+
+      function _testEditorChangesPropogateToProperty(test) {
+        assert.deepEqual(test.get_editor_value(), test.initial_value);
+
+        for (const newValue of test.new_values) {
+          const changedStub = sandbox.stub();
+          element.addEventListener('section-content-changed', changedStub);
+
+          test.set_editor_value(newValue);
+          flushAsynchronousOperations();
+          assert.deepEqual(
+              element.get(['section', test.property_path]), newValue);
+
+          assert.isTrue(changedStub.called);
+          element.removeEventListener('section-content-changed', changedStub);
+        }
+      }
+
+      function _testBinding(test) {
+        element.editing = true;
+        _testPropertyChangesPropogatedToEditor(test);
+        element.set(['section', test.property_path], test.initial_value);
+        _testEditorChangesPropogateToProperty(test);
+      }
+
+      test('name property binding is working', () => {
+        _testBinding({
+          property_path: 'name',
+          initial_value: 'Rule name',
+          new_values: ['Some other name', 'and another one'],
+          get_editor_value: () => element.$.editNameInput.value,
+          set_editor_value: value => {
+            element.$.editNameInput.value = value;
+            element.$.editNameInput.dispatchEvent(new Event('input'));
+          },
+        });
+      });
+
+      test('filter property binding is working', () => {
+        _testBinding({
+          property_path: 'filter',
+          initial_value: 'owner:admin',
+          new_values: ['owner:somebody', ''],
+          get_editor_value: () => element.$.filterInput.value,
+          set_editor_value: value => {
+            element.$.filterInput.value = value;
+            element.$.filterInput.dispatchEvent(new Event('input'));
+          },
+        });
+      });
+
+      test('header binding is working', () => {
+        _testBinding({
+          property_path: 'header',
+          initial_value: 'CC',
+          new_values: ['BCC', 'TO'],
+          get_editor_value: () => element.$.headerDropdown.value,
+          set_editor_value: value => {
+            element.$.headerDropdown.value = value;
+            element.$.headerDropdown.dispatchEvent(
+                new CustomEvent('value-changed',
+                    {bubbles: true, composed: true}));
+          },
+        });
+      });
+
+      test('emails binding is working', () => {
+        _testBinding({
+          property_path: 'emails',
+          initial_value: ['abc@example.com', 'def@example.com'],
+          new_values: [['qwe@example.com', 'xyz@example.com'], []],
+          get_editor_value: () => element.$.emails.accounts,
+          set_editor_value: value => {
+            element.$.emails.accounts = value;
+            element.$.emails.dispatchEvent(
+                new CustomEvent('accounts-changed',
+                    {bubbles: true, composed: true}));
+          },
+        });
+      });
+
+      test('groups binding is working', () => {
+        _testBinding({
+          property_path: 'groups',
+          initial_value: [{id: '1', name: 'some group'}],
+          new_values: [
+            [{id: '2', name: 'some other group'}],
+            [
+              {id: '2', name: 'some other group'},
+              {id: '25478', name: 'yet another other group'},
+            ],
+            []],
+          get_editor_value: () => element.$.groups.accounts,
+          set_editor_value: value => {
+            element.$.groups.accounts = value;
+            element.$.groups.dispatchEvent(
+                new CustomEvent('accounts-changed',
+                    {bubbles: true, composed: true}));
+          },
+        });
+      });
+
+      function _testNotificationTypeBinding(notificationTypeKey) {
+        const toggleButton = element.querySelector(
+            `.notificationCheckbox[data-key="${notificationTypeKey}"]`);
+        _testBinding({
+          property_path: `notification_types.${notificationTypeKey}`,
+          initial_value: false,
+          new_values: [true, false, true],
+          get_editor_value: () => !!toggleButton.checked,
+          set_editor_value: value => {
+            if (toggleButton.checked !== value) {
+              MockInteractions.tap(toggleButton);
+            }
+          },
+        });
+      }
+
+      test('notify_new_changes binding is working', () => {
+        _testNotificationTypeBinding('notify_new_changes');
+      });
+
+      test('notify_new_patch_sets binding is working', () => {
+        _testNotificationTypeBinding('notify_new_patch_sets');
+      });
+
+      test('notify_all_comments binding is working', () => {
+        _testNotificationTypeBinding('notify_all_comments');
+      });
+
+      test('notify_submitted_changes binding is working', () => {
+        _testNotificationTypeBinding('notify_submitted_changes');
+      });
+
+      test('notify_abandoned_changes binding is working', () => {
+        _testNotificationTypeBinding('notify_abandoned_changes');
+      });
+
+      test('remove-click event is fired on button click', () => {
+        const removeBtn = element.$.removeBtn;
+        const clickStub = sandbox.stub();
+        element.addEventListener('remove-click', clickStub);
+
+        MockInteractions.tap(removeBtn);
+
+        assert.isTrue(clickStub.called)
+        assert.isFalse(element.deleted);
+      });
+
+      test('undo-remove-click event is fired on button click', () => {
+        element.deleted = true;
+        const undoRemoveBtn = element.$.undoRemoveBtn;
+        const clickStub = sandbox.stub();
+        element.addEventListener('undo-remove-click', clickStub);
+
+        MockInteractions.tap(undoRemoveBtn);
+
+        assert.isTrue(clickStub.called);
+        assert.isTrue(element.deleted);
+      });
+
+    });
+  });
+</script>

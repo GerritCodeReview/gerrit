@@ -62,6 +62,10 @@
       /** @type {!Array<!Defs.item>} */
       items: Object,
       text: String,
+      disabled: {
+        type: Boolean,
+        value: false,
+      },
       value: {
         type: String,
         notify: true,

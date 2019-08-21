@@ -198,6 +198,12 @@ limitations under the License.
           view: Gerrit.Nav.View.REPO,
           detailType: Gerrit.Nav.RepoDetailView.DASHBOARDS,
           url: Gerrit.Nav.getUrlForRepoDashboards(repoName),
+        },
+        {
+          name: 'Notifications',
+          view: Gerrit.Nav.View.REPO,
+          detailType: Gerrit.Nav.RepoDetailView.NOTIFICATIONS,
+          url: Gerrit.Nav.getUrlForRepoNotifications(repoName),
         }],
       };
     },

@@ -122,6 +122,7 @@ public class RetryHelper {
     final Counter1<ActionType> attemptCounts;
     final Counter1<ActionType> timeoutCount;
     final Counter2<ActionType, String> autoRetryCount;
+    final Counter2<ActionType, String> failuresOnAutoRetryCount;
 
     @Inject
     Metrics(MetricMaker metricMaker) {
@@ -150,6 +151,16 @@ public class RetryHelper {
               new Description("Number of automatic retries with tracing")
                   .setCumulative()
                   .setUnit("retries"),
+              actionTypeField,
+              Field.ofString("operation_name", Metadata.Builder::operationName)
+                  .description("The name of the operation that was retried.")
+                  .build());
+      failuresOnAutoRetryCount =
+          metricMaker.newCounter(
+              "action/failures_on_auto_retry_count",
+              new Description("Number of failures on auto retry")
+                  .setCumulative()
+                  .setUnit("failures"),
               actionTypeField,
               Field.ofString("operation_name", Metadata.Builder::operationName)
                   .description("The name of the operation that was retried.")
@@ -313,6 +324,7 @@ public class RetryHelper {
                   // enabled and it failed again. Log the failure so that admin can see if it
                   // differs from the failure that triggered the retry.
                   logger.atFine().withCause(t).log("auto-retry of %s has failed", caller);
+                  metrics.failuresOnAutoRetryCount.increment(actionType, caller);
                   return false;
                 }
 

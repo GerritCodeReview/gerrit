@@ -32,7 +32,8 @@ limitations under the License.
 <link rel="import" href="../../shared/gr-overlay/gr-overlay.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../../shared/gr-storage/gr-storage.html">
-<link rel="import" href="../gr-account-list/gr-account-list.html">
+<link rel="import" href="../../shared/gr-account-list/gr-account-list.html">
+<link rel="import" href="../gr-reviewer-suggestions-provider/gr-reviewer-suggestions-provider.html">
 <link rel="import" href="../gr-label-scores/gr-label-scores.html">
 <link rel="import" href="../../../styles/shared-styles.html">
 
@@ -165,11 +166,13 @@ limitations under the License.
               id="reviewers"
               accounts="{{_reviewers}}"
               removable-values="[[change.removable_reviewers]]"
-              change="[[change]]"
               filter="[[filterReviewerSuggestion]]"
               pending-confirmation="{{_reviewerPendingConfirmation}}"
               placeholder="Add reviewer..."
               on-account-text-changed="_handleAccountTextEntry">
+              <gr-reviewer-suggestions-provider slot="suggestions-provider"
+                  change="[[change]]">
+              </gr-reviewer-suggestions-provider>
           </gr-account-list>
         </div>
         <div class="peopleList">
@@ -177,12 +180,14 @@ limitations under the License.
           <gr-account-list
               id="ccs"
               accounts="{{_ccs}}"
-              change="[[change]]"
               filter="[[filterCCSuggestion]]"
               pending-confirmation="{{_ccPendingConfirmation}}"
-              allow-any-input
               placeholder="Add CC..."
               on-account-text-changed="_handleAccountTextEntry">
+              <gr-reviewer-suggestions-provider slot="suggestions-provider"
+                  change="[[change]]"
+                  allow-any-input>
+              </gr-reviewer-suggestions-provider>
           </gr-account-list>
         </div>
         <gr-overlay

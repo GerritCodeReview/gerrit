@@ -59,6 +59,7 @@
       _showRepoAccess: Boolean,
       _showRepoCommands: Boolean,
       _showRepoDashboards: Boolean,
+      _showRepoNotifications: Boolean,
       _showRepoDetailList: Boolean,
       _showRepoMain: Boolean,
       _showRepoList: Boolean,
@@ -172,6 +173,8 @@
            params.detail === Gerrit.Nav.RepoDetailView.TAGS));
       this.set('_showRepoDashboards', isRepoView &&
           params.detail === Gerrit.Nav.RepoDetailView.DASHBOARDS);
+      this.set('_showRepoNotifications', isRepoView &&
+          params.detail === Gerrit.Nav.RepoDetailView.NOTIFICATIONS);
       this.set('_showRepoMain', isRepoView && !params.detail);
 
       this.set('_showRepoList', isAdminView &&

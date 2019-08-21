@@ -1,0 +1,364 @@
+/**
+ * @license
+ * Copyright (C) 2019 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+(function(window) {
+  'use strict';
+
+  const Defs = {};
+
+  /**
+   * @typedef {{
+   *    url: string,
+   *    fetchOptions: (Object|null|undefined),
+   *    anonymizedUrl: (string|undefined),
+   * }}
+   */
+  Defs.FetchRequest;
+
+  /**
+   * Object to describe a request for passing into fetchJSON or fetchRawJSON.
+   * - url is the URL for the request (excluding get params)
+   * - errFn is a function to invoke when the request fails.
+   * - cancelCondition is a function that, if provided and returns true, will
+   *     cancel the response after it resolves.
+   * - params is a key-value hash to specify get params for the request URL.
+   * @typedef {{
+   *    url: string,
+   *    errFn: (function(?Response, string=)|null|undefined),
+   *    cancelCondition: (function()|null|undefined),
+   *    params: (Object|null|undefined),
+   *    fetchOptions: (Object|null|undefined),
+   *    anonymizedUrl: (string|undefined),
+   *    reportUrlAsIs: (boolean|undefined),
+   * }}
+   */
+  Defs.FetchJSONRequest;
+
+  const JSON_PREFIX = ')]}\'';
+
+  /**
+   * Wrapper around Map for caching server responses. Site-based so that
+   * changes to CANONICAL_PATH will result in a different cache going into
+   * effect.
+   */
+  class SiteBasedCache {
+    constructor() {
+      // Container of per-canonical-path caches.
+      this._data = new Map();
+      if (window.INITIAL_DATA != undefined) {
+        // Put all data shipped with index.html into the cache. This makes it
+        // so that we spare more round trips to the server when the app loads
+        // initially.
+        Object
+            .entries(window.INITIAL_DATA)
+            .forEach(e => this._cache().set(e[0], e[1]));
+      }
+    }
+
+    // Returns the cache for the current canonical path.
+    _cache() {
+      if (!this._data.has(window.CANONICAL_PATH)) {
+        this._data.set(window.CANONICAL_PATH, new Map());
+      }
+      return this._data.get(window.CANONICAL_PATH);
+    }
+
+    has(key) {
+      return this._cache().has(key);
+    }
+
+    get(key) {
+      return this._cache().get(key);
+    }
+
+    set(key, value) {
+      this._cache().set(key, value);
+    }
+
+    delete(key) {
+      this._cache().delete(key);
+    }
+
+    invalidatePrefix(prefix) {
+      const newMap = new Map();
+      for (const [key, value] of this._cache().entries()) {
+        if (!key.startsWith(prefix)) {
+          newMap.set(key, value);
+        }
+      }
+      this._data.set(window.CANONICAL_PATH, newMap);
+    }
+  }
+
+  class GrRestApiHelper {
+    /**
+     * @param {SiteBasedCache} cache
+     * @param {object} auth
+     * @param {object} sharedFetchPromises
+     */
+    constructor(cache, auth, sharedFetchPromises, baseUrlSource) {
+      this._cache = cache;// TODO: make it public
+      this._auth = auth;
+      this._sharedFetchPromises = sharedFetchPromises;
+      this._baseUrlSource = baseUrlSource;
+    }
+
+    getBaseUrl() {
+      return this._baseUrlSource.getBaseUrl();
+    }
+
+    fire(type, detail, options) {
+      return this._baseUrlSource.fire(type, detail, options);
+    }
+
+    /**
+     * @param {!Object} response
+     * @return {?}
+     */
+    getResponseObject(response) {
+      return this.readResponsePayload(response)
+          .then(payload => payload.parsed);
+    }
+
+    /**
+     * @param {!Object} response
+     * @return {!Object}
+     */
+    readResponsePayload(response) {
+      return response.text().then(text => {
+        let result;
+        try {
+          result = this.parsePrefixedJSON(text);
+        } catch (_) {
+          result = null;
+        }
+        return {parsed: result, raw: text};
+      });
+    }
+
+    /**
+     * @param {string} source
+     * @return {?}
+     */
+    parsePrefixedJSON(source) {
+      return JSON.parse(source.substring(JSON_PREFIX.length));
+    }
+
+    /**
+     * Log information about a REST call. Because the elapsed time is determined
+     * by this method, it should be called immediately after the request
+     * finishes.
+     * @param {Defs.FetchRequest} req
+     * @param {number} startTime the time that the request was started.
+     * @param {number} status the HTTP status of the response. The status value
+     *     is used here rather than the response object so there is no way this
+     *     method can read the body stream.
+     */
+    _logCall(req, startTime, status) {
+      const method = (req.fetchOptions && req.fetchOptions.method) ?
+          req.fetchOptions.method : 'GET';
+      const elapsed = (Date.now() - startTime);
+      console.log([
+        'HTTP',
+        status,
+        method,
+        elapsed + 'ms',
+        req.anonymizedUrl || req.url,
+      ].join(' '));
+      if (req.anonymizedUrl) {
+        this.fire('rpc-log',
+            {status, method, elapsed, anonymizedUrl: req.anonymizedUrl});
+      }
+    }
+
+    /**
+     * Wraps calls to the underlying authenticated fetch function (_auth.fetch)
+     * with timing and logging.
+     * @param {Defs.FetchRequest} req
+     */
+    fetch(req) {
+      const start = Date.now();
+      const xhr = this._auth.fetch(req.url, req.fetchOptions);
+
+      // Log the call after it completes.
+      xhr.then(res => this._logCall(req, start, res.status));
+
+      // Return the XHR directly (without the log).
+      return xhr;
+    }
+
+    /**
+     * @param {Defs.FetchJSONRequest} req
+     */
+    fetchSharedCacheURL(req) {
+      if (this._sharedFetchPromises[req.url]) {
+        return this._sharedFetchPromises[req.url];
+      }
+      // TODO(andybons): Periodic cache invalidation.
+      if (this._cache.has(req.url)) {
+        return Promise.resolve(this._cache.get(req.url));
+      }
+      this._sharedFetchPromises[req.url] = this.fetchJSON(req)
+          .then(response => {
+            if (response !== undefined) {
+              this._cache.set(req.url, response);
+            }
+            this._sharedFetchPromises[req.url] = undefined;
+            return response;
+          }).catch(err => {
+            this._sharedFetchPromises[req.url] = undefined;
+            throw err;
+          });
+      return this._sharedFetchPromises[req.url];
+    }
+
+    /**
+     * Fetch JSON from url provided.
+     * Returns a Promise that resolves to a native Response.
+     * Doesn't do error checking. Supports cancel condition. Performs auth.
+     * Validates auth expiry errors.
+     * @param {Defs.FetchJSONRequest} req
+     */
+    fetchRawJSON(req) {
+      const urlWithParams = this.urlWithParams(req.url, req.params);
+      const fetchReq = {
+        url: urlWithParams,
+        fetchOptions: req.fetchOptions,
+        anonymizedUrl: req.reportUrlAsIs ? urlWithParams : req.anonymizedUrl,
+      };
+      return this.fetch(fetchReq).then(res => {
+        if (req.cancelCondition && req.cancelCondition()) {
+          res.body.cancel();
+          return;
+        }
+        return res;
+      }).catch(err => {
+        const isLoggedIn = !!this._cache.get('/accounts/self/detail');
+        if (isLoggedIn && err && err.message === FAILED_TO_FETCH_ERROR) {
+          this.checkCredentials();
+        } else {
+          if (req.errFn) {
+            req.errFn.call(undefined, null, err);
+          } else {
+            this.fire('network-error', {error: err});
+          }
+        }
+        throw err;
+      });
+    }
+
+    /**
+     * @param {string} url
+     * @param {?Object|string=} opt_params URL params, key-value hash.
+     * @return {string}
+     */
+    urlWithParams(url, opt_params) {
+      if (!opt_params) { return this.getBaseUrl() + url; }
+
+      const params = [];
+      for (const p in opt_params) {
+        if (!opt_params.hasOwnProperty(p)) { continue; }
+        if (opt_params[p] == null) {
+          params.push(encodeURIComponent(p));
+          continue;
+        }
+        for (const value of [].concat(opt_params[p])) {
+          params.push(`${encodeURIComponent(p)}=${encodeURIComponent(value)}`);
+        }
+      }
+      return this.getBaseUrl() + url + '?' + params.join('&');
+    }
+
+    /**
+     * Fetch JSON from url provided.
+     * Returns a Promise that resolves to a parsed response.
+     * Same as {@link fetchRawJSON}, plus error handling.
+     * @param {Defs.FetchJSONRequest} req
+     */
+    fetchJSON(req) {
+      return this.fetchRawJSON(req).then(response => {
+        if (!response) {
+          return;
+        }
+        if (!response.ok) {
+          if (req.errFn) {
+            req.errFn.call(null, response);
+            return;
+          }
+          this.fire('server-error', {request: req, response});
+          return;
+        }
+        return response && this.getResponseObject(response);
+      });
+    }
+
+    /**
+     * Send an XHR.
+     * @param {Defs.SendRequest} req
+     * @return {Promise}
+     */
+    send(req) {
+      const options = {method: req.method};
+      if (req.body) {
+        options.headers = new Headers();
+        options.headers.set(
+            'Content-Type', req.contentType || 'application/json');
+        options.body = typeof req.body === 'string' ?
+            req.body : JSON.stringify(req.body);
+      }
+      if (req.headers) {
+        if (!options.headers) { options.headers = new Headers(); }
+        for (const header in req.headers) {
+          if (!req.headers.hasOwnProperty(header)) { continue; }
+          options.headers.set(header, req.headers[header]);
+        }
+      }
+      const url = req.url.startsWith('http') ?
+          req.url : this.getBaseUrl() + req.url;
+      const fetchReq = {
+        url,
+        fetchOptions: options,
+        anonymizedUrl: req.reportUrlAsIs ? url : req.anonymizedUrl,
+      };
+      const xhr = this.fetch(fetchReq).then(response => {
+        if (!response.ok) {
+          if (req.errFn) {
+            return req.errFn.call(undefined, response);
+          }
+          this.fire('server-error', {request: fetchReq, response});
+        }
+        return response;
+      }).catch(err => {
+        this.fire('network-error', {error: err});
+        if (req.errFn) {
+          return req.errFn.call(undefined, null, err);
+        } else {
+          throw err;
+        }
+      });
+
+      if (req.parseResponse) {
+        return xhr.then(res => this.getResponseObject(res));
+      }
+
+      return xhr;
+    }
+  }
+
+  window.SiteBasedCache = SiteBasedCache;
+  window.GrRestApiHelper = GrRestApiHelper;
+})(window);
+

@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<!--
+@license
+Copyright (C) 2019 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+<title>gr-repo-dashboards</title>
+<script src="/test/common-test-setup.js"></script>
+<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+
+<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/bower_components/web-component-tester/browser.js"></script>
+<link rel="import" href="../../../test/common-test-setup.html"/>
+<link rel="import" href="gr-repo-notifications.html">
+
+<script>void(0);</script>
+
+<test-fixture id="basic">
+  <template>
+    <gr-repo-notifications></gr-repo-notifications>
+  </template>
+</test-fixture>
+
+<script>
+  suite('gr-repo-notifications tests', () => {
+    let element;
+    let sandbox;
+    let repoNotificationsStub;
+
+    const notificationKeys = [
+      'notify_new_changes', 'notify_new_patch_sets',
+      'notify_all_comments', 'notify_submitted_changes',
+      'notify_abandoned_changes'];
+
+    const repoNotificationsRes = {
+      description: 'Repo description',
+      notify_configs: {
+        'example_name':
+        {
+          name: 'example_name',
+          emails: [
+            'team.mailinglist@example.com',
+            'abc@example.com',
+          ],
+          groups: [
+            {
+              url: '#/admin/groups/uuid-123456789abcdef123456789abcdef123456789a',
+              options: {},
+              description: 'Users who perform batch actions on Gerrit',
+              id: 1,
+              owner: 'Administrators',
+              owner_id: 'd5b7124af4de52924ed397913e2c3b37bf186948',
+              created_on: '2009-06-08 23:31:00.000000000',
+              name: 'Non-Interactive Users',
+            },
+            {
+              options: {},
+              id: 5,
+              name: 'Anonymous Users',
+            },
+          ],
+          header: 'TO',
+          filter: 'visibleto:example_name',
+          notify_new_changes: true,
+          notify_all_comments: true,
+
+        },
+        'A - name with spaces': {
+          name: 'A - name with spaces',
+          emails: [
+            'abc@example.com',
+          ],
+          groups: null,
+          header: 'CC',
+          filter: 'owner:def@example.com',
+          notify_new_changes: false,
+          notify_new_patch_sets: true,
+          notify_all_comments: false,
+          notify_submitted_changes: true,
+          notify_abandoned_changes: false,
+        },
+      },
+    };
+
+    const expectedNotifications = [
+      {
+        editable_data: {
+          name: 'A - name with spaces',
+          emails: [
+            {email: 'abc@example.com'},
+          ],
+          groups: [],
+          header: 'CC',
+          filter: 'owner:def@example.com',
+          notification_types: {
+            notify_new_changes: false,
+            notify_new_patch_sets: true,
+            notify_all_comments: false,
+            notify_submitted_changes: true,
+            notify_abandoned_changes: false,
+          },
+        },
+        original_data:
+            repoNotificationsRes.notify_configs['A - name with spaces'],
+        modified: false,
+        deleted: false,
+      },
+      {
+        editable_data: {
+          name: 'example_name',
+          emails: [
+            {email: 'team.mailinglist@example.com'},
+            {email: 'abc@example.com'},
+          ],
+          groups: [
+            {
+              id: 1,
+              name: 'Non-Interactive Users',
+            },
+            {
+              id: 5,
+              name: 'Anonymous Users',
+            },
+          ],
+          header: 'TO',
+          filter: 'visibleto:example_name',
+          notification_types: {
+            notify_new_changes: true,
+            notify_new_patch_sets: false,
+            notify_all_comments: true,
+            notify_submitted_changes: false,
+            notify_abandoned_changes: false,
+          },
+        },
+        original_data:
+            repoNotificationsRes.notify_configs['example_name'],
+        modified: false,
+        deleted: false,
+      },
+    ];
+
+    setup(() => {
+      sandbox = sinon.sandbox.create();
+      element = fixture('basic');
+
+      // Mimic all plugins loaded.
+      Gerrit._setPluginsPending([]);
+
+      sandbox.stub(element.$.restAPI, 'getSuggestedGroups').returns(
+          Promise.resolve({}));
+
+      stub('gr-rest-api-interface', {
+        getAccount() { return Promise.resolve(null); },
+      });
+
+      repoNotificationsStub = sandbox
+          .stub(element.$.restAPI.notifications, 'getRepoNotifications')
+          .returns(Promise.resolve(repoNotificationsRes));
+    });
+
+    teardown(() => {
+      sandbox.restore();
+    });
+
+    suite('unit tests', () => {
+      test('readonly properties', () => {
+        assert.isTrue(element._readonly);
+
+        element._editing = true;
+        assert.isFalse(element._readonly);
+
+        element._saving = true;
+        assert.isTrue(element._readonly);
+      });
+
+      test('_getNotifications empty input', () => {
+        assert.deepEqual(element._getNotifications(null), []);
+        assert.deepEqual(element._getNotifications({}), []);
+      });
+
+      test('_getNotifications returns sorted by name items', () => {
+        const notifications = element._getNotifications({
+          'Name B': {
+            name: 'Name B',
+            emails: [],
+            groups: [],
+            header: 'TO',
+            filter: '',
+          },
+          'Name A': {
+            name: 'Name A',
+            emails: [],
+            groups: [],
+            header: 'BCC',
+            filter: '',
+          },
+          'Name DB': {
+            name: 'Name DB',
+            emails: [],
+            groups: [],
+            header: 'TO',
+            filter: '',
+          },
+          'Name DA': {
+            name: 'Name DA',
+            emails: [],
+            groups: [],
+            header: 'TO',
+            filter: '',
+          },
+        });
+        assert.deepEqual(notifications.map(n => n.editable_data.name),
+            ['Name A', 'Name B', 'Name DA', 'Name DB']);
+      });
+
+      test('_getNotifications', () => {
+        assert.deepEqual(
+            element._getNotifications(repoNotificationsRes.notify_configs),
+            expectedNotifications);
+      });
+
+      test('_createEditableData only required fields', () => {
+        assert.deepEqual(element._createEditableData({
+          name: 'ABC',
+          filter: 'owner:me',
+          header: 'BCC',
+        }), {
+          name: 'ABC',
+          filter: 'owner:me',
+          header: 'BCC',
+          emails: [],
+          groups: [],
+          notification_types: {
+            notify_new_changes: false,
+            notify_new_patch_sets: false,
+            notify_all_comments: false,
+            notify_submitted_changes: false,
+            notify_abandoned_changes: false,
+          },
+        });
+      });
+      test('_createEditableData emails only', () => {
+        assert.deepEqual(element._createEditableData({
+          name: 'DEF',
+          filter: 'owner:me',
+          header: 'CC',
+          emails: ['abc@example.com', 'other@example.com'],
+        }), {
+          name: 'DEF',
+          filter: 'owner:me',
+          header: 'CC',
+          emails: [{email: 'abc@example.com'}, {email: 'other@example.com'}],
+          groups: [],
+          notification_types: {
+            notify_new_changes: false,
+            notify_new_patch_sets: false,
+            notify_all_comments: false,
+            notify_submitted_changes: false,
+            notify_abandoned_changes: false,
+          },
+        });
+      });
+      test('_createEditableData groups only', () => {
+        assert.deepEqual(element._createEditableData({
+          name: 'DEF',
+          filter: 'owner:me',
+          header: 'CC',
+          groups: [
+            {id: 25, name: 'My group', some_property: 23},
+            {id: 3, name: 'Admins'}],
+        }), {
+          name: 'DEF',
+          filter: 'owner:me',
+          header: 'CC',
+          emails: [],
+          groups: [{id: 25, name: 'My group'}, {id: 3, name: 'Admins'}],
+          notification_types: {
+            notify_new_changes: false,
+            notify_new_patch_sets: false,
+            notify_all_comments: false,
+            notify_submitted_changes: false,
+            notify_abandoned_changes: false,
+          },
+        });
+      });
+
+      test('_createEditableData with notifications', () => {
+        for (const key of notificationKeys) {
+          const originalData = {
+            name: 'abc',
+            filter: 'owner:me',
+            header: 'CC',
+          };
+          originalData[key] = true;
+          const expectedResult = {
+            name: 'abc',
+            filter: 'owner:me',
+            header: 'CC',
+            emails: [],
+            groups: [],
+            notification_types: {
+              notify_new_changes: false,
+              notify_new_patch_sets: false,
+              notify_all_comments: false,
+              notify_submitted_changes: false,
+              notify_abandoned_changes: false,
+            },
+          };
+          expectedResult.notification_types[key] = true;
+
+          assert.deepEqual(element._createEditableData(originalData),
+              expectedResult);
+        }
+      });
+
+      test('_getNotificationConfigInfo filter empty string', () => {
+        assert.deepEqual(element._getNotificationConfigInfo({
+          name: 'abc',
+          filter: '',
+          header: 'CC',
+          emails: [],
+          groups: [],
+          notification_types: {
+            notify_new_changes: false,
+            notify_new_patch_sets: false,
+            notify_all_comments: false,
+            notify_submitted_changes: false,
+            notify_abandoned_changes: false,
+          },
+        }), {
+          name: 'abc',
+          filter: null,
+          header: 'CC',
+          emails: [],
+          group_ids: [],
+          notify_new_changes: false,
+          notify_new_patch_sets: false,
+          notify_all_comments: false,
+          notify_submitted_changes: false,
+          notify_abandoned_changes: false,
+        });
+      });
+
+      test('_getNotificationConfigInfo', () => {
+        assert.deepEqual(element._getNotificationConfigInfo({
+          name: 'def',
+          filter: 'owner: me',
+          header: 'BCC',
+          emails: [{email: 'abc@example.com'}, {email: 'other@example.com'}],
+          groups: [{id: 'abc', name: 'My group'},
+            {id: 4, name: 'Some other group'}],
+          notification_types: {
+            notify_new_changes: false,
+            notify_new_patch_sets: true,
+            notify_all_comments: false,
+            notify_submitted_changes: true,
+            notify_abandoned_changes: false,
+          },
+        }), {
+          name: 'def',
+          filter: 'owner: me',
+          header: 'BCC',
+          emails: ['abc@example.com', 'other@example.com'],
+          group_ids: ['abc', 4],
+          notify_new_changes: false,
+          notify_new_patch_sets: true,
+          notify_all_comments: false,
+          notify_submitted_changes: true,
+          notify_abandoned_changes: false,
+        });
+      });
+
+      test('_getNotificationConfigInfo different notification types', () => {
+        for (const key of notificationKeys) {
+          const editableData = {
+            name: 'def',
+            filter: 'owner: me',
+            header: 'BCC',
+            emails: [{email: 'abc@example.com'}, {email: 'other@example.com'}],
+            groups: [{id: 'abc', name: 'My group'},
+              {id: 4, name: 'Some other group'}],
+            notification_types: {
+              notify_new_changes: false,
+              notify_new_patch_sets: false,
+              notify_all_comments: false,
+              notify_submitted_changes: false,
+              notify_abandoned_changes: false,
+            },
+          };
+          editableData.notification_types[key] = true;
+
+          const expectedResult = {
+            name: 'def',
+            filter: 'owner: me',
+            header: 'BCC',
+            emails: ['abc@example.com', 'other@example.com'],
+            group_ids: ['abc', 4],
+            notify_new_changes: false,
+            notify_new_patch_sets: false,
+            notify_all_comments: false,
+            notify_submitted_changes: false,
+            notify_abandoned_changes: false,
+          };
+
+          expectedResult[key] = true;
+          assert.deepEqual(element._getNotificationConfigInfo(editableData),
+              expectedResult);
+        }
+      });
+
+      test('_collectNotificationChanges empty array', () => {
+        element._notifications = [];
+        const changes = element._collectNotificationChanges();
+        assert.deepEqual(changes.removals, []);
+        assert.deepEqual(changes.additions, []);
+      });
+
+      function createNotificationItem(options) {
+        return {
+          editable_data: {
+            name: options.name,
+            filter: options.filter ? options.filter : 'owner: me',
+            header: 'BCC',
+            emails: [{email: 'abc@example.com'}, {email: 'other@example.com'}],
+            groups: [{id: 'abc', name: 'My group'},
+              {id: 4, name: 'Some other group'}],
+            notification_types: {
+              notify_new_changes: false,
+              notify_new_patch_sets: true,
+              notify_all_comments: false,
+              notify_submitted_changes: false,
+              notify_abandoned_changes: false,
+            },
+          },
+          original_data: options.original_name ? {
+            name: options.original_name,
+            filter: options.original_filter ?
+                options.original_filter : 'owner: me',
+            // Other properties is not important for this tests
+          } : null,
+          modified: options.modified,
+          deleted: options.deleted,
+        };
+      }
+      test('_collectNotificationChanges', () => {
+        element._notifications = [
+          createNotificationItem({
+            name: 'new item 1',
+            modified: true,
+            deleted: false,
+          }),
+          createNotificationItem({
+            name: 'existing non-modified',
+            original_name: 'existing non-modified',
+            modified: false,
+            deleted: false,
+          }),
+          createNotificationItem({
+            name: 'existing modified item with original name',
+            filter: 'owner: admin',
+            original_name: 'existing modified item with original name',
+            original_filter: 'owner: other',
+            modified: true,
+            deleted: false,
+          }),
+          createNotificationItem({
+            name: 'existing modified item with changed name',
+            original_name: 'original name',
+            modified: true,
+            deleted: false,
+          }),
+          createNotificationItem({
+            name: 'existing deleted item',
+            original_name: 'existing deleted item 1',
+            modified: false,
+            deleted: true,
+          }),
+          createNotificationItem({
+            name: 'existing deleted item with changed name',
+            original_name: 'existing deleted item 2',
+            modified: true,
+            deleted: true,
+          }),
+          createNotificationItem({
+            name: 'new item 2',
+            modified: true,
+            deleted: false,
+          }),
+        ];
+        const changes = element._collectNotificationChanges();
+        assert.deepEqual(changes.removals, [
+          'existing modified item with original name',
+          'original name',
+          'existing deleted item 1',
+          'existing deleted item 2',
+        ]);
+        const notifications = element._notifications;
+        assert.deepEqual(changes.additions, [
+          // new item 1
+          element._getNotificationConfigInfo(notifications[0].editable_data),
+          // existing modified item with original name
+          element._getNotificationConfigInfo(notifications[2].editable_data),
+          // existing modified item with changed name
+          element._getNotificationConfigInfo(notifications[3].editable_data),
+          // new item 2
+          element._getNotificationConfigInfo(notifications[6].editable_data),
+        ]);
+      });
+    });
+
+    suite('interactive tests', () => {
+      test('classes are assigned correctly', () => {
+        assert.isFalse(element.$.main.classList.contains('editing'));
+        assert.isTrue(element.$.loading.classList.contains('loading'));
+        assert.isTrue(element.$.loadedContent.classList.contains('loading'));
+
+        element._loading = false;
+        assert.isFalse(element.$.main.classList.contains('editing'));
+        assert.isFalse(element.$.loading.classList.contains('loading'));
+        assert.isFalse(element.$.loadedContent.classList.contains('loading'));
+
+        element._loading = false;
+        element._editing = true;
+        assert.isTrue(element.$.main.classList.contains('editing'));
+        assert.isFalse(element.$.loading.classList.contains('loading'));
+        assert.isFalse(element.$.loadedContent.classList.contains('loading'));
+
+        element.saving = true;
+        assert.isTrue(element.$.main.classList.contains('editing'));
+        assert.isFalse(element.$.loading.classList.contains('loading'));
+        assert.isFalse(element.$.loadedContent.classList.contains('loading'));
+      });
+    });
+
+
+    function testSectionDisplaysCorrectCheckboxes(section,
+        notificationTypes, notificationKey) {
+      const toggleButton = section.querySelector(
+          `.notificationCheckbox[data-key="${notificationKey}"]`);
+      assert.equal(toggleButton.checked, notificationTypes[notificationKey]);
+    }
+
+    function testSectionDisplaysCorrectValues(section, editableData) {
+      assert.equal(section.$.editNameInput.value, editableData.name);
+      assert.equal(section.$.filterInput.value, editableData.filter);
+      assert.equal(section.$.headerDropdown.value, editableData.header);
+      assert.deepEqual(section.$.emails.accounts, editableData.emails);
+      assert.deepEqual(section.$.groups.accounts, editableData.groups);
+      assert.deepEqual(section.$.groups.accounts, editableData.groups);
+
+      for (const key of notificationKeys) {
+        testSectionDisplaysCorrectCheckboxes(section,
+            editableData.notification_types, key);
+      }
+    }
+
+    test('notifications displayed correctly after loading', done => {
+      element.repo = 'test-repo';
+      flushAsynchronousOperations();
+      assert.isTrue(repoNotificationsStub.called);
+      flush(() => {
+        assert.deepEqual(element._notifications, expectedNotifications);
+        const sections = Array.from(
+            element.querySelectorAll('gr-notification-section'));
+        assert.equal(sections.length, 2);
+        assert.equal(element._notifications[0].editable_data,
+            sections[0].section);
+        assert.equal(element._notifications[1].editable_data,
+            sections[1].section);
+
+        testSectionDisplaysCorrectValues(sections[0],
+            element._notifications[0].editable_data);
+        testSectionDisplaysCorrectValues(sections[1],
+            element._notifications[1].editable_data);
+        done();
+      });
+    });
+
+    test('edit and cancel buttons works correctly', done => {
+      const changeRepoNotificationsStub = sandbox
+          .stub(element.$.restAPI.notifications, 'changeRepoNotifications')
+          .returns(Promise.resolve());
+
+      element.repo = 'test-repo';
+      flushAsynchronousOperations();
+      flush(() => {
+        MockInteractions.tap(element.$.editBtn);
+        assert.isTrue(element._editing);
+
+
+        // Enter some data
+        const sections = Array.from(
+            element.querySelectorAll('gr-notification-section'));
+        sections[0].$.editNameInput.value = 'abc';
+        sections[0].$.editNameInput.dispatchEvent(new Event('input'));
+
+        assert.isTrue(element._notifications[0].modified);
+        assert.equal(element._notifications[0].editable_data.name,
+            'abc');
+        MockInteractions.tap(element.$.cancelBtn);
+
+        assert.isFalse(element._editing);
+        assert.isFalse(element._notifications[0].modified);
+        assert.equal(element._notifications[0].editable_data.name,
+            'A - name with spaces');
+
+        assert.isFalse(changeRepoNotificationsStub.called);
+        done();
+      });
+    });
+
+    test('save button works correctly', done => {
+      element.repo = 'test-repo';
+      flushAsynchronousOperations();
+      flush(() => {
+        MockInteractions.tap(element.$.editBtn);
+        assert.isTrue(element._editing);
+
+
+        // Enter some data
+        const sections = Array.from(
+            element.querySelectorAll('gr-notification-section'));
+        sections[0].$.editNameInput.value = 'abc';
+        sections[0].$.editNameInput.dispatchEvent(new Event('input'));
+
+        assert.isTrue(element._notifications[0].modified);
+        assert.equal(element._notifications[0].editable_data.name,
+            'abc');
+
+        const saveSpy = sandbox.spy(element, '_handleSave');
+
+        const changeRepoRes = JSON.parse(JSON.stringify(repoNotificationsRes));
+        const changeRepoNotificationsStub = sandbox
+            .stub(element.$.restAPI.notifications, 'changeRepoNotifications')
+            .returns(Promise.resolve(changeRepoRes));
+        const originalName = element._notifications[0].original_data.name;
+        const changedConfig = changeRepoRes.notify_configs[originalName];
+        changedConfig.name = 'abc';
+        changeRepoRes.notify_configs['abc'] = changedConfig;
+        delete changeRepoRes.notify_configs[element._notifications[0].name];
+
+        MockInteractions.tap(element.$.saveBtn);
+
+        flush(() => {
+          assert.isTrue(changeRepoNotificationsStub.called);
+          saveSpy.lastCall.returnValue.then(() => {
+            assert.isFalse(element._editing);
+            assert.isFalse(element._saving);
+            assert.isFalse(element._notifications[0].modified);
+            assert.equal(element._notifications[0].editable_data.name,
+                'abc');
+            assert.equal(element._notifications[0].original_data.name,
+                'abc');
+            done();
+          });
+        });
+      });
+    });
+
+    test('remove and undo remove existing notification', done => {
+      element.repo = 'test-repo';
+      flushAsynchronousOperations();
+      flush(() => {
+        element._editing = true;
+        const sections = Array.from(
+            element.querySelectorAll('gr-notification-section'));
+
+        MockInteractions.tap(sections[0].$.removeBtn);
+
+        assert.equal(element._notifications.length, 2);
+        assert.isTrue(element._notifications[0].deleted);
+        assert.isFalse(element._notifications[0].modified);
+        assert.isFalse(element._notifications[1].deleted);
+        assert.isFalse(element._notifications[1].modified);
+
+        MockInteractions.tap(sections[0].$.undoRemoveBtn);
+
+        assert.equal(element._notifications.length, 2);
+        assert.isFalse(element._notifications[0].deleted);
+        assert.isFalse(element._notifications[0].modified);
+        assert.isFalse(element._notifications[1].deleted);
+        assert.isFalse(element._notifications[1].modified);
+
+        done();
+      });
+    });
+
+    test('add and remove new notification', done => {
+      element.repo = 'test-repo';
+      flushAsynchronousOperations();
+      flush(() => {
+        element._editing = true;
+        MockInteractions.tap(element.$.addNotificationBtn);
+
+        flush(() => {
+          assert.equal(element._notifications.length, 3);
+          assert.isFalse(element._notifications[0].deleted);
+          assert.isFalse(element._notifications[0].modified);
+          assert.isFalse(element._notifications[1].deleted);
+          assert.isFalse(element._notifications[1].modified);
+          assert.deepEqual(element._notifications[2], {
+            editable_data: {
+              name: '',
+              emails: [],
+              groups: [],
+              header: 'BCC',
+              filter: '',
+              notification_types: {
+                notify_new_changes: false,
+                notify_new_patch_sets: false,
+                notify_all_comments: false,
+                notify_submitted_changes: false,
+                notify_abandoned_changes: false,
+              },
+            },
+            original_data: null,
+            modified: false,
+            deleted: false,
+          });
+          let sections = Array.from(
+              element.querySelectorAll('gr-notification-section'));
+          assert.equal(sections.length, 3);
+
+          MockInteractions.tap(sections[2].$.removeBtn);
+
+          flush(() => {
+            assert.equal(element._notifications.length, 2);
+            assert.isFalse(element._notifications[0].deleted);
+            assert.isFalse(element._notifications[0].modified);
+            assert.isFalse(element._notifications[1].deleted);
+            assert.isFalse(element._notifications[1].modified);
+            // Check that we didn't delete existing notifications
+            assert.isDefined(element._notifications[0].original_data);
+            assert.isDefined(element._notifications[1].original_data);
+
+            sections = Array.from(
+                element.querySelectorAll('gr-notification-section'));
+            sections = Array.from(
+                element.querySelectorAll('gr-notification-section'));
+            assert.equal(sections.length, 2);
+
+            done();
+          });
+        });
+      });
+    });
+  });
+</script>

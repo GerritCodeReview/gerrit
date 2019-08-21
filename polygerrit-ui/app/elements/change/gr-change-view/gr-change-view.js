@@ -1645,8 +1645,7 @@
     _computeShowRelatedToggle() {
       // Make sure the max height has been applied, since there is now content
       // to populate.
-      // TODO update to polymer 2.x syntax
-      if (!this.getComputedStyleValue('--relation-chain-max-height')) {
+      if (!util.getComputedStyleValue('--relation-chain-max-height', this)) {
         this._updateRelatedChangeMaxHeight();
       }
       // Prevents showMore from showing when click on related change, since the

@@ -66,6 +66,11 @@
       return this.getUserName(config, account, false);
     },
 
+    _computeStatusTextLength(account, config) {
+      // 35 as the max length of the name + status
+      return Math.max(10, 35 - this._computeName(account, config).length);
+    },
+
     _computeAccountTitle(account, tooltip) {
       // Polymer 2: check for undefined
       if ([
@@ -81,11 +86,18 @@
         result += this._computeName(account, this._serverConfig);
       }
       if (account.email) {
-        result += ' <' + account.email + '>';
+        result += ` <${account.email}>`;
       }
       if (this.additionalText) {
-        return result + ' ' + this.additionalText;
+        result += ` ${this.additionalText}`;
       }
+
+      // Show status in the label tooltip instead of
+      // in a separate tooltip on status
+      if (account.status) {
+        result += ` (${account.status})`;
+      }
+
       return result;
     },
 

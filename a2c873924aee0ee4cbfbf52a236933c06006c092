@@ -94,6 +94,24 @@
     },
     {
       "key": {
+        "uuid": "ee0c2f5e_49e3ea87",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-shared-style.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-08-21T09:00:33Z",
+      "side": 1,
+      "message": "The first approach looks good for me (\"creates yet another instances....\"). I checked usage of Gerrit.css in google3 - plugin object is accessible in all places, where Gerrit.css is used - shouldn\u0027t be a problem.\nI am afraid of external plugins - they can use Gerrit.css and don\u0027t have plugin object in this place, but it is easy to solve for their authors.\nAlso, the StyleApi will not use plugin object at all, but I don\u0027t think this is important for plugin\u0027s author.",
+      "parentUuid": "ac3a435a_a9d92da5",
+      "revId": "a2c873924aee0ee4cbfbf52a236933c06006c092",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5aee8ce7_d4e7638c",
         "filename": "polygerrit-ui/app/samples/coverage-plugin.html",
         "patchSetId": 5

@@ -195,9 +195,12 @@ limitations under the License.
               id="assigneeValue"
               placeholder="Set assignee..."
               accounts="{{_assignee}}"
-              change="[[change]]"
-              readonly="[[_computeAssigneeReadOnly(_mutable, change)]]"
-              allow-any-user></gr-account-list>
+              readonly="[[_computeAssigneeReadOnly(_mutable, change)]]">
+            <gr-reviewer-suggestions-provider
+                change="[[change]]"
+                allow-any-user>
+            </gr-reviewer-suggestions-provider>
+          </gr-account-list>
         </span>
       </section>
       <section>

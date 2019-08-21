@@ -45,6 +45,15 @@
       },
 
       /**
+       * Disable the tooltip.
+       * When set to true, will not show tooltip even text is over limit
+       */
+      disableTooltip: {
+        type: Boolean,
+        value: false,
+      },
+
+      /**
        * The maximum number of characters to display in the tooltop.
        */
       tooltipLimit: {
@@ -72,7 +81,7 @@
       }
 
       this.hasTooltip = !!limit && !!text && text.length > limit;
-      if (this.hasTooltip) {
+      if (this.hasTooltip && !this.disableTooltip) {
         this.setAttribute('title', text.substr(0, tooltipLimit));
       } else {
         this.removeAttribute('title');

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9015e14b_ad2c5221",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-08-21T10:15:25Z",
+      "side": 1,
+      "message": "Optional: Not being a JS expert I find Object.assign a bit magical here. What about this code instead?\n\n  if (!req.fetchOptions) req.fetchOptions \u003d {};\n  if (!req.fetchOptions.headers) \u003d req.fetchOptions.headers \u003d new Headers();\n  if (!req.fetchOptions.headers.has(\u0027Accept\u0027)) req.fetchOptions.headers.append(\u0027Accept\u0027, \u0027application/json\u0027);",
+      "revId": "17f4bc74a859f8d01d7fed5a4fa01e0c3dcbc85d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

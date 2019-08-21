@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "55faa38e_121bdf38",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1408,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-08-21T13:41:52Z",
+      "side": 1,
+      "message": "In that example he only doesn\u0027t look at user refs. Since I need refs/users, I will apparently need to fetch it first (which will just make it more complicated than the current solution imo).",
+      "parentUuid": "e385d975_7a4e174f",
+      "range": {
+        "startLine": 1408,
+        "startChar": 15,
+        "endLine": 1408,
+        "endChar": 23
+      },
+      "revId": "aae38d640c8bfc7c3d68a608afa73627b745a812",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9b206266_d4c37ace",
         "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 3

@@ -248,7 +248,9 @@ public class StarredChangesUtil {
       for (Account.Id accountId : byChangeFromIndex(changeId).keySet()) {
         String refName = RefNames.refsStarredChanges(changeId, accountId);
         Ref ref = repo.getRefDatabase().getRef(refName);
-        batchUpdate.addCommand(new ReceiveCommand(ref.getObjectId(), ObjectId.zeroId(), refName));
+        if (ref != null) {
+          batchUpdate.addCommand(new ReceiveCommand(ref.getObjectId(), ObjectId.zeroId(), refName));
+        }
       }
       batchUpdate.execute(rw, NullProgressMonitor.INSTANCE);
       for (ReceiveCommand command : batchUpdate.getCommands()) {

@@ -16,6 +16,8 @@ package com.google.gerrit.server.restapi.project;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
 
+import com.google.common.base.Throwables;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.IdString;
@@ -32,6 +34,9 @@ import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.Reachable;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
+import com.google.gerrit.server.update.RetryHelper;
+import com.google.gerrit.server.update.RetryHelper.Action;
+import com.google.gerrit.server.update.RetryHelper.ActionType;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -49,6 +54,7 @@ import org.eclipse.jgit.revwalk.RevWalk;
 public class CommitsCollection implements ChildCollection<ProjectResource, CommitResource> {
   private final DynamicMap<RestView<CommitResource>> views;
   private final GitRepositoryManager repoManager;
+  private final RetryHelper retryHelper;
   private final ChangeIndexCollection indexes;
   private final Provider<InternalChangeQuery> queryProvider;
   private final Reachable reachable;
@@ -57,11 +63,13 @@ public class CommitsCollection implements ChildCollection<ProjectResource, Commi
   public CommitsCollection(
       DynamicMap<RestView<CommitResource>> views,
       GitRepositoryManager repoManager,
+      RetryHelper retryHelper,
       ChangeIndexCollection indexes,
       Provider<InternalChangeQuery> queryProvider,
       Reachable reachable) {
     this.views = views;
     this.repoManager = repoManager;
+    this.retryHelper = retryHelper;
     this.indexes = indexes;
     this.queryProvider = queryProvider;
     this.reachable = reachable;
@@ -115,7 +123,13 @@ public class CommitsCollection implements ChildCollection<ProjectResource, Commi
     // Check first if any change references the commit in question. This is much cheaper than ref
     // visibility filtering and reachability computation.
     List<ChangeData> changes =
-        queryProvider.get().enforceVisibility(true).setLimit(1).byProjectCommit(project, commit);
+        executeIndexQuery(
+            () ->
+                queryProvider
+                    .get()
+                    .enforceVisibility(true)
+                    .setLimit(1)
+                    .byProjectCommit(project, commit));
     if (!changes.isEmpty()) {
       return true;
     }
@@ -127,5 +141,15 @@ public class CommitsCollection implements ChildCollection<ProjectResource, Commi
             .filter(r -> !r.getName().startsWith(RefNames.REFS_CHANGES))
             .collect(toImmutableList());
     return reachable.fromRefs(project, repo, commit, refs);
+  }
+
+  private <T> T executeIndexQuery(Action<T> action) {
+    try {
+      return retryHelper.execute(
+          ActionType.INDEX_QUERY, action, StorageException.class::isInstance);
+    } catch (Exception e) {
+      Throwables.throwIfUnchecked(e);
+      throw new StorageException(e);
+    }
   }
 }

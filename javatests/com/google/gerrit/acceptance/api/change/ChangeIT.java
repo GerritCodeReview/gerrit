@@ -982,6 +982,17 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void rebaseOnNonExistingChange() throws Exception {
+    String changeId = createChange().getChangeId();
+    RebaseInput in = new RebaseInput();
+    in.base = "999999";
+    UnprocessableEntityException exception =
+        assertThrows(
+            UnprocessableEntityException.class, () -> gApi.changes().id(changeId).rebase(in));
+    assertThat(exception).hasMessageThat().isEqualTo("Base change not found: " + in.base);
+  }
+
+  @Test
   public void rebaseFromRelationChainToClosedChange() throws Exception {
     PushOneCommit.Result r1 = createChange();
     testRepo.reset("HEAD~1");

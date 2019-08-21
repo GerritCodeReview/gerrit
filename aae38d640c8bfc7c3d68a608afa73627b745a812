@@ -22,6 +22,30 @@
       "revId": "aae38d640c8bfc7c3d68a608afa73627b745a812",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "69116a97_51bb2ede",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 4203,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-08-21T11:31:48Z",
+      "side": 1,
+      "message": "I could put the method in AbstractDaemonTest, do you think it\u0027s better?",
+      "parentUuid": "9b206266_d4c37ace",
+      "range": {
+        "startLine": 4198,
+        "startChar": 2,
+        "endLine": 4203,
+        "endChar": 3
+      },
+      "revId": "aae38d640c8bfc7c3d68a608afa73627b745a812",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

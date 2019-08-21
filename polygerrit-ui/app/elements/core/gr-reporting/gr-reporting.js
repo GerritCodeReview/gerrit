@@ -109,6 +109,9 @@
 
   const pending = [];
 
+  const loadedPlugins = [];
+  const detectedExtensions = [];
+
   const onError = function(oldOnError, msg, url, line, column, error) {
     if (oldOnError) {
       oldOnError(msg, url, line, column, error);
@@ -184,6 +187,7 @@
     reporter(...args) {
       const report = (this._isMetricsPluginLoaded() && !pending.length) ?
         this.defaultReporter : this.cachingReporter;
+      args.splice(4, 0, loadedPlugins, detectedExtensions);
       report.apply(this, args);
     },
 
@@ -193,16 +197,23 @@
      * @param {string} category
      * @param {string} eventName
      * @param {string|number} eventValue
+     * @param {Array} plugins
+     * @param {Array} extensions
      * @param {boolean|undefined} opt_noLog If true, the event will not be
      *     logged to the JS console.
      */
-    defaultReporter(type, category, eventName, eventValue, opt_noLog) {
+    defaultReporter(type, category, eventName, eventValue,
+        loadedPlugins, detectedExtensions, opt_noLog) {
       const detail = {
         type,
         category,
         name: eventName,
         value: eventValue,
       };
+      if (category === TIMING.CATEGORY_UI_LATENCY) {
+        detail.loadedPlugins = loadedPlugins;
+        detail.detectedExtensions = detectedExtensions;
+      }
       document.dispatchEvent(new CustomEvent(type, {detail}));
       if (opt_noLog) { return; }
       if (type === ERROR.TYPE && category === ERROR.CATEGORY) {
@@ -223,10 +234,13 @@
      * @param {string} category
      * @param {string} eventName
      * @param {string|number} eventValue
+     * @param {Array} plugins
+     * @param {Array} extensions
      * @param {boolean|undefined} opt_noLog If true, the event will not be
      *     logged to the JS console.
      */
-    cachingReporter(type, category, eventName, eventValue, opt_noLog) {
+    cachingReporter(type, category, eventName, eventValue,
+        plugins, extensions, opt_noLog) {
       if (type === ERROR.TYPE && category === ERROR.CATEGORY) {
         console.error(eventValue && eventValue.error || eventName);
       }
@@ -236,9 +250,11 @@
             this.reporter(...args);
           }
         }
-        this.reporter(type, category, eventName, eventValue, opt_noLog);
+        this.reporter(type, category, eventName, eventValue,
+            plugins, extensions, opt_noLog);
       } else {
-        pending.push([type, category, eventName, eventValue, opt_noLog]);
+        pending.push([type, category, eventName, eventValue,
+          plugins, extensions, opt_noLog]);
       }
     },
 
@@ -331,12 +347,16 @@
 
     reportExtension(name) {
       this.reporter(EXTENSION.TYPE, EXTENSION.DETECTED, name);
+      if (!detectedExtensions.includes(name)) {
+        detectedExtensions.push(name);
+      }
     },
 
     pluginLoaded(name) {
       if (name.startsWith('metrics-')) {
         this.timeEnd(TIMER.METRICS_PLUGIN_LOADED);
       }
+      loadedPlugins.push(name);
     },
 
     pluginsLoaded(pluginsList) {

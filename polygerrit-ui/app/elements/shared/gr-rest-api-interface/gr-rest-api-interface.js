@@ -349,11 +349,7 @@
      * @param {Defs.FetchJSONRequest} req
      */
     _fetchJSON(req) {
-      if (!req.fetchOptions) req.fetchOptions = {};
-      if (!req.fetchOptions.headers) req.fetchOptions.headers = new Headers();
-      if (!req.fetchOptions.headers.has('Accept')) {
-        req.fetchOptions.headers.append('Accept', 'application/json');
-      }
+      req = this._addAcceptJsonHeader(req);
       return this._fetchRawJSON(req).then(response => {
         if (!response) {
           return;
@@ -423,6 +419,19 @@
      */
     _parsePrefixedJSON(source) {
       return JSON.parse(source.substring(JSON_PREFIX.length));
+    },
+
+    /**
+     * @param {Defs.FetchJSONRequest} req
+     * @return {Defs.FetchJSONRequest}
+     */
+    _addAcceptJsonHeader(req) {
+      if (!req.fetchOptions) req.fetchOptions = {};
+      if (!req.fetchOptions.headers) req.fetchOptions.headers = new Headers();
+      if (!req.fetchOptions.headers.has('Accept')) {
+        req.fetchOptions.headers.append('Accept', 'application/json');
+      }
+      return req;
     },
 
     getConfig(noCache) {
@@ -1126,7 +1135,8 @@
         return;
       }
       this._credentialCheck.checking = true;
-      const req = {url: '/accounts/self/detail', reportUrlAsIs: true};
+      let req = {url: '/accounts/self/detail', reportUrlAsIs: true};
+      req = this._addAcceptJsonHeader(req);
       // Skip the REST response cache.
       return this._fetchRawJSON(req).then(res => {
         if (!res) { return; }
@@ -1399,7 +1409,7 @@
       return this.getChangeActionURL(changeNum, null, '/detail').then(url => {
         const urlWithParams = this._urlWithParams(url, optionsHex);
         const params = {O: optionsHex};
-        const req = {
+        let req = {
           url,
           errFn: opt_errFn,
           cancelCondition: opt_cancelCondition,
@@ -1407,6 +1417,7 @@
           fetchOptions: this._etags.getOptions(urlWithParams),
           anonymizedUrl: '/changes/*~*/detail?O=' + optionsHex,
         };
+        req = this._addAcceptJsonHeader(req);
         return this._fetchRawJSON(req).then(response => {
           if (response && response.status === 304) {
             return Promise.resolve(this._parsePrefixedJSON(

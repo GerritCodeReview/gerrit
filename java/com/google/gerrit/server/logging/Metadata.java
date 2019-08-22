@@ -15,8 +15,14 @@
 package com.google.gerrit.server.logging;
 
 import com.google.auto.value.AutoValue;
+import com.google.common.base.MoreObjects;
+import com.google.common.base.MoreObjects.ToStringHelper;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.Nullable;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+import java.util.Arrays;
 import java.util.Optional;
 
 /** Metadata that is provided to {@link PerformanceLogger}s as context for performance records. */
@@ -133,6 +139,99 @@ public abstract class Metadata {
 
   // The username of an account.
   public abstract Optional<String> username();
+
+  /**
+   * Returns a string representation of this instance that is suitable for logging.
+   *
+   * <p>{@link #toString()} formats the {@link Optional} fields as {@code key=Optional[value]} or
+   * {@code key=Optional.empty}. Since this class has many optional fields from which usually only a
+   * few are populated this leads to long string representations such as
+   *
+   * <pre>
+   * Metadata{accountId=Optional.empty, actionType=Optional.empty, authDomainName=Optional.empty,
+   * branchName=Optional.empty, cacheKey=Optional.empty, cacheName=Optional.empty,
+   * className=Optional.empty, changeId=Optional[9212550], changeIdType=Optional.empty,
+   * eventType=Optional.empty, exportValue=Optional.empty, filePath=Optional.empty,
+   * garbageCollectorName=Optional.empty, gitOperation=Optional.empty, groupId=Optional.empty,
+   * groupName=Optional.empty, groupUuid=Optional.empty, httpStatus=Optional.empty,
+   * indexName=Optional.empty, indexVersion=Optional[0], methodName=Optional.empty,
+   * multiple=Optional.empty, operationName=Optional.empty, partial=Optional.empty,
+   * noteDbFilePath=Optional.empty, noteDbRefName=Optional.empty,
+   * noteDbSequenceType=Optional.empty, noteDbTable=Optional.empty, patchSetId=Optional.empty,
+   * pluginMetadata=[], pluginName=Optional.empty, projectName=Optional.empty,
+   * pushType=Optional.empty, resourceCount=Optional.empty, restViewName=Optional.empty,
+   * revision=Optional.empty, username=Optional.empty}
+   * </pre>
+   *
+   * <p>That's hard to read in logs. This is why this method
+   *
+   * <ul>
+   *   <li>drops fields which have {@code Optional.empty} as value and
+   *   <li>reformats values that are {@code Optional[value]} to {@code value}.
+   * </ul>
+   *
+   * <p>For the example given above the formatted string would look like this:
+   *
+   * <pre>
+   * Metadata{changeId=9212550, indexVersion=0, pluginMetadata=[]}
+   * </pre>
+   *
+   * @return string representation of this instance that is suitable for logging
+   */
+  public String toStringForLogging() {
+    // Append class name.
+    String className = getClass().getSimpleName();
+    if (className.startsWith("AutoValue_")) {
+      className = className.substring(10);
+    }
+    ToStringHelper stringHelper = MoreObjects.toStringHelper(className);
+
+    // Append key-value pairs for field which are set.
+    Method[] methods = Metadata.class.getDeclaredMethods();
+    Arrays.<Method>sort(methods, (m1, m2) -> m1.getName().compareTo(m2.getName()));
+    for (Method method : methods) {
+      if (Modifier.isStatic(method.getModifiers())) {
+        // skip static method
+        continue;
+      }
+
+      if (method.getName().equals(Thread.currentThread().getStackTrace()[1].getMethodName())) {
+        // skip this method (toStringForLogging() method)
+        continue;
+      }
+
+      if (method.getReturnType().equals(Void.TYPE) || method.getParameterCount() > 0) {
+        // skip method since it's not a getter
+        continue;
+      }
+
+      method.setAccessible(true);
+
+      Object returnValue;
+      try {
+        returnValue = method.invoke(this);
+      } catch (IllegalArgumentException | IllegalAccessException | InvocationTargetException e) {
+        // should never happen
+        throw new IllegalStateException(e);
+      }
+
+      if (returnValue instanceof Optional) {
+        Optional<?> fieldValueOptional = (Optional<?>) returnValue;
+        if (!fieldValueOptional.isPresent()) {
+          // drop this key-value pair
+          continue;
+        }
+
+        // format as 'key=value' instead of 'key=Optional[value]'
+        stringHelper.add(method.getName(), fieldValueOptional.get());
+      } else {
+        // not an Optional value, keep as is
+        stringHelper.add(method.getName(), returnValue);
+      }
+    }
+
+    return stringHelper.toString();
+  }
 
   public static Metadata.Builder builder() {
     return new AutoValue_Metadata.Builder();

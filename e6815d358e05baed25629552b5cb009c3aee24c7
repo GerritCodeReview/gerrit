@@ -16,6 +16,24 @@
       "revId": "e6815d358e05baed25629552b5cb009c3aee24c7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f4304b51_8728dd2c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 1415,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2019-08-22T11:46:18Z",
+      "side": 1,
+      "message": "I was thinking about it, so thanks for encouragement :)",
+      "parentUuid": "cf6c1a6b_955c9078",
+      "revId": "e6815d358e05baed25629552b5cb009c3aee24c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

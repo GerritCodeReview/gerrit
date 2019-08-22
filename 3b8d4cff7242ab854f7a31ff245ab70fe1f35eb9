@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a4c932d7_432f3610",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1553,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2019-08-22T08:34:50Z",
+      "side": 1,
+      "message": "A robot comment",
+      "range": {
+        "startLine": 1388,
+        "startChar": 1,
+        "endLine": 1553,
+        "endChar": 7
+      },
+      "revId": "3b8d4cff7242ab854f7a31ff245ab70fe1f35eb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9dba6b77_aef05df0",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1564,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2019-08-22T08:34:50Z",
+      "side": 1,
+      "message": "A short comment",
+      "range": {
+        "startLine": 1563,
+        "startChar": 0,
+        "endLine": 1564,
+        "endChar": 39
+      },
+      "revId": "3b8d4cff7242ab854f7a31ff245ab70fe1f35eb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "97c311f8_300fb9d6",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1686,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2019-08-22T08:34:50Z",
+      "side": 1,
+      "message": "A long user comment",
+      "range": {
+        "startLine": 1677,
+        "startChar": 2,
+        "endLine": 1686,
+        "endChar": 78
+      },
+      "revId": "3b8d4cff7242ab854f7a31ff245ab70fe1f35eb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a4d924d3_38682a65",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1694,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2019-08-22T08:34:50Z",
+      "side": 1,
+      "message": "A first comment",
+      "range": {
+        "startLine": 1693,
+        "startChar": 0,
+        "endLine": 1694,
+        "endChar": 97
+      },
+      "revId": "3b8d4cff7242ab854f7a31ff245ab70fe1f35eb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "58ea5b4d_7ad72f3f",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1694,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2019-08-22T08:34:50Z",
+      "side": 1,
+      "message": "An overlapping comment",
+      "range": {
+        "startLine": 1694,
+        "startChar": 14,
+        "endLine": 1694,
+        "endChar": 51
+      },
+      "revId": "3b8d4cff7242ab854f7a31ff245ab70fe1f35eb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

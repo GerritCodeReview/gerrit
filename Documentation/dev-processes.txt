@@ -80,6 +80,34 @@ See link:dev-contributing.html[here].
 
 See link:dev-design-docs.html#review[here].
 
+[[versioning]]
+== Semantic versioning
+
+Gerrit follows a light link:https://semver.org/[semantic versioning scheme] MAJOR.MINOR.PATCH
+format:
+
+  * MAJOR is incremented when there are substantial incompatible changes in the Gerrit
+    functionality.
+  * MINOR is incremented when there are changes that are typically backward compatible
+    with the earlier minor version. Features can be removed following the
+    link:#deprecating-features[feature deprecation process].
+  * PATCH is incremented when there are backward-compatible bug fixes.
+
+For every MAJOR.MINOR release there is an associated stable branch that follows well defined
+link:#dev-in-stable-branches[rules of development].
+
+Within a stable branch, there are multiple MAJOR.MINOR.PATCH tags created associated to the
+bug-fix releases of that stable release.
+
+Examples:
+
+  * Gerrit v3.0.0 contains breaking incompatible changes in the functionality because
+    the ReviewDb storage has been totally removed.
+  * Gerrit v2.15 contains brand-new features like NoteDb, however, still supports the existing
+    ReviewDb storage for changes and thus is considered a minor release.
+  * Gerrit v2.14.20 is the 20th patch-release of the stable Gerrit v2.14.* and thus does not contain
+    new features but only bug-fixes.
+
 [[dev-in-stable-branches]]
 == Development in stable branches
 
@@ -97,15 +125,28 @@ exceptions may apply:
     and should only be allowed if the risk of breaking things is considered to be low.
   * Once a major release is done only bug-fixes and documentation updates should be done on the
     stable branch. These updates will be included in the next minor release.
-  * For minor releases new features are only acceptable if they are important to the Gerrit
-    community, if they are backwards compatible and the risk of breaking things is low and if there
-    are no objections from the steering committee.
-  * In cases of doubt it's the responsibility of the steering committee to evaluate the risk of new
-    features and make a decision based on these rules and opinions from the Gerrit community.
+  * For minor releases new features could be acceptable if the following conditions are met:
+    - they are result of a new feature introduced through a merge of an earlier stable branch
+    - they are justified for completing, extending or fixing an existing feature
+    - does not involve API, user-interface changes or data migrations
+    - is backward compatible with all existing features
+    - the parts of the code in common with existing features are properly covered by end-to-end tests
+    - is important to the Gerrit community and no Gerrit maintainers have raised objections.
+  * In cases of doubt or conflicting opinions on new features, it's the responsibility of the
+    steering committee to evaluate the risk of new features and make a decision based on these
+    rules and opinions from the Gerrit community.
   * The older a stable branch is the more stable it should be. This means old stable branches
     should only receive bug-fixes that are either important or low risk. Security fixes, including
     security updates for third party dependencies, are always considered as important and hence can
     always be done on stable branches.
+
+Examples:
+
+  * Gerrit v3.0.0-rc1 and v3.0.0-rc2 may contain new features and API changes without notice,
+    even if they are both cut on the same stable-3.0 branch.
+  * Gerrit v2.14.8 introduced the support for ElasticSearch as a new feature. This was an exception
+    agreed amongst the Gerrit maintainers, did not touch the Lucene indexing code-base, was supported
+    by container-based E2E tests and represents a completion of an high-level feature.
 
 [[backporting]]
 == Backporting to stable branches

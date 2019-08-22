@@ -190,6 +190,7 @@ public class ChangeIndexer {
               "Replacing change in index",
               Metadata.builder()
                   .changeId(cd.getId().get())
+                  .patchSetId(cd.currentPatchSet().number())
                   .indexVersion(i.getSchema().getVersion())
                   .build())) {
         i.replace(cd);

@@ -4,7 +4,7 @@ This API is provided by link:pg-plugin-dev.html#plugin-admin[plugin.admin()]
 and provides customization of the admin menu.
 
 == addMenuLink
-`adminApi.addMenuLink(text, url, opt_external)`
+`adminApi.addMenuLink(text, url, opt_external, opt_capabilities)`
 
 Add a new link to the end of the admin navigation menu.
 

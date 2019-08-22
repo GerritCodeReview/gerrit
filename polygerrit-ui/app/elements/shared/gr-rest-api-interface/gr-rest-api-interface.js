@@ -1126,7 +1126,12 @@
         return;
       }
       this._credentialCheck.checking = true;
-      const req = {url: '/accounts/self/detail', reportUrlAsIs: true};
+      const req = {
+        url: '/accounts/self/detail',
+        reportUrlAsIs: true,
+        fetchOptions: {headers: new Headers()},
+      };
+      req.fetchOptions.headers.append('Accept', 'application/json');
       // Skip the REST response cache.
       return this._fetchRawJSON(req).then(res => {
         if (!res) { return; }
@@ -1407,6 +1412,11 @@
           fetchOptions: this._etags.getOptions(urlWithParams),
           anonymizedUrl: '/changes/*~*/detail?O=' + optionsHex,
         };
+        if (!req.fetchOptions) req.fetchOptions = {};
+        if (!req.fetchOptions.headers) req.fetchOptions.headers = new Headers();
+        if (!req.fetchOptions.headers.has('Accept')) {
+          req.fetchOptions.headers.append('Accept', 'application/json');
+        }
         return this._fetchRawJSON(req).then(response => {
           if (response && response.status === 304) {
             return Promise.resolve(this._parsePrefixedJSON(

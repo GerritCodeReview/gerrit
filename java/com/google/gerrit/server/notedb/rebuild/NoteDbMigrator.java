@@ -109,7 +109,6 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.transport.ReceiveCommand;
 import org.eclipse.jgit.util.FS;
-import org.eclipse.jgit.util.io.NullOutputStream;
 
 /** One stop shop for migrating a site's change storage from ReviewDb to NoteDb. */
 public class NoteDbMigrator implements AutoCloseable {
@@ -134,6 +133,20 @@ public class NoteDbMigrator implements AutoCloseable {
     cfg.setBoolean(SECTION_NOTE_DB, NoteDbTable.CHANGES.key(), TRIAL, trial);
   }
 
+  private static class NoteDbMigrationLoggerOut extends OutputStream {
+    private StringBuilder outputBuffer = new StringBuilder();
+
+    @Override
+    public synchronized void write(int b) throws IOException {
+      if (b == '\r' || b == '\n') {
+        logger.atInfo().log(outputBuffer.toString());
+        outputBuffer = new StringBuilder();
+      } else {
+        outputBuffer.append(b);
+      }
+    }
+  }
+
   public static class Builder {
     private final Config cfg;
     private final SitePaths sitePaths;
@@ -156,7 +169,7 @@ public class NoteDbMigrator implements AutoCloseable {
     private ImmutableList<Project.NameKey> projects = ImmutableList.of();
     private ImmutableList<Project.NameKey> skipProjects = ImmutableList.of();
     private ImmutableList<Change.Id> changes = ImmutableList.of();
-    private OutputStream progressOut = NullOutputStream.INSTANCE;
+    private OutputStream progressOut = new NoteDbMigrationLoggerOut();
     private NotesMigrationState stopAtState;
     private boolean trial;
     private boolean forceRebuild;

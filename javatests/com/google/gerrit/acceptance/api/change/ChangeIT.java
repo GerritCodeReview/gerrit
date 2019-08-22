@@ -116,6 +116,7 @@ import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.Comment.Range;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.ListChangesOption;
+import com.google.gerrit.extensions.client.ProjectState;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.client.SubmitType;
@@ -168,6 +169,7 @@ import com.google.gerrit.server.patch.IntraLineDiff;
 import com.google.gerrit.server.patch.IntraLineDiffKey;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListKey;
+import com.google.gerrit.server.permissions.PermissionDeniedException;
 import com.google.gerrit.server.project.testing.TestLabels;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder.ChangeOperatorFactory;
@@ -862,6 +864,51 @@ public class ChangeIT extends AbstractDaemonTest {
         assertThrows(
             ResourceConflictException.class, () -> gApi.changes().id(r.getChangeId()).revert());
     assertThat(thrown).hasMessageThat().contains("Cannot revert initial commit");
+  }
+
+  @Test
+  public void cantCreateRevertWithoutPermission() throws Exception {
+    PushOneCommit.Result r = createChange();
+    gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).review(ReviewInput.approve());
+    gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).submit();
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(block(Permission.PUSH).ref("refs/for/*").group(REGISTERED_USERS))
+        .update();
+
+    PermissionDeniedException thrown =
+        assertThrows(
+            PermissionDeniedException.class, () -> gApi.changes().id(r.getChangeId()).revert());
+    assertThat(thrown).hasMessageThat().contains("not permitted: create change");
+  }
+
+  @Test
+  public void cantCreateRevertAnonymously() throws Exception {
+    PushOneCommit.Result r = createChange();
+    gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).review(ReviewInput.approve());
+    gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).submit();
+    requestScopeOperations.setApiUserAnonymous();
+
+    PermissionDeniedException thrown =
+        assertThrows(
+            PermissionDeniedException.class, () -> gApi.changes().id(r.getChangeId()).revert());
+    assertThat(thrown).hasMessageThat().contains("not permitted: create change");
+  }
+
+  @Test
+  public void cantCreateRevertWithoutProjectWritePermission() throws Exception {
+    PushOneCommit.Result r = createChange();
+    gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).review(ReviewInput.approve());
+    gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).submit();
+    projectCache.checkedGet(project).getProject().setState(ProjectState.READ_ONLY);
+
+    ResourceConflictException thrown =
+        assertThrows(
+            ResourceConflictException.class, () -> gApi.changes().id(r.getChangeId()).revert());
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains("project state " + ProjectState.READ_ONLY + " does not permit write");
   }
 
   @FunctionalInterface

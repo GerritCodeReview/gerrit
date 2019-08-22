@@ -315,7 +315,7 @@ public class RetryHelper {
                         .addTag(RequestId.Type.TRACE_ID, "retry-on-failure-" + new RequestId())
                         .forceLogging();
                     logger.atFine().withCause(t).log(
-                        "%s failed, retry with tracing enabled", caller);
+                        "AutoRetry: %s failed, retry with tracing enabled", caller);
                     metrics.autoRetryCount.increment(actionType, caller);
                     return true;
                   }
@@ -323,7 +323,8 @@ public class RetryHelper {
                   // A non-recoverable failure occurred. We retried the operation with tracing
                   // enabled and it failed again. Log the failure so that admin can see if it
                   // differs from the failure that triggered the retry.
-                  logger.atFine().withCause(t).log("auto-retry of %s has failed", caller);
+                  logger.atFine().withCause(t).log(
+                      "AutoRetry: auto-retry of %s has failed", caller);
                   metrics.failuresOnAutoRetryCount.increment(actionType, caller);
                   return false;
                 }

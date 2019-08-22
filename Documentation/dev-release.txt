@@ -373,7 +373,7 @@ master branch that were gated on the next release. Mostly, these are
 feature-deprecations that we were holding off on to have a stable release where
 the feature is still contained, but marked as deprecated.
 
-See link:dev-contributing.html#deprecating-features[Deprecating features] for
+See link:dev-processes.html#deprecating-features[Deprecating features] for
 details.
 
 GERRIT

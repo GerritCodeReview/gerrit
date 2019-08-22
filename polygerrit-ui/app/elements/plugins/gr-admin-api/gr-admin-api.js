@@ -30,8 +30,8 @@
    * @param {string} text
    * @param {string} url
    */
-  GrAdminApi.prototype.addMenuLink = function(text, url) {
-    this._menuLinks.push({text, url});
+  GrAdminApi.prototype.addMenuLink = function(text, url, opt_capability) {
+    this._menuLinks.push({text, url, capability: opt_capability || null});
   };
 
   GrAdminApi.prototype.getMenuLinks = function() {

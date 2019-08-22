@@ -360,16 +360,6 @@ screen.
 
 Deprecated. Use link:#plugin-settings[`plugin.settings()`] instead.
 
-[[plugin-styles]]
-=== styles
-`plugin.styles()`
-
-.Params:
-- none
-
-.Returns:
-- Instance of link:pg-plugin-styles-api.html[GrStylesApi]
-
 === changeMetadata
 `plugin.changeMetadata()`
 
@@ -381,7 +371,6 @@ Deprecated. Use link:#plugin-settings[`plugin.settings()`] instead.
 
 === theme
 `plugin.theme()`
-
 
 Note: TODO
 

@@ -1,0 +1,29 @@
+= Gerrit Code Review - Plugin styles API
+
+This API is provided by link:pg-plugin-dev.html#plugin-styles[plugin.styles()]
+and provides a way to apply dynamically created styles to elements in a
+document.
+
+[[css]]
+== css
+`styles.css(rulesStr)`
+
+.Params
+- `*string* rulesStr` string with CSS styling declarations.
+
+Example:
+----
+const styleObject = plugin.styles().css('background: black; color: white;');
+...
+const className = styleObject.getClassName(element)
+...
+element.classList.add(className);
+...
+styleObject.apply(someOtherElement);
+----
+
+.Returns
+- Instance of link:pg-plugin-style-object.html[GrStyleObject].
+
+
+

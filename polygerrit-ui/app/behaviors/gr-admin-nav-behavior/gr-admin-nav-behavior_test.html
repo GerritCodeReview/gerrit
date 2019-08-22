@@ -308,5 +308,63 @@ limitations under the License.
         testAdminLinks(account, options, expected, done);
       });
     });
+
+
+    suite('view plugin screen with plugin capability', () => {
+      const account = {
+        name: 'test-user',
+      };
+      let expected;
+
+      setup(() => {
+        capabilityStub.returns(Promise.resolve({pluginCapability: true}));
+        expected = {};
+      });
+
+      test('with plugin with capabilities', done => {
+        let options;
+        const generatedLinks = [
+          {text: 'without capability', url: '/without'},
+          {text: 'with capability', url: '/with', capability: 'pluginCapability'},
+        ];
+        menuLinkStub.returns(generatedLinks);
+        expected = Object.assign(expected, {
+          totalLength: 3,
+          projectPageShown: false,
+          pluginGeneratedLinks: generatedLinks,
+        });
+        testAdminLinks(account, options, expected, done);
+      });
+    });
+
+
+    suite('view plugin screen without plugin capability', () => {
+      const account = {
+        name: 'test-user',
+      };
+      let expected;
+
+      setup(() => {
+        capabilityStub.returns(Promise.resolve({}));
+        expected = {};
+      });
+
+      test('with plugin with capabilities', done => {
+        let options;
+        const generatedLinks = [
+          {text: 'without capability', url: '/without'},
+          {text: 'with capability',
+            url: '/with',
+            capability: 'pluginCapability'},
+        ];
+        menuLinkStub.returns(generatedLinks);
+        expected = Object.assign(expected, {
+          totalLength: 2,
+          projectPageShown: false,
+          pluginGeneratedLinks: [generatedLinks[0]],
+        });
+        testAdminLinks(account, options, expected, done);
+      });
+    });
   });
 </script>

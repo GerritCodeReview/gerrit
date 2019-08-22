@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e45755e7_f9db5229",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-08-22T10:27:40Z",
+      "side": 1,
+      "message": "FYI, I was mistaken and it actually was a very large change message which is why uploading a new patch set didn\u0027t fix the issue.",
+      "range": {
+        "startLine": 12,
+        "startChar": 2,
+        "endLine": 12,
+        "endChar": 27
+      },
+      "revId": "aa6d6fc64dcc95c1a03099f6be8099fdf1e2cd46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

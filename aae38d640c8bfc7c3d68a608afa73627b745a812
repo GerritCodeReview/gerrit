@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "9feb17b8_e3910760",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1408,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-08-22T13:21:46Z",
+      "side": 1,
+      "message": "oh right.  But the suggestion is valid, I think.\n\nSee l.1375, just 30 lines above.",
+      "parentUuid": "55faa38e_121bdf38",
+      "range": {
+        "startLine": 1408,
+        "startChar": 15,
+        "endLine": 1408,
+        "endChar": 23
+      },
+      "revId": "aae38d640c8bfc7c3d68a608afa73627b745a812",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9b206266_d4c37ace",
         "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 3

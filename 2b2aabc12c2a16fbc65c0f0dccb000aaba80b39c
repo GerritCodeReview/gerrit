@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c87898d7_ced117aa",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1047383
+      },
+      "writtenOn": "2019-08-22T15:28:25Z",
+      "side": 0,
+      "message": "I\u0027m not sure if it\u0027s very related, but I found this in gr-app.js:\n\n  // Eagerly render Polymer components when backgrounded. (Skips\n  // requestAnimationFrame.)\n  // @see https://github.com/Polymer/polymer/issues/3851\n  // @see Issue 4699\n  Polymer.RenderStatus._makeReady();\n\nMaybe something to be aware of.",
+      "range": {
+        "startLine": 89,
+        "startChar": 27,
+        "endLine": 89,
+        "endChar": 45
+      },
+      "revId": "2b2aabc12c2a16fbc65c0f0dccb000aaba80b39c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

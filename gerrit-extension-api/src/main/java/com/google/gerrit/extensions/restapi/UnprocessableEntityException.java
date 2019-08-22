@@ -21,4 +21,8 @@ public class UnprocessableEntityException extends RestApiException {
   public UnprocessableEntityException(String msg) {
     super(msg);
   }
+
+  public UnprocessableEntityException(String msg, Throwable cause) {
+    super(msg, cause);
+  }
 }

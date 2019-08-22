@@ -156,7 +156,7 @@ public class Rebase extends RetryingRestModifyView<RevisionResource, RebaseInput
       }
     } catch (NoSuchChangeException e) {
       throw new UnprocessableEntityException(
-          String.format("Base change not found: %s", input.base));
+          String.format("Base change not found: %s", input.base), e);
     }
 
     PatchSet.Id baseId = base.patchSet().getId();

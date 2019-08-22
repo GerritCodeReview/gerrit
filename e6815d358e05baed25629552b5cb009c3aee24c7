@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cf6c1a6b_955c9078",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 1415,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-08-22T11:20:49Z",
+      "side": 1,
+      "message": "optional: could be moved into a addAcceptJsonHeader(req) utility method",
+      "revId": "e6815d358e05baed25629552b5cb009c3aee24c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

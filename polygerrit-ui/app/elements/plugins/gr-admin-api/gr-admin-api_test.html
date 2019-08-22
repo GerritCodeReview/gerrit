@@ -56,5 +56,13 @@ limitations under the License.
       assert.equal(links.length, 1);
       assert.deepEqual(links[0], {text: 'text', url: 'url'});
     });
+
+    test('addMenuLinkWithCapability', () => {
+      adminApi.addMenuLink('text', 'url', 'capability');
+      const links = adminApi.getMenuLinks();
+      assert.equal(links.length, 1);
+      assert.deepEqual(links[0],
+          {text: 'text', url: 'url', capability: 'capability'});
+    });
   });
 </script>

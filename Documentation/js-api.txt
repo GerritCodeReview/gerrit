@@ -713,12 +713,10 @@ accessed through this name.
 
 [[Gerrit_css]]
 === Gerrit.css()
-[WARNING]
-This method is deprecated. It doesn't work with Shadow DOM and
-will be removed in the future. Please, use link:pg-plugin-dev.html#plugin-styles[plugin.styles] instead.
-
 Creates a new unique CSS class and injects it into the document.
 The name of the class is returned and can be used by the plugin.
+See link:#Gerrit_html[`Gerrit.html()`] for an easy way to use
+generated class names.
 
 Classes created with this function should be created once at install
 time and reused throughout the plugin.  Repeatedly creating the same
@@ -815,6 +813,112 @@ Gerrit.go('/admin/projects/');
 If the URL passed matches `http://...`, `https://...`, or `//...`
 the current browser window will navigate to the non-Gerrit URL.
 The user can return to Gerrit with the back button.
+
+[[Gerrit_html]]
+=== Gerrit.html()
+Parses an HTML fragment after performing template replacements.  If
+the HTML has a single root element or node that node is returned,
+otherwise it is wrapped inside a `<div>` and the div is returned.
+
+.Signature
+[source,javascript]
+----
+Gerrit.html(htmlText, options, wantElements);
+----
+
+* htmlText: string of HTML to be parsed.  A new unattached `<div>` is
+  created in the browser's document and the innerHTML property is
+  assigned to the passed string, after performing replacements.  If
+  the div has exactly one child, that child will be returned instead
+  of the div.
+
+* options: optional object reference supplying replacements for any
+  `{name}` references in htmlText.  Navigation through objects is
+  supported permitting `{style.bar}` to be replaced with `"foo"` if
+  options was `{style: {bar: "foo"}}`.  Value replacements are HTML
+  escaped before being inserted into the document fragment.
+
+* wantElements: if options is given and wantElements is also true
+  an object consisting of `{root: parsedElement, elements: {...}}` is
+  returned instead of the parsed element. The elements object contains
+  a property for each element using `id={name}` in htmlText.
+
+.Example
+[source,javascript]
+----
+var style = {bar: Gerrit.css('background: yellow')};
+Gerrit.html(
+  '<span class="{style.bar}">Hello {name}!</span>',
+  {style: style, name: "World"});
+----
+
+Event handlers can be automatically attached to elements referenced
+through an attribute id.  Object navigation is not supported for ids,
+and the parser strips the id attribute before returning the result.
+Handler functions must begin with `on` and be a function to be
+installed on the element.  This approach is useful for onclick and
+other handlers that do not want to create circular references that
+will eventually leak browser memory.
+
+.Example
+[source,javascript]
+----
+var options = {
+  link: {
+    onclick: function(e) { window.close() },
+  },
+};
+Gerrit.html('<a href="javascript:;" id="{link}">Close</a>', options);
+----
+
+When using options to install handlers care must be taken to not
+accidentally include the returned element into the event handler's
+closure.  This is why options is built before calling `Gerrit.html()`
+and not inline as a shown above with "Hello World".
+
+DOM nodes can optionally be returned, allowing handlers to access the
+elements identified by `id={name}` at a later point in time.
+
+.Example
+[source,javascript]
+----
+var w = Gerrit.html(
+    '<div>Name: <input type="text" id="{name}"></div>'
+  + '<div>Age: <input type="text" id="{age}"></div>'
+  + '<button id="{submit}"><div>Save</div></button>',
+  {
+    submit: {
+      onclick: function(s) {
+        var e = w.elements;
+        window.alert(e.name.value + " is " + e.age.value);
+      },
+    },
+  }, true);
+----
+
+To prevent memory leaks `w.root` and `w.elements` should be set to
+null when the elements are no longer necessary.  Screens can use
+link:#screen_onUnload[screen.onUnload()] to define a callback function
+to perform this cleanup:
+
+[source,javascript]
+----
+var w = Gerrit.html(...);
+screen.body.appendElement(w.root);
+screen.onUnload(function() { w.clear() });
+----
+
+[[Gerrit_injectCss]]
+=== Gerrit.injectCss()
+Injects CSS rules into the document by appending onto the end of the
+existing rule list.  CSS rules are global to the entire application
+and must be manually scoped by each plugin.  For an automatic scoping
+alternative see link:#Gerrit_css[`css()`].
+
+[source,javascript]
+----
+Gerrit.injectCss('.myplugin_bg {background: #000}');
+----
 
 [[Gerrit_install]]
 === Gerrit.install()

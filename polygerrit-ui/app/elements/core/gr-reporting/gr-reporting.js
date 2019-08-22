@@ -86,7 +86,6 @@
     STARTUP_DASHBOARD_DISPLAYED: 'StartupDashboardDisplayed',
     STARTUP_DIFF_VIEW_DISPLAYED: 'StartupDiffViewDisplayed',
     STARTUP_FILE_LIST_DISPLAYED: 'StartupFileListDisplayed',
-    WEB_COMPONENTS_READY: 'WebComponentsReady',
     METRICS_PLUGIN_LOADED: 'MetricsPluginLoaded',
   };
 
@@ -99,8 +98,6 @@
   STARTUP_TIMERS[TIMER.STARTUP_DIFF_VIEW_DISPLAYED] = 0;
   STARTUP_TIMERS[TIMER.STARTUP_FILE_LIST_DISPLAYED] = 0;
   STARTUP_TIMERS[TIMING.APP_STARTED] = 0;
-  // WebComponentsReady timer is triggered from gr-router.
-  STARTUP_TIMERS[TIMER.WEB_COMPONENTS_READY] = 0;
 
   const INTERACTION_TYPE = 'interaction';
 

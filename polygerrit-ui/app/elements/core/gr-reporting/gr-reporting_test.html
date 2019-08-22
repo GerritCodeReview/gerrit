@@ -75,14 +75,6 @@ limitations under the License.
       ));
     });
 
-    test('WebComponentsReady', () => {
-      sandbox.stub(element, 'now').returns(42);
-      element.timeEnd('WebComponentsReady');
-      assert.isTrue(element.reporter.calledWithExactly(
-          'timing-report', 'UI Latency', 'WebComponentsReady', 42
-      ));
-    });
-
     test('pageLoaded', () => {
       element.pageLoaded();
       assert.isTrue(

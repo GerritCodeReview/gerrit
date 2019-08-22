@@ -201,10 +201,6 @@
         reporting.pageLoaded();
       }, 0);
     });
-
-    window.addEventListener('WebComponentsReady', () => {
-      reporting.timeEnd('WebComponentsReady');
-    });
   })();
 
   Polymer({

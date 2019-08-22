@@ -22,6 +22,30 @@
       "revId": "82ae1d4fca9315eff7084c66dd219fb4bce7b2ce",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a6fd0c41_e71fe8f8",
+        "filename": "Documentation/pg-plugin-styles-api.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-08-22T15:53:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5fb71cb7_874354a3",
+      "range": {
+        "startLine": 16,
+        "startChar": 27,
+        "endLine": 16,
+        "endChar": 33
+      },
+      "revId": "82ae1d4fca9315eff7084c66dd219fb4bce7b2ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

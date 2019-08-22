@@ -248,6 +248,23 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void notStickyWithCopyOnNoChangeWhenSecondParentIsUpdated() throws Exception {
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      u.getConfig().getLabelSections().get("Code-Review").setCopyAllScoresIfNoChange(true);
+      u.save();
+    }
+
+    String changeId = createChangeForMergeCommit();
+    vote(admin, changeId, 2, 1);
+    vote(user, changeId, -2, -1);
+
+    updateSecondParent(changeId);
+    ChangeInfo c = detailedChange(changeId);
+    assertVotes(c, admin, 0, 0, null);
+    assertVotes(c, user, 0, 0, null);
+  }
+
+  @Test
   public void removedVotesNotSticky() throws Exception {
     try (ProjectConfigUpdate u = updateProject(project)) {
       u.getConfig().getLabelSections().get("Code-Review").setCopyAllScoresOnTrivialRebase(true);
@@ -510,6 +527,24 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
     result.assertOkStatus();
 
     assertThat(getChangeKind(changeId)).isEqualTo(MERGE_FIRST_PARENT_UPDATE);
+  }
+
+  private void updateSecondParent(String changeId) throws Exception {
+    ChangeInfo c = detailedChange(changeId);
+    List<CommitInfo> parents = c.revisions.get(c.currentRevision).commit.parents;
+    String parent1 = parents.get(0).commit;
+    String parent2 = parents.get(1).commit;
+    RevCommit commitParent1 = testRepo.getRevWalk().parseCommit(ObjectId.fromString(parent1));
+
+    testRepo.reset(parent2);
+    PushOneCommit.Result newParent2 = createChange("new parent 2", "p2-2.txt", "content 2-2");
+
+    PushOneCommit merge = pushFactory.create(db, admin.getIdent(), testRepo, changeId);
+    merge.setParents(ImmutableList.of(commitParent1, newParent2.getCommit()));
+    PushOneCommit.Result result = merge.to("refs/for/master");
+    result.assertOkStatus();
+
+    assertThat(getChangeKind(changeId)).isEqualTo(REWORK);
   }
 
   private String cherryPick(String changeId, ChangeKind changeKind) throws Exception {

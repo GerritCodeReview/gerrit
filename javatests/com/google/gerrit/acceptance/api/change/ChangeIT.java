@@ -953,6 +953,16 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void rebaseOnNonExistingChange() throws Exception {
+    String changeId = createChange().getChangeId();
+    RebaseInput in = new RebaseInput();
+    in.base = "999999";
+    exception.expect(UnprocessableEntityException.class);
+    exception.expectMessage("Base change not found: " + in.base);
+    gApi.changes().id(changeId).rebase(in);
+  }
+
+  @Test
   public void rebaseNotAllowedWithoutPermission() throws Exception {
     // Create two changes both with the same parent
     PushOneCommit.Result r = createChange();

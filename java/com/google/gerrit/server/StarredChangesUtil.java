@@ -40,6 +40,7 @@ import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.LockFailureException;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.index.change.ChangeIndexer;
 import com.google.gerrit.server.logging.TraceContext;
@@ -248,15 +249,21 @@ public class StarredChangesUtil {
       for (Account.Id accountId : byChangeFromIndex(changeId).keySet()) {
         String refName = RefNames.refsStarredChanges(changeId, accountId);
         Ref ref = repo.getRefDatabase().getRef(refName);
-        batchUpdate.addCommand(new ReceiveCommand(ref.getObjectId(), ObjectId.zeroId(), refName));
+        if (ref != null) {
+          batchUpdate.addCommand(new ReceiveCommand(ref.getObjectId(), ObjectId.zeroId(), refName));
+        }
       }
       batchUpdate.execute(rw, NullProgressMonitor.INSTANCE);
       for (ReceiveCommand command : batchUpdate.getCommands()) {
         if (command.getResult() != ReceiveCommand.Result.OK) {
-          throw new IOException(
+          String message =
               String.format(
                   "Unstar change %d failed, ref %s could not be deleted: %s",
-                  changeId.get(), command.getRefName(), command.getResult()));
+                  changeId.get(), command.getRefName(), command.getResult());
+          if (command.getResult() == ReceiveCommand.Result.LOCK_FAILURE) {
+            throw new LockFailureException(message, batchUpdate);
+          }
+          throw new IOException(message);
         }
       }
       indexer.index(dbProvider.get(), project, changeId);

@@ -214,13 +214,13 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
         rw.parseBody(next);
 
         if (!next.getFullMessage().equals(prior.getFullMessage())) {
-          if (isSameDeltaAndTree(prior, next)) {
+          if (isSameDeltaAndTree(rw, prior, next)) {
             return ChangeKind.NO_CODE_CHANGE;
           }
           return ChangeKind.REWORK;
         }
 
-        if (isSameDeltaAndTree(prior, next)) {
+        if (isSameDeltaAndTree(rw, prior, next)) {
           return ChangeKind.NO_CHANGE;
         }
 
@@ -284,7 +284,8 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
       return FluentIterable.from(Arrays.asList(parents)).skip(1).toSet();
     }
 
-    private static boolean isSameDeltaAndTree(RevCommit prior, RevCommit next) {
+    private static boolean isSameDeltaAndTree(RevWalk rw, RevCommit prior, RevCommit next)
+        throws IOException {
       if (!Objects.equals(next.getTree(), prior.getTree())) {
         return false;
       }
@@ -298,6 +299,10 @@ public class ChangeKindCacheImpl implements ChangeKindCache {
       // Make sure that the prior/next delta is the same - not just the tree.
       // This is done by making sure that the parent trees are equal.
       for (int i = 0; i < prior.getParentCount(); i++) {
+        // Parse parent commits so that their trees are available.
+        rw.parseCommit(prior.getParent(i));
+        rw.parseCommit(next.getParent(i));
+
         if (!Objects.equals(next.getParent(i).getTree(), prior.getParent(i).getTree())) {
           return false;
         }

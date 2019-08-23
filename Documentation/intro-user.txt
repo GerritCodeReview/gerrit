@@ -694,36 +694,6 @@ The user's preferences are stored in a `git config` style file named
 
 The following preferences can be configured:
 
-- [[review-category]]`Display In Review Category`:
-+
-This setting controls how the values of the review labels in change
-lists and dashboards are visualized.
-+
-** `None`:
-+
-For each review label only the voting value is shown. Approvals are
-rendered as a green check mark icon, vetoes as a red X icon.
-+
-** `Show Name`:
-+
-For each review label the voting value is shown together with the full
-name of the voting user.
-+
-** `Show Email`:
-+
-For each review label the voting value is shown together with the email
-address of the voting user.
-+
-** `Show Username`:
-+
-For each review label the voting value is shown together with the
-username of the voting user.
-+
-** `Show Abbreviated Name`:
-+
-For each review label the voting value is shown together with the
-initials of the full name of the voting user.
-
 - [[page-size]]`Maximum Page Size`:
 +
 The maximum number of entries that are shown on one page, e.g. used

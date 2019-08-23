@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "131443b2_decb8d65",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-08-23T13:54:31Z",
+      "side": 1,
+      "message": "very nit: does the order matter at all ? seems all shared components are listed two imports above ? maybe keep that consistency :)",
+      "range": {
+        "startLine": 46,
+        "startChar": 0,
+        "endLine": 46,
+        "endChar": 62
+      },
+      "revId": "f0f22f12573dfdf1e09b3f34236156bc673c55bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

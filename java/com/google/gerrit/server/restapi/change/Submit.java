@@ -49,7 +49,6 @@ import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -107,7 +106,6 @@ public class Submit
   private final GitRepositoryManager repoManager;
   private final PermissionBackend permissionBackend;
   private final ChangeData.Factory changeDataFactory;
-  private final ChangeNotes.Factory changeNotesFactory;
   private final Provider<MergeOp> mergeOpProvider;
   private final Provider<MergeSuperSet> mergeSuperSet;
   private final AccountResolver accountResolver;
@@ -127,7 +125,6 @@ public class Submit
       GitRepositoryManager repoManager,
       PermissionBackend permissionBackend,
       ChangeData.Factory changeDataFactory,
-      ChangeNotes.Factory changeNotesFactory,
       Provider<MergeOp> mergeOpProvider,
       Provider<MergeSuperSet> mergeSuperSet,
       AccountResolver accountResolver,
@@ -138,7 +135,6 @@ public class Submit
     this.repoManager = repoManager;
     this.permissionBackend = permissionBackend;
     this.changeDataFactory = changeDataFactory;
-    this.changeNotesFactory = changeNotesFactory;
     this.mergeOpProvider = mergeOpProvider;
     this.mergeSuperSet = mergeSuperSet;
     this.accountResolver = accountResolver;
@@ -206,26 +202,20 @@ public class Submit
     }
 
     try (MergeOp op = mergeOpProvider.get()) {
-      op.merge(change, submitter, true, input, false);
+      Change updatedChange = op.merge(change, submitter, true, input, false);
+
+      if (updatedChange.isMerged()) {
+        return change;
+      }
+
+      logger.atWarning().log(
+          "change %s of project %s unexpectedly had status %s after submit attempt",
+          updatedChange.getId(), updatedChange.getProject(), updatedChange.getStatus());
+      throw new RestApiException(
+          String.format(
+              "change %s unexpectedly had status %s after submit attempt",
+              updatedChange.getId(), updatedChange.getStatus()));
     }
-
-    // Read the ChangeNotes only after MergeOp is fully done (including MergeOp#close) to be sure
-    // to have the correct state of the repo.
-    ChangeNotes changeNotes = changeNotesFactory.createChecked(change.getProject(), change.getId());
-    change = changeNotes.getChange();
-
-    if (change.isMerged()) {
-      return change;
-    }
-
-    logger.atWarning().log(
-        "change %s of project %s unexpectedly had status %s after submit attempt,"
-            + " change notes were read from %s",
-        change.getId(), change.getProject(), change.getStatus(), changeNotes.getMetaId());
-    throw new RestApiException(
-        String.format(
-            "change %s unexpectedly had status %s after submit attempt",
-            change.getId(), change.getStatus()));
   }
 
   /**

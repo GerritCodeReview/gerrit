@@ -296,6 +296,12 @@
       this._unobserveNodes();
     },
 
+    showNoChangeMessage(loading, prefs, diffLength) {
+      return !loading &&
+        prefs && prefs.ignore_whitespace !== 'IGNORE_NONE'
+        && diffLength === 0;
+    },
+
     _enableSelectionObserver(loggedIn, isAttached) {
       // Polymer 2: check for undefined
       if ([loggedIn, isAttached].some(arg => arg === undefined)) {

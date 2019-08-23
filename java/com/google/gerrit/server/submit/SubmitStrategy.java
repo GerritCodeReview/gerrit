@@ -14,8 +14,10 @@
 
 package com.google.gerrit.server.submit;
 
+import static com.google.common.collect.ImmutableMap.toImmutableMap;
 import static java.util.Objects.requireNonNull;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Sets;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.client.SubmitType;
@@ -55,7 +57,9 @@ import com.google.inject.assistedinject.Assisted;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -217,8 +221,23 @@ public abstract class SubmitStrategy {
 
   final Arguments args;
 
+  private final Set<SubmitStrategyOp> submitStrategyOps;
+
   SubmitStrategy(Arguments args) {
     this.args = requireNonNull(args);
+    this.submitStrategyOps = new HashSet<>();
+  }
+
+  /**
+   * Returns the updated changed after this submit strategy has been executed.
+   *
+   * @return the updated changes after this submit strategy has been executed
+   */
+  public ImmutableMap<Change.Id, Change> getUpdatedChanges() {
+    return submitStrategyOps.stream()
+        .map(SubmitStrategyOp::getUpdatedChange)
+        .filter(Objects::nonNull)
+        .collect(toImmutableMap(c -> c.getId(), c -> c));
   }
 
   /**
@@ -249,8 +268,10 @@ public abstract class SubmitStrategy {
     for (CodeReviewCommit c : difference) {
       Change.Id id = c.change().getId();
       bu.addOp(id, args.setPrivateOpFactory.create(false, null));
-      bu.addOp(id, new ImplicitIntegrateOp(args, c));
+      ImplicitIntegrateOp implicitIntegrateOp = new ImplicitIntegrateOp(args, c);
+      bu.addOp(id, implicitIntegrateOp);
       maybeAddTestHelperOp(bu, id);
+      this.submitStrategyOps.add(implicitIntegrateOp);
     }
 
     // Then ops for explicitly merged changes
@@ -258,6 +279,7 @@ public abstract class SubmitStrategy {
       bu.addOp(op.getId(), args.setPrivateOpFactory.create(false, null));
       bu.addOp(op.getId(), op);
       maybeAddTestHelperOp(bu, op.getId());
+      this.submitStrategyOps.add(op);
     }
   }
 

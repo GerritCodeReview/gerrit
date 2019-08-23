@@ -16,7 +16,7 @@ package com.google.gerrit.server.submit;
 
 public class RebaseIfNecessary extends RebaseSubmitStrategy {
 
-  RebaseIfNecessary(SubmitStrategy.Arguments args) {
+  RebaseIfNecessary(SubmitStrategy.Arguments args) throws IntegrationException {
     super(args, false);
   }
 }

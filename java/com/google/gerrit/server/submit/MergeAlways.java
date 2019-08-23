@@ -20,7 +20,7 @@ import java.util.Collection;
 import java.util.List;
 
 public class MergeAlways extends SubmitStrategy {
-  MergeAlways(SubmitStrategy.Arguments args) {
+  MergeAlways(SubmitStrategy.Arguments args) throws IntegrationException {
     super(args);
   }
 

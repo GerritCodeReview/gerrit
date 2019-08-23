@@ -24,6 +24,7 @@ import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
 import com.google.gerrit.server.git.MergeTip;
 import com.google.gerrit.server.logging.RequestId;
 import com.google.gerrit.server.submit.MergeOp.CommitStatus;
+import com.google.gerrit.server.update.BatchUpdate;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.util.Set;
@@ -43,10 +44,12 @@ public class SubmitStrategyFactory {
   }
 
   public SubmitStrategy create(
+      BatchUpdate batchUpdate,
       SubmitType submitType,
       CodeReviewRevWalk rw,
       RevFlag canMergeFlag,
       Set<RevCommit> alreadyAccepted,
+      Set<CodeReviewCommit> toMerge,
       Set<CodeReviewCommit> incoming,
       BranchNameKey destBranch,
       IdentifiedUser caller,
@@ -59,6 +62,7 @@ public class SubmitStrategyFactory {
       throws IntegrationException {
     SubmitStrategy.Arguments args =
         argsFactory.create(
+            batchUpdate,
             submitType,
             destBranch,
             commitStatus,
@@ -67,6 +71,7 @@ public class SubmitStrategyFactory {
             mergeTip,
             canMergeFlag,
             alreadyAccepted,
+            toMerge,
             incoming,
             submissionId,
             submitInput,

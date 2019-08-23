@@ -20,7 +20,7 @@ import java.util.Collection;
 import java.util.List;
 
 public class MergeIfNecessary extends SubmitStrategy {
-  MergeIfNecessary(SubmitStrategy.Arguments args) {
+  MergeIfNecessary(SubmitStrategy.Arguments args) throws IntegrationException {
     super(args);
   }
 

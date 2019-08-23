@@ -21,7 +21,7 @@ import java.util.Collection;
 import java.util.List;
 
 public class FastForwardOnly extends SubmitStrategy {
-  FastForwardOnly(SubmitStrategy.Arguments args) {
+  FastForwardOnly(SubmitStrategy.Arguments args) throws IntegrationException {
     super(args);
   }
 

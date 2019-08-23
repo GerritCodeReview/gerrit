@@ -14,8 +14,10 @@
 
 package com.google.gerrit.server.submit;
 
+import static com.google.common.collect.ImmutableMap.toImmutableMap;
 import static java.util.Objects.requireNonNull;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Sets;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.client.SubmitType;
@@ -55,7 +57,9 @@ import com.google.inject.assistedinject.Assisted;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -81,6 +85,7 @@ public abstract class SubmitStrategy {
   static class Arguments {
     interface Factory {
       Arguments create(
+          BatchUpdate batchUpdate,
           SubmitType submitType,
           BranchNameKey destBranch,
           CommitStatus commitStatus,
@@ -89,7 +94,8 @@ public abstract class SubmitStrategy {
           MergeTip mergeTip,
           RevFlag canMergeFlag,
           Set<RevCommit> alreadyAccepted,
-          Set<CodeReviewCommit> incoming,
+          @Assisted("toMerge") Set<CodeReviewCommit> toMerge,
+          @Assisted("incoming") Set<CodeReviewCommit> incoming,
           RequestId submissionId,
           SubmitInput submitInput,
           SubmoduleOp submoduleOp,
@@ -114,6 +120,7 @@ public abstract class SubmitStrategy {
     final ProjectConfig.Factory projectConfigFactory;
     final SetPrivateOp.Factory setPrivateOpFactory;
 
+    final BatchUpdate batchUpdate;
     final BranchNameKey destBranch;
     final CodeReviewRevWalk rw;
     final CommitStatus commitStatus;
@@ -121,6 +128,7 @@ public abstract class SubmitStrategy {
     final MergeTip mergeTip;
     final RevFlag canMergeFlag;
     final Set<RevCommit> alreadyAccepted;
+    final Set<CodeReviewCommit> toMerge;
     final RequestId submissionId;
     final SubmitType submitType;
     final SubmitInput submitInput;
@@ -152,6 +160,7 @@ public abstract class SubmitStrategy {
         Provider<InternalChangeQuery> queryProvider,
         ProjectConfig.Factory projectConfigFactory,
         SetPrivateOp.Factory setPrivateOpFactory,
+        @Assisted BatchUpdate batchUpdate,
         @Assisted BranchNameKey destBranch,
         @Assisted CommitStatus commitStatus,
         @Assisted CodeReviewRevWalk rw,
@@ -159,7 +168,8 @@ public abstract class SubmitStrategy {
         @Assisted MergeTip mergeTip,
         @Assisted RevFlag canMergeFlag,
         @Assisted Set<RevCommit> alreadyAccepted,
-        @Assisted Set<CodeReviewCommit> incoming,
+        @Assisted("toMerge") Set<CodeReviewCommit> toMerge,
+        @Assisted("incoming") Set<CodeReviewCommit> incoming,
         @Assisted RequestId submissionId,
         @Assisted SubmitType submitType,
         @Assisted SubmitInput submitInput,
@@ -182,6 +192,7 @@ public abstract class SubmitStrategy {
       this.setPrivateOpFactory = setPrivateOpFactory;
 
       this.serverIdent = serverIdent;
+      this.batchUpdate = batchUpdate;
       this.destBranch = destBranch;
       this.commitStatus = commitStatus;
       this.rw = rw;
@@ -189,6 +200,7 @@ public abstract class SubmitStrategy {
       this.mergeTip = mergeTip;
       this.canMergeFlag = canMergeFlag;
       this.alreadyAccepted = alreadyAccepted;
+      this.toMerge = toMerge;
       this.submissionId = submissionId;
       this.submitType = submitType;
       this.submitInput = submitInput;
@@ -217,8 +229,31 @@ public abstract class SubmitStrategy {
 
   final Arguments args;
 
-  SubmitStrategy(Arguments args) {
+  private final Set<SubmitStrategyOp> submitStrategyOps;
+
+  /**
+   * Creates a submit strategy.
+   *
+   * @param args the submit strategy arguments
+   * @throws IntegrationException if an error occurred initializing the operations (as opposed to an
+   *     error during execution, which will be reported only when the batch update executes the
+   *     operations).
+   */
+  SubmitStrategy(Arguments args) throws IntegrationException {
     this.args = requireNonNull(args);
+    this.submitStrategyOps = addOps(args.batchUpdate, args.toMerge);
+  }
+
+  /**
+   * Returns the updated changed after this submit strategy has been executed.
+   *
+   * @return the updated changes after this submit strategy has been executed
+   */
+  public ImmutableMap<Change.Id, Change> getUpdatedChanges() {
+    return submitStrategyOps.stream()
+        .map(SubmitStrategyOp::getUpdatedChange)
+        .filter(Objects::nonNull)
+        .collect(toImmutableMap(c -> c.getId(), c -> c));
   }
 
   /**
@@ -234,8 +269,9 @@ public abstract class SubmitStrategy {
    *     error during execution, which will be reported only when the batch update executes the
    *     operations).
    */
-  public final void addOps(BatchUpdate bu, Set<CodeReviewCommit> toMerge)
+  private Set<SubmitStrategyOp> addOps(BatchUpdate bu, Set<CodeReviewCommit> toMerge)
       throws IntegrationException {
+
     List<SubmitStrategyOp> ops = buildOps(toMerge);
     Set<CodeReviewCommit> added = Sets.newHashSetWithExpectedSize(ops.size());
 
@@ -243,14 +279,18 @@ public abstract class SubmitStrategy {
       added.add(op.getCommit());
     }
 
+    Set<SubmitStrategyOp> allSubmitStrategyOps = new HashSet<>();
+
     // First add ops for any implicitly merged changes.
     List<CodeReviewCommit> difference = new ArrayList<>(Sets.difference(toMerge, added));
     Collections.reverse(difference);
     for (CodeReviewCommit c : difference) {
       Change.Id id = c.change().getId();
       bu.addOp(id, args.setPrivateOpFactory.create(false, null));
-      bu.addOp(id, new ImplicitIntegrateOp(args, c));
+      ImplicitIntegrateOp implicitIntegrateOp = new ImplicitIntegrateOp(args, c);
+      bu.addOp(id, implicitIntegrateOp);
       maybeAddTestHelperOp(bu, id);
+      allSubmitStrategyOps.add(implicitIntegrateOp);
     }
 
     // Then ops for explicitly merged changes
@@ -258,7 +298,10 @@ public abstract class SubmitStrategy {
       bu.addOp(op.getId(), args.setPrivateOpFactory.create(false, null));
       bu.addOp(op.getId(), op);
       maybeAddTestHelperOp(bu, op.getId());
+      allSubmitStrategyOps.add(op);
     }
+
+    return allSubmitStrategyOps;
   }
 
   private void maybeAddTestHelperOp(BatchUpdate bu, Change.Id changeId) {

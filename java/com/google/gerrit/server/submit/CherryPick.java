@@ -40,7 +40,7 @@ import org.eclipse.jgit.revwalk.RevCommit;
 
 public class CherryPick extends SubmitStrategy {
 
-  CherryPick(SubmitStrategy.Arguments args) {
+  CherryPick(SubmitStrategy.Arguments args) throws IntegrationException {
     super(args);
   }
 

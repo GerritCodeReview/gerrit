@@ -21,6 +21,7 @@ import static java.util.Comparator.comparing;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.reviewdb.client.Account;
@@ -292,6 +293,17 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
     }
     updatedChange = c;
     return true;
+  }
+
+  /**
+   * Returns the updated change after this op has been executed.
+   *
+   * @return the updated change after this op has been executed, {@code null} if the op was not
+   *     executed yet, or if the execution has failed
+   */
+  @Nullable
+  public Change getUpdatedChange() {
+    return updatedChange;
   }
 
   private PatchSet getOrCreateAlreadyMergedPatchSet(ChangeContext ctx) throws IOException {

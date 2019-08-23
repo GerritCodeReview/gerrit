@@ -233,6 +233,9 @@ public class MergeOp implements AutoCloseable {
   private final RetryHelper retryHelper;
   private final ChangeData.Factory changeDataFactory;
 
+  // Changes that were updated by this MergeOp.
+  private final Map<Change.Id, Change> updatedChanges;
+
   private Timestamp ts;
   private RequestId submissionId;
   private IdentifiedUser caller;
@@ -273,6 +276,7 @@ public class MergeOp implements AutoCloseable {
     this.retryHelper = retryHelper;
     this.topicMetrics = topicMetrics;
     this.changeDataFactory = changeDataFactory;
+    this.updatedChanges = new HashMap<>();
   }
 
   @Override
@@ -428,8 +432,9 @@ public class MergeOp implements AutoCloseable {
    * @throws RestApiException if an error occurred.
    * @throws PermissionBackendException if permissions can't be checked
    * @throws IOException an error occurred reading from NoteDb.
+   * @return the merged change
    */
-  public void merge(
+  public Change merge(
       Change change,
       IdentifiedUser caller,
       boolean checkSubmitRules,
@@ -518,6 +523,10 @@ public class MergeOp implements AutoCloseable {
         if (projects > 1) {
           topicMetrics.topicSubmissionsCompleted.increment();
         }
+
+        return updatedChanges.containsKey(change.getId())
+            ? updatedChanges.get(change.getId())
+            : change;
       } catch (IOException e) {
         // Anything before the merge attempt is an error
         throw new StorageException(e);
@@ -599,10 +608,17 @@ public class MergeOp implements AutoCloseable {
       SubmoduleOp submoduleOp = subOpFactory.create(branches, orm);
       List<SubmitStrategy> strategies = getSubmitStrategies(toSubmit, submoduleOp, dryrun);
       this.allProjects = submoduleOp.getProjectsInOrder();
-      BatchUpdate.execute(
-          orm.batchUpdates(allProjects),
-          new SubmitStrategyListener(submitInput, strategies, commitStatus),
-          dryrun);
+      try {
+        BatchUpdate.execute(
+            orm.batchUpdates(allProjects),
+            new SubmitStrategyListener(submitInput, strategies, commitStatus),
+            dryrun);
+      } finally {
+        // If the BatchUpdate fails it can be that merging some of the changes was actually
+        // successful. This is why we must to collect the updated changes also when an exception was
+        // thrown.
+        strategies.forEach(s -> updatedChanges.putAll(s.getUpdatedChanges()));
+      }
     } catch (NoSuchProjectException e) {
       throw new ResourceNotFoundException(e.getMessage());
     } catch (IOException | SubmoduleException e) {
@@ -662,10 +678,12 @@ public class MergeOp implements AutoCloseable {
         ob.mergeTip = new MergeTip(ob.oldTip, commitsToSubmit);
         SubmitStrategy strategy =
             submitStrategyFactory.create(
+                or.getUpdate(),
                 submitting.submitType(),
                 or.rw,
                 or.canMergeFlag,
                 getAlreadyAccepted(or, ob.oldTip),
+                commitsToSubmit,
                 allCommits,
                 branch,
                 caller,
@@ -676,7 +694,6 @@ public class MergeOp implements AutoCloseable {
                 submoduleOp,
                 dryrun);
         strategies.add(strategy);
-        strategy.addOps(or.getUpdate(), commitsToSubmit);
         if (submitting.submitType().equals(SubmitType.FAST_FORWARD_ONLY)
             && submoduleOp.hasSubscription(branch)) {
           submoduleOp.addOp(or.getUpdate(), branch);

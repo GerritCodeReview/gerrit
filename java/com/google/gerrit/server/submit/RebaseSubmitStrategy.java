@@ -48,7 +48,8 @@ import org.eclipse.jgit.revwalk.RevCommit;
 public class RebaseSubmitStrategy extends SubmitStrategy {
   private final boolean rebaseAlways;
 
-  RebaseSubmitStrategy(SubmitStrategy.Arguments args, boolean rebaseAlways) {
+  RebaseSubmitStrategy(SubmitStrategy.Arguments args, boolean rebaseAlways)
+      throws IntegrationException {
     super(args);
     this.rebaseAlways = rebaseAlways;
   }

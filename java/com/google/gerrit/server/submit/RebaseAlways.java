@@ -16,7 +16,7 @@ package com.google.gerrit.server.submit;
 
 public class RebaseAlways extends RebaseSubmitStrategy {
 
-  RebaseAlways(SubmitStrategy.Arguments args) {
+  RebaseAlways(SubmitStrategy.Arguments args) throws IntegrationException {
     super(args, true);
   }
 }

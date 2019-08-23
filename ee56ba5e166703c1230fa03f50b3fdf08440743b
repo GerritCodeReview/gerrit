@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "200fbbe2_7b774af1",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-08-23T00:56:41Z",
+      "side": 1,
+      "message": "stable branch",
+      "range": {
+        "startLine": 96,
+        "startChar": 53,
+        "endLine": 96,
+        "endChar": 59
+      },
+      "revId": "ee56ba5e166703c1230fa03f50b3fdf08440743b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4747e484_5c19d7f0",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-08-23T00:56:41Z",
+      "side": 1,
+      "message": "defined",
+      "range": {
+        "startLine": 96,
+        "startChar": 78,
+        "endLine": 96,
+        "endChar": 85
+      },
+      "revId": "ee56ba5e166703c1230fa03f50b3fdf08440743b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6f7e06a0_9c8093d4",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-08-23T00:56:41Z",
+      "side": 1,
+      "message": "I would change this to\n\n link:#dev-in-stable-branches[rules of development].",
+      "range": {
+        "startLine": 97,
+        "startChar": 0,
+        "endLine": 97,
+        "endChar": 70
+      },
+      "revId": "ee56ba5e166703c1230fa03f50b3fdf08440743b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6fd77866_02fb24c8",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-08-23T00:56:41Z",
+      "side": 1,
+      "message": "remove",
+      "range": {
+        "startLine": 104,
+        "startChar": 86,
+        "endLine": 104,
+        "endChar": 90
+      },
+      "revId": "ee56ba5e166703c1230fa03f50b3fdf08440743b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2338a392_2e1f1289",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-08-23T00:56:41Z",
+      "side": 1,
+      "message": "It would be better to use removal of review db as an example here, to make it consistent with mentioning that it still exists and is supported in 2.15.",
+      "range": {
+        "startLine": 105,
+        "startChar": 4,
+        "endLine": 106,
+        "endChar": 31
+      },
+      "revId": "ee56ba5e166703c1230fa03f50b3fdf08440743b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

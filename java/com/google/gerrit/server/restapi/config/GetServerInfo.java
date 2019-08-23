@@ -235,6 +235,8 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     info.updateDelay =
         (int) ConfigUtil.getTimeUnit(config, "change", null, "updateDelay", 300, TimeUnit.SECONDS);
     info.submitWholeTopic = MergeSuperSet.wholeTopicEnabled(config);
+    info.excludeMergeableInChangeInfo =
+        toBoolean(this.config.getBoolean("change", "api", "excludeMergeableInChangeInfo", false));
     info.disablePrivateChanges =
         toBoolean(this.config.getBoolean("change", null, "disablePrivateChanges", false));
     return info;

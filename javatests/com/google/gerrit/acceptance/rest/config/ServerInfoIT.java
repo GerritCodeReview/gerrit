@@ -168,6 +168,7 @@ public class ServerInfoIT extends AbstractDaemonTest {
     assertThat(i.change.replyLabel).isEqualTo("Reply\u2026");
     assertThat(i.change.updateDelay).isEqualTo(300);
     assertThat(i.change.disablePrivateChanges).isNull();
+    assertThat(i.change.submitWholeTopic).isNull();
     assertThat(i.change.excludeMergeableInChangeInfo).isNull();
 
     // download
@@ -190,6 +191,13 @@ public class ServerInfoIT extends AbstractDaemonTest {
 
     // user
     assertThat(i.user.anonymousCowardName).isEqualTo(AnonymousCowardNameProvider.DEFAULT);
+  }
+
+  @Test
+  @GerritConfig(name = "change.submitWholeTopic", value = "true")
+  public void serverConfigWithSubmitWholeTopic() throws Exception {
+    ServerInfo i = gApi.config().server().getInfo();
+    assertThat(i.change.submitWholeTopic).isTrue();
   }
 
   @Test

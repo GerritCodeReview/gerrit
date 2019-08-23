@@ -1545,7 +1545,7 @@ button].
 |`update_delay`       ||
 link:config-gerrit.html#change.updateDelay[How often in seconds the web
 interface should poll for updates to the currently open change].
-|`submit_whole_topic` ||
+|`submit_whole_topic` |not set if `false`|
 link:config-gerrit.html#change.submitWholeTopic[A configuration if
 the whole topic is submitted].
 |`disable_private_changes` |not set if `false`|

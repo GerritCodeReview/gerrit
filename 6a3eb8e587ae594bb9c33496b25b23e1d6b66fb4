@@ -34,6 +34,24 @@
       "revId": "6a3eb8e587ae594bb9c33496b25b23e1d6b66fb4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a891b33a_eb3789fa",
+        "filename": "java/com/google/gerrit/server/submit/SubmitStrategy.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-08-23T13:23:52Z",
+      "side": 1,
+      "message": "I\u0027m trying something else.",
+      "parentUuid": "0a3626fd_8d0e62a3",
+      "revId": "6a3eb8e587ae594bb9c33496b25b23e1d6b66fb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

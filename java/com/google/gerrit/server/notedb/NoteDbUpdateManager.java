@@ -280,16 +280,6 @@ public class NoteDbUpdateManager implements AutoCloseable {
     }
   }
 
-  public void flush() throws IOException {
-    checkNotExecuted();
-    if (changeRepo != null) {
-      changeRepo.flush();
-    }
-    if (allUsersRepo != null) {
-      allUsersRepo.flush();
-    }
-  }
-
   @Nullable
   public BatchRefUpdate execute() throws IOException {
     return execute(false);

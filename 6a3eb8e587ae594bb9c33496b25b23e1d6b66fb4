@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "69d27eee_1e847a34",
+        "filename": "java/com/google/gerrit/server/submit/SubmitStrategy.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-08-23T13:01:55Z",
+      "side": 1,
+      "message": "IMO this is doing too much work in the constructor which forces us to throw IntegrationException and pipe this through to all the child implementations. Can we just do this in the caller and pass it ready-made?",
+      "revId": "6a3eb8e587ae594bb9c33496b25b23e1d6b66fb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

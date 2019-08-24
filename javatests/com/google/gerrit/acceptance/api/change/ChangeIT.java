@@ -3791,6 +3791,7 @@ public class ChangeIT extends AbstractDaemonTest {
     submittableAfterLosingPermissions("Label");
   }
 
+  @Test
   public void submittableAfterLosingPermissions(String label) throws Exception {
     String codeReviewLabel = "Code-Review";
     AccountGroup.UUID registered = SystemGroupBackend.REGISTERED_USERS;

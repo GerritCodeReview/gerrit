@@ -200,6 +200,7 @@ public class DeleteDraftComments
                 .format(changeDataFactory.create(ctx.getDb(), ctx.getNotes()));
         result.deleted = comments.build();
       }
+      ctx.dontBumpLastUpdatedOn();
       return dirty;
     }
 

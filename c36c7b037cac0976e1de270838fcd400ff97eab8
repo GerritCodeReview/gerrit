@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a6f00b55_64d114ad",
+        "filename": "java/com/google/gerrit/acceptance/StandaloneSiteTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-08-24T20:22:16Z",
+      "side": 1,
+      "message": "these methods were added to the abstract SystemReader in order to add support for caching user home and system level gitconfigs\nhttps://git.eclipse.org/r/#/c/147753/\nhttps://git.eclipse.org/r/#/c/148112/\nthis class extends SystemReader hence it has to implement these new methods.\nI took the freedom to bend OSGi semantic versioning by adding new methods to an extensible abstract class in a service release.\nStrictly following these rules it would be only allowed to break implementers in minor versions.\nThis change does not break clients of SystemReader since they can still use the non-caching, less efficient methods\nopenUserConfig and openSystemConfig methods.",
+      "parentUuid": "48f6a279_07eeb250",
+      "revId": "c36c7b037cac0976e1de270838fcd400ff97eab8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6650e2cf_a60dd888",
         "filename": "java/com/google/gerrit/server/util/time/TimeUtil.java",
         "patchSetId": 2
@@ -30,6 +48,24 @@
       "writtenOn": "2019-08-24T16:44:38Z",
       "side": 1,
       "message": "Why are this relevant to the JGit upgrade?",
+      "revId": "c36c7b037cac0976e1de270838fcd400ff97eab8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "349c9d96_d8fa9413",
+        "filename": "java/com/google/gerrit/server/util/time/TimeUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-08-24T20:22:16Z",
+      "side": 1,
+      "message": "these methods were added to the abstract SystemReader in order to add support for caching user home and system level gitconfigs\nhttps://git.eclipse.org/r/#/c/147753/\nhttps://git.eclipse.org/r/#/c/148112/\nthis class extends SystemReader hence it has to implement these new methods.\nI took the freedom to bend OSGi semantic versioning by adding new methods to an extensible abstract class in a service release.\nStrictly following these rules it would be only allowed to break implementers in minor versions.\nThis change does not break clients of SystemReader since they can still use the non-caching, less efficient methods\nopenUserConfig and openSystemConfig methods.",
+      "parentUuid": "6650e2cf_a60dd888",
       "revId": "c36c7b037cac0976e1de270838fcd400ff97eab8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

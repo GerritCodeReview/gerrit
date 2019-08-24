@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3bb77310_34e8bf38",
+        "filename": "java/com/google/gerrit/acceptance/StandaloneSiteTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-08-24T09:34:21Z",
+      "side": 1,
+      "message": "Remove the blank line",
+      "revId": "d44a19735e8924ff4472731af2da9a8a82050e9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8d966bca_afbfa168",
+        "filename": "java/com/google/gerrit/acceptance/StandaloneSiteTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-08-24T09:34:21Z",
+      "side": 1,
+      "message": "Use spaces instead of tabs.",
+      "range": {
+        "startLine": 188,
+        "startChar": 0,
+        "endLine": 188,
+        "endChar": 2
+      },
+      "revId": "d44a19735e8924ff4472731af2da9a8a82050e9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a27406ae_8aef0c50",
+        "filename": "java/com/google/gerrit/server/util/time/TimeUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-08-24T09:34:21Z",
+      "side": 1,
+      "message": "Same as in the other file",
+      "revId": "d44a19735e8924ff4472731af2da9a8a82050e9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

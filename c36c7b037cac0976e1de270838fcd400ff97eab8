@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "48f6a279_07eeb250",
+        "filename": "java/com/google/gerrit/acceptance/StandaloneSiteTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-08-24T16:44:38Z",
+      "side": 1,
+      "message": "Why are this relevant to the JGit upgrade?",
+      "revId": "c36c7b037cac0976e1de270838fcd400ff97eab8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6650e2cf_a60dd888",
+        "filename": "java/com/google/gerrit/server/util/time/TimeUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-08-24T16:44:38Z",
+      "side": 1,
+      "message": "Why are this relevant to the JGit upgrade?",
+      "revId": "c36c7b037cac0976e1de270838fcd400ff97eab8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

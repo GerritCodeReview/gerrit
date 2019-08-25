@@ -397,19 +397,6 @@ limitations under the License.
       });
     });
 
-    test('installGwt calls _pluginInstalled', () => {
-      sandbox.stub(Gerrit, '_pluginInstalled');
-      Gerrit.installGwt('http://test.com/plugins/testplugin/static/test.js');
-      assert.isTrue(Gerrit._pluginInstalled.calledOnce);
-    });
-
-    test('installGwt returns a plugin', () => {
-      const plugin = Gerrit.installGwt(
-          'http://test.com/plugins/testplugin/static/test.js');
-      assert.isOk(plugin);
-      assert.isOk(plugin._loadedGwt);
-    });
-
     test('attributeHelper', () => {
       assert.isOk(plugin.attributeHelper());
     });

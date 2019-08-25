@@ -271,12 +271,13 @@
       }
       // PolyGerrit doesn't use hash-based navigation like the GWT UI.
       // Account for this.
+      const baseUrl = window.CANONICAL_PATH || '';
       if (patterns[p].html) {
         patterns[p].html =
-            patterns[p].html.replace(/<a href=\"#\//g, '<a href="/');
+            patterns[p].html.replace(/<a href=\"#\//g, '<a href="' + baseUrl + '/');
       } else if (patterns[p].link) {
         if (patterns[p].link[0] == '#') {
-          patterns[p].link = patterns[p].link.substr(1);
+          patterns[p].link = patterns[p].link.replace('#', baseUrl);
         }
       }
 

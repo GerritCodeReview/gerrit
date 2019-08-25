@@ -29,10 +29,10 @@ public class DefaultChangeReportFormatter implements ChangeReportFormatter {
   private static final int SUBJECT_CROP_RANGE = 10;
   private static final String NEW_CHANGE_INDICATOR = " [NEW]";
 
-  private final DynamicItem<UrlFormatter> urlFormatter;
+  protected final DynamicItem<UrlFormatter> urlFormatter;
 
   @Inject
-  DefaultChangeReportFormatter(DynamicItem<UrlFormatter> urlFormatter) {
+  public DefaultChangeReportFormatter(DynamicItem<UrlFormatter> urlFormatter) {
     this.urlFormatter = urlFormatter;
   }
 

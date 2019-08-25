@@ -74,11 +74,19 @@ import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.LabelFunction;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.Permission;
+<<<<<<< HEAD
 import com.google.gerrit.extensions.annotations.Exports;
+=======
+import com.google.gerrit.extensions.api.accounts.DeleteDraftCommentsInput;
+>>>>>>> stable-2.16
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.AddReviewerResult;
 import com.google.gerrit.extensions.api.changes.DeleteReviewerInput;
 import com.google.gerrit.extensions.api.changes.DeleteVoteInput;
+<<<<<<< HEAD
+=======
+import com.google.gerrit.extensions.api.changes.DraftApi;
+>>>>>>> stable-2.16
 import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.NotifyInfo;
@@ -262,11 +270,162 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+<<<<<<< HEAD
   @GerritConfig(name = "change.api.excludeMergeableInChangeInfo", value = "true")
   public void excludeMergeableInChangeInfo() throws Exception {
     PushOneCommit.Result r = createChange();
     ChangeInfo c = gApi.changes().id(r.getChangeId()).get();
     assertThat(c.mergeable).isNull();
+=======
+  public void setPrivateByOwner() throws Exception {
+    TestRepository<InMemoryRepository> userRepo = cloneProject(project, user);
+    PushOneCommit.Result result =
+        pushFactory.create(db, user.getIdent(), userRepo).to("refs/for/master");
+
+    setApiUser(user);
+    String changeId = result.getChangeId();
+    assertThat(gApi.changes().id(changeId).get().isPrivate).isNull();
+
+    gApi.changes().id(changeId).setPrivate(true, null);
+    ChangeInfo info = gApi.changes().id(changeId).get();
+    assertThat(info.isPrivate).isTrue();
+    assertThat(Iterables.getLast(info.messages).message).isEqualTo("Set private");
+    assertThat(Iterables.getLast(info.messages).tag).contains(ChangeMessagesUtil.TAG_SET_PRIVATE);
+
+    gApi.changes().id(changeId).setPrivate(false, null);
+    info = gApi.changes().id(changeId).get();
+    assertThat(info.isPrivate).isNull();
+    assertThat(Iterables.getLast(info.messages).message).isEqualTo("Unset private");
+    assertThat(Iterables.getLast(info.messages).tag).contains(ChangeMessagesUtil.TAG_UNSET_PRIVATE);
+
+    String msg = "This is a security fix that must not be public.";
+    gApi.changes().id(changeId).setPrivate(true, msg);
+    info = gApi.changes().id(changeId).get();
+    assertThat(info.isPrivate).isTrue();
+    assertThat(Iterables.getLast(info.messages).message).isEqualTo("Set private\n\n" + msg);
+    assertThat(Iterables.getLast(info.messages).tag).contains(ChangeMessagesUtil.TAG_SET_PRIVATE);
+
+    msg = "After this security fix has been released we can make it public now.";
+    gApi.changes().id(changeId).setPrivate(false, msg);
+    info = gApi.changes().id(changeId).get();
+    assertThat(info.isPrivate).isNull();
+    assertThat(Iterables.getLast(info.messages).message).isEqualTo("Unset private\n\n" + msg);
+    assertThat(Iterables.getLast(info.messages).tag).contains(ChangeMessagesUtil.TAG_UNSET_PRIVATE);
+  }
+
+  @Test
+  public void administratorCanSetUserChangePrivate() throws Exception {
+    String changeId = createNewChange();
+    assertThat(gApi.changes().id(changeId).get().isPrivate).isNull();
+
+    gApi.changes().id(changeId).setPrivate(true, null);
+    setApiUser(user);
+    ChangeInfo info = gApi.changes().id(changeId).get();
+    assertThat(info.isPrivate).isTrue();
+  }
+
+  @Test
+  public void cannotSetOtherUsersChangePrivate() throws Exception {
+    PushOneCommit.Result result = createChange();
+    setApiUser(user);
+    exception.expect(AuthException.class);
+    exception.expectMessage("not allowed to mark private");
+    gApi.changes().id(result.getChangeId()).setPrivate(true, null);
+  }
+
+  @Test
+  public void accessPrivate() throws Exception {
+    TestRepository<InMemoryRepository> userRepo = cloneProject(project, user);
+    PushOneCommit.Result result =
+        pushFactory.create(db, user.getIdent(), userRepo).to("refs/for/master");
+
+    setApiUser(user);
+    gApi.changes().id(result.getChangeId()).setPrivate(true, null);
+    // Owner can always access its private changes.
+    assertThat(gApi.changes().id(result.getChangeId()).get().isPrivate).isTrue();
+
+    // Add admin as a reviewer.
+    gApi.changes().id(result.getChangeId()).addReviewer(admin.getId().toString());
+
+    // This change should be visible for admin as a reviewer.
+    setApiUser(admin);
+    assertThat(gApi.changes().id(result.getChangeId()).get().isPrivate).isTrue();
+
+    // Remove admin from reviewers.
+    gApi.changes().id(result.getChangeId()).reviewer(admin.getId().toString()).remove();
+
+    // This change should not be visible for admin anymore.
+    exception.expect(ResourceNotFoundException.class);
+    exception.expectMessage("Not found: " + result.getChangeId());
+    gApi.changes().id(result.getChangeId());
+  }
+
+  @Test
+  public void privateChangeOfOtherUserCanBeAccessedWithPermission() throws Exception {
+    PushOneCommit.Result result = createChange();
+    gApi.changes().id(result.getChangeId()).setPrivate(true, null);
+
+    allow("refs/*", Permission.VIEW_PRIVATE_CHANGES, REGISTERED_USERS);
+    setApiUser(user);
+    assertThat(gApi.changes().id(result.getChangeId()).get().isPrivate).isTrue();
+  }
+
+  @Test
+  public void administratorCanUnmarkPrivateAfterMerging() throws Exception {
+    PushOneCommit.Result result = createChange();
+    String changeId = result.getChangeId();
+    gApi.changes().id(changeId).setPrivate(true, null);
+    assertThat(gApi.changes().id(changeId).get().isPrivate).isTrue();
+    merge(result);
+    gApi.changes().id(changeId).setPrivate(false, null);
+    assertThat(gApi.changes().id(changeId).get().isPrivate).isNull();
+  }
+
+  @Test
+  public void administratorCanMarkPrivateAfterMerging() throws Exception {
+    PushOneCommit.Result result = createChange();
+    String changeId = result.getChangeId();
+    assertThat(gApi.changes().id(changeId).get().isPrivate).isNull();
+    merge(result);
+    gApi.changes().id(changeId).setPrivate(true, null);
+    assertThat(gApi.changes().id(changeId).get().isPrivate).isTrue();
+  }
+
+  @Test
+  public void ownerCannotMarkPrivateAfterMerging() throws Exception {
+    TestRepository<InMemoryRepository> userRepo = cloneProject(project, user);
+    PushOneCommit.Result result =
+        pushFactory.create(db, user.getIdent(), userRepo).to("refs/for/master");
+
+    String changeId = result.getChangeId();
+    assertThat(gApi.changes().id(changeId).get().isPrivate).isNull();
+
+    merge(result);
+
+    setApiUser(user);
+    exception.expect(AuthException.class);
+    exception.expectMessage("not allowed to mark private");
+    gApi.changes().id(changeId).setPrivate(true, null);
+  }
+
+  @Test
+  public void ownerCanUnmarkPrivateAfterMerging() throws Exception {
+    TestRepository<InMemoryRepository> userRepo = cloneProject(project, user);
+    PushOneCommit.Result result =
+        pushFactory.create(db, user.getIdent(), userRepo).to("refs/for/master");
+
+    String changeId = result.getChangeId();
+    assertThat(gApi.changes().id(changeId).get().isPrivate).isNull();
+    gApi.changes().id(changeId).addReviewer(admin.getId().toString());
+    gApi.changes().id(changeId).setPrivate(true, null);
+    assertThat(gApi.changes().id(changeId).get().isPrivate).isTrue();
+
+    merge(result);
+
+    setApiUser(user);
+    gApi.changes().id(changeId).setPrivate(false, null);
+    assertThat(gApi.changes().id(changeId).get().isPrivate).isNull();
+>>>>>>> stable-2.16
   }
 
   @Test
@@ -913,6 +1072,16 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(ri3.commit.parents.get(0).commit).isEqualTo(r1.getCommit().name());
 
     assertThat(gApi.changes().id(id3.get()).revision(ri3._number).related().changes).isEmpty();
+  }
+
+  @Test
+  public void rebaseOnNonExistingChange() throws Exception {
+    String changeId = createChange().getChangeId();
+    RebaseInput in = new RebaseInput();
+    in.base = "999999";
+    exception.expect(UnprocessableEntityException.class);
+    exception.expectMessage("Base change not found: " + in.base);
+    gApi.changes().id(changeId).rebase(in);
   }
 
   @Test
@@ -3803,7 +3972,7 @@ public class ChangeIT extends AbstractDaemonTest {
     submittableAfterLosingPermissions("Label");
   }
 
-  public void submittableAfterLosingPermissions(String label) throws Exception {
+  private void submittableAfterLosingPermissions(String label) throws Exception {
     String codeReviewLabel = "Code-Review";
     AccountGroup.UUID registered = SystemGroupBackend.REGISTERED_USERS;
     try (ProjectConfigUpdate u = updateProject(project)) {
@@ -3856,6 +4025,46 @@ public class ChangeIT extends AbstractDaemonTest {
 
     requestScopeOperations.setApiUser(admin.id());
     gApi.changes().id(changeId).current().submit();
+  }
+
+  @Test
+  public void draftCommentsShouldNotUpdateChangeTimestamp() throws Exception {
+    String changeId = createNewChange();
+    Timestamp changeTs = getChangeLastUpdate(changeId);
+    DraftApi draftApi = addDraftComment(changeId);
+    assertThat(getChangeLastUpdate(changeId)).isEqualTo(changeTs);
+    draftApi.delete();
+    assertThat(getChangeLastUpdate(changeId)).isEqualTo(changeTs);
+  }
+
+  @Test
+  public void deletingAllDraftCommentsShouldNotUpdateChangeTimestamp() throws Exception {
+    String changeId = createNewChange();
+    Timestamp changeTs = getChangeLastUpdate(changeId);
+    addDraftComment(changeId);
+    assertThat(getChangeLastUpdate(changeId)).isEqualTo(changeTs);
+    gApi.accounts().self().deleteDraftComments(new DeleteDraftCommentsInput());
+    assertThat(getChangeLastUpdate(changeId)).isEqualTo(changeTs);
+  }
+
+  private Timestamp getChangeLastUpdate(String changeId) throws RestApiException {
+    Timestamp changeTs = gApi.changes().id(changeId).get().updated;
+    return changeTs;
+  }
+
+  private String createNewChange() throws Exception {
+    TestRepository<InMemoryRepository> userRepo = cloneProject(project, user);
+    PushOneCommit.Result result =
+        pushFactory.create(db, user.getIdent(), userRepo).to("refs/for/master");
+    String changeId = result.getChangeId();
+    return changeId;
+  }
+
+  private DraftApi addDraftComment(String changeId) throws RestApiException {
+    DraftInput comment = new DraftInput();
+    comment.message = "foo";
+    comment.path = "/foo";
+    return gApi.changes().id(changeId).current().createDraft(comment);
   }
 
   private String getCommitMessage(String changeId) throws RestApiException, IOException {

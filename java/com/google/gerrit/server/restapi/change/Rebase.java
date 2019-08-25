@@ -25,6 +25,7 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
+import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
@@ -154,11 +155,24 @@ public class Rebase extends RetryingRestModifyView<RevisionResource, RebaseInput
       return destRef.getObjectId();
     }
 
+<<<<<<< HEAD
     Base base = rebaseUtil.parseBase(rsrc, str);
     if (base == null) {
       throw new ResourceConflictException(
           "base revision is missing from the destination branch: " + str);
+=======
+    Base base;
+    try {
+      base = rebaseUtil.parseBase(rsrc, str);
+      if (base == null) {
+        throw new ResourceConflictException("base revision is missing: " + str);
+      }
+    } catch (NoSuchChangeException e) {
+      throw new UnprocessableEntityException(
+          String.format("Base change not found: %s", input.base), e);
+>>>>>>> stable-2.16
     }
+
     PatchSet.Id baseId = base.patchSet().getId();
     if (change.getId().equals(baseId.getParentKey())) {
       throw new ResourceConflictException("cannot rebase change onto itself");

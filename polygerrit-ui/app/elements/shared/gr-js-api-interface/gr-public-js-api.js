@@ -99,10 +99,6 @@
     STYLE: 'style',
   };
 
-  // GWT JSNI uses $wnd to refer to window.
-  // http://www.gwtproject.org/doc/latest/DevGuideCodingBasicsJSNI.html
-  window.$wnd = window;
-
   function flushPreinstalls() {
     if (window.Gerrit.flushPreinstalls) {
       window.Gerrit.flushPreinstalls();
@@ -605,23 +601,6 @@
       }
       return response;
     });
-  };
-
-  /**
-   * Install "stepping stones" API for GWT-compiled plugins by default.
-   * @deprecated best effort support, will be removed with GWT UI.
-   */
-  Gerrit.installGwt = function(url) {
-    const name = getPluginNameFromUrl(url);
-    let plugin;
-    try {
-      plugin = _plugins[name] || new Plugin(url);
-      plugin.deprecated.install();
-      Gerrit._pluginInstalled(url);
-    } catch (e) {
-      Gerrit._pluginInstallError(`${e.name}: ${e.message}`);
-    }
-    return plugin;
   };
 
   Gerrit.awaitPluginsLoaded = function() {

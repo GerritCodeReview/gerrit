@@ -172,6 +172,11 @@
   GrLinkTextParser.prototype.addLink =
       function(text, href, position, length, outputArray) {
         if (!text || this.hasOverlap(position, length, outputArray)) { return; }
+        if (Gerrit.BaseUrlBehavior.getBaseUrl() != '' &&
+           href.startsWith('/') &&
+           !href.startsWith(Gerrit.BaseUrlBehavior.getBaseUrl())) {
+          href = Gerrit.BaseUrlBehavior.getBaseUrl() + href;
+        }
         this.addItem(text, href, null, position, length, outputArray);
       };
 
@@ -272,8 +277,7 @@
       // PolyGerrit doesn't use hash-based navigation like the GWT UI.
       // Account for this.
       if (patterns[p].html) {
-        patterns[p].html =
-            patterns[p].html.replace(/<a href=\"#\//g, '<a href="/');
+        patterns[p].html = patterns[p].html.replace(/<a href=\"#\//g, '<a href="/');
       } else if (patterns[p].link) {
         if (patterns[p].link[0] == '#') {
           patterns[p].link = patterns[p].link.substr(1);

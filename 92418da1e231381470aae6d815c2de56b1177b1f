@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3548fd1e_5060ff4c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-linked-text/link-text-parser.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-08-25T16:00:35Z",
+      "side": 1,
+      "message": "I wonder should we also check for / too?\n\n@Ben?",
+      "revId": "92418da1e231381470aae6d815c2de56b1177b1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

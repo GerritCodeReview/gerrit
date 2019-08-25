@@ -113,6 +113,11 @@ public class CommentsIT extends AbstractDaemonTest {
       assertThat(result).hasSize(1);
       CommentInfo actual = Iterables.getOnlyElement(result.get(comment.path));
       assertThat(comment).isEqualTo(infoToDraft(path).apply(actual));
+
+      List<CommentInfo> list = getDraftCommentsAsList(changeId);
+      assertThat(list).hasSize(1);
+      actual = list.get(0);
+      assertThat(comment).isEqualTo(infoToDraft(path).apply(actual));
     }
   }
 
@@ -133,7 +138,16 @@ public class CommentsIT extends AbstractDaemonTest {
       addDraft(changeId, revId, c4);
       Map<String, List<CommentInfo>> result = getDraftComments(changeId, revId);
       assertThat(result).hasSize(1);
+<<<<<<< HEAD
       assertThat(result.get(path).stream().map(infoToDraft(path))).containsExactly(c1, c2, c3, c4);
+=======
+      assertThat(Lists.transform(result.get(path), infoToDraft(path)))
+          .containsExactly(c1, c2, c3, c4);
+
+      List<CommentInfo> list = getDraftCommentsAsList(changeId);
+      assertThat(list).hasSize(4);
+      assertThat(Lists.transform(list, infoToDraft(path))).containsExactly(c1, c2, c3, c4);
+>>>>>>> stable-3.0
     }
   }
 
@@ -234,7 +248,15 @@ public class CommentsIT extends AbstractDaemonTest {
       revision(r).review(input);
       Map<String, List<CommentInfo>> result = getPublishedComments(changeId, revId);
       assertThat(result).isNotEmpty();
+<<<<<<< HEAD
       assertThat(result.get(file).stream().map(infoToInput(file))).containsExactly(c1, c2, c3, c4);
+=======
+      assertThat(Lists.transform(result.get(file), infoToInput(file)))
+          .containsExactly(c1, c2, c3, c4);
+
+      List<CommentInfo> list = getPublishedCommentsAsList(changeId);
+      assertThat(Lists.transform(list, infoToInput(file))).containsExactly(c1, c2, c3, c4);
+>>>>>>> stable-3.0
     }
 
     // for the commit message comments on the auto-merge are not possible
@@ -252,7 +274,14 @@ public class CommentsIT extends AbstractDaemonTest {
       revision(r).review(input);
       Map<String, List<CommentInfo>> result = getPublishedComments(changeId, revId);
       assertThat(result).isNotEmpty();
+<<<<<<< HEAD
       assertThat(result.get(file).stream().map(infoToInput(file))).containsExactly(c1, c2, c3);
+=======
+      assertThat(Lists.transform(result.get(file), infoToInput(file))).containsExactly(c1, c2, c3);
+
+      List<CommentInfo> list = getPublishedCommentsAsList(changeId);
+      assertThat(Lists.transform(list, infoToInput(file))).containsExactly(c1, c2, c3);
+>>>>>>> stable-3.0
     }
   }
 
@@ -308,6 +337,7 @@ public class CommentsIT extends AbstractDaemonTest {
     String changeId = r.getChangeId();
     String revId = r.getCommit().getName();
     assertThat(getPublishedComments(changeId, revId)).isEmpty();
+    assertThat(getPublishedCommentsAsList(changeId)).isEmpty();
 
     List<CommentInput> expectedComments = new ArrayList<>();
     for (Integer line : lines) {
@@ -323,6 +353,10 @@ public class CommentsIT extends AbstractDaemonTest {
     assertThat(result).isNotEmpty();
     List<CommentInfo> actualComments = result.get(file);
     assertThat(actualComments.stream().map(infoToInput(file)))
+        .containsExactlyElementsIn(expectedComments);
+
+    List<CommentInfo> list = getPublishedCommentsAsList(changeId);
+    assertThat(Lists.transform(list, infoToInput(file)))
         .containsExactlyElementsIn(expectedComments);
   }
 
@@ -1125,9 +1159,17 @@ public class CommentsIT extends AbstractDaemonTest {
     return gApi.changes().id(changeId).revision(revId).comments();
   }
 
+  private List<CommentInfo> getPublishedCommentsAsList(String changeId) throws Exception {
+    return gApi.changes().id(changeId).commentsAsList();
+  }
+
   private Map<String, List<CommentInfo>> getDraftComments(String changeId, String revId)
       throws Exception {
     return gApi.changes().id(changeId).revision(revId).drafts();
+  }
+
+  private List<CommentInfo> getDraftCommentsAsList(String changeId) throws Exception {
+    return gApi.changes().id(changeId).draftsAsList();
   }
 
   private CommentInfo getDraftComment(String changeId, String revId, String uuid) throws Exception {

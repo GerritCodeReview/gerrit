@@ -29,6 +29,7 @@ public class ChangeCleanupConfig {
   private static String KEY_ABANDON_AFTER = "abandonAfter";
   private static String KEY_ABANDON_IF_MERGEABLE = "abandonIfMergeable";
   private static String KEY_ABANDON_MESSAGE = "abandonMessage";
+  private static String KEY_CLEANUP_ACCOUNT_PATCH_REVIEW = "cleanupAccountPatchReview";
   private static String DEFAULT_ABANDON_MESSAGE =
       "Auto-Abandoned due to inactivity, see "
           + "${URL}\n"
@@ -39,6 +40,7 @@ public class ChangeCleanupConfig {
   private final Optional<Schedule> schedule;
   private final long abandonAfter;
   private final boolean abandonIfMergeable;
+  private final boolean cleanupAccountPatchReview;
   private final String abandonMessage;
 
   @Inject
@@ -47,6 +49,8 @@ public class ChangeCleanupConfig {
     schedule = ScheduleConfig.createSchedule(cfg, SECTION);
     abandonAfter = readAbandonAfter(cfg);
     abandonIfMergeable = cfg.getBoolean(SECTION, null, KEY_ABANDON_IF_MERGEABLE, true);
+    cleanupAccountPatchReview =
+        cfg.getBoolean(SECTION, null, KEY_CLEANUP_ACCOUNT_PATCH_REVIEW, false);
     abandonMessage = readAbandonMessage(cfg);
   }
 
@@ -71,6 +75,10 @@ public class ChangeCleanupConfig {
 
   public boolean getAbandonIfMergeable() {
     return abandonIfMergeable;
+  }
+
+  public boolean getCleanupAccountPatchReview() {
+    return cleanupAccountPatchReview;
   }
 
   public String getAbandonMessage() {

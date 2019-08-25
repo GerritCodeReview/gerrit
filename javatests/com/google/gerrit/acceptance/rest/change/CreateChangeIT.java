@@ -251,6 +251,14 @@ public class CreateChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void createChangeOnNonExistingBaseChangeFails() throws Exception {
+    ChangeInput input = newChangeInput(ChangeStatus.NEW);
+    input.baseChange = "999999";
+    assertCreateFails(
+        input, UnprocessableEntityException.class, "Base change not found: " + input.baseChange);
+  }
+
+  @Test
   public void createChangeWithoutAccessToParentCommitFails() throws Exception {
     Map<String, PushOneCommit.Result> results =
         changeInTwoBranches("invisible-branch", "a.txt", "visible-branch", "b.txt");

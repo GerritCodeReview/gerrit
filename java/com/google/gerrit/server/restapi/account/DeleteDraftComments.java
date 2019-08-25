@@ -193,6 +193,7 @@ public class DeleteDraftComments
                 .format(changeDataFactory.create(ctx.getNotes()));
         result.deleted = comments.build();
       }
+      ctx.dontBumpLastUpdatedOn();
       return dirty;
     }
 

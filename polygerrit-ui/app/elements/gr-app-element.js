@@ -106,9 +106,11 @@
     keyboardShortcuts() {
       return {
         [this.Shortcut.OPEN_SHORTCUT_HELP_DIALOG]: '_showKeyboardShortcuts',
+        [this.Shortcut.GO_TO_USER_DASHBOARD]: '_goToUserDashboard',
         [this.Shortcut.GO_TO_OPENED_CHANGES]: '_goToOpenedChanges',
         [this.Shortcut.GO_TO_MERGED_CHANGES]: '_goToMergedChanges',
         [this.Shortcut.GO_TO_ABANDONED_CHANGES]: '_goToAbandonedChanges',
+        [this.Shortcut.GO_TO_WATCHED_CHANGES]: '_goToWatchedChanges',
       };
     },
 

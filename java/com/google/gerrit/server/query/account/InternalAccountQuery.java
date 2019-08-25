@@ -17,15 +17,18 @@ package com.google.gerrit.server.query.account;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
 
+import com.google.common.base.Joiner;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.Multimap;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.query.InternalQuery;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.UsedAt;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.index.account.AccountField;
@@ -41,7 +44,13 @@ import java.util.Set;
  * <p>Instances are one-time-use. Other singleton classes should inject a Provider rather than
  * holding on to a single instance.
  */
+<<<<<<< HEAD
 public class InternalAccountQuery extends InternalQuery<AccountState, InternalAccountQuery> {
+=======
+public class InternalAccountQuery extends InternalQuery<AccountState> {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
+>>>>>>> stable-2.16
   @Inject
   InternalAccountQuery(
       AccountQueryProcessor queryProcessor,
@@ -62,7 +71,27 @@ public class InternalAccountQuery extends InternalQuery<AccountState, InternalAc
     return query(AccountPredicates.externalIdIncludingSecondaryEmails(externalId.toString()));
   }
 
+<<<<<<< HEAD
   public List<AccountState> byFullName(String fullName) {
+=======
+  @UsedAt(UsedAt.Project.COLLABNET)
+  public AccountState oneByExternalId(ExternalId.Key externalId) throws OrmException {
+    List<AccountState> accountStates = byExternalId(externalId);
+    if (accountStates.size() == 1) {
+      return accountStates.get(0);
+    } else if (accountStates.size() > 0) {
+      StringBuilder msg = new StringBuilder();
+      msg.append("Ambiguous external ID ").append(externalId).append(" for accounts: ");
+      Joiner.on(", ")
+          .appendTo(
+              msg, accountStates.stream().map(AccountState.ACCOUNT_ID_FUNCTION).collect(toList()));
+      logger.atWarning().log(msg.toString());
+    }
+    return null;
+  }
+
+  public List<AccountState> byFullName(String fullName) throws OrmException {
+>>>>>>> stable-2.16
     return query(AccountPredicates.fullName(fullName));
   }
 

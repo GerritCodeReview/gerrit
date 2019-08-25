@@ -35,15 +35,11 @@ import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.CherryPickInput;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
-import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeInput;
-import com.google.gerrit.extensions.common.ChangeMessageInfo;
-import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.common.MergeInput;
-import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
@@ -56,7 +52,6 @@ import com.google.gerrit.server.submit.ChangeAlreadyMergedException;
 import com.google.gerrit.testing.FakeEmailSender.Message;
 import com.google.gerrit.testing.TestTimeUtil;
 import com.google.inject.Inject;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import org.eclipse.jgit.lib.ObjectId;
@@ -407,60 +402,6 @@ public class CreateChangeIT extends AbstractDaemonTest {
 
     ChangeInput in = newMergeChangeInput("master", commitId.getName(), "");
     assertCreateSucceeds(in);
-  }
-
-  @Test
-  public void cherryPickCommitWithoutChangeId() throws Exception {
-    // This test is a little superfluous, since the current cherry-pick code ignores
-    // the commit message of the to-be-cherry-picked change, using the one in
-    // CherryPickInput instead.
-    CherryPickInput input = new CherryPickInput();
-    input.destination = "foo";
-    input.message = "it goes to foo branch";
-    gApi.projects().name(project.get()).branch(input.destination).create(new BranchInput());
-
-    RevCommit revCommit = createNewCommitWithoutChangeId("refs/heads/master", "a.txt", "content");
-    ChangeInfo changeInfo =
-        gApi.projects().name(project.get()).commit(revCommit.getName()).cherryPick(input).get();
-
-    assertThat(changeInfo.messages).hasSize(1);
-    Iterator<ChangeMessageInfo> messageIterator = changeInfo.messages.iterator();
-    String expectedMessage =
-        String.format("Patch Set 1: Cherry Picked from commit %s.", revCommit.getName());
-    assertThat(messageIterator.next().message).isEqualTo(expectedMessage);
-
-    RevisionInfo revInfo = changeInfo.revisions.get(changeInfo.currentRevision);
-    assertThat(revInfo).isNotNull();
-    CommitInfo commitInfo = revInfo.commit;
-    assertThat(commitInfo.message)
-        .isEqualTo(input.message + "\n\nChange-Id: " + changeInfo.changeId + "\n");
-  }
-
-  @Test
-  public void cherryPickCommitWithChangeId() throws Exception {
-    CherryPickInput input = new CherryPickInput();
-    input.destination = "foo";
-
-    RevCommit revCommit = createChange().getCommit();
-    List<String> footers = revCommit.getFooterLines("Change-Id");
-    assertThat(footers).hasSize(1);
-    String changeId = footers.get(0);
-
-    input.message = "it goes to foo branch\n\nChange-Id: " + changeId;
-    gApi.projects().name(project.get()).branch(input.destination).create(new BranchInput());
-
-    ChangeInfo changeInfo =
-        gApi.projects().name(project.get()).commit(revCommit.getName()).cherryPick(input).get();
-
-    assertThat(changeInfo.messages).hasSize(1);
-    Iterator<ChangeMessageInfo> messageIterator = changeInfo.messages.iterator();
-    String expectedMessage =
-        String.format("Patch Set 1: Cherry Picked from commit %s.", revCommit.getName());
-    assertThat(messageIterator.next().message).isEqualTo(expectedMessage);
-
-    RevisionInfo revInfo = changeInfo.revisions.get(changeInfo.currentRevision);
-    assertThat(revInfo).isNotNull();
-    assertThat(revInfo.commit.message).isEqualTo(input.message + "\n");
   }
 
   @Test

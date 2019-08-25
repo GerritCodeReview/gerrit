@@ -1,15 +1,11 @@
 <project>
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.google.gerrit</groupId>
-  <artifactId>gerrit-extension-api</artifactId>
-<<<<<<< HEAD
-  <version>3.0.2-SNAPSHOT</version>
-=======
+  <artifactId>gerrit-plugin-gwtui</artifactId>
   <version>2.16.11-SNAPSHOT</version>
->>>>>>> stable-2.16
   <packaging>jar</packaging>
-  <name>Gerrit Code Review - Extension API</name>
-  <description>API for Gerrit Extensions</description>
+  <name>Gerrit Code Review - Plugin GWT UI</name>
+  <description>Common Classes for Gerrit GWT UI Plugins</description>
   <url>https://www.gerritcodereview.com/</url>
 
   <licenses>

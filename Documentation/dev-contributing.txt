@@ -132,7 +132,6 @@ same hook in the submodules:
   git submodule foreach 'cp -p "$hook" "$(git rev-parse --git-dir)/hooks/"'
 ====
 
-
 To set up git's remote for easy pushing, run the following:
 
 ====
@@ -143,6 +142,9 @@ The HTTPS access requires proper username and password; this can be obtained
 by clicking the 'Obtain Password' link on the
 link:https://gerrit-review.googlesource.com/#/settings/http-password[HTTP
 Password tab of the user settings page].
+
+Alternately, you may use the link:https://pypi.org/project/git-review/[git-review] tool with Gerrit. If you do, it will set up the Change-Id hook and
+`gerrit` remote for you. You will still need to do the HTTP access step.
 
 [[style]]
 === Style

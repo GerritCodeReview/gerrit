@@ -96,6 +96,10 @@ GrLinkTextParser.prototype.addLink =
     return;
   }
   if (!this.hasOverlap(position, length, outputArray)) {
+    const baseUrl = Gerrit.BaseUrlBehavior.getBaseUrl();
+    if (!!baseUrl && href.startsWith('/') && !href.startsWith(baseUrl)) {
+      href = baseUrl + href;
+    }
     this.addItem(text, href, null, position, length, outputArray);
   }
 };

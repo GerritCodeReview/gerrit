@@ -172,6 +172,11 @@
   GrLinkTextParser.prototype.addLink =
       function(text, href, position, length, outputArray) {
         if (!text || this.hasOverlap(position, length, outputArray)) { return; }
+        if (Gerrit.BaseUrlBehavior.getBaseUrl() != '' &&
+           href.startsWith('/') &&
+           !href.startsWith(Gerrit.BaseUrlBehavior.getBaseUrl())) {
+          href = Gerrit.BaseUrlBehavior.getBaseUrl() + href;
+        }
         this.addItem(text, href, null, position, length, outputArray);
       };
 

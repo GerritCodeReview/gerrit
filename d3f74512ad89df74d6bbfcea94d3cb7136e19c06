@@ -34,6 +34,24 @@
       "revId": "d3f74512ad89df74d6bbfcea94d3cb7136e19c06",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "93426e39_86f749c9",
+        "filename": "java/com/google/gerrit/server/restapi/account/DeleteDraftComments.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-08-26T07:26:26Z",
+      "side": 0,
+      "message": "Ah, makes sense.",
+      "parentUuid": "bd8c63bf_dad82d58",
+      "revId": "d3f74512ad89df74d6bbfcea94d3cb7136e19c06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -46,17 +46,39 @@ opts.add_argument('--plugins', help='create eclipse projects for plugins',
 opts.add_argument('--name', help='name of the generated project',
                   action='store', default='gerrit', dest='project_name')
 opts.add_argument('--bazel', help='name of the bazel executable',
-                  action='store', default='bazel', dest='bazel_exe')
+                  action='store', default=None, dest='bazel_exe')
 
 args = opts.parse_args()
+bazel_exe = find_bazel()
+
+def find_bazel():
+  if args.bazel_exe:
+    try:
+      return subprocess.check_output(
+        ['which', args.bazel_exe]).strip().decode('UTF-8')
+    except subprocess.CalledProcessError:
+      print('Bazel command: %s not found' % args.bazel_exe, file=sys.stderr)
+      sys.exit(1)
+  try:
+    return subprocess.check_output(
+      ['which', 'bazelisk']).strip().decode('UTF-8')
+  except subprocess.CalledProcessError:
+    try:
+      return subprocess.check_output(
+        ['which', 'bazel']).strip().decode('UTF-8')
+    except subprocess.CalledProcessError:
+      print("Neither bazelisk nor bazel found. Please see"
+            " Documentation/dev-bazel for instructions on installing"
+            " one of them.")
+      sys.exit(1)
 
 def retrieve_ext_location():
   return subprocess.check_output(
-      [args.bazel_exe, 'info', 'output_base']).strip()
+      [bazel_exe, 'info', 'output_base']).strip()
 
 def gen_bazel_path():
   bazel = subprocess.check_output(
-      ['which', args.bazel_exe]).strip().decode('UTF-8')
+      ['which', bazel_exe]).strip().decode('UTF-8')
   with open(os.path.join(ROOT, ".bazel_path"), 'w') as fd:
     fd.write("bazel=%s\n" % bazel)
     fd.write("PATH=%s\n" % os.environ["PATH"])
@@ -65,7 +87,7 @@ def _query_classpath(target):
   deps = []
   t = cp_targets[target]
   try:
-    subprocess.check_call([args.bazel_exe, 'build', t])
+    subprocess.check_call([bazel_exe, 'build', t])
   except subprocess.CalledProcessError:
     exit(1)
   name = 'bazel-bin/tools/eclipse/' + t.split(':')[1] + '.runtime_classpath'
@@ -277,7 +299,7 @@ try:
 
   try:
     subprocess.check_call([
-        args.bazel_exe, 'build', MAIN, GWT,
+        bazel_exe, 'build', MAIN, GWT,
         '//gerrit-patch-jgit:libEdit-src.jar'])
   except subprocess.CalledProcessError:
     exit(1)

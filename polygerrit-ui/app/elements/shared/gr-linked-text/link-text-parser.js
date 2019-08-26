@@ -18,6 +18,7 @@ function GrLinkTextParser(linkConfig, callback, opt_removeZeroWidthSpace) {
   this.linkConfig = linkConfig;
   this.callback = callback;
   this.removeZeroWidthSpace = opt_removeZeroWidthSpace;
+  this.baseUrl = Gerrit.BaseUrlBehavior.getBaseUrl();
   Object.preventExtensions(this);
 }
 
@@ -96,8 +97,8 @@ GrLinkTextParser.prototype.addLink =
     return;
   }
   if (!this.hasOverlap(position, length, outputArray)) {
-    const baseUrl = Gerrit.BaseUrlBehavior.getBaseUrl();
-    if (!!baseUrl && href.startsWith('/') && !href.startsWith(baseUrl)) {
+    if (!!this.baseUrl && href.startsWith('/') &&
+          !href.startsWith(this.baseUrl)) {
       href = baseUrl + href;
     }
     this.addItem(text, href, null, position, length, outputArray);
@@ -107,6 +108,10 @@ GrLinkTextParser.prototype.addLink =
 GrLinkTextParser.prototype.addHTML =
     function(html, position, length, outputArray) {
   if (!this.hasOverlap(position, length, outputArray)) {
+    if (!!this.baseUrl && html.match(/<a href=\"\//g) &&
+         !html.match(`/<a href=\"${this.baseUrl}/g`)) {
+      html = html.replace(/<a href=\"\//g, `<a href=\"${this.baseUrl}\/`);
+    }
     this.addItem(null, null, html, position, length, outputArray);
   }
 };

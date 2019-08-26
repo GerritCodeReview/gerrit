@@ -146,7 +146,7 @@ public interface RevisionApi {
 
   SubmitType testSubmitType(TestSubmitRuleInput in) throws RestApiException;
 
-  List<TestSubmitRuleInfo> testSubmitRule(TestSubmitRuleInput in) throws RestApiException;
+  TestSubmitRuleInfo testSubmitRule(TestSubmitRuleInput in) throws RestApiException;
 
   MergeListRequest getMergeList() throws RestApiException;
 
@@ -351,7 +351,7 @@ public interface RevisionApi {
     }
 
     @Override
-    public List<TestSubmitRuleInfo> testSubmitRule(TestSubmitRuleInput in) throws RestApiException {
+    public TestSubmitRuleInfo testSubmitRule(TestSubmitRuleInput in) throws RestApiException {
       throw new NotImplementedException();
     }
 

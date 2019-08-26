@@ -16,13 +16,13 @@ package com.google.gerrit.server.rules;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
 import com.google.gerrit.server.query.change.ChangeData;
-import java.util.Collection;
+import java.util.Optional;
 
 /**
  * Allows plugins to decide whether a change is ready to be submitted or not.
  *
- * <p>For a given {@link ChangeData}, each plugin is called and returns a {@link Collection} of
- * {@link SubmitRecord}. This collection can be empty, or contain one or several values.
+ * <p>For a given {@link ChangeData}, each plugin is called and returns a {@link Optional} of {@link
+ * SubmitRecord}.
  *
  * <p>A Change can only be submitted if all the plugins give their consent.
  *
@@ -38,6 +38,9 @@ import java.util.Collection;
  */
 @ExtensionPoint
 public interface SubmitRule {
-  /** Returns a {@link Collection} of {@link SubmitRecord} status for the change. */
-  Collection<SubmitRecord> evaluate(ChangeData changeData);
+  /**
+   * Returns a {@link Optional} of {@link SubmitRecord} status for the change. {@code
+   * Optional#empty()} if the SubmitRule was a no-op.
+   */
+  Optional<SubmitRecord> evaluate(ChangeData changeData);
 }

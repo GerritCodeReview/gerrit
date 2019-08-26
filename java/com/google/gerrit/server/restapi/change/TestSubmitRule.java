@@ -15,8 +15,6 @@
 package com.google.gerrit.server.restapi.change;
 
 import com.google.common.base.MoreObjects;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.TestSubmitRuleInfo;
@@ -37,7 +35,6 @@ import com.google.gerrit.server.rules.PrologRule;
 import com.google.gerrit.server.rules.RulesCache;
 import com.google.inject.Inject;
 import java.util.LinkedHashMap;
-import java.util.List;
 import org.kohsuke.args4j.Option;
 
 public class TestSubmitRule implements RestModifyView<RevisionResource, TestSubmitRuleInput> {
@@ -65,7 +62,7 @@ public class TestSubmitRule implements RestModifyView<RevisionResource, TestSubm
   }
 
   @Override
-  public Response<List<TestSubmitRuleInfo>> apply(RevisionResource rsrc, TestSubmitRuleInput input)
+  public Response<TestSubmitRuleInfo> apply(RevisionResource rsrc, TestSubmitRuleInput input)
       throws AuthException, PermissionBackendException, BadRequestException {
     if (input == null) {
       input = new TestSubmitRuleInput();
@@ -83,15 +80,12 @@ public class TestSubmitRule implements RestModifyView<RevisionResource, TestSubm
       throw new BadRequestException("project not found");
     }
     ChangeData cd = changeDataFactory.create(rsrc.getNotes());
-    List<SubmitRecord> records =
-        ImmutableList.copyOf(
-            prologRule.evaluate(
-                cd, PrologOptions.dryRunOptions(input.rule, input.filters == Filters.SKIP)));
-    List<TestSubmitRuleInfo> out = Lists.newArrayListWithCapacity(records.size());
+    SubmitRecord record =
+        prologRule.evaluate(
+            cd, PrologOptions.dryRunOptions(input.rule, input.filters == Filters.SKIP));
+
     AccountLoader accounts = accountInfoFactory.create(true);
-    for (SubmitRecord r : records) {
-      out.add(newSubmitRuleInfo(r, accounts));
-    }
+    TestSubmitRuleInfo out = newSubmitRuleInfo(record, accounts);
     accounts.fill();
     return Response.ok(out);
   }

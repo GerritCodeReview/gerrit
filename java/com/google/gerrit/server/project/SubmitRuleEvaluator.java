@@ -31,9 +31,9 @@ import com.google.gerrit.server.rules.PrologRule;
 import com.google.gerrit.server.rules.SubmitRule;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -83,15 +83,15 @@ public class SubmitRuleEvaluator {
     this.opts = options;
   }
 
-  public static List<SubmitRecord> defaultRuleError() {
+  public static SubmitRecord defaultRuleError() {
     return createRuleError(DEFAULT_MSG);
   }
 
-  public static List<SubmitRecord> createRuleError(String err) {
+  public static SubmitRecord createRuleError(String err) {
     SubmitRecord rec = new SubmitRecord();
     rec.status = SubmitRecord.Status.RULE_ERROR;
     rec.errorMessage = err;
-    return Collections.singletonList(rec);
+    return rec;
   }
 
   public static SubmitTypeRecord defaultTypeError() {
@@ -120,7 +120,7 @@ public class SubmitRuleEvaluator {
           throw new NoSuchProjectException(cd.project());
         }
       } catch (StorageException | NoSuchProjectException e) {
-        return ruleError("Error looking up change " + cd.getId(), e);
+        return Collections.singletonList(ruleError("Error looking up change " + cd.getId(), e));
       }
 
       if ((!opts.allowClosed() || OnlineReindexMode.isActive()) && change.isClosed()) {
@@ -133,12 +133,13 @@ public class SubmitRuleEvaluator {
       // and then we collect the results in one list.
       return Streams.stream(submitRules)
           .map(c -> c.call(s -> s.evaluate(cd)))
-          .flatMap(Collection::stream)
+          .filter(Optional::isPresent)
+          .map(Optional::get)
           .collect(Collectors.toList());
     }
   }
 
-  private List<SubmitRecord> ruleError(String err, Exception e) {
+  private SubmitRecord ruleError(String err, Exception e) {
     logger.atSevere().withCause(e).log(err);
     return defaultRuleError();
   }

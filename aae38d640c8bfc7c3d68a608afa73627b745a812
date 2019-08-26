@@ -121,6 +121,30 @@
     },
     {
       "key": {
+        "uuid": "cc0df621_976764cb",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1408,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-08-26T12:56:52Z",
+      "side": 1,
+      "message": "So after all the problem was that I opened the repository of the users instead of the project, I see. Thanks!",
+      "parentUuid": "c2ff2374_34f90a24",
+      "range": {
+        "startLine": 1408,
+        "startChar": 15,
+        "endLine": 1408,
+        "endChar": 23
+      },
+      "revId": "aae38d640c8bfc7c3d68a608afa73627b745a812",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9b206266_d4c37ace",
         "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 3
@@ -165,6 +189,30 @@
       "revId": "aae38d640c8bfc7c3d68a608afa73627b745a812",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4805db4d_97083c99",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 4203,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-08-26T12:56:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "69116a97_51bb2ede",
+      "range": {
+        "startLine": 4198,
+        "startChar": 2,
+        "endLine": 4203,
+        "endChar": 3
+      },
+      "revId": "aae38d640c8bfc7c3d68a608afa73627b745a812",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

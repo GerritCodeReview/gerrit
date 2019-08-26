@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "19181bfc_74f9a931",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-08-26T15:26:49Z",
+      "side": 1,
+      "message": "that\u0027s already in review here I6771cdccd1d27dd5886d2f75e6c906448e1bed59",
+      "range": {
+        "startLine": 18,
+        "startChar": 9,
+        "endLine": 18,
+        "endChar": 33
+      },
+      "revId": "f44018254ff8f3f75a961159b9b89cfd8c4a5b1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

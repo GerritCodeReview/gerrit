@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a20e4d0_d1e805b4",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 528,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-08-26T12:55:49Z",
+      "side": 1,
+      "message": "How can it happen that the change we are trying to merge is already merged?\n\nIs that because of stacked changes?\n\nWould be good to have a short comment here to explain that.",
+      "revId": "dea55734f8b915e5dc41508d9d42168835c3e37c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7bc5d096_85e27cdc",
+        "filename": "java/com/google/gerrit/server/submit/SubmitStrategyOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-08-26T12:55:49Z",
+      "side": 1,
+      "message": "nit: use an optional (fits better into the Stream you use in the caller)",
+      "revId": "dea55734f8b915e5dc41508d9d42168835c3e37c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

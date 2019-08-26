@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "33763eab_1b2ccb20",
+        "filename": "polygerrit-ui/app/elements/shared/gr-linked-text/link-text-parser.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-08-26T13:13:48Z",
+      "side": 1,
+      "message": "Extract a variable for Gerrit.BaseUrlBehavior.getBaseUrl(). You are using it 3 times. When you use something just twice then it is a matter of taste whether to extract a var/method, but 3 times is typically strictly nicer to extract.",
+      "range": {
+        "startLine": 175,
+        "startChar": 14,
+        "endLine": 175,
+        "endChar": 49
+      },
+      "revId": "02877a9dfae25a8a6808bd8dd8a606bb1ab2733b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

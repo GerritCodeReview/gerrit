@@ -173,6 +173,10 @@
       this.push('_listeners', fn);
     },
 
+    removeListener(fn) {
+      this._listeners = this._listeners.filter(f => f != fn);
+    },
+
     /**
      * Annotation layer method to add syntax annotations to the given element
      * for the given line.

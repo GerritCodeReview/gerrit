@@ -2,6 +2,46 @@
   "comments": [
     {
       "key": {
+        "uuid": "305fd05a_0fb07a3d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-linked-text/link-text-parser.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-08-26T09:28:39Z",
+      "side": 1,
+      "message": "Use this.getBaseUrl() from this behavior:\n\n    behaviors: [\n      Gerrit.BaseUrlBehavior,\n    ],",
+      "revId": "92418da1e231381470aae6d815c2de56b1177b1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e75468d8_77b3f836",
+        "filename": "polygerrit-ui/app/elements/shared/gr-linked-text/link-text-parser.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-08-26T09:28:39Z",
+      "side": 1,
+      "message": "Please revert this change. We reported issue did not complain about \"html\" patterns, just about \"link\" pattern. And this code is just a GWT migration hack, so let\u0027s not mix up the two. If we really wanted to fix the baseUrl problem for the entire HTML, then it would become too complex. Also note that \"html\" pattern authors should maybe just include the baseUrl themselves.",
+      "range": {
+        "startLine": 277,
+        "startChar": 0,
+        "endLine": 277,
+        "endChar": 59
+      },
+      "revId": "92418da1e231381470aae6d815c2de56b1177b1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3548fd1e_5060ff4c",
         "filename": "polygerrit-ui/app/elements/shared/gr-linked-text/link-text-parser.js",
         "patchSetId": 7
@@ -13,6 +53,41 @@
       "writtenOn": "2019-08-25T16:00:35Z",
       "side": 1,
       "message": "I wonder should we also check for / too?\n\n@Ben?",
+      "revId": "92418da1e231381470aae6d815c2de56b1177b1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "47e761e1_7bcf49b1",
+        "filename": "polygerrit-ui/app/elements/shared/gr-linked-text/link-text-parser.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-08-26T09:28:39Z",
+      "side": 1,
+      "message": "Yes.",
+      "parentUuid": "3548fd1e_5060ff4c",
+      "revId": "92418da1e231381470aae6d815c2de56b1177b1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9144d4cd_8d3a4811",
+        "filename": "polygerrit-ui/app/elements/shared/gr-linked-text/link-text-parser.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-08-26T09:28:39Z",
+      "side": 1,
+      "message": "Decouple the baseUrl check from the GWT # replacement: Move the baseUrl logic into the addLink() method.\n\nThen the logic should be: if (baseUrl is not empty \u0026\u0026 href starts with \"/\" \u0026\u0026 href does not start with baseUrl) then replace the leading \"/\" with baseUrl.\n\nMy assumption is that baseUrl ...\nA ... is always just a path (no http(s) host).\nB ... always starts with a /.\nC ... always ends with a /.\n\nCan you try to verify these three assumptions and maybe also document them in the code, if they are correct.",
       "revId": "92418da1e231381470aae6d815c2de56b1177b1f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

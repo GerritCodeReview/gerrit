@@ -48,9 +48,9 @@ lengths are exceeded.
 
 link:https://gerrit-review.googlesource.com/admin/repos/plugins/commit-message-length-validator[
 Project] |
-link:https://gerrit.googlesource.com/plugins/commit-message-length-validator/+doc/master/src/main/resources/Documentation/about.md[
+link:https://gerrit.googlesource.com/plugins/commit-message-length-validator/+doc/stable-2.15/src/main/resources/Documentation/about.md[
 Documentation] |
-link:https://gerrit.googlesource.com/plugins/commit-message-length-validator/+doc/master/src/main/resources/Documentation/config.md[
+link:https://gerrit.googlesource.com/plugins/commit-message-length-validator/+doc/stable-2.15/src/main/resources/Documentation/config.md[
 Configuration]
 
 [[download-commands]]
@@ -61,9 +61,9 @@ download schemes (for downloading via different network protocols).
 
 link:https://gerrit-review.googlesource.com/admin/repos/plugins/download-commands[
 Project] |
-link:https://gerrit.googlesource.com/plugins/download-commands/+doc/master/src/main/resources/Documentation/about.md[
+link:https://gerrit.googlesource.com/plugins/download-commands/+doc/stable-2.15/src/main/resources/Documentation/about.md[
 Documentation] |
-link:https://gerrit.googlesource.com/plugins/download-commands/+doc/master/src/main/resources/Documentation/config.md[
+link:https://gerrit.googlesource.com/plugins/download-commands/+doc/stable-2.15/src/main/resources/Documentation/config.md[
 Configuration]
 
 [[hooks]]
@@ -73,9 +73,9 @@ This plugin runs server-side hooks on events.
 
 link:https://gerrit-review.googlesource.com/admin/repos/plugins/hooks[
 Project] |
-link:https://gerrit.googlesource.com/plugins/hooks/+doc/master/src/main/resources/Documentation/about.md[
+link:https://gerrit.googlesource.com/plugins/hooks/+doc/stable-2.15/src/main/resources/Documentation/about.md[
 Documentation] |
-link:https://gerrit.googlesource.com/plugins/hooks/+doc/master/src/main/resources/Documentation/config.md[
+link:https://gerrit.googlesource.com/plugins/hooks/+doc/stable-2.15/src/main/resources/Documentation/config.md[
 Configuration]
 
 [[replication]]
@@ -88,9 +88,9 @@ backups, or a load-balanced public mirror farm.
 
 link:https://gerrit-review.googlesource.com/admin/repos/plugins/replication[
 Project] |
-link:https://gerrit.googlesource.com/plugins/replication/+doc/master/src/main/resources/Documentation/about.md[
+link:https://gerrit.googlesource.com/plugins/replication/+doc/stable-2.15/src/main/resources/Documentation/about.md[
 Documentation] |
-link:https://gerrit.googlesource.com/plugins/replication/+doc/master/src/main/resources/Documentation/config.md[
+link:https://gerrit.googlesource.com/plugins/replication/+doc/stable-2.15/src/main/resources/Documentation/config.md[
 Configuration]
 
 [[reviewnotes]]
@@ -101,7 +101,7 @@ branch.
 
 link:https://gerrit-review.googlesource.com/admin/repos/plugins/reviewnotes[
 Project] |
-link:https://gerrit.googlesource.com/plugins/reviewnotes/+doc/master/src/main/resources/Documentation/about.md[
+link:https://gerrit.googlesource.com/plugins/reviewnotes/+doc/stable-2.15/src/main/resources/Documentation/about.md[
 Documentation]
 
 [[singleusergroup]]
@@ -140,7 +140,7 @@ project/account.
 
 link:https://gerrit-review.googlesource.com/admin/repos/plugins/admin-console[
 Project] |
-link:https://gerrit.googlesource.com/plugins/admin-console/+doc/master/src/main/resources/Documentation/about.md[
+link:https://gerrit.googlesource.com/plugins/admin-console/+doc/stable-2.15/src/main/resources/Documentation/about.md[
 Documentation]
 
 [[analytics]]
@@ -163,9 +163,9 @@ from.
 
 link:https://gerrit-review.googlesource.com/admin/repos/plugins/avatars-external[
 Project] |
-link:https://gerrit.googlesource.com/plugins/avatars-external/+doc/master/src/main/resources/Documentation/about.md[
+link:https://gerrit.googlesource.com/plugins/avatars-external/+doc/stable-2.15/src/main/resources/Documentation/about.md[
 Documentation] |
-link:https://gerrit.googlesource.com/plugins/avatars-external/+doc/master/src/main/resources/Documentation/config.md[
+link:https://gerrit.googlesource.com/plugins/avatars-external/+doc/stable-2.15/src/main/resources/Documentation/config.md[
 Configuration]
 
 [[avatars-gravatar]]
@@ -186,9 +186,9 @@ plugins to be plugged elsewhere in Gerrit.
 
 link:https://gerrit-review.googlesource.com/admin/repos/plugins/branch-network[
 Project] |
-link:https://gerrit.googlesource.com/plugins/branch-network/+doc/master/src/main/resources/Documentation/about.md[
+link:https://gerrit.googlesource.com/plugins/branch-network/+doc/stable-2.15/src/main/resources/Documentation/about.md[
 Documentation] |
-link:https://gerrit.googlesource.com/plugins/branch-network/+doc/master/src/main/resources/Documentation/config.md[
+link:https://gerrit.googlesource.com/plugins/branch-network/+doc/stable-2.15/src/main/resources/Documentation/config.md[
 Configuration]
 
 [[changemessage]]
@@ -198,9 +198,9 @@ This plugin allows to display a static info message on the change screen.
 
 link:https://gerrit-review.googlesource.com/admin/repos/plugins/changemessage[
 Project] |
-link:https://gerrit.googlesource.com/plugins/changemessage/+doc/master/src/main/resources/Documentation/about.md[
+link:https://gerrit.googlesource.com/plugins/changemessage/+doc/stable-2.15/src/main/resources/Documentation/about.md[
 Plugin Documentation] |
-link:https://gerrit.googlesource.com/plugins/changemessage/+doc/master/src/main/resources/Documentation/config.md[
+link:https://gerrit.googlesource.com/plugins/changemessage/+doc/stable-2.15/src/main/resources/Documentation/config.md[
 Configuration]
 
 [[delete-project]]
@@ -210,7 +210,7 @@ Provides the ability to delete a project.
 
 link:https://gerrit-review.googlesource.com/admin/repos/plugins/delete-project[
 Project] |
-link:https://gerrit.googlesource.com/plugins/delete-project/+doc/master/src/main/resources/Documentation/about.md[
+link:https://gerrit.googlesource.com/plugins/delete-project/+doc/stable-2.15/src/main/resources/Documentation/about.md[
 Documentation]
 
 [[egit]]
@@ -224,7 +224,7 @@ downloading a Gerrit change from within EGit.
 
 link:https://gerrit-review.googlesource.com/admin/repos/plugins/egit[
 Project] |
-link:https://gerrit.googlesource.com/plugins/egit/+doc/master/src/main/resources/Documentation/about.md[
+link:https://gerrit.googlesource.com/plugins/egit/+doc/stable-2.15/src/main/resources/Documentation/about.md[
 Documentation]
 
 [[emoticons]]
@@ -234,9 +234,9 @@ This plugin allows users to see emoticons in comments as images.
 
 link:https://gerrit-review.googlesource.com/admin/repos/plugins/emoticons[
 Project] |
-link:https://gerrit.googlesource.com/plugins/emoticons/+doc/master/src/main/resources/Documentation/about.md[
+link:https://gerrit.googlesource.com/plugins/emoticons/+doc/stable-2.15/src/main/resources/Documentation/about.md[
 Documentation] |
-link:https://gerrit.googlesource.com/plugins/emoticons/+doc/master/src/main/resources/Documentation/config.md[
+link:https://gerrit.googlesource.com/plugins/emoticons/+doc/stable-2.15/src/main/resources/Documentation/config.md[
 Configuration]
 
 [[gitblit]]
@@ -278,9 +278,9 @@ Gerrit internal metrics and can be published to dashboards.
 
 link:https://gerrit-review.googlesource.com/admin/repos/plugins/healthcheck[
 Project] |
-link:https://gerrit.googlesource.com/plugins/healthcheck/+doc/master/src/main/resources/Documentation/about.md[
+link:https://gerrit.googlesource.com/plugins/healthcheck/+doc/stable-2.15/src/main/resources/Documentation/about.md[
 Documentation] |
-link:https://gerrit.googlesource.com/plugins/healthcheck/+doc/master/src/main/resources/Documentation/config.md[
+link:https://gerrit.googlesource.com/plugins/healthcheck/+doc/stable-2.15/src/main/resources/Documentation/config.md[
 Configuration]
 
 [[imagare]]
@@ -290,9 +290,9 @@ The imagare plugin allows Gerrit users to upload and share images.
 
 link:https://gerrit-review.googlesource.com/admin/repos/plugins/imagare[
 Project] |
-link:https://gerrit.googlesource.com/plugins/imagare/+doc/master/src/main/resources/Documentation/about.md[
+link:https://gerrit.googlesource.com/plugins/imagare/+doc/stable-2.15/src/main/resources/Documentation/about.md[
 Documentation] |
-link:https://gerrit.googlesource.com/plugins/imagare/+doc/master/src/main/resources/Documentation/config.md[
+link:https://gerrit.googlesource.com/plugins/imagare/+doc/stable-2.15/src/main/resources/Documentation/config.md[
 Configuration]
 
 [[importer]]
@@ -318,7 +318,7 @@ plugin it can be used to rename a project.
 
 link:https://gerrit-review.googlesource.com/admin/repos/plugins/importer[
 Project] |
-link:https://gerrit.googlesource.com/plugins/importer/+doc/master/src/main/resources/Documentation/about.md[
+link:https://gerrit.googlesource.com/plugins/importer/+doc/stable-2.15/src/main/resources/Documentation/about.md[
 Documentation]
 
 [[its-plugins]]
@@ -334,9 +334,9 @@ framework for the ITS plugins which is packaged within each ITS plugin.
 
 link:https://gerrit-review.googlesource.com/admin/repos/plugins/its-base[
 its-base Project] |
-link:https://gerrit.googlesource.com/plugins/its-base/+doc/master/src/main/resources/Documentation/about.md[
+link:https://gerrit.googlesource.com/plugins/its-base/+doc/stable-2.15/src/main/resources/Documentation/about.md[
 its-base Documentation] |
-link:https://gerrit.googlesource.com/plugins/its-base/+doc/master/src/main/resources/Documentation/config.md[
+link:https://gerrit.googlesource.com/plugins/its-base/+doc/stable-2.15/src/main/resources/Documentation/config.md[
 its-base Configuration]
 
 [[its-bugzilla]]
@@ -346,7 +346,7 @@ Plugin to integrate with Bugzilla.
 
 link:https://gerrit-review.googlesource.com/admin/repos/plugins/its-bugzilla[
 Project] |
-link:https://gerrit.googlesource.com/plugins/its-bugzilla/+doc/master/src/main/resources/Documentation/about.md[
+link:https://gerrit.googlesource.com/plugins/its-bugzilla/+doc/stable-2.15/src/main/resources/Documentation/about.md[
 Documentation]
 
 [[its-jira]]
@@ -356,7 +356,7 @@ Plugin to integrate with Jira.
 
 link:https://gerrit-review.googlesource.com/admin/repos/plugins/its-jira[
 Project] |
-link:https://gerrit.googlesource.com/plugins/its-jira/+doc/master/src/main/resources/Documentation/config.md[
+link:https://gerrit.googlesource.com/plugins/its-jira/+doc/stable-2.15/src/main/resources/Documentation/config.md[
 Configuration]
 
 [[its-phabricator]]
@@ -366,7 +366,7 @@ Plugin to integrate with Phabricator.
 
 link:https://gerrit-review.googlesource.com/admin/repos/plugins/its-phabricator[
 Project] |
-link:https://gerrit.googlesource.com/plugins/its-phabricator/+doc/master/src/main/resources/Documentation/config.md[
+link:https://gerrit.googlesource.com/plugins/its-phabricator/+doc/stable-2.15/src/main/resources/Documentation/config.md[
 Configuration]
 
 [[its-rtc]]
@@ -376,7 +376,7 @@ Plugin to integrate with IBM Rational Team Concert (RTC).
 
 link:https://gerrit-review.googlesource.com/admin/repos/plugins/its-rtc[
 Project] |
-link:https://gerrit.googlesource.com/plugins/its-rtc/+doc/master/src/main/resources/Documentation/config.md[
+link:https://gerrit.googlesource.com/plugins/its-rtc/+doc/stable-2.15/src/main/resources/Documentation/config.md[
 Configuration]
 
 [[its-storyboard]]
@@ -386,7 +386,7 @@ Plugin to integrate with Storyboard task tracking system.
 
 link:https://gerrit-review.googlesource.com/admin/repos/plugins/its-storyboard[
 Project] |
-link:https://gerrit.googlesource.com/plugins/its-storyboard/+doc/master/src/main/resources/Documentation/about.md[
+link:https://gerrit.googlesource.com/plugins/its-storyboard/+doc/stable-2.15/src/main/resources/Documentation/about.md[
 Documentation]
 
 [[javamelody]]
@@ -399,9 +399,9 @@ instrumentation data from Gerrit.
 
 link:https://gerrit-review.googlesource.com/admin/repos/plugins/javamelody[
 Project] |
-link:https://gerrit.googlesource.com/plugins/javamelody/+doc/master/src/main/resources/Documentation/about.md[
+link:https://gerrit.googlesource.com/plugins/javamelody/+doc/stable-2.15/src/main/resources/Documentation/about.md[
 Documentation] |
-https://gerrit.googlesource.com/plugins/javamelody/+doc/master/src/main/resources/Documentation/config.md[
+https://gerrit.googlesource.com/plugins/javamelody/+doc/stable-2.15/src/main/resources/Documentation/config.md[
 Configuration]
 
 [[labelui]]
@@ -414,7 +414,7 @@ screen).
 
 link:https://gerrit-review.googlesource.com/admin/repos/plugins/labelui[
 Project] |
-link:https://gerrit.googlesource.com/plugins/labelui/+doc/master/src/main/resources/Documentation/about.md[
+link:https://gerrit.googlesource.com/plugins/labelui/+doc/stable-2.15/src/main/resources/Documentation/about.md[
 Documentation]
 
 [[menuextender]]
@@ -425,9 +425,9 @@ additional menu entries from the WebUI.
 
 link:https://gerrit-review.googlesource.com/admin/repos/plugins/menuextender[
 Project] |
-link:https://gerrit.googlesource.com/plugins/menuextender/+doc/master/src/main/resources/Documentation/about.md[
+link:https://gerrit.googlesource.com/plugins/menuextender/+doc/stable-2.15/src/main/resources/Documentation/about.md[
 Documentation] |
-link:https://gerrit.googlesource.com/plugins/menuextender/+doc/master/src/main/resources/Documentation/config.md[
+link:https://gerrit.googlesource.com/plugins/menuextender/+doc/stable-2.15/src/main/resources/Documentation/config.md[
 Configuration]
 
 [[metrics-reporter-elasticsearch]]
@@ -465,9 +465,9 @@ discarded otherwise.
 
 link:https://gerrit-review.googlesource.com/admin/repos/plugins/motd[
 Project] |
-link:https://gerrit.googlesource.com/plugins/motd/+doc/master/src/main/resources/Documentation/about.md[
+link:https://gerrit.googlesource.com/plugins/motd/+doc/stable-2.15/src/main/resources/Documentation/about.md[
 Documentation] |
-link:https://gerrit.googlesource.com/plugins/motd/+doc/master/src/main/resources/Documentation/config.md[
+link:https://gerrit.googlesource.com/plugins/motd/+doc/stable-2.15/src/main/resources/Documentation/config.md[
 Configuration]
 
 [[oauth-authentication-provider]]
@@ -500,9 +500,9 @@ inherited download command or remove it by assigning no value to it.
 
 link:https://gerrit-review.googlesource.com/admin/repos/plugins/project-download-commands[
 Project] |
-link:https://gerrit.googlesource.com/plugins/project-download-commands/+doc/master/src/main/resources/Documentation/about.md[
+link:https://gerrit.googlesource.com/plugins/project-download-commands/+doc/stable-2.15/src/main/resources/Documentation/about.md[
 Documentation] |
-link:https://gerrit.googlesource.com/plugins/project-download-commands/+doc/master/src/main/resources/Documentation/config.md[
+link:https://gerrit.googlesource.com/plugins/project-download-commands/+doc/stable-2.15/src/main/resources/Documentation/config.md[
 Configuration]
 
 [[quota]]
@@ -516,9 +516,9 @@ can use this plugin to define quotas on project namespaces.
 
 link:https://gerrit-review.googlesource.com/admin/repos/plugins/quota[
 Project] |
-link:https://gerrit.googlesource.com/plugins/quota/+doc/master/src/main/resources/Documentation/about.md[
+link:https://gerrit.googlesource.com/plugins/quota/+doc/stable-2.15/src/main/resources/Documentation/about.md[
 Documentation]
-link:https://gerrit.googlesource.com/plugins/quota/+doc/master/src/main/resources/Documentation/config.md[
+link:https://gerrit.googlesource.com/plugins/quota/+doc/stable-2.15/src/main/resources/Documentation/config.md[
 Configuration]
 
 [[rabbitmq]]
@@ -528,7 +528,7 @@ A plugin that publishes Gerrit events to a
 link:https://www.rabbitmq.com/[RabbitMQ] exchange.
 
 link:https://gerrit-review.googlesource.com/admin/repos/plugins/rabbitmq[Project]
-link:https://gerrit.googlesource.com/plugins/rabbitmq/+/master/src/main/resources/Documentation/config.md[
+link:https://gerrit.googlesource.com/plugins/rabbitmq/+/stable-2.15/src/main/resources/Documentation/config.md[
 Configuration]
 
 [[readonly]]
@@ -539,9 +539,9 @@ blocking HTTP PUT/POST/DELETE requests, and disabling SSH commands.
 
 link:https://gerrit-review.googlesource.com/admin/repos/plugins/readonly[
 Project] |
-link:https://gerrit.googlesource.com/plugins/readonly/+doc/master/src/main/resources/Documentation/about.md[
+link:https://gerrit.googlesource.com/plugins/readonly/+doc/stable-2.15/src/main/resources/Documentation/about.md[
 Documentation] |
-link:https://gerrit.googlesource.com/plugins/readonly/+doc/master/src/main/resources/Documentation/config.md[
+link:https://gerrit.googlesource.com/plugins/readonly/+doc/stable-2.15/src/main/resources/Documentation/config.md[
 Configuration]
 
 [[ref-protection]]
@@ -554,7 +554,7 @@ Backups of deleted or non-fast-forward updated refs are created under the
 
 link:https://gerrit-review.googlesource.com/admin/repos/plugins/ref-protection[
 Project] |
-link:https://gerrit.googlesource.com/plugins/ref-protection/+doc/master/src/main/resources/Documentation/about.md[
+link:https://gerrit.googlesource.com/plugins/ref-protection/+doc/stable-2.15/src/main/resources/Documentation/about.md[
 Documentation]
 
 [[reparent]]
@@ -564,9 +564,9 @@ A plugin that provides project reparenting as a self-service for project owners.
 
 link:https://gerrit-review.googlesource.com/admin/repos/plugins/reparent[
 Project] |
-link:https://gerrit.googlesource.com/plugins/reparent/+doc/master/src/main/resources/Documentation/about.md[
+link:https://gerrit.googlesource.com/plugins/reparent/+doc/stable-2.15/src/main/resources/Documentation/about.md[
 Documentation] |
-link:https://gerrit.googlesource.com/plugins/reparent/+doc/master/src/main/resources/Documentation/config.md[
+link:https://gerrit.googlesource.com/plugins/reparent/+doc/stable-2.15/src/main/resources/Documentation/config.md[
 Configuration]
 
 [[review-strategy]]
@@ -576,7 +576,7 @@ This plugin allows users to configure different review strategies.
 
 link:https://gerrit-review.googlesource.com/admin/repos/plugins/review-strategy[
 Project] |
-link:https://gerrit.googlesource.com/plugins/review-strategy/+doc/master/src/main/resources/Documentation/about.md[
+link:https://gerrit.googlesource.com/plugins/review-strategy/+doc/stable-2.15/src/main/resources/Documentation/about.md[
 Documentation]
 
 [[reviewers]]
@@ -586,9 +586,9 @@ A plugin that allows adding default reviewers to a change.
 
 link:https://gerrit-review.googlesource.com/admin/repos/plugins/reviewers[
 Project] |
-link:https://gerrit.googlesource.com/plugins/reviewers/+doc/master/src/main/resources/Documentation/about.md[
+link:https://gerrit.googlesource.com/plugins/reviewers/+doc/stable-2.15/src/main/resources/Documentation/about.md[
 Documentation] |
-link:https://gerrit.googlesource.com/plugins/reviewers/+doc/master/src/main/resources/Documentation/config.md[
+link:https://gerrit.googlesource.com/plugins/reviewers/+doc/stable-2.15/src/main/resources/Documentation/config.md[
 Configuration]
 
 [[reviewers-by-blame]]
@@ -602,9 +602,9 @@ change.
 
 link:https://gerrit-review.googlesource.com/admin/repos/plugins/reviewers-by-blame[
 Project] |
-link:https://gerrit.googlesource.com/plugins/reviewers-by-blame/+doc/master/src/main/resources/Documentation/about.md[
+link:https://gerrit.googlesource.com/plugins/reviewers-by-blame/+doc/stable-2.15/src/main/resources/Documentation/about.md[
 Documentation] |
-link:https://gerrit.googlesource.com/plugins/reviewers-by-blame/+doc/master/src/main/resources/Documentation/config.md[
+link:https://gerrit.googlesource.com/plugins/reviewers-by-blame/+doc/stable-2.15/src/main/resources/Documentation/config.md[
 Configuration]
 
 [[groovy-provider]]
@@ -614,7 +614,7 @@ This plugin provides a Groovy runtime environment for Gerrit plugins in Groovy.
 
 link:https://gerrit-review.googlesource.com/admin/repos/plugins/scripting/groovy-provider[
 Project] |
-link:https://gerrit.googlesource.com/plugins/scripting/groovy-provider/+doc/master/src/main/resources/Documentation/about.md[
+link:https://gerrit.googlesource.com/plugins/scripting/groovy-provider/+doc/stable-2.15/src/main/resources/Documentation/about.md[
 Documentation]
 
 [[scala-provider]]
@@ -624,7 +624,7 @@ This plugin provides a Scala runtime environment for Gerrit plugins in Scala.
 
 link:https://gerrit-review.googlesource.com/admin/repos/plugins/scripting/scala-provider[
 Project] |
-link:https://gerrit.googlesource.com/plugins/scripting/scala-provider/+doc/master/src/main/resources/Documentation/about.md[
+link:https://gerrit.googlesource.com/plugins/scripting/scala-provider/+doc/stable-2.15/src/main/resources/Documentation/about.md[
 Documentation]
 
 [[scripts]]
@@ -663,9 +663,9 @@ WebUI and it cannot push commits or tags.
 
 link:https://gerrit-review.googlesource.com/admin/repos/plugins/serviceuser[
 Project] |
-link:https://gerrit.googlesource.com/plugins/serviceuser/+doc/master/src/main/resources/Documentation/about.md[
+link:https://gerrit.googlesource.com/plugins/serviceuser/+doc/stable-2.15/src/main/resources/Documentation/about.md[
 Documentation] |
-link:https://gerrit.googlesource.com/plugins/serviceuser/+doc/master/src/main/resources/Documentation/config.md[
+link:https://gerrit.googlesource.com/plugins/serviceuser/+doc/stable-2.15/src/main/resources/Documentation/config.md[
 Configuration]
 
 [[uploadvalidator]]
@@ -679,9 +679,9 @@ settings are rejected by Gerrit.
 
 link:https://gerrit-review.googlesource.com/admin/repos/plugins/uploadvalidator[
 Project] |
-link:https://gerrit.googlesource.com/plugins/uploadvalidator/+doc/master/src/main/resources/Documentation/about.md[
+link:https://gerrit.googlesource.com/plugins/uploadvalidator/+doc/stable-2.15/src/main/resources/Documentation/about.md[
 Documentation] |
-link:https://gerrit.googlesource.com/plugins/uploadvalidator/+doc/master/src/main/resources/Documentation/config.md[
+link:https://gerrit.googlesource.com/plugins/uploadvalidator/+doc/stable-2.15/src/main/resources/Documentation/config.md[
 Configuration]
 
 [[verify-status]]
@@ -693,9 +693,9 @@ or in a completely separate datastore.
 
 link:https://gerrit-review.googlesource.com/admin/repos/plugins/verify-status[
 Project] |
-link:https://gerrit.googlesource.com/plugins/verify-status/+doc/master/src/main/resources/Documentation/about.md[
+link:https://gerrit.googlesource.com/plugins/verify-status/+doc/stable-2.15/src/main/resources/Documentation/about.md[
 Documentation] |
-link:https://gerrit.googlesource.com/plugins/verify-status/+doc/master/src/main/resources/Documentation/database.md[
+link:https://gerrit.googlesource.com/plugins/verify-status/+doc/stable-2.15/src/main/resources/Documentation/database.md[
 Configuration]
 
 [[websession-flatfile]]
@@ -708,9 +708,9 @@ Gerrit installations.
 
 link:https://gerrit-review.googlesource.com/admin/repos/plugins/websession-flatfile[
 Project] |
-link:https://gerrit.googlesource.com/plugins/websession-flatfile/+doc/master/src/main/resources/Documentation/about.md[
+link:https://gerrit.googlesource.com/plugins/websession-flatfile/+doc/stable-2.15/src/main/resources/Documentation/about.md[
 Documentation] |
-link:https://gerrit.googlesource.com/plugins/websession-flatfile/+doc/master/src/main/resources/Documentation/config.md[
+link:https://gerrit.googlesource.com/plugins/websession-flatfile/+doc/stable-2.15/src/main/resources/Documentation/config.md[
 Configuration]
 
 [[x-docs]]
@@ -720,9 +720,9 @@ This plugin serves project documentation as HTML pages.
 
 link:https://gerrit-review.googlesource.com/admin/repos/plugins/x-docs[
 Project] |
-link:https://gerrit.googlesource.com/plugins/x-docs/+doc/master/src/main/resources/Documentation/about.md[
+link:https://gerrit.googlesource.com/plugins/x-docs/+doc/stable-2.15/src/main/resources/Documentation/about.md[
 Documentation] |
-link:https://gerrit.googlesource.com/plugins/x-docs/+doc/master/src/main/resources/Documentation/config.md[
+link:https://gerrit.googlesource.com/plugins/x-docs/+doc/stable-2.15/src/main/resources/Documentation/config.md[
 Configuration]
 
 

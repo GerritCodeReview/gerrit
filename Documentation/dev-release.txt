@@ -264,6 +264,9 @@ Gerrit Web UI] or by push.
 * Create a change updating the `defaultbranch` field in the `.gitreview`
 to match the branch name created.
 
+* Update references to the `master` branch in
+`Documentation/config-plugins.txt`
+
 * Push the commits done on `stable-2.5` to `refs/for/stable-2.5` and
 get them merged
 

@@ -69,6 +69,24 @@
       "revId": "759bf04c7816131cb7f0369638c9e50c19d8cde2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cb269148_d854c290",
+        "filename": "Documentation/config-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-08-26T23:45:45Z",
+      "side": 1,
+      "message": "For the core plugins we only create stable branches when actually needed, and until then they just refer to whatever sha1 the master branch was on.\n\nFor other plugins, we\u0027d have to check on a case by case basis. Not all plugins support all branches.",
+      "parentUuid": "a05a1132_4e5567b4",
+      "revId": "759bf04c7816131cb7f0369638c9e50c19d8cde2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

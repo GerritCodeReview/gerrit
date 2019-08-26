@@ -144,6 +144,11 @@ by clicking the 'Obtain Password' link on the
 link:https://gerrit-review.googlesource.com/#/settings/http-password[HTTP
 Password tab of the user settings page].
 
+Alternately, you may use the
+link:https://pypi.org/project/git-review/[git-review] tool to submit changes
+to Gerrit. If you do, it will set up the Change-Id hook and `gerrit` remote
+for you. You will still need to do the HTTP access step.
+
 [[style]]
 === Style
 

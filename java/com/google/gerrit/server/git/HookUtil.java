@@ -32,6 +32,7 @@ public class HookUtil {
    * @return map of refs that were advertised.
    * @throws ServiceMayNotContinueException if a problem occurred.
    */
+  @SuppressWarnings("deprecation")
   public static Map<String, Ref> ensureAllRefsAdvertised(BaseReceivePack rp)
       throws ServiceMayNotContinueException {
     Map<String, Ref> refs = rp.getAdvertisedRefs();

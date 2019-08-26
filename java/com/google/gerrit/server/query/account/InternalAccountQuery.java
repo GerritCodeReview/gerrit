@@ -17,10 +17,13 @@ package com.google.gerrit.server.query.account;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
 
+import com.google.common.base.Joiner;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.Multimap;
+import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.Schema;
@@ -42,6 +45,8 @@ import java.util.Set;
  * holding on to a single instance.
  */
 public class InternalAccountQuery extends InternalQuery<AccountState, InternalAccountQuery> {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   @Inject
   InternalAccountQuery(
       AccountQueryProcessor queryProcessor,
@@ -60,6 +65,22 @@ public class InternalAccountQuery extends InternalQuery<AccountState, InternalAc
 
   public List<AccountState> byExternalId(ExternalId.Key externalId) {
     return query(AccountPredicates.externalIdIncludingSecondaryEmails(externalId.toString()));
+  }
+
+  @UsedAt(UsedAt.Project.COLLABNET)
+  public AccountState oneByExternalId(ExternalId.Key externalId) {
+    List<AccountState> accountStates = byExternalId(externalId);
+    if (accountStates.size() == 1) {
+      return accountStates.get(0);
+    } else if (accountStates.size() > 0) {
+      StringBuilder msg = new StringBuilder();
+      msg.append("Ambiguous external ID ").append(externalId).append(" for accounts: ");
+      Joiner.on(", ")
+          .appendTo(
+              msg, accountStates.stream().map(AccountState.ACCOUNT_ID_FUNCTION).collect(toList()));
+      logger.atWarning().log(msg.toString());
+    }
+    return null;
   }
 
   public List<AccountState> byFullName(String fullName) {

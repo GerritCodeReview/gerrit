@@ -243,6 +243,7 @@
 
       'render-start': '_handleRenderStart',
       'render-content': '_handleRenderContent',
+      'render-viewport': '_handleRenderViewport',
 
       'normalize-range': '_handleNormalizeRange',
     },
@@ -265,7 +266,7 @@
     },
 
     /** @return {!Promise} */
-    reload() {
+    reload(areParamsChanged) {
       this._loading = true;
       this._errorMessage = null;
       const whitespaceLevel = this._getIgnoreWhitespace();
@@ -277,6 +278,17 @@
         layers.push(pluginLayer);
       }
       this._layers = layers;
+
+      if (areParamsChanged) {
+        const renderUpdateListener = start => {
+          if (start > 120) {
+            this.async(() => this.fire('render-viewport'), 1);
+            this.$.syntaxLayer.removeListener(renderUpdateListener);
+          }
+        };
+
+        this.$.syntaxLayer.addListener(renderUpdateListener);
+      }
 
       this._coverageRanges = [];
       const {changeNum, path, patchRange: {basePatchNum, patchNum}} = this;
@@ -894,6 +906,10 @@
         this.$.reporting.timeEnd(TimingLabel.SYNTAX);
         this.$.reporting.timeEnd(TimingLabel.TOTAL);
       });
+    },
+
+    _handleRenderViewport() {
+      this.$.reporting.diffViewDisplayed();
     },
 
     _handleNormalizeRange(event) {

@@ -67,6 +67,30 @@
     },
     {
       "key": {
+        "uuid": "a538f221_c2c19aa6",
+        "filename": "java/com/google/gerrit/server/api/changes/RevisionApiImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 552,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-08-26T12:57:45Z",
+      "side": 1,
+      "message": "\u003e I went the other way here: Prolog can\u0027t produce Optional.empty as that\n\u003e would result in a ruleError. I added checkState calls and removed Optional\n\u003e from the method signature.\n\nLGTM. Thanks!\n\n\u003e btw: We return Response.none() in other places too and I don\u0027t think we have Optionals there.\n\nmight be worth to check if we have any bugs related to this",
+      "parentUuid": "35d47580_56bd00af",
+      "range": {
+        "startLine": 552,
+        "startChar": 54,
+        "endLine": 552,
+        "endChar": 59
+      },
+      "revId": "50d579779d5a7f9da393787a88d448182bcfef14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b223363b_aa56ad09",
         "filename": "java/com/google/gerrit/server/rules/PrologRuleEvaluator.java",
         "patchSetId": 2

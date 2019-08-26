@@ -330,6 +330,12 @@ limitations under the License.
         -ms-user-select: text;
         user-select: text;
       }
+
+      .whitespace-change-only-message {
+        background-color: var(--diff-context-control-background-color);
+        border: 1px solid var(--diff-context-control-border-color);
+        text-align: center;
+      }
     </style>
     <style include="gr-syntax-theme"></style>
     <style include="gr-ranged-comment-theme"></style>
@@ -365,6 +371,13 @@ limitations under the License.
                 id="diffTable"
                 class$="[[_diffTableClass]]"
                 role="presentation"></table>
+
+            <template is="dom-if" if="[[showNoChangeMessage(loading, prefs, _diffLength)]]">
+              <div class="whitespace-change-only-message">
+                This file only contains whitespace changes.
+                Modify the whitespace setting to see the changes.
+              </div>
+            </template>
           </gr-diff-builder>
         </gr-diff-highlight>
       </gr-diff-selection>

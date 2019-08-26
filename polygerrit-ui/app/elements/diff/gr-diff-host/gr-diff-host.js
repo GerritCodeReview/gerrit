@@ -195,6 +195,8 @@
         value: null,
       },
 
+      _loadedOnParamsChanged: Boolean,
+
       /**
        * TODO(brohlfs): Replace Object type by Gerrit.CoverageRange.
        *
@@ -243,6 +245,11 @@
 
       'render-start': '_handleRenderStart',
       'render-content': '_handleRenderContent',
+<<<<<<< HEAD
+=======
+      'render-syntax': '_handleRenderSyntax',
+      'render-viewport': '_handleRenderViewport',
+>>>>>>> DiffViewDisplayed metric changed to view usable to start reviewing
 
       'normalize-range': '_handleNormalizeRange',
     },
@@ -265,9 +272,10 @@
     },
 
     /** @return {!Promise} */
-    reload() {
+    reload(isParamsChanged) {
       this._loading = true;
       this._errorMessage = null;
+      this._loadedOnParamsChanged = isParamsChanged;
       const whitespaceLevel = this._getIgnoreWhitespace();
 
       const layers = [this.$.syntaxLayer];
@@ -890,10 +898,28 @@
     _handleRenderContent() {
       this.$.reporting.timeEnd(TimingLabel.CONTENT);
       this.$.reporting.time(TimingLabel.SYNTAX);
+<<<<<<< HEAD
       this.$.syntaxLayer.process().then(() => {
         this.$.reporting.timeEnd(TimingLabel.SYNTAX);
         this.$.reporting.timeEnd(TimingLabel.TOTAL);
       });
+=======
+    },
+
+    _handleRenderSyntax() {
+      this.$.reporting.timeEnd(TimingLabel.SYNTAX);
+      this.$.reporting.timeEnd(TimingLabel.TOTAL);
+      // If diff view displayed not ended, it ends here.
+      if (this._loadedOnParamsChanged) {
+        this.$.reporting.diffViewDisplayed();
+      }
+    },
+
+    _handleRenderViewport() {
+      if (this._loadedOnParamsChanged) {
+        this.$.reporting.diffViewDisplayed();
+      }
+>>>>>>> DiffViewDisplayed metric changed to view usable to start reviewing
     },
 
     _handleNormalizeRange(event) {

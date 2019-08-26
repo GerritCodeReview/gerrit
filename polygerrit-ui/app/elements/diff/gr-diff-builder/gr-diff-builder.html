@@ -201,6 +201,19 @@ limitations under the License.
           if (this.layers) {
             layers.push(...this.layers);
           }
+          
+          const renderUpdateListener = (start, end, side) => {
+            if (start > 99) {
+              this.async(() => this.fire('render-viewport'), 1);
+              this.$.syntaxLayer.removeListener(renderUpdateListener);
+            }
+          }
+
+          this.$.syntaxLayer.addListener(renderUpdateListener);
+
+          if (this.pluginLayers) {
+            layers.push(...this.pluginLayers);
+          }
           this._layers = layers;
         },
 

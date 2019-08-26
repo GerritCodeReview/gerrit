@@ -265,7 +265,7 @@
     },
 
     /** @return {!Promise} */
-    reload() {
+    reload(areParamsChanged) {
       this._loading = true;
       this._errorMessage = null;
       const whitespaceLevel = this._getIgnoreWhitespace();
@@ -277,6 +277,11 @@
         layers.push(pluginLayer);
       }
       this._layers = layers;
+
+      if (areParamsChanged) {
+        // We listen on render viewport only on DiffPage (on paramsChanged)
+        this._listenToViewportRender();
+      }
 
       this._coverageRanges = [];
       const {changeNum, path, patchRange: {basePatchNum, patchNum}} = this;
@@ -880,6 +885,19 @@
               (section.a || []).concat(section.b || []);
         return lines.some(line => line.length >= SYNTAX_MAX_LINE_LENGTH);
       });
+    },
+
+    _listenToViewportRender() {
+      const renderUpdateListener = start => {
+        // 120 lines is good enough threshold for full-sized window viewport
+        console.log('Milutin' + start);
+        if (start > 120) {
+          this.$.reporting.diffViewDisplayed();
+          this.$.syntaxLayer.removeListener(renderUpdateListener);
+        }
+      };
+
+      this.$.syntaxLayer.addListener(renderUpdateListener);
     },
 
     _handleRenderStart() {

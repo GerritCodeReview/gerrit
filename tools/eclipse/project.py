@@ -12,15 +12,12 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-#
-# TODO(sop): Remove hack after Buck supports Eclipse
 
 from __future__ import print_function
-# TODO(davido): use Google style for importing instead:
 import argparse
-from os import environ, path, makedirs
-from subprocess import CalledProcessError, check_call, check_output
-from xml.dom import minidom
+import os
+import subprocess
+import xml.dom
 import re
 import sys
 
@@ -39,8 +36,8 @@ cp_targets = {
   MAIN: '//tools/eclipse:main_classpath_collect',
 }
 
-ROOT = path.abspath(__file__)
-while not path.exists(path.join(ROOT, 'WORKSPACE')):
+ROOT = os.path.abspath(__file__)
+while not os.path.exists(os.path.join(ROOT, 'WORKSPACE')):
   ROOT = path.dirname(ROOT)
 
 opts = argparse.ArgumentParser("Create Eclipse Project")
@@ -54,27 +51,29 @@ opts.add_argument('--bazel', help='name of the bazel executable',
 args = opts.parse_args()
 
 def retrieve_ext_location():
-  return check_output([args.bazel_exe, 'info', 'output_base']).strip()
+  return subprocess.check_output(
+      [args.bazel_exe, 'info', 'output_base']).strip()
 
 def gen_bazel_path():
-  bazel = check_output(['which', args.bazel_exe]).strip().decode('UTF-8')
-  with open(path.join(ROOT, ".bazel_path"), 'w') as fd:
+  bazel = subprocess.check_output(
+      ['which', args.bazel_exe]).strip().decode('UTF-8')
+  with open(os.path.join(ROOT, ".bazel_path"), 'w') as fd:
     fd.write("bazel=%s\n" % bazel)
-    fd.write("PATH=%s\n" % environ["PATH"])
+    fd.write("PATH=%s\n" % os.environ["PATH"])
 
 def _query_classpath(target):
   deps = []
   t = cp_targets[target]
   try:
-    check_call([args.bazel_exe, 'build', t])
-  except CalledProcessError:
+    subprocess.check_call([args.bazel_exe, 'build', t])
+  except subprocess.CalledProcessError:
     exit(1)
   name = 'bazel-bin/tools/eclipse/' + t.split(':')[1] + '.runtime_classpath'
   deps = [line.rstrip('\n') for line in open(name)]
   return deps
 
 def gen_project(name='gerrit', root=ROOT):
-  p = path.join(root, '.project')
+  p = os.path.join(root, '.project')
   with open(p, 'w') as fd:
     print("""\
 <?xml version="1.0" encoding="UTF-8"?>
@@ -92,9 +91,9 @@ def gen_project(name='gerrit', root=ROOT):
     """ % {"name": name}, file=fd)
 
 def gen_plugin_classpath(root):
-  p = path.join(root, '.classpath')
+  p = os.path.join(root, '.classpath')
   with open(p, 'w') as fd:
-    if path.exists(path.join(root, 'src', 'test', 'java')):
+    if os.path.exists(os.path.join(root, 'src', 'test', 'java')):
       testpath = """
   <classpathentry excluding="**/BUILD" kind="src" path="src/test/java"\
  out="eclipse-out/test"/>"""
@@ -111,7 +110,7 @@ def gen_plugin_classpath(root):
 
 def gen_classpath(ext):
   def make_classpath():
-    impl = minidom.getDOMImplementation()
+    impl = xml.dom.minidom.getDOMImplementation()
     return impl.createDocument(None, 'classpath', None)
 
   def classpathentry(kind, path, src=None, out=None, exported=None):
@@ -145,7 +144,7 @@ def gen_classpath(ext):
     if p.endswith('-src.jar'):
       # gwt_module() depends on -src.jar for Java to JavaScript compiles.
       if p.startswith("external"):
-        p = path.join(ext, p)
+        p = os.path.join(ext, p)
       gwt_lib.add(p)
       continue
 
@@ -167,7 +166,7 @@ def gen_classpath(ext):
       if p.endswith("external/bazel_tools/tools/jdk/TestRunner_deploy.jar"):
         continue
       if p.startswith("external"):
-        p = path.join(ext, p)
+        p = os.path.join(ext, p)
       lib.add(p)
 
   for p in _query_classpath(GWT):
@@ -186,8 +185,8 @@ def gen_classpath(ext):
         continue
       out = 'eclipse-out/' + s
 
-    p = path.join(s, 'java')
-    if path.exists(p):
+    p = os.path.join(s, 'java')
+    if os.path.exists(p):
       classpathentry('src', p, out=out)
       continue
 
@@ -199,8 +198,8 @@ def gen_classpath(ext):
         o = 'eclipse-out/test'
 
       for srctype in ['java', 'resources']:
-        p = path.join(s, 'src', env, srctype)
-        if path.exists(p):
+        p = os.path.join(s, 'src', env, srctype)
+        if os.path.exists(p):
           classpathentry('src', p, out=o)
 
   for libs in [lib, gwt_lib]:
@@ -210,8 +209,8 @@ def gen_classpath(ext):
       if m:
         prefix = m.group(1)
         suffix = m.group(2)
-        p = path.join(prefix, "jar", "%s-src.jar" % suffix)
-        if path.exists(p):
+        p = os.path.join(prefix, "jar", "%s-src.jar" % suffix)
+        if os.path.exists(p):
           s = p
       if args.plugins:
         classpathentry('lib', j, s, exported=True)
@@ -228,20 +227,20 @@ def gen_classpath(ext):
         classpathentry('lib', j, s)
 
   for s in sorted(gwt_src):
-    p = path.join(ROOT, s, 'src', 'main', 'java')
-    if path.exists(p):
+    p = os.path.join(ROOT, s, 'src', 'main', 'java')
+    if os.path.exists(p):
       classpathentry('lib', p, out='eclipse-out/gwtsrc')
 
   classpathentry('con', JRE)
   classpathentry('output', 'eclipse-out/classes')
 
-  p = path.join(ROOT, '.classpath')
+  p = os.path.join(ROOT, '.classpath')
   with open(p, 'w') as fd:
     doc.writexml(fd, addindent='\t', newl='\n', encoding='UTF-8')
 
   if args.plugins:
     for plugin in plugins:
-      plugindir = path.join(ROOT, plugin)
+      plugindir = os.path.join(ROOT, plugin)
       try:
         gen_project(plugin.replace('plugins/', ""), plugindir)
         gen_plugin_classpath(plugindir)
@@ -250,16 +249,17 @@ def gen_classpath(ext):
               file=sys.stderr)
 
 def gen_factorypath(ext):
-  doc = minidom.getDOMImplementation().createDocument(None, 'factorypath', None)
+  doc = xml.dom.minidom.getDOMImplementation().createDocument(
+      None, 'factorypath', None)
   for jar in _query_classpath(AUTO):
     e = doc.createElement('factorypathentry')
     e.setAttribute('kind', 'EXTJAR')
-    e.setAttribute('id', path.join(ext, jar))
+    e.setAttribute('id', os.path.join(ext, jar))
     e.setAttribute('enabled', 'true')
     e.setAttribute('runInBatchMode', 'false')
     doc.documentElement.appendChild(e)
 
-  p = path.join(ROOT, '.factorypath')
+  p = os.path.join(ROOT, '.factorypath')
   with open(p, 'w') as fd:
     doc.writexml(fd, addindent='\t', newl='\n', encoding='UTF-8')
 
@@ -272,12 +272,14 @@ try:
 
   # TODO(davido): Remove this when GWT gone
   gwt_working_dir = ".gwt_work_dir"
-  if not path.isdir(gwt_working_dir):
-    makedirs(path.join(ROOT, gwt_working_dir))
+  if not os.path.isdir(gwt_working_dir):
+    os.makedirs(os.path.join(ROOT, gwt_working_dir))
 
   try:
-    check_call([args.bazel_exe, 'build', MAIN, GWT, '//gerrit-patch-jgit:libEdit-src.jar'])
-  except CalledProcessError:
+    subprocess.check_call([
+        args.bazel_exe, 'build', MAIN, GWT,
+        '//gerrit-patch-jgit:libEdit-src.jar'])
+  except subprocess.CalledProcessError:
     exit(1)
 except KeyboardInterrupt:
   print('Interrupted by user', file=sys.stderr)

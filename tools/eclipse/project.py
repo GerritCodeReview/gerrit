@@ -17,10 +17,7 @@
 
 from __future__ import print_function
 # TODO(davido): use Google style for importing instead:
-# import optparse
-# ...
-# optparse.OptionParser
-from optparse import OptionParser
+import argparse
 from os import environ, path, makedirs
 from subprocess import CalledProcessError, check_call, check_output
 from xml.dom import minidom
@@ -46,15 +43,15 @@ ROOT = path.abspath(__file__)
 while not path.exists(path.join(ROOT, 'WORKSPACE')):
   ROOT = path.dirname(ROOT)
 
-opts = OptionParser()
-opts.add_option('--plugins', help='create eclipse projects for plugins',
-                action='store_true')
-opts.add_option('--name', help='name of the generated project',
-                action='store', default='gerrit', dest='project_name')
-opts.add_option('--bazel', help='name of the bazel executable',
-                action='store', default='bazel', dest='bazel_exe')
+opts = argparse.ArgumentParser("Create Eclipse Project")
+opts.add_argument('--plugins', help='create eclipse projects for plugins',
+                  action='store_true')
+opts.add_argument('--name', help='name of the generated project',
+                  action='store', default='gerrit', dest='project_name')
+opts.add_argument('--bazel', help='name of the bazel executable',
+                  action='store', default='bazel', dest='bazel_exe')
 
-args, _ = opts.parse_args()
+args = opts.parse_args()
 
 def retrieve_ext_location():
   return check_output([args.bazel_exe, 'info', 'output_base']).strip()

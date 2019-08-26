@@ -16,6 +16,24 @@
       "revId": "d3f74512ad89df74d6bbfcea94d3cb7136e19c06",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bd8c63bf_dad82d58",
+        "filename": "java/com/google/gerrit/server/restapi/account/DeleteDraftComments.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-08-26T07:25:49Z",
+      "side": 0,
+      "message": "The bumping of lastUpdateOn is something very specific to ReviewDb, whilst it shouldn\u0027t exist at all on NoteDb.",
+      "parentUuid": "bdd3d0e8_159e93b7",
+      "revId": "d3f74512ad89df74d6bbfcea94d3cb7136e19c06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

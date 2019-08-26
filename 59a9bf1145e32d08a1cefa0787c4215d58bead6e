@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "12e0c4de_697d642a",
+        "filename": "Documentation/config-labels.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-08-26T08:05:00Z",
+      "side": 1,
+      "message": "I was just thinking about this again.\n\nFor permissions we don\u0027t have this issue because we iterate over the whole parent hierarchy when permissions are evaluated (by getting each of the projects from the cache). I wonder if we could do that same for labels.",
+      "range": {
+        "startLine": 170,
+        "startChar": 0,
+        "endLine": 173,
+        "endChar": 53
+      },
+      "revId": "59a9bf1145e32d08a1cefa0787c4215d58bead6e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

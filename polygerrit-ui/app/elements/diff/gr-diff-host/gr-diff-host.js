@@ -231,6 +231,7 @@
       'render-start': '_handleRenderStart',
       'render-content': '_handleRenderContent',
       'render-syntax': '_handleRenderSyntax',
+      'render-viewport': '_handleRenderViewport',
 
       'normalize-range': '_handleNormalizeRange',
     },
@@ -864,6 +865,12 @@
     _handleRenderSyntax() {
       this.$.reporting.timeEnd(TimingLabel.SYNTAX);
       this.$.reporting.timeEnd(TimingLabel.TOTAL);
+      // If diff view displayed not ended, it ends here.
+      this.$.reporting.diffViewDisplayed();
+    },
+
+    _handleRenderViewport() {
+      this.$.reporting.diffViewDisplayed();
     },
 
     _handleNormalizeRange(event) {

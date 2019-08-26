@@ -671,7 +671,7 @@
         this.$.diffHost.comments = this._commentsForDiff;
         return this.$.diffHost.reload();
       }).then(() => {
-        this.$.reporting.diffViewDisplayed();
+        this.$.reporting.diffViewFullyLoaded();
       });
     },
 

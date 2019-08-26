@@ -52,7 +52,7 @@ opts.add_option('--plugins', help='create eclipse projects for plugins',
 opts.add_option('--name', help='name of the generated project',
                 action='store', default='gerrit', dest='project_name')
 opts.add_option('--bazel', help='name of the bazel executable',
-                action='store', default='bazel', dest='bazel_exe')
+                action='store', default='bazelisk', dest='bazel_exe')
 
 args, _ = opts.parse_args()
 

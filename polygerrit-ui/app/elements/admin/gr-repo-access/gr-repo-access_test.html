@@ -414,6 +414,72 @@ limitations under the License.
         assert.deepEqual(obj, expectedResult);
       });
 
+      test('_recursivelyUpdateAddRemoveObj on new added section', () => {
+        const obj = {
+          'refs/for/*': {
+            permissions: {
+              'label-Code-Review': {
+                rules: {
+                  e798fed07afbc9173a587f876ef8760c78d240c1: {
+                    min: -2,
+                    max: 2,
+                    action: 'ALLOW',
+                    added: true,
+                  },
+                },
+                added: true,
+                label: 'Code-Review',
+              },
+              'labelAs-Code-Review': {
+                rules: {
+                  'ldap:gerritcodereview-eng': {
+                    min: -2,
+                    max: 2,
+                    action: 'ALLOW',
+                    added: true,
+                    deleted: true,
+                  },
+                },
+                added: true,
+                label: 'Code-Review',
+              },
+            },
+            added: true,
+          },
+        };
+
+        const expectedResult = {
+          add: {
+            'refs/for/*': {
+              permissions: {
+                'label-Code-Review': {
+                  rules: {
+                    e798fed07afbc9173a587f876ef8760c78d240c1: {
+                      min: -2,
+                      max: 2,
+                      action: 'ALLOW',
+                      added: true,
+                    },
+                  },
+                  added: true,
+                  label: 'Code-Review',
+                },
+                'labelAs-Code-Review': {
+                  rules: {},
+                  added: true,
+                  label: 'Code-Review',
+                },
+              },
+              added: true,
+            },
+          },
+          remove: {},
+        };
+        const updateObj = {add: {}, remove: {}};
+        element._recursivelyUpdateAddRemoveObj(obj, updateObj);
+        assert.deepEqual(updateObj, expectedResult);
+      });
+
       test('_handleSaveForReview with no changes', () => {
         assert.deepEqual(element._computeAddAndRemove(), {add: {}, remove: {}});
       });

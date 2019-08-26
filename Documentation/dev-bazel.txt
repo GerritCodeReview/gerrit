@@ -9,7 +9,7 @@ To build Gerrit from source, you need:
 * A JDK for Java 8|9|10|11|...
 * Python 2 or 3
 * Node.js
-* link:https://www.bazel.io/versions/master/docs/install.html[Bazel]
+* link:https://docs.bazel.build/versions/master/install.html[Bazel]
 * Maven
 * zip, unzip
 * gcc
@@ -219,7 +219,7 @@ To build with all Error Prone warnings activated, run:
 
 === IntelliJ
 
-The Gerrit build works with Bazel's link:https://ij.bazel.io[IntelliJ plugin].
+The Gerrit build works with Bazel's link:https://ij.bazel.build[IntelliJ plugin].
 Please follow the instructions on <<dev-intellij#,IntelliJ Setup>>.
 
 === Eclipse
@@ -239,7 +239,7 @@ and then follow the link:dev-eclipse.html#setup[setup instructions].
 If an updated classpath is needed, the Eclipse project can be
 refreshed and missing dependency JARs can be downloaded by running
 `project.py` again. For IntelliJ, you need to click the `Sync Project
-with BUILD Files` button of link:https://ij.bazel.io[IntelliJ plugin].
+with BUILD Files` button of link:https://ij.bazel.build[Bazel plugin].
 
 [[documentation]]
 === Documentation

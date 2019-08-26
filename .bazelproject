@@ -1,6 +1,6 @@
 # The project view file (.bazelproject) is used to import Gerrit Bazel packages into the IDE.
 #
-# See: https://ij.bazel.io/docs/project-views.html
+# See: https://ij.bazel.build/docs/project-views.html
 
 directories:
   .

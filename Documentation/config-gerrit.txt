@@ -2604,6 +2604,47 @@ to disk when the process finishes.
 +
 Defaults to 300000 ms (5 minutes).
 
+
+[[index.name.maxMergeCount]]index.name.maxMergeCount::
++
+Determines the max number of simultaneous merges that are allowed. If a merge
+is necessary yet we already have this many threads running, the incoming thread
+(that is calling add/updateDocument) will block until a merge thread has
+completed.  Note that Lucene will only run the smallest `maxThreadCount` merges
+at a time. See the
+link:https://lucene.apache.org/core/5_5_0/core/org/apache/lucene/index/ConcurrentMergeScheduler.html#setDefaultMaxMergesAndThreads(boolean)[
+Lucene documentation] for further details.
++
+Defaults to -1 for (auto detection).
+
+
+[[index.name.maxThreadCount]]index.name.maxThreadCount::
++
+Determines the max number of simultaneous Lucene merge threads that should be running at
+once. This must be less than or equal to `maxMergeCount`. Otherwise it could be possible to have
+threads return an error upon trying to merge a request when it hits maxMergeCount items in the
+queue. See the link:https://lucene.apache.org/core/5_5_0/core/org/apache/lucene/index/ConcurrentMergeScheduler.html#setDefaultMaxMergesAndThreads(boolean)[
+Lucene documentation] for further details.
++
+For further details on Lucene index configuration (auto detection) which
+affects `maxThreadCount` and `maxMergeCount` settings.
+See the
+link:https://lucene.apache.org/core/5_5_0/core/org/apache/lucene/index/ConcurrentMergeScheduler.html#AUTO_DETECT_MERGES_AND_THREADS[
+Lucene documentation]
++
+Defaults to -1 for (auto detection).
+
+[[index.name.enableAutoIOThrottle]]index.name.enableAutoIOThrottle::
++
+Allows the control of whether automatic IO throttling is enabled and used by
+default in the lucene merge queue.  Automatic dynamic IO throttling, which when
+on is used to adaptively rate limit writes bytes/sec to the minimal rate necessary
+so merges do not fall behind. See the
+link:https://lucene.apache.org/core/5_5_0/core/org/apache/lucene/index/ConcurrentMergeScheduler.html#enableAutoIOThrottle()[
+Lucene documentation] for further details.
++
+Defaults to true (throttling enabled).
+
 Sample Lucene index configuration:
 ----
 [index]
@@ -2612,10 +2653,17 @@ Sample Lucene index configuration:
 [index "changes_open"]
   ramBufferSize = 60 m
   maxBufferedDocs = 3000
+  maxThreadCount = 5
+  maxMergeCount = 50
+
 
 [index "changes_closed"]
   ramBufferSize = 20 m
   maxBufferedDocs = 500
+  maxThreadCount = 10
+  maxMergeCount = 100
+  enableIOThrottle = false
+
 ----
 
 [[ldap]]

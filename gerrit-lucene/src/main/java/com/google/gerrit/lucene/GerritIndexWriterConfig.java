@@ -22,6 +22,7 @@ import com.google.gerrit.server.config.ConfigUtil;
 
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.analysis.util.CharArraySet;
+import org.apache.lucene.index.ConcurrentMergeScheduler;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.index.IndexWriterConfig.OpenMode;
 import org.eclipse.jgit.lib.Config;
@@ -47,6 +48,19 @@ class GerritIndexWriterConfig {
     luceneConfig = new IndexWriterConfig(analyzer)
         .setOpenMode(OpenMode.CREATE_OR_APPEND)
         .setCommitOnClose(true);
+
+    ConcurrentMergeScheduler mergeScheduler = new ConcurrentMergeScheduler();
+
+    int maxMergeCount = cfg.getInt("index", name, "maxMergeQueue", -1);
+    int maxThreadCount = cfg.getInt("index", name, "maxMergeThreads", -1);
+    if ( maxMergeCount != -1 || maxThreadCount != -1 ) {
+      mergeScheduler.setMaxMergesAndThreads(maxMergeCount, maxThreadCount);
+    }
+    if ( cfg.getBoolean("index", name, "enableAutoIOThrottle", true) == false ) {
+      mergeScheduler.disableAutoIOThrottle();
+    }
+    luceneConfig.setMergeScheduler(mergeScheduler);
+
     double m = 1 << 20;
     luceneConfig.setRAMBufferSizeMB(cfg.getLong(
         "index", name, "ramBufferSize",

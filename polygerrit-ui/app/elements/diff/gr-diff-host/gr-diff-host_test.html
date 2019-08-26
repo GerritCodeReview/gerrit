@@ -327,11 +327,12 @@ limitations under the License.
           notifySyntaxProcessed();
           // Assert after the notification task is processed.
           Promise.resolve().then(() => {
-            assert.isTrue(element.$.reporting.timeEnd.calledThrice);
             assert.isTrue(element.$.reporting.timeEnd.calledWithExactly(
                 'Diff Total Render'));
             assert.isTrue(element.$.reporting.timeEnd.calledWithExactly(
                 'Diff Syntax Render'));
+            assert.isTrue(element.$.reporting.timeEnd.calledWithExactly(
+                'StartupDiffViewOnlyContent'));
             done();
           });
         });

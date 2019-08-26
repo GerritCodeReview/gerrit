@@ -165,6 +165,13 @@ name as in the parent. This will override the parent label with
 a label containing the defaults (`function = MaxWithBlock`,
 `defaultValue = 0` and no further allowed values)
 
+==== Caveats
+
+Changes to parent project's labels (including creation and deletion) will
+not be reflected immediately in child project's configuration.
+This is to avoid evicting caches, recursively, for all children's projects,
+which could possibly lead to performance degradation.
+
 [[label_layout]]
 === Layout
 

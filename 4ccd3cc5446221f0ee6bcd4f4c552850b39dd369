@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "5740a642_d7817475",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-08-26T12:22:00Z",
+      "side": 1,
+      "message": "Please use the full name rather than username. Also did you accidentally author this with the private gmail account rather than the google account?",
+      "range": {
+        "startLine": 2,
+        "startChar": 12,
+        "endLine": 2,
+        "endChar": 43
+      },
+      "revId": "4ccd3cc5446221f0ee6bcd4f4c552850b39dd369",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "dfafb77a_c14dcbde",
         "filename": "tools/bzl/pkg_war.bzl",
         "patchSetId": 1

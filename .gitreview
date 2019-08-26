@@ -1,0 +1,5 @@
+[gerrit]
+host=gerrit-review.googlesource.com
+scheme=https
+project=gerrit.git
+defaultbranch=stable-2.16

@@ -228,6 +228,15 @@ limitations under the License.
             this.$.coverageLayerRight,
           ];
 
+          const listener = (start, end, side) => {
+            if (start > 99) {
+              this.async(() => this.fire('render-viewport'), 1);
+              this.$.syntaxLayer.removeListener(listener);
+            }
+          }
+
+          this.$.syntaxLayer.addListener(listener);
+
           if (this.pluginLayers) {
             layers.push(...this.pluginLayers);
           }

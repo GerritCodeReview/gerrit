@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "958eb21e_d72adcaa",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 887,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-08-26T12:22:53Z",
+      "side": 1,
+      "message": "this and the previous test are actually a test of the default permission settings; it\u0027s not an inherent property of gerrit, but rather of the default settings in AllProjectCreator and/or AbstractDaemonTest.\n\nCan you check this?",
+      "revId": "d888a88e2f961acb0a77bbb19614217d005a24dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "00c40cdd_5204f491",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 900,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-08-26T12:22:53Z",
+      "side": 1,
+      "message": "this test seems fine to add.",
+      "revId": "d888a88e2f961acb0a77bbb19614217d005a24dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

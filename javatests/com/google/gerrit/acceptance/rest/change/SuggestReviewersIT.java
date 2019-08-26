@@ -34,7 +34,9 @@ import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.api.accounts.EmailInput;
+import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.extensions.common.SuggestedReviewerInfo;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -504,6 +506,24 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
 
     gApi.changes().id(changeId).addReviewer(foo2.id().toString());
     assertReviewers(suggestReviewers(changeId, name), ImmutableList.of(foo1), ImmutableList.of());
+  }
+
+  @Test
+  public void suggestCcAsReviewer() throws Exception {
+    String name = name("foo");
+    TestAccount foo1 = accountCreator.create(name + "-1");
+    TestAccount foo2 = accountCreator.create(name + "-2");
+
+    String changeId = createChange().getChangeId();
+    assertReviewers(
+        suggestReviewers(changeId, name), ImmutableList.of(foo1, foo2), ImmutableList.of());
+
+    AddReviewerInput reviewerInput = new AddReviewerInput();
+    reviewerInput.reviewer = foo2.id().toString();
+    reviewerInput.state = ReviewerState.CC;
+    gApi.changes().id(changeId).addReviewer(reviewerInput);
+    assertReviewers(
+        suggestReviewers(changeId, name), ImmutableList.of(foo1, foo2), ImmutableList.of());
   }
 
   @Test

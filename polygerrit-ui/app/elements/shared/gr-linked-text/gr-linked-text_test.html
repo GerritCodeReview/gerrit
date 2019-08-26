@@ -199,7 +199,20 @@ limitations under the License.
       assert.equal(linkEl.textContent, 'foo');
     });
 
+<<<<<<< HEAD   (e91504 Merge "Use base url for commentlink" into stable-2.15)
     test('disabled config', function() {
+=======
+    test('html with base url', () => {
+      window.CANONICAL_PATH = '/r';
+
+      element.content = 'hash:foo';
+      const linkEl = element.$.output.childNodes[0];
+      assert.isTrue(linkEl.href.endsWith('/r/awesomesauce'));
+      assert.equal(linkEl.textContent, 'foo');
+    });
+
+    test('disabled config', () => {
+>>>>>>> CHANGE (30a895 Add base url to addHTML)
       element.content = 'foo:baz';
       assert.equal(element.$.output.innerHTML, 'foo:baz');
     });

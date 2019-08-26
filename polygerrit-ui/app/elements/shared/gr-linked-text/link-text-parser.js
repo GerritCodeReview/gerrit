@@ -28,6 +28,7 @@ GrLinkTextParser.prototype.addText = function(text, href) {
   this.callback(text, href);
 };
 
+<<<<<<< HEAD   (e91504 Merge "Use base url for commentlink" into stable-2.15)
 GrLinkTextParser.prototype.processLinks = function(text, outputArray) {
   this.sortArrayReverse(outputArray);
   var fragment = document.createDocumentFragment();
@@ -52,6 +53,26 @@ GrLinkTextParser.prototype.processLinks = function(text, outputArray) {
   if (cursor !== 0) {
     fragment.insertBefore(
         document.createTextNode(text.slice(0, cursor)), fragment.firstChild);
+=======
+  /**
+   * Construct a parser for linkifying text. Will linkify plain URLs that appear
+   * in the text as well as custom links if any are specified in the linkConfig
+   * parameter.
+   * @param {Object|null|undefined} linkConfig Comment links as specified by the
+   *     commentlinks field on a project config.
+   * @param {Function} callback The callback to be fired when an intermediate
+   *     parse result is emitted. The callback is passed text and href strings
+   *     if a link is to be created, or a document fragment otherwise.
+   * @param {boolean|undefined} opt_removeZeroWidthSpace If true, zero-width
+   *     spaces will be removed from R=<email> and CC=<email> expressions.
+   */
+  function GrLinkTextParser(linkConfig, callback, opt_removeZeroWidthSpace) {
+    this.linkConfig = linkConfig;
+    this.callback = callback;
+    this.removeZeroWidthSpace = opt_removeZeroWidthSpace;
+    this.baseUrl = Gerrit.BaseUrlBehavior.getBaseUrl();
+    Object.preventExtensions(this);
+>>>>>>> CHANGE (30a895 Add base url to addHTML)
   }
 
   this.callback(null, null, fragment);
@@ -182,6 +203,136 @@ GrLinkTextParser.prototype.parseLinks = function(text, patterns) {
         if (result[i] !== match[0][i]) {
           break;
         }
+<<<<<<< HEAD   (e91504 Merge "Use base url for commentlink" into stable-2.15)
+=======
+
+        outputArray.push({
+          html: htmlOutput,
+          position,
+          length,
+        });
+      };
+
+  /**
+   * Create a CommentLinkItem for a link and append it to the given output
+   * array.
+   * @param {string|null} text The text for the link.
+   * @param {string|null} href The href to use as the URL of the link.
+   * @param {number} position The position inside the source text where the link
+   *     starts.
+   * @param {number} length The number of characters in the source text
+   *     represented by the link.
+   * @param {!Array<Defs.CommentLinkItem>} outputArray The array to which the
+   *     new item is to be appended.
+   */
+  GrLinkTextParser.prototype.addLink =
+      function(text, href, position, length, outputArray) {
+        if (!text || this.hasOverlap(position, length, outputArray)) { return; }
+        if (!!this.baseUrl && href.startsWith('/') &&
+              !href.startsWith(this.baseUrl)) {
+          href = this.baseUrl + href;
+        }
+        this.addItem(text, href, null, position, length, outputArray);
+      };
+
+  /**
+   * Create a CommentLinkItem specified by an HTMl string and append it to the
+   * given output array.
+   * @param {string|null} html The html to parse and use as the result.
+   * @param {number} position The position inside the source text where the item
+   *     starts.
+   * @param {number} length The number of characters in the source text
+   *     represented by the item.
+   * @param {!Array<Defs.CommentLinkItem>} outputArray The array to which the
+   *     new item is to be appended.
+   */
+  GrLinkTextParser.prototype.addHTML =
+      function(html, position, length, outputArray) {
+        if (this.hasOverlap(position, length, outputArray)) { return; }
+        if (!!this.baseUrl && html.match(/<a href=\"\//g) &&
+             !html.match(`/<a href=\"${this.baseUrl}/g`)) {
+          html = html.replace(/<a href=\"\//g, `<a href=\"${this.baseUrl}\/`);
+        }
+        this.addItem(null, null, html, position, length, outputArray);
+      };
+
+  /**
+   * Does the given range overlap with anything already in the item list.
+   * @param {number} position
+   * @param {number} length
+   * @param {!Array<Defs.CommentLinkItem>} outputArray
+   */
+  GrLinkTextParser.prototype.hasOverlap =
+      function(position, length, outputArray) {
+        const endPosition = position + length;
+        for (let i = 0; i < outputArray.length; i++) {
+          const arrayItemStart = outputArray[i].position;
+          const arrayItemEnd = outputArray[i].position + outputArray[i].length;
+          if ((position >= arrayItemStart && position < arrayItemEnd) ||
+        (endPosition > arrayItemStart && endPosition <= arrayItemEnd) ||
+        (position === arrayItemStart && position === arrayItemEnd)) {
+            return true;
+          }
+        }
+        return false;
+      };
+
+  /**
+   * Parse the given source text and emit callbacks for the items that are
+   * parsed.
+   * @param {string} text
+   */
+  GrLinkTextParser.prototype.parse = function(text) {
+    linkify(text, {
+      callback: this.parseChunk.bind(this),
+    });
+  };
+
+  /**
+   * Callback that is pased into the linkify function. ba-linkify will call this
+   * method in either of two ways:
+   * - With both a `text` and `href` parameter provided: this indicates that
+   *   ba-linkify has found a plain URL and wants it linkified.
+   * - With only a `text` parameter provided: this represents the non-link
+   *   content that lies between the links the library has found.
+   * @param {string} text
+   * @param {string|null|undefined} href
+   */
+  GrLinkTextParser.prototype.parseChunk = function(text, href) {
+    // TODO(wyatta) switch linkify sequence, see issue 5526.
+    if (this.removeZeroWidthSpace) {
+      // Remove the zero-width space added in gr-change-view.
+      text = text.replace(/^(CC|R)=\u200B/gm, '$1=');
+    }
+
+    // If the href is provided then ba-linkify has recognized it as a URL. If
+    // the source text does not include a protocol, the protocol will be added
+    // by ba-linkify. Create the link if the href is provided and its protocol
+    // matches the expected pattern.
+    if (href && URL_PROTOCOL_PATTERN.test(href)) {
+      this.addText(text, href);
+    } else {
+      // For the sections of text that lie between the links found by
+      // ba-linkify, we search for the project-config-specified link patterns.
+      this.parseLinks(text, this.linkConfig);
+    }
+  };
+
+  /**
+   * Walk over the given source text to find matches for comemntlink patterns
+   * and emit parse result callbacks.
+   * @param {string} text The raw source text.
+   * @param {Object|null|undefined} patterns A comment links specification
+   *   object.
+   */
+  GrLinkTextParser.prototype.parseLinks = function(text, patterns) {
+    // The outputArray is used to store all of the matches found for all
+    // patterns.
+    const outputArray = [];
+    for (const p in patterns) {
+      if (patterns[p].enabled != null && patterns[p].enabled == false) {
+        continue;
+>>>>>>> CHANGE (30a895 Add base url to addHTML)
       }
       result = result.slice(i);
 

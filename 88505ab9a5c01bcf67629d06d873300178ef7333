@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "573693ec_a0b2af83",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2019-08-26T14:50:46Z",
+      "side": 1,
+      "message": "I was thinking the exact same when reviewing the parent change. 😊",
+      "revId": "88505ab9a5c01bcf67629d06d873300178ef7333",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "41f9b5e6_5e76c46f",
+        "filename": "java/com/google/gerrit/server/restapi/change/DeleteChange.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-08-26T13:53:58Z",
+      "side": 1,
+      "message": "this is not quite what you want: you want to delete the change edits for all users at the same time. You should test this by creating the change + changeedit as a user, and then deleting it as the admin (the normal order of things.)\n\nAlso, since this is in the repo (rather than All-Users), maybe this should go into DeleteChangeOp#updateRepo.",
+      "range": {
+        "startLine": 67,
+        "startChar": 72,
+        "endLine": 67,
+        "endChar": 79
+      },
+      "revId": "ca135ada9e903211a7531dd1e911a87527defc4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

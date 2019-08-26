@@ -195,6 +195,8 @@
         value: null,
       },
 
+      _loadedOnParamsChanged: Boolean,
+
       /**
        * TODO(brohlfs): Replace Object type by Gerrit.CoverageRange.
        *
@@ -243,6 +245,7 @@
 
       'render-start': '_handleRenderStart',
       'render-content': '_handleRenderContent',
+      'render-viewport': '_handleRenderViewport',
 
       'normalize-range': '_handleNormalizeRange',
     },
@@ -265,9 +268,10 @@
     },
 
     /** @return {!Promise} */
-    reload() {
+    reload(isParamsChanged) {
       this._loading = true;
       this._errorMessage = null;
+      this._loadedOnParamsChanged = isParamsChanged;
       const whitespaceLevel = this._getIgnoreWhitespace();
 
       const layers = [this.$.syntaxLayer];
@@ -277,6 +281,15 @@
         layers.push(pluginLayer);
       }
       this._layers = layers;
+
+      const renderUpdateListener = start => {
+        if (start > 120) {
+          this.async(() => this.fire('render-viewport'), 1);
+          this.$.syntaxLayer.removeListener(renderUpdateListener);
+        }
+      };
+
+      this.$.syntaxLayer.addListener(renderUpdateListener);
 
       this._coverageRanges = [];
       const {changeNum, path, patchRange: {basePatchNum, patchNum}} = this;
@@ -893,7 +906,17 @@
       this.$.syntaxLayer.process().then(() => {
         this.$.reporting.timeEnd(TimingLabel.SYNTAX);
         this.$.reporting.timeEnd(TimingLabel.TOTAL);
+        // If diff view displayed not ended, it ends here.
+        if (this._loadedOnParamsChanged) {
+          this.$.reporting.diffViewDisplayed();
+        }
       });
+    },
+
+    _handleRenderViewport() {
+      if (this._loadedOnParamsChanged) {
+        this.$.reporting.diffViewDisplayed();
+      }
     },
 
     _handleNormalizeRange(event) {

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dfafb77a_c14dcbde",
+        "filename": "tools/bzl/pkg_war.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-08-26T12:20:57Z",
+      "side": 1,
+      "message": "Where is JavaInfo defined?",
+      "revId": "4ccd3cc5446221f0ee6bcd4f4c552850b39dd369",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

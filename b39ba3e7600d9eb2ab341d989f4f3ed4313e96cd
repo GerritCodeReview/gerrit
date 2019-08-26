@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f5e8975d_d12ccfd2",
+        "filename": "polygerrit-ui/app/behaviors/gr-admin-nav-behavior/gr-admin-nav-behavior.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-08-26T12:23:25Z",
+      "side": 1,
+      "message": "Maybe simpler:\n\n  capability: link.capability || null,",
+      "range": {
+        "startLine": 98,
+        "startChar": 8,
+        "endLine": 98,
+        "endChar": 61
+      },
+      "revId": "b39ba3e7600d9eb2ab341d989f4f3ed4313e96cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "979c83e4_6cc07f86",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-admin-api/gr-admin-api.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-08-26T12:23:25Z",
+      "side": 1,
+      "message": "Maybe simpler:\n\n  const link \u003d {text, url, capability: opt_capability || null};\n  this._menuLinks.push(link);\n\nThanks to Tao for this suggestion.",
+      "range": {
+        "startLine": 34,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 38
+      },
+      "revId": "b39ba3e7600d9eb2ab341d989f4f3ed4313e96cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

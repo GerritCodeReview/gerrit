@@ -269,8 +269,11 @@
       });
     },
 
-    /** @return {!Promise} */
-    reload() {
+    /**
+     * @param {boolean=} areParamsChanged ends reporting events that started on location change.
+     * @return {!Promise}
+     **/
+    reload(areParamsChanged) {
       this._loading = true;
       this._errorMessage = null;
       const whitespaceLevel = this._getIgnoreWhitespace();
@@ -282,6 +285,11 @@
         layers.push(pluginLayer);
       }
       this._layers = layers;
+
+      if (areParamsChanged) {
+        // We listen on render viewport only on DiffPage (on paramsChanged)
+        this._listenToViewportRender();
+      }
 
       this._coverageRanges = [];
       const {changeNum, path, patchRange: {basePatchNum, patchNum}} = this;
@@ -900,6 +908,18 @@
       });
     },
 
+    _listenToViewportRender() {
+      const renderUpdateListener = start => {
+        // 120 lines is good enough threshold for full-sized window viewport
+        if (start > 120) {
+          this.$.reporting.diffViewDisplayed();
+          this.$.syntaxLayer.removeListener(renderUpdateListener);
+        }
+      };
+
+      this.$.syntaxLayer.addListener(renderUpdateListener);
+    },
+
     _handleRenderStart() {
       this.$.reporting.time(TimingLabel.TOTAL);
       this.$.reporting.time(TimingLabel.CONTENT);
@@ -907,6 +927,7 @@
 
     _handleRenderContent() {
       this.$.reporting.timeEnd(TimingLabel.CONTENT);
+      this.$.reporting.diffViewContentDisplayed();
     },
 
     _handleNormalizeRange(event) {

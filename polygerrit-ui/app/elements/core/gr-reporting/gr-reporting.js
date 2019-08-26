@@ -70,13 +70,17 @@
     CHANGE_DISPLAYED: 'ChangeDisplayed',
     CHANGE_LOAD_FULL: 'ChangeFullyLoaded',
     DASHBOARD_DISPLAYED: 'DashboardDisplayed',
+    DIFF_VIEW_CONTENT_DISPLAYED: 'DiffViewOnlyContent',
     DIFF_VIEW_DISPLAYED: 'DiffViewDisplayed',
+    DIFF_VIEW_LOAD_FULL: 'DiffViewFullyLoaded',
     FILE_LIST_DISPLAYED: 'FileListDisplayed',
     PLUGINS_LOADED: 'PluginsLoaded',
     STARTUP_CHANGE_DISPLAYED: 'StartupChangeDisplayed',
     STARTUP_CHANGE_LOAD_FULL: 'StartupChangeFullyLoaded',
     STARTUP_DASHBOARD_DISPLAYED: 'StartupDashboardDisplayed',
+    STARTUP_DIFF_VIEW_CONTENT_DISPLAYED: 'StartupDiffViewOnlyContent',
     STARTUP_DIFF_VIEW_DISPLAYED: 'StartupDiffViewDisplayed',
+    STARTUP_DIFF_VIEW_LOAD_FULL: 'StartupDiffViewFullyLoaded',
     STARTUP_FILE_LIST_DISPLAYED: 'StartupFileListDisplayed',
     WEB_COMPONENTS_READY: 'WebComponentsReady',
     METRICS_PLUGIN_LOADED: 'MetricsPluginLoaded',
@@ -88,7 +92,9 @@
   STARTUP_TIMERS[TIMER.STARTUP_CHANGE_DISPLAYED] = 0;
   STARTUP_TIMERS[TIMER.STARTUP_CHANGE_LOAD_FULL] = 0;
   STARTUP_TIMERS[TIMER.STARTUP_DASHBOARD_DISPLAYED] = 0;
+  STARTUP_TIMERS[TIMER.STARTUP_DIFF_VIEW_CONTENT_DISPLAYED] = 0;
   STARTUP_TIMERS[TIMER.STARTUP_DIFF_VIEW_DISPLAYED] = 0;
+  STARTUP_TIMERS[TIMER.STARTUP_DIFF_VIEW_LOAD_FULL] = 0;
   STARTUP_TIMERS[TIMER.STARTUP_FILE_LIST_DISPLAYED] = 0;
   STARTUP_TIMERS[TIMING.APP_STARTED] = 0;
   // WebComponentsReady timer is triggered from gr-router.
@@ -287,7 +293,9 @@
       this.time(TIMER.CHANGE_DISPLAYED);
       this.time(TIMER.CHANGE_LOAD_FULL);
       this.time(TIMER.DASHBOARD_DISPLAYED);
+      this.time(TIMER.DIFF_VIEW_CONTENT_DISPLAYED);
       this.time(TIMER.DIFF_VIEW_DISPLAYED);
+      this.time(TIMER.DIFF_VIEW_LOAD_FULL);
       this.time(TIMER.FILE_LIST_DISPLAYED);
     },
 
@@ -325,6 +333,23 @@
         this.timeEnd(TIMER.STARTUP_DIFF_VIEW_DISPLAYED);
       } else {
         this.timeEnd(TIMER.DIFF_VIEW_DISPLAYED);
+      }
+    },
+
+    diffViewFullyLoaded() {
+      if (this._baselines.hasOwnProperty(TIMER.STARTUP_DIFF_VIEW_LOAD_FULL)) {
+        this.timeEnd(TIMER.STARTUP_DIFF_VIEW_LOAD_FULL);
+      } else {
+        this.timeEnd(TIMER.DIFF_VIEW_LOAD_FULL);
+      }
+    },
+
+    diffViewContentDisplayed() {
+      if (this._baselines.hasOwnProperty(
+          TIMER.STARTUP_DIFF_VIEW_CONTENT_DISPLAYED)) {
+        this.timeEnd(TIMER.STARTUP_DIFF_VIEW_CONTENT_DISPLAYED);
+      } else {
+        this.timeEnd(TIMER.DIFF_VIEW_CONTENT_DISPLAYED);
       }
     },
 

@@ -493,6 +493,20 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void suggestNoExistingReviewers() throws Exception {
+    String name = name("foo");
+    TestAccount foo1 = accountCreator.create(name + "-1");
+    TestAccount foo2 = accountCreator.create(name + "-2");
+
+    String changeId = createChange().getChangeId();
+    assertReviewers(
+        suggestReviewers(changeId, name), ImmutableList.of(foo1, foo2), ImmutableList.of());
+
+    gApi.changes().id(changeId).addReviewer(foo2.id().toString());
+    assertReviewers(suggestReviewers(changeId, name), ImmutableList.of(foo1), ImmutableList.of());
+  }
+
+  @Test
   public void suggestBySecondaryEmailWithModifyAccount() throws Exception {
     String secondaryEmail = "foo.secondary@example.com";
     TestAccount foo = createAccountWithSecondaryEmail("foo", secondaryEmail);

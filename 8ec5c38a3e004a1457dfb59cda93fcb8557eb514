@@ -1,0 +1,176 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "089c423a_82657f4f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-08-26T23:40:42Z",
+      "side": 1,
+      "message": "Please add line breaks at around 72 columns",
+      "revId": "8ec5c38a3e004a1457dfb59cda93fcb8557eb514",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b3c1b3cc_a4079927",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-08-26T23:40:42Z",
+      "side": 1,
+      "message": "General comment for the changes in this file. Please wrap the lines shorter (see the rest of the document for example) to make it easier to review on smaller screens.",
+      "revId": "8ec5c38a3e004a1457dfb59cda93fcb8557eb514",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4321e844_b4dcc4bd",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2609,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-08-26T23:40:42Z",
+      "side": 1,
+      "message": "\"number of\"?",
+      "range": {
+        "startLine": 2609,
+        "startChar": 19,
+        "endLine": 2609,
+        "endChar": 20
+      },
+      "revId": "8ec5c38a3e004a1457dfb59cda93fcb8557eb514",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "54bc2701_39cf3911",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2620,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-08-26T23:40:42Z",
+      "side": 1,
+      "message": "number of",
+      "range": {
+        "startLine": 2620,
+        "startChar": 19,
+        "endLine": 2620,
+        "endChar": 20
+      },
+      "revId": "8ec5c38a3e004a1457dfb59cda93fcb8557eb514",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8a61a51f_954e647e",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2620,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-08-26T23:40:42Z",
+      "side": 1,
+      "message": "less than or equal to",
+      "range": {
+        "startLine": 2620,
+        "startChar": 100,
+        "endLine": 2620,
+        "endChar": 103
+      },
+      "revId": "8ec5c38a3e004a1457dfb59cda93fcb8557eb514",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "944ee116_dd71aaaf",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2636,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-08-26T23:40:42Z",
+      "side": 1,
+      "message": "It\u0027s not clear if this section describes something that should be set in gerrit.config (it doesn\u0027t follow the same naming format at the previous sections).",
+      "range": {
+        "startLine": 2636,
+        "startChar": 0,
+        "endLine": 2636,
+        "endChar": 53
+      },
+      "revId": "8ec5c38a3e004a1457dfb59cda93fcb8557eb514",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "13356c17_fc592351",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2640,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-08-26T23:40:42Z",
+      "side": 1,
+      "message": "lucene",
+      "range": {
+        "startLine": 2640,
+        "startChar": 4,
+        "endLine": 2640,
+        "endChar": 11
+      },
+      "revId": "8ec5c38a3e004a1457dfb59cda93fcb8557eb514",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "283026fb_59c57c17",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/GerritIndexWriterConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-08-26T23:40:42Z",
+      "side": 1,
+      "message": "nit: remove the extra spaces.\n\nthis can be automated by running google-java-format",
+      "range": {
+        "startLine": 56,
+        "startChar": 7,
+        "endLine": 56,
+        "endChar": 9
+      },
+      "revId": "8ec5c38a3e004a1457dfb59cda93fcb8557eb514",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

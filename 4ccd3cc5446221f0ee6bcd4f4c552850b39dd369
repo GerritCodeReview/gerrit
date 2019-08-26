@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "08bef846_40345cd5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1030882
+      },
+      "writtenOn": "2019-08-26T12:52:44Z",
+      "side": 1,
+      "message": "OK, done. I had my personal gmail defined for git.",
+      "parentUuid": "5740a642_d7817475",
+      "range": {
+        "startLine": 2,
+        "startChar": 12,
+        "endLine": 2,
+        "endChar": 43
+      },
+      "revId": "4ccd3cc5446221f0ee6bcd4f4c552850b39dd369",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dfafb77a_c14dcbde",
         "filename": "tools/bzl/pkg_war.bzl",
         "patchSetId": 1
@@ -39,6 +63,24 @@
       "revId": "4ccd3cc5446221f0ee6bcd4f4c552850b39dd369",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "23b95921_30b1f55d",
+        "filename": "tools/bzl/pkg_war.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1030882
+      },
+      "writtenOn": "2019-08-26T12:52:44Z",
+      "side": 1,
+      "message": "JavaInfo is a native provider in Bazel (see https://docs.bazel.build/versions/master/skylark/lib/JavaInfo.html)",
+      "parentUuid": "dfafb77a_c14dcbde",
+      "revId": "4ccd3cc5446221f0ee6bcd4f4c552850b39dd369",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

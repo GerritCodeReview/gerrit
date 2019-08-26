@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "174b793b_6938d3ce",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-08-26T09:53:56Z",
+      "side": 1,
+      "message": "documentation",
+      "revId": "759bf04c7816131cb7f0369638c9e50c19d8cde2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fa5abab5_4a5a75a4",
+        "filename": "Documentation/config-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-08-26T09:53:56Z",
+      "side": 1,
+      "message": "Does this plugin actually have a stable-2.15 branch?",
+      "revId": "759bf04c7816131cb7f0369638c9e50c19d8cde2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

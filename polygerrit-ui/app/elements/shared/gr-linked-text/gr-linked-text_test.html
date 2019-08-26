@@ -203,6 +203,15 @@ limitations under the License.
       assert.equal(linkEl.textContent, 'foo');
     });
 
+    test('html with base url', () => {
+      window.CANONICAL_PATH = '/r';
+
+      element.content = 'hash:foo';
+      const linkEl = element.$.output.childNodes[0];
+      assert.isTrue(linkEl.href.endsWith('/r/awesomesauce'));
+      assert.equal(linkEl.textContent, 'foo');
+    });
+
     test('disabled config', () => {
       element.content = 'foo:baz';
       assert.equal(element.$.output.innerHTML, 'foo:baz');

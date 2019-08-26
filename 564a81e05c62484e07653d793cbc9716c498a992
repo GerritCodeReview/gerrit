@@ -69,6 +69,29 @@
       "revId": "564a81e05c62484e07653d793cbc9716c498a992",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "377348c0_48600ef2",
+        "filename": "gerrit-httpd/src/main/java/com/google/gerrit/httpd/raw/StaticModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-08-26T12:28:19Z",
+      "side": 1,
+      "message": "Are you sure this condition is right?\nIf GWT is disabled, this condition would always be false, and thus you would not set the XsrfCookie for any index path, is that what you want? I understood your CL description and this comment such that you wanted \n\n!options.enableGwtUi() || !p.equals(\"/\")",
+      "range": {
+        "startLine": 246,
+        "startChar": 12,
+        "endLine": 246,
+        "endChar": 51
+      },
+      "revId": "564a81e05c62484e07653d793cbc9716c498a992",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "859d46f0_7c9f77ca",
+        "filename": "polygerrit-ui/app/elements/shared/gr-linked-text/link-text-parser.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-08-26T11:08:58Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "305fd05a_0fb07a3d",
+      "revId": "92418da1e231381470aae6d815c2de56b1177b1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e75468d8_77b3f836",
         "filename": "polygerrit-ui/app/elements/shared/gr-linked-text/link-text-parser.js",
         "patchSetId": 7
@@ -39,6 +57,30 @@
       "revId": "92418da1e231381470aae6d815c2de56b1177b1f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4fe3aa48_a3da3148",
+        "filename": "polygerrit-ui/app/elements/shared/gr-linked-text/link-text-parser.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-08-26T11:08:58Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "e75468d8_77b3f836",
+      "range": {
+        "startLine": 277,
+        "startChar": 0,
+        "endLine": 277,
+        "endChar": 59
+      },
+      "revId": "92418da1e231381470aae6d815c2de56b1177b1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -77,6 +119,24 @@
     },
     {
       "key": {
+        "uuid": "00e5f79f_ec8c5868",
+        "filename": "polygerrit-ui/app/elements/shared/gr-linked-text/link-text-parser.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-08-26T11:08:58Z",
+      "side": 1,
+      "message": "It appears that when i check for it here, it causes a regression (changes the url so that it contains the project which is wrong).\n\nThe url looks like this \"http://gerrit.new/r/c/All-Projects/+/q/I12c11c870e67f54e5ec6dc31ca7b143f86471279\"\n\nwhen i do:\n\n        if (patterns[p].link[0] \u003d\u003d \u0027#\u0027 || patterns[p].link[0] \u003d\u003d \u0027/\u0027) {\n          patterns[p].link \u003d patterns[p].link.substr(1);\n        }",
+      "parentUuid": "47e761e1_7bcf49b1",
+      "revId": "92418da1e231381470aae6d815c2de56b1177b1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9144d4cd_8d3a4811",
         "filename": "polygerrit-ui/app/elements/shared/gr-linked-text/link-text-parser.js",
         "patchSetId": 7
@@ -91,6 +151,24 @@
       "revId": "92418da1e231381470aae6d815c2de56b1177b1f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "424cdd45_50fedc18",
+        "filename": "polygerrit-ui/app/elements/shared/gr-linked-text/link-text-parser.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-08-26T11:08:58Z",
+      "side": 1,
+      "message": "if a user sets a base url, it will always be /\u003cbase-url\u003e (no leading slash after the base url).\n\nAs i introduced this behavour, that\u0027s how i expected it to work which it does.",
+      "parentUuid": "9144d4cd_8d3a4811",
+      "revId": "92418da1e231381470aae6d815c2de56b1177b1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

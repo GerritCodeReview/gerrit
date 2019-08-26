@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "c2ff2374_34f90a24",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1408,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-08-26T12:16:20Z",
+      "side": 1,
+      "message": "it looks like I was wrong with some hunches. The change edit is in the same repo as the main change ref, \n\n  https://gerrit.googlesource.com/gerrit/+/283ac230a4b1320627debea83f1a3fde22c90863/java/com/google/gerrit/server/edit/ChangeEditUtil.java#120\n\nso to write the test you have to do\n\n    try (Repository repo \u003d repoManager.openRepository(reponame)) {\n\nthe reponame should be the same one as here: \n\nhttps://gerrit.googlesource.com/gerrit/+/283ac230a4b1320627debea83f1a3fde22c90863/java/com/google/gerrit/acceptance/AbstractDaemonTest.java#260\n\nyour lsRemote() lists the refs through the Git wire protocol. That is a useful exercise to try, but since we have all of the data inside the same JVM process, you should just access it directly.\n\nsince the refs are in the same repo as the change, you could try adding the deletion into the same BatchRefUpdate.",
+      "parentUuid": "6dea445b_e7417488",
+      "range": {
+        "startLine": 1408,
+        "startChar": 15,
+        "endLine": 1408,
+        "endChar": 23
+      },
+      "revId": "aae38d640c8bfc7c3d68a608afa73627b745a812",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9b206266_d4c37ace",
         "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 3

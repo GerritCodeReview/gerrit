@@ -48,6 +48,54 @@
     },
     {
       "key": {
+        "uuid": "0f5999d3_b94d4be8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2019-08-26T11:50:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3666b1af_37d914ef",
+      "range": {
+        "startLine": 10,
+        "startChar": 16,
+        "endLine": 10,
+        "endChar": 20
+      },
+      "revId": "568bf2ce2db3b9704386d10f2a1e4acf6e9e1f1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6b78d50d_91ff6ce7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2019-08-26T11:50:47Z",
+      "side": 1,
+      "message": "This is a cherry-pick so I hadn\u0027t amended the commit message.\nI have done it now anyway.",
+      "parentUuid": "d6fa5948_0b87b6c1",
+      "range": {
+        "startLine": 10,
+        "startChar": 59,
+        "endLine": 10,
+        "endChar": 63
+      },
+      "revId": "568bf2ce2db3b9704386d10f2a1e4acf6e9e1f1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "235d8c42_f0a6f0ab",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -68,6 +116,30 @@
       "revId": "568bf2ce2db3b9704386d10f2a1e4acf6e9e1f1c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c1a0a2e4_6a3a93c6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2019-08-26T11:50:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "235d8c42_f0a6f0ab",
+      "range": {
+        "startLine": 11,
+        "startChar": 31,
+        "endLine": 11,
+        "endChar": 39
+      },
+      "revId": "568bf2ce2db3b9704386d10f2a1e4acf6e9e1f1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -155,6 +155,24 @@
     },
     {
       "key": {
+        "uuid": "d149b76e_4be7145e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-linked-text/link-text-parser.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-08-26T13:01:43Z",
+      "side": 1,
+      "message": "I doin\u0027t think we need to check / since we now add the base url to addLink",
+      "parentUuid": "a750ab69_2cb2c5fd",
+      "revId": "92418da1e231381470aae6d815c2de56b1177b1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9144d4cd_8d3a4811",
         "filename": "polygerrit-ui/app/elements/shared/gr-linked-text/link-text-parser.js",
         "patchSetId": 7

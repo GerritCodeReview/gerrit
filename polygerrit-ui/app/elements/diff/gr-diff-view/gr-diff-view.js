@@ -669,8 +669,10 @@
         }
         this._loading = false;
         this.$.diffHost.comments = this._commentsForDiff;
-        return this.$.diffHost.reload();
+        return this.$.diffHost.reload(true);
       }).then(() => {
+        this.$.reporting.diffViewFullyLoaded();
+        // If diff view displayed not ended, it ends here.
         this.$.reporting.diffViewDisplayed();
       });
     },

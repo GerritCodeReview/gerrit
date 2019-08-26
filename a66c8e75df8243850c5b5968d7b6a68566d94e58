@@ -16,6 +16,24 @@
       "revId": "a66c8e75df8243850c5b5968d7b6a68566d94e58",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1d5a2fe5_d2d2520e",
+        "filename": "tools/eclipse/project.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-08-26T23:15:27Z",
+      "side": 1,
+      "message": "I agree with this.  I don\u0027t have baselisk on my system and this change would break the script for me.",
+      "parentUuid": "34ded6e2_57d0aa69",
+      "revId": "a66c8e75df8243850c5b5968d7b6a68566d94e58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

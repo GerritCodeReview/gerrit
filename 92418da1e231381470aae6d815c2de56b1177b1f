@@ -137,6 +137,24 @@
     },
     {
       "key": {
+        "uuid": "a750ab69_2cb2c5fd",
+        "filename": "polygerrit-ui/app/elements/shared/gr-linked-text/link-text-parser.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-08-26T12:42:05Z",
+      "side": 1,
+      "message": "Patch set 10 looks good to me. Would you still like to resolve this issue here? I am not sure I understand.",
+      "parentUuid": "00e5f79f_ec8c5868",
+      "revId": "92418da1e231381470aae6d815c2de56b1177b1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9144d4cd_8d3a4811",
         "filename": "polygerrit-ui/app/elements/shared/gr-linked-text/link-text-parser.js",
         "patchSetId": 7

@@ -39,15 +39,20 @@ import org.kohsuke.args4j.Option;
 public class SuggestChangeReviewers extends SuggestReviewers
     implements RestReadView<ChangeResource> {
 
+  private final PermissionBackend permissionBackend;
+  private final Provider<CurrentUser> self;
+  private final ProjectCache projectCache;
+
+  boolean excludeGroups;
+
   @Option(
       name = "--exclude-groups",
       aliases = {"-e"},
       usage = "exclude groups from query")
-  boolean excludeGroups;
-
-  private final PermissionBackend permissionBackend;
-  private final Provider<CurrentUser> self;
-  private final ProjectCache projectCache;
+  public SuggestChangeReviewers setExcludeGroups(boolean excludeGroups) {
+    this.excludeGroups = excludeGroups;
+    return this;
+  }
 
   @Inject
   SuggestChangeReviewers(

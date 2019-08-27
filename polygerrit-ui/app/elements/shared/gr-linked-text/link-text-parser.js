@@ -108,8 +108,9 @@ GrLinkTextParser.prototype.addLink =
 GrLinkTextParser.prototype.addHTML =
     function(html, position, length, outputArray) {
   if (!this.hasOverlap(position, length, outputArray)) {
+    const regexBase = new RegExp(`^<a href="${this.baseUrl}`, 'i');
     if (!!this.baseUrl && html.match(/<a href=\"\//g) &&
-         !html.match(`/<a href=\"${this.baseUrl}/g`)) {
+         !regexBase.test(html)) {
       html = html.replace(/<a href=\"\//g, `<a href=\"${this.baseUrl}\/`);
     }
     this.addItem(null, null, html, position, length, outputArray);

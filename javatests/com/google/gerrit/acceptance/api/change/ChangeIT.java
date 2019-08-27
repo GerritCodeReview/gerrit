@@ -116,6 +116,7 @@ import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.Comment.Range;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.ListChangesOption;
+import com.google.gerrit.extensions.client.ProjectState;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.client.SubmitType;
@@ -862,6 +863,21 @@ public class ChangeIT extends AbstractDaemonTest {
         assertThrows(
             ResourceConflictException.class, () -> gApi.changes().id(r.getChangeId()).revert());
     assertThat(thrown).hasMessageThat().contains("Cannot revert initial commit");
+  }
+
+  @Test
+  public void cantCreateRevertWithoutProjectWritePermission() throws Exception {
+    PushOneCommit.Result r = createChange();
+    gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).review(ReviewInput.approve());
+    gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).submit();
+    projectCache.checkedGet(project).getProject().setState(ProjectState.READ_ONLY);
+
+    ResourceConflictException thrown =
+        assertThrows(
+            ResourceConflictException.class, () -> gApi.changes().id(r.getChangeId()).revert());
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains("project state " + ProjectState.READ_ONLY + " does not permit write");
   }
 
   @FunctionalInterface

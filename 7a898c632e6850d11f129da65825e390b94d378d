@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2c535078_23a4d6ab",
+        "filename": "tools/eclipse/project.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-08-27T08:33:07Z",
+      "side": 1,
+      "message": "This fails for me with:\n\n NameError: name \u0027find_bazel\u0027 is not defined",
+      "revId": "7a898c632e6850d11f129da65825e390b94d378d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

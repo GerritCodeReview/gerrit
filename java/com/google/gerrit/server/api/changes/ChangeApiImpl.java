@@ -448,6 +448,7 @@ class ChangeApiImpl implements ChangeApi {
     try {
       suggestReviewers.setQuery(r.getQuery());
       suggestReviewers.setLimit(r.getLimit());
+      suggestReviewers.setExcludeGroups(r.getExcludeGroups());
       return suggestReviewers.apply(change).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot retrieve suggested reviewers", e);

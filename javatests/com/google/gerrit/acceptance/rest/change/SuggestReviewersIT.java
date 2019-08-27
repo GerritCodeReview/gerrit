@@ -136,6 +136,27 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void suggestReviewersWithExcludeGroups() throws Exception {
+    String changeId = createChange().getChangeId();
+
+    // by default groups are included
+    List<SuggestedReviewerInfo> reviewers = suggestReviewers(changeId, name("user"));
+    assertReviewers(
+        reviewers, ImmutableList.of(user1, user2, user3), ImmutableList.of(group1, group2, group3));
+
+    // exclude groups
+    reviewers =
+        gApi.changes().id(changeId).suggestReviewers(name("user")).excludeGroups(true).get();
+    assertReviewers(reviewers, ImmutableList.of(user1, user2, user3), ImmutableList.of());
+
+    // explicitly include groups
+    reviewers =
+        gApi.changes().id(changeId).suggestReviewers(name("user")).excludeGroups(false).get();
+    assertReviewers(
+        reviewers, ImmutableList.of(user1, user2, user3), ImmutableList.of(group1, group2, group3));
+  }
+
+  @Test
   @GerritConfig(name = "accounts.visibility", value = "SAME_GROUP")
   public void suggestReviewersSameGroupVisibility() throws Exception {
     String changeId = createChange().getChangeId();

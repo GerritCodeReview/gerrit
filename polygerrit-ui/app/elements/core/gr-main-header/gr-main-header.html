@@ -41,11 +41,14 @@ limitations under the License.
       }
       .bigTitle {
         color: var(--header-text-color);
-        font-size: 1.75rem;
+        font-size: var(--header-title-font-size);
         text-decoration: none;
       }
       .bigTitle:hover {
         text-decoration: underline;
+      }
+      .titleText {
+        font-size: var(--header-font-size);
       }
       /* TODO (viktard): Clean-up after chromium-style migrates to component. */
       .titleText::before {
@@ -55,8 +58,10 @@ limitations under the License.
         content: "";
         display: inline-block;
         height: var(--header-icon-size);
-        margin-right: calc(var(--header-icon-size) / 4);
-        vertical-align: text-bottom;
+        margin-right: var(--header-margin-right, calc(var(--header-icon-size) / 4));
+        margin-left: var(--header-margin-left);
+        margin-bottom: var(--header-margin-bottom);
+        vertical-align: var(--header-vertical-align, text-bottom);
         width: var(--header-icon-size);
       }
       .titleText::after {

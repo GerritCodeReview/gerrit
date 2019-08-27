@@ -69,15 +69,16 @@ limitations under the License.
       }
       gr-main-header {
         background-color: var(--header-background-color);
-        padding: 0 var(--default-horizontal-margin);
-        border-bottom: 1px solid var(--border-color);
+        padding: var(--header-default-horizontal-margin, 0);
+        box-shadow: var(--box-shadow);
+        border-bottom: var(--header-border-bottom, 1px solid var(--border-color));
       }
       footer {
         background-color: var(--footer-background-color);
-        border-top: 1px solid var(--border-color);
+        border-top: var(--footer-border-top, 1px solid var(--border-color));
         display: flex;
         justify-content: space-between;
-        padding: .5rem var(--default-horizontal-margin);
+        padding: var(--footer-default-horizontal-margin);
         z-index: 100;
       }
       main {

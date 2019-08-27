@@ -418,7 +418,7 @@ public class RestApiServlet extends HttpServlet {
             if (isPost(req) || isPut(req)) {
               RestView<RestResource> createView = c.views().get(PluginName.GERRIT, "CREATE./");
               if (createView != null) {
-                viewData = new ViewData(null, createView);
+                viewData = new ViewData(viewData.pluginName, createView);
                 status = SC_CREATED;
                 path.add(id);
               } else {
@@ -428,7 +428,7 @@ public class RestApiServlet extends HttpServlet {
               RestView<RestResource> deleteView =
                   c.views().get(PluginName.GERRIT, "DELETE_MISSING./");
               if (deleteView != null) {
-                viewData = new ViewData(null, deleteView);
+                viewData = new ViewData(viewData.pluginName, deleteView);
                 status = SC_NO_CONTENT;
                 path.add(id);
               } else {

@@ -1,0 +1,124 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a4f85ef9_61e1fdcf",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.html",
+        "patchSetId": 14
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-08-27T07:40:10Z",
+      "side": 1,
+      "message": "Every css property must be mentioned in app-theme.html.",
+      "revId": "8664f38b06573c87e34996edb8c3be98b9b5ac43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8f1b2234_28acbe1a",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.html",
+        "patchSetId": 14
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-08-27T07:40:10Z",
+      "side": 1,
+      "message": "I did agree to being open about adding a couple of new css properties, but for every new property please give a detailed explanation why you need it and why the WMF theme cannot live without it. Also please consider, if it would be acceptable for WMF to reduce some of the theme styles.",
+      "range": {
+        "startLine": 50,
+        "startChar": 1,
+        "endLine": 50,
+        "endChar": 42
+      },
+      "revId": "8664f38b06573c87e34996edb8c3be98b9b5ac43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e54d7805_efa7b0a6",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.html",
+        "patchSetId": 14
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-08-27T07:40:10Z",
+      "side": 1,
+      "message": "This looks like you are also changing the current appearance. Maybe you can split this change into two or more smaller ones with smaller scope?",
+      "range": {
+        "startLine": 156,
+        "startChar": 6,
+        "endLine": 163,
+        "endChar": 7
+      },
+      "revId": "8664f38b06573c87e34996edb8c3be98b9b5ac43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "05f03e13_94812b1d",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.html",
+        "patchSetId": 14
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-08-27T07:40:10Z",
+      "side": 1,
+      "message": "Every new css property must get a thorough comment explaining what it is supposed to be used for.",
+      "revId": "8664f38b06573c87e34996edb8c3be98b9b5ac43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "12222fa7_5d96805e",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.html",
+        "patchSetId": 14
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-08-27T07:40:10Z",
+      "side": 1,
+      "message": "If you want to specify \"1px solid #ddd\", then the property name must end in \"border\", not in \"border-color\", because you will not be able to use it as a color.",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 40
+      },
+      "revId": "8664f38b06573c87e34996edb8c3be98b9b5ac43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "75e78da2_90f603ac",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.html",
+        "patchSetId": 14
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-08-27T07:40:10Z",
+      "side": 1,
+      "message": "I think we can remove the two comments about what is in the plugin API and what is not. There are no guarantees anwyay, plugins will have to adapt to changes in releases. When you do that (maybe in a separate change) it may also be worthwhile to change the grouping and sorting, e.g. everything starting with --header... should be grouped together.",
+      "revId": "8664f38b06573c87e34996edb8c3be98b9b5ac43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

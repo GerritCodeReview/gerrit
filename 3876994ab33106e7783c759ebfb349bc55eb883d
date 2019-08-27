@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3d18f106_4a165584",
+        "filename": "java/com/google/gerrit/server/change/DeleteChangeOp.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-08-27T00:24:16Z",
+      "side": 1,
+      "message": "This will be the same on each iteration of the loop, so can be factored out to a variable that is initialized once.",
+      "range": {
+        "startLine": 126,
+        "startChar": 29,
+        "endLine": 126,
+        "endChar": 67
+      },
+      "revId": "3876994ab33106e7783c759ebfb349bc55eb883d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

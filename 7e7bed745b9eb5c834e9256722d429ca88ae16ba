@@ -39,6 +39,30 @@
       "revId": "7e7bed745b9eb5c834e9256722d429ca88ae16ba",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be7b01b9_0b2b372c",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/GerritIndexWriterConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2019-08-27T15:33:23Z",
+      "side": 1,
+      "message": "Resolved F2F, just pass the value to the merge scheduler,",
+      "parentUuid": "5e4557eb_fb5a6240",
+      "range": {
+        "startLine": 56,
+        "startChar": 22,
+        "endLine": 56,
+        "endChar": 27
+      },
+      "revId": "7e7bed745b9eb5c834e9256722d429ca88ae16ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

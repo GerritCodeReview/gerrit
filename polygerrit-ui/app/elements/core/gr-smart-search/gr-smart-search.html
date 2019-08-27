@@ -24,7 +24,9 @@ limitations under the License.
 <dom-module id="gr-smart-search">
   <template>
     <style include="shared-styles">
-
+      gr-search-bar {
+        border-radius: var(--search-border-radius);
+      }
     </style>
     <gr-search-bar id="search"
         value="{{searchQuery}}"

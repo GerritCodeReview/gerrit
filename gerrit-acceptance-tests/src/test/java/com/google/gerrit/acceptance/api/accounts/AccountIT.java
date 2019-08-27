@@ -294,6 +294,21 @@ public class AccountIT extends AbstractDaemonTest {
     assertThrows(ResourceNotFoundException.class, () -> gApi.accounts().id(input.username).get());
   }
 
+  @Test
+  public void createWithInvalidEmailAddress() throws Exception {
+    AccountInput input = new AccountInput();
+    input.username = name("test");
+    input.email = "invalid email address";
+
+    // Invalid email address should cause the creation to fail
+    BadRequestException thrown =
+        assertThrows(BadRequestException.class, () -> gApi.accounts().create(input));
+    assertThat(thrown).hasMessageThat().isEqualTo("invalid email address");
+
+    // The account should not have been created
+    assertThrows(ResourceNotFoundException.class, () -> gApi.accounts().id(input.username).get());
+  }
+
   private Account.Id create(int expectedAccountReindexCalls) throws Exception {
     String name = "foo";
     TestAccount foo = accountCreator.create(name);

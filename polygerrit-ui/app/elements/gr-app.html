@@ -94,17 +94,21 @@ limitations under the License.
         color: var(--primary-text-color);
       }
       gr-main-header {
-        background-color: var(--header-background-color);
+        background: var(--header-background, var(--header-background-color, #eee));
         padding: 0 var(--default-horizontal-margin);
-        border-bottom: 1px solid var(--border-color);
+        border-bottom: var(--header-border-bottom);
+        border-image: var(--header-border-image);
+        border-right: 0;
+        border-left: 0;
+        border-top: 0;
       }
       gr-main-header.shadow {
         /* Make it obvious for shadow dom testing */
         border-bottom: 1px solid pink;
       }
       footer {
-        background-color: var(--footer-background-color);
-        border-top: 1px solid var(--border-color);
+        background: var(--footer-background, var(--footer-background-color, #eee));
+        border-top: var(--footer-border-top);
         display: flex;
         justify-content: space-between;
         padding: .5rem var(--default-horizontal-margin);

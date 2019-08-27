@@ -1,93 +1,101 @@
 <dom-module id="dark-theme">
-  <custom-style><style is="custom-style">
-    html {
-      --primary-text-color: #e8eaed;
-      --view-background-color: #131416;
-      --border-color: #5f6368;
-      --header-border-color: 1px solid #5f6368;
-      --footer-border-color: 1px solid #5f6368;
-      --table-header-background-color: #131416;
-      --table-subheader-background-color: #3c4043;
-      --header-background-color: #5487e5;
-      --header-text-color: var(--primary-text-color);
-      --deemphasized-text-color: #9aa0a6;
-      --footer-background-color: var(--table-header-background-color);
-      --expanded-background-color: #26282b;
-      --link-color: #8ab4f8;
-      --primary-button-background-color: var(--link-color);
-      --primary-button-text-color: var(--primary-text-color);
-      --secondary-button-background-color: var(--primary-text-color);
-      --secondary-button-text-color: var(--deemphasized-text-color);
-      --default-button-text-color: var(--link-color);
-      --default-button-background-color: var(--table-subheader-background-color);
-      --dropdown-background-color: var(--table-header-background-color);
-      --dialog-background-color: var(--view-background-color);
-      --chip-background-color: var(--table-header-background-color);
-      --header-title-font-size: 1.75rem;
+  <custom-style>
+    <style is="custom-style">
+      html {
+        --assignee-highlight-color: rgb(58, 54, 28);
 
-      --select-background-color: var(--table-subheader-background-color);
+        --border-color: #5f6368;
 
-      --assignee-highlight-color: rgb(58, 54, 28);
+        --chip-background-color: var(--table-header-background-color);
+        --comment-background-color: #0B162B;
+        --comment-text-color: var(--primary-text-color);
 
-      --diff-selection-background-color: #3A71D8;
-      --light-remove-highlight-color: rgb(53, 27, 27);
-      --light-add-highlight-color: rgb(24, 45, 24);
-      --light-remove-add-highlight-color: #2f3f2f;
-      --light-rebased-remove-highlight-color: rgb(60, 37, 8);
-      --light-rebased-add-highlight-color: rgb(72, 113, 101);
-      --dark-remove-highlight-color: rgba(255, 0, 0, 0.15);
-      --dark-add-highlight-color: rgba(0, 255, 0, 0.15);
-      --dark-rebased-remove-highlight-color: rgba(255, 139, 6, 0.15);
-      --dark-rebased-add-highlight-color: rgba(11, 255, 155, 0.15);
-      --diff-context-control-color: var(--deemphasized-text-color);
-      --diff-context-control-background-color: var(--table-header-background-color);
-      --diff-context-control-border-color: var(--border-color);
-      --diff-highlight-range-color: rgba(0, 100, 200, 0.5);
-      --diff-highlight-range-hover-color: rgba(0, 150, 255, 0.5);
-      --shell-command-background-color: #5f5f5f;
-      --shell-command-decoration-background-color: #999999;
-      --comment-text-color: var(--primary-text-color);
-      --comment-background-color: #0B162B;
-      --unresolved-comment-background-color: rgb(56, 90, 154);
-      --diff-blank-background-color: #212121;
+        --dark-add-highlight-color: rgba(0, 255, 0, 0.15);
+        --dark-remove-highlight-color: rgba(255, 0, 0, 0.15);
+        --dark-rebased-add-highlight-color: rgba(11, 255, 155, 0.15);
+        --dark-rebased-remove-highlight-color: rgba(255, 139, 6, 0.15);
+        --deemphasized-text-color: #9aa0a6;
+        --default-button-background-color: var(--table-subheader-background-color);
+        --default-button-text-color: var(--link-color);
+        --dialog-background-color: var(--view-background-color);
+        --diff-blank-background-color: #212121;
+        --diff-context-control-background-color: var(--table-header-background-color);
+        --diff-context-control-border-color: var(--border-color);
+        --diff-context-control-color: var(--deemphasized-text-color);
+        --diff-highlight-range-color: rgba(0, 100, 200, 0.5);
+        --diff-highlight-range-hover-color: rgba(0, 150, 255, 0.5);
+        --diff-selection-background-color: #3A71D8;
+        --dropdown-background-color: var(--table-header-background-color);
 
-      --vote-color-approved: rgb(127, 182, 107);
-      --vote-color-recommended: rgb(63, 103, 50);
-      --vote-color-rejected: #ac2d3e;
-      --vote-color-disliked: #bf6874;
-      --vote-color-neutral: #597280;
+        --edit-mode-background-color: rgb(92, 10, 54);
+        --emphasis-color: #383f4a;
+        --expanded-background-color: #26282b;
 
-      --edit-mode-background-color: rgb(92, 10, 54);
-      --emphasis-color: #383f4a;
+        --footer-background-color: var(--table-header-background-color);
+        --footer-border-color: 1px solid #5f6368;
 
-      --tooltip-background-color: #111;
+        --header-background-color: #5487e5;
+        --header-border-color: 1px solid #5f6368;
+        --header-text-color: var(--primary-text-color);
+        --header-title-font-size: 1.75rem;
 
-      --syntax-default-color: var(--primary-text-color);
-      --syntax-meta-color: #6D7EEE;
-      --syntax-keyword-color: #CD4CF0;
-      --syntax-number-color: #00998A;
-      --syntax-selector-class-color: #FFCB68;
-      --syntax-variable-color: #F77669;
-      --syntax-template-variable-color: #F77669;
-      --syntax-comment-color: var(--deemphasized-text-color);
-      --syntax-string-color: #C3E88D;
-      --syntax-selector-id-color: #F77669;
-      --syntax-built_in-color: rgb(247, 195, 105);
-      --syntax-tag-color: #F77669;
-      --syntax-link-color: #C792EA;
-      --syntax-meta-keyword-color: #EEFFF7;
-      --syntax-type-color: #DD5F5F;
-      --syntax-title-color: #75A5FF;
-      --syntax-attr-color: #80CBBF;
-      --syntax-literal-color: #EEFFF7;
-      --syntax-selector-pseudo-color: #C792EA;
-      --syntax-regexp-color: #F77669;
-      --syntax-selector-attr-color: #80CBBF;
-      --syntax-template-tag-color: #C792EA;
+        --light-add-highlight-color: rgb(24, 45, 24);
+        --light-remove-highlight-color: rgb(53, 27, 27);
+        --light-remove-add-highlight-color: #2f3f2f;
+        --light-rebased-add-highlight-color: rgb(72, 113, 101);
+        --light-rebased-remove-highlight-color: rgb(60, 37, 8);
+        --link-color: #8ab4f8;
 
-      --reply-overlay-z-index: 1000;
+        --primary-button-background-color: var(--link-color);
+        --primary-button-text-color: var(--primary-text-color);
+        --primary-text-color: #e8eaed;
 
-      background-color: var(--view-background-color);
-    }
-  </style></custom-style>
+        --reply-overlay-z-index: 1000;
+
+        --secondary-button-background-color: var(--primary-text-color);
+        --secondary-button-text-color: var(--deemphasized-text-color);
+        --select-background-color: var(--table-subheader-background-color);
+        --shell-command-background-color: #5f5f5f;
+        --shell-command-decoration-background-color: #999999;
+
+        --syntax-attr-color: #80CBBF;
+        --syntax-built_in-color: rgb(247, 195, 105);
+        --syntax-comment-color: var(--deemphasized-text-color);
+        --syntax-default-color: var(--primary-text-color);
+        --syntax-keyword-color: #CD4CF0;
+        --syntax-link-color: #C792EA;
+        --syntax-literal-color: #EEFFF7;
+        --syntax-meta-color: #6D7EEE;
+        --syntax-meta-keyword-color: #EEFFF7;
+        --syntax-number-color: #00998A;
+        --syntax-regexp-color: #F77669;
+        --syntax-selector-attr-color: #80CBBF;
+        --syntax-selector-class-color: #FFCB68;
+        --syntax-selector-id-color: #F77669;
+        --syntax-selector-pseudo-color: #C792EA;
+        --syntax-string-color: #C3E88D;
+        --syntax-tag-color: #F77669;
+        --syntax-template-tag-color: #C792EA;
+        --syntax-template-variable-color: #F77669;
+        --syntax-title-color: #75A5FF;
+        --syntax-type-color: #DD5F5F;
+        --syntax-variable-color: #F77669;
+
+        --table-header-background-color: #131416;
+        --table-subheader-background-color: #3c4043;
+        --tooltip-background-color: #111;
+
+        --view-background-color: #131416;
+        --vote-color-approved: rgb(127, 182, 107);
+        --vote-color-disliked: #bf6874;
+        --vote-color-neutral: #597280;
+        --vote-color-recommended: rgb(63, 103, 50);
+        --vote-color-rejected: #ac2d3e;
+
+        --unresolved-comment-background-color: rgb(56, 90, 154);
+
+        background-color: var(--view-background-color);
+      }
+    </style>
+  </custom-style>
 </dom-module>

@@ -65,6 +65,10 @@ limitations under the License.
           match: 'hash:(.+)',
           html: '<a href="#/awesomesauce">$1</a>',
         },
+        baseurl: {
+          match: 'hash:(.+)',
+          html: '<a href="/r/awesomesauce">$1</a>',
+        },
         disabledconfig: {
           match: 'foo:(.+)',
           link: 'https://google.com/search?q=$1',
@@ -200,6 +204,15 @@ limitations under the License.
     });
 
     test('html with base url', function() {
+      window.CANONICAL_PATH = '/r';
+
+      element.content = 'hash:foo';
+      const linkEl = element.$.output.childNodes[0];
+      assert.isTrue(linkEl.href.endsWith('/r/awesomesauce'));
+      assert.equal(linkEl.textContent, 'foo');
+    });
+
+    test('hash html with base url', function() {
       window.CANONICAL_PATH = '/r';
 
       element.content = 'hash:foo';

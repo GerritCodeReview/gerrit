@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "8ce8f235_3d2362af",
+        "filename": "java/com/google/gerrit/server/account/AccountResolver.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 590,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-08-27T15:46:52Z",
+      "side": 1,
+      "message": "Yes, I have no good proposal to improve this yet, but I will have a closer look at the code.",
+      "parentUuid": "30c62d8a_c7ed7f3a",
+      "range": {
+        "startLine": 586,
+        "startChar": 6,
+        "endLine": 590,
+        "endChar": 62
+      },
+      "revId": "878473704dc16313b8c33100b72ea06f30635c6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "900694a2_ced4ac1c",
         "filename": "java/com/google/gerrit/server/restapi/account/AccountsCollection.java",
         "patchSetId": 1
@@ -84,6 +108,30 @@
       "side": 1,
       "message": "After query is done we have two extra calls to get details and status:\nhttp://localhost:8080/accounts/maczech%40gmail.com/detail\nhttp://localhost:8080/accounts/maczech%40gmail.com/status\n\nboth are going to fail because of inactive user filtering. Tbh after getting a bit better view of the issue I can see other way of fixing it. This shouldn\u0027t be needed after Issue 11367 fix so both call will use user id instead of email.",
       "parentUuid": "900694a2_ced4ac1c",
+      "range": {
+        "startLine": 55,
+        "startChar": 44,
+        "endLine": 55,
+        "endChar": 68
+      },
+      "revId": "878473704dc16313b8c33100b72ea06f30635c6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "23f3b560_ca2fcbce",
+        "filename": "java/com/google/gerrit/server/restapi/account/AccountsCollection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-08-27T15:46:52Z",
+      "side": 1,
+      "message": "Makes sense. Issue 11367 describes this well. PolyGerrit should change these calls to use the account ID instead of the email. Then we do not need this modification anymore.",
+      "parentUuid": "a8339ae9_190393c3",
       "range": {
         "startLine": 55,
         "startChar": 44,

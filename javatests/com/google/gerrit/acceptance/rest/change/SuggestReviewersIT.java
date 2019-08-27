@@ -548,6 +548,22 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void suggestReviewerAsCc() throws Exception {
+    String name = name("foo");
+    TestAccount foo1 = accountCreator.create(name + "-1");
+    TestAccount foo2 = accountCreator.create(name + "-2");
+
+    String changeId = createChange().getChangeId();
+    assertReviewers(suggestCcs(changeId, name), ImmutableList.of(foo1, foo2), ImmutableList.of());
+
+    AddReviewerInput reviewerInput = new AddReviewerInput();
+    reviewerInput.reviewer = foo2.id().toString();
+    reviewerInput.state = ReviewerState.REVIEWER;
+    gApi.changes().id(changeId).addReviewer(reviewerInput);
+    assertReviewers(suggestCcs(changeId, name), ImmutableList.of(foo1, foo2), ImmutableList.of());
+  }
+
+  @Test
   public void suggestBySecondaryEmailWithModifyAccount() throws Exception {
     String secondaryEmail = "foo.secondary@example.com";
     TestAccount foo = createAccountWithSecondaryEmail("foo", secondaryEmail);
@@ -609,6 +625,10 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
   private List<SuggestedReviewerInfo> suggestReviewers(String changeId, String query, int n)
       throws Exception {
     return gApi.changes().id(changeId).suggestReviewers(query).withLimit(n).get();
+  }
+
+  private List<SuggestedReviewerInfo> suggestCcs(String changeId, String query) throws Exception {
+    return gApi.changes().id(changeId).suggestCcs(query).get();
   }
 
   private AccountGroup.UUID createGroupWithArbitraryMembers(int numMembers) {

@@ -18,6 +18,7 @@ import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.client.ListChangesOption;
+import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
@@ -216,6 +217,10 @@ public interface ChangeApi {
     return suggestReviewers().withQuery(query);
   }
 
+  default SuggestedReviewersRequest suggestCcs(String query) throws RestApiException {
+    return suggestReviewers().forCc().withQuery(query);
+  }
+
   /**
    * Retrieve reviewers ({@code ReviewerState.REVIEWER} and {@code ReviewerState.CC}) on the change.
    */
@@ -382,6 +387,7 @@ public interface ChangeApi {
     private String query;
     private int limit;
     private boolean excludeGroups;
+    private ReviewerState reviewerState = ReviewerState.REVIEWER;
 
     public abstract List<SuggestedReviewerInfo> get() throws RestApiException;
 
@@ -400,6 +406,11 @@ public interface ChangeApi {
       return this;
     }
 
+    public SuggestedReviewersRequest forCc() {
+      this.reviewerState = ReviewerState.CC;
+      return this;
+    }
+
     public String getQuery() {
       return query;
     }
@@ -410,6 +421,10 @@ public interface ChangeApi {
 
     public boolean getExcludeGroups() {
       return excludeGroups;
+    }
+
+    public ReviewerState getReviewerState() {
+      return reviewerState;
     }
   }
 

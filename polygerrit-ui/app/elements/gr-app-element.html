@@ -57,6 +57,8 @@ limitations under the License.
         min-height: 100%;
       }
       gr-fixed-panel {
+        padding: var(--fixed-header-padding);
+        background: var(--fixed-header-background);
         /**
          * This one should be greater that the z-index in gr-diff-view
          * because gr-main-header contains overlay.
@@ -68,13 +70,13 @@ limitations under the License.
         color: var(--primary-text-color);
       }
       gr-main-header {
-        background-color: var(--header-background-color);
+        background: var(--header-background, var(--header-background-color, #eee));
         padding: 0 var(--default-horizontal-margin);
-        border-bottom: 1px solid var(--border-color);
+        border-bottom: var(--header-border-bottom);
       }
       footer {
-        background-color: var(--footer-background-color);
-        border-top: 1px solid var(--border-color);
+        background: var(--footer-background);
+        border-top: var(--footer-border-top);
         display: flex;
         justify-content: space-between;
         padding: .5rem var(--default-horizontal-margin);

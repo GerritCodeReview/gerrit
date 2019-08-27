@@ -16,6 +16,12 @@ java_library(
     testonly = True,
     srcs = [
         "AbstractRestApiBindingsTest.java",
+        "CreateTestPlugin.java",
+        "GetTestPlugin.java",
+        "ListTestPlugin.java",
+        "PluginCollection.java",
+        "PluginResource.java",
+        "TestPluginModule.java",
     ],
     visibility = ["//visibility:public"],
     deps = [

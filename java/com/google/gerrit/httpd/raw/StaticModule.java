@@ -247,8 +247,8 @@ public class StaticModule extends ServletModule {
     public void configureServlets() {
       for (String p : POLYGERRIT_INDEX_PATHS) {
         // Skip XsrfCookieFilter for /, since that is already done in the GWT UI
-        // path (UrlModule).
-        if (!p.equals("/")) {
+        // path (UrlModule) if it is enabled.
+        if (!(p.equals("/") && options.enableGwtUi())) {
           filter(p).through(XsrfCookieFilter.class);
         }
       }

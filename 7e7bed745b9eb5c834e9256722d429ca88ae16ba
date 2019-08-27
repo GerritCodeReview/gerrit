@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6c05e5a2_c2b42248",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-08-27T14:52:59Z",
+      "side": 1,
+      "message": "The commit message rules [1] say: \"Keep lines no longer than 72 chars\"\n\n[1] https://gerrit-documentation.storage.googleapis.com/Documentation/3.0.1/dev-contributing.html#commit-message",
+      "revId": "7e7bed745b9eb5c834e9256722d429ca88ae16ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

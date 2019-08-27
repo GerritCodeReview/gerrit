@@ -22,6 +22,46 @@
       "revId": "3876994ab33106e7783c759ebfb349bc55eb883d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3eb9792e_c40d575f",
+        "filename": "java/com/google/gerrit/server/change/DeleteChangeOp.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-08-27T09:56:56Z",
+      "side": 1,
+      "message": "you can use a normal substring check, no?",
+      "range": {
+        "startLine": 126,
+        "startChar": 21,
+        "endLine": 126,
+        "endChar": 28
+      },
+      "revId": "3876994ab33106e7783c759ebfb349bc55eb883d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f849ada_53199f2e",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1403,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-08-27T09:56:56Z",
+      "side": 1,
+      "message": "add another change with change edit too, and check it\u0027s not removed.",
+      "revId": "3876994ab33106e7783c759ebfb349bc55eb883d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -30,6 +30,7 @@ import static com.google.gerrit.server.StarredChangesUtil.IGNORE_LABEL;
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_GPGKEY;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
+import static com.google.gerrit.testutil.GerritJUnit.assertThrows;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
@@ -276,6 +277,21 @@ public class AccountIT extends AbstractDaemonTest {
             RefUpdateCounter.projectRef(
                 allUsers, RefNames.REFS_SEQUENCES + Sequences.NAME_ACCOUNTS),
             1));
+  }
+
+  @Test
+  public void createWithInvalidSshKey() throws Exception {
+    AccountInput input = new AccountInput();
+    input.username = name("test");
+    input.sshKey = "invalid key";
+
+    // Invalid key should cause the creation to fail
+    BadRequestException thrown =
+        assertThrows(BadRequestException.class, () -> gApi.accounts().create(input));
+    assertThat(thrown).hasMessageThat().isEqualTo("Invalid SSH Key");
+
+    // The account should not have been created
+    assertThrows(ResourceNotFoundException.class, () -> gApi.accounts().id(input.username).get());
   }
 
   private Account.Id create(int expectedAccountReindexCalls) throws Exception {

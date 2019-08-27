@@ -141,6 +141,15 @@ public class CreateAccount implements RestModifyView<TopLevelResource, AccountIn
       }
     }
 
+    if (input.sshKey != null) {
+      try {
+        authorizedKeys.addKey(id, input.sshKey);
+        sshKeyCache.evict(username);
+      } catch (InvalidSshKeyException e) {
+        throw new BadRequestException(e.getMessage());
+      }
+    }
+
     List<ExternalId> extIds = new ArrayList<>();
     extIds.add(extUser);
     for (AccountExternalIdCreator c : externalIdCreators) {
@@ -181,15 +190,6 @@ public class CreateAccount implements RestModifyView<TopLevelResource, AccountIn
         groupsUpdate.get().addGroupMember(db, groupUuid, id);
       } catch (NoSuchGroupException e) {
         throw new UnprocessableEntityException(String.format("Group %s not found", groupUuid));
-      }
-    }
-
-    if (input.sshKey != null) {
-      try {
-        authorizedKeys.addKey(id, input.sshKey);
-        sshKeyCache.evict(username);
-      } catch (InvalidSshKeyException e) {
-        throw new BadRequestException(e.getMessage());
       }
     }
 

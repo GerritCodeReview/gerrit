@@ -42,6 +42,48 @@
     },
     {
       "key": {
+        "uuid": "25c97ede_1965704f",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.html",
+        "patchSetId": 14
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-08-27T17:33:22Z",
+      "side": 1,
+      "message": "Thanks, done.\n\nSo the reason why i\u0027ve added these properties is because of the following:\n\nIt makes Wikimedia\u0027s theme unique and follows its old logo (red, green and blue (which we use as the border)).\n\nThe font size var is used by GerritHub/GerritForge.",
+      "parentUuid": "8f1b2234_28acbe1a",
+      "range": {
+        "startLine": 50,
+        "startChar": 1,
+        "endLine": 50,
+        "endChar": 42
+      },
+      "revId": "8664f38b06573c87e34996edb8c3be98b9b5ac43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a3b027fc_170d134d",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.html",
+        "patchSetId": 14
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-08-27T17:33:22Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "a4f85ef9_61e1fdcf",
+      "revId": "8664f38b06573c87e34996edb8c3be98b9b5ac43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e54d7805_efa7b0a6",
         "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.html",
         "patchSetId": 14
@@ -105,6 +147,48 @@
     },
     {
       "key": {
+        "uuid": "6f93e86f_efc73203",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.html",
+        "patchSetId": 14
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-08-27T17:33:22Z",
+      "side": 1,
+      "message": "Thanks, done. Renamed to just -border (not -border-color).",
+      "parentUuid": "12222fa7_5d96805e",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 40
+      },
+      "revId": "8664f38b06573c87e34996edb8c3be98b9b5ac43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6c9c999d_8f9ec018",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.html",
+        "patchSetId": 14
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-08-27T17:33:22Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "05f03e13_94812b1d",
+      "revId": "8664f38b06573c87e34996edb8c3be98b9b5ac43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "75e78da2_90f603ac",
         "filename": "polygerrit-ui/app/styles/themes/app-theme.html",
         "patchSetId": 14
@@ -116,6 +200,24 @@
       "writtenOn": "2019-08-27T07:40:10Z",
       "side": 1,
       "message": "I think we can remove the two comments about what is in the plugin API and what is not. There are no guarantees anwyay, plugins will have to adapt to changes in releases. When you do that (maybe in a separate change) it may also be worthwhile to change the grouping and sorting, e.g. everything starting with --header... should be grouped together.",
+      "revId": "8664f38b06573c87e34996edb8c3be98b9b5ac43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "868bea5c_fc99f7dd",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.html",
+        "patchSetId": 14
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-08-27T17:33:22Z",
+      "side": 1,
+      "message": "I\u0027ll do this in a follow up change.",
+      "parentUuid": "75e78da2_90f603ac",
       "revId": "8664f38b06573c87e34996edb8c3be98b9b5ac43",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

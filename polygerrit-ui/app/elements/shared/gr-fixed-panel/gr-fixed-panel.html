@@ -42,6 +42,12 @@ limitations under the License.
         border-bottom: 1px solid #a4a4a4;
         box-shadow: 0 4px 4px rgba(0,0,0,0.1);
       }
+      #header {
+         content: var(--gr-fixed-panel-content);
+         height: var(--gr-fixed-panel-header);
+         display: var(--gr-fixed-panel-display);
+         background-image: var(--gr-fixed-panel-background-image);
+      }
     </style>
     <header id="header" class$="[[_computeHeaderClass(_headerFloating, _topLast)]]">
       <slot></slot>

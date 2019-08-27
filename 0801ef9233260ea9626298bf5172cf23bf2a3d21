@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d7462ffb_efe374e3",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 1434,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-08-27T11:00:30Z",
+      "side": 1,
+      "message": "you can just use the API to check that the change edit is still there.",
+      "range": {
+        "startLine": 1434,
+        "startChar": 27,
+        "endLine": 1434,
+        "endChar": 79
+      },
+      "revId": "0801ef9233260ea9626298bf5172cf23bf2a3d21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

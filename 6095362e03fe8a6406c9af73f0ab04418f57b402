@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "531262a3_b021daab",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-08-27T11:34:33Z",
+      "side": 1,
+      "message": "Change the commit message to describe what you are doing in this change, e.g. \"expose more RestAPI functions to plugins\".",
+      "revId": "6095362e03fe8a6406c9af73f0ab04418f57b402",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "28e53453_2e9a4c8c",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
         "patchSetId": 4

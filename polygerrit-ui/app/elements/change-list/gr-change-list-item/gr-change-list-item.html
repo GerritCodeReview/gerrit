@@ -35,6 +35,7 @@ limitations under the License.
     <style include="shared-styles">
       :host {
         display: table-row;
+        color: var(--reviewed-text-color);
       }
       :host(:focus) {
         outline: none;
@@ -44,6 +45,7 @@ limitations under the License.
       }
       :host([needs-review]) {
         font-weight: var(--font-weight-bold);
+        color: var(--needs-review-text-color);
       }
       :host([highlight]) {
         background-color: var(--assignee-highlight-color);
@@ -86,7 +88,7 @@ limitations under the License.
         padding: .4rem .6rem;
       }
       a {
-        color: var(--primary-text-color);
+        color: inherit;
         cursor: pointer;
         display: inline-block;
         text-decoration: none;

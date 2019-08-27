@@ -48,6 +48,54 @@
     },
     {
       "key": {
+        "uuid": "624dfb24_f13dda61",
+        "filename": "java/com/google/gerrit/server/change/DeleteChangeOp.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-08-27T10:52:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3d18f106_4a165584",
+      "range": {
+        "startLine": 126,
+        "startChar": 29,
+        "endLine": 126,
+        "endChar": 67
+      },
+      "revId": "3876994ab33106e7783c759ebfb349bc55eb883d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad803ef9_088d52a8",
+        "filename": "java/com/google/gerrit/server/change/DeleteChangeOp.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-08-27T10:52:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3eb9792e_c40d575f",
+      "range": {
+        "startLine": 126,
+        "startChar": 21,
+        "endLine": 126,
+        "endChar": 28
+      },
+      "revId": "3876994ab33106e7783c759ebfb349bc55eb883d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3f849ada_53199f2e",
         "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 5
@@ -62,6 +110,24 @@
       "revId": "3876994ab33106e7783c759ebfb349bc55eb883d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7f3b15d1_ca63be3a",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1403,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-08-27T10:52:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3f849ada_53199f2e",
+      "revId": "3876994ab33106e7783c759ebfb349bc55eb883d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

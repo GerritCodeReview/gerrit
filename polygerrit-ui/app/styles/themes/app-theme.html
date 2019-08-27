@@ -18,13 +18,19 @@ limitations under the License.
 :root {
   /* Following vars have LTS for plugin API. */
   --primary-text-color: #000;
+  /* For backwords compatibility we keep this as --header-background-color. */
   --header-background-color: #eee;
   --header-title-content: 'Gerrit';
   --header-icon: none;
   --header-icon-size: 0em;
   --header-text-color: #000;
-  --footer-background-color: var(--header-background-color);
+  --header-title-font-size: 1.75rem;
+  --footer-background-color: #eee;
   --border-color: #ddd;
+  /* This allows to add a border in custom themes */
+  --header-border-bottom: 1px solid var(--border-color);
+  --header-border-image: '';
+  --footer-border-top: 1px solid var(--border-color);
 
   /* Following are not part of plugin API. */
   --selection-background-color: rgba(161, 194, 250, 0.1);
@@ -32,6 +38,7 @@ limitations under the License.
   --expanded-background-color: #eee;
   --view-background-color: #fff;
   --default-horizontal-margin: 1rem;
+
   --deemphasized-text-color: #757575;
   --font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
   --font-weight-bold: 500;

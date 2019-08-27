@@ -33,6 +33,12 @@ limitations under the License.
     <style include="shared-styles">
       :host {
         display: block;
+        background-color: var(--gr-main-header-host-background-color);
+        border-width: var(--gr-main-header-host-border-width);
+        border-style: var(--gr-main-header-host-border-style);
+        box-shadow: var(--gr-main-header-host-box-shadow);
+        padding: var(--gr-main-header-host-padding);
+        border-bottom: var(--gr-main-header-host-border-bottom);
       }
       nav {
         align-items: center;
@@ -49,13 +55,15 @@ limitations under the License.
       /* TODO (viktard): Clean-up after chromium-style migrates to component. */
       .titleText::before {
         background-image: var(--header-icon);
-        background-size: var(--header-icon-size) var(--header-icon-size);
+        background-size: var(--header-icon-size);
         background-repeat: no-repeat;
         content: "";
         display: inline-block;
         height: var(--header-icon-size);
-        margin-right: calc(var(--header-icon-size) / 4);
-        vertical-align: text-bottom;
+        margin-right: var(--header-margin-right);
+        margin-left: var(--header-margin-left);
+        margin-bottom: var(--header-margin-bottom);
+        vertical-align: var(--header-vertical-align, text-bottom);
         width: var(--header-icon-size);
       }
       .titleText::after {
@@ -72,7 +80,6 @@ limitations under the License.
         position: relative;
       }
       .linksTitle {
-        color: var(--header-text-color);
         display: inline-block;
         font-weight: var(--font-weight-bold);
         position: relative;
@@ -152,6 +159,13 @@ limitations under the License.
       #mobileSearch {
         display: none;
       }
+      .linksTitle,
+      .bigTitle,
+      .loginButton,
+      .registerButton,
+      gr-account-dropdown {
+        color: var(--header-text-color);
+      }
       @media screen and (max-width: 50em) {
         .bigTitle {
           font-size: var(--font-size-large);
@@ -161,7 +175,7 @@ limitations under the License.
         .browse,
         .rightItems .hideOnMobile,
         .links > li.hideOnMobile {
-          display: none;
+          display: none;.
         }
         #mobileSearch {
           display: inline-flex;

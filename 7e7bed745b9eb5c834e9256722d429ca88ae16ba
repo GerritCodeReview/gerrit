@@ -63,6 +63,30 @@
       "revId": "7e7bed745b9eb5c834e9256722d429ca88ae16ba",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "05f6b1e1_1f4c59c2",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/GerritIndexWriterConfig.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1063455
+      },
+      "writtenOn": "2019-08-27T15:35:14Z",
+      "side": 1,
+      "message": "This is real a pass through to the lucene index configuration api.  We do the same below for both ramBufferSize, and maxBufferedDocs, any exception handling should be left to the implementation in the lucene api.",
+      "parentUuid": "5e4557eb_fb5a6240",
+      "range": {
+        "startLine": 56,
+        "startChar": 22,
+        "endLine": 56,
+        "endChar": 27
+      },
+      "revId": "7e7bed745b9eb5c834e9256722d429ca88ae16ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

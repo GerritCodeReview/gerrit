@@ -131,6 +131,16 @@ public class CreateAccount
     }
 
     extIds.add(ExternalId.createUsername(username, accountId, input.httpPassword));
+
+    if (input.sshKey != null) {
+      try {
+        authorizedKeys.addKey(accountId, input.sshKey);
+        sshKeyCache.evict(username);
+      } catch (InvalidSshKeyException e) {
+        throw new BadRequestException(e.getMessage());
+      }
+    }
+
     for (AccountExternalIdCreator c : externalIdCreators) {
       extIds.addAll(c.create(accountId, username, input.email));
     }
@@ -160,15 +170,6 @@ public class CreateAccount
         addGroupMember(groupUuid, accountId);
       } catch (NoSuchGroupException e) {
         throw new UnprocessableEntityException(String.format("Group %s not found", groupUuid));
-      }
-    }
-
-    if (input.sshKey != null) {
-      try {
-        authorizedKeys.addKey(accountId, input.sshKey);
-        sshKeyCache.evict(username);
-      } catch (InvalidSshKeyException e) {
-        throw new BadRequestException(e.getMessage());
       }
     }
 

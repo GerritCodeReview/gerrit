@@ -124,6 +124,24 @@ limitations under the License.
       assert.equal(linkEl.textContent, changeID);
     });
 
+    test('Change-Id pattern was parsed and linked with base url', () => {
+      window.CANONICAL_PATH = '/r';
+
+      // "Change-Id:" pattern.
+      const changeID = 'I11d6a37f5e9b5df0486f6c922d8836dfa780e03e';
+      const prefix = 'Change-Id: ';
+      element.content = prefix + changeID;
+
+      const textNode = element.$.output.childNodes[0];
+      const linkEl = element.$.output.childNodes[1];
+      assert.equal(textNode.textContent, prefix);
+      const url = '/r/q/' + changeID;
+      assert.equal(linkEl.target, '_blank');
+      // Since url is a path, the host is added automatically.
+      assert.isTrue(linkEl.href.endsWith(url));
+      assert.equal(linkEl.textContent, changeID);
+    });
+
     test('Multiple matches', () => {
       element.content = 'Issue 3650\nIssue 3450';
       const linkEl1 = element.$.output.childNodes[0];

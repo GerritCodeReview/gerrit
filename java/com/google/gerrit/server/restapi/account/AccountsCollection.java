@@ -24,6 +24,7 @@ import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.account.AccountResolver.UnresolvableAccountException;
 import com.google.gerrit.server.account.AccountResource;
+import com.google.gerrit.server.account.AccountState;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -50,7 +51,8 @@ public class AccountsCollection implements RestCollection<TopLevelResource, Acco
   public AccountResource parse(TopLevelResource root, IdString id)
       throws ResourceNotFoundException, AuthException, IOException, ConfigInvalidException {
     try {
-      return new AccountResource(accountResolver.resolve(id.get()).asUniqueUser());
+      return new AccountResource(
+          accountResolver.resolve(id.get(), (AccountState s) -> true).asUniqueUser());
     } catch (UnresolvableAccountException e) {
       if (e.isSelf()) {
         throw new AuthException(e.getMessage(), e);

@@ -516,7 +516,12 @@ public class AccountResolver {
    * @throws IOException if an error occurs.
    */
   public Result resolve(String input) throws ConfigInvalidException, IOException {
-    return searchImpl(input, searchers, visibilitySupplier());
+    return searchImpl(input, searchers, visibilitySupplier(), accountActivityPredicate());
+  }
+
+  public Result resolve(String input, Predicate<AccountState> accountActivityPredicate)
+      throws ConfigInvalidException, IOException {
+    return searchImpl(input, searchers, visibilitySupplier(), accountActivityPredicate);
   }
 
   /**
@@ -544,18 +549,24 @@ public class AccountResolver {
    */
   @Deprecated
   public Result resolveByNameOrEmail(String input) throws ConfigInvalidException, IOException {
-    return searchImpl(input, nameOrEmailSearchers, visibilitySupplier());
+    return searchImpl(
+        input, nameOrEmailSearchers, visibilitySupplier(), accountActivityPredicate());
   }
 
   private Supplier<Predicate<AccountState>> visibilitySupplier() {
     return () -> accountControlFactory.get()::canSee;
   }
 
+  private Predicate<AccountState> accountActivityPredicate() {
+    return (AccountState accountState) -> accountState.getAccount().isActive();
+  }
+
   @VisibleForTesting
   Result searchImpl(
       String input,
       ImmutableList<Searcher<?>> searchers,
-      Supplier<Predicate<AccountState>> visibilitySupplier)
+      Supplier<Predicate<AccountState>> visibilitySupplier,
+      Predicate<AccountState> accountActivityPredicate)
       throws ConfigInvalidException, IOException {
     visibilitySupplier = Suppliers.memoize(visibilitySupplier::get);
     List<AccountState> inactive = new ArrayList<>();
@@ -576,7 +587,7 @@ public class AccountResolver {
         // Keep track of all inactive candidates discovered by any searchers. If we end up short-
         // circuiting, the inactive list will be discarded.
         List<AccountState> active = new ArrayList<>();
-        results.forEach(a -> (a.getAccount().isActive() ? active : inactive).add(a));
+        results.forEach(a -> (accountActivityPredicate.test(a) ? active : inactive).add(a));
         list = active;
       } else {
         list = results.collect(toImmutableList());

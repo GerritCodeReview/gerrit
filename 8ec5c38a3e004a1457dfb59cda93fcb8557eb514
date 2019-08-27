@@ -59,6 +59,30 @@
     },
     {
       "key": {
+        "uuid": "7f358b0b_0841a08b",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2609,
+      "author": {
+        "id": 1063455
+      },
+      "writtenOn": "2019-08-27T08:34:19Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "4321e844_b4dcc4bd",
+      "range": {
+        "startLine": 2609,
+        "startChar": 19,
+        "endLine": 2609,
+        "endChar": 20
+      },
+      "revId": "8ec5c38a3e004a1457dfb59cda93fcb8557eb514",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "54bc2701_39cf3911",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 1
@@ -105,6 +129,54 @@
     },
     {
       "key": {
+        "uuid": "2d3e0457_f10dfd1c",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2620,
+      "author": {
+        "id": 1063455
+      },
+      "writtenOn": "2019-08-27T08:34:19Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "54bc2701_39cf3911",
+      "range": {
+        "startLine": 2620,
+        "startChar": 19,
+        "endLine": 2620,
+        "endChar": 20
+      },
+      "revId": "8ec5c38a3e004a1457dfb59cda93fcb8557eb514",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ae28b23c_3bc965f8",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2620,
+      "author": {
+        "id": 1063455
+      },
+      "writtenOn": "2019-08-27T08:34:19Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "8a61a51f_954e647e",
+      "range": {
+        "startLine": 2620,
+        "startChar": 100,
+        "endLine": 2620,
+        "endChar": 103
+      },
+      "revId": "8ec5c38a3e004a1457dfb59cda93fcb8557eb514",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "944ee116_dd71aaaf",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 1
@@ -125,6 +197,30 @@
       "revId": "8ec5c38a3e004a1457dfb59cda93fcb8557eb514",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e7b6092b_35d644be",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2636,
+      "author": {
+        "id": 1063455
+      },
+      "writtenOn": "2019-08-27T08:34:19Z",
+      "side": 1,
+      "message": "Ack. I have moved this into the maxMergeThread setting to give more context on why this is related reading as it used when the values of maxMergeQueue and maxMergeThread are -1 (auto detection by lucene code).",
+      "parentUuid": "944ee116_dd71aaaf",
+      "range": {
+        "startLine": 2636,
+        "startChar": 0,
+        "endLine": 2636,
+        "endChar": 53
+      },
+      "revId": "8ec5c38a3e004a1457dfb59cda93fcb8557eb514",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -151,6 +247,30 @@
     },
     {
       "key": {
+        "uuid": "e2bb1adb_9afca8b4",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2640,
+      "author": {
+        "id": 1063455
+      },
+      "writtenOn": "2019-08-27T08:34:19Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "13356c17_fc592351",
+      "range": {
+        "startLine": 2640,
+        "startChar": 4,
+        "endLine": 2640,
+        "endChar": 11
+      },
+      "revId": "8ec5c38a3e004a1457dfb59cda93fcb8557eb514",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "283026fb_59c57c17",
         "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/GerritIndexWriterConfig.java",
         "patchSetId": 1
@@ -171,6 +291,30 @@
       "revId": "8ec5c38a3e004a1457dfb59cda93fcb8557eb514",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1c800abb_f6179869",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/GerritIndexWriterConfig.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1063455
+      },
+      "writtenOn": "2019-08-27T08:34:19Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "283026fb_59c57c17",
+      "range": {
+        "startLine": 56,
+        "startChar": 7,
+        "endLine": 56,
+        "endChar": 9
+      },
+      "revId": "8ec5c38a3e004a1457dfb59cda93fcb8557eb514",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

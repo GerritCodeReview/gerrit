@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ea845685_f42ad7e3",
+        "filename": "java/com/google/gerrit/server/account/Preferences.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 397,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-08-27T12:46:09Z",
+      "side": 1,
+      "message": "As a follow-up change, can you remove all the # ?\n\nThese are artifacts of the GWT UI that was around before we moved to PolyGerrit",
+      "range": {
+        "startLine": 397,
+        "startChar": 38,
+        "endLine": 397,
+        "endChar": 39
+      },
+      "revId": "f677c52c7019e1eb2bdd9243195ec49f7b47b42b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

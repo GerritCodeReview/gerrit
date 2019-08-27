@@ -14,9 +14,10 @@ acceptance_tests(
 java_library(
     name = "util",
     testonly = True,
-    srcs = [
-        "AbstractRestApiBindingsTest.java",
-    ],
+    srcs = glob(
+        ["*.java"],
+        exclude = ["*IT.java"],
+    ),
     visibility = ["//visibility:public"],
     deps = [
         "//java/com/google/gerrit/acceptance:lib",

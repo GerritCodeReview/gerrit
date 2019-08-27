@@ -47,7 +47,7 @@ opts.add_argument('--name', help='name of the generated project',
                   action='store', default='gerrit', dest='project_name')
 opts.add_argument('--bazel',
                   help=('name of the bazel executable. Defaults to using'
-                        ' bazelisk if found, or bazel if bazlisk is not'
+                        ' bazelisk if found, or bazel if bazelisk is not'
                         ' found.'),
                   action='store', default=None, dest='bazel_exe')
 

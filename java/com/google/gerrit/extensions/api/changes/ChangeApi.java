@@ -381,6 +381,7 @@ public interface ChangeApi {
   abstract class SuggestedReviewersRequest {
     private String query;
     private int limit;
+    private boolean excludeGroups;
 
     public abstract List<SuggestedReviewerInfo> get() throws RestApiException;
 
@@ -394,12 +395,21 @@ public interface ChangeApi {
       return this;
     }
 
+    public SuggestedReviewersRequest excludeGroups(boolean excludeGroups) {
+      this.excludeGroups = excludeGroups;
+      return this;
+    }
+
     public String getQuery() {
       return query;
     }
 
     public int getLimit() {
       return limit;
+    }
+
+    public boolean getExcludeGroups() {
+      return excludeGroups;
     }
   }
 

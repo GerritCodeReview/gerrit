@@ -70,11 +70,14 @@ limitations under the License.
       gr-main-header {
         background-color: var(--header-background-color);
         padding: 0 var(--default-horizontal-margin);
-        border-bottom: 1px solid var(--border-color);
+        border-width: var(--border-width);
+        border-style: var(--border-style);
+        box-shadow: var(--box-shadow);
+        border-bottom: var(--header-border-color, 1px solid);
       }
       footer {
         background-color: var(--footer-background-color);
-        border-top: 1px solid var(--border-color);
+        border-top: var(--footer-border-color, 1px solid);
         display: flex;
         justify-content: space-between;
         padding: .5rem var(--default-horizontal-margin);

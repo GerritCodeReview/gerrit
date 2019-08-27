@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "6362401d_16cabc36",
+        "filename": "tools/eclipse/project.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2019-08-27T16:29:03Z",
+      "side": 1,
+      "message": "typo...",
+      "range": {
+        "startLine": 50,
+        "startChar": 57,
+        "endLine": 50,
+        "endChar": 64
+      },
+      "revId": "7d60ca3f3430f664cd76a7c3d4632e61e1c3aee3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e09b7835_e0bf564d",
         "filename": "tools/eclipse/project.py",
         "patchSetId": 4
@@ -37,6 +60,30 @@
       "side": 1,
       "message": "I got Monty\u0027s feedback f2f, this is the \u0027default requested executable\u0027, which is None because we rely on autodetection, giving preference to baselisk.",
       "parentUuid": "e09b7835_e0bf564d",
+      "range": {
+        "startLine": 52,
+        "startChar": 42,
+        "endLine": 52,
+        "endChar": 46
+      },
+      "revId": "7d60ca3f3430f664cd76a7c3d4632e61e1c3aee3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b59d75fc_7e196f79",
+        "filename": "tools/eclipse/project.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2019-08-27T16:29:03Z",
+      "side": 1,
+      "message": "Yes, I believe that\u0027s a fairly common to assign None as default here, to be able to handle the actually unset value in the code reading the args.",
+      "parentUuid": "4e1a17a9_e23da73d",
       "range": {
         "startLine": 52,
         "startChar": 42,

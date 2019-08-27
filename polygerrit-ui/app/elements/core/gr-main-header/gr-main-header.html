@@ -32,6 +32,7 @@ limitations under the License.
   <template>
     <style include="shared-styles">
       :host {
+        color: var(--header-text-color);
         display: block;
       }
       nav {
@@ -72,7 +73,6 @@ limitations under the License.
         position: relative;
       }
       .linksTitle {
-        color: var(--header-text-color);
         display: inline-block;
         font-weight: var(--font-weight-bold);
         position: relative;
@@ -127,9 +127,6 @@ limitations under the License.
       :host([logged-in]) gr-account-dropdown {
         display: inline;
       }
-      iron-icon {
-        color: var(--header-text-color);
-      }
       .accountContainer {
         align-items: center;
         display: flex;
@@ -139,7 +136,6 @@ limitations under the License.
         white-space: nowrap;
       }
       .loginButton, .registerButton {
-        color: var(--header-text-color);
         padding: .5em 1em;
       }
       .dropdown-trigger {

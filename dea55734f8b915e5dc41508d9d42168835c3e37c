@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f517a2dd_b9abb67c",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 528,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-08-27T19:55:47Z",
+      "side": 1,
+      "message": "I added a comment.\n\nI think there should always be an updated change since callers are supposed to provide only open changes as input (but this is not checked/verified). Maybe we should check that, but I\u0027m worried to overlook a case where the input could be a merged change, hence I would defer this to another change.\n\nHaving the fall-back here is just for safety to preserve the existing behaviour if the change was not updated. If we are sure that this doesn\u0027t happen we may consider later to throw an exception here if the updated change is not found.",
+      "parentUuid": "5a20e4d0_d1e805b4",
+      "revId": "dea55734f8b915e5dc41508d9d42168835c3e37c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7bc5d096_85e27cdc",
         "filename": "java/com/google/gerrit/server/submit/SubmitStrategyOp.java",
         "patchSetId": 2
@@ -33,6 +51,24 @@
       "revId": "dea55734f8b915e5dc41508d9d42168835c3e37c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "edf38578_5b69afb1",
+        "filename": "java/com/google/gerrit/server/submit/SubmitStrategyOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-08-27T19:55:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7bc5d096_85e27cdc",
+      "revId": "dea55734f8b915e5dc41508d9d42168835c3e37c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

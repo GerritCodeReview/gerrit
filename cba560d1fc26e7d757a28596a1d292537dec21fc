@@ -22,6 +22,30 @@
       "revId": "cba560d1fc26e7d757a28596a1d292537dec21fc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3c48fda5_e641315c",
+        "filename": "java/com/google/gerrit/server/edit/tree/ChangeFileContentModification.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-08-27T08:13:02Z",
+      "side": 1,
+      "message": "Because I didn\u0027t know about that...\n\nIt can be fixed in a followup change if necessary.",
+      "parentUuid": "fcb06059_8bda961b",
+      "range": {
+        "startLine": 83,
+        "startChar": 40,
+        "endLine": 83,
+        "endChar": 63
+      },
+      "revId": "cba560d1fc26e7d757a28596a1d292537dec21fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

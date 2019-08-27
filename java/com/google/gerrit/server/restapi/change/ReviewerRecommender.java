@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.restapi.change;
 
-import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.base.Strings;
@@ -23,6 +22,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.LabelType;
+import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.reviewdb.client.Account;
@@ -34,6 +34,7 @@ import com.google.gerrit.server.change.SuggestedReviewer;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.plugincontext.PluginMapContext;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -96,6 +97,7 @@ public class ReviewerRecommender {
   }
 
   public List<Account.Id> suggestReviewers(
+      ReviewerState reviewerState,
       @Nullable ChangeNotes changeNotes,
       SuggestReviewers suggestReviewers,
       ProjectState projectState,
@@ -178,7 +180,7 @@ public class ReviewerRecommender {
       // Remove existing reviewers
       approvalsUtil
           .getReviewers(changeNotes)
-          .byState(REVIEWER)
+          .byState(ReviewerStateInternal.fromReviewerState(reviewerState))
           .forEach(
               r -> {
                 if (reviewerScores.remove(r) != null) {

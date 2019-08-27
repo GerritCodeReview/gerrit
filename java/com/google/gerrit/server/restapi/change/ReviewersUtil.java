@@ -24,6 +24,7 @@ import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GroupReference;
+import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.common.GroupBaseInfo;
 import com.google.gerrit.extensions.common.SuggestedReviewerInfo;
 import com.google.gerrit.extensions.restapi.Url;
@@ -157,6 +158,7 @@ public class ReviewersUtil {
   }
 
   public List<SuggestedReviewerInfo> suggestReviewers(
+      ReviewerState reviewerState,
       @Nullable ChangeNotes changeNotes,
       SuggestReviewers suggestReviewers,
       ProjectState projectState,
@@ -190,7 +192,8 @@ public class ReviewersUtil {
     }
 
     List<Account.Id> sortedRecommendations =
-        recommendAccounts(changeNotes, suggestReviewers, projectState, candidateList);
+        recommendAccounts(
+            reviewerState, changeNotes, suggestReviewers, projectState, candidateList);
     logger.atFine().log("Sorted recommendations: %s", sortedRecommendations);
 
     // Filter accounts by visibility and enforce limit
@@ -286,6 +289,7 @@ public class ReviewersUtil {
   }
 
   private List<Account.Id> recommendAccounts(
+      ReviewerState reviewerState,
       @Nullable ChangeNotes changeNotes,
       SuggestReviewers suggestReviewers,
       ProjectState projectState,
@@ -293,7 +297,7 @@ public class ReviewersUtil {
       throws IOException, ConfigInvalidException {
     try (Timer0.Context ctx = metrics.recommendAccountsLatency.start()) {
       return reviewerRecommender.suggestReviewers(
-          changeNotes, suggestReviewers, projectState, candidateList);
+          reviewerState, changeNotes, suggestReviewers, projectState, candidateList);
     }
   }
 

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "500b87a7_8bba0a1e",
+        "filename": "java/com/google/gerrit/server/account/AccountResolver.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 590,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-08-27T14:48:44Z",
+      "side": 1,
+      "message": "I think we should have only a single concept to decide if inactive accounts are filtered out or not: either callerShouldFilterOutInactiveCandidates() or accountActivityPredicate\n\nHaving both is confusing.",
+      "range": {
+        "startLine": 586,
+        "startChar": 6,
+        "endLine": 590,
+        "endChar": 62
+      },
+      "revId": "878473704dc16313b8c33100b72ea06f30635c6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "900694a2_ced4ac1c",
+        "filename": "java/com/google/gerrit/server/restapi/account/AccountsCollection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-08-27T14:48:44Z",
+      "side": 1,
+      "message": "In AccountsCollection we want to resolve inactive accounts only if the account ID is given because this class decides which identifiers can be used to invoke the account REST endpoints. \n\nWhy is this needed to fix the change query issue?",
+      "range": {
+        "startLine": 55,
+        "startChar": 44,
+        "endLine": 55,
+        "endChar": 68
+      },
+      "revId": "878473704dc16313b8c33100b72ea06f30635c6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

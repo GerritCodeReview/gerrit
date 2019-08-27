@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2d10525a_9e302e14",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-08-27T13:50:29Z",
+      "side": 1,
+      "message": "What is the source of the new colors? The UX team?",
+      "revId": "e2d6246ac7f04b3c560fe2ca6dac67d80fbb2e7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "72fc1e35_ce0eaed7",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-08-27T13:50:29Z",
+      "side": 1,
+      "message": "Maybe refer to the already defined default color?\n\n  --needs-review-text-color: var(--primary-text-color);\n  --reviewed-text-color: var(--primary-text-color);",
+      "range": {
+        "startLine": 36,
+        "startChar": 1,
+        "endLine": 37,
+        "endChar": 30
+      },
+      "revId": "e2d6246ac7f04b3c560fe2ca6dac67d80fbb2e7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eeee6392_a48dcfac",
+        "filename": "polygerrit-ui/app/styles/themes/dark-theme.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-08-27T13:50:29Z",
+      "side": 1,
+      "message": "I am slightly hesitant to use color for highlighting \"needs review\". Currently we only use bold. Maybe chat with Alberto, if that is ok with him. If he is fine, I am fine. :-)",
+      "range": {
+        "startLine": 12,
+        "startChar": 6,
+        "endLine": 13,
+        "endChar": 37
+      },
+      "revId": "e2d6246ac7f04b3c560fe2ca6dac67d80fbb2e7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

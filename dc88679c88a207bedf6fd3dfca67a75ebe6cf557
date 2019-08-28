@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1dc178c0_875ab6f2",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/GerritIndexWriterConfig.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-08-28T15:47:37Z",
+      "side": 1,
+      "message": "[codestyle] use space between \"if\" and \"(\"\n\nsame for the line 60",
+      "revId": "dc88679c88a207bedf6fd3dfca67a75ebe6cf557",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

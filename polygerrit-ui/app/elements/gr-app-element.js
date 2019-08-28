@@ -136,9 +136,9 @@
       });
 
       if (window.localStorage.getItem('dark-theme')) {
-        this.$.libLoader.getDarkTheme().then(module => {
-          Polymer.dom(this.root).appendChild(module);
-        });
+        // No need to add the style module to element again as it's imported
+        // by importHref already
+        this.$.libLoader.getDarkTheme();
       }
 
       // Note: this is evaluated here to ensure that it only happens after the

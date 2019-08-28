@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c980e694_2a441868",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-08-28T13:37:23Z",
+      "side": 1,
+      "message": "sg, its actually the `--not-bold-text-color` :)",
+      "parentUuid": "32f3681a_ab509b91",
+      "revId": "4cd192d370c505c66e8f80902a5976f92a4e8ee1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b0a52398_f43ab399",
         "filename": "polygerrit-ui/app/styles/themes/dark-theme.html",
         "patchSetId": 4
@@ -33,6 +51,24 @@
       "revId": "4cd192d370c505c66e8f80902a5976f92a4e8ee1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eddbd2e6_7467c1fc",
+        "filename": "polygerrit-ui/app/styles/themes/dark-theme.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-08-28T13:37:23Z",
+      "side": 1,
+      "message": "ya it did, very subtle but noticeable",
+      "parentUuid": "b0a52398_f43ab399",
+      "revId": "4cd192d370c505c66e8f80902a5976f92a4e8ee1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

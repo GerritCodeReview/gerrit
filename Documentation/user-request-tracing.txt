@@ -29,7 +29,7 @@ request type:
 When request tracing is enabled it is possible to provide an ID that
 should be used as trace ID. If a trace ID is not provided a trace ID is
 automatically generated. The trace ID must be provided to the support
-team so that they can find the trace.
+team (administrator of the server) so that they can find the trace.
 
 When doing traces it is recommended to specify the ID of the issue
 that is being investigated as trace ID so that the traces of the issue
@@ -54,6 +54,9 @@ request have a `TRACE_ID` tag set, e.g.:
 
 By doing a grep with the trace ID over the error log the log entries
 that correspond to the request can be found.
+
+[TIP]
+Usually only server administrators have access to the logs.
 
 == Which information is captured in a trace?
 

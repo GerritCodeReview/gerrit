@@ -244,8 +244,10 @@
       if (!changes || !changes.length) {
         return;
       }
-      if (USER_QUERY_PATTERN.test(this._query) && changes[0].owner.email) {
-        this._userId = changes[0].owner.email;
+      const owner = changes[0].owner;
+      const userId = owner._account_id ? owner._account_id : owner.email;
+      if (USER_QUERY_PATTERN.test(this._query) && userId ) {
+        this._userId = userId;
         return;
       }
       if (REPO_QUERY_PATTERN.test(this._query)) {

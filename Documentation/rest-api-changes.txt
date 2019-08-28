@@ -3035,6 +3035,14 @@ As result a list of link:#suggested-reviewer-info[SuggestedReviewerInfo] entries
   ]
 ----
 
+To suggest CCs `reviewer-state=CC` can be specified as additional URL
+parameter. This includes existing reviewers in the result, but excludes
+existing CCs.
+
+--
+'GET /changes/link:#change-id[\{change-id\}]/suggest_reviewers?q=J&reviewer-state=CC'
+--
+
 [[get-reviewer]]
 === Get Reviewer
 --

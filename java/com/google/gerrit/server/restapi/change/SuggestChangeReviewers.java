@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.common.AccountVisibility;
 import com.google.gerrit.extensions.common.SuggestedReviewerInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -44,6 +45,7 @@ public class SuggestChangeReviewers extends SuggestReviewers
   private final ProjectCache projectCache;
 
   private boolean excludeGroups;
+  private ReviewerState reviewerState = ReviewerState.REVIEWER;
 
   @Option(
       name = "--exclude-groups",
@@ -51,6 +53,16 @@ public class SuggestChangeReviewers extends SuggestReviewers
       usage = "exclude groups from query")
   public SuggestChangeReviewers setExcludeGroups(boolean excludeGroups) {
     this.excludeGroups = excludeGroups;
+    return this;
+  }
+
+  @Option(
+      name = "--reviewer-state",
+      usage =
+          "The type of reviewers that should be suggested"
+              + " (can be 'REVIEWER' or 'CC', default is 'REVIEWER')")
+  public SuggestChangeReviewers setReviewerState(ReviewerState reviewerState) {
+    this.reviewerState = reviewerState;
     return this;
   }
 
@@ -75,8 +87,13 @@ public class SuggestChangeReviewers extends SuggestReviewers
     if (!self.get().isIdentifiedUser()) {
       throw new AuthException("Authentication required");
     }
+    if (reviewerState.equals(ReviewerState.REMOVED)) {
+      throw new BadRequestException(
+          String.format("Unsupported reviewer state: %s", ReviewerState.REMOVED));
+    }
     return Response.ok(
         reviewersUtil.suggestReviewers(
+            reviewerState,
             rsrc.getNotes(),
             this,
             projectCache.checkedGet(rsrc.getProject()),

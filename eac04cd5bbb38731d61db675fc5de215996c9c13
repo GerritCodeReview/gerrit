@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ea18cc97_f9812863",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-view/gr-change-list-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2019-08-28T14:02:18Z",
+      "side": 1,
+      "message": "For non user queries owner is undefined.",
+      "range": {
+        "startLine": 247,
+        "startChar": 6,
+        "endLine": 248,
+        "endChar": 73
+      },
+      "revId": "eac04cd5bbb38731d61db675fc5de215996c9c13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

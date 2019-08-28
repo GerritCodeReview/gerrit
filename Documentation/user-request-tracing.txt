@@ -44,6 +44,70 @@ be enabled for single requests if there is a concrete need for
 debugging. In particular bots should never enable tracing for all their
 requests by default.
 
+[[auto-retry]]
+== Automatic Request Tracing
+
+Gerrit can be link:config-gerrit.html#retry.retryWithTraceOnFailure[
+configured] to automatically retry requests on non-recoverable failures
+with tracing enabled. This allows to automatically captures traces of
+these failures for further analysis by the Gerrit administrators.
+
+The auto-retry on failure behaves the same way as if the calling user
+would retry the failed operation with tracing enabled.
+
+It is expected that the auto-retry fails with the same exception that
+triggered the auto-retry, however this is not guaranteed:
+
+* Not all Gerrit operations are fully atomic and it can happen that
+  some parts of the operation have been successfully performed before
+  the failure happened. In this case the auto-retry may fail with a
+  different exception.
+* Some exceptions may mistakenly be considered as non-recoverable and
+  the auto-retry actually succeeds.
+
+[[auto-retry-succeeded]]
+If an auto-retry succeeds you may consider filing this as
+link:https://bugs.chromium.org/p/gerrit/issues/entry?template=GoogleSource+Issue[
+Gerrit issue] so that the Gerrit developers can fix this and treat this
+exception as recoverable.
+
+The trace IDs for auto-retries are generated and start with
+`retry-on-failure-`.
+
+The best way to search for auto-retries in logs is to do a grep by
+`AutoRetry`. For each auto-retry that happened this should match 1 or 2
+log entries:
+
+* one `ERROR` log entry with the exception that triggered the
+  auto-retry
+* one `FINE` log entry with the exception that happened on auto-retry
+  (if this log entry is not present the operation succeeded on
+  auto-retry)
+
+To inspect single auto-retry occurrences in detail you can do a
+link:#find-trace[grep by the trace ID]. The trace ID is part of the log
+entries which have been found by the previous grep (watch out for
+something like: `retry-on-failure-1534166888910-3985dfba`).
+
+[TIP]
+Auto-retrying on failures is only supported by some of the REST
+endpoints (change REST endpoints that perform updates).
+
+[[auto-retry-metrics]]
+=== Metrics
+
+If auto-retry is link:config-gerrit.html#retry.retryWithTraceOnFailure[
+enabled] the following metrics are reported:
+
+* `action/auto_retry_count`: Number of automatic retries with tracing
+* `action/failures_on_auto_retry_count`: Number of failures on auto retry
+
+By comparing the values of these counters one can see how often the
+auto-retry succeeds. As explained link:#auto-retry-succeeded[above] if
+auto-retries succeed that's an issue with Gerrit that you may want to
+report.
+
+[[find-trace]]
 == Find log entries for a trace ID
 
 If tracing is enabled all log messages that correspond to the traced

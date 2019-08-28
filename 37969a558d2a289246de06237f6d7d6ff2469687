@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "54697315_eed74611",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-08-28T05:49:08Z",
+      "side": 1,
+      "message": "Is the build stable if we comment out that test? If yes, we can troubleshoot the breakage on that test and keep the JGit upgrade.",
+      "parentUuid": "cc138ba0_56d22c4c",
+      "revId": "37969a558d2a289246de06237f6d7d6ff2469687",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2c2cc53b_7ad4e297",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -33,6 +51,24 @@
       "revId": "37969a558d2a289246de06237f6d7d6ff2469687",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1df2d480_33cb43e8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-08-28T05:49:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2c2cc53b_7ad4e297",
+      "revId": "37969a558d2a289246de06237f6d7d6ff2469687",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

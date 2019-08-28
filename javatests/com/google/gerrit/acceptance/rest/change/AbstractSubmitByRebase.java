@@ -384,4 +384,26 @@ public abstract class AbstractSubmitByRebase extends AbstractSubmit {
     gApi.changes().id(change2.getChangeId()).current().rebase();
     submit(change2.getChangeId());
   }
+
+  /** Issue 6878 */
+  @Test
+  @TestProjectInput(useContentMerge = InheritableBoolean.TRUE)
+  public void submitChainOneByOneSubmittable() throws Throwable {
+    PushOneCommit.Result change1 = createChange("subject 1", "fileName 1", "content 1");
+    // Same filename/content to edit to create a truly dependent chain.
+    PushOneCommit.Result change2 = createChange("subject 2", "fileName 1", "content 2");
+
+    approve(change1.getChangeId());
+    approve(change2.getChangeId());
+
+    // Reports as submittable on all changes before submission.
+    assertSubmittable(change1.getChangeId());
+    assertSubmittable(change2.getChangeId());
+
+    submit(change1.getChangeId());
+    // After submission of the first untouched change, the child change(s) should still be
+    // submittable without needing a manual rebase.
+    assertSubmittable(change2.getChangeId());
+    submit(change2.getChangeId());
+  }
 }

@@ -89,6 +89,30 @@
     },
     {
       "key": {
+        "uuid": "896d886b_781b8874",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/GerritIndexWriterConfig.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1063455
+      },
+      "writtenOn": "2019-08-28T12:59:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d4c2b7fb_9122b42d",
+      "range": {
+        "startLine": 62,
+        "startChar": 8,
+        "endLine": 62,
+        "endChar": 33
+      },
+      "revId": "09d0f1dc7a11313c95a64ddeedeaa14a4e85d56a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8fe4881d_9b208025",
         "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/GerritIndexWriterConfig.java",
         "patchSetId": 9
@@ -109,6 +133,30 @@
       "revId": "09d0f1dc7a11313c95a64ddeedeaa14a4e85d56a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b3550d66_3e4e1e28",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/GerritIndexWriterConfig.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1063455
+      },
+      "writtenOn": "2019-08-28T12:59:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8fe4881d_9b208025",
+      "range": {
+        "startLine": 65,
+        "startChar": 8,
+        "endLine": 65,
+        "endChar": 35
+      },
+      "revId": "09d0f1dc7a11313c95a64ddeedeaa14a4e85d56a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

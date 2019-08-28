@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cc138ba0_56d22c4c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-08-28T05:36:47Z",
+      "side": 1,
+      "message": "It didn\u0027t break the build; it broke a test.\n\n\"The upgrade broke OnlineNoteDbMigrationIT\" is the reason I used in the stable-2.16 revert",
+      "revId": "37969a558d2a289246de06237f6d7d6ff2469687",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2c2cc53b_7ad4e297",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-08-28T05:36:47Z",
+      "side": 1,
+      "message": "Please add a reference to issue 11373",
+      "revId": "37969a558d2a289246de06237f6d7d6ff2469687",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

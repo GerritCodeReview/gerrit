@@ -246,7 +246,6 @@ public class GerritServer implements AutoCloseable {
           .put("org.eclipse.jgit.transport.PacketLineIn", Level.WARN)
           .put("org.eclipse.jgit.transport.PacketLineOut", Level.WARN)
           .put("org.eclipse.jgit.internal.storage.file.FileSnapshot", Level.WARN)
-          .put("org.eclipse.jgit.util.FS", Level.WARN)
           .build();
 
   private static boolean forceLocalDisk() {

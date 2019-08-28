@@ -93,6 +93,30 @@
       "revId": "5bcea12233975e46591b442a84b1c54b85033573",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9b0385fc_a285729e",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/GerritIndexWriterConfig.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1063455
+      },
+      "writtenOn": "2019-08-28T08:20:56Z",
+      "side": 1,
+      "message": "The reason why it is here, is because not calling the api, could be different to calling with with -1, -1.  As such I have left it not being called when we leave our values at the default values, as this is exactly as it was before.   thanks for discussion.",
+      "parentUuid": "e4a59948_70358047",
+      "range": {
+        "startLine": 56,
+        "startChar": 4,
+        "endLine": 56,
+        "endChar": 54
+      },
+      "revId": "5bcea12233975e46591b442a84b1c54b85033573",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -34,12 +34,9 @@ import com.google.gerrit.testing.ConfigSuite;
 import com.google.inject.Injector;
 import com.google.inject.Module;
 import java.io.File;
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
-import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.SystemReader;
@@ -171,16 +168,6 @@ public abstract class StandaloneSiteTest {
           @Override
           public int getTimezone(long when) {
             return oldSystemReader.getTimezone(when);
-          }
-
-          @Override
-          public StoredConfig getUserConfig() throws IOException, ConfigInvalidException {
-            return oldSystemReader.getUserConfig();
-          }
-
-          @Override
-          public StoredConfig getSystemConfig() throws IOException, ConfigInvalidException {
-            return oldSystemReader.getSystemConfig();
           }
         });
     return oldSystemReader;

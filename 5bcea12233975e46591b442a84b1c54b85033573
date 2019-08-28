@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "a241f6b3_5cea65e6",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 2612,
+      "author": {
+        "id": 1087826
+      },
+      "writtenOn": "2019-08-28T08:10:32Z",
+      "side": 1,
+      "message": "It looks like the Lucene parameter names are maxMergeCount and maxThreadCount, while the parameters we\u0027re adding to the Gerrit config file are maxMergeQueue and maxMergeThreads (respectively, I think).  It\u0027s a little difficult to reconcile the documentation between the two, especially here where we refer to the Lucene name.  It might be better to just use the Lucene names throughout?\n\nAlso, it\u0027s not entirely clear to me (even after following the link to the docs) what this bit about only using the smallest means -- does that mean the smallest across all indexes?  If so, is it possible to move this out of the per-index configuration and just have it as an unqualified option under \"lucene\"?  E.g.:\n\n[lucene]\nmaxThreadcount\u003d20",
+      "range": {
+        "startLine": 2612,
+        "startChar": 56,
+        "endLine": 2612,
+        "endChar": 70
+      },
+      "revId": "5bcea12233975e46591b442a84b1c54b85033573",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "37c443c5_cd53b528",
         "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/GerritIndexWriterConfig.java",
         "patchSetId": 4

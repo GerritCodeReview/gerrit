@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "32f3681a_ab509b91",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-08-28T13:34:51Z",
+      "side": 1,
+      "message": "Going forward I would like to have a comment for each of these properties. That would also be a good opportunity to explain why we introduced this property at all.\n\nPotentially this property could also be renamed to --bold-text-color?",
+      "revId": "4cd192d370c505c66e8f80902a5976f92a4e8ee1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b0a52398_f43ab399",
+        "filename": "polygerrit-ui/app/styles/themes/dark-theme.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-08-28T13:34:51Z",
+      "side": 1,
+      "message": "Does this make a difference?",
+      "revId": "4cd192d370c505c66e8f80902a5976f92a4e8ee1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

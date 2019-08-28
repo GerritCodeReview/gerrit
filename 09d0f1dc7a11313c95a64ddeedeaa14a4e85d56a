@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "e413582a_84dde584",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/GerritIndexWriterConfig.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-08-28T12:22:17Z",
+      "side": 1,
+      "message": "This will unconditionally create an instance of the ConcurrentMergeScheduler, even when\nit will not be used. Please first read values of all three configuration options and\ninstantiate this class only if it is really necessary:\n\n\n  int maxMergeCount \u003d cfg.getInt(\"index\", name, \"maxMergeCount\", -1);\n  int maxThreadCount \u003d cfg.getInt(\"index\", name, \"maxThreadCount\", -1);\n  boolean enableIOThrottle \u003d cfg.getBoolean(\"index\", name, \"enableAutoIOThrottle\", true);\n\n  if (!enableIOThrottle || maxMergeCount !\u003d -1 || maxThreadCount !\u003d -1) {\n    ConcurrentMergeScheduler mergeScheduler \u003d new ConcurrentMergeScheduler();\n    ... set the options on the mergeScheuler\n    luceneConfig.setMergeScheduler(mergeScheduler);\n  }",
+      "revId": "09d0f1dc7a11313c95a64ddeedeaa14a4e85d56a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "768aca59_83e12be3",
         "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/GerritIndexWriterConfig.java",
         "patchSetId": 9
@@ -23,6 +40,75 @@
       "revId": "09d0f1dc7a11313c95a64ddeedeaa14a4e85d56a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c768b89_d5febca0",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/GerritIndexWriterConfig.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-08-28T12:22:17Z",
+      "side": 1,
+      "message": "Why is this also not named like the option: enableAutoIOThrottle?\nIn case you consider the enableIOThrottle name better then I would propose to also rename\nto option name. Anyway there is no obvious difference between enableIOThrottle and enableAutoIOThrottle, so the shorter name can be preferable?",
+      "range": {
+        "startLine": 60,
+        "startChar": 12,
+        "endLine": 60,
+        "endChar": 28
+      },
+      "revId": "09d0f1dc7a11313c95a64ddeedeaa14a4e85d56a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d4c2b7fb_9122b42d",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/GerritIndexWriterConfig.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-08-28T12:22:17Z",
+      "side": 1,
+      "message": "!enableIOThrottle",
+      "range": {
+        "startLine": 62,
+        "startChar": 8,
+        "endLine": 62,
+        "endChar": 33
+      },
+      "revId": "09d0f1dc7a11313c95a64ddeedeaa14a4e85d56a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8fe4881d_9b208025",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/GerritIndexWriterConfig.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-08-28T12:22:17Z",
+      "side": 1,
+      "message": "!enableIOThrottle",
+      "range": {
+        "startLine": 65,
+        "startChar": 8,
+        "endLine": 65,
+        "endChar": 35
+      },
+      "revId": "09d0f1dc7a11313c95a64ddeedeaa14a4e85d56a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

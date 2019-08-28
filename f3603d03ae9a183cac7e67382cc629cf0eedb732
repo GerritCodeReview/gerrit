@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "eb6a397b_7c9627fb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1063455
+      },
+      "writtenOn": "2019-08-28T11:50:24Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "c3bfa4d3_b7321c4b",
+      "revId": "f3603d03ae9a183cac7e67382cc629cf0eedb732",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e0548eac_80950b0b",
         "filename": "/COMMIT_MSG",
         "patchSetId": 6
@@ -59,6 +77,24 @@
     },
     {
       "key": {
+        "uuid": "6fb768d4_12816210",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1063455
+      },
+      "writtenOn": "2019-08-28T11:50:24Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "6e3999f7_b9e57b51",
+      "revId": "f3603d03ae9a183cac7e67382cc629cf0eedb732",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8bd3da9d_7dbca99c",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 6
@@ -79,6 +115,30 @@
       "revId": "f3603d03ae9a183cac7e67382cc629cf0eedb732",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e5486930_d27fdc45",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 2613,
+      "author": {
+        "id": 1063455
+      },
+      "writtenOn": "2019-08-28T11:50:24Z",
+      "side": 1,
+      "message": "DONE",
+      "parentUuid": "8bd3da9d_7dbca99c",
+      "range": {
+        "startLine": 2613,
+        "startChar": 56,
+        "endLine": 2613,
+        "endChar": 70
+      },
+      "revId": "f3603d03ae9a183cac7e67382cc629cf0eedb732",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -105,6 +165,30 @@
     },
     {
       "key": {
+        "uuid": "3273c872_48a57065",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 2624,
+      "author": {
+        "id": 1063455
+      },
+      "writtenOn": "2019-08-28T11:50:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cccc9314_675f93c3",
+      "range": {
+        "startLine": 2624,
+        "startChar": 6,
+        "endLine": 2624,
+        "endChar": 55
+      },
+      "revId": "f3603d03ae9a183cac7e67382cc629cf0eedb732",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c5eac636_beec9cf0",
         "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/GerritIndexWriterConfig.java",
         "patchSetId": 6
@@ -119,6 +203,24 @@
       "revId": "f3603d03ae9a183cac7e67382cc629cf0eedb732",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "db38c4e4_46ae5f72",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/GerritIndexWriterConfig.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1063455
+      },
+      "writtenOn": "2019-08-28T11:50:24Z",
+      "side": 1,
+      "message": "Yes, ok this is fine, I will only update the merge scheduler if we update any of the settings away from default, this will reduce the risk of causing an accidental change in behaviour, even though we are using default objects you can never tell that they may change the impl.",
+      "parentUuid": "c5eac636_beec9cf0",
+      "revId": "f3603d03ae9a183cac7e67382cc629cf0eedb732",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0fc2c489_25ff8861",
+        "filename": "polygerrit-ui/app/styles/themes/dark-theme.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-08-28T20:42:51Z",
+      "side": 1,
+      "message": "app-theme is the canonical theme file, so comments should either go there or be repeated in both.",
+      "revId": "86d15ecc6443ea1665e060a26ce9968a7826d2a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

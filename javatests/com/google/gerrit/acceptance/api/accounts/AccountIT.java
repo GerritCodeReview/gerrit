@@ -318,21 +318,6 @@ public class AccountIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void createWithInvalidSshKey() throws Exception {
-    AccountInput input = new AccountInput();
-    input.username = name("test");
-    input.sshKey = "invalid key";
-
-    // Invalid key should cause the creation to fail
-    BadRequestException thrown =
-        assertThrows(BadRequestException.class, () -> gApi.accounts().create(input));
-    assertThat(thrown).hasMessageThat().isEqualTo("Invalid SSH Key");
-
-    // The account should not have been created
-    assertThrows(ResourceNotFoundException.class, () -> gApi.accounts().id(input.username).get());
-  }
-
-  @Test
   public void createWithInvalidEmailAddress() throws Exception {
     AccountInput input = new AccountInput();
     input.username = name("test");

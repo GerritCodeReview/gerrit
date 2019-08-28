@@ -46,6 +46,30 @@
       "revId": "5bcea12233975e46591b442a84b1c54b85033573",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e4a59948_70358047",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/GerritIndexWriterConfig.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2019-08-28T08:05:17Z",
+      "side": 1,
+      "message": "I don\u0027t think performance is worse for setting two ints than \"comparing\" ints two times, and removing the if statement would clean up the code.",
+      "parentUuid": "d3f50bee_6caac581",
+      "range": {
+        "startLine": 56,
+        "startChar": 4,
+        "endLine": 56,
+        "endChar": 54
+      },
+      "revId": "5bcea12233975e46591b442a84b1c54b85033573",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

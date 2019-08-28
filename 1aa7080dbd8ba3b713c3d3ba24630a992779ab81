@@ -1,0 +1,28 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "798941da_25c11692",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/GerritIndexWriterConfig.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1063455
+      },
+      "writtenOn": "2019-08-28T12:58:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fd4a495e_d988370f",
+      "range": {
+        "startLine": 59,
+        "startChar": 0,
+        "endLine": 59,
+        "endChar": 0
+      },
+      "revId": "1aa7080dbd8ba3b713c3d3ba24630a992779ab81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,5 +1,8 @@
 = Request Tracing
 
+[[on-demand]]
+== On-demand Request Tracing
+
 Gerrit supports on-demand tracing of single requests that results in
 additional logs with debug information that are written to the
 `error_log`. The logs that correspond to a traced request are

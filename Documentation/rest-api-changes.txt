@@ -3080,6 +3080,12 @@ Adds one user or all members of one group as reviewer to the change.
 The reviewer to be added to the change must be provided in the request
 body as a link:#reviewer-input[ReviewerInput] entity.
 
+Users can be moved from reviewer to CC and vice versa. This means if a
+user is added as CC that is already a reviewer on the change, the
+reviewer state of that user is updated to CC. If a user that is already
+a CC on the change is added as reviewer, the reviewer state of that
+user is updated to reviewer.
+
 .Request
 ----
   POST /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/reviewers HTTP/1.0
@@ -3122,6 +3128,12 @@ members are added as reviewer.
 
 If a group with many members is added as reviewer a confirmation may be
 required.
+
+If a group is added as CC and members of this group are already
+reviewers on the change, these members stay reviewers on the change
+(they are not downgraded to CC). However if a group is added as
+reviewer, all group members become reviewer of the change, even if they
+have been added as CC before.
 
 .Request
 ----

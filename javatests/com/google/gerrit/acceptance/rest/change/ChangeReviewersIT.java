@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowLabel;
 import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LABELS;
 import static com.google.gerrit.extensions.client.ReviewerState.CC;
 import static com.google.gerrit.extensions.client.ReviewerState.REMOVED;
@@ -754,6 +755,81 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     assertThat(info._accountId).isEqualTo(user.id().get());
 
     assertThat(gApi.changes().id(r.getChangeId()).addReviewer(input).ccs).isEmpty();
+  }
+
+  @Test
+  public void moveCcToReviewer() throws Exception {
+    // Create a change and add 'user' as CC.
+    String changeId = createChange().getChangeId();
+    AddReviewerInput reviewerInput = new AddReviewerInput();
+    reviewerInput.reviewer = user.email();
+    reviewerInput.state = ReviewerState.CC;
+    gApi.changes().id(changeId).addReviewer(reviewerInput);
+
+    // Verify that 'user' is a CC on the change and that there are no reviewers.
+    ChangeInfo c = gApi.changes().id(changeId).get();
+    Collection<AccountInfo> ccs = c.reviewers.get(CC);
+    assertThat(ccs).isNotNull();
+    assertThat(ccs).hasSize(1);
+    assertThat(ccs.iterator().next()._accountId).isEqualTo(user.id().get());
+    assertThat(c.reviewers.get(REVIEWER)).isNull();
+
+    // Move 'user' from CC to reviewer.
+    gApi.changes().id(changeId).addReviewer(user.id().toString());
+
+    // Verify that 'user' is a reviewer on the change now and that there are no CCs.
+    c = gApi.changes().id(changeId).get();
+    Collection<AccountInfo> reviewers = c.reviewers.get(REVIEWER);
+    assertThat(reviewers).isNotNull();
+    assertThat(reviewers).hasSize(1);
+    assertThat(reviewers.iterator().next()._accountId).isEqualTo(user.id().get());
+    assertThat(c.reviewers.get(CC)).isNull();
+  }
+
+  @Test
+  public void moveReviewerToCc() throws Exception {
+    // Allow everyone to approve changes.
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allowLabel("Code-Review").ref("refs/heads/*").group(REGISTERED_USERS).range(-2, 2))
+        .update();
+
+    // Create a change and add 'user' as reviewer.
+    String changeId = createChange().getChangeId();
+    gApi.changes().id(changeId).addReviewer(user.id().toString());
+
+    // Verify that 'user' is a reviewer on the change and that there are no CCs.
+    ChangeInfo c = gApi.changes().id(changeId).get();
+    Collection<AccountInfo> reviewers = c.reviewers.get(REVIEWER);
+    assertThat(reviewers).isNotNull();
+    assertThat(reviewers).hasSize(1);
+    assertThat(reviewers.iterator().next()._accountId).isEqualTo(user.id().get());
+    assertThat(c.reviewers.get(CC)).isNull();
+
+    // Let 'user' approve the change and verify that the change has the approval.
+    requestScopeOperations.setApiUser(user.id());
+    approve(changeId);
+    c = gApi.changes().id(changeId).get();
+    assertThat(c.labels.get("Code-Review").approved._accountId).isEqualTo(user.id().get());
+
+    // Move 'user' from reviewer to CC.
+    requestScopeOperations.setApiUser(admin.id());
+    AddReviewerInput reviewerInput = new AddReviewerInput();
+    reviewerInput.reviewer = user.id().toString();
+    reviewerInput.state = CC;
+    gApi.changes().id(changeId).addReviewer(reviewerInput);
+
+    // Verify that 'user' is a CC on the change now and that there are no reviewers.
+    c = gApi.changes().id(changeId).get();
+    Collection<AccountInfo> ccs = c.reviewers.get(CC);
+    assertThat(ccs).isNotNull();
+    assertThat(ccs).hasSize(1);
+    assertThat(ccs.iterator().next()._accountId).isEqualTo(user.id().get());
+    assertThat(c.reviewers.get(REVIEWER)).isNull();
+
+    // Verify that the approval of 'user' is still there.
+    assertThat(c.labels.get("Code-Review").approved._accountId).isEqualTo(user.id().get());
   }
 
   private void assertThatUserIsOnlyReviewer(String changeId) throws Exception {

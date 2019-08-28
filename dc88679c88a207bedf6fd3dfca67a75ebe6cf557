@@ -1,0 +1,10 @@
+{
+  "checks": {
+    "gerritforge:reviewdb-a6a0e4682515f3521897c5f950d1394f4619d928": {
+      "state": "FAILED",
+      "url": "https://gerrit-ci.gerritforge.com/job/Gerrit-verifier-buck/2393/consoleText",
+      "created": "2019-08-28T13:52:22Z",
+      "updated": "2019-08-28T13:52:22Z"
+    }
+  }
+}

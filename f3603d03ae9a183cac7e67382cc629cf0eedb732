@@ -1,0 +1,124 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c3bfa4d3_b7321c4b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-08-28T09:44:22Z",
+      "side": 1,
+      "message": "Can you write something about what motivated this change?\nDid you face some performance issues with Lucene which you couldn\u0027t\nresolve with the existing configuration options?",
+      "revId": "f3603d03ae9a183cac7e67382cc629cf0eedb732",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e0548eac_80950b0b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-08-28T09:44:22Z",
+      "side": 1,
+      "message": "Add\n\nuse present tense",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 5
+      },
+      "revId": "f3603d03ae9a183cac7e67382cc629cf0eedb732",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6e3999f7_b9e57b51",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-08-28T09:44:22Z",
+      "side": 1,
+      "message": "This whole sentence can also be removed as it is always required to\ninclude documentation for newly introduced features.\n\nBtw, if you want to keep it and if it is a new paragraph than insert\nan empty line above",
+      "revId": "f3603d03ae9a183cac7e67382cc629cf0eedb732",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8bd3da9d_7dbca99c",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 2613,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-08-28T09:44:22Z",
+      "side": 1,
+      "message": "Use backticks when referring to configuration option names, like in the rest of this document:\n\n  `maxThreadCount`\n\nSame for other occurrences below...",
+      "range": {
+        "startLine": 2613,
+        "startChar": 56,
+        "endLine": 2613,
+        "endChar": 70
+      },
+      "revId": "f3603d03ae9a183cac7e67382cc629cf0eedb732",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cccc9314_675f93c3",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 2624,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-08-28T09:44:22Z",
+      "side": 1,
+      "message": "what will happen if this condition is not met? Will Gerrit reject to start?",
+      "range": {
+        "startLine": 2624,
+        "startChar": 6,
+        "endLine": 2624,
+        "endChar": 55
+      },
+      "revId": "f3603d03ae9a183cac7e67382cc629cf0eedb732",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c5eac636_beec9cf0",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/GerritIndexWriterConfig.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-08-28T09:44:22Z",
+      "side": 1,
+      "message": "Do we want to do this if neither of the new options (maxMergeCount, maxThreadCount, enableAutoIOThrottle) is set in the gerrit.config?",
+      "revId": "f3603d03ae9a183cac7e67382cc629cf0eedb732",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

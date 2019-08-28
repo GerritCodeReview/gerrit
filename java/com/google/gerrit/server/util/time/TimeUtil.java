@@ -15,13 +15,10 @@
 package com.google.gerrit.server.util.time;
 
 import com.google.common.annotations.VisibleForTesting;
-import java.io.IOException;
 import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.function.LongSupplier;
-import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.lib.StoredConfig;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.SystemReader;
@@ -106,16 +103,6 @@ public class TimeUtil {
     @Override
     public int getTimezone(long when) {
       return delegate.getTimezone(when);
-    }
-
-    @Override
-    public StoredConfig getUserConfig() throws IOException, ConfigInvalidException {
-      return delegate.getUserConfig();
-    }
-
-    @Override
-    public StoredConfig getSystemConfig() throws IOException, ConfigInvalidException {
-      return delegate.getSystemConfig();
     }
   }
 

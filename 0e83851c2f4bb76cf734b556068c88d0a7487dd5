@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d2f4d527_974e35a7",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-08-28T20:58:42Z",
+      "side": 1,
+      "message": "Can you reference css properties before they are defined?",
+      "range": {
+        "startLine": 34,
+        "startChar": 35,
+        "endLine": 34,
+        "endChar": 53
+      },
+      "revId": "0e83851c2f4bb76cf734b556068c88d0a7487dd5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5e678cfe_56d502ec",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.html",
+        "patchSetId": 17
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-08-29T23:17:29Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "29c3cec8_29b1f457",
+      "range": {
+        "startLine": 80,
+        "startChar": 24,
+        "endLine": 80,
+        "endChar": 39
+      },
+      "revId": "3831121889fa65c5662a67fbf54aeccd9594ef5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c98ad6da_0d6c3f1e",
         "filename": "polygerrit-ui/app/styles/themes/app-theme.html",
         "patchSetId": 17
@@ -36,6 +60,30 @@
       "writtenOn": "2019-08-28T20:55:36Z",
       "side": 1,
       "message": "Can you explain why it is important to be able to change the margin in custom themes? If we were to reject this new css property what would be the negative impact?",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 49
+      },
+      "revId": "3831121889fa65c5662a67fbf54aeccd9594ef5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "74ad9cd8_7168220e",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.html",
+        "patchSetId": 17
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-08-29T23:17:29Z",
+      "side": 1,
+      "message": "We doin\u0027t really use it at wikimedia (only setting it to 0 0.5em). It\u0027s used by GerritForge to set the header to be larger (see https://review.gerrithub.io/).\n\nThe negative impact for Wikimedia would be zero but with GerritForge, it\u0027ll make the header smaller.",
+      "parentUuid": "c98ad6da_0d6c3f1e",
       "range": {
         "startLine": 39,
         "startChar": 0,
@@ -68,6 +116,30 @@
       "revId": "3831121889fa65c5662a67fbf54aeccd9594ef5d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "19af18e3_08e341db",
+        "filename": "polygerrit-ui/app/styles/themes/dark-theme.html",
+        "patchSetId": 17
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-08-29T23:17:29Z",
+      "side": 1,
+      "message": "Changed to -border-top.",
+      "parentUuid": "87c1b48d_bf926613",
+      "range": {
+        "startLine": 7,
+        "startChar": 6,
+        "endLine": 8,
+        "endChar": 47
+      },
+      "revId": "3831121889fa65c5662a67fbf54aeccd9594ef5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

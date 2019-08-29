@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a97df932_4ff1baa6",
+        "filename": "polygerrit-ui/app/elements/diff/gr-ranged-comment-layer/gr-ranged-comment-layer.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-08-29T16:09:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0c23394d_b3623c61",
+      "range": {
+        "startLine": 138,
+        "startChar": 10,
+        "endLine": 138,
+        "endChar": 46
+      },
+      "revId": "828f44e2b0d0a36253256e284cc738de48018652",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "162380f9_dd88d048",
         "filename": "polygerrit-ui/app/elements/diff/gr-ranged-comment-layer/gr-ranged-comment-layer.js",
         "patchSetId": 1
@@ -39,6 +63,24 @@
       "revId": "828f44e2b0d0a36253256e284cc738de48018652",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6f637801_cf9b0a3d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-ranged-comment-layer/gr-ranged-comment-layer.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-08-29T16:09:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "162380f9_dd88d048",
+      "revId": "828f44e2b0d0a36253256e284cc738de48018652",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

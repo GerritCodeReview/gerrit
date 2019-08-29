@@ -294,6 +294,16 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
     return true;
   }
 
+  /**
+   * Returns the updated change after this op has been executed.
+   *
+   * @return the updated change after this op has been executed, {@link Optional#empty()} if the op
+   *     was not executed yet, or if the execution has failed
+   */
+  public Optional<Change> getUpdatedChange() {
+    return Optional.ofNullable(updatedChange);
+  }
+
   private PatchSet getOrCreateAlreadyMergedPatchSet(ChangeContext ctx) throws IOException {
     PatchSet.Id psId = alreadyMergedCommit.getPatchsetId();
     logger.atFine().log("Fixing up already-merged patch set %s", psId);

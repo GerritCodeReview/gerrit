@@ -18,7 +18,7 @@
   'use strict';
 
   // Polymer 1 adds # before array's key, while Polymer 2 doesn't
-  const HOVER_PATH_PATTERN = /^commentRanges\.\#?(\d+)\.hovering$/;
+  const HOVER_PATH_PATTERN = /^(commentRanges\.\#?\d+)\.hovering$/;
 
   const RANGE_HIGHLIGHT = 'style-scope gr-diff range';
   const HOVER_HIGHLIGHT = 'style-scope gr-diff rangeHighlight';
@@ -131,8 +131,9 @@
       // If the change only changed the `hovering` property of a comment.
       const match = record.path.match(HOVER_PATH_PATTERN);
       if (match) {
-        const commentRangesIndex = match[1];
-        const {side, range, hovering} = this.commentRanges[commentRangesIndex];
+        // The #number indicates the key of that item in the array
+        // not the index.
+        const {side, range, hovering} = this.get(match[1]);
         this._updateRangesMap(
             side, range, hovering, (forLine, start, end, hovering) => {
               const index = forLine.findIndex(lineRange =>

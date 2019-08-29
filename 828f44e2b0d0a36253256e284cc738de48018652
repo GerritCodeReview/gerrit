@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0c23394d_b3623c61",
+        "filename": "polygerrit-ui/app/elements/diff/gr-ranged-comment-layer/gr-ranged-comment-layer.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2019-08-29T15:01:14Z",
+      "side": 1,
+      "message": "Maybe you can use something else than replace here - something like proper group from match. So there isn\u0027t random string constant here",
+      "range": {
+        "startLine": 138,
+        "startChar": 10,
+        "endLine": 138,
+        "endChar": 46
+      },
+      "revId": "828f44e2b0d0a36253256e284cc738de48018652",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "162380f9_dd88d048",
+        "filename": "polygerrit-ui/app/elements/diff/gr-ranged-comment-layer/gr-ranged-comment-layer.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2019-08-29T15:01:14Z",
+      "side": 1,
+      "message": "Could you add unit test?",
+      "revId": "828f44e2b0d0a36253256e284cc738de48018652",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

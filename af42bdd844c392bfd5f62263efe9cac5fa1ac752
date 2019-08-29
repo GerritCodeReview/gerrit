@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2699a30d_57ed154f",
+        "filename": "java/com/google/gerrit/server/restapi/project/IndexChanges.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-08-29T15:42:17Z",
+      "side": 1,
+      "message": "possible NPE when the apply method is called with null for the input parameter, which is\nexactly what the IndexChangesInProjectCommand doing.",
+      "range": {
+        "startLine": 74,
+        "startChar": 12,
+        "endLine": 74,
+        "endChar": 25
+      },
+      "revId": "af42bdd844c392bfd5f62263efe9cac5fa1ac752",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

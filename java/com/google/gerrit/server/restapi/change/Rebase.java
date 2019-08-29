@@ -168,8 +168,13 @@ public class Rebase extends RetryingRestModifyView<RevisionResource, RebaseInput
           String.format("Base change not found: %s", input.base), e);
     }
 
+<<<<<<< HEAD
     PatchSet.Id baseId = base.patchSet().id();
     if (change.getId().equals(baseId.changeId())) {
+=======
+    PatchSet.Id baseId = base.patchSet().getId();
+    if (change.getId().equals(baseId.getParentKey())) {
+>>>>>>> stable-3.0
       throw new ResourceConflictException("cannot rebase change onto itself");
     }
 

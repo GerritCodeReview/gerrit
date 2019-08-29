@@ -1389,6 +1389,13 @@ Whether changes which are mergeable should be auto-abandoned.
 +
 By default `true`.
 
+[[changeCleanup.cleanupAccountPatchReview]]changeCleanup.cleanupAccountPatchReview::
++
+Whether accountPatchReview data should be also removed when change
+gets auto-abandoned.
++
+By default `false`.
+
 [[changeCleanup.abandonMessage]]changeCleanup.abandonMessage::
 +
 Change message that should be posted when a change is abandoned.

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "60f44677_771bcf93",
+        "filename": "java/com/google/gerrit/server/restapi/change/Submit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-08-29T05:30:16Z",
+      "side": 1,
+      "message": "optional: the message in the log and the exception could be extracted to a string and reused\n\n(unless the exception message intentionally omits the project name that is included in the log.)",
+      "range": {
+        "startLine": 211,
+        "startChar": 6,
+        "endLine": 217,
+        "endChar": 65
+      },
+      "revId": "345b0fdd6b67626b76f896251678abd34ff11c04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

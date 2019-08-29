@@ -752,8 +752,8 @@ maven_jar(
 # Keep this version of Soy synchronized with the version used in Gitiles.
 maven_jar(
     name = "soy",
-    artifact = "com.google.template:soy:2019-07-14",
-    sha1 = "547dee679bac6011126f3a54619d3aec336216d0",
+    artifact = "com.google.template:soy:2019-08-22",
+    sha1 = "d4bf390caf7aa448108a5b9ec1b51f46820438f3",
 )
 
 maven_jar(

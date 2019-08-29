@@ -131,8 +131,11 @@
       // If the change only changed the `hovering` property of a comment.
       const match = record.path.match(HOVER_PATH_PATTERN);
       if (match) {
-        const commentRangesIndex = match[1];
-        const {side, range, hovering} = this.commentRanges[commentRangesIndex];
+        // The #number indicates the key of that item in the array
+        // not the index.
+        const {side, range, hovering} = this.get(
+          record.path.replace(".hovering", "")
+        );
         this._updateRangesMap(
             side, range, hovering, (forLine, start, end, hovering) => {
               const index = forLine.findIndex(lineRange =>

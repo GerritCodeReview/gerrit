@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f70bb613_d5595f68",
+        "filename": "lib/guava.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-08-29T15:01:34Z",
+      "side": 1,
+      "message": "Still works locally with this GUAVA_VERSION change.",
+      "range": {
+        "startLine": 5,
+        "startChar": 0,
+        "endLine": 5,
+        "endChar": 13
+      },
+      "revId": "69a2682b9c01191c7db7e1ffc3ebd7cbb8a6caab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

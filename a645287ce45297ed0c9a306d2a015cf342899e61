@@ -121,6 +121,30 @@
     },
     {
       "key": {
+        "uuid": "7924416d_0be2aa53",
+        "filename": "java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-08-29T13:06:01Z",
+      "side": 1,
+      "message": "\u003e This isn\u0027t a private method within the class; it\u0027s public and accessed by another class.  It is possible it\u0027s also used by plugins.\n\nThe method itself is public but we are discussing the method body which passes null\nto the private class ProjectIndexer. This is what I meant by private.\n\nThe new \"reindexChanges\" method below does accept changes as an input parameter but\nthere we do not expect a null value to be passed. I will also add a non-null check there.\n\n\u003e \n\u003e I would prefer to use Optional rather than null, but if we do use null, then it should be annotated as @Nullable on the method below.\n\nOk, let\u0027s see how @Nullable would \"work\" in this case.",
+      "parentUuid": "77148a7f_4d68985b",
+      "range": {
+        "startLine": 199,
+        "startChar": 48,
+        "endLine": 199,
+        "endChar": 52
+      },
+      "revId": "a645287ce45297ed0c9a306d2a015cf342899e61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "30c838a2_fb46a777",
         "filename": "java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
         "patchSetId": 1

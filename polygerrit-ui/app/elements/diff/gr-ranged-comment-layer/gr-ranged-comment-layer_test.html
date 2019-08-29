@@ -209,6 +209,7 @@ limitations under the License.
     test('_handleCommentRangesChange hovering', () => {
       const notifyStub = sinon.stub();
       element.addListener(notifyStub);
+      const updateRangesMapSpy = sandbox.spy(element, '_updateRangesMap');
 
       element.set(['commentRanges', 1, 'hovering'], true);
 
@@ -217,6 +218,8 @@ limitations under the License.
       assert.equal(lastCall.args[0], 10);
       assert.equal(lastCall.args[1], 12);
       assert.equal(lastCall.args[2], 'right');
+
+      assert.isTrue(updateRangesMapSpy.called);
     });
 
     test('_handleCommentRangesChange splice out', () => {
@@ -251,6 +254,31 @@ limitations under the License.
       assert.equal(lastCall.args[0], 250);
       assert.equal(lastCall.args[1], 275);
       assert.equal(lastCall.args[2], 'left');
+    });
+
+    test('_handleCommentRangesChange mixed actions', () => {
+      const notifyStub = sinon.stub();
+      element.addListener(notifyStub);
+      const updateRangesMapSpy = sandbox.spy(element, '_updateRangesMap');
+
+      element.set(['commentRanges', 1, 'hovering'], true);
+      assert.isTrue(updateRangesMapSpy.callCount === 1);
+      element.splice('commentRanges', 1, 1);
+      assert.isTrue(updateRangesMapSpy.callCount === 2);
+      element.splice('commentRanges', 1, 1);
+      assert.isTrue(updateRangesMapSpy.callCount === 3);
+      element.splice('commentRanges', 1, 0, {
+        side: 'left',
+        range: {
+          end_character: 15,
+          end_line: 275,
+          start_character: 5,
+          start_line: 250,
+        },
+      });
+      assert.isTrue(updateRangesMapSpy.callCount === 4);
+      element.set(['commentRanges', 2, 'hovering'], true);
+      assert.isTrue(updateRangesMapSpy.callCount === 5);
     });
 
     test('_computeCommentMap creates maps correctly', () => {

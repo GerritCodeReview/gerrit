@@ -373,7 +373,10 @@
         });
         this.splice('_commentRanges', i, 1);
       }
-      this.push('_commentRanges', ...addedCommentRanges);
+
+      if (addedCommentRanges && addedCommentRanges.length) {
+        this.push('_commentRanges', ...addedCommentRanges);
+      }
     },
 
     /**

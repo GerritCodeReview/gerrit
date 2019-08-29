@@ -224,7 +224,7 @@
     handleDiffUpdate() {
       this._updateStops();
       this._scrollBehavior =
-          ScrollBehavior.NEVER;  // Never scroll during initialization.
+          ScrollBehavior.NEVER; // Never scroll during initialization.
       if (!this.diffRow) {
         this.reInitCursor();
       }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "34c43f37_56016508",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-08-29T15:16:19Z",
+      "side": 1,
+      "message": "This looks like a great summary. I often like to also explain *why* I make a change, not just *what* the change is I am making. In this concrete case I could imagine something like:\n\nWhen a page contains multiple diff widgets that are initializing in any given order, just initializing them should not cause a global behavior such as scrolling the page around.\n\nI wonder if there are some Gerrit bugs that this will fix. Some that look suspicious but would need to be checked:\nhttps://bugs.chromium.org/p/gerrit/issues/detail?id\u003d7542\nhttps://bugs.chromium.org/p/gerrit/issues/detail?id\u003d4998\nhttps://bugs.chromium.org/p/gerrit/issues/detail?id\u003d3408",
+      "revId": "ecd5b58e58affeb80856c098387fe7a895b2b02c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -145,6 +145,30 @@
     },
     {
       "key": {
+        "uuid": "30abaae9_2b129637",
+        "filename": "java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-08-29T13:45:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7924416d_0be2aa53",
+      "range": {
+        "startLine": 199,
+        "startChar": 48,
+        "endLine": 199,
+        "endChar": 52
+      },
+      "revId": "a645287ce45297ed0c9a306d2a015cf342899e61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "30c838a2_fb46a777",
         "filename": "java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
         "patchSetId": 1

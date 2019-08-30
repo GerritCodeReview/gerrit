@@ -34,6 +34,24 @@
       "revId": "615c7a13a3b9bcfcfcca8232a0113e38f9702bb3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f18ee208_3d59c254",
+        "filename": "Documentation/dev-build-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-08-30T10:01:46Z",
+      "side": 1,
+      "message": "I always install the plugins allongside the gerrit workspace:\n\n  projects\n    projects/gerrit\n    projects/oauth\n\nAnd so I described here the situation that reflects my laptop environment. Thomas is making a good point that we should be consistent with the rest of the document.\n\n\u003e I think it needs to be removing the ../.. - because otherwise listing the plugin in the CUSTOM_PLUGINS list above isn\u0027t going to work so well.\n\nCan you elaborate? In my example:\n\n  CUSTOM_PLUGINS \u003d [\n    \"oauth\",\n  ]\n\nthe location of the plugin directory is \n\n  projects\n    projects/gerrit\n    projects/oauth\n\nand the symbolic link command would be (as described in this document):\n\n  $ cd plugins\n  $ ln -s ../../oauth/external_plugin_deps.bzl oauth_external_plugin_deps.bzl\n\nand now the plugin specific dependency file in gerrit core can be imported (as described):\n\t\n  load(\":oauth_external_plugin_deps.bzl\", oauth_deps\u003d\"external_plugin_deps\")\n  def external_plugin_deps():\n    oauth_deps()\n\nand it should work as expected, e.g.:\n\n  $ bazel build :release\n\nshould produce release.war with oauth.jar plugin artifact included, or what am I missing?",
+      "parentUuid": "d3f51da6_485aca0b",
+      "revId": "615c7a13a3b9bcfcfcca8232a0113e38f9702bb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

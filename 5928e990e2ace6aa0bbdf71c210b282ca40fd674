@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "84428ccc_069f35ee",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2126,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-08-30T11:21:25Z",
+      "side": 1,
+      "message": "Needs to be removed.\n\nSince PolyGerrit is the only UI in 3.0+",
+      "range": {
+        "startLine": 2121,
+        "startChar": 0,
+        "endLine": 2126,
+        "endChar": 0
+      },
+      "revId": "5928e990e2ace6aa0bbdf71c210b282ca40fd674",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

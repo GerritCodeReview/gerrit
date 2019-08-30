@@ -141,6 +141,30 @@
       "revId": "878473704dc16313b8c33100b72ea06f30635c6f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9b527b31_7cae99cf",
+        "filename": "java/com/google/gerrit/server/restapi/account/AccountsCollection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2019-08-30T14:28:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "23f3b560_ca2fcbce",
+      "range": {
+        "startLine": 55,
+        "startChar": 44,
+        "endLine": 55,
+        "endChar": 68
+      },
+      "revId": "878473704dc16313b8c33100b72ea06f30635c6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

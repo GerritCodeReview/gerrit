@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cd9a9bbd_63bd7058",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/schema/JdbcAccountPatchReviewStore.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-08-30T05:39:34Z",
+      "side": 1,
+      "message": "What happens on existing installations where the table already exists?  Should there be a manual migration step to change the schema of the table?",
+      "revId": "dca4bde9e6a8064403932864f4e0bfeb6817a918",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

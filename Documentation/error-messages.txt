@@ -9,8 +9,6 @@ occurring and what can be done to solve it.
 
 * link:error-branch-not-found.html[branch ... not found]
 * link:error-change-closed.html[change ... closed]
-* link:error-change-does-not-belong-to-project.html[change ... does not belong to project ...]
-* link:error-change-not-found.html[change ... not found]
 * link:error-commit-already-exists.html[commit already exists]
 * link:error-contains-banned-commit.html[contains banned commit ...]
 * link:error-has-duplicates.html[... has duplicates]
@@ -35,7 +33,6 @@ occurring and what can be done to solve it.
 * link:error-same-change-id-in-multiple-changes.html[same Change-Id in multiple changes]
 * link:error-too-many-commits.html[too many commits]
 * link:error-upload-denied.html[Upload denied for project \'...']
-* link:error-push-refschanges-not-allowed.html[upload to refs/changes not allowed]
 * link:error-not-allowed-to-upload-merges.html[you are not allowed to upload merges]
 
 

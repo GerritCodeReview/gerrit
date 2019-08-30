@@ -22,6 +22,30 @@
       "revId": "6581eea0f6392decea7831c93321c446a70266ff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a332a1f0_ea541611",
+        "filename": "lib/codemirror/cm.bzl",
+        "patchSetId": 6
+      },
+      "lineNbr": 371,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-08-30T09:15:24Z",
+      "side": 0,
+      "message": "To track this breakage (and the workaround), I\u0027ve reported this issue upstream: [1]. Probably, it is a good idea to add a comment on that moved code and reference this issue.\n\n* [1] https://github.com/bazelbuild/bazel/issues/9291",
+      "parentUuid": "97e6613d_eaa97ce4",
+      "range": {
+        "startLine": 366,
+        "startChar": 8,
+        "endLine": 371,
+        "endChar": 9
+      },
+      "revId": "6581eea0f6392decea7831c93321c446a70266ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

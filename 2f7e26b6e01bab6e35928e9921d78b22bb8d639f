@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "93f3b62c_83c00b1f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-08-30T14:12:51Z",
+      "side": 1,
+      "message": "As I see this was already documented. Is this change\nimproving the existing documentation?",
+      "revId": "2f7e26b6e01bab6e35928e9921d78b22bb8d639f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3336b3cd_7ed8e63a",
+        "filename": "Documentation/dev-build-plugins.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-08-30T14:12:51Z",
+      "side": 1,
+      "message": "Why do we need symbolic links? For our internal 2.16, which bundles plugins with external\ndependencies we use the following code in the plugins/external_plugin_deps.bzl:\n\n  load(\"//plugins/uploadvalidator:external_plugin_deps.bzl\", deps_uploadvalidator \u003d \"external_plugin_deps\")\n  load(\"//plugins/webhooks:external_plugin_deps.bzl\", deps_webhooks \u003d \"external_plugin_deps\")\n\n  def external_plugin_deps():\n    deps_uploadvalidator()\n    deps_webhooks()\n\nWhat would be an advantage of using symlinks?",
+      "revId": "2f7e26b6e01bab6e35928e9921d78b22bb8d639f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

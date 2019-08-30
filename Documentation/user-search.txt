@@ -411,7 +411,7 @@ is:cc::
 True on any change where the current user is in CC.
 Same as `cc:self`.
 
-is:open, is:pending::
+is:open, is:pending, is:new::
 +
 True if the change is open.
 
@@ -463,7 +463,7 @@ is:wip::
 True if the change is Work In Progress.
 
 [[status]]
-status:open, status:pending::
+status:open, status:pending, status:new::
 +
 True if the change state is 'review in progress'.
 

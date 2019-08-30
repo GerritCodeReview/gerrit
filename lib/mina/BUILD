@@ -1,3 +1,5 @@
+load("@rules_java//java:defs.bzl", "java_library")
+
 java_library(
     name = "sshd",
     data = ["//lib:LICENSE-Apache2.0"],

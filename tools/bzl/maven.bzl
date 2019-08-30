@@ -14,6 +14,8 @@
 
 # Merge maven files
 
+load("@rules_java//java:defs.bzl", "java_import")
+
 def cmd(jars):
     return ("$(location //tools:merge_jars) $@ " +
             " ".join(["$(location %s)" % j for j in jars]))
@@ -25,7 +27,7 @@ def merge_maven_jars(name, srcs, **kwargs):
         tools = srcs + ["//tools:merge_jars"],
         outs = ["%s__merged.jar" % name],
     )
-    native.java_import(
+    java_import(
         name = name,
         jars = [":%s__merged_bin" % name],
         **kwargs

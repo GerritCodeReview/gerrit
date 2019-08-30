@@ -1,3 +1,5 @@
+load("@rules_java//java:defs.bzl", "java_library")
+
 QUERY_BUILDER = [
     "src/main/java/com/google/gerrit/lucene/QueryBuilder.java",
 ]

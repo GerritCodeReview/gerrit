@@ -35,10 +35,12 @@
 package com.google.gerrit.util.cli;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.gerrit.util.cli.Localizable.localizable;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.flogger.FluentLogger;
@@ -411,7 +413,8 @@ public class CmdLineParser {
   private static Option newPrefixedOption(String prefix, Option o) {
     requireNonNull(prefix);
     checkArgument(o.name().startsWith("-"), "Option name must start with '-': %s", o);
-    String[] aliases = Arrays.stream(o.aliases()).map(prefix::concat).toArray(String[]::new);
+    ImmutableList<String> aliases =
+        Arrays.stream(o.aliases()).map(prefix::concat).collect(toImmutableList());
     return OptionUtil.newOption(
         prefix + o.name(),
         aliases,
@@ -421,8 +424,8 @@ public class CmdLineParser {
         false,
         o.hidden(),
         o.handler(),
-        o.depends(),
-        new String[0]);
+        ImmutableList.copyOf(o.depends()),
+        ImmutableList.of());
   }
 
   public class MyParser extends org.kohsuke.args4j.CmdLineParser {
@@ -614,15 +617,15 @@ public class CmdLineParser {
     private Option newHelpOption() {
       return OptionUtil.newOption(
           "--help",
-          new String[] {"-h"},
+          ImmutableList.of("-h"),
           "display this help text",
           "",
           false,
           false,
           false,
           BooleanOptionHandler.class,
-          new String[0],
-          new String[0]);
+          ImmutableList.of(),
+          ImmutableList.of());
     }
 
     private boolean isHandlerSpecified(OptionDef option) {

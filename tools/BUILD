@@ -43,8 +43,6 @@ java_package_configuration(
         "-Xep:DefaultCharset:ERROR",
         "-Xep:DoubleCheckedLocking:ERROR",
         "-Xep:ElementsCountedInLoop:ERROR",
-        "-Xep:DoubleCheckedLocking:ERROR",
-        "-Xep:ElementsCountedInLoop:ERROR",
         "-Xep:EqualsHashCode:ERROR",
         "-Xep:EqualsIncompatibleType:ERROR",
         "-Xep:ExpectedExceptionChecker:ERROR",

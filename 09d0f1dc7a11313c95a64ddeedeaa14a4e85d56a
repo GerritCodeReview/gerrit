@@ -66,6 +66,30 @@
     },
     {
       "key": {
+        "uuid": "8190b1fe_3d375754",
+        "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/GerritIndexWriterConfig.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1063455
+      },
+      "writtenOn": "2019-08-30T08:22:10Z",
+      "side": 1,
+      "message": "I am going to use the same name as that given to the LUCENE configuration option.  Even though it is longer if the option and variable must be the same.  Updating now.",
+      "parentUuid": "1c768b89_d5febca0",
+      "range": {
+        "startLine": 60,
+        "startChar": 12,
+        "endLine": 60,
+        "endChar": 28
+      },
+      "revId": "09d0f1dc7a11313c95a64ddeedeaa14a4e85d56a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d4c2b7fb_9122b42d",
         "filename": "gerrit-lucene/src/main/java/com/google/gerrit/lucene/GerritIndexWriterConfig.java",
         "patchSetId": 9

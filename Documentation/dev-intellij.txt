@@ -1,10 +1,24 @@
-= Gerrit Code Review - IntelliJ Setup
+= Gerrit Code Review - IntelliJ IDEA Setup
 
 == Prerequisites
-You need an installation of IntelliJ version 2016.2 or later. The latest version
-might not yet be in-sync with the Bazel plugin for IntelliJ. It usually becomes
-so quite quickly after new IDEA versions get released, though. It should then be
-possible to use the fairly latest IntelliJ release with an updated Bazel plugin.
+
+=== Bazel
+
+Bazel must be installed as described by
+<<dev-bazel#installation,Building with Bazel - Installation>>.
+
+It's strongly recommended to verify you can build your Gerrit tree with Bazel
+for Java 8 from the command line first. Ensure that at least
+`bazel build gerrit` runs successfully before you proceed.
+
+=== IntelliJ version and Bazel plugin
+
+Before downloading IntelliJ, look at the
+link:https://plugins.jetbrains.com/plugin/8609-bazel/versions[JetBrains plugin repository page of the Bazel plugin]
+to see what version of the IntelliJ IDEA it is actually compatible with.
+
+Also note that the version of the Bazel plugin used in turn may or may not be
+compatible with the Bazel version used.
 
 In addition, Java 8 must be specified on your path or via `JAVA_HOME` so that
 building with Bazel via the Bazel plugin is possible.
@@ -13,45 +27,63 @@ TIP: If the synchronization of the project with the BUILD files using the Bazel
 plugin fails and IntelliJ reports the error **Could not get Bazel roots**, this
 indicates that the Bazel plugin couldn't find Java 8.
 
-Bazel must be installed as described by
-<<dev-bazel#installation,Building with Bazel - Installation>>.
+=== Installation of IntelliJ IDEA
+
+Please refer to the
+link:https://www.jetbrains.com/help/idea/installation-guide.html[installation guide provided by Jetbrains]
+to install it on your platform. Make sure to install a version compatible with
+the Bazel plugin as mentioned above.
 
 == Installation of the Bazel plugin
 
+The plugin is usually installed using the Jetbrains plugin repository as shown
+in the steps below, but it's also possible to
+link:https://github.com/bazelbuild/intellij[build it from source].
+
 . Go to *File -> Settings -> Plugins*.
-. Click on *Browse Repositories*.
-. Search for the plugin `IntelliJ with Bazel`.
++
+(Or, from the welcome screen, *Configure -> Plugins*)
+. Activate the *Marketplace* tab.
+. Search for the plugin `Bazel` (by Google).
++
+TIP: In case the Bazel plugin is not listed, or if it shows an outdated version,
+verify the compatibility between the Bazel plugin and IntelliJ IDEA on link:https://plugins.jetbrains.com/plugin/8609-bazel/versions[the JetBrains plugin page].
 . Install it.
-. Restart IntelliJ.
+. Restart IntelliJ IDEA.
 
-TIP: If your project's Bazel build fails with **Cannot run program "bazel": No
-such file or directory**, then you may have to set the binary location in the
-Bazel plugin settings:
+[TIP]
+====
+If your project's Bazel build fails with **Cannot run program "bazel": No such
+file or directory**, then you may have to set the binary location in the Bazel
+plugin settings:
 
-. Go to Preferences -> Other Settings -> Bazel Settings.
-. Set the Bazel binary location.
+. Go to *Preferences -> Other Settings -> Bazel Settings*.
+. Set the *Bazel binary location*.
+====
 
-== Creation of IntelliJ project
+== Creation of the project
 
 . Go to *File -> Import Bazel Project*.
++
+(Or, from the welcome screen, *Import Bazel Project* should already be shown in
+there.)
 . For *Use existing bazel workspace -> Workspace*, select the directory
 containing the Gerrit source code.
 . Choose *Import from workspace* and select the `.bazelproject` file which is
 located in the top directory of the Gerrit source code.
 . Adjust the path of the project data directory and the name of the project if
 desired.
+. Finish the creation of the project.
+. Verify that you can now build the project. Hit the button with the Bazel icon
+(located on the top-right by default) to synchronize the project. Note that
+warnings may be present in the build.
+
+At this point all the basic functionality should be working such as Java class
+inspection and running <<unit-tests,unit tests>>.
 
 TIP: The project data directory can be separate from the source code. One
 advantage of this is that project files don't need to be excluded from version
 control.
-
-Unfortunately, the created project seems to have a broken output path. To fix
-it, please complete the following steps:
-
-. Go to *File -> Project Structure -> Project Settings -> Modules*.
-. Switch to the tab *Paths*.
-. Click on *Inherit project compile output path*.
-. Click on *Use module compile output path*.
 
 == Recommended settings
 
@@ -61,16 +93,19 @@ it, please complete the following steps:
 Install the `google-java-format` plugin by following these steps:
 
 . Go to *File -> Settings -> Plugins*.
-. Click on *Browse Repositories*.
-. Search for the plugin `google-java-format`.
+. Activate the *Marketplace* tab.
+. Search for the plugin `google-java-format` by Google.
 . Install it.
-. Restart IntelliJ.
+. Restart IntelliJ IDEA.
 
-Every time you start IntelliJ, make sure to use *Code -> Reformat with
+Every time you start IntelliJ IDEA, make sure to use *Code -> Reformat with
 google-java-format* on an arbitrary line of code. This replaces the default
 CodeStyleManager with a custom one. Thus, uses of *Reformat Code* either via
 *Code -> Reformat Code*, keyboard shortcuts, or the commit dialog will use the
 custom style defined by the `google-java-format` plugin.
+
+Please refer to the documentation on the <<dev-contributing#style,code style>>
+for which version of `google-java-format` is used with Gerrit.
 
 ==== Code style settings
 The `google-java-format` plugin is the preferred way to format the code. As it
@@ -84,11 +119,10 @@ to be as close as possible. So before submitting code, please make sure to run
 https://raw.githubusercontent.com/google/styleguide/gh-pages/intellij-java-google-style.xml[
 intellij-java-google-style.xml].
 . Go to *File -> Settings -> Editor -> Code Style*.
-. Click on *Manage*.
-. Click on *Import*.
-. Choose `IntelliJ IDEA Code Style XML`.
+. Click on the wrench icon with the tooltip _Show Scheme Actions_.
+. Click on *Import Scheme*.
 . Select the previously downloaded file `intellij-java-google-style.xml`.
-. Make sure that `Google Style` is chosen as *Scheme*.
+. Make sure that `GoogleStyle` is chosen as the current *Scheme*.
 
 In addition, the EditorConfig settings (which ensure a consistent style between
 Eclipse, IntelliJ, and other editors) should be applied on top of that. Those
@@ -97,7 +131,7 @@ will automatically pick up those settings if the EditorConfig plugin is enabled
 and configured correctly as can be verified by:
 
 . Go to *File -> Settings -> Plugins*.
-. Ensure that the EditorConfig plugin is enabled.
+. Ensure that the *EditorConfig* plugin (by JetBrains) is enabled.
 . Go to *File -> Settings -> Editor -> Code Style*.
 . Ensure that *Enable EditorConfig support* is checked.
 
@@ -105,35 +139,42 @@ NOTE: If IntelliJ notifies you later on that the EditorConfig settings override
 the code style settings, simply confirm that.
 
 === Copyright
-Copy the folder `$(gerrit_source_code)/tools/intellij/copyright` (not just the
+
+. Copy the folder `$(gerrit_source_code)/tools/intellij/copyright` (not just the
 contents) to `$(project_data_directory)/.idea`. If it already exists, replace
-it. Then go to *File -> Settings -> Editor -> Copyright -> Copyright Profiles*,
-and import `Gerrit_Copyright.xml` to IntelliJ in case it doesn't pick the
-copyright up automatically.
+it. If you didn't select a custom data directory the command could look like
+this, as run from the Gerrit source tree checkout as working directory:
++
+----
+cp -r tools/intellij/copyright .ijwb/.idea/
+----
+. Go to *File -> Settings -> Editor -> Copyright -> Copyright Profiles*.
+. Verify that the *Gerrit Copyright* is now present there.
++
+Only in case it hasn't picked up the copyright profile automatically, import
+the `Gerrit_Copyright.xml` from that folder manually.
 
-=== File header
-By default, IntelliJ adds a file header containing the name of the author and
-the current date to new files. To disable that, follow these steps:
+=== Git integration
+This section is only relevant in case you want to use the Git integration
+plugin in IntelliJ IDEA.
 
-. Go to *File -> Settings -> Editor -> File and Code Templates*.
-. Select the tab *Includes*.
-. Select *File Header*.
-. Remove the template code in the right editor.
-
-=== Commit message
 To simplify the creation of commit messages which are compliant with the
 <<dev-contributing#commit-message,Commit Message>> format, do the following:
 
-. Go to *File -> Settings -> Version Control*.
-. Check *Commit message right margin (columns)*.
-. Make sure that 72 is specified as value.
-. Check *Wrap when typing reaches right margin*.
+. Go to *File -> Settings -> Version Control -> Commit Dialog*.
+. In the *Commit message inspections*, activate the three inspections:
+* *Blank line between subject and body*,
+* *Limit body line* and
+* *Limit subject line*.
+. For the limit line inspections, make sure that 72 is specified as value.
+. For *Limit body line*, tick *Show right margin* and *Wrap when typing reaches
+right margin*.
 
 In addition, you should follow the instructions of
 <<dev-contributing#git_commit_settings,this section>> (if you haven't
 done so already):
 
-* Install the Git hook for the `Change-Id` line.
+* Install the Git commit message hook for the `Change-Id` line.
 * Set up the HTTP access.
 
 Setting up the HTTP access will allow you to commit changes via IntelliJ without
@@ -145,28 +186,17 @@ Run configurations can be accessed on the toolbar. To edit them or add new ones,
 choose *Edit Configurations* on the drop-down list of the run configurations
 or go to *Run -> Edit Configurations*.
 
-=== Pre-configured run configurations
-
-In order to be able to use the pre-configured run configurations, the following
-steps are necessary:
-
-. Make sure that the folder `runConfigurations` exists within
-`$(project_data_directory)/.idea`. If it doesn't exist, create it.
-. Specify the IntelliJ path variable `GERRIT_TESTSITE`. (This configuration is
-shared among all IntelliJ projects.)
-.. Go to *Settings -> Appearance & Behavior -> Path Variables*.
-.. Click on the *+* to add a new path variable.
-.. Specify `GERRIT_TESTSITE` as name and the path to your local test site as
-value.
-
-The copied run configurations will be added automatically to the available run
-configurations of the IntelliJ project.
-
+[[runconfigurations-daemon]]
 ==== Gerrit Daemon
-WARNING: At the moment running this configuration results in a
+[WARNING]
+====
+At the moment running this (local) configuration results in a
 `java.io.FileNotFoundException`. To debug a local Gerrit server with IntelliJ,
 use the instructions of <<dev-readme#run_daemon,Running the Daemon>> in
 combination with <<remote-debug,Debugging a remote Gerrit server>>.
+
+(link:https://bugs.chromium.org/p/gerrit/issues/detail?id=11360[Issue 11360])
+====
 
 Copy `$(gerrit_source_code)/tools/intellij/gerrit_daemon.xml` to
 `$(project_data_directory)/.idea/runConfigurations/`.
@@ -177,10 +207,12 @@ This run configuration starts the Gerrit daemon similarly as
 NOTE: The <<dev-readme#init,Site Initialization>> has to be completed
 before this run configuration works properly.
 
+[[unit-tests]]
 === Unit tests
 To create run configurations for unit tests, run or debug them via a right-click
 on a method, class, file, or package. The created run configuration is a
-temporary one and can be saved to make it permanent.
+temporary one and can be saved to make it permanent by selecting *Create
+'Bazel test [...]'...* from the context menu.
 
 Normally, this approach generates JUnit run configurations. When the Bazel
 plugin manages a project, it intercepts the creation and creates a Bazel test
@@ -193,9 +225,14 @@ IntelliJ via a `Remote debug configuration`.
 
 . Go to *Run -> Edit Configurations*.
 . Click on the *+* to add a new configuration.
-. Choose *Remote*.
+. Choose *Remote* from the *Templates*.
 . Adjust *Configuration -> Settings -> Host* and *Port*.
 . Start this configuration in `Debug` mode.
+
+TIP: This run configuration dialog also shows the line for the JVM as startup
+flag that you can copy to include in your
+`$(gerrit_test_site)/etc/gerrit.config` in the `[container]` section in order
+to work-around the <<runconfigurations-daemon,local run configuration issue>>.
 
 GERRIT
 ------

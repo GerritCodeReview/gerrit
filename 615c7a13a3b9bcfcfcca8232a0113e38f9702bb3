@@ -52,6 +52,24 @@
       "revId": "615c7a13a3b9bcfcfcca8232a0113e38f9702bb3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4353dbd8_4ac9768c",
+        "filename": "Documentation/dev-build-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1010246
+      },
+      "writtenOn": "2019-08-30T13:43:52Z",
+      "side": 1,
+      "message": "Neat! It was not clear from the docs that putting plugins adjacent to the gerrit repo would result in CUSTOM_PLUGINS being able to find it. Is there any chance that a layout of:\n\n  projects\n    gerrit\n    plugins/oauth\n\n(mirroring the structure in gerrit itself) would work? Or is there some path setup one would need to do to make it work?",
+      "parentUuid": "f18ee208_3d59c254",
+      "revId": "615c7a13a3b9bcfcfcca8232a0113e38f9702bb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

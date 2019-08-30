@@ -71,7 +71,6 @@ limitations under the License.
         position: relative;
       }
       .linksTitle {
-        color: var(--header-text-color);
         display: inline-block;
         font-weight: var(--font-weight-bold);
         position: relative;
@@ -126,9 +125,6 @@ limitations under the License.
       :host([logged-in]) gr-account-dropdown {
         display: inline;
       }
-      iron-icon {
-        color: var(--header-text-color);
-      }
       .accountContainer {
         align-items: center;
         display: flex;
@@ -138,7 +134,6 @@ limitations under the License.
         white-space: nowrap;
       }
       .loginButton, .registerButton {
-        color: var(--header-text-color);
         padding: .5em 1em;
       }
       .dropdown-trigger {
@@ -147,6 +142,18 @@ limitations under the License.
       .dropdown-content {
         background-color: var(--view-background-color);
         box-shadow: 0 1px 5px rgba(0, 0, 0, .3);
+      }
+      /*
+       * We are not using :host to do this, because :host has a lowest css priority
+       * compared to others. This means that using :host to do this would break styles.
+       */
+      .linksTitle,
+      .bigTitle,
+      .loginButton,
+      .registerButton,
+      iron-icon,
+      gr-account-dropdown {
+        color: var(--header-text-color);
       }
       @media screen and (max-width: 50em) {
         .bigTitle {

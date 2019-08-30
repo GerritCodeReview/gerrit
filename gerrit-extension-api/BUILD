@@ -1,3 +1,4 @@
+load("@rules_java//java:defs.bzl", "java_binary", "java_library")
 load("//lib/jgit:jgit.bzl", "JGIT_DOC_URL")
 load("//lib:guava.bzl", "GUAVA_DOC_URL")
 load("//tools/bzl:gwt.bzl", "gwt_module")

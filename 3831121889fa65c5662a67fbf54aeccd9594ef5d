@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "28865ee2_de0e059f",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.html",
+        "patchSetId": 17
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-08-30T10:41:22Z",
+      "side": 1,
+      "message": "I think you can make a case for the header to become a little bit larger for everyone. I don\u0027t feel this is something that every host needs to configure.",
+      "parentUuid": "74ad9cd8_7168220e",
+      "range": {
+        "startLine": 39,
+        "startChar": 0,
+        "endLine": 41,
+        "endChar": 49
+      },
+      "revId": "3831121889fa65c5662a67fbf54aeccd9594ef5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "87c1b48d_bf926613",
         "filename": "polygerrit-ui/app/styles/themes/dark-theme.html",
         "patchSetId": 17

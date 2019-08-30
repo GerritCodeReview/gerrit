@@ -251,7 +251,10 @@ link:https://gerrit-review.googlesource.com/admin/repos/gerrit,branches[
 Gerrit Web UI] or by push.
 
 * Push the commits done on `stable-$version` to `refs/for/stable-$version` and
-get them merged
+get them merged.
+
+* Create a change updating the `defaultbranch` field in the `.gitreview`
+to match the branch name created.
 
 
 [[push-tag]]

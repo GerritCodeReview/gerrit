@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "eae21309_fd52d28a",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.html",
+        "patchSetId": 19
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-08-30T13:43:56Z",
+      "side": 1,
+      "message": "As mentioned before, every new css property must be mentioned in app-theme.html and get a comment.\n\nOn https://review.gerrithub.io \"GerritHub\" has a different font size (which is covered by --header-title-font-size), but all other font sizes look the same to me.",
+      "parentUuid": "116bc12b_59e79028",
+      "range": {
+        "startLine": 51,
+        "startChar": 0,
+        "endLine": 51,
+        "endChar": 8
+      },
+      "revId": "6fcbe99c4ffa6c4b0440abc789c4bf0402125ef0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7004cde5_e9178579",
         "filename": "polygerrit-ui/app/elements/core/gr-smart-search/gr-smart-search.html",
         "patchSetId": 19
@@ -237,6 +261,30 @@
     },
     {
       "key": {
+        "uuid": "33c01001_9ccef9aa",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.html",
+        "patchSetId": 19
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-08-30T13:43:56Z",
+      "side": 1,
+      "message": "I don\u0027t think we want this customized.\n\nPlease let Luca argue for these css properties. Only send me changes for new css properties that are either obviously useful for everyone or that you would like to get for your specific host, i.e. WMF.",
+      "parentUuid": "1be1bad2_fec90dbc",
+      "range": {
+        "startLine": 75,
+        "startChar": 20,
+        "endLine": 75,
+        "endChar": 38
+      },
+      "revId": "6fcbe99c4ffa6c4b0440abc789c4bf0402125ef0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0e80a21c_ca654f21",
         "filename": "polygerrit-ui/app/elements/gr-app-element.html",
         "patchSetId": 19
@@ -319,6 +367,24 @@
     },
     {
       "key": {
+        "uuid": "4481b0a3_acd5fddd",
+        "filename": "polygerrit-ui/app/elements/shared/gr-fixed-panel/gr-fixed-panel.html",
+        "patchSetId": 19
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-08-30T13:43:56Z",
+      "side": 1,
+      "message": "Is used where? Can you live without it?\nNeeds to be added to app-theme.html and get a comment.",
+      "parentUuid": "57ffd302_62df73b8",
+      "revId": "6fcbe99c4ffa6c4b0440abc789c4bf0402125ef0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6bb357c6_8eb90317",
         "filename": "polygerrit-ui/app/elements/shared/gr-fixed-panel/gr-fixed-panel.html",
         "patchSetId": 19
@@ -351,6 +417,24 @@
       "revId": "6fcbe99c4ffa6c4b0440abc789c4bf0402125ef0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "15d220dc_6ab4c14e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-fixed-panel/gr-fixed-panel.html",
+        "patchSetId": 19
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-08-30T13:43:56Z",
+      "side": 1,
+      "message": "Is used where? Can you live without it?\nNeeds to be added to app-theme.html and get a comment.\n\nCan you achieve the same with a custom background of the header?",
+      "parentUuid": "69961979_eb74a016",
+      "revId": "6fcbe99c4ffa6c4b0440abc789c4bf0402125ef0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     },
     {
       "key": {
@@ -389,6 +473,24 @@
     },
     {
       "key": {
+        "uuid": "b263b364_17f6b5ed",
+        "filename": "polygerrit-ui/app/elements/shared/gr-fixed-panel/gr-fixed-panel.html",
+        "patchSetId": 19
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-08-30T13:43:56Z",
+      "side": 1,
+      "message": "Is used where? Can you live without it?\nNeeds to be added to app-theme.html and get a comment.",
+      "parentUuid": "ffed6e64_7ccb6a9d",
+      "revId": "6fcbe99c4ffa6c4b0440abc789c4bf0402125ef0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a471bad2_b9ed96aa",
         "filename": "polygerrit-ui/app/elements/shared/gr-fixed-panel/gr-fixed-panel.html",
         "patchSetId": 19
@@ -421,6 +523,24 @@
       "revId": "6fcbe99c4ffa6c4b0440abc789c4bf0402125ef0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "351f3093_157b9bc2",
+        "filename": "polygerrit-ui/app/elements/shared/gr-fixed-panel/gr-fixed-panel.html",
+        "patchSetId": 19
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-08-30T13:43:56Z",
+      "side": 1,
+      "message": "Can you add --header-background instead? Would that work for you?",
+      "parentUuid": "7fd8d3cc_38262461",
+      "revId": "6fcbe99c4ffa6c4b0440abc789c4bf0402125ef0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

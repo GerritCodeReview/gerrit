@@ -465,9 +465,6 @@ If Change-Id lines are not present in the commit messages, consider
 amending the message and copying the line from the change's page
 on the web, and then using `git push` as described above.
 
-If Change-Id lines are not available, then the user must use the
-manual mapping technique described below.
-
 For more about Change-Ids, see link:user-changeid.html[Change-Id Lines].
 
 
@@ -652,10 +649,6 @@ their original changes by taking advantage of their Change-Id lines.
 If Change-Id lines are not present in the commit messages, consider
 amending the message and copying the line from the change's page
 on the web.
-
-If Change-Id lines are not available, then the user must use the much
-more <<manual_replacement_mapping,manual mapping technique>> offered
-by using `git push` to a specific `refs/changes/change#` reference.
 
 For more about Change-Ids, see link:user-changeid.html[Change-Id Lines].
 

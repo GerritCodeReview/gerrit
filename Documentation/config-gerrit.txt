@@ -1389,6 +1389,13 @@ Whether changes which are mergeable should be auto-abandoned.
 +
 By default `true`.
 
+[[changeCleanup.cleanupAccountPatchReview]]changeCleanup.cleanupAccountPatchReview::
++
+Whether accountPatchReview data should be also removed when change
+gets auto-abandoned.
++
+By default `false`.
+
 [[changeCleanup.abandonMessage]]changeCleanup.abandonMessage::
 +
 Change message that should be posted when a change is abandoned.
@@ -2110,6 +2117,12 @@ If this value doesn't match the serverId used when creating an already existing
 NoteDb, Gerrit will not be able to use that instance of NoteDb. The serverId
 used to create the NoteDb will show in the resulting exception message in case
 the value differs.
+
+[[gerrit.ui]]gerrit.ui::
++
+Configure which UI is the default. Valid values are `polygerrit` and `gwt`.
++
+Defaults to `polygerrit`.
 
 [[gitweb]]
 === Section gitweb

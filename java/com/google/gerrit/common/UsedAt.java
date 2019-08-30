@@ -32,6 +32,7 @@ public @interface UsedAt {
   /** Enumeration of projects that call a method/type/field. */
   enum Project {
     GOOGLE,
+    COLLABNET,
     PLUGIN_CHECKS,
     PLUGIN_DELETE_PROJECT,
     PLUGIN_SERVICEUSER,

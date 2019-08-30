@@ -1,0 +1,210 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "23cd7550_ff6286ca",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.html",
+        "patchSetId": 19
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-08-30T10:41:22Z",
+      "side": 1,
+      "message": "What is this needed for? It is never set in theme files.",
+      "range": {
+        "startLine": 51,
+        "startChar": 0,
+        "endLine": 51,
+        "endChar": 8
+      },
+      "revId": "6fcbe99c4ffa6c4b0440abc789c4bf0402125ef0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7004cde5_e9178579",
+        "filename": "polygerrit-ui/app/elements/core/gr-smart-search/gr-smart-search.html",
+        "patchSetId": 19
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-08-30T10:41:22Z",
+      "side": 1,
+      "message": "We don\u0027t want to make the border-radius customizable.",
+      "range": {
+        "startLine": 28,
+        "startChar": 8,
+        "endLine": 28,
+        "endChar": 21
+      },
+      "revId": "6fcbe99c4ffa6c4b0440abc789c4bf0402125ef0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fee8d273_3e74aa5f",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.html",
+        "patchSetId": 19
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-08-30T10:41:22Z",
+      "side": 1,
+      "message": "What is this needed for? It is never set in theme files.",
+      "range": {
+        "startLine": 73,
+        "startChar": 22,
+        "endLine": 73,
+        "endChar": 42
+      },
+      "revId": "6fcbe99c4ffa6c4b0440abc789c4bf0402125ef0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "66f470be_213935ec",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.html",
+        "patchSetId": 19
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-08-30T10:41:22Z",
+      "side": 1,
+      "message": "What is this needed for? It is never set in theme files.",
+      "range": {
+        "startLine": 74,
+        "startChar": 22,
+        "endLine": 74,
+        "endChar": 42
+      },
+      "revId": "6fcbe99c4ffa6c4b0440abc789c4bf0402125ef0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cb828403_2957ec8a",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.html",
+        "patchSetId": 19
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-08-30T10:41:22Z",
+      "side": 1,
+      "message": "What is this needed for? It is never set in theme files.",
+      "range": {
+        "startLine": 75,
+        "startChar": 20,
+        "endLine": 75,
+        "endChar": 38
+      },
+      "revId": "6fcbe99c4ffa6c4b0440abc789c4bf0402125ef0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0e80a21c_ca654f21",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.html",
+        "patchSetId": 19
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-08-30T10:41:22Z",
+      "side": 1,
+      "message": "bottom",
+      "range": {
+        "startLine": 76,
+        "startChar": 43,
+        "endLine": 76,
+        "endChar": 46
+      },
+      "revId": "6fcbe99c4ffa6c4b0440abc789c4bf0402125ef0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a1feaf68_d330ff41",
+        "filename": "polygerrit-ui/app/elements/shared/gr-fixed-panel/gr-fixed-panel.html",
+        "patchSetId": 19
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-08-30T10:41:22Z",
+      "side": 1,
+      "message": "What is this needed for? It is never set in theme files.",
+      "revId": "6fcbe99c4ffa6c4b0440abc789c4bf0402125ef0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6bb357c6_8eb90317",
+        "filename": "polygerrit-ui/app/elements/shared/gr-fixed-panel/gr-fixed-panel.html",
+        "patchSetId": 19
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-08-30T10:41:22Z",
+      "side": 1,
+      "message": "What is this needed for? It is never set in theme files.",
+      "revId": "6fcbe99c4ffa6c4b0440abc789c4bf0402125ef0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "daf5828a_6b82c5cf",
+        "filename": "polygerrit-ui/app/elements/shared/gr-fixed-panel/gr-fixed-panel.html",
+        "patchSetId": 19
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-08-30T10:41:22Z",
+      "side": 1,
+      "message": "What is this needed for? It is never set in theme files.",
+      "revId": "6fcbe99c4ffa6c4b0440abc789c4bf0402125ef0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a471bad2_b9ed96aa",
+        "filename": "polygerrit-ui/app/elements/shared/gr-fixed-panel/gr-fixed-panel.html",
+        "patchSetId": 19
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-08-30T10:41:22Z",
+      "side": 1,
+      "message": "What is this needed for? It is never set in theme files.",
+      "revId": "6fcbe99c4ffa6c4b0440abc789c4bf0402125ef0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

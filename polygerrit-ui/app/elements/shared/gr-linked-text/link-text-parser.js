@@ -141,7 +141,7 @@
           htmlOutput = a;
         } else if (html) {
           const fragment = document.createDocumentFragment();
-      // Create temporary div to hold the nodes in.
+          // Create temporary div to hold the nodes in.
           const div = document.createElement('div');
           div.innerHTML = html;
           while (div.firstChild) {
@@ -172,10 +172,10 @@
   GrLinkTextParser.prototype.addLink =
       function(text, href, position, length, outputArray) {
         if (!text || this.hasOverlap(position, length, outputArray)) { return; }
-    const baseUrl = Gerrit.BaseUrlBehavior.getBaseUrl();
-    if (!!baseUrl && href.startsWith('/') && !href.startsWith(baseUrl)) {
-      href = baseUrl + href;
-    }
+        const baseUrl = Gerrit.BaseUrlBehavior.getBaseUrl();
+        if (!!baseUrl && href.startsWith('/') && !href.startsWith(baseUrl)) {
+          href = baseUrl + href;
+        }
         this.addItem(text, href, null, position, length, outputArray);
       };
 

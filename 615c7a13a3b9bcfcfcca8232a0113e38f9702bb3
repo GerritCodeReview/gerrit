@@ -16,6 +16,24 @@
       "revId": "615c7a13a3b9bcfcfcca8232a0113e38f9702bb3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d3f51da6_485aca0b",
+        "filename": "Documentation/dev-build-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1010246
+      },
+      "writtenOn": "2019-08-30T06:17:44Z",
+      "side": 1,
+      "message": "I think it needs to be removing the ../.. - because otherwise listing the plugin in the CUSTOM_PLUGINS list above isn\u0027t going to work so well.",
+      "parentUuid": "035e71c2_4d8b67c5",
+      "revId": "615c7a13a3b9bcfcfcca8232a0113e38f9702bb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

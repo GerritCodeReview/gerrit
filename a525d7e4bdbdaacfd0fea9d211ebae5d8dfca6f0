@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "24f9aef8_4d00b946",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-08-30T17:46:34Z",
+      "side": 1,
+      "message": "Use imperative form:\nEx: Introduce the custom account activity predicate to allow ...",
+      "range": {
+        "startLine": 9,
+        "startChar": 11,
+        "endLine": 9,
+        "endChar": 27
+      },
+      "revId": "a525d7e4bdbdaacfd0fea9d211ebae5d8dfca6f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c85471bd_618b7750",
+        "filename": "javatests/com/google/gerrit/server/account/AccountResolverTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-08-30T17:46:34Z",
+      "side": 1,
+      "message": "wrap long line.",
+      "range": {
+        "startLine": 174,
+        "startChar": 80,
+        "endLine": 174,
+        "endChar": 89
+      },
+      "revId": "a525d7e4bdbdaacfd0fea9d211ebae5d8dfca6f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

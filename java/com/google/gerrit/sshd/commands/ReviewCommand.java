@@ -19,6 +19,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableList;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.io.CharStreams;
 import com.google.gerrit.common.data.LabelType;
@@ -349,15 +350,15 @@ public class ReviewCommand extends SshCommand {
   private static Option newApproveOption(LabelType type, String usage) {
     return OptionUtil.newOption(
         asOptionName(type),
-        new String[0],
+        ImmutableList.of(),
         usage,
         "N",
         false,
         false,
         false,
         LabelHandler.class,
-        new String[0],
-        new String[0]);
+        ImmutableList.of(),
+        ImmutableList.of());
   }
 
   private static class LabelSetter implements Setter<Short> {

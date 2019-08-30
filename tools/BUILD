@@ -53,7 +53,7 @@ java_package_configuration(
         "-Xep:FunctionalInterfaceClash:ERROR",
         "-Xep:FutureReturnValueIgnored:ERROR",
         "-Xep:GetClassOnEnum:ERROR",
-        "-Xep:ImmutableAnnotationChecker:WARN",
+        "-Xep:ImmutableAnnotationChecker:ERROR",
         "-Xep:ImmutableEnumChecker:ERROR",
         "-Xep:IncompatibleModifiers:ERROR",
         "-Xep:InjectOnConstructorOfAbstractClass:ERROR",

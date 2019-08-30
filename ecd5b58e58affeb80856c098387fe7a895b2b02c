@@ -16,6 +16,24 @@
       "revId": "ecd5b58e58affeb80856c098387fe7a895b2b02c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4c578804_6f629a10",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1077272
+      },
+      "writtenOn": "2019-08-30T09:29:57Z",
+      "side": 1,
+      "message": "I added that explanation to the commit message.\n\nI tried to reproduce them, and closed 2 as not reproducible, and https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d3408 seems unrelated, because in that bug the problem manifests itself after the diff is already initialized.",
+      "parentUuid": "34c43f37_56016508",
+      "revId": "ecd5b58e58affeb80856c098387fe7a895b2b02c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

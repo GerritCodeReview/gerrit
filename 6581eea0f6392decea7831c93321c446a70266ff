@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e216fc0d_c02d96b0",
+        "filename": "WORKSPACE",
+        "patchSetId": 4
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-08-30T14:16:38Z",
+      "side": 1,
+      "message": "Just a question: can we avoid maintaining bazel version in two places?",
+      "revId": "6581eea0f6392decea7831c93321c446a70266ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

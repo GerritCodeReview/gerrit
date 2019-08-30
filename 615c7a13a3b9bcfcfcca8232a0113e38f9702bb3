@@ -106,6 +106,24 @@
       "revId": "615c7a13a3b9bcfcfcca8232a0113e38f9702bb3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "717f8277_3298eacc",
+        "filename": "Documentation/dev-build-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-08-30T13:54:22Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "a02adfb0_120fcf66",
+      "revId": "615c7a13a3b9bcfcfcca8232a0113e38f9702bb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

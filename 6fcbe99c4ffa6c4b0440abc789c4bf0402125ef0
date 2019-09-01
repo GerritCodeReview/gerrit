@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "7d2438bd_cd506213",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.html",
+        "patchSetId": 19
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-09-01T20:20:14Z",
+      "side": 1,
+      "message": "Removed, thanks, done.",
+      "parentUuid": "eae21309_fd52d28a",
+      "range": {
+        "startLine": 51,
+        "startChar": 0,
+        "endLine": 51,
+        "endChar": 8
+      },
+      "revId": "6fcbe99c4ffa6c4b0440abc789c4bf0402125ef0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7004cde5_e9178579",
         "filename": "polygerrit-ui/app/elements/core/gr-smart-search/gr-smart-search.html",
         "patchSetId": 19
@@ -285,6 +309,30 @@
     },
     {
       "key": {
+        "uuid": "9eaecb10_88984016",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.html",
+        "patchSetId": 19
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-09-01T20:20:14Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "33c01001_9ccef9aa",
+      "range": {
+        "startLine": 75,
+        "startChar": 20,
+        "endLine": 75,
+        "endChar": 38
+      },
+      "revId": "6fcbe99c4ffa6c4b0440abc789c4bf0402125ef0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0e80a21c_ca654f21",
         "filename": "polygerrit-ui/app/elements/gr-app-element.html",
         "patchSetId": 19
@@ -385,6 +433,24 @@
     },
     {
       "key": {
+        "uuid": "f6744b66_28a794b5",
+        "filename": "polygerrit-ui/app/elements/shared/gr-fixed-panel/gr-fixed-panel.html",
+        "patchSetId": 19
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-09-01T20:20:14Z",
+      "side": 1,
+      "message": "Nope, cannot live without it, not if we want to have the bit underneath (red, blue and green).",
+      "parentUuid": "4481b0a3_acd5fddd",
+      "revId": "6fcbe99c4ffa6c4b0440abc789c4bf0402125ef0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6bb357c6_8eb90317",
         "filename": "polygerrit-ui/app/elements/shared/gr-fixed-panel/gr-fixed-panel.html",
         "patchSetId": 19
@@ -435,6 +501,24 @@
       "revId": "6fcbe99c4ffa6c4b0440abc789c4bf0402125ef0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9b09c0f1_0c82939a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-fixed-panel/gr-fixed-panel.html",
+        "patchSetId": 19
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-09-01T20:20:14Z",
+      "side": 1,
+      "message": "Thanks, done. (i\u0027ve added a comment)",
+      "parentUuid": "15d220dc_6ab4c14e",
+      "revId": "6fcbe99c4ffa6c4b0440abc789c4bf0402125ef0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -491,6 +575,24 @@
     },
     {
       "key": {
+        "uuid": "63936b24_fc259e08",
+        "filename": "polygerrit-ui/app/elements/shared/gr-fixed-panel/gr-fixed-panel.html",
+        "patchSetId": 19
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-09-01T20:20:14Z",
+      "side": 1,
+      "message": "Thanks, done. (i\u0027ve added a comment)",
+      "parentUuid": "b263b364_17f6b5ed",
+      "revId": "6fcbe99c4ffa6c4b0440abc789c4bf0402125ef0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a471bad2_b9ed96aa",
         "filename": "polygerrit-ui/app/elements/shared/gr-fixed-panel/gr-fixed-panel.html",
         "patchSetId": 19
@@ -541,6 +643,24 @@
       "revId": "6fcbe99c4ffa6c4b0440abc789c4bf0402125ef0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9cd47355_57359b03",
+        "filename": "polygerrit-ui/app/elements/shared/gr-fixed-panel/gr-fixed-panel.html",
+        "patchSetId": 19
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-09-01T20:20:14Z",
+      "side": 1,
+      "message": "Nope, since we are using this to set linear.\n\n\"--gr-fixed-panel-background-image: linear-gradient(to right, #990000 15%, #006699 15%, #006699 85%, #339966 85%);\"\n\nWhich sets the colour under the header.",
+      "parentUuid": "351f3093_157b9bc2",
+      "revId": "6fcbe99c4ffa6c4b0440abc789c4bf0402125ef0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

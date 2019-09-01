@@ -50,6 +50,7 @@
     this.linkConfig = linkConfig;
     this.callback = callback;
     this.removeZeroWidthSpace = opt_removeZeroWidthSpace;
+    this.baseUrl = Gerrit.BaseUrlBehavior.getBaseUrl();
     Object.preventExtensions(this);
   }
 
@@ -141,7 +142,7 @@
           htmlOutput = a;
         } else if (html) {
           const fragment = document.createDocumentFragment();
-      // Create temporary div to hold the nodes in.
+          // Create temporary div to hold the nodes in.
           const div = document.createElement('div');
           div.innerHTML = html;
           while (div.firstChild) {
@@ -172,10 +173,10 @@
   GrLinkTextParser.prototype.addLink =
       function(text, href, position, length, outputArray) {
         if (!text || this.hasOverlap(position, length, outputArray)) { return; }
-    const baseUrl = Gerrit.BaseUrlBehavior.getBaseUrl();
-    if (!!baseUrl && href.startsWith('/') && !href.startsWith(baseUrl)) {
-      href = baseUrl + href;
-    }
+        if (!!this.baseUrl && href.startsWith('/') &&
+             !href.startsWith(this.baseUrl)) {
+          href = this.baseUrl + href;
+        }
         this.addItem(text, href, null, position, length, outputArray);
       };
 
@@ -193,6 +194,10 @@
   GrLinkTextParser.prototype.addHTML =
       function(html, position, length, outputArray) {
         if (this.hasOverlap(position, length, outputArray)) { return; }
+        if (!!this.baseUrl && html.match(/<a href=\"\//g) &&
+             !new RegExp(`^<a href="${this.baseUrl}`, 'g').test(html)) {
+          html = html.replace(/<a href=\"\//g, `<a href=\"${this.baseUrl}\/`);
+        }
         this.addItem(null, null, html, position, length, outputArray);
       };
 

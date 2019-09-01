@@ -12,7 +12,7 @@ if [[ -z "$npm_bin" ]]; then
     exit 1
 fi
 
-bazel_bin=$(which bazelisk >/dev/null 2>&1)
+bazel_bin=$(which bazelisk 2>/dev/null)
 if [[ -z "$bazel_bin" ]]; then
     echo "Warning: bazelisk is not installed; falling back to bazel."
     bazel_bin=bazel

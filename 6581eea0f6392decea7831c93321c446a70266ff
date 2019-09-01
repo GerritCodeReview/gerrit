@@ -16,6 +16,24 @@
       "revId": "6581eea0f6392decea7831c93321c446a70266ff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "26699c32_a1dd71b5",
+        "filename": "WORKSPACE",
+        "patchSetId": 4
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-09-01T21:34:41Z",
+      "side": 1,
+      "message": "I am not aware how to do it.. Bazelisk is just an optional wrapper. For those who don\u0027t use it, how should we double-check that only supported version of Bazel (that is specified in .bazelversion) used? Note, that core Bazel ignores .bazelversion file (at least for now).",
+      "parentUuid": "e216fc0d_c02d96b0",
+      "revId": "6581eea0f6392decea7831c93321c446a70266ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "40d509c1_969a2230",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.html",
+        "patchSetId": 21
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-09-02T19:55:58Z",
+      "side": 1,
+      "message": "I understand that there is a little bit of effort involved, but I think it can be expected from host admins to fiddle an hour with image software, if they want to have special header customization.\n\nMy guess is that only one host (WMF) wants to customize the border, and I am hesitant to introduce lots of new customizable css properties for just one host. I think a --header-background property is better, because\n\n1. It is just one property.\n2. It is very powerful.\n3. It is probably useful for all hosts that want to tweak the header.",
+      "parentUuid": "847a2dd5_084daa26",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 40
+      },
+      "revId": "5562a6ba010895e2631effa0d81caf0838f42a61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5bf4408a_b62d7bae",
         "filename": "polygerrit-ui/app/styles/themes/app-theme.html",
         "patchSetId": 21
@@ -93,6 +117,30 @@
       "revId": "5562a6ba010895e2631effa0d81caf0838f42a61",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6e220696_c32181f0",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.html",
+        "patchSetId": 21
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-09-02T19:55:58Z",
+      "side": 1,
+      "message": "Sorry, I am not yet convinced. Why is it important to tweak the margin? Can you give an example of a customized header where the default margin screws up the layout?",
+      "parentUuid": "bcc3bf3c_1961feb4",
+      "range": {
+        "startLine": 45,
+        "startChar": 2,
+        "endLine": 47,
+        "endChar": 49
+      },
+      "revId": "5562a6ba010895e2631effa0d81caf0838f42a61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

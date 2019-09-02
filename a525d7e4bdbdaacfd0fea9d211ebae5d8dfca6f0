@@ -25,6 +25,29 @@
     },
     {
       "key": {
+        "uuid": "d057684b_3cba6361",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-09-02T03:30:01Z",
+      "side": 1,
+      "message": "Should be 11367 since 11302 was duplicated to that.",
+      "range": {
+        "startLine": 14,
+        "startChar": 11,
+        "endLine": 14,
+        "endChar": 16
+      },
+      "revId": "a525d7e4bdbdaacfd0fea9d211ebae5d8dfca6f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c85471bd_618b7750",
         "filename": "javatests/com/google/gerrit/server/account/AccountResolverTest.java",
         "patchSetId": 4

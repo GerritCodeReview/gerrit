@@ -80,8 +80,11 @@
     },
 
     _computeDashboardUrl(accountDetails) {
-      if (!accountDetails || !accountDetails.email) { return null; }
-      return Gerrit.Nav.getUrlForUserDashboard(accountDetails.email);
+      if (!accountDetails) { return null; }
+      const id = accountDetails._account_id;
+      const email = accountDetails.email;
+      if (!id && !email ) { return null; }
+      return Gerrit.Nav.getUrlForUserDashboard(id ? id : email);
     },
 
     _computeDashboardLinkClass(showDashboardLink, loggedIn) {

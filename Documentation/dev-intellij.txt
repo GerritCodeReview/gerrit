@@ -187,7 +187,8 @@ choose *Edit Configurations* on the drop-down list of the run configurations
 or go to *Run -> Edit Configurations*.
 
 [[runconfigurations-daemon]]
-==== Gerrit Daemon
+=== Gerrit Daemon
+
 [WARNING]
 ====
 At the moment running this (local) configuration results in a

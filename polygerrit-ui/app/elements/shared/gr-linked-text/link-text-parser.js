@@ -142,7 +142,7 @@
           htmlOutput = a;
         } else if (html) {
           const fragment = document.createDocumentFragment();
-      // Create temporary div to hold the nodes in.
+          // Create temporary div to hold the nodes in.
           const div = document.createElement('div');
           div.innerHTML = html;
           while (div.firstChild) {
@@ -174,7 +174,7 @@
       function(text, href, position, length, outputArray) {
         if (!text || this.hasOverlap(position, length, outputArray)) { return; }
         if (!!this.baseUrl && href.startsWith('/') &&
-              !href.startsWith(this.baseUrl)) {
+             !href.startsWith(this.baseUrl)) {
           href = this.baseUrl + href;
         }
         this.addItem(text, href, null, position, length, outputArray);

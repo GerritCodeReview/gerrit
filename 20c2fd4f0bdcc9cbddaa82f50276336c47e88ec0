@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "62f796a3_aea2f0fd",
+        "filename": "plugins/replication",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-09-02T11:05:18Z",
+      "side": 1,
+      "message": "Please add the plugin change on the same topic",
+      "revId": "20c2fd4f0bdcc9cbddaa82f50276336c47e88ec0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

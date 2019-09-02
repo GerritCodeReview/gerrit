@@ -67,16 +67,22 @@ limitations under the License.
           <tr class="groupHeader">
             <td class="leftPadding"></td>
             <td class="star" hidden$="[[!showStar]]" hidden></td>
-            <td class="cell"
+            <td class="cell expand-collapse"
+                data-key$="[[changeSection]]"
+                data-index$="[[sectionIndex]]"
+                on-tap="toggleSection"
                 colspan$="[[_computeColspan(changeTableColumns, labelNames)]]">
               <a href$="[[_sectionHref(changeSection.query)]]">
                 [[changeSection.name]]
               </a>
+              <iron-icon aria-label="Toggle to show and hide section"
+                  icon$="[[_computeToggleIcon(changeSection)]]">
+              </iron-icon>
             </td>
           </tr>
         </template>
         <template is="dom-if" if="[[_isEmpty(changeSection)]]">
-          <tr class="noChanges">
+          <tr class="noChanges" hidden$="[[changeSection.collapsed]]">
             <td class="leftPadding"></td>
             <td class="star" hidden$="[[!showStar]]" hidden></td>
             <td class="cell"
@@ -92,6 +98,7 @@ limitations under the License.
         </template>
         <template is="dom-repeat" items="[[changeSection.results]]" as="change">
           <gr-change-list-item
+              hidden$="[[changeSection.collapsed]]"
               selected$="[[_computeItemSelected(sectionIndex, index, selectedIndex)]]"
               highlight$="[[_computeItemHighlight(account, change)]]"
               needs-review$="[[_computeItemNeedsReview(account, change, showReviewedState)]]"

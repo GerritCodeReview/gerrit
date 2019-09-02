@@ -27,6 +27,7 @@ import com.google.gerrit.launcher.GerritLauncher;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.util.DelegateSystemReader;
 import com.google.gerrit.server.util.ManualRequestContext;
 import com.google.gerrit.server.util.OneOffRequestContext;
 import com.google.gerrit.server.util.RequestContext;
@@ -134,22 +135,7 @@ public abstract class StandaloneSiteTest {
   private static SystemReader setFakeSystemReader(File tempDir) {
     SystemReader oldSystemReader = SystemReader.getInstance();
     SystemReader.setInstance(
-        new SystemReader() {
-          @Override
-          public String getHostname() {
-            return oldSystemReader.getHostname();
-          }
-
-          @Override
-          public String getenv(String variable) {
-            return oldSystemReader.getenv(variable);
-          }
-
-          @Override
-          public String getProperty(String key) {
-            return oldSystemReader.getProperty(key);
-          }
-
+        new DelegateSystemReader(oldSystemReader) {
           @Override
           public FileBasedConfig openUserConfig(Config parent, FS fs) {
             return new FileBasedConfig(parent, new File(tempDir, "user.config"), FS.detect());
@@ -158,16 +144,6 @@ public abstract class StandaloneSiteTest {
           @Override
           public FileBasedConfig openSystemConfig(Config parent, FS fs) {
             return new FileBasedConfig(parent, new File(tempDir, "system.config"), FS.detect());
-          }
-
-          @Override
-          public long getCurrentTime() {
-            return oldSystemReader.getCurrentTime();
-          }
-
-          @Override
-          public int getTimezone(long when) {
-            return oldSystemReader.getTimezone(when);
           }
         });
     return oldSystemReader;

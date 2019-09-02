@@ -16,6 +16,24 @@
       "revId": "01760bc7e5a853b5f920b77b33ac2a885a744b02",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c672cd84_792c304b",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-09-02T15:04:31Z",
+      "side": 1,
+      "message": "Spoke with tao in slack, he says :host has lowest css priority compared to others.\n\nSo using doing this way will work.\n\nAlso i added a comment.",
+      "parentUuid": "48780c95_38b51dec",
+      "revId": "01760bc7e5a853b5f920b77b33ac2a885a744b02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

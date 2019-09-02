@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "2fdeb464_0fc0ea9a",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 16
+      },
+      "lineNbr": 875,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-09-02T13:20:11Z",
+      "side": 1,
+      "message": "Comment removed by: Gal Paikin",
+      "range": {
+        "startLine": 875,
+        "startChar": 13,
+        "endLine": 875,
+        "endChar": 25
+      },
+      "revId": "9d4aa7df84d9f920a077cb5bba57455b2e58a8dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bd9f1f81_52976950",
         "filename": "Documentation/rest-api-projects.txt",
         "patchSetId": 16
@@ -13,6 +36,24 @@
       "writtenOn": "2019-09-02T11:41:34Z",
       "side": 1,
       "message": "This group doesn\u0027t have id. Is it valid response?",
+      "revId": "9d4aa7df84d9f920a077cb5bba57455b2e58a8dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "24019b02_02c09d69",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 16
+      },
+      "lineNbr": 883,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-09-02T13:20:11Z",
+      "side": 1,
+      "message": "See my comment above",
+      "parentUuid": "bd9f1f81_52976950",
       "revId": "9d4aa7df84d9f920a077cb5bba57455b2e58a8dc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -36,6 +77,47 @@
     },
     {
       "key": {
+        "uuid": "fb6ef798_338d99d4",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 16
+      },
+      "lineNbr": 886,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-09-02T13:20:11Z",
+      "side": 1,
+      "message": "right, will fix",
+      "parentUuid": "982dde4b_6304036f",
+      "revId": "9d4aa7df84d9f920a077cb5bba57455b2e58a8dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b2ea248e_f79f72e3",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 16
+      },
+      "lineNbr": 936,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-09-02T13:20:11Z",
+      "side": 1,
+      "message": "Should change to group_ids",
+      "range": {
+        "startLine": 936,
+        "startChar": 11,
+        "endLine": 936,
+        "endChar": 19
+      },
+      "revId": "9d4aa7df84d9f920a077cb5bba57455b2e58a8dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "66c0239a_76b1850a",
         "filename": "Documentation/rest-api-projects.txt",
         "patchSetId": 16
@@ -47,6 +129,24 @@
       "writtenOn": "2019-09-02T11:41:34Z",
       "side": 1,
       "message": "\"type\" - it seems, this field doesn\u0027t exist anymore",
+      "revId": "9d4aa7df84d9f920a077cb5bba57455b2e58a8dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a865b384_75074622",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 16
+      },
+      "lineNbr": 941,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-09-02T13:20:11Z",
+      "side": 1,
+      "message": "right, will fix",
+      "parentUuid": "66c0239a_76b1850a",
       "revId": "9d4aa7df84d9f920a077cb5bba57455b2e58a8dc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -98,6 +198,29 @@
       "writtenOn": "2019-08-20T10:43:31Z",
       "side": 1,
       "message": ".trim() is called for the name on line 203. Probably, it should be called here",
+      "revId": "9d4aa7df84d9f920a077cb5bba57455b2e58a8dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cbcff478_ebc5b59c",
+        "filename": "java/com/google/gerrit/server/restapi/project/PutConfig.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-09-02T13:20:11Z",
+      "side": 1,
+      "message": "If all of those are false, should throw an error \"select at least one notify type\".\nMakes no sense to create a notifyConfig with none to notify.",
+      "range": {
+        "startLine": 252,
+        "startChar": 0,
+        "endLine": 252,
+        "endChar": 13
+      },
       "revId": "9d4aa7df84d9f920a077cb5bba57455b2e58a8dc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "28e819b6_96ba4944",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.html",
+        "patchSetId": 21
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-09-02T09:16:02Z",
+      "side": 1,
+      "message": "Would it be possible to just have a --header-background property? I think you could create a simple png which is mostly transparent, has a few colored pixels at the bottom and let the browser stretch it to fit the width. Then you should have the same look as you currently have on WMF.",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 40
+      },
+      "revId": "5562a6ba010895e2631effa0d81caf0838f42a61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5bf4408a_b62d7bae",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.html",
+        "patchSetId": 21
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-09-02T09:16:02Z",
+      "side": 1,
+      "message": "Why is this important to be customized by plugins?",
+      "range": {
+        "startLine": 45,
+        "startChar": 2,
+        "endLine": 47,
+        "endChar": 49
+      },
+      "revId": "5562a6ba010895e2631effa0d81caf0838f42a61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

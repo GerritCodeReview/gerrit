@@ -562,5 +562,44 @@ limitations under the License.
       assert.equal(element._computeItemAbsoluteIndex(2, 0), 3);
       assert.equal(element._computeItemAbsoluteIndex(3, 0), 6);
     });
+
+    test('expand / collapse sections when tap', () => {
+      element.selectedIndex = 0;
+      element.sections = [
+        {
+          name: "test",
+          results: [
+            {_number: 0},
+            {_number: 1},
+            {_number: 2},
+          ],
+        },
+        {
+          name: "test 1",
+          results: [
+            {_number: 3},
+            {_number: 4},
+            {_number: 5},
+          ],
+        },
+        {
+          name: "test 2",
+          results: [
+            {_number: 6},
+            {_number: 7},
+            {_number: 8},
+          ],
+        },
+      ];
+
+      const trigger = element.$$("td.cell.expand-collapse");
+      assert.isOk(trigger);
+      trigger.click();
+      flushAsynchronousOperations();
+      assert.equal(element.get("sections.0").collapsed, true);
+      trigger.click();
+      flushAsynchronousOperations();
+      assert.equal(element.get("sections.0").collapsed, false);
+    });
   });
 </script>

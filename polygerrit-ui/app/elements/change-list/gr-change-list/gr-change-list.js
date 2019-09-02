@@ -64,6 +64,7 @@
        * properties should not be used together.
        *
        * @type {!Array<{
+       *   collapsed?: boolean,
        *   name: string,
        *   query: string,
        *   results: !Array<!Object>
@@ -178,9 +179,25 @@
       }
     },
 
-    _computeColspan(changeTableColumns, labelNames) {
+    _computeColspan(changeTableColumns, labelNames, extra = 0) {
       return changeTableColumns.length + labelNames.length +
-          NUMBER_FIXED_COLUMNS;
+          NUMBER_FIXED_COLUMNS + extra;
+    },
+
+    _computeToggleIcon(changeSection) {
+      return changeSection.collapsed ?
+        'gr-icons:expand-more' :
+        'gr-icons:expand-less';
+    },
+
+    toggleSection(e) {
+      const el = e.currentTarget;
+      const index = el.getAttribute('data-index');
+      const section = this.get(`sections.${index}`);
+      if (section && index) {
+        section.collapsed = !section.collapsed;
+        this.set(`sections.${index}`, {...section});
+      }
     },
 
     _computeLabelNames(sections) {

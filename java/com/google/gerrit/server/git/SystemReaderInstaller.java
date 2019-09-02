@@ -17,6 +17,7 @@ package com.google.gerrit.server.git;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.util.git.DelegateSystemReader;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import org.eclipse.jgit.lib.Config;
@@ -47,40 +48,10 @@ public class SystemReaderInstaller implements LifecycleListener {
   private SystemReader customReader() {
     SystemReader current = SystemReader.getInstance();
 
-    return new SystemReader() {
-      @Override
-      public String getHostname() {
-        return current.getHostname();
-      }
-
-      @Override
-      public String getenv(String variable) {
-        return current.getenv(variable);
-      }
-
-      @Override
-      public String getProperty(String key) {
-        return current.getProperty(key);
-      }
-
-      @Override
-      public FileBasedConfig openUserConfig(Config parent, FS fs) {
-        return current.openUserConfig(parent, fs);
-      }
-
+    return new DelegateSystemReader(current) {
       @Override
       public FileBasedConfig openSystemConfig(Config parent, FS fs) {
         return new FileBasedConfig(parent, site.jgit_config.toFile(), FS.DETECTED);
-      }
-
-      @Override
-      public long getCurrentTime() {
-        return current.getCurrentTime();
-      }
-
-      @Override
-      public int getTimezone(long when) {
-        return current.getTimezone(when);
       }
     };
   }

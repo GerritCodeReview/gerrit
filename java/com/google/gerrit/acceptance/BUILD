@@ -126,6 +126,7 @@ java_library2(
         "//java/com/google/gerrit/server/git/receive",
         "//java/com/google/gerrit/server/restapi",
         "//java/com/google/gerrit/server/schema",
+        "//java/com/google/gerrit/server/util/git",
         "//java/com/google/gerrit/server/util/time",
         "//java/com/google/gerrit/sshd",
         "//lib:args4j",

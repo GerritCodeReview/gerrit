@@ -12,9 +12,15 @@ if [[ -z "$wct_bin" ]]; then
     exit 1
 fi
 
+bazel_bin=$(which bazelisk 2>/dev/null)
+if [[ -z "$bazel_bin" ]]; then
+    echo "Warning: bazelisk is not installed; falling back to bazel."
+    bazel_bin=bazel
+fi
+
 # WCT tests are not hermetic, and need extra environment variables.
 # TODO(hanwen): does $DISPLAY even work on OSX?
-bazel test \
+${bazel_bin} test \
       --test_env="HOME=$HOME" \
       --test_env="WCT=${wct_bin}" \
       --test_env="WCT_ARGS=${WCT_ARGS}" \

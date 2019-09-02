@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a16402fe_0242b7ab",
+        "filename": "tools/eclipse/project.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-09-02T05:56:00Z",
+      "side": 1,
+      "message": "Unrelated to this change: should similar changes be applied to project.py in bazlets project?",
+      "revId": "923318b4468a2624ce5f416843614dbc15383bd0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

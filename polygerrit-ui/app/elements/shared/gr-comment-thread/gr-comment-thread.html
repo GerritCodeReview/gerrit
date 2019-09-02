@@ -28,6 +28,13 @@ limitations under the License.
 <dom-module id="gr-comment-thread">
   <template>
     <style include="shared-styles">
+      /* Allow text to be selectable when focused on this area. */
+      :host(:hover) gr-comment {
+        -webkit-user-select: text;
+        -moz-user-select: text;
+        -ms-user-select: text;
+        user-select: text;
+      }
       gr-button {
         margin-left: .5em;
       }

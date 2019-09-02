@@ -23,6 +23,30 @@
       "revId": "f9f19417faa7f01307695975b54680175338753d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "521b42b1_f5caf322",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-02T08:24:31Z",
+      "side": 1,
+      "message": "Yes, there is no new test for this because that\u0027s already covered by an existing test (addCcGroup() -\u003e see section with comment \"CC a group that overlaps with some existing reviewers and CCed accounts\")",
+      "parentUuid": "160cde88_07c8fc98",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 46
+      },
+      "revId": "f9f19417faa7f01307695975b54680175338753d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

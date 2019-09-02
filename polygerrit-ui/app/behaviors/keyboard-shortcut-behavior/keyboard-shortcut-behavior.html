@@ -121,9 +121,11 @@ shortcuts are.
 
   const Shortcut = {
     OPEN_SHORTCUT_HELP_DIALOG: 'OPEN_SHORTCUT_HELP_DIALOG',
+    GO_TO_USER_DASHBOARD: 'GO_TO_USER_DASHBOARD',
     GO_TO_OPENED_CHANGES: 'GO_TO_OPENED_CHANGES',
     GO_TO_MERGED_CHANGES: 'GO_TO_MERGED_CHANGES',
     GO_TO_ABANDONED_CHANGES: 'GO_TO_ABANDONED_CHANGES',
+    GO_TO_WATCHED_CHANGES: 'GO_TO_WATCHED_CHANGES',
 
     CURSOR_NEXT_CHANGE: 'CURSOR_NEXT_CHANGE',
     CURSOR_PREV_CHANGE: 'CURSOR_PREV_CHANGE',
@@ -192,12 +194,16 @@ shortcuts are.
   _describe(Shortcut.SEARCH, ShortcutSection.EVERYWHERE, 'Search');
   _describe(Shortcut.OPEN_SHORTCUT_HELP_DIALOG, ShortcutSection.EVERYWHERE,
       'Show this dialog');
+  _describe(Shortcut.GO_TO_USER_DASHBOARD, ShortcutSection.EVERYWHERE,
+      'Go to User Dashboard');
   _describe(Shortcut.GO_TO_OPENED_CHANGES, ShortcutSection.EVERYWHERE,
       'Go to Opened Changes');
   _describe(Shortcut.GO_TO_MERGED_CHANGES, ShortcutSection.EVERYWHERE,
       'Go to Merged Changes');
   _describe(Shortcut.GO_TO_ABANDONED_CHANGES, ShortcutSection.EVERYWHERE,
       'Go to Abandoned Changes');
+  _describe(Shortcut.GO_TO_WATCHED_CHANGES, ShortcutSection.EVERYWHERE,
+      'Go to Watched Changes');
 
   _describe(Shortcut.CURSOR_NEXT_CHANGE, ShortcutSection.ACTIONS,
       'Select next change');

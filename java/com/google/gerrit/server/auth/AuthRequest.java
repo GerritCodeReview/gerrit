@@ -31,7 +31,7 @@ public abstract class AuthRequest {
   /**
    * Returns the username to be authenticated.
    *
-   * @return username for authentication or null for anonymous access.
+   * @return username for authentication or {@code empty} for anonymous access.
    */
   public final Optional<String> getUsername() {
     return username;
@@ -40,7 +40,7 @@ public abstract class AuthRequest {
   /**
    * Returns the user's credentials
    *
-   * @return user's credentials or null
+   * @return user's credentials or {@code empty}.
    */
   public final Optional<String> getPassword() {
     return password;

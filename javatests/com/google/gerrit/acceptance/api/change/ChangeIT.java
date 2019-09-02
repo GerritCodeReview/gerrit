@@ -90,10 +90,12 @@ import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.annotations.Exports;
+import com.google.gerrit.extensions.api.accounts.DeleteDraftCommentsInput;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.AddReviewerResult;
 import com.google.gerrit.extensions.api.changes.DeleteReviewerInput;
 import com.google.gerrit.extensions.api.changes.DeleteVoteInput;
+import com.google.gerrit.extensions.api.changes.DraftApi;
 import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.NotifyInfo;
@@ -4189,7 +4191,7 @@ public class ChangeIT extends AbstractDaemonTest {
     submittableAfterLosingPermissions("Label");
   }
 
-  public void submittableAfterLosingPermissions(String label) throws Exception {
+  private void submittableAfterLosingPermissions(String label) throws Exception {
     String codeReviewLabel = "Code-Review";
     AccountGroup.UUID registered = REGISTERED_USERS;
     projectOperations
@@ -4240,6 +4242,46 @@ public class ChangeIT extends AbstractDaemonTest {
 
     requestScopeOperations.setApiUser(admin.id());
     gApi.changes().id(changeId).current().submit();
+  }
+
+  @Test
+  public void draftCommentsShouldNotUpdateChangeTimestamp() throws Exception {
+    String changeId = createNewChange();
+    Timestamp changeTs = getChangeLastUpdate(changeId);
+    DraftApi draftApi = addDraftComment(changeId);
+    assertThat(getChangeLastUpdate(changeId)).isEqualTo(changeTs);
+    draftApi.delete();
+    assertThat(getChangeLastUpdate(changeId)).isEqualTo(changeTs);
+  }
+
+  @Test
+  public void deletingAllDraftCommentsShouldNotUpdateChangeTimestamp() throws Exception {
+    String changeId = createNewChange();
+    Timestamp changeTs = getChangeLastUpdate(changeId);
+    addDraftComment(changeId);
+    assertThat(getChangeLastUpdate(changeId)).isEqualTo(changeTs);
+    gApi.accounts().self().deleteDraftComments(new DeleteDraftCommentsInput());
+    assertThat(getChangeLastUpdate(changeId)).isEqualTo(changeTs);
+  }
+
+  private Timestamp getChangeLastUpdate(String changeId) throws RestApiException {
+    Timestamp changeTs = gApi.changes().id(changeId).get().updated;
+    return changeTs;
+  }
+
+  private String createNewChange() throws Exception {
+    TestRepository<InMemoryRepository> userRepo = cloneProject(project, user);
+    PushOneCommit.Result result =
+        pushFactory.create(user.newIdent(), userRepo).to("refs/for/master");
+    String changeId = result.getChangeId();
+    return changeId;
+  }
+
+  private DraftApi addDraftComment(String changeId) throws RestApiException {
+    DraftInput comment = new DraftInput();
+    comment.message = "foo";
+    comment.path = "/foo";
+    return gApi.changes().id(changeId).current().createDraft(comment);
   }
 
   private String getCommitMessage(String changeId) throws RestApiException, IOException {

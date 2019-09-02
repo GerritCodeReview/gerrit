@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "48780c95_38b51dec",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-09-02T09:06:44Z",
+      "side": 1,
+      "message": "Please add a comment about why we are not just using a :host rule. So our future selves understand this. :-)\n\nAlso, I would find it slightly nicer to keep \":host\" in this list and maybe even try to remove the redundant classes. Maybe this is good enough:\n\n:host, iron-icon { ... }",
+      "revId": "01760bc7e5a853b5f920b77b33ac2a885a744b02",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

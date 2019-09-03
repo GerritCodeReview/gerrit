@@ -895,5 +895,12 @@
     _sendDisabledChanged(sendDisabled) {
       this.dispatchEvent(new CustomEvent('send-disabled-changed'));
     },
+
+    _getReviewerSuggestionsProvider(change) {
+      const provider = new GrReviewerSuggestionsProvider(this.$.restAPI,
+          change._number, false);
+      provider.init();
+      return provider;
+    },
   });
 })();

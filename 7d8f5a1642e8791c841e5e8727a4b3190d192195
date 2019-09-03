@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6b43335a_9ad93937",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-09-03T11:04:04Z",
+      "side": 1,
+      "message": "MAJOR.MINOR[.PATCH][.HOTFIX]\n\nGiven hat the most recent released Gerrit version is: 2.16.11.1 HOTFIX part should be included in the versioning scheme and explained below in its own section when hotfix release is conducted, e.g.: \"When immediately after a patch release, some cosmetic changes are required that would not justify a new patch release, hotfix release can be used\".",
+      "range": {
+        "startLine": 86,
+        "startChar": 76,
+        "endLine": 86,
+        "endChar": 95
+      },
+      "revId": "7d8f5a1642e8791c841e5e8727a4b3190d192195",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

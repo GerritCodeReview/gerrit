@@ -22,6 +22,30 @@
       "revId": "85addf3a891c11814898d5e109759b52d0c71b25",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "93ecd222_2c600377",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-09-03T10:27:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a786cb98_659208f9",
+      "range": {
+        "startLine": 89,
+        "startChar": 40,
+        "endLine": 89,
+        "endChar": 73
+      },
+      "revId": "85addf3a891c11814898d5e109759b52d0c71b25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

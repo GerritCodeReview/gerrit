@@ -38,6 +38,10 @@
       change: Object,
       filter: Function,
       placeholder: String,
+      disabled: {
+        type: Function,
+        value: false,
+      },
       /**
        * Needed for template checking since value is initially set to null.
        * @type {?Object} */
@@ -47,20 +51,6 @@
         notify: true,
       },
       readonly: {
-        type: Boolean,
-        value: false,
-      },
-
-      /**
-       * When true, the account-entry autocomplete uses the account suggest API
-       * endpoint, which suggests any account in that Gerrit instance (and does
-       * not suggest groups).
-       *
-       * When false/undefined, account-entry uses the suggest_reviewers API
-       * endpoint, which suggests any account or group in that Gerrit instance
-       * that is not already a reviewer (or is not CCed) on that change.
-       */
-      allowAnyUser: {
         type: Boolean,
         value: false,
       },
@@ -81,6 +71,20 @@
       maxCount: {
         type: Number,
         value: 0,
+      },
+
+      _querySuggestionsCallback: {
+        type: Object,
+        value() {
+          return this._getSuggestions.bind(this);
+        },
+      },
+
+      _makeSuggestionItemCallback: {
+        type: Function,
+        value() {
+          return this._makeSuggestionItem.bind(this);
+        },
       },
     },
 
@@ -103,31 +107,56 @@
       return this.$.entry.focusStart;
     },
 
-    _handleAdd(e) {
-      this._addReviewer(e.detail.value);
+    _isSuggestionsProvider(node) {
+      return typeof node.getSuggestions === 'function'
+          && typeof node.makeSuggestionItem === 'function';
     },
 
-    _addReviewer(reviewer) {
+    _getSuggestionProvider() {
+      return Polymer.dom(this).getEffectiveChildNodes()
+          .find(node => this._isSuggestionsProvider(node));
+    },
+
+    _getSuggestions(input) {
+      // Polymer2: querySelectorAll returns NodeList instead of Array.
+      const provider = this._getSuggestionProvider();
+      if (!provider) {
+        return Promise.resolve([]);
+      }
+      return provider.getSuggestions(input);
+    },
+
+    _makeSuggestionItem(suggestion) {
+      const provider = this._getSuggestionProvider();
+      console.assert(provider, 'Suggestion must be from provider');
+      return provider.makeSuggestionItem(suggestion);
+    },
+
+    _handleAdd(e) {
+      this._addAccount(e.detail.value);
+    },
+
+    _addAccount(item) { // TODO: bad naming
       // Append new account or group to the accounts property. We add our own
       // internal properties to the account/group here, so we clone the object
       // to avoid cluttering up the shared change object.
-      if (reviewer.account) {
+      if (item.account) {
         const account =
-            Object.assign({}, reviewer.account, {_pendingAdd: true});
+            Object.assign({}, item.account, {_pendingAdd: true});
         this.push('accounts', account);
-      } else if (reviewer.group) {
-        if (reviewer.confirm) {
-          this.pendingConfirmation = reviewer;
+      } else if (item.group) {
+        if (item.confirm) {
+          this.pendingConfirmation = item;
           return;
         }
-        const group = Object.assign({}, reviewer.group,
+        const group = Object.assign({}, item.group,
             {_pendingAdd: true, _group: true});
         this.push('accounts', group);
       } else if (this.allowAnyInput) {
-        if (!reviewer.includes('@')) {
+        if (!item.includes('@')) {
           // Repopulate the input with what the user tried to enter and have
           // a toast tell them why they can't enter it.
-          this.$.entry.setText(reviewer);
+          this.$.entry.setText(item);
           this.dispatchEvent(new CustomEvent('show-alert', {
             detail: {message: VALID_EMAIL_ALERT},
             bubbles: true,
@@ -135,7 +164,7 @@
           }));
           return false;
         } else {
-          const account = {email: reviewer, _pendingAdd: true};
+          const account = {email: item, _pendingAdd: true};
           this.push('accounts', account);
         }
       }
@@ -173,8 +202,8 @@
       return a === b;
     },
 
-    _computeRemovable(account) {
-      if (this.readonly) { return false; }
+    _computeRemovable(account, readonly) {
+      if (readonly) { return false; }
       if (this.removableValues) {
         for (let i = 0; i < this.removableValues.length; i++) {
           if (this._accountMatches(this.removableValues[i], account)) {

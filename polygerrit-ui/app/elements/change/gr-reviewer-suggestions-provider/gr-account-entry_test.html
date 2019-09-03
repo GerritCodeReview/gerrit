@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<!--
+@license
+Copyright (C) 2016 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+<title>gr-account-entry</title>
+<script src="/test/common-test-setup.js"></script>
+<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+
+<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/bower_components/web-component-tester/browser.js"></script>
+<link rel="import" href="../../../test/common-test-setup.html"/>
+<script src="../../../scripts/util.js"></script>
+
+<link rel="import" href="gr-account-entry.html">
+
+<script>void(0);</script>
+
+<test-fixture id="basic">
+  <template>
+    <gr-account-entry></gr-account-entry>
+  </template>
+</test-fixture>
+
+<script>
+  suite('gr-account-entry tests', () => {
+    let sandbox;
+    let _nextAccountId = 0;
+    const makeAccount = function(opt_status) {
+      const accountId = ++_nextAccountId;
+      return {
+        _account_id: accountId,
+        name: 'name ' + accountId,
+        email: 'email ' + accountId,
+        status: opt_status,
+      };
+    };
+    let _nextAccountId2 = 0;
+    const makeAccount2 = function(opt_status) {
+      const accountId2 = ++_nextAccountId2;
+      return {
+        _account_id: accountId2,
+        email: 'email ' + accountId2,
+        status: opt_status,
+      };
+    };
+    let _nextAccountId3 = 0;
+    const makeAccount3 = function(opt_status) {
+      const accountId3 = ++_nextAccountId3;
+      return {
+        _account_id: accountId3,
+        name: 'name ' + accountId3,
+        status: opt_status,
+      };
+    };
+
+    let owner;
+    let existingReviewer1;
+    let existingReviewer2;
+    let suggestion1;
+    let suggestion2;
+    let suggestion3;
+    let element;
+
+    setup(done => {
+      owner = makeAccount();
+      existingReviewer1 = makeAccount();
+      existingReviewer2 = makeAccount();
+      suggestion1 = {account: makeAccount()};
+      suggestion2 = {account: makeAccount()};
+      suggestion3 = {
+        group: {
+          id: 'suggested group id',
+          name: 'suggested group',
+        },
+      };
+
+      stub('gr-rest-api-interface', {
+        getLoggedIn() { return Promise.resolve(true); },
+      });
+
+      element = fixture('basic');
+      element.change = {
+        _number: 42,
+        owner,
+        reviewers: {
+          CC: [existingReviewer1],
+          REVIEWER: [existingReviewer2],
+        },
+      };
+      sandbox = sinon.sandbox.create();
+      return flush(done);
+    });
+
+    teardown(() => {
+      sandbox.restore();
+    });
+
+    suite('stubbed values for _getReviewerSuggestions', () => {
+      setup(() => {
+        stub('gr-rest-api-interface', {
+          getChangeSuggestedReviewers() {
+            const redundantSuggestion1 = {account: existingReviewer1};
+            const redundantSuggestion2 = {account: existingReviewer2};
+            const redundantSuggestion3 = {account: owner};
+            return Promise.resolve([redundantSuggestion1, redundantSuggestion2,
+              redundantSuggestion3, suggestion1, suggestion2, suggestion3]);
+          },
+        });
+      });
+
+      test('_makeSuggestion formats account or group accordingly', () => {
+        let account = makeAccount();
+        const account2 = makeAccount2();
+        const account3 = makeAccount3();
+        let suggestion = element._makeSuggestion({account});
+        assert.deepEqual(suggestion, {
+          name: account.name + ' <' + account.email + '>',
+          value: {account},
+        });
+
+        const group = {name: 'test'};
+        suggestion = element._makeSuggestion({group});
+        assert.deepEqual(suggestion, {
+          name: group.name + ' (group)',
+          value: {group},
+        });
+
+        suggestion = element._makeSuggestion(account);
+        assert.deepEqual(suggestion, {
+          name: account.name + ' <' + account.email + '>',
+          value: {account, count: 1},
+        });
+
+        element._config = {
+          user: {
+            anonymous_coward_name: 'Anonymous Coward',
+          },
+        };
+        assert.deepEqual(element._accountOrAnon(account2), 'Anonymous');
+
+        account = makeAccount('OOO');
+
+        suggestion = element._makeSuggestion({account});
+        assert.deepEqual(suggestion, {
+          name: account.name + ' <' + account.email + '> (OOO)',
+          value: {account},
+        });
+
+        suggestion = element._makeSuggestion(account);
+        assert.deepEqual(suggestion, {
+          name: account.name + ' <' + account.email + '> (OOO)',
+          value: {account, count: 1},
+        });
+
+        sandbox.stub(element, '_reviewerEmail',
+            () => { return ''; });
+
+        suggestion = element._makeSuggestion(account3);
+        assert.deepEqual(suggestion, {
+          name: account3.name,
+          value: {account: account3, count: 1},
+        });
+      });
+
+      test('_reviewerEmail', () => {
+        assert.equal(
+            element._reviewerEmail('email@gerritreview.com'),
+            '<email@gerritreview.com>');
+        assert.equal(element._reviewerEmail(undefined), '');
+      });
+
+      test('_getReviewerSuggestions excludes owner+reviewers', done => {
+        element._getReviewerSuggestions().then(reviewers => {
+          // Default is no filtering.
+          assert.equal(reviewers.length, 6);
+
+          // Set up filter that only accepts suggestion1.
+          const accountId = suggestion1.account._account_id;
+          element.filter = function(suggestion) {
+            return suggestion.account &&
+                suggestion.account._account_id === accountId;
+          };
+
+          element._getReviewerSuggestions().then(reviewers => {
+            assert.deepEqual(reviewers, [element._makeSuggestion(suggestion1)]);
+          }).then(done);
+        });
+      });
+
+      test('_getReviewerSuggestions short circuits when logged out', () => {
+        // API call is already stubbed.
+        const xhrSpy = element.$.restAPI.getChangeSuggestedReviewers;
+        element._loggedIn = false;
+        return element._getReviewerSuggestions('').then(() => {
+          assert.isFalse(xhrSpy.called);
+          element._loggedIn = true;
+          return element._getReviewerSuggestions('').then(() => {
+            assert.isTrue(xhrSpy.called);
+          });
+        });
+      });
+    });
+
+    test('allowAnyUser', done => {
+      const suggestReviewerStub =
+          sandbox.stub(element.$.restAPI, 'getChangeSuggestedReviewers')
+          .returns(Promise.resolve([]));
+      const suggestAccountStub =
+          sandbox.stub(element.$.restAPI, 'getSuggestedAccounts')
+          .returns(Promise.resolve([]));
+
+      element._getReviewerSuggestions('').then(() => {
+        assert.isTrue(suggestReviewerStub.calledOnce);
+        assert.isTrue(suggestReviewerStub.calledWith(42, ''));
+        assert.isFalse(suggestAccountStub.called);
+        element.allowAnyUser = true;
+
+        element._getReviewerSuggestions('').then(() => {
+          assert.isTrue(suggestReviewerStub.calledOnce);
+          assert.isTrue(suggestAccountStub.calledOnce);
+          assert.isTrue(suggestAccountStub.calledWith('cansee:42 '));
+          done();
+        });
+      });
+    });
+    test('account-text-changed fired when input text changed and allowAnyInput',
+        () => {
+          // Spy on query, as that is called when _updateSuggestions proceeds.
+          const changeStub = sandbox.stub();
+          element.allowAnyInput = true;
+          sandbox.stub(element.$.restAPI, 'getChangeSuggestedReviewers')
+              .returns(Promise.resolve([]));
+          element.addEventListener('account-text-changed', changeStub);
+          element.$.input.text = 'a';
+          assert.isTrue(changeStub.calledOnce);
+          element.$.input.text = 'ab';
+          assert.isTrue(changeStub.calledTwice);
+        });
+
+    test('account-text-changed not fired when input text changed without ' +
+        'allowAnyUser', () => {
+          // Spy on query, as that is called when _updateSuggestions proceeds.
+      const changeStub = sandbox.stub();
+      sandbox.stub(element.$.restAPI, 'getChangeSuggestedReviewers')
+          .returns(Promise.resolve([]));
+      element.addEventListener('account-text-changed', changeStub);
+      element.$.input.text = 'a';
+      assert.isFalse(changeStub.called);
+    });
+
+    test('setText', () => {
+      // Spy on query, as that is called when _updateSuggestions proceeds.
+      const suggestSpy = sandbox.spy(element.$.input, 'query');
+      element.setText('test text');
+      flushAsynchronousOperations();
+
+      assert.equal(element.$.input.$.input.value, 'test text');
+      assert.isFalse(suggestSpy.called);
+    });
+  });
+</script>

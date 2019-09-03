@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2aa9c517_d4936c7c",
+        "filename": "java/com/google/gerrit/server/account/AccountCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-09-03T00:28:12Z",
+      "side": 1,
+      "message": "Note: there is an UnknownUserException but it\u0027s in the auth package.",
+      "range": {
+        "startLine": 197,
+        "startChar": 2,
+        "endLine": 202,
+        "endChar": 3
+      },
+      "revId": "a01293a142460850bf8494b37d60d2db810b2a68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "2b087610_820e6c0d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-09-03T10:24:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "689540c1_bf46df54",
+      "range": {
+        "startLine": 10,
+        "startChar": 48,
+        "endLine": 10,
+        "endChar": 50
+      },
+      "revId": "a84fc821940cc4958b859d4196480430cb79a99e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f4a63a31_4ae291ff",
         "filename": "Documentation/dev-processes.txt",
         "patchSetId": 10

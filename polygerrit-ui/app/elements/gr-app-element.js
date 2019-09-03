@@ -116,6 +116,19 @@
       this._bindKeyboardShortcuts();
     },
 
+    _loadConfig() {
+      if (!this._configLoaded) {
+        this.$.restAPI.getConfig().then(config => {
+          this._serverConfig = config;
+
+          if (config && config.gerrit && config.gerrit.report_bug_url) {
+            this._feedbackUrl = config.gerrit.report_bug_url;
+          }
+        });
+        this.configLoaded = true;
+      }
+    },
+
     ready() {
       this.$.reporting.appStarted(document.visibilityState === 'hidden');
       this.$.router.start();

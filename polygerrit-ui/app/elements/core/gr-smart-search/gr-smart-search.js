@@ -49,7 +49,7 @@
     },
 
     behaviors: [
-      Gerrit.AnonymousNameBehavior,
+      Gerrit.DisplayNameBehavior,
     ],
 
     attached() {

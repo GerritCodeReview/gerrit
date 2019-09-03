@@ -19,6 +19,24 @@
 
   const VALID_EMAIL_ALERT = 'Please input a valid email.';
 
+  const Defs = {};
+
+  /**
+   * @typedef {{
+   *   name: string,
+   *   value: Object,
+   * }}
+   */
+  Defs.GrSuggestionItem;
+
+  /**
+   * @typedef {{
+   *    getSuggestions: function(string): Promise<Array<Object>>,
+   *    makeSuggestionItem: function(Object): Defs.GrSuggestionItem,
+   * }}
+   */
+  Defs.GrSuggestionsProvider;
+
   Polymer({
     is: 'gr-account-list',
     _legacyUndefinedCheck: true,
@@ -38,6 +56,19 @@
       change: Object,
       filter: Function,
       placeholder: String,
+      disabled: {
+        type: Function,
+        value: false,
+      },
+
+      /**
+       * Returns suggestions and convert them to list item
+       * @type {Defs.GrSuggestionsProvider}
+       */
+      suggestionsProvider: {
+        type: Object,
+      },
+
       /**
        * Needed for template checking since value is initially set to null.
        * @type {?Object} */
@@ -50,21 +81,6 @@
         type: Boolean,
         value: false,
       },
-
-      /**
-       * When true, the account-entry autocomplete uses the account suggest API
-       * endpoint, which suggests any account in that Gerrit instance (and does
-       * not suggest groups).
-       *
-       * When false/undefined, account-entry uses the suggest_reviewers API
-       * endpoint, which suggests any account or group in that Gerrit instance
-       * that is not already a reviewer (or is not CCed) on that change.
-       */
-      allowAnyUser: {
-        type: Boolean,
-        value: false,
-      },
-
       /**
        * When true, allows for non-suggested inputs to be added.
        */
@@ -81,6 +97,16 @@
       maxCount: {
         type: Number,
         value: 0,
+      },
+
+      /** Returns suggestion items
+      * @type {!function(string): Promise<Array<Defs.GrSuggestionItem>>}
+      */
+      _querySuggestions: {
+        type: Function,
+        value() {
+          return this._getSuggestions.bind(this);
+        },
       },
     },
 
@@ -103,31 +129,46 @@
       return this.$.entry.focusStart;
     },
 
-    _handleAdd(e) {
-      this._addReviewer(e.detail.value);
+    _getSuggestions(input) {
+      const provider = this.suggestionsProvider;
+      if (!provider) {
+        return Promise.resolve([]);
+      }
+      return provider.getSuggestions(input).then(suggestions => {
+        if (!suggestions) { return []; }
+        if (this.filter) {
+          suggestions = suggestions.filter(this.filter);
+        }
+        return suggestions.map(suggestion =>
+            provider.makeSuggestionItem(suggestion));
+      });
     },
 
-    _addReviewer(reviewer) {
+    _handleAdd(e) {
+      this._addAccountItem(e.detail.value);
+    },
+
+    _addAccountItem(item) {
       // Append new account or group to the accounts property. We add our own
       // internal properties to the account/group here, so we clone the object
       // to avoid cluttering up the shared change object.
-      if (reviewer.account) {
+      if (item.account) {
         const account =
-            Object.assign({}, reviewer.account, {_pendingAdd: true});
+            Object.assign({}, item.account, {_pendingAdd: true});
         this.push('accounts', account);
-      } else if (reviewer.group) {
-        if (reviewer.confirm) {
-          this.pendingConfirmation = reviewer;
+      } else if (item.group) {
+        if (item.confirm) {
+          this.pendingConfirmation = item;
           return;
         }
-        const group = Object.assign({}, reviewer.group,
+        const group = Object.assign({}, item.group,
             {_pendingAdd: true, _group: true});
         this.push('accounts', group);
       } else if (this.allowAnyInput) {
-        if (!reviewer.includes('@')) {
+        if (!item.includes('@')) {
           // Repopulate the input with what the user tried to enter and have
           // a toast tell them why they can't enter it.
-          this.$.entry.setText(reviewer);
+          this.$.entry.setText(item);
           this.dispatchEvent(new CustomEvent('show-alert', {
             detail: {message: VALID_EMAIL_ALERT},
             bubbles: true,
@@ -135,7 +176,7 @@
           }));
           return false;
         } else {
-          const account = {email: reviewer, _pendingAdd: true};
+          const account = {email: item, _pendingAdd: true};
           this.push('accounts', account);
         }
       }
@@ -173,8 +214,8 @@
       return a === b;
     },
 
-    _computeRemovable(account) {
-      if (this.readonly) { return false; }
+    _computeRemovable(account, readonly) {
+      if (readonly) { return false; }
       if (this.removableValues) {
         for (let i = 0; i < this.removableValues.length; i++) {
           if (this._accountMatches(this.removableValues[i], account)) {
@@ -193,7 +234,9 @@
     },
 
     _removeAccount(toRemove) {
-      if (!toRemove || !this._computeRemovable(toRemove)) { return; }
+      if (!toRemove || !this._computeRemovable(toRemove, this.readonly)) {
+        return;
+      }
       for (let i = 0; i < this.accounts.length; i++) {
         let matches;
         const account = this.accounts[i];
@@ -277,7 +320,7 @@
     submitEntryText() {
       const text = this.$.entry.getText();
       if (!text.length) { return true; }
-      const wasSubmitted = this._addReviewer(text);
+      const wasSubmitted = this._addAccountItem(text);
       if (wasSubmitted) { this.$.entry.clear(); }
       return wasSubmitted;
     },

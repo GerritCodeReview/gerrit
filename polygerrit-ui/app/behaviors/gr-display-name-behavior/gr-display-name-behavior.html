@@ -15,33 +15,28 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
+<script src="../../scripts/gr-display-name-utils/gr-display-name-utils.js"></script>
+
 <script>
 (function(window) {
   'use strict';
 
-  const ANONYMOUS_NAME = 'Anonymous';
-
   window.Gerrit = window.Gerrit || {};
 
-  /** @polymerBehavior Gerrit.AnonymousNameBehavior */
-  Gerrit.AnonymousNameBehavior = {
+  /** @polymerBehavior Gerrit.DisplayNameBehavior */
+  Gerrit.DisplayNameBehavior = {
+    // TODO(dmfilippov) replace DisplayNameBehavior with GrDisplayNameUtils
+
     /**
      * enableEmail when true enables to fallback to using email if
      * the account name is not avilable.
      */
     getUserName(config, account, enableEmail) {
-      if (account && account.name) {
-        return account.name;
-      } else if (account && account.username) {
-        return account.username;
-      } else if (enableEmail && account && account.email) {
-        return account.email;
-      } else if (config && config.user &&
-          config.user.anonymous_coward_name !== 'Anonymous Coward') {
-        return config.user.anonymous_coward_name;
-      }
+      return GrDisplayNameUtils.getUserName(config, account, enableEmail);
+    },
 
-      return ANONYMOUS_NAME;
+    getGroupDisplayName(group) {
+      return GrDisplayNameUtils.getGroupDisplayName(group);
     },
   };
 })(window);

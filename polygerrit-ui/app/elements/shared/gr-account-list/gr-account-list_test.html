@@ -28,9 +28,26 @@ limitations under the License.
 
 <script>void(0);</script>
 
+<dom-module id="mock-suggestions-provider">
+  <script>
+    Polymer({
+      is: 'mock-suggestions-provider',
+      getSuggestions(input) {
+        return Promise.resolve([]);
+      },
+
+      makeSuggestionItem(item) {
+        return item;
+      },
+    });
+  </script>
+</dom-module>
+
 <test-fixture id="basic">
   <template>
-    <gr-account-list></gr-account-list>
+    <gr-account-list>
+      <mock-suggestions-provider></mock-suggestions-provider>
+    </gr-account-list>
   </template>
 </test-fixture>
 
@@ -51,8 +68,8 @@ limitations under the License.
       };
     };
 
-    let existingReviewer1;
-    let existingReviewer2;
+    let existingAccount1;
+    let existingAccount2;
     let sandbox;
     let element;
 
@@ -62,14 +79,14 @@ limitations under the License.
 
     setup(() => {
       sandbox = sinon.sandbox.create();
-      existingReviewer1 = makeAccount();
-      existingReviewer2 = makeAccount();
+      existingAccount1 = makeAccount();
+      existingAccount2 = makeAccount();
 
       stub('gr-rest-api-interface', {
         getConfig() { return Promise.resolve({}); },
       });
       element = fixture('basic');
-      element.accounts = [existingReviewer1, existingReviewer2];
+      element.accounts = [existingAccount1, existingAccount2];
     });
 
     teardown(() => {
@@ -109,7 +126,7 @@ limitations under the License.
       assert.isTrue(chips[2].classList.contains('pendingAdd'));
 
       // Removed accounts are taken out of the list.
-      element.fire('remove', {account: existingReviewer1});
+      element.fire('remove', {account: existingAccount1});
       flushAsynchronousOperations();
       chips = getChips();
       assert.equal(chips.length, 2);
@@ -117,7 +134,7 @@ limitations under the License.
       assert.isTrue(chips[1].classList.contains('pendingAdd'));
 
       // Invalid remove is ignored.
-      element.fire('remove', {account: existingReviewer1});
+      element.fire('remove', {account: existingAccount1});
       element.fire('remove', {account: newAccount});
       flushAsynchronousOperations();
       chips = getChips();
@@ -163,18 +180,18 @@ limitations under the License.
       newAccount._pendingAdd = true;
       element.readonly = false;
       element.removableValues = [];
-      assert.isFalse(element._computeRemovable(existingReviewer1));
-      assert.isTrue(element._computeRemovable(newAccount));
+      assert.isFalse(element._computeRemovable(existingAccount1, false));
+      assert.isTrue(element._computeRemovable(newAccount, false));
 
 
-      element.removableValues = [existingReviewer1];
-      assert.isTrue(element._computeRemovable(existingReviewer1));
-      assert.isTrue(element._computeRemovable(newAccount));
-      assert.isFalse(element._computeRemovable(existingReviewer2));
+      element.removableValues = [existingAccount1];
+      assert.isTrue(element._computeRemovable(existingAccount1, false));
+      assert.isTrue(element._computeRemovable(newAccount, false));
+      assert.isFalse(element._computeRemovable(existingAccount2, false));
 
       element.readonly = true;
-      assert.isFalse(element._computeRemovable(existingReviewer1));
-      assert.isFalse(element._computeRemovable(newAccount));
+      assert.isFalse(element._computeRemovable(existingAccount1, true));
+      assert.isFalse(element._computeRemovable(newAccount, true));
     });
 
     test('submitEntryText', () => {
@@ -293,12 +310,47 @@ limitations under the License.
       assert.isTrue(element.$.entry.hasAttribute('hidden'));
     });
 
+    test('enter text calls suggestions provider', done => {
+      const suggestionsProvider = element._getSuggestionsProvider();
+      assert.isDefined(suggestionsProvider);
+
+      const suggestions = [
+        {
+          email: 'abc@example.com',
+          text: 'abcd',
+        },
+        {
+          email: 'qwe@example.com',
+          text: 'qwer',
+        },
+      ];
+      const getSuggestionsStub =
+          sandbox.stub(suggestionsProvider, 'getSuggestions')
+              .returns(Promise.resolve(suggestions));
+
+      const makeSuggestionItemStub =
+          sandbox.stub(suggestionsProvider, 'makeSuggestionItem', item => item);
+
+      const input = element.$.entry.$.input;
+
+      input.text = 'newTest';
+      MockInteractions.focus(input.$.input);
+      input.noDebounce = true;
+      flushAsynchronousOperations();
+      flush(() => {
+        assert.isTrue(getSuggestionsStub.calledOnce);
+        assert.equal(getSuggestionsStub.lastCall.args[0], 'newTest');
+        assert.equal(makeSuggestionItemStub.getCalls().length, 2);
+        done();
+      });
+    });
+
     suite('allowAnyInput', () => {
       let entry;
 
       setup(() => {
         entry = element.$.entry;
-        sandbox.stub(entry, '_getReviewerSuggestions');
+        sandbox.stub(entry, '_getSuggestions');
         sandbox.stub(entry.$.input, '_updateSuggestions');
         element.allowAnyInput = true;
       });
@@ -334,7 +386,7 @@ limitations under the License.
     suite('keyboard interactions', () => {
       test('backspace at text input start removes last account', () => {
         const input = element.$.entry.$.input;
-        sandbox.stub(element.$.entry, '_getReviewerSuggestions');
+        sandbox.stub(element.$.entry, '_getSuggestions');
         sandbox.stub(input, '_updateSuggestions');
         sandbox.stub(element, '_computeRemovable').returns(true);
         // Next line is a workaround for Firefix not moving cursor

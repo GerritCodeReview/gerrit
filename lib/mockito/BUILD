@@ -18,13 +18,13 @@ java_library(
 java_library(
     name = "byte-buddy",
     data = ["//lib:LICENSE-Apache2.0"],
-    exports = ["@byte-buddy//jar"],
+    exports = ["@bytebuddy//jar"],
 )
 
 java_library(
     name = "byte-buddy-agent",
     data = ["//lib:LICENSE-Apache2.0"],
-    exports = ["@byte-buddy-agent//jar"],
+    exports = ["@bytebuddy-agent//jar"],
 )
 
 java_library(

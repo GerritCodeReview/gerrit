@@ -48,10 +48,6 @@
       },
     },
 
-    behaviors: [
-      Gerrit.AnonymousNameBehavior,
-    ],
-
     attached() {
       this.$.restAPI.getConfig().then(cfg => {
         this._config = cfg;
@@ -66,7 +62,7 @@
     },
 
     _accountOrAnon(name) {
-      return this.getUserName(this._serverConfig, name, false);
+      return GrDisplayNameUtils.getUserName(this._serverConfig, name, false);
     },
 
     /**

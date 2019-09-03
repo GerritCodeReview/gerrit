@@ -57,10 +57,6 @@
       });
     },
 
-    behaviors: [
-      Gerrit.AnonymousNameBehavior,
-    ],
-
     detached() {
       this.unlisten(window, 'location-change', '_handleLocationChange');
     },
@@ -102,7 +98,7 @@
     },
 
     _accountName(account) {
-      return this.getUserName(this.config, account, true);
+      return GrDisplayNameUtils.getUserName(this.config, account, true);
     },
   });
 })();

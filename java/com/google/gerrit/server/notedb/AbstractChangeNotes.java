@@ -153,6 +153,7 @@ public abstract class AbstractChangeNotes<T> {
     return self();
   }
 
+  @Nullable
   protected ObjectId readRef(Repository repo) throws IOException {
     Ref ref = repo.getRefDatabase().exactRef(getRefName());
     return ref != null ? ref.getObjectId() : null;

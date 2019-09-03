@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "6c1e691f_8d027bb2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-03T08:10:01Z",
+      "side": 1,
+      "message": "I think this should support all kind of change identifiers that are supported in the REST API [1], and not be limited to numeric change-ids.\n\n[1] https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#change-id",
+      "range": {
+        "startLine": 22,
+        "startChar": 38,
+        "endLine": 22,
+        "endChar": 56
+      },
+      "revId": "15276f6f2b7a626e1c6ed33ba13e120af14c01ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1e038e96_7dfc6984",
         "filename": "Documentation/rest-api-projects.txt",
         "patchSetId": 5
@@ -18,6 +41,75 @@
         "startChar": 54,
         "endLine": 1422,
         "endChar": 62
+      },
+      "revId": "15276f6f2b7a626e1c6ed33ba13e120af14c01ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7f0d999a_0aa803ff",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 1423,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-03T08:10:01Z",
+      "side": 1,
+      "message": "I think it would be more consistent with the rest of the documentation if the input entity is documented separately. E.g. say here: \"... by specifying a link:#index-changes-input[IndexChangesInput] entity in the request body\" and then describe the entity in the \u0027JSON Entities\u0027 section of this document.",
+      "range": {
+        "startLine": 1423,
+        "startChar": 14,
+        "endLine": 1423,
+        "endChar": 32
+      },
+      "revId": "15276f6f2b7a626e1c6ed33ba13e120af14c01ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2f0305c8_bbc89126",
+        "filename": "java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-03T08:10:01Z",
+      "side": 1,
+      "message": "better use Change.Id here",
+      "range": {
+        "startLine": 206,
+        "startChar": 10,
+        "endLine": 206,
+        "endChar": 17
+      },
+      "revId": "15276f6f2b7a626e1c6ed33ba13e120af14c01ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aee0e12d_ab798a21",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-03T08:10:01Z",
+      "side": 1,
+      "message": "Why would we need to scan for change IDs, if we already have them available?",
+      "range": {
+        "startLine": 314,
+        "startChar": 33,
+        "endLine": 314,
+        "endChar": 61
       },
       "revId": "15276f6f2b7a626e1c6ed33ba13e120af14c01ef",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

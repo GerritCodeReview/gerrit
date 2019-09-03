@@ -52,7 +52,7 @@
     },
 
     behaviors: [
-      Gerrit.AnonymousNameBehavior,
+      Gerrit.DisplayNameBehavior,
       Gerrit.TooltipBehavior,
     ],
 

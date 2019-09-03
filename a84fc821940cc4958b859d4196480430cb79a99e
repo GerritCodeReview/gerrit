@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "689540c1_bf46df54",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-09-03T09:58:32Z",
+      "side": 1,
+      "message": "are",
+      "range": {
+        "startLine": 10,
+        "startChar": 48,
+        "endLine": 10,
+        "endChar": 50
+      },
+      "revId": "a84fc821940cc4958b859d4196480430cb79a99e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f4a63a31_4ae291ff",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-09-03T09:58:32Z",
+      "side": 1,
+      "message": "Provide examples, like: stable-2.16, stable-3.0, etc... and also mention the role of master?",
+      "range": {
+        "startLine": 98,
+        "startChar": 0,
+        "endLine": 99,
+        "endChar": 51
+      },
+      "revId": "a84fc821940cc4958b859d4196480430cb79a99e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "94ff4aed_e06da948",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-09-03T09:58:32Z",
+      "side": 1,
+      "message": "The .PATCH is not mandatory?\nWe have tags like v2.15, v2.16 etc.. Does this policy change now?\nLooking at your examples below, v2.15 is still valid pattern, therefore this should be:\n\n  MAJOR.MINOR[.PATCH]\n\nor more precisely, including the \"v\" prefix:\n\n  vMAJOR.MINOR[.PATCH]\n\nFurther, we also have release candidate tags: v2.16-rc0, v2.16-rc1, ... should this also\nbe mentioned and explained?",
+      "range": {
+        "startLine": 101,
+        "startChar": 54,
+        "endLine": 101,
+        "endChar": 60
+      },
+      "revId": "a84fc821940cc4958b859d4196480430cb79a99e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3ec56911_b160ba9b",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-09-03T09:58:32Z",
+      "side": 1,
+      "message": "nit: shouldn\u0027t be indented, look above for existing code",
+      "revId": "a84fc821940cc4958b859d4196480430cb79a99e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4112adbb_9b185cfa",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-09-03T09:58:32Z",
+      "side": 1,
+      "message": "I think we use ** for the second level indentation (just checked other asciidoc files)",
+      "revId": "a84fc821940cc4958b859d4196480430cb79a99e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

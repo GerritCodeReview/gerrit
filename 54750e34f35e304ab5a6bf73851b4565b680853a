@@ -22,6 +22,30 @@
       "revId": "54750e34f35e304ab5a6bf73851b4565b680853a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "344d7da4_0636df8c",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-09-03T09:30:19Z",
+      "side": 1,
+      "message": "Sure, makes more sense just to point to it instead of repeating with the chances of saying something different or out-of-sync.",
+      "parentUuid": "3be43d0d_c507e706",
+      "range": {
+        "startLine": 93,
+        "startChar": 61,
+        "endLine": 95,
+        "endChar": 20
+      },
+      "revId": "54750e34f35e304ab5a6bf73851b4565b680853a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

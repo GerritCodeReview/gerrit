@@ -17,7 +17,7 @@ limitations under the License.
 
 <link rel="import" href="/bower_components/polymer/polymer.html">
 <link rel="import" href="../../../behaviors/fire-behavior/fire-behavior.html">
-<link rel="import" href="../../shared/gr-account-chip/gr-account-chip.html">
+<link rel="import" href="../gr-account-chip/gr-account-chip.html">
 <link rel="import" href="../gr-account-entry/gr-account-entry.html">
 <link rel="import" href="../../../styles/shared-styles.html">
 
@@ -56,7 +56,7 @@ limitations under the License.
             account="[[account]]"
             class$="[[_computeChipClass(account)]]"
             data-account-id$="[[account._account_id]]"
-            removable="[[_computeRemovable(account)]]"
+            removable="[[_computeRemovable(account, readonly)]]"
             on-keydown="_handleChipKeydown"
             tabindex="-1">
         </gr-account-chip>
@@ -67,13 +67,13 @@ limitations under the License.
         hidden$="[[_computeEntryHidden(maxCount, accounts.*, readonly)]]"
         id="entry"
         change="[[change]]"
-        filter="[[filter]]"
         placeholder="[[placeholder]]"
         on-add="_handleAdd"
         on-input-keydown="_handleInputKeydown"
         allow-any-input="[[allowAnyInput]]"
-        allow-any-user="[[allowAnyUser]]">
+        query-suggestions="[[_querySuggestions]]">
     </gr-account-entry>
+    <slot></slot>
   </template>
   <script src="gr-account-list.js"></script>
 </dom-module>

@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "a1dcace7_c5878558",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.html",
+        "patchSetId": 21
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-09-03T06:58:09Z",
+      "side": 1,
+      "message": "height and display of gr-main-header? Why do you need 0 and block?\n\nHave you tried something like this?\n\n  background: blue left bottom / 100% 4px url(https://www.gstatic.com/images/branding/product/1x/googleg_48dp.png) no-repeat;\n\nI think if you have a 5px x 1px png with 1 red pixel, 3 blue pixels and 1 green pixel, then this should work fine.",
+      "parentUuid": "98083020_274d1f8d",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 40
+      },
+      "revId": "5562a6ba010895e2631effa0d81caf0838f42a61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5bf4408a_b62d7bae",
         "filename": "polygerrit-ui/app/styles/themes/app-theme.html",
         "patchSetId": 21
@@ -189,6 +213,30 @@
       "revId": "5562a6ba010895e2631effa0d81caf0838f42a61",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f706a4a4_f1064b2d",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.html",
+        "patchSetId": 21
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-09-03T06:58:09Z",
+      "side": 1,
+      "message": "1. I don\u0027t think it looks too bad with a smaller margin.\n2. We can compromise on 16px for everyone instead of the current 13px.\n3. There is a \"header-title\" endpoint. That gives you total control of the left margin.",
+      "parentUuid": "c2183f73_419de3bd",
+      "range": {
+        "startLine": 45,
+        "startChar": 2,
+        "endLine": 47,
+        "endChar": 49
+      },
+      "revId": "5562a6ba010895e2631effa0d81caf0838f42a61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

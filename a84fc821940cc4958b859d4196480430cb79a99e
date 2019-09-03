@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "a8920168_1d923943",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-09-03T10:14:49Z",
+      "side": 1,
+      "message": "Mentioning master would be out of scope IMHO. This chapter is about release numbering and not the overall development strategy.",
+      "parentUuid": "f4a63a31_4ae291ff",
+      "range": {
+        "startLine": 98,
+        "startChar": 0,
+        "endLine": 99,
+        "endChar": 51
+      },
+      "revId": "a84fc821940cc4958b859d4196480430cb79a99e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "94ff4aed_e06da948",
         "filename": "Documentation/dev-processes.txt",
         "patchSetId": 10
@@ -59,6 +83,30 @@
       "writtenOn": "2019-09-03T09:58:32Z",
       "side": 1,
       "message": "The .PATCH is not mandatory?\nWe have tags like v2.15, v2.16 etc.. Does this policy change now?\nLooking at your examples below, v2.15 is still valid pattern, therefore this should be:\n\n  MAJOR.MINOR[.PATCH]\n\nor more precisely, including the \"v\" prefix:\n\n  vMAJOR.MINOR[.PATCH]\n\nFurther, we also have release candidate tags: v2.16-rc0, v2.16-rc1, ... should this also\nbe mentioned and explained?",
+      "range": {
+        "startLine": 101,
+        "startChar": 54,
+        "endLine": 101,
+        "endChar": 60
+      },
+      "revId": "a84fc821940cc4958b859d4196480430cb79a99e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "55ca75d3_0f5438ef",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-09-03T10:14:49Z",
+      "side": 1,
+      "message": "\u003e The .PATCH is not mandatory?\n\u003e We have tags like v2.15, v2.16 etc.. Does this policy change now?\n\u003e Looking at your examples below, v2.15 is still valid pattern, therefore this should be:\n\u003e \n\u003e   MAJOR.MINOR[.PATCH]\n\nYes, good catch.\n \n\u003e or more precisely, including the \"v\" prefix:\n\u003e \n\u003e   vMAJOR.MINOR[.PATCH]\n\nThis is about versioning and not tagging.\n\n\u003e Further, we also have release candidate tags: v2.16-rc0, v2.16-rc1, ... should this also\n\u003e be mentioned and explained?\n\nThe release-candidates are already explained in another section, I would avoid mentioning here as it would be a confusing duplicate.",
+      "parentUuid": "94ff4aed_e06da948",
       "range": {
         "startLine": 101,
         "startChar": 54,
@@ -88,6 +136,24 @@
     },
     {
       "key": {
+        "uuid": "ded257a8_4a62b6c9",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-09-03T10:14:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3ec56911_b160ba9b",
+      "revId": "a84fc821940cc4958b859d4196480430cb79a99e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4112adbb_9b185cfa",
         "filename": "Documentation/dev-processes.txt",
         "patchSetId": 10
@@ -102,6 +168,24 @@
       "revId": "a84fc821940cc4958b859d4196480430cb79a99e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bec28a6a_57179b61",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-09-03T10:14:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4112adbb_9b185cfa",
+      "revId": "a84fc821940cc4958b859d4196480430cb79a99e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

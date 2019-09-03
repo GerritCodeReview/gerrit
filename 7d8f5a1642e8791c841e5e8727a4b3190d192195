@@ -22,6 +22,30 @@
       "revId": "7d8f5a1642e8791c841e5e8727a4b3190d192195",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1085831a_939453bd",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-09-03T11:17:49Z",
+      "side": 1,
+      "message": "\u003e MAJOR.MINOR[.PATCH][.HOTFIX]\n\u003e \n\u003e Given hat the most recent released Gerrit version is: 2.16.11.1 HOTFIX part should be included\n\nHot fix part is only possible when the patch level is provided, there the correct syntax is:\n\n  MAJOR.MINOR[.PATCH[.HOTFIX]]",
+      "parentUuid": "6b43335a_9ad93937",
+      "range": {
+        "startLine": 86,
+        "startChar": 76,
+        "endLine": 86,
+        "endChar": 95
+      },
+      "revId": "7d8f5a1642e8791c841e5e8727a4b3190d192195",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

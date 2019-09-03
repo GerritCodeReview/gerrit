@@ -35,6 +35,8 @@ const EXTERN_NAMES = [
   'GrReviewerUpdatesParser',
   'GrCountStringFormatter',
   'GrThemeApi',
+  'GrDisplayNameUtils',
+  'GrReviewerSuggestionsProvider',
   'moment',
   'page',
   'util',

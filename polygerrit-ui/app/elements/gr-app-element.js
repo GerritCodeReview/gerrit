@@ -84,6 +84,10 @@
         type: Boolean,
         value: false,
       },
+      _configLoaded: {
+        type: Boolean,
+        value: false,
+      }
     },
 
     listeners: {
@@ -116,20 +120,27 @@
       this._bindKeyboardShortcuts();
     },
 
+    _loadConfig() {
+      if (!this._configLoaded) {
+        this.$.restAPI.getConfig().then(config => {
+          this._serverConfig = config;
+
+          if (config && config.gerrit && config.gerrit.report_bug_url) {
+            this._feedbackUrl = config.gerrit.report_bug_url;
+          }
+        });
+        this.configLoaded = true;
+      }
+    },
+
     ready() {
       this.$.reporting.appStarted(document.visibilityState === 'hidden');
-      this.$.router.start();
+      this.$.router.start(this);
 
       this.$.restAPI.getAccount().then(account => {
         this._account = account;
       });
-      this.$.restAPI.getConfig().then(config => {
-        this._serverConfig = config;
-
-        if (config && config.gerrit && config.gerrit.report_bug_url) {
-          this._feedbackUrl = config.gerrit.report_bug_url;
-        }
-      });
+      // this._loadConfig();
       this.$.restAPI.getVersion().then(version => {
         this._version = version;
         this._logWelcome();
@@ -294,6 +305,7 @@
     },
 
     _viewChanged(view) {
+      // this._loadConfig();
       this.$.errorView.classList.remove('show');
       this.set('_showChangeListView', view === Gerrit.Nav.View.SEARCH);
       this.set('_showDashboardView', view === Gerrit.Nav.View.DASHBOARD);
@@ -320,7 +332,7 @@
           this.$.registrationOverlay.refit();
         });
       }
-      this.$.header.unfloat();
+      // this.$.header.unfloat();
     },
 
     _handlePageError(e) {
@@ -352,6 +364,7 @@
     },
 
     _handleLocationChange(e) {
+      this._loadConfig();
       const hash = e.detail.hash.substring(1);
       let pathname = e.detail.pathname;
       if (pathname.startsWith('/c/') && parseInt(hash, 10) > 0) {
@@ -366,6 +379,7 @@
       if (viewsToCheck.includes(params.view)) {
         this.set('_lastSearchPage', location.pathname);
       }
+     
     },
 
     _handleTitleChange(e) {

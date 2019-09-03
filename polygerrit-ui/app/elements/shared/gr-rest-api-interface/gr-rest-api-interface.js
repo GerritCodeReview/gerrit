@@ -1356,7 +1356,7 @@
      * @param {function(?Response, string=)=} opt_errFn
      * @param {function()=} opt_cancelCondition
      */
-    getChangeDetail(changeNum, opt_errFn, opt_cancelCondition) {
+    getChangeDetail(changeNum, opt_errFn, opt_cancelCondition, project, preheat) {
       // This list MUST be kept in sync with
       // ChangeIT#changeDetailsDoesNotRequireIndex
       const options = [
@@ -1371,16 +1371,17 @@
         this.ListChangesOption.WEB_LINKS,
         this.ListChangesOption.SKIP_MERGEABLE,
         this.ListChangesOption.SKIP_DIFFSTAT,
+        this.ListChangesOption.PUSH_CERTIFICATES,
       ];
-      return this.getConfig(false).then(config => {
-        if (config.receive && config.receive.enable_signed_push) {
-          options.push(this.ListChangesOption.PUSH_CERTIFICATES);
-        }
-        const optionsHex = this.listChangesOptionsToHex(...options);
-        return this._getChangeDetail(
-            changeNum, optionsHex, opt_errFn, opt_cancelCondition)
+      // return //this.getConfig(false).then(config => {
+        // if (config.receive && config.receive.enable_signed_push) {
+        //   options.push(this.ListChangesOption.PUSH_CERTIFICATES);
+        // }
+      const optionsHex = this.listChangesOptionsToHex(...options);
+      return this._getChangeDetail(
+          changeNum, optionsHex, opt_errFn, opt_cancelCondition, project, preheat)
             .then(GrReviewerUpdatesParser.parse);
-      });
+      // });
     },
 
     /**
@@ -1405,8 +1406,28 @@
      * @param {function(?Response, string=)=} opt_errFn
      * @param {function()=} opt_cancelCondition
      */
-    _getChangeDetail(changeNum, optionsHex, opt_errFn, opt_cancelCondition) {
-      return this.getChangeActionURL(changeNum, null, '/detail').then(url => {
+    _getChangeDetail(changeNum, optionsHex, opt_errFn, opt_cancelCondition, project, preheat) {
+      if(project) {
+        const url =  `/changes/${encodeURIComponent(project)}~${changeNum}/detail`;
+        const result = this._getChangeDetail2(url, changeNum, optionsHex, opt_errFn, opt_cancelCondition, project);
+        if (preheat) {
+          this._cache.set(url, result);
+        }
+        return result;
+      }
+      const changeActionUrl = this.getChangeActionURL(changeNum, null, '/detail');
+      return changeActionUrl.then( url => {
+        if (!preheat && this._cache.has(url)) {
+          const resolvedPromise = this._cache.get(url);
+          this._cache.delete(url);
+          return Promise.resolve(resolvedPromise);
+        }
+        const result = this._getChangeDetail2(url, changeNum, optionsHex, opt_errFn, opt_cancelCondition, project);
+        return result;
+      });
+    },
+    
+    _getChangeDetail2(url, changeNum, optionsHex, opt_errFn, opt_cancelCondition, project) {
         const urlWithParams = this._urlWithParams(url, optionsHex);
         const params = {O: optionsHex};
         let req = {
@@ -1445,7 +1466,6 @@
             return payload.parsed;
           });
         });
-      });
     },
 
     /**
@@ -2305,7 +2325,7 @@
      * @param {function(?Response, string=)=} opt_errFn
      */
     getDiff(changeNum, basePatchNum, patchNum, path, opt_whitespace,
-        opt_errFn) {
+        opt_errFn, preheat) {
       const params = {
         context: 'ALL',
         intraline: null,
@@ -2325,6 +2345,7 @@
         errFn: opt_errFn,
         params,
         anonymizedEndpoint: '/files/*/diff',
+        preheat
       });
     },
 
@@ -2335,9 +2356,9 @@
      * @param {string=} opt_path
      * @return {!Promise<!Object>}
      */
-    getDiffComments(changeNum, opt_basePatchNum, opt_patchNum, opt_path) {
+    getDiffComments(changeNum, opt_basePatchNum, opt_patchNum, opt_path, project, preheat) {
       return this._getDiffComments(changeNum, '/comments', opt_basePatchNum,
-          opt_patchNum, opt_path);
+          opt_patchNum, opt_path, project, preheat);
     },
 
     /**
@@ -2347,9 +2368,9 @@
      * @param {string=} opt_path
      * @return {!Promise<!Object>}
      */
-    getDiffRobotComments(changeNum, opt_basePatchNum, opt_patchNum, opt_path) {
+    getDiffRobotComments(changeNum, opt_basePatchNum, opt_patchNum, opt_path, project, preheat) {
       return this._getDiffComments(changeNum, '/robotcomments',
-          opt_basePatchNum, opt_patchNum, opt_path);
+          opt_basePatchNum, opt_patchNum, opt_path, project, preheat);
     },
 
     /**
@@ -2403,7 +2424,7 @@
      * @return {!Promise<!Object>}
      */
     _getDiffComments(changeNum, endpoint, opt_basePatchNum,
-        opt_patchNum, opt_path) {
+        opt_patchNum, opt_path, project, preheat) {
       /**
        * Fetches the comments for a given patchNum.
        * Helper function to make promises more legible.
@@ -2417,7 +2438,7 @@
           endpoint,
           patchNum: opt_patchNum,
           reportEndpointAsIs: true,
-        });
+        }, project, preheat);
       };
 
       if (!opt_basePatchNum && !opt_patchNum && !opt_path) {
@@ -2986,20 +3007,38 @@
      * @param {Defs.ChangeFetchRequest} req
      * @return {!Promise<!Object>}
      */
-    _getChangeURLAndFetch(req) {
+    _getChangeURLAndFetch(req, project, preheat) {
+      if(project) {
+        const url =  `/changes/${encodeURIComponent(project)}~${req.changeNum}${req.endpoint}`;
+        const result = this._getChangeURLAndFetch2(url, req);
+        if (preheat) {
+          this._cache.set(url, result);
+        }
+        return result;
+      }
+      return this._changeBaseURL(req.changeNum, req.patchNum).then(url => {
+        url += req.endpoint;
+        if (!preheat && this._cache.has(url)) {
+          const resolvedPromise = this._cache.get(url);
+          this._cache.delete(url);
+          return Promise.resolve(resolvedPromise);
+        }
+        return this._getChangeURLAndFetch2(url, req);
+      });
+    },
+
+    _getChangeURLAndFetch2(url, req) {
       const anonymizedEndpoint = req.reportEndpointAsIs ?
           req.endpoint : req.anonymizedEndpoint;
       const anonymizedBaseUrl = req.patchNum ?
           ANONYMIZED_REVISION_BASE_URL : ANONYMIZED_CHANGE_BASE_URL;
-      return this._changeBaseURL(req.changeNum, req.patchNum).then(url => {
-        return this._fetchJSON({
-          url: url + req.endpoint,
-          errFn: req.errFn,
-          params: req.params,
-          fetchOptions: req.fetchOptions,
-          anonymizedUrl: anonymizedEndpoint ?
-              (anonymizedBaseUrl + anonymizedEndpoint) : undefined,
-        });
+      return this._fetchJSON({
+        url: url,
+        errFn: req.errFn,
+        params: req.params,
+        fetchOptions: req.fetchOptions,
+        anonymizedUrl: anonymizedEndpoint ?
+            (anonymizedBaseUrl + anonymizedEndpoint) : undefined,
       });
     },
 

@@ -100,7 +100,7 @@
       }
       this.$.header.style.top = '';
       this._headerFloating = false;
-      this.updateStyles({'--header-height': ''});
+      // this.updateStyles({'--header-height': ''});
     },
 
     update() {

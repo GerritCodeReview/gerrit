@@ -1318,6 +1318,15 @@
         view: Gerrit.Nav.View.CHANGE,
       };
 
+      
+    this.$.restAPI.getChangeDetail(params.changeNum, undefined, undefined, params.project, true);
+    this.$.restAPI.getDiffComments(params.changeNum, undefined, undefined, undefined, params.project, true);
+    this.$.restAPI.getDiffRobotComments(params.changeNum, undefined, undefined, undefined, params.project, true);
+    this.$.restAPI.getProjectConfig(params.project);
+      // this.$.restAPI.getChangeEdit(params.changeNum, true);
+      // this.$.restAPI.getPreferences();
+      
+
       this._redirectOrNavigate(params);
     },
 
@@ -1337,6 +1346,10 @@
         params.leftSide = address.leftSide;
         params.lineNum = address.lineNum;
       }
+      this.$.restAPI.getChangeDetail(params.changeNum, undefined, undefined, params.project, true);
+      this.$.restAPI.getDiffComments(params.changeNum, undefined, undefined, undefined, params.project, true);
+      this.$.restAPI.getDiffRobotComments(params.changeNum, undefined, undefined, undefined, params.project, true);
+      this.$.restAPI.getDiff(params.changeNum, 'PARENT', params.basePatchNum, params.path, "IGNORE_NONE", true);
 
       this._redirectOrNavigate(params);
     },

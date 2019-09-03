@@ -19,8 +19,8 @@ limitations under the License.
 <link rel="import" href="/bower_components/polymer/polymer.html">
 <link rel="import" href="../../../behaviors/fire-behavior/fire-behavior.html">
 <link rel="import" href="../../../styles/shared-styles.html">
-<link rel="import" href="../../shared/gr-autocomplete/gr-autocomplete.html">
-<link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
+<link rel="import" href="../gr-autocomplete/gr-autocomplete.html">
+<link rel="import" href="../gr-rest-api-interface/gr-rest-api-interface.html">
 
 <dom-module id="gr-account-entry">
   <template>
@@ -36,7 +36,7 @@ limitations under the License.
         borderless="[[borderless]]"
         placeholder="[[placeholder]]"
         threshold="[[suggestFrom]]"
-        query="[[query]]"
+        query="[[_autocompleteQuery]]"
         allow-non-suggested-values="[[allowAnyInput]]"
         on-commit="_handleInputCommit"
         clear-on-commit

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<!--
+@license
+Copyright (C) 2019 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+<title>gr-account-list</title>
+<script src="/test/common-test-setup.js"></script>
+<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+
+<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/bower_components/web-component-tester/browser.js"></script>
+<link rel="import" href="../../../test/common-test-setup.html"/>
+<link rel="import" href="gr-account-list.html">
+
+<script>void(0);</script>
+
+<test-fixture id="basic">
+  <template>
+    <gr-account-list></gr-account-list>
+  </template>
+</test-fixture>
+
+<script>
+  suite('gr-account-list tests', () => {
+    let _nextAccountId = 0;
+    const makeAccount = function() {
+      const accountId = ++_nextAccountId;
+      return {
+        _account_id: accountId,
+      };
+    };
+    const makeGroup = function() {
+      const groupId = 'group' + (++_nextAccountId);
+      return {
+        id: groupId,
+        _group: true,
+      };
+    };
+
+    let existingReviewer1;
+    let existingReviewer2;
+    let sandbox;
+    let element;
+
+    function getChips() {
+      return Polymer.dom(element.root).querySelectorAll('gr-account-chip');
+    }
+
+    setup(() => {
+      sandbox = sinon.sandbox.create();
+      existingReviewer1 = makeAccount();
+      existingReviewer2 = makeAccount();
+
+      stub('gr-rest-api-interface', {
+        getConfig() { return Promise.resolve({}); },
+      });
+      element = fixture('basic');
+      element.accounts = [existingReviewer1, existingReviewer2];
+    });
+
+    teardown(() => {
+      sandbox.restore();
+    });
+
+  });
+</script>

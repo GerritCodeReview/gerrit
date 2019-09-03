@@ -895,5 +895,9 @@
     _sendDisabledChanged(sendDisabled) {
       this.dispatchEvent(new CustomEvent('send-disabled-changed'));
     },
+
+    _getReviewerSuggestionsProvider(change) {
+      return new GrReviewerSuggestionsProvider(change, false);
+    },
   });
 })();

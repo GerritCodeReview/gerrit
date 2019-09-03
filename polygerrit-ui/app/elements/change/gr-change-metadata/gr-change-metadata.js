@@ -471,5 +471,9 @@
       // dom-if.
       this.$$('.topicEditableLabel').open();
     },
+
+    _getReviewerSuggestionsProvider(change) {
+      return new GrReviewerSuggestionsProvider(change, true);
+    },
   });
 })();

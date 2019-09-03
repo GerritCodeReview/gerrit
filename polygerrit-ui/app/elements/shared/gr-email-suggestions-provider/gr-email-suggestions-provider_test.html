@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<!--
+@license
+Copyright (C) 2019 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+<title>gr-email-suggestions-provider</title>
+<script src="/test/common-test-setup.js"></script>
+<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+
+<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/bower_components/web-component-tester/browser.js"></script>
+<link rel="import" href="../../../test/common-test-setup.html"/>
+<link rel="import" href="gr-email-suggestions-provider.html">
+
+<script>void(0);</script>
+
+<test-fixture id="basic">
+  <template>
+    <gr-email-suggestions-provider></gr-email-suggestions-provider>
+  </template>
+</test-fixture>
+
+<script>
+  suite('gr-email-suggestions-provider tests', () => {
+    let sandbox;
+    let element;
+    const account1 = {
+      name: 'Some name',
+      email: 'some@example.com',
+    };
+    const account2 = {
+      email: 'other@example.com',
+      _account_id: 3,
+    };
+
+    setup(() => {
+      sandbox = sinon.sandbox.create();
+
+      stub('gr-rest-api-interface', {
+        getConfig() { return Promise.resolve({}); },
+      });
+      element = fixture('basic');
+    });
+
+    teardown(() => {
+      sandbox.restore();
+    });
+
+    test('getSuggestions', done => {
+      const getSuggestedAccountsStub =
+          sandbox.stub(element.$.restAPI, 'getSuggestedAccounts')
+            .returns(Promise.resolve([account1, account2]));
+
+      element.getSuggestions('Some input').then(res => {
+        assert.deepEqual(res, [account1, account2]);
+        assert.isTrue(getSuggestedAccountsStub.calledOnce);
+        assert.equal(getSuggestedAccountsStub.lastCall.args[0], 'Some input');
+        done();
+      });
+    });
+
+    test('makeSuggestionItem', () => {
+      assert.deepEqual(element.makeSuggestionItem(account1), {
+        name: 'Some name <some@example.com>',
+        value: {
+          account: account1,
+          count: 1,
+        },
+      });
+
+      assert.deepEqual(element.makeSuggestionItem(account2), {
+        name: 'other@example.com <other@example.com>',
+        value: {
+          account: account2,
+          count: 1,
+        },
+      });
+    });
+  });
+</script>

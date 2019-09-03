@@ -158,6 +158,7 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.ChangeMessagesUtil;
+import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.change.ChangeETagComputation;
 import com.google.gerrit.server.change.ChangeResource;
@@ -866,6 +867,18 @@ public class ChangeIT extends AbstractDaemonTest {
         assertThrows(
             ResourceConflictException.class, () -> gApi.changes().id(r.getChangeId()).revert());
     assertThat(thrown).hasMessageThat().contains("Cannot revert initial commit");
+  }
+
+  @Test
+  public void cantRevertNonMergedCommit() throws Exception {
+    PushOneCommit.Result result = createChange();
+    ResourceConflictException thrown =
+        assertThrows(
+            ResourceConflictException.class,
+            () -> gApi.changes().id(result.getChangeId()).revert());
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains("change is " + ChangeUtil.status(result.getChange().change()));
   }
 
   @Test

@@ -1,3 +1,4 @@
+load("@rules_java//java:defs.bzl", "java_binary", "java_library")
 load("//tools/bzl:genrule2.bzl", "genrule2")
 load(
     "//tools/bzl:gwt.bzl",
@@ -30,7 +31,7 @@ def gerrit_plugin(
         manifest_entries = [],
         target_suffix = "",
         **kwargs):
-    native.java_library(
+    java_library(
         name = name + "__plugin",
         srcs = srcs,
         resources = resources,
@@ -42,8 +43,7 @@ def gerrit_plugin(
     static_jars = []
     if gwt_module:
         static_jars = [":%s-static" % name]
-
-    native.java_binary(
+    java_binary(
         name = "%s__non_stamped" % name,
         deploy_manifest_lines = manifest_entries + ["Gerrit-ApiType: plugin"],
         main_class = "Dummy",
@@ -55,7 +55,7 @@ def gerrit_plugin(
     )
 
     if gwt_module:
-        native.java_library(
+        java_library(
             name = name + "__gwt_module",
             resources = depset(srcs + resources).to_list(),
             runtime_deps = deps + GWT_PLUGIN_DEPS,

@@ -121,6 +121,30 @@
     },
     {
       "key": {
+        "uuid": "cb7a81be_778f09f7",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.html",
+        "patchSetId": 21
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-09-03T15:27:54Z",
+      "side": 1,
+      "message": "Yup, wouldn\u0027t work without setting the height attribute. (Just tested with your example).\n\nYou need to set display: block and height: \u003cwhat-ever-val\u003e. This is what i\u0027ve seen in my testing. it wouldn\u0027t work without it.",
+      "parentUuid": "a1dcace7_c5878558",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 40
+      },
+      "revId": "5562a6ba010895e2631effa0d81caf0838f42a61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5bf4408a_b62d7bae",
         "filename": "polygerrit-ui/app/styles/themes/app-theme.html",
         "patchSetId": 21
@@ -228,6 +252,30 @@
       "side": 1,
       "message": "1. I don\u0027t think it looks too bad with a smaller margin.\n2. We can compromise on 16px for everyone instead of the current 13px.\n3. There is a \"header-title\" endpoint. That gives you total control of the left margin.",
       "parentUuid": "c2183f73_419de3bd",
+      "range": {
+        "startLine": 45,
+        "startChar": 2,
+        "endLine": 47,
+        "endChar": 49
+      },
+      "revId": "5562a6ba010895e2631effa0d81caf0838f42a61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9d66618b_ac626bfe",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.html",
+        "patchSetId": 21
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-09-03T15:27:54Z",
+      "side": 1,
+      "message": "Note that --default-** affects everything not just the header.\n\nBut using the extension point i guess would work for us and others.",
+      "parentUuid": "f706a4a4_f1064b2d",
       "range": {
         "startLine": 45,
         "startChar": 2,

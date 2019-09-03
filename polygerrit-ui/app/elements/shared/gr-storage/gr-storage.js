@@ -76,14 +76,6 @@
       this._storage.removeItem(this._getEditableContentKey(key));
     },
 
-    getPreferences() {
-      return this._getObject('localPrefs');
-    },
-
-    savePreferences(localPrefs) {
-      this._setObject('localPrefs', localPrefs || null);
-    },
-
     _getDraftKey(location) {
       const range = location.range ?
           `${location.range.start_line}-${location.range.start_character}` +

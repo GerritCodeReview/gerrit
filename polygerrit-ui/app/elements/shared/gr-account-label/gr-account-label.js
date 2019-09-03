@@ -52,7 +52,6 @@
     },
 
     behaviors: [
-      Gerrit.AnonymousNameBehavior,
       Gerrit.TooltipBehavior,
     ],
 
@@ -63,7 +62,7 @@
     },
 
     _computeName(account, config) {
-      return this.getUserName(config, account, false);
+      return GrDisplayNameUtils.getUserName(config, account, false);
     },
 
     _computeStatusTextLength(account, config) {

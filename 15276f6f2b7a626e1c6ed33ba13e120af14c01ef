@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1e038e96_7dfc6984",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 1422,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-09-03T05:51:28Z",
+      "side": 1,
+      "message": "belonging",
+      "range": {
+        "startLine": 1422,
+        "startChar": 54,
+        "endLine": 1422,
+        "endChar": 62
+      },
+      "revId": "15276f6f2b7a626e1c6ed33ba13e120af14c01ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

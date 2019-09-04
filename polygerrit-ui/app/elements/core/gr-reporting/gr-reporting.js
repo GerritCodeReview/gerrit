@@ -116,7 +116,13 @@
     if (error) {
       line = line || error.lineNumber;
       column = column || error.columnNumber;
-      msg = msg || error.toString();
+      let shortenErrorStack = msg;
+      if (error.stack) {
+        const errorStackLines = error.stack.split('\n');
+        shortenErrorStack = errorStackLines.splice(0,
+            Math.min(3, errorStackLines.length)).join('\n');
+      }
+      msg = shortenErrorStack || error.toString();
     }
     const payload = {
       url,

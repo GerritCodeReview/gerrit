@@ -70,6 +70,24 @@
       "revId": "6581eea0f6392decea7831c93321c446a70266ff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "76604061_f65ce284",
+        "filename": "WORKSPACE",
+        "patchSetId": 4
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-09-04T05:42:23Z",
+      "side": 1,
+      "message": "Done in: [1].\n\n* [1] https://gerrit-review.googlesource.com/c/gerrit/+/235594",
+      "parentUuid": "f7c78472_db2be6e7",
+      "revId": "6581eea0f6392decea7831c93321c446a70266ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

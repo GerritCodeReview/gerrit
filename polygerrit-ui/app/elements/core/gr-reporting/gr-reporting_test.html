@@ -341,6 +341,7 @@ limitations under the License.
 
       test('is reported', () => {
         const error = new Error('bar');
+        error.stack = undefined;
         emulateThrow('bar', 'http://url', 4, 2, error);
         assert.isTrue(reporter.calledWith('error', 'exception', 'bar'));
         const payload = reporter.lastCall.args[3];
@@ -350,6 +351,15 @@ limitations under the License.
           column: 2,
           error,
         });
+      });
+
+      test('is reported with 3 lines of stack', () => {
+        const error = new Error('bar');
+        emulateThrow('bar', 'http://url', 4, 2, error);
+        const expectedStack = error.stack.split('\n').slice(0, 3)
+            .join('\n');
+        assert.isTrue(reporter.calledWith('error', 'exception',
+            expectedStack));
       });
 
       test('prevent default event handler', () => {

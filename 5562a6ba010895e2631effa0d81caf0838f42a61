@@ -145,6 +145,30 @@
     },
     {
       "key": {
+        "uuid": "a3daba5c_0c89c57c",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.html",
+        "patchSetId": 21
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-09-04T07:19:39Z",
+      "side": 1,
+      "message": "Maybe someone on the mailing list can help you with that.",
+      "parentUuid": "cb7a81be_778f09f7",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 40
+      },
+      "revId": "5562a6ba010895e2631effa0d81caf0838f42a61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5bf4408a_b62d7bae",
         "filename": "polygerrit-ui/app/styles/themes/app-theme.html",
         "patchSetId": 21
@@ -276,6 +300,30 @@
       "side": 1,
       "message": "Note that --default-** affects everything not just the header.\n\nBut using the extension point i guess would work for us and others.",
       "parentUuid": "f706a4a4_f1064b2d",
+      "range": {
+        "startLine": 45,
+        "startChar": 2,
+        "endLine": 47,
+        "endChar": 49
+      },
+      "revId": "5562a6ba010895e2631effa0d81caf0838f42a61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d7c0ad8d_563e912f",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.html",
+        "patchSetId": 21
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-09-04T07:19:39Z",
+      "side": 1,
+      "message": "I think the way to go is to define multiple spacing properties like:\n--spacing-small: 4px;\n--spacing-medium: 8px;\nand so on.\n\nThey will apply to the entire app, not just the header.\n\nThen we can ...\n\n1. ... discuss the values for these properties.\n2. ... maybe change using spacing-medium to spacing-large for everyone for the header.\n3. ... let each host control the \"header-title\" endpoint.\n4. ... let each host override spacing properties for the entire app.\n\nWDYT?",
+      "parentUuid": "9d66618b_ac626bfe",
       "range": {
         "startLine": 45,
         "startChar": 2,

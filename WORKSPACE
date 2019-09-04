@@ -63,9 +63,14 @@ http_file(
     urls = ["https://raw.githubusercontent.com/google/closure-compiler/775609aad61e14aef289ebec4bfc09ad88877f9e/contrib/externs/polymer-1.0.js"],
 )
 
-load("@bazel_skylib//lib:versions.bzl", "versions")
+# Check Bazel version when invoked by Bazel directly
+load("//tools/bzl:bazelisk_version.bzl", "bazelisk_version")
 
-versions.check(minimum_bazel_version = "0.29.0")
+bazelisk_version(name = "bazelisk_version")
+
+load("@bazelisk_version//:check.bzl", "check_bazel_version")
+
+check_bazel_version()
 
 # Rules Python
 http_archive(

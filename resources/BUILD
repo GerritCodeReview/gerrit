@@ -1,3 +1,4 @@
+load("@rules_java//java:defs.bzl", "java_import")
 load("//tools/bzl:genrule2.bzl", "genrule2")
 
 java_import(

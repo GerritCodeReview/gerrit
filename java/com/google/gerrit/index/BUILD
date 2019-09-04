@@ -1,3 +1,5 @@
+load("@rules_java//java:defs.bzl", "java_library")
+
 QUERY_PARSE_EXCEPTION_SRCS = [
     "query/QueryParseException.java",
     "query/QueryRequiresAuthException.java",

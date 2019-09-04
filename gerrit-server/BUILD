@@ -1,3 +1,4 @@
+load("@rules_java//java:defs.bzl", "java_library")
 load("//lib/prolog:prolog.bzl", "prolog_cafe_library")
 load("//tools/bzl:javadoc.bzl", "java_doc")
 load("//tools/bzl:junit.bzl", "junit_tests")

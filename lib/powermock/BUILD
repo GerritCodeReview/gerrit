@@ -1,3 +1,5 @@
+load("@rules_java//java:defs.bzl", "java_library")
+
 java_library(
     name = "powermock-module-junit4",
     data = ["//lib:LICENSE-DO_NOT_DISTRIBUTE"],

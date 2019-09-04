@@ -1,3 +1,5 @@
+load("@rules_java//java:defs.bzl", "java_library")
+
 QUERY_BUILDER = ["QueryBuilder.java"]
 
 java_library(

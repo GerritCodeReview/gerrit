@@ -1,3 +1,5 @@
+load("@rules_java//java:defs.bzl", "java_library", "java_plugin")
+
 java_plugin(
     name = "auto-annotation-plugin",
     processor_class = "com.google.auto.value.processor.AutoAnnotationProcessor",

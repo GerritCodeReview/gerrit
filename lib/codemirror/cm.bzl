@@ -366,10 +366,3 @@ def pkg_cm():
             ],
             outs = ["codemirror%s.jar" % suffix],
         )
-
-        native.java_import(
-            name = "codemirror" + suffix,
-            jars = [":jar%s" % suffix],
-            visibility = ["//visibility:public"],
-            data = [license],
-        )

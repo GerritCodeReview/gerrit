@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "75c261b8_01cb28e3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-09-04T13:41:13Z",
+      "side": 1,
+      "message": "Considering that the project is already given in the request URL (see line 19 above), I think that it makes no sense to support all kind of change identifiers, especially not those which include\nproject name, right? I mean this wouldn\u0027t really make sense:\n\n  POST /projects/foo/index.changes\n\n  {changes: [\"bar~100\", \"qux~101\"]}\n\nThis leaves us with just two options: numeric change-id and possibly\nthe (long) Change-Id, if it uniquely identifies a change. Since the latter option is scheduled for removal in a future release (as documented in [1]), I thought that supporting only numerical\nchange-ids, while taking project name from the URL, is the only\noption which makes sense to support.",
+      "parentUuid": "6c1e691f_8d027bb2",
+      "range": {
+        "startLine": 22,
+        "startChar": 38,
+        "endLine": 22,
+        "endChar": 56
+      },
+      "revId": "15276f6f2b7a626e1c6ed33ba13e120af14c01ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1e038e96_7dfc6984",
         "filename": "Documentation/rest-api-projects.txt",
         "patchSetId": 5
@@ -45,6 +69,30 @@
       "revId": "15276f6f2b7a626e1c6ed33ba13e120af14c01ef",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c1a6da8b_e1d19a96",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 1422,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-09-04T13:41:13Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "1e038e96_7dfc6984",
+      "range": {
+        "startLine": 1422,
+        "startChar": 54,
+        "endLine": 1422,
+        "endChar": 62
+      },
+      "revId": "15276f6f2b7a626e1c6ed33ba13e120af14c01ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "3809f0d7_35ed6f5c",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 1423,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-09-04T13:41:13Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "7f0d999a_0aa803ff",
+      "range": {
+        "startLine": 1423,
+        "startChar": 14,
+        "endLine": 1423,
+        "endChar": 32
+      },
+      "revId": "15276f6f2b7a626e1c6ed33ba13e120af14c01ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2f0305c8_bbc89126",
         "filename": "java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
         "patchSetId": 5
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "d83c6986_5e91809f",
+        "filename": "java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-09-04T13:41:13Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "2f0305c8_bbc89126",
+      "range": {
+        "startLine": 206,
+        "startChar": 10,
+        "endLine": 206,
+        "endChar": 17
+      },
+      "revId": "15276f6f2b7a626e1c6ed33ba13e120af14c01ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aee0e12d_ab798a21",
         "filename": "java/com/google/gerrit/server/notedb/ChangeNotes.java",
         "patchSetId": 5
@@ -105,6 +201,30 @@
       "writtenOn": "2019-09-03T08:10:01Z",
       "side": 1,
       "message": "Why would we need to scan for change IDs, if we already have them available?",
+      "range": {
+        "startLine": 314,
+        "startChar": 33,
+        "endLine": 314,
+        "endChar": 61
+      },
+      "revId": "15276f6f2b7a626e1c6ed33ba13e120af14c01ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bc20c9ed_6db738d5",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-09-04T13:41:13Z",
+      "side": 1,
+      "message": "It is not really scanning (all) change IDs but actually converting\nthe given collection of change IDs into ScanResult which is needed by the doScan method.\nLet me rename that method to make the intention clear.",
+      "parentUuid": "aee0e12d_ab798a21",
       "range": {
         "startLine": 314,
         "startChar": 33,

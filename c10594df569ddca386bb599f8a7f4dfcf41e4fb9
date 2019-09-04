@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "516e7645_833d91e9",
+        "filename": "proto/cache.proto",
+        "patchSetId": 3
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-09-04T06:59:51Z",
+      "side": 1,
+      "message": "Admittedly, I could have added server_id field to ChangeColumnsProto message instead.",
+      "range": {
+        "startLine": 190,
+        "startChar": 2,
+        "endLine": 191,
+        "endChar": 25
+      },
+      "revId": "c10594df569ddca386bb599f8a7f4dfcf41e4fb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

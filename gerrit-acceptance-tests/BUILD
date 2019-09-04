@@ -1,3 +1,5 @@
+load("@rules_java//java:defs.bzl", "java_library")
+
 RESOURCES = glob(["src/test/resources/**/*"])
 
 java_library(

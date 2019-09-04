@@ -22,6 +22,30 @@
       "revId": "59b9b8f202ed1573806340504dd232ccf2b41982",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d4aaa3ed_0b70db71",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2019-09-04T10:47:40Z",
+      "side": 1,
+      "message": "I will go with \\n - for queries we will write regexps",
+      "parentUuid": "5df25147_a213a813",
+      "range": {
+        "startLine": 122,
+        "startChar": 44,
+        "endLine": 122,
+        "endChar": 50
+      },
+      "revId": "59b9b8f202ed1573806340504dd232ccf2b41982",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

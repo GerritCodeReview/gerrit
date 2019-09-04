@@ -42,6 +42,7 @@ limitations under the License.
         max-width: var(--content-width, 80ch);
         white-space: normal;
       }
+
       .thread-group {
         display: block;
         max-width: var(--content-width, 80ch);
@@ -317,14 +318,14 @@ limitations under the License.
         user-select: none;
       }
 
-      .selected-left:not(.selected-comment) .side-by-side .left + .content .contentText,
-      .selected-right:not(.selected-comment) .side-by-side .right + .content .contentText,
-      .selected-left:not(.selected-comment) .unified .left.lineNum ~ .content:not(.both) .contentText,
-      .selected-right:not(.selected-comment) .unified .right.lineNum ~ .content .contentText,
-      .selected-left.selected-comment .side-by-side .left + .content .message,
-      .selected-right.selected-comment .side-by-side .right + .content .message :not(.collapsedContent),
-      .selected-comment .unified .message :not(.collapsedContent),
-      .selected-blame .blame {
+      ::slotted(*) .selected-left:not(.selected-comment) .side-by-side .left + .content .contentText,
+      ::slotted(*) .selected-right:not(.selected-comment) .side-by-side .right + .content .contentText,
+      ::slotted(*) .selected-left:not(.selected-comment) .unified .left.lineNum ~ .content:not(.both) .contentText,
+      ::slotted(*) .selected-right:not(.selected-comment) .unified .right.lineNum ~ .content .contentText,
+      ::slotted(*) .selected-left.selected-comment .side-by-side .left + .content .message,
+      ::slotted(*) .selected-right.selected-comment .side-by-side .right + .content .message,
+      ::slotted(*) .selected-comment .unified .message,
+      ::slotted(*) .selected-blame .blame {
         -webkit-user-select: text;
         -moz-user-select: text;
         -ms-user-select: text;

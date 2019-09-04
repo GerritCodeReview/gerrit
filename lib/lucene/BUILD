@@ -1,3 +1,4 @@
+load("@rules_java//java:defs.bzl", "java_library")
 load("//tools/bzl:maven.bzl", "merge_maven_jars")
 
 package(default_visibility = ["//visibility:public"])

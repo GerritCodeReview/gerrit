@@ -1,3 +1,5 @@
+load("@rules_java//java:defs.bzl", "java_binary", "java_library")
+
 java_binary(
     name = "gerrit-main-class",
     main_class = "Main",

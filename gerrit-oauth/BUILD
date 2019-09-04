@@ -1,3 +1,5 @@
+load("@rules_java//java:defs.bzl", "java_library")
+
 SRCS = glob(
     ["src/main/java/**/*.java"],
 )

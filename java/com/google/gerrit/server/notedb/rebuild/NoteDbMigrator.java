@@ -142,7 +142,7 @@ public class NoteDbMigrator implements AutoCloseable {
         logger.atInfo().log(outputBuffer.toString());
         outputBuffer = new StringBuilder();
       } else {
-        outputBuffer.append(b);
+        outputBuffer.append(Character.toChars(b));
       }
     }
   }

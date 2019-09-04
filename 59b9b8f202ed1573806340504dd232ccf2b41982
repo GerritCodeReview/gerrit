@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5df25147_a213a813",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-09-04T10:02:06Z",
+      "side": 1,
+      "message": "maybe just `error.stack.split(\"\\n\").slice(0,3).join(\"___\")`, its better to not have `\\n` in the report as it takes a lot spaces.",
+      "range": {
+        "startLine": 122,
+        "startChar": 44,
+        "endLine": 122,
+        "endChar": 50
+      },
+      "revId": "59b9b8f202ed1573806340504dd232ccf2b41982",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

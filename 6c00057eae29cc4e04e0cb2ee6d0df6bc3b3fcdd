@@ -42,6 +42,48 @@
     },
     {
       "key": {
+        "uuid": "4be0cb4e_10a10535",
+        "filename": "contrib/remove-notedb-refs.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2019-09-05T17:27:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4126eae6_c2ba459e",
+      "range": {
+        "startLine": 35,
+        "startChar": 37,
+        "endLine": 35,
+        "endChar": 39
+      },
+      "revId": "6c00057eae29cc4e04e0cb2ee6d0df6bc3b3fcdd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2110aaf2_6a54b4e6",
+        "filename": "contrib/remove-notedb-refs.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2019-09-05T17:27:25Z",
+      "side": 1,
+      "message": "Really good point!",
+      "parentUuid": "96d4b877_82487c34",
+      "revId": "6c00057eae29cc4e04e0cb2ee6d0df6bc3b3fcdd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a8593b61_6fc4b010",
         "filename": "contrib/remove-notedb-refs.sh",
         "patchSetId": 4
@@ -62,6 +104,30 @@
       "revId": "6c00057eae29cc4e04e0cb2ee6d0df6bc3b3fcdd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e8ab9436_9adb6040",
+        "filename": "contrib/remove-notedb-refs.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2019-09-05T17:27:25Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a8593b61_6fc4b010",
+      "range": {
+        "startLine": 55,
+        "startChar": 8,
+        "endLine": 55,
+        "endChar": 59
+      },
+      "revId": "6c00057eae29cc4e04e0cb2ee6d0df6bc3b3fcdd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

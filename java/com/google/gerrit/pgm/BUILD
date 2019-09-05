@@ -1,3 +1,5 @@
+load("@rules_java//java:defs.bzl", "java_library")
+
 # TODO(davido): This indirection doesn't avoid unwanted depdencies
 # in acceptance-framework and should be removed. Instead, provided_deps
 # should be used, once https://github.com/bazelbuild/bazel/issues/1402

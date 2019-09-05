@@ -460,5 +460,12 @@
 
       return false;
     },
+
+    getThemeEndpoint() {
+      // For now, we only have dark mode and light mode
+      return window.localStorage.getItem('dark-theme') ?
+        'app-theme-dark' :
+        'app-theme-light';
+    },
   });
 })();

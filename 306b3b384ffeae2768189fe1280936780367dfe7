@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "245e1f5b_391d8f75",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.html",
+        "patchSetId": 26
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-09-05T19:01:20Z",
+      "side": 1,
+      "message": "Please remove these properties:\n\n  --header-margin-right\n  --header-margin-left\n  --header-margin-bottom\n  --header-vertical-align\n\nWe won\u0027t make them customizable.",
+      "range": {
+        "startLine": 57,
+        "startChar": 25,
+        "endLine": 60,
+        "endChar": 53
+      },
+      "revId": "306b3b384ffeae2768189fe1280936780367dfe7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e709fa5b_286a1bd1",
+        "filename": "polygerrit-ui/app/elements/shared/gr-fixed-panel/gr-fixed-panel.html",
+        "patchSetId": 26
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-09-05T19:01:20Z",
+      "side": 1,
+      "message": "We are not going to support a header:after customization. Please remove.",
+      "range": {
+        "startLine": 45,
+        "startChar": 3,
+        "endLine": 50,
+        "endChar": 7
+      },
+      "revId": "306b3b384ffeae2768189fe1280936780367dfe7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "397219a6_22d9efb5",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.html",
+        "patchSetId": 26
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-09-05T19:01:20Z",
+      "side": 1,
+      "message": "If you want the borders customizable, then I would suggest using --header-border and --footer-border, not just -bottom. It gives you the biggest amount of flexibility, just like --header-background.",
+      "range": {
+        "startLine": 37,
+        "startChar": 1,
+        "endLine": 38,
+        "endChar": 56
+      },
+      "revId": "306b3b384ffeae2768189fe1280936780367dfe7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "08ba9fc2_15208a68",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.html",
+        "patchSetId": 26
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-09-05T19:01:20Z",
+      "side": 1,
+      "message": "Let\u0027s do this in a separate change.",
+      "range": {
+        "startLine": 47,
+        "startChar": 2,
+        "endLine": 53,
+        "endChar": 24
+      },
+      "revId": "306b3b384ffeae2768189fe1280936780367dfe7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

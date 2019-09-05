@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "9adddbc7_72e651de",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 1422,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-09-05T08:36:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c1a6da8b_e1d19a96",
+      "range": {
+        "startLine": 1422,
+        "startChar": 54,
+        "endLine": 1422,
+        "endChar": 62
+      },
+      "revId": "15276f6f2b7a626e1c6ed33ba13e120af14c01ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7f0d999a_0aa803ff",
         "filename": "Documentation/rest-api-projects.txt",
         "patchSetId": 5
@@ -131,6 +155,30 @@
       "side": 1,
       "message": "Ack",
       "parentUuid": "7f0d999a_0aa803ff",
+      "range": {
+        "startLine": 1423,
+        "startChar": 14,
+        "endLine": 1423,
+        "endChar": 32
+      },
+      "revId": "15276f6f2b7a626e1c6ed33ba13e120af14c01ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d25706a5_f443b6bf",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 1423,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-09-05T08:36:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3809f0d7_35ed6f5c",
       "range": {
         "startLine": 1423,
         "startChar": 14,
@@ -190,6 +238,30 @@
     },
     {
       "key": {
+        "uuid": "b8e5dbe8_d892bc07",
+        "filename": "java/com/google/gerrit/server/index/change/AllChangesIndexer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-09-05T08:36:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d83c6986_5e91809f",
+      "range": {
+        "startLine": 206,
+        "startChar": 10,
+        "endLine": 206,
+        "endChar": 17
+      },
+      "revId": "15276f6f2b7a626e1c6ed33ba13e120af14c01ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aee0e12d_ab798a21",
         "filename": "java/com/google/gerrit/server/notedb/ChangeNotes.java",
         "patchSetId": 5
@@ -225,6 +297,30 @@
       "side": 1,
       "message": "It is not really scanning (all) change IDs but actually converting\nthe given collection of change IDs into ScanResult which is needed by the doScan method.\nLet me rename that method to make the intention clear.",
       "parentUuid": "aee0e12d_ab798a21",
+      "range": {
+        "startLine": 314,
+        "startChar": 33,
+        "endLine": 314,
+        "endChar": 61
+      },
+      "revId": "15276f6f2b7a626e1c6ed33ba13e120af14c01ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "877fdfc9_06fcc53a",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-09-05T08:36:08Z",
+      "side": 1,
+      "message": "Thinking more about your question, I didn\u0027t like the code in the PS-5.\nIn the PS-6 it is reworked completely.",
+      "parentUuid": "bc20c9ed_6db738d5",
       "range": {
         "startLine": 314,
         "startChar": 33,

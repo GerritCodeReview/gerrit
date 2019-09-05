@@ -487,7 +487,7 @@
 
     reportErrorDialog(message) {
       this.reporter(ERROR_DIALOG.TYPE, ERROR_DIALOG.CATEGORY,
-          'ErrorDialog: ' + message);
+          'ErrorDialog: ' + message, {error: new Error(message)});
     },
   });
 

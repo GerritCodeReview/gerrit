@@ -390,8 +390,7 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     assertThat(result.reviewers).isNotNull();
     assertThat(result.reviewers).hasSize(2);
 
-    // Verify reviewer and CC were added. If not in NoteDb read mode, both
-    // parties will be returned as CCed.
+    // Verify reviewer and CC were added.
     ChangeInfo c = gApi.changes().id(r.getChangeId()).get();
     assertReviewers(c, REVIEWER, admin, user);
     assertReviewers(c, CC, observer);
@@ -492,7 +491,7 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void noteDbAddReviewerToReviewerChangeInfo() throws Exception {
+  public void addReviewerToReviewerChangeInfo() throws Exception {
     PushOneCommit.Result r = createChange();
     String changeId = r.getChangeId();
     AddReviewerInput in = new AddReviewerInput();
@@ -506,7 +505,7 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     gApi.changes().id(changeId).current().review(ReviewInput.dislike());
 
     requestScopeOperations.setApiUser(user.id());
-    // NoteDb adds reviewer to a change on every review.
+    // By posting a review the user is added as reviewer.
     gApi.changes().id(changeId).current().review(ReviewInput.dislike());
 
     deleteReviewer(changeId, user).assertNoContent();

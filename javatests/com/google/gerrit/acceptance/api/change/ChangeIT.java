@@ -454,7 +454,7 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void pendingReviewersInNoteDb() throws Exception {
+  public void pendingReviewers() throws Exception {
     ConfigInput conf = new ConfigInput();
     conf.enableReviewerByEmail = InheritableBoolean.TRUE;
     gApi.projects().name(project.get()).config(conf);
@@ -1918,10 +1918,7 @@ public class ChangeIT extends AbstractDaemonTest {
     assertMailReplyTo(m, admin.email());
     ChangeInfo c = gApi.changes().id(r.getChangeId()).get();
 
-    // When NoteDb is enabled adding a reviewer records that user as reviewer
-    // in NoteDb. When NoteDb is disabled adding a reviewer results in a dummy 0
-    // approval on the change which is treated as CC when the ChangeInfo is
-    // created.
+    // Adding a reviewer records that user as reviewer.
     Collection<AccountInfo> reviewers = c.reviewers.get(REVIEWER);
     assertThat(reviewers).isNotNull();
     assertThat(reviewers).hasSize(1);
@@ -2033,10 +2030,7 @@ public class ChangeIT extends AbstractDaemonTest {
     assertMailReplyTo(m, email);
     ChangeInfo c = gApi.changes().id(r.getChangeId()).get();
 
-    // When NoteDb is enabled adding a reviewer records that user as reviewer
-    // in NoteDb. When NoteDb is disabled adding a reviewer results in a dummy 0
-    // approval on the change which is treated as CC when the ChangeInfo is
-    // created.
+    // Adding a reviewer records that user as reviewer.
     Collection<AccountInfo> reviewers = c.reviewers.get(REVIEWER);
     assertThat(reviewers).isNotNull();
     assertThat(reviewers).hasSize(1);
@@ -2097,10 +2091,7 @@ public class ChangeIT extends AbstractDaemonTest {
     assertMailReplyTo(m, myGroupUserEmail);
     ChangeInfo c = gApi.changes().id(r.getChangeId()).get();
 
-    // When NoteDb is enabled adding a reviewer records that user as reviewer
-    // in NoteDb. When NoteDb is disabled adding a reviewer results in a dummy 0
-    // approval on the change which is treated as CC when the ChangeInfo is
-    // created.
+    // Adding a reviewer records that user as reviewer.
     Collection<AccountInfo> reviewers = c.reviewers.get(REVIEWER);
     assertThat(reviewers).isNotNull();
     assertThat(reviewers).hasSize(1);
@@ -2128,10 +2119,7 @@ public class ChangeIT extends AbstractDaemonTest {
     // There should be no email notification when adding self
     assertThat(sender.getMessages()).isEmpty();
 
-    // When NoteDb is enabled adding a reviewer records that user as reviewer
-    // in NoteDb. When NoteDb is disabled adding a reviewer results in a dummy 0
-    // approval on the change which is treated as CC when the ChangeInfo is
-    // created.
+    // Adding a reviewer records that user as reviewer.
     ChangeInfo c = gApi.changes().id(r.getChangeId()).get();
     Collection<AccountInfo> reviewers = c.reviewers.get(REVIEWER);
     assertThat(reviewers).isNotNull();
@@ -2187,7 +2175,7 @@ public class ChangeIT extends AbstractDaemonTest {
         .containsExactly(user.id().get());
 
     // Further test: remove the vote, then comment again. The user should be
-    // implicitly re-added to the ReviewerSet, as a CC if we're using NoteDb.
+    // implicitly re-added to the ReviewerSet, as a CC.
     requestScopeOperations.setApiUser(admin.id());
     gApi.changes().id(r.getChangeId()).reviewer(user.id().toString()).remove();
     c = gApi.changes().id(r.getChangeId()).get();
@@ -3177,7 +3165,7 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void noteDbCommitsOnPatchSetCreation() throws Exception {
+  public void commitsOnPatchSetCreation() throws Exception {
     PushOneCommit.Result r = createChange();
     pushFactory
         .create(admin.newIdent(), testRepo, PushOneCommit.SUBJECT, "b.txt", "4711", r.getChangeId())
@@ -4366,10 +4354,7 @@ public class ChangeIT extends AbstractDaemonTest {
     public boolean updateChange(ChangeContext ctx) throws Exception {
       Change change = ctx.getChange();
 
-      // Change status in database.
-      change.setStatus(newStatus);
-
-      // Change status in NoteDb.
+      // Change status.
       PatchSet.Id currentPatchSetId = change.currentPatchSetId();
       ctx.getUpdate(currentPatchSetId).setStatus(newStatus);
 

@@ -1376,6 +1376,28 @@ EditPreferencesInfo] is returned.
   }
 ----
 
+[[index.changes]]
+=== Index a set of changes
+
+This endpoint allows Gerrit admins to index a set of changes with one request
+by providing a link:#index-changes-input[IndexChangesInput] entity.
+
+Using this endpoint Gerrit admins can also index change(s) which are not visible to them.
+
+.Request
+----
+  POST /config/server/index.changes HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+  {changes: ["foo~101", "bar~202"]}
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+----
+
 
 [[ids]]
 == IDs
@@ -1824,6 +1846,17 @@ Hit ratio for cache entries that are held in memory (0 \<= value \<= 100).
 Hit ratio for cache entries that are held on disk (0 \<= value \<= 100).
 Only set for disk caches.
 |==================================
+
+[[index-changes-input]]
+=== IndexChangesInput
+The `IndexChangesInput` contains a list of numerical changes IDs to index.
+
+[options="header",cols="1,^2,4"]
+|================================
+|Field Name         ||Description
+|`changes`   ||
+List of link:rest-api-changes.html#change-id[change-ids]
+|================================
 
 [[jvm-summary-info]]
 === JvmSummaryInfo

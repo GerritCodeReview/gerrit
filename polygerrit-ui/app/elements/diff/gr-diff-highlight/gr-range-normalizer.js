@@ -54,7 +54,7 @@
       if (element.nodeName === '#text') {
         element = element.parentElement;
       }
-      while (!element.classList.contains('contentText')) {
+      while (element && !element.classList.contains('contentText')) {
         if (element.parentElement === null) {
           return target;
         }
@@ -80,7 +80,7 @@
         if (n === child) {
           break;
         }
-        if (n.childNodes && n.childNodes.length !== 0) {
+        if (n && n.childNodes && n.childNodes.length !== 0) {
           const arr = [];
           for (const childNode of n.childNodes) {
             arr.push(childNode);
@@ -101,7 +101,9 @@
      * @return {number} The length of the text.
      */
     _getLength(node) {
-      return node.textContent.replace(REGEX_ASTRAL_SYMBOL, '_').length;
+      return node
+        ? node.textContent.replace(REGEX_ASTRAL_SYMBOL, '_').length
+        : 0;
     },
   };
 

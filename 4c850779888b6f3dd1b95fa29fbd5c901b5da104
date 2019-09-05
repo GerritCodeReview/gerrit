@@ -34,6 +34,24 @@
       "revId": "4c850779888b6f3dd1b95fa29fbd5c901b5da104",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b3100a87_688edf85",
+        "filename": "contrib/remove-notedb-refs.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2019-09-05T16:25:50Z",
+      "side": 1,
+      "message": "\u003e you\u0027ll still need the \u0027grep \"/meta$\"\u0027, because it would also match a regular branch/tag named \u0027meta\u0027 for example\n\u003e \n\nOps...now I remember why I have added it :)",
+      "parentUuid": "f3a93ae8_0506e48d",
+      "revId": "4c850779888b6f3dd1b95fa29fbd5c901b5da104",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

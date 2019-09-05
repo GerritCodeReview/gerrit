@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0a3b92cf_f0059873",
+        "filename": "contrib/remove-notedb-refs.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2019-09-05T08:35:50Z",
+      "side": 1,
+      "message": "you\u0027ll still need the \u0027grep \"/meta$\"\u0027, because it would also match a regular branch/tag named \u0027meta\u0027 for example.",
+      "revId": "4c850779888b6f3dd1b95fa29fbd5c901b5da104",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

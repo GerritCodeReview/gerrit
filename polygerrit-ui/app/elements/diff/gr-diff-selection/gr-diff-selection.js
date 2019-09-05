@@ -73,7 +73,28 @@
       this._linesCache = getNewCache();
     },
 
+    _handleDownOnRangeComment(node) {
+      // Keep the original behavior in polymer 1
+      if (!window.POLYMER2) return false;
+      if (node &&
+          node.nodeName &&
+          node.nodeName.toLowerCase() === 'gr-comment-thread') {
+        this._setClasses([
+          SelectionClass.COMMENT,
+          node.commentSide === 'left' ?
+          SelectionClass.LEFT :
+          SelectionClass.RIGHT,
+        ]);
+        return true;
+      }
+      return false;
+    },
+
     _handleDown(e) {
+      // Handle the down event on comment thread in Polymer 2
+      const handled = this._handleDownOnRangeComment(e.target);
+      if (handled) return;
+
       const lineEl = this.diffBuilder.getLineElByChild(e.target);
       const blameSelected = this._elementDescendedFromClass(e.target, 'blame');
       if (!lineEl && !blameSelected) { return; }
@@ -140,6 +161,10 @@
     },
 
     _handleCopy(e) {
+      // Let the browser handle the copy event for polymer 2
+      // as selection across shadow DOM will be hard to process
+      if (window.POLYMER2) return;
+
       let commentSelected = false;
       const target = this._getCopyEventTarget(e);
       if (target.type === 'textarea') { return; }

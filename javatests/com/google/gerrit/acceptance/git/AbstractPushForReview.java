@@ -2608,6 +2608,76 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
             + "\n");
   }
 
+  @Test
+  public void cannotPushTheSameCommitTwiceForReviewToTheSameBranch() throws Exception {
+    testCannotPushTheSameCommitTwiceForReviewToTheSameBranch();
+  }
+
+  @Test
+  public void cannotPushTheSameCommitTwiceForReviewToTheSameBranchCreateNewChangeForAllNotInTarget()
+      throws Exception {
+    enableCreateNewChangeForAllNotInTarget();
+    testCannotPushTheSameCommitTwiceForReviewToTheSameBranch();
+  }
+
+  private void testCannotPushTheSameCommitTwiceForReviewToTheSameBranch() throws Exception {
+    setRequireChangeId(InheritableBoolean.FALSE);
+
+    // create a commit without Change-Id
+    testRepo
+        .branch("HEAD")
+        .commit()
+        .author(user.newIdent())
+        .committer(user.newIdent())
+        .add(PushOneCommit.FILE_NAME, PushOneCommit.FILE_CONTENT)
+        .message(PushOneCommit.SUBJECT)
+        .create();
+
+    // push the commit for review to create a change
+    PushResult r = pushHead(testRepo, "refs/for/master");
+    assertPushOk(r, "refs/for/master");
+
+    // try to push the same commit for review again to create another change on the same branch,
+    // it's expected that this is rejected with "no new changes"
+    r = pushHead(testRepo, "refs/for/master");
+    assertPushRejected(r, "refs/for/master", "no new changes");
+  }
+
+  @Test
+  public void pushTheSameCommitTwiceForReviewToDifferentBranches() throws Exception {
+    setRequireChangeId(InheritableBoolean.FALSE);
+
+    // create a commit without Change-Id
+    testRepo
+        .branch("HEAD")
+        .commit()
+        .author(user.newIdent())
+        .committer(user.newIdent())
+        .add(PushOneCommit.FILE_NAME, PushOneCommit.FILE_CONTENT)
+        .message(PushOneCommit.SUBJECT)
+        .create();
+
+    // push the commit for review to create a change
+    PushResult r = pushHead(testRepo, "refs/for/master");
+    assertPushOk(r, "refs/for/master");
+
+    // create another branch
+    gApi.projects().name(project.get()).branch("otherBranch").create(new BranchInput());
+
+    // try to push the same commit for review again to create a change on another branch,
+    // it's expected that this is rejected with "no new changes" since
+    // CREATE_NEW_CHANGE_FOR_ALL_NOT_IN_TARGET is false
+    r = pushHead(testRepo, "refs/for/otherBranch");
+    assertPushRejected(r, "refs/for/otherBranch", "no new changes");
+
+    enableCreateNewChangeForAllNotInTarget();
+
+    // try to push the same commit for review again to create a change on another branch,
+    // now it should succeed since CREATE_NEW_CHANGE_FOR_ALL_NOT_IN_TARGET is true
+    r = pushHead(testRepo, "refs/for/otherBranch");
+    assertPushOk(r, "refs/for/otherBranch");
+  }
+
   private DraftInput newDraft(String path, int line, String message) {
     DraftInput d = new DraftInput();
     d.path = path;

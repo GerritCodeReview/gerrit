@@ -47,9 +47,11 @@ import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.PublishChangeEditInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.client.ChangeEditDetailOption;
+import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.ApprovalInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.extensions.common.DiffInfo;
 import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.common.FileInfo;
@@ -732,6 +734,27 @@ public class ChangeEditIT extends AbstractDaemonTest {
     assertThat(thrown)
         .hasMessageThat()
         .contains(String.format("change %s is abandoned", change._number));
+  }
+
+  @Test
+  public void sha1sOfTwoChangesWithSameContentAfterEditDiffer() throws Exception {
+    ChangeInput changeInput = new ChangeInput();
+    changeInput.project = project.get();
+    changeInput.branch = "master";
+    changeInput.subject = "Empty change";
+    changeInput.status = ChangeStatus.NEW;
+
+    ChangeInfo info1 = gApi.changes().create(changeInput).get();
+    gApi.changes().id(info1._number).edit().modifyFile(FILE_NAME, RawInputUtil.create(CONTENT_NEW));
+    gApi.changes().id(info1._number).edit().publish(new PublishChangeEditInput());
+    info1 = gApi.changes().id(info1._number).get();
+
+    ChangeInfo info2 = gApi.changes().create(changeInput).get();
+    gApi.changes().id(info2._number).edit().modifyFile(FILE_NAME, RawInputUtil.create(CONTENT_NEW));
+    gApi.changes().id(info2._number).edit().publish(new PublishChangeEditInput());
+    info2 = gApi.changes().id(info2._number).get();
+
+    assertThat(info1.currentRevision).isNotEqualTo(info2.currentRevision);
   }
 
   private void createArbitraryEditFor(String changeId) throws Exception {

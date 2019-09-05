@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "8c990894_b185da3e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-05T12:38:53Z",
+      "side": 1,
+      "message": "I understand what you are saying and I\u0027m not insisting on changing this.\n\nI still see some reasons why supporting all change identifiers would be better:\n\n* consistency: everywhere else in the REST API where a change is required you can use any format\n* ease-of-use: let\u0027s say you have a query that matches changes that need to be reindex, what you would do is write a script that queries the changes and then reindexes the results. The natural way to do this would be iterating over the returned ChangeInfo\u0027s and then use the ID from the \u0027id\u0027 field to do the reindexing, but now this won\u0027t work because that\u0027s not the numeric ID (of course the numeric ID is available too, as \u0027_number\u0027 field, but it\u0027s something the caller needs to think of)\n* For clients it is generally recommended to always use the identifier which is returned in the \u0027id\u0027 field to make follow-up calls, without looking at the identifier format (e.g. we would like to control by a server config option which ID format is returned, not implemented yet)\n\nYeah, but I see how these things are not super important for this particular REST endpoint.",
+      "parentUuid": "75c261b8_01cb28e3",
+      "range": {
+        "startLine": 22,
+        "startChar": 38,
+        "endLine": 22,
+        "endChar": 56
+      },
+      "revId": "15276f6f2b7a626e1c6ed33ba13e120af14c01ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1e038e96_7dfc6984",
         "filename": "Documentation/rest-api-projects.txt",
         "patchSetId": 5
@@ -330,6 +354,30 @@
       "revId": "15276f6f2b7a626e1c6ed33ba13e120af14c01ef",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "06d7088f_75cf9bde",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-05T12:38:53Z",
+      "side": 1,
+      "message": "Looks better, thanks!",
+      "parentUuid": "877fdfc9_06fcc53a",
+      "range": {
+        "startLine": 314,
+        "startChar": 33,
+        "endLine": 314,
+        "endChar": 61
+      },
+      "revId": "15276f6f2b7a626e1c6ed33ba13e120af14c01ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

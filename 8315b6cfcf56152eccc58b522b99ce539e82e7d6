@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2fa7c9bd_4873ebdb",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 3444,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-05T12:38:53Z",
+      "side": 1,
+      "message": "nit: Move this section up to keep the sorting of entities alphabetically.",
+      "revId": "8315b6cfcf56152eccc58b522b99ce539e82e7d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

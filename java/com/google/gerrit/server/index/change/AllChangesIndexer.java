@@ -27,7 +27,9 @@ import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.gerrit.index.SiteIndexer;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.Change.Id;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.reviewdb.client.Project.NameKey;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -45,6 +47,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.concurrent.Callable;
@@ -197,6 +200,18 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
     return new ProjectIndexer(indexer, project, done, failed);
   }
 
+  public Callable<Void> reindexChanges(
+      ChangeIndexer indexer,
+      Project.NameKey project,
+      Set<Change.Id> changes,
+      Task done,
+      Task failed) {
+    if (changes == null || changes.isEmpty()) {
+      throw new IllegalArgumentException("changes cannot be empty");
+    }
+    return new ChangesIndexer(indexer, project, changes, done, failed);
+  }
+
   private class ProjectIndexer implements Callable<Void> {
     private final ChangeIndexer indexer;
     private final Project.NameKey project;
@@ -267,6 +282,48 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
     @Override
     public String toString() {
       return "Index all changes of project " + project.get();
+    }
+  }
+
+  private class ChangesIndexer implements Callable<Void> {
+    private final ChangeIndexer indexer;
+    private final NameKey project;
+    private final Set<Id> changes;
+    private final ProgressMonitor done;
+    private final ProgressMonitor failed;
+
+    private ChangesIndexer(
+        ChangeIndexer indexer,
+        Project.NameKey project,
+        Set<Change.Id> changes,
+        ProgressMonitor done,
+        ProgressMonitor failed) {
+      this.indexer = indexer;
+      this.project = project;
+      this.changes = changes;
+      this.done = done;
+      this.failed = failed;
+    }
+
+    @Override
+    public Void call() throws Exception {
+      try (ReviewDb db = schemaFactory.open()) {
+        OnlineReindexMode.begin();
+        changes.stream().forEach(id -> index(db, id));
+        done.update(1);
+      } finally {
+        OnlineReindexMode.end();
+      }
+      return null;
+    }
+
+    private void index(ReviewDb db, Change.Id id) {
+      try {
+        indexer.index(changeDataFactory.create(db, project, id));
+      } catch (IOException e) {
+        failed.update(1);
+        logger.atSevere().withCause(e).log("Failed to index change %s", id);
+      }
     }
   }
 }

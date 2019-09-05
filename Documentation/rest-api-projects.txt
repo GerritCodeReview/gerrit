@@ -1419,6 +1419,23 @@ returns immediately.
   Content-Disposition: attachment
 ----
 
+It is also possible to index only some of the changes belonging to a project
+by providing a link:#index-changes-input[IndexChangesInput] entity.
+
+.Request
+----
+  POST /projects/MyProject/index.changes HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+  {changes: [12345, 12346]}
+----
+
+.Response
+----
+  HTTP/1.1 202 Accepted
+  Content-Disposition: attachment
+----
+
 [[check]]
 === Check project consistency
 
@@ -3421,6 +3438,17 @@ The `IndexProjectInput` contains parameters for indexing a project.
 If children should be indexed recursively.
 |`async`            ||
 If projects should be indexed asynchronously.
+|================================
+
+[[index-changes-input]]
+=== IndexChangesInput
+The `IndexChangesInput` contains a list of numerical changes IDs to index.
+
+[options="header",cols="1,^2,4"]
+|================================
+|Field Name         ||Description
+|`changes`   ||
+List of numerical change ids.
 |================================
 
 [[inherited-boolean-info]]

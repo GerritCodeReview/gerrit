@@ -15,14 +15,15 @@
 package com.google.gerrit.server.restapi.project;
 
 import static com.google.gerrit.server.git.QueueProvider.QueueType.BATCH;
+import static java.util.stream.Collectors.toSet;
 
 import com.google.common.io.ByteStreams;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
-import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.git.MultiProgressMonitor;
 import com.google.gerrit.server.git.MultiProgressMonitor.Task;
@@ -30,15 +31,20 @@ import com.google.gerrit.server.index.IndexExecutor;
 import com.google.gerrit.server.index.change.AllChangesIndexer;
 import com.google.gerrit.server.index.change.ChangeIndexer;
 import com.google.gerrit.server.project.ProjectResource;
+import com.google.gerrit.server.restapi.project.IndexChanges.Input;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import java.util.Set;
 import java.util.concurrent.Future;
 import org.eclipse.jgit.util.io.NullOutputStream;
 
 @RequiresCapability(GlobalCapability.ADMINISTRATE_SERVER)
 @Singleton
 public class IndexChanges implements RestModifyView<ProjectResource, Input> {
+  public static class Input {
+    Set<Integer> changes;
+  }
 
   private final Provider<AllChangesIndexer> allChangesIndexerProvider;
   private final ChangeIndexer indexer;
@@ -66,7 +72,15 @@ public class IndexChanges implements RestModifyView<ProjectResource, Input> {
     // return value.
     @SuppressWarnings("unused")
     Future<?> possiblyIgnoredError =
-        executor.submit(allChangesIndexer.reindexProject(indexer, project, mpt, mpt));
+        executor.submit(
+            input == null || input.changes == null
+                ? allChangesIndexer.reindexProject(indexer, project, mpt, mpt)
+                : allChangesIndexer.reindexChanges(
+                    indexer,
+                    project,
+                    input.changes.stream().map(Change.Id::new).collect(toSet()),
+                    mpt,
+                    mpt));
     return Response.accepted("Project " + project + " submitted for reindexing");
   }
 }

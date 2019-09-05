@@ -60,6 +60,10 @@
       this.bindValue = this.nativeSelect.value;
     },
 
+    focus() {
+      this.nativeSelect.focus();
+    },
+
     ready() {
       // If not set via the property, set bind-value to the element value.
       if (this.bindValue == undefined) {

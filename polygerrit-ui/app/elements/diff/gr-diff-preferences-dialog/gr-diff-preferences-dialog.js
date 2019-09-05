@@ -34,13 +34,13 @@
 
     getFocusStops() {
       return {
-        start: this.$.contextSelect,
+        start: this.$.diffPreferences.$.contextSelect,
         end: this.$.saveButton,
       };
     },
 
     resetFocus() {
-      this.$.contextSelect.focus();
+      this.$.diffPreferences.$.contextSelect.focus();
     },
 
     _computeHeaderClass(changed) {

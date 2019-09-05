@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b91d02c3_a55e8de7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-09-05T22:39:32Z",
+      "side": 1,
+      "message": "I meant this is required by gitiles change I8a60c987dac205335a24c1d2dcf8a93608d6cf0c\nwhich was the reason why this method was added in JGit to get rid of casting",
+      "parentUuid": "89ba4f8a_ed444a84",
+      "range": {
+        "startLine": 10,
+        "startChar": 42,
+        "endLine": 10,
+        "endChar": 68
+      },
+      "revId": "0d69d48cfc29851b4c703e6f1f6dacc60c68c561",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d258b9a5_8db2237e",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "0d69d48cfc29851b4c703e6f1f6dacc60c68c561",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f219d421_6650b532",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-09-05T22:39:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d258b9a5_8db2237e",
+      "range": {
+        "startLine": 12,
+        "startChar": 2,
+        "endLine": 12,
+        "endChar": 42
+      },
+      "revId": "0d69d48cfc29851b4c703e6f1f6dacc60c68c561",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -217,6 +217,30 @@
     },
     {
       "key": {
+        "uuid": "7d718617_33fe32ec",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.html",
+        "patchSetId": 21
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-09-05T16:43:55Z",
+      "side": 1,
+      "message": "I spoke about this on slack a bit and have decided to keep. Since it\u0027s easier for users to use this, then to mess around with image software to do this.\n\nThis would be low maintenance so not work to keep it working into the future.",
+      "parentUuid": "9b913c56_99f9c59f",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 40
+      },
+      "revId": "5562a6ba010895e2631effa0d81caf0838f42a61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5bf4408a_b62d7bae",
         "filename": "polygerrit-ui/app/styles/themes/app-theme.html",
         "patchSetId": 21
@@ -381,6 +405,30 @@
       "revId": "5562a6ba010895e2631effa0d81caf0838f42a61",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6763c381_673038ac",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.html",
+        "patchSetId": 21
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-09-05T16:43:55Z",
+      "side": 1,
+      "message": "Thanks, done. I\u0027ve decided to use --spacing-medium for the header first.\n\nAs agreed on slack, the intention is to use it in the header first and then add it to other parts of the app in a seperate change.",
+      "parentUuid": "d7c0ad8d_563e912f",
+      "range": {
+        "startLine": 45,
+        "startChar": 2,
+        "endLine": 47,
+        "endChar": 49
+      },
+      "revId": "5562a6ba010895e2631effa0d81caf0838f42a61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

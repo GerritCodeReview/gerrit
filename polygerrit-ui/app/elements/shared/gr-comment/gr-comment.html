@@ -232,6 +232,16 @@ limitations under the License.
       #deleteBtn.showDeleteButtons {
         display: block;
       }
+
+      /** Disable select for the caret and actions */
+      .actions,
+      .show-hide {
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
+
     </style>
     <div id="container" class="container">
       <div class="header" id="header" on-tap="_handleToggleCollapsed">

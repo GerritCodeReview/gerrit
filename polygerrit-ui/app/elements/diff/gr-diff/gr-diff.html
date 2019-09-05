@@ -42,6 +42,7 @@ limitations under the License.
         max-width: var(--content-width, 80ch);
         white-space: normal;
       }
+
       .thread-group {
         display: block;
         max-width: var(--content-width, 80ch);
@@ -307,7 +308,8 @@ limitations under the License.
         background: linear-gradient(to right bottom, #FFD1A4 0%, #FFD1A4 50%, #E0F2F1 50%, #E0F2F1 100%);
       }
 
-      /** Select to copy */
+      /** BEGIN: Select and copy for Polymer 2 */
+      /** Below was copied and modified from the original css in gr-diff-selection.html */
       .content,
       .contextControl,
       .blame {
@@ -330,6 +332,16 @@ limitations under the License.
         -ms-user-select: text;
         user-select: text;
       }
+
+      /** Make comments selectable */
+      .selected-left ::slotted(gr-comment-thread[comment-side=left]),
+      .selected-right ::slotted(gr-comment-thread[comment-side=right]) {
+        -webkit-user-select: text;
+        -moz-user-select: text;
+        -ms-user-select: text;
+        user-select: text;
+      }
+      /** END: Select and copy for Polymer 2 */
 
       .whitespace-change-only-message {
         background-color: var(--diff-context-control-background-color);

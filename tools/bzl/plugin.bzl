@@ -1,3 +1,4 @@
+load("@rules_java//java:defs.bzl", "java_binary", "java_library")
 load("//tools/bzl:genrule2.bzl", "genrule2")
 
 PLUGIN_DEPS = ["//plugins:plugin-lib"]
@@ -21,7 +22,7 @@ def gerrit_plugin(
         dir_name = None,
         target_suffix = "",
         **kwargs):
-    native.java_library(
+    java_library(
         name = name + "__plugin",
         srcs = srcs,
         resources = resources,
@@ -35,7 +36,7 @@ def gerrit_plugin(
     if not dir_name:
         dir_name = name
 
-    native.java_binary(
+    java_binary(
         name = "%s__non_stamped" % name,
         deploy_manifest_lines = manifest_entries + ["Gerrit-ApiType: plugin"],
         main_class = "Dummy",

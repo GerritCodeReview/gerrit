@@ -21,7 +21,7 @@ import java.nio.file.Files;
 import java.util.jar.JarEntry;
 import java.util.jar.JarOutputStream;
 
-public class BuckPrologCompiler {
+public class BazelPrologCompiler {
   private static File tmpdir;
 
   public static void main(String[] argv) throws IOException, CompileException {

@@ -22,6 +22,30 @@
       "revId": "4099815d5bbde64621b8a3f578d47bc638e2c963",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "12e08afe_c2720e6b",
+        "filename": "javatests/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2646,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-06T07:48:07Z",
+      "side": 1,
+      "message": "No, I forgot to remove this when I refactored the tests.\n\nDone.",
+      "parentUuid": "4257a106_d530682a",
+      "range": {
+        "startLine": 2645,
+        "startChar": 4,
+        "endLine": 2646,
+        "endChar": 88
+      },
+      "revId": "4099815d5bbde64621b8a3f578d47bc638e2c963",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

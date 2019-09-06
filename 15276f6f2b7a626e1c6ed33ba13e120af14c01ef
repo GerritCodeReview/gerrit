@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "1ae065ef_fe006be8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-09-06T09:06:33Z",
+      "side": 1,
+      "message": "If it is important to support all of the existing change identifiers,\nthen let\u0027s find another URL for this endpoint, one which doesn\u0027t\ncontain project name in it? WDYT?",
+      "parentUuid": "8c990894_b185da3e",
+      "range": {
+        "startLine": 22,
+        "startChar": 38,
+        "endLine": 22,
+        "endChar": 56
+      },
+      "revId": "15276f6f2b7a626e1c6ed33ba13e120af14c01ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1e038e96_7dfc6984",
         "filename": "Documentation/rest-api-projects.txt",
         "patchSetId": 5

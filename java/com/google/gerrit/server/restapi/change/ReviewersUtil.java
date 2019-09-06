@@ -234,45 +234,47 @@ public class ReviewersUtil {
   private List<Account.Id> suggestAccounts(SuggestReviewers suggestReviewers)
       throws BadRequestException {
     try (Timer0.Context ctx = metrics.queryAccountsLatency.start()) {
-      // For performance reasons we don't use AccountQueryProvider as it would always load the
-      // complete account from the cache (or worse, from NoteDb) even though we only need the ID
-      // which we can directly get from the returned results.
-      Predicate<AccountState> pred =
-          Predicate.and(
-              AccountPredicates.isActive(),
-              accountQueryBuilder.defaultQuery(suggestReviewers.getQuery()));
-      logger.atFine().log("accounts index query: %s", pred);
-      accountIndexRewriter.validateMaxTermsInQuery(pred);
-      ResultSet<FieldBundle> result =
-          accountIndexes
-              .getSearchIndex()
-              .getSource(
-                  pred,
-                  QueryOptions.create(
-                      indexConfig,
-                      0,
-                      suggestReviewers.getLimit() * CANDIDATE_LIST_MULTIPLIER,
-                      ImmutableSet.of(AccountField.ID.getName())))
-              .readRaw();
-      List<Account.Id> matches =
-          result.toList().stream()
-              .map(f -> Account.id(f.getValue(AccountField.ID).intValue()))
-              .collect(toList());
-      logger.atFine().log("Matches: %s", matches);
-      return matches;
-    } catch (TooManyTermsInQueryException e) {
-      throw new BadRequestException(e.getMessage());
-    } catch (QueryParseException e) {
-      logger.atWarning().withCause(e).log("Suggesting accounts failed, return empty result.");
-      return ImmutableList.of();
-    } catch (StorageException e) {
-      if (e.getCause() instanceof TooManyTermsInQueryException) {
+      try {
+        // For performance reasons we don't use AccountQueryProvider as it would always load the
+        // complete account from the cache (or worse, from NoteDb) even though we only need the ID
+        // which we can directly get from the returned results.
+        Predicate<AccountState> pred =
+            Predicate.and(
+                AccountPredicates.isActive(),
+                accountQueryBuilder.defaultQuery(suggestReviewers.getQuery()));
+        logger.atFine().log("accounts index query: %s", pred);
+        accountIndexRewriter.validateMaxTermsInQuery(pred);
+        ResultSet<FieldBundle> result =
+            accountIndexes
+                .getSearchIndex()
+                .getSource(
+                    pred,
+                    QueryOptions.create(
+                        indexConfig,
+                        0,
+                        suggestReviewers.getLimit(),
+                        ImmutableSet.of(AccountField.ID.getName())))
+                .readRaw();
+        List<Account.Id> matches =
+            result.toList().stream()
+                .map(f -> Account.id(f.getValue(AccountField.ID).intValue()))
+                .collect(toList());
+        logger.atFine().log("Matches: %s", matches);
+        return matches;
+      } catch (TooManyTermsInQueryException e) {
         throw new BadRequestException(e.getMessage());
-      }
-      if (e.getCause() instanceof QueryParseException) {
+      } catch (QueryParseException e) {
+        logger.atWarning().withCause(e).log("Suggesting accounts failed, return empty result.");
         return ImmutableList.of();
+      } catch (StorageException e) {
+        if (e.getCause() instanceof TooManyTermsInQueryException) {
+          throw new BadRequestException(e.getMessage());
+        }
+        if (e.getCause() instanceof QueryParseException) {
+          return ImmutableList.of();
+        }
+        throw e;
       }
-      throw e;
     }
   }
 

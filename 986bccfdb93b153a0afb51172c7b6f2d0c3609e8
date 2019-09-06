@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a619795d_13e96729",
+        "filename": "WORKSPACE",
+        "patchSetId": 1
+      },
+      "lineNbr": 1119,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-09-06T07:13:22Z",
+      "side": 1,
+      "message": "Note: In case it makes any difference, JGit at master uses version 1.9.0",
+      "revId": "986bccfdb93b153a0afb51172c7b6f2d0c3609e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

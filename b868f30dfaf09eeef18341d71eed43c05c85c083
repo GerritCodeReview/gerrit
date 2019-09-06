@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "33221a6a_39c45113",
+        "filename": "polygerrit-ui/app/behaviors/gr-access-behavior/gr-access-behavior.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-09-06T10:46:32Z",
+      "side": 1,
+      "message": "Unrelated to this change, but is this a leftover from the draft changes feature that was removed when we introduced WIP and private change states?",
+      "range": {
+        "startLine": 59,
+        "startChar": 10,
+        "endLine": 62,
+        "endChar": 12
+      },
+      "revId": "b868f30dfaf09eeef18341d71eed43c05c85c083",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

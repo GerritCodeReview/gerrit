@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "0cd40d52_11074665",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.html",
+        "patchSetId": 26
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-09-06T13:36:36Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "245e1f5b_391d8f75",
+      "range": {
+        "startLine": 57,
+        "startChar": 25,
+        "endLine": 60,
+        "endChar": 53
+      },
+      "revId": "306b3b384ffeae2768189fe1280936780367dfe7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e709fa5b_286a1bd1",
         "filename": "polygerrit-ui/app/elements/shared/gr-fixed-panel/gr-fixed-panel.html",
         "patchSetId": 26
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "fe2e2dfc_80314315",
+        "filename": "polygerrit-ui/app/elements/shared/gr-fixed-panel/gr-fixed-panel.html",
+        "patchSetId": 26
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-09-06T13:36:36Z",
+      "side": 1,
+      "message": "Thanks, done. I\u0027ve removed --header-background-height and replaced it with --header-padding!",
+      "parentUuid": "e709fa5b_286a1bd1",
+      "range": {
+        "startLine": 45,
+        "startChar": 3,
+        "endLine": 50,
+        "endChar": 7
+      },
+      "revId": "306b3b384ffeae2768189fe1280936780367dfe7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "397219a6_22d9efb5",
         "filename": "polygerrit-ui/app/styles/themes/app-theme.html",
         "patchSetId": 26
@@ -59,6 +107,30 @@
       "writtenOn": "2019-09-05T19:01:20Z",
       "side": 1,
       "message": "If you want the borders customizable, then I would suggest using --header-border and --footer-border, not just -bottom. It gives you the biggest amount of flexibility, just like --header-background.",
+      "range": {
+        "startLine": 37,
+        "startChar": 1,
+        "endLine": 38,
+        "endChar": 56
+      },
+      "revId": "306b3b384ffeae2768189fe1280936780367dfe7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "89a44576_ff6e0502",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.html",
+        "patchSetId": 26
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-09-06T13:36:36Z",
+      "side": 1,
+      "message": "That won\u0027t work (flexibility wise) because it appears that you can only do\n\nborder: 5px dotted blue;\n\nfor example (which sets it for top, left, bottom and right).",
+      "parentUuid": "397219a6_22d9efb5",
       "range": {
         "startLine": 37,
         "startChar": 1,
@@ -91,6 +163,30 @@
       "revId": "306b3b384ffeae2768189fe1280936780367dfe7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7fe6857c_df215080",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.html",
+        "patchSetId": 26
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-09-06T13:36:36Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "08ba9fc2_15208a68",
+      "range": {
+        "startLine": 47,
+        "startChar": 2,
+        "endLine": 53,
+        "endChar": 24
+      },
+      "revId": "306b3b384ffeae2768189fe1280936780367dfe7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4257a106_d530682a",
+        "filename": "javatests/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2646,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-09-06T07:25:10Z",
+      "side": 1,
+      "message": "Is this needed here?",
+      "range": {
+        "startLine": 2645,
+        "startChar": 4,
+        "endLine": 2646,
+        "endChar": 88
+      },
+      "revId": "4099815d5bbde64621b8a3f578d47bc638e2c963",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

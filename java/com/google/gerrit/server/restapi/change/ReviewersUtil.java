@@ -251,7 +251,7 @@ public class ReviewersUtil {
                   QueryOptions.create(
                       indexConfig,
                       0,
-                      suggestReviewers.getLimit() * CANDIDATE_LIST_MULTIPLIER,
+                      suggestReviewers.getLimit(),
                       ImmutableSet.of(AccountField.ID.getName())))
               .readRaw();
       List<Account.Id> matches =

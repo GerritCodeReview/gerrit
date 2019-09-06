@@ -24,7 +24,7 @@ limitations under the License.
 <script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
 <script src="/bower_components/web-component-tester/browser.js"></script>
 <link rel="import" href="../test/common-test-setup.html"/>
-<link rel="import" href="gr-app.html">
+<link rel="import" href="./gr-app.html">
 
 <script>void(0);</script>
 
@@ -35,7 +35,7 @@ limitations under the License.
 </test-fixture>
 
 <script>
-  suite('gr-app integration tests', () => {
+  suite('gr-app custom dark theme tests', () => {
     let sandbox;
     let element;
 
@@ -63,13 +63,22 @@ limitations under the License.
         getVersion() { return Promise.resolve(42); },
         getLoggedIn() { return Promise.resolve(false); },
       });
+
+      window.localStorage.setItem('dark-theme', 'true');
+
       element = fixture('element');
 
-      const importSpy = sandbox.spy(element.$.externalStyle, '_import');
+      const importSpy = sandbox.spy(
+          element.$['app-element'].$.externalStyleForAll,
+          '_import');
+      const importForThemeSpy = sandbox.spy(
+          element.$['app-element'].$.externalStyleForTheme,
+          '_import');
       Gerrit.awaitPluginsLoaded().then(() => {
-        Promise.all(importSpy.returnValues).then(() => {
-          flush(done);
-        });
+        Promise.all(importSpy.returnValues.concat(importForThemeSpy.returnValues))
+            .then(() => {
+              flush(done);
+            });
       });
     });
 
@@ -77,21 +86,16 @@ limitations under the License.
       sandbox.restore();
     });
 
-    test('applies --primary-text-color', () => {
+    test('applies the right theme', () => {
       assert.equal(
           util.getComputedStyleValue('--primary-text-color', element),
-          '#F00BAA');
-    });
-
-    test('applies --header-background-color', () => {
+          'red');
       assert.equal(
           util.getComputedStyleValue('--header-background-color', element),
-          '#F01BAA');
-    });
-    test('applies --footer-background-color', () => {
+          'black');
       assert.equal(
           util.getComputedStyleValue('--footer-background-color', element),
-          '#F02BAA');
+          'yellow');
     });
   });
 </script>

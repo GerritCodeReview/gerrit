@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "56c30087_3e598ed2",
+        "filename": "javatests/com/google/gerrit/httpd/raw/IndexHtmlUtilTest.java",
+        "patchSetId": 48
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-09-07T08:52:10Z",
+      "side": 1,
+      "message": "This is unused now and should be removed.",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 46
+      },
+      "revId": "ff6ea463b2f1d1339e191300e1e80bf8a21c6524",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -57,7 +57,7 @@ def _impl(ctx):
         ctx.attr.outname,
     ))
 
-_GenSuite = rule(
+_gen_suite = rule(
     attrs = {
         "srcs": attr.label_list(allow_files = True),
         "outname": attr.string(),
@@ -68,7 +68,7 @@ _GenSuite = rule(
 
 def junit_tests(name, srcs, **kwargs):
     s_name = name.replace("-", "_") + "TestSuite"
-    _GenSuite(
+    _gen_suite(
         name = s_name,
         srcs = srcs,
         outname = s_name,

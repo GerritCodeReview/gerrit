@@ -17,7 +17,6 @@ package com.google.gerrit.httpd.raw;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.httpd.raw.IndexHtmlUtil.staticTemplateData;
 
-import com.google.common.collect.ImmutableMap;
 import com.google.template.soy.data.SanitizedContent;
 import com.google.template.soy.data.UnsafeSanitizedContentOrdainer;
 import java.util.HashMap;

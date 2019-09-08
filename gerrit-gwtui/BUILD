@@ -4,9 +4,9 @@ load(
     "gwt_genrule",
     "gwt_user_agent_permutations",
 )
+load("//tools/bzl:java.bzl", "java_library2")
 load("//tools/bzl:junit.bzl", "junit_tests")
 load("//tools/bzl:license.bzl", "license_test")
-load("//tools/bzl:java.bzl", "java_library2")
 
 gwt_genrule()
 

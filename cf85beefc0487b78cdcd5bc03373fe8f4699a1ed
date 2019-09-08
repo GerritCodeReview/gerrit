@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7f3a6d3_414372c2",
+        "filename": "polygerrit-ui/app/elements/shared/gr-fixed-panel/gr-fixed-panel.html",
+        "patchSetId": 30
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-09-08T19:04:22Z",
+      "side": 1,
+      "message": "I would prefer, if gr-fixed-panel is left untouched. Can you move this stuff to the \"gr-main-header\" block in gr-app-element.html?",
+      "range": {
+        "startLine": 30,
+        "startChar": 6,
+        "endLine": 34,
+        "endChar": 39
+      },
+      "revId": "cf85beefc0487b78cdcd5bc03373fe8f4699a1ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e01493c0_d9168446",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.html",
+        "patchSetId": 30
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-09-08T19:04:22Z",
+      "side": 1,
+      "message": "Let\u0027s drop \"--header-background-color\" from the theme files. \"--header-background\" supersedes it.\n\nFor backwards compatibility you can do:\n\n  background: var(--header-background, var(--header-background-color, #eee));\n\nIt is nice that \"background\" can be set to just a color, so this works.",
+      "range": {
+        "startLine": 27,
+        "startChar": 2,
+        "endLine": 27,
+        "endChar": 27
+      },
+      "revId": "cf85beefc0487b78cdcd5bc03373fe8f4699a1ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "08c0bdd1_baed71a5",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.html",
+        "patchSetId": 30
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-09-08T19:04:22Z",
+      "side": 1,
+      "message": "While you are here please also allow --footer-background similar to the header. Otherwise I am sure we will have to add this in a follow-up.",
+      "range": {
+        "startLine": 34,
+        "startChar": 2,
+        "endLine": 34,
+        "endChar": 21
+      },
+      "revId": "cf85beefc0487b78cdcd5bc03373fe8f4699a1ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -132,8 +132,9 @@ def _gwt_user_agent_module(ctx):
         "$p/%s cC $p/%s $(find . | sed 's|^./||')" % (ctx.executable._zip.path, gwt_user_agent_zip.path),
     ])
     ctx.actions.run_shell(
-        inputs = [gwt_user_agent_xml] + ctx.files._zip,
+        inputs = [gwt_user_agent_xml],
         outputs = [gwt_user_agent_zip],
+        tools = ctx.files._zip,
         command = cmd,
         mnemonic = "GenerateUserAgentGWTModule",
     )

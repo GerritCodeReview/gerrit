@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "3cf28fc2_05afb574",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-09-09T18:19:54Z",
+      "side": 1,
+      "message": "places",
+      "range": {
+        "startLine": 11,
+        "startChar": 6,
+        "endLine": 11,
+        "endChar": 12
+      },
+      "revId": "fbf1d247c709d5f2baa6c40c8b0c8bdc9fc4c0d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ace2a550_f2a3e63b",
         "filename": "tools/bzl/javadoc.bzl",
         "patchSetId": 2

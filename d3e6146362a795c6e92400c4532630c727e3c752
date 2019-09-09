@@ -2,6 +2,57 @@
   "comments": [
     {
       "key": {
+        "uuid": "6c9e75eb_7b6beec0",
+        "filename": "java/com/google/gerrit/server/restapi/config/IndexChanges.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-09T12:46:08Z",
+      "side": 1,
+      "message": "nit: missing license header",
+      "revId": "d3e6146362a795c6e92400c4532630c727e3c752",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d10ae41b_3220526e",
+        "filename": "java/com/google/gerrit/server/restapi/config/IndexChanges.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-09T12:46:08Z",
+      "side": 1,
+      "message": "Can you please write a test for this new REST endpoint?",
+      "revId": "d3e6146362a795c6e92400c4532630c727e3c752",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "91b9a4d3_f1b35897",
+        "filename": "java/com/google/gerrit/server/restapi/config/IndexChanges.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-09T12:46:08Z",
+      "side": 1,
+      "message": "this should be dropped",
+      "revId": "d3e6146362a795c6e92400c4532630c727e3c752",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0961655f_d5962d73",
         "filename": "java/com/google/gerrit/server/restapi/config/IndexChanges.java",
         "patchSetId": 7
@@ -13,6 +64,81 @@
       "writtenOn": "2019-09-09T10:33:40Z",
       "side": 1,
       "message": "For reviewers: this works but this indexes all changes using the (one) calling thread.\nNot very performant for a larger change set.\n\nI tried using one thread per one indexing operation and used:\n\n  ReviewDb db \u003d schemaFacotry.open()\n\ninside that thread to obtain a DB connection, but this caused the following runtime error:\n\n  Automatic ReviewDb only available in request scope\n\nThis is weird, as this error should only occur when using:\n\n  Provider\u003cReviewDb\u003e\n\noutside of a request scope.\n\nI will push a follow-up change to demonstrate the issue.",
+      "revId": "d3e6146362a795c6e92400c4532630c727e3c752",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "50982365_a0af0fa3",
+        "filename": "java/com/google/gerrit/server/restapi/config/IndexChanges.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-09T12:46:08Z",
+      "side": 1,
+      "message": "Seems fine to address this in a follow-up change.",
+      "parentUuid": "0961655f_d5962d73",
+      "revId": "d3e6146362a795c6e92400c4532630c727e3c752",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2a146ec2_3b3468ea",
+        "filename": "java/com/google/gerrit/server/restapi/config/IndexChanges.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-09T12:46:08Z",
+      "side": 1,
+      "message": "I think this exception should not be caught, but thrown so that the user gets an Internal Server Error as response.",
+      "revId": "d3e6146362a795c6e92400c4532630c727e3c752",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "88d815b5_308b305b",
+        "filename": "java/com/google/gerrit/server/restapi/config/IndexChanges.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-09T12:46:08Z",
+      "side": 1,
+      "message": "How it is implemented now, this should return OK since the indexing is done synchronously. Accepted should only be returned when the REST endpoint returns after submitting index tasks to a background thread.",
+      "range": {
+        "startLine": 65,
+        "startChar": 20,
+        "endLine": 65,
+        "endChar": 28
+      },
+      "revId": "d3e6146362a795c6e92400c4532630c727e3c752",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6afac149_b160af7f",
+        "filename": "java/com/google/gerrit/server/restapi/config/Module.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-09T12:46:08Z",
+      "side": 1,
+      "message": "This new REST endpoint should be covered by ConfigRestApiBindingsIT.",
       "revId": "d3e6146362a795c6e92400c4532630c727e3c752",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

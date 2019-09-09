@@ -128,6 +128,30 @@
     },
     {
       "key": {
+        "uuid": "64d1119c_b8a088ab",
+        "filename": "java/com/google/gerrit/server/restapi/config/IndexChanges.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-09-09T13:05:57Z",
+      "side": 1,
+      "message": "oops, this implementation is actually what is left over after removal of the multi-threaded solution... obviously, this is now synchronous and should return 200 OK.",
+      "parentUuid": "88d815b5_308b305b",
+      "range": {
+        "startLine": 65,
+        "startChar": 20,
+        "endLine": 65,
+        "endChar": 28
+      },
+      "revId": "d3e6146362a795c6e92400c4532630c727e3c752",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6afac149_b160af7f",
         "filename": "java/com/google/gerrit/server/restapi/config/Module.java",
         "patchSetId": 7

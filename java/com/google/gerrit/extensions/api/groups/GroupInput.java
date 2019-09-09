@@ -18,6 +18,7 @@ import java.util.List;
 
 public class GroupInput {
   public String name;
+  public String uuid;
   public String description;
   public Boolean visibleToAll;
   public String ownerId;

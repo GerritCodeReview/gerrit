@@ -16,6 +16,24 @@
       "revId": "a2dbc9b15d9bb7488e63dd6f723f3ff95472f1b0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "424f6949_6852815c",
+        "filename": "java/com/google/gerrit/server/notedb/rebuild/NoteDbMigrator.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 719,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-09-09T13:10:19Z",
+      "side": 1,
+      "message": "Good point, that the test is missing for this use case. I was not sure if we can easily remove git respoitory in test, after creating a change?",
+      "parentUuid": "ff3a988d_e6e883c1",
+      "revId": "a2dbc9b15d9bb7488e63dd6f723f3ff95472f1b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

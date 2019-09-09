@@ -23,6 +23,7 @@ import static com.google.gerrit.acceptance.api.group.GroupAssert.assertGroupInfo
 import static com.google.gerrit.acceptance.rest.account.AccountAssert.assertAccountInfos;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 import static java.util.stream.Collectors.toList;
@@ -386,6 +387,43 @@ public class GroupsIT extends AbstractDaemonTest {
     exception.expect(ResourceConflictException.class);
     exception.expectMessage("group name 'Anonymous Users' is reserved");
     gApi.groups().create("anonymous users");
+  }
+
+  @Test
+  public void createGroupWithUuid() throws Exception {
+    AccountGroup.UUID uuid = AccountGroup.UUID.parse("4eb25d1cca562f53b9356117f33840706a36a349");
+    GroupInput input = new GroupInput();
+    input.uuid = uuid.get();
+    input.name = name("new-group");
+    GroupInfo info = gApi.groups().create(input).get();
+    assertThat(info.name).isEqualTo(input.name);
+    assertThat(info.id).isEqualTo(input.uuid);
+  }
+
+  @Test
+  public void createGroupWithExistingUuid_Conflict() throws Exception {
+    GroupInfo existingGroup = gApi.groups().create(name("new-group")).get();
+    GroupInput input = new GroupInput();
+    input.uuid = existingGroup.id;
+    input.name = name("another-new-group");
+    ResourceConflictException thrown =
+        assertThrows(ResourceConflictException.class, () -> gApi.groups().create(input).get());
+    assertThat(thrown)
+        .hasMessageThat()
+        .isEqualTo(String.format("group with UUID '%s' already exists", input.uuid));
+  }
+
+  @Test
+  public void createGroupWithInvalidUuid_BadRequest() throws Exception {
+    AccountGroup.UUID uuid = AccountGroup.UUID.parse("foo:bar");
+    GroupInput input = new GroupInput();
+    input.uuid = uuid.get();
+    input.name = name("new-group");
+    BadRequestException thrown =
+        assertThrows(BadRequestException.class, () -> gApi.groups().create(input).get());
+    assertThat(thrown)
+        .hasMessageThat()
+        .isEqualTo(String.format("invalid group UUID '%s'", input.uuid));
   }
 
   @Test

@@ -25,6 +25,7 @@ import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.server.restapi.config.IndexChanges;
 import com.google.inject.Inject;
+import org.apache.http.HttpStatus;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -65,7 +66,7 @@ public class IndexChangesIT extends AbstractDaemonTest {
     IndexChanges.Input in = new IndexChanges.Input();
     in.changes = ImmutableSet.of(changeId);
     changeIndexedCounter.clear();
-    adminRestSession.post("/config/server/index.changes", in).assertOK();
+    adminRestSession.post("/config/server/index.changes", in).assertStatus(HttpStatus.SC_ACCEPTED);
     assertThat(changeIndexedCounter.getCount(info(changeId))).isEqualTo(1);
   }
 
@@ -77,7 +78,7 @@ public class IndexChangesIT extends AbstractDaemonTest {
     IndexChanges.Input in = new IndexChanges.Input();
     changeIndexedCounter.clear();
     in.changes = ImmutableSet.of(changeId);
-    adminRestSession.post("/config/server/index.changes", in).assertOK();
+    adminRestSession.post("/config/server/index.changes", in).assertStatus(HttpStatus.SC_ACCEPTED);
     assertThat(changeIndexedCounter.getCount(changeInfo)).isEqualTo(1);
   }
 
@@ -90,7 +91,7 @@ public class IndexChangesIT extends AbstractDaemonTest {
     IndexChanges.Input in = new IndexChanges.Input();
     in.changes = changeIds.build();
     changeIndexedCounter.clear();
-    adminRestSession.post("/config/server/index.changes", in).assertOK();
+    adminRestSession.post("/config/server/index.changes", in).assertStatus(HttpStatus.SC_ACCEPTED);
     for (String changeId : in.changes) {
       assertThat(changeIndexedCounter.getCount(info(changeId))).isEqualTo(1);
     }

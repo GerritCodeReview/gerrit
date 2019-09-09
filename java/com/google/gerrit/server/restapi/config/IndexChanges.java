@@ -14,7 +14,11 @@
 
 package com.google.gerrit.server.restapi.config;
 
+import static com.google.gerrit.server.git.QueueProvider.QueueType.BATCH;
+
 import com.google.common.flogger.FluentLogger;
+import com.google.common.util.concurrent.ListenableFuture;
+import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.extensions.annotations.RequiresCapability;
 import com.google.gerrit.extensions.restapi.Response;
@@ -22,6 +26,7 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.server.change.ChangeFinder;
 import com.google.gerrit.server.config.ConfigResource;
+import com.google.gerrit.server.index.IndexExecutor;
 import com.google.gerrit.server.index.change.ChangeIndexer;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -46,38 +51,43 @@ public class IndexChanges implements RestModifyView<ConfigResource, Input> {
   private final SchemaFactory<ReviewDb> schemaFactory;
   private final ChangeData.Factory changeDataFactory;
   private final ChangeIndexer indexer;
+  private final ListeningExecutorService executor;
 
   @Inject
   IndexChanges(
       ChangeFinder changeFinder,
       SchemaFactory<ReviewDb> schemaFactory,
       ChangeData.Factory changeDataFactory,
-      ChangeIndexer indexer) {
+      ChangeIndexer indexer,
+      @IndexExecutor(BATCH) ListeningExecutorService executor) {
     this.changeFinder = changeFinder;
     this.schemaFactory = schemaFactory;
     this.changeDataFactory = changeDataFactory;
     this.indexer = indexer;
+    this.executor = executor;
   }
 
   @Override
-  public Object apply(ConfigResource resource, Input input) throws OrmException {
+  public Object apply(ConfigResource resource, Input input) {
     if (input == null || input.changes == null) {
       return Response.ok("Nothing to index");
     }
 
-    try (ReviewDb db = schemaFactory.open()) {
-      for (String id : input.changes) {
-        for (ChangeNotes n : changeFinder.find(id)) {
-          try {
-            indexer.index(changeDataFactory.create(db, n));
-            logger.atFine().log("Indexed change %s", id);
-          } catch (IOException e) {
-            logger.atSevere().withCause(e).log("Failed to index change %s", id);
-          }
-        }
-      }
+    for (String id : input.changes) {
+      ListenableFuture<?> possiblyIgnoredError =
+          executor.submit(
+              () -> {
+                try (ReviewDb db = schemaFactory.open()) {
+                  for (ChangeNotes n : changeFinder.find(id)) {
+                    indexer.index(changeDataFactory.create(db, n));
+                    logger.atFine().log("Indexed change %s", id);
+                  }
+                } catch (IOException | OrmException e) {
+                  logger.atSevere().withCause(e).log("Failed to index change %s", id);
+                }
+              });
     }
 
-    return Response.ok("Indexed changes " + input.changes);
+    return Response.accepted("Changes " + input.changes + " accepted for indexing");
   }
 }

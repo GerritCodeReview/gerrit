@@ -222,6 +222,30 @@
       "revId": "145a914c23e0c7e5e8298de27ccd6b47fb41f216",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "074db4f0_9a461905",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-list/gr-account-list.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-09-09T16:37:13Z",
+      "side": 1,
+      "message": "One more use-case - if provider is a Polymer component, we can bind provider\u0027s properties directly in html. To bind it in JS code, I can\u0027t suggest anything better then creating a new provider in a function:\n_getProvider(prop1, prop2) {\n   return new Provider(prop1, prop2)\n}\n\n\u003e\u003eprovider\u003d\"new ReviewerProvider(restapi)\"...\nIs it possible? I can\u0027t find any example. This would be really nice to have.\n\n\u003e\u003eAlso the current way of slotting and looking up what is in the slot seems a bit hacky. That would definitely need a better solution. At least a named slot or something.\nI agree that this is a hacky, but gr-endpoint-param is following the same pattern; can\u0027t find anything better in Polymer.\n\n\n\u003e\u003eLet me raise this design question on the Polymer chat room and see what they say.\nOk, may be they can suggest something else.",
+      "parentUuid": "67981f40_7847dd5b",
+      "range": {
+        "startLine": 110,
+        "startChar": 3,
+        "endLine": 123,
+        "endChar": 6
+      },
+      "revId": "145a914c23e0c7e5e8298de27ccd6b47fb41f216",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

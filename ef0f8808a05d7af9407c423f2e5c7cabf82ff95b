@@ -46,6 +46,29 @@
       "revId": "ef0f8808a05d7af9407c423f2e5c7cabf82ff95b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "994f78de_18a22191",
+        "filename": "Documentation/rest-api-groups.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1600,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-09T06:57:52Z",
+      "side": 1,
+      "message": "I think we want to accept only UUIDs here that are valid for internal groups (\u0027[0-9a-f]{40}\u0027). Group UUIDs can also contain schemes (e.g. starts with \u0027global:\u0027 for system groups). Creating an internal group with such an UUID doesn\u0027t make sense since the corresponding group backend cannot resolve it (or even worse, the group backend resolves it to a different group which exists in the group backend and coincidentally has the same UUID).\n\nIf I read the code correctly I currently can specify \u0027foo:bar\u0027 as UUID which creates an internal group, but then the Create Group REST endpoint fails when it tries to format the JSON for that group.\n\nI think the Create Group REST endpoint must validate the incoming UUID and ensure that it matches UUID\u0027s for internal groups (\u0027[0-9a-f]{40}\u0027).",
+      "range": {
+        "startLine": 1600,
+        "startChar": 27,
+        "endLine": 1600,
+        "endChar": 49
+      },
+      "revId": "ef0f8808a05d7af9407c423f2e5c7cabf82ff95b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

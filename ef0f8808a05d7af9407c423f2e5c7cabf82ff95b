@@ -22,6 +22,30 @@
       "revId": "ef0f8808a05d7af9407c423f2e5c7cabf82ff95b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8396cfa5_eb64f694",
+        "filename": "Documentation/rest-api-groups.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 475,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-09-09T06:25:50Z",
+      "side": 1,
+      "message": "This would be nice, but I think it would introduce additional complexity and risk for regressions that we shouldn\u0027t do on the stable-branch.  If we do this, it should be on master.",
+      "parentUuid": "d496de1c_79fd0b94",
+      "range": {
+        "startLine": 475,
+        "startChar": 2,
+        "endLine": 475,
+        "endChar": 34
+      },
+      "revId": "ef0f8808a05d7af9407c423f2e5c7cabf82ff95b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -16,6 +16,24 @@
       "revId": "986bccfdb93b153a0afb51172c7b6f2d0c3609e8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e576f2fa_3a99abef",
+        "filename": "WORKSPACE",
+        "patchSetId": 1
+      },
+      "lineNbr": 1119,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-09-09T13:27:00Z",
+      "side": 1,
+      "message": "I suspect it is not that important.",
+      "parentUuid": "a619795d_13e96729",
+      "revId": "986bccfdb93b153a0afb51172c7b6f2d0c3609e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

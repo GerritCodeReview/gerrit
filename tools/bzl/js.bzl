@@ -304,7 +304,7 @@ def _bundle_impl(ctx):
     else:
         bundled = ctx.outputs.html
     destdir = ctx.outputs.html.path + ".dir"
-    zips = [z for d in ctx.attr.deps for z in d.transitive_zipfiles]
+    zips = [z for d in ctx.attr.deps for z in d.transitive_zipfiles.to_list()]
 
     hermetic_npm_binary = " ".join([
         "python",

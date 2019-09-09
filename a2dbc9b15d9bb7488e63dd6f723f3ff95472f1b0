@@ -34,6 +34,24 @@
       "revId": "a2dbc9b15d9bb7488e63dd6f723f3ff95472f1b0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0317df31_9fc03cab",
+        "filename": "java/com/google/gerrit/server/notedb/rebuild/NoteDbMigrator.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 719,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-09T13:18:00Z",
+      "side": 1,
+      "message": "Good question. Could you cast the injected repoManager to InMemoryRepositoryManager and then call the InMemoryRepositoryManager#deleteRepository(Project.NameKey) method?",
+      "parentUuid": "424f6949_6852815c",
+      "revId": "a2dbc9b15d9bb7488e63dd6f723f3ff95472f1b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

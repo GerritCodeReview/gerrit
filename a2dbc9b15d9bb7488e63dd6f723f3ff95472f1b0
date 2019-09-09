@@ -52,6 +52,24 @@
       "revId": "a2dbc9b15d9bb7488e63dd6f723f3ff95472f1b0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0c537e81_76619398",
+        "filename": "java/com/google/gerrit/server/notedb/rebuild/NoteDbMigrator.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 719,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-09-09T20:54:35Z",
+      "side": 1,
+      "message": "No, because this class is annotated with @UseLocalDisk, and thus the Repository manager is LocalDiskRepositoryManager that doesn\u0027t support removal of repositories. I ended up with this hack, that worked.\n\n    MoreFiles.deleteRecursively(\n        FileKey.lenient(\n                sitePaths\n                    .resolve(cfg.getString(\"gerrit\", null, \"basePath\"))\n                    .resolve(p2.get())\n                    .toFile(),\n                FS.DETECTED)\n            .getFile()\n            .toPath(),\n        RecursiveDeleteOption.ALLOW_INSECURE);",
+      "parentUuid": "0317df31_9fc03cab",
+      "revId": "a2dbc9b15d9bb7488e63dd6f723f3ff95472f1b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

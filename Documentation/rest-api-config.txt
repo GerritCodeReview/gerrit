@@ -1379,7 +1379,7 @@ EditPreferencesInfo] is returned.
 [[index.changes]]
 === Index a set of changes
 
-This endpoint allows Gerrit admins to index a set of changes with one request
+This endpoint allows Gerrit admins to schedule indexing of a set of changes with one request
 by providing a link:#index-changes-input[IndexChangesInput] entity.
 
 Using this endpoint Gerrit admins can also index change(s) which are not visible to them.
@@ -1394,7 +1394,7 @@ Using this endpoint Gerrit admins can also index change(s) which are not visible
 
 .Response
 ----
-  HTTP/1.1 200 OK
+  HTTP/1.1 202 Accepted
   Content-Disposition: attachment
 ----
 

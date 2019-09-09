@@ -15,21 +15,33 @@
 package com.google.gerrit.acceptance.rest.config;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assert_;
 
+import com.github.rholder.retry.RetryException;
+import com.github.rholder.retry.Retryer;
+import com.github.rholder.retry.RetryerBuilder;
+import com.github.rholder.retry.StopStrategies;
+import com.github.rholder.retry.WaitStrategies;
+import com.google.common.base.Predicates;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.ChangeIndexedCounter;
+import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.events.ChangeIndexedListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.server.restapi.config.IndexChanges;
 import com.google.inject.Inject;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import org.apache.http.HttpStatus;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 public class IndexChangesIT extends AbstractDaemonTest {
+  private static final long ASYNC_REINDEX_TIMEOUT = 10000;
 
   @Inject private DynamicSet<ChangeIndexedListener> changeIndexedListeners;
 
@@ -50,26 +62,29 @@ public class IndexChangesIT extends AbstractDaemonTest {
   }
 
   @Test
+  // @GerritConfig(name = "index.batchThreads", value = "1")
   public void indexRequestFromNonAdminRejected() throws Exception {
     String changeId = createChange().getChangeId();
     IndexChanges.Input in = new IndexChanges.Input();
     in.changes = ImmutableSet.of(changeId);
     changeIndexedCounter.clear();
     userRestSession.post("/config/server/index.changes", in).assertForbidden();
-    assertThat(changeIndexedCounter.getCount(info(changeId))).isEqualTo(0);
+    assertNotIndexed(info(changeId));
   }
 
   @Test
+  // @GerritConfig(name = "index.batchThreads", value = "1")
   public void indexVisibleChange() throws Exception {
     String changeId = createChange().getChangeId();
     IndexChanges.Input in = new IndexChanges.Input();
     in.changes = ImmutableSet.of(changeId);
     changeIndexedCounter.clear();
-    adminRestSession.post("/config/server/index.changes", in).assertOK();
-    assertThat(changeIndexedCounter.getCount(info(changeId))).isEqualTo(1);
+    adminRestSession.post("/config/server/index.changes", in).assertStatus(HttpStatus.SC_ACCEPTED);
+    assertIndexed(info(changeId));
   }
 
   @Test
+  // @GerritConfig(name = "index.batchThreads", value = "1")
   public void indexNonVisibleChange() throws Exception {
     String changeId = createChange().getChangeId();
     ChangeInfo changeInfo = info(changeId);
@@ -77,11 +92,12 @@ public class IndexChangesIT extends AbstractDaemonTest {
     IndexChanges.Input in = new IndexChanges.Input();
     changeIndexedCounter.clear();
     in.changes = ImmutableSet.of(changeId);
-    adminRestSession.post("/config/server/index.changes", in).assertOK();
-    assertThat(changeIndexedCounter.getCount(changeInfo)).isEqualTo(1);
+    adminRestSession.post("/config/server/index.changes", in).assertStatus(HttpStatus.SC_ACCEPTED);
+    assertIndexed(changeInfo);
   }
 
   @Test
+  // @GerritConfig(name = "index.batchThreads", value = "5")
   public void indexMultipleChanges() throws Exception {
     ImmutableSet.Builder<String> changeIds = ImmutableSet.builder();
     for (int i = 0; i < 10; i++) {
@@ -90,9 +106,38 @@ public class IndexChangesIT extends AbstractDaemonTest {
     IndexChanges.Input in = new IndexChanges.Input();
     in.changes = changeIds.build();
     changeIndexedCounter.clear();
-    adminRestSession.post("/config/server/index.changes", in).assertOK();
+    adminRestSession.post("/config/server/index.changes", in).assertStatus(HttpStatus.SC_ACCEPTED);
     for (String changeId : in.changes) {
-      assertThat(changeIndexedCounter.getCount(info(changeId))).isEqualTo(1);
+      assertIndexed(info(changeId));
+    }
+  }
+
+  private void assertIndexed(ChangeInfo info) {
+    assertChangeIndexedCounter(info, 1);
+  }
+
+  private void assertNotIndexed(ChangeInfo info) {
+    assertChangeIndexedCounter(info, 0);
+  }
+
+  private void assertChangeIndexedCounter(ChangeInfo info, long expected) {
+    Retryer<Long> r =
+        RetryerBuilder.<Long>newBuilder()
+            .retryIfResult(Predicates.not(Predicates.equalTo(expected)))
+            .withWaitStrategy(
+                WaitStrategies.exponentialWait(ASYNC_REINDEX_TIMEOUT, TimeUnit.MILLISECONDS))
+            .withStopStrategy(
+                StopStrategies.stopAfterDelay(ASYNC_REINDEX_TIMEOUT, TimeUnit.MILLISECONDS))
+            .build();
+    try {
+      assertThat(
+              r.call(
+                  () -> {
+                    return changeIndexedCounter.getCount(info);
+                  }))
+          .isEqualTo(expected);
+    } catch (ExecutionException | RetryException e) {
+      assert_().fail("Cause %s", e);
     }
   }
 }

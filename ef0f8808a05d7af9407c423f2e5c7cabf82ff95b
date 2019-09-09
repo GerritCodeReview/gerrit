@@ -69,6 +69,30 @@
       "revId": "ef0f8808a05d7af9407c423f2e5c7cabf82ff95b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "775972ad_bc7a4669",
+        "filename": "Documentation/rest-api-groups.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1600,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-09-09T07:18:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "994f78de_18a22191",
+      "range": {
+        "startLine": 1600,
+        "startChar": 27,
+        "endLine": 1600,
+        "endChar": 49
+      },
+      "revId": "ef0f8808a05d7af9407c423f2e5c7cabf82ff95b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

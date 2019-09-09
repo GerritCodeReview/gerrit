@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8fb4e243_7fd6a0ef",
+        "filename": "polygerrit-ui/app/behaviors/gr-account-display-name-behavior/gr-account-display-name-behavior.html",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-09-09T09:34:40Z",
+      "side": 1,
+      "message": "About both, gr-account-display-name-behavior.html and gr-group-display-name-behavior.html:\n\nThe three utilities AccountDisplayNameBehavior, AnonymousNameBehavior, GroupDisplayNameBehavior are very small. Maybe we can have just one AccountBehavior that encapsulates everything related to accounts and could potentially be used in a lot of components? Generally I like the idea of moving such code into domain oriented utilities.\n\nAlso, GroupDisplayNameBehavior is extremely small. Even though I enjoy the symmetry in gr-reviewer-suggestions-provider.js very much (great code style!), the mapping \"(group) \u003d\u003e group.name + \u0027 (group)\u0027\" is so simple that it should either go into a bigger group related utility class (if you think the method is useful elsewhere) or could just be inlined in gr-reviewer-suggestions-provider.js.",
+      "revId": "145a914c23e0c7e5e8298de27ccd6b47fb41f216",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a2b59250_a6656bd2",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-entry/gr-account-entry.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-09-09T09:34:40Z",
+      "side": 1,
+      "message": "It would be great, if this (and other components) would have at least one line of comment explaining what the component is supposed to do. It is the one thing that drives me crazy about the state of the current code base.",
+      "revId": "145a914c23e0c7e5e8298de27ccd6b47fb41f216",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a51be0d1_353036f0",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-entry/gr-account-entry.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-09-09T09:34:40Z",
+      "side": 1,
+      "message": "While somewhat self explaining the filter function would still benefit from documented parameter and return types.",
+      "revId": "145a914c23e0c7e5e8298de27ccd6b47fb41f216",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "788e9cb3_079421a2",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-entry/gr-account-entry.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-09-09T09:34:40Z",
+      "side": 1,
+      "message": "gr-account-entry seems unnecessarily complex, because it requires three input properties (filter, querySuggestions, makeSuggestionItem) and translates them here into _autocompleteQuery. What about just moving this code into gr-account-list? Would it make the components simpler maybe?\n\nSide note: The term \"query\" relates to something with \"string\" type IMO. I know this is just existing code, but I would prefer even something ugly as inputToSuggestionFunction. You have chosen querySuggestionsCallback, which is also pretty good.",
+      "range": {
+        "startLine": 112,
+        "startChar": 3,
+        "endLine": 122,
+        "endChar": 6
+      },
+      "revId": "145a914c23e0c7e5e8298de27ccd6b47fb41f216",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d660d320_124e012f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-list/gr-account-list.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-09-09T09:34:40Z",
+      "side": 1,
+      "message": "This is weird. The suggestion provider consists of two static functions with no associated DOM. Maybe instead of making it a slotted component, could gr-account-list just get a suggestionProvider property?",
+      "range": {
+        "startLine": 110,
+        "startChar": 3,
+        "endLine": 123,
+        "endChar": 6
+      },
+      "revId": "145a914c23e0c7e5e8298de27ccd6b47fb41f216",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

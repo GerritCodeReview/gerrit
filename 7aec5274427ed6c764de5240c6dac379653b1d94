@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f1dc18d6_04763e56",
+        "filename": "java/com/google/gerrit/server/notedb/rebuild/NoteDbMigrator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 713,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-09-09T12:47:06Z",
+      "side": 1,
+      "message": "cases.",
+      "range": {
+        "startLine": 713,
+        "startChar": 47,
+        "endLine": 713,
+        "endChar": 52
+      },
+      "revId": "7aec5274427ed6c764de5240c6dac379653b1d94",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

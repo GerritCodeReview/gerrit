@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d496de1c_79fd0b94",
+        "filename": "Documentation/rest-api-groups.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 475,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-09-09T06:19:18Z",
+      "side": 1,
+      "message": "We could theoretically also support the other way around: including the encoded UUID in the URL and provide the name in the GroupInput entity:\n\n  PUT /groups/9999c971bb4ab872aab759d8c49833ee6b9ff320\n\nand then pass the name (unencoded) in the entity:\n\n  {\n    \"name\": \"MyProject-Committers\",\n  [...]\n\nHowever, in this case we would have to figure out, what is passed in the URL: UUID or name? We could prefix the URL part with: id:foo and name:bar, but this would mean a non backwards compatible change.",
+      "range": {
+        "startLine": 475,
+        "startChar": 2,
+        "endLine": 475,
+        "endChar": 34
+      },
+      "revId": "ef0f8808a05d7af9407c423f2e5c7cabf82ff95b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

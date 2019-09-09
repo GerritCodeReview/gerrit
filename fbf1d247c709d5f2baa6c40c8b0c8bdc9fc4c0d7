@@ -69,6 +69,30 @@
       "revId": "fbf1d247c709d5f2baa6c40c8b0c8bdc9fc4c0d7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e42c202d_7cd87d79",
+        "filename": "tools/bzl/javadoc.bzl",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-09-09T19:29:00Z",
+      "side": 1,
+      "message": "Thanks for the pointer, I will add a reference to that issue here.",
+      "parentUuid": "40ac843e_bde17ffc",
+      "range": {
+        "startLine": 21,
+        "startChar": 58,
+        "endLine": 21,
+        "endChar": 69
+      },
+      "revId": "fbf1d247c709d5f2baa6c40c8b0c8bdc9fc4c0d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -17,6 +17,8 @@ package com.google.gerrit.acceptance.rest.config;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.server.restapi.config.IndexChanges;
+
+import org.apache.http.HttpStatus;
 import org.junit.Test;
 
 public class IndexChangesIT extends AbstractDaemonTest {
@@ -34,7 +36,7 @@ public class IndexChangesIT extends AbstractDaemonTest {
     String changeId = createChange().getChangeId();
     IndexChanges.Input in = new IndexChanges.Input();
     in.changes = ImmutableSet.of(changeId);
-    adminRestSession.post("/config/server/index.changes", in).assertOK();
+    adminRestSession.post("/config/server/index.changes", in).assertStatus(HttpStatus.SC_ACCEPTED);
   }
 
   @Test
@@ -43,7 +45,7 @@ public class IndexChangesIT extends AbstractDaemonTest {
     blockRead("refs/heads/master");
     IndexChanges.Input in = new IndexChanges.Input();
     in.changes = ImmutableSet.of(changeId);
-    adminRestSession.post("/config/server/index.changes", in).assertOK();
+    adminRestSession.post("/config/server/index.changes", in).assertStatus(HttpStatus.SC_ACCEPTED);
   }
 
   @Test
@@ -54,6 +56,6 @@ public class IndexChangesIT extends AbstractDaemonTest {
     }
     IndexChanges.Input in = new IndexChanges.Input();
     in.changes = changeIds.build();
-    adminRestSession.post("/config/server/index.changes", in).assertOK();
+    adminRestSession.post("/config/server/index.changes", in).assertStatus(HttpStatus.SC_ACCEPTED);
   }
 }

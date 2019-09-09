@@ -45,6 +45,30 @@
       "revId": "fbf1d247c709d5f2baa6c40c8b0c8bdc9fc4c0d7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "40ac843e_bde17ffc",
+        "filename": "tools/bzl/javadoc.bzl",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1030882
+      },
+      "writtenOn": "2019-09-09T18:33:00Z",
+      "side": 1,
+      "message": "You\u0027re right, this was an issue that slipped through the cracks (see https://github.com/bazelbuild/bazel/issues/4221) :(",
+      "parentUuid": "ace2a550_f2a3e63b",
+      "range": {
+        "startLine": 21,
+        "startChar": 58,
+        "endLine": 21,
+        "endChar": 69
+      },
+      "revId": "fbf1d247c709d5f2baa6c40c8b0c8bdc9fc4c0d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

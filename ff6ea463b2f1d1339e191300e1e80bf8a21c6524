@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a5fc5b89_da6d2508",
+        "filename": "javatests/com/google/gerrit/httpd/raw/IndexHtmlUtilTest.java",
+        "patchSetId": 48
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-09-09T07:19:55Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "56c30087_3e598ed2",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 46
+      },
+      "revId": "ff6ea463b2f1d1339e191300e1e80bf8a21c6524",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "40c42d32_a057a780",
         "filename": "tools/bzl/js.bzl",
         "patchSetId": 48
@@ -45,6 +69,30 @@
       "revId": "ff6ea463b2f1d1339e191300e1e80bf8a21c6524",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e2c5ec91_58e2b36b",
+        "filename": "tools/bzl/js.bzl",
+        "patchSetId": 48
+      },
+      "lineNbr": 490,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-09-09T07:19:55Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "40c42d32_a057a780",
+      "range": {
+        "startLine": 490,
+        "startChar": 28,
+        "endLine": 490,
+        "endChar": 39
+      },
+      "revId": "ff6ea463b2f1d1339e191300e1e80bf8a21c6524",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

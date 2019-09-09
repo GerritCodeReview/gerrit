@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "397a0921_b056bbc8",
+        "filename": "polygerrit-ui/app/behaviors/gr-account-display-name-behavior/gr-account-display-name-behavior.html",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-09-09T12:31:14Z",
+      "side": 1,
+      "message": "Good idea, will do it. Only things which worries me a little bit with this idea - if polymer component itself doesn\u0027t do anything with group, it anyway receives group-related methods from behavior. But I think this is not a big problem.",
+      "parentUuid": "8fb4e243_7fd6a0ef",
+      "revId": "145a914c23e0c7e5e8298de27ccd6b47fb41f216",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a2b59250_a6656bd2",
         "filename": "polygerrit-ui/app/elements/shared/gr-account-entry/gr-account-entry.js",
         "patchSetId": 11
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "0fe1b0e7_33dcadcf",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-entry/gr-account-entry.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-09-09T12:31:14Z",
+      "side": 1,
+      "message": "will do",
+      "parentUuid": "a2b59250_a6656bd2",
+      "revId": "145a914c23e0c7e5e8298de27ccd6b47fb41f216",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a51be0d1_353036f0",
         "filename": "polygerrit-ui/app/elements/shared/gr-account-entry/gr-account-entry.js",
         "patchSetId": 11
@@ -47,6 +83,24 @@
       "writtenOn": "2019-09-09T09:34:40Z",
       "side": 1,
       "message": "While somewhat self explaining the filter function would still benefit from documented parameter and return types.",
+      "revId": "145a914c23e0c7e5e8298de27ccd6b47fb41f216",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5d3fa026_8ad99fe2",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-entry/gr-account-entry.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-09-09T12:31:14Z",
+      "side": 1,
+      "message": "will do",
+      "parentUuid": "a51be0d1_353036f0",
       "revId": "145a914c23e0c7e5e8298de27ccd6b47fb41f216",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -76,6 +130,30 @@
     },
     {
       "key": {
+        "uuid": "ea892843_a1e6c571",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-entry/gr-account-entry.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-09-09T12:31:14Z",
+      "side": 1,
+      "message": "Yes, agree. This method doesn\u0027t do anything with the state of the object and doesn\u0027t depend on the state. Makes sense to move it from gr-account-entry.",
+      "parentUuid": "788e9cb3_079421a2",
+      "range": {
+        "startLine": 112,
+        "startChar": 3,
+        "endLine": 122,
+        "endChar": 6
+      },
+      "revId": "145a914c23e0c7e5e8298de27ccd6b47fb41f216",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d660d320_124e012f",
         "filename": "polygerrit-ui/app/elements/shared/gr-account-list/gr-account-list.js",
         "patchSetId": 11
@@ -87,6 +165,30 @@
       "writtenOn": "2019-09-09T09:34:40Z",
       "side": 1,
       "message": "This is weird. The suggestion provider consists of two static functions with no associated DOM. Maybe instead of making it a slotted component, could gr-account-list just get a suggestionProvider property?",
+      "range": {
+        "startLine": 110,
+        "startChar": 3,
+        "endLine": 123,
+        "endChar": 6
+      },
+      "revId": "145a914c23e0c7e5e8298de27ccd6b47fb41f216",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e867f56e_158b4ac3",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-list/gr-account-list.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-09-09T12:31:14Z",
+      "side": 1,
+      "message": "I would like to keep it as a separate component because:\n\n1. gr-reviewer-suggestions-provider requires gr-rest-api-interface to work. And gr-rest-api-interface itself is a Polymer component\n\n2. Keeping suggestion-provider as a separate component allows to change functionality without touching .js code. The code is more declarative in this case.",
+      "parentUuid": "d660d320_124e012f",
       "range": {
         "startLine": 110,
         "startChar": 3,

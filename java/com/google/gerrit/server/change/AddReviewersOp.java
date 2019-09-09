@@ -64,10 +64,14 @@ public class AddReviewersOp implements BatchUpdateOp {
      * @param accountIds account IDs to add.
      * @param addresses email addresses to add.
      * @param state resulting reviewer state.
+     * @param forGroup whether this reviewer addition adds accounts for a group
      * @return batch update operation.
      */
     AddReviewersOp create(
-        Set<Account.Id> accountIds, Collection<Address> addresses, ReviewerState state);
+        Set<Account.Id> accountIds,
+        Collection<Address> addresses,
+        ReviewerState state,
+        boolean forGroup);
   }
 
   @AutoValue
@@ -107,6 +111,7 @@ public class AddReviewersOp implements BatchUpdateOp {
   private final Set<Account.Id> accountIds;
   private final Collection<Address> addresses;
   private final ReviewerState state;
+  private final boolean forGroup;
 
   // Unlike addedCCs, addedReviewers is a PatchSetApproval because the AddReviewerResult returned
   // via the REST API is supposed to include vote information.
@@ -130,7 +135,8 @@ public class AddReviewersOp implements BatchUpdateOp {
       AddReviewersEmail addReviewersEmail,
       @Assisted Set<Account.Id> accountIds,
       @Assisted Collection<Address> addresses,
-      @Assisted ReviewerState state) {
+      @Assisted ReviewerState state,
+      @Assisted boolean forGroup) {
     checkArgument(state == REVIEWER || state == CC, "must be %s or %s: %s", REVIEWER, CC, state);
     this.approvalsUtil = approvalsUtil;
     this.psUtil = psUtil;
@@ -142,6 +148,7 @@ public class AddReviewersOp implements BatchUpdateOp {
     this.accountIds = accountIds;
     this.addresses = addresses;
     this.state = state;
+    this.forGroup = forGroup;
   }
 
   // TODO(dborowitz): This mutable setter is ugly, but a) it's less ugly than adding boolean args
@@ -162,7 +169,7 @@ public class AddReviewersOp implements BatchUpdateOp {
       if (state == CC) {
         addedCCs =
             approvalsUtil.addCcs(
-                ctx.getNotes(), ctx.getUpdate(change.currentPatchSetId()), accountIds);
+                ctx.getNotes(), ctx.getUpdate(change.currentPatchSetId()), accountIds, forGroup);
       } else {
         addedReviewers =
             approvalsUtil.addReviewers(

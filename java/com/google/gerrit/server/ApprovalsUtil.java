@@ -239,17 +239,28 @@ public class ApprovalsUtil {
    * @param notes change notes.
    * @param update change update.
    * @param wantCCs accounts to CC.
+   * @param keepExistingReviewers whether provided accounts that are already reviewer should be kept
+   *     as reviewer or be downgraded to CC
    * @return whether a change was made.
    */
   public Collection<Account.Id> addCcs(
-      ChangeNotes notes, ChangeUpdate update, Collection<Account.Id> wantCCs) {
-    return addCcs(update, wantCCs, notes.load().getReviewers());
+      ChangeNotes notes,
+      ChangeUpdate update,
+      Collection<Account.Id> wantCCs,
+      boolean keepExistingReviewers) {
+    return addCcs(update, wantCCs, notes.load().getReviewers(), keepExistingReviewers);
   }
 
   private Collection<Account.Id> addCcs(
-      ChangeUpdate update, Collection<Account.Id> wantCCs, ReviewerSet existingReviewers) {
+      ChangeUpdate update,
+      Collection<Account.Id> wantCCs,
+      ReviewerSet existingReviewers,
+      boolean keepExistingReviewers) {
     Set<Account.Id> need = new LinkedHashSet<>(wantCCs);
-    need.removeAll(existingReviewers.all());
+    need.removeAll(existingReviewers.byState(CC));
+    if (keepExistingReviewers) {
+      need.removeAll(existingReviewers.byState(REVIEWER));
+    }
     need.removeAll(update.getReviewers().keySet());
     for (Account.Id account : need) {
       update.putReviewer(account, CC);

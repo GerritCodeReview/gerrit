@@ -237,7 +237,8 @@ public class ReviewerAdder {
         revision.getUser(),
         ImmutableSet.of(user.getAccountId()),
         null,
-        true);
+        true,
+        false);
   }
 
   @Nullable
@@ -260,7 +261,13 @@ public class ReviewerAdder {
 
     if (isValidReviewer(notes.getChange().getDest(), reviewerUser.getAccount())) {
       return new ReviewerAddition(
-          input, notes, user, ImmutableSet.of(reviewerUser.getAccountId()), null, exactMatchFound);
+          input,
+          notes,
+          user,
+          ImmutableSet.of(reviewerUser.getAccountId()),
+          null,
+          exactMatchFound,
+          false);
     }
     return fail(
         input,
@@ -344,7 +351,7 @@ public class ReviewerAdder {
       }
     }
 
-    return new ReviewerAddition(input, notes, user, reviewers, null, true);
+    return new ReviewerAddition(input, notes, user, reviewers, null, true, true);
   }
 
   @Nullable
@@ -366,7 +373,7 @@ public class ReviewerAdder {
           FailureType.NOT_FOUND,
           MessageFormat.format(ChangeMessages.get().reviewerInvalid, input.reviewer));
     }
-    return new ReviewerAddition(input, notes, user, null, ImmutableList.of(adr), true);
+    return new ReviewerAddition(input, notes, user, null, ImmutableList.of(adr), true, false);
   }
 
   private boolean isValidReviewer(BranchNameKey branch, Account member)
@@ -421,7 +428,8 @@ public class ReviewerAdder {
         CurrentUser caller,
         @Nullable Iterable<Account.Id> reviewers,
         @Nullable Iterable<Address> reviewersByEmail,
-        boolean exactMatchFound) {
+        boolean exactMatchFound,
+        boolean forGroup) {
       checkArgument(
           reviewers != null || reviewersByEmail != null,
           "must have either reviewers or reviewersByEmail");
@@ -435,7 +443,7 @@ public class ReviewerAdder {
       this.reviewersByEmail =
           reviewersByEmail == null ? ImmutableSet.of() : ImmutableSet.copyOf(reviewersByEmail);
       this.caller = caller.asIdentifiedUser();
-      op = addReviewersOpFactory.create(this.reviewers, this.reviewersByEmail, state());
+      op = addReviewersOpFactory.create(this.reviewers, this.reviewersByEmail, state(), forGroup);
       this.exactMatchFound = exactMatchFound;
     }
 

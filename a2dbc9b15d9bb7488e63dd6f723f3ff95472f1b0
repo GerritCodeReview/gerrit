@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ff3a988d_e6e883c1",
+        "filename": "java/com/google/gerrit/server/notedb/rebuild/NoteDbMigrator.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 719,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-09T12:54:22Z",
+      "side": 1,
+      "message": "Can this be tested similar to this [1]?\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/166191/2/gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/server/notedb/OnlineNoteDbMigrationIT.java",
+      "revId": "a2dbc9b15d9bb7488e63dd6f723f3ff95472f1b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

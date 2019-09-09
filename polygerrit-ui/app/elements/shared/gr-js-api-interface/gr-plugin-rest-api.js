@@ -51,7 +51,11 @@
   };
 
   GrPluginRestApi.prototype.fetchJSON = function(req) {
-    return getRestApi()._fetchJSON(req);
+    // TODO(dhruvsri): find better implementation for fetchJSON
+    const api = getRestApi();
+    const fetchJSON = api._fetchJSON ||
+                      api._restApiHelper.fetchJSON.bind(api._restApiHelper);
+    return fetchJSON(req);
   };
 
   GrPluginRestApi.prototype.getRepos =

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a84fc09c_5633be16",
+        "filename": "java/com/google/gerrit/server/restapi/config/IndexChanges.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-09-09T15:45:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6c9e75eb_7b6beec0",
+      "revId": "d3e6146362a795c6e92400c4532630c727e3c752",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d10ae41b_3220526e",
         "filename": "java/com/google/gerrit/server/restapi/config/IndexChanges.java",
         "patchSetId": 7
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "32bad069_efbafd56",
+        "filename": "java/com/google/gerrit/server/restapi/config/IndexChanges.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-09-09T15:45:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d10ae41b_3220526e",
+      "revId": "d3e6146362a795c6e92400c4532630c727e3c752",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "91b9a4d3_f1b35897",
         "filename": "java/com/google/gerrit/server/restapi/config/IndexChanges.java",
         "patchSetId": 7
@@ -50,6 +86,24 @@
       "revId": "d3e6146362a795c6e92400c4532630c727e3c752",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "265618df_c838e956",
+        "filename": "java/com/google/gerrit/server/restapi/config/IndexChanges.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-09-09T15:45:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "91b9a4d3_f1b35897",
+      "revId": "d3e6146362a795c6e92400c4532630c727e3c752",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -88,6 +142,24 @@
     },
     {
       "key": {
+        "uuid": "86b38fa1_7251ca74",
+        "filename": "java/com/google/gerrit/server/restapi/config/IndexChanges.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-09-09T15:45:57Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "50982365_a0af0fa3",
+      "revId": "d3e6146362a795c6e92400c4532630c727e3c752",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2a146ec2_3b3468ea",
         "filename": "java/com/google/gerrit/server/restapi/config/IndexChanges.java",
         "patchSetId": 7
@@ -102,6 +174,24 @@
       "revId": "d3e6146362a795c6e92400c4532630c727e3c752",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b5be4576_373164a4",
+        "filename": "java/com/google/gerrit/server/restapi/config/IndexChanges.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-09-09T15:45:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2a146ec2_3b3468ea",
+      "revId": "d3e6146362a795c6e92400c4532630c727e3c752",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -152,6 +242,30 @@
     },
     {
       "key": {
+        "uuid": "ab6e5a49_1d54393f",
+        "filename": "java/com/google/gerrit/server/restapi/config/IndexChanges.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-09-09T15:45:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "64d1119c_b8a088ab",
+      "range": {
+        "startLine": 65,
+        "startChar": 20,
+        "endLine": 65,
+        "endChar": 28
+      },
+      "revId": "d3e6146362a795c6e92400c4532630c727e3c752",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6afac149_b160af7f",
         "filename": "java/com/google/gerrit/server/restapi/config/Module.java",
         "patchSetId": 7
@@ -166,6 +280,24 @@
       "revId": "d3e6146362a795c6e92400c4532630c727e3c752",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "71e72589_56b12903",
+        "filename": "java/com/google/gerrit/server/restapi/config/Module.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-09-09T15:45:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6afac149_b160af7f",
+      "revId": "d3e6146362a795c6e92400c4532630c727e3c752",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

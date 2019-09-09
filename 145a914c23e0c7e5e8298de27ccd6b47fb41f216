@@ -198,6 +198,30 @@
       "revId": "145a914c23e0c7e5e8298de27ccd6b47fb41f216",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "67981f40_7847dd5b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-list/gr-account-list.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-09-09T16:21:27Z",
+      "side": 1,
+      "message": "Re 1: Ok, so the suggestion provider is not static (could be a singleton, but we don\u0027t have an injector, so not helpful). The component creating a suggestion provider instance could pass the restapi to the constructor though.\n\nRe 2: Declarative changes are nice, but it still does not really convince me. The lines between html and js are blurred. You could still put ...provider\u003d\"new ReviewerProvider(restapi)\"... or something similar into the template and be fairly declarative.\n\nAlso the current way of slotting and looking up what is in the slot seems a bit hacky. That would definitely need a better solution. At least a named slot or something.\n\nLet me raise this design question on the Polymer chat room and see what they say.",
+      "parentUuid": "e867f56e_158b4ac3",
+      "range": {
+        "startLine": 110,
+        "startChar": 3,
+        "endLine": 123,
+        "endChar": 6
+      },
+      "revId": "145a914c23e0c7e5e8298de27ccd6b47fb41f216",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

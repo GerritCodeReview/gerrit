@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "348e1bde_096f0397",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-09T07:38:31Z",
+      "side": 1,
+      "message": "Is it really not possible? I think plugins could just use GroupsUpdate.createGroup to create a group with any UUID, can\u0027t they?\n\nWhy is it needed to expose this via the REST API?",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 55
+      },
+      "revId": "1f1c939742c3c1da295b4f9329654abe274cebbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -102,8 +102,8 @@ def _war_impl(ctx):
     transitive_context_libs = []
     if ctx.attr.context:
         for jar in ctx.attr.context:
-            if hasattr(jar, "java"):
-                transitive_context_libs.append(jar.java.transitive_runtime_deps)
+            if JavaInfo in jar:
+                transitive_context_libs.append(jar[JavaInfo].transitive_runtime_deps)
             elif hasattr(jar, "files"):
                 transitive_context_libs.append(jar.files)
 

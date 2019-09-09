@@ -72,6 +72,7 @@ import com.google.gerrit.server.notedb.PrimaryStorageMigrator.NoNoteDbStateExcep
 import com.google.gerrit.server.notedb.RepoSequence;
 import com.google.gerrit.server.notedb.rebuild.ChangeRebuilder.NoPatchSetsException;
 import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.update.ChainedReceiveCommands;
 import com.google.gerrit.server.update.RefUpdateUtil;
 import com.google.gerrit.server.util.ManualRequestContext;
@@ -164,6 +165,7 @@ public class NoteDbMigrator implements AutoCloseable {
     private final MutableNotesMigration globalNotesMigration;
     private final PrimaryStorageMigrator primaryStorageMigrator;
     private final DynamicSet<NotesMigrationStateListener> listeners;
+    private final ProjectCache projectCache;
 
     private int threads;
     private ImmutableList<Project.NameKey> projects = ImmutableList.of();
@@ -193,7 +195,8 @@ public class NoteDbMigrator implements AutoCloseable {
         WorkQueue workQueue,
         MutableNotesMigration globalNotesMigration,
         PrimaryStorageMigrator primaryStorageMigrator,
-        DynamicSet<NotesMigrationStateListener> listeners) {
+        DynamicSet<NotesMigrationStateListener> listeners,
+        ProjectCache projectCache) {
       // Reload gerrit.config/notedb.config on each migrator invocation, in case a previous
       // migration in the same process modified the on-disk contents. This ensures the defaults for
       // trial/autoMigrate get set correctly below.
@@ -213,6 +216,7 @@ public class NoteDbMigrator implements AutoCloseable {
       this.globalNotesMigration = globalNotesMigration;
       this.primaryStorageMigrator = primaryStorageMigrator;
       this.listeners = listeners;
+      this.projectCache = projectCache;
       this.trial = getTrialMode(cfg);
       this.autoMigrate = getAutoMigrate(cfg);
     }
@@ -400,6 +404,7 @@ public class NoteDbMigrator implements AutoCloseable {
           changes,
           progressOut,
           stopAtState,
+          projectCache,
           trial,
           forceRebuild,
           sequenceGap >= 0 ? sequenceGap : Sequences.getChangeSequenceGap(cfg),
@@ -429,6 +434,7 @@ public class NoteDbMigrator implements AutoCloseable {
   private final ImmutableList<Change.Id> changes;
   private final OutputStream progressOut;
   private final NotesMigrationState stopAtState;
+  private final ProjectCache projectCache;
   private final boolean trial;
   private final boolean forceRebuild;
   private final int sequenceGap;
@@ -455,6 +461,7 @@ public class NoteDbMigrator implements AutoCloseable {
       ImmutableList<Change.Id> changes,
       OutputStream progressOut,
       NotesMigrationState stopAtState,
+      ProjectCache projectCache,
       boolean trial,
       boolean forceRebuild,
       int sequenceGap,
@@ -489,6 +496,7 @@ public class NoteDbMigrator implements AutoCloseable {
     this.changes = changes;
     this.progressOut = progressOut;
     this.stopAtState = stopAtState;
+    this.projectCache = projectCache;
     this.trial = trial;
     this.forceRebuild = forceRebuild;
     this.sequenceGap = sequenceGap;
@@ -702,11 +710,13 @@ public class NoteDbMigrator implements AutoCloseable {
    * of the NoteDb migration code, which is too risky to attempt in the stable branch where this bug
    * had to be fixed.
    *
-   * <p>As of this writing, the only case where this happens is when a change has no patch sets.
+   * <p>As of this writing, there are only two cases where this happens: when a change has no patch
+   * sets, or the project doesn't exist.
    */
-  private static boolean canSkipPrimaryStorageMigration(ReviewDb db, Change.Id id) {
+  private boolean canSkipPrimaryStorageMigration(ReviewDb db, Change.Id id) {
     try {
-      return Iterables.isEmpty(unwrapDb(db).patchSets().byChange(id));
+      return Iterables.isEmpty(unwrapDb(db).patchSets().byChange(id))
+          || projectCache.get(unwrapDb(db).changes().get(id).getProject()) == null;
     } catch (Exception e) {
       logger.atSevere().withCause(e).log(
           "Error checking if change %s can be skipped, assuming no", id);

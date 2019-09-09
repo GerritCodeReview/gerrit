@@ -22,6 +22,30 @@
       "revId": "1f1c939742c3c1da295b4f9329654abe274cebbc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8afa0bbf_eb796227",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-09-09T07:55:38Z",
+      "side": 1,
+      "message": "Hmm, I seem to have overlooked that because I was only looking at what\u0027s exposed by the GroupApi.  I\u0027ll look into this and see if it works.\n\nI\u0027ll set this change as WIP until then.",
+      "parentUuid": "348e1bde_096f0397",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 55
+      },
+      "revId": "1f1c939742c3c1da295b4f9329654abe274cebbc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

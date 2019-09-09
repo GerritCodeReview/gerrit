@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0961655f_d5962d73",
+        "filename": "java/com/google/gerrit/server/restapi/config/IndexChanges.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-09-09T10:33:40Z",
+      "side": 1,
+      "message": "For reviewers: this works but this indexes all changes using the (one) calling thread.\nNot very performant for a larger change set.\n\nI tried using one thread per one indexing operation and used:\n\n  ReviewDb db \u003d schemaFacotry.open()\n\ninside that thread to obtain a DB connection, but this caused the following runtime error:\n\n  Automatic ReviewDb only available in request scope\n\nThis is weird, as this error should only occur when using:\n\n  Provider\u003cReviewDb\u003e\n\noutside of a request scope.\n\nI will push a follow-up change to demonstrate the issue.",
+      "revId": "d3e6146362a795c6e92400c4532630c727e3c752",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

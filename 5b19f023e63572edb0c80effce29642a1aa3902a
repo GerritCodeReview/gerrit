@@ -48,6 +48,29 @@
     },
     {
       "key": {
+        "uuid": "6d0689c0_81f49a5b",
+        "filename": "java/com/google/gerrit/server/restapi/config/IndexChanges.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-10T14:51:58Z",
+      "side": 1,
+      "message": "Would it be better to fail if an ID was specified that cannot be resolved?\n\nE.g. have 2 phases:\n1. resolve all input.changes to Change.Id\u0027s, fail if UnprocessableEntityException if an ID is not resolveable\n2. do the reindexing",
+      "range": {
+        "startLine": 69,
+        "startChar": 6,
+        "endLine": 70,
+        "endChar": 53
+      },
+      "revId": "5b19f023e63572edb0c80effce29642a1aa3902a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "376b43af_36dd0d65",
         "filename": "javatests/com/google/gerrit/acceptance/rest/config/IndexChangesIT.java",
         "patchSetId": 8

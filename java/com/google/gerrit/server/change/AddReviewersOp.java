@@ -181,12 +181,11 @@ public class AddReviewersOp implements BatchUpdateOp {
       }
     }
 
-    ImmutableList<Address> addressesToAdd = ImmutableList.of();
     ReviewerStateInternal internalState = ReviewerStateInternal.fromReviewerState(state);
 
     // TODO(dborowitz): This behavior should live in ApprovalsUtil or something, like addCcs does.
     ImmutableSet<Address> existing = ctx.getNotes().getReviewersByEmail().byState(internalState);
-    addressesToAdd =
+    ImmutableList<Address> addressesToAdd =
         addresses.stream().filter(a -> !existing.contains(a)).collect(toImmutableList());
 
     if (state == CC) {

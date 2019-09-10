@@ -45,6 +45,30 @@
       "revId": "34c298a08e5ee00e19e7d38b913a1f578fbb40f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8c07b41d_2cab46c9",
+        "filename": "java/com/google/gerrit/server/notedb/rebuild/NoteDbMigrator.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 719,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-10T08:40:34Z",
+      "side": 1,
+      "message": "If we are worried about stale cache entries, you could call projectCache.evict here right before doing the projectCache.get",
+      "parentUuid": "f50174a0_839ee3a1",
+      "range": {
+        "startLine": 719,
+        "startChar": 13,
+        "endLine": 719,
+        "endChar": 74
+      },
+      "revId": "34c298a08e5ee00e19e7d38b913a1f578fbb40f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

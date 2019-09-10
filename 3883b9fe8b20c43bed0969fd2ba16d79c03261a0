@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "32e6b2f5_2109bcb5",
+        "filename": "tools/bzl/classpath.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-09-10T17:27:21Z",
+      "side": 1,
+      "message": "This is wrong conflict resolution. String based java provider is removed when Bazel invoked with --incompatible_disallow_legacy_java_provider, see: [1], [2], [3].\n\nShould this be:\n\n  if hasattr(d[JavaInfo].compilation_info, \"runtime_classpath\"):\n  [...]\n\n* [1] https://github.com/bazelbuild/bazel/issues/7598\n* [2] https://github.com/bazelbuild/bazel/issues/8573#issuecomment-529882965\n* [3] https://github.com/bazelbuild/bazel/issues/9353",
+      "range": {
+        "startLine": 6,
+        "startChar": 24,
+        "endLine": 6,
+        "endChar": 29
+      },
+      "revId": "3883b9fe8b20c43bed0969fd2ba16d79c03261a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

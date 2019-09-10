@@ -23,6 +23,7 @@ import com.google.common.io.ByteStreams;
 import com.google.gerrit.extensions.restapi.RawInput;
 import java.io.IOException;
 import java.io.InputStream;
+import java.time.Instant;
 import java.util.Collections;
 import java.util.List;
 import org.eclipse.jgit.dircache.DirCacheEditor;
@@ -79,7 +80,7 @@ public class ChangeFileContentModification implements TreeModification {
       try {
         if (dirCacheEntry.getFileMode() == FileMode.GITLINK) {
           dirCacheEntry.setLength(0);
-          dirCacheEntry.setLastModified(0);
+          dirCacheEntry.setLastModified(Instant.EPOCH);
           ObjectId newObjectId = ObjectId.fromString(getNewContentBytes(), 0);
           dirCacheEntry.setObjectId(newObjectId);
         } else {

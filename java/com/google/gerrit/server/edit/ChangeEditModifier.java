@@ -371,7 +371,7 @@ public class ChangeEditModifier {
     if (optionalChangeEdit.isPresent()) {
       ChangeEdit changeEdit = optionalChangeEdit.get();
       newTreeId = merge(repository, changeEdit, newTreeId);
-      if (ObjectId.equals(newTreeId, changeEdit.getEditCommit().getTree())) {
+      if (ObjectId.isEqual(newTreeId, changeEdit.getEditCommit().getTree())) {
         // Modifications are already contained in the change edit.
         return changeEdit;
       }
@@ -474,7 +474,7 @@ public class ChangeEditModifier {
     treeCreator.addTreeModifications(treeModifications);
     ObjectId newTreeId = treeCreator.createNewTreeAndGetId(repository);
 
-    if (ObjectId.equals(newTreeId, baseCommit.getTree())) {
+    if (ObjectId.isEqual(newTreeId, baseCommit.getTree())) {
       throw new InvalidChangeOperationException("no changes were made");
     }
     return newTreeId;

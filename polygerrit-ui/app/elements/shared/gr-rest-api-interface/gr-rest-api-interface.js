@@ -1337,8 +1337,13 @@
       filter = filter.trim();
       const encodedFilter = encodeURIComponent(filter);
 
-      return `/projects/?n=${reposPerPage + 1}&S=${offset}` +
-        `&query=${encodedFilter}`;
+      const query = `&query=${encodedFilter}`;
+      const regex = '';
+      if (filter.startsWith('^')) {
+        query = `&r=${encodedFilter}`;
+      }
+
+      return `/projects/?n=${reposPerPage + 1}&S=${offset}${query}`;
     },
 
     invalidateGroupsCache() {

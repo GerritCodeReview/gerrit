@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e7d99379_d5968069",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 1382,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-10T14:46:47Z",
+      "side": 1,
+      "message": "This needs to be updated to match the implementation which does the indexing synchronously.",
+      "range": {
+        "startLine": 1382,
+        "startChar": 38,
+        "endLine": 1382,
+        "endChar": 46
+      },
+      "revId": "5b19f023e63572edb0c80effce29642a1aa3902a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6876f788_1503ed7a",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 1397,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-10T14:46:47Z",
+      "side": 1,
+      "message": "this should be 200 OK now",
+      "range": {
+        "startLine": 1397,
+        "startChar": 11,
+        "endLine": 1397,
+        "endChar": 23
+      },
+      "revId": "5b19f023e63572edb0c80effce29642a1aa3902a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "376b43af_36dd0d65",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/config/IndexChangesIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-10T14:46:47Z",
+      "side": 1,
+      "message": "This and the below tests are not verifying that the change is actually reindexed, but only that the REST endpoint returns OK.\n\nOne possibility to check that reindex happened is to register a ChangeIndexedListener (e.g. see ChangeIT -\u003e changeIndexedCounter).",
+      "revId": "5b19f023e63572edb0c80effce29642a1aa3902a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "373b3101_174284e5",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/config/IndexChangesIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-10T14:46:47Z",
+      "side": 1,
+      "message": "nit: Changes",
+      "range": {
+        "startLine": 50,
+        "startChar": 27,
+        "endLine": 50,
+        "endChar": 33
+      },
+      "revId": "5b19f023e63572edb0c80effce29642a1aa3902a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

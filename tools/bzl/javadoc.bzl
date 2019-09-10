@@ -17,8 +17,11 @@
 def _impl(ctx):
     zip_output = ctx.outputs.zip
 
-    transitive_jars = depset(transitive = [j.java.transitive_deps for j in ctx.attr.libs])
-    source_jars = depset(transitive = [j.java.source_jars for j in ctx.attr.libs])
+    transitive_jars = depset(transitive = [j[JavaInfo].transitive_deps for j in ctx.attr.libs])
+
+    # TODO(davido): Remove list to depset conversion on source_jars, when this issue is fixed:
+    # https://github.com/bazelbuild/bazel/issues/4221
+    source_jars = depset(transitive = [depset(j[JavaInfo].source_jars) for j in ctx.attr.libs])
 
     transitive_jar_paths = [j.path for j in transitive_jars.to_list()]
     dir = ctx.outputs.zip.path + ".dir"

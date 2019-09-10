@@ -44,14 +44,14 @@ java_library(
 
 java_binary(
     name = "compiler-bin",
-    main_class = "BuckPrologCompiler",
+    main_class = "BazelPrologCompiler",
     visibility = ["//visibility:public"],
     runtime_deps = [":compiler-lib"],
 )
 
 java_library(
     name = "compiler-lib",
-    srcs = ["java/BuckPrologCompiler.java"],
+    srcs = ["java/BazelPrologCompiler.java"],
     visibility = ["//visibility:public"],
     deps = [
         ":compiler",

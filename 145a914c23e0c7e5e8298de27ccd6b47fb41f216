@@ -246,6 +246,30 @@
       "revId": "145a914c23e0c7e5e8298de27ccd6b47fb41f216",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a42ad6e3_925f0ea6",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-list/gr-account-list.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-09-10T06:48:08Z",
+      "side": 1,
+      "message": "Summing up the discussion below. I would still go for property.\n\nAdvantages of making it a property:\n  - more straightforward, uses familiar mechanisms\n  - can just pass in a function without needing to wrap it in an element\n  - the function can be available from the moment the element has booted up\n  - more amenable to type checking (no way to annotate the types of slots)\n\nAdvantages of passing in with a slot\n  - Functions can\u0027t be serialized, but elements can, so with the slot strategy you could swap out elements when rendering with a system that can\u0027t write properties (e.g. server side rendering, some client side template systems)",
+      "parentUuid": "074db4f0_9a461905",
+      "range": {
+        "startLine": 110,
+        "startChar": 3,
+        "endLine": 123,
+        "endChar": 6
+      },
+      "revId": "145a914c23e0c7e5e8298de27ccd6b47fb41f216",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

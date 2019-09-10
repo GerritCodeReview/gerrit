@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "40bc2a00_340148f3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-09-10T07:16:00Z",
+      "side": 1,
+      "message": "I didn\u0027t build it from source but downloaded the build from\nhttps://releases.bazel.build/1.0.0/rc2/index.html",
+      "revId": "b83610f6053907302e708a9ae3b44c14a5e0ba74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

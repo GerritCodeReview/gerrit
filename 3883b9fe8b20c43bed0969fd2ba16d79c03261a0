@@ -46,6 +46,30 @@
       "revId": "3883b9fe8b20c43bed0969fd2ba16d79c03261a0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fc5236c9_f4fa7f30",
+        "filename": "tools/bzl/classpath.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-09-10T17:59:38Z",
+      "side": 1,
+      "message": "Thanks for fixing that overlooked line and having explained why; appreciated.",
+      "parentUuid": "ba16b31b_722185bc",
+      "range": {
+        "startLine": 6,
+        "startChar": 24,
+        "endLine": 6,
+        "endChar": 29
+      },
+      "revId": "3883b9fe8b20c43bed0969fd2ba16d79c03261a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

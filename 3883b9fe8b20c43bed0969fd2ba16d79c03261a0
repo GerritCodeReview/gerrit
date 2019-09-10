@@ -22,6 +22,30 @@
       "revId": "3883b9fe8b20c43bed0969fd2ba16d79c03261a0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ba16b31b_722185bc",
+        "filename": "tools/bzl/classpath.bzl",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-09-10T17:50:38Z",
+      "side": 1,
+      "message": "Also note, that when building on Bazel 1.0.0rc2, that was already merged to stable-2.14, the build would fail: [1]. That\u0027s because the option --incompatible_disallow_legacy_java_provider was already flipped there.\n\n* [1] http://paste.openstack.org/show/774851/",
+      "parentUuid": "32e6b2f5_2109bcb5",
+      "range": {
+        "startLine": 6,
+        "startChar": 24,
+        "endLine": 6,
+        "endChar": 29
+      },
+      "revId": "3883b9fe8b20c43bed0969fd2ba16d79c03261a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3999cee1_3d9ca53f",
+        "filename": "java/com/google/gerrit/extensions/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-09-10T19:07:29Z",
+      "side": 1,
+      "message": "I undid this line move in my own (now abandoned) change, but we can leave it in here. That\u0027s how git conflict resolution presents it anyway.",
+      "range": {
+        "startLine": 3,
+        "startChar": 0,
+        "endLine": 3,
+        "endChar": 43
+      },
+      "revId": "384e38be07450680ecfd4176c3e631034b61571c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

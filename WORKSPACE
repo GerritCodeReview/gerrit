@@ -64,9 +64,14 @@ http_file(
     urls = ["https://raw.githubusercontent.com/google/closure-compiler/35d2b3340ff23a69441f10fa3bc820691c2942f2/contrib/externs/polymer-1.0.js"],
 )
 
-load("@bazel_skylib//lib:versions.bzl", "versions")
+# Check Bazel version when invoked by Bazel directly
+load("//tools/bzl:bazelisk_version.bzl", "bazelisk_version")
 
-versions.check(minimum_bazel_version = "0.29.0")
+bazelisk_version(name = "bazelisk_version")
+
+load("@bazelisk_version//:check.bzl", "check_bazel_version")
+
+check_bazel_version()
 
 # Rules Python
 http_archive(
@@ -1089,18 +1094,18 @@ maven_jar(
     sha1 = "0f5a654e4675769c716e5b387830d19b501ca191",
 )
 
-TESTCONTAINERS_VERSION = "1.12.0"
+TESTCONTAINERS_VERSION = "1.12.1"
 
 maven_jar(
     name = "testcontainers",
     artifact = "org.testcontainers:testcontainers:" + TESTCONTAINERS_VERSION,
-    sha1 = "ac89643ce1ddde504da09172086aba0c7df10bff",
+    sha1 = "1dc8666ead914c5515d087f75ffe92629414caf6",
 )
 
 maven_jar(
     name = "testcontainers-elasticsearch",
     artifact = "org.testcontainers:elasticsearch:" + TESTCONTAINERS_VERSION,
-    sha1 = "cd9020f1803396c45ef935312bf232f9b17332b0",
+    sha1 = "2491f792627a1f15d341bfcd6dd0ea7e3541d82f",
 )
 
 maven_jar(

@@ -180,6 +180,23 @@
 
       /** @type {Function} */
       _cancelForEachDiff: Function,
+
+      /** @type {Array<string>} */
+      _dynamicColumnHeaderEndpoints: {
+        type: Array,
+      },
+      _showDynamicColumns: {
+        type: Boolean,
+        computed: '_computeShowDynamicColumns(_dynamicColumnHeaderEndpoints)',
+      },
+      /** @type {Array<string>} */
+      _dynamicColumnContentEndpoints: {
+        type: Array,
+      },
+
+      _selectedFilesTabPluginEndpoint: {
+        type: String,
+      },
     },
 
     behaviors: [
@@ -229,6 +246,19 @@
       keydown: '_scopedKeydownHandler',
     },
 
+    attached() {
+      Gerrit.awaitPluginsLoaded().then(() => {
+        this._dynamicColumnHeaderEndpoints =
+            Gerrit._endpoints.getDynamicEndpoints('change-view-column-header');
+        this._dynamicColumnContentEndpoints =
+            Gerrit._endpoints.getDynamicEndpoints('change-view-column-content');
+        if (this._dynamicTabContentEndpoints.length
+            !== this._dynamicTabHeaderEndpoints.length) {
+          console.warn('Different number of column headers and column content.');
+        }
+      });
+    },
+
     detached() {
       this._cancelDiffs();
     },
@@ -253,7 +283,6 @@
       }
 
       this._loading = true;
-
       this.collapseAllDiffs();
       const promises = [];
 
@@ -1246,6 +1275,11 @@
         hideClass = 'invisible';
       }
       return `sizeBars desktop ${hideClass}`;
+    },
+
+    _computeShowDynamicColumns(dynamicColumnHeaderEndpoints) {
+      return (dynamicColumnHeaderEndpoints &&
+              dynamicColumnHeaderEndpoints.length > 0);
     },
 
     /**

@@ -160,6 +160,7 @@ limitations under the License.
       return element.reload().then(() => {
         assert.equal(element._filteredLinks.length, 3);
         assert.deepEqual(element._filteredLinks[1], {
+          capability: null,
           url: '/internal/link/url',
           name: 'internal link text',
           noBaseUrl: true,
@@ -168,6 +169,7 @@ limitations under the License.
           target: null,
         });
         assert.deepEqual(element._filteredLinks[2], {
+          capability: null,
           url: 'http://external/link/url',
           name: 'external link text',
           noBaseUrl: false,

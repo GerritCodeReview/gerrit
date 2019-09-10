@@ -23,6 +23,8 @@
 #   remote.NAME.push = +refs/changes/*:refs/tmp/changes/*
 #   remote.NAME.push = +refs/heads/*:refs/heads/*
 #   remote.NAME.push = +refs/tags/*:refs/tags/*
+# And if it's a Gerrit mirror:
+#   remote.NAME.push = +refs/meta/*:refs/meta/*
 #
 # In the replicated repository in the gerrit slave configure
 #    receive.hideRefs = refs/changes/
@@ -47,18 +49,15 @@
 # automatically have the "tmp-refs" commit hook installed.
 # See https://git-scm.com/docs/git-init#_template_directory for details.
 
-readonly NULL_SHA1=0000000000000000000000000000000000000000
-
 # move new changes arriving under refs/tmp/changes/ to refs/changes/
 mv_tmp_refs()
 {
 	oldrev=$1
 	newrev=$2
 	refname=$3
-	case "$refname","$oldrev" in
-		refs/tmp/changes/*,$NULL_SHA1)
+	case "$refname" in refs/tmp/changes/*)
 			short_refname=${refname##refs/tmp/changes/}
-			$(git update-ref refs/changes/$short_refname $newrev $NULL_SHA1 2>/dev/null)
+			$(git update-ref refs/changes/$short_refname $newrev 2>/dev/null)
 			$(git update-ref -d $refname $newrev 2>/dev/null)
 			echo "moved \"$refname\" to \"refs/changes/$short_refname\""
 			;;

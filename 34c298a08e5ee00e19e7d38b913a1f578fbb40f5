@@ -69,6 +69,30 @@
       "revId": "34c298a08e5ee00e19e7d38b913a1f578fbb40f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4e69e7ad_13959950",
+        "filename": "java/com/google/gerrit/server/notedb/rebuild/NoteDbMigrator.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 719,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-10T08:41:56Z",
+      "side": 1,
+      "message": "oh, better scratch that, I guess we do not want to reload the project for *each* change, but only once during the noteDb migration",
+      "parentUuid": "8c07b41d_2cab46c9",
+      "range": {
+        "startLine": 719,
+        "startChar": 13,
+        "endLine": 719,
+        "endChar": 74
+      },
+      "revId": "34c298a08e5ee00e19e7d38b913a1f578fbb40f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

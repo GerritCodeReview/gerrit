@@ -59,7 +59,7 @@ public class AccountCacheImpl implements AccountCache {
     return new CacheModule() {
       @Override
       protected void configure() {
-        cache(BYID_NAME, Account.Id.class, new TypeLiteral<Optional<AccountState>>() {})
+        cache(BYID_NAME, Account.Id.class, new TypeLiteral<AccountState>() {})
             .loader(ByIdLoader.class);
 
         bind(AccountCacheImpl.class);
@@ -69,13 +69,13 @@ public class AccountCacheImpl implements AccountCache {
   }
 
   private final ExternalIds externalIds;
-  private final LoadingCache<Account.Id, Optional<AccountState>> byId;
+  private final LoadingCache<Account.Id, AccountState> byId;
   private final ExecutorService executor;
 
   @Inject
   AccountCacheImpl(
       ExternalIds externalIds,
-      @Named(BYID_NAME) LoadingCache<Account.Id, Optional<AccountState>> byId,
+      @Named(BYID_NAME) LoadingCache<Account.Id, AccountState> byId,
       @FanOutExecutor ExecutorService executor) {
     this.externalIds = externalIds;
     this.byId = byId;
@@ -85,9 +85,11 @@ public class AccountCacheImpl implements AccountCache {
   @Override
   public AccountState getEvenIfMissing(Account.Id accountId) {
     try {
-      return byId.get(accountId).orElse(missing(accountId));
+      return byId.get(accountId);
     } catch (ExecutionException e) {
-      logger.atWarning().withCause(e).log("Cannot load AccountState for %s", accountId);
+      if (!(e.getCause() instanceof AccountNotFoundException)) {
+        logger.atWarning().withCause(e).log("Cannot load AccountState for %s", accountId);
+      }
       return missing(accountId);
     }
   }
@@ -95,9 +97,11 @@ public class AccountCacheImpl implements AccountCache {
   @Override
   public Optional<AccountState> get(Account.Id accountId) {
     try {
-      return byId.get(accountId);
+      return Optional.ofNullable(byId.get(accountId));
     } catch (ExecutionException e) {
-      logger.atWarning().withCause(e).log("Cannot load AccountState for ID %s", accountId);
+      if (!(e.getCause() instanceof AccountNotFoundException)) {
+        logger.atWarning().withCause(e).log("Cannot load AccountState for %s", accountId);
+      }
       return Optional.empty();
     }
   }
@@ -107,10 +111,10 @@ public class AccountCacheImpl implements AccountCache {
     Map<Account.Id, AccountState> accountStates = new HashMap<>(accountIds.size());
     List<Callable<Optional<AccountState>>> callables = new ArrayList<>();
     for (Account.Id accountId : accountIds) {
-      Optional<AccountState> state = byId.getIfPresent(accountId);
+      AccountState state = byId.getIfPresent(accountId);
       if (state != null) {
         // The value is in-memory, so we just get the state
-        state.ifPresent(s -> accountStates.put(accountId, s));
+        accountStates.put(accountId, state);
       } else {
         // Queue up a callable so that we can load accounts in parallel
         callables.add(() -> get(accountId));
@@ -170,7 +174,7 @@ public class AccountCacheImpl implements AccountCache {
     return AccountState.forAccount(account.build());
   }
 
-  static class ByIdLoader extends CacheLoader<Account.Id, Optional<AccountState>> {
+  static class ByIdLoader extends CacheLoader<Account.Id, AccountState> {
     private final Accounts accounts;
 
     @Inject
@@ -179,12 +183,21 @@ public class AccountCacheImpl implements AccountCache {
     }
 
     @Override
-    public Optional<AccountState> load(Account.Id who) throws Exception {
+    public AccountState load(Account.Id who) throws Exception {
       try (TraceTimer timer =
           TraceContext.newTimer(
               "Loading account", Metadata.builder().accountId(who.get()).build())) {
-        return accounts.get(who);
+        return accounts
+            .get(who)
+            .orElseThrow(() -> new AccountNotFoundException(who + " not found"));
       }
+    }
+  }
+
+  /** Signals that the account was not found in the primary storage. */
+  private static class AccountNotFoundException extends Exception {
+    public AccountNotFoundException(String message) {
+      super(message);
     }
   }
 }

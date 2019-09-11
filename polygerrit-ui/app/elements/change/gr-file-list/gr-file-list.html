@@ -158,6 +158,15 @@ limitations under the License.
         color: var(--vote-text-color-disliked);
         text-align: left;
       }
+      .dynamic-column-header-row {
+        justify-content: flex-end;
+        text-align: right;
+      }
+      .dynamic-column-item {
+        display: inline-block;
+        min-width: 3.5em;
+        text-align: center;
+      }
       .drafts {
         color: #C62828;
         font-weight: var(--font-weight-bold);
@@ -277,6 +286,19 @@ limitations under the License.
     <div
         id="container"
         on-tap="_handleFileListTap">
+
+      <template is="dom-if" if="[[_showDynamicColumns]]">
+        <div class="row dynamic-column-header-row">
+          <template is="dom-repeat" items="[[_dynamicColumnHeaderEndpoints]]" as="columnHeader">
+            <gr-endpoint-decorator name$="[[columnHeader]]"></gr-endpoint-decorator>
+          </template>
+          <!-- Empty div here exists to keep spacing in sync with file rows. -->
+          <div class="reviewed hideOnEdit" hidden$="[[!_loggedIn]]" hidden></div>
+          <div class="editFileControls showOnEdit"></div>
+          <div class="show-hide"></div>
+        </div>
+      </template>
+
       <template is="dom-repeat"
           items="[[_shownFiles]]"
           id="files"
@@ -362,6 +384,20 @@ limitations under the License.
                 [[_formatPercentage(file.size, file.size_delta)]]
               </span>
             </div>
+            <template is="dom-if" if="[[_showDynamicColumns]]">
+              <template is="dom-repeat" items="[[_dynamicColumnItemEndpoints]]" as="columnItem">
+                <div class$="[[_computeClass('dynamic-column-item', file.__path)]]">
+                  <gr-endpoint-decorator name$="[[columnItem]]">
+                    <gr-endpoint-param name="changeNum" value="[[changeNum]]">
+                    </gr-endpoint-param>
+                    <gr-endpoint-param name="patchRange" value="[[patchRange]]">
+                    </gr-endpoint-param>
+                    <gr-endpoint-param name="path" value="[[file.__path]]">
+                    </gr-endpoint-param>
+                  </gr-endpoint-decorator>
+                </div>
+              </template>
+            </template>
             <div class="reviewed hideOnEdit" hidden$="[[!_loggedIn]]" hidden>
               <span class$="reviewedLabel [[_computeReviewedClass(file.isReviewed)]]">Reviewed</span>
               <label>
@@ -427,6 +463,21 @@ limitations under the License.
         </span>
       </div>
       <!-- Empty div here exists to keep spacing in sync with file rows. -->
+      <template is="dom-if" if="[[_showDynamicColumns]]">
+
+        <template is="dom-repeat"
+          items="[[_shownFiles]]"
+          as="file"
+          initial-count="[[fileListIncrement]]"
+          target-framerate="1">
+          1234
+        </template>
+
+
+        <template is="dom-repeat" items="[[_dynamicColumnHeaderEndpoints]]" as="columnHeader">
+          <div>sjfoadij</div>
+        </template>
+      </template>
       <div class="reviewed hideOnEdit" hidden$="[[!_loggedIn]]" hidden></div>
       <div class="editFileControls showOnEdit"></div>
       <div class="show-hide"></div>

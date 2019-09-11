@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "50e3abc6_aaaea138",
+        "filename": "java/com/google/gerrit/server/restapi/config/IndexChanges.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-09-11T16:01:59Z",
+      "side": 1,
+      "message": "Copying here my comment from the previous PS:\n\nMy answer in the PS-2 where I said that it works in the background thread is actually wrong.\nWhat happens is that, by default configuration, index.batchThreads is zero and the \n@IndexExecutor(BATCH) is a direct executor (same thread executor). This is why this worked :-)\n\nHowever, if I configure the tests with index.batchThreads\u003e0 then the changeFinder.find(d)\n(from the next line) returns an empty collection of ChangeNotes every time.\n\nAny idea?",
+      "revId": "2d8d6bd96cef103b6e40230cb870504062d978f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1f96c1dd_3dffb2f4",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/config/IndexChangesIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-09-11T16:01:59Z",
+      "side": 1,
+      "message": "NOTE: uncommenting this will really run index in a background thread and the test will start\nfailing. Same for all other test methods.",
+      "revId": "2d8d6bd96cef103b6e40230cb870504062d978f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4f506ef7_1f842bd0",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/config/IndexChangesIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-09-11T16:01:59Z",
+      "side": 1,
+      "message": "Wow, looking at all of this code I believe that coding a loop with exponential backoff\nwould be 10x more readable and would take me 20x less time to write ;-)",
+      "revId": "2d8d6bd96cef103b6e40230cb870504062d978f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

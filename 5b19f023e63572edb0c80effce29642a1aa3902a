@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "bc988652_aff75aa6",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 1382,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-09-11T12:44:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "46d9fe7f_a266507d",
+      "range": {
+        "startLine": 1382,
+        "startChar": 38,
+        "endLine": 1382,
+        "endChar": 46
+      },
+      "revId": "5b19f023e63572edb0c80effce29642a1aa3902a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6876f788_1503ed7a",
         "filename": "Documentation/rest-api-config.txt",
         "patchSetId": 8
@@ -84,6 +108,30 @@
       "side": 1,
       "message": "Ack",
       "parentUuid": "6876f788_1503ed7a",
+      "range": {
+        "startLine": 1397,
+        "startChar": 11,
+        "endLine": 1397,
+        "endChar": 23
+      },
+      "revId": "5b19f023e63572edb0c80effce29642a1aa3902a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "086a5285_15e1b3cb",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 1397,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-09-11T12:44:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "44bfd596_d6d891e9",
       "range": {
         "startLine": 1397,
         "startChar": 11,
@@ -202,6 +250,24 @@
     },
     {
       "key": {
+        "uuid": "53175aeb_a5a15cec",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/config/IndexChangesIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-09-11T12:44:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bbe0e4a5_6643fa91",
+      "revId": "5b19f023e63572edb0c80effce29642a1aa3902a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "373b3101_174284e5",
         "filename": "javatests/com/google/gerrit/acceptance/rest/config/IndexChangesIT.java",
         "patchSetId": 8
@@ -237,6 +303,30 @@
       "side": 1,
       "message": "Ack",
       "parentUuid": "373b3101_174284e5",
+      "range": {
+        "startLine": 50,
+        "startChar": 27,
+        "endLine": 50,
+        "endChar": 33
+      },
+      "revId": "5b19f023e63572edb0c80effce29642a1aa3902a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8aa68b63_3e04d97d",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/config/IndexChangesIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-09-11T12:44:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7d00232_e69569ec",
       "range": {
         "startLine": 50,
         "startChar": 27,

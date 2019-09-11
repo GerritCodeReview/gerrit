@@ -53,6 +53,24 @@
     },
     {
       "key": {
+        "uuid": "6d4ac1b7_ba948a21",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/ChangeIndexedCounter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-11T10:01:06Z",
+      "side": 1,
+      "message": "This class is supposed to be used like this:\n\n1. clear() -\u003e reset the counter\n2. make the request that should be tested\n3. assertReindexOf() -\u003e check that the request from 2. triggered the expected number of reindexes\n4. make another request that should be tested\n5. assertReindexOf() -\u003e check that the request from 4. triggered the expected number of reindexes",
+      "parentUuid": "4b8677e0_fce9ebb4",
+      "revId": "ba6125a747bfc832fca64b1795e7a9cd89473c7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "98756753_35017877",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/ssh/AbstractIndexTests.java",
         "patchSetId": 3

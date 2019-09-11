@@ -751,7 +751,7 @@ maven_jar(
     sha1 = "f7be08ec23c21485b9b5a1cf1654c2ec8c58168d",
 )
 
-GITILES_VERS = "0.3-3"
+GITILES_VERS = "0.3-4"
 
 GITILES_REPO = GERRIT
 
@@ -760,14 +760,14 @@ maven_jar(
     artifact = "com.google.gitiles:blame-cache:" + GITILES_VERS,
     attach_source = False,
     repository = GITILES_REPO,
-    sha1 = "d0bcfc6292b8d69a76156baa620ac892f68a5d23",
+    sha1 = "d1d62c9905b0cc9e066d337b33480599f430eb87",
 )
 
 maven_jar(
     name = "gitiles-servlet",
     artifact = "com.google.gitiles:gitiles-servlet:" + GITILES_VERS,
     repository = GITILES_REPO,
-    sha1 = "7c010f892c346fe3278df15f73b1588a110f0187",
+    sha1 = "7360cb90576a813cd1288cf853c59824fe92467e",
 )
 
 # prettify must match the version used in Gitiles

@@ -410,6 +410,16 @@ public abstract class AbstractDaemonTest {
 
     baseConfig.setInt("receive", null, "changeUpdateThreads", 4);
     Module module = createModule();
+
+    // Check that classDesc and methodDesc do not try to define global plugin configs,
+    // as we currently don not support merging them (auto-value generated classes cannot be
+    // mutated).
+    if ((classDesc.pluginConfig() != null && methodDesc.pluginConfig() != null)
+        || (classDesc.pluginConfigs() != null && methodDesc.pluginConfigs() != null)) {
+      throw new IllegalArgumentException(
+          "Global plugin configuration annotation defined on both test class and test methods cannot be merged");
+    }
+
     if (classDesc.equals(methodDesc) && !classDesc.sandboxed() && !methodDesc.sandboxed()) {
       if (commonServer == null) {
         commonServer = GerritServer.initAndStart(temporaryFolder, classDesc, baseConfig, module);

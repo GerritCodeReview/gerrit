@@ -71,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "19cda513_fb541f51",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/ChangeIndexedCounter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-11T10:02:12Z",
+      "side": 1,
+      "message": "If you need to check reindex events for more than one change, you can add further assert methods here.",
+      "parentUuid": "6d4ac1b7_ba948a21",
+      "revId": "ba6125a747bfc832fca64b1795e7a9cd89473c7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "98756753_35017877",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/ssh/AbstractIndexTests.java",
         "patchSetId": 3

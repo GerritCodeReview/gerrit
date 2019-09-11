@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "46d9fe7f_a266507d",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 1382,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-09-11T08:44:45Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "e7d99379_d5968069",
+      "range": {
+        "startLine": 1382,
+        "startChar": 38,
+        "endLine": 1382,
+        "endChar": 46
+      },
+      "revId": "5b19f023e63572edb0c80effce29642a1aa3902a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6876f788_1503ed7a",
         "filename": "Documentation/rest-api-config.txt",
         "patchSetId": 8
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "44bfd596_d6d891e9",
+        "filename": "Documentation/rest-api-config.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 1397,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-09-11T08:44:45Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "6876f788_1503ed7a",
+      "range": {
+        "startLine": 1397,
+        "startChar": 11,
+        "endLine": 1397,
+        "endChar": 23
+      },
+      "revId": "5b19f023e63572edb0c80effce29642a1aa3902a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6d0689c0_81f49a5b",
         "filename": "java/com/google/gerrit/server/restapi/config/IndexChanges.java",
         "patchSetId": 8
@@ -59,6 +107,30 @@
       "writtenOn": "2019-09-10T14:51:58Z",
       "side": 1,
       "message": "Would it be better to fail if an ID was specified that cannot be resolved?\n\nE.g. have 2 phases:\n1. resolve all input.changes to Change.Id\u0027s, fail if UnprocessableEntityException if an ID is not resolveable\n2. do the reindexing",
+      "range": {
+        "startLine": 69,
+        "startChar": 6,
+        "endLine": 70,
+        "endChar": 53
+      },
+      "revId": "5b19f023e63572edb0c80effce29642a1aa3902a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c5dadd7c_e62ba32a",
+        "filename": "java/com/google/gerrit/server/restapi/config/IndexChanges.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-09-11T08:44:45Z",
+      "side": 1,
+      "message": "I was thinking about that too... but the follow-up change parallelizes the indexing anyway.\nIn the follow-up change I wanted to perform both phases 1 and 2 in the same thread in order\nto parallelize as much as possible.\nIf we would do phase 1 first (single threaded) and if phase 1 takes roughly the same time\nas phase 2, then we would loose some performance by executing phase 1 single threaded.\n\nSo, if I do here as you suggested, what would we do in the follow-up change?\nI mean if it is really important to respond with the UnprocessableEntityException then\nin the follow-up change we would have to do something like:\n\n1. parallelize resolving of all change-ids.. i.e. submit the tasks and wait on all Futures to finish\n2. schedule indexing if all change-ids resolved successufully\n\nDo you think that this complexity is justified?",
+      "parentUuid": "6d0689c0_81f49a5b",
       "range": {
         "startLine": 69,
         "startChar": 6,
@@ -88,6 +160,24 @@
     },
     {
       "key": {
+        "uuid": "bbe0e4a5_6643fa91",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/config/IndexChangesIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-09-11T08:44:45Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "376b43af_36dd0d65",
+      "revId": "5b19f023e63572edb0c80effce29642a1aa3902a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "373b3101_174284e5",
         "filename": "javatests/com/google/gerrit/acceptance/rest/config/IndexChangesIT.java",
         "patchSetId": 8
@@ -108,6 +198,30 @@
       "revId": "5b19f023e63572edb0c80effce29642a1aa3902a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a7d00232_e69569ec",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/config/IndexChangesIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-09-11T08:44:45Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "373b3101_174284e5",
+      "range": {
+        "startLine": 50,
+        "startChar": 27,
+        "endLine": 50,
+        "endChar": 33
+      },
+      "revId": "5b19f023e63572edb0c80effce29642a1aa3902a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

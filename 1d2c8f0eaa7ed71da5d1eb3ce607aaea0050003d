@@ -69,6 +69,24 @@
       "revId": "1d2c8f0eaa7ed71da5d1eb3ce607aaea0050003d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dcd90502_ccc43ddb",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/config/IndexChangesIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-11T13:42:51Z",
+      "side": 1,
+      "message": "\u003e but we would still not test asynchronous indexing?\n\nI would be fine with not testing this.\n\n\u003e We can also wait here until the counter becomes 1 OR some timeout expires?\n\nI\u0027m not a fan of waiting indefinitely or with a timeout in tests, but would not object if you want to do this :)",
+      "parentUuid": "0de7456e_001ae9d3",
+      "revId": "1d2c8f0eaa7ed71da5d1eb3ce607aaea0050003d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

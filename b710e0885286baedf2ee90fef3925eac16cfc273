@@ -22,6 +22,30 @@
       "revId": "b710e0885286baedf2ee90fef3925eac16cfc273",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1cb7c9d3_a49d7f13",
+        "filename": "java/com/google/gerrit/server/restapi/config/IndexChanges.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-09-11T09:27:31Z",
+      "side": 1,
+      "message": "Yes... at least the tests are not failing. I also tested manually and the error\nwe talked about couldn\u0027t be reproduced...",
+      "parentUuid": "30ceafeb_babcd4b5",
+      "range": {
+        "startLine": 80,
+        "startChar": 35,
+        "endLine": 80,
+        "endChar": 55
+      },
+      "revId": "b710e0885286baedf2ee90fef3925eac16cfc273",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

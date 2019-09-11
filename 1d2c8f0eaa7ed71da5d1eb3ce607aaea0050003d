@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9350ed90_2e16673e",
+        "filename": "java/com/google/gerrit/server/restapi/config/IndexChanges.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-11T13:18:12Z",
+      "side": 1,
+      "message": "Now the documentation must be adapted to the new behavior :)",
+      "revId": "1d2c8f0eaa7ed71da5d1eb3ce607aaea0050003d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "16ed0f7c_a124f11c",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/config/IndexChangesIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-11T13:18:12Z",
+      "side": 1,
+      "message": "This looks like these tests can be flaky now. The post request only submits the index task to a queue, when the assertion is done you do not know whether this task was already processed or not.\n\nMaybe the IndexChanges.Input could have an async boolean field similar to GCInput to make the execution synchronous for tests?",
+      "revId": "1d2c8f0eaa7ed71da5d1eb3ce607aaea0050003d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

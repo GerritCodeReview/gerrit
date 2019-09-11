@@ -89,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "dbd1967e_d9d49ad9",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/ChangeIndexedCounter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-09-11T11:40:44Z",
+      "side": 1,
+      "message": "This class exposes the clear() method which is good.\nIMO, the step 4 should be an explicit clear() call from the test code and not a side effect of an assert.\nFor example I would like to index 2 changes (in one REST call) and then have two asserts:\n\n  counter.assertReindexOf(C1);\n  counter.assertReindexOf(C2);\n\nIf the first assert clears all the counters then the second assert will not work.\nThe countsByChange map stores any number of counters, but they are all cleared after\nthe first assert?!\n\nAdding new assert methods which do not clear the state will create further confusion\nabout how to properly use this class.",
+      "parentUuid": "19cda513_fb541f51",
+      "revId": "ba6125a747bfc832fca64b1795e7a9cd89473c7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "98756753_35017877",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/ssh/AbstractIndexTests.java",
         "patchSetId": 3

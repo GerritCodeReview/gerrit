@@ -116,8 +116,8 @@ public class GerritServer implements AutoCloseable {
           get(UseTimezone.class, testDesc.getTestClass()),
           null, // @GerritConfig is only valid on methods.
           null, // @GerritConfigs is only valid on methods.
-          null, // @GlobalPluginConfig is only valid on methods.
-          null, // @GlobalPluginConfigs is only valid on methods.
+          testDesc.getTestClass().getAnnotation(GlobalPluginConfig.class),
+          testDesc.getTestClass().getAnnotation(GlobalPluginConfigs.class),
           getLogLevelThresholdAnnotation(testDesc));
     }
 
@@ -259,6 +259,69 @@ public class GerritServer implements AutoCloseable {
         return ConfigAnnotationParser.parse(pluginConfig());
       }
       return new HashMap<>();
+    }
+
+    // Underwrite equals() and hashCode() to except pluginConfig and pluginConfigs
+    // from comparing between class description and method description.
+    // TODO(davido): Is there a better way to exclude some attribute from considering them in
+    // equals and hashCode methods?
+    @Override
+    public final boolean equals(Object o) {
+      if (o == this) {
+        return true;
+      }
+      if (o instanceof GerritServer.Description) {
+        GerritServer.Description that = (GerritServer.Description) o;
+        return this.testDescription().equals(that.testDescription())
+            && (this.configName() == null
+                ? that.configName() == null
+                : this.configName().equals(that.configName()))
+            && this.memory() == that.memory()
+            && this.httpd() == that.httpd()
+            && this.sandboxed() == that.sandboxed()
+            && this.skipProjectClone() == that.skipProjectClone()
+            && this.useSshAnnotation() == that.useSshAnnotation()
+            && (this.config() == null ? that.config() == null : this.config().equals(that.config()))
+            && (this.configs() == null
+                ? that.configs() == null
+                : this.configs().equals(that.configs()))
+            // && (this.pluginConfig == null ? that.pluginConfig() == null :
+            // this.pluginConfig.equals(that.pluginConfig()))
+            // && (this.pluginConfigs == null ? that.pluginConfigs() == null :
+            // this.pluginConfigs.equals(that.pluginConfigs()))
+            && this.logLevelThreshold().equals(that.logLevelThreshold());
+      }
+      return false;
+    }
+
+    @Override
+    public final int hashCode() {
+      int h$ = 1;
+      h$ *= 1000003;
+      h$ ^= testDescription().hashCode();
+      h$ *= 1000003;
+      h$ ^= (configName() == null) ? 0 : configName().hashCode();
+      h$ *= 1000003;
+      h$ ^= memory() ? 1231 : 1237;
+      h$ *= 1000003;
+      h$ ^= httpd() ? 1231 : 1237;
+      h$ *= 1000003;
+      h$ ^= sandboxed() ? 1231 : 1237;
+      h$ *= 1000003;
+      h$ ^= skipProjectClone() ? 1231 : 1237;
+      h$ *= 1000003;
+      h$ ^= useSshAnnotation() ? 1231 : 1237;
+      h$ *= 1000003;
+      h$ ^= (config() == null) ? 0 : config().hashCode();
+      h$ *= 1000003;
+      h$ ^= (configs() == null) ? 0 : configs().hashCode();
+      h$ *= 1000003;
+      //      h$ ^= (pluginConfig == null) ? 0 : pluginConfig.hashCode();
+      //      h$ *= 1000003;
+      //      h$ ^= (pluginConfigs == null) ? 0 : pluginConfigs.hashCode();
+      //      h$ *= 1000003;
+      h$ ^= logLevelThreshold().hashCode();
+      return h$;
     }
   }
 

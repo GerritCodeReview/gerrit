@@ -125,6 +125,24 @@
     },
     {
       "key": {
+        "uuid": "ec640ebf_d2f7d027",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/ChangeIndexedCounter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-09-11T12:36:07Z",
+      "side": 1,
+      "message": "\u003e I was thinking about a new assert method that checks the state for a set of changes and then does clear.\n\nLooking at the ChangeIT test (as an example) we see that we anyway need an explicit clear call\nbefore we start counting:\n\n  info \u003d createChange();\n  changeIndexedCounter.clear()\n  ... do something that should index the change ...\n  changeIndexedCounter.assertReindexOf(info)\n\nThis is because the createChange() already indexed the change and the counter for\nthat change is already set to 1.\n\nWithout starting the effort to adapt all tests which rely on ChangeIndexedCounter class\nI am going to expose the non-mutating getCount() method and rely on it and clear() for my asserts.",
+      "parentUuid": "66d32f45_c1fad9a8",
+      "revId": "ba6125a747bfc832fca64b1795e7a9cd89473c7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "98756753_35017877",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/ssh/AbstractIndexTests.java",
         "patchSetId": 3

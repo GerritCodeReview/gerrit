@@ -143,6 +143,30 @@
     },
     {
       "key": {
+        "uuid": "c01d5941_221a4dc6",
+        "filename": "java/com/google/gerrit/server/restapi/config/IndexChanges.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-11T08:49:43Z",
+      "side": 1,
+      "message": "I see, no it doesn\u0027t look that important to me. We can always do that later if we want...",
+      "parentUuid": "c5dadd7c_e62ba32a",
+      "range": {
+        "startLine": 69,
+        "startChar": 6,
+        "endLine": 70,
+        "endChar": 53
+      },
+      "revId": "5b19f023e63572edb0c80effce29642a1aa3902a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "376b43af_36dd0d65",
         "filename": "javatests/com/google/gerrit/acceptance/rest/config/IndexChangesIT.java",
         "patchSetId": 8

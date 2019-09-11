@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5ce3fb7f_e4934a89",
+        "filename": "java/com/google/gerrit/server/restapi/config/IndexChanges.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-09-11T13:26:40Z",
+      "side": 1,
+      "message": "Oh, yes... I relied on git to produce conflicts during rebase on such places... but obviously\nthere was no conflict in the documentation :-)",
+      "parentUuid": "9350ed90_2e16673e",
+      "revId": "1d2c8f0eaa7ed71da5d1eb3ce607aaea0050003d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "16ed0f7c_a124f11c",
         "filename": "javatests/com/google/gerrit/acceptance/rest/config/IndexChangesIT.java",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2019-09-11T13:18:12Z",
       "side": 1,
       "message": "This looks like these tests can be flaky now. The post request only submits the index task to a queue, when the assertion is done you do not know whether this task was already processed or not.\n\nMaybe the IndexChanges.Input could have an async boolean field similar to GCInput to make the execution synchronous for tests?",
+      "revId": "1d2c8f0eaa7ed71da5d1eb3ce607aaea0050003d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0de7456e_001ae9d3",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/config/IndexChangesIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-09-11T13:26:40Z",
+      "side": 1,
+      "message": "\u003e This looks like these tests can be flaky now.\n\nGood point.\n\n\u003e Maybe the IndexChanges.Input could have an async boolean field similar to GCInput to make the execution synchronous for tests?\n\nSuch a flag would indeed be useful for scripting... but we would still not test asynchronous indexing?\n\nWe can also wait here until the counter becomes 1 OR some timeout expires?",
+      "parentUuid": "16ed0f7c_a124f11c",
       "revId": "1d2c8f0eaa7ed71da5d1eb3ce607aaea0050003d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

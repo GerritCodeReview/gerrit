@@ -29,34 +29,6 @@
 
   /**
    * @typedef {{
-   *    url: string,
-   *    fetchOptions: (Object|null|undefined),
-   *    anonymizedUrl: (string|undefined),
-   * }}
-   */
-  Defs.FetchRequest;
-
-  /**
-   * Object to describe a request for passing into _fetchJSON or _fetchRawJSON.
-   * - url is the URL for the request (excluding get params)
-   * - errFn is a function to invoke when the request fails.
-   * - cancelCondition is a function that, if provided and returns true, will
-   *     cancel the response after it resolves.
-   * - params is a key-value hash to specify get params for the request URL.
-   * @typedef {{
-   *    url: string,
-   *    errFn: (function(?Response, string=)|null|undefined),
-   *    cancelCondition: (function()|null|undefined),
-   *    params: (Object|null|undefined),
-   *    fetchOptions: (Object|null|undefined),
-   *    anonymizedUrl: (string|undefined),
-   *    reportUrlAsIs: (boolean|undefined),
-   * }}
-   */
-  Defs.FetchJSONRequest;
-
-  /**
-   * @typedef {{
    *   changeNum: (string|number),
    *   endpoint: string,
    *   patchNum: (string|number|null|undefined),
@@ -121,7 +93,6 @@
   const MAX_PROJECT_RESULTS = 25;
   const MAX_UNIFIED_DEFAULT_WINDOW_WIDTH_PX = 900;
   const PARENT_PATCH_NUM = 'PARENT';
-  const FAILED_TO_FETCH_ERROR = 'Failed to fetch';
 
   const Requests = {
     SEND_DIFF_DRAFT: 'sendDiffDraft',
@@ -134,60 +105,6 @@
   const ANONYMIZED_CHANGE_BASE_URL = '/changes/*~*';
   const ANONYMIZED_REVISION_BASE_URL = ANONYMIZED_CHANGE_BASE_URL +
       '/revisions/*';
-
-  /**
-   * Wrapper around Map for caching server responses. Site-based so that
-   * changes to CANONICAL_PATH will result in a different cache going into
-   * effect.
-   */
-  class SiteBasedCache {
-    constructor() {
-      // Container of per-canonical-path caches.
-      this._data = new Map();
-      if (window.INITIAL_DATA != undefined) {
-        // Put all data shipped with index.html into the cache. This makes it
-        // so that we spare more round trips to the server when the app loads
-        // initially.
-        Object
-            .entries(window.INITIAL_DATA)
-            .forEach(e => this._cache().set(e[0], e[1]));
-      }
-    }
-
-    // Returns the cache for the current canonical path.
-    _cache() {
-      if (!this._data.has(window.CANONICAL_PATH)) {
-        this._data.set(window.CANONICAL_PATH, new Map());
-      }
-      return this._data.get(window.CANONICAL_PATH);
-    }
-
-    has(key) {
-      return this._cache().has(key);
-    }
-
-    get(key) {
-      return this._cache().get(key);
-    }
-
-    set(key, value) {
-      this._cache().set(key, value);
-    }
-
-    delete(key) {
-      this._cache().delete(key);
-    }
-
-    invalidatePrefix(prefix) {
-      const newMap = new Map();
-      for (const [key, value] of this._cache().entries()) {
-        if (!key.startsWith(prefix)) {
-          newMap.set(key, value);
-        }
-      }
-      this._data.set(window.CANONICAL_PATH, newMap);
-    }
-  }
 
   Polymer({
     is: 'gr-rest-api-interface',
@@ -235,7 +152,7 @@
       },
       _sharedFetchPromises: {
         type: Object,
-        value: {}, // Intentional to share the object across instances.
+        value: new FetchPromisesCache(), // Shared across instances.
       },
       _pendingRequests: {
         type: Object,
@@ -260,132 +177,48 @@
 
     JSON_PREFIX,
 
-    /**
-     * Wraps calls to the underlying authenticated fetch function (_auth.fetch)
-     * with timing and logging.
-     * @param {Defs.FetchRequest} req
-     */
-    _fetch(req) {
-      const start = Date.now();
-      const xhr = this._auth.fetch(req.url, req.fetchOptions);
+    created() {
+      /* Polymer 1 and Polymer 2 have slightly different lifecycle.
+      * Differences are not very well documented (see
+      * https://github.com/Polymer/old-docs-site/issues/2322).
+      * In Polymer 1, created() is called when properties values is not set
+      * and ready() is always called later, even if element is not added
+      * to a DOM. I.e. in Polymer 1 _cache and other properties are undefined,
+      * while in Polymer 2 they are set to default values.
+      * In Polymer 2, created() is called after properties values set and
+      * ready() is called only after element is attached to a DOM.
+      * There are several places in the code, where element is created with
+      * document.createElement('gr-rest-api-interface') and is not added
+      * to a DOM.
+      * In such cases, Polymer 1 calls both created() and ready() methods,
+      * but Polymer 2 calls only created() method.
+      * To workaround these differences, we should try to create _restApiHelper
+      * in both methods.
+      */
+      //
 
-      // Log the call after it completes.
-      xhr.then(res => this._logCall(req, start, res.status));
-
-      // Return the XHR directly (without the log).
-      return xhr;
+      this._initRestApiHelper();
     },
 
-    /**
-     * Log information about a REST call. Because the elapsed time is determined
-     * by this method, it should be called immediately after the request
-     * finishes.
-     * @param {Defs.FetchRequest} req
-     * @param {number} startTime the time that the request was started.
-     * @param {number} status the HTTP status of the response. The status value
-     *     is used here rather than the response object so there is no way this
-     *     method can read the body stream.
-     */
-    _logCall(req, startTime, status) {
-      const method = (req.fetchOptions && req.fetchOptions.method) ?
-          req.fetchOptions.method : 'GET';
-      const endTime = Date.now();
-      const elapsed = (endTime - startTime);
-      const startAt = new Date(startTime);
-      const endAt = new Date(endTime);
-      console.log([
-        'HTTP',
-        status,
-        method,
-        elapsed + 'ms',
-        req.anonymizedUrl || req.url,
-        `(${startAt.toISOString()}, ${endAt.toISOString()})`,
-      ].join(' '));
-      if (req.anonymizedUrl) {
-        this.fire('rpc-log',
-            {status, method, elapsed, anonymizedUrl: req.anonymizedUrl});
+    ready() {
+      // See comments in created()
+      this._initRestApiHelper();
+    },
+
+    _initRestApiHelper() {
+      if (this._restApiHelper) {
+        return;
+      }
+      if (this._cache && this._auth && this._sharedFetchPromises
+          && this._credentialCheck) {
+        this._restApiHelper = new GrRestApiHelper(this._cache, this._auth,
+            this._sharedFetchPromises, this._credentialCheck, this);
       }
     },
 
-    /**
-     * Fetch JSON from url provided.
-     * Returns a Promise that resolves to a native Response.
-     * Doesn't do error checking. Supports cancel condition. Performs auth.
-     * Validates auth expiry errors.
-     * @param {Defs.FetchJSONRequest} req
-     */
-    _fetchRawJSON(req) {
-      const urlWithParams = this._urlWithParams(req.url, req.params);
-      const fetchReq = {
-        url: urlWithParams,
-        fetchOptions: req.fetchOptions,
-        anonymizedUrl: req.reportUrlAsIs ? urlWithParams : req.anonymizedUrl,
-      };
-      return this._fetch(fetchReq).then(res => {
-        if (req.cancelCondition && req.cancelCondition()) {
-          res.body.cancel();
-          return;
-        }
-        return res;
-      }).catch(err => {
-        const isLoggedIn = !!this._cache.get('/accounts/self/detail');
-        if (isLoggedIn && err && err.message === FAILED_TO_FETCH_ERROR) {
-          this.checkCredentials();
-        } else {
-          if (req.errFn) {
-            req.errFn.call(undefined, null, err);
-          } else {
-            this.fire('network-error', {error: err});
-          }
-        }
-        throw err;
-      });
-    },
-
-    /**
-     * Fetch JSON from url provided.
-     * Returns a Promise that resolves to a parsed response.
-     * Same as {@link _fetchRawJSON}, plus error handling.
-     * @param {Defs.FetchJSONRequest} req
-     */
-    _fetchJSON(req) {
-      req = this._addAcceptJsonHeader(req);
-      return this._fetchRawJSON(req).then(response => {
-        if (!response) {
-          return;
-        }
-        if (!response.ok) {
-          if (req.errFn) {
-            req.errFn.call(null, response);
-            return;
-          }
-          this.fire('server-error', {request: req, response});
-          return;
-        }
-        return response && this.getResponseObject(response);
-      });
-    },
-
-    /**
-     * @param {string} url
-     * @param {?Object|string=} opt_params URL params, key-value hash.
-     * @return {string}
-     */
-    _urlWithParams(url, opt_params) {
-      if (!opt_params) { return this.getBaseUrl() + url; }
-
-      const params = [];
-      for (const p in opt_params) {
-        if (!opt_params.hasOwnProperty(p)) { continue; }
-        if (opt_params[p] == null) {
-          params.push(encodeURIComponent(p));
-          continue;
-        }
-        for (const value of [].concat(opt_params[p])) {
-          params.push(`${encodeURIComponent(p)}=${encodeURIComponent(value)}`);
-        }
-      }
-      return this.getBaseUrl() + url + '?' + params.join('&');
+    _fetchSharedCacheURL(req) {
+      // Cache is shared across instances
+      return this._restApiHelper.fetchCacheURL(req);
     },
 
     /**
@@ -393,45 +226,7 @@
      * @return {?}
      */
     getResponseObject(response) {
-      return this._readResponsePayload(response)
-          .then(payload => payload.parsed);
-    },
-
-    /**
-     * @param {!Object} response
-     * @return {!Object}
-     */
-    _readResponsePayload(response) {
-      return response.text().then(text => {
-        let result;
-        try {
-          result = this._parsePrefixedJSON(text);
-        } catch (_) {
-          result = null;
-        }
-        return {parsed: result, raw: text};
-      });
-    },
-
-    /**
-     * @param {string} source
-     * @return {?}
-     */
-    _parsePrefixedJSON(source) {
-      return JSON.parse(source.substring(JSON_PREFIX.length));
-    },
-
-    /**
-     * @param {Defs.FetchJSONRequest} req
-     * @return {Defs.FetchJSONRequest}
-     */
-    _addAcceptJsonHeader(req) {
-      if (!req.fetchOptions) req.fetchOptions = {};
-      if (!req.fetchOptions.headers) req.fetchOptions.headers = new Headers();
-      if (!req.fetchOptions.headers.has('Accept')) {
-        req.fetchOptions.headers.append('Accept', 'application/json');
-      }
-      return req;
+      return this._restApiHelper.getResponseObject(response);
     },
 
     getConfig(noCache) {
@@ -442,7 +237,7 @@
         });
       }
 
-      return this._fetchJSON({
+      return this._restApiHelper.fetchJSON({
         url: '/config/server/info',
         reportUrlAsIs: true,
       });
@@ -492,7 +287,7 @@
       // supports it.
       const url = `/projects/${encodeURIComponent(repo)}/config`;
       this._cache.delete(url);
-      return this._send({
+      return this._restApiHelper.send({
         method: 'PUT',
         url,
         body: config,
@@ -506,7 +301,7 @@
       // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
       // supports it.
       const encodeName = encodeURIComponent(repo);
-      return this._send({
+      return this._restApiHelper.send({
         method: 'POST',
         url: `/projects/${encodeName}/gc`,
         body: '',
@@ -524,7 +319,7 @@
       // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
       // supports it.
       const encodeName = encodeURIComponent(config.name);
-      return this._send({
+      return this._restApiHelper.send({
         method: 'PUT',
         url: `/projects/${encodeName}`,
         body: config,
@@ -540,7 +335,7 @@
     createGroup(config, opt_errFn) {
       if (!config.name) { return ''; }
       const encodeName = encodeURIComponent(config.name);
-      return this._send({
+      return this._restApiHelper.send({
         method: 'PUT',
         url: `/groups/${encodeName}`,
         body: config,
@@ -550,7 +345,7 @@
     },
 
     getGroupConfig(group, opt_errFn) {
-      return this._fetchJSON({
+      return this._restApiHelper.fetchJSON({
         url: `/groups/${encodeURIComponent(group)}/detail`,
         errFn: opt_errFn,
         anonymizedUrl: '/groups/*/detail',
@@ -568,7 +363,7 @@
       // supports it.
       const encodeName = encodeURIComponent(repo);
       const encodeRef = encodeURIComponent(ref);
-      return this._send({
+      return this._restApiHelper.send({
         method: 'DELETE',
         url: `/projects/${encodeName}/branches/${encodeRef}`,
         body: '',
@@ -588,7 +383,7 @@
       // supports it.
       const encodeName = encodeURIComponent(repo);
       const encodeRef = encodeURIComponent(ref);
-      return this._send({
+      return this._restApiHelper.send({
         method: 'DELETE',
         url: `/projects/${encodeName}/tags/${encodeRef}`,
         body: '',
@@ -609,7 +404,7 @@
       // supports it.
       const encodeName = encodeURIComponent(name);
       const encodeBranch = encodeURIComponent(branch);
-      return this._send({
+      return this._restApiHelper.send({
         method: 'PUT',
         url: `/projects/${encodeName}/branches/${encodeBranch}`,
         body: revision,
@@ -630,7 +425,7 @@
       // supports it.
       const encodeName = encodeURIComponent(name);
       const encodeTag = encodeURIComponent(tag);
-      return this._send({
+      return this._restApiHelper.send({
         method: 'PUT',
         url: `/projects/${encodeName}/tags/${encodeTag}`,
         body: revision,
@@ -655,7 +450,7 @@
 
     getGroupMembers(groupName, opt_errFn) {
       const encodeName = encodeURIComponent(groupName);
-      return this._fetchJSON({
+      return this._restApiHelper.fetchJSON({
         url: `/groups/${encodeName}/members/`,
         errFn: opt_errFn,
         anonymizedUrl: '/groups/*/members',
@@ -663,7 +458,7 @@
     },
 
     getIncludedGroup(groupName) {
-      return this._fetchJSON({
+      return this._restApiHelper.fetchJSON({
         url: `/groups/${encodeURIComponent(groupName)}/groups/`,
         anonymizedUrl: '/groups/*/groups',
       });
@@ -671,7 +466,7 @@
 
     saveGroupName(groupId, name) {
       const encodeId = encodeURIComponent(groupId);
-      return this._send({
+      return this._restApiHelper.send({
         method: 'PUT',
         url: `/groups/${encodeId}/name`,
         body: {name},
@@ -681,7 +476,7 @@
 
     saveGroupOwner(groupId, ownerId) {
       const encodeId = encodeURIComponent(groupId);
-      return this._send({
+      return this._restApiHelper.send({
         method: 'PUT',
         url: `/groups/${encodeId}/owner`,
         body: {owner: ownerId},
@@ -691,7 +486,7 @@
 
     saveGroupDescription(groupId, description) {
       const encodeId = encodeURIComponent(groupId);
-      return this._send({
+      return this._restApiHelper.send({
         method: 'PUT',
         url: `/groups/${encodeId}/description`,
         body: {description},
@@ -701,7 +496,7 @@
 
     saveGroupOptions(groupId, options) {
       const encodeId = encodeURIComponent(groupId);
-      return this._send({
+      return this._restApiHelper.send({
         method: 'PUT',
         url: `/groups/${encodeId}/options`,
         body: options,
@@ -720,7 +515,7 @@
     saveGroupMembers(groupName, groupMembers) {
       const encodeName = encodeURIComponent(groupName);
       const encodeMember = encodeURIComponent(groupMembers);
-      return this._send({
+      return this._restApiHelper.send({
         method: 'PUT',
         url: `/groups/${encodeName}/members/${encodeMember}`,
         parseResponse: true,
@@ -737,7 +532,7 @@
         errFn: opt_errFn,
         anonymizedUrl: '/groups/*/groups/*',
       };
-      return this._send(req).then(response => {
+      return this._restApiHelper.send(req).then(response => {
         if (response.ok) {
           return this.getResponseObject(response);
         }
@@ -747,7 +542,7 @@
     deleteGroupMembers(groupName, groupMembers) {
       const encodeName = encodeURIComponent(groupName);
       const encodeMember = encodeURIComponent(groupMembers);
-      return this._send({
+      return this._restApiHelper.send({
         method: 'DELETE',
         url: `/groups/${encodeName}/members/${encodeMember}`,
         anonymizedUrl: '/groups/*/members/*',
@@ -757,7 +552,7 @@
     deleteIncludedGroup(groupName, includedGroup) {
       const encodeName = encodeURIComponent(groupName);
       const encodeIncludedGroup = encodeURIComponent(includedGroup);
-      return this._send({
+      return this._restApiHelper.send({
         method: 'DELETE',
         url: `/groups/${encodeName}/groups/${encodeIncludedGroup}`,
         anonymizedUrl: '/groups/*/groups/*',
@@ -844,7 +639,7 @@
         prefs.download_scheme = prefs.download_scheme.toLowerCase();
       }
 
-      return this._send({
+      return this._restApiHelper.send({
         method: 'PUT',
         url: '/accounts/self/preferences',
         body: prefs,
@@ -860,7 +655,7 @@
     saveDiffPreferences(prefs, opt_errFn) {
       // Invalidate the cache.
       this._cache.delete('/accounts/self/preferences.diff');
-      return this._send({
+      return this._restApiHelper.send({
         method: 'PUT',
         url: '/accounts/self/preferences.diff',
         body: prefs,
@@ -876,7 +671,7 @@
     saveEditPreferences(prefs, opt_errFn) {
       // Invalidate the cache.
       this._cache.delete('/accounts/self/preferences.edit');
-      return this._send({
+      return this._restApiHelper.send({
         method: 'PUT',
         url: '/accounts/self/preferences.edit',
         body: prefs,
@@ -910,14 +705,14 @@
     },
 
     getExternalIds() {
-      return this._fetchJSON({
+      return this._restApiHelper.fetchJSON({
         url: '/accounts/self/external.ids',
         reportUrlAsIs: true,
       });
     },
 
     deleteAccountIdentity(id) {
-      return this._send({
+      return this._restApiHelper.send({
         method: 'POST',
         url: '/accounts/self/external.ids:delete',
         body: id,
@@ -931,7 +726,7 @@
      * @return {!Promise<!Object>}
      */
     getAccountDetails(userId) {
-      return this._fetchJSON({
+      return this._restApiHelper.fetchJSON({
         url: `/accounts/${encodeURIComponent(userId)}/detail`,
         anonymizedUrl: '/accounts/*/detail',
       });
@@ -949,7 +744,7 @@
      * @param {function(?Response, string=)=} opt_errFn
      */
     addAccountEmail(email, opt_errFn) {
-      return this._send({
+      return this._restApiHelper.send({
         method: 'PUT',
         url: '/accounts/self/emails/' + encodeURIComponent(email),
         errFn: opt_errFn,
@@ -962,7 +757,7 @@
      * @param {function(?Response, string=)=} opt_errFn
      */
     deleteAccountEmail(email, opt_errFn) {
-      return this._send({
+      return this._restApiHelper.send({
         method: 'DELETE',
         url: '/accounts/self/emails/' + encodeURIComponent(email),
         errFn: opt_errFn,
@@ -982,7 +777,7 @@
         errFn: opt_errFn,
         anonymizedUrl: '/accounts/self/emails/*/preferred',
       };
-      return this._send(req).then(() => {
+      return this._restApiHelper.send(req).then(() => {
         // If result of getAccountEmails is in cache, update it in the cache
         // so we don't have to invalidate it.
         const cachedEmails = this._cache.get('/accounts/self/emails');
@@ -1026,7 +821,7 @@
         parseResponse: true,
         reportUrlAsIs: true,
       };
-      return this._send(req)
+      return this._restApiHelper.send(req)
           .then(newName => this._updateCachedAccount({name: newName}));
     },
 
@@ -1043,7 +838,7 @@
         parseResponse: true,
         reportUrlAsIs: true,
       };
-      return this._send(req)
+      return this._restApiHelper.send(req)
           .then(newName => this._updateCachedAccount({username: newName}));
     },
 
@@ -1060,33 +855,33 @@
         parseResponse: true,
         reportUrlAsIs: true,
       };
-      return this._send(req)
+      return this._restApiHelper.send(req)
           .then(newStatus => this._updateCachedAccount({status: newStatus}));
     },
 
     getAccountStatus(userId) {
-      return this._fetchJSON({
+      return this._restApiHelper.fetchJSON({
         url: `/accounts/${encodeURIComponent(userId)}/status`,
         anonymizedUrl: '/accounts/*/status',
       });
     },
 
     getAccountGroups() {
-      return this._fetchJSON({
+      return this._restApiHelper.fetchJSON({
         url: '/accounts/self/groups',
         reportUrlAsIs: true,
       });
     },
 
     getAccountAgreements() {
-      return this._fetchJSON({
+      return this._restApiHelper.fetchJSON({
         url: '/accounts/self/agreements',
         reportUrlAsIs: true,
       });
     },
 
     saveAccountAgreement(name) {
-      return this._send({
+      return this._restApiHelper.send({
         method: 'PUT',
         url: '/accounts/self/agreements',
         body: name,
@@ -1131,34 +926,7 @@
     },
 
     checkCredentials() {
-      if (this._credentialCheck.checking) {
-        return;
-      }
-      this._credentialCheck.checking = true;
-      let req = {url: '/accounts/self/detail', reportUrlAsIs: true};
-      req = this._addAcceptJsonHeader(req);
-      // Skip the REST response cache.
-      return this._fetchRawJSON(req).then(res => {
-        if (!res) { return; }
-        if (res.status === 403) {
-          this.fire('auth-error');
-          this._cache.delete('/accounts/self/detail');
-        } else if (res.ok) {
-          return this.getResponseObject(res);
-        }
-      }).then(res => {
-        this._credentialCheck.checking = false;
-        if (res) {
-          this._cache.set('/accounts/self/detail', res);
-        }
-        return res;
-      }).catch(err => {
-        this._credentialCheck.checking = false;
-        if (err && err.message === FAILED_TO_FETCH_ERROR) {
-          this.fire('auth-error');
-          this._cache.delete('/accounts/self/detail');
-        }
-      });
+      return this._restApiHelper.checkCredentials();
     },
 
     getDefaultPreferences() {
@@ -1204,7 +972,7 @@
      * @param {function(?Response, string=)=} opt_errFn
      */
     saveWatchedProjects(projects, opt_errFn) {
-      return this._send({
+      return this._restApiHelper.send({
         method: 'POST',
         url: '/accounts/self/watched.projects',
         body: projects,
@@ -1219,52 +987,13 @@
      * @param {function(?Response, string=)=} opt_errFn
      */
     deleteWatchedProjects(projects, opt_errFn) {
-      return this._send({
+      return this._restApiHelper.send({
         method: 'POST',
         url: '/accounts/self/watched.projects:delete',
         body: projects,
         errFn: opt_errFn,
         reportUrlAsIs: true,
       });
-    },
-
-    /**
-     * @param {Defs.FetchJSONRequest} req
-     */
-    _fetchSharedCacheURL(req) {
-      if (this._sharedFetchPromises[req.url]) {
-        return this._sharedFetchPromises[req.url];
-      }
-      // TODO(andybons): Periodic cache invalidation.
-      if (this._cache.has(req.url)) {
-        return Promise.resolve(this._cache.get(req.url));
-      }
-      this._sharedFetchPromises[req.url] = this._fetchJSON(req)
-          .then(response => {
-            if (response !== undefined) {
-              this._cache.set(req.url, response);
-            }
-            this._sharedFetchPromises[req.url] = undefined;
-            return response;
-          }).catch(err => {
-            this._sharedFetchPromises[req.url] = undefined;
-            throw err;
-          });
-      return this._sharedFetchPromises[req.url];
-    },
-
-    /**
-     * @param {string} prefix
-     */
-    _invalidateSharedFetchPromisesPrefix(prefix) {
-      const newObject = {};
-      Object.entries(this._sharedFetchPromises).forEach(([key, value]) => {
-        if (!key.startsWith(prefix)) {
-          newObject[key] = value;
-        }
-      });
-      this._sharedFetchPromises = newObject;
-      this._cache.invalidatePrefix(prefix);
     },
 
     _isNarrowScreen() {
@@ -1308,7 +1037,7 @@
         params,
         reportUrlAsIs: true,
       };
-      return this._fetchJSON(req).then(response => {
+      return this._restApiHelper.fetchJSON(req).then(response => {
         // Response may be an array of changes OR an array of arrays of
         // changes.
         if (opt_query instanceof Array) {
@@ -1407,7 +1136,8 @@
      */
     _getChangeDetail(changeNum, optionsHex, opt_errFn, opt_cancelCondition) {
       return this.getChangeActionURL(changeNum, null, '/detail').then(url => {
-        const urlWithParams = this._urlWithParams(url, optionsHex);
+        const urlWithParams = this._restApiHelper
+            .urlWithParams(url, optionsHex);
         const params = {O: optionsHex};
         let req = {
           url,
@@ -1417,10 +1147,10 @@
           fetchOptions: this._etags.getOptions(urlWithParams),
           anonymizedUrl: '/changes/*~*/detail?O=' + optionsHex,
         };
-        req = this._addAcceptJsonHeader(req);
-        return this._fetchRawJSON(req).then(response => {
+        req = this._restApiHelper.addAcceptJsonHeader(req);
+        return this._restApiHelper.fetchRawJSON(req).then(response => {
           if (response && response.status === 304) {
-            return Promise.resolve(this._parsePrefixedJSON(
+            return Promise.resolve(this._restApiHelper.parsePrefixedJSON(
                 this._etags.getCachedPayload(urlWithParams)));
           }
 
@@ -1434,7 +1164,7 @@
           }
 
           const payloadPromise = response ?
-              this._readResponsePayload(response) :
+              this._restApiHelper.readResponsePayload(response) :
               Promise.resolve(null);
 
           return payloadPromise.then(payload => {
@@ -1647,11 +1377,11 @@
     },
 
     invalidateGroupsCache() {
-      this._invalidateSharedFetchPromisesPrefix('/groups/?');
+      this._restApiHelper.invalidateFetchPromisesPrefix('/groups/?');
     },
 
     invalidateReposCache() {
-      this._invalidateSharedFetchPromisesPrefix('/projects/?');
+      this._restApiHelper.invalidateFetchPromisesPrefix('/projects/?');
     },
 
     /**
@@ -1689,7 +1419,7 @@
     setRepoHead(repo, ref) {
       // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
       // supports it.
-      return this._send({
+      return this._restApiHelper.send({
         method: 'PUT',
         url: `/projects/${encodeURIComponent(repo)}/HEAD`,
         body: {ref},
@@ -1713,7 +1443,7 @@
       const url = `/projects/${repo}/branches?n=${count}&S=${offset}${filter}`;
       // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
       // supports it.
-      return this._fetchJSON({
+      return this._restApiHelper.fetchJSON({
         url,
         errFn: opt_errFn,
         anonymizedUrl: '/projects/*/branches?*',
@@ -1737,7 +1467,7 @@
           encodedFilter;
       // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
       // supports it.
-      return this._fetchJSON({
+      return this._restApiHelper.fetchJSON({
         url,
         errFn: opt_errFn,
         anonymizedUrl: '/projects/*/tags',
@@ -1756,7 +1486,7 @@
       const encodedFilter = this._computeFilter(filter);
       const n = pluginsPerPage + 1;
       const url = `/plugins/?all&n=${n}&S=${offset}${encodedFilter}`;
-      return this._fetchJSON({
+      return this._restApiHelper.fetchJSON({
         url,
         errFn: opt_errFn,
         anonymizedUrl: '/plugins/?all',
@@ -1766,7 +1496,7 @@
     getRepoAccessRights(repoName, opt_errFn) {
       // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
       // supports it.
-      return this._fetchJSON({
+      return this._restApiHelper.fetchJSON({
         url: `/projects/${encodeURIComponent(repoName)}/access`,
         errFn: opt_errFn,
         anonymizedUrl: '/projects/*/access',
@@ -1776,7 +1506,7 @@
     setRepoAccessRights(repoName, repoInfo) {
       // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
       // supports it.
-      return this._send({
+      return this._restApiHelper.send({
         method: 'POST',
         url: `/projects/${encodeURIComponent(repoName)}/access`,
         body: repoInfo,
@@ -1785,7 +1515,7 @@
     },
 
     setRepoAccessRightsForReview(projectName, projectInfo) {
-      return this._send({
+      return this._restApiHelper.send({
         method: 'PUT',
         url: `/projects/${encodeURIComponent(projectName)}/access:review`,
         body: projectInfo,
@@ -1802,7 +1532,7 @@
     getSuggestedGroups(inputVal, opt_n, opt_errFn) {
       const params = {s: inputVal};
       if (opt_n) { params.n = opt_n; }
-      return this._fetchJSON({
+      return this._restApiHelper.fetchJSON({
         url: '/groups/',
         errFn: opt_errFn,
         params,
@@ -1822,7 +1552,7 @@
         type: 'ALL',
       };
       if (opt_n) { params.n = opt_n; }
-      return this._fetchJSON({
+      return this._restApiHelper.fetchJSON({
         url: '/projects/',
         errFn: opt_errFn,
         params,
@@ -1841,7 +1571,7 @@
       }
       const params = {suggest: null, q: inputVal};
       if (opt_n) { params.n = opt_n; }
-      return this._fetchJSON({
+      return this._restApiHelper.fetchJSON({
         url: '/accounts/',
         errFn: opt_errFn,
         params,
@@ -1872,7 +1602,7 @@
                 throw Error('Unsupported HTTP method: ' + method);
             }
 
-            return this._send({method, url, body});
+            return this._restApiHelper.send({method, url, body});
           });
     },
 
@@ -1902,7 +1632,7 @@
         O: options,
         q: 'status:open is:mergeable conflicts:' + changeNum,
       };
-      return this._fetchJSON({
+      return this._restApiHelper.fetchJSON({
         url: '/changes/',
         params,
         anonymizedUrl: '/changes/conflicts:*',
@@ -1924,7 +1654,7 @@
         O: options,
         q: query,
       };
-      return this._fetchJSON({
+      return this._restApiHelper.fetchJSON({
         url: '/changes/',
         params,
         anonymizedUrl: '/changes/change:*',
@@ -1947,7 +1677,7 @@
         O: options,
         q: query,
       };
-      return this._fetchJSON({
+      return this._restApiHelper.fetchJSON({
         url: '/changes/',
         params,
         anonymizedUrl: '/changes/topic:*',
@@ -1993,7 +1723,7 @@
         this.getChangeActionURL(changeNum, patchNum, '/review'),
       ];
       return Promise.all(promises).then(([, url]) => {
-        return this._send({
+        return this._restApiHelper.send({
           method: 'POST',
           url,
           body: review,
@@ -2027,7 +1757,7 @@
      */
     createChange(project, branch, subject, opt_topic, opt_isPrivate,
         opt_workInProgress, opt_baseChange, opt_baseCommit) {
-      return this._send({
+      return this._restApiHelper.send({
         method: 'POST',
         url: '/changes/',
         body: {
@@ -2202,7 +1932,7 @@
       return this.getFromProjectLookup(changeNum).then(project => {
         const url = '/accounts/self/starred.changes/' +
             (project ? encodeURIComponent(project) + '~' : '') + changeNum;
-        return this._send({
+        return this._restApiHelper.send({
           method: starred ? 'PUT' : 'DELETE',
           url,
           anonymizedUrl: '/accounts/self/starred.changes/*',
@@ -2219,59 +1949,7 @@
     },
 
     /**
-     * Send an XHR.
-     * @param {Defs.SendRequest} req
-     * @return {Promise}
-     */
-    _send(req) {
-      const options = {method: req.method};
-      if (req.body) {
-        options.headers = new Headers();
-        options.headers.set(
-            'Content-Type', req.contentType || 'application/json');
-        options.body = typeof req.body === 'string' ?
-            req.body : JSON.stringify(req.body);
-      }
-      if (req.headers) {
-        if (!options.headers) { options.headers = new Headers(); }
-        for (const header in req.headers) {
-          if (!req.headers.hasOwnProperty(header)) { continue; }
-          options.headers.set(header, req.headers[header]);
-        }
-      }
-      const url = req.url.startsWith('http') ?
-          req.url : this.getBaseUrl() + req.url;
-      const fetchReq = {
-        url,
-        fetchOptions: options,
-        anonymizedUrl: req.reportUrlAsIs ? url : req.anonymizedUrl,
-      };
-      const xhr = this._fetch(fetchReq).then(response => {
-        if (!response.ok) {
-          if (req.errFn) {
-            return req.errFn.call(undefined, response);
-          }
-          this.fire('server-error', {request: fetchReq, response});
-        }
-        return response;
-      }).catch(err => {
-        this.fire('network-error', {error: err});
-        if (req.errFn) {
-          return req.errFn.call(undefined, null, err);
-        } else {
-          throw err;
-        }
-      });
-
-      if (req.parseResponse) {
-        return xhr.then(res => this.getResponseObject(res));
-      }
-
-      return xhr;
-    },
-
-    /**
-     * Public version of the _send method preserved for plugins.
+     * Public version of the _restApiHelper.send method preserved for plugins.
      * @param {string} method
      * @param {string} url
      * @param {?string|number|Object=} opt_body passed as null sometimes
@@ -2284,7 +1962,7 @@
      */
     send(method, url, opt_body, opt_errFn, opt_contentType,
         opt_headers) {
-      return this._send({
+      return this._restApiHelper.send({
         method,
         url,
         body: opt_body,
@@ -2541,7 +2219,7 @@
     },
 
     getCommitInfo(project, commit) {
-      return this._fetchJSON({
+      return this._restApiHelper.fetchJSON({
         url: '/projects/' + encodeURIComponent(project) +
             '/commits/' + encodeURIComponent(commit),
         anonymizedUrl: '/projects/*/comments/*',
@@ -2549,7 +2227,7 @@
     },
 
     _fetchB64File(url) {
-      return this._fetch({url: this.getBaseUrl() + url})
+      return this._restApiHelper.fetch({url: this.getBaseUrl() + url})
           .then(response => {
             if (!response.ok) {
               return Promise.reject(new Error(response.statusText));
@@ -2673,7 +2351,7 @@
     },
 
     deleteAccountHttpPassword() {
-      return this._send({
+      return this._restApiHelper.send({
         method: 'DELETE',
         url: '/accounts/self/password.http',
         reportUrlAsIs: true,
@@ -2686,7 +2364,7 @@
      * parameter.
      */
     generateAccountHttpPassword() {
-      return this._send({
+      return this._restApiHelper.send({
         method: 'PUT',
         url: '/accounts/self/password.http',
         body: {generate: true},
@@ -2710,7 +2388,7 @@
         contentType: 'plain/text',
         reportUrlAsIs: true,
       };
-      return this._send(req)
+      return this._restApiHelper.send(req)
           .then(response => {
             if (response.status < 200 && response.status >= 300) {
               return Promise.reject(new Error('error'));
@@ -2724,7 +2402,7 @@
     },
 
     deleteAccountSSHKey(id) {
-      return this._send({
+      return this._restApiHelper.send({
         method: 'DELETE',
         url: '/accounts/self/sshkeys/' + id,
         anonymizedUrl: '/accounts/self/sshkeys/*',
@@ -2732,7 +2410,7 @@
     },
 
     getAccountGPGKeys() {
-      return this._fetchJSON({
+      return this._restApiHelper.fetchJSON({
         url: '/accounts/self/gpgkeys',
         reportUrlAsIs: true,
       });
@@ -2745,7 +2423,7 @@
         body: key,
         reportUrlAsIs: true,
       };
-      return this._send(req)
+      return this._restApiHelper.send(req)
           .then(response => {
             if (response.status < 200 && response.status >= 300) {
               return Promise.reject(new Error('error'));
@@ -2759,7 +2437,7 @@
     },
 
     deleteAccountGPGKey(id) {
-      return this._send({
+      return this._restApiHelper.send({
         method: 'DELETE',
         url: '/accounts/self/gpgkeys/' + id,
         anonymizedUrl: '/accounts/self/gpgkeys/*',
@@ -2792,7 +2470,7 @@
         body: {token},
         reportUrlAsIs: true,
       };
-      return this._send(req).then(response => {
+      return this._restApiHelper.send(req).then(response => {
         if (response.status === 204) {
           return 'Email confirmed successfully.';
         }
@@ -2801,7 +2479,7 @@
     },
 
     getCapabilities(opt_errFn) {
-      return this._fetchJSON({
+      return this._restApiHelper.fetchJSON({
         url: '/config/server/capabilities',
         errFn: opt_errFn,
         reportUrlAsIs: true,
@@ -2907,7 +2585,7 @@
      */
     getChange(changeNum, opt_errFn) {
       // Cannot use _changeBaseURL, as this function is used by _projectLookup.
-      return this._fetchJSON({
+      return this._restApiHelper.fetchJSON({
         url: `/changes/?q=change:${changeNum}`,
         errFn: opt_errFn,
         anonymizedUrl: '/changes/?q=change:*',
@@ -2967,7 +2645,7 @@
           req.endpoint : req.anonymizedEndpoint;
 
       return this._changeBaseURL(req.changeNum, req.patchNum).then(url => {
-        return this._send({
+        return this._restApiHelper.send({
           method: req.method,
           url: url + req.endpoint,
           body: req.body,
@@ -2992,7 +2670,7 @@
       const anonymizedBaseUrl = req.patchNum ?
           ANONYMIZED_REVISION_BASE_URL : ANONYMIZED_CHANGE_BASE_URL;
       return this._changeBaseURL(req.changeNum, req.patchNum).then(url => {
-        return this._fetchJSON({
+        return this._restApiHelper.fetchJSON({
           url: url + req.endpoint,
           errFn: req.errFn,
           params: req.params,
@@ -3119,7 +2797,7 @@
     },
 
     deleteDraftComments(query) {
-      return this._send({
+      return this._restApiHelper.send({
         method: 'POST',
         url: '/accounts/self/drafts:delete',
         body: {query},

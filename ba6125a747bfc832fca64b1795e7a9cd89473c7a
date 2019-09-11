@@ -107,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "66d32f45_c1fad9a8",
+        "filename": "gerrit-acceptance-framework/src/test/java/com/google/gerrit/acceptance/ChangeIndexedCounter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-11T11:49:30Z",
+      "side": 1,
+      "message": "\u003e IMO, the step 4 should be an explicit clear() call from the test code and not a side effect of an assert.\n\nI\u0027m fine with changing this, but it might be some effort to adapt all the tests that use this.\n\n\u003e Adding new assert methods which do not clear the state will create further confusion\n\u003e about how to properly use this class.\n\nI was thinking about a new assert method that checks the state for a set of changes and then does clear.",
+      "parentUuid": "dbd1967e_d9d49ad9",
+      "revId": "ba6125a747bfc832fca64b1795e7a9cd89473c7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "98756753_35017877",
         "filename": "gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/ssh/AbstractIndexTests.java",
         "patchSetId": 3

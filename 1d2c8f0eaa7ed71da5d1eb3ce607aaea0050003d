@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "e00a145d_b572ff7a",
+        "filename": "java/com/google/gerrit/server/restapi/config/IndexChanges.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-09-11T15:49:20Z",
+      "side": 1,
+      "message": "My answer in the PS-2 where I said that it works in the background thread is actually wrong.\nWhat happens is that, by default configuration, index.batchThreads is zero and the \n@IndexExecutor(BATCH) is a direct executor (same thread executor). This is why this worked :-)\n\nHowever, if I configure the tests with index.batchThreads\u003e0 then the changeFinder.find(d)\n(from the next line) returns an empty collection of ChangeNotes every time.\n\nAny idea?",
+      "revId": "1d2c8f0eaa7ed71da5d1eb3ce607aaea0050003d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9350ed90_2e16673e",
         "filename": "java/com/google/gerrit/server/restapi/config/IndexChanges.java",
         "patchSetId": 3
@@ -34,6 +51,24 @@
       "revId": "1d2c8f0eaa7ed71da5d1eb3ce607aaea0050003d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "21915430_bd0a29ae",
+        "filename": "java/com/google/gerrit/server/restapi/config/IndexChanges.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-09-11T15:49:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ce3fb7f_e4934a89",
+      "revId": "1d2c8f0eaa7ed71da5d1eb3ce607aaea0050003d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -84,6 +119,24 @@
       "side": 1,
       "message": "\u003e but we would still not test asynchronous indexing?\n\nI would be fine with not testing this.\n\n\u003e We can also wait here until the counter becomes 1 OR some timeout expires?\n\nI\u0027m not a fan of waiting indefinitely or with a timeout in tests, but would not object if you want to do this :)",
       "parentUuid": "0de7456e_001ae9d3",
+      "revId": "1d2c8f0eaa7ed71da5d1eb3ce607aaea0050003d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5a7a4f2f_d4d6f5f1",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/config/IndexChangesIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-09-11T15:49:20Z",
+      "side": 1,
+      "message": "OK, let me try... and then we can see if we want to keep such a test or if\nwe add support for synchronous mode.",
+      "parentUuid": "dcd90502_ccc43ddb",
       "revId": "1d2c8f0eaa7ed71da5d1eb3ce607aaea0050003d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

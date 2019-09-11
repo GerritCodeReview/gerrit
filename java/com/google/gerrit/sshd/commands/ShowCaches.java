@@ -194,7 +194,8 @@ final class ShowCaches extends SshCommand {
 
   private Collection<CacheInfo> getCaches() {
     @SuppressWarnings("unchecked")
-    Map<String, CacheInfo> caches = (Map<String, CacheInfo>) listCaches.apply(new ConfigResource());
+    Map<String, CacheInfo> caches =
+        (Map<String, CacheInfo>) listCaches.apply(new ConfigResource()).value();
     for (Map.Entry<String, CacheInfo> entry : caches.entrySet()) {
       CacheInfo cache = entry.getValue();
       cache.name = entry.getKey();

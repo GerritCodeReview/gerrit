@@ -89,7 +89,8 @@ final class FlushCaches extends SshCommand {
   @SuppressWarnings("unchecked")
   private void doList() {
     for (String name :
-        (List<String>) listCaches.setFormat(OutputFormat.LIST).apply(new ConfigResource())) {
+        (List<String>)
+            listCaches.setFormat(OutputFormat.LIST).apply(new ConfigResource()).value()) {
       stderr.print(name);
       stderr.print('\n');
     }

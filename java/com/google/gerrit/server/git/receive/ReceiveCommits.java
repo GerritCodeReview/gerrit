@@ -566,6 +566,7 @@ class ReceiveCommits {
 
       commandProgress.end();
       progress.end();
+      logger.atFine().log("Processing commands done.");
     }
   }
 

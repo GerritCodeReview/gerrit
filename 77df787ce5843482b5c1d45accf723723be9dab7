@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1e2ecfc2_94846cea",
+        "filename": "Documentation/cmd-stream-events.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-09-12T00:30:48Z",
+      "side": 1,
+      "message": "There is more context in the linked issue: https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d11083",
+      "parentUuid": "6c47d2dc_36a1e1cf",
+      "revId": "77df787ce5843482b5c1d45accf723723be9dab7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "12804ebb_4e3fc09d",
         "filename": "java/com/google/gerrit/acceptance/EventRecorder.java",
         "patchSetId": 4

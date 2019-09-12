@@ -19,6 +19,7 @@ import static java.util.Objects.requireNonNull;
 import com.google.common.base.Stopwatch;
 import com.google.common.base.Strings;
 import com.google.common.collect.HashBasedTable;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Table;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
@@ -229,6 +230,12 @@ public class TraceContext implements AutoCloseable {
     String value = requireNonNull(tagValue, "tag value is required").toString();
     tags.put(name, value, LoggingContext.getInstance().addTag(name, value));
     return this;
+  }
+
+  public ImmutableMap<String, String> getTags() {
+    ImmutableMap.Builder<String, String> tagMap = ImmutableMap.builder();
+    tags.cellSet().forEach(c -> tagMap.put(c.getRowKey(), c.getColumnKey()));
+    return tagMap.build();
   }
 
   public TraceContext addPluginTag(String pluginName) {

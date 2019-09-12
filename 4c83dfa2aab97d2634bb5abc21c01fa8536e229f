@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dcde98fa_2f42a3ae",
+        "filename": "polygerrit-ui/app/behaviors/gr-display-name-behavior/gr-display-name-behavior.html",
+        "patchSetId": 21
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-09-12T10:32:18Z",
+      "side": 1,
+      "message": "This behavior is essentially just delegating to GrDisplayNameUtils. Maybe remove the behavior altogether and just use the util directly?",
+      "range": {
+        "startLine": 27,
+        "startChar": 9,
+        "endLine": 27,
+        "endChar": 28
+      },
+      "revId": "4c83dfa2aab97d2634bb5abc21c01fa8536e229f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4cae79f1_c796463b",
+        "filename": "polygerrit-ui/app/behaviors/gr-display-name-behavior/gr-display-name-behavior.html",
+        "patchSetId": 21
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-09-12T10:32:18Z",
+      "side": 1,
+      "message": "Where does this._config come from?",
+      "range": {
+        "startLine": 37,
+        "startChar": 54,
+        "endLine": 37,
+        "endChar": 67
+      },
+      "revId": "4c83dfa2aab97d2634bb5abc21c01fa8536e229f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "82c09644_83c9353c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-list/gr-account-list.js",
+        "patchSetId": 21
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-09-12T10:32:18Z",
+      "side": 1,
+      "message": "as mentioned elsewhere, it would be great to have a typedef such that it is clear what this thing is",
+      "range": {
+        "startLine": 47,
+        "startChar": 14,
+        "endLine": 47,
+        "endChar": 20
+      },
+      "revId": "4c83dfa2aab97d2634bb5abc21c01fa8536e229f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f9d21d7_71df4d07",
+        "filename": "polygerrit-ui/app/scripts/gr-group-suggestions-provider/gr-group-suggestions-provider.js",
+        "patchSetId": 21
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-09-12T10:32:18Z",
+      "side": 1,
+      "message": "It would be nice, if we had a typedef for the SuggestionProvider, so that it is explicit what methods this has to implement. At least a class comment for all providers explaining this would be nice.",
+      "revId": "4c83dfa2aab97d2634bb5abc21c01fa8536e229f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f0b04ad8_6458d881",
+        "filename": "polygerrit-ui/app/scripts/gr-reviewer-suggestions-provider/gr-reviewer-suggestions-provider.js",
+        "patchSetId": 21
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-09-12T10:32:18Z",
+      "side": 1,
+      "message": "Would this also work?\n\n  return xhr.then(reviewers \u003d\u003e (reviewers || []));",
+      "range": {
+        "startLine": 57,
+        "startChar": 6,
+        "endLine": 60,
+        "endChar": 9
+      },
+      "revId": "4c83dfa2aab97d2634bb5abc21c01fa8536e229f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b1a32d4a_64cc6280",
+        "filename": "polygerrit-ui/app/test/index.html",
+        "patchSetId": 21
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-09-12T10:32:18Z",
+      "side": 1,
+      "message": "clean up",
+      "range": {
+        "startLine": 188,
+        "startChar": 0,
+        "endLine": 188,
+        "endChar": 4
+      },
+      "revId": "4c83dfa2aab97d2634bb5abc21c01fa8536e229f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

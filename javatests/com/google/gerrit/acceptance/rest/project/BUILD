@@ -28,6 +28,7 @@ java_library(
     name = "project",
     srcs = [
         "ProjectAssert.java",
+        "GetFoo.java",
     ],
     deps = [
         "//java/com/google/gerrit/extensions:api",

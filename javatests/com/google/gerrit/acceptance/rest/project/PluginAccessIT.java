@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.rest.project;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.server.config.ConfigResource.CONFIG_KIND;
 
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -26,6 +27,8 @@ import com.google.gerrit.extensions.api.access.PermissionRuleInfo;
 import com.google.gerrit.extensions.api.access.ProjectAccessInfo;
 import com.google.gerrit.extensions.api.access.ProjectAccessInput;
 import com.google.gerrit.extensions.config.CapabilityDefinition;
+import com.google.gerrit.extensions.restapi.RestApiModule;
+import com.google.gerrit.httpd.restapi.RestApiServlet;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.inject.AbstractModule;
 import com.google.inject.Module;
@@ -50,6 +53,13 @@ public class PluginAccessIT extends AbstractDaemonTest {
                     return "Print Hello";
                   }
                 });
+        install(
+            new RestApiModule() {
+              @Override
+              protected void configure() {
+                get(CONFIG_KIND, "foo").to(GetFoo.class);
+              }
+        });
       }
     };
   }
@@ -74,5 +84,8 @@ public class PluginAccessIT extends AbstractDaemonTest {
                 .permissions
                 .keySet())
         .containsAllIn(accessSectionInfo.permissions.keySet());
+
+    adminRestSession.get("/config/server/foo").assertOK();
+    userRestSession.get("/config/server/foo").assertOK();
   }
 }

@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "8767ae06_3c0f1543",
+        "filename": "polygerrit-ui/app/behaviors/gr-display-name-behavior/gr-display-name-behavior.html",
+        "patchSetId": 21
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-09-12T14:53:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "381b72a8_1a8f6232",
+      "range": {
+        "startLine": 27,
+        "startChar": 9,
+        "endLine": 27,
+        "endChar": 28
+      },
+      "revId": "4c83dfa2aab97d2634bb5abc21c01fa8536e229f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4cae79f1_c796463b",
         "filename": "polygerrit-ui/app/behaviors/gr-display-name-behavior/gr-display-name-behavior.html",
         "patchSetId": 21
@@ -144,6 +168,30 @@
     },
     {
       "key": {
+        "uuid": "ae6f04bb_717166d9",
+        "filename": "polygerrit-ui/app/behaviors/gr-display-name-behavior/gr-display-name-behavior.html",
+        "patchSetId": 21
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-09-12T14:53:26Z",
+      "side": 1,
+      "message": "You are right. Even more, getAccountDisplayName from the behavior is not used anywhere, so I removed it. Now nothing prevents from removing DisplayNameBehavior. So, I will remove it in a separate change.",
+      "parentUuid": "4b452310_e652b99e",
+      "range": {
+        "startLine": 37,
+        "startChar": 54,
+        "endLine": 37,
+        "endChar": 67
+      },
+      "revId": "4c83dfa2aab97d2634bb5abc21c01fa8536e229f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "82c09644_83c9353c",
         "filename": "polygerrit-ui/app/elements/shared/gr-account-list/gr-account-list.js",
         "patchSetId": 21
@@ -167,6 +215,30 @@
     },
     {
       "key": {
+        "uuid": "aa920005_4ed5f365",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-list/gr-account-list.js",
+        "patchSetId": 21
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-09-12T14:53:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "82c09644_83c9353c",
+      "range": {
+        "startLine": 47,
+        "startChar": 14,
+        "endLine": 47,
+        "endChar": 20
+      },
+      "revId": "4c83dfa2aab97d2634bb5abc21c01fa8536e229f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5f9d21d7_71df4d07",
         "filename": "polygerrit-ui/app/scripts/gr-group-suggestions-provider/gr-group-suggestions-provider.js",
         "patchSetId": 21
@@ -181,6 +253,24 @@
       "revId": "4c83dfa2aab97d2634bb5abc21c01fa8536e229f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7af0bdd4_bcff07b7",
+        "filename": "polygerrit-ui/app/scripts/gr-group-suggestions-provider/gr-group-suggestions-provider.js",
+        "patchSetId": 21
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-09-12T14:53:26Z",
+      "side": 1,
+      "message": "Added Defs.GrSuggestionsProvider to gr-account-list.js",
+      "parentUuid": "5f9d21d7_71df4d07",
+      "revId": "4c83dfa2aab97d2634bb5abc21c01fa8536e229f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -252,6 +342,30 @@
       "revId": "4c83dfa2aab97d2634bb5abc21c01fa8536e229f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4bfea9e7_ccc81264",
+        "filename": "polygerrit-ui/app/scripts/gr-reviewer-suggestions-provider/gr-reviewer-suggestions-provider.js",
+        "patchSetId": 21
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-09-12T14:53:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "32cb726b_d0e497b6",
+      "range": {
+        "startLine": 57,
+        "startChar": 6,
+        "endLine": 60,
+        "endChar": 9
+      },
+      "revId": "4c83dfa2aab97d2634bb5abc21c01fa8536e229f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

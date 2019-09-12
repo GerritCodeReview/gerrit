@@ -196,6 +196,8 @@ public class AccountCacheImpl implements AccountCache {
 
   /** Signals that the account was not found in the primary storage. */
   private static class AccountNotFoundException extends Exception {
+    private static final long serialVersionUID = 1L;
+
     public AccountNotFoundException(String message) {
       super(message);
     }

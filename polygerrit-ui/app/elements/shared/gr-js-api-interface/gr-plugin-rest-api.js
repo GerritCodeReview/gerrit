@@ -53,8 +53,12 @@
   GrPluginRestApi.prototype.fetchJSON = function(req) {
     // TODO(dhruvsri): find better implementation for fetchJSON
     const api = getRestApi();
-    const fetchJSON = api._fetchJSON ||
-                      api._restApiHelper.fetchJSON.bind(api._restApiHelper);
+    let fetchJSON;
+    if (api._fetchJSON) {
+      fetchJSON = api._fetchJSON.bind(api);
+    } else {
+      fetchJSON = api._restApiHelper.fetchJSON.bind(api._restApiHelper);
+    }
     return fetchJSON(req);
   };
 

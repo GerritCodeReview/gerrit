@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2eb390eb_e79ac9b5",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-list/gr-account-list.js",
+        "patchSetId": 24
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-09-12T18:30:16Z",
+      "side": 1,
+      "message": "Let\u0027s not bikeshed too much, but for the record, ideally this entire function would be moved into the suggestion provider. It would just need to get a setFilter method.",
+      "range": {
+        "startLine": 132,
+        "startChar": 4,
+        "endLine": 145,
+        "endChar": 6
+      },
+      "revId": "548557837750ebd2616026cc13147ee899248d05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

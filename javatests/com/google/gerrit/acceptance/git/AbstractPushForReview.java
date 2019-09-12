@@ -2203,6 +2203,18 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   }
 
   @Test
+  public void noEditAndUpdateAllUsersInSameChangeStack() throws Exception {
+    assume().that(notesMigration.readChanges()).isTrue();
+    List<RevCommit> commits = createChanges(2, "refs/for/master");
+    String id2 = byCommit(commits.get(1)).change().getKey().get();
+    addDraft(id2, commits.get(1).name(), newDraft(FILE_NAME, 1, "comment2"));
+    // First change in stack unchanged.
+    RevCommit unChanged = commits.remove(0);
+    // Publishing draft comments on change 2 updates All-Users.
+    amendChanges(unChanged.toObjectId(), commits, "refs/for/master%publish-comments");
+  }
+
+  @Test
   public void pushWithDraftOptionIsDisabledPerDefault() throws Exception {
     for (String ref : ImmutableSet.of("refs/drafts/master", "refs/for/master%draft")) {
       PushOneCommit.Result r = pushTo(ref);

@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "381b72a8_1a8f6232",
+        "filename": "polygerrit-ui/app/behaviors/gr-display-name-behavior/gr-display-name-behavior.html",
+        "patchSetId": 21
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-09-12T14:01:27Z",
+      "side": 1,
+      "message": "Removing DisplayNameBehavior in a follow-up change is totally fine. Just leave a line of TODO for yourself then.",
+      "parentUuid": "28b6edcc_ad78400c",
+      "range": {
+        "startLine": 27,
+        "startChar": 9,
+        "endLine": 27,
+        "endChar": 28
+      },
+      "revId": "4c83dfa2aab97d2634bb5abc21c01fa8536e229f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4cae79f1_c796463b",
         "filename": "polygerrit-ui/app/behaviors/gr-display-name-behavior/gr-display-name-behavior.html",
         "patchSetId": 21
@@ -84,6 +108,30 @@
       "side": 1,
       "message": "It is from an element. Some of gerrit\u0027s Polymer elements has _config property and behavior can use this property. I don\u0027t like it, because it creates unexpected dependencies, but this is an old code, I moved it from another file.",
       "parentUuid": "4cae79f1_c796463b",
+      "range": {
+        "startLine": 37,
+        "startChar": 54,
+        "endLine": 37,
+        "endChar": 67
+      },
+      "revId": "4c83dfa2aab97d2634bb5abc21c01fa8536e229f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4b452310_e652b99e",
+        "filename": "polygerrit-ui/app/behaviors/gr-display-name-behavior/gr-display-name-behavior.html",
+        "patchSetId": 21
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-09-12T14:01:27Z",
+      "side": 1,
+      "message": "The old code was in gr-account-entry.js. I think it is fine for AccountEntry to use its own private properties. But for a behavior to assume that the element using it has such a private property is breaking encapsulation in a weird way IMO.\n\ngetAccountDisplayName could just get another parameter for \"config\"?",
+      "parentUuid": "1813c979_1f79f67e",
       "range": {
         "startLine": 37,
         "startChar": 54,
@@ -171,6 +219,30 @@
       "side": 1,
       "message": "Yes, of course :)\nIt is my personal preferences to use \u0027if\u0027 and I didn\u0027t see any recommendation what to use in polygerrit code. I can switch to another style if it is preferable. I have some arguments for \u0027if\u0027, but I don\u0027t want to debate on such minor thing.",
       "parentUuid": "f0b04ad8_6458d881",
+      "range": {
+        "startLine": 57,
+        "startChar": 6,
+        "endLine": 60,
+        "endChar": 9
+      },
+      "revId": "4c83dfa2aab97d2634bb5abc21c01fa8536e229f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "32cb726b_d0e497b6",
+        "filename": "polygerrit-ui/app/scripts/gr-reviewer-suggestions-provider/gr-reviewer-suggestions-provider.js",
+        "patchSetId": 21
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-09-12T14:01:27Z",
+      "side": 1,
+      "message": "I would be interesting in the arguments for the additional \"it\" line.\n\nAs a long time Java developer it also took some time for me to get used to \"asdf || default\" JavaScript notation, but I have grown to like them I must admit. I find \"return reviewers || [];\" extremely concise and readable.\n\nWritten to the team chat for getting some more input from others. Could not justify my case by checking Google\u0027s JavaScript style guide. :-/",
+      "parentUuid": "69609b5b_b501cb4c",
       "range": {
         "startLine": 57,
         "startChar": 6,

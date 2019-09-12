@@ -14,6 +14,9 @@
 
 package com.google.gerrit.server.change;
 
+import static com.google.common.flogger.LazyArgs.lazy;
+
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -37,6 +40,8 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevWalk;
 
 public class DeleteChangeOp implements BatchUpdateOp {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   public interface Factory {
     DeleteChangeOp create(Change.Id id);
   }
@@ -73,6 +78,17 @@ public class DeleteChangeOp implements BatchUpdateOp {
     // still part of the database.
     cleanUpReferences(id);
 
+    logger.atFine().log(
+        "Deleting change %s, current patch set %d is commit %s",
+        id,
+        ctx.getChange().currentPatchSetId().get(),
+        lazy(
+            () ->
+                patchSets.stream()
+                    .filter(p -> p.number() == ctx.getChange().currentPatchSetId().get())
+                    .findAny()
+                    .map(p -> p.commitId().name())
+                    .orElse("n/a")));
     ctx.deleteChange();
     changeDeleted.fire(ctx.getChange(), ctx.getAccount(), ctx.getWhen());
     return true;

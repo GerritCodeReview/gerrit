@@ -377,6 +377,7 @@ class ReceiveCommits {
 
   private MessageSender messageSender;
   private ResultChangeIds resultChangeIds;
+  private Map<String, String> loggingTags;
 
   @Inject
   ReceiveCommits(
@@ -495,6 +496,7 @@ class ReceiveCommits {
     // Handles for outputting back over the wire to the end user.
     this.messageSender = messageSender != null ? messageSender : new ReceivePackMessageSender();
     this.resultChangeIds = resultChangeIds;
+    this.loggingTags = new HashMap<>();
   }
 
   void init() {
@@ -522,11 +524,20 @@ class ReceiveCommits {
   }
 
   void sendMessages() {
-    for (ValidationMessage m : messages) {
-      String msg = m.getType().getPrefix() + m.getMessage();
+    try (TraceContext traceContext =
+        TraceContext.newTrace(
+            loggingTags.containsKey(RequestId.Type.TRACE_ID.name()),
+            loggingTags.get(RequestId.Type.TRACE_ID.name()),
+            (tagName, traceId) -> {})) {
+      loggingTags.forEach((tagName, tagValue) -> traceContext.addTag(tagName, tagValue));
 
-      // Avoid calling sendError which will add its own error: prefix.
-      messageSender.sendMessage(msg);
+      for (ValidationMessage m : messages) {
+        String msg = m.getType().getPrefix() + m.getMessage();
+        logger.atFine().log("Sending message: %s", msg);
+
+        // Avoid calling sendError which will add its own error: prefix.
+        messageSender.sendMessage(msg);
+      }
     }
   }
 
@@ -566,6 +577,8 @@ class ReceiveCommits {
 
       commandProgress.end();
       progress.end();
+      loggingTags.putAll(traceContext.getTags());
+      logger.atFine().log("Processing commands done.");
     }
   }
 
@@ -3396,6 +3409,7 @@ class ReceiveCommits {
   }
 
   private static void reject(ReceiveCommand cmd, String why) {
+    logger.atFine().log("Rejecting command '%s': %s", cmd, why);
     cmd.setResult(REJECTED_OTHER_REASON, why);
   }
 

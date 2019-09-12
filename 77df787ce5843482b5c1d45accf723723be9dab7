@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "6c47d2dc_36a1e1cf",
+        "filename": "Documentation/cmd-stream-events.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2019-09-12T00:23:35Z",
+      "side": 1,
+      "message": "This feels like an inappropriate API change, why was this done, the commit message does not justify this at all?",
+      "revId": "77df787ce5843482b5c1d45accf723723be9dab7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "12804ebb_4e3fc09d",
         "filename": "java/com/google/gerrit/acceptance/EventRecorder.java",
         "patchSetId": 4

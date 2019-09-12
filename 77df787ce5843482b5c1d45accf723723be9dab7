@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "f55e4eb0_a5ee29ac",
+        "filename": "Documentation/cmd-stream-events.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2019-09-12T06:26:28Z",
+      "side": 1,
+      "message": "This is the original intent of this field. This is just a clarification.\nSee where this field is introduced:\nhttps://gerrit-review.googlesource.com/c/gerrit/+/61834",
+      "parentUuid": "1e2ecfc2_94846cea",
+      "revId": "77df787ce5843482b5c1d45accf723723be9dab7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "12804ebb_4e3fc09d",
         "filename": "java/com/google/gerrit/acceptance/EventRecorder.java",
         "patchSetId": 4

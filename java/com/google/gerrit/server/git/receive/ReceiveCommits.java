@@ -3397,6 +3397,7 @@ class ReceiveCommits {
   }
 
   private static void reject(ReceiveCommand cmd, String why) {
+    logger.atFine().log("Rejecting command '%s': %s", cmd, why);
     cmd.setResult(REJECTED_OTHER_REASON, why);
   }
 

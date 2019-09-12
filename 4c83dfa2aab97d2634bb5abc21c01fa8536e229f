@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "28b6edcc_ad78400c",
+        "filename": "polygerrit-ui/app/behaviors/gr-display-name-behavior/gr-display-name-behavior.html",
+        "patchSetId": 21
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-09-12T13:39:57Z",
+      "side": 1,
+      "message": "Yes, it completely makes sense. I even tried to do it (see Patchset 16), but then decided to keep Behavior, because it requires additional efforts to remove this._config correctly and update all tests (see also my answer to your another comment in this file). I want to make removal in a separate change later, if you don\u0027t mind.",
+      "parentUuid": "dcde98fa_2f42a3ae",
+      "range": {
+        "startLine": 27,
+        "startChar": 9,
+        "endLine": 27,
+        "endChar": 28
+      },
+      "revId": "4c83dfa2aab97d2634bb5abc21c01fa8536e229f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4cae79f1_c796463b",
         "filename": "polygerrit-ui/app/behaviors/gr-display-name-behavior/gr-display-name-behavior.html",
         "patchSetId": 21
@@ -36,6 +60,30 @@
       "writtenOn": "2019-09-12T10:32:18Z",
       "side": 1,
       "message": "Where does this._config come from?",
+      "range": {
+        "startLine": 37,
+        "startChar": 54,
+        "endLine": 37,
+        "endChar": 67
+      },
+      "revId": "4c83dfa2aab97d2634bb5abc21c01fa8536e229f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1813c979_1f79f67e",
+        "filename": "polygerrit-ui/app/behaviors/gr-display-name-behavior/gr-display-name-behavior.html",
+        "patchSetId": 21
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-09-12T13:39:57Z",
+      "side": 1,
+      "message": "It is from an element. Some of gerrit\u0027s Polymer elements has _config property and behavior can use this property. I don\u0027t like it, because it creates unexpected dependencies, but this is an old code, I moved it from another file.",
+      "parentUuid": "4cae79f1_c796463b",
       "range": {
         "startLine": 37,
         "startChar": 54,
@@ -111,6 +159,30 @@
     },
     {
       "key": {
+        "uuid": "69609b5b_b501cb4c",
+        "filename": "polygerrit-ui/app/scripts/gr-reviewer-suggestions-provider/gr-reviewer-suggestions-provider.js",
+        "patchSetId": 21
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-09-12T13:39:57Z",
+      "side": 1,
+      "message": "Yes, of course :)\nIt is my personal preferences to use \u0027if\u0027 and I didn\u0027t see any recommendation what to use in polygerrit code. I can switch to another style if it is preferable. I have some arguments for \u0027if\u0027, but I don\u0027t want to debate on such minor thing.",
+      "parentUuid": "f0b04ad8_6458d881",
+      "range": {
+        "startLine": 57,
+        "startChar": 6,
+        "endLine": 60,
+        "endChar": 9
+      },
+      "revId": "4c83dfa2aab97d2634bb5abc21c01fa8536e229f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b1a32d4a_64cc6280",
         "filename": "polygerrit-ui/app/test/index.html",
         "patchSetId": 21
@@ -131,6 +203,30 @@
       "revId": "4c83dfa2aab97d2634bb5abc21c01fa8536e229f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2eb50520_7fd72b43",
+        "filename": "polygerrit-ui/app/test/index.html",
+        "patchSetId": 21
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-09-12T13:39:57Z",
+      "side": 1,
+      "message": "Added comments.",
+      "parentUuid": "b1a32d4a_64cc6280",
+      "range": {
+        "startLine": 188,
+        "startChar": 0,
+        "endLine": 188,
+        "endChar": 4
+      },
+      "revId": "4c83dfa2aab97d2634bb5abc21c01fa8536e229f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

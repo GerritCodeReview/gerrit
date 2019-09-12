@@ -548,6 +548,9 @@ public class ReviewDbBatchUpdate extends BatchUpdate {
           int objs = 0;
           BatchRefUpdate allUsersRefUpdate = allUsersRepo.getRefDatabase().newBatchUpdate();
           for (ChangeTask task : tasks) {
+            if (task.noteDbResult == null) {
+              continue;
+            }
             for (ReceiveCommand cmd : task.noteDbResult.allUsersCommands()) {
               allUsersRefUpdate.addCommand(cmd);
             }

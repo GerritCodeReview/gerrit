@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c075dfff_46ab135a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-09-13T08:46:42Z",
+      "side": 1,
+      "message": "Thanks for the quick fix, I\u0027m verifying it right now.",
+      "revId": "67e5df2399a0af3d2fe61c53a39f10a3e4ab60c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

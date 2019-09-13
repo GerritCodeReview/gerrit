@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e856ef79_325fec91",
+        "filename": "polygerrit-ui/app/elements/shared/gr-button/gr-button.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-09-13T15:25:25Z",
+      "side": 1,
+      "message": "Is this the same fix as done by Paladox earlier? Should we then rather approve his change and only fix the padding in this change?",
+      "revId": "b07caae6816b5d592b54a21e5275b744e27a59dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

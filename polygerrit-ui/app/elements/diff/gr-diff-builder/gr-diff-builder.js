@@ -83,9 +83,14 @@
   };
 
   GrDiffBuilder.ContextButtonType = {
-    ABOVE: 'above',
-    BELOW: 'below',
+    STEP: 'step',
     ALL: 'all',
+  };
+
+  const ContextPlacement = {
+    LAST: 'last',
+    FIRST: 'first',
+    MIDDLE: 'middle',
   };
 
   const PARTIAL_CONTEXT_AMOUNT = 10;
@@ -232,39 +237,44 @@
   };
 
   GrDiffBuilder.prototype._createContextControl = function(section, line) {
-    if (!line.contextGroups) return null;
-
-    const numLines =
-        line.contextGroups[line.contextGroups.length - 1].lineRange.left.end -
-        line.contextGroups[0].lineRange.left.start + 1;
-
+    const contextGroups = line.contextGroups;
+    if (!contextGroups) return null;
+    const firstContextGroup = contextGroups[0];
+    const lastContextGroup = contextGroups[contextGroups.length - 1];
+    const numLines = lastContextGroup.lineRange.left.end
+                    - firstContextGroup.lineRange.left.start + 1;
     if (numLines === 0) return null;
-
-    const td = this._createElement('td');
-    const showPartialLinks = numLines > PARTIAL_CONTEXT_AMOUNT;
-
-    if (showPartialLinks) {
-      td.appendChild(this._createContextButton(
-          GrDiffBuilder.ContextButtonType.ABOVE, section, line, numLines));
-      td.appendChild(document.createTextNode(' - '));
+    const firstLines = firstContextGroup.lines;
+    const lastLines = lastContextGroup.lines;
+    const firstContextInFile = firstLines.length > 0 ?
+        firstLines[0].firstInFile : false;
+    const lastContextInFile = lastLines.length > 0 ?
+        lastLines[lastLines.length - 1].lastInFile: false;
+    let contextPlacement = ContextPlacement.MIDDLE;
+    if (firstContextInFile) {
+      contextPlacement = ContextPlacement.FIRST;
+    } else if (lastContextInFile) {
+      contextPlacement = ContextPlacement.LAST;
     }
+    const td = this._createElement('td');
+    const isStepBidirectional = (contextPlacement === ContextPlacement.MIDDLE);
+    const minimalForStepExpansion = isStepBidirectional ?
+        PARTIAL_CONTEXT_AMOUNT * 2 : PARTIAL_CONTEXT_AMOUNT;
+    const showStepExpansion = numLines > minimalForStepExpansion;
 
     td.appendChild(this._createContextButton(
         GrDiffBuilder.ContextButtonType.ALL, section, line, numLines));
 
-    if (showPartialLinks) {
-      td.appendChild(document.createTextNode(' - '));
+    if (showStepExpansion) {
       td.appendChild(this._createContextButton(
-          GrDiffBuilder.ContextButtonType.BELOW, section, line, numLines));
+          GrDiffBuilder.ContextButtonType.STEP, section, line,
+          numLines, contextPlacement));
     }
-
     return td;
   };
 
   GrDiffBuilder.prototype._createContextButton = function(type, section, line,
-      numLines) {
-    const context = PARTIAL_CONTEXT_AMOUNT;
-
+      numLines, contextPlacement) {
     const button = this._createElement('gr-button', 'showContext');
     button.setAttribute('link', true);
     button.setAttribute('no-uppercase', true);
@@ -276,14 +286,14 @@
       text = 'Show ' + numLines + ' common line';
       if (numLines > 1) { text += 's'; }
       groups.push(...line.contextGroups);
-    } else if (type === GrDiffBuilder.ContextButtonType.ABOVE) {
-      text = '+' + context + '↑';
-      groups = GrDiffGroup.hideInContextControl(line.contextGroups,
-          context, numLines);
-    } else if (type === GrDiffBuilder.ContextButtonType.BELOW) {
-      text = '+' + context + '↓';
-      groups = GrDiffGroup.hideInContextControl(line.contextGroups,
-          0, numLines - context);
+    } else if (type === GrDiffBuilder.ContextButtonType.STEP) {
+      const linesToShowAbove = contextPlacement === ContextPlacement.FIRST ?
+          0 : PARTIAL_CONTEXT_AMOUNT;
+      const linesToShowBelow = contextPlacement === ContextPlacement.LAST ?
+          0 : PARTIAL_CONTEXT_AMOUNT;
+      text = '+' + PARTIAL_CONTEXT_AMOUNT + ' Lines';
+      groups = GrDiffGroup.hideInContextControl(
+          line.contextGroups, linesToShowAbove, numLines - linesToShowBelow);
     }
 
     Polymer.dom(button).textContent = text;

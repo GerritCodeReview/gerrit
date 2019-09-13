@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0af56626_931e64ec",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-09-13T09:24:52Z",
+      "side": 1,
+      "message": "not sure about exposing this, as `fetchJSON` from `_restApiHelper` seems have a lot extra logic on top of the `fetch`, like `auth` check when fail and etc. And the `fetchJSON` name is very generic that may give plugin owners the perception of using this to do any ajax requests (which may not be true if it has nothing to do with our endpoint or auth).",
+      "revId": "55f3bc1de35b3b2d2e16fb86133f0f3417baee55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

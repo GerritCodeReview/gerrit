@@ -1,0 +1,11 @@
+load("@rules_java//java:defs.bzl", "java_library")
+
+java_library(
+    name = "globalrefdb",
+    srcs = glob(["**/*.java"]),
+    visibility = ["//visibility:public"],
+    deps = [
+        "//lib/jgit/org.eclipse.jgit:jgit",
+        "//lib/flogger:api",
+    ],
+)

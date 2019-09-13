@@ -33,6 +33,7 @@ public @interface UsedAt {
   enum Project {
     GOOGLE,
     COLLABNET,
+    GERRITFORGE,
     PLUGIN_CHECKS,
     PLUGIN_DELETE_PROJECT,
     PLUGIN_SERVICEUSER,

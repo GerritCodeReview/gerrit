@@ -16,6 +16,29 @@
       "revId": "67e5df2399a0af3d2fe61c53a39f10a3e4ab60c1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d6e433cd_da903b23",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-09-13T09:26:50Z",
+      "side": 1,
+      "message": "Interestingly, it also works in Firefox, if if replace this line only with:\n\n  white-space: pre-wrap;\n\nHowever, this simplified approach made problem in Chrome, where I am not able to delete first 3 lines any more, they are empty.",
+      "range": {
+        "startLine": 60,
+        "startChar": 8,
+        "endLine": 60,
+        "endChar": 35
+      },
+      "revId": "67e5df2399a0af3d2fe61c53a39f10a3e4ab60c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

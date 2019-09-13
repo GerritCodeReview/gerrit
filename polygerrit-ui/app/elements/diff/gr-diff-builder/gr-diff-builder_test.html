@@ -92,7 +92,7 @@ limitations under the License.
     test('context control buttons', () => {
       // Create 10 lines.
       const lines = [];
-      for (let i = 0; i < 10; i++) {
+      for (let i = 0; i < 20; i++) {
         const line = new GrDiffLine(GrDiffLine.Type.BOTH);
         line.beforeNumber = i + 1;
         line.afterNumber = i + 1;
@@ -105,28 +105,27 @@ limitations under the License.
       };
 
       const section = {};
-      // Does not include +10 buttons when there are fewer than 11 lines.
+      // Does not include +10 buttons when there are fewer than 21 lines.
       let td = builder._createContextControl(section, contextLine);
       let buttons = td.querySelectorAll('gr-button.showContext');
 
       assert.equal(buttons.length, 1);
-      assert.equal(Polymer.dom(buttons[0]).textContent, 'Show 10 common lines');
+      assert.equal(Polymer.dom(buttons[0]).textContent, 'Show 20 common lines');
 
       // Add another line.
       const line = new GrDiffLine(GrDiffLine.Type.BOTH);
       line.text = 'lorem upsum';
-      line.beforeNumber = 11;
-      line.afterNumber = 11;
+      line.beforeNumber = 21;
+      line.afterNumber = 21;
       contextLine.contextGroups[0].addLine(line);
 
-      // Includes +10 buttons when there are at least 11 lines.
+      // Includes +10 button when there are at least 20 lines.
       td = builder._createContextControl(section, contextLine);
       buttons = td.querySelectorAll('gr-button.showContext');
 
-      assert.equal(buttons.length, 3);
-      assert.equal(Polymer.dom(buttons[0]).textContent, '+10↑');
-      assert.equal(Polymer.dom(buttons[1]).textContent, 'Show 11 common lines');
-      assert.equal(Polymer.dom(buttons[2]).textContent, '+10↓');
+      assert.equal(buttons.length, 2);
+      assert.equal(Polymer.dom(buttons[0]).textContent, 'Show 21 common lines');
+      assert.equal(Polymer.dom(buttons[1]).textContent, '+10 Lines');
     });
 
     test('newlines 1', () => {

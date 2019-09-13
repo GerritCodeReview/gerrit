@@ -14,17 +14,23 @@
 
 package com.google.gerrit.acceptance.rest.account;
 
+import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.rest.account.AccountAssert.assertAccountInfo;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.TestAccount;
+import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
+import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.inject.Inject;
 import org.junit.Test;
 
 @NoHttpd
 public class GetAccountIT extends AbstractDaemonTest {
+  @Inject private AccountOperations accountOperations;
+
   @Test
   public void getNonExistingAccount_NotFound() throws Exception {
     assertThrows(ResourceNotFoundException.class, () -> gApi.accounts().id("non-existing").get());
@@ -49,6 +55,16 @@ public class GetAccountIT extends AbstractDaemonTest {
 
     // by 'self'
     testGetAccount("self", admin);
+  }
+
+  @Test
+  public void getInactiveAccount() throws Exception {
+    accountOperations.account(user.id()).forUpdate().inactive().update();
+    AccountInfo accountInfo = gApi.accounts().id(user.id().get()).get();
+    assertThat(accountInfo._accountId).isEqualTo(user.id().get());
+    assertThat(accountInfo.name).isEqualTo(user.fullName());
+    assertThat(accountInfo.email).isEqualTo(user.email());
+    assertThat(accountInfo.inactive).isTrue();
   }
 
   private void testGetAccount(String id, TestAccount expectedAccount) throws Exception {

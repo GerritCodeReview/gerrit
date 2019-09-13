@@ -112,10 +112,9 @@ public class DeleteChangeOp implements BatchUpdateOp {
 
   @Override
   public void updateRepo(RepoContext ctx) throws IOException {
-    String prefix = PatchSet.id(id, 1).toRefName();
-    prefix = prefix.substring(0, prefix.length() - 1);
-    for (Map.Entry<String, ObjectId> e : ctx.getRepoView().getRefs(prefix).entrySet()) {
-      removeRef(ctx, e, prefix);
+    String changeRefPrefix = RefNames.changeRefPrefix(id);
+    for (Map.Entry<String, ObjectId> e : ctx.getRepoView().getRefs(changeRefPrefix).entrySet()) {
+      removeRef(ctx, e, changeRefPrefix);
     }
     removeUserEdits(ctx);
   }

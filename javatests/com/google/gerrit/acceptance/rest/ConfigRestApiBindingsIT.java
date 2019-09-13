@@ -57,7 +57,8 @@ public class ConfigRestApiBindingsIT extends AbstractRestApiBindingsTest {
           RestCall.get("/config/server/capabilities"),
           RestCall.get("/config/server/caches"),
           RestCall.post("/config/server/caches"),
-          RestCall.get("/config/server/tasks"));
+          RestCall.get("/config/server/tasks"),
+          RestCall.post("/config/server/index.changes"));
 
   /**
    * Cache REST endpoints to be tested, the URLs contain a placeholder for the cache identifier.

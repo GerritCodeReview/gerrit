@@ -37,7 +37,7 @@ public class ChangeIndexedCounter implements ChangeIndexedListener {
     countsByChange.clear();
   }
 
-  long getCount(ChangeInfo info) {
+  public long getCount(ChangeInfo info) {
     return countsByChange.get(info._number);
   }
 

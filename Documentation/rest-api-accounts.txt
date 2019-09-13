@@ -57,8 +57,8 @@ generally disabled by default. Optional fields are:
 
 [[details]]
 --
-* `DETAILS`: Includes full name, preferred email, username and avatars
-for each account.
+* `DETAILS`: Includes full name, preferred email, username, avatars and
+status for each account.
 --
 
 [[all-emails]]
@@ -2260,9 +2260,12 @@ Only set if detailed account information is requested. +
 See option link:rest-api-changes.html#detailed-accounts[
 DETAILED_ACCOUNTS] for change queries +
 and option link:#details[DETAILS] for account queries.
+|`avatars`         |optional|List of link:#avatar-info[AvatarInfo] +
+entities that provide information about avatar images of the account.
 |`_more_accounts`  |optional, not set if `false`|
 Whether the query would deliver more results if not limited. +
 Only set on the last account that is returned.
+|`status`          |optional|Status message of the account.
 |===============================
 
 [[account-input]]
@@ -2307,6 +2310,19 @@ for an account.
 |`status`   |optional|The new status of the account. +
 If not set or if set to an empty string, the account status is deleted.
 |=============================
+
+[[avatar-info]]
+=== AvatarInfo
+The `AccountInfo` entity contains information about an avatar image of
+an account.
+
+[options="header",cols="1,6"]
+|======================
+|Field Name|Description
+|`url`     |The URL to the avatar image.
+|`height`  |The height of the avatar image in pixels.
+|`width`   |The width of the avatar image in pixels.
+|======================
 
 [[capability-info]]
 === CapabilityInfo

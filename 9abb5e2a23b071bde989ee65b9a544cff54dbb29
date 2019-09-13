@@ -1,0 +1,371 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6265b1fd_8d4587c8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-09-13T14:42:31Z",
+      "side": 1,
+      "message": "interface",
+      "range": {
+        "startLine": 7,
+        "startChar": 18,
+        "endLine": 7,
+        "endChar": 28
+      },
+      "revId": "9abb5e2a23b071bde989ee65b9a544cff54dbb29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e09d4b5b_fef31b7d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-09-13T14:42:31Z",
+      "side": 1,
+      "message": "We can mention some noticeable examples:\n- high-availability\n- gerrit slaves sharing repos over NFS\n\nAlso enables the ability to have concurrent writes on a multi-master setup (the high-availability scenario) by enabling ref-locking",
+      "revId": "9abb5e2a23b071bde989ee65b9a544cff54dbb29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6d21d94e_c8419d1d",
+        "filename": "java/com/google/gerrit/globalrefdb/GlobalRefDatabase.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-09-13T14:42:31Z",
+      "side": 1,
+      "message": "Add @UsedAt(GERRITFORGE) to make sure that it is not removed in the future because it is not used.\n\nAdd GERRITFORGE in the list of projects in com.google.gerrit.common.UsedAt",
+      "revId": "9abb5e2a23b071bde989ee65b9a544cff54dbb29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "808a9bdb_09207a83",
+        "filename": "java/com/google/gerrit/globalrefdb/GlobalRefDatabase.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-09-13T14:42:31Z",
+      "side": 1,
+      "message": "What\u0027s the rationale of having this utility method as part of the interface?",
+      "revId": "9abb5e2a23b071bde989ee65b9a544cff54dbb29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5ccb7727_a6477698",
+        "filename": "java/com/google/gerrit/globalrefdb/GlobalRefDatabase.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-09-13T14:42:31Z",
+      "side": 1,
+      "message": "Same as above: this shouldn\u0027t be part of the interface.",
+      "range": {
+        "startLine": 78,
+        "startChar": 0,
+        "endLine": 86,
+        "endChar": 3
+      },
+      "revId": "9abb5e2a23b071bde989ee65b9a544cff54dbb29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a34b9eb8_cfe2f8bd",
+        "filename": "java/com/google/gerrit/globalrefdb/GlobalRefDatabase.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-09-13T14:42:31Z",
+      "side": 1,
+      "message": "that ref is up-to-date",
+      "range": {
+        "startLine": 89,
+        "startChar": 29,
+        "endLine": 89,
+        "endChar": 54
+      },
+      "revId": "9abb5e2a23b071bde989ee65b9a544cff54dbb29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1d5cf27f_f0186b80",
+        "filename": "java/com/google/gerrit/globalrefdb/GlobalRefDatabase.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-09-13T14:42:31Z",
+      "side": 1,
+      "message": "Check in",
+      "range": {
+        "startLine": 89,
+        "startChar": 5,
+        "endLine": 89,
+        "endChar": 14
+      },
+      "revId": "9abb5e2a23b071bde989ee65b9a544cff54dbb29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dec83957_fb1b0ff1",
+        "filename": "java/com/google/gerrit/globalrefdb/GlobalRefDatabase.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-09-13T14:42:31Z",
+      "side": 1,
+      "message": "You should explain a bit more this part: would this implicitly lock the ref in the global refdb?",
+      "range": {
+        "startLine": 94,
+        "startChar": 61,
+        "endLine": 94,
+        "endChar": 81
+      },
+      "revId": "9abb5e2a23b071bde989ee65b9a544cff54dbb29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "513ac5d9_05220c41",
+        "filename": "java/com/google/gerrit/globalrefdb/GlobalRefDatabase.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-09-13T14:42:31Z",
+      "side": 1,
+      "message": "What about Project.NameKey?",
+      "range": {
+        "startLine": 96,
+        "startChar": 21,
+        "endLine": 96,
+        "endChar": 27
+      },
+      "revId": "9abb5e2a23b071bde989ee65b9a544cff54dbb29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8a25bd33_d6083463",
+        "filename": "java/com/google/gerrit/globalrefdb/GlobalRefDatabase.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-09-13T14:42:31Z",
+      "side": 1,
+      "message": "is up-to-date with the current.",
+      "range": {
+        "startLine": 99,
+        "startChar": 37,
+        "endLine": 99,
+        "endChar": 47
+      },
+      "revId": "9abb5e2a23b071bde989ee65b9a544cff54dbb29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "582b12db_d5dfe027",
+        "filename": "java/com/google/gerrit/globalrefdb/GlobalRefDatabase.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-09-13T14:42:31Z",
+      "side": 1,
+      "message": "You should mention also that the operation is atomic.",
+      "revId": "9abb5e2a23b071bde989ee65b9a544cff54dbb29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f0077785_49ef78e2",
+        "filename": "java/com/google/gerrit/globalrefdb/GlobalRefDatabase.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-09-13T14:42:31Z",
+      "side": 1,
+      "message": "Project.NameKey?",
+      "range": {
+        "startLine": 117,
+        "startChar": 24,
+        "endLine": 117,
+        "endChar": 30
+      },
+      "revId": "9abb5e2a23b071bde989ee65b9a544cff54dbb29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "76f7a781_2e499101",
+        "filename": "java/com/google/gerrit/globalrefdb/GlobalRefDatabase.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-09-13T14:42:31Z",
+      "side": 1,
+      "message": "Do you really need to perform a write during the lock?\nOr is this a simple exclusive lock?",
+      "range": {
+        "startLine": 120,
+        "startChar": 26,
+        "endLine": 120,
+        "endChar": 33
+      },
+      "revId": "9abb5e2a23b071bde989ee65b9a544cff54dbb29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dfc9461c_f490eef8",
+        "filename": "java/com/google/gerrit/globalrefdb/GlobalRefDatabase.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-09-13T14:42:31Z",
+      "side": 1,
+      "message": "Project.NameKey?",
+      "range": {
+        "startLine": 127,
+        "startChar": 24,
+        "endLine": 127,
+        "endChar": 30
+      },
+      "revId": "9abb5e2a23b071bde989ee65b9a544cff54dbb29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b2de2e0f_d1c74053",
+        "filename": "java/com/google/gerrit/globalrefdb/GlobalRefDatabase.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-09-13T14:42:31Z",
+      "side": 1,
+      "message": "Project.NameKey?",
+      "range": {
+        "startLine": 136,
+        "startChar": 17,
+        "endLine": 136,
+        "endChar": 23
+      },
+      "revId": "9abb5e2a23b071bde989ee65b9a544cff54dbb29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "276c6900_c62a7077",
+        "filename": "java/com/google/gerrit/globalrefdb/GlobalRefDatabase.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-09-13T14:42:31Z",
+      "side": 1,
+      "message": "remove",
+      "range": {
+        "startLine": 144,
+        "startChar": 7,
+        "endLine": 144,
+        "endChar": 20
+      },
+      "revId": "9abb5e2a23b071bde989ee65b9a544cff54dbb29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a46e4b71_59584b7c",
+        "filename": "java/com/google/gerrit/globalrefdb/GlobalRefDbLockException.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-09-13T14:42:31Z",
+      "side": 1,
+      "message": "ref %s on project %s",
+      "range": {
+        "startLine": 24,
+        "startChar": 40,
+        "endLine": 24,
+        "endChar": 60
+      },
+      "revId": "9abb5e2a23b071bde989ee65b9a544cff54dbb29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

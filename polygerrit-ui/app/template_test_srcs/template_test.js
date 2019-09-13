@@ -38,6 +38,8 @@ const EXTERN_NAMES = [
   'SiteBasedCache',
   'FetchPromisesCache',
   'GrRestApiHelper',
+  'GrDisplayNameUtils',
+  'GrReviewerSuggestionsProvider',
   'moment',
   'page',
   'util',

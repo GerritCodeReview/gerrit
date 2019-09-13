@@ -83,12 +83,11 @@
   };
 
   GrDiffBuilder.ContextButtonType = {
-    ABOVE: 'above',
-    BELOW: 'below',
+    STEP: 'step',
     ALL: 'all',
   };
 
-  const PARTIAL_CONTEXT_AMOUNT = 10;
+  const PARTIAL_CONTEXT_AMOUNT = 20;
 
   /**
    * Abstract method
@@ -241,29 +240,20 @@
     if (numLines === 0) return null;
 
     const td = this._createElement('td');
-    const showPartialLinks = numLines > PARTIAL_CONTEXT_AMOUNT;
-
-    if (showPartialLinks) {
-      td.appendChild(this._createContextButton(
-          GrDiffBuilder.ContextButtonType.ABOVE, section, line, numLines));
-      td.appendChild(document.createTextNode(' - '));
-    }
+    const showStepExpansion = numLines > PARTIAL_CONTEXT_AMOUNT;
 
     td.appendChild(this._createContextButton(
         GrDiffBuilder.ContextButtonType.ALL, section, line, numLines));
 
-    if (showPartialLinks) {
-      td.appendChild(document.createTextNode(' - '));
+    if (showStepExpansion) {
       td.appendChild(this._createContextButton(
-          GrDiffBuilder.ContextButtonType.BELOW, section, line, numLines));
+          GrDiffBuilder.ContextButtonType.STEP, section, line, numLines));
     }
-
     return td;
   };
 
   GrDiffBuilder.prototype._createContextButton = function(type, section, line,
       numLines) {
-    const context = PARTIAL_CONTEXT_AMOUNT;
 
     const button = this._createElement('gr-button', 'showContext');
     button.setAttribute('link', true);
@@ -276,14 +266,11 @@
       text = 'Show ' + numLines + ' common line';
       if (numLines > 1) { text += 's'; }
       groups.push(...line.contextGroups);
-    } else if (type === GrDiffBuilder.ContextButtonType.ABOVE) {
-      text = '+' + context + '↑';
-      groups = GrDiffGroup.hideInContextControl(line.contextGroups,
-          context, numLines);
-    } else if (type === GrDiffBuilder.ContextButtonType.BELOW) {
-      text = '+' + context + '↓';
-      groups = GrDiffGroup.hideInContextControl(line.contextGroups,
-          0, numLines - context);
+    } else if (type === GrDiffBuilder.ContextButtonType.STEP) {
+      const contextStep = PARTIAL_CONTEXT_AMOUNT / 2;
+      text = '+' + contextStep + ' Lines';
+      groups = GrDiffGroup.hideInContextControl(
+          line.contextGroups, contextStep, numLines - contextStep);
     }
 
     Polymer.dom(button).textContent = text;

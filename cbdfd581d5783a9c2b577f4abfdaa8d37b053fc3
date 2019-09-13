@@ -17,6 +17,24 @@
       "revId": "cbdfd581d5783a9c2b577f4abfdaa8d37b053fc3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1608705f_98c57857",
+        "filename": "javatests/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2643,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-13T11:53:33Z",
+      "side": 1,
+      "message": "That\u0027s a good idea, let\u0027s follow-up on this as a separate change.",
+      "parentUuid": "c432c072_9c4761b7",
+      "revId": "cbdfd581d5783a9c2b577f4abfdaa8d37b053fc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

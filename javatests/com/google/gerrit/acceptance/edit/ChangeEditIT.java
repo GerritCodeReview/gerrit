@@ -116,8 +116,8 @@ public class ChangeEditIT extends AbstractDaemonTest {
     changeId = newChange(admin.newIdent());
     ps = getCurrentPatchSet(changeId);
     assertThat(ps).isNotNull();
-    amendChange(admin.newIdent(), changeId);
-    changeId2 = newChange2(admin.newIdent());
+    // amendChange(admin.newIdent(), changeId);
+    // changeId2 = newChange2(admin.newIdent());
   }
 
   @Test
@@ -145,6 +145,25 @@ public class ChangeEditIT extends AbstractDaemonTest {
 
     gApi.changes().id(changeId2).edit().delete();
     assertThat(getEdit(changeId2)).isAbsent();
+  }
+
+  @Test
+  public void publicEditChangesUploader() throws  Exception {
+    ChangeInfo change = gApi.changes().id(changeId).get();
+    assertThat(change.revisions.get(change.currentRevision).uploader._accountId).isEqualTo(admin.id().get());
+    gApi.changes().id(changeId).edit().modifyCommitMessage("bla bla");
+    gApi.changes().id(changeId).edit().publish();
+
+    gApi.changes().id(changeId).edit().modifyFile(FILE_NAME, RawInputUtil.create(CONTENT_NEW));
+    gApi.changes().id(changeId).edit().publish();
+    change = gApi.changes().id(changeId).get();
+    assertThat(change.revisions.get(change.currentRevision).uploader._accountId).isEqualTo(admin.id().get());
+
+    requestScopeOperations.setApiUser(user.id());
+    gApi.changes().id(changeId).edit().modifyFile(FILE_NAME, RawInputUtil.create(CONTENT_NEW2));
+    gApi.changes().id(changeId).edit().publish();
+    change = gApi.changes().id(changeId).get();
+    assertThat(change.revisions.get(change.currentRevision).uploader._accountId).isEqualTo(user.id().get());
   }
 
   @Test

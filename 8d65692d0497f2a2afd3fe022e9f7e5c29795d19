@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "7f75c5c1_cdc6ed3b",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 2203,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-13T11:43:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "559cb14e_f5ed3a0c",
+      "range": {
+        "startLine": 2203,
+        "startChar": 64,
+        "endLine": 2203,
+        "endChar": 70
+      },
+      "revId": "8d65692d0497f2a2afd3fe022e9f7e5c29795d19",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0ebdce79_dc43a3d1",
         "filename": "java/com/google/gerrit/extensions/common/AccountDetailInfo.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2019-09-13T11:33:50Z",
       "side": 1,
       "message": "Is there any reason not to move this to AccountInfo as well? Why do we need AccountDetailInfo?",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 32
+      },
+      "revId": "8d65692d0497f2a2afd3fe022e9f7e5c29795d19",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "65df0119_c4b77522",
+        "filename": "java/com/google/gerrit/extensions/common/AccountDetailInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-13T11:43:55Z",
+      "side": 1,
+      "message": "That\u0027s a valid question. I think the reason is that the UI usually doesn\u0027t need this information and hence transferring it to the client with every AccountInfo would unnecessarily increase the volume of the transmitted data (and AccountInfos are sent to the client all the time for change owners, reviewers, CCs etc).\n\nHaving said that, we could still move this field to AccountInfo and just not set it by default. But that\u0027s an amount of refactoring that should be done as a separate change and I\u0027m not sure I would like to invest time into this right now. But it\u0027s an improvement that makes sense to me and that we should keep in mind.\n\nFWIW moving down the inactive field doesn\u0027t increase the transferred data volume much, because most accounts are active and then this field is not populated.",
+      "parentUuid": "0ebdce79_dc43a3d1",
       "range": {
         "startLine": 20,
         "startChar": 0,

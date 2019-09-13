@@ -1,0 +1,280 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3ea14fe3_f029fd14",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-09-13T18:40:17Z",
+      "side": 1,
+      "message": "global refdb: it is a global store of refdb, not a global-ref of a db.",
+      "range": {
+        "startLine": 7,
+        "startChar": 4,
+        "endLine": 7,
+        "endChar": 17
+      },
+      "revId": "9b1f4595a9cd3a8ed2b79712941f5949cbb6e314",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7dec3918_8ebef00b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-09-13T18:40:17Z",
+      "side": 1,
+      "message": "masters or slaves",
+      "range": {
+        "startLine": 12,
+        "startChar": 51,
+        "endLine": 12,
+        "endChar": 57
+      },
+      "revId": "9b1f4595a9cd3a8ed2b79712941f5949cbb6e314",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eb8dc794_829b78db",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-09-13T18:40:17Z",
+      "side": 1,
+      "message": "sharing the repositories\u0027s refdb",
+      "range": {
+        "startLine": 12,
+        "startChar": 11,
+        "endLine": 12,
+        "endChar": 21
+      },
+      "revId": "9b1f4595a9cd3a8ed2b79712941f5949cbb6e314",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a508bee2_357565ae",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-09-13T18:40:17Z",
+      "side": 1,
+      "message": "all the",
+      "range": {
+        "startLine": 12,
+        "startChar": 29,
+        "endLine": 12,
+        "endChar": 32
+      },
+      "revId": "9b1f4595a9cd3a8ed2b79712941f5949cbb6e314",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ad4ebdd0_c6a9ddfd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-09-13T18:40:17Z",
+      "side": 1,
+      "message": "a shared storage (e.g. NFS)",
+      "range": {
+        "startLine": 13,
+        "startChar": 5,
+        "endLine": 13,
+        "endChar": 8
+      },
+      "revId": "9b1f4595a9cd3a8ed2b79712941f5949cbb6e314",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e4939df1_2a1827f3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-09-13T18:40:17Z",
+      "side": 1,
+      "message": "It could be leveraged also to",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 27
+      },
+      "revId": "9b1f4595a9cd3a8ed2b79712941f5949cbb6e314",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a0edb275_db4dadc8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-09-13T18:40:17Z",
+      "side": 1,
+      "message": "a shared locking mechanism for refs across multiple nodes.",
+      "range": {
+        "startLine": 15,
+        "startChar": 51,
+        "endLine": 15,
+        "endChar": 62
+      },
+      "revId": "9b1f4595a9cd3a8ed2b79712941f5949cbb6e314",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "52f01aa9_f0f4960b",
+        "filename": "java/com/google/gerrit/globalrefdb/GlobalRefDatabase.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-09-13T18:40:17Z",
+      "side": 1,
+      "message": "global-refdb",
+      "range": {
+        "startLine": 27,
+        "startChar": 14,
+        "endLine": 27,
+        "endChar": 27
+      },
+      "revId": "9b1f4595a9cd3a8ed2b79712941f5949cbb6e314",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7f547cf3_d74fd66e",
+        "filename": "java/com/google/gerrit/globalrefdb/GlobalRefDatabase.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-09-13T18:40:17Z",
+      "side": 1,
+      "message": "if ref",
+      "range": {
+        "startLine": 27,
+        "startChar": 28,
+        "endLine": 27,
+        "endChar": 43
+      },
+      "revId": "9b1f4595a9cd3a8ed2b79712941f5949cbb6e314",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "74c480f3_931f4953",
+        "filename": "java/com/google/gerrit/globalrefdb/GlobalRefDatabase.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-09-13T18:40:17Z",
+      "side": 1,
+      "message": "global ref-db",
+      "range": {
+        "startLine": 30,
+        "startChar": 38,
+        "endLine": 30,
+        "endChar": 51
+      },
+      "revId": "9b1f4595a9cd3a8ed2b79712941f5949cbb6e314",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "21b96298_06cac838",
+        "filename": "java/com/google/gerrit/globalrefdb/GlobalRefDatabase.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-09-13T18:40:17Z",
+      "side": 1,
+      "message": "wrap long line",
+      "range": {
+        "startLine": 32,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 99
+      },
+      "revId": "9b1f4595a9cd3a8ed2b79712941f5949cbb6e314",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fbde50f6_a512163a",
+        "filename": "java/com/google/gerrit/globalrefdb/GlobalRefDbLockException.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-09-13T18:40:17Z",
+      "side": 1,
+      "message": "ref %s on project %s",
+      "range": {
+        "startLine": 24,
+        "startChar": 40,
+        "endLine": 24,
+        "endChar": 60
+      },
+      "revId": "9b1f4595a9cd3a8ed2b79712941f5949cbb6e314",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

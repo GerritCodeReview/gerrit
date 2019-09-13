@@ -16,6 +16,24 @@
       "revId": "b07caae6816b5d592b54a21e5275b744e27a59dd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "330a78e0_a1ea418f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-button/gr-button.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-09-13T18:41:26Z",
+      "side": 1,
+      "message": "Yeah, let\u0027s have change 234092 merged and revert here.",
+      "parentUuid": "e856ef79_325fec91",
+      "revId": "b07caae6816b5d592b54a21e5275b744e27a59dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

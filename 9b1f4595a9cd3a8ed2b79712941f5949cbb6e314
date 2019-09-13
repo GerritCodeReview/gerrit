@@ -163,6 +163,29 @@
     },
     {
       "key": {
+        "uuid": "14bc59c9_fa93907f",
+        "filename": "java/com/google/gerrit/globalrefdb/BUILD",
+        "patchSetId": 3
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-09-13T19:58:03Z",
+      "side": 1,
+      "message": "Nit: just: \"*.java\"",
+      "range": {
+        "startLine": 5,
+        "startChar": 18,
+        "endLine": 5,
+        "endChar": 27
+      },
+      "revId": "9b1f4595a9cd3a8ed2b79712941f5949cbb6e314",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "52f01aa9_f0f4960b",
         "filename": "java/com/google/gerrit/globalrefdb/GlobalRefDatabase.java",
         "patchSetId": 3
@@ -248,6 +271,29 @@
         "startChar": 0,
         "endLine": 32,
         "endChar": 99
+      },
+      "revId": "9b1f4595a9cd3a8ed2b79712941f5949cbb6e314",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7934d673_43b93b2a",
+        "filename": "java/com/google/gerrit/globalrefdb/GlobalRefDatabase.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-09-13T19:58:03Z",
+      "side": 1,
+      "message": "if it is",
+      "range": {
+        "startLine": 38,
+        "startChar": 34,
+        "endLine": 38,
+        "endChar": 39
       },
       "revId": "9b1f4595a9cd3a8ed2b79712941f5949cbb6e314",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

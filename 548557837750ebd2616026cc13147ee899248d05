@@ -22,6 +22,30 @@
       "revId": "548557837750ebd2616026cc13147ee899248d05",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "65d0e0c7_a984932b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-list/gr-account-list.js",
+        "patchSetId": 24
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-09-13T09:31:48Z",
+      "side": 1,
+      "message": "Not sure, that it will be better. I see 3 possible options here:\n1) (current) If filter is here (in gr-account-list), we can combine things independently: gr-account-list + suggestionsProvider + filter. \n2) If we add setFilter method to every suggestionsProvider, then we have to duplicate code for filtering in each suggestionsProvider, and code is almost the same.\n3) suggestionsProvider can receive filter in the constructor (if it supports filtering) and gr-account-list doesn\u0027t know anything about filter. \n\nOptions (3) works good right now because only reviewersSuggestionsProvider is used with different filters. But with (1) we have smaller building blocks. For example, add filter for emails doesn\u0027t require any changes in emailSuggestionsProvider.",
+      "parentUuid": "2eb390eb_e79ac9b5",
+      "range": {
+        "startLine": 132,
+        "startChar": 4,
+        "endLine": 145,
+        "endChar": 6
+      },
+      "revId": "548557837750ebd2616026cc13147ee899248d05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

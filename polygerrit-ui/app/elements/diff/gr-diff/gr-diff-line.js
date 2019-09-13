@@ -44,6 +44,12 @@
     this.contextGroups = null;
 
     this.text = '';
+
+    /** @type {boolean} */
+    this.firstInFile = false;
+
+    /** @type {boolean} */
+    this.lastInFile = false;
   }
 
   GrDiffLine.Type = {

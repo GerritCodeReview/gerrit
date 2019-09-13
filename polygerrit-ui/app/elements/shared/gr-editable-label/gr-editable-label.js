@@ -95,15 +95,15 @@
     _showDropdown() {
       if (this.readOnly || this.editing) { return; }
       return this._open().then(() => {
-        this.$.input.$.input.focus();
+        this._nativeInput.focus();
         if (!this.$.input.value) { return; }
-        this.$.input.$.input.setSelectionRange(0, this.$.input.value.length);
+        this._nativeInput.setSelectionRange(0, this.$.input.value.length);
       });
     },
 
     open() {
       return this._open().then(() => {
-        this.$.input.$.input.focus();
+        this._nativeInput.focus();
       });
     },
 
@@ -155,6 +155,12 @@
       this._inputText = this.value;
     },
 
+    get _nativeInput() {
+      // In Polymer 2, the namespace of nativeInput
+      // changed from input to nativeInput
+      return this.$.input.$.nativeInput || this.$.input.$.input;
+    },
+
     /**
      * @suppress {checkTypes}
      * Closure doesn't think 'e' is an Event.
@@ -163,7 +169,7 @@
     _handleEnter(e) {
       e = this.getKeyboardEvent(e);
       const target = Polymer.dom(e).rootTarget;
-      if (target === this.$.input.$.input) {
+      if (target === this._nativeInput) {
         e.preventDefault();
         this._save();
       }
@@ -177,7 +183,7 @@
     _handleEsc(e) {
       e = this.getKeyboardEvent(e);
       const target = Polymer.dom(e).rootTarget;
-      if (target === this.$.input.$.input) {
+      if (target === this._nativeInput) {
         e.preventDefault();
         this._cancel();
       }

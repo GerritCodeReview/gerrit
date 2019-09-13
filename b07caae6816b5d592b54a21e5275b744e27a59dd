@@ -34,6 +34,24 @@
       "revId": "b07caae6816b5d592b54a21e5275b744e27a59dd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5b6e0b7b_3e1d85e6",
+        "filename": "polygerrit-ui/app/elements/shared/gr-button/gr-button.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-09-13T19:07:13Z",
+      "side": 1,
+      "message": "+1. Looking into 234092, it also added:\n\n  cursor: default;\n\nwhile this change not. Is it really needed?",
+      "parentUuid": "330a78e0_a1ea418f",
+      "revId": "b07caae6816b5d592b54a21e5275b744e27a59dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

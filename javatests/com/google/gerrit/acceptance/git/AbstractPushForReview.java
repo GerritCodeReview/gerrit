@@ -117,6 +117,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
+import java.util.concurrent.Callable;
+import java.util.concurrent.CyclicBarrier;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
@@ -2652,6 +2658,81 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     // it's expected that this is rejected with "no new changes"
     r = pushHead(testRepo, "refs/for/master");
     assertPushRejected(r, "refs/for/master", "no new changes");
+  }
+
+  @Test
+  @GerritConfig(name = "receive.threadPoolSize", value = "1")
+  public void
+      cannotPushTheSameCommitFromTwoConcurrentRequestsToTheSameBranchSingleThreadExecutionOnServer()
+          throws Exception {
+    testCannotPushTheSameCommitFromTwoConcurrentRequestsToTheSameBranch();
+  }
+
+  @Test
+  @GerritConfig(name = "receive.threadPoolSize", value = "1")
+  public void
+      cannotPushTheSameCommitFromTwoConcurrentRequestsToTheSameBranchSingleThreadExecutionOnServerCreateNewChangeForAllNotInTarget()
+          throws Exception {
+    enableCreateNewChangeForAllNotInTarget();
+    testCannotPushTheSameCommitFromTwoConcurrentRequestsToTheSameBranch();
+  }
+
+  @Test
+  @GerritConfig(name = "receive.threadPoolSize", value = "2")
+  public void
+      cannotPushTheSameCommitFromTwoConcurrentRequestsToTheSameBranchParallelExecutionOnServer()
+          throws Exception {
+    testCannotPushTheSameCommitFromTwoConcurrentRequestsToTheSameBranch();
+  }
+
+  @Test
+  @GerritConfig(name = "receive.threadPoolSize", value = "2")
+  public void
+      cannotPushTheSameCommitFromTwoConcurrentRequestsToTheSameBranchCreateParallelExecutionOnServerNewChangeForAllNotInTarget()
+          throws Exception {
+    enableCreateNewChangeForAllNotInTarget();
+    testCannotPushTheSameCommitFromTwoConcurrentRequestsToTheSameBranch();
+  }
+
+  public void testCannotPushTheSameCommitFromTwoConcurrentRequestsToTheSameBranch()
+      throws Exception {
+    setRequireChangeId(InheritableBoolean.FALSE);
+
+    RevCommit initialCommit = getHead(repo(), "HEAD");
+
+    ExecutorService executor = Executors.newFixedThreadPool(2);
+    try {
+      for (int i = 0; i < 10; i++) {
+        testRepo.reset(initialCommit);
+
+        // create a commit without Change-Id
+        testRepo
+            .branch("HEAD")
+            .commit()
+            .author(user.newIdent())
+            .committer(user.newIdent())
+            .add(PushOneCommit.FILE_NAME, PushOneCommit.FILE_CONTENT + " " + i)
+            .message(PushOneCommit.SUBJECT + " " + i)
+            .create();
+
+        CyclicBarrier sync = new CyclicBarrier(2);
+        Callable<RemoteRefUpdate.Status> push =
+            () -> {
+              sync.await();
+              PushResult r = pushHead(testRepo, "refs/for/master");
+              return r.getRemoteUpdate("refs/for/master").getStatus();
+            };
+
+        Future<RemoteRefUpdate.Status> status1 = executor.submit(push);
+        Future<RemoteRefUpdate.Status> status2 = executor.submit(push);
+        assertThat(ImmutableList.of(status1.get(), status2.get()))
+            .containsExactly(
+                RemoteRefUpdate.Status.OK, RemoteRefUpdate.Status.REJECTED_OTHER_REASON);
+      }
+    } finally {
+      executor.shutdown();
+      executor.awaitTermination(5, TimeUnit.SECONDS);
+    }
   }
 
   @Test

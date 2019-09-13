@@ -70,6 +70,30 @@
       "revId": "548557837750ebd2616026cc13147ee899248d05",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "25fffc3f_28d02e03",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-list/gr-account-list.js",
+        "patchSetId": 24
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-09-13T10:11:07Z",
+      "side": 1,
+      "message": "\u003e\u003e(1) The code duplication that you are complaining about in (2) will then happen elsewhere. \nI don\u0027t understand why. Filter can be defined separately and then it can be set in multiple places. And code for applying filter (i.e. map(filter)....) appears only in gr-account-list.\n\nDo you have in mind some other scenario?",
+      "parentUuid": "87f64b75_9abc7136",
+      "range": {
+        "startLine": 132,
+        "startChar": 4,
+        "endLine": 145,
+        "endChar": 6
+      },
+      "revId": "548557837750ebd2616026cc13147ee899248d05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

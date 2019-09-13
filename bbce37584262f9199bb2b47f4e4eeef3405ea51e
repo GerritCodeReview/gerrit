@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8da73eb6_8a2a0ea4",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.html",
+        "patchSetId": 37
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-09-13T18:47:26Z",
+      "side": 1,
+      "message": "I don\u0027t understand why this should work when it does not work for gr-main-header.\n\nCan you let me know what you are trying to do and explain why/what does not work in gr-main-header.\n\nI would really like to keep the customization vars local to gr-main-header, if at all possible.",
+      "range": {
+        "startLine": 60,
+        "startChar": 6,
+        "endLine": 61,
+        "endChar": 51
+      },
+      "revId": "bbce37584262f9199bb2b47f4e4eeef3405ea51e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fa90c824_0dda8cd2",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.html",
+        "patchSetId": 37
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-09-13T18:47:26Z",
+      "side": 1,
+      "message": "Same default trick as above for backwards compatibility?",
+      "range": {
+        "startLine": 78,
+        "startChar": 0,
+        "endLine": 78,
+        "endChar": 45
+      },
+      "revId": "bbce37584262f9199bb2b47f4e4eeef3405ea51e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

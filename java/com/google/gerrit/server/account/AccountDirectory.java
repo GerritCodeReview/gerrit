@@ -45,7 +45,10 @@ public abstract class AccountDirectory {
     ID,
 
     /** The user-settable status of this account (e.g. busy, OOO, available) */
-    STATUS
+    STATUS,
+
+    /** The state of the account (e.g. active or inactive) */
+    STATE
   }
 
   public abstract void fillAccountInfo(Iterable<? extends AccountInfo> in, Set<FillOptions> options)

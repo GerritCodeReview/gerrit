@@ -147,6 +147,10 @@ public class InternalAccountDirectory extends AccountDirectory {
       info.status = account.status();
     }
 
+    if (options.contains(FillOptions.STATE)) {
+      info.inactive = account.inactive() ? true : null;
+    }
+
     if (options.contains(FillOptions.AVATARS)) {
       AvatarProvider ap = avatar.get();
       if (ap != null) {

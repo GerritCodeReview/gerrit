@@ -26,6 +26,7 @@ public class AccountInfo {
   public List<AvatarInfo> avatars;
   public Boolean _moreAccounts;
   public String status;
+  public Boolean inactive;
 
   public AccountInfo(Integer id) {
     this._accountId = id;

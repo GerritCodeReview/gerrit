@@ -18,7 +18,6 @@ import java.sql.Timestamp;
 
 public class AccountDetailInfo extends AccountInfo {
   public Timestamp registeredOn;
-  public Boolean inactive;
 
   public AccountDetailInfo(Integer id) {
     super(id);

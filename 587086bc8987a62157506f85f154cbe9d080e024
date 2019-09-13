@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b31acfe5_8efd9e66",
+        "filename": "polygerrit-ui/app/test/index.html",
+        "patchSetId": 25
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-09-13T15:58:25Z",
+      "side": 1,
+      "message": "The tests in here are broken.",
+      "range": {
+        "startLine": 186,
+        "startChar": 4,
+        "endLine": 186,
+        "endChar": 49
+      },
+      "revId": "587086bc8987a62157506f85f154cbe9d080e024",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

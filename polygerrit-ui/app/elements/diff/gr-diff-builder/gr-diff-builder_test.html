@@ -119,14 +119,13 @@ limitations under the License.
       line.afterNumber = 11;
       contextLine.contextGroups[0].addLine(line);
 
-      // Includes +10 buttons when there are at least 11 lines.
+      // Includes +10 button when there are at least 20 lines.
       td = builder._createContextControl(section, contextLine);
       buttons = td.querySelectorAll('gr-button.showContext');
 
       assert.equal(buttons.length, 3);
-      assert.equal(Polymer.dom(buttons[0]).textContent, '+10↑');
-      assert.equal(Polymer.dom(buttons[1]).textContent, 'Show 11 common lines');
-      assert.equal(Polymer.dom(buttons[2]).textContent, '+10↓');
+      assert.equal(Polymer.dom(buttons[0]).textContent, 'Show 11 common lines');
+      assert.equal(Polymer.dom(buttons[1]).textContent, '+10');
     });
 
     test('newlines 1', () => {

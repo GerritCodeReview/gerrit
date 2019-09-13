@@ -25,9 +25,9 @@ import java.util.List;
 public class AccountAssert {
 
   public static void assertAccountInfo(TestAccount a, AccountInfo ai) {
-    assertThat(a.id().get()).isEqualTo(ai._accountId);
-    assertThat(a.fullName()).isEqualTo(ai.name);
-    assertThat(a.email()).isEqualTo(ai.email);
+    assertThat(ai._accountId).isEqualTo(a.id().get());
+    assertThat(ai.name).isEqualTo(a.fullName());
+    assertThat(ai.email).isEqualTo(a.email());
   }
 
   public static void assertAccountInfos(List<TestAccount> expected, List<AccountInfo> actual) {

@@ -2110,6 +2110,7 @@ class ReceiveCommits {
           if (c == null) {
             break;
           }
+
           total++;
           receivePack.getRevWalk().parseBody(c);
           String name = c.name();
@@ -2122,6 +2123,18 @@ class ReceiveCommits {
           }
 
           boolean commitAlreadyTracked = !existingRefs.isEmpty();
+          if (!commitAlreadyTracked) {
+            // Double-check that no change for this commit and branch was created since we have read
+            // all refs.
+            commitAlreadyTracked =
+                executeIndexQuery(
+                    () ->
+                        !queryProvider
+                            .get()
+                            .setLimit(1)
+                            .byBranchCommit(magicBranch.dest, c.name())
+                            .isEmpty());
+          }
           if (commitAlreadyTracked) {
             alreadyTracked++;
             // Corner cases where an existing commit might need a new group:

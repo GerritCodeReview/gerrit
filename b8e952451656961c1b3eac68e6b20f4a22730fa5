@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5d68bba4_2ae354f0",
+        "filename": "polygerrit-ui/app/test/index.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-09-13T16:08:07Z",
+      "side": 0,
+      "message": "Let\u0027s comment this line instead of deleting with appropriate \"TODO\" message:\n// TODO: uncomment file \u0026 fix tests. The file was missed in this list for a long time.\n\nWith deletion it is unclear - file was missed by mistake or there was some reason to delete it.",
+      "range": {
+        "startLine": 186,
+        "startChar": 5,
+        "endLine": 186,
+        "endChar": 49
+      },
+      "revId": "b8e952451656961c1b3eac68e6b20f4a22730fa5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

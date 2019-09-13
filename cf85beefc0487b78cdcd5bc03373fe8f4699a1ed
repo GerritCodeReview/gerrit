@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "30f97099_61d28830",
+        "filename": "polygerrit-ui/app/elements/shared/gr-fixed-panel/gr-fixed-panel.html",
+        "patchSetId": 30
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-09-13T14:49:30Z",
+      "side": 1,
+      "message": "I only managed to get this to work in gr-app-element using gr-fixed-header.",
+      "parentUuid": "c7f3a6d3_414372c2",
+      "range": {
+        "startLine": 30,
+        "startChar": 6,
+        "endLine": 34,
+        "endChar": 39
+      },
+      "revId": "cf85beefc0487b78cdcd5bc03373fe8f4699a1ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e01493c0_d9168446",
         "filename": "polygerrit-ui/app/styles/themes/app-theme.html",
         "patchSetId": 30
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "7d9c6414_fee84548",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.html",
+        "patchSetId": 30
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-09-13T14:49:30Z",
+      "side": 1,
+      "message": "I\u0027m going to rename --header-background to --fixed-header-background and --header-background-color to --header-background. This is because --fixed-header-background would be used differently to --header-background.",
+      "parentUuid": "e01493c0_d9168446",
+      "range": {
+        "startLine": 27,
+        "startChar": 2,
+        "endLine": 27,
+        "endChar": 27
+      },
+      "revId": "cf85beefc0487b78cdcd5bc03373fe8f4699a1ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "08c0bdd1_baed71a5",
         "filename": "polygerrit-ui/app/styles/themes/app-theme.html",
         "patchSetId": 30
@@ -68,6 +116,30 @@
       "revId": "cf85beefc0487b78cdcd5bc03373fe8f4699a1ed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "626d4390_1f415ab5",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.html",
+        "patchSetId": 30
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-09-13T14:49:30Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "08c0bdd1_baed71a5",
+      "range": {
+        "startLine": 34,
+        "startChar": 2,
+        "endLine": 34,
+        "endChar": 21
+      },
+      "revId": "cf85beefc0487b78cdcd5bc03373fe8f4699a1ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

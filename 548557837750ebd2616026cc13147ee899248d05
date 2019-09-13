@@ -118,6 +118,30 @@
       "revId": "548557837750ebd2616026cc13147ee899248d05",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fbb78a06_747cabf1",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-list/gr-account-list.js",
+        "patchSetId": 24
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-09-13T10:26:52Z",
+      "side": 1,
+      "message": "Yeah, let\u0027s stop the discussion for now. As I said, let\u0027s not bikeshed too much.",
+      "parentUuid": "10b9dabe_e680a37a",
+      "range": {
+        "startLine": 132,
+        "startChar": 4,
+        "endLine": 145,
+        "endChar": 6
+      },
+      "revId": "548557837750ebd2616026cc13147ee899248d05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -94,6 +94,30 @@
       "revId": "548557837750ebd2616026cc13147ee899248d05",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "10b9dabe_e680a37a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-list/gr-account-list.js",
+        "patchSetId": 24
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-09-13T10:18:32Z",
+      "side": 1,
+      "message": "(2) Abstract class vs interface - it is debatable.\n\nBtw, I think we can return to this question later, when we will have more use cases. For each option there is a good use-case.",
+      "parentUuid": "25fffc3f_28d02e03",
+      "range": {
+        "startLine": 132,
+        "startChar": 4,
+        "endLine": 145,
+        "endChar": 6
+      },
+      "revId": "548557837750ebd2616026cc13147ee899248d05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

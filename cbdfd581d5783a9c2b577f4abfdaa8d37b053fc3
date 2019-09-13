@@ -35,6 +35,24 @@
       "revId": "cbdfd581d5783a9c2b577f4abfdaa8d37b053fc3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4e5582fb_dcca76b1",
+        "filename": "javatests/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2643,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-13T12:39:29Z",
+      "side": 1,
+      "message": "That was a really good idea, as it turns out you can create 2 changes with the same commit for the same branch if you do the pushes in parallel :(\n\nThanks for suggesting this test!\n\nThe test is added here [1], but I didn\u0027t look into a fix yet.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/237176",
+      "parentUuid": "1608705f_98c57857",
+      "revId": "cbdfd581d5783a9c2b577f4abfdaa8d37b053fc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

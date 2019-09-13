@@ -66,7 +66,6 @@
     ADDED: 'edit_b',
     REMOVED: 'edit_a',
   };
-
   /**
    * The maximum size for an addition or removal chunk before it is broken down
    * into a series of chunks that are this size at most.
@@ -269,7 +268,8 @@
             right: this._linesRight(chunk).length,
           },
           groups: [this._chunkToGroup(
-              chunk, state.lineNums.left + 1, state.lineNums.right + 1)],
+              chunk, state.lineNums.left + 1, state.lineNums.right + 1,
+              false, false)],
           newChunkIndex: state.chunkIndex + 1,
         };
       }
@@ -321,10 +321,13 @@
       const lineCount = collapsibleChunks.reduce(
           (sum, chunk) => sum + this._commonChunkLength(chunk), 0);
 
+      const firstChunk = state.chunkIndex === 0;
+      const lastChunk = state.chunkIndex === chunks.length - 1;
       let groups = this._chunksToGroups(
           collapsibleChunks,
           state.lineNums.left + 1,
-          state.lineNums.right + 1);
+          state.lineNums.right + 1,
+          firstChunk, lastChunk);
 
       if (this.context !== WHOLE_FILE) {
         const hiddenStart = state.chunkIndex === 0 ? 0 : this.context;
@@ -357,16 +360,25 @@
      * @param {!Array<!Object>} chunks
      * @param {number} offsetLeft
      * @param {number} offsetRight
+     * @param {boolean} firstProcessed
+     * @param {boolean} lastProcessed
      * @return {!Array<!Object>} (GrDiffGroup)
      */
-    _chunksToGroups(chunks, offsetLeft, offsetRight) {
-      return chunks.map(chunk => {
-        const group = this._chunkToGroup(chunk, offsetLeft, offsetRight);
+    _chunksToGroups(chunks, offsetLeft, offsetRight, firstProcessed,
+        lastProcessed) {
+      const groups = [];
+      for (let i = 0; i < chunks.length; i++) {
+        const chunk = chunks[i];
+        const firstInFile = firstProcessed && i === 0;
+        const lastInFile = lastProcessed && i === chunks.length - 1;
+        const group = this._chunkToGroup(chunk, offsetLeft,
+            offsetRight, firstInFile, lastInFile);
         const chunkLength = this._commonChunkLength(chunk);
         offsetLeft += chunkLength;
         offsetRight += chunkLength;
-        return group;
-      });
+        groups.push(group);
+      }
+      return groups;
     },
 
     /**
@@ -375,9 +387,10 @@
      * @param {number} offsetRight
      * @return {!Object} (GrDiffGroup)
      */
-    _chunkToGroup(chunk, offsetLeft, offsetRight) {
+    _chunkToGroup(chunk, offsetLeft, offsetRight, firstInFile, lastInFile) {
       const type = chunk.ab ? GrDiffGroup.Type.BOTH : GrDiffGroup.Type.DELTA;
-      const lines = this._linesFromChunk(chunk, offsetLeft, offsetRight);
+      const lines = this._linesFromChunk(chunk, offsetLeft, offsetRight,
+          firstInFile, lastInFile);
       const group = new GrDiffGroup(type, lines);
       group.keyLocation = chunk.keyLocation;
       group.dueToRebase = chunk.due_to_rebase;
@@ -385,25 +398,30 @@
       return group;
     },
 
-    _linesFromChunk(chunk, offsetLeft, offsetRight) {
-      if (chunk.ab) {
-        return chunk.ab.map((row, i) => this._lineFromRow(
-            GrDiffLine.Type.BOTH, offsetLeft, offsetRight, row, i));
-      }
+    _linesFromChunk(chunk, offsetLeft, offsetRight, firstInFile, lastInFile) {
       let lines = [];
-      if (chunk.a) {
-        // Avoiding a.push(...b) because that causes callstack overflows for
-        // large b, which can occur when large files are added removed.
-        lines = lines.concat(this._linesFromRows(
-            GrDiffLine.Type.REMOVE, chunk.a, offsetLeft,
-            chunk[DiffHighlights.REMOVED]));
+      if (chunk.ab) {
+        lines = chunk.ab.map((row, i) => this._lineFromRow(
+            GrDiffLine.Type.BOTH, offsetLeft, offsetRight, row, i));
+      } else {
+        if (chunk.a) {
+          // Avoiding a.push(...b) because that causes callstack overflows for
+          // large b, which can occur when large files are added removed.
+          lines = lines.concat(this._linesFromRows(
+              GrDiffLine.Type.REMOVE, chunk.a, offsetLeft,
+              chunk[DiffHighlights.REMOVED]));
+        }
+        if (chunk.b) {
+          // Avoiding a.push(...b) because that causes callstack overflows for
+          // large b, which can occur when large files are added removed.
+          lines = lines.concat(this._linesFromRows(
+              GrDiffLine.Type.ADD, chunk.b, offsetRight,
+              chunk[DiffHighlights.ADDED]));
+        }
       }
-      if (chunk.b) {
-        // Avoiding a.push(...b) because that causes callstack overflows for
-        // large b, which can occur when large files are added removed.
-        lines = lines.concat(this._linesFromRows(
-            GrDiffLine.Type.ADD, chunk.b, offsetRight,
-            chunk[DiffHighlights.ADDED]));
+      if (lines.length > 0) {
+        lines[0].firstInFile = firstInFile;
+        lines[lines.length - 1].lastInFile = lastInFile;
       }
       return lines;
     },

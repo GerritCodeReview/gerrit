@@ -57,6 +57,30 @@
       "revId": "67e5df2399a0af3d2fe61c53a39f10a3e4ab60c1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "10727c9b_ffdfbb55",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-09-13T09:28:50Z",
+      "side": 1,
+      "message": "haha ya, since if you add `white-space: pre-wrap` to the iron element, it will be applied to all the elements under it, which will cause some problems as a lot white spaces and new lines between elements.",
+      "parentUuid": "d6e433cd_da903b23",
+      "range": {
+        "startLine": 60,
+        "startChar": 8,
+        "endLine": 60,
+        "endChar": 35
+      },
+      "revId": "67e5df2399a0af3d2fe61c53a39f10a3e4ab60c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

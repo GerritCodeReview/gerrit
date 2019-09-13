@@ -436,6 +436,14 @@ public class CreateChangeIT extends AbstractDaemonTest {
     assertCreateFails(input, ResourceNotFoundException.class, "ref refs/heads/foo not found");
   }
 
+  @Test
+  public void sha1sOfTwoNewChangesDiffer() throws Exception {
+    ChangeInput changeInput = newChangeInput(ChangeStatus.NEW);
+    ChangeInfo info1 = assertCreateSucceeds(changeInput);
+    ChangeInfo info2 = assertCreateSucceeds(changeInput);
+    assertThat(info1.currentRevision).isNotEqualTo(info2.currentRevision);
+  }
+
   private ChangeInput newChangeInput(ChangeStatus status) {
     ChangeInput in = new ChangeInput();
     in.project = project.get();

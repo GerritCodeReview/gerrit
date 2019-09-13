@@ -229,6 +229,10 @@
       return this._restApiHelper.getResponseObject(response);
     },
 
+    fetchJSON(req) {
+      return this._restApiHelper.fetchJSON(req);
+    },
+
     getConfig(noCache) {
       if (!noCache) {
         return this._fetchSharedCacheURL({

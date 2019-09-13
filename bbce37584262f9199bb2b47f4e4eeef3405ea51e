@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "3577e41e_feb9220a",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.html",
+        "patchSetId": 37
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-09-13T18:59:08Z",
+      "side": 1,
+      "message": "It\u0027s because setting this for gr-main-header causes it to display the whole background as the thing you set. For example for wikimedia it would set blue/green/red for the whole gr-main-header, not just a little blip at the bottom.\n\nBy doing this, it allows me to do it.\n\nThis https://imgur.com/a/caeQtgg is what it looks like when i do \"background: var(--fixed-header-background);\" under gr-main-header.",
+      "parentUuid": "8da73eb6_8a2a0ea4",
+      "range": {
+        "startLine": 60,
+        "startChar": 6,
+        "endLine": 61,
+        "endChar": 51
+      },
+      "revId": "bbce37584262f9199bb2b47f4e4eeef3405ea51e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fa90c824_0dda8cd2",
         "filename": "polygerrit-ui/app/elements/gr-app-element.html",
         "patchSetId": 37
@@ -45,6 +69,30 @@
       "revId": "bbce37584262f9199bb2b47f4e4eeef3405ea51e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "769fa018_de45044d",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.html",
+        "patchSetId": 37
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-09-13T18:59:08Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "fa90c824_0dda8cd2",
+      "range": {
+        "startLine": 78,
+        "startChar": 0,
+        "endLine": 78,
+        "endChar": 45
+      },
+      "revId": "bbce37584262f9199bb2b47f4e4eeef3405ea51e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

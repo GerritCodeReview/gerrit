@@ -22,6 +22,30 @@
       "revId": "854c7eddf12e43912f1bae898246840d0f060b54",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "820800be_675c0a42",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.html",
+        "patchSetId": 38
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-09-14T20:12:09Z",
+      "side": 1,
+      "message": "That won\u0027t work with this since that\u0027ll need a image to be created. Which requires loading a png. Which also adds loading time \u0026\u0026 network usage on.\n\nIt\u0027s just simple to allow users to use border-bottom.\n\nWe could introduce --header-border-image in addition to this, what do you think?\n\nAlso i think you mentioned to use an image property before (background).\n\nBut you need to mess with software not to mention you have to find software that allows you to do this.\n\nInkscape does not appear to work on mac os 10.15.",
+      "parentUuid": "8c7e3126_93f76547",
+      "range": {
+        "startLine": 38,
+        "startChar": 2,
+        "endLine": 38,
+        "endChar": 24
+      },
+      "revId": "854c7eddf12e43912f1bae898246840d0f060b54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

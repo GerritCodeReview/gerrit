@@ -552,6 +552,8 @@ public class RestApiServlet extends HttpServlet {
             throw new ResourceNotFoundException();
           }
 
+          response.traceId().ifPresent(traceId -> res.addHeader(X_GERRIT_TRACE, traceId));
+
           if (response instanceof Response.Redirect) {
             CacheHeaders.setNotCacheable(res);
             String location = ((Response.Redirect) response).location();
@@ -564,6 +566,12 @@ public class RestApiServlet extends HttpServlet {
             res.setHeader(HttpHeaders.LOCATION, ((Response.Accepted) response).location());
             logger.atFinest().log("REST call succeeded: %d", response.statusCode());
             return;
+          } else if (response instanceof Response.InternalServerError) {
+            // Rethrow the exception to have exactly the same error handling as if the REST endpoint
+            // would have thrown the exception directly, instead of returning
+            // Response.InternalServerError.
+            Exception cause = ((Response.InternalServerError<?>) response).cause();
+            throw cause;
           }
 
           status = response.statusCode();

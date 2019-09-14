@@ -14,10 +14,12 @@
 
 package com.google.gerrit.server.update;
 
+import com.google.common.base.Throwables;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.RestResource;
+import java.util.concurrent.atomic.AtomicReference;
 
 public abstract class RetryingRestModifyView<R extends RestResource, I, O>
     implements RestModifyView<R, I> {
@@ -28,14 +30,22 @@ public abstract class RetryingRestModifyView<R extends RestResource, I, O>
   }
 
   @Override
-  public final Response<O> apply(R resource, I input) throws Exception {
-    RetryHelper.Options retryOptions =
-        RetryHelper.options()
-            .caller(getClass())
-            .retryWithTrace(t -> !(t instanceof RestApiException))
-            .build();
-    return retryHelper.execute(
-        (updateFactory) -> applyImpl(updateFactory, resource, input), retryOptions);
+  public final Response<O> apply(R resource, I input) throws RestApiException {
+    AtomicReference<String> traceId = new AtomicReference<>(null);
+    try {
+      RetryHelper.Options retryOptions =
+          RetryHelper.options()
+              .caller(getClass())
+              .retryWithTrace(t -> !(t instanceof RestApiException))
+              .onAutoTrace(traceId::set)
+              .build();
+      return retryHelper
+          .execute((updateFactory) -> applyImpl(updateFactory, resource, input), retryOptions)
+          .traceId(traceId.get());
+    } catch (Exception e) {
+      Throwables.throwIfInstanceOf(e, RestApiException.class);
+      return Response.<O>internalServerError(e).traceId(traceId.get());
+    }
   }
 
   protected abstract Response<O> applyImpl(BatchUpdate.Factory updateFactory, R resource, I input)

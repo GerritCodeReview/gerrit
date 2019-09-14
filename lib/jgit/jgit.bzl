@@ -2,7 +2,9 @@ load("//tools/bzl:maven_jar.bzl", "MAVEN_CENTRAL", "maven_jar")
 
 _JGIT_VERS = "5.4.3.201909031940-r"
 
-_DOC_VERS = _JGIT_VERS  # Set to _JGIT_VERS unless using a snapshot
+# TODO(davido): Revert this when Javadoc API is released for 5.4.3 release.
+_DOC_VERS = "5.4.2.201908231537-r"  # Set to _JGIT_VERS unless using a snapshot
+# _DOC_VERS = _JGIT_VERS  # Set to _JGIT_VERS unless using a snapshot
 
 JGIT_DOC_URL = "https://download.eclipse.org/jgit/site/" + _DOC_VERS + "/apidocs"
 

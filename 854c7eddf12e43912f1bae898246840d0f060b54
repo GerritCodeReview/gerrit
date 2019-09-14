@@ -70,6 +70,30 @@
       "revId": "854c7eddf12e43912f1bae898246840d0f060b54",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6786be37_67bf501c",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.html",
+        "patchSetId": 38
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-09-14T21:19:38Z",
+      "side": 1,
+      "message": "Ah! In my testing it worked similar to you, but had a border at the top, right and left.\n\nShould we make those border properties configurable or just put them as 0?",
+      "parentUuid": "996a528e_466f0748",
+      "range": {
+        "startLine": 38,
+        "startChar": 2,
+        "endLine": 38,
+        "endChar": 24
+      },
+      "revId": "854c7eddf12e43912f1bae898246840d0f060b54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

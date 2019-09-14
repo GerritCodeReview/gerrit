@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "64b070b3_55d51144",
+        "filename": "WORKSPACE",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1088911
+      },
+      "writtenOn": "2019-09-14T13:23:53Z",
+      "side": 1,
+      "message": "nit: Maybe add a load for the dependencies / toolchains of @rules_proto. While it works without them today, there\u0027s no guarantee that it\u0027ll work in future revisions, and we\u0027ll start to migrate some of the native rules to Starlark soon.",
+      "revId": "f1dee406737dc03ee18e00435dfdb75880700093",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fb546d8c_9818ec8c",
+        "filename": "WORKSPACE",
+        "patchSetId": 2
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1088911
+      },
+      "writtenOn": "2019-09-14T13:23:53Z",
+      "side": 1,
+      "message": "As I said in https://github.com/bazelbuild/rules_closure/pull/413#issuecomment-531478579, this can be fixed by using\n\nload(\"@io_bazel_rules_closure//closure:repositories.bzl\", \"closure_repositories\")",
+      "range": {
+        "startLine": 81,
+        "startChar": 39,
+        "endLine": 81,
+        "endChar": 43
+      },
+      "revId": "f1dee406737dc03ee18e00435dfdb75880700093",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

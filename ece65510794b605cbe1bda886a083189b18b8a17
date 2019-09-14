@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7e0b0d38_40092d0a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-09-14T10:26:01Z",
+      "side": 1,
+      "message": "The latest release is 2.3.0. It seems that the code needs to be adapted to support this version: [1].\n\n* [1] http://paste.openstack.org/show/775945",
+      "revId": "ece65510794b605cbe1bda886a083189b18b8a17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

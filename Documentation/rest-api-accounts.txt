@@ -57,8 +57,8 @@ generally disabled by default. Optional fields are:
 
 [[details]]
 --
-* `DETAILS`: Includes full name, preferred email, username, avatars and
-status for each account.
+* `DETAILS`: Includes full name, preferred email, username, avatars,
+status and state for each account.
 --
 
 [[all-emails]]
@@ -2200,7 +2200,7 @@ The `AccountDetailInfo` entity contains detailed information about an
 account.
 
 `AccountDetailInfo` has the same fields as link:#account-info[
-AccountInfo]. In addition `AccountDetailInfo` has the following fields:
+AccountInfo]. In addition `AccountDetailInfo` has the following field:
 
 [options="header",cols="1,^1,5"]
 |=================================
@@ -2208,8 +2208,6 @@ AccountInfo]. In addition `AccountDetailInfo` has the following fields:
 |`registered_on`     ||
 The link:rest-api.html#timestamp[timestamp] of when the account was
 registered.
-|`inactive`          |not set if `false`|
-Whether the account is inactive.
 |=================================
 
 [[account-external-id-info]]
@@ -2266,6 +2264,8 @@ entities that provide information about avatar images of the account.
 Whether the query would deliver more results if not limited. +
 Only set on the last account that is returned.
 |`status`          |optional|Status message of the account.
+|`inactive`        |not set if `false`|
+Whether the account is inactive.
 |===============================
 
 [[account-input]]

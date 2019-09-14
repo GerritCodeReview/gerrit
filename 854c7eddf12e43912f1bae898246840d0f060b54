@@ -46,6 +46,30 @@
       "revId": "854c7eddf12e43912f1bae898246840d0f060b54",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "996a528e_466f0748",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.html",
+        "patchSetId": 38
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-09-14T21:01:03Z",
+      "side": 1,
+      "message": "I think you can just use --header-border-bottom and --header-border-image to achieve what you want:\nhttps://imgur.com/a/3aCXsEW",
+      "parentUuid": "820800be_675c0a42",
+      "range": {
+        "startLine": 38,
+        "startChar": 2,
+        "endLine": 38,
+        "endChar": 24
+      },
+      "revId": "854c7eddf12e43912f1bae898246840d0f060b54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -31,9 +31,9 @@ http_archive(
 
 http_archive(
     name = "io_bazel_rules_closure",
-    sha256 = "d075b084e6f4109d1b1ab877495ac72c1a6c4dbc593980967e0b7359f4254d7e",
-    strip_prefix = "rules_closure-78f1192664acf66ca1de24116cbcc98e1698f26b",
-    urls = ["https://github.com/bazelbuild/rules_closure/archive/78f1192664acf66ca1de24116cbcc98e1698f26b.tar.gz"],
+    sha256 = "39b7bec43e6178d065875987b18623d476acd54f355d7711ce9dce4a3eec0795",
+    strip_prefix = "rules_closure-0.25",
+    urls = ["https://github.com/davido/rules_closure/archive/v0.25.tar.gz"],
 )
 
 # File is specific to Polymer and copied from the Closure Github -- should be
@@ -55,6 +55,17 @@ load("@bazelisk_version//:check.bzl", "check_bazel_version")
 
 check_bazel_version()
 
+# Protobuf rules support
+http_archive(
+    name = "rules_proto",
+    sha256 = "602e7161d9195e50246177e7c55b2f39950a9cf7366f74ed5f22fd45750cd208",
+    strip_prefix = "rules_proto-97d8af4dc474595af3900dd85cb3a29ad28cc313",
+    urls = [
+        "https://mirror.bazel.build/github.com/bazelbuild/rules_proto/archive/97d8af4dc474595af3900dd85cb3a29ad28cc313.tar.gz",
+        "https://github.com/bazelbuild/rules_proto/archive/97d8af4dc474595af3900dd85cb3a29ad28cc313.tar.gz",
+    ],
+)
+
 # Rules Python
 http_archive(
     name = "rules_python",
@@ -67,7 +78,7 @@ load("@rules_python//python:repositories.bzl", "py_repositories")
 
 py_repositories()
 
-load("@io_bazel_rules_closure//closure:defs.bzl", "closure_repositories")
+load("@io_bazel_rules_closure//closure:repositories.bzl", "closure_repositories")
 
 # Prevent redundant loading of dependencies.
 closure_repositories(
@@ -75,6 +86,8 @@ closure_repositories(
     omit_args4j = True,
     omit_bazel_skylib = True,
     omit_javax_inject = True,
+    omit_rules_cc = True,
+    omit_rules_java = True,
 )
 
 ANTLR_VERS = "3.5.2"

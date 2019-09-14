@@ -61,14 +61,14 @@ def _impl(ctx):
         command = " && ".join(cmd),
     )
 
-java_doc = rule(
+_java_doc = rule(
     attrs = {
         "external_docs": attr.string_list(),
         "libs": attr.label_list(allow_files = False),
         "pkgs": attr.string_list(),
         "title": attr.string(),
         "_jdk": attr.label(
-            default = Label("@bazel_tools//tools/jdk:current_java_runtime"),
+            default = Label("@bazel_tools//tools/jdk:current_host_java_runtime"),
             allow_files = True,
             providers = [java_common.JavaRuntimeInfo],
         ),
@@ -76,3 +76,16 @@ java_doc = rule(
     outputs = {"zip": "%{name}.zip"},
     implementation = _impl,
 )
+
+def java_doc(**kwargs):
+    libs = kwargs.get("libs", [])
+    libs = libs + select({
+        "//:java9": [],
+        "//:java_next": [],
+        # TODO(davido): Remove this dependency, when Java 8 support is removed.
+        # auto-value generates @javax.annotation.Generated annotation on generated
+        # classes when Java 8 source compatibility level is used, but Java 11 and
+        # later don't have this class any more.
+        "//conditions:default": ["//lib:javax-annotation"],
+    })
+    _java_doc(**dict(kwargs, libs = libs))

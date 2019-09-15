@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "400df970_ba432143",
+        "filename": "polygerrit-ui/app/behaviors/gr-access-behavior/gr-access-behavior.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-09-15T16:07:30Z",
+      "side": 1,
+      "message": "Would this be for viewing draft comments or should this also be removed?",
+      "range": {
+        "startLine": 118,
+        "startChar": 0,
+        "endLine": 121,
+        "endChar": 12
+      },
+      "revId": "f2e3947a92f995f07372b5e0792db4eb7a89e983",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

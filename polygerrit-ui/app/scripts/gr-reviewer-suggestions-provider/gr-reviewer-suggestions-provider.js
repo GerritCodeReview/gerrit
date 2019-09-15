@@ -21,10 +21,36 @@
     return;
   }
 
+  /**
+   * @enum {string}
+   */
+  Gerrit.SUGGESTIONS_PROVIDERS_USERS_TYPES = {
+    REVIEWER: 'reviewers',
+    CC: 'ccs',
+    ANY: 'any',
+  };
+
   class GrReviewerSuggestionsProvider {
-    constructor(restAPI, changeNumber, allowAnyUser) {
+    static create(restApi, changeNumber, usersType) {
+      switch (usersType) {
+        case Gerrit.SUGGESTIONS_PROVIDERS_USERS_TYPES.REVIEWER:
+          return new GrReviewerSuggestionsProvider(restApi, changeNumber,
+            input => restApi.getChangeSuggestedReviewers(changeNumber, input));
+        case Gerrit.SUGGESTIONS_PROVIDERS_USERS_TYPES.CC:
+          return new GrReviewerSuggestionsProvider(restApi, changeNumber,
+            input => restApi.getChangeSuggestedCCs(changeNumber, input));
+        case Gerrit.SUGGESTIONS_PROVIDERS_USERS_TYPES.ANY:
+          return new GrReviewerSuggestionsProvider(restApi, changeNumber,
+            input => restApi.getSuggestedAccounts(
+                `cansee:${changeNumber} ${input}`));
+        default:
+          throw new Error(`Unknown users type: ${usersType}`);
+      }
+    }
+
+    constructor(restAPI, changeNumber, apiCall) {
       this._changeNumber = changeNumber;
-      this._allowAnyUser = allowAnyUser;
+      this._apiCall = apiCall;
       this._restAPI = restAPI;
     }
 
@@ -49,12 +75,9 @@
       if (!this._initialized || !this._loggedIn) {
         return Promise.resolve([]);
       }
-      const api = this._restAPI;
-      const xhr = this._allowAnyUser ?
-          api.getSuggestedAccounts(`cansee:${this._changeNumber} ${input}`) :
-          api.getChangeSuggestedReviewers(this._changeNumber, input);
 
-      return xhr.then(reviewers => (reviewers || []));
+      return this._apiCall(input)
+          .then(reviewers => (reviewers || []));
     }
 
     makeSuggestionItem(suggestion) {

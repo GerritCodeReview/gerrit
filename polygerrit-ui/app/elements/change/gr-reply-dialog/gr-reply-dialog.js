@@ -897,8 +897,15 @@
     },
 
     _getReviewerSuggestionsProvider(change) {
-      const provider = new GrReviewerSuggestionsProvider(this.$.restAPI,
-          change._number, false);
+      const provider = GrReviewerSuggestionsProvider.create(this.$.restAPI,
+          change._number, Gerrit.SUGGESTIONS_PROVIDERS_USERS_TYPES.REVIEWER);
+      provider.init();
+      return provider;
+    },
+
+    _getCcSuggestionsProvider(change) {
+      const provider = GrReviewerSuggestionsProvider.create(this.$.restAPI,
+          change._number, Gerrit.SUGGESTIONS_PROVIDERS_USERS_TYPES.CC);
       provider.init();
       return provider;
     },

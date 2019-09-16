@@ -22,6 +22,30 @@
       "revId": "235f3f7689efe34f2681a67524b3adf1358dac6c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2c76e681_dbcdfdcc",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 6374,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-09-16T08:22:57Z",
+      "side": 0,
+      "message": "Tao:\nShould not that included in the content above for edit_a, edit_b ?\n```\nonly present when the intraline parameter is set and the DiffContent is a replace, i.e. both a and b are present\n```",
+      "parentUuid": "0c305dc8_1b46705c",
+      "range": {
+        "startLine": 6373,
+        "startChar": 20,
+        "endLine": 6374,
+        "endChar": 18
+      },
+      "revId": "235f3f7689efe34f2681a67524b3adf1358dac6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

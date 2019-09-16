@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "a7661d4a_e1b8984e",
+        "filename": "WORKSPACE",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1088911
+      },
+      "writtenOn": "2019-09-16T11:33:51Z",
+      "side": 1,
+      "message": "Fair enough. Just keep it in mind if you ever update @rules_proto in this branch.",
+      "parentUuid": "1d6a2521_a0977c08",
+      "revId": "f1dee406737dc03ee18e00435dfdb75880700093",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fb546d8c_9818ec8c",
         "filename": "WORKSPACE",
         "patchSetId": 2

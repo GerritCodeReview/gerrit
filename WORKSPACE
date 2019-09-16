@@ -945,8 +945,8 @@ maven_jar(
 # When bumping the easymock version number, make sure to also move powermock to a compatible version
 maven_jar(
     name = "easymock",
-    artifact = "org.easymock:easymock:3.1",
-    sha1 = "3e127311a86fc2e8f550ef8ee4abe094bbcf7e7e",
+    artifact = "org.easymock:easymock:4.0.2",
+    sha1 = "f74aebbe02f5051bea31c0dbc5df5202a59e0b78",
 )
 
 maven_jar(
@@ -1166,8 +1166,8 @@ maven_jar(
 
 maven_jar(
     name = "objenesis",
-    artifact = "org.objenesis:objenesis:2.6",
-    sha1 = "639033469776fd37c08358c6b92a4761feb2af4b",
+    artifact = "org.objenesis:objenesis:3.0.1",
+    sha1 = "11cfac598df9dc48bb9ed9357ed04212694b7808",
 )
 
 load("//tools/bzl:js.bzl", "bower_archive", "npm_binary")

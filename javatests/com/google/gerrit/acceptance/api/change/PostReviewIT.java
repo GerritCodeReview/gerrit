@@ -53,14 +53,14 @@ public class PostReviewIT extends AbstractDaemonTest {
 
   private static final String COMMENT_TEXT = "The comment text";
 
-  private Capture<ImmutableList<CommentForValidation>> capture = new Capture<>();
+  private Capture<ImmutableList<CommentForValidation>> capture = Capture.newInstance();
 
   @Override
   public Module createModule() {
     return new FactoryModule() {
       @Override
       public void configure() {
-        CommentValidator mockCommentValidator = EasyMock.createMock(CommentValidator.class);
+        CommentValidator mockCommentValidator = EasyMock.createNiceMock(CommentValidator.class);
         bind(CommentValidator.class)
             .annotatedWith(Exports.named(mockCommentValidator.getClass()))
             .toInstance(mockCommentValidator);

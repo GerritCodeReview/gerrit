@@ -6370,8 +6370,8 @@ The information consists of a list of `<skip length, edit length>` pairs, where
 the skip length is the number of characters between the end of the previous edit
 and the start of this edit, and the edit length is the number of edited characters
 following the skip. The start of the edits is from the beginning of the related
-diff content lines. If the list is empty, the entire DiffContent should be
-considered edited.
+diff content lines. If the list is empty, the entire DiffContent should be considered
+as unedited.
 
 Note that the implied newline character at the end of each line is included in
 the length calculation, and thus it is possible for the edits to span newlines.

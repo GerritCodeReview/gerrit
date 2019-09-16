@@ -575,8 +575,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
         changeInfos.get(0).pendingReviewers;
     assertThat(pendingReviewers).isNotNull();
 
-    assertReviewers(
-        pendingReviewers.get(ReviewerState.REVIEWER), userId.toString(), user1.toString(), email1);
+    assertReviewers(pendingReviewers.get(ReviewerState.REVIEWER), user1.toString(), email1);
     assertReviewers(pendingReviewers.get(ReviewerState.CC), user2.toString(), email2);
     assertReviewers(pendingReviewers.get(ReviewerState.REMOVED));
 

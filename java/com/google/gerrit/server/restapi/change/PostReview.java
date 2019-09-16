@@ -1150,9 +1150,6 @@ public class PostReview
     }
 
     private boolean isReviewer(ChangeContext ctx) {
-      if (ctx.getAccountId().equals(ctx.getChange().getOwner())) {
-        return true;
-      }
       ChangeData cd = changeDataFactory.create(ctx.getNotes());
       ReviewerSet reviewers = cd.reviewers();
       return reviewers.byState(REVIEWER).contains(ctx.getAccountId());

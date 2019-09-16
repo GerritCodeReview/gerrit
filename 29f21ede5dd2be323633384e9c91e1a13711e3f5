@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "55423a46_5ae53363",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/PostReviewIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-09-16T12:56:37Z",
+      "side": 1,
+      "message": "This is quite strange: how come that the test was successful before? There are unwanted method calls and before it was a strict mock.\n\nThis change is only upgrading the EasyMock version and not changing anything on the implementation logic of the code or the test.",
+      "range": {
+        "startLine": 63,
+        "startChar": 63,
+        "endLine": 63,
+        "endChar": 67
+      },
+      "revId": "29f21ede5dd2be323633384e9c91e1a13711e3f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

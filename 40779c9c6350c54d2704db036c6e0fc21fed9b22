@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "658436ae_975dfcc6",
+        "filename": "java/com/google/gerrit/sshd/SshDaemon.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 621,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-09-16T07:13:31Z",
+      "side": 1,
+      "message": "This should be removed.",
+      "revId": "40779c9c6350c54d2704db036c6e0fc21fed9b22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1259ce3b_55ae4139",
+        "filename": "java/com/google/gerrit/sshd/SshDaemon.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 622,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-09-16T07:13:31Z",
+      "side": 1,
+      "message": "This should be:\n\n  setSignatureFactories(NamedFactory.setUpBuiltinFactories(\n      false, ServerBuilder.DEFAULT_SIGNATURE_PREFERENCE));",
+      "revId": "40779c9c6350c54d2704db036c6e0fc21fed9b22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

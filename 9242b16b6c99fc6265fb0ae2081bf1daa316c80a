@@ -175,6 +175,54 @@
     },
     {
       "key": {
+        "uuid": "ed7e6b3d_9f5bd0db",
+        "filename": "java/com/google/gerrit/globalrefdb/GlobalRefDatabase.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-09-16T18:35:14Z",
+      "side": 1,
+      "message": "\u003e What is the advantage of having a single GlobalRefDatabase for more than one project?\n\nGlobal consistency, exactly as you guys have on your Google-hosted Gerrit setup. The name also corresponds to the one that you have in production.",
+      "parentUuid": "f05fefab_aca014d1",
+      "range": {
+        "startLine": 35,
+        "startChar": 21,
+        "endLine": 35,
+        "endChar": 44
+      },
+      "revId": "9242b16b6c99fc6265fb0ae2081bf1daa316c80a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "04f043f4_2befe03c",
+        "filename": "java/com/google/gerrit/globalrefdb/GlobalRefDatabase.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-09-16T18:35:14Z",
+      "side": 1,
+      "message": "\u003e What does up-to-date mean, ref.objectId is the tip of ref.name, or ref.objectId is somewhere in the commit tree of ref.name?\n\nUp-To-date means that the ref passed as parameter is the same as the one in the global ref-db.",
+      "parentUuid": "9312a965_ed95f1a3",
+      "range": {
+        "startLine": 35,
+        "startChar": 10,
+        "endLine": 35,
+        "endChar": 20
+      },
+      "revId": "9242b16b6c99fc6265fb0ae2081bf1daa316c80a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fbb0aecd_f8b462a9",
         "filename": "java/com/google/gerrit/globalrefdb/GlobalRefDatabase.java",
         "patchSetId": 5
@@ -195,6 +243,30 @@
       "revId": "9242b16b6c99fc6265fb0ae2081bf1daa316c80a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "efbced1c_acdd0295",
+        "filename": "java/com/google/gerrit/globalrefdb/GlobalRefDatabase.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-09-16T18:35:14Z",
+      "side": 1,
+      "message": "\u003e Does compareAndPut require locking first? If so this interface does not enforce that.\n\nNope, it is atomic compare-and-swap and does not require locking. (see https://en.wikipedia.org/wiki/Compare-and-swap)",
+      "parentUuid": "fbb0aecd_f8b462a9",
+      "range": {
+        "startLine": 58,
+        "startChar": 10,
+        "endLine": 58,
+        "endChar": 23
+      },
+      "revId": "9242b16b6c99fc6265fb0ae2081bf1daa316c80a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

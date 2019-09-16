@@ -1147,8 +1147,8 @@ maven_jar(
 # and httpasyncclient as necessary.
 maven_jar(
     name = "elasticsearch-rest-client",
-    artifact = "org.elasticsearch.client:elasticsearch-rest-client:7.3.1",
-    sha1 = "f5793c89b50a159cbb3e15e17bb981ff854cbe51",
+    artifact = "org.elasticsearch.client:elasticsearch-rest-client:7.3.2",
+    sha1 = "38721e908cad8a30fa3f8e659c0571150a60cab3",
 )
 
 maven_jar(

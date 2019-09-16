@@ -890,19 +890,19 @@
     _changeChanged(change) {
       if (!change || !this._patchRange || !this._allPatchSets) { return; }
 
-      const parent = this._getBasePatchNum(change, this._patchRange);
-
-      this.set('_patchRange.basePatchNum', parent);
+      // Update patchNum before getting basePatchNum.
       this.set('_patchRange.patchNum', this._patchRange.patchNum ||
               this.computeLatestPatchNum(this._allPatchSets));
 
+      const parent = this._getBasePatchNum(change, this._patchRange);
+      this.set('_patchRange.basePatchNum', parent);
       const title = change.subject + ' (' + change.change_id.substr(0, 9) + ')';
       this.fire('title-change', {title});
     },
 
     /**
      * Gets base patch number, if it is a parent try and decide from
-     * preference weather to default to `auto merge`, `Parent 1` or `PARENT`.
+     * preference whether to default to `auto merge`, `Parent 1` or `PARENT`.
      * @param {Object} change
      * @param {Object} patchRange
      * @return {number|string}
@@ -1244,7 +1244,7 @@
       if (!this._patchRange.patchNum &&
           change.current_revision === edit.base_revision) {
         change.current_revision = edit.commit.commit;
-        this._patchRange.patchNum = this.EDIT_NAME;
+        this.set('_patchRange.patchNum', this.EDIT_NAME);
         // Because edits are fibbed as revisions and added to the revisions
         // array, and revision actions are always derived from the 'latest'
         // patch set, we must copy over actions from the patch set base.

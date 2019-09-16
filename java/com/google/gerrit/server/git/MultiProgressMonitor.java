@@ -346,6 +346,8 @@ public class MultiProgressMonitor {
         out.write(Constants.encode(s.toString()));
         out.flush();
       } catch (IOException e) {
+        logger.atWarning().withCause(e).log(
+            "Sending progress to client failed. Stop sending updates for task %s", taskName);
         write = false;
       }
     }

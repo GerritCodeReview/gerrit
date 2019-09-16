@@ -890,12 +890,17 @@
     _changeChanged(change) {
       if (!change || !this._patchRange || !this._allPatchSets) { return; }
 
-      // Update patchNum before getting basePatchNum.
-      this.set('_patchRange.patchNum', this._patchRange.patchNum ||
+      // Keep a copy of _patchRange so that we correctly get
+      // basePatchNum. This ensures the base patch range is not
+      // different after using patchNum.
+      const patchRange = Object.assign({}, this._patchRange);
+
+      this.set('_patchRange.patchNum', patchRange.patchNum ||
               this.computeLatestPatchNum(this._allPatchSets));
 
-      const parent = this._getBasePatchNum(change, this._patchRange);
+      const parent = this._getBasePatchNum(change, patchRange);
       this.set('_patchRange.basePatchNum', parent);
+
       const title = change.subject + ' (' + change.change_id.substr(0, 9) + ')';
       this.fire('title-change', {title});
     },

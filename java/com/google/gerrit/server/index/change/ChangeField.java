@@ -85,6 +85,7 @@ import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Stream;
 import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.revwalk.FooterLine;
 
 /**
  * Fields indexed on change documents.
@@ -224,9 +225,10 @@ public class ChangeField {
       exact(ChangeQueryBuilder.FIELD_FOOTER).buildRepeatable(ChangeField::getFooters);
 
   public static Set<String> getFooters(ChangeData cd) {
-    return cd.commitFooters().stream()
-        .map(f -> f.toString().toLowerCase(Locale.US))
-        .collect(toSet());
+    List<FooterLine> commitFooters = cd.commitFooters();
+    return commitFooters == null
+        ? ImmutableSet.of()
+        : commitFooters.stream().map(f -> f.toString().toLowerCase(Locale.US)).collect(toSet());
   }
 
   /** Folders that are touched by the current patch set. */

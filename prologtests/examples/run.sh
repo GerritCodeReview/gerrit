@@ -1,5 +1,12 @@
 #!/bin/bash
 
+# TODO(davido): Figure out what to do if running alone and not invoked from bazel
+case $1 in
+  "/"*) JAVABASE="$1" ;;
+  *) JAVABASE="${PWD}/$1" ;;
+esac
+shift
+
 TESTS="t1 t2 t3"
 
 # Note that both t1.pl and t2.pl test code in rules.pl.
@@ -36,7 +43,7 @@ do
   # Unit tests do not need to define clauses in packages.
   # Use one prolog-shell per unit test, to avoid name collision.
   echo "### Running test ${T}.pl"
-  echo "[$T]." | java -jar ${GERRIT_WAR} prolog-shell -q -s load.pl
+  echo "[$T]." | "${JAVABASE}/bin/java" -jar ${GERRIT_WAR} prolog-shell -q -s load.pl
 
   if [ "x$?" != "x0" ]; then
     echo "### Test ${T}.pl failed."

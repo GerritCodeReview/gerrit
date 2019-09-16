@@ -508,8 +508,7 @@ public class ChangeIT extends AbstractDaemonTest {
     Function<Collection<AccountInfo>, Collection<String>> toEmails =
         ais -> ais.stream().map(ai -> ai.email).collect(toSet());
     assertThat(toEmails.apply(info.pendingReviewers.get(REVIEWER)))
-        .containsExactly(
-            admin.email(), email1, email2, "byemail1@example.com", "byemail2@example.com");
+        .containsExactly(email1, email2, "byemail1@example.com", "byemail2@example.com");
     assertThat(toEmails.apply(info.pendingReviewers.get(CC)))
         .containsExactly(email3, email4, "byemail3@example.com", "byemail4@example.com");
     assertThat(info.pendingReviewers.get(REMOVED)).isNull();
@@ -521,7 +520,7 @@ public class ChangeIT extends AbstractDaemonTest {
     gApi.changes().id(changeId).reviewer("byemail3@example.com").remove();
     info = gApi.changes().id(changeId).get();
     assertThat(toEmails.apply(info.pendingReviewers.get(REVIEWER)))
-        .containsExactly(admin.email(), email2, "byemail2@example.com");
+        .containsExactly(email2, "byemail2@example.com");
     assertThat(toEmails.apply(info.pendingReviewers.get(CC)))
         .containsExactly(email4, "byemail4@example.com");
     assertThat(toEmails.apply(info.pendingReviewers.get(REMOVED)))
@@ -532,7 +531,7 @@ public class ChangeIT extends AbstractDaemonTest {
     gApi.changes().id(changeId).revision("current").review(in);
     info = gApi.changes().id(changeId).get();
     assertThat(toEmails.apply(info.pendingReviewers.get(REVIEWER)))
-        .containsExactly(admin.email(), email1, email2, "byemail2@example.com");
+        .containsExactly(email1, email2, "byemail2@example.com");
     assertThat(toEmails.apply(info.pendingReviewers.get(CC)))
         .containsExactly(email4, "byemail4@example.com");
     assertThat(toEmails.apply(info.pendingReviewers.get(REMOVED)))
@@ -543,7 +542,7 @@ public class ChangeIT extends AbstractDaemonTest {
     info = gApi.changes().id(changeId).get();
     assertThat(info.pendingReviewers).isEmpty();
     assertThat(toEmails.apply(info.reviewers.get(REVIEWER)))
-        .containsExactly(admin.email(), email1, email2, "byemail2@example.com");
+        .containsExactly(email1, email2, "byemail2@example.com");
     assertThat(toEmails.apply(info.reviewers.get(CC)))
         .containsExactly(email4, "byemail4@example.com");
     assertThat(info.reviewers.get(REMOVED)).isNull();
@@ -1898,15 +1897,34 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @Test
   public void addReviewer() throws Exception {
+    testAddReviewerViaPostReview(
+        (changeId, reviewer) -> {
+          AddReviewerInput in = new AddReviewerInput();
+          in.reviewer = reviewer;
+          gApi.changes().id(changeId).addReviewer(in);
+        });
+  }
+
+  @Test
+  public void addReviewerViaPostReview() throws Exception {
+    testAddReviewerViaPostReview(
+        (changeId, reviewer) -> {
+          AddReviewerInput addReviewerInput = new AddReviewerInput();
+          addReviewerInput.reviewer = reviewer;
+          ReviewInput reviewInput = new ReviewInput();
+          reviewInput.reviewers = ImmutableList.of(addReviewerInput);
+          gApi.changes().id(changeId).current().review(reviewInput);
+        });
+  }
+
+  private void testAddReviewerViaPostReview(AddReviewerCaller addReviewer) throws Exception {
     TestTimeUtil.resetWithClockStep(1, SECONDS);
     PushOneCommit.Result r = createChange();
     ChangeResource rsrc = parseResource(r);
     String oldETag = rsrc.getETag();
     Timestamp oldTs = rsrc.getChange().getLastUpdatedOn();
 
-    AddReviewerInput in = new AddReviewerInput();
-    in.reviewer = user.email();
-    gApi.changes().id(r.getChangeId()).addReviewer(in);
+    addReviewer.call(r.getChangeId(), user.email());
 
     List<Message> messages = sender.getMessages();
     assertThat(messages).hasSize(1);
@@ -1924,6 +1942,9 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(reviewers).hasSize(1);
     assertThat(reviewers.iterator().next()._accountId).isEqualTo(user.id().get());
 
+    // Nobody was added as CC.
+    assertThat(c.reviewers.get(CC)).isNull();
+
     // Ensure ETag and lastUpdatedOn are updated.
     rsrc = parseResource(r);
     assertThat(rsrc.getETag()).isNotEqualTo(oldETag);
@@ -1934,6 +1955,19 @@ public class ChangeIT extends AbstractDaemonTest {
     accountOperations.account(user.id()).forUpdate().status("new status").update();
     rsrc = parseResource(r);
     assertThat(rsrc.getETag()).isNotEqualTo(oldETag);
+  }
+
+  @Test
+  public void postingMessageOnOwnChangeDoesntAddCallerAsReviewer() throws Exception {
+    PushOneCommit.Result r = createChange();
+
+    ReviewInput reviewInput = new ReviewInput();
+    reviewInput.message = "Foo Bar";
+    gApi.changes().id(r.getChangeId()).current().review(reviewInput);
+
+    ChangeInfo c = gApi.changes().id(r.getChangeId()).get();
+    assertThat(c.reviewers.get(REVIEWER)).isNull();
+    assertThat(c.reviewers.get(CC)).isNull();
   }
 
   @Test
@@ -3778,9 +3812,9 @@ public class ChangeIT extends AbstractDaemonTest {
     ReviewInput input = new ReviewInput().label("Code-Review", 3);
     gApi.changes().id(changeId).current().review(input);
 
-    Map<String, Short> votes =
-        gApi.changes().id(changeId).current().reviewer(admin.email()).votes();
-    assertThat(votes).isEmpty();
+    assertThrows(
+        ResourceNotFoundException.class,
+        () -> gApi.changes().id(changeId).current().reviewer(admin.email()));
   }
 
   @Test
@@ -4702,5 +4736,10 @@ public class ChangeIT extends AbstractDaemonTest {
       return assertThat(e);
     }
     throw new AssertionError("expected BadRequestException");
+  }
+
+  @FunctionalInterface
+  private interface AddReviewerCaller {
+    void call(String changeId, String reviewer) throws RestApiException;
   }
 }

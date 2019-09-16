@@ -733,6 +733,40 @@ limitations under the License.
       assert.deepEqual(element._reviewersPendingRemove.CC, [cc1, cc4, cc3]);
     });
 
+    test('moving from reviewer to cc', () => {
+      element._reviewersPendingRemove = {
+        CC: [],
+        REVIEWER: [],
+      };
+      flushAsynchronousOperations();
+
+      const reviewer1 = makeAccount();
+      const reviewer2 = makeAccount();
+      const reviewer3 = makeAccount();
+      const cc1 = makeAccount();
+      const cc2 = makeAccount();
+      const cc3 = makeAccount();
+      const cc4 = makeAccount();
+      element._reviewers = [reviewer1, reviewer2, reviewer3];
+      element._ccs = [cc1, cc2, cc3, cc4];
+      element.push('_ccs', reviewer1);
+      flushAsynchronousOperations();
+
+      assert.deepEqual(element._reviewers,
+          [reviewer2, reviewer3]);
+      assert.deepEqual(element._ccs, [cc1, cc2, cc3, cc4, reviewer1]);
+      assert.deepEqual(element._reviewersPendingRemove.REVIEWER, [reviewer1]);
+
+      element.push('_ccs', reviewer3, reviewer2);
+      flushAsynchronousOperations();
+
+      assert.deepEqual(element._reviewers, []);
+      assert.deepEqual(element._ccs,
+          [cc1, cc2, cc3, cc4, reviewer1, reviewer3, reviewer2]);
+      assert.deepEqual(element._reviewersPendingRemove.REVIEWER,
+          [reviewer1, reviewer3, reviewer2]);
+    });
+
     test('migrate reviewers between states', done => {
       element._reviewersPendingRemove = {
         CC: [],

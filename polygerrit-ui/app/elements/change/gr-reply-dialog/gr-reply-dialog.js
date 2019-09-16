@@ -315,31 +315,37 @@
     },
 
     _ccsChanged(splices) {
-      if (splices && splices.indexSplices) {
-        this._reviewersMutated = true;
-        this._processReviewerChange(splices.indexSplices, ReviewerTypes.CC);
-      }
+      this._reviewerTypeChanged(splices, ReviewerTypes.CC);
     },
 
     _reviewersChanged(splices) {
+      this._reviewerTypeChanged(splices, ReviewerTypes.REVIEWER);
+    },
+
+    _reviewerTypeChanged(splices, reviewerType) {
       if (splices && splices.indexSplices) {
         this._reviewersMutated = true;
         this._processReviewerChange(splices.indexSplices,
-            ReviewerTypes.REVIEWER);
+            reviewerType);
         let key;
         let index;
         let account;
-        // Remove any accounts that already exist as a CC.
+        // Remove any accounts that already exist as a CC for reviewer
+        // or vice versa.
+        const isReviewer = ReviewerTypes.REVIEWER === reviewerType;
         for (const splice of splices.indexSplices) {
           for (let i = 0; i < splice.addedCount; i++) {
             account = splice.object[splice.index + i];
             key = this._accountOrGroupKey(account);
-            index = this._ccs.findIndex(
+            const array = isReviewer ? this._ccs : this._reviewers;
+            index = array.findIndex(
                 account => this._accountOrGroupKey(account) === key);
             if (index >= 0) {
-              this.splice('_ccs', index, 1);
+              this.splice(isReviewer ? '_ccs' : '_reviewers', index, 1);
+              const moveFrom = isReviewer ? 'CC' : 'reviewer';
+              const moveTo = isReviewer ? 'reviewer' : 'CC';
               const message = (account.name || account.email || key) +
-                  ' moved from CC to reviewer.';
+                  ` moved from ${moveFrom} to ${moveTo}.`;
               this.fire('show-alert', {message});
             }
           }

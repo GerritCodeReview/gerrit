@@ -46,6 +46,30 @@
       "revId": "235f3f7689efe34f2681a67524b3adf1358dac6c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "66dde892_c85bb08d",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 6374,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-09-16T08:24:07Z",
+      "side": 0,
+      "message": "No quite: present is not the same as empty. It\u0027s clear what happens if you do not provide edit_a/edit_b. What\u0027s missing is when you do provide a empty array. You could adjust that comment above if you prefer.",
+      "parentUuid": "2c76e681_dbcdfdcc",
+      "range": {
+        "startLine": 6373,
+        "startChar": 20,
+        "endLine": 6374,
+        "endChar": 18
+      },
+      "revId": "235f3f7689efe34f2681a67524b3adf1358dac6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

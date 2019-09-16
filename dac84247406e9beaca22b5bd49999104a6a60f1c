@@ -54,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "d541b9bd_df7985ce",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2019-09-16T12:17:18Z",
+      "side": 1,
+      "message": "Ok, I think we can do that, but as far as I could understand there is not 100% easy way for me to find out in this method (or the one above) that the current context is the last in the file. I might be able to identify it a few layers above in gr-diff-builder.html and send a special parameter to identify a group as \"last\":\n\n        _groupsChanged(changeRecord) {\n          if (!changeRecord) { return; }\n          for (const splice of changeRecord.indexSplices) {\n            let group;\n            for (let i \u003d 0; i \u003c splice.addedCount; i++) {\n              group \u003d splice.object[splice.index + i];\n              this._builder.groups.push(group);\n              this._builder.emitGroup(group);\n            }\n          }\n        },\n\nIs there maybe anything I can\u0027t see here?",
+      "parentUuid": "b8fd57c4_89310716",
+      "revId": "dac84247406e9beaca22b5bd49999104a6a60f1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b7d26f1f_c0c53bc7",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
         "patchSetId": 4
@@ -65,6 +83,30 @@
       "writtenOn": "2019-09-16T07:59:30Z",
       "side": 1,
       "message": "Nit: I would maybe set the constant to 10, and then use constant * 2 above not constant / 2 here, because that will save you headache with odd numbers.",
+      "range": {
+        "startLine": 269,
+        "startChar": 26,
+        "endLine": 269,
+        "endChar": 52
+      },
+      "revId": "dac84247406e9beaca22b5bd49999104a6a60f1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f774737f_881eff42",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2019-09-16T12:17:18Z",
+      "side": 1,
+      "message": "Will do in next round of changes.",
+      "parentUuid": "b7d26f1f_c0c53bc7",
       "range": {
         "startLine": 269,
         "startChar": 26,

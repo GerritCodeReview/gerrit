@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "91ab63c2_a52e1625",
+        "filename": "polygerrit-ui/app/scripts/gr-display-name-utils/gr-display-name-utils.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-16T08:20:58Z",
+      "side": 1,
+      "message": "Is this line needed?",
+      "revId": "2659a0b737b7a3103b30f057b601a66c6d9b47f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

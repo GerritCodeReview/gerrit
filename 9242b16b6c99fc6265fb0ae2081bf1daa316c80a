@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "fc2f5965_826a6334",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-09-16T13:41:20Z",
+      "side": 1,
+      "message": "\u003e How was the multi-site plugin able to use the ref-db before this change? Or, how that plugin differed from the other plugins so it could use it before? My understanding is that this change is to introduce a previously fork(ed) feature which is good.\n\nThe multi-site plugin at the moment \"includes\" an implementation of the global ref-db, based on Kafka. However, it would make sense for that to be part of Gerrit core, as other plugins and parts of Gerrit (e.g. Slaves) could benefit from it.",
+      "parentUuid": "847f2128_9250da55",
+      "range": {
+        "startLine": 10,
+        "startChar": 33,
+        "endLine": 11,
+        "endChar": 6
+      },
+      "revId": "9242b16b6c99fc6265fb0ae2081bf1daa316c80a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "513de315_1ad153d7",
         "filename": "/COMMIT_MSG",
         "patchSetId": 5

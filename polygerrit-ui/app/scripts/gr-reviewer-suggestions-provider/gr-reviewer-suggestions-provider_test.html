@@ -109,8 +109,8 @@ limitations under the License.
     });
     suite('allowAnyUser set to false', () => {
       setup(done => {
-        provider = new GrReviewerSuggestionsProvider(restAPI, change._number,
-            false);
+        provider = GrReviewerSuggestionsProvider.create(restAPI, change._number,
+            Gerrit.SUGGESTIONS_PROVIDERS_USERS_TYPES.REVIEWER);
         provider.init().then(done);
       });
       suite('stubbed values for _getReviewerSuggestions', () => {
@@ -235,8 +235,8 @@ limitations under the License.
 
     suite('allowAnyUser set to true', () => {
       setup(done => {
-        provider = new GrReviewerSuggestionsProvider(restAPI, change._number,
-            true);
+        provider = GrReviewerSuggestionsProvider.create(restAPI, change._number,
+            Gerrit.SUGGESTIONS_PROVIDERS_USERS_TYPES.ANY);
         provider.init().then(done);
       });
 

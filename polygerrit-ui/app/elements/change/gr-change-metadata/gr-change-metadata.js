@@ -473,8 +473,8 @@
     },
 
     _getReviewerSuggestionsProvider(change) {
-      const provider = new GrReviewerSuggestionsProvider(this.$.restAPI,
-          change._number, true);
+      const provider = GrReviewerSuggestionsProvider.create(this.$.restAPI,
+          change._number, Gerrit.SUGGESTIONS_PROVIDERS_USERS_TYPES.ANY);
       provider.init();
       return provider;
     },

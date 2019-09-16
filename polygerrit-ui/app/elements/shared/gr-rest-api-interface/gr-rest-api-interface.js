@@ -1293,9 +1293,24 @@
      * @param {function(?Response, string=)=} opt_errFn
      */
     getChangeSuggestedReviewers(changeNum, inputVal, opt_errFn) {
+      return this._getChangeSuggestedGroup('REVIEWER', changeNum, inputVal,
+          opt_errFn);
+    },
+
+    /**
+     * @param {number|string} changeNum
+     * @param {string} inputVal
+     * @param {function(?Response, string=)=} opt_errFn
+     */
+    getChangeSuggestedCCs(changeNum, inputVal, opt_errFn) {
+      return this._getChangeSuggestedGroup('CC', changeNum, inputVal,
+          opt_errFn);
+    },
+
+    _getChangeSuggestedGroup(reviewerState, changeNum, inputVal, opt_errFn) {
       // More suggestions may obscure content underneath in the reply dialog,
       // see issue 10793.
-      const params = {n: 6};
+      const params = {'n': 6, 'reviewer-state': reviewerState};
       if (inputVal) { params.q = inputVal; }
       return this._getChangeURLAndFetch({
         changeNum,

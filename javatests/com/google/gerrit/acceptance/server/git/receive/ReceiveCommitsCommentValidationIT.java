@@ -45,7 +45,7 @@ public class ReceiveCommitsCommentValidationIT extends AbstractDaemonTest {
 
   private static final String COMMENT_TEXT = "The comment text";
 
-  private Capture<ImmutableList<CommentForValidation>> capture = new Capture<>();
+  private Capture<ImmutableList<CommentForValidation>> capture = Capture.newInstance();
 
   @Override
   public Module createModule() {

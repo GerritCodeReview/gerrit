@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7afaeea4_7a1f8ca1",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-09-16T07:59:30Z",
+      "side": 1,
+      "message": "I wonder if this should consider the case where the context control is at the very beginning or end of the file: In that case, you only want to expand in one direction, and so expand 10 lines, not 20.",
+      "revId": "dac84247406e9beaca22b5bd49999104a6a60f1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b7d26f1f_c0c53bc7",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-09-16T07:59:30Z",
+      "side": 1,
+      "message": "Nit: I would maybe set the constant to 10, and then use constant * 2 above not constant / 2 here, because that will save you headache with odd numbers.",
+      "range": {
+        "startLine": 269,
+        "startChar": 26,
+        "endLine": 269,
+        "endChar": 52
+      },
+      "revId": "dac84247406e9beaca22b5bd49999104a6a60f1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

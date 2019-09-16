@@ -543,10 +543,11 @@ public class ChangeData {
     return commitMessage;
   }
 
+  /** Returns the list of commit footers (which may be empty). */
   public List<FooterLine> commitFooters() {
     if (commitFooters == null) {
       if (!loadCommitData()) {
-        return null;
+        return ImmutableList.of();
       }
     }
     return commitFooters;

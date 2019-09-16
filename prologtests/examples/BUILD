@@ -2,6 +2,8 @@ package(default_visibility = ["//visibility:public"])
 
 sh_test(
     name = "test_examples",
+    args = ["$(JAVABASE)"],
     srcs = ["run.sh"],
     data = glob(["*.pl"]) + ["//:gerrit.war"],
+    toolchains = ["@bazel_tools//tools/jdk:current_host_java_runtime"],
 )

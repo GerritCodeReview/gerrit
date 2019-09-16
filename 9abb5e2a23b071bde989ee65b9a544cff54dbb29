@@ -726,6 +726,30 @@
       "revId": "9abb5e2a23b071bde989ee65b9a544cff54dbb29",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a558381d_56125adc",
+        "filename": "java/com/google/gerrit/globalrefdb/GlobalRefDbLockException.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2019-09-16T10:28:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a46e4b71_59584b7c",
+      "range": {
+        "startLine": 24,
+        "startChar": 40,
+        "endLine": 24,
+        "endChar": 60
+      },
+      "revId": "9abb5e2a23b071bde989ee65b9a544cff54dbb29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

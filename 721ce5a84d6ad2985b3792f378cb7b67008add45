@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "066072da_12d69119",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-09-16T10:01:06Z",
+      "side": 1,
+      "message": "Link to the issue I just wrote: Issue 11518.",
+      "revId": "721ce5a84d6ad2985b3792f378cb7b67008add45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "37e73e39_39ff6fe5",
+        "filename": "WORKSPACE",
+        "patchSetId": 1
+      },
+      "lineNbr": 956,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-09-16T10:01:06Z",
+      "side": 1,
+      "message": "Should cglib and powermock below be udpated as well?",
+      "range": {
+        "startLine": 952,
+        "startChar": 0,
+        "endLine": 956,
+        "endChar": 1
+      },
+      "revId": "721ce5a84d6ad2985b3792f378cb7b67008add45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

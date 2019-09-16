@@ -37,6 +37,10 @@ public class ChangeIndexedCounter implements ChangeIndexedListener {
     countsByChange.clear();
   }
 
+  public long getCount(ChangeInfo info) {
+    return countsByChange.get(info._number);
+  }
+
   public void assertReindexOf(ChangeInfo info) {
     assertReindexOf(info, 1);
   }

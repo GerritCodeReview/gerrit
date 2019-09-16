@@ -546,7 +546,7 @@ public class ChangeData {
   public List<FooterLine> commitFooters() {
     if (commitFooters == null) {
       if (!loadCommitData()) {
-        return null;
+        return ImmutableList.of();
       }
     }
     return commitFooters;

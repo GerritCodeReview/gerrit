@@ -68,8 +68,14 @@
         type: String,
         notify: true,
       },
-      patchNum: String,
-      basePatchNum: String,
+      patchNum: {
+        type: String,
+        notify: true,
+      },
+      basePatchNum: {
+        type: String,
+        notify: true,
+      },
       filesExpanded: String,
       // Caps the number of files that can be shown and have the 'show diffs' /
       // 'hide diffs' buttons still be functional.

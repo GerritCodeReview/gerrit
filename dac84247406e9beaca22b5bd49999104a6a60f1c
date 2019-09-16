@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "31246454_f11f245f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-09-16T08:15:35Z",
+      "side": 1,
+      "message": "Could you add the before after screenshots here in the change description?",
+      "revId": "dac84247406e9beaca22b5bd49999104a6a60f1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7afaeea4_7a1f8ca1",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
         "patchSetId": 4
@@ -13,6 +30,24 @@
       "writtenOn": "2019-09-16T07:59:30Z",
       "side": 1,
       "message": "I wonder if this should consider the case where the context control is at the very beginning or end of the file: In that case, you only want to expand in one direction, and so expand 10 lines, not 20.",
+      "revId": "dac84247406e9beaca22b5bd49999104a6a60f1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b8fd57c4_89310716",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-09-16T08:15:35Z",
+      "side": 1,
+      "message": "I think this is what this issue is about:\nhttps://bugs.chromium.org/p/gerrit/issues/detail?id\u003d2738\u0026q\u003d-component%3Abackend%2Cdocs%20%20summary%3A%2210%22\u0026colspec\u003dID%20Type%20Stars%20Milestone%20Status%20Priority%20Owner%20Summary",
+      "parentUuid": "7afaeea4_7a1f8ca1",
       "revId": "dac84247406e9beaca22b5bd49999104a6a60f1c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

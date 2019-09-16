@@ -1,15 +1,12 @@
 package(default_visibility = ["//visibility:public"])
 
-DUMMY = ["dummy.sh"]
-
-# Enable prologtests on newer Java versions again, when this Bazel bug is fixed:
-# https://github.com/bazelbuild/bazel/issues/9391
 sh_test(
     name = "test_examples",
-    srcs = select({
-        "//:java11": DUMMY,
-        "//:java_next": DUMMY,
-        "//conditions:default": ["run.sh"],
-    }),
-    data = glob(["*.pl"]) + ["//:gerrit.war"],
+    srcs = ["run.sh"],
+    args = ["$(JAVA)"],
+    data = glob(["*.pl"]) + [
+        "//:gerrit.war",
+        "@bazel_tools//tools/jdk:current_host_java_runtime",
+    ],
+    toolchains = ["@bazel_tools//tools/jdk:current_host_java_runtime"],
 )

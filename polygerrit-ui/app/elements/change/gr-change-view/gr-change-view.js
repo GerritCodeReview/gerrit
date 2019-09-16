@@ -890,12 +890,16 @@
     _changeChanged(change) {
       if (!change || !this._patchRange || !this._allPatchSets) { return; }
 
+      // Keep a copy of _patchRange to calculate basePatchNum.
+      const patchRange = Object.assign({}, this._patchRange);
+
       // Update patchNum before getting basePatchNum.
-      this.set('_patchRange.patchNum', this._patchRange.patchNum ||
+      this.set('_patchRange.patchNum', patchRange.patchNum ||
               this.computeLatestPatchNum(this._allPatchSets));
 
-      const parent = this._getBasePatchNum(change, this._patchRange);
+      const parent = this._getBasePatchNum(change, patchRange);
       this.set('_patchRange.basePatchNum', parent);
+
       const title = change.subject + ' (' + change.change_id.substr(0, 9) + ')';
       this.fire('title-change', {title});
     },

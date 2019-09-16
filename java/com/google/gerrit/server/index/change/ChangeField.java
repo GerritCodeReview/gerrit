@@ -237,7 +237,6 @@ public class ChangeField {
     Set<String> r = new HashSet<>();
     for (String path : paths) {
       StringBuilder directory = new StringBuilder();
-      directory.append("");
       r.add(directory.toString());
       String nextPart = null;
       for (String part : s.split(path)) {

@@ -945,8 +945,8 @@ maven_jar(
 # When bumping the easymock version number, make sure to also move powermock to a compatible version
 maven_jar(
     name = "easymock",
-    artifact = "org.easymock:easymock:3.1",
-    sha1 = "3e127311a86fc2e8f550ef8ee4abe094bbcf7e7e",
+    artifact = "org.easymock:easymock:4.0.2",
+    sha1 = "f74aebbe02f5051bea31c0dbc5df5202a59e0b78",
 )
 
 maven_jar(

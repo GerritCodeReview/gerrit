@@ -16,6 +16,24 @@
       "revId": "2659a0b737b7a3103b30f057b601a66c6d9b47f8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a08cb72a_ba36739f",
+        "filename": "polygerrit-ui/app/scripts/gr-display-name-utils/gr-display-name-utils.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-16T08:21:57Z",
+      "side": 1,
+      "message": "Looks like this is a frontend specific thing?",
+      "parentUuid": "91ab63c2_a52e1625",
+      "revId": "2659a0b737b7a3103b30f057b601a66c6d9b47f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

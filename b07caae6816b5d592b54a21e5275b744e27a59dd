@@ -70,6 +70,24 @@
       "revId": "b07caae6816b5d592b54a21e5275b744e27a59dd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5da05b59_2d67f6d1",
+        "filename": "polygerrit-ui/app/elements/shared/gr-button/gr-button.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-09-16T08:05:14Z",
+      "side": 1,
+      "message": "`cursor: default` can be optional, for disabled item, the browser should have default style for cursor, but no harm to add it either.",
+      "parentUuid": "d63c83f3_ed0922dd",
+      "revId": "b07caae6816b5d592b54a21e5275b744e27a59dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

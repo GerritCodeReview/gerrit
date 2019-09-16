@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "256e2799_c87b0b5f",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 899,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-09-16T13:34:02Z",
+      "side": 1,
+      "message": "i think what you really want here is to have the `patchRange` as a copy of `_patchRange` :) \n\n```\nconst patchRange \u003d {...this._patchRange};\n```",
+      "range": {
+        "startLine": 899,
+        "startChar": 0,
+        "endLine": 899,
+        "endChar": 61
+      },
+      "revId": "8ae41d1b8f327b175aa476711b13d7bc2dd5e8b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

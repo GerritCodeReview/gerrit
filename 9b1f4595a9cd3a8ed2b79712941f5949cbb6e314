@@ -354,6 +354,30 @@
     },
     {
       "key": {
+        "uuid": "36f0c691_a6c0064f",
+        "filename": "java/com/google/gerrit/globalrefdb/BUILD",
+        "patchSetId": 3
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2019-09-17T09:41:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "14bc59c9_fa93907f",
+      "range": {
+        "startLine": 5,
+        "startChar": 18,
+        "endLine": 5,
+        "endChar": 27
+      },
+      "revId": "9b1f4595a9cd3a8ed2b79712941f5949cbb6e314",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "52f01aa9_f0f4960b",
         "filename": "java/com/google/gerrit/globalrefdb/GlobalRefDatabase.java",
         "patchSetId": 3

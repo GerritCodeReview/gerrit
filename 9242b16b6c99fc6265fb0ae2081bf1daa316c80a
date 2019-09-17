@@ -66,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "24b77813_2d17c12e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2019-09-17T09:41:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "513de315_1ad153d7",
+      "revId": "9242b16b6c99fc6265fb0ae2081bf1daa316c80a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f7174b73_8ceee065",
         "filename": "/COMMIT_MSG",
         "patchSetId": 5
@@ -86,6 +104,30 @@
       "revId": "9242b16b6c99fc6265fb0ae2081bf1daa316c80a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "faf1610b_73e6871e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2019-09-17T09:41:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f7174b73_8ceee065",
+      "range": {
+        "startLine": 13,
+        "startChar": 25,
+        "endLine": 13,
+        "endChar": 31
+      },
+      "revId": "9242b16b6c99fc6265fb0ae2081bf1daa316c80a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -112,6 +154,30 @@
     },
     {
       "key": {
+        "uuid": "c2a3c900_62377deb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2019-09-17T09:41:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e4946b4d_c16746f6",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 9
+      },
+      "revId": "9242b16b6c99fc6265fb0ae2081bf1daa316c80a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c3f2a211_489eb4a6",
         "filename": "java/com/google/gerrit/globalrefdb/GlobalRefDatabase.java",
         "patchSetId": 5
@@ -123,6 +189,24 @@
       "writtenOn": "2019-09-16T10:32:57Z",
       "side": 1,
       "message": "It would be best to have a \u0027use-case\u0027 example in the overall interface description.\n\nAlso, we should have a test that demonstrate how the interface is supposed to be used.\nThe test could include also a mock implementation that would be useful as a reference\nfor the implementers.",
+      "revId": "9242b16b6c99fc6265fb0ae2081bf1daa316c80a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "492086e2_78e26144",
+        "filename": "java/com/google/gerrit/globalrefdb/GlobalRefDatabase.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2019-09-17T09:41:22Z",
+      "side": 1,
+      "message": "I\u0027ve added tests in the change for master but I\u0027m not sure what do you mean by adding \u0027use-case\u0027 example in overall interface description.",
+      "parentUuid": "c3f2a211_489eb4a6",
       "revId": "9242b16b6c99fc6265fb0ae2081bf1daa316c80a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -290,6 +374,30 @@
       "revId": "9242b16b6c99fc6265fb0ae2081bf1daa316c80a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bcecaed1_686e452f",
+        "filename": "java/com/google/gerrit/globalrefdb/GlobalRefDatabase.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2019-09-17T09:41:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "494c7932_5d2dbe76",
+      "range": {
+        "startLine": 59,
+        "startChar": 13,
+        "endLine": 59,
+        "endChar": 24
+      },
+      "revId": "9242b16b6c99fc6265fb0ae2081bf1daa316c80a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

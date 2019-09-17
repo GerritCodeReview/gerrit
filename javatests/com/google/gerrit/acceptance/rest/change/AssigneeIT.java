@@ -96,16 +96,32 @@ public class AssigneeIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void assigneeAddedAsReviewer() throws Exception {
-    ReviewerState state = ReviewerState.CC;
+  public void assigneeAddedAsCc() throws Exception {
     PushOneCommit.Result r = createChange();
-    Iterable<AccountInfo> reviewers = getReviewers(r, state);
+    Iterable<AccountInfo> reviewers = getReviewers(r, ReviewerState.CC);
     assertThat(reviewers).isNull();
+
     assertThat(setAssignee(r, user.email())._accountId).isEqualTo(user.id().get());
-    reviewers = getReviewers(r, state);
+    reviewers = getReviewers(r, ReviewerState.CC);
     assertThat(reviewers).hasSize(1);
-    AccountInfo reviewer = Iterables.getFirst(reviewers, null);
-    assertThat(reviewer._accountId).isEqualTo(user.id().get());
+    assertThat(Iterables.getFirst(reviewers, null)._accountId).isEqualTo(user.id().get());
+    assertThat(getReviewers(r, ReviewerState.REVIEWER)).isNull();
+  }
+
+  @Test
+  public void assigneeStaysReviewer() throws Exception {
+    PushOneCommit.Result r = createChange();
+    gApi.changes().id(r.getChangeId()).addReviewer(user.email());
+    Iterable<AccountInfo> reviewers = getReviewers(r, ReviewerState.REVIEWER);
+    assertThat(reviewers).hasSize(1);
+    assertThat(Iterables.getFirst(reviewers, null)._accountId).isEqualTo(user.id().get());
+    assertThat(getReviewers(r, ReviewerState.CC)).isNull();
+
+    assertThat(setAssignee(r, user.email())._accountId).isEqualTo(user.id().get());
+    reviewers = getReviewers(r, ReviewerState.REVIEWER);
+    assertThat(reviewers).hasSize(1);
+    assertThat(Iterables.getFirst(reviewers, null)._accountId).isEqualTo(user.id().get());
+    assertThat(getReviewers(r, ReviewerState.CC)).isNull();
   }
 
   @Test

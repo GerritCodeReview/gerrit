@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c865388e_5ea7d0ca",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-09-17T00:48:23Z",
+      "side": 1,
+      "message": "These links will point to the wrong line when new commits are submitted that touch those files. It would be better to make the links point to a specific sha1 revision rather than \"master\".",
+      "range": {
+        "startLine": 33,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 0
+      },
+      "revId": "715632adc1f9a13ad58fe7e162a7bcd6d7aa8b65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

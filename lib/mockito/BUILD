@@ -7,7 +7,7 @@ package(
 
 java_library(
     name = "mockito",
-    data = ["//lib:LICENSE-Apache2.0"],
+    data = ["//lib:LICENSE-mockito"],
     # Only exposed for plugin tests; core tests should use Easymock
     visibility = ["//java/com/google/gerrit/acceptance:__pkg__"],
     exports = ["@mockito//jar"],

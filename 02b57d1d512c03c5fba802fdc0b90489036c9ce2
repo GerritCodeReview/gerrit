@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b83ca299_69025f19",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 893,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-09-17T12:36:41Z",
+      "side": 1,
+      "message": "maybe say `uses the original patchRange for basePatchNum` ?",
+      "range": {
+        "startLine": 893,
+        "startChar": 47,
+        "endLine": 893,
+        "endChar": 78
+      },
+      "revId": "02b57d1d512c03c5fba802fdc0b90489036c9ce2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e968fc21_fc1937df",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 894,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-09-17T12:36:41Z",
+      "side": 1,
+      "message": "typo ? :)",
+      "range": {
+        "startLine": 894,
+        "startChar": 30,
+        "endLine": 894,
+        "endChar": 36
+      },
+      "revId": "02b57d1d512c03c5fba802fdc0b90489036c9ce2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

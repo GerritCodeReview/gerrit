@@ -46,6 +46,30 @@
       "revId": "b8566259f0ab97103d5ea2c759b253ada379b9b0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "12efc116_e4a45e73",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 895,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-09-17T15:27:18Z",
+      "side": 1,
+      "message": "verified locally, so the patchNum needs to be updated before the basePatchNum.\n\nBut you change the order of these lines to avoid having the copy of the patchRange:\n\n```\n      const parent \u003d this._getBasePatchNum(change, this._patchRange);\n      this.set(\u0027_patchRange.patchNum\u0027, this._patchRange.patchNum ||\n              this.computeLatestPatchNum(this._allPatchSets));\n      this.set(\u0027_patchRange.basePatchNum\u0027, parent);\n```",
+      "parentUuid": "8d6bc283_126afe70",
+      "range": {
+        "startLine": 893,
+        "startChar": 6,
+        "endLine": 895,
+        "endChar": 18
+      },
+      "revId": "b8566259f0ab97103d5ea2c759b253ada379b9b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

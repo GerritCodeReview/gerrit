@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "8f435830_a8301571",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 12
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2019-09-17T13:15:49Z",
+      "side": 1,
+      "message": "this is already being checked before in the method below:\n....\n_createContextControl \u003d function(section, line) {\n    const contextGroups \u003d line.contextGroups;\n    if (!contextGroups) return null;\n...\nI can also check again if you want, should I?",
+      "parentUuid": "3c633d3b_f9bc3121",
+      "range": {
+        "startLine": 243,
+        "startChar": 35,
+        "endLine": 243,
+        "endChar": 48
+      },
+      "revId": "764d01e3d87b7c07b5bbd7ac6c968d06d7773ca2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e4ff644e_82b14026",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
         "patchSetId": 12
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "7efb6fdf_705065ad",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 12
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2019-09-17T13:15:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e4ff644e_82b14026",
+      "revId": "764d01e3d87b7c07b5bbd7ac6c968d06d7773ca2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9db3f9da_b6589ef5",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
         "patchSetId": 12
@@ -53,6 +95,30 @@
       "writtenOn": "2019-09-17T12:59:29Z",
       "side": 1,
       "message": "So in the case where it\u0027s both first and last, you default to LAST? Why? When can this happen? What behavior do we actually want in that case?",
+      "range": {
+        "startLine": 251,
+        "startChar": 8,
+        "endLine": 251,
+        "endChar": 48
+      },
+      "revId": "764d01e3d87b7c07b5bbd7ac6c968d06d7773ca2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e8609fce_999fbdf4",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 12
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2019-09-17T13:15:49Z",
+      "side": 1,
+      "message": "that is a good question. To be honest I don\u0027t know if that can ever happen. However, if that ever happens I assume it doesn\u0027t make sense that the expansion step is uni-directional - so bi-directional is taken as default. Should I do something different?",
+      "parentUuid": "9db3f9da_b6589ef5",
       "range": {
         "startLine": 251,
         "startChar": 8,

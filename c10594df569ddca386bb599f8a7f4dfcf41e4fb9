@@ -2,6 +2,46 @@
   "comments": [
     {
       "key": {
+        "uuid": "ec041230_e1ca8646",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-09-17T14:35:11Z",
+      "side": 1,
+      "message": "What is the case where a Change notes doesn\u0027t have a serverId in its ident?\nAnd if that is the case, should we raise an exception instead?",
+      "range": {
+        "startLine": 342,
+        "startChar": 6,
+        "endLine": 342,
+        "endChar": 37
+      },
+      "revId": "c10594df569ddca386bb599f8a7f4dfcf41e4fb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b24d7fb4_4c645ea0",
+        "filename": "javatests/com/google/gerrit/server/notedb/ChangeNotesStateTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-09-17T14:35:11Z",
+      "side": 1,
+      "message": "We are missing a test that is making sure that backward compatibility is guaranteed.\n\nI am expecting all existing tests to pass *and* having the new one saying that if the server-id is set then we can decode it from protobuf.",
+      "revId": "c10594df569ddca386bb599f8a7f4dfcf41e4fb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "516e7645_833d91e9",
         "filename": "proto/cache.proto",
         "patchSetId": 3
@@ -13,6 +53,30 @@
       "writtenOn": "2019-09-04T06:59:51Z",
       "side": 1,
       "message": "Admittedly, I could have added server_id field to ChangeColumnsProto message instead.",
+      "range": {
+        "startLine": 190,
+        "startChar": 2,
+        "endLine": 191,
+        "endChar": 25
+      },
+      "revId": "c10594df569ddca386bb599f8a7f4dfcf41e4fb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "abd58b60_6cbc5f1b",
+        "filename": "proto/cache.proto",
+        "patchSetId": 3
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-09-17T14:35:11Z",
+      "side": 1,
+      "message": "I don\u0027t think so: this is not \"one of the fields of a change\" but rather an important identifier that should stay at the same level of the change id.",
+      "parentUuid": "516e7645_833d91e9",
       "range": {
         "startLine": 190,
         "startChar": 2,

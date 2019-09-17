@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "783bb2e1_e7bac229",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesState.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 437,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-09-17T14:35:11Z",
+      "side": 1,
+      "message": "I am expecting to see also a b.setHasServerId(true)",
+      "revId": "85ef949015bd0079d798ac635943c721bcd6bc52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f763e18a_4756e83e",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesState.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 560,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-09-17T14:35:11Z",
+      "side": 1,
+      "message": "Here we should make this conditional, because if proto.hasServerId() is false, then we don\u0027t have a server id to set.",
+      "revId": "85ef949015bd0079d798ac635943c721bcd6bc52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

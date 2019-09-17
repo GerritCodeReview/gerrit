@@ -45,6 +45,30 @@
       "revId": "02b57d1d512c03c5fba802fdc0b90489036c9ce2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aa3d51db_da1a9e77",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 894,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-09-17T12:40:52Z",
+      "side": 1,
+      "message": "just a suggestion but maybe use something like: Keep a copy of _patchRange so to use the original patchRange to calculate the basePatchNum instead of the updated one as `this.set` is a synchronous behavior.",
+      "parentUuid": "e968fc21_fc1937df",
+      "range": {
+        "startLine": 894,
+        "startChar": 30,
+        "endLine": 894,
+        "endChar": 36
+      },
+      "revId": "02b57d1d512c03c5fba802fdc0b90489036c9ce2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3c633d3b_f9bc3121",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 12
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-09-17T12:59:29Z",
+      "side": 1,
+      "message": "contextGroups can be null in the general case - if we know it won\u0027t be here, maybe document that on param?",
+      "range": {
+        "startLine": 243,
+        "startChar": 35,
+        "endLine": 243,
+        "endChar": 48
+      },
+      "revId": "764d01e3d87b7c07b5bbd7ac6c968d06d7773ca2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e4ff644e_82b14026",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 12
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-09-17T12:59:29Z",
+      "side": 1,
+      "message": "firstLines.length \u003e 0  \u0026\u0026 firstLines[0].firstInFile;",
+      "revId": "764d01e3d87b7c07b5bbd7ac6c968d06d7773ca2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9db3f9da_b6589ef5",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 12
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-09-17T12:59:29Z",
+      "side": 1,
+      "message": "So in the case where it\u0027s both first and last, you default to LAST? Why? When can this happen? What behavior do we actually want in that case?",
+      "range": {
+        "startLine": 251,
+        "startChar": 8,
+        "endLine": 251,
+        "endChar": 48
+      },
+      "revId": "764d01e3d87b7c07b5bbd7ac6c968d06d7773ca2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

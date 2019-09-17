@@ -22,6 +22,30 @@
       "revId": "b8566259f0ab97103d5ea2c759b253ada379b9b0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8d6bc283_126afe70",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 895,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-09-17T14:42:35Z",
+      "side": 1,
+      "message": "I remember there is a strange bug on the `patchNum` needs to be updated before the `basePatchNum`, but forgot what that bug is..\n\n@paladox can you try revert the change back and verify the change ?\n\nIt may have something to do with the gr-file-list-header. Let me know if you need any help on that :)",
+      "parentUuid": "f0265b34_5f947d49",
+      "range": {
+        "startLine": 893,
+        "startChar": 6,
+        "endLine": 895,
+        "endChar": 18
+      },
+      "revId": "b8566259f0ab97103d5ea2c759b253ada379b9b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f0265b34_5f947d49",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 895,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-09-17T14:29:25Z",
+      "side": 1,
+      "message": "Why not just call _getBasePatchNum() before set(\u0027_patchRange.patchNum\u0027) then?",
+      "range": {
+        "startLine": 893,
+        "startChar": 6,
+        "endLine": 895,
+        "endChar": 18
+      },
+      "revId": "b8566259f0ab97103d5ea2c759b253ada379b9b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

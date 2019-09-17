@@ -83,6 +83,24 @@
     },
     {
       "key": {
+        "uuid": "78e3d438_3dc70b1b",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1510,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-17T10:42:25Z",
+      "side": 1,
+      "message": "I think the reason that this must be a separate REST endpoint is that this REST endpoint returns a list of changes whereas the normal revert REST endpoint returns only a single change. I think that\u0027s a valid reason, but can you please mention this in the commit message?",
+      "parentUuid": "bc3764fa_c0779e2f",
+      "revId": "5982f6c46140fb39f4fe1d41fd89426408e90ca2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9ae28eb7_ed0d4545",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 1

@@ -257,10 +257,11 @@ public class PostReview
       checkLabels(revision, labelTypes, input.labels);
     }
     if (input.comments != null) {
-      cleanUpComments(input.comments);
+      input.comments = cleanUpComments(input.comments);
       checkComments(revision, input.comments);
     }
     if (input.robotComments != null) {
+      input.robotComments = cleanUpComments(input.robotComments);
       checkRobotComments(revision, input.robotComments);
     }
 
@@ -544,37 +545,30 @@ public class PostReview
     }
   }
 
-  private static <T extends CommentInput> void cleanUpComments(
+  private static <T extends CommentInput> Map<String, List<T>> cleanUpComments(
       Map<String, List<T>> commentsPerPath) {
-    Iterator<List<T>> mapValueIterator = commentsPerPath.values().iterator();
-    while (mapValueIterator.hasNext()) {
-      List<T> comments = mapValueIterator.next();
+    Map<String, List<T>> cleanedUpCommentMap = new HashMap<>();
+    for (Map.Entry<String, List<T>> e : commentsPerPath.entrySet()) {
+      String path = e.getKey();
+      List<T> comments = e.getValue();
+
       if (comments == null) {
-        mapValueIterator.remove();
         continue;
       }
 
-      cleanUpComments(comments);
-      if (comments.isEmpty()) {
-        mapValueIterator.remove();
+      List<T> cleanedUpComments = cleanUpComments(comments);
+      if (!cleanedUpComments.isEmpty()) {
+        cleanedUpCommentMap.put(path, cleanedUpComments);
       }
     }
+    return cleanedUpCommentMap;
   }
 
-  private static <T extends CommentInput> void cleanUpComments(List<T> comments) {
-    Iterator<T> commentsIterator = comments.iterator();
-    while (commentsIterator.hasNext()) {
-      T comment = commentsIterator.next();
-      if (comment == null) {
-        commentsIterator.remove();
-        continue;
-      }
-
-      comment.message = Strings.nullToEmpty(comment.message).trim();
-      if (comment.message.isEmpty()) {
-        commentsIterator.remove();
-      }
-    }
+  private static <T extends CommentInput> List<T> cleanUpComments(List<T> comments) {
+    return comments.stream()
+        .filter(Objects::nonNull)
+        .filter(comment -> !Strings.nullToEmpty(comment.message).trim().isEmpty())
+        .collect(toList());
   }
 
   private <T extends CommentInput> void checkComments(
@@ -632,7 +626,6 @@ public class PostReview
   private void checkRobotComments(
       RevisionResource revision, Map<String, List<RobotCommentInput>> in)
       throws BadRequestException, PatchListNotAvailableException {
-    cleanUpComments(in);
     for (Map.Entry<String, List<RobotCommentInput>> e : in.entrySet()) {
       String commentPath = e.getKey();
       for (RobotCommentInput c : e.getValue()) {

@@ -138,6 +138,26 @@ public class PostReviewIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void validateCommentsInInput_commentCleanedUp() throws Exception {
+    EasyMock.replay(mockCommentValidator);
+
+    PushOneCommit.Result r = createChange();
+    assertThat(testCommentHelper.getPublishedComments(r.getChangeId())).isEmpty();
+
+    // posting a comment which is empty after trim is a no-op, as the empty comment is dropped
+    // during comment cleanup
+    ReviewInput input = new ReviewInput();
+    CommentInput comment =
+        TestCommentHelper.populate(
+            new CommentInput(), r.getChange().currentFilePaths().get(0), " ");
+    comment.updated = new Timestamp(0);
+    input.comments = ImmutableMap.of(comment.path, ImmutableList.of(comment));
+    gApi.changes().id(r.getChangeId()).current().review(input);
+
+    assertThat(testCommentHelper.getPublishedComments(r.getChangeId())).isEmpty();
+  }
+
+  @Test
   public void validateDrafts_draftOK() throws Exception {
     EasyMock.expect(
             mockCommentValidator.validateComments(

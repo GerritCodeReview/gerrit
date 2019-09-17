@@ -896,6 +896,84 @@ public class ChangeIT extends AbstractDaemonTest {
         .contains("project state " + ProjectState.READ_ONLY + " does not permit write");
   }
 
+  @Test
+  public void revertWithDifferentParent() throws Exception {
+    PushOneCommit.Result resultToRevert = createChangeWithTopicAndApproval(testRepo);
+    gApi.changes()
+        .id(resultToRevert.getChangeId())
+        .revision(resultToRevert.getCommit().name())
+        .submit();
+    PushOneCommit.Result resultParent = createChangeWithTopicAndApproval(testRepo);
+    RevertInput revertInput = new RevertInput();
+    revertInput.parent = resultParent.getChange().currentPatchSet().commitId().getName();
+
+    ChangeInfo changeInfo =
+        gApi.changes().id(resultToRevert.getChangeId()).revert(revertInput).get();
+    assertThat(changeInfo.revertOf).isEqualTo(resultToRevert.getChange().getId().get());
+    assertThat(gApi.changes().id(changeInfo._number).submittedTogether()).hasSize(2);
+  }
+
+  @Test
+  public void cantRevertWithParentInDifferentRepo() throws Exception {
+    projectOperations.newProject().name("secondProject").create();
+    TestRepository<InMemoryRepository> secondRepo =
+        cloneProject(Project.nameKey("secondProject"), admin);
+
+    PushOneCommit.Result resultToRevert = createChangeWithTopicAndApproval(testRepo);
+    gApi.changes()
+        .id(resultToRevert.getChangeId())
+        .revision(resultToRevert.getCommit().name())
+        .submit();
+    PushOneCommit.Result resultParent = createChangeWithTopicAndApproval(secondRepo);
+
+    RevertInput revertInput = new RevertInput();
+    revertInput.parent = resultParent.getChange().currentPatchSet().commitId().getName();
+    RestApiException thrown =
+        assertThrows(
+            RestApiException.class,
+            () -> gApi.changes().id(resultToRevert.getChangeId()).revert(revertInput).get());
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains(String.format("Parent not found: %s", revertInput.parent));
+  }
+
+  @Test
+  public void cantRevertWithInvalidParent() throws Exception {
+    PushOneCommit.Result resultToRevert = createChangeWithTopicAndApproval(testRepo);
+    gApi.changes()
+        .id(resultToRevert.getChangeId())
+        .revision(resultToRevert.getCommit().name())
+        .submit();
+    RevertInput revertInput = new RevertInput();
+    revertInput.parent = "Random40letterStringLikeSha1ButBad123456";
+    BadRequestException thrown =
+        assertThrows(
+            BadRequestException.class,
+            () -> gApi.changes().id(resultToRevert.getChangeId()).revert(revertInput));
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains(String.format("Parent is invalid: %s", revertInput.parent));
+
+    revertInput.parent = "bad_Sha1";
+    thrown =
+        assertThrows(
+            BadRequestException.class,
+            () -> gApi.changes().id(resultToRevert.getChangeId()).revert(revertInput));
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains(String.format("Parent is invalid: %s", revertInput.parent));
+
+    revertInput.parent =
+        resultToRevert.getChange().currentPatchSet().commitId().getName().substring(3) + "AAA";
+    UnprocessableEntityException thrownException =
+        assertThrows(
+            UnprocessableEntityException.class,
+            () -> gApi.changes().id(resultToRevert.getChangeId()).revert(revertInput));
+    assertThat(thrownException)
+        .hasMessageThat()
+        .contains(String.format("Parent not found: %s", revertInput.parent));
+  }
+
   @FunctionalInterface
   private interface Rebase {
     void call(String id) throws RestApiException;
@@ -4702,5 +4780,17 @@ public class ChangeIT extends AbstractDaemonTest {
       return assertThat(e);
     }
     throw new AssertionError("expected BadRequestException");
+  }
+
+  private PushOneCommit.Result createChangeWithTopicAndApproval(
+      TestRepository<InMemoryRepository> repo) throws Exception {
+    String topic = "topic";
+    PushOneCommit.Result result = createChange(repo);
+    gApi.changes()
+        .id(result.getChangeId())
+        .revision(result.getCommit().name())
+        .review(ReviewInput.approve());
+    gApi.changes().id(result.getChangeId()).topic(topic);
+    return result;
   }
 }

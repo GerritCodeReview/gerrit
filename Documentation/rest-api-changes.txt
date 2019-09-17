@@ -1451,8 +1451,9 @@ response body.
 
 Reverts a change.
 
-The request body does not need to include a link:#revert-input[
-RevertInput] entity if no review comment is added.
+The request body can include a link:#revert-input[RevertInput] entity to specify details for the
+revert.
+
 
 .Request
 ----
@@ -6918,6 +6919,10 @@ If not set, the default is `ALL`.
 |`notify_details`|optional|
 Additional information about whom to notify about the revert as a map
 of recipient type to link:#notify-info[NotifyInfo] entity.
+|`parent`|optional|
+The SHA1 of the commit that should be the parent of the revert. +
+The revert may fail due to conflicts when parent is set, while it will always succeed when default.
+If not set, the default is the change being reverted.
 |=============================
 
 [[review-info]]

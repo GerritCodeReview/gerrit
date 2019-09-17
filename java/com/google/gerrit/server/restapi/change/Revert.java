@@ -23,10 +23,12 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.RevertInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
@@ -74,6 +76,8 @@ import java.text.MessageFormat;
 import java.util.HashSet;
 import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.errors.InvalidObjectIdException;
+import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.ObjectId;
@@ -185,9 +189,21 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
 
       RevCommit parentToCommitToRevert = commitToRevert.getParent(0);
       revWalk.parseHeaders(parentToCommitToRevert);
+      RevCommit actualParent = commitToRevert;
+      if (input.parent != null) {
+        try {
+          ObjectId parentCommit = ObjectId.fromString(input.parent);
+          actualParent = parentCommit == null ? null : revWalk.parseCommit(parentCommit);
+        } catch (MissingObjectException ex) {
+          throw new UnprocessableEntityException(
+              String.format("Parent not found: %s", input.parent));
+        } catch (InvalidObjectIdException ex) {
+          throw new BadRequestException(String.format("Parent is invalid: %s", input.parent));
+        }
+      }
 
       CommitBuilder revertCommitBuilder = new CommitBuilder();
-      revertCommitBuilder.addParentId(commitToRevert);
+      revertCommitBuilder.addParentId(actualParent);
       revertCommitBuilder.setTreeId(parentToCommitToRevert.getTree());
       revertCommitBuilder.setAuthor(authorIdent);
       revertCommitBuilder.setCommitter(authorIdent);

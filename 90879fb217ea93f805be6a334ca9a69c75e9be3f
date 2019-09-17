@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "abedf124_1eb01789",
+        "filename": "javatests/com/google/gerrit/globalrefdb/GlobalRefDatabaseTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-09-17T23:38:33Z",
+      "side": 1,
+      "message": "EasyMock use in Gerrit is going to be deprecated.\nCan you use Mockito or, even better, no mocks at all?\n\nFor instance, you could do a *IT acceptance test and extend AbstractDeamonTest.\nYou would then work with real repositories and real refs.",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 43
+      },
+      "revId": "90879fb217ea93f805be6a334ca9a69c75e9be3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3218f94f_438a0ac9",
+        "filename": "javatests/com/google/gerrit/globalrefdb/GlobalRefDatabaseTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-09-17T23:38:33Z",
+      "side": 1,
+      "message": "Use something more similar to a refname: e.g. refs/heads/master",
+      "range": {
+        "startLine": 44,
+        "startChar": 26,
+        "endLine": 44,
+        "endChar": 29
+      },
+      "revId": "90879fb217ea93f805be6a334ca9a69c75e9be3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c29d1707_9a438047",
+        "filename": "javatests/com/google/gerrit/globalrefdb/GlobalRefDatabaseTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-09-17T23:38:33Z",
+      "side": 1,
+      "message": "There is no such thing as a nullRef: the refName should not be null and the object id should be set to zeros.",
+      "range": {
+        "startLine": 46,
+        "startChar": 24,
+        "endLine": 46,
+        "endChar": 31
+      },
+      "revId": "90879fb217ea93f805be6a334ca9a69c75e9be3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "90aa1b1e_b98204bc",
+        "filename": "javatests/com/google/gerrit/globalrefdb/GlobalRefDatabaseTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-09-17T23:38:33Z",
+      "side": 1,
+      "message": "AbstractDaemonTest provides already a test project name",
+      "range": {
+        "startLine": 49,
+        "startChar": 0,
+        "endLine": 49,
+        "endChar": 79
+      },
+      "revId": "90879fb217ea93f805be6a334ca9a69c75e9be3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "65c2c8bd_68e49cbe",
+        "filename": "javatests/com/google/gerrit/globalrefdb/GlobalRefDatabaseTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-09-17T23:38:33Z",
+      "side": 1,
+      "message": "It would be best to create a FakeGlobalRefDatabase that \"simulate\" what a global ref-db should do.",
+      "range": {
+        "startLine": 59,
+        "startChar": 27,
+        "endLine": 59,
+        "endChar": 66
+      },
+      "revId": "90879fb217ea93f805be6a334ca9a69c75e9be3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

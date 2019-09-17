@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "efd4a9bf_4eb9cb8c",
+        "filename": "WORKSPACE",
+        "patchSetId": 2
+      },
+      "lineNbr": 1000,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-09-17T09:00:20Z",
+      "side": 0,
+      "message": "This was also introduced in the commit, where Powermock dependency was added (I5a38a5fd3256ca05e91d234c2bec7d18c06a75a2). Can this be removed here as well, or do other dependencies (e.g.: EasyMock) transitively depend on it?",
+      "range": {
+        "startLine": 996,
+        "startChar": 0,
+        "endLine": 1000,
+        "endChar": 1
+      },
+      "revId": "2bd0c04bc99ee28d4f58b3bf0847f54662596589",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

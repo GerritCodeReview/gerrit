@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "7f9aad35_a226bf1f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-09-17T17:38:21Z",
+      "side": 1,
+      "message": "why?\n\nI think you don\u0027t need to expose this feature for revert by submit ID.",
+      "range": {
+        "startLine": 9,
+        "startChar": 1,
+        "endLine": 12,
+        "endChar": 0
+      },
+      "revId": "84ca0901c73a030b44eee8ae72992c30fb8ed63e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "06d234c0_cf8861b5",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 2

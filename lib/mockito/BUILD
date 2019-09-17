@@ -19,6 +19,14 @@ java_library(
 )
 
 java_library(
+    name = "mockito-inline",
+    data = ["//lib:LICENSE-mockito"],
+    # Only exposed for plugin tests; core tests should use Easymock
+    visibility = ["//java/com/google/gerrit/acceptance:__pkg__"],
+    exports = ["@mockito-inline//jar"],
+)
+
+java_library(
     name = "byte-buddy",
     data = ["//lib:LICENSE-Apache2.0"],
     exports = ["@byte-buddy//jar"],

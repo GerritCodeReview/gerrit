@@ -1132,10 +1132,18 @@ maven_jar(
     sha1 = "485de3a253e23f645037828c07f1d7f1af40763a",
 )
 
+MOCKITO_VER = "2.24.0"
+
 maven_jar(
     name = "mockito",
-    artifact = "org.mockito:mockito-core:2.24.0",
+    artifact = "org.mockito:mockito-core:" + MOCKITO_VER,
     sha1 = "969a7bcb6f16e076904336ebc7ca171d412cc1f9",
+)
+
+maven_jar(
+    name = "mockito-inline",
+    artifact = "org.mockito:mockito-inline:" + MOCKITO_VER,
+    sha1 = "30ca1ec9a11c03f42bf7dcbf1ad7b3e08c4b022c",
 )
 
 BYTE_BUDDY_VERSION = "1.9.7"

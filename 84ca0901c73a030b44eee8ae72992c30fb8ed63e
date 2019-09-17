@@ -1,0 +1,204 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "06d234c0_cf8861b5",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 6922,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-17T14:23:46Z",
+      "side": 1,
+      "message": "nit: align this column as done above in l. 6911 and 6914",
+      "range": {
+        "startLine": 6922,
+        "startChar": 9,
+        "endLine": 6922,
+        "endChar": 19
+      },
+      "revId": "84ca0901c73a030b44eee8ae72992c30fb8ed63e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "91d4eb0f_89c3bc62",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 611,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-17T14:23:46Z",
+      "side": 1,
+      "message": "I think you may not need this method, see other comments in the test.",
+      "range": {
+        "startLine": 608,
+        "startChar": 2,
+        "endLine": 611,
+        "endChar": 3
+      },
+      "revId": "84ca0901c73a030b44eee8ae72992c30fb8ed63e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "de0e340a_9c857c05",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 900,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-17T14:23:46Z",
+      "side": 1,
+      "message": "Can you please also add a test for the case where the revert fails due to conflicts because the revert cannot be applied on the provided parent.",
+      "revId": "84ca0901c73a030b44eee8ae72992c30fb8ed63e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "07f8a7c7_4ba85dd9",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 901,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-17T14:23:46Z",
+      "side": 1,
+      "message": "Setting a topic doesn\u0027t seem to be relevant for this test, does it?\n\nI think it would improve readability if this was just inlined as:\n\n  PushOneCommit.Result result \u003d createChange();\n  approve(result.getChangeId());\n\nI think using createChange() here works just fine, no need to add createChange(testRepo) in AbstractDeamonTest.",
+      "range": {
+        "startLine": 901,
+        "startChar": 42,
+        "endLine": 901,
+        "endChar": 74
+      },
+      "revId": "84ca0901c73a030b44eee8ae72992c30fb8ed63e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dd2d6864_dbe16442",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 904,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-17T14:23:46Z",
+      "side": 1,
+      "message": "[optional] you may just use .current()",
+      "revId": "84ca0901c73a030b44eee8ae72992c30fb8ed63e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "36f5382a_7eaafc33",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 912,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-17T14:23:46Z",
+      "side": 1,
+      "message": "This is missing an assertion to verify that the commit of the revert change really has the commit as parent that we specified in the input.",
+      "revId": "84ca0901c73a030b44eee8ae72992c30fb8ed63e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f7f5934_6a4a6600",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 913,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-17T14:23:46Z",
+      "side": 1,
+      "message": "This assertion is confusing, I guess it checks that both changes have the same topic?\nI would just drop this, as this change is about testing revert with a specified parent, and is unrelated to topics.",
+      "revId": "84ca0901c73a030b44eee8ae72992c30fb8ed63e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "376799fb_13286e30",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 933,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-17T14:23:46Z",
+      "side": 1,
+      "message": "UnprocessableEntityException",
+      "range": {
+        "startLine": 933,
+        "startChar": 12,
+        "endLine": 933,
+        "endChar": 28
+      },
+      "revId": "84ca0901c73a030b44eee8ae72992c30fb8ed63e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "72ddbded_b3b05146",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 4787,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-17T14:23:46Z",
+      "side": 1,
+      "message": "Just inline this.",
+      "revId": "84ca0901c73a030b44eee8ae72992c30fb8ed63e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fb123939_4bd2a2e9",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 4792,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-17T14:23:46Z",
+      "side": 1,
+      "message": "Can you just use the approve method from AbstractDaemonTest?",
+      "range": {
+        "startLine": 4789,
+        "startChar": 4,
+        "endLine": 4792,
+        "endChar": 39
+      },
+      "revId": "84ca0901c73a030b44eee8ae72992c30fb8ed63e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

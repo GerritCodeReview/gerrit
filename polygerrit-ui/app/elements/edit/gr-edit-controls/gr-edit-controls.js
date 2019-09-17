@@ -188,28 +188,33 @@
     },
 
     _handleDeleteConfirm(e) {
+      // Get the dialog before the api call as the event will change during bubbling
+      // which will make Polymer.dom(e).path an emtpy array in polymer 2
+      const dialog = this._getDialogFromEvent(e);
       this.$.restAPI.deleteFileInChangeEdit(this.change._number, this._path)
           .then(res => {
             if (!res.ok) { return; }
-            this._closeDialog(this._getDialogFromEvent(e), true);
+            this._closeDialog(dialog, true);
             Gerrit.Nav.navigateToChange(this.change);
           });
     },
 
     _handleRestoreConfirm(e) {
+      const dialog = this._getDialogFromEvent(e);
       this.$.restAPI.restoreFileInChangeEdit(this.change._number, this._path)
           .then(res => {
             if (!res.ok) { return; }
-            this._closeDialog(this._getDialogFromEvent(e), true);
+            this._closeDialog(dialog, true);
             Gerrit.Nav.navigateToChange(this.change);
           });
     },
 
     _handleRenameConfirm(e) {
+      const dialog = this._getDialogFromEvent(e);
       return this.$.restAPI.renameFileInChangeEdit(this.change._number,
           this._path, this._newPath).then(res => {
             if (!res.ok) { return; }
-            this._closeDialog(this._getDialogFromEvent(e), true);
+            this._closeDialog(dialog, true);
             Gerrit.Nav.navigateToChange(this.change);
           });
     },

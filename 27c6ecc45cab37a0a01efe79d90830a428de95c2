@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fd91fca3_dceae015",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder_test.html",
+        "patchSetId": 13
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-09-17T13:58:20Z",
+      "side": 1,
+      "message": "(Optional) Matter of taste, but I personally find this a bit too much \"logic\" in the tests. Makes them harder to understand and easier to introduce the same bug in both the test and implementation. I don\u0027t mind helper functions to set up data under test, but I would hand-write the assertions here, even if it\u0027s duplicating some logic, for the sake of simplicity.",
+      "range": {
+        "startLine": 114,
+        "startChar": 4,
+        "endLine": 114,
+        "endChar": 32
+      },
+      "revId": "27c6ecc45cab37a0a01efe79d90830a428de95c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ea81e6bd_65822586",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-processor/gr-diff-processor.js",
+        "patchSetId": 13
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-09-17T13:58:20Z",
+      "side": 1,
+      "message": "Either use an options {} parameter, or add comments here to make it easier to understand:\n\n/* firstChunk */ false, ...",
+      "range": {
+        "startLine": 272,
+        "startChar": 14,
+        "endLine": 272,
+        "endChar": 26
+      },
+      "revId": "27c6ecc45cab37a0a01efe79d90830a428de95c2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

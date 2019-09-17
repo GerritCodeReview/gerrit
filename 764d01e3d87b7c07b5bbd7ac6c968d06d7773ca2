@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "edb15a14_28d5ccd6",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 12
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-09-17T13:58:20Z",
+      "side": 1,
+      "message": "In that case, I think the best way to express this and not make it brittle as code changes and moves around is to just pass the contextGroups in (that\u0027s all you use I think from the line) and then use a JSCompiler type annotation like so:\n\n@param {!Array\u003c!Object\u003e} contextGroups (!Array\u003c!GrDiffGroup\u003e)\n\nThe thing with the object is because unfortunately JSCompiler cannot reason about GrDiffGroup, because it\u0027s not in this file and imported through HTML imports that the compiler does not understand - one of the reasons we should get rid of them. So we use the more general Object type, and then document for humans what it actually is.\n\nThe ! means it cannot be null. See https://github.com/google/closure-compiler/wiki/Types-in-the-Closure-Type-System for more information.",
+      "parentUuid": "8f435830_a8301571",
+      "range": {
+        "startLine": 243,
+        "startChar": 35,
+        "endLine": 243,
+        "endChar": 48
+      },
+      "revId": "764d01e3d87b7c07b5bbd7ac6c968d06d7773ca2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e4ff644e_82b14026",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
         "patchSetId": 12
@@ -119,6 +143,30 @@
       "side": 1,
       "message": "that is a good question. To be honest I don\u0027t know if that can ever happen. However, if that ever happens I assume it doesn\u0027t make sense that the expansion step is uni-directional - so bi-directional is taken as default. Should I do something different?",
       "parentUuid": "9db3f9da_b6589ef5",
+      "range": {
+        "startLine": 251,
+        "startChar": 8,
+        "endLine": 251,
+        "endChar": 48
+      },
+      "revId": "764d01e3d87b7c07b5bbd7ac6c968d06d7773ca2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4e7f42b1_2f30fc24",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 12
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-09-17T13:58:20Z",
+      "side": 1,
+      "message": "That\u0027s fine. I think this should never happen, unless maybe you have configured Gerrit to use 0 context, and the file does not have changed? That\u0027s the case you could try out. Otherwise, I am fine with doing whatever - seems like a very unlikely corner case where it\u0027s very unclear what the desired behavior should be.\n\nBidirectional sounds reasonable - however, I think the current code defaults to LAST: If both are true, the first if is false, the else if is true - no?",
+      "parentUuid": "e8609fce_999fbdf4",
       "range": {
         "startLine": 251,
         "startChar": 8,

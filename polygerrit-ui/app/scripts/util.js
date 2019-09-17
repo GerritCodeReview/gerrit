@@ -95,5 +95,38 @@
     return style;
   };
 
+  /**
+   * Query selector on a dom element.
+   *
+   * This is shadow DOM compatible, but only works when selector is within
+   * one shadow host, won't work if your selector is crossing
+   * multiple shadow hosts.
+   *
+   */
+  util.querySelector = (el, selector) => {
+    let nodes = [el];
+    let element = null;
+    while (nodes.length) {
+      const node = nodes.pop();
+
+      // Skip if it's an invalid node.
+      if (!node || !node.querySelector) continue;
+
+      // Try find it with native querySelector directly
+      element = node.querySelector(selector);
+
+      if (element) {
+        break;
+      } else if (node.shadowRoot) {
+        // If shadowHost detected, add the host and its children
+        nodes = nodes.concat(Array.from(node.children));
+        nodes.push(node.shadowRoot);
+      } else {
+        nodes = nodes.concat(Array.from(node.children));
+      }
+    }
+    return element;
+  };
+
   window.util = util;
 })(window);

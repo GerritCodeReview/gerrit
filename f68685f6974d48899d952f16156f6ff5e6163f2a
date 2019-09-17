@@ -52,6 +52,24 @@
       "revId": "f68685f6974d48899d952f16156f6ff5e6163f2a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6f3a3d57_ad5e3f9b",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 893,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-09-17T10:08:14Z",
+      "side": 1,
+      "message": "it won’t work without this because based on testing, before calling patchNum, it goes the correct num (or parent). after it now only does “PARENT”.\n\ne.g with a merge change I saw -1 before patchNum and PARENT after patchNum.",
+      "parentUuid": "a6ef946c_0f2f28c7",
+      "revId": "f68685f6974d48899d952f16156f6ff5e6163f2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

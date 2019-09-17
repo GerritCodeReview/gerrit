@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "398e22cb_2fe25551",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-09-17T15:28:46Z",
+      "side": 1,
+      "message": "I think we have to do the same as what we did for project creation i.e. we have to acquire a lock on the commit+branch+projectname before trying to create the change.\n\nUsing Striped\u003cLock\u003e like when we create project helps reduce the\nnumber of in-memory locks. This technique may rarely produce the\nsame key for two unrelated concurrent pushes and reject one of them.\nBut this is nothing serious, the user can just repeat the push.\n\nSee comments from Ben Manes in [1]\n\n[1] https://gerrit-review.googlesource.com/c/plugins/high-availability/+/145750",
+      "revId": "69f7c4e471fdd8e1532d864050938cc72bfa169b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

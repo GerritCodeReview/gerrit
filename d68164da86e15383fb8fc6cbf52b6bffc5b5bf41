@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "d4b8af3a_64dc4a32",
+        "filename": "prologtests/examples/run.sh",
+        "patchSetId": 6
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-09-17T13:40:19Z",
+      "side": 1,
+      "message": "This comment is stale. In last patch set the variable: $(JAVA) is used.",
+      "range": {
+        "startLine": 4,
+        "startChar": 21,
+        "endLine": 4,
+        "endChar": 41
+      },
+      "revId": "d68164da86e15383fb8fc6cbf52b6bffc5b5bf41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a27537bd_f7777ea2",
         "filename": "prologtests/examples/run.sh",
         "patchSetId": 6

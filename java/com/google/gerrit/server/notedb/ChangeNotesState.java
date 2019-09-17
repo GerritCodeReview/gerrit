@@ -434,7 +434,10 @@ public abstract class ChangeNotesState {
           .setChangeId(object.changeId().get())
           .setColumns(toChangeColumnsProto(object.columns()));
 
-      b.setServerId(object.serverId());
+      if (object.serverId() != null) {
+        b.setServerId(object.serverId());
+        b.setHasServerId(true);
+      }
       object.pastAssignees().forEach(a -> b.addPastAssignee(a.get()));
       object.hashtags().forEach(b::addHashtag);
       object
@@ -557,7 +560,7 @@ public abstract class ChangeNotesState {
               .metaId(ObjectIdConverter.create().fromByteString(proto.getMetaId()))
               .changeId(changeId)
               .columns(toChangeColumns(changeId, proto.getColumns()))
-              .serverId(proto.getServerId())
+              .serverId(proto.getHasServerId() ? proto.getServerId() : null)
               .pastAssignees(
                   proto.getPastAssigneeList().stream().map(Account::id).collect(toImmutableSet()))
               .hashtags(proto.getHashtagList())

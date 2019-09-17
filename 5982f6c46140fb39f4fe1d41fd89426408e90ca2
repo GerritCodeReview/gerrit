@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a752e3d_d4a2ddee",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-17T10:37:11Z",
+      "side": 1,
+      "message": "It would be better to have separate changes for these 2 things. These changes can be predecessors to this change. Can you please split this change?",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 36
+      },
+      "revId": "5982f6c46140fb39f4fe1d41fd89426408e90ca2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f093b390_59689c0a",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1455,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-17T10:37:11Z",
+      "side": 1,
+      "message": "This part of the sentence is not fully correct anymore since you can now specify more things than a review comment in the input. I think this was written when \u0027message\u0027 was the only field in RevertInput, and should have been adapted when more field in RevertInput were added. Maybe we can fix that now. I would rephrase this whole paragraph to something like:\n\n\"The request body can include a link:#revert-input[RevertInput] entity to specify details for the revert.\"\n\nWhich fields exist and what are they default values don\u0027t need to be mentioned here as this is described by the RevertInput description.",
+      "range": {
+        "startLine": 1455,
+        "startChar": 7,
+        "endLine": 1455,
+        "endChar": 36
+      },
+      "revId": "5982f6c46140fb39f4fe1d41fd89426408e90ca2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "69918382_7d881745",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1510,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-17T10:37:11Z",
+      "side": 1,
+      "message": "Do we need a dedicated REST endpoint for this? \nWhy not handle revert by submission by the normal Revert REST endpoint? There could be a flag in RevertInput that controls whether the single change or the whole submission should be reverted.",
+      "revId": "5982f6c46140fb39f4fe1d41fd89426408e90ca2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9ae28eb7_ed0d4545",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 6993,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-17T10:37:11Z",
+      "side": 1,
+      "message": "nit: should",
+      "range": {
+        "startLine": 6993,
+        "startChar": 28,
+        "endLine": 6993,
+        "endChar": 33
+      },
+      "revId": "5982f6c46140fb39f4fe1d41fd89426408e90ca2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f71e4dda_b1e6048e",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 6997,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-17T10:37:11Z",
+      "side": 1,
+      "message": "nit: is",
+      "range": {
+        "startLine": 6997,
+        "startChar": 22,
+        "endLine": 6997,
+        "endChar": 27
+      },
+      "revId": "5982f6c46140fb39f4fe1d41fd89426408e90ca2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

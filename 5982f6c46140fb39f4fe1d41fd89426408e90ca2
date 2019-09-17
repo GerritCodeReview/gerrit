@@ -124,6 +124,23 @@
     },
     {
       "key": {
+        "uuid": "fba7d15c_0046dea7",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 6994,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-17T12:22:50Z",
+      "side": 1,
+      "message": "Maybe say here that if a parent is specified the revert may fail due to conflicts, whereas the revert always succeeds if the reverted change is used as parent (which is the default if parent is not set).",
+      "revId": "5982f6c46140fb39f4fe1d41fd89426408e90ca2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f71e4dda_b1e6048e",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 1
@@ -140,6 +157,534 @@
         "startChar": 22,
         "endLine": 6997,
         "endChar": 27
+      },
+      "revId": "5982f6c46140fb39f4fe1d41fd89426408e90ca2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6eb7c2df_7afe19ab",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 7002,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-17T12:22:50Z",
+      "side": 1,
+      "message": "This entity is mostly the same a RevertInput. The only difference is that RevertInput has one additional field \u0027parent_of_revert\u0027. Could we just use RevertInput for both revert REST endpoints, and say in the description of the \u0027parent_of_revert\u0027 field that it\u0027s not supported for revert submission? If it\u0027s set anyway we could just reject the request with 400 Bad Request.",
+      "range": {
+        "startLine": 7002,
+        "startChar": 4,
+        "endLine": 7002,
+        "endChar": 25
+      },
+      "revId": "5982f6c46140fb39f4fe1d41fd89426408e90ca2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9fabd7a7_baa5a6e6",
+        "filename": "java/com/google/gerrit/extensions/api/changes/RevertInput.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-17T12:22:50Z",
+      "side": 1,
+      "message": "Since this is RevertInput it\u0027s clear that this is about revert, would it be sufficient to just name these fields \"parent\" and \"topic\"?",
+      "range": {
+        "startLine": 28,
+        "startChar": 2,
+        "endLine": 30,
+        "endChar": 30
+      },
+      "revId": "5982f6c46140fb39f4fe1d41fd89426408e90ca2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "77fcf897_dc71517a",
+        "filename": "java/com/google/gerrit/extensions/api/changes/RevertSubmissionInput.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-17T12:22:50Z",
+      "side": 1,
+      "message": "nit: 2019",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "5982f6c46140fb39f4fe1d41fd89426408e90ca2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "884c8160_a8e93109",
+        "filename": "java/com/google/gerrit/server/api/changes/ChangeApiImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 376,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-17T12:22:50Z",
+      "side": 1,
+      "message": "maybe better say \"change submission\" here to make this message distinct from the error message that is used if normal revert fails",
+      "range": {
+        "startLine": 376,
+        "startChar": 46,
+        "endLine": 376,
+        "endChar": 54
+      },
+      "revId": "5982f6c46140fb39f4fe1d41fd89426408e90ca2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1d42748e_68314f41",
+        "filename": "java/com/google/gerrit/server/restapi/change/Revert.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-17T12:22:50Z",
+      "side": 1,
+      "message": "This throws InvalidObjectIdException if the provided string is not an ObjectId. I think this exception should be caught and converted into a BadRequestException. Maybe also add a test for this case.",
+      "range": {
+        "startLine": 191,
+        "startChar": 34,
+        "endLine": 191,
+        "endChar": 53
+      },
+      "revId": "5982f6c46140fb39f4fe1d41fd89426408e90ca2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9299e3d0_980e64df",
+        "filename": "java/com/google/gerrit/server/restapi/change/Revert.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-17T12:22:50Z",
+      "side": 1,
+      "message": "nit: I think it would be better to throw UnprocessableEntityException here. We always use this response if a resource that is specified in the request body cannot be resolved (see [1]) which is the case here (user specified a commit ID in the request body that cannot be resolved).\n\n[1] https://gerrit-review.googlesource.com/Documentation/rest-api.html#_422_unprocessable_entity",
+      "range": {
+        "startLine": 194,
+        "startChar": 20,
+        "endLine": 194,
+        "endChar": 45
+      },
+      "revId": "5982f6c46140fb39f4fe1d41fd89426408e90ca2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "62c19f5c_3add426a",
+        "filename": "java/com/google/gerrit/server/restapi/change/Revert.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-17T12:22:50Z",
+      "side": 1,
+      "message": "nit: I think that could be as simple as \"parent not found: %s\"",
+      "range": {
+        "startLine": 196,
+        "startChar": 19,
+        "endLine": 196,
+        "endChar": 86
+      },
+      "revId": "5982f6c46140fb39f4fe1d41fd89426408e90ca2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7ed0ca09_0e27112c",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-17T12:22:50Z",
+      "side": 1,
+      "message": "nit: missing license header",
+      "revId": "5982f6c46140fb39f4fe1d41fd89426408e90ca2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2459e260_c862e8df",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-17T12:22:50Z",
+      "side": 1,
+      "message": "nit: do not import NameKey classes, but rather use Project.NameKey below",
+      "revId": "5982f6c46140fb39f4fe1d41fd89426408e90ca2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f7853e0a_5d1dbea2",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-17T12:22:50Z",
+      "side": 1,
+      "message": "Can this class be singleton?",
+      "revId": "5982f6c46140fb39f4fe1d41fd89426408e90ca2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8cd65e7c_4e802507",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-17T12:22:50Z",
+      "side": 1,
+      "message": "I think we want this to be RetryingRestModifyView.",
+      "range": {
+        "startLine": 41,
+        "startChar": 15,
+        "endLine": 41,
+        "endChar": 29
+      },
+      "revId": "5982f6c46140fb39f4fe1d41fd89426408e90ca2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "95bdddc7_8383a757",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-17T12:22:50Z",
+      "side": 1,
+      "message": "This check is good, but I think it would be better to first check that the change state is merged:\n\n  if (!changeResource.getChange().isMerged()) {\n    throw new ResourceConflictException(\"change is \" + ChangeUtil.status(change));\n  }\n    \n  String submissionId \u003d requireNonNull(changeResource.getChange().getSubmissionId(),\n      String.format(\"merged change %s has no submission ID\", changeResource.getId()));\n\n\nIf the change is merged and doesn\u0027t have a submission ID, it\u0027s an inconsistency in our data and it\u0027s okay to fail with 500 Internal Server Error.\n\nI think checking for the change state first makes the error message for the user simpler, and is also more consistent with other REST endpoints (e.g. Revert).",
+      "range": {
+        "startLine": 82,
+        "startChar": 4,
+        "endLine": 88,
+        "endChar": 5
+      },
+      "revId": "5982f6c46140fb39f4fe1d41fd89426408e90ca2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f4e9c16b_ffb9913b",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-17T12:22:50Z",
+      "side": 1,
+      "message": "Better use a Multimap",
+      "range": {
+        "startLine": 91,
+        "startChar": 4,
+        "endLine": 91,
+        "endChar": 7
+      },
+      "revId": "5982f6c46140fb39f4fe1d41fd89426408e90ca2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "82936c67_427ca069",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-17T12:22:50Z",
+      "side": 1,
+      "message": "I think in addition you also need to check READ permissions for each change (the normal Revert REST endpoint doesn\u0027t need to do this because this check is done by ChangesCollection when the change is parsed from the URL).",
+      "revId": "5982f6c46140fb39f4fe1d41fd89426408e90ca2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "42897dce_8d6fbd41",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-17T12:22:50Z",
+      "side": 1,
+      "message": "We use ResourceNotFoundException only if the user specified a resource as part of the URL and that resource was not found.\nIn this case the current patch set of a change cannot be found which is a data inconsistency. In this case we want to fail with 500 Internal Server Error. Hence I would write this as:\n\n  PatchSet patch \u003d requireNonNull(psUtil.get(changeData.notes(), change.currentPatchSetId()), String.format(\"current patch set %s of change %s not found\", change.currentPatchSetId(), currentPatchSetId));",
+      "range": {
+        "startLine": 102,
+        "startChar": 18,
+        "endLine": 102,
+        "endChar": 43
+      },
+      "revId": "5982f6c46140fb39f4fe1d41fd89426408e90ca2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e5addade_c38acc1e",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-17T12:22:50Z",
+      "side": 1,
+      "message": "For better readability, maybe move this up to where revertInput is created (right after line 92). This way all code that populates revertInput is in the same place.",
+      "range": {
+        "startLine": 113,
+        "startChar": 3,
+        "endLine": 116,
+        "endChar": 0
+      },
+      "revId": "5982f6c46140fb39f4fe1d41fd89426408e90ca2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e6a59bae_b09ab45f",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-17T12:22:50Z",
+      "side": 1,
+      "message": "This looks like you are taking an arbitrary patch set as start patch set (the one of the first change for this project that was returned by the query which orders the result by last updated timestamp), I doubt that this is working in all cases.",
+      "range": {
+        "startLine": 121,
+        "startChar": 6,
+        "endLine": 125,
+        "endChar": 67
+      },
+      "revId": "5982f6c46140fb39f4fe1d41fd89426408e90ca2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4e361317_bded034f",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-17T12:22:50Z",
+      "side": 1,
+      "message": "I think this can be simplified since you can get the change notes directly from ChangeData (no need to get the change ID and load the change notes via the changeNotesFactory):\n\nchangeResourceFactory.create(sortedChangesInProject.get(i).data().notes(), user.get());",
+      "range": {
+        "startLine": 128,
+        "startChar": 32,
+        "endLine": 128,
+        "endChar": 96
+      },
+      "revId": "5982f6c46140fb39f4fe1d41fd89426408e90ca2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "08d0cb54_ffa150e9",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-17T12:22:50Z",
+      "side": 1,
+      "message": "This can also be simplified. At the moment you are creating change notes to construct a ChangeResource just to get the change notes from it. Just omit the creation of the ChangeResource since you don\u0027t need it.",
+      "range": {
+        "startLine": 131,
+        "startChar": 12,
+        "endLine": 132,
+        "endChar": 27
+      },
+      "revId": "5982f6c46140fb39f4fe1d41fd89426408e90ca2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6821076a_a1d4a724",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-17T12:22:50Z",
+      "side": 1,
+      "message": "Could this part be factored out into a method?",
+      "range": {
+        "startLine": 119,
+        "startChar": 3,
+        "endLine": 139,
+        "endChar": 5
+      },
+      "revId": "5982f6c46140fb39f4fe1d41fd89426408e90ca2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f81a4db2_c7b1d963",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-17T12:22:50Z",
+      "side": 1,
+      "message": "Here too, using ResourceNotFoundException is not correct since this is not about a resource that was specified as part of the URL (see [1]). Not finding the change is an inconsistency between the change index and the NoteDb data, and we rather want to return 500 Internal Server Error in this case. Hence we can just let the NoSuchChangeException be thrown up.\n\n[1] https://gerrit-review.googlesource.com/Documentation/rest-api.html#_404_not_found",
+      "range": {
+        "startLine": 148,
+        "startChar": 16,
+        "endLine": 148,
+        "endChar": 41
+      },
+      "revId": "5982f6c46140fb39f4fe1d41fd89426408e90ca2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "90abc31d_bf4ab92d",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-17T12:22:50Z",
+      "side": 1,
+      "message": "We should almost never catch all exception generically, just let them be thrown so that the request fails with 500 Internal Server Error.",
+      "range": {
+        "startLine": 149,
+        "startChar": 4,
+        "endLine": 149,
+        "endChar": 26
+      },
+      "revId": "5982f6c46140fb39f4fe1d41fd89426408e90ca2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0a7e5cf8_7a0800e0",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-17T12:22:50Z",
+      "side": 1,
+      "message": "BadRequestException should only be thrown if the request fails due to bad user input (see [1]). Just don\u0027t catch these exceptions so that they result in 500 Internal Server Error.\n\n[1] https://gerrit-review.googlesource.com/Documentation/rest-api.html#_400_bad_request",
+      "range": {
+        "startLine": 150,
+        "startChar": 16,
+        "endLine": 150,
+        "endChar": 35
+      },
+      "revId": "5982f6c46140fb39f4fe1d41fd89426408e90ca2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "042db346_20242d12",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-17T12:22:50Z",
+      "side": 1,
+      "message": "Maybe drop this word here.",
+      "range": {
+        "startLine": 166,
+        "startChar": 26,
+        "endLine": 166,
+        "endChar": 28
       },
       "revId": "5982f6c46140fb39f4fe1d41fd89426408e90ca2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

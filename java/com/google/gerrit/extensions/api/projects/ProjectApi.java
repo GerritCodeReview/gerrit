@@ -201,6 +201,9 @@ public interface ProjectApi {
    */
   void index(boolean indexChildren) throws RestApiException;
 
+  /** Reindexes all changes of the project. */
+  void indexChanges() throws RestApiException;
+
   /**
    * A default implementation which allows source compatibility when adding new methods to the
    * interface.
@@ -368,6 +371,11 @@ public interface ProjectApi {
 
     @Override
     public void index(boolean indexChildren) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public void indexChanges() throws RestApiException {
       throw new NotImplementedException();
     }
   }

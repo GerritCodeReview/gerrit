@@ -15,11 +15,11 @@
 package com.google.gerrit.server.mail.send;
 
 import static com.google.common.truth.Truth.assertThat;
-import static org.easymock.EasyMock.createStrictMock;
-import static org.easymock.EasyMock.eq;
-import static org.easymock.EasyMock.expect;
-import static org.easymock.EasyMock.replay;
-import static org.easymock.EasyMock.verify;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyZeroInteractions;
+import static org.mockito.Mockito.when;
 
 import com.google.gerrit.mail.Address;
 import com.google.gerrit.reviewdb.client.Account;
@@ -43,7 +43,7 @@ public class FromAddressGeneratorProviderTest {
   public void setUp() throws Exception {
     config = new Config();
     ident = new PersonIdent("NAME", "e@email", 0, 0);
-    accountCache = createStrictMock(AccountCache.class);
+    accountCache = mock(AccountCache.class);
   }
 
   private FromAddressGenerator create() {
@@ -83,12 +83,11 @@ public class FromAddressGeneratorProviderTest {
     final String email = "a.u.thor@test.example.com";
     final Account.Id user = user(name, email);
 
-    replay(accountCache);
     final Address r = create().from(user);
     assertThat(r).isNotNull();
     assertThat(r.getName()).isEqualTo(name);
     assertThat(r.getEmail()).isEqualTo(email);
-    verify(accountCache);
+    verifyAccountCacheGet(user);
   }
 
   @Test
@@ -98,12 +97,11 @@ public class FromAddressGeneratorProviderTest {
     final String email = "a.u.thor@test.example.com";
     final Account.Id user = user(null, email);
 
-    replay(accountCache);
     final Address r = create().from(user);
     assertThat(r).isNotNull();
     assertThat(r.getName()).isNull();
     assertThat(r.getEmail()).isEqualTo(email);
-    verify(accountCache);
+    verifyAccountCacheGet(user);
   }
 
   @Test
@@ -113,23 +111,21 @@ public class FromAddressGeneratorProviderTest {
     final String name = "A U. Thor";
     final Account.Id user = user(name, null);
 
-    replay(accountCache);
     final Address r = create().from(user);
     assertThat(r).isNotNull();
     assertThat(r.getName()).isEqualTo(name + " (Code Review)");
     assertThat(r.getEmail()).isEqualTo(ident.getEmailAddress());
-    verify(accountCache);
+    verifyAccountCacheGet(user);
   }
 
   @Test
   public void USER_NullUser() {
     setFrom("USER");
-    replay(accountCache);
     final Address r = create().from(null);
     assertThat(r).isNotNull();
     assertThat(r.getName()).isEqualTo(ident.getName());
     assertThat(r.getEmail()).isEqualTo(ident.getEmailAddress());
-    verify(accountCache);
+    verifyZeroInteractions(accountCache);
   }
 
   @Test
@@ -140,12 +136,11 @@ public class FromAddressGeneratorProviderTest {
     final String email = "a.u.thor@test.example.com";
     final Account.Id user = user(name, email);
 
-    replay(accountCache);
     final Address r = create().from(user);
     assertThat(r).isNotNull();
     assertThat(r.getName()).isEqualTo(name);
     assertThat(r.getEmail()).isEqualTo(email);
-    verify(accountCache);
+    verifyAccountCacheGet(user);
   }
 
   @Test
@@ -156,12 +151,11 @@ public class FromAddressGeneratorProviderTest {
     final String email = "a.u.thor@test.com";
     final Account.Id user = user(name, email);
 
-    replay(accountCache);
     final Address r = create().from(user);
     assertThat(r).isNotNull();
     assertThat(r.getName()).isEqualTo(name + " (Code Review)");
     assertThat(r.getEmail()).isEqualTo(ident.getEmailAddress());
-    verify(accountCache);
+    verifyAccountCacheGet(user);
   }
 
   @Test
@@ -173,12 +167,11 @@ public class FromAddressGeneratorProviderTest {
     final String email = "a.u.thor@test.com";
     final Account.Id user = user(name, email);
 
-    replay(accountCache);
     final Address r = create().from(user);
     assertThat(r).isNotNull();
     assertThat(r.getName()).isEqualTo(name);
     assertThat(r.getEmail()).isEqualTo(email);
-    verify(accountCache);
+    verifyAccountCacheGet(user);
   }
 
   @Test
@@ -190,12 +183,11 @@ public class FromAddressGeneratorProviderTest {
     final String email = "a.u.thor@test.com";
     final Account.Id user = user(name, email);
 
-    replay(accountCache);
     final Address r = create().from(user);
     assertThat(r).isNotNull();
     assertThat(r.getName()).isEqualTo(name + " (Code Review)");
     assertThat(r.getEmail()).isEqualTo(ident.getEmailAddress());
-    verify(accountCache);
+    verifyAccountCacheGet(user);
   }
 
   @Test
@@ -206,12 +198,11 @@ public class FromAddressGeneratorProviderTest {
     final String email = "a.u.thor@test.com";
     final Account.Id user = user(name, email);
 
-    replay(accountCache);
     final Address r = create().from(user);
     assertThat(r).isNotNull();
     assertThat(r.getName()).isEqualTo(name);
     assertThat(r.getEmail()).isEqualTo(email);
-    verify(accountCache);
+    verifyAccountCacheGet(user);
   }
 
   @Test
@@ -234,23 +225,21 @@ public class FromAddressGeneratorProviderTest {
     final String email = "a.u.thor@test.example.com";
     final Account.Id user = userNoLookup(name, email);
 
-    replay(accountCache);
     final Address r = create().from(user);
     assertThat(r).isNotNull();
     assertThat(r.getName()).isEqualTo(ident.getName());
     assertThat(r.getEmail()).isEqualTo(ident.getEmailAddress());
-    verify(accountCache);
+    verifyZeroInteractions(accountCache);
   }
 
   @Test
   public void SERVER_NullUser() {
     setFrom("SERVER");
-    replay(accountCache);
     final Address r = create().from(null);
     assertThat(r).isNotNull();
     assertThat(r.getName()).isEqualTo(ident.getName());
     assertThat(r.getEmail()).isEqualTo(ident.getEmailAddress());
-    verify(accountCache);
+    verifyZeroInteractions(accountCache);
   }
 
   @Test
@@ -273,12 +262,11 @@ public class FromAddressGeneratorProviderTest {
     final String email = "a.u.thor@test.example.com";
     final Account.Id user = user(name, email);
 
-    replay(accountCache);
     final Address r = create().from(user);
     assertThat(r).isNotNull();
     assertThat(r.getName()).isEqualTo(name + " (Code Review)");
     assertThat(r.getEmail()).isEqualTo(ident.getEmailAddress());
-    verify(accountCache);
+    verifyAccountCacheGet(user);
   }
 
   @Test
@@ -288,12 +276,11 @@ public class FromAddressGeneratorProviderTest {
     final String email = "a.u.thor@test.example.com";
     final Account.Id user = user(null, email);
 
-    replay(accountCache);
     final Address r = create().from(user);
     assertThat(r).isNotNull();
     assertThat(r.getName()).isEqualTo("Anonymous Coward (Code Review)");
     assertThat(r.getEmail()).isEqualTo(ident.getEmailAddress());
-    verify(accountCache);
+    verifyAccountCacheGet(user);
   }
 
   @Test
@@ -303,23 +290,21 @@ public class FromAddressGeneratorProviderTest {
     final String name = "A U. Thor";
     final Account.Id user = user(name, null);
 
-    replay(accountCache);
     final Address r = create().from(user);
     assertThat(r).isNotNull();
     assertThat(r.getName()).isEqualTo(name + " (Code Review)");
     assertThat(r.getEmail()).isEqualTo(ident.getEmailAddress());
-    verify(accountCache);
+    verifyAccountCacheGet(user);
   }
 
   @Test
   public void MIXED_NullUser() {
     setFrom("MIXED");
-    replay(accountCache);
     final Address r = create().from(null);
     assertThat(r).isNotNull();
     assertThat(r.getName()).isEqualTo(ident.getName());
     assertThat(r.getEmail()).isEqualTo(ident.getEmailAddress());
-    verify(accountCache);
+    verifyZeroInteractions(accountCache);
   }
 
   @Test
@@ -330,12 +315,11 @@ public class FromAddressGeneratorProviderTest {
     final String email = "a.u.thor@test.example.com";
     final Account.Id user = user(name, email);
 
-    replay(accountCache);
     final Address r = create().from(user);
     assertThat(r).isNotNull();
     assertThat(r.getName()).isEqualTo("A " + name + " B");
     assertThat(r.getEmail()).isEqualTo("my.server@email.address");
-    verify(accountCache);
+    verifyAccountCacheGet(user);
   }
 
   @Test
@@ -345,30 +329,30 @@ public class FromAddressGeneratorProviderTest {
     final String email = "a.u.thor@test.example.com";
     final Account.Id user = user(null, email);
 
-    replay(accountCache);
     final Address r = create().from(user);
     assertThat(r).isNotNull();
     assertThat(r.getName()).isEqualTo("A Anonymous Coward B");
     assertThat(r.getEmail()).isEqualTo("my.server@email.address");
-    verify(accountCache);
   }
 
   @Test
   public void CUSTOM_NullUser() {
     setFrom("A ${user} B <my.server@email.address>");
 
-    replay(accountCache);
     final Address r = create().from(null);
     assertThat(r).isNotNull();
     assertThat(r.getName()).isEqualTo(ident.getName());
     assertThat(r.getEmail()).isEqualTo("my.server@email.address");
-    verify(accountCache);
   }
 
   private Account.Id user(String name, String email) {
     final AccountState s = makeUser(name, email);
-    expect(accountCache.get(eq(s.getAccount().id()))).andReturn(Optional.of(s));
+    when(accountCache.get(eq(s.getAccount().id()))).thenReturn(Optional.of(s));
     return s.getAccount().id();
+  }
+
+  private void verifyAccountCacheGet(Account.Id id) {
+    verify(accountCache).get(eq(id));
   }
 
   private Account.Id userNoLookup(String name, String email) {

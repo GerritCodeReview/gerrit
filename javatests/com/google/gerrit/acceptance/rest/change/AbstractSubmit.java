@@ -32,6 +32,10 @@ import static java.util.Objects.requireNonNull;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static java.util.stream.Collectors.toList;
 import static org.eclipse.jgit.lib.Constants.EMPTY_TREE_ID;
+import static org.mockito.Mockito.atLeast;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -39,6 +43,7 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
@@ -60,6 +65,7 @@ import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.extensions.common.LabelInfo;
+import com.google.gerrit.extensions.events.ChangeIndexedListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -125,6 +131,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
 
   @Inject private ApprovalsUtil approvalsUtil;
   @Inject private DynamicSet<OnSubmitValidationListener> onSubmitValidationListeners;
+  @Inject private DynamicSet<ChangeIndexedListener> changeIndexedListeners;
   @Inject private IdentifiedUser.GenericFactory userFactory;
   @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
@@ -1207,6 +1214,63 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
             });
         bu.execute();
       }
+    }
+  }
+
+  @Test
+  @GerritConfig(name = "index.reindexAfterRefUpdate", value = "true")
+  public void submitSchedulesOpenChangesOfSameBranchForReindexing() throws Throwable {
+    // Create a merged change.
+    PushOneCommit push =
+        pushFactory.create(admin.newIdent(), testRepo, "Merged Change", "foo.txt", "foo");
+    PushOneCommit.Result mergedChange = push.to("refs/for/master");
+    mergedChange.assertOkStatus();
+    approve(mergedChange.getChangeId());
+    submit(mergedChange.getChangeId());
+
+    // Create some open changes.
+    PushOneCommit.Result change1 = createChange();
+    PushOneCommit.Result change2 = createChange();
+    PushOneCommit.Result change3 = createChange();
+
+    // Create a branch with one open change.
+    BranchInput in = new BranchInput();
+    in.revision = projectOperations.project(project).getHead("master").name();
+    gApi.projects().name(project.get()).branch("dev").create(in);
+    PushOneCommit.Result changeOtherBranch = createChange("refs/for/dev");
+
+    ChangeIndexedListener changeIndexedListener = mock(ChangeIndexedListener.class);
+    RegistrationHandle registrationHandle =
+        changeIndexedListeners.add("gerrit", changeIndexedListener);
+    try {
+      // submit a change, this should trigger asynchronous reindexing of the open changes on the
+      // same branch
+      approve(change1.getChangeId());
+      submit(change1.getChangeId());
+      assertThat(gApi.changes().id(change1.getChangeId()).get().status)
+          .isEqualTo(ChangeStatus.MERGED);
+
+      // on submit the change that is submitted gets reindexed synchronously
+      verify(changeIndexedListener, atLeast(1))
+          .onChangeScheduledForIndexing(project.get(), change1.getChange().getId().get());
+      verify(changeIndexedListener, atLeast(1))
+          .onChangeIndexed(project.get(), change1.getChange().getId().get());
+
+      // the open changes on the same branch get reindexed asynchronously
+      verify(changeIndexedListener, times(1))
+          .onChangeScheduledForIndexing(project.get(), change2.getChange().getId().get());
+      verify(changeIndexedListener, times(1))
+          .onChangeScheduledForIndexing(project.get(), change3.getChange().getId().get());
+
+      // merged changes don't get reindexed
+      verify(changeIndexedListener, times(0))
+          .onChangeScheduledForIndexing(project.get(), mergedChange.getChange().getId().get());
+
+      // open changes on other branches don't get reindexed
+      verify(changeIndexedListener, times(0))
+          .onChangeScheduledForIndexing(project.get(), changeOtherBranch.getChange().getId().get());
+    } finally {
+      registrationHandle.remove();
     }
   }
 

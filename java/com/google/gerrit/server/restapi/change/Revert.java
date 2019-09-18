@@ -42,6 +42,7 @@ import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.Sequences;
+import com.google.gerrit.server.change.ChangeId;
 import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.ChangeJson;
 import com.google.gerrit.server.change.ChangeMessages;
@@ -207,14 +208,8 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
                 patch.getRevision().get());
       }
 
-      ObjectId computedChangeId =
-          ChangeIdUtil.computeChangeId(
-              parentToCommitToRevert.getTree(),
-              commitToRevert,
-              authorIdent,
-              committerIdent,
-              message);
-      revertCommitBuilder.setMessage(ChangeIdUtil.insertId(message, computedChangeId, true));
+      ObjectId generatedChangeId = ChangeId.generateChangeId();
+      revertCommitBuilder.setMessage(ChangeIdUtil.insertId(message, generatedChangeId, true));
 
       Change.Id changeId = new Change.Id(seq.nextChangeId());
       ObjectId id = oi.insert(revertCommitBuilder);
@@ -246,7 +241,7 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
         bu.setRepository(git, revWalk, oi);
         bu.insertChange(ins);
         bu.addOp(changeId, new NotifyOp(changeToRevert, ins, input.notify, accountsToNotify));
-        bu.addOp(changeToRevert.getId(), new PostRevertedMessageOp(computedChangeId));
+        bu.addOp(changeToRevert.getId(), new PostRevertedMessageOp(generatedChangeId));
         bu.execute();
       }
       return changeId;

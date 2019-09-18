@@ -19,6 +19,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import com.google.common.base.MoreObjects;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.change.ChangeId;
 import com.google.gerrit.server.git.LockFailureException;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.logging.TraceContext.TraceTimer;
@@ -325,14 +326,8 @@ public abstract class VersionedMetaData {
         }
 
         if (update.insertChangeId()) {
-          ObjectId id =
-              ChangeIdUtil.computeChangeId(
-                  res,
-                  getRevision(),
-                  commit.getAuthor(),
-                  commit.getCommitter(),
-                  commit.getMessage());
-          commit.setMessage(ChangeIdUtil.insertId(commit.getMessage(), id));
+          commit.setMessage(
+              ChangeIdUtil.insertId(commit.getMessage(), ChangeId.generateChangeId()));
         }
 
         src = rw.parseCommit(inserter.insert(commit));

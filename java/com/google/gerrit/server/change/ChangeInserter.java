@@ -88,7 +88,6 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.ReceiveCommand;
-import org.eclipse.jgit.util.ChangeIdUtil;
 
 public class ChangeInserter implements InsertChangeOp {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
@@ -210,16 +209,9 @@ public class ChangeInserter implements InsertChangeOp {
     if (!idList.isEmpty()) {
       return new Change.Key(idList.get(idList.size() - 1).trim());
     }
-    ObjectId changeId =
-        ChangeIdUtil.computeChangeId(
-            commit.getTree(),
-            commit,
-            commit.getAuthorIdent(),
-            commit.getCommitterIdent(),
-            commit.getShortMessage());
-    StringBuilder changeIdStr = new StringBuilder();
-    changeIdStr.append("I").append(ObjectId.toString(changeId));
-    return new Change.Key(changeIdStr.toString());
+    // A Change-Id is generated for the review, but not appended to the commit message.
+    // This can happen if requireChangeId is false.
+    return ChangeId.generateKey();
   }
 
   public PatchSet.Id getPatchSetId() {

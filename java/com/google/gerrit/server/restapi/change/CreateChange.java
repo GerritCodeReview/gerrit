@@ -263,6 +263,7 @@ public class CreateChange
       Timestamp now = TimeUtil.nowTs();
       IdentifiedUser me = user.get().asIdentifiedUser();
       PersonIdent author = me.newCommitterIdent(now, serverTimeZone);
+<<<<<<< HEAD   (88fc59 Replace documentation of gerrit.ui with gerrit.enableGwtUi)
       AccountState accountState = me.state();
       GeneralPreferencesInfo info = accountState.getGeneralPreferences();
 
@@ -290,6 +291,9 @@ public class CreateChange
                         SIGNED_OFF_BY_TAG,
                         accountState.getAccount().getNameEmail(anonymousCowardName)));
       }
+=======
+      String commitMessage = getCommitMessage(input.subject, me);
+>>>>>>> CHANGE (731634 Generate Change-Ids randomly instead of computing them from )
 
       RevCommit c;
       if (input.merge != null) {
@@ -331,6 +335,96 @@ public class CreateChange
     }
   }
 
+<<<<<<< HEAD   (88fc59 Replace documentation of gerrit.ui with gerrit.enableGwtUi)
+=======
+  private ChangeNotes getBaseChange(String baseChange)
+      throws UnprocessableEntityException, PermissionBackendException {
+    List<ChangeNotes> notes = changeFinder.find(baseChange);
+    if (notes.size() != 1) {
+      throw new UnprocessableEntityException("Base change not found: " + baseChange);
+    }
+    ChangeNotes change = Iterables.getOnlyElement(notes);
+    try {
+      permissionBackend.currentUser().change(change).check(ChangePermission.READ);
+    } catch (AuthException e) {
+      throw new UnprocessableEntityException("Read not permitted for " + baseChange);
+    }
+
+    return change;
+  }
+
+  @Nullable
+  private ObjectId getParentCommit(
+      Repository repo,
+      RevWalk revWalk,
+      String inputBranch,
+      @Nullable Boolean newBranch,
+      @Nullable PatchSet basePatchSet,
+      @Nullable String baseCommit)
+      throws BadRequestException, IOException, UnprocessableEntityException,
+          ResourceConflictException {
+    if (basePatchSet != null) {
+      return basePatchSet.commitId();
+    }
+
+    Ref destRef = repo.getRefDatabase().exactRef(inputBranch);
+    ObjectId parentCommit;
+    if (baseCommit != null) {
+      try {
+        parentCommit = ObjectId.fromString(baseCommit);
+      } catch (InvalidObjectIdException e) {
+        throw new UnprocessableEntityException(
+            String.format("Base %s doesn't represent a valid SHA-1", baseCommit));
+      }
+
+      RevCommit parentRevCommit = revWalk.parseCommit(parentCommit);
+      RevCommit destRefRevCommit = revWalk.parseCommit(destRef.getObjectId());
+      if (!revWalk.isMergedInto(parentRevCommit, destRefRevCommit)) {
+        throw new BadRequestException(
+            String.format("Commit %s doesn't exist on ref %s", baseCommit, inputBranch));
+      }
+    } else {
+      if (destRef != null) {
+        if (Boolean.TRUE.equals(newBranch)) {
+          throw new ResourceConflictException(
+              String.format("Branch %s already exists.", inputBranch));
+        }
+        parentCommit = destRef.getObjectId();
+      } else {
+        if (Boolean.TRUE.equals(newBranch)) {
+          parentCommit = null;
+        } else {
+          throw new BadRequestException("Must provide a destination branch");
+        }
+      }
+    }
+
+    return parentCommit;
+  }
+
+  private String getCommitMessage(String subject, IdentifiedUser me) {
+    // Add a Change-Id line if there isn't already one
+    String commitMessage = subject;
+    if (ChangeIdUtil.indexOfChangeId(commitMessage, "\n") == -1) {
+      ObjectId id = Change.generateChangeId();
+      commitMessage = ChangeIdUtil.insertId(commitMessage, id);
+    }
+
+    if (Boolean.TRUE.equals(me.state().getGeneralPreferences().signedOffBy)) {
+      commitMessage =
+          Joiner.on("\n")
+              .join(
+                  commitMessage.trim(),
+                  String.format(
+                      "%s%s",
+                      SIGNED_OFF_BY_TAG,
+                      me.state().getAccount().getNameEmail(anonymousCowardName)));
+    }
+
+    return commitMessage;
+  }
+
+>>>>>>> CHANGE (731634 Generate Change-Ids randomly instead of computing them from )
   private static RevCommit newCommit(
       ObjectInserter oi,
       RevWalk rw,

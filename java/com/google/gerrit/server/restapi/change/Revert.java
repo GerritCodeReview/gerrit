@@ -207,14 +207,8 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
                 patch.getRevision().get());
       }
 
-      ObjectId computedChangeId =
-          ChangeIdUtil.computeChangeId(
-              parentToCommitToRevert.getTree(),
-              commitToRevert,
-              authorIdent,
-              committerIdent,
-              message);
-      revertCommitBuilder.setMessage(ChangeIdUtil.insertId(message, computedChangeId, true));
+      ObjectId generatedChangeId = Change.generateChangeId();
+      revertCommitBuilder.setMessage(ChangeIdUtil.insertId(message, generatedChangeId, true));
 
       Change.Id changeId = new Change.Id(seq.nextChangeId());
       ObjectId id = oi.insert(revertCommitBuilder);
@@ -245,8 +239,13 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
       try (BatchUpdate bu = updateFactory.create(db.get(), project, user, now)) {
         bu.setRepository(git, revWalk, oi);
         bu.insertChange(ins);
+<<<<<<< HEAD   (88fc59 Replace documentation of gerrit.ui with gerrit.enableGwtUi)
         bu.addOp(changeId, new NotifyOp(changeToRevert, ins, input.notify, accountsToNotify));
         bu.addOp(changeToRevert.getId(), new PostRevertedMessageOp(computedChangeId));
+=======
+        bu.addOp(changeId, new NotifyOp(changeToRevert, ins));
+        bu.addOp(changeToRevert.getId(), new PostRevertedMessageOp(generatedChangeId));
+>>>>>>> CHANGE (731634 Generate Change-Ids randomly instead of computing them from )
         bu.execute();
       }
       return changeId;

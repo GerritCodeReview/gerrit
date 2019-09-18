@@ -18,6 +18,12 @@ import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.common.base.MoreObjects;
 import com.google.gerrit.common.Nullable;
+<<<<<<< HEAD   (88fc59 Replace documentation of gerrit.ui with gerrit.enableGwtUi)
+=======
+import com.google.gerrit.git.LockFailureException;
+import com.google.gerrit.git.ObjectIds;
+import com.google.gerrit.reviewdb.client.Change;
+>>>>>>> CHANGE (731634 Generate Change-Ids randomly instead of computing them from )
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.git.LockFailureException;
 import com.google.gerrit.server.logging.TraceContext;
@@ -325,14 +331,7 @@ public abstract class VersionedMetaData {
         }
 
         if (update.insertChangeId()) {
-          ObjectId id =
-              ChangeIdUtil.computeChangeId(
-                  res,
-                  getRevision(),
-                  commit.getAuthor(),
-                  commit.getCommitter(),
-                  commit.getMessage());
-          commit.setMessage(ChangeIdUtil.insertId(commit.getMessage(), id));
+          commit.setMessage(ChangeIdUtil.insertId(commit.getMessage(), Change.generateChangeId()));
         }
 
         src = rw.parseCommit(inserter.insert(commit));

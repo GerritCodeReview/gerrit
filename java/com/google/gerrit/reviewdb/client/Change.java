@@ -15,14 +15,23 @@
 package com.google.gerrit.reviewdb.client;
 
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_CHANGES;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.gerrit.extensions.client.ChangeStatus;
+<<<<<<< HEAD   (88fc59 Replace documentation of gerrit.ui with gerrit.enableGwtUi)
 import com.google.gwtorm.client.Column;
 import com.google.gwtorm.client.IntKey;
 import com.google.gwtorm.client.RowVersion;
 import com.google.gwtorm.client.StringKey;
+=======
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+>>>>>>> CHANGE (731634 Generate Change-Ids randomly instead of computing them from )
 import java.sql.Timestamp;
 import java.util.Arrays;
+import org.eclipse.jgit.lib.Constants;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.ObjectInserter;
 
 /**
  * A change proposed to be merged into a {@link Branch}.
@@ -94,8 +103,24 @@ import java.util.Arrays;
  * notice of a replacement patch set is sent, or when notice of the change submission occurs.
  */
 public final class Change {
+<<<<<<< HEAD   (88fc59 Replace documentation of gerrit.ui with gerrit.enableGwtUi)
   public static class Id extends IntKey<com.google.gwtorm.client.Key<?>> {
     private static final long serialVersionUID = 1L;
+=======
+  private static final SecureRandom rng;
+
+  static {
+    try {
+      rng = SecureRandom.getInstance("SHA1PRNG");
+    } catch (NoSuchAlgorithmException e) {
+      throw new RuntimeException("Cannot create RNG for Change-Id generator", e);
+    }
+  }
+
+  public static Id id(int id) {
+    return new AutoValue_Change_Id(id);
+  }
+>>>>>>> CHANGE (731634 Generate Change-Ids randomly instead of computing them from )
 
     @Column(id = 1)
     public int id;
@@ -251,6 +276,51 @@ public final class Change {
       }
       return i;
     }
+<<<<<<< HEAD   (88fc59 Replace documentation of gerrit.ui with gerrit.enableGwtUi)
+=======
+
+    abstract int id();
+
+    public int get() {
+      return id();
+    }
+
+    public String toRefPrefix() {
+      return refPrefixBuilder().toString();
+    }
+
+    StringBuilder refPrefixBuilder() {
+      StringBuilder r = new StringBuilder(32).append(REFS_CHANGES);
+      int m = get() % 100;
+      if (m < 10) {
+        r.append('0');
+      }
+      return r.append(m).append('/').append(get()).append('/');
+    }
+
+    @Override
+    public final String toString() {
+      return Integer.toString(get());
+    }
+  }
+
+  public static ObjectId generateChangeId() {
+    byte[] rand = new byte[Constants.OBJECT_ID_STRING_LENGTH];
+    rng.nextBytes(rand);
+    String randomString = new String(rand, UTF_8);
+
+    try (ObjectInserter f = new ObjectInserter.Formatter()) {
+      return f.idFor(Constants.OBJ_COMMIT, Constants.encode(randomString));
+    }
+  }
+
+  public static Key generateKey() {
+    return key("I" + generateChangeId().name());
+  }
+
+  public static Key key(String key) {
+    return new AutoValue_Change_Key(key);
+>>>>>>> CHANGE (731634 Generate Change-Ids randomly instead of computing them from )
   }
 
   /**

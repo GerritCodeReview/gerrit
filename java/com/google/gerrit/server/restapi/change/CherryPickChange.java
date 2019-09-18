@@ -193,14 +193,8 @@ public class CherryPickChange {
       Timestamp now = TimeUtil.nowTs();
       PersonIdent committerIdent = identifiedUser.newCommitterIdent(now, serverTimeZone);
 
-      final ObjectId computedChangeId =
-          ChangeIdUtil.computeChangeId(
-              commitToCherryPick.getTree(),
-              baseCommit,
-              commitToCherryPick.getAuthorIdent(),
-              committerIdent,
-              input.message);
-      String commitMessage = ChangeIdUtil.insertId(input.message, computedChangeId).trim() + '\n';
+      final ObjectId generatedChangeId = Change.generateChangeId();
+      String commitMessage = ChangeIdUtil.insertId(input.message, generatedChangeId).trim() + '\n';
 
       CodeReviewCommit cherryPickCommit;
       ProjectState projectState = projectCache.checkedGet(dest.getParentKey());
@@ -235,7 +229,11 @@ public class CherryPickChange {
           final String idStr = idList.get(idList.size() - 1).trim();
           changeKey = new Change.Key(idStr);
         } else {
+<<<<<<< HEAD   (88fc59 Replace documentation of gerrit.ui with gerrit.enableGwtUi)
           changeKey = new Change.Key("I" + computedChangeId.name());
+=======
+          changeKey = Change.key("I" + generatedChangeId.name());
+>>>>>>> CHANGE (731634 Generate Change-Ids randomly instead of computing them from )
         }
 
         Branch.NameKey newDest = new Branch.NameKey(project, destRef.getName());

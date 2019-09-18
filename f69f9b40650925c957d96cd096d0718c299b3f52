@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a956a042_bdb6cc67",
+        "filename": "javatests/com/google/gerrit/acceptance/git/RefAdvertisementIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 983,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-09-18T20:27:51Z",
+      "side": 1,
+      "message": "This is wrong rebase. It should be:\n\n  ReceiveCommitsAdvertiseRefsHookChain.createForTest(\n          newFilter(project, u), queryProvider, project, \n          skipDefaultAdvertiseRefsHook);\n\nwhere skipDefaultAdvertiseRefsHook should depend from the current configuration suite:\n\n  @ConfigSuite.Config\n  public static Config enableRefPermissionBackend() {\n  [...]",
+      "range": {
+        "startLine": 982,
+        "startChar": 10,
+        "endLine": 983,
+        "endChar": 60
+      },
+      "revId": "f69f9b40650925c957d96cd096d0718c299b3f52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

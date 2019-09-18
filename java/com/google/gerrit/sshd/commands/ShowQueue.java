@@ -99,6 +99,8 @@ final class ShowQueue extends SshCommand {
       throw die(e);
     } catch (PermissionBackendException e) {
       throw new Failure(1, "permission backend unavailable", e);
+    } catch (Exception e) {
+      throw new Failure(1, "unavailable", e);
     }
 
     boolean viewAll = permissionBackend.user(currentUser).testOrFalse(GlobalPermission.VIEW_QUEUE);

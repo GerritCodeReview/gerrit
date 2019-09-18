@@ -117,9 +117,7 @@ public class GetAccess implements RestReadView<ProjectResource> {
     this.projectConfigFactory = projectConfigFactory;
   }
 
-  public ProjectAccessInfo apply(Project.NameKey nameKey)
-      throws ResourceNotFoundException, ResourceConflictException, IOException,
-          PermissionBackendException {
+  public ProjectAccessInfo apply(Project.NameKey nameKey) throws Exception {
     ProjectState state = projectCache.checkedGet(nameKey);
     if (state == null) {
       throw new ResourceNotFoundException(nameKey.get());

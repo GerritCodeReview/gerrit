@@ -136,7 +136,11 @@ class GroupApiImpl implements GroupApi {
 
   @Override
   public String name() throws RestApiException {
-    return getName.apply(rsrc).value();
+    try {
+      return getName.apply(rsrc).value();
+    } catch (Exception e) {
+      throw asRestApiException("Cannot get group name", e);
+    }
   }
 
   @Override
@@ -172,7 +176,11 @@ class GroupApiImpl implements GroupApi {
 
   @Override
   public String description() throws RestApiException {
-    return getDescription.apply(rsrc).value();
+    try {
+      return getDescription.apply(rsrc).value();
+    } catch (Exception e) {
+      throw asRestApiException("Cannot get group description", e);
+    }
   }
 
   @Override
@@ -188,7 +196,11 @@ class GroupApiImpl implements GroupApi {
 
   @Override
   public GroupOptionsInfo options() throws RestApiException {
-    return getOptions.apply(rsrc).value();
+    try {
+      return getOptions.apply(rsrc).value();
+    } catch (Exception e) {
+      throw asRestApiException("Cannot get group options", e);
+    }
   }
 
   @Override

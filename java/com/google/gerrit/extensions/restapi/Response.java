@@ -74,7 +74,7 @@ public abstract class Response<T> {
   }
 
   @SuppressWarnings({"unchecked", "rawtypes"})
-  public static <T> T unwrap(T obj) {
+  public static <T> T unwrap(T obj) throws Exception {
     while (obj instanceof Response) {
       obj = (T) ((Response) obj).value();
     }
@@ -96,7 +96,7 @@ public abstract class Response<T> {
 
   public abstract int statusCode();
 
-  public abstract T value();
+  public abstract T value() throws Exception;
 
   public abstract CacheControl caching();
 
@@ -306,8 +306,8 @@ public abstract class Response<T> {
     }
 
     @Override
-    public T value() {
-      throw new UnsupportedOperationException();
+    public T value() throws Exception {
+      throw cause();
     }
 
     @Override

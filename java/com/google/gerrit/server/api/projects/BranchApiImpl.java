@@ -119,8 +119,8 @@ public class BranchApiImpl implements BranchApi {
   public List<ReflogEntryInfo> reflog() throws RestApiException {
     try {
       return getReflog.apply(resource()).value();
-    } catch (IOException | PermissionBackendException e) {
-      throw new RestApiException("Cannot retrieve reflog", e);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot retrieve reflog", e);
     }
   }
 

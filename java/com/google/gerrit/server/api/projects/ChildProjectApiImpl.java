@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.api.projects;
 
+import static com.google.gerrit.server.api.ApiUtil.asRestApiException;
+
 import com.google.gerrit.extensions.api.projects.ChildProjectApi;
 import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -43,7 +45,11 @@ public class ChildProjectApiImpl implements ChildProjectApi {
 
   @Override
   public ProjectInfo get(boolean recursive) throws RestApiException {
-    getChildProject.setRecursive(recursive);
-    return getChildProject.apply(rsrc).value();
+    try {
+      getChildProject.setRecursive(recursive);
+      return getChildProject.apply(rsrc).value();
+    } catch (Exception e) {
+      throw asRestApiException("Cannot child project", e);
+    }
   }
 }

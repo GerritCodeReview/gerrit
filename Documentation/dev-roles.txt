@@ -117,7 +117,7 @@ permissions (see link:#supporter[supporter] section above).
 
 It's highly appreciated if contributors engage in code reviews,
 link:dev-design-docs.html#review[design reviews] and mailing list
-discussions. If wanted, contributors can also serve as link#mentor[
+discussions. If wanted, contributors can also serve as link:#mentor[
 mentors] to support other contributors with getting their features
 done.
 

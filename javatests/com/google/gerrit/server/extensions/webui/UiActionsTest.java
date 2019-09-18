@@ -15,6 +15,9 @@
 package com.google.gerrit.server.extensions.webui;
 
 import static com.google.common.truth.Truth.assertThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.only;
+import static org.mockito.Mockito.verify;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
@@ -35,7 +38,6 @@ import com.google.gerrit.server.permissions.ProjectPermission;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
-import org.easymock.EasyMock;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.junit.Test;
@@ -131,9 +133,7 @@ public class UiActionsTest {
 
     // Set up the Mock to expect a call of bulkEvaluateTest to only contain cond{1,2} since cond3
     // needs to be identified as duplicate and not called out explicitly.
-    PermissionBackend permissionBackendMock = EasyMock.createMock(PermissionBackend.class);
-    permissionBackendMock.bulkEvaluateTest(ImmutableSet.of(cond1, cond2));
-    EasyMock.replay(permissionBackendMock);
+    PermissionBackend permissionBackendMock = mock(PermissionBackend.class);
 
     UiActions.evaluatePermissionBackendConditions(
         permissionBackendMock, ImmutableList.of(cond1, cond2, cond3));
@@ -141,6 +141,8 @@ public class UiActionsTest {
     // Disallow queries for value to ensure that cond3 (previously left behind) is backfilled with
     // the value of cond1 and issues no additional call to PermissionBackend.
     forProject.disallowValueQueries();
+
+    verify(permissionBackendMock, only()).bulkEvaluateTest(ImmutableSet.of(cond1, cond2));
 
     // Assert the values of all conditions
     assertThat(cond1.value()).isFalse();

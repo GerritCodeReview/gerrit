@@ -25,7 +25,9 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.webui.UiAction;
+import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.change.ChangeResource;
@@ -54,6 +56,7 @@ public class PutAssignee extends RetryingRestModifyView<ChangeResource, Assignee
   private final ReviewerAdder reviewerAdder;
   private final AccountLoader.Factory accountLoaderFactory;
   private final PermissionBackend permissionBackend;
+  private final ApprovalsUtil approvalsUtil;
 
   @Inject
   PutAssignee(
@@ -62,13 +65,15 @@ public class PutAssignee extends RetryingRestModifyView<ChangeResource, Assignee
       RetryHelper retryHelper,
       ReviewerAdder reviewerAdder,
       AccountLoader.Factory accountLoaderFactory,
-      PermissionBackend permissionBackend) {
+      PermissionBackend permissionBackend,
+      ApprovalsUtil approvalsUtil) {
     super(retryHelper);
     this.accountResolver = accountResolver;
     this.assigneeFactory = assigneeFactory;
     this.reviewerAdder = reviewerAdder;
     this.accountLoaderFactory = accountLoaderFactory;
     this.permissionBackend = permissionBackend;
+    this.approvalsUtil = approvalsUtil;
   }
 
   @Override
@@ -98,9 +103,12 @@ public class PutAssignee extends RetryingRestModifyView<ChangeResource, Assignee
       SetAssigneeOp op = assigneeFactory.create(assignee);
       bu.addOp(rsrc.getId(), op);
 
-      ReviewerAddition reviewersAddition = addAssigneeAsCC(rsrc, input.assignee);
-      reviewersAddition.op.suppressEmail();
-      bu.addOp(rsrc.getId(), reviewersAddition.op);
+      ReviewerSet currentReviewers = approvalsUtil.getReviewers(rsrc.getNotes());
+      if (!currentReviewers.all().contains(assignee.getAccountId())) {
+        ReviewerAddition reviewersAddition = addAssigneeAsCC(rsrc, input.assignee);
+        reviewersAddition.op.suppressEmail();
+        bu.addOp(rsrc.getId(), reviewersAddition.op);
+      }
 
       bu.execute();
       return Response.ok(accountLoaderFactory.create(true).fillOne(assignee.getAccountId()));

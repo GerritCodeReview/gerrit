@@ -201,14 +201,8 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
                 patch.commitId().name());
       }
 
-      ObjectId computedChangeId =
-          ChangeIdUtil.computeChangeId(
-              parentToCommitToRevert.getTree(),
-              commitToRevert,
-              authorIdent,
-              committerIdent,
-              message);
-      revertCommitBuilder.setMessage(ChangeIdUtil.insertId(message, computedChangeId, true));
+      ObjectId generatedChangeId = Change.generateChangeId();
+      revertCommitBuilder.setMessage(ChangeIdUtil.insertId(message, generatedChangeId, true));
 
       Change.Id changeId = Change.id(seq.nextChangeId());
       ObjectId id = oi.insert(revertCommitBuilder);
@@ -240,7 +234,7 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
         bu.setNotify(notify);
         bu.insertChange(ins);
         bu.addOp(changeId, new NotifyOp(changeToRevert, ins));
-        bu.addOp(changeToRevert.getId(), new PostRevertedMessageOp(computedChangeId));
+        bu.addOp(changeToRevert.getId(), new PostRevertedMessageOp(generatedChangeId));
         bu.execute();
       }
       return changeId;

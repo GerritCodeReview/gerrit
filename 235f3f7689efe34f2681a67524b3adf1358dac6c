@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8e90deef_4d2b9df8",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-processor/gr-diff-processor.js",
+        "patchSetId": 16
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-09-18T09:46:35Z",
+      "side": 0,
+      "message": "Any specific reason you changed this from map to a plain array? If it was just the indexes that you needed, note that you can get them as second parameter: \nhttps://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/map#Syntax\n\nThis is a bit of a matter of taste, but for straight forward 1:1 mappings, I tend to like map a lot because it expresses this 1:1 mapping idea well. A for loop can be anything really, and I find I have to read the code more closely to see \"ahh, this is a 1:1 mapping.\n\nChanging this back is optional, but I wanted to share my opinion.",
+      "revId": "235f3f7689efe34f2681a67524b3adf1358dac6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

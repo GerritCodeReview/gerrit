@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "96c4ef5a_bd177f51",
+        "filename": "javatests/com/google/gerrit/globalrefdb/GlobalRefDatabaseTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2019-09-18T12:27:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "abedf124_1eb01789",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 43
+      },
+      "revId": "90879fb217ea93f805be6a334ca9a69c75e9be3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3218f94f_438a0ac9",
         "filename": "javatests/com/google/gerrit/globalrefdb/GlobalRefDatabaseTest.java",
         "patchSetId": 4
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "1cdf754b_4d63605b",
+        "filename": "javatests/com/google/gerrit/globalrefdb/GlobalRefDatabaseTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2019-09-18T12:27:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3218f94f_438a0ac9",
+      "range": {
+        "startLine": 44,
+        "startChar": 26,
+        "endLine": 44,
+        "endChar": 29
+      },
+      "revId": "90879fb217ea93f805be6a334ca9a69c75e9be3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c29d1707_9a438047",
         "filename": "javatests/com/google/gerrit/globalrefdb/GlobalRefDatabaseTest.java",
         "patchSetId": 4
@@ -59,6 +107,30 @@
       "writtenOn": "2019-09-17T23:38:33Z",
       "side": 1,
       "message": "There is no such thing as a nullRef: the refName should not be null and the object id should be set to zeros.",
+      "range": {
+        "startLine": 46,
+        "startChar": 24,
+        "endLine": 46,
+        "endChar": 31
+      },
+      "revId": "90879fb217ea93f805be6a334ca9a69c75e9be3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8a0ba208_30c54f07",
+        "filename": "javatests/com/google/gerrit/globalrefdb/GlobalRefDatabaseTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2019-09-18T12:27:53Z",
+      "side": 1,
+      "message": "But we have some logic for null ref in our multi-site implementation:\nhttps://gerrit.googlesource.com/plugins/multi-site/+/refs/heads/master/src/main/java/com/googlesource/gerrit/plugins/multisite/validation/dfsrefdb/SharedRefDatabase.java#25",
+      "parentUuid": "c29d1707_9a438047",
       "range": {
         "startLine": 46,
         "startChar": 24,
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "7ca928b8_4acc189c",
+        "filename": "javatests/com/google/gerrit/globalrefdb/GlobalRefDatabaseTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2019-09-18T12:27:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "90aa1b1e_b98204bc",
+      "range": {
+        "startLine": 49,
+        "startChar": 0,
+        "endLine": 49,
+        "endChar": 79
+      },
+      "revId": "90879fb217ea93f805be6a334ca9a69c75e9be3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "65c2c8bd_68e49cbe",
         "filename": "javatests/com/google/gerrit/globalrefdb/GlobalRefDatabaseTest.java",
         "patchSetId": 4
@@ -114,6 +210,30 @@
       "revId": "90879fb217ea93f805be6a334ca9a69c75e9be3f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "99cdf469_8f91477d",
+        "filename": "javatests/com/google/gerrit/globalrefdb/GlobalRefDatabaseTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2019-09-18T12:27:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "65c2c8bd_68e49cbe",
+      "range": {
+        "startLine": 59,
+        "startChar": 27,
+        "endLine": 59,
+        "endChar": 66
+      },
+      "revId": "90879fb217ea93f805be6a334ca9a69c75e9be3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

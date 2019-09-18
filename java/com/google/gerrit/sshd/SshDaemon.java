@@ -71,7 +71,7 @@ import org.apache.sshd.common.cipher.Cipher;
 import org.apache.sshd.common.compression.BuiltinCompressions;
 import org.apache.sshd.common.compression.Compression;
 import org.apache.sshd.common.file.FileSystemFactory;
-import org.apache.sshd.common.forward.DefaultForwarderFactory;
+import org.apache.sshd.common.forward.DefaultTcpipForwarderFactory;
 import org.apache.sshd.common.future.CloseFuture;
 import org.apache.sshd.common.future.SshFutureListener;
 import org.apache.sshd.common.io.AbstractIoServiceFactory;
@@ -694,7 +694,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
   }
 
   private void initForwarding() {
-    setForwardingFilter(
+    setTcpipForwardingFilter(
         new ForwardingFilter() {
           @Override
           public boolean canForwardAgent(Session session, String requestType) {
@@ -716,7 +716,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
             return false;
           }
         });
-    setForwarderFactory(new DefaultForwarderFactory());
+    setTcpipForwarderFactory(new DefaultTcpipForwarderFactory());
   }
 
   private void initFileSystemFactory() {

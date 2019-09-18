@@ -289,7 +289,7 @@ public class CreateChange
 
       Timestamp now = TimeUtil.nowTs();
       PersonIdent author = me.newCommitterIdent(now, serverTimeZone);
-      String commitMessage = getCommitMessage(input.subject, me, oi, mergeTip, author);
+      String commitMessage = getCommitMessage(input.subject, me);
 
       RevCommit c;
       if (input.merge != null) {
@@ -386,18 +386,11 @@ public class CreateChange
     return parentCommit;
   }
 
-  private String getCommitMessage(
-      String subject,
-      IdentifiedUser me,
-      ObjectInserter objectInserter,
-      RevCommit mergeTip,
-      PersonIdent author)
-      throws IOException {
+  private String getCommitMessage(String subject, IdentifiedUser me) {
     // Add a Change-Id line if there isn't already one
     String commitMessage = subject;
     if (ChangeIdUtil.indexOfChangeId(commitMessage, "\n") == -1) {
-      ObjectId treeId = mergeTip == null ? emptyTreeId(objectInserter) : mergeTip.getTree();
-      ObjectId id = ChangeIdUtil.computeChangeId(treeId, mergeTip, author, author, commitMessage);
+      ObjectId id = Change.generateChangeId();
       commitMessage = ChangeIdUtil.insertId(commitMessage, id);
     }
 

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a6efc940_4b193035",
+        "filename": "lib/LICENSE-diffy",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-09-18T05:25:07Z",
+      "side": 0,
+      "message": "I wonder if we should rather move this file in to contrib/themes/diffy",
+      "revId": "d722ffc7cb7aa36343aa1f9f30309cd9d6f1e26e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

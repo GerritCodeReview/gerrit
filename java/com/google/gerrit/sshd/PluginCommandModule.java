@@ -19,7 +19,7 @@ import static com.google.common.base.Preconditions.checkState;
 import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.inject.Inject;
 import com.google.inject.binder.LinkedBindingBuilder;
-import org.apache.sshd.server.command.Command;
+import org.apache.sshd.server.Command;
 
 public abstract class PluginCommandModule extends CommandModule {
   private CommandName command;

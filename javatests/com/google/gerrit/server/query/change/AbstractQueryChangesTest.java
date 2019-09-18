@@ -2115,6 +2115,12 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     gApi.changes().id(change1.getChangeId()).current().review(ReviewInput.approve());
     gApi.changes().id(change1.getChangeId()).current().submit();
 
+    // If a change gets submitted, the remaining open changes get reindexed asynchronously to update
+    // their mergeability information. If the further assertions in this test are done before the
+    // asynchronous reindex completed they fail because the mergeability information in the index
+    // was not updated yet. To avoid this flakiness we index change2 synchronously here.
+    gApi.changes().id(change2.getChangeId()).index();
+
     assertQuery("status:open conflicts:" + change2.getId().get());
     assertQuery("status:open is:mergeable");
     assertQuery("status:open -is:mergeable", change2);

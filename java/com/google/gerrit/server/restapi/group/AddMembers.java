@@ -24,7 +24,6 @@ import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.DefaultInput;
 import com.google.gerrit.extensions.restapi.IdString;
-import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestCollectionCreateView;
@@ -223,8 +222,7 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
 
     @Override
     public Response<AccountInfo> apply(GroupResource resource, IdString id, Input input)
-        throws AuthException, MethodNotAllowedException, ResourceNotFoundException, IOException,
-            ConfigInvalidException, PermissionBackendException {
+        throws Exception {
       AddMembers.Input in = new AddMembers.Input();
       in._oneMember = id.get();
       try {

@@ -23,7 +23,6 @@ import static com.google.gerrit.sshd.CommandMetaData.Mode.MASTER_OR_SLAVE;
 import com.google.gerrit.extensions.annotations.RequiresAnyCapability;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.config.ConfigResource;
-import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.restapi.config.ListCaches;
 import com.google.gerrit.server.restapi.config.ListCaches.OutputFormat;
 import com.google.gerrit.server.restapi.config.PostCaches;
@@ -81,13 +80,13 @@ final class FlushCaches extends SshCommand {
       }
     } catch (RestApiException e) {
       throw die(e.getMessage());
-    } catch (PermissionBackendException e) {
+    } catch (Exception e) {
       throw new Failure(1, "unavailable", e);
     }
   }
 
   @SuppressWarnings("unchecked")
-  private void doList() {
+  private void doList() throws Exception {
     for (String name :
         (List<String>)
             listCaches.setFormat(OutputFormat.LIST).apply(new ConfigResource()).value()) {

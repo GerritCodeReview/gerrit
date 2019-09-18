@@ -16,14 +16,12 @@ package com.google.gerrit.sshd.commands;
 
 import static java.util.stream.Collectors.toList;
 
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.projects.ParentInput;
 import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
-import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -112,7 +110,7 @@ final class SetParentCommand extends SshCommand {
         childProjects.addAll(getChildrenForReparenting(oldParent));
       } catch (PermissionBackendException e) {
         throw new Failure(1, "permissions unavailable", e);
-      } catch (StorageException | RestApiException e) {
+      } catch (Exception e) {
         throw new Failure(1, "failure in request", e);
       }
     }
@@ -148,8 +146,7 @@ final class SetParentCommand extends SshCommand {
    * list of child projects does not contain projects that were specified to be excluded from
    * reparenting.
    */
-  private List<Project.NameKey> getChildrenForReparenting(ProjectState parent)
-      throws PermissionBackendException, RestApiException {
+  private List<Project.NameKey> getChildrenForReparenting(ProjectState parent) throws Exception {
     final List<Project.NameKey> childProjects = new ArrayList<>();
     final List<Project.NameKey> excluded = new ArrayList<>(excludedChildren.size());
     for (ProjectState excludedChild : excludedChildren) {

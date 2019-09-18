@@ -454,9 +454,7 @@ public class Submit
     }
 
     @Override
-    public Response<ChangeInfo> apply(ChangeResource rsrc, SubmitInput input)
-        throws RestApiException, RepositoryNotFoundException, IOException,
-            PermissionBackendException, UpdateException, ConfigInvalidException {
+    public Response<ChangeInfo> apply(ChangeResource rsrc, SubmitInput input) throws Exception {
       PatchSet ps = psUtil.current(rsrc.getNotes());
       if (ps == null) {
         throw new ResourceConflictException("current revision is missing");

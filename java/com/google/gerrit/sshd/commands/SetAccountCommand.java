@@ -211,8 +211,7 @@ final class SetAccountCommand extends SshCommand {
     }
   }
 
-  private void setAccount()
-      throws IOException, UnloggedFailure, ConfigInvalidException, PermissionBackendException {
+  private void setAccount() throws Failure {
     user = genericUserFactory.create(id);
     rsrc = new AccountResource(user.asIdentifiedUser());
     try {
@@ -267,6 +266,8 @@ final class SetAccountCommand extends SshCommand {
       }
     } catch (RestApiException e) {
       throw die(e.getMessage());
+    } catch (Exception e) {
+      throw new Failure(1, "unavailable", e);
     }
   }
 
@@ -279,9 +280,7 @@ final class SetAccountCommand extends SshCommand {
     }
   }
 
-  private void deleteSshKeys(List<String> sshKeys)
-      throws RestApiException, RepositoryNotFoundException, IOException, ConfigInvalidException,
-          PermissionBackendException {
+  private void deleteSshKeys(List<String> sshKeys) throws Exception {
     List<SshKeyInfo> infos = getSshKeys.apply(rsrc).value();
     if (sshKeys.contains("ALL")) {
       for (SshKeyInfo i : infos) {
@@ -318,8 +317,7 @@ final class SetAccountCommand extends SshCommand {
     }
   }
 
-  private void deleteEmail(String email)
-      throws RestApiException, IOException, ConfigInvalidException, PermissionBackendException {
+  private void deleteEmail(String email) throws Exception {
     if (email.equals("ALL")) {
       List<EmailInfo> emails = getEmails.apply(rsrc).value();
       for (EmailInfo e : emails) {
@@ -330,8 +328,7 @@ final class SetAccountCommand extends SshCommand {
     }
   }
 
-  private void putPreferred(String email)
-      throws RestApiException, IOException, PermissionBackendException, ConfigInvalidException {
+  private void putPreferred(String email) throws Exception {
     for (EmailInfo e : getEmails.apply(rsrc).value()) {
       if (e.email.equals(email)) {
         putPreferred.apply(new AccountResource.Email(user.asIdentifiedUser(), email), null);

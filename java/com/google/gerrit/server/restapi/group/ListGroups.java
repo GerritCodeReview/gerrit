@@ -248,8 +248,7 @@ public class ListGroups implements RestReadView<TopLevelResource> {
   }
 
   @Override
-  public Response<SortedMap<String, GroupInfo>> apply(TopLevelResource resource)
-      throws RestApiException, IOException, ConfigInvalidException, PermissionBackendException {
+  public Response<SortedMap<String, GroupInfo>> apply(TopLevelResource resource) throws Exception {
     SortedMap<String, GroupInfo> output = new TreeMap<>();
     for (GroupInfo info : get()) {
       output.put(MoreObjects.firstNonNull(info.name, "Group " + Url.decode(info.id)), info);
@@ -258,8 +257,7 @@ public class ListGroups implements RestReadView<TopLevelResource> {
     return Response.ok(output);
   }
 
-  public List<GroupInfo> get()
-      throws RestApiException, IOException, ConfigInvalidException, PermissionBackendException {
+  public List<GroupInfo> get() throws Exception {
     if (!Strings.isNullOrEmpty(suggest)) {
       return suggestGroups();
     }

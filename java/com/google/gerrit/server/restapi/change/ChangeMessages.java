@@ -22,7 +22,6 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.server.change.ChangeMessageResource;
 import com.google.gerrit.server.change.ChangeResource;
-import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.util.List;
@@ -50,8 +49,7 @@ public class ChangeMessages implements ChildCollection<ChangeResource, ChangeMes
   }
 
   @Override
-  public ChangeMessageResource parse(ChangeResource parent, IdString id)
-      throws ResourceNotFoundException, PermissionBackendException {
+  public ChangeMessageResource parse(ChangeResource parent, IdString id) throws Exception {
     String uuid = id.get();
 
     List<ChangeMessageInfo> changeMessages = listChangeMessages.apply(parent).value();

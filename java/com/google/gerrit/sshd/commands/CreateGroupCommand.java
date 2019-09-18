@@ -114,11 +114,12 @@ final class CreateGroupCommand extends SshCommand {
       }
     } catch (RestApiException e) {
       throw die(e);
+    } catch (Exception e) {
+      throw new Failure(1, "unavailable", e);
     }
   }
 
-  private GroupResource createGroup()
-      throws RestApiException, IOException, ConfigInvalidException, PermissionBackendException {
+  private GroupResource createGroup() throws Exception {
     GroupInput input = new GroupInput();
     input.description = groupDescription;
     input.visibleToAll = visibleToAll;

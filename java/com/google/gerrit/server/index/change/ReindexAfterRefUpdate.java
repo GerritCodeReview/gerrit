@@ -17,7 +17,6 @@ package com.google.gerrit.server.index.change;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 import static com.google.gerrit.server.query.change.ChangeData.asChanges;
 
-import com.google.common.base.Objects;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
@@ -34,20 +33,14 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.QueueProvider.QueueType;
 import com.google.gerrit.server.index.IndexExecutor;
 import com.google.gerrit.server.index.account.AccountIndexer;
-import com.google.gerrit.server.notedb.ChangeNotes;
-import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.util.ManualRequestContext;
 import com.google.gerrit.server.util.OneOffRequestContext;
 import com.google.gerrit.server.util.RequestContext;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import java.io.IOException;
-import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 import java.util.concurrent.Callable;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.Future;
 import org.eclipse.jgit.lib.Config;
 
@@ -58,14 +51,11 @@ public class ReindexAfterRefUpdate implements GitReferenceUpdatedListener {
   private final Provider<InternalChangeQuery> queryProvider;
   private final ChangeIndexer.Factory indexerFactory;
   private final ChangeIndexCollection indexes;
-  private final ChangeNotes.Factory notesFactory;
   private final AllUsersName allUsersName;
   private final AccountCache accountCache;
   private final Provider<AccountIndexer> indexer;
   private final ListeningExecutorService executor;
   private final boolean enabled;
-
-  private final Set<Index> queuedIndexTasks = Collections.newSetFromMap(new ConcurrentHashMap<>());
 
   @Inject
   ReindexAfterRefUpdate(
@@ -74,7 +64,6 @@ public class ReindexAfterRefUpdate implements GitReferenceUpdatedListener {
       Provider<InternalChangeQuery> queryProvider,
       ChangeIndexer.Factory indexerFactory,
       ChangeIndexCollection indexes,
-      ChangeNotes.Factory notesFactory,
       AllUsersName allUsersName,
       AccountCache accountCache,
       Provider<AccountIndexer> indexer,
@@ -83,7 +72,6 @@ public class ReindexAfterRefUpdate implements GitReferenceUpdatedListener {
     this.queryProvider = queryProvider;
     this.indexerFactory = indexerFactory;
     this.indexes = indexes;
-    this.notesFactory = notesFactory;
     this.allUsersName = allUsersName;
     this.accountCache = accountCache;
     this.indexer = indexer;
@@ -113,12 +101,9 @@ public class ReindexAfterRefUpdate implements GitReferenceUpdatedListener {
           @Override
           public void onSuccess(List<Change> changes) {
             for (Change c : changes) {
-              Index task = new Index(event, c.getId());
-              if (queuedIndexTasks.add(task)) {
-                // Don't retry indefinitely; if this fails changes may be stale.
-                @SuppressWarnings("unused")
-                Future<?> possiblyIgnoredError = executor.submit(task);
-              }
+              @SuppressWarnings("unused")
+              Future<?> possiblyIgnoredError =
+                  indexerFactory.create(executor, indexes).indexAsync(c.getProject(), c.getId());
             }
           }
 
@@ -177,52 +162,5 @@ public class ReindexAfterRefUpdate implements GitReferenceUpdatedListener {
 
     @Override
     protected void remove() {}
-  }
-
-  private class Index extends Task<Void> {
-    private final Change.Id id;
-
-    Index(Event event, Change.Id id) {
-      super(event);
-      this.id = id;
-    }
-
-    @Override
-    protected Void impl(RequestContext ctx) throws IOException {
-      // Reload change, as some time may have passed since GetChanges.
-      remove();
-      try {
-        Change c =
-            notesFactory.createChecked(Project.nameKey(event.getProjectName()), id).getChange();
-        indexerFactory.create(executor, indexes).index(c);
-      } catch (NoSuchChangeException e) {
-        indexerFactory.create(executor, indexes).delete(id);
-      }
-      return null;
-    }
-
-    @Override
-    public int hashCode() {
-      return Objects.hashCode(Index.class, id.get());
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-      if (!(obj instanceof Index)) {
-        return false;
-      }
-      Index other = (Index) obj;
-      return id.get() == other.id.get();
-    }
-
-    @Override
-    public String toString() {
-      return "Index change " + id.get() + " of project " + event.getProjectName();
-    }
-
-    @Override
-    protected void remove() {
-      queuedIndexTasks.remove(this);
-    }
   }
 }

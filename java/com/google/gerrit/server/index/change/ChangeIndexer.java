@@ -31,7 +31,9 @@ import com.google.gerrit.server.index.IndexExecutor;
 import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.logging.TraceContext.TraceTimer;
+import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
+import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.util.RequestContext;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
@@ -67,6 +69,7 @@ public class ChangeIndexer {
   @Nullable private final ChangeIndexCollection indexes;
   @Nullable private final ChangeIndex index;
   private final ChangeData.Factory changeDataFactory;
+  private final ChangeNotes.Factory notesFactory;
   private final ThreadLocalRequestContext context;
   private final ListeningExecutorService batchExecutor;
   private final ListeningExecutorService executor;
@@ -83,6 +86,7 @@ public class ChangeIndexer {
   ChangeIndexer(
       @GerritServerConfig Config cfg,
       ChangeData.Factory changeDataFactory,
+      ChangeNotes.Factory notesFactory,
       ThreadLocalRequestContext context,
       PluginSetContext<ChangeIndexedListener> indexedListeners,
       StalenessChecker stalenessChecker,
@@ -91,6 +95,7 @@ public class ChangeIndexer {
       @Assisted ChangeIndex index) {
     this.executor = executor;
     this.changeDataFactory = changeDataFactory;
+    this.notesFactory = notesFactory;
     this.context = context;
     this.indexedListeners = indexedListeners;
     this.stalenessChecker = stalenessChecker;
@@ -104,6 +109,7 @@ public class ChangeIndexer {
   ChangeIndexer(
       @GerritServerConfig Config cfg,
       ChangeData.Factory changeDataFactory,
+      ChangeNotes.Factory notesFactory,
       ThreadLocalRequestContext context,
       PluginSetContext<ChangeIndexedListener> indexedListeners,
       StalenessChecker stalenessChecker,
@@ -112,6 +118,7 @@ public class ChangeIndexer {
       @Assisted ChangeIndexCollection indexes) {
     this.executor = executor;
     this.changeDataFactory = changeDataFactory;
+    this.notesFactory = notesFactory;
     this.context = context;
     this.indexedListeners = indexedListeners;
     this.stalenessChecker = stalenessChecker;
@@ -332,8 +339,12 @@ public class ChangeIndexer {
     @Override
     public Void callImpl() throws Exception {
       remove();
-      ChangeData cd = changeDataFactory.create(project, id);
-      index(cd);
+      try {
+        ChangeNotes changeNotes = notesFactory.createChecked(project, id);
+        index(changeDataFactory.create(changeNotes));
+      } catch (NoSuchChangeException e) {
+        delete(id);
+      }
       return null;
     }
 

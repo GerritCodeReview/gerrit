@@ -16,7 +16,8 @@ package com.google.gerrit.server.rules;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
-import static org.easymock.EasyMock.expect;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.server.project.testing.TestLabels;
@@ -31,7 +32,6 @@ import com.googlecode.prolog_cafe.lang.SymbolTerm;
 import java.io.PushbackReader;
 import java.io.StringReader;
 import java.util.Arrays;
-import org.easymock.EasyMock;
 import org.eclipse.jgit.lib.Config;
 import org.junit.Before;
 import org.junit.Test;
@@ -60,9 +60,8 @@ public class GerritCommonTest extends PrologTestCase {
   protected void setUpEnvironment(PrologEnvironment env) throws Exception {
     LabelTypes labelTypes =
         new LabelTypes(Arrays.asList(TestLabels.codeReview(), TestLabels.verified()));
-    ChangeData cd = EasyMock.createMock(ChangeData.class);
-    expect(cd.getLabelTypes()).andStubReturn(labelTypes);
-    EasyMock.replay(cd);
+    ChangeData cd = mock(ChangeData.class);
+    when(cd.getLabelTypes()).thenReturn(labelTypes);
     env.set(StoredValues.CHANGE_DATA, cd);
   }
 

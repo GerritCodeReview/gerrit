@@ -49,6 +49,12 @@ import com.google.gerrit.testing.FakeEmailSender.Message;
 import com.google.gerrit.testing.TestTimeUtil;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Callable;
+import java.util.concurrent.CyclicBarrier;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
@@ -402,6 +408,42 @@ public class CreateChangeIT extends AbstractDaemonTest {
 
     ChangeInput in = newMergeChangeInput("master", commitId.getName(), "");
     assertCreateSucceeds(in);
+  }
+
+  @Test
+  public void sha1sOfTwoNewChangesDiffer() throws Exception {
+    ChangeInput changeInput = newChangeInput(ChangeStatus.NEW);
+    ChangeInfo info1 = assertCreateSucceeds(changeInput);
+    ChangeInfo info2 = assertCreateSucceeds(changeInput);
+    assertThat(info1.currentRevision).isNotEqualTo(info2.currentRevision);
+    assertThat(info1.changeId).isNotEqualTo(info2.changeId);
+  }
+
+  @Test
+  public void sha1sOfTwoNewChangesDifferIfCreatedConcurrently() throws Exception {
+    ExecutorService executor = Executors.newFixedThreadPool(2);
+    try {
+      for (int i = 0; i < 10; i++) {
+        ChangeInput changeInput = newChangeInput(ChangeStatus.NEW);
+
+        CyclicBarrier sync = new CyclicBarrier(2);
+        Callable<ChangeInfo> createChange =
+            () -> {
+              setApiUser(admin);
+              sync.await();
+              return assertCreateSucceeds(changeInput);
+            };
+
+        Future<ChangeInfo> changeInfo1 = executor.submit(createChange);
+        Future<ChangeInfo> changeInfo2 = executor.submit(createChange);
+        assertThat(changeInfo1.get().currentRevision)
+            .isNotEqualTo(changeInfo2.get().currentRevision);
+        assertThat(changeInfo1.get().changeId).isNotEqualTo(changeInfo2.get().changeId);
+      }
+    } finally {
+      executor.shutdown();
+      executor.awaitTermination(5, TimeUnit.SECONDS);
+    }
   }
 
   private ChangeInput newChangeInput(ChangeStatus status) {

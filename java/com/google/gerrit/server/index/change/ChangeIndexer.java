@@ -141,6 +141,7 @@ public class ChangeIndexer {
   public ListenableFuture<?> indexAsync(Project.NameKey project, Change.Id id) {
     IndexTask task = new IndexTask(project, id);
     if (queuedIndexTasks.add(task)) {
+      fireChangeScheduledForIndexingEvent(project.get(), id.get());
       return submit(task);
     }
     return Futures.immediateFuture(null);
@@ -166,6 +167,11 @@ public class ChangeIndexer {
    * @param cd change to index.
    */
   public void index(ChangeData cd) {
+    fireChangeScheduledForIndexingEvent(cd.project().get(), cd.getId().get());
+    doIndex(cd);
+  }
+
+  private void doIndex(ChangeData cd) {
     indexImpl(cd);
 
     // Always double-check whether the change might be stale immediately after
@@ -206,8 +212,16 @@ public class ChangeIndexer {
     fireChangeIndexedEvent(cd.project().get(), cd.getId().get());
   }
 
+  private void fireChangeScheduledForIndexingEvent(String projectName, int id) {
+    indexedListeners.runEach(l -> l.onChangeScheduledForIndexing(projectName, id));
+  }
+
   private void fireChangeIndexedEvent(String projectName, int id) {
     indexedListeners.runEach(l -> l.onChangeIndexed(projectName, id));
+  }
+
+  private void fireChangeScheduledForDeletionFromIndexEvent(int id) {
+    indexedListeners.runEach(l -> l.onChangeScheduledForDeletionFromIndex(id));
   }
 
   private void fireChangeDeletedFromIndexEvent(int id) {
@@ -240,6 +254,7 @@ public class ChangeIndexer {
    * @return future for the deleting task.
    */
   public ListenableFuture<?> deleteAsync(Change.Id id) {
+    fireChangeScheduledForDeletionFromIndexEvent(id.get());
     return submit(new DeleteTask(id));
   }
 
@@ -249,6 +264,11 @@ public class ChangeIndexer {
    * @param id change ID to delete.
    */
   public void delete(Change.Id id) {
+    fireChangeScheduledForDeletionFromIndexEvent(id.get());
+    doDelete(id);
+  }
+
+  private void doDelete(Change.Id id) {
     new DeleteTask(id).call();
   }
 
@@ -341,9 +361,9 @@ public class ChangeIndexer {
       remove();
       try {
         ChangeNotes changeNotes = notesFactory.createChecked(project, id);
-        index(changeDataFactory.create(changeNotes));
+        doIndex(changeDataFactory.create(changeNotes));
       } catch (NoSuchChangeException e) {
-        delete(id);
+        doDelete(id);
       }
       return null;
     }

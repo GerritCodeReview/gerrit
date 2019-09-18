@@ -43,6 +43,7 @@ import com.google.gerrit.extensions.api.projects.ProjectInput;
 import com.google.gerrit.extensions.api.projects.TagApi;
 import com.google.gerrit.extensions.api.projects.TagInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.IdString;
@@ -69,6 +70,7 @@ import com.google.gerrit.server.restapi.project.GetDescription;
 import com.google.gerrit.server.restapi.project.GetHead;
 import com.google.gerrit.server.restapi.project.GetParent;
 import com.google.gerrit.server.restapi.project.Index;
+import com.google.gerrit.server.restapi.project.IndexChanges;
 import com.google.gerrit.server.restapi.project.ListBranches;
 import com.google.gerrit.server.restapi.project.ListDashboards;
 import com.google.gerrit.server.restapi.project.ListTags;
@@ -124,6 +126,7 @@ public class ProjectApiImpl implements ProjectApi {
   private final GetParent getParent;
   private final SetParent setParent;
   private final Index index;
+  private final IndexChanges indexChanges;
 
   @AssistedInject
   ProjectApiImpl(
@@ -158,6 +161,7 @@ public class ProjectApiImpl implements ProjectApi {
       GetParent getParent,
       SetParent setParent,
       Index index,
+      IndexChanges indexChanges,
       @Assisted ProjectResource project) {
     this(
         permissionBackend,
@@ -192,6 +196,7 @@ public class ProjectApiImpl implements ProjectApi {
         getParent,
         setParent,
         index,
+        indexChanges,
         null);
   }
 
@@ -228,6 +233,7 @@ public class ProjectApiImpl implements ProjectApi {
       GetParent getParent,
       SetParent setParent,
       Index index,
+      IndexChanges indexChanges,
       @Assisted String name) {
     this(
         permissionBackend,
@@ -262,6 +268,7 @@ public class ProjectApiImpl implements ProjectApi {
         getParent,
         setParent,
         index,
+        indexChanges,
         name);
   }
 
@@ -298,6 +305,7 @@ public class ProjectApiImpl implements ProjectApi {
       GetParent getParent,
       SetParent setParent,
       Index index,
+      IndexChanges indexChanges,
       String name) {
     this.permissionBackend = permissionBackend;
     this.createProject = createProject;
@@ -332,6 +340,7 @@ public class ProjectApiImpl implements ProjectApi {
     this.setParent = setParent;
     this.name = name;
     this.index = index;
+    this.indexChanges = indexChanges;
   }
 
   @Override
@@ -637,6 +646,15 @@ public class ProjectApiImpl implements ProjectApi {
       index.apply(checkExists(), input);
     } catch (Exception e) {
       throw asRestApiException("Cannot index project", e);
+    }
+  }
+
+  @Override
+  public void indexChanges() throws RestApiException {
+    try {
+      indexChanges.apply(checkExists(), new Input());
+    } catch (Exception e) {
+      throw asRestApiException("Cannot index changes", e);
     }
   }
 

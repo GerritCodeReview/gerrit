@@ -24,6 +24,9 @@ import static com.google.gerrit.server.project.ProjectState.OVERRIDDEN_BY_GLOBAL
 import static com.google.gerrit.server.project.ProjectState.OVERRIDDEN_BY_PARENT;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.util.stream.Collectors.toSet;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -47,6 +50,7 @@ import com.google.gerrit.extensions.api.projects.ProjectInput;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.ProjectState;
 import com.google.gerrit.extensions.client.SubmitType;
+import com.google.gerrit.extensions.events.ChangeIndexedListener;
 import com.google.gerrit.extensions.events.ProjectIndexedListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
@@ -54,6 +58,7 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
+import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.group.SystemGroupBackend;
@@ -79,6 +84,7 @@ public class ProjectIT extends AbstractDaemonTest {
   private static final String JIRA_MATCH = "(jira\\\\s+#?)(\\\\d+)";
 
   @Inject private DynamicSet<ProjectIndexedListener> projectIndexedListeners;
+  @Inject private DynamicSet<ChangeIndexedListener> changeIndexedListeners;
   @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
 
@@ -470,6 +476,26 @@ public class ProjectIT extends AbstractDaemonTest {
     gApi.projects().name(project.get()).index(true);
     projectIndexedCounter.assertReindexExactly(
         ImmutableMap.of(project.get(), 1L, middle.get(), 1L, leave.get(), 1L));
+  }
+
+  @Test
+  public void reindexChangesOfProject() throws Exception {
+    Change.Id changeId1 = createChange().getChange().getId();
+    Change.Id changeId2 = createChange().getChange().getId();
+
+    ChangeIndexedListener changeIndexedListener = mock(ChangeIndexedListener.class);
+    RegistrationHandle registrationHandle =
+        changeIndexedListeners.add("gerrit", changeIndexedListener);
+    try {
+      gApi.projects().name(project.get()).indexChanges();
+
+      verify(changeIndexedListener, times(1))
+          .onChangeScheduledForIndexing(project.get(), changeId1.get());
+      verify(changeIndexedListener, times(1))
+          .onChangeScheduledForIndexing(project.get(), changeId2.get());
+    } finally {
+      registrationHandle.remove();
+    }
   }
 
   @Test

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ead826d2_582f40ab",
+        "filename": "java/com/google/gerrit/gpg/api/GpgApiAdapterImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-18T09:54:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "49144432_f3ab3f68",
+      "range": {
+        "startLine": 90,
+        "startChar": 47,
+        "endLine": 90,
+        "endChar": 50
+      },
+      "revId": "df83ac7916934e2ef266062fa24c640f1367b1f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1fcdaa60_e387b4ed",
         "filename": "java/com/google/gerrit/gpg/api/GpgKeyApiImpl.java",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "0a9eb024_29b1e648",
+        "filename": "java/com/google/gerrit/gpg/api/GpgKeyApiImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-18T09:54:49Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "1fcdaa60_e387b4ed",
+      "range": {
+        "startLine": 62,
+        "startChar": 12,
+        "endLine": 62,
+        "endChar": 32
+      },
+      "revId": "df83ac7916934e2ef266062fa24c640f1367b1f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "86daf2aa_1cefac74",
         "filename": "java/com/google/gerrit/server/api/plugins/PluginsImpl.java",
         "patchSetId": 1
@@ -68,6 +116,30 @@
       "revId": "df83ac7916934e2ef266062fa24c640f1367b1f7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6405b638_1065ae5e",
+        "filename": "java/com/google/gerrit/server/api/plugins/PluginsImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-18T09:54:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "86daf2aa_1cefac74",
+      "range": {
+        "startLine": 96,
+        "startChar": 32,
+        "endLine": 96,
+        "endChar": 41
+      },
+      "revId": "df83ac7916934e2ef266062fa24c640f1367b1f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

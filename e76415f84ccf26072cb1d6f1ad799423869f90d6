@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c56baa1f_9603f717",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-09-18T13:20:47Z",
+      "side": 1,
+      "message": "Remove this prefix?",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 11
+      },
+      "revId": "e76415f84ccf26072cb1d6f1ad799423869f90d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "42847ebd_2a3cdf1e",
+        "filename": "javatests/com/google/gerrit/server/notedb/ChangeNotesStateTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 931,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-09-18T13:20:47Z",
+      "side": 1,
+      "message": "Inline this, if it only used here?",
+      "range": {
+        "startLine": 931,
+        "startChar": 25,
+        "endLine": 931,
+        "endChar": 42
+      },
+      "revId": "e76415f84ccf26072cb1d6f1ad799423869f90d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

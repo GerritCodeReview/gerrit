@@ -47,6 +47,7 @@ import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.Sequences;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.change.ChangeFinder;
+import com.google.gerrit.server.change.ChangeId;
 import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.ChangeJson;
 import com.google.gerrit.server.change.ChangeResource;
@@ -275,8 +276,7 @@ public class CreateChange
       // Add a Change-Id line if there isn't already one
       String commitMessage = subject;
       if (ChangeIdUtil.indexOfChangeId(commitMessage, "\n") == -1) {
-        ObjectId treeId = mergeTip == null ? emptyTreeId(oi) : mergeTip.getTree();
-        ObjectId id = ChangeIdUtil.computeChangeId(treeId, mergeTip, author, author, commitMessage);
+        ObjectId id = ChangeId.generateChangeId();
         commitMessage = ChangeIdUtil.insertId(commitMessage, id);
       }
 

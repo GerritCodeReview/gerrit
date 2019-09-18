@@ -15,10 +15,8 @@
 package com.google.gerrit.httpd.raw;
 
 import static com.google.common.truth.Truth.assertThat;
-import static org.easymock.EasyMock.createMock;
-import static org.easymock.EasyMock.expect;
-import static org.easymock.EasyMock.replay;
-import static org.easymock.EasyMock.verify;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.extensions.api.GerritApi;
@@ -35,22 +33,22 @@ public class IndexServletTest {
 
   @Test
   public void renderTemplate() throws Exception {
-    Accounts accountsApi = createMock(Accounts.class);
-    expect(accountsApi.self()).andThrow(new AuthException("user needs to be authenticated"));
+    Accounts accountsApi = mock(Accounts.class);
+    when(accountsApi.self()).thenThrow(new AuthException("user needs to be authenticated"));
 
-    Server serverApi = createMock(Server.class);
-    expect(serverApi.getVersion()).andReturn("123");
-    expect(serverApi.topMenus()).andReturn(ImmutableList.of());
+    Server serverApi = mock(Server.class);
+    when(serverApi.getVersion()).thenReturn("123");
+    when(serverApi.topMenus()).thenReturn(ImmutableList.of());
     ServerInfo serverInfo = new ServerInfo();
     serverInfo.defaultTheme = "my-default-theme";
-    expect(serverApi.getInfo()).andReturn(serverInfo);
+    when(serverApi.getInfo()).thenReturn(serverInfo);
 
-    Config configApi = createMock(Config.class);
-    expect(configApi.server()).andReturn(serverApi);
+    Config configApi = mock(Config.class);
+    when(configApi.server()).thenReturn(serverApi);
 
-    GerritApi gerritApi = createMock(GerritApi.class);
-    expect(gerritApi.accounts()).andReturn(accountsApi);
-    expect(gerritApi.config()).andReturn(configApi);
+    GerritApi gerritApi = mock(GerritApi.class);
+    when(gerritApi.accounts()).thenReturn(accountsApi);
+    when(gerritApi.config()).thenReturn(configApi);
 
     String testCanonicalUrl = "foo-url";
     String testCdnPath = "bar-cdn";
@@ -60,17 +58,7 @@ public class IndexServletTest {
 
     FakeHttpServletResponse response = new FakeHttpServletResponse();
 
-    replay(gerritApi);
-    replay(configApi);
-    replay(serverApi);
-    replay(accountsApi);
-
     servlet.doGet(new FakeHttpServletRequest(), response);
-
-    verify(gerritApi);
-    verify(configApi);
-    verify(serverApi);
-    verify(accountsApi);
 
     String output = response.getActualBodyString();
     assertThat(output).contains("<!DOCTYPE html>");

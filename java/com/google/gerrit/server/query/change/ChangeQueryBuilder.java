@@ -54,6 +54,7 @@ import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.account.AccountResolver.UnresolvableAccountException;
+import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.GroupBackends;
 import com.google.gerrit.server.account.GroupMembers;
@@ -1000,7 +1001,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   @Operator
   public Predicate<ChangeData> owner(String who)
       throws QueryParseException, IOException, ConfigInvalidException {
-    return owner(parseAccount(who));
+    return owner(parseAccount(who, (AccountState s) -> true));
   }
 
   private Predicate<ChangeData> owner(Set<Account.Id> who) {
@@ -1023,7 +1024,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   @Operator
   public Predicate<ChangeData> assignee(String who)
       throws QueryParseException, IOException, ConfigInvalidException {
-    return assignee(parseAccount(who));
+    return assignee(parseAccount(who, (AccountState s) -> true));
   }
 
   private Predicate<ChangeData> assignee(Set<Account.Id> who) {
@@ -1341,6 +1342,19 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
       throws QueryParseException, IOException, ConfigInvalidException {
     try {
       return args.accountResolver.resolve(who).asNonEmptyIdSet();
+    } catch (UnresolvableAccountException e) {
+      if (e.isSelf()) {
+        throw new QueryRequiresAuthException(e.getMessage(), e);
+      }
+      throw new QueryParseException(e.getMessage(), e);
+    }
+  }
+
+  private Set<Account.Id> parseAccount(
+      String who, java.util.function.Predicate<AccountState> activityFilter)
+      throws QueryParseException, IOException, ConfigInvalidException {
+    try {
+      return args.accountResolver.resolve(who, activityFilter).asNonEmptyIdSet();
     } catch (UnresolvableAccountException e) {
       if (e.isSelf()) {
         throw new QueryRequiresAuthException(e.getMessage(), e);

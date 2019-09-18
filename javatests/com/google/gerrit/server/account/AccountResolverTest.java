@@ -161,6 +161,23 @@ public class AccountResolverTest {
   }
 
   @Test
+  public void shouldUseCustomAccountActivityPredicate() throws Exception {
+    TestSearcher searcher1 = new TestSearcher("foo", false, newInactiveAccount(1));
+    searcher1.setCallerShouldFilterOutInactiveCandidates();
+    TestSearcher searcher2 = new TestSearcher("f.*", false, newInactiveAccount(2));
+    searcher2.setCallerShouldFilterOutInactiveCandidates();
+    ImmutableList<Searcher<?>> searchers = ImmutableList.of(searcher1, searcher2);
+
+    Result result = search("foo", searchers, allVisible(), (a) -> true);
+    // Searchers always short-circuit when finding a non-empty result list,
+    // and this one didn't filter out inactive results,
+    // so the second searcher never ran.
+    assertThat(result.asIdSet()).containsExactlyElementsIn(ids(1));
+    assertThat(getOnlyElement(result.asList()).getAccount().isActive()).isFalse();
+    assertThat(filteredInactiveIds(result)).isEmpty();
+  }
+
+  @Test
   public void filterInactiveEventuallyFindingResults() throws Exception {
     TestSearcher searcher1 = new TestSearcher("foo", false, newInactiveAccount(1));
     searcher1.setCallerShouldFilterOutInactiveCandidates();
@@ -320,7 +337,16 @@ public class AccountResolverTest {
       ImmutableList<Searcher<?>> searchers,
       Supplier<Predicate<AccountState>> visibilitySupplier)
       throws Exception {
-    return newAccountResolver().searchImpl(input, searchers, visibilitySupplier);
+    return search(input, searchers, visibilitySupplier, activityPrediate());
+  }
+
+  private Result search(
+      String input,
+      ImmutableList<Searcher<?>> searchers,
+      Supplier<Predicate<AccountState>> visibilitySupplier,
+      Predicate<AccountState> activityPredicate)
+      throws Exception {
+    return newAccountResolver().searchImpl(input, searchers, visibilitySupplier, activityPredicate);
   }
 
   private static AccountResolver newAccountResolver() {
@@ -346,6 +372,10 @@ public class AccountResolverTest {
 
   private static Supplier<Predicate<AccountState>> allVisible() {
     return () -> a -> true;
+  }
+
+  private Predicate<AccountState> activityPrediate() {
+    return (AccountState accountState) -> accountState.getAccount().isActive();
   }
 
   private static Supplier<Predicate<AccountState>> only(int... ids) {

@@ -7,7 +7,7 @@ package(
 
 java_library(
     name = "mockito",
-    data = ["//lib:LICENSE-Apache2.0"],
+    data = ["//lib:LICENSE-mockito"],
     visibility = ["//visibility:public"],
     exports = ["@mockito//jar"],
     runtime_deps = [

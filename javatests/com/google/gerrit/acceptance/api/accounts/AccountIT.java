@@ -569,6 +569,24 @@ public class AccountIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void shouldAllowQueryByEmailForInactiveUser() throws Exception {
+    Account.Id activatableAccountId =
+        accountOperations.newAccount().inactive().preferredEmail("foo@activatable.com").create();
+    accountIndexedCounter.assertReindexOf(activatableAccountId, 1);
+
+    gApi.changes().query("owner:foo@activatable.com").get();
+  }
+
+  @Test
+  public void shouldAllowQueryByUserNameForInactiveUser() throws Exception {
+    Account.Id activatableAccountId =
+        accountOperations.newAccount().inactive().username("foo").create();
+    accountIndexedCounter.assertReindexOf(activatableAccountId, 1);
+
+    gApi.changes().query("owner:foo").get();
+  }
+
+  @Test
   public void validateAccountActivation() throws Exception {
     Account.Id activatableAccountId =
         accountOperations.newAccount().inactive().preferredEmail("foo@activatable.com").create();

@@ -69,6 +69,30 @@
       "revId": "d68164da86e15383fb8fc6cbf52b6bffc5b5bf41",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9cae9c68_4c17f24d",
+        "filename": "prologtests/examples/run.sh",
+        "patchSetId": 6
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-09-18T13:01:24Z",
+      "side": 1,
+      "message": "yes. I support shamelessly stealing from the bazel project, but can you add \" checks whether or not the $1 is starting with a slash: \u0027/\u0027 and thus considered to be an absolute path. If it is, then it is left as is, if it isn\u0027t then \"$PWD/ is prepended (in sh_test case it is relative and thus the runfiles directory is prepended).\"\n\nas a comment, so we don\u0027t have to go read the bash manpages?",
+      "parentUuid": "b005553c_e7a3eece",
+      "range": {
+        "startLine": 6,
+        "startChar": 24,
+        "endLine": 6,
+        "endChar": 25
+      },
+      "revId": "d68164da86e15383fb8fc6cbf52b6bffc5b5bf41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

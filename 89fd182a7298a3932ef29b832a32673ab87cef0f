@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5fd2ded5_0e974f19",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesState.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-09-18T14:00:21Z",
+      "side": 1,
+      "message": "What about access method modifier change from package-private to public? Note that I only changed hastahs() but analytics plugin would probably need the access to other methods as well?\n\nKind of a hack would be to add ChangeNotesStateAccessor class to Analytics plugin in the package, like the current one, and add public getter-methods for every attribute in this class, and use this new class from other places in analytics plugin.",
+      "revId": "89fd182a7298a3932ef29b832a32673ab87cef0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

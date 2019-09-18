@@ -185,14 +185,8 @@ public class CherryPickChange {
       Timestamp now = TimeUtil.nowTs();
       PersonIdent committerIdent = identifiedUser.newCommitterIdent(now, serverTimeZone);
 
-      final ObjectId computedChangeId =
-          ChangeIdUtil.computeChangeId(
-              commitToCherryPick.getTree(),
-              baseCommit,
-              commitToCherryPick.getAuthorIdent(),
-              committerIdent,
-              input.message);
-      String commitMessage = ChangeIdUtil.insertId(input.message, computedChangeId).trim() + '\n';
+      final ObjectId generatedChangeId = Change.generateChangeId();
+      String commitMessage = ChangeIdUtil.insertId(input.message, generatedChangeId).trim() + '\n';
 
       CodeReviewCommit cherryPickCommit;
       ProjectState projectState = projectCache.checkedGet(dest.project());
@@ -227,7 +221,7 @@ public class CherryPickChange {
           final String idStr = idList.get(idList.size() - 1).trim();
           changeKey = Change.key(idStr);
         } else {
-          changeKey = Change.key("I" + computedChangeId.name());
+          changeKey = Change.key("I" + generatedChangeId.name());
         }
 
         BranchNameKey newDest = BranchNameKey.create(project, destRef.getName());

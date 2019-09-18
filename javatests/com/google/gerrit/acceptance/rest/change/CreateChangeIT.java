@@ -29,6 +29,7 @@ import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.PushOneCommit.Result;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.UseClockStep;
+import com.google.gerrit.acceptance.UseSystemTime;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
@@ -54,6 +55,12 @@ import com.google.gerrit.testing.FakeEmailSender.Message;
 import com.google.inject.Inject;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.Callable;
+import java.util.concurrent.CyclicBarrier;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
@@ -433,11 +440,39 @@ public class CreateChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  @UseSystemTime
   public void sha1sOfTwoNewChangesDiffer() throws Exception {
     ChangeInput changeInput = newChangeInput(ChangeStatus.NEW);
     ChangeInfo info1 = assertCreateSucceeds(changeInput);
     ChangeInfo info2 = assertCreateSucceeds(changeInput);
     assertThat(info1.currentRevision).isNotEqualTo(info2.currentRevision);
+  }
+
+  @Test
+  @UseSystemTime
+  public void sha1sOfTwoNewChangesDifferIfCreatedConcurrently() throws Exception {
+    ExecutorService executor = Executors.newFixedThreadPool(2);
+    try {
+      for (int i = 0; i < 10; i++) {
+        ChangeInput changeInput = newChangeInput(ChangeStatus.NEW);
+
+        CyclicBarrier sync = new CyclicBarrier(2);
+        Callable<ChangeInfo> createChange =
+            () -> {
+              requestScopeOperations.setApiUser(admin.id());
+              sync.await();
+              return assertCreateSucceeds(changeInput);
+            };
+
+        Future<ChangeInfo> changeInfo1 = executor.submit(createChange);
+        Future<ChangeInfo> changeInfo2 = executor.submit(createChange);
+        assertThat(changeInfo1.get().currentRevision)
+            .isNotEqualTo(changeInfo2.get().currentRevision);
+      }
+    } finally {
+      executor.shutdown();
+      executor.awaitTermination(5, TimeUnit.SECONDS);
+    }
   }
 
   private ChangeInput newChangeInput(ChangeStatus status) {

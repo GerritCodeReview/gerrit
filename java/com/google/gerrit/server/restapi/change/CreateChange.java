@@ -160,6 +160,9 @@ public class CreateChange
       BatchUpdate.Factory updateFactory, TopLevelResource parent, ChangeInput input)
       throws IOException, InvalidChangeOperationException, RestApiException, UpdateException,
           PermissionBackendException, ConfigInvalidException {
+    if (!user.get().isIdentifiedUser()) {
+      throw new AuthException("Authentication required");
+    }
     IdentifiedUser me = user.get().asIdentifiedUser();
     checkAndSanitizeChangeInput(input, me);
 

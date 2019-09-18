@@ -40,6 +40,7 @@ import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.extensions.common.MergeInput;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
@@ -122,6 +123,13 @@ public class CreateChangeIT extends AbstractDaemonTest {
     ChangeInput ci = newChangeInput(ChangeStatus.NEW);
     ci.subject = "#12345 Test";
     assertCreateFails(ci, BadRequestException.class, "commit message must be non-empty");
+  }
+
+  @Test
+  public void createNewChange_RequiresAuthentication() throws Exception {
+    requestScopeOperations.setApiUserAnonymous();
+    assertCreateFails(
+        newChangeInput(ChangeStatus.NEW), AuthException.class, "Authentication required");
   }
 
   @Test

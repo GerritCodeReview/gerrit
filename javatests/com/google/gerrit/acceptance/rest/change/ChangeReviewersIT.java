@@ -337,20 +337,18 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     assertThat(result.reviewers).isNotNull();
     assertThat(result.reviewers).hasSize(1);
 
-    // Verify reviewer state. Both admin and user should be REVIEWERs now,
-    // because admin gets forced into REVIEWER state by virtue of being owner.
+    // Verify reviewer state.
     c = gApi.changes().id(r.getChangeId()).get();
-    assertReviewers(c, REVIEWER, admin, user);
+    assertReviewers(c, REVIEWER, user);
     assertReviewers(c, CC);
     label = c.labels.get("Code-Review");
     assertThat(label).isNotNull();
     assertThat(label.all).isNotNull();
-    assertThat(label.all).hasSize(2);
+    assertThat(label.all).hasSize(1);
     Map<Integer, Integer> approvals = new HashMap<>();
     for (ApprovalInfo approval : label.all) {
       approvals.put(approval._accountId, approval.value);
     }
-    assertThat(approvals).containsEntry(admin.id().get(), 0);
     assertThat(approvals).containsEntry(user.id().get(), 0);
 
     // Comment as user without voting. This should delete the approval and
@@ -365,17 +363,16 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
 
     // Verify reviewer state.
     c = gApi.changes().id(r.getChangeId()).get();
-    assertReviewers(c, REVIEWER, admin, user);
+    assertReviewers(c, REVIEWER, user);
     assertReviewers(c, CC);
     label = c.labels.get("Code-Review");
     assertThat(label).isNotNull();
     assertThat(label.all).isNotNull();
-    assertThat(label.all).hasSize(2);
+    assertThat(label.all).hasSize(1);
     approvals.clear();
     for (ApprovalInfo approval : label.all) {
       approvals.put(approval._accountId, approval.value);
     }
-    assertThat(approvals).containsEntry(admin.id().get(), 0);
     assertThat(approvals).containsEntry(user.id().get(), 0);
   }
 

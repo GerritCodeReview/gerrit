@@ -15,6 +15,7 @@ junit_tests(
         "//lib:guava",
         "//lib/guice",
         "//lib/jgit/org.eclipse.jgit:jgit",
+        "//lib/mockito",
         "//lib/prolog:runtime",
         "//lib/truth",
         "//prolog:gerrit-prolog-common",

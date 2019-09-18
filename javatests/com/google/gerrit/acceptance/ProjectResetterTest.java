@@ -15,6 +15,10 @@
 package com.google.gerrit.acceptance;
 
 import static com.google.common.truth.Truth.assertThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.only;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.Nullable;
@@ -35,7 +39,6 @@ import com.google.gerrit.testing.InMemoryRepositoryManager;
 import com.google.gerrit.testing.TestTimeUtil;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
-import org.easymock.EasyMock;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
@@ -219,10 +222,7 @@ public class ProjectResetterTest {
     Repository repo2 = repoManager.createRepository(project2);
     Ref metaConfig = createRef(repo2, RefNames.REFS_CONFIG);
 
-    ProjectCache projectCache = EasyMock.createNiceMock(ProjectCache.class);
-    projectCache.evict(project2);
-    EasyMock.expectLastCall();
-    EasyMock.replay(projectCache);
+    ProjectCache projectCache = mock(ProjectCache.class);
 
     Ref nonMetaConfig = createRef("refs/heads/master");
 
@@ -233,7 +233,7 @@ public class ProjectResetterTest {
       updateRef(repo2, metaConfig);
     }
 
-    EasyMock.verify(projectCache);
+    verify(projectCache, only()).evict(project2);
   }
 
   @Test
@@ -241,10 +241,7 @@ public class ProjectResetterTest {
     Project.NameKey project2 = Project.nameKey("bar");
     Repository repo2 = repoManager.createRepository(project2);
 
-    ProjectCache projectCache = EasyMock.createNiceMock(ProjectCache.class);
-    projectCache.evict(project2);
-    EasyMock.expectLastCall();
-    EasyMock.replay(projectCache);
+    ProjectCache projectCache = mock(ProjectCache.class);
 
     try (ProjectResetter resetProject =
         builder(null, null, null, null, null, null, projectCache)
@@ -253,7 +250,7 @@ public class ProjectResetterTest {
       createRef(repo2, RefNames.REFS_CONFIG);
     }
 
-    EasyMock.verify(projectCache);
+    verify(projectCache, only()).evict(project2);
   }
 
   @Test
@@ -263,15 +260,8 @@ public class ProjectResetterTest {
     Repository allUsersRepo = repoManager.createRepository(allUsers);
     Ref userBranch = createRef(allUsersRepo, RefNames.refsUsers(accountId));
 
-    AccountCache accountCache = EasyMock.createNiceMock(AccountCache.class);
-    accountCache.evict(accountId);
-    EasyMock.expectLastCall();
-    EasyMock.replay(accountCache);
-
-    AccountIndexer accountIndexer = EasyMock.createNiceMock(AccountIndexer.class);
-    accountIndexer.index(accountId);
-    EasyMock.expectLastCall();
-    EasyMock.replay(accountIndexer);
+    AccountCache accountCache = mock(AccountCache.class);
+    AccountIndexer accountIndexer = mock(AccountIndexer.class);
 
     // Non-user branch because it's not in All-Users.
     Ref nonUserBranch = createRef(RefNames.refsUsers(Account.id(2)));
@@ -283,7 +273,8 @@ public class ProjectResetterTest {
       updateRef(allUsersRepo, userBranch);
     }
 
-    EasyMock.verify(accountCache, accountIndexer);
+    verify(accountCache, only()).evict(accountId);
+    verify(accountIndexer, only()).index(accountId);
   }
 
   @Test
@@ -292,15 +283,8 @@ public class ProjectResetterTest {
     Project.NameKey allUsers = Project.nameKey(AllUsersNameProvider.DEFAULT);
     Repository allUsersRepo = repoManager.createRepository(allUsers);
 
-    AccountCache accountCache = EasyMock.createNiceMock(AccountCache.class);
-    accountCache.evict(accountId);
-    EasyMock.expectLastCall();
-    EasyMock.replay(accountCache);
-
-    AccountIndexer accountIndexer = EasyMock.createNiceMock(AccountIndexer.class);
-    accountIndexer.index(accountId);
-    EasyMock.expectLastCall();
-    EasyMock.replay(accountIndexer);
+    AccountCache accountCache = mock(AccountCache.class);
+    AccountIndexer accountIndexer = mock(AccountIndexer.class);
 
     try (ProjectResetter resetProject =
         builder(null, accountCache, accountIndexer, null, null, null, null)
@@ -311,7 +295,8 @@ public class ProjectResetterTest {
       createRef(allUsersRepo, RefNames.refsUsers(accountId));
     }
 
-    EasyMock.verify(accountCache, accountIndexer);
+    verify(accountCache, only()).evict(accountId);
+    verify(accountIndexer, only()).index(accountId);
   }
 
   @Test
@@ -324,19 +309,8 @@ public class ProjectResetterTest {
 
     Account.Id accountId2 = Account.id(2);
 
-    AccountCache accountCache = EasyMock.createNiceMock(AccountCache.class);
-    accountCache.evict(accountId);
-    EasyMock.expectLastCall();
-    accountCache.evict(accountId2);
-    EasyMock.expectLastCall();
-    EasyMock.replay(accountCache);
-
-    AccountIndexer accountIndexer = EasyMock.createNiceMock(AccountIndexer.class);
-    accountIndexer.index(accountId);
-    EasyMock.expectLastCall();
-    accountIndexer.index(accountId2);
-    EasyMock.expectLastCall();
-    EasyMock.replay(accountIndexer);
+    AccountCache accountCache = mock(AccountCache.class);
+    AccountIndexer accountIndexer = mock(AccountIndexer.class);
 
     // Non-user branch because it's not in All-Users.
     Ref nonUserBranch = createRef(RefNames.refsUsers(Account.id(3)));
@@ -349,7 +323,11 @@ public class ProjectResetterTest {
       createRef(allUsersRepo, RefNames.refsUsers(accountId2));
     }
 
-    EasyMock.verify(accountCache, accountIndexer);
+    verify(accountCache).evict(accountId);
+    verify(accountCache).evict(accountId2);
+    verify(accountIndexer).index(accountId);
+    verify(accountIndexer).index(accountId2);
+    verifyNoMoreInteractions(accountCache, accountIndexer);
   }
 
   @Test
@@ -361,19 +339,8 @@ public class ProjectResetterTest {
 
     Account.Id accountId2 = Account.id(2);
 
-    AccountCache accountCache = EasyMock.createNiceMock(AccountCache.class);
-    accountCache.evict(accountId);
-    EasyMock.expectLastCall();
-    accountCache.evict(accountId2);
-    EasyMock.expectLastCall();
-    EasyMock.replay(accountCache);
-
-    AccountIndexer accountIndexer = EasyMock.createNiceMock(AccountIndexer.class);
-    accountIndexer.index(accountId);
-    EasyMock.expectLastCall();
-    accountIndexer.index(accountId2);
-    EasyMock.expectLastCall();
-    EasyMock.replay(accountIndexer);
+    AccountCache accountCache = mock(AccountCache.class);
+    AccountIndexer accountIndexer = mock(AccountIndexer.class);
 
     // Non-user branch because it's not in All-Users.
     Ref nonUserBranch = createRef(RefNames.refsUsers(Account.id(3)));
@@ -386,7 +353,11 @@ public class ProjectResetterTest {
       createRef(allUsersRepo, RefNames.refsUsers(accountId2));
     }
 
-    EasyMock.verify(accountCache, accountIndexer);
+    verify(accountCache).evict(accountId);
+    verify(accountCache).evict(accountId2);
+    verify(accountIndexer).index(accountId);
+    verify(accountIndexer).index(accountId2);
+    verifyNoMoreInteractions(accountCache, accountIndexer);
   }
 
   @Test
@@ -395,10 +366,7 @@ public class ProjectResetterTest {
     Project.NameKey allUsers = Project.nameKey(AllUsersNameProvider.DEFAULT);
     Repository allUsersRepo = repoManager.createRepository(allUsers);
 
-    AccountCreator accountCreator = EasyMock.createNiceMock(AccountCreator.class);
-    accountCreator.evict(ImmutableSet.of(accountId));
-    EasyMock.expectLastCall();
-    EasyMock.replay(accountCreator);
+    AccountCreator accountCreator = mock(AccountCreator.class);
 
     try (ProjectResetter resetProject =
         builder(accountCreator, null, null, null, null, null, null)
@@ -406,7 +374,7 @@ public class ProjectResetterTest {
       createRef(allUsersRepo, RefNames.refsUsers(accountId));
     }
 
-    EasyMock.verify(accountCreator);
+    verify(accountCreator, only()).evict(ImmutableSet.of(accountId));
   }
 
   @Test
@@ -417,18 +385,9 @@ public class ProjectResetterTest {
     Project.NameKey allUsers = Project.nameKey(AllUsersNameProvider.DEFAULT);
     Repository allUsersRepo = repoManager.createRepository(allUsers);
 
-    GroupCache cache = EasyMock.createNiceMock(GroupCache.class);
-    GroupIndexer indexer = EasyMock.createNiceMock(GroupIndexer.class);
-    GroupIncludeCache includeCache = EasyMock.createNiceMock(GroupIncludeCache.class);
-    cache.evict(uuid2);
-    indexer.index(uuid2);
-    includeCache.evictParentGroupsOf(uuid2);
-    cache.evict(uuid3);
-    indexer.index(uuid3);
-    includeCache.evictParentGroupsOf(uuid3);
-    EasyMock.expectLastCall();
-
-    EasyMock.replay(cache, indexer);
+    GroupCache cache = mock(GroupCache.class);
+    GroupIndexer indexer = mock(GroupIndexer.class);
+    GroupIncludeCache includeCache = mock(GroupIncludeCache.class);
 
     createRef(allUsersRepo, RefNames.refsGroups(uuid1));
     Ref ref2 = createRef(allUsersRepo, RefNames.refsGroups(uuid2));
@@ -439,7 +398,13 @@ public class ProjectResetterTest {
       createRef(allUsersRepo, RefNames.refsGroups(uuid3));
     }
 
-    EasyMock.verify(cache, indexer);
+    verify(cache).evict(uuid2);
+    verify(indexer).index(uuid2);
+    verify(includeCache).evictParentGroupsOf(uuid2);
+    verify(cache).evict(uuid3);
+    verify(indexer).index(uuid3);
+    verify(includeCache).evictParentGroupsOf(uuid3);
+    verifyNoMoreInteractions(cache, indexer, includeCache);
   }
 
   private Ref createRef(String ref) throws IOException {

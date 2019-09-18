@@ -22,6 +22,30 @@
       "revId": "f1a4b403309c8be2b0abde520e1cfacee329c0a6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e5fb227a_1a2c3e37",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2122,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-18T11:31:56Z",
+      "side": 1,
+      "message": "\u003e but you loose coverage for the fact that the indexing happens. \n\nYes but checking this is outside the scope of this test. If we want to cover this we should have a dedicated test for this.\n\n\u003e Is there a way you can do loop + retry on this instead?\n\nWe don\u0027t like having loops, retries and timeouts in our tests. If possible I would avoid that.",
+      "parentUuid": "a31ee692_e383f6d8",
+      "range": {
+        "startLine": 2122,
+        "startChar": 9,
+        "endLine": 2122,
+        "endChar": 16
+      },
+      "revId": "f1a4b403309c8be2b0abde520e1cfacee329c0a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "d766e467_333079e0",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 510,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-09-18T12:45:46Z",
+      "side": 1,
+      "message": "This check should consider the case, where state.serverId() is null (use case, where the state was populated in the cache before this commit).",
+      "range": {
+        "startLine": 507,
+        "startChar": 4,
+        "endLine": 510,
+        "endChar": 92
+      },
+      "revId": "c10594df569ddca386bb599f8a7f4dfcf41e4fb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ec041230_e1ca8646",
         "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
         "patchSetId": 3
@@ -25,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "aa7bfff5_d3e86e9b",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-09-18T12:45:46Z",
+      "side": 1,
+      "message": "Note, that this code path is a different one: not the serverId is missing in ident, but the whoule Author AccountId is missing: if (accountId !\u003d null) {...} else {...}.",
+      "parentUuid": "ec041230_e1ca8646",
+      "range": {
+        "startLine": 342,
+        "startChar": 6,
+        "endLine": 342,
+        "endChar": 37
+      },
+      "revId": "c10594df569ddca386bb599f8a7f4dfcf41e4fb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b24d7fb4_4c645ea0",
         "filename": "javatests/com/google/gerrit/server/notedb/ChangeNotesStateTest.java",
         "patchSetId": 3
@@ -36,6 +83,24 @@
       "writtenOn": "2019-09-17T14:35:11Z",
       "side": 1,
       "message": "We are missing a test that is making sure that backward compatibility is guaranteed.\n\nI am expecting all existing tests to pass *and* having the new one saying that if the server-id is set then we can decode it from protobuf.",
+      "revId": "c10594df569ddca386bb599f8a7f4dfcf41e4fb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1a79613c_22cd152a",
+        "filename": "javatests/com/google/gerrit/server/notedb/ChangeNotesStateTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-09-18T12:45:46Z",
+      "side": 1,
+      "message": "Well, all current tests are passing, because from this commit all NoteDb state would have serverId instance filled. More interesting case is the stale NoteDb states, read from the cache, that was filled, before serverId content was added.",
+      "parentUuid": "b24d7fb4_4c645ea0",
       "revId": "c10594df569ddca386bb599f8a7f4dfcf41e4fb9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

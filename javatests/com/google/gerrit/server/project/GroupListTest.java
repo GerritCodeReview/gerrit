@@ -14,16 +14,14 @@
 
 package com.google.gerrit.server.project;
 
-import static org.easymock.EasyMock.anyObject;
-import static org.easymock.EasyMock.createMock;
-import static org.easymock.EasyMock.createNiceMock;
-import static org.easymock.EasyMock.expectLastCall;
-import static org.easymock.EasyMock.replay;
-import static org.easymock.EasyMock.verify;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -48,8 +46,7 @@ public class GroupListTest {
 
   @Before
   public void setup() throws IOException {
-    ValidationError.Sink sink = createNiceMock(ValidationError.Sink.class);
-    replay(sink);
+    ValidationError.Sink sink = mock(ValidationError.Sink.class);
     groupList = GroupList.parse(PROJECT, TEXT, sink);
   }
 
@@ -97,12 +94,9 @@ public class GroupListTest {
 
   @Test
   public void validationError() throws Exception {
-    ValidationError.Sink sink = createMock(ValidationError.Sink.class);
-    sink.error(anyObject(ValidationError.class));
-    expectLastCall().times(2);
-    replay(sink);
+    ValidationError.Sink sink = mock(ValidationError.Sink.class);
     groupList = GroupList.parse(PROJECT, TEXT.replace("\t", "    "), sink);
-    verify(sink);
+    verify(sink, times(2)).error(any(ValidationError.class));
   }
 
   @Test

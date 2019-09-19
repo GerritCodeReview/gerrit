@@ -177,6 +177,11 @@
       '_updateSuggestions(text, threshold, noDebounce)',
     ],
 
+    get _nativeInput() {
+      // In Polymer 2 inputElement isn't nativeInput anymore
+      return this.$.input.$.nativeInput || this.$.input.inputElement;
+    },
+
     attached() {
       this.listen(document.body, 'tap', '_handleBodyTap');
     },
@@ -195,7 +200,7 @@
     },
 
     selectAll() {
-      const nativeInputElement = this.$.input.inputElement;
+      const nativeInputElement = this._nativeInput;
       if (!this.$.input.value) { return; }
       nativeInputElement.setSelectionRange(0, this.$.input.value.length);
     },

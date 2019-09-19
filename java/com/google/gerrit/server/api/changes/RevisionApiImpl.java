@@ -624,7 +624,11 @@ class RevisionApiImpl implements RevisionApi {
 
   @Override
   public String description() throws RestApiException {
-    return getDescription.apply(revision).value();
+    try {
+      return getDescription.apply(revision).value();
+    } catch (Exception e) {
+      throw asRestApiException("Cannot get description", e);
+    }
   }
 
   @Override

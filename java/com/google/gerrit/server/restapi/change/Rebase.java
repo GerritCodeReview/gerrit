@@ -275,7 +275,7 @@ public class Rebase extends RetryingRestModifyView<RevisionResource, RebaseInput
     @Override
     protected Response<ChangeInfo> applyImpl(
         BatchUpdate.Factory updateFactory, ChangeResource rsrc, RebaseInput input)
-        throws UpdateException, RestApiException, IOException, PermissionBackendException {
+        throws Exception {
       PatchSet ps = psUtil.current(rsrc.getNotes());
       if (ps == null) {
         throw new ResourceConflictException("current revision is missing");

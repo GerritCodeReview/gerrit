@@ -12,6 +12,7 @@ java_library(
         "//java/com/google/gerrit/git",
         "//java/com/google/gerrit/reviewdb:server",
         "//java/com/google/gerrit/server",
+        "//java/com/google/gerrit/server/api",
         "//lib:guava",
         "//lib/bouncycastle:bcpg-neverlink",
         "//lib/bouncycastle:bcprov-neverlink",

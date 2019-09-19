@@ -20,13 +20,10 @@ import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.exceptions.InvalidNameException;
 import com.google.gerrit.extensions.api.access.ProjectAccessInfo;
 import com.google.gerrit.extensions.api.access.ProjectAccessInput;
-import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
-import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
-import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CreateGroupPermissionSyncer;
 import com.google.gerrit.server.IdentifiedUser;
@@ -34,7 +31,6 @@ import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
-import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectConfig;
@@ -42,7 +38,6 @@ import com.google.gerrit.server.project.ProjectResource;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-import java.io.IOException;
 import java.util.List;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
@@ -82,8 +77,7 @@ public class SetAccess implements RestModifyView<ProjectResource, ProjectAccessI
 
   @Override
   public Response<ProjectAccessInfo> apply(ProjectResource rsrc, ProjectAccessInput input)
-      throws ResourceNotFoundException, ResourceConflictException, IOException, AuthException,
-          BadRequestException, UnprocessableEntityException, PermissionBackendException {
+      throws Exception {
     MetaDataUpdate.User metaDataUpdateUser = metaDataUpdateFactory.get();
 
     ProjectConfig config;

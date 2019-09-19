@@ -24,7 +24,6 @@ import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.DefaultInput;
 import com.google.gerrit.extensions.restapi.IdString;
-import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestCollectionCreateView;
@@ -144,8 +143,7 @@ public class AddSubgroups implements RestModifyView<GroupResource, Input> {
 
     @Override
     public Response<GroupInfo> apply(GroupResource resource, IdString id, Input input)
-        throws AuthException, MethodNotAllowedException, ResourceNotFoundException, IOException,
-            ConfigInvalidException, PermissionBackendException {
+        throws Exception {
       AddSubgroups.Input in = new AddSubgroups.Input();
       in.groups = ImmutableList.of(id.get());
       try {

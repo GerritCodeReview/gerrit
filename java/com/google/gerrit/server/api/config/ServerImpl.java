@@ -156,7 +156,11 @@ public class ServerImpl implements Server {
   }
 
   @Override
-  public List<TopMenu.MenuEntry> topMenus() {
-    return listTopMenus.apply(new ConfigResource()).value();
+  public List<TopMenu.MenuEntry> topMenus() throws RestApiException {
+    try {
+      return listTopMenus.apply(new ConfigResource()).value();
+    } catch (Exception e) {
+      throw asRestApiException("Cannot get top menus", e);
+    }
   }
 }

@@ -368,7 +368,11 @@ public class ProjectApiImpl implements ProjectApi {
 
   @Override
   public String description() throws RestApiException {
-    return getDescription.apply(checkExists()).value();
+    try {
+      return getDescription.apply(checkExists()).value();
+    } catch (Exception e) {
+      throw asRestApiException("Cannot get description", e);
+    }
   }
 
   @Override
@@ -427,7 +431,11 @@ public class ProjectApiImpl implements ProjectApi {
 
   @Override
   public ConfigInfo config() throws RestApiException {
-    return getConfig.apply(checkExists()).value();
+    try {
+      return getConfig.apply(checkExists()).value();
+    } catch (Exception e) {
+      throw asRestApiException("Cannot get config", e);
+    }
   }
 
   @Override

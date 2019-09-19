@@ -401,7 +401,11 @@ class ChangeApiImpl implements ChangeApi {
 
   @Override
   public String topic() throws RestApiException {
-    return getTopic.apply(change).value();
+    try {
+      return getTopic.apply(change).value();
+    } catch (Exception e) {
+      throw asRestApiException("Cannot get topic", e);
+    }
   }
 
   @Override

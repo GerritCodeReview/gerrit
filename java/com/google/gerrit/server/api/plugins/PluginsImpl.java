@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.api.plugins;
 
+import static com.google.gerrit.server.api.ApiUtil.asRestApiException;
+
 import com.google.gerrit.extensions.api.plugins.InstallPluginInput;
 import com.google.gerrit.extensions.api.plugins.PluginApi;
 import com.google.gerrit.extensions.api.plugins.Plugins;
@@ -27,7 +29,6 @@ import com.google.gerrit.server.plugins.PluginsCollection;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
-import java.io.IOException;
 import java.util.SortedMap;
 
 @Singleton
@@ -59,7 +60,11 @@ public class PluginsImpl implements Plugins {
     return new ListRequest() {
       @Override
       public SortedMap<String, PluginInfo> getAsMap() throws RestApiException {
-        return listProvider.get().request(this).apply(TopLevelResource.INSTANCE).value();
+        try {
+          return listProvider.get().request(this).apply(TopLevelResource.INSTANCE).value();
+        } catch (Exception e) {
+          throw asRestApiException("Cannot list plugins", e);
+        }
       }
     };
   }
@@ -87,8 +92,8 @@ public class PluginsImpl implements Plugins {
       Response<PluginInfo> created =
           installProvider.get().setName(name).apply(TopLevelResource.INSTANCE, input);
       return pluginApi.create(plugins.parse(created.value().id));
-    } catch (IOException e) {
-      throw new RestApiException("could not install plugin", e);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot install plugin", e);
     }
   }
 }

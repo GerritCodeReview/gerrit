@@ -14,6 +14,8 @@
 
 package com.google.gerrit.gpg.api;
 
+import static com.google.gerrit.server.api.ApiUtil.asRestApiException;
+
 import com.google.gerrit.extensions.api.accounts.GpgKeyApi;
 import com.google.gerrit.extensions.common.GpgKeyInfo;
 import com.google.gerrit.extensions.common.Input;
@@ -47,8 +49,8 @@ public class GpgKeyApiImpl implements GpgKeyApi {
   public GpgKeyInfo get() throws RestApiException {
     try {
       return get.apply(rsrc).value();
-    } catch (IOException e) {
-      throw new RestApiException("Cannot get GPG key", e);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot get GPG key", e);
     }
   }
 
@@ -57,7 +59,7 @@ public class GpgKeyApiImpl implements GpgKeyApi {
     try {
       delete.apply(rsrc, new Input());
     } catch (PGPException | IOException | ConfigInvalidException e) {
-      throw new RestApiException("Cannot delete GPG key", e);
+      throw asRestApiException("Cannot delete GPG key", e);
     }
   }
 }

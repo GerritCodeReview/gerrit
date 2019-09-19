@@ -248,8 +248,12 @@ public class AccountApiImpl implements AccountApi {
 
   @Override
   public boolean getActive() throws RestApiException {
-    Response<String> result = getActive.apply(account);
-    return result.statusCode() == SC_OK && result.value().equals("ok");
+    try {
+      Response<String> result = getActive.apply(account);
+      return result.statusCode() == SC_OK && result.value().equals("ok");
+    } catch (Exception e) {
+      throw asRestApiException("Cannot get active", e);
+    }
   }
 
   @Override

@@ -110,7 +110,7 @@ final class ShowCaches extends SshCommand {
   }
 
   @Override
-  protected void run() throws UnloggedFailure {
+  protected void run() throws Failure {
     nw = columns - 50;
     Date now = new Date();
     stdout.format(
@@ -161,38 +161,42 @@ final class ShowCaches extends SshCommand {
     }
     stdout.print("+---------------------+---------+---------+\n");
 
-    Collection<CacheInfo> caches = getCaches();
-    printMemoryCoreCaches(caches);
-    printMemoryPluginCaches(caches);
-    printDiskCaches(caches);
-    stdout.print('\n');
-
-    boolean showJvm;
     try {
-      permissionBackend.user(self).check(GlobalPermission.MAINTAIN_SERVER);
-      showJvm = true;
-    } catch (AuthException | PermissionBackendException e) {
-      // Silently ignore and do not display detailed JVM information.
-      showJvm = false;
-    }
-    if (showJvm) {
-      sshSummary();
+      Collection<CacheInfo> caches = getCaches();
+      printMemoryCoreCaches(caches);
+      printMemoryPluginCaches(caches);
+      printDiskCaches(caches);
+      stdout.print('\n');
 
-      SummaryInfo summary =
-          getSummary.setGc(gc).setJvm(showJVM).apply(new ConfigResource()).value();
-      taskSummary(summary.taskSummary);
-      memSummary(summary.memSummary);
-      threadSummary(summary.threadSummary);
-
-      if (showJVM && summary.jvmSummary != null) {
-        jvmSummary(summary.jvmSummary);
+      boolean showJvm;
+      try {
+        permissionBackend.user(self).check(GlobalPermission.MAINTAIN_SERVER);
+        showJvm = true;
+      } catch (AuthException | PermissionBackendException e) {
+        // Silently ignore and do not display detailed JVM information.
+        showJvm = false;
       }
+      if (showJvm) {
+        sshSummary();
+
+        SummaryInfo summary =
+            getSummary.setGc(gc).setJvm(showJVM).apply(new ConfigResource()).value();
+        taskSummary(summary.taskSummary);
+        memSummary(summary.memSummary);
+        threadSummary(summary.threadSummary);
+
+        if (showJVM && summary.jvmSummary != null) {
+          jvmSummary(summary.jvmSummary);
+        }
+      }
+    } catch (Exception e) {
+      throw new Failure(1, "unavailable", e);
     }
 
     stdout.flush();
   }
 
-  private Collection<CacheInfo> getCaches() {
+  private Collection<CacheInfo> getCaches() throws Exception {
     @SuppressWarnings("unchecked")
     Map<String, CacheInfo> caches =
         (Map<String, CacheInfo>) listCaches.apply(new ConfigResource()).value();

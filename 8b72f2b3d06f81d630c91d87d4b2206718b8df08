@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b68378f0_cbb5d1c8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-19T06:51:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6a1f625b_5b8d4385",
+      "range": {
+        "startLine": 12,
+        "startChar": 13,
+        "endLine": 12,
+        "endChar": 23
+      },
+      "revId": "8b72f2b3d06f81d630c91d87d4b2206718b8df08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a68123f_3ccbdd3e",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "f1f04042_505f5a8c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-19T06:51:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a68123f_3ccbdd3e",
+      "range": {
+        "startLine": 21,
+        "startChar": 32,
+        "endLine": 21,
+        "endChar": 41
+      },
+      "revId": "8b72f2b3d06f81d630c91d87d4b2206718b8df08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7044b61_48287b95",
         "filename": "javatests/com/google/gerrit/acceptance/api/project/ProjectIT.java",
         "patchSetId": 1
@@ -68,6 +116,30 @@
       "revId": "8b72f2b3d06f81d630c91d87d4b2206718b8df08",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c0767854_af83ae8b",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/ProjectIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 486,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-19T06:51:42Z",
+      "side": 1,
+      "message": "\u003e Should we be using mocks in integration tests?  See the discussion on [1].\n\u003e\n\u003e I can see how it simplifies the code though, so maybe we\u0027re OK with it. \n\nI think that\u0027s a case by case decision. Since it simplifies the test code here and makes the test more readable, I think it makes sense using mocks here.\n\n\u003e I.e. I wonder if we can rework tests that are currently using EventRecorder to\n\u003e use mocks instead somehow?\n\nI think that would be a good idea, I actually find this way of checking that events have been trigger nicer than what we have done so far.",
+      "parentUuid": "a7044b61_48287b95",
+      "range": {
+        "startLine": 486,
+        "startChar": 50,
+        "endLine": 486,
+        "endChar": 84
+      },
+      "revId": "8b72f2b3d06f81d630c91d87d4b2206718b8df08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

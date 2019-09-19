@@ -16,6 +16,52 @@
       "revId": "4bb41306f628985fc9706b81f8c0a63e69add8e1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7fea2899_a5bf46aa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-09-19T13:19:57Z",
+      "side": 1,
+      "message": "This line and below lines are too long. Max line length in the commit message is 72 char. Please wrap them.",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 74
+      },
+      "revId": "4bb41306f628985fc9706b81f8c0a63e69add8e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1806c51f_9f333d47",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-09-19T13:19:57Z",
+      "side": 1,
+      "message": "The main point if keeping the \u0027--incompatible_strict_action_env\u0027 is to not have action cache misses when environment differs from earlier invocations. Should we mention the reason we still want to keep that option in .bazelrc?",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 58
+      },
+      "revId": "4bb41306f628985fc9706b81f8c0a63e69add8e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

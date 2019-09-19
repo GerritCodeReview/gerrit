@@ -57,7 +57,7 @@ limitations under the License.
       MockInteractions.tap(button);
     }
 
-    setup(() => {
+    setup(done => {
       element = fixture('basic');
       menu = [
         {url: '/first/url', name: 'first name', target: '_blank'},
@@ -66,6 +66,7 @@ limitations under the License.
       ];
       element.set('menuItems', menu);
       Polymer.dom.flush();
+      flush(done);
     });
 
     test('renders', () => {

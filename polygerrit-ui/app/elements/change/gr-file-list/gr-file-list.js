@@ -148,7 +148,7 @@
 
       _shownFiles: {
         type: Array,
-        computed: '_computeFilesShown(numFilesShown, _files.*)',
+        computed: '_computeFilesShown(numFilesShown, _files)',
       },
 
       /**
@@ -473,7 +473,7 @@
 
       this.set(['_files', index, 'isReviewed'], reviewed);
       if (index < this._shownFiles.length) {
-        this.set(['_shownFiles', index, 'isReviewed'], reviewed);
+        this.notifyPath(`_shownFiles.${index}.isReviewed`);
       }
 
       this._saveReviewedState(path, reviewed);
@@ -855,7 +855,7 @@
       const previousNumFilesShown = this._shownFiles ?
           this._shownFiles.length : 0;
 
-      const filesShown = files.base.slice(0, numFilesShown);
+      const filesShown = files.slice(0, numFilesShown);
       this.fire('files-shown-changed', {length: filesShown.length});
 
       // Start the timer for the rendering work hwere because this is where the

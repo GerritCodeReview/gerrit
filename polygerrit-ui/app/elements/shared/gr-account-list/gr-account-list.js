@@ -253,8 +253,13 @@
       console.warn('received remove event for missing account', toRemove);
     },
 
+    _getNativeInput(paperInput) {
+      // In Polymer 2 inputElement isn't nativeInput anymore
+      return paperInput.$.nativeInput || paperInput.inputElement;
+    },
+
     _handleInputKeydown(e) {
-      const input = e.detail.input.inputElement;
+      const input = this._getNativeInput(e.detail.input);
       if (input.selectionStart !== input.selectionEnd ||
           input.selectionStart !== 0) {
         return;

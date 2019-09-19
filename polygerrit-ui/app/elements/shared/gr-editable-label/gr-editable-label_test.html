@@ -68,7 +68,8 @@ limitations under the License.
       label = element.$$('label');
       sandbox = sinon.sandbox.create();
       flush(() => {
-        input = element.$.input.inputElement;
+        // In Polymer 2 inputElement isn't nativeInput anymore
+        input = element.$.input.$.nativeInput || element.$.input.inputElement;
         done();
       });
     });

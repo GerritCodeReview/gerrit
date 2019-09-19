@@ -277,17 +277,19 @@ limitations under the License.
       });
     });
 
-    test('setlabelValue', () => {
+    test('setlabelValue', done => {
       element._account = {_account_id: 1};
-      flushAsynchronousOperations();
-      const label = 'Verified';
-      const value = '+1';
-      element.setLabelValue(label, value);
-      flushAsynchronousOperations();
-      const labels = element.$.labelScores.getLabelValues();
-      assert.deepEqual(labels, {
-        'Code-Review': 0,
-        'Verified': 1,
+      flush(() => {
+        const label = 'Verified';
+        const value = '+1';
+        element.setLabelValue(label, value);
+
+        const labels = element.$.labelScores.getLabelValues();
+        assert.deepEqual(labels, {
+          'Code-Review': 0,
+          'Verified': 1,
+        });
+        done();
       });
     });
 

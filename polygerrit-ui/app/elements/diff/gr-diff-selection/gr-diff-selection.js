@@ -163,6 +163,7 @@
     _handleCopy(e) {
       // Let the browser handle the copy event for polymer 2
       // as selection across shadow DOM will be hard to process
+      // If you remove the following line, please remove it from tests also.
       if (window.POLYMER2) return;
 
       let commentSelected = false;

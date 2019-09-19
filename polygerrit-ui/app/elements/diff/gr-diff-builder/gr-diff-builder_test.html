@@ -37,7 +37,7 @@ limitations under the License.
 
 <test-fixture id="basic">
   <template is="dom-template">
-    <gr-diff-builder plugin-layers="[[pluginLayers]]">
+    <gr-diff-builder>
       <table id="diffTable"></table>
     </gr-diff-builder>
   </template>
@@ -596,7 +596,8 @@ limitations under the License.
       let withPluginLayerCount;
       setup(() => {
         const pluginLayers = [];
-        element = fixture('basic', {pluginLayers});
+        element = fixture('basic');
+        element.pluginLayers = pluginLayers;
         element._showTrailingWhitespace = true;
         element._setupAnnotationLayers();
         initialLayersCount = element._layers.length;
@@ -610,7 +611,8 @@ limitations under the License.
       suite('with plugin layers', () => {
         const pluginLayers = [{}, {}];
         setup(() => {
-          element = fixture('basic', {pluginLayers});
+          element = fixture('basic');
+          element.pluginLayers = pluginLayers;
           element._showTrailingWhitespace = true;
           element._setupAnnotationLayers();
           withPluginLayerCount = element._layers.length;

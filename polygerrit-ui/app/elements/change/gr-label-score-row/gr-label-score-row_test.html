@@ -267,7 +267,7 @@ limitations under the License.
       assert.isTrue(element.$$('iron-selector').hidden);
     });
 
-    test('asymetrical labels', () => {
+    test('asymetrical labels', done => {
       element.permittedLabels = {
         'Code-Review': [
           '-2',
@@ -281,30 +281,35 @@ limitations under the License.
           '+1',
         ],
       };
-      flushAsynchronousOperations();
-      assert.strictEqual(element.$$('iron-selector')
-          .items.length, 2);
-      assert.strictEqual(Polymer.dom(element.root).
-          querySelectorAll('.placeholder').length, 3);
+      flush(() => {
+        assert.strictEqual(element.$$('iron-selector')
+            .items.length, 2);
+        assert.strictEqual(
+            Polymer.dom(element.root).querySelectorAll('.placeholder').length,
+            3);
 
-      element.permittedLabels = {
-        'Code-Review': [
-          ' 0',
-          '+1',
-        ],
-        'Verified': [
-          '-2',
-          '-1',
-          ' 0',
-          '+1',
-          '+2',
-        ],
-      };
-      flushAsynchronousOperations();
-      assert.strictEqual(element.$$('iron-selector')
-          .items.length, 5);
-      assert.strictEqual(Polymer.dom(element.root).
-          querySelectorAll('.placeholder').length, 0);
+        element.permittedLabels = {
+          'Code-Review': [
+            ' 0',
+            '+1',
+          ],
+          'Verified': [
+            '-2',
+            '-1',
+            ' 0',
+            '+1',
+            '+2',
+          ],
+        };
+        flush(() => {
+          assert.strictEqual(element.$$('iron-selector')
+              .items.length, 5);
+          assert.strictEqual(
+              Polymer.dom(element.root).querySelectorAll('.placeholder').length,
+              0);
+          done();
+        });
+      });
     });
 
     test('default_value', () => {

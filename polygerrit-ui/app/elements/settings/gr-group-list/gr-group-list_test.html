@@ -73,7 +73,8 @@ limitations under the License.
     teardown(() => { sandbox.restore(); });
 
     test('renders', () => {
-      const rows = Polymer.dom(element.root).querySelectorAll('tbody tr');
+      const rows = Array.from(
+          Polymer.dom(element.root).querySelectorAll('tbody tr'));
 
       assert.equal(rows.length, 3);
 

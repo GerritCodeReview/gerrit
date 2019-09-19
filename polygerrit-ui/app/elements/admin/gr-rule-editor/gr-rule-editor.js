@@ -118,11 +118,17 @@
       this._setupValues(this.rule);
     },
 
+    attached() {
+      if (!this.rule) { return; } // Check needed for test purposes.
+      if (!this._originalRuleValues) {
+        this._setOriginalRuleValues(this.rule.value);
+      }
+    },
+
     _setupValues(rule) {
       if (!rule.value) {
         this._setDefaultRuleValues();
       }
-      this._setOriginalRuleValues(rule.value);
     },
 
     _computeForce(permission, action) {

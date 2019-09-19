@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.server.quota;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth8.assertThat;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static org.easymock.EasyMock.expect;
 import static org.easymock.EasyMock.expectLastCall;
@@ -104,7 +105,7 @@ public class MultipleQuotaPluginsIT extends AbstractDaemonTest {
         assertThrows(
             NullPointerException.class,
             () -> quotaBackend.user(identifiedAdmin).requestToken("testGroup"));
-    assertThat(exception).isEqualTo(thrown);
+    assertThat(thrown).isEqualTo(exception);
 
     verify(quotaEnforcerA);
   }
@@ -136,7 +137,7 @@ public class MultipleQuotaPluginsIT extends AbstractDaemonTest {
 
     OptionalLong tokens =
         quotaBackend.user(identifiedAdmin).availableTokens("testGroup").availableTokens();
-    assertThat(tokens.isPresent()).isTrue();
+    assertThat(tokens).isPresent();
     assertThat(tokens.getAsLong()).isEqualTo(10L);
   }
 
@@ -151,7 +152,7 @@ public class MultipleQuotaPluginsIT extends AbstractDaemonTest {
 
     OptionalLong tokens =
         quotaBackend.user(identifiedAdmin).availableTokens("testGroup").availableTokens();
-    assertThat(tokens.isPresent()).isTrue();
+    assertThat(tokens).isPresent();
     assertThat(tokens.getAsLong()).isEqualTo(20L);
   }
 }

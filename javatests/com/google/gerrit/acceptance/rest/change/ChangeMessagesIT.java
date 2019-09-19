@@ -15,6 +15,7 @@ package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
+import static com.google.common.truth.Truth8.assertThat;
 import static com.google.gerrit.acceptance.PushOneCommit.FILE_NAME;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowCapability;
 import static com.google.gerrit.extensions.client.ListChangesOption.MESSAGES;
@@ -362,8 +363,8 @@ public class ChangeMessagesIT extends AbstractDaemonTest {
             parseCommitMessageRange(commitBefore);
         Optional<ChangeNoteUtil.CommitMessageRange> rangeAfter =
             parseCommitMessageRange(commitAfter);
-        assertThat(rangeBefore.isPresent()).isTrue();
-        assertThat(rangeAfter.isPresent()).isTrue();
+        assertThat(rangeBefore).isPresent();
+        assertThat(rangeAfter).isPresent();
 
         String subjectBefore =
             decode(

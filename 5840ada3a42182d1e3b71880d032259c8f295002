@@ -22,6 +22,30 @@
       "revId": "5840ada3a42182d1e3b71880d032259c8f295002",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bd148ba2_0acf0a65",
+        "filename": "javatests/com/google/gerrit/acceptance/server/mail/MailProcessorIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-19T08:07:24Z",
+      "side": 1,
+      "message": "Not sure if my solution is good, but it seems to work now.",
+      "parentUuid": "ade120ec_03864317",
+      "range": {
+        "startLine": 295,
+        "startChar": 2,
+        "endLine": 341,
+        "endChar": 3
+      },
+      "revId": "5840ada3a42182d1e3b71880d032259c8f295002",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -51,7 +51,7 @@ limitations under the License.
 
       element = fixture('basic');
 
-      element.loadData().then(done);
+      element.loadData().then(flush(done));
     });
 
     test('renders', () => {

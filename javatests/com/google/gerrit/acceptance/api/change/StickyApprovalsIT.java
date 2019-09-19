@@ -581,7 +581,7 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
     CherryPickInput in = new CherryPickInput();
     in.destination = "master";
     in.message = String.format("%s\n\nChange-Id: %s", subject, changeId);
-    ChangeInfo c = gApi.changes().id(changeId).revision("current").cherryPick(in).get();
+    ChangeInfo c = gApi.changes().id(changeId).current().cherryPick(in).get();
     return c.changeId;
   }
 

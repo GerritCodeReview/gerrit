@@ -432,7 +432,7 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
               .reviewer(reviewerByEmail)
               .reviewer(ccer.email(), ReviewerState.CC, false)
               .reviewer(ccerByEmail, ReviewerState.CC, false);
-      ReviewResult result = gApi.changes().id(r.getChangeId()).revision("current").review(in);
+      ReviewResult result = gApi.changes().id(r.getChangeId()).current().review(in);
       supportReviewersByEmail = true;
       if (result.reviewers.values().stream().anyMatch(v -> v.error != null)) {
         supportReviewersByEmail = false;
@@ -440,7 +440,7 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
             ReviewInput.noScore()
                 .reviewer(reviewer.email())
                 .reviewer(ccer.email(), ReviewerState.CC, false);
-        result = gApi.changes().id(r.getChangeId()).revision("current").review(in);
+        result = gApi.changes().id(r.getChangeId()).current().review(in);
       }
       Truth.assertThat(result.reviewers.values().stream().allMatch(v -> v.error == null)).isTrue();
     }

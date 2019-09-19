@@ -602,7 +602,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
       if (notify != null) {
         in.notify = notify;
       }
-      gApi.changes().id(changeId).revision("current").review(in);
+      gApi.changes().id(changeId).current().review(in);
     };
   }
 
@@ -861,7 +861,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
   public void noCommentAndSetWorkInProgress() throws Exception {
     StagedChange sc = stageReviewableChange();
     ReviewInput in = ReviewInput.noScore().setWorkInProgress(true);
-    gApi.changes().id(sc.changeId).revision("current").review(in);
+    gApi.changes().id(sc.changeId).current().review(in);
     assertThat(sender).didNotSend();
   }
 
@@ -869,7 +869,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
   public void commentAndSetWorkInProgress() throws Exception {
     StagedChange sc = stageReviewableChange();
     ReviewInput in = ReviewInput.noScore().message("ok").setWorkInProgress(true);
-    gApi.changes().id(sc.changeId).revision("current").review(in);
+    gApi.changes().id(sc.changeId).current().review(in);
     assertThat(sender)
         .sent("comment", sc)
         .cc(sc.reviewer, sc.ccer)
@@ -884,7 +884,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
   public void commentOnWipChangeAndStartReview() throws Exception {
     StagedChange sc = stageWipChange();
     ReviewInput in = ReviewInput.noScore().message("ok").setWorkInProgress(false);
-    gApi.changes().id(sc.changeId).revision("current").review(in);
+    gApi.changes().id(sc.changeId).current().review(in);
     assertThat(sender)
         .sent("comment", sc)
         .cc(sc.reviewer, sc.ccer)
@@ -899,7 +899,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
   public void addReviewerOnWipChangeAndStartReview() throws Exception {
     StagedChange sc = stageWipChange();
     ReviewInput in = ReviewInput.noScore().reviewer(other.email()).setWorkInProgress(false);
-    gApi.changes().id(sc.changeId).revision("current").review(in);
+    gApi.changes().id(sc.changeId).current().review(in);
     assertThat(sender)
         .sent("comment", sc)
         .cc(sc.reviewer, sc.ccer, other)
@@ -923,7 +923,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
     StagedChange sc = stageWipChange();
     ReviewInput in =
         ReviewInput.noScore().message(PostReview.START_REVIEW_MESSAGE).setWorkInProgress(false);
-    gApi.changes().id(sc.changeId).revision("current").review(in);
+    gApi.changes().id(sc.changeId).current().review(in);
     Truth.assertThat(sender.getMessages()).isNotEmpty();
     String body = sender.getMessages().get(0).body();
     int idx = body.indexOf(PostReview.START_REVIEW_MESSAGE);
@@ -953,7 +953,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
     ReviewInput in = ReviewInput.recommend();
     in.notify = notify;
     in.tag = tag;
-    gApi.changes().id(changeId).revision("current").review(in);
+    gApi.changes().id(changeId).current().review(in);
   }
 
   /*
@@ -1256,7 +1256,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
 
   private void recommend(StagedChange sc, TestAccount by) throws Exception {
     requestScopeOperations.setApiUser(by.id());
-    gApi.changes().id(sc.changeId).revision("current").review(ReviewInput.recommend());
+    gApi.changes().id(sc.changeId).current().review(ReviewInput.recommend());
   }
 
   private interface Stager {
@@ -1270,7 +1270,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
             .reviewer(extraReviewer.email())
             .reviewer(extraCcer.email(), ReviewerState.CC, false);
     requestScopeOperations.setApiUser(extraReviewer.id());
-    gApi.changes().id(sc.changeId).revision("current").review(in);
+    gApi.changes().id(sc.changeId).current().review(in);
     sender.clear();
     return sc;
   }
@@ -1630,7 +1630,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
       throws Exception {
     setEmailStrategy(by, emailStrategy);
     requestScopeOperations.setApiUser(by.id());
-    gApi.changes().id(changeId).revision("current").submit();
+    gApi.changes().id(changeId).current().submit();
   }
 
   private void merge(String changeId, TestAccount by, NotifyHandling notify) throws Exception {
@@ -1644,13 +1644,13 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
     requestScopeOperations.setApiUser(by.id());
     SubmitInput in = new SubmitInput();
     in.notify = notify;
-    gApi.changes().id(changeId).revision("current").submit(in);
+    gApi.changes().id(changeId).current().submit(in);
   }
 
   private StagedChange stageChangeReadyForMerge() throws Exception {
     StagedChange sc = stageReviewableChange();
     requestScopeOperations.setApiUser(sc.reviewer.id());
-    gApi.changes().id(sc.changeId).revision("current").review(ReviewInput.approve());
+    gApi.changes().id(sc.changeId).current().review(ReviewInput.approve());
     sender.clear();
     return sc;
   }
@@ -2043,7 +2043,7 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
       StagedChange sc, TestAccount by, @Nullable NotifyHandling notify, EmailStrategy emailStrategy)
       throws Exception {
     setEmailStrategy(by, emailStrategy);
-    CommitInfo commit = gApi.changes().id(sc.changeId).revision("current").commit(false);
+    CommitInfo commit = gApi.changes().id(sc.changeId).current().commit(false);
     CommitMessageInput in = new CommitMessageInput();
     in.message = "update\n" + commit.message;
     in.notify = notify;
@@ -2258,8 +2258,8 @@ public class ChangeNotificationsIT extends AbstractNotificationTest {
   private StagedChange stageChange() throws Exception {
     StagedChange sc = stageReviewableChange();
     requestScopeOperations.setApiUser(admin.id());
-    gApi.changes().id(sc.changeId).revision("current").review(ReviewInput.approve());
-    gApi.changes().id(sc.changeId).revision("current").submit();
+    gApi.changes().id(sc.changeId).current().review(ReviewInput.approve());
+    gApi.changes().id(sc.changeId).current().submit();
     sender.clear();
     return sc;
   }

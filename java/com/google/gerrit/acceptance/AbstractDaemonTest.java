@@ -903,11 +903,11 @@ public abstract class AbstractDaemonTest {
   }
 
   protected void approve(String id) throws Exception {
-    gApi.changes().id(id).revision("current").review(ReviewInput.approve());
+    gApi.changes().id(id).current().review(ReviewInput.approve());
   }
 
   protected void recommend(String id) throws Exception {
-    gApi.changes().id(id).revision("current").review(ReviewInput.recommend());
+    gApi.changes().id(id).current().review(ReviewInput.recommend());
   }
 
   protected void assertSubmittedTogether(String chId, String... expected) throws Exception {

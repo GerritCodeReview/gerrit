@@ -565,7 +565,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
             .reviewer(user2.toString(), ReviewerState.CC, false)
             .reviewer(email1)
             .reviewer(email2, ReviewerState.CC, false);
-    gApi.changes().id(change1.getId().get()).revision("current").review(in);
+    gApi.changes().id(change1.getId().get()).current().review(in);
 
     List<ChangeInfo> changeInfos =
         assertQuery(newQuery("is:wip").withOption(DETAILED_LABELS), change1);
@@ -2112,8 +2112,8 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery("conflicts:" + change2.getId().get(), change1);
     assertQuery("is:mergeable", change2, change1);
 
-    gApi.changes().id(change1.getChangeId()).revision("current").review(ReviewInput.approve());
-    gApi.changes().id(change1.getChangeId()).revision("current").submit();
+    gApi.changes().id(change1.getChangeId()).current().review(ReviewInput.approve());
+    gApi.changes().id(change1.getChangeId()).current().submit();
 
     assertQuery("status:open conflicts:" + change2.getId().get());
     assertQuery("status:open is:mergeable");
@@ -2182,7 +2182,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
     assertQuery("is:reviewer");
     assertQuery("reviewer:self");
-    gApi.changes().id(change3.getChangeId()).revision("current").review(ReviewInput.recommend());
+    gApi.changes().id(change3.getChangeId()).current().review(ReviewInput.recommend());
     assertQuery("is:reviewer", change3);
     assertQuery("reviewer:self", change3);
 
@@ -3073,8 +3073,8 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
     assertQuery("query:query1", change2, change1);
     assertQuery("query:query2", change2, change1);
-    gApi.changes().id(change1.getChangeId()).revision("current").review(ReviewInput.approve());
-    gApi.changes().id(change1.getChangeId()).revision("current").submit();
+    gApi.changes().id(change1.getChangeId()).current().review(ReviewInput.approve());
+    gApi.changes().id(change1.getChangeId()).current().submit();
     assertQuery("query:query2", change2);
     assertQuery("query:query3", change2);
     assertQuery("query:query4");

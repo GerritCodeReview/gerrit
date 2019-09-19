@@ -502,7 +502,7 @@ public class ChangeIT extends AbstractDaemonTest {
             .reviewer("byemail2@example.com")
             .reviewer("byemail3@example.com", CC, false)
             .reviewer("byemail4@example.com", CC, false);
-    ReviewResult result = gApi.changes().id(changeId).revision("current").review(in);
+    ReviewResult result = gApi.changes().id(changeId).current().review(in);
     assertThat(result.reviewers).isNotEmpty();
     ChangeInfo info = gApi.changes().id(changeId).get();
     Function<Collection<AccountInfo>, Collection<String>> toEmails =
@@ -528,7 +528,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
     // "Undo" a removal.
     in = ReviewInput.noScore().reviewer(email1);
-    gApi.changes().id(changeId).revision("current").review(in);
+    gApi.changes().id(changeId).current().review(in);
     info = gApi.changes().id(changeId).get();
     assertThat(toEmails.apply(info.pendingReviewers.get(REVIEWER)))
         .containsExactly(email1, email2, "byemail2@example.com");
@@ -626,7 +626,7 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(r.getChange().change().isWorkInProgress()).isTrue();
 
     ReviewInput in = ReviewInput.noScore().setWorkInProgress(false);
-    ReviewResult result = gApi.changes().id(r.getChangeId()).revision("current").review(in);
+    ReviewResult result = gApi.changes().id(r.getChangeId()).current().review(in);
     assertThat(result.ready).isTrue();
 
     ChangeInfo info = gApi.changes().id(r.getChangeId()).get();
@@ -639,7 +639,7 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(r.getChange().change().isWorkInProgress()).isFalse();
 
     ReviewInput in = ReviewInput.noScore().setWorkInProgress(true);
-    ReviewResult result = gApi.changes().id(r.getChangeId()).revision("current").review(in);
+    ReviewResult result = gApi.changes().id(r.getChangeId()).current().review(in);
     assertThat(result.ready).isNull();
 
     ChangeInfo info = gApi.changes().id(r.getChangeId()).get();
@@ -656,7 +656,7 @@ public class ChangeIT extends AbstractDaemonTest {
             .reviewer(user.email())
             .label("Code-Review", 1)
             .setWorkInProgress(true);
-    gApi.changes().id(r.getChangeId()).revision("current").review(in);
+    gApi.changes().id(r.getChangeId()).current().review(in);
 
     ChangeInfo info = gApi.changes().id(r.getChangeId()).get();
     assertThat(info.workInProgress).isTrue();
@@ -671,7 +671,7 @@ public class ChangeIT extends AbstractDaemonTest {
     ReviewInput in = ReviewInput.noScore();
     in.ready = true;
     in.workInProgress = true;
-    ReviewResult result = gApi.changes().id(r.getChangeId()).revision("current").review(in);
+    ReviewResult result = gApi.changes().id(r.getChangeId()).current().review(in);
     assertThat(result.error).isEqualTo(PostReview.ERROR_WIP_READY_MUTUALLY_EXCLUSIVE);
   }
 
@@ -2016,14 +2016,14 @@ public class ChangeIT extends AbstractDaemonTest {
     // In this case, the child ReviewerInput has a notify=OWNER_REVIEWERS
     // that should be ignored.
     r = createWorkInProgressChange();
-    gApi.changes().id(r.getChangeId()).revision("current").review(batchIn);
+    gApi.changes().id(r.getChangeId()).current().review(batchIn);
     assertThat(sender.getMessages()).hasSize(0);
 
     // Top-level notify property can force notifications when adding reviewer
     // via PostReview.
     r = createWorkInProgressChange();
     batchIn.notify = NotifyHandling.OWNER_REVIEWERS;
-    gApi.changes().id(r.getChangeId()).revision("current").review(batchIn);
+    gApi.changes().id(r.getChangeId()).current().review(batchIn);
     assertThat(sender.getMessages()).hasSize(1);
   }
 

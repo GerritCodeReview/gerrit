@@ -71,7 +71,8 @@ limitations under the License.
     });
 
     test('renders', () => {
-      const rows = Polymer.dom(element.root).querySelectorAll('tbody tr');
+      const rows = Array.from(
+          Polymer.dom(element.root).querySelectorAll('tbody tr'));
 
       assert.equal(rows.length, 2);
 
@@ -84,7 +85,8 @@ limitations under the License.
     });
 
     test('renders email', () => {
-      const rows = Polymer.dom(element.root).querySelectorAll('tbody tr');
+      const rows = Array.from(
+          Polymer.dom(element.root).querySelectorAll('tbody tr'));
 
       assert.equal(rows.length, 2);
 

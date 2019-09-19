@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.api.project;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth8.assertThat;
 import static com.google.gerrit.acceptance.GitUtil.fetch;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
@@ -61,7 +62,7 @@ public class ProjectIndexerIT extends AbstractDaemonTest {
     Optional<FieldBundle> result =
         i.getRaw(project, QueryOptions.create(indexConfig, 0, 1, FIELDS));
 
-    assertThat(result.isPresent()).isTrue();
+    assertThat(result).isPresent();
     Iterable<byte[]> refState = result.get().getValue(ProjectField.REF_STATE);
     assertThat(refState).isNotEmpty();
 

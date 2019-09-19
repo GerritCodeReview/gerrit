@@ -14,7 +14,7 @@
 
 package com.google.gerrit.acceptance.pgm;
 
-import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth8.assertThat;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.acceptance.NoHttpd;
@@ -43,9 +43,9 @@ public class InitIT extends StandaloneSiteTest {
       QueryOptions opts =
           QueryOptions.create(IndexConfig.createDefault(), 0, 1, ImmutableSet.of("name"));
       Optional<ProjectData> allProjectsData = projectIndex.getSearchIndex().get(allProjects, opts);
-      assertThat(allProjectsData.isPresent()).isTrue();
+      assertThat(allProjectsData).isPresent();
       Optional<ProjectData> allUsersData = projectIndex.getSearchIndex().get(allUsers, opts);
-      assertThat(allUsersData.isPresent()).isTrue();
+      assertThat(allUsersData).isPresent();
     }
   }
 }

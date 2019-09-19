@@ -1396,10 +1396,10 @@ public class ChangeIT extends AbstractDaemonTest {
     Optional<ChangeData> result =
         idx.get(id, IndexedChangeQuery.createOptions(indexConfig, 0, 1, ImmutableSet.of()));
 
-    assertThat(result.isPresent()).isTrue();
+    assertThat(result).isPresent();
     gApi.changes().id(changeId).delete();
     result = idx.get(id, IndexedChangeQuery.createOptions(indexConfig, 0, 1, ImmutableSet.of()));
-    assertThat(result.isPresent()).isFalse();
+    assertThat(result).isEmpty();
   }
 
   @Test

@@ -2003,7 +2003,7 @@ public class ChangeIT extends AbstractDaemonTest {
     // Added reviewers not notified by default.
     PushOneCommit.Result r = createWorkInProgressChange();
     gApi.changes().id(r.getChangeId()).addReviewer(in);
-    assertThat(sender.getMessages()).hasSize(0);
+    assertThat(sender.getMessages()).isEmpty();
 
     // Default notification handling can be overridden.
     r = createWorkInProgressChange();
@@ -2017,7 +2017,7 @@ public class ChangeIT extends AbstractDaemonTest {
     // that should be ignored.
     r = createWorkInProgressChange();
     gApi.changes().id(r.getChangeId()).current().review(batchIn);
-    assertThat(sender.getMessages()).hasSize(0);
+    assertThat(sender.getMessages()).isEmpty();
 
     // Top-level notify property can force notifications when adding reviewer
     // via PostReview.

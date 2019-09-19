@@ -909,7 +909,7 @@ public class CommentsIT extends AbstractDaemonTest {
     // PS2 has comments [c6, c9].
     assertThat(getRevisionComments(changeId, ps2)).hasSize(2);
     // PS3 has no comment.
-    assertThat(getRevisionComments(changeId, ps3)).hasSize(0);
+    assertThat(getRevisionComments(changeId, ps3)).isEmpty();
     // PS4 has comments [c7, c8].
     assertThat(getRevisionComments(changeId, ps4)).hasSize(2);
 

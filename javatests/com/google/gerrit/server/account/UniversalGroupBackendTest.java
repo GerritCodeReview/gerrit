@@ -17,18 +17,15 @@ package com.google.gerrit.server.account;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.PROJECT_OWNERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
-import static org.easymock.EasyMock.anyObject;
-import static org.easymock.EasyMock.createMock;
-import static org.easymock.EasyMock.createNiceMock;
-import static org.easymock.EasyMock.eq;
-import static org.easymock.EasyMock.expect;
-import static org.easymock.EasyMock.getCurrentArguments;
-import static org.easymock.EasyMock.not;
-import static org.easymock.EasyMock.replay;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.AdditionalMatchers.not;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -41,6 +38,8 @@ import java.util.Set;
 import org.eclipse.jgit.lib.Config;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 
 public class UniversalGroupBackendTest {
   private static final AccountGroup.UUID OTHER_UUID = AccountGroup.uuid("other");
@@ -52,8 +51,7 @@ public class UniversalGroupBackendTest {
 
   @Before
   public void setup() {
-    user = createNiceMock(IdentifiedUser.class);
-    replay(user);
+    user = mock(IdentifiedUser.class);
     backends = new DynamicSet<>();
     backends.add("gerrit", new SystemGroupBackend(new Config()));
     backend =
@@ -103,23 +101,24 @@ public class UniversalGroupBackendTest {
   public void otherMemberships() {
     final AccountGroup.UUID handled = AccountGroup.uuid("handled");
     final AccountGroup.UUID notHandled = AccountGroup.uuid("not handled");
-    final IdentifiedUser member = createNiceMock(IdentifiedUser.class);
-    final IdentifiedUser notMember = createNiceMock(IdentifiedUser.class);
+    final IdentifiedUser member = mock(IdentifiedUser.class);
+    final IdentifiedUser notMember = mock(IdentifiedUser.class);
 
-    GroupBackend backend = createMock(GroupBackend.class);
-    expect(backend.handles(handled)).andStubReturn(true);
-    expect(backend.handles(not(eq(handled)))).andStubReturn(false);
-    expect(backend.membershipsOf(anyObject(IdentifiedUser.class)))
-        .andStubAnswer(
-            () -> {
-              Object[] args = getCurrentArguments();
-              GroupMembership membership = createMock(GroupMembership.class);
-              expect(membership.contains(eq(handled))).andStubReturn(args[0] == member);
-              expect(membership.contains(not(eq(notHandled)))).andStubReturn(false);
-              replay(membership);
-              return membership;
+    GroupBackend backend = mock(GroupBackend.class);
+    when(backend.handles(eq(handled))).thenReturn(true);
+    when(backend.handles(not(eq(handled)))).thenReturn(false);
+    when(backend.membershipsOf(any(IdentifiedUser.class)))
+        .thenAnswer(
+            new Answer<GroupMembership>() {
+              @Override
+              public GroupMembership answer(InvocationOnMock invocation) {
+                GroupMembership membership = mock(GroupMembership.class);
+                when(membership.contains(eq(handled)))
+                    .thenReturn(invocation.getArguments()[0] == member);
+                when(membership.contains(eq(notHandled))).thenReturn(false);
+                return membership;
+              }
             });
-    replay(member, notMember, backend);
 
     backends = new DynamicSet<>();
     backends.add("gerrit", backend);

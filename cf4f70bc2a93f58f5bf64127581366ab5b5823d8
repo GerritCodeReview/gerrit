@@ -94,6 +94,29 @@
       "revId": "cf4f70bc2a93f58f5bf64127581366ab5b5823d8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "990c95bd_66f6ac1a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2019-09-19T22:59:32Z",
+      "side": 1,
+      "message": "(Sorry, I think I have found a show-stopper.)\n\nBy having --java_toolchain on the command line, we overrule the .bazelrc java_toolchain setting which sets an error_prone package configuration (via //tools:error_prone_warnings_toolchain). I think we then skip the error_prone package configuration in a Java 11 build.\n\nMy test was to see whether EqualsIncompatibleType which we set to ERROR level instead of default WARNING:\n\n* Copy-pasted the few lines example erroneous code @ https://github.com/google/error-prone/blob/master/docs/bugpattern/EqualsIncompatibleType.md\n* Built using Java 8, saw expected ERROR: error: [EqualsIncompatibleType] Calling equals on incompatible types String and Integer\n* Built using Java 11, saw nothing, not even warning?\n* With an ArrayToString error pattern, it shows up fine in Java 11 as error (but this is already an error by default). https://errorprone.info/bugpattern/ArrayToString\n\nIf errorprone is not expected to work in our custom configuration with Java 11 for now, then we should at least document this, no?",
+      "range": {
+        "startLine": 23,
+        "startChar": 4,
+        "endLine": 23,
+        "endChar": 61
+      },
+      "revId": "cf4f70bc2a93f58f5bf64127581366ab5b5823d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

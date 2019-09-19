@@ -130,7 +130,7 @@ limitations under the License.
       });
     });
 
-    test('dom for non available account', () => {
+    test.only('dom for non available account', done => {
       assert.isFalse(element.hasAttribute('hidden'));
 
       sandbox.stub(element, '_getConfig', () => {
@@ -147,7 +147,7 @@ limitations under the License.
         assert.isTrue(element.hasAttribute('hidden'));
 
         assert.strictEqual(element.style.backgroundImage, '');
-      });
+      }).then(done);
     });
 
     test('avatar config not set and account not set', () => {
@@ -167,28 +167,47 @@ limitations under the License.
         assert.isTrue(element.hasAttribute('hidden'));
       });
     });
+  });
 
-    test('avatar config not set and account set', () => {
-      assert.isFalse(element.hasAttribute('hidden'));
+  suite('config not set', () => {
+    let element;
+    let sandbox;
 
-      sandbox.stub(element, '_getConfig', () => {
-        return Promise.resolve({});
+    setup(() => {
+      sandbox = sinon.sandbox.create();
+
+      stub('gr-avatar', {
+        _getConfig: () => {
+          return Promise.resolve({});
+        },
       });
 
-      element.imageSize = 64;
-      element.account = {
-        _account_id: 123,
-      };
+      element = fixture('basic');
+    });
 
-      // Emulate plugins loaded.
-      Gerrit._setPluginsPending([]);
+    teardown(() => {
+      sandbox.restore();
+    });
 
-      return Promise.all([
-        element.$.restAPI.getConfig(),
-        Gerrit.awaitPluginsLoaded(),
-      ]).then(() => {
-        assert.isTrue(element.hasAttribute('hidden'));
+    test('avatar hidden when account set', done => {
+      flush(() => {
+        assert.isFalse(element.hasAttribute('hidden'));
+
+        element.imageSize = 64;
+        element.account = {
+          _account_id: 123,
+        };
+        // Emulate plugins loaded.
+        Gerrit._setPluginsPending([]);
+
+        return Promise.all([
+          element.$.restAPI.getConfig(),
+          Gerrit.awaitPluginsLoaded(),
+        ]).then(() => {
+          assert.isTrue(element.hasAttribute('hidden'));
+        }).then(done);
       });
     });
+
   });
 </script>

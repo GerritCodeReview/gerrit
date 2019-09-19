@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bad30347_b651cd0a",
+        "filename": ".bazelrc",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-09-19T10:54:28Z",
+      "side": 0,
+      "message": "This should be renamed to --incompatible_strict_action_env as the changed made in the context of: [1] was reverted, see: [2].\n\n* [1] https://github.com/bazelbuild/bazel/issues/6648\n* [2] https://github.com/bazelbuild/bazel/issues/7026",
+      "revId": "b7bb7354f9b8529a3befe74b977c9411f7428ef7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

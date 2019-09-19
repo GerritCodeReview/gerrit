@@ -17,8 +17,6 @@
 
 window.POLYMER2 = true;
 if (window.customElements) window.customElements.forcePolyfill = true;
-ShadyDOM = {force: true};
-ShadyCSS = {shimcssproperties: true};
 
 /**
  * Helps looking up the proper iron-input element during the Polymer 2

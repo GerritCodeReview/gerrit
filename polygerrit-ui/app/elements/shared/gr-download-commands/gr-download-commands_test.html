@@ -67,12 +67,13 @@ limitations under the License.
     });
 
     suite('unauthenticated', () => {
-      setup(() => {
+      setup(done => {
         element = fixture('basic');
         element.schemes = SCHEMES;
         element.commands = COMMANDS;
         element.selectedScheme = SELECTED_SCHEME;
         flushAsynchronousOperations();
+        flush(done);
       });
 
       test('focusOnCopy', () => {
@@ -91,13 +92,13 @@ limitations under the License.
         assert.isTrue(isHidden(element.$$('.commands')));
       });
 
-      test('tab selection', () => {
+      test('tab selection', done => {
         assert.equal(element.$.downloadTabs.selected, '0');
         MockInteractions.tap(element.$$('[data-scheme="ssh"]'));
         flushAsynchronousOperations();
-
         assert.equal(element.selectedScheme, 'ssh');
         assert.equal(element.$.downloadTabs.selected, '2');
+        done();
       });
 
       test('loads scheme from preferences', done => {

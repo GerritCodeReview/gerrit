@@ -1709,8 +1709,9 @@ limitations under the License.
 
       // Commit message should not have edit controls.
       const editControls =
-          Polymer.dom(element.root).querySelectorAll('.row:not(.header)')
-            .map(row => row.querySelector('gr-edit-file-controls'));
+          Array.from(
+              Polymer.dom(element.root).querySelectorAll('.row:not(.header)'))
+              .map(row => row.querySelector('gr-edit-file-controls'));
       assert.isTrue(editControls[0].classList.contains('invisible'));
     });
 

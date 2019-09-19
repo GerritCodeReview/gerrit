@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0327f625_759ac292",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2019-09-19T13:12:54Z",
+      "side": 1,
+      "message": "As far as I could see there was only one other project including this experimental flag as copied from gerrit core:\n\n- plugins/delete-project (only branch stable-2.16, see Idad3a41eabb868b3f1b0f7115a90223105d64ee9)",
+      "revId": "4bb41306f628985fc9706b81f8c0a63e69add8e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -138,6 +138,7 @@ limitations under the License.
            * @type {?Object}
            */
           _cancelableRenderPromise: Object,
+          pluginLayers: Array
         },
 
         behaviors: [
@@ -223,12 +224,7 @@ limitations under the License.
             this.$.coverageLayerLeft,
             this.$.coverageLayerRight,
           ];
-
-          // Get layers from plugins (if any).
-          for (const pluginLayer of this.$.jsAPI.getDiffLayers(
-              this.diffPath, this.changeNum, this.patchNum)) {
-            layers.push(pluginLayer);
-          }
+          layers.push(...this.pluginLayers);
 
           this._layers = layers;
         },

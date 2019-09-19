@@ -271,6 +271,7 @@
 
       /** Set by Polymer. */
       isAttached: Boolean,
+      pluginLayers: Array,
     },
 
     behaviors: [

@@ -16,6 +16,24 @@
       "revId": "b7bb7354f9b8529a3befe74b977c9411f7428ef7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7c376060_817fdb98",
+        "filename": ".bazelrc",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2019-09-19T11:02:11Z",
+      "side": 0,
+      "message": "Oh, wow, I totally missed that this flip was reverted again, just by looking at the original issue.\n\nI agree, should be renamed and I think a comment should be added to point to https://github.com/bazelbuild/bazel/issues/7026",
+      "parentUuid": "bad30347_b651cd0a",
+      "revId": "b7bb7354f9b8529a3befe74b977c9411f7428ef7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "62e6bb39_9f671294",
+        "filename": "Documentation/config-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-09-19T06:20:28Z",
+      "side": 1,
+      "message": "This is too strict and my be not accurate. Be aware, that some plugin maintainer only create stable branches, when they really justified, and don\u0027t do it on advance. So that the statement, that if a stable branch for specific doesn\u0027t exist automatically means that this plugin is not compatible with gerrit stable version might not be true.",
+      "range": {
+        "startLine": 138,
+        "startChar": 51,
+        "endLine": 139,
+        "endChar": 32
+      },
+      "revId": "13fa8589cbc7980e194f0678f212fed1755a5441",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

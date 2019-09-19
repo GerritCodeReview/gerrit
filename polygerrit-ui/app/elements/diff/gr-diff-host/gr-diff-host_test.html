@@ -51,12 +51,27 @@ limitations under the License.
         time: sandbox.stub(),
         timeEnd: sandbox.stub(),
       });
-
       element = fixture('basic');
     });
 
     teardown(() => {
       sandbox.restore();
+    });
+
+
+    suite('plugin layers', () => {
+      const pluginLayers = [{}, {}];
+      setup(() => {
+        stub('gr-js-api-interface', {
+          getDiffLayers() { return pluginLayers; },
+        });
+        element = fixture('basic');
+      });
+      test('plugin layers requested', () => {
+        element.patchRange = {};
+        element.reload();
+        assert(element.$.jsAPI.getDiffLayers.called);
+      });
     });
 
     suite('handle comment-update', () => {

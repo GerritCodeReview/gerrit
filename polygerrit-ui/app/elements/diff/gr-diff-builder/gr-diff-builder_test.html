@@ -36,8 +36,8 @@ limitations under the License.
 <script>void(0);</script>
 
 <test-fixture id="basic">
-  <template>
-    <gr-diff-builder>
+  <template is="dom-template">
+    <gr-diff-builder plugin-layers="[[pluginLayers]]">
       <table id="diffTable"></table>
     </gr-diff-builder>
   </template>
@@ -593,28 +593,34 @@ limitations under the License.
     suite('layers from plugins', () => {
       let element;
       let initialLayersCount;
-
+      let withPluginLayerCount;
       setup(() => {
-        element = fixture('basic');
+        const pluginLayers = [];
+        element = fixture('basic', {pluginLayers});
         element._showTrailingWhitespace = true;
         element._setupAnnotationLayers();
         initialLayersCount = element._layers.length;
       });
 
       test('no plugin layers', () => {
-        const getDiffLayersStub = sinon.stub(element.$.jsAPI, 'getDiffLayers')
-                                       .returns([]);
         element._setupAnnotationLayers();
-        assert.isTrue(getDiffLayersStub.called);
         assert.equal(element._layers.length, initialLayersCount);
       });
 
-      test('with plugin layers', () => {
-        const getDiffLayersStub = sinon.stub(element.$.jsAPI, 'getDiffLayers')
-                                       .returns([{}, {}]);
-        element._setupAnnotationLayers();
-        assert.isTrue(getDiffLayersStub.called);
-        assert.equal(element._layers.length, initialLayersCount + 2);
+      suite('with plugin layers', () => {
+        const pluginLayers = [{}, {}];
+        setup(() => {
+          element = fixture('basic', {pluginLayers});
+          element._showTrailingWhitespace = true;
+          element._setupAnnotationLayers();
+          withPluginLayerCount = element._layers.length;
+        });
+        test('with plugin layers', () => {
+          element._setupAnnotationLayers();
+          assert.equal(element._layers.length, withPluginLayerCount);
+          assert.equal(initialLayersCount + pluginLayers.length,
+              withPluginLayerCount);
+        });
       });
     });
 

@@ -70,6 +70,30 @@
       "revId": "cf4f70bc2a93f58f5bf64127581366ab5b5823d8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0d643a1c_af4f0a8d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-09-19T14:21:49Z",
+      "side": 1,
+      "message": "Thanks for verifying this change on JDK 11 in your environment.",
+      "parentUuid": "5abd9b04_e2141d14",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 20
+      },
+      "revId": "cf4f70bc2a93f58f5bf64127581366ab5b5823d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

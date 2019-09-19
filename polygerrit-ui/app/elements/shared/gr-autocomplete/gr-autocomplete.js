@@ -195,7 +195,7 @@
     },
 
     selectAll() {
-      const nativeInputElement = this.$.input.inputElement;
+      const nativeInputElement = this.$.input.$.nativeInput;
       if (!this.$.input.value) { return; }
       nativeInputElement.setSelectionRange(0, this.$.input.value.length);
     },

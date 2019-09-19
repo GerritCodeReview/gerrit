@@ -57,6 +57,7 @@
       // Within <gr-external-style> itself the styles would have no effect.
       const topEl = document.getElementsByTagName('body')[0];
       topEl.insertBefore(cs, topEl.firstChild);
+      Polymer.updateStyles();
     },
 
     _importAndApply() {

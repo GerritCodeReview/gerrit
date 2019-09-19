@@ -56,6 +56,7 @@ limitations under the License.
       el.setAttribute('data-side', 'right');
       lineNumberEl = document.createElement('td');
       lineNumberEl.classList.add('right');
+      document.body.appendChild(el);
       instance = new GrAnnotationActionsContext(
           el, lineNumberEl, line, 'dummy/path', '123', '1');
     });

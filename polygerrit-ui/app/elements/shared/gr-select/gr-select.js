@@ -66,7 +66,7 @@
 
     ready() {
       // If not set via the property, set bind-value to the element value.
-      if (this.bindValue == undefined) {
+      if (this.bindValue == undefined && this.nativeSelect.options.length > 0) {
         this.bindValue = this.nativeSelect.value;
       }
     },

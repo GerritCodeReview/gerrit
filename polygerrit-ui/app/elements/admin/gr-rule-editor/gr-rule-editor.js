@@ -118,11 +118,20 @@
       this._setupValues(this.rule);
     },
 
+    attached() {
+      if (!this.rule) { return; } // Check needed for test purposes.
+      if (!this._originalRuleValues) {
+        // Observer _handleValueChange is called after the ready()
+        // method finishes. Original values must be set later to
+        // avoid set .modified flag to true
+        this._setOriginalRuleValues(this.rule.value);
+      }
+    },
+
     _setupValues(rule) {
       if (!rule.value) {
         this._setDefaultRuleValues();
       }
-      this._setOriginalRuleValues(rule.value);
     },
 
     _computeForce(permission, action) {

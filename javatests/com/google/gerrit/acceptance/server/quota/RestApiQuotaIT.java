@@ -14,10 +14,9 @@
 
 package com.google.gerrit.acceptance.server.quota;
 
-import static org.easymock.EasyMock.expect;
-import static org.easymock.EasyMock.replay;
-import static org.easymock.EasyMock.reset;
-import static org.easymock.EasyMock.verify;
+import static org.mockito.Mockito.clearInvocations;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -29,15 +28,14 @@ import com.google.gerrit.server.quota.QuotaBackend;
 import com.google.gerrit.server.quota.QuotaResponse;
 import com.google.inject.Module;
 import java.util.Collections;
-import org.easymock.EasyMock;
 import org.junit.Before;
 import org.junit.Test;
 
 public class RestApiQuotaIT extends AbstractDaemonTest {
   private static final QuotaBackend.WithResource quotaBackendWithResource =
-      EasyMock.createStrictMock(QuotaBackend.WithResource.class);
+      mock(QuotaBackend.WithResource.class);
   private static final QuotaBackend.WithUser quotaBackendWithUser =
-      EasyMock.createStrictMock(QuotaBackend.WithUser.class);
+      mock(QuotaBackend.WithUser.class);
 
   @Override
   public Module createModule() {
@@ -63,71 +61,55 @@ public class RestApiQuotaIT extends AbstractDaemonTest {
 
   @Before
   public void setUp() {
-    reset(quotaBackendWithResource);
-    reset(quotaBackendWithUser);
+    clearInvocations(quotaBackendWithResource);
+    clearInvocations(quotaBackendWithUser);
   }
 
   @Test
   public void changeDetail() throws Exception {
     Change.Id changeId = retrieveChangeId();
-    expect(quotaBackendWithResource.requestToken("/restapi/changes/detail:GET"))
-        .andReturn(singletonAggregation(QuotaResponse.ok()));
-    replay(quotaBackendWithResource);
-    expect(quotaBackendWithUser.change(changeId, project)).andReturn(quotaBackendWithResource);
-    replay(quotaBackendWithUser);
+    when(quotaBackendWithResource.requestToken("/restapi/changes/detail:GET"))
+        .thenReturn(singletonAggregation(QuotaResponse.ok()));
+    when(quotaBackendWithUser.change(changeId, project)).thenReturn(quotaBackendWithResource);
     adminRestSession.get("/changes/" + changeId + "/detail").assertOK();
-    verify(quotaBackendWithUser);
-    verify(quotaBackendWithResource);
   }
 
   @Test
   public void revisionDetail() throws Exception {
     Change.Id changeId = retrieveChangeId();
-    expect(quotaBackendWithResource.requestToken("/restapi/changes/revisions/actions:GET"))
-        .andReturn(singletonAggregation(QuotaResponse.ok()));
-    replay(quotaBackendWithResource);
-    expect(quotaBackendWithUser.change(changeId, project)).andReturn(quotaBackendWithResource);
-    replay(quotaBackendWithUser);
+    when(quotaBackendWithResource.requestToken("/restapi/changes/revisions/actions:GET"))
+        .thenReturn(singletonAggregation(QuotaResponse.ok()));
+    when(quotaBackendWithUser.change(changeId, project)).thenReturn(quotaBackendWithResource);
     adminRestSession.get("/changes/" + changeId + "/revisions/current/actions").assertOK();
-    verify(quotaBackendWithUser);
-    verify(quotaBackendWithResource);
   }
 
   @Test
   public void createChangePost() throws Exception {
-    expect(quotaBackendWithUser.requestToken("/restapi/changes:POST"))
-        .andReturn(singletonAggregation(QuotaResponse.ok()));
-    replay(quotaBackendWithUser);
+    when(quotaBackendWithUser.requestToken("/restapi/changes:POST"))
+        .thenReturn(singletonAggregation(QuotaResponse.ok()));
     ChangeInput changeInput = new ChangeInput(project.get(), "master", "test");
     adminRestSession.post("/changes/", changeInput).assertCreated();
-    verify(quotaBackendWithUser);
   }
 
   @Test
   public void accountDetail() throws Exception {
-    expect(quotaBackendWithResource.requestToken("/restapi/accounts/detail:GET"))
-        .andReturn(singletonAggregation(QuotaResponse.ok()));
-    replay(quotaBackendWithResource);
-    expect(quotaBackendWithUser.account(admin.id())).andReturn(quotaBackendWithResource);
-    replay(quotaBackendWithUser);
+    when(quotaBackendWithResource.requestToken("/restapi/accounts/detail:GET"))
+        .thenReturn(singletonAggregation(QuotaResponse.ok()));
+    when(quotaBackendWithUser.account(admin.id())).thenReturn(quotaBackendWithResource);
     adminRestSession.get("/accounts/self/detail").assertOK();
-    verify(quotaBackendWithUser);
-    verify(quotaBackendWithResource);
   }
 
   @Test
   public void config() throws Exception {
-    expect(quotaBackendWithUser.requestToken("/restapi/config/version:GET"))
-        .andReturn(singletonAggregation(QuotaResponse.ok()));
-    replay(quotaBackendWithUser);
+    when(quotaBackendWithUser.requestToken("/restapi/config/version:GET"))
+        .thenReturn(singletonAggregation(QuotaResponse.ok()));
     adminRestSession.get("/config/server/version").assertOK();
   }
 
   @Test
   public void outOfQuotaReturnsError() throws Exception {
-    expect(quotaBackendWithUser.requestToken("/restapi/config/version:GET"))
-        .andReturn(singletonAggregation(QuotaResponse.error("no quota")));
-    replay(quotaBackendWithUser);
+    when(quotaBackendWithUser.requestToken("/restapi/config/version:GET"))
+        .thenReturn(singletonAggregation(QuotaResponse.error("no quota")));
     adminRestSession.get("/config/server/version").assertStatus(429);
   }
 

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fceaf15d_16cc099f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2019-09-19T23:32:36Z",
+      "side": 1,
+      "message": "No, that\u0027s not what happened.\n\nhttps://github.com/davido/rules_closure/commit/57e7ced888fc0692d9f483cff890627790ef7891 contains a wrong commit message I think. It bumps protobuf to 3.10.0-rc1?",
+      "revId": "de26597b54492a753467fab23e51d863f424c4ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -204,6 +204,11 @@
         type: Number,
         computed: '_computeParentIndex(patchRange.*)',
       },
+
+      pluginLayers: {
+        type: Array,
+        value: [],
+      },
     },
 
     behaviors: [
@@ -252,6 +257,14 @@
       this._loading = true;
       this._errorMessage = null;
       const whitespaceLevel = this._getIgnoreWhitespace();
+
+      const pluginLayers = [];
+      // Get layers from plugins (if any).
+      for (const pluginLayer of this.$.jsAPI.getDiffLayers(
+          this.diffPath, this.changeNum, this.patchNum)) {
+        pluginLayers.push(pluginLayer);
+      }
+      this.push('pluginLayers', ...pluginLayers);
 
       this._coverageRanges = [];
       const {changeNum, path, patchRange: {basePatchNum, patchNum}} = this;

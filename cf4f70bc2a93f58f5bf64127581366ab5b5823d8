@@ -22,6 +22,30 @@
       "revId": "cf4f70bc2a93f58f5bf64127581366ab5b5823d8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "62730279_84cd8b77",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-09-19T12:43:25Z",
+      "side": 1,
+      "message": "You are overthinking this.\n\nBazel 0.29.1 (and upcoming 1.0 release for that matter), that is currently required, uses remote JDK 11 for builing Java source code. If you don\u0027t pass any option then per default Bazel would create Java 8 byte code (major version 52) even though the remote JDK 11 is actually used. It\u0027s guaranteed to happen, and wouldn\u0027t be changed unless explicitly announced. Remember, that Google internally still uses Java 8 (and would probably keep using Java 8 for quite some time). How Bazel does this magic, producing Java 8 byte code with Java 11? By passing --source 8 --target 8 compiler option.\n\nIn the same time Bazel supports building natively with Java 11 language level, and produces Java 11 byte code (major version 55). This is what this change is doing:\n\n  $ bazel build --host_javabase\u003d@bazel_tools//tools/jdk:remote_jdk11 \\\n    --javabase\u003d@bazel_tools//tools/jdk:remote_jdk11 \\\n    --host_java_toolchain\u003d@bazel_tools//tools/jdk:toolchain_java11 \\\n    --java_toolchain\u003d@bazel_tools//tools/jdk:toolchain_java11 \\\n    :release\n\nIn addition, Bazel supports vanilla toolchain (absolute_javabase that I\u0027ve added to Bazel recently), the one from Host Java runtime. You could install Java 12 (or Java 13), etc, and pass the absolute location to your Host Java installation directory to bazel, just pass the options, that documented in dev-bazel.txt. Then you would be able to produce Java 12 byte code (major version 56) as well:\n\n  $ bazel test \\\n    --define\u003dABSOLUTE_JAVABASE\u003d\u003cpath-to-java-12\u003e \\\n    --javabase\u003d@bazel_tools//tools/jdk:absolute_javabase \\\n    --host_javabase\u003d@bazel_tools//tools/jdk:absolute_javabase \\\n    --host_java_toolchain\u003d@bazel_tools//tools/jdk:toolchain_vanilla \\\n    --java_toolchain\u003d@bazel_tools//tools/jdk:toolchain_vanilla \\\n    :release",
+      "parentUuid": "b039f13a_b9abc0d6",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 20
+      },
+      "revId": "cf4f70bc2a93f58f5bf64127581366ab5b5823d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -104,7 +104,7 @@ public class MultipleQuotaPluginsIT extends AbstractDaemonTest {
         assertThrows(
             NullPointerException.class,
             () -> quotaBackend.user(identifiedAdmin).requestToken("testGroup"));
-    assertThat(exception).isEqualTo(thrown);
+    assertThat(thrown).isEqualTo(exception);
 
     verify(quotaEnforcerA);
   }

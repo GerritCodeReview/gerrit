@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b039f13a_b9abc0d6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2019-09-19T12:13:38Z",
+      "side": 1,
+      "message": "Q: How does this select JDK 8 explicitly? On my Debian-like system with \u0027update-alternatives --config javac\u0027 set to Java 11, it already seems to use my host JDK 11 (is that actually true and can I rely on that?).\n\nCould we make both JDKs explicit perhaps? E.g.:\n\n  $ bazel test --host_javabase\u003d@bazel_tools//tools/jdk:remote_jdk \\\n    --javabase\u003d@bazel_tools//tools/jdk:remote_jdk \\\n    --host_java_toolchain\u003d@bazel_tools//tools/jdk:toolchain_java8 \\\n    --java_toolchain\u003d@bazel_tools//tools/jdk:toolchain_java8 \\\n    //...\n\nwould build\u0026test using JDK 8 on a JDK 11 system, IIUC. But then I see\n\n    Fetching @remotejdk_linux; fetching 4s\n    Fetching https://mirror.bazel.build/openjdk/azul-zulu-9.0.7.1-jdk9.0.7/zulu9.0.7.1-jdk9.0.7-linux_x64-allmodules.tar.gz\n\nSo there\u0027s no remote_jdk for 8 and we rely on implicit host JDK being 8? 8 seems to be available (but not in Bazel tools itself) via https://mirror.bazel.build/openjdk/index.html . So I was thinking, perhaps it\u0027s worth the effort of defining our own \u0027jdk:remote_jdk8\u0027 pointing to JDK 8?",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 20
+      },
+      "revId": "cf4f70bc2a93f58f5bf64127581366ab5b5823d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

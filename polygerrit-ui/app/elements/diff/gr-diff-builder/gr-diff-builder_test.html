@@ -89,92 +89,44 @@ limitations under the License.
       assert.isTrue(node.classList.contains('classes'));
     });
 
-    function assertContextControl(buttons, expectedButtons) {
-      const actualButtonLabels = buttons.map(
-          b => Polymer.dom(b).textContent);
-      assert.deepEqual(actualButtonLabels, expectedButtons);
-    }
-
-    function createContextControl({numLines,
-                    firstInFile, lastInFile,
-                    expectStepExpansion}) {
+    test('context control buttons', () => {
+      // Create 10 lines.
       const lines = [];
-      for (let i = 0; i < numLines; i++) {
+      for (let i = 0; i < 10; i++) {
         const line = new GrDiffLine(GrDiffLine.Type.BOTH);
         line.beforeNumber = i + 1;
         line.afterNumber = i + 1;
         line.text = 'lorem upsum';
         lines.push(line);
       }
-      lines[0].firstInFile = !!firstInFile;
-      lines[lines.length - 1].lastInFile = !!lastInFile;
+
       const contextLine = {
         contextGroups: [new GrDiffGroup(GrDiffGroup.Type.BOTH, lines)],
       };
+
       const section = {};
-      const td = builder._createContextControl(section, contextLine);
-      return [...td.querySelectorAll('gr-button.showContext')];
-    }
-
-    function getGroupsAfterExpanding(button) {
-      let newGroups;
-      button.addEventListener('tap', e => { newGroups = e.detail.groups; });
-      MockInteractions.tap(button);
-      return newGroups;
-    }
-
-    test('context control buttons in the middle of the file', () => {
-      // Does not include +10 buttons when there are fewer than 21 lines.
-      let buttons = createContextControl({numLines: 20});
-      assertContextControl(buttons, ['Show 20 common lines']);
-
-      // Includes +10 buttons when there are at least 21 lines.
-      buttons = createContextControl({numLines: 21});
-      assertContextControl(buttons, ['+10 Lines', 'Show 21 common lines']);
-
-      // When clicked with 22 Lines expands in both directions with remaining context in the middle.
-
-      buttons = createContextControl({numLines: 22});
-      assertContextControl(buttons, ['+10 Lines', 'Show 22 common lines']);
-      const newGroupTypes = getGroupsAfterExpanding(buttons[0]).map(g => g.type);
-      assert.deepEqual(newGroupTypes,
-          [GrDiffLine.Type.BOTH, GrDiffLine.Type.CONTEXT_CONTROL,
-            GrDiffLine.Type.BOTH]);
-    });
-  
-    test('context control buttons in the beginning of the file', () => {
       // Does not include +10 buttons when there are fewer than 11 lines.
-      let buttons = createContextControl({numLines: 10, firstInFile: true});
-      assertContextControl(buttons, ['Show 10 common lines']);
+      let td = builder._createContextControl(section, contextLine);
+      let buttons = td.querySelectorAll('gr-button.showContext');
 
-      // Includes +10 button when there are at least 11 lines.
-      buttons = createContextControl({numLines: 11, firstInFile: true});
-      assertContextControl(buttons, ['+10 Lines', 'Show 11 common lines']);
+      assert.equal(buttons.length, 1);
+      assert.equal(Polymer.dom(buttons[0]).textContent, 'Show 10 common lines');
 
-      // When clicked with 12 Lines expands only up and remaining context in the beginning of the file.
-      buttons = createContextControl({numLines: 12, firstInFile: true});
-      assertContextControl(buttons, ['+10 Lines', 'Show 12 common lines']);
-      const newGroupTypes = getGroupsAfterExpanding(buttons[0]).map(g => g.type);
-      assert.deepEqual(newGroupTypes,
-          [GrDiffLine.Type.CONTEXT_CONTROL, GrDiffLine.Type.BOTH]);
-    });
+      // Add another line.
+      const line = new GrDiffLine(GrDiffLine.Type.BOTH);
+      line.text = 'lorem upsum';
+      line.beforeNumber = 11;
+      line.afterNumber = 11;
+      contextLine.contextGroups[0].addLine(line);
 
-    test('context control buttons in the end of the file', () => {
-      // Does not include +10 buttons when there are fewer than 11 lines.
-      let buttons = createContextControl({numLines: 10, lastInFile: true});
-      assertContextControl(buttons, ['Show 10 common lines']);
+      // Includes +10 buttons when there are at least 11 lines.
+      td = builder._createContextControl(section, contextLine);
+      buttons = td.querySelectorAll('gr-button.showContext');
 
-      // Includes +10 button when there are at least 11 lines.
-      buttons = createContextControl({numLines: 11, lastInFile: true});
-      assertContextControl(buttons, ['+10 Lines', 'Show 11 common lines']);
-
-      // When clicked with 12 Lines expands only up and remaining context in the beginning of the file.
-      buttons = createContextControl({numLines: 12, lastInFile: true});
-      assertContextControl(buttons, ['+10 Lines', 'Show 12 common lines']);
-      // When clicked with 12 Lines expands only down and remaining context in the end of the file.
-      const newGroupTypes = getGroupsAfterExpanding(buttons[0]).map(g => g.type);
-      assert.deepEqual(newGroupTypes, [GrDiffLine.Type.BOTH,
-        GrDiffLine.Type.CONTEXT_CONTROL]);
+      assert.equal(buttons.length, 3);
+      assert.equal(Polymer.dom(buttons[0]).textContent, '+10↑');
+      assert.equal(Polymer.dom(buttons[1]).textContent, 'Show 11 common lines');
+      assert.equal(Polymer.dom(buttons[2]).textContent, '+10↓');
     });
 
     test('newlines 1', () => {

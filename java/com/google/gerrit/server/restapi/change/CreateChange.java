@@ -37,6 +37,7 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
+import com.google.gerrit.reviewdb.client.BranchNameKey;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
@@ -64,6 +65,7 @@ import com.google.gerrit.server.project.ContributorAgreementsChecker;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.restapi.project.CommitsCollection;
 import com.google.gerrit.server.restapi.project.ProjectsCollection;
 import com.google.gerrit.server.update.BatchUpdate;
@@ -78,11 +80,13 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 import java.util.TimeZone;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.InvalidObjectIdException;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectReader;
@@ -109,6 +113,7 @@ public class CreateChange
   private final ChangeInserter.Factory changeInserterFactory;
   private final ChangeJson.Factory jsonFactory;
   private final ChangeFinder changeFinder;
+  private final Provider<InternalChangeQuery> queryProvider;
   private final PatchSetUtil psUtil;
   private final MergeUtil.Factory mergeUtilFactory;
   private final SubmitType submitType;
@@ -129,6 +134,7 @@ public class CreateChange
       ChangeInserter.Factory changeInserterFactory,
       ChangeJson.Factory json,
       ChangeFinder changeFinder,
+      Provider<InternalChangeQuery> queryProvider,
       RetryHelper retryHelper,
       PatchSetUtil psUtil,
       @GerritServerConfig Config config,
@@ -147,6 +153,7 @@ public class CreateChange
     this.changeInserterFactory = changeInserterFactory;
     this.jsonFactory = json;
     this.changeFinder = changeFinder;
+    this.queryProvider = queryProvider;
     this.psUtil = psUtil;
     this.submitType = config.getEnum("project", null, "submitType", SubmitType.MERGE_IF_NECESSARY);
     this.disablePrivateChanges = config.getBoolean("change", null, "disablePrivateChanges", false);
@@ -207,6 +214,20 @@ public class CreateChange
       throw new BadRequestException("commit message must be non-empty");
     }
     input.subject = subject;
+
+    Optional<String> changeId = getChangeIdFromMessage(input.subject);
+    if (changeId.isPresent()) {
+      if (!queryProvider
+          .get()
+          .setLimit(1)
+          .byBranchKey(
+              BranchNameKey.create(input.project, input.branch), Change.key(changeId.get()))
+          .isEmpty()) {
+        throw new ResourceConflictException(
+            String.format(
+                "A change with Change-Id %s already exists for this branch.", changeId.get()));
+      }
+    }
 
     if (input.topic != null) {
       input.topic = Strings.emptyToNull(input.topic.trim());
@@ -384,6 +405,17 @@ public class CreateChange
     }
 
     return parentCommit;
+  }
+
+  private Optional<String> getChangeIdFromMessage(String subject) {
+    int indexOfChangeId = ChangeIdUtil.indexOfChangeId(subject, "\n");
+    if (indexOfChangeId == -1) {
+      return Optional.empty();
+    }
+    return Optional.of(
+        subject.substring(
+            indexOfChangeId + 11 /* "Change-Id: "*/,
+            indexOfChangeId + 12 /* "Change-Id: I" */ + Constants.OBJECT_ID_STRING_LENGTH));
   }
 
   private String getCommitMessage(String subject, IdentifiedUser me) {

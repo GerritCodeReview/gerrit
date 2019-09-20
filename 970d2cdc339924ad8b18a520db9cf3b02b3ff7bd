@@ -93,6 +93,30 @@
       "revId": "970d2cdc339924ad8b18a520db9cf3b02b3ff7bd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3119bc2b_fd2ba232",
+        "filename": "java/com/google/gerrit/sshd/SshDaemon.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 673,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-09-20T13:43:56Z",
+      "side": 1,
+      "message": "Fair enough, after all that was supposed to be the default behaviour: ignore messages to unknown channels. We should keep it as-is for now.\n\nThe TODO is thus redundant: once we verified that this solves the problem, it should be removed.",
+      "parentUuid": "804f8d24_b6281edf",
+      "range": {
+        "startLine": 661,
+        "startChar": 0,
+        "endLine": 673,
+        "endChar": 6
+      },
+      "revId": "970d2cdc339924ad8b18a520db9cf3b02b3ff7bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

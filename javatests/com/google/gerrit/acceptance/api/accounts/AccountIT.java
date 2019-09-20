@@ -61,6 +61,7 @@ import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.acceptance.TestAccount;
+import com.google.gerrit.acceptance.UseClockStep;
 import com.google.gerrit.acceptance.UseSsh;
 import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
 import com.google.gerrit.acceptance.testsuite.account.TestSshKeys;
@@ -143,7 +144,6 @@ import com.google.gerrit.server.validators.AccountActivationValidationListener;
 import com.google.gerrit.server.validators.ValidationException;
 import com.google.gerrit.testing.ConfigSuite;
 import com.google.gerrit.testing.FakeEmailSender.Message;
-import com.google.gerrit.testing.TestTimeUtil;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.name.Named;
@@ -419,36 +419,32 @@ public class AccountIT extends AbstractDaemonTest {
   }
 
   @Test
+  @UseClockStep
   public void createAtomically() throws Exception {
-    TestTimeUtil.resetWithClockStep(1, SECONDS);
-    try {
-      Account.Id accountId = Account.id(seq.nextAccountId());
-      String fullName = "Foo";
-      ExternalId extId = ExternalId.createEmail(accountId, "foo@example.com");
-      AccountState accountState =
-          accountsUpdateProvider
-              .get()
-              .insert(
-                  "Create Account Atomically",
-                  accountId,
-                  u -> u.setFullName(fullName).addExternalId(extId));
-      assertThat(accountState.getAccount().fullName()).isEqualTo(fullName);
+    Account.Id accountId = Account.id(seq.nextAccountId());
+    String fullName = "Foo";
+    ExternalId extId = ExternalId.createEmail(accountId, "foo@example.com");
+    AccountState accountState =
+        accountsUpdateProvider
+            .get()
+            .insert(
+                "Create Account Atomically",
+                accountId,
+                u -> u.setFullName(fullName).addExternalId(extId));
+    assertThat(accountState.getAccount().fullName()).isEqualTo(fullName);
 
-      AccountInfo info = gApi.accounts().id(accountId.get()).get();
-      assertThat(info.name).isEqualTo(fullName);
+    AccountInfo info = gApi.accounts().id(accountId.get()).get();
+    assertThat(info.name).isEqualTo(fullName);
 
-      List<EmailInfo> emails = gApi.accounts().id(accountId.get()).getEmails();
-      assertThat(emails.stream().map(e -> e.email).collect(toSet())).containsExactly(extId.email());
+    List<EmailInfo> emails = gApi.accounts().id(accountId.get()).getEmails();
+    assertThat(emails.stream().map(e -> e.email).collect(toSet())).containsExactly(extId.email());
 
-      RevCommit commitUserBranch =
-          projectOperations.project(allUsers).getHead(RefNames.refsUsers(accountId));
-      RevCommit commitRefsMetaExternalIds =
-          projectOperations.project(allUsers).getHead(RefNames.REFS_EXTERNAL_IDS);
-      assertThat(commitUserBranch.getCommitTime())
-          .isEqualTo(commitRefsMetaExternalIds.getCommitTime());
-    } finally {
-      TestTimeUtil.useSystemTime();
-    }
+    RevCommit commitUserBranch =
+        projectOperations.project(allUsers).getHead(RefNames.refsUsers(accountId));
+    RevCommit commitRefsMetaExternalIds =
+        projectOperations.project(allUsers).getHead(RefNames.REFS_EXTERNAL_IDS);
+    assertThat(commitUserBranch.getCommitTime())
+        .isEqualTo(commitRefsMetaExternalIds.getCommitTime());
   }
 
   @Test
@@ -2906,9 +2902,9 @@ public class AccountIT extends AbstractDaemonTest {
   }
 
   @Test
+  @UseClockStep
   public void deleteAllDraftComments() throws Exception {
     try {
-      TestTimeUtil.resetWithClockStep(1, SECONDS);
       Project.NameKey project2 = projectOperations.newProject().create();
       PushOneCommit.Result r1 = createChange();
 

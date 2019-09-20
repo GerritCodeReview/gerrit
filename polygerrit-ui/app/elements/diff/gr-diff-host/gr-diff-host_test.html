@@ -305,6 +305,7 @@ limitations under the License.
 
       // Stub the network calls into requests that never resolve.
       sandbox.stub(element, '_getDiff', () => new Promise(() => {}));
+      element.patchRange = {};
 
       element.reload();
       assert.isTrue(cancelStub.called);
@@ -368,6 +369,7 @@ limitations under the License.
             (changeNum, basePatchNum, patchNum, path, onErr) => {
               onErr(error);
             });
+        element.patchRange = {};
         return element.reload().then(() => {
           assert.isTrue(onErrStub.calledOnce);
         });
@@ -725,6 +727,7 @@ limitations under the License.
 
     test('delegates cancel()', () => {
       const stub = sandbox.stub(element.$.diff, 'cancel');
+      element.patchRange = {};
       element.reload();
       assert.isTrue(stub.calledOnce);
       assert.equal(stub.lastCall.args.length, 0);
@@ -1243,9 +1246,11 @@ limitations under the License.
 
       const l = document.createElement('div');
       l.setAttribute('comment-side', 'left');
+      l.setAttribute('line-num', 'FILE');
 
       const r = document.createElement('div');
       r.setAttribute('comment-side', 'right');
+      r.setAttribute('line-num', 'FILE');
 
       const threadEls = [l, r];
       assert.deepEqual(element._filterThreadElsForLocation(threadEls, line),

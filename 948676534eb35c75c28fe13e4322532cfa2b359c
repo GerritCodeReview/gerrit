@@ -46,6 +46,30 @@
       "revId": "948676534eb35c75c28fe13e4322532cfa2b359c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0278c0b2_ee4fdea2",
+        "filename": "WORKSPACE",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-09-20T05:50:07Z",
+      "side": 1,
+      "message": "I assumed it was needed on stable-2.14 and stable-2.15, but I can do it there.",
+      "parentUuid": "005a7eec_86bffff4",
+      "range": {
+        "startLine": 94,
+        "startChar": 4,
+        "endLine": 94,
+        "endChar": 27
+      },
+      "revId": "948676534eb35c75c28fe13e4322532cfa2b359c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

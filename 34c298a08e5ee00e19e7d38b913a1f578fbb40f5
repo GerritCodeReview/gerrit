@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a496e5fa_374c66b4",
+        "filename": "java/com/google/gerrit/server/notedb/rebuild/NoteDbMigrator.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 703,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-09-20T12:45:24Z",
+      "side": 1,
+      "message": "\u003e I was thinking about extending the changes table and adding note_db_skip_error varchar (255) column. That way we could write down there all problems in the rebuilding phase, that we would like to communicate to the primary storage migration phase taht the change is skippable and would need all this recovery/detection black magic code path.\n\u003e \n\u003e Of course, the disavantage is to perform yet another schema migration, while we are on the stable branch 2.16. On the other side, we wouldn\u0027t care much, because this is the last branch that supports ReviewDb anyway.\n\nForcing people to do a ReviewDb schema migration in the middle of a stable-2.16 would not be the best solution, for two reasons:\n\n1. Won\u0027t enable an online migration at all, because a schema migration requires a downtime.\n2. Would break the \"no schema changes\" rule in a patch-release.",
+      "parentUuid": "68f9a48f_d0f1f873",
+      "range": {
+        "startLine": 702,
+        "startChar": 8,
+        "endLine": 703,
+        "endChar": 94
+      },
+      "revId": "34c298a08e5ee00e19e7d38b913a1f578fbb40f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f50174a0_839ee3a1",
         "filename": "java/com/google/gerrit/server/notedb/rebuild/NoteDbMigrator.java",
         "patchSetId": 6
@@ -84,6 +108,30 @@
       "side": 1,
       "message": "oh, better scratch that, I guess we do not want to reload the project for *each* change, but only once during the noteDb migration",
       "parentUuid": "8c07b41d_2cab46c9",
+      "range": {
+        "startLine": 719,
+        "startChar": 13,
+        "endLine": 719,
+        "endChar": 74
+      },
+      "revId": "34c298a08e5ee00e19e7d38b913a1f578fbb40f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f196e23_0744b1d6",
+        "filename": "java/com/google/gerrit/server/notedb/rebuild/NoteDbMigrator.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 719,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-09-20T12:45:24Z",
+      "side": 1,
+      "message": "\u003e oh, better scratch that, I guess we do not want to reload the project for *each* change, but only once during the noteDb migration\n\nWhat about refreshing the project cache *before* starting the NoteDb migration for that project? And, if the project isn\u0027t there, just DO NOT even start the migration of those changes.",
+      "parentUuid": "4e69e7ad_13959950",
       "range": {
         "startLine": 719,
         "startChar": 13,

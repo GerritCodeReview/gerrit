@@ -16,8 +16,8 @@ package com.google.gerrit.acceptance.server.mail;
 
 import static com.google.common.truth.Truth.assertThat;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.clearInvocations;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.when;
 
 import com.google.common.collect.ImmutableList;
@@ -75,7 +75,7 @@ public class MailProcessorIT extends AbstractMailIT {
 
   @Before
   public void setUp() {
-    clearInvocations(mockCommentValidator);
+    reset(mockCommentValidator);
   }
 
   @Test

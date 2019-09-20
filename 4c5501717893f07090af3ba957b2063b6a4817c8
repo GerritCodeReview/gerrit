@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "11354acd_b37a2eef",
+        "filename": "javatests/com/google/gerrit/acceptance/server/mail/MailProcessorIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-20T11:03:57Z",
+      "side": 1,
+      "message": "This is not working correctly. Reset also clears the setup of what the validateComments method should return when it is called on the mock. Above in line 73. we define that the validateComments method should always return ImmutableList.of(), but after reset is called it returns null. It think it\u0027s just by luck that the tests still succeed after this change.",
+      "revId": "4c5501717893f07090af3ba957b2063b6a4817c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

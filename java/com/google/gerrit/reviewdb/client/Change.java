@@ -16,6 +16,7 @@ package com.google.gerrit.reviewdb.client;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.gerrit.reviewdb.client.RefNames.REFS_CHANGES;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.primitives.Ints;
@@ -266,7 +267,7 @@ public final class Change {
   public static ObjectId generateChangeId() {
     byte[] rand = new byte[42];
     rng.nextBytes(rand);
-    String randomString = new String(rand);
+    String randomString = new String(rand, UTF_8);
 
     try (ObjectInserter f = new ObjectInserter.Formatter()) {
       return f.idFor(Constants.OBJ_COMMIT, Constants.encode(randomString));

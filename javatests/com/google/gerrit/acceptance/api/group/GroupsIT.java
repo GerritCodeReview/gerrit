@@ -45,6 +45,7 @@ import com.google.gerrit.acceptance.ProjectResetter;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.acceptance.TestAccount;
+import com.google.gerrit.acceptance.UseClockStep;
 import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
 import com.google.gerrit.acceptance.testsuite.group.GroupOperations;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
@@ -93,7 +94,6 @@ import com.google.gerrit.server.notedb.Sequences;
 import com.google.gerrit.server.util.MagicBranch;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.testing.GerritJUnit.ThrowingRunnable;
-import com.google.gerrit.testing.TestTimeUtil;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.lang.annotation.Retention;
@@ -104,7 +104,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
@@ -121,10 +120,10 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.PushResult;
 import org.eclipse.jgit.transport.RemoteRefUpdate;
 import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
 @NoHttpd
+@UseClockStep
 public class GroupsIT extends AbstractDaemonTest {
   @Inject @ServerInitiated private GroupsUpdate groupsUpdate;
   @Inject private AccountOperations accountOperations;
@@ -139,16 +138,6 @@ public class GroupsIT extends AbstractDaemonTest {
   @Inject private RequestScopeOperations requestScopeOperations;
   @Inject private Sequences seq;
   @Inject private StalenessChecker stalenessChecker;
-
-  @Before
-  public void setTimeForTesting() {
-    TestTimeUtil.resetWithClockStep(1, TimeUnit.SECONDS);
-  }
-
-  @After
-  public void resetTime() {
-    TestTimeUtil.useSystemTime();
-  }
 
   @After
   public void consistencyCheck() throws Exception {

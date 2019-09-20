@@ -128,6 +128,7 @@ import com.google.gerrit.testing.ConfigSuite;
 import com.google.gerrit.testing.FakeEmailSender;
 import com.google.gerrit.testing.FakeEmailSender.Message;
 import com.google.gerrit.testing.SshMode;
+import com.google.gerrit.testing.TestTimeUtil;
 import com.google.gson.Gson;
 import com.google.inject.Inject;
 import com.google.inject.Module;
@@ -143,6 +144,8 @@ import java.nio.file.FileSystem;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -285,6 +288,7 @@ public abstract class AbstractDaemonTest {
 
   private ProjectResetter resetter;
   private List<Repository> toClose;
+  private String systemTimeZone;
 
   @Before
   public void clearSender() {
@@ -435,6 +439,37 @@ public abstract class AbstractDaemonTest {
     if (!classDesc.skipProjectClone()) {
       testRepo = cloneProject(project, getCloneAsAccount(description));
     }
+
+    // Set the clock step last, so that the test setup isn't consuming any timestamps after the
+    // clock has been set.
+    setTimeSettings(classDesc.useSystemTime(), classDesc.useClockStep(), classDesc.useTimezone());
+    setTimeSettings(
+        methodDesc.useSystemTime(), methodDesc.useClockStep(), methodDesc.useTimezone());
+  }
+
+  private void setTimeSettings(
+      boolean useSystemTime,
+      @Nullable UseClockStep useClockStep,
+      @Nullable UseTimezone useTimezone) {
+    if (useSystemTime) {
+      TestTimeUtil.useSystemTime();
+    } else if (useClockStep != null) {
+      TestTimeUtil.resetWithClockStep(useClockStep.clockStep(), useClockStep.clockStepUnit());
+      if (useClockStep.startAtEpoch()) {
+        TestTimeUtil.setClock(Timestamp.from(Instant.EPOCH));
+      }
+    }
+    if (useTimezone != null) {
+      systemTimeZone = System.setProperty("user.timezone", useTimezone.timezone());
+    }
+  }
+
+  private void resetTimeSettings() {
+    TestTimeUtil.useSystemTime();
+    if (systemTimeZone != null) {
+      System.setProperty("user.timezone", systemTimeZone);
+      systemTimeZone = null;
+    }
   }
 
   /** Override to bind an additional Guice module */
@@ -562,6 +597,7 @@ public abstract class AbstractDaemonTest {
       repo.close();
     }
     closeSsh();
+    resetTimeSettings();
     if (server != commonServer) {
       server.close();
       server = null;

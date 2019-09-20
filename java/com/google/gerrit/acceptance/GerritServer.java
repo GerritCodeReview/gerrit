@@ -110,6 +110,9 @@ public class GerritServer implements AutoCloseable {
           has(Sandboxed.class, testDesc.getTestClass()),
           has(SkipProjectClone.class, testDesc.getTestClass()),
           has(UseSsh.class, testDesc.getTestClass()),
+          false, // @UseSystemTime is only valid on methods.
+          get(UseClockStep.class, testDesc.getTestClass()),
+          get(UseTimezone.class, testDesc.getTestClass()),
           null, // @GerritConfig is only valid on methods.
           null, // @GerritConfigs is only valid on methods.
           null, // @GlobalPluginConfig is only valid on methods.
@@ -119,6 +122,15 @@ public class GerritServer implements AutoCloseable {
 
     public static Description forTestMethod(
         org.junit.runner.Description testDesc, String configName) {
+      UseClockStep useClockStep = testDesc.getAnnotation(UseClockStep.class);
+      if (testDesc.getAnnotation(UseSystemTime.class) == null && useClockStep == null) {
+        // Only read the UseClockStep from the class if on method level neither @UseSystemTime nor
+        // @UseClockStep have been used.
+        // If the method defines @UseSystemTime or @UseClockStep it should overwrite @UseClockStep
+        // on class level.
+        useClockStep = get(UseClockStep.class, testDesc.getTestClass());
+      }
+
       return new AutoValue_GerritServer_Description(
           testDesc,
           configName,
@@ -133,6 +145,11 @@ public class GerritServer implements AutoCloseable {
               || has(SkipProjectClone.class, testDesc.getTestClass()),
           testDesc.getAnnotation(UseSsh.class) != null
               || has(UseSsh.class, testDesc.getTestClass()),
+          testDesc.getAnnotation(UseSystemTime.class) != null,
+          useClockStep,
+          testDesc.getAnnotation(UseTimezone.class) != null
+              ? testDesc.getAnnotation(UseTimezone.class)
+              : get(UseTimezone.class, testDesc.getTestClass()),
           testDesc.getAnnotation(GerritConfig.class),
           testDesc.getAnnotation(GerritConfigs.class),
           testDesc.getAnnotation(GlobalPluginConfig.class),
@@ -147,6 +164,16 @@ public class GerritServer implements AutoCloseable {
         }
       }
       return false;
+    }
+
+    @Nullable
+    private static <T extends Annotation> T get(Class<T> annotation, Class<?> clazz) {
+      for (; clazz != null; clazz = clazz.getSuperclass()) {
+        if (clazz.getAnnotation(annotation) != null) {
+          return clazz.getAnnotation(annotation);
+        }
+      }
+      return null;
     }
 
     private static Level getLogLevelThresholdAnnotation(org.junit.runner.Description testDesc) {
@@ -176,6 +203,14 @@ public class GerritServer implements AutoCloseable {
       return useSshAnnotation() && SshMode.useSsh();
     }
 
+    abstract boolean useSystemTime();
+
+    @Nullable
+    abstract UseClockStep useClockStep();
+
+    @Nullable
+    abstract UseTimezone useTimezone();
+
     @Nullable
     abstract GerritConfig config();
 
@@ -191,12 +226,15 @@ public class GerritServer implements AutoCloseable {
     abstract Level logLevelThreshold();
 
     private void checkValidAnnotations() {
+      if (useClockStep() != null && useSystemTime()) {
+        throw new IllegalStateException("Use either @UseClockStep or @UseSystemTime, not both");
+      }
       if (configs() != null && config() != null) {
-        throw new IllegalStateException("Use either @GerritConfigs or @GerritConfig not both");
+        throw new IllegalStateException("Use either @GerritConfigs or @GerritConfig, not both");
       }
       if (pluginConfigs() != null && pluginConfig() != null) {
         throw new IllegalStateException(
-            "Use either @GlobalPluginConfig or @GlobalPluginConfigs not both");
+            "Use either @GlobalPluginConfig or @GlobalPluginConfigs, not both");
       }
       if ((pluginConfigs() != null || pluginConfig() != null) && memory()) {
         throw new IllegalStateException("Must use @UseLocalDisk with @GlobalPluginConfig(s)");

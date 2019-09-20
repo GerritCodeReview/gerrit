@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5609684e_5166863e",
+        "filename": "java/com/google/gerrit/acceptance/GerritServer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-20T13:08:39Z",
+      "side": 1,
+      "message": "If the annotation is not set on method level, we must still read the annotation from the class. Otherwise classDesc and methodDesc will differ if the annotation is only used on class level. If they differ AbstractDeamonTest#before will start a new Gerrit server, instead of using the common test server instance. That makes the tests much slower and is the reason why on this patch set the //javatests/com/google/gerrit/acceptance/rest/change:rest_change_submit test timed out.",
+      "range": {
+        "startLine": 140,
+        "startChar": 10,
+        "endLine": 141,
+        "endChar": 52
+      },
+      "revId": "d9685e8195ef8286b3e46ef527c6ee5c9f360d2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

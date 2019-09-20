@@ -45,6 +45,40 @@
       "revId": "4c07737ccd9755e32b60d3412b5db3cf3e8fb2f7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b8f542f5_6e631319",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/CreateTestPlugin.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-09-20T13:46:22Z",
+      "side": 1,
+      "message": "Why is this file here? This is not a test, but rather test setting code. According to the Gerrit package concept, it should go to testing package in java and not in javatests, also to:\n\n  java/com/google/gerrit/acceptance\n\nor even\n\n  java/com/google/gerrit/acceptance/rest",
+      "revId": "4c07737ccd9755e32b60d3412b5db3cf3e8fb2f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fa01bd88_e8223c57",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/GetTestPlugin.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-09-20T13:46:22Z",
+      "side": 1,
+      "message": "Same here and all other new files.",
+      "revId": "4c07737ccd9755e32b60d3412b5db3cf3e8fb2f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

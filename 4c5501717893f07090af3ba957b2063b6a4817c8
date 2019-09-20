@@ -34,6 +34,24 @@
       "revId": "4c5501717893f07090af3ba957b2063b6a4817c8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "64b8e20f_fcd324a1",
+        "filename": "javatests/com/google/gerrit/acceptance/server/mail/MailProcessorIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-09-20T11:46:45Z",
+      "side": 1,
+      "message": "I don\u0027t know what was wrong before, but right now it compiles and the tests pass. It probably relates to something else in that change that I didn\u0027t do.",
+      "parentUuid": "da89313a_a5ee71cf",
+      "revId": "4c5501717893f07090af3ba957b2063b6a4817c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

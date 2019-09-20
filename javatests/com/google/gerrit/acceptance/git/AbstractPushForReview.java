@@ -41,7 +41,6 @@ import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS
 import static com.google.gerrit.server.project.testing.TestLabels.label;
 import static com.google.gerrit.server.project.testing.TestLabels.value;
 import static java.util.Comparator.comparing;
-import static java.util.concurrent.TimeUnit.SECONDS;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 
@@ -58,6 +57,7 @@ import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.acceptance.SkipProjectClone;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.TestProjectInput;
+import com.google.gerrit.acceptance.UseClockStep;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.data.GlobalCapability;
@@ -105,7 +105,6 @@ import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.testing.TestLabels;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.testing.FakeEmailSender.Message;
-import com.google.gerrit.testing.TestTimeUtil;
 import com.google.inject.Inject;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -134,12 +133,11 @@ import org.eclipse.jgit.transport.PushResult;
 import org.eclipse.jgit.transport.RefSpec;
 import org.eclipse.jgit.transport.RemoteRefUpdate;
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 @SkipProjectClone
+@UseClockStep
 public abstract class AbstractPushForReview extends AbstractDaemonTest {
   protected enum Protocol {
     // Only test protocols which are actually served by the Gerrit server, since each separate test
@@ -159,16 +157,6 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   private LabelType patchSetLock;
 
   @Inject private DynamicSet<CommitValidationListener> commitValidators;
-
-  @BeforeClass
-  public static void setTimeForTesting() {
-    TestTimeUtil.resetWithClockStep(1, SECONDS);
-  }
-
-  @AfterClass
-  public static void restoreTime() {
-    TestTimeUtil.useSystemTime();
-  }
 
   @Before
   public void setUpPatchSetLock() throws Exception {

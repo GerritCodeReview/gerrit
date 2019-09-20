@@ -23,7 +23,6 @@ import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.parseCommitMessageRange;
 import static com.google.gerrit.server.restapi.change.DeleteChangeMessage.createNewChangeMessage;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
-import static java.util.concurrent.TimeUnit.SECONDS;
 import static java.util.stream.Collectors.toSet;
 import static org.eclipse.jgit.util.RawParseUtils.decode;
 
@@ -32,6 +31,8 @@ import com.google.common.collect.Lists;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
+import com.google.gerrit.acceptance.UseClockStep;
+import com.google.gerrit.acceptance.UseTimezone;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.data.GlobalCapability;
@@ -45,7 +46,6 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.server.notedb.ChangeNoteUtil;
 import com.google.gerrit.testing.ConfigSuite;
-import com.google.gerrit.testing.TestTimeUtil;
 import com.google.inject.Inject;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
@@ -54,29 +54,15 @@ import java.util.List;
 import java.util.Optional;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.util.RawParseUtils;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+@UseClockStep
+@UseTimezone(timezone = "US/Eastern")
 @RunWith(ConfigSuite.class)
 public class ChangeMessagesIT extends AbstractDaemonTest {
   @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
-
-  private String systemTimeZone;
-
-  @Before
-  public void setTimeForTesting() {
-    systemTimeZone = System.setProperty("user.timezone", "US/Eastern");
-    TestTimeUtil.resetWithClockStep(1, SECONDS);
-  }
-
-  @After
-  public void resetTime() {
-    TestTimeUtil.useSystemTime();
-    System.setProperty("user.timezone", systemTimeZone);
-  }
 
   @Test
   public void messagesNotReturnedByDefault() throws Exception {

@@ -20,7 +20,6 @@ import static com.google.gerrit.extensions.client.ListChangesOption.MESSAGES;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.util.concurrent.TimeUnit.HOURS;
-import static java.util.concurrent.TimeUnit.SECONDS;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.collect.ImmutableList;
@@ -28,6 +27,7 @@ import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.UseClockStep;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.data.Permission;
@@ -113,10 +113,9 @@ public class AbandonIT extends AbstractDaemonTest {
   }
 
   @Test
+  @UseClockStep
   @GerritConfig(name = "changeCleanup.abandonAfter", value = "1w")
   public void abandonInactiveOpenChanges() throws Exception {
-    TestTimeUtil.resetWithClockStep(1, SECONDS);
-
     // create 2 changes which will be abandoned ...
     int id1 = createChange().getChange().getId().get();
     int id2 = createChange().getChange().getId().get();

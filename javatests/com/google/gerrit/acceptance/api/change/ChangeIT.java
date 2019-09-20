@@ -58,7 +58,6 @@ import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static com.google.gerrit.truth.CacheStatsSubject.assertThat;
 import static com.google.gerrit.truth.CacheStatsSubject.cloneStats;
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static java.util.concurrent.TimeUnit.SECONDS;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
@@ -78,6 +77,8 @@ import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestProjectInput;
+import com.google.gerrit.acceptance.UseClockStep;
+import com.google.gerrit.acceptance.UseTimezone;
 import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
 import com.google.gerrit.acceptance.testsuite.group.GroupOperations;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
@@ -182,7 +183,6 @@ import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.testing.FakeEmailSender.Message;
-import com.google.gerrit.testing.TestTimeUtil;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
@@ -213,8 +213,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 @NoHttpd
+@UseTimezone(timezone = "US/Eastern")
 public class ChangeIT extends AbstractDaemonTest {
-  private String systemTimeZone;
 
   @Inject private AccountOperations accountOperations;
   @Inject private ChangeIndexCollection changeIndexCollection;
@@ -240,17 +240,6 @@ public class ChangeIT extends AbstractDaemonTest {
 
   private ChangeIndexedCounter changeIndexedCounter;
   private RegistrationHandle changeIndexedCounterHandle;
-
-  @Before
-  public void setTimeForTesting() {
-    systemTimeZone = System.setProperty("user.timezone", "US/Eastern");
-  }
-
-  @After
-  public void resetTime() {
-    TestTimeUtil.useSystemTime();
-    System.setProperty("user.timezone", systemTimeZone);
-  }
 
   @Before
   public void addChangeIndexedCounter() {
@@ -1896,6 +1885,7 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  @UseClockStep
   public void addReviewer() throws Exception {
     testAddReviewerViaPostReview(
         (changeId, reviewer) -> {
@@ -1906,6 +1896,7 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  @UseClockStep
   public void addReviewerViaPostReview() throws Exception {
     testAddReviewerViaPostReview(
         (changeId, reviewer) -> {
@@ -1918,7 +1909,6 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   private void testAddReviewerViaPostReview(AddReviewerCaller addReviewer) throws Exception {
-    TestTimeUtil.resetWithClockStep(1, SECONDS);
     PushOneCommit.Result r = createChange();
     ChangeResource rsrc = parseResource(r);
     String oldETag = rsrc.getETag();
@@ -2028,8 +2018,8 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  @UseClockStep
   public void addReviewerThatIsNotPerfectMatch() throws Exception {
-    TestTimeUtil.resetWithClockStep(1, SECONDS);
     PushOneCommit.Result r = createChange();
     ChangeResource rsrc = parseResource(r);
     String oldETag = rsrc.getETag();
@@ -2077,8 +2067,8 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  @UseClockStep
   public void addGroupAsReviewersWhenANotPerfectMatchedUserExists() throws Exception {
-    TestTimeUtil.resetWithClockStep(1, SECONDS);
     PushOneCommit.Result r = createChange();
     ChangeResource rsrc = parseResource(r);
     String oldETag = rsrc.getETag();
@@ -2138,8 +2128,8 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  @UseClockStep
   public void addSelfAsReviewer() throws Exception {
-    TestTimeUtil.resetWithClockStep(1, SECONDS);
     PushOneCommit.Result r = createChange();
     ChangeResource rsrc = parseResource(r);
     String oldETag = rsrc.getETag();

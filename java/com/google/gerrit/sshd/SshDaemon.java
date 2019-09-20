@@ -66,6 +66,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.apache.mina.transport.socket.SocketSessionConfig;
 import org.apache.sshd.common.BaseBuilder;
 import org.apache.sshd.common.NamedFactory;
+import org.apache.sshd.common.channel.Channel;
 import org.apache.sshd.common.channel.RequestHandler;
 import org.apache.sshd.common.cipher.Cipher;
 import org.apache.sshd.common.compression.BuiltinCompressions;
@@ -89,6 +90,7 @@ import org.apache.sshd.common.random.Random;
 import org.apache.sshd.common.random.SingletonRandomFactory;
 import org.apache.sshd.common.session.ConnectionService;
 import org.apache.sshd.common.session.Session;
+import org.apache.sshd.common.session.UnknownChannelReferenceHandler;
 import org.apache.sshd.common.util.buffer.Buffer;
 import org.apache.sshd.common.util.buffer.ByteArrayBuffer;
 import org.apache.sshd.common.util.net.SshdSocketAddress;
@@ -226,6 +228,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
     initMacs(cfg);
     initSignatures();
     initChannels();
+    initUnknownChannelReferenceHandler();
     initForwarding();
     initFileSystemFactory();
     initSubsystems();
@@ -651,6 +654,19 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
 
   private void initChannels() {
     setChannelFactories(ServerBuilder.DEFAULT_CHANNEL_FACTORIES);
+  }
+
+  private void initUnknownChannelReferenceHandler() {
+    setUnknownChannelReferenceHandler(
+        new UnknownChannelReferenceHandler() {
+          @Override
+          public Channel handleUnknownChannelCommand(
+              ConnectionService service, byte cmd, int channelId, Buffer buffer)
+              throws IOException {
+            logger.atInfo().log("Unknown channel command for channel: %s", channelId);
+            return null;
+          }
+        });
   }
 
   private void initSubsystems() {

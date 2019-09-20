@@ -16,6 +16,24 @@
       "revId": "b8f9ad85369741fa42b9f933a1dc814465f9b554",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9aafd06f_21b56f6b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-09-20T09:30:26Z",
+      "side": 1,
+      "message": "nope, that one is a different issue that relates to the browser, I will file a separate issue to chromium for that problem.",
+      "parentUuid": "13699af8_474c3b18",
+      "revId": "b8f9ad85369741fa42b9f933a1dc814465f9b554",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -155,6 +155,31 @@ public class CreateChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void cannotCreateChangeWithChangeIfOfExistingChangeOnSameBranch() throws Exception {
+    String changeId = createChange().getChangeId();
+
+    ChangeInput ci = newChangeInput(ChangeStatus.NEW);
+    ci.subject = "Subject\n\nChange-Id: " + changeId;
+    assertCreateFails(
+        ci,
+        ResourceConflictException.class,
+        "A change with Change-Id " + changeId + " already exists for this branch.");
+  }
+
+  @Test
+  public void canCreateChangeWithChangeIfOfExistingChangeOnOtherBranch() throws Exception {
+    String changeId = createChange().getChangeId();
+
+    createBranch(BranchNameKey.create(project, "other"));
+
+    ChangeInput ci = newChangeInput(ChangeStatus.NEW);
+    ci.subject = "Subject\n\nChange-Id: " + changeId;
+    ci.branch = "other";
+    ChangeInfo info = assertCreateSucceeds(ci);
+    assertThat(info.changeId).isEqualTo(changeId);
+  }
+
+  @Test
   public void notificationsOnChangeCreation() throws Exception {
     requestScopeOperations.setApiUser(user.id());
     watch(project.get());

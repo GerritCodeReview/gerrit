@@ -87,7 +87,6 @@ closure_repositories(
     omit_bazel_skylib = True,
     omit_javax_inject = True,
     omit_rules_cc = True,
-    omit_rules_java = True,
 )
 
 ANTLR_VERS = "3.5.2"

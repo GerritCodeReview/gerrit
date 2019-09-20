@@ -20,6 +20,21 @@ import com.google.gerrit.extensions.annotations.ExtensionPoint;
 @ExtensionPoint
 public interface ChangeIndexedListener {
   /**
+   * Invoked when a change is scheduled for indexing.
+   *
+   * @param projectName project containing the change
+   * @param id id of the change that was scheduled for indexing
+   */
+  default void onChangeScheduledForIndexing(String projectName, int id) {}
+
+  /**
+   * Invoked when a change is scheduled for deletion from indexing.
+   *
+   * @param id id of the change that was scheduled for deletion from indexing
+   */
+  default void onChangeScheduledForDeletionFromIndex(int id) {}
+
+  /**
    * Invoked when a change is indexed.
    *
    * @param projectName project containing the change

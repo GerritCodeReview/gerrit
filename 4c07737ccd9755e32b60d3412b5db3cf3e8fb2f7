@@ -113,6 +113,24 @@
     },
     {
       "key": {
+        "uuid": "2e900b43_adcb4c69",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/CreateTestPlugin.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-09-20T14:13:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b8f542f5_6e631319",
+      "revId": "4c07737ccd9755e32b60d3412b5db3cf3e8fb2f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fa01bd88_e8223c57",
         "filename": "javatests/com/google/gerrit/acceptance/rest/GetTestPlugin.java",
         "patchSetId": 8
@@ -127,6 +145,24 @@
       "revId": "4c07737ccd9755e32b60d3412b5db3cf3e8fb2f7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "40e97fa8_bcf3f0dc",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/GetTestPlugin.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-09-20T14:13:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fa01bd88_e8223c57",
+      "revId": "4c07737ccd9755e32b60d3412b5db3cf3e8fb2f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

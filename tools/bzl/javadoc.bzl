@@ -80,7 +80,7 @@ _java_doc = rule(
 def java_doc(**kwargs):
     libs = kwargs.get("libs", [])
     libs = libs + select({
-        "//:java9": [],
+        "//:java11": [],
         "//:java_next": [],
         # TODO(davido): Remove this dependency, when Java 8 support is removed.
         # auto-value generates @javax.annotation.Generated annotation on generated

@@ -7,7 +7,7 @@ DUMMY = ["dummy.sh"]
 sh_test(
     name = "test_examples",
     srcs = select({
-        "//:java9": DUMMY,
+        "//:java11": DUMMY,
         "//:java_next": DUMMY,
         "//conditions:default": ["run.sh"],
     }),

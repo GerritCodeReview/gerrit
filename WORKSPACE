@@ -2,7 +2,6 @@ workspace(name = "gerrit")
 
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive", "http_file")
 load("//tools/bzl:maven_jar.bzl", "GERRIT", "MAVEN_LOCAL", "maven_jar")
-load("//lib/codemirror:cm.bzl", "CM_VERSION", "DIFF_MATCH_PATCH_VERSION")
 load("//plugins:external_plugin_deps.bzl", "external_plugin_deps")
 
 http_archive(
@@ -88,6 +87,9 @@ closure_repositories(
     omit_javax_inject = True,
     omit_rules_cc = True,
 )
+
+# This has to be done after loading of rules_closure, because it loads rules_java
+load("//lib/codemirror:cm.bzl", "CM_VERSION", "DIFF_MATCH_PATCH_VERSION")
 
 ANTLR_VERS = "3.5.2"
 

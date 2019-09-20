@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c9965324_de9eb01c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-09-20T13:32:40Z",
+      "side": 1,
+      "message": "permission",
+      "range": {
+        "startLine": 14,
+        "startChar": 19,
+        "endLine": 14,
+        "endChar": 30
+      },
+      "revId": "4c07737ccd9755e32b60d3412b5db3cf3e8fb2f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7d11168c_85c33513",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/BUILD",
+        "patchSetId": 8
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-09-20T13:32:40Z",
+      "side": 1,
+      "message": "Any particular reason why we don\u0027t use wildcards here?",
+      "range": {
+        "startLine": 19,
+        "startChar": 8,
+        "endLine": 24,
+        "endChar": 31
+      },
+      "revId": "4c07737ccd9755e32b60d3412b5db3cf3e8fb2f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "666d43a0_107b9b31",
+        "filename": "java/com/google/gerrit/sshd/SshDaemon.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 659,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-09-20T13:22:13Z",
+      "side": 1,
+      "message": "It is set per default in BaseBuilder.java:\n\n  protected S fillWithDefaultValues() {\n        if (randomFactory \u003d\u003d null) {\n            randomFactory \u003d new SingletonRandomFactory(SecurityUtils.getRandomFactory());\n        }\n\n        if (cipherFactories \u003d\u003d null) {\n            cipherFactories \u003d setUpDefaultCiphers(false);\n        }\n\n        if (macFactories \u003d\u003d null) {\n            macFactories \u003d setUpDefaultMacs(false);\n        }\n\n        if (fileSystemFactory \u003d\u003d null) {\n            fileSystemFactory \u003d DEFAULT_FILE_SYSTEM_FACTORY;\n        }\n\n        if (forwardingFilter \u003d\u003d null) {\n            forwardingFilter \u003d DEFAULT_FORWARDING_FILTER;\n        }\n\n        if (forwarderFactory \u003d\u003d null) {\n            forwarderFactory \u003d DEFAULT_FORWARDER_FACTORY;\n        }\n\n        if (unknownChannelReferenceHandler \u003d\u003d null) {\n            unknownChannelReferenceHandler \u003d DEFAULT_UNKNOWN_CHANNEL_REFERENCE_HANDLER;\n        }\n\n        return me();\n    }\n\nFor some reasons we don\u0027t use this base class, unfortunately.",
+      "parentUuid": "4448139b_319e93b1",
+      "range": {
+        "startLine": 659,
+        "startChar": 38,
+        "endLine": 659,
+        "endChar": 75
+      },
+      "revId": "970d2cdc339924ad8b18a520db9cf3b02b3ff7bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7528defe_72ae7a60",
         "filename": "java/com/google/gerrit/sshd/SshDaemon.java",
         "patchSetId": 3
@@ -45,6 +69,30 @@
       "revId": "970d2cdc339924ad8b18a520db9cf3b02b3ff7bd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "804f8d24_b6281edf",
+        "filename": "java/com/google/gerrit/sshd/SshDaemon.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 673,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-09-20T13:22:13Z",
+      "side": 1,
+      "message": "\u003e However, I\u0027ve looked at the implementation and it doesn\u0027t log any warnings.\n\nAre you sure? I\u0027m reading it differently:\n\n    @Override\n    public Channel handleUnknownChannelCommand(\n            ConnectionService service, byte cmd, int channelId, Buffer buffer)\n                    throws IOException {\n        Session session \u003d service.getSession();\n        // Use DEBUG level to avoid log overflow due to invalid messages flood\n        boolean debugEnabled \u003d log.isDebugEnabled();\n        if (debugEnabled) {\n            log.debug(\"handleUnknownChannelCommand({}) received {} command for unknown channel: {}\",\n                    session, SshConstants.getCommandMessageName(cmd), channelId);\n        }\n\nI don\u0027t wan to flood the logs, and i think that debug level is good enough.",
+      "parentUuid": "7528defe_72ae7a60",
+      "range": {
+        "startLine": 661,
+        "startChar": 0,
+        "endLine": 673,
+        "endChar": 6
+      },
+      "revId": "970d2cdc339924ad8b18a520db9cf3b02b3ff7bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

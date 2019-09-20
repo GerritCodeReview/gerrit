@@ -45,6 +45,54 @@
       "revId": "d99656a4ba8362aed5f390c14be0c9c70447c759",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "34895478_ef75b807",
+        "filename": "WORKSPACE",
+        "patchSetId": 2
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-09-20T06:14:02Z",
+      "side": 0,
+      "message": "Reverted. Done.",
+      "parentUuid": "8280a0f7_d6b1161b",
+      "range": {
+        "startLine": 4,
+        "startChar": 44,
+        "endLine": 4,
+        "endChar": 57
+      },
+      "revId": "d99656a4ba8362aed5f390c14be0c9c70447c759",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d2a4ed3d_f898572f",
+        "filename": "WORKSPACE",
+        "patchSetId": 2
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-09-20T06:14:02Z",
+      "side": 0,
+      "message": "Ack",
+      "parentUuid": "c5d47104_2f8b79ec",
+      "range": {
+        "startLine": 4,
+        "startChar": 44,
+        "endLine": 4,
+        "endChar": 57
+      },
+      "revId": "d99656a4ba8362aed5f390c14be0c9c70447c759",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

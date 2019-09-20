@@ -92,7 +92,12 @@
         value: false,
       },
       /** @type {?} */
-      patchRange: Object,
+      patchRange: {
+        type: Object,
+        value() {
+          return {};
+        },
+      },
       path: String,
       prefs: {
         type: Object,

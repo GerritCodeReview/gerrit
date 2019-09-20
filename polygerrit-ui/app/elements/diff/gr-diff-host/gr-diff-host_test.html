@@ -1243,9 +1243,11 @@ limitations under the License.
 
       const l = document.createElement('div');
       l.setAttribute('comment-side', 'left');
+      l.setAttribute('line-num', 'FILE');
 
       const r = document.createElement('div');
       r.setAttribute('comment-side', 'right');
+      r.setAttribute('line-num', 'FILE');
 
       const threadEls = [l, r];
       assert.deepEqual(element._filterThreadElsForLocation(threadEls, line),

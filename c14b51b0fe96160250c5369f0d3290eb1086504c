@@ -22,6 +22,30 @@
       "revId": "c14b51b0fe96160250c5369f0d3290eb1086504c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f56836cf_7bc61a3e",
+        "filename": "java/com/google/gerrit/sshd/SshDaemon.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 666,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-09-20T13:11:19Z",
+      "side": 1,
+      "message": "Thanks. I started to improve the logging message, as you suggested, but then I realized that there is a default implementation in SSHD library:\n\n  DefaultUnknownChannelReferenceHandler.INSTANCE\n\nLet\u0027s try to use this one and see, if this works too.",
+      "parentUuid": "794e3565_f8d8e185",
+      "range": {
+        "startLine": 666,
+        "startChar": 33,
+        "endLine": 666,
+        "endChar": 68
+      },
+      "revId": "c14b51b0fe96160250c5369f0d3290eb1086504c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

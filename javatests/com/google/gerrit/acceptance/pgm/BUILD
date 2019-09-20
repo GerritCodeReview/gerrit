@@ -30,7 +30,7 @@ acceptance_tests(
         "pgm",
         "no_windows",
     ],
-    vm_args = ["-Xmx512m"],
+    vm_args = ["-Xmx1024m"],
     deps = [
         ":util",
         "//java/com/google/gerrit/elasticsearch",

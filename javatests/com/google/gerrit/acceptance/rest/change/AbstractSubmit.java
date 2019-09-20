@@ -29,7 +29,6 @@ import static com.google.gerrit.server.group.SystemGroupBackend.CHANGE_OWNER;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.util.Objects.requireNonNull;
-import static java.util.concurrent.TimeUnit.SECONDS;
 import static java.util.stream.Collectors.toList;
 import static org.eclipse.jgit.lib.Constants.EMPTY_TREE_ID;
 import static org.mockito.Mockito.atLeast;
@@ -49,6 +48,8 @@ import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.TestProjectInput;
+import com.google.gerrit.acceptance.UseClockStep;
+import com.google.gerrit.acceptance.UseTimezone;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.Nullable;
@@ -95,7 +96,6 @@ import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.server.validators.ValidationException;
 import com.google.gerrit.testing.ConfigSuite;
 import com.google.gerrit.testing.GerritJUnit.ThrowingRunnable;
-import com.google.gerrit.testing.TestTimeUtil;
 import com.google.inject.Inject;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -119,10 +119,11 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.ReceiveCommand;
 import org.eclipse.jgit.transport.RefSpec;
 import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
 @NoHttpd
+@UseClockStep
+@UseTimezone(timezone = "US/Eastern")
 public abstract class AbstractSubmit extends AbstractDaemonTest {
   @ConfigSuite.Config
   public static Config submitWholeTopicEnabled() {
@@ -138,19 +139,6 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   @Inject private Submit submitHandler;
 
   private RegistrationHandle onSubmitValidatorHandle;
-  private String systemTimeZone;
-
-  @Before
-  public void setTimeForTesting() {
-    systemTimeZone = System.setProperty("user.timezone", "US/Eastern");
-    TestTimeUtil.resetWithClockStep(1, SECONDS);
-  }
-
-  @After
-  public void resetTime() {
-    TestTimeUtil.useSystemTime();
-    System.setProperty("user.timezone", systemTimeZone);
-  }
 
   @After
   public void removeOnSubmitValidator() {

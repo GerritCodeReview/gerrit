@@ -27,7 +27,6 @@ import static com.google.gerrit.reviewdb.client.Patch.COMMIT_MSG;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static java.util.concurrent.TimeUnit.SECONDS;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.collect.ImmutableList;
@@ -37,6 +36,7 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.TestProjectInput;
+import com.google.gerrit.acceptance.UseClockStep;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.RawInputUtil;
@@ -65,7 +65,6 @@ import com.google.gerrit.server.project.testing.TestLabels;
 import com.google.gerrit.server.restapi.change.ChangeEdits.EditMessage;
 import com.google.gerrit.server.restapi.change.ChangeEdits.Post;
 import com.google.gerrit.server.restapi.change.ChangeEdits.Put;
-import com.google.gerrit.testing.TestTimeUtil;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import com.google.inject.Inject;
@@ -81,11 +80,10 @@ import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
+@UseClockStep
 public class ChangeEditIT extends AbstractDaemonTest {
 
   private static final String FILE_NAME = "foo";
@@ -102,16 +100,6 @@ public class ChangeEditIT extends AbstractDaemonTest {
   private String changeId;
   private String changeId2;
   private PatchSet ps;
-
-  @BeforeClass
-  public static void setTimeForTesting() {
-    TestTimeUtil.resetWithClockStep(1, SECONDS);
-  }
-
-  @AfterClass
-  public static void restoreTime() {
-    TestTimeUtil.useSystemTime();
-  }
 
   @Before
   public void setUp() throws Exception {

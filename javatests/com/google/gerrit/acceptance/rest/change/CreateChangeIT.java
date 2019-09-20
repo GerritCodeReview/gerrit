@@ -20,7 +20,6 @@ import static com.google.gerrit.common.data.Permission.READ;
 import static com.google.gerrit.reviewdb.client.RefNames.changeMetaRef;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
-import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.eclipse.jgit.lib.Constants.SIGNED_OFF_BY_TAG;
 
 import com.google.common.base.Strings;
@@ -29,6 +28,7 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.PushOneCommit.Result;
 import com.google.gerrit.acceptance.RestResponse;
+import com.google.gerrit.acceptance.UseClockStep;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
@@ -51,7 +51,6 @@ import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.submit.ChangeAlreadyMergedException;
 import com.google.gerrit.testing.FakeEmailSender.Message;
-import com.google.gerrit.testing.TestTimeUtil;
 import com.google.inject.Inject;
 import java.util.List;
 import java.util.Map;
@@ -61,23 +60,12 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.RefSpec;
-import org.junit.AfterClass;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
+@UseClockStep
 public class CreateChangeIT extends AbstractDaemonTest {
   @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
-
-  @BeforeClass
-  public static void setTimeForTesting() {
-    TestTimeUtil.resetWithClockStep(1, SECONDS);
-  }
-
-  @AfterClass
-  public static void restoreTime() {
-    TestTimeUtil.useSystemTime();
-  }
 
   @Test
   public void createEmptyChange_MissingBranch() throws Exception {

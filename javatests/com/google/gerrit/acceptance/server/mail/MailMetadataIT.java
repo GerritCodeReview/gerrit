@@ -15,11 +15,12 @@
 package com.google.gerrit.acceptance.server.mail;
 
 import static com.google.common.truth.Truth.assertThat;
-import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.UseClockStep;
+import com.google.gerrit.acceptance.UseTimezone;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
@@ -27,7 +28,6 @@ import com.google.gerrit.mail.EmailHeader;
 import com.google.gerrit.mail.MailProcessingUtil;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.testing.FakeEmailSender;
-import com.google.gerrit.testing.TestTimeUtil;
 import com.google.inject.Inject;
 import java.sql.Timestamp;
 import java.time.ZoneId;
@@ -37,27 +37,13 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
 /** Tests the presence of required metadata in email headers, text and html. */
+@UseClockStep
+@UseTimezone(timezone = "US/Eastern")
 public class MailMetadataIT extends AbstractDaemonTest {
   @Inject private RequestScopeOperations requestScopeOperations;
-
-  private String systemTimeZone;
-
-  @Before
-  public void setTimeForTesting() {
-    systemTimeZone = System.setProperty("user.timezone", "US/Eastern");
-    TestTimeUtil.resetWithClockStep(1, SECONDS);
-  }
-
-  @After
-  public void resetTime() {
-    TestTimeUtil.useSystemTime();
-    System.setProperty("user.timezone", systemTimeZone);
-  }
 
   @Test
   public void metadataOnNewChange() throws Exception {

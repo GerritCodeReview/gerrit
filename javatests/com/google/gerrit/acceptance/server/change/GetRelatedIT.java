@@ -20,7 +20,6 @@ import static com.google.gerrit.acceptance.GitUtil.assertPushOk;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowCapability;
 import static com.google.gerrit.extensions.common.testing.EditInfoSubject.assertThat;
-import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
@@ -29,6 +28,8 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.UseClockStep;
+import com.google.gerrit.acceptance.UseTimezone;
 import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
 import com.google.gerrit.acceptance.testsuite.group.GroupOperations;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
@@ -52,7 +53,6 @@ import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.testing.ConfigSuite;
-import com.google.gerrit.testing.TestTimeUtil;
 import com.google.inject.Inject;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -64,11 +64,11 @@ import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevCommit;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
 @NoHttpd
+@UseClockStep
+@UseTimezone(timezone = "US/Eastern")
 public class GetRelatedIT extends AbstractDaemonTest {
   private static final int MAX_TERMS = 10;
 
@@ -83,20 +83,6 @@ public class GetRelatedIT extends AbstractDaemonTest {
   @Inject private GroupOperations groupOperations;
   @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
-
-  private String systemTimeZone;
-
-  @Before
-  public void setTimeForTesting() {
-    systemTimeZone = System.setProperty("user.timezone", "US/Eastern");
-    TestTimeUtil.resetWithClockStep(1, SECONDS);
-  }
-
-  @After
-  public void resetTime() {
-    TestTimeUtil.useSystemTime();
-    System.setProperty("user.timezone", systemTimeZone);
-  }
 
   @Inject private IndexConfig indexConfig;
   @Inject private ChangesCollection changes;

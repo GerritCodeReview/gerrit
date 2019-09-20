@@ -18,12 +18,12 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.UseClockStep;
 import com.google.gerrit.acceptance.testsuite.group.GroupOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.RawInputUtil;
@@ -51,15 +51,13 @@ import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.testing.ConfigSuite;
-import com.google.gerrit.testing.TestTimeUtil;
 import com.google.inject.Inject;
 import java.util.List;
 import org.eclipse.jgit.lib.Config;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
+@UseClockStep
 public class AgreementsIT extends AbstractDaemonTest {
   private ContributorAgreement caAutoVerify;
   private ContributorAgreement caNoAutoVerify;
@@ -110,16 +108,6 @@ public class AgreementsIT extends AbstractDaemonTest {
     Config cfg = new Config();
     cfg.setBoolean("auth", null, "contributorAgreements", true);
     return cfg;
-  }
-
-  @BeforeClass
-  public static void setTimeForTesting() {
-    TestTimeUtil.resetWithClockStep(1, SECONDS);
-  }
-
-  @AfterClass
-  public static void restoreTime() {
-    TestTimeUtil.useSystemTime();
   }
 
   @Before

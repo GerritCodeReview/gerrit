@@ -22,6 +22,29 @@
       "revId": "970d2cdc339924ad8b18a520db9cf3b02b3ff7bd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7528defe_72ae7a60",
+        "filename": "java/com/google/gerrit/sshd/SshDaemon.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 673,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-09-20T13:19:20Z",
+      "side": 1,
+      "message": "Using the DefaultUnknownChannelReferenceHandler is a very good idea.\n\nHowever, I\u0027ve looked at the implementation and it doesn\u0027t log any warnings.\nThe question is: why do we receive a message for a channel that doesn\u0027t exist? Has the channel been closed prematurely? Why? Could this be a keepalive/timeout issue?\n\nHaving some logs would allow to understand what\u0027s going on, whilst the default implementation is too silent IMHO.\n\nWDYT?",
+      "range": {
+        "startLine": 661,
+        "startChar": 0,
+        "endLine": 673,
+        "endChar": 6
+      },
+      "revId": "970d2cdc339924ad8b18a520db9cf3b02b3ff7bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

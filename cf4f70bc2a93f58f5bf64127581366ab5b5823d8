@@ -117,6 +117,30 @@
       "revId": "cf4f70bc2a93f58f5bf64127581366ab5b5823d8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6e07dd47_dec21528",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 17
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-09-20T06:33:27Z",
+      "side": 1,
+      "message": "Note that this change doesn\u0027t change anything related to Error Prone integration in any way. It is clear (well, at least to me ;-) that only the standard build invocation:\n\n  $ bazel build :release\n\nuses Gerrit\u0027 own Java toolchain with custom Error Prone integration with more check enabled and turned severity level from warning to error.\n\nSo that even before of this change, if you build with java9, using built in toolchain_java9:\n\n  $ bazel build \\\n      --host_java_toolchain\u003d@bazel_tools//tools/jdk:toolchain_java9 \\\n      --java_toolchain\u003d@bazel_tools//tools/jdk:toolchain_java9 \\\n      :release\n\nor if you build with Java 11 and newer, using vanilla toolchain, as described in dev-bazel.txt:\n\n  $ bazel build \\\n    --define\u003dABSOLUTE_JAVABASE\u003d\u003cpath-to-java-11|path-to-java-12\u003e \\\n    --host_javabase\u003d@bazel_tools//tools/jdk:absolute_javabase \\\n    --host_java_toolchain\u003d@bazel_tools//tools/jdk:toolchain_vanilla \\\n    --java_toolchain\u003d@bazel_tools//tools/jdk:toolchain_vanilla \\\n    :release\n\nAs you can see with example above the documentation clarification issue is entirely unrelated to this change. It existed before this change as well.\n\nDo you like to upload a clarification change that custom Error Prone integration only applies to our standard toolchain? If your documentation change is merged earlier, as this one, I would be happy to rebase this change.",
+      "parentUuid": "990c95bd_66f6ac1a",
+      "range": {
+        "startLine": 23,
+        "startChar": 4,
+        "endLine": 23,
+        "endChar": 61
+      },
+      "revId": "cf4f70bc2a93f58f5bf64127581366ab5b5823d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

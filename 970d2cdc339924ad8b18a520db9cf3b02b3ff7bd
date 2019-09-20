@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4448139b_319e93b1",
+        "filename": "java/com/google/gerrit/sshd/SshDaemon.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 659,
+      "author": {
+        "id": 1010516
+      },
+      "writtenOn": "2019-09-20T13:18:09Z",
+      "side": 1,
+      "message": "If it\u0027s the default, why isn\u0027t it set by default? :)",
+      "range": {
+        "startLine": 659,
+        "startChar": 38,
+        "endLine": 659,
+        "endChar": 75
+      },
+      "revId": "970d2cdc339924ad8b18a520db9cf3b02b3ff7bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

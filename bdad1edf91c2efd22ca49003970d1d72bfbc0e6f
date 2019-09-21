@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8dd13226_95ca424f",
+        "filename": "polygerrit-ui/app/elements/gr-app.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2019-09-21T18:36:26Z",
+      "side": 1,
+      "message": "Did this actually work for anyone?\nFor me this hidden tag is not showing up in the browser and the link text is still displayed.\n\nObserved in DOM @ current stable-2.16:\n\n \u003ca class\u003d\"feedback style-scope gr-app\" rel\u003d\"noopener\" target\u003d\"_blank\"\u003eSend feedback\u003c/a\u003e\n\nIssue 11562",
+      "revId": "bdad1edf91c2efd22ca49003970d1d72bfbc0e6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

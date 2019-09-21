@@ -4252,8 +4252,8 @@ By default, `false`.
 [[sshd.backend]]sshd.backend::
 +
 Starting from version 0.9.0 Apache SSHD project added support for NIO2
-IoSession. To use the new NIO2 session the `backend` option must be set
-to `NIO2`. Otherwise, this option must be set to `MINA`.
+IoSession. To use the old MINA session the `backend` option must be set
+to `MINA`.
 +
 By default, `NIO2`.
 

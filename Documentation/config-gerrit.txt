@@ -2149,7 +2149,7 @@ should set this to the URL of their issue tracker, if necessary.
 +
 Text to be displayed in the link to the bug report URL.
 +
-Only used when `gerrit.reportBugUrl` is set.
+Only used when `gerrit.reportBugUrl` is set and only supported in GWT (Old UI).
 +
 Defaults to "Report Bug".
 

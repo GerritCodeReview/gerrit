@@ -34,6 +34,24 @@
       "revId": "7d59382b2d5ed22e4d38ca8aa11904bc407e42dd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b56365f9_760a7ed8",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 4417,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-09-21T21:10:28Z",
+      "side": 1,
+      "message": "The number of ssh threads is limited to sshd.threads. The larger sshd.idleTimeout\nthe higher is the impact of clients with a bad network connection reducing the number of\nsshd threads available for other more responsive clients.\n\nIf idleTimeout is too large responsive clients may have to wait since threads are occupied\nby non-responsive clients. If it\u0027s too small then non-responsive clients could get kicked out\ntoo early. Hence I\u0027d lean towards a smaller timeout default and document how to tune this\nif clients with poor network link get kicked out too often.\n\nThis could be further improved by either auto-tuning idleTimeout depending on the request rate\nand queue length or by autoscaling resources available to the Gerrit server (on Kubernetes\nwe could use horizontal pod autoscaler). But this is beyond the scope of setting reasonable defaults.",
+      "parentUuid": "9d78006b_bf4a259e",
+      "revId": "7d59382b2d5ed22e4d38ca8aa11904bc407e42dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -179,7 +179,8 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
                     ConfigUtil.getTimeUnit(cfg, "sshd", null, "loginGraceTime", 120, SECONDS),
                     SECONDS)));
 
-    long idleTimeoutSeconds = ConfigUtil.getTimeUnit(cfg, "sshd", null, "idleTimeout", 0, SECONDS);
+    long idleTimeoutSeconds =
+        ConfigUtil.getTimeUnit(cfg, "sshd", null, "idleTimeout", 1800, SECONDS);
     getProperties().put(IDLE_TIMEOUT, String.valueOf(SECONDS.toMillis(idleTimeoutSeconds)));
     getProperties().put(NIO2_READ_TIMEOUT, String.valueOf(SECONDS.toMillis(idleTimeoutSeconds)));
 

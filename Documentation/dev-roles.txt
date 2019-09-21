@@ -258,6 +258,11 @@ link:https://bugs.chromium.org/p/gerrit/issues/list?q=component:ESC[ESC componen
 in the issue tracker, or add that component to existing items, to raise them to
 the attention of ESC members.
 
+Community members may contact the ESC members directly using
+mailto:gerritcodereview-esc@googlegroups.com[this mailing list].
+This is a group that remains private between the individual community
+member and ESC members.
+
 link:#maintainer[Maintainers] can become steering committee member by
 election, or by being appointed by Google (only for the seats that
 belong to Google).

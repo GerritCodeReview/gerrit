@@ -52,6 +52,24 @@
       "revId": "7d59382b2d5ed22e4d38ca8aa11904bc407e42dd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c6d0d815_91d5055a",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 4417,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2019-09-21T21:22:10Z",
+      "side": 1,
+      "message": "Yes, I can follow your reasoning and agree to some extent. However, my opinion is that we should focus on \u0027regular\u0027 installations and the need for tweaking the defaults only if you want to do large scale installations.\n\nLet\u0027s say your average Gerrit server is up for 100 days and you have 10 non-graceful SSH connection terminations per day which stay open stale:\n\nSetting it to ~ 30 minutes is solving the problem.\nSetting it to ~ 10 minutes is likely to break a few more cases compared to 30 minutes.\n\nIf you have a site that big and have a relative large number of non-graceful terminations of connections within 30 minutes then that\u0027s something to reconfigure manually before this change.",
+      "parentUuid": "b56365f9_760a7ed8",
+      "revId": "7d59382b2d5ed22e4d38ca8aa11904bc407e42dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

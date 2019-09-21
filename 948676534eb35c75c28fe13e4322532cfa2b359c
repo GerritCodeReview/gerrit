@@ -94,6 +94,30 @@
       "revId": "948676534eb35c75c28fe13e4322532cfa2b359c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "686ceb6f_5971e88a",
+        "filename": "WORKSPACE",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-09-21T06:40:18Z",
+      "side": 1,
+      "message": "This merge now includes the removal, but not the cm.bzl cleanup because it\u0027s still pending LC on stable-2.14.  We can do another merge later.",
+      "parentUuid": "92bee303_0b15d9a7",
+      "range": {
+        "startLine": 94,
+        "startChar": 4,
+        "endLine": 94,
+        "endChar": 27
+      },
+      "revId": "948676534eb35c75c28fe13e4322532cfa2b359c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

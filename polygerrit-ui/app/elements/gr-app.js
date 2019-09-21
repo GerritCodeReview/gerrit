@@ -450,7 +450,9 @@
       }
       const renderTime = new Date(window.performance.timing.loadEventStart);
       console.log(`Document loaded at: ${renderTime}`);
-      console.log(`Please file bugs and feedback at: ${this._feedbackUrl}`);
+      if (this._feedbackUrl) {
+        console.log(`Please file bugs and feedback at: ${this._feedbackUrl}`);
+      }
       console.groupEnd();
     },
 
@@ -462,14 +464,6 @@
     _handleRpcLog(e) {
       this.$.reporting.reportRpcTiming(e.detail.anonymizedUrl,
           e.detail.elapsed);
-    },
-
-    _showFeedbackUrl(feedbackUrl) {
-      if (feedbackUrl) {
-        return feedbackUrl;
-      }
-
-      return false;
     },
   });
 })();

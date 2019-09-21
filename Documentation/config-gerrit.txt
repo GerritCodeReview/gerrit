@@ -4414,7 +4414,7 @@ Values should use common unit suffixes to express their setting:
 * d, day, days
 
 +
-By default, 0.
+By default, 30 minutes.
 
 [[sshd.waitTimeout]]sshd.waitTimeout::
 +

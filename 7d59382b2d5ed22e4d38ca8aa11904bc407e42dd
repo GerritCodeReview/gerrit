@@ -16,6 +16,24 @@
       "revId": "7d59382b2d5ed22e4d38ca8aa11904bc407e42dd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9d78006b_bf4a259e",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 4417,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2019-09-21T20:44:12Z",
+      "side": 1,
+      "message": "Yes, I think 10 minutes could also be a \u0027sane\u0027 default, but also 60 could be. It just depends. I just observed that my local Git client takes 10 minutes as timeout and taking a bit more as the default seems a good idea to me.\n\nAre you saying that I should make it 10 minutes? (as this is an unresolved comment)\n\nIf so, do you have a better argument than \"works for us\"?",
+      "parentUuid": "24f2500f_90e584f2",
+      "revId": "7d59382b2d5ed22e4d38ca8aa11904bc407e42dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

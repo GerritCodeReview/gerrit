@@ -1,9 +1,15 @@
 build --workspace_status_command=./tools/workspace-status.sh --strategy=Closure=worker
 build --repository_cache=~/.gerritcodereview/bazel-cache/repository
-build --experimental_strict_action_env
 build --action_env=PATH
 build --disk_cache=~/.gerritcodereview/bazel-cache/cas
 build --java_toolchain //tools:error_prone_warnings_toolchain
+
+# Enable strict_action_env flag to. For more information on this feature see
+# https://groups.google.com/forum/#!topic/bazel-discuss/_VmRfMyyHBk.
+# This will be the new default behavior at some point (and the flag was flipped
+# shortly in 0.21.0 - https://github.com/bazelbuild/bazel/issues/7026). Remove
+# this flag here once flipped in Bazel again.
+build --incompatible_strict_action_env
 
 test --build_tests_only
 test --test_output=errors

@@ -43,6 +43,10 @@ installed during the link:pgm-init.html[Gerrit initialization].
 The core plugins are developed and maintained by the Gerrit maintainers
 and the Gerrit community.
 
+Note that the documentation and configuration links in the list below are
+to the plugins' master branch. Please refer to the appropriate branch or
+revision for the Gerrit version you are using.
+
 [[codemirror-editor]]
 === codemirror-editor
 
@@ -187,6 +191,12 @@ The following list gives an overview of available plugins, but the
 list may not be complete. You may discover more plugins on
 link:https://gerrit-review.googlesource.com/admin/repos/?filter=plugins%252F[
 gerrit-review].
+
+Note that the documentation and configuration links in the list below are
+to the plugins' master branch. Please refer to the appropriate branch for
+the Gerrit version you are using. Be aware that in some cases a stable
+branch might not exist when the master branch is compatible with multiple
+versions, or the plugin might not be compatible at all with your version.
 
 [[admin-console]]
 === admin-console

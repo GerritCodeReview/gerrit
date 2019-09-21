@@ -84,6 +84,7 @@ import org.apache.sshd.common.mac.Mac;
 import org.apache.sshd.common.random.Random;
 import org.apache.sshd.common.random.SingletonRandomFactory;
 import org.apache.sshd.common.session.Session;
+import org.apache.sshd.common.session.helpers.DefaultUnknownChannelReferenceHandler;
 import org.apache.sshd.common.util.buffer.Buffer;
 import org.apache.sshd.common.util.buffer.ByteArrayBuffer;
 import org.apache.sshd.common.util.net.SshdSocketAddress;
@@ -220,6 +221,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
     initMacs(cfg);
     initSignatures();
     initChannels();
+    initUnknownChannelReferenceHandler();
     initForwarding();
     initFileSystemFactory();
     initSubsystems();
@@ -642,6 +644,10 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
 
   private void initChannels() {
     setChannelFactories(ServerBuilder.DEFAULT_CHANNEL_FACTORIES);
+  }
+
+  private void initUnknownChannelReferenceHandler() {
+    setUnknownChannelReferenceHandler(DefaultUnknownChannelReferenceHandler.INSTANCE);
   }
 
   private void initSubsystems() {

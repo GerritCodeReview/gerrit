@@ -23,6 +23,7 @@ public class IndexConfig {
 
   public static Config createFromExistingConfig(Config cfg) {
     cfg.setInt("index", null, "maxPages", 10);
+    cfg.setBoolean("index", null, "reindexAfterRefUpdate", false);
     cfg.setString("trackingid", "query-bug", "footer", "Bug:");
     cfg.setString("trackingid", "query-bug", "match", "QUERY\\d{2,8}");
     cfg.setString("trackingid", "query-bug", "system", "querytests");

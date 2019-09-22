@@ -293,7 +293,6 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     info.allProjects = allProjectsName.get();
     info.allUsers = allUsersName.get();
     info.reportBugUrl = config.getString("gerrit", null, "reportBugUrl");
-    info.reportBugText = config.getString("gerrit", null, "reportBugText");
     info.docUrl = getDocUrl();
     info.docSearch = docSearcher.isAvailable();
     info.editGpgKeys =

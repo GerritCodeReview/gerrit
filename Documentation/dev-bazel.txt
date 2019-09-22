@@ -43,8 +43,8 @@ provide the path to JDK home:
   $ bazel build \
     --define=ABSOLUTE_JAVABASE=<path-to-java-12> \
     --host_javabase=@bazel_tools//tools/jdk:absolute_javabase \
-    --host_java_toolchain=@bazel_tools//tools/jdk:toolchain_vanilla \
-    --java_toolchain=@bazel_tools//tools/jdk:toolchain_vanilla \
+    --host_java_toolchain=//tools:toolchain_vanilla \
+    --java_toolchain=//tools:toolchain_vanilla \
     :release
 ```
 
@@ -56,8 +56,8 @@ bazel test runs the test using the target javabase:
     --define=ABSOLUTE_JAVABASE=<path-to-java-12> \
     --javabase=@bazel_tools//tools/jdk:absolute_javabase \
     --host_javabase=@bazel_tools//tools/jdk:absolute_javabase \
-    --host_java_toolchain=@bazel_tools//tools/jdk:toolchain_vanilla \
-    --java_toolchain=@bazel_tools//tools/jdk:toolchain_vanilla \
+    --host_java_toolchain=//tools:toolchain_vanilla \
+    --java_toolchain=//tools:toolchain_vanilla \
     //...
 ```
 
@@ -69,8 +69,8 @@ $ cat << EOF > ~/.bazelrc
 > build --define=ABSOLUTE_JAVABASE=<path-to-java-12>
 > build --javabase=@bazel_tools//tools/jdk:absolute_javabase
 > build --host_javabase=@bazel_tools//tools/jdk:absolute_javabase
-> build --host_java_toolchain=@bazel_tools//tools/jdk:toolchain_vanilla
-> build --java_toolchain=@bazel_tools//tools/jdk:toolchain_vanilla
+> build --host_java_toolchain=//tools:toolchain_vanilla
+> build --java_toolchain=//tools:toolchain_vanilla
 > EOF
 ```
 

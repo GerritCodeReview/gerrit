@@ -70,6 +70,24 @@
       "revId": "7d59382b2d5ed22e4d38ca8aa11904bc407e42dd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "97897a72_6aff1f8e",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 4417,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-09-22T21:51:00Z",
+      "side": 1,
+      "message": "I am in favour of this change. However, I agree with Matthias that 30 mins is too big as idle timeout. If I have a remote client that is inactive and does not send/receive any data for 10 minutes, it is pretty much dead.\n\nA separate problem is the non-Git SSH traffic (e.g. stream events, GC, other) that should be addressed separately.\n\nIdeally we should have one timeout for Git/SSH traffic (set 10 mins) and another for the other nonGit/SSH connections.",
+      "parentUuid": "c6d0d815_91d5055a",
+      "revId": "7d59382b2d5ed22e4d38ca8aa11904bc407e42dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

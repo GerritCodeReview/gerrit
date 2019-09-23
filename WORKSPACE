@@ -145,8 +145,8 @@ maven_jar(
 
 maven_jar(
     name = "servlet-api",
-    artifact = "org.apache.tomcat:tomcat-servlet-api:8.5.23",
-    sha1 = "021a212688ec94fe77aff74ab34cc74f6f940e60",
+    artifact = "jakarta.servlet:jakarta.servlet-api:4.0.4",
+    sha1 = "b8a1142e04838fe54194049c6e7a18dae8f9b960",
 )
 
 # JGit's transitive dependencies
@@ -869,48 +869,54 @@ maven_jar(
     sha1 = "7e060dd5b19431e6d198e91ff670644372f60fbd",
 )
 
-JETTY_VERS = "9.4.33.v20201020"
+JETTY_VERS = "10.0.0"
 
 maven_jar(
     name = "jetty-servlet",
     artifact = "org.eclipse.jetty:jetty-servlet:" + JETTY_VERS,
-    sha1 = "101609e8e5365c4406e4448099459eb605ac551f",
+    sha1 = "ab35ebf04fdd71644b37bef93b271711469b7234",
 )
 
 maven_jar(
     name = "jetty-security",
     artifact = "org.eclipse.jetty:jetty-security:" + JETTY_VERS,
-    sha1 = "c150bf2aca6cb1636e7195f844a2bb156546e50e",
+    sha1 = "a32e44d62322e5052b8d131601ad7c9fb77463a6",
 )
 
 maven_jar(
     name = "jetty-server",
     artifact = "org.eclipse.jetty:jetty-server:" + JETTY_VERS,
-    sha1 = "f586ff2ee048ad2575866c1833d854288f402307",
+    sha1 = "8dbd4131af99e50e5b1214a25bc2ddb0cafaa589",
 )
 
 maven_jar(
     name = "jetty-jmx",
     artifact = "org.eclipse.jetty:jetty-jmx:" + JETTY_VERS,
-    sha1 = "56b723070eeafc51b943cd9bf1a064a037e806a7",
+    sha1 = "7ccfa3533ef3cf4a9fb4e5f0697112e0033a1a81",
 )
 
 maven_jar(
     name = "jetty-http",
     artifact = "org.eclipse.jetty:jetty-http:" + JETTY_VERS,
-    sha1 = "ad28940f89ffde6ec1bd1656fe3f8493b01ba3c2",
+    sha1 = "cecebea9a8562580f5b406e205f40334d1447a80",
 )
 
 maven_jar(
     name = "jetty-io",
     artifact = "org.eclipse.jetty:jetty-io:" + JETTY_VERS,
-    sha1 = "9e4b0048285b71f4769908780f957a470eca11da",
+    sha1 = "af732e1088279a826f668b6d115a2e5c5e758771",
 )
 
 maven_jar(
     name = "jetty-util",
     artifact = "org.eclipse.jetty:jetty-util:" + JETTY_VERS,
-    sha1 = "c88807f210ab216aa831b48569ef50bd797384bc",
+    sha1 = "5fc14a2dee8bfb2bb40b586dbb96df0afcf76f6e",
+)
+
+maven_jar(
+    name = "commons-io",
+    artifact = "commons-io:commons-io:2.2",
+    sha1 = "83b5b8a7ba1c08f9e8c8ff2373724e33d3c1e22a",
 )
 
 maven_jar(

@@ -209,6 +209,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
     final boolean enableCompression = cfg.getBoolean("sshd", "enableCompression", false);
 
     SshSessionBackend backend = cfg.getEnum("sshd", null, "backend", SshSessionBackend.NIO2);
+    boolean channelIdTracking = cfg.getBoolean("sshd", "enableChannelIdTracking", true);
 
     System.setProperty(
         IoServiceFactoryFactory.class.getName(),
@@ -222,7 +223,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
     initMacs(cfg);
     initSignatures();
     initChannels();
-    initUnknownChannelReferenceHandler();
+    initUnknownChannelReferenceHandler(channelIdTracking);
     initForwarding();
     initFileSystemFactory();
     initSubsystems();
@@ -653,8 +654,11 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
     setChannelFactories(ServerBuilder.DEFAULT_CHANNEL_FACTORIES);
   }
 
-  private void initUnknownChannelReferenceHandler() {
-    setUnknownChannelReferenceHandler(DefaultUnknownChannelReferenceHandler.INSTANCE);
+  private void initUnknownChannelReferenceHandler(boolean enableChannelIdTracking) {
+    setUnknownChannelReferenceHandler(
+        enableChannelIdTracking
+            ? ChannelIdTrackingUnknownChannelReferenceHandler.TRACKER
+            : DefaultUnknownChannelReferenceHandler.INSTANCE);
   }
 
   private void initSubsystems() {

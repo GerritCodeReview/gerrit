@@ -97,7 +97,7 @@ java_library(
         "//lib:juniversalchardet",
         "//lib:mime-util",
         "//lib:protobuf",
-        "//lib:servlet-api-3_1",
+        "//lib:servlet-api",
         "//lib:soy",
         "//lib:tukaani-xz",
         "//lib/auto:auto-value",

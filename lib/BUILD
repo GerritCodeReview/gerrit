@@ -14,18 +14,18 @@ filegroup(
 )
 
 java_library(
-    name = "servlet-api-3_1",
+    name = "servlet-api",
     data = ["//lib:LICENSE-Apache2.0"],
     neverlink = 1,
     visibility = ["//visibility:public"],
-    exports = ["@servlet-api-3_1//jar"],
+    exports = ["@servlet-api//jar"],
 )
 
 java_library(
-    name = "servlet-api-3_1-without-neverlink",
+    name = "servlet-api-without-neverlink",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
-    exports = ["@servlet-api-3_1//jar"],
+    exports = ["@servlet-api//jar"],
 )
 
 java_library(

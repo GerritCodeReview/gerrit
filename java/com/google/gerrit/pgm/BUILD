@@ -53,7 +53,7 @@ java_library(
         "//lib:args4j",
         "//lib:guava",
         "//lib:protobuf",
-        "//lib:servlet-api-3_1-without-neverlink",
+        "//lib:servlet-api-without-neverlink",
         "//lib/auto:auto-value",
         "//lib/auto:auto-value-annotations",
         "//lib/flogger:api",

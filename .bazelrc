@@ -15,4 +15,8 @@ test --build_tests_only
 test --test_output=errors
 test --java_toolchain=//tools:error_prone_warnings_toolchain_java11
 
+# This is needed because on the CI JDK 8 is still used as javabase
+build --host_javabase=@bazel_tools//tools/jdk:remote_jdk11
+build --javabase=@bazel_tools//tools/jdk:remote_jdk11
+
 import %workspace%/tools/remote-bazelrc

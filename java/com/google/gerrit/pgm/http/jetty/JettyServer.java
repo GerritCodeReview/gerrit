@@ -39,6 +39,8 @@ import java.util.EnumSet;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.Map;
+import java.util.HashMap;
 import java.util.concurrent.TimeUnit;
 import javax.servlet.DispatcherType;
 import javax.servlet.Filter;
@@ -411,8 +413,25 @@ public class JettyServer {
         Class<? extends Filter> filterClass =
             (Class<? extends Filter>) Class.forName(filterClassName);
         Filter filter = env.webInjector.getInstance(filterClass);
+
+        Map<String, String> initParams = new HashMap<>();
+        String[] initParamConfigs = cfg.getStringList("filterClass", filterClassName, "initParam");
+        for (String initParamConfig : initParamConfigs) {
+          String[] splits = initParamConfig.split("=", 2);
+          if (splits.length != 2) {
+            throw new IllegalArgumentException(
+                "Parse filterClass initParams error, Maybe `initParam` config value is blank or appearing multiple "
+                    + "`=` char ");
+          }
+          initParams.put(splits[0], splits[1]);
+        }
+
+        FilterHolder filterHolder = new FilterHolder(filter);
+        if (initParams.size() > 0) {
+          filterHolder.setInitParameters(initParams);
+        }
         app.addFilter(
-            new FilterHolder(filter),
+            filterHolder,
             "/*",
             EnumSet.of(DispatcherType.REQUEST, DispatcherType.ASYNC));
       } catch (Throwable e) {

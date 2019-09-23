@@ -45,6 +45,7 @@ import java.util.concurrent.TimeUnit;
 import javax.servlet.DispatcherType;
 import javax.servlet.Filter;
 import org.eclipse.jetty.http.HttpScheme;
+import org.eclipse.jetty.http.HttpURI;
 import org.eclipse.jetty.io.ConnectionStatistics;
 import org.eclipse.jetty.jmx.MBeanContainer;
 import org.eclipse.jetty.server.Connector;
@@ -332,7 +333,7 @@ public class JettyServer {
         config.addCustomizer(new ForwardedRequestCustomizer());
         config.addCustomizer(
             (connector, channelConfig, request) -> {
-              request.setScheme(HttpScheme.HTTPS.asString());
+              request.setHttpURI(HttpURI.build(request.getHttpURI()).scheme(HttpScheme.HTTPS));
               request.setSecure(true);
             });
         c = newServerConnector(server, acceptors, config);

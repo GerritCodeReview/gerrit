@@ -96,10 +96,30 @@ public class CommitIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void cherryPickWithoutMessage() throws Exception {
+    String branch = "foo";
+
+    // Create change to cherry-pick
+    RevCommit revCommit = createChange().getCommit();
+
+    // Create target branch to cherry-pick to.
+    gApi.projects().name(project.get()).branch(branch).create(new BranchInput());
+
+    // Cherry-pick without message.
+    CherryPickInput input = new CherryPickInput();
+    input.destination = branch;
+    String changeId =
+        gApi.projects().name(project.get()).commit(revCommit.name()).cherryPick(input).get().id;
+
+    // Expect that the message of the cherry-picked commit was used for the cherry-pick change.
+    ChangeInfo changeInfo = gApi.changes().id(changeId).get();
+    RevisionInfo revInfo = changeInfo.revisions.get(changeInfo.currentRevision);
+    assertThat(revInfo).isNotNull();
+    assertThat(revInfo.commit.message).isEqualTo(revCommit.getFullMessage());
+  }
+
+  @Test
   public void cherryPickCommitWithoutChangeId() throws Exception {
-    // This test is a little superfluous, since the current cherry-pick code ignores
-    // the commit message of the to-be-cherry-picked change, using the one in
-    // CherryPickInput instead.
     CherryPickInput input = new CherryPickInput();
     input.destination = "foo";
     input.message = "it goes to foo branch";

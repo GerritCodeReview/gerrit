@@ -182,11 +182,14 @@ public class CherryPickChange {
                 input.parent, commitToCherryPick.getParentCount()));
       }
 
+      String message = Strings.nullToEmpty(input.message).trim();
+      message = message.isEmpty() ? commitToCherryPick.getFullMessage() : message;
+
       Timestamp now = TimeUtil.nowTs();
       PersonIdent committerIdent = identifiedUser.newCommitterIdent(now, serverTimeZone);
 
       final ObjectId generatedChangeId = Change.generateChangeId();
-      String commitMessage = ChangeIdUtil.insertId(input.message, generatedChangeId).trim() + '\n';
+      String commitMessage = ChangeIdUtil.insertId(message, generatedChangeId).trim() + '\n';
 
       CodeReviewCommit cherryPickCommit;
       ProjectState projectState = projectCache.checkedGet(dest.project());

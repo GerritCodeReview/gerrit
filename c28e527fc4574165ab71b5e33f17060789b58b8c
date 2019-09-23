@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cd7f2946_ab812106",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-09-23T11:36:54Z",
+      "side": 1,
+      "message": "nit: line length",
+      "range": {
+        "startLine": 9,
+        "startChar": 71,
+        "endLine": 9,
+        "endChar": 72
+      },
+      "revId": "c28e527fc4574165ab71b5e33f17060789b58b8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "577094be_cdff7372",
+        "filename": "java/com/google/gerrit/server/restapi/change/ReviewerRecommender.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-09-23T11:36:54Z",
+      "side": 1,
+      "message": "nit: could be a stream",
+      "revId": "c28e527fc4574165ab71b5e33f17060789b58b8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b3ef644e_6cf2bfa4",
+        "filename": "java/com/google/gerrit/server/restapi/change/ReviewerRecommender.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-09-23T11:36:54Z",
+      "side": 1,
+      "message": "Strings.isNullOrEmpty(query)",
+      "range": {
+        "startLine": 222,
+        "startChar": 16,
+        "endLine": 222,
+        "endChar": 29
+      },
+      "revId": "c28e527fc4574165ab71b5e33f17060789b58b8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "816dc83e_0bf377a3",
+        "filename": "java/com/google/gerrit/server/restapi/change/ReviewerRecommender.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-09-23T11:36:54Z",
+      "side": 1,
+      "message": "Please use the Predicate classes to do this matching. Along the lines of:\n\nAccountPredicates.defaultPredicate(schema, false, query).matches(account.get())\n\nYou can create the predicate before the loop to avoid overly-allocating objects.\n\nThis ensures that regular account search and reviewer suggestion are inline.\n\nWe might be able to remove \u0027schema\u0027 from the signature of defaultPredicate. If you want to go the extra mile, please check what the latest AccountIndex version was when 3.0 was released. Fields deprecated before that can be removed and checks for existence of these fields can be removed as well (in a separate change).",
+      "range": {
+        "startLine": 225,
+        "startChar": 14,
+        "endLine": 229,
+        "endChar": 79
+      },
+      "revId": "c28e527fc4574165ab71b5e33f17060789b58b8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

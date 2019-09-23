@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "091edc36_52cb39af",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-23T13:15:25Z",
+      "side": 1,
+      "message": "Yes, this is only about upstream Gerrit with single master. Preventing this situation in multimaster is more complicated and currently not my target.",
+      "parentUuid": "1232f4e0_a94f13e4",
+      "range": {
+        "startLine": 27,
+        "startChar": 53,
+        "endLine": 35,
+        "endChar": 0
+      },
+      "revId": "df95674d181a8c7994af2abbb5eec252f06c0b84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4f7749f1_d771c89e",
         "filename": "javatests/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
         "patchSetId": 3
@@ -36,6 +60,30 @@
       "writtenOn": "2019-09-23T12:52:49Z",
       "side": 1,
       "message": "Why is this done 10 times?\n\nI think this test is racy because the lock is not set a the correct point in the code. You probably want to create a situation where both changes passes a check for SHA1 or change ID in some part of ReceiveCommits, then processing continues. Is this why we try 10 times here?\n\nIn that case, it\u0027d be nicer to have a lock at the point where you assume that the threads actually race. I do realize that this is harder though :(",
+      "range": {
+        "startLine": 2705,
+        "startChar": 6,
+        "endLine": 2705,
+        "endChar": 30
+      },
+      "revId": "df95674d181a8c7994af2abbb5eec252f06c0b84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b7ae5312_0904504d",
+        "filename": "javatests/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 2705,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-23T13:15:25Z",
+      "side": 1,
+      "message": "Yes, this test is intended to hit a race, but it\u0027s not 100% guaranteed that the race happens in the test. In practice it hits the race for me always on the first try, but we cannot be sure.\n\nThis way of testing races was copied from  CreateProjectIT#createSameProjectFromTwoConcurrentRequests (and it is used by several other tests), 10 is just a random number that gives us enough safety to always hit the race during a test run.\n\nI think that\u0027s good enough, but would be glad if find a way to make these kind of tests better.",
+      "parentUuid": "4f7749f1_d771c89e",
       "range": {
         "startLine": 2705,
         "startChar": 6,

@@ -22,6 +22,30 @@
       "revId": "50a96eb7a3d33a580949c2339995c92fb20f7c43",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b7469678_d1fb1bba",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-09-23T13:05:50Z",
+      "side": 1,
+      "message": "With how it worked before this change.\n\nThe main reason for the security vulnerability after enabling attempt of Git v2 protocol was: ADVERTISE_REF hook was not called (erroneously by JGit) for Git v2 protocol, while we were relying that it is called.\n\nWith this series, we are migrating from ADVERTISE_REF hook to PERMISSION_AWARE_REF Database.\n\nPrevious change in this series added PERMISSION_AWARE_REF database.\n\nHowever, before this change both visibility constraint classes are active:\n\n* 1. ADVERTISE_REF hook\n* 2. PERMISSION_AWARE_REF database\n\nThis change is adding the setting to switch between the two, but doing it in backwards compatible way, meant ADVERTISE_REF is still enabled by default.\n\nShould I add this whole story to the commit message?",
+      "parentUuid": "aef069c1_cce8b966",
+      "range": {
+        "startLine": 11,
+        "startChar": 4,
+        "endLine": 11,
+        "endChar": 28
+      },
+      "revId": "50a96eb7a3d33a580949c2339995c92fb20f7c43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

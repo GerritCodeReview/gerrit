@@ -89,7 +89,6 @@ import org.apache.sshd.common.random.Random;
 import org.apache.sshd.common.random.SingletonRandomFactory;
 import org.apache.sshd.common.session.ConnectionService;
 import org.apache.sshd.common.session.Session;
-import org.apache.sshd.common.session.helpers.DefaultUnknownChannelReferenceHandler;
 import org.apache.sshd.common.util.buffer.Buffer;
 import org.apache.sshd.common.util.buffer.ByteArrayBuffer;
 import org.apache.sshd.common.util.net.SshdSocketAddress;
@@ -656,7 +655,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
   }
 
   private void initUnknownChannelReferenceHandler() {
-    setUnknownChannelReferenceHandler(DefaultUnknownChannelReferenceHandler.INSTANCE);
+    setUnknownChannelReferenceHandler(ChannelIdTrackingUnknownChannelReferenceHandler.TRACKER);
   }
 
   private void initSubsystems() {

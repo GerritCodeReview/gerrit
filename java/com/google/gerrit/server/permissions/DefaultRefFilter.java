@@ -134,9 +134,8 @@ class DefaultRefFilter {
     logger.atFinest().log(
         "Filter refs for repository %s by visibility (options = %s, refs = %s)",
         projectState.getNameKey(), opts, refs);
-    logger.atFinest().log(
-        "Calling user: %s (groups = %s)",
-        user.getLoggableName(), user.getEffectiveGroups().getKnownGroups());
+    logger.atFinest().log("Calling user: %s", user.getLoggableName());
+    logger.atFinest().log("Groups: %s", user.getEffectiveGroups().getKnownGroups());
     logger.atFinest().log(
         "auth.skipFullRefEvaluationIfAllRefsAreVisible = %s",
         skipFullRefEvaluationIfAllRefsAreVisible);

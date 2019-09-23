@@ -171,8 +171,8 @@ maven_jar(
 
 maven_jar(
     name = "servlet-api",
-    artifact = "org.apache.tomcat:tomcat-servlet-api:8.5.23",
-    sha1 = "021a212688ec94fe77aff74ab34cc74f6f940e60",
+    artifact = "jakarta.servlet:jakarta.servlet-api:4.0.3",
+    sha1 = "7c810f7bca93d109bac3323286b8e5ec6c394e12",
 )
 
 # JGit's transitive dependencies
@@ -919,48 +919,48 @@ maven_jar(
     sha1 = "7e060dd5b19431e6d198e91ff670644372f60fbd",
 )
 
-JETTY_VERS = "9.4.24.v20191120"
+JETTY_VERS = "10.0.0.alpha1"
 
 maven_jar(
     name = "jetty-servlet",
     artifact = "org.eclipse.jetty:jetty-servlet:" + JETTY_VERS,
-    sha1 = "ca1803fde51b795c0a8346ca8bc6277d9d04d01d",
+    sha1 = "1d24e590d177479a34c7886ab78d92176cfe5406",
 )
 
 maven_jar(
     name = "jetty-security",
     artifact = "org.eclipse.jetty:jetty-security:" + JETTY_VERS,
-    sha1 = "9fa640d36c088cf55843900043d28aef830ade4d",
+    sha1 = "e810f002391e4cb902231c70984d674d382a58d0",
 )
 
 maven_jar(
     name = "jetty-server",
     artifact = "org.eclipse.jetty:jetty-server:" + JETTY_VERS,
-    sha1 = "7885cc3d5d7701a444acada7ab97f89846514875",
+    sha1 = "7d9acaffe287efb02a0218e306fbddde503860af",
 )
 
 maven_jar(
     name = "jetty-jmx",
     artifact = "org.eclipse.jetty:jetty-jmx:" + JETTY_VERS,
-    sha1 = "22be18a055850a6cf3b0efd56c789c3929c87e98",
+    sha1 = "ea3abc59fed8263706d9ccf07463169940e6cf68",
 )
 
 maven_jar(
     name = "jetty-http",
     artifact = "org.eclipse.jetty:jetty-http:" + JETTY_VERS,
-    sha1 = "d3f0b0fb016ef8d35ffb199d928ffbcbfa121c86",
+    sha1 = "900b923f8e68cb2b4550f0607dc07be4366d9d19",
 )
 
 maven_jar(
     name = "jetty-io",
     artifact = "org.eclipse.jetty:jetty-io:" + JETTY_VERS,
-    sha1 = "dcb6d4d505ef74898e3a64a38c40195c01e97119",
+    sha1 = "22fcd7dbf25591c1c9f593b3bc70017ca3c5557f",
 )
 
 maven_jar(
     name = "jetty-util",
     artifact = "org.eclipse.jetty:jetty-util:" + JETTY_VERS,
-    sha1 = "3095acb088f4ff9e3fd9aedf98db73e3c18ea849",
+    sha1 = "b77e6ec10b24e396c013ee69371ee15b9af8bbe9",
 )
 
 maven_jar(

@@ -4952,7 +4952,8 @@ should make two requests.
 For merge commits only, the integer-valued request parameter `parent`
 changes the response to return a map of the files which are different
 in this commit compared to the given parent commit. The value is the
-1-based index of the parent's position in the commit object. If not
+1-based index of the parent's position in the commit object,
+with the first parent always belonging to the target branch. If not
 specified, the response contains a map of the files different in the
 auto merge result.
 

@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9dfcd875_177a26e6",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-09-23T11:45:03Z",
+      "side": 1,
+      "message": "CoCe?",
+      "range": {
+        "startLine": 1,
+        "startChar": 11,
+        "endLine": 1,
+        "endChar": 12
+      },
+      "revId": "9dffd25a230c531724a90a99a2209cfe1449ffb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6a2dfe32_10b53d2f",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 2620,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-09-23T11:45:03Z",
+      "side": 1,
+      "message": "This example doesn\u0027t match the syntax of the setting.\nShould the syntax be filterClass.\u003cclassName\u003e.initParam ?",
+      "range": {
+        "startLine": 2620,
+        "startChar": 1,
+        "endLine": 2620,
+        "endChar": 46
+      },
+      "revId": "9dffd25a230c531724a90a99a2209cfe1449ffb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5e79a810_db414c56",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 2622,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-09-23T11:45:03Z",
+      "side": 1,
+      "message": "Why not simply having:\n  key1 \u003d value1\n\nInstead of:\n  initParam \u003d key1\u003dvalue1",
+      "range": {
+        "startLine": 2622,
+        "startChar": 1,
+        "endLine": 2622,
+        "endChar": 24
+      },
+      "revId": "9dffd25a230c531724a90a99a2209cfe1449ffb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

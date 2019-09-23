@@ -1,4 +1,4 @@
-= Gerrit Code Review - Configuration
+= Gerrit CoCe Review - Configuration
 
 == File `etc/gerrit.config`
 
@@ -2590,6 +2590,67 @@ org.anyorg.MySecureIPFilter that performs source IP security filtering:
 	filterClass = org.anyorg.MySecureHeaderFilter
 	filterClass = org.anyorg.MySecureIPFilter
 ----
+
+[[filterClass.initParam]]filterClass.initParam:
+This is a further settings about httpd.filterClass.
+
+We know that Filter is base on the Servlet API Standard. Gerrit is supporting
+filter to be pluggable, as the httpd.filterClass setting introduction blew.
+
+But, Sometimes it's not enough because some filter implements require extra
+initialized params, be known as `init-params`, if they are not passed, will be
+failed during filter initialization.
+
+If you want to config the `init-params` to the specified filterClass, we can
+config the `filterClass.initParam` settings. Allow multiple values to install the
+corresponding filterClass.
+
+Example of using two filterClasses are named as `org.anyorg.MySecureHeaderFilter`
+and `org.anyorg.MySecureIPFilter` and both of them requirs `init-params` to be
+initialized:
+
+----
+[auth]
+	type = HTTP
+	httpHeader = TRUSTED_USER
+
+[httpd]
+	filterClass = org.anyorg.MySecureHeaderFilter
+	filterClass = org.anyorg.MySecureIPFilter
+[filterClass "org.anyorg.MySecureHeaderFilter"]
+	# first init param to `org.anyorg.MySecureHeaderFilter`
+	initParam = key1=value1
+	# second init param to `org.anyorg.MySecureHeaderFilter`
+	initParam = key2=value2
+[filterClass "org.anyorg.MySecureHeaderFilter"]
+	# first init param to `org.anyorg.MySecureHeaderFilter`
+	# if `value3` contains `=` char, key will be `key3` and value will be `value3`
+	initParam = key3=value3
+----
+
+
+
+and the settings is 
+
+
+
+
+[[httpd.idleTimeout]]httpd.idleTimeout::
++
+Maximum idle time for a connection, which roughly translates to the
+TCP socket `SO_TIMEOUT`.
++
+This value is interpreted as the maximum time between some progress
+being made on the connection. So if a single byte is read or written,
+then the timeout is reset.
+----
+
+
+
+and the settings is 
+
+
+
 
 [[httpd.idleTimeout]]httpd.idleTimeout::
 +

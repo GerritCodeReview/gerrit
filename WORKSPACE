@@ -153,8 +153,8 @@ maven_jar(
 
 maven_jar(
     name = "servlet-api",
-    artifact = "org.apache.tomcat:tomcat-servlet-api:8.5.23",
-    sha1 = "021a212688ec94fe77aff74ab34cc74f6f940e60",
+    artifact = "jakarta.servlet:jakarta.servlet-api:4.0.4",
+    sha1 = "b8a1142e04838fe54194049c6e7a18dae8f9b960",
 )
 
 # JGit's transitive dependencies
@@ -842,55 +842,55 @@ maven_jar(
     sha1 = "7e060dd5b19431e6d198e91ff670644372f60fbd",
 )
 
-JETTY_VERS = "9.4.35.v20201120"
+JETTY_VERS = "10.0.0"
 
 maven_jar(
     name = "jetty-servlet",
     artifact = "org.eclipse.jetty:jetty-servlet:" + JETTY_VERS,
-    sha1 = "3e61bcb471e1bfc545ce866cbbe33c3aedeec9b1",
+    sha1 = "ab35ebf04fdd71644b37bef93b271711469b7234",
 )
 
 maven_jar(
     name = "jetty-security",
     artifact = "org.eclipse.jetty:jetty-security:" + JETTY_VERS,
-    sha1 = "80dc2f422789c78315de76d289b7a5b36c3232d5",
+    sha1 = "a32e44d62322e5052b8d131601ad7c9fb77463a6",
 )
 
 maven_jar(
     name = "jetty-server",
     artifact = "org.eclipse.jetty:jetty-server:" + JETTY_VERS,
-    sha1 = "513502352fd689d4730b2935421b990ada8cc818",
+    sha1 = "8dbd4131af99e50e5b1214a25bc2ddb0cafaa589",
 )
 
 maven_jar(
     name = "jetty-jmx",
     artifact = "org.eclipse.jetty:jetty-jmx:" + JETTY_VERS,
-    sha1 = "38812031940a466d626ab5d9bbbd9d5d39e9f735",
+    sha1 = "7ccfa3533ef3cf4a9fb4e5f0697112e0033a1a81",
 )
 
 maven_jar(
     name = "jetty-http",
     artifact = "org.eclipse.jetty:jetty-http:" + JETTY_VERS,
-    sha1 = "45d35131a35a1e76991682174421e8cdf765fb9f",
+    sha1 = "cecebea9a8562580f5b406e205f40334d1447a80",
 )
 
 maven_jar(
     name = "jetty-io",
     artifact = "org.eclipse.jetty:jetty-io:" + JETTY_VERS,
-    sha1 = "eb9460700b99b71ecd82a53697f5ff99f69b9e1c",
+    sha1 = "af732e1088279a826f668b6d115a2e5c5e758771",
 )
 
 maven_jar(
     name = "jetty-util",
     artifact = "org.eclipse.jetty:jetty-util:" + JETTY_VERS,
-    sha1 = "ef61b83f9715c3b5355b633d9f01d2834f908ece",
+    sha1 = "5fc14a2dee8bfb2bb40b586dbb96df0afcf76f6e",
 )
 
 maven_jar(
     name = "jetty-util-ajax",
     artifact = "org.eclipse.jetty:jetty-util-ajax:" + JETTY_VERS,
-    sha1 = "ebbb43912c6423bedb3458e44aee28eeb4d66f27",
-    src_sha1 = "b3acea974a17493afb125a9dfbe783870ce1d2f9",
+    sha1 = "fdaf13ddd072ae40e5113b7115cb753d86233e5f",
+    src_sha1 = "343fbe82c591332f9f5cf581b2378a8063a922d4",
 )
 
 maven_jar(

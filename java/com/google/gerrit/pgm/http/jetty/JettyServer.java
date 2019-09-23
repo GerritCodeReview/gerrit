@@ -36,8 +36,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.EnumSet;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import javax.servlet.DispatcherType;
@@ -411,10 +413,24 @@ public class JettyServer {
         Class<? extends Filter> filterClass =
             (Class<? extends Filter>) Class.forName(filterClassName);
         Filter filter = env.webInjector.getInstance(filterClass);
-        app.addFilter(
-            new FilterHolder(filter),
-            "/*",
-            EnumSet.of(DispatcherType.REQUEST, DispatcherType.ASYNC));
+
+        Map<String, String> initParams = new HashMap<>();
+        String[] initParamConfigs = cfg.getStringList("filterClass", filterClassName, "initParam");
+        for (String initParamConfig : initParamConfigs) {
+          String[] splits = initParamConfig.split("=", 2);
+          if (splits.length != 2) {
+            throw new IllegalArgumentException(
+                "Parse filterClass initParams error, Maybe `initParam` config value is blank or appearing multiple "
+                    + "`=` char ");
+          }
+          initParams.put(splits[0], splits[1]);
+        }
+
+        FilterHolder filterHolder = new FilterHolder(filter);
+        if (initParams.size() > 0) {
+          filterHolder.setInitParameters(initParams);
+        }
+        app.addFilter(filterHolder, "/*", EnumSet.of(DispatcherType.REQUEST, DispatcherType.ASYNC));
       } catch (Throwable e) {
         throw new IllegalArgumentException(
             "Unable to instantiate front-end HTTP Filter " + filterClassName, e);

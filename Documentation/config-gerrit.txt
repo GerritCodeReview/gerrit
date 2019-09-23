@@ -2591,6 +2591,46 @@ org.anyorg.MySecureIPFilter that performs source IP security filtering:
 	filterClass = org.anyorg.MySecureIPFilter
 ----
 
+[[filterClass.className.initParam]]filterClass.<className>.initParam::
+This is a further settings with httpd.filterClass.
+
+Gerrit is supporting customized filters to be pluggable as `filterClass`,
+but sometimes that's not enough because some second-party or third-party filters
+is implemented to require extra initialized params, be known as `init-params`, 
+if the params are not passed, Gerrit will be failed to startup because of the
+`filterClass` instantiation error.
+
+With the case above, you can initialize the `filterClass` with init param by config
+`initParam` and it's allowed for multiple values to install the corresponding 
+`filterClass`. The `initParam` config pattern is:
+
+----
+initParam = <key>=<value>
+----
+
+In this Pattern, `initParam` is as Git Config Key and `<key>=<value>` is as Git 
+Config Value. Why not just make the pattern like `key = value` directly is because
+Git Config Key is not allowed to contain special characters like `_`, but it's very
+common in some customized filter init param definitions.
+
+For example, there are two filterClasses: `org.anyorg.MySecureHeaderFilter`
+and `org.anyorg.MySecureIPFilter`, both of them requires nessessary `init-param` 
+for instantiation:
+
+----
+[auth]
+	type = HTTP
+	httpHeader = TRUSTED_USER
+[httpd]
+	filterClass = org.anyorg.MySecureHeaderFilter
+	filterClass = org.anyorg.MySecureIPFilter
+[filterClass "org.anyorg.MySecureHeaderFilter"]
+	initParam = key1=value1
+	initParam = key2=value2
+[filterClass "org.anyorg.MySecureHeaderFilter"]
+	initParam = key3=value3
+----
+
 [[httpd.idleTimeout]]httpd.idleTimeout::
 +
 Maximum idle time for a connection, which roughly translates to the

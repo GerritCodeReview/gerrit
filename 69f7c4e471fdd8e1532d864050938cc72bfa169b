@@ -16,6 +16,24 @@
       "revId": "69f7c4e471fdd8e1532d864050938cc72bfa169b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5d424340_e0ccd238",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-23T12:40:00Z",
+      "side": 1,
+      "message": "Thanks for the suggestion, it is helpful. However locking alone does not fix the issue (see updated commit message).",
+      "parentUuid": "398e22cb_2fe25551",
+      "revId": "69f7c4e471fdd8e1532d864050938cc72bfa169b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

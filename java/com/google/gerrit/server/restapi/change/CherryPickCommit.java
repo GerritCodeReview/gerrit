@@ -43,7 +43,6 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.revwalk.RevCommit;
 
 @Singleton
 public class CherryPickCommit
@@ -75,9 +74,6 @@ public class CherryPickCommit
       BatchUpdate.Factory updateFactory, CommitResource rsrc, CherryPickInput input)
       throws IOException, UpdateException, RestApiException, PermissionBackendException,
           ConfigInvalidException, NoSuchProjectException {
-    RevCommit commit = rsrc.getCommit();
-    String message = Strings.nullToEmpty(input.message).trim();
-    input.message = message.isEmpty() ? commit.getFullMessage() : message;
     String destination = Strings.nullToEmpty(input.destination).trim();
     input.parent = input.parent == null ? 1 : input.parent;
     Project.NameKey projectName = rsrc.getProjectState().getNameKey();
@@ -101,7 +97,7 @@ public class CherryPickCommit
               updateFactory,
               null,
               projectName,
-              commit,
+              rsrc.getCommit(),
               input,
               BranchNameKey.create(rsrc.getProjectState().getNameKey(), refName));
       CherryPickChangeInfo changeInfo =

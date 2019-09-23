@@ -6019,7 +6019,9 @@ The `CherryPickInput` entity contains information for cherry-picking a change to
 [options="header",cols="1,^1,5"]
 |===========================
 |Field Name         ||Description
-|`message`          ||Commit message for the cherry-pick change
+|`message`          |optional|
+Commit message for the cherry-pick change. If not set, the commit message of
+the cherry-picked commit is used.
 |`destination`      ||Destination branch
 |`base`             |optional|
 40-hex digit SHA-1 of the commit which will be the parent commit of the newly created change.

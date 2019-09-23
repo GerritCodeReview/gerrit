@@ -81,9 +81,7 @@ public class CherryPick
       throws IOException, UpdateException, RestApiException, PermissionBackendException,
           ConfigInvalidException, NoSuchProjectException {
     input.parent = input.parent == null ? 1 : input.parent;
-    if (input.message == null || input.message.trim().isEmpty()) {
-      throw new BadRequestException("message must be non-empty");
-    } else if (input.destination == null || input.destination.trim().isEmpty()) {
+    if (input.destination == null || input.destination.trim().isEmpty()) {
       throw new BadRequestException("destination must be non-empty");
     }
 

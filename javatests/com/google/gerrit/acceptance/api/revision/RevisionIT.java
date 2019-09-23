@@ -341,6 +341,34 @@ public class RevisionIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void cherryPickWithoutMessage() throws Exception {
+    String branch = "foo";
+
+    // Create change to cherry-pick
+    PushOneCommit.Result change = createChange();
+    RevCommit revCommit = change.getCommit();
+
+    // Create target branch to cherry-pick to.
+    gApi.projects().name(project.get()).branch(branch).create(new BranchInput());
+
+    // Cherry-pick without message.
+    CherryPickInput input = new CherryPickInput();
+    input.destination = branch;
+    String changeId =
+        gApi.changes()
+            .id(change.getChangeId())
+            .revision(revCommit.name())
+            .cherryPickAsInfo(input)
+            .id;
+
+    // Expect that the message of the cherry-picked commit was used for the cherry-pick change.
+    ChangeInfo changeInfo = gApi.changes().id(changeId).get();
+    RevisionInfo revInfo = changeInfo.revisions.get(changeInfo.currentRevision);
+    assertThat(revInfo).isNotNull();
+    assertThat(revInfo.commit.message).isEqualTo(revCommit.getFullMessage());
+  }
+
+  @Test
   public void cherryPickSetChangeId() throws Exception {
     PushOneCommit.Result r = pushTo("refs/for/master");
     CherryPickInput in = new CherryPickInput();

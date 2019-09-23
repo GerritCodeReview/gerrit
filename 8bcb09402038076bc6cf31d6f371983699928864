@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "57117cbd_9a26210f",
+        "filename": "java/com/google/gerrit/server/git/PermissionAwareReadOnlyRefDatabase.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-09-23T12:44:33Z",
+      "side": 1,
+      "message": "Can you make a DelegateRefDatabase for the delegation part, and inherit from that instead?",
+      "range": {
+        "startLine": 37,
+        "startChar": 13,
+        "endLine": 37,
+        "endChar": 47
+      },
+      "revId": "8bcb09402038076bc6cf31d6f371983699928864",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "474729d0_b37ac029",
+        "filename": "java/com/google/gerrit/server/git/PermissionAwareRepository.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-09-23T12:44:33Z",
+      "side": 1,
+      "message": "Can you make a DelegateRepository to keep the delegation separate from the permission handling?",
+      "range": {
+        "startLine": 46,
+        "startChar": 4,
+        "endLine": 46,
+        "endChar": 12
+      },
+      "revId": "8bcb09402038076bc6cf31d6f371983699928864",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "146d7dc7_6266d65a",
+        "filename": "java/com/google/gerrit/server/git/PermissionAwareRepositoryManager.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-09-23T12:44:33Z",
+      "side": 1,
+      "message": "what is the use case for this if() statement?",
+      "range": {
+        "startLine": 26,
+        "startChar": 9,
+        "endLine": 26,
+        "endChar": 52
+      },
+      "revId": "8bcb09402038076bc6cf31d6f371983699928864",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "94eabe8a_3602ab32",
+        "filename": "java/com/google/gerrit/server/git/PermissionAwareRepositoryManager.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-09-23T12:44:33Z",
+      "side": 1,
+      "message": "what\u0027s your plan for submitting this series? Later on, you remove this. If this is temporary, document as such.",
+      "range": {
+        "startLine": 32,
+        "startChar": 27,
+        "endLine": 32,
+        "endChar": 33
+      },
+      "revId": "8bcb09402038076bc6cf31d6f371983699928864",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

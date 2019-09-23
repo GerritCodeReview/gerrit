@@ -2666,6 +2666,28 @@ org.anyorg.MySecureIPFilter that performs source IP security filtering:
 	filterClass = org.anyorg.MySecureIPFilter
 ----
 
+[[filterClass.className.initParam]]filterClass.<className>.initParam::
++
+Gerrit supports customized pluggable HTTP filters as `filterClass`. This
+option allows to pass extra initialization parameters to the filter. It
+allows for multiple key/value pairs to be passed in this pattern:
++
+----
+initParam = <key>=<value>
+----
+For a comprehensive example:
++
+----
+[httpd]
+	filterClass = org.anyorg.AFilter
+	filterClass = org.anyorg.BFilter
+[filterClass "org.anyorg.AFilter"]
+	key1 = value1
+	key2 = value2
+[filterClass "org.anyorg.BFilter"]
+	key3 = value3
+----
+
 [[httpd.idleTimeout]]httpd.idleTimeout::
 +
 Maximum idle time for a connection, which roughly translates to the

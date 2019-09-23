@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "210cb2e0_ca50dbeb",
+        "filename": "java/com/google/gerrit/server/git/PermissionAwareReadOnlyRefDatabase.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-09-23T21:09:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "57117cbd_9a26210f",
+      "range": {
+        "startLine": 37,
+        "startChar": 13,
+        "endLine": 37,
+        "endChar": 47
+      },
+      "revId": "8bcb09402038076bc6cf31d6f371983699928864",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "474729d0_b37ac029",
         "filename": "java/com/google/gerrit/server/git/PermissionAwareRepository.java",
         "patchSetId": 23
@@ -45,6 +69,30 @@
       "revId": "8bcb09402038076bc6cf31d6f371983699928864",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cb070565_548009cc",
+        "filename": "java/com/google/gerrit/server/git/PermissionAwareRepository.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-09-23T21:09:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "474729d0_b37ac029",
+      "range": {
+        "startLine": 46,
+        "startChar": 4,
+        "endLine": 46,
+        "endChar": 12
+      },
+      "revId": "8bcb09402038076bc6cf31d6f371983699928864",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "19d26c13_4ed161e6",
+        "filename": "java/com/google/gerrit/server/git/PermissionAwareRepositoryManager.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-09-23T21:09:46Z",
+      "side": 1,
+      "message": "Replaced with assertion. Done.",
+      "parentUuid": "146d7dc7_6266d65a",
+      "range": {
+        "startLine": 26,
+        "startChar": 9,
+        "endLine": 26,
+        "endChar": 52
+      },
+      "revId": "8bcb09402038076bc6cf31d6f371983699928864",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "94eabe8a_3602ab32",
         "filename": "java/com/google/gerrit/server/git/PermissionAwareRepositoryManager.java",
         "patchSetId": 23
@@ -91,6 +163,30 @@
       "revId": "8bcb09402038076bc6cf31d6f371983699928864",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0aca1db2_aa029114",
+        "filename": "java/com/google/gerrit/server/git/PermissionAwareRepositoryManager.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-09-23T21:09:46Z",
+      "side": 1,
+      "message": "I verified and in the latest CL in this series this method is still used.",
+      "parentUuid": "94eabe8a_3602ab32",
+      "range": {
+        "startLine": 32,
+        "startChar": 27,
+        "endLine": 32,
+        "endChar": 33
+      },
+      "revId": "8bcb09402038076bc6cf31d6f371983699928864",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

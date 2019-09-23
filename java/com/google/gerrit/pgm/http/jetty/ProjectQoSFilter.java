@@ -34,6 +34,10 @@ import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.servlet.AsyncContext;
+import javax.servlet.AsyncEvent;
+import javax.servlet.AsyncListener;
+import javax.servlet.DispatcherType;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -43,9 +47,6 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.eclipse.jetty.continuation.Continuation;
-import org.eclipse.jetty.continuation.ContinuationListener;
-import org.eclipse.jetty.continuation.ContinuationSupport;
 import org.eclipse.jgit.lib.Config;
 
 /**
@@ -61,7 +62,6 @@ import org.eclipse.jgit.lib.Config;
  * Jetty's HTTP parser to crash, so we instead block the SSH execution queue thread and ask Jetty to
  * resume processing on the web service thread.
  */
-@SuppressWarnings("deprecation")
 @Singleton
 public class ProjectQoSFilter implements Filter {
   private static final String ATT_SPACE = ProjectQoSFilter.class.getName();
@@ -83,6 +83,16 @@ public class ProjectQoSFilter implements Filter {
   private final Provider<CurrentUser> user;
   private final QueueProvider queue;
   private final ServletContext context;
+  private final String _suspended =
+      "ProjectQoSFilter@" + Integer.toHexString(hashCode()) + ".SUSPENDED";
+  private final String _resumed =
+      "ProjectQoSFilter@" + Integer.toHexString(hashCode()) + ".RESUMED";
+  private final String _expired =
+      "ProjectQoSFilter@" + Integer.toHexString(hashCode()) + ".EXPIRED";
+  private final String _initial =
+      "ProjectQoSFilter@" + Integer.toHexString(hashCode()) + ".INITIAL";
+  private final String _timeoutMs =
+      "ProjectQoSFilter@" + Integer.toHexString(hashCode()) + ".TIMEOUT_MS";
   private final long maxWait;
 
   @Inject
@@ -104,26 +114,29 @@ public class ProjectQoSFilter implements Filter {
       throws IOException, ServletException {
     final HttpServletRequest req = (HttpServletRequest) request;
     final HttpServletResponse rsp = (HttpServletResponse) response;
-    final Continuation cont = ContinuationSupport.getContinuation(req);
 
-    if (cont.isInitial()) {
-      TaskThunk task = new TaskThunk(cont, req);
+    Boolean resumed = (Boolean) request.getAttribute(_resumed);
+    Boolean expired = (Boolean) request.getAttribute(_expired);
+
+    if (isInitial(request)) {
+      AsyncContext asyncContext = suspend(request);
+      TaskThunk task = new TaskThunk(asyncContext, req);
       if (maxWait > 0) {
-        cont.setTimeout(maxWait);
+        setTimeout(request, maxWait, asyncContext);
       }
-      cont.suspend(rsp);
-      cont.setAttribute(TASK, task);
+
+      request.setAttribute(TASK, task);
 
       Future<?> f = getExecutor().submit(task);
-      cont.addContinuationListener(new Listener(f));
-    } else if (cont.isExpired()) {
+      asyncContext.addListener(new Listener(f));
+    } else if (expired) {
       rsp.sendError(SC_SERVICE_UNAVAILABLE);
 
-    } else if (cont.isResumed() && cont.getAttribute(CANCEL) == Boolean.TRUE) {
+    } else if (resumed && request.getAttribute(CANCEL) == Boolean.TRUE) {
       rsp.sendError(SC_SERVICE_UNAVAILABLE);
 
-    } else if (cont.isResumed()) {
-      TaskThunk task = (TaskThunk) cont.getAttribute(TASK);
+    } else if (resumed) {
+      TaskThunk task = (TaskThunk) request.getAttribute(TASK);
       try {
         task.begin(Thread.currentThread());
         chain.doFilter(req, rsp);
@@ -138,6 +151,28 @@ public class ProjectQoSFilter implements Filter {
     }
   }
 
+  private boolean isInitial(ServletRequest req) {
+    Boolean initial = (Boolean) req.getAttribute(_initial);
+    return initial && req.getDispatcherType() != DispatcherType.ASYNC;
+  }
+
+  private void setTimeout(ServletRequest request, long timeoutMs, AsyncContext asyncContext) {
+    request.setAttribute(_timeoutMs, timeoutMs);
+    if (asyncContext != null) {
+      asyncContext.setTimeout(timeoutMs);
+    }
+  }
+
+  private AsyncContext suspend(ServletRequest request) {
+    AsyncContext asyncContext = request.startAsync();
+    request.setAttribute(_suspended, Boolean.TRUE);
+    request.setAttribute(_resumed, Boolean.FALSE);
+    request.setAttribute(_expired, Boolean.FALSE);
+    long timeoutMs = (long) request.getAttribute(_timeoutMs);
+    setTimeout(request, timeoutMs, asyncContext);
+    return asyncContext;
+  }
+
   private ScheduledThreadPoolExecutor getExecutor() {
     QueueProvider.QueueType qt = limitsFactory.create(user.get()).getQueueType();
     return queue.getQueue(qt);
@@ -149,7 +184,7 @@ public class ProjectQoSFilter implements Filter {
   @Override
   public void destroy() {}
 
-  private static final class Listener implements ContinuationListener {
+  private static final class Listener implements AsyncListener {
     final Future<?> future;
 
     Listener(Future<?> future) {
@@ -157,29 +192,35 @@ public class ProjectQoSFilter implements Filter {
     }
 
     @Override
-    public void onComplete(Continuation self) {}
+    public void onComplete(AsyncEvent event) throws IOException {}
 
     @Override
-    public void onTimeout(Continuation self) {
+    public void onTimeout(AsyncEvent event) throws IOException {
       future.cancel(true);
     }
+
+    @Override
+    public void onError(AsyncEvent event) throws IOException {}
+
+    @Override
+    public void onStartAsync(AsyncEvent event) throws IOException {}
   }
 
   private final class TaskThunk implements CancelableRunnable {
-    private final Continuation cont;
+    private final AsyncContext asyncContext;
     private final String name;
     private final Object lock = new Object();
     private boolean done;
     private Thread worker;
 
-    TaskThunk(Continuation cont, HttpServletRequest req) {
-      this.cont = cont;
+    TaskThunk(AsyncContext asyncContext, HttpServletRequest req) {
+      this.asyncContext = asyncContext;
       this.name = generateName(req);
     }
 
     @Override
     public void run() {
-      cont.resume();
+      resume();
 
       synchronized (lock) {
         while (!done) {
@@ -212,8 +253,17 @@ public class ProjectQoSFilter implements Filter {
 
     @Override
     public void cancel() {
-      cont.setAttribute(CANCEL, Boolean.TRUE);
-      cont.resume();
+      asyncContext.getRequest().setAttribute(CANCEL, Boolean.TRUE);
+      resume();
+    }
+
+    private void resume() {
+      ServletRequest candidate = asyncContext.getRequest();
+      Boolean suspended = (Boolean) candidate.getAttribute(_suspended);
+      if (suspended == Boolean.TRUE) {
+        candidate.setAttribute(_resumed, Boolean.TRUE);
+        asyncContext.dispatch();
+      }
     }
 
     @Override

@@ -4,6 +4,7 @@ java_library(
     name = "api",
     data = ["//lib:LICENSE-slf4j"],
     visibility = [
+        "//java/com/google/gerrit/sshd:__pkg__",
         "//lib/jgit/org.eclipse.jgit:__pkg__",
         "//plugins:__pkg__",
     ],

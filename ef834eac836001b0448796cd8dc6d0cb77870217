@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e10d12c7_3fab7497",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-09-23T16:10:40Z",
+      "side": 1,
+      "message": "Wouldn\u0027t this effectively mean that this change is blocked till we drop support for java 8?",
+      "revId": "ef834eac836001b0448796cd8dc6d0cb77870217",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

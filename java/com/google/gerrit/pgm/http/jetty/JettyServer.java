@@ -14,9 +14,6 @@
 
 package com.google.gerrit.pgm.http.jetty;
 
-import static java.util.concurrent.TimeUnit.MILLISECONDS;
-import static java.util.concurrent.TimeUnit.SECONDS;
-
 import com.google.common.base.Strings;
 import com.google.gerrit.extensions.client.AuthType;
 import com.google.gerrit.extensions.events.LifecycleListener;
@@ -29,30 +26,9 @@ import com.google.inject.Injector;
 import com.google.inject.Singleton;
 import com.google.inject.servlet.GuiceFilter;
 import com.google.inject.servlet.GuiceServletContextListener;
-import java.lang.management.ManagementFactory;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.EnumSet;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.concurrent.TimeUnit;
-import javax.servlet.DispatcherType;
-import javax.servlet.Filter;
 import org.eclipse.jetty.http.HttpScheme;
 import org.eclipse.jetty.jmx.MBeanContainer;
-import org.eclipse.jetty.server.Connector;
-import org.eclipse.jetty.server.ForwardedRequestCustomizer;
-import org.eclipse.jetty.server.Handler;
-import org.eclipse.jetty.server.HttpConfiguration;
-import org.eclipse.jetty.server.HttpConnectionFactory;
-import org.eclipse.jetty.server.SecureRequestCustomizer;
-import org.eclipse.jetty.server.Server;
-import org.eclipse.jetty.server.ServerConnector;
-import org.eclipse.jetty.server.SslConnectionFactory;
+import org.eclipse.jetty.server.*;
 import org.eclipse.jetty.server.handler.ContextHandler;
 import org.eclipse.jetty.server.handler.ContextHandlerCollection;
 import org.eclipse.jetty.server.handler.RequestLogHandler;
@@ -68,6 +44,19 @@ import org.eclipse.jetty.util.ssl.SslContextFactory;
 import org.eclipse.jetty.util.thread.QueuedThreadPool;
 import org.eclipse.jetty.util.thread.ThreadPool;
 import org.eclipse.jgit.lib.Config;
+
+import javax.servlet.DispatcherType;
+import javax.servlet.Filter;
+import java.lang.management.ManagementFactory;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
+
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 @Singleton
 public class JettyServer {
@@ -411,10 +400,24 @@ public class JettyServer {
         Class<? extends Filter> filterClass =
             (Class<? extends Filter>) Class.forName(filterClassName);
         Filter filter = env.webInjector.getInstance(filterClass);
-        app.addFilter(
-            new FilterHolder(filter),
-            "/*",
-            EnumSet.of(DispatcherType.REQUEST, DispatcherType.ASYNC));
+
+        Map<String, String> initParams = new HashMap<>();
+        String[] initParamConfigs = cfg.getStringList("filterClass", filterClassName, "initParam");
+        for (String initParamConfig : initParamConfigs) {
+          String[] splits = initParamConfig.split("=", 2);
+          if (splits.length != 2) {
+            throw new IllegalArgumentException(
+                "Parse filterClass initParams error, Maybe `initParam` config value is blank or appearing multiple "
+                    + "`=` char ");
+          }
+          initParams.put(splits[0], splits[1]);
+        }
+
+        FilterHolder filterHolder = new FilterHolder(filter);
+        if (initParams.size() > 0) {
+          filterHolder.setInitParameters(initParams);
+        }
+        app.addFilter(filterHolder, "/*", EnumSet.of(DispatcherType.REQUEST, DispatcherType.ASYNC));
       } catch (Throwable e) {
         throw new IllegalArgumentException(
             "Unable to instantiate front-end HTTP Filter " + filterClassName, e);

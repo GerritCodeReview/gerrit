@@ -36,8 +36,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.EnumSet;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import javax.servlet.DispatcherType;
@@ -411,10 +413,20 @@ public class JettyServer {
         Class<? extends Filter> filterClass =
             (Class<? extends Filter>) Class.forName(filterClassName);
         Filter filter = env.webInjector.getInstance(filterClass);
-        app.addFilter(
-            new FilterHolder(filter),
-            "/*",
-            EnumSet.of(DispatcherType.REQUEST, DispatcherType.ASYNC));
+
+        Map<String, String> initParams = new HashMap<>();
+        Set<String> initParamKeys = cfg.getNames("filterClass", filterClassName, true);
+        initParamKeys.forEach(
+            paramKey -> {
+              String paramValue = cfg.getString("filterClass", filterClassName, paramKey);
+              initParams.put(paramKey, paramValue);
+            });
+
+        FilterHolder filterHolder = new FilterHolder(filter);
+        if (initParams.size() > 0) {
+          filterHolder.setInitParameters(initParams);
+        }
+        app.addFilter(filterHolder, "/*", EnumSet.of(DispatcherType.REQUEST, DispatcherType.ASYNC));
       } catch (Throwable e) {
         throw new IllegalArgumentException(
             "Unable to instantiate front-end HTTP Filter " + filterClassName, e);

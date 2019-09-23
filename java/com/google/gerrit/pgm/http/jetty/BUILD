@@ -1,8 +1,13 @@
 load("@rules_java//java:defs.bzl", "java_library")
 
+# TODO(davido): Enable ProjectQoSFilter again, when it is migrated
+# of discontinued continuation package.
 java_library(
     name = "jetty",
-    srcs = glob(["**/*.java"]),
+    srcs = glob(
+        ["**/*.java"],
+        exclude = ["ProjectQoSFilter.java"],
+    ),
     visibility = ["//visibility:public"],
     deps = [
         "//java/com/google/gerrit/common:server",

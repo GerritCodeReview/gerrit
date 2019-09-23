@@ -88,6 +88,24 @@
       "revId": "7d59382b2d5ed22e4d38ca8aa11904bc407e42dd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8880a796_d067dfb4",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 4417,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2019-09-23T21:38:28Z",
+      "side": 1,
+      "message": "Okay, thanks for your views.\n\nWhat I suggest is the following:\n\n- set the default to 10 minutes, but, before we can do this we also need to\n- find ways to reduce/minimize/remove the impact of this setting on true usage of idle connections, such as the non-Git SSH use with \u0027gerrit gc\u0027 commands that can take hours without output and the use of low-traffic on stream-events.\n\nI will have a look into what options we have on the latter point later this week.\n\nIf this would be easy from the our/server side, that would be great, but if it means we have to recommend users to change some SSH client keepalive (OpenSSH: ServerAliveInterval) for these commands (that presumably only admins use), that will also over that as far as I am concerned.",
+      "parentUuid": "97897a72_6aff1f8e",
+      "revId": "7d59382b2d5ed22e4d38ca8aa11904bc407e42dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

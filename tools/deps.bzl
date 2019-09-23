@@ -20,7 +20,7 @@ GITILES_REPO = GERRIT
 # When updating Bouncy Castle, also update it in bazlets.
 BC_VERS = "1.61"
 HTTPCOMP_VERS = "4.5.2"
-JETTY_VERS = "9.4.36.v20210114"
+JETTY_VERS = "10.0.7"
 BYTE_BUDDY_VERSION = "1.10.7"
 
 def java_dependencies():
@@ -63,8 +63,8 @@ def java_dependencies():
 
     maven_jar(
         name = "servlet-api",
-        artifact = "org.apache.tomcat:tomcat-servlet-api:8.5.23",
-        sha1 = "021a212688ec94fe77aff74ab34cc74f6f940e60",
+        artifact = "jakarta.servlet:jakarta.servlet-api:4.0.4",
+        sha1 = "b8a1142e04838fe54194049c6e7a18dae8f9b960",
     )
 
     # JGit's transitive dependencies
@@ -650,50 +650,50 @@ def java_dependencies():
     maven_jar(
         name = "jetty-servlet",
         artifact = "org.eclipse.jetty:jetty-servlet:" + JETTY_VERS,
-        sha1 = "b189e52a5ee55ae172e4e99e29c5c314f5daf4b9",
+        sha1 = "992e9806a30df0a6d5ed716b8bc7bdc4dd2f8ff8",
     )
 
     maven_jar(
         name = "jetty-security",
         artifact = "org.eclipse.jetty:jetty-security:" + JETTY_VERS,
-        sha1 = "42030d6ed7dfc0f75818cde0adcf738efc477574",
+        sha1 = "785ae2a3cf9ec085819322b7e4820883f7c6a47d",
     )
 
     maven_jar(
         name = "jetty-server",
         artifact = "org.eclipse.jetty:jetty-server:" + JETTY_VERS,
-        sha1 = "88a7d342974aadca658e7386e8d0fcc5c0788f41",
+        sha1 = "ffa48ba418d9201acd1faf8368b43bc69e8a7ab0",
     )
 
     maven_jar(
         name = "jetty-jmx",
         artifact = "org.eclipse.jetty:jetty-jmx:" + JETTY_VERS,
-        sha1 = "bb3847eabe085832aeaedd30e872b40931632e54",
+        sha1 = "e1e431cd5d88835a37fd3d779051043e525f6e59",
     )
 
     maven_jar(
         name = "jetty-http",
         artifact = "org.eclipse.jetty:jetty-http:" + JETTY_VERS,
-        sha1 = "1eee89a55e04ff94df0f85d95200fc48acb43d86",
+        sha1 = "f245c27432360b73456f0bba2193f6d6708ba9d2",
     )
 
     maven_jar(
         name = "jetty-io",
         artifact = "org.eclipse.jetty:jetty-io:" + JETTY_VERS,
-        sha1 = "84a8faf9031eb45a5a2ddb7681e22c483d81ab3a",
+        sha1 = "d3cd73fef70eef77c746148e577058ef741702dd",
     )
 
     maven_jar(
         name = "jetty-util",
         artifact = "org.eclipse.jetty:jetty-util:" + JETTY_VERS,
-        sha1 = "925257fbcca6b501a25252c7447dbedb021f7404",
+        sha1 = "50ba9a23c46e8ed0169a4ae3152b3f91a85ef777",
     )
 
     maven_jar(
         name = "jetty-util-ajax",
         artifact = "org.eclipse.jetty:jetty-util-ajax:" + JETTY_VERS,
-        sha1 = "2f478130c21787073facb64d7242e06f94980c60",
-        src_sha1 = "7153d7ca38878d971fd90992c303bb7719ba7a21",
+        sha1 = "5e010b9c8b172742015df8328da9fb2cc269df77",
+        src_sha1 = "26e19fedbbce57470155a1aeb669f77e52ca9417",
     )
 
     maven_jar(

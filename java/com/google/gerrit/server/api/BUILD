@@ -18,7 +18,7 @@ java_library(
         "//java/com/google/gerrit/util/cli",
         "//lib:args4j",
         "//lib:guava",
-        "//lib:servlet-api-3_1",
+        "//lib:servlet-api",
         "//lib/guice",
         "//lib/guice:guice-assistedinject",
         "//lib/jgit/org.eclipse.jgit:jgit",

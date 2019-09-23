@@ -8,7 +8,7 @@ java_library(
     deps = [
         "//java/com/google/gerrit/extensions:api",
         "//lib:guava",
-        "//lib:servlet-api-3_1",
+        "//lib:servlet-api",
         "//lib/httpcomponents:httpclient",
         "//lib/jgit/org.eclipse.jgit:jgit",
     ],

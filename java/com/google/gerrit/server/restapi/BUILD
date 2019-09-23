@@ -31,7 +31,7 @@ java_library(
         "//lib:blame-cache",
         "//lib:gson",
         "//lib:guava",
-        "//lib:servlet-api-3_1",
+        "//lib:servlet-api",
         "//lib/auto:auto-value",
         "//lib/auto:auto-value-annotations",
         "//lib/commons:codec",

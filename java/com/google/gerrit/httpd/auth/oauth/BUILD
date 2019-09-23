@@ -15,7 +15,7 @@ java_library(
         "//java/com/google/gerrit/server",
         "//lib:gson",
         "//lib:guava",
-        "//lib:servlet-api-3_1",
+        "//lib:servlet-api",
         "//lib/commons:codec",
         "//lib/flogger:api",
         "//lib/guice",

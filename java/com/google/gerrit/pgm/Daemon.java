@@ -45,7 +45,6 @@ import com.google.gerrit.lucene.LuceneIndexModule;
 import com.google.gerrit.metrics.dropwizard.DropWizardMetricMaker;
 import com.google.gerrit.pgm.http.jetty.JettyEnv;
 import com.google.gerrit.pgm.http.jetty.JettyModule;
-import com.google.gerrit.pgm.http.jetty.ProjectQoSFilter;
 import com.google.gerrit.pgm.util.ErrorLogFile;
 import com.google.gerrit.pgm.util.LogFileCompressor;
 import com.google.gerrit.pgm.util.RuntimeShutdown;
@@ -539,9 +538,11 @@ public class Daemon extends SiteProgram {
 
   private Injector createWebInjector() {
     final List<Module> modules = new ArrayList<>();
-    if (sshd) {
-      modules.add(new ProjectQoSFilter.Module());
-    }
+    // TODO(davido): Enable again, when ProjectQoSFilter is migrated
+    // of discontinued continuation package.
+    // if (sshd) {
+    //   modules.add(new ProjectQoSFilter.Module());
+    // }
     modules.add(RequestContextFilter.module());
     modules.add(RequestMetricsFilter.module());
     modules.add(H2CacheBasedWebSession.module());

@@ -41,6 +41,7 @@ java_library(
         "//lib/guice:guice-servlet",  # SSH should not depend on servlet
         "//lib/jgit/org.eclipse.jgit.archive:jgit-archive",
         "//lib/jgit/org.eclipse.jgit:jgit",
+        "//lib/log:api",
         "//lib/log:log4j",
         "//lib/mina:core",
         "//lib/mina:sshd",

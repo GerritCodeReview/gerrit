@@ -332,7 +332,8 @@ public class JettyServer {
         config.addCustomizer(new ForwardedRequestCustomizer());
         config.addCustomizer(
             (connector, channelConfig, request) -> {
-              request.setScheme(HttpScheme.HTTPS.asString());
+              // TODO(davido): Find out what to do here
+              //request.setScheme(HttpScheme.HTTPS.asString());
               request.setSecure(true);
             });
         c = newServerConnector(server, acceptors, config);

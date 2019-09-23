@@ -179,38 +179,43 @@ public class TraceContext implements AutoCloseable {
   public static class TraceTimer implements AutoCloseable {
     private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-    private final Consumer<Long> logFn;
+    private final Consumer<Long> doneLogFn;
     private final Stopwatch stopwatch;
 
     private TraceTimer(String operation) {
       this(
+          () -> logger.atFine().log("Starting timer for %s", operation),
           elapsedMs -> {
             LoggingContext.getInstance()
                 .addPerformanceLogRecord(() -> PerformanceLogRecord.create(operation, elapsedMs));
-            logger.atFine().log("%s (%d ms)", operation, elapsedMs);
+            logger.atFine().log("%s done (%d ms)", operation, elapsedMs);
           });
     }
 
     private TraceTimer(String operation, Metadata metadata) {
       this(
+          () ->
+              logger.atFine().log(
+                  "Starting timer for %s (%s)", operation, metadata.toStringForLogging()),
           elapsedMs -> {
             LoggingContext.getInstance()
                 .addPerformanceLogRecord(
                     () -> PerformanceLogRecord.create(operation, elapsedMs, metadata));
             logger.atFine().log(
-                "%s (%s) (%d ms)", operation, metadata.toStringForLogging(), elapsedMs);
+                "%s (%s) done (%d ms)", operation, metadata.toStringForLogging(), elapsedMs);
           });
     }
 
-    private TraceTimer(Consumer<Long> logFn) {
-      this.logFn = logFn;
+    private TraceTimer(Runnable startLogFn, Consumer<Long> doneLogFn) {
+      startLogFn.run();
+      this.doneLogFn = doneLogFn;
       this.stopwatch = Stopwatch.createStarted();
     }
 
     @Override
     public void close() {
       stopwatch.stop();
-      logFn.accept(stopwatch.elapsed(TimeUnit.MILLISECONDS));
+      doneLogFn.accept(stopwatch.elapsed(TimeUnit.MILLISECONDS));
     }
   }
 

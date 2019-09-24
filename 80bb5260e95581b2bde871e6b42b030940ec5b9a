@@ -16,6 +16,24 @@
       "revId": "80bb5260e95581b2bde871e6b42b030940ec5b9a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2f579868_fed86a8e",
+        "filename": "javatests/com/google/gerrit/server/notedb/ChangeNotesStateTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-09-24T22:18:06Z",
+      "side": 0,
+      "message": "Can it be that squashing of your change didn\u0027t actually work?",
+      "parentUuid": "d443fe5a_02c493a2",
+      "revId": "80bb5260e95581b2bde871e6b42b030940ec5b9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

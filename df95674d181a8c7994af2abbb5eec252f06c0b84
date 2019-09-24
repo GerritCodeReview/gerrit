@@ -121,6 +121,30 @@
     },
     {
       "key": {
+        "uuid": "60682fff_e983fbb7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-09-24T14:34:42Z",
+      "side": 1,
+      "message": "Yes, understood your point.\nToday the high-availability and multi-site are not core plugin.\nHowever, I would say that they are core use-cases that are worth considering, correct?\n\nP.S. They can be turned into core-plugins in the near future, isn\u0027t it? ;-)",
+      "parentUuid": "87815278_94820e26",
+      "range": {
+        "startLine": 27,
+        "startChar": 53,
+        "endLine": 35,
+        "endChar": 0
+      },
+      "revId": "df95674d181a8c7994af2abbb5eec252f06c0b84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4f7749f1_d771c89e",
         "filename": "javatests/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
         "patchSetId": 3

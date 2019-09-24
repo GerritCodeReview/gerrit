@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "60474e38_f6818c3e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-09-24T08:10:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c3d90606_3bf0093d",
+      "revId": "c238e5e3ac4c72b7fe5df3609d94a108a29277ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f4ab5c73_8408bf05",
         "filename": "lib/jgit/jgit.bzl",
         "patchSetId": 9
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "56559ca8_ef775431",
+        "filename": "lib/jgit/jgit.bzl",
+        "patchSetId": 9
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-09-24T08:10:39Z",
+      "side": 1,
+      "message": "Changed to consuming from \"5.5.0.201909110433-r\". Let me know, if we could do better, and get even newer Javadoc link. The idea is to always consume JGit@HEAD, at least in Gerrit@HEAD.",
+      "parentUuid": "f4ab5c73_8408bf05",
+      "range": {
+        "startLine": 6,
+        "startChar": 13,
+        "endLine": 6,
+        "endChar": 33
+      },
+      "revId": "c238e5e3ac4c72b7fe5df3609d94a108a29277ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0341d819_722f2276",
         "filename": "lib/jgit/jgit.bzl",
         "patchSetId": 9
@@ -62,6 +104,30 @@
       "revId": "c238e5e3ac4c72b7fe5df3609d94a108a29277ee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "af6195dd_98d45963",
+        "filename": "lib/jgit/jgit.bzl",
+        "patchSetId": 9
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-09-24T08:10:39Z",
+      "side": 1,
+      "message": "Critical here is not JGit/Gitiles version run on gs.com, but rather JGit/Gitiles version run on git.eclipse.org, as explained in the comment. Unfortunately, Gerrit/JGit/Gitiles are totally outdated on Eclipse.org (2.14.6), so that this obviously doesn\u0027t work, as can be seen in this bash session:\n\n  davido@wizball:~/Downloads$ wget https://git.eclipse.org/r/plugins/gitiles/jgit/jgit/+archive/9354d255eb7c95925f9c7fcb2fcc4b425dcbe796.tar.gz\n  Saving to: ‘9354d255eb7c95925f9c7fcb2fcc4b425dcbe796.tar.gz’\n  davido@wizball:~/Downloads$ sha256sum 9354d255eb7c95925f9c7fcb2fcc4b425dcbe796.tar.gz\n  54af85a17ead29656ef93081b6979e41008ee70f512712389e52acbeb6cd487e  9354d255eb7c95925f9c7fcb2fcc4b425dcbe796.tar.gz\n\nNow, repeating the sequence would produce a different, non-deterministic archive content, and that\u0027s why we are fetching from Github-Mirrow for now:\n\n  davido@wizball:~/Downloads$ wget https://git.eclipse.org/r/plugins/gitiles/jgit/jgit/+archive/9354d255eb7c95925f9c7fcb2fcc4b425dcbe796.tar.gz\n  Saving to: ‘9354d255eb7c95925f9c7fcb2fcc4b425dcbe796.tar.gz.1’\n  davido@wizball:~/Downloads$ sha256sum 9354d255eb7c95925f9c7fcb2fcc4b425dcbe796.tar.gz.1\n  f1f2ebb818de885de4cd49bdcd08c7183ad59ad5a2577f796fe2e8fdbbaddfe1  9354d255eb7c95925f9c7fcb2fcc4b425dcbe796.tar.gz.1",
+      "parentUuid": "0341d819_722f2276",
+      "range": {
+        "startLine": 24,
+        "startChar": 10,
+        "endLine": 24,
+        "endChar": 62
+      },
+      "revId": "c238e5e3ac4c72b7fe5df3609d94a108a29277ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

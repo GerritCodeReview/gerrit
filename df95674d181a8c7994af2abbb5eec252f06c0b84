@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "f0798e33_50e0fea5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-09-24T12:57:06Z",
+      "side": 1,
+      "message": "\u003e \u003e This accurately describes the situation within a single Gerrit host IMO. In our deployment we have the additional complication of strong and weak reads. A replica might be behind on the refs it knows about. \n\u003e \n\u003e True, but single host Gerrit server is the only thing that is\n\u003e possible out of the open source Gerrit (including the core plugins).\n\nNot true: Gerrit v2.16 (or later) + multi-site plugin allows having a full multi-master/multi-site deployment.\nWe have the same on GerritHub.io and is open source.\n\nSo, we do have the problem that Edwin is referring to.\n\n\u003e Therefore, it is fair to fix the issues for the single host server\n\u003e setup, at least until we have multi-site open source Gerrit :-)\n\nNot fair to us at least :-)\nWe should solve the single-master and the multi-master/multi-site scenarios.\n\n\u003e Thanks to Edwin for at least trying to address this issue.\n\u003e Having two parallel pushes of the same commit to the same branch\n\u003e is a very unlikely event. The issue is rather low-prio I would say\n\u003e but it would be nice to have it fixed. Maybe we will find some\n\u003e time to look at it again during one of the next hackathons.\n\nIt *could* happen also if the reverse proxy misbehave: we had experiences with NGINX where used the policy of sending the same request to multiple masters at the same time.\nWith ReviewDb, the DBMS was making sure that this wasn\u0027t happening and one of the two were failing. With NoteDb, this can be a real issue.",
+      "parentUuid": "cd644b64_58040f17",
+      "range": {
+        "startLine": 27,
+        "startChar": 53,
+        "endLine": 35,
+        "endChar": 0
+      },
+      "revId": "df95674d181a8c7994af2abbb5eec252f06c0b84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4f7749f1_d771c89e",
         "filename": "javatests/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
         "patchSetId": 3

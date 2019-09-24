@@ -37,23 +37,26 @@ public class NoteDbUtil {
       ImmutableSet.of(
           "com.google.gerrit.httpd.restapi.RestApiServlet", RetryingRestModifyView.class.getName());
 
-  /**
-   * Returns an AccountId for the given email address. Returns empty if the address isn't on this
-   * server.
-   */
-  public static Optional<Account.Id> parseIdent(PersonIdent ident, String serverId) {
+  /** Returns an AccountId for the given email address. */
+  public static Optional<Account.Id> parseIdent(PersonIdent ident) {
     String email = ident.getEmailAddress();
     int at = email.indexOf('@');
     if (at >= 0) {
-      String host = email.substring(at + 1);
-      if (host.equals(serverId)) {
-        Integer id = Ints.tryParse(email.substring(0, at));
-        if (id != null) {
-          return Optional.of(Account.id(id));
-        }
+      Integer id = Ints.tryParse(email.substring(0, at));
+      if (id != null) {
+        return Optional.of(Account.id(id));
       }
     }
     return Optional.empty();
+  }
+
+  public static String extractHostPartFromPersonIdent(PersonIdent ident) {
+    String email = ident.getEmailAddress();
+    int at = email.indexOf('@');
+    if (at >= 0) {
+      return email.substring(at + 1);
+    }
+    throw new IllegalArgumentException("No host part found: " + email);
   }
 
   public static String formatTime(PersonIdent ident, Timestamp t) {

@@ -95,11 +95,7 @@ limitations under the License.
     test('beforeLocationChanged', () => {
       element._baselines['garbage'] = 'monster';
       sandbox.stub(element, 'time');
-      GrJankDetector.jank = 42;
       element.beforeLocationChanged();
-      assert.equal(GrJankDetector.jank, 0);
-      assert.isTrue(element.reporter.calledWithExactly(
-          'lifecycle', 'UI Latency', 'Jank count', 42));
       assert.isTrue(element.time.calledWithExactly('DashboardDisplayed'));
       assert.isTrue(element.time.calledWithExactly('ChangeDisplayed'));
       assert.isTrue(element.time.calledWithExactly('ChangeFullyLoaded'));

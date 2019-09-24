@@ -60,6 +60,53 @@
     },
     {
       "key": {
+        "uuid": "e65cb66a_eede49d7",
+        "filename": "WORKSPACE",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-09-24T06:14:23Z",
+      "side": 1,
+      "message": "Remove it. See my comment below.",
+      "parentUuid": "6d2733a7_b236c0eb",
+      "range": {
+        "startLine": 60,
+        "startChar": 0,
+        "endLine": 69,
+        "endChar": 1
+      },
+      "revId": "4bdcd98cc2026e933488cb5c75562cfb13c7b541",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1a65ae2e_c82b10a0",
+        "filename": "WORKSPACE",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-09-24T06:14:23Z",
+      "side": 1,
+      "message": "For the same reason remove loading of rules_python as well. In this or immediately follow-up commit. There is no reason, we load rules_java (through rules_closure) and rules_proto and rules_python differently (explicitly).",
+      "range": {
+        "startLine": 71,
+        "startChar": 0,
+        "endLine": 81,
+        "endChar": 17
+      },
+      "revId": "4bdcd98cc2026e933488cb5c75562cfb13c7b541",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0d283032_ac1d8e6b",
         "filename": "WORKSPACE",
         "patchSetId": 1
@@ -89,6 +136,24 @@
       "side": 1,
       "message": "No, it\u0027s explicitly loaded above (see my other inline comment).\n\nI haven\u0027t looked into where the duplicate was introduced; just noticed that there are two so removed one.",
       "parentUuid": "0d283032_ac1d8e6b",
+      "revId": "4bdcd98cc2026e933488cb5c75562cfb13c7b541",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "59629810_2b1cc493",
+        "filename": "WORKSPACE",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-09-24T06:14:23Z",
+      "side": 1,
+      "message": "rules_proto is loaded actually three first. Ones where your removed it, second where you left it and third u´in rules_repositories. We could pass omit_rules_proto \u003d True, to avoid loading it implicitly for us, but in that case, we should do the same for rules_java, that we implicitly load through rules_closure.",
+      "parentUuid": "eb1d82c8_15ec5c03",
       "revId": "4bdcd98cc2026e933488cb5c75562cfb13c7b541",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

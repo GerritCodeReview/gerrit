@@ -39,10 +39,12 @@ import com.google.gerrit.metrics.Counter2;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.Field;
 import com.google.gerrit.metrics.MetricMaker;
+import com.google.gerrit.server.ExceptionHook;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.RequestId;
 import com.google.gerrit.server.logging.TraceContext;
+import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.time.Duration;
@@ -182,14 +184,19 @@ public class RetryHelper {
 
   private final Metrics metrics;
   private final BatchUpdate.Factory updateFactory;
+  private final PluginSetContext<ExceptionHook> exceptionHooks;
   private final Map<ActionType, Duration> defaultTimeouts;
   private final WaitStrategy waitStrategy;
   @Nullable private final Consumer<RetryerBuilder<?>> overwriteDefaultRetryerStrategySetup;
   private final boolean retryWithTraceOnFailure;
 
   @Inject
-  RetryHelper(@GerritServerConfig Config cfg, Metrics metrics, BatchUpdate.Factory updateFactory) {
-    this(cfg, metrics, updateFactory, null);
+  RetryHelper(
+      @GerritServerConfig Config cfg,
+      Metrics metrics,
+      PluginSetContext<ExceptionHook> exceptionHooks,
+      BatchUpdate.Factory updateFactory) {
+    this(cfg, metrics, updateFactory, exceptionHooks, null);
   }
 
   @VisibleForTesting
@@ -197,9 +204,11 @@ public class RetryHelper {
       @GerritServerConfig Config cfg,
       Metrics metrics,
       BatchUpdate.Factory updateFactory,
+      PluginSetContext<ExceptionHook> exceptionHooks,
       @Nullable Consumer<RetryerBuilder<?>> overwriteDefaultRetryerStrategySetup) {
     this.metrics = metrics;
     this.updateFactory = updateFactory;
+    this.exceptionHooks = exceptionHooks;
 
     Duration defaultTimeout =
         Duration.ofMillis(
@@ -305,6 +314,11 @@ public class RetryHelper {
                 // exceptionPredicate checks for temporary errors for which the operation should be
                 // retried (e.g. LockFailure). The retry has good chances to succeed.
                 if (exceptionPredicate.test(t)) {
+                  return true;
+                }
+
+                // Exception hooks may identify additional exceptions for retry.
+                if (exceptionHooks.stream().anyMatch(h -> h.shouldRetry(t))) {
                   return true;
                 }
 

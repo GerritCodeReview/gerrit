@@ -46,6 +46,30 @@
       "revId": "65d033788eaa3271c2cb86b7ef0d26422ccc3d9d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "463f0066_29f77c85",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1562,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-09-24T18:44:06Z",
+      "side": 0,
+      "message": "I mean (keep this for backwords compat, but introduce \u0027replica\u0027 as the replacement) So basically when container.slave is set, it will just set container.replica.",
+      "parentUuid": "ce59003e_ad72aec5",
+      "range": {
+        "startLine": 1562,
+        "startChar": 12,
+        "endLine": 1562,
+        "endChar": 17
+      },
+      "revId": "65d033788eaa3271c2cb86b7ef0d26422ccc3d9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

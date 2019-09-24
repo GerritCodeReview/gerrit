@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "949fa24b_cedd5272",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-09-24T14:33:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a752e3d_d4a2ddee",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 36
+      },
+      "revId": "5982f6c46140fb39f4fe1d41fd89426408e90ca2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f093b390_59689c0a",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "5982f6c46140fb39f4fe1d41fd89426408e90ca2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f4855b84_4cc38d75",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1455,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-09-24T14:33:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f093b390_59689c0a",
+      "range": {
+        "startLine": 1455,
+        "startChar": 7,
+        "endLine": 1455,
+        "endChar": 36
+      },
+      "revId": "5982f6c46140fb39f4fe1d41fd89426408e90ca2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -101,6 +149,24 @@
     },
     {
       "key": {
+        "uuid": "ae4d8e3a_100feac7",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1510,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-09-24T14:33:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "78e3d438_3dc70b1b",
+      "revId": "5982f6c46140fb39f4fe1d41fd89426408e90ca2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9ae28eb7_ed0d4545",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 1
@@ -124,6 +190,30 @@
     },
     {
       "key": {
+        "uuid": "dc544f85_708b0848",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 6993,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-09-24T14:33:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9ae28eb7_ed0d4545",
+      "range": {
+        "startLine": 6993,
+        "startChar": 28,
+        "endLine": 6993,
+        "endChar": 33
+      },
+      "revId": "5982f6c46140fb39f4fe1d41fd89426408e90ca2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fba7d15c_0046dea7",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 1
@@ -138,6 +228,24 @@
       "revId": "5982f6c46140fb39f4fe1d41fd89426408e90ca2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "70b85055_0d4a685d",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 6994,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-09-24T14:33:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fba7d15c_0046dea7",
+      "revId": "5982f6c46140fb39f4fe1d41fd89426408e90ca2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -164,6 +272,30 @@
     },
     {
       "key": {
+        "uuid": "cdac11bf_410d57ca",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 6997,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-09-24T14:33:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f71e4dda_b1e6048e",
+      "range": {
+        "startLine": 6997,
+        "startChar": 22,
+        "endLine": 6997,
+        "endChar": 27
+      },
+      "revId": "5982f6c46140fb39f4fe1d41fd89426408e90ca2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6eb7c2df_7afe19ab",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 1
@@ -184,6 +316,30 @@
       "revId": "5982f6c46140fb39f4fe1d41fd89426408e90ca2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "962f3d2b_c14648d2",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 7002,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-09-24T14:33:27Z",
+      "side": 1,
+      "message": "I thought about it but I don\u0027t think that would be a good idea. We don\u0027t seem to do that in any other endpoint I\u0027ve seen, and also it might lead to problems later on (such as trying to add a field to RevertInput that only applies to one of those endpoints. Sounds like trouble.\nAt any case this is not relevant anymore since I am using RevertInput for both since they are identical right now.",
+      "parentUuid": "6eb7c2df_7afe19ab",
+      "range": {
+        "startLine": 7002,
+        "startChar": 4,
+        "endLine": 7002,
+        "endChar": 25
+      },
+      "revId": "5982f6c46140fb39f4fe1d41fd89426408e90ca2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -210,6 +366,30 @@
     },
     {
       "key": {
+        "uuid": "b1843bea_6be61ef5",
+        "filename": "java/com/google/gerrit/extensions/api/changes/RevertInput.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-09-24T14:33:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9fabd7a7_baa5a6e6",
+      "range": {
+        "startLine": 28,
+        "startChar": 2,
+        "endLine": 30,
+        "endChar": 30
+      },
+      "revId": "5982f6c46140fb39f4fe1d41fd89426408e90ca2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "77fcf897_dc71517a",
         "filename": "java/com/google/gerrit/extensions/api/changes/RevertSubmissionInput.java",
         "patchSetId": 1
@@ -230,6 +410,30 @@
       "revId": "5982f6c46140fb39f4fe1d41fd89426408e90ca2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "abbfae05_d90981e2",
+        "filename": "java/com/google/gerrit/extensions/api/changes/RevertSubmissionInput.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-09-24T14:33:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "77fcf897_dc71517a",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "5982f6c46140fb39f4fe1d41fd89426408e90ca2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -256,6 +460,30 @@
     },
     {
       "key": {
+        "uuid": "4c230aec_fb10795b",
+        "filename": "java/com/google/gerrit/server/api/changes/ChangeApiImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 376,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-09-24T14:33:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "884c8160_a8e93109",
+      "range": {
+        "startLine": 376,
+        "startChar": 46,
+        "endLine": 376,
+        "endChar": 54
+      },
+      "revId": "5982f6c46140fb39f4fe1d41fd89426408e90ca2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1d42748e_68314f41",
         "filename": "java/com/google/gerrit/server/restapi/change/Revert.java",
         "patchSetId": 1
@@ -276,6 +504,30 @@
       "revId": "5982f6c46140fb39f4fe1d41fd89426408e90ca2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6995ea7a_a8a083fb",
+        "filename": "java/com/google/gerrit/server/restapi/change/Revert.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-09-24T14:33:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1d42748e_68314f41",
+      "range": {
+        "startLine": 191,
+        "startChar": 34,
+        "endLine": 191,
+        "endChar": 53
+      },
+      "revId": "5982f6c46140fb39f4fe1d41fd89426408e90ca2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -302,6 +554,30 @@
     },
     {
       "key": {
+        "uuid": "379cad9c_b411b32b",
+        "filename": "java/com/google/gerrit/server/restapi/change/Revert.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-09-24T14:33:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9299e3d0_980e64df",
+      "range": {
+        "startLine": 194,
+        "startChar": 20,
+        "endLine": 194,
+        "endChar": 45
+      },
+      "revId": "5982f6c46140fb39f4fe1d41fd89426408e90ca2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "62c19f5c_3add426a",
         "filename": "java/com/google/gerrit/server/restapi/change/Revert.java",
         "patchSetId": 1
@@ -325,6 +601,30 @@
     },
     {
       "key": {
+        "uuid": "c789c64e_d8fc76ae",
+        "filename": "java/com/google/gerrit/server/restapi/change/Revert.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-09-24T14:33:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "62c19f5c_3add426a",
+      "range": {
+        "startLine": 196,
+        "startChar": 19,
+        "endLine": 196,
+        "endChar": 86
+      },
+      "revId": "5982f6c46140fb39f4fe1d41fd89426408e90ca2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7ed0ca09_0e27112c",
         "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
         "patchSetId": 1
@@ -339,6 +639,24 @@
       "revId": "5982f6c46140fb39f4fe1d41fd89426408e90ca2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0909283f_5be706ec",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-09-24T14:33:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7ed0ca09_0e27112c",
+      "revId": "5982f6c46140fb39f4fe1d41fd89426408e90ca2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -359,6 +677,24 @@
     },
     {
       "key": {
+        "uuid": "451252b8_a30bcaaa",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-09-24T14:33:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2459e260_c862e8df",
+      "revId": "5982f6c46140fb39f4fe1d41fd89426408e90ca2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f7853e0a_5d1dbea2",
         "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
         "patchSetId": 1
@@ -373,6 +709,24 @@
       "revId": "5982f6c46140fb39f4fe1d41fd89426408e90ca2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2c1af677_eac2fa2f",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-09-24T14:33:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f7853e0a_5d1dbea2",
+      "revId": "5982f6c46140fb39f4fe1d41fd89426408e90ca2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -399,6 +753,30 @@
     },
     {
       "key": {
+        "uuid": "5bb9975c_624fb68f",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-09-24T14:33:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8cd65e7c_4e802507",
+      "range": {
+        "startLine": 41,
+        "startChar": 15,
+        "endLine": 41,
+        "endChar": 29
+      },
+      "revId": "5982f6c46140fb39f4fe1d41fd89426408e90ca2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "95bdddc7_8383a757",
         "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
         "patchSetId": 1
@@ -419,6 +797,30 @@
       "revId": "5982f6c46140fb39f4fe1d41fd89426408e90ca2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "05127fcc_fc9eb3d8",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-09-24T14:33:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "95bdddc7_8383a757",
+      "range": {
+        "startLine": 82,
+        "startChar": 4,
+        "endLine": 88,
+        "endChar": 5
+      },
+      "revId": "5982f6c46140fb39f4fe1d41fd89426408e90ca2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -445,6 +847,30 @@
     },
     {
       "key": {
+        "uuid": "af3f1166_9691145d",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-09-24T14:33:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f4e9c16b_ffb9913b",
+      "range": {
+        "startLine": 91,
+        "startChar": 4,
+        "endLine": 91,
+        "endChar": 7
+      },
+      "revId": "5982f6c46140fb39f4fe1d41fd89426408e90ca2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "82936c67_427ca069",
         "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
         "patchSetId": 1
@@ -459,6 +885,24 @@
       "revId": "5982f6c46140fb39f4fe1d41fd89426408e90ca2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ccefe336_a1106177",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-09-24T14:33:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "82936c67_427ca069",
+      "revId": "5982f6c46140fb39f4fe1d41fd89426408e90ca2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -485,6 +929,30 @@
     },
     {
       "key": {
+        "uuid": "cbc0a6d7_36455d71",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-09-24T14:33:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "42897dce_8d6fbd41",
+      "range": {
+        "startLine": 102,
+        "startChar": 18,
+        "endLine": 102,
+        "endChar": 43
+      },
+      "revId": "5982f6c46140fb39f4fe1d41fd89426408e90ca2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e5addade_c38acc1e",
         "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
         "patchSetId": 1
@@ -508,6 +976,30 @@
     },
     {
       "key": {
+        "uuid": "bbfcd789_2d68c6d6",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-09-24T14:33:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e5addade_c38acc1e",
+      "range": {
+        "startLine": 113,
+        "startChar": 3,
+        "endLine": 116,
+        "endChar": 0
+      },
+      "revId": "5982f6c46140fb39f4fe1d41fd89426408e90ca2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e6a59bae_b09ab45f",
         "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
         "patchSetId": 1
@@ -519,6 +1011,30 @@
       "writtenOn": "2019-09-17T12:22:50Z",
       "side": 1,
       "message": "This looks like you are taking an arbitrary patch set as start patch set (the one of the first change for this project that was returned by the query which orders the result by last updated timestamp), I doubt that this is working in all cases.",
+      "range": {
+        "startLine": 121,
+        "startChar": 6,
+        "endLine": 125,
+        "endChar": 67
+      },
+      "revId": "5982f6c46140fb39f4fe1d41fd89426408e90ca2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "890ac2d2_316d2194",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-09-24T14:33:27Z",
+      "side": 1,
+      "message": "As far as I understand \"startPatchset\" is not very important. As I understand this relatedChangesSorter, he just takes the startPatchSet, and puts all the descendants after him and all the ancestors before him. I think some of my tests confirm it doesn\u0027t depend on the update time, I also added an explicit line of code in revertSubmissionWithDependantChange to test this.\n\nI did find a bug related to this, that it would ignore uncle commits, so I had to upgrade this sort.",
+      "parentUuid": "e6a59bae_b09ab45f",
       "range": {
         "startLine": 121,
         "startChar": 6,
@@ -554,6 +1070,30 @@
     },
     {
       "key": {
+        "uuid": "ff657880_1623f7e9",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-09-24T14:33:27Z",
+      "side": 1,
+      "message": "That\u0027s a good comment, but now I again need ChangeResource a few lines later for the revertedChange - to delete it, and I don\u0027t have a simple access to notes. I think for sake of readability and consistency I\u0027ll leave it as is, and use getChangeResource in both cases. I understand this is a little less efficient. What do you think?",
+      "parentUuid": "4e361317_bded034f",
+      "range": {
+        "startLine": 128,
+        "startChar": 32,
+        "endLine": 128,
+        "endChar": 96
+      },
+      "revId": "5982f6c46140fb39f4fe1d41fd89426408e90ca2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "08d0cb54_ffa150e9",
         "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
         "patchSetId": 1
@@ -574,6 +1114,30 @@
       "revId": "5982f6c46140fb39f4fe1d41fd89426408e90ca2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "871b7666_f9458c00",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-09-24T14:33:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "08d0cb54_ffa150e9",
+      "range": {
+        "startLine": 131,
+        "startChar": 12,
+        "endLine": 132,
+        "endChar": 27
+      },
+      "revId": "5982f6c46140fb39f4fe1d41fd89426408e90ca2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -600,6 +1164,30 @@
     },
     {
       "key": {
+        "uuid": "933e8b77_8c5edcfd",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-09-24T14:33:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6821076a_a1d4a724",
+      "range": {
+        "startLine": 119,
+        "startChar": 3,
+        "endLine": 139,
+        "endChar": 5
+      },
+      "revId": "5982f6c46140fb39f4fe1d41fd89426408e90ca2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f81a4db2_c7b1d963",
         "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
         "patchSetId": 1
@@ -620,6 +1208,30 @@
       "revId": "5982f6c46140fb39f4fe1d41fd89426408e90ca2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e877c360_f471537d",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-09-24T14:33:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f81a4db2_c7b1d963",
+      "range": {
+        "startLine": 148,
+        "startChar": 16,
+        "endLine": 148,
+        "endChar": 41
+      },
+      "revId": "5982f6c46140fb39f4fe1d41fd89426408e90ca2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -646,6 +1258,30 @@
     },
     {
       "key": {
+        "uuid": "ce1781eb_ac1ec7b1",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-09-24T14:33:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "90abc31d_bf4ab92d",
+      "range": {
+        "startLine": 149,
+        "startChar": 4,
+        "endLine": 149,
+        "endChar": 26
+      },
+      "revId": "5982f6c46140fb39f4fe1d41fd89426408e90ca2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0a7e5cf8_7a0800e0",
         "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
         "patchSetId": 1
@@ -669,6 +1305,30 @@
     },
     {
       "key": {
+        "uuid": "1180dcfc_845b0d14",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-09-24T14:33:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0a7e5cf8_7a0800e0",
+      "range": {
+        "startLine": 150,
+        "startChar": 16,
+        "endLine": 150,
+        "endChar": 35
+      },
+      "revId": "5982f6c46140fb39f4fe1d41fd89426408e90ca2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "042db346_20242d12",
         "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
         "patchSetId": 1
@@ -689,6 +1349,30 @@
       "revId": "5982f6c46140fb39f4fe1d41fd89426408e90ca2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c20a81ff_95b56bff",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-09-24T14:33:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "042db346_20242d12",
+      "range": {
+        "startLine": 166,
+        "startChar": 26,
+        "endLine": 166,
+        "endChar": 28
+      },
+      "revId": "5982f6c46140fb39f4fe1d41fd89426408e90ca2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

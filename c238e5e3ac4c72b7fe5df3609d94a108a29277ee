@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "2e6bb76a_35491f83",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-09-24T09:38:44Z",
+      "side": 1,
+      "message": "this sounds like it is optional\n\ns/adds a possibility to consume/implements consuming/",
+      "range": {
+        "startLine": 9,
+        "startChar": 12,
+        "endLine": 9,
+        "endChar": 41
+      },
+      "revId": "c238e5e3ac4c72b7fe5df3609d94a108a29277ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c3d90606_3bf0093d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 9
@@ -72,6 +95,30 @@
       "side": 1,
       "message": "Changed to consuming from \"5.5.0.201909110433-r\". Let me know, if we could do better, and get even newer Javadoc link. The idea is to always consume JGit@HEAD, at least in Gerrit@HEAD.",
       "parentUuid": "f4ab5c73_8408bf05",
+      "range": {
+        "startLine": 6,
+        "startChar": 13,
+        "endLine": 6,
+        "endChar": 33
+      },
+      "revId": "c238e5e3ac4c72b7fe5df3609d94a108a29277ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e4290fdb_ede87d3b",
+        "filename": "lib/jgit/jgit.bzl",
+        "patchSetId": 9
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-09-24T09:38:44Z",
+      "side": 1,
+      "message": "but definition what is latest JGIT_VERS still requires a manual change ?\n\nI\u0027ll create another CI job publishing maven site for master",
+      "parentUuid": "56559ca8_ef775431",
       "range": {
         "startLine": 6,
         "startChar": 13,
@@ -167,6 +214,30 @@
       "side": 1,
       "message": "We could, but what is wrong to consume from GitHub? The whole Polygerrit dependencies are loaded from GitHub, so why would we want to avoid to load JGit from GH?\n\nBTW, I found this upgrade gerrit 2.16 request on Eclipse.org and voted for it: [1]. Please consider to vote on this issue as well (only 3 votes so far).\n\n* [1] https://bugs.eclipse.org/bugs/show_bug.cgi?id\u003d541221",
       "parentUuid": "7579fa18_13ac141a",
+      "range": {
+        "startLine": 24,
+        "startChar": 10,
+        "endLine": 24,
+        "endChar": 62
+      },
+      "revId": "c238e5e3ac4c72b7fe5df3609d94a108a29277ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dc55746c_335fc207",
+        "filename": "lib/jgit/jgit.bzl",
+        "patchSetId": 9
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-09-24T09:38:44Z",
+      "side": 1,
+      "message": "Yes, you are right this is about git.eclipse.org\n\nI am pushing for this upgrade since this bug was filed by Jonathan, I\u0027ll ping Denis once more",
+      "parentUuid": "552d4cd5_d0d9c9d2",
       "range": {
         "startLine": 24,
         "startChar": 10,

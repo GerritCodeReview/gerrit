@@ -19,6 +19,47 @@
     },
     {
       "key": {
+        "uuid": "0914c9cb_a4fbace6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-09-24T05:34:55Z",
+      "side": 1,
+      "message": "Possibly, but that\u0027s for a separate commit.",
+      "parentUuid": "28040914_b138aebc",
+      "revId": "4bdcd98cc2026e933488cb5c75562cfb13c7b541",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6d2733a7_b236c0eb",
+        "filename": "WORKSPACE",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-09-24T05:34:55Z",
+      "side": 1,
+      "message": "Here",
+      "range": {
+        "startLine": 60,
+        "startChar": 0,
+        "endLine": 69,
+        "endChar": 1
+      },
+      "revId": "4bdcd98cc2026e933488cb5c75562cfb13c7b541",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0d283032_ac1d8e6b",
         "filename": "WORKSPACE",
         "patchSetId": 1
@@ -30,6 +71,24 @@
       "writtenOn": "2019-09-24T05:25:18Z",
       "side": 1,
       "message": "First time it is loaded here? Mention it in the commit message?",
+      "revId": "4bdcd98cc2026e933488cb5c75562cfb13c7b541",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eb1d82c8_15ec5c03",
+        "filename": "WORKSPACE",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-09-24T05:34:55Z",
+      "side": 1,
+      "message": "No, it\u0027s explicitly loaded above (see my other inline comment).\n\nI haven\u0027t looked into where the duplicate was introduced; just noticed that there are two so removed one.",
+      "parentUuid": "0d283032_ac1d8e6b",
       "revId": "4bdcd98cc2026e933488cb5c75562cfb13c7b541",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

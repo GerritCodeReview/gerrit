@@ -166,6 +166,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.concurrent.TimeUnit;
@@ -280,6 +281,7 @@ public class RestApiServlet extends HttpServlet {
 
   private final Globals globals;
   private final Provider<RestCollection<RestResource, RestResource>> members;
+  private Optional<String> traceId;
 
   public RestApiServlet(
       Globals globals, RestCollection<? extends RestResource, ? extends RestResource> members) {
@@ -551,7 +553,8 @@ public class RestApiServlet extends HttpServlet {
             throw new ResourceNotFoundException();
           }
 
-          response.traceId().ifPresent(traceId -> res.addHeader(X_GERRIT_TRACE, traceId));
+          traceId = response.traceId();
+          traceId.ifPresent(traceId -> res.addHeader(X_GERRIT_TRACE, traceId));
 
           if (response instanceof Response.Redirect) {
             CacheHeaders.setNotCacheable(res);
@@ -1485,11 +1488,12 @@ public class RestApiServlet extends HttpServlet {
     }
   }
 
-  private static long handleException(
-      Throwable err, HttpServletRequest req, HttpServletResponse res) throws IOException {
+  private long handleException(Throwable err, HttpServletRequest req, HttpServletResponse res)
+      throws IOException {
     logger.atSevere().withCause(err).log("Error in %s %s", req.getMethod(), uriForLogging(req));
     if (!res.isCommitted()) {
       res.reset();
+      traceId.ifPresent(traceId -> res.addHeader(X_GERRIT_TRACE, traceId));
       return replyError(req, res, SC_INTERNAL_SERVER_ERROR, "Internal server error", err);
     }
     return 0;

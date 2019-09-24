@@ -19,6 +19,7 @@ import static java.util.stream.Collectors.joining;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
+import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Sets;
@@ -183,13 +184,13 @@ public class Submit
     }
     projectCache.checkedGet(rsrc.getProject()).checkStatePermitsWrite();
 
-    return Response.ok(new Output(mergeChange(rsrc, submitter, input)));
+    return mergeChange(rsrc, submitter, input);
   }
 
   @UsedAt(UsedAt.Project.GOOGLE)
-  public Change mergeChange(RevisionResource rsrc, IdentifiedUser submitter, SubmitInput input)
-      throws RestApiException, IOException, UpdateException, ConfigInvalidException,
-          PermissionBackendException {
+  public Response<Output> mergeChange(
+      RevisionResource rsrc, IdentifiedUser submitter, SubmitInput input)
+      throws RestApiException, IOException {
     Change change = rsrc.getChange();
     if (!change.isNew()) {
       throw new ResourceConflictException("change is " + ChangeUtil.status(change));
@@ -204,10 +205,17 @@ public class Submit
     }
 
     try (MergeOp op = mergeOpProvider.get()) {
-      Change updatedChange = op.merge(change, submitter, true, input, false);
+      Change updatedChange;
+
+      try {
+        updatedChange = op.merge(change, submitter, true, input, false);
+      } catch (Exception e) {
+        Throwables.throwIfInstanceOf(e, RestApiException.class);
+        return Response.<Output>internalServerError(e).traceId(op.getTraceId().orElse(null));
+      }
 
       if (updatedChange.isMerged()) {
-        return change;
+        return Response.ok(new Output(change));
       }
 
       String msg =
@@ -462,7 +470,14 @@ public class Submit
         throw new ResourceConflictException("current revision is missing");
       }
 
-      Output out = submit.apply(new RevisionResource(rsrc, ps), input).value();
+      Response<Output> response = submit.apply(new RevisionResource(rsrc, ps), input);
+      if (response instanceof Response.InternalServerError) {
+        Response.InternalServerError<?> ise = (Response.InternalServerError<?>) response;
+        return Response.<ChangeInfo>internalServerError(ise.cause())
+            .traceId(ise.traceId().orElse(null));
+      }
+
+      Output out = response.value();
       return Response.ok(json.noOptions().format(out.change));
     }
   }

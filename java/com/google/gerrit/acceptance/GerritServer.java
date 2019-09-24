@@ -450,7 +450,7 @@ public class GerritServer implements AutoCloseable {
       @Nullable InMemoryRepositoryManager inMemoryRepoManager)
       throws Exception {
     Config cfg = desc.buildConfig(baseConfig);
-    daemon.setSlave(isSlave(baseConfig) || isSlave(cfg));
+    daemon.setReplica(isReplica(baseConfig) || isReplica(cfg));
     mergeTestConfig(cfg);
     // Set the log4j configuration to an invalid one to prevent system logs
     // from getting configured and creating log files.
@@ -463,7 +463,7 @@ public class GerritServer implements AutoCloseable {
     cfg.setString(
         "accountPatchReviewDb", null, "url", JdbcAccountPatchReviewStore.TEST_IN_MEMORY_URL);
     daemon.setEnableHttpd(desc.httpd());
-    daemon.setLuceneModule(LuceneIndexModule.singleVersionAllLatest(0, isSlave(baseConfig)));
+    daemon.setLuceneModule(LuceneIndexModule.singleVersionAllLatest(0, isReplica(baseConfig)));
     daemon.setDatabaseForTesting(
         ImmutableList.of(
             new InMemoryTestingDatabaseModule(cfg, site, inMemoryRepoManager),
@@ -479,7 +479,7 @@ public class GerritServer implements AutoCloseable {
     return new GerritServer(desc, null, createTestInjector(daemon), daemon, null);
   }
 
-  private static boolean isSlave(Config baseConfig) {
+  private static boolean isReplica(Config baseConfig) {
     return baseConfig.getBoolean("container", "slave", false);
   }
 

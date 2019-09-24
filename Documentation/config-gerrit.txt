@@ -826,7 +826,7 @@ changes for up to 1024 projects can be held in the cache.
 +
 Default value is 0 (disabled). It is disabled by default due to the fact
 that change updates are not communicated between Gerrit servers. Hence
-this cache should be disabled in an multi-master/multi-slave setup.
+this cache should be disabled in an multi-master/multi-replica setup.
 +
 The cache should be flushed whenever the database changes table is modified
 outside of Gerrit.
@@ -1561,8 +1561,8 @@ options.
 
 [[container.slave]]container.slave::
 +
-Used on Gerrit slave installations. If set to true the Gerrit JVM is
-called with the '--slave' switch, enabling slave mode. If no value is
+Used on Gerrit replica installations. If set to true the Gerrit JVM is
+called with the '--replica' switch, enabling replica mode. If no value is
 set (or any other value), Gerrit defaults to master mode.
 
 [[container.startupTimeout]]container.startupTimeout::
@@ -2742,28 +2742,28 @@ Defaults to false.
 ==== Subsection index.scheduledIndexer
 
 This section configures periodic indexing. Periodic indexing is
-intended to run only on slaves and only updates the group index.
-Replication to slaves happens on Git level so that Gerrit is not aware
-of incoming replication events. But slaves need an updated group index
+intended to run only on replicas and only updates the group index.
+Replication to replicas happens on Git level so that Gerrit is not aware
+of incoming replication events. But replicas need an updated group index
 to resolve memberships of users for ACL validation. To keep the group
-index in slaves up-to-date the Gerrit slave periodically scans the
+index in replicas up-to-date the Gerrit replica periodically scans the
 group refs in the All-Users repository to reindex groups if they are
 stale.
 
 The scheduled reindexer is not able to detect group deletions that
-happened while the slave was offline, but since group deletions are not
+happened while the replica was offline, but since group deletions are not
 supported this should never happen. If nevertheless groups refs were
-deleted while a slave was offline a full offline link:pgm-reindex.html[
+deleted while a replica was offline a full offline link:pgm-reindex.html[
 reindex] must be performed.
 
-This section is only used if Gerrit runs in slave mode, otherwise it is
+This section is only used if Gerrit runs in replica mode, otherwise it is
 ignored.
 
 [[index.scheduledIndexer.runOnStartup]]index.scheduledIndexer.runOnStartup::
 +
 Whether the scheduled indexer should run once immediately on startup.
-If set to `true` the slave startup is blocked until all stale groups
-were reindexed. Enabling this allows to prevent that slaves that were
+If set to `true` the replica startup is blocked until all stale groups
+were reindexed. Enabling this allows to prevent that replicas that were
 offline for a longer period of time run with outdated group information
 until the first scheduled indexing is done.
 +
@@ -2773,7 +2773,7 @@ Defaults to `true`.
 +
 Whether the scheduled indexer is enabled. If the scheduled indexer is
 disabled you must implement other means to keep the group index for the
-slave up-to-date (e.g. by using ElasticSearch for the indexes).
+replica up-to-date (e.g. by using ElasticSearch for the indexes).
 +
 Defaults to `true`.
 
@@ -4260,7 +4260,7 @@ through slow networks, gits with huge amount of refs can benefit from
 SSH-compression since git does not compress the ref announcement during
 handshake.
 +
-Compression can be especially useful when Gerrit slaves are being used
+Compression can be especially useful when Gerrit replicas are being used
 for the larger clones and fetches and the master server mostly takes
 small receive-packs.
 +

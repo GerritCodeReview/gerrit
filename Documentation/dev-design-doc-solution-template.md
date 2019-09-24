@@ -36,7 +36,7 @@ If applicable, consider:
 
 * data size increase
 * traffic increase
-* effects on replication across sites (master-slave and master-master)
+* effects on replication across sites (master-replica and master-master)
 
 ## <a id="alternatives-considered"> Alternatives Considered
 

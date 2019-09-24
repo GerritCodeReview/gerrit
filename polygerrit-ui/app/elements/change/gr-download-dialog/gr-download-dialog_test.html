@@ -146,7 +146,8 @@ limitations under the License.
     });
 
     test('anchors use download attribute', () => {
-      const anchors = Polymer.dom(element.root).querySelectorAll('a');
+      const anchors = Array.from(
+          Polymer.dom(element.root).querySelectorAll('a'));
       assert.isTrue(!anchors.some(a => !a.hasAttribute('download')));
     });
 

@@ -22,6 +22,30 @@
       "revId": "65d033788eaa3271c2cb86b7ef0d26422ccc3d9d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ce59003e_ad72aec5",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1562,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-09-24T18:31:25Z",
+      "side": 0,
+      "message": "I\u0027m afraid it will break deployments, so I\u0027d rather not.",
+      "parentUuid": "dcb20b58_632944ab",
+      "range": {
+        "startLine": 1562,
+        "startChar": 12,
+        "endLine": 1562,
+        "endChar": 17
+      },
+      "revId": "65d033788eaa3271c2cb86b7ef0d26422ccc3d9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

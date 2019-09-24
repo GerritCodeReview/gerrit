@@ -16,6 +16,24 @@
       "revId": "2b5aa784b33e183b8b2a1939ef8283e7716fe355",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4247de00_41c6ca17",
+        "filename": "java/com/google/gerrit/pgm/init/InitJavaOptions.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-09-24T19:22:19Z",
+      "side": 1,
+      "message": "Well, if you don\u0027t provide that option, then Gerrit wouldn\u0027t start:\n\n  java.lang.reflect.InaccessibleObjectException: \\\n  Unable to make public long com.sun.management.internal.OperatingSystemImpl.getProcessCpuTime() accessible: \\\n  module jdk.management does not \"opens com.sun.management.internal\" to unnamed module @481ba2cf\n\nThere is some documentation in: [1] about general JDK options, with this specific example:\n\n  --add-opens java.management/sun.management\u003dALL-UNNAMED\n\nNot sure, if that link would help here?\n\n[1] https://docs.oracle.com/javase/9/migrate/toc.htm",
+      "parentUuid": "dfd9d886_d995c05d",
+      "revId": "2b5aa784b33e183b8b2a1939ef8283e7716fe355",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -277,17 +277,19 @@ limitations under the License.
       });
     });
 
-    test('setlabelValue', () => {
+    test('setlabelValue', done => {
       element._account = {_account_id: 1};
-      flushAsynchronousOperations();
-      const label = 'Verified';
-      const value = '+1';
-      element.setLabelValue(label, value);
-      flushAsynchronousOperations();
-      const labels = element.$.labelScores.getLabelValues();
-      assert.deepEqual(labels, {
-        'Code-Review': 0,
-        'Verified': 1,
+      flush(() => {
+        const label = 'Verified';
+        const value = '+1';
+        element.setLabelValue(label, value);
+
+        const labels = element.$.labelScores.getLabelValues();
+        assert.deepEqual(labels, {
+          'Code-Review': 0,
+          'Verified': 1,
+        });
+        done();
       });
     });
 
@@ -308,6 +310,26 @@ limitations under the License.
         }
         element.addEventListener('iron-overlay-' + mode, listener);
       });
+    }
+
+    function isFocusInsideElement(element) {
+      // In Polymer 2 focused element either <paper-input> or nested
+      // native input <input> element depending on the current focus
+      // in browser window.
+      // For example, the focus is changed if the developer console
+      // get a focus.
+      let activeElement = getActiveElement();
+      while (activeElement) {
+        if (activeElement === element) {
+          return true;
+        }
+        if (activeElement.parentElement) {
+          activeElement = activeElement.parentElement;
+        } else {
+          activeElement = activeElement.getRootNode().host;
+        }
+      }
+      return false;
     }
 
     function testConfirmationDialog(done, cc) {
@@ -363,7 +385,8 @@ limitations under the License.
         assert.isFalse(isVisible(element.$.reviewerConfirmationOverlay));
 
         // We should be focused on account entry input.
-        assert.equal(getActiveElement().id, 'input');
+        assert.isTrue(
+            isFocusInsideElement(element.$.reviewers.$.entry.$.input.$.input));
 
         // No reviewer/CC should have been added.
         assert.equal(element.$$('#ccs').additions().length, 0);
@@ -408,7 +431,13 @@ limitations under the License.
             ]);
 
         // We should be focused on account entry input.
-        assert.equal(getActiveElement().id, 'input');
+        if (cc) {
+          assert.isTrue(
+              isFocusInsideElement(element.$.ccs.$.entry.$.input.$.input));
+        } else {
+          assert.isTrue(
+              isFocusInsideElement(element.$.reviewers.$.entry.$.input.$.input));
+        }
       }).then(done);
     }
 

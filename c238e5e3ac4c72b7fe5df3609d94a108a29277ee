@@ -128,6 +128,30 @@
       "revId": "c238e5e3ac4c72b7fe5df3609d94a108a29277ee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7579fa18_13ac141a",
+        "filename": "lib/jgit/jgit.bzl",
+        "patchSetId": 9
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-09-24T08:35:15Z",
+      "side": 1,
+      "message": "Could we get around this by mirroring jgit on googlesource.com?\n\nWe already have a mirror (named \u0027jgit-security-fixes\u0027) but as its name implies it\u0027s for security fixes and not visible to everyone.",
+      "parentUuid": "af6195dd_98d45963",
+      "range": {
+        "startLine": 24,
+        "startChar": 10,
+        "endLine": 24,
+        "endChar": 62
+      },
+      "revId": "c238e5e3ac4c72b7fe5df3609d94a108a29277ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

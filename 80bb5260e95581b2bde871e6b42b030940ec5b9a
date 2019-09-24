@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d443fe5a_02c493a2",
+        "filename": "javatests/com/google/gerrit/server/notedb/ChangeNotesStateTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-09-24T22:05:59Z",
+      "side": 0,
+      "message": "We changed the test by adding serverId all the times. However, we should check that the existing test isn\u0027t breaking, when serverId isn\u0027t there.",
+      "revId": "80bb5260e95581b2bde871e6b42b030940ec5b9a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

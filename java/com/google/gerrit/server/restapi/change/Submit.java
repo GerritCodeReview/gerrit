@@ -23,6 +23,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.common.data.ParameterizedString;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
@@ -185,6 +186,7 @@ public class Submit
     return Response.ok(new Output(mergeChange(rsrc, submitter, input)));
   }
 
+  @UsedAt(UsedAt.Project.GOOGLE)
   public Change mergeChange(RevisionResource rsrc, IdentifiedUser submitter, SubmitInput input)
       throws RestApiException, IOException, UpdateException, ConfigInvalidException,
           PermissionBackendException {

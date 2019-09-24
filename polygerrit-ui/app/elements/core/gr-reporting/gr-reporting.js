@@ -49,14 +49,6 @@
     STARTED_HIDDEN: 'hidden',
   };
 
-  // Frame rate related constants.
-  const JANK = {
-    TYPE: 'lifecycle',
-    CATEGORY: 'UI Latency',
-    // Reported events - alphabetize below.
-    COUNT: 'Jank count',
-  };
-
   // Navigation reporting constants.
   const NAVIGATION = {
     TYPE: 'nav-report',
@@ -291,11 +283,6 @@
     },
 
     beforeLocationChanged() {
-      if (GrJankDetector.jank > 0) {
-        this.reporter(
-            JANK.TYPE, JANK.CATEGORY, JANK.COUNT, GrJankDetector.jank);
-        GrJankDetector.jank = 0;
-      }
       for (const prop of Object.keys(this._baselines)) {
         delete this._baselines[prop];
       }

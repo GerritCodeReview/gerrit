@@ -202,7 +202,7 @@ limitations under the License.
     });
 
     suite('already existing generic rule', () => {
-      setup(() => {
+      setup(done => {
         element.group = 'Group Name';
         element.permission = 'submit';
         element.rule = {
@@ -218,6 +218,10 @@ limitations under the License.
         // by the parent element.
         element._setupValues(element.rule);
         flushAsynchronousOperations();
+        flush(() => {
+          element.attached();
+          done();
+        });
       });
 
       test('_ruleValues and _originalRuleValues are set correctly', () => {
@@ -313,7 +317,7 @@ limitations under the License.
     });
 
     suite('new edit rule', () => {
-      setup(() => {
+      setup(done => {
         element.group = 'Group Name';
         element.permission = 'editTopicName';
         element.rule = {
@@ -323,6 +327,10 @@ limitations under the License.
         element._setupValues(element.rule);
         flushAsynchronousOperations();
         element.rule.value.added = true;
+        flush(() => {
+          element.attached();
+          done();
+        });
       });
 
       test('_ruleValues and _originalRuleValues are set correctly', () => {
@@ -362,7 +370,7 @@ limitations under the License.
     });
 
     suite('already existing rule with labels', () => {
-      setup(() => {
+      setup(done => {
         element.label = {values: [
           {value: -2, text: 'This shall not be merged'},
           {value: -1, text: 'I would prefer this is not merged as is'},
@@ -384,6 +392,10 @@ limitations under the License.
         element.section = 'refs/*';
         element._setupValues(element.rule);
         flushAsynchronousOperations();
+        flush(() => {
+          element.attached();
+          done();
+        });
       });
 
       test('_ruleValues and _originalRuleValues are set correctly', () => {
@@ -416,7 +428,7 @@ limitations under the License.
     });
 
     suite('new rule with labels', () => {
-      setup(() => {
+      setup(done => {
         sandbox.spy(element, '_setDefaultRuleValues');
         element.label = {values: [
           {value: -2, text: 'This shall not be merged'},
@@ -434,6 +446,10 @@ limitations under the License.
         element._setupValues(element.rule);
         flushAsynchronousOperations();
         element.rule.value.added = true;
+        flush(() => {
+          element.attached();
+          done();
+        });
       });
 
       test('_ruleValues and _originalRuleValues are set correctly', () => {
@@ -474,7 +490,7 @@ limitations under the License.
     });
 
     suite('already existing push rule', () => {
-      setup(() => {
+      setup(done => {
         element.group = 'Group Name';
         element.permission = 'push';
         element.rule = {
@@ -487,6 +503,10 @@ limitations under the License.
         element.section = 'refs/*';
         element._setupValues(element.rule);
         flushAsynchronousOperations();
+        flush(() => {
+          element.attached();
+          done();
+        });
       });
 
       test('_ruleValues and _originalRuleValues are set correctly', () => {
@@ -515,7 +535,7 @@ limitations under the License.
     });
 
     suite('new push rule', () => {
-      setup(() => {
+      setup(done => {
         element.group = 'Group Name';
         element.permission = 'push';
         element.rule = {
@@ -525,6 +545,10 @@ limitations under the License.
         element._setupValues(element.rule);
         flushAsynchronousOperations();
         element.rule.value.added = true;
+        flush(() => {
+          element.attached();
+          done();
+        });
       });
 
       test('_ruleValues and _originalRuleValues are set correctly', () => {
@@ -555,7 +579,7 @@ limitations under the License.
     });
 
     suite('already existing edit rule', () => {
-      setup(() => {
+      setup(done => {
         element.group = 'Group Name';
         element.permission = 'editTopicName';
         element.rule = {
@@ -568,6 +592,10 @@ limitations under the License.
         element.section = 'refs/*';
         element._setupValues(element.rule);
         flushAsynchronousOperations();
+        flush(() => {
+          element.attached();
+          done();
+        });
       });
 
       test('_ruleValues and _originalRuleValues are set correctly', () => {

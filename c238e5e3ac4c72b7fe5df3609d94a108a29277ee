@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "79b3521d_d2223a43",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-09-24T09:54:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2e6bb76a_35491f83",
+      "range": {
+        "startLine": 9,
+        "startChar": 12,
+        "endLine": 9,
+        "endChar": 41
+      },
+      "revId": "c238e5e3ac4c72b7fe5df3609d94a108a29277ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c3d90606_3bf0093d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 9
@@ -119,6 +143,30 @@
       "side": 1,
       "message": "but definition what is latest JGIT_VERS still requires a manual change ?\n\nI\u0027ll create another CI job publishing maven site for master",
       "parentUuid": "56559ca8_ef775431",
+      "range": {
+        "startLine": 6,
+        "startChar": 13,
+        "endLine": 6,
+        "endChar": 33
+      },
+      "revId": "c238e5e3ac4c72b7fe5df3609d94a108a29277ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "583eb6ee_1aee08bc",
+        "filename": "lib/jgit/jgit.bzl",
+        "patchSetId": 9
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-09-24T09:54:26Z",
+      "side": 1,
+      "message": "Yes.",
+      "parentUuid": "e4290fdb_ede87d3b",
       "range": {
         "startLine": 6,
         "startChar": 13,
@@ -247,6 +295,30 @@
       "revId": "c238e5e3ac4c72b7fe5df3609d94a108a29277ee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b2c073c1_f74a8d80",
+        "filename": "lib/jgit/jgit.bzl",
+        "patchSetId": 9
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-09-24T09:54:26Z",
+      "side": 1,
+      "message": "Thanks!",
+      "parentUuid": "dc55746c_335fc207",
+      "range": {
+        "startLine": 24,
+        "startChar": 10,
+        "endLine": 24,
+        "endChar": 62
+      },
+      "revId": "c238e5e3ac4c72b7fe5df3609d94a108a29277ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

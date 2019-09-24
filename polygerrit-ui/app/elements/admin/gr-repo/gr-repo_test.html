@@ -102,10 +102,12 @@ limitations under the License.
     const SCHEMES = {http: {}, repo: {}, ssh: {}};
 
     function getFormFields() {
-      const selects = Polymer.dom(element.root).querySelectorAll('select');
-      const textareas =
-          Polymer.dom(element.root).querySelectorAll('iron-autogrow-textarea');
-      const inputs = Polymer.dom(element.root).querySelectorAll('input');
+      const selects = Array.from(
+          Polymer.dom(element.root).querySelectorAll('select'));
+      const textareas = Array.from(
+          Polymer.dom(element.root).querySelectorAll('iron-autogrow-textarea'));
+      const inputs = Array.from(
+          Polymer.dom(element.root).querySelectorAll('input'));
       return inputs.concat(textareas).concat(selects);
     }
 

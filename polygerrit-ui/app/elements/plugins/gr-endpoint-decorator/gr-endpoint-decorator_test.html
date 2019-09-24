@@ -88,7 +88,7 @@ limitations under the License.
     test('decoration', () => {
       const element =
           container.querySelector('gr-endpoint-decorator[name="first"]');
-      const modules = Polymer.dom(element.root).children.filter(
+      const modules = Array.from(Polymer.dom(element.root).children).filter(
           element => element.nodeName === 'SOME-MODULE');
       assert.equal(modules.length, 1);
       const [module] = modules;
@@ -105,7 +105,7 @@ limitations under the License.
     test('replacement', () => {
       const element =
           container.querySelector('gr-endpoint-decorator[name="second"]');
-      const module = Polymer.dom(element.root).children.find(
+      const module = Array.from(Polymer.dom(element.root).children).find(
           element => element.nodeName === 'OTHER-MODULE');
       assert.isOk(module);
       assert.equal(module['someparam'], 'foofoo');
@@ -122,7 +122,7 @@ limitations under the License.
       flush(() => {
         const element =
             container.querySelector('gr-endpoint-decorator[name="banana"]');
-        const module = Polymer.dom(element.root).children.find(
+        const module = Array.from(Polymer.dom(element.root).children).find(
             element => element.nodeName === 'NOOB-NOOB');
         assert.isOk(module);
         done();
@@ -135,10 +135,10 @@ limitations under the License.
       flush(() => {
         const element =
             container.querySelector('gr-endpoint-decorator[name="banana"]');
-        const module1 = Polymer.dom(element.root).children.find(
+        const module1 = Array.from(Polymer.dom(element.root).children).find(
             element => element.nodeName === 'MOD-ONE');
         assert.isOk(module1);
-        const module2 = Polymer.dom(element.root).children.find(
+        const module2 = Array.from(Polymer.dom(element.root).children).find(
             element => element.nodeName === 'MOD-TWO');
         assert.isOk(module2);
         done();
@@ -152,14 +152,14 @@ limitations under the License.
       param['value'] = undefined;
       plugin.registerCustomComponent('banana', 'noob-noob');
       flush(() => {
-        let module = Polymer.dom(element.root).children.find(
+        let module = Array.from(Polymer.dom(element.root).children).find(
             element => element.nodeName === 'NOOB-NOOB');
         // Module waits for param to be defined.
         assert.isNotOk(module);
         const value = {abc: 'def'};
         param.value = value;
         flush(() => {
-          module = Polymer.dom(element.root).children.find(
+          module = Array.from(Polymer.dom(element.root).children).find(
               element => element.nodeName === 'NOOB-NOOB');
           assert.isOk(module);
           assert.strictEqual(module['someParam'], value);
@@ -177,7 +177,7 @@ limitations under the License.
       param.value = value1;
       plugin.registerCustomComponent('banana', 'noob-noob');
       flush(() => {
-        const module = Polymer.dom(element.root).children.find(
+        const module = Array.from(Polymer.dom(element.root).children).find(
             element => element.nodeName === 'NOOB-NOOB');
         assert.strictEqual(module['someParam'], value1);
         param.value = value2;

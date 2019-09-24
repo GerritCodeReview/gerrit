@@ -333,9 +333,9 @@ limitations under the License.
         user-select: text;
       }
 
-      /** Make comments selectable */
-      .selected-left ::slotted(gr-comment-thread[comment-side=left]),
-      .selected-right ::slotted(gr-comment-thread[comment-side=right]) {
+      /** Make comments selectable when selected */
+      .selected-left.selected-comment ::slotted(gr-comment-thread[comment-side=left]),
+      .selected-right.selected-comment ::slotted(gr-comment-thread[comment-side=right]) {
         -webkit-user-select: text;
         -moz-user-select: text;
         -ms-user-select: text;

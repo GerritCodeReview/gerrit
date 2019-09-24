@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eb8cb577_655c075e",
+        "filename": "WORKSPACE",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-09-24T08:40:35Z",
+      "side": 1,
+      "message": "Hmm, I don\u0027t think this is really needed. For one, this is a no-op: [1] and can be removed, for another, rules_closure is loading those rules for us, and probably should also load py_repositories() and call it internally. This could be done later, so.\n\n* [1] https://github.com/bazelbuild/rules_python/blob/master/python/repositories.bzl#L6",
+      "range": {
+        "startLine": 68,
+        "startChar": 0,
+        "endLine": 70,
+        "endChar": 17
+      },
+      "revId": "ca1888ec0e000cb1abd17f6a65afddf4be5c20e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

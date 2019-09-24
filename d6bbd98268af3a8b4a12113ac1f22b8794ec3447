@@ -413,6 +413,30 @@
     },
     {
       "key": {
+        "uuid": "8541a2ca_06668f8f",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-09-24T22:37:46Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "96456220_7b5b413c",
+      "range": {
+        "startLine": 342,
+        "startChar": 17,
+        "endLine": 342,
+        "endChar": 36
+      },
+      "revId": "d6bbd98268af3a8b4a12113ac1f22b8794ec3447",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "237487ec_61fb3439",
         "filename": "proto/cache.proto",
         "patchSetId": 7
@@ -433,6 +457,30 @@
       "revId": "d6bbd98268af3a8b4a12113ac1f22b8794ec3447",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "95e85d29_3560337e",
+        "filename": "proto/cache.proto",
+        "patchSetId": 7
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-09-24T22:37:46Z",
+      "side": 1,
+      "message": "OK, it is used now :-)",
+      "parentUuid": "237487ec_61fb3439",
+      "range": {
+        "startLine": 191,
+        "startChar": 7,
+        "endLine": 191,
+        "endChar": 20
+      },
+      "revId": "d6bbd98268af3a8b4a12113ac1f22b8794ec3447",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

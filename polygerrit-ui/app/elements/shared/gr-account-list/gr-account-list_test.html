@@ -417,43 +417,51 @@ limitations under the License.
     });
 
     suite('keyboard interactions', () => {
-      test('backspace at text input start removes last account', () => {
+      test('backspace at text input start removes last account', done => {
         const input = element.$.entry.$.input;
         sandbox.stub(input, '_updateSuggestions');
         sandbox.stub(element, '_computeRemovable').returns(true);
-        // Next line is a workaround for Firefix not moving cursor
-        // on input field update
-        assert.equal(input.$.input.inputElement.selectionStart, 0);
-        input.text = 'test';
-        MockInteractions.focus(input.$.input);
-        flushAsynchronousOperations();
-        assert.equal(element.accounts.length, 2);
-        MockInteractions.pressAndReleaseKeyOn(
-            input.$.input.inputElement, 8); // Backspace
-        assert.equal(element.accounts.length, 2);
-        input.text = '';
-        MockInteractions.pressAndReleaseKeyOn(
-            input.$.input.inputElement, 8); // Backspace
-        assert.equal(element.accounts.length, 1);
+        flush(() => {
+          // Next line is a workaround for Firefix not moving cursor
+          // on input field update
+          assert.equal(
+              element._getNativeInput(input.$.input).selectionStart, 0);
+          input.text = 'test';
+          MockInteractions.focus(input.$.input);
+          flushAsynchronousOperations();
+          assert.equal(element.accounts.length, 2);
+          MockInteractions.pressAndReleaseKeyOn(
+              element._getNativeInput(input.$.input), 8); // Backspace
+          assert.equal(element.accounts.length, 2);
+          input.text = '';
+          MockInteractions.pressAndReleaseKeyOn(
+              element._getNativeInput(input.$.input), 8); // Backspace
+          flushAsynchronousOperations();
+          assert.equal(element.accounts.length, 1);
+          done();
+        });
       });
 
-      test('arrow key navigation', () => {
+      test('arrow key navigation', done => {
         const input = element.$.entry.$.input;
         input.text = '';
         element.accounts = [makeAccount(), makeAccount()];
-        MockInteractions.focus(input.$.input);
-        flushAsynchronousOperations();
-        const chips = element.accountChips;
-        const chipsOneSpy = sandbox.spy(chips[1], 'focus');
-        MockInteractions.pressAndReleaseKeyOn(input.$.input, 37); // Left
-        assert.isTrue(chipsOneSpy.called);
-        const chipsZeroSpy = sandbox.spy(chips[0], 'focus');
-        MockInteractions.pressAndReleaseKeyOn(chips[1], 37); // Left
-        assert.isTrue(chipsZeroSpy.called);
-        MockInteractions.pressAndReleaseKeyOn(chips[0], 37); // Left
-        assert.isTrue(chipsZeroSpy.calledOnce);
-        MockInteractions.pressAndReleaseKeyOn(chips[0], 39); // Right
-        assert.isTrue(chipsOneSpy.calledTwice);
+        flush(() => {
+          MockInteractions.focus(input.$.input);
+          flushAsynchronousOperations();
+          const chips = element.accountChips;
+          const chipsOneSpy = sandbox.spy(chips[1], 'focus');
+          MockInteractions.pressAndReleaseKeyOn(input.$.input, 37); // Left
+          assert.isTrue(chipsOneSpy.called);
+          const chipsZeroSpy = sandbox.spy(chips[0], 'focus');
+          MockInteractions.pressAndReleaseKeyOn(chips[1], 37); // Left
+          assert.isTrue(chipsZeroSpy.called);
+          MockInteractions.pressAndReleaseKeyOn(chips[0], 37); // Left
+          assert.isTrue(chipsZeroSpy.calledOnce);
+          MockInteractions.pressAndReleaseKeyOn(chips[0], 39); // Right
+          assert.isTrue(chipsOneSpy.calledTwice);
+          done();
+        });
       });
 
       test('delete', done => {

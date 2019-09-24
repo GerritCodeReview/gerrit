@@ -7,6 +7,8 @@ java_library(
     deps = [
         "//java/com/google/gerrit/common:annotations",
         "//lib:guava",
+        "//lib/auto:auto-value",
+        "//lib/auto:auto-value-annotations",
         "//lib/jgit/org.eclipse.jgit:jgit",
     ],
 )

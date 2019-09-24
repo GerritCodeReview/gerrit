@@ -32,6 +32,7 @@ import com.google.common.flogger.FluentLogger;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.exceptions.StorageException;
+import com.google.gerrit.git.GitUpdateFailureException;
 import com.google.gerrit.git.LockFailureException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Change;
@@ -268,7 +269,7 @@ public class StarredChangesUtil {
           if (command.getResult() == ReceiveCommand.Result.LOCK_FAILURE) {
             throw new LockFailureException(message, batchUpdate);
           }
-          throw new IOException(message);
+          throw new GitUpdateFailureException(message, batchUpdate);
         }
       }
     }

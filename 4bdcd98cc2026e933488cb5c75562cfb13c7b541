@@ -84,6 +84,30 @@
     },
     {
       "key": {
+        "uuid": "99906747_20123c5e",
+        "filename": "WORKSPACE",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-09-24T08:13:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e65cb66a_eede49d7",
+      "range": {
+        "startLine": 60,
+        "startChar": 0,
+        "endLine": 69,
+        "endChar": 1
+      },
+      "revId": "4bdcd98cc2026e933488cb5c75562cfb13c7b541",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a65ae2e_c82b10a0",
         "filename": "WORKSPACE",
         "patchSetId": 1
@@ -104,6 +128,30 @@
       "revId": "4bdcd98cc2026e933488cb5c75562cfb13c7b541",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d7b9de11_9c470161",
+        "filename": "WORKSPACE",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-09-24T08:13:01Z",
+      "side": 1,
+      "message": "Will defer this to a separate commit.",
+      "parentUuid": "1a65ae2e_c82b10a0",
+      "range": {
+        "startLine": 71,
+        "startChar": 0,
+        "endLine": 81,
+        "endChar": 17
+      },
+      "revId": "4bdcd98cc2026e933488cb5c75562cfb13c7b541",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -157,6 +205,24 @@
       "revId": "4bdcd98cc2026e933488cb5c75562cfb13c7b541",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a631a1a3_c3801b73",
+        "filename": "WORKSPACE",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-09-24T08:13:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "59629810_2b1cc493",
+      "revId": "4bdcd98cc2026e933488cb5c75562cfb13c7b541",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

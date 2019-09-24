@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "cd644b64_58040f17",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-09-24T12:40:33Z",
+      "side": 1,
+      "message": "\u003e This accurately describes the situation within a single Gerrit host IMO. In our deployment we have the additional complication of strong and weak reads. A replica might be behind on the refs it knows about. \n\nTrue, but single host Gerrit server is the only thing that is\npossible out of the open source Gerrit (including the core plugins).\nTherefore, it is fair to fix the issues for the single host server\nsetup, at least until we have multi-site open source Gerrit :-)\n\nThanks to Edwin for at least trying to address this issue.\nHaving two parallel pushes of the same commit to the same branch\nis a very unlikely event. The issue is rather low-prio I would say\nbut it would be nice to have it fixed. Maybe we will find some\ntime to look at it again during one of the next hackathons.",
+      "parentUuid": "091edc36_52cb39af",
+      "range": {
+        "startLine": 27,
+        "startChar": 53,
+        "endLine": 35,
+        "endChar": 0
+      },
+      "revId": "df95674d181a8c7994af2abbb5eec252f06c0b84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4f7749f1_d771c89e",
         "filename": "javatests/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
         "patchSetId": 3

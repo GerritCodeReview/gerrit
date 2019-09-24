@@ -61,13 +61,16 @@ limitations under the License.
     let label;
     let sandbox;
 
-    setup(() => {
+    setup(done => {
       element = fixture('basic');
       elementNoPlaceholder = fixture('no-placeholder');
 
-      input = element.$.input.$.input;
       label = element.$$('label');
       sandbox = sinon.sandbox.create();
+      flush(() => {
+        input = element.$.input.inputElement;
+        done();
+      });
     });
 
     teardown(() => {
@@ -79,7 +82,7 @@ limitations under the License.
       assert.isFalse(element.$.dropdown.opened);
       assert.isTrue(label.classList.contains('editable'));
       assert.equal(label.textContent, 'value text');
-      const focusSpy = sandbox.spy(element.$.input.$.input, 'focus');
+      const focusSpy = sandbox.spy(input, 'focus');
       const showSpy = sandbox.spy(element, '_showDropdown');
 
       MockInteractions.tap(label);

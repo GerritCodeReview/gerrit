@@ -84,6 +84,24 @@ limitations under the License.
         padding: var(--padding, 4px 8px);
         @apply --gr-button;
       }
+      /* https://github.com/PolymerElements/paper-button/blob/2.x/paper-button.html */
+      /* BEGIN: Copy from paper-button */
+      paper-button[elevation="1"] {
+        @apply --paper-material-elevation-1;
+      }
+      paper-button[elevation="2"] {
+        @apply --paper-material-elevation-2;
+      }
+      paper-button[elevation="3"] {
+        @apply --paper-material-elevation-3;
+      }
+      paper-button[elevation="4"] {
+        @apply --paper-material-elevation-4;
+      }
+      paper-button[elevation="5"] {
+        @apply --paper-material-elevation-5;
+      }
+      /* END: Copy from paper-button */
       paper-button:hover {
         background: linear-gradient(
           rgba(0, 0, 0, .12),

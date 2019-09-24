@@ -450,7 +450,7 @@ public class GerritServer implements AutoCloseable {
       @Nullable InMemoryRepositoryManager inMemoryRepoManager)
       throws Exception {
     Config cfg = desc.buildConfig(baseConfig);
-    daemon.setSlave(isSlave(baseConfig) || cfg.getBoolean("container", "slave", false));
+    daemon.setSlave(isSlave(baseConfig) || isSlave(cfg));
     mergeTestConfig(cfg);
     // Set the log4j configuration to an invalid one to prevent system logs
     // from getting configured and creating log files.

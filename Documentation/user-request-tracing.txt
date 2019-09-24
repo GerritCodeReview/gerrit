@@ -72,7 +72,8 @@ Gerrit issue] so that the Gerrit developers can fix this and treat this
 exception as recoverable.
 
 The trace IDs for auto-retries are generated and start with
-`retry-on-failure-`.
+`retry-on-failure-`. For REST requests they are returned to the client
+as `X-Gerrit-Trace` header.
 
 The best way to search for auto-retries in logs is to do a grep by
 `AutoRetry`. For each auto-retry that happened this should match 1 or 2

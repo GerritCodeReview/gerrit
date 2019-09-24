@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "28040914_b138aebc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-09-24T05:31:47Z",
+      "side": 1,
+      "message": "We also load rules_python somewhere. Could this now also be replaced with loading through rules_closure.",
+      "revId": "4bdcd98cc2026e933488cb5c75562cfb13c7b541",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0d283032_ac1d8e6b",
         "filename": "WORKSPACE",
         "patchSetId": 1

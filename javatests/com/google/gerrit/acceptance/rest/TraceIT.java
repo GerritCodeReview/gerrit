@@ -585,17 +585,18 @@ public class TraceIT extends AbstractDaemonTest {
     assertThat(projectCreationListener.tags.get("project")).containsExactly("new24");
   }
 
+  @Test
   @GerritConfig(name = "retry.retryWithTraceOnFailure", value = "true")
   public void autoRetryWithTrace() throws Exception {
     String changeId = createChange().getChangeId();
     approve(changeId);
 
     TraceSubmitRule traceSubmitRule = new TraceSubmitRule();
-    traceSubmitRule.failOnce = true;
+    traceSubmitRule.failAlways = true;
     RegistrationHandle submitRuleRegistrationHandle = submitRules.add("gerrit", traceSubmitRule);
     try {
       RestResponse response = adminRestSession.post("/changes/" + changeId + "/submit");
-      assertThat(response.getStatusCode()).isEqualTo(SC_OK);
+      assertThat(response.getStatusCode()).isEqualTo(SC_INTERNAL_SERVER_ERROR);
       assertThat(response.getHeader(RestApiServlet.X_GERRIT_TRACE)).startsWith("retry-on-failure-");
       assertThat(traceSubmitRule.traceId).startsWith("retry-on-failure-");
       assertThat(traceSubmitRule.isLoggingForced).isTrue();
@@ -617,7 +618,7 @@ public class TraceIT extends AbstractDaemonTest {
       assertThat(response.getStatusCode()).isEqualTo(SC_INTERNAL_SERVER_ERROR);
       assertThat(response.getHeader(RestApiServlet.X_GERRIT_TRACE)).isNull();
       assertThat(traceSubmitRule.traceId).isNull();
-      assertThat(traceSubmitRule.isLoggingForced).isNull();
+      assertThat(traceSubmitRule.isLoggingForced).isFalse();
     } finally {
       submitRuleRegistrationHandle.remove();
     }
@@ -677,17 +678,18 @@ public class TraceIT extends AbstractDaemonTest {
     String traceId;
     Boolean isLoggingForced;
     boolean failOnce;
+    boolean failAlways;
 
     @Override
     public Optional<SubmitRecord> evaluate(ChangeData changeData) {
-      if (failOnce) {
-        failOnce = false;
-        throw new IllegalStateException("forced failure from test");
-      }
-
       this.traceId =
           Iterables.getFirst(LoggingContext.getInstance().getTagsAsMap().get("TRACE_ID"), null);
       this.isLoggingForced = LoggingContext.getInstance().shouldForceLogging(null, null, false);
+
+      if (failOnce || failAlways) {
+        failOnce = false;
+        throw new IllegalStateException("forced failure from test");
+      }
 
       SubmitRecord submitRecord = new SubmitRecord();
       submitRecord.status = SubmitRecord.Status.OK;

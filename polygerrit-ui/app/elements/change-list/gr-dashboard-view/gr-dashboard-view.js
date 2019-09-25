@@ -116,7 +116,8 @@
             return {
               title: response.title,
               sections: response.sections.map(section => {
-                const suffix = response.foreach ? ' ' + response.foreach : '';
+                const suffix = response.foreach ? ' ' +
+                    this._replaceProject(response.foreach) : '';
                 return {
                   name: section.name,
                   query:
@@ -126,6 +127,14 @@
               }),
             };
           });
+    },
+
+    _replaceProject(foreach) {
+      if (!this.params || !this.params.project) {
+        return '';
+      }
+      return foreach.replace(
+          /\$\{project\}/gi, encodeURI(this.params.project));
     },
 
     _computeTitle(user) {

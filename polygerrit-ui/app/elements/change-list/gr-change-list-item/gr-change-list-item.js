@@ -165,10 +165,6 @@
       return str;
     },
 
-    _computeAccountStatusString(account) {
-      return account && account.status ? `(${account.status})` : '';
-    },
-
     _computeSizeTooltip(change) {
       if (change.insertions + change.deletions === 0 ||
           isNaN(change.insertions + change.deletions)) {

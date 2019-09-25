@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7f632742_3ba191f4",
+        "filename": "java/com/google/gerrit/server/account/AccountState.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-25T13:18:06Z",
+      "side": 1,
+      "message": "Drop this line. We already have the same comment 2 lines below.",
+      "revId": "3e64fd492b0bc5bd6e249714afd09b735209cb8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

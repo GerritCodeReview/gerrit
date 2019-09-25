@@ -210,6 +210,7 @@ public class RestApiServlet extends HttpServlet {
   public static final String XD_AUTHORIZATION = "access_token";
   public static final String XD_CONTENT_TYPE = "$ct";
   public static final String XD_METHOD = "$m";
+  public static final int SC_TOO_MANY_REQUESTS = 429;
 
   private static final int HEAP_EST_SIZE = 10 * 8 * 1024; // Presize 10 blocks.
   private static final String PLAIN_TEXT = "text/plain";
@@ -651,7 +652,13 @@ public class RestApiServlet extends HttpServlet {
         }
       } catch (QuotaException e) {
         responseBytes =
-            replyError(req, res, status = 429, messageOr(e, "Quota limit reached"), e.caching(), e);
+            replyError(
+                req,
+                res,
+                status = SC_TOO_MANY_REQUESTS,
+                messageOr(e, "Quota limit reached"),
+                e.caching(),
+                e);
       } catch (Exception e) {
         status = SC_INTERNAL_SERVER_ERROR;
         responseBytes = handleException(e, req, res);

@@ -22,6 +22,30 @@
       "revId": "ef2c9a04f726dfa7917bafce23b251ea1f6d4bc5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "656163e3_817aebf6",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view_test.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-09-25T16:38:47Z",
+      "side": 1,
+      "message": "It get\u0027s set in refs/meta/dashboards/** \u003cfile_name\u003e see https://gerrit-review.googlesource.com/Documentation/user-dashboards.html#project-default-dashboard",
+      "parentUuid": "54665bb1_c47f95ea",
+      "range": {
+        "startLine": 228,
+        "startChar": 10,
+        "endLine": 228,
+        "endChar": 64
+      },
+      "revId": "ef2c9a04f726dfa7917bafce23b251ea1f6d4bc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

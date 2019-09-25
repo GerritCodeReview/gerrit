@@ -14,9 +14,12 @@
 
 package com.google.gerrit.httpd;
 
-import static org.easymock.EasyMock.anyObject;
-import static org.easymock.EasyMock.capture;
-import static org.easymock.EasyMock.eq;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.inOrder;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
 
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.registration.ReloadableRegistrationHandle;
@@ -29,11 +32,10 @@ import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.easymock.Capture;
-import org.easymock.EasyMockSupport;
-import org.easymock.IMocksControl;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
+import org.mockito.InOrder;
 
 public class AllRequestFilterFilterProxyTest {
   /**
@@ -81,16 +83,11 @@ public class AllRequestFilterFilterProxyTest {
 
   @Test
   public void noFilters() throws Exception {
-    EasyMockSupport ems = new EasyMockSupport();
-
-    FilterConfig config = ems.createMock(FilterConfig.class);
+    FilterConfig config = mock(FilterConfig.class);
     HttpServletRequest req = new FakeHttpServletRequest();
     HttpServletResponse res = new FakeHttpServletResponse();
 
-    FilterChain chain = ems.createMock(FilterChain.class);
-    chain.doFilter(req, res);
-
-    ems.replayAll();
+    FilterChain chain = mock(FilterChain.class);
 
     AllRequestFilter.FilterProxy filterProxy = getFilterProxy();
 
@@ -98,25 +95,18 @@ public class AllRequestFilterFilterProxyTest {
     filterProxy.doFilter(req, res, chain);
     filterProxy.destroy();
 
-    ems.verifyAll();
+    verify(chain).doFilter(req, res);
   }
 
   @Test
   public void singleFilterNoBubbling() throws Exception {
-    EasyMockSupport ems = new EasyMockSupport();
-
-    FilterConfig config = ems.createMock("config", FilterConfig.class);
+    FilterConfig config = mock(FilterConfig.class);
     HttpServletRequest req = new FakeHttpServletRequest();
     HttpServletResponse res = new FakeHttpServletResponse();
 
-    FilterChain chain = ems.createMock("chain", FilterChain.class);
+    FilterChain chain = mock(FilterChain.class);
 
-    AllRequestFilter filter = ems.createStrictMock("filter", AllRequestFilter.class);
-    filter.init(config);
-    filter.doFilter(eq(req), eq(res), anyObject(FilterChain.class));
-    filter.destroy();
-
-    ems.replayAll();
+    AllRequestFilter filter = mock(AllRequestFilter.class);
 
     AllRequestFilter.FilterProxy filterProxy = getFilterProxy();
     addFilter(filter);
@@ -125,63 +115,52 @@ public class AllRequestFilterFilterProxyTest {
     filterProxy.doFilter(req, res, chain);
     filterProxy.destroy();
 
-    ems.verifyAll();
+    InOrder inorder = inOrder(filter);
+    inorder.verify(filter).init(config);
+    inorder.verify(filter).doFilter(eq(req), eq(res), any(FilterChain.class));
+    inorder.verify(filter).destroy();
   }
 
   @Test
   public void singleFilterBubbling() throws Exception {
-    EasyMockSupport ems = new EasyMockSupport();
-
-    FilterConfig config = ems.createMock(FilterConfig.class);
+    FilterConfig config = mock(FilterConfig.class);
     HttpServletRequest req = new FakeHttpServletRequest();
     HttpServletResponse res = new FakeHttpServletResponse();
 
-    IMocksControl mockControl = ems.createStrictControl();
-    FilterChain chain = mockControl.createMock(FilterChain.class);
+    FilterChain chain = mock(FilterChain.class);
 
-    Capture<FilterChain> capturedChain = new Capture<>();
+    ArgumentCaptor<FilterChain> capturedChain = ArgumentCaptor.forClass(FilterChain.class);
 
-    AllRequestFilter filter = mockControl.createMock(AllRequestFilter.class);
-    filter.init(config);
-    filter.doFilter(eq(req), eq(res), capture(capturedChain));
-    chain.doFilter(req, res);
-    filter.destroy();
-
-    ems.replayAll();
+    AllRequestFilter filter = mock(AllRequestFilter.class);
 
     AllRequestFilter.FilterProxy filterProxy = getFilterProxy();
     addFilter(filter);
 
+    InOrder inorder = inOrder(filter, chain);
+
     filterProxy.init(config);
     filterProxy.doFilter(req, res, chain);
-    capturedChain.getValue().doFilter(req, res);
-    filterProxy.destroy();
 
-    ems.verifyAll();
+    inorder.verify(filter).init(config);
+    inorder.verify(filter).doFilter(eq(req), eq(res), capturedChain.capture());
+    capturedChain.getValue().doFilter(req, res);
+    inorder.verify(chain).doFilter(req, res);
+
+    filterProxy.destroy();
+    inorder.verify(filter).destroy();
   }
 
   @Test
   public void twoFiltersNoBubbling() throws Exception {
-    EasyMockSupport ems = new EasyMockSupport();
-
-    FilterConfig config = ems.createMock(FilterConfig.class);
+    FilterConfig config = mock(FilterConfig.class);
     HttpServletRequest req = new FakeHttpServletRequest();
     HttpServletResponse res = new FakeHttpServletResponse();
 
-    IMocksControl mockControl = ems.createStrictControl();
-    FilterChain chain = mockControl.createMock(FilterChain.class);
+    FilterChain chain = mock(FilterChain.class);
 
-    AllRequestFilter filterA = mockControl.createMock(AllRequestFilter.class);
+    AllRequestFilter filterA = mock(AllRequestFilter.class);
 
-    AllRequestFilter filterB = mockControl.createMock(AllRequestFilter.class);
-    filterA.init(config);
-    filterB.init(config);
-    filterA.doFilter(eq(req), eq(res), anyObject(FilterChain.class));
-    filterA.destroy();
-    filterB.destroy();
-
-    ems.replayAll();
-
+    AllRequestFilter filterB = mock(AllRequestFilter.class);
     AllRequestFilter.FilterProxy filterProxy = getFilterProxy();
     addFilter(filterA);
     addFilter(filterB);
@@ -190,35 +169,27 @@ public class AllRequestFilterFilterProxyTest {
     filterProxy.doFilter(req, res, chain);
     filterProxy.destroy();
 
-    ems.verifyAll();
+    InOrder inorder = inOrder(filterA, filterB);
+    inorder.verify(filterA).init(config);
+    inorder.verify(filterB).init(config);
+    inorder.verify(filterA).doFilter(eq(req), eq(res), any(FilterChain.class));
+    inorder.verify(filterA).destroy();
+    inorder.verify(filterB).destroy();
   }
 
   @Test
   public void twoFiltersBubbling() throws Exception {
-    EasyMockSupport ems = new EasyMockSupport();
-
-    FilterConfig config = ems.createMock(FilterConfig.class);
+    FilterConfig config = mock(FilterConfig.class);
     HttpServletRequest req = new FakeHttpServletRequest();
     HttpServletResponse res = new FakeHttpServletResponse();
 
-    IMocksControl mockControl = ems.createStrictControl();
-    FilterChain chain = mockControl.createMock(FilterChain.class);
+    FilterChain chain = mock(FilterChain.class);
 
-    Capture<FilterChain> capturedChainA = new Capture<>();
-    Capture<FilterChain> capturedChainB = new Capture<>();
+    ArgumentCaptor<FilterChain> capturedChainA = ArgumentCaptor.forClass(FilterChain.class);
+    ArgumentCaptor<FilterChain> capturedChainB = ArgumentCaptor.forClass(FilterChain.class);
 
-    AllRequestFilter filterA = mockControl.createMock(AllRequestFilter.class);
-    AllRequestFilter filterB = mockControl.createMock(AllRequestFilter.class);
-
-    filterA.init(config);
-    filterB.init(config);
-    filterA.doFilter(eq(req), eq(res), capture(capturedChainA));
-    filterB.doFilter(eq(req), eq(res), capture(capturedChainB));
-    chain.doFilter(req, res);
-    filterA.destroy();
-    filterB.destroy();
-
-    ems.replayAll();
+    AllRequestFilter filterA = mock(AllRequestFilter.class);
+    AllRequestFilter filterB = mock(AllRequestFilter.class);
 
     AllRequestFilter.FilterProxy filterProxy = getFilterProxy();
     addFilter(filterA);
@@ -226,70 +197,69 @@ public class AllRequestFilterFilterProxyTest {
 
     filterProxy.init(config);
     filterProxy.doFilter(req, res, chain);
-    capturedChainA.getValue().doFilter(req, res);
-    capturedChainB.getValue().doFilter(req, res);
-    filterProxy.destroy();
 
-    ems.verifyAll();
+    InOrder inorder = inOrder(filterA, filterB, chain);
+
+    inorder.verify(filterA).init(config);
+    inorder.verify(filterB).init(config);
+    inorder.verify(filterA).doFilter(eq(req), eq(res), capturedChainA.capture());
+    capturedChainA.getValue().doFilter(req, res);
+    inorder.verify(filterB).doFilter(eq(req), eq(res), capturedChainB.capture());
+    capturedChainB.getValue().doFilter(req, res);
+    inorder.verify(chain).doFilter(req, res);
+
+    filterProxy.destroy();
+    inorder.verify(filterA).destroy();
+    inorder.verify(filterB).destroy();
   }
 
   @Test
   public void postponedLoading() throws Exception {
-    EasyMockSupport ems = new EasyMockSupport();
-
-    FilterConfig config = ems.createMock(FilterConfig.class);
+    FilterConfig config = mock(FilterConfig.class);
     HttpServletRequest req1 = new FakeHttpServletRequest();
     HttpServletRequest req2 = new FakeHttpServletRequest();
     HttpServletResponse res1 = new FakeHttpServletResponse();
     HttpServletResponse res2 = new FakeHttpServletResponse();
 
-    IMocksControl mockControl = ems.createStrictControl();
-    FilterChain chain = mockControl.createMock("chain", FilterChain.class);
+    FilterChain chain = mock(FilterChain.class);
 
-    Capture<FilterChain> capturedChainA1 = new Capture<>();
-    Capture<FilterChain> capturedChainA2 = new Capture<>();
-    Capture<FilterChain> capturedChainB = new Capture<>();
+    ArgumentCaptor<FilterChain> capturedChainA1 = ArgumentCaptor.forClass(FilterChain.class);
+    ArgumentCaptor<FilterChain> capturedChainA2 = ArgumentCaptor.forClass(FilterChain.class);
+    ArgumentCaptor<FilterChain> capturedChainB = ArgumentCaptor.forClass(FilterChain.class);
 
-    AllRequestFilter filterA = mockControl.createMock("filterA", AllRequestFilter.class);
-    AllRequestFilter filterB = mockControl.createMock("filterB", AllRequestFilter.class);
+    AllRequestFilter filterA = mock(AllRequestFilter.class);
+    AllRequestFilter filterB = mock(AllRequestFilter.class);
 
-    filterA.init(config);
-    filterA.doFilter(eq(req1), eq(res1), capture(capturedChainA1));
-    chain.doFilter(req1, res1);
-
-    filterA.doFilter(eq(req2), eq(res2), capture(capturedChainA2));
-    filterB.init(config); // <-- This is crucial part. filterB got loaded
-    // after filterProxy's init finished. Nonetheless filterB gets initialized.
-    filterB.doFilter(eq(req2), eq(res2), capture(capturedChainB));
-    chain.doFilter(req2, res2);
-
-    filterA.destroy();
-    filterB.destroy();
-
-    ems.replayAll();
+    InOrder inorder = inOrder(filterA, filterB, chain);
 
     AllRequestFilter.FilterProxy filterProxy = getFilterProxy();
     addFilter(filterA);
 
     filterProxy.init(config);
     filterProxy.doFilter(req1, res1, chain);
+    inorder.verify(filterA).init(config);
+    inorder.verify(filterA).doFilter(eq(req1), eq(res1), capturedChainA1.capture());
     capturedChainA1.getValue().doFilter(req1, res1);
+    inorder.verify(chain).doFilter(req1, res1);
 
     addFilter(filterB); // <-- Adds filter after filterProxy's init got called.
     filterProxy.doFilter(req2, res2, chain);
+    // after filterProxy's init finished. Nonetheless filterB gets initialized.
+    inorder.verify(filterA).doFilter(eq(req2), eq(res2), capturedChainA2.capture());
     capturedChainA2.getValue().doFilter(req2, res2);
+    inorder.verify(filterB).init(config); // <-- This is crucial part. filterB got loaded
+    inorder.verify(filterB).doFilter(eq(req2), eq(res2), capturedChainB.capture());
     capturedChainB.getValue().doFilter(req2, res2);
+    inorder.verify(chain).doFilter(req2, res2);
 
     filterProxy.destroy();
-
-    ems.verifyAll();
+    inorder.verify(filterA).destroy();
+    inorder.verify(filterB).destroy();
   }
 
   @Test
   public void dynamicUnloading() throws Exception {
-    EasyMockSupport ems = new EasyMockSupport();
-
-    FilterConfig config = ems.createMock(FilterConfig.class);
+    FilterConfig config = mock(FilterConfig.class);
     HttpServletRequest req1 = new FakeHttpServletRequest();
     HttpServletRequest req2 = new FakeHttpServletRequest();
     HttpServletRequest req3 = new FakeHttpServletRequest();
@@ -297,64 +267,62 @@ public class AllRequestFilterFilterProxyTest {
     HttpServletResponse res2 = new FakeHttpServletResponse();
     HttpServletResponse res3 = new FakeHttpServletResponse();
 
-    Plugin plugin = ems.createMock(Plugin.class);
+    Plugin plugin = mock(Plugin.class);
 
-    IMocksControl mockControl = ems.createStrictControl();
-    FilterChain chain = mockControl.createMock("chain", FilterChain.class);
+    FilterChain chain = mock(FilterChain.class);
 
-    Capture<FilterChain> capturedChainA1 = new Capture<>();
-    Capture<FilterChain> capturedChainB1 = new Capture<>();
-    Capture<FilterChain> capturedChainB2 = new Capture<>();
+    ArgumentCaptor<FilterChain> capturedChainA1 = ArgumentCaptor.forClass(FilterChain.class);
+    ArgumentCaptor<FilterChain> capturedChainB1 = ArgumentCaptor.forClass(FilterChain.class);
+    ArgumentCaptor<FilterChain> capturedChainB2 = ArgumentCaptor.forClass(FilterChain.class);
 
-    AllRequestFilter filterA = mockControl.createMock("filterA", AllRequestFilter.class);
-    AllRequestFilter filterB = mockControl.createMock("filterB", AllRequestFilter.class);
-
-    filterA.init(config);
-    filterB.init(config);
-
-    filterA.doFilter(eq(req1), eq(res1), capture(capturedChainA1));
-    filterB.doFilter(eq(req1), eq(res1), capture(capturedChainB1));
-    chain.doFilter(req1, res1);
-
-    filterA.destroy(); // Cleaning up of filterA after it got unloaded
-
-    filterB.doFilter(eq(req2), eq(res2), capture(capturedChainB2));
-    chain.doFilter(req2, res2);
-
-    filterB.destroy(); // Cleaning up of filterA after it got unloaded
-
-    chain.doFilter(req3, res3);
-
-    ems.replayAll();
+    AllRequestFilter filterA = mock(AllRequestFilter.class);
+    AllRequestFilter filterB = mock(AllRequestFilter.class);
 
     AllRequestFilter.FilterProxy filterProxy = getFilterProxy();
     ReloadableRegistrationHandle<AllRequestFilter> handleFilterA = addFilter(filterA);
     ReloadableRegistrationHandle<AllRequestFilter> handleFilterB = addFilter(filterB);
 
+    InOrder inorder = inOrder(filterA, filterB, chain);
+
     filterProxy.init(config);
+
+    inorder.verify(filterA).init(config);
+    inorder.verify(filterB).init(config);
 
     // Request #1 with filterA and filterB
     filterProxy.doFilter(req1, res1, chain);
+    inorder.verify(filterA).doFilter(eq(req1), eq(res1), capturedChainA1.capture());
     capturedChainA1.getValue().doFilter(req1, res1);
+    inorder.verify(filterB).doFilter(eq(req1), eq(res1), capturedChainB1.capture());
     capturedChainB1.getValue().doFilter(req1, res1);
+    inorder.verify(chain).doFilter(req1, res1);
 
     // Unloading filterA
     handleFilterA.remove();
     filterProxy.onStopPlugin(plugin);
 
+    inorder.verify(filterA).destroy(); // Cleaning up of filterA after it got unloaded
+
     // Request #2 only with filterB
     filterProxy.doFilter(req2, res2, chain);
+
+    inorder.verify(filterB).doFilter(eq(req2), eq(res2), capturedChainB2.capture());
+    inorder.verify(filterA, never()).doFilter(eq(req2), eq(res2), any(FilterChain.class));
     capturedChainB2.getValue().doFilter(req2, res2);
+    inorder.verify(chain).doFilter(req2, res2);
 
     // Unloading filterB
     handleFilterB.remove();
     filterProxy.onStopPlugin(plugin);
 
+    inorder.verify(filterB).destroy(); // Cleaning up of filterA after it got unloaded
+
     // Request #3 with no additional filters
     filterProxy.doFilter(req3, res3, chain);
+    inorder.verify(chain).doFilter(req3, res3);
+    inorder.verify(filterA, never()).doFilter(eq(req2), eq(res2), any(FilterChain.class));
+    inorder.verify(filterB, never()).doFilter(eq(req2), eq(res2), any(FilterChain.class));
 
     filterProxy.destroy();
-
-    ems.verifyAll();
   }
 }

@@ -78,7 +78,7 @@
    * - updates current reviewer state.
    * @param {Object} update instance of ReviewerUpdateInfo
    */
-  GrReviewerUpdatesParser.prototype._completeBatch = function(update) {
+  GrReviewerUpdatesParser.prototype._completeBatch = function() {
     const items = [];
     for (const accountId in this._updateItems) {
       if (!this._updateItems.hasOwnProperty(accountId)) continue;
@@ -125,6 +125,8 @@
       };
       if (this._lastState[reviewerId]) {
         this._updateItems[reviewerId].prev_state = this._lastState[reviewerId];
+      } else {
+        this._lastState[reviewerId] = update.state;
       }
       return newUpdates;
     }, []);
@@ -143,6 +145,9 @@
    */
   GrReviewerUpdatesParser.prototype._getUpdateMessage = function(prev, state) {
     if (prev === 'REMOVED' || !prev) {
+      if (state === 'REMOVED') {
+        return 'was ' + state;
+      }
       return 'added to ' + state + ': ';
     } else if (state === 'REMOVED') {
       if (prev) {

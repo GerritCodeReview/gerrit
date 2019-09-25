@@ -22,6 +22,30 @@
       "revId": "fc4fd5dbee81d7a34d232b45725baed6368178e0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "511292ce_4369bd23",
+        "filename": "java/com/google/gerrit/git/GitUpdateFailureException.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-25T06:41:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "06a17cf3_a57f277a",
+      "range": {
+        "startLine": 49,
+        "startChar": 36,
+        "endLine": 49,
+        "endChar": 57
+      },
+      "revId": "fc4fd5dbee81d7a34d232b45725baed6368178e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

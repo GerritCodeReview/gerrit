@@ -22,6 +22,30 @@
       "revId": "9d077b90b6e1749650adb47b6bcd5eb39854d6f2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "85b87a19_c23e3acb",
+        "filename": "javatests/com/google/gerrit/server/mail/send/FromAddressGeneratorProviderTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-09-25T06:02:18Z",
+      "side": 0,
+      "message": "I\u0027m not sure either. In the original version I don\u0027t think the call to verify was actually verifying anything because no expectations were set up.",
+      "parentUuid": "8eb4ed04_a01fe732",
+      "range": {
+        "startLine": 46,
+        "startChar": 19,
+        "endLine": 46,
+        "endChar": 35
+      },
+      "revId": "9d077b90b6e1749650adb47b6bcd5eb39854d6f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

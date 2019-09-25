@@ -116,16 +116,21 @@
             return {
               title: response.title,
               sections: response.sections.map(section => {
-                const suffix = response.foreach ? ' ' + response.foreach : '';
+                const suffix = response.foreach ? ' ' +
+                    this._replaceProject(project, response.foreach) : '';
                 return {
                   name: section.name,
                   query:
-                      section.query.replace(
-                          PROJECT_PLACEHOLDER_PATTERN, project) + suffix,
+                    this._replaceProject(project, section.query) + suffix,
                 };
               }),
             };
           });
+    },
+
+    _replaceProject(project, query) {
+      return query.replace(
+          PROJECT_PLACEHOLDER_PATTERN, project);
     },
 
     _computeTitle(user) {

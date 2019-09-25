@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "129204e1_9f9bcd21",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-09-25T13:59:35Z",
+      "side": 1,
+      "message": "so if a person was added and removed within 5s, the record will only show `xxx was REMOVED` ? what happens to the `added` part ?",
+      "revId": "0ff3668f1e6d9dde394ecadf6e78db44048aeaaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

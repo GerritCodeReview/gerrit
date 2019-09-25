@@ -65,13 +65,11 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 import org.eclipse.jgit.lib.Config;
 
 public class GetServerInfo implements RestReadView<ConfigResource> {
-  private static final String URL_ALIAS = "urlAlias";
   private static final String KEY_MATCH = "match";
   private static final String KEY_TOKEN = "token";
 
@@ -150,9 +148,6 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     info.defaultTheme = getDefaultTheme();
     info.sshd = getSshdInfo();
     info.suggest = getSuggestInfo();
-
-    Map<String, String> urlAliases = getUrlAliasesInfo();
-    info.urlAliases = !urlAliases.isEmpty() ? urlAliases : null;
 
     info.user = getUserInfo();
     info.receive = getReceiveInfo();
@@ -342,16 +337,6 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
       return DEFAULT_THEME;
     }
     return null;
-  }
-
-  private Map<String, String> getUrlAliasesInfo() {
-    Map<String, String> urlAliases = new HashMap<>();
-    for (String subsection : config.getSubsections(URL_ALIAS)) {
-      urlAliases.put(
-          config.getString(URL_ALIAS, subsection, KEY_MATCH),
-          config.getString(URL_ALIAS, subsection, KEY_TOKEN));
-    }
-    return urlAliases;
   }
 
   private SshdInfo getSshdInfo() {

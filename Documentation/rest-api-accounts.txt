@@ -2764,9 +2764,6 @@ link:rest-api-config.html#top-menu-item-info[TopMenuItemInfo] entities.
 |`change_table`                           ||
 The columns to display in the change table (PolyGerrit only). The default is
 empty, which will default columns as determined by the frontend.
-|`url_aliases`                  |optional|
-A map of URL path pairs, where the first URL path is an alias for the
-second URL path.
 |`email_strategy`               ||
 The type of email strategy to use. On `ENABLED`, the user will receive emails
 from Gerrit. On `CC_ON_OWN_COMMENTS` the user will also receive emails for
@@ -2836,9 +2833,6 @@ link:rest-api-config.html#top-menu-item-info[TopMenuItemInfo] entities.
 |`change_table`                           ||
 The columns to display in the change table (PolyGerrit only). The default is
 empty, which will default columns as determined by the frontend.
-|`url_aliases`                  |optional|
-A map of URL path pairs, where the first URL path is an alias for the
-second URL path.
 |`email_strategy`               |optional|
 The type of email strategy to use. On `ENABLED`, the user will receive emails
 from Gerrit. On `CC_ON_OWN_COMMENTS` the user will also receive emails for

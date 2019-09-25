@@ -38,7 +38,6 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.inject.Inject;
 import com.google.inject.util.Providers;
 import java.util.ArrayList;
-import java.util.HashMap;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -93,8 +92,6 @@ public class GeneralPreferencesIT extends AbstractDaemonTest {
     i.my.add(new MenuItem("name", "url"));
     i.changeTable = new ArrayList<>();
     i.changeTable.add("Status");
-    i.urlAliases = new HashMap<>();
-    i.urlAliases.put("foo", "bar");
 
     o = gApi.accounts().id(user42.id().toString()).setPreferences(i);
     assertPrefs(o, i, "my");

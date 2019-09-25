@@ -1180,5 +1180,26 @@ limitations under the License.
       // No extra call
       assert.isTrue(Gerrit.Nav.navigateToDiff.calledOnce);
     });
+
+    test('_computeDownloadPatchLink', () => {
+      assert.equal(
+          element._computeDownloadPatchLink(
+              'test', 12, {patchNum: 1}, 'index.php'),
+          '/changes/test~12/revisions/1/patch?zip&path=index.php');
+    });
+
+    test('_computeDownloadLink left', () => {
+      assert.equal(
+          element._computeDownloadLink(
+              12, {patchNum: 1}, 'index.php', 'LEFT'),
+          '/cat/12%2C1%2Cindex.php^1');
+    });
+
+    test('_computeDownloadLink right', () => {
+      assert.equal(
+          element._computeDownloadLink(
+              12, {patchNum: 1}, 'index.php', 'RIGHT'),
+          '/cat/12%2C1%2Cindex.php^0');
+    });
   });
 </script>

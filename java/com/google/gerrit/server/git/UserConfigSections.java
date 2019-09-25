@@ -25,7 +25,6 @@ public class UserConfigSections {
   public static final String KEY_URL = "url";
   public static final String KEY_TARGET = "target";
   public static final String KEY_ID = "id";
-  public static final String URL_ALIAS = "urlAlias";
   public static final String KEY_MATCH = "match";
   public static final String KEY_TOKEN = "token";
 

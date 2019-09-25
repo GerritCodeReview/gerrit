@@ -153,7 +153,6 @@ public class GeneralPreferencesInfo {
   public Boolean signedOffBy;
   public List<MenuItem> my;
   public List<String> changeTable;
-  public Map<String, String> urlAliases;
   public EmailStrategy emailStrategy;
   public EmailFormat emailFormat;
   public DefaultBase defaultBaseForMerges;

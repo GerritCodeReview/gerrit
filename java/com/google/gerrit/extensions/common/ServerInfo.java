@@ -26,7 +26,6 @@ public class ServerInfo {
   public PluginConfigInfo plugin;
   public SshdInfo sshd;
   public SuggestInfo suggest;
-  public Map<String, String> urlAliases;
   public UserConfigInfo user;
   public ReceiveInfo receive;
   public String defaultTheme;

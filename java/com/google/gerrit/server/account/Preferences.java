@@ -25,7 +25,6 @@ import static com.google.gerrit.server.git.UserConfigSections.KEY_MATCH;
 import static com.google.gerrit.server.git.UserConfigSections.KEY_TARGET;
 import static com.google.gerrit.server.git.UserConfigSections.KEY_TOKEN;
 import static com.google.gerrit.server.git.UserConfigSections.KEY_URL;
-import static com.google.gerrit.server.git.UserConfigSections.URL_ALIAS;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.base.Strings;
@@ -153,7 +152,6 @@ public class Preferences {
           parseDefaultGeneralPreferences(defaultCfg, null));
       setChangeTable(cfg, mergedGeneralPreferencesInput.changeTable);
       setMy(cfg, mergedGeneralPreferencesInput.my);
-      setUrlAliases(cfg, mergedGeneralPreferencesInput.urlAliases);
 
       // evict the cached general preferences
       this.generalPreferences = null;
@@ -248,11 +246,9 @@ public class Preferences {
     if (input != null) {
       r.changeTable = input.changeTable;
       r.my = input.my;
-      r.urlAliases = input.urlAliases;
     } else {
       r.changeTable = parseChangeTableColumns(cfg, defaultCfg);
       r.my = parseMyMenus(cfg, defaultCfg);
-      r.urlAliases = parseUrlAliases(cfg, defaultCfg);
     }
     return r;
   }
@@ -406,14 +402,6 @@ public class Preferences {
     return my;
   }
 
-  private static Map<String, String> parseUrlAliases(Config cfg, @Nullable Config defaultCfg) {
-    Map<String, String> urlAliases = urlAliases(cfg);
-    if (urlAliases == null && defaultCfg != null) {
-      urlAliases = urlAliases(defaultCfg);
-    }
-    return urlAliases;
-  }
-
   public static GeneralPreferencesInfo readDefaultGeneralPreferences(
       AllUsersName allUsersName, Repository allUsersRepo)
       throws IOException, ConfigInvalidException {
@@ -451,7 +439,6 @@ public class Preferences {
         GeneralPreferencesInfo.defaults());
     setMy(defaultPrefs.getConfig(), input.my);
     setChangeTable(defaultPrefs.getConfig(), input.changeTable);
-    setUrlAliases(defaultPrefs.getConfig(), input.urlAliases);
     defaultPrefs.commit(md);
 
     return parseGeneralPreferences(defaultPrefs.getConfig(), null, null);
@@ -553,31 +540,6 @@ public class Preferences {
       cfg.unset(UserConfigSections.MY, section.trim(), key);
     } else {
       cfg.setString(UserConfigSections.MY, section.trim(), key, val.trim());
-    }
-  }
-
-  private static Map<String, String> urlAliases(Config cfg) {
-    HashMap<String, String> urlAliases = new HashMap<>();
-    for (String subsection : cfg.getSubsections(URL_ALIAS)) {
-      urlAliases.put(
-          cfg.getString(URL_ALIAS, subsection, KEY_MATCH),
-          cfg.getString(URL_ALIAS, subsection, KEY_TOKEN));
-    }
-    return !urlAliases.isEmpty() ? urlAliases : null;
-  }
-
-  private static void setUrlAliases(Config cfg, Map<String, String> urlAliases) {
-    if (urlAliases != null) {
-      for (String subsection : cfg.getSubsections(URL_ALIAS)) {
-        cfg.unsetSection(URL_ALIAS, subsection);
-      }
-
-      int i = 1;
-      for (Map.Entry<String, String> e : urlAliases.entrySet()) {
-        cfg.setString(URL_ALIAS, URL_ALIAS + i, KEY_MATCH, e.getKey());
-        cfg.setString(URL_ALIAS, URL_ALIAS + i, KEY_TOKEN, e.getValue());
-        i++;
-      }
     }
   }
 

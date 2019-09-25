@@ -93,8 +93,6 @@ public class GeneralPreferencesIT extends AbstractDaemonTest {
     i.my.add(new MenuItem("name", "url"));
     i.changeTable = new ArrayList<>();
     i.changeTable.add("Status");
-    i.urlAliases = new HashMap<>();
-    i.urlAliases.put("foo", "bar");
 
     o = gApi.accounts().id(user42.id().toString()).setPreferences(i);
     assertPrefs(o, i, "my");

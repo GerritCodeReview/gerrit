@@ -117,9 +117,8 @@
                 const suffix = response.foreach ? ' ' + response.foreach : '';
                 return {
                   name: section.name,
-                  query:
-                      section.query.replace(
-                          PROJECT_PLACEHOLDER_PATTERN, project) + suffix,
+                  query: (section.query + suffix).replace(
+                      PROJECT_PLACEHOLDER_PATTERN, project),
                 };
               }),
             };

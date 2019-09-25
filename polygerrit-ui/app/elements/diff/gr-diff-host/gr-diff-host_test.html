@@ -267,7 +267,15 @@ limitations under the License.
       element.path = 'some/path';
       element.projectName = 'Some project';
       const threadEls = threads.map(
-          thread => element._createThreadElement(thread));
+          thread => {
+            const threadEl = element._createThreadElement(thread);
+            // Polymer 2 doesn't fire ready events and doesn't execute
+            // observers if element is not added to the Dom.
+            // See https://github.com/Polymer/old-docs-site/issues/2322
+            // and https://github.com/Polymer/polymer/issues/4526
+            element._attachThreadElement(threadEl);
+            return threadEl;
+          });
       assert.equal(threadEls.length, 2);
       assert.equal(threadEls[0].rootId, 4711);
       assert.equal(threadEls[1].rootId, 42);

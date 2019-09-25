@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8eb4ed04_a01fe732",
+        "filename": "javatests/com/google/gerrit/server/mail/send/FromAddressGeneratorProviderTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-09-25T05:56:36Z",
+      "side": 0,
+      "message": "I am wondering why it had to be a strict mock before :-O",
+      "range": {
+        "startLine": 46,
+        "startChar": 19,
+        "endLine": 46,
+        "endChar": 35
+      },
+      "revId": "9d077b90b6e1749650adb47b6bcd5eb39854d6f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

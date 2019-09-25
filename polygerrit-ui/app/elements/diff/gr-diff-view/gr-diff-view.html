@@ -271,12 +271,21 @@ limitations under the License.
             <a
               class="downloadLink"
               download
-              href$="[[_computeDownloadLink(_change.project, _changeNum, _patchRange, _path)]]">
+              href$="[[_computeDownloadLink(_change.project, _changeNum, _patchRange, _path, 'false', 'true')]]">
               Download
             </a>
           </span>
         </div>
         <div class="rightControls">
+          <span class="download desktop">
+            <a
+              class="downloadLink"
+              download
+              href$="[[_computeDownloadPatchLink(_change.project, _changeNum, _patchRange, _path)]]">
+              Download Patch
+            </a>
+            <span class="separator"></span>
+          </span>
           <span class$="blameLoader [[_computeBlameLoaderClass(_isImageDiff)]]">
             <gr-button
                 link

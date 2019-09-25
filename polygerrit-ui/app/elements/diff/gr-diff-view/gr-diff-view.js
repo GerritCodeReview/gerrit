@@ -177,6 +177,7 @@
     },
 
     behaviors: [
+      Gerrit.BaseUrlBehavior,
       Gerrit.FireBehavior,
       Gerrit.KeyboardShortcutBehavior,
       Gerrit.PatchSetBehavior,
@@ -910,7 +911,18 @@
       history.replaceState(null, '', url);
     },
 
-    _computeDownloadLink(project, changeNum, patchRange, path) {
+    _computeDownloadLink(changeNum, patchRange, path, left, right) {
+      let url = `${this.getBaseUrl()}/cat/${changeNum}%2C` +
+          `${patchRange.patchNum}%2C${path}`;
+      if (left == 1) {
+        url = `${url}^1`;
+      } else if (right == 1) {
+        url = `${url}^0`;
+      }
+      return url;
+    },
+
+    _computeDownloadPatchLink(project, changeNum, patchRange, path) {
       let url = this.changeBaseURL(project, changeNum, patchRange.patchNum);
       url += '/patch?zip&path=' + encodeURIComponent(path);
       return url;

@@ -72,13 +72,6 @@
     },
 
     _computeAccountTitle(account, tooltip) {
-      // Polymer 2: check for undefined
-      if ([
-        account,
-        tooltip,
-      ].some(arg => arg === undefined)) {
-        return undefined;
-      }
 
       if (!account) { return; }
       let result = '';

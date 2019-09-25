@@ -535,7 +535,26 @@ public class AccountManagerIT extends AbstractDaemonTest {
     AuthRequest who = AuthRequest.forEmail(email);
     exception.expect(AccountException.class);
     exception.expectMessage("Email 'foo@example.com' in use by another account");
-    accountManager.link(accountId, who);
+    accountManager.link(accountId2, who);
+  }
+
+  @Test
+  public void allowLinkEmailThatIsAlreadyUsedAsPrimaryAccount() throws Exception {
+    String email = "foo@example.com";
+
+    // Create an account with an SCHEME_EXTERNAL external ID that occupies the email.
+    String username = "foo";
+    Account.Id accountId = new Account.Id(seq.nextAccountId());
+    ExternalId.Key externalExtIdKey = ExternalId.Key.create(ExternalId.SCHEME_EXTERNAL, username);
+    accountsUpdate.insert(
+        "Create Test Account",
+        accountId,
+        u -> u.addExternalId(ExternalId.createWithEmail(externalExtIdKey, accountId, email)));
+
+    AuthRequest who = AuthRequest.forEmail(email);
+    AuthResult result = accountManager.link(accountId, who);
+    assertThat(result.isNew()).isFalse();
+    assertThat(result.getAccountId().get()).isEqualTo(accountId.get());
   }
 
   private void assertNoSuchExternalIds(ExternalId.Key... extIdKeys) throws Exception {

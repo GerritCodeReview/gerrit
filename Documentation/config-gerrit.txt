@@ -4692,47 +4692,6 @@ account deactivations.
 link:#schedule-configuration-examples[Schedule examples] can be found
 in the link:#schedule-configuration[Schedule Configuration] section.
 
-[[urlAlias]]
-=== Section urlAlias
-
-URL aliases define regular expressions for URL tokens that are mapped
-to target URL tokens.
-
-Each URL alias must be specified in its own subsection. The subsection
-name should be a descriptive name. It must be unique, but is not
-interpreted in any way.
-
-The URL aliases are applied in no particular order. The first matching
-URL alias is used and further matches are ignored.
-
-URL aliases can be used to map plugin screens into the Gerrit URL
-namespace, or to replace Gerrit screens by plugin screens.
-
-Example:
-
-----
-[urlAlias "MyPluginScreen"]
-  match = /myscreen/(.*)
-  token = /x/myplugin/myscreen/$1
-[urlAlias "MyChangeScreen"]
-  match = /c/(.*)
-  token = /x/myplugin/c/$1
-----
-
-[[urlAlias.match]]urlAlias.match::
-+
-A regular expression for a URL token.
-+
-The matched URL token is replaced by `urlAlias.token`.
-
-[[urlAlias.token]]urlAlias.token::
-+
-The target URL token.
-+
-It can contain placeholders for the groups matched by the
-`urlAlias.match` regular expression: `$1` for the first matched group,
-`$2` for the second matched group, etc.
-
 [[submodule]]
 === Section submodule
 

@@ -15,6 +15,10 @@
 package com.google.gerrit.acceptance.server.git.receive;
 
 import static com.google.common.truth.Truth.assertThat;
+import static org.mockito.Mockito.clearInvocations;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+import static org.mockito.MockitoAnnotations.initMocks;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -30,11 +34,10 @@ import com.google.gerrit.extensions.validators.CommentValidator;
 import com.google.gerrit.testing.TestCommentHelper;
 import com.google.inject.Inject;
 import com.google.inject.Module;
-import org.easymock.Capture;
-import org.easymock.EasyMock;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 
 /**
  * Tests for comment validation when publishing drafts via the {@code --publish-comments} option.
@@ -45,14 +48,14 @@ public class ReceiveCommitsCommentValidationIT extends AbstractDaemonTest {
 
   private static final String COMMENT_TEXT = "The comment text";
 
-  private Capture<ImmutableList<CommentForValidation>> capture = new Capture<>();
+  @Captor private ArgumentCaptor<ImmutableList<CommentForValidation>> capture;
 
   @Override
   public Module createModule() {
     return new FactoryModule() {
       @Override
       public void configure() {
-        CommentValidator mockCommentValidator = EasyMock.createMock(CommentValidator.class);
+        CommentValidator mockCommentValidator = mock(CommentValidator.class);
         bind(CommentValidator.class)
             .annotatedWith(Exports.named(mockCommentValidator.getClass()))
             .toInstance(mockCommentValidator);
@@ -63,23 +66,17 @@ public class ReceiveCommitsCommentValidationIT extends AbstractDaemonTest {
 
   @Before
   public void resetMock() {
-    EasyMock.reset(mockCommentValidator);
-  }
-
-  @After
-  public void verifyMock() {
-    EasyMock.verify(mockCommentValidator);
+    initMocks(this);
+    clearInvocations(mockCommentValidator);
   }
 
   @Test
   public void validateComments_commentOK() throws Exception {
-    EasyMock.expect(
-            mockCommentValidator.validateComments(
-                ImmutableList.of(
-                    CommentForValidation.create(
-                        CommentForValidation.CommentType.FILE_COMMENT, COMMENT_TEXT))))
-        .andReturn(ImmutableList.of());
-    EasyMock.replay(mockCommentValidator);
+    when(mockCommentValidator.validateComments(
+            ImmutableList.of(
+                CommentForValidation.create(
+                    CommentForValidation.CommentType.FILE_COMMENT, COMMENT_TEXT))))
+        .thenReturn(ImmutableList.of());
     PushOneCommit.Result result = createChange();
     String changeId = result.getChangeId();
     String revId = result.getCommit().getName();
@@ -96,13 +93,11 @@ public class ReceiveCommitsCommentValidationIT extends AbstractDaemonTest {
   public void validateComments_commentRejected() throws Exception {
     CommentForValidation commentForValidation =
         CommentForValidation.create(CommentType.FILE_COMMENT, COMMENT_TEXT);
-    EasyMock.expect(
-            mockCommentValidator.validateComments(
-                ImmutableList.of(
-                    CommentForValidation.create(
-                        CommentForValidation.CommentType.FILE_COMMENT, COMMENT_TEXT))))
-        .andReturn(ImmutableList.of(commentForValidation.failValidation("Oh no!")));
-    EasyMock.replay(mockCommentValidator);
+    when(mockCommentValidator.validateComments(
+            ImmutableList.of(
+                CommentForValidation.create(
+                    CommentForValidation.CommentType.FILE_COMMENT, COMMENT_TEXT))))
+        .thenReturn(ImmutableList.of(commentForValidation.failValidation("Oh no!")));
     PushOneCommit.Result result = createChange();
     String changeId = result.getChangeId();
     String revId = result.getCommit().getName();
@@ -117,9 +112,7 @@ public class ReceiveCommitsCommentValidationIT extends AbstractDaemonTest {
 
   @Test
   public void validateComments_inlineVsFileComments_allOK() throws Exception {
-    EasyMock.expect(mockCommentValidator.validateComments(EasyMock.capture(capture)))
-        .andReturn(ImmutableList.of());
-    EasyMock.replay(mockCommentValidator);
+    when(mockCommentValidator.validateComments(capture.capture())).thenReturn(ImmutableList.of());
     PushOneCommit.Result result = createChange();
     String changeId = result.getChangeId();
     String revId = result.getCommit().getName();
@@ -132,7 +125,7 @@ public class ReceiveCommitsCommentValidationIT extends AbstractDaemonTest {
     assertThat(testCommentHelper.getPublishedComments(result.getChangeId())).isEmpty();
     amendChange(changeId, "refs/for/master%publish-comments", admin, testRepo);
     assertThat(testCommentHelper.getPublishedComments(result.getChangeId())).hasSize(2);
-    assertThat(capture.getValues()).hasSize(1);
+    assertThat(capture.getAllValues()).hasSize(1);
     assertThat(capture.getValue())
         .containsExactly(
             CommentForValidation.create(

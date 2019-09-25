@@ -99,7 +99,7 @@ public class RefUpdateUtil {
     if (lockFailure + aborted == bru.getCommands().size()) {
       throw new LockFailureException("Update aborted with one or more lock failures: " + bru, bru);
     } else if (failure > 0) {
-      throw new IOException("Update failed: " + bru);
+      throw new GitUpdateFailureException("Update failed: " + bru, bru);
     }
   }
 
@@ -130,7 +130,8 @@ public class RefUpdateUtil {
       case REJECTED_CURRENT_BRANCH:
       case REJECTED_MISSING_OBJECT:
       case REJECTED_OTHER_REASON:
-        throw new IOException("Failed to update " + ru.getName() + ": " + ru.getResult());
+        throw new GitUpdateFailureException(
+            "Failed to update " + ru.getName() + ": " + ru.getResult(), ru);
     }
   }
 
@@ -174,7 +175,8 @@ public class RefUpdateUtil {
       case REJECTED_MISSING_OBJECT:
       case REJECTED_OTHER_REASON:
       default:
-        throw new IOException("Failed to delete " + refName + ": " + ru.getResult());
+        throw new GitUpdateFailureException(
+            "Failed to delete " + refName + ": " + ru.getResult(), ru);
     }
   }
 

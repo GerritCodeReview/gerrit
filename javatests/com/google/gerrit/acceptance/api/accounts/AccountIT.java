@@ -134,6 +134,8 @@ import com.google.gerrit.server.index.account.StalenessChecker;
 import com.google.gerrit.server.notedb.Sequences;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackend.RefFilterOptions;
+import com.google.gerrit.server.plugincontext.PluginContext.PluginMetrics;
+import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.RefPattern;
 import com.google.gerrit.server.query.account.InternalAccountQuery;
@@ -2589,7 +2591,11 @@ public class AccountIT extends AbstractDaemonTest {
             externalIds,
             metaDataUpdateInternalFactory,
             new RetryHelper(
-                cfg, retryMetrics, null, r -> r.withBlockStrategy(noSleepBlockStrategy)),
+                cfg,
+                retryMetrics,
+                null,
+                new PluginSetContext<>(DynamicSet.emptySet(), PluginMetrics.DISABLED_INSTANCE),
+                r -> r.withBlockStrategy(noSleepBlockStrategy)),
             extIdNotesFactory,
             ident,
             ident,
@@ -2642,6 +2648,7 @@ public class AccountIT extends AbstractDaemonTest {
                 cfg,
                 retryMetrics,
                 null,
+                new PluginSetContext<>(DynamicSet.emptySet(), PluginMetrics.DISABLED_INSTANCE),
                 r ->
                     r.withStopStrategy(StopStrategies.stopAfterAttempt(status.size()))
                         .withBlockStrategy(noSleepBlockStrategy)),
@@ -2696,7 +2703,11 @@ public class AccountIT extends AbstractDaemonTest {
             externalIds,
             metaDataUpdateInternalFactory,
             new RetryHelper(
-                cfg, retryMetrics, null, r -> r.withBlockStrategy(noSleepBlockStrategy)),
+                cfg,
+                retryMetrics,
+                null,
+                new PluginSetContext<>(DynamicSet.emptySet(), PluginMetrics.DISABLED_INSTANCE),
+                r -> r.withBlockStrategy(noSleepBlockStrategy)),
             extIdNotesFactory,
             ident,
             ident,
@@ -2765,7 +2776,11 @@ public class AccountIT extends AbstractDaemonTest {
             externalIds,
             metaDataUpdateInternalFactory,
             new RetryHelper(
-                cfg, retryMetrics, null, r -> r.withBlockStrategy(noSleepBlockStrategy)),
+                cfg,
+                retryMetrics,
+                null,
+                new PluginSetContext<>(DynamicSet.emptySet(), PluginMetrics.DISABLED_INSTANCE),
+                r -> r.withBlockStrategy(noSleepBlockStrategy)),
             extIdNotesFactory,
             ident,
             ident,

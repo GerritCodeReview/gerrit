@@ -36,6 +36,7 @@ import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.httpd.restapi.ParameterParser;
 import com.google.gerrit.httpd.restapi.RestApiServlet;
+import com.google.gerrit.server.ExceptionHook;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.git.validators.CommitValidationException;
@@ -85,6 +86,7 @@ public class TraceIT extends AbstractDaemonTest {
   @Inject private DynamicSet<ChangeIndexedListener> changeIndexedListeners;
   @Inject private DynamicSet<PerformanceLogger> performanceLoggers;
   @Inject private DynamicSet<SubmitRule> submitRules;
+  @Inject private DynamicSet<ExceptionHook> exceptionHooks;
   @Inject private WorkQueue workQueue;
 
   private TraceValidatingProjectCreationValidationListener projectCreationListener;
@@ -602,6 +604,36 @@ public class TraceIT extends AbstractDaemonTest {
       assertThat(traceSubmitRule.isLoggingForced).isTrue();
     } finally {
       submitRuleRegistrationHandle.remove();
+    }
+  }
+
+  @Test
+  @GerritConfig(name = "retry.retryWithTraceOnFailure", value = "true")
+  public void noAutoRetryIfExceptionCausesNormalRetrying() throws Exception {
+    String changeId = createChange().getChangeId();
+    approve(changeId);
+
+    TraceSubmitRule traceSubmitRule = new TraceSubmitRule();
+    traceSubmitRule.failAlways = true;
+    RegistrationHandle submitRuleRegistrationHandle = submitRules.add("gerrit", traceSubmitRule);
+    RegistrationHandle exceptionHookRegistrationHandle =
+        exceptionHooks.add(
+            "gerrit",
+            new ExceptionHook() {
+              @Override
+              public boolean shouldRetry(Throwable t) {
+                return true;
+              }
+            });
+    try {
+      RestResponse response = adminRestSession.post("/changes/" + changeId + "/submit");
+      assertThat(response.getStatusCode()).isEqualTo(SC_INTERNAL_SERVER_ERROR);
+      assertThat(response.getHeader(RestApiServlet.X_GERRIT_TRACE)).isNull();
+      assertThat(traceSubmitRule.traceId).isNull();
+      assertThat(traceSubmitRule.isLoggingForced).isFalse();
+    } finally {
+      submitRuleRegistrationHandle.remove();
+      exceptionHookRegistrationHandle.remove();
     }
   }
 

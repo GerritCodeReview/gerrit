@@ -24,7 +24,9 @@ limitations under the License.
 <script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
 <script src="/bower_components/web-component-tester/browser.js"></script>
 <link rel="import" href="../test/common-test-setup.html"/>
-<link rel="import" href="gr-app.html">
+
+<link rel="import" href="gr-app.html"/>
+<link rel="import" href="gr-app-p2.html"/>
 
 <script>void(0);</script>
 
@@ -34,11 +36,16 @@ limitations under the License.
   </template>
 </test-fixture>
 
+<test-fixture id="basic-p2">
+  <template>
+    <gr-app-p2 id="app"></gr-app-p2>
+  </template>
+</test-fixture>
+
 <script>
   suite('gr-app tests', () => {
     let sandbox;
     let element;
-
     setup(done => {
       sandbox = sinon.sandbox.create();
       stub('gr-reporting', {
@@ -68,7 +75,7 @@ limitations under the License.
         probePath() { return Promise.resolve(42); },
       });
 
-      element = fixture('basic');
+      element = fixture(window.POLYMER2 ? 'basic' : 'basic-p2');
       flush(done);
     });
 

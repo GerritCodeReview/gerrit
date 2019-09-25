@@ -909,7 +909,40 @@
       history.replaceState(null, '', url);
     },
 
-    _computeDownloadLink(project, changeNum, patchRange, path) {
+    _computeDownloadDropdownLinks(project, changeNum, patchRange, path) {
+      if (!patchRange || !patchRange.patchNum) { return []; }
+
+      return [
+        {
+          url: this._computeDownloadPatchLink(
+              project, changeNum, patchRange, path),
+          name: 'Patch',
+        },
+        {
+          url: this._computeDownloadFileLink(
+              changeNum, patchRange, path, 'LEFT'),
+          name: 'Left Content',
+        },
+        {
+          url: this._computeDownloadFileLink(
+              changeNum, patchRange, path, 'RIGHT'),
+          name: 'Right Content',
+        },
+      ];
+    },
+
+    _computeDownloadFileLink(changeNum, patchRange, path, side) {
+      let url = `/cat/${changeNum}%2C` +
+          `${patchRange.patchNum}%2C${path}`;
+      if (DiffSides[side] === 'left') {
+        url = `${url}^1`;
+      } else if (DiffSides[side] === 'right') {
+        url = `${url}^0`;
+      }
+      return url;
+    },
+
+    _computeDownloadPatchLink(project, changeNum, patchRange, path) {
       let url = this.changeBaseURL(project, changeNum, patchRange.patchNum);
       url += '/patch?zip&path=' + encodeURIComponent(path);
       return url;

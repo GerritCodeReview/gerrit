@@ -579,22 +579,6 @@ limitations under the License.
           element._path, '1', 'PARENT'));
     });
 
-    test('download link', () => {
-      element._change = {project: 'test'},
-      element._changeNum = '42';
-      element._patchRange = {
-        basePatchNum: PARENT,
-        patchNum: '10',
-      };
-      element._fileList = ['chell.go', 'glados.txt', 'wheatley.md'];
-      element._path = 'glados.txt';
-      flushAsynchronousOperations();
-      const link = element.$$('.downloadLink');
-      assert.equal(link.getAttribute('href'),
-          '/changes/test~42/revisions/10/patch?zip&path=glados.txt');
-      assert.isTrue(link.hasAttribute('download'));
-    });
-
     test('_prefs.manual_review is respected', () => {
       const saveReviewedStub = sandbox.stub(element, '_saveReviewedState',
           () => Promise.resolve());
@@ -1179,6 +1163,46 @@ limitations under the License.
 
       // No extra call
       assert.isTrue(Gerrit.Nav.navigateToDiff.calledOnce);
+    });
+
+    test('_computeDownloadLink', () => {
+      const downloadLinks = [
+        {
+          url: '/changes/test~12/revisions/1/patch?zip&path=index.php',
+          name: 'Patch',
+        },
+        {
+          url: '/cat/12%2C1%2Cindex.php^1',
+          name: 'Left Content'
+        },
+        {
+          url: '/cat/12%2C1%2Cindex.php^0',
+          name: 'Right Content',
+        },
+      ];
+      assert.deepEqual(
+          element._computeDownloadLink(
+              'test', 12, {patchNum: 1}, 'index.php'),
+          downloadLinks);
+    });
+
+    test('_computeDownloadDiffLink', () => {
+      assert.equal(
+          element._computeDownloadDiffLink(
+              12, {patchNum: 1}, 'index.php', 'LEFT'),
+          '/cat/12%2C1%2Cindex.php^1');
+
+      assert.equal(
+          element._computeDownloadDiffLink(
+              12, {patchNum: 1}, 'index.php', 'RIGHT'),
+          '/cat/12%2C1%2Cindex.php^0');
+    });
+
+    test('_computeDownloadPatchLink', () => {
+      assert.equal(
+          element._computeDownloadPatchLink(
+              'test', 12, {patchNum: 1}, 'index.php'),
+          '/changes/test~12/revisions/1/patch?zip&path=index.php');
     });
   });
 </script>

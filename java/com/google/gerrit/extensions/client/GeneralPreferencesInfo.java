@@ -15,7 +15,6 @@
 package com.google.gerrit.extensions.client;
 
 import java.util.List;
-import java.util.Map;
 
 /** Preferences about a single user. */
 public class GeneralPreferencesInfo {
@@ -145,7 +144,6 @@ public class GeneralPreferencesInfo {
   public Boolean workInProgressByDefault;
   public List<MenuItem> my;
   public List<String> changeTable;
-  public Map<String, String> urlAliases;
 
   public DateFormat getDateFormat() {
     if (dateFormat == null) {

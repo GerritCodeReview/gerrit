@@ -189,14 +189,6 @@ limitations under the License.
       };
       flushAsynchronousOperations();
       assert.isOk(element.$$('.assignee gr-account-link'));
-      assert.equal(Polymer.dom(element.root)
-          .querySelector('#assigneeAccountLink').additionalText, '(test)');
-    });
-
-    test('_computeAccountStatusString', () => {
-      assert.equal(element._computeAccountStatusString({}), '');
-      assert.equal(element._computeAccountStatusString({status: 'Working'}),
-          '(Working)');
     });
 
     test('TShirt sizing tooltip', () => {

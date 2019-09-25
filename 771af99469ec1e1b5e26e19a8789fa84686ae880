@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ec3f0ec6_16ec3213",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-09-25T21:31:23Z",
+      "side": 1,
+      "message": "Can you expand on selected approach? I\u0027m asking, because Kasper Nillson mentioned plans for implementing a dropdown in this comment, but this is apparently not the approach you took here (that\u0027s fine too, just document it).\n\nhttps://bugs.chromium.org/p/gerrit/issues/detail?id\u003d7867#c8",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 40
+      },
+      "revId": "771af99469ec1e1b5e26e19a8789fa84686ae880",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c8761f4f_5f327689",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-09-25T21:31:23Z",
+      "side": 1,
+      "message": "This is a bit cryptic, for left, right parameters. Can you use string constant: \u0027LEFT\u0027 here and \u0027RIGHT\u0027 on line 294 below?",
+      "range": {
+        "startLine": 284,
+        "startChar": 76,
+        "endLine": 284,
+        "endChar": 80
+      },
+      "revId": "771af99469ec1e1b5e26e19a8789fa84686ae880",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "65398468_4b2e7d59",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 917,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-09-25T21:31:23Z",
+      "side": 1,
+      "message": "\u003d\u003d\u003d? Here and on line 919 below. I also suggested to pass LEFT|RIGHT constant.",
+      "range": {
+        "startLine": 917,
+        "startChar": 15,
+        "endLine": 917,
+        "endChar": 17
+      },
+      "revId": "771af99469ec1e1b5e26e19a8789fa84686ae880",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

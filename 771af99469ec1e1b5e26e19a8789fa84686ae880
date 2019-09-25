@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "974279df_67caccef",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-09-25T21:53:54Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "ec3f0ec6_16ec3213",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 40
+      },
+      "revId": "771af99469ec1e1b5e26e19a8789fa84686ae880",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c8761f4f_5f327689",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.html",
         "patchSetId": 7
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "70a3edd7_5ec9070c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-09-25T21:53:54Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "c8761f4f_5f327689",
+      "range": {
+        "startLine": 284,
+        "startChar": 76,
+        "endLine": 284,
+        "endChar": 80
+      },
+      "revId": "771af99469ec1e1b5e26e19a8789fa84686ae880",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "65398468_4b2e7d59",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
         "patchSetId": 7
@@ -68,6 +116,30 @@
       "revId": "771af99469ec1e1b5e26e19a8789fa84686ae880",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e1b59db5_e3aaa07a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 917,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-09-25T21:53:54Z",
+      "side": 1,
+      "message": "Thanks, done (also used the constants).",
+      "parentUuid": "65398468_4b2e7d59",
+      "range": {
+        "startLine": 917,
+        "startChar": 15,
+        "endLine": 917,
+        "endChar": 17
+      },
+      "revId": "771af99469ec1e1b5e26e19a8789fa84686ae880",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

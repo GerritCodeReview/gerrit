@@ -193,12 +193,6 @@ limitations under the License.
           .querySelector('#assigneeAccountLink').additionalText, '(test)');
     });
 
-    test('_computeAccountStatusString', () => {
-      assert.equal(element._computeAccountStatusString({}), '');
-      assert.equal(element._computeAccountStatusString({status: 'Working'}),
-          '(Working)');
-    });
-
     test('TShirt sizing tooltip', () => {
       assert.equal(element._computeSizeTooltip({
         insertions: 'foo',

@@ -120,8 +120,8 @@
                 return {
                   name: section.name,
                   query:
-                      section.query.replace(
-                          PROJECT_PLACEHOLDER_PATTERN, project) + suffix,
+                    (section.query + suffix).replace(
+                        PROJECT_PLACEHOLDER_PATTERN, project),
                 };
               }),
             };

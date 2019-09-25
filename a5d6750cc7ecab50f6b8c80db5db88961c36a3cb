@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9c9bb264_8b14b685",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 2594,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2019-09-25T09:37:13Z",
+      "side": 1,
+      "message": "The formatting of the body is not consistent with the other settings. (indentation) I think you\u0027re missing the\n\n +\n\nto continue a single item/setting. So you break the list of options with a plain new line in the section below.",
+      "revId": "a5d6750cc7ecab50f6b8c80db5db88961c36a3cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "58e5f066_366e0459",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 2595,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2019-09-25T09:37:13Z",
+      "side": 1,
+      "message": "1) This sentence isn\u0027t correct English.\n2) I think this line is obvious and can be removed all together.",
+      "range": {
+        "startLine": 2595,
+        "startChar": 0,
+        "endLine": 2595,
+        "endChar": 50
+      },
+      "revId": "a5d6750cc7ecab50f6b8c80db5db88961c36a3cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b0206591_031832e2",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 2605,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2019-09-25T09:37:13Z",
+      "side": 1,
+      "message": "I have some issues with the two paragraphs (\u0027is supporting\u0027, \u0027filters to be pluggable\u0027, some obvious statements etc.) Suggestion, much more succinct:\n\n Gerrit supports customized pluggable HTTP filters as `filterClass`. This option\n allows to pass extra initialization parameters to the filter. It allows for\n multiple key/value pairs to be passed in this pattern:",
+      "range": {
+        "startLine": 2597,
+        "startChar": 0,
+        "endLine": 2605,
+        "endChar": 49
+      },
+      "revId": "a5d6750cc7ecab50f6b8c80db5db88961c36a3cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "832f9838_71f9a4d3",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 2614,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2019-09-25T09:37:13Z",
+      "side": 1,
+      "message": "I would prefer to keep choices of implementation outside the configuration docs, but inside the code or commit message for example.",
+      "range": {
+        "startLine": 2611,
+        "startChar": 0,
+        "endLine": 2614,
+        "endChar": 56
+      },
+      "revId": "a5d6750cc7ecab50f6b8c80db5db88961c36a3cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f3da71d8_7ac42466",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 2618,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2019-09-25T09:37:13Z",
+      "side": 1,
+      "message": "(suggestion) more succinct:\n\n Example `gerrit.config` with two filterClasses: `org.anyorg.MySecureHeaderFilter`\n and `org.anyorg.MySecureIPFilter`:",
+      "range": {
+        "startLine": 2616,
+        "startChar": 0,
+        "endLine": 2618,
+        "endChar": 18
+      },
+      "revId": "a5d6750cc7ecab50f6b8c80db5db88961c36a3cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1e99c9b6_7de4bd08",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 2623,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2019-09-25T09:37:13Z",
+      "side": 1,
+      "message": "I don\u0027t think this auth section is so relevant for this example? Already covered in the other/base setting.",
+      "range": {
+        "startLine": 2621,
+        "startChar": 0,
+        "endLine": 2623,
+        "endChar": 26
+      },
+      "revId": "a5d6750cc7ecab50f6b8c80db5db88961c36a3cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

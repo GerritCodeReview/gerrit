@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a6273cc2_4e16d290",
+        "filename": "polygerrit-ui/app/elements/gr-app.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2019-09-25T09:03:06Z",
+      "side": 1,
+      "message": "FYI this line will conflict again on master, because of I163d08494cd0c6e10b62d1fbb5d4f9d8bd2a21b5. Be sure not to undo that change...",
+      "revId": "ed159fb2c2fe8c6fafd016326d3dad82d78410fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

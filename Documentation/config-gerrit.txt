@@ -4788,6 +4788,13 @@ to define the time unit for the interval:
 [[urlAlias]]
 === Section urlAlias
 
+[NOTE]
+urlAlias settings are only supported in GWT (Old UI) and only effective
+in GWT pages. Plugins that serve their own pages (e.g. gitiles) may
+ignore these settings. An alternative is serving Gerrit behind a
+link:config-reverseproxy.html[reverse proxy] and configure URL rewriting
+in the proxy configuration.
+
 URL aliases define regular expressions for URL tokens that are mapped
 to target URL tokens.
 

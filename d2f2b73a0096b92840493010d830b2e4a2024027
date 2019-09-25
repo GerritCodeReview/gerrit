@@ -22,6 +22,30 @@
       "revId": "d2f2b73a0096b92840493010d830b2e4a2024027",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a4413de4_e9115065",
+        "filename": "javatests/com/google/gerrit/acceptance/server/quota/RestApiQuotaIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-09-25T07:03:19Z",
+      "side": 0,
+      "message": "Yes, I think we should.",
+      "parentUuid": "10b7e0c6_d240cab9",
+      "range": {
+        "startLine": 79,
+        "startChar": 4,
+        "endLine": 80,
+        "endChar": 37
+      },
+      "revId": "d2f2b73a0096b92840493010d830b2e4a2024027",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

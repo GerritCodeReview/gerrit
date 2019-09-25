@@ -227,8 +227,10 @@ limitations under the License.
             this.$.coverageLayerLeft,
             this.$.coverageLayerRight,
           ];
-          layers.push(...this.pluginLayers);
 
+          if (this.pluginLayers) {
+            layers.push(...this.pluginLayers);
+          }
           this._layers = layers;
         },
 

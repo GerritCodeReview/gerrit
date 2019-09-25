@@ -135,6 +135,10 @@ public class AccountManager {
     }
     try {
       Optional<ExternalId> optionalExtId = externalIds.get(who.getExternalIdKey());
+      if (!optionalExtId.isPresent() && who.getExternalIdKey().isScheme(ExternalId.SCHEME_MAILTO)) {
+        optionalExtId = lookupExternalIdByEMail(who.getExternalIdKey().id());
+      }
+
       if (!optionalExtId.isPresent()) {
         // New account, automatically create and return.
         return create(who);
@@ -165,6 +169,20 @@ public class AccountManager {
       return new AuthResult(extId.accountId(), who.getExternalIdKey(), false);
     } catch (OrmException | ConfigInvalidException e) {
       throw new AccountException("Authentication error", e);
+    }
+  }
+
+  private Optional<ExternalId> lookupExternalIdByEMail(String email)
+      throws AccountException, IOException {
+    Set<ExternalId> extIds = externalIds.byEmail(email);
+    if (extIds.isEmpty()) {
+      return Optional.empty();
+    } else if (extIds.size() == 1) {
+      return Optional.of(extIds.iterator().next());
+    } else {
+      logger.atSevere().log(
+          "Authentication with e-mail %s failed as it matches more than a single account.", email);
+      throw new AccountException("Authentication error, ambiguous e-mail.");
     }
   }
 
@@ -226,7 +244,7 @@ public class AccountManager {
     if (newEmail != null && !newEmail.equals(oldEmail)) {
       ExternalId extIdWithNewEmail =
           ExternalId.create(extId.key(), extId.accountId(), newEmail, extId.password());
-      checkEmailNotUsed(extIdWithNewEmail);
+      checkEmailNotUsed(extId.accountId(), extIdWithNewEmail);
       accountUpdates.add(u -> u.replaceExternalId(extId, extIdWithNewEmail));
 
       if (oldEmail != null && oldEmail.equals(user.getAccount().getPreferredEmail())) {
@@ -278,7 +296,7 @@ public class AccountManager {
     ExternalId extId =
         ExternalId.createWithEmail(who.getExternalIdKey(), newId, who.getEmailAddress());
     logger.atFine().log("Created external Id: %s", extId);
-    checkEmailNotUsed(extId);
+    checkEmailNotUsed(newId, extId);
     ExternalId userNameExtId =
         who.getUserName().isPresent() ? createUsername(newId, who.getUserName().get()) : null;
 
@@ -353,7 +371,8 @@ public class AccountManager {
     return ExternalId.create(SCHEME_USERNAME, username, accountId);
   }
 
-  private void checkEmailNotUsed(ExternalId extIdToBeCreated) throws IOException, AccountException {
+  private void checkEmailNotUsed(Account.Id accountId, ExternalId extIdToBeCreated)
+      throws IOException, AccountException {
     String email = extIdToBeCreated.email();
     if (email == null) {
       return;
@@ -364,14 +383,18 @@ public class AccountManager {
       return;
     }
 
-    logger.atWarning().log(
-        "Email %s is already assigned to account %s;"
-            + " cannot create external ID %s with the same email for account %s.",
-        email,
-        existingExtIdsWithEmail.iterator().next().accountId().get(),
-        extIdToBeCreated.key().get(),
-        extIdToBeCreated.accountId().get());
-    throw new AccountException("Email '" + email + "' in use by another account");
+    for (ExternalId externalId : existingExtIdsWithEmail) {
+      if (externalId.accountId().get() != accountId.get()) {
+        logger.atWarning().log(
+            "Email %s is already assigned to account %s;"
+                + " cannot create external ID %s with the same email for account %s.",
+            email,
+            existingExtIdsWithEmail.iterator().next().accountId().get(),
+            extIdToBeCreated.key().get(),
+            extIdToBeCreated.accountId().get());
+        throw new AccountException("Email '" + email + "' in use by another account");
+      }
+    }
   }
 
   private void addGroupMember(AccountGroup.UUID groupUuid, IdentifiedUser user)
@@ -412,7 +435,7 @@ public class AccountManager {
     } else {
       ExternalId newExtId =
           ExternalId.createWithEmail(who.getExternalIdKey(), to, who.getEmailAddress());
-      checkEmailNotUsed(newExtId);
+      checkEmailNotUsed(to, newExtId);
       accountsUpdateProvider
           .get()
           .update(

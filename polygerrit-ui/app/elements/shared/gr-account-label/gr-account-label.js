@@ -92,12 +92,6 @@
         result += ` ${this.additionalText}`;
       }
 
-      // Show status in the label tooltip instead of
-      // in a separate tooltip on status
-      if (account.status) {
-        result += ` (${account.status})`;
-      }
-
       return result;
     },
 

@@ -24,6 +24,7 @@ import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GroupReference;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.common.GroupBaseInfo;
 import com.google.gerrit.extensions.common.SuggestedReviewerInfo;
@@ -264,6 +265,14 @@ public class ReviewersUtil {
     } catch (QueryParseException e) {
       logger.atWarning().withCause(e).log("Suggesting accounts failed, return empty result.");
       return ImmutableList.of();
+    } catch (StorageException e) {
+      if (e.getCause() instanceof TooManyTermsInQueryException) {
+        throw new BadRequestException(e.getMessage());
+      }
+      if (e.getCause() instanceof QueryParseException) {
+        return ImmutableList.of();
+      }
+      throw e;
     }
   }
 

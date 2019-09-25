@@ -176,6 +176,7 @@
     },
 
     behaviors: [
+      Gerrit.BaseUrlBehavior,
       Gerrit.FireBehavior,
       Gerrit.KeyboardShortcutBehavior,
       Gerrit.PatchSetBehavior,
@@ -910,6 +911,37 @@
     },
 
     _computeDownloadLink(project, changeNum, patchRange, path) {
+      return [
+        {
+          url: this._computeDownloadPatchLink(
+              project, changeNum, patchRange, path),
+          name: 'Patch',
+        },
+        {
+          url: this._computeDownloadDiffLink(
+                changeNum, patchRange, path, 'LEFT'),
+          name: 'Left Content',
+        },
+        {
+          url: this._computeDownloadDiffLink(
+              changeNum, patchRange, path, 'RIGHT'),
+          name: 'Right Content',
+        },
+      ];
+    },
+
+    _computeDownloadDiffLink(changeNum, patchRange, path, side) {
+      let url = `/cat/${changeNum}%2C` +
+          `${patchRange.patchNum}%2C${path}`;
+      if (DiffSides[side] === 'left') {
+        url = `${url}^1`;
+      } else if (DiffSides[side] === 'right') {
+        url = `${url}^0`;
+      }
+      return url;
+    },
+
+    _computeDownloadPatchLink(project, changeNum, patchRange, path) {
       let url = this.changeBaseURL(project, changeNum, patchRange.patchNum);
       url += '/patch?zip&path=' + encodeURIComponent(path);
       return url;

@@ -50,6 +50,7 @@ import com.google.gerrit.server.account.GroupMembers;
 import com.google.gerrit.server.change.ReviewerAdder;
 import com.google.gerrit.server.index.account.AccountField;
 import com.google.gerrit.server.index.account.AccountIndexCollection;
+import com.google.gerrit.server.index.account.AccountIndexRewriter;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.NoSuchProjectException;
@@ -120,6 +121,7 @@ public class ReviewersUtil {
 
   private final AccountLoader.Factory accountLoaderFactory;
   private final AccountQueryBuilder accountQueryBuilder;
+  private final AccountIndexRewriter accountIndexRewriter;
   private final GroupBackend groupBackend;
   private final GroupMembers groupMembers;
   private final ReviewerRecommender reviewerRecommender;
@@ -133,6 +135,7 @@ public class ReviewersUtil {
   ReviewersUtil(
       AccountLoader.Factory accountLoaderFactory,
       AccountQueryBuilder accountQueryBuilder,
+      AccountIndexRewriter accountIndexRewriter,
       GroupBackend groupBackend,
       GroupMembers groupMembers,
       ReviewerRecommender reviewerRecommender,
@@ -143,6 +146,7 @@ public class ReviewersUtil {
       Provider<CurrentUser> self) {
     this.accountLoaderFactory = accountLoaderFactory;
     this.accountQueryBuilder = accountQueryBuilder;
+    this.accountIndexRewriter = accountIndexRewriter;
     this.groupBackend = groupBackend;
     this.groupMembers = groupMembers;
     this.reviewerRecommender = reviewerRecommender;
@@ -234,6 +238,7 @@ public class ReviewersUtil {
               AccountPredicates.isActive(),
               accountQueryBuilder.defaultQuery(suggestReviewers.getQuery()));
       logger.atFine().log("accounts index query: %s", pred);
+      accountIndexRewriter.validateMaxTermsInQuery(pred);
       ResultSet<FieldBundle> result =
           accountIndexes
               .getSearchIndex()

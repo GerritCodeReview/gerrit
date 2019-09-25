@@ -14,6 +14,7 @@
 
 package com.google.gerrit.acceptance.server.quota;
 
+import static com.google.gerrit.httpd.restapi.RestApiServlet.SC_TOO_MANY_REQUESTS;
 import static org.mockito.Mockito.clearInvocations;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -119,7 +120,7 @@ public class RestApiQuotaIT extends AbstractDaemonTest {
   public void outOfQuotaReturnsError() throws Exception {
     when(quotaBackendWithUser.requestToken("/restapi/config/version:GET"))
         .thenReturn(singletonAggregation(QuotaResponse.error("no quota")));
-    adminRestSession.get("/config/server/version").assertStatus(429);
+    adminRestSession.get("/config/server/version").assertStatus(SC_TOO_MANY_REQUESTS);
     verify(quotaBackendWithUser).requestToken("/restapi/config/version:GET");
   }
 

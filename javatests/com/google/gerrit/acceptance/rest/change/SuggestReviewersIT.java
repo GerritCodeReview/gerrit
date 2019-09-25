@@ -21,6 +21,7 @@ import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.a
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
 import static com.google.gerrit.common.data.Permission.READ;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.collect.ImmutableList;
@@ -39,6 +40,7 @@ import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.extensions.common.SuggestedReviewerInfo;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -149,11 +151,11 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
     assertThat(suggestReviewers(changeId, query.toString())).isNotEmpty();
 
     // Do a query which exceed index.maxTerms succeeds (10 terms plus 'inactive:1' term which is
-    // implicitly added). If index.maxTerms is exceeded a QueryParseException is thrown ("too many
-    // terms in query") but it is caught in ReviewersUtil which then returns an empty result to the
-    // client. Hence assert that no result is returned.
+    // implicitly added).
     query.append(name("u"));
-    assertThat(suggestReviewers(changeId, query.toString())).isEmpty();
+    BadRequestException exception =
+        assertThrows(BadRequestException.class, () -> suggestReviewers(changeId, query.toString()));
+    assertThat(exception).hasMessageThat().isEqualTo("too many terms in query");
   }
 
   @Test

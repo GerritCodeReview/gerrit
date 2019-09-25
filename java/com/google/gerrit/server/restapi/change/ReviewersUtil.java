@@ -27,6 +27,7 @@ import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.common.GroupBaseInfo;
 import com.google.gerrit.extensions.common.SuggestedReviewerInfo;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.QueryOptions;
@@ -34,6 +35,7 @@ import com.google.gerrit.index.query.FieldBundle;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.index.query.ResultSet;
+import com.google.gerrit.index.query.TooManyTermsInQueryException;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.Description.Units;
 import com.google.gerrit.metrics.MetricMaker;
@@ -168,7 +170,7 @@ public class ReviewersUtil {
       ProjectState projectState,
       VisibilityControl visibilityControl,
       boolean excludeGroups)
-      throws IOException, ConfigInvalidException, PermissionBackendException {
+      throws IOException, ConfigInvalidException, PermissionBackendException, BadRequestException {
     CurrentUser currentUser = self.get();
     if (changeNotes != null) {
       logger.atFine().log(
@@ -228,7 +230,8 @@ public class ReviewersUtil {
     return suggestedReviewers;
   }
 
-  private List<Account.Id> suggestAccounts(SuggestReviewers suggestReviewers) {
+  private List<Account.Id> suggestAccounts(SuggestReviewers suggestReviewers)
+      throws BadRequestException {
     try (Timer0.Context ctx = metrics.queryAccountsLatency.start()) {
       // For performance reasons we don't use AccountQueryProvider as it would always load the
       // complete account from the cache (or worse, from NoteDb) even though we only need the ID
@@ -256,6 +259,8 @@ public class ReviewersUtil {
               .collect(toList());
       logger.atFine().log("Matches: %s", matches);
       return matches;
+    } catch (TooManyTermsInQueryException e) {
+      throw new BadRequestException(e.getMessage());
     } catch (QueryParseException e) {
       return ImmutableList.of();
     }

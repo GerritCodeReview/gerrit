@@ -15,9 +15,9 @@
 package com.google.gerrit.acceptance.server.quota;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.gerrit.server.quota.QuotaGroupDefinitions.REPOSITORY_SIZE_GROUP;
 import static com.google.gerrit.server.quota.QuotaResponse.ok;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static org.easymock.EasyMock.anyLong;
 import static org.easymock.EasyMock.eq;
 import static org.easymock.EasyMock.expect;
@@ -98,15 +98,12 @@ public class RepositorySizeQuotaIT extends AbstractDaemonTest {
     expect(quotaBackendWithUser.project(project)).andReturn(quotaBackendWithResource).anyTimes();
     replay(quotaBackendWithResource);
     replay(quotaBackendWithUser);
-    try {
-      pushCommit();
-      assertWithMessage("expected TooLargeObjectInPackException").fail();
-    } catch (TooLargeObjectInPackException e) {
-      String msg = e.getMessage();
-      assertThat(msg).contains("Object too large");
-      assertThat(msg)
-          .contains(String.format("Max object size limit is %d bytes.", availableTokens));
-    }
+    TooLargeObjectInPackException thrown =
+        assertThrows(TooLargeObjectInPackException.class, () -> pushCommit());
+    assertThat(thrown).hasMessageThat().contains("Object too large");
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains(String.format("Max object size limit is %d bytes.", availableTokens));
     verify(quotaBackendWithUser);
     verify(quotaBackendWithResource);
   }
@@ -120,12 +117,7 @@ public class RepositorySizeQuotaIT extends AbstractDaemonTest {
     expect(quotaBackendWithUser.project(project)).andReturn(quotaBackendWithResource).anyTimes();
     replay(quotaBackendWithResource);
     replay(quotaBackendWithUser);
-    try {
-      pushCommit();
-      assertWithMessage("expected TransportException").fail();
-    } catch (TransportException e) {
-      // TransportException has not much info about the cause
-    }
+    assertThrows(TransportException.class, () -> pushCommit());
     verify(quotaBackendWithUser);
     verify(quotaBackendWithResource);
   }

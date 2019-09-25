@@ -16,22 +16,26 @@ package com.google.gerrit.server.index.account;
 
 import static java.util.Objects.requireNonNull;
 
+import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.IndexRewriter;
 import com.google.gerrit.index.QueryOptions;
+import com.google.gerrit.index.query.IndexPredicate;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.server.account.AccountState;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import org.eclipse.jgit.util.MutableInteger;
 
 @Singleton
 public class AccountIndexRewriter implements IndexRewriter<AccountState> {
-
   private final AccountIndexCollection indexes;
+  private final IndexConfig config;
 
   @Inject
-  AccountIndexRewriter(AccountIndexCollection indexes) {
+  AccountIndexRewriter(AccountIndexCollection indexes, IndexConfig config) {
     this.indexes = indexes;
+    this.config = config;
   }
 
   @Override
@@ -39,6 +43,33 @@ public class AccountIndexRewriter implements IndexRewriter<AccountState> {
       throws QueryParseException {
     AccountIndex index = indexes.getSearchIndex();
     requireNonNull(index, "no active search index configured for accounts");
+    validateMaxTermsInQuery(in);
     return new IndexedAccountQuery(index, in, opts);
+  }
+
+  /**
+   * Validates whether a query has too many terms.
+   *
+   * @param predicate the predicate for which the leaf predicates should be counted
+   * @throws QueryParseException thrown if the query has too many terms
+   */
+  public void validateMaxTermsInQuery(Predicate<AccountState> predicate)
+      throws QueryParseException {
+    MutableInteger leafTerms = new MutableInteger();
+    validateMaxTermsInQuery(predicate, leafTerms);
+  }
+
+  private void validateMaxTermsInQuery(Predicate<AccountState> predicate, MutableInteger leafTerms)
+      throws QueryParseException {
+    if (!(predicate instanceof IndexPredicate)) {
+      if (++leafTerms.value > config.maxTerms()) {
+        throw new QueryParseException("too many terms in query");
+      }
+    }
+
+    int n = predicate.getChildCount();
+    for (int i = 0; i < n; i++) {
+      validateMaxTermsInQuery(predicate.getChild(i), leafTerms);
+    }
   }
 }

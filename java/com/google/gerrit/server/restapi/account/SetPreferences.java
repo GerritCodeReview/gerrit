@@ -31,7 +31,7 @@ import com.google.gerrit.server.UserInitiated;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.AccountsUpdate;
-import com.google.gerrit.server.account.Preferences;
+import com.google.gerrit.server.account.StoredPreferences;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -68,7 +68,7 @@ public class SetPreferences implements RestModifyView<AccountResource, GeneralPr
     }
 
     checkDownloadScheme(input.downloadScheme);
-    Preferences.validateMy(input.my);
+    StoredPreferences.validateMy(input.my);
     Account.Id id = rsrc.getUser().getAccountId();
 
     return Response.ok(

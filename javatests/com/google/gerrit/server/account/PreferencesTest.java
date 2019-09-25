@@ -15,52 +15,36 @@
 package com.google.gerrit.server.account;
 
 import static com.google.common.truth.Truth.assertThat;
-import static org.mockito.Mockito.verifyNoMoreInteractions;
 
+import com.google.gerrit.extensions.client.DiffPreferencesInfo;
+import com.google.gerrit.extensions.client.EditPreferencesInfo;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
-import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.server.git.ValidationError;
-import org.eclipse.jgit.lib.Config;
+import com.google.gerrit.json.OutputFormat;
+import com.google.gson.Gson;
 import org.junit.Test;
-import org.mockito.Mockito;
 
-/** Tests for parsing user preferences from Git. */
 public class PreferencesTest {
 
-  enum Unknown {
-    STATE
+  private static final Gson GSON = OutputFormat.JSON_COMPACT.newGson();
+
+  @Test
+  public void generalPreferencesRoundTrip() {
+    GeneralPreferencesInfo original = GeneralPreferencesInfo.defaults();
+    assertThat(GSON.toJson(original))
+        .isEqualTo(GSON.toJson(Preferences.General.fromInfo(original).toInfo()));
   }
 
   @Test
-  public void ignoreUnknownAccountPreferencesWhenParsing() {
-    ValidationError.Sink errorSink = Mockito.mock(ValidationError.Sink.class);
-    Preferences preferences =
-        new Preferences(Account.id(1), configWithUnknownEntries(), new Config(), errorSink);
-    GeneralPreferencesInfo parsedPreferences = preferences.getGeneralPreferences();
-
-    assertThat(parsedPreferences).isNotNull();
-    assertThat(parsedPreferences.expandInlineDiffs).isTrue();
-    verifyNoMoreInteractions(errorSink);
+  public void diffPreferencesRoundTrip() {
+    DiffPreferencesInfo original = DiffPreferencesInfo.defaults();
+    assertThat(GSON.toJson(original))
+        .isEqualTo(GSON.toJson(Preferences.Diff.fromInfo(original).toInfo()));
   }
 
   @Test
-  public void ignoreUnknownDefaultAccountPreferencesWhenParsing() {
-    ValidationError.Sink errorSink = Mockito.mock(ValidationError.Sink.class);
-    Preferences preferences =
-        new Preferences(Account.id(1), new Config(), configWithUnknownEntries(), errorSink);
-    GeneralPreferencesInfo parsedPreferences = preferences.getGeneralPreferences();
-
-    assertThat(parsedPreferences).isNotNull();
-    assertThat(parsedPreferences.expandInlineDiffs).isTrue();
-    verifyNoMoreInteractions(errorSink);
-  }
-
-  private static Config configWithUnknownEntries() {
-    Config cfg = new Config();
-    cfg.setBoolean("general", null, "expandInlineDiffs", true);
-    cfg.setBoolean("general", null, "unknown", true);
-    cfg.setEnum("general", null, "unknownenum", Unknown.STATE);
-    cfg.setString("general", null, "unknownstring", "bla");
-    return cfg;
+  public void editPreferencesRoundTrip() {
+    EditPreferencesInfo original = EditPreferencesInfo.defaults();
+    assertThat(GSON.toJson(original))
+        .isEqualTo(GSON.toJson(Preferences.Edit.fromInfo(original).toInfo()));
   }
 }

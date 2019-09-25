@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8ad70862_4e75bf9c",
+        "filename": "polygerrit-ui/app/elements/gr-app_test.html",
+        "patchSetId": 40
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-09-25T14:28:23Z",
+      "side": 1,
+      "message": "Seems duplicated from below.",
+      "range": {
+        "startLine": 43,
+        "startChar": 0,
+        "endLine": 48,
+        "endChar": 0
+      },
+      "revId": "c1f61b5a4908971c4b94c544bc4cb8d759788fe3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

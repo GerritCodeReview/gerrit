@@ -435,7 +435,9 @@
       if (window.VERSION_INFO) {
         console.log(`UI Version Info: ${window.VERSION_INFO}`);
       }
-      console.log(`Please file bugs and feedback at: ${this._feedbackUrl}`);
+      if (this._feedbackUrl) {
+        console.log(`Please file bugs and feedback at: ${this._feedbackUrl}`);
+      }
       console.groupEnd();
     },
 
@@ -451,14 +453,6 @@
 
     _mobileSearchToggle(e) {
       this.mobileSearch = !this.mobileSearch;
-    },
-
-    _showFeedbackUrl(feedbackUrl) {
-      if (feedbackUrl) {
-        return feedbackUrl;
-      }
-
-      return false;
     },
 
     getThemeEndpoint() {

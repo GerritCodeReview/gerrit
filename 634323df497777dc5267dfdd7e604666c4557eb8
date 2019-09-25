@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "76f7b4b3_cc31d056",
+        "filename": "java/com/google/gerrit/server/git/UserConfigSections.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-09-25T23:18:26Z",
+      "side": 1,
+      "message": "Are these used anywhere now?",
+      "range": {
+        "startLine": 28,
+        "startChar": 2,
+        "endLine": 29,
+        "endChar": 49
+      },
+      "revId": "634323df497777dc5267dfdd7e604666c4557eb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d382dfa4_fe4f4a1d",
+        "filename": "java/com/google/gerrit/server/restapi/config/GetServerInfo.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-09-25T23:18:26Z",
+      "side": 1,
+      "message": "It looks like these are now unused.",
+      "range": {
+        "startLine": 73,
+        "startChar": 2,
+        "endLine": 74,
+        "endChar": 50
+      },
+      "revId": "634323df497777dc5267dfdd7e604666c4557eb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

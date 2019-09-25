@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "85806f5c_aeaae275",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-09-25T15:31:35Z",
+      "side": 1,
+      "message": "This is the only return value without a : at the end. Intentional?",
+      "revId": "b41e3a263a33698dbb65145cea04dafd058bdc50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "21c75cdc_8abc5e0c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-09-25T15:31:35Z",
+      "side": 1,
+      "message": "maybe change to\n\n  return \u0027was REMOVED\u0027;\n\nor\n\n  return \u0027was removed:;",
+      "range": {
+        "startLine": 147,
+        "startChar": 24,
+        "endLine": 147,
+        "endChar": 29
+      },
+      "revId": "b41e3a263a33698dbb65145cea04dafd058bdc50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

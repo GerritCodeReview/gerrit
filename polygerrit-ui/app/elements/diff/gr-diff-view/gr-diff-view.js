@@ -176,6 +176,7 @@
     },
 
     behaviors: [
+      Gerrit.BaseUrlBehavior,
       Gerrit.FireBehavior,
       Gerrit.KeyboardShortcutBehavior,
       Gerrit.PatchSetBehavior,
@@ -909,8 +910,42 @@
       history.replaceState(null, '', url);
     },
 
-    _computeDownloadLink(project, changeNum, patchRange, path) {
-      let url = this.changeBaseURL(project, changeNum, patchRange.patchNum);
+    _computeDownloadDropdownLinks(project, changeNum, patchRange, path) {
+      if (!patchRange || !patchRange.patchNum) { return []; }
+
+      const patchNum = patchRange.patchNum;
+      return [
+        {
+          url: this._computeDownloadPatchLink(
+              project, changeNum, patchNum, path),
+          name: 'Patch',
+        },
+        {
+          url: this._computeDownloadDiffLink(
+                changeNum, patchNum, path, 'LEFT'),
+          name: 'Left Content',
+        },
+        {
+          url: this._computeDownloadDiffLink(
+              changeNum, patchNum, path, 'RIGHT'),
+          name: 'Right Content',
+        },
+      ];
+    },
+
+    _computeDownloadDiffLink(changeNum, patchNum, path, side) {
+      let url = `/cat/${changeNum}%2C` +
+          `${patchNum}%2C${path}`;
+      if (DiffSides[side] === 'left') {
+        url = `${url}^1`;
+      } else if (DiffSides[side] === 'right') {
+        url = `${url}^0`;
+      }
+      return url;
+    },
+
+    _computeDownloadPatchLink(project, changeNum, patchNum, path) {
+      let url = this.changeBaseURL(project, changeNum, patchNum);
       url += '/patch?zip&path=' + encodeURIComponent(path);
       return url;
     },

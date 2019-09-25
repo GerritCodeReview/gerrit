@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "78e45785_094205e1",
+        "filename": "java/com/google/gerrit/server/git/PermissionAwareReadOnlyRefDatabase.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-09-25T16:51:44Z",
+      "side": 1,
+      "message": "I know this works now, but if jgit changes how getRefsByPrefix() is implemented, this may lead to surprises. Can you override that method too (and other methods you\u0027re not using)?",
+      "revId": "994a016862fab2270539435a823d2060f978bfc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "af866340_9a8da879",
         "filename": "java/com/google/gerrit/server/git/PermissionAwareRepository.java",
         "patchSetId": 24

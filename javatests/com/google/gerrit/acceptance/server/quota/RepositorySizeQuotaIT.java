@@ -18,12 +18,13 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.server.quota.QuotaGroupDefinitions.REPOSITORY_SIZE_GROUP;
 import static com.google.gerrit.server.quota.QuotaResponse.ok;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
-import static org.easymock.EasyMock.anyLong;
-import static org.easymock.EasyMock.eq;
-import static org.easymock.EasyMock.expect;
-import static org.easymock.EasyMock.replay;
-import static org.easymock.EasyMock.resetToStrict;
-import static org.easymock.EasyMock.verify;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.eq;
+import static org.mockito.Mockito.clearInvocations;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.UseLocalDisk;
@@ -33,7 +34,6 @@ import com.google.gerrit.server.quota.QuotaBackend;
 import com.google.gerrit.server.quota.QuotaResponse;
 import com.google.inject.Module;
 import java.util.Collections;
-import org.easymock.EasyMock;
 import org.eclipse.jgit.api.errors.TooLargeObjectInPackException;
 import org.eclipse.jgit.api.errors.TransportException;
 import org.junit.Before;
@@ -42,9 +42,9 @@ import org.junit.Test;
 @UseLocalDisk
 public class RepositorySizeQuotaIT extends AbstractDaemonTest {
   private static final QuotaBackend.WithResource quotaBackendWithResource =
-      EasyMock.createStrictMock(QuotaBackend.WithResource.class);
+      mock(QuotaBackend.WithResource.class);
   private static final QuotaBackend.WithUser quotaBackendWithUser =
-      EasyMock.createStrictMock(QuotaBackend.WithUser.class);
+      mock(QuotaBackend.WithUser.class);
 
   @Override
   public Module createModule() {
@@ -70,56 +70,42 @@ public class RepositorySizeQuotaIT extends AbstractDaemonTest {
 
   @Before
   public void setUp() {
-    resetToStrict(quotaBackendWithResource);
-    resetToStrict(quotaBackendWithUser);
+    clearInvocations(quotaBackendWithResource);
+    clearInvocations(quotaBackendWithUser);
   }
 
   @Test
   public void pushWithAvailableTokens() throws Exception {
-    expect(quotaBackendWithResource.availableTokens(REPOSITORY_SIZE_GROUP))
-        .andReturn(singletonAggregation(ok(276L)))
-        .times(2);
-    expect(quotaBackendWithResource.requestTokens(eq(REPOSITORY_SIZE_GROUP), anyLong()))
-        .andReturn(singletonAggregation(ok()));
-    expect(quotaBackendWithUser.project(project)).andReturn(quotaBackendWithResource).anyTimes();
-    replay(quotaBackendWithResource);
-    replay(quotaBackendWithUser);
+    when(quotaBackendWithResource.availableTokens(REPOSITORY_SIZE_GROUP))
+        .thenReturn(singletonAggregation(ok(276L)));
+    when(quotaBackendWithResource.requestTokens(eq(REPOSITORY_SIZE_GROUP), anyLong()))
+        .thenReturn(singletonAggregation(ok()));
+    when(quotaBackendWithUser.project(project)).thenReturn(quotaBackendWithResource);
     pushCommit();
-    verify(quotaBackendWithUser);
-    verify(quotaBackendWithResource);
+    verify(quotaBackendWithResource, times(2)).availableTokens(REPOSITORY_SIZE_GROUP);
   }
 
   @Test
   public void pushWithNotSufficientTokens() throws Exception {
     long availableTokens = 1L;
-    expect(quotaBackendWithResource.availableTokens(REPOSITORY_SIZE_GROUP))
-        .andReturn(singletonAggregation(ok(availableTokens)))
-        .anyTimes();
-    expect(quotaBackendWithUser.project(project)).andReturn(quotaBackendWithResource).anyTimes();
-    replay(quotaBackendWithResource);
-    replay(quotaBackendWithUser);
+    when(quotaBackendWithResource.availableTokens(REPOSITORY_SIZE_GROUP))
+        .thenReturn(singletonAggregation(ok(availableTokens)));
+    when(quotaBackendWithUser.project(project)).thenReturn(quotaBackendWithResource);
     TooLargeObjectInPackException thrown =
         assertThrows(TooLargeObjectInPackException.class, () -> pushCommit());
     assertThat(thrown).hasMessageThat().contains("Object too large");
     assertThat(thrown)
         .hasMessageThat()
         .contains(String.format("Max object size limit is %d bytes.", availableTokens));
-    verify(quotaBackendWithUser);
-    verify(quotaBackendWithResource);
   }
 
   @Test
   public void errorGettingAvailableTokens() throws Exception {
     String msg = "quota error";
-    expect(quotaBackendWithResource.availableTokens(REPOSITORY_SIZE_GROUP))
-        .andReturn(singletonAggregation(QuotaResponse.error(msg)))
-        .anyTimes();
-    expect(quotaBackendWithUser.project(project)).andReturn(quotaBackendWithResource).anyTimes();
-    replay(quotaBackendWithResource);
-    replay(quotaBackendWithUser);
+    when(quotaBackendWithResource.availableTokens(REPOSITORY_SIZE_GROUP))
+        .thenReturn(singletonAggregation(QuotaResponse.error(msg)));
+    when(quotaBackendWithUser.project(project)).thenReturn(quotaBackendWithResource);
     assertThrows(TransportException.class, () -> pushCommit());
-    verify(quotaBackendWithUser);
-    verify(quotaBackendWithResource);
   }
 
   private void pushCommit() throws Exception {

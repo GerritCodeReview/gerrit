@@ -48,6 +48,7 @@ import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.query.FieldBundle;
+import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Project;
@@ -75,6 +76,7 @@ import com.google.gerrit.server.index.account.AccountField;
 import com.google.gerrit.server.index.account.AccountIndex;
 import com.google.gerrit.server.index.account.AccountIndexCollection;
 import com.google.gerrit.server.index.account.AccountIndexer;
+import com.google.gerrit.server.query.account.AccountPredicates.AccountPredicate;
 import com.google.gerrit.server.schema.SchemaCreator;
 import com.google.gerrit.server.util.ManualRequestContext;
 import com.google.gerrit.server.util.OneOffRequestContext;
@@ -397,6 +399,21 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
     GroupInfo group = createGroup(name("group"), user1, user2);
     blockRead(p, group);
     assertQuery("name:" + domain + " cansee:" + c.changeId, user3);
+  }
+
+  @Test
+  public void testShouldFailButSucceedsQueryByActiveOrInactiveAccounts() throws Exception {
+    AccountInfo account = newAccountWithEmail("account1", "account1@test.com");
+    Predicate<AccountState> predicate = new AccountPredicate(AccountField.ACTIVE, "1");
+    assertThat(
+            predicate.asMatchable().match(accountCache.get(Account.id(account._accountId)).get()))
+        .isTrue();
+    Predicate<AccountState> contradictingPredicate = new AccountPredicate(AccountField.ACTIVE, "0");
+    assertThat(
+            contradictingPredicate
+                .asMatchable()
+                .match(accountCache.get(Account.id(account._accountId)).get()))
+        .isFalse();
   }
 
   @Test

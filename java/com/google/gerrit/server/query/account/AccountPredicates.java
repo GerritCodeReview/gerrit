@@ -140,6 +140,23 @@ public class AccountPredicates {
 
     @Override
     public boolean match(AccountState object) {
+      switch (this.name) {
+        case "name":
+          return object.getAccount().getName().toLowerCase().contains(this.value);
+        case "inactive":
+          if (this.value.contains("1") && object.getAccount().isActive()) {
+            return true;
+          }
+          if (this.value.contains("0") && object.getAccount().isActive() == false) {
+            return true;
+          }
+          return false;
+        case "username":
+          // do stuff
+        case "full_name":
+          // do stuff
+          // etc
+      }
       return true;
     }
 

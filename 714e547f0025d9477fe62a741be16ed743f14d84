@@ -46,6 +46,30 @@
       "revId": "714e547f0025d9477fe62a741be16ed743f14d84",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2e563baf_71ab0565",
+        "filename": "javatests/com/google/gerrit/server/mail/send/FromAddressGeneratorProviderTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-09-25T06:30:20Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "09d2182f_d57f2d24",
+      "range": {
+        "startLine": 90,
+        "startChar": 4,
+        "endLine": 90,
+        "endChar": 25
+      },
+      "revId": "714e547f0025d9477fe62a741be16ed743f14d84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

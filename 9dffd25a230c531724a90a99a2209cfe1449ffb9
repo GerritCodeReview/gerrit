@@ -68,6 +68,30 @@
       "revId": "9dffd25a230c531724a90a99a2209cfe1449ffb9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "45d83ce4_99963748",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 2622,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-09-25T09:31:24Z",
+      "side": 1,
+      "message": "I read your feedback on the commit message. Thanks for that.\nCan you keep the conversation threaded in the comments? I would make a lot easier to follow it.\n\nBecause the ServletFilter is implemented by the developer, can you elaborate on why it would be mandatory to use special chars as configuration keys that are not supported by the git config format? What is the critical reason for not just use commonly supported key names?",
+      "parentUuid": "5e79a810_db414c56",
+      "range": {
+        "startLine": 2622,
+        "startChar": 1,
+        "endLine": 2622,
+        "endChar": 24
+      },
+      "revId": "9dffd25a230c531724a90a99a2209cfe1449ffb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

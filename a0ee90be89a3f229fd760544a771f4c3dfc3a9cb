@@ -22,6 +22,30 @@
       "revId": "a0ee90be89a3f229fd760544a771f4c3dfc3a9cb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "818a473d_bd67e3b1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-09-25T21:56:18Z",
+      "side": 1,
+      "message": "Yup, fixed in the newer commit msg :)",
+      "parentUuid": "4ad9e936_d2a5fde7",
+      "range": {
+        "startLine": 9,
+        "startChar": 42,
+        "endLine": 9,
+        "endChar": 48
+      },
+      "revId": "a0ee90be89a3f229fd760544a771f4c3dfc3a9cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

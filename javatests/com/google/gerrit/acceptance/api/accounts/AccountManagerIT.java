@@ -388,6 +388,33 @@ public class AccountManagerIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void shouldAuthenticateWithPrimaryEMailIdentity() throws Exception {
+    String email = "foo@example.com";
+    String username = "foo";
+
+    // Create an account with external ID that occupies the email.
+    Account.Id accountId = new Account.Id(seq.nextAccountId());
+    ExternalId.Key externalExtIdKey = ExternalId.Key.create(ExternalId.SCHEME_GERRIT, username);
+    accountsUpdate.insert(
+        "Create Test Account",
+        accountId,
+        u -> u.addExternalId(ExternalId.createWithEmail(externalExtIdKey, accountId, email)));
+
+    // Try to authenticate using the email-based identity
+    AuthRequest who = AuthRequest.forEmail(email);
+    who.setEmailAddress(email);
+    who.setUserName(username);
+
+    AuthResult authResult = accountManager.authenticate(who);
+
+    assertThat(authResult.isNew()).isFalse();
+    Optional<AccountState> accountState = accounts.get(authResult.getAccountId());
+    assertThat(accountState.isPresent()).isTrue();
+    Account account = accountState.get().getAccount();
+    assertThat(account.getId()).isEqualTo(accountId);
+  }
+
+  @Test
   public void cannotUpdateToEmailThatIsAlreadyUsed() throws Exception {
     String email = "foo@example.com";
     String newEmail = "bar@example.com";

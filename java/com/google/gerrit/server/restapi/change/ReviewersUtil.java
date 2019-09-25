@@ -262,6 +262,7 @@ public class ReviewersUtil {
     } catch (TooManyTermsInQueryException e) {
       throw new BadRequestException(e.getMessage());
     } catch (QueryParseException e) {
+      logger.atWarning().withCause(e).log("Suggesting accounts failed, return empty result.");
       return ImmutableList.of();
     }
   }

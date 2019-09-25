@@ -143,6 +143,9 @@
    */
   GrReviewerUpdatesParser.prototype._getUpdateMessage = function(prev, state) {
     if (prev === 'REMOVED' || !prev) {
+      if (state === 'REMOVED') {
+        return 'was ' + state;
+      }
       return 'added to ' + state + ': ';
     } else if (state === 'REMOVED') {
       if (prev) {

@@ -187,6 +187,30 @@
       "revId": "8bcb09402038076bc6cf31d6f371983699928864",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7b2ba232_d12bb1e7",
+        "filename": "java/com/google/gerrit/server/git/PermissionAwareRepositoryManager.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-09-25T16:51:44Z",
+      "side": 1,
+      "message": "The unwrap method makes it easy for a careless person to undo the security benefits of this approach by simply unwrapping the repo in the wrong place again.\n\nI see you\u0027re only using it in ReceiveCommits. \n\nWhy can\u0027t the ReceiveCommits work on top of a PermissionAwareRefDB/Repo that uses delegation for the r/w parts too? I guess this might affect functionality like banned commits map. \n\nCould you instead pass the unwrapped repo to ReceiveCommits directly?\n\nFinally, in protocol v2, there is no full ref advertisement anymore.  I think you\u0027ll need to do something with the AllRefsWatcher in ReceiveCommits too, because that shouldn\u0027t work anymore if we were using protocol v2.",
+      "parentUuid": "0aca1db2_aa029114",
+      "range": {
+        "startLine": 32,
+        "startChar": 27,
+        "endLine": 32,
+        "endChar": 33
+      },
+      "revId": "8bcb09402038076bc6cf31d6f371983699928864",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "4fc57343_0e08eb38",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1089199
+      },
+      "writtenOn": "2019-09-25T09:33:53Z",
+      "side": 1,
+      "message": "Fixed.",
+      "parentUuid": "9dfcd875_177a26e6",
+      "range": {
+        "startLine": 1,
+        "startChar": 11,
+        "endLine": 1,
+        "endChar": 12
+      },
+      "revId": "9dffd25a230c531724a90a99a2209cfe1449ffb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6a2dfe32_10b53d2f",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 8
@@ -45,6 +69,30 @@
       "revId": "9dffd25a230c531724a90a99a2209cfe1449ffb9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a0e20eeb_a05835fd",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 2620,
+      "author": {
+        "id": 1089199
+      },
+      "writtenOn": "2019-09-25T09:33:53Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "6a2dfe32_10b53d2f",
+      "range": {
+        "startLine": 2620,
+        "startChar": 1,
+        "endLine": 2620,
+        "endChar": 46
+      },
+      "revId": "9dffd25a230c531724a90a99a2209cfe1449ffb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -82,6 +130,30 @@
       "writtenOn": "2019-09-25T09:31:24Z",
       "side": 1,
       "message": "I read your feedback on the commit message. Thanks for that.\nCan you keep the conversation threaded in the comments? I would make a lot easier to follow it.\n\nBecause the ServletFilter is implemented by the developer, can you elaborate on why it would be mandatory to use special chars as configuration keys that are not supported by the git config format? What is the critical reason for not just use commonly supported key names?",
+      "parentUuid": "5e79a810_db414c56",
+      "range": {
+        "startLine": 2622,
+        "startChar": 1,
+        "endLine": 2622,
+        "endChar": 24
+      },
+      "revId": "9dffd25a230c531724a90a99a2209cfe1449ffb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ba79671a_d74d6b71",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 2622,
+      "author": {
+        "id": 1089199
+      },
+      "writtenOn": "2019-09-25T09:33:53Z",
+      "side": 1,
+      "message": "My opinon is :\n----\ninitParam \u003d \u003ckey\u003e\u003d\u003cvalue\u003e\n----\nIn this Pattern, `initParam` is as Git Config Key and `\u003ckey\u003e\u003d\u003cvalue\u003e` is as Git Config Value. Why not just make the pattern like `key \u003d value` directly is because Git Config Key is not allowed to contain special characters like `_`, but it\u0027s very common in some customized filter init param definitions.\n\nDo you have better idea?",
       "parentUuid": "5e79a810_db414c56",
       "range": {
         "startLine": 2622,

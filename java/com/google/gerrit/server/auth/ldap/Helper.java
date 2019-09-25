@@ -183,7 +183,7 @@ class Helper {
     if (supportAnonymous && username != null) {
       ctx.addToEnvironment(Context.SECURITY_PRINCIPAL, username);
       ctx.addToEnvironment(Context.SECURITY_CREDENTIALS, password);
-      ctx.reconnect(null);
+      // TODO: do some no-op operation to perform the bind as a check for the provided credentials.
     }
     return ctx;
   }
@@ -224,7 +224,8 @@ class Helper {
         ctx.addToEnvironment(Context.SECURITY_AUTHENTICATION, "simple");
         ctx.addToEnvironment(Context.SECURITY_PRINCIPAL, dn);
         ctx.addToEnvironment(Context.SECURITY_CREDENTIALS, password);
-        ctx.reconnect(null);
+        // TODO: do some no-op operation to perform the bind as a check for the provided
+        // credentials.
       }
 
       return ctx;

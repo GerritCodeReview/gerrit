@@ -16,6 +16,7 @@ limitations under the License.
 -->
 
 <link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="../../../behaviors/base-url-behavior/base-url-behavior.html">
 <link rel="import" href="../../../behaviors/fire-behavior/fire-behavior.html">
 <link rel="import" href="../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html">
 <link rel="import" href="../../../behaviors/gr-path-list-behavior/gr-path-list-behavior.html">
@@ -239,6 +240,15 @@ limitations under the License.
             File [[_fileNum]] of [[_formattedFiles.length]]
             <span class="separator"></span>
           </span>
+          <span class="download desktop">
+            <a
+              class="downloadLink"
+              download
+              href$="[[_computeDownloadPatchLink(_change.project, _changeNum, _patchRange, _path)]]">
+              Download Patch
+            </a>
+            <span class="separator"></span>
+          </span>
           <a class="navLink"
               href$="[[_computeNavLinkURL(_change, _path, _fileList, -1, 1)]]">
             Prev</a>
@@ -271,12 +281,21 @@ limitations under the License.
             <a
               class="downloadLink"
               download
-              href$="[[_computeDownloadLink(_change.project, _changeNum, _patchRange, _path)]]">
+              href$="[[_computeDownloadLink(_changeNum, _patchRange, _path, 'LEFT')]]">
               Download
             </a>
           </span>
         </div>
         <div class="rightControls">
+          <span class="download desktop">
+            <a
+              class="downloadLink"
+              download
+              href$="[[_computeDownloadLink(_changeNum, _patchRange, _path, 'RIGHT')]]">
+              Download
+            </a>
+            <span class="separator"></span>
+          </span>
           <span class$="blameLoader [[_computeBlameLoaderClass(_isImageDiff)]]">
             <gr-button
                 link

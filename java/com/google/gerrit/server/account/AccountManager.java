@@ -135,6 +135,10 @@ public class AccountManager {
     }
     try {
       Optional<ExternalId> optionalExtId = externalIds.get(who.getExternalIdKey());
+      if (!optionalExtId.isPresent() && who.getExternalIdKey().isScheme(ExternalId.SCHEME_MAILTO)) {
+        optionalExtId = lookupExternalIdByEMail(who.getExternalIdKey().id());
+      }
+
       if (!optionalExtId.isPresent()) {
         // New account, automatically create and return.
         return create(who);
@@ -165,6 +169,20 @@ public class AccountManager {
       return new AuthResult(extId.accountId(), who.getExternalIdKey(), false);
     } catch (OrmException | ConfigInvalidException e) {
       throw new AccountException("Authentication error", e);
+    }
+  }
+
+  private Optional<ExternalId> lookupExternalIdByEMail(String email)
+      throws AccountException, IOException {
+    Set<ExternalId> extIds = externalIds.byEmail(email);
+    if (extIds.isEmpty()) {
+      return Optional.empty();
+    } else if (extIds.size() == 1) {
+      return Optional.of(extIds.iterator().next());
+    } else {
+      logger.atSevere().log(
+          "Authentication with e-mail %s failed as it matches more than a single account.", email);
+      throw new AccountException("Authentication error, ambiguous e-mail.");
     }
   }
 

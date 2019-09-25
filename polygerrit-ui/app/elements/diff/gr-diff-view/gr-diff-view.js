@@ -909,7 +909,36 @@
       history.replaceState(null, '', url);
     },
 
-    _computeDownloadLink(project, changeNum, patchRange, path) {
+    _computeDownloadDropdownLinks(project, changeNum, patchRange, path) {
+      if (!patchRange || !patchRange.patchNum) { return []; }
+
+      return [
+        {
+          url: this._computeDownloadPatchLink(
+              project, changeNum, patchRange, path),
+          name: 'Patch',
+        },
+        {
+          url: this._computeDownloadFileLink(
+              project, changeNum, patchRange, path, 'LEFT'),
+          name: 'Left Content',
+        },
+        {
+          url: this._computeDownloadFileLink(
+              project, changeNum, patchRange, path, 'RIGHT'),
+          name: 'Right Content',
+        },
+      ];
+    },
+
+    _computeDownloadFileLink(project, changeNum, patchRange, path, side) {
+      const parent = DiffSides[side] === 'left' ? '1' : '0';
+      let url = this.changeBaseURL(project, changeNum, patchRange.patchNum);
+      url += `/files/${encodeURIComponent(path)}/download?parent=${parent}`;
+      return url;
+    },
+
+    _computeDownloadPatchLink(project, changeNum, patchRange, path) {
       let url = this.changeBaseURL(project, changeNum, patchRange.patchNum);
       url += '/patch?zip&path=' + encodeURIComponent(path);
       return url;

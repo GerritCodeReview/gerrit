@@ -136,6 +136,27 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
   }
 
   @Test
+  @GerritConfig(name = "index.maxTerms", value = "10")
+  public void suggestReviewersTooManyQueryTerms() throws Exception {
+    String changeId = createChange().getChangeId();
+
+    // Do a query which doesn't exceed index.maxTerms succeeds (add only 9 terms, since on
+    // 'inactive:1' term is implicitly added) and assert that a result is returned
+    StringBuilder query = new StringBuilder();
+    for (int i = 1; i <= 9; i++) {
+      query.append(name("u")).append(" ");
+    }
+    assertThat(suggestReviewers(changeId, query.toString())).isNotEmpty();
+
+    // Do a query which exceed index.maxTerms succeeds (10 terms plus 'inactive:1' term which is
+    // implicitly added). If index.maxTerms is exceeded a QueryParseException is thrown ("too many
+    // terms in query") but it is caught in ReviewersUtil which then returns an empty result to the
+    // client. Hence assert that no result is returned.
+    query.append(name("u"));
+    assertThat(suggestReviewers(changeId, query.toString())).isEmpty();
+  }
+
+  @Test
   public void suggestReviewersWithExcludeGroups() throws Exception {
     String changeId = createChange().getChangeId();
 

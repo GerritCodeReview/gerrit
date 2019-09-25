@@ -120,12 +120,16 @@
                 return {
                   name: section.name,
                   query:
-                      section.query.replace(
-                          PROJECT_PLACEHOLDER_PATTERN, project) + suffix,
+                    this._replaceProject(project, section.query + suffix),
                 };
               }),
             };
           });
+    },
+
+    _replaceProject(project, query) {
+      return query.replace(
+          PROJECT_PLACEHOLDER_PATTERN, project);
     },
 
     _computeTitle(user) {

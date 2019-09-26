@@ -718,7 +718,7 @@
       } else {
         this.$.cursor.side = DiffSides.RIGHT;
       }
-      this.$.cursor.initialLineNumber = params.lineNum;
+      this.$.cursor.setInitialLineNumber(params.lineNum);
     },
 
     _getLineOfInterest(params) {

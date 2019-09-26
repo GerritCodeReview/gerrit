@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "228c38d8_797b54a5",
+        "filename": "java/com/google/gerrit/server/git/PermissionAwareReadOnlyRefDatabase.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-09-26T07:35:31Z",
+      "side": 1,
+      "message": "If I understand your correctly, the overrides should only delegate to the default RefDatabase? That should be OK, because the critical code path is exactRef() and getRefs() methods, that do filter the refs in the end. Done.\n\nAlso, if you think the methods should do something else, as just delegate to the default RefDatabase, feel free to upload a new patch set.",
+      "parentUuid": "78e45785_094205e1",
+      "revId": "994a016862fab2270539435a823d2060f978bfc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "af866340_9a8da879",
         "filename": "java/com/google/gerrit/server/git/PermissionAwareRepository.java",
         "patchSetId": 24

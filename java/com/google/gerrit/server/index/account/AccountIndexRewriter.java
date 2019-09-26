@@ -22,6 +22,7 @@ import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.query.IndexPredicate;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
+import com.google.gerrit.index.query.TooManyTermsInQueryException;
 import com.google.gerrit.server.account.AccountState;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -60,10 +61,10 @@ public class AccountIndexRewriter implements IndexRewriter<AccountState> {
   }
 
   private void validateMaxTermsInQuery(Predicate<AccountState> predicate, MutableInteger leafTerms)
-      throws QueryParseException {
+      throws TooManyTermsInQueryException {
     if (!(predicate instanceof IndexPredicate)) {
       if (++leafTerms.value > config.maxTerms()) {
-        throw new QueryParseException("too many terms in query");
+        throw new TooManyTermsInQueryException();
       }
     }
 

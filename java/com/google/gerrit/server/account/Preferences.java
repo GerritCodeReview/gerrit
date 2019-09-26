@@ -15,7 +15,6 @@ package com.google.gerrit.server.account;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
@@ -77,8 +76,6 @@ public abstract class Preferences {
 
     public abstract Optional<ImmutableList<String>> changeTable();
 
-    public abstract Optional<ImmutableMap<String, String>> urlAliases();
-
     @AutoValue.Builder
     public abstract static class Builder {
       abstract Builder changesPerPage(@Nullable Integer val);
@@ -121,8 +118,6 @@ public abstract class Preferences {
 
       abstract Builder changeTable(@Nullable ImmutableList<String> val);
 
-      abstract Builder urlAliases(@Nullable ImmutableMap<String, String> val);
-
       abstract General build();
     }
 
@@ -148,7 +143,6 @@ public abstract class Preferences {
           .workInProgressByDefault(info.workInProgressByDefault)
           .my(info.my == null ? null : ImmutableList.copyOf(info.my))
           .changeTable(info.changeTable == null ? null : ImmutableList.copyOf(info.changeTable))
-          .urlAliases(info.urlAliases == null ? null : ImmutableMap.copyOf(info.urlAliases))
           .build();
     }
 
@@ -174,7 +168,6 @@ public abstract class Preferences {
       info.workInProgressByDefault = workInProgressByDefault().orElse(null);
       info.my = my().orElse(null);
       info.changeTable = changeTable().orElse(null);
-      info.urlAliases = urlAliases().orElse(null);
       return info;
     }
   }

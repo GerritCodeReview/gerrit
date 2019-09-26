@@ -1963,11 +1963,6 @@ entity. Not set if SSHD is disabled.
 Information about the configuration from the
 link:config-gerrit.html#suggest[suggest] section as link:#suggest-info[
 SuggestInfo] entity.
-|`url_aliases`             |optional|
-A map of URL aliases, where a regular expression for an URL token is
-mapped to a target URL token. The target URL token can contain
-placeholders for the groups matched by the regular expression: `$1` for
-the first matched group, `$2` for the second matched group, etc.
 |`user`                    ||
 Information about the configuration from the
 link:config-gerrit.html#user[user] section as link:#user-config-info[

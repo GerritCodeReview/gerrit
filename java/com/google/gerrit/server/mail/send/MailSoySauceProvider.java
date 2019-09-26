@@ -17,6 +17,7 @@ package com.google.gerrit.server.mail.send;
 import com.google.common.io.CharStreams;
 import com.google.common.io.Resources;
 import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.ProvisionException;
@@ -80,11 +81,16 @@ public class MailSoySauceProvider implements Provider<SoySauce> {
 
   private final SitePaths site;
   private final SoyAstCache cache;
+  private final PluginSetContext<MailSoyTemplateProvider> templateProviders;
 
   @Inject
-  MailSoySauceProvider(SitePaths site, SoyAstCache cache) {
+  MailSoySauceProvider(
+      SitePaths site,
+      SoyAstCache cache,
+      PluginSetContext<MailSoyTemplateProvider> templateProviders) {
     this.site = site;
     this.cache = cache;
+    this.templateProviders = templateProviders;
   }
 
   @Override
@@ -92,12 +98,15 @@ public class MailSoySauceProvider implements Provider<SoySauce> {
     SoyFileSet.Builder builder = SoyFileSet.builder();
     builder.setSoyAstCache(cache);
     for (String name : TEMPLATES) {
-      addTemplate(builder, name);
+      addTemplate(builder, "com/google/gerrit/server/mail/", name);
     }
+    templateProviders.runEach(
+        e -> e.getFileNames().forEach(p -> addTemplate(builder, e.getPath(), p)));
     return builder.build().compileTemplates();
   }
 
-  private void addTemplate(SoyFileSet.Builder builder, String name) throws ProvisionException {
+  private void addTemplate(SoyFileSet.Builder builder, String resourcePath, String name)
+      throws ProvisionException {
     // Load as a file in the mail templates directory if present.
     Path tmpl = site.mail_dir.resolve(name);
     if (Files.isRegularFile(tmpl)) {
@@ -115,7 +124,9 @@ public class MailSoySauceProvider implements Provider<SoySauce> {
     }
 
     // Otherwise load the template as a resource.
-    String resourcePath = "com/google/gerrit/server/mail/" + name;
-    builder.add(Resources.getResource(resourcePath));
+    if (!resourcePath.endsWith("/")) {
+      resourcePath += "/";
+    }
+    builder.add(Resources.getResource(resourcePath + name));
   }
 }

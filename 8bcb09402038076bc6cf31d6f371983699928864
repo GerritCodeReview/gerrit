@@ -235,6 +235,30 @@
       "revId": "8bcb09402038076bc6cf31d6f371983699928864",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "19ffbefe_ae5aaa69",
+        "filename": "java/com/google/gerrit/server/git/PermissionAwareRepositoryManager.java",
+        "patchSetId": 23
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-09-26T08:33:11Z",
+      "side": 1,
+      "message": "\u003e \u003e The unwrap method makes it easy for a careless person to undo the security \n\u003e \u003e Finally, in protocol v2, there is no full ref advertisement anymore.  I think you\u0027ll need to do something with the AllRefsWatcher in ReceiveCommits too, because that shouldn\u0027t work anymore if we were using protocol v2.\n\u003e \n\u003e According to the spec: [1] \"Reference advertisement will be omitted unless explicitly requested\". \n\n[...]\n\n\u003e [1] https://github.com/git/git/blob/master/Documentation/technical/protocol-v2.txt#L14Git\n\nI cherry-pciked this whole series, that enabled Git wire protocol v2 per default and enabled it on my Git client. And I have confirmed that git fetch uses Git wire protocol v2. It urns out, that also in git push command: [2], the ref advertisement hook is called, (the stack trace is here: [3]) so that AllRefsWatcher works as expected.\n\nAlso note, that even when the whole series is merged, we still want to support Git wire protocol v1. Either the Git client can be outdated, or Git wire protocol wasn\u0027t enabled on the client side.\n\n* [2] http://paste.openstack.org/show/779417\n* [3] http://paste.openstack.org/show/779418",
+      "parentUuid": "fb00cab5_c66c657e",
+      "range": {
+        "startLine": 32,
+        "startChar": 27,
+        "endLine": 32,
+        "endChar": 33
+      },
+      "revId": "8bcb09402038076bc6cf31d6f371983699928864",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

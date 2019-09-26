@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "2ccc0cfb_90e1e7c8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2019-09-26T12:03:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6a0b2b64_dcede3cb",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 8
+      },
+      "revId": "b54669b6c5b6a03b2b291e080c0a17dad0e097f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c82b549f_55d979ea",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor.js",
         "patchSetId": 3
@@ -36,6 +60,24 @@
       "writtenOn": "2019-09-26T11:51:43Z",
       "side": 1,
       "message": "Why do we need a setter? Why not just set the property?",
+      "revId": "b54669b6c5b6a03b2b291e080c0a17dad0e097f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f028dd23_f7802359",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2019-09-26T12:03:41Z",
+      "side": 1,
+      "message": "The current code in the Angular wrapper (https://cs.corp.google.com/piper///depot/google3/devtools/cauldron/components/diff/diff_cursor.ts?rcl\u003d266326938\u0026l\u003d34) uses an Interface to enforce type checking. I assume we want to keep this approach - which makes a lot of sense - this is why I need to declare something here:  (https://cs.corp.google.com/piper///depot/google3/devtools/cauldron/components/diff/diff_cursor.ts?l\u003d107\u0026gs\u003dkythe%253A%252F%252Fgoogle3%253Flang%253Dtypescript%253Fpath%253Ddevtools%252Fcauldron%252Fcomponents%252Fdiff%252Fdiff_cursor%2523GrDiffCursor%252523type\u0026gsn\u003dGrDiffCursor\u0026ct\u003dxref_usages).\n\nIt would be in theory possible to add fields to the definition of this interface, but currently it is only calling methods - I did not think it was worth to change the approach in that sense and I don\u0027t want to expose a \"getter\" without needing it. Would you prefer I do something different?",
+      "parentUuid": "c82b549f_55d979ea",
       "revId": "b54669b6c5b6a03b2b291e080c0a17dad0e097f1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -62,6 +104,30 @@
       "revId": "b54669b6c5b6a03b2b291e080c0a17dad0e097f1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6d9d595c_71bd1749",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2019-09-26T12:03:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "62dc66c9_0aa4cdb2",
+      "range": {
+        "startLine": 212,
+        "startChar": 28,
+        "endLine": 212,
+        "endChar": 36
+      },
+      "revId": "b54669b6c5b6a03b2b291e080c0a17dad0e097f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

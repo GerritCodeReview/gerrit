@@ -81,7 +81,7 @@ import com.google.gerrit.server.git.SearchingChangeCacheImpl;
 import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.group.PeriodicGroupIndexer;
 import com.google.gerrit.server.index.IndexModule;
-import com.google.gerrit.server.index.IndexModule.IndexType;
+import com.google.gerrit.index.IndexType;
 import com.google.gerrit.server.index.OnlineUpgrader;
 import com.google.gerrit.server.index.VersionManager;
 import com.google.gerrit.server.mail.SignedTokenEmailTokenVerifier;

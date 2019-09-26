@@ -209,34 +209,40 @@ limitations under the License.
       assert.equal(cursorElement.side, 'left');
     });
 
-    test('initialLineNumber disabled', done => {
+    test('initialLineNumber not provided', done => {
+      let scrollBehaviorDuringMove;
       const moveToNumStub = sandbox.stub(cursorElement, 'moveToLineNumber');
-      const moveToChunkStub = sandbox.stub(cursorElement, 'moveToFirstChunk');
+      const moveToChunkStub = sandbox.stub(cursorElement, 'moveToFirstChunk',
+          () => { scrollBehaviorDuringMove = cursorElement._scrollBehavior; });
 
       function renderHandler() {
         diffElement.removeEventListener('render', renderHandler);
         assert.isFalse(moveToNumStub.called);
         assert.isTrue(moveToChunkStub.called);
+        assert.equal(scrollBehaviorDuringMove, 'never');
+        assert.equal(cursorElement._scrollBehavior, 'keep-visible');
         done();
       }
       diffElement.addEventListener('render', renderHandler);
       diffElement._diffChanged(mockDiffResponse.diffResponse);
     });
 
-    test('initialLineNumber enabled', done => {
-      const moveToNumStub = sandbox.stub(cursorElement, 'moveToLineNumber');
+    test('initialLineNumber provided', done => {
+      let scrollBehaviorDuringMove;
+      const moveToNumStub = sandbox.stub(cursorElement, 'moveToLineNumber',
+          () => { scrollBehaviorDuringMove = cursorElement._scrollBehavior; });
       const moveToChunkStub = sandbox.stub(cursorElement, 'moveToFirstChunk');
-
       function renderHandler() {
         diffElement.removeEventListener('render', renderHandler);
         assert.isFalse(moveToChunkStub.called);
         assert.isTrue(moveToNumStub.called);
         assert.equal(moveToNumStub.lastCall.args[0], 10);
         assert.equal(moveToNumStub.lastCall.args[1], 'right');
+        assert.equal(scrollBehaviorDuringMove, 'keep-visible');
+        assert.equal(cursorElement._scrollBehavior, 'keep-visible');
         done();
       }
       diffElement.addEventListener('render', renderHandler);
-
       cursorElement.initialLineNumber = 10;
       cursorElement.side = 'right';
 

@@ -14,7 +14,9 @@
 
 package com.google.gerrit.extensions.api.changes;
 
+import com.google.common.base.MoreObjects;
 import java.util.List;
+import java.util.Objects;
 
 /** Detailed information about who should be notified about an update. */
 public class NotifyInfo {
@@ -26,5 +28,24 @@ public class NotifyInfo {
    */
   public NotifyInfo(List<String> accounts) {
     this.accounts = accounts;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (!(o instanceof NotifyInfo)) {
+      return false;
+    }
+    NotifyInfo other = (NotifyInfo) o;
+    return Objects.equals(other.accounts, accounts);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(accounts);
+  }
+
+  @Override
+  public String toString() {
+    return MoreObjects.toStringHelper(this).add("accounts", accounts).toString();
   }
 }

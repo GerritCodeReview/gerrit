@@ -2752,6 +2752,12 @@ update could not be achieved (e.g. due to slow responding server nodes)
 this interface can be used to retry the request instead of failing it
 immediately.
 
+[[mail-soy-template-provider]]
+== MailSoyTemplateProvider
+
+This extension point allows to provide soy templates for registration
+so that they can be used for sending emails from a plugin.
+
 [[quota-enforcer]]
 == Quota Enforcer
 

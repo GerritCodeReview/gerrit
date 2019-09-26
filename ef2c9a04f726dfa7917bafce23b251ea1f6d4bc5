@@ -94,6 +94,30 @@
       "revId": "ef2c9a04f726dfa7917bafce23b251ea1f6d4bc5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e932774c_5c369a4e",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view_test.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-26T14:02:38Z",
+      "side": 1,
+      "message": "Imagine you define this dashboard:\n\n[dashboard]\n  description \u003d My dashboard for project foo\n[section \"Open Changes\"]\n  query \u003d status:open project:foo limit:15\n[section \"Merged Changes\"]\n  query \u003d status:merged project:foo limit:15\n[section \"Abandoned Changes\"]\n  query \u003d status:abandoned project:foo limit:15\n\nAs you can see all queries in this dashboard have a common part: \"project:foo limit:15\"\nBy using dashboard.foreach you can write the same dashboard in a more compact way. The value of dashboard.foreach is a query part that is automatically appended to the query of each section. It can have any number of operators.\n\n[dashboard]\n  description \u003d My dashboard for project foo\n  foreach \u003d project:foo limit:15\n[section \"Open Changes\"]\n  query \u003d status:open\n[section \"Merged Changes\"]\n  query \u003d status:merged\n[section \"Abandoned Changes\"]\n  query \u003d status:abandoned\n\nNow \"${project}\" is a placeholder for the project name that can be used in the query, if dashboard.foreach is used it can appear in the query parts that are specified in the sections and in the query part that is defined by dashboard.foreach. The replacement for this placeholder should be done for the whole query (including the query part from dashboard.foreach).",
+      "parentUuid": "2f1389dd_38cc7ca4",
+      "range": {
+        "startLine": 228,
+        "startChar": 10,
+        "endLine": 228,
+        "endChar": 64
+      },
+      "revId": "ef2c9a04f726dfa7917bafce23b251ea1f6d4bc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

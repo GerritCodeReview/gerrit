@@ -22,7 +22,7 @@ import com.google.gerrit.pgm.init.api.InitStep;
 import com.google.gerrit.pgm.init.api.Section;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.IndexModule;
-import com.google.gerrit.server.index.IndexModule.IndexType;
+import com.google.gerrit.index.IndexType;
 import com.google.gerrit.server.index.IndexUtils;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;

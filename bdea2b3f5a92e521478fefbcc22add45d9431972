@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1f04813f_2869bab5",
+        "filename": "java/com/google/gerrit/server/restapi/change/ReviewersUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-09-26T14:32:43Z",
+      "side": 0,
+      "message": "Please ignore the ugly diff in this file - it is due to some merge conflict.\nI didn\u0027t change anything other than removing this (same as in patchset 1).",
+      "range": {
+        "startLine": 254,
+        "startChar": 50,
+        "endLine": 254,
+        "endChar": 77
+      },
+      "revId": "bdea2b3f5a92e521478fefbcc22add45d9431972",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

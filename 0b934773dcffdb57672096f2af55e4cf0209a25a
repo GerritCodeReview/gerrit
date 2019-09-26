@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9d73b63a_24df380a",
+        "filename": "java/com/google/gerrit/server/git/receive/AsyncReceiveCommits.java",
+        "patchSetId": 25
+      },
+      "lineNbr": 318,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-09-26T12:08:51Z",
+      "side": 1,
+      "message": "couldn\u0027t you get rid of unwrap altogethr if you pass the original repo here? I think that will be safer.",
+      "range": {
+        "startLine": 318,
+        "startChar": 12,
+        "endLine": 318,
+        "endChar": 24
+      },
+      "revId": "0b934773dcffdb57672096f2af55e4cf0209a25a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -147,8 +147,11 @@ public class Daemon extends SiteProgram {
     sshd = false;
   }
 
-  @Option(name = "--slave", usage = "Support fetch only")
-  private boolean slave;
+  @Option(
+      name = "--replica",
+      aliases = {"--slave"},
+      usage = "Support fetch only")
+  private boolean replica;
 
   @Option(name = "--console-log", usage = "Log to console (not $site_path/logs)")
   private boolean consoleLog;
@@ -214,8 +217,8 @@ public class Daemon extends SiteProgram {
     httpd = enable;
   }
 
-  public void setSlave(boolean slave) {
-    this.slave = slave;
+  public void setReplica(boolean replica) {
+    this.replica = replica;
   }
 
   @Override
@@ -240,7 +243,7 @@ public class Daemon extends SiteProgram {
     }
 
     if (httpd == null) {
-      httpd = !slave;
+      httpd = !replica;
     }
 
     if (!httpd && !sshd) {
@@ -368,8 +371,8 @@ public class Daemon extends SiteProgram {
 
   private String myVersion() {
     List<String> versionParts = new ArrayList<>();
-    if (slave) {
-      versionParts.add("[slave]");
+    if (replica) {
+      versionParts.add("[replica]");
     }
     if (headless) {
       versionParts.add("[headless]");
@@ -405,7 +408,7 @@ public class Daemon extends SiteProgram {
     modules.add(new GerritApiModule());
     modules.add(new PluginApiModule());
 
-    modules.add(new SearchingChangeCacheImpl.Module(slave));
+    modules.add(new SearchingChangeCacheImpl.Module(replica));
     modules.add(new InternalAccountDirectory.Module());
     modules.add(new DefaultPermissionBackendModule());
     modules.add(new DefaultMemoryCacheModule());
@@ -457,7 +460,8 @@ public class Daemon extends SiteProgram {
         new AbstractModule() {
           @Override
           protected void configure() {
-            bind(GerritOptions.class).toInstance(new GerritOptions(headless, slave, polyGerritDev));
+            bind(GerritOptions.class)
+                .toInstance(new GerritOptions(headless, replica, polyGerritDev));
             if (inMemoryTest) {
               bind(String.class)
                   .annotatedWith(SecureStoreClassName.class)
@@ -467,7 +471,7 @@ public class Daemon extends SiteProgram {
           }
         });
     modules.add(new GarbageCollectionModule());
-    if (slave) {
+    if (replica) {
       modules.add(new PeriodicGroupIndexer.Module());
     } else {
       modules.add(new AccountDeactivator.Module());
@@ -486,10 +490,10 @@ public class Daemon extends SiteProgram {
       return luceneModule;
     }
     if (indexType.isLucene()) {
-      return LuceneIndexModule.latestVersion(slave);
+      return LuceneIndexModule.latestVersion(replica);
     }
     if (indexType.isElasticsearch()) {
-      return ElasticIndexModule.latestVersion(slave);
+      return ElasticIndexModule.latestVersion(replica);
     }
     throw new IllegalStateException("unsupported index.type = " + indexType);
   }
@@ -515,10 +519,10 @@ public class Daemon extends SiteProgram {
     }
     modules.add(
         new DefaultCommandModule(
-            slave,
+            replica,
             sysInjector.getInstance(DownloadConfig.class),
             sysInjector.getInstance(LfsPluginAuthCommand.Module.class)));
-    if (!slave) {
+    if (!replica) {
       modules.add(new IndexCommandsModule(sysInjector));
     }
     return sysInjector.createChildInjector(modules);

@@ -417,7 +417,7 @@ repository must be replicated:
 * `refs/meta/external-ids` (external IDs)
 * `refs/starred-changes/*` (star labels)
 * `refs/sequences/accounts` (account sequence numbers, not needed for Gerrit
-  slaves)
+  replicas)
 
 GERRIT
 ------

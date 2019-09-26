@@ -520,7 +520,7 @@ from an actual installation's performance.)
 
 Because of the distributed nature of Git, end-users don't need to
 contact the central Gerrit Code Review server very often. For `git
-fetch` traffic, link:pgm-daemon.html[slave mode] is known to be an
+fetch` traffic, link:pgm-daemon.html[replica mode] is known to be an
 effective way to offload traffic from the main server, permitting it
 to scale to a large user base without needing an excessive number of
 cores in a single system.

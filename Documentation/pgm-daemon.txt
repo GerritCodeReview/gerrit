@@ -11,7 +11,7 @@ _java_ -jar gerrit.war _daemon_
   [--enable-httpd | --disable-httpd]
   [--enable-sshd | --disable-sshd]
   [--console-log]
-  [--slave]
+  [--replica]
   [--headless]
   [--init]
   [-s]
@@ -32,15 +32,15 @@ per the local copy of link:config-gerrit.html[gerrit.config] located under
 --enable-httpd::
 --disable-httpd::
 	Enable (or disable) the internal HTTP daemon, answering
-	web requests. Enabled by default when --slave is not used.
+	web requests. Enabled by default when --replica is not used.
 
 --enable-sshd::
 --disable-sshd::
 	Enable (or disable) the internal SSH daemon, answering SSH
 	clients and remotely executed commands.  Enabled by default.
 
---slave::
-	Run in slave mode, permitting only read operations
+--replica::
+	Run in replica mode, permitting only read operations
     by clients.  Commands which modify state such as
     link:cmd-receive-pack.html[receive-pack] (creates new changes
     or updates existing ones) or link:cmd-review.html[review]
@@ -80,9 +80,9 @@ is automatically rotated at 12:00 AM GMT each day, allowing an
 external log cleaning service to clean up the prior logs.
 
 == KNOWN ISSUES
-Slave daemon caches can quickly become out of date when modifications
+Replica daemon caches can quickly become out of date when modifications
 are made on the master.  The following configuration is suggested in
-a slave to reduce the maxAge for each cache entry, so that changes
+a replica to reduce the maxAge for each cache entry, so that changes
 are recognized in a reasonable period of time:
 
 ----
@@ -106,7 +106,7 @@ and if LDAP support was enabled, also include:
   maxAge = 5 min
 ----
 
-Automatic cache coherency between master and slave systems is
+Automatic cache coherency between master and replica systems is
 planned to be implemented in a future version.
 
 GERRIT

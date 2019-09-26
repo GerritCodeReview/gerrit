@@ -118,6 +118,30 @@
       "revId": "ef2c9a04f726dfa7917bafce23b251ea1f6d4bc5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b30f0667_eb1be771",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view_test.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-09-26T14:16:49Z",
+      "side": 1,
+      "message": "Ok, then my conclusion is that paladox\u0027 fix is correct. Logan must have misunderstand something in the GWT implementation where foreach did not get a replacement upfront, but relied on the replacement to happen eventually for the whole query.",
+      "parentUuid": "e932774c_5c369a4e",
+      "range": {
+        "startLine": 228,
+        "startChar": 10,
+        "endLine": 228,
+        "endChar": 64
+      },
+      "revId": "ef2c9a04f726dfa7917bafce23b251ea1f6d4bc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

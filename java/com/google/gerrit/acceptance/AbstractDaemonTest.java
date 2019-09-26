@@ -1024,7 +1024,7 @@ public abstract class AbstractDaemonTest {
       bundles.writeTo(out);
     }
     Map<BranchNameKey, ObjectId> ret = new HashMap<>();
-    try (FileSystem zipFs = FileSystems.newFileSystem(previewPath, null);
+    try (FileSystem zipFs = FileSystems.newFileSystem(previewPath, (ClassLoader) null);
         DirectoryStream<Path> dirStream =
             Files.newDirectoryStream(Iterables.getOnlyElement(zipFs.getRootDirectories()))) {
       for (Path p : dirStream) {

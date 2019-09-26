@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6a0b2b64_dcede3cb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-09-26T11:51:43Z",
+      "side": 1,
+      "message": "Nit: Allow",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 8
+      },
+      "revId": "b54669b6c5b6a03b2b291e080c0a17dad0e097f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c82b549f_55d979ea",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-09-26T11:51:43Z",
+      "side": 1,
+      "message": "Why do we need a setter? Why not just set the property?",
+      "revId": "b54669b6c5b6a03b2b291e080c0a17dad0e097f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "62dc66c9_0aa4cdb2",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-09-26T11:51:43Z",
+      "side": 1,
+      "message": "Nit: I would call this case \"not set\" - nobody disabled anything here.\nSimilarly, below I would call it \"provided\" not \"enabled\".",
+      "range": {
+        "startLine": 212,
+        "startChar": 28,
+        "endLine": 212,
+        "endChar": 36
+      },
+      "revId": "b54669b6c5b6a03b2b291e080c0a17dad0e097f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

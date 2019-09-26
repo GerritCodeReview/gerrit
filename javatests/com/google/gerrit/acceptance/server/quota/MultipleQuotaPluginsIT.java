@@ -17,11 +17,10 @@ package com.google.gerrit.acceptance.server.quota;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth8.assertThat;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
-import static org.easymock.EasyMock.expect;
-import static org.easymock.EasyMock.expectLastCall;
-import static org.easymock.EasyMock.replay;
-import static org.easymock.EasyMock.resetToStrict;
-import static org.easymock.EasyMock.verify;
+import static org.mockito.Mockito.clearInvocations;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -35,15 +34,12 @@ import com.google.gerrit.server.quota.QuotaResponse;
 import com.google.inject.Inject;
 import com.google.inject.Module;
 import java.util.OptionalLong;
-import org.easymock.EasyMock;
 import org.junit.Before;
 import org.junit.Test;
 
 public class MultipleQuotaPluginsIT extends AbstractDaemonTest {
-  private static final QuotaEnforcer quotaEnforcerA =
-      EasyMock.createStrictMock(QuotaEnforcer.class);
-  private static final QuotaEnforcer quotaEnforcerB =
-      EasyMock.createStrictMock(QuotaEnforcer.class);
+  private static final QuotaEnforcer quotaEnforcerA = mock(QuotaEnforcer.class);
+  private static final QuotaEnforcer quotaEnforcerB = mock(QuotaEnforcer.class);
 
   private IdentifiedUser identifiedAdmin;
   @Inject private QuotaBackend quotaBackend;
@@ -67,39 +63,32 @@ public class MultipleQuotaPluginsIT extends AbstractDaemonTest {
   @Before
   public void setUp() {
     identifiedAdmin = identifiedUserFactory.create(admin.id());
-    resetToStrict(quotaEnforcerA);
-    resetToStrict(quotaEnforcerB);
+    clearInvocations(quotaEnforcerA);
+    clearInvocations(quotaEnforcerB);
   }
 
   @Test
   public void refillsOnError() {
     QuotaRequestContext ctx = QuotaRequestContext.builder().user(identifiedAdmin).build();
-    expect(quotaEnforcerA.requestTokens("testGroup", ctx, 1)).andReturn(QuotaResponse.ok());
-    expect(quotaEnforcerB.requestTokens("testGroup", ctx, 1))
-        .andReturn(QuotaResponse.error("fail"));
-    quotaEnforcerA.refill("testGroup", ctx, 1);
-    expectLastCall();
-
-    replay(quotaEnforcerA);
-    replay(quotaEnforcerB);
+    when(quotaEnforcerA.requestTokens("testGroup", ctx, 1)).thenReturn(QuotaResponse.ok());
+    when(quotaEnforcerB.requestTokens("testGroup", ctx, 1)).thenReturn(QuotaResponse.error("fail"));
 
     assertThat(quotaBackend.user(identifiedAdmin).requestToken("testGroup"))
         .isEqualTo(
             QuotaResponse.Aggregated.create(
                 ImmutableList.of(QuotaResponse.ok(), QuotaResponse.error("fail"))));
+
+    verify(quotaEnforcerA).requestTokens("testGroup", ctx, 1);
+    verify(quotaEnforcerB).requestTokens("testGroup", ctx, 1);
+    verify(quotaEnforcerA).refill("testGroup", ctx, 1);
   }
 
   @Test
   public void refillsOnException() {
     NullPointerException exception = new NullPointerException();
     QuotaRequestContext ctx = QuotaRequestContext.builder().user(identifiedAdmin).build();
-    expect(quotaEnforcerA.requestTokens("testGroup", ctx, 1)).andThrow(exception);
-    expect(quotaEnforcerB.requestTokens("testGroup", ctx, 1)).andReturn(QuotaResponse.ok());
-    quotaEnforcerB.refill("testGroup", ctx, 1);
-    expectLastCall();
-
-    replay(quotaEnforcerA);
-    replay(quotaEnforcerB);
+    when(quotaEnforcerA.requestTokens("testGroup", ctx, 1)).thenReturn(QuotaResponse.ok());
+    when(quotaEnforcerB.requestTokens("testGroup", ctx, 1)).thenThrow(exception);
 
     NullPointerException thrown =
         assertThrows(
@@ -107,52 +96,53 @@ public class MultipleQuotaPluginsIT extends AbstractDaemonTest {
             () -> quotaBackend.user(identifiedAdmin).requestToken("testGroup"));
     assertThat(thrown).isEqualTo(exception);
 
-    verify(quotaEnforcerA);
+    verify(quotaEnforcerA).requestTokens("testGroup", ctx, 1);
+    verify(quotaEnforcerB).requestTokens("testGroup", ctx, 1);
+    verify(quotaEnforcerA).refill("testGroup", ctx, 1);
   }
 
   @Test
   public void doesNotRefillNoOp() {
     QuotaRequestContext ctx = QuotaRequestContext.builder().user(identifiedAdmin).build();
-    expect(quotaEnforcerA.requestTokens("testGroup", ctx, 1))
-        .andReturn(QuotaResponse.error("fail"));
-    expect(quotaEnforcerB.requestTokens("testGroup", ctx, 1)).andReturn(QuotaResponse.noOp());
-
-    replay(quotaEnforcerA);
-    replay(quotaEnforcerB);
+    when(quotaEnforcerA.requestTokens("testGroup", ctx, 1)).thenReturn(QuotaResponse.error("fail"));
+    when(quotaEnforcerB.requestTokens("testGroup", ctx, 1)).thenReturn(QuotaResponse.noOp());
 
     assertThat(quotaBackend.user(identifiedAdmin).requestToken("testGroup"))
         .isEqualTo(
             QuotaResponse.Aggregated.create(
                 ImmutableList.of(QuotaResponse.error("fail"), QuotaResponse.noOp())));
+
+    verify(quotaEnforcerA).requestTokens("testGroup", ctx, 1);
+    verify(quotaEnforcerB).requestTokens("testGroup", ctx, 1);
   }
 
   @Test
   public void minimumAvailableTokens() {
     QuotaRequestContext ctx = QuotaRequestContext.builder().user(identifiedAdmin).build();
-    expect(quotaEnforcerA.availableTokens("testGroup", ctx)).andReturn(QuotaResponse.ok(20L));
-    expect(quotaEnforcerB.availableTokens("testGroup", ctx)).andReturn(QuotaResponse.ok(10L));
-
-    replay(quotaEnforcerA);
-    replay(quotaEnforcerB);
+    when(quotaEnforcerA.availableTokens("testGroup", ctx)).thenReturn(QuotaResponse.ok(20L));
+    when(quotaEnforcerB.availableTokens("testGroup", ctx)).thenReturn(QuotaResponse.ok(10L));
 
     OptionalLong tokens =
         quotaBackend.user(identifiedAdmin).availableTokens("testGroup").availableTokens();
     assertThat(tokens).isPresent();
     assertThat(tokens.getAsLong()).isEqualTo(10L);
+
+    verify(quotaEnforcerA).availableTokens("testGroup", ctx);
+    verify(quotaEnforcerB).availableTokens("testGroup", ctx);
   }
 
   @Test
   public void ignoreNoOpForAvailableTokens() {
     QuotaRequestContext ctx = QuotaRequestContext.builder().user(identifiedAdmin).build();
-    expect(quotaEnforcerA.availableTokens("testGroup", ctx)).andReturn(QuotaResponse.noOp());
-    expect(quotaEnforcerB.availableTokens("testGroup", ctx)).andReturn(QuotaResponse.ok(20L));
-
-    replay(quotaEnforcerA);
-    replay(quotaEnforcerB);
+    when(quotaEnforcerA.availableTokens("testGroup", ctx)).thenReturn(QuotaResponse.noOp());
+    when(quotaEnforcerB.availableTokens("testGroup", ctx)).thenReturn(QuotaResponse.ok(20L));
 
     OptionalLong tokens =
         quotaBackend.user(identifiedAdmin).availableTokens("testGroup").availableTokens();
     assertThat(tokens).isPresent();
     assertThat(tokens.getAsLong()).isEqualTo(20L);
+
+    verify(quotaEnforcerA).availableTokens("testGroup", ctx);
+    verify(quotaEnforcerB).availableTokens("testGroup", ctx);
   }
 }

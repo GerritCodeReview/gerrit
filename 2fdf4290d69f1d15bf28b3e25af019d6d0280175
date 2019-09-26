@@ -46,6 +46,30 @@
       "revId": "2fdf4290d69f1d15bf28b3e25af019d6d0280175",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5bc25ee7_04c8d921",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountManagerIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-09-26T21:55:49Z",
+      "side": 0,
+      "message": "Thanks for the feedback. I made this fix a bit smaller by covering only the link scenario. Therefore the test stays and still succeeds.",
+      "parentUuid": "1a216d8d_8c623698",
+      "range": {
+        "startLine": 348,
+        "startChar": 14,
+        "endLine": 348,
+        "endChar": 68
+      },
+      "revId": "2fdf4290d69f1d15bf28b3e25af019d6d0280175",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

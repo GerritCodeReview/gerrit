@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c8ec6dc4_3c1b831e",
+        "filename": "plugins/replication",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-09-26T07:45:33Z",
+      "side": 0,
+      "message": "Is this change intended?",
+      "revId": "96d61f1c6fcdb965d1e872ef599ab2ad96a73946",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

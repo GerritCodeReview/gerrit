@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "be987faf_135fa80e",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountManagerIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-09-26T08:20:08Z",
+      "side": 0,
+      "message": "@Edwin: I am not sure of this use-case and how valid and support it is.\n\nIf the account is external (which use-case is that one?) then I am not sure how the account manager can be sure that the authentication actually works and verify that the target account is or is not the one authenticated.\n\nGerrit does not support pluggable authentication backend, so I am unsure how the external scheme works here.",
+      "range": {
+        "startLine": 348,
+        "startChar": 14,
+        "endLine": 348,
+        "endChar": 68
+      },
+      "revId": "2fdf4290d69f1d15bf28b3e25af019d6d0280175",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

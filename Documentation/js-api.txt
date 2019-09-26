@@ -24,122 +24,16 @@ Gerrit.install(function (self) {
 The plugin instance is passed to the plugin's initialization function
 and provides a number of utility services to plugin authors.
 
-[[self_delete]]
-=== self.delete() / self.del()
-Issues a DELETE REST API request to the Gerrit server.
-
-.Signature
-[source,javascript]
-----
-Gerrit.delete(url, callback)
-Gerrit.del(url, callback)
-----
-
-* url: URL relative to the plugin's URL space. The JavaScript
-  library prefixes the supplied URL with `/plugins/{getPluginName}/`.
-
-* callback: JavaScript function to be invoked with the parsed
-  JSON result of the API call. DELETE methods often return
-  `204 No Content`, which is passed as null.
-
-[[self_get]]
-=== self.get()
-Issues a GET REST API request to the Gerrit server.
-
-.Signature
-[source,javascript]
-----
-self.get(url, callback)
-----
-
-* url: URL relative to the plugin's URL space. The JavaScript
-  library prefixes the supplied URL with `/plugins/{getPluginName}/`.
-
-* callback: JavaScript function to be invoked with the parsed JSON
-  result of the API call. If the API returns a string the result is
-  a string, otherwise the result is a JavaScript object or array,
-  as described in the relevant REST API documentation.
-
 [[self_getServerInfo]]
 === self.getServerInfo()
 Returns the server's link:rest-api-config.html#server-info[ServerInfo]
 data.
-
-[[self_getCurrentUser]]
-=== self.getCurrentUser()
-Returns the currently signed in user's AccountInfo data; empty account
-data if no user is currently signed in.
-
-[[Gerrit_getUserPreferences]]
-=== Gerrit.getUserPreferences()
-Returns the preferences of the currently signed in user; the default
-preferences if no user is currently signed in.
-
-[[Gerrit_refreshUserPreferences]]
-=== Gerrit.refreshUserPreferences()
-Refreshes the preferences of the current user.
 
 [[self_getPluginName]]
 === self.getPluginName()
 Returns the name this plugin was installed as by the server
 administrator. The plugin name is required to access REST API
 views installed by the plugin, or to access resources.
-
-[[self_post]]
-=== self.post()
-Issues a POST REST API request to the Gerrit server.
-
-.Signature
-[source,javascript]
-----
-self.post(url, input, callback)
-----
-
-* url: URL relative to the plugin's URL space. The JavaScript
-  library prefixes the supplied URL with `/plugins/{getPluginName}/`.
-
-* input: JavaScript object to serialize as the request payload.
-
-* callback: JavaScript function to be invoked with the parsed JSON
-  result of the API call. If the API returns a string the result is
-  a string, otherwise the result is a JavaScript object or array,
-  as described in the relevant REST API documentation.
-
-[source,javascript]
-----
-self.post(
-  '/my-servlet',
-  {start_build: true, platform_type: 'Linux'},
-  function (r) {});
-----
-
-[[self_put]]
-=== self.put()
-Issues a PUT REST API request to the Gerrit server.
-
-.Signature
-[source,javascript]
-----
-self.put(url, input, callback)
-----
-
-* url: URL relative to the plugin's URL space. The JavaScript
-  library prefixes the supplied URL with `/plugins/{getPluginName}/`.
-
-* input: JavaScript object to serialize as the request payload.
-
-* callback: JavaScript function to be invoked with the parsed JSON
-  result of the API call. If the API returns a string the result is
-  a string, otherwise the result is a JavaScript object or array,
-  as described in the relevant REST API documentation.
-
-[source,javascript]
-----
-self.put(
-  '/builds',
-  {start_build: true, platform_type: 'Linux'},
-  function (r) {});
-----
 
 [[self_on]]
 === self.on()
@@ -149,7 +43,7 @@ the web interface.
 .Signature
 [source,javascript]
 ----
-Gerrit.on(event, callback);
+self.on(event, callback);
 ----
 
 * event: A supported event type. See below for description.
@@ -194,39 +88,26 @@ Supported events:
   This event can be used to register a new language highlighter with
   the highlight.js library before syntax highlighting begins.
 
-[[self_onAction]]
-=== self.onAction()
-Register a JavaScript callback to be invoked when the user clicks
-on a button associated with a server side `UiAction`.
+[[self_changeActions]]
+=== self.changeActions()
+Returns an instance of ChangeActions API.
 
 .Signature
 [source,javascript]
 ----
-self.onAction(type, view_name, callback);
+self.changeActions();
 ----
-
-* type: `'change'`, `'edit'`, `'revision'`, `'project'`, or `'branch'`
-  indicating which type of resource the `UiAction` was bound to
-  in the server.
-
-* view_name: string appearing in URLs to name the view. This is the
-  second argument of the `get()`, `post()`, `put()`, and `delete()`
-  binding methods in a `RestApiModule`.
-
-* callback: JavaScript function to invoke when the user clicks. The
-  function will be passed a link:#ActionContext[action context].
 
 [[self_screen]]
 === self.screen()
-Register a JavaScript callback to be invoked when the user navigates
+Register a module to be attached when the user navigates
 to an extension screen provided by the plugin. Extension screens are
 usually linked from the link:dev-plugins.html#top-menu-extensions[top menu].
-The callback can populate the DOM with the screen's contents.
 
 .Signature
 [source,javascript]
 ----
-self.screen(pattern, callback);
+self.screen(pattern, opt_moduleName);
 ----
 
 * pattern: URL token pattern to identify the screen. Argument can be
@@ -234,52 +115,34 @@ self.screen(pattern, callback);
   If a RegExp is used the matching groups will be available inside of
   the context as `token_match`.
 
-* callback: JavaScript function to invoke when the user navigates to
+* opt_moduleName: The module to load when the user navigates to
   the screen. The function will be passed a link:#ScreenContext[screen context].
 
-[[self_settingsScreen]]
-=== self.settingsScreen()
-Register a JavaScript callback to be invoked when the user navigates
-to an extension settings screen provided by the plugin. Extension settings
-screens are automatically linked from the settings menu under the given
-menu entry.
-The callback can populate the DOM with the screen's contents.
+[[self_settings]]
+=== self.settings()
+Returns the Settings API.
 
 .Signature
 [source,javascript]
 ----
-self.settingsScreen(path, menu, callback);
+self.settings();
 ----
 
-* path: URL path to identify the settings screen.
-
-* menu: The name of the menu entry in the settings menu that should
-  link to the settings screen.
-
-* callback: JavaScript function to invoke when the user navigates to
-  the settings screen. The function will be passed a
-  link:#SettingsScreenContext[settings screen context].
-
-[[self_panel]]
-=== self.panel()
-Register a JavaScript callback to be invoked when a screen with the
-given extension point is loaded.
-The callback can populate the DOM with the panel's contents.
+[[self_registerCustomComponent]]
+=== self.registerCustomComponent()
+Register a custom component to a specific endpoint.
 
 .Signature
 [source,javascript]
 ----
-self.panel(extensionpoint, callback);
+self.registerCustomComponent(endpointName, opt_moduleName, opt_options);
 ----
 
-* extensionpoint: The name of the extension point that marks the
-  position where the panel is added to an existing screen. The
-  available extension points are described in the
-  link:dev-plugins.html#panels[plugin development documentation].
+* endpointName: The endpoint this plugin should be reigistered to.
 
-* callback: JavaScript function to invoke when a screen with the
-  extension point is loaded. The function will be passed a
-  link:#PanelContext[panel context].
+* opt_moduleName: The module name the custom component will use.
+
+* opt_options: Options to register this custom component.
 
 [[self_url]]
 === self.url()
@@ -293,398 +156,260 @@ self.url();                    // "https://gerrit-review.googlesource.com/plugin
 self.url('/static/icon.png');  // "https://gerrit-review.googlesource.com/plugins/demo/static/icon.png"
 ----
 
-
-[[ActionContext]]
-== Action Context
-A new action context is passed to the `onAction` callback function
-each time the associated action button is clicked by the user. A
-context is initialized with sufficient state to issue the associated
-REST API RPC.
-
-[[context_action]]
-=== context.action
-An link:rest-api-changes.html#action-info[ActionInfo] object instance
-supplied by the server describing the UI button the user used to
-invoke the action.
-
-[[context_call]]
-=== context.call()
-Issues the REST API call associated with the action. The HTTP method
-used comes from `context.action.method`, hiding the JavaScript from
-needing to care.
+[[self_restApi]]
+=== self.restApi()
+Returns an instance of the Plugin REST API.
 
 .Signature
 [source,javascript]
 ----
-context.call(input, callback)
+self.restApi(prefix_url)
 ----
 
-* input: JavaScript object to serialize as the request payload. This
-  parameter is ignored for GET and DELETE methods.
+* prefix_url: Base url for subsequent .get(), .post() etc requests.
 
-* callback: JavaScript function to be invoked with the parsed JSON
-  result of the API call. If the API returns a string the result is
-  a string, otherwise the result is a JavaScript object or array,
-  as described in the relevant REST API documentation.
+[[PluginRestAPI]]
+== Plugin Rest API
 
-[source,javascript]
-----
-context.call(
-  {message: "..."},
-  function (result) {
-    // ... use result here ...
-  });
-----
-
-[[context_change]]
-=== context.change
-When the action is invoked on a change a
-link:rest-api-changes.html#change-info[ChangeInfo] object instance
-describing the change. Available fields of the ChangeInfo may vary
-based on the options used by the UI when it loaded the change.
-
-[[context_delete]]
-=== context.delete()
-Issues a DELETE REST API call to the URL associated with the action.
+[[plugin_rest_delete]]
+=== restApi.delete()
+Issues a DELETE REST API request to the Gerrit server.
+Returns a promise with the response of the request.
 
 .Signature
 [source,javascript]
 ----
-context.delete(callback)
+restApi.delete(url)
 ----
 
-* callback: JavaScript function to be invoked with the parsed
-  JSON result of the API call. DELETE methods often return
-  `204 No Content`, which is passed as null.
+* url: URL relative to the base url.
 
-[source,javascript]
-----
-context.delete(function () {});
-----
-
-[[context_get]]
-=== context.get()
-Issues a GET REST API call to the URL associated with the action.
+[[plugin_rest_get]]
+=== restApi.get()
+Issues a GET REST API request to the Gerrit server.
+Returns a promise with the response of the request.
 
 .Signature
 [source,javascript]
 ----
-context.get(callback)
+restApi.get(url)
 ----
 
-* callback: JavaScript function to be invoked with the parsed JSON
-  result of the API call. If the API returns a string the result is
-  a string, otherwise the result is a JavaScript object or array,
-  as described in the relevant REST API documentation.
+* url: URL relative to the base url.
 
-[source,javascript]
-----
-context.get(function (result) {
-  // ... use result here ...
-});
-----
-
-[[context_go]]
-=== context.go()
-Go to a screen. Shorthand for link:#Gerrit_go[`Gerrit.go()`].
-
-[[context_hide]]
-=== context.hide()
-Hide the currently visible popup displayed by
-link:#context_popup[`context.popup()`].
-
-[[context_post]]
-=== context.post()
-Issues a POST REST API call to the URL associated with the action.
+[[plugin_rest_post]]
+=== restApi.post()
+Issues a POST REST API request to the Gerrit server.
+Returns a promise with the response of the request.
 
 .Signature
 [source,javascript]
 ----
-context.post(input, callback)
+restApi.post(url, opt_payload, opt_errFn, opt_contentType)
 ----
 
-* input: JavaScript object to serialize as the request payload.
+* url: URL relative to the base url.
 
-* callback: JavaScript function to be invoked with the parsed JSON
-  result of the API call. If the API returns a string the result is
-  a string, otherwise the result is a JavaScript object or array,
-  as described in the relevant REST API documentation.
+* opt_payload: JavaScript object to serialize as the request payload.
+
+* opt_errFn: JavaScript function to be invoked when error occured.
+
+* opt_contentType: Content-Type to be sent along with the request.
 
 [source,javascript]
 ----
-context.post(
-  {message: "..."},
-  function (result) {
-    // ... use result here ...
-  });
+restApi.post(
+  '/my-servlet',
+  {start_build: true, platform_type: 'Linux'});
 ----
 
-[[context_popup]]
-=== context.popup()
-
-Displays a small popup near the activation button to gather
-additional input from the user before executing the REST API RPC.
-
-The caller is always responsible for closing the popup with
-link#context_hide[`context.hide()`]. Gerrit will handle closing a
-popup if the user presses `Escape` while keyboard focus is within
-the popup.
+[[plugin_rest_put]]
+=== restApi.put()
+Issues a PUT REST API request to the Gerrit server.
+Returns a promise with the response of the request.
 
 .Signature
 [source,javascript]
 ----
-context.popup(element)
+restApi.put(url, opt_payload, opt_errFn, opt_contentType)
 ----
 
-* element: an HTML DOM element to display as the body of the
-  popup. This is typically a `div` element but can be any valid HTML
-  element. CSS can be used to style the element beyond the defaults.
+* url: URL relative to the base url.
 
-A common usage is to gather more input:
+* opt_payload: JavaScript object to serialize as the request payload.
+
+* opt_errFn: JavaScript function to be invoked when error occured.
+
+* opt_contentType: Content-Type to be sent along with the request.
 
 [source,javascript]
 ----
-self.onAction('revision', 'start-build', function (c) {
-  var l = c.checkbox();
-  var m = c.checkbox();
-  c.popup(c.div(
-    c.div(c.label(l, 'Linux')),
-    c.div(c.label(m, 'Mac OS X')),
-    c.button('Build', {onclick: function() {
-      c.call(
-        {
-          commit: c.revision.name,
-          linux: l.checked,
-          mac: m.checked,
-        },
-        function() { c.hide() });
-    });
-});
+restApi.put(
+  '/builds',
+  {start_build: true, platform_type: 'Linux'});
 ----
 
-[[context_put]]
-=== context.put()
-Issues a PUT REST API call to the URL associated with the action.
+[[ChangeActions]]
+== Change Actions API
+A new Change Actions API instance will be created when `changeActions()`
+is invoked.
+
+[[change_actions_add]]
+=== changeActions.add()
+Adds a new action to the change actions section.
+Returns the key of the newly added action.
 
 .Signature
 [source,javascript]
 ----
-context.put(input, callback)
+changeActions.add(type, label)
 ----
 
-* input: JavaScript object to serialize as the request payload.
+* type: The type of the action, either `change` or `revision`.
 
-* callback: JavaScript function to be invoked with the parsed JSON
-  result of the API call. If the API returns a string the result is
-  a string, otherwise the result is a JavaScript object or array,
-  as described in the relevant REST API documentation.
+* label: The label to be used in UI for this action.
 
 [source,javascript]
 ----
-context.put(
-  {message: "..."},
-  function (result) {
-    // ... use result here ...
-  });
+changeActions.add("change", "test")
 ----
 
-[[context_refresh]]
-=== context.refresh()
-Refresh the current display. Shorthand for
-link:#Gerrit_refresh[`Gerrit.refresh()`].
-
-[[context_revision]]
-=== context.revision
-When the action is invoked on a specific revision of a change,
-a link:rest-api-changes.html#revision-info[RevisionInfo]
-object instance describing the revision. Available fields of the
-RevisionInfo may vary based on the options used by the UI when it
-loaded the change.
-
-[[context_project]]
-=== context.project
-When the action is invoked on a specific project,
-the name of the project.
-
-=== HTML Helpers
-The link:#ActionContext[action context] includes some HTML helper
-functions to make working with DOM based widgets less painful.
-
-* `br()`: new `<br>` element.
-
-* `button(label, options)`: new `<button>` with the string `label`
-  wrapped inside of a `div`. The optional `options` object may
-  define `onclick` as a function to be invoked upon clicking. This
-  calling pattern avoids circular references between the element
-  and the onclick handler.
-
-* `checkbox()`: new `<input type='checkbox'>` element.
-* `div(...)`: a new `<div>` wrapping the (optional) arguments.
-* `hr()`: new `<hr>` element.
-
-* `label(c, label)`: a new `<label>` element wrapping element `c`
-  and the string `label`. Used to wrap a checkbox with its label,
-  `label(checkbox(), 'Click Me')`.
-
-* `prependLabel(label, c)`: a new `<label>` element wrapping element `c`
-  and the string `label`. Used to wrap an input field with its label,
-  `prependLabel('Greeting message', textfield())`.
-
-* `textarea(options)`: new `<textarea>` element. The options
-  object may optionally include `rows` and `cols`. The textarea
-  comes with an onkeypress handler installed to play nicely with
-  Gerrit's keyboard binding system.
-
-* `textfield()`: new `<input type='text'>` element.  The text field
-  comes with an onkeypress handler installed to play nicely with
-  Gerrit's keyboard binding system.
-
-* `select(a,i)`: a new `<select>` element containing one `<option>`
-  element for each entry in the provided array `a`.  The option with
-  the index `i` will be pre-selected in the drop-down-list.
-
-* `selected(s)`: returns the text of the `<option>` element that is
-  currently selected in the provided `<select>` element `s`.
-
-* `span(...)`: a new `<span>` wrapping the (optional) arguments.
-
-* `msg(label)`: a new label.
-
-
-[[ScreenContext]]
-== Screen Context
-A new screen context is passed to the `screen` callback function
-each time the user navigates to a matching URL.
-
-[[screen_body]]
-=== screen.body
-Empty HTML `<div>` node the plugin should add its content to.  The
-node is already attached to the document, but is invisible.  Plugins
-must call `screen.show()` to display the DOM node.  Deferred display
-allows an implementor to partially populate the DOM, make remote HTTP
-requests, finish populating when the callbacks arrive, and only then
-make the view visible to the user.
-
-[[screen_token]]
-=== screen.token
-URL token fragment that activated this screen.  The value is identical
-to `screen.token_match[0]`.  If the URL is `/#/x/hello/list` the token
-will be `"list"`.
-
-[[screen_token_match]]
-=== screen.token_match
-Array of matching subgroups from the pattern specified to `screen()`.
-This is identical to the result of RegExp.exec. Index 0 contains the
-entire matching expression; index 1 the first matching group, etc.
-
-[[screen_onUnload]]
-=== screen.onUnload()
-Configures an optional callback to be invoked just before the screen
-is deleted from the browser DOM.  Plugins can use this callback to
-remove event listeners from DOM nodes, preventing memory leaks.
+[[change_actions_remove]]
+=== changeActions.remove()
+Removes an action from the change actions section.
 
 .Signature
 [source,javascript]
 ----
-screen.onUnload(callback)
+changeActions.remove(key)
 ----
 
-* callback: JavaScript function to be invoked just before the
-  `screen.body` DOM element is removed from the browser DOM.
-  This event happens when the user navigates to another screen.
+* key: The key of the action.
 
-[[screen.setTitle]]
-=== screen.setTitle()
-Sets the heading text to be displayed when the screen is visible.
-This is presented in a large bold font below the menus, but above the
-content in `screen.body`.  Setting the title also sets the window
-title to the same string, if it has not already been set.
+[[change_actions_addTapListener]]
+=== changeActions.addTapListener()
+Adds a tap listener to an action that will be invoked when the action
+is tapped.
 
 .Signature
 [source,javascript]
 ----
-screen.setPageTitle(titleText)
+changeActions.addTapListener(key, callback)
 ----
 
-[[screen.setWindowTitle]]
-=== screen.setWindowTitle()
-Sets the text to be displayed in the browser's title bar when the
-screen is visible.  Plugins should always prefer this method over
-trying to set `window.title` directly.  The window title defaults to
-the title given to `setTitle`.
+* key: The key of the action.
+
+* callback: JavaScript function to be invoked when action tapped.
+
+[source,javascript]
+----
+changeActions.addTapListener("__key_for_my_action__", () => {
+  // do something when my action gets clicked
+})
+----
+
+[[change_actions_removeTapListener]]
+=== changeActions.removeTapListener()
+Removes an existing tap listener on an action.
 
 .Signature
 [source,javascript]
 ----
-screen.setWindowTitle(titleText)
+changeActions.removeTapListener(key, callback)
 ----
 
-[[screen_show]]
-=== screen.show()
-Destroy the currently visible screen and display the plugin's screen.
-This method must be called after adding content to `screen.body`.
+* key: The key of the action.
 
-[[SettingsScreenContext]]
-== Settings Screen Context
-A new settings screen context is passed to the `settingsScreen` callback
-function each time the user navigates to a matching URL.
+* callback: JavaScript function to be removed.
 
-[[settingsScreen_body]]
-=== settingsScreen.body
-Empty HTML `<div>` node the plugin should add its content to.  The
-node is already attached to the document, but is invisible.  Plugins
-must call `settingsScreen.show()` to display the DOM node.  Deferred
-display allows an implementor to partially populate the DOM, make
-remote HTTP requests, finish populating when the callbacks arrive, and
-only then make the view visible to the user.
-
-[[settingsScreen_onUnload]]
-=== settingsScreen.onUnload()
-Configures an optional callback to be invoked just before the screen
-is deleted from the browser DOM.  Plugins can use this callback to
-remove event listeners from DOM nodes, preventing memory leaks.
+[[change_actions_setLabel]]
+=== changeActions.setLabel()
+Sets the label for an action.
 
 .Signature
 [source,javascript]
 ----
-settingsScreen.onUnload(callback)
+changeActions.setLabel(key, label)
 ----
 
-* callback: JavaScript function to be invoked just before the
-  `settingsScreen.body` DOM element is removed from the browser DOM.
-  This event happens when the user navigates to another screen.
+* key: The key of the action.
 
-[[settingsScreen.setTitle]]
-=== settingsScreen.setTitle()
-Sets the heading text to be displayed when the screen is visible.
-This is presented in a large bold font below the menus, but above the
-content in `settingsScreen.body`. Setting the title also sets the
-window title to the same string, if it has not already been set.
+* label: The label of the action.
+
+[[change_actions_setTitle]]
+=== changeActions.setTitle()
+Sets the title for an action.
 
 .Signature
 [source,javascript]
 ----
-settingsScreen.setPageTitle(titleText)
+changeActions.setTitle(key, title)
 ----
 
-[[settingsScreen.setWindowTitle]]
-=== settingsScreen.setWindowTitle()
-Sets the text to be displayed in the browser's title bar when the
-screen is visible.  Plugins should always prefer this method over
-trying to set `window.title` directly.  The window title defaults to
-the title given to `setTitle`.
+* key: The key of the action.
+
+* title: The title of the action.
+
+[[change_actions_setIcon]]
+=== changeActions.setIcon()
+Sets an icon for an action.
 
 .Signature
 [source,javascript]
 ----
-settingsScreen.setWindowTitle(titleText)
+changeActions.setIcon(key, icon)
 ----
 
-[[settingsScreen_show]]
-=== settingsScreen.show()
-Destroy the currently visible screen and display the plugin's screen.
-This method must be called after adding content to
-`settingsScreen.body`.
+* key: The key of the action.
+
+* icon: The name of the icon.
+
+[[change_actions_setEnabled]]
+=== changeActions.setEnabled()
+Sets an action to enabled or disabled.
+
+.Signature
+[source,javascript]
+----
+changeActions.setEnabled(key, enabled)
+----
+
+* key: The key of the action.
+
+* enabled: The status of the action, true to enable.
+
+[[change_actions_setActionHidden]]
+=== changeActions.setActionHidden()
+Sets an action to be hidden.
+
+.Signature
+[source,javascript]
+----
+changeActions.setActionHidden(type, key, hidden)
+----
+
+* type: The type of the action.
+
+* key: The key of the action.
+
+* hidden: True to hide the action, false to show the action.
+
+[[change_actions_setActionOverflow]]
+=== changeActions.setActionOverflow()
+Sets an action to show in overflow menu.
+
+.Signature
+[source,javascript]
+----
+changeActions.setActionOverflow(type, key, overflow)
+----
+
+* type: The type of the action.
+
+* key: The key of the action.
+
+* overflow: True to move the action to overflow menu, false to move
+  the action out of the overflow menu.
 
 [[PanelContext]]
 == Panel Context
@@ -734,59 +459,6 @@ Gerrit.install(function(self)) {
 });
 ----
 
-[[Gerrit_delete]]
-=== Gerrit.delete()
-Issues a DELETE REST API request to the Gerrit server. For plugin
-private REST API URLs see link:#self_delete[self.delete()].
-
-.Signature
-[source,javascript]
-----
-Gerrit.delete(url, callback)
-----
-
-* url: URL relative to the Gerrit server. For example to access the
-  link:rest-api-changes.html[changes REST API] use `'/changes/'`.
-
-* callback: JavaScript function to be invoked with the parsed
-  JSON result of the API call. DELETE methods often return
-  `204 No Content`, which is passed as null.
-
-[source,javascript]
-----
-Gerrit.delete(
-  '/changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/topic',
-  function () {});
-----
-
-[[Gerrit_get]]
-=== Gerrit.get()
-Issues a GET REST API request to the Gerrit server. For plugin
-private REST API URLs see link:#self_get[self.get()].
-
-.Signature
-[source,javascript]
-----
-Gerrit.get(url, callback)
-----
-
-* url: URL relative to the Gerrit server. For example to access the
-  link:rest-api-changes.html[changes REST API] use `'/changes/'`.
-
-* callback: JavaScript function to be invoked with the parsed JSON
-  result of the API call. If the API returns a string the result is
-  a string, otherwise the result is a JavaScript object or array,
-  as described in the relevant REST API documentation.
-
-[source,javascript]
-----
-Gerrit.get('/changes/?q=status:open', function (open) {
-  for (var i = 0; i < open.length; i++) {
-    console.log(open[i].change_id);
-  }
-});
-----
-
 [[Gerrit_getCurrentUser]]
 === Gerrit.getCurrentUser()
 Returns the currently signed in user's AccountInfo data; empty account
@@ -827,136 +499,6 @@ Gerrit.install(function (self) {
   // ... plugin JavaScript code here ...
 });
 ----
-
-[[Gerrit_post]]
-=== Gerrit.post()
-Issues a POST REST API request to the Gerrit server. For plugin
-private REST API URLs see link:#self_post[self.post()].
-
-.Signature
-[source,javascript]
-----
-Gerrit.post(url, input, callback)
-----
-
-* url: URL relative to the Gerrit server. For example to access the
-  link:rest-api-changes.html[changes REST API] use `'/changes/'`.
-
-* input: JavaScript object to serialize as the request payload.
-
-* callback: JavaScript function to be invoked with the parsed JSON
-  result of the API call. If the API returns a string the result is
-  a string, otherwise the result is a JavaScript object or array,
-  as described in the relevant REST API documentation.
-
-[source,javascript]
-----
-Gerrit.post(
-  '/changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/topic',
-  {topic: 'tests', message: 'Classify work as for testing.'},
-  function (r) {});
-----
-
-[[Gerrit_put]]
-=== Gerrit.put()
-Issues a PUT REST API request to the Gerrit server. For plugin
-private REST API URLs see link:#self_put[self.put()].
-
-.Signature
-[source,javascript]
-----
-Gerrit.put(url, input, callback)
-----
-
-* url: URL relative to the Gerrit server. For example to access the
-  link:rest-api-changes.html[changes REST API] use `'/changes/'`.
-
-* input: JavaScript object to serialize as the request payload.
-
-* callback: JavaScript function to be invoked with the parsed JSON
-  result of the API call. If the API returns a string the result is
-  a string, otherwise the result is a JavaScript object or array,
-  as described in the relevant REST API documentation.
-
-[source,javascript]
-----
-Gerrit.put(
-  '/changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/topic',
-  {topic: 'tests', message: 'Classify work as for testing.'},
-  function (r) {});
-----
-
-[[Gerrit_onAction]]
-=== Gerrit.onAction()
-Register a JavaScript callback to be invoked when the user clicks
-on a button associated with a server side `UiAction`.
-
-.Signature
-[source,javascript]
-----
-Gerrit.onAction(type, view_name, callback);
-----
-
-* type: `'change'`, `'edit'`, `'revision'`, `'project'` or `'branch'`
-  indicating what sort of resource the `UiAction` was bound to in the server.
-
-* view_name: string appearing in URLs to name the view. This is the
-  second argument of the `get()`, `post()`, `put()`, and `delete()`
-  binding methods in a `RestApiModule`.
-
-* callback: JavaScript function to invoke when the user clicks. The
-  function will be passed a link:#ActionContext[ActionContext].
-
-[[Gerrit_screen]]
-=== Gerrit.screen()
-Register a JavaScript callback to be invoked when the user navigates
-to an extension screen provided by the plugin. Extension screens are
-usually linked from the link:dev-plugins.html#top-menu-extensions[top menu].
-The callback can populate the DOM with the screen's contents.
-
-.Signature
-[source,javascript]
-----
-Gerrit.screen(pattern, callback);
-----
-
-* pattern: URL token pattern to identify the screen. Argument can be
-  either a string (`'index'`) or a RegExp object (`/list\/(.*)/`).
-  If a RegExp is used the matching groups will be available inside of
-  the context as `token_match`.
-
-* callback: JavaScript function to invoke when the user navigates to
-  the screen. The function will be passed link:#ScreenContext[screen context].
-
-[[Gerrit_refresh]]
-=== Gerrit.refresh()
-Redisplays the current web UI view, refreshing all information.
-
-[[Gerrit_refreshMenuBar]]
-=== Gerrit.refreshMenuBar()
-Refreshes Gerrit's menu bar.
-
-[[Gerrit_isSignedIn]]
-=== Gerrit.isSignedIn()
-Checks if user is signed in.
-
-[[Gerrit_url]]
-=== Gerrit.url()
-Returns the URL of the Gerrit Code Review server. If invoked with
-no parameter the URL of the site is returned. If passed a string
-the argument is appended to the site URL.
-
-[source,javascript]
-----
-Gerrit.url();        // "https://gerrit-review.googlesource.com/"
-Gerrit.url('/123');  // "https://gerrit-review.googlesource.com/123"
-----
-
-For a plugin specific version see link:#self_url()[`self.url()`].
-
-[[Gerrit_showError]]
-=== Gerrit.showError(message)
-Displays the given message in the Gerrit ErrorDialog.
 
 GERRIT
 ------

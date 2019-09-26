@@ -17,17 +17,15 @@ package com.google.gerrit.server.index;
 import static com.google.gerrit.server.git.QueueProvider.QueueType.BATCH;
 import static com.google.gerrit.server.git.QueueProvider.QueueType.INTERACTIVE;
 
-import com.google.common.base.MoreObjects;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableCollection;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableSet;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.common.util.concurrent.MoreExecutors;
-import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.index.IndexDefinition;
+import com.google.gerrit.index.IndexType;
 import com.google.gerrit.index.SchemaDefinitions;
 import com.google.gerrit.index.project.ProjectIndexCollection;
 import com.google.gerrit.index.project.ProjectIndexRewriter;
@@ -73,38 +71,6 @@ import org.eclipse.jgit.lib.Config;
  * (e.g. Lucene).
  */
 public class IndexModule extends LifecycleModule {
-  public static class IndexType {
-    private static final String LUCENE = "lucene";
-    private static final String ELASTICSEARCH = "elasticsearch";
-
-    private final String type;
-
-    public IndexType(@Nullable String type) {
-      this.type = type == null ? getDefault() : type.toLowerCase();
-    }
-
-    public static String getDefault() {
-      return LUCENE;
-    }
-
-    public static ImmutableSet<String> getKnownTypes() {
-      return ImmutableSet.of(LUCENE, ELASTICSEARCH);
-    }
-
-    public boolean isLucene() {
-      return type.equals(LUCENE);
-    }
-
-    public boolean isElasticsearch() {
-      return type.equals(ELASTICSEARCH);
-    }
-
-    @Override
-    public String toString() {
-      return MoreObjects.toStringHelper(this).add("type", type).toString();
-    }
-  }
-
   public static final ImmutableCollection<SchemaDefinitions<?>> ALL_SCHEMA_DEFS =
       ImmutableList.of(
           AccountSchemaDefinitions.INSTANCE,
@@ -114,11 +80,7 @@ public class IndexModule extends LifecycleModule {
 
   /** Type of secondary index. */
   public static IndexType getIndexType(Injector injector) {
-    return getIndexType(injector.getInstance(Key.get(Config.class, GerritServerConfig.class)));
-  }
-
-  /** Type of secondary index. */
-  public static IndexType getIndexType(@Nullable Config cfg) {
+    Config cfg = injector.getInstance(Key.get(Config.class, GerritServerConfig.class));
     String configValue = cfg != null ? cfg.getString("index", null, "type") : null;
     return new IndexType(configValue);
   }

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "7fbb859e_ce152c8e",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 2594,
+      "author": {
+        "id": 1089199
+      },
+      "writtenOn": "2019-09-26T05:28:30Z",
+      "side": 1,
+      "message": "Done. Thank you very much~\n\nI haven\u0027t used this format before, now the content format issue fixed.",
+      "parentUuid": "9c9bb264_8b14b685",
+      "revId": "a5d6750cc7ecab50f6b8c80db5db88961c36a3cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "58e5f066_366e0459",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 10
@@ -39,6 +57,30 @@
       "revId": "a5d6750cc7ecab50f6b8c80db5db88961c36a3cb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6d560a77_fc00f5c0",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 2595,
+      "author": {
+        "id": 1089199
+      },
+      "writtenOn": "2019-09-26T05:28:30Z",
+      "side": 1,
+      "message": "Done.\n\nIt\u0027s removed now.",
+      "parentUuid": "58e5f066_366e0459",
+      "range": {
+        "startLine": 2595,
+        "startChar": 0,
+        "endLine": 2595,
+        "endChar": 50
+      },
+      "revId": "a5d6750cc7ecab50f6b8c80db5db88961c36a3cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "fbb36ce8_6eebac21",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 2605,
+      "author": {
+        "id": 1089199
+      },
+      "writtenOn": "2019-09-26T05:28:30Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "b0206591_031832e2",
+      "range": {
+        "startLine": 2597,
+        "startChar": 0,
+        "endLine": 2605,
+        "endChar": 49
+      },
+      "revId": "a5d6750cc7ecab50f6b8c80db5db88961c36a3cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "832f9838_71f9a4d3",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 10
@@ -85,6 +151,30 @@
       "revId": "a5d6750cc7ecab50f6b8c80db5db88961c36a3cb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "687297ba_c2e631b8",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 2614,
+      "author": {
+        "id": 1089199
+      },
+      "writtenOn": "2019-09-26T05:28:30Z",
+      "side": 1,
+      "message": "Done.\n\nThanks~ That\u0027s helped.\n\nI thought about the suggestion and found out the difference of commit message and introduction documentation.\n\nNow, the implement detail is removed.",
+      "parentUuid": "832f9838_71f9a4d3",
+      "range": {
+        "startLine": 2611,
+        "startChar": 0,
+        "endLine": 2614,
+        "endChar": 56
+      },
+      "revId": "a5d6750cc7ecab50f6b8c80db5db88961c36a3cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -111,6 +201,30 @@
     },
     {
       "key": {
+        "uuid": "6ece4213_4922d05f",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 2618,
+      "author": {
+        "id": 1089199
+      },
+      "writtenOn": "2019-09-26T05:28:30Z",
+      "side": 1,
+      "message": "Done.\n\nI changed `MySecureHeaderFilter` to `AFilter` and `MySecureIPFilter` to `AFilter`.\n\nDoes it look a little better?",
+      "parentUuid": "f3da71d8_7ac42466",
+      "range": {
+        "startLine": 2616,
+        "startChar": 0,
+        "endLine": 2618,
+        "endChar": 18
+      },
+      "revId": "a5d6750cc7ecab50f6b8c80db5db88961c36a3cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1e99c9b6_7de4bd08",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 10
@@ -131,6 +245,30 @@
       "revId": "a5d6750cc7ecab50f6b8c80db5db88961c36a3cb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a8f7787f_279ac5d6",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 2623,
+      "author": {
+        "id": 1089199
+      },
+      "writtenOn": "2019-09-26T05:28:30Z",
+      "side": 1,
+      "message": "Done.\n\nYes, you are right.\n\nAuth section is removed now .",
+      "parentUuid": "1e99c9b6_7de4bd08",
+      "range": {
+        "startLine": 2621,
+        "startChar": 0,
+        "endLine": 2623,
+        "endChar": 26
+      },
+      "revId": "a5d6750cc7ecab50f6b8c80db5db88961c36a3cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,112 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e2b9fdcf_67b5aaf2",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 2583,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2019-09-26T10:00:43Z",
+      "side": 1,
+      "message": "FYI This is a case where it\u0027s also broken, but let\u0027s not fix it in this change.",
+      "revId": "87208661f1b21525187f3c9c2f87622eafd6751d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b80217a7_78ba371c",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 2599,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2019-09-26T10:00:43Z",
+      "side": 1,
+      "message": "+\n\n(to keep the code box below part of the className.initParam section)",
+      "revId": "87208661f1b21525187f3c9c2f87622eafd6751d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0777b0be_6043d2c8",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 13
+      },
+      "lineNbr": 2604,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2019-09-26T10:00:43Z",
+      "side": 1,
+      "message": "+\n\n(to keep the code box below part of the className.initParam section)",
+      "revId": "87208661f1b21525187f3c9c2f87622eafd6751d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "db90ee3d_985126e9",
+        "filename": "javatests/com/google/gerrit/acceptance/filter/BUILD",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2019-09-26T10:00:43Z",
+      "side": 1,
+      "message": "Q for maintainer; is javatests/com/google/gerrit/acceptance/filter the right place to put these tests in?",
+      "revId": "87208661f1b21525187f3c9c2f87622eafd6751d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "69ab74b5_2547c21c",
+        "filename": "javatests/com/google/gerrit/acceptance/filter/FakeMustInitParamsFilter.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2019-09-26T10:00:43Z",
+      "side": 1,
+      "message": "you don\u0027t seem to test this code path in FilterClassIT.java. (If that\u0027s deliberate, what is the purpose of having this in the test code?)",
+      "revId": "87208661f1b21525187f3c9c2f87622eafd6751d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a9cf00f5_ee690861",
+        "filename": "javatests/com/google/gerrit/acceptance/filter/FakeMustInitParamsFilter.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2019-09-26T10:00:43Z",
+      "side": 1,
+      "message": "(nit) space should come after comma",
+      "range": {
+        "startLine": 47,
+        "startChar": 39,
+        "endLine": 47,
+        "endChar": 41
+      },
+      "revId": "87208661f1b21525187f3c9c2f87622eafd6751d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

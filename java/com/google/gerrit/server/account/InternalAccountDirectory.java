@@ -105,7 +105,7 @@ public class InternalAccountDirectory extends AccountDirectory {
       AccountState state = accountStates.get(id);
       if (state != null) {
         if (!options.contains(FillOptions.SECONDARY_EMAILS)
-            || Objects.equals(currentUserId, state.getAccount().id())
+            || Objects.equals(currentUserId, state.account().id())
             || canModifyAccount) {
           fill(info, accountStates.get(id), options);
         } else {
@@ -120,7 +120,7 @@ public class InternalAccountDirectory extends AccountDirectory {
   }
 
   private void fill(AccountInfo info, AccountState accountState, Set<FillOptions> options) {
-    Account account = accountState.getAccount();
+    Account account = accountState.account();
     if (options.contains(FillOptions.ID)) {
       info._accountId = account.id().get();
     } else {
@@ -130,17 +130,17 @@ public class InternalAccountDirectory extends AccountDirectory {
     if (options.contains(FillOptions.NAME)) {
       info.name = Strings.emptyToNull(account.fullName());
       if (info.name == null) {
-        info.name = accountState.getUserName().orElse(null);
+        info.name = accountState.userName().orElse(null);
       }
     }
     if (options.contains(FillOptions.EMAIL)) {
       info.email = account.preferredEmail();
     }
     if (options.contains(FillOptions.SECONDARY_EMAILS)) {
-      info.secondaryEmails = getSecondaryEmails(account, accountState.getExternalIds());
+      info.secondaryEmails = getSecondaryEmails(account, accountState.externalIds());
     }
     if (options.contains(FillOptions.USERNAME)) {
-      info.username = accountState.getUserName().orElse(null);
+      info.username = accountState.userName().orElse(null);
     }
 
     if (options.contains(FillOptions.STATUS)) {

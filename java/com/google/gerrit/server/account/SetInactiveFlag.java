@@ -56,7 +56,7 @@ public class SetInactiveFlag {
             "Deactivate Account via API",
             accountId,
             (a, u) -> {
-              if (!a.getAccount().isActive()) {
+              if (!a.account().isActive()) {
                 alreadyInactive.set(true);
               } else {
                 try {
@@ -89,7 +89,7 @@ public class SetInactiveFlag {
             "Activate Account via API",
             accountId,
             (a, u) -> {
-              if (a.getAccount().isActive()) {
+              if (a.account().isActive()) {
                 alreadyActive.set(true);
               } else {
                 try {

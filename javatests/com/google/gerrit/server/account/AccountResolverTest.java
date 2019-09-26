@@ -84,7 +84,7 @@ public class AccountResolverTest {
     @Override
     public String toString() {
       return accounts.stream()
-          .map(a -> a.getAccount().id().toString())
+          .map(a -> a.account().id().toString())
           .collect(joining(",", pattern + "(", ")"));
     }
   }
@@ -156,7 +156,7 @@ public class AccountResolverTest {
     // Searchers always short-circuit when finding a non-empty result list, and this one didn't
     // filter out inactive results, so the second searcher never ran.
     assertThat(result.asIdSet()).containsExactlyElementsIn(ids(1));
-    assertThat(getOnlyElement(result.asList()).getAccount().isActive()).isFalse();
+    assertThat(getOnlyElement(result.asList()).account().isActive()).isFalse();
     assertThat(filteredInactiveIds(result)).isEmpty();
   }
 
@@ -173,7 +173,7 @@ public class AccountResolverTest {
     // and this one didn't filter out inactive results,
     // so the second searcher never ran.
     assertThat(result.asIdSet()).containsExactlyElementsIn(ids(1));
-    assertThat(getOnlyElement(result.asList()).getAccount().isActive()).isFalse();
+    assertThat(getOnlyElement(result.asList()).account().isActive()).isFalse();
     assertThat(filteredInactiveIds(result)).isEmpty();
   }
 
@@ -255,8 +255,8 @@ public class AccountResolverTest {
     AccountState account = newAccount(1);
     ImmutableList<Searcher<?>> searchers =
         ImmutableList.of(new TestSearcher("foo", false, account));
-    assertThat(search("foo", searchers, allVisible()).asUnique().getAccount().id())
-        .isEqualTo(account.getAccount().id());
+    assertThat(search("foo", searchers, allVisible()).asUnique().account().id())
+        .isEqualTo(account.account().id());
   }
 
   @Test
@@ -375,18 +375,16 @@ public class AccountResolverTest {
   }
 
   private Predicate<AccountState> activityPrediate() {
-    return (AccountState accountState) -> accountState.getAccount().isActive();
+    return (AccountState accountState) -> accountState.account().isActive();
   }
 
   private static Supplier<Predicate<AccountState>> only(int... ids) {
     ImmutableSet<Account.Id> idSet =
         Arrays.stream(ids).mapToObj(Account::id).collect(toImmutableSet());
-    return () -> a -> idSet.contains(a.getAccount().id());
+    return () -> a -> idSet.contains(a.account().id());
   }
 
   private static ImmutableSet<Account.Id> filteredInactiveIds(Result result) {
-    return result.filteredInactive().stream()
-        .map(a -> a.getAccount().id())
-        .collect(toImmutableSet());
+    return result.filteredInactive().stream().map(a -> a.account().id()).collect(toImmutableSet());
   }
 }

@@ -123,7 +123,7 @@ public class FromAddressGeneratorProvider implements Provider<FromAddressGenerat
     public Address from(Account.Id fromId) {
       String senderName;
       if (fromId != null) {
-        Optional<Account> a = accountCache.get(fromId).map(AccountState::getAccount);
+        Optional<Account> a = accountCache.get(fromId).map(AccountState::account);
         String fullName = a.map(Account::fullName).orElse(null);
         String userEmail = a.map(Account::preferredEmail).orElse(null);
         if (canRelay(userEmail)) {
@@ -208,7 +208,7 @@ public class FromAddressGeneratorProvider implements Provider<FromAddressGenerat
       final String senderName;
 
       if (fromId != null) {
-        String fullName = accountCache.get(fromId).map(a -> a.getAccount().fullName()).orElse(null);
+        String fullName = accountCache.get(fromId).map(a -> a.account().fullName()).orElse(null);
         if (fullName == null || "".equals(fullName)) {
           fullName = anonymousCowardName;
         }

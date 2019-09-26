@@ -59,7 +59,7 @@ public class GetEditPreferences implements RestReadView<AccountResource> {
     return Response.ok(
         accountCache
             .get(id)
-            .map(AccountState::getEditPreferences)
+            .map(AccountState::editPreferences)
             .orElseThrow(() -> new ResourceNotFoundException(IdString.fromDecoded(id.toString()))));
   }
 }

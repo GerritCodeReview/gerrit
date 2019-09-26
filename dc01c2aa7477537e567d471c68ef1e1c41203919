@@ -71,6 +71,29 @@
     },
     {
       "key": {
+        "uuid": "c32a501c_d381d030",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-09-26T20:18:09Z",
+      "side": 1,
+      "message": "Throwing 3 prominent links into the UI has its disadvantages. So this is not necessarily a net improvement for everyone. Also it is not clear what \"Download\" will do for each of those links. I will discuss this issue with our UX team on Tuesday, but it may well be that a \"Download\" dropdown with three entries \"patch\", \"left content\", \"right content\" is the way to go. We can also take over the implementation and would like to resolve this issue.",
+      "range": {
+        "startLine": 14,
+        "startChar": 4,
+        "endLine": 14,
+        "endChar": 35
+      },
+      "revId": "dc01c2aa7477537e567d471c68ef1e1c41203919",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9b00fc78_fdd9d6bc",
         "filename": "/COMMIT_MSG",
         "patchSetId": 10

@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher A0D0EF51 1522853986 +0200\nnonce AFN+CTKC0LQKBoV/XcZHqjtCMRvCSXp4fxjpFZJ7y4geTeUNGDJkpq3uk/CJ97I3DVxyOozfr8vR\n\n0000000000000000000000000000000000000000 15545de913b93f6463571b1cc9e168e009eba74c refs/for/master\n-----BEGIN PGP SIGNATURE-----\n\niQEzBAABCgAdFiEEjcOJ9ZBmQPrFqZA3UbX9l6DQ71EFAlrE6GIACgkQUbX9l6DQ\n71EYvAgAlRRUUbMUiiJ4Wlam2nWwqGqBMwPIIlEwQYPlVanlPomThzqB2hDhVMpC\nUN9U7U3S+JsyOm+c+jMArpxn8fUlWpT60nas5sPA2U69AdkP2bbSCgUsKpzURHZo\n9Od2nK9g1Wz6dIC1A4idOApVEdRcY0utcL1awcugOWSAlXvCJbOJw1+4bahkLyvg\n/WqalAr6G9AEUDfgSpdZ1R3xcSjbSj2nmqL3SBV1L6fICn1FWKK1m+kBOch1ZVRn\neNGoZ3zKHxL+/H4n96dXRSlN4fcD+G5hQnWJRRrjtUq4dMqQ93GGBWVY+3h6pixW\nNHvEbrX1mWe6JuqC7twenur4SlDviQ\u003d\u003d\n\u003dzN28\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "9de91761_0fb2cbc1",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountManagerIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 460,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-09-26T23:49:50Z",
+      "side": 1,
+      "message": "This is wrong, it should have been accountId2 (not accountId).\nLinking the same email to the same account should not raise any exception.\n\nThe fact that this test was incorrect, but actually passed, has created the Bug: Issue 11246 and caused troubles to people logging in via LDAP.\n\nThis regression has now been fixed with Change-Id: I78bc82faa.\n\n@Edwin I would be grateful if you could double-check and validate the change, to confirm the initial mistake in this specific e-mail enforcement and the correct fix on the problem introduced in this change.",
+      "range": {
+        "startLine": 460,
+        "startChar": 24,
+        "endLine": 460,
+        "endChar": 33
+      },
+      "revId": "15545de913b93f6463571b1cc9e168e009eba74c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

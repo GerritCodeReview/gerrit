@@ -39,7 +39,7 @@ import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.index.IndexModule;
-import com.google.gerrit.server.index.IndexModule.IndexType;
+import com.google.gerrit.index.IndexType;
 import com.google.gerrit.server.plugins.JarScanner;
 import com.google.gerrit.server.schema.NoteDbSchemaUpdater;
 import com.google.gerrit.server.schema.UpdateUI;

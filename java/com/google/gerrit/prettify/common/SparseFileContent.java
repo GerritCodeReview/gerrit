@@ -62,10 +62,10 @@ public class SparseFileContent {
         return idx + 1;
       }
 
-      if (++currentRangeIdx < high) {
+      if (idx >= cur.base && currentRangeIdx + 1 < high) {
         // Its not plus one, its the base of the next range.
         //
-        return ranges.get(currentRangeIdx).base;
+        return ranges.get(++currentRangeIdx).base;
       }
     }
 

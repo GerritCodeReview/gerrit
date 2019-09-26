@@ -65,7 +65,10 @@
       /**
        * If set, the cursor will attempt to move to the line number (instead of
        * the first chunk) the next time the diff renders. It is set back to null
-       * when used.
+       * when used. It should be only used if you want the line to be focused
+       * after initialization of the component and page should scroll
+       * to that position. This parameter should be set at most for one gr-diff
+       * element in the page.
        *
        * @type (?number)
        */
@@ -223,9 +226,12 @@
 
     handleDiffUpdate() {
       this._updateStops();
-      this._scrollBehavior =
-          ScrollBehavior.NEVER; // Never scroll during initialization.
       if (!this.diffRow) {
+        // does not scroll during init unless requested
+        const scrollingBehaviorForInit = this.initialLineNumber ?
+            ScrollBehavior.KEEP_VISIBLE :
+            ScrollBehavior.NEVER;
+        this._scrollBehavior = scrollingBehaviorForInit;
         this.reInitCursor();
       }
       this._scrollBehavior = ScrollBehavior.KEEP_VISIBLE;

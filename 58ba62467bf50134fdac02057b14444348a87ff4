@@ -16,6 +16,23 @@
       "revId": "58ba62467bf50134fdac02057b14444348a87ff4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1c418c1a_ed841c27",
+        "filename": "java/com/google/gerrit/server/auth/ldap/Helper.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2019-09-26T17:15:17Z",
+      "side": 1,
+      "message": "Perhaps we could do a\n\n ctx.lookup(\"\")\n\n(taken from the Spring LDAP project PR https://github.com/spring-projects/spring-ldap/pull/503)",
+      "revId": "58ba62467bf50134fdac02057b14444348a87ff4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

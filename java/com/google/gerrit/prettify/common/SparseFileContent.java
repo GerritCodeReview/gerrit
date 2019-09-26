@@ -58,14 +58,29 @@ public class SparseFileContent {
     int high = ranges.size();
     if (currentRangeIdx < high) {
       Range cur = ranges.get(currentRangeIdx);
-      if (cur.contains(idx + 1)) {
-        return idx + 1;
+      int nextIdx = idx + 1;
+      if (cur.contains(nextIdx)) {
+        return nextIdx;
       }
 
-      if (idx >= cur.base && currentRangeIdx + 1 < high) {
-        // Its not plus one, its the base of the next range.
-        //
-        return ranges.get(++currentRangeIdx).base;
+      //If nextIdx is not inside cur Range, there are 4 cases:
+      //1) nextIdx is before cur range - use binary search
+      //2) nextIdx is after cur range, but before the next range - return nextRange.base
+      //3) nextIdx is inside next range - return idx + 1
+      //4) nextIdx is after the next range - use binary search
+
+      if (nextIdx >= cur.base && currentRangeIdx + 1 < high) {
+        Range nextRange = ranges.get(++currentRangeIdx);
+        if (nextIdx <= nextRange.base) {
+          // Case 2
+          // Its not plus one, its the base of the next range.
+          //
+          return nextRange.base;
+        }
+        if (nextIdx < nextRange.end()) {
+          //Case 3
+          return nextIdx;
+        }
       }
     }
 

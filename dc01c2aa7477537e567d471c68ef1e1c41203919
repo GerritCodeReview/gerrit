@@ -94,6 +94,30 @@
     },
     {
       "key": {
+        "uuid": "2d2fbe56_1ad1c5fc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-09-26T20:44:29Z",
+      "side": 1,
+      "message": "Speaking for me, it is the major missing feature in PG UI. Probably the very last one, that cannot be done in PG at all. So, in retrospective, it was a failure to remove GWT UI, before that feature was implemented.\n\nI also wouldn\u0027t care about \"Download patch\" on Diff view at all, if it is confusing, because the change diff can already be downloaded on the change screen, with Download Patch overlay: [1]. Moreover, this offers me even the advantage to choose what format I really want. I think it was an accident to offer change diff file on diff view in PG, I would never expect and use it there (GWT UI doesn\u0027t offer download change diff on diff view at all). I think that PG developers assumed to offer download link for the file itself (only left side?) and not the change diff on the diff view.\n\nBut of course, one single Download Dropdown in the upper corner would work too, e.g. with these values:\n\n* Patch file (base64)\n* Patch file (zip)\n* Left side file (zip) \n* Right side file (zip)\n\nHowever, it wouldn\u0027t be as easy to use as just one single click on the right side. So it I should decide: Abandon Download patch from Diff view, and keep left side/right side Download buttons (whatever they named).\n\n[1] https://imgur.com/a/sx2BV6K",
+      "parentUuid": "c32a501c_d381d030",
+      "range": {
+        "startLine": 14,
+        "startChar": 4,
+        "endLine": 14,
+        "endChar": 35
+      },
+      "revId": "dc01c2aa7477537e567d471c68ef1e1c41203919",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9b00fc78_fdd9d6bc",
         "filename": "/COMMIT_MSG",
         "patchSetId": 10

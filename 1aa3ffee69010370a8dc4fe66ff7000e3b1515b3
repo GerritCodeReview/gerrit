@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "23c6b636_8275a45c",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-09-26T21:24:32Z",
+      "side": 1,
+      "message": "document how this is different from receivePack.getRepo, here or somewhere else.",
+      "range": {
+        "startLine": 251,
+        "startChar": 8,
+        "endLine": 251,
+        "endChar": 18
+      },
+      "revId": "1aa3ffee69010370a8dc4fe66ff7000e3b1515b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -320,7 +320,7 @@ limitations under the License.
     });
 
     test('getAccount', done => {
-      Gerrit.getLoggedIn().then(loggedIn => {
+      plugin.restApi().getLoggedIn().then(loggedIn => {
         assert.isTrue(loggedIn);
         done();
       });

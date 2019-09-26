@@ -87,15 +87,18 @@ public class MultipleQuotaPluginsIT extends AbstractDaemonTest {
         .isEqualTo(
             QuotaResponse.Aggregated.create(
                 ImmutableList.of(QuotaResponse.ok(), QuotaResponse.error("fail"))));
+
+    verify(quotaEnforcerA);
+    verify(quotaEnforcerB);
   }
 
   @Test
   public void refillsOnException() {
     NullPointerException exception = new NullPointerException();
     QuotaRequestContext ctx = QuotaRequestContext.builder().user(identifiedAdmin).build();
-    expect(quotaEnforcerA.requestTokens("testGroup", ctx, 1)).andThrow(exception);
-    expect(quotaEnforcerB.requestTokens("testGroup", ctx, 1)).andReturn(QuotaResponse.ok());
-    quotaEnforcerB.refill("testGroup", ctx, 1);
+    expect(quotaEnforcerA.requestTokens("testGroup", ctx, 1)).andReturn(QuotaResponse.ok());
+    expect(quotaEnforcerB.requestTokens("testGroup", ctx, 1)).andThrow(exception);
+    quotaEnforcerA.refill("testGroup", ctx, 1);
     expectLastCall();
 
     replay(quotaEnforcerA);
@@ -108,6 +111,7 @@ public class MultipleQuotaPluginsIT extends AbstractDaemonTest {
     assertThat(thrown).isEqualTo(exception);
 
     verify(quotaEnforcerA);
+    verify(quotaEnforcerB);
   }
 
   @Test
@@ -124,6 +128,9 @@ public class MultipleQuotaPluginsIT extends AbstractDaemonTest {
         .isEqualTo(
             QuotaResponse.Aggregated.create(
                 ImmutableList.of(QuotaResponse.error("fail"), QuotaResponse.noOp())));
+
+    verify(quotaEnforcerA);
+    verify(quotaEnforcerB);
   }
 
   @Test
@@ -139,6 +146,9 @@ public class MultipleQuotaPluginsIT extends AbstractDaemonTest {
         quotaBackend.user(identifiedAdmin).availableTokens("testGroup").availableTokens();
     assertThat(tokens).isPresent();
     assertThat(tokens.getAsLong()).isEqualTo(10L);
+
+    verify(quotaEnforcerA);
+    verify(quotaEnforcerB);
   }
 
   @Test
@@ -154,5 +164,8 @@ public class MultipleQuotaPluginsIT extends AbstractDaemonTest {
         quotaBackend.user(identifiedAdmin).availableTokens("testGroup").availableTokens();
     assertThat(tokens).isPresent();
     assertThat(tokens.getAsLong()).isEqualTo(20L);
+
+    verify(quotaEnforcerA);
+    verify(quotaEnforcerB);
   }
 }

@@ -22,6 +22,30 @@
       "revId": "2fdf4290d69f1d15bf28b3e25af019d6d0280175",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1a216d8d_8c623698",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountManagerIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-26T13:37:59Z",
+      "side": 0,
+      "message": "At a point in time an email can only belong to a single Gerrit account.\n\nThis test checks that if an account A owns the email foo@example.com (as an SCHEME_EXTERNAL external id), that it\u0027s not possible to create an account B via login with the same email (as SCHEME_MAILTO external ID).\n\nIf account B gets created with the same email as account A that\u0027s an inconsistency that should be prevented. Hence I think this test should not be dropped.\n\nIt would be okay if on login as foo@example.com the user is identified as account A (and no new account is created). Not sure if this is what you are trying to achieve.",
+      "parentUuid": "be987faf_135fa80e",
+      "range": {
+        "startLine": 348,
+        "startChar": 14,
+        "endLine": 348,
+        "endChar": 68
+      },
+      "revId": "2fdf4290d69f1d15bf28b3e25af019d6d0280175",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

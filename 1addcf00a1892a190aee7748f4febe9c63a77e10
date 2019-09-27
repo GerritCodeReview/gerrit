@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "925f05e0_f4667440",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountManagerIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 441,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-09-27T06:58:26Z",
+      "side": 1,
+      "message": "Still not removed, same comment as in previous patch set.",
+      "range": {
+        "startLine": 441,
+        "startChar": 2,
+        "endLine": 441,
+        "endChar": 15
+      },
+      "revId": "1addcf00a1892a190aee7748f4febe9c63a77e10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

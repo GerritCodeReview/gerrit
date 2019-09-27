@@ -47,12 +47,9 @@ public class QueryGroups implements RestReadView<TopLevelResource> {
   private int start;
   private EnumSet<ListGroupsOption> options = EnumSet.noneOf(ListGroupsOption.class);
 
-  // TODO(ekempin): --query in ListGroups is marked as deprecated, once it is
-  // removed we want to rename --query2 to --query here.
-  /** --query (-q) is already used by {@link ListGroups} */
   @Option(
-      name = "--query2",
-      aliases = {"-q2"},
+      name = "--query",
+      aliases = {"-q"},
       usage = "group query")
   public void setQuery(String query) {
     this.query = query;

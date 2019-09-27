@@ -144,6 +144,30 @@
     },
     {
       "key": {
+        "uuid": "998c4180_a7137056",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-09-27T08:22:23Z",
+      "side": 1,
+      "message": "Yes, it sounds like related. And description of issue 9001 (see the code pointer in description of that issue) also reveals yet another problem with the approach in this change: it is relaxing the restriction to having the same email multiple times across different external ids for the same account in AccountManager, while still missed to fix the consistency checker for account and external_ids to relax the check as well: [1].\n\nREST endpoint: \n\n  https://gerrit.domain/a/config/server/check.consistency\n\nwith this body:\n\n  \"check_accounts\": {},\n  \"check_account_external_ids\": {} \n\nSo that this change might create a situation, where AccountManager would allow something to happen, that would be detected as inconsistent by the current ConsistencyChecker code.\n\nBefore the to strict email check regression introduced in: Ie4c677365cd, linking of external ids in OAuth-plugin worked as expected. Given this external id (see detailed bug report in: [2]):\n\n  [externalId \"123456789098765432123\"]\n        accountId \u003d 4711\n        email \u003d foo@example.org\n\noauth plugin linked on login attempt the above legacy external id (note, there is no provider prefix) to this one:\n\n  [externalId \"google-oauth:123456789098765432123\"]\n        accountId \u003d 4711\n        email \u003d foo@example.org\n\nTo summarize, this change fixed both issue 11246 and issue 9001, so that they both should be linked here, or one be merged into another.\n\n* [1] https://github.com/GerritCodeReview/gerrit/blob/master/java/com/google/gerrit/server/account/externalids/ExternalIdsConsistencyChecker.java#L95-L107\n* [2] https://github.com/davido/gerrit-oauth-provider/issues/123",
+      "parentUuid": "7ab8bfda_fa77f3e4",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 16
+      },
+      "revId": "12c325a1eeae781d847b4da2276a448baad431a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "16e1619a_6a60f86d",
         "filename": "java/com/google/gerrit/server/account/AccountManager.java",
         "patchSetId": 6

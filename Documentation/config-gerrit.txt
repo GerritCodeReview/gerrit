@@ -2669,7 +2669,7 @@ Example of using a security library secure.jar under $GERRIT_SITE/lib
 that provides a org.anyorg.MySecureHeaderFilter Servlet Filter that enforces
 a trusted username in the `TRUSTED_USER` HTTP Header and
 org.anyorg.MySecureIPFilter that performs source IP security filtering:
-
++
 ----
 [auth]
 	type = HTTP

@@ -50,6 +50,30 @@
     },
     {
       "key": {
+        "uuid": "b33d61b8_555b2d96",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-27T08:21:33Z",
+      "side": 1,
+      "message": "\u003e Yes, that is very confusing in Gerrit: the overall design problem has been highlighted by \n\u003e Andrew in the Issue 11246. The email should never be an attribute of the account but\n\u003e always a mailto: external id.\n\nNot sure I follow, the preferred email in the account data is not an extra email, it\u0027s just flagging one of the emails in the external IDs as preferred. \nDo you mean external IDs should not have an email field, but emails should only be stored as mailto: external id?\n\n\u003e As a matter of fact, Gerrit considers the email in the\n\u003e gerrit: record as an external id, even if it isn\u0027t really a proper external id.\n\nYes, I think that\u0027s part of the issue.\n\n\u003e I believe we should fix this design issue (coming from the very beginning of Gerrit) in master,\n\u003e but that would require data migration and can\u0027t be done in a stable branch.\n\nYeah, I would love to see a new design for accounts and external IDs, but that requires a detailed design doc and must be done very carefully as it has a high risk of breaking things. It\u0027s also probably a lot of work.\n\n\u003e \u003e If an account has several emails via external IDs, then the user can select one of these emails as preferred email which is then stored in account.config.\n\u003e \n\u003e Yes, and *that* is the use-case that doesn\u0027t work at all. If you have an external id you cannot flag it anymore as preferred\n\nOh wait, there is no way to set an external ID as preferred.\nYou can only chose a preferred email, and preferred email just means that this is the email to which notifications will be sent, otherwise preferred email should have no meaning.\n\n\u003e Actually, this is the way it works today and has always been working with LDAP. The LDAP authentication sets the preferred e-mail in the account without creating an external ID. \n\nReally? Can you point me to that code?",
+      "parentUuid": "89798eab_3a4465cb",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 72
+      },
+      "revId": "1addcf00a1892a190aee7748f4febe9c63a77e10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "925f05e0_f4667440",
         "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountManagerIT.java",
         "patchSetId": 8

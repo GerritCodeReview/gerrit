@@ -580,7 +580,8 @@ of cases:
   from one device, and fetch to another device.
 
 Do *not* use private changes for making security fixes (see
-link:#private-changes-pitfalls[pitfalls] below).
+link:#private-changes-pitfalls[pitfalls] below). How to make security
+fixes is explained link:#security-fixes[below].
 
 To create a private change, you push it with the `private` option.
 
@@ -961,6 +962,29 @@ In this case, Gerrit will persist a change message ("Thanks, I'll fix it."),
 a file comment ("Rename this file to File.java") as well as a reply to an
 inline comment ("Yeah, I see why, let me try again.").
 
+[[security-fixes]]
+-- Security Fixes
+
+If a security vulnerability is discovered you normally want to have an
+embargo about it until fixed releases have been made available. This
+means you want to develop and review security fixes in private.
+
+If your repository is public or grants broad read access it is
+recommended to fix security issues in a copy of your repository which
+has very restricted read permissions (e.g. `myproject-security-fixes`).
+You can then implement, review and submit the security fix in this
+repository, make and publish a new release and only then integrate the
+security fix back into the normal (public) repository.
+
+Alternatively you can do the security fix in your normal repository in
+a branch with restricted read permissions. We don't recommend this
+because there is a risk of configuring the access rights wrongly and
+unintentionally granting read access to the wrong people.
+
+Using private changes for security fixes is *not* recommended due to
+the link:#private-changes-pitfalls[pitfalls] discussed above.
+Especially you don't want the fix to become visible after submit and
+before you had a chance to make and publish a new release.
 
 GERRIT
 ------

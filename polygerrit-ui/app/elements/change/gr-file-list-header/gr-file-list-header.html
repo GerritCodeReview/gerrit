@@ -217,28 +217,28 @@ limitations under the License.
         <span class$="[[_computeUploadHelpContainerClass(change, account)]]">
           <gr-button link
               class="upload"
-              on-tap="_handleUploadTap">Update Change</gr-button>
+              on-click="_handleUploadTap">Update Change</gr-button>
         </span>
         <span class="downloadContainer desktop">
           <gr-button link
               class="download"
-              on-tap="_handleDownloadTap">Download</gr-button>
+              on-click="_handleDownloadTap">Download</gr-button>
         </span>
         <span class$="includedInContainer [[_hideIncludedIn(change)]] desktop">
           <gr-button link
               class="includedIn"
-              on-tap="_handleIncludedInTap">Included In</gr-button>
+              on-click="_handleIncludedInTap">Included In</gr-button>
         </span>
         <template is="dom-if"
             if="[[_fileListActionsVisible(shownFileCount, _maxFilesForBulkActions)]]">
           <gr-button
               id="expandBtn"
               link
-              on-tap="_expandAllDiffs">Expand All</gr-button>
+              on-click="_expandAllDiffs">Expand All</gr-button>
           <gr-button
               id="collapseBtn"
               link
-              on-tap="_collapseAllDiffs">Collapse All</gr-button>
+              on-click="_collapseAllDiffs">Collapse All</gr-button>
         </template>
         <template is="dom-if"
             if="[[!_fileListActionsVisible(shownFileCount, _maxFilesForBulkActions)]]">
@@ -262,7 +262,7 @@ limitations under the License.
                 has-tooltip
                 title="Diff preferences"
                 class="prefsButton desktop"
-                on-tap="_handlePrefsTap"><iron-icon icon="gr-icons:settings"></iron-icon></gr-button>
+                on-click="_handlePrefsTap"><iron-icon icon="gr-icons:settings"></iron-icon></gr-button>
           </span>
         </div>
       </div>

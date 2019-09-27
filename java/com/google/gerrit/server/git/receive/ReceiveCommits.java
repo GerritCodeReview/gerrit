@@ -238,9 +238,6 @@ import org.kohsuke.args4j.Option;
 class ReceiveCommits {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  private static final String CODE_REVIEW_ERROR =
-      "You need 'Push' rights to upload code review requests.\n"
-          + "Verify that you are pushing to the right branch.";
   private static final String CANNOT_DELETE_CHANGES = "Cannot delete from '" + REFS_CHANGES + "'";
   private static final String CANNOT_DELETE_CONFIG =
       "Cannot delete project configuration from '" + RefNames.REFS_CONFIG + "'";
@@ -801,7 +798,7 @@ class ReceiveCommits {
     Boolean isPrivate = null;
     Boolean wip = null;
     if (!updated.isEmpty()) {
-      edit = magicBranch != null && (magicBranch.edit || magicBranch.draft);
+      edit = magicBranch != null && magicBranch.edit;
       if (magicBranch != null) {
         if (magicBranch.isPrivate) {
           isPrivate = true;
@@ -1439,13 +1436,6 @@ class ReceiveCommits {
     @Option(name = "--topic", metaVar = "NAME", usage = "attach topic to changes")
     String topic;
 
-    @Option(
-        name = "--draft",
-        usage =
-            "Will be removed. Before that, this option will be mapped to '--private'"
-                + "for new changes and '--edit' for existing changes")
-    boolean draft;
-
     @Option(name = "--private", usage = "mark new/updated change as private")
     boolean isPrivate;
 
@@ -1581,7 +1571,6 @@ class ReceiveCommits {
       this.projectState = projectState;
       this.deprecatedTopicSeen = false;
       this.cmd = cmd;
-      this.draft = cmd.getRefName().startsWith(MagicBranch.NEW_DRAFT_CHANGE);
       this.labelTypes = labelTypes;
       GeneralPreferencesInfo prefs = user.state().generalPreferences();
       this.defaultPublishComments =
@@ -1798,14 +1787,6 @@ class ReceiveCommits {
         return;
       }
 
-      // TODO(davido): Remove legacy support for drafts magic branch option
-      // after repo-tool supports private and work-in-progress changes.
-      if (magicBranch.draft && !receiveConfig.allowDrafts) {
-        errors.put(CODE_REVIEW_ERROR, ref);
-        reject(cmd, "draft workflow is disabled");
-        return;
-      }
-
       if (magicBranch.isPrivate && magicBranch.removePrivate) {
         reject(cmd, "the options 'private' and 'remove-private' are mutually exclusive");
         return;
@@ -1814,9 +1795,7 @@ class ReceiveCommits {
       boolean privateByDefault =
           projectCache.get(project.getNameKey()).is(BooleanProjectConfig.PRIVATE_BY_DEFAULT);
       setChangeAsPrivate =
-          magicBranch.draft
-              || magicBranch.isPrivate
-              || (privateByDefault && !magicBranch.removePrivate);
+          magicBranch.isPrivate || (privateByDefault && !magicBranch.removePrivate);
 
       if (receiveConfig.disablePrivateChanges && setChangeAsPrivate) {
         reject(cmd, "private changes are disabled");
@@ -2662,7 +2641,7 @@ class ReceiveCommits {
       logger.atFine().log("Read %d changes to replace", replaceByChange.size());
 
       if (magicBranch != null && magicBranch.cmd.getResult() != NOT_ATTEMPTED) {
-        // Cancel creations tied to refs/for/ or refs/drafts/ command.
+        // Cancel creations tied to refs/for/ command.
         for (ReplaceRequest req : replaceByChange.values()) {
           if (req.inputCommand == magicBranch.cmd && req.cmd != null) {
             req.cmd.setResult(Result.REJECTED_OTHER_REASON, "aborted");
@@ -2756,7 +2735,7 @@ class ReceiveCommits {
             return false;
           }
 
-          if (magicBranch.edit || magicBranch.draft) {
+          if (magicBranch.edit) {
             return newEdit();
           }
         }
@@ -2949,7 +2928,7 @@ class ReceiveCommits {
 
     void addOps(BatchUpdate bu, @Nullable Task progress) throws IOException {
       try (TraceTimer traceTimer = newTimer(ReplaceRequest.class, "addOps")) {
-        if (magicBranch != null && (magicBranch.edit || magicBranch.draft)) {
+        if (magicBranch != null && magicBranch.edit) {
           bu.addOp(notes.getChangeId(), new ReindexOnlyOp());
           if (prev != null) {
             bu.addRepoOnlyOp(new UpdateOneRefOp(prev));

@@ -3161,7 +3161,7 @@ Directory and link:https://www.freeipa.org[FreeIPA].
 
 ----
 [ldap]
-  server = ldap://ldap.example.com
+  server = ldaps://ldap.example.com
 
   accountBase = ou=people,dc=example,dc=com
   accountPattern = (&(objectClass=person)(uid=${username}))
@@ -3187,17 +3187,48 @@ By default, true.
 
 [[ldap.server]]ldap.server::
 +
-URL of the organization's LDAP server to query for user information
-and group membership from.  Must be of the form `ldap://host` or
-`ldaps://host` to bind with either a plaintext or SSL connection.
+URL(s) of the organization's LDAP server(s) to query for user information
+and group membership from. Entries must be of the form `scheme://host:123`
+where `scheme` is either `ldap` for plaintext connections or `ldaps` for
+plain SSL/TLS connections, `host` can be a hostname or an IP address, and
+the port number is optional (defaults to 389 for plaintext, 636 for
+SSL/TLS). IPv6 addresses must be enclosed in square brackets, e.g.
+`ldaps://[2001:db8:cafe::17]:6636`.
 +
-If `auth.type` is `LDAP` this setting should use `ldaps://` to
-ensure the end user's plaintext password is transmitted only over
-an encrypted connection.
+In this form, multiple entries may be listed, space-separated and servers
+will be tried in the order given. Further `ldap.*` configuration settings
+will generally apply to all servers listed.
++
+Alternatively, a form of `ldap:///dc=example,dc=org` (three slashes) is
+supported to perform host lookups via DNS SRV records (RFC 2782) in order
+for more dynamic selection/balancing. This form, if supported in your
+infrastructure, is considered best practice for high-availability
+installations. In this form connections are *insecure* by default and
+StartTLS (<<ldap.startTls,ldap.startTls>>) should be set to true to
+enforce secure connections. The specification does not cover a scheme to
+specify plain SSL/TLS that resembles `ldaps://` as described earlier in
+this section.
++
+Using a secure (SSL/TLS) connection is always recommended best practice.
+Make sure to either use `ldaps://` as schema or enable
+<<ldap.startTls,ldap.startTls>>, whichever is preferable for your LDAP
+server. Also, ensure <<ldap.sslVerify,ldap.sslVerify>> is left at the
+default of true. Gerrit only supports the `simple` bind operation
+authentication method and most configurations will use that in LDAP bind
+operations (either the end user's password or the credentials in
+<<ldap.username,ldap.username>>/<<ldap.password,ldap.password>>). Secure
+connections should be enabled to ensure credentials are transmitted only
+over a secure and encrypted connection, as well as the sensitive data
+returned.
 
 [[ldap.startTls]]ldap.startTls::
 +
-If true, Gerrit will perform StartTLS extended operation.
+If true, Gerrit will enforce a StartTLS extended operation.
++
+Only to be used with `ldap://` or `ldap:///`-style URLs in
+<<ldap.server,ldap.server>>. A combination of having this setting to true
+and having one or more entries with an `ldaps://` schema will lead to
+unexpected behavior and must be avoided.
 +
 By default, false, StartTLS will not be enabled.
 
@@ -3211,9 +3242,9 @@ By default, true.
 
 [[ldap.sslVerify]]ldap.sslVerify::
 +
-If false and ldap.server is an `ldaps://` style URL or `ldap.startTls`
-is true, Gerrit will not verify the server certificate when it connects
-to perform a query.
+If false and <<ldap.server,ldap.server>> is an `ldaps://` style URL or
+`ldap.startTls` is true, Gerrit will not verify the server certificate
+when it connects to perform a query.
 +
 By default, true, requiring the certificate to be verified.
 

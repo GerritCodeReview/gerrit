@@ -262,7 +262,7 @@ limitations under the License.
             link
             secondary
             class$="action delete [[_computeDeleteButtonClass(_isAdmin, draft)]]"
-            on-tap="_handleCommentDelete">
+            on-click="_handleCommentDelete">
           (Delete)
         </gr-button>
         <span class="date" on-tap="_handleAnchorTap">
@@ -331,23 +331,23 @@ limitations under the License.
                 link
                 secondary
                 class="action cancel hideOnPublished"
-                on-tap="_handleCancel">Cancel</gr-button>
+                on-click="_handleCancel">Cancel</gr-button>
             <gr-button
                 link
                 secondary
                 class="action discard hideOnPublished"
-                on-tap="_handleDiscard">Discard</gr-button>
+                on-click="_handleDiscard">Discard</gr-button>
             <gr-button
                 link
                 secondary
                 class="action edit hideOnPublished"
-                on-tap="_handleEdit">Edit</gr-button>
+                on-click="_handleEdit">Edit</gr-button>
             <gr-button
                 link
                 secondary
                 disabled$="[[_computeSaveDisabled(_messageText, comment, resolved)]]"
                 class="action save hideOnPublished"
-                on-tap="_handleSave">Save</gr-button>
+                on-click="_handleSave">Save</gr-button>
           </div>
         </div>
         <div class="robotActions" hidden$="[[!_showRobotActions]]">
@@ -356,7 +356,7 @@ limitations under the License.
                 link
                 secondary
                 class="action fix"
-                on-tap="_handleFix"
+                on-click="_handleFix"
                 disabled="[[robotButtonDisabled]]">
               Please Fix
             </gr-button>

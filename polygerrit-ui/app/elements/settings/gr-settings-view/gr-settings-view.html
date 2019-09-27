@@ -132,7 +132,7 @@ limitations under the License.
               mutable="{{_accountNameMutable}}"
               has-unsaved-changes="{{_accountInfoChanged}}"></gr-account-info>
           <gr-button
-              on-tap="_handleSaveAccountInfo"
+              on-click="_handleSaveAccountInfo"
               disabled="[[!_accountInfoChanged]]">Save changes</gr-button>
         </fieldset>
         <h2
@@ -278,7 +278,7 @@ limitations under the License.
           </section>
           <gr-button
               id="savePrefs"
-              on-tap="_handleSavePreferences"
+              on-click="_handleSavePreferences"
               disabled="[[!_prefsChanged]]">Save changes</gr-button>
         </fieldset>
         <h2
@@ -292,7 +292,7 @@ limitations under the License.
               has-unsaved-changes="{{_diffPrefsChanged}}"></gr-diff-preferences>
           <gr-button
               id="saveDiffPrefs"
-              on-tap="_handleSaveDiffPreferences"
+              on-click="_handleSaveDiffPreferences"
               disabled$="[[!_diffPrefsChanged]]">Save changes</gr-button>
         </fieldset>
         <h2
@@ -306,7 +306,7 @@ limitations under the License.
               has-unsaved-changes="{{_editPrefsChanged}}"></gr-edit-preferences>
           <gr-button
               id="saveEditPrefs"
-              on-tap="_handleSaveEditPreferences"
+              on-click="_handleSaveEditPreferences"
               disabled$="[[!_editPrefsChanged]]">Save changes</gr-button>
         </fieldset>
         <h2 id="Menu" class$="[[_computeHeaderClass(_menuChanged)]]">Menu</h2>
@@ -315,12 +315,12 @@ limitations under the License.
               menu-items="{{_localMenu}}"></gr-menu-editor>
           <gr-button
               id="saveMenu"
-              on-tap="_handleSaveMenu"
+              on-click="_handleSaveMenu"
               disabled="[[!_menuChanged]]">Save changes</gr-button>
           <gr-button
               id="resetMenu"
               link
-              on-tap="_handleResetMenuButton">Reset</gr-button>
+              on-click="_handleResetMenuButton">Reset</gr-button>
         </fieldset>
         <h2 id="ChangeTableColumns"
             class$="[[_computeHeaderClass(_changeTableChanged)]]">
@@ -333,7 +333,7 @@ limitations under the License.
           </gr-change-table-editor>
           <gr-button
               id="saveChangeTable"
-              on-tap="_handleSaveChangeTable"
+              on-click="_handleSaveChangeTable"
               disabled="[[!_changeTableChanged]]">Save changes</gr-button>
         </fieldset>
         <h2
@@ -346,7 +346,7 @@ limitations under the License.
               has-unsaved-changes="{{_watchedProjectsChanged}}"
               id="watchedProjectsEditor"></gr-watched-projects-editor>
           <gr-button
-              on-tap="_handleSaveWatchedProjects"
+              on-click="_handleSaveWatchedProjects"
               disabled$="[[!_watchedProjectsChanged]]"
               id="_handleSaveWatchedProjects">Save changes</gr-button>
         </fieldset>
@@ -360,7 +360,7 @@ limitations under the License.
               id="emailEditor"
               has-unsaved-changes="{{_emailsChanged}}"></gr-email-editor>
           <gr-button
-              on-tap="_handleSaveEmails"
+              on-click="_handleSaveEmails"
               disabled$="[[!_emailsChanged]]">Save changes</gr-button>
         </fieldset>
         <fieldset id="newEmail">
@@ -395,7 +395,7 @@ limitations under the License.
           </section>
           <gr-button
               disabled="[[!_computeAddEmailButtonEnabled(_newEmail, _addingEmail)]]"
-              on-tap="_handleAddEmailButton">Send verification</gr-button>
+              on-click="_handleAddEmailButton">Send verification</gr-button>
         </fieldset>
         <template is="dom-if" if="[[_showHttpAuth(_serverConfig)]]">
           <div>

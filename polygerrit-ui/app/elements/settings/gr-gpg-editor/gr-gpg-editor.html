@@ -76,14 +76,14 @@ limitations under the License.
                 </td>
                 <td class="keyHeader">
                   <gr-button
-                      on-tap="_showKey"
+                      on-click="_showKey"
                       data-index$="[[index]]"
                       link>Click to View</gr-button>
                 </td>
                 <td>
                   <gr-button
                       data-index$="[[index]]"
-                      on-tap="_handleDeleteKey">Delete</gr-button>
+                      on-click="_handleDeleteKey">Delete</gr-button>
                 </td>
               </tr>
             </template>
@@ -102,10 +102,10 @@ limitations under the License.
           </fieldset>
           <gr-button
               class="closeButton"
-              on-tap="_closeOverlay">Close</gr-button>
+              on-click="_closeOverlay">Close</gr-button>
         </gr-overlay>
         <gr-button
-            on-tap="save"
+            on-click="save"
             disabled$="[[!hasUnsavedChanges]]">Save changes</gr-button>
       </fieldset>
       <fieldset>
@@ -122,7 +122,7 @@ limitations under the License.
         <gr-button
             id="addButton"
             disabled$="[[_computeAddButtonDisabled(_newKey)]]"
-            on-tap="_handleAddKey">Add new GPG key</gr-button>
+            on-click="_handleAddKey">Add new GPG key</gr-button>
       </fieldset>
     </div>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>

@@ -97,7 +97,7 @@ limitations under the License.
                 id="editBtn"
                 link
                 class$="[[_computeEditBtnClass(section.id)]]"
-                on-tap="editReference">
+                on-click="editReference">
               <iron-icon id="icon" icon="gr-icons:create"></iron-icon>
             </gr-button>
           </div>
@@ -116,7 +116,7 @@ limitations under the License.
           <gr-button
               link
               id="deleteBtn"
-              on-tap="_handleRemoveReference">Remove</gr-button>
+              on-click="_handleRemoveReference">Remove</gr-button>
         </div><!-- end header -->
         <div class="sectionContent">
           <template
@@ -147,7 +147,7 @@ limitations under the License.
             <gr-button
                 link
                 id="addBtn"
-                on-tap="_handleAddPermission">Add</gr-button>
+                on-click="_handleAddPermission">Add</gr-button>
           </div>
           <!-- end addPermission -->
         </div><!-- end sectionContent -->
@@ -157,7 +157,7 @@ limitations under the License.
         <gr-button
             link
             id="undoRemoveBtn"
-            on-tap="_handleUndoRemove">Undo</gr-button>
+            on-click="_handleUndoRemove">Undo</gr-button>
       </div><!-- end deletedContainer -->
     </fieldset>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>

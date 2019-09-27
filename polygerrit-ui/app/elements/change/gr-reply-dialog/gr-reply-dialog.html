@@ -204,8 +204,8 @@ limitations under the License.
             Are you sure you want to add them all?
           </div>
           <div class="reviewerConfirmationButtons">
-            <gr-button on-tap="_confirmPendingReviewer">Yes</gr-button>
-            <gr-button on-tap="_cancelPendingReviewer">No</gr-button>
+            <gr-button on-click="_confirmPendingReviewer">Yes</gr-button>
+            <gr-button on-click="_cancelPendingReviewer">No</gr-button>
           </div>
         </gr-overlay>
       </section>
@@ -276,7 +276,7 @@ limitations under the License.
                 class="action save"
                 has-tooltip
                 title="[[_saveTooltip]]"
-                on-tap="_saveTapHandler">Save</gr-button>
+                on-click="_saveTapHandler">Save</gr-button>
           </template>
           <span
               id="checkingStatusLabel"
@@ -287,7 +287,7 @@ limitations under the License.
               id="notLatestLabel"
               hidden$="[[!_isState(knownLatestState, 'not-latest')]]">
             [[_computePatchSetWarning(patchNum, _labelsChanged)]]
-            <gr-button link on-tap="_reload">Reload</gr-button>
+            <gr-button link on-click="_reload">Reload</gr-button>
           </span>
         </div>
         <div class="right">
@@ -295,7 +295,7 @@ limitations under the License.
               link
               id="cancelButton"
               class="action cancel"
-              on-tap="_cancelTapHandler">Cancel</gr-button>
+              on-click="_cancelTapHandler">Cancel</gr-button>
           <gr-button
               id="sendButton"
               link
@@ -304,7 +304,7 @@ limitations under the License.
               class="action send"
               has-tooltip
               title$="[[_computeSendButtonTooltip(canBeStarted)]]"
-              on-tap="_sendTapHandler">[[_sendButtonLabel]]</gr-button>
+              on-click="_sendTapHandler">[[_sendButtonLabel]]</gr-button>
         </div>
       </section>
     </div>

@@ -71,13 +71,13 @@ limitations under the License.
         class="hiddenReviewers"
         link
         hidden$="[[!_hiddenReviewerCount]]"
-        on-tap="_handleViewAll">and [[_hiddenReviewerCount]] more</gr-button>
+        on-click="_handleViewAll">and [[_hiddenReviewerCount]] more</gr-button>
     <div class="controlsContainer" hidden$="[[!mutable]]">
       <gr-button
           link
           id="addReviewer"
           class="addReviewer"
-          on-tap="_handleAddTap">[[_addLabel]]</gr-button>
+          on-click="_handleAddTap">[[_addLabel]]</gr-button>
     </div>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>

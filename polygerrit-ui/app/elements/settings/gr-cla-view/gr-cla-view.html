@@ -103,7 +103,7 @@ limitations under the License.
                    bind-value="{{_agreementsText}}"
                    placeholder="Enter 'I agree' here">
           </iron-input>
-          <gr-button on-tap="_handleSaveAgreements" disabled="[[_disableAgreementsText(_agreementsText)]]">
+          <gr-button on-click="_handleSaveAgreements" disabled="[[_disableAgreementsText(_agreementsText)]]">
             Submit
           </gr-button>
         </div>

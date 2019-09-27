@@ -128,7 +128,7 @@ limitations under the License.
                 data-action-type$="[[action.__type]]"
                 data-label$="[[action.label]]"
                 disabled$="[[_calculateDisabled(action, _hasKnownChainState)]]"
-                on-tap="_handleActionTap">
+                on-click="_handleActionTap">
                 <iron-icon class$="[[_computeHasIcon(action)]]" icon$="gr-icons:[[action.icon]]"></iron-icon>
               [[action.label]]
             </gr-button>
@@ -148,7 +148,7 @@ limitations under the License.
                 data-action-type$="[[action.__type]]"
                 data-label$="[[action.label]]"
                 disabled$="[[_calculateDisabled(action, _hasKnownChainState)]]"
-                on-tap="_handleActionTap">
+                on-click="_handleActionTap">
               <iron-icon class$="[[_computeHasIcon(action)]]" icon$="gr-icons:[[action.icon]]"></iron-icon>
               [[action.label]]
             </gr-button>

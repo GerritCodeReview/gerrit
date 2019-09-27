@@ -451,7 +451,7 @@ limitations under the License.
       <gr-button
           class="fileListButton"
           id="incrementButton"
-          link on-tap="_incrementNumFilesShown">
+          link on-click="_incrementNumFilesShown">
         [[_computeIncrementText(numFilesShown, _files)]]
       </gr-button>
       <gr-tooltip-content
@@ -461,7 +461,7 @@ limitations under the License.
         <gr-button
             class="fileListButton"
             id="showAllButton"
-            link on-tap="_showAllFiles">
+            link on-click="_showAllFiles">
           [[_computeShowAllText(_files)]]
         </gr-button><!--
   --></gr-tooltip-content>

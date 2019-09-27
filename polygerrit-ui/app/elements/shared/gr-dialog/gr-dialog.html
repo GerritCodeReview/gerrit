@@ -64,10 +64,10 @@ limitations under the License.
       <header><slot name="header"></slot></header>
       <main><slot name="main"></slot></main>
       <footer>
-        <gr-button id="cancel" class$="[[_computeCancelClass(cancelLabel)]]" link on-tap="_handleCancelTap">
+        <gr-button id="cancel" class$="[[_computeCancelClass(cancelLabel)]]" link on-click="_handleCancelTap">
           [[cancelLabel]]
         </gr-button>
-        <gr-button id="confirm" link primary on-tap="_handleConfirm" disabled="[[disabled]]">
+        <gr-button id="confirm" link primary on-click="_handleConfirm" disabled="[[disabled]]">
           [[confirmLabel]]
         </gr-button>
       </footer>

@@ -66,7 +66,7 @@ limitations under the License.
               <span class="value" disabled$="[[_computeGroupDisabled(_groupOwner, _isAdmin, _groupIsInternal)]]">
                 <gr-button
                     id="inputUpdateNameBtn"
-                    on-tap="_handleSaveName"
+                    on-click="_handleSaveName"
                     disabled="[[!_rename]]">
                   Rename Group</gr-button>
               </span>
@@ -86,7 +86,7 @@ limitations under the License.
               </span>
               <span class="value" disabled$="[[_computeGroupDisabled(_groupOwner, _isAdmin, _groupIsInternal)]]">
                 <gr-button
-                    on-tap="_handleSaveOwner"
+                    on-click="_handleSaveOwner"
                     disabled="[[!_owner]]">
                   Change Owners</gr-button>
               </span>
@@ -104,7 +104,7 @@ limitations under the License.
               </div>
               <span class="value" disabled$="[[_computeGroupDisabled(_groupOwner, _isAdmin, _groupIsInternal)]]">
                 <gr-button
-                    on-tap="_handleSaveDescription"
+                    on-click="_handleSaveDescription"
                     disabled="[[!_description]]">
                   Save Description
                 </gr-button>
@@ -132,7 +132,7 @@ limitations under the License.
               </section>
               <span class="value" disabled$="[[_computeGroupDisabled(_groupOwner, _isAdmin, _groupIsInternal)]]">
                 <gr-button
-                    on-tap="_handleSaveOptions"
+                    on-click="_handleSaveOptions"
                     disabled="[[!_options]]">
                   Save Group Options
                 </gr-button>

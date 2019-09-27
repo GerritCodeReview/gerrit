@@ -76,6 +76,12 @@
         type: Array,
         value() { return []; },
       },
+
+      noBaseUrl: {
+        type: Boolean,
+        value: false,
+        reflectToAttribute: true,
+      },
     },
 
     behaviors: [
@@ -205,7 +211,11 @@
      * @return {!string} The scheme-relative URL.
      */
     _computeURLHelper(host, path) {
-      return '//' + host + this.getBaseUrl() + path;
+      let base = '';
+      if (!this.noBaseUrl) {
+        base = this.getBaseUrl();
+      }
+      return '//' + host + base + path;
     },
 
     /**

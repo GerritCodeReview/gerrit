@@ -118,6 +118,30 @@
     },
     {
       "key": {
+        "uuid": "60b2c737_39dc99b1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-09-27T16:39:56Z",
+      "side": 1,
+      "message": "I\u0027ve figured out how to do it in a dropdown!\n\nSee https://imgur.com/a/eHmmGi4\n\n(also requires this https://gerrit-review.googlesource.com/c/gerrit/+/239012 change)",
+      "parentUuid": "2d2fbe56_1ad1c5fc",
+      "range": {
+        "startLine": 14,
+        "startChar": 4,
+        "endLine": 14,
+        "endChar": 35
+      },
+      "revId": "dc01c2aa7477537e567d471c68ef1e1c41203919",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9b00fc78_fdd9d6bc",
         "filename": "/COMMIT_MSG",
         "patchSetId": 10

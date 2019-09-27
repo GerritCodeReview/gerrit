@@ -309,7 +309,6 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
       throws IntegrationException {
     // Test for merge instead of cherry pick to avoid false negatives
     // on commit chains.
-    return !args.mergeUtil.hasMissingDependencies(args.mergeSorter, toMerge)
-        && args.mergeUtil.canMerge(args.mergeSorter, repo, mergeTip, toMerge);
+    return args.mergeUtil.canMerge(args.mergeSorter, repo, mergeTip, toMerge);
   }
 }

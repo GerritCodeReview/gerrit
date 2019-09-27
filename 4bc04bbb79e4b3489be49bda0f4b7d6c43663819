@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "76a62fae_4ed62f6f",
+        "filename": "gerrit-httpd/src/test/java/com/google/gerrit/httpd/AllRequestFilterFilterProxyTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-09-27T04:43:25Z",
+      "side": 1,
+      "message": "I\u0027m trying to understand how this test works so that it can be migrated to mockito.\n\nAs far as I understand, the point is to verify that the filter proxy is invoking the doFilter on the filter chain. But, that invocation is being done explicitly at L155, it is not being done from inside the filter proxy.\n\nWhat am I missing?",
+      "range": {
+        "startLine": 129,
+        "startChar": 2,
+        "endLine": 160,
+        "endChar": 0
+      },
+      "revId": "4bc04bbb79e4b3489be49bda0f4b7d6c43663819",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

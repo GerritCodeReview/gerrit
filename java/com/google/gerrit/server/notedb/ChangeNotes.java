@@ -29,6 +29,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSortedMap;
 import com.google.common.collect.ImmutableSortedSet;
 import com.google.common.collect.ListMultimap;
+import com.google.common.collect.Lists;
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.Multimaps;
 import com.google.common.collect.Ordering;
@@ -48,6 +49,7 @@ import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.client.RobotComment;
+import com.google.gerrit.server.AssigneeStatusUpdate;
 import com.google.gerrit.server.ReviewerByEmailSet;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.ReviewerStatusUpdate;
@@ -368,7 +370,19 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
 
   /** @return an ImmutableSet of Account.Ids of all users that have been assigned to this change. */
   public ImmutableSet<Account.Id> getPastAssignees() {
-    return state.pastAssignees();
+    return Lists.reverse(state.assigneeUpdates()).stream()
+        .map(AssigneeStatusUpdate::currentAssignee)
+        .filter(Optional::isPresent)
+        .map(Optional::get)
+        .collect(ImmutableSet.toImmutableSet());
+  }
+
+  /**
+   * @return an ImmutableList of AssigneeStatusUpdate of all the updates to the assignee field to
+   *     this change. The order of the list is from most recent updates to least recent.
+   */
+  public ImmutableList<AssigneeStatusUpdate> getAssigneeUpdates() {
+    return state.assigneeUpdates();
   }
 
   /** @return a ImmutableSet of all hashtags for this change sorted in alphabetical order. */

@@ -214,6 +214,26 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
   }
 
   @Test
+  public void parseAssignee() throws Exception {
+    assertParseSucceeds(
+        "Update change\n"
+            + "\n"
+            + "Branch: refs/heads/master\n"
+            + "Change-id: I577fb248e474018276351785930358ec0450e9f7\n"
+            + "Patch-set: 1\n"
+            + "Assignee: Change Owner <1@gerrit>\n"
+            + "Subject: This is a test change\n");
+    assertParseSucceeds(
+        "Update change\n"
+            + "\n"
+            + "Branch: refs/heads/master\n"
+            + "Change-id: I577fb248e474018276351785930358ec0450e9f7\n"
+            + "Patch-set: 2\n"
+            + "Assignee:\n"
+            + "Subject: This is a test change\n");
+  }
+
+  @Test
   public void parseTopic() throws Exception {
     assertParseSucceeds(
         "Update change\n"

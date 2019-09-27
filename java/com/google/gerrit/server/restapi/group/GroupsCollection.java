@@ -37,38 +37,26 @@ public class GroupsCollection
     implements RestCollection<TopLevelResource, GroupResource>, NeedsParams {
   private final DynamicMap<RestView<GroupResource>> views;
   private final Provider<ListGroups> list;
-  private final Provider<QueryGroups> queryGroups;
   private final GroupControl.Factory groupControlFactory;
   private final GroupResolver groupResolver;
   private final Provider<CurrentUser> self;
-
-  private boolean hasQuery2;
 
   @Inject
   public GroupsCollection(
       DynamicMap<RestView<GroupResource>> views,
       Provider<ListGroups> list,
-      Provider<QueryGroups> queryGroups,
       GroupControl.Factory groupControlFactory,
       GroupResolver groupResolver,
       Provider<CurrentUser> self) {
     this.views = views;
     this.list = list;
-    this.queryGroups = queryGroups;
     this.groupControlFactory = groupControlFactory;
     this.groupResolver = groupResolver;
     this.self = self;
   }
 
   @Override
-  public void setParams(ListMultimap<String, String> params) throws BadRequestException {
-    if (params.containsKey("query") && params.containsKey("query2")) {
-      throw new BadRequestException("\"query\" and \"query2\" options are mutually exclusive");
-    }
-
-    // The --query2 option is defined in QueryGroups
-    this.hasQuery2 = params.containsKey("query2");
-  }
+  public void setParams(ListMultimap<String, String> params) throws BadRequestException {}
 
   @Override
   public RestView<TopLevelResource> list() throws ResourceNotFoundException, AuthException {
@@ -78,11 +66,6 @@ public class GroupsCollection
     } else if (!(user.isIdentifiedUser())) {
       throw new ResourceNotFoundException();
     }
-
-    if (hasQuery2) {
-      return queryGroups.get();
-    }
-
     return list.get();
   }
 

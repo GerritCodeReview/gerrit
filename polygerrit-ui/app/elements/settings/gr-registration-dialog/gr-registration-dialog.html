@@ -127,13 +127,13 @@ limitations under the License.
             id="closeButton"
             link
             disabled="[[_saving]]"
-            on-tap="_handleClose">Close</gr-button>
+            on-click="_handleClose">Close</gr-button>
         <gr-button
             id="saveButton"
             primary
             link
             disabled="[[_computeSaveDisabled(_account.name, _account.email, _saving)]]"
-            on-tap="_handleSave">Save</gr-button>
+            on-click="_handleSave">Save</gr-button>
       </footer>
     </div>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>

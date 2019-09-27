@@ -78,14 +78,14 @@ limitations under the License.
         <gr-button
             id="collapse-messages"
             link
-            on-tap="_handleExpandCollapseTap">
+            on-click="_handleExpandCollapseTap">
           [[_computeExpandCollapseMessage(_expanded)]]
         </gr-button>
       </div>
     <span
         id="messageControlsContainer"
         hidden$="[[_computeShowHideTextHidden(_visibleMessages, _processedMessages, _hideAutomated, _visibleMessages.length)]]">
-      <gr-button id="oldMessagesBtn" link on-tap="_handleShowAllTap">
+      <gr-button id="oldMessagesBtn" link on-click="_handleShowAllTap">
           [[_computeNumMessagesText(_visibleMessages, _processedMessages, _hideAutomated, _visibleMessages.length)]]
       </gr-button>
       <span
@@ -93,7 +93,7 @@ limitations under the License.
           hidden$="[[_computeIncrementHidden(_visibleMessages, _processedMessages, _hideAutomated, _visibleMessages.length)]]">
         <span class="transparent separator"></span>
         <gr-button id="incrementMessagesBtn" link
-            on-tap="_handleIncrementShownMessages">
+            on-click="_handleIncrementShownMessages">
           [[_computeIncrementText(_visibleMessages, _processedMessages, _hideAutomated, _visibleMessages.length)]]
         </gr-button>
       </span>

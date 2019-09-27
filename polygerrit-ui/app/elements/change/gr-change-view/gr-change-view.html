@@ -453,7 +453,7 @@ limitations under the License.
                     hidden$="[[!_loggedIn]]"
                     primary
                     disabled="[[_replyDisabled]]"
-                    on-tap="_handleReplyTap">[[_replyButtonLabel]]</gr-button>
+                    on-click="_handleReplyTap">[[_replyButtonLabel]]</gr-button>
               </div>
               <div
                   id="commitMessage"
@@ -470,7 +470,7 @@ limitations under the License.
                 </gr-editable-content>
                 <gr-button link
                     class="editCommitMessage"
-                    on-tap="_handleEditCommitMessage"
+                    on-click="_handleEditCommitMessage"
                     hidden$="[[_hideEditCommitMessage]]">Edit</gr-button>
                 <div class="changeId" hidden$="[[!_changeIdCommitMessageError]]">
                   <hr>
@@ -490,7 +490,7 @@ limitations under the License.
                     link
                     id="commitCollapseToggleButton"
                     class="collapseToggleButton"
-                    on-tap="_toggleCommitCollapsed">
+                    on-click="_toggleCommitCollapsed">
                   [[_computeCollapseText(_commitCollapsed)]]
                 </gr-button>
               </div>
@@ -518,7 +518,7 @@ limitations under the License.
                     link
                     id="relatedChangesToggleButton"
                     class="collapseToggleButton"
-                    on-tap="_toggleRelatedChangesCollapsed">
+                    on-click="_toggleRelatedChangesCollapsed">
                   [[_computeCollapseText(_relatedChangesCollapsed)]]
                 </gr-button>
               </div>

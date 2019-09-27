@@ -363,7 +363,7 @@ limitations under the License.
               </template>
             </div>
             <gr-button
-                on-tap="_handleSaveRepoConfig"
+                on-click="_handleSaveRepoConfig"
                 disabled$="[[_computeButtonDisabled(_readOnly, _configChanged)]]">Save changes</gr-button>
           </fieldset>
           <gr-endpoint-decorator name="repo-config">

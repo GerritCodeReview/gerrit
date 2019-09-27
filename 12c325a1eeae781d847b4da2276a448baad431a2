@@ -240,6 +240,30 @@
     },
     {
       "key": {
+        "uuid": "18c08368_97a756e9",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-09-27T06:56:31Z",
+      "side": 1,
+      "message": "point taken, will fix here then.",
+      "parentUuid": "f636f2fe_05c39f0f",
+      "range": {
+        "startLine": 374,
+        "startChar": 12,
+        "endLine": 374,
+        "endChar": 71
+      },
+      "revId": "12c325a1eeae781d847b4da2276a448baad431a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "afaa1d41_0d7f93fb",
         "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountManagerIT.java",
         "patchSetId": 6

@@ -112,7 +112,6 @@ public class BatchUpdate implements AutoCloseable {
     };
   }
 
-  // TODO(dborowitz): Make this package-private to force all callers to use RetryHelper.
   public interface Factory {
     BatchUpdate create(Project.NameKey project, CurrentUser user, Timestamp when);
   }

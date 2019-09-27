@@ -50,6 +50,30 @@
     },
     {
       "key": {
+        "uuid": "e1ba361f_a4f59d99",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountManagerIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 440,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-27T08:43:43Z",
+      "side": 1,
+      "message": "Thanks, this sounds better.",
+      "parentUuid": "c894990b_f1b5c1ec",
+      "range": {
+        "startLine": 440,
+        "startChar": 17,
+        "endLine": 440,
+        "endChar": 49
+      },
+      "revId": "739eb084df7edbebb824f8d20583c8bc95d561c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a8e4ca7d_9db792bf",
         "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountManagerIT.java",
         "patchSetId": 9

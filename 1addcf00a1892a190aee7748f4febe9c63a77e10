@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "bc29d568_a50125b9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-27T07:34:54Z",
+      "side": 1,
+      "message": "This is confusing to me, can you please clarify this.\n\nOn the one side you talk about 2 external IDs that have the same email (both belonging to the same account), and then you name them preferred e-mail and \u0027mailto:\u0027 record. The preferred email is not an external ID. If an account has several emails via external IDs, then the user can select one of these emails as preferred email which is then stored in account.config. Hence it is mandatory that the email that the user has a preferred email also exists as external ID. I think you are using preferred email as term for another external ID, which confusing.",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 72
+      },
+      "revId": "1addcf00a1892a190aee7748f4febe9c63a77e10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "925f05e0_f4667440",
         "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountManagerIT.java",
         "patchSetId": 8

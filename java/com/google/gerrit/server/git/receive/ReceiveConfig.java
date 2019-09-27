@@ -27,7 +27,6 @@ import org.eclipse.jgit.lib.Config;
 class ReceiveConfig {
   final boolean checkMagicRefs;
   final boolean checkReferencedObjectsAreReachable;
-  final boolean allowDrafts;
   final int maxBatchCommits;
   final boolean disablePrivateChanges;
   private final int systemMaxBatchChanges;
@@ -38,7 +37,6 @@ class ReceiveConfig {
     checkMagicRefs = config.getBoolean("receive", null, "checkMagicRefs", true);
     checkReferencedObjectsAreReachable =
         config.getBoolean("receive", null, "checkReferencedObjectsAreReachable", true);
-    allowDrafts = config.getBoolean("change", null, "allowDrafts", false);
     maxBatchCommits = config.getInt("receive", null, "maxBatchCommits", 10000);
     systemMaxBatchChanges = config.getInt("receive", "maxBatchChanges", 0);
     disablePrivateChanges = config.getBoolean("change", null, "disablePrivateChanges", false);

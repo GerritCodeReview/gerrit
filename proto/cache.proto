@@ -171,24 +171,33 @@ message ChangeNotesStateProto {
   }
   repeated ReviewerStatusUpdateProto reviewer_update = 13;
 
+  message AssigneeStatusUpdateProto {
+    int64 date = 1;
+    int32 updated_by = 2;
+    int32 past_assignee = 3;
+    int32 current_assignee = 4;
+  }
+  repeated AssigneeStatusUpdateProto assignee_update = 14;
+
   // JSON produced from
   // com.google.gerrit.server.index.change.ChangeField.StoredSubmitRecord.
-  repeated string submit_record = 14;
+  repeated string submit_record = 15;
 
   // Raw ChangeMessage proto as produced by ChangeMessageProtoConverter.
-  repeated bytes change_message = 15;
+  repeated bytes change_message = 16;
 
   // JSON produced from com.google.gerrit.reviewdb.client.Comment.
-  repeated string published_comment = 16;
+  repeated string published_comment = 17;
 
-  reserved 17;  // read_only_until
-  reserved 18;  // has_read_only_until
+  reserved 18;  // read_only_until
+  reserved 19;  // has_read_only_until
 
   // Number of updates to the change's meta ref.
-  int32 update_count = 19;
+  int32 update_count = 20;
 
-  string server_id = 20;
-  bool has_server_id = 21;
+  string server_id = 21;
+  bool has_server_id = 22;
+
 }
 
 

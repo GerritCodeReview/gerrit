@@ -169,6 +169,8 @@ public class ChangeNotesCache {
           + P
           + list(state.reviewerUpdates(), 4 * O + K + K + P)
           + P
+          + list(state.assigneeUpdates(), 4 * O + K + K + K)
+          + P
           + list(state.submitRecords(), P + list(2, str(4) + P + K) + P)
           + P
           + list(state.changeMessages(), changeMessage())

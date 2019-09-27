@@ -67,6 +67,7 @@ import com.google.gerrit.reviewdb.client.PatchLineComment;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.server.AssigneeStatusUpdate;
 import com.google.gerrit.server.ReviewerByEmailSet;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.ReviewerStatusUpdate;
@@ -115,6 +116,7 @@ class ChangeNotesParser {
   private final Table<Address, ReviewerStateInternal, Timestamp> reviewersByEmail;
   private final List<Account.Id> allPastReviewers;
   private final List<ReviewerStatusUpdate> reviewerUpdates;
+  private final List<AssigneeStatusUpdate> assigneeUpdates;
   private final List<SubmitRecord> submitRecords;
   private final ListMultimap<ObjectId, Comment> comments;
   private final Map<PatchSet.Id, PatchSet.Builder> patchSets;
@@ -172,6 +174,7 @@ class ChangeNotesParser {
     pendingReviewersByEmail = ReviewerByEmailSet.empty();
     allPastReviewers = new ArrayList<>();
     reviewerUpdates = new ArrayList<>();
+    assigneeUpdates = new ArrayList<>();
     submitRecords = Lists.newArrayListWithExpectedSize(1);
     allChangeMessages = new ArrayList<>();
     comments = MultimapBuilder.hashKeys().arrayListValues().build();
@@ -243,6 +246,7 @@ class ChangeNotesParser {
         pendingReviewersByEmail,
         allPastReviewers,
         buildReviewerUpdates(),
+        Lists.reverse(assigneeUpdates),
         submitRecords,
         buildAllMessages(),
         comments,
@@ -361,7 +365,7 @@ class ChangeNotesParser {
     }
 
     parseHashtags(commit);
-    parseAssignee(commit);
+    parseAssignee(ts, commit);
 
     if (submissionId == null) {
       submissionId = parseSubmissionId(commit);
@@ -566,7 +570,7 @@ class ChangeNotesParser {
     }
   }
 
-  private void parseAssignee(ChangeNotesCommit commit) throws ConfigInvalidException {
+  private void parseAssignee(Timestamp ts, ChangeNotesCommit commit) throws ConfigInvalidException {
     if (pastAssignees == null) {
       pastAssignees = Lists.newArrayList();
     }
@@ -585,6 +589,13 @@ class ChangeNotesParser {
       }
       if (parsedAssignee.isPresent()) {
         pastAssignees.add(parsedAssignee.get());
+      }
+      Account.Id pastAssigneeToAdd =
+          pastAssignees.isEmpty() ? null : pastAssignees.get(pastAssignees.size() - 1);
+      Account.Id currentAssigneeToAdd = parsedAssignee.orElse(null);
+      if (pastAssigneeToAdd != currentAssigneeToAdd) {
+        assigneeUpdates.add(
+            AssigneeStatusUpdate.create(ts, ownerId, pastAssigneeToAdd, currentAssigneeToAdd));
       }
     }
   }

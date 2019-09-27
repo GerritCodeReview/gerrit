@@ -49,6 +49,7 @@ import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.client.RobotComment;
 import com.google.gerrit.server.ApprovalsUtil;
+import com.google.gerrit.server.AssigneeStatusUpdate;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.CurrentUser;
@@ -295,6 +296,7 @@ public class ChangeData {
   private ReviewerSet pendingReviewers;
   private ReviewerByEmailSet pendingReviewersByEmail;
   private List<ReviewerStatusUpdate> reviewerUpdates;
+  private List<AssigneeStatusUpdate> assigneeUpdates;
   private PersonIdent author;
   private PersonIdent committer;
   private int parentCount;
@@ -728,6 +730,16 @@ public class ChangeData {
       reviewerUpdates = approvalsUtil.getReviewerUpdates(notes());
     }
     return reviewerUpdates;
+  }
+
+  public List<AssigneeStatusUpdate> assigneeUpdates() {
+    if (assigneeUpdates == null) {
+      if (!lazyLoad) {
+        return Collections.emptyList();
+      }
+      assigneeUpdates = notes().load().getAssigneeUpdates();
+    }
+    return assigneeUpdates;
   }
 
   public void setReviewerUpdates(List<ReviewerStatusUpdate> reviewerUpdates) {

@@ -76,6 +76,16 @@
         type: Array,
         value() { return []; },
       },
+
+      /**
+       * This will be used where the base url has already been provided.
+       * E.g this will be used for the 'Download binary dropdown'
+       * as we need this.
+       */
+      noBaseUrl: {
+        type: Boolean,
+        value: false,
+      },
     },
 
     behaviors: [
@@ -205,7 +215,8 @@
      * @return {!string} The scheme-relative URL.
      */
     _computeURLHelper(host, path) {
-      return '//' + host + this.getBaseUrl() + path;
+      let base = this.noBaseUrl ? '' : this.getBaseUrl();
+      return '//' + host + base + path;
     },
 
     /**

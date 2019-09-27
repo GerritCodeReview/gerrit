@@ -53,7 +53,6 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.PushOneCommit;
-import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.acceptance.SkipProjectClone;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.TestProjectInput;
@@ -83,7 +82,6 @@ import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
-import com.google.gerrit.extensions.common.testing.EditInfoSubject;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.git.ObjectIds;
@@ -2197,53 +2195,6 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     RevCommit unChanged = commits.remove(0);
     // Publishing draft comments on change 2 updates All-Users.
     amendChanges(unChanged.toObjectId(), commits, "refs/for/master%publish-comments");
-  }
-
-  @Test
-  public void pushWithDraftOptionIsDisabledPerDefault() throws Exception {
-    for (String ref : ImmutableSet.of("refs/drafts/master", "refs/for/master%draft")) {
-      PushOneCommit.Result r = pushTo(ref);
-      r.assertErrorStatus();
-      r.assertMessage("draft workflow is disabled");
-    }
-  }
-
-  @GerritConfig(name = "change.allowDrafts", value = "true")
-  @Test
-  public void pushDraftGetsPrivateChange() throws Exception {
-    String changeId1 = createChange("refs/drafts/master").getChangeId();
-    String changeId2 = createChange("refs/for/master%draft").getChangeId();
-
-    ChangeInfo info1 = gApi.changes().id(changeId1).get();
-    ChangeInfo info2 = gApi.changes().id(changeId2).get();
-
-    assertThat(info1.status).isEqualTo(ChangeStatus.NEW);
-    assertThat(info2.status).isEqualTo(ChangeStatus.NEW);
-    assertThat(info1.isPrivate).isTrue();
-    assertThat(info2.isPrivate).isTrue();
-    assertThat(info1.revisions).hasSize(1);
-    assertThat(info2.revisions).hasSize(1);
-  }
-
-  @GerritConfig(name = "change.allowDrafts", value = "true")
-  @Sandboxed
-  @Test
-  public void pushWithDraftOptionToExistingNewChangeGetsChangeEdit() throws Exception {
-    String changeId = createChange().getChangeId();
-    EditInfoSubject.assertThat(getEdit(changeId)).isAbsent();
-
-    ChangeInfo changeInfo = gApi.changes().id(changeId).get();
-    ChangeStatus originalChangeStatus = changeInfo.status;
-
-    PushOneCommit.Result result = amendChange(changeId, "refs/drafts/master");
-    result.assertOkStatus();
-
-    changeInfo = gApi.changes().id(changeId).get();
-    assertThat(changeInfo.status).isEqualTo(originalChangeStatus);
-    assertThat(changeInfo.isPrivate).isNull();
-    assertThat(changeInfo.revisions).hasSize(1);
-
-    EditInfoSubject.assertThat(getEdit(changeId)).isPresent();
   }
 
   @GerritConfig(name = "receive.maxBatchCommits", value = "2")

@@ -22,6 +22,30 @@
       "revId": "fdf2d79c1ebca54a95588ff5332e44966b430149",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6b43adf6_88916f70",
+        "filename": "java/com/google/gerrit/sshd/ChannelIdTrackingUnknownChannelReferenceHandler.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-09-27T06:13:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "72a0876c_afe04f0c",
+      "range": {
+        "startLine": 21,
+        "startChar": 16,
+        "endLine": 21,
+        "endChar": 22
+      },
+      "revId": "fdf2d79c1ebca54a95588ff5332e44966b430149",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -45,6 +45,29 @@
       "revId": "d6800172844a8f401c2b6870939f289c1acf4892",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "494390c1_ceb77c17",
+        "filename": "lib/jgit/jgit.bzl",
+        "patchSetId": 13
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2019-09-27T00:51:27Z",
+      "side": 1,
+      "message": "Q: Since this bug is reportedly fixed and also reached Gerrit 2.16.12 already [1], wouldn\u0027t it make sense to include that in our release notes? :-)\n\n[1]: https://www.gerritcodereview.com/2.16.html#21612",
+      "range": {
+        "startLine": 24,
+        "startChar": 10,
+        "endLine": 24,
+        "endChar": 62
+      },
+      "revId": "d6800172844a8f401c2b6870939f289c1acf4892",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

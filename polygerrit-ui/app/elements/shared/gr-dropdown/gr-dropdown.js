@@ -205,7 +205,9 @@
      * @return {!string} The scheme-relative URL.
      */
     _computeURLHelper(host, path) {
-      return '//' + host + this.getBaseUrl() + path;
+      const base = path.startsWith(this.getBaseUrl()) ?
+          '' : this.getBaseUrl();
+      return '//' + host + base + path;
     },
 
     /**

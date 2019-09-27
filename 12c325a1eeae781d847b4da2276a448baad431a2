@@ -265,6 +265,30 @@
     },
     {
       "key": {
+        "uuid": "2c0da1b2_15b935d5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-09-27T20:10:12Z",
+      "side": 1,
+      "message": "\u003e Apparently there are different use cases. Can you re-check my comment from today 10:22 AM? \n\nYou said: \"So that this change might create a situation, where AccountManager would allow something to happen, that would be detected as inconsistent by the current ConsistencyChecker code.\"\n\nThe answer is yes, because this fixes an AccountManager bug that was blocking people to login via LDAP.\n\nThe consistency checker, instead, is verifying the direct pushes to refs/meta/external-ids and the associated REST-API, and those are still broken.\n\n\u003e So I have just confirmed, that in context of oauth-plugin, issue 9001\n\nNope, Issue 9001 isn\u0027t fixed yet.\n\n\u003e and this upstream issue: https://github.com/davido/gerrit-oauth-provider/issues/123 \n\nYes, this is fixed.\n\n\u003e Now I\u0027m able to link new external id: \"google-oauth:123456789098765432123\" (note: with the provider name prefix) to the existing one \"123456789098765432123\" (note: without the provider name prefix).\n\nYes, that should be working now.\n\n\u003e I looked into the fix, and it seems, that this diff fixed the problem: [1]. However, I haven\u0027t checked if this code change broke any tests.\n\u003e \n\u003e [1] http://paste.openstack.org/show/779703\n\nThat looks a good start, why don\u0027t you upload it as WIP change and we can start an early review?",
+      "parentUuid": "fa59b550_52c7d6f4",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 16
+      },
+      "revId": "12c325a1eeae781d847b4da2276a448baad431a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "16e1619a_6a60f86d",
         "filename": "java/com/google/gerrit/server/account/AccountManager.java",
         "patchSetId": 6

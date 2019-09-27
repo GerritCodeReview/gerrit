@@ -1,0 +1,451 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cf55b758_5e33173b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-27T12:19:36Z",
+      "side": 1,
+      "message": "Please explain in more details which cases work and which cases don\u0027t work.",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 35
+      },
+      "revId": "0335dfd48ba2c9ca72078aa6453c10f69c1ff36c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "762912b5_515d821e",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1510,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-27T12:19:36Z",
+      "side": 1,
+      "message": "I think we should explain in more details what this REST endpoint actually does, \"Reverts a submission\" might be too vague. This REST endpoint is not really reverting a submission, but it\u0027s rather creating revert changes for all changes of a submission. Those are open changes. Only when they get submitted, the submission is reverted.",
+      "revId": "0335dfd48ba2c9ca72078aa6453c10f69c1ff36c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d6db32aa_c03fd08b",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1513,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-27T12:19:36Z",
+      "side": 1,
+      "message": "[optional] \"of all created revert changes\" would sound better to me",
+      "range": {
+        "startLine": 1513,
+        "startChar": 61,
+        "endLine": 1513,
+        "endChar": 87
+      },
+      "revId": "0335dfd48ba2c9ca72078aa6453c10f69c1ff36c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "94ae88ab_cc17917b",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1513,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-27T12:19:36Z",
+      "side": 1,
+      "message": "nit: \"will be\" or \"is\"",
+      "range": {
+        "startLine": 1513,
+        "startChar": 88,
+        "endLine": 1513,
+        "endChar": 96
+      },
+      "revId": "0335dfd48ba2c9ca72078aa6453c10f69c1ff36c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "da01ddc9_2866ef4a",
+        "filename": "java/com/google/gerrit/server/restapi/change/CherryPickChange.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-27T12:19:36Z",
+      "side": 1,
+      "message": "Since we are adding yet another public cherryPick method, can you please add a JavaDoc for each of the methods to explain what they are used for. I think for the methods that existed so far it\u0027s \"Cherry-pick a change\" and \"Cherry-Pick a commit\". For the newly added method I can\u0027t tell the purpose by just looking at the method signature.\n\nDocumenting the existing methods could even be a separate predecessor change.",
+      "revId": "0335dfd48ba2c9ca72078aa6453c10f69c1ff36c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2b1bd00c_7abf6226",
+        "filename": "java/com/google/gerrit/server/restapi/change/CherryPickChange.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-27T12:19:36Z",
+      "side": 1,
+      "message": "Can you please add some JavaDoc to explain the parameters. At least for me it\u0027s not obvious, without looking at the implementation, what revertedChange and ignoreIdenticalTrees are good for and when I should provide them as a caller.\n\nI think ignoreIdenticalTrees decides whether the cherry-pick should succeed even if it results in an empty change? Is that correct? Also please document how calling this method would fail if ignoreIdenticalTrees is false and the cherry-pick would result in an identical tree.",
+      "revId": "0335dfd48ba2c9ca72078aa6453c10f69c1ff36c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a84b5e06_f1c53e6a",
+        "filename": "java/com/google/gerrit/server/restapi/change/CherryPickChange.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-27T12:19:36Z",
+      "side": 1,
+      "message": "This method doesn\u0027t have any callers outside of this class, hence it should be private.",
+      "revId": "0335dfd48ba2c9ca72078aa6453c10f69c1ff36c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0c8d44e7_0723577a",
+        "filename": "java/com/google/gerrit/server/restapi/change/CherryPickChange.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-27T12:19:36Z",
+      "side": 1,
+      "message": "[optional] nit: I would find this more readable if \u0027topic \u003d\u003d null\u0027 would be the first condition in the if",
+      "revId": "0335dfd48ba2c9ca72078aa6453c10f69c1ff36c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cc5049dc_d07d5f98",
+        "filename": "java/com/google/gerrit/server/restapi/change/CherryPickChange.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-27T12:19:36Z",
+      "side": 1,
+      "message": "I think passing in the changeKey would be better here. Then inside the op you do not need to prepend the \u0027I\u0027 again.",
+      "range": {
+        "startLine": 313,
+        "startChar": 63,
+        "endLine": 313,
+        "endChar": 80
+      },
+      "revId": "0335dfd48ba2c9ca72078aa6453c10f69c1ff36c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "80fd0226_5be1d200",
+        "filename": "java/com/google/gerrit/server/restapi/change/CherryPickChange.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-27T12:19:36Z",
+      "side": 1,
+      "message": "This class implements cherry-picking a change, it\u0027s surprising to me that it takes care to post revert messages. Revert is not related to cherry-picking, hence I would prefer if this class would not need to do this.\n\nI think this class could be refactored to be a BatchUpdateOp, so that a caller of this class can combine this op with other ops, such as PostRevertedMessageOp.",
+      "range": {
+        "startLine": 312,
+        "startChar": 9,
+        "endLine": 314,
+        "endChar": 11
+      },
+      "revId": "0335dfd48ba2c9ca72078aa6453c10f69c1ff36c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a6f96e78_7a29b502",
+        "filename": "java/com/google/gerrit/server/restapi/change/CherryPickChange.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 448,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-27T12:19:36Z",
+      "side": 1,
+      "message": "nit: this looks like it should be a JavaDoc comment",
+      "range": {
+        "startLine": 446,
+        "startChar": 2,
+        "endLine": 448,
+        "endChar": 32
+      },
+      "revId": "0335dfd48ba2c9ca72078aa6453c10f69c1ff36c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3a4de443_022b8e76",
+        "filename": "java/com/google/gerrit/server/restapi/change/CherryPickChange.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 452,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-27T12:19:36Z",
+      "side": 1,
+      "message": "maybe rename this to \u0027changeIdOfRevertChange\u0027?",
+      "range": {
+        "startLine": 452,
+        "startChar": 35,
+        "endLine": 452,
+        "endChar": 51
+      },
+      "revId": "0335dfd48ba2c9ca72078aa6453c10f69c1ff36c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4a560580_e4b45760",
+        "filename": "java/com/google/gerrit/server/restapi/change/CherryPickChange.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 465,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-27T12:19:36Z",
+      "side": 1,
+      "message": "Replacing the last change message looks like a hack to me. If we don\u0027t like the last message, we should avoid posting it in the first place.",
+      "range": {
+        "startLine": 459,
+        "startChar": 5,
+        "endLine": 465,
+        "endChar": 34
+      },
+      "revId": "0335dfd48ba2c9ca72078aa6453c10f69c1ff36c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ea95f22f_7aab662f",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-27T12:19:36Z",
+      "side": 1,
+      "message": "Do we need to include the change ID into this message?\nIf yes, please also add it in all the other places where we throw a ResourceConflictException with a \"change is %s\" message so that this message is consistent across all of Gerrit.",
+      "range": {
+        "startLine": 134,
+        "startChar": 29,
+        "endLine": 134,
+        "endChar": 31
+      },
+      "revId": "0335dfd48ba2c9ca72078aa6453c10f69c1ff36c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0a9519a7_d131b644",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-27T12:19:36Z",
+      "side": 1,
+      "message": "nit: This line can be dropped since null is the default value",
+      "range": {
+        "startLine": 170,
+        "startChar": 4,
+        "endLine": 170,
+        "endChar": 31
+      },
+      "revId": "0335dfd48ba2c9ca72078aa6453c10f69c1ff36c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f38b3b01_cc327a1b",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-27T12:19:36Z",
+      "side": 1,
+      "message": "I think this means that the created commits can contain conflict markers. If this is intended, it should be described in the documentation of the REST endpoint that this can happen.",
+      "range": {
+        "startLine": 174,
+        "startChar": 0,
+        "endLine": 174,
+        "endChar": 42
+      },
+      "revId": "0335dfd48ba2c9ca72078aa6453c10f69c1ff36c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eec41c5f_3ef2fbec",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-27T12:19:36Z",
+      "side": 1,
+      "message": "You cannot rely on the order of the changes in changeDataList.\n\nchangeDataList is a list of changes that you got from the index and the index returns results in an last updated order.\n\nThis means if there are three dependent changes a submission (A \u003c- B \u003c- C) the index may return them in any order depending on which of the changes was last updated (e.g. when a comment was posted). So the order in changeDataList can be really anything, so reversing this order doesn\u0027t make sense and should be dropped.",
+      "revId": "0335dfd48ba2c9ca72078aa6453c10f69c1ff36c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ceb6ae08_a054a670",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-27T12:19:36Z",
+      "side": 1,
+      "message": "If you open a repository you must ensure to close it after use. You should use a try-with-resources block for this.",
+      "range": {
+        "startLine": 193,
+        "startChar": 24,
+        "endLine": 193,
+        "endChar": 60
+      },
+      "revId": "0335dfd48ba2c9ca72078aa6453c10f69c1ff36c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6621a4b2_fda5be6d",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-27T12:19:36Z",
+      "side": 1,
+      "message": "If I understand this correctly, this means that the cherry-pick will succeed even if it results in an empty commit.\nIf this is correct why would we bother to create an empty change and return it to the user?\nWouldn\u0027t it be better in this case to just skip the revert for this change (because there is nothing to do)?",
+      "range": {
+        "startLine": 222,
+        "startChar": 16,
+        "endLine": 222,
+        "endChar": 20
+      },
+      "revId": "0335dfd48ba2c9ca72078aa6453c10f69c1ff36c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "40f10beb_edf70be5",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-27T12:19:36Z",
+      "side": 1,
+      "message": "We should not create changes that we are going to delete again. If we don\u0027t need the change, we should refactor the code to only create the commit without change.",
+      "range": {
+        "startLine": 233,
+        "startChar": 8,
+        "endLine": 234,
+        "endChar": 56
+      },
+      "revId": "0335dfd48ba2c9ca72078aa6453c10f69c1ff36c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "98c1b72a_01b3b29c",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-09-27T12:19:36Z",
+      "side": 1,
+      "message": "nit: this exception is never thrown, hence the throws declaration should be removed",
+      "range": {
+        "startLine": 242,
+        "startChar": 70,
+        "endLine": 242,
+        "endChar": 86
+      },
+      "revId": "0335dfd48ba2c9ca72078aa6453c10f69c1ff36c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

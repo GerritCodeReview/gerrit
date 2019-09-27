@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "a63bcc7b_4a1e2404",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 2620,
+      "author": {
+        "id": 1089199
+      },
+      "writtenOn": "2019-09-27T09:18:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a0e20eeb_a05835fd",
+      "range": {
+        "startLine": 2620,
+        "startChar": 1,
+        "endLine": 2620,
+        "endChar": 46
+      },
+      "revId": "9dffd25a230c531724a90a99a2209cfe1449ffb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5e79a810_db414c56",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 8
@@ -164,6 +188,30 @@
       "revId": "9dffd25a230c531724a90a99a2209cfe1449ffb9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "18b34fc7_86c2632a",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 2622,
+      "author": {
+        "id": 1089199
+      },
+      "writtenOn": "2019-09-27T09:18:32Z",
+      "side": 1,
+      "message": "Thank you for the suggestion.\n\nI rewrote the reason about chosen of `\u003ckey\u003e\u003d\u003cvalue\u003e` in newest PATCH\u0027s commit message.",
+      "parentUuid": "ba79671a_d74d6b71",
+      "range": {
+        "startLine": 2622,
+        "startChar": 1,
+        "endLine": 2622,
+        "endChar": 24
+      },
+      "revId": "9dffd25a230c531724a90a99a2209cfe1449ffb9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

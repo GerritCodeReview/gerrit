@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5d049bbf_f38d6aff",
+        "filename": "java/com/google/gerrit/sshd/ChannelIdTrackingUnknownChannelReferenceHandler.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-09-27T02:21:53Z",
+      "side": 1,
+      "message": "I see the original source of this class is mentioned in the javadoc below at L38-39, but maybe it would be clearer to explicitly add a comment here too?",
+      "revId": "9d56a85c0a3f7962409287ec5c173035e9f23bde",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "338d8ec4_d2396c74",
+        "filename": "java/com/google/gerrit/sshd/ChannelIdTrackingUnknownChannelReferenceHandler.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-09-27T02:21:53Z",
+      "side": 1,
+      "message": "Where is \u0027log\u0027 coming from? I assume it\u0027s a protected member somewhere in the class hierarchy.\n\nCan we replace this with a FluentLogger defined locally in this class? This would make the code more consistent with the logging in the rest of the gerrit code. Would it also mean we don\u0027t need to change the visibility of the slf4j log API?",
+      "range": {
+        "startLine": 57,
+        "startChar": 4,
+        "endLine": 63,
+        "endChar": 5
+      },
+      "revId": "9d56a85c0a3f7962409287ec5c173035e9f23bde",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

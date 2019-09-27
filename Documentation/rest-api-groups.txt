@@ -341,24 +341,19 @@ List all groups that match substring `test/`:
 [[query-groups]]
 === Query Groups
 --
-'GET /groups/?query2=<query>'
+'GET /groups/?query=<query>'
 --
 
 Queries internal groups visible to the caller. The
 link:user-search-groups.html#_search_operators[query string] must be
-provided by the `query2` parameter. The `start` and `limit` parameters
+provided by the `query` parameter. The `start` and `limit` parameters
 can be used to skip/limit results.
 
 As result a list of link:#group-info[GroupInfo] entities is returned.
 
-[NOTE] `query2` is a temporary name and in future this option may be
-renamed to `query`. `query2` was chosen to maintain backwards
-compatibility with the deprecated `query` parameter on the
-link:#list-groups[List Groups] endpoint.
-
 .Request
 ----
-  GET /groups/?query2=inname:test HTTP/1.0
+  GET /groups/?query=inname:test HTTP/1.0
 ----
 
 .Response
@@ -398,12 +393,12 @@ a `_more_groups: true` JSON field set.
 
 [[group-query-limit]]
 ==== Group Limit
-The `/groups/?query2=<query>` URL also accepts a limit integer in the
+The `/groups/?query=<query>` URL also accepts a limit integer in the
 `limit` parameter. This limits the results to `limit` groups.
 
 Query the first 25 groups in group list.
 ----
-  GET /groups/?query2=<query>&limit=25 HTTP/1.0
+  GET /groups/?query=<query>&limit=25 HTTP/1.0
 ----
 
 The `/groups/` URL also accepts a start integer in the `start`
@@ -411,7 +406,7 @@ parameter. The results will skip `start` groups from group list.
 
 Query 25 groups starting from index 50.
 ----
-  GET /groups/?query2=<query>&limit=25&start=50 HTTP/1.0
+  GET /groups/?query=<query>&limit=25&start=50 HTTP/1.0
 ----
 
 [[group-query-options]]

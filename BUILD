@@ -13,7 +13,7 @@ config_setting(
 config_setting(
     name = "java_next",
     values = {
-        "java_toolchain": "@bazel_tools//tools/jdk:toolchain_vanilla",
+        "java_toolchain": "//tools:toolchain_vanilla",
     },
 )
 

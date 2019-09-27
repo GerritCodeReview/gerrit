@@ -42,6 +42,7 @@ provide the path to JDK home:
 ```
   $ bazel build \
     --define=ABSOLUTE_JAVABASE=<path-to-java-12> \
+    --javabase=@bazel_tools//tools/jdk:absolute_javabase \
     --host_javabase=@bazel_tools//tools/jdk:absolute_javabase \
     --host_java_toolchain=//tools:toolchain_vanilla \
     --java_toolchain=//tools:toolchain_vanilla \

@@ -11,6 +11,7 @@ java_library(
         "//java/com/google/gerrit/httpd",
         "//java/com/google/gerrit/httpd/auth/oauth",
         "//java/com/google/gerrit/httpd/auth/openid",
+        "//java/com/google/gerrit/index",
         "//java/com/google/gerrit/lifecycle",
         "//java/com/google/gerrit/lucene",
         "//java/com/google/gerrit/metrics/dropwizard",

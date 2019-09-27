@@ -48,6 +48,7 @@ import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.reviewdb.client.RobotComment;
+import com.google.gerrit.server.AssigneeStatusUpdate;
 import com.google.gerrit.server.ReviewerByEmailSet;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.ReviewerStatusUpdate;
@@ -369,6 +370,14 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
   /** @return an ImmutableSet of Account.Ids of all users that have been assigned to this change. */
   public ImmutableSet<Account.Id> getPastAssignees() {
     return state.pastAssignees();
+  }
+
+  /**
+   * @return an ImmutableList of AssigneeStatusUpdate of all the updates to the assignee field to
+   *     this change
+   */
+  public ImmutableList<AssigneeStatusUpdate> getAssigneeUpdates() {
+    return state.assigneeUpdates();
   }
 
   /** @return a ImmutableSet of all hashtags for this change sorted in alphabetical order. */

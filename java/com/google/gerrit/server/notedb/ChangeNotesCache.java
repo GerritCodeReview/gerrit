@@ -61,7 +61,7 @@ public class ChangeNotesCache {
             .weigher(Weigher.class)
             .maximumWeight(10 << 20)
             .diskLimit(-1)
-            .version(1)
+            .version(2)
             .keySerializer(Key.Serializer.INSTANCE)
             .valueSerializer(ChangeNotesState.Serializer.INSTANCE);
       }
@@ -148,7 +148,6 @@ public class ChangeNotesCache {
           + str(state.columns().originalSubject())
           + P
           + str(state.columns().submissionId())
-          + ptr(state.columns().assignee(), K) // assignee
           + P // status
           + P
           + set(state.pastAssignees(), K)
@@ -168,6 +167,8 @@ public class ChangeNotesCache {
           + list(state.allPastReviewers(), approval())
           + P
           + list(state.reviewerUpdates(), 4 * O + K + K + P)
+          + P
+          + list(state.assigneeUpdates(), 4 * O + K + K)
           + P
           + list(state.submitRecords(), P + list(2, str(4) + P + K) + P)
           + P

@@ -17,13 +17,23 @@ package com.google.gerrit.acceptance;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.gerrit.httpd.restapi.RestApiServlet.JSON_MAGIC;
+import static com.google.gerrit.httpd.restapi.RestApiServlet.SC_UNPROCESSABLE_ENTITY;
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static javax.servlet.http.HttpServletResponse.SC_BAD_REQUEST;
+import static javax.servlet.http.HttpServletResponse.SC_CONFLICT;
+import static javax.servlet.http.HttpServletResponse.SC_CREATED;
+import static javax.servlet.http.HttpServletResponse.SC_FORBIDDEN;
+import static javax.servlet.http.HttpServletResponse.SC_METHOD_NOT_ALLOWED;
+import static javax.servlet.http.HttpServletResponse.SC_MOVED_TEMPORARILY;
+import static javax.servlet.http.HttpServletResponse.SC_NOT_FOUND;
+import static javax.servlet.http.HttpServletResponse.SC_NO_CONTENT;
+import static javax.servlet.http.HttpServletResponse.SC_OK;
+import static javax.servlet.http.HttpServletResponse.SC_PRECONDITION_FAILED;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.URI;
-import org.apache.http.HttpStatus;
 
 public class RestResponse extends HttpResponse {
 
@@ -47,47 +57,47 @@ public class RestResponse extends HttpResponse {
   }
 
   public void assertOK() throws Exception {
-    assertStatus(HttpStatus.SC_OK);
+    assertStatus(SC_OK);
   }
 
   public void assertNotFound() throws Exception {
-    assertStatus(HttpStatus.SC_NOT_FOUND);
+    assertStatus(SC_NOT_FOUND);
   }
 
   public void assertConflict() throws Exception {
-    assertStatus(HttpStatus.SC_CONFLICT);
+    assertStatus(SC_CONFLICT);
   }
 
   public void assertForbidden() throws Exception {
-    assertStatus(HttpStatus.SC_FORBIDDEN);
+    assertStatus(SC_FORBIDDEN);
   }
 
   public void assertNoContent() throws Exception {
-    assertStatus(HttpStatus.SC_NO_CONTENT);
+    assertStatus(SC_NO_CONTENT);
   }
 
   public void assertBadRequest() throws Exception {
-    assertStatus(HttpStatus.SC_BAD_REQUEST);
+    assertStatus(SC_BAD_REQUEST);
   }
 
   public void assertUnprocessableEntity() throws Exception {
-    assertStatus(HttpStatus.SC_UNPROCESSABLE_ENTITY);
+    assertStatus(SC_UNPROCESSABLE_ENTITY);
   }
 
   public void assertMethodNotAllowed() throws Exception {
-    assertStatus(HttpStatus.SC_METHOD_NOT_ALLOWED);
+    assertStatus(SC_METHOD_NOT_ALLOWED);
   }
 
   public void assertCreated() throws Exception {
-    assertStatus(HttpStatus.SC_CREATED);
+    assertStatus(SC_CREATED);
   }
 
   public void assertPreconditionFailed() throws Exception {
-    assertStatus(HttpStatus.SC_PRECONDITION_FAILED);
+    assertStatus(SC_PRECONDITION_FAILED);
   }
 
   public void assertTemporaryRedirect(String path) throws Exception {
-    assertStatus(HttpStatus.SC_MOVED_TEMPORARILY);
+    assertStatus(SC_MOVED_TEMPORARILY);
     assertThat(URI.create(getHeader("Location")).getPath()).isEqualTo(path);
   }
 }

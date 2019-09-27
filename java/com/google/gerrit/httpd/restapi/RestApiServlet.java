@@ -195,9 +195,6 @@ public class RestApiServlet extends HttpServlet {
 
   @VisibleForTesting public static final String X_GERRIT_TRACE = "X-Gerrit-Trace";
 
-  // HTTP 422 Unprocessable Entity.
-  // TODO: Remove when HttpServletResponse.SC_UNPROCESSABLE_ENTITY is available
-  private static final int SC_UNPROCESSABLE_ENTITY = 422;
   private static final String X_REQUESTED_WITH = "X-Requested-With";
   private static final String X_GERRIT_AUTH = "X-Gerrit-Auth";
   static final ImmutableSet<String> ALLOWED_CORS_METHODS =
@@ -210,6 +207,7 @@ public class RestApiServlet extends HttpServlet {
   public static final String XD_AUTHORIZATION = "access_token";
   public static final String XD_CONTENT_TYPE = "$ct";
   public static final String XD_METHOD = "$m";
+  public static final int SC_UNPROCESSABLE_ENTITY = 422;
   public static final int SC_TOO_MANY_REQUESTS = 429;
 
   private static final int HEAP_EST_SIZE = 10 * 8 * 1024; // Presize 10 blocks.

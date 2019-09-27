@@ -121,7 +121,7 @@ limitations under the License.
                   </span>
                   <gr-button
                       link
-                      on-tap="_handleEditRevision"
+                      on-click="_handleEditRevision"
                       class="editBtn">
                     edit
                   </gr-button>
@@ -134,13 +134,13 @@ limitations under the License.
                   </iron-input>
                   <gr-button
                       link
-                      on-tap="_handleCancelRevision"
+                      on-click="_handleCancelRevision"
                       class="cancelBtn editItem">
                     Cancel
                   </gr-button>
                   <gr-button
                       link
-                      on-tap="_handleSaveRevision"
+                      on-click="_handleSaveRevision"
                       class="saveBtn editItem"
                       disabled="[[!_revisedRef]]">
                     Save
@@ -176,7 +176,7 @@ limitations under the License.
                 <gr-button
                     link
                     class$="deleteButton [[_computeHideDeleteClass(_isOwner, item.can_delete)]]"
-                    on-tap="_handleDeleteItem">
+                    on-click="_handleDeleteItem">
                   Delete
                 </gr-button>
               </td>

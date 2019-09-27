@@ -41,7 +41,7 @@ limitations under the License.
         has-tooltip
         class$="[[_computeSelectedClass(mode, _VIEW_MODES.SIDE_BY_SIDE)]]"
         title="Side-by-side diff"
-        on-tap="_handleSideBySideTap">
+        on-click="_handleSideBySideTap">
       <iron-icon icon="gr-icons:side-by-side"></iron-icon>
     </gr-button>
     <gr-button
@@ -50,7 +50,7 @@ limitations under the License.
         has-tooltip
         title="Unified diff"
         class$="[[_computeSelectedClass(mode, _VIEW_MODES.UNIFIED)]]"
-        on-tap="_handleUnifiedTap">
+        on-click="_handleUnifiedTap">
       <iron-icon icon="gr-icons:unified"></iron-icon>
     </gr-button>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>

@@ -96,16 +96,16 @@ limitations under the License.
           </template>
         </div>
         <gr-button id="editBtn"
-            on-tap="_handleEdit">[[_editOrCancel(_editing)]]</gr-button>
+            on-click="_handleEdit">[[_editOrCancel(_editing)]]</gr-button>
         <gr-button id="saveBtn"
             primary
             class$="[[_computeSaveBtnClass(_ownerOf)]]"
-            on-tap="_handleSave"
+            on-click="_handleSave"
             disabled$="[[!_modified]]">Save</gr-button>
         <gr-button id="saveReviewBtn"
             primary
             class$="[[_computeSaveReviewBtnClass(_canUpload)]]"
-            on-tap="_handleSaveForReview"
+            on-click="_handleSaveForReview"
             disabled$="[[!_modified]]">Save for review</gr-button>
         <template
             is="dom-repeat"
@@ -125,7 +125,7 @@ limitations under the License.
         </template>
         <div class="referenceContainer">
           <gr-button id="addReferenceBtn"
-              on-tap="_handleCreateSection">Add Reference</gr-button>
+              on-click="_handleCreateSection">Add Reference</gr-button>
         </div>
       </div>
     </main>

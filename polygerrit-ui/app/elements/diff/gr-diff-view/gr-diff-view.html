@@ -281,7 +281,7 @@ limitations under the License.
             <gr-button
                 link
                 disabled="[[_isBlameLoading]]"
-                on-tap="_toggleBlame">[[_computeBlameToggleLabel(_isBlameLoaded, _isBlameLoading)]]</gr-button>
+                on-click="_toggleBlame">[[_computeBlameToggleLabel(_isBlameLoaded, _isBlameLoading)]]</gr-button>
             <span class="separator"></span>
           </span>
           <div class$="diffModeSelector [[_computeModeSelectHideClass(_isImageDiff)]]">
@@ -299,7 +299,7 @@ limitations under the License.
                   class="prefsButton"
                   has-tooltip
                   title="Diff preferences"
-                  on-tap="_handlePrefsTap"><iron-icon icon="gr-icons:settings"></iron-icon></gr-button>
+                  on-click="_handlePrefsTap"><iron-icon icon="gr-icons:settings"></iron-icon></gr-button>
             </span>
           </span>
           <gr-endpoint-decorator name="annotation-toggler">

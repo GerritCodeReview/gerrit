@@ -426,13 +426,6 @@ public final class Change {
         }
       }
 
-      // TODO(davido): Remove in 3.0, after all sites upgraded to version,
-      // where DRAFT status was removed. This code path is still needed,
-      // when changes are deserialized from the secondary index, during
-      // the online migration to the new schema version wasn't completed.
-      if (c == 'd') {
-        return Status.NEW;
-      }
       return null;
     }
 

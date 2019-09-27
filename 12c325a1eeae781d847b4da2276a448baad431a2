@@ -217,6 +217,30 @@
     },
     {
       "key": {
+        "uuid": "4b32fcd5_4c3111a1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-09-27T12:38:27Z",
+      "side": 1,
+      "message": "So, I have added the extra test-case where an external mailto:\u003c\u003e is used as preferred email and ExternalIT.checkConsistency() test fails.\n\nIt is thus confirmed that this change *does not fix* Issue 9001.\n\nP.S. Issue 9001 *must be fixed* but it is a different problem and needs to be addressed in a follow-up change.",
+      "parentUuid": "48da4d2a_fe910d34",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 16
+      },
+      "revId": "12c325a1eeae781d847b4da2276a448baad431a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "16e1619a_6a60f86d",
         "filename": "java/com/google/gerrit/server/account/AccountManager.java",
         "patchSetId": 6

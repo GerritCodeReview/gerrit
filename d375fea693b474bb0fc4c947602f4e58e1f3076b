@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "49ea0e08_21f3e435",
+        "filename": "javatests/com/google/gerrit/httpd/AllRequestFilterFilterProxyTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-09-27T00:19:47Z",
+      "side": 1,
+      "message": "Same comment as in L169: you should check with Mockito.inOrder()",
+      "range": {
+        "startLine": 140,
+        "startChar": 4,
+        "endLine": 143,
+        "endChar": 29
+      },
+      "revId": "d375fea693b474bb0fc4c947602f4e58e1f3076b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f84fab63_f9f6ffa2",
+        "filename": "javatests/com/google/gerrit/httpd/AllRequestFilterFilterProxyTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-09-27T00:19:47Z",
+      "side": 1,
+      "message": "This isn\u0027t necessarily checking in the way that `IMocksControl` was doing. The IMocksControl was checking also the exact sequence, whilst here I believe you are only checking that the methods are called.\n\nI believe you should use instead the Mockito.inOrder().",
+      "range": {
+        "startLine": 165,
+        "startChar": 4,
+        "endLine": 169,
+        "endChar": 30
+      },
+      "revId": "d375fea693b474bb0fc4c947602f4e58e1f3076b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

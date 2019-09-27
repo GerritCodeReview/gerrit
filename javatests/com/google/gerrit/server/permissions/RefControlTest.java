@@ -334,50 +334,6 @@ public class RefControlTest {
   }
 
   @Test
-  public void blockPushDrafts() throws Exception {
-    projectOperations
-        .project(parentKey)
-        .forUpdate()
-        .add(allow(PUSH).ref("refs/for/refs/*").group(REGISTERED_USERS))
-        .add(block(PUSH).ref("refs/drafts/*").group(ANONYMOUS_USERS))
-        .update();
-    projectOperations
-        .project(localKey)
-        .forUpdate()
-        .add(allow(PUSH).ref("refs/drafts/*").group(REGISTERED_USERS))
-        .update();
-
-    ProjectControl u = user(localKey);
-    assertCreateChange("refs/heads/master", u);
-    assertThat(u.controlForRef("refs/drafts/master").canPerform(PUSH)).isFalse();
-  }
-
-  @Test
-  public void blockPushDraftsUnblockAdmin() throws Exception {
-    projectOperations
-        .project(parentKey)
-        .forUpdate()
-        .add(block(PUSH).ref("refs/drafts/*").group(ANONYMOUS_USERS))
-        .add(allow(PUSH).ref("refs/drafts/*").group(ADMIN))
-        .update();
-    projectOperations
-        .project(localKey)
-        .forUpdate()
-        .add(allow(PUSH).ref("refs/drafts/*").group(REGISTERED_USERS))
-        .update();
-
-    ProjectControl u = user(localKey);
-    ProjectControl a = user(localKey, "a", ADMIN);
-
-    assertWithMessage("push is allowed")
-        .that(a.controlForRef("refs/drafts/master").canPerform(PUSH))
-        .isTrue();
-    assertWithMessage("push is not allowed")
-        .that(u.controlForRef("refs/drafts/master").canPerform(PUSH))
-        .isFalse();
-  }
-
-  @Test
   public void inheritRead_SingleBranchDoesNotOverrideInherited() throws Exception {
     projectOperations
         .project(parentKey)

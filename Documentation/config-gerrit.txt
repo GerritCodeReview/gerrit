@@ -1157,17 +1157,6 @@ Allow blame on side by side diff. If set to false, blame cannot be used.
 +
 Default is true.
 
-[[change.allowDrafts]]change.allowDrafts::
-+
-Legacy support for drafts workflow. If set to true, pushing a new change
-with draft option will create a private change. Pushing with draft option
-to an existing change will create change edit.
-+
-Enabling this option allows to push to the `refs/drafts/branch`. When
-disabled any push to `refs/drafts/branch` will be rejected.
-+
-Default is false.
-
 [[change.api.allowedIdentifier]]change.api.allowedIdentifier::
 +
 Change identifier(s) that are allowed on the API. See

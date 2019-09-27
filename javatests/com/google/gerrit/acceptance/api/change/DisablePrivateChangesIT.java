@@ -20,16 +20,11 @@ import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.PushOneCommit;
-import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
-import com.google.inject.Inject;
-import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Test;
 
 public class DisablePrivateChangesIT extends AbstractDaemonTest {
-  @Inject private ProjectOperations projectOperations;
-
   @Test
   @GerritConfig(name = "change.disablePrivateChanges", value = "true")
   public void createPrivateChangeWithDisablePrivateChangesTrue() throws Exception {
@@ -63,47 +58,12 @@ public class DisablePrivateChangesIT extends AbstractDaemonTest {
   }
 
   @Test
-  @GerritConfig(name = "change.allowDrafts", value = "true")
-  @GerritConfig(name = "change.disablePrivateChanges", value = "true")
-  public void pushDraftsWithDisablePrivateChangesTrue() throws Exception {
-    RevCommit initialHead = projectOperations.project(project).getHead("master");
-    PushOneCommit.Result result =
-        pushFactory.create(admin.newIdent(), testRepo).to("refs/for/master%draft");
-    result.assertErrorStatus();
-
-    testRepo.reset(initialHead);
-    result = pushFactory.create(admin.newIdent(), testRepo).to("refs/drafts/master");
-    result.assertErrorStatus();
-  }
-
-  @Test
   @GerritConfig(name = "change.disablePrivateChanges", value = "true")
   public void pushWithDisablePrivateChangesTrue() throws Exception {
     PushOneCommit.Result result =
         pushFactory.create(admin.newIdent(), testRepo).to("refs/for/master");
     result.assertOkStatus();
     assertThat(result.getChange().change().isPrivate()).isFalse();
-  }
-
-  @Test
-  @GerritConfig(name = "change.allowDrafts", value = "true")
-  public void pushPrivatesWithDisablePrivateChangesFalse() throws Exception {
-    PushOneCommit.Result result =
-        pushFactory.create(admin.newIdent(), testRepo).to("refs/for/master%private");
-    assertThat(result.getChange().change().isPrivate()).isTrue();
-  }
-
-  @Test
-  @GerritConfig(name = "change.allowDrafts", value = "true")
-  public void pushDraftsWithDisablePrivateChangesFalse() throws Exception {
-    RevCommit initialHead = projectOperations.project(project).getHead("master");
-    PushOneCommit.Result result =
-        pushFactory.create(admin.newIdent(), testRepo).to("refs/for/master%draft");
-    assertThat(result.getChange().change().isPrivate()).isTrue();
-
-    testRepo.reset(initialHead);
-    result = pushFactory.create(admin.newIdent(), testRepo).to("refs/drafts/master");
-    assertThat(result.getChange().change().isPrivate()).isTrue();
   }
 
   @Test

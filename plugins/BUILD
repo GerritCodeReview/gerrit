@@ -86,7 +86,7 @@ EXPORTS = [
     "//lib:jsch",
     "//lib:mime-util",
     "//lib:protobuf",
-    "//lib:servlet-api-3_1-without-neverlink",
+    "//lib:servlet-api-without-neverlink",
     "//lib:soy",
     "//prolog:gerrit-prolog-common",
 ]

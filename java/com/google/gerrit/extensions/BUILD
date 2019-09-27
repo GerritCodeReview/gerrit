@@ -16,7 +16,7 @@ java_library(
     exports = [
         ":api",
         "//lib:guava",
-        "//lib:servlet-api-3_1",
+        "//lib:servlet-api",
         "//lib/guice",
         "//lib/guice:guice-assistedinject",
         "//lib/guice:guice-servlet",

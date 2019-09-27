@@ -17,7 +17,7 @@ junit_tests(
         "//lib:guava",
         "//lib:jimfs",
         "//lib:junit",
-        "//lib:servlet-api-3_1-without-neverlink",
+        "//lib:servlet-api-without-neverlink",
         "//lib:soy",
         "//lib/guice",
         "//lib/guice:guice-servlet",

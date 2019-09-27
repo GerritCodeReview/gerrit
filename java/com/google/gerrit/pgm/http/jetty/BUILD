@@ -15,7 +15,7 @@ java_library(
         "//java/com/google/gerrit/sshd",
         "//java/com/google/gerrit/util/http",
         "//lib:guava",
-        "//lib:servlet-api-3_1",
+        "//lib:servlet-api",
         "//lib/flogger:api",
         "//lib/guice",
         "//lib/guice:guice-assistedinject",

@@ -99,8 +99,8 @@ Apache2.0
 * j2objc
 * jsr305
 * mime-util
-* servlet-api-3_1
-* servlet-api-3_1-without-neverlink
+* servlet-api
+* servlet-api-without-neverlink
 * soy
 
 [[Apache2_0_license]]

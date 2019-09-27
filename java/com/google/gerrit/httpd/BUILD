@@ -34,7 +34,7 @@ java_library(
         "//lib:gson",
         "//lib:guava",
         "//lib:jsch",
-        "//lib:servlet-api-3_1",
+        "//lib:servlet-api",
         "//lib:soy",
         "//lib/auto:auto-value",
         "//lib/auto:auto-value-annotations",

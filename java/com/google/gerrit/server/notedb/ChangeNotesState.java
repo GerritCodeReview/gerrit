@@ -31,7 +31,9 @@ import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableTable;
 import com.google.common.collect.ListMultimap;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import com.google.common.collect.Table;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.SubmitRecord;
@@ -50,10 +52,12 @@ import com.google.gerrit.reviewdb.converter.ChangeMessageProtoConverter;
 import com.google.gerrit.reviewdb.converter.PatchSetApprovalProtoConverter;
 import com.google.gerrit.reviewdb.converter.PatchSetProtoConverter;
 import com.google.gerrit.reviewdb.converter.ProtoConverter;
+import com.google.gerrit.server.AssigneeStatusUpdate;
 import com.google.gerrit.server.ReviewerByEmailSet;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.ReviewerStatusUpdate;
 import com.google.gerrit.server.cache.proto.Cache.ChangeNotesStateProto;
+import com.google.gerrit.server.cache.proto.Cache.ChangeNotesStateProto.AssigneeStatusUpdateProto;
 import com.google.gerrit.server.cache.proto.Cache.ChangeNotesStateProto.ChangeColumnsProto;
 import com.google.gerrit.server.cache.proto.Cache.ChangeNotesStateProto.ReviewerByEmailSetEntryProto;
 import com.google.gerrit.server.cache.proto.Cache.ChangeNotesStateProto.ReviewerSetEntryProto;
@@ -67,7 +71,9 @@ import com.google.protobuf.MessageLite;
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 import org.eclipse.jgit.lib.ObjectId;
 
 /**
@@ -103,9 +109,7 @@ public abstract class ChangeNotesState {
       @Nullable String topic,
       @Nullable String originalSubject,
       @Nullable String submissionId,
-      @Nullable Account.Id assignee,
       @Nullable Change.Status status,
-      Set<Account.Id> pastAssignees,
       Set<String> hashtags,
       Map<PatchSet.Id, PatchSet> patchSets,
       ListMultimap<PatchSet.Id, PatchSetApproval> approvals,
@@ -115,6 +119,7 @@ public abstract class ChangeNotesState {
       ReviewerByEmailSet pendingReviewersByEmail,
       List<Account.Id> allPastReviewers,
       List<ReviewerStatusUpdate> reviewerUpdates,
+      List<AssigneeStatusUpdate> assigneeUpdates,
       List<SubmitRecord> submitRecords,
       List<ChangeMessage> changeMessages,
       ListMultimap<ObjectId, Comment> publishedComments,
@@ -147,13 +152,22 @@ public abstract class ChangeNotesState {
                 .topic(topic)
                 .originalSubject(originalSubject)
                 .submissionId(submissionId)
-                .assignee(assignee)
+                .assignee(
+                    assigneeUpdates.isEmpty()
+                            || assigneeUpdates.get(0).currentAssignee().equals(Optional.empty())
+                        ? null
+                        : assigneeUpdates.get(0).currentAssignee().get())
                 .isPrivate(isPrivate)
                 .workInProgress(workInProgress)
                 .reviewStarted(reviewStarted)
                 .revertOf(revertOf)
                 .build())
-        .pastAssignees(pastAssignees)
+        .pastAssignees(
+            Sets.newLinkedHashSet(
+                Lists.reverse(assigneeUpdates).stream()
+                    .filter(update -> !update.currentAssignee().equals(Optional.empty()))
+                    .map(update -> update.currentAssignee().get())
+                    .collect(Collectors.toList())))
         .hashtags(hashtags)
         .serverId(serverId)
         .patchSets(patchSets.entrySet())
@@ -164,6 +178,7 @@ public abstract class ChangeNotesState {
         .pendingReviewersByEmail(pendingReviewersByEmail)
         .allPastReviewers(allPastReviewers)
         .reviewerUpdates(reviewerUpdates)
+        .assigneeUpdates(assigneeUpdates)
         .submitRecords(submitRecords)
         .changeMessages(changeMessages)
         .publishedComments(publishedComments)
@@ -297,6 +312,8 @@ public abstract class ChangeNotesState {
 
   abstract ImmutableList<ReviewerStatusUpdate> reviewerUpdates();
 
+  abstract ImmutableList<AssigneeStatusUpdate> assigneeUpdates();
+
   abstract ImmutableList<SubmitRecord> submitRecords();
 
   abstract ImmutableList<ChangeMessage> changeMessages();
@@ -369,6 +386,7 @@ public abstract class ChangeNotesState {
           .pendingReviewersByEmail(ReviewerByEmailSet.empty())
           .allPastReviewers(ImmutableList.of())
           .reviewerUpdates(ImmutableList.of())
+          .assigneeUpdates(ImmutableList.of())
           .submitRecords(ImmutableList.of())
           .changeMessages(ImmutableList.of())
           .publishedComments(ImmutableListMultimap.of())
@@ -402,6 +420,8 @@ public abstract class ChangeNotesState {
     abstract Builder allPastReviewers(List<Account.Id> allPastReviewers);
 
     abstract Builder reviewerUpdates(List<ReviewerStatusUpdate> reviewerUpdates);
+
+    abstract Builder assigneeUpdates(List<AssigneeStatusUpdate> assigneeUpdates);
 
     abstract Builder submitRecords(List<SubmitRecord> submitRecords);
 
@@ -469,6 +489,7 @@ public abstract class ChangeNotesState {
 
       object.allPastReviewers().forEach(a -> b.addPastReviewer(a.get()));
       object.reviewerUpdates().forEach(u -> b.addReviewerUpdate(toReviewerStatusUpdateProto(u)));
+      object.assigneeUpdates().forEach(u -> b.addAssigneeUpdate(toAssigneeStatusUpdateProto(u)));
       object
           .submitRecords()
           .forEach(r -> b.addSubmitRecord(GSON.toJson(new StoredSubmitRecord(r))));
@@ -550,6 +571,18 @@ public abstract class ChangeNotesState {
           .build();
     }
 
+    private static AssigneeStatusUpdateProto toAssigneeStatusUpdateProto(AssigneeStatusUpdate u) {
+      AssigneeStatusUpdateProto.Builder builder =
+          AssigneeStatusUpdateProto.newBuilder()
+              .setDate(u.date().getTime())
+              .setUpdatedBy(u.updatedBy().get());
+
+      if (u.currentAssignee() != null) {
+        builder.setCurrentAssignee(u.currentAssignee().orElse(Account.id(0)).get());
+      }
+      return builder.build();
+    }
+
     @Override
     public ChangeNotesState deserialize(byte[] in) {
       ChangeNotesStateProto proto = Protos.parseUnchecked(ChangeNotesStateProto.parser(), in);
@@ -581,6 +614,7 @@ public abstract class ChangeNotesState {
               .allPastReviewers(
                   proto.getPastReviewerList().stream().map(Account::id).collect(toImmutableList()))
               .reviewerUpdates(toReviewerStatusUpdateList(proto.getReviewerUpdateList()))
+              .assigneeUpdates(toAssigneeStatusUpdateList(proto.getAssigneeUpdateList()))
               .submitRecords(
                   proto.getSubmitRecordList().stream()
                       .map(r -> GSON.fromJson(r, StoredSubmitRecord.class).toSubmitRecord())
@@ -674,6 +708,21 @@ public abstract class ChangeNotesState {
                 Account.id(proto.getUpdatedBy()),
                 Account.id(proto.getReviewer()),
                 REVIEWER_STATE_CONVERTER.convert(proto.getState())));
+      }
+      return b.build();
+    }
+
+    private static ImmutableList<AssigneeStatusUpdate> toAssigneeStatusUpdateList(
+        List<AssigneeStatusUpdateProto> protos) {
+      ImmutableList.Builder<AssigneeStatusUpdate> b = ImmutableList.builder();
+      for (AssigneeStatusUpdateProto proto : protos) {
+        b.add(
+            AssigneeStatusUpdate.create(
+                new Timestamp(proto.getDate()),
+                Account.id(proto.getUpdatedBy()),
+                proto.getCurrentAssignee() == 0
+                    ? Optional.empty()
+                    : Optional.of(Account.id(proto.getCurrentAssignee()))));
       }
       return b.build();
     }

@@ -22,6 +22,53 @@
       "revId": "1aa3ffee69010370a8dc4fe66ff7000e3b1515b3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "afd4a5e4_a0498d03",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-09-27T06:50:07Z",
+      "side": 1,
+      "message": "I added a comment in ctor of ReceiveCommits. Done.",
+      "parentUuid": "23c6b636_8275a45c",
+      "range": {
+        "startLine": 251,
+        "startChar": 8,
+        "endLine": 251,
+        "endChar": 18
+      },
+      "revId": "1aa3ffee69010370a8dc4fe66ff7000e3b1515b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "52332a89_996d7966",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 27
+      },
+      "lineNbr": 478,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-09-27T06:50:07Z",
+      "side": 1,
+      "message": "Wrong section. This should go to the \"Assisted injected fields\" section above.",
+      "range": {
+        "startLine": 478,
+        "startChar": 4,
+        "endLine": 478,
+        "endChar": 22
+      },
+      "revId": "1aa3ffee69010370a8dc4fe66ff7000e3b1515b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

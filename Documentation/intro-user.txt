@@ -579,10 +579,9 @@ of cases:
   creating a private throwaway change without reviewers, you can push
   from one device, and fetch to another device.
 
-* You want to do code review on a change that has sensitive
-  aspects. By reviewing a security fix in a private change,
-  outsiders can't discover the fix before it is pushed out. Even after
-  merging the change, the review can be kept private.
+Do *not* use private changes for making security fixes (see
+link:#private-changes-pitfalls[pitfalls] below). How to make security
+fixes is explained link:#security-fixes[below].
 
 To create a private change, you push it with the `private` option.
 
@@ -605,6 +604,26 @@ can be granted
 (link:access-control.html#category_view_private_changes[View Private Changes]).
 In that case, care should be taken to prevent the CI system from
 exposing secret details.
+
+[[private-changes-pitfalls]]
+Pitfalls
+===
+
+If private changes are used, be aware of the following pitfalls:
+
+* If a private change gets merged the corresponding commit gets visible
+  for all users that can access the target branch and the private flag
+  from the change is automatically removed. This makes private changes
+  a bad choice for security fixes, as the security fix will be
+  accessible as soon as the change was merged, but for security issues
+  you want to keep an embargo until new releases have been made
+  available.
+* If you push a non-private change on top of a private change the
+  commit of the private change gets implicitly visible through the
+  parent relationship of the follow-up change.
+* If you have a series of private changes and share one with reviewers,
+  the reviewers can also see the commits of the predecessor private
+  changes through the commit parent relationship.
 
 [[ignore]]
 == Ignoring Or Marking Changes As 'Reviewed'
@@ -913,6 +932,29 @@ In this case, Gerrit will persist a change message ("Thanks, I'll fix it."),
 a file comment ("Rename this file to File.java") as well as a reply to an
 inline comment ("Yeah, I see why, let me try again.").
 
+[[security-fixes]]
+-- Security Fixes
+
+If a security vulnerability is discovered you normally want to have an
+embargo about it until fixed releases have been made available. This
+means you want to develop and review security fixes in private.
+
+If your repository is public or grants broad read access it is
+recommended to fix security issues in a copy of your repository which
+has very restricted read permissions (e.g. `myproject-security-fixes`).
+You can then implement, review and submit the security fix in this
+repository, make and publish a new release and only then integrate the
+security fix back into the normal (public) repository.
+
+Alternatively you can do the security fix in your normal repository in
+a branch with restricted read permissions. We don't recommend this
+because there is a risk of configuring the access rights wrongly and
+unintentionally granting read access to the wrong people.
+
+Using private changes for security fixes is *not* recommended due to
+the link:#private-changes-pitfalls[pitfalls] discussed above.
+Especially you don't want the fix to become visible after submit and
+before you had a chance to make and publish a new release.
 
 GERRIT
 ------

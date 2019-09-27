@@ -244,28 +244,22 @@
     },
 
     getRepo(repo, opt_errFn) {
-      // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
-      // supports it.
       return this._fetchSharedCacheURL({
-        url: '/projects/' + encodeURIComponent(repo),
+        url: '/repos/' + encodeURIComponent(repo),
         errFn: opt_errFn,
-        anonymizedUrl: '/projects/*',
+        anonymizedUrl: '/repos/*',
       });
     },
 
     getProjectConfig(repo, opt_errFn) {
-      // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
-      // supports it.
       return this._fetchSharedCacheURL({
-        url: '/projects/' + encodeURIComponent(repo) + '/config',
+        url: '/repos/' + encodeURIComponent(repo) + '/config',
         errFn: opt_errFn,
-        anonymizedUrl: '/projects/*/config',
+        anonymizedUrl: '/repos/*/config',
       });
     },
 
     getRepoAccess(repo) {
-      // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
-      // supports it.
       return this._fetchSharedCacheURL({
         url: '/access/?project=' + encodeURIComponent(repo),
         anonymizedUrl: '/access/?project=*',
@@ -273,40 +267,34 @@
     },
 
     getRepoDashboards(repo, opt_errFn) {
-      // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
-      // supports it.
       return this._fetchSharedCacheURL({
-        url: `/projects/${encodeURIComponent(repo)}/dashboards?inherited`,
+        url: `/repos/${encodeURIComponent(repo)}/dashboards?inherited`,
         errFn: opt_errFn,
-        anonymizedUrl: '/projects/*/dashboards?inherited',
+        anonymizedUrl: '/repos/*/dashboards?inherited',
       });
     },
 
     saveRepoConfig(repo, config, opt_errFn) {
-      // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
-      // supports it.
-      const url = `/projects/${encodeURIComponent(repo)}/config`;
+      const url = `/repos/${encodeURIComponent(repo)}/config`;
       this._cache.delete(url);
       return this._restApiHelper.send({
         method: 'PUT',
         url,
         body: config,
         errFn: opt_errFn,
-        anonymizedUrl: '/projects/*/config',
+        anonymizedUrl: '/repos/*/config',
       });
     },
 
     runRepoGC(repo, opt_errFn) {
       if (!repo) { return ''; }
-      // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
-      // supports it.
       const encodeName = encodeURIComponent(repo);
       return this._restApiHelper.send({
         method: 'POST',
-        url: `/projects/${encodeName}/gc`,
+        url: `/repos/${encodeName}/gc`,
         body: '',
         errFn: opt_errFn,
-        anonymizedUrl: '/projects/*/gc',
+        anonymizedUrl: '/repos/*/gc',
       });
     },
 
@@ -316,15 +304,13 @@
      */
     createRepo(config, opt_errFn) {
       if (!config.name) { return ''; }
-      // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
-      // supports it.
       const encodeName = encodeURIComponent(config.name);
       return this._restApiHelper.send({
         method: 'PUT',
-        url: `/projects/${encodeName}`,
+        url: `/repos/${encodeName}`,
         body: config,
         errFn: opt_errFn,
-        anonymizedUrl: '/projects/*',
+        anonymizedUrl: '/repos/*',
       });
     },
 
@@ -359,16 +345,14 @@
      */
     deleteRepoBranches(repo, ref, opt_errFn) {
       if (!repo || !ref) { return ''; }
-      // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
-      // supports it.
       const encodeName = encodeURIComponent(repo);
       const encodeRef = encodeURIComponent(ref);
       return this._restApiHelper.send({
         method: 'DELETE',
-        url: `/projects/${encodeName}/branches/${encodeRef}`,
+        url: `/repos/${encodeName}/branches/${encodeRef}`,
         body: '',
         errFn: opt_errFn,
-        anonymizedUrl: '/projects/*/branches/*',
+        anonymizedUrl: '/repos/*/branches/*',
       });
     },
 
@@ -379,16 +363,14 @@
      */
     deleteRepoTags(repo, ref, opt_errFn) {
       if (!repo || !ref) { return ''; }
-      // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
-      // supports it.
       const encodeName = encodeURIComponent(repo);
       const encodeRef = encodeURIComponent(ref);
       return this._restApiHelper.send({
         method: 'DELETE',
-        url: `/projects/${encodeName}/tags/${encodeRef}`,
+        url: `/repos/${encodeName}/tags/${encodeRef}`,
         body: '',
         errFn: opt_errFn,
-        anonymizedUrl: '/projects/*/tags/*',
+        anonymizedUrl: '/repos/*/tags/*',
       });
     },
 
@@ -400,16 +382,14 @@
      */
     createRepoBranch(name, branch, revision, opt_errFn) {
       if (!name || !branch || !revision) { return ''; }
-      // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
-      // supports it.
       const encodeName = encodeURIComponent(name);
       const encodeBranch = encodeURIComponent(branch);
       return this._restApiHelper.send({
         method: 'PUT',
-        url: `/projects/${encodeName}/branches/${encodeBranch}`,
+        url: `/repos/${encodeName}/branches/${encodeBranch}`,
         body: revision,
         errFn: opt_errFn,
-        anonymizedUrl: '/projects/*/branches/*',
+        anonymizedUrl: '/repos/*/branches/*',
       });
     },
 
@@ -421,16 +401,14 @@
      */
     createRepoTag(name, tag, revision, opt_errFn) {
       if (!name || !tag || !revision) { return ''; }
-      // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
-      // supports it.
       const encodeName = encodeURIComponent(name);
       const encodeTag = encodeURIComponent(tag);
       return this._restApiHelper.send({
         method: 'PUT',
-        url: `/projects/${encodeName}/tags/${encodeTag}`,
+        url: `/repos/${encodeName}/tags/${encodeTag}`,
         body: revision,
         errFn: opt_errFn,
-        anonymizedUrl: '/projects/*/tags/*',
+        anonymizedUrl: '/repos/*/tags/*',
       });
     },
 
@@ -1387,7 +1365,7 @@
       filter = filter.trim();
       const encodedFilter = encodeURIComponent(filter);
 
-      return `/projects/?n=${reposPerPage + 1}&S=${offset}` +
+      return `/repos/?n=${reposPerPage + 1}&S=${offset}` +
         `&query=${encodedFilter}`;
     },
 
@@ -1396,7 +1374,7 @@
     },
 
     invalidateReposCache() {
-      this._restApiHelper.invalidateFetchPromisesPrefix('/projects/?');
+      this._restApiHelper.invalidateFetchPromisesPrefix('/repos/?');
     },
 
     /**
@@ -1423,22 +1401,18 @@
     getRepos(filter, reposPerPage, opt_offset) {
       const url = this._getReposUrl(filter, reposPerPage, opt_offset);
 
-      // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
-      // supports it.
       return this._fetchSharedCacheURL({
         url,
-        anonymizedUrl: '/projects/?*',
+        anonymizedUrl: '/repos/?*',
       });
     },
 
     setRepoHead(repo, ref) {
-      // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
-      // supports it.
       return this._restApiHelper.send({
         method: 'PUT',
-        url: `/projects/${encodeURIComponent(repo)}/HEAD`,
+        url: `/repos/${encodeURIComponent(repo)}/HEAD`,
         body: {ref},
-        anonymizedUrl: '/projects/*/HEAD',
+        anonymizedUrl: '/repos/*/HEAD',
       });
     },
 
@@ -1455,13 +1429,11 @@
       const count = reposBranchesPerPage + 1;
       filter = this._computeFilter(filter);
       repo = encodeURIComponent(repo);
-      const url = `/projects/${repo}/branches?n=${count}&S=${offset}${filter}`;
-      // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
-      // supports it.
+      const url = `/repos/${repo}/branches?n=${count}&S=${offset}${filter}`;
       return this._restApiHelper.fetchJSON({
         url,
         errFn: opt_errFn,
-        anonymizedUrl: '/projects/*/branches?*',
+        anonymizedUrl: '/repos/*/branches?*',
       });
     },
 
@@ -1478,14 +1450,12 @@
       const encodedRepo = encodeURIComponent(repo);
       const n = reposTagsPerPage + 1;
       const encodedFilter = this._computeFilter(filter);
-      const url = `/projects/${encodedRepo}/tags` + `?n=${n}&S=${offset}` +
+      const url = `/repos/${encodedRepo}/tags` + `?n=${n}&S=${offset}` +
           encodedFilter;
-      // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
-      // supports it.
       return this._restApiHelper.fetchJSON({
         url,
         errFn: opt_errFn,
-        anonymizedUrl: '/projects/*/tags',
+        anonymizedUrl: '/repos/*/tags',
       });
     },
 
@@ -1509,33 +1479,29 @@
     },
 
     getRepoAccessRights(repoName, opt_errFn) {
-      // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
-      // supports it.
       return this._restApiHelper.fetchJSON({
-        url: `/projects/${encodeURIComponent(repoName)}/access`,
+        url: `/repos/${encodeURIComponent(repoName)}/access`,
         errFn: opt_errFn,
-        anonymizedUrl: '/projects/*/access',
+        anonymizedUrl: '/repos/*/access',
       });
     },
 
     setRepoAccessRights(repoName, repoInfo) {
-      // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
-      // supports it.
       return this._restApiHelper.send({
         method: 'POST',
-        url: `/projects/${encodeURIComponent(repoName)}/access`,
+        url: `/repos/${encodeURIComponent(repoName)}/access`,
         body: repoInfo,
-        anonymizedUrl: '/projects/*/access',
+        anonymizedUrl: '/repos/*/access',
       });
     },
 
     setRepoAccessRightsForReview(projectName, projectInfo) {
       return this._restApiHelper.send({
         method: 'PUT',
-        url: `/projects/${encodeURIComponent(projectName)}/access:review`,
+        url: `/repos/${encodeURIComponent(projectName)}/access:review`,
         body: projectInfo,
         parseResponse: true,
-        anonymizedUrl: '/projects/*/access:review',
+        anonymizedUrl: '/repos/*/access:review',
       });
     },
 
@@ -1568,7 +1534,7 @@
       };
       if (opt_n) { params.n = opt_n; }
       return this._restApiHelper.fetchJSON({
-        url: '/projects/',
+        url: '/repos/',
         errFn: opt_errFn,
         params,
         reportUrlAsIs: true,
@@ -2126,8 +2092,6 @@
       let fetchPromise;
       fetchPromise = fetchComments(opt_patchNum).then(response => {
         comments = response[opt_path] || [];
-        // TODO(kaspern): Implement this on in the backend so this can
-        // be removed.
         // Sort comments by date so that parent ranges can be propagated
         // in a single pass.
         comments = this._setRanges(comments);
@@ -2235,9 +2199,9 @@
 
     getCommitInfo(project, commit) {
       return this._restApiHelper.fetchJSON({
-        url: '/projects/' + encodeURIComponent(project) +
+        url: '/repos/' + encodeURIComponent(project) +
             '/commits/' + encodeURIComponent(commit),
-        anonymizedUrl: '/projects/*/comments/*',
+        anonymizedUrl: '/repos/*/comments/*',
       });
     },
 
@@ -2319,6 +2283,7 @@
      * @return {!Promise<string>}
      */
     _changeBaseURL(changeNum, opt_patchNum, opt_project) {
+
       // TODO(kaspern): For full slicer migration, app should warn with a call
       // stack every time _changeBaseURL is called without a project.
       const projectPromise = opt_project ?
@@ -2777,12 +2742,12 @@
      * @return {!Promise<!Object>}
      */
     getDashboard(project, dashboard, opt_errFn) {
-      const url = '/projects/' + encodeURIComponent(project) + '/dashboards/' +
+      const url = '/repos/' + encodeURIComponent(project) + '/dashboards/' +
           encodeURIComponent(dashboard);
       return this._fetchSharedCacheURL({
         url,
         errFn: opt_errFn,
-        anonymizedUrl: '/projects/*/dashboards/*',
+        anonymizedUrl: '/repos/*/dashboards/*',
       });
     },
 
@@ -2794,8 +2759,6 @@
       filter = filter.trim();
       const encodedFilter = encodeURIComponent(filter);
 
-      // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
-      // supports it.
       return this._fetchSharedCacheURL({
         url: `/Documentation/?q=${encodedFilter}`,
         anonymizedUrl: '/Documentation/?*',

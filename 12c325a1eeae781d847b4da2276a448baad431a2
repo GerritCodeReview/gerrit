@@ -241,6 +241,30 @@
     },
     {
       "key": {
+        "uuid": "fa59b550_52c7d6f4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-09-27T16:27:32Z",
+      "side": 1,
+      "message": "\u003e So, I have added the extra test-case where an external mailto:\u003c\u003e is used as preferred email and ExternalIT.checkConsistency() test fails.\n\u003e \n\u003e It is thus confirmed that this change *does not fix* Issue 9001.\n\nApparently there are different use cases. Can you re-check my comment from today 10:22 AM? So I have just confirmed, that in context of oauth-plugin, issue 9001 and this upstream issue: https://github.com/davido/gerrit-oauth-provider/issues/123 are definitely fixed with this change applied and that is really great!\n\nNow I\u0027m able to link new external id: \"google-oauth:123456789098765432123\" (note: with the provider name prefix) to the existing one \"123456789098765432123\" (note: without the provider name prefix).\n\nAlso note: that the reporter of issue 9001 and https://github.com/davido/gerrit-oauth-provider/issues/123 is the same person.\n\nAs he correctly pointed out, ExternalIdsConsistencyChecker is still broken, and still rejects the same email be referenced by different external ids, that belongs to the same account. Also with the OAuth external ids in my previous comment, that is made possible by this change, consistency checker result is:\n\n  $ curl --user joe:secret -X POST -H \"Content-Type: application/json\" \\\n    -d {\"check_account_external_ids\": {}} \\\n    http://localhost:8080/a/config/server/check.consistency \\\n   | sed \"s/\\\\\\\\u0027/\u0027/g\"\n\nAnd the result is:\n\n  \"check_account_external_ids_result\": {\n    \"problems\": [\n      {\n        \"status\": \"ERROR\",\n        \"message\": \"Email \u0027foo@example.org\u0027 is not unique, it\u0027s used by the following external IDs: \u0027123456789098765432123\u0027, \u0027google-oauth:123456789098765432123\u0027\"\n      }\n    ]\n  }\n\nBut this is wrong, because the both external ids belong to exactly same account id: 4711, and this is exactly what this change is trying to fix.\n\nI looked into the fix, and it seems, that this diff fixed the problem: [1]. However, I haven\u0027t checked if this code change broke any tests.\n\n[1] http://paste.openstack.org/show/779703",
+      "parentUuid": "4b32fcd5_4c3111a1",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 16
+      },
+      "revId": "12c325a1eeae781d847b4da2276a448baad431a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "16e1619a_6a60f86d",
         "filename": "java/com/google/gerrit/server/account/AccountManager.java",
         "patchSetId": 6

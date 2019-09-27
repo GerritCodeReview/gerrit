@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "bab78f20_704f1408",
+        "filename": "javatests/com/google/gerrit/httpd/AllRequestFilterFilterProxyTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-09-27T00:29:51Z",
+      "side": 1,
+      "message": "This is probably the case in some of the other tests that got migrated.\n\nIn this test though, the difficulty I was having was how to migrate the usage of capturedChain.capture() to Mockito.",
+      "parentUuid": "49ea0e08_21f3e435",
+      "range": {
+        "startLine": 140,
+        "startChar": 4,
+        "endLine": 143,
+        "endChar": 29
+      },
+      "revId": "d375fea693b474bb0fc4c947602f4e58e1f3076b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f84fab63_f9f6ffa2",
         "filename": "javatests/com/google/gerrit/httpd/AllRequestFilterFilterProxyTest.java",
         "patchSetId": 2

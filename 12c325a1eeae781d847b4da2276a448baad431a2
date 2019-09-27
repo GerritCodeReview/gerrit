@@ -289,6 +289,30 @@
     },
     {
       "key": {
+        "uuid": "5fad2788_1f101eee",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-09-27T21:28:00Z",
+      "side": 1,
+      "message": "\u003e That looks a good start, why don\u0027t you upload it as WIP change and we can start an early review?\n\nBecause I am convinced that this should happen in this change. Before this change both behaviors are consistent: AccountManager and ConsistencyChecker. After this change, AccountManager is fixed, ConsistencyChecker is still broken. So that this change cannot be submitted as is.",
+      "parentUuid": "2c0da1b2_15b935d5",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 16
+      },
+      "revId": "12c325a1eeae781d847b4da2276a448baad431a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "16e1619a_6a60f86d",
         "filename": "java/com/google/gerrit/server/account/AccountManager.java",
         "patchSetId": 6

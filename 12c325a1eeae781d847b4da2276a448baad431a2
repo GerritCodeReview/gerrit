@@ -115,6 +115,52 @@
       "revId": "12c325a1eeae781d847b4da2276a448baad431a2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "afaa1d41_0d7f93fb",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountManagerIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-09-27T05:01:52Z",
+      "side": 1,
+      "message": "Not needed.",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 49
+      },
+      "revId": "12c325a1eeae781d847b4da2276a448baad431a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d10f02b7_2f921d77",
+        "filename": "javatests/com/google/gerrit/acceptance/api/accounts/AccountManagerIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 441,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-09-27T05:01:52Z",
+      "side": 1,
+      "message": "This doesn\u0027t seem to be needed. If I remove it the test still succeed.",
+      "range": {
+        "startLine": 441,
+        "startChar": 2,
+        "endLine": 441,
+        "endChar": 15
+      },
+      "revId": "12c325a1eeae781d847b4da2276a448baad431a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

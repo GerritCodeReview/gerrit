@@ -323,7 +323,7 @@ public class MoveChangeIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void moveToBranchWithoutLabel() throws Exception {
+  public void moveToBranchThatDoesNotHaveCustomLabel() throws Exception {
     createBranch(BranchNameKey.create(project, "foo"));
     String testLabelA = "Label-A";
     configLabel(testLabelA, LabelFunction.MAX_WITH_BLOCK, Arrays.asList("refs/heads/master"));
@@ -347,7 +347,17 @@ public class MoveChangeIT extends AbstractDaemonTest {
 
     move(changeId, "foo");
 
-    // TODO(dpursehouse): Assert about state of labels after move
+    // "foo" branch does not have the custom label
+    assertThat(gApi.changes().id(changeId).current().reviewer(admin.email()).votes().keySet())
+        .isEmpty();
+
+    // Move back to master and confirm that the custom label score is still there
+    move(changeId, "master");
+
+    assertThat(gApi.changes().id(changeId).current().reviewer(admin.email()).votes().keySet())
+        .containsExactly(testLabelA);
+    assertThat(gApi.changes().id(changeId).current().reviewer(admin.email()).votes().values())
+        .containsExactly((short) -1);
   }
 
   @Test

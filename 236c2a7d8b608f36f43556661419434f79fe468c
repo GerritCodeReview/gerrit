@@ -46,6 +46,30 @@
       "revId": "236c2a7d8b608f36f43556661419434f79fe468c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "374aed89_cf14d5cf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-09-28T11:25:37Z",
+      "side": 1,
+      "message": "\u003e I don\u0027t think we should have that change blocking submit of this, though.\n\nCan we wait until stable-3.1 branch is cut of? We could also be nice to our users, and announce in release notes, that gerrit 3.1 is the last release that  supports drafts magic branch.",
+      "parentUuid": "283a8ba6_0426aaf6",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 64
+      },
+      "revId": "236c2a7d8b608f36f43556661419434f79fe468c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

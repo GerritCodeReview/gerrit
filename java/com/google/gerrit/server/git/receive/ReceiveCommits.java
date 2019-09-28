@@ -1563,7 +1563,6 @@ class ReceiveCommits {
       if (!hashtag.isEmpty()) {
         hashtags.add(hashtag);
       }
-      // TODO(dpursehouse): validate hashtags
     }
 
     @UsedAt(UsedAt.Project.GOOGLE)

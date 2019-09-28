@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07d82a86_d378e86f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-09-28T09:16:17Z",
+      "side": 1,
+      "message": "While there is a TODO in the code with this justification, another git client that is very often used in the wild, is OpenStack\u0027s git-review: [1]. And I see, that it is still referencing: [2] and uploaded this CL to discontinue the support for drafts in git-review as well: [3].\n\n* [1] https://docs.openstack.org/infra/git-review/index.html\n* [2] https://opendev.org/opendev/git-review/src/branch/master/git_review/cmd.py#L1403-L1404\n* [3] https://review.opendev.org/#/c/685533",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 64
+      },
+      "revId": "236c2a7d8b608f36f43556661419434f79fe468c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

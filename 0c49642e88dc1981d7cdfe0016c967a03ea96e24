@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d78c6766_ecf84236",
+        "filename": "java/com/google/gerrit/server/restapi/group/GroupsCollection.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-09-28T11:23:14Z",
+      "side": 1,
+      "message": "Remove this interface as setParams is a no-op now, that can be also removed.",
+      "range": {
+        "startLine": 37,
+        "startChar": 64,
+        "endLine": 37,
+        "endChar": 75
+      },
+      "revId": "0c49642e88dc1981d7cdfe0016c967a03ea96e24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a694aa86_61865431",
+        "filename": "java/com/google/gerrit/server/restapi/group/GroupsCollection.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-09-28T11:23:14Z",
+      "side": 1,
+      "message": "Remove this method.",
+      "range": {
+        "startLine": 58,
+        "startChar": 2,
+        "endLine": 59,
+        "endChar": 90
+      },
+      "revId": "0c49642e88dc1981d7cdfe0016c967a03ea96e24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

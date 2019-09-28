@@ -20,14 +20,14 @@ acceptance_tests(
     ],
 )
 
-acceptance_tests(
-    srcs = SUBMIT_TESTS,
-    group = "rest_change_submit",
+[acceptance_tests(
+    srcs = [f],
+    group = f[:f.index(".")],
     labels = ["rest"],
     deps = [
         ":submit_util",
     ],
-)
+) for f in SUBMIT_TESTS]
 
 java_library(
     name = "submit_util",

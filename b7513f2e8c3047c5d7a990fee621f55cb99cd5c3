@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5ee98d92_e2e1f0f1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-09-28T12:07:02Z",
+      "side": 1,
+      "message": "Not applicable any more, as this should be merged in parent change.",
+      "parentUuid": "b57da9d4_3ae048ba",
+      "range": {
+        "startLine": 7,
+        "startChar": 31,
+        "endLine": 7,
+        "endChar": 59
+      },
+      "revId": "b7513f2e8c3047c5d7a990fee621f55cb99cd5c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4d099105_cbac6c31",
         "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdsConsistencyChecker.java",
         "patchSetId": 2
@@ -45,6 +69,30 @@
       "revId": "b7513f2e8c3047c5d7a990fee621f55cb99cd5c3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b76fd6e9_96062eb9",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdsConsistencyChecker.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-09-28T12:07:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4d099105_cbac6c31",
+      "range": {
+        "startLine": 88,
+        "startChar": 29,
+        "endLine": 88,
+        "endChar": 35
+      },
+      "revId": "b7513f2e8c3047c5d7a990fee621f55cb99cd5c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "bb20f062_e6a86f62",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdsConsistencyChecker.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-09-28T12:07:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d6a65d12_ae2326b6",
+      "range": {
+        "startLine": 89,
+        "startChar": 32,
+        "endLine": 90,
+        "endChar": 20
+      },
+      "revId": "b7513f2e8c3047c5d7a990fee621f55cb99cd5c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bf7a8a14_7fb2bad8",
         "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdsConsistencyChecker.java",
         "patchSetId": 2
@@ -91,6 +163,30 @@
       "revId": "b7513f2e8c3047c5d7a990fee621f55cb99cd5c3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "175ef082_bda041b3",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdsConsistencyChecker.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-09-28T12:07:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bf7a8a14_7fb2bad8",
+      "range": {
+        "startLine": 91,
+        "startChar": 25,
+        "endLine": 91,
+        "endChar": 38
+      },
+      "revId": "b7513f2e8c3047c5d7a990fee621f55cb99cd5c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

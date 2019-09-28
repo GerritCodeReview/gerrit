@@ -22,6 +22,30 @@
       "revId": "236c2a7d8b608f36f43556661419434f79fe468c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "283a8ba6_0426aaf6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-09-28T09:40:04Z",
+      "side": 1,
+      "message": "Ack.  I\u0027ve reviewed your change.\n\nI don\u0027t think we should have that change blocking submit of this, though.",
+      "parentUuid": "07d82a86_d378e86f",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 64
+      },
+      "revId": "236c2a7d8b608f36f43556661419434f79fe468c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

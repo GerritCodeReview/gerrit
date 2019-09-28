@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "50966a48_4bb2bad8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-09-28T10:06:50Z",
+      "side": 1,
+      "message": "Is this still accurate considering global scope of this change? E.g.: in: [1], that this change reportedly fixed, there no mailto external id involved at all. I think the global scope is: here \"Allow duplicate emails per account\", that is exactly the subject of the follow up change.\n\n* [1] https://github.com/davido/gerrit-oauth-provider/issues/123",
+      "range": {
+        "startLine": 7,
+        "startChar": 16,
+        "endLine": 7,
+        "endChar": 66
+      },
+      "revId": "243476373aa1df21407acfea1a8c3cf6a428c091",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

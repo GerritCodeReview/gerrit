@@ -385,6 +385,30 @@
     },
     {
       "key": {
+        "uuid": "0ed0387c_ea4ae7ca",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-09-28T12:37:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fce7c712_f9141654",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 16
+      },
+      "revId": "12c325a1eeae781d847b4da2276a448baad431a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "16e1619a_6a60f86d",
         "filename": "java/com/google/gerrit/server/account/AccountManager.java",
         "patchSetId": 6

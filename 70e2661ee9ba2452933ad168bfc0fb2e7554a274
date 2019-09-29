@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "92a1be4f_16a62f1c",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2517,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2019-09-29T21:02:56Z",
+      "side": 1,
+      "message": "Well, no, it will break... :-(\n\nIssue 4824\n\nWhile not changing anything regarding that in this change, I feel uncomfortable with the rest too.",
+      "range": {
+        "startLine": 2516,
+        "startChar": 0,
+        "endLine": 2517,
+        "endChar": 8
+      },
+      "revId": "70e2661ee9ba2452933ad168bfc0fb2e7554a274",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

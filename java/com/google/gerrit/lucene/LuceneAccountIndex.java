@@ -17,6 +17,7 @@ package com.google.gerrit.lucene;
 import static com.google.common.collect.Iterables.getOnlyElement;
 import static com.google.gerrit.server.index.account.AccountField.FULL_NAME;
 import static com.google.gerrit.server.index.account.AccountField.ID;
+import static com.google.gerrit.server.index.account.AccountField.ID2;
 import static com.google.gerrit.server.index.account.AccountField.PREFERRED_EMAIL_EXACT;
 
 import com.google.gerrit.exceptions.StorageException;
@@ -61,12 +62,16 @@ public class LuceneAccountIndex extends AbstractLuceneIndex<Account.Id, AccountS
   private static final String EMAIL_SORT_FIELD = sortFieldName(PREFERRED_EMAIL_EXACT);
   private static final String ID_SORT_FIELD = sortFieldName(ID);
 
-  private static Term idTerm(AccountState as) {
-    return idTerm(as.account().id());
+  private static Term idTerm(boolean useLegacyNumericFields, AccountState as) {
+    return idTerm(useLegacyNumericFields, as.account().id());
   }
 
-  private static Term idTerm(Account.Id id) {
-    return QueryBuilder.intTerm(ID.getName(), id.get());
+  private static Term idTerm(boolean useLegacyNumericFields, Account.Id id) {
+    FieldDef<AccountState, ?> idField = useLegacyNumericFields ? ID : ID2;
+    if (useLegacyNumericFields) {
+      return QueryBuilder.intTerm(idField.getName(), id.get());
+    }
+    return QueryBuilder.stringTerm(idField.getName(), Integer.toString(id.get()));
   }
 
   private final GerritIndexWriterConfig indexWriterConfig;
@@ -123,7 +128,7 @@ public class LuceneAccountIndex extends AbstractLuceneIndex<Account.Id, AccountS
   @Override
   public void replace(AccountState as) {
     try {
-      replace(idTerm(as), toDocument(as)).get();
+      replace(idTerm(getSchema().useLegacyNumericFields(), as), toDocument(as)).get();
     } catch (ExecutionException | InterruptedException e) {
       throw new StorageException(e);
     }
@@ -132,7 +137,7 @@ public class LuceneAccountIndex extends AbstractLuceneIndex<Account.Id, AccountS
   @Override
   public void delete(Account.Id key) {
     try {
-      delete(idTerm(key)).get();
+      delete(idTerm(getSchema().useLegacyNumericFields(), key)).get();
     } catch (ExecutionException | InterruptedException e) {
       throw new StorageException(e);
     }
@@ -154,7 +159,12 @@ public class LuceneAccountIndex extends AbstractLuceneIndex<Account.Id, AccountS
 
   @Override
   protected AccountState fromDocument(Document doc) {
-    Account.Id id = Account.id(doc.getField(ID.getName()).numericValue().intValue());
+    FieldDef<AccountState, ?> idField = getSchema().useLegacyNumericFields() ? ID : ID2;
+    Account.Id id =
+        Account.id(
+            getSchema().useLegacyNumericFields()
+                ? doc.getField(idField.getName()).numericValue().intValue()
+                : Integer.valueOf(doc.getField(idField.getName()).stringValue()));
     // Use the AccountCache rather than depending on any stored fields in the document (of which
     // there shouldn't be any). The most expensive part to compute anyway is the effective group
     // IDs, and we don't have a good way to reindex when those change.

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a0189535_d48a32d0",
+        "filename": "java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-09-29T19:34:23Z",
+      "side": 1,
+      "message": "Bad rebase. This belongs to the parent commit.",
+      "range": {
+        "startLine": 140,
+        "startChar": 29,
+        "endLine": 140,
+        "endChar": 51
+      },
+      "revId": "bf5a306acbbdb68e5335fb2a8a6d60ed7f0422c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

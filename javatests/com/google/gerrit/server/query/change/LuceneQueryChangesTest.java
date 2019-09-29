@@ -1,4 +1,4 @@
-// Copyright (C) 2013 The Android Open Source Project
+// Copyright (C) 2019 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -19,35 +19,16 @@ import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.server.index.change.ChangeSchemaDefinitions;
-import com.google.gerrit.testing.ConfigSuite;
 import com.google.gerrit.testing.InMemoryModule;
 import com.google.gerrit.testing.InMemoryRepositoryManager.Repo;
-import com.google.gerrit.testing.IndexConfig;
-import com.google.gerrit.testing.IndexVersions;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import java.util.List;
-import java.util.Map;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Test;
 
-public class LuceneQueryChangesTest extends AbstractQueryChangesTest {
-  @ConfigSuite.Default
-  public static Config defaultConfig() {
-    return IndexConfig.createForLucene();
-  }
-
-  @ConfigSuite.Configs
-  public static Map<String, Config> againstPreviousIndexVersion() {
-    // the current schema version is already tested by the inherited default config suite
-    List<Integer> schemaVersions = IndexVersions.getWithoutLatest(ChangeSchemaDefinitions.INSTANCE);
-    return IndexVersions.asConfigMap(
-        ChangeSchemaDefinitions.INSTANCE, schemaVersions, "againstIndexVersion", defaultConfig());
-  }
-
+public abstract class LuceneQueryChangesTest extends AbstractQueryChangesTest {
   @Override
   protected Injector createInjector() {
     Config luceneConfig = new Config(config);

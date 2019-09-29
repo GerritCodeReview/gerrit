@@ -1,7 +1,10 @@
 load("@rules_java//java:defs.bzl", "java_library")
 load("//tools/bzl:junit.bzl", "junit_tests")
 
-ABSTRACT_QUERY_TEST = ["AbstractQueryChangesTest.java"]
+ABSTRACT_QUERY_TEST = [
+    "AbstractQueryChangesTest.java",
+    "LuceneQueryChangesTest.java",
+]
 
 java_library(
     name = "abstract_query_tests",
@@ -30,12 +33,15 @@ java_library(
     ],
 )
 
-LUCENE_QUERY_TEST = ["LuceneQueryChangesTest.java"]
+LUCENE_QUERY_TEST = [
+    "LuceneQueryChangesLatestIndexVersionTest.java",
+    "LuceneQueryChangesPreviousIndexVersionTest.java",
+]
 
-junit_tests(
-    name = "lucene_query_test",
+[junit_tests(
+    name = f[:f.index(".")],
     size = "large",
-    srcs = LUCENE_QUERY_TEST,
+    srcs = [f],
     visibility = ["//visibility:public"],
     deps = [
         ":abstract_query_tests",
@@ -49,7 +55,7 @@ junit_tests(
         "//lib/jgit/org.eclipse.jgit.junit:junit",
         "//lib/truth",
     ],
-)
+) for f in LUCENE_QUERY_TEST]
 
 junit_tests(
     name = "small_tests",

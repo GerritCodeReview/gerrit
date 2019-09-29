@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a2eec51c_be6037c0",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-09-29T09:19:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bf311517_99f9cf29",
+      "range": {
+        "startLine": 156,
+        "startChar": 20,
+        "endLine": 156,
+        "endChar": 28
+      },
+      "revId": "fc111e124691b440c6fe6711ec4a0501822b22bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b027fbca_7348c0e1",
         "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "66aa717c_1fff41a3",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 3165,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-09-29T09:19:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b027fbca_7348c0e1",
+      "range": {
+        "startLine": 3165,
+        "startChar": 12,
+        "endLine": 3165,
+        "endChar": 30
+      },
+      "revId": "fc111e124691b440c6fe6711ec4a0501822b22bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c836910e_30162834",
         "filename": "javatests/com/google/gerrit/server/query/change/LuceneQueryChangesTest.java",
         "patchSetId": 1
@@ -68,6 +116,30 @@
       "revId": "fc111e124691b440c6fe6711ec4a0501822b22bd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "de72fede_4a2e3b26",
+        "filename": "javatests/com/google/gerrit/server/query/change/LuceneQueryChangesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-09-29T09:19:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c836910e_30162834",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "fc111e124691b440c6fe6711ec4a0501822b22bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -70,6 +70,12 @@ public class SchemaUtil {
     return new Schema<>(true, ImmutableList.copyOf(fields));
   }
 
+  public static <V> Schema<V> schema(Schema<V> schema, boolean useLegacyNumericFields) {
+    return new Schema<>(
+        useLegacyNumericFields,
+        new ImmutableList.Builder<FieldDef<V, ?>>().addAll(schema.getFields().values()).build());
+  }
+
   @SafeVarargs
   public static <V> Schema<V> schema(Schema<V> schema, FieldDef<V, ?>... moreFields) {
     return new Schema<>(

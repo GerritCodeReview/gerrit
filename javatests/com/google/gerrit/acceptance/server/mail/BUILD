@@ -7,18 +7,18 @@ DEPS = [
     "//java/com/google/gerrit/mail",
 ]
 
-acceptance_tests(
-    srcs = glob(
-        ["*IT.java"],
-        exclude = ["AbstractMailIT.java"],
-    ),
-    group = "server_mail",
+[acceptance_tests(
+    srcs = [f],
+    group = f[:f.index(".")],
     labels = [
         "no_windows",
         "server",
     ],
     deps = DEPS + [":util"],
-)
+) for f in glob(
+    ["*IT.java"],
+    exclude = ["AbstractMailIT.java"],
+)]
 
 java_library(
     name = "util",

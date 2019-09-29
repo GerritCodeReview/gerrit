@@ -81,6 +81,24 @@
       "revId": "b7080034f292c0b0db8f3efee45a624a36c7cb8a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9ba06782_a6888006",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-09-29T16:42:15Z",
+      "side": 1,
+      "message": "\u003e Yes, you are right, online reindexing doesn\u0027t work. We need to add new string ID field.\n\nDone. Online reindexing is fixed now. \n\nCan you review this ASAP, so that the new index schema types for all three indexes can make it in 3.1 release? That way we can remove the usage of legacy type and the deprecated code altogether in upcoming 3.2 release.\n\nIt would be also great, if someone could help to review and validate this series on Elastic Search.",
+      "parentUuid": "2302e6d0_0bf0743c",
+      "revId": "b7080034f292c0b0db8f3efee45a624a36c7cb8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

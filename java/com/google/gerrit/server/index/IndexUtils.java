@@ -59,14 +59,14 @@ public final class IndexUtils {
     }
   }
 
-  public static Set<String> accountFields(QueryOptions opts) {
-    return accountFields(opts.fields());
+  public static Set<String> accountFields(QueryOptions opts, boolean useLegacyNumericFields) {
+    return accountFields(opts.fields(), useLegacyNumericFields);
   }
 
-  public static Set<String> accountFields(Set<String> fields) {
-    return fields.contains(AccountField.ID.getName())
-        ? fields
-        : Sets.union(fields, ImmutableSet.of(AccountField.ID.getName()));
+  public static Set<String> accountFields(Set<String> fields, boolean useLegacyNumericFields) {
+    String idFieldName =
+        useLegacyNumericFields ? AccountField.ID.getName() : AccountField.ID_STR.getName();
+    return fields.contains(idFieldName) ? fields : Sets.union(fields, ImmutableSet.of(idFieldName));
   }
 
   public static Set<String> changeFields(QueryOptions opts, boolean useLegacyNumericFields) {

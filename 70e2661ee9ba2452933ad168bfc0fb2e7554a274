@@ -22,6 +22,30 @@
       "revId": "70e2661ee9ba2452933ad168bfc0fb2e7554a274",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eb409b4e_c8b09ea4",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2517,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2019-09-29T23:29:19Z",
+      "side": 1,
+      "message": "That was only init-related. Fixed in I57fe9fe29a0fd3399024e5c196cc889650dc6892.",
+      "parentUuid": "92a1be4f_16a62f1c",
+      "range": {
+        "startLine": 2516,
+        "startChar": 0,
+        "endLine": 2517,
+        "endChar": 8
+      },
+      "revId": "70e2661ee9ba2452933ad168bfc0fb2e7554a274",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

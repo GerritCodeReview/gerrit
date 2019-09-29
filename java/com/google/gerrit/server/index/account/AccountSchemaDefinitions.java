@@ -49,7 +49,18 @@ public class AccountSchemaDefinitions extends SchemaDefinitions<AccountState> {
   @Deprecated static final Schema<AccountState> V9 = schema(V8);
 
   // Lucene index was changed to add additional fields for sorting.
-  static final Schema<AccountState> V10 = schema(V9);
+  @Deprecated static final Schema<AccountState> V10 = schema(V9);
+
+  // New numeric types: use dimensional points using the k-d tree geo-spatial data structure
+  // to offer fast single- and multi-dimensional numeric range. As the consequense, integer
+  // document id type is replaced with string document id type.
+  static final Schema<AccountState> V11 =
+      new Schema.Builder<AccountState>()
+          .add(V10)
+          .remove(AccountField.ID)
+          .add(AccountField.ID2)
+          .legacyNumericFields(false)
+          .build();
 
   public static final String NAME = "accounts";
   public static final AccountSchemaDefinitions INSTANCE = new AccountSchemaDefinitions();

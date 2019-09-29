@@ -32,6 +32,7 @@ import com.google.gerrit.extensions.common.GroupBaseInfo;
 import com.google.gerrit.extensions.common.SuggestedReviewerInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.Url;
+import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.query.FieldBundle;
@@ -227,6 +228,13 @@ public class ReviewersUtil {
     return suggestedReviewers;
   }
 
+  private static Account.Id fromIdField(FieldBundle f, boolean useLegacyNumericFields) {
+    if (useLegacyNumericFields) {
+      return Account.id(f.getValue(AccountField.ID).intValue());
+    }
+    return Account.id(Integer.valueOf(f.getValue(AccountField.ID2)));
+  }
+
   private List<Account.Id> suggestAccounts(SuggestReviewers suggestReviewers)
       throws BadRequestException {
     try (Timer0.Context ctx = metrics.queryAccountsLatency.start()) {
@@ -239,6 +247,10 @@ public class ReviewersUtil {
               accountQueryBuilder.defaultQuery(suggestReviewers.getQuery()));
       logger.atFine().log("accounts index query: %s", pred);
       accountIndexRewriter.validateMaxTermsInQuery(pred);
+      boolean useLegacyNumericFields =
+          accountIndexes.getSearchIndex().getSchema().useLegacyNumericFields();
+      FieldDef<AccountState, ?> idField =
+          useLegacyNumericFields ? AccountField.ID : AccountField.ID2;
       ResultSet<FieldBundle> result =
           accountIndexes
               .getSearchIndex()
@@ -248,11 +260,11 @@ public class ReviewersUtil {
                       indexConfig,
                       0,
                       suggestReviewers.getLimit(),
-                      ImmutableSet.of(AccountField.ID.getName())))
+                      ImmutableSet.of(idField.getName())))
               .readRaw();
       List<Account.Id> matches =
           result.toList().stream()
-              .map(f -> Account.id(f.getValue(AccountField.ID).intValue()))
+              .map(f -> fromIdField(f, useLegacyNumericFields))
               .collect(toList());
       logger.atFine().log("Matches: %s", matches);
       return matches;

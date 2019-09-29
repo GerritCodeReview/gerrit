@@ -61,6 +61,12 @@ public class StalenessChecker {
           AccountField.REF_STATE.getName(),
           AccountField.EXTERNAL_ID_STATE.getName());
 
+  public static final ImmutableSet<String> FIELDS2 =
+      ImmutableSet.of(
+          AccountField.ID2.getName(),
+          AccountField.REF_STATE.getName(),
+          AccountField.EXTERNAL_ID_STATE.getName());
+
   private final AccountIndexCollection indexes;
   private final GitRepositoryManager repoManager;
   private final AllUsersName allUsersName;
@@ -93,8 +99,13 @@ public class StalenessChecker {
       return false;
     }
 
+    boolean useLegacyNumericFields = i.getSchema().useLegacyNumericFields();
+    ImmutableSet<String> fields = useLegacyNumericFields ? FIELDS : FIELDS2;
     Optional<FieldBundle> result =
-        i.getRaw(id, QueryOptions.create(indexConfig, 0, 1, IndexUtils.accountFields(FIELDS)));
+        i.getRaw(
+            id,
+            QueryOptions.create(
+                indexConfig, 0, 1, IndexUtils.accountFields(fields, useLegacyNumericFields)));
     if (!result.isPresent()) {
       // The document is missing in the index.
       try (Repository repo = repoManager.openRepository(allUsersName)) {

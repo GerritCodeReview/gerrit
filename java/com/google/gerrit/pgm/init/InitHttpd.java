@@ -60,22 +60,67 @@ class InitHttpd implements InitStep {
   public void run() throws IOException, InterruptedException {
     ui.header("HTTP Daemon");
 
+    boolean anySsl = false;
+    // If any listenUrls are present, validate whether it can be parsed as URL.
+    String[] listenUrls = httpd.getList("listenUrl");
+    for (String listenUrl : listenUrls) {
+      if (listenUrl != null && !listenUrl.isEmpty()) {
+        try {
+          final URI u = toURI(listenUrl);
+          if (u.getScheme().startsWith("https")) {
+            anySsl = true;
+          }
+        } catch (URISyntaxException e) {
+          System.err.println(
+              String.format(
+                  "warning: invalid httpd.listenUrl entry: '%s'. Gerrit may not be able to start.",
+                  listenUrl));
+        }
+      }
+    }
+
+    if (listenUrls.length > 1) {
+      // Because we will return early here, we will warn about steps otherwise being covered.
+      if (!ui.isBatch()) {
+        System.err.println(
+            "Interactive configuration is not supported with multiple entries of "
+                + "httpd.listenUrl.");
+      }
+      if (anySsl) {
+        System.err.println(
+            "Generating self-signed SSL certificates is not supported with multiple "
+                + "entries of httpd.listenUrl.");
+      }
+      String canonicalWebUrlDefaultString = "";
+      if (listenUrls[0] != null && !listenUrls[0].isEmpty()) {
+        try {
+          canonicalWebUrlDefaultString = new URI(listenUrls[0]).toString();
+        } catch (URISyntaxException e) {
+          // Should not happen, but log it anyway
+          System.err.println(
+              String.format("warning: invalid httpd.listenUrl entry: '%s'", listenUrls[0]));
+        }
+      }
+      gerrit.string("Canonical URL", "canonicalWebUrl", canonicalWebUrlDefaultString);
+      return;
+    }
+
     boolean proxy = false;
     boolean ssl = false;
     String address = "*";
     int port = -1;
     String context = "/";
-    String listenUrl = httpd.get("listenUrl");
-    if (listenUrl != null && !listenUrl.isEmpty()) {
+
+    if (listenUrls.length > 0 && listenUrls[0] != null && !listenUrls[0].isEmpty()) {
       try {
-        final URI uri = toURI(listenUrl);
+        final URI uri = toURI(listenUrls[0]);
         proxy = uri.getScheme().startsWith("proxy-");
         ssl = uri.getScheme().endsWith("https");
-        address = isAnyAddress(new URI(listenUrl)) ? "*" : uri.getHost();
+        address = isAnyAddress(new URI(listenUrls[0])) ? "*" : uri.getHost();
         port = uri.getPort();
         context = uri.getPath();
       } catch (URISyntaxException e) {
-        System.err.println("warning: invalid httpd.listenUrl " + listenUrl);
+        System.err.println("warning: invalid httpd.listenUrl " + listenUrls[0]);
       }
     }
 

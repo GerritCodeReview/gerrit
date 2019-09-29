@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5407294e_296901f9",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2102,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2019-09-29T14:59:55Z",
+      "side": 1,
+      "message": "Am I missing something? Did we reintroduce GWT in 3.0? 😊\n\nFix in I7f3aa3522efc0a35b7642bcfa60673a821ebf2cc.",
+      "range": {
+        "startLine": 2102,
+        "startChar": 35,
+        "endLine": 2102,
+        "endChar": 75
+      },
+      "revId": "b18ee09cb820ba893e39e59985018e46282f6a28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -112,11 +112,10 @@ class InitHttpd implements InitStep {
       urlbuf.append(port);
     }
     urlbuf.append(context);
-    httpd.set("listenUrl", urlbuf.toString());
 
     URI uri;
     try {
-      uri = toURI(httpd.get("listenUrl"));
+      uri = toURI(urlbuf.toString());
       if (uri.getScheme().startsWith("proxy-")) {
         // If its a proxy URL, assume the reverse proxy is on our system
         // at the protocol standard ports (so omit the ports from the URL).
@@ -127,6 +126,7 @@ class InitHttpd implements InitStep {
     } catch (URISyntaxException e) {
       throw die("invalid httpd.listenUrl");
     }
+    httpd.set("listenUrl", urlbuf.toString());
     gerrit.string("Canonical URL", "canonicalWebUrl", uri.toString());
     generateSslCertificate();
   }

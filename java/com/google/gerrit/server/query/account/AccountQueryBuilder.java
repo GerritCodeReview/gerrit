@@ -202,7 +202,7 @@ public class AccountQueryBuilder extends QueryBuilder<AccountState, AccountQuery
 
     if ("self".equalsIgnoreCase(query) || "me".equalsIgnoreCase(query)) {
       try {
-        return Predicate.or(defaultPredicate, AccountPredicates.id(self()));
+        return Predicate.or(defaultPredicate, AccountPredicates.id(args.schema(), self()));
       } catch (QueryParseException e) {
         // Skip.
       }

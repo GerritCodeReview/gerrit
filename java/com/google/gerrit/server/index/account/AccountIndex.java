@@ -27,6 +27,6 @@ public interface AccountIndex extends Index<Account.Id, AccountState> {
 
   @Override
   default Predicate<AccountState> keyPredicate(Account.Id id) {
-    return AccountPredicates.id(id);
+    return AccountPredicates.id(getSchema(), id);
   }
 }

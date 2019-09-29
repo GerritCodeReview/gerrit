@@ -282,4 +282,8 @@ public class QueryBuilder<V> {
   public int toIndexTimeInMinutes(Date ts) {
     return (int) (ts.getTime() / 60000);
   }
+
+  public Schema<V> getSchema() {
+    return schema;
+  }
 }

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "91b734be_3131dc47",
+        "filename": "java/com/google/gerrit/pgm/init/InitHttpd.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2019-09-29T23:26:21Z",
+      "side": 1,
+      "message": "hmm, perhaps I should add an !\u003d null and !isEmpty() check?",
+      "revId": "03429b2cd77b68403648695c45174db2f56674e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0f288585_1a322d79",
+        "filename": "java/com/google/gerrit/pgm/init/InitHttpd.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1045122
+      },
+      "writtenOn": "2019-09-29T23:26:21Z",
+      "side": 1,
+      "message": "Q: don\u0027t really know how to handle this safely? any ideas?",
+      "revId": "03429b2cd77b68403648695c45174db2f56674e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

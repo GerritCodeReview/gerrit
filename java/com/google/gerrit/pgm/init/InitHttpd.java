@@ -60,22 +60,53 @@ class InitHttpd implements InitStep {
   public void run() throws IOException, InterruptedException {
     ui.header("HTTP Daemon");
 
+    boolean anySsl = false;
+    // If any listenUrls are present, validate whether it can be parsed as URL.
+    String[] listenUrls = httpd.getList("listenUrl");
+    for (String listenUrl : listenUrls) {
+      if (listenUrl != null && !listenUrl.isEmpty()) {
+        try {
+          final URI u = toURI(listenUrl);
+          if (u.getScheme().startsWith("https")) anySsl = true;
+        } catch (URISyntaxException e) {
+          System.err.println(
+              String.format(
+                  "warning: invalid httpd.listenUrl entry: '%s'. Gerrit may not be able to start.",
+                  listenUrl));
+        }
+      }
+    }
+
+    if (listenUrls.length > 1) {
+      // Because we will return early here, we will warn about steps otherwise being covered.
+      if (!ui.isBatch())
+        System.err.println(
+            "Interactive configuration is not supported with multiple entries of "
+                + "httpd.listenUrl.");
+      if (anySsl)
+        System.err.println(
+            "Generating self-signed SSL certificates is not supported with multiple "
+                + "entries of httpd.listenUrl.");
+      gerrit.string("Canonical URL", "canonicalWebUrl", listenUrls[0]);
+      return;
+    }
+
     boolean proxy = false;
     boolean ssl = false;
     String address = "*";
     int port = -1;
     String context = "/";
-    String listenUrl = httpd.get("listenUrl");
-    if (listenUrl != null && !listenUrl.isEmpty()) {
+
+    if (listenUrls.length > 0) {
       try {
-        final URI uri = toURI(listenUrl);
+        final URI uri = toURI(listenUrls[0]);
         proxy = uri.getScheme().startsWith("proxy-");
         ssl = uri.getScheme().endsWith("https");
-        address = isAnyAddress(new URI(listenUrl)) ? "*" : uri.getHost();
+        address = isAnyAddress(new URI(listenUrls[0])) ? "*" : uri.getHost();
         port = uri.getPort();
         context = uri.getPath();
       } catch (URISyntaxException e) {
-        System.err.println("warning: invalid httpd.listenUrl " + listenUrl);
+        // should not get here; already checked all entries above.
       }
     }
 

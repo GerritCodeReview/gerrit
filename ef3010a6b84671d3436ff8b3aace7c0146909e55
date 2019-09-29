@@ -16,6 +16,24 @@
       "revId": "ef3010a6b84671d3436ff8b3aace7c0146909e55",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "988be2be_b25242e1",
+        "filename": "javatests/com/google/gerrit/server/query/change/LuceneQueryChangesPreviousIndexVersionTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-09-29T14:40:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8b39e9f7_a9b97853",
+      "revId": "ef3010a6b84671d3436ff8b3aace7c0146909e55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

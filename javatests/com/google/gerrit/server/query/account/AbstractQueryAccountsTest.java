@@ -631,19 +631,22 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
   public void rawDocument() throws Exception {
     AccountInfo userInfo = gApi.accounts().id(admin.getAccountId().get()).get();
 
+    Schema<AccountState> schema = indexes.getSearchIndex().getSchema();
     Optional<FieldBundle> rawFields =
         indexes
             .getSearchIndex()
             .getRaw(
                 Account.id(userInfo._accountId),
                 QueryOptions.create(
-                    IndexConfig.createDefault(),
-                    0,
-                    1,
-                    indexes.getSearchIndex().getSchema().getStoredFields().keySet()));
+                    IndexConfig.createDefault(), 0, 1, schema.getStoredFields().keySet()));
 
     assertThat(rawFields).isPresent();
-    assertThat(rawFields.get().getValue(AccountField.ID)).isEqualTo(userInfo._accountId);
+    if (schema.useLegacyNumericFields()) {
+      assertThat(rawFields.get().getValue(AccountField.ID)).isEqualTo(userInfo._accountId);
+    } else {
+      assertThat(Integer.valueOf(rawFields.get().getValue(AccountField.ID2)))
+          .isEqualTo(userInfo._accountId);
+    }
 
     // The field EXTERNAL_ID_STATE is only supported from schema version 6.
     if (getSchemaVersion() < 6) {

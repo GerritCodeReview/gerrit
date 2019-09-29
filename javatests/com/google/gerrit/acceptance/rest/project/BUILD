@@ -1,9 +1,9 @@
 load("@rules_java//java:defs.bzl", "java_library")
 load("//javatests/com/google/gerrit/acceptance:tests.bzl", "acceptance_tests")
 
-acceptance_tests(
-    srcs = glob(["*IT.java"]),
-    group = "rest_project",
+[acceptance_tests(
+    srcs = [f],
+    group = f[:f.index(".")],
     labels = ["rest"],
     deps = [
         ":project",
@@ -11,7 +11,7 @@ acceptance_tests(
         ":refassert",
         "//lib/commons:lang",
     ],
-)
+) for f in glob(["*IT.java"])]
 
 java_library(
     name = "refassert",

@@ -46,6 +46,9 @@ public class AccountField {
   public static final FieldDef<AccountState, Integer> ID =
       integer("id").stored().build(a -> a.account().id().get());
 
+  public static final FieldDef<AccountState, String> ID_STR =
+      exact("id2r").stored().build(a -> String.valueOf(a.account().id().get()));
+
   /**
    * External IDs.
    *

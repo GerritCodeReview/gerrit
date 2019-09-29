@@ -137,8 +137,8 @@ public class LuceneChangeIndex implements ChangeIndex {
   private static final String UNRESOLVED_COMMENT_COUNT_FIELD =
       ChangeField.UNRESOLVED_COMMENT_COUNT.getName();
 
-  static Term idTerm(boolean newId, ChangeData cd) {
-    return idTerm(newId, cd.getId());
+  static Term idTerm(boolean useLegacyNumericFields, ChangeData cd) {
+    return idTerm(useLegacyNumericFields, cd.getId());
   }
 
   static Term idTerm(boolean useLegacyNumericFields, Change.Id id) {

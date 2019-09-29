@@ -70,6 +70,30 @@
       "revId": "236c2a7d8b608f36f43556661419434f79fe468c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "da699837_fcc06132",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-09-29T06:53:53Z",
+      "side": 1,
+      "message": "I don\u0027t think we need to wait; this has been deprecated since 2.15.\n\nLet\u0027s see what other maintainers think.",
+      "parentUuid": "374aed89_cf14d5cf",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 64
+      },
+      "revId": "236c2a7d8b608f36f43556661419434f79fe468c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

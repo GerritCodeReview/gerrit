@@ -52,6 +52,10 @@ public class IndexType {
     return type.equals(ELASTICSEARCH);
   }
 
+  public boolean isCustom() {
+    return !isLucene() && !isElasticsearch();
+  }
+
   @Override
   public String toString() {
     return type;

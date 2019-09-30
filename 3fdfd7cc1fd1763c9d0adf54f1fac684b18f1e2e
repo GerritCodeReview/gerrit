@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "baec3458_c0b949b0",
+        "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-09-30T13:14:02Z",
+      "side": 1,
+      "message": "700 and 900 are almost same for light theme, but 900 is better for dark theme.",
+      "parentUuid": "27e28ff6_01f09c11",
+      "range": {
+        "startLine": 24,
+        "startChar": 21,
+        "endLine": 24,
+        "endChar": 24
+      },
+      "revId": "3fdfd7cc1fd1763c9d0adf54f1fac684b18f1e2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f94802df_bd934c8e",
         "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
         "patchSetId": 3
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "e4e60891_11cb8980",
+        "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-09-30T13:14:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f94802df_bd934c8e",
+      "range": {
+        "startLine": 28,
+        "startChar": 6,
+        "endLine": 28,
+        "endChar": 13
+      },
+      "revId": "3fdfd7cc1fd1763c9d0adf54f1fac684b18f1e2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3ef9f2fe_9d3bb378",
         "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
         "patchSetId": 3
@@ -62,6 +110,24 @@
       "revId": "3fdfd7cc1fd1763c9d0adf54f1fac684b18f1e2e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e21b64ca_455f597c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-09-30T13:14:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3ef9f2fe_9d3bb378",
+      "revId": "3fdfd7cc1fd1763c9d0adf54f1fac684b18f1e2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -88,6 +154,30 @@
     },
     {
       "key": {
+        "uuid": "4fa58a39_69959024",
+        "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-09-30T13:14:02Z",
+      "side": 1,
+      "message": "Ya changed to use slotted content instead and dynamically build highlights base on the content.",
+      "parentUuid": "e9b151c9_a7adfc47",
+      "range": {
+        "startLine": 41,
+        "startChar": 16,
+        "endLine": 41,
+        "endChar": 25
+      },
+      "revId": "3fdfd7cc1fd1763c9d0adf54f1fac684b18f1e2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a71264eb_4a6598ba",
         "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
         "patchSetId": 3
@@ -108,6 +198,30 @@
       "revId": "3fdfd7cc1fd1763c9d0adf54f1fac684b18f1e2e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8611beef_2507139f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-09-30T13:14:02Z",
+      "side": 1,
+      "message": "regex removed.",
+      "parentUuid": "a71264eb_4a6598ba",
+      "range": {
+        "startLine": 47,
+        "startChar": 27,
+        "endLine": 47,
+        "endChar": 34
+      },
+      "revId": "3fdfd7cc1fd1763c9d0adf54f1fac684b18f1e2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

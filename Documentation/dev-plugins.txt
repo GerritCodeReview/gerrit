@@ -2895,6 +2895,13 @@ Steering Committee. If the plugin is accepted, the Gerrit maintainer creates
 the project under the plugins path on
 link:https://gerrit-review.googlesource.com[the Gerrit project site].
 
+- Build:
++
+To make the consumption of the plugin easy and to notice plugin breakages early
+the plugin author should setup build jobs on
+link:https://gerrit-ci.gerritforge.com[the GerritForge CI] that build the
+plugin for each Gerrit version that it supports.
+
 - Development and contribution:
 +
 The author develops a production-ready code base of the plugin, with
@@ -2910,9 +2917,7 @@ mailing list.
 +
 The author maintains their plugins as new Gerrit versions are released, updates
 them when necessary, develops further existing or new features and reviews
-incoming contributions. A plugin should declare and build on
-link:https://gerrit-ci.gerritforge.com[the GerritForge CI] for the Gerrit
-versions it supports.
+incoming contributions.
 
 - Deprecation:
 +
@@ -3016,12 +3021,13 @@ of the discussion can end up in one of the following cases:
   and would not make sense outside of it. The plugin remains in a public repository, widely
   accessible and OpenSource, but not hosted on link:https://gerrit-review.googlesource.com[the Gerrit project site].
 
-[[development_contribution]]
-=== Development and contribution
+[[build]]
+=== Build
 
-The plugin's maintainer creates a job on the link:https://gerrit-ci.gerritforge.com[GerritForge CI]
-by creating a new YAML definition in the
-link:https://gerrit.googlesource.com/gerrit-ci-scripts[Gerrit CI Scripts] repository.
+The plugin's maintainer creates a job on the
+link:https://gerrit-ci.gerritforge.com[GerritForge CI] by creating a new YAML
+definition in the link:https://gerrit.googlesource.com/gerrit-ci-scripts[Gerrit
+CI Scripts] repository.
 
 Example of a YAML CI job for plugins:
 
@@ -3033,6 +3039,9 @@ Example of a YAML CI job for plugins:
           branch:
             - master
 ----
+
+[[development_contribution]]
+=== Development and contribution
 
 The plugin follows the same lifecycle as Gerrit Code Review and needs to be kept up-to-date with
 the current active branches, according to the

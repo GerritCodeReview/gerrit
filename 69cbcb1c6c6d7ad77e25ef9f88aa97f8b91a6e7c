@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "058deab8_7c640395",
+        "filename": "polygerrit-ui/app/elements/shared/gr-linked-text/gr-linked-text_test.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-09-30T23:35:02Z",
+      "side": 1,
+      "message": "annotate?",
+      "range": {
+        "startLine": 72,
+        "startChar": 8,
+        "endLine": 72,
+        "endChar": 14
+      },
+      "revId": "69cbcb1c6c6d7ad77e25ef9f88aa97f8b91a6e7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

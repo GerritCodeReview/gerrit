@@ -15,6 +15,9 @@
 package com.google.gerrit.server.git.receive;
 
 import static java.util.stream.Collectors.toMap;
+import static org.eclipse.jgit.lib.Constants.HEAD;
+import static org.eclipse.jgit.lib.Constants.MASTER;
+import static org.eclipse.jgit.lib.Constants.R_HEADS;
 
 import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
@@ -23,6 +26,7 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.IntSupplier;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -92,7 +96,9 @@ public class HackPushNegotiateHook implements AdvertiseRefsHook {
 
   private Set<ObjectId> history(Collection<Ref> refs, BaseReceivePack rp) {
     Set<ObjectId> alreadySending = rp.getAdvertisedObjects();
-    if (MAX_HISTORY <= alreadySending.size()) {
+    // Exclude tips from the count, since tips are always included in ReceivePack.advertisedHaves.
+    int max = MAX_HISTORY - Math.max(0, alreadySending.size() - refs.size());
+    if (max <= 0) {
       return alreadySending;
     }
 
@@ -102,6 +108,9 @@ public class HackPushNegotiateHook implements AdvertiseRefsHook {
     rw.reset();
     try {
       Set<ObjectId> tips = idsOf(refs);
+      if (tips.isEmpty()) {
+        return alreadySending;
+      }
       for (ObjectId tip : tips) {
         try {
           rw.markStart(rw.parseCommit(tip));
@@ -110,20 +119,38 @@ public class HackPushNegotiateHook implements AdvertiseRefsHook {
         }
       }
 
-      Set<ObjectId> history = Sets.newHashSetWithExpectedSize(MAX_HISTORY);
-      history.addAll(alreadySending);
+      IntSupplier squares =
+          new IntSupplier() {
+            private int n = 1;
+
+            @Override
+            public int getAsInt() {
+              int next = n * n;
+              n++;
+              return next;
+            }
+          };
+
+      int cur = squares.getAsInt();
+      int stepCnt = 0;
+      Set<ObjectId> history = Sets.newHashSetWithExpectedSize(max + alreadySending.size());
       try {
-        int stepCnt = 0;
-        for (RevCommit c; history.size() < MAX_HISTORY && (c = rw.next()) != null; ) {
-          if (c.getParentCount() <= 1
-              && !tips.contains(c)
-              && (history.size() < BASE_COMMITS || (++stepCnt % STEP_COMMITS) == 0)) {
+        for (RevCommit c; history.size() < max && (c = rw.next()) != null; ) {
+          if (!alreadySending.contains(c) && !tips.contains(c) && !history.contains(c)) {
+            // Skipping commits based on square sequence after 64 commits.
+            if (history.size() >= BASE_COMMITS) {
+              if (++stepCnt != cur) {
+                continue;
+              }
+              cur = squares.getAsInt();
+            }
             history.add(c);
           }
         }
       } catch (IOException err) {
         logger.atSevere().withCause(err).log("error trying to advertise history");
       }
+      history.addAll(alreadySending);
       return history;
     } finally {
       rw.reset();
@@ -133,7 +160,8 @@ public class HackPushNegotiateHook implements AdvertiseRefsHook {
   private static Set<ObjectId> idsOf(Collection<Ref> refs) {
     Set<ObjectId> r = Sets.newHashSetWithExpectedSize(refs.size());
     for (Ref ref : refs) {
-      if (ref.getObjectId() != null) {
+      if ((ref.getName().equals(HEAD) || ref.getName().equals(R_HEADS + MASTER))
+          && ref.getObjectId() != null) {
         r.add(ref.getObjectId());
       }
     }

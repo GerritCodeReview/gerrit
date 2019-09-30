@@ -1,0 +1,152 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6d28b48b_57d214ef",
+        "filename": "java/com/google/gerrit/server/AssigneeStatusUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-09-30T16:18:38Z",
+      "side": 1,
+      "message": "Instead of nullable old/new, I would keep an enum state just as reviewers to that.\n\nAssigneeState {\n  ADDED,\n  REMOVED\n}\n\nand an Optional\u003cAccountId\u003e assignee;\n\nWhen you use ADDED, you have to emit a REMOVED event before an ADDED. Alternatively, you could use SET which implicitly overrides any prior state. I would probably go with ADDED, REMOVED.",
+      "revId": "9daef4a7a07eafe406856b53c555a9215d5c343b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "133827e5_af1996b4",
+        "filename": "java/com/google/gerrit/server/AssigneeStatusUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-09-30T16:18:38Z",
+      "side": 1,
+      "message": "nit: use Optional instead of nullable to explicitly express that the absence of the field expected.\n\nNullable does that too, but in a different way that is harder for callers to see (you need an IDE with checks turned on) while Optional uses the compiler.",
+      "revId": "9daef4a7a07eafe406856b53c555a9215d5c343b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "55476eae_b91912f3",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 575,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-09-30T16:18:38Z",
+      "side": 1,
+      "message": "Is this list still needed?\n\nWe could just infer these from AssigneeUpdates?",
+      "revId": "9daef4a7a07eafe406856b53c555a9215d5c343b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "caf26759_16f37b0d",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 599,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-09-30T16:18:38Z",
+      "side": 1,
+      "message": "this could be along the lines of:\n\nif (parsedAssignee.isPresent()) {\n  assigneeUpdates.add(State.SET, parsedAssignee.get());\n} else if (assigneeIsCurrentlySet(...)){\n  assigneeUpdates.add(State.UNSET);\n}",
+      "range": {
+        "startLine": 590,
+        "startChar": 6,
+        "endLine": 599,
+        "endChar": 7
+      },
+      "revId": "9daef4a7a07eafe406856b53c555a9215d5c343b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "547dee51_0d830bcf",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesState.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-09-30T16:18:38Z",
+      "side": 1,
+      "message": "This entity is cached persistently. This means that when you make adjustments to it, you have to increase the cache version in ChangeNotesCache line 64.\n\nUnfortunately, it means that when this gets deployed, we flush the entire cache. For open-source, this is OK as when a new Gerrit version gets deployed, most caches get flushed anyway and we do a number of data migrations on the side. There are tools and ways to heat up caches. For example: When a change gets reindexed during a Gerrit update, it\u0027s change notes will get computed as a side result. So it\u0027s not a problem.\n\nFor our installation on googlesource.com, we need to heat up the cache of our most important instances before this change gets deployed widely. We can talk about his offline when you have time.",
+      "revId": "9daef4a7a07eafe406856b53c555a9215d5c343b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e2ddba63_8c2f0b07",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 735,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-09-30T16:18:38Z",
+      "side": 1,
+      "message": "I would not add these update here.\n\nChangeData is generally indexed in the ChangeIndex which I would not do for this field - at least for now. We can add indexing of that field when needed.",
+      "revId": "9daef4a7a07eafe406856b53c555a9215d5c343b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dfb3e3a8_43dec7a5",
+        "filename": "proto/cache.proto",
+        "patchSetId": 3
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-09-30T16:18:38Z",
+      "side": 1,
+      "message": "24 then (update was probably forgotten the last time around).",
+      "range": {
+        "startLine": 78,
+        "startChar": 12,
+        "endLine": 78,
+        "endChar": 14
+      },
+      "revId": "9daef4a7a07eafe406856b53c555a9215d5c343b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7e9ba494_1353c7b5",
+        "filename": "proto/cache.proto",
+        "patchSetId": 3
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-09-30T16:18:38Z",
+      "side": 1,
+      "message": "This doesn\u0027t work in Protobuf. Protobuf uses these numbers to serialize and deserialize values, so we have to guarantee that they don\u0027t change.\n\nJust add assignee_update to the end of the protobuf (23).",
+      "revId": "9daef4a7a07eafe406856b53c555a9215d5c343b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

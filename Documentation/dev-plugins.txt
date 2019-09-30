@@ -2887,7 +2887,7 @@ accessible to the community.
 +
 The author proposes to release the plugin under the
 link:https://www.apache.org/licenses/LICENSE-2.0.html[Apache 2.0 OpenSource
-license] and request to be hosted on
+license] and requests the plugin to be hosted on
 link:https://gerrit-review.googlesource.com[the Gerrit project site]. The
 proposal must be   accepted by at least one Gerrit maintainer. In case of
 disagreement between maintainers, the issue can be escalated to the Engineering
@@ -2902,14 +2902,15 @@ contributions, reviews, and help from the Gerrit community.
 
 - Release:
 +
-The author releases the plugin by tagging and announcing on the
-link:https://groups.google.com/d/forum/repo-discuss[repo-discuss] mailing list.
+The author releases the plugin by creating a Git tag and announcing the plugin
+on the link:https://groups.google.com/d/forum/repo-discuss[repo-discuss]
+mailing list.
 
 - Maintenance:
 +
 The author maintains their plugins as new Gerrit versions are released, updates
 them when necessary, develops further existing or new features and reviews
-incoming new contributions. A plugin should declare and build on
+incoming contributions. A plugin should declare and build on
 link:https://gerrit-ci.gerritforge.com[the GerritForge CI] for the Gerrit
 versions it supports.
 

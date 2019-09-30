@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f2d6dc15_5d6a151c",
+        "filename": "java/com/google/gerrit/index/IndexConfig.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-09-30T18:03:36Z",
+      "side": 1,
+      "message": "\u003e Why \"...Limit\"?\n\nThis name tried to blend into the existing terminology in this class.",
+      "parentUuid": "dd5f8f05_386d7a34",
+      "revId": "ce07093cc23ba89965a742c09560d390e5d8e824",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1d00d949_b142f63c",
         "filename": "java/com/google/gerrit/index/IndexConfig.java",
         "patchSetId": 7
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "00813363_5d24e168",
+        "filename": "java/com/google/gerrit/index/IndexConfig.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-09-30T18:03:36Z",
+      "side": 1,
+      "message": "\u003e Can you add a comment to explain why this check is here? I\u0027m not familiar with the relevant code, but if an unknown type would be used, wouldn\u0027t there already be an exception elsewhere? So is the purpose to have a clearer error message? (In that case I think for me, having just debugged this, it would help to also list the known types, e.g. \"type is %s but must be one of %s...\")\n\nThis method was added with the goal of complying to the way other fields are handled in this class. Hence it follows the same approach in terms of check and message.",
+      "parentUuid": "1d00d949_b142f63c",
+      "revId": "ce07093cc23ba89965a742c09560d390e5d8e824",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "30368974_828d6b3a",
         "filename": "java/com/google/gerrit/index/IndexType.java",
         "patchSetId": 7
@@ -47,6 +83,24 @@
       "writtenOn": "2019-09-30T16:15:48Z",
       "side": 1,
       "message": "Google uses a different system.",
+      "revId": "ce07093cc23ba89965a742c09560d390e5d8e824",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8099024a_b0a83185",
+        "filename": "java/com/google/gerrit/index/IndexType.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-09-30T18:03:36Z",
+      "side": 1,
+      "message": "\u003e Google uses a different system.\n\nThis specific code or method per se was not changed by this commit (just moved).",
+      "parentUuid": "30368974_828d6b3a",
       "revId": "ce07093cc23ba89965a742c09560d390e5d8e824",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

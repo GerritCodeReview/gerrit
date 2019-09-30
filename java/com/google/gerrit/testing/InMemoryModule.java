@@ -231,6 +231,8 @@ public class InMemoryModule extends FactoryModule {
       install(luceneIndexModule());
     } else if (indexType.isElasticsearch()) {
       install(elasticIndexModule());
+    } else if (indexType.isCustom()) {
+      install(luceneIndexModule()); // default "custom" module for testing
     }
     bind(ServerInformationImpl.class);
     bind(ServerInformation.class).to(ServerInformationImpl.class);

@@ -500,7 +500,7 @@ public class Daemon extends SiteProgram {
 
   private void initIndexType() {
     indexType = IndexModule.getIndexType(cfgInjector);
-    if (!indexType.isLucene() && !indexType.isElasticsearch()) {
+    if (!indexType.isLucene() && !indexType.isElasticsearch() && !indexType.isCustom()) {
       throw new IllegalStateException("unsupported index.type = " + indexType);
     }
   }

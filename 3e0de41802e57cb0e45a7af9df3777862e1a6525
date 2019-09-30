@@ -45,6 +45,30 @@
       "revId": "3e0de41802e57cb0e45a7af9df3777862e1a6525",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b6ef3a27_d57db124",
+        "filename": "java/com/google/gerrit/acceptance/InProcessProtocol.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-09-30T13:20:02Z",
+      "side": 1,
+      "message": "sorry - this is test code. \n\nBut why do we need to set this up in test code?",
+      "parentUuid": "094aecf4_98d6d1cf",
+      "range": {
+        "startLine": 258,
+        "startChar": 36,
+        "endLine": 258,
+        "endChar": 60
+      },
+      "revId": "3e0de41802e57cb0e45a7af9df3777862e1a6525",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -19,6 +19,7 @@ import static com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailSt
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.exceptions.EmailException;
 import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
@@ -319,7 +320,7 @@ public abstract class OutgoingEmail {
   }
 
   /** Lookup a human readable name for an account, usually the "full name". */
-  protected String getNameFor(Account.Id accountId) {
+  protected String getNameFor(@Nullable Account.Id accountId) {
     if (accountId == null) {
       return args.gerritPersonIdent.getName();
     }
@@ -345,7 +346,14 @@ public abstract class OutgoingEmail {
    * @param accountId user to fetch.
    * @return name/email of account, or Anonymous Coward if unset.
    */
-  protected String getNameEmailFor(Account.Id accountId) {
+  protected String getNameEmailFor(@Nullable Account.Id accountId) {
+    if (accountId == null) {
+      return args.gerritPersonIdent.getName()
+          + " <"
+          + args.gerritPersonIdent.getEmailAddress()
+          + ">";
+    }
+
     Optional<Account> account = args.accountCache.get(accountId).map(AccountState::account);
     if (account.isPresent()) {
       String name = account.get().fullName();

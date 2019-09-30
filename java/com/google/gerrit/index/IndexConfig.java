@@ -91,19 +91,12 @@ public abstract class IndexConfig {
       checkLimit(cfg.maxLimit(), "maxLimit");
       checkLimit(cfg.maxPages(), "maxPages");
       checkLimit(cfg.maxTerms(), "maxTerms");
-      checkTypeLimit(cfg);
       return cfg;
     }
   }
 
   private static void checkLimit(int limit, String name) {
     checkArgument(limit > 0, "%s must be positive: %s", name, limit);
-  }
-
-  private static void checkTypeLimit(IndexConfig cfg) {
-    String limit = cfg.type();
-    boolean known = IndexType.getKnownTypes().asList().contains(limit);
-    checkArgument(known, "type must be known: %s", limit);
   }
 
   /**
@@ -123,7 +116,7 @@ public abstract class IndexConfig {
    */
   public abstract int maxTerms();
 
-  /** @return index type, limited to be either one of the known types. */
+  /** @return index type. */
   public abstract String type();
 
   /**

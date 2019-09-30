@@ -2973,7 +2973,7 @@ Once a working prototype is ready, it can be announced as a follow-up to the ini
 so that other members of the community can see the code and try the plugin themselves.
 
 [[plugin_proposal]]
-==== Plugin Proposal
+=== Plugin Proposal
 
 The author decides that the plugin prototype makes sense as a general purpose plugin and decides
 to release the code with the same
@@ -3017,7 +3017,7 @@ of the discussion can end up in one of the following cases:
   accessible and OpenSource, but not hosted on link:https://gerrit-review.googlesource.com[the Gerrit project site].
 
 [[development_contribution]]
-== Development and contribution
+=== Development and contribution
 
 The plugin's maintainer creates a job on the link:https://gerrit-ci.gerritforge.com[GerritForge CI]
 by creating a new YAML definition in the
@@ -3041,7 +3041,7 @@ During the development, the plugin's maintainer can reward contributors requesti
 involved and making them maintainers of his plugin, adding them to the list of the project owners.
 
 [[plugin_release]]
-== Plugin release
+=== Plugin release
 
 The plugin's maintainer is the only person responsible for making and announcing the official
 releases, typically, but not limited to, in conjunction with the major releases of Gerrit Code Review.

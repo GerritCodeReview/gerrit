@@ -2873,35 +2873,50 @@ more discoverable and have more chances to be reviewed by the whole community.
 
 The process of writing a new plugin goes through different phases:
 
-- Ideation and discussion
-  The idea of creating a new plugin is posted and discussed on the
-  link:https://groups.google.com/d/forum/repo-discuss[repo-discuss] mailing list.
-- Prototyping (optional)
-  The author of the plugin creates a working prototype on a public repository
-  accessible to the community.
-- Proposal and Hosting
-  The author proposes to release the plugin under the
-  link:https://www.apache.org/licenses/LICENSE-2.0.html[Apache 2.0 OpenSource license]
-  and request to be hosted on
-  link:https://gerrit-review.googlesource.com[the Gerrit project site]. The proposal must be
-  accepted by at least one Gerrit maintainer. In case of disagreement between maintainers, the
-  issue can be escalated to the Engineering Steering Committee. If the plugin is accepted,
-  the Gerrit maintainer creates the project under the plugins path on
-  link:https://gerrit-review.googlesource.com[the Gerrit project site].
-- Development and contribution
-  The author develops a production-ready code base of the plugin, with contributions, reviews,
-  and help from the Gerrit community.
-- Release
-  The author releases the plugin by tagging and announcing on the
-  link:https://groups.google.com/d/forum/repo-discuss[repo-discuss] mailing list.
-- Maintenance
-  The author maintains their plugins as new Gerrit versions are released, updates them when necessary,
-  develops further existing or new features and reviews incoming new contributions.
-  A plugin should declare and build on
-  link:https://gerrit-ci.gerritforge.com[the GerritForge CI] for the Gerrit versions it supports.
-- Deprecation
-  The author declares that the plugin is not maintained anymore or is deprecated and should
-  not be used anymore.
+- Ideation and discussion:
++
+The idea of creating a new plugin is posted and discussed on the
+link:https://groups.google.com/d/forum/repo-discuss[repo-discuss] mailing list.
+
+- Prototyping (optional):
++
+The author of the plugin creates a working prototype on a public repository
+accessible to the community.
+
+- Proposal and Hosting:
++
+The author proposes to release the plugin under the
+link:https://www.apache.org/licenses/LICENSE-2.0.html[Apache 2.0 OpenSource
+license] and request to be hosted on
+link:https://gerrit-review.googlesource.com[the Gerrit project site]. The
+proposal must be   accepted by at least one Gerrit maintainer. In case of
+disagreement between maintainers, the issue can be escalated to the Engineering
+Steering Committee. If the plugin is accepted, the Gerrit maintainer creates
+the project under the plugins path on
+link:https://gerrit-review.googlesource.com[the Gerrit project site].
+
+- Development and contribution:
++
+The author develops a production-ready code base of the plugin, with
+contributions, reviews, and help from the Gerrit community.
+
+- Release:
++
+The author releases the plugin by tagging and announcing on the
+link:https://groups.google.com/d/forum/repo-discuss[repo-discuss] mailing list.
+
+- Maintenance:
++
+The author maintains their plugins as new Gerrit versions are released, updates
+them when necessary, develops further existing or new features and reviews
+incoming new contributions. A plugin should declare and build on
+link:https://gerrit-ci.gerritforge.com[the GerritForge CI] for the Gerrit
+versions it supports.
+
+- Deprecation:
++
+The author declares that the plugin is not maintained anymore or is deprecated
+and should not be used anymore.
 
 [[ideation_discussion]]
 === Ideation and discussion
@@ -2916,6 +2931,7 @@ of the main reasons for starting a new plugin.
 
 Example of a post:
 
+----
   [RFC] Code-Formatter plugin
 
   Hello, community,
@@ -2933,6 +2949,7 @@ Example of a post:
   to the patchset, highlighting the part of the code to be changed.
 
   What do you think? Did anyone have the same idea or need?
+----
 
 The idea is discussed on the mailing list and can evolve based on the needs and inputs from
 the entire community.

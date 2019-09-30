@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "28add0dc_eed8470a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-09-30T13:07:47Z",
+      "side": 1,
+      "message": "what kind of safety are you talking about here? Is it security safety, or are you afraid of regressions?\n\nI think (see comment below), that change actually decreases security safety.",
+      "range": {
+        "startLine": 11,
+        "startChar": 4,
+        "endLine": 11,
+        "endChar": 10
+      },
+      "revId": "3e0de41802e57cb0e45a7af9df3777862e1a6525",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "094aecf4_98d6d1cf",
+        "filename": "java/com/google/gerrit/acceptance/InProcessProtocol.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-09-30T13:07:47Z",
+      "side": 1,
+      "message": "This doesn\u0027t add safety, it potentially opens up the hole again.\n\nThe left side has UploadPack use the PermAware database. This means it is filtering the output of PermAwareRefDB again, which adds safety.",
+      "range": {
+        "startLine": 258,
+        "startChar": 36,
+        "endLine": 258,
+        "endChar": 60
+      },
+      "revId": "3e0de41802e57cb0e45a7af9df3777862e1a6525",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

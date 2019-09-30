@@ -346,6 +346,13 @@ public abstract class OutgoingEmail {
    * @return name/email of account, or Anonymous Coward if unset.
    */
   protected String getNameEmailFor(Account.Id accountId) {
+    if (accountId == null) {
+      return args.gerritPersonIdent.getName()
+          + " <"
+          + args.gerritPersonIdent.getEmailAddress()
+          + ">";
+    }
+
     Optional<Account> account = args.accountCache.get(accountId).map(AccountState::account);
     if (account.isPresent()) {
       String name = account.get().fullName();

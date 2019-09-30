@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4562063a_dec8f02f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-09-30T13:09:15Z",
+      "side": 1,
+      "message": "can we have an ProtocolV2IT.java that does exactly this?\n\nWe could skip it if the \u0027git\u0027  binary isn\u0027t available.",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 36,
+        "endChar": 0
+      },
+      "revId": "e5a16d09107827fef07cc56ac28c57ece9be25b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

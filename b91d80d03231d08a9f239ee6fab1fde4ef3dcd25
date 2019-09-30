@@ -22,6 +22,30 @@
       "revId": "b91d80d03231d08a9f239ee6fab1fde4ef3dcd25",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0b213c08_37c76469",
+        "filename": "java/com/google/gerrit/server/git/PermissionAwareReadOnlyRefDatabase.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-09-30T20:05:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3b0174e0_432dd2ca",
+      "range": {
+        "startLine": 111,
+        "startChar": 13,
+        "endLine": 111,
+        "endChar": 40
+      },
+      "revId": "b91d80d03231d08a9f239ee6fab1fde4ef3dcd25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

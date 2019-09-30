@@ -49,6 +49,8 @@ import com.google.gerrit.server.WebLinks;
 import com.google.gerrit.server.change.FileContentUtil;
 import com.google.gerrit.server.change.FileResource;
 import com.google.gerrit.server.change.RevisionResource;
+import com.google.gerrit.server.diff.DiffCalculator;
+import com.google.gerrit.server.diff.DiffCalculator.DiffContent;
 import com.google.gerrit.server.git.LargeObjectException;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.patch.PatchScriptFactory;
@@ -73,7 +75,8 @@ import org.kohsuke.args4j.spi.Parameters;
 import org.kohsuke.args4j.spi.Setter;
 
 public class GetDiff implements RestReadView<FileResource> {
-  private static class WebLinksUtils {
+
+  private static class WebLinksUtils implements DiffCalculator.WebLinksUtils {
     static WebLinksUtils create(FileResource resource, PatchSet basePatchSet, WebLinks webLinks, DiffContent.DiffFileInfo fileA, DiffContent.DiffFileInfo fileB, ProjectState state) {
       String revA = basePatchSet != null ? basePatchSet.refName() : fileA.psFileInfo.getCommitId();
       String revB =
@@ -108,7 +111,8 @@ public class GetDiff implements RestReadView<FileResource> {
 
     }
 
-    ImmutableList<DiffWebLinkInfo> createDiffWebLinks() {
+    @Override
+    public ImmutableList<DiffWebLinkInfo> createDiffWebLinks() {
       return webLinks.getDiffLinks(
               state.getName(),
               patchSetIdB.changeId().get(),
@@ -120,10 +124,13 @@ public class GetDiff implements RestReadView<FileResource> {
               fileB.name);
     }
 
-    List<WebLinkInfo> getFileAWebLinks() {
+    @Override
+    public List<WebLinkInfo> getFileAWebLinks() {
       return getFileWebLinks(fileA, revA);
     }
-    List<WebLinkInfo> getFileBWebLinks() {
+
+    @Override
+    public List<WebLinkInfo> getFileBWebLinks() {
       return getFileWebLinks(fileB, revB);
     }
 
@@ -132,18 +139,6 @@ public class GetDiff implements RestReadView<FileResource> {
       return links.isEmpty() ? null : links;
     }
   }
-
-
-  private static final ImmutableMap<Patch.ChangeType, ChangeType> CHANGE_TYPE =
-      Maps.immutableEnumMap(
-          new ImmutableMap.Builder<Patch.ChangeType, ChangeType>()
-              .put(Patch.ChangeType.ADDED, ChangeType.ADDED)
-              .put(Patch.ChangeType.MODIFIED, ChangeType.MODIFIED)
-              .put(Patch.ChangeType.DELETED, ChangeType.DELETED)
-              .put(Patch.ChangeType.RENAMED, ChangeType.RENAMED)
-              .put(Patch.ChangeType.COPIED, ChangeType.COPIED)
-              .put(Patch.ChangeType.REWRITE, ChangeType.REWRITE)
-              .build());
 
   private final ProjectCache projectCache;
   private final PatchScriptFactory.Factory patchScriptFactoryFactory;
@@ -198,101 +193,12 @@ public class GetDiff implements RestReadView<FileResource> {
     return prefs;
   }
 
-  private FileMeta createFileMeta(ProjectState state, DiffContent.DiffFileInfo file, List<WebLinkInfo> webLinks) {
-    FileMeta meta = new FileMeta();
-    meta.name = file.name;
-    meta.contentType = FileContentUtil.resolveContentType(state, file.name, file.psFileInfo.getMode(), file.psFileInfo.getMimeType());
-    meta.lines = file.psFileInfo.getContent().size();
-    meta.webLinks = webLinks;
-    meta.commitId = file.psFileInfo.getCommitId();
-    return meta;
-  }
-
   private WebLinksUtils createWebLinksUtils(FileResource resource, PatchSet basePatchSet, DiffContent.DiffFileInfo fileA, DiffContent.DiffFileInfo fileB, ProjectState state) {
     return WebLinksUtils.create(resource, basePatchSet, webLinks, fileA, fileB, state);
 
   }
 
 
-  private DiffInfo createDiffInfo(DiffContent.DiffFileInfo fileA, DiffContent.DiffFileInfo fileB, WebLinksUtils webLinksUtils, PatchScript ps, Content content, ProjectState state) {
-    DiffInfo result = new DiffInfo();
-
-    ImmutableList<DiffWebLinkInfo> links = webLinksUtils.createDiffWebLinks();
-    result.webLinks = links.isEmpty() ? null : links;
-
-    if (!webLinksOnly) {
-      if (ps.isBinary()) {
-        result.binary = true;
-      }
-      if (fileA.psFileInfo.getDisplayMethod() != DisplayMethod.NONE) {
-        result.metaA = createFileMeta(state,
-            fileA, webLinksUtils.getFileAWebLinks());
-      }
-
-      if (fileB.psFileInfo.getDisplayMethod() != DisplayMethod.NONE) {
-        result.metaB = createFileMeta(state,
-            fileB, webLinksUtils.getFileBWebLinks());
-      }
-
-      if (ps.getDiffPrefs().intralineDifference) {
-        if (ps.hasIntralineTimeout()) {
-          result.intralineStatus = IntraLineStatus.TIMEOUT;
-        } else if (ps.hasIntralineFailure()) {
-          result.intralineStatus = IntraLineStatus.FAILURE;
-        } else {
-          result.intralineStatus = IntraLineStatus.OK;
-        }
-      }
-
-      result.changeType = CHANGE_TYPE.get(ps.getChangeType());
-      if (result.changeType == null) {
-        throw new IllegalStateException("unknown change type: " + ps.getChangeType());
-      }
-
-      if (ps.getPatchHeader().size() > 0) {
-        result.diffHeader = ps.getPatchHeader();
-      }
-      result.content = content.lines;
-    }
-    return result;
-  }
-
-  private Content getDiffContent(PatchScript ps) {
-    DiffContentCollector contentCollector = new DiffContentCollector(ps);
-    Set<Edit> editsDueToRebase = ps.getEditsDueToRebase();
-    for (Edit edit : ps.getEdits()) {
-      if (edit.getType() == Edit.Type.EMPTY) {
-        continue;
-      }
-      contentCollector.addCommon(edit.getBeginA());
-
-      checkState(
-          contentCollector.nextA == edit.getBeginA(),
-          "nextA = %s; want %s",
-          contentCollector.nextA,
-          edit.getBeginA());
-      checkState(
-          contentCollector.nextB == edit.getBeginB(),
-          "nextB = %s; want %s",
-          contentCollector.nextB,
-          edit.getBeginB());
-      switch (edit.getType()) {
-        case DELETE:
-        case INSERT:
-        case REPLACE:
-          List<Edit> internalEdit =
-              edit instanceof ReplaceEdit ? ((ReplaceEdit) edit).getInternalEdits() : null;
-          boolean dueToRebase = editsDueToRebase.contains(edit);
-          contentCollector.addDiff(edit.getEndA(), edit.getEndB(), internalEdit, dueToRebase);
-          break;
-        case EMPTY:
-        default:
-          throw new IllegalStateException();
-      }
-    }
-    contentCollector.addCommon(ps.getA().size());
-    return new Content(ps, contentCollector.lines);
-  }
 
   @Override
   public Response<DiffInfo> apply(FileResource resource)
@@ -320,7 +226,8 @@ public class GetDiff implements RestReadView<FileResource> {
       psf.setLoadHistory(false);
       psf.setLoadComments(context != DiffPreferencesInfo.WHOLE_FILE_CONTEXT);
       PatchScript ps = psf.call();
-      Content content = getDiffContent(ps);
+
+      DiffCalculator diffCalculator = new DiffCalculator();
 
       ProjectState state = projectCache.get(resource.getRevision().getChange().getProject());
 
@@ -331,7 +238,8 @@ public class GetDiff implements RestReadView<FileResource> {
       DiffContent.DiffFileInfo fileB = new DiffContent.DiffFileInfo(ps.getFileB(), fileNameB);
       WebLinksUtils webLinksUtils = createWebLinksUtils(resource, basePatchSet, fileA, fileB, state);
 
-      DiffInfo result = createDiffInfo(fileA, fileB, webLinksUtils, ps, content, state);
+
+      DiffInfo result = diffCalculator.createDiffInfo(fileA, fileB, webLinksUtils, ps, state, webLinksOnly);
 
       Response<DiffInfo> r = Response.ok(result);
       if (resource.isCacheable()) {
@@ -368,126 +276,6 @@ public class GetDiff implements RestReadView<FileResource> {
   public GetDiff setWhitespace(Whitespace whitespace) {
     this.whitespace = whitespace;
     return this;
-  }
-
-  private static class DiffContentCollector {
-    final List<ContentEntry> lines;
-    final SparseFileContent fileA;
-    final SparseFileContent fileB;
-    final boolean ignoreWS;
-
-    int nextA;
-    int nextB;
-
-    DiffContentCollector(PatchScript ps) {
-      lines = Lists.newArrayListWithExpectedSize(ps.getEdits().size() + 2);
-      fileA = ps.getA();
-      fileB = ps.getB();
-      ignoreWS = ps.isIgnoreWhitespace();
-    }
-
-    void addCommon(int end) {
-      end = Math.min(end, fileA.size());
-      if (nextA >= end) {
-        return;
-      }
-
-      while (nextA < end) {
-        if (!fileA.contains(nextA)) {
-          int endRegion = Math.min(end, nextA == 0 ? fileA.first() : fileA.next(nextA - 1));
-          int len = endRegion - nextA;
-          entry().skip = len;
-          nextA = endRegion;
-          nextB += len;
-          continue;
-        }
-
-        ContentEntry e = null;
-        for (int i = nextA; i == nextA && i < end; i = fileA.next(i), nextA++, nextB++) {
-          if (ignoreWS && fileB.contains(nextB)) {
-            if (e == null || e.common == null) {
-              e = entry();
-              e.a = Lists.newArrayListWithCapacity(end - nextA);
-              e.b = Lists.newArrayListWithCapacity(end - nextA);
-              e.common = true;
-            }
-            e.a.add(fileA.get(nextA));
-            e.b.add(fileB.get(nextB));
-          } else {
-            if (e == null || e.common != null) {
-              e = entry();
-              e.ab = Lists.newArrayListWithCapacity(end - nextA);
-            }
-            e.ab.add(fileA.get(nextA));
-          }
-        }
-      }
-    }
-
-    void addDiff(int endA, int endB, List<Edit> internalEdit, boolean dueToRebase) {
-      int lenA = endA - nextA;
-      int lenB = endB - nextB;
-      checkState(lenA > 0 || lenB > 0);
-
-      ContentEntry e = entry();
-      if (lenA > 0) {
-        e.a = Lists.newArrayListWithCapacity(lenA);
-        for (; nextA < endA; nextA++) {
-          e.a.add(fileA.get(nextA));
-        }
-      }
-      if (lenB > 0) {
-        e.b = Lists.newArrayListWithCapacity(lenB);
-        for (; nextB < endB; nextB++) {
-          e.b.add(fileB.get(nextB));
-        }
-      }
-      if (internalEdit != null && !internalEdit.isEmpty()) {
-        e.editA = Lists.newArrayListWithCapacity(internalEdit.size() * 2);
-        e.editB = Lists.newArrayListWithCapacity(internalEdit.size() * 2);
-        int lastA = 0;
-        int lastB = 0;
-        for (Edit edit : internalEdit) {
-          if (edit.getBeginA() != edit.getEndA()) {
-            e.editA.add(
-                ImmutableList.of(edit.getBeginA() - lastA, edit.getEndA() - edit.getBeginA()));
-            lastA = edit.getEndA();
-          }
-          if (edit.getBeginB() != edit.getEndB()) {
-            e.editB.add(
-                ImmutableList.of(edit.getBeginB() - lastB, edit.getEndB() - edit.getBeginB()));
-            lastB = edit.getEndB();
-          }
-        }
-      }
-      e.dueToRebase = dueToRebase ? true : null;
-    }
-
-    private ContentEntry entry() {
-      ContentEntry e = new ContentEntry();
-      lines.add(e);
-      return e;
-    }
-
-
-  }
-
-  private static class DiffContent {
-    static class DiffFileInfo {
-      PatchScript.PatchScriptFileInfo psFileInfo;
-      String name;
-      public DiffFileInfo(PatchScript.PatchScriptFileInfo psFileInfo, String name) {
-        this.psFileInfo = psFileInfo;
-        this.name = name;
-      }
-    }
-  }
-  private static class Content {
-    final List<ContentEntry> lines;
-
-    Content(PatchScript ps, List<ContentEntry> lines) {
-      this.lines = lines;
-    }
   }
 
   @Deprecated

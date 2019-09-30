@@ -72,8 +72,7 @@ public class FixReplacementInterpreter {
       throws ResourceNotFoundException, IOException, ResourceConflictException {
     requireNonNull(fixReplacements, "Fix replacements must not be null");
 
-    Map<String, List<FixReplacement>> fixReplacementsPerFilePath =
-        fixReplacements.stream().collect(groupingBy(fixReplacement -> fixReplacement.path));
+    Map<String, List<FixReplacement>> fixReplacementsPerFilePath = groupByPath(fixReplacements);
 
     List<TreeModification> treeModifications = new ArrayList<>();
     for (Map.Entry<String, List<FixReplacement>> entry : fixReplacementsPerFilePath.entrySet()) {
@@ -83,6 +82,10 @@ public class FixReplacementInterpreter {
       treeModifications.add(treeModification);
     }
     return treeModifications;
+  }
+
+  public Map<String, List<FixReplacement>> groupByPath(List<FixReplacement> fixReplacements) {
+    return fixReplacements.stream().collect(groupingBy(fixReplacement -> fixReplacement.path));
   }
 
   // public static PatchList toPatchList(ObjectId patchSetCommitId) {
@@ -102,7 +105,7 @@ public class FixReplacementInterpreter {
     return new ChangeFileContentModification(filePath, RawInputUtil.create(newFileContent));
   }
 
-  private String getFileContent(
+  public String getFileContent(
       Repository repository, ProjectState projectState, ObjectId patchSetCommitId, String filePath)
       throws ResourceNotFoundException, IOException {
     try (BinaryResult fileContent =
@@ -111,7 +114,7 @@ public class FixReplacementInterpreter {
     }
   }
 
-  private static String getNewFileContent(String fileContent, List<FixReplacement> fixReplacements)
+  public static String getNewFileContent(String fileContent, List<FixReplacement> fixReplacements)
       throws ResourceConflictException {
     List<FixReplacement> sortedReplacements = new ArrayList<>(fixReplacements);
     sortedReplacements.sort(ASC_RANGE_FIX_REPLACEMENT_COMPARATOR);

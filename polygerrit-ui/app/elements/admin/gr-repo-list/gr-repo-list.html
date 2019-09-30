@@ -19,6 +19,7 @@ limitations under the License.
 <link rel="import" href="../../../behaviors/gr-list-view-behavior/gr-list-view-behavior.html">
 <link rel="import" href="../../../styles/gr-table-styles.html">
 <link rel="import" href="../../../styles/shared-styles.html">
+<link rel="import" href="../../shared/gr-highlight-text/gr-highlight-text.html">
 <link rel="import" href="../../shared/gr-dialog/gr-dialog.html">
 <link rel="import" href="../../shared/gr-list-view/gr-list-view.html">
 <link rel="import" href="../../shared/gr-overlay/gr-overlay.html">
@@ -53,9 +54,19 @@ limitations under the License.
           <template is="dom-repeat" items="[[_shownRepos]]">
             <tr class="table">
               <td class="name">
-                <a href$="[[_computeRepoUrl(item.name)]]">[[item.name]]</a>
+                <a href$="[[_computeRepoUrl(item.name)]]">
+                  <gr-highlight-text
+                    highlight-text="[[_filter]]">
+                    [[item.name]]
+                  </gr-highlight-text>
+                </a>
               </td>
-              <td class="description">[[item.description]]</td>
+              <td class="description">
+                <gr-highlight-text
+                  highlight-text="[[_filter]]">
+                  [[item.description]]
+                </gr-highlight-text>
+              </td>
               <td class="changesLink"><a href$="[[_computeChangesLink(item.name)]]">(view all)</a></td>
               <td class="repositoryBrowser">
                 <template is="dom-repeat"

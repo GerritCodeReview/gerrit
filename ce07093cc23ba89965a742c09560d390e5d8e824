@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dd5f8f05_386d7a34",
+        "filename": "java/com/google/gerrit/index/IndexConfig.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2019-09-30T16:15:48Z",
+      "side": 1,
+      "message": "Why \"...Limit\"?",
+      "revId": "ce07093cc23ba89965a742c09560d390e5d8e824",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1d00d949_b142f63c",
+        "filename": "java/com/google/gerrit/index/IndexConfig.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2019-09-30T16:15:48Z",
+      "side": 1,
+      "message": "Can you add a comment to explain why this check is here? I\u0027m not familiar with the relevant code, but if an unknown type would be used, wouldn\u0027t there already be an exception elsewhere? So is the purpose to have a clearer error message? (In that case I think for me, having just debugged this, it would help to also list the known types, e.g. \"type is %s but must be one of %s...\")",
+      "revId": "ce07093cc23ba89965a742c09560d390e5d8e824",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "30368974_828d6b3a",
+        "filename": "java/com/google/gerrit/index/IndexType.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2019-09-30T16:15:48Z",
+      "side": 1,
+      "message": "Google uses a different system.",
+      "revId": "ce07093cc23ba89965a742c09560d390e5d8e824",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

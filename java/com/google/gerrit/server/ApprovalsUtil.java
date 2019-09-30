@@ -91,14 +91,14 @@ public class ApprovalsUtil {
     return Iterables.filter(psas, a -> Objects.equals(a.accountId(), accountId));
   }
 
-  private final ApprovalCopier copier;
+  private final ApprovalInference copier;
   private final PermissionBackend permissionBackend;
   private final ProjectCache projectCache;
 
   @VisibleForTesting
   @Inject
   public ApprovalsUtil(
-      ApprovalCopier copier, PermissionBackend permissionBackend, ProjectCache projectCache) {
+      ApprovalInference copier, PermissionBackend permissionBackend, ProjectCache projectCache) {
     this.copier = copier;
     this.permissionBackend = permissionBackend;
     this.projectCache = projectCache;
@@ -340,7 +340,7 @@ public class ApprovalsUtil {
 
   public Iterable<PatchSetApproval> byPatchSet(
       ChangeNotes notes, PatchSet.Id psId, @Nullable RevWalk rw, @Nullable Config repoConfig) {
-    return copier.getForPatchSet(notes, psId, rw, repoConfig);
+    return copier.forPatchSet(notes, psId, rw, repoConfig);
   }
 
   public Iterable<PatchSetApproval> byPatchSetUser(

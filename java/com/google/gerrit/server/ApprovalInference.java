@@ -42,13 +42,15 @@ import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.revwalk.RevWalk;
 
 /**
- * Copies approvals between patch sets.
+ * Computes approvals for a given patch set by looking at approvals applied to itself and by
+ * additionally inferring approvals from the patch set's parents. THe latter is done by asserting a
+ * change's kind and checking the project config for allowed forward-inference.
  *
  * <p>The result of a copy may either be stored, as when stamping approvals in the database at
  * submit time, or refreshed on demand, as when reading approvals from the NoteDb.
  */
 @Singleton
-public class ApprovalCopier {
+public class ApprovalInference {
   private final ProjectCache projectCache;
   private final ChangeKindCache changeKindCache;
   private final LabelNormalizer labelNormalizer;
@@ -56,7 +58,7 @@ public class ApprovalCopier {
   private final PatchSetUtil psUtil;
 
   @Inject
-  ApprovalCopier(
+  ApprovalInference(
       ProjectCache projectCache,
       ChangeKindCache changeKindCache,
       LabelNormalizer labelNormalizer,
@@ -69,7 +71,11 @@ public class ApprovalCopier {
     this.psUtil = psUtil;
   }
 
-  Iterable<PatchSetApproval> getForPatchSet(
+  /**
+   * Returns all approvals that apply to the given patch set. Honors direct and indirect (approval
+   * on parents) approvals.
+   */
+  Iterable<PatchSetApproval> forPatchSet(
       ChangeNotes notes, PatchSet.Id psId, @Nullable RevWalk rw, @Nullable Config repoConfig) {
     Collection<PatchSetApproval> approvals =
         getForPatchSetWithoutNormalization(notes, psId, rw, repoConfig);

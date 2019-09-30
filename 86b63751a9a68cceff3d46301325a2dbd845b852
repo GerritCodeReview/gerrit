@@ -22,6 +22,30 @@
       "revId": "86b63751a9a68cceff3d46301325a2dbd845b852",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "33890d94_0ebafdbd",
+        "filename": "polygerrit-ui/app/elements/shared/gr-linked-text/link-text-parser.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-09-30T12:28:52Z",
+      "side": 1,
+      "message": "Ah, correct. Thanks for spoting that!\n\nFixed in https://gerrit-review.googlesource.com/c/gerrit/+/239053",
+      "parentUuid": "0bfc5243_dc742435",
+      "range": {
+        "startLine": 198,
+        "startChar": 27,
+        "endLine": 198,
+        "endChar": 52
+      },
+      "revId": "86b63751a9a68cceff3d46301325a2dbd845b852",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

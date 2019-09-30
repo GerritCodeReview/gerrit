@@ -17,7 +17,6 @@ package com.google.gerrit.index;
 import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.auto.value.AutoValue;
-import java.util.function.Consumer;
 import java.util.function.IntConsumer;
 import org.eclipse.jgit.lib.Config;
 
@@ -40,7 +39,6 @@ public abstract class IndexConfig {
     setIfPresent(cfg, "maxLimit", b::maxLimit);
     setIfPresent(cfg, "maxPages", b::maxPages);
     setIfPresent(cfg, "maxTerms", b::maxTerms);
-    setTypeOrDefault(cfg, b::type);
     return b;
   }
 
@@ -51,16 +49,11 @@ public abstract class IndexConfig {
     }
   }
 
-  private static void setTypeOrDefault(Config cfg, Consumer<String> setter) {
-    setter.accept(new IndexType(cfg).toString());
-  }
-
   public static Builder builder() {
     return new AutoValue_IndexConfig.Builder()
         .maxLimit(Integer.MAX_VALUE)
         .maxPages(Integer.MAX_VALUE)
         .maxTerms(DEFAULT_MAX_TERMS)
-        .type(IndexType.getDefault())
         .separateChangeSubIndexes(false);
   }
 
@@ -78,10 +71,6 @@ public abstract class IndexConfig {
 
     public abstract int maxTerms();
 
-    public abstract Builder type(String type);
-
-    public abstract String type();
-
     public abstract Builder separateChangeSubIndexes(boolean separate);
 
     abstract IndexConfig autoBuild();
@@ -91,19 +80,12 @@ public abstract class IndexConfig {
       checkLimit(cfg.maxLimit(), "maxLimit");
       checkLimit(cfg.maxPages(), "maxPages");
       checkLimit(cfg.maxTerms(), "maxTerms");
-      checkTypeLimit(cfg);
       return cfg;
     }
   }
 
   private static void checkLimit(int limit, String name) {
     checkArgument(limit > 0, "%s must be positive: %s", name, limit);
-  }
-
-  private static void checkTypeLimit(IndexConfig cfg) {
-    String limit = cfg.type();
-    boolean known = IndexType.getKnownTypes().asList().contains(limit);
-    checkArgument(known, "type must be known: %s", limit);
   }
 
   /**
@@ -122,9 +104,6 @@ public abstract class IndexConfig {
    *     for performance reasons.
    */
   public abstract int maxTerms();
-
-  /** @return index type, limited to be either one of the known types. */
-  public abstract String type();
 
   /**
    * @return whether different subsets of changes may be stored in different physical sub-indexes.

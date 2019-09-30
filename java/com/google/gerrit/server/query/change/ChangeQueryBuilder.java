@@ -33,7 +33,6 @@ import com.google.gerrit.exceptions.NotSignedInException;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.index.IndexConfig;
-import com.google.gerrit.index.IndexType;
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.SchemaUtil;
 import com.google.gerrit.index.query.LimitPredicate;
@@ -64,7 +63,9 @@ import com.google.gerrit.server.account.VersionedAccountQueries;
 import com.google.gerrit.server.change.ChangeTriplet;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.index.IndexModule;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
@@ -94,6 +95,7 @@ import java.util.function.Function;
 import java.util.regex.Pattern;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Repository;
 
 /** Parses a query string meant to be applied to change objects. */
@@ -404,6 +406,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   }
 
   private final Arguments args;
+
+  private @Inject @GerritServerConfig Config cfg;
 
   @Inject
   ChangeQueryBuilder(Arguments args) {
@@ -736,7 +740,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   @Operator
   public Predicate<ChangeData> extension(String ext) throws QueryParseException {
     if (args.getSchema().hasField(ChangeField.EXTENSION)) {
-      if (ext.isEmpty() && IndexType.isElasticsearch(args.indexConfig.type())) {
+      if (ext.isEmpty() && IndexModule.getIndexType(cfg).isElasticsearch()) {
         return new FileWithNoExtensionInElasticPredicate();
       }
       return new FileExtensionPredicate(ext);
@@ -778,7 +782,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
         return new RegexDirectoryPredicate(directory);
       }
 
-      if (IndexType.isElasticsearch(args.indexConfig.type())
+      if (IndexModule.getIndexType(cfg).isElasticsearch()
           && (directory.isEmpty() || directory.equals("/"))) {
         return Predicate.any();
       }

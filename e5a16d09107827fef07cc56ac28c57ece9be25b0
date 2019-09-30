@@ -22,6 +22,30 @@
       "revId": "e5a16d09107827fef07cc56ac28c57ece9be25b0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d1cff656_5b6f4db6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-09-30T20:45:51Z",
+      "side": 1,
+      "message": "It should be probably easier to add such a test at the end of this series, as Git wire protocol V2 is enabled unconditionally, but I haven\u0027t look into adding it yet.",
+      "parentUuid": "4562063a_dec8f02f",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 36,
+        "endChar": 0
+      },
+      "revId": "e5a16d09107827fef07cc56ac28c57ece9be25b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

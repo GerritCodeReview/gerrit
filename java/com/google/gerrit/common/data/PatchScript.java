@@ -56,7 +56,6 @@ public class PatchScript {
   private CommentDetail comments;
   private List<Patch> history;
   private boolean hugeFile;
-  private boolean intralineDifference;
   private boolean intralineFailure;
   private boolean intralineTimeout;
   private boolean binary;
@@ -83,7 +82,6 @@ public class PatchScript {
       CommentDetail cd,
       List<Patch> hist,
       boolean hf,
-      boolean id,
       boolean idf,
       boolean idt,
       boolean bin,
@@ -108,7 +106,6 @@ public class PatchScript {
     comments = cd;
     history = hist;
     hugeFile = hf;
-    intralineDifference = id;
     intralineFailure = idf;
     intralineTimeout = idt;
     binary = bin;
@@ -178,10 +175,6 @@ public class PatchScript {
     return diffPrefs.ignoreWhitespace != Whitespace.IGNORE_NONE;
   }
 
-  public boolean hasIntralineDifference() {
-    return intralineDifference;
-  }
-
   public boolean hasIntralineFailure() {
     return intralineFailure;
   }
@@ -228,5 +221,52 @@ public class PatchScript {
 
   public String getCommitIdB() {
     return commitIdB;
+  }
+
+  public PatchScriptFileInfo getFileA() {
+    return new PatchScriptFileInfo(oldName, oldMode, a, displayMethodA, mimeTypeA,
+        commitIdA);
+  }
+
+  public PatchScriptFileInfo getFileB() {
+    return new PatchScriptFileInfo(newName, newMode, b, displayMethodB, mimeTypeB,
+        commitIdB);
+  }
+
+
+  public static class PatchScriptFileInfo {
+    private String name;
+    private FileMode mode;
+    private SparseFileContent content;
+    private DisplayMethod displayMethod;
+    private String mimeType;
+    private String commitId;
+
+    public PatchScriptFileInfo(
+        String name,
+        FileMode mode,
+        SparseFileContent content,
+        DisplayMethod displayMethod,
+        String mimeType,
+        String commitId) {
+      this.name = name;
+      this.mode = mode;
+      this.content = content;
+      this.displayMethod = displayMethod;
+      this.mimeType = mimeType;
+      this.commitId = commitId;
+    }
+
+    public String getName() { return name; }
+
+    public FileMode getMode() { return mode; }
+
+    public SparseFileContent getContent() { return content; }
+
+    public DisplayMethod getDisplayMethod() { return displayMethod; }
+
+    public String getMimeType() { return mimeType; }
+
+    public String getCommitId() { return commitId; }
   }
 }

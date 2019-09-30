@@ -17,6 +17,7 @@ package com.google.gerrit.server.patch;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Comparator.comparing;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.data.CommentDetail;
 import com.google.gerrit.common.data.PatchScript;
@@ -67,9 +68,6 @@ class PatchScriptBuilder {
   private ObjectId aId;
   private ObjectId bId;
 
-  private final Side a;
-  private final Side b;
-
   private List<Edit> edits;
   private final FileTypeRegistry registry;
   private final PatchListCache patchListCache;
@@ -77,8 +75,6 @@ class PatchScriptBuilder {
 
   @Inject
   PatchScriptBuilder(FileTypeRegistry ftr, PatchListCache plc) {
-    a = new Side();
-    b = new Side();
     registry = ftr;
     patchListCache = plc;
   }
@@ -90,6 +86,10 @@ class PatchScriptBuilder {
 
   void setChange(Change c) {
     this.change = c;
+  }
+
+  DiffPreferencesInfo getDiffPrefs() {
+    return diffPrefs;
   }
 
   void setDiffPrefs(DiffPreferencesInfo dp) {
@@ -118,25 +118,26 @@ class PatchScriptBuilder {
       reader.close();
     }
   }
-
   private PatchScript build(PatchListEntry content, CommentDetail comments, List<Patch> history)
       throws IOException {
-    boolean intralineDifferenceIsPossible = true;
+    Side sideA = new Side();
+    Side sideB = new Side();
+    PatchListEntryInput input = new PatchListEntryInput(content);
+
+    ResolvedSide a = sideA.resolve(oldName(input), null, aId);
+    ResolvedSide b = sideB.resolve(newName(input), a, bId);
+
+    return buildCore(input, a, b, content.getEdits(), content.getEditsDueToRebase(), comments, history);
+  }
+
+  private PatchScript buildCore(BuildCoreInput content, ResolvedSide a, ResolvedSide b, ImmutableList<Edit> contentEdits, ImmutableSet<Edit> contentEditsDueToRebase, CommentDetail comments, List<Patch> history) {
     boolean intralineFailure = false;
     boolean intralineTimeout = false;
 
-    a.path = oldName(content);
-    b.path = newName(content);
+    edits = new ArrayList<>(contentEdits);
+    ImmutableSet<Edit> editsDueToRebase = contentEditsDueToRebase;
 
-    a.resolve(null, aId);
-    b.resolve(a, bId);
-
-    edits = new ArrayList<>(content.getEdits());
-    ImmutableSet<Edit> editsDueToRebase = content.getEditsDueToRebase();
-
-    if (!isModify(content)) {
-      intralineDifferenceIsPossible = false;
-    } else if (diffPrefs.intralineDifference) {
+    if (isModify(content) && diffPrefs.intralineDifference) {
       IntraLineDiff d =
           patchListCache.getIntraLineDiff(
               IntraLineDiffKey.create(a.id, b.id, diffPrefs.ignoreWhitespace),
@@ -149,33 +150,29 @@ class PatchScriptBuilder {
             break;
 
           case DISABLED:
-            intralineDifferenceIsPossible = false;
             break;
 
           case ERROR:
-            intralineDifferenceIsPossible = false;
             intralineFailure = true;
             break;
 
           case TIMEOUT:
-            intralineDifferenceIsPossible = false;
             intralineTimeout = true;
             break;
         }
       } else {
-        intralineDifferenceIsPossible = false;
         intralineFailure = true;
       }
     }
 
-    correctForDifferencesInNewlineAtEnd();
+    correctForDifferencesInNewlineAtEnd(a, b);
 
     if (comments != null) {
       ensureCommentsVisible(comments);
     }
 
     boolean hugeFile = false;
-    if (a.src == b.src && a.size() <= context && content.getEdits().isEmpty()) {
+    if (a.src == b.src && a.size() <= context && contentEdits.isEmpty()) {
       // Odd special case; the files are identical (100% rename or copy)
       // and the user has asked for context that is larger than the file.
       // Send them the entire file, with an empty edit after the last line.
@@ -200,7 +197,7 @@ class PatchScriptBuilder {
       //
       context = MAX_CONTEXT;
 
-      packContent(diffPrefs.ignoreWhitespace != Whitespace.IGNORE_NONE);
+      packContent(a, b, diffPrefs.ignoreWhitespace != Whitespace.IGNORE_NONE);
     }
 
     return new PatchScript(
@@ -223,7 +220,6 @@ class PatchScriptBuilder {
         comments,
         history,
         hugeFile,
-        intralineDifferenceIsPossible,
         intralineFailure,
         intralineTimeout,
         content.getPatchType() == Patch.PatchType.BINARY,
@@ -231,7 +227,44 @@ class PatchScriptBuilder {
         bId == null ? null : bId.getName());
   }
 
-  private static boolean isModify(PatchListEntry content) {
+  interface BuildCoreInput {
+    Patch.ChangeType getChangeType();
+    Patch.PatchType getPatchType();
+    String getOldName();
+    String getNewName();
+    List<String> getHeaderLines();
+  }
+
+  private class PatchListEntryInput implements BuildCoreInput {
+    private final PatchListEntry entry;
+    public PatchListEntryInput(PatchListEntry entry) {
+      this.entry = entry;
+    }
+    @Override
+    public Patch.ChangeType getChangeType() {
+      return entry.getChangeType();
+    }
+    @Override
+    public Patch.PatchType getPatchType() {
+      return entry.getPatchType();
+    }
+    @Override
+    public String getOldName() {
+      return entry.getOldName();
+    }
+    @Override
+    public String getNewName() {
+      return entry.getNewName();
+    }
+
+    public List<String> getHeaderLines() {
+      return entry.getHeaderLines();
+    }
+  }
+
+
+
+  private static boolean isModify(BuildCoreInput content) {
     switch (content.getChangeType()) {
       case MODIFIED:
       case COPIED:
@@ -246,7 +279,7 @@ class PatchScriptBuilder {
     }
   }
 
-  private static String oldName(PatchListEntry entry) {
+  private static String oldName(BuildCoreInput entry) {
     switch (entry.getChangeType()) {
       case ADDED:
         return null;
@@ -261,7 +294,7 @@ class PatchScriptBuilder {
     }
   }
 
-  private static String newName(PatchListEntry entry) {
+  private static String newName(BuildCoreInput entry) {
     switch (entry.getChangeType()) {
       case DELETED:
         return null;
@@ -275,7 +308,7 @@ class PatchScriptBuilder {
     }
   }
 
-  private void correctForDifferencesInNewlineAtEnd() {
+  private void correctForDifferencesInNewlineAtEnd(ResolvedSide a, ResolvedSide b) {
     // a.src.size() is the size ignoring a newline at the end whereas a.size() considers it.
     int aSize = a.src.size();
     int bSize = b.src.size();
@@ -288,7 +321,7 @@ class PatchScriptBuilder {
     }
 
     Optional<Edit> lastEdit = getLast(edits);
-    if (isNewlineAtEndDeleted()) {
+    if (isNewlineAtEndDeleted(a, b)) {
       Optional<Edit> lastLineEdit = lastEdit.filter(edit -> edit.getEndA() == aSize);
       if (lastLineEdit.isPresent()) {
         lastLineEdit.get().extendA();
@@ -296,7 +329,7 @@ class PatchScriptBuilder {
         Edit newlineEdit = new Edit(aSize, aSize + 1, bSize, bSize);
         edits.add(newlineEdit);
       }
-    } else if (isNewlineAtEndAdded()) {
+    } else if (isNewlineAtEndAdded(a, b)) {
       Optional<Edit> lastLineEdit = lastEdit.filter(edit -> edit.getEndB() == bSize);
       if (lastLineEdit.isPresent()) {
         lastLineEdit.get().extendB();
@@ -311,11 +344,11 @@ class PatchScriptBuilder {
     return list.isEmpty() ? Optional.empty() : Optional.ofNullable(list.get(list.size() - 1));
   }
 
-  private boolean isNewlineAtEndDeleted() {
+  private boolean isNewlineAtEndDeleted(ResolvedSide a, ResolvedSide b) {
     return !a.src.isMissingNewlineAtEnd() && b.src.isMissingNewlineAtEnd();
   }
 
-  private boolean isNewlineAtEndAdded() {
+  private boolean isNewlineAtEndAdded(ResolvedSide a, ResolvedSide b) {
     return a.src.isMissingNewlineAtEnd() && !b.src.isMissingNewlineAtEnd();
   }
 
@@ -433,7 +466,7 @@ class PatchScriptBuilder {
     return last.getEndA() + (b - last.getEndB());
   }
 
-  private void packContent(boolean ignoredWhitespace) {
+  private void packContent(ResolvedSide a, ResolvedSide b, boolean ignoredWhitespace) {
     EditList list = new EditList(edits, context, a.size(), b.size());
     for (EditList.Hunk hunk : list.getHunks()) {
       while (hunk.next()) {
@@ -467,16 +500,37 @@ class PatchScriptBuilder {
     }
   }
 
-  private class Side {
-    String path;
-    ObjectId id;
-    FileMode mode;
-    byte[] srcContent;
-    Text src;
-    MimeType mimeType = MimeUtil2.UNKNOWN_MIME_TYPE;
-    DisplayMethod displayMethod = DisplayMethod.DIFF;
-    PatchScript.FileMode fileMode = PatchScript.FileMode.FILE;
-    final SparseFileContent dst = new SparseFileContent();
+  private static class ResolvedSide {
+    final String path;
+    final ObjectId id;
+    final FileMode mode;
+    final byte[] srcContent;
+    final Text src;
+    final MimeType mimeType;
+    final DisplayMethod displayMethod;
+    final PatchScript.FileMode fileMode;
+    final SparseFileContent dst;
+
+    public ResolvedSide(
+        String path,
+        ObjectId id,
+        FileMode mode,
+        byte[] srcContent,
+        Text src,
+        MimeType mimeType,
+        DisplayMethod displayMethod,
+        PatchScript.FileMode fileMode) {
+      this.path = path;
+      this.id = id;
+      this.mode = mode;
+      this.srcContent = srcContent;
+      this.src = src;
+      this.mimeType = mimeType;
+      this.displayMethod = displayMethod;
+      this.fileMode = fileMode;
+      dst = new SparseFileContent();
+      dst.setSize(size());
+    }
 
     int size() {
       if (src == null) {
@@ -496,58 +550,54 @@ class PatchScriptBuilder {
     String getSourceLine(int lineNumber) {
       return lineNumber >= src.size() ? "" : src.getString(lineNumber);
     }
+  }
 
-    void resolve(Side other, ObjectId within) throws IOException {
+  private class Side {
+    ResolvedSide resolve(final String path, final ResolvedSide other, final ObjectId within) throws IOException {
       try {
-        final boolean reuse;
         if (Patch.COMMIT_MSG.equals(path)) {
           if (comparisonType.isAgainstParentOrAutoMerge() && Objects.equals(aId, within)) {
-            id = ObjectId.zeroId();
-            src = Text.EMPTY;
-            srcContent = Text.NO_BYTES;
-            mode = FileMode.MISSING;
-            displayMethod = DisplayMethod.NONE;
+            return createResolvedSide(path, ObjectId.zeroId(), FileMode.MISSING, Text.NO_BYTES, Text.EMPTY, MimeUtil2.UNKNOWN_MIME_TYPE, DisplayMethod.NONE, false);
           } else {
-            id = within;
-            src = Text.forCommit(reader, within);
-            srcContent = src.getContent();
+            Text src = Text.forCommit(reader, within);
+            byte[] srcContent = src.getContent();
+            DisplayMethod displayMethod = DisplayMethod.DIFF;
+            FileMode mode;
             if (src == Text.EMPTY) {
               mode = FileMode.MISSING;
               displayMethod = DisplayMethod.NONE;
             } else {
               mode = FileMode.REGULAR_FILE;
             }
+            return createResolvedSide(path, within, mode, srcContent, src, MimeUtil2.UNKNOWN_MIME_TYPE, displayMethod, false);
           }
-          reuse = false;
         } else if (Patch.MERGE_LIST.equals(path)) {
           if (comparisonType.isAgainstParentOrAutoMerge() && Objects.equals(aId, within)) {
-            id = ObjectId.zeroId();
-            src = Text.EMPTY;
-            srcContent = Text.NO_BYTES;
-            mode = FileMode.MISSING;
-            displayMethod = DisplayMethod.NONE;
+            return createResolvedSide(path, ObjectId.zeroId(), FileMode.MISSING, Text.NO_BYTES, Text.EMPTY, MimeUtil2.UNKNOWN_MIME_TYPE, DisplayMethod.NONE, false);
           } else {
-            id = within;
-            src = Text.forMergeList(comparisonType, reader, within);
-            srcContent = src.getContent();
+            Text src = Text.forMergeList(comparisonType, reader, within);
+            byte[] srcContent = src.getContent();
+            DisplayMethod displayMethod = DisplayMethod.DIFF;
+            FileMode mode;
             if (src == Text.EMPTY) {
               mode = FileMode.MISSING;
               displayMethod = DisplayMethod.NONE;
             } else {
               mode = FileMode.REGULAR_FILE;
             }
+            return createResolvedSide(path, within, mode, srcContent, src, MimeUtil2.UNKNOWN_MIME_TYPE, displayMethod, false);
           }
-          reuse = false;
         } else {
-          final TreeWalk tw = find(within);
+          final TreeWalk tw = find(path, within);
 
-          id = tw != null ? tw.getObjectId(0) : ObjectId.zeroId();
-          mode = tw != null ? tw.getFileMode(0) : FileMode.MISSING;
-          reuse =
+          ObjectId id = tw != null ? tw.getObjectId(0) : ObjectId.zeroId();
+          FileMode mode = tw != null ? tw.getFileMode(0) : FileMode.MISSING;
+          boolean reuse =
               other != null
                   && other.id.equals(id)
                   && (other.mode == mode || isBothFile(other.mode, mode));
-
+          Text src = null;
+          byte[] srcContent;
           if (reuse) {
             srcContent = other.srcContent;
 
@@ -562,6 +612,9 @@ class PatchScriptBuilder {
             srcContent = Text.NO_BYTES;
           }
 
+          MimeType mimeType = MimeUtil2.UNKNOWN_MIME_TYPE;
+          DisplayMethod displayMethod = DisplayMethod.DIFF;
+
           if (reuse) {
             mimeType = other.mimeType;
             displayMethod = other.displayMethod;
@@ -573,33 +626,45 @@ class PatchScriptBuilder {
               displayMethod = DisplayMethod.IMG;
             }
           }
-        }
-
-        if (mode == FileMode.MISSING) {
-          displayMethod = DisplayMethod.NONE;
-        }
-
-        if (!reuse) {
-          if (srcContent == Text.NO_BYTES) {
-            src = Text.EMPTY;
-          } else {
-            src = new Text(srcContent);
-          }
-        }
-
-        dst.setSize(size());
-
-        if (mode == FileMode.SYMLINK) {
-          fileMode = PatchScript.FileMode.SYMLINK;
-        } else if (mode == FileMode.GITLINK) {
-          fileMode = PatchScript.FileMode.GITLINK;
+          return createResolvedSide(path, id, mode, srcContent, src, mimeType, displayMethod, reuse);
         }
       } catch (IOException err) {
         throw new IOException("Cannot read " + within.name() + ":" + path, err);
       }
     }
 
-    private TreeWalk find(ObjectId within)
+    private ResolvedSide createResolvedSide(String path,
+        ObjectId id,
+        FileMode mode,
+        byte[] srcContent,
+        Text src,
+        MimeType mimeType,
+        DisplayMethod displayMethod,
+        boolean reuse) {
+
+      if (!reuse) {
+        if (srcContent == Text.NO_BYTES) {
+          src = Text.EMPTY;
+        } else {
+          src = new Text(srcContent);
+        }
+      }
+
+      if (mode == FileMode.MISSING) {
+        displayMethod = DisplayMethod.NONE;
+      }
+
+      PatchScript.FileMode fileMode = PatchScript.FileMode.FILE;
+      if (mode == FileMode.SYMLINK) {
+        fileMode = PatchScript.FileMode.SYMLINK;
+      } else if (mode == FileMode.GITLINK) {
+        fileMode = PatchScript.FileMode.GITLINK;
+      }
+
+      return new ResolvedSide(path, id, mode, srcContent, src, mimeType, displayMethod, fileMode);
+    }
+
+    private TreeWalk find(String path, ObjectId within)
         throws MissingObjectException, IncorrectObjectTypeException, CorruptObjectException,
             IOException {
       if (path == null || within == null) {

@@ -73,6 +73,67 @@ import org.kohsuke.args4j.spi.Parameters;
 import org.kohsuke.args4j.spi.Setter;
 
 public class GetDiff implements RestReadView<FileResource> {
+  private static class WebLinksUtils {
+    static WebLinksUtils create(FileResource resource, PatchSet basePatchSet, WebLinks webLinks, DiffContent.DiffFileInfo fileA, DiffContent.DiffFileInfo fileB, ProjectState state) {
+      String revA = basePatchSet != null ? basePatchSet.refName() : fileA.psFileInfo.getCommitId();
+      String revB =
+          resource.getRevision().getEdit().isPresent()
+              ? resource.getRevision().getEdit().get().getRefName()
+              : resource.getRevision().getPatchSet().refName();
+
+      return new WebLinksUtils(webLinks, fileA, fileB, state, basePatchSet != null ? basePatchSet.id() : null, resource.getPatchKey().patchSetId(), revA, revB);
+    }
+
+    private String revA;
+    private String revB;
+
+    private DiffContent.DiffFileInfo fileA;
+    private DiffContent.DiffFileInfo fileB;
+    private WebLinks webLinks;
+    private Project project;
+    private ProjectState state;
+    private PatchSet.Id patchSetIdA;
+    private PatchSet.Id patchSetIdB;
+
+    WebLinksUtils(WebLinks webLinks, DiffContent.DiffFileInfo fileA, DiffContent.DiffFileInfo fileB, ProjectState state, PatchSet.Id patchSetIdA, PatchSet.Id patchSetIdB, String revA, String revB) {
+      this.webLinks = webLinks;
+      this.fileA = fileA;
+      this.fileB = fileB;
+      this.state = state;
+      this.project = state.getProject();
+      this.patchSetIdA = patchSetIdA;
+      this.patchSetIdB = patchSetIdB;
+      this.revA = revA;
+      this.revB = revB;
+
+    }
+
+    ImmutableList<DiffWebLinkInfo> createDiffWebLinks() {
+      return webLinks.getDiffLinks(
+              state.getName(),
+              patchSetIdB.changeId().get(),
+              patchSetIdA != null ? patchSetIdA.get() : null,
+              revA,
+              fileA.name,
+              patchSetIdB.get(),
+              revB,
+              fileB.name);
+    }
+
+    List<WebLinkInfo> getFileAWebLinks() {
+      return getFileWebLinks(fileA, revA);
+    }
+    List<WebLinkInfo> getFileBWebLinks() {
+      return getFileWebLinks(fileB, revB);
+    }
+
+    private List<WebLinkInfo> getFileWebLinks(DiffContent.DiffFileInfo file, String rev) {
+      ImmutableList<WebLinkInfo> links = webLinks.getFileLinks(project.getName(), rev, file.name);
+      return links.isEmpty() ? null : links;
+    }
+  }
+
+
   private static final ImmutableMap<Patch.ChangeType, ChangeType> CHANGE_TYPE =
       Maps.immutableEnumMap(
           new ImmutableMap.Builder<Patch.ChangeType, ChangeType>()
@@ -123,10 +184,7 @@ public class GetDiff implements RestReadView<FileResource> {
     this.webLinks = webLinks;
   }
 
-  @Override
-  public Response<DiffInfo> apply(FileResource resource)
-      throws ResourceConflictException, ResourceNotFoundException, AuthException,
-          InvalidChangeOperationException, IOException, PermissionBackendException {
+  private DiffPreferencesInfo getDiffPreferncesInfo() {
     DiffPreferencesInfo prefs = new DiffPreferencesInfo();
     if (whitespace != null) {
       prefs.ignoreWhitespace = whitespace;
@@ -137,6 +195,110 @@ public class GetDiff implements RestReadView<FileResource> {
     }
     prefs.context = context;
     prefs.intralineDifference = intraline;
+    return prefs;
+  }
+
+  private FileMeta createFileMeta(ProjectState state, DiffContent.DiffFileInfo file, List<WebLinkInfo> webLinks) {
+    FileMeta meta = new FileMeta();
+    meta.name = file.name;
+    meta.contentType = FileContentUtil.resolveContentType(state, file.name, file.psFileInfo.getMode(), file.psFileInfo.getMimeType());
+    meta.lines = file.psFileInfo.getContent().size();
+    meta.webLinks = webLinks;
+    meta.commitId = file.psFileInfo.getCommitId();
+    return meta;
+  }
+
+  private WebLinksUtils createWebLinksUtils(FileResource resource, PatchSet basePatchSet, DiffContent.DiffFileInfo fileA, DiffContent.DiffFileInfo fileB, ProjectState state) {
+    return WebLinksUtils.create(resource, basePatchSet, webLinks, fileA, fileB, state);
+
+  }
+
+
+  private DiffInfo createDiffInfo(DiffContent.DiffFileInfo fileA, DiffContent.DiffFileInfo fileB, WebLinksUtils webLinksUtils, PatchScript ps, Content content, ProjectState state) {
+    DiffInfo result = new DiffInfo();
+
+    ImmutableList<DiffWebLinkInfo> links = webLinksUtils.createDiffWebLinks();
+    result.webLinks = links.isEmpty() ? null : links;
+
+    if (!webLinksOnly) {
+      if (ps.isBinary()) {
+        result.binary = true;
+      }
+      if (fileA.psFileInfo.getDisplayMethod() != DisplayMethod.NONE) {
+        result.metaA = createFileMeta(state,
+            fileA, webLinksUtils.getFileAWebLinks());
+      }
+
+      if (fileB.psFileInfo.getDisplayMethod() != DisplayMethod.NONE) {
+        result.metaB = createFileMeta(state,
+            fileB, webLinksUtils.getFileBWebLinks());
+      }
+
+      if (ps.getDiffPrefs().intralineDifference) {
+        if (ps.hasIntralineTimeout()) {
+          result.intralineStatus = IntraLineStatus.TIMEOUT;
+        } else if (ps.hasIntralineFailure()) {
+          result.intralineStatus = IntraLineStatus.FAILURE;
+        } else {
+          result.intralineStatus = IntraLineStatus.OK;
+        }
+      }
+
+      result.changeType = CHANGE_TYPE.get(ps.getChangeType());
+      if (result.changeType == null) {
+        throw new IllegalStateException("unknown change type: " + ps.getChangeType());
+      }
+
+      if (ps.getPatchHeader().size() > 0) {
+        result.diffHeader = ps.getPatchHeader();
+      }
+      result.content = content.lines;
+    }
+    return result;
+  }
+
+  private Content getDiffContent(PatchScript ps) {
+    DiffContentCollector contentCollector = new DiffContentCollector(ps);
+    Set<Edit> editsDueToRebase = ps.getEditsDueToRebase();
+    for (Edit edit : ps.getEdits()) {
+      if (edit.getType() == Edit.Type.EMPTY) {
+        continue;
+      }
+      contentCollector.addCommon(edit.getBeginA());
+
+      checkState(
+          contentCollector.nextA == edit.getBeginA(),
+          "nextA = %s; want %s",
+          contentCollector.nextA,
+          edit.getBeginA());
+      checkState(
+          contentCollector.nextB == edit.getBeginB(),
+          "nextB = %s; want %s",
+          contentCollector.nextB,
+          edit.getBeginB());
+      switch (edit.getType()) {
+        case DELETE:
+        case INSERT:
+        case REPLACE:
+          List<Edit> internalEdit =
+              edit instanceof ReplaceEdit ? ((ReplaceEdit) edit).getInternalEdits() : null;
+          boolean dueToRebase = editsDueToRebase.contains(edit);
+          contentCollector.addDiff(edit.getEndA(), edit.getEndB(), internalEdit, dueToRebase);
+          break;
+        case EMPTY:
+        default:
+          throw new IllegalStateException();
+      }
+    }
+    contentCollector.addCommon(ps.getA().size());
+    return new Content(ps, contentCollector.lines);
+  }
+
+  @Override
+  public Response<DiffInfo> apply(FileResource resource)
+      throws ResourceConflictException, ResourceNotFoundException, AuthException,
+          InvalidChangeOperationException, IOException, PermissionBackendException {
+    DiffPreferencesInfo prefs = getDiffPreferncesInfo();
 
     PatchScriptFactory psf;
     PatchSet basePatchSet = null;
@@ -158,107 +320,18 @@ public class GetDiff implements RestReadView<FileResource> {
       psf.setLoadHistory(false);
       psf.setLoadComments(context != DiffPreferencesInfo.WHOLE_FILE_CONTEXT);
       PatchScript ps = psf.call();
-      Content content = new Content(ps);
-      Set<Edit> editsDueToRebase = ps.getEditsDueToRebase();
-      for (Edit edit : ps.getEdits()) {
-        if (edit.getType() == Edit.Type.EMPTY) {
-          continue;
-        }
-        content.addCommon(edit.getBeginA());
-
-        checkState(
-            content.nextA == edit.getBeginA(),
-            "nextA = %s; want %s",
-            content.nextA,
-            edit.getBeginA());
-        checkState(
-            content.nextB == edit.getBeginB(),
-            "nextB = %s; want %s",
-            content.nextB,
-            edit.getBeginB());
-        switch (edit.getType()) {
-          case DELETE:
-          case INSERT:
-          case REPLACE:
-            List<Edit> internalEdit =
-                edit instanceof ReplaceEdit ? ((ReplaceEdit) edit).getInternalEdits() : null;
-            boolean dueToRebase = editsDueToRebase.contains(edit);
-            content.addDiff(edit.getEndA(), edit.getEndB(), internalEdit, dueToRebase);
-            break;
-          case EMPTY:
-          default:
-            throw new IllegalStateException();
-        }
-      }
-      content.addCommon(ps.getA().size());
+      Content content = getDiffContent(ps);
 
       ProjectState state = projectCache.get(resource.getRevision().getChange().getProject());
 
-      DiffInfo result = new DiffInfo();
-      String revA = basePatchSet != null ? basePatchSet.refName() : content.commitIdA;
-      String revB =
-          resource.getRevision().getEdit().isPresent()
-              ? resource.getRevision().getEdit().get().getRefName()
-              : resource.getRevision().getPatchSet().refName();
+      String fileNameA = MoreObjects.firstNonNull(ps.getOldName(), ps.getNewName());
+      String fileNameB = ps.getNewName();
 
-      ImmutableList<DiffWebLinkInfo> links =
-          webLinks.getDiffLinks(
-              state.getName(),
-              resource.getPatchKey().patchSetId().changeId().get(),
-              basePatchSet != null ? basePatchSet.id().get() : null,
-              revA,
-              MoreObjects.firstNonNull(ps.getOldName(), ps.getNewName()),
-              resource.getPatchKey().patchSetId().get(),
-              revB,
-              ps.getNewName());
-      result.webLinks = links.isEmpty() ? null : links;
+      DiffContent.DiffFileInfo fileA = new DiffContent.DiffFileInfo(ps.getFileA(), fileNameA);
+      DiffContent.DiffFileInfo fileB = new DiffContent.DiffFileInfo(ps.getFileB(), fileNameB);
+      WebLinksUtils webLinksUtils = createWebLinksUtils(resource, basePatchSet, fileA, fileB, state);
 
-      if (!webLinksOnly) {
-        if (ps.isBinary()) {
-          result.binary = true;
-        }
-        if (ps.getDisplayMethodA() != DisplayMethod.NONE) {
-          result.metaA = new FileMeta();
-          result.metaA.name = MoreObjects.firstNonNull(ps.getOldName(), ps.getNewName());
-          result.metaA.contentType =
-              FileContentUtil.resolveContentType(
-                  state, result.metaA.name, ps.getFileModeA(), ps.getMimeTypeA());
-          result.metaA.lines = ps.getA().size();
-          result.metaA.webLinks = getFileWebLinks(state.getProject(), revA, result.metaA.name);
-          result.metaA.commitId = content.commitIdA;
-        }
-
-        if (ps.getDisplayMethodB() != DisplayMethod.NONE) {
-          result.metaB = new FileMeta();
-          result.metaB.name = ps.getNewName();
-          result.metaB.contentType =
-              FileContentUtil.resolveContentType(
-                  state, result.metaB.name, ps.getFileModeB(), ps.getMimeTypeB());
-          result.metaB.lines = ps.getB().size();
-          result.metaB.webLinks = getFileWebLinks(state.getProject(), revB, result.metaB.name);
-          result.metaB.commitId = content.commitIdB;
-        }
-
-        if (intraline) {
-          if (ps.hasIntralineTimeout()) {
-            result.intralineStatus = IntraLineStatus.TIMEOUT;
-          } else if (ps.hasIntralineFailure()) {
-            result.intralineStatus = IntraLineStatus.FAILURE;
-          } else {
-            result.intralineStatus = IntraLineStatus.OK;
-          }
-        }
-
-        result.changeType = CHANGE_TYPE.get(ps.getChangeType());
-        if (result.changeType == null) {
-          throw new IllegalStateException("unknown change type: " + ps.getChangeType());
-        }
-
-        if (ps.getPatchHeader().size() > 0) {
-          result.diffHeader = ps.getPatchHeader();
-        }
-        result.content = content.lines;
-      }
+      DiffInfo result = createDiffInfo(fileA, fileB, webLinksUtils, ps, content, state);
 
       Response<DiffInfo> r = Response.ok(result);
       if (resource.isCacheable()) {
@@ -270,11 +343,6 @@ public class GetDiff implements RestReadView<FileResource> {
     } catch (LargeObjectException e) {
       throw new ResourceConflictException(e.getMessage(), e);
     }
-  }
-
-  private List<WebLinkInfo> getFileWebLinks(Project project, String rev, String file) {
-    ImmutableList<WebLinkInfo> links = webLinks.getFileLinks(project.getName(), rev, file);
-    return links.isEmpty() ? null : links;
   }
 
   public GetDiff setBase(String base) {
@@ -302,24 +370,20 @@ public class GetDiff implements RestReadView<FileResource> {
     return this;
   }
 
-  private static class Content {
+  private static class DiffContentCollector {
     final List<ContentEntry> lines;
     final SparseFileContent fileA;
     final SparseFileContent fileB;
     final boolean ignoreWS;
-    final String commitIdA;
-    final String commitIdB;
 
     int nextA;
     int nextB;
 
-    Content(PatchScript ps) {
+    DiffContentCollector(PatchScript ps) {
       lines = Lists.newArrayListWithExpectedSize(ps.getEdits().size() + 2);
       fileA = ps.getA();
       fileB = ps.getB();
       ignoreWS = ps.isIgnoreWhitespace();
-      commitIdA = ps.getCommitIdA();
-      commitIdB = ps.getCommitIdB();
     }
 
     void addCommon(int end) {
@@ -403,6 +467,26 @@ public class GetDiff implements RestReadView<FileResource> {
       ContentEntry e = new ContentEntry();
       lines.add(e);
       return e;
+    }
+
+
+  }
+
+  private static class DiffContent {
+    static class DiffFileInfo {
+      PatchScript.PatchScriptFileInfo psFileInfo;
+      String name;
+      public DiffFileInfo(PatchScript.PatchScriptFileInfo psFileInfo, String name) {
+        this.psFileInfo = psFileInfo;
+        this.name = name;
+      }
+    }
+  }
+  private static class Content {
+    final List<ContentEntry> lines;
+
+    Content(PatchScript ps, List<ContentEntry> lines) {
+      this.lines = lines;
     }
   }
 

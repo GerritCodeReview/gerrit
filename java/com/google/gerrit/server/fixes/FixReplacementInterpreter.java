@@ -85,6 +85,11 @@ public class FixReplacementInterpreter {
     return treeModifications;
   }
 
+  // public static PatchList toPatchList(ObjectId patchSetCommitId) {
+  //   return new PatchList(patchSetCommitId, );
+  // }
+
+
   private TreeModification toTreeModification(
       Repository repository,
       ProjectState projectState,

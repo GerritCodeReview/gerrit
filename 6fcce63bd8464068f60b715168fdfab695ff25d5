@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0eb623f1_9e13a031",
+        "filename": "java/com/google/gerrit/pgm/init/InitHttpd.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-09-30T03:57:24Z",
+      "side": 1,
+      "message": "Add braces.",
+      "range": {
+        "startLine": 70,
+        "startChar": 10,
+        "endLine": 70,
+        "endChar": 63
+      },
+      "revId": "6fcce63bd8464068f60b715168fdfab695ff25d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "231b23bf_1ec466ec",
+        "filename": "java/com/google/gerrit/pgm/init/InitHttpd.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-09-30T03:57:24Z",
+      "side": 1,
+      "message": "Missing braces around the if-blocks.",
+      "range": {
+        "startLine": 82,
+        "startChar": 6,
+        "endLine": 89,
+        "endChar": 49
+      },
+      "revId": "6fcce63bd8464068f60b715168fdfab695ff25d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "06d9929f_c36ba6d2",
+        "filename": "java/com/google/gerrit/pgm/init/InitHttpd.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-09-30T03:57:24Z",
+      "side": 1,
+      "message": "Log a warning here",
+      "range": {
+        "startLine": 94,
+        "startChar": 8,
+        "endLine": 95,
+        "endChar": 9
+      },
+      "revId": "6fcce63bd8464068f60b715168fdfab695ff25d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

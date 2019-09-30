@@ -30,6 +30,7 @@ import static com.google.gerrit.server.project.testing.TestLabels.label;
 import static com.google.gerrit.server.project.testing.TestLabels.value;
 import static org.eclipse.jgit.lib.Constants.HEAD;
 
+import com.google.common.cache.Cache;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GitUtil;
@@ -47,10 +48,14 @@ import com.google.gerrit.extensions.common.ApprovalInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.server.change.ChangeKindCacheImpl;
 import com.google.gerrit.server.project.testing.TestLabels;
 import com.google.inject.Inject;
+import com.google.inject.name.Named;
 import java.util.EnumSet;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ObjectId;
@@ -63,6 +68,10 @@ import org.junit.Test;
 public class StickyApprovalsIT extends AbstractDaemonTest {
   @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
+
+  @Inject
+  @Named("change_kind")
+  private Cache<ChangeKindCacheImpl.Key, ChangeKind> changeKindCache;
 
   @Before
   public void setup() throws Exception {
@@ -320,6 +329,42 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void stickyAcrossMultiplePatchSetsDoNotRegressPerformance() throws Exception {
+    // The purpose of this test is to make sure that we compute change kind only against the parent
+    // patch set. Change kind is a heavy operation. In prior version of Gerrit, we computed the
+    // change kind against all prior patch sets. This is a regression that made Gerrit do work
+    // expensive work in O(num-patch-sets). This test ensures that we aren't regressing.
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      u.getConfig().getLabelSections().get("Code-Review").setCopyMaxScore(true);
+      u.getConfig().getLabelSections().get("Verified").setCopyAllScoresIfNoCodeChange(true);
+      u.save();
+    }
+
+    String changeId = createChange(REWORK);
+    vote(admin, changeId, 2, 1);
+    updateChange(changeId, NO_CODE_CHANGE);
+    updateChange(changeId, NO_CODE_CHANGE);
+    updateChange(changeId, NO_CODE_CHANGE);
+
+    Map<Integer, ObjectId> revisions = new HashMap<>();
+    gApi.changes()
+        .id(changeId)
+        .get()
+        .revisions
+        .forEach(
+            (revId, revisionInfo) ->
+                revisions.put(revisionInfo._number, ObjectId.fromString(revId)));
+    assertThat(revisions.size()).isEqualTo(4);
+    assertChangeKindCacheContains(revisions.get(3), revisions.get(4));
+    assertChangeKindCacheContains(revisions.get(2), revisions.get(3));
+    assertChangeKindCacheContains(revisions.get(1), revisions.get(2));
+
+    assertChangeKindCacheDoesNotContain(revisions.get(1), revisions.get(4));
+    assertChangeKindCacheDoesNotContain(revisions.get(2), revisions.get(4));
+    assertChangeKindCacheDoesNotContain(revisions.get(1), revisions.get(3));
+  }
+
+  @Test
   public void copyMinMaxAcrossMultiplePatchSets() throws Exception {
     try (ProjectConfigUpdate u = updateProject(project)) {
       u.getConfig().getLabelSections().get("Code-Review").setCopyMaxScore(true);
@@ -377,6 +422,18 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
     // Delete vote that was copied via sticky approval
     deleteVote(admin, changeId, "Code-Review");
     assertVotes(detailedChange(changeId), admin, label, 0, REWORK);
+  }
+
+  private void assertChangeKindCacheContains(ObjectId prior, ObjectId next) {
+    ChangeKind kind =
+        changeKindCache.getIfPresent(ChangeKindCacheImpl.Key.create(prior, next, "recursive"));
+    assertThat(kind).isNotNull();
+  }
+
+  private void assertChangeKindCacheDoesNotContain(ObjectId prior, ObjectId next) {
+    ChangeKind kind =
+        changeKindCache.getIfPresent(ChangeKindCacheImpl.Key.create(prior, next, "recursive"));
+    assertThat(kind).isNull();
   }
 
   private ChangeInfo detailedChange(String changeId) throws Exception {

@@ -19,7 +19,9 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.common.truth.Truth8.assertThat;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
+import static java.util.stream.Collectors.toSet;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.common.Nullable;
@@ -38,6 +40,7 @@ import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.notedb.Sequences;
 import com.google.inject.Inject;
 import java.util.Optional;
+import java.util.Set;
 import org.eclipse.jgit.lib.Repository;
 import org.junit.Test;
 
@@ -437,6 +440,44 @@ public class AccountManagerIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void canFlagExistingExternalIdMailAsPreferred() throws Exception {
+    String email = "foo@example.com";
+
+    // Create an account with a SCHEME_GERRIT external ID
+    String username = "foo";
+    ExternalId.Key gerritExtIdKey = ExternalId.Key.create(ExternalId.SCHEME_GERRIT, username);
+    Account.Id accountId = Account.id(seq.nextAccountId());
+    accountsUpdate.insert(
+        "Create Test Account",
+        accountId,
+        u -> u.addExternalId(ExternalId.create(gerritExtIdKey, accountId)));
+
+    // Add the additional mail external ID with SCHEME_EMAIL
+    accountManager.link(accountId, AuthRequest.forEmail(email));
+
+    // Try to authenticate and update the email for the account.
+    // Expect that this to succeed because even if the email already exist
+    // it is associated to the same account-id and thus is not really
+    // a duplicate but simply a promotion of external id to preferred email.
+    AuthRequest who = AuthRequest.forUser(username);
+    who.setEmailAddress(email);
+    AuthResult authResult = accountManager.authenticate(who);
+
+    // Verify that no new accounts have been created
+    assertThat(authResult.isNew()).isFalse();
+
+    // Verify that the account external ids with scheme 'mailto:' contains the email
+    AccountState account = accounts.get(authResult.getAccountId()).get();
+    ImmutableSet<ExternalId> accountExternalIds = account.externalIds();
+    assertThat(accountExternalIds).isNotEmpty();
+    Set<String> emails = ExternalId.getEmails(accountExternalIds).collect(toSet());
+    assertThat(emails).contains(email);
+
+    // Verify the preferred email
+    assertThat(account.account().preferredEmail()).isEqualTo(email);
+  }
+
+  @Test
   public void linkNewExternalId() throws Exception {
     // Create an account with a SCHEME_GERRIT external ID and no email
     String username = "foo";
@@ -539,10 +580,29 @@ public class AccountManagerIT extends AbstractDaemonTest {
     // this fails because the email is already assigned to the first account.
     AuthRequest who = AuthRequest.forEmail(email);
     AccountException thrown =
-        assertThrows(AccountException.class, () -> accountManager.link(accountId, who));
+        assertThrows(AccountException.class, () -> accountManager.link(accountId2, who));
     assertThat(thrown)
         .hasMessageThat()
         .contains("Email 'foo@example.com' in use by another account");
+  }
+
+  @Test
+  public void allowLinkingExistingExternalIdEmailAsPreferred() throws Exception {
+    String email = "foo@example.com";
+
+    // Create an account with an SCHEME_EXTERNAL external ID that occupies the email.
+    String username = "foo";
+    Account.Id accountId = Account.id(seq.nextAccountId());
+    ExternalId.Key externalExtIdKey = ExternalId.Key.create(ExternalId.SCHEME_EXTERNAL, username);
+    accountsUpdate.insert(
+        "Create Test Account",
+        accountId,
+        u -> u.addExternalId(ExternalId.createWithEmail(externalExtIdKey, accountId, email)));
+
+    AuthRequest who = AuthRequest.forEmail(email);
+    AuthResult result = accountManager.link(accountId, who);
+    assertThat(result.isNew()).isFalse();
+    assertThat(result.getAccountId().get()).isEqualTo(accountId.get());
   }
 
   private void assertNoSuchExternalIds(ExternalId.Key... extIdKeys) throws Exception {

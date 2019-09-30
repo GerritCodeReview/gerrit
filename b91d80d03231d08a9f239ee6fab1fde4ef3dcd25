@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3b0174e0_432dd2ca",
+        "filename": "java/com/google/gerrit/server/git/PermissionAwareReadOnlyRefDatabase.java",
+        "patchSetId": 28
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-09-30T12:57:12Z",
+      "side": 1,
+      "message": "what do you get out of doing the overrides like this? This is the default you get anyway, right?\n\nMy worry is the following: right now refdatabase defines exactRef(String) and getRefs(String prefix) to be abstract, and all other methods (eg. getRefsByPrefix) are implemented in terms of exactRef(name) and getRefs(prefix).  However, both methods are marked \u0027deprecated\u0027. I can see a future where getRefsByPrefix becomes the standard implementation, and getRefs() is implemented in the base class by calling getRefsByPrefix() \n\nIf that happens, then that would be break the security of PermissionAwareReadOnlyRefDatabase.java here.\n\nWe can avoid that by explicitly either throwing an exception, or implementing the method in terms of getRefs() here ourselves.\n\nit\u0027s pretty unfortunate that the RefDB is a class (to be extended) rather than an interface.",
+      "range": {
+        "startLine": 111,
+        "startChar": 13,
+        "endLine": 111,
+        "endChar": 40
+      },
+      "revId": "b91d80d03231d08a9f239ee6fab1fde4ef3dcd25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -31,6 +31,7 @@ import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.mime.FileTypeRegistry;
+import com.google.gerrit.server.restapi.change.GetFixPreview.FixInput;
 import com.google.inject.Inject;
 import eu.medsea.mimeutil.MimeType;
 import eu.medsea.mimeutil.MimeUtil2;
@@ -53,7 +54,7 @@ import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
 
-class PatchScriptBuilder {
+public class PatchScriptBuilder {
   static final int MAX_CONTEXT = 5000000;
   static final int BIG_FILE = 9000;
 
@@ -79,12 +80,12 @@ class PatchScriptBuilder {
     patchListCache = plc;
   }
 
-  void setRepository(Repository r, Project.NameKey projectKey) {
+  public void setRepository(Repository r, Project.NameKey projectKey) {
     this.db = r;
     this.projectKey = projectKey;
   }
 
-  void setChange(Change c) {
+  public void setChange(Change c) {
     this.change = c;
   }
 
@@ -92,7 +93,7 @@ class PatchScriptBuilder {
     return diffPrefs;
   }
 
-  void setDiffPrefs(DiffPreferencesInfo dp) {
+  public void setDiffPrefs(DiffPreferencesInfo dp) {
     diffPrefs = dp;
 
     context = diffPrefs.context;
@@ -103,7 +104,7 @@ class PatchScriptBuilder {
     }
   }
 
-  void setTrees(ComparisonType ct, ObjectId a, ObjectId b) {
+  public void setTrees(ComparisonType ct, ObjectId a, ObjectId b) {
     comparisonType = ct;
     aId = a;
     bId = b;
@@ -118,6 +119,15 @@ class PatchScriptBuilder {
       reader.close();
     }
   }
+
+  public PatchScript toPatchScript(FixInput input)
+    throws IOException {
+    ResolvedSide a = new Side().resolve(oldName(input), null, aId);
+    ResolvedSide b = new ResolvedSide(newName(input), ObjectId.zeroId(), a.mode, input.getFixedBytes(), input.getFixedText(), a.mimeType, a.displayMethod, a.fileMode);
+    return buildCore(input, a, b, input.getEdits(), null, null, null);
+
+  }
+
   private PatchScript build(PatchListEntry content, CommentDetail comments, List<Patch> history)
       throws IOException {
     Side sideA = new Side();
@@ -227,7 +237,7 @@ class PatchScriptBuilder {
         bId == null ? null : bId.getName());
   }
 
-  interface BuildCoreInput {
+  public interface BuildCoreInput {
     Patch.ChangeType getChangeType();
     Patch.PatchType getPatchType();
     String getOldName();

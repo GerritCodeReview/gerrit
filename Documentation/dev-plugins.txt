@@ -2900,6 +2900,13 @@ link:https://gerrit-review.googlesource.com[the Gerrit project site].
 The author develops a production-ready code base of the plugin, with
 contributions, reviews, and help from the Gerrit community.
 
+- Build:
++
+To make the consumption of the plugin easy and to notice plugin breakages early
+the plugin author should setup build jobs on
+link:https://gerrit-ci.gerritforge.com[the GerritForge CI] that build the
+plugin for each Gerrit version that it supports.
+
 - Release:
 +
 The author releases the plugin by creating a Git tag and announcing the plugin
@@ -2910,9 +2917,7 @@ mailing list.
 +
 The author maintains their plugins as new Gerrit versions are released, updates
 them when necessary, develops further existing or new features and reviews
-incoming contributions. A plugin should declare and build on
-link:https://gerrit-ci.gerritforge.com[the GerritForge CI] for the Gerrit
-versions it supports.
+incoming contributions.
 
 - Deprecation:
 +

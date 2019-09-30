@@ -2877,11 +2877,15 @@ The process of writing a new plugin goes through different phases:
 +
 The idea of creating a new plugin is posted and discussed on the
 link:https://groups.google.com/d/forum/repo-discuss[repo-discuss] mailing list.
++
+Also see section link#ideation_discussion[Ideation and discussion] below.
 
 - Prototyping (optional):
 +
 The author of the plugin creates a working prototype on a public repository
 accessible to the community.
++
+Also see section link#plugin_prototyping[Plugin Prototyping] below.
 
 - Proposal and Hosting:
 +
@@ -2890,10 +2894,13 @@ link:https://www.apache.org/licenses/LICENSE-2.0.html[Apache 2.0 OpenSource
 license] and requests the plugin to be hosted on
 link:https://gerrit-review.googlesource.com[the Gerrit project site]. The
 proposal must be   accepted by at least one Gerrit maintainer. In case of
-disagreement between maintainers, the issue can be escalated to the Engineering
-Steering Committee. If the plugin is accepted, the Gerrit maintainer creates
-the project under the plugins path on
-link:https://gerrit-review.googlesource.com[the Gerrit project site].
+disagreement between maintainers, the issue can be escalated to the
+link:dev-processes.html#steering-committee[Engineering Steering Committee]. If
+the plugin is accepted, the Gerrit maintainer creates the project under the
+plugins path on link:https://gerrit-review.googlesource.com[the Gerrit project
+site].
++
+Also see section link#plugin_proposal[Plugin Proposal] below.
 
 - Build:
 +
@@ -2901,17 +2908,24 @@ To make the consumption of the plugin easy and to notice plugin breakages early
 the plugin author should setup build jobs on
 link:https://gerrit-ci.gerritforge.com[the GerritForge CI] that build the
 plugin for each Gerrit version that it supports.
++
+Also see section link#build[Build] below.
 
 - Development and contribution:
 +
 The author develops a production-ready code base of the plugin, with
 contributions, reviews, and help from the Gerrit community.
++
+Also see section link#development_contribution[Development and contribution]
+below.
 
 - Release:
 +
 The author releases the plugin by creating a Git tag and announcing the plugin
 on the link:https://groups.google.com/d/forum/repo-discuss[repo-discuss]
 mailing list.
++
+Also see section link#plugin_release[Plugin release] below.
 
 - Maintenance:
 +
@@ -2923,6 +2937,8 @@ incoming contributions.
 +
 The author declares that the plugin is not maintained anymore or is deprecated
 and should not be used anymore.
++
+Also see section link#plugin_deprecation[Plugin deprecation] below.
 
 [[ideation_discussion]]
 === Ideation and discussion

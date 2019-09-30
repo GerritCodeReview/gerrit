@@ -18,6 +18,15 @@ import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.Nullable;
 import org.eclipse.jgit.lib.Config;
 
+/**
+ * Index types supported by the secondary index.
+ *
+ * <p>The explicitly known index types are Lucene (the default) and Elasticsearch.
+ *
+ * <p>The third supported index type is any other type String value, deemed as custom. This is for
+ * configuring index types that are internal or not to be disclosed. Supporting custom index types
+ * allows to not break that case upon core implementation changes.
+ */
 public class IndexType {
   private static final String LUCENE = "lucene";
   private static final String ELASTICSEARCH = "elasticsearch";

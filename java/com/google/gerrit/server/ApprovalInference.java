@@ -38,19 +38,19 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
-import java.util.TreeMap;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.revwalk.RevWalk;
 
 /**
- * Copies approvals between patch sets.
+ * Computes approvals for a given patch set by looking at approvals applied to the given patch set
+ * and by additionally inferring approvals from the patch set's parents. The latter is done by
+ * asserting a change's kind and checking the project config for allowed forward-inference.
  *
  * <p>The result of a copy may either be stored, as when stamping approvals in the database at
  * submit time, or refreshed on demand, as when reading approvals from the NoteDb.
  */
 @Singleton
-public class ApprovalCopier {
+public class ApprovalInference {
   private final ProjectCache projectCache;
   private final ChangeKindCache changeKindCache;
   private final LabelNormalizer labelNormalizer;
@@ -58,7 +58,7 @@ public class ApprovalCopier {
   private final PatchSetUtil psUtil;
 
   @Inject
-  ApprovalCopier(
+  ApprovalInference(
       ProjectCache projectCache,
       ChangeKindCache changeKindCache,
       LabelNormalizer labelNormalizer,
@@ -71,69 +71,19 @@ public class ApprovalCopier {
     this.psUtil = psUtil;
   }
 
-  Iterable<PatchSetApproval> getForPatchSet(
+  /**
+   * Returns all approvals that apply to the given patch set. Honors direct and indirect (approval
+   * on parents) approvals.
+   */
+  Iterable<PatchSetApproval> forPatchSet(
       ChangeNotes notes, PatchSet.Id psId, @Nullable RevWalk rw, @Nullable Config repoConfig) {
-
-    PatchSet ps = psUtil.get(notes, psId);
-    if (ps == null) {
-      return Collections.emptyList();
-    }
-
-    ChangeData cd = changeDataFactory.create(notes);
+    Collection<PatchSetApproval> approvals =
+        getForPatchSetWithoutNormalization(notes, psId, rw, repoConfig);
     try {
-      ProjectState project = projectCache.checkedGet(cd.change().getDest().project());
-      ListMultimap<PatchSet.Id, PatchSetApproval> all = cd.approvals();
-      requireNonNull(all, "all should not be null");
-
-      Table<String, Account.Id, PatchSetApproval> byUser = HashBasedTable.create();
-      for (PatchSetApproval psa : all.get(ps.id())) {
-        byUser.put(psa.label(), psa.accountId(), psa);
-      }
-
-      TreeMap<Integer, PatchSet> patchSets = getPatchSets(cd);
-
-      Table<String, Account.Id, PatchSetApproval> wontCopy = HashBasedTable.create();
-
-      // Walk patch sets strictly less than current in descending order.
-      Collection<PatchSet> allPrior =
-          patchSets.descendingMap().tailMap(ps.id().get(), false).values();
-      for (PatchSet priorPs : allPrior) {
-        List<PatchSetApproval> priorApprovals = all.get(priorPs.id());
-        if (priorApprovals.isEmpty()) {
-          continue;
-        }
-
-        ChangeKind kind =
-            changeKindCache.getChangeKind(
-                project.getNameKey(), rw, repoConfig, priorPs.commitId(), ps.commitId());
-
-        for (PatchSetApproval psa : priorApprovals) {
-          if (wontCopy.contains(psa.label(), psa.accountId())) {
-            continue;
-          }
-          if (byUser.contains(psa.label(), psa.accountId())) {
-            continue;
-          }
-          if (!canCopy(project, psa, ps.id(), kind)) {
-            wontCopy.put(psa.label(), psa.accountId(), psa);
-            continue;
-          }
-          byUser.put(psa.label(), psa.accountId(), psa.copyWithPatchSet(ps.id()));
-        }
-      }
-      return labelNormalizer.normalize(notes, byUser.values()).getNormalized();
+      return labelNormalizer.normalize(notes, approvals).getNormalized();
     } catch (IOException e) {
       throw new StorageException(e);
     }
-  }
-
-  private static TreeMap<Integer, PatchSet> getPatchSets(ChangeData cd) {
-    Collection<PatchSet> patchSets = cd.patchSets();
-    TreeMap<Integer, PatchSet> result = new TreeMap<>();
-    for (PatchSet ps : patchSets) {
-      result.put(ps.id().get(), ps);
-    }
-    return result;
   }
 
   private static boolean canCopy(
@@ -163,5 +113,69 @@ public class ApprovalCopier {
       default:
         return false;
     }
+  }
+
+  private Collection<PatchSetApproval> getForPatchSetWithoutNormalization(
+      ChangeNotes notes, PatchSet.Id psId, @Nullable RevWalk rw, @Nullable Config repoConfig) {
+    PatchSet ps = psUtil.get(notes, psId);
+    if (ps == null) {
+      return Collections.emptyList();
+    }
+
+    ChangeData cd = changeDataFactory.create(notes);
+    ProjectState project;
+    try {
+      project = projectCache.checkedGet(cd.change().getDest().project());
+    } catch (IOException e) {
+      throw new StorageException(e);
+    }
+
+    // Start by collecting all current approvals
+    Table<String, Account.Id, PatchSetApproval> byUser = HashBasedTable.create();
+    ListMultimap<PatchSet.Id, PatchSetApproval> all = cd.approvals();
+    requireNonNull(all, "all should not be null");
+    all.get(ps.id()).forEach(psa -> byUser.put(psa.label(), psa.accountId(), psa));
+
+    // Bail out immediately if this is the first patch set
+    if (psId.get() == 1) {
+      return byUser.values();
+    }
+
+    // Call this algorithm recursively to check if the prior patch set had approvals. This has the
+    // advantage that all caches - most importantly ChangeKindCache - have values cached for what we
+    // need for this computation.
+    // The way this algorithm is written is that any approval will be copied forward by one patch
+    // set at a time if configs and change kind allow so. Once an approval is held back - for
+    // example because the patch set is a REWORK - it will not be picked up again in a future
+    // patch set.
+    PatchSet priorPatchSet = notes.load().getPatchSets().lowerEntry(psId).getValue();
+    if (priorPatchSet == null) {
+      return byUser.values();
+    }
+
+    Iterable<PatchSetApproval> priorApprovals =
+        getForPatchSetWithoutNormalization(notes, priorPatchSet.id(), rw, repoConfig);
+    if (!priorApprovals.iterator().hasNext()) {
+      return byUser.values();
+    }
+
+    Table<String, Account.Id, PatchSetApproval> wontCopy = HashBasedTable.create();
+    ChangeKind kind =
+        changeKindCache.getChangeKind(
+            project.getNameKey(), rw, repoConfig, priorPatchSet.commitId(), ps.commitId());
+    for (PatchSetApproval psa : priorApprovals) {
+      if (wontCopy.contains(psa.label(), psa.accountId())) {
+        continue;
+      }
+      if (byUser.contains(psa.label(), psa.accountId())) {
+        continue;
+      }
+      if (!canCopy(project, psa, ps.id(), kind)) {
+        wontCopy.put(psa.label(), psa.accountId(), psa);
+        continue;
+      }
+      byUser.put(psa.label(), psa.accountId(), psa.copyWithPatchSet(ps.id()));
+    }
+    return byUser.values();
   }
 }

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "2de9d3b5_fcb48b7d",
+        "filename": "java/com/google/gerrit/server/restapi/change/CherryPickChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-10-01T11:18:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1fadf81b_b8398ede",
+      "range": {
+        "startLine": 151,
+        "startChar": 30,
+        "endLine": 151,
+        "endChar": 44
+      },
+      "revId": "f5541613bf03b5289ceb9d5927cf0ce763b1a382",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "02aa16db_abbf710b",
         "filename": "java/com/google/gerrit/server/restapi/change/CherryPickChange.java",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "f5541613bf03b5289ceb9d5927cf0ce763b1a382",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7e3ace7f_7878eb4e",
+        "filename": "java/com/google/gerrit/server/restapi/change/CherryPickChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-10-01T11:18:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "02aa16db_abbf710b",
+      "range": {
+        "startLine": 184,
+        "startChar": 30,
+        "endLine": 184,
+        "endChar": 44
+      },
+      "revId": "f5541613bf03b5289ceb9d5927cf0ce763b1a382",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

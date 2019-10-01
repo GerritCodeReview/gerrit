@@ -22,6 +22,47 @@
       "revId": "da70bea56d776ac7f71fa0192d2053b387427da2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5bfbc5d4_d7b91047",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-10-01T15:12:08Z",
+      "side": 1,
+      "message": "will do",
+      "parentUuid": "9978b709_a2dff78f",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 9
+      },
+      "revId": "da70bea56d776ac7f71fa0192d2053b387427da2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9d464fca_1b3460e0",
+        "filename": "java/com/google/gerrit/server/ApprovalCopier.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-10-01T15:12:08Z",
+      "side": 1,
+      "message": "Uploaded another change to do a bit of house keeping after the fact: https://gerrit-review.googlesource.com/c/gerrit/+/239290",
+      "revId": "da70bea56d776ac7f71fa0192d2053b387427da2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

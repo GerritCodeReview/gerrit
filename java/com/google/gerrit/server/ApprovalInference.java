@@ -15,10 +15,10 @@
 package com.google.gerrit.server;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static java.util.Objects.requireNonNull;
+import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.collect.HashBasedTable;
-import com.google.common.collect.ListMultimap;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Table;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.LabelType;
@@ -32,7 +32,6 @@ import com.google.gerrit.server.change.LabelNormalizer;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
-import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
@@ -54,21 +53,13 @@ public class ApprovalInference {
   private final ProjectCache projectCache;
   private final ChangeKindCache changeKindCache;
   private final LabelNormalizer labelNormalizer;
-  private final ChangeData.Factory changeDataFactory;
-  private final PatchSetUtil psUtil;
 
   @Inject
   ApprovalInference(
-      ProjectCache projectCache,
-      ChangeKindCache changeKindCache,
-      LabelNormalizer labelNormalizer,
-      ChangeData.Factory changeDataFactory,
-      PatchSetUtil psUtil) {
+      ProjectCache projectCache, ChangeKindCache changeKindCache, LabelNormalizer labelNormalizer) {
     this.projectCache = projectCache;
     this.changeKindCache = changeKindCache;
     this.labelNormalizer = labelNormalizer;
-    this.changeDataFactory = changeDataFactory;
-    this.psUtil = psUtil;
   }
 
   /**
@@ -77,9 +68,11 @@ public class ApprovalInference {
    */
   Iterable<PatchSetApproval> forPatchSet(
       ChangeNotes notes, PatchSet.Id psId, @Nullable RevWalk rw, @Nullable Config repoConfig) {
-    Collection<PatchSetApproval> approvals =
-        getForPatchSetWithoutNormalization(notes, psId, rw, repoConfig);
+    ProjectState project;
     try {
+      project = projectCache.checkedGet(notes.getProjectName());
+      Collection<PatchSetApproval> approvals =
+          getForPatchSetWithoutNormalization(notes, project, psId, rw, repoConfig);
       return labelNormalizer.normalize(notes, approvals).getNormalized();
     } catch (IOException e) {
       throw new StorageException(e);
@@ -116,29 +109,32 @@ public class ApprovalInference {
   }
 
   private Collection<PatchSetApproval> getForPatchSetWithoutNormalization(
-      ChangeNotes notes, PatchSet.Id psId, @Nullable RevWalk rw, @Nullable Config repoConfig) {
-    PatchSet ps = psUtil.get(notes, psId);
+      ChangeNotes notes,
+      ProjectState project,
+      PatchSet.Id psId,
+      @Nullable RevWalk rw,
+      @Nullable Config repoConfig) {
+    checkState(
+        project.getNameKey().equals(notes.getProjectName()),
+        "project must match %s, %s",
+        project.getNameKey(),
+        notes.getProjectName());
+
+    PatchSet ps = notes.load().getPatchSets().get(psId);
     if (ps == null) {
       return Collections.emptyList();
     }
 
-    ChangeData cd = changeDataFactory.create(notes);
-    ProjectState project;
-    try {
-      project = projectCache.checkedGet(cd.change().getDest().project());
-    } catch (IOException e) {
-      throw new StorageException(e);
-    }
+    // Add approvals on the given patch set to the result
+    Table<String, Account.Id, PatchSetApproval> resultByUser = HashBasedTable.create();
+    ImmutableList<PatchSetApproval> approvalsForGivenPatchSet =
+        notes.load().getApprovals().get(ps.id());
+    approvalsForGivenPatchSet.forEach(psa -> resultByUser.put(psa.label(), psa.accountId(), psa));
 
-    // Start by collecting all current approvals
-    Table<String, Account.Id, PatchSetApproval> byUser = HashBasedTable.create();
-    ListMultimap<PatchSet.Id, PatchSetApproval> all = cd.approvals();
-    requireNonNull(all, "all should not be null");
-    all.get(ps.id()).forEach(psa -> byUser.put(psa.label(), psa.accountId(), psa));
-
-    // Bail out immediately if this is the first patch set
+    // Bail out immediately if this is the first patch set. Return only approvals granted on the
+    // given patch set.
     if (psId.get() == 1) {
-      return byUser.values();
+      return resultByUser.values();
     }
 
     // Call this algorithm recursively to check if the prior patch set had approvals. This has the
@@ -150,32 +146,29 @@ public class ApprovalInference {
     // patch set.
     PatchSet priorPatchSet = notes.load().getPatchSets().lowerEntry(psId).getValue();
     if (priorPatchSet == null) {
-      return byUser.values();
+      return resultByUser.values();
     }
 
     Iterable<PatchSetApproval> priorApprovals =
-        getForPatchSetWithoutNormalization(notes, priorPatchSet.id(), rw, repoConfig);
+        getForPatchSetWithoutNormalization(notes, project, priorPatchSet.id(), rw, repoConfig);
     if (!priorApprovals.iterator().hasNext()) {
-      return byUser.values();
+      return resultByUser.values();
     }
 
-    Table<String, Account.Id, PatchSetApproval> wontCopy = HashBasedTable.create();
+    // Add labels from the previous patch set to the result in case the label isn't already there
+    // and settings as well as change kind allow copying.
     ChangeKind kind =
         changeKindCache.getChangeKind(
             project.getNameKey(), rw, repoConfig, priorPatchSet.commitId(), ps.commitId());
     for (PatchSetApproval psa : priorApprovals) {
-      if (wontCopy.contains(psa.label(), psa.accountId())) {
-        continue;
-      }
-      if (byUser.contains(psa.label(), psa.accountId())) {
+      if (resultByUser.contains(psa.label(), psa.accountId())) {
         continue;
       }
       if (!canCopy(project, psa, ps.id(), kind)) {
-        wontCopy.put(psa.label(), psa.accountId(), psa);
         continue;
       }
-      byUser.put(psa.label(), psa.accountId(), psa.copyWithPatchSet(ps.id()));
+      resultByUser.put(psa.label(), psa.accountId(), psa.copyWithPatchSet(ps.id()));
     }
-    return byUser.values();
+    return resultByUser.values();
   }
 }

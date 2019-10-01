@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "39b53eed_77a34921",
+        "filename": "java/com/google/gerrit/server/git/DelegateRefDatabase.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-10-01T11:08:33Z",
+      "side": 1,
+      "message": "yes, it should, but we can take that discussion up with the JGit folks later.",
+      "parentUuid": "070b4355_f24389c3",
+      "range": {
+        "startLine": 29,
+        "startChar": 13,
+        "endLine": 29,
+        "endChar": 32
+      },
+      "revId": "ee4b88ec69520a715497cf722893320aa3fa1f93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "67be5a03_19f78087",
         "filename": "java/com/google/gerrit/server/git/DelegateRepository.java",
         "patchSetId": 29
@@ -36,6 +60,30 @@
       "writtenOn": "2019-10-01T00:45:19Z",
       "side": 1,
       "message": "Should this live in JGit? So that it will be kept up-to-date whenever Repository changes. If you notice, in the imports there isn\u0027t a single reference to Gerrit Code Review.",
+      "range": {
+        "startLine": 27,
+        "startChar": 6,
+        "endLine": 27,
+        "endChar": 24
+      },
+      "revId": "ee4b88ec69520a715497cf722893320aa3fa1f93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8c1a4fc7_e416b187",
+        "filename": "java/com/google/gerrit/server/git/DelegateRepository.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-10-01T11:08:33Z",
+      "side": 1,
+      "message": "yes, this too.",
+      "parentUuid": "67be5a03_19f78087",
       "range": {
         "startLine": 27,
         "startChar": 6,

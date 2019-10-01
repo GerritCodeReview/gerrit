@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "070b4355_f24389c3",
+        "filename": "java/com/google/gerrit/server/git/DelegateRefDatabase.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-10-01T00:45:19Z",
+      "side": 1,
+      "message": "Should  this be in JGit? So that it will be kept up-to-date whenever RefDatabase changes. If you look at the imports, there isn\u0027t a single one that is specific to Gerrit Code Review.",
+      "range": {
+        "startLine": 29,
+        "startChar": 13,
+        "endLine": 29,
+        "endChar": 32
+      },
+      "revId": "ee4b88ec69520a715497cf722893320aa3fa1f93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "67be5a03_19f78087",
+        "filename": "java/com/google/gerrit/server/git/DelegateRepository.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-10-01T00:45:19Z",
+      "side": 1,
+      "message": "Should this live in JGit? So that it will be kept up-to-date whenever Repository changes. If you notice, in the imports there isn\u0027t a single reference to Gerrit Code Review.",
+      "range": {
+        "startLine": 27,
+        "startChar": 6,
+        "endLine": 27,
+        "endChar": 24
+      },
+      "revId": "ee4b88ec69520a715497cf722893320aa3fa1f93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d2790d88_7667e38b",
+        "filename": "java/com/google/gerrit/server/permissions/DefaultRefFilter.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 405,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-10-01T00:45:19Z",
+      "side": 1,
+      "message": "Is this related to the permission-aware RefDatabase wrapping?",
+      "range": {
+        "startLine": 402,
+        "startChar": 0,
+        "endLine": 405,
+        "endChar": 7
+      },
+      "revId": "ee4b88ec69520a715497cf722893320aa3fa1f93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

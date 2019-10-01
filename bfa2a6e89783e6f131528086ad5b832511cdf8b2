@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "29933385_0fae195f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 1094,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-10-01T12:43:46Z",
+      "side": 0,
+      "message": "We may need to remove this as well and make the call async. For now, this seems fine though because CURRENT_ACTIONS is more heavy-weight.",
+      "range": {
+        "startLine": 1094,
+        "startChar": 31,
+        "endLine": 1094,
+        "endChar": 46
+      },
+      "revId": "bfa2a6e89783e6f131528086ad5b832511cdf8b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

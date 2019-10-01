@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "19214f89_506095b5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-10-01T17:31:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cf55b758_5e33173b",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 35
+      },
+      "revId": "0335dfd48ba2c9ca72078aa6453c10f69c1ff36c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "762912b5_515d821e",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 3
@@ -39,6 +63,24 @@
       "revId": "0335dfd48ba2c9ca72078aa6453c10f69c1ff36c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2938b760_a11764a6",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1510,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-10-01T17:31:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "762912b5_515d821e",
+      "revId": "0335dfd48ba2c9ca72078aa6453c10f69c1ff36c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -88,6 +130,54 @@
     },
     {
       "key": {
+        "uuid": "5edcb8ec_025d875e",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1513,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-10-01T17:31:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d6db32aa_c03fd08b",
+      "range": {
+        "startLine": 1513,
+        "startChar": 61,
+        "endLine": 1513,
+        "endChar": 87
+      },
+      "revId": "0335dfd48ba2c9ca72078aa6453c10f69c1ff36c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a51e7f79_3cde2d8c",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 1513,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-10-01T17:31:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "94ae88ab_cc17917b",
+      "range": {
+        "startLine": 1513,
+        "startChar": 88,
+        "endLine": 1513,
+        "endChar": 96
+      },
+      "revId": "0335dfd48ba2c9ca72078aa6453c10f69c1ff36c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da01ddc9_2866ef4a",
         "filename": "java/com/google/gerrit/server/restapi/change/CherryPickChange.java",
         "patchSetId": 3
@@ -102,6 +192,24 @@
       "revId": "0335dfd48ba2c9ca72078aa6453c10f69c1ff36c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "23ce3e19_838cf7de",
+        "filename": "java/com/google/gerrit/server/restapi/change/CherryPickChange.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-10-01T17:31:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da01ddc9_2866ef4a",
+      "revId": "0335dfd48ba2c9ca72078aa6453c10f69c1ff36c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -122,6 +230,24 @@
     },
     {
       "key": {
+        "uuid": "370f9604_c1585849",
+        "filename": "java/com/google/gerrit/server/restapi/change/CherryPickChange.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-10-01T17:31:01Z",
+      "side": 1,
+      "message": "Right, we don\u0027t need that.",
+      "parentUuid": "2b1bd00c_7abf6226",
+      "revId": "0335dfd48ba2c9ca72078aa6453c10f69c1ff36c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a84b5e06_f1c53e6a",
         "filename": "java/com/google/gerrit/server/restapi/change/CherryPickChange.java",
         "patchSetId": 3
@@ -139,6 +265,24 @@
     },
     {
       "key": {
+        "uuid": "5268a7aa_6b4307c8",
+        "filename": "java/com/google/gerrit/server/restapi/change/CherryPickChange.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-10-01T17:31:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a84b5e06_f1c53e6a",
+      "revId": "0335dfd48ba2c9ca72078aa6453c10f69c1ff36c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0c8d44e7_0723577a",
         "filename": "java/com/google/gerrit/server/restapi/change/CherryPickChange.java",
         "patchSetId": 3
@@ -153,6 +297,24 @@
       "revId": "0335dfd48ba2c9ca72078aa6453c10f69c1ff36c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8030931f_dfde8f9c",
+        "filename": "java/com/google/gerrit/server/restapi/change/CherryPickChange.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-10-01T17:31:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0c8d44e7_0723577a",
+      "revId": "0335dfd48ba2c9ca72078aa6453c10f69c1ff36c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -179,6 +341,30 @@
     },
     {
       "key": {
+        "uuid": "4bb3d1aa_1ec0dd38",
+        "filename": "java/com/google/gerrit/server/restapi/change/CherryPickChange.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-10-01T17:31:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cc5049dc_d07d5f98",
+      "range": {
+        "startLine": 313,
+        "startChar": 63,
+        "endLine": 313,
+        "endChar": 80
+      },
+      "revId": "0335dfd48ba2c9ca72078aa6453c10f69c1ff36c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "80fd0226_5be1d200",
         "filename": "java/com/google/gerrit/server/restapi/change/CherryPickChange.java",
         "patchSetId": 3
@@ -199,6 +385,30 @@
       "revId": "0335dfd48ba2c9ca72078aa6453c10f69c1ff36c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c1f2dfc3_90e19450",
+        "filename": "java/com/google/gerrit/server/restapi/change/CherryPickChange.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-10-01T17:31:01Z",
+      "side": 1,
+      "message": "I hope that when I did that I didn\u0027t just make it worse.",
+      "parentUuid": "80fd0226_5be1d200",
+      "range": {
+        "startLine": 312,
+        "startChar": 9,
+        "endLine": 314,
+        "endChar": 11
+      },
+      "revId": "0335dfd48ba2c9ca72078aa6453c10f69c1ff36c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -225,6 +435,30 @@
     },
     {
       "key": {
+        "uuid": "3f68e2dd_5a72004c",
+        "filename": "java/com/google/gerrit/server/restapi/change/CherryPickChange.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 448,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-10-01T17:31:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a6f96e78_7a29b502",
+      "range": {
+        "startLine": 446,
+        "startChar": 2,
+        "endLine": 448,
+        "endChar": 32
+      },
+      "revId": "0335dfd48ba2c9ca72078aa6453c10f69c1ff36c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3a4de443_022b8e76",
         "filename": "java/com/google/gerrit/server/restapi/change/CherryPickChange.java",
         "patchSetId": 3
@@ -245,6 +479,30 @@
       "revId": "0335dfd48ba2c9ca72078aa6453c10f69c1ff36c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "85f99b12_aa3af060",
+        "filename": "java/com/google/gerrit/server/restapi/change/CherryPickChange.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 452,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-10-01T17:31:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3a4de443_022b8e76",
+      "range": {
+        "startLine": 452,
+        "startChar": 35,
+        "endLine": 452,
+        "endChar": 51
+      },
+      "revId": "0335dfd48ba2c9ca72078aa6453c10f69c1ff36c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -271,6 +529,30 @@
     },
     {
       "key": {
+        "uuid": "981d5e58_c9c27c97",
+        "filename": "java/com/google/gerrit/server/restapi/change/CherryPickChange.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 465,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-10-01T17:31:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4a560580_e4b45760",
+      "range": {
+        "startLine": 459,
+        "startChar": 5,
+        "endLine": 465,
+        "endChar": 34
+      },
+      "revId": "0335dfd48ba2c9ca72078aa6453c10f69c1ff36c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ea95f22f_7aab662f",
         "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
         "patchSetId": 3
@@ -291,6 +573,30 @@
       "revId": "0335dfd48ba2c9ca72078aa6453c10f69c1ff36c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9cc024a8_c977800b",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-10-01T17:31:01Z",
+      "side": 1,
+      "message": "True, it is not necessary. It was necessary at some point when I checked if other changes are merged :)",
+      "parentUuid": "ea95f22f_7aab662f",
+      "range": {
+        "startLine": 134,
+        "startChar": 29,
+        "endLine": 134,
+        "endChar": 31
+      },
+      "revId": "0335dfd48ba2c9ca72078aa6453c10f69c1ff36c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -317,6 +623,30 @@
     },
     {
       "key": {
+        "uuid": "274a8bee_296d5fec",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-10-01T17:31:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0a9519a7_d131b644",
+      "range": {
+        "startLine": 170,
+        "startChar": 4,
+        "endLine": 170,
+        "endChar": 31
+      },
+      "revId": "0335dfd48ba2c9ca72078aa6453c10f69c1ff36c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f38b3b01_cc327a1b",
         "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
         "patchSetId": 3
@@ -340,6 +670,30 @@
     },
     {
       "key": {
+        "uuid": "5d07f356_2b6f1490",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-10-01T17:31:01Z",
+      "side": 1,
+      "message": "Originally the idea was that I can let the users do whatever they like and hopefully they can fix their conflict markers manually.\nThe problem here is that I need to stop the reverts whenever there is a conflict marker, and then allow the user to solve the conflicts, and then continue the reverts (similar to rebase --continue)\nThis is out of scope. If necessary, this is big enough of a change to have its own design doc. I guess we shouldn\u0027t enable conflicts because of this problem.\nWe should further discuss about this being a future change (to allow reverting submission with merge conflicts).\nMaybe I can do that in the Hackathon.",
+      "parentUuid": "f38b3b01_cc327a1b",
+      "range": {
+        "startLine": 174,
+        "startChar": 0,
+        "endLine": 174,
+        "endChar": 42
+      },
+      "revId": "0335dfd48ba2c9ca72078aa6453c10f69c1ff36c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eec41c5f_3ef2fbec",
         "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
         "patchSetId": 3
@@ -354,6 +708,24 @@
       "revId": "0335dfd48ba2c9ca72078aa6453c10f69c1ff36c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d7126cfa_37606726",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-10-01T17:31:01Z",
+      "side": 1,
+      "message": "Sorry, this line was just to test that all my tests pass irregardless of the order, exactly as you said.\nI forgot to remove it.",
+      "parentUuid": "eec41c5f_3ef2fbec",
+      "revId": "0335dfd48ba2c9ca72078aa6453c10f69c1ff36c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -380,6 +752,30 @@
     },
     {
       "key": {
+        "uuid": "2f1c1aca_86f1877e",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-10-01T17:31:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ceb6ae08_a054a670",
+      "range": {
+        "startLine": 193,
+        "startChar": 24,
+        "endLine": 193,
+        "endChar": 60
+      },
+      "revId": "0335dfd48ba2c9ca72078aa6453c10f69c1ff36c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6621a4b2_fda5be6d",
         "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
         "patchSetId": 3
@@ -400,6 +796,30 @@
       "revId": "0335dfd48ba2c9ca72078aa6453c10f69c1ff36c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e3f61e7b_b1fcceed",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-10-01T17:31:01Z",
+      "side": 1,
+      "message": "I chose this approach for consistency and to avoid edge cases, but since the edge case was not that complicated I agree that it\u0027s better to simply not do the cherry-pick in this case.",
+      "parentUuid": "6621a4b2_fda5be6d",
+      "range": {
+        "startLine": 222,
+        "startChar": 16,
+        "endLine": 222,
+        "endChar": 20
+      },
+      "revId": "0335dfd48ba2c9ca72078aa6453c10f69c1ff36c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -426,6 +846,30 @@
     },
     {
       "key": {
+        "uuid": "aa86cd43_66d80123",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-10-01T17:31:01Z",
+      "side": 1,
+      "message": "Wasn\u0027t easy, but refactoring it was very useful.",
+      "parentUuid": "40f10beb_edf70be5",
+      "range": {
+        "startLine": 233,
+        "startChar": 8,
+        "endLine": 234,
+        "endChar": 56
+      },
+      "revId": "0335dfd48ba2c9ca72078aa6453c10f69c1ff36c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "98c1b72a_01b3b29c",
         "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
         "patchSetId": 3
@@ -446,6 +890,30 @@
       "revId": "0335dfd48ba2c9ca72078aa6453c10f69c1ff36c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9bd51df6_877bdcba",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-10-01T17:31:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "98c1b72a_01b3b29c",
+      "range": {
+        "startLine": 242,
+        "startChar": 70,
+        "endLine": 242,
+        "endChar": 86
+      },
+      "revId": "0335dfd48ba2c9ca72078aa6453c10f69c1ff36c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

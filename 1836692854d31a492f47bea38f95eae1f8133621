@@ -22,6 +22,30 @@
       "revId": "1836692854d31a492f47bea38f95eae1f8133621",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "927bdd64_92156ce5",
+        "filename": "lib/jgit/jgit.bzl",
+        "patchSetId": 15
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-01T18:09:38Z",
+      "side": 1,
+      "message": "See this change for the solution how to expedite the LC process: [1]. We extra t everything that Google shouldn\u0027t care about (like SSHD Mina, Apache Jetty, etc) into tools/nongoogle.bzl file, that wouldn\u0027t require LC-vote.\n\n\u003e Why not using git submodules then?\n\nTo reuse Build tool chain from JGit, it must be built in a root repository (//:), and this doesn\u0027t work as submodule (at least I haven\u0027t found a way to do it).\n\n* [1] https://gerrit-review.googlesource.com/c/gerrit/+/224601",
+      "parentUuid": "29a1d65b_cf16829e",
+      "range": {
+        "startLine": 4,
+        "startChar": 14,
+        "endLine": 4,
+        "endChar": 54
+      },
+      "revId": "1836692854d31a492f47bea38f95eae1f8133621",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

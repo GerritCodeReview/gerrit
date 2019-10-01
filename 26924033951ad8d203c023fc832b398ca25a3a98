@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fee8bffd_5de0f17e",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/ProjectIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-01T08:42:26Z",
+      "side": 1,
+      "message": "This is only needed for one single test, yet this will be used now for all tests in this class? I don\u0027t think we can do better, because it also would be bad to add a new test class for this single test case.",
+      "revId": "26924033951ad8d203c023fc832b398ca25a3a98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

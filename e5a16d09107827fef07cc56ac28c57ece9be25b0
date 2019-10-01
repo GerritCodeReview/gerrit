@@ -70,6 +70,30 @@
       "revId": "e5a16d09107827fef07cc56ac28c57ece9be25b0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "daf387af_e6f94878",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-10-01T11:24:30Z",
+      "side": 1,
+      "message": "SGTM. can you add it at the end of the series?",
+      "parentUuid": "d1cff656_5b6f4db6",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 36,
+        "endChar": 0
+      },
+      "revId": "e5a16d09107827fef07cc56ac28c57ece9be25b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

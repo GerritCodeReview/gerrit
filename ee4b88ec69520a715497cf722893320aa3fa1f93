@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "7a29ffe0_c4494202",
+        "filename": "java/com/google/gerrit/server/git/DelegateRefDatabase.java",
+        "patchSetId": 29
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-10-01T15:30:59Z",
+      "side": 1,
+      "message": "Agreed, let get this merge for now and, as soon as it is included in JGit, we can remove it from the Gerrit code-base.",
+      "parentUuid": "39b53eed_77a34921",
+      "range": {
+        "startLine": 29,
+        "startChar": 13,
+        "endLine": 29,
+        "endChar": 32
+      },
+      "revId": "ee4b88ec69520a715497cf722893320aa3fa1f93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "67be5a03_19f78087",
         "filename": "java/com/google/gerrit/server/git/DelegateRepository.java",
         "patchSetId": 29

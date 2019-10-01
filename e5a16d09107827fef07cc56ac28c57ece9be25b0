@@ -46,6 +46,30 @@
       "revId": "e5a16d09107827fef07cc56ac28c57ece9be25b0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2ff82c63_fc2e9e0d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-01T09:53:24Z",
+      "side": 1,
+      "message": "We have already StandaloneSiteTest and derived tests (ReindexIT), so that it is totally feasible to start gerrit site from a junit test. The challenge would be to configure SSH/HTTP access, generate SSH public/private key paar, add public key to gerrit\u0027s user and execute git command, using native git client. I am starting to work on it.",
+      "parentUuid": "d1cff656_5b6f4db6",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 36,
+        "endChar": 0
+      },
+      "revId": "e5a16d09107827fef07cc56ac28c57ece9be25b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

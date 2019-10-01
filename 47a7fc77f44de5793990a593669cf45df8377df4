@@ -46,6 +46,30 @@
       "revId": "47a7fc77f44de5793990a593669cf45df8377df4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c2e8eb1e_2819e332",
+        "filename": "java/com/google/gerrit/sshd/SshDaemon.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-10-01T19:58:46Z",
+      "side": 1,
+      "message": "Oh, i missed that part, sorry.",
+      "parentUuid": "82e7c112_2b0a0371",
+      "range": {
+        "startLine": 212,
+        "startChar": 3,
+        "endLine": 212,
+        "endChar": 88
+      },
+      "revId": "47a7fc77f44de5793990a593669cf45df8377df4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

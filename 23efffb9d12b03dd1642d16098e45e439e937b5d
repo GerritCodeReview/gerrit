@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "deb05494_180ef68e",
+        "filename": "WORKSPACE",
+        "patchSetId": 1
+      },
+      "lineNbr": 916,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-10-01T21:07:38Z",
+      "side": 1,
+      "message": "Which is not the case for this change.",
+      "range": {
+        "startLine": 916,
+        "startChar": 22,
+        "endLine": 916,
+        "endChar": 34
+      },
+      "revId": "23efffb9d12b03dd1642d16098e45e439e937b5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "11d9a9d4_6946fb97",
+        "filename": "gerrit-elasticsearch/src/test/java/com/google/gerrit/elasticsearch/ElasticContainer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-10-01T21:07:38Z",
+      "side": 1,
+      "message": "Working on pushing a PR for this currently missing version.",
+      "range": {
+        "startLine": 64,
+        "startChar": 16,
+        "endLine": 64,
+        "endChar": 44
+      },
+      "revId": "23efffb9d12b03dd1642d16098e45e439e937b5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

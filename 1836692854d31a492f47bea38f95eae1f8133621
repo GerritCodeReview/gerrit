@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "29a1d65b_cf16829e",
+        "filename": "lib/jgit/jgit.bzl",
+        "patchSetId": 15
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-10-01T18:02:30Z",
+      "side": 1,
+      "message": "Having to update the SHA1 on jgit.bzl would require a continuous LC+1 from Google maintainers. Why not using git submodules then?",
+      "range": {
+        "startLine": 4,
+        "startChar": 14,
+        "endLine": 4,
+        "endChar": 54
+      },
+      "revId": "1836692854d31a492f47bea38f95eae1f8133621",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

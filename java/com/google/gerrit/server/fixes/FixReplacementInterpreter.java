@@ -17,10 +17,12 @@ package com.google.gerrit.server.fixes;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.groupingBy;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.RawInputUtil;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.jgit.diff.ReplaceEdit;
 import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.reviewdb.client.FixReplacement;
 import com.google.gerrit.server.change.FileContentUtil;
@@ -34,6 +36,7 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import org.eclipse.jgit.diff.Edit;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 
@@ -151,6 +154,19 @@ public class FixReplacementInterpreter {
       }
     }
     return fileContentModifier.getResult();
+  }
+
+  public static ImmutableList<Edit> toEdits(String oldContent, List<FixReplacement> fixReplacements) {
+    List<FixReplacement> sortedReplacements = new ArrayList<>(fixReplacements);
+    sortedReplacements.sort(ASC_RANGE_FIX_REPLACEMENT_COMPARATOR);
+    ArrayList<Edit> result = new ArrayList<>();
+    //INCORRECT IMPLEMENTATION!!!!!
+    for(FixReplacement replacement : sortedReplacements) {
+      if(result.isEmpty() || result.get(result.size() - 1).getEndA() < replacement.range.startLine) {
+        result.add(new Edit(replacement.range.startLine - 1, replacement.range.endLine, replacement.range.startLine - 1, replacement.range.endLine));
+      }
+    }
+    return result.stream().collect(ImmutableList.toImmutableList());
   }
 
   private static String toString(Comment.Range range) {

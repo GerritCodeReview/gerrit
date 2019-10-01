@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.common.data.PatchScript;
@@ -46,6 +48,7 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.patch.ComparisonType;
 import com.google.gerrit.server.patch.PatchScriptBuilder;
 import com.google.gerrit.server.patch.PatchScriptBuilder.BuildCoreInput;
+import com.google.gerrit.server.patch.PatchScriptBuilder.FixInput;
 import com.google.gerrit.server.patch.PatchScriptFactory;
 import com.google.gerrit.server.patch.Text;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
@@ -54,12 +57,16 @@ import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.eclipse.jgit.diff.Edit;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevObject;
+import org.eclipse.jgit.revwalk.RevWalk;
 
 public class GetFixPreview implements RestReadView<FixResource> {
 
@@ -111,98 +118,50 @@ public class GetFixPreview implements RestReadView<FixResource> {
     PatchScriptBuilder b = builderFactory.get();
     b.setRepository(repository, notes.getProjectName());
     b.setChange(notes.getChange());
-    b.setDiffPrefs(new DiffPreferencesInfo());
-    b.setTrees(ComparisonType.againstOtherPatchSet(), ObjectId.zeroId(), ObjectId.zeroId());
-    String oldContent = fixReplacementInterpreter.getFileContent(repository, state, basePatchSet.commitId(), fileName);
-    String newContent = FixReplacementInterpreter.getNewFileContent(oldContent, replacements);
-    byte[] newBytes = newContent.getBytes();
-    Text newText = new Text(newBytes);
-    newText.
-    PatchScript ps = b.toPatchScript(new FixInput(fileName, newBytes, newText, calculateEdits(oldContent, replacements)));
+    DiffPreferencesInfo diffPrefs = DiffPreferencesInfo.defaults();
+    diffPrefs.intralineDifference = false;
+    b.setDiffPrefs(diffPrefs);
+    try (RevWalk rw = new RevWalk(repository)) {
+      //RevObject commit = rw.parseAny(rw.parseCommit(basePatchSet.commitId()));
+      b.setTrees(ComparisonType.againstOtherPatchSet(), basePatchSet.commitId(), ObjectId.zeroId());
+      String oldContent = fixReplacementInterpreter
+          .getFileContent(repository, state, basePatchSet.commitId(), fileName);
+      String newContent = FixReplacementInterpreter.getNewFileContent(oldContent, replacements);
+      byte[] newBytes = newContent.getBytes(UTF_8);
+      Text newText = new Text(newBytes);
+      PatchScript ps = b.toPatchScript(new FixInput(fileName, newBytes, newText,
+          fixReplacementInterpreter.toEdits(oldContent, replacements)));
 
-    String fileNameA = MoreObjects.firstNonNull(ps.getOldName(), ps.getNewName());
-    String fileNameB = ps.getNewName();
+      String fileNameA = MoreObjects.firstNonNull(ps.getOldName(), ps.getNewName());
+      String fileNameB = ps.getNewName();
 
-    WebLinksUtils webLinksUtils = null;
-    DiffCalculator diffCalculator = new DiffCalculator();
+      WebLinksUtils webLinksUtils = new WebLinksUtils();
+      DiffCalculator diffCalculator = new DiffCalculator();
 
-    DiffContent.DiffFileInfo fileA = new DiffContent.DiffFileInfo(ps.getFileA(), fileNameA);
-    DiffContent.DiffFileInfo fileB = new DiffContent.DiffFileInfo(ps.getFileB(), fileNameB);
+      DiffContent.DiffFileInfo fileA = new DiffContent.DiffFileInfo(ps.getFileA(), fileNameA);
+      DiffContent.DiffFileInfo fileB = new DiffContent.DiffFileInfo(ps.getFileB(), fileNameB);
 
-
-    DiffInfo result = diffCalculator.createDiffInfo(fileA, fileB, webLinksUtils, ps, state, false);
-    return result;
-  }
-
-  private ImmutableList<Edit> calculateEdits(String oldContent, List<FixReplacement> replacements) {
-
+      DiffInfo result = diffCalculator
+          .createDiffInfo(fileA, fileB, webLinksUtils, ps, state, false);
+      return result;
+    }
   }
 
   private static class WebLinksUtils implements DiffCalculator.WebLinksUtils {
 
     @Override
     public ImmutableList<DiffWebLinkInfo> createDiffWebLinks() {
-      return null;
+      return ImmutableList.of();
     }
 
     @Override
     public List<WebLinkInfo> getFileAWebLinks() {
-      return null;
+      return ImmutableList.of();
     }
 
     @Override
     public List<WebLinkInfo> getFileBWebLinks() {
-      return null;
-    }
-  }
-
-  public class FixInput implements BuildCoreInput {
-    private final String name;
-    private final byte[] fixedBytes;
-    private final Text fixedText;
-    private final ImmutableList<Edit> edits;
-    public FixInput(String name, byte[] fixedBytes, Text fixedText, ImmutableList<Edit> edits) {
-      this.name = name;
-      this.fixedBytes = fixedBytes;
-      this.fixedText = fixedText;
-      this.edits = edits;
-    }
-
-    @Override
-    public ChangeType getChangeType() {
-      return ChangeType.MODIFIED;
-    }
-
-    @Override
-    public PatchType getPatchType() {
-      return PatchType.UNIFIED;
-    }
-
-    @Override
-    public String getOldName() {
-      return name;
-    }
-
-    @Override
-    public String getNewName() {
-      return name;
-    }
-
-    @Override
-    public List<String> getHeaderLines() {
-      return null;
-    }
-
-    public ImmutableList<Edit> getEdits() {
-      return edits;
-    }
-
-    public byte[] getFixedBytes() {
-      return fixedBytes;
-    }
-
-    public Text getFixedText() {
-      return fixedText;
+      return ImmutableList.of();
     }
   }
 }

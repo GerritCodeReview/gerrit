@@ -29,9 +29,10 @@ import com.google.gerrit.prettify.common.SparseFileContent;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Comment;
 import com.google.gerrit.reviewdb.client.Patch;
+import com.google.gerrit.reviewdb.client.Patch.ChangeType;
+import com.google.gerrit.reviewdb.client.Patch.PatchType;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.mime.FileTypeRegistry;
-import com.google.gerrit.server.restapi.change.GetFixPreview.FixInput;
 import com.google.inject.Inject;
 import eu.medsea.mimeutil.MimeType;
 import eu.medsea.mimeutil.MimeUtil2;
@@ -122,10 +123,15 @@ public class PatchScriptBuilder {
 
   public PatchScript toPatchScript(FixInput input)
     throws IOException {
-    ResolvedSide a = new Side().resolve(oldName(input), null, aId);
-    ResolvedSide b = new ResolvedSide(newName(input), ObjectId.zeroId(), a.mode, input.getFixedBytes(), input.getFixedText(), a.mimeType, a.displayMethod, a.fileMode);
-    return buildCore(input, a, b, input.getEdits(), null, null, null);
-
+    reader = db.newObjectReader();
+    try {
+      ResolvedSide a = new Side().resolve(oldName(input), null, aId);
+      ResolvedSide b = new ResolvedSide(newName(input), ObjectId.zeroId(), a.mode,
+          input.getFixedBytes(), input.getFixedText(), a.mimeType, a.displayMethod, a.fileMode);
+      return buildCore(input, a, b, input.getEdits(), ImmutableSet.of(), null, null);
+    } finally {
+      reader.close();
+    }
   }
 
   private PatchScript build(PatchListEntry content, CommentDetail comments, List<Patch> history)
@@ -245,7 +251,7 @@ public class PatchScriptBuilder {
     List<String> getHeaderLines();
   }
 
-  private class PatchListEntryInput implements BuildCoreInput {
+  private static class PatchListEntryInput implements BuildCoreInput {
     private final PatchListEntry entry;
     public PatchListEntryInput(PatchListEntry entry) {
       this.entry = entry;
@@ -266,8 +272,8 @@ public class PatchScriptBuilder {
     public String getNewName() {
       return entry.getNewName();
     }
-
-    public List<String> getHeaderLines() {
+    @Override
+      public List<String> getHeaderLines() {
       return entry.getHeaderLines();
     }
   }
@@ -690,5 +696,54 @@ public class PatchScriptBuilder {
   private static boolean isBothFile(FileMode a, FileMode b) {
     return (a.getBits() & FileMode.TYPE_FILE) == FileMode.TYPE_FILE
         && (b.getBits() & FileMode.TYPE_FILE) == FileMode.TYPE_FILE;
+  }
+  public static class FixInput implements BuildCoreInput {
+    private final String name;
+    private final byte[] fixedBytes;
+    private final Text fixedText;
+    private final ImmutableList<Edit> edits;
+    public FixInput(String name, byte[] fixedBytes, Text fixedText, ImmutableList<Edit> edits) {
+      this.name = name;
+      this.fixedBytes = fixedBytes;
+      this.fixedText = fixedText;
+      this.edits = edits;
+    }
+
+    @Override
+    public ChangeType getChangeType() {
+      return ChangeType.MODIFIED;
+    }
+
+    @Override
+    public PatchType getPatchType() {
+      return PatchType.UNIFIED;
+    }
+
+    @Override
+    public String getOldName() {
+      return name;
+    }
+
+    @Override
+    public String getNewName() {
+      return name;
+    }
+
+    @Override
+    public List<String> getHeaderLines() {
+      return ImmutableList.of();
+    }
+
+    public ImmutableList<Edit> getEdits() {
+      return edits;
+    }
+
+    public byte[] getFixedBytes() {
+      return fixedBytes;
+    }
+
+    public Text getFixedText() {
+      return fixedText;
+    }
   }
 }

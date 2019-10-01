@@ -91,7 +91,8 @@
   };
   const JSON_PREFIX = ')]}\'';
   const MAX_PROJECT_RESULTS = 25;
-  const MAX_UNIFIED_DEFAULT_WINDOW_WIDTH_PX = 900;
+  // This value is somewhat arbitrary and not based on research or calculations.
+  const MAX_UNIFIED_DEFAULT_WINDOW_WIDTH_PX = 850;
   const PARENT_PATCH_NUM = 'PARENT';
 
   const Requests = {
@@ -942,6 +943,8 @@
           const req = {url: '/accounts/self/preferences', reportUrlAsIs: true};
           return this._fetchSharedCacheURL(req).then(res => {
             if (this._isNarrowScreen()) {
+              // Note that this can be problematic, because the diff will stay
+              // unified even after increasing the window width.
               res.default_diff_view = DiffViewMode.UNIFIED;
             } else {
               res.default_diff_view = res.diff_view;

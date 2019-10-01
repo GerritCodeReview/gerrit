@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aeb8063f_fd6e46af",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-10-01T23:04:32Z",
+      "side": 1,
+      "message": "Can you add some more context here about the rationale for this change?",
+      "revId": "4dc78295b285ccb6eb83100d2bd369cd8b0780d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

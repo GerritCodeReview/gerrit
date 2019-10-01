@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "0fb4ae97_866d1886",
+        "filename": "java/com/google/gerrit/server/restapi/project/CreateProject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-10-01T09:12:44Z",
+      "side": 1,
+      "message": "No, as far as I can see it\u0027s only the description that has this specific behavior.",
+      "parentUuid": "45abb13f_6ffaf908",
+      "range": {
+        "startLine": 182,
+        "startChar": 8,
+        "endLine": 182,
+        "endChar": 49
+      },
+      "revId": "26924033951ad8d203c023fc832b398ca25a3a98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fee8bffd_5de0f17e",
         "filename": "javatests/com/google/gerrit/acceptance/api/project/ProjectIT.java",
         "patchSetId": 1
@@ -36,6 +60,24 @@
       "writtenOn": "2019-10-01T08:42:26Z",
       "side": 1,
       "message": "This is only needed for one single test, yet this will be used now for all tests in this class? I don\u0027t think we can do better, because it also would be bad to add a new test class for this single test case.",
+      "revId": "26924033951ad8d203c023fc832b398ca25a3a98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1548fa63_9b79878f",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/ProjectIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-10-01T09:12:44Z",
+      "side": 1,
+      "message": "It will also be used in the other test that I wrote in another change. But no, I don\u0027t think there\u0027s a better way.",
+      "parentUuid": "fee8bffd_5de0f17e",
       "revId": "26924033951ad8d203c023fc832b398ca25a3a98",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

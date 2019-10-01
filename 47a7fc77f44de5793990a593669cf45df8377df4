@@ -22,6 +22,30 @@
       "revId": "47a7fc77f44de5793990a593669cf45df8377df4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "82e7c112_2b0a0371",
+        "filename": "java/com/google/gerrit/sshd/SshDaemon.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-01T18:42:17Z",
+      "side": 1,
+      "message": "Have you noticed this statement in the commit message?\n\n  For more safety, protect this experimental feature behind undocumented\n  configuration option, but enable this option per default.",
+      "parentUuid": "82e87eca_969b99c2",
+      "range": {
+        "startLine": 212,
+        "startChar": 3,
+        "endLine": 212,
+        "endChar": 88
+      },
+      "revId": "47a7fc77f44de5793990a593669cf45df8377df4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

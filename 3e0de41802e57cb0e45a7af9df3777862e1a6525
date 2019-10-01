@@ -93,6 +93,30 @@
       "revId": "3e0de41802e57cb0e45a7af9df3777862e1a6525",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8c733fe3_15859e5b",
+        "filename": "java/com/google/gerrit/acceptance/InProcessProtocol.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-01T05:26:14Z",
+      "side": 1,
+      "message": "I had to restore the code, that I have reverted here, because the follow-up change removed that code path, see build breakages in follow-up changes.",
+      "parentUuid": "d6cf04e7_7a3d08e6",
+      "range": {
+        "startLine": 258,
+        "startChar": 36,
+        "endLine": 258,
+        "endChar": 60
+      },
+      "revId": "3e0de41802e57cb0e45a7af9df3777862e1a6525",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

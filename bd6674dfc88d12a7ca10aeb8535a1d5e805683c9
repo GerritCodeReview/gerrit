@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "95b09e26_4a6cde63",
+        "filename": "java/com/google/gerrit/index/IndexType.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-10-01T18:59:25Z",
+      "side": 1,
+      "message": "This can be done in a follow-up change; unrelated to this very one.",
+      "parentUuid": "8c70ac11_f0754ed2",
+      "revId": "bd6674dfc88d12a7ca10aeb8535a1d5e805683c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c9e24710_c8056ac4",
         "filename": "java/com/google/gerrit/index/IndexType.java",
         "patchSetId": 3
@@ -30,6 +48,24 @@
       "writtenOn": "2019-10-01T12:48:34Z",
       "side": 1,
       "message": "Would it make sense to remove this ctor to restrict the key literals to higher levels? I think this is only used in IndexConfig, where the \"index\" key is already used.",
+      "revId": "bd6674dfc88d12a7ca10aeb8535a1d5e805683c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "60c5505c_c05abb10",
+        "filename": "java/com/google/gerrit/index/IndexType.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-10-01T18:59:25Z",
+      "side": 1,
+      "message": "I think it does make sense, yes. Another follow-up change candidate; unrelated to this change.",
+      "parentUuid": "c9e24710_c8056ac4",
       "revId": "bd6674dfc88d12a7ca10aeb8535a1d5e805683c9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "41697dc8_5270b7b8",
+        "filename": "java/com/google/gerrit/index/IndexType.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-10-01T18:59:25Z",
+      "side": 1,
+      "message": "Yes; follow-up change needed.",
+      "parentUuid": "242458f1_5a80ae7c",
+      "revId": "bd6674dfc88d12a7ca10aeb8535a1d5e805683c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "17afc68f_e751845f",
         "filename": "java/com/google/gerrit/index/IndexType.java",
         "patchSetId": 3
@@ -64,6 +118,24 @@
       "writtenOn": "2019-10-01T12:48:34Z",
       "side": 1,
       "message": "The ctor uses .toLowerCase(); should this happen here as well?",
+      "revId": "bd6674dfc88d12a7ca10aeb8535a1d5e805683c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "50998bcd_f597a298",
+        "filename": "java/com/google/gerrit/index/IndexType.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-10-01T18:59:25Z",
+      "side": 1,
+      "message": "Likely, yes; to follow-up.",
+      "parentUuid": "17afc68f_e751845f",
       "revId": "bd6674dfc88d12a7ca10aeb8535a1d5e805683c9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -87,6 +159,24 @@
     },
     {
       "key": {
+        "uuid": "a476644a_da6fbc31",
+        "filename": "java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 503,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-10-01T18:59:25Z",
+      "side": 1,
+      "message": "Yes, if isCustom() changes implementation in the future. This is what I tried to explain in this change\u0027s commit message. Callers of isCustom() such as this line here should blindly assume that method\u0027s contract, without its implementation details. Here, we want to throw an exception if index type is unacceptable, however being custom is now acceptable (alongside lucene and elasticsearch).\n\nCustom only means that the index type has a String value that differs from both of the two explicitly known type values (\"lucene\" and \"elasticsearch\"). Google is likely configuring a specific index type String value, albeit undisclosed externally. This is treated here as a (the) \u0027custom\u0027 index type.",
+      "parentUuid": "6a4ad790_f413677e",
+      "revId": "bd6674dfc88d12a7ca10aeb8535a1d5e805683c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2523a6e7_b6c21e09",
         "filename": "java/com/google/gerrit/testing/InMemoryModule.java",
         "patchSetId": 3
@@ -98,6 +188,24 @@
       "writtenOn": "2019-10-01T12:48:34Z",
       "side": 1,
       "message": "Can you explain again why this isn\u0027t an unconditional else? Currently this looks to me like \"if (a) else if (b) else if (!a \u0026\u0026 !b)\". Is there a situation where we wouldn\u0027t want to install any index module?",
+      "revId": "bd6674dfc88d12a7ca10aeb8535a1d5e805683c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3e1610cf_812a11b3",
+        "filename": "java/com/google/gerrit/testing/InMemoryModule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-10-01T18:59:25Z",
+      "side": 1,
+      "message": "My sibling reply for the previous/other comment I think reiterates why. Let me know if still unclear.",
+      "parentUuid": "2523a6e7_b6c21e09",
       "revId": "bd6674dfc88d12a7ca10aeb8535a1d5e805683c9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -121,6 +229,24 @@
     },
     {
       "key": {
+        "uuid": "212ed2c2_5f188e5c",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/CustomIndexIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-10-01T18:59:25Z",
+      "side": 1,
+      "message": "This class matches its previously existing IndexIT and ElasticIndexIT siblings. I propose to do this consistently across these three classes (at least), through another change.",
+      "parentUuid": "f0a20ab6_dfbfe228",
+      "revId": "bd6674dfc88d12a7ca10aeb8535a1d5e805683c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b00c3f1e_0586c8f1",
         "filename": "javatests/com/google/gerrit/acceptance/ssh/CustomIndexIT.java",
         "patchSetId": 3
@@ -132,6 +258,30 @@
       "writtenOn": "2019-10-01T12:48:34Z",
       "side": 1,
       "message": "Not thrown.",
+      "range": {
+        "startLine": 31,
+        "startChar": 55,
+        "endLine": 31,
+        "endChar": 64
+      },
+      "revId": "bd6674dfc88d12a7ca10aeb8535a1d5e805683c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7d3c9a3a_54fbbf9d",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/CustomIndexIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-10-01T18:59:25Z",
+      "side": 1,
+      "message": "True. However this method overrides AbstractIndexTests\u0027s abstract method, which declares the throws. As above, this matches IndexIT and ElasticIndexIT, so would rather revisit this in a potential follow-up.",
+      "parentUuid": "b00c3f1e_0586c8f1",
       "range": {
         "startLine": 31,
         "startChar": 55,

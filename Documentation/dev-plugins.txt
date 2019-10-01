@@ -2873,35 +2873,72 @@ more discoverable and have more chances to be reviewed by the whole community.
 
 The process of writing a new plugin goes through different phases:
 
-- Ideation and discussion
-  The idea of creating a new plugin is posted and discussed on the
-  link:https://groups.google.com/d/forum/repo-discuss[repo-discuss] mailing list.
-- Prototyping (optional)
-  The author of the plugin creates a working prototype on a public repository
-  accessible to the community.
-- Proposal and Hosting
-  The author proposes to release the plugin under the
-  link:https://www.apache.org/licenses/LICENSE-2.0.html[Apache 2.0 OpenSource license]
-  and request to be hosted on
-  link:https://gerrit-review.googlesource.com[the Gerrit project site]. The proposal must be
-  accepted by at least one Gerrit maintainer. In case of disagreement between maintainers, the
-  issue can be escalated to the Engineering Steering Committee. If the plugin is accepted,
-  the Gerrit maintainer creates the project under the plugins path on
-  link:https://gerrit-review.googlesource.com[the Gerrit project site].
-- Development and contribution
-  The author develops a production-ready code base of the plugin, with contributions, reviews,
-  and help from the Gerrit community.
-- Release
-  The author releases the plugin by tagging and announcing on the
-  link:https://groups.google.com/d/forum/repo-discuss[repo-discuss] mailing list.
-- Maintenance
-  The author maintains their plugins as new Gerrit versions are released, updates them when necessary,
-  develops further existing or new features and reviews incoming new contributions.
-  A plugin should declare and build on
-  link:https://gerrit-ci.gerritforge.com[the GerritForge CI] for the Gerrit versions it supports.
-- Deprecation
-  The author declares that the plugin is not maintained anymore or is deprecated and should
-  not be used anymore.
+- Ideation and discussion:
++
+The idea of creating a new plugin is posted and discussed on the
+link:https://groups.google.com/d/forum/repo-discuss[repo-discuss] mailing list.
++
+Also see section link#ideation_discussion[Ideation and discussion] below.
+
+- Prototyping (optional):
++
+The author of the plugin creates a working prototype on a public repository
+accessible to the community.
++
+Also see section link#plugin_prototyping[Plugin Prototyping] below.
+
+- Proposal and Hosting:
++
+The author proposes to release the plugin under the
+link:https://www.apache.org/licenses/LICENSE-2.0.html[Apache 2.0 OpenSource
+license] and requests the plugin to be hosted on
+link:https://gerrit-review.googlesource.com[the Gerrit project site]. The
+proposal must be   accepted by at least one Gerrit maintainer. In case of
+disagreement between maintainers, the issue can be escalated to the
+link:dev-processes.html#steering-committee[Engineering Steering Committee]. If
+the plugin is accepted, the Gerrit maintainer creates the project under the
+plugins path on link:https://gerrit-review.googlesource.com[the Gerrit project
+site].
++
+Also see section link#plugin_proposal[Plugin Proposal] below.
+
+- Build:
++
+To make the consumption of the plugin easy and to notice plugin breakages early
+the plugin author should setup build jobs on
+link:https://gerrit-ci.gerritforge.com[the GerritForge CI] that build the
+plugin for each Gerrit version that it supports.
++
+Also see section link#build[Build] below.
+
+- Development and contribution:
++
+The author develops a production-ready code base of the plugin, with
+contributions, reviews, and help from the Gerrit community.
++
+Also see section link#development_contribution[Development and contribution]
+below.
+
+- Release:
++
+The author releases the plugin by creating a Git tag and announcing the plugin
+on the link:https://groups.google.com/d/forum/repo-discuss[repo-discuss]
+mailing list.
++
+Also see section link#plugin_release[Plugin release] below.
+
+- Maintenance:
++
+The author maintains their plugins as new Gerrit versions are released, updates
+them when necessary, develops further existing or new features and reviews
+incoming contributions.
+
+- Deprecation:
++
+The author declares that the plugin is not maintained anymore or is deprecated
+and should not be used anymore.
++
+Also see section link#plugin_deprecation[Plugin deprecation] below.
 
 [[ideation_discussion]]
 === Ideation and discussion
@@ -2916,6 +2953,7 @@ of the main reasons for starting a new plugin.
 
 Example of a post:
 
+----
   [RFC] Code-Formatter plugin
 
   Hello, community,
@@ -2933,6 +2971,7 @@ Example of a post:
   to the patchset, highlighting the part of the code to be changed.
 
   What do you think? Did anyone have the same idea or need?
+----
 
 The idea is discussed on the mailing list and can evolve based on the needs and inputs from
 the entire community.
@@ -2955,7 +2994,7 @@ Once a working prototype is ready, it can be announced as a follow-up to the ini
 so that other members of the community can see the code and try the plugin themselves.
 
 [[plugin_proposal]]
-==== Plugin Proposal
+=== Plugin Proposal
 
 The author decides that the plugin prototype makes sense as a general purpose plugin and decides
 to release the code with the same
@@ -2998,12 +3037,13 @@ of the discussion can end up in one of the following cases:
   and would not make sense outside of it. The plugin remains in a public repository, widely
   accessible and OpenSource, but not hosted on link:https://gerrit-review.googlesource.com[the Gerrit project site].
 
-[[development_contribution]]
-== Development and contribution
+[[build]]
+=== Build
 
-The plugin's maintainer creates a job on the link:https://gerrit-ci.gerritforge.com[GerritForge CI]
-by creating a new YAML definition in the
-link:https://gerrit.googlesource.com/gerrit-ci-scripts[Gerrit CI Scripts] repository.
+The plugin's maintainer creates a job on the
+link:https://gerrit-ci.gerritforge.com[GerritForge CI] by creating a new YAML
+definition in the link:https://gerrit.googlesource.com/gerrit-ci-scripts[Gerrit
+CI Scripts] repository.
 
 Example of a YAML CI job for plugins:
 
@@ -3016,6 +3056,9 @@ Example of a YAML CI job for plugins:
             - master
 ----
 
+[[development_contribution]]
+=== Development and contribution
+
 The plugin follows the same lifecycle as Gerrit Code Review and needs to be kept up-to-date with
 the current active branches, according to the
 link:https://www.gerritcodereview.com/#support[current support policy].
@@ -3023,7 +3066,7 @@ During the development, the plugin's maintainer can reward contributors requesti
 involved and making them maintainers of his plugin, adding them to the list of the project owners.
 
 [[plugin_release]]
-== Plugin release
+=== Plugin release
 
 The plugin's maintainer is the only person responsible for making and announcing the official
 releases, typically, but not limited to, in conjunction with the major releases of Gerrit Code Review.

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1fadf81b_b8398ede",
+        "filename": "java/com/google/gerrit/server/restapi/change/CherryPickChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-01T10:45:16Z",
+      "side": 1,
+      "message": "RestApiExceptions are not internal errors, but everything else like bad user input, resource conflicts etc.. Maybe just say \u0027error\u0027",
+      "range": {
+        "startLine": 151,
+        "startChar": 30,
+        "endLine": 151,
+        "endChar": 44
+      },
+      "revId": "f5541613bf03b5289ceb9d5927cf0ce763b1a382",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "02aa16db_abbf710b",
+        "filename": "java/com/google/gerrit/server/restapi/change/CherryPickChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-01T10:45:16Z",
+      "side": 1,
+      "message": "just \u0027error\u0027",
+      "range": {
+        "startLine": 184,
+        "startChar": 30,
+        "endLine": 184,
+        "endChar": 44
+      },
+      "revId": "f5541613bf03b5289ceb9d5927cf0ce763b1a382",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

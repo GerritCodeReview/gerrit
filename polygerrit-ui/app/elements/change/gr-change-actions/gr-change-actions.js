@@ -269,6 +269,7 @@
       /** @type {?} */
       revisionActions: {
         type: Object,
+        notify: true,
         value() { return {}; },
       },
       // If property binds directly to [[revisionActions.submit]] it is not
@@ -461,7 +462,7 @@
       return this._getRevisionActions().then(revisionActions => {
         if (!revisionActions) { return; }
 
-        this.revisionActions = revisionActions;
+        this.revisionActions = this._updateRebaseAction(revisionActions);
         this._handleLoadingComplete();
       }).catch(err => {
         this.fire('show-alert', {message: ERR_REVISION_ACTIONS});
@@ -472,6 +473,18 @@
 
     _handleLoadingComplete() {
       Gerrit.awaitPluginsLoaded().then(() => this._loading = false);
+    },
+
+    _updateRebaseAction(revisionActions) {
+      if (revisionActions && revisionActions.rebase) {
+        revisionActions.rebase.rebaseOnCurrent =
+            !!revisionActions.rebase.enabled;
+        this._parentIsCurrent = !revisionActions.rebase.enabled;
+        revisionActions.rebase.enabled = true;
+      } else {
+        this._parentIsCurrent = true;
+      }
+      return revisionActions;
     },
 
     _changeChanged() {

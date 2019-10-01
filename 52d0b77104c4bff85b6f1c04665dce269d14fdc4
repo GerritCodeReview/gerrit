@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "678b6dc5_03eda28e",
+        "filename": "lib/jgit/jgit.bzl",
+        "patchSetId": 14
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-10-01T15:29:09Z",
+      "side": 1,
+      "message": "This is bad, as we make our build dependant from the instability and slowness of GitHub :-( That means when GitHub is down (it happens, quite frequently) we are unable to build.\n\nIs this rule subject to caching?\n\nCan we instead mirror the GitHub source code directly and clone it instead of downloading a tarball?",
+      "range": {
+        "startLine": 31,
+        "startChar": 17,
+        "endLine": 31,
+        "endChar": 35
+      },
+      "revId": "52d0b77104c4bff85b6f1c04665dce269d14fdc4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

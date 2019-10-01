@@ -22,6 +22,30 @@
       "revId": "b91d80d03231d08a9f239ee6fab1fde4ef3dcd25",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3cc6f384_0ffa5e27",
+        "filename": "java/com/google/gerrit/acceptance/InProcessProtocol.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-10-01T19:02:36Z",
+      "side": 0,
+      "message": "I think I understand: the tests short-circuit to use the in-memory protocol. \n\nEither way it\u0027s probably pointless: for tests of the V2 security we should test the real production code with command line git client.",
+      "parentUuid": "70774b83_6d52c779",
+      "range": {
+        "startLine": 255,
+        "startChar": 6,
+        "endLine": 255,
+        "endChar": 95
+      },
+      "revId": "b91d80d03231d08a9f239ee6fab1fde4ef3dcd25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

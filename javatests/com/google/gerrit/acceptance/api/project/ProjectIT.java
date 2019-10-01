@@ -39,6 +39,7 @@ import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.api.projects.CommentLinkInfo;
 import com.google.gerrit.extensions.api.projects.ConfigInfo;
+import com.google.gerrit.extensions.api.projects.ConfigInfo.ConfigParameterInfo;
 import com.google.gerrit.extensions.api.projects.ConfigInput;
 import com.google.gerrit.extensions.api.projects.ConfigValue;
 import com.google.gerrit.extensions.api.projects.DescriptionInput;
@@ -377,6 +378,38 @@ public class ProjectIT extends AbstractDaemonTest {
     assertThat(info.defaultSubmitType.inheritedValue).isEqualTo(SubmitType.MERGE_IF_NECESSARY);
     assertThat(info.defaultSubmitType.configuredValue).isEqualTo(input.submitType);
     assertThat(info.state).isEqualTo(input.state);
+  }
+
+  @Test
+  @SuppressWarnings("deprecation")
+  public void setConfigWithPluginConfigValues() throws Exception {
+    ConfigInput input = createTestConfigInput();
+    input.pluginConfigValues = newPluginConfigValues();
+    ConfigInfo info = gApi.projects().name(project.get()).config(input);
+    assertThat(info.description).isEqualTo(input.description);
+    assertThat(info.useContributorAgreements.configuredValue)
+        .isEqualTo(input.useContributorAgreements);
+    assertThat(info.useContentMerge.configuredValue).isEqualTo(input.useContentMerge);
+    assertThat(info.useSignedOffBy.configuredValue).isEqualTo(input.useSignedOffBy);
+    assertThat(info.createNewChangeForAllNotInTarget.configuredValue)
+        .isEqualTo(input.createNewChangeForAllNotInTarget);
+    assertThat(info.requireChangeId.configuredValue).isEqualTo(input.requireChangeId);
+    assertThat(info.rejectImplicitMerges.configuredValue).isEqualTo(input.rejectImplicitMerges);
+    assertThat(info.enableReviewerByEmail.configuredValue).isEqualTo(input.enableReviewerByEmail);
+    assertThat(info.createNewChangeForAllNotInTarget.configuredValue)
+        .isEqualTo(input.createNewChangeForAllNotInTarget);
+    assertThat(info.maxObjectSizeLimit.configuredValue).isEqualTo(input.maxObjectSizeLimit);
+    assertThat(info.submitType).isEqualTo(input.submitType);
+    assertThat(info.defaultSubmitType.value).isEqualTo(input.submitType);
+    assertThat(info.defaultSubmitType.inheritedValue).isEqualTo(SubmitType.MERGE_IF_NECESSARY);
+    assertThat(info.defaultSubmitType.configuredValue).isEqualTo(input.submitType);
+    assertThat(info.state).isEqualTo(input.state);
+    assertThat(info.pluginConfig).hasSize(1);
+    assertThat(info.pluginConfig).containsKey("gerrit");
+    Map<String, ConfigParameterInfo> actual = info.pluginConfig.get("gerrit");
+    assertThat(actual).hasSize(1);
+    assertThat(actual).containsKey("test-plugin-key");
+    assertThat(actual.get("test-plugin-key").configuredValue).isEqualTo("true");
   }
 
   @Test

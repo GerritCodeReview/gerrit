@@ -9,6 +9,7 @@ link:dev-cla.html[contributor's agreement] on file with the project.
 == Project Information
 
 * link:https://www.gerritcodereview.com/[Project Homepage]
+* link:https://www.gerritcodereview.com/codeofconduct.html[Code of Conduct]
 * link:https://www.gerritcodereview.com/releases-readme.html[Release Versions]
 * link:https://gerrit.googlesource.com/gerrit[Source]
 * link:https://bugs.chromium.org/p/gerrit/issues/list[Issue Tracking]

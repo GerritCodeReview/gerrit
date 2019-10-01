@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eefdcf5b_3e7bd5cb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-10-01T00:21:15Z",
+      "side": 1,
+      "message": "its",
+      "range": {
+        "startLine": 27,
+        "startChar": 27,
+        "endLine": 27,
+        "endChar": 31
+      },
+      "revId": "036af1798db63c11ef394a4404e973561116bc9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "430e8b62_0de896cb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-10-01T00:21:15Z",
+      "side": 1,
+      "message": "ephemeral?",
+      "range": {
+        "startLine": 49,
+        "startChar": 22,
+        "endLine": 49,
+        "endChar": 30
+      },
+      "revId": "036af1798db63c11ef394a4404e973561116bc9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5e21ee24_483dc055",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/StickyApprovalsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-10-01T00:21:15Z",
+      "side": 1,
+      "message": "\u0027work\u0027 is repeated",
+      "range": {
+        "startLine": 335,
+        "startChar": 87,
+        "endLine": 336,
+        "endChar": 21
+      },
+      "revId": "036af1798db63c11ef394a4404e973561116bc9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -48,10 +48,6 @@
     SEND: 'Send reply',
   };
 
-  // TODO(logan): Remove once the fix for issue 6841 is stable on
-  // googlesource.com.
-  const START_REVIEW_MESSAGE = 'This change is ready for review.';
-
   const EMPTY_REPLY_MESSAGE = 'Cannot send an empty reply.';
 
   const SEND_REPLY_TIMING_LABEL = 'SendReply';
@@ -219,10 +215,6 @@
     },
 
     FocusTarget,
-
-    // TODO(logan): Remove once the fix for issue 6841 is stable on
-    // googlesource.com.
-    START_REVIEW_MESSAGE,
 
     behaviors: [
       Gerrit.BaseUrlBehavior,
@@ -468,13 +460,6 @@
 
       this.disabled = true;
 
-      if (obj.ready && !obj.message) {
-        // TODO(logan): The server currently doesn't send email in this case.
-        // Insert a dummy message to force an email to be sent. Remove this
-        // once the fix for issue 6841 is stable on googlesource.com.
-        obj.message = START_REVIEW_MESSAGE;
-      }
-
       const errFn = this._handle400Error.bind(this);
       return this._saveReview(obj, errFn).then(response => {
         if (!response) {
@@ -487,50 +472,16 @@
           return {};
         }
 
-        // TODO(logan): Remove once the required API changes are live and stable
-        // on googlesource.com.
-        return this._maybeSetReady(startReview, response).catch(err => {
-          // We catch error here because we still want to treat this as a
-          // successful review.
-          console.error('error setting ready:', err);
-        }).then(() => {
-          this.draft = '';
-          this._includeComments = true;
-          this.fire('send', null, {bubbles: false});
-          return accountAdditions;
-        });
+        this.draft = '';
+        this._includeComments = true;
+        this.fire('send', null, {bubbles: false});
+        return accountAdditions;
       }).then(result => {
         this.disabled = false;
         return result;
       }).catch(err => {
         this.disabled = false;
         throw err;
-      });
-    },
-
-    /**
-     * Returns a promise resolving to true if review was successfully posted,
-     * false otherwise.
-     *
-     * TODO(logan): Remove this once the required API changes are live and
-     * stable on googlesource.com.
-     */
-    _maybeSetReady(startReview, response) {
-      return this.$.restAPI.getResponseObject(response).then(result => {
-        if (!startReview || result.ready) {
-          return Promise.resolve();
-        }
-        // We don't have confirmation that review was started, so attempt to
-        // start review explicitly.
-        return this.$.restAPI.startReview(
-            this.change._number, null, response => {
-              // If we see a 409 response code, then that means the server
-              // *does* support moving from WIP->ready when posting a
-              // review. Only alert user for non-409 failures.
-              if (response.status !== 409) {
-                this.fire('server-error', {response});
-              }
-            });
       });
     },
 

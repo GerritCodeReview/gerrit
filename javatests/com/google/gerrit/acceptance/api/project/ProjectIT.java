@@ -35,10 +35,13 @@ import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.Permission;
+import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.api.projects.CommentLinkInfo;
 import com.google.gerrit.extensions.api.projects.ConfigInfo;
+import com.google.gerrit.extensions.api.projects.ConfigInfo.ConfigParameterInfo;
 import com.google.gerrit.extensions.api.projects.ConfigInput;
+import com.google.gerrit.extensions.api.projects.ConfigValue;
 import com.google.gerrit.extensions.api.projects.DescriptionInput;
 import com.google.gerrit.extensions.api.projects.ProjectInput;
 import com.google.gerrit.extensions.client.InheritableBoolean;
@@ -53,10 +56,13 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.server.config.ProjectConfigEntry;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.index.IndexExecutor;
 import com.google.gerrit.server.project.CommentLinkInfoImpl;
+import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
+import com.google.inject.Module;
 import java.util.HashMap;
 import java.util.Map;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -85,6 +91,18 @@ public class ProjectIT extends AbstractDaemonTest {
 
   private ProjectIndexedCounter projectIndexedCounter;
   private RegistrationHandle projectIndexedCounterHandle;
+
+  @Override
+  public Module createModule() {
+    return new AbstractModule() {
+      @Override
+      protected void configure() {
+        bind(ProjectConfigEntry.class)
+            .annotatedWith(Exports.named("test-plugin-key"))
+            .toInstance(new ProjectConfigEntry("Test Plugin Config Item", true));
+      }
+    };
+  }
 
   @Before
   public void addProjectIndexedCounter() {
@@ -348,6 +366,43 @@ public class ProjectIT extends AbstractDaemonTest {
     assertThat(info.defaultSubmitType.inheritedValue).isEqualTo(SubmitType.MERGE_IF_NECESSARY);
     assertThat(info.defaultSubmitType.configuredValue).isEqualTo(input.submitType);
     assertThat(info.state).isEqualTo(input.state);
+  }
+
+  @Test
+  @SuppressWarnings("deprecation")
+  public void setConfigWithPluginConfigValues() throws Exception {
+    ConfigInput input = createTestConfigInput();
+    input.pluginConfigValues = new HashMap<>();
+    Map<String, ConfigValue> configValues = new HashMap<>();
+    ConfigValue value = new ConfigValue();
+    value.value = "true";
+    configValues.put("test-plugin-key", value);
+    input.pluginConfigValues.put("gerrit", configValues);
+    ConfigInfo info = gApi.projects().name(project.get()).config(input);
+    assertThat(info.description).isEqualTo(input.description);
+    assertThat(info.useContributorAgreements.configuredValue)
+        .isEqualTo(input.useContributorAgreements);
+    assertThat(info.useContentMerge.configuredValue).isEqualTo(input.useContentMerge);
+    assertThat(info.useSignedOffBy.configuredValue).isEqualTo(input.useSignedOffBy);
+    assertThat(info.createNewChangeForAllNotInTarget.configuredValue)
+        .isEqualTo(input.createNewChangeForAllNotInTarget);
+    assertThat(info.requireChangeId.configuredValue).isEqualTo(input.requireChangeId);
+    assertThat(info.rejectImplicitMerges.configuredValue).isEqualTo(input.rejectImplicitMerges);
+    assertThat(info.enableReviewerByEmail.configuredValue).isEqualTo(input.enableReviewerByEmail);
+    assertThat(info.createNewChangeForAllNotInTarget.configuredValue)
+        .isEqualTo(input.createNewChangeForAllNotInTarget);
+    assertThat(info.maxObjectSizeLimit.configuredValue).isEqualTo(input.maxObjectSizeLimit);
+    assertThat(info.submitType).isEqualTo(input.submitType);
+    assertThat(info.defaultSubmitType.value).isEqualTo(input.submitType);
+    assertThat(info.defaultSubmitType.inheritedValue).isEqualTo(SubmitType.MERGE_IF_NECESSARY);
+    assertThat(info.defaultSubmitType.configuredValue).isEqualTo(input.submitType);
+    assertThat(info.state).isEqualTo(input.state);
+    assertThat(info.pluginConfig).hasSize(1);
+    assertThat(info.pluginConfig).containsKey("gerrit");
+    Map<String, ConfigParameterInfo> actual = info.pluginConfig.get("gerrit");
+    assertThat(actual).hasSize(1);
+    assertThat(actual).containsKey("test-plugin-key");
+    assertThat(actual.get("test-plugin-key").configuredValue).isEqualTo("true");
   }
 
   @Test

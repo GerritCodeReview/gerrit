@@ -134,6 +134,24 @@ public class CherryPickChange {
     this.notifyResolver = notifyResolver;
   }
 
+  /**
+   * This function is used for cherry picking a change.
+   *
+   * @param batchUpdateFactory Used for applying changes to the database.
+   * @param change Change to cherry pick.
+   * @param patch The patch of that change.
+   * @param input Input object for different configurations of cherry pick.
+   * @param dest Destination branch for the cherry pick.
+   * @return Result object that describes the cherry pick.
+   * @throws IOException Unable to open repository or read from the database.
+   * @throws InvalidChangeOperationException Parent or branch don't exist, or two changes with same
+   *     key exist in the branch.
+   * @throws IntegrationException Merge conflict or trees are identical after cherry pick.
+   * @throws UpdateException Problem updating the database using batchUpdateFactory.
+   * @throws RestApiException Internal error such as invalid SHA1
+   * @throws ConfigInvalidException Can't find account to notify.
+   * @throws NoSuchProjectException Can't find project state.
+   */
   public Result cherryPick(
       BatchUpdate.Factory batchUpdateFactory,
       Change change,
@@ -146,6 +164,27 @@ public class CherryPickChange {
         batchUpdateFactory, change, change.getProject(), patch.commitId(), input, dest);
   }
 
+  /**
+   * This function is called directly to cherry pick a commit. Also, it is used to cherry pick a
+   * change as well as long as sourceChange is not null.
+   *
+   * @param batchUpdateFactory Used for applying changes to the database.
+   * @param sourceChange Change to cherry pick. Can be null, and then the function will only cherry
+   *     pick a commit.
+   * @param project Project name
+   * @param sourceCommit Id of the commit to be cherry picked.
+   * @param input Input object for different configurations of cherry pick.
+   * @param dest Destination branch for the cherry pick.
+   * @return Result object that describes the cherry pick.
+   * @throws IOException Unable to open repository or read from the database.
+   * @throws InvalidChangeOperationException Parent or branch don't exist, or two changes with same
+   *     key exist in the branch.
+   * @throws IntegrationException Merge conflict or trees are identical after cherry pick.
+   * @throws UpdateException Problem updating the database using batchUpdateFactory.
+   * @throws RestApiException Internal error such as invalid SHA1
+   * @throws ConfigInvalidException Can't find account to notify.
+   * @throws NoSuchProjectException Can't find project state.
+   */
   public Result cherryPick(
       BatchUpdate.Factory batchUpdateFactory,
       @Nullable Change sourceChange,

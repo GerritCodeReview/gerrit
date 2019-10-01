@@ -22,6 +22,30 @@
       "revId": "bdc93027dc19777ff04b7d7329ae3fb06c1c6920",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "afbb652d_cac3da8a",
+        "filename": "javatests/com/google/gerrit/globalrefdb/GlobalRefDatabaseIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-10-01T14:20:14Z",
+      "side": 1,
+      "message": "Fair enough.",
+      "parentUuid": "47e00615_934e8269",
+      "range": {
+        "startLine": 53,
+        "startChar": 4,
+        "endLine": 63,
+        "endChar": 5
+      },
+      "revId": "bdc93027dc19777ff04b7d7329ae3fb06c1c6920",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

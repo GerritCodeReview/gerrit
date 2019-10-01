@@ -1,0 +1,146 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8c70ac11_f0754ed2",
+        "filename": "java/com/google/gerrit/index/IndexType.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2019-10-01T12:48:34Z",
+      "side": 1,
+      "message": "Could you also document the class?",
+      "revId": "bd6674dfc88d12a7ca10aeb8535a1d5e805683c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c9e24710_c8056ac4",
+        "filename": "java/com/google/gerrit/index/IndexType.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2019-10-01T12:48:34Z",
+      "side": 1,
+      "message": "Would it make sense to remove this ctor to restrict the key literals to higher levels? I think this is only used in IndexConfig, where the \"index\" key is already used.",
+      "revId": "bd6674dfc88d12a7ca10aeb8535a1d5e805683c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "242458f1_5a80ae7c",
+        "filename": "java/com/google/gerrit/index/IndexType.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2019-10-01T12:48:34Z",
+      "side": 1,
+      "message": "Since this is part of the public API IMHO it\u0027s confusing if it returns these two types when you can also have a custom type. Maybe add javadoc to explain this?",
+      "revId": "bd6674dfc88d12a7ca10aeb8535a1d5e805683c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "17afc68f_e751845f",
+        "filename": "java/com/google/gerrit/index/IndexType.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2019-10-01T12:48:34Z",
+      "side": 1,
+      "message": "The ctor uses .toLowerCase(); should this happen here as well?",
+      "revId": "bd6674dfc88d12a7ca10aeb8535a1d5e805683c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6a4ad790_f413677e",
+        "filename": "java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 503,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2019-10-01T12:48:34Z",
+      "side": 1,
+      "message": "This will never be true.",
+      "revId": "bd6674dfc88d12a7ca10aeb8535a1d5e805683c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2523a6e7_b6c21e09",
+        "filename": "java/com/google/gerrit/testing/InMemoryModule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2019-10-01T12:48:34Z",
+      "side": 1,
+      "message": "Can you explain again why this isn\u0027t an unconditional else? Currently this looks to me like \"if (a) else if (b) else if (!a \u0026\u0026 !b)\". Is there a situation where we wouldn\u0027t want to install any index module?",
+      "revId": "bd6674dfc88d12a7ca10aeb8535a1d5e805683c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f0a20ab6_dfbfe228",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/CustomIndexIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2019-10-01T12:48:34Z",
+      "side": 1,
+      "message": "Could you add javadoc for this test case, e.g. link to the types/code it tests?",
+      "revId": "bd6674dfc88d12a7ca10aeb8535a1d5e805683c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b00c3f1e_0586c8f1",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/CustomIndexIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2019-10-01T12:48:34Z",
+      "side": 1,
+      "message": "Not thrown.",
+      "range": {
+        "startLine": 31,
+        "startChar": 55,
+        "endLine": 31,
+        "endChar": 64
+      },
+      "revId": "bd6674dfc88d12a7ca10aeb8535a1d5e805683c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

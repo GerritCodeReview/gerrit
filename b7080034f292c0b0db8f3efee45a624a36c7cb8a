@@ -135,6 +135,24 @@
       "revId": "b7080034f292c0b0db8f3efee45a624a36c7cb8a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d72528b5_14a5a7f5",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-10-01T19:55:21Z",
+      "side": 1,
+      "message": "\u003e \u003e \u003e It would be also great, if someone could help to review and validate this series on Elastic Search.\n\u003e \u003e \n\u003e \u003e I\u0027m running the elastic tests now locally, with this change and up to I0ff2500f included.\n\u003e \n\u003e Most of the \u0027elastic\u0027 tests fail for me; will check the details out tomorrow.\n\nNo mapping found for [legacy_id] in order to sort on (...) is the error I get as trailing /failed ES tests mostly. That error comes in various exception stack traces.",
+      "parentUuid": "652bdce6_16b3c4fc",
+      "revId": "b7080034f292c0b0db8f3efee45a624a36c7cb8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

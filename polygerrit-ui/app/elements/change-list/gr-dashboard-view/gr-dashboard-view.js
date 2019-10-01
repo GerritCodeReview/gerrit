@@ -145,12 +145,6 @@
         return Promise.resolve();
       }
 
-      const user = params.user || 'self';
-
-      // NOTE: This method may be called before attachment. Fire title-change
-      // in an async so that attachment to the DOM can take place first.
-      const title = params.title || this._computeTitle(user);
-      this.async(() => this.fire('title-change', {title}));
       return this._reload();
     },
 
@@ -171,11 +165,19 @@
 
       const checkForNewUser = !project && user === 'self';
       return dashboardPromise
-          .then(res => this._fetchDashboardChanges(res, checkForNewUser))
+          .then(res => {
+            if (res && res.title) {
+              this.fire('title-change', {title: res.title});
+            }
+            return this._fetchDashboardChanges(res, checkForNewUser);
+          })
           .then(() => {
             this._maybeShowDraftsBanner();
             this.$.reporting.dashboardDisplayed();
           }).catch(err => {
+            this.fire('title-change', {
+              title: title || this._computeTitle(user),
+            });
             console.warn(err);
           }).then(() => { this._loading = false; });
     },

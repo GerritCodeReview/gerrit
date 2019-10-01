@@ -48,6 +48,46 @@
     },
     {
       "key": {
+        "uuid": "18705ed6_aae21ab3",
+        "filename": "java/com/google/gerrit/server/ApprovalCopier.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-01T09:39:39Z",
+      "side": 1,
+      "message": "This is not true for all legacy changes. E.g. it was possible to have a change with PS1 (draft) and PS2, and then delete the draft patch set 1. To be on the safe side I would rather return byUser.values() if priorPatchSet is null.",
+      "revId": "036af1798db63c11ef394a4404e973561116bc9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f4ed79d_232180cf",
+        "filename": "java/com/google/gerrit/server/ApprovalCopier.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-01T09:39:39Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be outside of the for loop? We don\u0027t want to ask the cache for this for each approval?",
+      "range": {
+        "startLine": 161,
+        "startChar": 5,
+        "endLine": 163,
+        "endChar": 93
+      },
+      "revId": "036af1798db63c11ef394a4404e973561116bc9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5e21ee24_483dc055",
         "filename": "javatests/com/google/gerrit/acceptance/api/change/StickyApprovalsIT.java",
         "patchSetId": 1

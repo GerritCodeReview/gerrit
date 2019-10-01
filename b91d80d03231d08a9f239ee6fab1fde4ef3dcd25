@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "70774b83_6d52c779",
+        "filename": "java/com/google/gerrit/acceptance/InProcessProtocol.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-01T05:26:14Z",
+      "side": 0,
+      "message": "This is the reason, why this change, that can select between two different ref permission backends, conditionally activates one or another backend in the test infrastructure code. In the end, we want to test the same, what is done in production case, right? So what is the point to test with DefaultAdvertiseRefsHook if the setting:\n\n  receive.refPermissionBackend \u003d PERMISSION_AWARE_REF_DATABASE\n\nis used in production code path?\n\nHaving said that, this discussion seems to be a sideshow to me, because the aforementioned configuration option and the DefaultAdvertiseRefsHook are removed altogether in the follow-up change in this series.",
+      "range": {
+        "startLine": 255,
+        "startChar": 6,
+        "endLine": 255,
+        "endChar": 95
+      },
+      "revId": "b91d80d03231d08a9f239ee6fab1fde4ef3dcd25",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

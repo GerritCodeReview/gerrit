@@ -24,6 +24,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.gerrit.common.data.PatchScript;
 import com.google.gerrit.common.data.PatchScript.DisplayMethod;
+import com.google.gerrit.common.data.PatchScript.PatchScriptFileInfo;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.extensions.common.ChangeType;
@@ -195,51 +196,65 @@ public class GetDiff implements RestReadView<FileResource> {
       Content content = new Content(contentCollector.lines);
 
       ProjectState state = projectCache.get(resource.getRevision().getChange().getProject());
+      DiffSide sideA = new DiffSide(ps.getFileInfoA(), MoreObjects.firstNonNull(ps.getOldName(), ps.getNewName()), DiffSide.Type.SideA);
+      DiffSide sideB = new DiffSide(ps.getFileInfoB(), ps.getNewName(), DiffSide.Type.SideA);
+
+      WebLinksProvider webLinksProvider = new WebLinksProvider(sideA, sideB, state, basePatchSet, webLinks, resource);
+      DiffCalculator diffCalculator = new DiffCalculator(state, webLinksProvider, webLinksOnly, intraline);
+      DiffInfo result = diffCalculator.createDiffInfo(ps, content, sideA, sideB);
+
+      Response<DiffInfo> r = Response.ok(result);
+      if (resource.isCacheable()) {
+        r.caching(CacheControl.PRIVATE(7, TimeUnit.DAYS));
+      }
+      return r;
+    } catch (NoSuchChangeException e) {
+      throw new ResourceNotFoundException(e.getMessage(), e);
+    } catch (LargeObjectException e) {
+      throw new ResourceConflictException(e.getMessage(), e);
+    }
+  }
+
+  private static class DiffSide {
+    enum Type {
+      SideA,
+      SideB
+    }
+    final PatchScriptFileInfo fileInfo;
+    final String fileName;
+    final Type type;
+    public DiffSide(PatchScriptFileInfo fileInfo, String fileName, Type type) {
+      this.fileInfo = fileInfo;
+      this.fileName = fileName;
+      this.type = type;
+    }
+  }
+
+  private static class DiffCalculator {
+    private final DiffWebLinksProvider webLinksProvider;
+    private final boolean webLinksOnly;
+    private final boolean intraline;
+    ProjectState state;
+    public DiffCalculator(ProjectState state, DiffWebLinksProvider webLinksProvider, boolean webLinksOnly, boolean intraline) {
+      this.webLinksProvider = webLinksProvider;
+      this.webLinksOnly = webLinksOnly;
+      this.state = state;
+      this.intraline = intraline;
+    }
+
+    public DiffInfo createDiffInfo(PatchScript ps, Content content, DiffSide sideA, DiffSide sideB) {
 
       DiffInfo result = new DiffInfo();
-      String revA = basePatchSet != null ? basePatchSet.refName() : ps.getFileInfoA().commitId;
-      String revB =
-          resource.getRevision().getEdit().isPresent()
-              ? resource.getRevision().getEdit().get().getRefName()
-              : resource.getRevision().getPatchSet().refName();
 
-      ImmutableList<DiffWebLinkInfo> links =
-          webLinks.getDiffLinks(
-              state.getName(),
-              resource.getPatchKey().patchSetId().changeId().get(),
-              basePatchSet != null ? basePatchSet.id().get() : null,
-              revA,
-              MoreObjects.firstNonNull(ps.getOldName(), ps.getNewName()),
-              resource.getPatchKey().patchSetId().get(),
-              revB,
-              ps.getNewName());
+      ImmutableList<DiffWebLinkInfo> links = webLinksProvider.getDiffLinks();
       result.webLinks = links.isEmpty() ? null : links;
 
       if (!webLinksOnly) {
         if (ps.isBinary()) {
           result.binary = true;
         }
-        if (ps.getDisplayMethodA() != DisplayMethod.NONE) {
-          result.metaA = new FileMeta();
-          result.metaA.name = MoreObjects.firstNonNull(ps.getOldName(), ps.getNewName());
-          result.metaA.contentType =
-              FileContentUtil.resolveContentType(
-                  state, result.metaA.name, ps.getFileModeA(), ps.getMimeTypeA());
-          result.metaA.lines = ps.getA().size();
-          result.metaA.webLinks = getFileWebLinks(state.getProject(), revA, result.metaA.name);
-          result.metaA.commitId = ps.getFileInfoA().commitId;
-        }
-
-        if (ps.getDisplayMethodB() != DisplayMethod.NONE) {
-          result.metaB = new FileMeta();
-          result.metaB.name = ps.getNewName();
-          result.metaB.contentType =
-              FileContentUtil.resolveContentType(
-                  state, result.metaB.name, ps.getFileModeB(), ps.getMimeTypeB());
-          result.metaB.lines = ps.getB().size();
-          result.metaB.webLinks = getFileWebLinks(state.getProject(), revB, result.metaB.name);
-          result.metaB.commitId = ps.getFileInfoB().commitId;
-        }
+        result.metaA = createFileMeta(sideA);
+        result.metaB = createFileMeta(sideB);
 
         if (intraline) {
           if (ps.hasIntralineTimeout()) {
@@ -261,22 +276,96 @@ public class GetDiff implements RestReadView<FileResource> {
         }
         result.content = content.lines;
       }
+      return result;
+    }
 
-      Response<DiffInfo> r = Response.ok(result);
-      if (resource.isCacheable()) {
-        r.caching(CacheControl.PRIVATE(7, TimeUnit.DAYS));
+    private FileMeta createFileMeta(DiffSide side) {
+      PatchScriptFileInfo fileInfo = side.fileInfo;
+      if(fileInfo.displayMethod == DisplayMethod.NONE) {
+        return null;
       }
-      return r;
-    } catch (NoSuchChangeException e) {
-      throw new ResourceNotFoundException(e.getMessage(), e);
-    } catch (LargeObjectException e) {
-      throw new ResourceConflictException(e.getMessage(), e);
+      FileMeta result = new FileMeta();
+      result.name = side.fileName;
+      result.contentType =
+          FileContentUtil.resolveContentType(
+              state, side.fileName, fileInfo.mode, fileInfo.mimeType);
+      result.lines = fileInfo.content.size();
+      ImmutableList<WebLinkInfo> links = webLinksProvider.getFileWebLinks(side.type);
+      result.webLinks = links.isEmpty() ? null : links;
+      result.commitId = fileInfo.commitId;
+      return result;
+    }
+
+    interface DiffWebLinksProvider {
+
+      ImmutableList<DiffWebLinkInfo> getDiffLinks();
+
+      ImmutableList<WebLinkInfo> getFileWebLinks(DiffSide.Type fileInfoType);
     }
   }
 
-  private List<WebLinkInfo> getFileWebLinks(Project project, String rev, String file) {
-    ImmutableList<WebLinkInfo> links = webLinks.getFileLinks(project.getName(), rev, file);
-    return links.isEmpty() ? null : links;
+  private static class WebLinksProvider implements DiffCalculator.DiffWebLinksProvider {
+    private final WebLinks webLinks;
+    private final ProjectState state;
+    private final DiffSide sideA;
+    private final DiffSide sideB;
+    private final String revA;
+    private final String revB;
+    private final FileResource resource;
+    private final PatchSet basePatchSet;
+    WebLinksProvider(DiffSide sideA, DiffSide sideB, ProjectState state, PatchSet basePatchSet, WebLinks webLinks, FileResource resource) {
+      this.state = state;
+      this.webLinks = webLinks;
+      this.basePatchSet = basePatchSet;
+      this.resource = resource;
+      this.sideA = sideA;
+      this.sideB = sideB;
+
+      revA = basePatchSet != null ? basePatchSet.refName() : sideA.fileInfo.commitId;
+      revB =
+          resource.getRevision().getEdit().isPresent()
+              ? resource.getRevision().getEdit().get().getRefName()
+              : resource.getRevision().getPatchSet().refName();
+    }
+
+    @Override
+    public ImmutableList<DiffWebLinkInfo> getDiffLinks() {
+      return webLinks.getDiffLinks(
+          state.getName(),
+          resource.getPatchKey().patchSetId().changeId().get(),
+          basePatchSet != null ? basePatchSet.id().get() : null,
+          revA,
+          sideA.fileName,
+          resource.getPatchKey().patchSetId().get(),
+          revB,
+          sideB.fileName);
+    }
+
+    @Override
+    public ImmutableList<WebLinkInfo> getFileWebLinks(DiffSide.Type type) {
+      String rev;
+      DiffSide side;
+      if(type == DiffSide.Type.SideA) {
+        rev = revA;
+        side = sideA;
+      } else {
+        rev = revB;
+        side = sideB;
+      }
+      return webLinks.getFileLinks(state.getProject().getName(), rev, side.fileName);
+    }
+  }
+
+  private static class DiffFileInfo {
+    final PatchScriptFileInfo fileInfo;
+    final String metaName;
+    final String rev;
+
+    public DiffFileInfo(PatchScriptFileInfo fileInfo, String metaName, String rev) {
+      this.fileInfo = fileInfo;
+      this.metaName = metaName;
+      this.rev = rev;
+    }
   }
 
   public GetDiff setBase(String base) {

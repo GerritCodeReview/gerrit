@@ -1198,6 +1198,9 @@
      * @param {number=} opt_parentIndex
      */
     getChangeFiles(changeNum, patchRange, opt_parentIndex) {
+      if (!patchRange || !patchRange.basePatchNum || !patchRange.patchNum) {
+        return Promise.reject();
+      }
       let params = undefined;
       if (this.isMergeParent(patchRange.basePatchNum)) {
         params = {parent: this.getParentIndex(patchRange.basePatchNum)};

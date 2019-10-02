@@ -7,5 +7,7 @@ java_library(
     deps = [
         "//lib:guava",
         "//lib:jgit",
+        "//lib/auto:auto-value",
+        "//lib/auto:auto-value-annotations",
     ],
 )

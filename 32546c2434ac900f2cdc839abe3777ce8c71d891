@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a79fcb09_bc801abb",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown/gr-dropdown.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-02T15:20:04Z",
+      "side": 1,
+      "message": "Can this be solved by a \"path.startsWith(baseUrl)\" check? Then we won\u0027t need the noBaseUrl property.",
+      "revId": "32546c2434ac900f2cdc839abe3777ce8c71d891",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

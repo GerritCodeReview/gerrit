@@ -17,6 +17,7 @@ package com.google.gerrit.server.patch;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Comparator.comparing;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.data.CommentDetail;
 import com.google.gerrit.common.data.PatchScript;
@@ -24,7 +25,7 @@ import com.google.gerrit.common.data.PatchScript.DisplayMethod;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Comment;
 import com.google.gerrit.entities.Patch;
-import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.Patch.ChangeType;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.prettify.common.EditList;
@@ -39,10 +40,8 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 import org.eclipse.jgit.diff.Edit;
-import org.eclipse.jgit.errors.CorruptObjectException;
-import org.eclipse.jgit.errors.IncorrectObjectTypeException;
-import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
@@ -59,28 +58,17 @@ class PatchScriptBuilder {
 
   private static final Comparator<Edit> EDIT_SORT = comparing(Edit::getBeginA);
 
-  private Repository db;
-  private Project.NameKey projectKey;
-  private ObjectReader reader;
   private Change change;
   private DiffPreferencesInfo diffPrefs;
-  private ComparisonType comparisonType;
-  private ObjectId aId;
-  private ObjectId bId;
   private List<Edit> edits;
   private final FileTypeRegistry registry;
-  private final PatchListCache patchListCache;
   private int context;
+  private IntraLineDiffCalculator intralineDiffCalculator;
+  private SidesResolver sidesResolver;
 
   @Inject
-  PatchScriptBuilder(FileTypeRegistry ftr, PatchListCache plc) {
+  PatchScriptBuilder(FileTypeRegistry ftr) {
     registry = ftr;
-    patchListCache = plc;
-  }
-
-  void setRepository(Repository r, Project.NameKey projectKey) {
-    this.db = r;
-    this.projectKey = projectKey;
   }
 
   void setChange(Change c) {
@@ -98,61 +86,38 @@ class PatchScriptBuilder {
     }
   }
 
-  void setTrees(ComparisonType ct, ObjectId a, ObjectId b) {
-    comparisonType = ct;
-    aId = a;
-    bId = b;
+  void setIntraLineDiffCalculator(IntraLineDiffCalculator calculator) {
+    intralineDiffCalculator = calculator;
   }
 
-  PatchScript toPatchScript(PatchListEntry content, CommentDetail comments, List<Patch> history)
-      throws IOException {
-    reader = db.newObjectReader();
-    try {
-      return build(content, comments, history);
-    } finally {
-      reader.close();
-    }
+  void setSidesResolver(SidesResolver resolver) {
+    sidesResolver = resolver;
   }
 
-  private PatchScript build(PatchListEntry content, CommentDetail comments, List<Patch> history)
+  PatchScript toPatchScript(PatchFileChange content, CommentDetail comments, List<Patch> history)
       throws IOException {
-    boolean intralineFailure = false;
-    boolean intralineTimeout = false;
+    return build(content, comments, history);
+  }
 
-    SideResolver resolver = new SideResolver();
-    Side a = resolver.resolve(oldName(content), null, aId);
-    Side b = resolver.resolve(newName(content), a, bId);
+  private PatchScript build(PatchFileChange content, CommentDetail comments, List<Patch> history)
+      throws IOException {
 
-    edits = new ArrayList<>(content.getEdits());
+    ResolvedSides sides = sidesResolver.resolveSides(registry, oldName(content), newName(content));
+    PatchSide a = sides.a;
+    PatchSide b = sides.b;
+
+    ImmutableList<Edit> contentEdits = content.getEdits();
     ImmutableSet<Edit> editsDueToRebase = content.getEditsDueToRebase();
 
-    if (isModify(content) && diffPrefs.intralineDifference && isIntralineModeAllowed(b)) {
-      IntraLineDiff d =
-          patchListCache.getIntraLineDiff(
-              IntraLineDiffKey.create(a.id, b.id, diffPrefs.ignoreWhitespace),
-              IntraLineDiffArgs.create(
-                  a.src, b.src, edits, editsDueToRebase, projectKey, bId, b.path));
-      if (d != null) {
-        switch (d.getStatus()) {
-          case EDIT_LIST:
-            edits = new ArrayList<>(d.getEdits());
-            break;
+    IntraLineDiffCalculatorResult intralineResult = IntraLineDiffCalculatorResult.NO_RESULT;
 
-          case DISABLED:
-            break;
-
-          case ERROR:
-            intralineFailure = true;
-            break;
-
-          case TIMEOUT:
-            intralineTimeout = true;
-            break;
-        }
-      } else {
-        intralineFailure = true;
-      }
+    if (isModify(content) && intralineDiffCalculator != null && isIntralineModeAllowed(b)) {
+      intralineResult =
+          intralineDiffCalculator.calculateIntraLineDiff(
+              contentEdits, editsDueToRebase, a.id, b.id, a.src, b.src, b.treeId, b.path);
     }
+
+    edits = new ArrayList<>(intralineResult.edits.orElse(contentEdits));
 
     correctForDifferencesInNewlineAtEnd(a, b);
 
@@ -209,14 +174,14 @@ class PatchScriptBuilder {
         comments,
         history,
         hugeFile,
-        intralineFailure,
-        intralineTimeout,
+        intralineResult.failure,
+        intralineResult.timeout,
         content.getPatchType() == Patch.PatchType.BINARY,
-        aId == null ? null : aId.getName(),
-        bId == null ? null : bId.getName());
+        a.treeId == null ? null : a.treeId.getName(),
+        b.treeId == null ? null : b.treeId.getName());
   }
 
-  private static boolean isModify(PatchListEntry content) {
+  private static boolean isModify(PatchFileChange content) {
     switch (content.getChangeType()) {
       case MODIFIED:
       case COPIED:
@@ -231,7 +196,7 @@ class PatchScriptBuilder {
     }
   }
 
-  private static String oldName(PatchListEntry entry) {
+  private static String oldName(PatchFileChange entry) {
     switch (entry.getChangeType()) {
       case ADDED:
         return null;
@@ -246,7 +211,7 @@ class PatchScriptBuilder {
     }
   }
 
-  private static String newName(PatchListEntry entry) {
+  private static String newName(PatchFileChange entry) {
     switch (entry.getChangeType()) {
       case DELETED:
         return null;
@@ -260,7 +225,7 @@ class PatchScriptBuilder {
     }
   }
 
-  private static boolean isIntralineModeAllowed(Side side) {
+  private static boolean isIntralineModeAllowed(PatchSide side) {
     // The intraline diff cache keys are the same for these cases. It's better to not show
     // intraline results than showing completely wrong diffs or to run into a server error.
     return !Patch.isMagic(side.path) && !isSubmoduleCommit(side.mode);
@@ -270,7 +235,7 @@ class PatchScriptBuilder {
     return mode.getObjectType() == Constants.OBJ_COMMIT;
   }
 
-  private void correctForDifferencesInNewlineAtEnd(Side a, Side b) {
+  private void correctForDifferencesInNewlineAtEnd(PatchSide a, PatchSide b) {
     // a.src.size() is the size ignoring a newline at the end whereas a.size() considers it.
     int aSize = a.src.size();
     int bSize = b.src.size();
@@ -312,11 +277,11 @@ class PatchScriptBuilder {
     return list.isEmpty() ? Optional.empty() : Optional.ofNullable(list.get(list.size() - 1));
   }
 
-  private boolean isNewlineAtEndDeleted(Side a, Side b) {
+  private boolean isNewlineAtEndDeleted(PatchSide a, PatchSide b) {
     return !a.src.isMissingNewlineAtEnd() && b.src.isMissingNewlineAtEnd();
   }
 
-  private boolean isNewlineAtEndAdded(Side a, Side b) {
+  private boolean isNewlineAtEndAdded(PatchSide a, PatchSide b) {
     return a.src.isMissingNewlineAtEnd() && !b.src.isMissingNewlineAtEnd();
   }
 
@@ -434,7 +399,7 @@ class PatchScriptBuilder {
     return last.getEndA() + (b - last.getEndB());
   }
 
-  private void packContent(Side a, Side b, boolean ignoredWhitespace) {
+  private void packContent(PatchSide a, PatchSide b, boolean ignoredWhitespace) {
     EditList list = new EditList(edits, context, a.size(), b.size());
     for (EditList.Hunk hunk : list.getHunks()) {
       while (hunk.next()) {
@@ -468,8 +433,8 @@ class PatchScriptBuilder {
     }
   }
 
-  private static class Side {
-
+  private static class PatchSide {
+    final ObjectId treeId;
     final String path;
     final ObjectId id;
     final FileMode mode;
@@ -480,7 +445,8 @@ class PatchScriptBuilder {
     final PatchScript.FileMode fileMode;
     final SparseFileContentBuilder dst;
 
-    private Side(
+    private PatchSide(
+        ObjectId treeId,
         String path,
         ObjectId id,
         FileMode mode,
@@ -489,6 +455,7 @@ class PatchScriptBuilder {
         MimeType mimeType,
         DisplayMethod displayMethod,
         PatchScript.FileMode fileMode) {
+      this.treeId = treeId;
       this.path = path;
       this.id = id;
       this.mode = mode;
@@ -520,15 +487,64 @@ class PatchScriptBuilder {
     }
   }
 
-  private class SideResolver {
+  interface SidesResolver {
 
-    Side resolve(final String path, final Side other, final ObjectId within) throws IOException {
+    ResolvedSides resolveSides(FileTypeRegistry typeRegistry, String oldName, String newName)
+        throws IOException;
+  }
+
+  private static class ResolvedSides {
+    // Not an @AutoValue because PatchSide can't be AutoValue
+    public final PatchSide a;
+    public final PatchSide b;
+
+    ResolvedSides(PatchSide a, PatchSide b) {
+      this.a = a;
+      this.b = b;
+    }
+  }
+
+  static class SidesResolverImpl implements SidesResolver {
+
+    private final Repository db;
+    private ComparisonType comparisonType;
+    private ObjectId aId;
+    private ObjectId bId;
+
+    SidesResolverImpl(Repository db) {
+      this.db = db;
+    }
+
+    void setTrees(ComparisonType comparisonType, ObjectId a, ObjectId b) {
+      this.comparisonType = comparisonType;
+      this.aId = a;
+      this.bId = b;
+    }
+
+    @Override
+    public ResolvedSides resolveSides(FileTypeRegistry typeRegistry, String oldName, String newName)
+        throws IOException {
+      try (ObjectReader reader = db.newObjectReader()) {
+        PatchSide a = resolve(typeRegistry, reader, oldName, null, aId);
+        PatchSide b = resolve(typeRegistry, reader, newName, a, bId);
+        return new ResolvedSides(a, b);
+      }
+    }
+
+    PatchSide resolve(
+        final FileTypeRegistry registry,
+        final ObjectReader reader,
+        final String path,
+        final PatchSide other,
+        final ObjectId within)
+        throws IOException {
       try {
         boolean isCommitMsg = Patch.COMMIT_MSG.equals(path);
         boolean isMergeList = Patch.MERGE_LIST.equals(path);
         if (isCommitMsg || isMergeList) {
           if (comparisonType.isAgainstParentOrAutoMerge() && Objects.equals(aId, within)) {
             return createSide(
+                within,
                 path,
                 ObjectId.zeroId(),
                 FileMode.MISSING,
@@ -553,6 +569,7 @@ class PatchScriptBuilder {
             displayMethod = DisplayMethod.DIFF;
           }
           return createSide(
+              within,
               path,
               within,
               mode,
@@ -562,7 +579,7 @@ class PatchScriptBuilder {
               displayMethod,
               false);
         }
-        final TreeWalk tw = find(path, within);
+        final TreeWalk tw = find(reader, path, within);
         ObjectId id = tw != null ? tw.getObjectId(0) : ObjectId.zeroId();
         FileMode mode = tw != null ? tw.getFileMode(0) : FileMode.MISSING;
         boolean reuse =
@@ -597,13 +614,15 @@ class PatchScriptBuilder {
             displayMethod = DisplayMethod.IMG;
           }
         }
-        return createSide(path, id, mode, srcContent, src, mimeType, displayMethod, reuse);
+        return createSide(within, path, id, mode, srcContent, src, mimeType, displayMethod, reuse);
+
       } catch (IOException err) {
         throw new IOException("Cannot read " + within.name() + ":" + path, err);
       }
     }
 
-    private Side createSide(
+    private PatchSide createSide(
+        ObjectId treeId,
         String path,
         ObjectId id,
         FileMode mode,
@@ -628,12 +647,11 @@ class PatchScriptBuilder {
       } else if (mode == FileMode.GITLINK) {
         fileMode = PatchScript.FileMode.GITLINK;
       }
-      return new Side(path, id, mode, srcContent, src, mimeType, displayMethod, fileMode);
+      return new PatchSide(
+          treeId, path, id, mode, srcContent, src, mimeType, displayMethod, fileMode);
     }
 
-    private TreeWalk find(String path, ObjectId within)
-        throws MissingObjectException, IncorrectObjectTypeException, CorruptObjectException,
-            IOException {
+    private TreeWalk find(ObjectReader reader, String path, ObjectId within) throws IOException {
       if (path == null || within == null) {
         return null;
       }
@@ -647,5 +665,60 @@ class PatchScriptBuilder {
   private static boolean isBothFile(FileMode a, FileMode b) {
     return (a.getBits() & FileMode.TYPE_FILE) == FileMode.TYPE_FILE
         && (b.getBits() & FileMode.TYPE_FILE) == FileMode.TYPE_FILE;
+  }
+
+  static class IntraLineDiffCalculatorResult {
+    // Not an @AutoValue because Edit is mutable
+    final boolean failure;
+    final boolean timeout;
+    private final Optional<ImmutableList<Edit>> edits;
+
+    private IntraLineDiffCalculatorResult(
+        Optional<ImmutableList<Edit>> edits, boolean failure, boolean timeout) {
+      this.failure = failure;
+      this.timeout = timeout;
+      this.edits = edits;
+    }
+
+    static final IntraLineDiffCalculatorResult NO_RESULT =
+        new IntraLineDiffCalculatorResult(Optional.empty(), false, false);
+    static final IntraLineDiffCalculatorResult FAILURE =
+        new IntraLineDiffCalculatorResult(Optional.empty(), true, false);
+    static final IntraLineDiffCalculatorResult TIMEOUT =
+        new IntraLineDiffCalculatorResult(Optional.empty(), false, true);
+
+    static IntraLineDiffCalculatorResult success(ImmutableList<Edit> edits) {
+      return new IntraLineDiffCalculatorResult(Optional.of(edits), false, false);
+    }
+  }
+
+  interface IntraLineDiffCalculator {
+
+    IntraLineDiffCalculatorResult calculateIntraLineDiff(
+        ImmutableList<Edit> edits,
+        Set<Edit> editsDueToRebase,
+        ObjectId aId,
+        ObjectId bId,
+        Text aSrc,
+        Text bSrc,
+        ObjectId bTreeId,
+        String bPath);
+  }
+
+  interface PatchFileChange {
+
+    ImmutableList<Edit> getEdits();
+
+    ImmutableSet<Edit> getEditsDueToRebase();
+
+    List<String> getHeaderLines();
+
+    String getNewName();
+
+    String getOldName();
+
+    ChangeType getChangeType();
+
+    Patch.PatchType getPatchType();
   }
 }

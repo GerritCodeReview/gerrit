@@ -37,30 +37,44 @@ public class PatchScript {
     GITLINK
   }
 
+  public static class PatchScriptFileInfo {
+    public final String name;
+    public final FileMode mode;
+    public final SparseFileContent content;
+    public final DisplayMethod displayMethod;
+    public final String mimeType;
+    public final String commitId;
+
+    public PatchScriptFileInfo(
+        String name,
+        FileMode mode,
+        SparseFileContent content,
+        DisplayMethod displayMethod,
+        String mimeType,
+        String commitId) {
+      this.name = name;
+      this.mode = mode;
+      this.content = content;
+      this.displayMethod = displayMethod;
+      this.mimeType = mimeType;
+      this.commitId = commitId;
+    }
+  }
+
   private Change.Key changeId;
   private ChangeType changeType;
-  private String oldName;
-  private String newName;
-  private FileMode oldMode;
-  private FileMode newMode;
   private List<String> header;
   private DiffPreferencesInfo diffPrefs;
-  private SparseFileContent a;
-  private SparseFileContent b;
   private List<Edit> edits;
   private Set<Edit> editsDueToRebase;
-  private DisplayMethod displayMethodA;
-  private DisplayMethod displayMethodB;
-  private transient String mimeTypeA;
-  private transient String mimeTypeB;
   private CommentDetail comments;
   private List<Patch> history;
   private boolean hugeFile;
   private boolean intralineFailure;
   private boolean intralineTimeout;
   private boolean binary;
-  private transient String commitIdA;
-  private transient String commitIdB;
+  private PatchScriptFileInfo fileInfoA;
+  private PatchScriptFileInfo fileInfoB;
 
   public PatchScript(
       Change.Key ck,
@@ -89,50 +103,39 @@ public class PatchScript {
       String cmb) {
     changeId = ck;
     changeType = ct;
-    oldName = on;
-    newName = nn;
-    oldMode = om;
-    newMode = nm;
     header = h;
     diffPrefs = dp;
-    a = ca;
-    b = cb;
     edits = e;
     this.editsDueToRebase = editsDueToRebase;
-    displayMethodA = ma;
-    displayMethodB = mb;
-    mimeTypeA = mta;
-    mimeTypeB = mtb;
     comments = cd;
     history = hist;
     hugeFile = hf;
     intralineFailure = idf;
     intralineTimeout = idt;
     binary = bin;
-    commitIdA = cma;
-    commitIdB = cmb;
-  }
 
-  protected PatchScript() {}
+    fileInfoA = new PatchScriptFileInfo(on, om, ca, ma, mta, cma);
+    fileInfoB = new PatchScriptFileInfo(nn, nm, cb, mb, mtb, cmb);
+  }
 
   public Change.Key getChangeId() {
     return changeId;
   }
 
   public DisplayMethod getDisplayMethodA() {
-    return displayMethodA;
+    return fileInfoA.displayMethod;
   }
 
   public DisplayMethod getDisplayMethodB() {
-    return displayMethodB;
+    return fileInfoB.displayMethod;
   }
 
   public FileMode getFileModeA() {
-    return oldMode;
+    return fileInfoA.mode;
   }
 
   public FileMode getFileModeB() {
-    return newMode;
+    return fileInfoB.mode;
   }
 
   public List<String> getPatchHeader() {
@@ -144,11 +147,11 @@ public class PatchScript {
   }
 
   public String getOldName() {
-    return oldName;
+    return fileInfoA.name;
   }
 
   public String getNewName() {
-    return newName;
+    return fileInfoB.name;
   }
 
   public CommentDetail getCommentDetail() {
@@ -188,19 +191,19 @@ public class PatchScript {
   }
 
   public SparseFileContent getA() {
-    return a;
+    return fileInfoA.content;
   }
 
   public SparseFileContent getB() {
-    return b;
+    return fileInfoB.content;
   }
 
   public String getMimeTypeA() {
-    return mimeTypeA;
+    return fileInfoA.mimeType;
   }
 
   public String getMimeTypeB() {
-    return mimeTypeB;
+    return fileInfoB.mimeType;
   }
 
   public List<Edit> getEdits() {
@@ -216,10 +219,18 @@ public class PatchScript {
   }
 
   public String getCommitIdA() {
-    return commitIdA;
+    return fileInfoA.commitId;
   }
 
   public String getCommitIdB() {
-    return commitIdB;
+    return fileInfoB.commitId;
+  }
+
+  public PatchScriptFileInfo getFileInfoA() {
+    return fileInfoA;
+  }
+
+  public PatchScriptFileInfo getFileInfoB() {
+    return fileInfoB;
   }
 }

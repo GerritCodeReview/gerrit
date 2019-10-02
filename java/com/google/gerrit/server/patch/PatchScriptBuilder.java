@@ -28,7 +28,7 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.prettify.common.EditList;
-import com.google.gerrit.prettify.common.SparseFileContent;
+import com.google.gerrit.prettify.common.SparseFileContentBuilder;
 import com.google.gerrit.server.mime.FileTypeRegistry;
 import com.google.inject.Inject;
 import eu.medsea.mimeutil.MimeType;
@@ -198,8 +198,8 @@ class PatchScriptBuilder {
         b.fileMode,
         content.getHeaderLines(),
         diffPrefs,
-        a.dst,
-        b.dst,
+        a.dst.build(),
+        b.dst.build(),
         edits,
         editsDueToRebase,
         a.displayMethod,
@@ -478,9 +478,9 @@ class PatchScriptBuilder {
     final MimeType mimeType;
     final DisplayMethod displayMethod;
     final PatchScript.FileMode fileMode;
-    final SparseFileContent dst;
+    final SparseFileContentBuilder dst;
 
-    public Side(
+    private Side(
         String path,
         ObjectId id,
         FileMode mode,
@@ -497,8 +497,7 @@ class PatchScriptBuilder {
       this.mimeType = mimeType;
       this.displayMethod = displayMethod;
       this.fileMode = fileMode;
-      dst = new SparseFileContent();
-      dst.setSize(size());
+      dst = new SparseFileContentBuilder(size());
     }
 
     int size() {

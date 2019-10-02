@@ -42,6 +42,12 @@ limitations under the License.
         display: block;
         margin-bottom: 1px;
         white-space: normal;
+
+        /** This is required for firefox to continue the inheritance */
+        -webkit-user-select: inherit;
+        -moz-user-select: inherit;
+        -ms-user-select: inherit;
+        user-select: inherit;
       }
       #container.unresolved {
         background-color: var(--unresolved-comment-background-color);

@@ -342,15 +342,15 @@ public class AllRequestFilterFilterProxyTest {
     handleFilterA.remove();
     filterProxy.onStopPlugin(plugin);
 
-    // Request #1 only with filterB
+    // Request #2 only with filterB
     filterProxy.doFilter(req2, res2, chain);
-    capturedChainA1.getValue().doFilter(req2, res2);
+    capturedChainB2.getValue().doFilter(req2, res2);
 
     // Unloading filterB
     handleFilterB.remove();
     filterProxy.onStopPlugin(plugin);
 
-    // Request #1 with no additional filters
+    // Request #3 with no additional filters
     filterProxy.doFilter(req3, res3, chain);
 
     filterProxy.destroy();

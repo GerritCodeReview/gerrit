@@ -910,6 +910,7 @@
     },
 
     _computeDownloadLink(project, changeNum, patchRange, path) {
+      if (!patchRange || !patchRange.patchNum) return '';
       let url = this.changeBaseURL(project, changeNum, patchRange.patchNum);
       url += '/patch?zip&path=' + encodeURIComponent(path);
       return url;

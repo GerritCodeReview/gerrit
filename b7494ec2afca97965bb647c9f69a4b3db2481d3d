@@ -1,0 +1,175 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f389e96a_3a810f01",
+        "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-02T10:11:23Z",
+      "side": 1,
+      "message": "2019, also below",
+      "range": {
+        "startLine": 3,
+        "startChar": 14,
+        "endLine": 3,
+        "endChar": 18
+      },
+      "revId": "b7494ec2afca97965bb647c9f69a4b3db2481d3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bc312e3f_b3d0f123",
+        "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-02T10:11:23Z",
+      "side": 1,
+      "message": "It would be nice, if all components had a top-level comment explaining the purpose of the component as a whole.",
+      "revId": "b7494ec2afca97965bb647c9f69a4b3db2481d3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b8c4b4f0_5e7634e5",
+        "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-02T10:11:23Z",
+      "side": 1,
+      "message": "add a comment",
+      "range": {
+        "startLine": 27,
+        "startChar": 6,
+        "endLine": 27,
+        "endChar": 19
+      },
+      "revId": "b7494ec2afca97965bb647c9f69a4b3db2481d3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "89b78336_c024bc83",
+        "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-02T10:11:23Z",
+      "side": 1,
+      "message": "add a comment",
+      "revId": "b7494ec2afca97965bb647c9f69a4b3db2481d3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3a583d9c_1a340100",
+        "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-02T10:11:23Z",
+      "side": 1,
+      "message": "add a method commetn",
+      "revId": "b7494ec2afca97965bb647c9f69a4b3db2481d3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0167aba3_22f4240e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-02T10:11:23Z",
+      "side": 1,
+      "message": "Add a method comment.",
+      "revId": "b7494ec2afca97965bb647c9f69a4b3db2481d3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "324e2718_18b56da2",
+        "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-02T10:11:23Z",
+      "side": 1,
+      "message": "Can you add a comment to the method with an example?",
+      "revId": "b7494ec2afca97965bb647c9f69a4b3db2481d3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4f2066e0_b9001a83",
+        "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-02T10:11:23Z",
+      "side": 1,
+      "message": "This is duplicated code from elements/diff/gr-diff-highlight/gr-annotation.js. Can you move that into a utility?",
+      "revId": "b7494ec2afca97965bb647c9f69a4b3db2481d3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "31bcd1c6_c50f296a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text_test.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-02T10:11:23Z",
+      "side": 1,
+      "message": "Can you write at least one test that actually compares the resulting HTML string instead of just checking the array length of the highlights?",
+      "range": {
+        "startLine": 64,
+        "startChar": 8,
+        "endLine": 64,
+        "endChar": 44
+      },
+      "revId": "b7494ec2afca97965bb647c9f69a4b3db2481d3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

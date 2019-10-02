@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27cd508d_bd2944f5",
+        "filename": "java/com/google/gerrit/reviewdb/client/Comment.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-10-02T12:33:37Z",
+      "side": 1,
+      "message": "can you make this Javadoc on line 126?",
+      "range": {
+        "startLine": 134,
+        "startChar": 6,
+        "endLine": 134,
+        "endChar": 7
+      },
+      "revId": "f6d1bedcd2dbaceb2cc94fbf7c5f1485d84cd617",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

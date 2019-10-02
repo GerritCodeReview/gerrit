@@ -180,6 +180,34 @@ public class FixReplacementInterpreterTest {
   }
 
   @Test
+  public void replacementsCanChangeLastLine() throws Exception {
+    FixReplacement fixReplacement =
+        new FixReplacement(filePath1, new Range(3, 0, 4, 0), "New content\n");
+    mockFileContent(filePath1, "First line\nSecond line\nThird line\n");
+
+    List<TreeModification> treeModifications = toTreeModifications(fixReplacement);
+    assertThatList(treeModifications)
+        .onlyElement()
+        .asChangeFileContentModification()
+        .newContent()
+        .isEqualTo("First line\nSecond line\nNew content\n");
+  }
+
+  @Test
+  public void replacementsCanChangeLastLineWithoutEOLMark() throws Exception {
+    FixReplacement fixReplacement =
+        new FixReplacement(filePath1, new Range(3, 0, 3, 10), "New content\n");
+    mockFileContent(filePath1, "First line\nSecond line\nThird line");
+
+    List<TreeModification> treeModifications = toTreeModifications(fixReplacement);
+    assertThatList(treeModifications)
+        .onlyElement()
+        .asChangeFileContentModification()
+        .newContent()
+        .isEqualTo("First line\nSecond line\nNew content\n");
+  }
+
+  @Test
   public void replacementsCanModifySeveralFilesInAnyOrder() throws Exception {
     FixReplacement fixReplacement1 =
         new FixReplacement(filePath1, new Range(1, 1, 3, 2), "Modified content");

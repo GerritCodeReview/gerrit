@@ -22,6 +22,30 @@
       "revId": "0c7910ed1ae277bfcf228074ef9b326a87a8bc77",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3bd14162_50da9f61",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-02T09:49:50Z",
+      "side": 1,
+      "message": "Background:\n\nIt is needed to implement Download multiple files feature as one single Dropdown (Left side, Right side, Patch as zip, Patch as base64, etc). This was suggested by Kasper Nilsson in this comment: [1] and also discussed in this change: [2]. Of course we should wait for UX/UI decision, if we really want to go that route.\n\nThis should be added to the commit message, to simplify the review process.\n\n* [1] https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d7867#c8\n* [2] https://polymer1-gerrit-review.googlesource.com/c/gerrit/+/238774",
+      "parentUuid": "e0eb3dea_2c05aae6",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 40
+      },
+      "revId": "0c7910ed1ae277bfcf228074ef9b326a87a8bc77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

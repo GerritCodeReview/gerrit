@@ -46,6 +46,30 @@
       "revId": "9fea56f9a02a374fd8765d171de4768a6c9875ef",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "75fd8f37_7188b7eb",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 29
+      },
+      "lineNbr": 937,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-02T18:53:08Z",
+      "side": 1,
+      "message": "\u003e Looking at that  endpoint, it makes things easier (as it translates ^0, ^1).\n\u003e \n\u003e I wouldn\u0027t know how to generate the correct url so it does it for both sides.\n\nWhy? Looking at the code, it is translating ^1 to ?parent\u003d1 and ^0 to\n?parent\u003d0. In addition it is translating patch set number to revision, but you could still use patch set number. So you just say:\n \"/changes/${changeNum}/revisions/${patchRange.patchNum}/files/{path}/download?parent\u003d\"\n\nand then adding 1 or 0 depending on the side, like you already have now. Can you try that? I would like to avoid using cat servlet that is redirecting internally.",
+      "parentUuid": "6ca654d6_39cdbadd",
+      "range": {
+        "startLine": 935,
+        "startChar": 6,
+        "endLine": 937,
+        "endChar": 48
+      },
+      "revId": "9fea56f9a02a374fd8765d171de4768a6c9875ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

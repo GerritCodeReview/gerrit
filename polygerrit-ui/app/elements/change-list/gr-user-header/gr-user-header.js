@@ -19,7 +19,6 @@
 
   Polymer({
     is: 'gr-user-header',
-    _legacyUndefinedCheck: true,
     properties: {
       /** @type {?String} */
       userId: {

@@ -47,7 +47,6 @@
 
   Polymer({
     is: 'gr-dropdown-list',
-    _legacyUndefinedCheck: true,
 
     /**
      * Fired when the selected value changes

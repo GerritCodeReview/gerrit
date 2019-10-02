@@ -24,7 +24,6 @@
 
   Polymer({
     is: 'gr-identities',
-    _legacyUndefinedCheck: true,
 
     properties: {
       _identities: Object,

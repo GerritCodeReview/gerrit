@@ -25,7 +25,6 @@
 
   Polymer({
     is: 'gr-create-commands-dialog',
-    _legacyUndefinedCheck: true,
     properties: {
       branch: String,
       _createNewCommitCommand: {

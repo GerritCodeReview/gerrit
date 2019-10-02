@@ -19,7 +19,6 @@
 
   Polymer({
     is: 'gr-label',
-    _legacyUndefinedCheck: true,
 
     behaviors: [
       Gerrit.TooltipBehavior,

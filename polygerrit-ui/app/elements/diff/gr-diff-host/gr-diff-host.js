@@ -66,7 +66,6 @@
    */
   Polymer({
     is: 'gr-diff-host',
-    _legacyUndefinedCheck: true,
 
     /**
      * Fired when the user selects a line.

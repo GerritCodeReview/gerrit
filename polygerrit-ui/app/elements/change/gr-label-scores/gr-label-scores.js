@@ -19,7 +19,6 @@
 
   Polymer({
     is: 'gr-label-scores',
-    _legacyUndefinedCheck: true,
     properties: {
       _labels: {
         type: Array,

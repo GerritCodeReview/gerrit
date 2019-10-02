@@ -27,7 +27,6 @@
 
   Polymer({
     is: 'gr-hovercard',
-    _legacyUndefinedCheck: true,
 
     properties: {
       /**

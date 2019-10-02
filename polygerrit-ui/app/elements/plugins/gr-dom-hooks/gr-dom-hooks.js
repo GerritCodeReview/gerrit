@@ -54,7 +54,6 @@
   GrDomHook.prototype._createPlaceholder = function(hookName) {
     Polymer({
       is: hookName,
-      _legacyUndefinedCheck: true,
       properties: {
         plugin: Object,
         content: Object,

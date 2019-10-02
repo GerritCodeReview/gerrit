@@ -19,7 +19,6 @@
 
   Polymer({
     is: 'gr-gpg-editor',
-    _legacyUndefinedCheck: true,
 
     properties: {
       hasUnsavedChanges: {

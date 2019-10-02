@@ -32,7 +32,6 @@
 
   Polymer({
     is: 'gr-group',
-    _legacyUndefinedCheck: true,
 
     /**
      * Fired when the group name changes.

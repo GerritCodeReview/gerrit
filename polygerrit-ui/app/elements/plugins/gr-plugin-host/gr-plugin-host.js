@@ -19,7 +19,6 @@
 
   Polymer({
     is: 'gr-plugin-host',
-    _legacyUndefinedCheck: true,
 
     properties: {
       config: {

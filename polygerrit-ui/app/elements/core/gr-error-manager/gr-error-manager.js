@@ -27,7 +27,6 @@
 
   Polymer({
     is: 'gr-error-manager',
-    _legacyUndefinedCheck: true,
 
     behaviors: [
       Gerrit.BaseUrlBehavior,

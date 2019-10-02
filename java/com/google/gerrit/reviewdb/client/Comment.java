@@ -124,6 +124,24 @@ public class Comment {
     }
   }
 
+  /**
+   * The Range class defines continuous range of character.
+   *
+   * <p>The pair (startLine, startChar) defines the first character in the range. The pair (endLine,
+   * endChar) defines the first character AFTER the range (i.e. it doesn't belong the range).
+   * (endLine, endChar) must be a valid character inside text, except EOF case.</p>
+   * <p>Special cases:</p>
+   * <ul>
+   *   <li>Zero length range: (startLine, startChar) = (endLine, endChar). Range defines insert
+   *       position right before the (startLine, startChar) character (for {@link FixReplacement)
+   *   <li>EOF case - range includes the last character in the file:
+   *       <ul>
+   *         <li>if a file ends with EOL mark, then (endLine, endChar) = (num_of_lines + 1, 0)
+   *         <li>if a file doesn't end with EOL mark, then
+   *             (endLine, endChar) = (num_of_lines, num_of_chars_in_last_line)
+   *       </ul>
+   * </ul>
+   */
   public static class Range implements Comparable<Range> {
     private static final Comparator<Range> RANGE_COMPARATOR =
         Comparator.<Range>comparingInt(range -> range.startLine)
@@ -131,10 +149,10 @@ public class Comment {
             .thenComparingInt(range -> range.endLine)
             .thenComparingInt(range -> range.endChar);
 
-    public int startLine; // 1-based, inclusive
-    public int startChar; // 0-based, inclusive
-    public int endLine; // 1-based, exclusive
-    public int endChar; // 0-based, exclusive
+    public int startLine; // 1-based
+    public int startChar; // 0-based
+    public int endLine; // 1-based
+    public int endChar; // 0-based
 
     public Range(Range r) {
       this(r.startLine, r.startChar, r.endLine, r.endChar);

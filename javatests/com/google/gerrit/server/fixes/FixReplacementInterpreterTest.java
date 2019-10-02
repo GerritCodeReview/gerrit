@@ -148,6 +148,22 @@ public class FixReplacementInterpreterTest {
         .isEqualTo("First line\nA modification\nThird line\n");
   }
 
+  @Test()
+  public void startAfterEndOfLineMarkThrowsAnException() throws Exception {
+    FixReplacement fixReplacement =
+        new FixReplacement(filePath1, new Range(1, 11, 2, 6), "A modification");
+    mockFileContent(filePath1, "First line\nSecond line\nThird line\n");
+    assertThrows(ResourceConflictException.class, () -> toTreeModifications(fixReplacement));
+  }
+
+  @Test()
+  public void endAfterEndOfLineMarkThrowsAnException() throws Exception {
+    FixReplacement fixReplacement =
+        new FixReplacement(filePath1, new Range(2, 0, 2, 12), "A modification");
+    mockFileContent(filePath1, "First line\nSecond line\nThird line\n");
+    assertThrows(ResourceConflictException.class, () -> toTreeModifications(fixReplacement));
+  }
+
   @Test
   public void replacementsMayTouch() throws Exception {
     FixReplacement fixReplacement1 =
@@ -177,6 +193,34 @@ public class FixReplacementInterpreterTest {
         .asChangeFileContentModification()
         .newContent()
         .isEqualTo("First line\nSecond line\nThird line\nNew content");
+  }
+
+  @Test
+  public void replacementsCanChangeLastLine() throws Exception {
+    FixReplacement fixReplacement =
+        new FixReplacement(filePath1, new Range(3, 0, 4, 0), "New content\n");
+    mockFileContent(filePath1, "First line\nSecond line\nThird line\n");
+
+    List<TreeModification> treeModifications = toTreeModifications(fixReplacement);
+    assertThatList(treeModifications)
+        .onlyElement()
+        .asChangeFileContentModification()
+        .newContent()
+        .isEqualTo("First line\nSecond line\nNew content\n");
+  }
+
+  @Test
+  public void replacementsCanChangeLastLineWithoutEOLMark() throws Exception {
+    FixReplacement fixReplacement =
+        new FixReplacement(filePath1, new Range(3, 0, 3, 10), "New content\n");
+    mockFileContent(filePath1, "First line\nSecond line\nThird line");
+
+    List<TreeModification> treeModifications = toTreeModifications(fixReplacement);
+    assertThatList(treeModifications)
+        .onlyElement()
+        .asChangeFileContentModification()
+        .newContent()
+        .isEqualTo("First line\nSecond line\nNew content\n");
   }
 
   @Test

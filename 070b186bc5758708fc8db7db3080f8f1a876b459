@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "46322f0b_6e184c6b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-02T13:43:03Z",
+      "side": 1,
+      "message": "can you elaborate a bit more ? also, can we use some other ways to determine if its a new user ? maybe something like `joined date` ? or combine the joined date and also the dashboard items ?",
+      "revId": "070b186bc5758708fc8db7db3080f8f1a876b459",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

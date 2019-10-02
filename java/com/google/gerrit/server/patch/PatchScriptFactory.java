@@ -17,6 +17,8 @@ package com.google.gerrit.server.patch;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
 
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.CommentDetail;
@@ -27,6 +29,7 @@ import com.google.gerrit.entities.Comment;
 import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.Patch.ChangeType;
 import com.google.gerrit.entities.PatchSet;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -38,6 +41,11 @@ import com.google.gerrit.server.edit.ChangeEditUtil;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.LargeObjectException;
 import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.patch.PatchScriptBuilder.IntraLineDiffCalculator;
+import com.google.gerrit.server.patch.PatchScriptBuilder.IntraLineDiffCalculatorResult;
+import com.google.gerrit.server.patch.PatchScriptBuilder.PatchScriptBuilderInput;
+import com.google.gerrit.server.patch.PatchScriptBuilder.PatchSide;
+import com.google.gerrit.server.patch.PatchScriptBuilder.SidesResolverImpl;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -53,15 +61,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.Callable;
+import org.eclipse.jgit.diff.Edit;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 
 public class PatchScriptFactory implements Callable<PatchScript> {
+
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public interface Factory {
+
     PatchScriptFactory create(
         ChangeNotes notes,
         String fileName,
@@ -84,7 +96,8 @@ public class PatchScriptFactory implements Callable<PatchScript> {
   private final CommentsUtil commentsUtil;
 
   private final String fileName;
-  @Nullable private final PatchSet.Id psa;
+  @Nullable
+  private final PatchSet.Id psa;
   private final int parentNum;
   private final PatchSet.Id psb;
   private final DiffPreferencesInfo diffPrefs;
@@ -188,7 +201,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
   @Override
   public PatchScript call()
       throws LargeObjectException, AuthException, InvalidChangeOperationException, IOException,
-          PermissionBackendException {
+      PermissionBackendException {
     validatePatchSetId(psa);
     validatePatchSetId(psb);
 
@@ -225,7 +238,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
 
         loadCommentsAndHistory(content.getChangeType(), content.getOldName(), content.getNewName());
 
-        return b.toPatchScript(content, comments, history);
+        return b.toPatchScript(new PatchListEntryInput(content), comments, history);
       } catch (PatchListNotAvailableException e) {
         throw new NoSuchChangeException(changeId, e);
       } catch (IOException e) {
@@ -256,10 +269,15 @@ public class PatchScriptFactory implements Callable<PatchScript> {
 
   private PatchScriptBuilder newBuilder(PatchList list, Repository git) {
     final PatchScriptBuilder b = builderFactory.get();
-    b.setRepository(git, notes.getProjectName());
     b.setChange(notes.getChange());
     b.setDiffPrefs(diffPrefs);
-    b.setTrees(list.getComparisonType(), list.getOldId(), list.getNewId());
+    if (diffPrefs.intralineDifference) {
+      b.setIntraLineDiffCalculator(
+          new IntraLineDiffCalculatorImpl(patchListCache, notes.getProjectName(), diffPrefs));
+    }
+    SidesResolverImpl sidesResolver = new SidesResolverImpl(git);
+    sidesResolver.setTrees(list.getComparisonType(), list.getOldId(), list.getNewId());
+    b.setSidesResolver(sidesResolver);
     return b;
   }
 
@@ -400,6 +418,93 @@ public class PatchScriptFactory implements Callable<PatchScript> {
       if (p != null) {
         p.setDraftCount(p.getDraftCount() + 1);
       }
+    }
+  }
+
+  private static class IntraLineDiffCalculatorImpl implements IntraLineDiffCalculator {
+
+    private final PatchListCache patchListCache;
+    private final Project.NameKey projectKey;
+    private final DiffPreferencesInfo diffPrefs;
+
+    public IntraLineDiffCalculatorImpl(
+        PatchListCache patchListCache, Project.NameKey projectKey, DiffPreferencesInfo diffPrefs) {
+      this.patchListCache = patchListCache;
+      this.projectKey = projectKey;
+      this.diffPrefs = diffPrefs;
+    }
+
+    @Override
+    public IntraLineDiffCalculatorResult calculateIntraLineDiff(
+        PatchSide a, PatchSide b, List<Edit> edits, Set<Edit> editsDueToRebase) {
+      IntraLineDiff d =
+          patchListCache.getIntraLineDiff(
+              IntraLineDiffKey.create(a.id, b.id, diffPrefs.ignoreWhitespace),
+              IntraLineDiffArgs.create(
+                  a.src, b.src, edits, editsDueToRebase, projectKey, b.treeId, b.path));
+      if (d == null) {
+        return IntraLineDiffCalculatorResult.FAILURE;
+      }
+      switch (d.getStatus()) {
+        case EDIT_LIST:
+          return new IntraLineDiffCalculatorResult(new ArrayList<>(d.getEdits()), false, false);
+
+        case DISABLED:
+          return IntraLineDiffCalculatorResult.NO_RESULT;
+
+        case ERROR:
+          return IntraLineDiffCalculatorResult.FAILURE;
+
+        case TIMEOUT:
+          return IntraLineDiffCalculatorResult.TIMEOUT;
+
+        default:
+          return IntraLineDiffCalculatorResult.NO_RESULT;
+      }
+    }
+  }
+
+  private static class PatchListEntryInput implements PatchScriptBuilderInput {
+
+    private final PatchListEntry patchListEntry;
+
+    PatchListEntryInput(PatchListEntry patchListEntry) {
+      this.patchListEntry = patchListEntry;
+    }
+
+    @Override
+    public ImmutableList<Edit> getEdits() {
+      return patchListEntry.getEdits();
+    }
+
+    @Override
+    public ImmutableSet<Edit> getEditsDueToRebase() {
+      return patchListEntry.getEditsDueToRebase();
+    }
+
+    @Override
+    public String getNewName() {
+      return patchListEntry.getNewName();
+    }
+
+    @Override
+    public String getOldName() {
+      return patchListEntry.getOldName();
+    }
+
+    @Override
+    public ChangeType getChangeType() {
+      return patchListEntry.getChangeType();
+    }
+
+    @Override
+    public List<String> getHeaderLines() {
+      return patchListEntry.getHeaderLines();
+    }
+
+    @Override
+    public Patch.PatchType getPatchType() {
+      return patchListEntry.getPatchType();
     }
   }
 }

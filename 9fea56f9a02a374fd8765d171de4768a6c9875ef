@@ -70,6 +70,30 @@
       "revId": "9fea56f9a02a374fd8765d171de4768a6c9875ef",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2da8fdb5_56172e91",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 29
+      },
+      "lineNbr": 937,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-10-02T19:37:14Z",
+      "side": 1,
+      "message": "Oh, thanks! Didn\u0027t see that part.",
+      "parentUuid": "75fd8f37_7188b7eb",
+      "range": {
+        "startLine": 935,
+        "startChar": 6,
+        "endLine": 937,
+        "endChar": 48
+      },
+      "revId": "9fea56f9a02a374fd8765d171de4768a6c9875ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

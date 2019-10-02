@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1bf60d85_3b5a32b3",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 30
+      },
+      "lineNbr": 923,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-02T20:01:19Z",
+      "side": 1,
+      "message": "I know, it was my suggestion, to use \u0027LEFT\u0027, \u0027RIGHT\u0027, but now that we are using standard documented endpoint, with 1-based description of parent parameter: [1], quoting:\n\n\"\nThe optional, integer-valued parent parameter can be specified to request the named file from a parent commit of the specified revision. The value is the 1-based index of the parent’s position in the commit object. If the parameter is omitted or the value non-positive, the patch set is referenced.\n\"\n\nso that we should really just pass 1 on the left side and 0 on the right:\n\n  this._computeDownloadFileLink(\n  project, changeNum, patchRange, path, 1),\n\n* [1] https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#get-safe-content",
+      "range": {
+        "startLine": 923,
+        "startChar": 52,
+        "endLine": 923,
+        "endChar": 58
+      },
+      "revId": "68867d6162c19ba211d257083ea68f5b83cc3dce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "22a23fd1_93bbbeed",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 30
+      },
+      "lineNbr": 928,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-02T20:01:19Z",
+      "side": 1,
+      "message": "pass 0 here.",
+      "range": {
+        "startLine": 928,
+        "startChar": 50,
+        "endLine": 928,
+        "endChar": 59
+      },
+      "revId": "68867d6162c19ba211d257083ea68f5b83cc3dce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "32974944_445fd49d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 30
+      },
+      "lineNbr": 934,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-02T20:01:19Z",
+      "side": 1,
+      "message": "Call this var now parent.",
+      "range": {
+        "startLine": 934,
+        "startChar": 67,
+        "endLine": 934,
+        "endChar": 71
+      },
+      "revId": "68867d6162c19ba211d257083ea68f5b83cc3dce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7095ab6a_6bfbece6",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 30
+      },
+      "lineNbr": 938,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-02T20:01:19Z",
+      "side": 1,
+      "message": "This could be simplified, and now just be:\n\n  return this.changeBaseURL(project, changeNum, patchRange.patchNum) +\n    `/files/${encodeURIComponent(path)}/download?parent\u003d${parent}`;",
+      "range": {
+        "startLine": 935,
+        "startChar": 6,
+        "endLine": 938,
+        "endChar": 17
+      },
+      "revId": "68867d6162c19ba211d257083ea68f5b83cc3dce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

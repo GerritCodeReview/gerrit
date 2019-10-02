@@ -910,12 +910,6 @@ maven_jar(
     sha1 = "7e060dd5b19431e6d198e91ff670644372f60fbd",
 )
 
-maven_jar(
-    name = "cglib-3_2",
-    artifact = "cglib:cglib-nodep:3.2.6",
-    sha1 = "92bf48723d277d6efd1150b2f7e9e1e92cb56caf",
-)
-
 JETTY_VERS = "9.4.18.v20190429"
 
 maven_jar(

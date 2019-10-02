@@ -19,7 +19,6 @@
 
   Polymer({
     is: 'gr-repo-list',
-    _legacyUndefinedCheck: true,
 
     properties: {
       /**

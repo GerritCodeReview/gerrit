@@ -19,7 +19,6 @@
 
   Polymer({
     is: 'gr-ssh-editor',
-    _legacyUndefinedCheck: true,
 
     properties: {
       hasUnsavedChanges: {

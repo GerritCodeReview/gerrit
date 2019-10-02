@@ -19,7 +19,6 @@
 
   Polymer({
     is: 'gr-diff-preferences',
-    _legacyUndefinedCheck: true,
 
     properties: {
       hasUnsavedChanges: {

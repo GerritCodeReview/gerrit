@@ -19,7 +19,6 @@
 
   Polymer({
     is: 'gr-change-requirements',
-    _legacyUndefinedCheck: true,
 
     properties: {
       /** @type {?} */

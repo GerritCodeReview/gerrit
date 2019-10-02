@@ -19,7 +19,6 @@
 
   Polymer({
     is: 'gr-account-info',
-    _legacyUndefinedCheck: true,
 
     /**
      * Fired when account details are changed.

@@ -39,7 +39,6 @@
 
   Polymer({
     is: 'gr-account-list',
-    _legacyUndefinedCheck: true,
 
     /**
      * Fired when user inputs an invalid email address.

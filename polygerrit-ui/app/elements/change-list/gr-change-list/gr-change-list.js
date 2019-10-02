@@ -24,7 +24,6 @@
 
   Polymer({
     is: 'gr-change-list',
-    _legacyUndefinedCheck: true,
 
     /**
      * Fired when next page key shortcut was pressed.

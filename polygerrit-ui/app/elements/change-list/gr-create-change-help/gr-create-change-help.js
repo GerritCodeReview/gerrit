@@ -19,7 +19,6 @@
 
   Polymer({
     is: 'gr-create-change-help',
-    _legacyUndefinedCheck: true,
 
     /**
      * Fired when the "Create change" button is tapped.

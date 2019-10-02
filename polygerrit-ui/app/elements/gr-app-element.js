@@ -119,7 +119,7 @@
     },
 
     ready() {
-      this.$.reporting.appStarted(document.visibilityState === 'hidden');
+      this.$.reporting.appStarted();
       this.$.router.start();
 
       this.$.restAPI.getAccount().then(account => {

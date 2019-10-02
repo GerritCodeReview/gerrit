@@ -350,6 +350,30 @@
       "revId": "b7494ec2afca97965bb647c9f69a4b3db2481d3d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dc106f5e_cf513fde",
+        "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text_test.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-02T12:02:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "82522f04_43f00387",
+      "range": {
+        "startLine": 64,
+        "startChar": 8,
+        "endLine": 64,
+        "endChar": 44
+      },
+      "revId": "b7494ec2afca97965bb647c9f69a4b3db2481d3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

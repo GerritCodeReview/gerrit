@@ -64,14 +64,10 @@ limitations under the License.
 
     test('appStarted', () => {
       sandbox.stub(element, 'now').returns(42);
-      element.appStarted(true);
+      element.appStarted();
       assert.isTrue(
           element.reporter.calledWithExactly(
               'timing-report', 'UI Latency', 'App Started', 42
-      ));
-      assert.isTrue(
-          element.reporter.calledWithExactly(
-              'lifecycle', 'Page Visibility', 'hidden'
       ));
     });
 

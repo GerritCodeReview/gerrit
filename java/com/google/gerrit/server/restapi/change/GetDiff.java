@@ -155,23 +155,23 @@ public class GetDiff implements RestReadView<FileResource> {
       psf.setLoadHistory(false);
       psf.setLoadComments(context != DiffPreferencesInfo.WHOLE_FILE_CONTEXT);
       PatchScript ps = psf.call();
-      Content content = new Content(ps);
+      ContentCollector contentCollector = new ContentCollector(ps);
       Set<Edit> editsDueToRebase = ps.getEditsDueToRebase();
       for (Edit edit : ps.getEdits()) {
         if (edit.getType() == Edit.Type.EMPTY) {
           continue;
         }
-        content.addCommon(edit.getBeginA());
+        contentCollector.addCommon(edit.getBeginA());
 
         checkState(
-            content.nextA == edit.getBeginA(),
+            contentCollector.nextA == edit.getBeginA(),
             "nextA = %s; want %s",
-            content.nextA,
+            contentCollector.nextA,
             edit.getBeginA());
         checkState(
-            content.nextB == edit.getBeginB(),
+            contentCollector.nextB == edit.getBeginB(),
             "nextB = %s; want %s",
-            content.nextB,
+            contentCollector.nextB,
             edit.getBeginB());
         switch (edit.getType()) {
           case DELETE:
@@ -180,19 +180,19 @@ public class GetDiff implements RestReadView<FileResource> {
             List<Edit> internalEdit =
                 edit instanceof ReplaceEdit ? ((ReplaceEdit) edit).getInternalEdits() : null;
             boolean dueToRebase = editsDueToRebase.contains(edit);
-            content.addDiff(edit.getEndA(), edit.getEndB(), internalEdit, dueToRebase);
+            contentCollector.addDiff(edit.getEndA(), edit.getEndB(), internalEdit, dueToRebase);
             break;
           case EMPTY:
           default:
             throw new IllegalStateException();
         }
       }
-      content.addCommon(ps.getA().size());
+      contentCollector.addCommon(ps.getA().size());
 
       ProjectState state = projectCache.get(resource.getRevision().getChange().getProject());
 
       DiffInfo result = new DiffInfo();
-      String revA = basePatchSet != null ? basePatchSet.refName() : content.commitIdA;
+      String revA = basePatchSet != null ? basePatchSet.refName() : ps.getFileInfoA().commitId;
       String revB =
           resource.getRevision().getEdit().isPresent()
               ? resource.getRevision().getEdit().get().getRefName()
@@ -221,7 +221,7 @@ public class GetDiff implements RestReadView<FileResource> {
                 state, result.metaA.name, ps.getFileModeA(), ps.getMimeTypeA());
         result.metaA.lines = ps.getA().size();
         result.metaA.webLinks = getFileWebLinks(state.getProject(), revA, result.metaA.name);
-        result.metaA.commitId = content.commitIdA;
+        result.metaA.commitId = ps.getFileInfoA().commitId;
       }
 
       if (ps.getDisplayMethodB() != DisplayMethod.NONE) {
@@ -232,7 +232,7 @@ public class GetDiff implements RestReadView<FileResource> {
                 state, result.metaB.name, ps.getFileModeB(), ps.getMimeTypeB());
         result.metaB.lines = ps.getB().size();
         result.metaB.webLinks = getFileWebLinks(state.getProject(), revB, result.metaB.name);
-        result.metaB.commitId = content.commitIdB;
+        result.metaB.commitId = ps.getFileInfoB().commitId;
       }
 
       if (intraline) {
@@ -253,7 +253,7 @@ public class GetDiff implements RestReadView<FileResource> {
       if (ps.getPatchHeader().size() > 0) {
         result.diffHeader = ps.getPatchHeader();
       }
-      result.content = content.lines;
+      result.content = contentCollector.lines;
 
       Response<DiffInfo> r = Response.ok(result);
       if (resource.isCacheable()) {
@@ -297,24 +297,20 @@ public class GetDiff implements RestReadView<FileResource> {
     return this;
   }
 
-  private static class Content {
+  private static class ContentCollector {
     final List<ContentEntry> lines;
     final SparseFileContent fileA;
     final SparseFileContent fileB;
     final boolean ignoreWS;
-    final String commitIdA;
-    final String commitIdB;
 
     int nextA;
     int nextB;
 
-    Content(PatchScript ps) {
+    ContentCollector(PatchScript ps) {
       lines = Lists.newArrayListWithExpectedSize(ps.getEdits().size() + 2);
       fileA = ps.getA();
       fileB = ps.getB();
       ignoreWS = ps.isIgnoreWhitespace();
-      commitIdA = ps.getCommitIdA();
-      commitIdB = ps.getCommitIdB();
     }
 
     void addCommon(int end) {

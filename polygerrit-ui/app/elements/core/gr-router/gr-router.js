@@ -1043,11 +1043,13 @@
     },
 
     _handleProjectDashboardRoute(data) {
+      const project = data.params[0];
       this._setParams({
         view: Gerrit.Nav.View.DASHBOARD,
-        project: data.params[0],
+        project,
         dashboard: decodeURIComponent(data.params[1]),
       });
+      this.$.reporting.setRepoName(project);
     },
 
     _handleGroupInfoRoute(data) {
@@ -1138,11 +1140,13 @@
     },
 
     _handleRepoDashboardsRoute(data) {
+      const repo = data.params[0];
       this._setParams({
         view: Gerrit.Nav.View.REPO,
         detail: Gerrit.Nav.RepoDetailView.DASHBOARDS,
-        repo: data.params[0],
+        repo,
       });
+      this.$.reporting.setRepoName(repo);
     },
 
     _handleBranchListOffsetRoute(data) {
@@ -1308,6 +1312,7 @@
         view: Gerrit.Nav.View.CHANGE,
       };
 
+      this.$.reporting.setRepoName(params.project);
       this._redirectOrNavigate(params);
     },
 
@@ -1327,7 +1332,7 @@
         params.leftSide = address.leftSide;
         params.lineNum = address.lineNum;
       }
-
+      this.$.reporting.setRepoName(params.project);
       this._redirectOrNavigate(params);
     },
 

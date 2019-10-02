@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "1293645b_91aba397",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-10-02T15:19:30Z",
+      "side": 1,
+      "message": "Thanks, done.\n\n(Added the reason why).",
+      "parentUuid": "3bd14162_50da9f61",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 40
+      },
+      "revId": "0c7910ed1ae277bfcf228074ef9b326a87a8bc77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4aca488b_28c7c46a",
         "filename": "polygerrit-ui/app/elements/shared/gr-dropdown/gr-dropdown.js",
         "patchSetId": 4
@@ -87,6 +111,24 @@
       "revId": "0c7910ed1ae277bfcf228074ef9b326a87a8bc77",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f690ba3f_1913abfc",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown/gr-dropdown.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-10-02T15:19:30Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "4aca488b_28c7c46a",
+      "revId": "0c7910ed1ae277bfcf228074ef9b326a87a8bc77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -107,6 +149,24 @@
     },
     {
       "key": {
+        "uuid": "519bda80_703bbf97",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown/gr-dropdown.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-10-02T15:19:30Z",
+      "side": 1,
+      "message": "Ah, right. Misunderstood what this does. I\u0027ve removed it.",
+      "parentUuid": "1739f94f_8c7bedc8",
+      "revId": "0c7910ed1ae277bfcf228074ef9b326a87a8bc77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b0a371d0_67686662",
         "filename": "polygerrit-ui/app/elements/shared/gr-dropdown/gr-dropdown.js",
         "patchSetId": 4
@@ -121,6 +181,24 @@
       "revId": "0c7910ed1ae277bfcf228074ef9b326a87a8bc77",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "847ba8da_5aed2f40",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown/gr-dropdown.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-10-02T15:19:30Z",
+      "side": 1,
+      "message": "Thanks, done!",
+      "parentUuid": "b0a371d0_67686662",
+      "revId": "0c7910ed1ae277bfcf228074ef9b326a87a8bc77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

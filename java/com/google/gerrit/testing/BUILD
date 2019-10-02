@@ -10,7 +10,6 @@ java_library(
     visibility = ["//visibility:public"],
     exports = [
         "//lib:junit",
-        "//lib/easymock",
     ],
     deps = [
         "//java/com/google/gerrit/acceptance/testsuite/project",

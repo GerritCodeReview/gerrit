@@ -19,6 +19,7 @@
 
   Polymer({
     is: 'gr-edit-preferences',
+    _legacyUndefinedCheck: true,
 
     properties: {
       hasUnsavedChanges: {

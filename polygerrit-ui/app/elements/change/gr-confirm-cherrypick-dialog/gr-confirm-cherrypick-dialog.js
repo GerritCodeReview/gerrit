@@ -21,6 +21,7 @@
 
   Polymer({
     is: 'gr-confirm-cherrypick-dialog',
+    _legacyUndefinedCheck: true,
 
     /**
      * Fired when the confirm button is pressed.

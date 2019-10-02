@@ -71,6 +71,7 @@
 
   Polymer({
     is: 'gr-main-header',
+    _legacyUndefinedCheck: true,
 
     hostAttributes: {
       role: 'banner',

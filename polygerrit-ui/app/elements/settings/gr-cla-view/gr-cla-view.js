@@ -19,6 +19,7 @@
 
   Polymer({
     is: 'gr-cla-view',
+    _legacyUndefinedCheck: true,
 
     properties: {
       _groups: Object,

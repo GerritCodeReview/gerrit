@@ -33,6 +33,7 @@
 
   Polymer({
     is: 'gr-date-formatter',
+    _legacyUndefinedCheck: true,
 
     properties: {
       dateStr: {

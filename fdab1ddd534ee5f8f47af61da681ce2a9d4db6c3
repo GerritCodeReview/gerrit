@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7f7ace2e_91219c7e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-02T18:22:17Z",
+      "side": 1,
+      "message": "The subject is too long. May be:\n\ngr-dropdown: Prevent adding base url twice in _computeURLHelper",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 73
+      },
+      "revId": "fdab1ddd534ee5f8f47af61da681ce2a9d4db6c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fd22d772_db7fb770",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown/gr-dropdown.js",
+        "patchSetId": 12
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-02T18:22:17Z",
+      "side": 1,
+      "message": "This seems to be stale now? Mention, that base URL will be only added, if it is not already included in the path.",
+      "range": {
+        "startLine": 201,
+        "startChar": 48,
+        "endLine": 202,
+        "endChar": 49
+      },
+      "revId": "fdab1ddd534ee5f8f47af61da681ce2a9d4db6c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

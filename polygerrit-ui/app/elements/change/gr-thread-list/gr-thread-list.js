@@ -25,6 +25,7 @@
 
   Polymer({
     is: 'gr-thread-list',
+    _legacyUndefinedCheck: true,
 
     properties: {
       /** @type {?} */

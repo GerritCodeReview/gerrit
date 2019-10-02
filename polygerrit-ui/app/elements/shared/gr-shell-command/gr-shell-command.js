@@ -19,6 +19,7 @@
 
   Polymer({
     is: 'gr-shell-command',
+    _legacyUndefinedCheck: true,
 
     properties: {
       command: String,

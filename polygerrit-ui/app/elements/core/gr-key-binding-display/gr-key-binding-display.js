@@ -19,6 +19,7 @@
 
   Polymer({
     is: 'gr-key-binding-display',
+    _legacyUndefinedCheck: true,
 
     properties: {
       /** @type {Array<string>} */

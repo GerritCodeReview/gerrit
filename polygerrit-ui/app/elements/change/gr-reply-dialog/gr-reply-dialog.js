@@ -54,6 +54,7 @@
 
   Polymer({
     is: 'gr-reply-dialog',
+    _legacyUndefinedCheck: true,
 
     /**
      * Fired when a reply is successfully sent.

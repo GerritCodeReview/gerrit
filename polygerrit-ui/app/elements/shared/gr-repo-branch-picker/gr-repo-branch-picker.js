@@ -22,6 +22,7 @@
 
   Polymer({
     is: 'gr-repo-branch-picker',
+    _legacyUndefinedCheck: true,
 
     properties: {
       repo: {

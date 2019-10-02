@@ -19,6 +19,7 @@
 
   Polymer({
     is: 'gr-group-list',
+    _legacyUndefinedCheck: true,
 
     properties: {
       _groups: Array,

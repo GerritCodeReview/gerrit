@@ -103,6 +103,7 @@
 
   const loadedPlugins = [];
   const detectedExtensions = [];
+  let reportRepoName = undefined;
 
   const onError = function(oldOnError, msg, url, line, column, error) {
     if (oldOnError) {
@@ -210,6 +211,9 @@
         detail.loadedPlugins = loadedPlugins;
         detail.detectedExtensions = detectedExtensions;
       }
+      if (reportRepoName) {
+        detail.repoName = reportRepoName;
+      }
       document.dispatchEvent(new CustomEvent(type, {detail}));
       if (opt_noLog) { return; }
       if (type === ERROR.TYPE && category === ERROR.CATEGORY) {
@@ -289,6 +293,7 @@
       this.time(TIMER.DASHBOARD_DISPLAYED);
       this.time(TIMER.DIFF_VIEW_DISPLAYED);
       this.time(TIMER.FILE_LIST_DISPLAYED);
+      reportRepoName = undefined;
     },
 
     locationChanged(page) {
@@ -493,6 +498,10 @@
     reportErrorDialog(message) {
       this.reporter(ERROR_DIALOG.TYPE, ERROR_DIALOG.CATEGORY,
           'ErrorDialog: ' + message, {error: new Error(message)});
+    },
+
+    setRepoName(repoName) {
+      reportRepoName = repoName;
     },
   });
 

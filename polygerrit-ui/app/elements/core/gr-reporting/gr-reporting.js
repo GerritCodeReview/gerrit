@@ -103,6 +103,7 @@
 
   const loadedPlugins = [];
   const detectedExtensions = [];
+  let reportRepoName = undefined;
 
   const onError = function(oldOnError, msg, url, line, column, error) {
     if (oldOnError) {
@@ -183,7 +184,9 @@
     reporter(...args) {
       const report = (this._isMetricsPluginLoaded() && !pending.length) ?
         this.defaultReporter : this.cachingReporter;
-      args.splice(4, 0, loadedPlugins, detectedExtensions);
+      const isInBackgroundTab = document.visibilityState === 'hidden';
+      args.splice(4, 0, loadedPlugins, detectedExtensions, reportRepoName,
+          isInBackgroundTab);
       report.apply(this, args);
     },
 
@@ -193,13 +196,16 @@
      * @param {string} category
      * @param {string} eventName
      * @param {string|number} eventValue
-     * @param {Array} plugins
-     * @param {Array} extensions
+     * @param {Array} loadedPlugins
+     * @param {Array} detectedExtensions
+     * @param {string} repoName
+     * @param {boolean} isInBackgroundTab
      * @param {boolean|undefined} opt_noLog If true, the event will not be
      *     logged to the JS console.
      */
     defaultReporter(type, category, eventName, eventValue,
-        loadedPlugins, detectedExtensions, opt_noLog) {
+        loadedPlugins, detectedExtensions, repoName,
+        isInBackgroundTab, opt_noLog) {
       const detail = {
         type,
         category,
@@ -209,6 +215,14 @@
       if (category === TIMING.CATEGORY_UI_LATENCY) {
         detail.loadedPlugins = loadedPlugins;
         detail.detectedExtensions = detectedExtensions;
+      }
+      if (repoName) {
+        detail.repoName = repoName;
+      } else if (reportRepoName) {
+        detail.repoName = reportRepoName;
+      }
+      if (isInBackgroundTab !== undefined) {
+        detail.inBackgroundTab = isInBackgroundTab;
       }
       document.dispatchEvent(new CustomEvent(type, {detail}));
       if (opt_noLog) { return; }
@@ -230,27 +244,32 @@
      * @param {string} category
      * @param {string} eventName
      * @param {string|number} eventValue
-     * @param {Array} plugins
-     * @param {Array} extensions
+     * @param {Array} loadedPlugins
+     * @param {Array} detectedExtensions
+     * @param {string} reportRepoName
+     * @param {boolean} isInBackgroundTab
      * @param {boolean|undefined} opt_noLog If true, the event will not be
      *     logged to the JS console.
      */
     cachingReporter(type, category, eventName, eventValue,
-        plugins, extensions, opt_noLog) {
+        loadedPlugins, detectedExtensions, reportRepoName,
+        isInBackgroundTab, opt_noLog) {
       if (type === ERROR.TYPE && category === ERROR.CATEGORY) {
         console.error(eventValue && eventValue.error || eventName);
       }
       if (this._isMetricsPluginLoaded()) {
         if (pending.length) {
           for (const args of pending.splice(0)) {
-            this.reporter(...args);
+            this.defaultReporter(...args);
           }
         }
-        this.reporter(type, category, eventName, eventValue,
-            plugins, extensions, opt_noLog);
+        this.defaultReporter(type, category, eventName, eventValue,
+            loadedPlugins, detectedExtensions, reportRepoName,
+            isInBackgroundTab, opt_noLog);
       } else {
         pending.push([type, category, eventName, eventValue,
-          plugins, extensions, opt_noLog]);
+          loadedPlugins, detectedExtensions, reportRepoName,
+          isInBackgroundTab, opt_noLog]);
       }
     },
 
@@ -289,6 +308,7 @@
       this.time(TIMER.DASHBOARD_DISPLAYED);
       this.time(TIMER.DIFF_VIEW_DISPLAYED);
       this.time(TIMER.FILE_LIST_DISPLAYED);
+      reportRepoName = undefined;
     },
 
     locationChanged(page) {
@@ -493,6 +513,10 @@
     reportErrorDialog(message) {
       this.reporter(ERROR_DIALOG.TYPE, ERROR_DIALOG.CATEGORY,
           'ErrorDialog: ' + message, {error: new Error(message)});
+    },
+
+    setRepoName(repoName) {
+      reportRepoName = repoName;
     },
   });
 

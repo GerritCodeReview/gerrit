@@ -16,6 +16,24 @@
       "revId": "e87866850e06f098d22f0449d48c8fd3bf130e7f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "de580e8a_1ad20f38",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 27
+      },
+      "lineNbr": 935,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-10-02T18:22:24Z",
+      "side": 1,
+      "message": "I couldn\u0027t find documentation for this, but GWTUI did this (so copied how they did the url).\n\nI did some github searching and found https://github.com/GerritCodeReview/gerrit/blob/c69baae7f8576411c2b1e0e04497fd87f33df6e3/java/com/google/gerrit/httpd/UrlModule.java#L53 and https://github.com/GerritCodeReview/gerrit/blob/c69baae7f8576411c2b1e0e04497fd87f33df6e3/java/com/google/gerrit/httpd/raw/CatServlet.java\n\nWhich seems to use https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#get-safe-content internally per https://github.com/GerritCodeReview/gerrit/blob/c69baae7f8576411c2b1e0e04497fd87f33df6e3/java/com/google/gerrit/httpd/raw/CatServlet.java#L154",
+      "parentUuid": "3bd44e8a_9b840244",
+      "revId": "e87866850e06f098d22f0449d48c8fd3bf130e7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

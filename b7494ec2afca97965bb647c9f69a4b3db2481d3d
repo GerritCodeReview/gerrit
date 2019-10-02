@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5eb83651_6a6f5cba",
+        "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-02T12:01:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f389e96a_3a810f01",
+      "range": {
+        "startLine": 3,
+        "startChar": 14,
+        "endLine": 3,
+        "endChar": 18
+      },
+      "revId": "b7494ec2afca97965bb647c9f69a4b3db2481d3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bc312e3f_b3d0f123",
         "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
         "patchSetId": 6
@@ -39,6 +63,24 @@
       "revId": "b7494ec2afca97965bb647c9f69a4b3db2481d3d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "af3e6964_c06341d2",
+        "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-02T12:01:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bc312e3f_b3d0f123",
+      "revId": "b7494ec2afca97965bb647c9f69a4b3db2481d3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "f7355cd4_9c322e50",
+        "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-02T12:01:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b8c4b4f0_5e7634e5",
+      "range": {
+        "startLine": 27,
+        "startChar": 6,
+        "endLine": 27,
+        "endChar": 19
+      },
+      "revId": "b7494ec2afca97965bb647c9f69a4b3db2481d3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "89b78336_c024bc83",
         "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
         "patchSetId": 6
@@ -79,6 +145,24 @@
       "revId": "b7494ec2afca97965bb647c9f69a4b3db2481d3d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b2b018ba_9bcfab01",
+        "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-02T12:01:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "89b78336_c024bc83",
+      "revId": "b7494ec2afca97965bb647c9f69a4b3db2481d3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -99,6 +183,24 @@
     },
     {
       "key": {
+        "uuid": "6084d97d_bbf9c8c5",
+        "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-02T12:01:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3a583d9c_1a340100",
+      "revId": "b7494ec2afca97965bb647c9f69a4b3db2481d3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0167aba3_22f4240e",
         "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
         "patchSetId": 6
@@ -113,6 +215,24 @@
       "revId": "b7494ec2afca97965bb647c9f69a4b3db2481d3d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9770923b_ee3ccd2e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-02T12:01:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0167aba3_22f4240e",
+      "revId": "b7494ec2afca97965bb647c9f69a4b3db2481d3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -133,6 +253,24 @@
     },
     {
       "key": {
+        "uuid": "1f6f46ad_8e402130",
+        "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-02T12:01:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "324e2718_18b56da2",
+      "revId": "b7494ec2afca97965bb647c9f69a4b3db2481d3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4f2066e0_b9001a83",
         "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
         "patchSetId": 6
@@ -150,6 +288,24 @@
     },
     {
       "key": {
+        "uuid": "9974c6e8_6e805376",
+        "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-02T12:01:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4f2066e0_b9001a83",
+      "revId": "b7494ec2afca97965bb647c9f69a4b3db2481d3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "31bcd1c6_c50f296a",
         "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text_test.html",
         "patchSetId": 6
@@ -161,6 +317,30 @@
       "writtenOn": "2019-10-02T10:11:23Z",
       "side": 1,
       "message": "Can you write at least one test that actually compares the resulting HTML string instead of just checking the array length of the highlights?",
+      "range": {
+        "startLine": 64,
+        "startChar": 8,
+        "endLine": 64,
+        "endChar": 44
+      },
+      "revId": "b7494ec2afca97965bb647c9f69a4b3db2481d3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "82522f04_43f00387",
+        "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text_test.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-02T12:01:59Z",
+      "side": 1,
+      "message": "i did before and it went beyond the length restriction, let me try again and see if reports error or not",
+      "parentUuid": "31bcd1c6_c50f296a",
       "range": {
         "startLine": 64,
         "startChar": 8,

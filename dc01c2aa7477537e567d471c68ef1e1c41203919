@@ -166,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "e36dc0be_e5a6f7bc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-02T15:09:05Z",
+      "side": 1,
+      "message": "Hi David, unfortunately the meeting was cancelled, but I am confident that we are all fine with a dropdown implementation. So paladox, please go ahead with implementing this as a dropdown. If you don\u0027t have the time or expertise, then let us know. Someone from our team will then pick up the issue.\n\nDavid, I agree that this is a prominent issue that deserves a timely resolution. We will make sure that this is fixed within the next 2-3 weeks.",
+      "parentUuid": "a2e3f4d2_f2d3ec57",
+      "range": {
+        "startLine": 14,
+        "startChar": 4,
+        "endLine": 14,
+        "endChar": 35
+      },
+      "revId": "dc01c2aa7477537e567d471c68ef1e1c41203919",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9b00fc78_fdd9d6bc",
         "filename": "/COMMIT_MSG",
         "patchSetId": 10

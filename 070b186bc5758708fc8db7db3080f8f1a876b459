@@ -34,6 +34,24 @@
       "revId": "070b186bc5758708fc8db7db3080f8f1a876b459",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dc5fa3e5_35d3bd45",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2019-10-02T13:54:58Z",
+      "side": 1,
+      "message": "Yes, we can find a several solution how to fix it. But let\u0027s give a back-end team chance to fix https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d11467",
+      "parentUuid": "c2ecc6c4_de947536",
+      "revId": "070b186bc5758708fc8db7db3080f8f1a876b459",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -166,6 +166,134 @@ Fixes that are known to be needed for a particular release should be pushed for 
 release's stable branch. They will then be included into the master branch when the stable branch
 is merged back.
 
+[[security-issues]]
+== Dealing with Security Issues
+
+If a security vulnerability in Gerrit is discovered, we place an link:#embargo[
+embargo] on it until a fixed release or mitigation is available. Fixing the
+issue is usually pursued with high priority (depends on the severity of the
+security vulnerability). The embargo is lifted and the vulnerability is
+disclosed to the community as soon as a fix release or another mitigation is
+available.
+
+[[report-security-issue]]
+=== How to report a security vulnerability?
+
+To report a security vulnerability file a
+link:https://bugs.chromium.org/p/gerrit/issues/entry?template=Security+Issue[
+security issue] in the Gerrit issue tracker. The visibility of issues that are
+created with the `Security Issue` template is automatically restricted to
+Gerrit maintainers and a few long-term contributors. This means as a reporter
+you may not be able to see the issue once it is created. Security issues are
+created on the `ESC` component so that they will be discussed at the next
+meeting of the link:#steering-committee[Engineering Steering Committee] which
+takes place biweekly.
+
+If an existing issue is found to be a security vulnerability it should be
+turned into a security issue by:
+
+. Setting the component to `ESC`
+. Adding the labels `Security` and `NonPublic`
+
+In case of doubt, or if an issue cannot wait until the next ESC meeting,
+contact the link:#steering-committee[Engineering Steering Committee] directly
+by sending them an mailto:gerritcodereview-esc@googlegroups.com[email].
+
+If needed, the ESC will contact the reporter for additional details.
+
+[[embargo]]
+=== The Embargo
+
+Once an issue has been identified as security vulnerability, we keep it under
+embargo until a fixed release or a mitigation is available. This means that the
+issue is not discussed publicly, but only on issues with restricted visibility
+(see link:#report-security-issue[above]) and at the mailing lists of the ESC,
+community managers and Gerrit maintainers. Since the `repo-discuss` mailing
+list is public, security issues must not be discussed on this mailing list
+while the embargo is in place.
+
+The reason for keeping an embargo is to prevent attackers from taking advantage
+of a vulnerability while no fixed releases are available yet, and Gerrit
+administrators cannot make their systems secure.
+
+Once a fix release or mitigation is available, the embargo is lifted and the
+community is informed about the security vulnerability with the advise to
+address the security vulnerability immediately (either by upgrading to a fixed
+release or applying the mitigation). The information about the security
+vulnerability is disclosed via the
+link:https://groups.google.com/d/forum/repo-discuss[repo-discuss] mailing list.
+
+[[handle-security-issue]]
+=== Handling of the Security Vulnerability
+
+. Engineering Steering Committee evaluates the security vulnerability:
++
+The ESC discusses the security vulnerability and which actions should be taken
+to address it. One person, usually one of the Gerrit maintainers, should be
+appointed to drive and coordinate the investigation and the fix of the security
+vulnerability. This coordinator doesn't need to do all the work alone, but is
+responsible that the security vulnerability is getting fixed in a timely
+manner.
++
+If the security vulnerability affects multiple or older releases the ESC should
+decide which of the releases should be fixed. For critical security issue we
+also consider fixing old releases that are otherwise not receiving any
+bug-fixes anymore.
++
+It's also possible that the ESC decides that an issue is not a security issue
+and the embargo is lifted immediately.
+
+. Implementation of the security fix:
++
+To keep the embargo intact, security fixes cannot be developed and reviewed in
+the public `gerrit` repository. In particular it's not secure to use private
+changes for implementing and reviewing security fixes (see general notes about
+link:intro-user.html[security-fixes]).
++
+Instead security fixes should be implemented and reviewed in the non-public
+link:https://gerrit-review.googlesource.com/admin/repos/gerrit-security-fixes[
+gerrit-security-fixes] repository which is only accessible by Gerrit
+maintainers and Gerrit community members that work on security fixes.
++
+The change that fixes the security vulnerability should contain an integration
+test that verifies that the security vulnerability is no longer present.
++
+Review and approval of the security fixes must be done by the Gerrit
+maintainers. Verifications must be done manually since the Gerrit CI doesn't
+build and test changes of the `gerrit-security-fixes` repository (and it
+shouldn't because everything on the CI server is public which would break
+the embargo).
++
+Once a security fix is ready and submitted, it should be cherry-picked to all
+branches that should be fixed.
+
+. Creation of fixed releases and announcement of the security vulnerability:
++
+A release manager should create new bug fix releases for all fixed branches.
++
+The new releases should be tested against the security vulnerability to
+double-check that the release was built from the correct source that contains
+the fix for the security vulnerability.
++
+Before publishing the fixed releases, an announcement to the Gerrit community
+should be prepared. The announcement should clearly describe the security
+vulnerability, which releases are affected and which releases contain the fix.
+The announcement should recommend to upgrade to fixed releases immediately.
++
+Once all releases are ready and tested and the announcement is prepared, the
+releases should be all published at the same time. Immediately after that, the
+announcement should be sent out to the
+link:https://groups.google.com/d/forum/repo-discuss[repo-discuss] mailing list.
++
+This ends the embargo and any issue that discusses the security vulnerability
+should be made public.
+
+. Follow-Up
++
+The ESC should discuss if there are any learnings from the security
+vulnerability and define action items to follow up in the
+link:https://bugs.chromium.org/p/gerrit[issue tracker].
+
 [[upgrading-libraries]]
 == Upgrading Libraries
 

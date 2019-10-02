@@ -41,14 +41,6 @@
     DETECTED: 'Extension detected',
   };
 
-  // Page visibility related constants.
-  const PAGE_VISIBILITY = {
-    TYPE: 'lifecycle',
-    CATEGORY: 'Page Visibility',
-    // Reported events - alphabetize below.
-    STARTED_HIDDEN: 'hidden',
-  };
-
   // Navigation reporting constants.
   const NAVIGATION = {
     TYPE: 'nav-report',
@@ -107,8 +99,10 @@
 
   const pending = [];
 
+  // Variables that hold context info in global scope
   const loadedPlugins = [];
   const detectedExtensions = [];
+  let reportRepoName = undefined;
 
   const onError = function(oldOnError, msg, url, line, column, error) {
     if (oldOnError) {
@@ -189,7 +183,13 @@
     reporter(...args) {
       const report = (this._isMetricsPluginLoaded() && !pending.length) ?
         this.defaultReporter : this.cachingReporter;
-      args.splice(4, 0, loadedPlugins, detectedExtensions);
+      const contextInfo = {
+        loadedPlugins,
+        detectedExtensions,
+        repoName: reportRepoName,
+        isInBackgroundTab: document.visibilityState === 'hidden',
+      };
+      args.splice(4, 0, contextInfo);
       report.apply(this, args);
     },
 
@@ -199,22 +199,27 @@
      * @param {string} category
      * @param {string} eventName
      * @param {string|number} eventValue
-     * @param {Array} plugins
-     * @param {Array} extensions
+     * @param {Object} contextInfo
      * @param {boolean|undefined} opt_noLog If true, the event will not be
      *     logged to the JS console.
      */
-    defaultReporter(type, category, eventName, eventValue,
-        loadedPlugins, detectedExtensions, opt_noLog) {
+    defaultReporter(type, category, eventName, eventValue, contextInfo,
+        opt_noLog) {
       const detail = {
         type,
         category,
         name: eventName,
         value: eventValue,
       };
-      if (category === TIMING.CATEGORY_UI_LATENCY) {
-        detail.loadedPlugins = loadedPlugins;
-        detail.detectedExtensions = detectedExtensions;
+      if (category === TIMING.CATEGORY_UI_LATENCY && contextInfo) {
+        detail.loadedPlugins = contextInfo.loadedPlugins;
+        detail.detectedExtensions = contextInfo.detectedExtensions;
+      }
+      if (contextInfo && contextInfo.repoName) {
+        detail.repoName = contextInfo.repoName;
+      }
+      if (contextInfo && contextInfo.isInBackgroundTab !== undefined) {
+        detail.inBackgroundTab = contextInfo.isInBackgroundTab;
       }
       document.dispatchEvent(new CustomEvent(type, {detail}));
       if (opt_noLog) { return; }
@@ -236,39 +241,34 @@
      * @param {string} category
      * @param {string} eventName
      * @param {string|number} eventValue
-     * @param {Array} plugins
-     * @param {Array} extensions
+     * @param {Object} contextInfo
      * @param {boolean|undefined} opt_noLog If true, the event will not be
      *     logged to the JS console.
      */
-    cachingReporter(type, category, eventName, eventValue,
-        plugins, extensions, opt_noLog) {
+    cachingReporter(type, category, eventName, eventValue, contextInfo,
+        opt_noLog) {
       if (type === ERROR.TYPE && category === ERROR.CATEGORY) {
         console.error(eventValue && eventValue.error || eventName);
       }
       if (this._isMetricsPluginLoaded()) {
         if (pending.length) {
           for (const args of pending.splice(0)) {
-            this.reporter(...args);
+            this.defaultReporter(...args);
           }
         }
-        this.reporter(type, category, eventName, eventValue,
-            plugins, extensions, opt_noLog);
+        this.defaultReporter(type, category, eventName, eventValue, contextInfo,
+            opt_noLog);
       } else {
-        pending.push([type, category, eventName, eventValue,
-          plugins, extensions, opt_noLog]);
+        pending.push([type, category, eventName, eventValue, contextInfo,
+          opt_noLog]);
       }
     },
 
     /**
      * User-perceived app start time, should be reported when the app is ready.
      */
-    appStarted(hidden) {
+    appStarted() {
       this.timeEnd(TIMING.APP_STARTED);
-      if (hidden) {
-        this.reporter(PAGE_VISIBILITY.TYPE, PAGE_VISIBILITY.CATEGORY,
-            PAGE_VISIBILITY.STARTED_HIDDEN);
-      }
     },
 
     /**
@@ -297,6 +297,7 @@
       this.time(TIMER.DIFF_VIEW_DISPLAYED);
       this.time(TIMER.DIFF_VIEW_LOAD_FULL);
       this.time(TIMER.FILE_LIST_DISPLAYED);
+      reportRepoName = undefined;
     },
 
     locationChanged(page) {
@@ -518,6 +519,10 @@
     reportErrorDialog(message) {
       this.reporter(ERROR_DIALOG.TYPE, ERROR_DIALOG.CATEGORY,
           'ErrorDialog: ' + message, {error: new Error(message)});
+    },
+
+    setRepoName(repoName) {
+      reportRepoName = repoName;
     },
   });
 

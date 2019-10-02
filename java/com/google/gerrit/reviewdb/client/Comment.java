@@ -131,10 +131,23 @@ public class Comment {
             .thenComparingInt(range -> range.endLine)
             .thenComparingInt(range -> range.endChar);
 
-    public int startLine; // 1-based, inclusive
-    public int startChar; // 0-based, inclusive
-    public int endLine; // 1-based, exclusive
-    public int endChar; // 0-based, exclusive
+    // The Range object defines continuous range of character.
+    // The pair (startLine, startChar) defines the first character in the range
+    // The pair (endLine, endChar) defines the first character AFTER the range
+    // (i.e. it is not belong the range).
+    // (endLine, endChar) must be a valid character inside text, except EOF case.
+    // Special cases:
+    // 1) Zero length range: (startLine, startChar) = (endLine, endChar).
+    // Range defines insert position right before the (startLine, startChar) character.
+    // 2) Range includes last character in the file (EOF case):
+    //    a) if a file ends with EOL mark, then (endLine, endChar) = (num_of_lines + 1, 0)
+    //    b) if a file doesn't end with EOL mark, then
+    //         (endLine, endChar) = (num_of_lines, num_of_chars_in_last_line)
+
+    public int startLine; // 1-based
+    public int startChar; // 0-based
+    public int endLine; // 1-based
+    public int endChar; // 0-based
 
     public Range(Range r) {
       this(r.startLine, r.startChar, r.endLine, r.endChar);

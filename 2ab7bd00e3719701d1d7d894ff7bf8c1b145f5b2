@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "59b8418b_07e29946",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 913,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-02T16:10:18Z",
+      "side": 1,
+      "message": "do you need to worry about the `changeNum` and `path` here ?",
+      "range": {
+        "startLine": 913,
+        "startChar": 0,
+        "endLine": 913,
+        "endChar": 57
+      },
+      "revId": "2ab7bd00e3719701d1d7d894ff7bf8c1b145f5b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

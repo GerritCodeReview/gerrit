@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3bd44e8a_9b840244",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 27
+      },
+      "lineNbr": 935,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2019-10-02T18:18:32Z",
+      "side": 1,
+      "message": "Thanks for implementing this.\nCould you add a comment for where this url pattern comes from?\n/cat/${changeNum}%2C ....",
+      "revId": "e87866850e06f098d22f0449d48c8fd3bf130e7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

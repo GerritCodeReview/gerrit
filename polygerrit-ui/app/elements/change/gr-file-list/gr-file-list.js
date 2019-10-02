@@ -495,6 +495,7 @@
     },
 
     _getFiles() {
+      if (!this.patchRange) return Promise.reject();
       return this.$.restAPI.getChangeOrEditFiles(
           this.changeNum, this.patchRange);
     },

@@ -142,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "a2e3f4d2_f2d3ec57",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-02T09:40:06Z",
+      "side": 1,
+      "message": "\u003e I will discuss this issue with our UX team on Tuesday, but it may well be that a \"Download\" dropdown with three entries \"patch\", \"left content\", \"right content\" is the way to go.\n\nWhat was the outcome of that discussion? We are talking about a major regression compared to GWT UI and urgently need to make a decision and implement it.",
+      "parentUuid": "60b2c737_39dc99b1",
+      "range": {
+        "startLine": 14,
+        "startChar": 4,
+        "endLine": 14,
+        "endChar": 35
+      },
+      "revId": "dc01c2aa7477537e567d471c68ef1e1c41203919",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9b00fc78_fdd9d6bc",
         "filename": "/COMMIT_MSG",
         "patchSetId": 10

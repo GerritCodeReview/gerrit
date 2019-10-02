@@ -184,7 +184,7 @@ limitations under the License.
         return paramsChangedPromise.then(() => {
           assert.isTrue(
               getChangesStub.calledWith(
-                  null, ['1', '2', 'owner:self'], null, element.options));
+                  null, ['1', '2', 'owner:self limit:1'], null, element.options));
         });
       });
 

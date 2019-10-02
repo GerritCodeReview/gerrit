@@ -121,7 +121,6 @@ class PatchScriptBuilder {
 
   private PatchScript build(PatchListEntry content, CommentDetail comments, List<Patch> history)
       throws IOException {
-    boolean intralineDifferenceIsPossible = true;
     boolean intralineFailure = false;
     boolean intralineTimeout = false;
 
@@ -134,9 +133,7 @@ class PatchScriptBuilder {
     edits = new ArrayList<>(content.getEdits());
     ImmutableSet<Edit> editsDueToRebase = content.getEditsDueToRebase();
 
-    if (!isModify(content)) {
-      intralineDifferenceIsPossible = false;
-    } else if (diffPrefs.intralineDifference) {
+    if (isModify(content) && diffPrefs.intralineDifference) {
       IntraLineDiff d =
           patchListCache.getIntraLineDiff(
               IntraLineDiffKey.create(a.id, b.id, diffPrefs.ignoreWhitespace),
@@ -149,21 +146,17 @@ class PatchScriptBuilder {
             break;
 
           case DISABLED:
-            intralineDifferenceIsPossible = false;
             break;
 
           case ERROR:
-            intralineDifferenceIsPossible = false;
             intralineFailure = true;
             break;
 
           case TIMEOUT:
-            intralineDifferenceIsPossible = false;
             intralineTimeout = true;
             break;
         }
       } else {
-        intralineDifferenceIsPossible = false;
         intralineFailure = true;
       }
     }
@@ -223,7 +216,6 @@ class PatchScriptBuilder {
         comments,
         history,
         hugeFile,
-        intralineDifferenceIsPossible,
         intralineFailure,
         intralineTimeout,
         content.getPatchType() == Patch.PatchType.BINARY,

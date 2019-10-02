@@ -46,6 +46,81 @@
       "revId": "0c7910ed1ae277bfcf228074ef9b326a87a8bc77",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "25901e57_a9c0969a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-02T15:14:05Z",
+      "side": 1,
+      "message": "Thanks David.\n\nPaladox, can you add a sentence to the commit message about *why* noBaseUrl is required for the Download dropdown, but was not required for any other usages of gr-dropdown?",
+      "parentUuid": "3bd14162_50da9f61",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 40
+      },
+      "revId": "0c7910ed1ae277bfcf228074ef9b326a87a8bc77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4aca488b_28c7c46a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown/gr-dropdown.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-02T15:14:05Z",
+      "side": 1,
+      "message": "add a comment",
+      "revId": "0c7910ed1ae277bfcf228074ef9b326a87a8bc77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1739f94f_8c7bedc8",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown/gr-dropdown.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-02T15:14:05Z",
+      "side": 1,
+      "message": "Why?",
+      "revId": "0c7910ed1ae277bfcf228074ef9b326a87a8bc77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b0a371d0_67686662",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown/gr-dropdown.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-02T15:14:05Z",
+      "side": 1,
+      "message": "use a ternary",
+      "revId": "0c7910ed1ae277bfcf228074ef9b326a87a8bc77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

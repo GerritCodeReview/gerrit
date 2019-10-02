@@ -186,6 +186,30 @@
       "revId": "dc01c2aa7477537e567d471c68ef1e1c41203919",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "76e5b701_e473ad0c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-02T09:45:36Z",
+      "side": 1,
+      "message": "Sorry, I meant issue 7867. Particularly see this comment: [1].\n\n* [1] https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d7867#c8",
+      "parentUuid": "9b00fc78_fdd9d6bc",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 15
+      },
+      "revId": "dc01c2aa7477537e567d471c68ef1e1c41203919",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

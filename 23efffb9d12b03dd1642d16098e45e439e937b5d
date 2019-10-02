@@ -45,6 +45,30 @@
       "revId": "23efffb9d12b03dd1642d16098e45e439e937b5d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "85137888_d174e1b8",
+        "filename": "gerrit-elasticsearch/src/test/java/com/google/gerrit/elasticsearch/ElasticContainer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-10-02T20:45:35Z",
+      "side": 1,
+      "message": "\u003e Working on pushing a PR for this currently missing version.\n\n-Added in the meantime; local verification in progress.",
+      "parentUuid": "11d9a9d4_6946fb97",
+      "range": {
+        "startLine": 64,
+        "startChar": 16,
+        "endLine": 64,
+        "endChar": 44
+      },
+      "revId": "23efffb9d12b03dd1642d16098e45e439e937b5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

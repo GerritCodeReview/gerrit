@@ -180,6 +180,26 @@
 
       /** @type {Function} */
       _cancelForEachDiff: Function,
+
+      /** @type {Array<string>} */
+      _dynamicColumnHeaderEndpoints: {
+        type: Array,
+      },
+      _showDynamicColumns: {
+        type: Boolean,
+        computed: '_computeShowDynamicColumns(_dynamicColumnHeaderEndpoints)',
+      },
+      /** @type {Array<string>} */
+      _dynamicColumnItemEndpoints: {
+        type: Array,
+      },
+      _dynamicColumnTotalEndpoints: {
+        type: Array,
+      },
+
+      _selectedFilesTabPluginEndpoint: {
+        type: String,
+      },
     },
 
     behaviors: [
@@ -229,6 +249,31 @@
       keydown: '_scopedKeydownHandler',
     },
 
+    attached() {
+      Gerrit.awaitPluginsLoaded().then(() => {
+        this._dynamicColumnHeaderEndpoints =
+            Gerrit._endpoints.getDynamicEndpoints('change-view-column-header');
+
+
+        console.warn('------------------', Gerrit._endpoints._endpoints);
+
+
+        this._dynamicColumnItemEndpoints =
+            Gerrit._endpoints.getDynamicEndpoints('change-view-column-item');
+        this._dynamicColumnTotalEndpoints =
+            Gerrit._endpoints.getDynamicEndpoints('change-view-column-total');
+
+        if (this._dynamicColumnItemEndpoints.length !==
+            this._dynamicColumnHeaderEndpoints.length) {
+          console.warn('Different number of column headers and items.');
+        }
+        if (this._dynamicColumnTotalEndpoints.length !==
+            this._dynamicColumnHeaderEndpoints.length) {
+          console.warn('Different number of column headers and totals.');
+        }
+      });
+    },
+
     detached() {
       this._cancelDiffs();
     },
@@ -253,7 +298,6 @@
       }
 
       this._loading = true;
-
       this.collapseAllDiffs();
       const promises = [];
 
@@ -1246,6 +1290,11 @@
         hideClass = 'invisible';
       }
       return `sizeBars desktop ${hideClass}`;
+    },
+
+    _computeShowDynamicColumns(dynamicColumnHeaderEndpoints) {
+      return (dynamicColumnHeaderEndpoints &&
+              dynamicColumnHeaderEndpoints.length > 0);
     },
 
     /**

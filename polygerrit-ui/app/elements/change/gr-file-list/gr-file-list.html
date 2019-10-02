@@ -126,15 +126,18 @@ limitations under the License.
       .oldPath {
         color: var(--deemphasized-text-color);
       }
-      .comments,
+      .comments {
+        text-align: left;
+      }
       .stats {
         text-align: right;
       }
       .comments {
         padding-left: 2em;
+        min-width: 20em;
       }
       .stats {
-        min-width: 7em;
+        min-width: 6em;
       }
       .row:not(.header) .stats,
       .total-stats {
@@ -142,6 +145,8 @@ limitations under the License.
       }
       .sizeBars {
         margin-left: .5em;
+        min-width: 7em;
+        text-align: center;
       }
       .sizeBars.hide {
         display: none;
@@ -157,6 +162,10 @@ limitations under the License.
       .removed {
         color: var(--vote-text-color-disliked);
         text-align: left;
+      }
+      .dynamic-column-header-row {
+        justify-content: flex-end;
+        text-align: right;
       }
       .drafts {
         color: #C62828;
@@ -277,6 +286,26 @@ limitations under the License.
     <div
         id="container"
         on-tap="_handleFileListTap">
+
+      <div class="row">
+        <div class="status"></div>
+        <span class="path" style="font-weight: 500;">File</span>
+        <div class="comments" style="font-weight: 500;">Comments</div>
+        <div class="sizeBars" style="font-weight: 500;">Size</div>
+        <div>
+          <div style="text-align: center; min-width: 7em; font-weight: 500;">Delta</div>
+        </div>
+        <template is="dom-if" if="[[_showDynamicColumns]]">
+          <template is="dom-repeat" items="[[_dynamicColumnHeaderEndpoints]]" as="columnHeader">
+            <gr-endpoint-decorator name$="[[columnHeader]]"></gr-endpoint-decorator>
+          </template>
+        </template>
+        <!-- Empty div here exists to keep spacing in sync with file rows. -->
+        <div class="reviewed hideOnEdit" hidden$="[[!_loggedIn]]" hidden></div>
+        <div class="editFileControls showOnEdit"></div>
+        <div class="show-hide"></div>
+      </div>
+
       <template is="dom-repeat"
           items="[[_shownFiles]]"
           id="files"
@@ -347,14 +376,13 @@ limitations under the License.
                   tabindex="0"
                   aria-label$="[[file.lines_inserted]] lines added"
                   hidden$=[[file.binary]]>
-                +[[file.lines_inserted]]
-              </span>
-              <span
+                +[[file.lines_inserted]]&nbsp
+              </span><span
                   class="removed"
                   tabindex="0"
                   aria-label$="[[file.lines_deleted]] lines removed"
                   hidden$=[[file.binary]]>
-                -[[file.lines_deleted]]
+                &nbsp-[[file.lines_deleted]]
               </span>
               <span class$="[[_computeBinaryClass(file.size_delta)]]"
                   hidden$=[[!file.binary]]>
@@ -362,6 +390,20 @@ limitations under the License.
                 [[_formatPercentage(file.size, file.size_delta)]]
               </span>
             </div>
+            <template is="dom-if" if="[[_showDynamicColumns]]">
+              <template is="dom-repeat" items="[[_dynamicColumnItemEndpoints]]" as="columnItem">
+                <div class$="[[_computeClass('', file.__path)]]">
+                  <gr-endpoint-decorator name$="[[columnItem]]">
+                    <gr-endpoint-param name="changeNum" value="[[changeNum]]">
+                    </gr-endpoint-param>
+                    <gr-endpoint-param name="patchRange" value="[[patchRange]]">
+                    </gr-endpoint-param>
+                    <gr-endpoint-param name="path" value="[[file.__path]]">
+                    </gr-endpoint-param>
+                  </gr-endpoint-decorator>
+                </div>
+              </template>
+            </template>
             <div class="reviewed hideOnEdit" hidden$="[[!_loggedIn]]" hidden>
               <span class$="reviewedLabel [[_computeReviewedClass(file.isReviewed)]]">Reviewed</span>
               <label>
@@ -417,16 +459,21 @@ limitations under the License.
             class="added"
             tabindex="0"
             aria-label$="[[_patchChange.inserted]] lines added">
-          +[[_patchChange.inserted]]
-        </span>
-        <span
+          +[[_patchChange.inserted]]&nbsp
+        </span><span
             class="removed"
             tabindex="0"
             aria-label$="[[_patchChange.deleted]] lines removed">
-          -[[_patchChange.deleted]]
+          &nbsp-[[_patchChange.deleted]]
         </span>
       </div>
       <!-- Empty div here exists to keep spacing in sync with file rows. -->
+      <template is="dom-if" if="[[_showDynamicColumns]]">
+        <template is="dom-repeat" items="[[_dynamicColumnTotalEndpoints]]" as="columnTotal">
+          <gr-endpoint-decorator name$="[[columnTotal]]">
+          </gr-endpoint-decorator>
+        </template>
+      </template>
       <div class="reviewed hideOnEdit" hidden$="[[!_loggedIn]]" hidden></div>
       <div class="editFileControls showOnEdit"></div>
       <div class="show-hide"></div>

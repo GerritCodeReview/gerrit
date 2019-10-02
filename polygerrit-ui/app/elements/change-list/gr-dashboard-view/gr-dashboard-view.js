@@ -198,7 +198,7 @@
               section.query);
 
       if (checkForNewUser) {
-        queries.push('owner:self limit:1');
+        queries.push('owner:self');
       }
 
       return this.$.restAPI.getChanges(null, queries, null, this.options)

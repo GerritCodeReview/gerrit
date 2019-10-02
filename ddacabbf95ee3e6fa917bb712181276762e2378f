@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "10b12fa8_2d5a3ad5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-02T15:25:02Z",
+      "side": 1,
+      "message": "Update the commit message and add up-to-date screenshots.",
+      "revId": "ddacabbf95ee3e6fa917bb712181276762e2378f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7213b772_c44f8015",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 16
+      },
+      "lineNbr": 913,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-02T15:25:02Z",
+      "side": 1,
+      "message": "maybe rename to _computeDownloadLinks or even _computeDownloadDropdownLinks",
+      "range": {
+        "startLine": 913,
+        "startChar": 4,
+        "endLine": 913,
+        "endChar": 24
+      },
+      "revId": "ddacabbf95ee3e6fa917bb712181276762e2378f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

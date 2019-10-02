@@ -604,30 +604,6 @@ limitations under the License.
           assert.isNotOk(params.basePatchNum);
           assert.equal(params.patchNum, 4);
         });
-
-        test('range 0..n normalizes to edit..n', () => {
-          const params = {basePatchNum: 0, patchNum: 4};
-          const needsRedirect = element._normalizePatchRangeParams(params);
-          assert.isTrue(needsRedirect);
-          assert.equal(params.basePatchNum, 'edit');
-          assert.equal(params.patchNum, 4);
-        });
-
-        test('range n..0 normalizes to n..edit', () => {
-          const params = {basePatchNum: 4, patchNum: 0};
-          const needsRedirect = element._normalizePatchRangeParams(params);
-          assert.isTrue(needsRedirect);
-          assert.equal(params.basePatchNum, 4);
-          assert.equal(params.patchNum, 'edit');
-        });
-
-        test('range 0..0 normalizes to edit', () => {
-          const params = {basePatchNum: 0, patchNum: 0};
-          const needsRedirect = element._normalizePatchRangeParams(params);
-          assert.isTrue(needsRedirect);
-          assert.isNotOk(params.basePatchNum);
-          assert.equal(params.patchNum, 'edit');
-        });
       });
     });
 

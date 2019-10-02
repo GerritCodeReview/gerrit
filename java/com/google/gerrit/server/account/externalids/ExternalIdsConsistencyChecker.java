@@ -72,8 +72,7 @@ public class ExternalIdsConsistencyChecker {
   private List<ConsistencyProblemInfo> check(ExternalIdNotes extIdNotes) throws IOException {
     List<ConsistencyProblemInfo> problems = new ArrayList<>();
 
-    ListMultimap<String, ExternalId.Key> emails =
-        MultimapBuilder.hashKeys().arrayListValues().build();
+    ListMultimap<String, ExternalId> emails = MultimapBuilder.hashKeys().arrayListValues().build();
 
     try (RevWalk rw = new RevWalk(extIdNotes.getRepository())) {
       NoteMap noteMap = extIdNotes.getNoteMap();
@@ -84,7 +83,11 @@ public class ExternalIdsConsistencyChecker {
           problems.addAll(validateExternalId(extId));
 
           if (extId.email() != null) {
-            emails.put(extId.email(), extId.key());
+            String email = extId.email();
+            if (emails.get(email).stream()
+                .noneMatch(e -> e.accountId().get() == extId.accountId().get())) {
+              emails.put(email, extId);
+            }
           }
         } catch (ConfigInvalidException e) {
           addError(String.format(e.getMessage()), problems);
@@ -101,7 +104,7 @@ public class ExternalIdsConsistencyChecker {
                         "Email '%s' is not unique, it's used by the following external IDs: %s",
                         e.getKey(),
                         e.getValue().stream()
-                            .map(k -> "'" + k.get() + "'")
+                            .map(k -> "'" + k.key().get() + "'")
                             .sorted()
                             .collect(joining(", "))),
                     problems));

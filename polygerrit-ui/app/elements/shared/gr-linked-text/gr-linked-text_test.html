@@ -73,6 +73,10 @@ limitations under the License.
           match: 'test (.+)',
           html: '<a href="/r/awesomesauce">$1</a>',
         },
+        anotatstartwithbaseurl: {
+          match: 'a test (.+)',
+          html: '[Lookup: <a href="/r/awesomesauce">$1</a>]',
+        },
         disabledconfig: {
           match: 'foo:(.+)',
           link: 'https://google.com/search?q=$1',
@@ -212,6 +216,15 @@ limitations under the License.
 
       element.content = 'test foo';
       const linkEl = element.$.output.childNodes[0];
+      assert.isTrue(linkEl.href.endsWith('/r/awesomesauce'));
+      assert.equal(linkEl.textContent, 'foo');
+    });
+
+    test('a is not at start', () => {
+      window.CANONICAL_PATH = '/r';
+
+      element.content = 'a test foo';
+      const linkEl = element.$.output.childNodes[1];
       assert.isTrue(linkEl.href.endsWith('/r/awesomesauce'));
       assert.equal(linkEl.textContent, 'foo');
     });

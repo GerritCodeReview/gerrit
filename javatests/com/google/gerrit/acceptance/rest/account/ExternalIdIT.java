@@ -533,6 +533,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
             admin.id(),
             "admin.other@example.com",
             "secret-password"));
+    insertExtId(ExternalId.createEmail(admin.id(), "admin.other@example.com"));
     insertExtId(createExternalIdWithOtherCaseEmail(nextId(scheme, i)));
   }
 
@@ -649,7 +650,7 @@ public class ExternalIdIT extends AbstractDaemonTest {
   }
 
   private ExternalId createExternalIdWithDuplicateEmail(String externalId) {
-    return ExternalId.createWithEmail(ExternalId.Key.parse(externalId), admin.id(), admin.email());
+    return ExternalId.createWithEmail(ExternalId.Key.parse(externalId), user.id(), admin.email());
   }
 
   private ExternalId createExternalIdWithBadPassword(String username) {

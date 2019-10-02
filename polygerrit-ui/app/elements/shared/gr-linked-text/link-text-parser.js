@@ -195,7 +195,7 @@
       function(html, position, length, outputArray) {
         if (this.hasOverlap(position, length, outputArray)) { return; }
         if (!!this.baseUrl && html.match(/<a href=\"\//g) &&
-             !html.match(`/<a href=\"${this.baseUrl}/g`)) {
+             !new RegExp(`<a href="${this.baseUrl}`, 'g').test(html)) {
           html = html.replace(/<a href=\"\//g, `<a href=\"${this.baseUrl}\/`);
         }
         this.addItem(null, null, html, position, length, outputArray);

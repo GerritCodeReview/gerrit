@@ -41,15 +41,18 @@ import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.Permission;
+import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.api.projects.CommentLinkInfo;
 import com.google.gerrit.extensions.api.projects.ConfigInfo;
 import com.google.gerrit.extensions.api.projects.ConfigInput;
+import com.google.gerrit.extensions.api.projects.ConfigValue;
 import com.google.gerrit.extensions.api.projects.DescriptionInput;
 import com.google.gerrit.extensions.api.projects.ProjectInput;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.ProjectState;
 import com.google.gerrit.extensions.client.SubmitType;
+import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.events.ChangeIndexedListener;
 import com.google.gerrit.extensions.events.ProjectIndexedListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
@@ -61,10 +64,13 @@ import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.server.config.ProjectConfigEntry;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.index.IndexExecutor;
 import com.google.gerrit.server.project.CommentLinkInfoImpl;
+import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
+import com.google.inject.Module;
 import java.util.HashMap;
 import java.util.Map;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -94,6 +100,18 @@ public class ProjectIT extends AbstractDaemonTest {
 
   private ProjectIndexedCounter projectIndexedCounter;
   private RegistrationHandle projectIndexedCounterHandle;
+
+  @Override
+  public Module createModule() {
+    return new AbstractModule() {
+      @Override
+      protected void configure() {
+        bind(ProjectConfigEntry.class)
+            .annotatedWith(Exports.named("test-plugin-key"))
+            .toInstance(new ProjectConfigEntry("Test Plugin Config Item", true));
+      }
+    };
+  }
 
   @Before
   public void addProjectIndexedCounter() {
@@ -168,6 +186,17 @@ public class ProjectIT extends AbstractDaemonTest {
 
     head = getRemoteHead(name, "refs/heads/master");
     eventRecorder.assertRefUpdatedEvents(name, "refs/heads/master", null, head);
+  }
+
+  @Test
+  public void createProjectWithPluginConfigs() throws Exception {
+    String name = name("foo");
+    ProjectInput input = new ProjectInput();
+    input.name = name;
+    input.description = "foo description";
+    input.pluginConfigValues = newPluginConfigValues();
+    ProjectInfo info = gApi.projects().create(input).get();
+    assertThat(info.description).isEqualTo(input.description);
   }
 
   @Test
@@ -727,6 +756,16 @@ public class ProjectIT extends AbstractDaemonTest {
     ConfigInput input = new ConfigInput();
     input.maxObjectSizeLimit = value;
     return setConfig(name, input);
+  }
+
+  private static Map<String, Map<String, ConfigValue>> newPluginConfigValues() {
+    Map<String, Map<String, ConfigValue>> pluginConfigValues = new HashMap<>();
+    Map<String, ConfigValue> configValues = new HashMap<>();
+    ConfigValue value = new ConfigValue();
+    value.value = "true";
+    configValues.put("test-plugin-key", value);
+    pluginConfigValues.put("gerrit", configValues);
+    return pluginConfigValues;
   }
 
   private static class ProjectIndexedCounter implements ProjectIndexedListener {

@@ -600,16 +600,6 @@
         params.patchNum = params.basePatchNum;
         params.basePatchNum = null;
       }
-      // In GWTUI, edits are represented in URLs with either 0 or 'edit'.
-      // TODO(kaspern): Remove this normalization when GWT UI is gone.
-      if (this.patchNumEquals(params.basePatchNum, 0)) {
-        params.basePatchNum = this.EDIT_NAME;
-        needsRedirect = true;
-      }
-      if (this.patchNumEquals(params.patchNum, 0)) {
-        params.patchNum = this.EDIT_NAME;
-        needsRedirect = true;
-      }
       return needsRedirect;
     },
 

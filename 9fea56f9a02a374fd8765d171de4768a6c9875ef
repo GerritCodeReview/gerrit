@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "53cd06ad_0e1b4eda",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 29
+      },
+      "lineNbr": 937,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-02T18:34:54Z",
+      "side": 1,
+      "message": "Why don\u0027t we call: get-safe-content endpoint directly here [1]? Looking at the CatServlet.java, it is redirecting to it anyway:\n\n  String restUrl \u003d\n        String.format(\n            \"%s/changes/%d/revisions/%s/files/%s/download?parent\u003d%d\",\n            req.getContextPath(), changeId.get(), revision, Url.encode(path), side);\n    rsp.sendRedirect(restUrl);\n\n* [1] https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#get-safe-content",
+      "range": {
+        "startLine": 935,
+        "startChar": 6,
+        "endLine": 937,
+        "endChar": 48
+      },
+      "revId": "9fea56f9a02a374fd8765d171de4768a6c9875ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

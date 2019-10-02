@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3c7a3aef_6c08f26a",
+        "filename": "java/com/google/gerrit/server/patch/PatchScriptBuilder.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 506,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-10-02T11:13:54Z",
+      "side": 1,
+      "message": "Comment removed by: Dmitrii Filippov; Reason: Incorrect",
+      "range": {
+        "startLine": 506,
+        "startChar": 16,
+        "endLine": 506,
+        "endChar": 28
+      },
+      "revId": "108d171a30efc174217747fa5ba112677badd92a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

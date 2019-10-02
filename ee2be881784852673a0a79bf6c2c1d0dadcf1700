@@ -1,0 +1,297 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "826e038b_ff95341b",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-10-02T20:14:31Z",
+      "side": 1,
+      "message": "place an embargo on it",
+      "range": {
+        "startLine": 172,
+        "startChar": 56,
+        "endLine": 173,
+        "endChar": 17
+      },
+      "revId": "ee2be881784852673a0a79bf6c2c1d0dadcf1700",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b4aac07f_a9313c69",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-10-02T20:14:31Z",
+      "side": 1,
+      "message": "a fix release is",
+      "range": {
+        "startLine": 173,
+        "startChar": 24,
+        "endLine": 173,
+        "endChar": 42
+      },
+      "revId": "ee2be881784852673a0a79bf6c2c1d0dadcf1700",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "45fb6f75_2623b77d",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-10-02T20:14:31Z",
+      "side": 1,
+      "message": "I think priority should be based on the severity of the issue. Usually this is based on a CVSS rating, \nsee. e.g. Kubernetes security process [1]\n\n[1] https://github.com/kubernetes/security/blob/master/security-release-process.md#fix-development-process",
+      "range": {
+        "startLine": 174,
+        "startChar": 0,
+        "endLine": 174,
+        "endChar": 26
+      },
+      "revId": "ee2be881784852673a0a79bf6c2c1d0dadcf1700",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9352b76d_ee1d8dc5",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-10-02T20:14:31Z",
+      "side": 1,
+      "message": ". The embargo is lifted and the vulnerability is disclosed to the community as soon as a fix release or another mitigation is available.",
+      "range": {
+        "startLine": 174,
+        "startChar": 26,
+        "endLine": 175,
+        "endChar": 53
+      },
+      "revId": "ee2be881784852673a0a79bf6c2c1d0dadcf1700",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "57fb4708_1d70b99c",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-10-02T20:14:31Z",
+      "side": 1,
+      "message": "it under embargo",
+      "range": {
+        "startLine": 205,
+        "startChar": 69,
+        "endLine": 206,
+        "endChar": 8
+      },
+      "revId": "ee2be881784852673a0a79bf6c2c1d0dadcf1700",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "32726df2_57951f24",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-10-02T20:14:31Z",
+      "side": 1,
+      "message": "a fix release is",
+      "range": {
+        "startLine": 206,
+        "startChar": 15,
+        "endLine": 206,
+        "endChar": 33
+      },
+      "revId": "ee2be881784852673a0a79bf6c2c1d0dadcf1700",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b5cf2351_5058c5d9",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-10-02T20:14:31Z",
+      "side": 1,
+      "message": "Once a fix release or mitigation is available",
+      "range": {
+        "startLine": 217,
+        "startChar": 0,
+        "endLine": 217,
+        "endChar": 23
+      },
+      "revId": "ee2be881784852673a0a79bf6c2c1d0dadcf1700",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0577bc27_1d454c8a",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-10-02T20:14:31Z",
+      "side": 1,
+      "message": "disclosed",
+      "range": {
+        "startLine": 220,
+        "startChar": 17,
+        "endLine": 220,
+        "endChar": 23
+      },
+      "revId": "ee2be881784852673a0a79bf6c2c1d0dadcf1700",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "77a4e76e_ef39e323",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-10-02T20:14:31Z",
+      "side": 1,
+      "message": "I think this should be based on a CVSS rating and there should be clear rules what has to be done for which severity level.\ne.g. Kubernetes security process differentiates between CVSS \u003c 4 (low severity), \u003c7 (medium) and \u003e7 (high severity)\n\nHow about creating a CVE for each vulnerability ?",
+      "revId": "ee2be881784852673a0a79bf6c2c1d0dadcf1700",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b21452bb_a5142a60",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-10-02T20:14:31Z",
+      "side": 1,
+      "message": "`",
+      "range": {
+        "startLine": 257,
+        "startChar": 30,
+        "endLine": 257,
+        "endChar": 31
+      },
+      "revId": "ee2be881784852673a0a79bf6c2c1d0dadcf1700",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c1b3467a_efa81ec1",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-10-02T20:14:31Z",
+      "side": 1,
+      "message": "which",
+      "range": {
+        "startLine": 258,
+        "startChar": 56,
+        "endLine": 258,
+        "endChar": 64
+      },
+      "revId": "ee2be881784852673a0a79bf6c2c1d0dadcf1700",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "db9c9720_1b17afbf",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-10-02T20:14:31Z",
+      "side": 1,
+      "message": "what is minor in your terms ? I\u0027d name this bug fix release.",
+      "range": {
+        "startLine": 266,
+        "startChar": 36,
+        "endLine": 266,
+        "endChar": 41
+      },
+      "revId": "ee2be881784852673a0a79bf6c2c1d0dadcf1700",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "336bfb87_663dd6dc",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-10-02T20:14:31Z",
+      "side": 1,
+      "message": "shouldn\u0027t we better strive to have an automated test ?",
+      "range": {
+        "startLine": 268,
+        "startChar": 27,
+        "endLine": 268,
+        "endChar": 35
+      },
+      "revId": "ee2be881784852673a0a79bf6c2c1d0dadcf1700",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -16,6 +16,24 @@
       "revId": "32546c2434ac900f2cdc839abe3777ce8c71d891",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3ce4b6c6_8f29da19",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown/gr-dropdown.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-10-02T17:00:41Z",
+      "side": 1,
+      "message": "oh, right. Yes i think. Thanks!",
+      "parentUuid": "a79fcb09_bc801abb",
+      "revId": "32546c2434ac900f2cdc839abe3777ce8c71d891",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

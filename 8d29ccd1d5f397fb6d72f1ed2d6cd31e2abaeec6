@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "29513e5e_41cd8483",
+        "filename": "java/com/google/gerrit/server/patch/PatchScriptBuilder.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-10-03T22:06:28Z",
+      "side": 1,
+      "message": "For reviewer: it might be easier to review Base -\u003e PS1 first and then PS1-\u003ePS6",
+      "range": {
+        "startLine": 55,
+        "startChar": 6,
+        "endLine": 55,
+        "endChar": 24
+      },
+      "revId": "8d29ccd1d5f397fb6d72f1ed2d6cd31e2abaeec6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

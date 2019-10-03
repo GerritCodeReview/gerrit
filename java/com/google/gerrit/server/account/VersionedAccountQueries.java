@@ -14,11 +14,17 @@
 
 package com.google.gerrit.server.account;
 
+import static java.util.stream.Collectors.joining;
+
+import com.google.common.base.Strings;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.server.git.ValidationError;
 import com.google.gerrit.server.git.meta.VersionedMetaData;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
 
@@ -46,6 +52,16 @@ public class VersionedAccountQueries extends VersionedMetaData {
     return queryList;
   }
 
+  public void setQueryList(String text) throws IOException, ConfigInvalidException {
+    List<ValidationError> errors = new ArrayList<>();
+    QueryList newQueryList = QueryList.parse(text, error -> errors.add(error));
+    if (!errors.isEmpty()) {
+      String messages = errors.stream().map(ValidationError::getMessage).collect(joining(", "));
+      throw new ConfigInvalidException("Invalid named queries: " + messages);
+    }
+    queryList = newQueryList;
+  }
+
   @Override
   protected void onLoad() throws IOException, ConfigInvalidException {
     queryList =
@@ -58,6 +74,10 @@ public class VersionedAccountQueries extends VersionedMetaData {
 
   @Override
   protected boolean onSave(CommitBuilder commit) throws IOException, ConfigInvalidException {
-    throw new UnsupportedOperationException("Cannot yet save named queries");
+    if (Strings.isNullOrEmpty(commit.getMessage())) {
+      commit.setMessage("Updated named queries\n");
+    }
+    saveUTF8(QueryList.FILE_NAME, queryList.asText());
+    return true;
   }
 }

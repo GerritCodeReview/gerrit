@@ -91,6 +91,7 @@ import com.google.gerrit.server.account.AccountManager;
 import com.google.gerrit.server.account.Accounts;
 import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.account.AuthRequest;
+import com.google.gerrit.server.account.VersionedAccountQueries;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.ChangeTriplet;
@@ -2953,19 +2954,19 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     Change change1 = insert(repo, newChange(repo));
     Change change2 = insert(repo, newChangeForBranch(repo, "stable"));
 
-    String queries =
+    String queryListText =
         "query1\tproject:repo\n"
             + "query2\tproject:repo status:open\n"
             + "query3\tproject:repo branch:stable\n"
             + "query4\tproject:repo branch:other";
 
     try (TestRepository<Repo> allUsers =
-        new TestRepository<>(repoManager.openRepository(allUsersName))) {
-      String refsUsers = RefNames.refsUsers(userId);
-      allUsers.branch(refsUsers).commit().add("queries", queries).create();
-
-      Ref userRef = allUsers.getRepository().exactRef(refsUsers);
-      assertThat(userRef).isNotNull();
+            new TestRepository<>(repoManager.openRepository(allUsersName));
+        MetaDataUpdate md = metaDataUpdateFactory.create(allUsersName)) {
+      VersionedAccountQueries queries = VersionedAccountQueries.forUser(userId);
+      queries.load(md);
+      queries.setQueryList(queryListText);
+      queries.commit(md);
     }
 
     assertThatQueryException("query:foo").hasMessageThat().isEqualTo("Unknown named query: foo");

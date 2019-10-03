@@ -16,7 +16,6 @@ package com.google.gerrit.acceptance.ssh;
 
 import com.google.gerrit.index.IndexType;
 import com.google.gerrit.testing.ConfigSuite;
-import com.google.inject.Injector;
 import org.eclipse.jgit.lib.Config;
 
 /**
@@ -31,7 +30,4 @@ public class CustomIndexIT extends AbstractIndexTests {
     config.setString("index", null, "type", "custom");
     return config;
   }
-
-  @Override
-  public void configureIndex(Injector injector) throws Exception {}
 }

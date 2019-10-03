@@ -58,7 +58,7 @@ public class IndexType {
   }
 
   public static boolean isElasticsearch(String type) {
-    return type.equals(ELASTICSEARCH);
+    return type.toLowerCase().equals(ELASTICSEARCH);
   }
 
   @Override

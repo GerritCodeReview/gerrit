@@ -81,12 +81,16 @@ public class AccountCacheImpl implements AccountCache {
 
   @Override
   public AccountState get(Account.Id accountId) {
-    try {
-      return byId.get(accountId).orElse(missing(accountId));
-    } catch (ExecutionException e) {
-      log.warn("Cannot load AccountState for " + accountId, e);
-      return missing(accountId);
+    V value = byId.getIfPresent(accountId);
+    if (value != null) {
+      return value;
     }
+    value = loadById(accountId);
+    if (value != null) {
+      byId.put(accountId, value);
+      return value;
+    }
+    return missing(accountId);
   }
 
   @Override

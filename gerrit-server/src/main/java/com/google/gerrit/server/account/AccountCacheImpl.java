@@ -66,24 +66,37 @@ public class AccountCacheImpl implements AccountCache {
   private final ExternalIds externalIds;
   private final LoadingCache<Account.Id, Optional<AccountState>> byId;
   private final Provider<AccountIndexer> indexer;
+  private final ByIdLoader byIdLoader;
 
   @Inject
   AccountCacheImpl(
       AllUsersName allUsersName,
       ExternalIds externalIds,
       @Named(BYID_NAME) LoadingCache<Account.Id, Optional<AccountState>> byId,
-      Provider<AccountIndexer> indexer) {
+      Provider<AccountIndexer> indexer,
+      ByIdLoader byIdLoader) {
     this.allUsersName = allUsersName;
     this.externalIds = externalIds;
     this.byId = byId;
     this.indexer = indexer;
+    this.byIdLoader = byIdLoader;
   }
 
   @Override
   public AccountState get(Account.Id accountId) {
     try {
-      return byId.get(accountId).orElse(missing(accountId));
-    } catch (ExecutionException e) {
+      Optional<AccountState> value = byId.getIfPresent(accountId);
+      if (value != null) {
+        return value.get();
+      }
+      value = byIdLoader.load(accountId);
+      if (value != null) {
+        byId.put(accountId, value);
+        return value.get();
+      }
+
+      return missing(accountId);
+    } catch (Exception e) {
       log.warn("Cannot load AccountState for " + accountId, e);
       return missing(accountId);
     }

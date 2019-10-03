@@ -52,7 +52,8 @@ public abstract class IndexConfig {
   }
 
   private static void setTypeOrDefault(Config cfg, Consumer<String> setter) {
-    setter.accept(new IndexType(cfg).toString());
+    String type = cfg != null ? cfg.getString("index", null, "type") : null;
+    setter.accept(new IndexType(type).toString());
   }
 
   public static Builder builder() {

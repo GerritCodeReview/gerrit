@@ -16,7 +16,6 @@ package com.google.gerrit.index;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.Nullable;
-import org.eclipse.jgit.lib.Config;
 
 /**
  * Index types supported by the secondary index.
@@ -35,10 +34,6 @@ public class IndexType {
 
   public IndexType(@Nullable String type) {
     this.type = type == null ? getDefault() : type.toLowerCase();
-  }
-
-  public IndexType(@Nullable Config cfg) {
-    this(cfg != null ? cfg.getString("index", null, "type") : null);
   }
 
   public static String getDefault() {

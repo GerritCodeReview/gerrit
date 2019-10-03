@@ -14,10 +14,12 @@
 
 package com.google.gerrit.acceptance.ssh;
 
+import com.google.gerrit.index.IndexType;
 import com.google.gerrit.testing.ConfigSuite;
 import com.google.inject.Injector;
 import org.eclipse.jgit.lib.Config;
 
+/** Tests for a defaulted {@link IndexType#isCustom()} index configuration. */
 public class CustomIndexIT extends AbstractIndexTests {
 
   @ConfigSuite.Default

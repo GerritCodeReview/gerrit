@@ -16,6 +16,24 @@
       "revId": "587c893d862dcf927b477e52626cd589693e62d0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "381a9496_5b258392",
+        "filename": "javatests/com/google/gerrit/acceptance/pgm/GitProtocolV2IT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-03T18:58:25Z",
+      "side": 1,
+      "message": "I moved the test to: com.google.gerrit.integration.git package. Done.",
+      "parentUuid": "195cd904_a2a23b0a",
+      "revId": "587c893d862dcf927b477e52626cd589693e62d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -14,8 +14,10 @@
 
 package com.google.gerrit.acceptance.ssh;
 
+import com.google.gerrit.index.IndexType;
 import com.google.inject.Injector;
 
+/** Tests for the default {@link IndexType#isLucene()} index configuration. */
 public class IndexIT extends AbstractIndexTests {
 
   @Override

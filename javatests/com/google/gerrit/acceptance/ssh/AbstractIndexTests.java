@@ -45,7 +45,7 @@ public abstract class AbstractIndexTests extends AbstractDaemonTest {
   private RegistrationHandle changeIndexedCounterHandle;
 
   /** @param injector injector */
-  public abstract void configureIndex(Injector injector) throws Exception;
+  public abstract void configureIndex(Injector injector);
 
   @Before
   public void addChangeIndexedCounter() {

@@ -21,5 +21,5 @@ import com.google.inject.Injector;
 public class IndexIT extends AbstractIndexTests {
 
   @Override
-  public void configureIndex(Injector injector) throws Exception {}
+  public void configureIndex(Injector injector) {}
 }

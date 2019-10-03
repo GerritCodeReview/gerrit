@@ -30,5 +30,5 @@ public class CustomIndexIT extends AbstractIndexTests {
   }
 
   @Override
-  public void configureIndex(Injector injector) throws Exception {}
+  public void configureIndex(Injector injector) {}
 }

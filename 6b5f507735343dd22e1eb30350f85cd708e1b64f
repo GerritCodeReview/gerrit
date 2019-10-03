@@ -22,6 +22,30 @@
       "revId": "6b5f507735343dd22e1eb30350f85cd708e1b64f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "27e347c7_2b42bc8e",
+        "filename": "java/com/google/gerrit/server/restapi/project/PutConfig.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-10-03T02:05:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c584e8c6_8a92415d",
+      "range": {
+        "startLine": 303,
+        "startChar": 55,
+        "endLine": 303,
+        "endChar": 62
+      },
+      "revId": "6b5f507735343dd22e1eb30350f85cd708e1b64f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

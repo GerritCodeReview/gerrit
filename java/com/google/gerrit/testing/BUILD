@@ -10,6 +10,7 @@ java_library(
     visibility = ["//visibility:public"],
     exports = [
         "//lib:junit",
+        "//lib/mockito",
     ],
     deps = [
         "//java/com/google/gerrit/acceptance/testsuite/project",

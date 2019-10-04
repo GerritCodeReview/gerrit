@@ -109,6 +109,7 @@
 
   Polymer({
     is: 'gr-rest-api-interface',
+    _legacyUndefinedCheck: true,
 
     behaviors: [
       Gerrit.FireBehavior,

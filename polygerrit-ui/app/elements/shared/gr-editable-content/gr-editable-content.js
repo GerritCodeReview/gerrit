@@ -22,6 +22,7 @@
 
   Polymer({
     is: 'gr-editable-content',
+    _legacyUndefinedCheck: true,
 
     /**
      * Fired when the save button is pressed.

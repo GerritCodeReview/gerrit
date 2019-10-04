@@ -46,6 +46,7 @@ limitations under the License.
       // Define a Polymer element that uses this behavior.
       Polymer({
         is: 'test-element-anon',
+        _legacyUndefinedCheck: true,
         behaviors: [
           Gerrit.DisplayNameBehavior,
         ],

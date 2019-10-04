@@ -19,6 +19,7 @@
 
   Polymer({
     is: 'gr-label-info',
+    _legacyUndefinedCheck: true,
 
     properties: {
       labelInfo: Object,

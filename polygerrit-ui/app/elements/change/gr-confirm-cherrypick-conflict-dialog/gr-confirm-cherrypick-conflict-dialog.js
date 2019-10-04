@@ -19,6 +19,7 @@
 
   Polymer({
     is: 'gr-confirm-cherrypick-conflict-dialog',
+    _legacyUndefinedCheck: true,
 
     behaviors: [
       Gerrit.FireBehavior,

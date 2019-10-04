@@ -29,6 +29,7 @@
 
   Polymer({
     is: 'gr-upload-help-dialog',
+    _legacyUndefinedCheck: true,
 
     /**
      * Fired when the user presses the close button.

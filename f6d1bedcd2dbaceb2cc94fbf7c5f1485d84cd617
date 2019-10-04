@@ -22,6 +22,122 @@
       "revId": "f6d1bedcd2dbaceb2cc94fbf7c5f1485d84cd617",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3a451ab1_e03fbbfc",
+        "filename": "java/com/google/gerrit/reviewdb/client/Comment.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-10-04T16:44:59Z",
+      "side": 1,
+      "message": "+1. Good idea.",
+      "parentUuid": "27cd508d_bd2944f5",
+      "range": {
+        "startLine": 134,
+        "startChar": 6,
+        "endLine": 134,
+        "endChar": 7
+      },
+      "revId": "f6d1bedcd2dbaceb2cc94fbf7c5f1485d84cd617",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dfe94110_cad0b6d0",
+        "filename": "java/com/google/gerrit/reviewdb/client/Comment.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-10-04T16:44:59Z",
+      "side": 1,
+      "message": "Some typos. Suggestion \"it does not belong to the range\".",
+      "range": {
+        "startLine": 137,
+        "startChar": 13,
+        "endLine": 137,
+        "endChar": 39
+      },
+      "revId": "f6d1bedcd2dbaceb2cc94fbf7c5f1485d84cd617",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c3673abd_9440e7df",
+        "filename": "java/com/google/gerrit/reviewdb/client/Comment.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-10-04T16:44:59Z",
+      "side": 1,
+      "message": "Does our code currently support the specification of (endLine, endChar) directly after a newline character (that is in the same line)? I would have guessed so but can\u0027t remember how exactly it behaves anymore. If this is supported, I think I would rather change this explanation to: (endLine, endChar) must define a location after a valid character of the text.",
+      "range": {
+        "startLine": 138,
+        "startChar": 7,
+        "endLine": 138,
+        "endChar": 81
+      },
+      "revId": "f6d1bedcd2dbaceb2cc94fbf7c5f1485d84cd617",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "628eb53f_8aa938ce",
+        "filename": "java/com/google/gerrit/reviewdb/client/Comment.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-10-04T16:44:59Z",
+      "side": 1,
+      "message": "That\u0027s only true if the range is used for the left side. If used on the right side, it\u0027s a deletion.",
+      "range": {
+        "startLine": 141,
+        "startChar": 7,
+        "endLine": 141,
+        "endChar": 36
+      },
+      "revId": "f6d1bedcd2dbaceb2cc94fbf7c5f1485d84cd617",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "98b52676_1383cf4c",
+        "filename": "java/com/google/gerrit/reviewdb/client/Comment.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-10-04T16:44:59Z",
+      "side": 1,
+      "message": "Thanks for adding the test to FixReplacementInterpreterIT. I see that Gerrit currently behaves as you describe here for fix replacements. However, I\u0027m not so sure in the context of diffs (and our internal JGit Edits) in general. From working on I1e15767fc, I remember for diff contexts always having the 0 char offset but a different line number. As I1e15767fc was fixed after adding fix replacements, we might also have an inconsistency there. We should double-check that.",
+      "range": {
+        "startLine": 142,
+        "startChar": 10,
+        "endLine": 145,
+        "endChar": 77
+      },
+      "revId": "f6d1bedcd2dbaceb2cc94fbf7c5f1485d84cd617",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

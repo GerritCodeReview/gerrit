@@ -49,6 +49,7 @@ link:dev-cla.html[contributor's agreement] on file with the project.
 
 [[plugin-development]]
 == Plugin Development
+* link:dev-plugins-lifecycle.html[Plugin Lifecycle]
 * link:dev-plugins.html[Developing Plugins]
 * link:dev-build-plugins.html[Building Gerrit plugins]
 * link:js-api.html[JavaScript Plugin API]

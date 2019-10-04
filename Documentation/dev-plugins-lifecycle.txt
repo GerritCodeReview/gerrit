@@ -1,0 +1,254 @@
+= Plugin Lifecycle
+
+Most of the plugins are hosted on the same instance as the
+link:https://gerrit-review.googlesource.com[Gerrit project itself] to make them
+more discoverable and have more chances to be reviewed by the whole community.
+
+[[hosting_lifecycle]]
+== Hosting Lifecycle
+
+The process of writing a new plugin goes through different phases:
+
+- Ideation and Discussion:
++
+The idea of creating a new plugin is posted and discussed on the
+link:https://groups.google.com/d/forum/repo-discuss[repo-discuss] mailing list.
++
+Also see section link#ideation_discussion[Ideation and discussion] below.
+
+- Prototyping (optional):
++
+The author of the plugin creates a working prototype on a public repository
+accessible to the community.
++
+Also see section link#plugin_prototyping[Plugin Prototyping] below.
+
+- Proposal and Hosting:
++
+The author proposes to release the plugin under the
+link:https://www.apache.org/licenses/LICENSE-2.0.html[Apache 2.0 OpenSource
+license] and requests the plugin to be hosted on
+link:https://gerrit-review.googlesource.com[the Gerrit project site]. The
+proposal must be   accepted by at least one Gerrit maintainer. In case of
+disagreement between maintainers, the issue can be escalated to the
+link:dev-processes.html#steering-committee[Engineering Steering Committee]. If
+the plugin is accepted, the Gerrit maintainer creates the project under the
+plugins path on link:https://gerrit-review.googlesource.com[the Gerrit project
+site].
++
+Also see section link#plugin_proposal[Plugin Proposal] below.
+
+- Build:
++
+To make the consumption of the plugin easy and to notice plugin breakages early
+the plugin author should setup build jobs on
+link:https://gerrit-ci.gerritforge.com[the GerritForge CI] that build the
+plugin for each Gerrit version that it supports.
++
+Also see section link#build[Build] below.
+
+- Development and Contribution:
++
+The author develops a production-ready code base of the plugin, with
+contributions, reviews, and help from the Gerrit community.
++
+Also see section link#development_contribution[Development and contribution]
+below.
+
+- Release:
++
+The author releases the plugin by creating a Git tag and announcing the plugin
+on the link:https://groups.google.com/d/forum/repo-discuss[repo-discuss]
+mailing list.
++
+Also see section link#plugin_release[Plugin release] below.
+
+- Maintenance:
++
+The author maintains their plugins as new Gerrit versions are released, updates
+them when necessary, develops further existing or new features and reviews
+incoming contributions.
+
+- Deprecation:
++
+The author declares that the plugin is not maintained anymore or is deprecated
+and should not be used anymore.
++
+Also see section link#plugin_deprecation[Plugin deprecation] below.
+
+[[ideation_discussion]]
+== Ideation and Discussion
+
+Starting a new plugin project is a community effort: it starts with the
+identification of a gap in the Gerrit Code Review product but evolves with the
+contribution of ideas and suggestions by the whole community.
+
+The ideator of the plugin starts with an RFC (Request For Comments) post on the
+link:https://groups.google.com/d/forum/repo-discuss[repo-discuss] mailing list
+with a description of the main reasons for starting a new plugin.
+
+Example of a post:
+
+----
+  [RFC] Code-Formatter plugin
+
+  Hello, community,
+  I am proposing to create a new plugin for Gerrit called 'Code-Formatter', see
+  the details below.
+
+  *The gap*
+  Often, when I post a new change to Gerrit, I forget to run the common code
+  formatting tool (e.g. Google-Java-Format for the Gerrit project). I would
+  like Gerrit to be in charge of highlighting these issues to me and save many
+  people's time.
+
+  *The proposal*
+  The Code-Formatter plugin reads the formatting rules in the project config
+  and applies them automatically to every patch-set. Any issue is reported as a
+  regular review comment to the patchset, highlighting the part of the code to
+  be changed.
+
+  What do you think? Did anyone have the same idea or need?
+----
+
+The idea is discussed on the mailing list and can evolve based on the needs and
+inputs from the entire community.
+
+After the discussion, the ideator of the plugin can decide to start prototyping
+on it or park the proposal, if the feedback provided an alternative solution to
+the problem. The prototype phase can be optionally skipped if the idea is clear
+enough and receives a general agreement from the Gerrit maintainers. The author
+can be given a "leap of faith" and can go directly to the format plugin
+proposal (see below) and the creation of the plugin repository.
+
+[[plugin_prototyping]]
+== Plugin Prototyping
+
+The initial idea is translated to code by the plugin author. The development
+can happen on any public or private source code repository and can involve one
+or more contributors. The purpose of prototyping is to verify that the idea can
+be implemented and provides the expected benefits.
+
+Once a working prototype is ready, it can be announced as a follow-up to the
+initial RFC proposal so that other members of the community can see the code
+and try the plugin themselves.
+
+[[plugin_proposal]]
+== Plugin Proposal
+
+The author decides that the plugin prototype makes sense as a general purpose
+plugin and decides to release the code with the same
+link:https://www.apache.org/licenses/LICENSE-2.0.html[Apache 2.0 license]
+as the Gerrit Code Review project and have it hosted on
+link:https://gerrit-review.googlesource.com[the Gerrit project site].
+
+The plugin author formalizes the proposal with a follow-up of the initial RFC
+post and asks for public opinion on it.
+
+Example:
+
+----
+  Re - [RFC] Code-Formatter plugin
+
+  Hello, community,
+  thanks for your feedback on the prototype. I have now decided to donate the
+  project to the Gerrit Code Review project and make it a plugin:
+
+  Plugin name:
+  /plugins/code-formatter
+
+  Plugin description:
+    Plugin to allow automatic posting review based on code-formatting rules
+----
+
+The community discusses the proposal and the value of the plugin for the whole
+project; the result of the discussion can end up in one of the following cases:
+
+- The plugin's project request is widely appreciated and formally accepted by
+  at least one Gerrit maintainer who creates the repository as child project of
+  'Public-Projects' on link:https://gerrit-review.googlesource.com[the Gerrit
+  project site], creates an associated plugin owners group with "Owner"
+  permissions for the plugin and adds the plugin's author as member of it.
+- The plugin's project is widely appreciated; however, another existing plugin
+  already partially covers the same use-case and thus it would make more sense
+  to have the features integrated into the existing plugin. The new plugin's
+  author contributes his prototype commits refactored to be included as change
+  into the existing plugin.
+- The plugin's project is found useful; however, it is too specific to the
+  author's use-case and would not make sense outside of it. The plugin remains
+  in a public repository, widely accessible and OpenSource, but not hosted on
+  link:https://gerrit-review.googlesource.com[the Gerrit project site].
+
+[[build]]
+== Build
+
+The plugin's maintainer creates a job on the
+link:https://gerrit-ci.gerritforge.com[GerritForge CI] by creating a new YAML
+definition in the link:https://gerrit.googlesource.com/gerrit-ci-scripts[Gerrit
+CI Scripts] repository.
+
+Example of a YAML CI job for plugins:
+
+----
+  - project:
+    name: code-formatter
+    jobs:
+      - 'plugin-{name}-bazel-{branch}':
+          branch:
+            - master
+----
+
+[[development_contribution]]
+== Development and Contribution
+
+The plugin follows the same lifecycle as Gerrit Code Review and needs to be
+kept up-to-date with the current active branches, according to the
+link:https://www.gerritcodereview.com/#support[current support policy].
+During the development, the plugin's maintainer can reward contributors
+requesting to be more involved and making them maintainers of his plugin,
+adding them to the list of the project owners.
+
+[[plugin_release]]
+== Plugin Release
+
+The plugin's maintainer is the only person responsible for making and
+announcing the official releases, typically, but not limited to, in conjunction
+with the major releases of Gerrit Code Review. The plugin's maintainer may tag
+his plugin and follow the notation and semantics of the Gerrit Code Review
+project; however it is not mandatory and many of the plugins do not have any
+tags or releases.
+
+Example of a YAML CI job for a plugin compatible with multiple Gerrit versions:
+
+----
+  - project:
+    name: code-formatter
+    jobs:
+      - 'plugin-{name}-bazel-{branch}-{gerrit-branch}':
+          branch:
+            - master
+          gerrit-branch:
+            - master
+            - stable-3.0
+            - stable-2.16
+----
+
+[[plugin_deprecation]]
+== Plugin Deprecation
+
+The plugin's maintainer and the community have agreed that the plugin is not
+useful anymore or there isn't anyone willing to contribute to bringing it
+forward and keeping it up-to-date with the recent versions of Gerrit Code
+Review.
+
+The plugin's maintainer puts a deprecation notice in the README.md of the
+plugin and pushes it for review. If nobody is willing to bring the code
+forward, the change gets merged, and the master branch is removed from the list
+of branches to be built on the GerritFoge CI.
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

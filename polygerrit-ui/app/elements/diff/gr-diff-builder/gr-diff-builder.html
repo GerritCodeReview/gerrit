@@ -20,7 +20,6 @@ limitations under the License.
 <link rel="import" href="../gr-coverage-layer/gr-coverage-layer.html">
 <link rel="import" href="../gr-diff-processor/gr-diff-processor.html">
 <link rel="import" href="../gr-ranged-comment-layer/gr-ranged-comment-layer.html">
-<link rel="import" href="../gr-syntax-layer/gr-syntax-layer.html">
 
 <dom-module id="gr-diff-builder">
   <template>
@@ -30,9 +29,6 @@ limitations under the License.
     <gr-ranged-comment-layer
         id="rangeLayer"
         comment-ranges="[[commentRanges]]"></gr-ranged-comment-layer>
-    <gr-syntax-layer
-        id="syntaxLayer"
-        diff="[[diff]]"></gr-syntax-layer>
     <gr-coverage-layer
         id="coverageLayerLeft"
         coverage-ranges="[[_leftCoverageRanges]]"
@@ -64,13 +60,6 @@ limitations under the License.
         UNIFIED: 'UNIFIED_DIFF',
       };
 
-      // If any line of the diff is more than the character limit, then disable
-      // syntax highlighting for the entire file.
-      const SYNTAX_MAX_LINE_LENGTH = 500;
-
-      // Disable syntax highlighting if the overall diff is too large.
-      const SYNTAX_MAX_DIFF_LENGTH = 20000;
-
       const TRAILING_WHITESPACE_PATTERN = /\s+$/;
 
       Polymer({
@@ -84,16 +73,9 @@ limitations under the License.
          */
 
         /**
-         * Fired when the diff finishes rendering text content and starts
-         * syntax highlighting.
+         * Fired when the diff finishes rendering text content.
          *
          * @event render-content
-         */
-
-        /**
-         * Fired when the diff finishes syntax highlighting.
-         *
-         * @event render-syntax
          */
 
         properties: {
@@ -138,7 +120,7 @@ limitations under the License.
            * @type {?Object}
            */
           _cancelableRenderPromise: Object,
-          pluginLayers: {
+          layers: {
             type: Array,
             value: [],
           },
@@ -171,11 +153,10 @@ limitations under the License.
           // attached before plugins are installed.
           this._setupAnnotationLayers();
 
-          this.$.syntaxLayer.enabled = prefs.syntax_highlighting;
           this._showTabs = !!prefs.show_tabs;
           this._showTrailingWhitespace = !!prefs.show_whitespace_errors;
 
-          // Stop the processor and syntax layer (if they're running).
+          // Stop the processor if it's running.
           this.cancel();
 
           this._builder = this._getDiffBuilder(this.diff, prefs);
@@ -198,16 +179,6 @@ limitations under the License.
                     }
                     this.dispatchEvent(new CustomEvent('render-content',
                         {bubbles: true, composed: true}));
-
-                    if (this._diffTooLargeForSyntax()) {
-                      this.$.syntaxLayer.enabled = false;
-                    }
-
-                    return this.$.syntaxLayer.process();
-                  })
-                  .then(() => {
-                    this.dispatchEvent(new CustomEvent(
-                        'render-syntax', {bubbles: true, composed: true}));
                   }));
           return this._cancelableRenderPromise
               .finally(() => { this._cancelableRenderPromise = null; })
@@ -220,7 +191,6 @@ limitations under the License.
         _setupAnnotationLayers() {
           const layers = [
             this._createTrailingWhitespaceLayer(),
-            this.$.syntaxLayer,
             this._createIntralineLayer(),
             this._createTabIndicatorLayer(),
             this.$.rangeLayer,
@@ -228,8 +198,8 @@ limitations under the License.
             this.$.coverageLayerRight,
           ];
 
-          if (this.pluginLayers) {
-            layers.push(...this.pluginLayers);
+          if (this.layers) {
+            layers.push(...this.layers);
           }
           this._layers = layers;
         },
@@ -307,7 +277,6 @@ limitations under the License.
 
         cancel() {
           this.$.processor.cancel();
-          this.$.syntaxLayer.cancel();
           if (this._cancelableRenderPromise) {
             this._cancelableRenderPromise.cancel();
             this._cancelableRenderPromise = null;
@@ -446,43 +415,9 @@ limitations under the License.
           };
         },
 
-        /**
-         * @return {boolean} whether any of the lines in _groups are longer
-         * than SYNTAX_MAX_LINE_LENGTH.
-         */
-        _anyLineTooLong() {
-          return this._groups.reduce((acc, group) => {
-            return acc || group.lines.reduce((acc, line) => {
-              return acc || line.text.length >= SYNTAX_MAX_LINE_LENGTH;
-            }, false);
-          }, false);
-        },
-
-        _diffTooLargeForSyntax() {
-          return this._anyLineTooLong() ||
-              this.getDiffLength() > SYNTAX_MAX_DIFF_LENGTH;
-        },
-
         setBlame(blame) {
           if (!this._builder || !blame) { return; }
           this._builder.setBlame(blame);
-        },
-
-        /**
-         * Get the approximate length of the diff as the sum of the maximum
-         * length of the chunks.
-         * @return {number}
-         */
-        getDiffLength() {
-          return this.diff.content.reduce((sum, sec) => {
-            if (sec.hasOwnProperty('ab')) {
-              return sum + sec.ab.length;
-            } else {
-              return sum + Math.max(
-                  sec.hasOwnProperty('a') ? sec.a.length : 0,
-                  sec.hasOwnProperty('b') ? sec.b.length : 0);
-            }
-          }, 0);
         },
       });
     })();

@@ -48,6 +48,54 @@
     },
     {
       "key": {
+        "uuid": "8de96eb4_c62ca008",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-04T08:03:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b4aac07f_a9313c69",
+      "range": {
+        "startLine": 173,
+        "startChar": 24,
+        "endLine": 173,
+        "endChar": 42
+      },
+      "revId": "ee2be881784852673a0a79bf6c2c1d0dadcf1700",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8e928efa_d96b2726",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-04T08:03:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "826e038b_ff95341b",
+      "range": {
+        "startLine": 172,
+        "startChar": 56,
+        "endLine": 173,
+        "endChar": 17
+      },
+      "revId": "ee2be881784852673a0a79bf6c2c1d0dadcf1700",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "45fb6f75_2623b77d",
         "filename": "Documentation/dev-processes.txt",
         "patchSetId": 2
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "b6564a63_ac18b18c",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-04T08:03:32Z",
+      "side": 1,
+      "message": "That\u0027s a good idea. I filed an issue to follow-up on this [1]. For this change it should be sufficient to document what we have today.\n\n[1] https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d11673",
+      "parentUuid": "45fb6f75_2623b77d",
+      "range": {
+        "startLine": 174,
+        "startChar": 0,
+        "endLine": 174,
+        "endChar": 26
+      },
+      "revId": "ee2be881784852673a0a79bf6c2c1d0dadcf1700",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9352b76d_ee1d8dc5",
         "filename": "Documentation/dev-processes.txt",
         "patchSetId": 2
@@ -91,6 +163,30 @@
       "revId": "ee2be881784852673a0a79bf6c2c1d0dadcf1700",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f515236a_0f9ba6e6",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-04T08:03:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9352b76d_ee1d8dc5",
+      "range": {
+        "startLine": 174,
+        "startChar": 26,
+        "endLine": 175,
+        "endChar": 53
+      },
+      "revId": "ee2be881784852673a0a79bf6c2c1d0dadcf1700",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -140,6 +236,54 @@
     },
     {
       "key": {
+        "uuid": "27035bff_39b247b3",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-04T08:03:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "32726df2_57951f24",
+      "range": {
+        "startLine": 206,
+        "startChar": 15,
+        "endLine": 206,
+        "endChar": 33
+      },
+      "revId": "ee2be881784852673a0a79bf6c2c1d0dadcf1700",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "20950e98_8b818d8f",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-04T08:03:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "57fb4708_1d70b99c",
+      "range": {
+        "startLine": 205,
+        "startChar": 69,
+        "endLine": 206,
+        "endChar": 8
+      },
+      "revId": "ee2be881784852673a0a79bf6c2c1d0dadcf1700",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b5cf2351_5058c5d9",
         "filename": "Documentation/dev-processes.txt",
         "patchSetId": 2
@@ -160,6 +304,30 @@
       "revId": "ee2be881784852673a0a79bf6c2c1d0dadcf1700",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3a71228b_c2e4a4ce",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-04T08:03:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b5cf2351_5058c5d9",
+      "range": {
+        "startLine": 217,
+        "startChar": 0,
+        "endLine": 217,
+        "endChar": 23
+      },
+      "revId": "ee2be881784852673a0a79bf6c2c1d0dadcf1700",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -186,6 +354,30 @@
     },
     {
       "key": {
+        "uuid": "11129e1b_dab1054c",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-04T08:03:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0577bc27_1d454c8a",
+      "range": {
+        "startLine": 220,
+        "startChar": 17,
+        "endLine": 220,
+        "endChar": 23
+      },
+      "revId": "ee2be881784852673a0a79bf6c2c1d0dadcf1700",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "77a4e76e_ef39e323",
         "filename": "Documentation/dev-processes.txt",
         "patchSetId": 2
@@ -200,6 +392,24 @@
       "revId": "ee2be881784852673a0a79bf6c2c1d0dadcf1700",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e8beb853_eb54ec16",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-04T08:03:32Z",
+      "side": 1,
+      "message": "Yes, I think CVE\u0027s are a good idea, but I would like to have at least some process in place before we look into that. To follow up on this we have [1].\n\n[1] https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d11621",
+      "parentUuid": "77a4e76e_ef39e323",
+      "revId": "ee2be881784852673a0a79bf6c2c1d0dadcf1700",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -226,6 +436,30 @@
     },
     {
       "key": {
+        "uuid": "875e37f3_3306dde9",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-04T08:03:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b21452bb_a5142a60",
+      "range": {
+        "startLine": 257,
+        "startChar": 30,
+        "endLine": 257,
+        "endChar": 31
+      },
+      "revId": "ee2be881784852673a0a79bf6c2c1d0dadcf1700",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c1b3467a_efa81ec1",
         "filename": "Documentation/dev-processes.txt",
         "patchSetId": 2
@@ -246,6 +480,30 @@
       "revId": "ee2be881784852673a0a79bf6c2c1d0dadcf1700",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "29cc05e0_584b8fd0",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 258,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-04T08:03:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c1b3467a_efa81ec1",
+      "range": {
+        "startLine": 258,
+        "startChar": 56,
+        "endLine": 258,
+        "endChar": 64
+      },
+      "revId": "ee2be881784852673a0a79bf6c2c1d0dadcf1700",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -272,6 +530,30 @@
     },
     {
       "key": {
+        "uuid": "47a991e4_c0c68610",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-04T08:03:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "db9c9720_1b17afbf",
+      "range": {
+        "startLine": 266,
+        "startChar": 36,
+        "endLine": 266,
+        "endChar": 41
+      },
+      "revId": "ee2be881784852673a0a79bf6c2c1d0dadcf1700",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "336bfb87_663dd6dc",
         "filename": "Documentation/dev-processes.txt",
         "patchSetId": 2
@@ -292,6 +574,30 @@
       "revId": "ee2be881784852673a0a79bf6c2c1d0dadcf1700",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "87561569_86fdeb32",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-04T08:03:32Z",
+      "side": 1,
+      "message": "I meant this just as an extra step to verify that the release that was build really contains the bug-fix (e.g. I could imagine that one could accidentally build the release from the gerrit repo where the fix is not present). Of course the fix itself should come with an automatic integration test. I tried to clarify this here and above.",
+      "parentUuid": "336bfb87_663dd6dc",
+      "range": {
+        "startLine": 268,
+        "startChar": 27,
+        "endLine": 268,
+        "endChar": 35
+      },
+      "revId": "ee2be881784852673a0a79bf6c2c1d0dadcf1700",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -71,15 +71,18 @@ public class AccountCacheImpl implements AccountCache {
   private final ExternalIds externalIds;
   private final LoadingCache<Account.Id, AccountState> byId;
   private final ExecutorService executor;
+  private final ByIdLoader byIdLoader;
 
   @Inject
   AccountCacheImpl(
       ExternalIds externalIds,
       @Named(BYID_NAME) LoadingCache<Account.Id, AccountState> byId,
-      @FanOutExecutor ExecutorService executor) {
+      @FanOutExecutor ExecutorService executor,
+      ByIdLoader byIdLoader) {
     this.externalIds = externalIds;
     this.byId = byId;
     this.executor = executor;
+    this.byIdLoader = byIdLoader;
   }
 
   @Override
@@ -97,12 +100,21 @@ public class AccountCacheImpl implements AccountCache {
   @Override
   public Optional<AccountState> get(Account.Id accountId) {
     try {
-      return Optional.ofNullable(byId.get(accountId));
-    } catch (ExecutionException e) {
+      Optional<AccountState> value = byId.getIfPresent(accountId);
+      if (value != null) {
+        return value;
+      }
+      value = byIdLoader.load(accountId);
+      if (value != null) {
+        byId.put(accountId, value);
+        return value;
+      }
+      return Optional.empty();
+    } catch (Exception e) {
       if (!(e.getCause() instanceof AccountNotFoundException)) {
         logger.atWarning().withCause(e).log("Cannot load AccountState for %s", accountId);
       }
-      return Optional.empty();
+      return Optional.empty());
     }
   }
 

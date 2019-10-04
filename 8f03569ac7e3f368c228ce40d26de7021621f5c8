@@ -1,0 +1,210 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dde213df_c5e80ee8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-04T11:05:36Z",
+      "side": 1,
+      "message": "I\u0027m sorry, but this commit message is still not clear to me. E.g. I don\u0027t understand what\u0027s the exact scope of this change (what is implemented in this change, what will be done as follow-up and what we will not do) and what\u0027s the expected behaviour.\n\nThis makes reviewing this change difficult to me. Can we please improve the commit message, before discussing the implementation further? I made proposals for improvements below, as I find it easier/clearer to say what I would have written instead of pointing out which things are unclear to me and which things are missing. Please feel free to ignore / adapt my proposals as you want, but I would really like to see much more details and clarity here.",
+      "revId": "8f03569ac7e3f368c228ce40d26de7021621f5c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b681b14d_90ad5900",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-04T11:05:36Z",
+      "side": 1,
+      "message": "I would start with explaining what a submission is and how it can be that multiple changes are submitted together. Maybe something like:\n\n\"When a change in Gerrit is submitted, it\u0027s possible that the submission includes other changes:\n\n* open parent changes (unless the submit type is cherry-pick)\n* open changes with the same topic (if change.submitWholeTopic in gerrit.config is set to true)\"",
+      "revId": "8f03569ac7e3f368c228ce40d26de7021621f5c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dbf144a0_83290236",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-04T11:05:36Z",
+      "side": 1,
+      "message": "Referencing the design doc for additional context is good, but one shouldn\u0027t be required to read it to understand the change.\n\nReading this sentence, I wonder if this change is really a full implementation of the design, e.g. the design doc mentions a query operator for searching changes by submission ID, but this operator is not implemented in this change. \n\nAlso I think it would be better to link to the solution doc on the homepage.\n\nI would move this to the end of the commit message, saying something like:\n\n\"The idea to support reverts by submission was discussed beforehand in a design doc [1]. The solution that is being implemented by this change is described at [2].\n\n[1] https://www.gerritcodereview.com/design-docs/revert-submit.html\n[2] https://www.gerritcodereview.com/pages/design-docs/revert-submit/solution-Gal.html\"",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 58
+      },
+      "revId": "8f03569ac7e3f368c228ce40d26de7021621f5c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eb1d8dd5_016752d3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-04T11:05:36Z",
+      "side": 1,
+      "message": "I would explain the use-case and the problem a bit more detailed, e.g.:\n\n\"If the submission of a change introduced an issue, users often revert the change to resolve the issue, but this may cause breakages if the change had been submitted together with other changes. Usually changes that are submitted together depend on each other, so that reverting only one of the changes breaks the other changes. Hence if a submission contains multiple changes, one needs to revert all of the changes which have been submitted together. At the moment this can only be done by calling the Revert Change REST endpoint for each of the changes one by one. This can be a lot of work when the submission contains many changes. Also if changes with a parent child relationship should be reverted, the revert of the child change may only succeed if the revert is based on the revert of the parent change, which is currently not doable with the existing Revert Change REST endpoint. To support the use-case of reverting all changes of a submission better, Gerrit should provide a dedicated REST endpoint for this, which is exposed as a button on the change screen.\"",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 11
+      },
+      "revId": "8f03569ac7e3f368c228ce40d26de7021621f5c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "de35b12a_5389c998",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-04T11:05:36Z",
+      "side": 1,
+      "message": "This should explain what the new endpoint is doing, why it\u0027s offered on a change and why it\u0027s a new REST endpoint and not an extension of the existing Revert REST endpoint.\n\nMaybe something like:\n\n\"The new Revert by Submission REST endpoint allows to revert all changes of a submission. Since we don\u0027t have REST resources that represent submissions, the REST endpoint is offered on change level, meaning that this change and all changes that have been submitted together with this change should be reverted. It\u0027s a new REST endpoint, rather than a new flag for the existing Revert Change REST endpoint, because it needs to return a set of revert changes which can\u0027t be done from the Revert Change REST endpoint without breaking backwards compatibility (the result of the existing Revert Change REST endpoint is a single change).\"",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 36
+      },
+      "revId": "8f03569ac7e3f368c228ce40d26de7021621f5c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "64595c4f_55269e35",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-04T11:05:36Z",
+      "side": 1,
+      "message": "This is unclear to me. E.g. what is considered further, why should reverts of manual merges never happen?",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 30
+      },
+      "revId": "8f03569ac7e3f368c228ce40d26de7021621f5c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2bfc2189_c3a88e60",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-04T11:05:36Z",
+      "side": 1,
+      "message": "At this point it\u0027s unclear what cherry-pick has to do with revert by submission. I understand that you use cherry-pick to rebase the revert changes, but it\u0027s not mentioned in this commit message?",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 60
+      },
+      "revId": "8f03569ac7e3f368c228ce40d26de7021621f5c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9eca8038_ae2ec5ec",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-04T11:05:36Z",
+      "side": 1,
+      "message": "Still unclear to me what is not supported yet. Also do you mean a follow-up change, rather than a future design?",
+      "range": {
+        "startLine": 28,
+        "startChar": 55,
+        "endLine": 30,
+        "endChar": 4
+      },
+      "revId": "8f03569ac7e3f368c228ce40d26de7021621f5c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "34c8bc01_13042a20",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-04T11:05:36Z",
+      "side": 1,
+      "message": "I would have expected some details and examples of how the Revert submission REST endpoint is supposed to work.\n\nMaybe something like:\n\n\"The Revert by Submission REST endpoint has the following steps:\n\n1. Find all changes that were submitted together:\n   For this we take the submission ID of the change on which the REST endpoint was invoked and query for\n   all changes with this submission ID. The ID of a submission is already contained in the change index\n   and internally we can easily query changes by it (although querying changes by submission ID is not\n   exposed to users).\n2. ...\n\nn. Set topic on all revert changes:\n   The topic for all revert changes is set to \u0027Revert-\u003csubmission-ID\u003e\u0027. This is done so that the revert\n   changes can be submitted together (only if change.submitWholeTopic in gerrit.config is set to true).\n   We don\u0027t base the topic name for the revert changes on the topic of the input change\n   (e.g. \u0027Revert-\u003ctopic-of-input-change\u003e\u0027), because a submission can span changes with and without\n   topic or with different topics and using the topic of the input change would not be appropriate for\n   changes that didn\u0027t have the same topic as the input change. Also since topics can be reused for\n   multiple submissions, using the topic of the input change could lead to non-unique topics for the\n   revert changes.\n\n...\n\nExamples:\n\n* The submission contains only a single change:\n  The behaviour is exactly the same as if the revert was done by the existing Revert Change REST endpoint,\n  only that the topic of the revert change is set to \u0027Revert-\u003csubmission-ID\u003e\u0027.\n* The submission contains parent changes:\n  The changes are reverted in topological order, starting from the oldest parent. The revert change for the\n  oldest parent is based on its parent commit. For all other changes the revert change is based on the\n  revert change of its parent change.\n* The submission contains changes from multiple branches of the same repository:\n  ...\n* The submission contains changes from multiple repositories.\n  Reverts the change in each of the repositories the same way as if each change was reverted by the existing\n  Revert Change REST endpoint. For all revert changes the topic is set to \u0027Revert-\u003csubmission-ID\u003e\u0027.\n* The submission contains a single change for a merge commit.\n  ....\"\n\nI\u0027m actually not sure if the described behaviour is what you implemented, please adapt the descriptions as needed. This is basically what I need as input for doing my review.",
+      "revId": "8f03569ac7e3f368c228ce40d26de7021621f5c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7047c043_cac45978",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-04T11:05:36Z",
+      "side": 1,
+      "message": "Other questions I would like to see answered here:\n\n- if your Revert by Submission implementation is also rebasing the revert changes, what is the behaviour in case of conflicts? Otherwise explain why conflicts cannot occur.\n- what happens if a revert results in an empty commit?\n- what happens if Revert by submission is done on 2 changes which have been submitted together, or twice on the same \n  change?\n  Will all the revert changes be created multiple times and all have the same topic? Is this intended?",
+      "revId": "8f03569ac7e3f368c228ce40d26de7021621f5c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

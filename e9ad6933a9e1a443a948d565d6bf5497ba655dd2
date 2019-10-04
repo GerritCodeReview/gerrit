@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0281f284_6b942260",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountCacheImpl.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-10-04T13:10:15Z",
+      "side": 1,
+      "message": "Can we give a bit more context here?\nI know the commit message already explains, however, for more clarity, a bit more context on why we should *urgently* replace Guava with Caffeine, at least in this cache.",
+      "range": {
+        "startLine": 87,
+        "startChar": 13,
+        "endLine": 87,
+        "endChar": 47
+      },
+      "revId": "e9ad6933a9e1a443a948d565d6bf5497ba655dd2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

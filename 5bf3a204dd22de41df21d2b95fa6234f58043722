@@ -22,6 +22,52 @@
       "revId": "5bf3a204dd22de41df21d2b95fa6234f58043722",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "301e14c4_2de82525",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-10-04T07:18:47Z",
+      "side": 1,
+      "message": "ls-remote",
+      "range": {
+        "startLine": 14,
+        "startChar": 6,
+        "endLine": 14,
+        "endChar": 15
+      },
+      "revId": "5bf3a204dd22de41df21d2b95fa6234f58043722",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2b42553b_4bd537d7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-10-04T07:18:47Z",
+      "side": 1,
+      "message": "Is there an open issue for this on the jgit tracker?",
+      "range": {
+        "startLine": 30,
+        "startChar": 31,
+        "endLine": 31,
+        "endChar": 34
+      },
+      "revId": "5bf3a204dd22de41df21d2b95fa6234f58043722",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

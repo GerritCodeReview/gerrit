@@ -1,0 +1,558 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f4666b0b_5ff1411b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-04T19:44:09Z",
+      "side": 1,
+      "message": "remove //",
+      "range": {
+        "startLine": 34,
+        "startChar": 5,
+        "endLine": 34,
+        "endChar": 7
+      },
+      "revId": "682330509821d9cc27ad4238b6930ebb0d5f4011",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6b5be6fa_4053223c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-04T19:44:09Z",
+      "side": 1,
+      "message": "Maybe remove this line?",
+      "revId": "682330509821d9cc27ad4238b6930ebb0d5f4011",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cea468af_9b899084",
+        "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-04T19:44:09Z",
+      "side": 1,
+      "message": "Add a comment that each highlight is an HTMLElement that looks like this:\n\u003cstrong\u003ehighlightText\u003c/strong\u003e.\nAnd that all these element must have been created in _highlight() method.",
+      "revId": "682330509821d9cc27ad4238b6930ebb0d5f4011",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b0b09a5d_68ca43f5",
+        "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-04T19:44:09Z",
+      "side": 1,
+      "message": "Maybe add a comment like: Replace all \"\u003cstrong\u003ehighlightText\u003c/strong\u003e\" highlight elements by just text nodes with \"highlightText\".",
+      "revId": "682330509821d9cc27ad4238b6930ebb0d5f4011",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6fc87f21_37e21b83",
+        "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-04T19:44:09Z",
+      "side": 1,
+      "message": "Maybe rename to _removeAllHighlights.",
+      "range": {
+        "startLine": 66,
+        "startChar": 4,
+        "endLine": 66,
+        "endChar": 12
+      },
+      "revId": "682330509821d9cc27ad4238b6930ebb0d5f4011",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "598a458d_608f1aeb",
+        "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-04T19:44:09Z",
+      "side": 1,
+      "message": "Add a short comment like \"Returns the HTML nodes to be highlighted.\"",
+      "range": {
+        "startLine": 80,
+        "startChar": 4,
+        "endLine": 80,
+        "endChar": 22
+      },
+      "revId": "682330509821d9cc27ad4238b6930ebb0d5f4011",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "37182599_1039ccdb",
+        "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-04T19:44:09Z",
+      "side": 1,
+      "message": "Maybe rename to _getSlottedNodes.",
+      "revId": "682330509821d9cc27ad4238b6930ebb0d5f4011",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a8d64827_787429a2",
+        "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-04T19:44:09Z",
+      "side": 1,
+      "message": "Maybe rename to _updateHighlights.",
+      "range": {
+        "startLine": 87,
+        "startChar": 4,
+        "endLine": 87,
+        "endChar": 11
+      },
+      "revId": "682330509821d9cc27ad4238b6930ebb0d5f4011",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5c7fcd6c_69fcd0ff",
+        "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-04T19:44:09Z",
+      "side": 1,
+      "message": "Maybe add a safeguard against huge HTML like \"never highlight HTML with inner text more than 10,000 chars\"?",
+      "revId": "682330509821d9cc27ad4238b6930ebb0d5f4011",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "823e9be3_ee1805d3",
+        "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-04T19:44:09Z",
+      "side": 1,
+      "message": "Maybe remove comment once the method has a clearer name.",
+      "revId": "682330509821d9cc27ad4238b6930ebb0d5f4011",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4950fc54_a84f8048",
+        "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-04T19:44:09Z",
+      "side": 1,
+      "message": "My personal taste is to try drop describing line comments, but try to make the code speak for itself, and then only comment on *why* you do something (not \"what\"), if you think that is helpful.\n\nI am explicitly saying this, because I have otherwise asked you for a lot of comments. But that does not mean \"more comments are always better\". :-)",
+      "revId": "682330509821d9cc27ad4238b6930ebb0d5f4011",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5fd74f1c_53d22b1b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-04T19:44:09Z",
+      "side": 1,
+      "message": "Maybe drop this comment.",
+      "revId": "682330509821d9cc27ad4238b6930ebb0d5f4011",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f250f3c_3b9e3992",
+        "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-04T19:44:09Z",
+      "side": 1,
+      "message": "Maybe rename to matchedTextInPreviousNodes.",
+      "range": {
+        "startLine": 98,
+        "startChar": 30,
+        "endLine": 98,
+        "endChar": 36
+      },
+      "revId": "682330509821d9cc27ad4238b6930ebb0d5f4011",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b0e94f51_23d6d447",
+        "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-04T19:44:09Z",
+      "side": 1,
+      "message": "Maybe rename to highlightCallbackForPreviousNodes.",
+      "range": {
+        "startLine": 98,
+        "startChar": 42,
+        "endLine": 98,
+        "endChar": 51
+      },
+      "revId": "682330509821d9cc27ad4238b6930ebb0d5f4011",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8a195458_4933bfcf",
+        "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-04T19:44:09Z",
+      "side": 1,
+      "message": "Could you maybe store matchedPartial in a property of the component instead of passing it around?\n\nAnd maybe rename it to something like nodeTraversalState?",
+      "range": {
+        "startLine": 106,
+        "startChar": 23,
+        "endLine": 106,
+        "endChar": 37
+      },
+      "revId": "682330509821d9cc27ad4238b6930ebb0d5f4011",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0aab40d4_cc2f2122",
+        "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-04T19:44:09Z",
+      "side": 1,
+      "message": "Here and in line 97 you are saying that you \"record\" something. More interesting would be to know how this works: What are the \u0027prefix\u0027 and \u0027highlight\u0027 properties doing?",
+      "revId": "682330509821d9cc27ad4238b6930ebb0d5f4011",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e2cfa855_b8d835f2",
+        "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-04T19:44:09Z",
+      "side": 1,
+      "message": "Is it important to have a local \"prefix\" var? Could you also just work with matchedPartial.prefix directly?",
+      "range": {
+        "startLine": 127,
+        "startChar": 10,
+        "endLine": 127,
+        "endChar": 16
+      },
+      "revId": "682330509821d9cc27ad4238b6930ebb0d5f4011",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9ff877f6_11b03656",
+        "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-04T19:44:09Z",
+      "side": 1,
+      "message": "Maybe rename to matchedTextInCurrentNode",
+      "range": {
+        "startLine": 131,
+        "startChar": 10,
+        "endLine": 131,
+        "endChar": 18
+      },
+      "revId": "682330509821d9cc27ad4238b6930ebb0d5f4011",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "42def8f3_89b9ebf0",
+        "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-04T19:44:09Z",
+      "side": 1,
+      "message": "Can you maybe get rid of skipLen variable by using \"prefix.length + i\"?",
+      "range": {
+        "startLine": 133,
+        "startChar": 60,
+        "endLine": 133,
+        "endChar": 67
+      },
+      "revId": "682330509821d9cc27ad4238b6930ebb0d5f4011",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2af39009_d7c1409b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-04T19:44:09Z",
+      "side": 1,
+      "message": "Rename \"highlight\" then drop line of comment.",
+      "revId": "682330509821d9cc27ad4238b6930ebb0d5f4011",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0da8dbbf_1d96bbcc",
+        "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-04T19:44:09Z",
+      "side": 1,
+      "message": "remove comment",
+      "revId": "682330509821d9cc27ad4238b6930ebb0d5f4011",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a9f85b8a_29301dcd",
+        "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-04T19:44:09Z",
+      "side": 1,
+      "message": "on one line",
+      "revId": "682330509821d9cc27ad4238b6930ebb0d5f4011",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eb61b576_32a0c69b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-04T19:44:09Z",
+      "side": 1,
+      "message": "remove comment",
+      "revId": "682330509821d9cc27ad4238b6930ebb0d5f4011",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4244aabe_78a20a43",
+        "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-04T19:44:09Z",
+      "side": 1,
+      "message": "Rename \"highlight\" then drop line of comment.",
+      "revId": "682330509821d9cc27ad4238b6930ebb0d5f4011",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "942ac080_48a4b233",
+        "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-04T19:44:09Z",
+      "side": 1,
+      "message": "remove comment",
+      "revId": "682330509821d9cc27ad4238b6930ebb0d5f4011",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5a5b9c1e_d3e8d920",
+        "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-04T19:44:09Z",
+      "side": 1,
+      "message": "You are only using the length property of textToHighlight, so it is better to have this passed directly as a parameter.",
+      "range": {
+        "startLine": 181,
+        "startChar": 23,
+        "endLine": 181,
+        "endChar": 38
+      },
+      "revId": "682330509821d9cc27ad4238b6930ebb0d5f4011",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3d4e605f_ebe694a7",
+        "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-04T19:44:09Z",
+      "side": 1,
+      "message": "remove // everywhere",
+      "range": {
+        "startLine": 185,
+        "startChar": 7,
+        "endLine": 185,
+        "endChar": 9
+      },
+      "revId": "682330509821d9cc27ad4238b6930ebb0d5f4011",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e8e4b352_c71d2537",
+        "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-04T19:44:09Z",
+      "side": 1,
+      "message": "Maybe change parameters to _highlight(textNode, offset, length).",
+      "range": {
+        "startLine": 200,
+        "startChar": 4,
+        "endLine": 200,
+        "endChar": 14
+      },
+      "revId": "682330509821d9cc27ad4238b6930ebb0d5f4011",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

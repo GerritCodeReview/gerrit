@@ -108,9 +108,6 @@ public class GetDiff implements RestReadView<FileResource> {
   @Option(name = "--intraline")
   boolean intraline;
 
-  @Option(name = "--weblinks-only")
-  boolean webLinksOnly;
-
   @Inject
   GetDiff(
       ProjectCache projectCache,
@@ -213,52 +210,50 @@ public class GetDiff implements RestReadView<FileResource> {
               ps.getNewName());
       result.webLinks = links.isEmpty() ? null : links;
 
-      if (!webLinksOnly) {
-        if (ps.isBinary()) {
-          result.binary = true;
-        }
-        if (ps.getDisplayMethodA() != DisplayMethod.NONE) {
-          result.metaA = new FileMeta();
-          result.metaA.name = MoreObjects.firstNonNull(ps.getOldName(), ps.getNewName());
-          result.metaA.contentType =
-              FileContentUtil.resolveContentType(
-                  state, result.metaA.name, ps.getFileModeA(), ps.getMimeTypeA());
-          result.metaA.lines = ps.getA().size();
-          result.metaA.webLinks = getFileWebLinks(state.getProject(), revA, result.metaA.name);
-          result.metaA.commitId = content.commitIdA;
-        }
-
-        if (ps.getDisplayMethodB() != DisplayMethod.NONE) {
-          result.metaB = new FileMeta();
-          result.metaB.name = ps.getNewName();
-          result.metaB.contentType =
-              FileContentUtil.resolveContentType(
-                  state, result.metaB.name, ps.getFileModeB(), ps.getMimeTypeB());
-          result.metaB.lines = ps.getB().size();
-          result.metaB.webLinks = getFileWebLinks(state.getProject(), revB, result.metaB.name);
-          result.metaB.commitId = content.commitIdB;
-        }
-
-        if (intraline) {
-          if (ps.hasIntralineTimeout()) {
-            result.intralineStatus = IntraLineStatus.TIMEOUT;
-          } else if (ps.hasIntralineFailure()) {
-            result.intralineStatus = IntraLineStatus.FAILURE;
-          } else {
-            result.intralineStatus = IntraLineStatus.OK;
-          }
-        }
-
-        result.changeType = CHANGE_TYPE.get(ps.getChangeType());
-        if (result.changeType == null) {
-          throw new IllegalStateException("unknown change type: " + ps.getChangeType());
-        }
-
-        if (ps.getPatchHeader().size() > 0) {
-          result.diffHeader = ps.getPatchHeader();
-        }
-        result.content = content.lines;
+      if (ps.isBinary()) {
+        result.binary = true;
       }
+      if (ps.getDisplayMethodA() != DisplayMethod.NONE) {
+        result.metaA = new FileMeta();
+        result.metaA.name = MoreObjects.firstNonNull(ps.getOldName(), ps.getNewName());
+        result.metaA.contentType =
+            FileContentUtil.resolveContentType(
+                state, result.metaA.name, ps.getFileModeA(), ps.getMimeTypeA());
+        result.metaA.lines = ps.getA().size();
+        result.metaA.webLinks = getFileWebLinks(state.getProject(), revA, result.metaA.name);
+        result.metaA.commitId = content.commitIdA;
+      }
+
+      if (ps.getDisplayMethodB() != DisplayMethod.NONE) {
+        result.metaB = new FileMeta();
+        result.metaB.name = ps.getNewName();
+        result.metaB.contentType =
+            FileContentUtil.resolveContentType(
+                state, result.metaB.name, ps.getFileModeB(), ps.getMimeTypeB());
+        result.metaB.lines = ps.getB().size();
+        result.metaB.webLinks = getFileWebLinks(state.getProject(), revB, result.metaB.name);
+        result.metaB.commitId = content.commitIdB;
+      }
+
+      if (intraline) {
+        if (ps.hasIntralineTimeout()) {
+          result.intralineStatus = IntraLineStatus.TIMEOUT;
+        } else if (ps.hasIntralineFailure()) {
+          result.intralineStatus = IntraLineStatus.FAILURE;
+        } else {
+          result.intralineStatus = IntraLineStatus.OK;
+        }
+      }
+
+      result.changeType = CHANGE_TYPE.get(ps.getChangeType());
+      if (result.changeType == null) {
+        throw new IllegalStateException("unknown change type: " + ps.getChangeType());
+      }
+
+      if (ps.getPatchHeader().size() > 0) {
+        result.diffHeader = ps.getPatchHeader();
+      }
+      result.content = content.lines;
 
       Response<DiffInfo> r = Response.ok(result);
       if (resource.isCacheable()) {

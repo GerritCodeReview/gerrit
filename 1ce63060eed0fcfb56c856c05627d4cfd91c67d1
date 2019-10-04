@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "26a3ad0d_6900dd19",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 1203,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-04T15:51:54Z",
+      "side": 1,
+      "message": "I would prefer fixing this at the calling site (in the UI component) rather than in the rest-api-interface.",
+      "range": {
+        "startLine": 1201,
+        "startChar": 3,
+        "endLine": 1203,
+        "endChar": 7
+      },
+      "revId": "1ce63060eed0fcfb56c856c05627d4cfd91c67d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -393,6 +393,7 @@
     },
 
     _isNewEmailValid(newEmail) {
+      if (!newEmail) return false;
       return newEmail.includes('@');
     },
 

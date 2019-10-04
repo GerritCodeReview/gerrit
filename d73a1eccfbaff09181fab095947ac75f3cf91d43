@@ -45,6 +45,30 @@
       "revId": "d73a1eccfbaff09181fab095947ac75f3cf91d43",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0decdc61_3ca62648",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/SuggestReviewersIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 545,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-10-04T08:52:02Z",
+      "side": 1,
+      "message": "This makes sense. If you remove that line then there is no account with \"secondary\", so of course it succeeds (result is empty).\nThe test makes sure that even if that account exists, it is still empty since it shouldn\u0027t match to that account based only to the secondary email.",
+      "parentUuid": "cb971ef6_cb041836",
+      "range": {
+        "startLine": 545,
+        "startChar": 4,
+        "endLine": 545,
+        "endChar": 20
+      },
+      "revId": "d73a1eccfbaff09181fab095947ac75f3cf91d43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9f9c3d73_f48650d0",
+        "filename": "javatests/com/google/gerrit/integration/git/GitProtocolV2IT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-04T08:31:37Z",
+      "side": 1,
+      "message": "This should be moved to line 150 above, where private/public key for non-admin user.",
+      "range": {
+        "startLine": 162,
+        "startChar": 6,
+        "endLine": 168,
+        "endChar": 26
+      },
+      "revId": "e35fa93692481f16d35359d02e01e70c177203cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

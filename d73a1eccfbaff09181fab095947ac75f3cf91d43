@@ -69,6 +69,30 @@
       "revId": "d73a1eccfbaff09181fab095947ac75f3cf91d43",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "94ae8802_12a3edc2",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/SuggestReviewersIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 545,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-10-04T09:27:04Z",
+      "side": 1,
+      "message": "Thanks for the explanation. Fixed in https://gerrit-review.googlesource.com/c/gerrit/+/239596",
+      "parentUuid": "0decdc61_3ca62648",
+      "range": {
+        "startLine": 545,
+        "startChar": 4,
+        "endLine": 545,
+        "endChar": 20
+      },
+      "revId": "d73a1eccfbaff09181fab095947ac75f3cf91d43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

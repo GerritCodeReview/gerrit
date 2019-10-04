@@ -118,10 +118,6 @@ public class ReviewersUtil {
     }
   }
 
-  // Generate a candidate list at 3x the size of what the user wants to see to
-  // give the ranking algorithm a good set of candidates it can work with
-  private static final int CANDIDATE_LIST_MULTIPLIER = 3;
-
   private final AccountLoader.Factory accountLoaderFactory;
   private final AccountQueryBuilder accountQueryBuilder;
   private final AccountIndexRewriter accountIndexRewriter;

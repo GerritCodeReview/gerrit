@@ -64,13 +64,6 @@ import org.eclipse.jgit.lib.Config;
 public class ReviewerRecommender {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  private static final double BASE_REVIEWER_WEIGHT = 10;
-  private static final double BASE_OWNER_WEIGHT = 1;
-  private static final double BASE_COMMENT_WEIGHT = 0.5;
-  private static final double[] WEIGHTS =
-      new double[] {
-        BASE_REVIEWER_WEIGHT, BASE_OWNER_WEIGHT, BASE_COMMENT_WEIGHT,
-      };
   private static final long PLUGIN_QUERY_TIMEOUT = 500; // ms
 
   private final ChangeQueryBuilder changeQueryBuilder;

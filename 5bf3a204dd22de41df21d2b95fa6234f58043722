@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "6f6818cb_f18aab83",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-04T21:45:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "301e14c4_2de82525",
+      "range": {
+        "startLine": 14,
+        "startChar": 6,
+        "endLine": 14,
+        "endChar": 15
+      },
+      "revId": "5bf3a204dd22de41df21d2b95fa6234f58043722",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2b42553b_4bd537d7",
         "filename": "/COMMIT_MSG",
         "patchSetId": 8
@@ -68,6 +92,30 @@
       "revId": "5bf3a204dd22de41df21d2b95fa6234f58043722",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cdb2c08a_500d4901",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-04T21:45:05Z",
+      "side": 1,
+      "message": "This is not applicable any more. I extended the new and shiny GitProtocolV2IT integration test that is not using JGit\u0027s command API, but the regular Git-core client to test Git wire protocol v2. With that test in place i was able to add -o trace\u003d12345 option to ls-remote command invocation and got new trace id:\n\n  DEBUG com.google.gerrit.server.permissions.RefControl : \u0027user\u0027 cannot perform \u0027read\u0027 with force\u003dfalse on project \u0027foo\u0027 for ref \u0027refs/heads/secret\u0027 (caller: com.google.gerrit.server.permissions.DefaultRefFilter.visibleChangesBySearch(DefaultRefFilter.java:483)) [CONTEXT forced\u003dtrue TRACE_ID\u003d\"12345\" project\u003d\"foo\" ]\n\nI amended the commit message. However, it is not clear to me, how to verify that trace hook works as expected. I also added this todo to the commit message. If someone know, how to test that Trace context works as expected, please let me know, or just fix the test and remove the TODO from the commit message.",
+      "parentUuid": "2b42553b_4bd537d7",
+      "range": {
+        "startLine": 30,
+        "startChar": 31,
+        "endLine": 31,
+        "endChar": 34
+      },
+      "revId": "5bf3a204dd22de41df21d2b95fa6234f58043722",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

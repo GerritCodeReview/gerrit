@@ -33,8 +33,6 @@ public class GetCacheIT extends AbstractDaemonTest {
     assertThat(result.name).isEqualTo("accounts");
     assertThat(result.type).isEqualTo(CacheType.MEM);
     assertThat(result.entries.mem).isAtLeast(1L);
-    assertThat(result.averageGet).isNotNull();
-    assertThat(result.averageGet).endsWith("s");
     assertThat(result.entries.disk).isNull();
     assertThat(result.entries.space).isNull();
     assertThat(result.hitRatio.mem).isAtLeast(0);

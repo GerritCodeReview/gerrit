@@ -418,6 +418,7 @@ public class ChangeJson {
       for (ChangeData cd : changes) {
         ChangeInfo i = cache.get(cd.getId());
         if (i != null) {
+          changeInfos.add(i);
           continue;
         }
         try {

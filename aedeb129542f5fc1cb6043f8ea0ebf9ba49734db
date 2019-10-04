@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "09e524ca_e1c0054f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-10-04T12:12:28Z",
+      "side": 1,
+      "message": "Thanks, done!",
+      "parentUuid": "4f39a832_a5d3ef31",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 3
+      },
+      "revId": "aedeb129542f5fc1cb6043f8ea0ebf9ba49734db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "08b84e4e_c3b3960f",
         "filename": "/COMMIT_MSG",
         "patchSetId": 8
@@ -45,6 +69,30 @@
       "revId": "aedeb129542f5fc1cb6043f8ea0ebf9ba49734db",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4843650c_fffcc84e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-10-04T12:12:28Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "08b84e4e_c3b3960f",
+      "range": {
+        "startLine": 9,
+        "startChar": 30,
+        "endLine": 9,
+        "endChar": 48
+      },
+      "revId": "aedeb129542f5fc1cb6043f8ea0ebf9ba49734db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -94,6 +142,54 @@
     },
     {
       "key": {
+        "uuid": "14970554_cf316ff2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-10-04T12:12:28Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "f5520435_ce340639",
+      "range": {
+        "startLine": 15,
+        "startChar": 34,
+        "endLine": 15,
+        "endChar": 43
+      },
+      "revId": "aedeb129542f5fc1cb6043f8ea0ebf9ba49734db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b8a67e66_3ecbf797",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-10-04T12:12:28Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "7bfe7d25_a6d37ba3",
+      "range": {
+        "startLine": 15,
+        "startChar": 5,
+        "endLine": 15,
+        "endChar": 8
+      },
+      "revId": "aedeb129542f5fc1cb6043f8ea0ebf9ba49734db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6f1df5c6_d91e25ff",
         "filename": "/COMMIT_MSG",
         "patchSetId": 8
@@ -108,6 +204,24 @@
       "revId": "aedeb129542f5fc1cb6043f8ea0ebf9ba49734db",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "975784ca_17655837",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-10-04T12:12:28Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "6f1df5c6_d91e25ff",
+      "revId": "aedeb129542f5fc1cb6043f8ea0ebf9ba49734db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -131,6 +245,30 @@
       "revId": "aedeb129542f5fc1cb6043f8ea0ebf9ba49734db",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "73a3a930_ebbf93b9",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountCacheImpl.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-10-04T12:12:28Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "d9cffba3_7f2838d8",
+      "range": {
+        "startLine": 88,
+        "startChar": 0,
+        "endLine": 96,
+        "endChar": 7
+      },
+      "revId": "aedeb129542f5fc1cb6043f8ea0ebf9ba49734db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

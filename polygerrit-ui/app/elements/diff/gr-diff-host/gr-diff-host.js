@@ -35,6 +35,13 @@
     SYNTAX: 'Diff Syntax Render',
   };
 
+  // Disable syntax highlighting if the overall diff is too large.
+  const SYNTAX_MAX_DIFF_LENGTH = 20000;
+
+  // If any line of the diff is more than the character limit, then disable
+  // syntax highlighting for the entire file.
+  const SYNTAX_MAX_LINE_LENGTH = 500;
+
   const WHITESPACE_IGNORE_NONE = 'IGNORE_NONE';
 
   /**
@@ -205,7 +212,13 @@
         computed: '_computeParentIndex(patchRange.*)',
       },
 
-      pluginLayers: {
+      _syntaxHighlightingEnabled: {
+        type: Boolean,
+        computed:
+          '_isSyntaxHighlightingEnabled(prefs.syntax_highlighting, _diff)',
+      },
+
+      _layers: {
         type: Array,
         value: [],
       },
@@ -230,7 +243,6 @@
 
       'render-start': '_handleRenderStart',
       'render-content': '_handleRenderContent',
-      'render-syntax': '_handleRenderSyntax',
 
       'normalize-range': '_handleNormalizeRange',
     },
@@ -258,13 +270,13 @@
       this._errorMessage = null;
       const whitespaceLevel = this._getIgnoreWhitespace();
 
-      const pluginLayers = [];
+      const layers = [this.$.syntaxLayer];
       // Get layers from plugins (if any).
       for (const pluginLayer of this.$.jsAPI.getDiffLayers(
           this.diffPath, this.changeNum, this.patchNum)) {
-        pluginLayers.push(pluginLayer);
+        layers.push(pluginLayer);
       }
-      this.push('pluginLayers', ...pluginLayers);
+      this._layers = layers;
 
       this._coverageRanges = [];
       const {changeNum, path, patchRange: {basePatchNum, patchNum}} = this;
@@ -308,7 +320,12 @@
             this.filesWeblinks = this._getFilesWeblinks(diff);
             return new Promise(resolve => {
               const callback = () => {
-                resolve();
+                this.$.reporting.time(TimingLabel.SYNTAX);
+                this.$.syntaxLayer.process().then(() => {
+                  this.$.reporting.timeEnd(TimingLabel.SYNTAX);
+                  this.$.reporting.timeEnd(TimingLabel.TOTAL);
+                  resolve();
+                });
                 this.removeEventListener('render', callback);
               };
               this.addEventListener('render', callback);
@@ -851,6 +868,25 @@
           item => item.__draftID === comment.__draftID);
     },
 
+    _isSyntaxHighlightingEnabled(preference, diff) {
+      if (!preference) return false;
+      return !this._anyLineTooLong(diff) &&
+          this.$.diff.getDiffLength(diff) <= SYNTAX_MAX_DIFF_LENGTH;
+    },
+
+    /**
+     * @return {boolean} whether any of the lines in diff are longer
+     * than SYNTAX_MAX_LINE_LENGTH.
+     */
+    _anyLineTooLong(diff) {
+      return diff.content.some(section => {
+        const lines = section.ab ?
+              section.ab :
+              (section.a || []).concat(section.b || []);
+        return lines.some(line => line.length >= SYNTAX_MAX_LINE_LENGTH);
+      });
+    },
+
     _handleRenderStart() {
       this.$.reporting.time(TimingLabel.TOTAL);
       this.$.reporting.time(TimingLabel.CONTENT);
@@ -858,12 +894,6 @@
 
     _handleRenderContent() {
       this.$.reporting.timeEnd(TimingLabel.CONTENT);
-      this.$.reporting.time(TimingLabel.SYNTAX);
-    },
-
-    _handleRenderSyntax() {
-      this.$.reporting.timeEnd(TimingLabel.SYNTAX);
-      this.$.reporting.timeEnd(TimingLabel.TOTAL);
     },
 
     _handleNormalizeRange(event) {

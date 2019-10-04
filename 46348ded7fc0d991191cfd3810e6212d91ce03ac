@@ -16,6 +16,24 @@
       "revId": "46348ded7fc0d991191cfd3810e6212d91ce03ac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c17a9b61_09e98df3",
+        "filename": "Documentation/dev-plugins-hosting.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-04T06:48:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0130f901_0c05b11a",
+      "revId": "46348ded7fc0d991191cfd3810e6212d91ce03ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

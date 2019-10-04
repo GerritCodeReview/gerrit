@@ -12,4 +12,4 @@ If you notice any issues or need help with anything, don't hesitate to report to
 ### Related resources
 
 - [Polymer 2.0 upgrade guide](https://polymer-library.polymer-project.org/2.0/docs/upgrade)
-- [Polymner Shadow DOM](https://polymer-library.polymer-project.org/2.0/docs/devguide/shadow-dom)
+- [Polymer Shadow DOM](https://polymer-library.polymer-project.org/2.0/docs/devguide/shadow-dom)

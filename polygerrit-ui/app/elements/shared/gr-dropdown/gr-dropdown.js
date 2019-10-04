@@ -199,14 +199,16 @@
     },
 
     /**
-     * Build a URL for the given host and path. If there is a base URL, it will
-     * be included between the host and the path.
+     * Build a URL for the given host and path. The base URL will be only added,
+     * if it is not already included in the path.
      * @param {!string} host
      * @param {!string} path
      * @return {!string} The scheme-relative URL.
      */
     _computeURLHelper(host, path) {
-      return '//' + host + this.getBaseUrl() + path;
+      const base = path.startsWith(this.getBaseUrl()) ?
+          '' : this.getBaseUrl();
+      return '//' + host + base + path;
     },
 
     /**

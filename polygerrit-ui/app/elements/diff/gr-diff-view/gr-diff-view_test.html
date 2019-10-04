@@ -577,22 +577,6 @@ limitations under the License.
           element._path, '1', 'PARENT'));
     });
 
-    test('download link', () => {
-      element._change = {project: 'test'},
-      element._changeNum = '42';
-      element._patchRange = {
-        basePatchNum: PARENT,
-        patchNum: '10',
-      };
-      element._fileList = ['chell.go', 'glados.txt', 'wheatley.md'];
-      element._path = 'glados.txt';
-      flushAsynchronousOperations();
-      const link = element.$$('.downloadLink');
-      assert.equal(link.getAttribute('href'),
-          '/changes/test~42/revisions/10/patch?zip&path=glados.txt');
-      assert.isTrue(link.hasAttribute('download'));
-    });
-
     test('_prefs.manual_review is respected', () => {
       const saveReviewedStub = sandbox.stub(element, '_saveReviewedState',
           () => Promise.resolve());
@@ -1144,6 +1128,48 @@ limitations under the License.
         ['file1', 'file3'],
         1,
       ]);
+    });
+
+    test('_computeDownloadDropdownLinks', () => {
+      const downloadLinks = [
+        {
+          url: '/changes/test~12/revisions/1/patch?zip&path=index.php',
+          name: 'Patch',
+        },
+        {
+          url: '/changes/test~12/revisions/1' +
+              '/files/index.php/download?parent=1',
+          name: 'Left Content',
+        },
+        {
+          url: '/changes/test~12/revisions/1' +
+              '/files/index.php/download?parent=0',
+          name: 'Right Content',
+        },
+      ];
+      assert.deepEqual(
+          element._computeDownloadDropdownLinks(
+              'test', 12, {patchNum: 1}, 'index.php'),
+          downloadLinks);
+    });
+
+    test('_computeDownloadFileLink', () => {
+      assert.equal(
+          element._computeDownloadFileLink(
+              'test', 12, {patchNum: 1}, 'index.php', 1),
+          '/changes/test~12/revisions/1/files/index.php/download?parent=1');
+
+      assert.equal(
+          element._computeDownloadFileLink(
+              'test', 12, {patchNum: 1}, 'index.php', 0),
+          '/changes/test~12/revisions/1/files/index.php/download?parent=0');
+    });
+
+    test('_computeDownloadPatchLink', () => {
+      assert.equal(
+          element._computeDownloadPatchLink(
+              'test', 12, {patchNum: 1}, 'index.php'),
+          '/changes/test~12/revisions/1/patch?zip&path=index.php');
     });
   });
 </script>

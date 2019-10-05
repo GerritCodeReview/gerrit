@@ -71,6 +71,7 @@
 
     _computeDownloadCommands(change, patchNum, _selectedScheme) {
       let commandObj;
+      if (!change) return [];
       for (const rev of Object.values(change.revisions || {})) {
         if (this.patchNumEquals(rev._number, patchNum) &&
             rev.fetch.hasOwnProperty(_selectedScheme)) {
@@ -117,6 +118,7 @@
      * @return {string} Not sure why there was a mismatch
      */
     _computeDownloadLink(change, patchNum, opt_zip) {
+      if (!change) return '';
       return this.changeBaseURL(change.project, change._number, patchNum) +
           '/patch?' + (opt_zip ? 'zip' : 'download');
     },
@@ -131,6 +133,7 @@
      */
     _computeDownloadFilename(change, patchNum, opt_zip) {
       let shortRev = '';
+      if (!change) return '';
       for (const rev in change.revisions) {
         if (this.patchNumEquals(change.revisions[rev]._number, patchNum)) {
           shortRev = rev.substr(0, 7);
@@ -152,6 +155,7 @@
     },
 
     _computeArchiveDownloadLink(change, patchNum, format) {
+      if (!change) return '';
       return this.changeBaseURL(change.project, change._number, patchNum) +
           '/archive?format=' + format;
     },

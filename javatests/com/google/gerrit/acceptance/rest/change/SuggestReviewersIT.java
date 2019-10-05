@@ -541,9 +541,9 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
 
   @Test
   public void cannotSuggestBySecondaryEmailWithoutModifyAccount() throws Exception {
-    String secondaryEmail = "foo.secondary@example.com";
-    TestAccount foo = createAccountWithSecondaryEmail("foo", secondaryEmail);
-
+    // Test that even if the account exists, the result is still empty since
+    // it shouldn't match to that account based only on the secondary email.
+    createAccountWithSecondaryEmail("foo", "foo.secondary@example.com");
     requestScopeOperations.setApiUser(user.id());
     List<SuggestedReviewerInfo> reviewers = suggestReviewers(createChangeFromApi(), "secondary", 4);
     assertThat(reviewers).isEmpty();

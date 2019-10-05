@@ -779,6 +779,7 @@
     },
 
     _getChangePath(change, patchRange, revisions) {
+      if (!change || !patchRange) return null;
       const range = this._getChangeUrlRange(patchRange, revisions);
       return Gerrit.Nav.getUrlForChange(change, range.patchNum,
           range.basePatchNum);

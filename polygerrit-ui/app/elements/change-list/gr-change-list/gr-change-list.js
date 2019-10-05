@@ -179,6 +179,7 @@
     },
 
     _computeColspan(changeTableColumns, labelNames) {
+      if (!changeTableColumns || !labelNames) return;
       return changeTableColumns.length + labelNames.length +
           NUMBER_FIXED_COLUMNS;
     },

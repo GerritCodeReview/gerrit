@@ -110,7 +110,7 @@
     },
 
     _computeLabelValue(labels, permittedLabels, label) {
-      if (!labels[label.name]) { return null; }
+      if (!labels || !permittedLabels || !label || !labels[label.name]) { return null; }
       const labelValue = this._getLabelValue(labels, permittedLabels, label);
       const len = permittedLabels[label.name] != null ?
           permittedLabels[label.name].length : 0;
@@ -138,7 +138,7 @@
     },
 
     _computeAnyPermittedLabelValues(permittedLabels, label) {
-      return permittedLabels.hasOwnProperty(label) &&
+      return permittedLabels && permittedLabels.hasOwnProperty(label) &&
         permittedLabels[label].length;
     },
 

@@ -266,6 +266,7 @@
       }
 
       const patchRange = patchRangeRecord.base;
+      if (!patchRange) return;
       return this.$.restAPI.getChangeFilePathsAsSpeciallySortedArray(
           changeNum, patchRange).then(files => {
             this._fileList = files;

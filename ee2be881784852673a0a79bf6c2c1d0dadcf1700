@@ -143,6 +143,30 @@
     },
     {
       "key": {
+        "uuid": "29d616ff_28db9b5e",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-10-05T22:11:25Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "b6564a63_ac18b18c",
+      "range": {
+        "startLine": 174,
+        "startChar": 0,
+        "endLine": 174,
+        "endChar": 26
+      },
+      "revId": "ee2be881784852673a0a79bf6c2c1d0dadcf1700",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9352b76d_ee1d8dc5",
         "filename": "Documentation/dev-processes.txt",
         "patchSetId": 2
@@ -413,6 +437,24 @@
     },
     {
       "key": {
+        "uuid": "641ea3f5_914a6326",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-10-05T22:11:25Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "e8beb853_eb54ec16",
+      "revId": "ee2be881784852673a0a79bf6c2c1d0dadcf1700",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b21452bb_a5142a60",
         "filename": "Documentation/dev-processes.txt",
         "patchSetId": 2
@@ -589,6 +631,30 @@
       "side": 1,
       "message": "I meant this just as an extra step to verify that the release that was build really contains the bug-fix (e.g. I could imagine that one could accidentally build the release from the gerrit repo where the fix is not present). Of course the fix itself should come with an automatic integration test. I tried to clarify this here and above.",
       "parentUuid": "336bfb87_663dd6dc",
+      "range": {
+        "startLine": 268,
+        "startChar": 27,
+        "endLine": 268,
+        "endChar": 35
+      },
+      "revId": "ee2be881784852673a0a79bf6c2c1d0dadcf1700",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0cbc05dc_69fc1768",
+        "filename": "Documentation/dev-processes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 268,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-10-05T22:11:25Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "87561569_86fdeb32",
       "range": {
         "startLine": 268,
         "startChar": 27,

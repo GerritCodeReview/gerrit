@@ -171,6 +171,24 @@
       "revId": "b7080034f292c0b0db8f3efee45a624a36c7cb8a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4d68616a_bdb4a3ee",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-05T17:27:56Z",
+      "side": 1,
+      "message": "\u003e No mapping found for [legacy_id] in order to sort on (...) is the error I get as trailing /failed ES tests mostly.\n\nThanks. I am able to reproduce ES breakage. I missed one place to selectively use legacy_id vs. legacy_id2 in ElasticChangeIndex#getSortArray:\n\n  private JsonArray getSortArray() {\n  [...]\n    addNamedElement(schema.useLegacyNumericFields()\n        ? ChangeField.LEGACY_ID.getName()\n        : ChangeField.LEGACY_ID2.getName(), properties, sortArray);\n  [...]",
+      "parentUuid": "18029ed3_4891d626",
+      "revId": "b7080034f292c0b0db8f3efee45a624a36c7cb8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

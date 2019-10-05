@@ -152,6 +152,7 @@
     },
 
     _computeArchiveDownloadLink(change, patchNum, format) {
+      if (!change) return '';
       return this.changeBaseURL(change.project, change._number, patchNum) +
           '/archive?format=' + format;
     },

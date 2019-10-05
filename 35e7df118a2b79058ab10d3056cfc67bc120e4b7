@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3cfabe3c_3bdaa72b",
+        "filename": "java/com/google/gerrit/elasticsearch/ElasticChangeIndex.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-05T17:36:51Z",
+      "side": 1,
+      "message": "This was still missing and is now fixed.",
+      "range": {
+        "startLine": 173,
+        "startChar": 8,
+        "endLine": 175,
+        "endChar": 47
+      },
+      "revId": "35e7df118a2b79058ab10d3056cfc67bc120e4b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -71,6 +71,7 @@
 
     _computeDownloadCommands(change, patchNum, _selectedScheme) {
       let commandObj;
+      if (!change) return [];
       for (const rev of Object.values(change.revisions || {})) {
         if (this.patchNumEquals(rev._number, patchNum) &&
             rev.fetch.hasOwnProperty(_selectedScheme)) {
@@ -152,6 +153,7 @@
     },
 
     _computeArchiveDownloadLink(change, patchNum, format) {
+      if (!change) return '';
       return this.changeBaseURL(change.project, change._number, patchNum) +
           '/archive?format=' + format;
     },

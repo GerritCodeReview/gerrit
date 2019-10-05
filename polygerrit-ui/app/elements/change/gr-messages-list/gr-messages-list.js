@@ -223,6 +223,7 @@
      * @return {!Object} Hash of arrays of comments, filename as key.
      */
     _computeCommentsForMessage(changeComments, message) {
+      if (!changeComments) return [];
       const comments = changeComments.getAllPublishedComments();
       if (message._index === undefined || !comments || !this.messages) {
         return [];
@@ -272,7 +273,14 @@
      */
     _getDelta(visibleMessages, messages, hideAutomated) {
       let delta = MESSAGES_INCREMENT;
-      const msgsRemaining = messages.length - visibleMessages.length;
+
+      let msgsRemaining;
+      if (messages && visibleMessages) {
+        msgsRemaining = messages.length - visibleMessages.length;
+      } else {
+        msgsRemaining = 0;
+      }
+
       if (hideAutomated) {
         let counter = 0;
         let i;
@@ -311,6 +319,8 @@
 
     _computeShowHideTextHidden(visibleMessages, messages,
         hideAutomated) {
+      if (!visibleMessages && !visibleMessages.length) visibleMessages = [];
+      if (!messages && !visibleMessages.length) messages = [];
       if (hideAutomated) {
         messages = this._getHumanMessages(messages);
         visibleMessages = this._getHumanMessages(visibleMessages);

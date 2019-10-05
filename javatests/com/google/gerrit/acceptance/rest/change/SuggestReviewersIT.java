@@ -542,7 +542,7 @@ public class SuggestReviewersIT extends AbstractDaemonTest {
   @Test
   public void cannotSuggestBySecondaryEmailWithoutModifyAccount() throws Exception {
     String secondaryEmail = "foo.secondary@example.com";
-    TestAccount foo = createAccountWithSecondaryEmail("foo", secondaryEmail);
+   createAccountWithSecondaryEmail("foo", secondaryEmail);
 
     requestScopeOperations.setApiUser(user.id());
     List<SuggestedReviewerInfo> reviewers = suggestReviewers(createChangeFromApi(), "secondary", 4);

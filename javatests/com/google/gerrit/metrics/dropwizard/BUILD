@@ -7,7 +7,6 @@ junit_tests(
     visibility = ["//visibility:public"],
     deps = [
         "//java/com/google/gerrit/metrics/dropwizard",
-        "//java/com/google/gerrit/testing:gerrit-test-util",
         "//lib/truth",
     ],
 )

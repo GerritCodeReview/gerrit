@@ -10,7 +10,6 @@ junit_tests(
     tags = ["no_windows"],
     deps = [
         "//java/com/google/gerrit/git",
-        "//java/com/google/gerrit/testing:gerrit-test-util",
         "//lib:guava",
         "//lib:junit",
         "//lib/jgit/org.eclipse.jgit:jgit",

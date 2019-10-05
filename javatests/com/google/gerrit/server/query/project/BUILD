@@ -8,6 +8,7 @@ java_library(
     testonly = True,
     srcs = ABSTRACT_QUERY_TEST,
     visibility = ["//visibility:public"],
+    runtime_deps = ["//java/com/google/gerrit/lucene"],
     deps = [
         "//java/com/google/gerrit/extensions:api",
         "//java/com/google/gerrit/index",
@@ -35,7 +36,6 @@ junit_tests(
     deps = [
         ":abstract_query_tests",
         "//java/com/google/gerrit/index/project",
-        "//java/com/google/gerrit/server",
         "//java/com/google/gerrit/testing:gerrit-test-util",
         "//lib/guice",
         "//lib/jgit/org.eclipse.jgit:jgit",

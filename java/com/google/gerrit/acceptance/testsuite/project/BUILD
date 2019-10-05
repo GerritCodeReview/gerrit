@@ -12,7 +12,6 @@ java_library(
         "//java/com/google/gerrit/extensions:api",
         "//java/com/google/gerrit/reviewdb:server",
         "//java/com/google/gerrit/server",
-        "//java/com/google/gerrit/server/project/testing:project-test-util",
         "//lib:guava",
         "//lib/auto:auto-value",
         "//lib/auto:auto-value-annotations",

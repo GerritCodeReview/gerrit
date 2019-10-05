@@ -8,6 +8,10 @@ java_library(
     testonly = True,
     srcs = ABSTRACT_QUERY_TEST,
     visibility = ["//visibility:public"],
+    runtime_deps = [
+        "//java/com/google/gerrit/lucene",
+        "//prolog:gerrit-prolog-common",
+    ],
     deps = [
         "//java/com/google/gerrit/extensions:api",
         "//java/com/google/gerrit/index",
@@ -21,7 +25,6 @@ java_library(
         "//lib/jgit/org.eclipse.jgit:jgit",
         "//lib/truth",
         "//lib/truth:truth-java8-extension",
-        "//prolog:gerrit-prolog-common",
     ],
 )
 

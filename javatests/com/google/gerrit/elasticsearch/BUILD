@@ -12,7 +12,6 @@ java_library(
     deps = [
         "//java/com/google/gerrit/elasticsearch",
         "//java/com/google/gerrit/index",
-        "//java/com/google/gerrit/server",
         "//lib:guava",
         "//lib:junit",
         "//lib/guice",

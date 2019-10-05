@@ -5,9 +5,5 @@ java_library(
     testonly = True,
     srcs = glob(["*.java"]),
     visibility = ["//visibility:public"],
-    deps = [
-        "//java/com/google/gerrit/common:server",
-        "//java/com/google/gerrit/reviewdb:server",
-        "//java/com/google/gerrit/server",
-    ],
+    deps = ["//java/com/google/gerrit/common:server"],
 )

@@ -11,7 +11,10 @@ java_library(
     testonly = True,
     srcs = ABSTRACT_QUERY_TEST,
     visibility = ["//visibility:public"],
-    runtime_deps = ["//prolog:gerrit-prolog-common"],
+    runtime_deps = [
+        "//java/com/google/gerrit/lucene",
+        "//prolog:gerrit-prolog-common",
+    ],
     deps = [
         "//java/com/google/gerrit/acceptance/testsuite/project",
         "//java/com/google/gerrit/common:annotations",
@@ -66,7 +69,6 @@ junit_tests(
     ),
     visibility = ["//visibility:public"],
     deps = [
-        "//java/com/google/gerrit/exceptions",
         "//java/com/google/gerrit/extensions:api",
         "//java/com/google/gerrit/proto/testing",
         "//java/com/google/gerrit/reviewdb:server",

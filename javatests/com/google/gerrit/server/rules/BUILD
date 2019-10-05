@@ -5,6 +5,7 @@ junit_tests(
     srcs = glob(["*.java"]),
     resource_strip_prefix = "prologtests",
     resources = ["//prologtests:gerrit_common_test"],
+    runtime_deps = ["//prolog:gerrit-prolog-common"],
     deps = [
         "//java/com/google/gerrit/common:server",
         "//java/com/google/gerrit/reviewdb:server",
@@ -18,6 +19,5 @@ junit_tests(
         "//lib/mockito",
         "//lib/prolog:runtime",
         "//lib/truth",
-        "//prolog:gerrit-prolog-common",
     ],
 )

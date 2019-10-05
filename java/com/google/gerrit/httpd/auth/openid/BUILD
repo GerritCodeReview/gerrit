@@ -10,13 +10,11 @@ java_library(
         # We want all these deps to be provided_deps
         "//java/com/google/gerrit/common:annotations",
         "//java/com/google/gerrit/common:server",
-        "//java/com/google/gerrit/exceptions",
         "//java/com/google/gerrit/extensions:api",
         "//java/com/google/gerrit/httpd",
         "//java/com/google/gerrit/reviewdb:server",
         "//java/com/google/gerrit/util/http",
         "//java/com/google/gerrit/server",
-        "//java/com/google/gerrit/server/audit",
         "//lib:guava",
         "//lib:servlet-api",
         "//lib/commons:codec",

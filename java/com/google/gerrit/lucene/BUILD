@@ -9,8 +9,6 @@ java_library(
     deps = [
         "//java/com/google/gerrit/index",
         "//java/com/google/gerrit/index:query_exception",
-        "//java/com/google/gerrit/reviewdb:server",
-        "//java/com/google/gerrit/server",
         "//lib:guava",
         "//lib/lucene:lucene-core-and-backward-codecs",
     ],
@@ -26,13 +24,10 @@ java_library(
     deps = [
         ":query_builder",
         "//java/com/google/gerrit/common:annotations",
-        "//java/com/google/gerrit/common:server",
         "//java/com/google/gerrit/exceptions",
-        "//java/com/google/gerrit/extensions:api",
         "//java/com/google/gerrit/index",
         "//java/com/google/gerrit/index:query_exception",
         "//java/com/google/gerrit/index/project",
-        "//java/com/google/gerrit/lifecycle",
         "//java/com/google/gerrit/proto",
         "//java/com/google/gerrit/reviewdb:server",
         "//java/com/google/gerrit/server",

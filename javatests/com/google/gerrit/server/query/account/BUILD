@@ -8,6 +8,7 @@ java_library(
     testonly = True,
     srcs = ABSTRACT_QUERY_TEST,
     visibility = ["//visibility:public"],
+    runtime_deps = ["//prolog:gerrit-prolog-common"],
     deps = [
         "//java/com/google/gerrit/extensions:api",
         "//java/com/google/gerrit/index",
@@ -22,7 +23,6 @@ java_library(
         "//lib/log:log4j",
         "//lib/truth",
         "//lib/truth:truth-java8-extension",
-        "//prolog:gerrit-prolog-common",
         "//resources:log4j-config",
     ],
 )

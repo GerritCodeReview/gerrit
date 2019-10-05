@@ -20,7 +20,6 @@ java_library(
         "//java/com/google/gerrit/reviewdb:server",
         "//java/com/google/gerrit/server",
         "//java/com/google/gerrit/server/ioutil",
-        "//java/com/google/gerrit/server/logging",
         "//java/com/google/gerrit/server/util/time",
         "//java/com/google/gerrit/util/cli",
         "//java/org/eclipse/jgit:server",

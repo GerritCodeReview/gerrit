@@ -289,6 +289,7 @@
      * exist in _visibleMessages.
      */
     _numRemaining(visibleMessages, messages, hideAutomated) {
+      if (!messages || !visibleMessages) return 0;
       if (hideAutomated) {
         return this._getHumanMessages(messages).length -
             this._getHumanMessages(visibleMessages).length;

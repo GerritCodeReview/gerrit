@@ -524,6 +524,7 @@
     },
 
     _computeTotalCommentCounts(unresolvedCount, changeComments) {
+      if (!changeComments) return '';
       const draftCount = changeComments.computeDraftCount();
       const unresolvedString = GrCountStringFormatter.computeString(
           unresolvedCount, 'unresolved');

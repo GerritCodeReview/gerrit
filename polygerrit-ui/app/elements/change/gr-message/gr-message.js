@@ -204,6 +204,7 @@
 
     _computeScoreClass(score, labelExtremes) {
       const classes = [];
+      if (!score) return [];
       if (score.value > 0) {
         classes.push('positive');
       } else if (score.value < 0) {

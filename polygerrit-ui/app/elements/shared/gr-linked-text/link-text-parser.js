@@ -228,9 +228,11 @@
    * @param {string} text
    */
   GrLinkTextParser.prototype.parse = function(text) {
-    linkify(text, {
-      callback: this.parseChunk.bind(this),
-    });
+    if (text) {
+      linkify(text, {
+        callback: this.parseChunk.bind(this),
+      });
+    }
   };
 
   /**

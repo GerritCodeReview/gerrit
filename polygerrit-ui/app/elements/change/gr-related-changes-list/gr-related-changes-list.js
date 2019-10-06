@@ -224,6 +224,7 @@
      * @return {boolean}
      */
     _changesEqual(a, b) {
+      if (!a || !b) return false;
       const aNum = this._getChangeNumber(a);
       const bNum = this._getChangeNumber(b);
       return aNum === bNum;
@@ -242,7 +243,7 @@
      * @return {number}
      */
     _getChangeNumber(change) {
-      if (change.hasOwnProperty('_change_number')) {
+      if (change && change.hasOwnProperty('_change_number')) {
         return change._change_number;
       }
       return change._number;

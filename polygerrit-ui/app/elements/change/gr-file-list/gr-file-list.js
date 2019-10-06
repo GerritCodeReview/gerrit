@@ -760,6 +760,7 @@
     },
 
     _computeDiffURL(change, patchNum, basePatchNum, path, editMode) {
+      if (!change || !patchNum) return;
       // TODO(kaspern): Fix editing for commit messages and merge lists.
       if (editMode && path !== this.COMMIT_MESSAGE_PATH &&
           path !== this.MERGE_LIST_PATH) {

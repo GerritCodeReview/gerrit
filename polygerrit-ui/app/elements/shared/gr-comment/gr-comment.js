@@ -354,7 +354,7 @@
 
     _computeSaveDisabled(draft, comment, resolved) {
       // If resolved state has changed and a msg exists, save should be enabled.
-      if (comment.unresolved === resolved && draft) {
+      if (!comment || comment.unresolved === resolved && draft) {
         return false;
       }
       return !draft || draft.trim() === '';

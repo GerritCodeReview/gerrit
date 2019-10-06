@@ -137,7 +137,7 @@ public class LuceneAccountIndex extends AbstractLuceneIndex<Account.Id, AccountS
   @Override
   public void replace(AccountState as) {
     try {
-      replace(idTerm(getSchema().useLegacyNumericFields(), as), toDocument(as)).get();
+      replace(idTerm(getSchema().hasField(ID), as), toDocument(as)).get();
     } catch (ExecutionException | InterruptedException e) {
       throw new StorageException(e);
     }
@@ -155,7 +155,7 @@ public class LuceneAccountIndex extends AbstractLuceneIndex<Account.Id, AccountS
   @Override
   public void delete(Account.Id key) {
     try {
-      delete(idTerm(getSchema().useLegacyNumericFields(), key)).get();
+      delete(idTerm(getSchema().hasField(ID), key)).get();
     } catch (ExecutionException | InterruptedException e) {
       throw new StorageException(e);
     }
@@ -164,15 +164,14 @@ public class LuceneAccountIndex extends AbstractLuceneIndex<Account.Id, AccountS
   @Override
   public DataSource<AccountState> getSource(Predicate<AccountState> p, QueryOptions opts)
       throws QueryParseException {
-    queryBuilder.getSchema().useLegacyNumericFields();
     return new LuceneQuerySource(
-        opts.filterFields(o -> IndexUtils.accountFields(o, getSchema().useLegacyNumericFields())),
+        opts.filterFields(o -> IndexUtils.accountFields(o, getSchema().hasField(ID))),
         queryBuilder.toQuery(p),
         getSort());
   }
 
   private Sort getSort() {
-    String idSortField = getSchema().useLegacyNumericFields() ? ID_SORT_FIELD : ID2_SORT_FIELD;
+    String idSortField = getSchema().hasField(ID) ? ID_SORT_FIELD : ID2_SORT_FIELD;
     return new Sort(
         new SortField(FULL_NAME_SORT_FIELD, SortField.Type.STRING, false),
         new SortField(EMAIL_SORT_FIELD, SortField.Type.STRING, false),
@@ -181,10 +180,10 @@ public class LuceneAccountIndex extends AbstractLuceneIndex<Account.Id, AccountS
 
   @Override
   protected AccountState fromDocument(Document doc) {
-    FieldDef<AccountState, ?> idField = getSchema().useLegacyNumericFields() ? ID : ID_STR;
+    FieldDef<AccountState, ?> idField = getSchema().hasField(ID) ? ID : ID_STR;
     Account.Id id =
         Account.id(
-            getSchema().useLegacyNumericFields()
+            getSchema().hasField(ID)
                 ? doc.getField(idField.getName()).numericValue().intValue()
                 : Integer.valueOf(doc.getField(idField.getName()).stringValue()));
     // Use the AccountCache rather than depending on any stored fields in the document (of which

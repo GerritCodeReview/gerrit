@@ -100,7 +100,7 @@ public class StalenessChecker {
       return StalenessCheckResult.notStale();
     }
 
-    boolean useLegacyNumericFields = i.getSchema().useLegacyNumericFields();
+    boolean useLegacyNumericFields = i.getSchema().hasField(AccountField.ID);
     ImmutableSet<String> fields = useLegacyNumericFields ? FIELDS : FIELDS2;
     Optional<FieldBundle> result =
         i.getRaw(

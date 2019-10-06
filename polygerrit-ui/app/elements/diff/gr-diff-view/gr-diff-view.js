@@ -84,6 +84,9 @@
       /** @type {?} */
       _changeComments: Object,
       _changeNum: String,
+      /**
+        * This is a DiffInfo object.
+        **/
       _diff: Object,
       // An array specifically formatted to be used in a gr-dropdown-list
       // element for selected a file to view.
@@ -880,28 +883,48 @@
       history.replaceState(null, '', url);
     },
 
-    _computeDownloadDropdownLinks(project, changeNum, patchRange, path) {
+    _computeDownloadDropdownLinks(project, changeNum, patchRange, path, diff) {
       if (!patchRange || !patchRange.patchNum) { return []; }
 
-      return [
+      const links = [
         {
           url: this._computeDownloadPatchLink(
               project, changeNum, patchRange, path),
           name: 'Patch',
         },
-        {
-          // We pass 1 here to indicate this is parent 1.
-          url: this._computeDownloadFileLink(
-              project, changeNum, patchRange, path, 1),
-          name: 'Left Content',
-        },
-        {
-          // We pass 0 here to indicate this is parent 0.
-          url: this._computeDownloadFileLink(
-              project, changeNum, patchRange, path, 0),
-          name: 'Right Content',
-        },
       ];
+
+      if (diff && diff.meta_a) {
+        let leftPath = path;
+        if (diff.change_type === 'RENAMED') {
+          leftPath = diff.meta_a.name;
+        }
+        links.push(
+            {
+              // We pass 1 here to indicate this is parent 1.
+              // Parent 1 in this context means the diff from
+              // the left side.
+              url: this._computeDownloadFileLink(
+                  project, changeNum, patchRange, leftPath, 1),
+              name: 'Left Content',
+            }
+        );
+      }
+
+      if (diff && diff.meta_b) {
+        links.push(
+            {
+              // We pass 0 here to indicate this is parent 2.
+              // Parent 2 in this context means the diff from
+              // the right side.
+              url: this._computeDownloadFileLink(
+                  project, changeNum, patchRange, path, 0),
+              name: 'Right Content',
+            }
+        );
+      }
+
+      return links;
     },
 
     _computeDownloadFileLink(project, changeNum, patchRange, path, parent) {

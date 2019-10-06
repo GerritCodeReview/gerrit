@@ -559,9 +559,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
     if (PAT_LEGACY_ID.matcher(query).matches()) {
       Integer id = Ints.tryParse(query);
       if (id != null) {
-        return args.getSchema().useLegacyNumericFields()
-            ? ChangePredicates.id(Change.id(id))
-            : ChangePredicates.idStr(Change.id(id));
+        return ChangePredicates.idStr(Change.id(id));
       }
     } else if (PAT_CHANGE_ID.matcher(query).matches()) {
       return ChangePredicates.idPrefix(parseChangeId(query));

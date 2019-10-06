@@ -23,18 +23,25 @@ import com.google.gerrit.server.query.change.ChangeData;
 /** Definition of change index versions (schemata). See {@link SchemaDefinitions}. */
 public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
   @Deprecated
-  static final Schema<ChangeData> V55 =
+  /** Added new field {@link ChangeField#IS_SUBMITTABLE} based on submit requirements. */
+  static final Schema<ChangeData> V74 =
       schema(
           ChangeField.ADDED,
           ChangeField.APPROVAL,
           ChangeField.ASSIGNEE,
+          ChangeField.ATTENTION_SET_FULL,
+          ChangeField.ATTENTION_SET_USERS,
+          ChangeField.ATTENTION_SET_USERS_COUNT,
           ChangeField.AUTHOR,
           ChangeField.CHANGE,
+          ChangeField.CHERRY_PICK,
+          ChangeField.CHERRY_PICK_OF_CHANGE,
+          ChangeField.CHERRY_PICK_OF_PATCHSET,
           ChangeField.COMMENT,
           ChangeField.COMMENTBY,
           ChangeField.COMMIT,
-          ChangeField.COMMITTER,
           ChangeField.COMMIT_MESSAGE,
+          ChangeField.COMMITTER,
           ChangeField.DELETED,
           ChangeField.DELTA,
           ChangeField.DIRECTORY,
@@ -47,14 +54,19 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
           ChangeField.EXTENSION,
           ChangeField.FILE_PART,
           ChangeField.FOOTER,
+          ChangeField.FUZZY_HASHTAG,
           ChangeField.FUZZY_TOPIC,
           ChangeField.GROUP,
           ChangeField.HASHTAG,
           ChangeField.HASHTAG_CASE_AWARE,
           ChangeField.ID,
+          ChangeField.IS_PURE_REVERT,
+          ChangeField.IS_SUBMITTABLE,
           ChangeField.LABEL,
-          ChangeField.LEGACY_ID,
+          ChangeField.LEGACY_ID_STR,
+          ChangeField.MERGE,
           ChangeField.MERGEABLE,
+          ChangeField.MERGED_ON,
           ChangeField.ONLY_EXTENSIONS,
           ChangeField.OWNER,
           ChangeField.PATCH_SET,
@@ -77,129 +89,16 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
           ChangeField.STATUS,
           ChangeField.STORED_SUBMIT_RECORD_LENIENT,
           ChangeField.STORED_SUBMIT_RECORD_STRICT,
+          ChangeField.STORED_SUBMIT_REQUIREMENTS,
           ChangeField.SUBMISSIONID,
           ChangeField.SUBMIT_RECORD,
+          ChangeField.SUBMIT_RULE_RESULT,
           ChangeField.TOTAL_COMMENT_COUNT,
           ChangeField.TR,
           ChangeField.UNRESOLVED_COMMENT_COUNT,
           ChangeField.UPDATED,
+          ChangeField.UPLOADER,
           ChangeField.WIP);
-
-  /**
-   * The computation of the {@link ChangeField#EXTENSION} field is changed, hence reindexing is
-   * required.
-   */
-  @Deprecated static final Schema<ChangeData> V56 = schema(V55);
-
-  /**
-   * New numeric types: use dimensional points using the k-d tree geo-spatial data structure to
-   * offer fast single- and multi-dimensional numeric range. As the consequense, {@link
-   * ChangeField#LEGACY_ID} is replaced with {@link ChangeField#LEGACY_ID_STR}.
-   */
-  @Deprecated
-  static final Schema<ChangeData> V57 =
-      new Schema.Builder<ChangeData>()
-          .add(V56)
-          .remove(ChangeField.LEGACY_ID)
-          .add(ChangeField.LEGACY_ID_STR)
-          .legacyNumericFields(false)
-          .build();
-
-  /**
-   * Added new fields {@link ChangeField#CHERRY_PICK_OF_CHANGE} and {@link
-   * ChangeField#CHERRY_PICK_OF_PATCHSET}.
-   */
-  @Deprecated
-  static final Schema<ChangeData> V58 =
-      new Schema.Builder<ChangeData>()
-          .add(V57)
-          .add(ChangeField.CHERRY_PICK_OF_CHANGE)
-          .add(ChangeField.CHERRY_PICK_OF_PATCHSET)
-          .build();
-
-  /**
-   * Added new fields {@link ChangeField#ATTENTION_SET_USERS} and {@link
-   * ChangeField#ATTENTION_SET_FULL}.
-   */
-  @Deprecated
-  static final Schema<ChangeData> V59 =
-      new Schema.Builder<ChangeData>()
-          .add(V58)
-          .add(ChangeField.ATTENTION_SET_USERS)
-          .add(ChangeField.ATTENTION_SET_FULL)
-          .build();
-
-  /** Added new fields {@link ChangeField#MERGE} */
-  @Deprecated
-  static final Schema<ChangeData> V60 =
-      new Schema.Builder<ChangeData>().add(V59).add(ChangeField.MERGE).build();
-
-  /** Added new field {@link ChangeField#MERGED_ON} */
-  @Deprecated
-  static final Schema<ChangeData> V61 =
-      new Schema.Builder<ChangeData>().add(V60).add(ChangeField.MERGED_ON).build();
-
-  /** Added new field {@link ChangeField#FUZZY_HASHTAG} */
-  @Deprecated
-  static final Schema<ChangeData> V62 =
-      new Schema.Builder<ChangeData>().add(V61).add(ChangeField.FUZZY_HASHTAG).build();
-
-  /**
-   * The computation of the {@link ChangeField#DIRECTORY} field is changed, hence reindexing is
-   * required.
-   */
-  @Deprecated static final Schema<ChangeData> V63 = schema(V62, false);
-
-  /** Added support for MIN/MAX/ANY for {@link ChangeField#LABEL} */
-  @Deprecated static final Schema<ChangeData> V64 = schema(V63, false);
-
-  /** Added new field for submit requirements. */
-  @Deprecated
-  static final Schema<ChangeData> V65 =
-      new Schema.Builder<ChangeData>().add(V64).add(ChangeField.STORED_SUBMIT_REQUIREMENTS).build();
-
-  /**
-   * The computation of {@link ChangeField#LABEL} has changed: We added the non_uploader arg to the
-   * label field.
-   */
-  @Deprecated static final Schema<ChangeData> V66 = schema(V65, false);
-
-  /** Updated submit records: store the rule name that created the submit record. */
-  @Deprecated static final Schema<ChangeData> V67 = schema(V66, false);
-
-  /** Added new field {@link ChangeField#SUBMIT_RULE_RESULT}. */
-  @Deprecated
-  static final Schema<ChangeData> V68 =
-      new Schema.Builder<ChangeData>().add(V67).add(ChangeField.SUBMIT_RULE_RESULT).build();
-
-  /** Added new field {@link ChangeField#CHERRY_PICK}. */
-  @Deprecated
-  static final Schema<ChangeData> V69 =
-      new Schema.Builder<ChangeData>().add(V68).add(ChangeField.CHERRY_PICK).build();
-
-  /** Added new field {@link ChangeField#ATTENTION_SET_USERS_COUNT}. */
-  @Deprecated
-  static final Schema<ChangeData> V70 =
-      new Schema.Builder<ChangeData>().add(V69).add(ChangeField.ATTENTION_SET_USERS_COUNT).build();
-
-  /** Added new field {@link ChangeField#UPLOADER}. */
-  @Deprecated
-  static final Schema<ChangeData> V71 =
-      new Schema.Builder<ChangeData>().add(V70).add(ChangeField.UPLOADER).build();
-
-  /** Added new field {@link ChangeField#IS_PURE_REVERT}. */
-  @Deprecated
-  static final Schema<ChangeData> V72 =
-      new Schema.Builder<ChangeData>().add(V71).add(ChangeField.IS_PURE_REVERT).build();
-
-  @Deprecated
-  /** Added new "count=$count" argument to the {@link ChangeField#LABEL} operator. */
-  static final Schema<ChangeData> V73 = schema(V72, false);
-
-  @Deprecated
-  /** Added new field {@link ChangeField#IS_SUBMITTABLE} based on submit requirements. */
-  static final Schema<ChangeData> V74 =
-      new Schema.Builder<ChangeData>().add(V73).add(ChangeField.IS_SUBMITTABLE).build();
 
   /**
    * Added new field {@link ChangeField#PREFIX_HASHTAG} and {@link ChangeField#PREFIX_TOPIC} to

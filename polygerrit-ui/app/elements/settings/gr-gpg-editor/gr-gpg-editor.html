@@ -19,6 +19,7 @@ limitations under the License.
 <link rel="import" href="/bower_components/iron-autogrow-textarea/iron-autogrow-textarea.html">
 <link rel="import" href="../../../styles/gr-form-styles.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
+<link rel="import" href="../../shared/gr-copy-clipboard/gr-copy-clipboard.html">
 <link rel="import" href="../../shared/gr-overlay/gr-overlay.html">
 <link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../../../styles/shared-styles.html">
@@ -62,6 +63,7 @@ limitations under the License.
               <th class="userIdHeader">User IDs</th>
               <th class="keyHeader">Public Key</th>
               <th></th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -79,6 +81,14 @@ limitations under the License.
                       on-click="_showKey"
                       data-index$="[[index]]"
                       link>Click to View</gr-button>
+                </td>
+                <td>
+                  <gr-copy-clipboard
+                      has-tooltip
+                      button-title="Copy full SSH public key to clipboard"
+                      hide-input
+                      text="[[item.key]]">
+                  </gr-copy-clipboard>
                 </td>
                 <td>
                   <gr-button

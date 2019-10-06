@@ -43,6 +43,7 @@ import com.google.gerrit.extensions.common.CherryPickChangeInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.common.DescriptionInput;
+import com.google.gerrit.extensions.common.DiffInfo;
 import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.common.FileInfo;
 import com.google.gerrit.extensions.common.Input;
@@ -71,6 +72,7 @@ import com.google.gerrit.server.restapi.change.Files;
 import com.google.gerrit.server.restapi.change.Fixes;
 import com.google.gerrit.server.restapi.change.GetCommit;
 import com.google.gerrit.server.restapi.change.GetDescription;
+import com.google.gerrit.server.restapi.change.GetFixPreview;
 import com.google.gerrit.server.restapi.change.GetMergeList;
 import com.google.gerrit.server.restapi.change.GetPatch;
 import com.google.gerrit.server.restapi.change.GetRelated;
@@ -126,6 +128,7 @@ class RevisionApiImpl implements RevisionApi {
   private final ListRevisionComments listComments;
   private final ListRobotComments listRobotComments;
   private final ApplyFix applyFix;
+  private final GetFixPreview getFixPreview;
   private final Fixes fixes;
   private final ListRevisionDrafts listDrafts;
   private final CreateDraftComment createDraft;
@@ -169,6 +172,7 @@ class RevisionApiImpl implements RevisionApi {
       ListRevisionComments listComments,
       ListRobotComments listRobotComments,
       ApplyFix applyFix,
+      GetFixPreview getFixPreview,
       Fixes fixes,
       ListRevisionDrafts listDrafts,
       CreateDraftComment createDraft,
@@ -211,6 +215,7 @@ class RevisionApiImpl implements RevisionApi {
     this.robotComments = robotComments;
     this.listRobotComments = listRobotComments;
     this.applyFix = applyFix;
+    this.getFixPreview = getFixPreview;
     this.fixes = fixes;
     this.listDrafts = listDrafts;
     this.createDraft = createDraft;
@@ -448,6 +453,15 @@ class RevisionApiImpl implements RevisionApi {
       return applyFix.apply(fixes.parse(revision, IdString.fromDecoded(fixId)), null).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot apply fix", e);
+    }
+  }
+
+  @Override
+  public Map<String, DiffInfo> getFixPreview(String fixId) throws RestApiException {
+    try {
+      return getFixPreview.apply(fixes.parse(revision, IdString.fromDecoded(fixId))).value();
+    } catch (Exception e) {
+      throw asRestApiException("Cannot get fix preview", e);
     }
   }
 

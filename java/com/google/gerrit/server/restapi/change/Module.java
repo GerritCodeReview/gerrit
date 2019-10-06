@@ -159,6 +159,7 @@ public class Module extends RestApiModule {
     get(ROBOT_COMMENT_KIND).to(GetRobotComment.class);
     child(REVISION_KIND, "fixes").to(Fixes.class);
     post(FIX_KIND, "apply").to(ApplyFix.class);
+    get(FIX_KIND, "preview").to(GetFixPreview.class);
 
     child(REVISION_KIND, "files").to(Files.class);
     put(FILE_KIND, "reviewed").to(PutReviewed.class);

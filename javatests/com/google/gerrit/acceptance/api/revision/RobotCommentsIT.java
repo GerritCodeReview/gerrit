@@ -960,6 +960,29 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     }
   }
 
+  @Test
+  public void getFixPreviewWithNonexistingFixId() throws Exception {
+    addRobotComment(changeId, withFixRobotCommentInput);
+    List<RobotCommentInfo> robotCommentInfos = getRobotComments();
+
+    List<String> fixIds = getFixIds(robotCommentInfos);
+    String fixId = Iterables.getOnlyElement(fixIds);
+    assertThrows(
+        ResourceNotFoundException.class,
+        () -> gApi.changes().id(changeId).current().getFixPreview("Non existing fixId"));
+  }
+
+  @Test
+  public void getFixPreview() throws Exception {
+    addRobotComment(changeId, withFixRobotCommentInput);
+    List<RobotCommentInfo> robotCommentInfos = getRobotComments();
+
+    List<String> fixIds = getFixIds(robotCommentInfos);
+    String fixId = Iterables.getOnlyElement(fixIds);
+
+    gApi.changes().id(changeId).current().getFixPreview(fixId);
+  }
+
   private static RobotCommentInput createRobotCommentInputWithMandatoryFields() {
     RobotCommentInput in = new RobotCommentInput();
     in.robotId = "happyRobot";

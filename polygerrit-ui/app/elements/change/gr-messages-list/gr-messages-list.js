@@ -272,7 +272,14 @@
      */
     _getDelta(visibleMessages, messages, hideAutomated) {
       let delta = MESSAGES_INCREMENT;
-      const msgsRemaining = messages.length - visibleMessages.length;
+
+      let msgsRemaining;
+      if (messages && visibleMessages) {
+        msgsRemaining = messages.length - visibleMessages.length;
+      } else {
+        msgsRemaining = 0;
+      }
+
       if (hideAutomated) {
         let counter = 0;
         let i;

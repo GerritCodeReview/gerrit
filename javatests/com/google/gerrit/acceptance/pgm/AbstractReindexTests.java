@@ -31,10 +31,12 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.common.ChangeInput;
+import com.google.gerrit.index.Schema;
 import com.google.gerrit.launcher.GerritLauncher;
 import com.google.gerrit.server.index.GerritIndexStatus;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
 import com.google.gerrit.server.index.change.ChangeSchemaDefinitions;
+import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.inject.Injector;
 import com.google.inject.Provider;
@@ -44,6 +46,7 @@ import java.util.function.Consumer;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.FS;
+import org.junit.Assume;
 import org.junit.Test;
 
 @NoHttpd
@@ -174,7 +177,9 @@ public abstract class AbstractReindexTests extends StandaloneSiteTest {
 
   @Test
   public void onlineUpgradeChanges() throws Exception {
-    int prevVersion = ChangeSchemaDefinitions.INSTANCE.getPrevious().getVersion();
+    Schema<ChangeData> previous = ChangeSchemaDefinitions.INSTANCE.getPrevious();
+    Assume.assumeNotNull(previous);
+    int prevVersion = previous.getVersion();
     int currVersion = ChangeSchemaDefinitions.INSTANCE.getLatest().getVersion();
 
     // Before storing any changes, switch back to the previous version.

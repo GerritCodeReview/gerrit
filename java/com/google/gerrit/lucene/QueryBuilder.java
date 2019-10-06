@@ -40,38 +40,14 @@ import org.apache.lucene.document.IntPoint;
 import org.apache.lucene.document.LongPoint;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.search.BooleanQuery;
-import org.apache.lucene.search.LegacyNumericRangeQuery;
 import org.apache.lucene.search.MatchAllDocsQuery;
 import org.apache.lucene.search.PrefixQuery;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.RegexpQuery;
 import org.apache.lucene.search.TermQuery;
 import org.apache.lucene.util.BytesRefBuilder;
-import org.apache.lucene.util.LegacyNumericUtils;
 
-@SuppressWarnings("deprecation")
 public class QueryBuilder<V> {
-  @FunctionalInterface
-  static interface IntTermQuery {
-    Query get(String name, int value);
-  }
-
-  @FunctionalInterface
-  static interface IntRangeQuery {
-    Query get(String name, int min, int max);
-  }
-
-  @FunctionalInterface
-  static interface LongRangeQuery {
-    Query get(String name, long min, long max);
-  }
-
-  static Term intTerm(String name, int value) {
-    BytesRefBuilder builder = new BytesRefBuilder();
-    LegacyNumericUtils.intToPrefixCoded(value, 0, builder);
-    return new Term(name, builder.get());
-  }
-
   static Term stringTerm(String name, String value) {
     BytesRefBuilder builder = new BytesRefBuilder();
     builder.append(value.getBytes(UTF_8), 0, value.length());
@@ -85,29 +61,9 @@ public class QueryBuilder<V> {
   private final Schema<V> schema;
   private final org.apache.lucene.util.QueryBuilder queryBuilder;
 
-  // TODO(davido): Remove the below fields when support for legacy numeric fields is removed.
-  private final IntTermQuery intTermQuery;
-  private final IntRangeQuery intRangeTermQuery;
-  private final LongRangeQuery longRangeQuery;
-
   public QueryBuilder(Schema<V> schema, Analyzer analyzer) {
     this.schema = schema;
     queryBuilder = new org.apache.lucene.util.QueryBuilder(analyzer);
-    intTermQuery =
-        (name, value) ->
-            this.schema.useLegacyNumericFields()
-                ? new TermQuery(intTerm(name, value))
-                : intPoint(name, value);
-    intRangeTermQuery =
-        (name, min, max) ->
-            this.schema.useLegacyNumericFields()
-                ? LegacyNumericRangeQuery.newIntRange(name, min, max, true, true)
-                : IntPoint.newRangeQuery(name, min, max);
-    longRangeQuery =
-        (name, min, max) ->
-            this.schema.useLegacyNumericFields()
-                ? LegacyNumericRangeQuery.newLongRange(name, min, max, true, true)
-                : LongPoint.newRangeQuery(name, min, max);
   }
 
   public Query toQuery(Predicate<V> p) throws QueryParseException {
@@ -210,7 +166,7 @@ public class QueryBuilder<V> {
     } catch (NumberFormatException e) {
       throw new QueryParseException("not an integer: " + p.getValue());
     }
-    return intTermQuery.get(p.getField().getName(), value);
+    return intPoint(p.getField().getName(), value);
   }
 
   private Query intRangeQuery(IndexPredicate<V> p) throws QueryParseException {
@@ -221,9 +177,9 @@ public class QueryBuilder<V> {
       int maximum = r.getMaximumValue();
       if (minimum == maximum) {
         // Just fall back to a standard integer query.
-        return intTermQuery.get(name, minimum);
+        return intPoint(name, minimum);
       }
-      return intRangeTermQuery.get(name, minimum, maximum);
+      return IntPoint.newRangeQuery(name, minimum, maximum);
     }
     throw new QueryParseException("not an integer range: " + p);
   }
@@ -231,7 +187,7 @@ public class QueryBuilder<V> {
   private Query timestampQuery(IndexPredicate<V> p) throws QueryParseException {
     if (p instanceof TimestampRangePredicate) {
       TimestampRangePredicate<V> r = (TimestampRangePredicate<V>) p;
-      return longRangeQuery.get(
+      return LongPoint.newRangeQuery(
           r.getField().getName(), r.getMinTimestamp().getTime(), r.getMaxTimestamp().getTime());
     }
     throw new QueryParseException("not a timestamp: " + p);
@@ -239,7 +195,7 @@ public class QueryBuilder<V> {
 
   private Query notTimestamp(TimestampRangePredicate<V> r) throws QueryParseException {
     if (r.getMinTimestamp().getTime() == 0) {
-      return longRangeQuery.get(
+      return LongPoint.newRangeQuery(
           r.getField().getName(), r.getMaxTimestamp().getTime(), Long.MAX_VALUE);
     }
     throw new QueryParseException("cannot negate: " + r);

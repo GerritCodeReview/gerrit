@@ -74,7 +74,7 @@ public class DeleteDraftComments
 
   private final Provider<CurrentUser> userProvider;
   private final BatchUpdate.Factory batchUpdateFactory;
-  private final Provider<ChangeQueryBuilder> queryBuilderProvider;
+  private final ChangeQueryBuilder queryBuilder;
   private final Provider<InternalChangeQuery> queryProvider;
   private final ChangeData.Factory changeDataFactory;
   private final ChangeJson.Factory changeJsonFactory;
@@ -87,7 +87,7 @@ public class DeleteDraftComments
   DeleteDraftComments(
       Provider<CurrentUser> userProvider,
       Factory batchUpdateFactory,
-      Provider<ChangeQueryBuilder> queryBuilderProvider,
+      ChangeQueryBuilder queryBuilder,
       Provider<InternalChangeQuery> queryProvider,
       ChangeData.Factory changeDataFactory,
       ChangeJson.Factory changeJsonFactory,
@@ -97,7 +97,7 @@ public class DeleteDraftComments
       PatchListCache patchListCache) {
     this.userProvider = userProvider;
     this.batchUpdateFactory = batchUpdateFactory;
-    this.queryBuilderProvider = queryBuilderProvider;
+    this.queryBuilder = queryBuilder;
     this.queryProvider = queryProvider;
     this.changeDataFactory = changeDataFactory;
     this.changeJsonFactory = changeJsonFactory;
@@ -159,7 +159,7 @@ public class DeleteDraftComments
       return hasDraft;
     }
     try {
-      return Predicate.and(hasDraft, queryBuilderProvider.get().parse(input.query));
+      return Predicate.and(hasDraft, queryBuilder.parse(input.query));
     } catch (QueryParseException e) {
       throw new BadRequestException("Invalid query: " + e.getMessage(), e);
     }

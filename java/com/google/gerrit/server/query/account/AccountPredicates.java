@@ -44,7 +44,7 @@ public class AccountPredicates {
     List<Predicate<AccountState>> preds = Lists.newArrayListWithCapacity(3);
     Integer id = Ints.tryParse(query);
     if (id != null) {
-      preds.add(id(schema, Account.id(id)));
+      preds.add(id(Account.id(id)));
     }
     if (canSeeSecondaryEmails) {
       preds.add(equalsNameIncludingSecondaryEmails(query));
@@ -64,11 +64,9 @@ public class AccountPredicates {
     return Predicate.or(preds);
   }
 
-  public static Predicate<AccountState> id(Schema<AccountState> schema, Account.Id accountId) {
+  public static Predicate<AccountState> id(Account.Id accountId) {
     return new AccountPredicate(
-        schema.useLegacyNumericFields() ? AccountField.ID : AccountField.ID2,
-        AccountQueryBuilder.FIELD_ACCOUNT,
-        accountId.toString());
+        AccountField.ID2, AccountQueryBuilder.FIELD_ACCOUNT, accountId.toString());
   }
 
   public static Predicate<AccountState> emailIncludingSecondaryEmails(String email) {

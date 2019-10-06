@@ -21,46 +21,25 @@ import com.google.gerrit.index.SchemaDefinitions;
 import com.google.gerrit.server.account.AccountState;
 
 public class AccountSchemaDefinitions extends SchemaDefinitions<AccountState> {
-  @Deprecated
-  static final Schema<AccountState> V4 =
-      schema(
-          AccountField.ACTIVE,
-          AccountField.EMAIL,
-          AccountField.EXTERNAL_ID,
-          AccountField.FULL_NAME,
-          AccountField.ID,
-          AccountField.NAME_PART,
-          AccountField.REGISTERED,
-          AccountField.USERNAME,
-          AccountField.WATCHED_PROJECT);
-
-  @Deprecated static final Schema<AccountState> V5 = schema(V4, AccountField.PREFERRED_EMAIL);
-
-  @Deprecated
-  static final Schema<AccountState> V6 =
-      schema(V5, AccountField.REF_STATE, AccountField.EXTERNAL_ID_STATE);
-
-  @Deprecated static final Schema<AccountState> V7 = schema(V6, AccountField.PREFERRED_EMAIL_EXACT);
-
-  @Deprecated
-  static final Schema<AccountState> V8 = schema(V7, AccountField.NAME_PART_NO_SECONDARY_EMAIL);
-
-  // Bump Lucene version requires reindexing
-  @Deprecated static final Schema<AccountState> V9 = schema(V8);
-
-  // Lucene index was changed to add additional fields for sorting.
-  @Deprecated static final Schema<AccountState> V10 = schema(V9);
-
   // New numeric types: use dimensional points using the k-d tree geo-spatial data structure
   // to offer fast single- and multi-dimensional numeric range. As the consequense, integer
   // document id type is replaced with string document id type.
   static final Schema<AccountState> V11 =
-      new Schema.Builder<AccountState>()
-          .add(V10)
-          .remove(AccountField.ID)
-          .add(AccountField.ID2)
-          .legacyNumericFields(false)
-          .build();
+      schema(
+          AccountField.ACTIVE,
+          AccountField.EMAIL,
+          AccountField.EXTERNAL_ID,
+          AccountField.EXTERNAL_ID_STATE,
+          AccountField.FULL_NAME,
+          AccountField.ID2,
+          AccountField.NAME_PART,
+          AccountField.NAME_PART_NO_SECONDARY_EMAIL,
+          AccountField.PREFERRED_EMAIL,
+          AccountField.PREFERRED_EMAIL_EXACT,
+          AccountField.REF_STATE,
+          AccountField.REGISTERED,
+          AccountField.USERNAME,
+          AccountField.WATCHED_PROJECT);
 
   public static final String NAME = "accounts";
   public static final AccountSchemaDefinitions INSTANCE = new AccountSchemaDefinitions();

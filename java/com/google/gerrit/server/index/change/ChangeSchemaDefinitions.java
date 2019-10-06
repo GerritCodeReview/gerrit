@@ -21,8 +21,10 @@ import com.google.gerrit.index.SchemaDefinitions;
 import com.google.gerrit.server.query.change.ChangeData;
 
 public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
-  @Deprecated
-  static final Schema<ChangeData> V55 =
+  // New numeric types: use dimensional points using the k-d tree geo-spatial data structure
+  // to offer fast single- and multi-dimensional numeric range. As the consequense, integer
+  // document id type is replaced with string document id type.
+  static final Schema<ChangeData> V57 =
       schema(
           ChangeField.ADDED,
           ChangeField.APPROVAL,
@@ -52,7 +54,7 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
           ChangeField.HASHTAG_CASE_AWARE,
           ChangeField.ID,
           ChangeField.LABEL,
-          ChangeField.LEGACY_ID,
+          ChangeField.LEGACY_ID2,
           ChangeField.MERGEABLE,
           ChangeField.ONLY_EXTENSIONS,
           ChangeField.OWNER,
@@ -83,20 +85,6 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
           ChangeField.UNRESOLVED_COMMENT_COUNT,
           ChangeField.UPDATED,
           ChangeField.WIP);
-
-  // The computation of the 'extension' field is changed, hence reindexing is required.
-  @Deprecated static final Schema<ChangeData> V56 = schema(V55);
-
-  // New numeric types: use dimensional points using the k-d tree geo-spatial data structure
-  // to offer fast single- and multi-dimensional numeric range. As the consequense, integer
-  // document id type is replaced with string document id type.
-  static final Schema<ChangeData> V57 =
-      new Schema.Builder<ChangeData>()
-          .add(V56)
-          .remove(ChangeField.LEGACY_ID)
-          .add(ChangeField.LEGACY_ID2)
-          .legacyNumericFields(false)
-          .build();
 
   public static final String NAME = "changes";
   public static final ChangeSchemaDefinitions INSTANCE = new ChangeSchemaDefinitions();

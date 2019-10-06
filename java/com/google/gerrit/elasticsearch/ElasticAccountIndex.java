@@ -90,16 +90,8 @@ public class ElasticAccountIndex extends AbstractElasticIndex<Account.Id, Accoun
   @Override
   public DataSource<AccountState> getSource(Predicate<AccountState> p, QueryOptions opts)
       throws QueryParseException {
-    JsonArray sortArray =
-        getSortArray(
-            schema.useLegacyNumericFields()
-                ? AccountField.ID.getName()
-                : AccountField.ID2.getName());
-    return new ElasticQuerySource(
-        p,
-        opts.filterFields(o -> IndexUtils.accountFields(o, schema.useLegacyNumericFields())),
-        type,
-        sortArray);
+    JsonArray sortArray = getSortArray(AccountField.ID2.getName());
+    return new ElasticQuerySource(p, opts.filterFields(IndexUtils::accountFields), type, sortArray);
   }
 
   @Override
@@ -124,15 +116,7 @@ public class ElasticAccountIndex extends AbstractElasticIndex<Account.Id, Accoun
       source = json.getAsJsonObject().get("fields");
     }
 
-    Account.Id id =
-        Account.id(
-            source
-                .getAsJsonObject()
-                .get(
-                    schema.useLegacyNumericFields()
-                        ? AccountField.ID.getName()
-                        : AccountField.ID2.getName())
-                .getAsInt());
+    Account.Id id = Account.id(source.getAsJsonObject().get(AccountField.ID2.getName()).getAsInt());
     // Use the AccountCache rather than depending on any stored fields in the document (of which
     // there shouldn't be any). The most expensive part to compute anyway is the effective group
     // IDs, and we don't have a good way to reindex when those change.

@@ -62,6 +62,7 @@ limitations under the License.
               <th class="userIdHeader">User IDs</th>
               <th class="keyHeader">Public Key</th>
               <th></th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
@@ -79,6 +80,14 @@ limitations under the License.
                       on-click="_showKey"
                       data-index$="[[index]]"
                       link>Click to View</gr-button>
+                </td>
+                <td>
+                  <gr-copy-clipboard
+                      has-tooltip
+                      button-title="Copy full SSH public key to clipboard"
+                      hide-input
+                      text="[[item.key]]">
+                  </gr-copy-clipboard>
                 </td>
                 <td>
                   <gr-button

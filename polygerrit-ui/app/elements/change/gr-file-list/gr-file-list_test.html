@@ -1213,22 +1213,6 @@ limitations under the License.
       assert.isFalse(element.classList.contains('loading'));
     });
 
-    test('no execute _computeDiffURL before patchNum is knwon', done => {
-      const urlStub = sandbox.stub(element, '_computeDiffURL');
-      element.change = {_number: 123};
-      element.patchRange = {patchNum: undefined, basePatchNum: 'PARENT'};
-      element._filesByPath = {'foo/bar.cpp': {}};
-      element.editMode = false;
-      flush(() => {
-        assert.isFalse(urlStub.called);
-        element.set('patchRange.patchNum', 4);
-        flush(() => {
-          assert.isTrue(urlStub.called);
-          done();
-        });
-      });
-    });
-
     suite('size bars', () => {
       test('_computeSizeBarLayout', () => {
         assert.isUndefined(element._computeSizeBarLayout(null));

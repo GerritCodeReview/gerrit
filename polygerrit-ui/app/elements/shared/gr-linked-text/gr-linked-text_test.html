@@ -314,26 +314,4 @@ limitations under the License.
       assert.isTrue(contentConfigStub.called);
     });
   });
-
-  suite('gr-linked-text with null config', () => {
-    let element;
-    let sandbox;
-
-    setup(() => {
-      element = fixture('basic');
-      sandbox = sinon.sandbox.create();
-    });
-
-    teardown(() => {
-      sandbox.restore();
-    });
-
-    test('_contentOrConfigChanged not called without config', () => {
-      const contentStub = sandbox.stub(element, '_contentChanged');
-      const contentConfigStub = sandbox.stub(element, '_contentOrConfigChanged');
-      element.content = 'some text';
-      assert.isTrue(contentStub.called);
-      assert.isFalse(contentConfigStub.called);
-    });
-  });
 </script>

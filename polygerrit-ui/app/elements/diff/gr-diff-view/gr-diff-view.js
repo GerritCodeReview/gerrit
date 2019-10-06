@@ -265,11 +265,13 @@
 
     _getFiles(changeNum, patchRangeRecord) {
       // Polymer 2: check for undefined
-      if ([changeNum, patchRangeRecord].some(arg => arg === undefined)) {
+      if ([changeNum, patchRangeRecord, patchRangeRecord.base]
+          .some(arg => arg === undefined)) {
         return;
       }
 
       const patchRange = patchRangeRecord.base;
+      if (!patchRange) return;
       return this.$.restAPI.getChangeFilePathsAsSpeciallySortedArray(
           changeNum, patchRange).then(files => {
             this._fileList = files;
@@ -745,6 +747,9 @@
     },
 
     _getDiffUrl(change, patchRange, path) {
+      if ([change, patchRange, path].some(arg => arg === undefined)) {
+        return '';
+      }
       return Gerrit.Nav.getUrlForDiff(change, path, patchRange.patchNum,
           patchRange.basePatchNum);
     },
@@ -783,6 +788,9 @@
     },
 
     _getChangePath(change, patchRange, revisions) {
+      if ([change, patchRange].some(arg => arg === undefined)) {
+        return '';
+      }
       const range = this._getChangeUrlRange(patchRange, revisions);
       return Gerrit.Nav.getUrlForChange(change, range.patchNum,
           range.basePatchNum);

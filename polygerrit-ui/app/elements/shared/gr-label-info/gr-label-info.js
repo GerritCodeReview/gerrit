@@ -38,7 +38,7 @@
      */
     _mapLabelInfo(labelInfo, account, changeLabelsRecord) {
       const result = [];
-      if (!labelInfo) { return result; }
+      if (!labelInfo || !account) { return result; }
       if (!labelInfo.values) {
         if (labelInfo.rejected || labelInfo.approved) {
           const ok = labelInfo.approved || !labelInfo.rejected;

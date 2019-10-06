@@ -71,16 +71,17 @@
 
     _computeDownloadCommands(change, patchNum, _selectedScheme) {
       let commandObj;
+      if (!change) return [];
       for (const rev of Object.values(change.revisions || {})) {
         if (this.patchNumEquals(rev._number, patchNum) &&
-            rev.fetch.hasOwnProperty(_selectedScheme)) {
+            rev && rev.fetch && rev.fetch.hasOwnProperty(_selectedScheme)) {
           commandObj = rev.fetch[_selectedScheme].commands;
           break;
         }
       }
       const commands = [];
       for (const title in commandObj) {
-        if (!commandObj.hasOwnProperty(title)) { continue; }
+        if (!commandObj || !commandObj.hasOwnProperty(title)) { continue; }
         commands.push({
           title,
           command: commandObj[title],
@@ -117,6 +118,10 @@
      * @return {string} Not sure why there was a mismatch
      */
     _computeDownloadLink(change, patchNum, opt_zip) {
+      // Polymer 2: check for undefined
+      if ([change, patchNum].some(arg => arg === undefined)) {
+        return '';
+      }
       return this.changeBaseURL(change.project, change._number, patchNum) +
           '/patch?' + (opt_zip ? 'zip' : 'download');
     },
@@ -130,6 +135,11 @@
      * @return {string}
      */
     _computeDownloadFilename(change, patchNum, opt_zip) {
+      // Polymer 2: check for undefined
+      if ([change, patchNum].some(arg => arg === undefined)) {
+        return '';
+      }
+
       let shortRev = '';
       for (const rev in change.revisions) {
         if (this.patchNumEquals(change.revisions[rev]._number, patchNum)) {
@@ -141,6 +151,10 @@
     },
 
     _computeHidePatchFile(change, patchNum) {
+      // Polymer 2: check for undefined
+      if ([change, patchNum].some(arg => arg === undefined)) {
+        return false;
+      }
       for (const rev of Object.values(change.revisions || {})) {
         if (this.patchNumEquals(rev._number, patchNum)) {
           const parentLength = rev.commit && rev.commit.parents ?
@@ -152,6 +166,10 @@
     },
 
     _computeArchiveDownloadLink(change, patchNum, format) {
+      // Polymer 2: check for undefined
+      if ([change, patchNum, format].some(arg => arg === undefined)) {
+        return '';
+      }
       return this.changeBaseURL(change.project, change._number, patchNum) +
           '/archive?format=' + format;
     },

@@ -266,6 +266,7 @@
       }
 
       const patchRange = patchRangeRecord.base;
+      if (!patchRange) return;
       return this.$.restAPI.getChangeFilePathsAsSpeciallySortedArray(
           changeNum, patchRange).then(files => {
             this._fileList = files;
@@ -741,6 +742,7 @@
     },
 
     _getDiffUrl(change, patchRange, path) {
+      if (!change || !patchRange) return null;
       return Gerrit.Nav.getUrlForDiff(change, path, patchRange.patchNum,
           patchRange.basePatchNum);
     },
@@ -779,6 +781,7 @@
     },
 
     _getChangePath(change, patchRange, revisions) {
+      if (!change || !patchRange) return null;
       const range = this._getChangeUrlRange(patchRange, revisions);
       return Gerrit.Nav.getUrlForChange(change, range.patchNum,
           range.basePatchNum);

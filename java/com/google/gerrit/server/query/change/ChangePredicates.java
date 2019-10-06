@@ -136,15 +136,6 @@ public class ChangePredicates {
    * Returns a predicate that matches the change with the provided {@link
    * com.google.gerrit.entities.Change.Id}.
    */
-  public static Predicate<ChangeData> id(Change.Id id) {
-    return new ChangeIndexPredicate(
-        ChangeField.LEGACY_ID, ChangeQueryBuilder.FIELD_CHANGE, id.toString());
-  }
-
-  /**
-   * Returns a predicate that matches the change with the provided {@link
-   * com.google.gerrit.entities.Change.Id}.
-   */
   public static Predicate<ChangeData> idStr(Change.Id id) {
     return new ChangeIndexPredicate(
         ChangeField.LEGACY_ID_STR, ChangeQueryBuilder.FIELD_CHANGE, id.toString());

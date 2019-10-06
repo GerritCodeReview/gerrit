@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a3f427aa_798ed1e0",
+        "filename": "java/com/google/gerrit/lucene/LuceneAccountIndex.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-06T20:15:09Z",
+      "side": 1,
+      "message": "f \u003d\u003d ID2 case is missing here for new Account Index version sorting.",
+      "range": {
+        "startLine": 115,
+        "startChar": 4,
+        "endLine": 118,
+        "endChar": 5
+      },
+      "revId": "0b322a5f2a79fa41ca4e857a57de95bf282ce2fa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

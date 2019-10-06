@@ -15,7 +15,6 @@
 package com.google.gerrit.server.index.account;
 
 import static com.google.gerrit.index.FieldDef.exact;
-import static com.google.gerrit.index.FieldDef.integer;
 import static com.google.gerrit.index.FieldDef.prefix;
 import static com.google.gerrit.index.FieldDef.storedOnly;
 import static com.google.gerrit.index.FieldDef.timestamp;
@@ -43,11 +42,8 @@ import org.eclipse.jgit.lib.ObjectId;
 
 /** Secondary index schemas for accounts. */
 public class AccountField {
-  public static final FieldDef<AccountState, Integer> ID =
-      integer("id").stored().build(a -> a.account().id().get());
-
   public static final FieldDef<AccountState, String> ID_STR =
-      exact("id2r").stored().build(a -> String.valueOf(a.account().id().get()));
+      exact("id2").stored().build(a -> String.valueOf(a.account().id().get()));
 
   /**
    * External IDs.

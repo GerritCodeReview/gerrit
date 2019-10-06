@@ -57,12 +57,6 @@ import org.eclipse.jgit.lib.Repository;
 public class StalenessChecker {
   public static final ImmutableSet<String> FIELDS =
       ImmutableSet.of(
-          AccountField.ID.getName(),
-          AccountField.REF_STATE.getName(),
-          AccountField.EXTERNAL_ID_STATE.getName());
-
-  public static final ImmutableSet<String> FIELDS2 =
-      ImmutableSet.of(
           AccountField.ID_STR.getName(),
           AccountField.REF_STATE.getName(),
           AccountField.EXTERNAL_ID_STATE.getName());
@@ -99,13 +93,8 @@ public class StalenessChecker {
       return false;
     }
 
-    boolean useLegacyNumericFields = i.getSchema().useLegacyNumericFields();
-    ImmutableSet<String> fields = useLegacyNumericFields ? FIELDS : FIELDS2;
     Optional<FieldBundle> result =
-        i.getRaw(
-            id,
-            QueryOptions.create(
-                indexConfig, 0, 1, IndexUtils.accountFields(fields, useLegacyNumericFields)));
+        i.getRaw(id, QueryOptions.create(indexConfig, 0, 1, IndexUtils.accountFields(FIELDS)));
     if (!result.isPresent()) {
       // The document is missing in the index.
       try (Repository repo = repoManager.openRepository(allUsersName)) {

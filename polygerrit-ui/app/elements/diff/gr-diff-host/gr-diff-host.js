@@ -103,6 +103,14 @@
         value() { return {}; },
         notify: true,
       },
+      // Used by gr-diff-view.
+      diffCopy: {
+        type: Object,
+        value() {
+          return {};
+        },
+        notify: true,
+      },
       hidden: {
         type: Boolean,
         reflectToAttribute: true,
@@ -230,6 +238,8 @@
             if (!diff) {
               return Promise.resolve();
             }
+            // This is not used in here rather it is used by gr-diff-view
+            this.diffSide = diff;
             this.filesWeblinks = this._getFilesWeblinks(diff);
             return new Promise(resolve => {
               const callback = () => {
@@ -238,6 +248,9 @@
               };
               this.addEventListener('render', callback);
               this._diff = diff;
+              // Copy of _diff but keeps things safe
+              // as we only want it readonly for gr-diff-view.
+              this.diffCopy = diff;
             });
           })
           .catch(err => {

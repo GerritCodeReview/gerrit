@@ -208,6 +208,9 @@
 
     _computeChangeContainerClass(currentChange, relatedChange) {
       const classes = ['changeContainer'];
+      if ([relatedChange, currentChange].some(arg => arg === undefined)) {
+        return classes;
+      }
       if (this._changesEqual(relatedChange, currentChange)) {
         classes.push('thisChange');
       }
@@ -242,6 +245,9 @@
      * @return {number}
      */
     _getChangeNumber(change) {
+      // Default to 0 if change property is not defined.
+      if (!change) return 0;
+
       if (change.hasOwnProperty('_change_number')) {
         return change._change_number;
       }

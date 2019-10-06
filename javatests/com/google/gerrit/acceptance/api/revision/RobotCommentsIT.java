@@ -31,6 +31,7 @@ import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.RobotCommentInput;
 import com.google.gerrit.extensions.client.Comment;
 import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.common.DiffInfo;
 import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.common.FixReplacementInfo;
 import com.google.gerrit.extensions.common.FixSuggestionInfo;
@@ -958,6 +959,27 @@ public class RobotCommentsIT extends AbstractDaemonTest {
       assertThat(result.unresolvedCommentCount).isEqualTo(0);
       assertThat(result.totalCommentCount).isEqualTo(1);
     }
+  }
+
+  @Test
+  public void getFixPreviewWithNonexistingFixId() throws Exception {
+    addRobotComment(changeId, withFixRobotCommentInput);
+
+    assertThrows(
+        ResourceNotFoundException.class,
+        () -> gApi.changes().id(changeId).current().getFixPreview("Non existing fixId"));
+  }
+
+  @Test
+  public void getFixPreview() throws Exception {
+    addRobotComment(changeId, withFixRobotCommentInput);
+    List<RobotCommentInfo> robotCommentInfos = getRobotComments();
+
+    List<String> fixIds = getFixIds(robotCommentInfos);
+    String fixId = Iterables.getOnlyElement(fixIds);
+
+    Map<String, DiffInfo> result = gApi.changes().id(changeId).current().getFixPreview(fixId);
+    assertThat(result).isEmpty();
   }
 
   private static RobotCommentInput createRobotCommentInputWithMandatoryFields() {

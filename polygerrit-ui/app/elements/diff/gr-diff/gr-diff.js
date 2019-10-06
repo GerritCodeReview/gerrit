@@ -967,6 +967,7 @@
      * @return {number}
      */
     getDiffLength(diff) {
+      if (!diff) return 0;
       return diff.content.reduce((sum, sec) => {
         if (sec.hasOwnProperty('ab')) {
           return sum + sec.ab.length;

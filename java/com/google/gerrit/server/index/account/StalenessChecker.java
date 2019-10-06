@@ -57,7 +57,7 @@ import org.eclipse.jgit.lib.Repository;
 public class StalenessChecker {
   public static final ImmutableSet<String> FIELDS =
       ImmutableSet.of(
-          AccountField.ID.getName(),
+          AccountField.ID2.getName(),
           AccountField.REF_STATE.getName(),
           AccountField.EXTERNAL_ID_STATE.getName());
 

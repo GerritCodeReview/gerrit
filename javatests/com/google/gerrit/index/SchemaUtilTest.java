@@ -26,14 +26,14 @@ import org.junit.Test;
 
 public class SchemaUtilTest {
   static class TestSchemas {
-    static final Schema<String> V1 = schema(true);
-    static final Schema<String> V2 = schema(true);
-    static Schema<String> V3 = schema(true); // Not final, ignored.
-    private static final Schema<String> V4 = schema(true);
+    static final Schema<String> V1 = schema();
+    static final Schema<String> V2 = schema();
+    static Schema<String> V3 = schema(); // Not final, ignored.
+    private static final Schema<String> V4 = schema();
 
     // Ignored.
-    static Schema<String> V10 = schema(true);
-    final Schema<String> V11 = schema(true);
+    static Schema<String> V10 = schema();
+    final Schema<String> V11 = schema();
   }
 
   @Test

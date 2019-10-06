@@ -103,22 +103,15 @@ public class InternalChangeQuery extends InternalQuery<ChangeData, InternalChang
   public List<ChangeData> byLegacyChangeId(Change.Id id) {
     Schema<ChangeData> schema = schema();
     Preconditions.checkNotNull(schema);
-    return query(
-        schema.useLegacyNumericFields()
-            ? new LegacyChangeIdPredicate(id)
-            : new LegacyChangeIdPredicate2(id));
+    return query(new LegacyChangeIdPredicate2(id));
   }
 
   public List<ChangeData> byLegacyChangeIds(Collection<Change.Id> ids) {
     Schema<ChangeData> schema = schema();
     Preconditions.checkNotNull(schema);
-    boolean useLegacyNumericFields = schema.useLegacyNumericFields();
     List<Predicate<ChangeData>> preds = new ArrayList<>(ids.size());
     for (Change.Id id : ids) {
-      preds.add(
-          useLegacyNumericFields
-              ? new LegacyChangeIdPredicate(id)
-              : new LegacyChangeIdPredicate2(id));
+      preds.add(new LegacyChangeIdPredicate2(id));
     }
     return query(or(preds));
   }

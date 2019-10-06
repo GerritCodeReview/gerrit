@@ -40,23 +40,14 @@ import org.apache.lucene.document.IntPoint;
 import org.apache.lucene.document.LongPoint;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.search.BooleanQuery;
-import org.apache.lucene.search.LegacyNumericRangeQuery;
 import org.apache.lucene.search.MatchAllDocsQuery;
 import org.apache.lucene.search.PrefixQuery;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.RegexpQuery;
 import org.apache.lucene.search.TermQuery;
 import org.apache.lucene.util.BytesRefBuilder;
-import org.apache.lucene.util.LegacyNumericUtils;
 
-@SuppressWarnings("deprecation")
 public class QueryBuilder<V> {
-  static Term intTerm(String name, int value) {
-    BytesRefBuilder builder = new BytesRefBuilder();
-    LegacyNumericUtils.intToPrefixCoded(value, 0, builder);
-    return new Term(name, builder.get());
-  }
-
   static Term stringTerm(String name, String value) {
     BytesRefBuilder builder = new BytesRefBuilder();
     builder.append(value.getBytes(UTF_8), 0, value.length());
@@ -177,9 +168,6 @@ public class QueryBuilder<V> {
     }
 
     String name = p.getField().getName();
-    if (schema.useLegacyNumericFields()) {
-      return new TermQuery(intTerm(name, value));
-    }
     return intPoint(name, value);
   }
 
@@ -190,15 +178,7 @@ public class QueryBuilder<V> {
       int minimum = r.getMinimumValue();
       int maximum = r.getMaximumValue();
       if (minimum == maximum) {
-        // Just fall back to a standard integer query.
-        if (schema.useLegacyNumericFields()) {
-          return new TermQuery(intTerm(name, minimum));
-        }
         return intPoint(name, minimum);
-      }
-      if (schema.useLegacyNumericFields()) {
-        return LegacyNumericRangeQuery.newIntRange(
-            r.getField().getName(), minimum, maximum, true, true);
       }
       return IntPoint.newRangeQuery(r.getField().getName(), minimum, maximum);
     }
@@ -208,17 +188,8 @@ public class QueryBuilder<V> {
   private Query timestampQuery(IndexPredicate<V> p) throws QueryParseException {
     if (p instanceof TimestampRangePredicate) {
       TimestampRangePredicate<V> r = (TimestampRangePredicate<V>) p;
-      String name = r.getField().getName();
-      if (schema.useLegacyNumericFields()) {
-        return LegacyNumericRangeQuery.newLongRange(
-            r.getField().getName(),
-            r.getMinTimestamp().getTime(),
-            r.getMaxTimestamp().getTime(),
-            true,
-            true);
-      }
       return LongPoint.newRangeQuery(
-          name, r.getMinTimestamp().getTime(), r.getMaxTimestamp().getTime());
+          r.getField().getName(), r.getMinTimestamp().getTime(), r.getMaxTimestamp().getTime());
     }
     throw new QueryParseException("not a timestamp: " + p);
   }
@@ -226,10 +197,6 @@ public class QueryBuilder<V> {
   private Query notTimestamp(TimestampRangePredicate<V> r) throws QueryParseException {
     if (r.getMinTimestamp().getTime() == 0) {
       String name = r.getField().getName();
-      if (schema.useLegacyNumericFields()) {
-        return LegacyNumericRangeQuery.newLongRange(
-            r.getField().getName(), r.getMaxTimestamp().getTime(), null, true, true);
-      }
       return LongPoint.newRangeQuery(name, r.getMaxTimestamp().getTime(), Long.MAX_VALUE);
     }
     throw new QueryParseException("cannot negate: " + r);

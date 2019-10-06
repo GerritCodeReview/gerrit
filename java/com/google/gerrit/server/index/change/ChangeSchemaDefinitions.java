@@ -22,14 +22,16 @@ import com.google.gerrit.server.query.change.ChangeData;
 
 /** Definition of change index versions (schemata). See {@link SchemaDefinitions}. */
 public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
-  @Deprecated
-  static final Schema<ChangeData> V55 =
+  // Add new field CHERRY_PICK_OF
+  static final Schema<ChangeData> V58 =
       schema(
           ChangeField.ADDED,
           ChangeField.APPROVAL,
           ChangeField.ASSIGNEE,
           ChangeField.AUTHOR,
           ChangeField.CHANGE,
+          ChangeField.CHERRY_PICK_OF_CHANGE,
+          ChangeField.CHERRY_PICK_OF_PATCHSET,
           ChangeField.COMMENT,
           ChangeField.COMMENTBY,
           ChangeField.COMMIT,
@@ -53,7 +55,7 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
           ChangeField.HASHTAG_CASE_AWARE,
           ChangeField.ID,
           ChangeField.LABEL,
-          ChangeField.LEGACY_ID,
+          ChangeField.LEGACY_ID_STR,
           ChangeField.MERGEABLE,
           ChangeField.ONLY_EXTENSIONS,
           ChangeField.OWNER,
@@ -84,29 +86,6 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
           ChangeField.UNRESOLVED_COMMENT_COUNT,
           ChangeField.UPDATED,
           ChangeField.WIP);
-
-  // The computation of the 'extension' field is changed, hence reindexing is required.
-  @Deprecated static final Schema<ChangeData> V56 = schema(V55);
-
-  // New numeric types: use dimensional points using the k-d tree geo-spatial data structure
-  // to offer fast single- and multi-dimensional numeric range. As the consequense, integer
-  // document id type is replaced with string document id type.
-  @Deprecated
-  static final Schema<ChangeData> V57 =
-      new Schema.Builder<ChangeData>()
-          .add(V56)
-          .remove(ChangeField.LEGACY_ID)
-          .add(ChangeField.LEGACY_ID_STR)
-          .legacyNumericFields(false)
-          .build();
-
-  // Add new field CHERRY_PICK_OF
-  static final Schema<ChangeData> V58 =
-      new Schema.Builder<ChangeData>()
-          .add(V57)
-          .add(ChangeField.CHERRY_PICK_OF_CHANGE)
-          .add(ChangeField.CHERRY_PICK_OF_PATCHSET)
-          .build();
 
   /**
    * Name of the change index to be used when contacting index backends or loading configurations.

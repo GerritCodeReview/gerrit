@@ -16,7 +16,6 @@ package com.google.gerrit.lucene;
 
 import static com.google.common.collect.Iterables.getOnlyElement;
 import static com.google.gerrit.lucene.LuceneChangeIndex.ID2_SORT_FIELD;
-import static com.google.gerrit.lucene.LuceneChangeIndex.ID_SORT_FIELD;
 import static com.google.gerrit.lucene.LuceneChangeIndex.UPDATED_SORT_FIELD;
 import static com.google.gerrit.server.index.change.ChangeSchemaDefinitions.NAME;
 
@@ -97,10 +96,7 @@ public class ChangeSubIndex extends AbstractLuceneIndex<Change.Id, ChangeData>
   void add(Document doc, Values<ChangeData> values) {
     // Add separate DocValues fields for those fields needed for sorting.
     FieldDef<ChangeData, ?> f = values.getField();
-    if (f == ChangeField.LEGACY_ID) {
-      int v = (Integer) getOnlyElement(values.getValues());
-      doc.add(new NumericDocValuesField(ID_SORT_FIELD, v));
-    } else if (f == ChangeField.LEGACY_ID2) {
+    if (f == ChangeField.LEGACY_ID2) {
       String v = (String) getOnlyElement(values.getValues());
       doc.add(new NumericDocValuesField(ID2_SORT_FIELD, Integer.valueOf(v)));
     } else if (f == ChangeField.UPDATED) {

@@ -17,7 +17,6 @@ package com.google.gerrit.server.query.change;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
-import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowLabel;
 import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LABELS;
 import static com.google.gerrit.extensions.client.ListChangesOption.REVIEWED;
@@ -68,9 +67,7 @@ import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.IndexConfig;
-import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.reviewdb.client.Account;
@@ -98,7 +95,6 @@ import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.change.PatchSetInserter;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
-import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
 import com.google.gerrit.server.index.change.ChangeIndexer;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -153,7 +149,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   @Inject protected AllUsersName allUsersName;
   @Inject protected BatchUpdate.Factory updateFactory;
   @Inject protected ChangeInserter.Factory changeFactory;
-  @Inject protected Provider<ChangeQueryBuilder> queryBuilderProvider;
+  @Inject protected ChangeQueryBuilder queryBuilder;
   @Inject protected GerritApi gApi;
   @Inject protected IdentifiedUser.GenericFactory userFactory;
   @Inject protected ChangeIndexCollection indexes;
@@ -596,7 +592,6 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   @Test
   public void byAuthorExact() throws Exception {
-    assume().that(getSchema().hasField(ChangeField.EXACT_AUTHOR)).isTrue();
     byAuthorOrCommitterExact("author:");
   }
 
@@ -607,7 +602,6 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   @Test
   public void byCommitterExact() throws Exception {
-    assume().that(getSchema().hasField(ChangeField.EXACT_COMMITTER)).isTrue();
     byAuthorOrCommitterExact("committer:");
   }
 
@@ -1349,11 +1343,9 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery("ext:.jAvA", change4);
     assertQuery("ext:cc", change3, change2, change1);
 
-    if (getSchemaVersion() >= 56) {
-      // matching changes with files that have no extension is possible
-      assertQuery("ext:\"\"", change5, change4);
-      assertFailingQuery("ext:");
-    }
+    // matching changes with files that have no extension is possible
+    assertQuery("ext:\"\"", change5, change4);
+    assertFailingQuery("ext:");
   }
 
   @Test
@@ -3051,7 +3043,6 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
     assertQuery(ChangeIndexPredicate.none());
 
-    ChangeQueryBuilder queryBuilder = queryBuilderProvider.get();
     for (Predicate<ChangeData> matchingOneChange :
         ImmutableList.of(
             // One index query, one post-filtering query.
@@ -3339,12 +3330,6 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     }
   }
 
-  protected void assertMissingField(FieldDef<ChangeData, ?> field) {
-    assertWithMessage("schema %s has field %s", getSchemaVersion(), field.getName())
-        .that(getSchema().hasField(field))
-        .isFalse();
-  }
-
   protected void assertFailingQuery(String query) throws Exception {
     assertFailingQuery(query, null);
   }
@@ -3359,13 +3344,5 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
         assertThat(e.getMessage()).isEqualTo(expectedMessage);
       }
     }
-  }
-
-  protected int getSchemaVersion() {
-    return getSchema().getVersion();
-  }
-
-  protected Schema<ChangeData> getSchema() {
-    return indexes.getSearchIndex().getSchema();
   }
 }

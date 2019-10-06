@@ -891,6 +891,7 @@
      * than SYNTAX_MAX_LINE_LENGTH.
      */
     _anyLineTooLong(diff) {
+      if (!diff) return false;
       return diff.content.some(section => {
         const lines = section.ab ?
               section.ab :

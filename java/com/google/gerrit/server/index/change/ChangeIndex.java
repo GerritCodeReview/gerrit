@@ -19,7 +19,6 @@ import com.google.gerrit.index.Index;
 import com.google.gerrit.index.IndexDefinition;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.server.query.change.ChangeData;
-import com.google.gerrit.server.query.change.LegacyChangeIdPredicate;
 import com.google.gerrit.server.query.change.LegacyChangeIdStrPredicate;
 
 public interface ChangeIndex extends Index<Change.Id, ChangeData> {
@@ -28,8 +27,6 @@ public interface ChangeIndex extends Index<Change.Id, ChangeData> {
 
   @Override
   default Predicate<ChangeData> keyPredicate(Change.Id id) {
-    return getSchema().useLegacyNumericFields()
-        ? new LegacyChangeIdPredicate(id)
-        : new LegacyChangeIdStrPredicate(id);
+    return new LegacyChangeIdStrPredicate(id);
   }
 }

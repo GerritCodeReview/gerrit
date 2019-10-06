@@ -40,10 +40,7 @@ public class AbandonUtil {
 
   private final ChangeCleanupConfig cfg;
   private final Provider<ChangeQueryProcessor> queryProvider;
-  // Provider is needed, because AbandonUtil is singleton, but ChangeQueryBuilder accesses
-  // index collection, that is only provided when multiversion index module is started.
-  // TODO(davido); Remove provider again, when support for legacy numeric fields is removed.
-  private final Provider<ChangeQueryBuilder> queryBuilderProvider;
+  private final ChangeQueryBuilder queryBuilder;
   private final BatchAbandon batchAbandon;
   private final InternalUser internalUser;
 
@@ -52,11 +49,11 @@ public class AbandonUtil {
       ChangeCleanupConfig cfg,
       InternalUser.Factory internalUserFactory,
       Provider<ChangeQueryProcessor> queryProvider,
-      Provider<ChangeQueryBuilder> queryBuilderProvider,
+      ChangeQueryBuilder queryBuilder,
       BatchAbandon batchAbandon) {
     this.cfg = cfg;
     this.queryProvider = queryProvider;
-    this.queryBuilderProvider = queryBuilderProvider;
+    this.queryBuilder = queryBuilder;
     this.batchAbandon = batchAbandon;
     internalUser = internalUserFactory.create();
   }
@@ -74,11 +71,7 @@ public class AbandonUtil {
       }
 
       List<ChangeData> changesToAbandon =
-          queryProvider
-              .get()
-              .enforceVisibility(false)
-              .query(queryBuilderProvider.get().parse(query))
-              .entities();
+          queryProvider.get().enforceVisibility(false).query(queryBuilder.parse(query)).entities();
       ImmutableListMultimap.Builder<Project.NameKey, ChangeData> builder =
           ImmutableListMultimap.builder();
       for (ChangeData cd : changesToAbandon) {
@@ -118,7 +111,7 @@ public class AbandonUtil {
           queryProvider
               .get()
               .enforceVisibility(false)
-              .query(queryBuilderProvider.get().parse(newQuery))
+              .query(queryBuilder.parse(newQuery))
               .entities();
       if (!changesToAbandon.isEmpty()) {
         validChanges.add(cd);

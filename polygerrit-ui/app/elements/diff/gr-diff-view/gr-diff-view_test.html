@@ -1182,9 +1182,13 @@ limitations under the License.
           name: 'Right Content',
         },
       ];
+      const side = {
+        meta_a: true,
+        meta_b: true,
+      };
       assert.deepEqual(
           element._computeDownloadDropdownLinks(
-              'test', 12, {patchNum: 1}, 'index.php'),
+              'test', 12, {patchNum: 1}, 'index.php', side),
           downloadLinks);
     });
 

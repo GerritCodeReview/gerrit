@@ -132,6 +132,7 @@
       },
       _isImageDiff: Boolean,
       _filesWeblinks: Object,
+      _diffSide: Object,
 
       /**
        * Map of paths in the current change and patch range that have comments
@@ -910,28 +911,43 @@
       history.replaceState(null, '', url);
     },
 
-    _computeDownloadDropdownLinks(project, changeNum, patchRange, path) {
+    _computeDownloadDropdownLinks(project, changeNum, patchRange, path, side) {
       if (!patchRange || !patchRange.patchNum) { return []; }
 
-      return [
+      const links = [
         {
           url: this._computeDownloadPatchLink(
               project, changeNum, patchRange, path),
           name: 'Patch',
         },
-        {
-          // We pass 1 here to indicate this is parent 1.
-          url: this._computeDownloadFileLink(
-              project, changeNum, patchRange, path, 1),
-          name: 'Left Content',
-        },
-        {
-          // We pass 0 here to indicate this is parent 0.
-          url: this._computeDownloadFileLink(
-              project, changeNum, patchRange, path, 0),
-          name: 'Right Content',
-        },
       ];
+
+      if (side && side.meta_a) {
+        if (side.change_type === 'RENAMED') {
+          path = encodeURIComponent(side.meta_a.name);
+        }
+        links.push(
+            {
+              // We pass 1 here to indicate this is parent 1.
+              url: this._computeDownloadFileLink(
+                  project, changeNum, patchRange, path, 1),
+              name: 'Left Content',
+            }
+        );
+      }
+
+      if (side && side.meta_b) {
+        links.push(
+            {
+              // We pass 1 here to indicate this is parent 0.
+              url: this._computeDownloadFileLink(
+                  project, changeNum, patchRange, path, 0),
+              name: 'Right Content',
+            }
+        );
+      }
+
+      return links;
     },
 
     _computeDownloadFileLink(project, changeNum, patchRange, path, parent) {

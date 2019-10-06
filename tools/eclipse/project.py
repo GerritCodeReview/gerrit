@@ -217,6 +217,7 @@ def gen_classpath(ext):
 
     # Classpath entries are absolute for cross-cell support
     java_library = re.compile('bazel-out/.*?-fastbuild/bin/(.*)/[^/]+[.]jar$')
+    proto_library = re.compile('bazel-out/.*?-fastbuild/bin/(.*)proto/(.*)_proto-speed[.]jar$')
     srcs = re.compile('(.*/external/[^/]+)/jar/(.*)[.]jar')
     for p in _query_classpath(MAIN):
         if p.endswith('-src.jar'):
@@ -234,8 +235,7 @@ def gen_classpath(ext):
             # JGit dependency from external repository
             if 'gerrit-' not in p and 'jgit' in p:
                 lib.add(p)
-            # Assume any jars in /proto/ are from java_proto_library rules
-            if '/bin/proto/' in p:
+            if proto_library.match(p) :
                 proto.add(p)
         else:
             # Don't mess up with Bazel internal test runner dependencies.
@@ -297,8 +297,8 @@ def gen_classpath(ext):
                 classpathentry('lib', j, s)
 
     for p in sorted(proto):
-        s = p.replace('-fastbuild/bin/proto/lib', '-fastbuild/genfiles/proto/')
-        s = p.replace('-fastbuild/bin/proto/testing/lib', '-fastbuild/genfiles/proto/testing/')
+        s = p.replace('/proto/lib', '/proto/')
+        s = s.replace('/proto/testing/lib', '/proto/testing/')
         s = s.replace('.jar', '-src.jar')
         classpathentry('lib', p, s)
 

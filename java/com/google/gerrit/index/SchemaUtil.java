@@ -67,28 +67,21 @@ public class SchemaUtil {
   }
 
   public static <V> Schema<V> schema(Collection<FieldDef<V, ?>> fields) {
-    return new Schema<>(true, ImmutableList.copyOf(fields));
+    return new Schema<>(ImmutableList.copyOf(fields));
   }
 
-  public static <V> Schema<V> schema(Schema<V> schema, boolean useLegacyNumericFields) {
-    return new Schema<>(
-        useLegacyNumericFields,
-        new ImmutableList.Builder<FieldDef<V, ?>>().addAll(schema.getFields().values()).build());
+  @SafeVarargs
+  public static <V> Schema<V> schema(FieldDef<V, ?>... fields) {
+    return schema(ImmutableList.copyOf(fields));
   }
 
   @SafeVarargs
   public static <V> Schema<V> schema(Schema<V> schema, FieldDef<V, ?>... moreFields) {
     return new Schema<>(
-        true,
         new ImmutableList.Builder<FieldDef<V, ?>>()
             .addAll(schema.getFields().values())
             .addAll(ImmutableList.copyOf(moreFields))
             .build());
-  }
-
-  @SafeVarargs
-  public static <V> Schema<V> schema(FieldDef<V, ?>... fields) {
-    return new Schema<>(true, ImmutableList.copyOf(fields));
   }
 
   public static Set<String> getPersonParts(PersonIdent person) {

@@ -22,14 +22,21 @@ import com.google.gerrit.server.query.change.ChangeData;
 
 /** Definition of change index versions (schemata). See {@link SchemaDefinitions}. */
 public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
-  @Deprecated
-  static final Schema<ChangeData> V55 =
+  /**
+   * Added new fields {@link ChangeField#ATTENTION_SET_FULL} and {@link
+   * ChangeField#ATTENTION_SET_USERS}.
+   */
+  static final Schema<ChangeData> V59 =
       schema(
           ChangeField.ADDED,
           ChangeField.APPROVAL,
           ChangeField.ASSIGNEE,
+          ChangeField.ATTENTION_SET_FULL,
+          ChangeField.ATTENTION_SET_USERS,
           ChangeField.AUTHOR,
           ChangeField.CHANGE,
+          ChangeField.CHERRY_PICK_OF_CHANGE,
+          ChangeField.CHERRY_PICK_OF_PATCHSET,
           ChangeField.COMMENT,
           ChangeField.COMMENTBY,
           ChangeField.COMMIT,
@@ -53,7 +60,7 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
           ChangeField.HASHTAG_CASE_AWARE,
           ChangeField.ID,
           ChangeField.LABEL,
-          ChangeField.LEGACY_ID,
+          ChangeField.LEGACY_ID_STR,
           ChangeField.MERGEABLE,
           ChangeField.ONLY_EXTENSIONS,
           ChangeField.OWNER,
@@ -84,49 +91,6 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
           ChangeField.UNRESOLVED_COMMENT_COUNT,
           ChangeField.UPDATED,
           ChangeField.WIP);
-
-  /**
-   * The computation of the {@link ChangeField#EXTENSION} field is changed, hence reindexing is
-   * required.
-   */
-  @Deprecated static final Schema<ChangeData> V56 = schema(V55);
-
-  /**
-   * New numeric types: use dimensional points using the k-d tree geo-spatial data structure to
-   * offer fast single- and multi-dimensional numeric range. As the consequense, {@link
-   * ChangeField#LEGACY_ID} is replaced with {@link ChangeField#LEGACY_ID_STR}.
-   */
-  @Deprecated
-  static final Schema<ChangeData> V57 =
-      new Schema.Builder<ChangeData>()
-          .add(V56)
-          .remove(ChangeField.LEGACY_ID)
-          .add(ChangeField.LEGACY_ID_STR)
-          .legacyNumericFields(false)
-          .build();
-
-  /**
-   * Added new fields {@link ChangeField#CHERRY_PICK_OF_CHANGE} and {@link
-   * ChangeField#CHERRY_PICK_OF_PATCHSET}.
-   */
-  @Deprecated
-  static final Schema<ChangeData> V58 =
-      new Schema.Builder<ChangeData>()
-          .add(V57)
-          .add(ChangeField.CHERRY_PICK_OF_CHANGE)
-          .add(ChangeField.CHERRY_PICK_OF_PATCHSET)
-          .build();
-
-  /**
-   * Added new fields {@link ChangeField#ATTENTION_SET_USERS} and {@link
-   * ChangeField#ATTENTION_SET_FULL}.
-   */
-  static final Schema<ChangeData> V59 =
-      new Schema.Builder<ChangeData>()
-          .add(V58)
-          .add(ChangeField.ATTENTION_SET_USERS)
-          .add(ChangeField.ATTENTION_SET_FULL)
-          .build();
 
   /**
    * Name of the change index to be used when contacting index backends or loading configurations.

@@ -32,7 +32,6 @@ import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.IndexUtils;
 import com.google.gerrit.server.index.account.AccountField;
 import com.google.gerrit.server.index.account.AccountIndex;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.inject.Inject;
@@ -91,15 +90,10 @@ public class ElasticAccountIndex extends AbstractElasticIndex<Account.Id, Accoun
   @Override
   public DataSource<AccountState> getSource(Predicate<AccountState> p, QueryOptions opts)
       throws QueryParseException {
-    JsonArray sortArray =
-        getSortArray(
-            schema.useLegacyNumericFields()
-                ? AccountField.ID.getName()
-                : AccountField.ID_STR.getName());
     return new ElasticQuerySource(
         p,
-        opts.filterFields(o -> IndexUtils.accountFields(o, schema.useLegacyNumericFields())),
-        sortArray);
+        opts.filterFields(IndexUtils::accountFields),
+        getSortArray(AccountField.ID_STR.getName()));
   }
 
   @Override
@@ -125,14 +119,7 @@ public class ElasticAccountIndex extends AbstractElasticIndex<Account.Id, Accoun
     }
 
     Account.Id id =
-        Account.id(
-            source
-                .getAsJsonObject()
-                .get(
-                    schema.useLegacyNumericFields()
-                        ? AccountField.ID.getName()
-                        : AccountField.ID_STR.getName())
-                .getAsInt());
+        Account.id(source.getAsJsonObject().get(AccountField.ID_STR.getName()).getAsInt());
     // Use the AccountCache rather than depending on any stored fields in the document (of which
     // there shouldn't be any). The most expensive part to compute anyway is the effective group
     // IDs, and we don't have a good way to reindex when those change.

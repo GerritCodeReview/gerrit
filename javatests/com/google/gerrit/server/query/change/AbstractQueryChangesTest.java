@@ -83,7 +83,6 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.httpd.raw.IndexPreloadingUtil;
-import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.query.IndexPredicate;
@@ -168,7 +167,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   @Inject protected AllUsersName allUsersName;
   @Inject protected BatchUpdate.Factory updateFactory;
   @Inject protected ChangeInserter.Factory changeFactory;
-  @Inject protected Provider<ChangeQueryBuilder> queryBuilderProvider;
+  @Inject protected ChangeQueryBuilder queryBuilder;
   @Inject protected GerritApi gApi;
   @Inject protected IdentifiedUser.GenericFactory userFactory;
   @Inject protected ChangeIndexCollection indexes;
@@ -595,7 +594,6 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   @Test
   public void byAuthorExact() throws Exception {
-    assume().that(getSchema().hasField(ChangeField.EXACT_AUTHOR)).isTrue();
     byAuthorOrCommitterExact("author:");
   }
 
@@ -606,7 +604,6 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
   @Test
   public void byCommitterExact() throws Exception {
-    assume().that(getSchema().hasField(ChangeField.EXACT_COMMITTER)).isTrue();
     byAuthorOrCommitterExact("committer:");
   }
 
@@ -1348,11 +1345,9 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery("ext:.jAvA", change4);
     assertQuery("ext:cc", change3, change2, change1);
 
-    if (getSchemaVersion() >= 56) {
-      // matching changes with files that have no extension is possible
-      assertQuery("ext:\"\"", change5, change4);
-      assertFailingQuery("ext:");
-    }
+    // matching changes with files that have no extension is possible
+    assertQuery("ext:\"\"", change5, change4);
+    assertFailingQuery("ext:");
   }
 
   @Test
@@ -1670,21 +1665,6 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
           makeIndexedPredicateFilterQuery(predicate + "\"2009-10-01 20:59:59 -0000\""), change2);
       assertQuery(makeIndexedPredicateFilterQuery(predicate + "2009-10-01"), change2);
       assertQuery(makeIndexedPredicateFilterQuery(predicate + "2009-09-30"), change2, change1);
-    }
-  }
-
-  @Test
-  public void mergedOperatorSupportedByIndexVersion() throws Exception {
-    if (getSchemaVersion() < 61) {
-      assertMissingField(ChangeField.MERGED_ON);
-      assertFailingQuery(
-          "mergedbefore:2009-10-01",
-          "'mergedbefore' operator is not supported by change index version");
-      assertFailingQuery(
-          "mergedafter:2009-10-01",
-          "'mergedafter' operator is not supported by change index version");
-    } else {
-      assertThat(getSchema().hasField(ChangeField.MERGED_ON)).isTrue();
     }
   }
 
@@ -3538,7 +3518,6 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
     assertQuery(ChangeIndexPredicate.none());
 
-    ChangeQueryBuilder queryBuilder = queryBuilderProvider.get();
     for (Predicate<ChangeData> matchingOneChange :
         ImmutableList.of(
             // One index query, one post-filtering query.
@@ -3902,12 +3881,6 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     }
   }
 
-  protected void assertMissingField(FieldDef<ChangeData, ?> field) {
-    assertWithMessage("schema %s has field %s", getSchemaVersion(), field.getName())
-        .that(getSchema().hasField(field))
-        .isFalse();
-  }
-
   protected void assertFailingQuery(String query) throws Exception {
     assertFailingQuery(query, null);
   }
@@ -3922,10 +3895,6 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
         assertThat(e.getMessage()).isEqualTo(expectedMessage);
       }
     }
-  }
-
-  protected int getSchemaVersion() {
-    return getSchema().getVersion();
   }
 
   protected Schema<ChangeData> getSchema() {

@@ -22,6 +22,30 @@
       "revId": "45913eb5a5938d25db062cad0bad9ca55ae67385",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "07dd1ce8_0ed6dcdf",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 34
+      },
+      "lineNbr": 909,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-10-06T18:41:32Z",
+      "side": 1,
+      "message": "Fixed in https://gerrit-review.googlesource.com/c/gerrit/+/239500 !",
+      "parentUuid": "5f316e6f_37fd1212",
+      "range": {
+        "startLine": 909,
+        "startChar": 55,
+        "endLine": 909,
+        "endChar": 71
+      },
+      "revId": "45913eb5a5938d25db062cad0bad9ca55ae67385",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

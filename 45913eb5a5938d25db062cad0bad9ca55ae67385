@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5f316e6f_37fd1212",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 34
+      },
+      "lineNbr": 909,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-06T08:35:32Z",
+      "side": 1,
+      "message": "Unfortunately, we missed three corner cases:\n\n* 1. File addition. In that case, the file wouldn\u0027t exist in the parent SHA1, so that attempt to fetch it (Left content entry in dropdown) would end up in 404 Not Found.\n* 2. File deletion. In that case, the file would only exist in parent SHA1, but not in the commit SHA1, so that the attempt to fetch it (Right content entry in dropdown) would end up in 404 Not Found.\n* 3. File renaming. This is similarly to the deletion use case, except that the base version can be retrieved using the old file name and passing ?parent\u003d1 option.\n\nI wrote this issue: [1] to track it.\n\n* [1] https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d11682",
+      "range": {
+        "startLine": 909,
+        "startChar": 55,
+        "endLine": 909,
+        "endChar": 71
+      },
+      "revId": "45913eb5a5938d25db062cad0bad9ca55ae67385",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

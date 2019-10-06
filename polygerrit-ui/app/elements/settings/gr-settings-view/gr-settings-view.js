@@ -393,7 +393,7 @@
     },
 
     _isNewEmailValid(newEmail) {
-      return newEmail.includes('@');
+      return newEmail && newEmail.includes('@');
     },
 
     _computeAddEmailButtonEnabled(newEmail, addingEmail) {

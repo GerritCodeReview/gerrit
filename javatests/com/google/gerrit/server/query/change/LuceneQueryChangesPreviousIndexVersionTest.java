@@ -20,7 +20,11 @@ import com.google.gerrit.testing.ConfigSuite;
 import com.google.gerrit.testing.IndexConfig;
 import com.google.gerrit.testing.IndexVersions;
 import org.eclipse.jgit.lib.Config;
+import org.junit.Ignore;
 
+@Ignore(
+    "Currently only the latest index version is supported."
+        + "This test should be enabled again, wenn new schema index version is created")
 public class LuceneQueryChangesPreviousIndexVersionTest extends LuceneQueryChangesTest {
   @ConfigSuite.Default
   public static Config againstPreviousIndexVersion() {

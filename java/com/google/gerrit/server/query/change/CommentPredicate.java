@@ -34,12 +34,7 @@ public class CommentPredicate extends ChangeIndexPredicate {
   public boolean match(ChangeData object) {
     try {
       Change.Id id = object.getId();
-      Predicate<ChangeData> p =
-          Predicate.and(
-              index.getSchema().useLegacyNumericFields()
-                  ? new LegacyChangeIdPredicate(id)
-                  : new LegacyChangeIdStrPredicate(id),
-              this);
+      Predicate<ChangeData> p = Predicate.and(new LegacyChangeIdStrPredicate(id), this);
       for (ChangeData cData : index.getSource(p, IndexedChangeQuery.oneResult()).read()) {
         if (cData.getId().equals(id)) {
           return true;

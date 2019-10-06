@@ -223,6 +223,7 @@
      * @return {!Object} Hash of arrays of comments, filename as key.
      */
     _computeCommentsForMessage(changeComments, message) {
+      if (!changeComments) return [];
       const comments = changeComments.getAllPublishedComments();
       if (message._index === undefined || !comments || !this.messages) {
         return [];
@@ -272,7 +273,10 @@
      */
     _getDelta(visibleMessages, messages, hideAutomated) {
       let delta = MESSAGES_INCREMENT;
-      const msgsRemaining = messages.length - visibleMessages.length;
+
+      const msgsRemaining = messages && visibleMessages ?
+          messages.length - visibleMessages.length : 0;
+
       if (hideAutomated) {
         let counter = 0;
         let i;
@@ -289,6 +293,8 @@
      * exist in _visibleMessages.
      */
     _numRemaining(visibleMessages, messages, hideAutomated) {
+      if (!visibleMessages || !visibleMessages.length) visibleMessages = [];
+      if (!messages || !messages.length) messages = [];
       if (hideAutomated) {
         return this._getHumanMessages(messages).length -
             this._getHumanMessages(visibleMessages).length;
@@ -311,6 +317,8 @@
 
     _computeShowHideTextHidden(visibleMessages, messages,
         hideAutomated) {
+      if (!visibleMessages || !visibleMessages.length) visibleMessages = [];
+      if (!messages || !messages.length) messages = [];
       if (hideAutomated) {
         messages = this._getHumanMessages(messages);
         visibleMessages = this._getHumanMessages(visibleMessages);
@@ -334,7 +342,9 @@
     },
 
     _processedMessagesChanged(messages) {
-      this._visibleMessages = messages.slice(-MAX_INITIAL_SHOWN_MESSAGES);
+      if (messages) {
+        this._visibleMessages = messages.slice(-MAX_INITIAL_SHOWN_MESSAGES);
+      }
     },
 
     _computeNumMessagesText(visibleMessages, messages,

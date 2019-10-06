@@ -20,10 +20,14 @@ import com.google.gerrit.testing.ConfigSuite;
 import com.google.gerrit.testing.IndexConfig;
 import com.google.gerrit.testing.IndexVersions;
 import org.eclipse.jgit.lib.Config;
+import org.junit.Ignore;
 
 /**
  * Test against {@link com.google.gerrit.index.testing.AbstractFakeIndex} using the current schema.
  */
+@Ignore(
+    "Currently only the latest index version is supported."
+        + "This test should be enabled again, wenn new schema index version is created")
 public class FakeQueryChangesPreviousIndexVersionTest extends FakeQueryChangesTest {
   @ConfigSuite.Default
   public static Config againstPreviousIndexVersion() {

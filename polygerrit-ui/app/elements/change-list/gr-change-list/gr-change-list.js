@@ -250,7 +250,7 @@
 
     _computeItemHighlight(account, change) {
       // Do not show the assignee highlight if the change is not open.
-      if (!change.assignee ||
+      if (!change || !change.assignee ||
           !account ||
           CLOSED_STATUS.indexOf(change.status) !== -1) {
         return false;

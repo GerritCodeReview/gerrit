@@ -94,7 +94,7 @@
       },
       isImageDiff: {
         type: Boolean,
-        computed: '_computeIsImageDiff(_diff)',
+        computed: '_computeIsImageDiff(diff)',
         notify: true,
       },
       commitRange: Object,
@@ -164,8 +164,13 @@
       _baseImage: Object,
       /** @type {?Object} */
       _revisionImage: Object,
-
-      _diff: Object,
+      /**
+       * This is a DiffInfo object.
+       */
+      diff: {
+        type: Object,
+        notify: true,
+      },
 
       /** @type {?Object} */
       _blame: {
@@ -237,7 +242,7 @@
                 this.removeEventListener('render', callback);
               };
               this.addEventListener('render', callback);
-              this._diff = diff;
+              this.diff = diff;
             });
           })
           .catch(err => {

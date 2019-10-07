@@ -133,7 +133,7 @@
      */
     splitNode(element, offset) {
       if (element instanceof Text) {
-        return this.splitTextNode(element, offset);
+        return util.splitTextNode(element, offset);
       }
       const tail = element.cloneNode(false);
       element.parentElement.insertBefore(tail, element.nextSibling);
@@ -152,36 +152,6 @@
         tail.appendChild(node.nextSibling);
       }
       return tail;
-    },
-
-    /**
-     * Node.prototype.splitText Unicode-valid alternative.
-     *
-     * DOM Api for splitText() is broken for Unicode:
-     * https://mathiasbynens.be/notes/javascript-unicode
-     *
-     * @param {!Text} node
-     * @param {number} offset
-     * @return {!Text} Trailing Text Node.
-     */
-    splitTextNode(node, offset) {
-      if (node.textContent.match(REGEX_ASTRAL_SYMBOL)) {
-        // TODO (viktard): Polyfill Array.from for IE10.
-        const head = Array.from(node.textContent);
-        const tail = head.splice(offset);
-        const parent = node.parentNode;
-
-        // Split the content of the original node.
-        node.textContent = head.join('');
-
-        const tailNode = document.createTextNode(tail.join(''));
-        if (parent) {
-          parent.insertBefore(tailNode, node.nextSibling);
-        }
-        return tailNode;
-      } else {
-        return node.splitText(offset);
-      }
     },
 
     _annotateText(node, offset, length, cssClass) {
@@ -204,7 +174,7 @@
         this.splitAndWrapInHighlight(node, offset, cssClass, false);
       } else {
         // Case 4
-        this.splitAndWrapInHighlight(this.splitTextNode(node, offset), length,
+        this.splitAndWrapInHighlight(util.splitTextNode(node, offset), length,
             cssClass, true);
       }
     },

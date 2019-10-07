@@ -37,6 +37,7 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Map;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.revwalk.RevWalk;
 
@@ -144,13 +145,14 @@ public class ApprovalInference {
     // set at a time if configs and change kind allow so. Once an approval is held back - for
     // example because the patch set is a REWORK - it will not be picked up again in a future
     // patch set.
-    PatchSet priorPatchSet = notes.load().getPatchSets().lowerEntry(psId).getValue();
+    Map.Entry<PatchSet.Id, PatchSet> priorPatchSet = notes.load().getPatchSets().lowerEntry(psId);
     if (priorPatchSet == null) {
       return resultByUser.values();
     }
 
     Iterable<PatchSetApproval> priorApprovals =
-        getForPatchSetWithoutNormalization(notes, project, priorPatchSet.id(), rw, repoConfig);
+        getForPatchSetWithoutNormalization(
+            notes, project, priorPatchSet.getValue().id(), rw, repoConfig);
     if (!priorApprovals.iterator().hasNext()) {
       return resultByUser.values();
     }
@@ -159,7 +161,11 @@ public class ApprovalInference {
     // and settings as well as change kind allow copying.
     ChangeKind kind =
         changeKindCache.getChangeKind(
-            project.getNameKey(), rw, repoConfig, priorPatchSet.commitId(), ps.commitId());
+            project.getNameKey(),
+            rw,
+            repoConfig,
+            priorPatchSet.getValue().commitId(),
+            ps.commitId());
     for (PatchSetApproval psa : priorApprovals) {
       if (resultByUser.contains(psa.label(), psa.accountId())) {
         continue;

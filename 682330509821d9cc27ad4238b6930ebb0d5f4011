@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1cd00fe3_7efcb89b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-07T08:23:41Z",
+      "side": 1,
+      "message": "hmm from what I understood, the code in @example can be treated as normal js code, and these two lines are just comment in js, thats why i have the `//` for it, and also the `` for the html template :)\n\nhttps://jsdoc.app/tags-example.html",
+      "parentUuid": "f4666b0b_5ff1411b",
+      "range": {
+        "startLine": 34,
+        "startChar": 5,
+        "endLine": 34,
+        "endChar": 7
+      },
+      "revId": "682330509821d9cc27ad4238b6930ebb0d5f4011",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6b5be6fa_4053223c",
         "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
         "patchSetId": 8
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "40e5966d_b834f1e4",
+        "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-07T08:23:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6b5be6fa_4053223c",
+      "revId": "682330509821d9cc27ad4238b6930ebb0d5f4011",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cea468af_9b899084",
         "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
         "patchSetId": 8
@@ -56,6 +98,24 @@
       "revId": "682330509821d9cc27ad4238b6930ebb0d5f4011",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "21ab6200_0a2f2899",
+        "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-07T08:23:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cea468af_9b899084",
+      "revId": "682330509821d9cc27ad4238b6930ebb0d5f4011",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -99,6 +159,48 @@
     },
     {
       "key": {
+        "uuid": "225af9ec_551e2f68",
+        "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-07T08:23:41Z",
+      "side": 1,
+      "message": "Ya thats a great name! naming is so hard...",
+      "parentUuid": "6fc87f21_37e21b83",
+      "range": {
+        "startLine": 66,
+        "startChar": 4,
+        "endLine": 66,
+        "endChar": 12
+      },
+      "revId": "682330509821d9cc27ad4238b6930ebb0d5f4011",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a94d28d0_817a66bc",
+        "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-07T08:23:41Z",
+      "side": 1,
+      "message": "i think rename to `_removeAllHighlights` should be sufficient ?",
+      "parentUuid": "b0b09a5d_68ca43f5",
+      "revId": "682330509821d9cc27ad4238b6930ebb0d5f4011",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "598a458d_608f1aeb",
         "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
         "patchSetId": 8
@@ -136,6 +238,48 @@
       "revId": "682330509821d9cc27ad4238b6930ebb0d5f4011",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "95e8e747_95678f71",
+        "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-07T08:23:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "37182599_1039ccdb",
+      "revId": "682330509821d9cc27ad4238b6930ebb0d5f4011",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "21cba40d_81dd5ab4",
+        "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-07T08:23:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "598a458d_608f1aeb",
+      "range": {
+        "startLine": 80,
+        "startChar": 4,
+        "endLine": 80,
+        "endChar": 22
+      },
+      "revId": "682330509821d9cc27ad4238b6930ebb0d5f4011",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -179,6 +323,48 @@
     },
     {
       "key": {
+        "uuid": "07da46b6_7110daca",
+        "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-07T08:23:41Z",
+      "side": 1,
+      "message": "hmm, i think the performance issue will come with the complex of the html structure, not by the lengh of the inner text (if its just a 10000 text, it can handle that pretty fast) actually. I can add some warning and stop the recursion after a certain times (like timeout on highlighting sort of thing), but not sure if it worth the effort for now. I will leave a comment for the performance here for now.",
+      "parentUuid": "5c7fcd6c_69fcd0ff",
+      "revId": "682330509821d9cc27ad4238b6930ebb0d5f4011",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99435373_53512070",
+        "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-07T08:23:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a8d64827_787429a2",
+      "range": {
+        "startLine": 87,
+        "startChar": 4,
+        "endLine": 87,
+        "endChar": 11
+      },
+      "revId": "682330509821d9cc27ad4238b6930ebb0d5f4011",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "823e9be3_ee1805d3",
         "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
         "patchSetId": 8
@@ -193,6 +379,24 @@
       "revId": "682330509821d9cc27ad4238b6930ebb0d5f4011",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "15c57dc8_950e6b0d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-07T08:23:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "823e9be3_ee1805d3",
+      "revId": "682330509821d9cc27ad4238b6930ebb0d5f4011",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -213,6 +417,24 @@
     },
     {
       "key": {
+        "uuid": "e76dabad_b47c7bec",
+        "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-07T08:23:41Z",
+      "side": 1,
+      "message": "haha ya, I am terrible at naming, so kind of trying to fix that by adding more comments :) but i agree, the code should say for itself. Thanks for all the good names :)",
+      "parentUuid": "4950fc54_a84f8048",
+      "revId": "682330509821d9cc27ad4238b6930ebb0d5f4011",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5fd74f1c_53d22b1b",
         "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
         "patchSetId": 8
@@ -227,6 +449,24 @@
       "revId": "682330509821d9cc27ad4238b6930ebb0d5f4011",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f8664f1f_bc5e76d6",
+        "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-07T08:23:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5fd74f1c_53d22b1b",
+      "revId": "682330509821d9cc27ad4238b6930ebb0d5f4011",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -276,6 +516,54 @@
     },
     {
       "key": {
+        "uuid": "c3629680_17cbe30f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-07T08:23:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5f250f3c_3b9e3992",
+      "range": {
+        "startLine": 98,
+        "startChar": 30,
+        "endLine": 98,
+        "endChar": 36
+      },
+      "revId": "682330509821d9cc27ad4238b6930ebb0d5f4011",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b81add09_bc051b37",
+        "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-07T08:23:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b0e94f51_23d6d447",
+      "range": {
+        "startLine": 98,
+        "startChar": 42,
+        "endLine": 98,
+        "endChar": 51
+      },
+      "revId": "682330509821d9cc27ad4238b6930ebb0d5f4011",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8a195458_4933bfcf",
         "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
         "patchSetId": 8
@@ -316,6 +604,48 @@
     },
     {
       "key": {
+        "uuid": "5d38950c_0d51b2fa",
+        "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-07T08:23:41Z",
+      "side": 1,
+      "message": "with your new name suggestions, i think now it should be much clear what that state is. Will update the comment.",
+      "parentUuid": "0aab40d4_cc2f2122",
+      "revId": "682330509821d9cc27ad4238b6930ebb0d5f4011",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "29003ad0_3aa7bd85",
+        "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-07T08:23:41Z",
+      "side": 1,
+      "message": "rename to nodeTraversalState. In terms of moving it to a property, I feel like this state only related to one traversal, its kind of temporary and used inside of the methods only, it has nothing to do with the gr-highlight-text directive and not a previous state like _highlights that we want to keep between changes.",
+      "parentUuid": "8a195458_4933bfcf",
+      "range": {
+        "startLine": 106,
+        "startChar": 23,
+        "endLine": 106,
+        "endChar": 37
+      },
+      "revId": "682330509821d9cc27ad4238b6930ebb0d5f4011",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e2cfa855_b8d835f2",
         "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
         "patchSetId": 8
@@ -336,6 +666,30 @@
       "revId": "682330509821d9cc27ad4238b6930ebb0d5f4011",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eff96d6e_6f37612f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-07T08:23:41Z",
+      "side": 1,
+      "message": "I can, but with the renaming, modify the `matchedTextInPreviousNode` will be a bit hard to read for readers ?  I will just rename it to matchedText.",
+      "parentUuid": "e2cfa855_b8d835f2",
+      "range": {
+        "startLine": 127,
+        "startChar": 10,
+        "endLine": 127,
+        "endChar": 16
+      },
+      "revId": "682330509821d9cc27ad4238b6930ebb0d5f4011",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -362,6 +716,30 @@
     },
     {
       "key": {
+        "uuid": "06478bb8_ae79caf5",
+        "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-07T08:23:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9ff877f6_11b03656",
+      "range": {
+        "startLine": 131,
+        "startChar": 10,
+        "endLine": 131,
+        "endChar": 18
+      },
+      "revId": "682330509821d9cc27ad4238b6930ebb0d5f4011",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "42def8f3_89b9ebf0",
         "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
         "patchSetId": 8
@@ -385,6 +763,30 @@
     },
     {
       "key": {
+        "uuid": "0bb7f5c0_55c107cc",
+        "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-07T08:23:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "42def8f3_89b9ebf0",
+      "range": {
+        "startLine": 133,
+        "startChar": 60,
+        "endLine": 133,
+        "endChar": 67
+      },
+      "revId": "682330509821d9cc27ad4238b6930ebb0d5f4011",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2af39009_d7c1409b",
         "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
         "patchSetId": 8
@@ -399,6 +801,24 @@
       "revId": "682330509821d9cc27ad4238b6930ebb0d5f4011",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5e62673d_008c694f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-07T08:23:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2af39009_d7c1409b",
+      "revId": "682330509821d9cc27ad4238b6930ebb0d5f4011",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -419,6 +839,24 @@
     },
     {
       "key": {
+        "uuid": "94b4fcae_59614c5c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-07T08:23:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0da8dbbf_1d96bbcc",
+      "revId": "682330509821d9cc27ad4238b6930ebb0d5f4011",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a9f85b8a_29301dcd",
         "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
         "patchSetId": 8
@@ -433,6 +871,24 @@
       "revId": "682330509821d9cc27ad4238b6930ebb0d5f4011",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0090640c_c9625ff1",
+        "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-07T08:23:41Z",
+      "side": 1,
+      "message": "with the new name, it will be overlength",
+      "parentUuid": "a9f85b8a_29301dcd",
+      "revId": "682330509821d9cc27ad4238b6930ebb0d5f4011",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -453,6 +909,24 @@
     },
     {
       "key": {
+        "uuid": "a87a4831_1f6a046c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-07T08:23:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eb61b576_32a0c69b",
+      "revId": "682330509821d9cc27ad4238b6930ebb0d5f4011",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4244aabe_78a20a43",
         "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
         "patchSetId": 8
@@ -470,6 +944,24 @@
     },
     {
       "key": {
+        "uuid": "0fb7dd19_5ac51659",
+        "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-07T08:23:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4244aabe_78a20a43",
+      "revId": "682330509821d9cc27ad4238b6930ebb0d5f4011",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "942ac080_48a4b233",
         "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
         "patchSetId": 8
@@ -484,6 +976,24 @@
       "revId": "682330509821d9cc27ad4238b6930ebb0d5f4011",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e699eb2c_4bd034c8",
+        "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-07T08:23:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "942ac080_48a4b233",
+      "revId": "682330509821d9cc27ad4238b6930ebb0d5f4011",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -510,6 +1020,30 @@
     },
     {
       "key": {
+        "uuid": "8f5eea35_cc6f04ba",
+        "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-07T08:23:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a5b9c1e_d3e8d920",
+      "range": {
+        "startLine": 181,
+        "startChar": 23,
+        "endLine": 181,
+        "endChar": 38
+      },
+      "revId": "682330509821d9cc27ad4238b6930ebb0d5f4011",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3d4e605f_ebe694a7",
         "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
         "patchSetId": 8
@@ -533,6 +1067,30 @@
     },
     {
       "key": {
+        "uuid": "8e637352_cfc21e50",
+        "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-07T08:23:41Z",
+      "side": 1,
+      "message": "same. https://jsdoc.app/tags-example.html, or maybe we are following a different syntax here ?",
+      "parentUuid": "3d4e605f_ebe694a7",
+      "range": {
+        "startLine": 185,
+        "startChar": 7,
+        "endLine": 185,
+        "endChar": 9
+      },
+      "revId": "682330509821d9cc27ad4238b6930ebb0d5f4011",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e8e4b352_c71d2537",
         "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
         "patchSetId": 8
@@ -553,6 +1111,30 @@
       "revId": "682330509821d9cc27ad4238b6930ebb0d5f4011",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4707c9a9_61a08c69",
+        "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-07T08:23:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e8e4b352_c71d2537",
+      "range": {
+        "startLine": 200,
+        "startChar": 4,
+        "endLine": 200,
+        "endChar": 14
+      },
+      "revId": "682330509821d9cc27ad4238b6930ebb0d5f4011",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

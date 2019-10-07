@@ -1,0 +1,20 @@
+[Info  - 7:22:42 AM] Linter is running.
+[Warn  - 7:22:42 AM] 
+Failed to load the TSLint library for the document /usr/local/google/home/juliepan/gerrit/gerrit/polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js
+
+To use TSLint in this workspace please install tslint using 'npm install tslint' or globally using 'npm install -g tslint'.
+TSLint has a peer dependency on `typescript`, make sure that `typescript` is installed as well.
+You need to reopen the workspace after installing tslint.
+[Warn  - 7:22:46 AM] 
+Failed to load the TSLint library for the document /usr/local/google/home/juliepan/gerrit/gerrit/polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js
+
+To use TSLint in this workspace please install tslint using 'npm install tslint' or globally using 'npm install -g tslint'.
+TSLint has a peer dependency on `typescript`, make sure that `typescript` is installed as well.
+You need to reopen the workspace after installing tslint.
+[Warn  - 7:22:46 AM] 
+Failed to load the TSLint library for the document /usr/local/google/home/juliepan/gerrit/gerrit/polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js
+
+To use TSLint in this workspace please install tslint using 'npm install tslint' or globally using 'npm install -g tslint'.
+TSLint has a peer dependency on `typescript`, make sure that `typescript` is installed as well.
+You need to reopen the workspace after installing tslint.
+[Info  - 7:27:17 AM] Linter has stopped.

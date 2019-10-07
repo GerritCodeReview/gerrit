@@ -1,0 +1,332 @@
+Looking for git in: git
+Using git 2.23.0.581.g78d2f28ef7-goog from git
+> git rev-parse --show-toplevel
+> git rev-parse --git-dir
+> git config --get commit.template
+Open repository: /usr/local/google/home/juliepan/gerrit/gerrit
+> git status -z -u
+> git symbolic-ref --short HEAD
+fatal: ref HEAD is not a symbolic ref
+> git rev-parse HEAD
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git show :polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js
+> git check-ignore -v -z --stdin
+> git rev-parse --show-toplevel
+> git rev-parse --git-dir
+> git config --get commit.template
+Open repository: /usr/local/google/home/juliepan/gerrit/gerrit/plugins/codemirror-editor
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse master
+> git rev-parse --symbolic-full-name master@{u}
+> git rev-list --left-right master...refs/remotes/origin/master
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+Failed to watch ref '/usr/local/google/home/juliepan/gerrit/gerrit/.git/modules/plugins%2fcodemirror-editor/refs/remotes/origin/master', is most likely packed.
+Error: ENOENT: no such file or directory, watch '/usr/local/google/home/juliepan/gerrit/gerrit/.git/modules/plugins%2fcodemirror-editor/refs/remotes/origin/master'
+	at FSWatcher.start (internal/fs/watchers.js:164:26)
+	at Object.watch (fs.js:1232:11)
+	at Object.t.watch (/usr/share/code/resources/app/extensions/git/dist/main.js:1:594639)
+	at T.updateTransientWatchers (/usr/share/code/resources/app/extensions/git/dist/main.js:1:98365)
+	at u.fire (/usr/share/code/resources/app/out/vs/workbench/services/extensions/node/extensionHostProcess.js:50:227)
+	at k.updateModelState (/usr/share/code/resources/app/extensions/git/dist/main.js:1:116241)
+> git rev-parse --show-toplevel
+> git rev-parse --git-dir
+> git config --get commit.template
+Open repository: /usr/local/google/home/juliepan/gerrit/gerrit/plugins/commit-message-length-validator
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse master
+> git rev-parse --symbolic-full-name master@{u}
+> git rev-list --left-right master...refs/remotes/origin/master
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+Failed to watch ref '/usr/local/google/home/juliepan/gerrit/gerrit/.git/modules/plugins%2fcommit-message-length-validator/refs/remotes/origin/master', is most likely packed.
+Error: ENOENT: no such file or directory, watch '/usr/local/google/home/juliepan/gerrit/gerrit/.git/modules/plugins%2fcommit-message-length-validator/refs/remotes/origin/master'
+	at FSWatcher.start (internal/fs/watchers.js:164:26)
+	at Object.watch (fs.js:1232:11)
+	at Object.t.watch (/usr/share/code/resources/app/extensions/git/dist/main.js:1:594639)
+	at T.updateTransientWatchers (/usr/share/code/resources/app/extensions/git/dist/main.js:1:98365)
+	at u.fire (/usr/share/code/resources/app/out/vs/workbench/services/extensions/node/extensionHostProcess.js:50:227)
+	at k.updateModelState (/usr/share/code/resources/app/extensions/git/dist/main.js:1:116241)
+> git rev-parse --show-toplevel
+> git rev-parse --git-dir
+> git config --get commit.template
+Open repository: /usr/local/google/home/juliepan/gerrit/gerrit/plugins/delete-project
+> git status -z -u
+> git symbolic-ref --short HEAD
+fatal: ref HEAD is not a symbolic ref
+> git rev-parse HEAD
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git rev-parse --show-toplevel
+> git rev-parse --git-dir
+> git config --get commit.template
+Open repository: /usr/local/google/home/juliepan/gerrit/gerrit/plugins/download-commands
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse master
+> git rev-parse --symbolic-full-name master@{u}
+> git rev-list --left-right master...refs/remotes/origin/master
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git rev-parse --show-toplevel
+> git rev-parse --git-dir
+> git config --get commit.template
+Open repository: /usr/local/google/home/juliepan/gerrit/gerrit/plugins/gitiles
+> git status -z -u
+> git symbolic-ref --short HEAD
+fatal: ref HEAD is not a symbolic ref
+> git rev-parse HEAD
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git rev-parse --show-toplevel
+> git rev-parse --git-dir
+> git config --get commit.template
+Open repository: /usr/local/google/home/juliepan/gerrit/gerrit/plugins/hooks
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git rev-parse master
+> git rev-parse --symbolic-full-name master@{u}
+> git rev-list --left-right master...refs/remotes/origin/master
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git rev-parse --show-toplevel
+> git rev-parse --git-dir
+> git config --get commit.template
+Open repository: /usr/local/google/home/juliepan/gerrit/gerrit/plugins/plugin-manager
+> git status -z -u
+> git symbolic-ref --short HEAD
+fatal: ref HEAD is not a symbolic ref
+> git rev-parse HEAD
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git rev-parse --show-toplevel
+> git rev-parse --git-dir
+> git config --get commit.template
+Open repository: /usr/local/google/home/juliepan/gerrit/gerrit/plugins/replication
+> git status -z -u
+> git symbolic-ref --short HEAD
+fatal: ref HEAD is not a symbolic ref
+> git rev-parse HEAD
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git rev-parse --show-toplevel
+> git rev-parse --git-dir
+> git config --get commit.template
+Open repository: /usr/local/google/home/juliepan/gerrit/gerrit/plugins/reviewnotes
+> git status -z -u
+> git symbolic-ref --short HEAD
+fatal: ref HEAD is not a symbolic ref
+> git rev-parse HEAD
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git rev-parse --show-toplevel
+> git rev-parse --git-dir
+> git config --get commit.template
+Open repository: /usr/local/google/home/juliepan/gerrit/gerrit/plugins/singleusergroup
+> git status -z -u
+> git symbolic-ref --short HEAD
+fatal: ref HEAD is not a symbolic ref
+> git rev-parse HEAD
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git check-ignore -v -z --stdin
+> git status -z -u
+> git symbolic-ref --short HEAD
+fatal: ref HEAD is not a symbolic ref
+> git rev-parse HEAD
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git status -z -u
+> git symbolic-ref --short HEAD
+fatal: ref HEAD is not a symbolic ref
+> git rev-parse HEAD
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git status -z -u
+> git symbolic-ref --short HEAD
+fatal: ref HEAD is not a symbolic ref
+> git rev-parse HEAD
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git status -z -u
+> git symbolic-ref --short HEAD
+fatal: ref HEAD is not a symbolic ref
+> git rev-parse HEAD
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git show :polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js
+> git status -z -u
+> git status -z -u
+> git status -z -u
+> git status -z -u
+> git status -z -u
+> git status -z -u
+> git status -z -u
+> git status -z -u
+> git status -z -u
+> git status -z -u
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git symbolic-ref --short HEAD
+> git symbolic-ref --short HEAD
+> git symbolic-ref --short HEAD
+> git symbolic-ref --short HEAD
+> git symbolic-ref --short HEAD
+> git symbolic-ref --short HEAD
+> git symbolic-ref --short HEAD
+> git symbolic-ref --short HEAD
+> git symbolic-ref --short HEAD
+> git symbolic-ref --short HEAD
+fatal: ref HEAD is not a symbolic ref
+> git rev-parse HEAD
+fatal: ref HEAD is not a symbolic ref
+> git rev-parse HEAD
+fatal: ref HEAD is not a symbolic ref
+> git rev-parse HEAD
+fatal: ref HEAD is not a symbolic ref
+> git rev-parse HEAD
+fatal: ref HEAD is not a symbolic ref
+> git rev-parse HEAD
+> git rev-parse master
+fatal: ref HEAD is not a symbolic ref
+> git rev-parse HEAD
+> git rev-parse master
+fatal: ref HEAD is not a symbolic ref
+> git rev-parse HEAD
+> git rev-parse master
+> git rev-parse master
+> git rev-parse --symbolic-full-name master@{u}
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git rev-parse --symbolic-full-name master@{u}
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git rev-parse --symbolic-full-name master@{u}
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git rev-list --left-right master...refs/remotes/origin/master
+> git rev-list --left-right master...refs/remotes/origin/master
+> git rev-list --left-right master...refs/remotes/origin/master
+> git rev-parse --symbolic-full-name master@{u}
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+Failed to watch ref '/usr/local/google/home/juliepan/gerrit/gerrit/.git/modules/plugins%2fcommit-message-length-validator/refs/remotes/origin/master', is most likely packed.
+Error: ENOENT: no such file or directory, watch '/usr/local/google/home/juliepan/gerrit/gerrit/.git/modules/plugins%2fcommit-message-length-validator/refs/remotes/origin/master'
+	at FSWatcher.start (internal/fs/watchers.js:164:26)
+	at Object.watch (fs.js:1232:11)
+	at Object.t.watch (/usr/share/code/resources/app/extensions/git/dist/main.js:1:594639)
+	at T.updateTransientWatchers (/usr/share/code/resources/app/extensions/git/dist/main.js:1:98365)
+	at u.fire (/usr/share/code/resources/app/out/vs/workbench/services/extensions/node/extensionHostProcess.js:50:227)
+	at k.updateModelState (/usr/share/code/resources/app/extensions/git/dist/main.js:1:116241)
+> git rev-list --left-right master...refs/remotes/origin/master
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+Failed to watch ref '/usr/local/google/home/juliepan/gerrit/gerrit/.git/modules/plugins%2fcodemirror-editor/refs/remotes/origin/master', is most likely packed.
+Error: ENOENT: no such file or directory, watch '/usr/local/google/home/juliepan/gerrit/gerrit/.git/modules/plugins%2fcodemirror-editor/refs/remotes/origin/master'
+	at FSWatcher.start (internal/fs/watchers.js:164:26)
+	at Object.watch (fs.js:1232:11)
+	at Object.t.watch (/usr/share/code/resources/app/extensions/git/dist/main.js:1:594639)
+	at T.updateTransientWatchers (/usr/share/code/resources/app/extensions/git/dist/main.js:1:98365)
+	at u.fire (/usr/share/code/resources/app/out/vs/workbench/services/extensions/node/extensionHostProcess.js:50:227)
+	at k.updateModelState (/usr/share/code/resources/app/extensions/git/dist/main.js:1:116241)
+> git status -z -u
+> git status -z -u
+> git status -z -u
+> git status -z -u
+> git status -z -u
+> git status -z -u
+> git status -z -u
+> git status -z -u
+> git status -z -u
+> git status -z -u
+> git status -z -u
+> git symbolic-ref --short HEAD
+> git symbolic-ref --short HEAD
+> git symbolic-ref --short HEAD
+> git symbolic-ref --short HEAD
+> git symbolic-ref --short HEAD
+> git symbolic-ref --short HEAD
+> git symbolic-ref --short HEAD
+> git symbolic-ref --short HEAD
+> git symbolic-ref --short HEAD
+> git symbolic-ref --short HEAD
+> git symbolic-ref --short HEAD
+fatal: ref HEAD is not a symbolic ref
+> git rev-parse HEAD
+> git rev-parse master
+> git rev-parse master
+> git rev-parse master
+fatal: ref HEAD is not a symbolic ref
+> git rev-parse HEAD
+fatal: ref HEAD is not a symbolic ref
+> git rev-parse HEAD
+fatal: ref HEAD is not a symbolic ref
+> git rev-parse HEAD
+fatal: ref HEAD is not a symbolic ref
+> git rev-parse HEAD
+fatal: ref HEAD is not a symbolic ref
+> git rev-parse HEAD
+fatal: ref HEAD is not a symbolic ref
+> git rev-parse HEAD
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git rev-parse --symbolic-full-name master@{u}
+> git rev-parse --symbolic-full-name master@{u}
+> git rev-parse --symbolic-full-name master@{u}
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git rev-parse master
+> git rev-list --left-right master...refs/remotes/origin/master
+> git rev-list --left-right master...refs/remotes/origin/master
+> git rev-list --left-right master...refs/remotes/origin/master
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+> git rev-parse --symbolic-full-name master@{u}
+Failed to watch ref '/usr/local/google/home/juliepan/gerrit/gerrit/.git/modules/plugins%2fcommit-message-length-validator/refs/remotes/origin/master', is most likely packed.
+Error: ENOENT: no such file or directory, watch '/usr/local/google/home/juliepan/gerrit/gerrit/.git/modules/plugins%2fcommit-message-length-validator/refs/remotes/origin/master'
+	at FSWatcher.start (internal/fs/watchers.js:164:26)
+	at Object.watch (fs.js:1232:11)
+	at Object.t.watch (/usr/share/code/resources/app/extensions/git/dist/main.js:1:594639)
+	at T.updateTransientWatchers (/usr/share/code/resources/app/extensions/git/dist/main.js:1:98365)
+	at u.fire (/usr/share/code/resources/app/out/vs/workbench/services/extensions/node/extensionHostProcess.js:50:227)
+	at k.updateModelState (/usr/share/code/resources/app/extensions/git/dist/main.js:1:116241)
+> git rev-list --left-right master...refs/remotes/origin/master
+> git for-each-ref --format %(refname) %(objectname) --sort -committerdate
+> git remote --verbose
+Failed to watch ref '/usr/local/google/home/juliepan/gerrit/gerrit/.git/modules/plugins%2fcodemirror-editor/refs/remotes/origin/master', is most likely packed.
+Error: ENOENT: no such file or directory, watch '/usr/local/google/home/juliepan/gerrit/gerrit/.git/modules/plugins%2fcodemirror-editor/refs/remotes/origin/master'
+	at FSWatcher.start (internal/fs/watchers.js:164:26)
+	at Object.watch (fs.js:1232:11)
+	at Object.t.watch (/usr/share/code/resources/app/extensions/git/dist/main.js:1:594639)
+	at T.updateTransientWatchers (/usr/share/code/resources/app/extensions/git/dist/main.js:1:98365)
+	at u.fire (/usr/share/code/resources/app/out/vs/workbench/services/extensions/node/extensionHostProcess.js:50:227)
+	at k.updateModelState (/usr/share/code/resources/app/extensions/git/dist/main.js:1:116241)

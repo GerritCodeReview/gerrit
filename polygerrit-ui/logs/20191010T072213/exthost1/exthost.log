@@ -1,0 +1,36 @@
+[2019-10-10 07:22:15.930] [exthost] [info] extension host started
+[2019-10-10 07:22:15.947] [exthost] [info] ExtensionService#_doActivateExtension vscode.debug-auto-launch {"startup":true,"activationEvent":"*"}
+[2019-10-10 07:22:15.947] [exthost] [info] ExtensionService#loadCommonJSModule file:///usr/share/code/resources/app/extensions/debug-auto-launch/dist/extension
+[2019-10-10 07:22:15.950] [exthost] [info] ExtensionService#_doActivateExtension vscode.emmet {"startup":true,"activationEvent":"*"}
+[2019-10-10 07:22:15.950] [exthost] [info] ExtensionService#loadCommonJSModule file:///usr/share/code/resources/app/extensions/emmet/dist/extension
+[2019-10-10 07:22:15.997] [exthost] [info] ExtensionService#_doActivateExtension vscode.git {"startup":true,"activationEvent":"*"}
+[2019-10-10 07:22:15.997] [exthost] [info] ExtensionService#loadCommonJSModule file:///usr/share/code/resources/app/extensions/git/dist/main
+[2019-10-10 07:22:16.098] [exthost] [info] ExtensionService#_doActivateExtension evanm.g3 {"startup":true,"activationEvent":"*"}
+[2019-10-10 07:22:16.099] [exthost] [info] ExtensionService#loadCommonJSModule file:///usr/share/code/resources/app/extensions/google3/out/src/extension
+[2019-10-10 07:22:16.131] [exthost] [info] ExtensionService#_doActivateExtension vscode.merge-conflict {"startup":true,"activationEvent":"*"}
+[2019-10-10 07:22:16.131] [exthost] [info] ExtensionService#loadCommonJSModule file:///usr/share/code/resources/app/extensions/merge-conflict/dist/extension
+[2019-10-10 07:22:16.136] [exthost] [info] ExtensionService#_doActivateExtension emeraldwalk.RunOnSave {"startup":true,"activationEvent":"*"}
+[2019-10-10 07:22:16.137] [exthost] [info] ExtensionService#loadCommonJSModule file:///usr/local/google/home/juliepan/.vscode/extensions/emeraldwalk.runonsave-0.2.0/out/src/extension
+[2019-10-10 07:22:16.138] [exthost] [info] ExtensionService#_doActivateExtension vscodevim.vim {"startup":true,"activationEvent":"*"}
+[2019-10-10 07:22:16.138] [exthost] [info] ExtensionService#loadCommonJSModule file:///usr/local/google/home/juliepan/.vscode/extensions/vscodevim.vim-1.11.0/out/extension
+[2019-10-10 07:22:16.341] [exthost] [info] eager extensions activated
+[2019-10-10 07:22:36.625] [exthost] [info] extension host started
+[2019-10-10 07:22:36.637] [exthost] [info] ExtensionService#_doActivateExtension vscode.debug-auto-launch {"startup":true,"activationEvent":"*"}
+[2019-10-10 07:22:36.638] [exthost] [info] ExtensionService#loadCommonJSModule file:///usr/share/code/resources/app/extensions/debug-auto-launch/dist/extension
+[2019-10-10 07:22:36.641] [exthost] [info] ExtensionService#_doActivateExtension vscode.emmet {"startup":true,"activationEvent":"*"}
+[2019-10-10 07:22:36.641] [exthost] [info] ExtensionService#loadCommonJSModule file:///usr/share/code/resources/app/extensions/emmet/dist/extension
+[2019-10-10 07:22:36.687] [exthost] [info] ExtensionService#_doActivateExtension vscode.git {"startup":true,"activationEvent":"*"}
+[2019-10-10 07:22:36.688] [exthost] [info] ExtensionService#loadCommonJSModule file:///usr/share/code/resources/app/extensions/git/dist/main
+[2019-10-10 07:22:36.790] [exthost] [info] ExtensionService#_doActivateExtension evanm.g3 {"startup":true,"activationEvent":"*"}
+[2019-10-10 07:22:36.790] [exthost] [info] ExtensionService#loadCommonJSModule file:///usr/share/code/resources/app/extensions/google3/out/src/extension
+[2019-10-10 07:22:36.823] [exthost] [info] ExtensionService#_doActivateExtension vscode.merge-conflict {"startup":true,"activationEvent":"*"}
+[2019-10-10 07:22:36.823] [exthost] [info] ExtensionService#loadCommonJSModule file:///usr/share/code/resources/app/extensions/merge-conflict/dist/extension
+[2019-10-10 07:22:36.829] [exthost] [info] ExtensionService#_doActivateExtension emeraldwalk.RunOnSave {"startup":true,"activationEvent":"*"}
+[2019-10-10 07:22:36.829] [exthost] [info] ExtensionService#loadCommonJSModule file:///usr/local/google/home/juliepan/.vscode/extensions/emeraldwalk.runonsave-0.2.0/out/src/extension
+[2019-10-10 07:22:36.830] [exthost] [info] ExtensionService#_doActivateExtension vscodevim.vim {"startup":true,"activationEvent":"*"}
+[2019-10-10 07:22:36.830] [exthost] [info] ExtensionService#loadCommonJSModule file:///usr/local/google/home/juliepan/.vscode/extensions/vscodevim.vim-1.11.0/out/extension
+[2019-10-10 07:22:37.019] [exthost] [info] eager extensions activated
+[2019-10-10 07:22:41.876] [exthost] [info] ExtensionService#_doActivateExtension vscode.typescript-language-features {"startup":false,"activationEvent":"onLanguage:javascript"}
+[2019-10-10 07:22:41.876] [exthost] [info] ExtensionService#loadCommonJSModule file:///usr/share/code/resources/app/extensions/typescript-language-features/dist/extension
+[2019-10-10 07:22:41.958] [exthost] [info] ExtensionService#_doActivateExtension eg2.tslint {"startup":false,"activationEvent":"onLanguage:javascript"}
+[2019-10-10 07:22:41.958] [exthost] [info] ExtensionService#loadCommonJSModule file:///usr/local/google/home/juliepan/.vscode/extensions/eg2.tslint-1.0.44/out/extension

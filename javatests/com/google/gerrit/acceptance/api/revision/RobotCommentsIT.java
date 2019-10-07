@@ -31,6 +31,10 @@ import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.RobotCommentInput;
 import com.google.gerrit.extensions.client.Comment;
 import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.common.ChangeType;
+import com.google.gerrit.extensions.common.DiffInfo;
+import com.google.gerrit.extensions.common.DiffInfo.ContentEntry;
+import com.google.gerrit.extensions.common.DiffInfo.IntraLineStatus;
 import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.common.FixReplacementInfo;
 import com.google.gerrit.extensions.common.FixSuggestionInfo;
@@ -52,6 +56,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class RobotCommentsIT extends AbstractDaemonTest {
+
   private static final String FILE_NAME = "file_to_fix.txt";
   private static final String FILE_NAME2 = "another_file_to_fix.txt";
   private static final String FILE_CONTENT =
@@ -980,7 +985,21 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     List<String> fixIds = getFixIds(robotCommentInfos);
     String fixId = Iterables.getOnlyElement(fixIds);
 
-    gApi.changes().id(changeId).current().getFixPreview(fixId);
+    Map<String, DiffInfo> fixPreview = gApi.changes().id(changeId).current().getFixPreview(fixId);
+    assertThat(fixPreview).hasSize(1);
+    assertThat(fixPreview).containsKey(FILE_NAME);
+
+    DiffInfo diff = fixPreview.get(FILE_NAME);
+    assertThat(diff.intralineStatus).isEqualTo(IntraLineStatus.OK);
+    assertThat(diff.webLinks).isNull();
+    assertThat(diff.binary).isNull();
+    assertThat(diff.diffHeader).isNull();
+    assertThat(diff.changeType).isEqualTo(ChangeType.MODIFIED);
+    assertThat(diff.metaA).isNotNull();
+    assertThat(diff.metaB).isNotNull();
+    List<ContentEntry> content = diff.content;
+    assertThat(content).isNotNull();
+    assertThat(content).hasSize(3);
   }
 
   private static RobotCommentInput createRobotCommentInputWithMandatoryFields() {

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8086b881_64f2be88",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-10-07T11:23:26Z",
+      "side": 0,
+      "message": "Do you understand what these data attributes are used for?",
+      "revId": "e6ed0c4a1e7387c898cb67070184f82398339380",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c3625228_ae4a6d80",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-10-07T11:23:26Z",
+      "side": 1,
+      "message": "I would always provide some reasoning - even if it\u0027s just something like\n\n\"it adds clutter and does not serve any obvious purpose\".\n\nWhen looking at the history later, the \"what\" you did can usually always be determined from looking at the diff. What is unrecoverably lost, unless you document it, is the \"why\".",
+      "revId": "b1ad26bfe682f8a168f92b12acfcc37235e97f5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -49,6 +49,7 @@ import com.google.gerrit.server.submit.ChangeAlreadyMergedException;
 import com.google.gerrit.testing.FakeEmailSender.Message;
 import com.google.gerrit.testing.TestTimeUtil;
 import com.google.inject.Inject;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import org.eclipse.jgit.lib.ObjectId;
@@ -310,6 +311,62 @@ public class CreateChangeIT extends AbstractDaemonTest {
     changeInTwoBranches("branchA", "shared.txt", "branchB", "shared.txt");
     ChangeInput in = newMergeChangeInput("branchA", "branchB", "ours");
     assertCreateSucceeds(in);
+  }
+
+  @Test
+  public void createMergeChangeFailsWithConflictIfThereAreTooManyCommonPredecessors()
+      throws Exception {
+    // Create an initial commit in master.
+    Result initialCommit =
+        pushFactory
+            .create(user.newIdent(), testRepo, "initial commit", "readme.txt", "initial commit")
+            .to("refs/heads/master");
+    initialCommit.assertOkStatus();
+
+    String file = "shared.txt";
+    List<RevCommit> parents = new ArrayList<>();
+    // RecursiveMerger#MAX_BASES = 200, cannot use RecursiveMerger#MAX_BASES as it is not static.
+    int maxBases = 200;
+
+    // Create more than RecursiveMerger#MAX_BASES base commits.
+    for (int i = 1; i <= maxBases + 1; i++) {
+      parents.add(
+          testRepo
+              .commit()
+              .message("Base " + i)
+              .add(file, "content " + i)
+              .parent(initialCommit.getCommit())
+              .create());
+    }
+
+    // Create 2 branches.
+    String branchA = "branchA";
+    String branchB = "branchB";
+    createBranch(new Branch.NameKey(project, branchA));
+    createBranch(new Branch.NameKey(project, branchB));
+
+    // Push an octopus merge to both of the branches.
+    Result octopusA =
+        pushFactory
+            .create(user.newIdent(), testRepo)
+            .setParents(parents)
+            .to("refs/heads/" + branchA);
+    octopusA.assertOkStatus();
+
+    Result octopusB =
+        pushFactory
+            .create(user.newIdent(), testRepo)
+            .setParents(parents)
+            .to("refs/heads/" + branchB);
+    octopusB.assertOkStatus();
+
+    // Creating a merge commit for the 2 octopus commits fails, because they have more than
+    // RecursiveMerger#MAX_BASES common predecessors.
+    assertCreateFails(
+        newMergeChangeInput("branchA", "branchB", ""),
+        ResourceConflictException.class,
+        "Cannot create merge commit: No merge base could be determined."
+            + " Reason=TOO_MANY_MERGE_BASES.");
   }
 
   @Test

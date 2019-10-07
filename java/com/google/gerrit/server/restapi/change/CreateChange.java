@@ -81,6 +81,8 @@ import java.util.List;
 import java.util.TimeZone;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.InvalidObjectIdException;
+import org.eclipse.jgit.errors.NoMergeBaseException;
+import org.eclipse.jgit.errors.NoMergeBaseException.MergeBaseFailureReason;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
@@ -456,15 +458,24 @@ public class CreateChange
     String mergeStrategy =
         firstNonNull(Strings.emptyToNull(merge.strategy), mergeUtil.mergeStrategyName());
 
-    return MergeUtil.createMergeCommit(
-        oi,
-        repo.getConfig(),
-        mergeTip,
-        sourceCommit,
-        mergeStrategy,
-        authorIdent,
-        commitMessage,
-        rw);
+    try {
+      return MergeUtil.createMergeCommit(
+          oi,
+          repo.getConfig(),
+          mergeTip,
+          sourceCommit,
+          mergeStrategy,
+          authorIdent,
+          commitMessage,
+          rw);
+    } catch (NoMergeBaseException e) {
+      if (MergeBaseFailureReason.TOO_MANY_MERGE_BASES == e.getReason()
+          || MergeBaseFailureReason.CONFLICTS_DURING_MERGE_BASE_CALCULATION == e.getReason()) {
+        throw new ResourceConflictException(
+            String.format("Cannot create merge commit: %s", e.getMessage()), e);
+      }
+      throw e;
+    }
   }
 
   private static ObjectId insert(ObjectInserter inserter, CommitBuilder commit) throws IOException {

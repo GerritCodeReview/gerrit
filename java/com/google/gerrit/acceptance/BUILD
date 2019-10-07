@@ -90,6 +90,7 @@ java_library2(
         "//java/com/google/gerrit/pgm:daemon",
         "//java/com/google/gerrit/pgm/http/jetty",
         "//java/com/google/gerrit/pgm/util",
+        "//java/com/google/gerrit/server/fixes/testing",
         "//java/com/google/gerrit/server/group/testing",
         "//java/com/google/gerrit/server/project/testing:project-test-util",
         "//java/com/google/gerrit/testing:gerrit-test-util",

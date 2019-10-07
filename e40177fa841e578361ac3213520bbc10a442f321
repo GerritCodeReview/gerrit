@@ -87,6 +87,24 @@
       "revId": "e40177fa841e578361ac3213520bbc10a442f321",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dd6f3983_91188b44",
+        "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-07T20:24:06Z",
+      "side": 1,
+      "message": "ya added that in previous patchset already",
+      "parentUuid": "10d07ff7_98d87989",
+      "revId": "e40177fa841e578361ac3213520bbc10a442f321",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

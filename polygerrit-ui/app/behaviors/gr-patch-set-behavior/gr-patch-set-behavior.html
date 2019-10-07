@@ -136,6 +136,8 @@ limitations under the License.
      *   * num {number} The number identifying the patch set
      *   * desc {!string} Optional patch set description
      *   * wip {boolean} If true, this patch set was never subject to review.
+     *   * created {string} the date when patch set was created
+     *   * sha {string} hash of the commit
      *
      * The wip property is determined by the change's current work_in_progress
      * property and its log of change messages.
@@ -148,14 +150,19 @@ limitations under the License.
       if (!change) { return []; }
       let patchNums = [];
       if (change.revisions && Object.keys(change.revisions).length) {
+        const revisions = Object.keys(change.revisions).map(sha => {
+          return Object.assign({sha}, change.revisions[sha]);
+        });
         patchNums =
-          Gerrit.PatchSetBehavior.sortRevisions(Object.values(change.revisions))
+          Gerrit.PatchSetBehavior.sortRevisions(revisions)
               .map(e => {
                 // TODO(kaspern): Mark which patchset an edit was made on, if an
                 // edit exists -- perhaps with a temporary description.
                 return {
                   num: e._number,
                   desc: e.description,
+                  sha: e.sha,
+                  created: e.date,
                 };
               });
       }

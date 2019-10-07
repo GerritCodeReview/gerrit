@@ -29,6 +29,9 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.server.change.ChangeKindCache;
 import com.google.gerrit.server.change.LabelNormalizer;
+import com.google.gerrit.server.logging.Metadata;
+import com.google.gerrit.server.logging.TraceContext;
+import com.google.gerrit.server.logging.TraceContext.TraceTimer;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
@@ -70,7 +73,13 @@ public class ApprovalInference {
   Iterable<PatchSetApproval> forPatchSet(
       ChangeNotes notes, PatchSet.Id psId, @Nullable RevWalk rw, @Nullable Config repoConfig) {
     ProjectState project;
-    try {
+    try (TraceTimer traceTimer =
+        TraceContext.newTimer(
+            "Computing labels for patch set",
+            Metadata.builder()
+                .changeId(notes.load().getChangeId().get())
+                .patchSetId(psId.get())
+                .build())) {
       project = projectCache.checkedGet(notes.getProjectName());
       Collection<PatchSetApproval> approvals =
           getForPatchSetWithoutNormalization(notes, project, psId, rw, repoConfig);

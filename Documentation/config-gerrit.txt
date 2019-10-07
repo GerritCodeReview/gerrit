@@ -3044,6 +3044,30 @@ Password used to connect to Elasticsearch.
 +
 Not set by default.
 
+[[event]]
+=== Section event
+
+[[event.payload.listChangeOptions]]events.payload.listChangeOptions::
++
+List of options that Gerrit applies when rendering the payload of an
+internal event.
++
+Depending on the setup, these events might get serialized using stream
+events.
++
+This can be set to the set of minimal options that consumers of Gerrit's
+events need. A minimal set would be (`SKIP_MERGEABLE`,`SKIP_DIFFSTAT`).
++
+Every option that gets added here will have a performance impact. The
+general recommendation is therefore to set this to a minimal set of
+required options.
++
+Defaults to all available options minus `CHANGE_ACTIONS`,
+`CURRENT_ACTIONS` and `CHECK`. This is a rich default to make sure the
+config is backwards compatible with what the default was before the config
+was added.
+
+
 [[ldap]]
 === Section ldap
 

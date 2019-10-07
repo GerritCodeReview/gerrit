@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.extensions.events;
 
+import static com.google.common.collect.ImmutableSet.toImmutableSet;
+
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.google.gerrit.extensions.client.ListChangesOption;
@@ -29,6 +31,7 @@ import com.google.gerrit.server.GpgException;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.change.ChangeJson;
 import com.google.gerrit.server.change.RevisionJson;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -36,45 +39,58 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
+import org.eclipse.jgit.lib.Config;
 
+/**
+ * Formats change and revision info objects to serve as payload for Gerrit events.
+ *
+ * <p>Uses configurable options ({@code event.payload.listChangeOptions}) to decide which fields to
+ * populate.
+ */
 @Singleton
 public class EventUtil {
-  private static final ImmutableSet<ListChangesOption> CHANGE_OPTIONS;
+  private static final ImmutableSet<ListChangesOption> DEFAULT_CHANGE_OPTIONS;
 
   static {
     EnumSet<ListChangesOption> opts = EnumSet.allOf(ListChangesOption.class);
-
     // Some options, like actions, are expensive to compute because they potentially have to walk
     // lots of history and inspect lots of other changes.
     opts.remove(ListChangesOption.CHANGE_ACTIONS);
     opts.remove(ListChangesOption.CURRENT_ACTIONS);
-
     // CHECK suppresses some exceptions on corrupt changes, which is not appropriate for passing
     // through the event system as we would rather let them propagate.
     opts.remove(ListChangesOption.CHECK);
-
-    CHANGE_OPTIONS = Sets.immutableEnumSet(opts);
+    DEFAULT_CHANGE_OPTIONS = Sets.immutableEnumSet(opts);
   }
 
   private final ChangeData.Factory changeDataFactory;
   private final ChangeJson.Factory changeJsonFactory;
   private final RevisionJson.Factory revisionJsonFactory;
+  private final ImmutableSet<ListChangesOption> changeOptions;
 
   @Inject
   EventUtil(
       ChangeJson.Factory changeJsonFactory,
       RevisionJson.Factory revisionJsonFactory,
-      ChangeData.Factory changeDataFactory) {
+      ChangeData.Factory changeDataFactory,
+      @GerritServerConfig Config gerritConfig) {
     this.changeDataFactory = changeDataFactory;
     this.changeJsonFactory = changeJsonFactory;
     this.revisionJsonFactory = revisionJsonFactory;
+
+    String[] config = gerritConfig.getStringList("event", "payload", "listChangeOptions");
+    this.changeOptions =
+        config.length == 0
+            ? DEFAULT_CHANGE_OPTIONS
+            : Arrays.stream(config).map(ListChangesOption::valueOf).collect(toImmutableSet());
   }
 
   public ChangeInfo changeInfo(Change change) {
-    return changeJsonFactory.create(CHANGE_OPTIONS).format(change);
+    return changeJsonFactory.create(changeOptions).format(change);
   }
 
   public RevisionInfo revisionInfo(Project project, PatchSet ps)
@@ -85,7 +101,7 @@ public class EventUtil {
   public RevisionInfo revisionInfo(Project.NameKey project, PatchSet ps)
       throws PatchListNotAvailableException, GpgException, IOException, PermissionBackendException {
     ChangeData cd = changeDataFactory.create(project, ps.id().changeId());
-    return revisionJsonFactory.create(CHANGE_OPTIONS).getRevisionInfo(cd, ps);
+    return revisionJsonFactory.create(changeOptions).getRevisionInfo(cd, ps);
   }
 
   public AccountInfo accountInfo(AccountState accountState) {

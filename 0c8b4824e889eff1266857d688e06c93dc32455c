@@ -198,6 +198,24 @@
       "revId": "0c8b4824e889eff1266857d688e06c93dc32455c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8e7a3cd3_d1bdfe31",
+        "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-07T21:02:05Z",
+      "side": 1,
+      "message": "https://github.com/google/closure-library/blob/master/closure/goog/dom/annotate.js",
+      "parentUuid": "7d3a3225_c41ad9cd",
+      "revId": "0c8b4824e889eff1266857d688e06c93dc32455c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

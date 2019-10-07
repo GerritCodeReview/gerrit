@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "f1c6cc31_f8d33afa",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-07T07:34:45Z",
+      "side": 1,
+      "message": "what if `account` is undefined ? :)\n\nmaybe similar to existing undefined checks, we always check for undefined before main logic, and return either the default value (if defined in properties), or return a proper value based on the handling logic ?",
+      "revId": "2402c29371e351b908bb1d1553e645b4ce361470",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "61c80c2b_e932ce28",
         "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
         "patchSetId": 5
@@ -37,6 +54,30 @@
       "side": 1,
       "message": "return \u0027\u0027 is fine.",
       "parentUuid": "61c80c2b_e932ce28",
+      "range": {
+        "startLine": 356,
+        "startChar": 47,
+        "endLine": 356,
+        "endChar": 57
+      },
+      "revId": "2402c29371e351b908bb1d1553e645b4ce361470",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "37aac450_dd7e9742",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-07T07:34:45Z",
+      "side": 1,
+      "message": "`\u0027\u0027` is better actually as the return type should be consistent within a function (unless you need to return multiple possible types)",
+      "parentUuid": "a059920b_148ee702",
       "range": {
         "startLine": 356,
         "startChar": 47,
@@ -93,6 +134,53 @@
       "revId": "2402c29371e351b908bb1d1553e645b4ce361470",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "95fcb56c_6f1af9b7",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 528,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-07T07:34:45Z",
+      "side": 1,
+      "message": "personally I will suggest to keep the return type in consistent if possible. And you can return `undefined` if the return is kind of optional (and that matches with the expected behavior in polymer 1: value will be undefined if compute not resolved yet)",
+      "parentUuid": "4f3a2fba_2044e18f",
+      "range": {
+        "startLine": 528,
+        "startChar": 6,
+        "endLine": 528,
+        "endChar": 60
+      },
+      "revId": "2402c29371e351b908bb1d1553e645b4ce361470",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3755bdbc_9288c98d",
+        "filename": "polygerrit-ui/app/elements/change/gr-download-dialog/gr-download-dialog.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-07T07:34:45Z",
+      "side": 1,
+      "message": "maybe just check for all the arguments instead ? otherwise, you may still need to handle undefined cases in related methods, `changeBaseURL` in this case. \n\nDitto in other cases.",
+      "range": {
+        "startLine": 121,
+        "startChar": 0,
+        "endLine": 121,
+        "endChar": 29
+      },
+      "revId": "2402c29371e351b908bb1d1553e645b4ce361470",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     },
     {
       "key": {

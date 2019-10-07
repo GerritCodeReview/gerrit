@@ -24,8 +24,8 @@ limitations under the License.
 <script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
 <script src="/bower_components/web-component-tester/browser.js"></script>
 <link rel="import" href="../../../test/common-test-setup.html"/>
+<script src="../../../scripts/util.js"></script>
 <script src="gr-annotation.js"></script>
-
 
 <script>void(0);</script>
 
@@ -169,27 +169,6 @@ limitations under the License.
           layer4[1].textContent +
           layer4[2].textContent,
           layers[3]);
-    });
-
-    test('splitTextNode', () => {
-      const helloString = 'hello';
-      const asciiString = 'ASCII';
-      const unicodeString = 'Unic💢de';
-
-      let node;
-      let tail;
-
-      // Non-unicode path:
-      node = document.createTextNode(helloString + asciiString);
-      tail = GrAnnotation.splitTextNode(node, helloString.length);
-      assert(node.textContent, helloString);
-      assert(tail.textContent, asciiString);
-
-      // Unicdoe path:
-      node = document.createTextNode(helloString + unicodeString);
-      tail = GrAnnotation.splitTextNode(node, helloString.length);
-      assert(node.textContent, helloString);
-      assert(tail.textContent, unicodeString);
     });
   });
 </script>

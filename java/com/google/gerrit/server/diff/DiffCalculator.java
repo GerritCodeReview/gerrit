@@ -99,7 +99,7 @@ public class DiffCalculator {
     return result;
   }
 
-  public Content calculateDiffContent(PatchScript ps) {
+  private Content calculateDiffContent(PatchScript ps) {
     ContentCollector contentCollector = new ContentCollector(ps);
     Set<Edit> editsDueToRebase = ps.getEditsDueToRebase();
     for (Edit edit : ps.getEdits()) {

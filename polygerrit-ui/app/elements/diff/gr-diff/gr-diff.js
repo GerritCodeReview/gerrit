@@ -715,6 +715,7 @@
         stylesToUpdate['--font-size'] = prefs.font_size + 'px';
       }
 
+
       this.updateStyles(stylesToUpdate);
 
       if (this.diff && !this.noRenderOnPrefsChange) {

@@ -131,9 +131,10 @@
       const dropdownContent = [];
       for (const patch of availablePatches) {
         const patchNum = patch.num;
+        const sha = patch.sha.substring(0, 10);
         const entry = this._createDropdownEntry(
             patchNum, patchNum === 'edit' ? '' : 'Patchset ', _sortedRevisions,
-            changeComments);
+            changeComments, sha);
         dropdownContent.push(Object.assign({}, entry, {
           disabled: this._computeRightDisabled(basePatchNum, patchNum,
               _sortedRevisions),
@@ -142,12 +143,20 @@
       return dropdownContent;
     },
 
-    _createDropdownEntry(patchNum, prefix, sortedRevisions, changeComments) {
+    _computeText(patchNum, prefix, changeComments, opt_sha) {
+      return `${prefix}${patchNum}` +
+        `${this._computePatchSetCommentsString(changeComments, patchNum)}`
+          + (opt_sha ? ` | ${opt_sha}` : '');
+    },
+
+     /**
+     * @param {string=} opt_sha hash of the commit
+     */
+    _createDropdownEntry(patchNum, prefix, sortedRevisions, changeComments,
+        opt_sha) {
       const entry = {
         triggerText: `${prefix}${patchNum}`,
-        text: `${prefix}${patchNum}` +
-            `${this._computePatchSetCommentsString(
-                changeComments, patchNum)}`,
+        text: this._computeText(patchNum, prefix, changeComments, opt_sha),
         mobileText: this._computeMobileText(patchNum, changeComments,
             sortedRevisions),
         bottomText: `${this._computePatchSetDescription(

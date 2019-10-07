@@ -477,6 +477,13 @@
         detail: this._getEventPayload(),
       }));
     },
+    _handleShowFix() {
+      this.dispatchEvent(new CustomEvent('open-fix-preview', {
+        bubbles: true,
+        composed: true,
+        detail: this._getEventPayload(),
+      }));
+    },
 
     _handleDiscard(e) {
       e.preventDefault();

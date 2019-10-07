@@ -1912,6 +1912,16 @@
       });
     },
 
+    getRobotCommentFixPreview(changeNum, patchNum, fixId) {
+      return this._getChangeURLAndFetch({
+        changeNum,
+        patchNum,
+        endpoint: `/fixes/${encodeURIComponent(fixId)}/preview`,
+        reportEndpointAsId: true,
+      });
+    },
+
+
     // Deprecated, prefer to use putChangeCommitMessage instead.
     saveChangeCommitMessageEdit(changeNum, message) {
       return this._getChangeURLAndSend({

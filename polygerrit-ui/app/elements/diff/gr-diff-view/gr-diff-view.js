@@ -347,6 +347,9 @@
       this.$.diffHost.displayLine = true;
       this.$.cursor.moveUp();
     },
+    _onOpenFixPreview(e) {
+      this.$.applyFixDialog.open(e);
+    },
 
     _handleNextLineOrFileWithComments(e) {
       if (this.shouldSuppressKeyboardShortcut(e)) { return; }

@@ -24,18 +24,18 @@ import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.common.data.SubmitRequirement;
+import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.BranchNameKey;
+import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.ChangeMessage;
+import com.google.gerrit.entities.Comment;
+import com.google.gerrit.entities.Patch;
+import com.google.gerrit.entities.PatchSet;
+import com.google.gerrit.entities.PatchSetApproval;
+import com.google.gerrit.entities.UserIdentity;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.index.IndexConfig;
-import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.BranchNameKey;
-import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.ChangeMessage;
-import com.google.gerrit.reviewdb.client.Comment;
-import com.google.gerrit.reviewdb.client.Patch;
-import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.client.PatchSetApproval;
-import com.google.gerrit.reviewdb.client.UserIdentity;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.account.AccountCache;
@@ -68,7 +68,6 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -476,7 +475,7 @@ public class EventFactory {
         p.parents.add(parent.name());
       }
 
-      UserIdentity author = toUserIdentity(c.getAuthorIdent());
+      UserIdentity author = emails.toUserIdentity(c.getAuthorIdent());
       if (author.getAccount() == null) {
         p.author = new AccountAttribute();
         p.author.email = author.getEmail();
@@ -502,26 +501,6 @@ public class EventFactory {
       logger.atSevere().withCause(e).log("Cannot get size information for %s.", pId);
     }
     return p;
-  }
-
-  // TODO: The same method exists in PatchSetInfoFactory, find a common place
-  // for it
-  private UserIdentity toUserIdentity(PersonIdent who) throws IOException {
-    UserIdentity u = new UserIdentity();
-    u.setName(who.getName());
-    u.setEmail(who.getEmailAddress());
-    u.setDate(new Timestamp(who.getWhen().getTime()));
-    u.setTimeZone(who.getTimeZoneOffset());
-
-    // If only one account has access to this email address, select it
-    // as the identity of the user.
-    //
-    Set<Account.Id> a = emails.getAccountFor(u.getEmail());
-    if (a.size() == 1) {
-      u.setAccount(a.iterator().next());
-    }
-
-    return u;
   }
 
   public void addApprovals(

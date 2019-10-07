@@ -24,7 +24,6 @@
 
   Polymer({
     is: 'gr-change-list',
-    _legacyUndefinedCheck: true,
 
     /**
      * Fired when next page key shortcut was pressed.
@@ -179,6 +178,7 @@
     },
 
     _computeColspan(changeTableColumns, labelNames) {
+      if (!changeTableColumns || !labelNames) return;
       return changeTableColumns.length + labelNames.length +
           NUMBER_FIXED_COLUMNS;
     },
@@ -250,7 +250,7 @@
 
     _computeItemHighlight(account, change) {
       // Do not show the assignee highlight if the change is not open.
-      if (!change.assignee ||
+      if (!change ||!change.assignee ||
           !account ||
           CLOSED_STATUS.indexOf(change.status) !== -1) {
         return false;
@@ -365,9 +365,10 @@
 
     _sectionsChanged() {
       // Flush DOM operations so that the list item elements will be loaded.
-      Polymer.dom.flush();
-      this.$.cursor.stops = this._getListItems();
-      this.$.cursor.moveToStart();
+      Polymer.RenderStatus.afterNextRender(this, () => {
+        this.$.cursor.stops = this._getListItems();
+        this.$.cursor.moveToStart();
+      });
     },
 
     _isOutgoing(section) {

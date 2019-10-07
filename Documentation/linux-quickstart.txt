@@ -29,10 +29,10 @@ From the Linux machine on which you want to install Gerrit:
 . Download the desired Gerrit archive.
 
 To view previous archives, see
-link:https://gerrit-releases.storage.googleapis.com/index.html[Gerrit Code Review: Releases]. The steps below install Gerrit 2.15.1:
+link:https://gerrit-releases.storage.googleapis.com/index.html[Gerrit Code Review: Releases]. The steps below install Gerrit 3.0.3:
 
 ....
-wget https://www.gerritcodereview.com/download/gerrit-2.15.1.war
+wget https://gerrit-releases.storage.googleapis.com/gerrit-3.0.3.war
 ....
 
 NOTE: To build and install Gerrit from the source files, see

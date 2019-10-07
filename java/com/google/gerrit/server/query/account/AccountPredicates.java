@@ -16,14 +16,14 @@ package com.google.gerrit.server.query.account;
 
 import com.google.common.collect.Lists;
 import com.google.common.primitives.Ints;
+import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.query.IndexPredicate;
 import com.google.gerrit.index.query.Matchable;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryBuilder;
-import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.index.account.AccountField;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -44,7 +44,7 @@ public class AccountPredicates {
     List<Predicate<AccountState>> preds = Lists.newArrayListWithCapacity(3);
     Integer id = Ints.tryParse(query);
     if (id != null) {
-      preds.add(id(Account.id(id)));
+      preds.add(id(schema, Account.id(id)));
     }
     if (canSeeSecondaryEmails) {
       preds.add(equalsNameIncludingSecondaryEmails(query));
@@ -64,9 +64,11 @@ public class AccountPredicates {
     return Predicate.or(preds);
   }
 
-  public static Predicate<AccountState> id(Account.Id accountId) {
+  public static Predicate<AccountState> id(Schema<AccountState> schema, Account.Id accountId) {
     return new AccountPredicate(
-        AccountField.ID, AccountQueryBuilder.FIELD_ACCOUNT, accountId.toString());
+        schema.useLegacyNumericFields() ? AccountField.ID : AccountField.ID_STR,
+        AccountQueryBuilder.FIELD_ACCOUNT,
+        accountId.toString());
   }
 
   public static Predicate<AccountState> emailIncludingSecondaryEmails(String email) {

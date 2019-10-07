@@ -13,7 +13,7 @@
 // limitations under the License.
 package com.google.gerrit.server.events;
 
-import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.IdentifiedUser;
 import org.eclipse.jgit.transport.ReceiveCommand;
 

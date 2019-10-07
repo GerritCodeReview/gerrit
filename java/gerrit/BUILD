@@ -6,11 +6,11 @@ java_library(
     visibility = ["//visibility:public"],
     deps = [
         "//java/com/google/gerrit/common:server",
+        "//java/com/google/gerrit/entities",
         "//java/com/google/gerrit/extensions:api",
-        "//java/com/google/gerrit/reviewdb:server",
         "//java/com/google/gerrit/server",
+        "//lib:jgit",
         "//lib/flogger:api",
-        "//lib/jgit/org.eclipse.jgit:jgit",
         "//lib/prolog:runtime",
         "@guava//jar",
     ],

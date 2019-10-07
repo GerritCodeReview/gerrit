@@ -58,7 +58,7 @@ limitations under the License.
       stub('gr-endpoint-decorator', {
         _import: sandbox.stub().returns(Promise.resolve()),
       });
-      Gerrit._resetPlugins();
+      Gerrit._testOnly_resetPlugins();
       container = fixture('basic');
       Gerrit.install(p => plugin = p, '0.1', 'http://some/plugin/url.html');
       // Decoration

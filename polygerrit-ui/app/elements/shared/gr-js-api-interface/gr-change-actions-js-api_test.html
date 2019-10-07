@@ -54,7 +54,7 @@ breaking changes to gr-change-actions won’t be noticed.
 
     suite('early init', () => {
       setup(() => {
-        Gerrit._resetPlugins();
+        Gerrit._testOnly_resetPlugins();
         Gerrit.install(p => { plugin = p; }, '0.1',
             'http://test.com/plugins/testplugin/static/test.js');
         // Mimic all plugins loaded.
@@ -76,7 +76,7 @@ breaking changes to gr-change-actions won’t be noticed.
 
     suite('normal init', () => {
       setup(() => {
-        Gerrit._resetPlugins();
+        Gerrit._testOnly_resetPlugins();
         element = fixture('basic');
         sinon.stub(element, '_editStatusChanged');
         element.change = {};

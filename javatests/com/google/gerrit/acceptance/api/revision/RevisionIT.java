@@ -22,11 +22,11 @@ import static com.google.gerrit.acceptance.PushOneCommit.PATCH;
 import static com.google.gerrit.acceptance.PushOneCommit.PATCH_FILE_ONLY;
 import static com.google.gerrit.acceptance.PushOneCommit.SUBJECT;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
+import static com.google.gerrit.entities.Patch.COMMIT_MSG;
+import static com.google.gerrit.entities.Patch.MERGE_LIST;
 import static com.google.gerrit.extensions.client.ListChangesOption.ALL_REVISIONS;
 import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LABELS;
 import static com.google.gerrit.git.ObjectIds.abbreviateName;
-import static com.google.gerrit.reviewdb.client.Patch.COMMIT_MSG;
-import static com.google.gerrit.reviewdb.client.Patch.MERGE_LIST;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -40,6 +40,8 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.ListMultimap;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.ExtensionRegistry;
+import com.google.gerrit.acceptance.ExtensionRegistry.Registration;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.TestAccount;
@@ -47,6 +49,11 @@ import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.data.Permission;
+import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.BranchNameKey;
+import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.PatchSetApproval;
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.CherryPickInput;
 import com.google.gerrit.extensions.api.changes.DraftApi;
@@ -75,8 +82,6 @@ import com.google.gerrit.extensions.common.MergeableInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.common.WebLinkInfo;
 import com.google.gerrit.extensions.events.ChangeIndexedListener;
-import com.google.gerrit.extensions.registration.DynamicSet;
-import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
@@ -86,10 +91,6 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.extensions.webui.PatchSetWebLink;
-import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.BranchNameKey;
-import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.restapi.change.GetRevisionActions;
@@ -117,11 +118,10 @@ import org.eclipse.jgit.transport.RefSpec;
 import org.junit.Test;
 
 public class RevisionIT extends AbstractDaemonTest {
-  @Inject private DynamicSet<ChangeIndexedListener> changeIndexedListeners;
-  @Inject private DynamicSet<PatchSetWebLink> patchSetLinks;
   @Inject private GetRevisionActions getRevisionActions;
   @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
+  @Inject private ExtensionRegistry extensionRegistry;
 
   @Test
   public void reviewTriplet() throws Exception {
@@ -975,6 +975,42 @@ public class RevisionIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void cherryPickToNonExistingBranch() throws Exception {
+    PushOneCommit.Result result = createChange();
+
+    CherryPickInput input = new CherryPickInput();
+    input.message = "foo bar";
+    input.destination = "non-existing";
+    // TODO(ekempin): This should rather result in an UnprocessableEntityException.
+    BadRequestException thrown =
+        assertThrows(
+            BadRequestException.class,
+            () -> gApi.changes().id(result.getChangeId()).current().cherryPick(input));
+    assertThat(thrown)
+        .hasMessageThat()
+        .isEqualTo(
+            String.format("Branch %s does not exist.", RefNames.REFS_HEADS + input.destination));
+  }
+
+  @Test
+  public void cherryPickToNonExistingBaseCommit() throws Exception {
+    createBranch(BranchNameKey.create(project, "foo"));
+    PushOneCommit.Result result = createChange();
+
+    CherryPickInput input = new CherryPickInput();
+    input.message = "foo bar";
+    input.destination = "foo";
+    input.base = "deadbeefdeadbeefdeadbeefdeadbeefdeadbeef";
+    UnprocessableEntityException thrown =
+        assertThrows(
+            UnprocessableEntityException.class,
+            () -> gApi.changes().id(result.getChangeId()).current().cherryPick(input));
+    assertThat(thrown)
+        .hasMessageThat()
+        .isEqualTo(String.format("Base %s doesn't exist", input.base));
+  }
+
+  @Test
   public void canRebase() throws Exception {
     PushOneCommit push = pushFactory.create(admin.newIdent(), testRepo);
     PushOneCommit.Result r1 = push.to("refs/for/master");
@@ -1079,25 +1115,22 @@ public class RevisionIT extends AbstractDaemonTest {
 
     // Using the API returns the correct value, and reindexes as well.
     CountDownLatch reindexed = new CountDownLatch(1);
-    RegistrationHandle handle =
-        changeIndexedListeners.add(
-            "gerrit",
-            new ChangeIndexedListener() {
-              @Override
-              public void onChangeIndexed(String projectName, int id) {
-                if (id == id2.get()) {
-                  reindexed.countDown();
-                }
-              }
+    ChangeIndexedListener listener =
+        new ChangeIndexedListener() {
+          @Override
+          public void onChangeIndexed(String projectName, int id) {
+            if (id == id2.get()) {
+              reindexed.countDown();
+            }
+          }
 
-              @Override
-              public void onChangeDeleted(int id) {}
-            });
-    try {
+          @Override
+          public void onChangeDeleted(int id) {}
+        };
+
+    try (Registration registration = extensionRegistry.newRegistration().add(listener)) {
       assertMergeable(r2.getChangeId(), true);
       reindexed.await();
-    } finally {
-      handle.remove();
     }
 
     List<ChangeInfo> changes = search.call();
@@ -1315,10 +1348,14 @@ public class RevisionIT extends AbstractDaemonTest {
   @Test
   public void commit() throws Exception {
     WebLinkInfo expectedWebLinkInfo = new WebLinkInfo("foo", "imageUrl", "url");
-    RegistrationHandle handle =
-        patchSetLinks.add("gerrit", (projectName, commit) -> expectedWebLinkInfo);
-
-    try {
+    PatchSetWebLink link =
+        new PatchSetWebLink() {
+          @Override
+          public WebLinkInfo getPatchSetWebLink(String projectName, String commit) {
+            return expectedWebLinkInfo;
+          }
+        };
+    try (Registration registration = extensionRegistry.newRegistration().add(link)) {
       PushOneCommit.Result r = createChange();
       RevCommit c = r.getCommit();
 
@@ -1340,8 +1377,6 @@ public class RevisionIT extends AbstractDaemonTest {
       assertThat(webLinkInfo.imageUrl).isEqualTo(expectedWebLinkInfo.imageUrl);
       assertThat(webLinkInfo.url).isEqualTo(expectedWebLinkInfo.url);
       assertThat(webLinkInfo.target).isEqualTo(expectedWebLinkInfo.target);
-    } finally {
-      handle.remove();
     }
   }
 

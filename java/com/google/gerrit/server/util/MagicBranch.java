@@ -16,7 +16,7 @@ package com.google.gerrit.server.util;
 
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.Capable;
-import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.entities.Project;
 import java.io.IOException;
 import java.util.List;
 import org.eclipse.jgit.lib.Ref;
@@ -26,28 +26,19 @@ public final class MagicBranch {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public static final String NEW_CHANGE = "refs/for/";
-  // TODO(xchangcheng): remove after 'repo' supports private/wip changes.
-  public static final String NEW_DRAFT_CHANGE = "refs/drafts/";
 
   /** Extracts the destination from a ref name */
   public static String getDestBranchName(String refName) {
-    String magicBranch = NEW_CHANGE;
-    if (refName.startsWith(NEW_DRAFT_CHANGE)) {
-      magicBranch = NEW_DRAFT_CHANGE;
-    }
-    return refName.substring(magicBranch.length());
+    return refName.substring(NEW_CHANGE.length());
   }
 
   /** Checks if the supplied ref name is a magic branch */
   public static boolean isMagicBranch(String refName) {
-    return refName.startsWith(NEW_DRAFT_CHANGE) || refName.startsWith(NEW_CHANGE);
+    return refName.startsWith(NEW_CHANGE);
   }
 
   /** Returns the ref name prefix for a magic branch, {@code null} if the branch is not magic */
   public static String getMagicRefNamePrefix(String refName) {
-    if (refName.startsWith(NEW_DRAFT_CHANGE)) {
-      return NEW_DRAFT_CHANGE;
-    }
     if (refName.startsWith(NEW_CHANGE)) {
       return NEW_CHANGE;
     }
@@ -63,15 +54,7 @@ public final class MagicBranch {
    * branch.
    */
   public static Capable checkMagicBranchRefs(Repository repo, Project project) {
-    Capable result = checkMagicBranchRef(NEW_CHANGE, repo, project);
-    if (result != Capable.OK) {
-      return result;
-    }
-    result = checkMagicBranchRef(NEW_DRAFT_CHANGE, repo, project);
-    if (result != Capable.OK) {
-      return result;
-    }
-    return Capable.OK;
+    return checkMagicBranchRef(NEW_CHANGE, repo, project);
   }
 
   private static Capable checkMagicBranchRef(String branchName, Repository repo, Project project) {

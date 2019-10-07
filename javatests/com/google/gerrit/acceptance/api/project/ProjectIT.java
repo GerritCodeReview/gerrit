@@ -33,6 +33,8 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.util.concurrent.AtomicLongMap;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.ExtensionRegistry;
+import com.google.gerrit.acceptance.ExtensionRegistry.Registration;
 import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.NoHttpd;
@@ -41,6 +43,9 @@ import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.Permission;
+import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.api.projects.CommentLinkInfo;
@@ -55,15 +60,10 @@ import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.events.ChangeIndexedListener;
 import com.google.gerrit.extensions.events.ProjectIndexedListener;
-import com.google.gerrit.extensions.registration.DynamicSet;
-import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
-import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.config.ProjectConfigEntry;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.index.IndexExecutor;
@@ -76,8 +76,6 @@ import java.util.Map;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.PushResult;
 import org.eclipse.jgit.transport.RemoteRefUpdate.Status;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
 @NoHttpd
@@ -89,17 +87,13 @@ public class ProjectIT extends AbstractDaemonTest {
   private static final String JIRA_LINK = "http://jira.example.com/?id=$2";
   private static final String JIRA_MATCH = "(jira\\\\s+#?)(\\\\d+)";
 
-  @Inject private DynamicSet<ProjectIndexedListener> projectIndexedListeners;
-  @Inject private DynamicSet<ChangeIndexedListener> changeIndexedListeners;
   @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
+  @Inject private ExtensionRegistry extensionRegistry;
 
   @Inject
   @IndexExecutor(BATCH)
   private ListeningExecutorService executor;
-
-  private ProjectIndexedCounter projectIndexedCounter;
-  private RegistrationHandle projectIndexedCounterHandle;
 
   @Override
   public Module createModule() {
@@ -113,53 +107,49 @@ public class ProjectIT extends AbstractDaemonTest {
     };
   }
 
-  @Before
-  public void addProjectIndexedCounter() {
-    projectIndexedCounter = new ProjectIndexedCounter();
-    projectIndexedCounterHandle = projectIndexedListeners.add("gerrit", projectIndexedCounter);
-  }
+  @Test
+  public void createProject() throws Exception {
+    ProjectIndexedCounter projectIndexedCounter = new ProjectIndexedCounter();
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(projectIndexedCounter)) {
+      String name = name("foo");
+      assertThat(gApi.projects().create(name).get().name).isEqualTo(name);
 
-  @After
-  public void removeProjectIndexedCounter() {
-    if (projectIndexedCounterHandle != null) {
-      projectIndexedCounterHandle.remove();
+      RevCommit head = getRemoteHead(name, RefNames.REFS_CONFIG);
+      eventRecorder.assertRefUpdatedEvents(name, RefNames.REFS_CONFIG, null, head);
+
+      eventRecorder.assertRefUpdatedEvents(name, "refs/heads/master", new String[] {});
+      projectIndexedCounter.assertReindexOf(name);
     }
   }
 
   @Test
-  public void createProject() throws Exception {
-    String name = name("foo");
-    assertThat(gApi.projects().create(name).get().name).isEqualTo(name);
-
-    RevCommit head = getRemoteHead(name, RefNames.REFS_CONFIG);
-    eventRecorder.assertRefUpdatedEvents(name, RefNames.REFS_CONFIG, null, head);
-
-    eventRecorder.assertRefUpdatedEvents(name, "refs/heads/master", new String[] {});
-    projectIndexedCounter.assertReindexOf(name);
-  }
-
-  @Test
   public void createProjectWithInitialBranches() throws Exception {
-    String name = name("foo");
-    ProjectInput input = new ProjectInput();
-    input.name = name;
-    input.createEmptyCommit = true;
-    input.branches = ImmutableList.of("master", "foo");
-    assertThat(gApi.projects().create(input).get().name).isEqualTo(name);
-    assertThat(
-            gApi.projects().name(name).branches().get().stream().map(b -> b.ref).collect(toSet()))
-        .containsExactly("refs/heads/foo", "refs/heads/master", "HEAD", RefNames.REFS_CONFIG);
+    ProjectIndexedCounter projectIndexedCounter = new ProjectIndexedCounter();
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(projectIndexedCounter)) {
 
-    RevCommit head = getRemoteHead(name, RefNames.REFS_CONFIG);
-    eventRecorder.assertRefUpdatedEvents(name, RefNames.REFS_CONFIG, null, head);
+      String name = name("foo");
+      ProjectInput input = new ProjectInput();
+      input.name = name;
+      input.createEmptyCommit = true;
+      input.branches = ImmutableList.of("master", "foo");
+      assertThat(gApi.projects().create(input).get().name).isEqualTo(name);
+      assertThat(
+              gApi.projects().name(name).branches().get().stream().map(b -> b.ref).collect(toSet()))
+          .containsExactly("refs/heads/foo", "refs/heads/master", "HEAD", RefNames.REFS_CONFIG);
 
-    head = getRemoteHead(name, "refs/heads/foo");
-    eventRecorder.assertRefUpdatedEvents(name, "refs/heads/foo", null, head);
+      RevCommit head = getRemoteHead(name, RefNames.REFS_CONFIG);
+      eventRecorder.assertRefUpdatedEvents(name, RefNames.REFS_CONFIG, null, head);
 
-    head = getRemoteHead(name, "refs/heads/master");
-    eventRecorder.assertRefUpdatedEvents(name, "refs/heads/master", null, head);
+      head = getRemoteHead(name, "refs/heads/foo");
+      eventRecorder.assertRefUpdatedEvents(name, "refs/heads/foo", null, head);
 
-    projectIndexedCounter.assertReindexOf(name);
+      head = getRemoteHead(name, "refs/heads/master");
+      eventRecorder.assertRefUpdatedEvents(name, "refs/heads/master", null, head);
+
+      projectIndexedCounter.assertReindexOf(name);
+    }
   }
 
   @Test
@@ -262,37 +252,46 @@ public class ProjectIT extends AbstractDaemonTest {
 
   @Test
   public void createAndDeleteBranch() throws Exception {
-    assertThat(hasHead(project, "foo")).isFalse();
+    ProjectIndexedCounter projectIndexedCounter = new ProjectIndexedCounter();
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(projectIndexedCounter)) {
 
-    gApi.projects().name(project.get()).branch("foo").create(new BranchInput());
-    assertThat(getRemoteHead(project.get(), "foo")).isNotNull();
-    projectIndexedCounter.assertNoReindex();
+      assertThat(hasHead(project, "foo")).isFalse();
 
-    gApi.projects().name(project.get()).branch("foo").delete();
-    assertThat(hasHead(project, "foo")).isFalse();
-    projectIndexedCounter.assertNoReindex();
+      gApi.projects().name(project.get()).branch("foo").create(new BranchInput());
+      assertThat(getRemoteHead(project.get(), "foo")).isNotNull();
+      projectIndexedCounter.assertNoReindex();
+
+      gApi.projects().name(project.get()).branch("foo").delete();
+      assertThat(hasHead(project, "foo")).isFalse();
+      projectIndexedCounter.assertNoReindex();
+    }
   }
 
   @Test
   public void createAndDeleteBranchByPush() throws Exception {
-    projectOperations
-        .project(project)
-        .forUpdate()
-        .add(allow(Permission.PUSH).ref("refs/*").group(adminGroupUuid()).force(true))
-        .update();
-    projectIndexedCounter.clear();
+    ProjectIndexedCounter projectIndexedCounter = new ProjectIndexedCounter();
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(projectIndexedCounter)) {
+      projectOperations
+          .project(project)
+          .forUpdate()
+          .add(allow(Permission.PUSH).ref("refs/*").group(adminGroupUuid()).force(true))
+          .update();
+      projectIndexedCounter.clear();
 
-    assertThat(hasHead(project, "foo")).isFalse();
+      assertThat(hasHead(project, "foo")).isFalse();
 
-    PushOneCommit.Result r = pushTo("refs/heads/foo");
-    r.assertOkStatus();
-    assertThat(getRemoteHead(project.get(), "foo")).isEqualTo(r.getCommit());
-    projectIndexedCounter.assertNoReindex();
+      PushOneCommit.Result r = pushTo("refs/heads/foo");
+      r.assertOkStatus();
+      assertThat(getRemoteHead(project.get(), "foo")).isEqualTo(r.getCommit());
+      projectIndexedCounter.assertNoReindex();
 
-    PushResult r2 = GitUtil.pushOne(testRepo, null, "refs/heads/foo", false, true, null);
-    assertThat(r2.getRemoteUpdate("refs/heads/foo").getStatus()).isEqualTo(Status.OK);
-    assertThat(hasHead(project, "foo")).isFalse();
-    projectIndexedCounter.assertNoReindex();
+      PushResult r2 = GitUtil.pushOne(testRepo, null, "refs/heads/foo", false, true, null);
+      assertThat(r2.getRemoteUpdate("refs/heads/foo").getStatus()).isEqualTo(Status.OK);
+      assertThat(hasHead(project, "foo")).isFalse();
+      projectIndexedCounter.assertNoReindex();
+    }
   }
 
   @Test
@@ -489,22 +488,32 @@ public class ProjectIT extends AbstractDaemonTest {
 
   @Test
   public void reindexProject() throws Exception {
-    projectOperations.newProject().parent(project).create();
-    projectIndexedCounter.clear();
+    ProjectIndexedCounter projectIndexedCounter = new ProjectIndexedCounter();
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(projectIndexedCounter)) {
 
-    gApi.projects().name(allProjects.get()).index(false);
-    projectIndexedCounter.assertReindexOf(allProjects.get());
+      projectOperations.newProject().parent(project).create();
+      projectIndexedCounter.clear();
+
+      gApi.projects().name(allProjects.get()).index(false);
+      projectIndexedCounter.assertReindexOf(allProjects.get());
+    }
   }
 
   @Test
   public void reindexProjectWithChildren() throws Exception {
-    Project.NameKey middle = projectOperations.newProject().parent(project).create();
-    Project.NameKey leave = projectOperations.newProject().parent(middle).create();
-    projectIndexedCounter.clear();
+    ProjectIndexedCounter projectIndexedCounter = new ProjectIndexedCounter();
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(projectIndexedCounter)) {
 
-    gApi.projects().name(project.get()).index(true);
-    projectIndexedCounter.assertReindexExactly(
-        ImmutableMap.of(project.get(), 1L, middle.get(), 1L, leave.get(), 1L));
+      Project.NameKey middle = projectOperations.newProject().parent(project).create();
+      Project.NameKey leave = projectOperations.newProject().parent(middle).create();
+      projectIndexedCounter.clear();
+
+      gApi.projects().name(project.get()).index(true);
+      projectIndexedCounter.assertReindexExactly(
+          ImmutableMap.of(project.get(), 1L, middle.get(), 1L, leave.get(), 1L));
+    }
   }
 
   @Test
@@ -513,17 +522,14 @@ public class ProjectIT extends AbstractDaemonTest {
     Change.Id changeId2 = createChange().getChange().getId();
 
     ChangeIndexedListener changeIndexedListener = mock(ChangeIndexedListener.class);
-    RegistrationHandle registrationHandle =
-        changeIndexedListeners.add("gerrit", changeIndexedListener);
-    try {
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(changeIndexedListener)) {
       gApi.projects().name(project.get()).indexChanges();
 
       verify(changeIndexedListener, times(1))
           .onChangeScheduledForIndexing(project.get(), changeId1.get());
       verify(changeIndexedListener, times(1))
           .onChangeScheduledForIndexing(project.get(), changeId2.get());
-    } finally {
-      registrationHandle.remove();
     }
   }
 

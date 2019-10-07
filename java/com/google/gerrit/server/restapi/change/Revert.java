@@ -18,8 +18,12 @@ import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.gerrit.extensions.conditions.BooleanCondition.and;
 import static com.google.gerrit.server.permissions.RefPermission.CREATE_CHANGE;
 
-import com.google.common.base.Strings;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.ChangeMessage;
+import com.google.gerrit.entities.PatchSet;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.RevertInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -28,24 +32,18 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.webui.UiAction;
-import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.ChangeMessage;
-import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.ChangeJson;
-import com.google.gerrit.server.change.ChangeMessages;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.extensions.events.ChangeReverted;
+import com.google.gerrit.server.git.CommitUtil;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.mail.send.RevertedSender;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -66,24 +64,19 @@ import com.google.gerrit.server.update.RetryingRestModifyView;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.sql.Timestamp;
-import java.text.MessageFormat;
 import java.util.HashSet;
 import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
-import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectReader;
-import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
-import org.eclipse.jgit.util.ChangeIdUtil;
 
 @Singleton
 public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, ChangeInfo>
@@ -98,12 +91,12 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
   private final PatchSetUtil psUtil;
   private final RevertedSender.Factory revertedSenderFactory;
   private final ChangeJson.Factory json;
-  private final Provider<PersonIdent> serverIdent;
   private final ApprovalsUtil approvalsUtil;
   private final ChangeReverted changeReverted;
   private final ContributorAgreementsChecker contributorAgreements;
   private final ProjectCache projectCache;
   private final NotifyResolver notifyResolver;
+  private final CommitUtil commitUtil;
 
   @Inject
   Revert(
@@ -116,12 +109,12 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
       PatchSetUtil psUtil,
       RevertedSender.Factory revertedSenderFactory,
       ChangeJson.Factory json,
-      @GerritPersonIdent Provider<PersonIdent> serverIdent,
       ApprovalsUtil approvalsUtil,
       ChangeReverted changeReverted,
       ContributorAgreementsChecker contributorAgreements,
       ProjectCache projectCache,
-      NotifyResolver notifyResolver) {
+      NotifyResolver notifyResolver,
+      CommitUtil commitUtil) {
     super(retryHelper);
     this.permissionBackend = permissionBackend;
     this.repoManager = repoManager;
@@ -131,12 +124,12 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
     this.psUtil = psUtil;
     this.revertedSenderFactory = revertedSenderFactory;
     this.json = json;
-    this.serverIdent = serverIdent;
     this.approvalsUtil = approvalsUtil;
     this.changeReverted = changeReverted;
     this.contributorAgreements = contributorAgreements;
     this.projectCache = projectCache;
     this.notifyResolver = notifyResolver;
+    this.commitUtil = commitUtil;
   }
 
   @Override
@@ -160,7 +153,6 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
   private Change.Id revert(
       BatchUpdate.Factory updateFactory, ChangeNotes notes, CurrentUser user, RevertInput input)
       throws IOException, RestApiException, UpdateException, ConfigInvalidException {
-    String message = Strings.emptyToNull(input.message);
     Change.Id changeIdToRevert = notes.getChangeId();
     PatchSet.Id patchSetId = notes.getChange().currentPatchSetId();
     PatchSet patch = psUtil.get(notes, patchSetId);
@@ -173,41 +165,17 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
         ObjectInserter oi = git.newObjectInserter();
         ObjectReader reader = oi.newReader();
         RevWalk revWalk = new RevWalk(reader)) {
-      RevCommit commitToRevert = revWalk.parseCommit(patch.commitId());
-      if (commitToRevert.getParentCount() == 0) {
-        throw new ResourceConflictException("Cannot revert initial commit");
-      }
 
       Timestamp now = TimeUtil.nowTs();
-      PersonIdent committerIdent = serverIdent.get();
-      PersonIdent authorIdent =
-          user.asIdentifiedUser().newCommitterIdent(now, committerIdent.getTimeZone());
-
-      RevCommit parentToCommitToRevert = commitToRevert.getParent(0);
-      revWalk.parseHeaders(parentToCommitToRevert);
-
-      CommitBuilder revertCommitBuilder = new CommitBuilder();
-      revertCommitBuilder.addParentId(commitToRevert);
-      revertCommitBuilder.setTreeId(parentToCommitToRevert.getTree());
-      revertCommitBuilder.setAuthor(authorIdent);
-      revertCommitBuilder.setCommitter(authorIdent);
-
-      Change changeToRevert = notes.getChange();
-      if (message == null) {
-        message =
-            MessageFormat.format(
-                ChangeMessages.get().revertChangeDefaultMessage,
-                changeToRevert.getSubject(),
-                patch.commitId().name());
-      }
-
       ObjectId generatedChangeId = Change.generateChangeId();
-      revertCommitBuilder.setMessage(ChangeIdUtil.insertId(message, generatedChangeId, true));
+      Change changeToRevert = notes.getChange();
+      ObjectId revertCommitId =
+          commitUtil.createRevertCommit(
+              input.message, notes, user, generatedChangeId, now, oi, revWalk);
+
+      RevCommit revertCommit = revWalk.parseCommit(revertCommitId);
 
       Change.Id changeId = Change.id(seq.nextChangeId());
-      ObjectId id = oi.insert(revertCommitBuilder);
-      RevCommit revertCommit = revWalk.parseCommit(id);
-
       NotifyResolver.Result notify =
           notifyResolver.resolve(
               firstNonNull(input.notify, NotifyHandling.ALL), input.notifyDetails);
@@ -215,7 +183,7 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
       ChangeInserter ins =
           changeInserterFactory
               .create(changeId, revertCommit, notes.getChange().getDest().branch())
-              .setTopic(changeToRevert.getTopic());
+              .setTopic(input.topic == null ? changeToRevert.getTopic() : input.topic.trim());
       ins.setMessage("Uploaded patch set 1.");
 
       ReviewerSet reviewerSet = approvalsUtil.getReviewers(notes);

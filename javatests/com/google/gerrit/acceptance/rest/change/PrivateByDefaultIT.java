@@ -21,16 +21,15 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.api.projects.ConfigInput;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.inject.Inject;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
-import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -123,22 +122,6 @@ public class PrivateByDefaultIT extends AbstractDaemonTest {
     TestRepository<InMemoryRepository> testRepo = cloneProject(project2);
     PushOneCommit.Result result =
         pushFactory.create(admin.newIdent(), testRepo).to("refs/for/master%private");
-    result.assertErrorStatus();
-  }
-
-  @Test
-  @GerritConfig(name = "change.disablePrivateChanges", value = "true")
-  public void pushDraftsWithPrivateByDefaultAndDisablePrivateChangesTrue() throws Exception {
-    setPrivateByDefault(project2, InheritableBoolean.TRUE);
-
-    RevCommit initialHead = projectOperations.project(project2).getHead("master");
-    TestRepository<InMemoryRepository> testRepo = cloneProject(project2);
-    PushOneCommit.Result result =
-        pushFactory.create(admin.newIdent(), testRepo).to("refs/for/master%draft");
-    result.assertErrorStatus();
-
-    testRepo.reset(initialHead);
-    result = pushFactory.create(admin.newIdent(), testRepo).to("refs/drafts/master");
     result.assertErrorStatus();
   }
 

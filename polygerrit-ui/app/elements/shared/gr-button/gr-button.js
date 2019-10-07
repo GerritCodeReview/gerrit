@@ -53,7 +53,6 @@
     },
 
     listeners: {
-      tap: '_handleAction',
       click: '_handleAction',
       keydown: '_handleKeydown',
     },

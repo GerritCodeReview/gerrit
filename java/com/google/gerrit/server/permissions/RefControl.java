@@ -21,12 +21,12 @@ import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.data.PermissionRule.Action;
+import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.conditions.BooleanCondition;
 import com.google.gerrit.extensions.restapi.AuthException;
-import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.logging.CallerFinder;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -395,7 +395,7 @@ class RefControl {
           withForce,
           projectControl.getProject().getName(),
           refName,
-          callerFinder.findCaller());
+          callerFinder.findCallerLazy());
       return false;
     }
 
@@ -408,7 +408,7 @@ class RefControl {
             withForce,
             projectControl.getProject().getName(),
             refName,
-            callerFinder.findCaller());
+            callerFinder.findCallerLazy());
         return true;
       }
     }
@@ -420,7 +420,7 @@ class RefControl {
         withForce,
         projectControl.getProject().getName(),
         refName,
-        callerFinder.findCaller());
+        callerFinder.findCallerLazy());
     return false;
   }
 

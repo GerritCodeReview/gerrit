@@ -56,17 +56,17 @@ import com.google.common.flogger.FluentLogger;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.SubmitRecord;
+import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.ChangeMessage;
+import com.google.gerrit.entities.Comment;
+import com.google.gerrit.entities.LabelId;
+import com.google.gerrit.entities.PatchSet;
+import com.google.gerrit.entities.PatchSetApproval;
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.mail.Address;
 import com.google.gerrit.metrics.Timer1;
-import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.ChangeMessage;
-import com.google.gerrit.reviewdb.client.Comment;
-import com.google.gerrit.reviewdb.client.LabelId;
-import com.google.gerrit.reviewdb.client.PatchLineComment;
-import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.client.PatchSetApproval;
-import com.google.gerrit.reviewdb.client.RefNames;
+import com.google.gerrit.server.AssigneeStatusUpdate;
 import com.google.gerrit.server.ReviewerByEmailSet;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.ReviewerStatusUpdate;
@@ -102,7 +102,6 @@ class ChangeNotesParser {
 
   // Private final members initialized in the constructor.
   private final ChangeNoteJson changeNoteJson;
-  private final LegacyChangeNoteRead legacyChangeNoteRead;
 
   private final NoteDbMetrics metrics;
   private final Change.Id id;
@@ -115,6 +114,7 @@ class ChangeNotesParser {
   private final Table<Address, ReviewerStateInternal, Timestamp> reviewersByEmail;
   private final List<Account.Id> allPastReviewers;
   private final List<ReviewerStatusUpdate> reviewerUpdates;
+  private final List<AssigneeStatusUpdate> assigneeUpdates;
   private final List<SubmitRecord> submitRecords;
   private final ListMultimap<ObjectId, Comment> comments;
   private final Map<PatchSet.Id, PatchSet.Builder> patchSets;
@@ -129,8 +129,6 @@ class ChangeNotesParser {
   private String branch;
   private Change.Status status;
   private String topic;
-  private Optional<Account.Id> assignee;
-  private List<Account.Id> pastAssignees;
   private Set<String> hashtags;
   private Timestamp createdOn;
   private Timestamp lastUpdatedOn;
@@ -156,13 +154,11 @@ class ChangeNotesParser {
       ObjectId tip,
       ChangeNotesRevWalk walk,
       ChangeNoteJson changeNoteJson,
-      LegacyChangeNoteRead legacyChangeNoteRead,
       NoteDbMetrics metrics) {
     this.id = changeId;
     this.tip = tip;
     this.walk = walk;
     this.changeNoteJson = changeNoteJson;
-    this.legacyChangeNoteRead = legacyChangeNoteRead;
     this.metrics = metrics;
     approvals = new LinkedHashMap<>();
     bufferedApprovals = new ArrayList<>();
@@ -172,6 +168,7 @@ class ChangeNotesParser {
     pendingReviewersByEmail = ReviewerByEmailSet.empty();
     allPastReviewers = new ArrayList<>();
     reviewerUpdates = new ArrayList<>();
+    assigneeUpdates = new ArrayList<>();
     submitRecords = Lists.newArrayListWithExpectedSize(1);
     allChangeMessages = new ArrayList<>();
     comments = MultimapBuilder.hashKeys().arrayListValues().build();
@@ -231,9 +228,7 @@ class ChangeNotesParser {
         topic,
         originalSubject,
         submissionId,
-        assignee != null ? assignee.orElse(null) : null,
         status,
-        Sets.newLinkedHashSet(Lists.reverse(pastAssignees)),
         firstNonNull(hashtags, ImmutableSet.of()),
         buildPatchSets(),
         buildApprovals(),
@@ -243,6 +238,7 @@ class ChangeNotesParser {
         pendingReviewersByEmail,
         allPastReviewers,
         buildReviewerUpdates(),
+        assigneeUpdates,
         submitRecords,
         buildAllMessages(),
         comments,
@@ -361,7 +357,7 @@ class ChangeNotesParser {
     }
 
     parseHashtags(commit);
-    parseAssignee(commit);
+    parseAssigneeUpdates(ts, commit);
 
     if (submissionId == null) {
       submissionId = parseSubmissionId(commit);
@@ -444,7 +440,7 @@ class ChangeNotesParser {
       return effectiveAccountId;
     }
     PersonIdent ident = RawParseUtils.parsePersonIdent(realUser);
-    return legacyChangeNoteRead.parseIdent(ident, id);
+    return parseIdent(ident);
   }
 
   private String parseTopic(ChangeNotesCommit commit) throws ConfigInvalidException {
@@ -566,10 +562,8 @@ class ChangeNotesParser {
     }
   }
 
-  private void parseAssignee(ChangeNotesCommit commit) throws ConfigInvalidException {
-    if (pastAssignees == null) {
-      pastAssignees = Lists.newArrayList();
-    }
+  private void parseAssigneeUpdates(Timestamp ts, ChangeNotesCommit commit)
+      throws ConfigInvalidException {
     String assigneeValue = parseOneFooter(commit, FOOTER_ASSIGNEE);
     if (assigneeValue != null) {
       Optional<Account.Id> parsedAssignee;
@@ -578,14 +572,9 @@ class ChangeNotesParser {
         parsedAssignee = Optional.empty();
       } else {
         PersonIdent ident = RawParseUtils.parsePersonIdent(assigneeValue);
-        parsedAssignee = Optional.ofNullable(legacyChangeNoteRead.parseIdent(ident, id));
+        parsedAssignee = Optional.ofNullable(parseIdent(ident));
       }
-      if (assignee == null) {
-        assignee = parsedAssignee;
-      }
-      if (parsedAssignee.isPresent()) {
-        pastAssignees.add(parsedAssignee.get());
-      }
+      assigneeUpdates.add(AssigneeStatusUpdate.create(ts, ownerId, parsedAssignee));
     }
   }
 
@@ -716,12 +705,7 @@ class ChangeNotesParser {
     ChangeNotesCommit tipCommit = walk.parseCommit(tip);
     revisionNoteMap =
         RevisionNoteMap.parse(
-            changeNoteJson,
-            legacyChangeNoteRead,
-            id,
-            reader,
-            NoteMap.read(reader, tipCommit),
-            PatchLineComment.Status.PUBLISHED);
+            changeNoteJson, reader, NoteMap.read(reader, tipCommit), Comment.Status.PUBLISHED);
     Map<ObjectId, ChangeRevisionNote> rns = revisionNoteMap.revisionNotes;
 
     for (Map.Entry<ObjectId, ChangeRevisionNote> e : rns.entrySet()) {
@@ -780,7 +764,7 @@ class ChangeNotesParser {
       labelVoteStr = line.substring(0, s);
       PersonIdent ident = RawParseUtils.parsePersonIdent(line.substring(s + 1));
       checkFooter(ident != null, FOOTER_LABEL, line);
-      effectiveAccountId = legacyChangeNoteRead.parseIdent(ident, id);
+      effectiveAccountId = parseIdent(ident);
     } else {
       labelVoteStr = line;
       effectiveAccountId = committerId;
@@ -819,7 +803,7 @@ class ChangeNotesParser {
       label = line.substring(1, s);
       PersonIdent ident = RawParseUtils.parsePersonIdent(line.substring(s + 1));
       checkFooter(ident != null, FOOTER_LABEL, line);
-      effectiveAccountId = legacyChangeNoteRead.parseIdent(ident, id);
+      effectiveAccountId = parseIdent(ident);
     } else {
       label = line.substring(1);
       effectiveAccountId = committerId;
@@ -878,7 +862,7 @@ class ChangeNotesParser {
           label.label = line.substring(c + 2, c2);
           PersonIdent ident = RawParseUtils.parsePersonIdent(line.substring(c2 + 2));
           checkFooter(ident != null, FOOTER_SUBMITTED_WITH, line);
-          label.appliedBy = legacyChangeNoteRead.parseIdent(ident, id);
+          label.appliedBy = parseIdent(ident);
         } else {
           label.label = line.substring(c + 2);
         }
@@ -894,7 +878,7 @@ class ChangeNotesParser {
     if (a.getName().equals(c.getName()) && a.getEmailAddress().equals(c.getEmailAddress())) {
       return null;
     }
-    return legacyChangeNoteRead.parseIdent(commit.getAuthorIdent(), id);
+    return parseIdent(commit.getAuthorIdent());
   }
 
   private void parseReviewer(Timestamp ts, ReviewerStateInternal state, String line)
@@ -903,7 +887,7 @@ class ChangeNotesParser {
     if (ident == null) {
       throw invalidFooter(state.getFooterKey(), line);
     }
-    Account.Id accountId = legacyChangeNoteRead.parseIdent(ident, id);
+    Account.Id accountId = parseIdent(ident);
     reviewerUpdates.add(ReviewerStatusUpdate.create(ts, ownerId, accountId, state));
     if (!reviewers.containsRow(accountId)) {
       reviewers.put(accountId, state, ts);
@@ -1102,5 +1086,11 @@ class ChangeNotesParser {
 
   private ConfigInvalidException parseException(String fmt, Object... args) {
     return ChangeNotes.parseException(id, fmt, args);
+  }
+
+  private Account.Id parseIdent(PersonIdent ident) throws ConfigInvalidException {
+    return NoteDbUtil.parseIdent(ident)
+        .orElseThrow(
+            () -> parseException("cannot retrieve account id: %s", ident.getEmailAddress()));
   }
 }

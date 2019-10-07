@@ -68,7 +68,7 @@ limitations under the License.
       assert.equal(element._computeMobileText(item), item.mobileText);
     });
 
-    test('options are selected and laid out correctly', () => {
+    test('options are selected and laid out correctly', done => {
       element.value = 2;
       element.items = [
         {

@@ -30,6 +30,8 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
+import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.Patch;
 import com.google.gerrit.extensions.api.changes.DeleteCommentInput;
 import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
@@ -44,8 +46,6 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
-import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.Patch;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.notedb.ChangeNoteUtil;
@@ -1008,10 +1008,10 @@ public class CommentsIT extends AbstractDaemonTest {
     Change.Id changeId = result.getChange().getId();
     addComment(result.getChangeId(), "comment");
 
-    Collection<com.google.gerrit.reviewdb.client.Comment> comments =
+    Collection<com.google.gerrit.entities.Comment> comments =
         notesFactory.createChecked(project, changeId).getComments().values();
     assertThat(comments).hasSize(1);
-    com.google.gerrit.reviewdb.client.Comment comment = comments.iterator().next();
+    com.google.gerrit.entities.Comment comment = comments.iterator().next();
     assertThat(comment.message).isEqualTo("comment");
     assertThat(comment.legacyFormat).isFalse();
   }
@@ -1056,17 +1056,16 @@ public class CommentsIT extends AbstractDaemonTest {
         RevCommit commitBefore = beforeDelete.get(i);
         RevCommit commitAfter = afterDelete.get(i);
 
-        Map<String, com.google.gerrit.reviewdb.client.Comment> commentMapBefore =
+        Map<String, com.google.gerrit.entities.Comment> commentMapBefore =
             DeleteCommentRewriter.getPublishedComments(
-                noteUtil, changeId, reader, NoteMap.read(reader, commitBefore));
-        Map<String, com.google.gerrit.reviewdb.client.Comment> commentMapAfter =
+                noteUtil, reader, NoteMap.read(reader, commitBefore));
+        Map<String, com.google.gerrit.entities.Comment> commentMapAfter =
             DeleteCommentRewriter.getPublishedComments(
-                noteUtil, changeId, reader, NoteMap.read(reader, commitAfter));
+                noteUtil, reader, NoteMap.read(reader, commitAfter));
 
         if (commentMapBefore.containsKey(targetCommentUuid)) {
           assertThat(commentMapAfter).containsKey(targetCommentUuid);
-          com.google.gerrit.reviewdb.client.Comment comment =
-              commentMapAfter.get(targetCommentUuid);
+          com.google.gerrit.entities.Comment comment = commentMapAfter.get(targetCommentUuid);
           assertThat(comment.message).isEqualTo(expectedMessage);
           comment.message = commentMapBefore.get(targetCommentUuid).message;
           commentMapAfter.put(targetCommentUuid, comment);

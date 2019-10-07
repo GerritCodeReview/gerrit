@@ -1157,17 +1157,6 @@ Allow blame on side by side diff. If set to false, blame cannot be used.
 +
 Default is true.
 
-[[change.allowDrafts]]change.allowDrafts::
-+
-Legacy support for drafts workflow. If set to true, pushing a new change
-with draft option will create a private change. Pushing with draft option
-to an existing change will create change edit.
-+
-Enabling this option allows to push to the `refs/drafts/branch`. When
-disabled any push to `refs/drafts/branch` will be rejected.
-+
-Default is false.
-
 [[change.api.allowedIdentifier]]change.api.allowedIdentifier::
 +
 Change identifier(s) that are allowed on the API. See
@@ -1576,11 +1565,15 @@ line, separated by spaces.
 Execute `java -jar gerrit.war daemon --help` to see all possible
 options.
 
-[[container.slave]]container.slave::
+[[container.replica]]container.replica::
 +
 Used on Gerrit replica installations. If set to true the Gerrit JVM is
 called with the '--replica' switch, enabling replica mode. If no value is
 set (or any other value), Gerrit defaults to master mode.
+
+[[container.slave]]container.slave::
++
+Backward compatibility for 'container.slave' config setting.
 
 [[container.startupTimeout]]container.startupTimeout::
 +
@@ -3061,6 +3054,31 @@ Password used to connect to Elasticsearch.
 +
 Not set by default.
 
+[[event]]
+=== Section event
+
+[[event.payload.listChangeOptions]]events.payload.listChangeOptions::
++
+List of options that Gerrit applies when rendering the payload of an
+internal event. This is the same set of options that are documented
+link:rest-api-changes.html#query-options[here].
++
+Depending on the setup, these events might get serialized using stream
+events.
++
+This can be set to the set of minimal options that consumers of Gerrit's
+events need. A minimal set would be (`SKIP_MERGEABLE`,`SKIP_DIFFSTAT`).
++
+Every option that gets added here will have a performance impact. The
+general recommendation is therefore to set this to a minimal set of
+required options.
++
+Defaults to all available options minus `CHANGE_ACTIONS`,
+`CURRENT_ACTIONS` and `CHECK`. This is a rich default to make sure the
+config is backwards compatible with what the default was before the config
+was added.
+
+
 [[ldap]]
 === Section ldap
 
@@ -3626,7 +3644,10 @@ remotely, or disable existing plugins.  Defaults to false.
 [[plugins.mandatory]]plugins.mandatory::
 +
 List of mandatory plugins. If a plugin from this list does not load,
-Gerrit start will fail.
+Gerrit will fail to start.
++
+Disabling and restarting of a mandatory plugin is rejected, but reloading
+of a mandatory plugin is still possible.
 
 [[plugins.jsLoadTimeout]]plugins.jsLoadTimeout::
 +

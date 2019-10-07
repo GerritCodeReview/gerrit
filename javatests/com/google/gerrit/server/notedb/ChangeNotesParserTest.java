@@ -17,7 +17,7 @@ package com.google.gerrit.server.notedb;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
-import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.entities.Change;
 import com.google.gerrit.server.notedb.ChangeNotesCommit.ChangeNotesRevWalk;
 import com.google.gerrit.server.util.time.TimeUtil;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -211,6 +211,26 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
             + "CC: Other Account <2@gerrit>\n"
             + "Subject: This is a test change\n");
     assertParseFails("Update change\n\nPatch-set: 1\nReviewer: 1@gerrit\n");
+  }
+
+  @Test
+  public void parseAssignee() throws Exception {
+    assertParseSucceeds(
+        "Update change\n"
+            + "\n"
+            + "Branch: refs/heads/master\n"
+            + "Change-id: I577fb248e474018276351785930358ec0450e9f7\n"
+            + "Patch-set: 1\n"
+            + "Assignee: Change Owner <1@gerrit>\n"
+            + "Subject: This is a test change\n");
+    assertParseSucceeds(
+        "Update change\n"
+            + "\n"
+            + "Branch: refs/heads/master\n"
+            + "Change-id: I577fb248e474018276351785930358ec0450e9f7\n"
+            + "Patch-set: 2\n"
+            + "Assignee:\n"
+            + "Subject: This is a test change\n");
   }
 
   @Test
@@ -551,8 +571,6 @@ public class ChangeNotesParserTest extends AbstractChangeNotesTest {
   private ChangeNotesParser newParser(ObjectId tip) throws Exception {
     walk.reset();
     ChangeNoteJson changeNoteJson = injector.getInstance(ChangeNoteJson.class);
-    LegacyChangeNoteRead reader = injector.getInstance(LegacyChangeNoteRead.class);
-    return new ChangeNotesParser(
-        newChange().getId(), tip, walk, changeNoteJson, reader, args.metrics);
+    return new ChangeNotesParser(newChange().getId(), tip, walk, changeNoteJson, args.metrics);
   }
 }

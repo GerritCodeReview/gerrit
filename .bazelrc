@@ -14,4 +14,4 @@ build --incompatible_strict_action_env
 test --build_tests_only
 test --test_output=errors
 
-import tools/remote-bazelrc
+import %workspace%/tools/remote-bazelrc

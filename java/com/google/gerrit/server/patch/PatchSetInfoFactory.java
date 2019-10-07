@@ -14,12 +14,10 @@
 
 package com.google.gerrit.server.patch;
 
+import com.google.gerrit.entities.PatchSet;
+import com.google.gerrit.entities.PatchSetInfo;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.exceptions.StorageException;
-import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.client.PatchSetInfo;
-import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.UserIdentity;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.account.Emails;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -27,12 +25,9 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 import org.eclipse.jgit.errors.MissingObjectException;
-import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -56,8 +51,8 @@ public class PatchSetInfoFactory {
     PatchSetInfo info = new PatchSetInfo(psi);
     info.setSubject(src.getShortMessage());
     info.setMessage(src.getFullMessage());
-    info.setAuthor(toUserIdentity(src.getAuthorIdent()));
-    info.setCommitter(toUserIdentity(src.getCommitterIdent()));
+    info.setAuthor(emails.toUserIdentity(src.getAuthorIdent()));
+    info.setCommitter(emails.toUserIdentity(src.getCommitterIdent()));
     info.setCommitId(src);
     return info;
   }
@@ -83,25 +78,6 @@ public class PatchSetInfoFactory {
     } catch (IOException | StorageException e) {
       throw new PatchSetInfoNotAvailableException(e);
     }
-  }
-
-  // TODO: The same method exists in EventFactory, find a common place for it
-  private UserIdentity toUserIdentity(PersonIdent who) throws IOException {
-    final UserIdentity u = new UserIdentity();
-    u.setName(who.getName());
-    u.setEmail(who.getEmailAddress());
-    u.setDate(new Timestamp(who.getWhen().getTime()));
-    u.setTimeZone(who.getTimeZoneOffset());
-
-    // If only one account has access to this email address, select it
-    // as the identity of the user.
-    //
-    Set<Account.Id> a = emails.getAccountFor(u.getEmail());
-    if (a.size() == 1) {
-      u.setAccount(a.iterator().next());
-    }
-
-    return u;
   }
 
   private List<PatchSetInfo.ParentInfo> toParentInfos(RevCommit[] parents, RevWalk walk)

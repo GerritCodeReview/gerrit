@@ -35,6 +35,16 @@
     SYNTAX: 'Diff Syntax Render',
   };
 
+  // Disable syntax highlighting if the overall diff is too large.
+  const SYNTAX_MAX_DIFF_LENGTH = 20000;
+
+  // If any line of the diff is more than the character limit, then disable
+  // syntax highlighting for the entire file.
+  const SYNTAX_MAX_LINE_LENGTH = 500;
+
+  // 120 lines is good enough threshold for full-sized window viewport
+  const NUM_OF_LINES_THRESHOLD_FOR_VIEWPORT = 120;
+
   const WHITESPACE_IGNORE_NONE = 'IGNORE_NONE';
 
   /**
@@ -104,7 +114,7 @@
       },
       isImageDiff: {
         type: Boolean,
-        computed: '_computeIsImageDiff(_diff)',
+        computed: '_computeIsImageDiff(diff)',
         notify: true,
       },
       commitRange: Object,
@@ -179,8 +189,13 @@
       _baseImage: Object,
       /** @type {?Object} */
       _revisionImage: Object,
-
-      _diff: Object,
+      /**
+       * This is a DiffInfo object.
+       */
+      diff: {
+        type: Object,
+        notify: true,
+      },
 
       /** @type {?Object} */
       _blame: {
@@ -205,7 +220,13 @@
         computed: '_computeParentIndex(patchRange.*)',
       },
 
-      pluginLayers: {
+      _syntaxHighlightingEnabled: {
+        type: Boolean,
+        computed:
+          '_isSyntaxHighlightingEnabled(prefs.*, diff)',
+      },
+
+      _layers: {
         type: Array,
         value: [],
       },
@@ -230,7 +251,6 @@
 
       'render-start': '_handleRenderStart',
       'render-content': '_handleRenderContent',
-      'render-syntax': '_handleRenderSyntax',
 
       'normalize-range': '_handleNormalizeRange',
     },
@@ -238,6 +258,7 @@
     observers: [
       '_whitespaceChanged(prefs.ignore_whitespace, _loadedWhitespaceLevel,' +
           ' noRenderOnPrefsChange)',
+      '_syntaxHighlightingChanged(noRenderOnPrefsChange, prefs.*)',
     ],
 
     ready() {
@@ -252,19 +273,28 @@
       });
     },
 
-    /** @return {!Promise} */
-    reload() {
+    /**
+     * @param {boolean=} haveParamsChanged ends reporting events that started
+     * on location change.
+     * @return {!Promise}
+     **/
+    reload(haveParamsChanged) {
       this._loading = true;
       this._errorMessage = null;
       const whitespaceLevel = this._getIgnoreWhitespace();
 
-      const pluginLayers = [];
+      const layers = [this.$.syntaxLayer];
       // Get layers from plugins (if any).
       for (const pluginLayer of this.$.jsAPI.getDiffLayers(
           this.diffPath, this.changeNum, this.patchNum)) {
-        pluginLayers.push(pluginLayer);
+        layers.push(pluginLayer);
       }
-      this.push('pluginLayers', ...pluginLayers);
+      this._layers = layers;
+
+      if (haveParamsChanged) {
+        // We listen on render viewport only on DiffPage (on paramsChanged)
+        this._listenToViewportRender();
+      }
 
       this._coverageRanges = [];
       const {changeNum, path, patchRange: {basePatchNum, patchNum}} = this;
@@ -307,12 +337,24 @@
             }
             this.filesWeblinks = this._getFilesWeblinks(diff);
             return new Promise(resolve => {
-              const callback = () => {
-                resolve();
+              const callback = event => {
+                const needsSyntaxHighlighting = event.detail
+                      && event.detail.contentRendered;
+                if (needsSyntaxHighlighting) {
+                  this.$.reporting.time(TimingLabel.SYNTAX);
+                  this.$.syntaxLayer.process().then(() => {
+                    this.$.reporting.timeEnd(TimingLabel.SYNTAX);
+                    this.$.reporting.timeEnd(TimingLabel.TOTAL);
+                    resolve();
+                  });
+                } else {
+                  this.$.reporting.timeEnd(TimingLabel.TOTAL);
+                  resolve();
+                }
                 this.removeEventListener('render', callback);
               };
               this.addEventListener('render', callback);
-              this._diff = diff;
+              this.diff = diff;
             });
           })
           .catch(err => {
@@ -770,6 +812,24 @@
       }
     },
 
+    _syntaxHighlightingChanged(noRenderOnPrefsChange, prefsChangeRecord) {
+      // Polymer 2: check for undefined
+      if ([
+        noRenderOnPrefsChange,
+        prefsChangeRecord,
+      ].some(arg => arg === undefined)) {
+        return;
+      }
+
+      if (prefsChangeRecord.path !== 'prefs.syntax_highlighting') {
+        return;
+      }
+
+      if (!noRenderOnPrefsChange) {
+        this.reload();
+      }
+    },
+
     /**
      * @param {Object} patchRangeRecord
      * @return {number|null}
@@ -851,6 +911,38 @@
           item => item.__draftID === comment.__draftID);
     },
 
+    _isSyntaxHighlightingEnabled(preferenceChangeRecord, diff) {
+      if (!preferenceChangeRecord || !diff) return false;
+      if (!preferenceChangeRecord.base.syntax_highlighting) return false;
+      return !this._anyLineTooLong(diff) &&
+          this.$.diff.getDiffLength(diff) <= SYNTAX_MAX_DIFF_LENGTH;
+    },
+
+    /**
+     * @return {boolean} whether any of the lines in diff are longer
+     * than SYNTAX_MAX_LINE_LENGTH.
+     */
+    _anyLineTooLong(diff) {
+      if (!diff) return false;
+      return diff.content.some(section => {
+        const lines = section.ab ?
+              section.ab :
+              (section.a || []).concat(section.b || []);
+        return lines.some(line => line.length >= SYNTAX_MAX_LINE_LENGTH);
+      });
+    },
+
+    _listenToViewportRender() {
+      const renderUpdateListener = start => {
+        if (start > NUM_OF_LINES_THRESHOLD_FOR_VIEWPORT) {
+          this.$.reporting.diffViewDisplayed();
+          this.$.syntaxLayer.removeListener(renderUpdateListener);
+        }
+      };
+
+      this.$.syntaxLayer.addListener(renderUpdateListener);
+    },
+
     _handleRenderStart() {
       this.$.reporting.time(TimingLabel.TOTAL);
       this.$.reporting.time(TimingLabel.CONTENT);
@@ -858,12 +950,7 @@
 
     _handleRenderContent() {
       this.$.reporting.timeEnd(TimingLabel.CONTENT);
-      this.$.reporting.time(TimingLabel.SYNTAX);
-    },
-
-    _handleRenderSyntax() {
-      this.$.reporting.timeEnd(TimingLabel.SYNTAX);
-      this.$.reporting.timeEnd(TimingLabel.TOTAL);
+      this.$.reporting.diffViewContentDisplayed();
     },
 
     _handleNormalizeRange(event) {

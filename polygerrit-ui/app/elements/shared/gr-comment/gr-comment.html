@@ -244,7 +244,7 @@ limitations under the License.
 
     </style>
     <div id="container" class="container">
-      <div class="header" id="header" on-tap="_handleToggleCollapsed">
+      <div class="header" id="header" on-click="_handleToggleCollapsed">
         <div class="headerLeft">
           <span class="authorName">[[comment.author.name]]</span>
           <span class="draftLabel">DRAFT</span>
@@ -265,7 +265,7 @@ limitations under the License.
             on-click="_handleCommentDelete">
           (Delete)
         </gr-button>
-        <span class="date" on-tap="_handleAnchorTap">
+        <span class="date" on-click="_handleAnchorClick">
           <gr-date-formatter
               has-tooltip
               date-str="[[comment.updated]]"></gr-date-formatter>
@@ -359,6 +359,15 @@ limitations under the License.
                 on-click="_handleFix"
                 disabled="[[robotButtonDisabled]]">
               Please Fix
+            </gr-button>
+            <gr-button
+                link
+                secondary
+                class="action show-fix"
+                hidden$="[[_hasNoFix(comment)]]"
+                on-click="_handleShowFix"
+                disabled="[[robotButtonDisabled]]">
+              Show Fix
             </gr-button>
             <gr-endpoint-decorator name="robot-comment-controls">
               <gr-endpoint-param name="comment" value="[[comment]]">

@@ -18,11 +18,9 @@ import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.SetMultimap;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.Capable;
+import com.google.gerrit.entities.Account;
 import com.google.gerrit.extensions.restapi.AuthException;
-import com.google.gerrit.git.ObjectIds;
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.git.DefaultAdvertiseRefsHook;
 import com.google.gerrit.server.git.receive.AsyncReceiveCommits;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.permissions.PermissionBackend;
@@ -33,12 +31,8 @@ import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshSession;
 import com.google.inject.Inject;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 import org.eclipse.jgit.errors.TooLargeObjectInPackException;
 import org.eclipse.jgit.errors.UnpackException;
-import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.transport.AdvertiseRefsHook;
 import org.eclipse.jgit.transport.ReceivePack;
 import org.kohsuke.args4j.Option;
@@ -120,58 +114,19 @@ final class Receive extends AbstractGitCommand {
         logger.atInfo().log(msg.toString());
         throw new UnloggedFailure(128, "error: " + badStream.getCause().getMessage());
       }
-
-      // This may have been triggered by branch level access controls.
-      // Log what the heck is going on, as detailed as we can.
-      //
       StringBuilder msg = new StringBuilder();
       msg.append("Unpack error on project \"").append(projectState.getName()).append("\":\n");
 
       msg.append("  AdvertiseRefsHook: ").append(rp.getAdvertiseRefsHook());
       if (rp.getAdvertiseRefsHook() == AdvertiseRefsHook.DEFAULT) {
         msg.append("DEFAULT");
-      } else if (rp.getAdvertiseRefsHook() instanceof DefaultAdvertiseRefsHook) {
-        msg.append("DefaultAdvertiseRefsHook");
       } else {
         msg.append(rp.getAdvertiseRefsHook().getClass());
       }
       msg.append("\n");
 
-      if (rp.getAdvertiseRefsHook() instanceof DefaultAdvertiseRefsHook) {
-        Map<String, Ref> adv = rp.getAdvertisedRefs();
-        msg.append("  Visible references (").append(adv.size()).append("):\n");
-        for (Ref ref : adv.values()) {
-          msg.append("  - ")
-              .append(abbreviateName(ref, rp))
-              .append(" ")
-              .append(ref.getName())
-              .append("\n");
-        }
-
-        List<Ref> allRefs = rp.getRepository().getRefDatabase().getRefs();
-        List<Ref> hidden = new ArrayList<>();
-        for (Ref ref : allRefs) {
-          if (!adv.containsKey(ref.getName())) {
-            hidden.add(ref);
-          }
-        }
-
-        msg.append("  Hidden references (").append(hidden.size()).append("):\n");
-        for (Ref ref : hidden) {
-          msg.append("  - ")
-              .append(abbreviateName(ref, rp))
-              .append(" ")
-              .append(ref.getName())
-              .append("\n");
-        }
-      }
-
       IOException detail = new IOException(msg.toString(), badStream);
       throw new Failure(128, "fatal: Unpack error, check server log", detail);
     }
-  }
-
-  private String abbreviateName(Ref ref, ReceivePack rp) throws IOException {
-    return ObjectIds.abbreviateName(ref.getObjectId(), rp.getRevWalk().getObjectReader());
   }
 }

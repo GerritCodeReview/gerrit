@@ -42,6 +42,12 @@
      */
 
     /**
+     * Fired when the show fix preview action is triggered.
+     *
+     * @event open-fix-preview
+     */
+
+    /**
      * Fired when this comment is discarded.
      *
      * @event comment-discard
@@ -354,7 +360,7 @@
 
     _computeSaveDisabled(draft, comment, resolved) {
       // If resolved state has changed and a msg exists, save should be enabled.
-      if (comment.unresolved === resolved && draft) {
+      if (!comment || comment.unresolved === resolved && draft) {
         return false;
       }
       return !draft || draft.trim() === '';
@@ -416,7 +422,7 @@
       }, STORAGE_DEBOUNCE_INTERVAL);
     },
 
-    _handleAnchorTap(e) {
+    _handleAnchorClick(e) {
       e.preventDefault();
       if (!this.comment.line) {
         return;
@@ -476,6 +482,18 @@
         composed: true,
         detail: this._getEventPayload(),
       }));
+    },
+
+    _handleShowFix() {
+      this.dispatchEvent(new CustomEvent('open-fix-preview', {
+        bubbles: true,
+        composed: true,
+        detail: this._getEventPayload(),
+      }));
+    },
+
+    _hasNoFix(comment) {
+      return !comment || !comment.fix_suggestions;
     },
 
     _handleDiscard(e) {

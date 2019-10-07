@@ -15,16 +15,20 @@
 package com.google.gerrit.acceptance;
 
 import static com.google.common.truth.Truth.assertWithMessage;
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.stream.Collectors.joining;
 import static org.junit.Assert.fail;
 
+import com.google.common.base.Joiner;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Streams;
+import com.google.common.io.ByteStreams;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.api.groups.GroupInput;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.launcher.GerritLauncher;
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.util.ManualRequestContext;
@@ -35,6 +39,9 @@ import com.google.gerrit.testing.ConfigSuite;
 import com.google.inject.Injector;
 import com.google.inject.Module;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InterruptedIOException;
 import java.util.Arrays;
 import java.util.Collections;
 import org.eclipse.jgit.lib.Config;
@@ -59,10 +66,10 @@ public abstract class StandaloneSiteTest {
     private ServerContext(GerritServer server) throws Exception {
       this.server = server;
       Injector i = server.getTestInjector();
-      if (adminId == null) {
-        adminId = i.getInstance(AccountCreator.class).admin().id();
+      if (admin == null) {
+        admin = i.getInstance(AccountCreator.class).admin();
       }
-      ctx = i.getInstance(OneOffRequestContext.class).openAs(adminId);
+      ctx = i.getInstance(OneOffRequestContext.class).openAs(admin.id());
       GerritApi gApi = i.getInstance(GerritApi.class);
 
       try {
@@ -117,7 +124,7 @@ public abstract class StandaloneSiteTest {
   @Rule public RuleChain ruleChain = RuleChain.outerRule(tempSiteDir).around(testRunner);
 
   protected SitePaths sitePaths;
-  protected Account.Id adminId;
+  protected TestAccount admin;
 
   private GerritServer.Description serverDesc;
   private SystemReader oldSystemReader;
@@ -189,5 +196,34 @@ public abstract class StandaloneSiteTest {
   @SafeVarargs
   protected static void runGerrit(Iterable<String>... multiArgs) throws Exception {
     runGerrit(Arrays.stream(multiArgs).flatMap(Streams::stream).toArray(String[]::new));
+  }
+
+  protected static String execute(
+      ImmutableList<String> cmd, File dir, ImmutableMap<String, String> env) throws IOException {
+    ProcessBuilder pb = new ProcessBuilder(cmd);
+    pb.directory(dir).redirectErrorStream(true);
+    pb.environment().putAll(env);
+    Process p = pb.start();
+    byte[] out;
+    try (InputStream in = p.getInputStream()) {
+      out = ByteStreams.toByteArray(in);
+    } finally {
+      p.getOutputStream().close();
+    }
+
+    int status;
+    try {
+      status = p.waitFor();
+    } catch (InterruptedException e) {
+      throw new InterruptedIOException(
+          "interrupted waiting for: " + Joiner.on(' ').join(pb.command()));
+    }
+
+    String result = new String(out, UTF_8);
+    if (status != 0) {
+      throw new IOException(result);
+    }
+
+    return result.trim();
   }
 }

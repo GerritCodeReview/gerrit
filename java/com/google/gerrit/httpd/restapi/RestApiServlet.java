@@ -64,6 +64,7 @@ import com.google.common.math.IntMath;
 import com.google.common.net.HttpHeaders;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.RawInputUtil;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.DynamicSet;
@@ -99,7 +100,6 @@ import com.google.gerrit.git.LockFailureException;
 import com.google.gerrit.httpd.WebSession;
 import com.google.gerrit.httpd.restapi.ParameterParser.QueryParams;
 import com.google.gerrit.json.OutputFormat;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
@@ -280,7 +280,7 @@ public class RestApiServlet extends HttpServlet {
 
   private final Globals globals;
   private final Provider<RestCollection<RestResource, RestResource>> members;
-  private Optional<String> traceId;
+  private Optional<String> traceId = Optional.empty();
 
   public RestApiServlet(
       Globals globals, RestCollection<? extends RestResource, ? extends RestResource> members) {

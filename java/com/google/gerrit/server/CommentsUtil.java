@@ -19,22 +19,20 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.collect.ComparisonChain;
-import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Ordering;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.Comment;
+import com.google.gerrit.entities.Patch;
+import com.google.gerrit.entities.PatchSet;
+import com.google.gerrit.entities.RefNames;
+import com.google.gerrit.entities.RobotComment;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
-import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.Comment;
-import com.google.gerrit.reviewdb.client.Patch;
-import com.google.gerrit.reviewdb.client.PatchLineComment;
-import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.reviewdb.client.RobotComment;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerId;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -259,8 +257,7 @@ public class CommentsUtil {
     return sort(comments);
   }
 
-  public void putComments(
-      ChangeUpdate update, PatchLineComment.Status status, Iterable<Comment> comments) {
+  public void putComments(ChangeUpdate update, Comment.Status status, Iterable<Comment> comments) {
     for (Comment c : comments) {
       update.putComment(status, c);
     }
@@ -352,16 +349,5 @@ public class CommentsUtil {
   private static <T extends Comment> List<T> sort(List<T> comments) {
     comments.sort(COMMENT_ORDER);
     return comments;
-  }
-
-  public static Iterable<PatchLineComment> toPatchLineComments(
-      Change.Id changeId, PatchLineComment.Status status, Iterable<Comment> comments) {
-    return FluentIterable.from(comments).transform(c -> PatchLineComment.from(changeId, status, c));
-  }
-
-  public static List<Comment> toComments(
-      final String serverId, Iterable<PatchLineComment> comments) {
-    return COMMENT_ORDER.sortedCopy(
-        FluentIterable.from(comments).transform(plc -> plc.asComment(serverId)));
   }
 }

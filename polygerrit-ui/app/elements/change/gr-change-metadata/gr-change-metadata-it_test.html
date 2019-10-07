@@ -106,7 +106,7 @@ limitations under the License.
 
     suite('with plugin style', () => {
       setup(done => {
-        Gerrit._resetPlugins();
+        Gerrit._testOnly_resetPlugins();
         const pluginHost = fixture('plugin-host');
         pluginHost.config = {
           plugin: {

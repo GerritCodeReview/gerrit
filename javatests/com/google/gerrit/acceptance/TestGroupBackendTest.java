@@ -16,18 +16,16 @@ package com.google.gerrit.acceptance;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import com.google.gerrit.extensions.registration.DynamicSet;
-import com.google.gerrit.extensions.registration.RegistrationHandle;
-import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.server.account.GroupBackend;
+import com.google.gerrit.acceptance.ExtensionRegistry.Registration;
+import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.server.account.UniversalGroupBackend;
 import com.google.gerrit.server.group.testing.TestGroupBackend;
 import com.google.inject.Inject;
 import org.junit.Test;
 
 public class TestGroupBackendTest extends AbstractDaemonTest {
-  @Inject private DynamicSet<GroupBackend> groupBackends;
   @Inject private UniversalGroupBackend universalGroupBackend;
+  @Inject private ExtensionRegistry extensionRegistry;
 
   private final TestGroupBackend testGroupBackend = new TestGroupBackend();
   private final AccountGroup.UUID testUUID = AccountGroup.uuid("testbackend:test");
@@ -39,11 +37,8 @@ public class TestGroupBackendTest extends AbstractDaemonTest {
 
   @Test
   public void universalGroupBackendHandlesTestGroup() throws Exception {
-    RegistrationHandle registrationHandle = groupBackends.add("gerrit", testGroupBackend);
-    try {
+    try (Registration registration = extensionRegistry.newRegistration().add(testGroupBackend)) {
       assertThat(universalGroupBackend.handles(testUUID)).isTrue();
-    } finally {
-      registrationHandle.remove();
     }
   }
 

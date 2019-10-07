@@ -41,6 +41,17 @@ import com.google.common.hash.Hashing;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
+import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.ChangeMessage;
+import com.google.gerrit.entities.Comment;
+import com.google.gerrit.entities.FixReplacement;
+import com.google.gerrit.entities.FixSuggestion;
+import com.google.gerrit.entities.LabelId;
+import com.google.gerrit.entities.Patch;
+import com.google.gerrit.entities.PatchSet;
+import com.google.gerrit.entities.PatchSetApproval;
+import com.google.gerrit.entities.RobotComment;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.AddReviewerResult;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
@@ -69,18 +80,6 @@ import com.google.gerrit.extensions.validators.CommentValidationFailure;
 import com.google.gerrit.extensions.validators.CommentValidator;
 import com.google.gerrit.json.OutputFormat;
 import com.google.gerrit.mail.Address;
-import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.ChangeMessage;
-import com.google.gerrit.reviewdb.client.Comment;
-import com.google.gerrit.reviewdb.client.FixReplacement;
-import com.google.gerrit.reviewdb.client.FixSuggestion;
-import com.google.gerrit.reviewdb.client.LabelId;
-import com.google.gerrit.reviewdb.client.Patch;
-import com.google.gerrit.reviewdb.client.PatchLineComment.Status;
-import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.client.PatchSetApproval;
-import com.google.gerrit.reviewdb.client.RobotComment;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
@@ -249,7 +248,10 @@ public class PostReview
     }
     ProjectState projectState = projectCache.checkedGet(revision.getProject());
     LabelTypes labelTypes = projectState.getLabelTypes(revision.getNotes());
+
     input.drafts = firstNonNull(input.drafts, DraftHandling.KEEP);
+    logger.atFine().log("draft handling = %s", input.drafts);
+
     if (input.onBehalfOf != null) {
       revision = onBehalfOf(revision, labelTypes, input);
     }
@@ -971,7 +973,7 @@ public class PostReview
           break;
       }
       ChangeUpdate changeUpdate = ctx.getUpdate(psId);
-      commentsUtil.putComments(changeUpdate, Status.PUBLISHED, toPublish);
+      commentsUtil.putComments(changeUpdate, Comment.Status.PUBLISHED, toPublish);
       comments.addAll(toPublish);
       return !toPublish.isEmpty();
     }

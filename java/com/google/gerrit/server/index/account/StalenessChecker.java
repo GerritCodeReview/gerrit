@@ -22,13 +22,13 @@ import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
+import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.RefState;
 import com.google.gerrit.index.query.FieldBundle;
-import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.config.AllUsersName;
@@ -58,6 +58,12 @@ public class StalenessChecker {
   public static final ImmutableSet<String> FIELDS =
       ImmutableSet.of(
           AccountField.ID.getName(),
+          AccountField.REF_STATE.getName(),
+          AccountField.EXTERNAL_ID_STATE.getName());
+
+  public static final ImmutableSet<String> FIELDS2 =
+      ImmutableSet.of(
+          AccountField.ID_STR.getName(),
           AccountField.REF_STATE.getName(),
           AccountField.EXTERNAL_ID_STATE.getName());
 
@@ -93,8 +99,13 @@ public class StalenessChecker {
       return false;
     }
 
+    boolean useLegacyNumericFields = i.getSchema().useLegacyNumericFields();
+    ImmutableSet<String> fields = useLegacyNumericFields ? FIELDS : FIELDS2;
     Optional<FieldBundle> result =
-        i.getRaw(id, QueryOptions.create(indexConfig, 0, 1, IndexUtils.accountFields(FIELDS)));
+        i.getRaw(
+            id,
+            QueryOptions.create(
+                indexConfig, 0, 1, IndexUtils.accountFields(fields, useLegacyNumericFields)));
     if (!result.isPresent()) {
       // The document is missing in the index.
       try (Repository repo = repoManager.openRepository(allUsersName)) {

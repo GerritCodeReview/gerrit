@@ -194,7 +194,7 @@
       this.handleExpandCollapse(!this._expanded);
     },
 
-    _handleAnchorTap(e) {
+    _handleAnchorClick(e) {
       this.scrollToMessage(e.detail.id);
     },
 
@@ -223,6 +223,9 @@
      * @return {!Object} Hash of arrays of comments, filename as key.
      */
     _computeCommentsForMessage(changeComments, message) {
+      if ([changeComments, message].some(arg => arg === undefined)) {
+        return [];
+      }
       const comments = changeComments.getAllPublishedComments();
       if (message._index === undefined || !comments || !this.messages) {
         return [];
@@ -271,8 +274,13 @@
      * more visible messages in the list.
      */
     _getDelta(visibleMessages, messages, hideAutomated) {
+      if ([visibleMessages, messages].some(arg => arg === undefined)) {
+        return 0;
+      }
+
       let delta = MESSAGES_INCREMENT;
       const msgsRemaining = messages.length - visibleMessages.length;
+
       if (hideAutomated) {
         let counter = 0;
         let i;
@@ -289,6 +297,10 @@
      * exist in _visibleMessages.
      */
     _numRemaining(visibleMessages, messages, hideAutomated) {
+      if ([visibleMessages, messages].some(arg => arg === undefined)) {
+        return 0;
+      }
+
       if (hideAutomated) {
         return this._getHumanMessages(messages).length -
             this._getHumanMessages(visibleMessages).length;
@@ -311,6 +323,10 @@
 
     _computeShowHideTextHidden(visibleMessages, messages,
         hideAutomated) {
+      if ([visibleMessages, messages].some(arg => arg === undefined)) {
+        return 0;
+      }
+
       if (hideAutomated) {
         messages = this._getHumanMessages(messages);
         visibleMessages = this._getHumanMessages(visibleMessages);
@@ -334,7 +350,9 @@
     },
 
     _processedMessagesChanged(messages) {
-      this._visibleMessages = messages.slice(-MAX_INITIAL_SHOWN_MESSAGES);
+      if (messages) {
+        this._visibleMessages = messages.slice(-MAX_INITIAL_SHOWN_MESSAGES);
+      }
     },
 
     _computeNumMessagesText(visibleMessages, messages,

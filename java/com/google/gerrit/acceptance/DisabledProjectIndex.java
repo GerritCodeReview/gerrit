@@ -14,13 +14,13 @@
 
 package com.google.gerrit.acceptance;
 
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.project.ProjectData;
 import com.google.gerrit.index.project.ProjectIndex;
 import com.google.gerrit.index.query.DataSource;
 import com.google.gerrit.index.query.Predicate;
-import com.google.gerrit.reviewdb.client.Project;
 
 /**
  * This class wraps an index and assumes the search index can't handle any queries. However, it does

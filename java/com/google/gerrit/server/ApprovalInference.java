@@ -22,11 +22,11 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Table;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.LabelType;
+import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.PatchSet;
+import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.client.ChangeKind;
-import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.client.PatchSetApproval;
 import com.google.gerrit.server.change.ChangeKindCache;
 import com.google.gerrit.server.change.LabelNormalizer;
 import com.google.gerrit.server.logging.Metadata;
@@ -98,6 +98,8 @@ public class ApprovalInference {
       return false;
     } else if ((type.isCopyMinScore() && type.isMaxNegative(psa))
         || (type.isCopyMaxScore() && type.isMaxPositive(psa))) {
+      return true;
+    } else if (type.isCopyAnyScore()) {
       return true;
     }
     switch (kind) {

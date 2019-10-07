@@ -18,10 +18,10 @@ import static com.google.common.collect.ImmutableList.toImmutableList;
 
 import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.entities.PatchSet;
+import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.exceptions.StorageException;
-import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.git.HookUtil;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -57,9 +57,6 @@ import org.eclipse.jgit.transport.UploadPack;
  * .haves}. This is a heuristical approach that aims at scaling down the number of unnecessary
  * objects that client sends to the server. Unnecessary here refers to objects that the server
  * already has.
- *
- * <p>For some code paths in {@link com.google.gerrit.server.git.DefaultAdvertiseRefsHook}, we
- * already removed refs/changes, so the logic to skip these in this class become a no-op.
  *
  * <p>TODO(hiesel): Instrument this heuristic and proof its value.
  */

@@ -14,13 +14,13 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import com.google.gerrit.entities.FixSuggestion;
+import com.google.gerrit.entities.RobotComment;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestView;
-import com.google.gerrit.reviewdb.client.FixSuggestion;
-import com.google.gerrit.reviewdb.client.RobotComment;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.change.FixResource;
 import com.google.gerrit.server.change.RevisionResource;

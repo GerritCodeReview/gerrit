@@ -66,6 +66,9 @@ limitations under the License.
       .invisible {
         visibility: hidden;
       }
+      .header-row {
+        font-weight: var(--font-weight-bold);
+      }
       .controlRow {
         align-items: center;
         display: flex;
@@ -126,22 +129,27 @@ limitations under the License.
       .oldPath {
         color: var(--deemphasized-text-color);
       }
-      .comments,
+      .header-stats {
+        text-align: center;
+        min-width: 7.5em;
+      }
       .stats {
         text-align: right;
+        min-width: 7.5em;
       }
       .comments {
         padding-left: 2em;
+        min-width: 20em;
       }
-      .stats {
-        min-width: 7em;
-      }
-      .row:not(.header) .stats,
+      .row:not(.header-row) .stats,
       .total-stats {
         font-family: var(--monospace-font-family);
+        display: flex;
       }
       .sizeBars {
         margin-left: .5em;
+        min-width: 7em;
+        text-align: center;
       }
       .sizeBars.hide {
         display: none;
@@ -157,6 +165,8 @@ limitations under the License.
       .removed {
         color: var(--vote-text-color-disliked);
         text-align: left;
+        min-width: 4em;
+        padding-left: 0.5em;
       }
       .drafts {
         color: #C62828;
@@ -277,6 +287,24 @@ limitations under the License.
     <div
         id="container"
         on-tap="_handleFileListTap">
+      <div class="header-row row">
+        <div class="status"></div>
+        <div class="path">File</div>
+        <div class="comments">Comments</div>
+        <div class="sizeBars">Size</div>
+        <div class="header-stats">Delta</div>
+        <template is="dom-if" if="[[_showDynamicColumns]]">
+          <template is="dom-repeat" items="[[_dynamicHeaderEndpoints]]" as="headerEndpoint">
+            <gr-endpoint-decorator name$="[[headerEndpoint]]">
+            </gr-endpoint-decorator>
+          </template>
+        </template>
+        <!-- Empty div here exists to keep spacing in sync with file rows. -->
+        <div class="reviewed hideOnEdit" hidden$="[[!_loggedIn]]"></div>
+        <div class="editFileControls showOnEdit"></div>
+        <div class="show-hide"></div>
+      </div>
+
       <template is="dom-repeat"
           items="[[_shownFiles]]"
           id="files"
@@ -362,6 +390,20 @@ limitations under the License.
                 [[_formatPercentage(file.size, file.size_delta)]]
               </span>
             </div>
+            <template is="dom-if" if="[[_showDynamicColumns]]">
+              <template is="dom-repeat" items="[[_dynamicContentEndpoints]]" as="contentEndpoint">
+                <div class$="[[_computeClass('', file.__path)]]">
+                  <gr-endpoint-decorator name="[[contentEndpoint]]">
+                    <gr-endpoint-param name="changeNum" value="[[changeNum]]">
+                    </gr-endpoint-param>
+                    <gr-endpoint-param name="patchRange" value="[[patchRange]]">
+                    </gr-endpoint-param>
+                    <gr-endpoint-param name="path" value="[[file.__path]]">
+                    </gr-endpoint-param>
+                  </gr-endpoint-decorator>
+                </div>
+              </template>
+            </template>
             <div class="reviewed hideOnEdit" hidden$="[[!_loggedIn]]" hidden>
               <span class$="reviewedLabel [[_computeReviewedClass(file.isReviewed)]]">Reviewed</span>
               <label>
@@ -426,8 +468,14 @@ limitations under the License.
           -[[_patchChange.deleted]]
         </span>
       </div>
+      <template is="dom-if" if="[[_showDynamicColumns]]">
+        <template is="dom-repeat" items="[[_dynamicSummaryEndpoints]]" as="summaryEndpoint">
+          <gr-endpoint-decorator name="[[summaryEndpoint]]">
+          </gr-endpoint-decorator>
+        </template>
+      </template>
       <!-- Empty div here exists to keep spacing in sync with file rows. -->
-      <div class="reviewed hideOnEdit" hidden$="[[!_loggedIn]]" hidden></div>
+      <div class="reviewed hideOnEdit" hidden$="[[!_loggedIn]]"></div>
       <div class="editFileControls showOnEdit"></div>
       <div class="show-hide"></div>
     </div>

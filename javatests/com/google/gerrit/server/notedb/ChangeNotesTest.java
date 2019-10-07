@@ -18,8 +18,8 @@ import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.common.truth.Truth8.assertThat;
-import static com.google.gerrit.reviewdb.client.RefNames.changeMetaRef;
-import static com.google.gerrit.reviewdb.client.RefNames.refsDraftComments;
+import static com.google.gerrit.entities.RefNames.changeMetaRef;
+import static com.google.gerrit.entities.RefNames.refsDraftComments;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.CC;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REMOVED;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
@@ -37,17 +37,17 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.SubmitRecord;
+import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.BranchNameKey;
+import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.ChangeMessage;
+import com.google.gerrit.entities.Comment;
+import com.google.gerrit.entities.CommentRange;
+import com.google.gerrit.entities.PatchSet;
+import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.mail.Address;
-import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.BranchNameKey;
-import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.ChangeMessage;
-import com.google.gerrit.reviewdb.client.Comment;
-import com.google.gerrit.reviewdb.client.CommentRange;
-import com.google.gerrit.reviewdb.client.PatchLineComment.Status;
-import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.client.PatchSetApproval;
+import com.google.gerrit.server.AssigneeStatusUpdate;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.ReviewerSet;
@@ -74,7 +74,6 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
   @Inject private DraftCommentNotes.Factory draftNotesFactory;
 
   @Inject private ChangeNoteJson changeNoteJson;
-  @Inject private LegacyChangeNoteRead legacyChangeNoteRead;
 
   @Inject private @GerritServerId String serverId;
 
@@ -120,7 +119,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     RevCommit commit = tr.commit().message("PS2").create();
     ChangeUpdate update = newUpdate(c, changeOwner);
     update.putComment(
-        Status.PUBLISHED,
+        Comment.Status.PUBLISHED,
         newComment(
             c.currentPatchSetId(),
             "a.txt",
@@ -182,7 +181,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     RevCommit commit = tr.commit().message("PS2").create();
     update = newUpdate(c, changeOwner);
     update.putComment(
-        Status.PUBLISHED,
+        Comment.Status.PUBLISHED,
         newComment(
             c.currentPatchSetId(),
             "a.txt",
@@ -745,6 +744,35 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
   }
 
   @Test
+  public void assigneeStatusUpdateChangeNotes() throws Exception {
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, otherUser);
+    update.setAssignee(otherUserId);
+    update.commit();
+
+    update = newUpdate(c, changeOwner);
+    update.removeAssignee();
+    update.commit();
+
+    update = newUpdate(c, changeOwner);
+    update.setAssignee(changeOwner.getAccountId());
+    update.commit();
+
+    update = newUpdate(c, changeOwner);
+    update.setAssignee(otherUserId);
+    update.commit();
+
+    ChangeNotes notes = newNotes(c);
+    ImmutableList<AssigneeStatusUpdate> statusUpdates = notes.getAssigneeUpdates();
+    assertThat(statusUpdates).hasSize(4);
+    assertThat(statusUpdates.get(3).updatedBy()).isEqualTo(otherUserId);
+    assertThat(statusUpdates.get(3).currentAssignee()).hasValue(otherUserId);
+    assertThat(statusUpdates.get(2).currentAssignee()).isEmpty();
+    assertThat(statusUpdates.get(1).currentAssignee()).hasValue(changeOwner.getAccountId());
+    assertThat(statusUpdates.get(0).currentAssignee()).hasValue(otherUserId);
+  }
+
+  @Test
   public void hashtagCommit() throws Exception {
     Change c = newChange();
     ChangeUpdate update = newUpdate(c, changeOwner);
@@ -1061,7 +1089,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.putApproval("Code-Review", (short) 1);
     update.setChangeMessage("This is a message");
     update.putComment(
-        Status.PUBLISHED,
+        Comment.Status.PUBLISHED,
         newComment(
             c.currentPatchSetId(),
             "a.txt",
@@ -1161,7 +1189,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update.setPatchSetId(psId2);
     Timestamp ts = TimeUtil.nowTs();
     update.putComment(
-        Status.PUBLISHED,
+        Comment.Status.PUBLISHED,
         newComment(
             psId2,
             "a.txt",
@@ -1246,7 +1274,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
               ObjectId.fromString("abcd1234abcd1234abcd1234abcd1234abcd1234"),
               false);
       update1.setPatchSetId(psId);
-      update1.putComment(Status.PUBLISHED, comment1);
+      update1.putComment(Comment.Status.PUBLISHED, comment1);
       updateManager.add(update1);
 
       ChangeUpdate update2 = newUpdate(c, otherUser);
@@ -1268,12 +1296,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     try (ChangeNotesRevWalk rw = ChangeNotesCommit.newRevWalk(repo)) {
       ChangeNotesParser notesWithComments =
           new ChangeNotesParser(
-              c.getId(),
-              commitWithComments.copy(),
-              rw,
-              changeNoteJson,
-              legacyChangeNoteRead,
-              args.metrics);
+              c.getId(), commitWithComments.copy(), rw, changeNoteJson, args.metrics);
       ChangeNotesState state = notesWithComments.parseAll();
       assertThat(state.approvals()).isEmpty();
       assertThat(state.publishedComments()).hasSize(1);
@@ -1282,12 +1305,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     try (ChangeNotesRevWalk rw = ChangeNotesCommit.newRevWalk(repo)) {
       ChangeNotesParser notesWithApprovals =
           new ChangeNotesParser(
-              c.getId(),
-              commitWithApprovals.copy(),
-              rw,
-              changeNoteJson,
-              legacyChangeNoteRead,
-              args.metrics);
+              c.getId(), commitWithApprovals.copy(), rw, changeNoteJson, args.metrics);
 
       ChangeNotesState state = notesWithApprovals.parseAll();
       assertThat(state.approvals()).hasSize(1);
@@ -1470,7 +1488,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             commitId,
             false);
     update.setPatchSetId(psId);
-    update.putComment(Status.PUBLISHED, comment);
+    update.putComment(Comment.Status.PUBLISHED, comment);
     update.commit();
 
     ChangeNotes notes = newNotes(c);
@@ -1500,7 +1518,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             commitId,
             false);
     update.setPatchSetId(psId);
-    update.putComment(Status.PUBLISHED, comment);
+    update.putComment(Comment.Status.PUBLISHED, comment);
     update.commit();
 
     ChangeNotes notes = newNotes(c);
@@ -1530,7 +1548,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             commitId,
             false);
     update.setPatchSetId(psId);
-    update.putComment(Status.PUBLISHED, comment);
+    update.putComment(Comment.Status.PUBLISHED, comment);
     update.commit();
 
     ChangeNotes notes = newNotes(c);
@@ -1560,7 +1578,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             commitId,
             false);
     update.setPatchSetId(psId);
-    update.putComment(Status.PUBLISHED, comment);
+    update.putComment(Comment.Status.PUBLISHED, comment);
     update.commit();
 
     ChangeNotes notes = newNotes(c);
@@ -1629,9 +1647,9 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
     ChangeUpdate update = newUpdate(c, otherUser);
     update.setPatchSetId(psId2);
-    update.putComment(Status.PUBLISHED, comment3);
-    update.putComment(Status.PUBLISHED, comment2);
-    update.putComment(Status.PUBLISHED, comment1);
+    update.putComment(Comment.Status.PUBLISHED, comment3);
+    update.putComment(Comment.Status.PUBLISHED, comment2);
+    update.putComment(Comment.Status.PUBLISHED, comment1);
     update.commit();
 
     ChangeNotes notes = newNotes(c);
@@ -1671,7 +1689,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             false);
     comment.setRealAuthor(changeOwner.getAccountId());
     update.setPatchSetId(psId);
-    update.putComment(Status.PUBLISHED, comment);
+    update.putComment(Comment.Status.PUBLISHED, comment);
     update.commit();
 
     ChangeNotes notes = newNotes(c);
@@ -1709,7 +1727,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             ObjectId.fromString("abcd1234abcd1234abcd1234abcd1234abcd1234"),
             false);
     update.setPatchSetId(psId);
-    update.putComment(Status.PUBLISHED, comment);
+    update.putComment(Comment.Status.PUBLISHED, comment);
     update.commit();
 
     ChangeNotes notes = newNotes(c);
@@ -1747,7 +1765,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             commitId1,
             false);
     update.setPatchSetId(psId);
-    update.putComment(Status.PUBLISHED, commentForBase);
+    update.putComment(Comment.Status.PUBLISHED, commentForBase);
     update.commit();
 
     update = newUpdate(c, otherUser);
@@ -1766,7 +1784,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             commitId2,
             false);
     update.setPatchSetId(psId);
-    update.putComment(Status.PUBLISHED, commentForPS);
+    update.putComment(Comment.Status.PUBLISHED, commentForPS);
     update.commit();
 
     assertThat(newNotes(c).getComments())
@@ -1805,7 +1823,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             commitId,
             false);
     update.setPatchSetId(psId);
-    update.putComment(Status.PUBLISHED, comment1);
+    update.putComment(Comment.Status.PUBLISHED, comment1);
     update.commit();
 
     update = newUpdate(c, otherUser);
@@ -1824,7 +1842,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             commitId,
             false);
     update.setPatchSetId(psId);
-    update.putComment(Status.PUBLISHED, comment2);
+    update.putComment(Comment.Status.PUBLISHED, comment2);
     update.commit();
 
     assertThat(newNotes(c).getComments())
@@ -1863,7 +1881,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             commitId,
             false);
     update.setPatchSetId(psId);
-    update.putComment(Status.PUBLISHED, comment1);
+    update.putComment(Comment.Status.PUBLISHED, comment1);
     update.commit();
 
     update = newUpdate(c, otherUser);
@@ -1882,7 +1900,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             commitId,
             false);
     update.setPatchSetId(psId);
-    update.putComment(Status.PUBLISHED, comment2);
+    update.putComment(Comment.Status.PUBLISHED, comment2);
     update.commit();
 
     assertThat(newNotes(c).getComments())
@@ -1921,7 +1939,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             commitId1,
             false);
     update.setPatchSetId(ps1);
-    update.putComment(Status.PUBLISHED, comment1);
+    update.putComment(Comment.Status.PUBLISHED, comment1);
     update.commit();
 
     incrementPatchSet(c);
@@ -1944,7 +1962,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             commitId2,
             false);
     update.setPatchSetId(ps2);
-    update.putComment(Status.PUBLISHED, comment2);
+    update.putComment(Comment.Status.PUBLISHED, comment2);
     update.commit();
 
     assertThat(newNotes(c).getComments())
@@ -1981,7 +1999,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             commitId,
             false);
     update.setPatchSetId(ps1);
-    update.putComment(Status.DRAFT, comment1);
+    update.putComment(Comment.Status.DRAFT, comment1);
     update.commit();
 
     ChangeNotes notes = newNotes(c);
@@ -1991,7 +2009,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
     update = newUpdate(c, otherUser);
     update.setPatchSetId(ps1);
-    update.putComment(Status.PUBLISHED, comment1);
+    update.putComment(Comment.Status.PUBLISHED, comment1);
     update.commit();
 
     notes = newNotes(c);
@@ -2044,8 +2062,8 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             side,
             commitId,
             false);
-    update.putComment(Status.DRAFT, comment1);
-    update.putComment(Status.DRAFT, comment2);
+    update.putComment(Comment.Status.DRAFT, comment1);
+    update.putComment(Comment.Status.DRAFT, comment2);
     update.commit();
 
     ChangeNotes notes = newNotes(c);
@@ -2060,7 +2078,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     // Publish first draft.
     update = newUpdate(c, otherUser);
     update.setPatchSetId(psId);
-    update.putComment(Status.PUBLISHED, comment1);
+    update.putComment(Comment.Status.PUBLISHED, comment1);
     update.commit();
 
     notes = newNotes(c);
@@ -2115,8 +2133,8 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             commitId2,
             false);
 
-    update.putComment(Status.DRAFT, baseComment);
-    update.putComment(Status.DRAFT, psComment);
+    update.putComment(Comment.Status.DRAFT, baseComment);
+    update.putComment(Comment.Status.DRAFT, psComment);
     update.commit();
 
     ChangeNotes notes = newNotes(c);
@@ -2131,8 +2149,8 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     update = newUpdate(c, otherUser);
     update.setPatchSetId(psId);
 
-    update.putComment(Status.PUBLISHED, baseComment);
-    update.putComment(Status.PUBLISHED, psComment);
+    update.putComment(Comment.Status.PUBLISHED, baseComment);
+    update.putComment(Comment.Status.PUBLISHED, psComment);
     update.commit();
 
     notes = newNotes(c);
@@ -2171,7 +2189,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             commitId,
             false);
     update.setPatchSetId(psId);
-    update.putComment(Status.DRAFT, comment);
+    update.putComment(Comment.Status.DRAFT, comment);
     update.commit();
 
     ChangeNotes notes = newNotes(c);
@@ -2216,7 +2234,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             commitId1,
             false);
     update.setPatchSetId(ps1);
-    update.putComment(Status.DRAFT, comment1);
+    update.putComment(Comment.Status.DRAFT, comment1);
     update.commit();
 
     incrementPatchSet(c);
@@ -2239,7 +2257,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             commitId2,
             false);
     update.setPatchSetId(ps2);
-    update.putComment(Status.DRAFT, comment2);
+    update.putComment(Comment.Status.DRAFT, comment2);
     update.commit();
 
     ChangeNotes notes = newNotes(c);
@@ -2283,7 +2301,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             side,
             commitId,
             false);
-    update.putComment(Status.PUBLISHED, comment);
+    update.putComment(Comment.Status.PUBLISHED, comment);
     update.commit();
 
     assertThat(repo.exactRef(changeMetaRef(c.getId()))).isNotNull();
@@ -2316,7 +2334,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             side,
             commitId,
             false);
-    update.putComment(Status.DRAFT, draft);
+    update.putComment(Comment.Status.DRAFT, draft);
     update.commit();
 
     String draftRef = refsDraftComments(c.getId(), otherUser.getAccountId());
@@ -2338,7 +2356,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             side,
             commitId,
             false);
-    update.putComment(Status.PUBLISHED, pub);
+    update.putComment(Comment.Status.PUBLISHED, pub);
     update.commit();
 
     assertThat(exactRefAllUsers(draftRef)).isEqualTo(old);
@@ -2369,7 +2387,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             commitId,
             false);
     update.setPatchSetId(psId);
-    update.putComment(Status.PUBLISHED, comment);
+    update.putComment(Comment.Status.PUBLISHED, comment);
     update.commit();
 
     assertThat(newNotes(c).getComments())
@@ -2401,7 +2419,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             commitId,
             false);
     update.setPatchSetId(psId);
-    update.putComment(Status.PUBLISHED, comment);
+    update.putComment(Comment.Status.PUBLISHED, comment);
     update.commit();
 
     assertThat(newNotes(c).getComments())
@@ -2453,8 +2471,8 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             side,
             commitId2,
             false);
-    update.putComment(Status.DRAFT, comment1);
-    update.putComment(Status.DRAFT, comment2);
+    update.putComment(Comment.Status.DRAFT, comment1);
+    update.putComment(Comment.Status.DRAFT, comment2);
     update.commit();
 
     ChangeNotes notes = newNotes(c);
@@ -2463,8 +2481,8 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
     update = newUpdate(c, otherUser);
     update.setPatchSetId(ps2);
-    update.putComment(Status.PUBLISHED, comment1);
-    update.putComment(Status.PUBLISHED, comment2);
+    update.putComment(Comment.Status.PUBLISHED, comment1);
+    update.putComment(Comment.Status.PUBLISHED, comment2);
     update.commit();
 
     notes = newNotes(c);
@@ -2511,8 +2529,8 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             side,
             commitId1,
             false);
-    update.putComment(Status.DRAFT, comment1);
-    update.putComment(Status.DRAFT, comment2);
+    update.putComment(Comment.Status.DRAFT, comment1);
+    update.putComment(Comment.Status.DRAFT, comment2);
     update.commit();
 
     ChangeNotes notes = newNotes(c);
@@ -2522,7 +2540,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
     update = newUpdate(c, otherUser);
     update.setPatchSetId(ps1);
-    update.putComment(Status.PUBLISHED, comment2);
+    update.putComment(Comment.Status.PUBLISHED, comment2);
     update.commit();
 
     notes = newNotes(c);
@@ -2584,8 +2602,8 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             side,
             commitId1,
             false);
-    update.putComment(Status.DRAFT, comment1);
-    update.putComment(Status.DRAFT, comment2);
+    update.putComment(Comment.Status.DRAFT, comment1);
+    update.putComment(Comment.Status.DRAFT, comment2);
     update.commit();
 
     String refName = refsDraftComments(c.getId(), otherUserId);
@@ -2593,7 +2611,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
     update = newUpdate(c, otherUser);
     update.setPatchSetId(ps1);
-    update.putComment(Status.PUBLISHED, comment2);
+    update.putComment(Comment.Status.PUBLISHED, comment2);
     update.commit();
     assertThat(exactRefAllUsers(refName)).isNotNull();
     assertThat(exactRefAllUsers(refName)).isNotEqualTo(oldDraftId);
@@ -2619,7 +2637,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
     update = newUpdate(c, otherUser);
     update.setPatchSetId(ps1);
-    update.putComment(Status.PUBLISHED, comment1);
+    update.putComment(Comment.Status.PUBLISHED, comment1);
     update.commit();
 
     // Updating an unrelated comment causes the zombie comment to get fixed up.
@@ -2647,7 +2665,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             (short) 1,
             commitId,
             false);
-    update1.putComment(Status.PUBLISHED, comment1);
+    update1.putComment(Comment.Status.PUBLISHED, comment1);
 
     ChangeUpdate update2 = newUpdate(c, otherUser);
     Comment comment2 =
@@ -2664,7 +2682,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             (short) 1,
             commitId,
             false);
-    update2.putComment(Status.PUBLISHED, comment2);
+    update2.putComment(Comment.Status.PUBLISHED, comment2);
 
     try (NoteDbUpdateManager manager = updateManagerFactory.create(project)) {
       manager.add(update1);
@@ -2721,7 +2739,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
             (short) 1,
             ObjectId.fromString("abcd1234abcd1234abcd1234abcd1234abcd1234"),
             false);
-    update.putComment(Status.PUBLISHED, comment);
+    update.putComment(Comment.Status.PUBLISHED, comment);
     update.commit();
 
     notes = newNotes(c);

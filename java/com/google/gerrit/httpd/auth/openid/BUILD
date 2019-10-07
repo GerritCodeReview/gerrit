@@ -12,7 +12,7 @@ java_library(
         "//java/com/google/gerrit/common:server",
         "//java/com/google/gerrit/extensions:api",
         "//java/com/google/gerrit/httpd",
-        "//java/com/google/gerrit/reviewdb:server",
+        "//java/com/google/gerrit/entities",
         "//java/com/google/gerrit/util/http",
         "//java/com/google/gerrit/server",
         "//lib:guava",
@@ -21,7 +21,7 @@ java_library(
         "//lib/flogger:api",
         "//lib/guice",
         "//lib/guice:guice-servlet",
-        "//lib/jgit/org.eclipse.jgit:jgit",
+        "//lib:jgit",
         "//lib/openid:consumer",
     ],
 )

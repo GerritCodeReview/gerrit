@@ -131,7 +131,7 @@ limitations under the License.
     });
 
     test('lgtm plugin', done => {
-      Gerrit._resetPlugins();
+      Gerrit._testOnly_resetPlugins();
       const pluginHost = fixture('plugin-host');
       pluginHost.config = {
         plugin: {

@@ -20,6 +20,11 @@ import java.sql.Timestamp;
 
 /** Interface to be extended by Events with a Change. */
 public interface ChangeEvent extends GerritEvent {
+  /**
+   * Information about the change. Some fields might be null.
+   *
+   * @see com.google.gerrit.server.extensions.events.EventUtil
+   */
   ChangeInfo getChange();
 
   AccountInfo getWho();

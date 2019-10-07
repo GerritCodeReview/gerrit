@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.notedb;
 
-import com.google.gerrit.reviewdb.client.RobotComment;
+import com.google.gerrit.entities.RobotComment;
 import java.util.List;
 
 public class RobotCommentsRevisionNoteData {

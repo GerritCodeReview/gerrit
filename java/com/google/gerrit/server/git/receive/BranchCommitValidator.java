@@ -21,14 +21,16 @@ import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.reviewdb.client.BranchNameKey;
-import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.entities.BranchNameKey;
+import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.git.validators.CommitValidationException;
 import com.google.gerrit.server.git.validators.CommitValidationMessage;
 import com.google.gerrit.server.git.validators.CommitValidators;
+import com.google.gerrit.server.logging.TraceContext;
+import com.google.gerrit.server.logging.TraceContext.TraceTimer;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.ssh.SshInfo;
@@ -130,44 +132,48 @@ public class BranchCommitValidator {
       @Nullable Change change,
       boolean skipValidation)
       throws IOException {
-    ImmutableList.Builder<CommitValidationMessage> messages = new ImmutableList.Builder<>();
-    try (CommitReceivedEvent receiveEvent =
-        new CommitReceivedEvent(cmd, project, branch.branch(), objectReader, commit, user)) {
-      CommitValidators validators;
-      if (isMerged) {
-        validators =
-            commitValidatorsFactory.forMergedCommits(permissions, branch, user.asIdentifiedUser());
-      } else {
-        validators =
-            commitValidatorsFactory.forReceiveCommits(
-                permissions,
-                branch,
-                user.asIdentifiedUser(),
-                sshInfo,
-                rejectCommits,
-                receiveEvent.revWalk,
-                change,
-                skipValidation);
-      }
+    try (TraceTimer traceTimer = TraceContext.newTimer("BranchCommitValidator#validateCommit")) {
+      ImmutableList.Builder<CommitValidationMessage> messages = new ImmutableList.Builder<>();
+      try (CommitReceivedEvent receiveEvent =
+          new CommitReceivedEvent(cmd, project, branch.branch(), objectReader, commit, user)) {
+        CommitValidators validators;
+        if (isMerged) {
+          validators =
+              commitValidatorsFactory.forMergedCommits(
+                  permissions, branch, user.asIdentifiedUser());
+        } else {
+          validators =
+              commitValidatorsFactory.forReceiveCommits(
+                  permissions,
+                  branch,
+                  user.asIdentifiedUser(),
+                  sshInfo,
+                  rejectCommits,
+                  receiveEvent.revWalk,
+                  change,
+                  skipValidation);
+        }
 
-      for (CommitValidationMessage m : validators.validate(receiveEvent)) {
-        messages.add(
-            new CommitValidationMessage(
-                messageForCommit(commit, m.getMessage(), objectReader), m.getType()));
+        for (CommitValidationMessage m : validators.validate(receiveEvent)) {
+          messages.add(
+              new CommitValidationMessage(
+                  messageForCommit(commit, m.getMessage(), objectReader), m.getType()));
+        }
+      } catch (CommitValidationException e) {
+        logger.atFine().log("Commit validation failed on %s", commit.name());
+        for (CommitValidationMessage m : e.getMessages()) {
+          // The non-error messages may contain background explanation for the
+          // fatal error, so have to preserve all messages.
+          messages.add(
+              new CommitValidationMessage(
+                  messageForCommit(commit, m.getMessage(), objectReader), m.getType()));
+        }
+        cmd.setResult(
+            REJECTED_OTHER_REASON, messageForCommit(commit, e.getMessage(), objectReader));
+        return Result.create(false, messages.build());
       }
-    } catch (CommitValidationException e) {
-      logger.atFine().log("Commit validation failed on %s", commit.name());
-      for (CommitValidationMessage m : e.getMessages()) {
-        // The non-error messages may contain background explanation for the
-        // fatal error, so have to preserve all messages.
-        messages.add(
-            new CommitValidationMessage(
-                messageForCommit(commit, m.getMessage(), objectReader), m.getType()));
-      }
-      cmd.setResult(REJECTED_OTHER_REASON, messageForCommit(commit, e.getMessage(), objectReader));
-      return Result.create(false, messages.build());
+      return Result.create(true, messages.build());
     }
-    return Result.create(true, messages.build());
   }
 
   private String messageForCommit(RevCommit c, String msg, ObjectReader objectReader)

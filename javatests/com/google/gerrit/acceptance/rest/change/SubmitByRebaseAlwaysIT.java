@@ -20,32 +20,30 @@ import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
+import com.google.gerrit.acceptance.ExtensionRegistry;
+import com.google.gerrit.acceptance.ExtensionRegistry.Registration;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.common.FooterConstants;
+import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.registration.DynamicItem;
-import com.google.gerrit.extensions.registration.DynamicSet;
-import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
-import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.config.UrlFormatter;
 import com.google.gerrit.server.git.ChangeMessageModifier;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
-import java.util.ArrayDeque;
-import java.util.Deque;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Test;
 
 public class SubmitByRebaseAlwaysIT extends AbstractSubmitByRebase {
-  @Inject private DynamicSet<ChangeMessageModifier> changeMessageModifiers;
   @Inject private DynamicItem<UrlFormatter> urlFormatter;
   @Inject private ProjectOperations projectOperations;
+  @Inject private ExtensionRegistry extensionRegistry;
 
   @Override
   protected SubmitType getSubmitType() {
@@ -99,7 +97,8 @@ public class SubmitByRebaseAlwaysIT extends AbstractSubmitByRebase {
     ChangeMessageModifier modifier3 =
         (msg, orig, tip, dest) -> msg + "Dest: " + dest.shortName() + "\n";
 
-    try (AutoCloseable ignored = installChangeMessageModifiers(modifier1, modifier2, modifier3)) {
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(modifier1).add(modifier2).add(modifier3)) {
       ImmutableList<PushOneCommit.Result> changes = submitWithRebase(admin);
       ChangeData cd1 = changes.get(0).getChange();
       ChangeData cd2 = changes.get(1).getChange();
@@ -128,7 +127,8 @@ public class SubmitByRebaseAlwaysIT extends AbstractSubmitByRebase {
           throw new IllegalStateException("boom");
         };
     ChangeMessageModifier modifier2 = (msg, orig, tip, dest) -> msg + "A-footer: value\n";
-    try (AutoCloseable ignored = installChangeMessageModifiers(modifier1, modifier2)) {
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(modifier1).add(modifier2)) {
       ResourceConflictException thrown =
           assertThrows(ResourceConflictException.class, () -> submitWithRebase());
       Throwable cause = Throwables.getRootCause(thrown);
@@ -141,7 +141,11 @@ public class SubmitByRebaseAlwaysIT extends AbstractSubmitByRebase {
   public void changeMessageModifierReturningNullShortCircuits() throws Throwable {
     ChangeMessageModifier modifier1 = (msg, orig, tip, dest) -> null;
     ChangeMessageModifier modifier2 = (msg, orig, tip, dest) -> msg + "A-footer: value\n";
-    try (AutoCloseable ignored = installChangeMessageModifiers(modifier1, modifier2)) {
+    try (Registration registration =
+        extensionRegistry
+            .newRegistration()
+            .add(modifier1, "modifier-1")
+            .add(modifier2, "modifier-2")) {
       ResourceConflictException thrown =
           assertThrows(ResourceConflictException.class, () -> submitWithRebase());
       Throwable cause = Throwables.getRootCause(thrown);
@@ -153,18 +157,6 @@ public class SubmitByRebaseAlwaysIT extends AbstractSubmitByRebase {
                   + ".onSubmit from plugin modifier-1 returned null instead of new commit"
                   + " message");
     }
-  }
-
-  private AutoCloseable installChangeMessageModifiers(ChangeMessageModifier... modifiers) {
-    Deque<RegistrationHandle> handles = new ArrayDeque<>(modifiers.length);
-    for (int i = 0; i < modifiers.length; i++) {
-      handles.push(changeMessageModifiers.add("modifier-" + (i + 1), modifiers[i]));
-    }
-    return () -> {
-      while (!handles.isEmpty()) {
-        handles.pop().remove();
-      }
-    };
   }
 
   private void assertLatestRevisionHasFooters(PushOneCommit.Result change) throws Throwable {

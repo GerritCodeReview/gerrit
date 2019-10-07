@@ -14,10 +14,10 @@
 
 package com.google.gerrit.server.index.account;
 
+import com.google.gerrit.entities.Account;
 import com.google.gerrit.index.Index;
 import com.google.gerrit.index.IndexDefinition;
 import com.google.gerrit.index.query.Predicate;
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.query.account.AccountPredicates;
 
@@ -27,6 +27,6 @@ public interface AccountIndex extends Index<Account.Id, AccountState> {
 
   @Override
   default Predicate<AccountState> keyPredicate(Account.Id id) {
-    return AccountPredicates.id(id);
+    return AccountPredicates.id(getSchema(), id);
   }
 }

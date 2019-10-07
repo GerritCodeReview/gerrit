@@ -93,6 +93,10 @@
       /** @type {?} */
       _changeComments: Object,
       _changeNum: String,
+      /**
+       * This is a DiffInfo object.
+       * This is retrieved and owned by a child component.
+       */
       _diff: Object,
       // An array specifically formatted to be used in a gr-dropdown-list
       // element for selected a file to view.
@@ -234,6 +238,8 @@
         this._loggedIn = loggedIn;
       });
 
+      this.addEventListener('open-fix-preview',
+          this._onOpenFixPreview.bind(this));
       this.$.cursor.push('diffs', this.$.diffHost);
     },
 
@@ -261,7 +267,8 @@
 
     _getFiles(changeNum, patchRangeRecord) {
       // Polymer 2: check for undefined
-      if ([changeNum, patchRangeRecord].some(arg => arg === undefined)) {
+      if ([changeNum, patchRangeRecord, patchRangeRecord.base]
+          .some(arg => arg === undefined)) {
         return;
       }
 
@@ -346,6 +353,9 @@
       e.preventDefault();
       this.$.diffHost.displayLine = true;
       this.$.cursor.moveUp();
+    },
+    _onOpenFixPreview(e) {
+      this.$.applyFixDialog.open(e);
     },
 
     _handleNextLineOrFileWithComments(e) {
@@ -669,8 +679,10 @@
         }
         this._loading = false;
         this.$.diffHost.comments = this._commentsForDiff;
-        return this.$.diffHost.reload();
+        return this.$.diffHost.reload(true);
       }).then(() => {
+        this.$.reporting.diffViewFullyLoaded();
+        // If diff view displayed has not ended yet, it ends here.
         this.$.reporting.diffViewDisplayed();
       });
     },
@@ -741,6 +753,9 @@
     },
 
     _getDiffUrl(change, patchRange, path) {
+      if ([change, patchRange, path].some(arg => arg === undefined)) {
+        return '';
+      }
       return Gerrit.Nav.getUrlForDiff(change, path, patchRange.patchNum,
           patchRange.basePatchNum);
     },
@@ -779,6 +794,9 @@
     },
 
     _getChangePath(change, patchRange, revisions) {
+      if ([change, patchRange].some(arg => arg === undefined)) {
+        return '';
+      }
       const range = this._getChangeUrlRange(patchRange, revisions);
       return Gerrit.Nav.getUrlForChange(change, range.patchNum,
           range.basePatchNum);
@@ -910,33 +928,63 @@
       history.replaceState(null, '', url);
     },
 
-    _computeDownloadDropdownLinks(project, changeNum, patchRange, path) {
+    _computeDownloadDropdownLinks(
+        project, changeNum, patchRange, path, diff) {
       if (!patchRange || !patchRange.patchNum) { return []; }
 
-      return [
+      const links = [
         {
           url: this._computeDownloadPatchLink(
               project, changeNum, patchRange, path),
           name: 'Patch',
         },
-        {
-          // We pass 1 here to indicate this is parent 1.
-          url: this._computeDownloadFileLink(
-              project, changeNum, patchRange, path, 1),
-          name: 'Left Content',
-        },
-        {
-          // We pass 0 here to indicate this is parent 0.
-          url: this._computeDownloadFileLink(
-              project, changeNum, patchRange, path, 0),
-          name: 'Right Content',
-        },
       ];
+
+      if (diff && diff.meta_a) {
+        let leftPath = path;
+        if (diff.change_type === 'RENAMED') {
+          leftPath = diff.meta_a.name;
+        }
+        links.push(
+            {
+              url: this._computeDownloadFileLink(
+                  project, changeNum, patchRange, leftPath, true),
+              name: 'Left Content',
+            }
+        );
+      }
+
+      if (diff && diff.meta_b) {
+        links.push(
+            {
+              url: this._computeDownloadFileLink(
+                  project, changeNum, patchRange, path, false),
+              name: 'Right Content',
+            }
+        );
+      }
+
+      return links;
     },
 
-    _computeDownloadFileLink(project, changeNum, patchRange, path, parent) {
-      return this.changeBaseURL(project, changeNum, patchRange.patchNum) +
-          `/files/${encodeURIComponent(path)}/download?parent=${parent}`;
+    _computeDownloadFileLink(
+        project, changeNum, patchRange, path, isBase) {
+      let patchNum = patchRange.patchNum;
+
+      const comparedAgainsParent = patchRange.basePatchNum === 'PARENT';
+
+      if (isBase && !comparedAgainsParent) {
+        patchNum = patchRange.basePatchNum;
+      }
+
+      let url = this.changeBaseURL(project, changeNum, patchNum) +
+          `/files/${encodeURIComponent(path)}/download`;
+
+      if (isBase && comparedAgainsParent) {
+        url += '?parent=1';
+      }
+
+      return url;
     },
 
     _computeDownloadPatchLink(project, changeNum, patchRange, path) {

@@ -22,6 +22,8 @@ import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static com.google.gerrit.truth.ConfigSubject.assertThat;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.ExtensionRegistry;
+import com.google.gerrit.acceptance.ExtensionRegistry.Registration;
 import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
@@ -29,6 +31,8 @@ import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.data.AccessSection;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.Permission;
+import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.access.AccessSectionInfo;
 import com.google.gerrit.extensions.api.access.PermissionInfo;
 import com.google.gerrit.extensions.api.access.PermissionRuleInfo;
@@ -40,14 +44,10 @@ import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.common.WebLinkInfo;
-import com.google.gerrit.extensions.registration.DynamicSet;
-import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.webui.FileHistoryWebLink;
-import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.config.AllProjectsNameProvider;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.project.ProjectConfig;
@@ -72,9 +72,9 @@ public class AccessIT extends AbstractDaemonTest {
 
   private static final String LABEL_CODE_REVIEW = "Code-Review";
 
-  @Inject private DynamicSet<FileHistoryWebLink> fileHistoryWebLinkDynamicSet;
   @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
+  @Inject private ExtensionRegistry extensionRegistry;
 
   private Project.NameKey newProjectName;
 
@@ -89,39 +89,39 @@ public class AccessIT extends AbstractDaemonTest {
     assertThat(inheritedName).isEqualTo(AllProjectsNameProvider.DEFAULT);
   }
 
+  private Registration newFileHistoryWebLink() {
+    FileHistoryWebLink weblink =
+        new FileHistoryWebLink() {
+          @Override
+          public WebLinkInfo getFileHistoryWebLink(
+              String projectName, String revision, String fileName) {
+            return new WebLinkInfo(
+                "name", "imageURL", "http://view/" + projectName + "/" + fileName);
+          }
+        };
+    return extensionRegistry.newRegistration().add(weblink);
+  }
+
   @Test
   public void webLink() throws Exception {
-    RegistrationHandle handle =
-        fileHistoryWebLinkDynamicSet.add(
-            "gerrit",
-            (projectName, revision, fileName) ->
-                new WebLinkInfo("name", "imageURL", "http://view/" + projectName + "/" + fileName));
-    try {
+    try (Registration registration = newFileHistoryWebLink()) {
       ProjectAccessInfo info = pApi().access();
       assertThat(info.configWebLinks).hasSize(1);
       assertThat(info.configWebLinks.get(0).url)
           .isEqualTo("http://view/" + newProjectName + "/project.config");
-    } finally {
-      handle.remove();
     }
   }
 
   @Test
   public void webLinkNoRefsMetaConfig() throws Exception {
-    RegistrationHandle handle =
-        fileHistoryWebLinkDynamicSet.add(
-            "gerrit",
-            (projectName, revision, fileName) ->
-                new WebLinkInfo("name", "imageURL", "http://view/" + projectName + "/" + fileName));
-    try (Repository repo = repoManager.openRepository(newProjectName)) {
+    try (Repository repo = repoManager.openRepository(newProjectName);
+        Registration registration = newFileHistoryWebLink()) {
       RefUpdate u = repo.updateRef(RefNames.REFS_CONFIG);
       u.setForceUpdate(true);
       assertThat(u.delete()).isEqualTo(Result.FORCED);
 
       // This should not crash.
       pApi().access();
-    } finally {
-      handle.remove();
     }
   }
 

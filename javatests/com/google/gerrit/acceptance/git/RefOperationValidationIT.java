@@ -26,12 +26,12 @@ import static org.eclipse.jgit.transport.ReceiveCommand.Type.UPDATE;
 import static org.eclipse.jgit.transport.ReceiveCommand.Type.UPDATE_NONFASTFORWARD;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.ExtensionRegistry;
+import com.google.gerrit.acceptance.ExtensionRegistry.Registration;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.api.projects.BranchInput;
-import com.google.gerrit.extensions.registration.DynamicSet;
-import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.events.RefReceivedEvent;
 import com.google.gerrit.server.git.validators.RefOperationValidationListener;
@@ -50,18 +50,16 @@ import org.junit.Test;
 public class RefOperationValidationIT extends AbstractDaemonTest {
   private static final String TEST_REF = "refs/heads/protected";
 
-  @Inject DynamicSet<RefOperationValidationListener> validators;
   @Inject private ProjectOperations projectOperations;
+  @Inject private ExtensionRegistry extensionRegistry;
 
-  private class TestRefValidator implements RefOperationValidationListener, AutoCloseable {
+  private static class TestRefValidator implements RefOperationValidationListener {
     private final ReceiveCommand.Type rejectType;
     private final String rejectRef;
-    private final RegistrationHandle handle;
 
     public TestRefValidator(ReceiveCommand.Type rejectType) {
       this.rejectType = rejectType;
       this.rejectRef = TEST_REF;
-      this.handle = validators.add("test-" + rejectType.name(), this);
     }
 
     @Override
@@ -73,16 +71,15 @@ public class RefOperationValidationIT extends AbstractDaemonTest {
       }
       return Collections.emptyList();
     }
+  }
 
-    @Override
-    public void close() throws Exception {
-      handle.remove();
-    }
+  private Registration testValidator(ReceiveCommand.Type rejectType) {
+    return extensionRegistry.newRegistration().add(new TestRefValidator(rejectType));
   }
 
   @Test
   public void rejectRefCreation() throws Exception {
-    try (TestRefValidator validator = new TestRefValidator(CREATE)) {
+    try (Registration registration = testValidator(CREATE)) {
       RestApiException expected =
           assertThrows(
               RestApiException.class,
@@ -101,7 +98,7 @@ public class RefOperationValidationIT extends AbstractDaemonTest {
 
   @Test
   public void rejectRefCreationByPush() throws Exception {
-    try (TestRefValidator validator = new TestRefValidator(CREATE)) {
+    try (Registration registration = testValidator(CREATE)) {
       grant(Permission.PUSH);
       PushOneCommit push1 =
           pushFactory.create(admin.newIdent(), testRepo, "change1", "a.txt", "content");
@@ -115,7 +112,7 @@ public class RefOperationValidationIT extends AbstractDaemonTest {
   @Test
   public void rejectRefDeletion() throws Exception {
     gApi.projects().name(project.get()).branch(TEST_REF).create(new BranchInput());
-    try (TestRefValidator validator = new TestRefValidator(DELETE)) {
+    try (Registration registration = testValidator(DELETE)) {
       RestApiException expected =
           assertThrows(
               RestApiException.class,
@@ -128,7 +125,7 @@ public class RefOperationValidationIT extends AbstractDaemonTest {
   public void rejectRefDeletionByPush() throws Exception {
     gApi.projects().name(project.get()).branch(TEST_REF).create(new BranchInput());
     grant(Permission.DELETE);
-    try (TestRefValidator validator = new TestRefValidator(DELETE)) {
+    try (Registration registration = testValidator(DELETE)) {
       PushResult result = deleteRef(testRepo, TEST_REF);
       RemoteRefUpdate refUpdate = result.getRemoteUpdate(TEST_REF);
       assertThat(refUpdate.getMessage()).contains(DELETE.name());
@@ -138,7 +135,7 @@ public class RefOperationValidationIT extends AbstractDaemonTest {
   @Test
   public void rejectRefUpdateFastForward() throws Exception {
     gApi.projects().name(project.get()).branch(TEST_REF).create(new BranchInput());
-    try (TestRefValidator validator = new TestRefValidator(UPDATE)) {
+    try (Registration registration = testValidator(UPDATE)) {
       grant(Permission.PUSH);
       PushOneCommit push1 =
           pushFactory.create(admin.newIdent(), testRepo, "change1", "a.txt", "content");
@@ -150,7 +147,7 @@ public class RefOperationValidationIT extends AbstractDaemonTest {
   @Test
   public void rejectRefUpdateNonFastForward() throws Exception {
     gApi.projects().name(project.get()).branch(TEST_REF).create(new BranchInput());
-    try (TestRefValidator validator = new TestRefValidator(UPDATE_NONFASTFORWARD)) {
+    try (Registration registration = testValidator(UPDATE_NONFASTFORWARD)) {
       ObjectId initial = repo().exactRef(HEAD).getLeaf().getObjectId();
       grant(Permission.PUSH);
       PushOneCommit push1 =
@@ -175,7 +172,7 @@ public class RefOperationValidationIT extends AbstractDaemonTest {
   public void rejectRefUpdateNonFastForwardToExistingCommit() throws Exception {
     gApi.projects().name(project.get()).branch(TEST_REF).create(new BranchInput());
 
-    try (TestRefValidator validator = new TestRefValidator(UPDATE_NONFASTFORWARD)) {
+    try (Registration registration = testValidator(UPDATE_NONFASTFORWARD)) {
       grant(Permission.PUSH);
       PushOneCommit push1 =
           pushFactory.create(admin.newIdent(), testRepo, "change1", "a.txt", "content");

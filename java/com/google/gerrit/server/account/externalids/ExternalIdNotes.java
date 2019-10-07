@@ -28,13 +28,13 @@ import com.google.common.collect.Sets;
 import com.google.common.collect.Streams;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.git.ObjectIds;
 import com.google.gerrit.metrics.Counter0;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.DisabledMetricMaker;
 import com.google.gerrit.metrics.MetricMaker;
-import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountsUpdate;
 import com.google.gerrit.server.config.AllUsersName;
@@ -675,7 +675,8 @@ public class ExternalIdNotes extends VersionedMetaData {
   @Override
   protected void onLoad() throws IOException, ConfigInvalidException {
     if (revision != null) {
-      logger.atFine().log("Reading external ID note map (caller: %s)", callerFinder.findCaller());
+      logger.atFine().log(
+          "Reading external ID note map (caller: %s)", callerFinder.findCallerLazy());
       noteMap = NoteMap.read(reader, revision);
     } else {
       noteMap = NoteMap.newEmptyMap();

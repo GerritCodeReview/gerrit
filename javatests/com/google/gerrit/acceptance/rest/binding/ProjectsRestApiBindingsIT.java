@@ -18,7 +18,7 @@ import static com.google.gerrit.acceptance.GitUtil.assertPushOk;
 import static com.google.gerrit.acceptance.GitUtil.pushHead;
 import static com.google.gerrit.acceptance.rest.util.RestCall.Method.GET;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
-import static com.google.gerrit.reviewdb.client.RefNames.REFS_DASHBOARDS;
+import static com.google.gerrit.entities.RefNames.REFS_DASHBOARDS;
 import static com.google.gerrit.server.restapi.project.DashboardsCollection.DEFAULT_DASHBOARD_NAME;
 import static org.apache.http.HttpStatus.SC_METHOD_NOT_ALLOWED;
 import static org.apache.http.HttpStatus.SC_NOT_FOUND;
@@ -30,10 +30,10 @@ import com.google.gerrit.acceptance.rest.util.RestApiCallHelper;
 import com.google.gerrit.acceptance.rest.util.RestCall;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.common.data.Permission;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.api.projects.TagInput;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.inject.Inject;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Repository;
@@ -69,6 +69,7 @@ public class ProjectsRestApiBindingsIT extends AbstractDaemonTest {
           RestCall.get("/projects/%s/statistics.git"),
           RestCall.post("/projects/%s/index"),
           RestCall.post("/projects/%s/gc"),
+          RestCall.post("/projects/%s/create.change"),
           RestCall.get("/projects/%s/children"),
           RestCall.get("/projects/%s/branches"),
           RestCall.post("/projects/%s/branches:delete"),

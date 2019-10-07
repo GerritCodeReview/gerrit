@@ -27,6 +27,7 @@ import com.google.gerrit.extensions.common.CommitMessageInput;
 import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.common.MergePatchSetInput;
 import com.google.gerrit.extensions.common.PureRevertInfo;
+import com.google.gerrit.extensions.common.RevertSubmissionInfo;
 import com.google.gerrit.extensions.common.RobotCommentInfo;
 import com.google.gerrit.extensions.common.SuggestedReviewerInfo;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
@@ -160,6 +161,12 @@ public interface ChangeApi {
    * @see Changes#id(int)
    */
   ChangeApi revert(RevertInput in) throws RestApiException;
+
+  default RevertSubmissionInfo revertSubmission() throws RestApiException {
+    return revertSubmission(new RevertInput());
+  }
+
+  RevertSubmissionInfo revertSubmission(RevertInput in) throws RestApiException;
 
   /** Create a merge patch set for the change. */
   ChangeInfo createMergePatchSet(MergePatchSetInput in) throws RestApiException;
@@ -498,6 +505,11 @@ public interface ChangeApi {
 
     @Override
     public ChangeApi revert(RevertInput in) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public RevertSubmissionInfo revertSubmission(RevertInput in) throws RestApiException {
       throw new NotImplementedException();
     }
 

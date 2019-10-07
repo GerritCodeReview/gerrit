@@ -14,19 +14,17 @@
 
 package com.google.gerrit.elasticsearch;
 
-import static com.google.gerrit.server.index.account.AccountField.ID;
-
 import com.google.gerrit.elasticsearch.ElasticMapping.MappingProperties;
 import com.google.gerrit.elasticsearch.bulk.BulkRequest;
 import com.google.gerrit.elasticsearch.bulk.IndexRequest;
 import com.google.gerrit.elasticsearch.bulk.UpdateRequest;
+import com.google.gerrit.entities.Account;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.query.DataSource;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.config.SitePaths;
@@ -92,8 +90,16 @@ public class ElasticAccountIndex extends AbstractElasticIndex<Account.Id, Accoun
   @Override
   public DataSource<AccountState> getSource(Predicate<AccountState> p, QueryOptions opts)
       throws QueryParseException {
-    JsonArray sortArray = getSortArray(AccountField.ID.getName());
-    return new ElasticQuerySource(p, opts.filterFields(IndexUtils::accountFields), type, sortArray);
+    JsonArray sortArray =
+        getSortArray(
+            schema.useLegacyNumericFields()
+                ? AccountField.ID.getName()
+                : AccountField.ID_STR.getName());
+    return new ElasticQuerySource(
+        p,
+        opts.filterFields(o -> IndexUtils.accountFields(o, schema.useLegacyNumericFields())),
+        type,
+        sortArray);
   }
 
   @Override
@@ -118,7 +124,15 @@ public class ElasticAccountIndex extends AbstractElasticIndex<Account.Id, Accoun
       source = json.getAsJsonObject().get("fields");
     }
 
-    Account.Id id = Account.id(source.getAsJsonObject().get(ID.getName()).getAsInt());
+    Account.Id id =
+        Account.id(
+            source
+                .getAsJsonObject()
+                .get(
+                    schema.useLegacyNumericFields()
+                        ? AccountField.ID.getName()
+                        : AccountField.ID_STR.getName())
+                .getAsInt());
     // Use the AccountCache rather than depending on any stored fields in the document (of which
     // there shouldn't be any). The most expensive part to compute anyway is the effective group
     // IDs, and we don't have a good way to reindex when those change.

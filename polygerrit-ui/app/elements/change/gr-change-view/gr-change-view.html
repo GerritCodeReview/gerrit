@@ -51,6 +51,7 @@ limitations under the License.
 <link rel="import" href="../gr-included-in-dialog/gr-included-in-dialog.html">
 <link rel="import" href="../gr-messages-list/gr-messages-list.html">
 <link rel="import" href="../gr-related-changes-list/gr-related-changes-list.html">
+<link rel="import" href="../../diff/gr-apply-fix-dialog/gr-apply-fix-dialog.html">
 <link rel="import" href="../gr-reply-dialog/gr-reply-dialog.html">
 <link rel="import" href="../gr-thread-list/gr-thread-list.html">
 <link rel="import" href="../gr-upload-help-dialog/gr-upload-help-dialog.html">
@@ -120,10 +121,8 @@ limitations under the License.
       }
       .changeMetadata {
         border-right: 1px solid var(--border-color);
-      }
-      /* Prevent plugin text from overflowing. */
-      #change_plugins {
-        word-break: break-word;
+        /* Limit meta section to half of the screen at max */
+        max-width: 50%;
       }
       .commitMessage {
         font-family: var(--monospace-font-family);
@@ -438,10 +437,6 @@ limitations under the License.
               parent-is-current="[[_parentIsCurrent]]"
               on-show-reply-dialog="_handleShowReplyDialog">
           </gr-change-metadata>
-          <!-- Plugins insert content into following container.
-               Stop-gap until PolyGerrit plugins interface is ready.
-               This will not work with Shadow DOM. -->
-          <div id="change_plugins"></div>
         </div>
         <div id="mainChangeInfo" class="changeInfo-column mainChangeInfo">
           <div id="commitAndRelated" class="hideOnMobileOverlay">
@@ -646,6 +641,11 @@ limitations under the License.
             on-thread-list-modified="_handleReloadDiffComments"></gr-thread-list>
       </template>
     </div>
+    <gr-apply-fix-dialog
+      id="applyFixDialog"
+      prefs="[[_diffPrefs]]"
+      change="[[_change]]"
+      change-num="[[_changeNum]]"></gr-apply-fix-dialog>
     <gr-overlay id="downloadOverlay" with-backdrop>
       <gr-download-dialog
           id="downloadDialog"

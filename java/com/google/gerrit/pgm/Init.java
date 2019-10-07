@@ -32,6 +32,7 @@ import com.google.gerrit.server.config.GerritServerConfigModule;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.ioutil.HostPlatform;
 import com.google.gerrit.server.securestore.SecureStoreClassName;
+import com.google.gerrit.server.util.ReplicaUtil;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
@@ -144,7 +145,7 @@ public class Init extends BaseInit {
         });
     modules.add(new GerritServerConfigModule());
     Guice.createInjector(modules).injectMembers(this);
-    if (!run.flags.cfg.getBoolean("container", "slave", false)) {
+    if (!ReplicaUtil.isReplica(run.flags.cfg)) {
       reindexProjects();
     }
     start(run);

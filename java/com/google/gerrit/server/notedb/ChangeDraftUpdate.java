@@ -20,13 +20,12 @@ import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.Sets;
+import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.Comment;
+import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.exceptions.StorageException;
-import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.Comment;
-import com.google.gerrit.reviewdb.client.PatchLineComment;
-import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.inject.assistedinject.Assisted;
@@ -265,12 +264,7 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
     // Even though reading from changes might not be enabled, we need to
     // parse any existing revision notes so we can merge them.
     return RevisionNoteMap.parse(
-        noteUtil.getChangeNoteJson(),
-        noteUtil.getLegacyChangeNoteRead(),
-        getId(),
-        rw.getObjectReader(),
-        noteMap,
-        PatchLineComment.Status.DRAFT);
+        noteUtil.getChangeNoteJson(), rw.getObjectReader(), noteMap, Comment.Status.DRAFT);
   }
 
   @Override

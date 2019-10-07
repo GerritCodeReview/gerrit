@@ -15,7 +15,7 @@
 package com.google.gerrit.server.query.change;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
-import static com.google.gerrit.reviewdb.client.Change.CHANGE_ID_PATTERN;
+import static com.google.gerrit.entities.Change.CHANGE_ID_PATTERN;
 import static com.google.gerrit.server.account.AccountResolver.isSelf;
 import static com.google.gerrit.server.query.change.ChangeData.asChanges;
 import static java.util.stream.Collectors.toList;
@@ -29,11 +29,15 @@ import com.google.common.primitives.Ints;
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.SubmitRecord;
+import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.AccountGroup;
+import com.google.gerrit.entities.BranchNameKey;
+import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.exceptions.NotSignedInException;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.index.IndexConfig;
-import com.google.gerrit.index.IndexType;
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.SchemaUtil;
 import com.google.gerrit.index.query.LimitPredicate;
@@ -42,11 +46,6 @@ import com.google.gerrit.index.query.QueryBuilder;
 import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.index.query.QueryRequiresAuthException;
 import com.google.gerrit.mail.Address;
-import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.BranchNameKey;
-import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.CurrentUser;
@@ -461,7 +460,9 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
     if (PAT_LEGACY_ID.matcher(query).matches()) {
       Integer id = Ints.tryParse(query);
       if (id != null) {
-        return new LegacyChangeIdPredicate(Change.id(id));
+        return args.getSchema().useLegacyNumericFields()
+            ? new LegacyChangeIdPredicate(Change.id(id))
+            : new LegacyChangeIdStrPredicate(Change.id(id));
       }
     } else if (PAT_CHANGE_ID.matcher(query).matches()) {
       return new ChangeIdPredicate(parseChangeId(query));
@@ -736,9 +737,6 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   @Operator
   public Predicate<ChangeData> extension(String ext) throws QueryParseException {
     if (args.getSchema().hasField(ChangeField.EXTENSION)) {
-      if (ext.isEmpty() && IndexType.isElasticsearch(args.indexConfig.type())) {
-        return new FileWithNoExtensionInElasticPredicate();
-      }
       return new FileExtensionPredicate(ext);
     }
     throw new QueryParseException("'extension' operator is not supported by change index version");
@@ -776,11 +774,6 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
     if (args.getSchema().hasField(ChangeField.DIRECTORY)) {
       if (directory.startsWith("^")) {
         return new RegexDirectoryPredicate(directory);
-      }
-
-      if (IndexType.isElasticsearch(args.indexConfig.type())
-          && (directory.isEmpty() || directory.equals("/"))) {
-        return Predicate.any();
       }
       return new DirectoryPredicate(directory);
     }

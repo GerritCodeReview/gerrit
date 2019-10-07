@@ -61,6 +61,7 @@
      *     commentLink patterns
      */
     _contentOrConfigChanged(content, config) {
+      if (!Gerrit.Nav || !Gerrit.Nav.mapCommentlinks) return;
       config = Gerrit.Nav.mapCommentlinks(config);
       const output = Polymer.dom(this.$.output);
       output.textContent = '';

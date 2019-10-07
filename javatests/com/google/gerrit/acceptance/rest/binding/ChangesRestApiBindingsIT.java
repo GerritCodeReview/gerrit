@@ -24,6 +24,7 @@ import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.rest.util.RestApiCallHelper;
 import com.google.gerrit.acceptance.rest.util.RestCall;
+import com.google.gerrit.entities.Patch;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
@@ -35,7 +36,6 @@ import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.FixReplacementInfo;
 import com.google.gerrit.extensions.common.FixSuggestionInfo;
 import com.google.gerrit.extensions.common.RobotCommentInfo;
-import com.google.gerrit.reviewdb.client.Patch;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
@@ -84,6 +84,7 @@ public class ChangesRestApiBindingsIT extends AbstractDaemonTest {
           RestCall.post("/changes/%s/rebase"),
           RestCall.post("/changes/%s/restore"),
           RestCall.post("/changes/%s/revert"),
+          RestCall.post("/changes/%s/revert_submission"),
           RestCall.get("/changes/%s/pure_revert"),
           RestCall.post("/changes/%s/submit"),
           RestCall.get("/changes/%s/submitted_together"),

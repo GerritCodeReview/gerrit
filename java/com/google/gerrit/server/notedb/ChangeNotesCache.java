@@ -20,10 +20,10 @@ import com.google.common.cache.Cache;
 import com.google.common.collect.Table;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.proto.Protos;
-import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.ReviewerByEmailSet;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.cache.CacheModule;
@@ -61,7 +61,7 @@ public class ChangeNotesCache {
             .weigher(Weigher.class)
             .maximumWeight(10 << 20)
             .diskLimit(-1)
-            .version(1)
+            .version(2)
             .keySerializer(Key.Serializer.INSTANCE)
             .valueSerializer(ChangeNotesState.Serializer.INSTANCE);
       }
@@ -148,10 +148,7 @@ public class ChangeNotesCache {
           + str(state.columns().originalSubject())
           + P
           + str(state.columns().submissionId())
-          + ptr(state.columns().assignee(), K) // assignee
           + P // status
-          + P
-          + set(state.pastAssignees(), K)
           + P
           + set(state.hashtags(), str(10))
           + P
@@ -169,6 +166,8 @@ public class ChangeNotesCache {
           + P
           + list(state.reviewerUpdates(), 4 * O + K + K + P)
           + P
+          + list(state.assigneeUpdates(), 4 * O + K + K)
+          + P
           + list(state.submitRecords(), P + list(2, str(4) + P + K) + P)
           + P
           + list(state.changeMessages(), changeMessage())
@@ -178,10 +177,6 @@ public class ChangeNotesCache {
           + 1 // workInProgress
           + 1 // reviewStarted
           + I; // updateCount
-    }
-
-    private static int ptr(Object o, int size) {
-      return o != null ? P + size : P;
     }
 
     private static int str(String s) {
@@ -355,12 +350,7 @@ public class ChangeNotesCache {
           "Load change notes for change %s of project %s", key.changeId(), key.project());
       ChangeNotesParser parser =
           new ChangeNotesParser(
-              key.changeId(),
-              key.id(),
-              walkSupplier.get(),
-              args.changeNoteJson,
-              args.legacyChangeNoteRead,
-              args.metrics);
+              key.changeId(), key.id(), walkSupplier.get(), args.changeNoteJson, args.metrics);
       ChangeNotesState result = parser.parseAll();
       // This assignment only happens if call() was actually called, which only
       // happens when Cache#get(K, Callable<V>) incurs a cache miss.

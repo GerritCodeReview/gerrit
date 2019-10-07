@@ -16,7 +16,7 @@ package com.google.gerrit.server.project;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
-import static com.google.gerrit.reviewdb.client.BooleanProjectConfig.REQUIRE_CHANGE_ID;
+import static com.google.gerrit.entities.BooleanProjectConfig.REQUIRE_CHANGE_ID;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
@@ -26,10 +26,10 @@ import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
+import com.google.gerrit.entities.AccountGroup;
+import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.client.InheritableBoolean;
-import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.PluginConfig;
 import com.google.gerrit.server.config.SitePaths;
@@ -63,7 +63,10 @@ import org.junit.rules.TemporaryFolder;
 
 public class ProjectConfigTest {
   private static final String LABEL_SCORES_CONFIG =
-      "  copyMinScore = "
+      "  copyAnyScore = "
+          + !LabelType.DEF_COPY_ANY_SCORE
+          + "\n"
+          + "  copyMinScore = "
           + !LabelType.DEF_COPY_MIN_SCORE
           + "\n"
           + "  copyMaxScore = "
@@ -259,6 +262,7 @@ public class ProjectConfigTest {
     ProjectConfig cfg = read(rev);
     Map<String, LabelType> labels = cfg.getLabelSections();
     LabelType type = labels.entrySet().iterator().next().getValue();
+    assertThat(type.isCopyAnyScore()).isNotEqualTo(LabelType.DEF_COPY_ANY_SCORE);
     assertThat(type.isCopyMinScore()).isNotEqualTo(LabelType.DEF_COPY_MIN_SCORE);
     assertThat(type.isCopyMaxScore()).isNotEqualTo(LabelType.DEF_COPY_MAX_SCORE);
     assertThat(type.isCopyAllScoresOnMergeFirstParentUpdate())

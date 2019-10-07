@@ -271,7 +271,7 @@
 
       /** Set by Polymer. */
       isAttached: Boolean,
-      pluginLayers: Array,
+      layers: Array,
     },
 
     behaviors: [
@@ -400,7 +400,13 @@
         const commentSide = threadEl.getAttribute('comment-side');
         const lineNum = Number(threadEl.getAttribute('line-num')) ||
             GrDiffLine.FILE;
+        const commentRange = threadEl.range || {};
         keyLocations[commentSide][lineNum] = true;
+        // Add start_line as well if exists,
+        // the being and end of the range should not be collapsed.
+        if (commentRange.start_line) {
+          keyLocations[commentSide][commentRange.start_line] = true;
+        }
       }
       return keyLocations;
     },
@@ -724,7 +730,7 @@
 
     _diffChanged(newValue) {
       if (newValue) {
-        this._diffLength = this.$.diffBuilder.getDiffLength();
+        this._diffLength = this.getDiffLength(newValue);
         this._debounceRenderDiffTable();
       }
     },
@@ -766,7 +772,11 @@
       this.$.diffBuilder.render(keyLocations, this._getBypassPrefs())
           .then(() => {
             this.dispatchEvent(
-                new CustomEvent('render', {bubbles: true, composed: true}));
+                new CustomEvent('render', {
+                  bubbles: true,
+                  composed: true,
+                  detail: {contentRendered: true},
+                }));
           });
     },
 
@@ -954,6 +964,25 @@
     _computeNewlineWarningClass(warning, loading) {
       if (loading || !warning) { return 'newlineWarning hidden'; }
       return 'newlineWarning';
+    },
+
+    /**
+     * Get the approximate length of the diff as the sum of the maximum
+     * length of the chunks.
+     * @param {Object} diff object
+     * @return {number}
+     */
+    getDiffLength(diff) {
+      if (!diff) return 0;
+      return diff.content.reduce((sum, sec) => {
+        if (sec.hasOwnProperty('ab')) {
+          return sum + sec.ab.length;
+        } else {
+          return sum + Math.max(
+              sec.hasOwnProperty('a') ? sec.a.length : 0,
+              sec.hasOwnProperty('b') ? sec.b.length : 0);
+        }
+      }, 0);
     },
   });
 })();

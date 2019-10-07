@@ -50,10 +50,11 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Streams;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.ExtensionRegistry;
+import com.google.gerrit.acceptance.ExtensionRegistry.Registration;
 import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.PushOneCommit;
-import com.google.gerrit.acceptance.Sandboxed;
 import com.google.gerrit.acceptance.SkipProjectClone;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.TestProjectInput;
@@ -63,6 +64,13 @@ import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.Permission;
+import com.google.gerrit.entities.AccountGroup;
+import com.google.gerrit.entities.BooleanProjectConfig;
+import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.ChangeMessage;
+import com.google.gerrit.entities.PatchSet;
+import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
@@ -83,18 +91,8 @@ import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
-import com.google.gerrit.extensions.common.testing.EditInfoSubject;
-import com.google.gerrit.extensions.registration.DynamicSet;
-import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.git.ObjectIds;
 import com.google.gerrit.mail.Address;
-import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
-import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.ChangeMessage;
-import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.git.receive.NoteDbPushOption;
@@ -152,11 +150,10 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
   @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
+  @Inject private ExtensionRegistry extensionRegistry;
 
   private static String NEW_CHANGE_INDICATOR = " [NEW]";
   private LabelType patchSetLock;
-
-  @Inject private DynamicSet<CommitValidationListener> commitValidators;
 
   @Before
   public void setUpPatchSetLock() throws Exception {
@@ -2199,53 +2196,6 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     amendChanges(unChanged.toObjectId(), commits, "refs/for/master%publish-comments");
   }
 
-  @Test
-  public void pushWithDraftOptionIsDisabledPerDefault() throws Exception {
-    for (String ref : ImmutableSet.of("refs/drafts/master", "refs/for/master%draft")) {
-      PushOneCommit.Result r = pushTo(ref);
-      r.assertErrorStatus();
-      r.assertMessage("draft workflow is disabled");
-    }
-  }
-
-  @GerritConfig(name = "change.allowDrafts", value = "true")
-  @Test
-  public void pushDraftGetsPrivateChange() throws Exception {
-    String changeId1 = createChange("refs/drafts/master").getChangeId();
-    String changeId2 = createChange("refs/for/master%draft").getChangeId();
-
-    ChangeInfo info1 = gApi.changes().id(changeId1).get();
-    ChangeInfo info2 = gApi.changes().id(changeId2).get();
-
-    assertThat(info1.status).isEqualTo(ChangeStatus.NEW);
-    assertThat(info2.status).isEqualTo(ChangeStatus.NEW);
-    assertThat(info1.isPrivate).isTrue();
-    assertThat(info2.isPrivate).isTrue();
-    assertThat(info1.revisions).hasSize(1);
-    assertThat(info2.revisions).hasSize(1);
-  }
-
-  @GerritConfig(name = "change.allowDrafts", value = "true")
-  @Sandboxed
-  @Test
-  public void pushWithDraftOptionToExistingNewChangeGetsChangeEdit() throws Exception {
-    String changeId = createChange().getChangeId();
-    EditInfoSubject.assertThat(getEdit(changeId)).isAbsent();
-
-    ChangeInfo changeInfo = gApi.changes().id(changeId).get();
-    ChangeStatus originalChangeStatus = changeInfo.status;
-
-    PushOneCommit.Result result = amendChange(changeId, "refs/drafts/master");
-    result.assertOkStatus();
-
-    changeInfo = gApi.changes().id(changeId).get();
-    assertThat(changeInfo.status).isEqualTo(originalChangeStatus);
-    assertThat(changeInfo.isPrivate).isNull();
-    assertThat(changeInfo.revisions).hasSize(1);
-
-    EditInfoSubject.assertThat(getEdit(changeId)).isPresent();
-  }
-
   @GerritConfig(name = "receive.maxBatchCommits", value = "2")
   @Test
   public void maxBatchCommits() throws Exception {
@@ -2255,24 +2205,16 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   @GerritConfig(name = "receive.maxBatchCommits", value = "2")
   @Test
   public void maxBatchCommitsWithDefaultValidator() throws Exception {
-    TestValidator validator = new TestValidator();
-    RegistrationHandle handle = commitValidators.add("test-validator", validator);
-    try {
+    try (Registration registration = extensionRegistry.newRegistration().add(new TestValidator())) {
       testMaxBatchCommits();
-    } finally {
-      handle.remove();
     }
   }
 
   @GerritConfig(name = "receive.maxBatchCommits", value = "2")
   @Test
   public void maxBatchCommitsWithValidateAllCommitsValidator() throws Exception {
-    TestValidator validator = new TestValidator(true);
-    RegistrationHandle handle = commitValidators.add("test-validator", validator);
-    try {
+    try (Registration registration = extensionRegistry.newRegistration().add(new TestValidator())) {
       testMaxBatchCommits();
-    } finally {
-      handle.remove();
     }
   }
 
@@ -2330,10 +2272,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   public void skipValidation() throws Exception {
     String master = "refs/heads/master";
     TestValidator validator = new TestValidator();
-    RegistrationHandle handle = commitValidators.add("test-validator", validator);
-    RegistrationHandle handle2 = null;
-
-    try {
+    try (Registration registration = extensionRegistry.newRegistration().add(validator)) {
       // Validation listener is called on normal push
       PushOneCommit push =
           pushFactory.create(admin.newIdent(), testRepo, "change1", "a.txt", "content");
@@ -2362,20 +2301,16 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
       // Validation listener that needs to validate all commits gets called even
       // when the skip option is used.
       TestValidator validator2 = new TestValidator(true);
-      handle2 = commitValidators.add("test-validator-2", validator2);
-      PushOneCommit push4 =
-          pushFactory.create(admin.newIdent(), testRepo, "change2", "b.txt", "content");
-      push4.setPushOptions(ImmutableList.of(PUSH_OPTION_SKIP_VALIDATION));
-      r = push4.to(master);
-      r.assertOkStatus();
-      // First listener was not called; its count remains the same.
-      assertThat(validator.count()).isEqualTo(1);
-      // Second listener was called.
-      assertThat(validator2.count()).isEqualTo(1);
-    } finally {
-      handle.remove();
-      if (handle2 != null) {
-        handle2.remove();
+      try (Registration registration2 = extensionRegistry.newRegistration().add(validator2)) {
+        PushOneCommit push4 =
+            pushFactory.create(admin.newIdent(), testRepo, "change2", "b.txt", "content");
+        push4.setPushOptions(ImmutableList.of(PUSH_OPTION_SKIP_VALIDATION));
+        r = push4.to(master);
+        r.assertOkStatus();
+        // First listener was not called; its count remains the same.
+        assertThat(validator.count()).isEqualTo(1);
+        // Second listener was called.
+        assertThat(validator2.count()).isEqualTo(1);
       }
     }
   }

@@ -180,6 +180,24 @@
 
       /** @type {Function} */
       _cancelForEachDiff: Function,
+
+      _showDynamicColumns: {
+        type: Boolean,
+        computed: '_computeShowDynamicColumns(_dynamicHeaderEndpoints, ' +
+                  '_dynamicContentEndpoints, _dynamicSummaryEndpoints)',
+      },
+      /** @type {Array<string>} */
+      _dynamicHeaderEndpoints: {
+        type: Array,
+      },
+      /** @type {Array<string>} */
+      _dynamicContentEndpoints: {
+        type: Array,
+      },
+      /** @type {Array<string>} */
+      _dynamicSummaryEndpoints: {
+        type: Array,
+      },
     },
 
     behaviors: [
@@ -227,6 +245,28 @@
     },
     listeners: {
       keydown: '_scopedKeydownHandler',
+    },
+
+    attached() {
+      Gerrit.awaitPluginsLoaded().then(() => {
+        this._dynamicHeaderEndpoints = Gerrit._endpoints.getDynamicEndpoints(
+            'change-view-file-list-header');
+        this._dynamicContentEndpoints = Gerrit._endpoints.getDynamicEndpoints(
+            'change-view-file-list-content');
+        this._dynamicSummaryEndpoints = Gerrit._endpoints.getDynamicEndpoints(
+            'change-view-file-list-summary');
+
+        if (this._dynamicHeaderEndpoints.length !==
+            this._dynamicContentEndpoints.length) {
+          console.warn(
+              'Different number of dynamic file-list header and content.');
+        }
+        if (this._dynamicHeaderEndpoints.length !==
+            this._dynamicSummaryEndpoints.length) {
+          console.warn(
+              'Different number of dynamic file-list headers and summary.');
+        }
+      });
     },
 
     detached() {
@@ -303,11 +343,11 @@
     },
 
     _calculatePatchChange(files) {
-      const filesNoCommitMsg = files.filter(files => {
-        return files.__path !== '/COMMIT_MSG';
+      const magicFilesExcluded = files.filter(files => {
+        return files.__path !== '/COMMIT_MSG' && files.__path !== '/MERGE_LIST';
       });
 
-      return filesNoCommitMsg.reduce((acc, obj) => {
+      return magicFilesExcluded.reduce((acc, obj) => {
         const inserted = obj.lines_inserted ? obj.lines_inserted : 0;
         const deleted = obj.lines_deleted ? obj.lines_deleted : 0;
         const total_size = (obj.size && obj.binary) ? obj.size : 0;
@@ -760,6 +800,11 @@
     },
 
     _computeDiffURL(change, patchNum, basePatchNum, path, editMode) {
+      // Polymer 2: check for undefined
+      if ([change, patchNum, basePatchNum, path, editMode]
+          .some(arg => arg === undefined)) {
+        return;
+      }
       // TODO(kaspern): Fix editing for commit messages and merge lists.
       if (editMode && path !== this.COMMIT_MESSAGE_PATH &&
           path !== this.MERGE_LIST_PATH) {
@@ -800,7 +845,10 @@
      * @param {string} path
      */
     _computeClass(baseClass, path) {
-      const classes = [baseClass];
+      const classes = [];
+      if (baseClass) {
+        classes.push(baseClass);
+      }
       if (path === this.COMMIT_MESSAGE_PATH || path === this.MERGE_LIST_PATH) {
         classes.push('invisible');
       }
@@ -877,12 +925,14 @@
     },
 
     _filesChanged() {
-      Polymer.dom.flush();
-      // Polymer2: querySelectorAll returns NodeList instead of Array.
-      const files = Array.from(
-          Polymer.dom(this.root).querySelectorAll('.file-row'));
-      this.$.fileCursor.stops = files;
-      this.$.fileCursor.setCursorAtIndex(this.selectedIndex, true);
+      if (this._files && this._files.length > 0) {
+        Polymer.dom.flush();
+        // Polymer2: querySelectorAll returns NodeList instead of Array.
+        const files = Array.from(
+            Polymer.dom(this.root).querySelectorAll('.file-row'));
+        this.$.fileCursor.stops = files;
+        this.$.fileCursor.setCursorAtIndex(this.selectedIndex, true);
+      }
     },
 
     _incrementNumFilesShown() {
@@ -1246,6 +1296,19 @@
         hideClass = 'invisible';
       }
       return `sizeBars desktop ${hideClass}`;
+    },
+
+    /**
+     * Shows registered dynamic columns iff the 'header', 'content' and
+     * 'summary' endpoints are regiestered the exact same number of times.
+     * Ideally, there should be a better way to enforce the expectation of the
+     * dependencies between dynamic endpoints.
+     */
+    _computeShowDynamicColumns(
+        headerEndpoints, contentEndpoints, summaryEndpoints) {
+      return headerEndpoints && contentEndpoints && summaryEndpoints &&
+             headerEndpoints.length === contentEndpoints.length &&
+             headerEndpoints.length === summaryEndpoints.length;
     },
 
     /**

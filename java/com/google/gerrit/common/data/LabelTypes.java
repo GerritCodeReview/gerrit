@@ -14,7 +14,7 @@
 
 package com.google.gerrit.common.data;
 
-import com.google.gerrit.reviewdb.client.LabelId;
+import com.google.gerrit.entities.LabelId;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;

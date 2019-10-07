@@ -21,14 +21,14 @@ import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.data.CommentDetail;
 import com.google.gerrit.common.data.PatchScript;
 import com.google.gerrit.common.data.PatchScript.DisplayMethod;
+import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.Comment;
+import com.google.gerrit.entities.Patch;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.prettify.common.EditList;
 import com.google.gerrit.prettify.common.SparseFileContent;
-import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.Comment;
-import com.google.gerrit.reviewdb.client.Patch;
-import com.google.gerrit.reviewdb.client.Patch.ChangeType;
 import com.google.gerrit.server.mime.FileTypeRegistry;
 import com.google.inject.Inject;
 import eu.medsea.mimeutil.MimeType;
@@ -98,8 +98,8 @@ class PatchScriptBuilder {
   PatchScript toPatchScript(
       PatchScriptBuilderInput content, CommentDetail comments, List<Patch> history)
       throws IOException {
-    return build(content, comments, history);
-  }
+    boolean intralineFailure = false;
+    boolean intralineTimeout = false;
 
   private PatchScript build(
       PatchScriptBuilderInput content, CommentDetail comments, List<Patch> history)
@@ -112,13 +112,31 @@ class PatchScriptBuilder {
     edits = new ArrayList<>(content.getEdits());
     ImmutableSet<Edit> editsDueToRebase = content.getEditsDueToRebase();
 
-    IntraLineDiffCalculatorResult intralineResult = IntraLineDiffCalculatorResult.NO_RESULT;
+    if (isModify(content) && diffPrefs.intralineDifference) {
+      IntraLineDiff d =
+          patchListCache.getIntraLineDiff(
+              IntraLineDiffKey.create(a.id, b.id, diffPrefs.ignoreWhitespace),
+              IntraLineDiffArgs.create(
+                  a.src, b.src, edits, editsDueToRebase, projectKey, bId, b.path));
+      if (d != null) {
+        switch (d.getStatus()) {
+          case EDIT_LIST:
+            edits = new ArrayList<>(d.getEdits());
+            break;
 
-    if (isModify(content) && intralineDiffCalculator != null) {
-      intralineResult =
-          intralineDiffCalculator.calculateIntraLineDiff(a, b, edits, editsDueToRebase);
-      if (intralineResult.edits != null) {
-        edits = intralineResult.edits;
+          case DISABLED:
+            break;
+
+          case ERROR:
+            intralineFailure = true;
+            break;
+
+          case TIMEOUT:
+            intralineTimeout = true;
+            break;
+        }
+      } else {
+        intralineFailure = true;
       }
     }
 
@@ -177,8 +195,8 @@ class PatchScriptBuilder {
         comments,
         history,
         hugeFile,
-        intralineResult.failure,
-        intralineResult.timeout,
+        intralineFailure,
+        intralineTimeout,
         content.getPatchType() == Patch.PatchType.BINARY,
         a.treeId == null ? null : a.treeId.getName(),
         b.treeId == null ? null : b.treeId.getName());

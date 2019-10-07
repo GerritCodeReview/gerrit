@@ -18,11 +18,14 @@ import com.google.auto.value.AutoValue;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.MoreObjects.ToStringHelper;
 import com.google.common.collect.ImmutableList;
+import com.google.common.flogger.LazyArg;
+import com.google.common.flogger.LazyArgs;
 import com.google.gerrit.common.Nullable;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Optional;
 
 /** Metadata that is provided to {@link PerformanceLogger}s as context for performance records. */
@@ -141,7 +144,8 @@ public abstract class Metadata {
   public abstract Optional<String> username();
 
   /**
-   * Returns a string representation of this instance that is suitable for logging.
+   * Returns a string representation of this instance that is suitable for logging. This is wrapped
+   * in a {@link LazyArg} because it is expensive to evaluate.
    *
    * <p>{@link #toString()} formats the {@link Optional} fields as {@code key=Optional[value]} or
    * {@code key=Optional.empty}. Since this class has many optional fields from which usually only a
@@ -178,7 +182,14 @@ public abstract class Metadata {
    *
    * @return string representation of this instance that is suitable for logging
    */
-  public String toStringForLogging() {
+  LazyArg<String> toStringForLoggingLazy() {
+    // Don't use a lambda because different compilers generate different method names for lambdas,
+    // e.g. "lambda$myFunction$0" vs. just "lambda$0" in Eclipse. We need to identify the method
+    // by name to skip it and avoid infinite recursion.
+    return LazyArgs.lazy(this::toStringForLoggingImpl);
+  }
+
+  private String toStringForLoggingImpl() {
     // Append class name.
     String className = getClass().getSimpleName();
     if (className.startsWith("AutoValue_")) {
@@ -188,15 +199,16 @@ public abstract class Metadata {
 
     // Append key-value pairs for field which are set.
     Method[] methods = Metadata.class.getDeclaredMethods();
-    Arrays.<Method>sort(methods, (m1, m2) -> m1.getName().compareTo(m2.getName()));
+    Arrays.sort(methods, Comparator.comparing(Method::getName));
     for (Method method : methods) {
       if (Modifier.isStatic(method.getModifiers())) {
         // skip static method
         continue;
       }
 
-      if (method.getName().equals(Thread.currentThread().getStackTrace()[1].getMethodName())) {
-        // skip this method (toStringForLogging() method)
+      if (method.getName().equals("toStringForLoggingLazy")
+          || method.getName().equals("toStringForLoggingImpl")) {
+        // Don't call myself in infinite recursion.
         continue;
       }
 

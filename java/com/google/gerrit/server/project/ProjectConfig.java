@@ -17,7 +17,7 @@ package com.google.gerrit.server.project;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.gerrit.common.data.Permission.isPermission;
-import static com.google.gerrit.reviewdb.client.Project.DEFAULT_SUBMIT_TYPE;
+import static com.google.gerrit.entities.Project.DEFAULT_SUBMIT_TYPE;
 import static com.google.gerrit.server.permissions.PluginPermissionsUtil.isValidPluginPermission;
 import static java.util.stream.Collectors.toList;
 
@@ -43,15 +43,15 @@ import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.common.data.PermissionRule;
 import com.google.gerrit.common.data.PermissionRule.Action;
 import com.google.gerrit.common.data.SubscribeSection;
+import com.google.gerrit.entities.AccountGroup;
+import com.google.gerrit.entities.BooleanProjectConfig;
+import com.google.gerrit.entities.BranchNameKey;
+import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.exceptions.InvalidNameException;
 import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.ProjectState;
 import com.google.gerrit.mail.Address;
-import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
-import com.google.gerrit.reviewdb.client.BranchNameKey;
-import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.ProjectWatches.NotifyType;
 import com.google.gerrit.server.config.AllProjectsName;
@@ -101,6 +101,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   public static final String KEY_COPY_MIN_SCORE = "copyMinScore";
   public static final String KEY_ALLOW_POST_SUBMIT = "allowPostSubmit";
   public static final String KEY_IGNORE_SELF_APPROVAL = "ignoreSelfApproval";
+  public static final String KEY_COPY_ANY_SCORE = "copyAnyScore";
   public static final String KEY_COPY_MAX_SCORE = "copyMaxScore";
   public static final String KEY_COPY_ALL_SCORES_ON_MERGE_FIRST_PARENT_UPDATE =
       "copyAllScoresOnMergeFirstParentUpdate";
@@ -214,6 +215,14 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
         throws IOException, ConfigInvalidException {
       ProjectConfig r = create(update.getProjectName());
       r.load(update, id);
+      return r;
+    }
+
+    @UsedAt(UsedAt.Project.COLLABNET)
+    public ProjectConfig read(Repository repo, Project.NameKey name)
+        throws IOException, ConfigInvalidException {
+      ProjectConfig r = create(name);
+      r.load(repo);
       return r;
     }
   }
@@ -960,6 +969,8 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
           rc.getBoolean(LABEL, name, KEY_ALLOW_POST_SUBMIT, LabelType.DEF_ALLOW_POST_SUBMIT));
       label.setIgnoreSelfApproval(
           rc.getBoolean(LABEL, name, KEY_IGNORE_SELF_APPROVAL, LabelType.DEF_IGNORE_SELF_APPROVAL));
+      label.setCopyAnyScore(
+          rc.getBoolean(LABEL, name, KEY_COPY_ANY_SCORE, LabelType.DEF_COPY_ANY_SCORE));
       label.setCopyMinScore(
           rc.getBoolean(LABEL, name, KEY_COPY_MIN_SCORE, LabelType.DEF_COPY_MIN_SCORE));
       label.setCopyMaxScore(
@@ -1417,6 +1428,13 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
           KEY_IGNORE_SELF_APPROVAL,
           label.ignoreSelfApproval(),
           LabelType.DEF_IGNORE_SELF_APPROVAL);
+      setBooleanConfigKey(
+          rc,
+          LABEL,
+          name,
+          KEY_COPY_ANY_SCORE,
+          label.isCopyAnyScore(),
+          LabelType.DEF_COPY_ANY_SCORE);
       setBooleanConfigKey(
           rc,
           LABEL,

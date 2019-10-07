@@ -37,7 +37,7 @@
      */
 
     listeners: {
-      tap: '_handleTap',
+      click: '_handleClick',
     },
 
     properties: {
@@ -163,13 +163,13 @@
       }
     },
 
-    _handleTap(e) {
+    _handleClick(e) {
       if (this.message.expanded) { return; }
       e.stopPropagation();
       this.set('message.expanded', true);
     },
 
-    _handleAuthorTap(e) {
+    _handleAuthorClick(e) {
       if (!this.message.expanded) { return; }
       e.stopPropagation();
       this.set('message.expanded', false);
@@ -203,6 +203,10 @@
     },
 
     _computeScoreClass(score, labelExtremes) {
+      // Polymer 2: check for undefined
+      if ([score, labelExtremes].some(arg => arg === undefined)) {
+        return '';
+      }
       const classes = [];
       if (score.value > 0) {
         classes.push('positive');
@@ -228,7 +232,7 @@
       return classes.join(' ');
     },
 
-    _handleAnchorTap(e) {
+    _handleAnchorClick(e) {
       e.preventDefault();
       this.dispatchEvent(new CustomEvent('message-anchor-tap', {
         bubbles: true,

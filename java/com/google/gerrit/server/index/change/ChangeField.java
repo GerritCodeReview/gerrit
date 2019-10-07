@@ -43,22 +43,22 @@ import com.google.common.io.Files;
 import com.google.common.primitives.Longs;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.common.data.SubmitRequirement;
+import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.ChangeMessage;
+import com.google.gerrit.entities.PatchSetApproval;
+import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.RefNames;
+import com.google.gerrit.entities.converter.ChangeProtoConverter;
+import com.google.gerrit.entities.converter.PatchSetApprovalProtoConverter;
+import com.google.gerrit.entities.converter.PatchSetProtoConverter;
+import com.google.gerrit.entities.converter.ProtoConverter;
 import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.RefState;
 import com.google.gerrit.index.SchemaUtil;
 import com.google.gerrit.json.OutputFormat;
 import com.google.gerrit.mail.Address;
 import com.google.gerrit.proto.Protos;
-import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.ChangeMessage;
-import com.google.gerrit.reviewdb.client.PatchSetApproval;
-import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.RefNames;
-import com.google.gerrit.reviewdb.converter.ChangeProtoConverter;
-import com.google.gerrit.reviewdb.converter.PatchSetApprovalProtoConverter;
-import com.google.gerrit.reviewdb.converter.PatchSetProtoConverter;
-import com.google.gerrit.reviewdb.converter.ProtoConverter;
 import com.google.gerrit.server.ReviewerByEmailSet;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.StarredChangesUtil;
@@ -106,6 +106,9 @@ public class ChangeField {
   /** Legacy change ID. */
   public static final FieldDef<ChangeData, Integer> LEGACY_ID =
       integer("legacy_id").stored().build(cd -> cd.getId().get());
+
+  public static final FieldDef<ChangeData, String> LEGACY_ID_STR =
+      exact("legacy_id_str").stored().build(cd -> String.valueOf(cd.getId().get()));
 
   /** Newer style Change-Id key. */
   public static final FieldDef<ChangeData, String> ID =

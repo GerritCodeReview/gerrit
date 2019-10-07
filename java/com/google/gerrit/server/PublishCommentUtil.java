@@ -15,17 +15,18 @@
 package com.google.gerrit.server;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.gerrit.reviewdb.client.PatchLineComment.Status.PUBLISHED;
 import static java.util.stream.Collectors.toSet;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.entities.Comment;
+import com.google.gerrit.entities.Comment.Status;
+import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.validators.CommentForValidation;
 import com.google.gerrit.extensions.validators.CommentValidationFailure;
 import com.google.gerrit.extensions.validators.CommentValidator;
-import com.google.gerrit.reviewdb.client.Comment;
-import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
@@ -34,10 +35,14 @@ import com.google.gerrit.server.update.ChangeContext;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 @Singleton
 public class PublishCommentUtil {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   private final PatchListCache patchListCache;
   private final PatchSetUtil psUtil;
   private final CommentsUtil commentsUtil;
@@ -51,32 +56,58 @@ public class PublishCommentUtil {
   }
 
   public void publish(
-      ChangeContext ctx, PatchSet.Id psId, Collection<Comment> drafts, @Nullable String tag) {
+      ChangeContext ctx,
+      PatchSet.Id psId,
+      Collection<Comment> draftComments,
+      @Nullable String tag) {
     ChangeNotes notes = ctx.getNotes();
     checkArgument(notes != null);
-    if (drafts.isEmpty()) {
+    if (draftComments.isEmpty()) {
       return;
     }
 
     Map<PatchSet.Id, PatchSet> patchSets =
-        psUtil.getAsMap(notes, drafts.stream().map(d -> psId(notes, d)).collect(toSet()));
-    for (Comment d : drafts) {
-      PatchSet ps = patchSets.get(psId(notes, d));
+        psUtil.getAsMap(notes, draftComments.stream().map(d -> psId(notes, d)).collect(toSet()));
+    Set<Comment> commentsToPublish = new HashSet<>();
+    for (Comment draftComment : draftComments) {
+      PatchSet.Id psIdOfDraftComment = psId(notes, draftComment);
+      PatchSet ps = patchSets.get(psIdOfDraftComment);
       if (ps == null) {
-        throw new StorageException("patch set " + ps + " not found");
+        // This can happen if changes with the same numeric ID exist:
+        // - change 12345 has 3 patch sets in repo X
+        // - another change 12345 has 7 patch sets in repo Y
+        // - the user saves a draft comment on patch set 6 of the change in repo Y
+        // - this draft comment gets stored in:
+        //   AllUsers -> refs/draft-comments/45/12345/<account-id>
+        // - when posting a review with draft handling PUBLISH_ALL_REVISIONS on the change in
+        //   repo X, the draft comments are loaded from
+        //   AllUsers -> refs/draft-comments/45/12345/<account-id>, including the draft
+        //   comment that was saved for patch set 6 of the change in repo Y
+        // - patch set 6 does not exist for the change in repo x, hence we get null for the patch
+        //   set here
+        // Instead of failing hard (and returning an Internal Server Error) to the caller,
+        // just ignore that comment.
+        // Gerrit ensures that numeric change IDs are unique, but you can get duplicates if
+        // change refs of one repo are copied/pushed to another repo on the same host (this
+        // should never be done, but we know it happens).
+        logger.atWarning().log(
+            "Ignoring draft comment %s on non existing patch set %s (repo = %s)",
+            draftComment, psIdOfDraftComment, notes.getProjectName());
+        continue;
       }
-      d.writtenOn = ctx.getWhen();
-      d.tag = tag;
+      draftComment.writtenOn = ctx.getWhen();
+      draftComment.tag = tag;
       // Draft may have been created by a different real user; copy the current real user. (Only
       // applies to X-Gerrit-RunAs, since modifying drafts via on_behalf_of is not allowed.)
-      ctx.getUser().updateRealAccountId(d::setRealAuthor);
+      ctx.getUser().updateRealAccountId(draftComment::setRealAuthor);
       try {
-        CommentsUtil.setCommentCommitId(d, patchListCache, notes.getChange(), ps);
+        CommentsUtil.setCommentCommitId(draftComment, patchListCache, notes.getChange(), ps);
       } catch (PatchListNotAvailableException e) {
         throw new StorageException(e);
       }
+      commentsToPublish.add(draftComment);
     }
-    commentsUtil.putComments(ctx.getUpdate(psId), PUBLISHED, drafts);
+    commentsUtil.putComments(ctx.getUpdate(psId), Status.PUBLISHED, commentsToPublish);
   }
 
   private static PatchSet.Id psId(ChangeNotes notes, Comment c) {

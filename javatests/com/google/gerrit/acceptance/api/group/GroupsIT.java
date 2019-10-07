@@ -38,6 +38,8 @@ import com.google.common.collect.Iterables;
 import com.google.common.truth.Correspondence;
 import com.google.common.util.concurrent.AtomicLongMap;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.ExtensionRegistry;
+import com.google.gerrit.acceptance.ExtensionRegistry.Registration;
 import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.NoHttpd;
@@ -54,6 +56,10 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.Permission;
+import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.AccountGroup;
+import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.groups.GroupApi;
 import com.google.gerrit.extensions.api.groups.GroupInput;
@@ -66,18 +72,12 @@ import com.google.gerrit.extensions.common.GroupAuditEventInfo.UserMemberAuditEv
 import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.common.GroupOptionsInfo;
 import com.google.gerrit.extensions.events.GroupIndexedListener;
-import com.google.gerrit.extensions.registration.DynamicSet;
-import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.extensions.restapi.Url;
-import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.ServerInitiated;
 import com.google.gerrit.server.account.GroupIncludeCache;
 import com.google.gerrit.server.group.InternalGroup;
@@ -127,7 +127,6 @@ import org.junit.Test;
 public class GroupsIT extends AbstractDaemonTest {
   @Inject @ServerInitiated private GroupsUpdate groupsUpdate;
   @Inject private AccountOperations accountOperations;
-  @Inject private DynamicSet<GroupIndexedListener> groupIndexedListeners;
   @Inject private GroupIncludeCache groupIncludeCache;
   @Inject private GroupIndexer groupIndexer;
   @Inject private GroupOperations groupOperations;
@@ -138,6 +137,7 @@ public class GroupsIT extends AbstractDaemonTest {
   @Inject private RequestScopeOperations requestScopeOperations;
   @Inject private Sequences seq;
   @Inject private StalenessChecker stalenessChecker;
+  @Inject private ExtensionRegistry extensionRegistry;
 
   @After
   public void consistencyCheck() throws Exception {
@@ -1334,9 +1334,7 @@ public class GroupsIT extends AbstractDaemonTest {
     restartAsSlave();
 
     GroupIndexedCounter groupIndexedCounter = new GroupIndexedCounter();
-    RegistrationHandle groupIndexEventCounterHandle =
-        groupIndexedListeners.add("gerrit", groupIndexedCounter);
-    try {
+    try (Registration registration = extensionRegistry.newRegistration().add(groupIndexedCounter)) {
       // Running the reindexer right after startup should not need to reindex any group since
       // reindexing was already done on startup.
       slaveGroupIndexer.run();
@@ -1372,8 +1370,6 @@ public class GroupsIT extends AbstractDaemonTest {
       }
       slaveGroupIndexer.run();
       groupIndexedCounter.assertReindexOf(groupUuid);
-    } finally {
-      groupIndexEventCounterHandle.remove();
     }
   }
 
@@ -1391,14 +1387,10 @@ public class GroupsIT extends AbstractDaemonTest {
     restartAsSlave();
 
     GroupIndexedCounter groupIndexedCounter = new GroupIndexedCounter();
-    RegistrationHandle groupIndexEventCounterHandle =
-        groupIndexedListeners.add("gerrit", groupIndexedCounter);
-    try {
+    try (Registration registration = extensionRegistry.newRegistration().add(groupIndexedCounter)) {
       // No group indexing happened on startup. All groups should be reindexed now.
       slaveGroupIndexer.run();
       groupIndexedCounter.assertReindexOf(expectedGroups);
-    } finally {
-      groupIndexEventCounterHandle.remove();
     }
   }
 

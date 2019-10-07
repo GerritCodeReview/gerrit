@@ -14,11 +14,11 @@
 
 package com.google.gerrit.server;
 
+import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.AccountGroup;
+import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.extensions.config.FactoryModule;
-import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.args4j.AccountGroupIdHandler;
 import com.google.gerrit.server.args4j.AccountGroupUUIDHandler;
 import com.google.gerrit.server.args4j.AccountIdHandler;

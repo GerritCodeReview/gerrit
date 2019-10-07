@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.project;
 
+import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.extensions.restapi.RestView;
-import com.google.gerrit.reviewdb.client.BranchNameKey;
 import com.google.gerrit.server.CurrentUser;
 import com.google.inject.TypeLiteral;
 import org.eclipse.jgit.lib.Ref;

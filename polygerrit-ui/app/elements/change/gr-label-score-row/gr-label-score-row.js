@@ -110,6 +110,9 @@
     },
 
     _computeLabelValue(labels, permittedLabels, label) {
+      if ([labels, permittedLabels, label].some(arg => arg === undefined)) {
+        return null;
+      }
       if (!labels[label.name]) { return null; }
       const labelValue = this._getLabelValue(labels, permittedLabels, label);
       const len = permittedLabels[label.name] != null ?
@@ -138,7 +141,7 @@
     },
 
     _computeAnyPermittedLabelValues(permittedLabels, label) {
-      return permittedLabels.hasOwnProperty(label) &&
+      return permittedLabels && permittedLabels.hasOwnProperty(label) &&
         permittedLabels[label].length;
     },
 

@@ -42,6 +42,8 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.ExtensionRegistry;
+import com.google.gerrit.acceptance.ExtensionRegistry.Registration;
 import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.NoHttpd;
@@ -54,6 +56,14 @@ import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.Permission;
+import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.BooleanProjectConfig;
+import com.google.gerrit.entities.BranchNameKey;
+import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.PatchSet;
+import com.google.gerrit.entities.PatchSetApproval;
+import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.api.projects.BranchInput;
@@ -67,21 +77,11 @@ import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.extensions.events.ChangeIndexedListener;
-import com.google.gerrit.extensions.registration.DynamicSet;
-import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.webui.UiAction;
-import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
-import com.google.gerrit.reviewdb.client.BranchNameKey;
-import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.client.PatchSetApproval;
-import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.change.RevisionResource;
@@ -118,7 +118,6 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.ReceiveCommand;
 import org.eclipse.jgit.transport.RefSpec;
-import org.junit.After;
 import org.junit.Test;
 
 @NoHttpd
@@ -131,21 +130,11 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   }
 
   @Inject private ApprovalsUtil approvalsUtil;
-  @Inject private DynamicSet<OnSubmitValidationListener> onSubmitValidationListeners;
-  @Inject private DynamicSet<ChangeIndexedListener> changeIndexedListeners;
   @Inject private IdentifiedUser.GenericFactory userFactory;
   @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
   @Inject private Submit submitHandler;
-
-  private RegistrationHandle onSubmitValidatorHandle;
-
-  @After
-  public void removeOnSubmitValidator() {
-    if (onSubmitValidatorHandle != null) {
-      onSubmitValidatorHandle.remove();
-    }
-  }
+  @Inject private ExtensionRegistry extensionRegistry;
 
   protected abstract SubmitType getSubmitType();
 
@@ -821,23 +810,28 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   @Test
   public void submitWithValidation() throws Throwable {
     AtomicBoolean called = new AtomicBoolean(false);
-    this.addOnSubmitValidationListener(
-        args -> {
-          called.set(true);
-          HashSet<String> refs = Sets.newHashSet(args.getCommands().keySet());
-          assertThat(refs).contains("refs/heads/master");
-          refs.remove("refs/heads/master");
-          if (!refs.isEmpty()) {
-            // Some submit strategies need to insert new patchset.
-            assertThat(refs).hasSize(1);
-            assertThat(refs.iterator().next()).startsWith(RefNames.REFS_CHANGES);
+    OnSubmitValidationListener listener =
+        new OnSubmitValidationListener() {
+          @Override
+          public void preBranchUpdate(Arguments args) throws ValidationException {
+            called.set(true);
+            HashSet<String> refs = Sets.newHashSet(args.getCommands().keySet());
+            assertThat(refs).contains("refs/heads/master");
+            refs.remove("refs/heads/master");
+            if (!refs.isEmpty()) {
+              // Some submit strategies need to insert new patchset.
+              assertThat(refs).hasSize(1);
+              assertThat(refs.iterator().next()).startsWith(RefNames.REFS_CHANGES);
+            }
           }
-        });
+        };
 
-    PushOneCommit.Result change = createChange();
-    approve(change.getChangeId());
-    submit(change.getChangeId());
-    assertThat(called.get()).isTrue();
+    try (Registration registration = extensionRegistry.newRegistration().add(listener)) {
+      PushOneCommit.Result change = createChange();
+      approve(change.getChangeId());
+      submit(change.getChangeId());
+      assertThat(called.get()).isTrue();
+    }
   }
 
   @Test
@@ -872,34 +866,39 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     // Since there are 2 repos, first submit attempt will fail, the second will
     // succeed.
     List<String> projectsCalled = new ArrayList<>(4);
-    this.addOnSubmitValidationListener(
-        args -> {
-          String master = "refs/heads/master";
-          assertThat(args.getCommands()).containsKey(master);
-          ReceiveCommand cmd = args.getCommands().get(master);
-          ObjectId newMasterId = cmd.getNewId();
-          try (Repository repo = repoManager.openRepository(args.getProject())) {
-            assertThat(repo.exactRef(master).getObjectId()).isEqualTo(cmd.getOldId());
-            assertThat(args.getRef(master)).hasValue(newMasterId);
-            args.getRevWalk().parseBody(args.getRevWalk().parseCommit(newMasterId));
-          } catch (IOException e) {
-            throw new AssertionError("failed checking new ref value", e);
+    OnSubmitValidationListener listener =
+        new OnSubmitValidationListener() {
+          @Override
+          public void preBranchUpdate(Arguments args) throws ValidationException {
+            String master = "refs/heads/master";
+            assertThat(args.getCommands()).containsKey(master);
+            ReceiveCommand cmd = args.getCommands().get(master);
+            ObjectId newMasterId = cmd.getNewId();
+            try (Repository repo = repoManager.openRepository(args.getProject())) {
+              assertThat(repo.exactRef(master).getObjectId()).isEqualTo(cmd.getOldId());
+              assertThat(args.getRef(master)).hasValue(newMasterId);
+              args.getRevWalk().parseBody(args.getRevWalk().parseCommit(newMasterId));
+            } catch (IOException e) {
+              throw new AssertionError("failed checking new ref value", e);
+            }
+            projectsCalled.add(args.getProject().get());
+            if (projectsCalled.size() == 2) {
+              throw new ValidationException("time to fail");
+            }
           }
-          projectsCalled.add(args.getProject().get());
-          if (projectsCalled.size() == 2) {
-            throw new ValidationException("time to fail");
-          }
-        });
-    submitWithConflict(change4.getChangeId(), "time to fail");
-    assertThat(projectsCalled).containsExactly(keyA.get(), keyB.get());
-    for (PushOneCommit.Result change : changes) {
-      change.assertChange(Change.Status.NEW, name(topic), admin);
-    }
+        };
+    try (Registration registration = extensionRegistry.newRegistration().add(listener)) {
+      submitWithConflict(change4.getChangeId(), "time to fail");
+      assertThat(projectsCalled).containsExactly(keyA.get(), keyB.get());
+      for (PushOneCommit.Result change : changes) {
+        change.assertChange(Change.Status.NEW, name(topic), admin);
+      }
 
-    submit(change4.getChangeId());
-    assertThat(projectsCalled).containsExactly(keyA.get(), keyB.get(), keyA.get(), keyB.get());
-    for (PushOneCommit.Result change : changes) {
-      change.assertChange(Change.Status.MERGED, name(topic), admin);
+      submit(change4.getChangeId());
+      assertThat(projectsCalled).containsExactly(keyA.get(), keyB.get(), keyA.get(), keyB.get());
+      for (PushOneCommit.Result change : changes) {
+        change.assertChange(Change.Status.MERGED, name(topic), admin);
+      }
     }
   }
 
@@ -1228,9 +1227,8 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     PushOneCommit.Result changeOtherBranch = createChange("refs/for/dev");
 
     ChangeIndexedListener changeIndexedListener = mock(ChangeIndexedListener.class);
-    RegistrationHandle registrationHandle =
-        changeIndexedListeners.add("gerrit", changeIndexedListener);
-    try {
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(changeIndexedListener)) {
       // submit a change, this should trigger asynchronous reindexing of the open changes on the
       // same branch
       approve(change1.getChangeId());
@@ -1257,8 +1255,6 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
       // open changes on other branches don't get reindexed
       verify(changeIndexedListener, times(0))
           .onChangeScheduledForIndexing(project.get(), changeOtherBranch.getChange().getId().get());
-    } finally {
-      registrationHandle.remove();
     }
   }
 
@@ -1436,11 +1432,6 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
 
   protected List<RevCommit> getRemoteLog() throws Throwable {
     return getRemoteLog(project, "master");
-  }
-
-  protected void addOnSubmitValidationListener(OnSubmitValidationListener listener) {
-    assertThat(onSubmitValidatorHandle).isNull();
-    onSubmitValidatorHandle = onSubmitValidationListeners.add("gerrit", listener);
   }
 
   private String getLatestDiff(Repository repo) throws Throwable {

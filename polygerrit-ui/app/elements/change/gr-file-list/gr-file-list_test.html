@@ -167,6 +167,9 @@ limitations under the License.
         '/COMMIT_MSG': {
           lines_inserted: 9,
         },
+        '/MERGE_LIST': {
+          lines_inserted: 9,
+        },
         'file_added_in_rev2.txt': {
           lines_inserted: 1,
           lines_deleted: 1,
@@ -198,6 +201,9 @@ limitations under the License.
           lines_deleted: 1,
         },
         '/COMMIT_MSG': {
+          lines_inserted: 9,
+        },
+        '/MERGE_LIST': {
           lines_inserted: 9,
         },
         'myfile.txt': {
@@ -796,7 +802,7 @@ limitations under the License.
 
       flushAsynchronousOperations();
       const fileRows =
-          Polymer.dom(element.root).querySelectorAll('.row:not(.header)');
+          Polymer.dom(element.root).querySelectorAll('.row:not(.header-row)');
       const checkSelector = 'input.reviewed[type="checkbox"]';
       const commitMsg = fileRows[0].querySelector(checkSelector);
       const fileAdded = fileRows[1].querySelector(checkSelector);
@@ -895,17 +901,17 @@ limitations under the License.
 
     test('patch set from revisions', () => {
       const expected = [
-        {num: 4, desc: 'test'},
-        {num: 3, desc: 'test'},
-        {num: 2, desc: 'test'},
-        {num: 1, desc: 'test'},
+        {num: 4, desc: 'test', sha: 'rev4'},
+        {num: 3, desc: 'test', sha: 'rev3'},
+        {num: 2, desc: 'test', sha: 'rev2'},
+        {num: 1, desc: 'test', sha: 'rev1'},
       ];
       const patchNums = element.computeAllPatchSets({
         revisions: {
-          rev3: {_number: 3, description: 'test'},
-          rev1: {_number: 1, description: 'test'},
-          rev4: {_number: 4, description: 'test'},
-          rev2: {_number: 2, description: 'test'},
+          rev3: {_number: 3, description: 'test', date: 3},
+          rev1: {_number: 1, description: 'test', date: 1},
+          rev4: {_number: 4, description: 'test', date: 4},
+          rev2: {_number: 2, description: 'test', date: 2},
         },
       });
       assert.equal(patchNums.length, expected.length);
@@ -927,7 +933,7 @@ limitations under the License.
       sandbox.stub(element, '_expandedPathsChanged');
       flushAsynchronousOperations();
       const fileRows =
-          Polymer.dom(element.root).querySelectorAll('.row:not(.header)');
+          Polymer.dom(element.root).querySelectorAll('.row:not(.header-row)');
       // Because the label surrounds the input, the tap event is triggered
       // there first.
       const showHideLabel = fileRows[0].querySelector('label.show-hide');
@@ -954,7 +960,7 @@ limitations under the License.
 
       // Tap on a file to generate the diff.
       const row = Polymer.dom(element.root)
-          .querySelectorAll('.row:not(.header) label.show-hide')[0];
+          .querySelectorAll('.row:not(.header-row) label.show-hide')[0];
 
       MockInteractions.tap(row);
       flushAsynchronousOperations();
@@ -984,7 +990,7 @@ limitations under the License.
       sandbox.stub(element, '_expandedPathsChanged');
       flushAsynchronousOperations();
       const commitMsgFile = Polymer.dom(element.root)
-          .querySelectorAll('.row:not(.header) a.pathLink')[0];
+          .querySelectorAll('.row:not(.header-row) a.pathLink')[0];
 
       // Remove href attribute so the app doesn't route to a diff view
       commitMsgFile.removeAttribute('href');
@@ -1207,22 +1213,6 @@ limitations under the License.
       assert.isFalse(element.classList.contains('loading'));
     });
 
-    test('no execute _computeDiffURL before patchNum is knwon', done => {
-      const urlStub = sandbox.stub(element, '_computeDiffURL');
-      element.change = {_number: 123};
-      element.patchRange = {patchNum: undefined, basePatchNum: 'PARENT'};
-      element._filesByPath = {'foo/bar.cpp': {}};
-      element.editMode = false;
-      flush(() => {
-        assert.isFalse(urlStub.called);
-        element.set('patchRange.patchNum', 4);
-        flush(() => {
-          assert.isTrue(urlStub.called);
-          done();
-        });
-      });
-    });
-
     suite('size bars', () => {
       test('_computeSizeBarLayout', () => {
         assert.isUndefined(element._computeSizeBarLayout(null));
@@ -1411,7 +1401,7 @@ limitations under the License.
         theme: 'DEFAULT',
         ignore_whitespace: 'IGNORE_NONE',
       };
-      diff._diff = mock.diffResponse;
+      diff.diff = mock.diffResponse;
       diff.$.diff.flushDebouncer('renderDiffTable');
     };
 
@@ -1580,7 +1570,7 @@ limitations under the License.
         nextChunkStub = sandbox.stub(element.$.diffCursor,
             'moveToNextChunk');
         fileRows =
-            Polymer.dom(element.root).querySelectorAll('.row:not(.header)');
+            Polymer.dom(element.root).querySelectorAll('.row:not(.header-row)');
       });
 
       test('n key with some files expanded and no shift key', () => {
@@ -1710,7 +1700,8 @@ limitations under the License.
       // Commit message should not have edit controls.
       const editControls =
           Array.from(
-              Polymer.dom(element.root).querySelectorAll('.row:not(.header)'))
+              Polymer.dom(element.root)
+              .querySelectorAll('.row:not(.header-row)'))
               .map(row => row.querySelector('gr-edit-file-controls'));
       assert.isTrue(editControls[0].classList.contains('invisible'));
     });

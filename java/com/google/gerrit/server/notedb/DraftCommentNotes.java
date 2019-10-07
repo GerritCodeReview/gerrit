@@ -15,7 +15,7 @@
 package com.google.gerrit.server.notedb;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.gerrit.reviewdb.client.RefNames.refsDraftComments;
+import static com.google.gerrit.entities.RefNames.refsDraftComments;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.VisibleForTesting;
@@ -24,11 +24,10 @@ import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.Comment;
-import com.google.gerrit.reviewdb.client.PatchLineComment;
-import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.Comment;
+import com.google.gerrit.entities.Project;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 import java.io.IOException;
@@ -121,12 +120,7 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
     ObjectReader reader = handle.walk().getObjectReader();
     revisionNoteMap =
         RevisionNoteMap.parse(
-            args.changeNoteJson,
-            args.legacyChangeNoteRead,
-            getChangeId(),
-            reader,
-            NoteMap.read(reader, tipCommit),
-            PatchLineComment.Status.DRAFT);
+            args.changeNoteJson, reader, NoteMap.read(reader, tipCommit), Comment.Status.DRAFT);
     ListMultimap<ObjectId, Comment> cs = MultimapBuilder.hashKeys().arrayListValues().build();
     for (ChangeRevisionNote rn : revisionNoteMap.revisionNotes.values()) {
       for (Comment c : rn.getEntities()) {

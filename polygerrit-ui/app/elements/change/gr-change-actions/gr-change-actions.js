@@ -912,7 +912,7 @@
     _handleActionTap(e) {
       e.preventDefault();
       let el = Polymer.dom(e).localTarget;
-      while (el.is !== 'gr-button') {
+      while (el.tagName.toLowerCase() !== 'gr-button') {
         if (!el.parentElement) { return; }
         el = el.parentElement;
       }

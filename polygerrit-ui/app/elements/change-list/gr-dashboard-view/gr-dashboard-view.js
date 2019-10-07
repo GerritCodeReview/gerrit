@@ -21,7 +21,6 @@
 
   Polymer({
     is: 'gr-dashboard-view',
-    _legacyUndefinedCheck: true,
 
     /**
      * Fired when the title of the page should change.
@@ -210,7 +209,7 @@
               this._showNewUserHelp = lastResultSet.length == 0;
             }
             this._results = changes.map((results, i) => ({
-              name: res.sections[i].name,
+              name: this._computeSectionName(res.sections[i].name, results),
               query: res.sections[i].query,
               results,
               isOutgoing: res.sections[i].isOutgoing,
@@ -218,6 +217,17 @@
                 !res.sections[i].hideIfEmpty ||
                 section.results.length));
           });
+    },
+
+    _computeSectionName(name, changes) {
+      if (!changes || !changes.length || changes.length == 0) {
+        return name;
+      }
+      const more = changes[changes.length - 1]._more_changes;
+      const numChanges = changes.length;
+      const andMore = more ? ' and more' : '';
+      const changeLabel = `change${numChanges > 1 ? 's' : ''}`;
+      return `${name} (${numChanges} ${changeLabel}${andMore})`;
     },
 
     _computeUserHeaderClass(params) {

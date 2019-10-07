@@ -18,13 +18,13 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.common.data.GroupReference;
+import com.google.gerrit.entities.Account;
 import com.google.gerrit.exceptions.NoSuchGroupException;
 import com.google.gerrit.extensions.client.AuthType;
 import com.google.gerrit.pgm.init.api.ConsoleUI;
 import com.google.gerrit.pgm.init.api.InitFlags;
 import com.google.gerrit.pgm.init.api.InitStep;
 import com.google.gerrit.pgm.init.api.SequencesOnInit;
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.account.AccountSshKey;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.externalids.ExternalId;

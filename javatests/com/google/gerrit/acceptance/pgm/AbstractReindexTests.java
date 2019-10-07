@@ -27,11 +27,11 @@ import com.google.common.io.RecursiveDeleteOption;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.StandaloneSiteTest;
 import com.google.gerrit.acceptance.pgm.IndexUpgradeController.UpgradeAttempt;
+import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.launcher.GerritLauncher;
-import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.index.GerritIndexStatus;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
 import com.google.gerrit.server.index.change.ChangeSchemaDefinitions;
@@ -74,13 +74,13 @@ public abstract class AbstractReindexTests extends StandaloneSiteTest {
           .containsExactly(changeId);
       // Query account index
       assertThat(gApi.accounts().query("admin").get().stream().map(a -> a._accountId))
-          .containsExactly(adminId.get());
+          .containsExactly(admin.id().get());
       // Query group index
       assertThat(
               gApi.groups().query("Group").withOption(MEMBERS).get().stream()
                   .flatMap(g -> g.members.stream())
                   .map(a -> a._accountId))
-          .containsExactly(adminId.get());
+          .containsExactly(admin.id().get());
       // Query project index
       assertThat(gApi.projects().query(project.get()).get().stream().map(p -> p.name))
           .containsExactly(project.get());
@@ -241,7 +241,7 @@ public abstract class AbstractReindexTests extends StandaloneSiteTest {
   }
 
   private void enableSlaveMode() throws Exception {
-    updateConfig(config -> config.setBoolean("container", null, "slave", true));
+    updateConfig(config -> config.setBoolean("container", null, "replica", true));
   }
 
   private void updateConfig(Consumer<Config> configConsumer) throws Exception {

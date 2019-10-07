@@ -19,8 +19,8 @@ import static java.util.stream.Collectors.collectingAndThen;
 import static java.util.stream.Collectors.toList;
 
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.reviewdb.client.LabelId;
-import com.google.gerrit.reviewdb.client.PatchSetApproval;
+import com.google.gerrit.entities.LabelId;
+import com.google.gerrit.entities.PatchSetApproval;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -34,6 +34,7 @@ public class LabelType {
   public static final boolean DEF_COPY_ALL_SCORES_IF_NO_CODE_CHANGE = false;
   public static final boolean DEF_COPY_ALL_SCORES_ON_TRIVIAL_REBASE = false;
   public static final boolean DEF_COPY_ALL_SCORES_ON_MERGE_FIRST_PARENT_UPDATE = false;
+  public static final boolean DEF_COPY_ANY_SCORE = false;
   public static final boolean DEF_COPY_MAX_SCORE = false;
   public static final boolean DEF_COPY_MIN_SCORE = false;
   public static final boolean DEF_IGNORE_SELF_APPROVAL = false;
@@ -96,6 +97,7 @@ public class LabelType {
 
   protected LabelFunction function;
 
+  protected boolean copyAnyScore;
   protected boolean copyMinScore;
   protected boolean copyMaxScore;
   protected boolean copyAllScoresOnMergeFirstParentUpdate;
@@ -139,6 +141,7 @@ public class LabelType {
     setCopyAllScoresIfNoCodeChange(DEF_COPY_ALL_SCORES_IF_NO_CODE_CHANGE);
     setCopyAllScoresOnTrivialRebase(DEF_COPY_ALL_SCORES_ON_TRIVIAL_REBASE);
     setCopyAllScoresOnMergeFirstParentUpdate(DEF_COPY_ALL_SCORES_ON_MERGE_FIRST_PARENT_UPDATE);
+    setCopyAnyScore(DEF_COPY_ANY_SCORE);
     setCopyMaxScore(DEF_COPY_MAX_SCORE);
     setCopyMinScore(DEF_COPY_MIN_SCORE);
     setAllowPostSubmit(DEF_ALLOW_POST_SUBMIT);
@@ -227,6 +230,14 @@ public class LabelType {
 
   public void setDefaultValue(short defaultValue) {
     this.defaultValue = defaultValue;
+  }
+
+  public boolean isCopyAnyScore() {
+    return copyAnyScore;
+  }
+
+  public void setCopyAnyScore(boolean copyAnyScore) {
+    this.copyAnyScore = copyAnyScore;
   }
 
   public boolean isCopyMinScore() {

@@ -15,10 +15,7 @@
 package com.google.gerrit.server.git.receive;
 
 import com.google.common.annotations.VisibleForTesting;
-import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.server.git.DefaultAdvertiseRefsHook;
-import com.google.gerrit.server.permissions.PermissionBackend;
-import com.google.gerrit.server.permissions.PermissionBackend.RefFilterOptions;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.inject.Provider;
 import java.util.ArrayList;
@@ -37,10 +34,9 @@ public class ReceiveCommitsAdvertiseRefsHookChain {
    */
   public static AdvertiseRefsHook create(
       AllRefsWatcher allRefsWatcher,
-      PermissionBackend.ForProject perm,
       Provider<InternalChangeQuery> queryProvider,
       Project.NameKey projectName) {
-    return create(allRefsWatcher, perm, queryProvider, projectName, false);
+    return create(allRefsWatcher, queryProvider, projectName, false);
   }
 
   /**
@@ -51,22 +47,17 @@ public class ReceiveCommitsAdvertiseRefsHookChain {
    */
   @VisibleForTesting
   public static AdvertiseRefsHook createForTest(
-      PermissionBackend.ForProject perm,
-      Provider<InternalChangeQuery> queryProvider,
-      Project.NameKey projectName) {
-    return create(new AllRefsWatcher(), perm, queryProvider, projectName, true);
+      Provider<InternalChangeQuery> queryProvider, Project.NameKey projectName) {
+    return create(new AllRefsWatcher(), queryProvider, projectName, true);
   }
 
   private static AdvertiseRefsHook create(
       AllRefsWatcher allRefsWatcher,
-      PermissionBackend.ForProject perm,
       Provider<InternalChangeQuery> queryProvider,
       Project.NameKey projectName,
       boolean skipHackPushNegotiateHook) {
     List<AdvertiseRefsHook> advHooks = new ArrayList<>();
     advHooks.add(allRefsWatcher);
-    advHooks.add(
-        new DefaultAdvertiseRefsHook(perm, RefFilterOptions.builder().setFilterMeta(true).build()));
     advHooks.add(new ReceiveCommitsAdvertiseRefsHook(queryProvider, projectName));
     if (!skipHackPushNegotiateHook) {
       advHooks.add(new HackPushNegotiateHook());

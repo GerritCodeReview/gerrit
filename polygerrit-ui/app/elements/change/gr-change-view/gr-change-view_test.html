@@ -345,8 +345,10 @@ limitations under the License.
         ],
       };
       setup(() => {
+        // Fake computeDraftCount as its required for ChangeComments,
+        // see gr-comment-api#reloadDrafts.
         reloadStub = sandbox.stub(element.$.commentAPI, 'reloadDrafts')
-            .returns(Promise.resolve({drafts}));
+            .returns(Promise.resolve({drafts, computeDraftCount: () => 1}));
       });
 
       test('drafts are reloaded when reload-drafts fired', done => {

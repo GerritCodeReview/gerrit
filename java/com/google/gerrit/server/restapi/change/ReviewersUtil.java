@@ -24,12 +24,15 @@ import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GroupReference;
+import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.common.GroupBaseInfo;
 import com.google.gerrit.extensions.common.SuggestedReviewerInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.Url;
+import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.query.FieldBundle;
@@ -41,8 +44,6 @@ import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.Description.Units;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.metrics.Timer0;
-import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountControl;
 import com.google.gerrit.server.account.AccountDirectory.FillOptions;
@@ -227,6 +228,13 @@ public class ReviewersUtil {
     return suggestedReviewers;
   }
 
+  private static Account.Id fromIdField(FieldBundle f, boolean useLegacyNumericFields) {
+    if (useLegacyNumericFields) {
+      return Account.id(f.getValue(AccountField.ID).intValue());
+    }
+    return Account.id(Integer.valueOf(f.getValue(AccountField.ID_STR)));
+  }
+
   private List<Account.Id> suggestAccounts(SuggestReviewers suggestReviewers)
       throws BadRequestException {
     try (Timer0.Context ctx = metrics.queryAccountsLatency.start()) {
@@ -239,6 +247,10 @@ public class ReviewersUtil {
               accountQueryBuilder.defaultQuery(suggestReviewers.getQuery()));
       logger.atFine().log("accounts index query: %s", pred);
       accountIndexRewriter.validateMaxTermsInQuery(pred);
+      boolean useLegacyNumericFields =
+          accountIndexes.getSearchIndex().getSchema().useLegacyNumericFields();
+      FieldDef<AccountState, ?> idField =
+          useLegacyNumericFields ? AccountField.ID : AccountField.ID_STR;
       ResultSet<FieldBundle> result =
           accountIndexes
               .getSearchIndex()
@@ -248,11 +260,11 @@ public class ReviewersUtil {
                       indexConfig,
                       0,
                       suggestReviewers.getLimit(),
-                      ImmutableSet.of(AccountField.ID.getName())))
+                      ImmutableSet.of(idField.getName())))
               .readRaw();
       List<Account.Id> matches =
           result.toList().stream()
-              .map(f -> Account.id(f.getValue(AccountField.ID).intValue()))
+              .map(f -> fromIdField(f, useLegacyNumericFields))
               .collect(toList());
       logger.atFine().log("Matches: %s", matches);
       return matches;

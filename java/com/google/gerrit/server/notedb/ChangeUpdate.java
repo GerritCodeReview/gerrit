@@ -17,7 +17,7 @@ package com.google.gerrit.server.notedb;
 import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
-import static com.google.gerrit.reviewdb.client.RefNames.changeMetaRef;
+import static com.google.gerrit.entities.RefNames.changeMetaRef;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_ASSIGNEE;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_BRANCH;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_CHANGE_ID;
@@ -50,14 +50,13 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Table;
 import com.google.common.collect.TreeBasedTable;
 import com.google.gerrit.common.data.SubmitRecord;
+import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.Comment;
+import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.RobotComment;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.mail.Address;
-import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.Comment;
-import com.google.gerrit.reviewdb.client.PatchLineComment;
-import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.RobotComment;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.logging.RequestId;
@@ -273,10 +272,10 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     this.psDescription = psDescription;
   }
 
-  public void putComment(PatchLineComment.Status status, Comment c) {
+  public void putComment(Comment.Status status, Comment c) {
     verifyComment(c);
     createDraftUpdateIfNull();
-    if (status == PatchLineComment.Status.DRAFT) {
+    if (status == Comment.Status.DRAFT) {
       draftUpdate.putComment(c);
     } else {
       comments.add(c);
@@ -462,12 +461,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     // Even though reading from changes might not be enabled, we need to
     // parse any existing revision notes so we can merge them.
     return RevisionNoteMap.parse(
-        noteUtil.getChangeNoteJson(),
-        noteUtil.getLegacyChangeNoteRead(),
-        getId(),
-        rw.getObjectReader(),
-        noteMap,
-        PatchLineComment.Status.PUBLISHED);
+        noteUtil.getChangeNoteJson(), rw.getObjectReader(), noteMap, Comment.Status.PUBLISHED);
   }
 
   private void checkComments(

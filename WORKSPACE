@@ -32,9 +32,9 @@ http_archive(
 
 http_archive(
     name = "io_bazel_rules_closure",
-    sha256 = "eecd37c0eec79e12652c70f2d2e120623cba64616d759ddcedb19e614df618fa",
-    strip_prefix = "rules_closure-d53c0d7755426349d3c443eea4aeedbda27a11be",
-    urls = ["https://github.com/bazelbuild/rules_closure/archive/d53c0d7755426349d3c443eea4aeedbda27a11be.tar.gz"],
+    sha256 = "0409f8bd2a8b6fd1db289cdc0acb394dafd69f60a86d0169bc6495e648e01587",
+    strip_prefix = "rules_closure-18f8acf24ae0d03a9c3ee872ff91dcfbf383d69e",
+    urls = ["https://github.com/bazelbuild/rules_closure/archive/18f8acf24ae0d03a9c3ee872ff91dcfbf383d69e.tar.gz"],
 )
 
 # File is specific to Polymer and copied from the Closure Github -- should be
@@ -104,7 +104,44 @@ go_repository(
     importpath = "github.com/howeyc/fsnotify",
 )
 
+# JGit external repository consumed from git submodule
+local_repository(
+    name = "jgit",
+    path = "modules/jgit",
+)
+
 ANTLR_VERS = "3.5.2"
+
+# TODO(davido): Remove this upgrade, when new Bazel version is released
+# that includes java_tools v6.0. FTR, we are doing this to get this change
+# https://github.com/bazelbuild/bazel/pull/9450, to fix this annoying bug:
+# https://github.com/bazelbuild/bazel/issues/8772.
+http_archive(
+    name = "remote_java_tools_linux",
+    sha256 = "37acb8380b1dd6c31fd27a19bf3da821c9b02ee93c6163fce36f070a806516b5",
+    urls = [
+        "https://mirror.bazel.build/bazel_java_tools/releases/javac11/v6.0/java_tools_javac11_linux-v6.0.zip",
+        "https://github.com/bazelbuild/java_tools/releases/download/javac11-v6.0/java_tools_javac11_linux-v6.0.zip",
+    ],
+)
+
+http_archive(
+    name = "remote_java_tools_windows",
+    sha256 = "384e138ca58842ea563fb7efbe0cb9c5c381bd4de1f6a31f0256823325f81ccc",
+    urls = [
+        "https://mirror.bazel.build/bazel_java_tools/releases/javac11/v6.0/java_tools_javac11_windows-v6.0.zip",
+        "https://github.com/bazelbuild/java_tools/releases/download/javac11-v6.0/java_tools_javac11_windows-v6.0.zip",
+    ],
+)
+
+http_archive(
+    name = "remote_java_tools_darwin",
+    sha256 = "5a9f320c33424262e505151dd5c6903e36678a0f0bbdaae67bcf07f41d8c7cf3",
+    urls = [
+        "https://mirror.bazel.build/bazel_java_tools/releases/javac11/v6.0/java_tools_javac11_darwin-v6.0.zip",
+        "https://github.com/bazelbuild/java_tools/releases/download/javac11-v6.0/java_tools_javac11_darwin-v6.0.zip",
+    ],
+)
 
 maven_jar(
     name = "java-runtime",
@@ -169,9 +206,18 @@ maven_jar(
     sha1 = "021a212688ec94fe77aff74ab34cc74f6f940e60",
 )
 
-load("//lib/jgit:jgit.bzl", "jgit_repos")
+# JGit's transitive dependencies
+maven_jar(
+    name = "hamcrest-library",
+    artifact = "org.hamcrest:hamcrest-library:1.3",
+    sha1 = "4785a3c21320980282f9f33d0d1264a69040538f",
+)
 
-jgit_repos()
+maven_jar(
+    name = "jzlib",
+    artifact = "com.jcraft:jzlib:1.1.1",
+    sha1 = "a1551373315ffc2f96130a0e5704f74e151777ba",
+)
 
 maven_jar(
     name = "javaewah",
@@ -611,18 +657,18 @@ maven_jar(
     sha1 = "18d4d07010c24405129a6dbb0e92057f8779fb9d",
 )
 
-AUTO_VALUE_VERSION = "1.6.6"
+AUTO_VALUE_VERSION = "1.7"
 
 maven_jar(
     name = "auto-value",
     artifact = "com.google.auto.value:auto-value:" + AUTO_VALUE_VERSION,
-    sha1 = "8831874cb2f4a9e1b196a2973f3cef695f5ce459",
+    sha1 = "fe8387764ed19460eda4f106849c664f51c07121",
 )
 
 maven_jar(
     name = "auto-value-annotations",
     artifact = "com.google.auto.value:auto-value-annotations:" + AUTO_VALUE_VERSION,
-    sha1 = "9947ae63d8ec42ea159283baf2e5b9c0ff100909",
+    sha1 = "5be124948ebdc7807df68207f35a0f23ce427f29",
 )
 
 declare_nongoogle_deps()
@@ -714,7 +760,7 @@ maven_jar(
     sha1 = "f7be08ec23c21485b9b5a1cf1654c2ec8c58168d",
 )
 
-GITILES_VERS = "0.3-4"
+GITILES_VERS = "0.3-5"
 
 GITILES_REPO = GERRIT
 
@@ -723,14 +769,14 @@ maven_jar(
     artifact = "com.google.gitiles:blame-cache:" + GITILES_VERS,
     attach_source = False,
     repository = GITILES_REPO,
-    sha1 = "d1d62c9905b0cc9e066d337b33480599f430eb87",
+    sha1 = "22d5e48827bd48b9e7b049bb9726ef017fda9eca",
 )
 
 maven_jar(
     name = "gitiles-servlet",
     artifact = "com.google.gitiles:gitiles-servlet:" + GITILES_VERS,
     repository = GITILES_REPO,
-    sha1 = "7360cb90576a813cd1288cf853c59824fe92467e",
+    sha1 = "061de6d5ef22be870300cc01a6fb205bb7782eae",
 )
 
 # prettify must match the version used in Gitiles
@@ -743,8 +789,8 @@ maven_jar(
 # Keep this version of Soy synchronized with the version used in Gitiles.
 maven_jar(
     name = "soy",
-    artifact = "com.google.template:soy:2019-09-03",
-    sha1 = "40781da0302b4b5d53006dc8bd5a432c7288d807",
+    artifact = "com.google.template:soy:2019-10-08",
+    sha1 = "4518bf8bac2dbbed684849bc209c39c4cb546237",
 )
 
 maven_jar(
@@ -1107,8 +1153,8 @@ npm_binary(
 bower_archive(
     name = "iron-autogrow-textarea",
     package = "polymerelements/iron-autogrow-textarea",
-    sha1 = "68f0ece9b1e56ac26f8ce31d9938c504f6951bca",
-    version = "2.1.0",
+    sha1 = "2f04c7e2a72d462de36093ab2b4889db20f699f6",
+    version = "2.2.0",
 )
 
 bower_archive(
@@ -1128,64 +1174,64 @@ bower_archive(
 bower_archive(
     name = "iron-dropdown",
     package = "polymerelements/iron-dropdown",
-    sha1 = "ac96fe31cdf203a63426fa75131b43c98c0597d3",
-    version = "1.5.5",
+    sha1 = "3902ba164552b1bfc59e6fa692efa4a1fd8dd4ea",
+    version = "2.2.1",
 )
 
 bower_archive(
     name = "iron-input",
     package = "polymerelements/iron-input",
-    sha1 = "9bc0c8e81de2527125383cbcf74dd9f27e7fa9ac",
-    version = "1.0.10",
+    sha1 = "f79952ff4f6f103c0a2cbd3dacf25935257ff392",
+    version = "2.1.3",
 )
 
 bower_archive(
     name = "iron-overlay-behavior",
     package = "polymerelements/iron-overlay-behavior",
-    sha1 = "74cda9d7bf98e7a5e5004bc7ebdb6d208d49e11e",
-    version = "2.0.0",
+    sha1 = "c2d2eac1b162420d9475ade2f16d5db8959b93fc",
+    version = "2.3.4",
 )
 
 bower_archive(
     name = "iron-selector",
     package = "polymerelements/iron-selector",
-    sha1 = "e0ee46c28523bf17730318c3b481a8ed4331c3b2",
-    version = "2.0.0",
+    sha1 = "3f3fcb55f6bd606ea493f99eab9daae21f7a6139",
+    version = "2.1.0",
 )
 
 bower_archive(
     name = "paper-button",
     package = "polymerelements/paper-button",
-    sha1 = "3b01774f58a8085d3c903fc5a32944b26ab7be72",
-    version = "2.0.0",
+    sha1 = "bcb783d74e1177c1d0836340e7c0280699d1438c",
+    version = "2.1.3",
 )
 
 bower_archive(
     name = "paper-input",
     package = "polymerelements/paper-input",
-    sha1 = "6c934805e80ab201e143406edc73ea0ef35abf80",
-    version = "1.1.18",
+    sha1 = "c1a81a4173d22e72e8ab609eb3715a75273396b3",
+    version = "2.2.3",
 )
 
 bower_archive(
     name = "paper-tabs",
     package = "polymerelements/paper-tabs",
-    sha1 = "b6dd2fbd7ee887534334057a29eb545b940fc5cf",
-    version = "2.0.0",
+    sha1 = "589b8e6efa0f171c93233137c8ea013dcea0ffc7",
+    version = "2.1.1",
 )
 
 bower_archive(
     name = "iron-icon",
     package = "polymerelements/iron-icon",
-    sha1 = "7da49a0d33cd56017740e0dbcf41d2b71532023f",
-    version = "2.0.0",
+    sha1 = "d21e7d4f1bdc6de881390f888e28d53155eeb551",
+    version = "2.1.0",
 )
 
 bower_archive(
     name = "iron-iconset-svg",
     package = "polymerelements/iron-iconset-svg",
-    sha1 = "4d0c406239cad2ff2975c6dd95fa189de0fe6b50",
-    version = "2.1.0",
+    sha1 = "07c0ce02ce6479856758893416a3709009db7f22",
+    version = "2.2.1",
 )
 
 bower_archive(
@@ -1205,29 +1251,29 @@ bower_archive(
 bower_archive(
     name = "paper-item",
     package = "polymerelements/paper-item",
-    sha1 = "803273ceb9ffebec8ecc9373ea638af4cd34af58",
-    version = "1.1.4",
+    sha1 = "c3bad022cf182d2bf1c8a44374c7fcb1409afbfa",
+    version = "2.1.1",
 )
 
 bower_archive(
     name = "paper-listbox",
     package = "polymerelements/paper-listbox",
-    sha1 = "ccc1a90ab0a96878c7bf7c9c4cfe47c85b09c8e3",
-    version = "2.0.0",
+    sha1 = "78247cc32bb776f204efef17cff3095878036a40",
+    version = "2.1.1",
 )
 
 bower_archive(
     name = "paper-toggle-button",
     package = "polymerelements/paper-toggle-button",
-    sha1 = "4a2edbdb52c4531d39fe091f12de650bccda270f",
-    version = "1.2.0",
+    sha1 = "9927960afb0062726ec1b585ef3e32764c3bbac9",
+    version = "2.1.1",
 )
 
 bower_archive(
     name = "polymer",
     package = "polymer/polymer",
-    sha1 = "158443ab05ade5e2cdc24ebc01f1deef9aebac1b",
-    version = "1.11.3",
+    sha1 = "d06e17a1d8dc6187ee5aa8c5b3501da10901c82f",
+    version = "2.7.2",
 )
 
 bower_archive(
@@ -1235,13 +1281,6 @@ bower_archive(
     package = "polymer/polymer-resin",
     sha1 = "94c29926c20ea3a9b636f26b3e0d689ead8137e5",
     version = "2.0.1",
-)
-
-bower_archive(
-    name = "promise-polyfill",
-    package = "polymerlabs/promise-polyfill",
-    sha1 = "a3b598c06cbd7f441402e666ff748326030905d6",
-    version = "1.0.0",
 )
 
 bower_archive(
@@ -1263,15 +1302,15 @@ bower_archive(
 bower_archive(
     name = "iron-test-helpers",
     package = "polymerelements/iron-test-helpers",
-    sha1 = "433b03b106f5ff32049b84150cd70938e18b67ac",
-    version = "1.2.5",
+    sha1 = "882be2d4c8714b39299b5f7bf25253c4e8a40761",
+    version = "2.0.1",
 )
 
 bower_archive(
     name = "test-fixture",
     package = "polymerelements/test-fixture",
-    sha1 = "e373bd21c069163c3a754e234d52c07c77b20d3c",
-    version = "1.1.1",
+    sha1 = "7d72ddfebf555a2dd1fc60a85427d9026b509723",
+    version = "3.0.0",
 )
 
 bower_archive(

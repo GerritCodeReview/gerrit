@@ -20,14 +20,14 @@ import static java.util.concurrent.TimeUnit.MINUTES;
 
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.SubmitTypeRecord;
+import com.google.gerrit.entities.BooleanProjectConfig;
+import com.google.gerrit.entities.BranchNameKey;
+import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.index.query.PostFilterPredicate;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
-import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
-import com.google.gerrit.reviewdb.client.BranchNameKey;
-import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
 import com.google.gerrit.server.project.NoSuchProjectException;
@@ -87,7 +87,11 @@ public class ConflictsPredicate {
     List<Predicate<ChangeData>> and = new ArrayList<>(5);
     and.add(new ProjectPredicate(c.getProject().get()));
     and.add(new RefPredicate(c.getDest().branch()));
-    and.add(Predicate.not(new LegacyChangeIdPredicate(c.getId())));
+    and.add(
+        Predicate.not(
+            args.getSchema().useLegacyNumericFields()
+                ? new LegacyChangeIdPredicate(c.getId())
+                : new LegacyChangeIdStrPredicate(c.getId())));
     and.add(Predicate.or(filePredicates));
 
     ChangeDataCache changeDataCache = new ChangeDataCache(cd, args.projectCache);

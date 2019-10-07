@@ -16,8 +16,8 @@ package com.google.gerrit.server.account;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import com.google.gerrit.reviewdb.client.BranchNameKey;
-import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.entities.BranchNameKey;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.git.ValidationError;
 import java.io.IOException;
 import java.util.ArrayList;

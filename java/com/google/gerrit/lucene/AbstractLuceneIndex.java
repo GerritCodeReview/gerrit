@@ -63,8 +63,10 @@ import java.util.function.Function;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 import org.apache.lucene.document.Field.Store;
+import org.apache.lucene.document.IntPoint;
 import org.apache.lucene.document.LegacyIntField;
 import org.apache.lucene.document.LegacyLongField;
+import org.apache.lucene.document.LongPoint;
 import org.apache.lucene.document.StoredField;
 import org.apache.lucene.document.StringField;
 import org.apache.lucene.document.TextField;
@@ -334,15 +336,23 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
 
     if (type == FieldType.INTEGER || type == FieldType.INTEGER_RANGE) {
       for (Object value : values.getValues()) {
-        doc.add(new LegacyIntField(name, (Integer) value, store));
+        Integer intValue = (Integer) value;
+        if (schema.useLegacyNumericFields()) {
+          doc.add(new LegacyIntField(name, intValue, store));
+        } else {
+          doc.add(new IntPoint(name, intValue));
+          if (store == Store.YES) {
+            doc.add(new StoredField(name, intValue));
+          }
+        }
       }
     } else if (type == FieldType.LONG) {
       for (Object value : values.getValues()) {
-        doc.add(new LegacyLongField(name, (Long) value, store));
+        addLongField(doc, name, store, (Long) value);
       }
     } else if (type == FieldType.TIMESTAMP) {
       for (Object value : values.getValues()) {
-        doc.add(new LegacyLongField(name, ((Timestamp) value).getTime(), store));
+        addLongField(doc, name, store, ((Timestamp) value).getTime());
       }
     } else if (type == FieldType.EXACT || type == FieldType.PREFIX) {
       for (Object value : values.getValues()) {
@@ -358,6 +368,17 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
       }
     } else {
       throw FieldType.badFieldType(type);
+    }
+  }
+
+  private void addLongField(Document doc, String name, Store store, Long longValue) {
+    if (schema.useLegacyNumericFields()) {
+      doc.add(new LegacyLongField(name, longValue, store));
+    } else {
+      doc.add(new LongPoint(name, longValue));
+      if (store == Store.YES) {
+        doc.add(new StoredField(name, longValue));
+      }
     }
   }
 

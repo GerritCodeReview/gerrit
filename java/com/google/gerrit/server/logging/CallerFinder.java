@@ -142,7 +142,7 @@ public abstract class CallerFinder {
 
   /**
    * The minimum number of calls known to have occurred between the first call to the target class
-   * and the call of {@link #findCaller()}. If in doubt, specify zero here to avoid accidentally
+   * and the call of {@link #findCallerLazy()}. If in doubt, specify zero here to avoid accidentally
    * skipping past the caller.
    *
    * @return the number of stack elements to skip when computing the caller
@@ -195,7 +195,7 @@ public abstract class CallerFinder {
     public abstract CallerFinder build();
   }
 
-  public LazyArg<String> findCaller() {
+  public LazyArg<String> findCallerLazy() {
     return lazy(
         () ->
             targets().stream()

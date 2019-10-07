@@ -21,6 +21,12 @@ import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.entities.BooleanProjectConfig;
+import com.google.gerrit.entities.BranchNameKey;
+import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.PatchSet;
+import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.SubmitType;
@@ -36,12 +42,6 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
-import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
-import com.google.gerrit.reviewdb.client.BranchNameKey;
-import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.client.Project;
-import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
@@ -170,15 +170,27 @@ public class CreateChange
       BatchUpdate.Factory updateFactory, TopLevelResource parent, ChangeInput input)
       throws IOException, InvalidChangeOperationException, RestApiException, UpdateException,
           PermissionBackendException, ConfigInvalidException {
+    if (Strings.isNullOrEmpty(input.project)) {
+      throw new BadRequestException("project must be non-empty");
+    }
+
+    return execute(updateFactory, input, projectsCollection.parse(input.project));
+  }
+
+  /** Creates the changes in the given project. This is public for reuse in the project API. */
+  public Response<ChangeInfo> execute(
+      BatchUpdate.Factory updateFactory, ChangeInput input, ProjectResource projectResource)
+      throws IOException, RestApiException, UpdateException, PermissionBackendException,
+          ConfigInvalidException {
     if (!user.get().isIdentifiedUser()) {
       throw new AuthException("Authentication required");
     }
-    IdentifiedUser me = user.get().asIdentifiedUser();
-    checkAndSanitizeChangeInput(input, me);
 
-    ProjectResource projectResource = projectsCollection.parse(input.project);
     ProjectState projectState = projectResource.getProjectState();
     projectState.checkStatePermitsWrite();
+
+    IdentifiedUser me = user.get().asIdentifiedUser();
+    checkAndSanitizeChangeInput(input, me);
 
     Project.NameKey project = projectResource.getNameKey();
     contributorAgreements.check(project, user.get());
@@ -202,10 +214,6 @@ public class CreateChange
    */
   private void checkAndSanitizeChangeInput(ChangeInput input, IdentifiedUser me)
       throws RestApiException, PermissionBackendException, IOException {
-    if (Strings.isNullOrEmpty(input.project)) {
-      throw new BadRequestException("project must be non-empty");
-    }
-
     if (Strings.isNullOrEmpty(input.branch)) {
       throw new BadRequestException("branch must be non-empty");
     }

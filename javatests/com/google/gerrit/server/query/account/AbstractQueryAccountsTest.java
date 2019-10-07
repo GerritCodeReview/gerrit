@@ -24,6 +24,8 @@ import static org.junit.Assert.fail;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Streams;
+import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.api.access.AccessSectionInfo;
 import com.google.gerrit.extensions.api.access.PermissionInfo;
@@ -49,8 +51,6 @@ import com.google.gerrit.index.QueryOptions;
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.query.FieldBundle;
 import com.google.gerrit.lifecycle.LifecycleManager;
-import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
@@ -631,19 +631,22 @@ public abstract class AbstractQueryAccountsTest extends GerritServerTests {
   public void rawDocument() throws Exception {
     AccountInfo userInfo = gApi.accounts().id(admin.getAccountId().get()).get();
 
+    Schema<AccountState> schema = indexes.getSearchIndex().getSchema();
     Optional<FieldBundle> rawFields =
         indexes
             .getSearchIndex()
             .getRaw(
                 Account.id(userInfo._accountId),
                 QueryOptions.create(
-                    IndexConfig.createDefault(),
-                    0,
-                    1,
-                    indexes.getSearchIndex().getSchema().getStoredFields().keySet()));
+                    IndexConfig.createDefault(), 0, 1, schema.getStoredFields().keySet()));
 
     assertThat(rawFields).isPresent();
-    assertThat(rawFields.get().getValue(AccountField.ID)).isEqualTo(userInfo._accountId);
+    if (schema.useLegacyNumericFields()) {
+      assertThat(rawFields.get().getValue(AccountField.ID)).isEqualTo(userInfo._accountId);
+    } else {
+      assertThat(Integer.valueOf(rawFields.get().getValue(AccountField.ID_STR)))
+          .isEqualTo(userInfo._accountId);
+    }
 
     // The field EXTERNAL_ID_STATE is only supported from schema version 6.
     if (getSchemaVersion() < 6) {

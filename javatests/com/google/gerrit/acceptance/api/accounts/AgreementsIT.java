@@ -30,6 +30,8 @@ import com.google.gerrit.common.RawInputUtil;
 import com.google.gerrit.common.data.ContributorAgreement;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.PermissionRule;
+import com.google.gerrit.entities.AccountGroup;
+import com.google.gerrit.entities.BooleanProjectConfig;
 import com.google.gerrit.extensions.api.changes.CherryPickInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
@@ -45,8 +47,6 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
-import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.project.ProjectConfig;
@@ -235,6 +235,28 @@ public class AgreementsIT extends AbstractDaemonTest {
     setUseContributorAgreements(InheritableBoolean.TRUE);
     AuthException thrown =
         assertThrows(AuthException.class, () -> gApi.changes().id(change.changeId).revert());
+    assertThat(thrown).hasMessageThat().contains("Contributor Agreement");
+  }
+
+  @Test
+  public void revertSubmissionWithoutCLA() throws Exception {
+    assume().that(isContributorAgreementsEnabled()).isTrue();
+
+    // Create a change succeeds when agreement is not required
+    setUseContributorAgreements(InheritableBoolean.FALSE);
+    ChangeInfo change = gApi.changes().create(newChangeInput()).get();
+
+    // Approve and submit it
+    requestScopeOperations.setApiUser(admin.id());
+    gApi.changes().id(change.changeId).current().review(ReviewInput.approve());
+    gApi.changes().id(change.changeId).current().submit(new SubmitInput());
+
+    // Revert Submission is not allowed when CLA is required but not signed
+    requestScopeOperations.setApiUser(user.id());
+    setUseContributorAgreements(InheritableBoolean.TRUE);
+    AuthException thrown =
+        assertThrows(
+            AuthException.class, () -> gApi.changes().id(change.changeId).revertSubmission());
     assertThat(thrown).hasMessageThat().contains("Contributor Agreement");
   }
 

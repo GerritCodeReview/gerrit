@@ -20,9 +20,9 @@ import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.gerrit.common.data.Capable;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.AuthException;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
@@ -30,9 +30,9 @@ import com.google.gerrit.server.RequestInfo;
 import com.google.gerrit.server.RequestListener;
 import com.google.gerrit.server.audit.HttpAuditEvent;
 import com.google.gerrit.server.cache.CacheModule;
-import com.google.gerrit.server.git.DefaultAdvertiseRefsHook;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.PermissionAwareRepositoryManager;
+import com.google.gerrit.server.git.TracingHook;
 import com.google.gerrit.server.git.TransferConfig;
 import com.google.gerrit.server.git.UploadPackInitializer;
 import com.google.gerrit.server.git.receive.AsyncReceiveCommits;
@@ -40,7 +40,6 @@ import com.google.gerrit.server.git.validators.UploadValidators;
 import com.google.gerrit.server.group.GroupAuditService;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.permissions.PermissionBackend;
-import com.google.gerrit.server.permissions.PermissionBackend.RefFilterOptions;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
@@ -55,6 +54,7 @@ import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
 import java.io.IOException;
 import java.time.Duration;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Map;
@@ -338,6 +338,11 @@ public class GitOverHttpServlet extends GitServlet {
       up.setTimeout(config.getTimeout());
       up.setPreUploadHook(PreUploadHookChain.newChain(Lists.newArrayList(preUploadHooks)));
       up.setPostUploadHook(PostUploadHookChain.newChain(Lists.newArrayList(postUploadHooks)));
+      String header = req.getHeader("Git-Protocol");
+      if (header != null) {
+        String[] params = header.split(":");
+        up.setExtraParameters(Arrays.asList(params));
+      }
       uploadPackInitializers.runEach(initializer -> initializer.init(state.getNameKey(), up));
       return up;
     }
@@ -411,8 +416,11 @@ public class GitOverHttpServlet extends GitServlet {
         up.setPreUploadHook(
             PreUploadHookChain.newChain(
                 Lists.newArrayList(up.getPreUploadHook(), uploadValidators)));
-        up.setAdvertiseRefsHook(new DefaultAdvertiseRefsHook(perm, RefFilterOptions.defaults()));
-        next.doFilter(httpRequest, responseWrapper);
+
+        try (TracingHook tracingHook = new TracingHook()) {
+          up.setProtocolV2Hook(tracingHook);
+          next.doFilter(httpRequest, responseWrapper);
+        }
       } finally {
         groupAuditService.dispatch(
             new HttpAuditEvent(

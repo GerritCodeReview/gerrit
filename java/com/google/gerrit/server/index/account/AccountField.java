@@ -25,10 +25,10 @@ import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.common.data.GlobalCapability;
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.RefState;
 import com.google.gerrit.index.SchemaUtil;
-import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.config.AllUsersName;
@@ -45,6 +45,9 @@ import org.eclipse.jgit.lib.ObjectId;
 public class AccountField {
   public static final FieldDef<AccountState, Integer> ID =
       integer("id").stored().build(a -> a.account().id().get());
+
+  public static final FieldDef<AccountState, String> ID_STR =
+      exact("id_str").stored().build(a -> String.valueOf(a.account().id().get()));
 
   /**
    * External IDs.

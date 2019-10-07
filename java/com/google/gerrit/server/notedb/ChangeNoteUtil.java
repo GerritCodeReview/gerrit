@@ -16,7 +16,7 @@ package com.google.gerrit.server.notedb;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.annotations.VisibleForTesting;
-import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.entities.Account;
 import com.google.gerrit.server.config.GerritServerId;
 import com.google.inject.Inject;
 import java.util.Date;
@@ -63,22 +63,13 @@ public class ChangeNoteUtil {
   static final String UNRESOLVED = "Unresolved";
   static final String TAG = FOOTER_TAG.getName();
 
-  private final LegacyChangeNoteRead legacyChangeNoteRead;
   private final ChangeNoteJson changeNoteJson;
   private final String serverId;
 
   @Inject
-  public ChangeNoteUtil(
-      ChangeNoteJson changeNoteJson,
-      LegacyChangeNoteRead legacyChangeNoteRead,
-      @GerritServerId String serverId) {
+  public ChangeNoteUtil(ChangeNoteJson changeNoteJson, @GerritServerId String serverId) {
     this.serverId = serverId;
     this.changeNoteJson = changeNoteJson;
-    this.legacyChangeNoteRead = legacyChangeNoteRead;
-  }
-
-  public LegacyChangeNoteRead getLegacyChangeNoteRead() {
-    return legacyChangeNoteRead;
   }
 
   public ChangeNoteJson getChangeNoteJson() {

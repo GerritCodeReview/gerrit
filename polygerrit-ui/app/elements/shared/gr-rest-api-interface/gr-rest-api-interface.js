@@ -442,8 +442,8 @@
     getIsGroupOwner(groupName) {
       const encodeName = encodeURIComponent(groupName);
       const req = {
-        url: `/groups/?owned&q=${encodeName}`,
-        anonymizedUrl: '/groups/owned&q=*',
+        url: `/groups/?owned&g=${encodeName}`,
+        anonymizedUrl: '/groups/owned&g=*',
       };
       return this._fetchSharedCacheURL(req)
           .then(configs => configs.hasOwnProperty(groupName));
@@ -1776,7 +1776,7 @@
         opt_workInProgress, opt_baseChange, opt_baseCommit) {
       return this._restApiHelper.send({
         method: 'POST',
-        url: '/changes/',
+        url: `/projects/${encodeURIComponent(project)}/create.change`,
         body: {
           project,
           branch,
@@ -1909,6 +1909,25 @@
         body: contents,
         contentType: 'text/plain',
         anonymizedEndpoint: '/edit/*',
+      });
+    },
+
+    getRobotCommentFixPreview(changeNum, patchNum, fixId) {
+      return this._getChangeURLAndFetch({
+        changeNum,
+        patchNum,
+        endpoint: `/fixes/${encodeURIComponent(fixId)}/preview`,
+        reportEndpointAsId: true,
+      });
+    },
+
+    applyFixSuggestion(changeNum, patchNum, fixId) {
+      return this._getChangeURLAndSend({
+        method: 'POST',
+        changeNum,
+        patchNum,
+        endpoint: `/fixes/${encodeURIComponent(fixId)}/apply`,
+        reportEndpointAsId: true,
       });
     },
 

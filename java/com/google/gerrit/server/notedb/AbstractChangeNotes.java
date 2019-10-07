@@ -20,10 +20,10 @@ import static java.util.Objects.requireNonNull;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.UsedAt;
+import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.metrics.Timer1;
-import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerId;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -50,7 +50,6 @@ public abstract class AbstractChangeNotes<T> {
     public final ChangeNoteJson changeNoteJson;
     public final GitRepositoryManager repoManager;
     public final AllUsersName allUsers;
-    public final LegacyChangeNoteRead legacyChangeNoteRead;
     public final NoteDbMetrics metrics;
     public final String serverId;
 
@@ -64,14 +63,12 @@ public abstract class AbstractChangeNotes<T> {
         GitRepositoryManager repoManager,
         AllUsersName allUsers,
         ChangeNoteJson changeNoteJson,
-        LegacyChangeNoteRead legacyChangeNoteRead,
         NoteDbMetrics metrics,
         Provider<ChangeNotesCache> cache,
         @GerritServerId String serverId) {
       this.failOnLoadForTest = new AtomicBoolean();
       this.repoManager = repoManager;
       this.allUsers = allUsers;
-      this.legacyChangeNoteRead = legacyChangeNoteRead;
       this.changeNoteJson = changeNoteJson;
       this.metrics = metrics;
       this.cache = cache;

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6c43da0f_dd7327bc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2019-10-07T22:51:44Z",
+      "side": 1,
+      "message": "Changing the default to have less output is a breaking change. As you note in the .../extensions/... files, those classes can now have null fields. Those extensions are expected to be stable across most Gerrit versions [1].\n\n[1] https://gerrit-review.googlesource.com/Documentation/dev-plugins.html#API",
+      "range": {
+        "startLine": 12,
+        "startChar": 13,
+        "endLine": 12,
+        "endChar": 31
+      },
+      "revId": "901b564f5748d709fc9388ffd59588410568453b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

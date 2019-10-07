@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "48606960_146bd458",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-07T07:06:41Z",
+      "side": 1,
+      "message": "Can you just convert this from _diff to diff and expose this object instead? Seems to be the same thing. (Using the name \"diffSide\" for a diff would also be very confusing!)\n\nWhile you are here maybe you can document that this is a DiffInfo object as defined here:\nhttps://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#diff-info",
+      "revId": "da02372513dd8627ddedd8821e1fe8dc1289ecbd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "34c2a0c6_5930de52",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-07T07:06:41Z",
+      "side": 1,
+      "message": "Rename to \"_diff\" and document that this is a DiffInfo object as defined here:\nhttps://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#diff-info",
+      "revId": "da02372513dd8627ddedd8821e1fe8dc1289ecbd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c30c38ea_c372e7b7",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
         "patchSetId": 10

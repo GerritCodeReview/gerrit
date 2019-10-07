@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "0f54fc66_319b92ff",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.js",
+        "patchSetId": 19
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-10-07T16:03:09Z",
+      "side": 1,
+      "message": "It apparently caused the test to fail when renaming it.",
+      "parentUuid": "b7524730_7d132908",
+      "range": {
+        "startLine": 249,
+        "startChar": 14,
+        "endLine": 250,
+        "endChar": 62
+      },
+      "revId": "283e3c747cded8693aef08bdf7ffc1a9f94b5f24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ef113255_812088f9",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
         "patchSetId": 19
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "592a6c3c_6476655d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 19
+      },
+      "lineNbr": 896,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-10-07T16:03:09Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "ef113255_812088f9",
+      "range": {
+        "startLine": 896,
+        "startChar": 12,
+        "endLine": 896,
+        "endChar": 17
+      },
+      "revId": "283e3c747cded8693aef08bdf7ffc1a9f94b5f24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "11cf8cb0_029bf140",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
         "patchSetId": 19
@@ -68,6 +116,30 @@
       "revId": "283e3c747cded8693aef08bdf7ffc1a9f94b5f24",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "329f8097_3eae95c4",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 19
+      },
+      "lineNbr": 902,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-10-07T16:03:09Z",
+      "side": 1,
+      "message": "Added a little note.",
+      "parentUuid": "11cf8cb0_029bf140",
+      "range": {
+        "startLine": 902,
+        "startChar": 52,
+        "endLine": 902,
+        "endChar": 60
+      },
+      "revId": "283e3c747cded8693aef08bdf7ffc1a9f94b5f24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -138,6 +210,54 @@
       "revId": "283e3c747cded8693aef08bdf7ffc1a9f94b5f24",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5231b356_d84bcf9a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 19
+      },
+      "lineNbr": 913,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-10-07T16:03:09Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "e53bc18d_def9bfbc",
+      "range": {
+        "startLine": 913,
+        "startChar": 52,
+        "endLine": 913,
+        "endChar": 60
+      },
+      "revId": "283e3c747cded8693aef08bdf7ffc1a9f94b5f24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8b052907_5ff647e0",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 19
+      },
+      "lineNbr": 913,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-10-07T16:03:09Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "d2f9ca04_06cbf25d",
+      "range": {
+        "startLine": 913,
+        "startChar": 25,
+        "endLine": 913,
+        "endChar": 26
+      },
+      "revId": "283e3c747cded8693aef08bdf7ffc1a9f94b5f24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

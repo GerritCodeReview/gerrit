@@ -120,10 +120,10 @@ limitations under the License.
 
     test('_computeBaseDropdownContent', () => {
       const availablePatches = [
-        {num: 'edit'},
-        {num: 3},
-        {num: 2},
-        {num: 1},
+        {num: 'edit', sha: '1', created: 1},
+        {num: 3, sha: '2', created: 2},
+        {num: 2, sha: '3', created: 3},
+        {num: 1, sha: '4', created: 4},
       ];
       const revisions = [
         {
@@ -147,7 +147,7 @@ limitations under the License.
         {
           disabled: true,
           triggerText: 'Patchset edit',
-          text: 'Patchset edit',
+          text: 'Patchset edit | 1',
           mobileText: 'edit',
           bottomText: '',
           value: 'edit',
@@ -155,7 +155,7 @@ limitations under the License.
         {
           disabled: true,
           triggerText: 'Patchset 3',
-          text: 'Patchset 3',
+          text: 'Patchset 3 | 2',
           mobileText: '3',
           bottomText: '',
           value: 3,
@@ -164,7 +164,7 @@ limitations under the License.
         {
           disabled: true,
           triggerText: 'Patchset 2',
-          text: 'Patchset 2',
+          text: 'Patchset 2 | 3',
           mobileText: '2 description',
           bottomText: 'description',
           value: 2,
@@ -172,7 +172,7 @@ limitations under the License.
         {
           disabled: true,
           triggerText: 'Patchset 1',
-          text: 'Patchset 1',
+          text: 'Patchset 1 | 4',
           mobileText: '1',
           bottomText: '',
           value: 1,
@@ -197,10 +197,10 @@ limitations under the License.
       ];
       element.revisionInfo = getInfo(element.revisions);
       element.availablePatches = [
-        {num: 1},
-        {num: 2},
-        {num: 3},
-        {num: 'edit'},
+        {num: 1, sha: '1', created: 1},
+        {num: 2, sha: '2', created: 2},
+        {num: 3, sha: '3', created: 3},
+        {num: 'edit', sha: '4', created: 4},
       ];
       element.patchNum = 2;
       element.basePatchNum = 'PARENT';
@@ -223,10 +223,10 @@ limitations under the License.
           ];
           element.revisionInfo = getInfo(element.revisions);
           element.availablePatches = [
-            {num: 'edit'},
-            {num: 3},
-            {num: 2},
-            {num: 1},
+            {num: 'edit', sha: '1', created: 1},
+            {num: 3, sha: '2', created: 2},
+            {num: 2, sha: '3', created: 3},
+            {num: 1, sha: '4', created: 4},
           ];
           element.patchNum = 2;
           element.basePatchNum = 'PARENT';
@@ -250,10 +250,10 @@ limitations under the License.
       ];
       element.revisionInfo = getInfo(element.revisions);
       element.availablePatches = [
-        {num: 1},
-        {num: 2},
-        {num: 3},
-        {num: 'edit'},
+        {num: 1, sha: '1', created: 1},
+        {num: 2, sha: '2', created: 2},
+        {num: 3, sha: '3', created: 3},
+        {num: 'edit', sha: '4', created: 4},
       ];
       element.patchNum = 2;
       element.basePatchNum = 'PARENT';
@@ -274,10 +274,10 @@ limitations under the License.
       ];
       element.revisionInfo = getInfo(element.revisions);
       element.availablePatches = [
-        {num: 1},
-        {num: 2},
-        {num: 3},
-        {num: 'edit'},
+        {num: 1, sha: '1', created: 1},
+        {num: 2, sha: '2', created: 2},
+        {num: 3, sha: '3', created: 3},
+        {num: 'edit', sha: '4', created: 4},
       ];
       element.patchNum = 2;
       element.basePatchNum = 'PARENT';
@@ -293,10 +293,10 @@ limitations under the License.
 
     test('_computePatchDropdownContent', () => {
       const availablePatches = [
-        {num: 'edit'},
-        {num: 3},
-        {num: 2},
-        {num: 1},
+        {num: 'edit', sha: '1', created: 1},
+        {num: 3, sha: '2', created: 2},
+        {num: 2, sha: '3', created: 3},
+        {num: 1, sha: '4', created: 4},
       ];
       const basePatchNum = 1;
       const sortedRevisions = [
@@ -310,7 +310,7 @@ limitations under the License.
         {
           disabled: false,
           triggerText: 'edit',
-          text: 'edit',
+          text: 'edit | 1',
           mobileText: 'edit',
           bottomText: '',
           value: 'edit',
@@ -318,7 +318,7 @@ limitations under the License.
         {
           disabled: false,
           triggerText: 'Patchset 3',
-          text: 'Patchset 3',
+          text: 'Patchset 3 | 2',
           mobileText: '3',
           bottomText: '',
           value: 3,
@@ -327,7 +327,7 @@ limitations under the License.
         {
           disabled: false,
           triggerText: 'Patchset 2',
-          text: 'Patchset 2',
+          text: 'Patchset 2 | 3',
           mobileText: '2 description',
           bottomText: 'description',
           value: 2,
@@ -335,7 +335,7 @@ limitations under the License.
         {
           disabled: true,
           triggerText: 'Patchset 1',
-          text: 'Patchset 1',
+          text: 'Patchset 1 | 4',
           mobileText: '1',
           bottomText: '',
           value: 1,

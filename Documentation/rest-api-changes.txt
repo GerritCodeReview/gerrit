@@ -2641,6 +2641,14 @@ content isn't provided, it is wiped out for that file. As response
   HTTP/1.1 204 No Content
 ----
 
+When trying to perform a change edit that doesn't change the file, a response
+"`409 no changes were made`" is returned.
+
+.Response
+----
+  HTTP/1.1 409 no changes were made
+----
+
 [[post-edit]]
 === Restore file content or rename files in Change Edit
 --

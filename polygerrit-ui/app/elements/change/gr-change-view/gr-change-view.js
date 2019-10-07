@@ -381,6 +381,10 @@
           this._handleCommitMessageSave.bind(this));
       this.addEventListener('editable-content-cancel',
           this._handleCommitMessageCancel.bind(this));
+      this.addEventListener('open-fix-preview',
+          this._onOpenFixPreview.bind(this));
+      this.addEventListener('close-fix-preview',
+          this._onCloseFixPreview.bind(this));
       this.listen(window, 'scroll', '_handleScroll');
       this.listen(document, 'visibilitychange', '_handleVisibilityChange');
     }
@@ -418,6 +422,14 @@
           this.set('viewState.diffMode', 'SIDE_BY_SIDE');
         }
       });
+    }
+
+    _onOpenFixPreview(e) {
+      this.$.applyFixDialog.open(e);
+    }
+
+    _onCloseFixPreview(e) {
+      this._reload();
     }
 
     _handleToggleDiffMode(e) {
@@ -1461,7 +1473,7 @@
       let coreDataPromise;
 
       // If the patch number is specified
-      if (this._patchRange.patchNum) {
+      if (this._patchRange && this._patchRange.patchNum) {
         // Because a specific patchset is specified, reload the resources that
         // are keyed by patch number or patch range.
         const patchResourcesLoaded = this._reloadPatchNumDependentResources();

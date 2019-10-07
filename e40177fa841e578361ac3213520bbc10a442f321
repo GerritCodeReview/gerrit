@@ -69,6 +69,24 @@
       "revId": "e40177fa841e578361ac3213520bbc10a442f321",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "10d07ff7_98d87989",
+        "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-07T19:07:07Z",
+      "side": 1,
+      "message": "My concern was not about matchedText, but about the callback not being cleared in line 163 along with matchedText.",
+      "parentUuid": "28b1b042_17f36ba7",
+      "revId": "e40177fa841e578361ac3213520bbc10a442f321",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e4ffb703_597e9bbe",
+        "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-07T19:07:07Z",
+      "side": 1,
+      "message": "Can you maybe move this initialization to line 110. Or is there an algorithmic reason why we have to do this again during traversal?",
+      "range": {
+        "startLine": 136,
+        "startChar": 6,
+        "endLine": 139,
+        "endChar": 8
+      },
+      "revId": "0c8b4824e889eff1266857d688e06c93dc32455c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8e62f725_a3ac773c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-07T19:07:07Z",
+      "side": 1,
+      "message": "It still confuses me a whole lot that you are maintaining a _nodeTraversalState and then also local vars matchedText and highlightCallbackForPreviousNode.\n\nIf you are accessing matchedTextInPreviousNode and highlightCallbackForPreviousNode always through this._nodeTraversalState, then I think it would be fine to rename to just matchedText and highlightCallback. Then the var names are simple enough that you should be able to always use this._nodeTraversalState.matchedText instead of a local var.",
+      "range": {
+        "startLine": 140,
+        "startChar": 6,
+        "endLine": 143,
+        "endChar": 35
+      },
+      "revId": "0c8b4824e889eff1266857d688e06c93dc32455c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c0273b5c_3ecde0a2",
+        "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-07T19:07:07Z",
+      "side": 1,
+      "message": "Maybe rename to nodeText.",
+      "range": {
+        "startLine": 145,
+        "startChar": 12,
+        "endLine": 145,
+        "endChar": 16
+      },
+      "revId": "0c8b4824e889eff1266857d688e06c93dc32455c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eacae209_d6e63ebb",
+        "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-07T19:07:07Z",
+      "side": 1,
+      "message": "You only need matchedTextInCurrentNode for matchedTextInCurrentNode.length. Maybe instead just keep track of a matchStartPosition?",
+      "range": {
+        "startLine": 147,
+        "startChar": 10,
+        "endLine": 147,
+        "endChar": 34
+      },
+      "revId": "0c8b4824e889eff1266857d688e06c93dc32455c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7516e179_1b887905",
+        "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-07T19:07:07Z",
+      "side": 1,
+      "message": "Can you add a test with \"aab\" as highlightText and \"aaab\" as node Text. I suspect that it will will fail to highlight, because after at i\u003d2 it will fail to match (text[2]\u003da, highlightText[2]\u003db), and then it will reset and continue at i\u003d2. Wait, will it even continue and try matching at i\u003d3? Even worse.\n\nI think we have reached a point where it might be worthwhile to check, if someone has already solved this problem. We may be sinking too much time into inventing the wheel again. :-)",
+      "revId": "0c8b4824e889eff1266857d688e06c93dc32455c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

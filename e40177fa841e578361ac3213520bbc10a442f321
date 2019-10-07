@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a701ad1b_b5d1874c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-07T09:49:53Z",
+      "side": 1,
+      "message": "Don\u0027t you have to reset nodeTraversalState to {\u0027\u0027, ()-\u003e;} before going into the tail node?\n\nIf yes, then can you add a test that would have caught this?",
+      "revId": "e40177fa841e578361ac3213520bbc10a442f321",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "622e0cac_4745fd9b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-07T09:49:53Z",
+      "side": 1,
+      "message": "If the text node has test \"no don\" and the highlightText is \"done\" and _highlightTextNode was entered with matchedTextInPreviousNode \"do\", then I guess at this point we will have matchedText to be \"don\". But we won\u0027t want to call the highlightCallbackForPreviousNode, right?\n\nIf I am correct, can you add a test for this?",
+      "revId": "e40177fa841e578361ac3213520bbc10a442f321",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -28,6 +28,7 @@
     "comma-dangle": ["error", "always-multiline"],
     "eol-last": "off",
     "indent": "off",
+    "no-prototype-builtins": "off",
     "indent-legacy": ["error", 2, {
       "MemberExpression": 2,
       "FunctionDeclaration": {"body": 1, "parameters": 2},

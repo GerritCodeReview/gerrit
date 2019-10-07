@@ -39,7 +39,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import org.eclipse.jgit.annotations.NonNull;
@@ -434,7 +433,7 @@ class PatchScriptBuilder {
     final PatchScript.FileMode fileMode;
     final SparseFileContent dst;
 
-    public PatchSide(
+    PatchSide(
         ObjectId treeId,
         String path,
         ObjectId id,
@@ -515,8 +514,11 @@ class PatchScriptBuilder {
     public ResolvedSides resolveSides(FileTypeRegistry ftr, String oldName, String newName)
         throws IOException {
       try (ObjectReader reader = db.newObjectReader()) {
-        PatchSide a = resolve(ftr, reader, oldName, null, aId);
-        PatchSide b = resolve(ftr, reader, newName, a, bId);
+        PatchSide a = resolve(ftr, reader, oldName, null, aId, true);
+        PatchSide b =
+            resolve(
+                ftr, reader, newName, a, bId,
+                false); // Is it possible to have Object.equals(aId, bId) == true
         return ResolvedSides.create(a, b);
       }
     }
@@ -526,13 +528,14 @@ class PatchScriptBuilder {
         final ObjectReader reader,
         final String path,
         final PatchSide other,
-        final ObjectId within)
+        final ObjectId within,
+        final boolean isLeftSide)
         throws IOException {
       try {
         boolean isCommitMsg = Patch.COMMIT_MSG.equals(path);
         boolean isMergeList = Patch.MERGE_LIST.equals(path);
         if (isCommitMsg || isMergeList) {
-          if (comparisonType.isAgainstParentOrAutoMerge() && Objects.equals(aId, within)) {
+          if (comparisonType.isAgainstParentOrAutoMerge() && isLeftSide) {
             return createSide(
                 within,
                 path,

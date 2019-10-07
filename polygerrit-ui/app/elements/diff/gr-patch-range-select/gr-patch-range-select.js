@@ -133,7 +133,7 @@
         const patchNum = patch.num;
         const entry = this._createDropdownEntry(
             patchNum, patchNum === 'edit' ? '' : 'Patchset ', _sortedRevisions,
-            changeComments);
+            changeComments, patch);
         dropdownContent.push(Object.assign({}, entry, {
           disabled: this._computeRightDisabled(basePatchNum, patchNum,
               _sortedRevisions),
@@ -142,12 +142,15 @@
       return dropdownContent;
     },
 
-    _createDropdownEntry(patchNum, prefix, sortedRevisions, changeComments) {
+    _createDropdownEntry(patchNum, prefix, sortedRevisions, changeComments,
+        patch) {
+      const commit = patch && patch.commit && patch.commit.substring(0, 10);
       const entry = {
         triggerText: `${prefix}${patchNum}`,
         text: `${prefix}${patchNum}` +
             `${this._computePatchSetCommentsString(
-                changeComments, patchNum)}`,
+                changeComments, patchNum)}` +
+            (commit ? `  |     ${commit}` : ''),
         mobileText: this._computeMobileText(patchNum, changeComments,
             sortedRevisions),
         bottomText: `${this._computePatchSetDescription(

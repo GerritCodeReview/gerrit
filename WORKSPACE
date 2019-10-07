@@ -206,8 +206,8 @@ maven_jar(
 
 maven_jar(
     name = "gson",
-    artifact = "com.google.code.gson:gson:2.8.5",
-    sha1 = "f645ed69d595b24d4cf8b3fbb64cc505bede8829",
+    artifact = "com.google.code.gson:gson:2.8.6",
+    sha1 = "9180733b7df8542621dc12e21e87557e8c99b8cb",
 )
 
 load("//lib:guava.bzl", "GUAVA_BIN_SHA1", "GUAVA_VERSION")

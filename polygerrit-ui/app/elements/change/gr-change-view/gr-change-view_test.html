@@ -980,11 +980,12 @@ limitations under the License.
       return element._getChangeDetail().then(() => {
         const revs = element._change.revisions;
         assert.equal(Object.keys(revs).length, 2);
-        assert.deepEqual(revs['foo'], {commit: {commit: 'foo'}});
+        assert.deepEqual(revs['foo'], {commit: {commit: 'foo'}, sha: 'foo'});
         assert.deepEqual(revs['bar'], {
           _number: element.EDIT_NAME,
           basePatchNum: 1,
           commit: {commit: 'bar'},
+          sha: 'bar',
           fetch: undefined,
         });
       });

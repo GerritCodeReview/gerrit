@@ -85,6 +85,13 @@ public class PatchScriptFactory implements Callable<PatchScript> {
         int parentNum,
         PatchSet.Id patchSetB,
         DiffPreferencesInfo diffPrefs);
+
+    PatchScriptFactory create(
+        ChangeNotes notes,
+        String fileName,
+        @Assisted("patchSet") PatchSet.Id patchSet,
+        @Assisted("fixId") String fixId
+    );
   }
 
   private final GitRepositoryManager repoManager;

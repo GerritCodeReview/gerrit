@@ -423,6 +423,7 @@ class PatchScriptBuilder {
   }
 
   static class PatchSide {
+
     final ObjectId treeId;
     final String path;
     final ObjectId id;
@@ -434,7 +435,7 @@ class PatchScriptBuilder {
     final PatchScript.FileMode fileMode;
     final SparseFileContent dst;
 
-    public PatchSide(
+    PatchSide(
         ObjectId treeId,
         String path,
         ObjectId id,
@@ -478,11 +479,13 @@ class PatchScriptBuilder {
   }
 
   interface SidesResolver {
+
     ResolvedSides resolveSides(FileTypeRegistry ftr, String oldName, String newName)
         throws IOException;
   }
 
   static class ResolvedSides {
+
     final PatchSide a;
     final PatchSide b;
 
@@ -493,6 +496,7 @@ class PatchScriptBuilder {
   }
 
   static class SidesResolverImpl implements SidesResolver {
+
     private final Repository db;
     private ComparisonType comparisonType;
     private ObjectId aId;
@@ -512,8 +516,9 @@ class PatchScriptBuilder {
     public ResolvedSides resolveSides(FileTypeRegistry ftr, String oldName, String newName)
         throws IOException {
       try (ObjectReader reader = db.newObjectReader()) {
-        PatchSide a = resolve(ftr, reader, oldName, null, aId);
-        PatchSide b = resolve(ftr, reader, newName, a, bId);
+        PatchSide a = resolve(ftr, reader, oldName, null, aId, true);
+        PatchSide b = resolve(ftr, reader, newName, a, bId,
+            false);//Is it possible to have Object.equals(aId, bId) == true
         return new ResolvedSides(a, b);
       }
     }
@@ -523,13 +528,14 @@ class PatchScriptBuilder {
         final ObjectReader reader,
         final String path,
         final PatchSide other,
-        final ObjectId within)
+        final ObjectId within,
+        final boolean isLeftSide)
         throws IOException {
       try {
         boolean isCommitMsg = Patch.COMMIT_MSG.equals(path);
         boolean isMergeList = Patch.MERGE_LIST.equals(path);
         if (isCommitMsg || isMergeList) {
-          if (comparisonType.isAgainstParentOrAutoMerge() && Objects.equals(aId, within)) {
+          if (comparisonType.isAgainstParentOrAutoMerge() && isLeftSide) {
             return createSide(
                 within,
                 path,
@@ -642,7 +648,7 @@ class PatchScriptBuilder {
 
     private TreeWalk find(ObjectReader reader, String path, ObjectId within)
         throws MissingObjectException, IncorrectObjectTypeException, CorruptObjectException,
-            IOException {
+        IOException {
       if (path == null || within == null) {
         return null;
       }
@@ -659,6 +665,7 @@ class PatchScriptBuilder {
   }
 
   static class IntraLineDiffCalculatorResult {
+
     public static final IntraLineDiffCalculatorResult NO_RESULT =
         new IntraLineDiffCalculatorResult(null, false, false);
     public static final IntraLineDiffCalculatorResult FAILURE =
@@ -678,12 +685,14 @@ class PatchScriptBuilder {
   }
 
   interface IntraLineDiffCalculator {
+
     IntraLineDiffCalculatorResult calculateIntraLineDiff(
         PatchSide a, PatchSide b, List<Edit> edits, Set<Edit> editsDueToRebase);
   }
 
   interface PatchScriptBuilderInput {
-    ImmutableList<Edit> getEdits();
+
+    List<Edit> getEdits();
 
     ImmutableSet<Edit> getEditsDueToRebase();
 

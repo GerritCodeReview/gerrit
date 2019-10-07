@@ -14,12 +14,14 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
 -->
-
 <link rel="import" href="/bower_components/polymer/polymer.html">
-<dom-module id="gr-coverage-layer">
+<link rel="import" href="../../../styles/shared-styles.html">
+<script src="../../../scripts/util.js"></script>
+
+<dom-module id="gr-highlight-text">
   <template>
+    <style include="shared-styles"></style>
+    <slot id="highlightContainer"></slot>
   </template>
-  <script src="../../../scripts/util.js"></script>
-  <script src="../gr-diff-highlight/gr-annotation.js"></script>
-  <script src="gr-coverage-layer.js"></script>
+  <script src="gr-highlight-text.js"></script>
 </dom-module>

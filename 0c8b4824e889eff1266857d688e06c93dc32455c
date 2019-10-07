@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "32b6af7b_aaf6faa3",
+        "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-07T20:24:06Z",
+      "side": 1,
+      "message": "the test will fail as the default value was not used for some reason.. `this._nodeTraverlState` will be undefined in repo list tests when started instead of the default value defined in properties...",
+      "parentUuid": "e4ffb703_597e9bbe",
+      "range": {
+        "startLine": 136,
+        "startChar": 6,
+        "endLine": 139,
+        "endChar": 8
+      },
+      "revId": "0c8b4824e889eff1266857d688e06c93dc32455c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8e62f725_a3ac773c",
         "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
         "patchSetId": 11
@@ -45,6 +69,30 @@
       "revId": "0c8b4824e889eff1266857d688e06c93dc32455c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "efab6fd6_da48725a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-07T20:24:06Z",
+      "side": 1,
+      "message": "yes, i can remove the use of matchedTextInPreviousNode, but I still need the callback, as i could have multiple chains here like one of the tests:\n`\u003cb\u003et\u003c/b\u003e\u003cb\u003ee\u003c/b\u003e\u003cb\u003es\u003c/b\u003e\u003cb\u003et\u003c/b\u003e`, and each callback is in charge of one char here.",
+      "parentUuid": "8e62f725_a3ac773c",
+      "range": {
+        "startLine": 140,
+        "startChar": 6,
+        "endLine": 143,
+        "endChar": 35
+      },
+      "revId": "0c8b4824e889eff1266857d688e06c93dc32455c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -94,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "1e973741_a8e32abb",
+        "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-07T20:24:06Z",
+      "side": 1,
+      "message": "ya but i think the text here will be easier to understand also debugging :) I feel its always better to see a meaningful text compared to a cold number :)",
+      "parentUuid": "eacae209_d6e63ebb",
+      "range": {
+        "startLine": 147,
+        "startChar": 10,
+        "endLine": 147,
+        "endChar": 34
+      },
+      "revId": "0c8b4824e889eff1266857d688e06c93dc32455c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7516e179_1b887905",
         "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
         "patchSetId": 11
@@ -105,6 +177,24 @@
       "writtenOn": "2019-10-07T19:07:07Z",
       "side": 1,
       "message": "Can you add a test with \"aab\" as highlightText and \"aaab\" as node Text. I suspect that it will will fail to highlight, because after at i\u003d2 it will fail to match (text[2]\u003da, highlightText[2]\u003db), and then it will reset and continue at i\u003d2. Wait, will it even continue and try matching at i\u003d3? Even worse.\n\nI think we have reached a point where it might be worthwhile to check, if someone has already solved this problem. We may be sinking too much time into inventing the wheel again. :-)",
+      "revId": "0c8b4824e889eff1266857d688e06c93dc32455c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7d3a3225_c41ad9cd",
+        "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-07T20:24:06Z",
+      "side": 1,
+      "message": "ya thats really a good finding. should reset the i back to start position ( i \u003d i - matchedTextInCurrentNode.length).\n\ninitially i searched around, and did not find too many existing components for it. Found one example for angular which only handles the text not the html partials with a regex (first a few patchsets), to support html partials, its a bit different. I did not really find too many good examples, let me know if you find some.",
+      "parentUuid": "7516e179_1b887905",
       "revId": "0c8b4824e889eff1266857d688e06c93dc32455c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

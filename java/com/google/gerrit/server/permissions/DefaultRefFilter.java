@@ -260,7 +260,6 @@ class DefaultRefFilter {
       Account.Id accountId;
       AccountGroup.UUID accountGroupUuid;
       if (name.startsWith(REFS_CACHE_AUTOMERGE)) {
-        logger.atFinest().log("Filter out ref %s", name);
         continue;
       } else if (opts.filterMeta() && isMetadata(name)) {
         logger.atFinest().log("Filter out metadata ref %s", name);

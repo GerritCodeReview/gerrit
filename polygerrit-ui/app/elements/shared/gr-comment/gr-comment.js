@@ -42,6 +42,12 @@
      */
 
     /**
+     * Fired when the show fix preview action is triggered.
+     *
+     * @event open-fix-preview
+     */
+
+    /**
      * Fired when this comment is discarded.
      *
      * @event comment-discard
@@ -477,7 +483,19 @@
         detail: this._getEventPayload(),
       }));
     },
-
+    _handleShowFix() {
+      this.dispatchEvent(new CustomEvent('open-fix-preview', {
+        bubbles: true,
+        composed: true,
+        detail: this._getEventPayload(),
+      }));
+    },
+    _hasNoFix(comment) {
+      if (comment.fix_suggestions != null && comment.fix_suggestions.length) {
+        return false;
+      }
+      return true;
+    },
     _handleDiscard(e) {
       e.preventDefault();
       this.$.reporting.recordDraftInteraction();

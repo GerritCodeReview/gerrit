@@ -1,0 +1,22 @@
+
+
+<link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="../../../behaviors/fire-behavior/fire-behavior.html">
+<link rel="import" href="../../../styles/shared-styles.html">
+<link rel="import" href="../../shared/gr-overlay/gr-overlay.html">
+
+<dom-module id="gr-apply-fix-dialog">
+  <template>
+        <style include="shared-styles">
+            .dialogContainer {
+                height: 300px;
+                background: red;
+                width: 500px;
+            }
+        </style>
+    <gr-overlay id="applyFixOverlay" with-backdrop>
+        <div class="dialogContainer">HIIIIIIIIIIIIIIIIIIIII</div>
+    </gr-overlay>
+  </template>
+  <script src="gr-apply-fix-dialog.js"></script>
+</dom-module>

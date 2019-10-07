@@ -347,6 +347,10 @@
       this.$.diffHost.displayLine = true;
       this.$.cursor.moveUp();
     },
+    _onOpenFixPreview(e) {
+     console.log(e);
+     this.$.applyFixDialog.open()
+    },
 
     _handleNextLineOrFileWithComments(e) {
       if (this.shouldSuppressKeyboardShortcut(e)) { return; }

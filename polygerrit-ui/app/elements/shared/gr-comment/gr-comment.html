@@ -360,6 +360,15 @@ limitations under the License.
                 disabled="[[robotButtonDisabled]]">
               Please Fix
             </gr-button>
+            <gr-button
+                link
+                secondary
+                class="action show-fix"
+                hidden$="[[_hasNoFix(comment)]]"
+                on-click="_handleShowFix"
+                disabled="[[robotButtonDisabled]]">
+              Show Fix
+            </gr-button>
             <gr-endpoint-decorator name="robot-comment-controls">
               <gr-endpoint-param name="comment" value="[[comment]]">
               </gr-endpoint-param>

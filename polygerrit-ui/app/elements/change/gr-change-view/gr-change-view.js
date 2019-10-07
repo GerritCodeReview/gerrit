@@ -361,6 +361,10 @@
           this._handleCommitMessageSave.bind(this));
       this.addEventListener('editable-content-cancel',
           this._handleCommitMessageCancel.bind(this));
+      this.addEventListener('open-fix-preview',
+          this._onOpenFixPreview.bind(this));
+      // reload is required since navigating to the same url doesn't reload new edit revision
+      this.addEventListener('close-fix-preview', this._reload().bind(this));
       this.listen(window, 'scroll', '_handleScroll');
       this.listen(document, 'visibilitychange', '_handleVisibilityChange');
     },
@@ -397,6 +401,10 @@
           this.set('viewState.diffMode', 'SIDE_BY_SIDE');
         }
       });
+    },
+
+    _onOpenFixPreview(e) {
+      this.$.applyFixDialog.open(e);
     },
 
     _handleToggleDiffMode(e) {

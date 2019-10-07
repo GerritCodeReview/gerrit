@@ -147,7 +147,12 @@ limitations under the License.
     computeAllPatchSets(change) {
       if (!change) { return []; }
       let patchNums = [];
-      if (change.revisions && Object.keys(change.revisions).length) {
+      let shas = [];
+      if (change && change.revisions && Object.keys(change.revisions).length) {
+        shas = Object.keys(change.revisions);
+        shas.forEach(sha => {
+          change.revisions[sha].sha = sha;
+        });
         patchNums =
           Gerrit.PatchSetBehavior.sortRevisions(Object.values(change.revisions))
               .map(e => {
@@ -156,6 +161,8 @@ limitations under the License.
                 return {
                   num: e._number,
                   desc: e.description,
+                  sha: e.sha,
+                  created: e.date,
                 };
               });
       }

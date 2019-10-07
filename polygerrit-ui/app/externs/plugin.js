@@ -21,6 +21,7 @@
  */
 
 /* eslint-disable no-var */
+/* eslint-disable no-redeclare */
 
 var Gerrit = {};
 

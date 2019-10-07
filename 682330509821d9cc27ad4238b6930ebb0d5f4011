@@ -646,6 +646,30 @@
     },
     {
       "key": {
+        "uuid": "7f7ac634_802168b7",
+        "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-07T09:49:53Z",
+      "side": 1,
+      "message": "Yes, this state is only related to one traversal, but I would still prefer it to be a property than to pass it around. If you think that a \"traversal\" is not the same as a gr-highlight-text, then you should probably create a gr-highlight-traversal class for dealing with one traversal. But I think I would rather go for the property in gr-highlight-text, given that there not so many other properties and that you can just add a comment to the property explaining what it is, and make it private by adding an underscore to it.",
+      "parentUuid": "29003ad0_3aa7bd85",
+      "range": {
+        "startLine": 106,
+        "startChar": 23,
+        "endLine": 106,
+        "endChar": 37
+      },
+      "revId": "682330509821d9cc27ad4238b6930ebb0d5f4011",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e2cfa855_b8d835f2",
         "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
         "patchSetId": 8

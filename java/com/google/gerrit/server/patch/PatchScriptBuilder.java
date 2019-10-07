@@ -54,7 +54,7 @@ import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
 
-class PatchScriptBuilder {
+public class PatchScriptBuilder {
 
   static final int MAX_CONTEXT = 5000000;
   static final int BIG_FILE = 9000;
@@ -70,7 +70,7 @@ class PatchScriptBuilder {
   private SidesResolver sidesResolver;
 
   @Inject
-  PatchScriptBuilder(FileTypeRegistry ftr) {
+  public PatchScriptBuilder(FileTypeRegistry ftr) {
     registry = ftr;
   }
 
@@ -97,7 +97,7 @@ class PatchScriptBuilder {
     sidesResolver = resolver;
   }
 
-  PatchScript toPatchScript(
+  public PatchScript toPatchScript(
       PatchScriptBuilderInput content, CommentDetail comments, List<Patch> history)
       throws IOException {
     return build(content, comments, history);
@@ -682,7 +682,7 @@ class PatchScriptBuilder {
         PatchSide a, PatchSide b, List<Edit> edits, Set<Edit> editsDueToRebase);
   }
 
-  interface PatchScriptBuilderInput {
+  public interface PatchScriptBuilderInput {
     ImmutableList<Edit> getEdits();
 
     ImmutableSet<Edit> getEditsDueToRebase();

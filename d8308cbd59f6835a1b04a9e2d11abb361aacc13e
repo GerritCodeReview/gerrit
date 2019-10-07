@@ -2,6 +2,46 @@
   "comments": [
     {
       "key": {
+        "uuid": "f0afeb7f_a6a6fab3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-07T17:18:31Z",
+      "side": 1,
+      "message": "hash",
+      "range": {
+        "startLine": 7,
+        "startChar": 20,
+        "endLine": 7,
+        "endChar": 23
+      },
+      "revId": "d8308cbd59f6835a1b04a9e2d11abb361aacc13e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a0aab921_05ba6a42",
+        "filename": "polygerrit-ui/app/behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-07T17:18:31Z",
+      "side": 1,
+      "message": "Maybe just extend the guard clause in line 148 to\n\n  if (!change || !change.revisions || !Object.keys(change.revisions).length) { return []; }\n\nThen you can assign to commits and patchNums vars directly.",
+      "revId": "d8308cbd59f6835a1b04a9e2d11abb361aacc13e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2d2c6383_a2d727e8",
         "filename": "polygerrit-ui/app/behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html",
         "patchSetId": 1
@@ -19,6 +59,75 @@
     },
     {
       "key": {
+        "uuid": "20da514d_6e3cca99",
+        "filename": "polygerrit-ui/app/behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-07T17:18:31Z",
+      "side": 1,
+      "message": "Maybe rename to commitHash, commitSha, or just hash or sha.",
+      "range": {
+        "startLine": 162,
+        "startChar": 18,
+        "endLine": 162,
+        "endChar": 24
+      },
+      "revId": "d8308cbd59f6835a1b04a9e2d11abb361aacc13e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f3e45ecd_f3f8831e",
+        "filename": "polygerrit-ui/app/behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-07T17:18:31Z",
+      "side": 1,
+      "message": "I don\u0027t think this works, because \"commits\" is unsorted, while the map() iterates over the sorted values, so using index will most likely refer to the wrong commit. Anyway, this definitely needs at least one test.\n\nMaybe you can iterate over change.revisions first, convert into the new object structure, and then do the sorting afterwards.\n\nAnother code location trying to solve this (quadratic runtime though):\nhttps://gerrit.googlesource.com/gerrit/+/master/polygerrit-ui/app/elements/change/gr-file-list-header/gr-file-list-header.js#164\n\nMaybe we should just enhance the RevisionInfo objects with sha. Iterate over them and add the sha. WDYT?",
+      "range": {
+        "startLine": 162,
+        "startChar": 34,
+        "endLine": 162,
+        "endChar": 39
+      },
+      "revId": "d8308cbd59f6835a1b04a9e2d11abb361aacc13e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c0c76de4_cedb809a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-patch-range-select/gr-patch-range-select.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-07T17:18:31Z",
+      "side": 1,
+      "message": "Maybe move to line 134 as\n\n  const sha \u003d patch \u0026\u0026 patch.commit ? patch.commit.substring(0, 10) : \u0027\u0027;\n\nAnd then pass the sha instead of the patch into _createDropdownEntry().",
+      "range": {
+        "startLine": 147,
+        "startChar": 6,
+        "endLine": 147,
+        "endChar": 76
+      },
+      "revId": "d8308cbd59f6835a1b04a9e2d11abb361aacc13e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f01d52ab_d03b386c",
         "filename": "polygerrit-ui/app/elements/diff/gr-patch-range-select/gr-patch-range-select.js",
         "patchSetId": 1
@@ -30,6 +139,30 @@
       "writtenOn": "2019-10-07T13:28:44Z",
       "side": 1,
       "message": "Maybe we can split this off into a function as it\u0027s getting a little crowded.",
+      "range": {
+        "startLine": 150,
+        "startChar": 15,
+        "endLine": 153,
+        "endChar": 48
+      },
+      "revId": "d8308cbd59f6835a1b04a9e2d11abb361aacc13e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c1206a53_8fd35203",
+        "filename": "polygerrit-ui/app/elements/diff/gr-patch-range-select/gr-patch-range-select.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-07T17:18:31Z",
+      "side": 1,
+      "message": "Yeah, since we have computeMobileText we should probably also have computeText for the standard case.",
+      "parentUuid": "f01d52ab_d03b386c",
       "range": {
         "startLine": 150,
         "startChar": 15,

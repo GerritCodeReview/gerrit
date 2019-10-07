@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b7524730_7d132908",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.js",
+        "patchSetId": 19
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-07T15:57:34Z",
+      "side": 1,
+      "message": "This is read-only anyway, you don\u0027t have to keep things \"safe\". Just expose the diff.",
+      "range": {
+        "startLine": 249,
+        "startChar": 14,
+        "endLine": 250,
+        "endChar": 62
+      },
+      "revId": "283e3c747cded8693aef08bdf7ffc1a9f94b5f24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ef113255_812088f9",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 19
+      },
+      "lineNbr": 896,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-07T15:57:34Z",
+      "side": 1,
+      "message": "Maybe rename to \"leftPath\".",
+      "range": {
+        "startLine": 896,
+        "startChar": 12,
+        "endLine": 896,
+        "endChar": 17
+      },
+      "revId": "283e3c747cded8693aef08bdf7ffc1a9f94b5f24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "11cf8cb0_029bf140",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 19
+      },
+      "lineNbr": 902,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-07T15:57:34Z",
+      "side": 1,
+      "message": "What does \"parent 1\" mean?",
+      "range": {
+        "startLine": 902,
+        "startChar": 52,
+        "endLine": 902,
+        "endChar": 60
+      },
+      "revId": "283e3c747cded8693aef08bdf7ffc1a9f94b5f24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d2f9ca04_06cbf25d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 19
+      },
+      "lineNbr": 913,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-07T15:57:34Z",
+      "side": 1,
+      "message": "0?",
+      "range": {
+        "startLine": 913,
+        "startChar": 25,
+        "endLine": 913,
+        "endChar": 26
+      },
+      "revId": "283e3c747cded8693aef08bdf7ffc1a9f94b5f24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e53bc18d_def9bfbc",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 19
+      },
+      "lineNbr": 913,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-07T15:57:34Z",
+      "side": 1,
+      "message": "What does \"parent 0\" actually mean?",
+      "range": {
+        "startLine": 913,
+        "startChar": 52,
+        "endLine": 913,
+        "endChar": 60
+      },
+      "revId": "283e3c747cded8693aef08bdf7ffc1a9f94b5f24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

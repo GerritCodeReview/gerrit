@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "25f6bfc6_d82a4f57",
+        "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-07T18:05:23Z",
+      "side": 1,
+      "message": "ya nice catch. will add one.",
+      "parentUuid": "a701ad1b_b5d1874c",
+      "revId": "e40177fa841e578361ac3213520bbc10a442f321",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "622e0cac_4745fd9b",
         "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
         "patchSetId": 9
@@ -33,6 +51,24 @@
       "revId": "e40177fa841e578361ac3213520bbc10a442f321",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "28b1b042_17f36ba7",
+        "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-07T18:05:23Z",
+      "side": 1,
+      "message": "you mean `do don` right ? the `matchedText` should be clear at the first `d`. And then start the loop on  `don` with empty matched text. Added a test as well.",
+      "parentUuid": "622e0cac_4745fd9b",
+      "revId": "e40177fa841e578361ac3213520bbc10a442f321",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -399,6 +399,10 @@
       });
     },
 
+    _onOpenFixPreview(e) {
+      this.$.applyFixDialog.open(e);
+    },
+
     _handleToggleDiffMode(e) {
       if (this.shouldSuppressKeyboardShortcut(e) ||
           this.modifierPressed(e)) { return; }

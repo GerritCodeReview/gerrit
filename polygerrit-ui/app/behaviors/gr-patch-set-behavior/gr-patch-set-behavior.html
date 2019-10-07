@@ -69,7 +69,7 @@ limitations under the License.
      */
     getRevisionByPatchNum(revisions, patchNum) {
       for (const rev of Object.values(revisions || {})) {
-        if (Gerrit.PatchSetBehavior.patchNumEquals(rev._number, patchNum)) {
+        if (Gerrit.PatchSetBehavior.patchNumEquals(rev[1]._number, patchNum)) {
           return rev;
         }
       }
@@ -84,12 +84,12 @@ limitations under the License.
      */
     findEditParentRevision(revisions) {
       const editInfo =
-          revisions.find(info => info._number ===
+          revisions.find(info => info[1]._number ===
               Gerrit.PatchSetBehavior.EDIT_NAME);
 
       if (!editInfo) { return null; }
 
-      return revisions.find(info => info._number === editInfo.basePatchNum) ||
+      return revisions.find(info => info[1]._number === editInfo.basePatchNum) ||
           null;
     },
 
@@ -126,7 +126,7 @@ limitations under the License.
       const num = r => r._number === Gerrit.PatchSetBehavior.EDIT_NAME ?
           2 * editParent :
           2 * (r._number - 1) + 1;
-      return revisions.sort((a, b) => num(b) - num(a));
+      return revisions.sort((a, b) => num(b[1]) - num(a[1]));
     },
 
     /**
@@ -148,14 +148,17 @@ limitations under the License.
       if (!change) { return []; }
       let patchNums = [];
       if (change.revisions && Object.keys(change.revisions).length) {
+        // let revisions = Object.values(change.revisions);
         patchNums =
-          Gerrit.PatchSetBehavior.sortRevisions(Object.values(change.revisions))
+          Gerrit.PatchSetBehavior.sortRevisions(Object.entries(change.revisions))
               .map(e => {
                 // TODO(kaspern): Mark which patchset an edit was made on, if an
                 // edit exists -- perhaps with a temporary description.
                 return {
-                  num: e._number,
-                  desc: e.description,
+                  num: e[1]._number,
+                  desc: e[1].description,
+                  date: e[1].created,
+                  commit: e[0]
                 };
               });
       }

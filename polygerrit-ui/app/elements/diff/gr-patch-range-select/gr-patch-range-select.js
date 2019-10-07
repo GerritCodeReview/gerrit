@@ -163,7 +163,7 @@
 
     _updateSortedRevisions(revisionsRecord) {
       const revisions = revisionsRecord.base;
-      this._sortedRevisions = this.sortRevisions(Object.values(revisions));
+      this._sortedRevisions = this.sortRevisions(Object.entries(revisions));
     },
 
     /**
@@ -248,7 +248,7 @@
      */
     _computePatchSetDate(revisions, patchNum) {
       const rev = this.getRevisionByPatchNum(revisions, patchNum);
-      return rev ? rev.created : undefined;
+      return rev ? rev[1].created : undefined;
     },
 
     /**

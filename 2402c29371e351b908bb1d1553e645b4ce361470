@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a059920b_148ee702",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-07T06:28:40Z",
+      "side": 1,
+      "message": "return \u0027\u0027 is fine.",
+      "parentUuid": "61c80c2b_e932ce28",
+      "range": {
+        "startLine": 356,
+        "startChar": 47,
+        "endLine": 356,
+        "endChar": 57
+      },
+      "revId": "2402c29371e351b908bb1d1553e645b4ce361470",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "118e3ef4_77aa5063",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 5
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "4f3a2fba_2044e18f",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 528,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-07T06:28:40Z",
+      "side": 1,
+      "message": "No, returning \u0027\u0027 is fine.",
+      "parentUuid": "118e3ef4_77aa5063",
+      "range": {
+        "startLine": 528,
+        "startChar": 6,
+        "endLine": 528,
+        "endChar": 60
+      },
+      "revId": "2402c29371e351b908bb1d1553e645b4ce361470",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d2692fa5_5273e04e",
         "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
         "patchSetId": 5
@@ -65,6 +113,138 @@
     },
     {
       "key": {
+        "uuid": "d6982abe_b45dfdae",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-07T06:28:40Z",
+      "side": 1,
+      "message": "maybe\n  const msgsRemaining \u003d messages \u0026\u0026 visibleMessages ? messages.length - visibleMessages.length : 0;\n\nor start with\n  let msgsRemaining \u003d 0;\nthen you can drop the else clause",
+      "parentUuid": "d2692fa5_5273e04e",
+      "revId": "2402c29371e351b908bb1d1553e645b4ce361470",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f5f9533d_99090798",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 300,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-07T06:28:40Z",
+      "side": 1,
+      "message": "|| instead of \u0026\u0026",
+      "revId": "2402c29371e351b908bb1d1553e645b4ce361470",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "11b005db_5301b26d",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-07T06:28:40Z",
+      "side": 1,
+      "message": "messages",
+      "range": {
+        "startLine": 301,
+        "startChar": 24,
+        "endLine": 301,
+        "endChar": 39
+      },
+      "revId": "2402c29371e351b908bb1d1553e645b4ce361470",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b14336d0_241c0a22",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-07T06:28:40Z",
+      "side": 1,
+      "message": "|| instead of \u0026\u0026",
+      "revId": "2402c29371e351b908bb1d1553e645b4ce361470",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e700e747_c61f39f9",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-07T06:28:40Z",
+      "side": 1,
+      "message": "|| instead of \u0026\u0026",
+      "revId": "2402c29371e351b908bb1d1553e645b4ce361470",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e7a2ea14_f18f02ff",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-07T06:28:40Z",
+      "side": 1,
+      "message": "messages",
+      "range": {
+        "startLine": 325,
+        "startChar": 24,
+        "endLine": 325,
+        "endChar": 39
+      },
+      "revId": "2402c29371e351b908bb1d1553e645b4ce361470",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a31cd6d8_1982e18b",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-07T06:28:40Z",
+      "side": 1,
+      "message": "|| instead of \u0026\u0026",
+      "revId": "2402c29371e351b908bb1d1553e645b4ce361470",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1cd857fd_09c9bb49",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
         "patchSetId": 5
@@ -76,6 +256,70 @@
       "writtenOn": "2019-10-06T18:57:34Z",
       "side": 1,
       "message": "Should we check if patchRangeRecord.base is undefined here instead of below?",
+      "revId": "2402c29371e351b908bb1d1553e645b4ce361470",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "05b13dba_5d1655e2",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-07T06:28:40Z",
+      "side": 1,
+      "message": "Yes, that would be nicer.",
+      "parentUuid": "1cd857fd_09c9bb49",
+      "revId": "2402c29371e351b908bb1d1553e645b4ce361470",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7aebbe63_e16f2092",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 745,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-07T06:28:40Z",
+      "side": 1,
+      "message": "maybe return \u0027\u0027",
+      "range": {
+        "startLine": 745,
+        "startChar": 41,
+        "endLine": 745,
+        "endChar": 45
+      },
+      "revId": "2402c29371e351b908bb1d1553e645b4ce361470",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "14cf2ef7_0a2b4ead",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 784,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-07T06:28:40Z",
+      "side": 1,
+      "message": "maybe return \u0027\u0027",
+      "range": {
+        "startLine": 784,
+        "startChar": 41,
+        "endLine": 784,
+        "endChar": 45
+      },
       "revId": "2402c29371e351b908bb1d1553e645b4ce361470",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

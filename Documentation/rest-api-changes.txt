@@ -5219,9 +5219,6 @@ parent commit number against which the diff should be generated.  This is useful
 for supporting review of merge commits.  The value is the 1-based index of the
 parent's position in the commit object.
 
-[[weblinks-only]]
-If the `weblinks-only` parameter is specified, only the diff web links are returned.
-
 .Request
 ----
   GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/revisions/b6b9c10649b9041884046119ab794374470a1b45/files/gerrit-server%2Fsrc%2Fmain%2Fjava%2Fcom%2Fgoogle%2Fgerrit%2Fserver%2Fproject%2FRefControl.java/diff?base=2 HTTP/1.0

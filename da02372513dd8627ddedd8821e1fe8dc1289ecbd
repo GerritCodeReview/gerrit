@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c30c38ea_c372e7b7",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 902,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-10-07T06:35:33Z",
+      "side": 1,
+      "message": "Usually we refer to parents as 1-based, i.e. \"parent 1\" and \"parent 2\", so should this be \"parent 2\" and \"parent 1\" below at L913?",
+      "range": {
+        "startLine": 902,
+        "startChar": 52,
+        "endLine": 902,
+        "endChar": 61
+      },
+      "revId": "da02372513dd8627ddedd8821e1fe8dc1289ecbd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "434cdb17_01e405c6",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 913,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-10-07T06:35:33Z",
+      "side": 1,
+      "message": "0",
+      "range": {
+        "startLine": 913,
+        "startChar": 25,
+        "endLine": 913,
+        "endChar": 26
+      },
+      "revId": "da02372513dd8627ddedd8821e1fe8dc1289ecbd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

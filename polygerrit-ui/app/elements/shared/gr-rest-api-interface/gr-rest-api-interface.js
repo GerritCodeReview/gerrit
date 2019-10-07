@@ -1860,6 +1860,25 @@
       });
     }
 
+    getRobotCommentFixPreview(changeNum, patchNum, fixId) {
+      return this._getChangeURLAndFetch({
+        changeNum,
+        patchNum,
+        endpoint: `/fixes/${encodeURIComponent(fixId)}/preview`,
+        reportEndpointAsId: true,
+      });
+    }
+
+    applyFixSuggestion(changeNum, patchNum, fixId) {
+      return this._getChangeURLAndSend({
+        method: 'POST',
+        changeNum,
+        patchNum,
+        endpoint: `/fixes/${encodeURIComponent(fixId)}/apply`,
+        reportEndpointAsId: true,
+      });
+    }
+
     // Deprecated, prefer to use putChangeCommitMessage instead.
     saveChangeCommitMessageEdit(changeNum, message) {
       return this._getChangeURLAndSend({

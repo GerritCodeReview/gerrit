@@ -136,6 +136,8 @@ limitations under the License.
      *   * num {number} The number identifying the patch set
      *   * desc {!string} Optional patch set description
      *   * wip {boolean} If true, this patch set was never subject to review.
+     *   * created {string} the date when patch set was created
+     *   * sha {string} hash of the commit
      *
      * The wip property is determined by the change's current work_in_progress
      * property and its log of change messages.
@@ -147,7 +149,10 @@ limitations under the License.
     computeAllPatchSets(change) {
       if (!change) { return []; }
       let patchNums = [];
-      if (change.revisions && Object.keys(change.revisions).length) {
+      if (change && change.revisions && Object.keys(change.revisions).length) {
+        Object.keys(change.revisions).forEach(sha => {
+          change.revisions[sha].sha = sha;
+        });
         patchNums =
           Gerrit.PatchSetBehavior.sortRevisions(Object.values(change.revisions))
               .map(e => {
@@ -156,6 +161,8 @@ limitations under the License.
                 return {
                   num: e._number,
                   desc: e.description,
+                  sha: e.sha,
+                  created: e.date,
                 };
               });
       }

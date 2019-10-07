@@ -51,6 +51,7 @@ limitations under the License.
 <link rel="import" href="../gr-included-in-dialog/gr-included-in-dialog.html">
 <link rel="import" href="../gr-messages-list/gr-messages-list.html">
 <link rel="import" href="../gr-related-changes-list/gr-related-changes-list.html">
+<link rel="import" href="../../diff/gr-apply-fix-dialog/gr-apply-fix-dialog.html">
 <link rel="import" href="../gr-reply-dialog/gr-reply-dialog.html">
 <link rel="import" href="../gr-thread-list/gr-thread-list.html">
 <link rel="import" href="../gr-upload-help-dialog/gr-upload-help-dialog.html">
@@ -635,6 +636,11 @@ limitations under the License.
             on-thread-list-modified="_handleReloadDiffComments"></gr-thread-list>
       </template>
     </div>
+    <gr-apply-fix-dialog
+      id="applyFixDialog"
+      prefs="[[_diffPrefs]]"
+      change="[[_change]]"
+      change-num="[[_changeNum]]"></gr-apply-fix-dialog>
     <gr-overlay id="downloadOverlay" with-backdrop>
       <gr-download-dialog
           id="downloadDialog"

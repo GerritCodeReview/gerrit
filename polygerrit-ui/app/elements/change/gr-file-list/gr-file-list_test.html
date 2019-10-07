@@ -901,17 +901,17 @@ limitations under the License.
 
     test('patch set from revisions', () => {
       const expected = [
-        {num: 4, desc: 'test'},
-        {num: 3, desc: 'test'},
-        {num: 2, desc: 'test'},
-        {num: 1, desc: 'test'},
+        {num: 4, desc: 'test', sha: 'rev4'},
+        {num: 3, desc: 'test', sha: 'rev3'},
+        {num: 2, desc: 'test', sha: 'rev2'},
+        {num: 1, desc: 'test', sha: 'rev1'},
       ];
       const patchNums = element.computeAllPatchSets({
         revisions: {
-          rev3: {_number: 3, description: 'test'},
-          rev1: {_number: 1, description: 'test'},
-          rev4: {_number: 4, description: 'test'},
-          rev2: {_number: 2, description: 'test'},
+          rev3: {_number: 3, description: 'test', date: 3},
+          rev1: {_number: 1, description: 'test', date: 1},
+          rev4: {_number: 4, description: 'test', date: 4},
+          rev2: {_number: 2, description: 'test', date: 2},
         },
       });
       assert.equal(patchNums.length, expected.length);

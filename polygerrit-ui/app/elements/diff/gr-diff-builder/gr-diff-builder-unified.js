@@ -40,7 +40,13 @@
     }
 
     for (let i = 0; i < group.lines.length; ++i) {
-      sectionEl.appendChild(this._createRow(sectionEl, group.lines[i]));
+      const line = group.lines[i];
+      // If only whitespace has changed and the settings ask for whitespace to
+      // be ignored, only render the right-side line in unified diff mode.
+      if (group.ignoredWhitespaceOnly && line.type == GrDiffLine.Type.REMOVE) {
+        continue;
+      }
+      sectionEl.appendChild(this._createRow(sectionEl, line));
     }
     return sectionEl;
   };

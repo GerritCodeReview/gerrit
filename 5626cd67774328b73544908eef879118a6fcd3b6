@@ -7,10 +7,10 @@
       "updated": "2019-10-07T21:16:46Z"
     },
     "gerritforge:polygerrit-a6a0e4682515f3521897c5f950d1394f4619d928": {
-      "state": "FAILED",
-      "url": "https://gerrit-ci.gerritforge.com/job/Gerrit-verifier-bazel/72972/consoleText",
+      "state": "SUCCESSFUL",
+      "url": "https://gerrit-ci.gerritforge.com/job/Gerrit-verifier-bazel/72974/consoleText",
       "created": "2019-10-07T20:33:03Z",
-      "updated": "2019-10-07T20:33:03Z"
+      "updated": "2019-10-07T21:16:47Z"
     },
     "gerritforge:reviewdb-a6a0e4682515f3521897c5f950d1394f4619d928": {
       "state": "FAILED",

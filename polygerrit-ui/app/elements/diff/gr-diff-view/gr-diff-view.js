@@ -250,6 +250,8 @@
         this._loggedIn = loggedIn;
       });
 
+      this.addEventListener('open-fix-preview',
+          this._onOpenFixPreview.bind(this));
       this.$.cursor.push('diffs', this.$.diffHost);
     }
 
@@ -363,6 +365,10 @@
       e.preventDefault();
       this.$.diffHost.displayLine = true;
       this.$.cursor.moveUp();
+    }
+
+    _onOpenFixPreview(e) {
+      this.$.applyFixDialog.open(e);
     }
 
     _handleNextLineOrFileWithComments(e) {

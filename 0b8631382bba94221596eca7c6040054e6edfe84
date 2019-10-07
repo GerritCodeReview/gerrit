@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b1ae4236_15197222",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/ElasticIndexIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2019-10-07T12:56:35Z",
+      "side": 1,
+      "message": "\"latest\"?",
+      "range": {
+        "startLine": 26,
+        "startChar": 66,
+        "endLine": 26,
+        "endChar": 72
+      },
+      "revId": "0b8631382bba94221596eca7c6040054e6edfe84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

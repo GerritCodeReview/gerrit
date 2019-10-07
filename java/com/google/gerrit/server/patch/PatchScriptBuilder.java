@@ -54,7 +54,7 @@ import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
 
-class PatchScriptBuilder {
+public class PatchScriptBuilder {
 
   static final int MAX_CONTEXT = 5000000;
   static final int BIG_FILE = 9000;
@@ -70,15 +70,15 @@ class PatchScriptBuilder {
   private SidesResolver sidesResolver;
 
   @Inject
-  PatchScriptBuilder(FileTypeRegistry ftr) {
+  public PatchScriptBuilder(FileTypeRegistry ftr) {
     registry = ftr;
   }
 
-  void setChange(Change c) {
+  public void setChange(Change c) {
     this.change = c;
   }
 
-  void setDiffPrefs(DiffPreferencesInfo dp) {
+  public void setDiffPrefs(DiffPreferencesInfo dp) {
     diffPrefs = dp;
 
     context = diffPrefs.context;
@@ -93,11 +93,11 @@ class PatchScriptBuilder {
     intralineDiffCalculator = calculator;
   }
 
-  void setSidesResolver(SidesResolver resolver) {
+  public void setSidesResolver(SidesResolver resolver) {
     sidesResolver = resolver;
   }
 
-  PatchScript toPatchScript(
+  public PatchScript toPatchScript(
       PatchScriptBuilderInput content, CommentDetail comments, List<Patch> history)
       throws IOException {
     return build(content, comments, history);
@@ -422,17 +422,17 @@ class PatchScriptBuilder {
     }
   }
 
-  static class PatchSide {
-    final ObjectId treeId;
-    final String path;
-    final ObjectId id;
-    final FileMode mode;
-    final byte[] srcContent;
-    final Text src;
-    final MimeType mimeType;
-    final DisplayMethod displayMethod;
-    final PatchScript.FileMode fileMode;
-    final SparseFileContent dst;
+  public static class PatchSide {
+    public final ObjectId treeId;
+    public final String path;
+    public final ObjectId id;
+    public final FileMode mode;
+    public final byte[] srcContent;
+    public final Text src;
+    public final MimeType mimeType;
+    public final DisplayMethod displayMethod;
+    public final PatchScript.FileMode fileMode;
+    public final SparseFileContent dst;
 
     public PatchSide(
         ObjectId treeId,
@@ -477,12 +477,12 @@ class PatchScriptBuilder {
     }
   }
 
-  interface SidesResolver {
+  public interface SidesResolver {
     ResolvedSides resolveSides(FileTypeRegistry ftr, String oldName, String newName)
         throws IOException;
   }
 
-  static class ResolvedSides {
+  public static class ResolvedSides {
     final PatchSide a;
     final PatchSide b;
 
@@ -492,17 +492,17 @@ class PatchScriptBuilder {
     }
   }
 
-  static class SidesResolverImpl implements SidesResolver {
+  public static class SidesResolverImpl implements SidesResolver {
     private final Repository db;
     private ComparisonType comparisonType;
     private ObjectId aId;
     private ObjectId bId;
 
-    SidesResolverImpl(Repository db) {
+    public SidesResolverImpl(Repository db) {
       this.db = db;
     }
 
-    void setTrees(ComparisonType comparisonType, ObjectId a, ObjectId b) {
+    public void setTrees(ComparisonType comparisonType, ObjectId a, ObjectId b) {
       this.comparisonType = comparisonType;
       this.aId = a;
       this.bId = b;
@@ -512,24 +512,25 @@ class PatchScriptBuilder {
     public ResolvedSides resolveSides(FileTypeRegistry ftr, String oldName, String newName)
         throws IOException {
       try (ObjectReader reader = db.newObjectReader()) {
-        PatchSide a = resolve(ftr, reader, oldName, null, aId);
-        PatchSide b = resolve(ftr, reader, newName, a, bId);
+        PatchSide a = resolve(ftr, reader, oldName, null, aId, true);
+        PatchSide b = resolve(ftr, reader, newName, a, bId, false);//Is it possible to have Object.equals(aId, bId) == true
         return new ResolvedSides(a, b);
       }
     }
 
-    PatchSide resolve(
+    public PatchSide resolve(
         final FileTypeRegistry registry,
         final ObjectReader reader,
         final String path,
         final PatchSide other,
-        final ObjectId within)
+        final ObjectId within,
+        final boolean isLeftSide)
         throws IOException {
       try {
         boolean isCommitMsg = Patch.COMMIT_MSG.equals(path);
         boolean isMergeList = Patch.MERGE_LIST.equals(path);
         if (isCommitMsg || isMergeList) {
-          if (comparisonType.isAgainstParentOrAutoMerge() && Objects.equals(aId, within)) {
+          if (comparisonType.isAgainstParentOrAutoMerge() && isLeftSide) {
             return createSide(
                 within,
                 path,
@@ -682,8 +683,8 @@ class PatchScriptBuilder {
         PatchSide a, PatchSide b, List<Edit> edits, Set<Edit> editsDueToRebase);
   }
 
-  interface PatchScriptBuilderInput {
-    ImmutableList<Edit> getEdits();
+  public interface PatchScriptBuilderInput {
+    List<Edit> getEdits();
 
     ImmutableSet<Edit> getEditsDueToRebase();
 

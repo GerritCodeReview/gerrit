@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6f99ed98_9bb8e381",
+        "filename": "java/com/google/gerrit/index/IndexType.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2019-10-07T13:03:53Z",
+      "side": 1,
+      "message": "I found this part hard to read. Maybe just shorten the sentence? I think \"not to be disclosed\" is already clear.",
+      "range": {
+        "startLine": 27,
+        "startChar": 68,
+        "endLine": 27,
+        "endChar": 97
+      },
+      "revId": "c2a1bfaed8dd0436727c1696cf39f8cfbdd82778",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

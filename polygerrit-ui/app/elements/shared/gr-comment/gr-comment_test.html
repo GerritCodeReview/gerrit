@@ -1007,5 +1007,17 @@ limitations under the License.
       flushAsynchronousOperations();
       assert.isNotNull(element.$$('.robotActions gr-button'));
     });
+
+    test('_handleShowFix fires open-fix-preview event', done => {
+      element.addEventListener('open-fix-preview', e => {
+        assert.deepEqual(e.detail, element._getEventPayload());
+        done();
+      });
+      element.comment = {fix_suggestions: [{}]};
+      element.isRobotComment = true;
+      flushAsynchronousOperations();
+
+      MockInteractions.tap(element.$$('.show-fix'));
+    });
   });
 </script>

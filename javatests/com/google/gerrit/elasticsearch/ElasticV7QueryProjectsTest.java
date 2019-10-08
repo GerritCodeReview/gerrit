@@ -41,7 +41,7 @@ public class ElasticV7QueryProjectsTest extends AbstractQueryProjectsTest {
       return;
     }
 
-    container = ElasticContainer.createAndStart(ElasticVersion.V7_3);
+    container = ElasticContainer.createAndStart(ElasticVersion.V7_4);
     nodeInfo = new ElasticNodeInfo(container.getHttpHost().getPort());
   }
 

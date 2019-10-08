@@ -215,6 +215,24 @@
     },
     {
       "key": {
+        "uuid": "3aded02b_f8a9311c",
+        "filename": "java/com/google/gerrit/lucene/QueryBuilder.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-08T15:56:53Z",
+      "side": 1,
+      "message": "May be it was not clear from the commit message, but all this is temporary, and only needed for online reindex, to support both index state, with old and new types. All alternative code paths are removed in the end of this series, see: [1].\n\n* [1] https://gerrit-review.googlesource.com/c/gerrit/+/239832",
+      "parentUuid": "d6f25be8_f4655b28",
+      "revId": "266257cf2649b062ab6ab7f19ab5123ec79aaa6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bcc8a9e9_16db7c95",
         "filename": "java/com/google/gerrit/server/change/AbandonUtil.java",
         "patchSetId": 20
@@ -226,6 +244,24 @@
       "writtenOn": "2019-10-07T18:31:55Z",
       "side": 1,
       "message": "Not sure how this changed class relates to the overall change. If related, maybe briefly explain in the commit message?",
+      "revId": "266257cf2649b062ab6ab7f19ab5123ec79aaa6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0ec5edf0_f524a3d4",
+        "filename": "java/com/google/gerrit/server/change/AbandonUtil.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-08T15:56:53Z",
+      "side": 1,
+      "message": "Good point. I have added the comment on line 43/44 above. But I could also add the explanation in the commit message. Now, that you noticed that, I realized that I wanted to remove the provider change in the class where I removed the whole code paths: [1].\n\n* [1] https://gerrit-review.googlesource.com/c/gerrit/+/239832",
+      "parentUuid": "bcc8a9e9_16db7c95",
       "revId": "266257cf2649b062ab6ab7f19ab5123ec79aaa6b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

@@ -406,7 +406,7 @@ public class CreateChange
           }
           parentCommit = null;
         } else {
-          throw new BadRequestException("Must provide a destination branch");
+          throw new BadRequestException("Destination branch does not exist");
         }
       }
     }

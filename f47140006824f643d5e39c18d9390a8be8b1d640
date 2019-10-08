@@ -202,6 +202,30 @@
     },
     {
       "key": {
+        "uuid": "d78004c4_6bd3c36f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 24
+      },
+      "lineNbr": 908,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-08T10:08:12Z",
+      "side": 1,
+      "message": "\u003e What happens, if the file on the left side is not a base file, e.g. I am comparing patchset 1 and 2. How does the code handle that?\n\nIndependently what is compared against, the code would send the request with \"?parent\u003d1\" originating from the patch set commit on the right side (revision number). Say you are comparing patch set 3 against the base:\n\n  https://gerrit-review.googlesource.com/c/gerrit/+/238862/3/BUILD\n\nin that case the URL to download the left side content would be:\n\n  https://gerrit-review.googlesource.com/changes/gerrit~238862/revisions/3/files/BUILD/download?parent\u003d1\n\nOr, you are comparing patch set 2 against patch set 1:\n\n  https://gerrit-review.googlesource.com/c/gerrit/+/238862/1..2/BUILD\n\nin that case the URL to download the left side content would be:\n\n  https://gerrit-review.googlesource.com/changes/gerrit~238862/revisions/2/files/BUILD/download?parent\u003d1\n\nSo yes, while the original commit we are retrieving the parent from differs, the parent for all patch sets is always the base commit. One possible confusion here to think that parent of patch_set_n is patch_set_n-1, that is not the case for Gerrit\u0027s patch set workflow, this would only apply for GitHub\u0027s branch workflow.\n\nHaving said that, if a change was rebased, then you could get a different content on the left side depending on whether you are looking on patch set n before the rebase or your are looking on patch set n+1 after the rebase. But that is correct and WAI.",
+      "parentUuid": "319e6d8d_45bccaa4",
+      "range": {
+        "startLine": 908,
+        "startChar": 60,
+        "endLine": 908,
+        "endChar": 61
+      },
+      "revId": "f47140006824f643d5e39c18d9390a8be8b1d640",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "902c8be2_6eb18887",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
         "patchSetId": 24

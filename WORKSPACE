@@ -30,9 +30,9 @@ http_archive(
 
 http_archive(
     name = "io_bazel_rules_closure",
-    sha256 = "39b7bec43e6178d065875987b18623d476acd54f355d7711ce9dce4a3eec0795",
-    strip_prefix = "rules_closure-0.25",
-    urls = ["https://github.com/davido/rules_closure/archive/v0.25.tar.gz"],
+    sha256 = "eecd37c0eec79e12652c70f2d2e120623cba64616d759ddcedb19e614df618fa",
+    strip_prefix = "rules_closure-d53c0d7755426349d3c443eea4aeedbda27a11be",
+    urls = ["https://github.com/bazelbuild/rules_closure/archive/d53c0d7755426349d3c443eea4aeedbda27a11be.tar.gz"],
 )
 
 # File is specific to Polymer and copied from the Closure Github -- should be
@@ -54,16 +54,18 @@ load("@bazelisk_version//:check.bzl", "check_bazel_version")
 
 check_bazel_version()
 
-load("@io_bazel_rules_closure//closure:repositories.bzl", "closure_repositories")
+load("@io_bazel_rules_closure//closure:repositories.bzl", "rules_closure_dependencies", "rules_closure_toolchains")
 
 # Prevent redundant loading of dependencies.
-closure_repositories(
+rules_closure_dependencies(
     omit_aopalliance = True,
     omit_args4j = True,
     omit_bazel_skylib = True,
     omit_javax_inject = True,
     omit_rules_cc = True,
 )
+
+rules_closure_toolchains()
 
 # This has to be done after loading of rules_closure, because it loads rules_java
 load("//lib/codemirror:cm.bzl", "CM_VERSION", "DIFF_MATCH_PATCH_VERSION")

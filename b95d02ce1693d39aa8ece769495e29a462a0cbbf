@@ -134,6 +134,30 @@
     },
     {
       "key": {
+        "uuid": "47957f4d_b0921f36",
+        "filename": "polygerrit-ui/app/elements/diff/gr-patch-range-select/gr-patch-range-select.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-08T12:02:14Z",
+      "side": 1,
+      "message": "What is the use case where sha is not provided? Was this also handled in GWT UI? If sha1 is always there why would we handle it as would it be optional?",
+      "parentUuid": "d55f0ce8_5f139765",
+      "range": {
+        "startLine": 134,
+        "startChar": 20,
+        "endLine": 134,
+        "endChar": 69
+      },
+      "revId": "b95d02ce1693d39aa8ece769495e29a462a0cbbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8de8c9e2_3af68775",
         "filename": "polygerrit-ui/app/elements/diff/gr-patch-range-select/gr-patch-range-select.js",
         "patchSetId": 3

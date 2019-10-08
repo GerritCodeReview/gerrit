@@ -12,6 +12,12 @@
       "created": "2019-10-08T11:24:08Z",
       "updated": "2019-10-08T11:24:08Z"
     },
+    "gerritforge:polygerrit-a6a0e4682515f3521897c5f950d1394f4619d928": {
+      "state": "SUCCESSFUL",
+      "url": "https://gerrit-ci.gerritforge.com/job/Gerrit-verifier-bazel/73011/consoleText",
+      "created": "2019-10-08T11:24:09Z",
+      "updated": "2019-10-08T11:24:09Z"
+    },
     "gerritforge:reviewdb-a6a0e4682515f3521897c5f950d1394f4619d928": {
       "state": "SUCCESSFUL",
       "url": "https://gerrit-ci.gerritforge.com/job/Gerrit-verifier-bazel/73012/consoleText",

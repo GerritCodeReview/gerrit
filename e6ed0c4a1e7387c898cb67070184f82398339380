@@ -34,6 +34,24 @@
       "revId": "e6ed0c4a1e7387c898cb67070184f82398339380",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "611ed7b9_7077bd53",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-10-08T06:38:37Z",
+      "side": 0,
+      "message": "Okay, since there are no tests, let\u0027s hope it\u0027s not used.",
+      "parentUuid": "bddea925_d473ac30",
+      "revId": "e6ed0c4a1e7387c898cb67070184f82398339380",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

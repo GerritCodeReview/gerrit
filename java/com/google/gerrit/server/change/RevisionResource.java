@@ -25,6 +25,9 @@ import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.edit.ChangeEdit;
+import com.google.gerrit.server.logging.Metadata;
+import com.google.gerrit.server.logging.TraceContext;
+import com.google.gerrit.server.logging.TraceContext.TraceTimer;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.inject.TypeLiteral;
@@ -89,9 +92,18 @@ public class RevisionResource implements RestResource, HasETag {
 
   @Override
   public String getETag() {
-    Hasher h = Hashing.murmur3_128().newHasher();
-    prepareETag(h, getUser());
-    return h.hash().toString();
+    try (TraceTimer ignored =
+        TraceContext.newTimer(
+            "Compute revision ETag",
+            Metadata.builder()
+                .changeId(change.getId().get())
+                .patchSetId(ps.number())
+                .projectName(change.getProject().get())
+                .build())) {
+      Hasher h = Hashing.murmur3_128().newHasher();
+      prepareETag(h, getUser());
+      return h.hash().toString();
+    }
   }
 
   public void prepareETag(Hasher h, CurrentUser user) {

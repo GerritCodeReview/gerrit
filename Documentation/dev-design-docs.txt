@@ -85,6 +85,13 @@ contribute designs without having resources to do the implementation,
 but in this case the implementation is only done if someone volunteers
 to do it (which is not guaranteed to happen).
 
+Only very few maintainers actively watch out for uploaded design docs.
+To raise awareness you may want to send a notification to the
+link:https://groups.google.com/d/forum/repo-discuss[repo-discuss]
+mailing list about your uploaded design doc. But the discussion should
+not take place on the mailing list, comments should be made by reviewing
+the change in Gerrit.
+
 [[review]]
 == Design doc review
 

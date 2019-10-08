@@ -83,6 +83,13 @@ public class CreateChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void createEmptyChange_NonExistingBranch() throws Exception {
+    ChangeInput ci = newChangeInput(ChangeStatus.NEW);
+    ci.branch = "non-existing";
+    assertCreateFails(ci, BadRequestException.class, "Destination branch does not exist");
+  }
+
+  @Test
   public void createEmptyChange_MissingMessage() throws Exception {
     ChangeInput ci = new ChangeInput();
     ci.project = project.get();

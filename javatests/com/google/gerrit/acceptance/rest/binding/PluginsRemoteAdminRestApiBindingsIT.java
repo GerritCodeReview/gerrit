@@ -18,9 +18,9 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.rest.util.RestApiCallHelper;
 import com.google.gerrit.acceptance.rest.util.RestCall;
+import com.google.gerrit.acceptance.testsuite.config.GerritConfig;
 import com.google.gerrit.common.RawInputUtil;
 import com.google.gerrit.extensions.api.plugins.InstallPluginInput;
 import com.google.gerrit.extensions.restapi.RawInput;

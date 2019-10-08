@@ -18,9 +18,9 @@ import static com.google.common.truth.Truth.assertThat;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.UseSsh;
+import com.google.gerrit.acceptance.testsuite.config.GerritConfig;
 import com.google.gerrit.common.RawInputUtil;
 import com.google.gerrit.extensions.api.plugins.InstallPluginInput;
 import com.google.gerrit.extensions.client.AccountFieldName;

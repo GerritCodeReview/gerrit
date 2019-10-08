@@ -19,11 +19,11 @@ import static com.google.common.truth.Truth.assertWithMessage;
 
 import com.google.common.base.Splitter;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.PushOneCommit.Result;
 import com.google.gerrit.acceptance.UseSsh;
+import com.google.gerrit.acceptance.testsuite.config.GerritConfig;
 import com.google.gerrit.git.ObjectIds;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;

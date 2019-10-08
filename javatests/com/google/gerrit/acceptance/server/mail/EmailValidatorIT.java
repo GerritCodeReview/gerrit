@@ -19,7 +19,7 @@ import static com.google.common.truth.Truth.assertWithMessage;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.GerritConfig;
+import com.google.gerrit.acceptance.testsuite.config.GerritConfig;
 import com.google.gerrit.server.mail.send.OutgoingEmailValidator;
 import com.google.inject.Inject;
 import java.io.BufferedReader;

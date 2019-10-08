@@ -194,8 +194,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Queue;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.stream.Collectors;
@@ -358,7 +360,7 @@ class ReceiveCommits {
 
   // Collections populated during processing.
   private final List<UpdateGroupsRequest> updateGroups;
-  private final List<ValidationMessage> messages;
+  private final Queue<ValidationMessage> messages;
   /** Multimap of error text to refnames that produced that error. */
   private final ListMultimap<String, String> errors;
 
@@ -485,7 +487,7 @@ class ReceiveCommits {
 
     // Collections populated during processing.
     errors = MultimapBuilder.linkedHashKeys().arrayListValues().build();
-    messages = new ArrayList<>();
+    messages = new ConcurrentLinkedQueue<>();
     pushOptions = LinkedListMultimap.create();
     replaceByChange = new LinkedHashMap<>();
     updateGroups = new ArrayList<>();

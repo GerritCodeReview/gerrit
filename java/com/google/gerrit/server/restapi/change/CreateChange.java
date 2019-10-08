@@ -363,7 +363,12 @@ public class CreateChange
       }
 
       RevCommit parentRevCommit = revWalk.parseCommit(parentCommit);
+
+      if (destRef == null) {
+        throw new BadRequestException("Destination branch does not exist");
+      }
       RevCommit destRefRevCommit = revWalk.parseCommit(destRef.getObjectId());
+
       if (!revWalk.isMergedInto(parentRevCommit, destRefRevCommit)) {
         throw new BadRequestException(
             String.format("Commit %s doesn't exist on ref %s", baseCommit, inputBranch));

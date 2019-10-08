@@ -85,6 +85,76 @@
       "revId": "f47140006824f643d5e39c18d9390a8be8b1d640",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f76f0975_6ac08d63",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 24
+      },
+      "lineNbr": 908,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-08T06:39:39Z",
+      "side": 1,
+      "message": "\u003e Should the parent value be derived from patchRange somehow?\n\nNo, it is unrelated to the patch set. Let me clarify this. The used REST endpoint is more generic, and supports retrieval of arbitrary parent commits, sing ?parent\u003dn notation. The relevant code in FileContentUtil#downloadContent() method, along these lines:\n\n  if (parent !\u003d null \u0026\u0026 parent \u003e 0) {\n        if (commit.getParentCount() \u003d\u003d 1) {\n          suffix \u003d \"old\";\n        } else {\n          suffix \u003d \"old\" + parent;\n        }\n        commit \u003d rw.parseCommit(commit.getParent(parent - 1));\n      }\n\nThe pare: commit.getParent(parent - 1) is doing just that.\n\nIn addition, the parent is used to derive the download file name. So if parent\u003d1 is passed, then the name of READMDE.md.zip file will be changed to: README_old.md.zip.\n\nHowever, in this specific use we don\u0027t use any arbitrary parents, but onls one specific: parent of this change, that is accessed with parent\u003d1, to retrieve the files from the left side.\n\nTo access the files from the right side, from this change, we don\u0027t need the parent at all. If we pass parent\u003d0, for the code simplicity reasons, then this parameter is dropped on the server side see, because of this part in the if statement above: if (parent !\u003d null \u0026\u0026 parent \u003e 0) { ... part.\n\nBut see also my comment below, for alternative suggestion.",
+      "parentUuid": "55f5f252_f41731bf",
+      "range": {
+        "startLine": 908,
+        "startChar": 60,
+        "endLine": 908,
+        "endChar": 61
+      },
+      "revId": "f47140006824f643d5e39c18d9390a8be8b1d640",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "902c8be2_6eb18887",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 24
+      },
+      "lineNbr": 919,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-08T06:39:39Z",
+      "side": 1,
+      "message": "// We pass 0 here to indicate this patch set commit.\n// This is done for code simplicity reasons only.\n// It is not needed and will be ignored on the server side.",
+      "range": {
+        "startLine": 917,
+        "startChar": 14,
+        "endLine": 919,
+        "endChar": 32
+      },
+      "revId": "f47140006824f643d5e39c18d9390a8be8b1d640",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dd170658_c47998de",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 24
+      },
+      "lineNbr": 932,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-08T06:39:39Z",
+      "side": 1,
+      "message": "Of course, parent can be left out for parent \u003d 0. Would it be more clear:\n\n  let url \u003d this.changeBaseURL(project, changeNum, patchRange.patchNum) +\n          `/files/${encodeURIComponent(path)}/download`;\n  if (parent \u003d\u003d\u003d 1) {\n    url +\u003d `?parent\u003d${parent}`;\n  }\n  return url;\n\n? Of course parent can be change to be boolean, and only pass true for parent 1 case, then the of above can be simplified:\n\n  let url \u003d [...]\n  if (parent) {\n    url +\u003d \u0027?parent\u003d1\u0027;\n  }\n  return url;",
+      "range": {
+        "startLine": 931,
+        "startChar": 6,
+        "endLine": 932,
+        "endChar": 73
+      },
+      "revId": "f47140006824f643d5e39c18d9390a8be8b1d640",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

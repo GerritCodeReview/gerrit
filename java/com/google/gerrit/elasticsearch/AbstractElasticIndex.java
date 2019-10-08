@@ -297,7 +297,7 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
   }
 
   protected String getSearch(SearchSourceBuilder searchSource, JsonArray sortArray) {
-    JsonObject search = new JsonParser().parse(searchSource.toString()).getAsJsonObject();
+    JsonObject search = JsonParser.parseString(searchSource.toString()).getAsJsonObject();
     search.add("sort", sortArray);
     return gson.toJson(search);
   }
@@ -405,7 +405,7 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
         if (statusLine.getStatusCode() == HttpStatus.SC_OK) {
           String content = getContent(response);
           JsonObject obj =
-              new JsonParser().parse(content).getAsJsonObject().getAsJsonObject("hits");
+              JsonParser.parseString(content).getAsJsonObject().getAsJsonObject("hits");
           if (obj.get("hits") != null) {
             JsonArray json = obj.getAsJsonArray("hits");
             ImmutableList.Builder<T> results = ImmutableList.builderWithExpectedSize(json.size());

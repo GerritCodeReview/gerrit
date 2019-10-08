@@ -112,8 +112,7 @@ class ElasticRestClientProvider implements Provider<RestClient>, LifecycleListen
         throw new FailedToGetVersion(statusLine);
       }
       String version =
-          new JsonParser()
-              .parse(AbstractElasticIndex.getContent(response))
+          JsonParser.parseString(AbstractElasticIndex.getContent(response))
               .getAsJsonObject()
               .get("version")
               .getAsJsonObject()

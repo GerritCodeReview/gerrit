@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "48b10e60_e9b6ffd6",
+        "filename": "java/com/google/gerrit/server/AssigneeStatusUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-10-08T16:06:03Z",
+      "side": 1,
+      "message": "Discussed with Marian, current situation is better.",
+      "parentUuid": "6d28b48b_57d214ef",
+      "revId": "9daef4a7a07eafe406856b53c555a9215d5c343b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "133827e5_af1996b4",
         "filename": "java/com/google/gerrit/server/AssigneeStatusUpdate.java",
         "patchSetId": 3
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "17dc8380_3c182637",
+        "filename": "java/com/google/gerrit/server/AssigneeStatusUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-10-08T16:06:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "133827e5_af1996b4",
+      "revId": "9daef4a7a07eafe406856b53c555a9215d5c343b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "55476eae_b91912f3",
         "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
         "patchSetId": 3
@@ -50,6 +86,24 @@
       "revId": "9daef4a7a07eafe406856b53c555a9215d5c343b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "158f9244_d6991703",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 575,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-10-08T16:06:03Z",
+      "side": 1,
+      "message": "Sure, I removed Assignee and pastAssigne from this class. Maybe it\u0027s a little better this way. ChangeNotesState is more complicated now, though.",
+      "parentUuid": "55476eae_b91912f3",
+      "revId": "9daef4a7a07eafe406856b53c555a9215d5c343b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -76,6 +130,30 @@
     },
     {
       "key": {
+        "uuid": "0b8e0017_166b3eb7",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 599,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-10-08T16:06:03Z",
+      "side": 1,
+      "message": "Since we\u0027re staying with the current AssigneeStatusUpdate implementation, I guess it\u0027s best to keep it the way it is implemented now.",
+      "parentUuid": "caf26759_16f37b0d",
+      "range": {
+        "startLine": 590,
+        "startChar": 6,
+        "endLine": 599,
+        "endChar": 7
+      },
+      "revId": "9daef4a7a07eafe406856b53c555a9215d5c343b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "547dee51_0d830bcf",
         "filename": "java/com/google/gerrit/server/notedb/ChangeNotesState.java",
         "patchSetId": 3
@@ -93,6 +171,24 @@
     },
     {
       "key": {
+        "uuid": "d577a45e_a938411a",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesState.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-10-08T16:06:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "547dee51_0d830bcf",
+      "revId": "9daef4a7a07eafe406856b53c555a9215d5c343b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e2ddba63_8c2f0b07",
         "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
         "patchSetId": 3
@@ -107,6 +203,24 @@
       "revId": "9daef4a7a07eafe406856b53c555a9215d5c343b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "04aeb1dc_03e9eeb2",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 735,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-10-08T16:06:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e2ddba63_8c2f0b07",
+      "revId": "9daef4a7a07eafe406856b53c555a9215d5c343b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -133,6 +247,30 @@
     },
     {
       "key": {
+        "uuid": "c2d5eb6b_a8f9f1a4",
+        "filename": "proto/cache.proto",
+        "patchSetId": 3
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-10-08T16:06:03Z",
+      "side": 1,
+      "message": "23",
+      "parentUuid": "dfb3e3a8_43dec7a5",
+      "range": {
+        "startLine": 78,
+        "startChar": 12,
+        "endLine": 78,
+        "endChar": 14
+      },
+      "revId": "9daef4a7a07eafe406856b53c555a9215d5c343b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7e9ba494_1353c7b5",
         "filename": "proto/cache.proto",
         "patchSetId": 3
@@ -147,6 +285,24 @@
       "revId": "9daef4a7a07eafe406856b53c555a9215d5c343b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "638ca917_04256b45",
+        "filename": "proto/cache.proto",
+        "patchSetId": 3
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-10-08T16:06:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7e9ba494_1353c7b5",
+      "revId": "9daef4a7a07eafe406856b53c555a9215d5c343b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

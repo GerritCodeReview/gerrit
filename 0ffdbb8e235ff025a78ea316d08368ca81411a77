@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "d552cde2_07d9e482",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 27
+      },
+      "lineNbr": 906,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-08T12:19:50Z",
+      "side": 1,
+      "message": "Yes, of course, when I compare 3..4 and click on \"Left Content\", then I want to download patchset 3 content. :-)",
+      "parentUuid": "c1659c6b_3c2877fd",
+      "range": {
+        "startLine": 906,
+        "startChar": 60,
+        "endLine": 906,
+        "endChar": 64
+      },
+      "revId": "0ffdbb8e235ff025a78ea316d08368ca81411a77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f001b03e_60381dd3",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
         "patchSetId": 27

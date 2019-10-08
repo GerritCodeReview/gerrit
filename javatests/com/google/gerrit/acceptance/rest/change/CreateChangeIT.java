@@ -505,6 +505,15 @@ public class CreateChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void createChangeOnNonExistingBranch() throws Exception {
+    requestScopeOperations.setApiUser(user.id());
+    ChangeInput input = newChangeInput(ChangeStatus.NEW);
+    input.branch = "foo";
+    input.newBranch = true;
+    assertCreateSucceeds(input);
+  }
+
+  @Test
   public void createChangeOnNonExistingBranchNotPermitted() throws Exception {
     projectOperations
         .project(project)
@@ -519,6 +528,15 @@ public class CreateChangeIT extends AbstractDaemonTest {
     input.newBranch = true;
 
     assertCreateFails(input, ResourceNotFoundException.class, "ref refs/heads/foo not found");
+  }
+
+  @Test
+  public void createMergeChangeOnNonExistingBranchNotPossible() throws Exception {
+    requestScopeOperations.setApiUser(user.id());
+    ChangeInput input = newMergeChangeInput("foo", "master", "");
+    input.newBranch = true;
+    assertCreateFails(
+        input, BadRequestException.class, "Cannot create merge: destination branch does not exist");
   }
 
   @Test

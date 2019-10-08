@@ -17,7 +17,7 @@ package com.google.gerrit.acceptance.annotation;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.GerritConfig;
+import com.google.gerrit.acceptance.testsuite.config.GerritConfig;
 import org.junit.Test;
 
 public class UseGerritConfigAnnotationTest extends AbstractDaemonTest {

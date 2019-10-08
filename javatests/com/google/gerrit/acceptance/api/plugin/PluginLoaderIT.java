@@ -15,8 +15,8 @@
 package com.google.gerrit.acceptance.api.plugin;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.NoHttpd;
+import com.google.gerrit.acceptance.testsuite.config.GerritConfig;
 import com.google.gerrit.server.plugins.MissingMandatoryPluginsException;
 import org.junit.Test;
 import org.junit.runner.Description;

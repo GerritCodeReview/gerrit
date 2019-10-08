@@ -36,6 +36,9 @@ import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.logging.Metadata;
+import com.google.gerrit.server.logging.TraceContext;
+import com.google.gerrit.server.logging.TraceContext.TraceTimer;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
@@ -209,12 +212,20 @@ public class ChangeResource implements RestResource, HasETag {
 
   @Override
   public String getETag() {
-    Hasher h = Hashing.murmur3_128().newHasher();
-    if (user.isIdentifiedUser()) {
-      h.putString(starredChangesUtil.getObjectId(user.getAccountId(), getId()).name(), UTF_8);
+    try (TraceTimer ignored =
+        TraceContext.newTimer(
+            "Compute change ETag",
+            Metadata.builder()
+                .changeId(notes.getChangeId().get())
+                .projectName(notes.getProjectName().get())
+                .build())) {
+      Hasher h = Hashing.murmur3_128().newHasher();
+      if (user.isIdentifiedUser()) {
+        h.putString(starredChangesUtil.getObjectId(user.getAccountId(), getId()).name(), UTF_8);
+      }
+      prepareETag(h, user);
+      return h.hash().toString();
     }
-    prepareETag(h, user);
-    return h.hash().toString();
   }
 
   private void hashObjectId(Hasher h, ObjectId id, byte[] buf) {

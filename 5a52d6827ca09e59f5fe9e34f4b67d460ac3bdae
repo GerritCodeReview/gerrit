@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e2a4b4ef_9358037a",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-08T08:17:06Z",
+      "side": 1,
+      "message": "maybe have a note at the top of each file to mention that any change should be made to both themes\n\nand also the way we organize them (basically what you put in the commit msg), so whoever modified the theme will know what they need to do to make them in sync",
+      "revId": "5a52d6827ca09e59f5fe9e34f4b67d460ac3bdae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6b70f707_7e970bd3",
+        "filename": "polygerrit-ui/app/styles/themes/dark-theme.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-08T08:17:06Z",
+      "side": 1,
+      "message": "nit, new line to separate each section ? consistent with the app-theme :)",
+      "revId": "5a52d6827ca09e59f5fe9e34f4b67d460ac3bdae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3694f4d4_204e53fe",
+        "filename": "polygerrit-ui/app/styles/themes/dark-theme.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-08T08:17:06Z",
+      "side": 1,
+      "message": "--reply-overlay-z-index ? and i think dark theme is missing a few items here.\n\nmaybe better to keep them even when they are the same ? so dark theme and light theme will have exactly same and a complete set of rules.",
+      "revId": "5a52d6827ca09e59f5fe9e34f4b67d460ac3bdae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

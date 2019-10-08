@@ -145,7 +145,7 @@ public class ElasticQueryBuilder {
     String name = p.getField().getName();
     String value = p.getValue();
 
-    if (value.isEmpty()) {
+    if (!p.getField().isRepeatable() && value.isEmpty()) {
       return new BoolQueryBuilder().mustNot(QueryBuilders.existsQuery(name));
     } else if (p instanceof RegexPredicate) {
       if (value.startsWith("^")) {

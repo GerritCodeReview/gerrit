@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "96f31bf6_02426107",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 27
+      },
+      "lineNbr": 906,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-08T12:02:37Z",
+      "side": 1,
+      "message": "How do you know that the left file is a base file?\n\nFor both of these\n\n  c/gerrit/+/238862/3/BUILD\n  c/gerrit/+/238862/3..4/BUILD\n\nyou would generate this link for the left side, right?\n\n  changes/gerrit~238862/revisions/3/files/BUILD/download?parent\u003d1",
+      "range": {
+        "startLine": 906,
+        "startChar": 60,
+        "endLine": 906,
+        "endChar": 64
+      },
+      "revId": "0ffdbb8e235ff025a78ea316d08368ca81411a77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f001b03e_60381dd3",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 27
+      },
+      "lineNbr": 926,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-08T12:02:37Z",
+      "side": 1,
+      "message": "Would this have to be \"basePatchNum\" for the left side?",
+      "range": {
+        "startLine": 926,
+        "startChar": 66,
+        "endLine": 926,
+        "endChar": 74
+      },
+      "revId": "0ffdbb8e235ff025a78ea316d08368ca81411a77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7250f3c6_756a34df",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
         "patchSetId": 27

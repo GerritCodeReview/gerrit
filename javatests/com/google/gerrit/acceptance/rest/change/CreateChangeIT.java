@@ -486,6 +486,15 @@ public class CreateChangeIT extends AbstractDaemonTest {
     assertCreateFails(input, ResourceNotFoundException.class, "ref refs/heads/foo not found");
   }
 
+  @Test
+  public void createMergeChangeOnNonExistingBranchNotPossible() throws Exception {
+    requestScopeOperations.setApiUser(user.id());
+    ChangeInput input = newMergeChangeInput("foo", "master", "");
+    input.newBranch = true;
+    assertCreateFails(
+        input, BadRequestException.class, "Cannot create merge: destination branch does not exist");
+  }
+
   private ChangeInput newChangeInput(ChangeStatus status) {
     ChangeInput in = new ChangeInput();
     in.project = project.get();

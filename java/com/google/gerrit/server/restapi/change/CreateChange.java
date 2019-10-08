@@ -282,7 +282,8 @@ public class CreateChange
         groups = basePatchSet.getGroups();
       }
       ObjectId parentCommit =
-          getParentCommit(git, rw, input.branch, input.newBranch, basePatchSet, input.baseCommit);
+          getParentCommit(
+              git, rw, input.branch, input.newBranch, basePatchSet, input.baseCommit, input.merge);
 
       RevCommit mergeTip = parentCommit == null ? null : rw.parseCommit(parentCommit);
 
@@ -343,7 +344,8 @@ public class CreateChange
       String inputBranch,
       @Nullable Boolean newBranch,
       @Nullable PatchSet basePatchSet,
-      @Nullable String baseCommit)
+      @Nullable String baseCommit,
+      @Nullable MergeInput mergeInput)
       throws BadRequestException, IOException, UnprocessableEntityException,
           ResourceConflictException {
     if (basePatchSet != null) {
@@ -375,6 +377,9 @@ public class CreateChange
         parentCommit = destRef.getObjectId();
       } else {
         if (Boolean.TRUE.equals(newBranch)) {
+          if (mergeInput != null) {
+            throw new BadRequestException("Cannot create merge: destination branch does not exist");
+          }
           parentCommit = null;
         } else {
           throw new BadRequestException("Must provide a destination branch");

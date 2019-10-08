@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "83062380_8e290bc4",
+        "filename": "javatests/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 604,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-10-08T18:36:02Z",
+      "side": 1,
+      "message": "Ignore this, I forgot to remove it",
+      "range": {
+        "startLine": 604,
+        "startChar": 0,
+        "endLine": 604,
+        "endChar": 54
+      },
+      "revId": "a285ad5275fbf5b8fa88330e154d06ce94a9a1bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

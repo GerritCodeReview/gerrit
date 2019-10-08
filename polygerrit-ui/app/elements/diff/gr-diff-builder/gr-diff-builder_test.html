@@ -590,38 +590,38 @@ limitations under the License.
       });
     });
 
-    suite('layers', () => {
+    suite('layers from plugins', () => {
       let element;
       let initialLayersCount;
-      let withLayerCount;
+      let withPluginLayerCount;
       setup(() => {
-        const layers = [];
+        const pluginLayers = [];
         element = fixture('basic');
-        element.layers = layers;
+        element.pluginLayers = pluginLayers;
         element._showTrailingWhitespace = true;
         element._setupAnnotationLayers();
         initialLayersCount = element._layers.length;
       });
 
-      test('no layers', () => {
+      test('no plugin layers', () => {
         element._setupAnnotationLayers();
         assert.equal(element._layers.length, initialLayersCount);
       });
 
-      suite('with layers', () => {
-        const layers = [{}, {}];
+      suite('with plugin layers', () => {
+        const pluginLayers = [{}, {}];
         setup(() => {
           element = fixture('basic');
-          element.layers = layers;
+          element.pluginLayers = pluginLayers;
           element._showTrailingWhitespace = true;
           element._setupAnnotationLayers();
-          withLayerCount = element._layers.length;
+          withPluginLayerCount = element._layers.length;
         });
-        test('with layers', () => {
+        test('with plugin layers', () => {
           element._setupAnnotationLayers();
-          assert.equal(element._layers.length, withLayerCount);
-          assert.equal(initialLayersCount + layers.length,
-              withLayerCount);
+          assert.equal(element._layers.length, withPluginLayerCount);
+          assert.equal(initialLayersCount + pluginLayers.length,
+              withPluginLayerCount);
         });
       });
     });
@@ -733,6 +733,7 @@ limitations under the License.
         element.viewMode = 'SIDE_BY_SIDE';
         processStub = sandbox.stub(element.$.processor, 'process')
             .returns(Promise.resolve());
+        sandbox.stub(element, '_anyLineTooLong').returns(true);
         keyLocations = {left: {}, right: {}};
         prefs = {
           line_length: 10,
@@ -861,14 +862,37 @@ limitations under the License.
               .map(c => { return c.args[0].type; });
           assert.include(firedEventTypes, 'render-start');
           assert.include(firedEventTypes, 'render-content');
+          assert.include(firedEventTypes, 'render-syntax');
+          done();
+        });
+      });
+
+      test('rendering normal-sized diff does not disable syntax', () => {
+        assert.isTrue(element.$.syntaxLayer.enabled);
+      });
+
+      test('rendering large diff disables syntax', done => {
+        // Before it renders, set the first diff line to 500 '*' characters.
+        element.diff.content[0].a = [new Array(501).join('*')];
+        const prefs = {
+          line_length: 10,
+          show_tabs: true,
+          tab_size: 4,
+          context: -1,
+          syntax_highlighting: true,
+        };
+        element.render(keyLocations, prefs).then(() => {
+          assert.isFalse(element.$.syntaxLayer.enabled);
           done();
         });
       });
 
       test('cancel', () => {
         const processorCancelStub = sandbox.stub(element.$.processor, 'cancel');
+        const syntaxCancelStub = sandbox.stub(element.$.syntaxLayer, 'cancel');
         element.cancel();
         assert.isTrue(processorCancelStub.called);
+        assert.isTrue(syntaxCancelStub.called);
       });
     });
 
@@ -895,6 +919,10 @@ limitations under the License.
           builder = element._builder;
           done();
         });
+      });
+
+      test('getDiffLength', () => {
+        assert.equal(element.getDiffLength(diff), 52);
       });
 
       test('getContentByLine', () => {

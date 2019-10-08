@@ -17,8 +17,8 @@ package com.google.gerrit.acceptance.annotation;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.GlobalPluginConfig;
 import com.google.gerrit.acceptance.UseLocalDisk;
+import com.google.gerrit.acceptance.testsuite.config.GlobalPluginConfig;
 import org.eclipse.jgit.lib.Config;
 import org.junit.Test;
 

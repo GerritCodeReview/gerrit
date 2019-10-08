@@ -21,9 +21,9 @@ import static org.apache.http.HttpStatus.SC_METHOD_NOT_ALLOWED;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.UseSsh;
 import com.google.gerrit.acceptance.rest.util.RestCall;
+import com.google.gerrit.acceptance.testsuite.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.gpg.testing.TestKey;

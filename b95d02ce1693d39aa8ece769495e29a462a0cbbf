@@ -1,0 +1,159 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "79649f8a_75e3c6e4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-08T11:38:40Z",
+      "side": 1,
+      "message": "Feature|Bug: Issue 8513 is missing here.",
+      "revId": "b95d02ce1693d39aa8ece769495e29a462a0cbbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f140468_43f8e635",
+        "filename": "polygerrit-ui/app/.eslintrc.json",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-08T11:38:40Z",
+      "side": 1,
+      "message": "How is this addition related to this change?",
+      "range": {
+        "startLine": 31,
+        "startChar": 4,
+        "endLine": 31,
+        "endChar": 35
+      },
+      "revId": "b95d02ce1693d39aa8ece769495e29a462a0cbbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8a274a2d_398a6a1b",
+        "filename": "polygerrit-ui/app/behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-08T11:38:40Z",
+      "side": 1,
+      "message": "The JSDoc is stale now, as you are adding two properties below.",
+      "range": {
+        "startLine": 136,
+        "startChar": 9,
+        "endLine": 138,
+        "endChar": 77
+      },
+      "revId": "b95d02ce1693d39aa8ece769495e29a462a0cbbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "549219b1_3a510d77",
+        "filename": "polygerrit-ui/app/elements/diff/gr-patch-range-select/gr-patch-range-select.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-08T11:38:40Z",
+      "side": 1,
+      "message": "Not needed as you have already checked for existence of sha parameters in the _createDropdownEntry() method.",
+      "range": {
+        "startLine": 88,
+        "startChar": 46,
+        "endLine": 88,
+        "endChar": 48
+      },
+      "revId": "b95d02ce1693d39aa8ece769495e29a462a0cbbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8de8c9e2_3af68775",
+        "filename": "polygerrit-ui/app/elements/diff/gr-patch-range-select/gr-patch-range-select.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-08T11:38:40Z",
+      "side": 1,
+      "message": "opt_Sha1, as it is optional here.",
+      "range": {
+        "startLine": 146,
+        "startChar": 51,
+        "endLine": 146,
+        "endChar": 54
+      },
+      "revId": "b95d02ce1693d39aa8ece769495e29a462a0cbbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "62f5a398_f9fa5a12",
+        "filename": "polygerrit-ui/app/elements/diff/gr-patch-range-select/gr-patch-range-select.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-08T11:38:40Z",
+      "side": 1,
+      "message": "opt_Sha1, as it is optional here.",
+      "range": {
+        "startLine": 153,
+        "startChar": 8,
+        "endLine": 153,
+        "endChar": 11
+      },
+      "revId": "b95d02ce1693d39aa8ece769495e29a462a0cbbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "56eb54df_890a8218",
+        "filename": "polygerrit-ui/app/externs/plugin.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-08T11:38:40Z",
+      "side": 1,
+      "message": "Unrelated to this change and should be done in its own change with explanation why it is needed in the commit message?",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 33
+      },
+      "revId": "b95d02ce1693d39aa8ece769495e29a462a0cbbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2c791149_885bd05b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-10-08T12:47:32Z",
+      "side": 1,
+      "message": "Bug: Issue 11533\n\nSo it gets linked.",
+      "revId": "7df4a2cb1015080422b016df0c0d7a102b6de12a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

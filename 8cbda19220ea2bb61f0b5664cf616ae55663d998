@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "501e5481_e888514d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 25
+      },
+      "lineNbr": 928,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-10-08T10:11:56Z",
+      "side": 1,
+      "message": "thanks, done.",
+      "parentUuid": "97032805_a97a010d",
+      "range": {
+        "startLine": 928,
+        "startChar": 67,
+        "endLine": 928,
+        "endChar": 73
+      },
+      "revId": "8cbda19220ea2bb61f0b5664cf616ae55663d998",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "44036544_0f15faf1",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
         "patchSetId": 25
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "1f5a72a0_ade3ee8d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 25
+      },
+      "lineNbr": 930,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-10-08T10:11:56Z",
+      "side": 1,
+      "message": "thanks, done.",
+      "parentUuid": "44036544_0f15faf1",
+      "range": {
+        "startLine": 930,
+        "startChar": 54,
+        "endLine": 930,
+        "endChar": 71
+      },
+      "revId": "8cbda19220ea2bb61f0b5664cf616ae55663d998",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d873ef73_5fb786dc",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
         "patchSetId": 25
@@ -68,6 +116,30 @@
       "revId": "8cbda19220ea2bb61f0b5664cf616ae55663d998",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1cb9ff4e_3d366dea",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 25
+      },
+      "lineNbr": 933,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-10-08T10:11:56Z",
+      "side": 1,
+      "message": "thanks, done.",
+      "parentUuid": "d873ef73_5fb786dc",
+      "range": {
+        "startLine": 933,
+        "startChar": 24,
+        "endLine": 933,
+        "endChar": 33
+      },
+      "revId": "8cbda19220ea2bb61f0b5664cf616ae55663d998",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

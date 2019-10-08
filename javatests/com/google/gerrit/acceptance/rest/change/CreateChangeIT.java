@@ -465,6 +465,15 @@ public class CreateChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void createChangeOnNonExistingBranch() throws Exception {
+    requestScopeOperations.setApiUser(user.id());
+    ChangeInput input = newChangeInput(ChangeStatus.NEW);
+    input.branch = "foo";
+    input.newBranch = true;
+    assertCreateSucceeds(input);
+  }
+
+  @Test
   public void createChangeOnNonExistingBranchNotPermitted() throws Exception {
     blockRead("refs/heads/*");
     requestScopeOperations.setApiUser(user.id());

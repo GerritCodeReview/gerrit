@@ -459,35 +459,6 @@ Gerrit.install(function(self)) {
 });
 ----
 
-[[Gerrit_getCurrentUser]]
-=== Gerrit.getCurrentUser()
-Returns the currently signed in user's AccountInfo data; empty account
-data if no user is currently signed in.
-
-[[Gerrit_getPluginName]]
-=== Gerrit.getPluginName()
-Returns the name this plugin was installed as by the server
-administrator. The plugin name is required to access REST API
-views installed by the plugin, or to access resources.
-
-Unlike link:#self_getPluginName[`self.getPluginName()`] this method
-must guess the name from the JavaScript call stack. Plugins are
-encouraged to use `self.getPluginName()` whenever possible.
-
-[[Gerrit_go]]
-=== Gerrit.go()
-Updates the web UI to display the screen identified by the supplied
-URL token. The URL token is the text after `#` in the browser URL.
-
-[source,javascript]
-----
-Gerrit.go('/admin/projects/');
-----
-
-If the URL passed matches `http://...`, `https://...`, or `//...`
-the current browser window will navigate to the non-Gerrit URL.
-The user can return to Gerrit with the back button.
-
 [[Gerrit_install]]
 === Gerrit.install()
 Registers a new plugin by invoking the supplied initialization

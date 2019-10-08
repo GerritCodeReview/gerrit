@@ -506,11 +506,6 @@
     };
   }
 
-  Gerrit.getPluginName = function() {
-    console.warn('Gerrit.getPluginName is not supported in PolyGerrit.',
-        'Please use plugin.getPluginName() instead.');
-  };
-
   /**
    * @deprecated Use plugin.styles().css(rulesStr) instead. Please, consult
    * the documentation how to replace it accordingly.

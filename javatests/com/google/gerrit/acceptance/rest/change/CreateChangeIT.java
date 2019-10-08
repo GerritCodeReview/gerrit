@@ -278,6 +278,16 @@ public class CreateChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void createChangeWithNonExistingParentCommitFails() throws Exception {
+    ChangeInput input = newChangeInput(ChangeStatus.NEW);
+    input.baseCommit = "deadbeefdeadbeefdeadbeefdeadbeefdeadbeef";
+    assertCreateFails(
+        input,
+        UnprocessableEntityException.class,
+        String.format("Base %s doesn't exist", input.baseCommit));
+  }
+
+  @Test
   public void createChangeWithParentCommitOnWrongBranchFails() throws Exception {
     Map<String, PushOneCommit.Result> setup =
         changeInTwoBranches("foo", "foo.txt", "bar", "bar.txt");

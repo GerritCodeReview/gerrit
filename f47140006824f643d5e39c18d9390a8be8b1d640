@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2cbcf774_7f661e3f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.js",
+        "patchSetId": 24
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-08T05:19:30Z",
+      "side": 1,
+      "message": "Add a comment that this is a DiffInfo API object.",
+      "revId": "f47140006824f643d5e39c18d9390a8be8b1d640",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "30ae87fa_b042f3f5",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 24
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-08T05:19:30Z",
+      "side": 1,
+      "message": "fix formatting",
+      "range": {
+        "startLine": 87,
+        "startChar": 6,
+        "endLine": 89,
+        "endChar": 11
+      },
+      "revId": "f47140006824f643d5e39c18d9390a8be8b1d640",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6c5cefcf_50cd6a09",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 24
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-08T05:19:30Z",
+      "side": 1,
+      "message": "Add a comment that this is retrieved and owned by a child component.",
+      "range": {
+        "startLine": 90,
+        "startChar": 6,
+        "endLine": 90,
+        "endChar": 11
+      },
+      "revId": "f47140006824f643d5e39c18d9390a8be8b1d640",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "55f5f252_f41731bf",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 24
+      },
+      "lineNbr": 908,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-08T05:19:30Z",
+      "side": 1,
+      "message": "Looking at _computeDownloadFileLink below and the API docs at https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#get-safe-content, I am confused why a constant for the \"parent\" parameter would work.\n\nCan\u0027t you also have a patchset on the left side and you have to use 0 then as a parent?\n\nAnd why \"2\"?\n\nShould the parent value be derived from patchRange somehow?",
+      "range": {
+        "startLine": 908,
+        "startChar": 60,
+        "endLine": 908,
+        "endChar": 61
+      },
+      "revId": "f47140006824f643d5e39c18d9390a8be8b1d640",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

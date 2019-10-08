@@ -1,4 +1,4 @@
-// Copyright (C) 2017 The Android Open Source Project
+// Copyright (C) 2013 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,28 +12,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.acceptance;
+package com.google.gerrit.acceptance.testsuite.config;
 
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-import java.lang.annotation.Repeatable;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 @Target({METHOD})
 @Retention(RUNTIME)
-@Repeatable(GlobalPluginConfigs.class)
-public @interface GlobalPluginConfig {
-  /** Name of the plugin, corresponding to {@code $site/etc/@pluginName.config}. */
-  String pluginName();
-
-  /** @see GerritConfig#name() */
-  String name();
-
-  /** @see GerritConfig#value() */
-  String value() default "";
-
-  /** @see GerritConfig#values() */
-  String[] values() default "";
+public @interface GerritConfigs {
+  GerritConfig[] value();
 }

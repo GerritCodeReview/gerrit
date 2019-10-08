@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.acceptance;
+package com.google.gerrit.acceptance.testsuite.config;
 
 import com.google.auto.value.AutoAnnotation;
 import com.google.common.base.Splitter;
@@ -24,10 +24,10 @@ import java.util.HashMap;
 import java.util.Map;
 import org.eclipse.jgit.lib.Config;
 
-class ConfigAnnotationParser {
+public class ConfigAnnotationParser {
   private static Splitter splitter = Splitter.on(".").trimResults();
 
-  static Config parse(Config base, GerritConfigs annotation) {
+  public static Config parse(Config base, GerritConfigs annotation) {
     if (annotation == null) {
       return null;
     }
@@ -39,33 +39,13 @@ class ConfigAnnotationParser {
     return cfg;
   }
 
-  static Config parse(Config base, GerritConfig annotation) {
+  public static Config parse(Config base, GerritConfig annotation) {
     Config cfg = new Config(base);
     parseAnnotation(cfg, annotation);
     return cfg;
   }
 
-  private static GerritConfig toGerritConfig(GlobalPluginConfig annotation) {
-    return newGerritConfig(annotation.name(), annotation.value(), annotation.values());
-  }
-
-  @AutoAnnotation
-  private static GerritConfig newGerritConfig(String name, String value, String[] values) {
-    return new AutoAnnotation_ConfigAnnotationParser_newGerritConfig(name, value, values);
-  }
-
-  static Map<String, Config> parse(GlobalPluginConfig annotation) {
-    if (annotation == null) {
-      return null;
-    }
-    Map<String, Config> result = new HashMap<>();
-    Config cfg = new Config();
-    parseAnnotation(cfg, toGerritConfig(annotation));
-    result.put(annotation.pluginName(), cfg);
-    return result;
-  }
-
-  static Map<String, Config> parse(GlobalPluginConfigs annotation) {
+  public static Map<String, Config> parse(GlobalPluginConfigs annotation) {
     if (annotation == null || annotation.value().length < 1) {
       return null;
     }
@@ -85,6 +65,26 @@ class ConfigAnnotationParser {
     }
 
     return result;
+  }
+
+  public static Map<String, Config> parse(GlobalPluginConfig annotation) {
+    if (annotation == null) {
+      return null;
+    }
+    Map<String, Config> result = new HashMap<>();
+    Config cfg = new Config();
+    parseAnnotation(cfg, toGerritConfig(annotation));
+    result.put(annotation.pluginName(), cfg);
+    return result;
+  }
+
+  private static GerritConfig toGerritConfig(GlobalPluginConfig annotation) {
+    return newGerritConfig(annotation.name(), annotation.value(), annotation.values());
+  }
+
+  @AutoAnnotation
+  private static GerritConfig newGerritConfig(String name, String value, String[] values) {
+    return new AutoAnnotation_ConfigAnnotationParser_newGerritConfig(name, value, values);
   }
 
   private static void parseAnnotation(Config cfg, GerritConfig c) {

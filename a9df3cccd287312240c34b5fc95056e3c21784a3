@@ -2,6 +2,75 @@
   "comments": [
     {
       "key": {
+        "uuid": "277b9e80_d808e450",
+        "filename": "polygerrit-ui/app/behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-08T13:29:21Z",
+      "side": 1,
+      "message": "Nit: trailing space.",
+      "range": {
+        "startLine": 140,
+        "startChar": 52,
+        "endLine": 140,
+        "endChar": 53
+      },
+      "revId": "a9df3cccd287312240c34b5fc95056e3c21784a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bfe67ae5_73bc996a",
+        "filename": "polygerrit-ui/app/behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-08T13:29:21Z",
+      "side": 1,
+      "message": "Again, I\u0027m not aware of a commit in Git without SHA1, so that in its nature it cannot be optional. The only theorethical case is that sha1 is not available on the client side, but then it is a bug in REST endpoint, so that client can fail ASAP.",
+      "range": {
+        "startLine": 140,
+        "startChar": 25,
+        "endLine": 140,
+        "endChar": 34
+      },
+      "revId": "a9df3cccd287312240c34b5fc95056e3c21784a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "45935d3f_0b996b20",
+        "filename": "polygerrit-ui/app/elements/diff/gr-patch-range-select/gr-patch-range-select.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-08T13:29:21Z",
+      "side": 1,
+      "message": "How we avoid passing parameter to the optional in other cases and style check is happy? Should you add a JSDoc to state, that this parameter optional? Can you do it instead of passing \u0027\u0027?",
+      "range": {
+        "startLine": 88,
+        "startChar": 46,
+        "endLine": 88,
+        "endChar": 47
+      },
+      "revId": "a9df3cccd287312240c34b5fc95056e3c21784a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c3dc4f80_d7626f34",
         "filename": "polygerrit-ui/app/elements/diff/gr-patch-range-select/gr-patch-range-select.js",
         "patchSetId": 5

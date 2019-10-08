@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "449e655f_855ee7a6",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-08T08:29:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e2a4b4ef_9358037a",
+      "revId": "5a52d6827ca09e59f5fe9e34f4b67d460ac3bdae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6b70f707_7e970bd3",
         "filename": "polygerrit-ui/app/styles/themes/dark-theme.html",
         "patchSetId": 1
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "be3fd353_b7251a7d",
+        "filename": "polygerrit-ui/app/styles/themes/dark-theme.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-08T08:29:06Z",
+      "side": 1,
+      "message": "This is not a section title and is consistent with app-theme. :-)",
+      "parentUuid": "6b70f707_7e970bd3",
+      "revId": "5a52d6827ca09e59f5fe9e34f4b67d460ac3bdae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3694f4d4_204e53fe",
         "filename": "polygerrit-ui/app/styles/themes/dark-theme.html",
         "patchSetId": 1
@@ -47,6 +83,24 @@
       "writtenOn": "2019-10-08T08:17:06Z",
       "side": 1,
       "message": "--reply-overlay-z-index ? and i think dark theme is missing a few items here.\n\nmaybe better to keep them even when they are the same ? so dark theme and light theme will have exactly same and a complete set of rules.",
+      "revId": "5a52d6827ca09e59f5fe9e34f4b67d460ac3bdae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "89f38d18_99e63817",
+        "filename": "polygerrit-ui/app/styles/themes/dark-theme.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-08T08:29:06Z",
+      "side": 1,
+      "message": "From the commit message: \"Make sure dark theme only changes colors.\"\n\nI am am somewhat torn between \"simply repeat all vars\" and \"strictly colors only\". Do you have a strong opinion?",
+      "parentUuid": "3694f4d4_204e53fe",
       "revId": "5a52d6827ca09e59f5fe9e34f4b67d460ac3bdae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "9c2fd4f9_a687b7a6",
+        "filename": "polygerrit-ui/app/styles/themes/dark-theme.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-08T12:00:34Z",
+      "side": 1,
+      "message": "ah my bad, in app-theme, it has an empty line caused by the diff...",
+      "parentUuid": "be3fd353_b7251a7d",
+      "revId": "5a52d6827ca09e59f5fe9e34f4b67d460ac3bdae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3694f4d4_204e53fe",
         "filename": "polygerrit-ui/app/styles/themes/dark-theme.html",
         "patchSetId": 1
@@ -101,6 +119,24 @@
       "side": 1,
       "message": "From the commit message: \"Make sure dark theme only changes colors.\"\n\nI am am somewhat torn between \"simply repeat all vars\" and \"strictly colors only\". Do you have a strong opinion?",
       "parentUuid": "3694f4d4_204e53fe",
+      "revId": "5a52d6827ca09e59f5fe9e34f4b67d460ac3bdae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c6c0328c_35a06016",
+        "filename": "polygerrit-ui/app/styles/themes/dark-theme.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-08T12:00:34Z",
+      "side": 1,
+      "message": "hmm i missed that message somehow.\n\nI think if we treat the app-theme as light theme instead of base theme, it maybe better to have complete sets of rules for all themes. Otherwise, it\u0027s fine to just modify what you want to override in your theme. Its like extending from a base class. (Maybe also mention it in the dark theme that it\u0027s extending the app-theme so it will be easier to understand ?)",
+      "parentUuid": "89f38d18_99e63817",
       "revId": "5a52d6827ca09e59f5fe9e34f4b67d460ac3bdae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

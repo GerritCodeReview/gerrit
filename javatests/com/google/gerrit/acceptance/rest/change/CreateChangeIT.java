@@ -291,6 +291,20 @@ public class CreateChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void createChangeWithParentCommitWithNonExistingTargetBranch() throws Exception {
+    Result initialCommit =
+        pushFactory
+            .create(user.newIdent(), testRepo, "initial commit", "readme.txt", "initial commit")
+            .to("refs/heads/master");
+    initialCommit.assertOkStatus();
+
+    ChangeInput input = newChangeInput(ChangeStatus.NEW);
+    input.branch = "non-existing";
+    input.baseCommit = initialCommit.getCommit().getName();
+    assertCreateFails(input, BadRequestException.class, "Destination branch does not exist");
+  }
+
+  @Test
   public void createChangeOnNonExistingBaseChangeFails() throws Exception {
     ChangeInput input = newChangeInput(ChangeStatus.NEW);
     input.baseChange = "999999";

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "20b01acd_5a2101c3",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.js",
+        "patchSetId": 24
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-10-08T07:40:18Z",
+      "side": 1,
+      "message": "thanks, done.",
+      "parentUuid": "2cbcf774_7f661e3f",
+      "revId": "f47140006824f643d5e39c18d9390a8be8b1d640",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "30ae87fa_b042f3f5",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
         "patchSetId": 24
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "395959ca_d82690b8",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 24
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-10-08T07:40:18Z",
+      "side": 1,
+      "message": "thanks, done.",
+      "parentUuid": "30ae87fa_b042f3f5",
+      "range": {
+        "startLine": 87,
+        "startChar": 6,
+        "endLine": 89,
+        "endChar": 11
+      },
+      "revId": "f47140006824f643d5e39c18d9390a8be8b1d640",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6c5cefcf_50cd6a09",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
         "patchSetId": 24
@@ -62,6 +104,30 @@
       "revId": "f47140006824f643d5e39c18d9390a8be8b1d640",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4bee7cdf_277b87eb",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 24
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-10-08T07:40:18Z",
+      "side": 1,
+      "message": "thanks, done.",
+      "parentUuid": "6c5cefcf_50cd6a09",
+      "range": {
+        "startLine": 90,
+        "startChar": 6,
+        "endLine": 90,
+        "endChar": 11
+      },
+      "revId": "f47140006824f643d5e39c18d9390a8be8b1d640",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -135,6 +201,30 @@
     },
     {
       "key": {
+        "uuid": "bf356d27_2e54600a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 24
+      },
+      "lineNbr": 919,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-10-08T07:40:18Z",
+      "side": 1,
+      "message": "I’ve changed so that it only adds parent if it’s 1.",
+      "parentUuid": "902c8be2_6eb18887",
+      "range": {
+        "startLine": 917,
+        "startChar": 14,
+        "endLine": 919,
+        "endChar": 32
+      },
+      "revId": "f47140006824f643d5e39c18d9390a8be8b1d640",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dd170658_c47998de",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
         "patchSetId": 24
@@ -155,6 +245,30 @@
       "revId": "f47140006824f643d5e39c18d9390a8be8b1d640",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5ee9345d_a1ee14fe",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 24
+      },
+      "lineNbr": 932,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-10-08T07:40:18Z",
+      "side": 1,
+      "message": "thanks, done!",
+      "parentUuid": "dd170658_c47998de",
+      "range": {
+        "startLine": 931,
+        "startChar": 6,
+        "endLine": 932,
+        "endChar": 73
+      },
+      "revId": "f47140006824f643d5e39c18d9390a8be8b1d640",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

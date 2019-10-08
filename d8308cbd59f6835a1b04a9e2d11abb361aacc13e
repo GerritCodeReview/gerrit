@@ -42,6 +42,24 @@
     },
     {
       "key": {
+        "uuid": "5ed248e8_8f3a901c",
+        "filename": "polygerrit-ui/app/behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2019-10-08T10:10:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a0aab921_05ba6a42",
+      "revId": "d8308cbd59f6835a1b04a9e2d11abb361aacc13e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2d2c6383_a2d727e8",
         "filename": "polygerrit-ui/app/behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html",
         "patchSetId": 1
@@ -56,6 +74,24 @@
       "revId": "d8308cbd59f6835a1b04a9e2d11abb361aacc13e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4f22a63e_d5f9e70d",
+        "filename": "polygerrit-ui/app/behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2019-10-08T10:10:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2d2c6383_a2d727e8",
+      "revId": "d8308cbd59f6835a1b04a9e2d11abb361aacc13e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -105,6 +141,54 @@
     },
     {
       "key": {
+        "uuid": "688b0799_a1986293",
+        "filename": "polygerrit-ui/app/behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2019-10-08T10:10:17Z",
+      "side": 1,
+      "message": "Yeah adding the sha to the revision object makes the most sense. That\u0027s what I did.",
+      "parentUuid": "f3e45ecd_f3f8831e",
+      "range": {
+        "startLine": 162,
+        "startChar": 34,
+        "endLine": 162,
+        "endChar": 39
+      },
+      "revId": "d8308cbd59f6835a1b04a9e2d11abb361aacc13e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e2b94862_c079befa",
+        "filename": "polygerrit-ui/app/behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2019-10-08T10:10:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "20da514d_6e3cca99",
+      "range": {
+        "startLine": 162,
+        "startChar": 18,
+        "endLine": 162,
+        "endChar": 24
+      },
+      "revId": "d8308cbd59f6835a1b04a9e2d11abb361aacc13e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c0c76de4_cedb809a",
         "filename": "polygerrit-ui/app/elements/diff/gr-patch-range-select/gr-patch-range-select.js",
         "patchSetId": 1
@@ -125,6 +209,30 @@
       "revId": "d8308cbd59f6835a1b04a9e2d11abb361aacc13e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "471670a8_010005ce",
+        "filename": "polygerrit-ui/app/elements/diff/gr-patch-range-select/gr-patch-range-select.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2019-10-08T10:10:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c0c76de4_cedb809a",
+      "range": {
+        "startLine": 147,
+        "startChar": 6,
+        "endLine": 147,
+        "endChar": 76
+      },
+      "revId": "d8308cbd59f6835a1b04a9e2d11abb361aacc13e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

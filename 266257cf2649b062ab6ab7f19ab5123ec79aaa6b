@@ -25,6 +25,47 @@
     },
     {
       "key": {
+        "uuid": "cde394ca_4438cb01",
+        "filename": "java/com/google/gerrit/elasticsearch/ElasticChangeIndex.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-10-08T15:50:37Z",
+      "side": 1,
+      "message": "I agree with Marco here. The schema field is immutable and schema.useLegacyNumericFields()\nis (or should be) also immutable. Therefore, we do not need to check that value every time\nthis method (and other methods) is called. Ideally, the decision which code to use\nshould be made already in the constructor.",
+      "parentUuid": "b67f6bf9_1bdd17d7",
+      "range": {
+        "startLine": 216,
+        "startChar": 8,
+        "endLine": 216,
+        "endChar": 88
+      },
+      "revId": "266257cf2649b062ab6ab7f19ab5123ec79aaa6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8c887d39_73236a1b",
+        "filename": "java/com/google/gerrit/index/Schema.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-10-08T15:50:37Z",
+      "side": 1,
+      "message": "final?",
+      "revId": "266257cf2649b062ab6ab7f19ab5123ec79aaa6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ddb41937_861c4571",
         "filename": "java/com/google/gerrit/index/SchemaUtil.java",
         "patchSetId": 20
@@ -151,6 +192,23 @@
         "endLine": 27,
         "endChar": 15
       },
+      "revId": "266257cf2649b062ab6ab7f19ab5123ec79aaa6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d6f25be8_f4655b28",
+        "filename": "java/com/google/gerrit/lucene/QueryBuilder.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-10-08T15:50:37Z",
+      "side": 1,
+      "message": "Same as already commented in the other place: this value never changes for the given\nschema instance. Can we already make all decisions which depend on this flag in the constructor?\nFor example, we could have a helper class/interface with two subclasses for each case\nof this flag and instantiate on of them in the constructor?",
       "revId": "266257cf2649b062ab6ab7f19ab5123ec79aaa6b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

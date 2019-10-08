@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<!--
+@license
+Copyright (C) 2016 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+<title>GrDiffBuilderUnified</title>
+<script src="/test/common-test-setup.js"></script>
+<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+
+<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/bower_components/web-component-tester/browser.js"></script>
+<link rel="import" href="../../../test/common-test-setup.html"/>
+<script src="../../../scripts/util.js"></script>
+<script src="../gr-diff/gr-diff-line.js"></script>
+<script src="../gr-diff/gr-diff-group.js"></script>
+<script src="../gr-diff-highlight/gr-annotation.js"></script>
+<script src="gr-diff-builder.js"></script>
+<script src="gr-diff-builder-unified.js"></script>
+
+<script>void(0);</script>
+
+<script>
+  suite('GrDiffBuilderUnified tests', () => {
+    let prefs;
+    let outputEl;
+    let diffBuilder;
+
+    setup(()=> {
+      prefs = {
+        line_length: 10,
+        show_tabs: true,
+        tab_size: 4,
+      };
+      outputEl = document.createElement('div');
+      diffBuilder = new GrDiffBuilderUnified({}, prefs, outputEl, []);
+    });
+
+    suite('buildSectionElement for BOTH group', () => {
+      let lines;
+      let group;
+
+      setup(() => {
+        lines = [
+          new GrDiffLine(GrDiffLine.Type.BOTH, 1, 2),
+          new GrDiffLine(GrDiffLine.Type.BOTH, 2, 3),
+          new GrDiffLine(GrDiffLine.Type.BOTH, 3, 4),
+        ];
+        lines[0].text = 'def hello_world():';
+        lines[1].text = '  print "Hello World";';
+        lines[2].text = '  return True';
+
+        group = new GrDiffGroup(GrDiffGroup.Type.BOTH, lines);
+      });
+
+      test('creates the section', () => {
+        const sectionEl = diffBuilder.buildSectionElement(group);
+        assert.isTrue(sectionEl.classList.contains('section'));
+        assert.isTrue(sectionEl.classList.contains('both'));
+      });
+
+      test('creates each unchanged row once', () => {
+        const sectionEl = diffBuilder.buildSectionElement(group);
+        const rowEls = sectionEl.querySelectorAll('.diff-row');
+
+        assert.equal(rowEls.length, 3);
+
+        assert.equal(
+            rowEls[0].querySelector('.lineNum.left').textContent,
+            lines[0].beforeNumber);
+        assert.equal(
+            rowEls[0].querySelector('.lineNum.right').textContent,
+            lines[0].afterNumber);
+        assert.equal(
+            rowEls[0].querySelector('.content').textContent, lines[0].text);
+
+        assert.equal(
+            rowEls[1].querySelector('.lineNum.left').textContent,
+            lines[1].beforeNumber);
+        assert.equal(
+            rowEls[1].querySelector('.lineNum.right').textContent,
+            lines[1].afterNumber);
+        assert.equal(
+            rowEls[1].querySelector('.content').textContent, lines[1].text);
+
+        assert.equal(
+            rowEls[2].querySelector('.lineNum.left').textContent,
+            lines[2].beforeNumber);
+        assert.equal(
+            rowEls[2].querySelector('.lineNum.right').textContent,
+            lines[2].afterNumber);
+        assert.equal(
+            rowEls[2].querySelector('.content').textContent, lines[2].text);
+      });
+    });
+
+    suite('buildSectionElement for DELTA group', () => {
+      let lines;
+      let group;
+
+      setup(() => {
+        lines = [
+          new GrDiffLine(GrDiffLine.Type.REMOVE, 1),
+          new GrDiffLine(GrDiffLine.Type.REMOVE, 2),
+          new GrDiffLine(GrDiffLine.Type.ADD, 2),
+          new GrDiffLine(GrDiffLine.Type.ADD, 3),
+        ];
+        lines[0].text = 'def hello_world():';
+        lines[1].text = '  print "Hello World"';
+        lines[2].text = 'def hello_universe()';
+        lines[3].text = '  print "Hello Universe"';
+
+        group = new GrDiffGroup(GrDiffGroup.Type.DELTA, lines);
+      });
+
+      test('creates the section', () => {
+        const sectionEl = diffBuilder.buildSectionElement(group);
+        assert.isTrue(sectionEl.classList.contains('section'));
+        assert.isTrue(sectionEl.classList.contains('delta'));
+      });
+
+      test('creates the section with class if ignoredWhitespaceOnly', () => {
+        group.ignoredWhitespaceOnly = true;
+        const sectionEl = diffBuilder.buildSectionElement(group);
+        assert.isTrue(sectionEl.classList.contains('ignoredWhitespaceOnly'));
+      });
+
+      test('creates the section with class if dueToRebase', () => {
+        group.dueToRebase = true;
+        const sectionEl = diffBuilder.buildSectionElement(group);
+        assert.isTrue(sectionEl.classList.contains('dueToRebase'));
+      });
+
+      test('creates first the removed and then the added rows', () => {
+        const sectionEl = diffBuilder.buildSectionElement(group);
+        const rowEls = sectionEl.querySelectorAll('.diff-row');
+
+        assert.equal(rowEls.length, 4);
+
+        assert.equal(
+            rowEls[0].querySelector('.lineNum.left').textContent,
+            lines[0].beforeNumber);
+        assert.isNotOk(rowEls[0].querySelector('.lineNum.right'));
+        assert.equal(
+            rowEls[0].querySelector('.content').textContent, lines[0].text);
+
+        assert.equal(
+            rowEls[1].querySelector('.lineNum.left').textContent,
+            lines[1].beforeNumber);
+        assert.isNotOk(rowEls[1].querySelector('.lineNum.right'));
+        assert.equal(
+            rowEls[1].querySelector('.content').textContent, lines[1].text);
+
+        assert.isNotOk(rowEls[2].querySelector('.lineNum.left'));
+        assert.equal(
+            rowEls[2].querySelector('.lineNum.right').textContent,
+            lines[2].afterNumber);
+        assert.equal(
+            rowEls[2].querySelector('.content').textContent, lines[2].text);
+
+        assert.isNotOk(rowEls[3].querySelector('.lineNum.left'));
+        assert.equal(
+            rowEls[3].querySelector('.lineNum.right').textContent,
+            lines[3].afterNumber);
+        assert.equal(
+            rowEls[3].querySelector('.content').textContent, lines[3].text);
+      });
+
+      test('creates only the added rows if only ignored whitespace', () => {
+        group.ignoredWhitespaceOnly = true;
+        const sectionEl = diffBuilder.buildSectionElement(group);
+        const rowEls = sectionEl.querySelectorAll('.diff-row');
+
+        assert.equal(rowEls.length, 2);
+
+        assert.isNotOk(rowEls[0].querySelector('.lineNum.left'));
+        assert.equal(
+            rowEls[0].querySelector('.lineNum.right').textContent,
+            lines[2].afterNumber);
+        assert.equal(
+            rowEls[0].querySelector('.content').textContent, lines[2].text);
+
+        assert.isNotOk(rowEls[1].querySelector('.lineNum.left'));
+        assert.equal(
+            rowEls[1].querySelector('.lineNum.right').textContent,
+            lines[3].afterNumber);
+        assert.equal(
+            rowEls[1].querySelector('.content').textContent, lines[3].text);
+      });
+    });
+  });
+</script>

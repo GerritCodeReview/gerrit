@@ -531,6 +531,15 @@ public class CreateChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void createMergeChangeOnNonExistingBranchNotPossible() throws Exception {
+    requestScopeOperations.setApiUser(user.id());
+    ChangeInput input = newMergeChangeInput("foo", "master", "");
+    input.newBranch = true;
+    assertCreateFails(
+        input, BadRequestException.class, "Cannot create merge: destination branch does not exist");
+  }
+
+  @Test
   @UseSystemTime
   public void sha1sOfTwoNewChangesDiffer() throws Exception {
     ChangeInput changeInput = newChangeInput(ChangeStatus.NEW);

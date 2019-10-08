@@ -140,6 +140,24 @@
       "revId": "5a52d6827ca09e59f5fe9e34f4b67d460ac3bdae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "01e95553_4da93306",
+        "filename": "polygerrit-ui/app/styles/themes/dark-theme.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-08T12:08:32Z",
+      "side": 1,
+      "message": "Added more comments to dark-theme.html. PTAL",
+      "parentUuid": "c6c0328c_35a06016",
+      "revId": "5a52d6827ca09e59f5fe9e34f4b67d460ac3bdae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

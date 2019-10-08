@@ -16,137 +16,137 @@ limitations under the License.
 -->
 <custom-style><style is="custom-style">
 html {
-  /* Following vars have LTS for plugin API. */
-  --primary-text-color: #000;
-  /* For backwords compatibility we keep this as --header-background-color. */
-  --header-background-color: #eee;
-  --header-title-content: 'Gerrit';
-  --header-icon: none;
-  --header-icon-size: 0em;
-  --header-text-color: #000;
-  --header-title-font-size: 1.75rem;
-  --footer-background-color: #eee;
-  --border-color: #ddd;
-  /* This allows to add a border in custom themes */
-  --header-border-bottom: 1px solid var(--border-color);
-  --header-border-image: '';
-  --footer-border-top: 1px solid var(--border-color);
+  /**
+   * When adding a new color variable make sure to also add it to the other
+   * theme files in the same directory.
+   *
+   * For colors prefer lower case hex colors.
+   *
+   * Note that plugins might be using these variables, so removing a variable
+   * can be a breaking change that should go into the release notes.
+   */
 
-  /* Following are not part of plugin API. */
-  --selection-background-color: rgba(161, 194, 250, 0.1);
-  --hover-background-color: rgba(161, 194, 250, 0.2);
-  --expanded-background-color: #eee;
-  --view-background-color: #fff;
-  --default-horizontal-margin: 1rem;
-
+  /* text colors */
+  --primary-text-color: black;
+  --link-color: #2a66d9;
+  --comment-text-color: black;
   --deemphasized-text-color: #757575;
-  /* Used on text color for change list that doesn't need user's attention. */
-  --reviewed-text-color: var(--primary-text-color);
-  --font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
-  /* Used on text for change list that needs user's attention. */
-  --font-weight-bold: 500;
-  --monospace-font-family: 'Roboto Mono', Menlo, 'Lucida Console', Monaco, monospace;
-  --iron-overlay-backdrop: {
-    transition: none;
-  }
+  --default-button-text-color: #2a66d9;
+  --error-text-color: red;
+  --primary-button-text-color: white;
+    /* Used on text color for change list that doesn't need user's attention. */
+  --reviewed-text-color: black;
+  --secondary-button-text-color: #212121;
+  --tooltip-text-color: white;
+  --vote-text-color-recommended: #388e3c;
+  --vote-text-color-disliked: #d32f2f;
+
+  /* background colors */
+  --assignee-highlight-color: #fcfad6;
+  --chip-background-color: #eee;
+  --comment-background-color: #fcfad6;
+  --default-button-background-color: white;
+  --dialog-background-color: white;
+  --dropdown-background-color: white;
+  --edit-mode-background-color: #ebf5fb;
+  --emphasis-color: #fff9c4;
+  --expanded-background-color: #eee;
+  --hover-background-color: rgba(161, 194, 250, 0.2);
+  --primary-button-background-color: #2a66d9;
+  --secondary-button-background-color: white;
+  --select-background-color: #f8f8f8;
+  --selection-background-color: rgba(161, 194, 250, 0.1);
+  --shell-command-background-color: #f5f5f5;
+  --shell-command-decoration-background-color: #ebebeb;
   --table-header-background-color: #fafafa;
   --table-subheader-background-color: #eaeaea;
+  --tooltip-background-color: #333;
+  --unresolved-comment-background-color: #fcfaa6;
+  --view-background-color: white;
+  --vote-color-approved: #9fcc6b;
+  --vote-color-disliked: #f7c4cb;
+  --vote-color-neutral: #ebf5fb;
+  --vote-color-recommended: #c9dfaf;
+  --vote-color-rejected: #f7a1ad;
 
-  --chip-background-color: #eee;
+  /* misc colors */
+  --border-color: #ddd;
 
-  --dropdown-background-color: #fff;
-
-  --select-background-color: rgb(248, 248, 248);
-
-  --assignee-highlight-color: #fcfad6;
-
-  /* Font sizes */
+  /* fonts */
+  --font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
   --font-size-normal: 1rem;
   --font-size-small: .92rem;
   --font-size-large: 1.154rem;
+    /* Used on text for change list that needs user's attention. */
+  --font-weight-bold: 500;
+  --monospace-font-family: 'Roboto Mono', Menlo, 'Lucida Console', Monaco, monospace;
 
-  --link-color: #2a66d9;
-  --primary-button-background-color: var(--link-color);
-  --primary-button-text-color: #fff;
-  --secondary-button-background-color: #fff;
-  --secondary-button-text-color: #212121;
-  --default-button-background-color: #fff;
-  --default-button-text-color: var(--link-color);
-  --dialog-background-color: #fff;
+  /* spacing */
+  --default-horizontal-margin: 1rem;
 
-  /* Used for both the old patchset header and for indicating that a particular
-    change message was selected. */
-  --emphasis-color: #fff9c4;
+  /* header and footer */
+  --footer-background-color: #eee;
+  --footer-border-top: 1px solid var(--border-color);
+  --header-background-color: #eee;
+  --header-border-bottom: 1px solid var(--border-color);
+  --header-border-image: '';
+  --header-icon-size: 0em;
+  --header-icon: none;
+  --header-text-color: black;
+  --header-title-content: 'Gerrit';
+  --header-title-font-size: 1.75rem;
 
-  --error-text-color: red;
-
-  --vote-color-approved: #9fcc6b;
-  --vote-color-recommended: #c9dfaf;
-  --vote-color-rejected: #f7a1ad;
-  --vote-color-disliked: #f7c4cb;
-  --vote-color-neutral: #ebf5fb;
-
-  --vote-text-color-recommended: #388E3C;
-  --vote-text-color-disliked: #D32F2F;
-
-  /* Diff colors */
-  --diff-selection-background-color: #c7dbf9;
-  --light-remove-highlight-color: #FFEBEE;
-  --light-add-highlight-color: #D8FED8;
-  --light-remove-add-highlight-color: #FFF8DC;
-  --light-rebased-add-highlight-color: #EEEEFF;
-  --dark-remove-highlight-color: #FFCDD2;
-  --dark-add-highlight-color: #AAF2AA;
-  --dark-rebased-remove-highlight-color: #F7E8B7;
-  --dark-rebased-add-highlight-color: #D7D7F9;
-  --diff-context-control-color: var(--deemphasized-text-color);
+  /* diff colors */
+  --dark-add-highlight-color: #aaf2aa;
+  --dark-rebased-add-highlight-color: #d7d7f9;
+  --dark-rebased-remove-highlight-color: #f7e8b7;
+  --dark-remove-highlight-color: #ffcdd2;
+  --diff-blank-background-color: white;
   --diff-context-control-background-color: #fff7d4;
   --diff-context-control-border-color: #f6e6a5;
-  --diff-tab-indicator-color: var(--deemphasized-text-color);
-  --diff-trailing-whitespace-indicator: #ff9ad2;
+  --diff-context-control-color: var(--deemphasized-text-color);
   --diff-highlight-range-color: rgba(255, 213, 0, 0.5);
   --diff-highlight-range-hover-color: rgba(255, 255, 0, 0.5);
-  --diff-blank-background-color: #fff;
+  --diff-selection-background-color: #c7dbf9;
+  --diff-tab-indicator-color: var(--deemphasized-text-color);
+  --diff-trailing-whitespace-indicator: #ff9ad2;
+  --light-add-highlight-color: #d8fed8;
+  --light-rebased-add-highlight-color: #eef;
+  --light-remove-add-highlight-color: #fff8dc;
+  --light-remove-highlight-color: #ffebee;
 
-  --shell-command-background-color: #f5f5f5;
-  --shell-command-decoration-background-color: #ebebeb;
-
-  --comment-text-color: #000;
-  --comment-background-color: #fcfad6;
-  --unresolved-comment-background-color: #fcfaa6;
-
-  --edit-mode-background-color: #ebf5fb;
-
-  --tooltip-background-color: #333;
-  --tooltip-text-color: #fff;
-
-  --syntax-default-color: var(--primary-text-color);
-  --syntax-attribute-color: var(--primary-text-color);
-  --syntax-function-color: var(--primary-text-color);
-  --syntax-meta-color: #FF1717;
-  --syntax-keyword-color: #9E0069;
-  --syntax-number-color: #164;
-  --syntax-selector-class-color: #164;
-  --syntax-variable-color: black;
-  --syntax-template-variable-color: #0000C0;
-  --syntax-comment-color: #3F7F5F;
-  --syntax-string-color: #2A00FF;
-  --syntax-selector-id-color: #2A00FF;
-  --syntax-built_in-color: #30a;
-  --syntax-tag-color: #170;
-  --syntax-link-color: #219;
-  --syntax-meta-keyword-color: #219;
-  --syntax-type-color: var(--color-link);
-  --syntax-title-color: #0000C0;
+  /* syntax colors */
   --syntax-attr-color: #219;
+  --syntax-attribute-color: var(--primary-text-color);
+  --syntax-built_in-color: #30a;
+  --syntax-comment-color: #3f7f5f;
+  --syntax-default-color: var(--primary-text-color);
+  --syntax-function-color: var(--primary-text-color);
+  --syntax-keyword-color: #9e0069;
+  --syntax-link-color: #219;
   --syntax-literal-color: #219;
-  --syntax-selector-pseudo-color: #FA8602;
-  --syntax-regexp-color: #FA8602;
-  --syntax-selector-attr-color: #FA8602;
-  --syntax-template-tag-color: #FA8602;
+  --syntax-meta-color: #ff1717;
+  --syntax-meta-keyword-color: #219;
+  --syntax-number-color: #164;
   --syntax-param-color: var(--primary-text-color);
+  --syntax-regexp-color: #fa8602;
+  --syntax-selector-attr-color: #fa8602;
+  --syntax-selector-class-color: #164;
+  --syntax-selector-id-color: #2a00ff;
+  --syntax-selector-pseudo-color: #fa8602;
+  --syntax-string-color: #2a00ff;
+  --syntax-tag-color: #170;
+  --syntax-template-tag-color: #fa8602;
+  --syntax-template-variable-color: #0000c0;
+  --syntax-title-color: #0000c0;
+  --syntax-type-color: #2a66d9;
+  --syntax-variable-color: var(--primary-text-color);
 
+  /* misc */
   --reply-overlay-z-index: 1000;
+  --iron-overlay-backdrop: {
+    transition: none;
+  };
 }
 @media screen and (max-width: 50em) {
   html {

@@ -17,97 +17,120 @@ limitations under the License.
 <dom-module id="dark-theme">
   <custom-style><style is="custom-style">
     html {
+      /**
+       * Sections and variables must stay consistent with app-theme.html.
+       *
+       * Only modify color variables in this theme file.
+       */
+
+      /* text colors */
       --primary-text-color: #e8eaed;
-      --view-background-color: #131416;
-      --border-color: #5f6368;
-      --header-border-bottom: 1px solid var(--border-color);
-      --header-border-image: '';
-      --footer-border-bottom: 1px solid var(--border-color);
+      --link-color: #8ab4f8;
+      --comment-text-color: var(--primary-text-color);
+      --deemphasized-text-color: #9aa0a6;
+      --default-button-text-color: #8ab4f8;
+      --error-text-color: red;
+      --primary-button-text-color: var(--primary-text-color);
+        /* Used on text color for change list doesn't need user's attention. */
+      --reviewed-text-color: #dadce0;
+      --secondary-button-text-color: var(--deemphasized-text-color);
+      --tooltip-text-color: white;
+      --vote-text-color-recommended: #388e3c;
+      --vote-text-color-disliked: #d32f2f;
+
+      /* background colors */
+      --assignee-highlight-color: #3a361c;
+      --chip-background-color: #131416;
+      --comment-background-color: #0b162b;
+      --default-button-background-color: #3c4043;
+      --dialog-background-color: #131416;
+      --dropdown-background-color: #131416;
+      --edit-mode-background-color: #5c0a36;
+      --emphasis-color: #383f4a;
+      --expanded-background-color: #26282b;
+      --hover-background-color: rgba(161, 194, 250, 0.2);
+      --primary-button-background-color: var(--link-color);
+      --secondary-button-background-color: var(--primary-text-color);
+      --select-background-color: #3c4043;
+      --selection-background-color: rgba(161, 194, 250, 0.1);
+      --shell-command-background-color: #5f5f5f;
+      --shell-command-decoration-background-color: #999;
       --table-header-background-color: #131416;
       --table-subheader-background-color: #3c4043;
-      --header-background-color: #3c4043;
-      --header-text-color: var(--primary-text-color);
-      --deemphasized-text-color: #9aa0a6;
-      /* Used on text color for change list doesn't need user's attention. */
-      --reviewed-text-color: #DADCE0;
-      /* Used on text for change list that needs user's attention. */
-      --font-weight-bold: 900;
-      --footer-background-color: var(--table-header-background-color);
-      --expanded-background-color: #26282b;
-      --link-color: #8ab4f8;
-      --primary-button-background-color: var(--link-color);
-      --primary-button-text-color: var(--primary-text-color);
-      --secondary-button-background-color: var(--primary-text-color);
-      --secondary-button-text-color: var(--deemphasized-text-color);
-      --default-button-text-color: var(--link-color);
-      --default-button-background-color: var(--table-subheader-background-color);
-      --dropdown-background-color: var(--table-header-background-color);
-      --dialog-background-color: var(--view-background-color);
-      --chip-background-color: var(--table-header-background-color);
-      --header-title-font-size: 1.75rem;
-
-      --select-background-color: var(--table-subheader-background-color);
-
-      --assignee-highlight-color: rgb(58, 54, 28);
-
-      --diff-selection-background-color: #3A71D8;
-      --light-remove-highlight-color: #320404;
-      --light-add-highlight-color: #0F401F;
-      --light-remove-add-highlight-color: #2f3f2f;
-      --light-rebased-remove-highlight-color: rgb(60, 37, 8);
-      --light-rebased-add-highlight-color: rgb(72, 113, 101);
-      --dark-remove-highlight-color: #62110F;
-      --dark-add-highlight-color: #133820;
-      --dark-rebased-remove-highlight-color: rgba(255, 139, 6, 0.15);
-      --dark-rebased-add-highlight-color: rgba(11, 255, 155, 0.15);
-      --diff-context-control-color: var(--deemphasized-text-color);
-      --diff-context-control-background-color: var(--table-header-background-color);
-      --diff-context-control-border-color: var(--border-color);
-      --diff-highlight-range-color: rgba(0, 100, 200, 0.5);
-      --diff-highlight-range-hover-color: rgba(0, 150, 255, 0.5);
-      --shell-command-background-color: #5f5f5f;
-      --shell-command-decoration-background-color: #999999;
-      --comment-text-color: var(--primary-text-color);
-      --comment-background-color: #0B162B;
-      --unresolved-comment-background-color: rgb(56, 90, 154);
-      --diff-blank-background-color: #212121;
-
-      --vote-color-approved: rgb(127, 182, 107);
-      --vote-color-recommended: rgb(63, 103, 50);
-      --vote-color-rejected: #ac2d3e;
+      --tooltip-background-color: #111;
+      --unresolved-comment-background-color: #385a9a;
+      --view-background-color: #131416;
+      --vote-color-approved: #7fb66b;
       --vote-color-disliked: #bf6874;
       --vote-color-neutral: #597280;
+      --vote-color-recommended: #3f6732;
+      --vote-color-rejected: #ac2d3e;
 
-      --edit-mode-background-color: rgb(92, 10, 54);
-      --emphasis-color: #383f4a;
+      /* misc colors */
+      --border-color: #5f6368;
 
-      --tooltip-background-color: #111;
+      /* fonts */
+        /* Used on text for change list that needs user's attention. */
+      --font-weight-bold: 900;
 
-      --syntax-default-color: var(--primary-text-color);
-      --syntax-meta-color: #6D7EEE;
-      --syntax-keyword-color: #CD4CF0;
-      --syntax-number-color: #00998A;
-      --syntax-selector-class-color: #FFCB68;
-      --syntax-variable-color: #F77669;
-      --syntax-template-variable-color: #F77669;
+      /* spacing */
+
+      /* header and footer */
+      --footer-background-color: #131416;
+      --footer-border-top: 1px solid var(--border-color);
+      --header-background-color: #3c4043;
+      --header-border-bottom: 1px solid var(--border-color);
+      --header-text-color: var(--primary-text-color);
+
+      /* diff colors */
+      --dark-add-highlight-color: #133820;
+      --dark-rebased-add-highlight-color: rgba(11, 255, 155, 0.15);
+      --dark-rebased-remove-highlight-color: rgba(255, 139, 6, 0.15);
+      --dark-remove-highlight-color: #62110f;
+      --diff-blank-background-color: #212121;
+      --diff-context-control-background-color: #131416;
+      --diff-context-control-border-color: var(--border-color);
+      --diff-context-control-color: var(--deemphasized-text-color);
+      --diff-highlight-range-color: rgba(0, 100, 200, 0.5);
+      --diff-highlight-range-hover-color: rgba(0, 150, 255, 0.5);
+      --diff-selection-background-color: #3a71d8;
+      --diff-tab-indicator-color: var(--deemphasized-text-color);
+      --diff-trailing-whitespace-indicator: #ff9ad2;
+      --light-add-highlight-color: #0f401f;
+      --light-rebased-add-highlight-color: #487165;
+      --light-remove-add-highlight-color: #2f3f2f;
+      --light-remove-highlight-color: #320404;
+
+      /* syntax colors */
+      --syntax-attr-color: #80cbbf;
+      --syntax-attribute-color: var(--primary-text-color);
+      --syntax-built_in-color: #f7c369;
       --syntax-comment-color: var(--deemphasized-text-color);
-      --syntax-string-color: #C3E88D;
-      --syntax-selector-id-color: #F77669;
-      --syntax-built_in-color: rgb(247, 195, 105);
-      --syntax-tag-color: #F77669;
-      --syntax-link-color: #C792EA;
-      --syntax-meta-keyword-color: #EEFFF7;
-      --syntax-type-color: #DD5F5F;
-      --syntax-title-color: #75A5FF;
-      --syntax-attr-color: #80CBBF;
-      --syntax-literal-color: #EEFFF7;
-      --syntax-selector-pseudo-color: #C792EA;
-      --syntax-regexp-color: #F77669;
-      --syntax-selector-attr-color: #80CBBF;
-      --syntax-template-tag-color: #C792EA;
+      --syntax-default-color: var(--primary-text-color);
+      --syntax-function-color: var(--primary-text-color);
+      --syntax-keyword-color: #cd4cf0;
+      --syntax-link-color: #c792ea;
+      --syntax-literal-color: #eefff7;
+      --syntax-meta-color: #6d7eee;
+      --syntax-meta-keyword-color: #eefff7;
+      --syntax-number-color: #00998a;
+      --syntax-param-color: var(--primary-text-color);
+      --syntax-regexp-color: #f77669;
+      --syntax-selector-attr-color: #80cbbf;
+      --syntax-selector-class-color: #ffcb68;
+      --syntax-selector-id-color: #f77669;
+      --syntax-selector-pseudo-color: #c792ea;
+      --syntax-string-color: #c3e88d;
+      --syntax-tag-color: #f77669;
+      --syntax-template-tag-color: #c792ea;
+      --syntax-template-variable-color: #f77669;
+      --syntax-title-color: #75a5ff;
+      --syntax-type-color: #dd5f5f;
+      --syntax-variable-color: #f77669;
 
-      --reply-overlay-z-index: 1000;
+      /* misc */
 
+      /* rules applied to <html> */
       background-color: var(--view-background-color);
     }
   </style></custom-style>

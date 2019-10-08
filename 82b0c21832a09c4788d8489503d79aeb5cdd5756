@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "248e1afb_a8b54193",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 868,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-10-08T07:24:35Z",
+      "side": 1,
+      "message": "These seem like implementation specific limitations - maybe they should be enforced inside gr-syntax-layer, so that other implementations with different performance trade-offs can use their limits?",
+      "range": {
+        "startLine": 868,
+        "startChar": 19,
+        "endLine": 868,
+        "endChar": 34
+      },
+      "revId": "82b0c21832a09c4788d8489503d79aeb5cdd5756",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

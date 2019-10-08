@@ -191,18 +191,18 @@ limitations under the License.
     });
 
     test('default theme is loaded with html plugins', () => {
-      sandbox.stub(Gerrit, '_setPluginsPending');
+      sandbox.stub(Gerrit, 'loadPlugins');
       element.config = {
         default_theme: '/oof',
         plugin: {},
       };
-      assert.isTrue(Gerrit._setPluginsPending.calledWith([url + '/oof']));
+      assert.isTrue(Gerrit.loadPlugins.calledWith([url + '/oof']));
     });
 
     test('skips default theme loading if preloaded', () => {
       sandbox.stub(Gerrit, '_isPluginPreloaded')
           .withArgs('preloaded:gerrit-theme').returns(true);
-      sandbox.stub(Gerrit, '_setPluginsPending');
+      sandbox.stub(Gerrit, 'loadPlugins');
       element.config = {
         default_theme: '/oof',
         plugin: {},
@@ -215,7 +215,7 @@ limitations under the License.
           .withArgs(url + '/plugins/foo/bar').returns(true)
           .withArgs(url + '/plugins/42').returns(true);
       sandbox.stub(Gerrit, '_setPluginsCount');
-      sandbox.stub(Gerrit, '_setPluginsPending');
+      sandbox.stub(Gerrit, 'loadPlugins');
       sandbox.stub(element, '_createScriptTag');
       element.config = {
         plugin: {
@@ -224,7 +224,7 @@ limitations under the License.
         },
       };
       assert.isTrue(
-          Gerrit._setPluginsPending.calledWith([url + '/plugins/baz']));
+          Gerrit.loadPlugins.calledWith([url + '/plugins/baz']));
       assert.equal(element._createScriptTag.callCount, 0);
       assert.isTrue(element.importHref.calledWith(url + '/plugins/baz'));
     });

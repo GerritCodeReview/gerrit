@@ -1,0 +1,250 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "93ee3cb3_d08ce98a",
+        "filename": "polygerrit-ui/app/elements/change/gr-download-dialog/gr-download-dialog.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-08T13:29:19Z",
+      "side": 1,
+      "message": "maybe add `format` as well ?",
+      "range": {
+        "startLine": 170,
+        "startChar": 27,
+        "endLine": 170,
+        "endChar": 28
+      },
+      "revId": "cc32d19be610f65a2f53cdf6b8c841e59b80f688",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d9d237c7_130aa5d6",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 763,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-08T13:29:19Z",
+      "side": 1,
+      "message": "just curious, why only check for `change` and `patchNum` ?",
+      "range": {
+        "startLine": 763,
+        "startChar": 0,
+        "endLine": 763,
+        "endChar": 39
+      },
+      "revId": "cc32d19be610f65a2f53cdf6b8c841e59b80f688",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0e7540c4_44603dd5",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-08T13:29:19Z",
+      "side": 1,
+      "message": "maybe check `labelExtremes` here so you don\u0027t need do it in the `if` below",
+      "range": {
+        "startLine": 206,
+        "startChar": 0,
+        "endLine": 206,
+        "endChar": 28
+      },
+      "revId": "cc32d19be610f65a2f53cdf6b8c841e59b80f688",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d01e2619_942a0ae0",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-08T13:29:19Z",
+      "side": 1,
+      "message": "message as well, `message._index` will throw an error if its undefined :)",
+      "range": {
+        "startLine": 226,
+        "startChar": 0,
+        "endLine": 226,
+        "endChar": 37
+      },
+      "revId": "cc32d19be610f65a2f53cdf6b8c841e59b80f688",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4410a32e_a0bd93f5",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-08T13:29:19Z",
+      "side": 1,
+      "message": "maybe follow same pattern on undefined check. currently if `hideAutomated` is true, then it will throw an error in `_isAutomated`",
+      "revId": "cc32d19be610f65a2f53cdf6b8c841e59b80f688",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d919cbf8_85d82ff4",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-08T13:29:19Z",
+      "side": 1,
+      "message": "personally i will prefer to do the early return with undefined instead giving default values :) good for consistent and also its kind of pointless to execute any other logic if there is something undefined.",
+      "revId": "cc32d19be610f65a2f53cdf6b8c841e59b80f688",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "85307c34_69d56db9",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-08T13:29:19Z",
+      "side": 1,
+      "message": "ditto",
+      "revId": "cc32d19be610f65a2f53cdf6b8c841e59b80f688",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "49df3041_6dcd464d",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-08T13:29:19Z",
+      "side": 1,
+      "message": "is the `_changesEqual` used in template ? ideally maybe we should keep the checks in upstream instead. As defined in the jsdoc, you have this `!Object` for both parameters ;)",
+      "revId": "cc32d19be610f65a2f53cdf6b8c841e59b80f688",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b08df544_1b8b5730",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-08T13:29:19Z",
+      "side": 1,
+      "message": "duplicated with patchRange check",
+      "range": {
+        "startLine": 264,
+        "startChar": 41,
+        "endLine": 264,
+        "endChar": 61
+      },
+      "revId": "cc32d19be610f65a2f53cdf6b8c841e59b80f688",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4b4cb0d9_0396a323",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 746,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-08T13:29:19Z",
+      "side": 1,
+      "message": "same, if we need to check for undefined, better check for all and return early :)",
+      "range": {
+        "startLine": 746,
+        "startChar": 0,
+        "endLine": 746,
+        "endChar": 44
+      },
+      "revId": "cc32d19be610f65a2f53cdf6b8c841e59b80f688",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b7a80933_051a9a09",
+        "filename": "polygerrit-ui/app/elements/shared/gr-linked-text/gr-linked-text.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-08T13:29:19Z",
+      "side": 1,
+      "message": "is the `Gerrit.Nav.mapCommentlinks` undefined here ? that maybe a dependency order issue instead",
+      "revId": "cc32d19be610f65a2f53cdf6b8c841e59b80f688",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d5b745ee_1c74cd97",
+        "filename": "polygerrit-ui/app/elements/shared/gr-linked-text/link-text-parser.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-08T13:29:19Z",
+      "side": 1,
+      "message": "not sure what kind of problems this is trying to solve ?",
+      "range": {
+        "startLine": 231,
+        "startChar": 0,
+        "endLine": 231,
+        "endChar": 15
+      },
+      "revId": "cc32d19be610f65a2f53cdf6b8c841e59b80f688",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

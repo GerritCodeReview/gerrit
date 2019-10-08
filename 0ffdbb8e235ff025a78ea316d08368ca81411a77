@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7250f3c6_756a34df",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 27
+      },
+      "lineNbr": 930,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-08T11:47:17Z",
+      "side": 1,
+      "message": "I\u0027m not sure about another corner case: merge commit. We support comparison against parent 1 and parent 2. Not sure if we should consider that here as well. This can be done in another cange though. Someone shoudl check, what GWT was doing in that case (if it was supported at all):\n\n* open merge commit \n* compare against parent 1 and download left side file\n* compare against parent 2 and download left side file",
+      "range": {
+        "startLine": 930,
+        "startChar": 16,
+        "endLine": 930,
+        "endChar": 25
+      },
+      "revId": "0ffdbb8e235ff025a78ea316d08368ca81411a77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

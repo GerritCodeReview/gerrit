@@ -71,6 +71,30 @@
       "revId": "0b8631382bba94221596eca7c6040054e6edfe84",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "22b67fa2_a74d961b",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/ElasticIndexIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-10-08T13:19:29Z",
+      "side": 1,
+      "message": "\u003e Sorry, I meant to say \"Why \u0027latest\u0027?\", shouldn\u0027t that be removed from the sentence?\n\nI don\u0027t think so, not in this specific test class implementation context (of how we support Elasticsearch in Gerrit). See for example the update that was done to this file as per [1]. We are able to sustain that promise so far, especially for minor version upgrades.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/239337/1/gerrit-acceptance-tests/src/test/java/com/google/gerrit/acceptance/ssh/ElasticIndexIT.java",
+      "parentUuid": "db97e54a_0c8b847d",
+      "range": {
+        "startLine": 26,
+        "startChar": 66,
+        "endLine": 26,
+        "endChar": 72
+      },
+      "revId": "0b8631382bba94221596eca7c6040054e6edfe84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

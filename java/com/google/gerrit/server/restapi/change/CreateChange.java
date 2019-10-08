@@ -81,6 +81,7 @@ import java.util.List;
 import java.util.TimeZone;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.InvalidObjectIdException;
+import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.errors.NoMergeBaseException;
 import org.eclipse.jgit.errors.NoMergeBaseException.MergeBaseFailureReason;
 import org.eclipse.jgit.lib.CommitBuilder;
@@ -362,7 +363,12 @@ public class CreateChange
             String.format("Base %s doesn't represent a valid SHA-1", baseCommit));
       }
 
-      RevCommit parentRevCommit = revWalk.parseCommit(parentCommit);
+      RevCommit parentRevCommit;
+      try {
+        parentRevCommit = revWalk.parseCommit(parentCommit);
+      } catch (MissingObjectException e) {
+        throw new UnprocessableEntityException(String.format("Base %s doesn't exist", baseCommit));
+      }
 
       if (destRef == null) {
         throw new BadRequestException("Destination branch does not exist");

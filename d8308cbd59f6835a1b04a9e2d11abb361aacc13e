@@ -60,6 +60,24 @@
     },
     {
       "key": {
+        "uuid": "4864836f_889a719f",
+        "filename": "polygerrit-ui/app/behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-08T11:52:01Z",
+      "side": 1,
+      "message": "Can you have another look? I meant extending the guard clause in the first line of the method.",
+      "parentUuid": "5ed248e8_8f3a901c",
+      "revId": "d8308cbd59f6835a1b04a9e2d11abb361aacc13e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2d2c6383_a2d727e8",
         "filename": "polygerrit-ui/app/behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html",
         "patchSetId": 1

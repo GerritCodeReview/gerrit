@@ -65,6 +65,29 @@
     },
     {
       "key": {
+        "uuid": "7fcfec5a_eb060350",
+        "filename": "polygerrit-ui/app/behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-08T11:52:01Z",
+      "side": 1,
+      "message": "Maybe even inline \"shas\":\n\n        Object.keys(change.revisions).forEach(sha \u003d\u003e {\n          change.revisions[sha].sha \u003d sha;\n        });",
+      "range": {
+        "startLine": 152,
+        "startChar": 8,
+        "endLine": 155,
+        "endChar": 11
+      },
+      "revId": "b95d02ce1693d39aa8ece769495e29a462a0cbbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "549219b1_3a510d77",
         "filename": "polygerrit-ui/app/elements/diff/gr-patch-range-select/gr-patch-range-select.js",
         "patchSetId": 3
@@ -81,6 +104,29 @@
         "startChar": 46,
         "endLine": 88,
         "endChar": 48
+      },
+      "revId": "b95d02ce1693d39aa8ece769495e29a462a0cbbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d55f0ce8_5f139765",
+        "filename": "polygerrit-ui/app/elements/diff/gr-patch-range-select/gr-patch-range-select.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-08T11:52:01Z",
+      "side": 1,
+      "message": "I would prefer to have an explicit ternary:\n\n  const sha \u003d patch \u0026\u0026 patch.sha ? patch.sha.substring(0, 10) : undefined;",
+      "range": {
+        "startLine": 134,
+        "startChar": 20,
+        "endLine": 134,
+        "endChar": 69
       },
       "revId": "b95d02ce1693d39aa8ece769495e29a462a0cbbf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

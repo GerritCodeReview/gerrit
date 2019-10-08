@@ -47,7 +47,7 @@ public class ElasticV7QueryChangesTest extends AbstractQueryChangesTest {
       return;
     }
 
-    container = ElasticContainer.createAndStart(ElasticVersion.V7_3);
+    container = ElasticContainer.createAndStart(ElasticVersion.V7_4);
     nodeInfo = new ElasticNodeInfo(container.getHttpHost().getPort());
     client = HttpAsyncClients.createDefault();
     client.start();

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9336c658_58579d5f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 26
+      },
+      "lineNbr": 906,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-08T10:11:38Z",
+      "side": 1,
+      "message": "You are passing here true, so that you should adapt the check below to:\n\n  if (parent) { ...",
+      "range": {
+        "startLine": 906,
+        "startChar": 60,
+        "endLine": 906,
+        "endChar": 64
+      },
+      "revId": "0ce95731d78b4f133aa8e7db59296ae27c44b079",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c4b1917e_c5c3fb72",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 26
+      },
+      "lineNbr": 929,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-08T10:11:38Z",
+      "side": 1,
+      "message": "This is wrong, given that you are passing true above.",
+      "range": {
+        "startLine": 929,
+        "startChar": 6,
+        "endLine": 929,
+        "endChar": 25
+      },
+      "revId": "0ce95731d78b4f133aa8e7db59296ae27c44b079",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -45,16 +45,18 @@
             !Gerrit._isPluginPreloaded('preloaded:gerrit-theme');
       const defaultTheme =
             shouldLoadTheme ? this._urlFor(config.default_theme) : null;
+      
+      // If theme exists, load it first.
       const pluginsPending =
-          [].concat(jsPlugins, htmlPlugins, defaultTheme || []);
-      Gerrit._setPluginsPending(pluginsPending);
+          (defaultTheme ? [defaultTheme] : []).concat(jsPlugins, htmlPlugins);
+
+      const pluginOpts = {};
       if (defaultTheme) {
-        // Make theme first to be first to load.
-        // Load sync to work around rare theme loading race condition.
-        this._importHtmlPlugins([defaultTheme], true);
+        // Theme needs to be loaded synchronous.
+        pluginOpts[defaultTheme] = {sync: true};
       }
-      this._loadJsPlugins(jsPlugins);
-      this._importHtmlPlugins(htmlPlugins);
+
+      Gerrit.loadPlugins(pluginsPending, pluginOpts);
     },
 
     /**
@@ -66,39 +68,6 @@
         const counterpart = url.replace(/\.js$/, '.html');
         return !htmlPlugins.includes(counterpart);
       });
-    },
-
-    /**
-     * @suppress {checkTypes}
-     * States that it expects no more than 3 parameters, but that's not true.
-     * @todo (beckysiegel) check Polymer annotations and submit change.
-     * @param {Array} plugins
-     * @param {boolean=} opt_sync
-     */
-    _importHtmlPlugins(plugins, opt_sync) {
-      const async = !opt_sync;
-      for (const url of plugins) {
-        // onload (second param) needs to be a function. When null or undefined
-        // were passed, plugins were not loaded correctly.
-        (this.importHref || Polymer.importHref)(
-            this._urlFor(url), () => {},
-            Gerrit._pluginInstallError.bind(null, `${url} import error`),
-            async);
-      }
-    },
-
-    _loadJsPlugins(plugins) {
-      for (const url of plugins) {
-        this._createScriptTag(this._urlFor(url));
-      }
-    },
-
-    _createScriptTag(url) {
-      const el = document.createElement('script');
-      el.defer = true;
-      el.src = url;
-      el.onerror = Gerrit._pluginInstallError.bind(null, `${url} load error`);
-      return document.body.appendChild(el);
     },
 
     _urlFor(pathOrUrl) {

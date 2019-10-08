@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c1659c6b_3c2877fd",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 27
+      },
+      "lineNbr": 906,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-08T12:15:49Z",
+      "side": 1,
+      "message": "I think, that in your case two different URL would be generated, for\n\n   changes/gerrit~238862/revisions/3/BUILD\n   changes/gerrit~238862/revisions/3/files/BUILD/download?parent\u003d1\n\nand for \n\n   changes/gerrit~238862/revisions/3..4/BUILD\n   changes/gerrit~238862/revisions/4/files/BUILD/download?parent\u003d1\n\nI think I understand your point now: In the 3..4 case we would like to offer to download on the left side not the file content from the base originated from the patch set 4, but from the patch set 3 itself? Is that what you are saing? What the old UI was doing in n-1..n comparisson use case?",
+      "parentUuid": "96f31bf6_02426107",
+      "range": {
+        "startLine": 906,
+        "startChar": 60,
+        "endLine": 906,
+        "endChar": 64
+      },
+      "revId": "0ffdbb8e235ff025a78ea316d08368ca81411a77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f001b03e_60381dd3",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
         "patchSetId": 27
@@ -36,6 +60,30 @@
       "writtenOn": "2019-10-08T12:02:37Z",
       "side": 1,
       "message": "Would this have to be \"basePatchNum\" for the left side?",
+      "range": {
+        "startLine": 926,
+        "startChar": 66,
+        "endLine": 926,
+        "endChar": 74
+      },
+      "revId": "0ffdbb8e235ff025a78ea316d08368ca81411a77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4da4b3dd_78e4273f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 27
+      },
+      "lineNbr": 926,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-08T12:15:49Z",
+      "side": 1,
+      "message": "Not for the regular patch set. But probably for change edit. basePatchNum is the patch set, change edit is based on. So, I think you have just figured out yet another corner case: comparisson of change edit, that is not a regular patch set, If change edit is compared, then we probably want to offer to download the base patch set itself and not its parent.",
+      "parentUuid": "f001b03e_60381dd3",
       "range": {
         "startLine": 926,
         "startChar": 66,

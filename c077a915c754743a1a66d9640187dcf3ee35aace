@@ -46,6 +46,30 @@
       "revId": "c077a915c754743a1a66d9640187dcf3ee35aace",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bc24e412_ead6a0dc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-09T15:15:53Z",
+      "side": 1,
+      "message": "so chumpdetector is not using this anymore right ? can you update the commit message",
+      "parentUuid": "1aec8a92_fc57213e",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 48
+      },
+      "revId": "c077a915c754743a1a66d9640187dcf3ee35aace",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

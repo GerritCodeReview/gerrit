@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b4018942_947f5891",
+        "filename": "java/com/google/gerrit/server/restapi/change/Revert.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-09T14:48:11Z",
+      "side": 1,
+      "message": "maybe that line could be moved into the createRevertCommit method so that createRevertCommit returns RevCommit.",
+      "revId": "746f913b5fc25a77de5d080800a6a1acbeb37926",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6edb9990_c988c3f5",
+        "filename": "java/com/google/gerrit/server/restapi/change/Revert.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-09T14:48:11Z",
+      "side": 1,
+      "message": "nit: incomplete sentence",
+      "range": {
+        "startLine": 290,
+        "startChar": 5,
+        "endLine": 290,
+        "endChar": 44
+      },
+      "revId": "746f913b5fc25a77de5d080800a6a1acbeb37926",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2a4c8525_fdad6079",
+        "filename": "java/com/google/gerrit/server/restapi/change/Revert.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-09T14:48:11Z",
+      "side": 1,
+      "message": "Do you mean \"Parsing of the commit fails\"?\n\nWe usually don\u0027t document IOExceptions very well, so in case of doubt it\u0027s also fine to have a generic description such as \"thrown in case of I/O errors\". Any more precise description is of course welcome, but then it should be accurate.",
+      "range": {
+        "startLine": 297,
+        "startChar": 25,
+        "endLine": 297,
+        "endChar": 56
+      },
+      "revId": "746f913b5fc25a77de5d080800a6a1acbeb37926",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f65b359_1ae8ad57",
+        "filename": "java/com/google/gerrit/server/restapi/change/Revert.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-09T14:48:11Z",
+      "side": 1,
+      "message": "I don\u0027t know yet, how you intent to reuse this method for revert submission, but likely it will be cleaner to extract this method into another class. Maybe move it into CommitUtil?",
+      "revId": "746f913b5fc25a77de5d080800a6a1acbeb37926",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

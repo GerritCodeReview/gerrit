@@ -115,6 +115,7 @@ limitations under the License.
         query: 'assignee:${user} (-is:wip OR owner:self OR assignee:self) ' +
             'is:open -is:ignored',
         hideIfEmpty: true,
+        suffixForDashboard: 'limit:25',
       },
       {
         // WIP open changes owned by viewing user. This section is omitted when
@@ -123,6 +124,7 @@ limitations under the License.
         query: 'is:open owner:${user} is:wip',
         selfOnly: true,
         hideIfEmpty: true,
+        suffixForDashboard: 'limit:25',
       },
       {
         // Non-WIP open changes owned by viewed user. Filter out changes ignored
@@ -130,6 +132,7 @@ limitations under the License.
         name: 'Outgoing reviews',
         query: 'is:open owner:${user} -is:wip -is:ignored',
         isOutgoing: true,
+        suffixForDashboard: 'limit:25',
       },
       {
         // Non-WIP open changes not owned by the viewed user, that the viewed user
@@ -138,12 +141,14 @@ limitations under the License.
         name: 'Incoming reviews',
         query: 'is:open -owner:${user} -is:wip -is:ignored ' +
             '(reviewer:${user} OR assignee:${user})',
+        suffixForDashboard: 'limit:25',
       },
       {
         // Open changes the viewed user is CCed on. Changes ignored by the viewing
         // user are filtered out.
         name: 'CCed on',
         query: 'is:open -is:ignored cc:${user}',
+        suffixForDashboard: 'limit:10',
       },
       {
         name: 'Recently closed',

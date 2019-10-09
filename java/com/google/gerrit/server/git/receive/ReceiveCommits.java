@@ -47,6 +47,7 @@ import com.google.common.base.Throwables;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.Iterables;
@@ -380,7 +381,7 @@ class ReceiveCommits {
 
   private MessageSender messageSender;
   private ResultChangeIds resultChangeIds;
-  private Map<String, String> loggingTags;
+  private ImmutableMap<String, String> loggingTags;
 
   @Inject
   ReceiveCommits(
@@ -502,7 +503,7 @@ class ReceiveCommits {
     // Handles for outputting back over the wire to the end user.
     this.messageSender = messageSender != null ? messageSender : new ReceivePackMessageSender();
     this.resultChangeIds = resultChangeIds;
-    this.loggingTags = new HashMap<>();
+    this.loggingTags = ImmutableMap.of();
   }
 
   void init() {
@@ -583,7 +584,7 @@ class ReceiveCommits {
 
       commandProgress.end();
       progress.end();
-      loggingTags.putAll(traceContext.getTags());
+      loggingTags = traceContext.getTags();
       logger.atFine().log("Processing commands done.");
     }
   }

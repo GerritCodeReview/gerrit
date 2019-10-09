@@ -99,6 +99,8 @@ public class ApprovalInference {
     } else if ((type.isCopyMinScore() && type.isMaxNegative(psa))
         || (type.isCopyMaxScore() && type.isMaxPositive(psa))) {
       return true;
+    } else if (type.isCopyAnyScore()) {
+      return true;
     }
     switch (kind) {
       case MERGE_FIRST_PARENT_UPDATE:

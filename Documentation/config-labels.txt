@@ -262,6 +262,12 @@ the past and affect submission somehow.
 
 Defaults to true.
 
+[[label_copyAnyScore]]
+=== `label.Label-Name.copyAnyScore`
+
+If true, any score for the label is copied forward when a new patch
+set is uploaded. Defaults to false.
+
 [[label_copyMinScore]]
 === `label.Label-Name.copyMinScore`
 

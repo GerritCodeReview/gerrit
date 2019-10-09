@@ -388,7 +388,7 @@ limitations under the License.
         '<span class="non-whtelisted-class">',
         '<span class="gr-diff gr-syntax gr-syntax-keyword">public</span>',
         '</span>'].join('');
-      const result = element._rangesFromString(str);
+      const result = element._rangesFromString(str, new Map());
       assert.notEqual(result.length, 0);
     });
 

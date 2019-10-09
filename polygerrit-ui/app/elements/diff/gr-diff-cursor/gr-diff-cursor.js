@@ -47,7 +47,7 @@
         type: String,
         value: DiffSides.RIGHT,
       },
-      /** @type {!HTMLElement|undefined} */
+      /** @type {!Node} */
       diffRow: {
         type: Object,
         notify: true,
@@ -194,9 +194,10 @@
     },
 
     getTargetDiffElement() {
-      // Find the parent diff element of the cursor row.
-      for (let diff = this.diffRow; diff; diff = diff.parentElement) {
-        if (diff.tagName === 'GR-DIFF') { return diff; }
+      const hostOwner = Polymer.dom(this.diffRow).getOwnerRoot();
+      if (hostOwner && hostOwner.host &&
+          hostOwner.host.tagName === 'GR-DIFF') {
+        return hostOwner.host;
       }
       return null;
     },

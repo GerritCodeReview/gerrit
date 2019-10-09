@@ -249,6 +249,15 @@ limitations under the License.
       diffElement._diffChanged(mockDiffResponse.diffResponse);
     });
 
+    test('getTargetDiffElement', () => {
+      cursorElement.initialLineNumber = 1;
+      assert.isTrue(!!cursorElement.diffRow);
+      assert.equal(
+          cursorElement.getTargetDiffElement(),
+          diffElement
+      );
+    });
+
     test('getAddress', () => {
       // It should initialize to the first chunk: line 5 of the revision.
       assert.deepEqual(cursorElement.getAddress(),

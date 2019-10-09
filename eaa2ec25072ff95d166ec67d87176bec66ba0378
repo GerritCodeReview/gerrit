@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4c87a6e4_dcf02a31",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 17
+      },
+      "lineNbr": 367,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-09T07:59:43Z",
+      "side": 1,
+      "message": "nit, but can you also handle the empty baseClass in the _computeClass method :), basically just not include that in the `classes` list. thx",
+      "revId": "eaa2ec25072ff95d166ec67d87176bec66ba0378",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cd5fd061_f8c262f5",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 17
+      },
+      "lineNbr": 443,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-09T07:59:43Z",
+      "side": 1,
+      "message": "maybe move the comment after the template :)",
+      "revId": "eaa2ec25072ff95d166ec67d87176bec66ba0378",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

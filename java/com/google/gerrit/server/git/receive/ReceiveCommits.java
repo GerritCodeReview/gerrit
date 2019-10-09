@@ -530,6 +530,16 @@ class ReceiveCommits {
     addMessage(error, ValidationMessage.Type.ERROR);
   }
 
+  /**
+   * Sends all messages which have been collected while processing the push to the client.
+   *
+   * <p><strong>Attention:</strong>{@link AsyncReceiveCommits} may call this method while {@link
+   * #processCommands(Collection, MultiProgressMonitor)} is still running (if the execution of
+   * processCommands takes too long and AsyncReceiveCommits gets a timeout). This means that local
+   * variables that are accessed in this method must be thread-safe (otherwise we may hit a {@link
+   * java.util.ConcurrentModificationException} if we read a variable here that at the same time is
+   * updated by the background thread that still executes processCommands).
+   */
   void sendMessages() {
     try (TraceContext traceContext =
         TraceContext.newTrace(

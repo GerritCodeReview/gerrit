@@ -20,6 +20,7 @@ import static com.google.gerrit.server.permissions.RefPermission.CREATE_CHANGE;
 
 import com.google.common.base.Strings;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.RevertInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -160,7 +161,6 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
   private Change.Id revert(
       BatchUpdate.Factory updateFactory, ChangeNotes notes, CurrentUser user, RevertInput input)
       throws IOException, RestApiException, UpdateException, ConfigInvalidException {
-    String message = Strings.emptyToNull(input.message);
     Change.Id changeIdToRevert = notes.getChangeId();
     PatchSet.Id patchSetId = notes.getChange().currentPatchSetId();
     PatchSet patch = psUtil.get(notes, patchSetId);
@@ -173,41 +173,17 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
         ObjectInserter oi = git.newObjectInserter();
         ObjectReader reader = oi.newReader();
         RevWalk revWalk = new RevWalk(reader)) {
-      RevCommit commitToRevert = revWalk.parseCommit(patch.commitId());
-      if (commitToRevert.getParentCount() == 0) {
-        throw new ResourceConflictException("Cannot revert initial commit");
-      }
 
       Timestamp now = TimeUtil.nowTs();
-      PersonIdent committerIdent = serverIdent.get();
-      PersonIdent authorIdent =
-          user.asIdentifiedUser().newCommitterIdent(now, committerIdent.getTimeZone());
-
-      RevCommit parentToCommitToRevert = commitToRevert.getParent(0);
-      revWalk.parseHeaders(parentToCommitToRevert);
-
-      CommitBuilder revertCommitBuilder = new CommitBuilder();
-      revertCommitBuilder.addParentId(commitToRevert);
-      revertCommitBuilder.setTreeId(parentToCommitToRevert.getTree());
-      revertCommitBuilder.setAuthor(authorIdent);
-      revertCommitBuilder.setCommitter(authorIdent);
-
-      Change changeToRevert = notes.getChange();
-      if (message == null) {
-        message =
-            MessageFormat.format(
-                ChangeMessages.get().revertChangeDefaultMessage,
-                changeToRevert.getSubject(),
-                patch.commitId().name());
-      }
-
       ObjectId generatedChangeId = Change.generateChangeId();
-      revertCommitBuilder.setMessage(ChangeIdUtil.insertId(message, generatedChangeId, true));
+      Change changeToRevert = notes.getChange();
+      ObjectId revertCommitId =
+          createRevertCommit(
+              input.message, notes, user, generatedChangeId, now, patch, oi, revWalk);
+
+      RevCommit revertCommit = revWalk.parseCommit(revertCommitId);
 
       Change.Id changeId = Change.id(seq.nextChangeId());
-      ObjectId id = oi.insert(revertCommitBuilder);
-      RevCommit revertCommit = revWalk.parseCommit(id);
-
       NotifyResolver.Result notify =
           notifyResolver.resolve(
               firstNonNull(input.notify, NotifyHandling.ALL), input.notifyDetails);
@@ -308,5 +284,74 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
       cmUtil.addChangeMessage(ctx.getUpdate(patchSetId), changeMessage);
       return true;
     }
+  }
+
+  /**
+   * Allows creating a revert commit without
+   *
+   * @param message Commit message for the revert commit.
+   * @param notes ChangeNotes of the change being reverted.
+   * @param user Current User performing the revert.
+   * @return ObjectId that represents the newly created commit.
+   * @throws ResourceConflictException Can't revert the initial commit.
+   * @throws IOException Can't parse any of commit fails.
+   */
+  public ObjectId createRevertCommit(String message, ChangeNotes notes, CurrentUser user)
+      throws ResourceConflictException, IOException {
+    message = Strings.emptyToNull(message);
+
+    Project.NameKey project = notes.getProjectName();
+    try (Repository git = repoManager.openRepository(project);
+        ObjectInserter oi = git.newObjectInserter();
+        ObjectReader reader = oi.newReader();
+        RevWalk revWalk = new RevWalk(reader)) {
+      return createRevertCommit(
+          message, notes, user, null, TimeUtil.nowTs(), notes.getCurrentPatchSet(), oi, revWalk);
+    }
+  }
+
+  private ObjectId createRevertCommit(
+      String message,
+      ChangeNotes notes,
+      CurrentUser user,
+      @Nullable ObjectId generatedChangeId,
+      Timestamp ts,
+      PatchSet patch,
+      ObjectInserter oi,
+      RevWalk revWalk)
+      throws ResourceConflictException, IOException {
+
+    RevCommit commitToRevert = revWalk.parseCommit(patch.commitId());
+    if (commitToRevert.getParentCount() == 0) {
+      throw new ResourceConflictException("Cannot revert initial commit");
+    }
+
+    PersonIdent committerIdent = serverIdent.get();
+    PersonIdent authorIdent =
+        user.asIdentifiedUser().newCommitterIdent(ts, committerIdent.getTimeZone());
+
+    RevCommit parentToCommitToRevert = commitToRevert.getParent(0);
+    revWalk.parseHeaders(parentToCommitToRevert);
+
+    CommitBuilder revertCommitBuilder = new CommitBuilder();
+    revertCommitBuilder.addParentId(commitToRevert);
+    revertCommitBuilder.setTreeId(parentToCommitToRevert.getTree());
+    revertCommitBuilder.setAuthor(authorIdent);
+    revertCommitBuilder.setCommitter(authorIdent);
+
+    Change changeToRevert = notes.getChange();
+    if (message == null) {
+      message =
+          MessageFormat.format(
+              ChangeMessages.get().revertChangeDefaultMessage,
+              changeToRevert.getSubject(),
+              patch.commitId().name());
+    }
+    if (generatedChangeId != null) {
+      revertCommitBuilder.setMessage(ChangeIdUtil.insertId(message, generatedChangeId, true));
+    }
+    ObjectId id = oi.insert(revertCommitBuilder);
+    oi.flush();
+    return id;
   }
 }

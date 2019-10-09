@@ -233,6 +233,24 @@
     },
     {
       "key": {
+        "uuid": "ccb41dff_40e7d939",
+        "filename": "java/com/google/gerrit/lucene/QueryBuilder.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-10-09T11:40:46Z",
+      "side": 1,
+      "message": "\u003e May be it was not clear from the commit message, but all this is temporary, and only needed \n\nYes, I was also thinking about that after my comment were already published.\nMakes no sense to invest a lot of time into improving the code design for something\nthat is only temporary.",
+      "parentUuid": "3aded02b_f8a9311c",
+      "revId": "266257cf2649b062ab6ab7f19ab5123ec79aaa6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bcc8a9e9_16db7c95",
         "filename": "java/com/google/gerrit/server/change/AbandonUtil.java",
         "patchSetId": 20

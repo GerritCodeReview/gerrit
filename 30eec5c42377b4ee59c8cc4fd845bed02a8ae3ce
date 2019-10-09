@@ -16,6 +16,24 @@
       "revId": "30eec5c42377b4ee59c8cc4fd845bed02a8ae3ce",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3626b13a_0ee8ec3f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 34
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-10-09T12:59:05Z",
+      "side": 1,
+      "message": "yup, I can only do this in 2 patches when doing it in the in-line editor :(\n\n(I carn’t change the commit msg and change any of the files in the same change.)",
+      "parentUuid": "737343d6_9ea677c2",
+      "revId": "30eec5c42377b4ee59c8cc4fd845bed02a8ae3ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

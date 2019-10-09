@@ -22,6 +22,30 @@
       "revId": "b23b906e7a5d24867d250cde18e57539e9b303f2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "959caa56_9e6a2a21",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-10-09T15:16:40Z",
+      "side": 1,
+      "message": "\u003e I know you aren\u0027t changing the default yet, but obviously you still plan to\n\nExactly, this change per-se didn\u0027t change anything, but I hope we can adjust the default. Though, I agree to the overall theme of your comment: There needs to be a broader analysis on use cases to find out what sane defaults are or what other options we have.\n\n\u003e optionally disabling features to get a perf boost doesn\u0027t seem like the right approach\n\nI mostly agree, hence my desire to change the default. My last paragraph touches this a tiny bit, but it\u0027s intentionally vague. We were circulating ideas for quite a while to rework the event system. Now, that is an invasive change that certainly needs appropriate discussion and an approved design doc, so I didn\u0027t want to go into that much details or anticipate any of that discussion.\n\nBut since you ask, here are my $0.02:\n\nFrom a Gerrit-core and Gerrit-plugin perspective it seems desirable to send events that contain only the absolute minimal information. Say, for a change event, that is just the change number and the project to identify the change and then any specifics about the event. Member-rich entities - like ChangeData or ChangeJson - have the disadvantage that the event sender is forced to compute fields in vain. Through the omnipresence of caches, even of two plugins need the same information it would not get computed twice.\n\nFor stream events, the problem is similar. There are good reasons to not send out more than absolutely needed, but there are are also good reasons to not do that. My gut says, this discussion could be controversial. In the latter case (send more than just the minimum), there will be a component that makes decisions on what data is sent out. This is very similar to what this commit does. It just does it for core and all events.\n\nThere is one issue that I didn\u0027t talk about yet, but that seems worth addressing. The list of defaults uses \"all options minus hand-picked ones\". So when SKIP_MERGEABLE was added, we stopped including that bit through the backdoor (and it seems like no one noticed). It would seem better to me if the list was hard-coded.\n\n\u003e If those features are really terrible for performance, it probably shouldn\u0027t be optional to disable them.\n\nThis is why I said that I \u0027mostly\u0027 agree before: Gerrit is pretty flexible in what repo sizes it supports. If you follow the discussion around \u0027is:mergeable\u0027 and indexing \u0027mergeable\u0027 or not (Ia0de1c7c) it becomes clear that for a small instance (little open changes or slow advancing branches) the feature is quite meaningful and provides value to users. For large instances (fast advancing branch or lots of open changes) it\u0027s pretty much not supportable, generates useless load or leads to stale data in the index that users might wrongly rely on.\n\nTo come back to this topic: The redesign that I briefly touched on would obsolete this change just as it obsoletes most of the event infrastructure we have in place right now and replaces it with something new. But that is a larger project that needs people that commit to design and implementation and also reach consensus to make sure no use case is left behind. If you are interested in the topic and want to get actively involved, please say so and we\u0027ll make sure you are in the loop or - even better - take an active part if you can commit time. I know that Alice had plans in mind but I think there was no timeline and no further commitment.",
+      "parentUuid": "25bcdcc7_90ab951f",
+      "range": {
+        "startLine": 16,
+        "startChar": 27,
+        "endLine": 17,
+        "endChar": 70
+      },
+      "revId": "b23b906e7a5d24867d250cde18e57539e9b303f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

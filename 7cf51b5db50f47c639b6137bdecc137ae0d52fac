@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "980f3ec2_9bda60dc",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-09T07:41:22Z",
+      "side": 1,
+      "message": "don\u0027t you need to add a new endpoint here for plugins to add new column ?",
+      "revId": "7cf51b5db50f47c639b6137bdecc137ae0d52fac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5c328a4d_fe50cbd2",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-09T07:41:22Z",
+      "side": 1,
+      "message": "with `hidden$\u003d` I think you don\u0027t need the second `hidden` :)",
+      "range": {
+        "startLine": 296,
+        "startChar": 41,
+        "endLine": 296,
+        "endChar": 72
+      },
+      "revId": "7cf51b5db50f47c639b6137bdecc137ae0d52fac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "72fcc261_30fef458",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 372,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-09T07:41:22Z",
+      "side": 1,
+      "message": "i think you don\u0027t need this hack, you can ignore the whitespace by just setting the `display: flex;` to the parent div.",
+      "revId": "7cf51b5db50f47c639b6137bdecc137ae0d52fac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "accedd94_06ef3304",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 441,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-09T07:41:22Z",
+      "side": 1,
+      "message": "ditto",
+      "revId": "7cf51b5db50f47c639b6137bdecc137ae0d52fac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

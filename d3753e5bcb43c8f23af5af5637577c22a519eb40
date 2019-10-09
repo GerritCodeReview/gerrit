@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "87317d48_e8925473",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 3086,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-09T12:42:50Z",
+      "side": 1,
+      "message": "Maybe add a link to [1] somewhere in here.\n\n[1] https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#query-options",
+      "range": {
+        "startLine": 3069,
+        "startChar": 1,
+        "endLine": 3086,
+        "endChar": 0
+      },
+      "revId": "d3753e5bcb43c8f23af5af5637577c22a519eb40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e3988eb4_b778fc3b",
+        "filename": "java/com/google/gerrit/server/extensions/events/EventUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-09T12:42:50Z",
+      "side": 1,
+      "message": "log(\"could not parse list change option %s\", c)",
+      "range": {
+        "startLine": 137,
+        "startChar": 40,
+        "endLine": 137,
+        "endChar": 86
+      },
+      "revId": "d3753e5bcb43c8f23af5af5637577c22a519eb40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "326428c1_c4527b21",
+        "filename": "javatests/com/google/gerrit/acceptance/server/event/EventPayloadIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-09T12:42:50Z",
+      "side": 1,
+      "message": "Why is this called \u0027source\u0027?",
+      "range": {
+        "startLine": 32,
+        "startChar": 54,
+        "endLine": 32,
+        "endChar": 60
+      },
+      "revId": "d3753e5bcb43c8f23af5af5637577c22a519eb40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

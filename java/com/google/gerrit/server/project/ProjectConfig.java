@@ -101,6 +101,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   public static final String KEY_COPY_MIN_SCORE = "copyMinScore";
   public static final String KEY_ALLOW_POST_SUBMIT = "allowPostSubmit";
   public static final String KEY_IGNORE_SELF_APPROVAL = "ignoreSelfApproval";
+  public static final String KEY_COPY_ANY_SCORE = "copyAnyScore";
   public static final String KEY_COPY_MAX_SCORE = "copyMaxScore";
   public static final String KEY_COPY_ALL_SCORES_ON_MERGE_FIRST_PARENT_UPDATE =
       "copyAllScoresOnMergeFirstParentUpdate";
@@ -960,6 +961,8 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
           rc.getBoolean(LABEL, name, KEY_ALLOW_POST_SUBMIT, LabelType.DEF_ALLOW_POST_SUBMIT));
       label.setIgnoreSelfApproval(
           rc.getBoolean(LABEL, name, KEY_IGNORE_SELF_APPROVAL, LabelType.DEF_IGNORE_SELF_APPROVAL));
+      label.setCopyAnyScore(
+          rc.getBoolean(LABEL, name, KEY_COPY_ANY_SCORE, LabelType.DEF_COPY_ANY_SCORE));
       label.setCopyMinScore(
           rc.getBoolean(LABEL, name, KEY_COPY_MIN_SCORE, LabelType.DEF_COPY_MIN_SCORE));
       label.setCopyMaxScore(
@@ -1417,6 +1420,13 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
           KEY_IGNORE_SELF_APPROVAL,
           label.ignoreSelfApproval(),
           LabelType.DEF_IGNORE_SELF_APPROVAL);
+      setBooleanConfigKey(
+          rc,
+          LABEL,
+          name,
+          KEY_COPY_ANY_SCORE,
+          label.isCopyAnyScore(),
+          LabelType.DEF_COPY_ANY_SCORE);
       setBooleanConfigKey(
           rc,
           LABEL,

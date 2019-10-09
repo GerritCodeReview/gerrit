@@ -36,6 +36,7 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Stream;
 
 public interface ChangeApi {
   String id();
@@ -160,6 +161,12 @@ public interface ChangeApi {
    * @see Changes#id(int)
    */
   ChangeApi revert(RevertInput in) throws RestApiException;
+
+  default Stream<ChangeApi> revertSubmission() throws RestApiException {
+    return revertSubmission(new RevertInput());
+  }
+
+  Stream<ChangeApi> revertSubmission(RevertInput in) throws RestApiException;
 
   /** Create a merge patch set for the change. */
   ChangeInfo createMergePatchSet(MergePatchSetInput in) throws RestApiException;
@@ -498,6 +505,11 @@ public interface ChangeApi {
 
     @Override
     public ChangeApi revert(RevertInput in) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public Stream<ChangeApi> revertSubmission(RevertInput in) throws RestApiException {
       throw new NotImplementedException();
     }
 

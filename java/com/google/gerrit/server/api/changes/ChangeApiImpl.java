@@ -96,6 +96,7 @@ import com.google.gerrit.server.restapi.change.PutTopic;
 import com.google.gerrit.server.restapi.change.Rebase;
 import com.google.gerrit.server.restapi.change.Restore;
 import com.google.gerrit.server.restapi.change.Revert;
+import com.google.gerrit.server.restapi.change.RevertSubmission;
 import com.google.gerrit.server.restapi.change.Reviewers;
 import com.google.gerrit.server.restapi.change.Revisions;
 import com.google.gerrit.server.restapi.change.SetReadyForReview;
@@ -109,10 +110,12 @@ import com.google.inject.Injector;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.assistedinject.Assisted;
+import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Stream;
 import org.kohsuke.args4j.CmdLineException;
 
 class ChangeApiImpl implements ChangeApi {
@@ -132,6 +135,7 @@ class ChangeApiImpl implements ChangeApi {
   private final ChangeResource change;
   private final Abandon abandon;
   private final Revert revert;
+  private final RevertSubmission revertSubmission;
   private final Restore restore;
   private final CreateMergePatchSet updateByMerge;
   private final Provider<SubmittedTogether> submittedTogether;
@@ -181,6 +185,7 @@ class ChangeApiImpl implements ChangeApi {
       ListReviewers listReviewers,
       Abandon abandon,
       Revert revert,
+      RevertSubmission revertSubmission,
       Restore restore,
       CreateMergePatchSet updateByMerge,
       Provider<SubmittedTogether> submittedTogether,
@@ -219,6 +224,7 @@ class ChangeApiImpl implements ChangeApi {
       @Assisted ChangeResource change) {
     this.changeApi = changeApi;
     this.revert = revert;
+    this.revertSubmission = revertSubmission;
     this.reviewers = reviewers;
     this.revisions = revisions;
     this.reviewerApi = reviewerApi;
@@ -354,6 +360,20 @@ class ChangeApiImpl implements ChangeApi {
       return changeApi.id(revert.apply(change, in).value()._number);
     } catch (Exception e) {
       throw asRestApiException("Cannot revert change", e);
+    }
+  }
+
+  @Override
+  public Stream<ChangeApi> revertSubmission(RevertInput in) throws RestApiException {
+    try {
+      List<ChangeApi> changeApis = new ArrayList<>();
+      List<ChangeInfo> changeInfos = revertSubmission.apply(change, in).value();
+      for (ChangeInfo changeInfo : changeInfos) {
+        changeApis.add(changeApi.id(changeInfo._number));
+      }
+      return changeApis.stream();
+    } catch (Exception e) {
+      throw asRestApiException("Cannot revert a change submission", e);
     }
   }
 

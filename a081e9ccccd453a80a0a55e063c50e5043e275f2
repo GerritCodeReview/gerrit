@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7d8f769_ead5300b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-09T11:53:06Z",
+      "side": 1,
+      "message": "no trailing dot in first line of commit message\nmaybe move \"also split tests\" into paragraph below\n\nhttps://gerrit-review.googlesource.com/Documentation/dev-crafting-changes.html#commit-message",
+      "range": {
+        "startLine": 7,
+        "startChar": 64,
+        "endLine": 7,
+        "endChar": 65
+      },
+      "revId": "a081e9ccccd453a80a0a55e063c50e5043e275f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1b5b194a_6671052b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-api-utils.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-09T11:53:06Z",
+      "side": 1,
+      "message": "Would be nice to also add a test file, even if it only contains just a very simple test of getPluginName.",
+      "revId": "a081e9ccccd453a80a0a55e063c50e5043e275f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

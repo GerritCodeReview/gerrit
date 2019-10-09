@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f6eac76c_a407bbfd",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 17
+      },
+      "lineNbr": 367,
+      "author": {
+        "id": 1074943
+      },
+      "writtenOn": "2019-10-09T18:43:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4c87a6e4_dcf02a31",
+      "revId": "eaa2ec25072ff95d166ec67d87176bec66ba0378",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cd5fd061_f8c262f5",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
         "patchSetId": 17
@@ -33,6 +51,24 @@
       "revId": "eaa2ec25072ff95d166ec67d87176bec66ba0378",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "50a144e6_e3d8f467",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 17
+      },
+      "lineNbr": 443,
+      "author": {
+        "id": 1074943
+      },
+      "writtenOn": "2019-10-09T18:43:29Z",
+      "side": 1,
+      "message": "Good catch! Done.",
+      "parentUuid": "cd5fd061_f8c262f5",
+      "revId": "eaa2ec25072ff95d166ec67d87176bec66ba0378",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

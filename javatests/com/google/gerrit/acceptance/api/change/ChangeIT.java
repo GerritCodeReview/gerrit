@@ -785,6 +785,29 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void revertWithDefaultTopic() throws Exception {
+    PushOneCommit.Result result = createChange();
+    gApi.changes().id(result.getChangeId()).current().review(ReviewInput.approve());
+    gApi.changes().id(result.getChangeId()).topic("topic");
+    gApi.changes().id(result.getChangeId()).revision(result.getCommit().name()).submit();
+    RevertInput revertInput = new RevertInput();
+    assertThat(gApi.changes().id(result.getChangeId()).revert(revertInput).topic())
+        .isEqualTo("topic");
+  }
+
+  @Test
+  public void revertWithSetTopic() throws Exception {
+    PushOneCommit.Result result = createChange();
+    gApi.changes().id(result.getChangeId()).current().review(ReviewInput.approve());
+    gApi.changes().id(result.getChangeId()).topic("topic");
+    gApi.changes().id(result.getChangeId()).revision(result.getCommit().name()).submit();
+    RevertInput revertInput = new RevertInput();
+    revertInput.topic = "reverted-not-default";
+    assertThat(gApi.changes().id(result.getChangeId()).revert(revertInput).topic())
+        .isEqualTo(revertInput.topic);
+  }
+
+  @Test
   public void revertNotifications() throws Exception {
     PushOneCommit.Result r = createChange();
     gApi.changes().id(r.getChangeId()).addReviewer(user.email());

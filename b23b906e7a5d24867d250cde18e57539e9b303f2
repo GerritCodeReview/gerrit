@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "25bcdcc7_90ab951f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2019-10-09T14:35:52Z",
+      "side": 1,
+      "message": "I\u0027m not sure basing this change just on core plugins is appropriate. We have no idea what data stream-events users are relying upon. Last I checked stream-events usage wasn\u0027t possible at Google so I understand that wouldn\u0027t be a concern for your users, but I think it\u0027s pretty widely used elsewhere. I know you aren\u0027t changing the default yet, but obviously you still plan to. Do you/we have a good enough understanding of usage to say changing that default won\u0027t have a significant impact to users?\n\nWhile I understand the desire for improved performance (though this commit is very unspecific about in what context performance is actually a concern), optionally disabling features to get a perf boost doesn\u0027t seem like the right approach. If those features are really terrible for performance, it probably shouldn\u0027t be optional to disable them. If they\u0027re not that bad or not always terrible, it seems we should be able to find ways to improve them or perhaps as you mention in the last paragraph (just guessing since there isn\u0027t much concrete there), redesign such that the performance is no longer an issue.",
+      "range": {
+        "startLine": 16,
+        "startChar": 27,
+        "endLine": 17,
+        "endChar": 70
+      },
+      "revId": "b23b906e7a5d24867d250cde18e57539e9b303f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

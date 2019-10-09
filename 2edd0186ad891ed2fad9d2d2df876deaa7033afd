@@ -22,6 +22,30 @@
       "revId": "2edd0186ad891ed2fad9d2d2df876deaa7033afd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1fbc4ce6_0120a1fb",
+        "filename": "polygerrit-ui/app/elements/diff/gr-patch-range-select/gr-patch-range-select.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-09T13:21:26Z",
+      "side": 1,
+      "message": "Disregard this comment. In PG, the whole line in the dropdown is already linkified.",
+      "parentUuid": "2779491b_6feedb17",
+      "range": {
+        "startLine": 150,
+        "startChar": 17,
+        "endLine": 150,
+        "endChar": 23
+      },
+      "revId": "2edd0186ad891ed2fad9d2d2df876deaa7033afd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

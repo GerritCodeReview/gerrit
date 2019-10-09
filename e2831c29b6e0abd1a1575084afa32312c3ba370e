@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e7b87bb7_64de83c0",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 36
+      },
+      "lineNbr": 936,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-09T14:20:06Z",
+      "side": 1,
+      "message": "May be extract this check as it is also used in negated form on line 929 above, say:\n\n  let comparedAgainsParent \u003d patchRange.basePatchNum \u003d\u003d\u003d \u0027PARENT\u0027;\n\nand re-use it in bos places?",
+      "range": {
+        "startLine": 936,
+        "startChar": 20,
+        "endLine": 936,
+        "endChar": 56
+      },
+      "revId": "e2831c29b6e0abd1a1575084afa32312c3ba370e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

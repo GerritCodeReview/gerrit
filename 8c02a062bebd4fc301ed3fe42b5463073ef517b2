@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "804818ad_a96dafbb",
+        "filename": "polygerrit-ui/app/behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-09T09:00:28Z",
+      "side": 1,
+      "message": "hmm i don\u0027t think modify the `change` directly here is a good idea since its shared in multiple places and its from API response, usually we want to keep the API response as readonly.\n\nmaybe just do\n\n```\nconst revisions \u003d Object.keys(change.revisions).map(sha \u003d\u003e {\n  return {sha, ...change.revisions[sha]};\n});\n```\n\nand pass the rivisions to sortRevisions.",
+      "revId": "8c02a062bebd4fc301ed3fe42b5463073ef517b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

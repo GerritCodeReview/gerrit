@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "35268fee_04255797",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 33
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-09T08:28:46Z",
+      "side": 1,
+      "message": "Maybe enumerate the corner cases that you have fixed in this change.",
+      "revId": "e6690d71e360376e4fe7a438ecbd935741ce941f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "775f953c_386ff6fc",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 33
+      },
+      "lineNbr": 927,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-09T08:28:46Z",
+      "side": 1,
+      "message": "This is not really optional. You have to know whether to compute the link for the base file or not. Remove \"opt_\".",
+      "range": {
+        "startLine": 927,
+        "startChar": 56,
+        "endLine": 927,
+        "endChar": 66
+      },
+      "revId": "e6690d71e360376e4fe7a438ecbd935741ce941f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "94c2e46d_244c55c1",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 33
+      },
+      "lineNbr": 927,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-09T08:28:46Z",
+      "side": 1,
+      "message": "Since we never display diffs for edit mode files I am not sure it is helpful to complicate matters by taking it into account. WDYT?",
+      "range": {
+        "startLine": 927,
+        "startChar": 46,
+        "endLine": 927,
+        "endChar": 54
+      },
+      "revId": "e6690d71e360376e4fe7a438ecbd935741ce941f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7cd571e7_f5d76eac",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 33
+      },
+      "lineNbr": 936,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-09T08:28:46Z",
+      "side": 1,
+      "message": "patchRange.basePatchNum must be set. Drop the check.",
+      "range": {
+        "startLine": 936,
+        "startChar": 24,
+        "endLine": 936,
+        "endChar": 47
+      },
+      "revId": "e6690d71e360376e4fe7a438ecbd935741ce941f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

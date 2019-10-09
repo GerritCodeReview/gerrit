@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "68e90660_ad23afe6",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 18
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 1074943
+      },
+      "writtenOn": "2019-10-09T20:17:54Z",
+      "side": 1,
+      "message": "No I don\u0027t. Removed it, thanks for the suggestions.",
+      "parentUuid": "b1321009_9db9d3a6",
+      "range": {
+        "startLine": 368,
+        "startChar": 45,
+        "endLine": 368,
+        "endChar": 46
+      },
+      "revId": "ec9b6fc47776630823431085f262d4a910c59b36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4979453f_6ddfb8ad",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
         "patchSetId": 18

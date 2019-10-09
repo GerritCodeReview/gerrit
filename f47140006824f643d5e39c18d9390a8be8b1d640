@@ -226,6 +226,30 @@
     },
     {
       "key": {
+        "uuid": "e4ece89b_45658652",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 24
+      },
+      "lineNbr": 908,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-10-09T00:21:44Z",
+      "side": 1,
+      "message": "Fixed all use cases in new patchset!\n\nIn matter of fact GWTUI has a bug with renames.\n\nWhen renaming a file and comparing base to patchset 3 the download link is like:\n\nhttps://gerrit.git.wmflabs.org/r/cat/3143%2C3%2Cindex2.php^1\n\nWhere as it should be:\n\nhttps://gerrit.git.wmflabs.org/r/cat/3143%2C3%2Cindex.php^1",
+      "parentUuid": "d78004c4_6bd3c36f",
+      "range": {
+        "startLine": 908,
+        "startChar": 60,
+        "endLine": 908,
+        "endChar": 61
+      },
+      "revId": "f47140006824f643d5e39c18d9390a8be8b1d640",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "902c8be2_6eb18887",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
         "patchSetId": 24

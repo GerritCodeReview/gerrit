@@ -73,6 +73,54 @@
     },
     {
       "key": {
+        "uuid": "df55b91f_04dd4fdb",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 27
+      },
+      "lineNbr": 906,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-10-09T00:21:44Z",
+      "side": 1,
+      "message": "Fixed support for the use cases described in your feedback and David O.",
+      "parentUuid": "d552cde2_07d9e482",
+      "range": {
+        "startLine": 906,
+        "startChar": 60,
+        "endLine": 906,
+        "endChar": 64
+      },
+      "revId": "0ffdbb8e235ff025a78ea316d08368ca81411a77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "89a3cf5d_3e9d598c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 27
+      },
+      "lineNbr": 906,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-10-09T00:21:44Z",
+      "side": 1,
+      "message": "I\u0027ve compared how GWTUI does it and it works like it now!\n\nThanks!",
+      "parentUuid": "d552cde2_07d9e482",
+      "range": {
+        "startLine": 906,
+        "startChar": 60,
+        "endLine": 906,
+        "endChar": 64
+      },
+      "revId": "0ffdbb8e235ff025a78ea316d08368ca81411a77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f001b03e_60381dd3",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
         "patchSetId": 27
@@ -117,6 +165,54 @@
       "revId": "0ffdbb8e235ff025a78ea316d08368ca81411a77",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4515c40e_a97dd196",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 27
+      },
+      "lineNbr": 926,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-10-09T00:21:44Z",
+      "side": 1,
+      "message": "Thanks, done (using it for if it\u0027s a edit change).",
+      "parentUuid": "4da4b3dd_78e4273f",
+      "range": {
+        "startLine": 926,
+        "startChar": 66,
+        "endLine": 926,
+        "endChar": 74
+      },
+      "revId": "0ffdbb8e235ff025a78ea316d08368ca81411a77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8135a732_9974151b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 27
+      },
+      "lineNbr": 926,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-10-09T00:21:44Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "4da4b3dd_78e4273f",
+      "range": {
+        "startLine": 926,
+        "startChar": 66,
+        "endLine": 926,
+        "endChar": 74
+      },
+      "revId": "0ffdbb8e235ff025a78ea316d08368ca81411a77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

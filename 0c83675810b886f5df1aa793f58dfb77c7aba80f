@@ -22,6 +22,30 @@
       "revId": "0c83675810b886f5df1aa793f58dfb77c7aba80f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c8f97bb3_528458cd",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2645,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-10-09T14:02:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "332d8d15_1253fc3b",
+      "range": {
+        "startLine": 2645,
+        "startChar": 33,
+        "endLine": 2645,
+        "endChar": 35
+      },
+      "revId": "0c83675810b886f5df1aa793f58dfb77c7aba80f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

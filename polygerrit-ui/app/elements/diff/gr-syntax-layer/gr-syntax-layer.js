@@ -259,12 +259,14 @@
         lastNotify: {left: 1, right: 1},
       };
 
+      const cacheRanges = new Map();
+
       this._processPromise = util.makeCancelable(this._loadHLJS()
           .then(() => {
             return new Promise(resolve => {
               const nextStep = () => {
                 this._processHandle = null;
-                this._processNextLine(state);
+                this._processNextLine(state, cacheRanges);
 
                 // Move to the next line in the section.
                 state.lineIndex++;
@@ -321,12 +323,19 @@
      * Highlight.js emits and emit a list of text ranges and classes for the
      * markers.
      * @param {string} str The string of HTML.
+     * @param {Map<string, Array} cacheRanges a map for caching
      * @return {!Array<!Object>} The list of ranges.
      */
-    _rangesFromString(str) {
-      const div = document.createElement('div');
-      div.innerHTML = str;
-      return this._rangesFromElement(div, 0);
+    _rangesFromString(str, cacheRanges) {
+      if (cacheRanges.has(str)) {
+        return cacheRanges.get(str);
+      } else {
+        const div = document.createElement('div');
+        div.innerHTML = str;
+        const ranges = this._rangesFromElement(div, 0);
+        cacheRanges.set(str, ranges);
+        return ranges;
+      }
     },
 
     _rangesFromElement(elem, offset) {
@@ -357,7 +366,7 @@
      * lines).
      * @param {!Object} state The processing state for the layer.
      */
-    _processNextLine(state) {
+    _processNextLine(state, cacheRanges) {
       let baseLine;
       let revisionLine;
 
@@ -386,7 +395,8 @@
         baseLine = this._workaround(this._baseLanguage, baseLine);
         result = this._hljs.highlight(this._baseLanguage, baseLine, true,
             state.baseContext);
-        this.push('_baseRanges', this._rangesFromString(result.value));
+        this.push('_baseRanges',
+            this._rangesFromString(result.value, cacheRanges));
         state.baseContext = result.top;
       }
 
@@ -395,7 +405,8 @@
         revisionLine = this._workaround(this._revisionLanguage, revisionLine);
         result = this._hljs.highlight(this._revisionLanguage, revisionLine,
             true, state.revisionContext);
-        this.push('_revisionRanges', this._rangesFromString(result.value));
+        this.push('_revisionRanges',
+            this._rangesFromString(result.value, cacheRanges));
         state.revisionContext = result.top;
       }
     },

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "35fa5f3e_59a14c2a",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 6925,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-10-09T12:02:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da716802_39715905",
+      "range": {
+        "startLine": 6925,
+        "startChar": 8,
+        "endLine": 6925,
+        "endChar": 18
+      },
+      "revId": "affc34e923f432fd360a81a19b8a48e4565653b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cb5f12a8_25e663b8",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "affc34e923f432fd360a81a19b8a48e4565653b3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "922a04ab_c504f7dd",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 6926,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-10-09T12:02:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cb5f12a8_25e663b8",
+      "range": {
+        "startLine": 6926,
+        "startChar": 26,
+        "endLine": 6926,
+        "endChar": 41
+      },
+      "revId": "affc34e923f432fd360a81a19b8a48e4565653b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "03683b1d_88497499",
+        "filename": "java/com/google/gerrit/server/restapi/change/Revert.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-10-09T12:02:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "efc46d64_08e9bc97",
+      "range": {
+        "startLine": 218,
+        "startChar": 74,
+        "endLine": 218,
+        "endChar": 85
+      },
+      "revId": "affc34e923f432fd360a81a19b8a48e4565653b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f5e6b43d_e16abc1f",
         "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 1
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "0f7ccec2_0f9bbc36",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 788,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-10-09T12:02:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f5e6b43d_e16abc1f",
+      "range": {
+        "startLine": 788,
+        "startChar": 14,
+        "endLine": 788,
+        "endChar": 33
+      },
+      "revId": "affc34e923f432fd360a81a19b8a48e4565653b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f6449d9f_5f421447",
         "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
         "patchSetId": 1
@@ -114,6 +210,30 @@
       "revId": "affc34e923f432fd360a81a19b8a48e4565653b3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4cb0af3e_bafbd91f",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 800,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-10-09T12:02:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f6449d9f_5f421447",
+      "range": {
+        "startLine": 800,
+        "startChar": 4,
+        "endLine": 800,
+        "endChar": 49
+      },
+      "revId": "affc34e923f432fd360a81a19b8a48e4565653b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

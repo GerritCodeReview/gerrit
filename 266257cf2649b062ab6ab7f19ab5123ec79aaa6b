@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "76ca2490_976cbb57",
+        "filename": "java/com/google/gerrit/elasticsearch/ElasticChangeIndex.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-09T21:03:34Z",
+      "side": 1,
+      "message": "This could be set in ctor.",
+      "range": {
+        "startLine": 173,
+        "startChar": 8,
+        "endLine": 175,
+        "endChar": 47
+      },
+      "revId": "266257cf2649b062ab6ab7f19ab5123ec79aaa6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b67f6bf9_1bdd17d7",
         "filename": "java/com/google/gerrit/elasticsearch/ElasticChangeIndex.java",
         "patchSetId": 20
@@ -49,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "c3aa85fc_14017435",
+        "filename": "java/com/google/gerrit/elasticsearch/ElasticChangeIndex.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-09T21:03:34Z",
+      "side": 1,
+      "message": "This could be set in ctor. Done.",
+      "parentUuid": "cde394ca_4438cb01",
+      "range": {
+        "startLine": 216,
+        "startChar": 8,
+        "endLine": 216,
+        "endChar": 88
+      },
+      "revId": "266257cf2649b062ab6ab7f19ab5123ec79aaa6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8c887d39_73236a1b",
         "filename": "java/com/google/gerrit/index/Schema.java",
         "patchSetId": 20
@@ -63,6 +110,24 @@
       "revId": "266257cf2649b062ab6ab7f19ab5123ec79aaa6b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fcee16e0_0edb17a5",
+        "filename": "java/com/google/gerrit/index/Schema.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-09T21:03:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8c887d39_73236a1b",
+      "revId": "266257cf2649b062ab6ab7f19ab5123ec79aaa6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -89,6 +154,30 @@
     },
     {
       "key": {
+        "uuid": "07826ddc_48475b08",
+        "filename": "java/com/google/gerrit/index/SchemaUtil.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-09T21:03:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ddb41937_861c4571",
+      "range": {
+        "startLine": 69,
+        "startChar": 45,
+        "endLine": 69,
+        "endChar": 50
+      },
+      "revId": "266257cf2649b062ab6ab7f19ab5123ec79aaa6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9ac8695b_80c0701b",
         "filename": "java/com/google/gerrit/index/SchemaUtil.java",
         "patchSetId": 20
@@ -103,6 +192,24 @@
       "revId": "266257cf2649b062ab6ab7f19ab5123ec79aaa6b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "de4c1ac7_f6dca3b5",
+        "filename": "java/com/google/gerrit/index/SchemaUtil.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-09T21:03:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9ac8695b_80c0701b",
+      "revId": "266257cf2649b062ab6ab7f19ab5123ec79aaa6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -129,6 +236,30 @@
     },
     {
       "key": {
+        "uuid": "12c31621_5e3e144b",
+        "filename": "java/com/google/gerrit/index/SchemaUtil.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-09T21:03:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fd27ddc7_d9f1395d",
+      "range": {
+        "startLine": 76,
+        "startChar": 8,
+        "endLine": 76,
+        "endChar": 13
+      },
+      "revId": "266257cf2649b062ab6ab7f19ab5123ec79aaa6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e4e04992_a5418e45",
         "filename": "java/com/google/gerrit/index/SchemaUtil.java",
         "patchSetId": 20
@@ -149,6 +280,30 @@
       "revId": "266257cf2649b062ab6ab7f19ab5123ec79aaa6b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8076e4ac_8453e23c",
+        "filename": "java/com/google/gerrit/index/SchemaUtil.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-09T21:03:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e4e04992_a5418e45",
+      "range": {
+        "startLine": 85,
+        "startChar": 32,
+        "endLine": 85,
+        "endChar": 54
+      },
+      "revId": "266257cf2649b062ab6ab7f19ab5123ec79aaa6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -175,6 +330,30 @@
     },
     {
       "key": {
+        "uuid": "1a5f59a7_def6de11",
+        "filename": "java/com/google/gerrit/index/SchemaUtil.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-09T21:03:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "acec7dc6_ab2a28c0",
+      "range": {
+        "startLine": 95,
+        "startChar": 45,
+        "endLine": 95,
+        "endChar": 67
+      },
+      "revId": "266257cf2649b062ab6ab7f19ab5123ec79aaa6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9b153251_ed4a942e",
         "filename": "java/com/google/gerrit/index/project/ProjectSchemaDefinitions.java",
         "patchSetId": 20
@@ -191,6 +370,191 @@
         "startChar": 10,
         "endLine": 27,
         "endChar": 15
+      },
+      "revId": "266257cf2649b062ab6ab7f19ab5123ec79aaa6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b1a039fb_e6e35c11",
+        "filename": "java/com/google/gerrit/index/project/ProjectSchemaDefinitions.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-09T21:03:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9b153251_ed4a942e",
+      "range": {
+        "startLine": 27,
+        "startChar": 10,
+        "endLine": 27,
+        "endChar": 15
+      },
+      "revId": "266257cf2649b062ab6ab7f19ab5123ec79aaa6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "06c90621_1063a940",
+        "filename": "java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-09T21:03:34Z",
+      "side": 1,
+      "message": "This can also be simplified, using lambda expression:\n\n  @FunctionalInterface\n  static interface IdTerm {\n    Term get(String name, int id);\n  }",
+      "range": {
+        "startLine": 140,
+        "startChar": 2,
+        "endLine": 150,
+        "endChar": 3
+      },
+      "revId": "266257cf2649b062ab6ab7f19ab5123ec79aaa6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2826a7f9_89f0de9d",
+        "filename": "java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-09T21:03:34Z",
+      "side": 1,
+      "message": "This can be set in ctor.",
+      "range": {
+        "startLine": 264,
+        "startChar": 4,
+        "endLine": 264,
+        "endChar": 94
+      },
+      "revId": "266257cf2649b062ab6ab7f19ab5123ec79aaa6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f83326d6_6870b458",
+        "filename": "java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-09T21:03:34Z",
+      "side": 1,
+      "message": "This could be set in ctor.",
+      "range": {
+        "startLine": 414,
+        "startChar": 8,
+        "endLine": 414,
+        "endChar": 99
+      },
+      "revId": "266257cf2649b062ab6ab7f19ab5123ec79aaa6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "58db20d9_4dbd7f04",
+        "filename": "java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 462,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-09T21:03:34Z",
+      "side": 1,
+      "message": "This can be simplified using lambda expression with:\n\n  @FunctionalInterface\n  static interface ChangeIdExtractor {\n    Change.Id extract(IndexableField f);\n  }",
+      "range": {
+        "startLine": 458,
+        "startChar": 6,
+        "endLine": 462,
+        "endChar": 54
+      },
+      "revId": "266257cf2649b062ab6ab7f19ab5123ec79aaa6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1556a9b0_94de9d71",
+        "filename": "java/com/google/gerrit/lucene/QueryBuilder.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-09T21:03:34Z",
+      "side": 1,
+      "message": "This could be simplified using lambda expression:\n\n  @FunctionalInterface\n  static interface IntTermQuery {\n    Query get(String name, int value);\n  }",
+      "range": {
+        "startLine": 179,
+        "startChar": 4,
+        "endLine": 183,
+        "endChar": 33
+      },
+      "revId": "266257cf2649b062ab6ab7f19ab5123ec79aaa6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "03ac0f02_a5bb561c",
+        "filename": "java/com/google/gerrit/lucene/QueryBuilder.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-09T21:03:34Z",
+      "side": 1,
+      "message": "The same as above.",
+      "range": {
+        "startLine": 194,
+        "startChar": 8,
+        "endLine": 197,
+        "endChar": 39
+      },
+      "revId": "266257cf2649b062ab6ab7f19ab5123ec79aaa6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4e2349e6_0f9ad79e",
+        "filename": "java/com/google/gerrit/lucene/QueryBuilder.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-09T21:03:34Z",
+      "side": 1,
+      "message": "This could be simplified using lambda expression:\n\n  @FunctionalInterface\n  static interface IntRangeQuery {\n    Query get(String name, int min, int max);\n  }",
+      "range": {
+        "startLine": 199,
+        "startChar": 6,
+        "endLine": 203,
+        "endChar": 78
       },
       "revId": "266257cf2649b062ab6ab7f19ab5123ec79aaa6b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
@@ -251,6 +615,47 @@
     },
     {
       "key": {
+        "uuid": "b7cbb00e_adcd25cd",
+        "filename": "java/com/google/gerrit/lucene/QueryBuilder.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-09T21:03:34Z",
+      "side": 1,
+      "message": "This could be simplified using lambda expression:\n\n  @FunctionalInterface\n  static interface LongRangeQuery {\n    Query get(String name, long min, long max);\n  }",
+      "parentUuid": "ccb41dff_40e7d939",
+      "revId": "266257cf2649b062ab6ab7f19ab5123ec79aaa6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c852b214_dcdb071f",
+        "filename": "java/com/google/gerrit/lucene/QueryBuilder.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-09T21:03:34Z",
+      "side": 1,
+      "message": "Same as above.",
+      "range": {
+        "startLine": 227,
+        "startChar": 4,
+        "endLine": 233,
+        "endChar": 90
+      },
+      "revId": "266257cf2649b062ab6ab7f19ab5123ec79aaa6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bcc8a9e9_16db7c95",
         "filename": "java/com/google/gerrit/server/change/AbandonUtil.java",
         "patchSetId": 20
@@ -286,6 +691,24 @@
     },
     {
       "key": {
+        "uuid": "43e090bb_c3928dc4",
+        "filename": "java/com/google/gerrit/server/change/AbandonUtil.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-09T21:03:34Z",
+      "side": 1,
+      "message": "I added a TODO in this file in the comment above, and I also added explanation about this reason for that change to the commit message. Done.",
+      "parentUuid": "0ec5edf0_f524a3d4",
+      "revId": "266257cf2649b062ab6ab7f19ab5123ec79aaa6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a3059980_3131df93",
         "filename": "java/com/google/gerrit/server/index/account/AccountSchemaDefinitions.java",
         "patchSetId": 20
@@ -306,6 +729,30 @@
       "revId": "266257cf2649b062ab6ab7f19ab5123ec79aaa6b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f4a138e_6e784174",
+        "filename": "java/com/google/gerrit/server/index/account/AccountSchemaDefinitions.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-09T21:03:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a3059980_3131df93",
+      "range": {
+        "startLine": 27,
+        "startChar": 10,
+        "endLine": 27,
+        "endChar": 15
+      },
+      "revId": "266257cf2649b062ab6ab7f19ab5123ec79aaa6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -332,6 +779,30 @@
     },
     {
       "key": {
+        "uuid": "a0987fd0_b5011f58",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeSchemaDefinitions.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-09T21:03:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e9238bdb_8754052c",
+      "range": {
+        "startLine": 27,
+        "startChar": 10,
+        "endLine": 27,
+        "endChar": 15
+      },
+      "revId": "266257cf2649b062ab6ab7f19ab5123ec79aaa6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2c33b485_8c8b839c",
         "filename": "java/com/google/gerrit/server/index/change/ChangeSchemaDefinitions.java",
         "patchSetId": 20
@@ -355,6 +826,30 @@
     },
     {
       "key": {
+        "uuid": "42e9d3bd_1b708c5f",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeSchemaDefinitions.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-09T21:03:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2c33b485_8c8b839c",
+      "range": {
+        "startLine": 74,
+        "startChar": 64,
+        "endLine": 79,
+        "endChar": 68
+      },
+      "revId": "266257cf2649b062ab6ab7f19ab5123ec79aaa6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "25c8ca03_bb5d2c4b",
         "filename": "java/com/google/gerrit/server/index/change/ChangeSchemaDefinitions.java",
         "patchSetId": 20
@@ -372,6 +867,24 @@
     },
     {
       "key": {
+        "uuid": "94b5a9f1_09b6208d",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeSchemaDefinitions.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-09T21:03:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "25c8ca03_bb5d2c4b",
+      "revId": "266257cf2649b062ab6ab7f19ab5123ec79aaa6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6e882c12_46e3c8fc",
         "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
         "patchSetId": 20
@@ -383,6 +896,47 @@
       "writtenOn": "2019-10-07T18:31:55Z",
       "side": 1,
       "message": "Extra blank line?",
+      "revId": "266257cf2649b062ab6ab7f19ab5123ec79aaa6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "add50524_29b497ad",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 464,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-09T21:03:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6e882c12_46e3c8fc",
+      "revId": "266257cf2649b062ab6ab7f19ab5123ec79aaa6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0f02f08_1f8d3777",
+        "filename": "java/com/google/gerrit/server/query/change/InternalChangeQuery.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-09T21:03:34Z",
+      "side": 1,
+      "message": "This could be simplified using lambda expression:\n\n  @FunctionalInterface\n  static interface ChangeIdPredicateFactory {\n    Predicate\u003cChangeData\u003e predicate(Change.Id id);\n  }",
+      "range": {
+        "startLine": 104,
+        "startChar": 4,
+        "endLine": 109,
+        "endChar": 48
+      },
       "revId": "266257cf2649b062ab6ab7f19ab5123ec79aaa6b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -405,6 +959,53 @@
         "startChar": 37,
         "endLine": 115,
         "endChar": 68
+      },
+      "revId": "266257cf2649b062ab6ab7f19ab5123ec79aaa6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8e860754_f6563f87",
+        "filename": "java/com/google/gerrit/server/query/change/InternalChangeQuery.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-09T21:03:34Z",
+      "side": 1,
+      "message": "Not applicable any more, because the code was simplified using lambda expression.",
+      "parentUuid": "230d9a38_97562148",
+      "range": {
+        "startLine": 115,
+        "startChar": 37,
+        "endLine": 115,
+        "endChar": 68
+      },
+      "revId": "266257cf2649b062ab6ab7f19ab5123ec79aaa6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f8ef437b_16d235d2",
+        "filename": "java/com/google/gerrit/server/query/change/InternalChangeQuery.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-09T21:03:34Z",
+      "side": 1,
+      "message": "Same as above.",
+      "range": {
+        "startLine": 118,
+        "startChar": 6,
+        "endLine": 121,
+        "endChar": 50
       },
       "revId": "266257cf2649b062ab6ab7f19ab5123ec79aaa6b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

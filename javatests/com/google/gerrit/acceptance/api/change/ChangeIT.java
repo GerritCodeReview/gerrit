@@ -94,6 +94,7 @@ import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.extensions.api.accounts.DeleteDraftCommentsInput;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.AddReviewerResult;
+import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.DeleteReviewerInput;
 import com.google.gerrit.extensions.api.changes.DeleteVoteInput;
 import com.google.gerrit.extensions.api.changes.DraftApi;
@@ -893,22 +894,141 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void cantCreateRevertWithoutProjectWritePermission() throws Exception {
-    PushOneCommit.Result r = createChange();
-    gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).review(ReviewInput.approve());
-    gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).submit();
+  public void cantCreateRevertsWithoutProjectWritePermission() throws Exception {
+    PushOneCommit.Result result = createChange();
+    gApi.changes()
+        .id(result.getChangeId())
+        .revision(result.getCommit().name())
+        .review(ReviewInput.approve());
+    gApi.changes().id(result.getChangeId()).revision(result.getCommit().name()).submit();
     projectCache.checkedGet(project).getProject().setState(ProjectState.READ_ONLY);
 
+    String expected = "project state " + ProjectState.READ_ONLY + " does not permit write";
     ResourceConflictException thrown =
         assertThrows(
-            ResourceConflictException.class, () -> gApi.changes().id(r.getChangeId()).revert());
-    assertThat(thrown)
-        .hasMessageThat()
-        .contains("project state " + ProjectState.READ_ONLY + " does not permit write");
+            ResourceConflictException.class,
+            () -> gApi.changes().id(result.getChangeId()).revert());
+    assertThat(thrown).hasMessageThat().contains(expected);
+    thrown =
+        assertThrows(
+            ResourceConflictException.class,
+            () -> gApi.changes().id(result.getChangeId()).revertSubmission());
+    assertThat(thrown).hasMessageThat().contains(expected);
+  }
+
+  @Test
+  public void revertSubmissionPreservesReviewersAndCcs() throws Exception {
+    PushOneCommit.Result r = createChange("first change", "a.txt", "message");
+
+    ReviewInput in = ReviewInput.approve();
+    in.reviewer(user.email());
+    in.reviewer(accountCreator.user2().email(), ReviewerState.CC, true);
+    // Add user as reviewer that will create the revert
+    in.reviewer(accountCreator.admin2().email());
+
+    gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).review(in);
+    gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).submit();
+
+    // expect both the original reviewers and CCs to be preserved
+    // original owner should be added as reviewer, user requesting the revert (new owner) removed
+    requestScopeOperations.setApiUser(accountCreator.admin2().id());
+    Map<ReviewerState, Collection<AccountInfo>> result =
+        gApi.changes().id(r.getChangeId()).revertSubmission().get(0).get().reviewers;
+    assertThat(result).containsKey(ReviewerState.REVIEWER);
+
+    List<Integer> reviewers =
+        result.get(ReviewerState.REVIEWER).stream().map(a -> a._accountId).collect(toList());
+    assertThat(result).containsKey(ReviewerState.CC);
+    List<Integer> ccs =
+        result.get(ReviewerState.CC).stream().map(a -> a._accountId).collect(toList());
+    assertThat(ccs).containsExactly(accountCreator.user2().id().get());
+    assertThat(reviewers).containsExactly(user.id().get(), admin.id().get());
+  }
+
+  @Test
+  public void revertSubmissionNotifications() throws Exception {
+    PushOneCommit.Result firstResult = createChange("first change", "a.txt", "message");
+    approve(firstResult.getChangeId());
+    gApi.changes().id(firstResult.getChangeId()).addReviewer(user.email());
+    PushOneCommit.Result secondResult = createChange("second change", "b.txt", "other");
+    approve(secondResult.getChangeId());
+    gApi.changes().id(secondResult.getChangeId()).addReviewer(user.email());
+
+    gApi.changes()
+        .id(secondResult.getChangeId())
+        .revision(secondResult.getCommit().name())
+        .submit();
+
+    sender.clear();
+    RevertInput revertInput = new RevertInput();
+    revertInput.notify = NotifyHandling.ALL;
+
+    List<ChangeApi> revertChanges =
+        gApi.changes().id(secondResult.getChangeId()).revertSubmission(revertInput);
+
+    List<Message> messages = sender.getMessages();
+
+    assertThat(messages).hasSize(4);
+    assertThat(sender.getMessages(revertChanges.get(0).get().changeId, "newchange")).hasSize(1);
+    assertThat(sender.getMessages(firstResult.getChangeId(), "revert")).hasSize(1);
+    assertThat(sender.getMessages(revertChanges.get(1).get().changeId, "newchange")).hasSize(1);
+    assertThat(sender.getMessages(secondResult.getChangeId(), "revert")).hasSize(1);
+  }
+
+  @Test
+  public void suppressRevertSubmissionNotifications() throws Exception {
+    PushOneCommit.Result firstResult = createChange("first change", "a.txt", "message");
+    approve(firstResult.getChangeId());
+    gApi.changes().id(firstResult.getChangeId()).addReviewer(user.email());
+    PushOneCommit.Result secondResult = createChange("second change", "b.txt", "other");
+    approve(secondResult.getChangeId());
+    gApi.changes().id(secondResult.getChangeId()).addReviewer(user.email());
+
+    gApi.changes()
+        .id(secondResult.getChangeId())
+        .revision(secondResult.getCommit().name())
+        .submit();
+
+    RevertInput revertInput = new RevertInput();
+    revertInput.notify = NotifyHandling.NONE;
+
+    sender.clear();
+    gApi.changes().id(secondResult.getChangeId()).revertSubmission(revertInput);
+    assertThat(sender.getMessages()).isEmpty();
+  }
+
+  @Test
+  public void revertSubmissionOfSingleChange() throws Exception {
+    PushOneCommit.Result result = createChange("first change", "a.txt", "message");
+    approve(result.getChangeId());
+    gApi.changes().id(result.getChangeId()).current().submit();
+    List<ChangeApi> revertChanges = gApi.changes().id(result.getChangeId()).revertSubmission();
+
+    String sha1Commit = result.getCommit().getName();
+
+    assertThat(revertChanges.get(0).current().commit(false).parents.get(0).commit)
+        .isEqualTo(sha1Commit);
+
+    assertThat(revertChanges.get(0).current().files().get("a.txt").linesDeleted).isEqualTo(1);
+
+    assertThat(revertChanges.get(0).get().revertOf)
+        .isEqualTo(result.getChange().change().getChangeId());
+  }
+
+  @Test
+  public void cantRevertSubmissionWithAnOpenChange() throws Exception {
+    PushOneCommit.Result result = createChange("first change", "a.txt", "message");
+    approve(result.getChangeId());
+    ResourceConflictException thrown =
+        assertThrows(
+            ResourceConflictException.class,
+            () -> gApi.changes().id(result.getChangeId()).revertSubmission());
+    assertThat(thrown).hasMessageThat().isEqualTo("change is new.");
   }
 
   @FunctionalInterface
   private interface Rebase {
+
     void call(String id) throws RestApiException;
   }
 
@@ -2856,6 +2976,7 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   private static class OperatorModule extends AbstractModule {
+
     @Override
     public void configure() {
       bind(ChangeOperatorFactory.class)
@@ -2864,6 +2985,7 @@ public class ChangeIT extends AbstractDaemonTest {
     }
 
     private static class MyTopicPredicate extends PostFilterPredicate<ChangeData> {
+
       MyTopicPredicate(String value) {
         super("mytopic", value);
       }
@@ -4391,6 +4513,7 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   private static class ChangeStatusUpdateOp implements BatchUpdateOp {
+
     private final Change.Status newStatus;
 
     ChangeStatusUpdateOp(Change.Status newStatus) {
@@ -4753,6 +4876,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @FunctionalInterface
   private interface AddReviewerCaller {
+
     void call(String changeId, String reviewer) throws RestApiException;
   }
 }

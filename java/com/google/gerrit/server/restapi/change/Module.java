@@ -96,6 +96,7 @@ public class Module extends RestApiModule {
     post(CHANGE_KIND, "hashtags").to(PostHashtags.class);
     post(CHANGE_KIND, "restore").to(Restore.class);
     post(CHANGE_KIND, "revert").to(Revert.class);
+    post(CHANGE_KIND, "revert_submission").to(RevertSubmission.class);
     post(CHANGE_KIND, "submit").to(Submit.CurrentRevision.class);
     get(CHANGE_KIND, "submitted_together").to(SubmittedTogether.class);
     post(CHANGE_KIND, "rebase").to(Rebase.CurrentRevision.class);

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a27bb006_bb277be4",
+        "filename": "java/com/google/gerrit/server/restapi/group/GroupsCollection.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-09T12:51:23Z",
+      "side": 0,
+      "message": "I wonder if this change is this correct.\n\nWith the old code we had:\n\n1. --query which was served by ListGroups\n2. --query2 which was served by QueryGroups\n\nIf --query2 was given we return QueryGroups here, otherwise ListGroups.\n\nNow --query in ListGroups was removed, and --query2 in QueryGroups was renamed to --query. This means:\n\n1. --query is served by QueryGroups\n2. ListGroups doesn\u0027t know the --query option\n\nBut now, we are always returning ListGroups here, even if --query is given which cannot be handled by ListGroups.\n\nAm I missing anything?",
+      "range": {
+        "startLine": 82,
+        "startChar": 4,
+        "endLine": 86,
+        "endChar": 22
+      },
+      "revId": "a3eea9a204ad347155c571e1a2b14b46d13431c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

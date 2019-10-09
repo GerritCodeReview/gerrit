@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2779491b_6feedb17",
+        "filename": "polygerrit-ui/app/elements/diff/gr-patch-range-select/gr-patch-range-select.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-09T12:46:06Z",
+      "side": 1,
+      "message": "Is the sha1 string linkified? Can I click on it to navigate to this patch set? in GWT UI it was linkified, see: [1]. So that if I click on this line in \"Patch Sets (25/25)\" - Dropdown, in the upper right corner:\n\n  7\tfd8bfa02af\tMar 12, 2016\tDavid Ostrovsky\n\nthen it would navigate to: https://gerrit.libreoffice.org/#/c/22588/7.\n\nIOW, the sha1 - value \"fd8bfa02af\" is linkified as:\n\n  \u003ca href\u003d\"#/c/22588/7\" onclick\u003d\"gwt_uid_99(event,17)\"\u003efd8bfa02af\u003c/a\u003e\n\n* [1] https://gerrit.libreoffice.org/#/c/22588",
+      "range": {
+        "startLine": 150,
+        "startChar": 17,
+        "endLine": 150,
+        "endChar": 23
+      },
+      "revId": "2edd0186ad891ed2fad9d2d2df876deaa7033afd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

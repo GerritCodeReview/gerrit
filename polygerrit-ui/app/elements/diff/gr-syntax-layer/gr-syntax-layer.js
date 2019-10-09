@@ -259,12 +259,14 @@
         lastNotify: {left: 1, right: 1},
       };
 
+      const rangesCache = new Map();
+
       this._processPromise = util.makeCancelable(this._loadHLJS()
           .then(() => {
             return new Promise(resolve => {
               const nextStep = () => {
                 this._processHandle = null;
-                this._processNextLine(state);
+                this._processNextLine(state, rangesCache);
 
                 // Move to the next line in the section.
                 state.lineIndex++;
@@ -321,12 +323,21 @@
      * Highlight.js emits and emit a list of text ranges and classes for the
      * markers.
      * @param {string} str The string of HTML.
+     * @param {Map<string, !Array<!Object>>} rangesCache A map for caching
+     * ranges for each string. A cache is read and written by this method.
+     * Since diff is mostly comparing same file on two sides, there is good rate
+     * of duplication at least for parts that are on left and right parts.
      * @return {!Array<!Object>} The list of ranges.
      */
-    _rangesFromString(str) {
+    _rangesFromString(str, rangesCache) {
+      const cached = rangesCache.get(str);
+      if (cached) return cached;
+
       const div = document.createElement('div');
       div.innerHTML = str;
-      return this._rangesFromElement(div, 0);
+      const ranges = this._rangesFromElement(div, 0);
+      rangesCache.set(str, ranges);
+      return ranges;
     },
 
     _rangesFromElement(elem, offset) {
@@ -357,7 +368,7 @@
      * lines).
      * @param {!Object} state The processing state for the layer.
      */
-    _processNextLine(state) {
+    _processNextLine(state, rangesCache) {
       let baseLine;
       let revisionLine;
 
@@ -386,7 +397,8 @@
         baseLine = this._workaround(this._baseLanguage, baseLine);
         result = this._hljs.highlight(this._baseLanguage, baseLine, true,
             state.baseContext);
-        this.push('_baseRanges', this._rangesFromString(result.value));
+        this.push('_baseRanges',
+            this._rangesFromString(result.value, rangesCache));
         state.baseContext = result.top;
       }
 
@@ -395,7 +407,8 @@
         revisionLine = this._workaround(this._revisionLanguage, revisionLine);
         result = this._hljs.highlight(this._revisionLanguage, revisionLine,
             true, state.revisionContext);
-        this.push('_revisionRanges', this._rangesFromString(result.value));
+        this.push('_revisionRanges',
+            this._rangesFromString(result.value, rangesCache));
         state.revisionContext = result.top;
       }
     },

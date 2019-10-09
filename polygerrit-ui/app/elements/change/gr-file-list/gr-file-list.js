@@ -180,6 +180,27 @@
 
       /** @type {Function} */
       _cancelForEachDiff: Function,
+
+      /** @type {Array<string>} */
+      _dynamicHeaderColumnEndpoints: {
+        type: Array,
+      },
+      _showDynamicColumns: {
+        type: Boolean,
+        computed: '_computeShowDynamicColumns(_dynamicHeaderColumnEndpoints)',
+      },
+      /** @type {Array<string>} */
+      _dynamicItemCellEndpoints: {
+        type: Array,
+      },
+      /** @type {Array<string>} */
+      _dynamicStatsCellEndpoints: {
+        type: Array,
+      },
+
+      _selectedFilesTabPluginEndpoint: {
+        type: String,
+      },
     },
 
     behaviors: [
@@ -227,6 +248,29 @@
     },
     listeners: {
       keydown: '_scopedKeydownHandler',
+    },
+
+    attached() {
+      Gerrit.awaitPluginsLoaded().then(() => {
+        this._dynamicHeaderColumnEndpoints =
+            Gerrit._endpoints.getDynamicEndpoints(
+                'change-view-file-list-header-column');
+        this._dynamicItemCellEndpoints =
+            Gerrit._endpoints.getDynamicEndpoints(
+                'change-view-file-list-item-cell');
+        this._dynamicStatsCellEndpoints =
+            Gerrit._endpoints.getDynamicEndpoints(
+                'change-view-file-list-stats-cell');
+
+        if (this._dynamicItemCellEndpoints.length !==
+            this._dynamicHeaderColumnEndpoints.length) {
+          console.warn('Different number of headers and items.');
+        }
+        if (this._dynamicStatsCellEndpoints.length !==
+            this._dynamicHeaderColumnEndpoints.length) {
+          console.warn('Different number of headers and stats.');
+        }
+      });
     },
 
     detached() {
@@ -1246,6 +1290,15 @@
         hideClass = 'invisible';
       }
       return `sizeBars desktop ${hideClass}`;
+    },
+
+    _computeShowDynamicColumns(dynamicHeaderColumnEndpoints) {
+      // During a design review, it was decided that dynamic columns should
+      // remain hidden until column headers (including existing columns such as
+      // "Comments") are in place to avoid confusion.
+      // TODO(crbug.com/939904): Enable dispaying dynamic columns when there is
+      // at least one of them registered.
+      return false;
     },
 
     /**

@@ -271,7 +271,7 @@ limitations under the License.
             <gr-dropdown
                 link
                 down-arrow
-                items="[[_computeDownloadDropdownLinks(_change.project, _changeNum, _patchRange, _path)]]"
+                items="[[_computeDownloadDropdownLinks(_change.project, _changeNum, _patchRange, _path, _diff)]]"
                 horizontal-align="left">
               <span class="downloadTitle">
                 Download
@@ -334,6 +334,7 @@ limitations under the License.
         class$="[[_computeDiffClass(_panelFloatingDisabled)]]"
         is-image-diff="{{_isImageDiff}}"
         files-weblinks="{{_filesWeblinks}}"
+        diff="{{_diff}}"
         change-num="[[_changeNum]]"
         commit-range="[[_commitRange]]"
         patch-range="[[_patchRange]]"

@@ -1178,26 +1178,79 @@ limitations under the License.
         },
         {
           url: '/changes/test~12/revisions/1' +
-              '/files/index.php/download?parent=0',
+              '/files/index.php/download',
           name: 'Right Content',
         },
       ];
+
+      const side = {
+        meta_a: true,
+        meta_b: true,
+      };
+
+      const base = {
+        patchNum: 1,
+        basePatchNum: 'PARENT',
+      };
+
       assert.deepEqual(
           element._computeDownloadDropdownLinks(
-              'test', 12, {patchNum: 1}, 'index.php'),
+              'test', 12, base, 'index.php', side),
+          downloadLinks);
+    });
+
+    test('_computeDownloadDropdownLinks diff returns renamed', () => {
+      const downloadLinks = [
+        {
+          url: '/changes/test~12/revisions/3/patch?zip&path=index.php',
+          name: 'Patch',
+        },
+        {
+          url: '/changes/test~12/revisions/2' +
+              '/files/index2.php/download',
+          name: 'Left Content',
+        },
+        {
+          url: '/changes/test~12/revisions/3' +
+              '/files/index.php/download',
+          name: 'Right Content',
+        },
+      ];
+
+      const side = {
+        change_type: 'RENAMED',
+        meta_a: {
+          name: 'index2.php',
+        },
+        meta_b: true,
+      };
+
+      const base = {
+        patchNum: 3,
+        basePatchNum: 2,
+      };
+
+      assert.deepEqual(
+          element._computeDownloadDropdownLinks(
+              'test', 12, base, 'index.php', side),
           downloadLinks);
     });
 
     test('_computeDownloadFileLink', () => {
+      const base = {
+        patchNum: 1,
+        basePatchNum: 'PARENT',
+      };
+
       assert.equal(
           element._computeDownloadFileLink(
-              'test', 12, {patchNum: 1}, 'index.php', 1),
+              'test', 12, base, 'index.php', true),
           '/changes/test~12/revisions/1/files/index.php/download?parent=1');
 
       assert.equal(
           element._computeDownloadFileLink(
-              'test', 12, {patchNum: 1}, 'index.php', 0),
-          '/changes/test~12/revisions/1/files/index.php/download?parent=0');
+              'test', 12, base, 'index.php', false),
+          '/changes/test~12/revisions/1/files/index.php/download');
     });
 
     test('_computeDownloadPatchLink', () => {

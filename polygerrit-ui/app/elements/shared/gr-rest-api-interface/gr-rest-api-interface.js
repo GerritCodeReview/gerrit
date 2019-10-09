@@ -442,8 +442,8 @@
     getIsGroupOwner(groupName) {
       const encodeName = encodeURIComponent(groupName);
       const req = {
-        url: `/groups/?owned&q=${encodeName}`,
-        anonymizedUrl: '/groups/owned&q=*',
+        url: `/groups/?owned&g=${encodeName}`,
+        anonymizedUrl: '/groups/owned&g=*',
       };
       return this._fetchSharedCacheURL(req)
           .then(configs => configs.hasOwnProperty(groupName));

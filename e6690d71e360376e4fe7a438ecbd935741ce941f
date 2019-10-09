@@ -65,6 +65,30 @@
     },
     {
       "key": {
+        "uuid": "6ce1e385_fcf8bb52",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 33
+      },
+      "lineNbr": 927,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-09T09:36:48Z",
+      "side": 1,
+      "message": "I agree, that if we don\u0027t do it now, we shouldn\u0027t complicate things inthis CL. However, tha fact change edit files cannot be opened in Diff View is a regression compared to the GWT UI, where it used to work. I filed this issue: [1]. I remember, I had a discussion with Kasper, that it wasn\u0027t implemented yet, and he is not going to implement it. I forgot what was the reasoning here.\n\n* [1] https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d11703",
+      "parentUuid": "94c2e46d_244c55c1",
+      "range": {
+        "startLine": 927,
+        "startChar": 46,
+        "endLine": 927,
+        "endChar": 54
+      },
+      "revId": "e6690d71e360376e4fe7a438ecbd935741ce941f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7cd571e7_f5d76eac",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
         "patchSetId": 33

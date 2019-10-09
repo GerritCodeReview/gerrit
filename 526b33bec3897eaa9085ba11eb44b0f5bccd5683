@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "079f5f5a_91992bea",
+        "filename": "polygerrit-ui/app/behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2019-10-09T08:52:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c4109a88_e34c6585",
+      "range": {
+        "startLine": 139,
+        "startChar": 42,
+        "endLine": 139,
+        "endChar": 46
+      },
+      "revId": "526b33bec3897eaa9085ba11eb44b0f5bccd5683",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "51dde560_c5faaf20",
         "filename": "polygerrit-ui/app/elements/diff/gr-patch-range-select/gr-patch-range-select.js",
         "patchSetId": 6

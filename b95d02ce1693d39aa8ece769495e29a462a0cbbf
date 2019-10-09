@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "e6aa1fdd_78119c2a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2019-10-09T08:52:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "79649f8a_75e3c6e4",
+      "revId": "b95d02ce1693d39aa8ece769495e29a462a0cbbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3f140468_43f8e635",
         "filename": "polygerrit-ui/app/.eslintrc.json",
         "patchSetId": 3

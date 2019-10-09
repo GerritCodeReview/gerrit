@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "486a5c19_bec9d356",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2019-10-09T08:52:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f0afeb7f_a6a6fab3",
+      "range": {
+        "startLine": 7,
+        "startChar": 20,
+        "endLine": 7,
+        "endChar": 23
+      },
+      "revId": "d8308cbd59f6835a1b04a9e2d11abb361aacc13e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a0aab921_05ba6a42",
         "filename": "polygerrit-ui/app/behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html",
         "patchSetId": 1

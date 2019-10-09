@@ -1010,6 +1010,29 @@
       "revId": "266257cf2649b062ab6ab7f19ab5123ec79aaa6b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bdf1a1e1_b8066d04",
+        "filename": "java/com/google/gerrit/server/restapi/change/ReviewersUtil.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-09T22:01:08Z",
+      "side": 1,
+      "message": "Bad rebase and should be revert here?",
+      "range": {
+        "startLine": 255,
+        "startChar": 35,
+        "endLine": 255,
+        "endChar": 51
+      },
+      "revId": "266257cf2649b062ab6ab7f19ab5123ec79aaa6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

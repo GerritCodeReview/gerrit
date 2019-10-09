@@ -388,8 +388,18 @@ limitations under the License.
         '<span class="non-whtelisted-class">',
         '<span class="gr-diff gr-syntax gr-syntax-keyword">public</span>',
         '</span>'].join('');
-      const result = element._rangesFromString(str);
+      const result = element._rangesFromString(str, new Map());
       assert.notEqual(result.length, 0);
+    });
+
+    test('_rangesFromString cache same syntax markers', () => {
+      sandbox.spy(element, '_rangesFromElement');
+      const str =
+        '<span class="gr-diff gr-syntax gr-syntax-keyword">public</span>';
+      const cacheMap = new Map();
+      element._rangesFromString(str, cacheMap);
+      element._rangesFromString(str, cacheMap);
+      assert.isTrue(element._rangesFromElement.calledOnce);
     });
 
     test('_isSectionDone', () => {

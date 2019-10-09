@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "da716802_39715905",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 6925,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-09T11:37:04Z",
+      "side": 1,
+      "message": "nit: align this column",
+      "range": {
+        "startLine": 6925,
+        "startChar": 8,
+        "endLine": 6925,
+        "endChar": 18
+      },
+      "revId": "affc34e923f432fd360a81a19b8a48e4565653b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cb5f12a8_25e663b8",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 6926,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-09T11:37:04Z",
+      "side": 1,
+      "message": "\"revert change\", \"reverted change\" is the change that is being reverted",
+      "range": {
+        "startLine": 6926,
+        "startChar": 26,
+        "endLine": 6926,
+        "endChar": 41
+      },
+      "revId": "affc34e923f432fd360a81a19b8a48e4565653b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "efc46d64_08e9bc97",
+        "filename": "java/com/google/gerrit/server/restapi/change/Revert.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-09T11:37:04Z",
+      "side": 1,
+      "message": "Maybe also trim() the input to remove leading and trailing whitespace",
+      "range": {
+        "startLine": 218,
+        "startChar": 74,
+        "endLine": 218,
+        "endChar": 85
+      },
+      "revId": "affc34e923f432fd360a81a19b8a48e4565653b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f5e6b43d_e16abc1f",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 788,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-09T11:37:04Z",
+      "side": 1,
+      "message": "I think this is the \"revertWithDefaultTopic\" test? and the test below should be named \"revertWithDefaultTopic\"?",
+      "range": {
+        "startLine": 788,
+        "startChar": 14,
+        "endLine": 788,
+        "endChar": 33
+      },
+      "revId": "affc34e923f432fd360a81a19b8a48e4565653b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f6449d9f_5f421447",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 800,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-09T11:37:04Z",
+      "side": 1,
+      "message": "Maybe still set a topic on the change, to test that the topic from the input is also taken if the reverted change has a topic.",
+      "range": {
+        "startLine": 800,
+        "startChar": 4,
+        "endLine": 800,
+        "endChar": 49
+      },
+      "revId": "affc34e923f432fd360a81a19b8a48e4565653b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

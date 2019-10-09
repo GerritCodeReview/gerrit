@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a4256117_4b07ff14",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 35
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-09T13:10:36Z",
+      "side": 1,
+      "message": "Can you remove new lines between the lines?",
+      "revId": "14e09486b5c258b1c6229dc728ab3a072ffd7790",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "47dcff61_a261c473",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 35
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-09T13:10:36Z",
+      "side": 1,
+      "message": "Can you rephrase this to avoid \"you(r)\", may be: \"Fixes left side content URL when diffing against non base revision, e.g. 2..3.\"\n\n^^^ Note: there are only two points between 2..3, not three.",
+      "range": {
+        "startLine": 13,
+        "startChar": 21,
+        "endLine": 13,
+        "endChar": 33
+      },
+      "revId": "14e09486b5c258b1c6229dc728ab3a072ffd7790",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

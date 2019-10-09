@@ -90,7 +90,7 @@ reason:: Reason for abandoning the change.
 eventCreatedOn:: Time in seconds since the UNIX epoch when this event was
 created.
 
-== Change Deleted
+=== Change Deleted
 
 Sent when a change has been deleted.
 

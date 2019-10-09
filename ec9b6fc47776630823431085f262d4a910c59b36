@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4979453f_6ddfb8ad",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 18
+      },
+      "lineNbr": 848,
+      "author": {
+        "id": 1074943
+      },
+      "writtenOn": "2019-10-09T18:43:29Z",
+      "side": 1,
+      "message": "I used \"if (baseClass)\" instead of \"if (baseClass \u003d\u003d\u003d \u0027\u0027)\" so that this function can handle the case when someone passes a null, but please let me know if you prefer the other way.",
+      "range": {
+        "startLine": 848,
+        "startChar": 10,
+        "endLine": 848,
+        "endChar": 19
+      },
+      "revId": "ec9b6fc47776630823431085f262d4a910c59b36",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

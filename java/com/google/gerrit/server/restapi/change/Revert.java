@@ -215,7 +215,7 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
       ChangeInserter ins =
           changeInserterFactory
               .create(changeId, revertCommit, notes.getChange().getDest().branch())
-              .setTopic(changeToRevert.getTopic());
+              .setTopic(input.topic == null ? changeToRevert.getTopic() : input.topic);
       ins.setMessage("Uploaded patch set 1.");
 
       ReviewerSet reviewerSet = approvalsUtil.getReviewers(notes);

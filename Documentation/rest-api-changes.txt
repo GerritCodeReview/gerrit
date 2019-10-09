@@ -6922,6 +6922,9 @@ If not set, the default is `ALL`.
 |`notify_details`|optional|
 Additional information about whom to notify about the revert as a map
 of recipient type to link:#notify-info[NotifyInfo] entity.
+|`topic`|optional|
+Name of the topic for the reverted change. If not set, the default is the topic
+of the change being reverted.
 |=============================
 
 [[review-info]]

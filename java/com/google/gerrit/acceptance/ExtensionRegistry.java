@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance;
 import com.google.gerrit.extensions.api.changes.ActionVisitor;
 import com.google.gerrit.extensions.config.DownloadScheme;
 import com.google.gerrit.extensions.events.ChangeIndexedListener;
+import com.google.gerrit.extensions.events.CommentAddedListener;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.registration.PrivateInternals_DynamicMapImpl;
@@ -46,6 +47,7 @@ public class ExtensionRegistry {
   private final DynamicSet<ActionVisitor> actionVisitors;
   private final DynamicMap<DownloadScheme> downloadSchemes;
   private final DynamicSet<RefOperationValidationListener> refOperationValidationListeners;
+  private final DynamicSet<CommentAddedListener> commentAddedListeners;
 
   @Inject
   ExtensionRegistry(
@@ -59,7 +61,8 @@ public class ExtensionRegistry {
       DynamicSet<ChangeETagComputation> changeETagComputations,
       DynamicSet<ActionVisitor> actionVisitors,
       DynamicMap<DownloadScheme> downloadSchemes,
-      DynamicSet<RefOperationValidationListener> refOperationValidationListeners) {
+      DynamicSet<RefOperationValidationListener> refOperationValidationListeners,
+      DynamicSet<CommentAddedListener> commentAddedListeners) {
     this.changeIndexedListeners = changeIndexedListeners;
     this.commitValidationListeners = commitValidationListeners;
     this.exceptionHooks = exceptionHooks;
@@ -71,6 +74,7 @@ public class ExtensionRegistry {
     this.actionVisitors = actionVisitors;
     this.downloadSchemes = downloadSchemes;
     this.refOperationValidationListeners = refOperationValidationListeners;
+    this.commentAddedListeners = commentAddedListeners;
   }
 
   public Registration newRegistration() {
@@ -122,6 +126,10 @@ public class ExtensionRegistry {
 
     public Registration add(RefOperationValidationListener refOperationValidationListener) {
       return add(refOperationValidationListeners, refOperationValidationListener);
+    }
+
+    public Registration add(CommentAddedListener commentAddedListener) {
+      return add(commentAddedListeners, commentAddedListener);
     }
 
     private <T> Registration add(DynamicSet<T> dynamicSet, T extension) {

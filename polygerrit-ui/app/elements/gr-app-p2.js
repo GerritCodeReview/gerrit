@@ -16,6 +16,7 @@
  */
 (function() {
   'use strict';
+  window.polymerSkipLoadingFontRoboto = true;
 
   Polymer({
     is: 'gr-app-p2',

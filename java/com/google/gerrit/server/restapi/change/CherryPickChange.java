@@ -161,7 +161,15 @@ public class CherryPickChange {
       throws IOException, InvalidChangeOperationException, IntegrationException, UpdateException,
           RestApiException, ConfigInvalidException, NoSuchProjectException {
     return cherryPick(
-        batchUpdateFactory, change, change.getProject(), patch.commitId(), input, dest);
+        batchUpdateFactory,
+        change,
+        change.getProject(),
+        patch.commitId(),
+        input,
+        dest,
+        null,
+        null,
+        null);
   }
 
   /**
@@ -192,6 +200,50 @@ public class CherryPickChange {
       ObjectId sourceCommit,
       CherryPickInput input,
       BranchNameKey dest)
+      throws IOException, InvalidChangeOperationException, IntegrationException, UpdateException,
+          RestApiException, ConfigInvalidException, NoSuchProjectException {
+    return cherryPick(
+        batchUpdateFactory, sourceChange, project, sourceCommit, input, dest, null, null, null);
+  }
+
+  /**
+   * This function can be called directly to cherry-pick a change (or commit if sourceChange is
+   * null) with a few other parameters that are especially useful for cherry-picking a commit that
+   * is the revert-of another change.
+   *
+   * @param batchUpdateFactory Used for applying changes to the database.
+   * @param sourceChange Change to cherry pick. Can be null, and then the function will only cherry
+   *     pick a commit.
+   * @param project Project name
+   * @param sourceCommit Id of the commit to be cherry picked.
+   * @param input Input object for different configurations of cherry pick.
+   * @param dest Destination branch for the cherry pick.
+   * @param topic Topic name for the change created.
+   * @param revertedChange The id of the change that is reverted. This is used for the "revertOf"
+   *     field to mark the created cherry pick change as "revertOf" the original change that was
+   *     reverted.
+   * @param changeIdForNewChange The Change-Id that the new change that of the cherry pick will
+   *     have.
+   * @return Result object that describes the cherry pick.
+   * @throws IOException Unable to open repository or read from the database.
+   * @throws InvalidChangeOperationException Parent or branch don't exist, or two changes with same
+   *     key exist in the branch.
+   * @throws IntegrationException Merge conflict or trees are identical after cherry pick.
+   * @throws UpdateException Problem updating the database using batchUpdateFactory.
+   * @throws RestApiException Error such as invalid SHA1
+   * @throws ConfigInvalidException Can't find account to notify.
+   * @throws NoSuchProjectException Can't find project state.
+   */
+  public Result cherryPick(
+      BatchUpdate.Factory batchUpdateFactory,
+      @Nullable Change sourceChange,
+      Project.NameKey project,
+      ObjectId sourceCommit,
+      CherryPickInput input,
+      BranchNameKey dest,
+      @Nullable String topic,
+      @Nullable Change.Id revertedChange,
+      @Nullable ObjectId changeIdForNewChange)
       throws IOException, InvalidChangeOperationException, IntegrationException, UpdateException,
           RestApiException, ConfigInvalidException, NoSuchProjectException {
 
@@ -227,7 +279,8 @@ public class CherryPickChange {
       Timestamp now = TimeUtil.nowTs();
       PersonIdent committerIdent = identifiedUser.newCommitterIdent(now, serverTimeZone);
 
-      final ObjectId generatedChangeId = Change.generateChangeId();
+      final ObjectId generatedChangeId =
+          changeIdForNewChange != null ? changeIdForNewChange : Change.generateChangeId();
       String commitMessage = ChangeIdUtil.insertId(message, generatedChangeId).trim() + '\n';
 
       CodeReviewCommit cherryPickCommit;
@@ -287,8 +340,10 @@ public class CherryPickChange {
           } else {
             // Change key not found on destination branch. We can create a new
             // change.
-            String newTopic = null;
-            if (sourceChange != null && !Strings.isNullOrEmpty(sourceChange.getTopic())) {
+            String newTopic = topic;
+            if (topic == null
+                && sourceChange != null
+                && !Strings.isNullOrEmpty(sourceChange.getTopic())) {
               newTopic = sourceChange.getTopic() + "-" + newDest.shortName();
             }
             changeId =
@@ -299,7 +354,8 @@ public class CherryPickChange {
                     newTopic,
                     sourceChange,
                     sourceCommit,
-                    input);
+                    input,
+                    revertedChange);
           }
           bu.execute();
           return Result.create(changeId, cherryPickCommit.getFilesWithGitConflicts());
@@ -370,15 +426,20 @@ public class CherryPickChange {
       String refName,
       String topic,
       @Nullable Change sourceChange,
-      ObjectId sourceCommit,
-      CherryPickInput input)
+      @Nullable ObjectId sourceCommit,
+      CherryPickInput input,
+      @Nullable Change.Id revertOf)
       throws IOException {
     Change.Id changeId = Change.id(seq.nextChangeId());
     ChangeInserter ins = changeInserterFactory.create(changeId, cherryPickCommit, refName);
+    ins.setRevertOf(revertOf);
     BranchNameKey sourceBranch = sourceChange == null ? null : sourceChange.getDest();
     ins.setMessage(
-            messageForDestinationChange(
-                ins.getPatchSetId(), sourceBranch, sourceCommit, cherryPickCommit))
+            revertOf == null
+                ? messageForDestinationChange(
+                    ins.getPatchSetId(), sourceBranch, sourceCommit, cherryPickCommit)
+                : "Uploaded patch set 1.") // For revert commits, the message should not include
+        // cherry-pick information.
         .setTopic(topic)
         .setWorkInProgress(
             (sourceChange != null && sourceChange.isWorkInProgress())

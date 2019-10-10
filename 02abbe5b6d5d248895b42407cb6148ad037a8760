@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "479638f8_3372b679",
+        "filename": "java/com/google/gerrit/index/Schema.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-10-10T23:55:21Z",
+      "side": 1,
+      "message": "We typically don\u0027t use set/get prefixes on builder methods.",
+      "parentUuid": "89099cf4_20a31f81",
+      "range": {
+        "startLine": 56,
+        "startChar": 22,
+        "endLine": 56,
+        "endChar": 41
+      },
+      "revId": "02abbe5b6d5d248895b42407cb6148ad037a8760",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2f5855bf_e23a63b4",
         "filename": "java/com/google/gerrit/index/Schema.java",
         "patchSetId": 22

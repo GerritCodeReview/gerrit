@@ -286,6 +286,7 @@ public class AsyncReceiveCommits implements PreReceiveHook {
     // Check objects mentioned inside the incoming pack file are reachable from visible refs.
     Project.NameKey projectName = projectState.getNameKey();
     this.perm = permissionBackend.user(user).project(projectName);
+
     receivePack = new ReceivePack(PermissionAwareRepositoryManager.wrap(repo, perm));
     receivePack.setAllowCreates(true);
     receivePack.setAllowDeletes(true);
@@ -309,8 +310,7 @@ public class AsyncReceiveCommits implements PreReceiveHook {
 
     allRefsWatcher = new AllRefsWatcher();
     receivePack.setAdvertiseRefsHook(
-        ReceiveCommitsAdvertiseRefsHookChain.create(
-            allRefsWatcher, perm, queryProvider, projectName));
+        ReceiveCommitsAdvertiseRefsHookChain.create(allRefsWatcher, queryProvider, projectName));
     resultChangeIds = new ResultChangeIds();
     receiveCommits =
         factory.create(

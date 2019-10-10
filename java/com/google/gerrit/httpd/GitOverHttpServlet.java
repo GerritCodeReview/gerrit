@@ -30,7 +30,6 @@ import com.google.gerrit.server.RequestInfo;
 import com.google.gerrit.server.RequestListener;
 import com.google.gerrit.server.audit.HttpAuditEvent;
 import com.google.gerrit.server.cache.CacheModule;
-import com.google.gerrit.server.git.DefaultAdvertiseRefsHook;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.PermissionAwareRepositoryManager;
 import com.google.gerrit.server.git.TransferConfig;
@@ -40,7 +39,6 @@ import com.google.gerrit.server.git.validators.UploadValidators;
 import com.google.gerrit.server.group.GroupAuditService;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.permissions.PermissionBackend;
-import com.google.gerrit.server.permissions.PermissionBackend.RefFilterOptions;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
@@ -55,6 +53,7 @@ import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
 import java.io.IOException;
 import java.time.Duration;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Map;
@@ -338,6 +337,11 @@ public class GitOverHttpServlet extends GitServlet {
       up.setTimeout(config.getTimeout());
       up.setPreUploadHook(PreUploadHookChain.newChain(Lists.newArrayList(preUploadHooks)));
       up.setPostUploadHook(PostUploadHookChain.newChain(Lists.newArrayList(postUploadHooks)));
+      String header = req.getHeader("Git-Protocol");
+      if (header != null) {
+        String[] params = header.split(":");
+        up.setExtraParameters(Arrays.asList(params));
+      }
       uploadPackInitializers.runEach(initializer -> initializer.init(state.getNameKey(), up));
       return up;
     }
@@ -411,7 +415,6 @@ public class GitOverHttpServlet extends GitServlet {
         up.setPreUploadHook(
             PreUploadHookChain.newChain(
                 Lists.newArrayList(up.getPreUploadHook(), uploadValidators)));
-        up.setAdvertiseRefsHook(new DefaultAdvertiseRefsHook(perm, RefFilterOptions.defaults()));
         next.doFilter(httpRequest, responseWrapper);
       } finally {
         groupAuditService.dispatch(

@@ -1027,7 +1027,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
 
   @Test
   public void receivePackListsOpenChangesAsAdditionalHaves() throws Exception {
-    TestRefAdvertiser.Result r = getReceivePackRefs(admin);
+    TestRefAdvertiser.Result r = getReceivePackRefs();
     assertThat(r.allRefs().keySet())
         .containsExactly(
             // meta refs are excluded
@@ -1050,7 +1050,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
         .update();
     requestScopeOperations.setApiUser(user.id());
 
-    assertThat(getReceivePackRefs(user).additionalHaves()).containsExactly(obj(cd3, 1));
+    assertThat(getReceivePackRefs().additionalHaves()).containsExactly(obj(cd3, 1));
   }
 
   @Test
@@ -1059,8 +1059,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
     PushOneCommit.Result r = amendChange(cd3.change().getKey().get());
     r.assertOkStatus();
     cd3 = r.getChange();
-    assertThat(getReceivePackRefs(admin).additionalHaves())
-        .containsExactly(obj(cd3, 2), obj(cd4, 1));
+    assertThat(getReceivePackRefs().additionalHaves()).containsExactly(obj(cd3, 2), obj(cd4, 1));
   }
 
   @Test
@@ -1098,7 +1097,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
       indexer.index(c.getProject(), c.getId());
     }
 
-    assertThat(getReceivePackRefs(admin).additionalHaves()).containsExactly(obj(cd4, 1));
+    assertThat(getReceivePackRefs().additionalHaves()).containsExactly(obj(cd4, 1));
   }
 
   @Test
@@ -1444,11 +1443,10 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
     }
   }
 
-  private TestRefAdvertiser.Result getReceivePackRefs(TestAccount u) throws Exception {
+  private TestRefAdvertiser.Result getReceivePackRefs() throws Exception {
     try (Repository repo = repoManager.openRepository(project)) {
       AdvertiseRefsHook adv =
-          ReceiveCommitsAdvertiseRefsHookChain.createForTest(
-              newFilter(project, u), queryProvider, project);
+          ReceiveCommitsAdvertiseRefsHookChain.createForTest(queryProvider, project);
       ReceivePack rp = new ReceivePack(repo);
       rp.setAdvertiseRefsHook(adv);
       TestRefAdvertiser advertiser = new TestRefAdvertiser(repo);

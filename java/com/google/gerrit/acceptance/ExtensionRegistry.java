@@ -18,6 +18,7 @@ import com.google.gerrit.extensions.events.ChangeIndexedListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.server.ExceptionHook;
+import com.google.gerrit.server.change.ChangeETagComputation;
 import com.google.gerrit.server.git.ChangeMessageModifier;
 import com.google.gerrit.server.git.validators.CommitValidationListener;
 import com.google.gerrit.server.logging.PerformanceLogger;
@@ -35,6 +36,7 @@ public class ExtensionRegistry {
   private final DynamicSet<ProjectCreationValidationListener> projectCreationValidationListeners;
   private final DynamicSet<SubmitRule> submitRules;
   private final DynamicSet<ChangeMessageModifier> changeMessageModifiers;
+  private final DynamicSet<ChangeETagComputation> changeETagComputations;
 
   @Inject
   ExtensionRegistry(
@@ -44,7 +46,8 @@ public class ExtensionRegistry {
       DynamicSet<PerformanceLogger> performanceLoggers,
       DynamicSet<ProjectCreationValidationListener> projectCreationValidationListeners,
       DynamicSet<SubmitRule> submitRules,
-      DynamicSet<ChangeMessageModifier> changeMessageModifiers) {
+      DynamicSet<ChangeMessageModifier> changeMessageModifiers,
+      DynamicSet<ChangeETagComputation> changeETagComputations) {
     this.changeIndexedListeners = changeIndexedListeners;
     this.commitValidationListeners = commitValidationListeners;
     this.exceptionHooks = exceptionHooks;
@@ -52,6 +55,7 @@ public class ExtensionRegistry {
     this.projectCreationValidationListeners = projectCreationValidationListeners;
     this.submitRules = submitRules;
     this.changeMessageModifiers = changeMessageModifiers;
+    this.changeETagComputations = changeETagComputations;
   }
 
   public Registration newRegistration() {
@@ -87,6 +91,10 @@ public class ExtensionRegistry {
 
     public Registration add(ChangeMessageModifier changeMessageModifier) {
       return add(changeMessageModifiers, changeMessageModifier);
+    }
+
+    public Registration add(ChangeETagComputation changeETagComputation) {
+      return add(changeETagComputations, changeETagComputation);
     }
 
     private <T> Registration add(DynamicSet<T> dynamicSet, T extension) {

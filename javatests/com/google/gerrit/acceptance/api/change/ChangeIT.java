@@ -140,8 +140,6 @@ import com.google.gerrit.extensions.common.MergePatchSetInput;
 import com.google.gerrit.extensions.common.PureRevertInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.common.TrackingIdInfo;
-import com.google.gerrit.extensions.registration.DynamicSet;
-import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
@@ -162,7 +160,6 @@ import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.StarredChangesUtil;
-import com.google.gerrit.server.change.ChangeETagComputation;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.index.change.ChangeIndex;
@@ -220,7 +217,6 @@ public class ChangeIT extends AbstractDaemonTest {
   @Inject private IndexConfig indexConfig;
   @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
-  @Inject private DynamicSet<ChangeETagComputation> changeETagComputations;
   @Inject private ExtensionRegistry extensionRegistry;
 
   @Inject
@@ -2260,11 +2256,8 @@ public class ChangeIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     String oldETag = parseResource(r).getETag();
 
-    RegistrationHandle registrationHandle = changeETagComputations.add("gerrit", (p, id) -> "foo");
-    try {
+    try (Registration registration = extensionRegistry.newRegistration().add((p, id) -> "foo")) {
       assertThat(parseResource(r).getETag()).isNotEqualTo(oldETag);
-    } finally {
-      registrationHandle.remove();
     }
 
     assertThat(parseResource(r).getETag()).isEqualTo(oldETag);
@@ -2275,11 +2268,8 @@ public class ChangeIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     String oldETag = parseResource(r).getETag();
 
-    RegistrationHandle registrationHandle = changeETagComputations.add("gerrit", (p, id) -> null);
-    try {
+    try (Registration registration = extensionRegistry.newRegistration().add((p, id) -> null)) {
       assertThat(parseResource(r).getETag()).isEqualTo(oldETag);
-    } finally {
-      registrationHandle.remove();
     }
   }
 
@@ -2288,16 +2278,14 @@ public class ChangeIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     String oldETag = parseResource(r).getETag();
 
-    RegistrationHandle registrationHandle =
-        changeETagComputations.add(
-            "gerrit",
-            (p, id) -> {
-              throw new StorageException("exception during test");
-            });
-    try {
+    try (Registration registration =
+        extensionRegistry
+            .newRegistration()
+            .add(
+                (p, id) -> {
+                  throw new StorageException("exception during test");
+                })) {
       assertThat(parseResource(r).getETag()).isEqualTo(oldETag);
-    } finally {
-      registrationHandle.remove();
     }
   }
 

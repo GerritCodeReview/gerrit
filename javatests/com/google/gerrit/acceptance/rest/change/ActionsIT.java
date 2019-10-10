@@ -22,6 +22,8 @@ import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_REVI
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.ExtensionRegistry;
+import com.google.gerrit.acceptance.ExtensionRegistry.Registration;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
@@ -37,7 +39,6 @@ import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.server.change.ChangeETagComputation;
 import com.google.gerrit.server.change.RevisionJson;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.testing.ConfigSuite;
@@ -60,7 +61,7 @@ public class ActionsIT extends AbstractDaemonTest {
   @Inject private DynamicSet<ActionVisitor> actionVisitors;
   @Inject private RequestScopeOperations requestScopeOperations;
   @Inject private RevisionJson.Factory revisionJsonFactory;
-  @Inject private DynamicSet<ChangeETagComputation> changeETagComputations;
+  @Inject private ExtensionRegistry extensionRegistry;
 
   private RegistrationHandle visitorHandle;
 
@@ -213,11 +214,8 @@ public class ActionsIT extends AbstractDaemonTest {
     String change = createChange().getChangeId();
     String oldETag = getETag(change);
 
-    RegistrationHandle registrationHandle = changeETagComputations.add("gerrit", (p, id) -> "foo");
-    try {
+    try (Registration registration = extensionRegistry.newRegistration().add((p, id) -> "foo")) {
       assertThat(getETag(change)).isNotEqualTo(oldETag);
-    } finally {
-      registrationHandle.remove();
     }
 
     assertThat(getETag(change)).isEqualTo(oldETag);
@@ -228,11 +226,8 @@ public class ActionsIT extends AbstractDaemonTest {
     String change = createChange().getChangeId();
     String oldETag = getETag(change);
 
-    RegistrationHandle registrationHandle = changeETagComputations.add("gerrit", (p, id) -> null);
-    try {
+    try (Registration registration = extensionRegistry.newRegistration().add((p, id) -> null)) {
       assertThat(getETag(change)).isEqualTo(oldETag);
-    } finally {
-      registrationHandle.remove();
     }
   }
 
@@ -241,16 +236,14 @@ public class ActionsIT extends AbstractDaemonTest {
     String change = createChange().getChangeId();
     String oldETag = getETag(change);
 
-    RegistrationHandle registrationHandle =
-        changeETagComputations.add(
-            "gerrit",
-            (p, id) -> {
-              throw new StorageException("exception during test");
-            });
-    try {
+    try (Registration registration =
+        extensionRegistry
+            .newRegistration()
+            .add(
+                (p, id) -> {
+                  throw new StorageException("exception during test");
+                })) {
       assertThat(getETag(change)).isEqualTo(oldETag);
-    } finally {
-      registrationHandle.remove();
     }
   }
 

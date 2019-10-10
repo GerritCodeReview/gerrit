@@ -298,7 +298,10 @@ public class ChangeJson {
       Map<Change.Id, ChangeInfo> cache = Maps.newHashMapWithExpectedSize(in.size());
       for (QueryResult<ChangeData> r : in) {
         List<ChangeInfo> infos = toChangeInfos(r.entities(), cache);
-        infos.forEach(c -> cache.put(Change.id(c._number), c));
+        // We can only re-use an entity if it's not the last in the list. The last entity will
+        // later get _moreChanges set. It it was re-used here, that setting would propagate to the
+        // original entity yielding wrong results.
+        infos.stream().limit(infos.size() - 1).forEach(c -> cache.put(Change.id(c._number), c));
         if (!infos.isEmpty() && r.more()) {
           infos.get(infos.size() - 1)._moreChanges = true;
         }
@@ -415,10 +418,14 @@ public class ChangeJson {
       List<ChangeData> changes, Map<Change.Id, ChangeInfo> cache) {
     try (Timer0.Context ignored = metrics.toChangeInfosLatency.start()) {
       List<ChangeInfo> changeInfos = new ArrayList<>(changes.size());
-      for (ChangeData cd : changes) {
-        ChangeInfo i = cache.get(cd.getId());
-        if (i != null) {
-          changeInfos.add(i);
+      for (int i = 0; i < changes.size(); i++) {
+        ChangeData cd = changes.get(i);
+        ChangeInfo info = cache.get(cd.getId());
+        if (info != null && i != changes.size() - 1) {
+          // We can only re-use an entity if it's not the last in the list. The last entity will
+          // later get _moreChanges set. It it was re-used here, that setting would propagate to the
+          // original entity yielding wrong results.
+          changeInfos.add(info);
           continue;
         }
         try {

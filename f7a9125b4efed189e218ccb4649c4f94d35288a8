@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "40bbc1ab_02f1f01a",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 19
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-10T12:55:52Z",
+      "side": 1,
+      "message": "nit: maybe rename to `itemCellEndpoint` for readability :) thx",
+      "range": {
+        "startLine": 366,
+        "startChar": 82,
+        "endLine": 366,
+        "endChar": 90
+      },
+      "revId": "f7a9125b4efed189e218ccb4649c4f94d35288a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e59cd9d9_b8196f0d",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.html",
+        "patchSetId": 19
+      },
+      "lineNbr": 445,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-10T12:55:52Z",
+      "side": 1,
+      "message": "ditto",
+      "range": {
+        "startLine": 445,
+        "startChar": 41,
+        "endLine": 445,
+        "endChar": 50
+      },
+      "revId": "f7a9125b4efed189e218ccb4649c4f94d35288a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a57e743f_fc5ad10f",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 19
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-10T12:55:52Z",
+      "side": 1,
+      "message": "what are this for ? seems not used in this change",
+      "revId": "f7a9125b4efed189e218ccb4649c4f94d35288a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

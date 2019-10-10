@@ -31,7 +31,7 @@ def license_map(name, targets = [], opts = [], **kwargs):
         **kwargs
     )
 
-def license_test(name, target):
+def license_test(name, target, tags = []):
     """Make sure a target doesn't depend on DO_NOT_DISTRIBUTE license"""
     txt = name + "-forbidden.txt"
 
@@ -54,4 +54,5 @@ def license_test(name, target):
         srcs = ["//tools/bzl:test_license.sh"],
         args = ["$(location :%s)" % txt],
         data = [txt],
+        tags = tags,
     )

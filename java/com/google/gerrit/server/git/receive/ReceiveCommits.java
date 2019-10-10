@@ -2002,45 +2002,48 @@ class ReceiveCommits {
    */
   private boolean requestReplaceAndValidateComments(
       ReceiveCommand cmd, boolean checkMergedInto, Change change, RevCommit newCommit) {
-    if (change.isClosed()) {
-      reject(
-          cmd,
-          changeFormatter.changeClosed(
-              ChangeReportFormatter.Input.builder().setChange(change).build()));
-      return false;
-    }
+    try (TraceTimer traceTimer = newTimer("requestReplaceAndValidateComments")) {
+      if (change.isClosed()) {
+        reject(
+            cmd,
+            changeFormatter.changeClosed(
+                ChangeReportFormatter.Input.builder().setChange(change).build()));
+        return false;
+      }
 
-    ReplaceRequest req = new ReplaceRequest(change.getId(), newCommit, cmd, checkMergedInto);
-    if (replaceByChange.containsKey(req.ontoChange)) {
-      reject(cmd, "duplicate request");
-      return false;
-    }
+      ReplaceRequest req = new ReplaceRequest(change.getId(), newCommit, cmd, checkMergedInto);
+      if (replaceByChange.containsKey(req.ontoChange)) {
+        reject(cmd, "duplicate request");
+        return false;
+      }
 
-    if (magicBranch != null && magicBranch.shouldPublishComments()) {
-      List<Comment> drafts =
-          commentsUtil.draftByChangeAuthor(notesFactory.createChecked(change), user.getAccountId());
-      ImmutableList<CommentForValidation> draftsForValidation =
-          drafts.stream()
-              .map(
-                  comment ->
-                      CommentForValidation.create(
-                          comment.lineNbr > 0
-                              ? CommentType.INLINE_COMMENT
-                              : CommentType.FILE_COMMENT,
-                          comment.message))
-              .collect(toImmutableList());
-      ImmutableList<CommentValidationFailure> commentValidationFailures =
-          PublishCommentUtil.findInvalidComments(commentValidators, draftsForValidation);
-      magicBranch.setCommentsValid(commentValidationFailures.isEmpty());
-      commentValidationFailures.forEach(
-          failure ->
-              addMessage(
-                  "Comment validation failure: " + failure.getMessage(),
-                  ValidationMessage.Type.WARNING));
-    }
+      if (magicBranch != null && magicBranch.shouldPublishComments()) {
+        List<Comment> drafts =
+            commentsUtil.draftByChangeAuthor(
+                notesFactory.createChecked(change), user.getAccountId());
+        ImmutableList<CommentForValidation> draftsForValidation =
+            drafts.stream()
+                .map(
+                    comment ->
+                        CommentForValidation.create(
+                            comment.lineNbr > 0
+                                ? CommentType.INLINE_COMMENT
+                                : CommentType.FILE_COMMENT,
+                            comment.message))
+                .collect(toImmutableList());
+        ImmutableList<CommentValidationFailure> commentValidationFailures =
+            PublishCommentUtil.findInvalidComments(commentValidators, draftsForValidation);
+        magicBranch.setCommentsValid(commentValidationFailures.isEmpty());
+        commentValidationFailures.forEach(
+            failure ->
+                addMessage(
+                    "Comment validation failure: " + failure.getMessage(),
+                    ValidationMessage.Type.WARNING));
+      }
 
-    replaceByChange.put(req.ontoChange, req);
-    return true;
+      replaceByChange.put(req.ontoChange, req);
+      return true;
+    }
   }
 
   private void warnAboutMissingChangeId(List<CreateRequest> newChanges) {
@@ -2333,19 +2336,21 @@ class ReceiveCommits {
   }
 
   private boolean foundInExistingRef(Collection<Ref> existingRefs) {
-    for (Ref ref : existingRefs) {
-      ChangeNotes notes =
-          notesFactory.create(project.getNameKey(), Change.Id.fromRef(ref.getName()));
-      Change change = notes.getChange();
-      if (change.getDest().equals(magicBranch.dest)) {
-        logger.atFine().log("Found change %s from existing refs.", change.getKey());
-        // Reindex the change asynchronously, ignoring errors.
-        @SuppressWarnings("unused")
-        Future<?> possiblyIgnoredError = indexer.indexAsync(project.getNameKey(), change.getId());
-        return true;
+    try (TraceTimer traceTimer = newTimer("foundInExistingRef")) {
+      for (Ref ref : existingRefs) {
+        ChangeNotes notes =
+            notesFactory.create(project.getNameKey(), Change.Id.fromRef(ref.getName()));
+        Change change = notes.getChange();
+        if (change.getDest().equals(magicBranch.dest)) {
+          logger.atFine().log("Found change %s from existing refs.", change.getKey());
+          // Reindex the change asynchronously, ignoring errors.
+          @SuppressWarnings("unused")
+          Future<?> possiblyIgnoredError = indexer.indexAsync(project.getNameKey(), change.getId());
+          return true;
+        }
       }
+      return false;
     }
-    return false;
   }
 
   private RevCommit setUpWalkForSelectingChanges() throws IOException {
@@ -2465,12 +2470,16 @@ class ReceiveCommits {
   }
 
   private ChangeLookup lookupByChangeKey(RevCommit c, Change.Key key) {
-    return new ChangeLookup(c, key, queryProvider.get().byBranchKey(magicBranch.dest, key));
+    try (TraceTimer traceTimer = newTimer("lookupByChangeKey")) {
+      return new ChangeLookup(c, key, queryProvider.get().byBranchKey(magicBranch.dest, key));
+    }
   }
 
   private ChangeLookup lookupByCommit(RevCommit c) {
-    return new ChangeLookup(
-        c, null, queryProvider.get().byBranchCommit(magicBranch.dest, c.getName()));
+    try (TraceTimer traceTimer = newTimer("lookupByCommit")) {
+      return new ChangeLookup(
+          c, null, queryProvider.get().byBranchCommit(magicBranch.dest, c.getName()));
+    }
   }
 
   /** Represents a commit for which a Change should be created. */
@@ -2734,7 +2743,7 @@ class ReceiveCommits {
      * @throws PermissionBackendException
      */
     boolean validateNewPatchSet() throws IOException, PermissionBackendException {
-      try (TraceTimer traceTimer = newTimer(ReplaceRequest.class, "validateNewPatchSet")) {
+      try (TraceTimer traceTimer = newTimer("validateNewPatchSet")) {
         if (!validateNewPatchSetNoteDb()) {
           return false;
         }
@@ -2767,59 +2776,63 @@ class ReceiveCommits {
 
     /** Validates the new PS against permissions and notedb status. */
     private boolean validateNewPatchSetNoteDb() throws IOException, PermissionBackendException {
-      if (notes == null) {
-        reject(inputCommand, "change " + ontoChange + " not found");
-        return false;
-      }
-
-      Change change = notes.getChange();
-      priorPatchSet = change.currentPatchSetId();
-      if (!revisions.containsValue(priorPatchSet)) {
-        reject(inputCommand, "change " + ontoChange + " missing revisions");
-        return false;
-      }
-
-      RevCommit newCommit = receivePack.getRevWalk().parseCommit(newCommitId);
-
-      // Not allowed to create a new patch set if the current patch set is locked.
-      if (psUtil.isPatchSetLocked(notes)) {
-        reject(inputCommand, "cannot add patch set to " + ontoChange + ".");
-        return false;
-      }
-
-      try {
-        permissions.change(notes).check(ChangePermission.ADD_PATCH_SET);
-      } catch (AuthException no) {
-        reject(inputCommand, "cannot add patch set to " + ontoChange + ".");
-        return false;
-      }
-
-      if (change.isClosed()) {
-        reject(inputCommand, "change " + ontoChange + " closed");
-        return false;
-      } else if (revisions.containsKey(newCommit)) {
-        reject(inputCommand, "commit already exists (in the change)");
-        return false;
-      }
-
-      for (Ref r : receivePack.getRepository().getRefDatabase().getRefsByPrefix("refs/changes")) {
-        if (r.getObjectId().equals(newCommit)) {
-          reject(inputCommand, "commit already exists (in the project)");
+      try (TraceTimer traceTimer = newTimer("validateNewPatchSetNoteDb")) {
+        if (notes == null) {
+          reject(inputCommand, "change " + ontoChange + " not found");
           return false;
         }
-      }
 
-      for (RevCommit prior : revisions.keySet()) {
-        // Don't allow a change to directly depend upon itself. This is a
-        // very common error due to users making a new commit rather than
-        // amending when trying to address review comments.
-        if (receivePack.getRevWalk().isMergedInto(prior, newCommit)) {
-          reject(inputCommand, SAME_CHANGE_ID_IN_MULTIPLE_CHANGES);
+        Change change = notes.getChange();
+        priorPatchSet = change.currentPatchSetId();
+        if (!revisions.containsValue(priorPatchSet)) {
+          reject(inputCommand, "change " + ontoChange + " missing revisions");
           return false;
         }
-      }
 
-      return true;
+        RevCommit newCommit = receivePack.getRevWalk().parseCommit(newCommitId);
+
+        // Not allowed to create a new patch set if the current patch set is locked.
+        if (psUtil.isPatchSetLocked(notes)) {
+          reject(inputCommand, "cannot add patch set to " + ontoChange + ".");
+          return false;
+        }
+
+        try {
+          permissions.change(notes).check(ChangePermission.ADD_PATCH_SET);
+        } catch (AuthException no) {
+          reject(inputCommand, "cannot add patch set to " + ontoChange + ".");
+          return false;
+        }
+
+        if (change.isClosed()) {
+          reject(inputCommand, "change " + ontoChange + " closed");
+          return false;
+        } else if (revisions.containsKey(newCommit)) {
+          reject(inputCommand, "commit already exists (in the change)");
+          return false;
+        }
+
+        for (Ref r : receivePack.getRepository().getRefDatabase().getRefsByPrefix("refs/changes")) {
+          if (r.getObjectId().equals(newCommit)) {
+            reject(inputCommand, "commit already exists (in the project)");
+            return false;
+          }
+        }
+
+        try (TraceTimer traceTimer2 = newTimer("validateNewPatchSetNoteDb#isMergedInto")) {
+          for (RevCommit prior : revisions.keySet()) {
+            // Don't allow a change to directly depend upon itself. This is a
+            // very common error due to users making a new commit rather than
+            // amending when trying to address review comments.
+            if (receivePack.getRevWalk().isMergedInto(prior, newCommit)) {
+              reject(inputCommand, SAME_CHANGE_ID_IN_MULTIPLE_CHANGES);
+              return false;
+            }
+          }
+        }
+
+        return true;
+      }
     }
 
     /** Validates whether the WIP change is allowed. Rejects inputCommand if not. */
@@ -2848,39 +2861,41 @@ class ReceiveCommits {
 
     /** prints a warning if the new PS has the same tree as the previous commit. */
     private void sameTreeWarning() throws IOException {
-      RevWalk rw = receivePack.getRevWalk();
-      RevCommit newCommit = rw.parseCommit(newCommitId);
-      RevCommit priorCommit = revisions.inverse().get(priorPatchSet);
+      try (TraceTimer traceTimer = newTimer("sameTreeWarning")) {
+        RevWalk rw = receivePack.getRevWalk();
+        RevCommit newCommit = rw.parseCommit(newCommitId);
+        RevCommit priorCommit = revisions.inverse().get(priorPatchSet);
 
-      if (newCommit.getTree().equals(priorCommit.getTree())) {
-        rw.parseBody(newCommit);
-        rw.parseBody(priorCommit);
-        boolean messageEq =
-            Objects.equals(newCommit.getFullMessage(), priorCommit.getFullMessage());
-        boolean parentsEq = parentsEqual(newCommit, priorCommit);
-        boolean authorEq = authorEqual(newCommit, priorCommit);
-        ObjectReader reader = receivePack.getRevWalk().getObjectReader();
+        if (newCommit.getTree().equals(priorCommit.getTree())) {
+          rw.parseBody(newCommit);
+          rw.parseBody(priorCommit);
+          boolean messageEq =
+              Objects.equals(newCommit.getFullMessage(), priorCommit.getFullMessage());
+          boolean parentsEq = parentsEqual(newCommit, priorCommit);
+          boolean authorEq = authorEqual(newCommit, priorCommit);
+          ObjectReader reader = receivePack.getRevWalk().getObjectReader();
 
-        if (messageEq && parentsEq && authorEq) {
-          addMessage(
-              String.format(
-                  "warning: no changes between prior commit %s and new commit %s",
-                  abbreviateName(priorCommit, reader), abbreviateName(newCommit, reader)));
-        } else {
-          StringBuilder msg = new StringBuilder();
-          msg.append("warning: ").append(abbreviateName(newCommit, reader));
-          msg.append(":");
-          msg.append(" no files changed");
-          if (!authorEq) {
-            msg.append(", author changed");
+          if (messageEq && parentsEq && authorEq) {
+            addMessage(
+                String.format(
+                    "warning: no changes between prior commit %s and new commit %s",
+                    abbreviateName(priorCommit, reader), abbreviateName(newCommit, reader)));
+          } else {
+            StringBuilder msg = new StringBuilder();
+            msg.append("warning: ").append(abbreviateName(newCommit, reader));
+            msg.append(":");
+            msg.append(" no files changed");
+            if (!authorEq) {
+              msg.append(", author changed");
+            }
+            if (!messageEq) {
+              msg.append(", message updated");
+            }
+            if (!parentsEq) {
+              msg.append(", was rebased");
+            }
+            addMessage(msg.toString());
           }
-          if (!messageEq) {
-            msg.append(", message updated");
-          }
-          if (!parentsEq) {
-            msg.append(", was rebased");
-          }
-          addMessage(msg.toString());
         }
       }
     }
@@ -2890,33 +2905,36 @@ class ReceiveCommits {
      * failure.
      */
     private boolean newEdit() {
-      psId = notes.getChange().currentPatchSetId();
-      Optional<ChangeEdit> edit;
+      try (TraceTimer traceTimer = newTimer("newEdit")) {
+        psId = notes.getChange().currentPatchSetId();
+        Optional<ChangeEdit> edit;
 
-      try {
-        edit = editUtil.byChange(notes, user);
-      } catch (AuthException | IOException e) {
-        logger.atSevere().withCause(e).log("Cannot retrieve edit");
-        return false;
-      }
+        try {
+          edit = editUtil.byChange(notes, user);
+        } catch (AuthException | IOException e) {
+          logger.atSevere().withCause(e).log("Cannot retrieve edit");
+          return false;
+        }
 
-      if (edit.isPresent()) {
-        if (edit.get().getBasePatchSet().id().equals(psId)) {
-          // replace edit
-          cmd =
-              new ReceiveCommand(edit.get().getEditCommit(), newCommitId, edit.get().getRefName());
+        if (edit.isPresent()) {
+          if (edit.get().getBasePatchSet().id().equals(psId)) {
+            // replace edit
+            cmd =
+                new ReceiveCommand(
+                    edit.get().getEditCommit(), newCommitId, edit.get().getRefName());
+          } else {
+            // delete old edit ref on rebase
+            prev =
+                new ReceiveCommand(
+                    edit.get().getEditCommit(), ObjectId.zeroId(), edit.get().getRefName());
+            createEditCommand();
+          }
         } else {
-          // delete old edit ref on rebase
-          prev =
-              new ReceiveCommand(
-                  edit.get().getEditCommit(), ObjectId.zeroId(), edit.get().getRefName());
           createEditCommand();
         }
-      } else {
-        createEditCommand();
-      }
 
-      return true;
+        return true;
+      }
     }
 
     /** Creates a ReceiveCommand for a new edit. */
@@ -2930,15 +2948,18 @@ class ReceiveCommits {
 
     /** Updates 'this' to add a new patchset. */
     private void newPatchSet() throws IOException {
-      RevCommit newCommit = receivePack.getRevWalk().parseCommit(newCommitId);
-      psId =
-          ChangeUtil.nextPatchSetIdFromAllRefsMap(allRefs(), notes.getChange().currentPatchSetId());
-      info = patchSetInfoFactory.get(receivePack.getRevWalk(), newCommit, psId);
-      cmd = new ReceiveCommand(ObjectId.zeroId(), newCommitId, psId.toRefName());
+      try (TraceTimer traceTimer = newTimer("newPatchSet")) {
+        RevCommit newCommit = receivePack.getRevWalk().parseCommit(newCommitId);
+        psId =
+            ChangeUtil.nextPatchSetIdFromAllRefsMap(
+                allRefs(), notes.getChange().currentPatchSetId());
+        info = patchSetInfoFactory.get(receivePack.getRevWalk(), newCommit, psId);
+        cmd = new ReceiveCommand(ObjectId.zeroId(), newCommitId, psId.toRefName());
+      }
     }
 
     void addOps(BatchUpdate bu, @Nullable Task progress) throws IOException {
-      try (TraceTimer traceTimer = newTimer(ReplaceRequest.class, "addOps")) {
+      try (TraceTimer traceTimer = newTimer("addOps")) {
         if (magicBranch != null && magicBranch.edit) {
           bu.addOp(notes.getChangeId(), new ReindexOnlyOp());
           if (prev != null) {
@@ -3075,7 +3096,11 @@ class ReceiveCommits {
   }
 
   private void initChangeRefMaps() {
-    if (refsByChange == null) {
+    if (refsByChange != null) {
+      return;
+    }
+
+    try (TraceTimer traceTimer = newTimer("initChangeRefMaps")) {
       int estRefsPerChange = 4;
       refsById = MultimapBuilder.hashKeys().arrayListValues().build();
       refsByChange =

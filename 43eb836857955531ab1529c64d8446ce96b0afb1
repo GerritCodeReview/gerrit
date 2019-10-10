@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b64ca27e_58f0fa75",
+        "filename": "WORKSPACE",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2019-10-10T15:25:43Z",
+      "side": 1,
+      "message": "s/wenn/when/",
+      "range": {
+        "startLine": 38,
+        "startChar": 36,
+        "endLine": 38,
+        "endChar": 40
+      },
+      "revId": "43eb836857955531ab1529c64d8446ce96b0afb1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -381,6 +381,24 @@
     },
     {
       "key": {
+        "uuid": "84338266_926076f9",
+        "filename": "java/com/google/gerrit/pgm/Daemon.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 503,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2019-10-10T07:43:09Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "10f7de41_2d27edf9",
+      "revId": "bd6674dfc88d12a7ca10aeb8535a1d5e805683c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2523a6e7_b6c21e09",
         "filename": "java/com/google/gerrit/testing/InMemoryModule.java",
         "patchSetId": 3
@@ -469,6 +487,24 @@
       "revId": "bd6674dfc88d12a7ca10aeb8535a1d5e805683c9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "22253efd_7f1b70f6",
+        "filename": "java/com/google/gerrit/testing/InMemoryModule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2019-10-10T07:43:09Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "fb34ee6a_47cb1edf",
+      "revId": "bd6674dfc88d12a7ca10aeb8535a1d5e805683c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "89099cf4_20a31f81",
+        "filename": "java/com/google/gerrit/index/Schema.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2019-10-10T17:57:31Z",
+      "side": 1,
+      "message": "s/legacyNumericFields/setUseLegacyNumericFields/ ?",
+      "range": {
+        "startLine": 56,
+        "startChar": 22,
+        "endLine": 56,
+        "endChar": 41
+      },
+      "revId": "02abbe5b6d5d248895b42407cb6148ad037a8760",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2f5855bf_e23a63b4",
+        "filename": "java/com/google/gerrit/index/Schema.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2019-10-10T17:57:31Z",
+      "side": 1,
+      "message": "getUseLegacyNumericFields()?",
+      "range": {
+        "startLine": 118,
+        "startChar": 23,
+        "endLine": 118,
+        "endChar": 45
+      },
+      "revId": "02abbe5b6d5d248895b42407cb6148ad037a8760",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ceef3964_902d33a8",
+        "filename": "java/com/google/gerrit/lucene/AbstractLuceneIndex.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 371,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2019-10-10T17:57:31Z",
+      "side": 1,
+      "message": "This logic might be worth sharing with the clause above now?",
+      "range": {
+        "startLine": 364,
+        "startChar": 6,
+        "endLine": 371,
+        "endChar": 9
+      },
+      "revId": "02abbe5b6d5d248895b42407cb6148ad037a8760",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4b646978_95c2288f",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2019-10-10T17:57:31Z",
+      "side": 1,
+      "message": "Would it make more sense to call this LEGACY_ID_STR and \"legacy_id_str\"?",
+      "range": {
+        "startLine": 110,
+        "startChar": 51,
+        "endLine": 110,
+        "endChar": 61
+      },
+      "revId": "02abbe5b6d5d248895b42407cb6148ad037a8760",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

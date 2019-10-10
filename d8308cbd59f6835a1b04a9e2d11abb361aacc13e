@@ -120,6 +120,24 @@
     },
     {
       "key": {
+        "uuid": "4756dd98_ca0e6384",
+        "filename": "polygerrit-ui/app/behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-10T13:55:01Z",
+      "side": 1,
+      "message": "Yeah, but _computeWipForPatchSets will return [], if patchNums is []. So executing that line if !change || !change.revisions || !Object.keys(change.revisions).length does not add anything useful - I think.",
+      "parentUuid": "ac83daae_f346a764",
+      "revId": "d8308cbd59f6835a1b04a9e2d11abb361aacc13e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2d2c6383_a2d727e8",
         "filename": "polygerrit-ui/app/behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html",
         "patchSetId": 1

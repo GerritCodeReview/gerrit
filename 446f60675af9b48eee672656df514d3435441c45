@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "699f4b3b_10824a15",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2019-10-10T14:45:54Z",
+      "side": 1,
+      "message": "Good details! Can you add to the commit message please?",
+      "parentUuid": "23c9e2e1_7ed001b5",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 7
+      },
+      "revId": "446f60675af9b48eee672656df514d3435441c45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2dc8afd4_77355e59",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4
@@ -131,6 +155,30 @@
       "side": 1,
       "message": "User can have their own custom dashboard. I am just changing default one",
       "parentUuid": "8ae94c51_20fd5480",
+      "range": {
+        "startLine": 151,
+        "startChar": 8,
+        "endLine": 151,
+        "endChar": 38
+      },
+      "revId": "446f60675af9b48eee672656df514d3435441c45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "08002745_d5c5f416",
+        "filename": "polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2019-10-10T14:45:54Z",
+      "side": 1,
+      "message": "Understood. How did you decide on these numbers for the default dashboard then? The two sections that already had limits were set to 10. Does anyone want to see more than 10 changes in a single section by default?",
+      "parentUuid": "5338ca25_0bf3d500",
       "range": {
         "startLine": 151,
         "startChar": 8,

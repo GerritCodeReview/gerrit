@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "9ac0c77f_ca37c72d",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 597,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-10-10T09:57:17Z",
+      "side": 1,
+      "message": "openFixPreview event bubbles up from a nested element of gr-file-list and gr-file-list doesn\u0027t rise this event.\nIt might be better to add listener for such events directly to gr-change-view.",
+      "range": {
+        "startLine": 597,
+        "startChar": 12,
+        "endLine": 597,
+        "endChar": 31
+      },
+      "revId": "6f5e79c29e7289dde66fb27c3021ca8c0c81dd8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "663c7602_af2b5f0e",
         "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.js",
         "patchSetId": 8
@@ -317,6 +340,29 @@
         "startChar": 6,
         "endLine": 93,
         "endChar": 14
+      },
+      "revId": "6f5e79c29e7289dde66fb27c3021ca8c0c81dd8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4292168e_d8478593",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-10-10T09:57:17Z",
+      "side": 1,
+      "message": "openFixPreview event bubbles up from a nested element of gr-diff-host and gr-diff-host doesn\u0027t rise this event.\nIt might be better to add listener for such events directly to gr-diff-view.",
+      "range": {
+        "startLine": 345,
+        "startChar": 8,
+        "endLine": 345,
+        "endChar": 27
       },
       "revId": "6f5e79c29e7289dde66fb27c3021ca8c0c81dd8f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

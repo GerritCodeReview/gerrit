@@ -119,6 +119,28 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void stickyOnAnyScore() throws Exception {
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      u.getConfig().getLabelSections().get("Code-Review").setCopyAnyScore(true);
+      u.save();
+    }
+
+    for (ChangeKind changeKind :
+        EnumSet.of(REWORK, TRIVIAL_REBASE, NO_CODE_CHANGE, MERGE_FIRST_PARENT_UPDATE, NO_CHANGE)) {
+      testRepo.reset(projectOperations.project(project).getHead("master"));
+
+      String changeId = createChange(changeKind);
+      vote(admin, changeId, 2, 1);
+      vote(user, changeId, 1, -1);
+
+      updateChange(changeId, changeKind);
+      ChangeInfo c = detailedChange(changeId);
+      assertVotes(c, admin, 2, 0, changeKind);
+      assertVotes(c, user, 1, 0, changeKind);
+    }
+  }
+
+  @Test
   public void stickyOnMinScore() throws Exception {
     try (ProjectConfigUpdate u = updateProject(project)) {
       u.getConfig().getLabelSections().get("Code-Review").setCopyMinScore(true);

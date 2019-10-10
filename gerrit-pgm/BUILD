@@ -173,7 +173,10 @@ junit_tests(
     ],
 )
 
+# TODO(davido): Enable on RBE, when this issue is fixed upstream:
+# https://github.com/bazelbuild/bazel/issues/9979
 license_test(
     name = "pgm_license_test",
+    tags = ["no-remote"],
     target = ":pgm",
 )

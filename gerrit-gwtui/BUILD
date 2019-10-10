@@ -22,6 +22,7 @@ gwt_user_agent_permutations()
 
 license_test(
     name = "ui_module_license_test",
+    tags = ["no-remote"],
     target = ":ui_module",
 )
 

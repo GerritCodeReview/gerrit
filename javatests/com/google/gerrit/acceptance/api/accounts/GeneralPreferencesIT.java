@@ -19,6 +19,8 @@ import static com.google.gerrit.acceptance.AssertUtil.assertPrefs;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.ExtensionRegistry;
+import com.google.gerrit.acceptance.ExtensionRegistry.Registration;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
@@ -31,19 +33,15 @@ import com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailStrategy;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo.TimeFormat;
 import com.google.gerrit.extensions.client.MenuItem;
 import com.google.gerrit.extensions.config.DownloadScheme;
-import com.google.gerrit.extensions.registration.DynamicMap;
-import com.google.gerrit.extensions.registration.PrivateInternals_DynamicMapImpl;
-import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.inject.Inject;
-import com.google.inject.util.Providers;
 import java.util.ArrayList;
 import org.junit.Before;
 import org.junit.Test;
 
 @NoHttpd
 public class GeneralPreferencesIT extends AbstractDaemonTest {
-  @Inject private DynamicMap<DownloadScheme> downloadSchemes;
+  @Inject private ExtensionRegistry extensionRegistry;
 
   private TestAccount user42;
 
@@ -201,10 +199,8 @@ public class GeneralPreferencesIT extends AbstractDaemonTest {
   @Test
   public void setDownloadScheme() throws Exception {
     String schemeName = "foo";
-    RegistrationHandle registrationHandle =
-        ((PrivateInternals_DynamicMapImpl<DownloadScheme>) downloadSchemes)
-            .put("myPlugin", schemeName, Providers.of(new TestDownloadScheme()));
-    try {
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(new TestDownloadScheme(), schemeName)) {
       GeneralPreferencesInfo i = GeneralPreferencesInfo.defaults();
       i.downloadScheme = schemeName;
 
@@ -213,8 +209,6 @@ public class GeneralPreferencesIT extends AbstractDaemonTest {
 
       o = gApi.accounts().id(user42.id().toString()).getPreferences();
       assertThat(o.downloadScheme).isEqualTo(schemeName);
-    } finally {
-      registrationHandle.remove();
     }
   }
 

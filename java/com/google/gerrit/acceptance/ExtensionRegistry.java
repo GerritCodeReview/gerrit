@@ -15,8 +15,11 @@
 package com.google.gerrit.acceptance;
 
 import com.google.gerrit.extensions.api.changes.ActionVisitor;
+import com.google.gerrit.extensions.config.DownloadScheme;
 import com.google.gerrit.extensions.events.ChangeIndexedListener;
+import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.extensions.registration.PrivateInternals_DynamicMapImpl;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.server.ExceptionHook;
 import com.google.gerrit.server.change.ChangeETagComputation;
@@ -26,6 +29,7 @@ import com.google.gerrit.server.logging.PerformanceLogger;
 import com.google.gerrit.server.rules.SubmitRule;
 import com.google.gerrit.server.validators.ProjectCreationValidationListener;
 import com.google.inject.Inject;
+import com.google.inject.util.Providers;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,6 +43,7 @@ public class ExtensionRegistry {
   private final DynamicSet<ChangeMessageModifier> changeMessageModifiers;
   private final DynamicSet<ChangeETagComputation> changeETagComputations;
   private final DynamicSet<ActionVisitor> actionVisitors;
+  private final DynamicMap<DownloadScheme> downloadSchemes;
 
   @Inject
   ExtensionRegistry(
@@ -50,7 +55,8 @@ public class ExtensionRegistry {
       DynamicSet<SubmitRule> submitRules,
       DynamicSet<ChangeMessageModifier> changeMessageModifiers,
       DynamicSet<ChangeETagComputation> changeETagComputations,
-      DynamicSet<ActionVisitor> actionVisitors) {
+      DynamicSet<ActionVisitor> actionVisitors,
+      DynamicMap<DownloadScheme> downloadSchemes) {
     this.changeIndexedListeners = changeIndexedListeners;
     this.commitValidationListeners = commitValidationListeners;
     this.exceptionHooks = exceptionHooks;
@@ -60,6 +66,7 @@ public class ExtensionRegistry {
     this.changeMessageModifiers = changeMessageModifiers;
     this.changeETagComputations = changeETagComputations;
     this.actionVisitors = actionVisitors;
+    this.downloadSchemes = downloadSchemes;
   }
 
   public Registration newRegistration() {
@@ -105,8 +112,20 @@ public class ExtensionRegistry {
       return add(actionVisitors, actionVisitor);
     }
 
+    public Registration add(DownloadScheme downloadScheme, String exportName) {
+      return add(downloadSchemes, downloadScheme, exportName);
+    }
+
     private <T> Registration add(DynamicSet<T> dynamicSet, T extension) {
       RegistrationHandle registrationHandle = dynamicSet.add("gerrit", extension);
+      registrationHandles.add(registrationHandle);
+      return this;
+    }
+
+    private <T> Registration add(DynamicMap<T> dynamicMap, T extension, String exportName) {
+      RegistrationHandle registrationHandle =
+          ((PrivateInternals_DynamicMapImpl<T>) dynamicMap)
+              .put("myPlugin", exportName, Providers.of(extension));
       registrationHandles.add(registrationHandle);
       return this;
     }

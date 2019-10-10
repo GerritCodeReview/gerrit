@@ -35,6 +35,25 @@ http_archive(
     urls = ["https://github.com/bazelbuild/rules_closure/archive/d53c0d7755426349d3c443eea4aeedbda27a11be.tar.gz"],
 )
 
+# TODO(davido): Stop patch on fetch when this issue is really fixed:
+# https://github.com/bazelbuild/bazel/issues/8772
+# or one of these PRs are accepted upstream:
+# https://github.com/protocolbuffers/protobuf/pull/6711
+# https://github.com/bazelbuild/rules_closure/pull/432
+http_archive(
+    name = "com_google_protobuf",
+    patch_args = ["-p1"],
+    patches = [
+        "@gerrit//tools:protobuf_drop_java_7_compatibility.patch",
+    ],
+    sha256 = "758249b537abba2f21ebc2d02555bf080917f0f2f88f4cbe2903e0e28c4187ed",
+    strip_prefix = "protobuf-3.10.0",
+    urls = [
+        "https://mirror.bazel.build/github.com/google/protobuf/archive/v3.10.0.tar.gz",
+        "https://github.com/protocolbuffers/protobuf/archive/v3.10.0.tar.gz",
+    ],
+)
+
 # File is specific to Polymer and copied from the Closure Github -- should be
 # synced any time there are major changes to Polymer.
 # https://github.com/google/closure-compiler/blob/master/contrib/externs/polymer-1.0.js
@@ -57,10 +76,12 @@ check_bazel_version()
 load("@io_bazel_rules_closure//closure:repositories.bzl", "rules_closure_dependencies", "rules_closure_toolchains")
 
 # Prevent redundant loading of dependencies.
+# Note, that omit_com_google_protobuf = True is needed as we are patching it on fetch, see above.
 rules_closure_dependencies(
     omit_aopalliance = True,
     omit_args4j = True,
     omit_bazel_skylib = True,
+    omit_com_google_protobuf = True,
     omit_javax_inject = True,
     omit_rules_cc = True,
 )

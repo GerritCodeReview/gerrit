@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance;
 
 import com.google.gerrit.extensions.api.changes.ActionVisitor;
 import com.google.gerrit.extensions.config.DownloadScheme;
+import com.google.gerrit.extensions.events.AccountIndexedListener;
 import com.google.gerrit.extensions.events.ChangeIndexedListener;
 import com.google.gerrit.extensions.events.CommentAddedListener;
 import com.google.gerrit.extensions.events.GroupIndexedListener;
@@ -38,6 +39,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ExtensionRegistry {
+  private final DynamicSet<AccountIndexedListener> accountIndexedListeners;
   private final DynamicSet<ChangeIndexedListener> changeIndexedListeners;
   private final DynamicSet<GroupIndexedListener> groupIndexedListeners;
   private final DynamicSet<ProjectIndexedListener> projectIndexedListeners;
@@ -55,6 +57,7 @@ public class ExtensionRegistry {
 
   @Inject
   ExtensionRegistry(
+      DynamicSet<AccountIndexedListener> accountIndexedListeners,
       DynamicSet<ChangeIndexedListener> changeIndexedListeners,
       DynamicSet<GroupIndexedListener> groupIndexedListeners,
       DynamicSet<ProjectIndexedListener> projectIndexedListeners,
@@ -69,6 +72,7 @@ public class ExtensionRegistry {
       DynamicMap<DownloadScheme> downloadSchemes,
       DynamicSet<RefOperationValidationListener> refOperationValidationListeners,
       DynamicSet<CommentAddedListener> commentAddedListeners) {
+    this.accountIndexedListeners = accountIndexedListeners;
     this.changeIndexedListeners = changeIndexedListeners;
     this.groupIndexedListeners = groupIndexedListeners;
     this.projectIndexedListeners = projectIndexedListeners;
@@ -91,6 +95,10 @@ public class ExtensionRegistry {
 
   public class Registration implements AutoCloseable {
     private final List<RegistrationHandle> registrationHandles = new ArrayList<>();
+
+    public Registration add(AccountIndexedListener accountIndexedListener) {
+      return add(accountIndexedListeners, accountIndexedListener);
+    }
 
     public Registration add(ChangeIndexedListener changeIndexedListener) {
       return add(changeIndexedListeners, changeIndexedListener);

@@ -298,7 +298,6 @@ public class ChangeJson {
       Map<Change.Id, ChangeInfo> cache = Maps.newHashMapWithExpectedSize(in.size());
       for (QueryResult<ChangeData> r : in) {
         List<ChangeInfo> infos = toChangeInfos(r.entities(), cache);
-        infos.forEach(c -> cache.put(Change.id(c._number), c));
         if (!infos.isEmpty() && r.more()) {
           infos.get(infos.size() - 1)._moreChanges = true;
         }
@@ -415,15 +414,29 @@ public class ChangeJson {
       List<ChangeData> changes, Map<Change.Id, ChangeInfo> cache) {
     try (Timer0.Context ignored = metrics.toChangeInfosLatency.start()) {
       List<ChangeInfo> changeInfos = new ArrayList<>(changes.size());
-      for (ChangeData cd : changes) {
-        ChangeInfo i = cache.get(cd.getId());
-        if (i != null) {
-          changeInfos.add(i);
+      for (int i = 0; i < changes.size(); i++) {
+        // We can only cache and re-use an entity if it's not the last in the list. The last entity
+        // may later get _moreChanges set. If it was cached or re-used, that setting would propagate
+        // to the original entity yielding wrong results.
+        // This problem has two sides where 'last in the list' has to be respected:
+        // (1) Caching
+        // (2) Reusing
+        boolean isCacheable = i != changes.size() - 1;
+        ChangeData cd = changes.get(i);
+        ChangeInfo info = cache.get(cd.getId());
+        if (info != null && isCacheable) {
+          changeInfos.add(info);
           continue;
         }
+
+        // Compute and cache if possible
         try {
           ensureLoaded(Collections.singleton(cd));
-          changeInfos.add(format(cd, Optional.empty(), false, ChangeInfo::new));
+          info = format(cd, Optional.empty(), false, ChangeInfo::new);
+          changeInfos.add(info);
+          if (isCacheable) {
+            cache.put(Change.id(info._number), info);
+          }
         } catch (RuntimeException e) {
           logger.atWarning().withCause(e).log(
               "Omitting corrupt change %s from results", cd.getId());

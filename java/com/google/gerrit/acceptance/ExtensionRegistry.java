@@ -18,6 +18,7 @@ import com.google.gerrit.extensions.api.changes.ActionVisitor;
 import com.google.gerrit.extensions.config.DownloadScheme;
 import com.google.gerrit.extensions.events.ChangeIndexedListener;
 import com.google.gerrit.extensions.events.CommentAddedListener;
+import com.google.gerrit.extensions.events.ProjectIndexedListener;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.registration.PrivateInternals_DynamicMapImpl;
@@ -37,6 +38,7 @@ import java.util.List;
 
 public class ExtensionRegistry {
   private final DynamicSet<ChangeIndexedListener> changeIndexedListeners;
+  private final DynamicSet<ProjectIndexedListener> projectIndexedListeners;
   private final DynamicSet<CommitValidationListener> commitValidationListeners;
   private final DynamicSet<ExceptionHook> exceptionHooks;
   private final DynamicSet<PerformanceLogger> performanceLoggers;
@@ -52,6 +54,7 @@ public class ExtensionRegistry {
   @Inject
   ExtensionRegistry(
       DynamicSet<ChangeIndexedListener> changeIndexedListeners,
+      DynamicSet<ProjectIndexedListener> projectIndexedListeners,
       DynamicSet<CommitValidationListener> commitValidationListeners,
       DynamicSet<ExceptionHook> exceptionHooks,
       DynamicSet<PerformanceLogger> performanceLoggers,
@@ -64,6 +67,7 @@ public class ExtensionRegistry {
       DynamicSet<RefOperationValidationListener> refOperationValidationListeners,
       DynamicSet<CommentAddedListener> commentAddedListeners) {
     this.changeIndexedListeners = changeIndexedListeners;
+    this.projectIndexedListeners = projectIndexedListeners;
     this.commitValidationListeners = commitValidationListeners;
     this.exceptionHooks = exceptionHooks;
     this.performanceLoggers = performanceLoggers;
@@ -86,6 +90,10 @@ public class ExtensionRegistry {
 
     public Registration add(ChangeIndexedListener changeIndexedListener) {
       return add(changeIndexedListeners, changeIndexedListener);
+    }
+
+    public Registration add(ProjectIndexedListener projectIndexedListener) {
+      return add(projectIndexedListeners, projectIndexedListener);
     }
 
     public Registration add(CommitValidationListener commitValidationListener) {

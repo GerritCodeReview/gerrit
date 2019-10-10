@@ -1,4 +1,4 @@
-// Copyright (C) 2018 The Android Open Source Project
+// Copyright (C) 2019 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,6 +15,19 @@
 package com.google.gerrit.acceptance.ssh;
 
 import com.google.gerrit.index.IndexType;
+import com.google.gerrit.testing.ConfigSuite;
+import org.eclipse.jgit.lib.Config;
 
-/** Tests for the default {@link IndexType#isLucene()} index configuration. */
-public class IndexIT extends AbstractIndexTests {}
+/**
+ * Tests for a defaulted custom index configuration. This unknown type is the opposite of {@link
+ * IndexType#getKnownTypes()}.
+ */
+public class CustomIndexIT extends AbstractIndexTests {
+
+  @ConfigSuite.Default
+  public static Config customIndexType() {
+    Config config = new Config();
+    config.setString("index", null, "type", "custom");
+    return config;
+  }
+}

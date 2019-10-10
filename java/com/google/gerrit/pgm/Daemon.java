@@ -327,7 +327,7 @@ public class Daemon extends SiteProgram {
     }
     cfgInjector = createCfgInjector();
     config = cfgInjector.getInstance(Key.get(Config.class, GerritServerConfig.class));
-    initIndexType();
+    indexType = IndexModule.getIndexType(cfgInjector);
     sysInjector = createSysInjector();
     sysInjector.getInstance(PluginGuiceEnvironment.class).setDbCfgInjector(dbInjector, cfgInjector);
     manager.add(dbInjector, cfgInjector, sysInjector);
@@ -496,13 +496,6 @@ public class Daemon extends SiteProgram {
       return ElasticIndexModule.latestVersion(replica);
     }
     throw new IllegalStateException("unsupported index.type = " + indexType);
-  }
-
-  private void initIndexType() {
-    indexType = IndexModule.getIndexType(cfgInjector);
-    if (!indexType.isLucene() && !indexType.isElasticsearch()) {
-      throw new IllegalStateException("unsupported index.type = " + indexType);
-    }
   }
 
   private void initSshd() {

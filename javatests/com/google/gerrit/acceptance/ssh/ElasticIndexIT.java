@@ -18,10 +18,12 @@ import static com.google.gerrit.elasticsearch.ElasticTestUtils.createAllIndexes;
 import static com.google.gerrit.elasticsearch.ElasticTestUtils.getConfig;
 
 import com.google.gerrit.elasticsearch.ElasticVersion;
+import com.google.gerrit.index.IndexType;
 import com.google.gerrit.testing.ConfigSuite;
 import com.google.inject.Injector;
 import org.eclipse.jgit.lib.Config;
 
+/** Tests for every supported {@link IndexType#isElasticsearch()} most recent index version. */
 public class ElasticIndexIT extends AbstractIndexTests {
 
   @ConfigSuite.Default
@@ -40,7 +42,7 @@ public class ElasticIndexIT extends AbstractIndexTests {
   }
 
   @Override
-  public void configureIndex(Injector injector) throws Exception {
+  public void configureIndex(Injector injector) {
     createAllIndexes(injector);
   }
 }

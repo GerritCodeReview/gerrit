@@ -227,10 +227,11 @@ public class InMemoryModule extends FactoryModule {
 
     IndexType indexType = new IndexType(cfg.getString("index", null, "type"));
     // For custom index types, callers must provide their own module.
-    if (indexType.isLucene()) {
-      install(luceneIndexModule());
-    } else if (indexType.isElasticsearch()) {
+    if (indexType.isElasticsearch()) {
       install(elasticIndexModule());
+    } else {
+      // Also the default "custom" module for testing.
+      install(luceneIndexModule());
     }
     bind(ServerInformationImpl.class);
     bind(ServerInformation.class).to(ServerInformationImpl.class);

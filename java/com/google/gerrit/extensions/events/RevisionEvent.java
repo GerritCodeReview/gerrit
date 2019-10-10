@@ -20,8 +20,9 @@ import com.google.gerrit.extensions.common.RevisionInfo;
 public interface RevisionEvent extends ChangeEvent {
 
   /**
-   * Information about the revision. Some fields might be null. {@see
-   * com.google.gerrit.server.extensions.events.EventUtil}.
+   * Information about the revision. Some fields might be null.
+   *
+   * @see com.google.gerrit.server.extensions.events.EventUtil
    */
   RevisionInfo getRevision();
 }

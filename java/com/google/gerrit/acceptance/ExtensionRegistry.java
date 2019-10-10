@@ -18,6 +18,7 @@ import com.google.gerrit.extensions.api.changes.ActionVisitor;
 import com.google.gerrit.extensions.config.DownloadScheme;
 import com.google.gerrit.extensions.events.ChangeIndexedListener;
 import com.google.gerrit.extensions.events.CommentAddedListener;
+import com.google.gerrit.extensions.events.GroupIndexedListener;
 import com.google.gerrit.extensions.events.ProjectIndexedListener;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.DynamicSet;
@@ -38,6 +39,7 @@ import java.util.List;
 
 public class ExtensionRegistry {
   private final DynamicSet<ChangeIndexedListener> changeIndexedListeners;
+  private final DynamicSet<GroupIndexedListener> groupIndexedListeners;
   private final DynamicSet<ProjectIndexedListener> projectIndexedListeners;
   private final DynamicSet<CommitValidationListener> commitValidationListeners;
   private final DynamicSet<ExceptionHook> exceptionHooks;
@@ -54,6 +56,7 @@ public class ExtensionRegistry {
   @Inject
   ExtensionRegistry(
       DynamicSet<ChangeIndexedListener> changeIndexedListeners,
+      DynamicSet<GroupIndexedListener> groupIndexedListeners,
       DynamicSet<ProjectIndexedListener> projectIndexedListeners,
       DynamicSet<CommitValidationListener> commitValidationListeners,
       DynamicSet<ExceptionHook> exceptionHooks,
@@ -67,6 +70,7 @@ public class ExtensionRegistry {
       DynamicSet<RefOperationValidationListener> refOperationValidationListeners,
       DynamicSet<CommentAddedListener> commentAddedListeners) {
     this.changeIndexedListeners = changeIndexedListeners;
+    this.groupIndexedListeners = groupIndexedListeners;
     this.projectIndexedListeners = projectIndexedListeners;
     this.commitValidationListeners = commitValidationListeners;
     this.exceptionHooks = exceptionHooks;
@@ -85,11 +89,16 @@ public class ExtensionRegistry {
     return new Registration();
   }
 
+  @SuppressWarnings("FunctionalInterfaceClash")
   public class Registration implements AutoCloseable {
     private final List<RegistrationHandle> registrationHandles = new ArrayList<>();
 
     public Registration add(ChangeIndexedListener changeIndexedListener) {
       return add(changeIndexedListeners, changeIndexedListener);
+    }
+
+    public Registration add(GroupIndexedListener groupIndexedListener) {
+      return add(groupIndexedListeners, groupIndexedListener);
     }
 
     public Registration add(ProjectIndexedListener projectIndexedListener) {

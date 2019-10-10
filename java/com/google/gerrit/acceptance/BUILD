@@ -124,6 +124,7 @@ java_library2(
         "//java/com/google/gerrit/server",
         "//java/com/google/gerrit/server/audit",
         "//java/com/google/gerrit/server/git/receive",
+        "//java/com/google/gerrit/server/logging",
         "//java/com/google/gerrit/server/restapi",
         "//java/com/google/gerrit/server/schema",
         "//java/com/google/gerrit/server/util/git",

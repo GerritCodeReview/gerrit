@@ -66,6 +66,9 @@ limitations under the License.
       .invisible {
         visibility: hidden;
       }
+      .header-row {
+        font-weight: var(--font-weight-bold);
+      }
       .controlRow {
         align-items: center;
         display: flex;
@@ -126,22 +129,27 @@ limitations under the License.
       .oldPath {
         color: var(--deemphasized-text-color);
       }
-      .comments,
+      .header-stats {
+        text-align: center;
+        min-width: 7.5em;
+      }
       .stats {
         text-align: right;
+        min-width: 7.5em;
       }
       .comments {
         padding-left: 2em;
+        min-width: 20em;
       }
-      .stats {
-        min-width: 7em;
-      }
-      .row:not(.header) .stats,
+      .row:not(.header-row) .stats,
       .total-stats {
         font-family: var(--monospace-font-family);
+        display: flex;
       }
       .sizeBars {
         margin-left: .5em;
+        min-width: 7em;
+        text-align: center;
       }
       .sizeBars.hide {
         display: none;
@@ -157,6 +165,8 @@ limitations under the License.
       .removed {
         color: var(--vote-text-color-disliked);
         text-align: left;
+        min-width: 4em;
+        padding-left: 0.5em;
       }
       .drafts {
         color: #C62828;
@@ -277,6 +287,18 @@ limitations under the License.
     <div
         id="container"
         on-tap="_handleFileListTap">
+      <div class="header-row row">
+        <div class="status"></div>
+        <div class="path">File</div>
+        <div class="comments">Comments</div>
+        <div class="sizeBars">Size</div>
+        <div class="header-stats">Delta</div>
+        <!-- Empty div here exists to keep spacing in sync with file rows. -->
+        <div class="reviewed hideOnEdit" hidden$="[[!_loggedIn]]"></div>
+        <div class="editFileControls showOnEdit"></div>
+        <div class="show-hide"></div>
+      </div>
+
       <template is="dom-repeat"
           items="[[_shownFiles]]"
           id="files"
@@ -427,7 +449,7 @@ limitations under the License.
         </span>
       </div>
       <!-- Empty div here exists to keep spacing in sync with file rows. -->
-      <div class="reviewed hideOnEdit" hidden$="[[!_loggedIn]]" hidden></div>
+      <div class="reviewed hideOnEdit" hidden$="[[!_loggedIn]]"></div>
       <div class="editFileControls showOnEdit"></div>
       <div class="show-hide"></div>
     </div>

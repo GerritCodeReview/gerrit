@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "263218cf_1f8390d6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2019-10-10T14:29:03Z",
+      "side": 1,
+      "message": "Can you give an example with numbers? What is a \"heavy user\"? What qualifies as \"slow\"? How many is \"many changes\"?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 7
+      },
+      "revId": "446f60675af9b48eee672656df514d3435441c45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2dc8afd4_77355e59",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2019-10-10T14:29:03Z",
+      "side": 1,
+      "message": "This issue is already marked as closed. Is that the correct issue?",
+      "range": {
+        "startLine": 14,
+        "startChar": 5,
+        "endLine": 14,
+        "endChar": 16
+      },
+      "revId": "446f60675af9b48eee672656df514d3435441c45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8ae94c51_20fd5480",
+        "filename": "polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2019-10-10T14:29:03Z",
+      "side": 1,
+      "message": "As a follow-on, it might be nice to make these configurable by the user in their preferences. We already have the \"Changes per page\" preference and this seems like an extension of that.",
+      "range": {
+        "startLine": 151,
+        "startChar": 8,
+        "endLine": 151,
+        "endChar": 38
+      },
+      "revId": "446f60675af9b48eee672656df514d3435441c45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

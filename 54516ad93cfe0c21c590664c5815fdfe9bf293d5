@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "95484734_e47c497c",
+        "filename": "java/com/google/gerrit/server/restapi/change/CherryPickChange.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-10T08:01:30Z",
+      "side": 1,
+      "message": "nit: better say \u0027Change-Id\u0027, since \u0027id\u0027 could be understood as numeric ID",
+      "range": {
+        "startLine": 225,
+        "startChar": 37,
+        "endLine": 225,
+        "endChar": 39
+      },
+      "revId": "54516ad93cfe0c21c590664c5815fdfe9bf293d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

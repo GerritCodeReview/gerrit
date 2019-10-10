@@ -22,6 +22,30 @@
       "revId": "7880b0bc64672b9f6c891941a7958109fe4c0f59",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "236062a2_3d5f51af",
+        "filename": "Documentation/pg-plugin-admin-api.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-10-10T03:12:16Z",
+      "side": 1,
+      "message": "See issue 11714",
+      "parentUuid": "8035653c_94cfdae4",
+      "range": {
+        "startLine": 7,
+        "startChar": 33,
+        "endLine": 7,
+        "endChar": 63
+      },
+      "revId": "7880b0bc64672b9f6c891941a7958109fe4c0f59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

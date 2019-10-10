@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "91e0e83d_9b74f826",
+        "filename": "java/com/google/gerrit/server/git/CommitUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-10T07:52:42Z",
+      "side": 1,
+      "message": "I think this class can be made a @Singleton.",
+      "revId": "c2f93846206a05b1dd124b261adc58902b995fe7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

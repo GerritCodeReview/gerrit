@@ -19,6 +19,7 @@ import com.google.gerrit.extensions.config.DownloadScheme;
 import com.google.gerrit.extensions.events.AccountIndexedListener;
 import com.google.gerrit.extensions.events.ChangeIndexedListener;
 import com.google.gerrit.extensions.events.CommentAddedListener;
+import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.extensions.events.GroupIndexedListener;
 import com.google.gerrit.extensions.events.ProjectIndexedListener;
 import com.google.gerrit.extensions.registration.DynamicMap;
@@ -54,6 +55,7 @@ public class ExtensionRegistry {
   private final DynamicMap<DownloadScheme> downloadSchemes;
   private final DynamicSet<RefOperationValidationListener> refOperationValidationListeners;
   private final DynamicSet<CommentAddedListener> commentAddedListeners;
+  private final DynamicSet<GitReferenceUpdatedListener> refUpdatedListeners;
 
   @Inject
   ExtensionRegistry(
@@ -71,7 +73,8 @@ public class ExtensionRegistry {
       DynamicSet<ActionVisitor> actionVisitors,
       DynamicMap<DownloadScheme> downloadSchemes,
       DynamicSet<RefOperationValidationListener> refOperationValidationListeners,
-      DynamicSet<CommentAddedListener> commentAddedListeners) {
+      DynamicSet<CommentAddedListener> commentAddedListeners,
+      DynamicSet<GitReferenceUpdatedListener> refUpdatedListeners) {
     this.accountIndexedListeners = accountIndexedListeners;
     this.changeIndexedListeners = changeIndexedListeners;
     this.groupIndexedListeners = groupIndexedListeners;
@@ -87,6 +90,7 @@ public class ExtensionRegistry {
     this.downloadSchemes = downloadSchemes;
     this.refOperationValidationListeners = refOperationValidationListeners;
     this.commentAddedListeners = commentAddedListeners;
+    this.refUpdatedListeners = refUpdatedListeners;
   }
 
   public Registration newRegistration() {
@@ -155,6 +159,10 @@ public class ExtensionRegistry {
 
     public Registration add(CommentAddedListener commentAddedListener) {
       return add(commentAddedListeners, commentAddedListener);
+    }
+
+    public Registration add(GitReferenceUpdatedListener refUpdatedListener) {
+      return add(refUpdatedListeners, refUpdatedListener);
     }
 
     private <T> Registration add(DynamicSet<T> dynamicSet, T extension) {

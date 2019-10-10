@@ -191,7 +191,6 @@ import org.eclipse.jgit.transport.PushResult;
 import org.eclipse.jgit.transport.RemoteRefUpdate;
 import org.eclipse.jgit.treewalk.TreeWalk;
 import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
 public class AccountIT extends AbstractDaemonTest {
@@ -209,7 +208,6 @@ public class AccountIT extends AbstractDaemonTest {
 
   @Inject private @ServerInitiated Provider<AccountsUpdate> accountsUpdateProvider;
   @Inject private AccountIndexer accountIndexer;
-  @Inject private DynamicSet<GitReferenceUpdatedListener> refUpdateListeners;
   @Inject private ExternalIdNotes.Factory extIdNotesFactory;
   @Inject private ExternalIds externalIds;
   @Inject private GitReferenceUpdated gitReferenceUpdated;
@@ -237,22 +235,6 @@ public class AccountIT extends AbstractDaemonTest {
   private DynamicSet<AccountActivationValidationListener> accountActivationValidationListeners;
 
   @Inject protected GroupOperations groupOperations;
-
-  private RefUpdateCounter refUpdateCounter;
-  private RegistrationHandle refUpdateCounterHandle;
-
-  @Before
-  public void addRefUpdateCounter() {
-    refUpdateCounter = new RefUpdateCounter();
-    refUpdateCounterHandle = refUpdateListeners.add("gerrit", refUpdateCounter);
-  }
-
-  @After
-  public void removeRefUpdateCounter() {
-    if (refUpdateCounterHandle != null) {
-      refUpdateCounterHandle.remove();
-    }
-  }
 
   @After
   public void clearPublicKeyStore() throws Exception {
@@ -302,11 +284,14 @@ public class AccountIT extends AbstractDaemonTest {
 
   @Test
   public void createByAccountCreator() throws Exception {
-    Account.Id accountId = createByAccountCreator(1);
-    refUpdateCounter.assertRefUpdateFor(
-        RefUpdateCounter.projectRef(allUsers, RefNames.refsUsers(accountId)),
-        RefUpdateCounter.projectRef(allUsers, RefNames.REFS_EXTERNAL_IDS),
-        RefUpdateCounter.projectRef(allUsers, RefNames.REFS_SEQUENCES + Sequences.NAME_ACCOUNTS));
+    RefUpdateCounter refUpdateCounter = new RefUpdateCounter();
+    try (Registration registration = extensionRegistry.newRegistration().add(refUpdateCounter)) {
+      Account.Id accountId = createByAccountCreator(1);
+      refUpdateCounter.assertRefUpdateFor(
+          RefUpdateCounter.projectRef(allUsers, RefNames.refsUsers(accountId)),
+          RefUpdateCounter.projectRef(allUsers, RefNames.REFS_EXTERNAL_IDS),
+          RefUpdateCounter.projectRef(allUsers, RefNames.REFS_SEQUENCES + Sequences.NAME_ACCOUNTS));
+    }
   }
 
   @Test
@@ -712,8 +697,9 @@ public class AccountIT extends AbstractDaemonTest {
   @Test
   public void starUnstarChange() throws Exception {
     AccountIndexedCounter accountIndexedCounter = new AccountIndexedCounter();
+    RefUpdateCounter refUpdateCounter = new RefUpdateCounter();
     try (Registration registration =
-        extensionRegistry.newRegistration().add(accountIndexedCounter)) {
+        extensionRegistry.newRegistration().add(accountIndexedCounter).add(refUpdateCounter)) {
       PushOneCommit.Result r = createChange();
       String triplet = project.get() + "~master~" + r.getChangeId();
       refUpdateCounter.clear();
@@ -740,35 +726,36 @@ public class AccountIT extends AbstractDaemonTest {
 
   @Test
   public void starUnstarChangeWithLabels() throws Exception {
-    PushOneCommit.Result r = createChange();
-    String triplet = project.get() + "~master~" + r.getChangeId();
-    refUpdateCounter.clear();
-
-    assertThat(gApi.accounts().self().getStars(triplet)).isEmpty();
-    assertThat(gApi.accounts().self().getStarredChanges()).isEmpty();
-
-    gApi.accounts()
-        .self()
-        .setStars(triplet, new StarsInput(ImmutableSet.of(DEFAULT_LABEL, "red", "blue")));
-    ChangeInfo change = info(triplet);
-    assertThat(change.starred).isTrue();
-    assertThat(change.stars).containsExactly("blue", "red", DEFAULT_LABEL).inOrder();
-    assertThat(gApi.accounts().self().getStars(triplet))
-        .containsExactly("blue", "red", DEFAULT_LABEL)
-        .inOrder();
-    List<ChangeInfo> starredChanges = gApi.accounts().self().getStarredChanges();
-    assertThat(starredChanges).hasSize(1);
-    ChangeInfo starredChange = starredChanges.get(0);
-    assertThat(starredChange._number).isEqualTo(r.getChange().getId().get());
-    assertThat(starredChange.starred).isTrue();
-    assertThat(starredChange.stars).containsExactly("blue", "red", DEFAULT_LABEL).inOrder();
-    refUpdateCounter.assertRefUpdateFor(
-        RefUpdateCounter.projectRef(
-            allUsers, RefNames.refsStarredChanges(Change.id(change._number), admin.id())));
-
     AccountIndexedCounter accountIndexedCounter = new AccountIndexedCounter();
+    RefUpdateCounter refUpdateCounter = new RefUpdateCounter();
     try (Registration registration =
-        extensionRegistry.newRegistration().add(accountIndexedCounter)) {
+        extensionRegistry.newRegistration().add(accountIndexedCounter).add(refUpdateCounter)) {
+      PushOneCommit.Result r = createChange();
+      String triplet = project.get() + "~master~" + r.getChangeId();
+      refUpdateCounter.clear();
+
+      assertThat(gApi.accounts().self().getStars(triplet)).isEmpty();
+      assertThat(gApi.accounts().self().getStarredChanges()).isEmpty();
+
+      gApi.accounts()
+          .self()
+          .setStars(triplet, new StarsInput(ImmutableSet.of(DEFAULT_LABEL, "red", "blue")));
+      ChangeInfo change = info(triplet);
+      assertThat(change.starred).isTrue();
+      assertThat(change.stars).containsExactly("blue", "red", DEFAULT_LABEL).inOrder();
+      assertThat(gApi.accounts().self().getStars(triplet))
+          .containsExactly("blue", "red", DEFAULT_LABEL)
+          .inOrder();
+      List<ChangeInfo> starredChanges = gApi.accounts().self().getStarredChanges();
+      assertThat(starredChanges).hasSize(1);
+      ChangeInfo starredChange = starredChanges.get(0);
+      assertThat(starredChange._number).isEqualTo(r.getChange().getId().get());
+      assertThat(starredChange.starred).isTrue();
+      assertThat(starredChange.stars).containsExactly("blue", "red", DEFAULT_LABEL).inOrder();
+      refUpdateCounter.assertRefUpdateFor(
+          RefUpdateCounter.projectRef(
+              allUsers, RefNames.refsStarredChanges(Change.id(change._number), admin.id())));
+
       gApi.accounts()
           .self()
           .setStars(
@@ -791,14 +778,14 @@ public class AccountIT extends AbstractDaemonTest {
               allUsers, RefNames.refsStarredChanges(Change.id(change._number), admin.id())));
 
       accountIndexedCounter.assertNoReindex();
-    }
 
-    requestScopeOperations.setApiUser(user.id());
-    AuthException thrown =
-        assertThrows(
-            AuthException.class,
-            () -> gApi.accounts().id(Integer.toString((admin.id().get()))).getStars(triplet));
-    assertThat(thrown).hasMessageThat().contains("not allowed to get stars of another account");
+      requestScopeOperations.setApiUser(user.id());
+      AuthException thrown =
+          assertThrows(
+              AuthException.class,
+              () -> gApi.accounts().id(Integer.toString((admin.id().get()))).getStars(triplet));
+      assertThat(thrown).hasMessageThat().contains("not allowed to get stars of another account");
+    }
   }
 
   @Test

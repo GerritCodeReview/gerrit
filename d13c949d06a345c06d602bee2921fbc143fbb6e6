@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c089920a_552b745b",
+        "filename": "java/com/google/gerrit/acceptance/ExtensionRegistry.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-10-10T11:33:42Z",
+      "side": 1,
+      "message": "See [1].  I think it\u0027s safe to suppress this.  This is only going to be a problem if we pass a lambda to any of the ambiguous methods, and we\u0027re not doing that.  I think it will already fail to compile at the call site in that case.\n\n[1] https://errorprone.info/bugpattern/FunctionalInterfaceClash",
+      "revId": "d13c949d06a345c06d602bee2921fbc143fbb6e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

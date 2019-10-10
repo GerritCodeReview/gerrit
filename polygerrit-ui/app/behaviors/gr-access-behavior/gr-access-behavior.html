@@ -21,116 +21,118 @@ limitations under the License.
 
   window.Gerrit = window.Gerrit || {};
 
-  /** @polymerBehavior Gerrit.AccessBehavior */
-  Gerrit.AccessBehavior = {
-    properties: {
-      permissionValues: {
-        type: Object,
-        readOnly: true,
-        value: {
-          abandon: {
-            id: 'abandon',
-            name: 'Abandon',
-          },
-          addPatchSet: {
-            id: 'addPatchSet',
-            name: 'Add Patch Set',
-          },
-          create: {
-            id: 'create',
-            name: 'Create Reference',
-          },
-          createTag: {
-            id: 'createTag',
-            name: 'Create Annotated Tag',
-          },
-          createSignedTag: {
-            id: 'createSignedTag',
-            name: 'Create Signed Tag',
-          },
-          delete: {
-            id: 'delete',
-            name: 'Delete Reference',
-          },
-          deleteChanges: {
-            id: 'deleteChanges',
-            name: 'Delete Changes',
-          },
-          deleteOwnChanges: {
-            id: 'deleteOwnChanges',
-            name: 'Delete Own Changes',
-          },
-          editAssignee: {
-            id: 'editAssignee',
-            name: 'Edit Assignee',
-          },
-          editHashtags: {
-            id: 'editHashtags',
-            name: 'Edit Hashtags',
-          },
-          editTopicName: {
-            id: 'editTopicName',
-            name: 'Edit Topic Name',
-          },
-          forgeAuthor: {
-            id: 'forgeAuthor',
-            name: 'Forge Author Identity',
-          },
-          forgeCommitter: {
-            id: 'forgeCommitter',
-            name: 'Forge Committer Identity',
-          },
-          forgeServerAsCommitter: {
-            id: 'forgeServerAsCommitter',
-            name: 'Forge Server Identity',
-          },
-          owner: {
-            id: 'owner',
-            name: 'Owner',
-          },
-          publishDrafts: {
-            id: 'publishDrafts',
-            name: 'Publish Drafts',
-          },
-          push: {
-            id: 'push',
-            name: 'Push',
-          },
-          pushMerge: {
-            id: 'pushMerge',
-            name: 'Push Merge Commit',
-          },
-          read: {
-            id: 'read',
-            name: 'Read',
-          },
-          rebase: {
-            id: 'rebase',
-            name: 'Rebase',
-          },
-          removeReviewer: {
-            id: 'removeReviewer',
-            name: 'Remove Reviewer',
-          },
-          submit: {
-            id: 'submit',
-            name: 'Submit',
-          },
-          submitAs: {
-            id: 'submitAs',
-            name: 'Submit (On Behalf Of)',
-          },
-          toggleWipState: {
-            id: 'toggleWipState',
-            name: 'Toggle Work In Progress State',
-          },
-          viewPrivateChanges: {
-            id: 'viewPrivateChanges',
-            name: 'View Private Changes',
+  let internalAccessMixin = base =>
+    class extends PropertiesMixin(base) {
+    static get properties() {
+      return {
+        permissionValues: {
+          type: Object,
+          readOnly: true,
+          value: {
+            abandon: {
+              id: 'abandon',
+              name: 'Abandon',
+            },
+            addPatchSet: {
+              id: 'addPatchSet',
+              name: 'Add Patch Set',
+            },
+            create: {
+              id: 'create',
+              name: 'Create Reference',
+            },
+            createTag: {
+              id: 'createTag',
+              name: 'Create Annotated Tag',
+            },
+            createSignedTag: {
+              id: 'createSignedTag',
+              name: 'Create Signed Tag',
+            },
+            delete: {
+              id: 'delete',
+              name: 'Delete Reference',
+            },
+            deleteChanges: {
+              id: 'deleteChanges',
+              name: 'Delete Changes',
+            },
+            deleteOwnChanges: {
+              id: 'deleteOwnChanges',
+              name: 'Delete Own Changes',
+            },
+            editAssignee: {
+              id: 'editAssignee',
+              name: 'Edit Assignee',
+            },
+            editHashtags: {
+              id: 'editHashtags',
+              name: 'Edit Hashtags',
+            },
+            editTopicName: {
+              id: 'editTopicName',
+              name: 'Edit Topic Name',
+            },
+            forgeAuthor: {
+              id: 'forgeAuthor',
+              name: 'Forge Author Identity',
+            },
+            forgeCommitter: {
+              id: 'forgeCommitter',
+              name: 'Forge Committer Identity',
+            },
+            forgeServerAsCommitter: {
+              id: 'forgeServerAsCommitter',
+              name: 'Forge Server Identity',
+            },
+            owner: {
+              id: 'owner',
+              name: 'Owner',
+            },
+            publishDrafts: {
+              id: 'publishDrafts',
+              name: 'Publish Drafts',
+            },
+            push: {
+              id: 'push',
+              name: 'Push',
+            },
+            pushMerge: {
+              id: 'pushMerge',
+              name: 'Push Merge Commit',
+            },
+            read: {
+              id: 'read',
+              name: 'Read',
+            },
+            rebase: {
+              id: 'rebase',
+              name: 'Rebase',
+            },
+            removeReviewer: {
+              id: 'removeReviewer',
+              name: 'Remove Reviewer',
+            },
+            submit: {
+              id: 'submit',
+              name: 'Submit',
+            },
+            submitAs: {
+              id: 'submitAs',
+              name: 'Submit (On Behalf Of)',
+            },
+            toggleWipState: {
+              id: 'toggleWipState',
+              name: 'Toggle Work In Progress State',
+            },
+            viewPrivateChanges: {
+              id: 'viewPrivateChanges',
+              name: 'View Private Changes',
+            },
           },
         },
-      },
-    },
+      }
+    }
 
     /**
      * @param {!Object} obj
@@ -148,7 +150,12 @@ limitations under the License.
         // Since IDs are strings, use localeCompare.
         return a.id.localeCompare(b.id);
       });
-    },
+    }
   };
+
+  Gerrit.AccessMixin = Polymer.dedupingMixin(internalAccessMixin);
+
+  /** @polymerBehavior Gerrit.AccessBehavior */
+  Gerrit.AccessBehavior = legacyBehaviorFromMixin(Gerrit.AccessMixin);
 })(window);
 </script>

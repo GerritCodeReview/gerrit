@@ -20,8 +20,9 @@ limitations under the License.
 
   window.Gerrit = window.Gerrit || {};
 
-  /** @polymerBehavior Gerrit.URLEncodingBehavior */
-  Gerrit.URLEncodingBehavior = {
+  const internalURLEncodingMixin = base =>
+    class extends base {
+
     /**
      * Pretty-encodes a URL. Double-encodes the string, and then replaces
      *   benevolent characters for legibility.
@@ -39,7 +40,7 @@ limitations under the License.
         output = output.replace(/%252F/g, '/');
       }
       return output;
-    },
+    }
 
     /**
      * Single decode for URL components. Will decode plus signs ('+') to spaces.
@@ -51,7 +52,12 @@ limitations under the License.
     singleDecodeURL(url) {
       const withoutPlus = url.replace(/\+/g, '%20');
       return decodeURIComponent(withoutPlus);
-    },
+    }
   };
+
+  Gerrit.URLEncodingMixin = Polymer.dedupingMixin(internalURLEncodingMixin);
+
+  /** @polymerBehavior Gerrit.URLEncodingBehavior */
+  Gerrit.URLEncodingBehavior = legacyBehaviorFromMixin(Gerrit.URLEncodingMixin);
 })(window);
 </script>

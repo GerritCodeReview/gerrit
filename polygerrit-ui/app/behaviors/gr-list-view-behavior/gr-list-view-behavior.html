@@ -22,19 +22,20 @@ limitations under the License.
 
   window.Gerrit = window.Gerrit || {};
 
-  /** @polymerBehavior Gerrit.ListViewBehavior */
-  Gerrit.ListViewBehavior = [{
+  const internalListViewMixin = base =>
+    class extends Gerrit.BaseUrlMixin(Gerrit.URLEncodingMixin) {
+
     computeLoadingClass(loading) {
       return loading ? 'loading' : '';
     },
 
     computeShownItems(items) {
       return items.slice(0, 25);
-    },
+    }
 
     getUrl(path, item) {
       return this.getBaseUrl() + path + this.encodeURL(item, true);
-    },
+    }
 
     /**
      * @param {Object} params
@@ -43,7 +44,7 @@ limitations under the License.
     getFilterValue(params) {
       if (!params) { return ''; }
       return params.filter || '';
-    },
+    }
 
     /**
      * @param {Object} params
@@ -54,10 +55,12 @@ limitations under the License.
         return params.offset;
       }
       return 0;
-    },
-  },
-    Gerrit.BaseUrlBehavior,
-    Gerrit.URLEncodingBehavior,
-  ];
+    }
+  };
+
+  Gerrit.ListViewMixin = Polymer.dedupingMixin(internalListViewMixin);
+
+  /** @polymerBehavior Gerrit.ListViewBehavior */
+  Gerrit.ListViewBehavior = legacyBehaviorFromMixin(Gerrit.ListViewMixin);
 })(window);
 </script>

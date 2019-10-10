@@ -21,44 +21,47 @@
 
   window.Gerrit = window.Gerrit || {};
 
-  /** @polymerBehavior Gerrit.TooltipBehavior */
-  Gerrit.TooltipBehavior = {
+  const internalTooltipMixin = base =>
+    class extends Polymer.ElementMixin(base) {
 
-    properties: {
-      hasTooltip: {
-        type: Boolean,
-        observer: '_setupTooltipListeners',
-      },
-      positionBelow: {
-        type: Boolean,
-        value: false,
-        reflectToAttribute: true,
-      },
-
-      _isTouchDevice: {
-        type: Boolean,
-        value() {
-          return 'ontouchstart' in document.documentElement;
+    static get properties() {
+      return {
+        hasTooltip: {
+          type: Boolean,
+          observer: '_setupTooltipListeners',
         },
-      },
-      _tooltip: Object,
-      _titleText: String,
-      _hasSetupTooltipListeners: {
-        type: Boolean,
-        value: false,
-      },
-    },
+        positionBelow: {
+          type: Boolean,
+          value: false,
+          reflectToAttribute: true,
+        },
 
-    detached() {
+        _isTouchDevice: {
+          type: Boolean,
+          value() {
+            return 'ontouchstart' in document.documentElement;
+          },
+        },
+        _tooltip: Object,
+        _titleText: String,
+        _hasSetupTooltipListeners: {
+          type: Boolean,
+          value: false,
+        },
+      }
+    }
+
+    disconnectedCallback() {
+      super.disconnectedCallback();
       this._handleHideTooltip();
-    },
+    }
 
     _setupTooltipListeners() {
       if (this._hasSetupTooltipListeners || !this.hasTooltip) { return; }
       this._hasSetupTooltipListeners = true;
 
       this.addEventListener('mouseenter', this._handleShowTooltip.bind(this));
-    },
+    }
 
     _handleShowTooltip(e) {
       if (this._isTouchDevice) { return; }
@@ -90,7 +93,7 @@
       this.listen(window, 'scroll', '_handleWindowScroll');
       this.listen(this, 'mouseleave', '_handleHideTooltip');
       this.listen(this, 'tap', '_handleHideTooltip');
-    },
+    }
 
     _handleHideTooltip(e) {
       if (this._isTouchDevice) { return; }
@@ -107,13 +110,13 @@
         this._tooltip.parentNode.removeChild(this._tooltip);
       }
       this._tooltip = null;
-    },
+    }
 
     _handleWindowScroll(e) {
       if (!this._tooltip) { return; }
 
       this._positionTooltip(this._tooltip);
-    },
+    }
 
     _positionTooltip(tooltip) {
       // This flush is needed for tooltips to be positioned correctly in Firefox
@@ -144,6 +147,11 @@
       } else {
         tooltip.style.top = top + rect.height + BOTTOM_OFFSET + 'px';
       }
-    },
+    }
   };
+
+  Gerrit.TooltipMixin = Polymer.dedupingMixin(internalTooltipMixin);
+
+  /** @polymerBehavior Gerrit.TooltipBehavior */
+  Gerrit.TooltipBehavior = legacyBehaviorFromMixin(Gerrit.TooltipMixin);
 })(window);

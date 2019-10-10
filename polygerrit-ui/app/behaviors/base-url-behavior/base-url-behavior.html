@@ -21,12 +21,17 @@ limitations under the License.
 
   window.Gerrit = window.Gerrit || {};
 
+  let internalBaseUrlMixin = base =>
+    class extends base {
+      /** @return {string} */
+      getBaseUrl() {
+        return window.CANONICAL_PATH || '';
+      }
+    };
+
+  Gerrit.BaseUrlMixin = Polymer.dedupingMixin(internalBaseUrlMixin);
+
   /** @polymerBehavior Gerrit.BaseUrlBehavior */
-  Gerrit.BaseUrlBehavior = {
-    /** @return {string} */
-    getBaseUrl() {
-      return window.CANONICAL_PATH || '';
-    },
-  };
+  Gerrit.BaseUrlBehavior = legacyBehaviorFromMixin(Gerrit.BaseUrlMixin);
 })(window);
 </script>

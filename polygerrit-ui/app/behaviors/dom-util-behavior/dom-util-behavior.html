@@ -20,8 +20,8 @@ limitations under the License.
 
   window.Gerrit = window.Gerrit || {};
 
-  /** @polymerBehavior Gerrit.DomUtilBehavior */
-  Gerrit.DomUtilBehavior = {
+  let internalDomUtil = base =>
+    class extends base {
     /**
      * Are any ancestors of the element (or the element itself) members of the
      * given class.
@@ -40,7 +40,12 @@ limitations under the License.
         element = element.parentElement;
       }
       return isDescendant;
-    },
+    }
   };
+
+  Gerrit.DomUtilMixin = Polymer.dedupingMixin(internalDomUtilMixin);
+
+  /** @polymerBehavior Gerrit.DomUtilBehavior */
+  Gerrit.DomUtilBehavior = legacyBehaviorFromMixin(Gerrit.DomUtilMixin);
 })(window);
 </script>

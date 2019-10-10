@@ -41,8 +41,8 @@ limitations under the License.
 
   window.Gerrit = window.Gerrit || {};
 
-  /** @polymerBehavior Gerrit.AdminNavBehavior */
-  Gerrit.AdminNavBehavior = {
+  const internalAdminNavMixin = base =>
+    class extends base {
     /**
      * @param {!Object} account
      * @param {!Function} getAccountCapabilities
@@ -199,7 +199,11 @@ limitations under the License.
           url: Gerrit.Nav.getUrlForRepoDashboards(repoName),
         }],
       };
-    },
+    }
   };
+  Gerrit.AdminNavMixin = Polymer.dedupingMixin(internalAdminNavMixin);
+
+  /** @polymerBehavior Gerrit.AdminNavBehavior */
+  Gerrit.AdminNavBehavior = legacyBehaviorFromMixin(Gerrit.AdminNavMixin);
 })(window);
 </script>

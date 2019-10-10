@@ -23,21 +23,25 @@ limitations under the License.
 
   window.Gerrit = window.Gerrit || {};
 
-  /** @polymerBehavior Gerrit.DisplayNameBehavior */
-  Gerrit.DisplayNameBehavior = {
-    // TODO(dmfilippov) replace DisplayNameBehavior with GrDisplayNameUtils
-
+  const internalDisplayNameMixin = base =>
+    class extends base {
     /**
      * enableEmail when true enables to fallback to using email if
      * the account name is not avilable.
      */
     getUserName(config, account, enableEmail) {
       return GrDisplayNameUtils.getUserName(config, account, enableEmail);
-    },
+    }
 
     getGroupDisplayName(group) {
       return GrDisplayNameUtils.getGroupDisplayName(group);
-    },
+    }
   };
+  Gerrit.DisplayNameMixin = Polymer.dedupingMixin(internalDisplayNameMixin);
+
+  // TODO(dmfilippov) replace DisplayNameBehavior with GrDisplayNameUtils
+  /** @polymerBehavior Gerrit.DisplayNameBehavior */
+  Gerrit.DisplayNameBehavior = legacyBehaviorFromMixin(Gerrit.DisplayNameMixin);
+
 })(window);
 </script>

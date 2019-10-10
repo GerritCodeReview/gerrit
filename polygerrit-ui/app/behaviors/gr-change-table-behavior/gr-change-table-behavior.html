@@ -20,24 +20,26 @@ limitations under the License.
 
   window.Gerrit = window.Gerrit || {};
 
-  /** @polymerBehavior Gerrit.ChangeTableBehavior */
-  Gerrit.ChangeTableBehavior = {
-    properties: {
-      columnNames: {
-        type: Array,
-        value: [
-          'Subject',
-          'Status',
-          'Owner',
-          'Assignee',
-          'Repo',
-          'Branch',
-          'Updated',
-          'Size',
-        ],
-        readOnly: true,
-      },
-    },
+  const internalChangeTableMixin = base =>
+    class extends Polymer.PropertiesMixin(base) {
+    static get properties() {
+      return {
+        columnNames: {
+          type: Array,
+          value: [
+            'Subject',
+            'Status',
+            'Owner',
+            'Assignee',
+            'Repo',
+            'Branch',
+            'Updated',
+            'Size',
+          ],
+          readOnly: true,
+        },
+      }
+    }
 
     /**
      * Returns the complement to the given column array
@@ -48,7 +50,7 @@ limitations under the License.
       return this.columnNames.filter(column => {
         return !columns.includes(column);
       });
-    },
+    }
 
     /**
      * @param {string} columnToCheck
@@ -57,7 +59,7 @@ limitations under the License.
      */
     isColumnHidden(columnToCheck, columnsToDisplay) {
       return !columnsToDisplay.includes(columnToCheck);
-    },
+    }
 
     /**
      * The Project column was renamed to Repo, but some users may have
@@ -73,7 +75,11 @@ limitations under the License.
       const newColumns = columns.slice(0);
       newColumns[projectIndex] = 'Repo';
       return newColumns;
-    },
+    }
   };
+  Gerrit.ChangeTableMixin = Polymer.dedupingMixin(internalChangeTableMixin);
+
+  /** @polymerBehavior Gerrit.ChangeTableBehavior */
+  Gerrit.ChangeTableBehavior = legacyBehaviorFromMixin(Gerrit.ChangeTableMixin);
 })(window);
 </script>

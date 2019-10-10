@@ -31,10 +31,11 @@ limitations under the License.
 
   window.Gerrit = window.Gerrit || {};
 
-  /** @polymerBehavior this */
-  Gerrit.PatchSetBehavior = {
-    EDIT_NAME: 'edit',
-    PARENT_NAME: 'PARENT',
+  const internalPatchSetMixin = base =>
+    class extends base {
+
+    static get EDIT_NAME() { return 'edit' }
+    static get PARENT_NAME() { return 'PARENT' }
 
     /**
      * As patchNum can be either a string (e.g. 'edit', 'PARENT') OR a number,
@@ -47,7 +48,7 @@ limitations under the License.
      */
     patchNumEquals(a, b) {
       return a + '' === b + '';
-    },
+    }
 
     /**
      * Whether the given patch is a numbered parent of a merge (i.e. a negative
@@ -57,7 +58,7 @@ limitations under the License.
      */
     isMergeParent(n) {
       return (n + '')[0] === '-';
-    },
+    }
 
     /**
      * Given an object of revisions, get a particular revision based on patch
@@ -73,7 +74,7 @@ limitations under the License.
           return rev;
         }
       }
-    },
+    }
 
     /**
      * Find change edit base revision if change edit exists.
@@ -91,7 +92,7 @@ limitations under the License.
 
       return revisions.find(info => info._number === editInfo.basePatchNum) ||
           null;
-    },
+    }
 
     /**
      * Find change edit base patch set number if change edit exists.
@@ -103,7 +104,7 @@ limitations under the License.
       const revisionInfo =
           Gerrit.PatchSetBehavior.findEditParentRevision(revisions);
       return revisionInfo ? revisionInfo._number : -1;
-    },
+    }
 
     /**
      * Sort given revisions array according to the patch set number, in
@@ -127,7 +128,7 @@ limitations under the License.
           2 * editParent :
           2 * (r._number - 1) + 1;
       return revisions.sort((a, b) => num(b) - num(a));
-    },
+    }
 
     /**
      * Construct a chronological list of patch sets derived from change details.
@@ -160,7 +161,7 @@ limitations under the License.
               });
       }
       return Gerrit.PatchSetBehavior._computeWipForPatchSets(change, patchNums);
-    },
+    }
 
     /**
      * Populate the wip properties of the given list of patch sets.
@@ -193,7 +194,7 @@ limitations under the License.
         patchNums[i].wip = psWip[patchNums[i].num];
       }
       return patchNums;
-    },
+    }
 
     /** @return {number|undefined} */
     computeLatestPatchNum(allPatchSets) {
@@ -202,13 +203,13 @@ limitations under the License.
         return allPatchSets[1].num;
       }
       return allPatchSets[0].num;
-    },
+    }
 
     /** @return {Boolean} */
     hasEditBasedOnCurrentPatchSet(allPatchSets) {
       if (!allPatchSets || allPatchSets.length < 2) { return false; }
       return allPatchSets[0].num === Gerrit.PatchSetBehavior.EDIT_NAME;
-    },
+    }
 
     /** @return {Boolean} */
     hasEditPatchsetLoaded(patchRangeRecord) {
@@ -216,7 +217,7 @@ limitations under the License.
       if (!patchRange) { return false; }
       return patchRange.patchNum === Gerrit.PatchSetBehavior.EDIT_NAME ||
           patchRange.basePatchNum === Gerrit.PatchSetBehavior.EDIT_NAME;
-    },
+    }
 
     /**
      * Check whether there is no newer patch than the latest patch that was
@@ -243,7 +244,7 @@ limitations under the License.
               newMessages: change.messages.length < detail.messages.length,
             };
           });
-    },
+    }
 
     /**
      * @param {number|string} patchNum
@@ -255,7 +256,7 @@ limitations under the License.
       revisions = revisions || [];
       const findNum = rev => rev._number + '' === patchNum + '';
       return revisions.findIndex(findNum);
-    },
+    }
 
     /**
      * Convert parent indexes from patch range expressions to numbers.
@@ -265,7 +266,11 @@ limitations under the License.
      */
     getParentIndex(rangeBase) {
       return -parseInt(rangeBase + '', 10);
-    },
+    }
   };
+  Gerrit.PatchSetMixin = Polymer.dedupingMixin(internalPatchSetMixin);
+
+  /** @polymerBehavior Gerrit.PatchSetBehavior */
+  Gerrit.PatchSetBehavior = legacyBehaviorFromMixin(Gerrit.PatchSetMixin);
 })(window);
 </script>

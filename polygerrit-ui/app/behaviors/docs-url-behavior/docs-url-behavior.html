@@ -26,37 +26,39 @@ limitations under the License.
 
   window.Gerrit = window.Gerrit || {};
 
-  /** @polymerBehavior Gerrit.DocsUrlBehavior */
-  Gerrit.DocsUrlBehavior = [{
-
-    /**
-     * Get the docs base URL from either the server config or by probing.
-     * @param {Object} config The server config.
-     * @param {!Object} restApi A REST API instance
-     * @return {!Promise<string>} A promise that resolves with the docs base
-     *     URL.
-     */
-    getDocsBaseUrl(config, restApi) {
-      if (!cachedPromise) {
-        cachedPromise = new Promise(resolve => {
-          if (config && config.gerrit && config.gerrit.doc_url) {
-            resolve(config.gerrit.doc_url);
-          } else {
-            restApi.probePath(this.getBaseUrl() + PROBE_PATH).then(ok => {
-              resolve(ok ? (this.getBaseUrl() + DOCS_BASE_PATH) : null);
+  let internalDocsUrlBehavior = base =>
+      class extends Gerrit.BaseUrlMixin(base) {
+        /**
+         * Get the docs base URL from either the server config or by probing.
+         * @param {Object} config The server config.
+         * @param {!Object} restApi A REST API instance
+         * @return {!Promise<string>} A promise that resolves with the docs base
+         *     URL.
+         */
+        getDocsBaseUrl(config, restApi) {
+          if (!cachedPromise) {
+            cachedPromise = new Promise(resolve => {
+              if (config && config.gerrit && config.gerrit.doc_url) {
+                resolve(config.gerrit.doc_url);
+              } else {
+                restApi.probePath(this.getBaseUrl() + PROBE_PATH).then(ok => {
+                  resolve(ok ? (this.getBaseUrl() + DOCS_BASE_PATH) : null);
+                });
+              }
             });
           }
-        });
-      }
-      return cachedPromise;
-    },
+          return cachedPromise;
+        }
 
-    /** For testing only. */
-    _clearDocsBaseUrlCache() {
-      cachedPromise = undefined;
-    },
-  },
-    Gerrit.BaseUrlBehavior,
-  ];
+        /** For testing only. */
+        _clearDocsBaseUrlCache() {
+          cachedPromise = undefined;
+        }
+      };
+
+  Gerrit.DocsUrlMixin = Polymer.dedupingMixin(internalDocsUrlBehavior);
+
+  /** @polymerBehavior Gerrit.DocsUrlBehavior */
+  Gerrit.DocsUrlBehavior = legacyBehaviorFromMixin(Gerrit.DocsUrlMixin);
 })(window);
 </script>

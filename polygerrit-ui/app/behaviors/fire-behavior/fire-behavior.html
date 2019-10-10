@@ -21,8 +21,8 @@ limitations under the License.
 
   window.Gerrit = window.Gerrit || {};
 
-  /** @polymerBehavior Gerrit.FireBehavior */
-  Gerrit.FireBehavior = {
+  let internalFireMixin = base =>
+    class extends base {
     /**
      * Dispatches a custom event with an optional detail value.
      *
@@ -49,7 +49,11 @@ limitations under the License.
       event.detail = detail;
       this.dispatchEvent(event);
       return event;
-    },
+    }
   };
+  Gerrit.FireMixin = Polymer.dedupingMixin(internalFireMixin);
+
+  /** @polymerBehavior Gerrit.FireBehavior */
+  Gerrit.FireBehavior = legacyBehaviorFromMixin(Gerrit.FireMixin);
 })(window);
 </script>

@@ -77,30 +77,13 @@ limitations under the License.
         on-blur="_onInputBlur"
         autocomplete="off">
 
-      <template is="dom-if" if="[[_isPolymer2()]]">
-        <!-- Content uses vertical-align:baseline. If iron-icon is placed
-          directly in the slot and is not visible,  vertical-align doesn't
-          work, because display:none convert it from inline-block element to
-          block element. To fix this problem, iron-icon is wrapped in div
-          which never changes display type.
-          The problem doesn't exist in Polymer1 because DOM is different.
-          Applying the same fix to Polymer1 breaks vertical-align.
-        -->
-        <div slot="prefix">
-          <iron-icon
-            icon="gr-icons:search"
-            class$="searchIcon [[_computeShowSearchIconClass(showSearchIcon)]]">
-          </iron-icon>
-        </div>
-      </template>
-      <template is="dom-if" if="[[!_isPolymer2()]]">
+      <!-- prefix as attribute is required to for polymer 1 -->
+      <div slot="prefix" prefix>
         <iron-icon
-          prefix
           icon="gr-icons:search"
           class$="searchIcon [[_computeShowSearchIconClass(showSearchIcon)]]">
         </iron-icon>
-      </template>
-
+      </div>
     </paper-input>
     <gr-autocomplete-dropdown
         vertical-align="top"

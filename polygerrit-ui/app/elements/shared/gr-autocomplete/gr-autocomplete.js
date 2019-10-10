@@ -196,7 +196,7 @@
     },
 
     focus() {
-      this.$.input.focus();
+      this._nativeInput.focus();
     },
 
     selectAll() {
@@ -330,7 +330,7 @@
         default:
           // For any normal keypress, return focus to the input to allow for
           // unbroken user input.
-          this.$.input.inputElement.focus();
+          this.focus();
 
           // Since this has been a normal keypress, the suggestions will have
           // been based on a previous input. Clear them. This prevents an
@@ -429,10 +429,6 @@
 
     _computeShowSearchIconClass(showSearchIcon) {
       return showSearchIcon ? 'showSearchIcon' : '';
-    },
-
-    _isPolymer2() {
-      return window.POLYMER2;
     },
   });
 })();

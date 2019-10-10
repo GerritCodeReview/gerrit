@@ -32,6 +32,8 @@ import static com.google.gerrit.server.project.testing.TestLabels.value;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.ExtensionRegistry;
+import com.google.gerrit.acceptance.ExtensionRegistry.Registration;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
@@ -42,29 +44,23 @@ import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.extensions.events.CommentAddedListener;
-import com.google.gerrit.extensions.registration.DynamicSet;
-import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.inject.Inject;
 import java.util.Arrays;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 @NoHttpd
 public class CustomLabelIT extends AbstractDaemonTest {
 
-  @Inject private DynamicSet<CommentAddedListener> source;
   @Inject private ProjectOperations projectOperations;
+  @Inject private ExtensionRegistry extensionRegistry;
 
   private final LabelType label =
       label("CustomLabel", value(1, "Positive"), value(0, "No score"), value(-1, "Negative"));
 
   private final LabelType P = label("CustomLabel2", value(1, "Positive"), value(0, "No score"));
-
-  private RegistrationHandle eventListenerRegistration;
-  private CommentAddedListener.Event lastCommentAddedEvent;
 
   @Before
   public void setUp() throws Exception {
@@ -74,12 +70,6 @@ public class CustomLabelIT extends AbstractDaemonTest {
         .add(allowLabel(label.getName()).ref("refs/heads/*").group(ANONYMOUS_USERS).range(-1, 1))
         .add(allowLabel(P.getName()).ref("refs/heads/*").group(ANONYMOUS_USERS).range(0, 1))
         .update();
-    eventListenerRegistration = source.add("gerrit", event -> lastCommentAddedEvent = event);
-  }
-
-  @After
-  public void cleanup() {
-    eventListenerRegistration.remove();
   }
 
   @Test
@@ -166,28 +156,41 @@ public class CustomLabelIT extends AbstractDaemonTest {
     assertThat(q.blocking).isTrue();
   }
 
+  private static class TestListener implements CommentAddedListener {
+    public CommentAddedListener.Event lastCommentAddedEvent;
+
+    @Override
+    public void onCommentAdded(Event event) {
+      lastCommentAddedEvent = event;
+    }
+  }
+
   @Test
   public void customLabelAnyWithBlock_Addreviewer_ZeroVote() throws Exception {
-    P.setFunction(ANY_WITH_BLOCK);
-    saveLabelConfig();
-    PushOneCommit.Result r = createChange();
-    AddReviewerInput in = new AddReviewerInput();
-    in.reviewer = user.email();
-    gApi.changes().id(r.getChangeId()).addReviewer(in);
+    TestListener testListener = new TestListener();
+    try (Registration registration = extensionRegistry.newRegistration().add(testListener)) {
+      P.setFunction(ANY_WITH_BLOCK);
+      saveLabelConfig();
+      PushOneCommit.Result r = createChange();
+      AddReviewerInput in = new AddReviewerInput();
+      in.reviewer = user.email();
+      gApi.changes().id(r.getChangeId()).addReviewer(in);
 
-    ReviewInput input = new ReviewInput().label(P.getName(), 0);
-    input.message = "foo";
+      ReviewInput input = new ReviewInput().label(P.getName(), 0);
+      input.message = "foo";
 
-    revision(r).review(input);
-    ChangeInfo c = getWithLabels(r);
-    LabelInfo q = c.labels.get(P.getName());
-    assertThat(q.all).hasSize(1);
-    assertThat(q.approved).isNull();
-    assertThat(q.recommended).isNull();
-    assertThat(q.disliked).isNull();
-    assertThat(q.rejected).isNull();
-    assertThat(q.blocking).isNull();
-    assertThat(lastCommentAddedEvent.getComment()).isEqualTo("Patch Set 1:\n\n" + input.message);
+      revision(r).review(input);
+      ChangeInfo c = getWithLabels(r);
+      LabelInfo q = c.labels.get(P.getName());
+      assertThat(q.all).hasSize(1);
+      assertThat(q.approved).isNull();
+      assertThat(q.recommended).isNull();
+      assertThat(q.disliked).isNull();
+      assertThat(q.rejected).isNull();
+      assertThat(q.blocking).isNull();
+      assertThat(testListener.lastCommentAddedEvent.getComment())
+          .isEqualTo("Patch Set 1:\n\n" + input.message);
+    }
   }
 
   @Test

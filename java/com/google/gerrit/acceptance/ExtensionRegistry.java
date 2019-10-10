@@ -14,6 +14,7 @@
 
 package com.google.gerrit.acceptance;
 
+import com.google.gerrit.extensions.api.changes.ActionVisitor;
 import com.google.gerrit.extensions.events.ChangeIndexedListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
@@ -37,6 +38,7 @@ public class ExtensionRegistry {
   private final DynamicSet<SubmitRule> submitRules;
   private final DynamicSet<ChangeMessageModifier> changeMessageModifiers;
   private final DynamicSet<ChangeETagComputation> changeETagComputations;
+  private final DynamicSet<ActionVisitor> actionVisitors;
 
   @Inject
   ExtensionRegistry(
@@ -47,7 +49,8 @@ public class ExtensionRegistry {
       DynamicSet<ProjectCreationValidationListener> projectCreationValidationListeners,
       DynamicSet<SubmitRule> submitRules,
       DynamicSet<ChangeMessageModifier> changeMessageModifiers,
-      DynamicSet<ChangeETagComputation> changeETagComputations) {
+      DynamicSet<ChangeETagComputation> changeETagComputations,
+      DynamicSet<ActionVisitor> actionVisitors) {
     this.changeIndexedListeners = changeIndexedListeners;
     this.commitValidationListeners = commitValidationListeners;
     this.exceptionHooks = exceptionHooks;
@@ -56,6 +59,7 @@ public class ExtensionRegistry {
     this.submitRules = submitRules;
     this.changeMessageModifiers = changeMessageModifiers;
     this.changeETagComputations = changeETagComputations;
+    this.actionVisitors = actionVisitors;
   }
 
   public Registration newRegistration() {
@@ -95,6 +99,10 @@ public class ExtensionRegistry {
 
     public Registration add(ChangeETagComputation changeETagComputation) {
       return add(changeETagComputations, changeETagComputation);
+    }
+
+    public Registration add(ActionVisitor actionVisitor) {
+      return add(actionVisitors, actionVisitor);
     }
 
     private <T> Registration add(DynamicSet<T> dynamicSet, T extension) {

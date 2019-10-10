@@ -18,6 +18,7 @@ import com.google.gerrit.extensions.events.ChangeIndexedListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.server.ExceptionHook;
+import com.google.gerrit.server.git.ChangeMessageModifier;
 import com.google.gerrit.server.git.validators.CommitValidationListener;
 import com.google.gerrit.server.logging.PerformanceLogger;
 import com.google.gerrit.server.rules.SubmitRule;
@@ -33,6 +34,7 @@ public class ExtensionRegistry {
   private final DynamicSet<PerformanceLogger> performanceLoggers;
   private final DynamicSet<ProjectCreationValidationListener> projectCreationValidationListeners;
   private final DynamicSet<SubmitRule> submitRules;
+  private final DynamicSet<ChangeMessageModifier> changeMessageModifiers;
 
   @Inject
   ExtensionRegistry(
@@ -41,13 +43,15 @@ public class ExtensionRegistry {
       DynamicSet<ExceptionHook> exceptionHooks,
       DynamicSet<PerformanceLogger> performanceLoggers,
       DynamicSet<ProjectCreationValidationListener> projectCreationValidationListeners,
-      DynamicSet<SubmitRule> submitRules) {
+      DynamicSet<SubmitRule> submitRules,
+      DynamicSet<ChangeMessageModifier> changeMessageModifiers) {
     this.changeIndexedListeners = changeIndexedListeners;
     this.commitValidationListeners = commitValidationListeners;
     this.exceptionHooks = exceptionHooks;
     this.performanceLoggers = performanceLoggers;
     this.projectCreationValidationListeners = projectCreationValidationListeners;
     this.submitRules = submitRules;
+    this.changeMessageModifiers = changeMessageModifiers;
   }
 
   public Registration newRegistration() {
@@ -79,6 +83,10 @@ public class ExtensionRegistry {
 
     public Registration add(SubmitRule submitRule) {
       return add(submitRules, submitRule);
+    }
+
+    public Registration add(ChangeMessageModifier changeMessageModifier) {
+      return add(changeMessageModifiers, changeMessageModifier);
     }
 
     private <T> Registration add(DynamicSet<T> dynamicSet, T extension) {

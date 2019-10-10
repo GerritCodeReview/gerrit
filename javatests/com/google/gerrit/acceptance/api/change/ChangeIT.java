@@ -164,7 +164,6 @@ import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.change.ChangeETagComputation;
 import com.google.gerrit.server.change.ChangeResource;
-import com.google.gerrit.server.git.ChangeMessageModifier;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
@@ -217,7 +216,6 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @Inject private AccountOperations accountOperations;
   @Inject private ChangeIndexCollection changeIndexCollection;
-  @Inject private DynamicSet<ChangeMessageModifier> changeMessageModifiers;
   @Inject private GroupOperations groupOperations;
   @Inject private IndexConfig indexConfig;
   @Inject private ProjectOperations projectOperations;
@@ -3066,18 +3064,16 @@ public class ChangeIT extends AbstractDaemonTest {
   @Test
   public void customCommitFooters() throws Exception {
     PushOneCommit.Result change = createChange();
-    RegistrationHandle handle =
-        changeMessageModifiers.add(
-            "gerrit",
-            (newCommitMessage, original, mergeTip, destination) -> {
-              assertThat(original.getName()).isNotEqualTo(mergeTip.getName());
-              return newCommitMessage + "Custom: " + destination.branch();
-            });
     ChangeInfo actual;
-    try {
+    try (Registration registration =
+        extensionRegistry
+            .newRegistration()
+            .add(
+                (newCommitMessage, original, mergeTip, destination) -> {
+                  assertThat(original.getName()).isNotEqualTo(mergeTip.getName());
+                  return newCommitMessage + "Custom: " + destination.branch();
+                })) {
       actual = gApi.changes().id(change.getChangeId()).get(ALL_REVISIONS, COMMIT_FOOTERS);
-    } finally {
-      handle.remove();
     }
     List<String> footers =
         new ArrayList<>(

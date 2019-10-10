@@ -16,6 +16,24 @@
       "revId": "d13c949d06a345c06d602bee2921fbc143fbb6e6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "26460336_4e624708",
+        "filename": "java/com/google/gerrit/acceptance/ExtensionRegistry.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-10T11:53:53Z",
+      "side": 1,
+      "message": "LGTM.",
+      "parentUuid": "c089920a_552b745b",
+      "revId": "d13c949d06a345c06d602bee2921fbc143fbb6e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

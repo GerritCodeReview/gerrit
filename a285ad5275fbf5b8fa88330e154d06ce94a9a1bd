@@ -2,6 +2,115 @@
   "comments": [
     {
       "key": {
+        "uuid": "525e949d_4ec2296a",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 405,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-10-10T09:18:29Z",
+      "side": 1,
+      "message": "nit: unrelated change",
+      "revId": "a285ad5275fbf5b8fa88330e154d06ce94a9a1bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "86938b6b_d2c79ea8",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 585,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-10-10T09:18:29Z",
+      "side": 1,
+      "message": "This can\u0027t happen when an assignee is updated through SetAssigneeOp. See updateChange in that class which has a check for this situation.\n\nIt can happen if ChangeUpdate is used directly, but that is only the case in tests. I would therefore not special case this situation here but convert assignees as they come in.",
+      "range": {
+        "startLine": 584,
+        "startChar": 8,
+        "endLine": 585,
+        "endChar": 26
+      },
+      "revId": "a285ad5275fbf5b8fa88330e154d06ce94a9a1bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "94087d7f_81fa5675",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesState.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-10-10T09:18:29Z",
+      "side": 1,
+      "message": "I would remove this field from the cache. If you have the list of assignee updates, you can trivially (\u003dfast) compute it from these values.",
+      "range": {
+        "startLine": 155,
+        "startChar": 15,
+        "endLine": 155,
+        "endChar": 26
+      },
+      "revId": "a285ad5275fbf5b8fa88330e154d06ce94a9a1bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7a6e4304_b8866d6a",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesState.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-10-10T09:18:29Z",
+      "side": 1,
+      "message": "nit: ! [...].isPresent()",
+      "range": {
+        "startLine": 157,
+        "startChar": 72,
+        "endLine": 157,
+        "endChar": 95
+      },
+      "revId": "a285ad5275fbf5b8fa88330e154d06ce94a9a1bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bb2032e8_a19225f7",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesState.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 581,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-10-10T09:18:29Z",
+      "side": 1,
+      "message": "Please make this an optional field in the proto and leave it unset. Add a comment line to the proto that specifies that the absence of the field means that the assignee was unset.",
+      "range": {
+        "startLine": 581,
+        "startChar": 62,
+        "endLine": 581,
+        "endChar": 74
+      },
+      "revId": "a285ad5275fbf5b8fa88330e154d06ce94a9a1bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "83062380_8e290bc4",
         "filename": "javatests/com/google/gerrit/server/notedb/ChangeNotesTest.java",
         "patchSetId": 4

@@ -1,0 +1,326 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "663c7602_af2b5f0e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-10-10T09:49:45Z",
+      "side": 1,
+      "message": "We have convention that all \"private\" methods and properties must start with underscore _ char. We mark propertiy or method as \"private\" if it is used only inside component (i.e. only inside component.js or component.html files)",
+      "range": {
+        "startLine": 19,
+        "startChar": 2,
+        "endLine": 19,
+        "endChar": 9
+      },
+      "revId": "6f5e79c29e7289dde66fb27c3021ca8c0c81dd8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a9850d34_854f078c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-10-10T09:49:45Z",
+      "side": 1,
+      "message": "This flag is supposed to use with the old code. Let\u0027s not use it in a new code (more details here https://polymer-library.polymer-project.org/2.0/api/mixins/Polymer.LegacyDataMixin)",
+      "range": {
+        "startLine": 21,
+        "startChar": 4,
+        "endLine": 21,
+        "endChar": 25
+      },
+      "revId": "6f5e79c29e7289dde66fb27c3021ca8c0c81dd8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d4456a5f_1e52a52c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-10-10T09:49:45Z",
+      "side": 1,
+      "message": "Make \"private\" ?",
+      "range": {
+        "startLine": 26,
+        "startChar": 6,
+        "endLine": 26,
+        "endChar": 14
+      },
+      "revId": "6f5e79c29e7289dde66fb27c3021ca8c0c81dd8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e1370937_bddb8c53",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-10-10T09:49:45Z",
+      "side": 1,
+      "message": "Make \"private\" ?",
+      "range": {
+        "startLine": 27,
+        "startChar": 6,
+        "endLine": 27,
+        "endChar": 13
+      },
+      "revId": "6f5e79c29e7289dde66fb27c3021ca8c0c81dd8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "646241f4_653e80d0",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-10-10T09:49:45Z",
+      "side": 1,
+      "message": "Make \"private\"?",
+      "range": {
+        "startLine": 28,
+        "startChar": 6,
+        "endLine": 28,
+        "endChar": 16
+      },
+      "revId": "6f5e79c29e7289dde66fb27c3021ca8c0c81dd8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "337a026b_63ef299f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-10-10T09:49:45Z",
+      "side": 1,
+      "message": "Make \"private\"?",
+      "range": {
+        "startLine": 29,
+        "startChar": 6,
+        "endLine": 29,
+        "endChar": 21
+      },
+      "revId": "6f5e79c29e7289dde66fb27c3021ca8c0c81dd8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bafb1039_41679404",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-10-10T09:49:45Z",
+      "side": 1,
+      "message": "Make \"private\"?",
+      "range": {
+        "startLine": 30,
+        "startChar": 6,
+        "endLine": 30,
+        "endChar": 20
+      },
+      "revId": "6f5e79c29e7289dde66fb27c3021ca8c0c81dd8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a766cf38_da9e19c2",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-10-10T09:49:45Z",
+      "side": 1,
+      "message": "Is it possible to have changeNum \u003d\u003d null or patchNum \u003d\u003dnull here? If it is not expected - I prefer to remove such checks or replace checks with console.assert(this.changeNum !\u003d null \u0026\u0026 this.patchNum !\u003d null)",
+      "range": {
+        "startLine": 42,
+        "startChar": 8,
+        "endLine": 42,
+        "endChar": 45
+      },
+      "revId": "6f5e79c29e7289dde66fb27c3021ca8c0c81dd8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aa75cf88_f6ed7dce",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-10-10T09:49:45Z",
+      "side": 1,
+      "message": "It seems, that showSelectedFixSuggestion is used only inside gr-apply-fix-dialog component and can be marked as \"private\". We have convention that all \"private\" methods must start with underscore _ char.",
+      "range": {
+        "startLine": 57,
+        "startChar": 4,
+        "endLine": 57,
+        "endChar": 29
+      },
+      "revId": "6f5e79c29e7289dde66fb27c3021ca8c0c81dd8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3af4622c_6d834bb4",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-10-10T09:49:45Z",
+      "side": 1,
+      "message": "patchNum - It might be better to use this.patchNum instead of passing patchNum as a parameter",
+      "range": {
+        "startLine": 61,
+        "startChar": 31,
+        "endLine": 61,
+        "endChar": 39
+      },
+      "revId": "6f5e79c29e7289dde66fb27c3021ca8c0c81dd8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "97cc59b8_1d97db8a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-10-10T09:49:45Z",
+      "side": 1,
+      "message": "\"Private\" method?",
+      "range": {
+        "startLine": 61,
+        "startChar": 4,
+        "endLine": 61,
+        "endChar": 19
+      },
+      "revId": "6f5e79c29e7289dde66fb27c3021ca8c0c81dd8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0a61fe26_d086b04c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-10-10T09:49:45Z",
+      "side": 1,
+      "message": "What do you think about splitting this method into 2 methods:\nonCancel(e) {\n   e.stopPropagation();\n   _close();\n}\n\n_close() {\n...\n}\n\nAnd then call _close() instead of onCancel(undefined)",
+      "range": {
+        "startLine": 84,
+        "startChar": 6,
+        "endLine": 86,
+        "endChar": 7
+      },
+      "revId": "6f5e79c29e7289dde66fb27c3021ca8c0c81dd8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4a054831_491080bc",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-10-10T09:49:45Z",
+      "side": 1,
+      "message": "Private\" method?",
+      "range": {
+        "startLine": 92,
+        "startChar": 4,
+        "endLine": 92,
+        "endChar": 18
+      },
+      "revId": "6f5e79c29e7289dde66fb27c3021ca8c0c81dd8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "048f4a39_c7dfce6d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-10-10T09:49:45Z",
+      "side": 1,
+      "message": "Could you please clarify, when e is null or undefined?",
+      "range": {
+        "startLine": 93,
+        "startChar": 6,
+        "endLine": 93,
+        "endChar": 14
+      },
+      "revId": "6f5e79c29e7289dde66fb27c3021ca8c0c81dd8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

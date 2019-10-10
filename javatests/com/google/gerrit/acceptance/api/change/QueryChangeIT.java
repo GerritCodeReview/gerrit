@@ -44,8 +44,8 @@ public class QueryChangeIT extends AbstractDaemonTest {
 
     QueryChanges queryChanges = queryChangesProvider.get();
 
-    queryChanges.addQuery("is:open");
-    queryChanges.addQuery("is:wip");
+    queryChanges.addQuery("is:open repo:" + project.get());
+    queryChanges.addQuery("is:wip repo:" + project.get());
 
     List<List<ChangeInfo>> result =
         (List<List<ChangeInfo>>) queryChanges.apply(TopLevelResource.INSTANCE).value();
@@ -57,5 +57,32 @@ public class QueryChangeIT extends AbstractDaemonTest {
         ImmutableList.of(result.get(0).get(0)._number, result.get(0).get(1)._number);
     assertThat(firstResultIds).containsExactly(numericId1, numericId2);
     assertThat(result.get(1).get(0)._number).isEqualTo(numericId2);
+  }
+
+  @Test
+  @SuppressWarnings("unchecked")
+  public void moreChangesIndicatorDoesNotWronglyCopyToUnrelatedChanges() throws Exception {
+    String cId1 = createChange().getChangeId();
+    String cId2 = createChange().getChangeId();
+    String cId3 = createChange().getChangeId();
+
+    gApi.changes().id(cId2).setWorkInProgress();
+    gApi.changes().id(cId3).setWorkInProgress();
+
+    QueryChanges queryChanges = queryChangesProvider.get();
+
+    queryChanges.addQuery("is:open limit:10 repo:" + project.get());
+    queryChanges.addQuery("is:wip limit:1 repo:" + project.get());
+
+    List<List<ChangeInfo>> result =
+        (List<List<ChangeInfo>>) queryChanges.apply(TopLevelResource.INSTANCE).value();
+    assertThat(result).hasSize(2);
+    assertThat(result.get(0)).hasSize(3);
+    assertThat(result.get(1)).hasSize(1);
+
+    assertThat(result.get(0).get(0)._moreChanges).isNull();
+    assertThat(result.get(1).get(0)._moreChanges).isTrue();
+    assertThat(result.get(0).get(0)._number).isEqualTo(cId1);
+    assertThat(result.get(1).get(0)._number).isEqualTo(cId1);
   }
 }

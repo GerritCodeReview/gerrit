@@ -415,10 +415,14 @@ public class ChangeJson {
       List<ChangeData> changes, Map<Change.Id, ChangeInfo> cache) {
     try (Timer0.Context ignored = metrics.toChangeInfosLatency.start()) {
       List<ChangeInfo> changeInfos = new ArrayList<>(changes.size());
-      for (ChangeData cd : changes) {
-        ChangeInfo i = cache.get(cd.getId());
-        if (i != null) {
-          changeInfos.add(i);
+      for (int i = 0; i < changes.size(); i++) {
+        ChangeData cd = changes.get(i);
+        ChangeInfo info = cache.get(cd.getId());
+        if (info != null && i != changes.size() - 1) {
+          // We can only re-use an entity if it's not the last in the list. The last entity will
+          // later get _moreChanges set. It it was re-used here, that setting would propagate to the
+          // original entity yielding wrong results.
+          changeInfos.add(info);
           continue;
         }
         try {

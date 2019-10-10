@@ -40,6 +40,8 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.ListMultimap;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.ExtensionRegistry;
+import com.google.gerrit.acceptance.ExtensionRegistry.Registration;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.TestAccount;
@@ -117,11 +119,11 @@ import org.eclipse.jgit.transport.RefSpec;
 import org.junit.Test;
 
 public class RevisionIT extends AbstractDaemonTest {
-  @Inject private DynamicSet<ChangeIndexedListener> changeIndexedListeners;
   @Inject private DynamicSet<PatchSetWebLink> patchSetLinks;
   @Inject private GetRevisionActions getRevisionActions;
   @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
+  @Inject private ExtensionRegistry extensionRegistry;
 
   @Test
   public void reviewTriplet() throws Exception {
@@ -1079,25 +1081,22 @@ public class RevisionIT extends AbstractDaemonTest {
 
     // Using the API returns the correct value, and reindexes as well.
     CountDownLatch reindexed = new CountDownLatch(1);
-    RegistrationHandle handle =
-        changeIndexedListeners.add(
-            "gerrit",
-            new ChangeIndexedListener() {
-              @Override
-              public void onChangeIndexed(String projectName, int id) {
-                if (id == id2.get()) {
-                  reindexed.countDown();
-                }
-              }
+    ChangeIndexedListener listener =
+        new ChangeIndexedListener() {
+          @Override
+          public void onChangeIndexed(String projectName, int id) {
+            if (id == id2.get()) {
+              reindexed.countDown();
+            }
+          }
 
-              @Override
-              public void onChangeDeleted(int id) {}
-            });
-    try {
+          @Override
+          public void onChangeDeleted(int id) {}
+        };
+
+    try (Registration registration = extensionRegistry.newRegistration().add(listener)) {
       assertMergeable(r2.getChangeId(), true);
       reindexed.await();
-    } finally {
-      handle.remove();
     }
 
     List<ChangeInfo> changes = search.call();

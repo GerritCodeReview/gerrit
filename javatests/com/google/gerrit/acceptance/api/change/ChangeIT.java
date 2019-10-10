@@ -72,6 +72,8 @@ import com.google.common.collect.Lists;
 import com.google.common.truth.ThrowableSubject;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.ChangeIndexedCounter;
+import com.google.gerrit.acceptance.ExtensionRegistry;
+import com.google.gerrit.acceptance.ExtensionRegistry.Registration;
 import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.NoHttpd;
@@ -138,7 +140,6 @@ import com.google.gerrit.extensions.common.MergePatchSetInput;
 import com.google.gerrit.extensions.common.PureRevertInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.common.TrackingIdInfo;
-import com.google.gerrit.extensions.events.ChangeIndexedListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -208,8 +209,6 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.PushResult;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
 @NoHttpd
@@ -218,13 +217,13 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @Inject private AccountOperations accountOperations;
   @Inject private ChangeIndexCollection changeIndexCollection;
-  @Inject private DynamicSet<ChangeIndexedListener> changeIndexedListeners;
   @Inject private DynamicSet<ChangeMessageModifier> changeMessageModifiers;
   @Inject private GroupOperations groupOperations;
   @Inject private IndexConfig indexConfig;
   @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
   @Inject private DynamicSet<ChangeETagComputation> changeETagComputations;
+  @Inject private ExtensionRegistry extensionRegistry;
 
   @Inject
   @Named("diff")
@@ -237,22 +236,6 @@ public class ChangeIT extends AbstractDaemonTest {
   @Inject
   @Named("diff_summary")
   private Cache<DiffSummaryKey, DiffSummary> diffSummaryCache;
-
-  private ChangeIndexedCounter changeIndexedCounter;
-  private RegistrationHandle changeIndexedCounterHandle;
-
-  @Before
-  public void addChangeIndexedCounter() {
-    changeIndexedCounter = new ChangeIndexedCounter();
-    changeIndexedCounterHandle = changeIndexedListeners.add("gerrit", changeIndexedCounter);
-  }
-
-  @After
-  public void removeChangeIndexedCounter() {
-    if (changeIndexedCounterHandle != null) {
-      changeIndexedCounterHandle.remove();
-    }
-  }
 
   @Test
   public void get() throws Exception {
@@ -4461,21 +4444,25 @@ public class ChangeIT extends AbstractDaemonTest {
 
   @Test
   public void starUnstar() throws Exception {
-    PushOneCommit.Result r = createChange();
-    String triplet = project.get() + "~master~" + r.getChangeId();
-    changeIndexedCounter.clear();
+    ChangeIndexedCounter changeIndexedCounter = new ChangeIndexedCounter();
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(changeIndexedCounter)) {
+      PushOneCommit.Result r = createChange();
+      String triplet = project.get() + "~master~" + r.getChangeId();
+      changeIndexedCounter.clear();
 
-    gApi.accounts().self().starChange(triplet);
-    ChangeInfo change = info(triplet);
-    assertThat(change.starred).isTrue();
-    assertThat(change.stars).contains(DEFAULT_LABEL);
-    changeIndexedCounter.assertReindexOf(change);
+      gApi.accounts().self().starChange(triplet);
+      ChangeInfo change = info(triplet);
+      assertThat(change.starred).isTrue();
+      assertThat(change.stars).contains(DEFAULT_LABEL);
+      changeIndexedCounter.assertReindexOf(change);
 
-    gApi.accounts().self().unstarChange(triplet);
-    change = info(triplet);
-    assertThat(change.starred).isNull();
-    assertThat(change.stars).isNull();
-    changeIndexedCounter.assertReindexOf(change);
+      gApi.accounts().self().unstarChange(triplet);
+      change = info(triplet);
+      assertThat(change.starred).isNull();
+      assertThat(change.stars).isNull();
+      changeIndexedCounter.assertReindexOf(change);
+    }
   }
 
   @Test

@@ -25,6 +25,7 @@ import com.google.gerrit.server.ExceptionHook;
 import com.google.gerrit.server.change.ChangeETagComputation;
 import com.google.gerrit.server.git.ChangeMessageModifier;
 import com.google.gerrit.server.git.validators.CommitValidationListener;
+import com.google.gerrit.server.git.validators.RefOperationValidationListener;
 import com.google.gerrit.server.logging.PerformanceLogger;
 import com.google.gerrit.server.rules.SubmitRule;
 import com.google.gerrit.server.validators.ProjectCreationValidationListener;
@@ -44,6 +45,7 @@ public class ExtensionRegistry {
   private final DynamicSet<ChangeETagComputation> changeETagComputations;
   private final DynamicSet<ActionVisitor> actionVisitors;
   private final DynamicMap<DownloadScheme> downloadSchemes;
+  private final DynamicSet<RefOperationValidationListener> refOperationValidationListeners;
 
   @Inject
   ExtensionRegistry(
@@ -56,7 +58,8 @@ public class ExtensionRegistry {
       DynamicSet<ChangeMessageModifier> changeMessageModifiers,
       DynamicSet<ChangeETagComputation> changeETagComputations,
       DynamicSet<ActionVisitor> actionVisitors,
-      DynamicMap<DownloadScheme> downloadSchemes) {
+      DynamicMap<DownloadScheme> downloadSchemes,
+      DynamicSet<RefOperationValidationListener> refOperationValidationListeners) {
     this.changeIndexedListeners = changeIndexedListeners;
     this.commitValidationListeners = commitValidationListeners;
     this.exceptionHooks = exceptionHooks;
@@ -67,6 +70,7 @@ public class ExtensionRegistry {
     this.changeETagComputations = changeETagComputations;
     this.actionVisitors = actionVisitors;
     this.downloadSchemes = downloadSchemes;
+    this.refOperationValidationListeners = refOperationValidationListeners;
   }
 
   public Registration newRegistration() {
@@ -114,6 +118,10 @@ public class ExtensionRegistry {
 
     public Registration add(DownloadScheme downloadScheme, String exportName) {
       return add(downloadSchemes, downloadScheme, exportName);
+    }
+
+    public Registration add(RefOperationValidationListener refOperationValidationListener) {
+      return add(refOperationValidationListeners, refOperationValidationListener);
     }
 
     private <T> Registration add(DynamicSet<T> dynamicSet, T extension) {

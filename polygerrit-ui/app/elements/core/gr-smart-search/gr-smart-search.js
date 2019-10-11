@@ -84,20 +84,10 @@
           MAX_AUTOCOMPLETE_RESULTS)
           .then(projects => {
             if (!projects) { return []; }
-            const keys = Object.keys(projects);
-            return keys.map(key => ({text: predicate + ':' + key}));
+            return Object.keys(projects).map(key => ({text: predicate + ':' + key}));
           });
     },
 
-    /**
-     * Fetch from the API the predicted groups.
-     * @param {string} predicate - The first part of the search term, e.g.
-     *     'ownerin'
-     * @param {string} expression - The second part of the search term, e.g.
-     *     'polyger'
-     * @return {!Promise} This returns a promise that resolves to an array of
-     *     strings.
-     */
     _fetchGroups(predicate, expression) {
       if (expression.length === 0) { return Promise.resolve([]); }
       return this.$.restAPI.getSuggestedGroups(
@@ -105,8 +95,7 @@
           MAX_AUTOCOMPLETE_RESULTS)
           .then(groups => {
             if (!groups) { return []; }
-            const keys = Object.keys(groups);
-            return keys.map(key => ({text: predicate + ':' + key}));
+            return Object.keys(groups).map(key => ({text: predicate + ':' + key}));
           });
     },
 

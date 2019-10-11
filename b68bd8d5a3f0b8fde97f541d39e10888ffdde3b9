@@ -52,6 +52,24 @@
       "revId": "b68bd8d5a3f0b8fde97f541d39e10888ffdde3b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8b7555fc_eb9bed07",
+        "filename": "lib/jgit/jgit.bzl",
+        "patchSetId": 19
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2019-10-11T06:11:05Z",
+      "side": 1,
+      "message": "\u003e Are GitHub/Microsoft software engineers better qualified then we are to release error free software?\n\nSheesh, that\u0027s rude.\n\nWhat I\u0027m saying is that neither \"git archive\" nor \"jgit archive\" *intends* to produce output that is 100% stable over time. Archive formats change. Compressors change. The implementation changes.\n\nGitHub\u0027s releases feature literally stores the archive as a static file. You can do the same thing here by storing the static file in a cloud storage bucket.",
+      "parentUuid": "5cd4297e_d1a72976",
+      "revId": "b68bd8d5a3f0b8fde97f541d39e10888ffdde3b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

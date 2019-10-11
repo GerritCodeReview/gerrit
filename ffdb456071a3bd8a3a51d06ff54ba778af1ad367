@@ -1,0 +1,199 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5fc243a7_c99ec46d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-10-11T09:43:39Z",
+      "side": 1,
+      "message": "nit: is",
+      "range": {
+        "startLine": 14,
+        "startChar": 9,
+        "endLine": 14,
+        "endChar": 10
+      },
+      "revId": "ffdb456071a3bd8a3a51d06ff54ba778af1ad367",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b525c026_707c8908",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-10-11T09:43:39Z",
+      "side": 1,
+      "message": "Should we guarantee an ordering here? (oldest to lastest or the other way around)",
+      "range": {
+        "startLine": 377,
+        "startChar": 19,
+        "endLine": 377,
+        "endChar": 20
+      },
+      "revId": "ffdb456071a3bd8a3a51d06ff54ba778af1ad367",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "933dc1eb_db7c9206",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 364,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-10-11T09:43:39Z",
+      "side": 1,
+      "message": "nit: parseAssigneeUpdates",
+      "range": {
+        "startLine": 364,
+        "startChar": 16,
+        "endLine": 364,
+        "endChar": 17
+      },
+      "revId": "ffdb456071a3bd8a3a51d06ff54ba778af1ad367",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f0196be_c06b08f5",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesState.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-10-11T09:43:39Z",
+      "side": 1,
+      "message": "Please see my comment below (this statement can be simpler and run only on demand)",
+      "range": {
+        "startLine": 161,
+        "startChar": 8,
+        "endLine": 165,
+        "endChar": 51
+      },
+      "revId": "ffdb456071a3bd8a3a51d06ff54ba778af1ad367",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3dd19234_a1637c8e",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesState.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-10-11T09:43:39Z",
+      "side": 1,
+      "message": "nit:\n\nif (!assigneeUpdates().isEmpty()) {\n  change.setAssignee(assigneeUpdates().get(0).currentAssignee().orElse(null));\n}",
+      "revId": "ffdb456071a3bd8a3a51d06ff54ba778af1ad367",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "102c0de0_f7756d59",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesState.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 397,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-10-11T09:43:39Z",
+      "side": 1,
+      "message": "I would remove this. It\u0027s trivial to get this when requested as:\n\nassigneeUpdates.stream().map(AssigneeUpdate::currentAssignee).filter(Optional::isPresent).collect(toImmutableSet())\n\nThe computation is trivially fast and only called once outside of tests and serializing (from GetPastAssignee).",
+      "range": {
+        "startLine": 397,
+        "startChar": 4,
+        "endLine": 397,
+        "endChar": 66
+      },
+      "revId": "ffdb456071a3bd8a3a51d06ff54ba778af1ad367",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5e54cb39_a28b8c12",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesState.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 570,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-10-11T09:43:39Z",
+      "side": 1,
+      "message": "nit: If you want to use Optional magic:\n\nu.currentAssignee().ifPresent(a -\u003e builder.setCurrentAssignee(a.get())))",
+      "range": {
+        "startLine": 570,
+        "startChar": 6,
+        "endLine": 570,
+        "endChar": 44
+      },
+      "revId": "ffdb456071a3bd8a3a51d06ff54ba778af1ad367",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "24a3fc39_b0e1a28c",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesState.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 710,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-10-11T09:43:39Z",
+      "side": 1,
+      "message": "If this is an optional proto field, that should be hasCurrentAssignee()",
+      "range": {
+        "startLine": 710,
+        "startChar": 16,
+        "endLine": 710,
+        "endChar": 47
+      },
+      "revId": "ffdb456071a3bd8a3a51d06ff54ba778af1ad367",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "370fc2fa_95bf43cc",
+        "filename": "proto/cache.proto",
+        "patchSetId": 5
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-10-11T09:43:39Z",
+      "side": 1,
+      "message": "I the same way that \u0027assignee\u0027 had a \u0027bool has_assignee\u0027 this needs a \u0027bool has_current_assignee\u0027. See the comment in line 75 of this file.",
+      "revId": "ffdb456071a3bd8a3a51d06ff54ba778af1ad367",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

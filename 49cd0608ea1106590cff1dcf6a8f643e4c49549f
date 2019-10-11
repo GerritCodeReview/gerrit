@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1ec4b572_3b791b0f",
+        "filename": "proto/cache.proto",
+        "patchSetId": 5
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-10-11T09:43:39Z",
+      "side": 0,
+      "message": "Please leave this in by marking it \u0027reserved\u0027",
+      "range": {
+        "startLine": 112,
+        "startChar": 0,
+        "endLine": 114,
+        "endChar": 27
+      },
+      "revId": "49cd0608ea1106590cff1dcf6a8f643e4c49549f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

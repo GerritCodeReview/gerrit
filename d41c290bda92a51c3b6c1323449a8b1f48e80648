@@ -22,6 +22,30 @@
       "revId": "d41c290bda92a51c3b6c1323449a8b1f48e80648",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5ab842de_3bad9214",
+        "filename": "java/com/google/gerrit/server/git/TracingHook.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-11T13:16:00Z",
+      "side": 1,
+      "message": "No. Returning Optional.empty() means no tracing, but returning Option.of(\"\") means the trace option was given without value aka trace ID. In this case we want to trace and a trace ID should be generated.\n\nI\u0027ve added some comments.",
+      "parentUuid": "a8952e28_5103727a",
+      "range": {
+        "startLine": 90,
+        "startChar": 11,
+        "endLine": 90,
+        "endChar": 26
+      },
+      "revId": "d41c290bda92a51c3b6c1323449a8b1f48e80648",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

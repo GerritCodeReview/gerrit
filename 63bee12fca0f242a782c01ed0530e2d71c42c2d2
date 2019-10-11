@@ -51,6 +51,24 @@
       "revId": "63bee12fca0f242a782c01ed0530e2d71c42c2d2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "44c78fd1_68173b1e",
+        "filename": "lib/jgit.bzl",
+        "patchSetId": 21
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2019-10-11T16:18:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "26d65e48_c805a554",
+      "revId": "63bee12fca0f242a782c01ed0530e2d71c42c2d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "7bb1b5d9_c44eb936",
+        "filename": "lib/jgit/jgit.bzl",
+        "patchSetId": 6
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2019-10-11T16:18:06Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "2b931f2c_72cb9446",
+      "range": {
+        "startLine": 4,
+        "startChar": 13,
+        "endLine": 4,
+        "endChar": 35
+      },
+      "revId": "422a5a4aae1d23777fd07e49c720da8aec7e95fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a78c446d_53203f05",
         "filename": "lib/jgit/jgit.bzl",
         "patchSetId": 6
@@ -69,6 +93,30 @@
       "revId": "422a5a4aae1d23777fd07e49c720da8aec7e95fc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a28ad051_c8c0f9c9",
+        "filename": "lib/jgit/jgit.bzl",
+        "patchSetId": 6
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2019-10-11T16:18:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "34a12c60_245cddc6",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 33,
+        "endChar": 22
+      },
+      "revId": "422a5a4aae1d23777fd07e49c720da8aec7e95fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

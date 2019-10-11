@@ -50,6 +50,30 @@
     },
     {
       "key": {
+        "uuid": "ef422482_7894c09a",
+        "filename": "lib/jgit/jgit.bzl",
+        "patchSetId": 13
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2019-10-11T16:18:06Z",
+      "side": 1,
+      "message": "It\u0027s gone now.",
+      "parentUuid": "60a82413_dfdf27ac",
+      "range": {
+        "startLine": 4,
+        "startChar": 6,
+        "endLine": 4,
+        "endChar": 10
+      },
+      "revId": "d6800172844a8f401c2b6870939f289c1acf4892",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d9b5e2a7_4b6ba701",
         "filename": "lib/jgit/jgit.bzl",
         "patchSetId": 13

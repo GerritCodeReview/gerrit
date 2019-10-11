@@ -319,6 +319,30 @@
       "revId": "c238e5e3ac4c72b7fe5df3609d94a108a29277ee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "361960b0_6eec23a1",
+        "filename": "lib/jgit/jgit.bzl",
+        "patchSetId": 9
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2019-10-11T16:18:06Z",
+      "side": 1,
+      "message": "(By the way, in case it\u0027s ever useful: JGit is continuously mirrored to https://eclipse.googlesource.com/jgit/jgit.)",
+      "parentUuid": "b2c073c1_f74a8d80",
+      "range": {
+        "startLine": 24,
+        "startChar": 10,
+        "endLine": 24,
+        "endChar": 62
+      },
+      "revId": "c238e5e3ac4c72b7fe5df3609d94a108a29277ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

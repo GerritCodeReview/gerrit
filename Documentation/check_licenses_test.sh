@@ -8,7 +8,7 @@ for f in  js_licenses licenses ; do
      echo "FAIL: ${f}.txt out of date"
      echo "to fix: "
      echo ""
-     echo "  cp bazel-genfiles/Documentation/${f}.gen.txt Documentation/${f}.txt"
+     echo "  cp bazel-bin/Documentation/${f}.gen.txt Documentation/${f}.txt"
      echo ""
      exit 1
   fi

@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c81f320e_cf720928",
+        "filename": "java/com/google/gerrit/server/AssigneeStatusUpdate.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-10-11T11:17:55Z",
+      "side": 1,
+      "message": "This is unnecessary, the information is already contained in the optional.\n\nIt is just necessary in the proto because proto3 has optional fields by default but the implementation will use 0 as the default for an interger.",
+      "revId": "a799cb7f4500194e15db16542b9312bf9422987e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "07cf7c30_b154fe50",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-10-11T11:17:55Z",
+      "side": 1,
+      "message": "This can be removed. The result of this method is a set which does not have a sorting order.",
+      "range": {
+        "startLine": 373,
+        "startChar": 11,
+        "endLine": 373,
+        "endChar": 24
+      },
+      "revId": "a799cb7f4500194e15db16542b9312bf9422987e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "589a1e19_cc12556a",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-10-11T11:17:55Z",
+      "side": 1,
+      "message": "nit: please import this statically",
+      "range": {
+        "startLine": 377,
+        "startChar": 17,
+        "endLine": 377,
+        "endChar": 30
+      },
+      "revId": "a799cb7f4500194e15db16542b9312bf9422987e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

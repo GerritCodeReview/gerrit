@@ -343,6 +343,30 @@
       "revId": "c238e5e3ac4c72b7fe5df3609d94a108a29277ee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a5a96c4_dd3f6f68",
+        "filename": "lib/jgit/jgit.bzl",
+        "patchSetId": 9
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-11T16:25:56Z",
+      "side": 1,
+      "message": "Thanks for pointing this out, Jonathan. Should we rather switch to using the mirror: https://eclipse.googlesource.com/jgit/jgit instead of the orig URL: \n\n  [submodule \"lib/jgit\"]\n\tpath \u003d lib/jgit\n\turl \u003d https://git.eclipse.org/gitroot/jgit/jgit\n\n? Just guessing: the clone from https://eclipse.googlesource.com would be faster?",
+      "parentUuid": "361960b0_6eec23a1",
+      "range": {
+        "startLine": 24,
+        "startChar": 10,
+        "endLine": 24,
+        "endChar": 62
+      },
+      "revId": "c238e5e3ac4c72b7fe5df3609d94a108a29277ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

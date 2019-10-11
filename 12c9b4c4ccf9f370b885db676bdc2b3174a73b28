@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "20a3c74d_145567d8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 20
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2019-10-11T16:18:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ef80f6fb_05039f83",
+      "range": {
+        "startLine": 18,
+        "startChar": 34,
+        "endLine": 18,
+        "endChar": 46
+      },
+      "revId": "12c9b4c4ccf9f370b885db676bdc2b3174a73b28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ab20bbd0_642cea01",
         "filename": "lib/jgit/jgit.bzl",
         "patchSetId": 20
@@ -45,6 +69,30 @@
       "revId": "12c9b4c4ccf9f370b885db676bdc2b3174a73b28",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "06ad4249_ebb3efbc",
+        "filename": "lib/jgit/jgit.bzl",
+        "patchSetId": 20
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2019-10-11T16:18:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ab20bbd0_642cea01",
+      "range": {
+        "startLine": 5,
+        "startChar": 0,
+        "endLine": 5,
+        "endChar": 81
+      },
+      "revId": "12c9b4c4ccf9f370b885db676bdc2b3174a73b28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

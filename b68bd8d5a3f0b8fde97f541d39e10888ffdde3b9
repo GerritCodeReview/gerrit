@@ -196,6 +196,24 @@
       "revId": "b68bd8d5a3f0b8fde97f541d39e10888ffdde3b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3d9f40d3_dc9b7d9a",
+        "filename": "lib/jgit/jgit.bzl",
+        "patchSetId": 19
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2019-10-11T16:18:06Z",
+      "side": 1,
+      "message": "Thanks for bearing with my convoluted explanations.\n\nLuca, to answer your question: since github permanently \"caches\" archives, using the github archive URL would also work fine.",
+      "parentUuid": "1975dd96_13f5077f",
+      "revId": "b68bd8d5a3f0b8fde97f541d39e10888ffdde3b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

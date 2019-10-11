@@ -27,10 +27,14 @@ import java.lang.reflect.Modifier;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Optional;
+import java.util.regex.Pattern;
 
 /** Metadata that is provided to {@link PerformanceLogger}s as context for performance records. */
 @AutoValue
 public abstract class Metadata {
+  private static final Pattern LAZY_LOGGING_PATTERN =
+      Pattern.compile("(lambda\\$)?toStringForLoggingLazy(\\$0)?");
+
   // The numeric ID of an account.
   public abstract Optional<Integer> accountId();
 
@@ -201,7 +205,7 @@ public abstract class Metadata {
               continue;
             }
 
-            if (method.getName().matches("(lambda\\$)?toStringForLoggingLazy(\\$0)?")) {
+            if (LAZY_LOGGING_PATTERN.matcher(method.getName()).matches()) {
               // skip toStringForLoggingLazy() and the lambda itself
               continue;
             }

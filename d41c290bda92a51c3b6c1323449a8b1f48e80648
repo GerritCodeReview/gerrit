@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a8952e28_5103727a",
+        "filename": "java/com/google/gerrit/server/git/TracingHook.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-11T12:37:18Z",
+      "side": 1,
+      "message": "Optional.empty() to be consequent with line 82 for earlier return case?",
+      "range": {
+        "startLine": 90,
+        "startChar": 11,
+        "endLine": 90,
+        "endChar": 26
+      },
+      "revId": "d41c290bda92a51c3b6c1323449a8b1f48e80648",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

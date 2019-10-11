@@ -170,6 +170,24 @@
     },
     {
       "key": {
+        "uuid": "52984f7c_c26cf3dd",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 426,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2019-10-11T14:45:40Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "eef3e856_a6d0e74c",
+      "revId": "3da780329d6c9e14d461062d3b946e63aa70ac88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e79cc45e_c8f6dd45",
         "filename": "javatests/com/google/gerrit/acceptance/api/change/QueryChangeIT.java",
         "patchSetId": 6

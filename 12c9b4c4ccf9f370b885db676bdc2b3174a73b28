@@ -116,6 +116,30 @@
       "revId": "12c9b4c4ccf9f370b885db676bdc2b3174a73b28",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "09d6e616_78191d61",
+        "filename": "lib/jgit/jgit.bzl",
+        "patchSetId": 20
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-10-11T11:47:01Z",
+      "side": 1,
+      "message": "+1\nI think this would be the best option to build it from source in the Gerrit build",
+      "parentUuid": "2be4fefb_f32c95aa",
+      "range": {
+        "startLine": 26,
+        "startChar": 8,
+        "endLine": 30,
+        "endChar": 9
+      },
+      "revId": "12c9b4c4ccf9f370b885db676bdc2b3174a73b28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

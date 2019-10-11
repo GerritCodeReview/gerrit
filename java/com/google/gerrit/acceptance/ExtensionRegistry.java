@@ -29,6 +29,7 @@ import com.google.gerrit.extensions.registration.PrivateInternals_DynamicMapImpl
 import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.extensions.webui.FileHistoryWebLink;
 import com.google.gerrit.server.ExceptionHook;
+import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.change.ChangeETagComputation;
 import com.google.gerrit.server.git.ChangeMessageModifier;
 import com.google.gerrit.server.git.validators.CommitValidationListener;
@@ -60,6 +61,7 @@ public class ExtensionRegistry {
   private final DynamicSet<GitReferenceUpdatedListener> refUpdatedListeners;
   private final DynamicSet<FileHistoryWebLink> fileHistoryWebLinks;
   private final DynamicSet<RevisionCreatedListener> revisionCreatedListeners;
+  private final DynamicSet<GroupBackend> groupBackends;
 
   @Inject
   ExtensionRegistry(
@@ -80,7 +82,8 @@ public class ExtensionRegistry {
       DynamicSet<CommentAddedListener> commentAddedListeners,
       DynamicSet<GitReferenceUpdatedListener> refUpdatedListeners,
       DynamicSet<FileHistoryWebLink> fileHistoryWebLinks,
-      DynamicSet<RevisionCreatedListener> revisionCreatedListeners) {
+      DynamicSet<RevisionCreatedListener> revisionCreatedListeners,
+      DynamicSet<GroupBackend> groupBackends) {
     this.accountIndexedListeners = accountIndexedListeners;
     this.changeIndexedListeners = changeIndexedListeners;
     this.groupIndexedListeners = groupIndexedListeners;
@@ -99,6 +102,7 @@ public class ExtensionRegistry {
     this.refUpdatedListeners = refUpdatedListeners;
     this.fileHistoryWebLinks = fileHistoryWebLinks;
     this.revisionCreatedListeners = revisionCreatedListeners;
+    this.groupBackends = groupBackends;
   }
 
   public Registration newRegistration() {
@@ -183,6 +187,10 @@ public class ExtensionRegistry {
 
     public Registration add(RevisionCreatedListener revisionCreatedListener) {
       return add(revisionCreatedListeners, revisionCreatedListener);
+    }
+
+    public Registration add(GroupBackend groupBackend) {
+      return add(groupBackends, groupBackend);
     }
 
     private <T> Registration add(DynamicSet<T> dynamicSet, T extension) {

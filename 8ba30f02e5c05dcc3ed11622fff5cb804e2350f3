@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "88d57d78_23a06ba9",
+        "filename": "javatests/com/google/gerrit/integration/git/GitProtocolV2IT.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-11T09:53:28Z",
+      "side": 1,
+      "message": "We could alsp split this test in two, one that uses only SSH and one that uses only HTTP protocol, if this would be useful. Or we could even create a base class and try to do protocol specific code in derived test classes.",
+      "range": {
+        "startLine": 45,
+        "startChar": 0,
+        "endLine": 45,
+        "endChar": 7
+      },
+      "revId": "8ba30f02e5c05dcc3ed11622fff5cb804e2350f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -100,7 +100,6 @@ import com.google.gerrit.extensions.common.SshKeyInfo;
 import com.google.gerrit.extensions.events.AccountIndexedListener;
 import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.extensions.registration.DynamicSet;
-import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -230,9 +229,6 @@ public class AccountIT extends AbstractDaemonTest {
   private LoadingCache<Account.Id, AccountState> accountsCache;
 
   @Inject private AccountOperations accountOperations;
-
-  @Inject
-  private DynamicSet<AccountActivationValidationListener> accountActivationValidationListeners;
 
   @Inject protected GroupOperations groupOperations;
 
@@ -598,27 +594,26 @@ public class AccountIT extends AbstractDaemonTest {
         accountOperations.newAccount().inactive().preferredEmail("foo@activatable.com").create();
     Account.Id deactivatableAccountId =
         accountOperations.newAccount().preferredEmail("foo@deactivatable.com").create();
-    RegistrationHandle registrationHandle =
-        accountActivationValidationListeners.add(
-            "gerrit",
-            new AccountActivationValidationListener() {
-              @Override
-              public void validateActivation(AccountState account) throws ValidationException {
-                String preferredEmail = account.account().preferredEmail();
-                if (preferredEmail == null || !preferredEmail.endsWith("@activatable.com")) {
-                  throw new ValidationException("not allowed to active account");
-                }
-              }
 
-              @Override
-              public void validateDeactivation(AccountState account) throws ValidationException {
-                String preferredEmail = account.account().preferredEmail();
-                if (preferredEmail == null || !preferredEmail.endsWith("@deactivatable.com")) {
-                  throw new ValidationException("not allowed to deactive account");
-                }
-              }
-            });
-    try {
+    AccountActivationValidationListener listener =
+        new AccountActivationValidationListener() {
+          @Override
+          public void validateActivation(AccountState account) throws ValidationException {
+            String preferredEmail = account.account().preferredEmail();
+            if (preferredEmail == null || !preferredEmail.endsWith("@activatable.com")) {
+              throw new ValidationException("not allowed to active account");
+            }
+          }
+
+          @Override
+          public void validateDeactivation(AccountState account) throws ValidationException {
+            String preferredEmail = account.account().preferredEmail();
+            if (preferredEmail == null || !preferredEmail.endsWith("@deactivatable.com")) {
+              throw new ValidationException("not allowed to deactive account");
+            }
+          }
+        };
+    try (Registration registration = extensionRegistry.newRegistration().add(listener)) {
       /* Test account that can be activated, but not deactivated */
       // Deactivate account that is already inactive
       ResourceConflictException thrown =
@@ -668,8 +663,6 @@ public class AccountIT extends AbstractDaemonTest {
               () -> gApi.accounts().id(deactivatableAccountId.get()).setActive(true));
       assertThat(thrown).hasMessageThat().isEqualTo("not allowed to active account");
       assertThat(accountOperations.account(deactivatableAccountId).get().active()).isFalse();
-    } finally {
-      registrationHandle.remove();
     }
   }
 

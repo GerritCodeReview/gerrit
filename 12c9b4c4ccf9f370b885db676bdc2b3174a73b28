@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ab20bbd0_642cea01",
+        "filename": "lib/jgit/jgit.bzl",
+        "patchSetId": 20
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-11T07:26:58Z",
+      "side": 1,
+      "message": "Not used any more.",
+      "range": {
+        "startLine": 5,
+        "startChar": 0,
+        "endLine": 5,
+        "endChar": 81
+      },
+      "revId": "12c9b4c4ccf9f370b885db676bdc2b3174a73b28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

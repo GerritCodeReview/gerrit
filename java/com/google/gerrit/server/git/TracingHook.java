@@ -16,9 +16,6 @@ package com.google.gerrit.server.git;
 
 import static com.google.common.base.Preconditions.checkState;
 
-import com.google.common.collect.Iterables;
-import com.google.common.collect.LinkedListMultimap;
-import com.google.common.collect.ListMultimap;
 import com.google.gerrit.server.logging.TraceContext;
 import java.util.List;
 import java.util.Optional;
@@ -79,21 +76,17 @@ public class TracingHook implements ProtocolV2Hook, AutoCloseable {
       return Optional.empty();
     }
 
-    ListMultimap<String, String> serverOptions = LinkedListMultimap.create();
-    for (String option : serverOptionList) {
-      int e = option.indexOf('=');
-      if (e > 0) {
-        serverOptions.put(option.substring(0, e), option.substring(e + 1));
-      } else {
-        serverOptions.put(option, "");
-      }
+    Optional<String> traceOption =
+        serverOptionList.stream().filter(o -> o.startsWith("trace")).findAny();
+    if (!traceOption.isPresent()) {
+      return Optional.empty();
     }
 
-    List<String> traceValues = serverOptions.get("trace");
-    if (!traceValues.isEmpty()) {
-      return Optional.of(Iterables.getLast(traceValues));
+    int e = traceOption.get().indexOf('=');
+    if (e > 0) {
+      return Optional.of(traceOption.get().substring(e + 1));
     }
 
-    return Optional.empty();
+    return Optional.of("");
   }
 }

@@ -141,6 +141,10 @@ public class ExtensionRegistry {
       return add(changeMessageModifiers, changeMessageModifier);
     }
 
+    public Registration add(ChangeMessageModifier changeMessageModifier, String exportName) {
+      return add(changeMessageModifiers, changeMessageModifier, exportName);
+    }
+
     public Registration add(ChangeETagComputation changeETagComputation) {
       return add(changeETagComputations, changeETagComputation);
     }
@@ -166,7 +170,11 @@ public class ExtensionRegistry {
     }
 
     private <T> Registration add(DynamicSet<T> dynamicSet, T extension) {
-      RegistrationHandle registrationHandle = dynamicSet.add("gerrit", extension);
+      return add(dynamicSet, extension, "gerrit");
+    }
+
+    private <T> Registration add(DynamicSet<T> dynamicSet, T extension, String exportname) {
+      RegistrationHandle registrationHandle = dynamicSet.add(exportname, extension);
       registrationHandles.add(registrationHandle);
       return this;
     }

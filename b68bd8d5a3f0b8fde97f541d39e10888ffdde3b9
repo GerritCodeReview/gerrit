@@ -160,6 +160,24 @@
       "revId": "b68bd8d5a3f0b8fde97f541d39e10888ffdde3b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4b09f44a_00f81093",
+        "filename": "lib/jgit/jgit.bzl",
+        "patchSetId": 19
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-10-11T07:03:30Z",
+      "side": 1,
+      "message": "\u003e \u003e IOW, If I would remove this TODO comment we would be fine? \n\u003e \n\u003e Yes, since github permanently \"caches\" archives, it would be fine.\n\u003e \n\u003e I\u0027d rather we used a rule that just uses the commit sha1 instead of caring about the bytestream of the tarball, but that\u0027s orthogonal to this change.\n\nIs this a show-stopper for getting this change merged? As DavidO pointed out, this isn\u0027t the first time we refer to SHA1s archives from GitHub.\n\nI agree that isn\u0027t ideal and we should get it fixed, however it shouldn\u0027t stop this change getting merged.",
+      "parentUuid": "0a7f8aa8_0ab962d0",
+      "revId": "b68bd8d5a3f0b8fde97f541d39e10888ffdde3b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

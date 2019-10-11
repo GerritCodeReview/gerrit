@@ -32,6 +32,7 @@ import com.google.gerrit.server.audit.HttpAuditEvent;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.PermissionAwareRepositoryManager;
+import com.google.gerrit.server.git.TracingHook;
 import com.google.gerrit.server.git.TransferConfig;
 import com.google.gerrit.server.git.UploadPackInitializer;
 import com.google.gerrit.server.git.receive.AsyncReceiveCommits;
@@ -415,7 +416,11 @@ public class GitOverHttpServlet extends GitServlet {
         up.setPreUploadHook(
             PreUploadHookChain.newChain(
                 Lists.newArrayList(up.getPreUploadHook(), uploadValidators)));
-        next.doFilter(httpRequest, responseWrapper);
+
+        try (TracingHook tracingHook = new TracingHook()) {
+          up.setProtocolV2Hook(tracingHook);
+          next.doFilter(httpRequest, responseWrapper);
+        }
       } finally {
         groupAuditService.dispatch(
             new HttpAuditEvent(

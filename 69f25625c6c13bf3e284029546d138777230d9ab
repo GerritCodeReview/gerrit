@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f70c636e_b5b7b21d",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 22
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1074943
+      },
+      "writtenOn": "2019-10-11T16:32:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e9d5a17e_1522737e",
+      "range": {
+        "startLine": 188,
+        "startChar": 6,
+        "endLine": 188,
+        "endChar": 25
+      },
+      "revId": "69f25625c6c13bf3e284029546d138777230d9ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6908fe6a_08be15c2",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
         "patchSetId": 22
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "ac5612ad_3103cfff",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 22
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1074943
+      },
+      "writtenOn": "2019-10-11T16:32:04Z",
+      "side": 1,
+      "message": "sg! Consistency is nice!",
+      "parentUuid": "6908fe6a_08be15c2",
+      "range": {
+        "startLine": 251,
+        "startChar": 8,
+        "endLine": 259,
+        "endChar": 52
+      },
+      "revId": "69f25625c6c13bf3e284029546d138777230d9ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d8650b50_5459e450",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
         "patchSetId": 22
@@ -68,6 +116,30 @@
       "revId": "69f25625c6c13bf3e284029546d138777230d9ab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "10a34c7c_4be8add6",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 22
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1074943
+      },
+      "writtenOn": "2019-10-11T16:32:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d8650b50_5459e450",
+      "range": {
+        "startLine": 263,
+        "startChar": 41,
+        "endLine": 263,
+        "endChar": 44
+      },
+      "revId": "69f25625c6c13bf3e284029546d138777230d9ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

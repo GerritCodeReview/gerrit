@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ec61b3c4_13d99643",
+        "filename": "lib/jgit/jgit.bzl",
+        "patchSetId": 19
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2019-10-11T05:46:12Z",
+      "side": 1,
+      "message": "This won\u0027t work. \"git archive\" and \"jgit archive\" output are not guaranteed stable over time, because there can be bug fixes.\n\nIf we\u0027re using http_archive, we need a stable archive, or in other words a static file.\n\nCan we make it grab the code from a Git repo instead?",
+      "revId": "b68bd8d5a3f0b8fde97f541d39e10888ffdde3b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

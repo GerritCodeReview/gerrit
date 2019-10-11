@@ -21,87 +21,84 @@ import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.ChangeIndexedCounter;
+import com.google.gerrit.acceptance.ExtensionRegistry;
+import com.google.gerrit.acceptance.ExtensionRegistry.Registration;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.extensions.common.ChangeInfo;
-import com.google.gerrit.extensions.events.ChangeIndexedListener;
-import com.google.gerrit.extensions.registration.DynamicSet;
-import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.server.restapi.config.IndexChanges;
 import com.google.inject.Inject;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
 public class IndexChangesIT extends AbstractDaemonTest {
 
-  @Inject private DynamicSet<ChangeIndexedListener> changeIndexedListeners;
   @Inject private ProjectOperations projectOperations;
-
-  private ChangeIndexedCounter changeIndexedCounter;
-  private RegistrationHandle changeIndexedCounterHandle;
-
-  @Before
-  public void addChangeIndexedCounter() {
-    changeIndexedCounter = new ChangeIndexedCounter();
-    changeIndexedCounterHandle = changeIndexedListeners.add("gerrit", changeIndexedCounter);
-  }
-
-  @After
-  public void removeChangeIndexedCounter() {
-    if (changeIndexedCounterHandle != null) {
-      changeIndexedCounterHandle.remove();
-    }
-  }
+  @Inject private ExtensionRegistry extensionRegistry;
 
   @Test
   public void indexRequestFromNonAdminRejected() throws Exception {
-    String changeId = createChange().getChangeId();
-    IndexChanges.Input in = new IndexChanges.Input();
-    in.changes = ImmutableSet.of(changeId);
-    changeIndexedCounter.clear();
-    userRestSession.post("/config/server/index.changes", in).assertForbidden();
-    assertThat(changeIndexedCounter.getCount(info(changeId))).isEqualTo(0);
+    ChangeIndexedCounter changeIndexedCounter = new ChangeIndexedCounter();
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(changeIndexedCounter)) {
+      String changeId = createChange().getChangeId();
+      IndexChanges.Input in = new IndexChanges.Input();
+      in.changes = ImmutableSet.of(changeId);
+      changeIndexedCounter.clear();
+      userRestSession.post("/config/server/index.changes", in).assertForbidden();
+      assertThat(changeIndexedCounter.getCount(info(changeId))).isEqualTo(0);
+    }
   }
 
   @Test
   public void indexVisibleChange() throws Exception {
-    String changeId = createChange().getChangeId();
-    IndexChanges.Input in = new IndexChanges.Input();
-    in.changes = ImmutableSet.of(changeId);
-    changeIndexedCounter.clear();
-    adminRestSession.post("/config/server/index.changes", in).assertOK();
-    assertThat(changeIndexedCounter.getCount(info(changeId))).isEqualTo(1);
+    ChangeIndexedCounter changeIndexedCounter = new ChangeIndexedCounter();
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(changeIndexedCounter)) {
+      String changeId = createChange().getChangeId();
+      IndexChanges.Input in = new IndexChanges.Input();
+      in.changes = ImmutableSet.of(changeId);
+      changeIndexedCounter.clear();
+      adminRestSession.post("/config/server/index.changes", in).assertOK();
+      assertThat(changeIndexedCounter.getCount(info(changeId))).isEqualTo(1);
+    }
   }
 
   @Test
   public void indexNonVisibleChange() throws Exception {
-    String changeId = createChange().getChangeId();
-    ChangeInfo changeInfo = info(changeId);
-    projectOperations
-        .project(project)
-        .forUpdate()
-        .add(block(Permission.READ).ref("refs/heads/master").group(REGISTERED_USERS))
-        .update();
-    IndexChanges.Input in = new IndexChanges.Input();
-    changeIndexedCounter.clear();
-    in.changes = ImmutableSet.of(changeId);
-    adminRestSession.post("/config/server/index.changes", in).assertOK();
-    assertThat(changeIndexedCounter.getCount(changeInfo)).isEqualTo(1);
+    ChangeIndexedCounter changeIndexedCounter = new ChangeIndexedCounter();
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(changeIndexedCounter)) {
+      String changeId = createChange().getChangeId();
+      ChangeInfo changeInfo = info(changeId);
+      projectOperations
+          .project(project)
+          .forUpdate()
+          .add(block(Permission.READ).ref("refs/heads/master").group(REGISTERED_USERS))
+          .update();
+      IndexChanges.Input in = new IndexChanges.Input();
+      changeIndexedCounter.clear();
+      in.changes = ImmutableSet.of(changeId);
+      adminRestSession.post("/config/server/index.changes", in).assertOK();
+      assertThat(changeIndexedCounter.getCount(changeInfo)).isEqualTo(1);
+    }
   }
 
   @Test
   public void indexMultipleChanges() throws Exception {
-    ImmutableSet.Builder<String> changeIds = ImmutableSet.builder();
-    for (int i = 0; i < 10; i++) {
-      changeIds.add(createChange().getChangeId());
-    }
-    IndexChanges.Input in = new IndexChanges.Input();
-    in.changes = changeIds.build();
-    changeIndexedCounter.clear();
-    adminRestSession.post("/config/server/index.changes", in).assertOK();
-    for (String changeId : in.changes) {
-      assertThat(changeIndexedCounter.getCount(info(changeId))).isEqualTo(1);
+    ChangeIndexedCounter changeIndexedCounter = new ChangeIndexedCounter();
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(changeIndexedCounter)) {
+      ImmutableSet.Builder<String> changeIds = ImmutableSet.builder();
+      for (int i = 0; i < 10; i++) {
+        changeIds.add(createChange().getChangeId());
+      }
+      IndexChanges.Input in = new IndexChanges.Input();
+      in.changes = changeIds.build();
+      changeIndexedCounter.clear();
+      adminRestSession.post("/config/server/index.changes", in).assertOK();
+      for (String changeId : in.changes) {
+        assertThat(changeIndexedCounter.getCount(info(changeId))).isEqualTo(1);
+      }
     }
   }
 }

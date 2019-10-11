@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "4dc612b8_7bd01323",
+        "filename": "java/com/google/gerrit/server/logging/Metadata.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-10-11T11:16:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cd282bfe_ff1aeae1",
+      "range": {
+        "startLine": 148,
+        "startChar": 10,
+        "endLine": 148,
+        "endChar": 34
+      },
+      "revId": "fd724b9b0f98291ff33a72aa2eea8e5f71209054",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a98e5048_c2fee5f9",
         "filename": "java/com/google/gerrit/server/logging/Metadata.java",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "fd724b9b0f98291ff33a72aa2eea8e5f71209054",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "26ea9e95_0c3c82d3",
+        "filename": "java/com/google/gerrit/server/logging/Metadata.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-10-11T11:16:39Z",
+      "side": 1,
+      "message": "Done in https://gerrit-review.googlesource.com/c/gerrit/+/240587",
+      "parentUuid": "a98e5048_c2fee5f9",
+      "range": {
+        "startLine": 204,
+        "startChar": 33,
+        "endLine": 204,
+        "endChar": 40
+      },
+      "revId": "fd724b9b0f98291ff33a72aa2eea8e5f71209054",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

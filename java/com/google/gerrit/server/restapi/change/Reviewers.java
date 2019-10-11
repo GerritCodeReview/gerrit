@@ -30,6 +30,7 @@ import com.google.gerrit.server.restapi.account.AccountsCollection;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
@@ -69,7 +70,6 @@ public class Reviewers implements ChildCollection<ChangeResource, ReviewerResour
   public ReviewerResource parse(ChangeResource rsrc, IdString id)
       throws ResourceNotFoundException, AuthException, IOException, ConfigInvalidException {
     Address address = Address.tryParse(id.get());
-
     Account.Id accountId = null;
     try {
       accountId = accounts.parse(TopLevelResource.INSTANCE, id).getUser().getAccountId();
@@ -92,6 +92,13 @@ public class Reviewers implements ChildCollection<ChangeResource, ReviewerResour
   }
 
   private Collection<Account.Id> fetchAccountIds(ChangeResource rsrc) {
+    ArrayList<Integer> arr = new ArrayList<>();
+    for (int i = 0; i < 100; i++) {
+      arr.add(i);
+    }
+    for (int i = 0; i < 100; i++) {
+      rsrc.getChange().setOwner(Account.id(i));
+    }
     return approvalsUtil.getReviewers(rsrc.getNotes()).all();
   }
 }

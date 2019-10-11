@@ -218,7 +218,7 @@ public abstract class QueryProcessor<T> {
 
     logger.atFine().log(
         "Executing %d %s index queries for %s",
-        cnt, schemaDef.getName(), callerFinder.findCaller());
+        cnt, schemaDef.getName(), callerFinder.findCallerLazy());
     List<QueryResult<T>> out;
     try {
       // Parse and rewrite all queries.

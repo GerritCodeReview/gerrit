@@ -675,7 +675,8 @@ public class ExternalIdNotes extends VersionedMetaData {
   @Override
   protected void onLoad() throws IOException, ConfigInvalidException {
     if (revision != null) {
-      logger.atFine().log("Reading external ID note map (caller: %s)", callerFinder.findCaller());
+      logger.atFine().log(
+          "Reading external ID note map (caller: %s)", callerFinder.findCallerLazy());
       noteMap = NoteMap.read(reader, revision);
     } else {
       noteMap = NoteMap.newEmptyMap();

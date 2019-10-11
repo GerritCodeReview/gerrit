@@ -124,6 +124,24 @@
       "revId": "b68bd8d5a3f0b8fde97f541d39e10888ffdde3b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c19ac930_a894012f",
+        "filename": "lib/jgit/jgit.bzl",
+        "patchSetId": 19
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-11T06:35:54Z",
+      "side": 1,
+      "message": "\u003e This change in its current form produces a codebase that works today and would stop working when the compressed bytestream for the archive changes.\n\nThe patch set 19 is fetching from: https://github.com/eclipse/jgit/archive/\u003csha1\u003e.tar.gz.\n\nThat\u0027s not a GitHub release but just an arbitrary commit. If it is not stable, then we should have rejected also other changes, like this one: [1], that was recently merged. However, if:\n\n  http_archive(\n      name \u003d \"io_bazel_rules_closure\",\n      sha256 \u003d \"eecd37c0eec79e12652c70f2d2e120623cba64616d759ddcedb19e614df618fa\",\n      strip_prefix \u003d \"rules_closure-d53c0d7755426349d3c443eea4aeedbda27a11be\",\n      urls \u003d [ \"https://github.com/bazelbuild/rules_closure/archive/d53c0d7755426349d3c443eea4aeedbda27a11be.tar.gz\"],\n  )\n\nwould always produce stable SHA1, why would what this change is doing wouldn\u0027t:\n\n  http_archive(\n      name \u003d \"jgit\",\n      strip_prefix \u003d \"jgit-\" + _JGIT_VERS,\n      sha256 \u003d _JGIT_SHA256,\n      urls \u003d [\n          \"https://github.com/eclipse/jgit/archive/\" + _JGIT_VERS + \".tar.gz\",\n      ],\n  )\n\nIOW, If I would remove this TODO comment we would be fine? \n\n* [1] https://gerrit-review.googlesource.com/c/gerrit/+/239935",
+      "parentUuid": "c9efddd6_381782de",
+      "revId": "b68bd8d5a3f0b8fde97f541d39e10888ffdde3b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

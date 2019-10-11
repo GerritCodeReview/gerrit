@@ -50,6 +50,8 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Streams;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.ExtensionRegistry;
+import com.google.gerrit.acceptance.ExtensionRegistry.Registration;
 import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.PushOneCommit;
@@ -82,8 +84,6 @@ import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
-import com.google.gerrit.extensions.registration.DynamicSet;
-import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.git.ObjectIds;
 import com.google.gerrit.mail.Address;
 import com.google.gerrit.reviewdb.client.AccountGroup;
@@ -150,11 +150,10 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
   @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
+  @Inject private ExtensionRegistry extensionRegistry;
 
   private static String NEW_CHANGE_INDICATOR = " [NEW]";
   private LabelType patchSetLock;
-
-  @Inject private DynamicSet<CommitValidationListener> commitValidators;
 
   @Before
   public void setUpPatchSetLock() throws Exception {
@@ -2206,24 +2205,16 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   @GerritConfig(name = "receive.maxBatchCommits", value = "2")
   @Test
   public void maxBatchCommitsWithDefaultValidator() throws Exception {
-    TestValidator validator = new TestValidator();
-    RegistrationHandle handle = commitValidators.add("test-validator", validator);
-    try {
+    try (Registration registration = extensionRegistry.newRegistration().add(new TestValidator())) {
       testMaxBatchCommits();
-    } finally {
-      handle.remove();
     }
   }
 
   @GerritConfig(name = "receive.maxBatchCommits", value = "2")
   @Test
   public void maxBatchCommitsWithValidateAllCommitsValidator() throws Exception {
-    TestValidator validator = new TestValidator(true);
-    RegistrationHandle handle = commitValidators.add("test-validator", validator);
-    try {
+    try (Registration registration = extensionRegistry.newRegistration().add(new TestValidator())) {
       testMaxBatchCommits();
-    } finally {
-      handle.remove();
     }
   }
 
@@ -2281,10 +2272,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   public void skipValidation() throws Exception {
     String master = "refs/heads/master";
     TestValidator validator = new TestValidator();
-    RegistrationHandle handle = commitValidators.add("test-validator", validator);
-    RegistrationHandle handle2 = null;
-
-    try {
+    try (Registration registration = extensionRegistry.newRegistration().add(validator)) {
       // Validation listener is called on normal push
       PushOneCommit push =
           pushFactory.create(admin.newIdent(), testRepo, "change1", "a.txt", "content");
@@ -2313,20 +2301,16 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
       // Validation listener that needs to validate all commits gets called even
       // when the skip option is used.
       TestValidator validator2 = new TestValidator(true);
-      handle2 = commitValidators.add("test-validator-2", validator2);
-      PushOneCommit push4 =
-          pushFactory.create(admin.newIdent(), testRepo, "change2", "b.txt", "content");
-      push4.setPushOptions(ImmutableList.of(PUSH_OPTION_SKIP_VALIDATION));
-      r = push4.to(master);
-      r.assertOkStatus();
-      // First listener was not called; its count remains the same.
-      assertThat(validator.count()).isEqualTo(1);
-      // Second listener was called.
-      assertThat(validator2.count()).isEqualTo(1);
-    } finally {
-      handle.remove();
-      if (handle2 != null) {
-        handle2.remove();
+      try (Registration registration2 = extensionRegistry.newRegistration().add(validator2)) {
+        PushOneCommit push4 =
+            pushFactory.create(admin.newIdent(), testRepo, "change2", "b.txt", "content");
+        push4.setPushOptions(ImmutableList.of(PUSH_OPTION_SKIP_VALIDATION));
+        r = push4.to(master);
+        r.assertOkStatus();
+        // First listener was not called; its count remains the same.
+        assertThat(validator.count()).isEqualTo(1);
+        // Second listener was called.
+        assertThat(validator2.count()).isEqualTo(1);
       }
     }
   }

@@ -384,6 +384,20 @@ limitations under the License.
                 [[_formatPercentage(file.size, file.size_delta)]]
               </span>
             </div>
+            <template is="dom-if" if="[[_showDynamicColumns]]">
+              <template is="dom-repeat" items="[[_dynamicContentEndpoints]]" as="contentEndpoint">
+                <div class$="[[_computeClass('', file.__path)]]">
+                  <gr-endpoint-decorator name="[[contentEndpoint]]">
+                    <gr-endpoint-param name="changeNum" value="[[changeNum]]">
+                    </gr-endpoint-param>
+                    <gr-endpoint-param name="patchRange" value="[[patchRange]]">
+                    </gr-endpoint-param>
+                    <gr-endpoint-param name="path" value="[[file.__path]]">
+                    </gr-endpoint-param>
+                  </gr-endpoint-decorator>
+                </div>
+              </template>
+            </template>
             <div class="reviewed hideOnEdit" hidden$="[[!_loggedIn]]" hidden>
               <span class$="reviewedLabel [[_computeReviewedClass(file.isReviewed)]]">Reviewed</span>
               <label>
@@ -448,6 +462,12 @@ limitations under the License.
           -[[_patchChange.deleted]]
         </span>
       </div>
+      <template is="dom-if" if="[[_showDynamicColumns]]">
+        <template is="dom-repeat" items="[[_dynamicSummaryEndpoints]]" as="summaryEndpoint">
+          <gr-endpoint-decorator name="[[summaryEndpoint]]">
+          </gr-endpoint-decorator>
+        </template>
+      </template>
       <!-- Empty div here exists to keep spacing in sync with file rows. -->
       <div class="reviewed hideOnEdit" hidden$="[[!_loggedIn]]"></div>
       <div class="editFileControls showOnEdit"></div>

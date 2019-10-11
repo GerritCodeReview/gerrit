@@ -180,6 +180,23 @@
 
       /** @type {Function} */
       _cancelForEachDiff: Function,
+
+      _showDynamicColumns: {
+        type: Boolean,
+        computed: '_computeShowDynamicColumns(_dynamicHeaderEndpoints)',
+      },
+      /** @type {Array<string>} */
+      _dynamicHeaderEndpoints: {
+        type: Array,
+      },
+      /** @type {Array<string>} */
+      _dynamicContentEndpoints: {
+        type: Array,
+      },
+      /** @type {Array<string>} */
+      _dynamicSummaryEndpoints: {
+        type: Array,
+      },
     },
 
     behaviors: [
@@ -227,6 +244,28 @@
     },
     listeners: {
       keydown: '_scopedKeydownHandler',
+    },
+
+    attached() {
+      Gerrit.awaitPluginsLoaded().then(() => {
+        this._dynamicHeaderEndpoints = Gerrit._endpoints.getDynamicEndpoints(
+            'change-view-file-list-header');
+        this._dynamicContentEndpoints = Gerrit._endpoints.getDynamicEndpoints(
+            'change-view-file-list-content');
+        this._dynamicSummaryEndpoints = Gerrit._endpoints.getDynamicEndpoints(
+            'change-view-file-list-summary');
+
+        if (this._dynamicHeaderEndpoints.length !==
+            this._dynamicContentEndpoints.length) {
+          console.warn(
+              'Different number of dynamic file-list header and content.');
+        }
+        if (this._dynamicHeaderEndpoints.length !==
+            this._dynamicSummaryEndpoints.length) {
+          console.warn(
+              'Different number of dynamic file-list headers and summary.');
+        }
+      });
     },
 
     detached() {
@@ -805,7 +844,10 @@
      * @param {string} path
      */
     _computeClass(baseClass, path) {
-      const classes = [baseClass];
+      const classes = [];
+      if (baseClass) {
+        classes.push(baseClass);
+      }
       if (path === this.COMMIT_MESSAGE_PATH || path === this.MERGE_LIST_PATH) {
         classes.push('invisible');
       }
@@ -1251,6 +1293,15 @@
         hideClass = 'invisible';
       }
       return `sizeBars desktop ${hideClass}`;
+    },
+
+    _computeShowDynamicColumns(dynamicHeaderEndpoints) {
+      // During a design review, it was decided that dynamic columns should
+      // remain hidden until column headers (including existing columns such as
+      // "Comments") are in place to avoid confusion.
+      // TODO(crbug.com/939904): Enable dispaying dynamic columns when there is
+      // at least one of them registered.
+      return false;
     },
 
     /**

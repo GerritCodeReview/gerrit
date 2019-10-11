@@ -20,6 +20,8 @@ import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.ExtensionRegistry;
+import com.google.gerrit.acceptance.ExtensionRegistry.Registration;
 import com.google.gerrit.acceptance.UseSsh;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
@@ -39,60 +41,69 @@ import org.junit.Test;
 
 @UseSsh
 public class SshTraceIT extends AbstractDaemonTest {
-  @Inject private DynamicSet<ProjectCreationValidationListener> projectCreationValidationListeners;
   @Inject private DynamicSet<PerformanceLogger> performanceLoggers;
+  @Inject private ExtensionRegistry extensionRegistry;
 
-  private TraceValidatingProjectCreationValidationListener projectCreationListener;
-  private RegistrationHandle projectCreationListenerRegistrationHandle;
   private TestPerformanceLogger testPerformanceLogger;
   private RegistrationHandle performanceLoggerRegistrationHandle;
 
   @Before
   public void setup() {
-    projectCreationListener = new TraceValidatingProjectCreationValidationListener();
-    projectCreationListenerRegistrationHandle =
-        projectCreationValidationListeners.add("gerrit", projectCreationListener);
     testPerformanceLogger = new TestPerformanceLogger();
     performanceLoggerRegistrationHandle = performanceLoggers.add("gerrit", testPerformanceLogger);
   }
 
   @After
   public void cleanup() {
-    projectCreationListenerRegistrationHandle.remove();
     performanceLoggerRegistrationHandle.remove();
   }
 
   @Test
   public void sshCallWithoutTrace() throws Exception {
-    adminSshSession.exec("gerrit create-project new1");
-    adminSshSession.assertSuccess();
-    assertThat(projectCreationListener.traceId).isNull();
-    assertThat(projectCreationListener.foundTraceId).isFalse();
-    assertThat(projectCreationListener.isLoggingForced).isFalse();
+    TraceValidatingProjectCreationValidationListener projectCreationListener =
+        new TraceValidatingProjectCreationValidationListener();
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(projectCreationListener)) {
+      adminSshSession.exec("gerrit create-project new1");
+      adminSshSession.assertSuccess();
+      assertThat(projectCreationListener.traceId).isNull();
+      assertThat(projectCreationListener.foundTraceId).isFalse();
+      assertThat(projectCreationListener.isLoggingForced).isFalse();
+    }
   }
 
   @Test
   public void sshCallWithTrace() throws Exception {
-    adminSshSession.exec("gerrit create-project --trace new2");
+    TraceValidatingProjectCreationValidationListener projectCreationListener =
+        new TraceValidatingProjectCreationValidationListener();
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(projectCreationListener)) {
+      adminSshSession.exec("gerrit create-project --trace new2");
 
-    // The trace ID is written to stderr.
-    adminSshSession.assertFailure(RequestId.Type.TRACE_ID.name());
+      // The trace ID is written to stderr.
+      adminSshSession.assertFailure(RequestId.Type.TRACE_ID.name());
 
-    assertThat(projectCreationListener.traceId).isNotNull();
-    assertThat(projectCreationListener.foundTraceId).isTrue();
-    assertThat(projectCreationListener.isLoggingForced).isTrue();
+      assertThat(projectCreationListener.traceId).isNotNull();
+      assertThat(projectCreationListener.foundTraceId).isTrue();
+      assertThat(projectCreationListener.isLoggingForced).isTrue();
+    }
   }
 
   @Test
   public void sshCallWithTraceAndProvidedTraceId() throws Exception {
-    adminSshSession.exec("gerrit create-project --trace --trace-id issue/123 new3");
+    TraceValidatingProjectCreationValidationListener projectCreationListener =
+        new TraceValidatingProjectCreationValidationListener();
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(projectCreationListener)) {
+      adminSshSession.exec("gerrit create-project --trace --trace-id issue/123 new3");
 
-    // The trace ID is written to stderr.
-    adminSshSession.assertFailure(RequestId.Type.TRACE_ID.name());
+      // The trace ID is written to stderr.
+      adminSshSession.assertFailure(RequestId.Type.TRACE_ID.name());
 
-    assertThat(projectCreationListener.traceId).isEqualTo("issue/123");
-    assertThat(projectCreationListener.foundTraceId).isTrue();
-    assertThat(projectCreationListener.isLoggingForced).isTrue();
+      assertThat(projectCreationListener.traceId).isEqualTo("issue/123");
+      assertThat(projectCreationListener.foundTraceId).isTrue();
+      assertThat(projectCreationListener.isLoggingForced).isTrue();
+    }
   }
 
   @Test

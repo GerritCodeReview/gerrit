@@ -23,8 +23,6 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.ExtensionRegistry;
 import com.google.gerrit.acceptance.ExtensionRegistry.Registration;
 import com.google.gerrit.acceptance.UseSsh;
-import com.google.gerrit.extensions.registration.DynamicSet;
-import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.server.logging.LoggingContext;
 import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.PerformanceLogger;
@@ -35,28 +33,11 @@ import com.google.gerrit.server.validators.ValidationException;
 import com.google.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
 @UseSsh
 public class SshTraceIT extends AbstractDaemonTest {
-  @Inject private DynamicSet<PerformanceLogger> performanceLoggers;
   @Inject private ExtensionRegistry extensionRegistry;
-
-  private TestPerformanceLogger testPerformanceLogger;
-  private RegistrationHandle performanceLoggerRegistrationHandle;
-
-  @Before
-  public void setup() {
-    testPerformanceLogger = new TestPerformanceLogger();
-    performanceLoggerRegistrationHandle = performanceLoggers.add("gerrit", testPerformanceLogger);
-  }
-
-  @After
-  public void cleanup() {
-    performanceLoggerRegistrationHandle.remove();
-  }
 
   @Test
   public void sshCallWithoutTrace() throws Exception {
@@ -114,9 +95,13 @@ public class SshTraceIT extends AbstractDaemonTest {
 
   @Test
   public void performanceLoggingForSshCall() throws Exception {
-    adminSshSession.exec("gerrit create-project new5");
-    adminSshSession.assertSuccess();
-    assertThat(testPerformanceLogger.logEntries()).isNotEmpty();
+    TestPerformanceLogger testPerformanceLogger = new TestPerformanceLogger();
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(testPerformanceLogger)) {
+      adminSshSession.exec("gerrit create-project new5");
+      adminSshSession.assertSuccess();
+      assertThat(testPerformanceLogger.logEntries()).isNotEmpty();
+    }
   }
 
   private static class TraceValidatingProjectCreationValidationListener

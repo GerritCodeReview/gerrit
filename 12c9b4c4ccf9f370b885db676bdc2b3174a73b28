@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "ef80f6fb_05039f83",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 20
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-11T07:27:27Z",
+      "side": 1,
+      "message": "Not used, since fetching directly from git.",
+      "range": {
+        "startLine": 18,
+        "startChar": 34,
+        "endLine": 18,
+        "endChar": 46
+      },
+      "revId": "12c9b4c4ccf9f370b885db676bdc2b3174a73b28",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ab20bbd0_642cea01",
         "filename": "lib/jgit/jgit.bzl",
         "patchSetId": 20

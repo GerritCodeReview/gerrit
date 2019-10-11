@@ -37,10 +37,11 @@ public class GitClientVersion implements Comparable<GitClientVersion> {
    * @param version String returned by git version command
    */
   public GitClientVersion(String version) {
-    // "git version x.y.z"
+    // "git version x.y.z", at Google "git version x.y.z.gXXXXXXXXXX-goog"
     String parts[] = version.split(" ")[2].split("\\.");
-    v = new int[parts.length];
-    for (int i = 0; i < parts.length; i++) {
+    int numParts = Math.min(parts.length, 3); // ignore Google-specific part of the version
+    v = new int[numParts];
+    for (int i = 0; i < numParts; i++) {
       v[i] = Integer.valueOf(parts[i]);
     }
   }

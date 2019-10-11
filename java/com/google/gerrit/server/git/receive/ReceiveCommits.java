@@ -3342,7 +3342,7 @@ class ReceiveCommits {
                 }
 
                 logger.atFine().log(
-                    "Auto-closing %s changes with existing patch sets and %s with new patch sets",
+                    "Auto-closing %d changes with existing patch sets and %d with new patch sets",
                     existingPatchSets, newPatchSets);
                 bu.execute();
               } catch (IOException | StorageException | PermissionBackendException e) {

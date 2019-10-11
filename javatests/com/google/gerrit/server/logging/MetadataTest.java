@@ -23,7 +23,7 @@ public class MetadataTest {
   @Test
   public void stringForLoggingOmitsEmptyOptionalValuesAndReformatsOptionalValuesThatArePresent() {
     Metadata metadata = Metadata.builder().accountId(1000001).branchName("refs/heads/foo").build();
-    assertThat(metadata.toStringForLogging())
+    assertThat(metadata.toStringForLoggingLazy().evaluate())
         .isEqualTo("Metadata{accountId=1000001, branchName=refs/heads/foo, pluginMetadata=[]}");
   }
 
@@ -31,6 +31,7 @@ public class MetadataTest {
   public void
       stringForLoggingOmitsEmptyOptionalValuesAndReformatsOptionalValuesThatArePresentNoFieldsSet() {
     Metadata metadata = Metadata.builder().build();
-    assertThat(metadata.toStringForLogging()).isEqualTo("Metadata{pluginMetadata=[]}");
+    assertThat(metadata.toStringForLoggingLazy().evaluate())
+        .isEqualTo("Metadata{pluginMetadata=[]}");
   }
 }

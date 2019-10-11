@@ -395,7 +395,7 @@ class RefControl {
           withForce,
           projectControl.getProject().getName(),
           refName,
-          callerFinder.findCaller());
+          callerFinder.findCallerLazy());
       return false;
     }
 
@@ -408,7 +408,7 @@ class RefControl {
             withForce,
             projectControl.getProject().getName(),
             refName,
-            callerFinder.findCaller());
+            callerFinder.findCallerLazy());
         return true;
       }
     }
@@ -420,7 +420,7 @@ class RefControl {
         withForce,
         projectControl.getProject().getName(),
         refName,
-        callerFinder.findCaller());
+        callerFinder.findCallerLazy());
     return false;
   }
 

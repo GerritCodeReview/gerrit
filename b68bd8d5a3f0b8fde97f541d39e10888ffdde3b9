@@ -106,6 +106,24 @@
       "revId": "b68bd8d5a3f0b8fde97f541d39e10888ffdde3b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c9efddd6_381782de",
+        "filename": "lib/jgit/jgit.bzl",
+        "patchSetId": 19
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2019-10-11T06:21:31Z",
+      "side": 1,
+      "message": "\u003e The idea is to upload a JGit change to https://git.eclipse.org/r/ and upload another gerrit change to googlesource.com that depends on the JGit change, e.g.: API change in JGit, that is adapted in gerrit change.\n\nYes, I agree with that goal.\n\nJust, if you want to use a stable archive URL (like you are doing here), please use static file storage for it. Implementing the JGit feature request you linked to will not make git.eclipse.org into static file storage.\n\nThis change in its current form produces a codebase that works today and would stop working when the compressed bytestream for the archive changes. That is what I am saying needs to be fixed. Some ways to do that would be (a) using a Git repository instead of http_archive or (b) using static file hosting.",
+      "parentUuid": "d9fb30f2_3fc9c632",
+      "revId": "b68bd8d5a3f0b8fde97f541d39e10888ffdde3b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

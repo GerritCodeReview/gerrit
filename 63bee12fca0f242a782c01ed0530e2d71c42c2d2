@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "26d65e48_c805a554",
+        "filename": "lib/jgit.bzl",
+        "patchSetId": 21
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-11T14:21:39Z",
+      "side": 1,
+      "message": "This is only used in one single place now:\n\n  java/com/google/gerrit/extensions/BUILD:load(\"//lib:jgit.bzl\", \"JGIT_DOC_URL\")\n\nSo, may be remove this file altogether and just define this link directly where is is needed, and document (where?), that it should be bumped, when major JGit version with Javadoc is released.",
+      "revId": "63bee12fca0f242a782c01ed0530e2d71c42c2d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

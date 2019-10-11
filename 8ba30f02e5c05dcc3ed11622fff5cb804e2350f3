@@ -22,6 +22,30 @@
       "revId": "8ba30f02e5c05dcc3ed11622fff5cb804e2350f3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fdea1043_8b00f577",
+        "filename": "javatests/com/google/gerrit/integration/git/GitProtocolV2IT.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-10-11T11:27:10Z",
+      "side": 1,
+      "message": "Lets do this refactoring, if needed, in a follow-up commit.",
+      "parentUuid": "88d57d78_23a06ba9",
+      "range": {
+        "startLine": 45,
+        "startChar": 0,
+        "endLine": 45,
+        "endChar": 7
+      },
+      "revId": "8ba30f02e5c05dcc3ed11622fff5cb804e2350f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

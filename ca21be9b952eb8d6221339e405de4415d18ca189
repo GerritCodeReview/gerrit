@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "de2f2956_bb41bbca",
+        "filename": "polygerrit-ui/app/behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html",
+        "patchSetId": 12
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-11T07:41:33Z",
+      "side": 1,
+      "message": "you can just have `{sha}` here as the target for Object.assign :)",
+      "range": {
+        "startLine": 154,
+        "startChar": 31,
+        "endLine": 154,
+        "endChar": 33
+      },
+      "revId": "ca21be9b952eb8d6221339e405de4415d18ca189",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0f982a3d_7b0ea225",
         "filename": "polygerrit-ui/app/elements/diff/gr-patch-range-select/gr-patch-range-select.js",
         "patchSetId": 12
@@ -13,6 +36,30 @@
       "writtenOn": "2019-10-09T19:38:33Z",
       "side": 1,
       "message": "This used only once and can be inlined?",
+      "range": {
+        "startLine": 87,
+        "startChar": 20,
+        "endLine": 87,
+        "endChar": 50
+      },
+      "revId": "ca21be9b952eb8d6221339e405de4415d18ca189",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "13249bf4_5097b356",
+        "filename": "polygerrit-ui/app/elements/diff/gr-patch-range-select/gr-patch-range-select.js",
+        "patchSetId": 12
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-11T07:41:33Z",
+      "side": 1,
+      "message": "agree, if you really want to make it a bit more reusable, maybe convert it to a private method: `_getShaForPatch(patch)`, then in case you need to change the range, you just need to change it in one place.\n\nalso is the `basePatch` the right name when loop over availablePatches? i thought basePatch is only for the base one ?",
+      "parentUuid": "0f982a3d_7b0ea225",
       "range": {
         "startLine": 87,
         "startChar": 20,

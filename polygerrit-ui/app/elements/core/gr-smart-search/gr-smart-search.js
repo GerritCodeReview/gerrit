@@ -84,8 +84,9 @@
           MAX_AUTOCOMPLETE_RESULTS)
           .then(projects => {
             if (!projects) { return []; }
-            const keys = Object.keys(projects);
-            return keys.map(key => ({text: predicate + ':' + key}));
+            return Object.keys(projects).map(
+                key => ({text: predicate + ':' + key})
+              );
           });
     },
 
@@ -105,8 +106,9 @@
           MAX_AUTOCOMPLETE_RESULTS)
           .then(groups => {
             if (!groups) { return []; }
-            const keys = Object.keys(groups);
-            return keys.map(key => ({text: predicate + ':' + key}));
+            return Object.keys(groups).map(
+                key => ({text: predicate + ':' + key})
+              );
           });
     },
 

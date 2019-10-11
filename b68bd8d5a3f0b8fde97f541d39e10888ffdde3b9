@@ -70,6 +70,24 @@
       "revId": "b68bd8d5a3f0b8fde97f541d39e10888ffdde3b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0476cd68_e53c06e9",
+        "filename": "lib/jgit/jgit.bzl",
+        "patchSetId": 19
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2019-10-11T06:13:58Z",
+      "side": 1,
+      "message": "For more information on this topic, see the implementation of pristine-tar \u003chttps://joeyh.name/code/pristine-tar/\u003e. It has multiple versions of gzip embedded in its source code because that was the only way to reproduce historic tgz output.\n\n \u003e And even if it would break, what damage can that breakage cause?! It would produce non-stable SHA1 and the fetch fail, wouldn\u0027t it?\n\nYes, it would break the ability to check out old versions of Gerrit and rebuild them, which is an ability I rely on (for example for bisecting).",
+      "parentUuid": "8b7555fc_eb9bed07",
+      "revId": "b68bd8d5a3f0b8fde97f541d39e10888ffdde3b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

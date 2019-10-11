@@ -17,6 +17,9 @@
 (function() {
   'use strict';
 
+  // Disable extra font load from paper-styles
+  window.polymerSkipLoadingFontRoboto = true;
+
   Polymer({
     is: 'gr-app-p2',
   });

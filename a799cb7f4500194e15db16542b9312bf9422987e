@@ -84,6 +84,30 @@
     },
     {
       "key": {
+        "uuid": "cce233db_492b9d00",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotes.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-10-11T12:33:20Z",
+      "side": 1,
+      "message": "Sorry for the noise here. ImmutableSet preserves ordering but it wasn\u0027t clear to me that this is actually relevant here.\n\nCan you instead just add a short sentence to the JavaDoc to exmplain what the ordering is?",
+      "parentUuid": "07cf7c30_b154fe50",
+      "range": {
+        "startLine": 373,
+        "startChar": 11,
+        "endLine": 373,
+        "endChar": 24
+      },
+      "revId": "a799cb7f4500194e15db16542b9312bf9422987e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "589a1e19_cc12556a",
         "filename": "java/com/google/gerrit/server/notedb/ChangeNotes.java",
         "patchSetId": 6

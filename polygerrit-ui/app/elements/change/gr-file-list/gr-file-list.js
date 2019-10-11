@@ -299,11 +299,11 @@
     },
 
     _calculatePatchChange(files) {
-      const filesNoCommitMsg = files.filter(files => {
-        return files.__path !== '/COMMIT_MSG';
+      const magicFilesExcluded = files.filter(files => {
+        return files.__path !== '/COMMIT_MSG' && files.__path !== '/MERGE_LIST';
       });
 
-      return filesNoCommitMsg.reduce((acc, obj) => {
+      return magicFilesExcluded.reduce((acc, obj) => {
         const inserted = obj.lines_inserted ? obj.lines_inserted : 0;
         const deleted = obj.lines_deleted ? obj.lines_deleted : 0;
         const total_size = (obj.size && obj.binary) ? obj.size : 0;

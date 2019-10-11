@@ -178,6 +178,24 @@
       "revId": "b68bd8d5a3f0b8fde97f541d39e10888ffdde3b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1975dd96_13f5077f",
+        "filename": "lib/jgit/jgit.bzl",
+        "patchSetId": 19
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-11T07:09:21Z",
+      "side": 1,
+      "message": "I replaced from fetching using git archive command to git fetch for specific commit. I also added a comment to avoid that someone else change it to use http_archive again. Done.\n\n@Luca would it also simplify the setup to depend in Gerrit on non-merged JGit changes? We should immediately support this now, without any replication of non merged changes from eclipse.org to GitHub, right?",
+      "parentUuid": "4b09f44a_00f81093",
+      "revId": "b68bd8d5a3f0b8fde97f541d39e10888ffdde3b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

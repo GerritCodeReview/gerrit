@@ -105,8 +105,7 @@
           MAX_AUTOCOMPLETE_RESULTS)
           .then(groups => {
             if (!groups) { return []; }
-            const keys = Object.keys(groups);
-            return keys.map(key => ({text: predicate + ':' + key}));
+            return Object.keys(groups).map(key => ({text: predicate + ':' + key}));
           });
     },
 

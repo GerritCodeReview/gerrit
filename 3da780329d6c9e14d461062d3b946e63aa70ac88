@@ -1,0 +1,107 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cd9ef6cf_c8787bac",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2019-10-11T08:17:28Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be \"may\"?",
+      "range": {
+        "startLine": 301,
+        "startChar": 90,
+        "endLine": 301,
+        "endChar": 94
+      },
+      "revId": "3da780329d6c9e14d461062d3b946e63aa70ac88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a0aed1bd_897e1f3a",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2019-10-11T08:17:28Z",
+      "side": 1,
+      "message": "\"cached\"?",
+      "range": {
+        "startLine": 302,
+        "startChar": 49,
+        "endLine": 302,
+        "endChar": 56
+      },
+      "revId": "3da780329d6c9e14d461062d3b946e63aa70ac88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5cd4d25c_78425140",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2019-10-11T08:17:28Z",
+      "side": 1,
+      "message": "Don\u0027t we only need to take this precaution if r.more()?",
+      "revId": "3da780329d6c9e14d461062d3b946e63aa70ac88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d22408e6_03f063c7",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 426,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2019-10-11T08:17:28Z",
+      "side": 1,
+      "message": "Why is this still necessary? Didn\u0027t we above ensure that none of the changes in the cache can have _moreChanges set?",
+      "revId": "3da780329d6c9e14d461062d3b946e63aa70ac88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e79cc45e_c8f6dd45",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/QueryChangeIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2019-10-11T08:17:28Z",
+      "side": 1,
+      "message": "Would be nice to also test/document the semantics within the result (is _moreChanges set on every change in that request, or only the last?).",
+      "range": {
+        "startLine": 65,
+        "startChar": 42,
+        "endLine": 65,
+        "endChar": 49
+      },
+      "revId": "3da780329d6c9e14d461062d3b946e63aa70ac88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "bb8bb5f9_3607b727",
+        "filename": "WORKSPACE",
+        "patchSetId": 21
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-10-11T14:29:58Z",
+      "side": 1,
+      "message": "submodule",
+      "revId": "63bee12fca0f242a782c01ed0530e2d71c42c2d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "26d65e48_c805a554",
         "filename": "lib/jgit.bzl",
         "patchSetId": 21

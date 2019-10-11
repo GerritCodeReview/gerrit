@@ -282,10 +282,12 @@
      * Recompute the stops for the dropdown item cursor.
      */
     _resetCursorStops() {
-      Polymer.dom.flush();
-      // Polymer2: querySelectorAll returns NodeList instead of Array.
-      this._listElements = Array.from(
-          Polymer.dom(this.root).querySelectorAll('li'));
+      if (this.items && this.items.length > 0) {
+        Polymer.dom.flush();
+        // Polymer2: querySelectorAll returns NodeList instead of Array.
+        this._listElements = Array.from(
+            Polymer.dom(this.root).querySelectorAll('li'));
+      }
     },
 
     _computeHasTooltip(tooltip) {

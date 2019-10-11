@@ -391,6 +391,30 @@
       "revId": "c238e5e3ac4c72b7fe5df3609d94a108a29277ee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d85b4874_0f553327",
+        "filename": "lib/jgit/jgit.bzl",
+        "patchSetId": 9
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-10-11T19:41:05Z",
+      "side": 1,
+      "message": "\u003e There are pros and cons. On the pro side, as you say, the clone is faster, especially if you happen to be close to one of the googlesource.com servers. :) On the con side, there\u0027s some mirroring latency (sometimes as high as 5 minutes).\n\u003e \n\u003e My instinct would be to keep the git.eclipse.org URL for now. As a followup, if we want to, we can create https://gerrit.googlesource.com/jgit as a mirror and switch to the relative URL \"../jgit\".\n\nCan you *please* do that?",
+      "parentUuid": "1e0e4a87_ecb2c2a6",
+      "range": {
+        "startLine": 24,
+        "startChar": 10,
+        "endLine": 24,
+        "endChar": 62
+      },
+      "revId": "c238e5e3ac4c72b7fe5df3609d94a108a29277ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

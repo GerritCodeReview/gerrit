@@ -77,8 +77,6 @@ import com.google.gerrit.extensions.common.MergeableInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.common.WebLinkInfo;
 import com.google.gerrit.extensions.events.ChangeIndexedListener;
-import com.google.gerrit.extensions.registration.DynamicSet;
-import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
@@ -119,7 +117,6 @@ import org.eclipse.jgit.transport.RefSpec;
 import org.junit.Test;
 
 public class RevisionIT extends AbstractDaemonTest {
-  @Inject private DynamicSet<PatchSetWebLink> patchSetLinks;
   @Inject private GetRevisionActions getRevisionActions;
   @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
@@ -1314,10 +1311,14 @@ public class RevisionIT extends AbstractDaemonTest {
   @Test
   public void commit() throws Exception {
     WebLinkInfo expectedWebLinkInfo = new WebLinkInfo("foo", "imageUrl", "url");
-    RegistrationHandle handle =
-        patchSetLinks.add("gerrit", (projectName, commit) -> expectedWebLinkInfo);
-
-    try {
+    PatchSetWebLink link =
+        new PatchSetWebLink() {
+          @Override
+          public WebLinkInfo getPatchSetWebLink(String projectName, String commit) {
+            return expectedWebLinkInfo;
+          }
+        };
+    try (Registration registration = extensionRegistry.newRegistration().add(link)) {
       PushOneCommit.Result r = createChange();
       RevCommit c = r.getCommit();
 
@@ -1339,8 +1340,6 @@ public class RevisionIT extends AbstractDaemonTest {
       assertThat(webLinkInfo.imageUrl).isEqualTo(expectedWebLinkInfo.imageUrl);
       assertThat(webLinkInfo.url).isEqualTo(expectedWebLinkInfo.url);
       assertThat(webLinkInfo.target).isEqualTo(expectedWebLinkInfo.target);
-    } finally {
-      handle.remove();
     }
   }
 

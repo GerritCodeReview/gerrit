@@ -28,6 +28,7 @@ import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.registration.PrivateInternals_DynamicMapImpl;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.extensions.webui.FileHistoryWebLink;
+import com.google.gerrit.extensions.webui.PatchSetWebLink;
 import com.google.gerrit.server.ExceptionHook;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.change.ChangeETagComputation;
@@ -60,6 +61,7 @@ public class ExtensionRegistry {
   private final DynamicSet<CommentAddedListener> commentAddedListeners;
   private final DynamicSet<GitReferenceUpdatedListener> refUpdatedListeners;
   private final DynamicSet<FileHistoryWebLink> fileHistoryWebLinks;
+  private final DynamicSet<PatchSetWebLink> patchSetWebLinks;
   private final DynamicSet<RevisionCreatedListener> revisionCreatedListeners;
   private final DynamicSet<GroupBackend> groupBackends;
 
@@ -82,6 +84,7 @@ public class ExtensionRegistry {
       DynamicSet<CommentAddedListener> commentAddedListeners,
       DynamicSet<GitReferenceUpdatedListener> refUpdatedListeners,
       DynamicSet<FileHistoryWebLink> fileHistoryWebLinks,
+      DynamicSet<PatchSetWebLink> patchSetWebLinks,
       DynamicSet<RevisionCreatedListener> revisionCreatedListeners,
       DynamicSet<GroupBackend> groupBackends) {
     this.accountIndexedListeners = accountIndexedListeners;
@@ -101,6 +104,7 @@ public class ExtensionRegistry {
     this.commentAddedListeners = commentAddedListeners;
     this.refUpdatedListeners = refUpdatedListeners;
     this.fileHistoryWebLinks = fileHistoryWebLinks;
+    this.patchSetWebLinks = patchSetWebLinks;
     this.revisionCreatedListeners = revisionCreatedListeners;
     this.groupBackends = groupBackends;
   }
@@ -183,6 +187,10 @@ public class ExtensionRegistry {
 
     public Registration add(FileHistoryWebLink fileHistoryWebLink) {
       return add(fileHistoryWebLinks, fileHistoryWebLink);
+    }
+
+    public Registration add(PatchSetWebLink patchSetWebLink) {
+      return add(patchSetWebLinks, patchSetWebLink);
     }
 
     public Registration add(RevisionCreatedListener revisionCreatedListener) {

@@ -34,6 +34,24 @@
       "revId": "b68bd8d5a3f0b8fde97f541d39e10888ffdde3b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5cd4297e_d1a72976",
+        "filename": "lib/jgit/jgit.bzl",
+        "patchSetId": 19
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-11T06:05:23Z",
+      "side": 1,
+      "message": "\u003e This won\u0027t work. \"git archive\" and \"jgit archive\" output are not guaranteed stable over time, because there can be bug fixes.\n\u003e \n\u003e If we\u0027re using http_archive, we need a stable archive, or in other words a static file.\n\nWhy it works for years for us fetching from GitHub and there are no bugs? Are GitHub/Microsoft software engineers better qualified then we are to release error free software? The unit and integration tests were invented in the software development process to avoid regression, weren\u0027t they?\n\n  $ wget https://github.com/davido/gerrit-oauth-provider/archive/0f807f680d3b204e0d376b473d8a84076a67f138.tar.gz\n  $ sha256sum 0f807f680d3b204e0d376b473d8a84076a67f138.tar.gz\naee6cae95aae2b824c780ba3a5ab587f1967d989a37872eb08debf1d71bf4f4c  0f807f680d3b204e0d376b473d8a84076a67f138.tar.gz\n\nThen repeat the command sequence again:\n\n  $ wget https://github.com/davido/gerrit-oauth-provider/archive/0f807f680d3b204e0d376b473d8a84076a67f138.tar.gz\n  [...]\n  Saving to: ‘0f807f680d3b204e0d376b473d8a84076a67f138.tar.gz.1’\n  $ sha256sum 0f807f680d3b204e0d376b473d8a84076a67f138.tar.gz.1\naee6cae95aae2b824c780ba3a5ab587f1967d989a37872eb08debf1d71bf4f4c  0f807f680d3b204e0d376b473d8a84076a67f138.tar.gz.1\n\nIf JGit archive command would have 100% test coverage and would work today as expected (after Matthias Sohn fixed this long standing bug recently, see: [1], [2], [3]), how can it be that it would break tomorrow again?\n\nAnd even if it would break, what damage can that breakage cause?! It would produce non-stable SHA1 and the fetch fail, wouldn\u0027t it?\n\nBottom line: If JGit project members are not confident in the quality of JGit  code, they should spend more time on writing tests.\n\n* [1] https://github.com/google/gitiles/issues/84\n* [2] https://bugs.eclipse.org/bugs/show_bug.cgi?id\u003d548312\n* [3] https://git.eclipse.org/r/#/c/144172/",
+      "parentUuid": "ec61b3c4_13d99643",
+      "revId": "b68bd8d5a3f0b8fde97f541d39e10888ffdde3b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -22,6 +22,7 @@ import com.google.gerrit.extensions.events.CommentAddedListener;
 import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
 import com.google.gerrit.extensions.events.GroupIndexedListener;
 import com.google.gerrit.extensions.events.ProjectIndexedListener;
+import com.google.gerrit.extensions.events.RevisionCreatedListener;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.registration.PrivateInternals_DynamicMapImpl;
@@ -58,6 +59,7 @@ public class ExtensionRegistry {
   private final DynamicSet<CommentAddedListener> commentAddedListeners;
   private final DynamicSet<GitReferenceUpdatedListener> refUpdatedListeners;
   private final DynamicSet<FileHistoryWebLink> fileHistoryWebLinks;
+  private final DynamicSet<RevisionCreatedListener> revisionCreatedListeners;
 
   @Inject
   ExtensionRegistry(
@@ -77,7 +79,8 @@ public class ExtensionRegistry {
       DynamicSet<RefOperationValidationListener> refOperationValidationListeners,
       DynamicSet<CommentAddedListener> commentAddedListeners,
       DynamicSet<GitReferenceUpdatedListener> refUpdatedListeners,
-      DynamicSet<FileHistoryWebLink> fileHistoryWebLinks) {
+      DynamicSet<FileHistoryWebLink> fileHistoryWebLinks,
+      DynamicSet<RevisionCreatedListener> revisionCreatedListeners) {
     this.accountIndexedListeners = accountIndexedListeners;
     this.changeIndexedListeners = changeIndexedListeners;
     this.groupIndexedListeners = groupIndexedListeners;
@@ -95,6 +98,7 @@ public class ExtensionRegistry {
     this.commentAddedListeners = commentAddedListeners;
     this.refUpdatedListeners = refUpdatedListeners;
     this.fileHistoryWebLinks = fileHistoryWebLinks;
+    this.revisionCreatedListeners = revisionCreatedListeners;
   }
 
   public Registration newRegistration() {
@@ -175,6 +179,10 @@ public class ExtensionRegistry {
 
     public Registration add(FileHistoryWebLink fileHistoryWebLink) {
       return add(fileHistoryWebLinks, fileHistoryWebLink);
+    }
+
+    public Registration add(RevisionCreatedListener revisionCreatedListener) {
+      return add(revisionCreatedListeners, revisionCreatedListener);
     }
 
     private <T> Registration add(DynamicSet<T> dynamicSet, T extension) {

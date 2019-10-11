@@ -17,49 +17,48 @@ package com.google.gerrit.acceptance.server.event;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.ExtensionRegistry;
+import com.google.gerrit.acceptance.ExtensionRegistry.Registration;
 import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.extensions.events.RevisionCreatedListener;
-import com.google.gerrit.extensions.registration.DynamicSet;
-import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.inject.Inject;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 
 @NoHttpd
 public class EventPayloadIT extends AbstractDaemonTest {
-  @Inject private DynamicSet<RevisionCreatedListener> revisionCreatedListeners;
-
-  private RegistrationHandle eventListenerRegistration;
-  private RevisionCreatedListener.Event lastEvent;
-
-  @Before
-  public void setUp() throws Exception {
-    eventListenerRegistration = revisionCreatedListeners.add("gerrit", event -> lastEvent = event);
-  }
-
-  @After
-  public void cleanup() {
-    eventListenerRegistration.remove();
-  }
+  @Inject private ExtensionRegistry extensionRegistry;
 
   @Test
   public void defaultOptions() throws Exception {
-    createChange();
-
-    assertThat(lastEvent.getChange().submittable).isNotNull();
-    assertThat(lastEvent.getRevision().files).isNotEmpty();
+    RevisionCreatedListener listener =
+        new RevisionCreatedListener() {
+          @Override
+          public void onRevisionCreated(Event event) {
+            assertThat(event.getChange().submittable).isNotNull();
+            assertThat(event.getRevision().files).isNotEmpty();
+          }
+        };
+    try (Registration registration = extensionRegistry.newRegistration().add(listener)) {
+      createChange();
+    }
   }
 
   @Test
   @GerritConfig(name = "event.payload.listChangeOptions", value = "SKIP_MERGEABLE")
   public void configuredOptions() throws Exception {
-    createChange();
-
-    assertThat(lastEvent.getChange().submittable).isNull();
-    assertThat(lastEvent.getChange().mergeable).isNull();
-    assertThat(lastEvent.getRevision().files).isNull();
-    assertThat(lastEvent.getChange().subject).isNotEmpty();
+    RevisionCreatedListener listener =
+        new RevisionCreatedListener() {
+          @Override
+          public void onRevisionCreated(Event event) {
+            assertThat(event.getChange().submittable).isNull();
+            assertThat(event.getChange().mergeable).isNull();
+            assertThat(event.getRevision().files).isNull();
+            assertThat(event.getChange().subject).isNotEmpty();
+          }
+        };
+    try (Registration registration = extensionRegistry.newRegistration().add(listener)) {
+      createChange();
+    }
   }
 }

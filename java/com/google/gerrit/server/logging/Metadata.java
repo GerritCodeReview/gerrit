@@ -183,63 +183,66 @@ public abstract class Metadata {
    * @return string representation of this instance that is suitable for logging
    */
   LazyArg<String> toStringForLoggingLazy() {
-    return LazyArgs.lazy(
-        () -> {
-          // Append class name.
-          String className = getClass().getSimpleName();
-          if (className.startsWith("AutoValue_")) {
-            className = className.substring(10);
-          }
-          ToStringHelper stringHelper = MoreObjects.toStringHelper(className);
+    // Don't use a lambda because different compilers generate different method names for lambdas,
+    // e.g. "lambda$myFunction$0" vs. just "lambda$0" in Eclipse. We need to identify the method
+    // by name to skip it and avoid infinite recursion.
+    return LazyArgs.lazy(this::toStringForLoggingImpl);
+  }
 
-          // Append key-value pairs for field which are set.
-          Method[] methods = Metadata.class.getDeclaredMethods();
-          Arrays.sort(methods, Comparator.comparing(Method::getName));
-          for (Method method : methods) {
-            if (Modifier.isStatic(method.getModifiers())) {
-              // skip static method
-              continue;
-            }
+  private String toStringForLoggingImpl() {
+    // Append class name.
+    String className = getClass().getSimpleName();
+    if (className.startsWith("AutoValue_")) {
+      className = className.substring(10);
+    }
+    ToStringHelper stringHelper = MoreObjects.toStringHelper(className);
 
-            if (method.getName().matches("(lambda\\$)?toStringForLoggingLazy(\\$0)?")) {
-              // skip toStringForLoggingLazy() and the lambda itself
-              continue;
-            }
+    // Append key-value pairs for field which are set.
+    Method[] methods = Metadata.class.getDeclaredMethods();
+    Arrays.sort(methods, Comparator.comparing(Method::getName));
+    for (Method method : methods) {
+      if (Modifier.isStatic(method.getModifiers())) {
+        // skip static method
+        continue;
+      }
 
-            if (method.getReturnType().equals(Void.TYPE) || method.getParameterCount() > 0) {
-              // skip method since it's not a getter
-              continue;
-            }
+      if (method.getName().equals("toStringForLoggingLazy")
+          || method.getName().equals("toStringForLoggingImpl")) {
+        // Don't call myself in infinite recursion.
+        continue;
+      }
 
-            method.setAccessible(true);
+      if (method.getReturnType().equals(Void.TYPE) || method.getParameterCount() > 0) {
+        // skip method since it's not a getter
+        continue;
+      }
 
-            Object returnValue;
-            try {
-              returnValue = method.invoke(this);
-            } catch (IllegalArgumentException
-                | IllegalAccessException
-                | InvocationTargetException e) {
-              // should never happen
-              throw new IllegalStateException(e);
-            }
+      method.setAccessible(true);
 
-            if (returnValue instanceof Optional) {
-              Optional<?> fieldValueOptional = (Optional<?>) returnValue;
-              if (!fieldValueOptional.isPresent()) {
-                // drop this key-value pair
-                continue;
-              }
+      Object returnValue;
+      try {
+        returnValue = method.invoke(this);
+      } catch (IllegalArgumentException | IllegalAccessException | InvocationTargetException e) {
+        // should never happen
+        throw new IllegalStateException(e);
+      }
 
-              // format as 'key=value' instead of 'key=Optional[value]'
-              stringHelper.add(method.getName(), fieldValueOptional.get());
-            } else {
-              // not an Optional value, keep as is
-              stringHelper.add(method.getName(), returnValue);
-            }
-          }
+      if (returnValue instanceof Optional) {
+        Optional<?> fieldValueOptional = (Optional<?>) returnValue;
+        if (!fieldValueOptional.isPresent()) {
+          // drop this key-value pair
+          continue;
+        }
 
-          return stringHelper.toString();
-        });
+        // format as 'key=value' instead of 'key=Optional[value]'
+        stringHelper.add(method.getName(), fieldValueOptional.get());
+      } else {
+        // not an Optional value, keep as is
+        stringHelper.add(method.getName(), returnValue);
+      }
+    }
+
+    return stringHelper.toString();
   }
 
   public static Metadata.Builder builder() {

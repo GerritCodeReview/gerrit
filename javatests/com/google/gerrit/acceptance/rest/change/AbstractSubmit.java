@@ -69,8 +69,6 @@ import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.extensions.events.ChangeIndexedListener;
-import com.google.gerrit.extensions.registration.DynamicSet;
-import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -132,7 +130,6 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   }
 
   @Inject private ApprovalsUtil approvalsUtil;
-  @Inject private DynamicSet<ChangeIndexedListener> changeIndexedListeners;
   @Inject private IdentifiedUser.GenericFactory userFactory;
   @Inject private ProjectOperations projectOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
@@ -1230,9 +1227,8 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     PushOneCommit.Result changeOtherBranch = createChange("refs/for/dev");
 
     ChangeIndexedListener changeIndexedListener = mock(ChangeIndexedListener.class);
-    RegistrationHandle registrationHandle =
-        changeIndexedListeners.add("gerrit", changeIndexedListener);
-    try {
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(changeIndexedListener)) {
       // submit a change, this should trigger asynchronous reindexing of the open changes on the
       // same branch
       approve(change1.getChangeId());
@@ -1259,8 +1255,6 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
       // open changes on other branches don't get reindexed
       verify(changeIndexedListener, times(0))
           .onChangeScheduledForIndexing(project.get(), changeOtherBranch.getChange().getId().get());
-    } finally {
-      registrationHandle.remove();
     }
   }
 

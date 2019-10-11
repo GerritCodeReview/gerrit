@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "6994c0af_5ef7e1e1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-11T12:29:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "46446206_937b3511",
+      "range": {
+        "startLine": 14,
+        "startChar": 6,
+        "endLine": 14,
+        "endChar": 14
+      },
+      "revId": "4082f8259b4c78f71e082541fd425a2fca7e9b8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f48b02a1_8491f9f9",
         "filename": "java/com/google/gerrit/server/git/TracingHook.java",
         "patchSetId": 7
@@ -45,6 +69,30 @@
       "revId": "4082f8259b4c78f71e082541fd425a2fca7e9b8a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ae55b16f_288bb834",
+        "filename": "java/com/google/gerrit/server/git/TracingHook.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-11T12:29:34Z",
+      "side": 1,
+      "message": "Done in https://gerrit-review.googlesource.com/c/gerrit/+/240613",
+      "parentUuid": "f48b02a1_8491f9f9",
+      "range": {
+        "startLine": 82,
+        "startChar": 4,
+        "endLine": 95,
+        "endChar": 5
+      },
+      "revId": "4082f8259b4c78f71e082541fd425a2fca7e9b8a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ea6a04d5_db9b2f2e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-10-11T05:46:33Z",
+      "side": 1,
+      "message": "computing",
+      "range": {
+        "startLine": 11,
+        "startChar": 9,
+        "endLine": 11,
+        "endChar": 18
+      },
+      "revId": "b8126a1ba9cced59b2d0859f22c42ad8299c826e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8b38a03f_917d3fa7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-10-11T05:46:33Z",
+      "side": 1,
+      "message": "This commit message explains the following 3 alternative ways the issue could have been fixed, but does not first explain the way it actually was fixed.",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 59
+      },
+      "revId": "b8126a1ba9cced59b2d0859f22c42ad8299c826e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "abd7bf8c_380ee75a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-10-11T05:46:33Z",
+      "side": 1,
+      "message": "starter",
+      "range": {
+        "startLine": 30,
+        "startChar": 47,
+        "endLine": 30,
+        "endChar": 54
+      },
+      "revId": "b8126a1ba9cced59b2d0859f22c42ad8299c826e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

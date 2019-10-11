@@ -34,6 +34,7 @@ import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.change.ChangeETagComputation;
 import com.google.gerrit.server.git.ChangeMessageModifier;
 import com.google.gerrit.server.git.validators.CommitValidationListener;
+import com.google.gerrit.server.git.validators.OnSubmitValidationListener;
 import com.google.gerrit.server.git.validators.RefOperationValidationListener;
 import com.google.gerrit.server.logging.PerformanceLogger;
 import com.google.gerrit.server.rules.SubmitRule;
@@ -67,6 +68,7 @@ public class ExtensionRegistry {
   private final DynamicSet<GroupBackend> groupBackends;
   private final DynamicSet<AccountActivationValidationListener>
       accountActivationValidationListeners;
+  private final DynamicSet<OnSubmitValidationListener> onSubmitValidationListeners;
 
   @Inject
   ExtensionRegistry(
@@ -90,7 +92,8 @@ public class ExtensionRegistry {
       DynamicSet<PatchSetWebLink> patchSetWebLinks,
       DynamicSet<RevisionCreatedListener> revisionCreatedListeners,
       DynamicSet<GroupBackend> groupBackends,
-      DynamicSet<AccountActivationValidationListener> accountActivationValidationListeners) {
+      DynamicSet<AccountActivationValidationListener> accountActivationValidationListeners,
+      DynamicSet<OnSubmitValidationListener> onSubmitValidationListeners) {
     this.accountIndexedListeners = accountIndexedListeners;
     this.changeIndexedListeners = changeIndexedListeners;
     this.groupIndexedListeners = groupIndexedListeners;
@@ -112,6 +115,7 @@ public class ExtensionRegistry {
     this.revisionCreatedListeners = revisionCreatedListeners;
     this.groupBackends = groupBackends;
     this.accountActivationValidationListeners = accountActivationValidationListeners;
+    this.onSubmitValidationListeners = onSubmitValidationListeners;
   }
 
   public Registration newRegistration() {
@@ -209,6 +213,10 @@ public class ExtensionRegistry {
     public Registration add(
         AccountActivationValidationListener accountActivationValidationListener) {
       return add(accountActivationValidationListeners, accountActivationValidationListener);
+    }
+
+    public Registration add(OnSubmitValidationListener onSubmitValidationListener) {
+      return add(onSubmitValidationListeners, onSubmitValidationListener);
     }
 
     private <T> Registration add(DynamicSet<T> dynamicSet, T extension) {

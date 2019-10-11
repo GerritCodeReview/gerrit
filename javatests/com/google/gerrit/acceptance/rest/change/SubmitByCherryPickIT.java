@@ -19,6 +19,8 @@ import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_REVI
 import static com.google.gerrit.extensions.client.ListChangesOption.MESSAGES;
 
 import com.google.common.collect.Iterables;
+import com.google.gerrit.acceptance.ExtensionRegistry;
+import com.google.gerrit.acceptance.ExtensionRegistry.Registration;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestProjectInput;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
@@ -29,9 +31,6 @@ import com.google.gerrit.extensions.client.InheritableBoolean;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ChangeInfo;
-import com.google.gerrit.extensions.registration.DynamicSet;
-import com.google.gerrit.extensions.registration.RegistrationHandle;
-import com.google.gerrit.server.git.ChangeMessageModifier;
 import com.google.gerrit.server.submit.CommitMergeStatus;
 import com.google.inject.Inject;
 import java.util.List;
@@ -40,8 +39,8 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Test;
 
 public class SubmitByCherryPickIT extends AbstractSubmit {
-  @Inject private DynamicSet<ChangeMessageModifier> changeMessageModifiers;
   @Inject private ProjectOperations projectOperations;
+  @Inject private ExtensionRegistry extensionRegistry;
 
   @Override
   protected SubmitType getSubmitType() {
@@ -89,15 +88,13 @@ public class SubmitByCherryPickIT extends AbstractSubmit {
   @Test
   public void changeMessageOnSubmit() throws Throwable {
     PushOneCommit.Result change = createChange();
-    RegistrationHandle handle =
-        changeMessageModifiers.add(
-            "gerrit",
-            (newCommitMessage, original, mergeTip, destination) ->
-                newCommitMessage + "Custom: " + destination.branch());
-    try {
+    try (Registration registration =
+        extensionRegistry
+            .newRegistration()
+            .add(
+                (newCommitMessage, original, mergeTip, destination) ->
+                    newCommitMessage + "Custom: " + destination.branch())) {
       submit(change.getChangeId());
-    } finally {
-      handle.remove();
     }
     testRepo.git().fetch().setRemote("origin").call();
     ChangeInfo info = get(change.getChangeId(), CURRENT_REVISION);

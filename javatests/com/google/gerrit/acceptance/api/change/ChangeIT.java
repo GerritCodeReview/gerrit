@@ -161,6 +161,7 @@ import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.change.ChangeResource;
+import com.google.gerrit.server.change.testing.TestChangeETagComputation;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.index.change.ChangeIndex;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
@@ -2256,7 +2257,8 @@ public class ChangeIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     String oldETag = parseResource(r).getETag();
 
-    try (Registration registration = extensionRegistry.newRegistration().add((p, id) -> "foo")) {
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(TestChangeETagComputation.withETag("foo"))) {
       assertThat(parseResource(r).getETag()).isNotEqualTo(oldETag);
     }
 
@@ -2268,7 +2270,8 @@ public class ChangeIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     String oldETag = parseResource(r).getETag();
 
-    try (Registration registration = extensionRegistry.newRegistration().add((p, id) -> null)) {
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(TestChangeETagComputation.withETag(null))) {
       assertThat(parseResource(r).getETag()).isEqualTo(oldETag);
     }
   }
@@ -2282,9 +2285,8 @@ public class ChangeIT extends AbstractDaemonTest {
         extensionRegistry
             .newRegistration()
             .add(
-                (p, id) -> {
-                  throw new StorageException("exception during test");
-                })) {
+                TestChangeETagComputation.withException(
+                    new StorageException("exception during test")))) {
       assertThat(parseResource(r).getETag()).isEqualTo(oldETag);
     }
   }

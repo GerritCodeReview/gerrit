@@ -38,6 +38,7 @@ import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.server.change.RevisionJson;
+import com.google.gerrit.server.change.testing.TestChangeETagComputation;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.testing.ConfigSuite;
 import com.google.inject.Inject;
@@ -195,7 +196,8 @@ public class ActionsIT extends AbstractDaemonTest {
     String change = createChange().getChangeId();
     String oldETag = getETag(change);
 
-    try (Registration registration = extensionRegistry.newRegistration().add((p, id) -> "foo")) {
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(TestChangeETagComputation.withETag("foo"))) {
       assertThat(getETag(change)).isNotEqualTo(oldETag);
     }
 
@@ -207,7 +209,8 @@ public class ActionsIT extends AbstractDaemonTest {
     String change = createChange().getChangeId();
     String oldETag = getETag(change);
 
-    try (Registration registration = extensionRegistry.newRegistration().add((p, id) -> null)) {
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(TestChangeETagComputation.withETag(null))) {
       assertThat(getETag(change)).isEqualTo(oldETag);
     }
   }
@@ -221,9 +224,8 @@ public class ActionsIT extends AbstractDaemonTest {
         extensionRegistry
             .newRegistration()
             .add(
-                (p, id) -> {
-                  throw new StorageException("exception during test");
-                })) {
+                TestChangeETagComputation.withException(
+                    new StorageException("exception during test")))) {
       assertThat(getETag(change)).isEqualTo(oldETag);
     }
   }

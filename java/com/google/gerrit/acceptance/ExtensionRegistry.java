@@ -28,6 +28,7 @@ import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.registration.PrivateInternals_DynamicMapImpl;
 import com.google.gerrit.extensions.registration.RegistrationHandle;
 import com.google.gerrit.extensions.webui.FileHistoryWebLink;
+import com.google.gerrit.extensions.webui.PatchSetWebLink;
 import com.google.gerrit.server.ExceptionHook;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.change.ChangeETagComputation;
@@ -36,6 +37,7 @@ import com.google.gerrit.server.git.validators.CommitValidationListener;
 import com.google.gerrit.server.git.validators.RefOperationValidationListener;
 import com.google.gerrit.server.logging.PerformanceLogger;
 import com.google.gerrit.server.rules.SubmitRule;
+import com.google.gerrit.server.validators.AccountActivationValidationListener;
 import com.google.gerrit.server.validators.ProjectCreationValidationListener;
 import com.google.inject.Inject;
 import com.google.inject.util.Providers;
@@ -60,8 +62,11 @@ public class ExtensionRegistry {
   private final DynamicSet<CommentAddedListener> commentAddedListeners;
   private final DynamicSet<GitReferenceUpdatedListener> refUpdatedListeners;
   private final DynamicSet<FileHistoryWebLink> fileHistoryWebLinks;
+  private final DynamicSet<PatchSetWebLink> patchSetWebLinks;
   private final DynamicSet<RevisionCreatedListener> revisionCreatedListeners;
   private final DynamicSet<GroupBackend> groupBackends;
+  private final DynamicSet<AccountActivationValidationListener>
+      accountActivationValidationListeners;
 
   @Inject
   ExtensionRegistry(
@@ -82,8 +87,10 @@ public class ExtensionRegistry {
       DynamicSet<CommentAddedListener> commentAddedListeners,
       DynamicSet<GitReferenceUpdatedListener> refUpdatedListeners,
       DynamicSet<FileHistoryWebLink> fileHistoryWebLinks,
+      DynamicSet<PatchSetWebLink> patchSetWebLinks,
       DynamicSet<RevisionCreatedListener> revisionCreatedListeners,
-      DynamicSet<GroupBackend> groupBackends) {
+      DynamicSet<GroupBackend> groupBackends,
+      DynamicSet<AccountActivationValidationListener> accountActivationValidationListeners) {
     this.accountIndexedListeners = accountIndexedListeners;
     this.changeIndexedListeners = changeIndexedListeners;
     this.groupIndexedListeners = groupIndexedListeners;
@@ -101,8 +108,10 @@ public class ExtensionRegistry {
     this.commentAddedListeners = commentAddedListeners;
     this.refUpdatedListeners = refUpdatedListeners;
     this.fileHistoryWebLinks = fileHistoryWebLinks;
+    this.patchSetWebLinks = patchSetWebLinks;
     this.revisionCreatedListeners = revisionCreatedListeners;
     this.groupBackends = groupBackends;
+    this.accountActivationValidationListeners = accountActivationValidationListeners;
   }
 
   public Registration newRegistration() {
@@ -185,12 +194,21 @@ public class ExtensionRegistry {
       return add(fileHistoryWebLinks, fileHistoryWebLink);
     }
 
+    public Registration add(PatchSetWebLink patchSetWebLink) {
+      return add(patchSetWebLinks, patchSetWebLink);
+    }
+
     public Registration add(RevisionCreatedListener revisionCreatedListener) {
       return add(revisionCreatedListeners, revisionCreatedListener);
     }
 
     public Registration add(GroupBackend groupBackend) {
       return add(groupBackends, groupBackend);
+    }
+
+    public Registration add(
+        AccountActivationValidationListener accountActivationValidationListener) {
+      return add(accountActivationValidationListeners, accountActivationValidationListener);
     }
 
     private <T> Registration add(DynamicSet<T> dynamicSet, T extension) {

@@ -27,7 +27,7 @@ public class ChangeInfo {
   // protected by any ListChangesOption.
   public String id;
   public String project;
-  public String branch;
+  public String branch;;
   public String topic;
   public AccountInfo assignee;
   public Collection<String> hashtags;

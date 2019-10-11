@@ -145,7 +145,7 @@ public abstract class Metadata {
 
   /**
    * Returns a string representation of this instance that is suitable for logging. This is wrapped
-   * in a {@link LazyArg<String>} because it is expensive to evaluate.
+   * in a {@link LazyArg} because it is expensive to evaluate.
    *
    * <p>{@link #toString()} formats the {@link Optional} fields as {@code key=Optional[value]} or
    * {@code key=Optional.empty}. Since this class has many optional fields from which usually only a

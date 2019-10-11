@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e9d5a17e_1522737e",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 22
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-11T13:16:12Z",
+      "side": 1,
+      "message": "move one up so that the three endpoint arrays are next to each other",
+      "range": {
+        "startLine": 188,
+        "startChar": 6,
+        "endLine": 188,
+        "endChar": 25
+      },
+      "revId": "69f25625c6c13bf3e284029546d138777230d9ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6908fe6a_08be15c2",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 22
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-11T13:16:12Z",
+      "side": 1,
+      "message": "I was confused at first about \"item\" and \"stats\", so maybe drop the \"-column\" suffix and rename to\n\n-header\n-content\n-summary (or -footer)\n\nThat would also be consistent with:\nchange-view-tab-header\nchange-view-tab-content",
+      "range": {
+        "startLine": 251,
+        "startChar": 8,
+        "endLine": 259,
+        "endChar": 52
+      },
+      "revId": "69f25625c6c13bf3e284029546d138777230d9ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d8650b50_5459e450",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 22
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-11T13:16:12Z",
+      "side": 1,
+      "message": "Add \"dynamic file-list\".",
+      "range": {
+        "startLine": 263,
+        "startChar": 41,
+        "endLine": 263,
+        "endChar": 44
+      },
+      "revId": "69f25625c6c13bf3e284029546d138777230d9ab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

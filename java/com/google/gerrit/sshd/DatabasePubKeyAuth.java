@@ -19,6 +19,7 @@ import static java.nio.charset.StandardCharsets.ISO_8859_1;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.flogger.FluentLogger;
+import com.google.common.io.BaseEncoding;
 import com.google.gerrit.common.FileUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PeerDaemonUser;
@@ -39,7 +40,6 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
-import org.apache.commons.codec.binary.Base64;
 import org.apache.sshd.common.SshException;
 import org.apache.sshd.common.keyprovider.KeyPairProvider;
 import org.apache.sshd.common.util.buffer.ByteArrayBuffer;
@@ -198,7 +198,8 @@ class DatabasePubKeyAuth implements PublickeyAuthenticator {
           }
 
           try {
-            byte[] bin = Base64.decodeBase64(line.getBytes(ISO_8859_1));
+            byte[] bin =
+                BaseEncoding.base64().decode(new String(line.getBytes(ISO_8859_1), ISO_8859_1));
             keys.add(new ByteArrayBuffer(bin).getRawPublicKey());
           } catch (RuntimeException | SshException e) {
             logBadKey(path, line, e);

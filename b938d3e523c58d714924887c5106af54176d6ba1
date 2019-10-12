@@ -16,6 +16,24 @@
       "revId": "b938d3e523c58d714924887c5106af54176d6ba1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "af4b0d2e_c6bb9a74",
+        "filename": "tools/eclipse/project.py",
+        "patchSetId": 24
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-10-12T22:20:04Z",
+      "side": 1,
+      "message": "source import doesn\u0027t work in Eclipse, the following classpath entries are missing in .project:\n\n\t\u003cclasspathentry excluding\u003d\"org/eclipse/jgit/archive/FormatActivator.java\" kind\u003d\"src\" path\u003d\"modules/jgit/org.eclipse.jgit.archive/src\"/\u003e\n\t\u003cclasspathentry kind\u003d\"src\" path\u003d\"modules/jgit/org.eclipse.jgit/src\"/\u003e\n\t\u003cclasspathentry kind\u003d\"src\" path\u003d\"modules/jgit/org.eclipse.jgit.junit/src\"/\u003e\n\t\u003cclasspathentry kind\u003d\"src\" path\u003d\"modules/jgit/org.eclipse.jgit.http.server/src\"/\u003e\n\nFormatActivator needs to be excluded since it only makes sense when running in OSGi environment",
+      "parentUuid": "47e10a50_b9de1dfe",
+      "revId": "b938d3e523c58d714924887c5106af54176d6ba1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

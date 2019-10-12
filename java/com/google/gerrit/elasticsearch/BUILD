@@ -19,7 +19,6 @@ java_library(
         "//lib:guava",
         "//lib:jgit",
         "//lib:protobuf",
-        "//lib/commons:codec",
         "//lib/commons:lang",
         "//lib/elasticsearch-rest-client",
         "//lib/flogger:api",

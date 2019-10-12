@@ -27,13 +27,13 @@ import java.net.SocketException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.List;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import javax.net.ssl.SSLParameters;
 import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
-import org.apache.commons.codec.binary.Base64;
 
 public class AuthSMTPClient extends SMTPClient {
   private String authTypes;
@@ -134,7 +134,7 @@ public class AuthSMTPClient extends SMTPClient {
     }
 
     final String enc = getReplyStrings()[0].split(" ", 2)[1];
-    final byte[] nonce = Base64.decodeBase64(enc.getBytes(UTF_8));
+    final byte[] nonce = Base64.getDecoder().decode(enc.getBytes(UTF_8));
     final String sec;
     try {
       Mac mac = Mac.getInstance(macName);
@@ -187,6 +187,6 @@ public class AuthSMTPClient extends SMTPClient {
   }
 
   private static String encodeBase64(byte[] data) {
-    return new String(Base64.encodeBase64(data), UTF_8);
+    return new String(Base64.getEncoder().encode(data), UTF_8);
   }
 }

@@ -111,6 +111,47 @@
       "revId": "3465bef0cc992db22cd2edda9f616922b5b7d561",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "749700fb_11773287",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 23
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-10-12T07:43:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "75ff549e_882b11fc",
+      "revId": "3465bef0cc992db22cd2edda9f616922b5b7d561",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fd2aae6a_da1e15fa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 23
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-10-12T07:43:29Z",
+      "side": 1,
+      "message": "Why was this removed?  Is it no longer the case?",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 0
+      },
+      "revId": "3465bef0cc992db22cd2edda9f616922b5b7d561",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

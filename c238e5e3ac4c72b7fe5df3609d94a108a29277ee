@@ -439,6 +439,30 @@
       "revId": "c238e5e3ac4c72b7fe5df3609d94a108a29277ee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b66a7d32_92b77948",
+        "filename": "lib/jgit/jgit.bzl",
+        "patchSetId": 9
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-12T09:02:49Z",
+      "side": 1,
+      "message": "\u003e I\u0027ve also checked, and of course, Eclipse.org doesn\u0027t support Git wire protocol v2 [...]\n\nI just created this issue upstream: [2].\n\n@Matthias can you please talk to Denis Roy from Eclipse.org\u0027s infrastructure team and kindly ask him to enable Git wire protocol v2 on git.eclipse.org?\n\n* [2] https://bugs.eclipse.org/bugs/show_bug.cgi?id\u003d552048",
+      "parentUuid": "6fb65dab_658b0fd7",
+      "range": {
+        "startLine": 24,
+        "startChar": 10,
+        "endLine": 24,
+        "endChar": 62
+      },
+      "revId": "c238e5e3ac4c72b7fe5df3609d94a108a29277ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -32,9 +32,9 @@ http_archive(
 
 http_archive(
     name = "io_bazel_rules_closure",
-    sha256 = "eecd37c0eec79e12652c70f2d2e120623cba64616d759ddcedb19e614df618fa",
-    strip_prefix = "rules_closure-d53c0d7755426349d3c443eea4aeedbda27a11be",
-    urls = ["https://github.com/bazelbuild/rules_closure/archive/d53c0d7755426349d3c443eea4aeedbda27a11be.tar.gz"],
+    sha256 = "0409f8bd2a8b6fd1db289cdc0acb394dafd69f60a86d0169bc6495e648e01587",
+    strip_prefix = "rules_closure-18f8acf24ae0d03a9c3ee872ff91dcfbf383d69e",
+    urls = ["https://github.com/bazelbuild/rules_closure/archive/18f8acf24ae0d03a9c3ee872ff91dcfbf383d69e.tar.gz"],
 )
 
 # File is specific to Polymer and copied from the Closure Github -- should be
@@ -105,6 +105,37 @@ go_repository(
 )
 
 ANTLR_VERS = "3.5.2"
+
+# TODO(davido): Remove this upgrade, when new Bazel version is released
+# that includes java_tools v6.0. FTR, we are doing this to get this change
+# https://github.com/bazelbuild/bazel/pull/9450, to fix this annoying bug:
+# https://github.com/bazelbuild/bazel/issues/8772.
+http_archive(
+    name = "remote_java_tools_linux",
+    sha256 = "37acb8380b1dd6c31fd27a19bf3da821c9b02ee93c6163fce36f070a806516b5",
+    urls = [
+        "https://mirror.bazel.build/bazel_java_tools/releases/javac11/v6.0/java_tools_javac11_linux-v6.0.zip",
+        "https://github.com/bazelbuild/java_tools/releases/download/javac11-v6.0/java_tools_javac11_linux-v6.0.zip",
+    ],
+)
+
+http_archive(
+    name = "remote_java_tools_windows",
+    sha256 = "384e138ca58842ea563fb7efbe0cb9c5c381bd4de1f6a31f0256823325f81ccc",
+    urls = [
+        "https://mirror.bazel.build/bazel_java_tools/releases/javac11/v6.0/java_tools_javac11_windows-v6.0.zip",
+        "https://github.com/bazelbuild/java_tools/releases/download/javac11-v6.0/java_tools_javac11_windows-v6.0.zip",
+    ],
+)
+
+http_archive(
+    name = "remote_java_tools_darwin",
+    sha256 = "5a9f320c33424262e505151dd5c6903e36678a0f0bbdaae67bcf07f41d8c7cf3",
+    urls = [
+        "https://mirror.bazel.build/bazel_java_tools/releases/javac11/v6.0/java_tools_javac11_darwin-v6.0.zip",
+        "https://github.com/bazelbuild/java_tools/releases/download/javac11-v6.0/java_tools_javac11_darwin-v6.0.zip",
+    ],
+)
 
 maven_jar(
     name = "java-runtime",

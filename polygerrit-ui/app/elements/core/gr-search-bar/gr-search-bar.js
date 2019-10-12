@@ -96,7 +96,7 @@
 
   // All of the ops, with corresponding negations.
   const SEARCH_OPERATORS_WITH_NEGATIONS =
-      SEARCH_OPERATORS.concat(SEARCH_OPERATORS.map(op => `-${op}`));
+    SEARCH_OPERATORS.concat(SEARCH_OPERATORS.map(op => `-${op}`));
 
   const MAX_AUTOCOMPLETE_RESULTS = 10;
 
@@ -192,6 +192,12 @@
         target.blur();
       }
       if (this._inputVal) {
+        if (SEARCH_OPERATORS_WITH_NEGATIONS.some(op => {
+          return op.substr(op.length - 1) === ':'
+           && op === this._inputVal.trim();
+        })) {
+          return;
+        }
         this.dispatchEvent(new CustomEvent('handle-search', {
           detail: {inputVal: this._inputVal},
         }));

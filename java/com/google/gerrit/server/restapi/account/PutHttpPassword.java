@@ -15,9 +15,11 @@
 package com.google.gerrit.server.restapi.account;
 
 import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USERNAME;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.base.Strings;
 import com.google.common.flogger.FluentLogger;
+import com.google.common.io.BaseEncoding;
 import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.exceptions.EmailException;
 import com.google.gerrit.extensions.common.HttpPasswordInput;
@@ -43,7 +45,6 @@ import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Optional;
-import org.apache.commons.codec.binary.Base64;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
 public class PutHttpPassword implements RestModifyView<AccountResource, HttpPasswordInput> {
@@ -142,7 +143,7 @@ public class PutHttpPassword implements RestModifyView<AccountResource, HttpPass
     byte[] rand = new byte[LEN];
     rng.nextBytes(rand);
 
-    byte[] enc = Base64.encodeBase64(rand, false);
+    byte[] enc = BaseEncoding.base64().encode(rand).getBytes(UTF_8);
     StringBuilder r = new StringBuilder(enc.length);
     for (int i = 0; i < enc.length; i++) {
       if (enc[i] == '=') {

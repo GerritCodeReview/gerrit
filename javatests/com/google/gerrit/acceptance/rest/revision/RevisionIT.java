@@ -19,13 +19,13 @@ import static com.google.gerrit.acceptance.PushOneCommit.FILE_CONTENT;
 import static com.google.gerrit.acceptance.PushOneCommit.FILE_NAME;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import com.google.common.io.BaseEncoding;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.util.Base64;
 import org.junit.Test;
 
 public class RevisionIT extends AbstractDaemonTest {
@@ -50,7 +50,7 @@ public class RevisionIT extends AbstractDaemonTest {
                 + FILE_NAME
                 + "/content?parent=1");
     response.assertOK();
-    assertThat(new String(Base64.decode(response.getEntityContent()), UTF_8))
+    assertThat(new String(BaseEncoding.base64().decode(response.getEntityContent()), UTF_8))
         .isEqualTo(parentContent);
   }
 

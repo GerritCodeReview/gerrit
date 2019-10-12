@@ -15,7 +15,6 @@ junit_tests(
         "//lib:guava-retrying",
         "//lib:jgit",
         "//lib:jgit-junit",
-        "//lib/commons:codec",
         "//lib/guice",
         "//lib/truth",
         "//lib/truth:truth-java8-extension",

@@ -18,6 +18,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.collect.Ordering;
+import com.google.common.io.BaseEncoding;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.server.restapi.config.ListCaches.CacheInfo;
@@ -26,7 +27,6 @@ import com.google.gson.reflect.TypeToken;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import org.eclipse.jgit.util.Base64;
 import org.junit.Test;
 
 public class ListCachesIT extends AbstractDaemonTest {
@@ -78,7 +78,7 @@ public class ListCachesIT extends AbstractDaemonTest {
   public void listCacheNamesTextList() throws Exception {
     RestResponse r = adminRestSession.get("/config/server/caches/?format=TEXT_LIST");
     r.assertOK();
-    String result = new String(Base64.decode(r.getEntityContent()), UTF_8.name());
+    String result = new String(BaseEncoding.base64().decode(r.getEntityContent()), UTF_8);
     List<String> list = Arrays.asList(result.split("\n"));
     assertThat(list).contains("accounts");
     assertThat(list).contains("projects");

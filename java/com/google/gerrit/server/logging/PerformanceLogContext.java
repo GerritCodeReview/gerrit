@@ -19,6 +19,8 @@ import com.google.common.collect.Iterables;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.registration.Extension;
+import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.inject.Inject;
 import org.eclipse.jgit.lib.Config;
 
 /**
@@ -44,8 +46,13 @@ public class PerformanceLogContext implements AutoCloseable {
   private final boolean oldPerformanceLogging;
   private final ImmutableList<PerformanceLogRecord> oldPerformanceLogRecords;
 
-  public PerformanceLogContext(
-      Config gerritConfig, DynamicSet<PerformanceLogger> performanceLoggers) {
+  public interface Factory {
+    public PerformanceLogContext create();
+  }
+
+  @Inject
+  private PerformanceLogContext(
+      @GerritServerConfig Config gerritConfig, DynamicSet<PerformanceLogger> performanceLoggers) {
     this.performanceLoggers = performanceLoggers;
 
     // Just in case remember the old state and reset performance log entries.

@@ -84,8 +84,11 @@ public class Reviewers implements ChildCollection<ChangeResource, ReviewerResour
     }
 
     // See if the address exists as a reviewer on the change
-    if (address != null && rsrc.getNotes().getReviewersByEmail().all().contains(address)) {
-      return new ReviewerResource(rsrc, address);
+    if (address != null) {
+      String email = address.getEmail();
+      if (rsrc.getNotes().getReviewersByEmail().all().stream().map(a -> a.getEmail()).anyMatch(e -> e.equals(email))) {
+        return new ReviewerResource(rsrc, address);
+      }
     }
 
     throw new ResourceNotFoundException(id);

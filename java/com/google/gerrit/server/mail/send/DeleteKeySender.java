@@ -60,7 +60,7 @@ public class DeleteKeySender extends OutgoingEmail {
   protected void init() throws EmailException {
     super.init();
     setHeader("Subject", String.format("[Gerrit Code Review] %s Keys Deleted", getKeyType()));
-    add(RecipientType.TO, new Address(getEmail()));
+    add(RecipientType.TO, Address.tryParse(getUserNameEmail()));
   }
 
   @Override

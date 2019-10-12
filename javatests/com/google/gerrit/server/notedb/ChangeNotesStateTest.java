@@ -469,15 +469,14 @@ public class ChangeNotesStateTest {
 
   @Test
   public void serializeReviewersByEmailWithNullName() throws Exception {
+    Address expected = new Address("emailonly@example.com");
     ChangeNotesState actual =
         assertRoundTrip(
             newBuilder()
                 .reviewersByEmail(
                     ReviewerByEmailSet.fromTable(
                         ImmutableTable.of(
-                            ReviewerStateInternal.CC,
-                            new Address("emailonly@example.com"),
-                            new Timestamp(1212L))))
+                            ReviewerStateInternal.CC, expected, new Timestamp(1212L))))
                 .build(),
             ChangeNotesStateProto.newBuilder()
                 .setMetaId(SHA_BYTES)
@@ -490,13 +489,10 @@ public class ChangeNotesStateTest {
                         .setTimestamp(1212L))
                 .build());
 
-    // Address doesn't consider the name field in equals, so we have to check it manually.
-    // TODO(dborowitz): Fix Address#equals.
     ImmutableSet<Address> ccs = actual.reviewersByEmail().byState(ReviewerStateInternal.CC);
     assertThat(ccs).hasSize(1);
     Address address = Iterables.getOnlyElement(ccs);
-    assertThat(address.getName()).isNull();
-    assertThat(address.getEmail()).isEqualTo("emailonly@example.com");
+    assertThat(address).isEqualTo(expected);
   }
 
   @Test

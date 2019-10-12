@@ -15,6 +15,7 @@
 package com.google.gerrit.mail;
 
 import com.google.gerrit.common.Nullable;
+import java.util.Objects;
 
 public class Address {
   public static Address parse(String in) {
@@ -73,13 +74,14 @@ public class Address {
 
   @Override
   public int hashCode() {
-    return email.hashCode();
+    return Objects.hash(email, name);
   }
 
   @Override
   public boolean equals(Object other) {
     if (other instanceof Address) {
-      return email.equals(((Address) other).email);
+      Address a = (Address) other;
+      return Objects.equals(a.email, email) && Objects.equals(a.name, name);
     }
     return false;
   }

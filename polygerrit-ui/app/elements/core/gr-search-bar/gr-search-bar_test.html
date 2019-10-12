@@ -38,6 +38,7 @@ limitations under the License.
 </test-fixture>
 
 <script>
+
   suite('gr-search-bar tests', () => {
     const kb = window.Gerrit.KeyboardShortcutBinder;
     kb.bindShortcut(kb.Shortcut.SEARCH, '/');
@@ -91,6 +92,24 @@ limitations under the License.
       MockInteractions.pressAndReleaseKeyOn(element.$.searchInput.$.input, 13,
           null, 'enter');
       assert.isFalse(searchSpy.called);
+    });
+
+    test('empty predicate query does not trigger nav', () => {
+      const searchSpy = sandbox.spy();
+      element.addEventListener('handle-search', searchSpy);
+      element.value = 'added:';
+      MockInteractions.pressAndReleaseKeyOn(element.$.searchInput.$.input, 13,
+          null, 'enter');
+      assert.isFalse(searchSpy.called);
+    });
+
+    test('predicate query does triggers nav', () => {
+      const searchSpy = sandbox.spy();
+      element.addEventListener('handle-search', searchSpy);
+      element.value = 'age:1week';
+      MockInteractions.pressAndReleaseKeyOn(element.$.searchInput.$.input, 13,
+          null, 'enter');
+      assert.isTrue(searchSpy.called);
     });
 
     test('keyboard shortcuts', () => {

@@ -22,6 +22,30 @@
       "revId": "efc62accfd11d1db3f19e5bd813a778d19a4ad54",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "58c00ed6_29d24244",
+        "filename": "java/com/google/gerrit/server/logging/PerformanceLogContext.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-12T07:21:11Z",
+      "side": 1,
+      "message": "That\u0027s strange, I don\u0027t see in Bazel where the visibility is restricted.",
+      "parentUuid": "2a031dd5_0029b22a",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 58
+      },
+      "revId": "efc62accfd11d1db3f19e5bd813a778d19a4ad54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

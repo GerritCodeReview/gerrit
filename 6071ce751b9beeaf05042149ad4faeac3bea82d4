@@ -16,6 +16,24 @@
       "revId": "6071ce751b9beeaf05042149ad4faeac3bea82d4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c5773267_6bbdc1cd",
+        "filename": "rules.pl",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-10-12T14:56:52Z",
+      "side": 1,
+      "message": "We already require it for jgit upgrades, so this is to be consistent.\n\nMaybe it\u0027s not needed. Let\u0027s see what the Googlers say.",
+      "parentUuid": "7ae90c64_8bd453ec",
+      "revId": "6071ce751b9beeaf05042149ad4faeac3bea82d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

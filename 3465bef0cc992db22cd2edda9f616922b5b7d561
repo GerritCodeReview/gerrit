@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "7c979996_8e018e51",
+        "filename": ".gitmodules",
+        "patchSetId": 23
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-12T07:27:09Z",
+      "side": 1,
+      "message": "A can be seen from the previous change, there is a big disadvantage to try to re-use the existing directory.: It must be removed fist.\n\nAnother problem it is painful to switch to stable branches. So, as Pointed out by David Pursehouse, we could try to find another name for the jgit submodule, even though also the first attempt used lib/jgit and that why I picked the same name. So the alternatives are (in order of my preference):\n\n* modules/jgit\n* third-party/jgit\n* lib/eclipse/jgit\n\nEspecially if we would add further transitive dependencies as modules, they can naturally be places in modules, to differentiate between other lib that are consumed from Maven Central.\n\nWDYT?",
+      "range": {
+        "startLine": 1,
+        "startChar": 12,
+        "endLine": 1,
+        "endChar": 20
+      },
+      "revId": "3465bef0cc992db22cd2edda9f616922b5b7d561",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "75ff549e_882b11fc",
         "filename": "/COMMIT_MSG",
         "patchSetId": 23

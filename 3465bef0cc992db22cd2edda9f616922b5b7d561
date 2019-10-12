@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "e5d3fba0_55c53cdd",
+        "filename": ".gitmodules",
+        "patchSetId": 23
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-10-12T07:29:10Z",
+      "side": 1,
+      "message": "I\u0027d go for third-party/jgit consistent with for example the bazel tree.  (although they use underscore instead of hyphen, i.e. \u0027third_party\u0027)",
+      "parentUuid": "7c979996_8e018e51",
+      "range": {
+        "startLine": 1,
+        "startChar": 12,
+        "endLine": 1,
+        "endChar": 20
+      },
+      "revId": "3465bef0cc992db22cd2edda9f616922b5b7d561",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "75ff549e_882b11fc",
         "filename": "/COMMIT_MSG",
         "patchSetId": 23

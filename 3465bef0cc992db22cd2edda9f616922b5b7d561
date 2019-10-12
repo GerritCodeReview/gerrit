@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "e1023d55_95b0bfed",
+        "filename": ".gitmodules",
+        "patchSetId": 23
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-12T07:35:24Z",
+      "side": 1,
+      "message": "\u003e I\u0027d go for third-party/jgit consistent with for example the bazel tree.  (although they use underscore instead of hyphen, i.e. \u0027third_party\u0027)\n\nI don\u0027t like third_party in combination with lib in gerrit . Note, that Bazel source tree does *not* have lib. We do.\n\nIf you have dozen deps under lib/ tree and another couple of deps under third_party/ tree, where should you add a new deps? The only way, to be clean is to migrate all lib in gerrit to third_party, and that is too inavsive change.\n\nwith modules/jgit it is clear signal, that under modules we only find git submodules dependencies and all other deps go into lib/ tree.",
+      "parentUuid": "e5d3fba0_55c53cdd",
+      "range": {
+        "startLine": 1,
+        "startChar": 12,
+        "endLine": 1,
+        "endChar": 20
+      },
+      "revId": "3465bef0cc992db22cd2edda9f616922b5b7d561",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "75ff549e_882b11fc",
         "filename": "/COMMIT_MSG",
         "patchSetId": 23

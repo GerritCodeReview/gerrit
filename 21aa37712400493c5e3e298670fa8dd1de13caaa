@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "46a603a0_70b6d8e1",
+        "filename": "Documentation/licenses.txt",
+        "patchSetId": 25
+      },
+      "lineNbr": 2445,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-10-12T22:20:04Z",
+      "side": 1,
+      "message": "jgit-junit is not listed here ?",
+      "revId": "21aa37712400493c5e3e298670fa8dd1de13caaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3c07b98c_e3d9b53c",
+        "filename": "WORKSPACE",
+        "patchSetId": 25
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-10-12T22:20:04Z",
+      "side": 1,
+      "message": "jgit is using 0.1.55",
+      "range": {
+        "startLine": 252,
+        "startChar": 32,
+        "endLine": 252,
+        "endChar": 38
+      },
+      "revId": "21aa37712400493c5e3e298670fa8dd1de13caaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4f70af2d_e6ca9bc5",
+        "filename": "plugins/BUILD",
+        "patchSetId": 25
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-10-12T22:20:04Z",
+      "side": 1,
+      "message": "this looks a bit odd, jgit is included from a submodule but it\u0027s not a plugin, should this be moved to modules/BUILD ?",
+      "revId": "21aa37712400493c5e3e298670fa8dd1de13caaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "7034465f_a7d7ed0c",
+        "filename": ".gitmodules",
+        "patchSetId": 23
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-12T08:54:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6481c987_b290f1ff",
+      "range": {
+        "startLine": 1,
+        "startChar": 12,
+        "endLine": 1,
+        "endChar": 20
+      },
+      "revId": "3465bef0cc992db22cd2edda9f616922b5b7d561",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "75ff549e_882b11fc",
         "filename": "/COMMIT_MSG",
         "patchSetId": 23

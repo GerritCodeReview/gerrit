@@ -42,8 +42,8 @@ import com.google.inject.Provider;
 import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
+import java.util.Base64;
 import java.util.Optional;
-import org.apache.commons.codec.binary.Base64;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
 public class PutHttpPassword implements RestModifyView<AccountResource, HttpPasswordInput> {
@@ -142,7 +142,7 @@ public class PutHttpPassword implements RestModifyView<AccountResource, HttpPass
     byte[] rand = new byte[LEN];
     rng.nextBytes(rand);
 
-    byte[] enc = Base64.encodeBase64(rand, false);
+    byte[] enc = Base64.getEncoder().encode(rand);
     StringBuilder r = new StringBuilder(enc.length);
     for (int i = 0; i < enc.length; i++) {
       if (enc[i] == '=') {

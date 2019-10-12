@@ -71,7 +71,6 @@ junit_tests(
         "//lib:protobuf",
         "//lib/auto:auto-value",
         "//lib/auto:auto-value-annotations",
-        "//lib/commons:codec",
         "//lib/flogger:api",
         "//lib/guice",
         "//lib/jgit/org.eclipse.jgit:jgit",

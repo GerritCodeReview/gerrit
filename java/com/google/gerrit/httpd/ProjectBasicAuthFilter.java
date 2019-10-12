@@ -20,6 +20,7 @@ import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.common.flogger.FluentLogger;
+import com.google.common.io.BaseEncoding;
 import com.google.gerrit.extensions.client.GitBasicAuthPolicy;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.reviewdb.client.Account;
@@ -48,7 +49,6 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
-import org.apache.commons.codec.binary.Base64;
 
 /**
  * Authenticates the current user by HTTP basic authentication.
@@ -110,7 +110,7 @@ class ProjectBasicAuthFilter implements Filter {
       return true;
     }
 
-    final byte[] decoded = Base64.decodeBase64(hdr.substring(LIT_BASIC.length()));
+    final byte[] decoded = BaseEncoding.base64().decode(hdr.substring(LIT_BASIC.length()));
     String usernamePassword = new String(decoded, encoding(req));
     int splitPos = usernamePassword.indexOf(':');
     if (splitPos < 1) {

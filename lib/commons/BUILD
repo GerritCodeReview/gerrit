@@ -5,6 +5,7 @@ package(default_visibility = ["//visibility:public"])
 java_library(
     name = "codec",
     data = ["//lib:LICENSE-Apache2.0"],
+    visibility = ["//lib/httpcomponents:__pkg__"],
     exports = ["@commons-codec//jar"],
 )
 

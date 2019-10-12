@@ -18,10 +18,10 @@ import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.util.Arrays;
+import java.util.Base64;
 import javax.crypto.Mac;
 import javax.crypto.ShortBufferException;
 import javax.crypto.spec.SecretKeySpec;
-import org.apache.commons.codec.binary.Base64;
 
 /**
  * Utility function to compute and verify XSRF tokens.
@@ -164,11 +164,11 @@ public class SignedToken {
   }
 
   private static byte[] decodeBase64(final String s) {
-    return Base64.decodeBase64(toBytes(s));
+    return Base64.getDecoder().decode(toBytes(s));
   }
 
   private static String encodeBase64(final byte[] buf) {
-    return toString(Base64.encodeBase64(buf));
+    return toString(Base64.getEncoder().encode(buf));
   }
 
   private static void encodeInt(final byte[] buf, final int o, final int v) {

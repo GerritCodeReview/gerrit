@@ -16,6 +16,7 @@ package com.google.gerrit.server.mail.send;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import com.google.common.io.BaseEncoding;
 import com.google.gerrit.common.data.ParameterizedString;
 import com.google.gerrit.mail.Address;
 import com.google.gerrit.reviewdb.client.Account;
@@ -32,7 +33,6 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Optional;
 import java.util.regex.Pattern;
-import org.apache.commons.codec.binary.Base64;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.PersonIdent;
 
@@ -232,7 +232,7 @@ public class FromAddressGeneratorProvider implements Provider<FromAddressGenerat
     try {
       MessageDigest hash = MessageDigest.getInstance("MD5");
       byte[] bytes = hash.digest(data.getBytes(UTF_8));
-      return Base64.encodeBase64URLSafeString(bytes);
+      return BaseEncoding.base64Url().encode(bytes);
     } catch (NoSuchAlgorithmException e) {
       throw new RuntimeException("No MD5 available", e);
     }

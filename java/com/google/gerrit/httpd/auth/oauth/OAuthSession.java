@@ -19,6 +19,7 @@ import static javax.servlet.http.HttpServletResponse.SC_UNAUTHORIZED;
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Strings;
 import com.google.common.flogger.FluentLogger;
+import com.google.common.io.BaseEncoding;
 import com.google.gerrit.extensions.auth.oauth.OAuthServiceProvider;
 import com.google.gerrit.extensions.auth.oauth.OAuthToken;
 import com.google.gerrit.extensions.auth.oauth.OAuthUserInfo;
@@ -45,7 +46,6 @@ import java.util.Optional;
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.apache.commons.codec.binary.Base64;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @SessionScoped
@@ -244,7 +244,7 @@ class OAuthSession {
   private static String generateRandomState() {
     byte[] state = new byte[32];
     randomState.nextBytes(state);
-    return Base64.encodeBase64URLSafeString(state);
+    return BaseEncoding.base64Url().encode(state);
   }
 
   @Override

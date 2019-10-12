@@ -28,7 +28,7 @@ import java.security.PublicKey;
 import java.security.interfaces.DSAPublicKey;
 import java.security.interfaces.RSAPublicKey;
 import java.security.spec.InvalidKeySpecException;
-import org.apache.commons.codec.binary.Base64;
+import java.util.Base64;
 import org.apache.sshd.common.SshException;
 import org.apache.sshd.common.keyprovider.KeyPairProvider;
 import org.apache.sshd.common.util.buffer.ByteArrayBuffer;
@@ -53,7 +53,7 @@ public class SshUtil {
       if (s == null) {
         throw new InvalidKeySpecException("No key string");
       }
-      final byte[] bin = Base64.decodeBase64(Constants.encodeASCII(s));
+      final byte[] bin = Base64.getDecoder().decode(Constants.encodeASCII(s));
       return new ByteArrayBuffer(bin).getRawPublicKey();
     } catch (RuntimeException | SshException e) {
       throw new InvalidKeySpecException("Cannot parse key", e);
@@ -91,7 +91,7 @@ public class SshUtil {
       }
 
       final PublicKey key =
-          new ByteArrayBuffer(Base64.decodeBase64(Constants.encodeASCII(strBuf.toString())))
+          new ByteArrayBuffer(Base64.getDecoder().decode(Constants.encodeASCII(strBuf.toString())))
               .getRawPublicKey();
       if (key instanceof RSAPublicKey) {
         strBuf.insert(0, KeyPairProvider.SSH_RSA + " ");

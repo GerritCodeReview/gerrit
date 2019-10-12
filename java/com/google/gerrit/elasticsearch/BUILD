@@ -18,7 +18,6 @@ java_library(
         "//lib:gson",
         "//lib:guava",
         "//lib:protobuf",
-        "//lib/commons:codec",
         "//lib/commons:lang",
         "//lib/elasticsearch-rest-client",
         "//lib/flogger:api",

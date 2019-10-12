@@ -22,6 +22,7 @@ import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.common.collect.Iterables;
 import com.google.common.flogger.FluentLogger;
+import com.google.common.io.BaseEncoding;
 import com.google.gerrit.extensions.auth.oauth.OAuthLoginProvider;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.registration.DynamicMap;
@@ -53,7 +54,6 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
-import org.apache.commons.codec.binary.Base64;
 import org.eclipse.jgit.lib.Config;
 
 /**
@@ -225,7 +225,7 @@ class ProjectOAuthFilter implements Filter {
 
   private AuthInfo extractAuthInfo(String hdr, String encoding)
       throws UnsupportedEncodingException {
-    byte[] decoded = Base64.decodeBase64(hdr.substring(BASIC.length()));
+    byte[] decoded = BaseEncoding.base64().decode(hdr.substring(BASIC.length()));
     String usernamePassword = new String(decoded, encoding);
     int splitPos = usernamePassword.indexOf(':');
     if (splitPos < 1 || splitPos == usernamePassword.length() - 1) {

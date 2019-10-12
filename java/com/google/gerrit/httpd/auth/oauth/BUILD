@@ -15,7 +15,6 @@ java_library(
         "//lib:gson",
         "//lib:guava",
         "//lib:servlet-api",
-        "//lib/commons:codec",
         "//lib/flogger:api",
         "//lib/guice",
         "//lib/guice:guice-servlet",

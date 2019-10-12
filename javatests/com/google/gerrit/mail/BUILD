@@ -13,7 +13,6 @@ junit_tests(
         "//java/com/google/gerrit/testing:gerrit-test-util",
         "//lib:gson",
         "//lib:guava-retrying",
-        "//lib/commons:codec",
         "//lib/guice",
         "//lib/jgit/org.eclipse.jgit:jgit",
         "//lib/jgit/org.eclipse.jgit.junit:junit",

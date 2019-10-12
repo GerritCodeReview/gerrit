@@ -152,6 +152,30 @@
       "revId": "3465bef0cc992db22cd2edda9f616922b5b7d561",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "23d5671a_90f2e149",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 23
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-12T07:58:15Z",
+      "side": 1,
+      "message": "It was fixed in ps 23.",
+      "parentUuid": "fd2aae6a_da1e15fa",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 0
+      },
+      "revId": "3465bef0cc992db22cd2edda9f616922b5b7d561",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

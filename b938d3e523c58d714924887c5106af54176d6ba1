@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "47e10a50_b9de1dfe",
+        "filename": "tools/eclipse/project.py",
+        "patchSetId": 24
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-12T07:58:15Z",
+      "side": 1,
+      "message": "This is the JGit source detection. I haven\u0027t tested it though.\n\nAlso not, what that change is currently doing, is pointing the JGit jars built by bazel to the in-tree location, so for example for main libjgit.jar to:\n\n  /gerrit/lib/jgit/org.eclipse.jgit/src\n\nA different approach, that is out of scope for that change, is to (optionally?) generate two Eclipse root projects:\n\n* gerrit\n* jgit\n\nand add a Eclipse project dependency from gerrit project to eclipse project.",
+      "revId": "b938d3e523c58d714924887c5106af54176d6ba1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

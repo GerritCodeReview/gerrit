@@ -68,7 +68,6 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -476,7 +475,7 @@ public class EventFactory {
         p.parents.add(parent.name());
       }
 
-      UserIdentity author = toUserIdentity(c.getAuthorIdent());
+      UserIdentity author = emails.toUserIdentity(c.getAuthorIdent());
       if (author.getAccount() == null) {
         p.author = new AccountAttribute();
         p.author.email = author.getEmail();
@@ -502,26 +501,6 @@ public class EventFactory {
       logger.atSevere().withCause(e).log("Cannot get size information for %s.", pId);
     }
     return p;
-  }
-
-  // TODO: The same method exists in PatchSetInfoFactory, find a common place
-  // for it
-  private UserIdentity toUserIdentity(PersonIdent who) throws IOException {
-    UserIdentity u = new UserIdentity();
-    u.setName(who.getName());
-    u.setEmail(who.getEmailAddress());
-    u.setDate(new Timestamp(who.getWhen().getTime()));
-    u.setTimeZone(who.getTimeZoneOffset());
-
-    // If only one account has access to this email address, select it
-    // as the identity of the user.
-    //
-    Set<Account.Id> a = emails.getAccountFor(u.getEmail());
-    if (a.size() == 1) {
-      u.setAccount(a.iterator().next());
-    }
-
-    return u;
   }
 
   public void addApprovals(

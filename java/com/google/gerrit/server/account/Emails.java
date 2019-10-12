@@ -24,6 +24,7 @@ import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.SetMultimap;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.reviewdb.client.UserIdentity;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.query.account.InternalAccountQuery;
@@ -34,8 +35,11 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
+import org.eclipse.jgit.lib.PersonIdent;
 
 /** Class to access accounts by email. */
 @Singleton
@@ -115,6 +119,24 @@ public class Emails {
    */
   public ImmutableSet<Account.Id> getAccountForExternal(String email) throws IOException {
     return externalIds.byEmail(email).stream().map(ExternalId::accountId).collect(toImmutableSet());
+  }
+
+  public UserIdentity toUserIdentity(PersonIdent who) throws IOException {
+    final UserIdentity u = new UserIdentity();
+    u.setName(who.getName());
+    u.setEmail(who.getEmailAddress());
+    u.setDate(new Timestamp(who.getWhen().getTime()));
+    u.setTimeZone(who.getTimeZoneOffset());
+
+    // If only one account has access to this email address, select it
+    // as the identity of the user.
+    //
+    Set<Account.Id> a = getAccountFor(u.getEmail());
+    if (a.size() == 1) {
+      u.setAccount(a.iterator().next());
+    }
+
+    return u;
   }
 
   private <T> T executeIndexQuery(Action<T> action) {

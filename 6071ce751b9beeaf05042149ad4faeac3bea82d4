@@ -34,6 +34,24 @@
       "revId": "6071ce751b9beeaf05042149ad4faeac3bea82d4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "26c6126c_0268a806",
+        "filename": "rules.pl",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-10-12T18:47:13Z",
+      "side": 1,
+      "message": "I don\u0027t see a reason why a commit merged in JGit would be rejected because of library compliance in Gerrit. However, I agree with you, let\u0027s see what Googlers will say",
+      "parentUuid": "c5773267_6bbdc1cd",
+      "revId": "6071ce751b9beeaf05042149ad4faeac3bea82d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

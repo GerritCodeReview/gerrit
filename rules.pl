@@ -40,5 +40,4 @@ base(CR, CS, V) :-
   gerrit:max_with_block(-1, 1, 'Verified', V).
 
 needs_library_compliance :- gerrit:commit_delta('^lib/'), !.
-needs_library_compliance :- gerrit:commit_delta('^[.]buckversion$'), !.
 needs_library_compliance :- gerrit:commit_delta('^WORKSPACE$'), !.

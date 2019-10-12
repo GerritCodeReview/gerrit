@@ -14,13 +14,11 @@
 
 package com.google.gerrit.sshd;
 
-import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.server.AccessPath;
+import com.google.gerrit.server.PerformanceLogContextProvider;
 import com.google.gerrit.server.RequestInfo;
 import com.google.gerrit.server.RequestListener;
-import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.logging.PerformanceLogContext;
-import com.google.gerrit.server.logging.PerformanceLogger;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.inject.Inject;
@@ -28,13 +26,11 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import org.apache.sshd.server.Environment;
 import org.apache.sshd.server.channel.ChannelSession;
-import org.eclipse.jgit.lib.Config;
 import org.kohsuke.args4j.Option;
 
 public abstract class SshCommand extends BaseCommand {
-  @Inject private DynamicSet<PerformanceLogger> performanceLoggers;
+  @Inject private PerformanceLogContextProvider performanceLogContextProvider;
   @Inject private PluginSetContext<RequestListener> requestListeners;
-  @Inject @GerritServerConfig private Config config;
 
   @Option(name = "--trace", usage = "enable request tracing")
   private boolean trace;
@@ -53,8 +49,7 @@ public abstract class SshCommand extends BaseCommand {
           stdout = toPrintWriter(out);
           stderr = toPrintWriter(err);
           try (TraceContext traceContext = enableTracing();
-              PerformanceLogContext performanceLogContext =
-                  new PerformanceLogContext(config, performanceLoggers)) {
+              PerformanceLogContext performanceLogContext = performanceLogContextProvider.get()) {
             RequestInfo requestInfo =
                 RequestInfo.builder(RequestInfo.RequestType.SSH, user, traceContext).build();
             requestListeners.runEach(l -> l.onRequest(requestInfo));

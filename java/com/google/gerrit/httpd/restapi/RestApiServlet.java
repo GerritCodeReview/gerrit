@@ -66,7 +66,6 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.RawInputUtil;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.registration.DynamicMap;
-import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.registration.PluginName;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -104,6 +103,7 @@ import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.OptionUtil;
+import com.google.gerrit.server.PerformanceLogContextProvider;
 import com.google.gerrit.server.RequestInfo;
 import com.google.gerrit.server.RequestListener;
 import com.google.gerrit.server.audit.ExtendedHttpAuditEvent;
@@ -112,7 +112,6 @@ import com.google.gerrit.server.change.ChangeFinder;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.group.GroupAuditService;
 import com.google.gerrit.server.logging.PerformanceLogContext;
-import com.google.gerrit.server.logging.PerformanceLogger;
 import com.google.gerrit.server.logging.RequestId;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -238,9 +237,8 @@ public class RestApiServlet extends HttpServlet {
     final RestApiMetrics metrics;
     final Pattern allowOrigin;
     final RestApiQuotaEnforcer quotaChecker;
-    final Config config;
-    final DynamicSet<PerformanceLogger> performanceLoggers;
     final ChangeFinder changeFinder;
+    final PerformanceLogContextProvider performanceLogContextProvider;
 
     @Inject
     Globals(
@@ -253,8 +251,8 @@ public class RestApiServlet extends HttpServlet {
         RestApiMetrics metrics,
         RestApiQuotaEnforcer quotaChecker,
         @GerritServerConfig Config config,
-        DynamicSet<PerformanceLogger> performanceLoggers,
-        ChangeFinder changeFinder) {
+        ChangeFinder changeFinder,
+        PerformanceLogContextProvider performanceLogContextProvider) {
       this.currentUser = currentUser;
       this.webSession = webSession;
       this.paramParser = paramParser;
@@ -263,9 +261,8 @@ public class RestApiServlet extends HttpServlet {
       this.auditService = auditService;
       this.metrics = metrics;
       this.quotaChecker = quotaChecker;
-      this.config = config;
-      this.performanceLoggers = performanceLoggers;
       this.changeFinder = changeFinder;
+      this.performanceLogContextProvider = performanceLogContextProvider;
       allowOrigin = makeAllowOrigin(config);
     }
 
@@ -325,7 +322,7 @@ public class RestApiServlet extends HttpServlet {
         // test performance logging from an acceptance test (see
         // TraceIT#performanceLoggingForRestCall()).
         try (PerformanceLogContext performanceLogContext =
-            new PerformanceLogContext(globals.config, globals.performanceLoggers)) {
+            globals.performanceLogContextProvider.get()) {
           logger.atFinest().log(
               "Received REST request: %s %s (parameters: %s)",
               req.getMethod(), req.getRequestURI(), getParameterNames(req));

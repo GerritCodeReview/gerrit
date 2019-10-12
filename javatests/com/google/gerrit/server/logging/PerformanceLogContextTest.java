@@ -18,8 +18,8 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
-import com.google.gerrit.extensions.registration.DynamicSet;
-import com.google.gerrit.extensions.registration.RegistrationHandle;
+import com.google.gerrit.acceptance.ExtensionRegistry;
+import com.google.gerrit.acceptance.ExtensionRegistry.Registration;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.Field;
 import com.google.gerrit.metrics.MetricMaker;
@@ -27,44 +27,28 @@ import com.google.gerrit.metrics.Timer0;
 import com.google.gerrit.metrics.Timer1;
 import com.google.gerrit.metrics.Timer2;
 import com.google.gerrit.metrics.Timer3;
-import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.PerformanceLogContextProvider;
 import com.google.gerrit.testing.InMemoryModule;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import java.util.ArrayList;
 import java.util.List;
-import org.eclipse.jgit.lib.Config;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 public class PerformanceLogContextTest {
-  @Inject @GerritServerConfig private Config config;
-  @Inject private DynamicSet<PerformanceLogger> performanceLoggers;
+  @Inject private PerformanceLogContextProvider performanceLogContextProvider;
+  @Inject private ExtensionRegistry extensionRegistry;
 
   // In this test setup this gets the DisabledMetricMaker injected. This means it doesn't record any
   // metric, but performance log records are still created.
   @Inject private MetricMaker metricMaker;
 
-  private TestPerformanceLogger testPerformanceLogger;
-  private RegistrationHandle performanceLoggerRegistrationHandle;
-
   @Before
   public void setup() {
     Injector injector = Guice.createInjector(new InMemoryModule());
     injector.injectMembers(this);
-
-    testPerformanceLogger = new TestPerformanceLogger();
-    performanceLoggerRegistrationHandle = performanceLoggers.add("gerrit", testPerformanceLogger);
-  }
-
-  @After
-  public void cleanup() {
-    performanceLoggerRegistrationHandle.remove();
-
-    LoggingContext.getInstance().clearPerformanceLogEntries();
-    LoggingContext.getInstance().performanceLogging(false);
   }
 
   @Test
@@ -72,8 +56,10 @@ public class PerformanceLogContextTest {
     assertThat(LoggingContext.getInstance().isPerformanceLogging()).isFalse();
     assertThat(LoggingContext.getInstance().getPerformanceLogRecords()).isEmpty();
 
-    try (PerformanceLogContext traceContext =
-        new PerformanceLogContext(config, performanceLoggers)) {
+    TestPerformanceLogger testPerformanceLogger = new TestPerformanceLogger();
+    try (Registration registration =
+            extensionRegistry.newRegistration().add(testPerformanceLogger);
+        PerformanceLogContext traceContext = performanceLogContextProvider.get()) {
       assertThat(LoggingContext.getInstance().isPerformanceLogging()).isTrue();
 
       TraceContext.newTimer("test1").close();
@@ -96,29 +82,32 @@ public class PerformanceLogContextTest {
 
   @Test
   public void traceTimersOutsidePerformanceLogContextDoNotCreatePerformanceLog() {
-    assertThat(LoggingContext.getInstance().isPerformanceLogging()).isFalse();
-    assertThat(LoggingContext.getInstance().getPerformanceLogRecords()).isEmpty();
+    TestPerformanceLogger testPerformanceLogger = new TestPerformanceLogger();
+    try (Registration registration =
+        extensionRegistry.newRegistration().add(testPerformanceLogger)) {
+      assertThat(LoggingContext.getInstance().isPerformanceLogging()).isFalse();
+      assertThat(LoggingContext.getInstance().getPerformanceLogRecords()).isEmpty();
 
-    TraceContext.newTimer("test1").close();
-    TraceContext.newTimer("test2", Metadata.builder().accountId(1000000).changeId(123).build())
-        .close();
+      TraceContext.newTimer("test1").close();
+      TraceContext.newTimer("test2", Metadata.builder().accountId(1000000).changeId(123).build())
+          .close();
 
-    assertThat(LoggingContext.getInstance().isPerformanceLogging()).isFalse();
-    assertThat(LoggingContext.getInstance().getPerformanceLogRecords()).isEmpty();
-    assertThat(testPerformanceLogger.logEntries()).isEmpty();
+      assertThat(LoggingContext.getInstance().isPerformanceLogging()).isFalse();
+      assertThat(LoggingContext.getInstance().getPerformanceLogRecords()).isEmpty();
+      assertThat(testPerformanceLogger.logEntries()).isEmpty();
+    }
   }
 
   @Test
   public void
       traceTimersInsidePerformanceLogContextDoNotCreatePerformanceLogIfNoPerformanceLoggers() {
-    // Remove test performance logger so that there are no registered performance loggers.
-    performanceLoggerRegistrationHandle.remove();
+    // Create but don't register a performance logger.
+    TestPerformanceLogger testPerformanceLogger = new TestPerformanceLogger();
 
     assertThat(LoggingContext.getInstance().isPerformanceLogging()).isFalse();
     assertThat(LoggingContext.getInstance().getPerformanceLogRecords()).isEmpty();
 
-    try (PerformanceLogContext traceContext =
-        new PerformanceLogContext(config, performanceLoggers)) {
+    try (PerformanceLogContext traceContext = performanceLogContextProvider.get()) {
       assertThat(LoggingContext.getInstance().isPerformanceLogging()).isFalse();
 
       TraceContext.newTimer("test1").close();
@@ -138,9 +127,10 @@ public class PerformanceLogContextTest {
   public void timerMetricsInsidePerformanceLogContextCreatePerformanceLog() {
     assertThat(LoggingContext.getInstance().isPerformanceLogging()).isFalse();
     assertThat(LoggingContext.getInstance().getPerformanceLogRecords()).isEmpty();
-
-    try (PerformanceLogContext traceContext =
-        new PerformanceLogContext(config, performanceLoggers)) {
+    TestPerformanceLogger testPerformanceLogger = new TestPerformanceLogger();
+    try (Registration registration =
+            extensionRegistry.newRegistration().add(testPerformanceLogger);
+        PerformanceLogContext traceContext = performanceLogContextProvider.get()) {
       assertThat(LoggingContext.getInstance().isPerformanceLogging()).isTrue();
 
       Timer0 timer0 =
@@ -195,8 +185,10 @@ public class PerformanceLogContextTest {
     assertThat(LoggingContext.getInstance().isPerformanceLogging()).isFalse();
     assertThat(LoggingContext.getInstance().getPerformanceLogRecords()).isEmpty();
 
-    try (PerformanceLogContext traceContext =
-        new PerformanceLogContext(config, performanceLoggers)) {
+    TestPerformanceLogger testPerformanceLogger = new TestPerformanceLogger();
+    try (Registration registration =
+            extensionRegistry.newRegistration().add(testPerformanceLogger);
+        PerformanceLogContext traceContext = performanceLogContextProvider.get()) {
       assertThat(LoggingContext.getInstance().isPerformanceLogging()).isTrue();
 
       Timer1<String> timer1 =
@@ -239,6 +231,8 @@ public class PerformanceLogContextTest {
 
   @Test
   public void timerMetricsOutsidePerformanceLogContextDoNotCreatePerformanceLog() {
+    TestPerformanceLogger testPerformanceLogger = new TestPerformanceLogger();
+
     assertThat(LoggingContext.getInstance().isPerformanceLogging()).isFalse();
     assertThat(LoggingContext.getInstance().getPerformanceLogRecords()).isEmpty();
 
@@ -277,15 +271,14 @@ public class PerformanceLogContextTest {
 
   @Test
   public void
-      timerMetricssInsidePerformanceLogContextDoNotCreatePerformanceLogIfNoPerformanceLoggers() {
-    // Remove test performance logger so that there are no registered performance loggers.
-    performanceLoggerRegistrationHandle.remove();
+      timerMetricsInsidePerformanceLogContextDoNotCreatePerformanceLogIfNoPerformanceLoggers() {
+    // Create but don't register a performance logger.
+    TestPerformanceLogger testPerformanceLogger = new TestPerformanceLogger();
 
     assertThat(LoggingContext.getInstance().isPerformanceLogging()).isFalse();
     assertThat(LoggingContext.getInstance().getPerformanceLogRecords()).isEmpty();
 
-    try (PerformanceLogContext traceContext =
-        new PerformanceLogContext(config, performanceLoggers)) {
+    try (PerformanceLogContext traceContext = performanceLogContextProvider.get()) {
       assertThat(LoggingContext.getInstance().isPerformanceLogging()).isFalse();
 
       Timer0 timer0 =
@@ -330,16 +323,17 @@ public class PerformanceLogContextTest {
     assertThat(LoggingContext.getInstance().isPerformanceLogging()).isFalse();
     assertThat(LoggingContext.getInstance().getPerformanceLogRecords()).isEmpty();
 
-    try (PerformanceLogContext traceContext1 =
-        new PerformanceLogContext(config, performanceLoggers)) {
+    TestPerformanceLogger testPerformanceLogger = new TestPerformanceLogger();
+    try (Registration registration =
+            extensionRegistry.newRegistration().add(testPerformanceLogger);
+        PerformanceLogContext traceContext1 = performanceLogContextProvider.get()) {
       assertThat(LoggingContext.getInstance().isPerformanceLogging()).isTrue();
 
       TraceContext.newTimer("test1").close();
 
       assertThat(LoggingContext.getInstance().getPerformanceLogRecords()).hasSize(1);
 
-      try (PerformanceLogContext traceContext2 =
-          new PerformanceLogContext(config, performanceLoggers)) {
+      try (PerformanceLogContext traceContext2 = performanceLogContextProvider.get()) {
         assertThat(LoggingContext.getInstance().getPerformanceLogRecords()).isEmpty();
         assertThat(LoggingContext.getInstance().isPerformanceLogging()).isTrue();
 

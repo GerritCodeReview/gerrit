@@ -75,7 +75,6 @@ import com.google.gerrit.extensions.api.projects.ProjectConfigEntryType;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.registration.DynamicMap;
-import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.registration.Extension;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -101,6 +100,7 @@ import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.CreateGroupPermissionSyncer;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
+import com.google.gerrit.server.PerformanceLogContextProvider;
 import com.google.gerrit.server.PublishCommentUtil;
 import com.google.gerrit.server.RequestInfo;
 import com.google.gerrit.server.RequestListener;
@@ -131,7 +131,6 @@ import com.google.gerrit.server.git.validators.ValidationMessage;
 import com.google.gerrit.server.index.change.ChangeIndexer;
 import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.PerformanceLogContext;
-import com.google.gerrit.server.logging.PerformanceLogger;
 import com.google.gerrit.server.logging.RequestId;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.logging.TraceContext.TraceTimer;
@@ -315,7 +314,6 @@ class ReceiveCommits {
   private final CommentsUtil commentsUtil;
   private final PluginSetContext<CommentValidator> commentValidators;
   private final BranchCommitValidator.Factory commitValidatorFactory;
-  private final Config config;
   private final CreateGroupPermissionSyncer createGroupPermissionSyncer;
   private final CreateRefControl createRefControl;
   private final DynamicMap<ProjectConfigEntry> pluginConfigEntries;
@@ -323,7 +321,6 @@ class ReceiveCommits {
   private final MergedByPushOp.Factory mergedByPushOpFactory;
   private final PatchSetInfoFactory patchSetInfoFactory;
   private final PatchSetUtil psUtil;
-  private final DynamicSet<PerformanceLogger> performanceLoggers;
   private final PermissionBackend permissionBackend;
   private final ProjectCache projectCache;
   private final Provider<InternalChangeQuery> queryProvider;
@@ -341,6 +338,7 @@ class ReceiveCommits {
   private final TagCache tagCache;
   private final ProjectConfig.Factory projectConfigFactory;
   private final SetPrivateOp.Factory setPrivateOpFactory;
+  private final PerformanceLogContextProvider performanceLogContextProvider;
 
   // Assisted injected fields.
   private final AllRefsWatcher allRefsWatcher;
@@ -403,7 +401,6 @@ class ReceiveCommits {
       MergedByPushOp.Factory mergedByPushOpFactory,
       PatchSetInfoFactory patchSetInfoFactory,
       PatchSetUtil psUtil,
-      DynamicSet<PerformanceLogger> performanceLoggers,
       PermissionBackend permissionBackend,
       ProjectCache projectCache,
       Provider<InternalChangeQuery> queryProvider,
@@ -420,6 +417,7 @@ class ReceiveCommits {
       SubmoduleOp.Factory subOpFactory,
       TagCache tagCache,
       SetPrivateOp.Factory setPrivateOpFactory,
+      PerformanceLogContextProvider performanceLogContextProvider,
       @Assisted ProjectState projectState,
       @Assisted IdentifiedUser user,
       @Assisted ReceivePack rp,
@@ -437,7 +435,6 @@ class ReceiveCommits {
     this.commentsUtil = commentsUtil;
     this.commentValidators = commentValidators;
     this.commitValidatorFactory = commitValidatorFactory;
-    this.config = config;
     this.createRefControl = createRefControl;
     this.createGroupPermissionSyncer = createGroupPermissionSyncer;
     this.editUtil = editUtil;
@@ -454,7 +451,6 @@ class ReceiveCommits {
     this.pluginConfigEntries = pluginConfigEntries;
     this.projectCache = projectCache;
     this.psUtil = psUtil;
-    this.performanceLoggers = performanceLoggers;
     this.queryProvider = queryProvider;
     this.receiveConfig = receiveConfig;
     this.refValidatorsFactory = refValidatorsFactory;
@@ -467,6 +463,7 @@ class ReceiveCommits {
     this.tagCache = tagCache;
     this.projectConfigFactory = projectConfigFactory;
     this.setPrivateOpFactory = setPrivateOpFactory;
+    this.performanceLogContextProvider = performanceLogContextProvider;
 
     // Assisted injected fields.
     this.allRefsWatcher = allRefsWatcher;
@@ -565,8 +562,7 @@ class ReceiveCommits {
                 (tagName, traceId) -> addMessage(tagName + ": " + traceId));
         TraceTimer traceTimer =
             newTimer("processCommands", Metadata.builder().resourceCount(commandCount));
-        PerformanceLogContext performanceLogContext =
-            new PerformanceLogContext(config, performanceLoggers)) {
+        PerformanceLogContext performanceLogContext = performanceLogContextProvider.get()) {
       RequestInfo requestInfo =
           RequestInfo.builder(RequestInfo.RequestType.GIT_RECEIVE, user, traceContext)
               .project(project.getNameKey())

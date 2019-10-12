@@ -17,9 +17,9 @@ package com.google.gerrit.server.logging;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.truth.Expect;
-import com.google.gerrit.extensions.registration.DynamicSet;
-import com.google.gerrit.extensions.registration.RegistrationHandle;
-import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.acceptance.ExtensionRegistry;
+import com.google.gerrit.acceptance.ExtensionRegistry.Registration;
+import com.google.gerrit.server.PerformanceLogContextProvider;
 import com.google.gerrit.testing.InMemoryModule;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
@@ -28,8 +28,6 @@ import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import org.eclipse.jgit.lib.Config;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -37,30 +35,13 @@ import org.junit.Test;
 public class LoggingContextAwareExecutorServiceTest {
   @Rule public final Expect expect = Expect.create();
 
-  @Inject @GerritServerConfig private Config config;
-  @Inject private DynamicSet<PerformanceLogger> performanceLoggers;
-
-  private PerformanceLogger testPerformanceLogger;
-  private RegistrationHandle performanceLoggerRegistrationHandle;
+  @Inject private PerformanceLogContextProvider performanceLogContextProvider;
+  @Inject private ExtensionRegistry extensionRegistry;
 
   @Before
   public void setup() {
     Injector injector = Guice.createInjector(new InMemoryModule());
     injector.injectMembers(this);
-
-    testPerformanceLogger =
-        new PerformanceLogger() {
-          @Override
-          public void log(String operation, long durationMs, Metadata metadata) {
-            // do nothing
-          }
-        };
-    performanceLoggerRegistrationHandle = performanceLoggers.add("gerrit", testPerformanceLogger);
-  }
-
-  @After
-  public void cleanup() {
-    performanceLoggerRegistrationHandle.remove();
   }
 
   @Test
@@ -71,8 +52,9 @@ public class LoggingContextAwareExecutorServiceTest {
     assertThat(LoggingContext.getInstance().getPerformanceLogRecords()).isEmpty();
 
     try (TraceContext traceContext = TraceContext.open().forceLogging().addTag("foo", "bar");
-        PerformanceLogContext performanceLogContext =
-            new PerformanceLogContext(config, performanceLoggers)) {
+        Registration registration =
+            extensionRegistry.newRegistration().add(newTestPerformanceLogger());
+        PerformanceLogContext performanceLogContext = performanceLogContextProvider.get()) {
       // Create a performance log record.
       TraceContext.newTimer("test").close();
 
@@ -123,6 +105,15 @@ public class LoggingContextAwareExecutorServiceTest {
     assertForceLogging(false);
     assertThat(LoggingContext.getInstance().isPerformanceLogging()).isFalse();
     assertThat(LoggingContext.getInstance().getPerformanceLogRecords()).isEmpty();
+  }
+
+  private PerformanceLogger newTestPerformanceLogger() {
+    return new PerformanceLogger() {
+      @Override
+      public void log(String operation, long durationMs, Metadata metadata) {
+        // do nothing
+      }
+    };
   }
 
   private void assertForceLogging(boolean expected) {

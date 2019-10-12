@@ -34,12 +34,12 @@ import java.nio.file.Path;
 import java.security.GeneralSecurityException;
 import java.security.KeyPair;
 import java.security.PublicKey;
+import java.util.Base64;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
-import org.apache.commons.codec.binary.Base64;
 import org.apache.sshd.common.SshException;
 import org.apache.sshd.common.keyprovider.KeyPairProvider;
 import org.apache.sshd.common.util.buffer.ByteArrayBuffer;
@@ -198,7 +198,7 @@ class DatabasePubKeyAuth implements PublickeyAuthenticator {
           }
 
           try {
-            byte[] bin = Base64.decodeBase64(line.getBytes(ISO_8859_1));
+            byte[] bin = Base64.getDecoder().decode(line.getBytes(ISO_8859_1));
             keys.add(new ByteArrayBuffer(bin).getRawPublicKey());
           } catch (RuntimeException | SshException e) {
             logBadKey(path, line, e);

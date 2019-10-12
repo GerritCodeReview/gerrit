@@ -107,7 +107,6 @@ java_library(
         "//lib/auto:auto-value-annotations",
         "//lib/bouncycastle:bcpkix-neverlink",
         "//lib/bouncycastle:bcprov-neverlink",
-        "//lib/commons:codec",
         "//lib/commons:compress",
         "//lib/commons:dbcp",
         "//lib/commons:lang",

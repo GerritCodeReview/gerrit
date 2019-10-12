@@ -18,8 +18,8 @@ import static com.google.common.base.Strings.emptyToNull;
 import static com.google.common.net.HttpHeaders.AUTHORIZATION;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import com.google.common.io.BaseEncoding;
 import javax.servlet.http.HttpServletRequest;
-import org.eclipse.jgit.util.Base64;
 
 public class RemoteUserUtil {
   /**
@@ -70,7 +70,7 @@ public class RemoteUserUtil {
 
     } else if (auth.startsWith("Basic ")) {
       auth = auth.substring("Basic ".length());
-      auth = new String(Base64.decode(auth), UTF_8);
+      auth = new String(BaseEncoding.base64().decode(auth), UTF_8);
       final int c = auth.indexOf(':');
       return c > 0 ? auth.substring(0, c) : null;
 

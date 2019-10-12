@@ -17,87 +17,6 @@
 (function() {
   'use strict';
 
-  // Possible static search options for auto complete, without negations.
-  const SEARCH_OPERATORS = [
-    'added:',
-    'age:',
-    'age:1week', // Give an example age
-    'assignee:',
-    'author:',
-    'branch:',
-    'bug:',
-    'cc:',
-    'cc:self',
-    'change:',
-    'comment:',
-    'commentby:',
-    'commit:',
-    'committer:',
-    'conflicts:',
-    'deleted:',
-    'delta:',
-    'dir:',
-    'directory:',
-    'ext:',
-    'extension:',
-    'file:',
-    'footer:',
-    'from:',
-    'has:',
-    'has:draft',
-    'has:edit',
-    'has:star',
-    'has:stars',
-    'has:unresolved',
-    'hashtag:',
-    'intopic:',
-    'is:',
-    'is:abandoned',
-    'is:assigned',
-    'is:closed',
-    'is:ignored',
-    'is:mergeable',
-    'is:merged',
-    'is:open',
-    'is:owner',
-    'is:private',
-    'is:reviewed',
-    'is:reviewer',
-    'is:starred',
-    'is:submittable',
-    'is:watched',
-    'is:wip',
-    'label:',
-    'message:',
-    'onlyexts:',
-    'onlyextensions:',
-    'owner:',
-    'ownerin:',
-    'parentproject:',
-    'project:',
-    'projects:',
-    'query:',
-    'ref:',
-    'reviewedby:',
-    'reviewer:',
-    'reviewer:self',
-    'reviewerin:',
-    'size:',
-    'star:',
-    'status:',
-    'status:abandoned',
-    'status:closed',
-    'status:merged',
-    'status:open',
-    'status:reviewed',
-    'topic:',
-    'tr:',
-  ];
-
-  // All of the ops, with corresponding negations.
-  const SEARCH_OPERATORS_WITH_NEGATIONS =
-      SEARCH_OPERATORS.concat(SEARCH_OPERATORS.map(op => `-${op}`));
-
   const MAX_AUTOCOMPLETE_RESULTS = 10;
 
   const TOKENIZE_REGEX = /(?:[^\s"]+|"[^"]*")+\s*/g;
@@ -157,6 +76,7 @@
         type: Number,
         value: 1,
       },
+      searchOperatorsWithNegations: Array,
     },
 
     keyboardShortcuts() {
@@ -234,7 +154,7 @@
           return this.accountSuggestions(predicate, expression);
 
         default:
-          return Promise.resolve(SEARCH_OPERATORS_WITH_NEGATIONS
+          return Promise.resolve(this.searchOperatorsWithNegations
               .filter(operator => operator.includes(input))
               .map(operator => ({text: operator})));
       }

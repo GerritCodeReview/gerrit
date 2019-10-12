@@ -34,7 +34,6 @@ java_library(
         "//lib:servlet-api",
         "//lib/auto:auto-value",
         "//lib/auto:auto-value-annotations",
-        "//lib/commons:codec",
         "//lib/commons:compress",
         "//lib/commons:lang",
         "//lib/flogger:api",

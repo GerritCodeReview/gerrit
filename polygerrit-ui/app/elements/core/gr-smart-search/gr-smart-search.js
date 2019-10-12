@@ -21,6 +21,87 @@
   const SELF_EXPRESSION = 'self';
   const ME_EXPRESSION = 'me';
 
+    // Possible static search options for auto complete, without negations.
+  const SEARCH_OPERATORS = [
+    'added:',
+    'age:',
+    'age:1week', // Give an example age
+    'assignee:',
+    'author:',
+    'branch:',
+    'bug:',
+    'cc:',
+    'cc:self',
+    'change:',
+    'comment:',
+    'commentby:',
+    'commit:',
+    'committer:',
+    'conflicts:',
+    'deleted:',
+    'delta:',
+    'dir:',
+    'directory:',
+    'ext:',
+    'extension:',
+    'file:',
+    'footer:',
+    'from:',
+    'has:',
+    'has:draft',
+    'has:edit',
+    'has:star',
+    'has:stars',
+    'has:unresolved',
+    'hashtag:',
+    'intopic:',
+    'is:',
+    'is:abandoned',
+    'is:assigned',
+    'is:closed',
+    'is:ignored',
+    'is:mergeable',
+    'is:merged',
+    'is:open',
+    'is:owner',
+    'is:private',
+    'is:reviewed',
+    'is:reviewer',
+    'is:starred',
+    'is:submittable',
+    'is:watched',
+    'is:wip',
+    'label:',
+    'message:',
+    'onlyexts:',
+    'onlyextensions:',
+    'owner:',
+    'ownerin:',
+    'parentproject:',
+    'project:',
+    'projects:',
+    'query:',
+    'ref:',
+    'reviewedby:',
+    'reviewer:',
+    'reviewer:self',
+    'reviewerin:',
+    'size:',
+    'star:',
+    'status:',
+    'status:abandoned',
+    'status:closed',
+    'status:merged',
+    'status:open',
+    'status:reviewed',
+    'topic:',
+    'tr:',
+  ];
+
+  // All of the ops, with corresponding negations.
+  const SEARCH_OPERATORS_WITH_NEGATIONS =
+  SEARCH_OPERATORS.concat(SEARCH_OPERATORS.map(op => `-${op}`));
+
   Polymer({
     is: 'gr-smart-search',
     _legacyUndefinedCheck: true,
@@ -46,6 +127,7 @@
           return this._fetchAccounts.bind(this);
         },
       },
+      searchOperatorsWithNegations: Array,
     },
 
     behaviors: [
@@ -56,11 +138,17 @@
       this.$.restAPI.getConfig().then(cfg => {
         this._config = cfg;
       });
+      this.searchOperatorsWithNegations = SEARCH_OPERATORS_WITH_NEGATIONS;
     },
 
     _handleSearch(e) {
       const input = e.detail.inputVal;
       if (input) {
+        if (SEARCH_OPERATORS_WITH_NEGATIONS.some(op => {
+          return op.substr(op.length - 1) === ':' && op === input.trim();
+        })) {
+          return;
+        }
         Gerrit.Nav.navigateToSearchQuery(input);
       }
     },

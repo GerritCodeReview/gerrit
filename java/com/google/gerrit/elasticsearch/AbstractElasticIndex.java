@@ -26,6 +26,7 @@ import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Streams;
 import com.google.common.flogger.FluentLogger;
+import com.google.common.io.BaseEncoding;
 import com.google.common.io.CharStreams;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.elasticsearch.ElasticMapping.MappingProperties;
@@ -68,7 +69,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
-import org.apache.commons.codec.binary.Base64;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpStatus;
 import org.apache.http.StatusLine;
@@ -87,6 +87,10 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
   protected static final String SEARCH = "_search";
   protected static final String SETTINGS = "settings";
 
+  protected static byte[] decode(String s) {
+    return BaseEncoding.base64().decode(s);
+  }
+
   protected static <T> List<T> decodeProtos(
       JsonObject doc, String fieldName, ProtoConverter<?, T> converter) {
     JsonArray field = doc.getAsJsonArray(fieldName);
@@ -94,8 +98,8 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
       return null;
     }
     return Streams.stream(field)
-        .map(JsonElement::toString)
-        .map(Base64::decodeBase64)
+        .map(JsonElement::getAsString)
+        .map(AbstractElasticIndex::decode)
         .map(bytes -> parseProtoFrom(bytes, converter))
         .collect(toImmutableList());
   }
@@ -264,7 +268,7 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
         } else if (type == FieldType.TIMESTAMP) {
           rawFields.put(element.getKey(), new Timestamp(inner.getAsLong()));
         } else if (type == FieldType.STORED_ONLY) {
-          rawFields.put(element.getKey(), Base64.decodeBase64(inner.getAsString()));
+          rawFields.put(element.getKey(), decode(inner.getAsString()));
         } else {
           throw FieldType.badFieldType(type);
         }

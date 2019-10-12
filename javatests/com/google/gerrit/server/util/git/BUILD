@@ -18,7 +18,6 @@ junit_tests(
         "//lib:protobuf",
         "//lib/auto:auto-value",
         "//lib/auto:auto-value-annotations",
-        "//lib/commons:codec",
         "//lib/guice",
         "//lib/truth",
         "//lib/truth:truth-java8-extension",

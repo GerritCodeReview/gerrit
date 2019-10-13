@@ -87,6 +87,24 @@
       "revId": "072df2a98bd3a1ac52c813c26b1b8d107b165c23",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2427b9f2_f0b15d6f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-linked-text/gr-linked-text.js",
+        "patchSetId": 14
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-10-13T19:12:53Z",
+      "side": 1,
+      "message": "Yup, thanks, done!",
+      "parentUuid": "5f836fec_c09c1b3d",
+      "revId": "072df2a98bd3a1ac52c813c26b1b8d107b165c23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

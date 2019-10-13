@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6f071b42_16141487",
+        "filename": "tools/eclipse/project.py",
+        "patchSetId": 27
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-13T20:02:57Z",
+      "side": 1,
+      "message": "After importing JGit as source folder, gerrit tests from Eclipse are failing: [1].\n\nI guess some resource files are missing. Alternative we can continue to import JGit as binaries, and link sources to the source folders, but it\u0027s not as comfortable to make changes to JGit code.\n\n* [1] http://paste.openstack.org/show/783424",
+      "range": {
+        "startLine": 176,
+        "startChar": 8,
+        "endLine": 180,
+        "endChar": 72
+      },
+      "revId": "91397e5f7063c734531e42e2581c11ee77041220",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

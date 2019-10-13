@@ -17,19 +17,18 @@ package com.google.gerrit.metrics.proc;
 import com.google.common.flogger.FluentLogger;
 import java.lang.management.ManagementFactory;
 import java.lang.management.OperatingSystemMXBean;
-import java.lang.reflect.Method;
 import java.util.Arrays;
 
 class OperatingSystemMXBeanProvider {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  private final OperatingSystemMXBean sys;
-  private final Method getProcessCpuTime;
-  private final Method getOpenFileDescriptorCount;
-
   static class Factory {
-    static OperatingSystemMXBeanProvider create() {
+    @SuppressWarnings("restriction")
+    static OperatingSystemMXBeanInterface create() {
       OperatingSystemMXBean sys = ManagementFactory.getOperatingSystemMXBean();
+      if (sys instanceof com.sun.management.UnixOperatingSystemMXBean) {
+        return new OperatingSystemMXBeanNative((com.sun.management.UnixOperatingSystemMXBean) sys);
+      }
       for (String name :
           Arrays.asList(
               "com.sun.management.UnixOperatingSystemMXBean",
@@ -37,7 +36,7 @@ class OperatingSystemMXBeanProvider {
         try {
           Class<?> impl = Class.forName(name);
           if (impl.isInstance(sys)) {
-            return new OperatingSystemMXBeanProvider(sys);
+            return new OperatingSystemMXBeanReflectionBased(sys);
           }
         } catch (ReflectiveOperationException e) {
           logger.atFine().withCause(e).log("No implementation for %s", name);
@@ -45,31 +44,6 @@ class OperatingSystemMXBeanProvider {
       }
       logger.atWarning().log("No implementation of UnixOperatingSystemMXBean found");
       return null;
-    }
-  }
-
-  private OperatingSystemMXBeanProvider(OperatingSystemMXBean sys)
-      throws ReflectiveOperationException {
-    this.sys = sys;
-    getProcessCpuTime = sys.getClass().getMethod("getProcessCpuTime");
-    getProcessCpuTime.setAccessible(true);
-    getOpenFileDescriptorCount = sys.getClass().getMethod("getOpenFileDescriptorCount");
-    getOpenFileDescriptorCount.setAccessible(true);
-  }
-
-  public long getProcessCpuTime() {
-    try {
-      return (long) getProcessCpuTime.invoke(sys, new Object[] {});
-    } catch (ReflectiveOperationException e) {
-      return -1;
-    }
-  }
-
-  public long getOpenFileDescriptorCount() {
-    try {
-      return (long) getOpenFileDescriptorCount.invoke(sys, new Object[] {});
-    } catch (ReflectiveOperationException e) {
-      return -1;
     }
   }
 }

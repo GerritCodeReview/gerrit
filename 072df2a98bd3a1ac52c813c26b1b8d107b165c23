@@ -69,6 +69,24 @@
       "revId": "072df2a98bd3a1ac52c813c26b1b8d107b165c23",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f836fec_c09c1b3d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-linked-text/gr-linked-text.js",
+        "patchSetId": 14
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-13T19:04:18Z",
+      "side": 1,
+      "message": "That is surprising, because gr-navigation.html suggests that either both (Gerrit.Nav and Gerrit.Nav.mapCommentlinks) are undefined or both are defined. Can you add a check anyway, even if you did not see problems in tests?",
+      "parentUuid": "efd7d429_a36f3611",
+      "revId": "072df2a98bd3a1ac52c813c26b1b8d107b165c23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -22,7 +22,6 @@
 
   Polymer({
     is: 'gr-lib-loader',
-    _legacyUndefinedCheck: true,
 
     properties: {
       _hljsState: {

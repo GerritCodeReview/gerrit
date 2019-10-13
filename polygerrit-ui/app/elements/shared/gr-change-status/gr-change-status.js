@@ -34,7 +34,6 @@
 
   Polymer({
     is: 'gr-change-status',
-    _legacyUndefinedCheck: true,
 
     properties: {
       flat: {

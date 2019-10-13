@@ -19,7 +19,6 @@
 
   Polymer({
     is: 'gr-menu-editor',
-    _legacyUndefinedCheck: true,
 
     properties: {
       menuItems: Array,

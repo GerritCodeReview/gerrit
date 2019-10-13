@@ -23,7 +23,6 @@
 
   Polymer({
     is: 'gr-smart-search',
-    _legacyUndefinedCheck: true,
 
     properties: {
       searchQuery: String,

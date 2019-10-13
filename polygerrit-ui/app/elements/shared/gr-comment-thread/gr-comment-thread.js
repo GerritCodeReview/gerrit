@@ -22,7 +22,6 @@
 
   Polymer({
     is: 'gr-comment-thread',
-    _legacyUndefinedCheck: true,
 
     /**
      * Fired when the thread should be discarded.

@@ -19,7 +19,6 @@
 
   Polymer({
     is: 'gr-diff-preferences-dialog',
-    _legacyUndefinedCheck: true,
 
     properties: {
       /** @type {?} */

@@ -19,7 +19,6 @@
 
   Polymer({
     is: 'gr-embed-dashboard',
-    _legacyUndefinedCheck: true,
     properties: {
       account: Object,
       sections: Array,

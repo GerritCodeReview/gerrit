@@ -30,7 +30,6 @@
 
   Polymer({
     is: 'gr-storage',
-    _legacyUndefinedCheck: true,
 
     properties: {
       _lastCleanup: Number,

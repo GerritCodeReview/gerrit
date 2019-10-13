@@ -19,7 +19,6 @@
 
   Polymer({
     is: 'gr-endpoint-param',
-    _legacyUndefinedCheck: true,
     properties: {
       name: String,
       value: {

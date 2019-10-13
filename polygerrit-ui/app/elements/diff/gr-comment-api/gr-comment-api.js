@@ -482,7 +482,6 @@
 
   Polymer({
     is: 'gr-comment-api',
-    _legacyUndefinedCheck: true,
 
     properties: {
       _changeComments: Object,

@@ -70,7 +70,6 @@
 
   Polymer({
     is: 'gr-repo-access',
-    _legacyUndefinedCheck: true,
 
     properties: {
       repo: {

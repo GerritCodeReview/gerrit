@@ -19,7 +19,6 @@
 
   Polymer({
     is: 'gr-linked-chip',
-    _legacyUndefinedCheck: true,
 
     properties: {
       href: String,

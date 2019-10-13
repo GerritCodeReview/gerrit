@@ -23,7 +23,6 @@
 
   Polymer({
     is: 'gr-file-list-header',
-    _legacyUndefinedCheck: true,
 
     /**
      * @event expand-diffs

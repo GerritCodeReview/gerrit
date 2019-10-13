@@ -130,7 +130,6 @@
 
   Polymer({
     is: 'gr-syntax-layer',
-    _legacyUndefinedCheck: true,
 
     properties: {
       diff: {

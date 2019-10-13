@@ -193,7 +193,6 @@
 
   Polymer({
     is: 'gr-change-actions',
-    _legacyUndefinedCheck: true,
 
     /**
      * Fired when the change should be reloaded.

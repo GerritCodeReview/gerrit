@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "62b58dc8_5301cc52",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-loader.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-13T17:55:49Z",
+      "side": 1,
+      "message": "How do you ensure that _apiUtils will be defined when this is executed?",
+      "range": {
+        "startLine": 27,
+        "startChar": 6,
+        "endLine": 27,
+        "endChar": 22
+      },
+      "revId": "4b9caf2e891efd79c4e0591e6f9962e03f03a6d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6707cf61_e5c8f6da",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-loader.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-13T17:55:49Z",
+      "side": 1,
+      "message": "status",
+      "range": {
+        "startLine": 71,
+        "startChar": 18,
+        "endLine": 71,
+        "endChar": 24
+      },
+      "revId": "4b9caf2e891efd79c4e0591e6f9962e03f03a6d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0cbc27c6_37c52b01",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-loader.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-13T17:55:49Z",
+      "side": 1,
+      "message": "remove empty line",
+      "range": {
+        "startLine": 72,
+        "startChar": 0,
+        "endLine": 72,
+        "endChar": 4
+      },
+      "revId": "4b9caf2e891efd79c4e0591e6f9962e03f03a6d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5addeb26_237192a6",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-loader.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-13T17:55:49Z",
+      "side": 1,
+      "message": "remove this line",
+      "range": {
+        "startLine": 81,
+        "startChar": 0,
+        "endLine": 81,
+        "endChar": 6
+      },
+      "revId": "4b9caf2e891efd79c4e0591e6f9962e03f03a6d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2ba54dd0_ca14375c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-loader.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-13T17:55:49Z",
+      "side": 1,
+      "message": "add a comment for this member",
+      "revId": "4b9caf2e891efd79c4e0591e6f9962e03f03a6d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

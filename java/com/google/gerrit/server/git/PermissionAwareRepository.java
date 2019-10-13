@@ -15,6 +15,7 @@
 package com.google.gerrit.server.git;
 
 import com.google.gerrit.server.permissions.PermissionBackend;
+import org.eclipse.jgit.lib.DelegateRepository;
 import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.Repository;
 
@@ -27,7 +28,7 @@ public class PermissionAwareRepository extends DelegateRepository {
   private final PermissionAwareReadOnlyRefDatabase permissionAwareReadOnlyRefDatabase;
 
   public PermissionAwareRepository(Repository delegate, PermissionBackend.ForProject forProject) {
-    super(delegate);
+    super(delegate, false);
     this.permissionAwareReadOnlyRefDatabase =
         new PermissionAwareReadOnlyRefDatabase(delegate, forProject);
   }

@@ -203,6 +203,10 @@
     },
 
     _computeScoreClass(score, labelExtremes) {
+      // Polymer 2: check for undefined
+      if ([score, labelExtremes].some(arg => arg === undefined)) {
+        return '';
+      }
       const classes = [];
       if (score.value > 0) {
         classes.push('positive');
@@ -211,6 +215,7 @@
       }
       const extremes = labelExtremes[score.label];
       if (extremes) {
+        const extremes = labelExtremes[score.label];
         const intScore = parseInt(score.value, 10);
         if (intScore === extremes.max) {
           classes.push('max');

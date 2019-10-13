@@ -760,6 +760,11 @@
     },
 
     _computeDiffURL(change, patchNum, basePatchNum, path, editMode) {
+      // Polymer 2: check for undefined
+      if ([change, patchNum, basePatchNum, path, editMode]
+          .some(arg => arg === undefined)) {
+        return;
+      }
       // TODO(kaspern): Fix editing for commit messages and merge lists.
       if (editMode && path !== this.COMMIT_MESSAGE_PATH &&
           path !== this.MERGE_LIST_PATH) {

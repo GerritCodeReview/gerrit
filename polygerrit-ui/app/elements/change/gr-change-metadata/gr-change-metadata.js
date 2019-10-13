@@ -353,6 +353,7 @@
     },
 
     _computeBranchURL(project, branch) {
+      if (!this.change || !this.change.status) return '';
       return Gerrit.Nav.getUrlForBranch(branch, project,
           this.change.status == this.ChangeStatus.NEW ? 'open' :
               this.change.status.toLowerCase());

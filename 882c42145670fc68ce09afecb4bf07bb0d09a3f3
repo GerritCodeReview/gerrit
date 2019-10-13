@@ -1,0 +1,479 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "61d19e53_9ab73776",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 21
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-13T19:48:07Z",
+      "side": 1,
+      "message": "Would be great to have screenshot links in the commit message, e.g. imgur.",
+      "revId": "882c42145670fc68ce09afecb4bf07bb0d09a3f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1f04bd5f_1bfe46ac",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 21
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-13T19:48:07Z",
+      "side": 1,
+      "message": "The paths to the two dialogs are mixed up.",
+      "range": {
+        "startLine": 54,
+        "startChar": 0,
+        "endLine": 55,
+        "endChar": 74
+      },
+      "revId": "882c42145670fc68ce09afecb4bf07bb0d09a3f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "848f1e00_90e5d886",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 21
+      },
+      "lineNbr": 367,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-13T19:48:07Z",
+      "side": 1,
+      "message": "Do you also need these two lines in gr-diff-view.js?",
+      "range": {
+        "startLine": 366,
+        "startChar": 6,
+        "endLine": 367,
+        "endChar": 76
+      },
+      "revId": "882c42145670fc68ce09afecb4bf07bb0d09a3f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e04fb1b3_8973eb75",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.html",
+        "patchSetId": 21
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-13T19:48:07Z",
+      "side": 1,
+      "message": "2019",
+      "range": {
+        "startLine": 3,
+        "startChar": 14,
+        "endLine": 3,
+        "endChar": 18
+      },
+      "revId": "882c42145670fc68ce09afecb4bf07bb0d09a3f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6b2aa3b8_85e123d6",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.html",
+        "patchSetId": 21
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-13T19:48:07Z",
+      "side": 1,
+      "message": "We don\u0027t use h5 anywhere yet. Either use something that is also used elsewhere for similar header formatting, or use a span and format specifically.",
+      "range": {
+        "startLine": 72,
+        "startChar": 9,
+        "endLine": 72,
+        "endChar": 11
+      },
+      "revId": "882c42145670fc68ce09afecb4bf07bb0d09a3f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6d50254e_dd8a7961",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.html",
+        "patchSetId": 21
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-13T19:48:07Z",
+      "side": 1,
+      "message": "move \u003e to line before",
+      "range": {
+        "startLine": 80,
+        "startChar": 10,
+        "endLine": 80,
+        "endChar": 11
+      },
+      "revId": "882c42145670fc68ce09afecb4bf07bb0d09a3f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "39969cb2_ebe38a7e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.js",
+        "patchSetId": 21
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-13T19:48:07Z",
+      "side": 1,
+      "message": "2019",
+      "range": {
+        "startLine": 3,
+        "startChar": 17,
+        "endLine": 3,
+        "endChar": 21
+      },
+      "revId": "882c42145670fc68ce09afecb4bf07bb0d09a3f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8ad26335_c6cc7ad6",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.js",
+        "patchSetId": 21
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-13T19:48:07Z",
+      "side": 1,
+      "message": "It would be great to at least have a clearer notion of the types of these properties, e.g. \"ChangeInfo Rest API object\" for \"change\" property.",
+      "range": {
+        "startLine": 22,
+        "startChar": 1,
+        "endLine": 30,
+        "endChar": 6
+      },
+      "revId": "882c42145670fc68ce09afecb4bf07bb0d09a3f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b975a18f_b059fc9e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.js",
+        "patchSetId": 21
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-13T19:48:07Z",
+      "side": 1,
+      "message": "Add a method comment.",
+      "range": {
+        "startLine": 34,
+        "startChar": 4,
+        "endLine": 34,
+        "endChar": 8
+      },
+      "revId": "882c42145670fc68ce09afecb4bf07bb0d09a3f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "509fcc49_bf0bc316",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.js",
+        "patchSetId": 21
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-13T19:48:07Z",
+      "side": 1,
+      "message": "Follow the existing style of having methods separated by blank lines.",
+      "revId": "882c42145670fc68ce09afecb4bf07bb0d09a3f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c6a674e6_1f075f2d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.js",
+        "patchSetId": 21
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-13T19:48:07Z",
+      "side": 1,
+      "message": "Why do you need both, a local var and a member var? Maybe drop the local var?",
+      "range": {
+        "startLine": 36,
+        "startChar": 5,
+        "endLine": 37,
+        "endChar": 44
+      },
+      "revId": "882c42145670fc68ce09afecb4bf07bb0d09a3f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f0331637_8f8e242a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.js",
+        "patchSetId": 21
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-13T19:48:07Z",
+      "side": 1,
+      "message": "Why first fix only? Add a comment. Generally prefer answers to \"why?\" over answers to \"what?\" as code comments.",
+      "range": {
+        "startLine": 39,
+        "startChar": 37,
+        "endLine": 39,
+        "endChar": 9
+      },
+      "revId": "882c42145670fc68ce09afecb4bf07bb0d09a3f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c5bd2c0e_6dfeb956",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.js",
+        "patchSetId": 21
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-13T19:48:07Z",
+      "side": 1,
+      "message": "Maybe invert the if condition in line 40 and return early with Promise.resolve().",
+      "range": {
+        "startLine": 52,
+        "startChar": 6,
+        "endLine": 52,
+        "endChar": 25
+      },
+      "revId": "882c42145670fc68ce09afecb4bf07bb0d09a3f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1c7fff43_61a69492",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.js",
+        "patchSetId": 21
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-13T19:48:07Z",
+      "side": 1,
+      "message": "Would be nice to show a \"saving...\" indicator to the user.",
+      "revId": "882c42145670fc68ce09afecb4bf07bb0d09a3f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "15589ca2_8323f7e9",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.js",
+        "patchSetId": 21
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-13T19:48:07Z",
+      "side": 1,
+      "message": "remove this comment",
+      "revId": "882c42145670fc68ce09afecb4bf07bb0d09a3f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "84045a8f_b4449500",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.js",
+        "patchSetId": 21
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-13T19:48:07Z",
+      "side": 1,
+      "message": "remove the console.error call",
+      "range": {
+        "startLine": 109,
+        "startChar": 12,
+        "endLine": 109,
+        "endChar": 19
+      },
+      "revId": "882c42145670fc68ce09afecb4bf07bb0d09a3f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "91f75b68_daad1edd",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.js",
+        "patchSetId": 21
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-13T19:48:07Z",
+      "side": 1,
+      "message": "Maybe\n\n  return currentFix \u0026\u0026 currentFix.description ? currentFix.description : \u0027\u0027;",
+      "revId": "882c42145670fc68ce09afecb4bf07bb0d09a3f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "16741027_6c8c9963",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog_test.html",
+        "patchSetId": 21
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-13T19:48:07Z",
+      "side": 1,
+      "message": "New tests need to be added to test/index.html. :-/",
+      "revId": "882c42145670fc68ce09afecb4bf07bb0d09a3f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d8b176ea_593da394",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog_test.html",
+        "patchSetId": 21
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-13T19:48:07Z",
+      "side": 1,
+      "message": "remove empty line",
+      "revId": "882c42145670fc68ce09afecb4bf07bb0d09a3f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5734fe85_eed4f296",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog_test.html",
+        "patchSetId": 21
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-13T19:48:07Z",
+      "side": 1,
+      "message": "2019",
+      "range": {
+        "startLine": 5,
+        "startChar": 14,
+        "endLine": 5,
+        "endChar": 18
+      },
+      "revId": "882c42145670fc68ce09afecb4bf07bb0d09a3f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "986a63d1_5584613e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.html",
+        "patchSetId": 21
+      },
+      "lineNbr": 348,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-13T19:48:07Z",
+      "side": 1,
+      "message": "keep \u003e on previous line",
+      "revId": "882c42145670fc68ce09afecb4bf07bb0d09a3f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cdf9b136_f8ce386e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.html",
+        "patchSetId": 21
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-13T19:48:07Z",
+      "side": 1,
+      "message": "Move closing \u003c/gr-apply-fix-dialog\u003e tag to next line, just for consistency.\n\nOr move \u003c/gr-diff-preferences-dialog\u003e to the previous line.",
+      "range": {
+        "startLine": 354,
+        "startChar": 34,
+        "endLine": 354,
+        "endChar": 56
+      },
+      "revId": "882c42145670fc68ce09afecb4bf07bb0d09a3f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "00814941_9c1b1961",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.js",
+        "patchSetId": 21
+      },
+      "lineNbr": 494,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-13T19:48:07Z",
+      "side": 1,
+      "message": "Maybe just\n\n  return !comment || !comment.fix_suggestions;",
+      "revId": "882c42145670fc68ce09afecb4bf07bb0d09a3f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "883f308d_1e4ab9f9",
+        "filename": "Documentation/licenses.txt",
+        "patchSetId": 25
+      },
+      "lineNbr": 2445,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-13T08:46:30Z",
+      "side": 1,
+      "message": "Correct, it\u0027s test dependency only and this not included here.",
+      "parentUuid": "46a603a0_70b6d8e1",
+      "revId": "21aa37712400493c5e3e298670fa8dd1de13caaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3c07b98c_e3d9b53c",
         "filename": "WORKSPACE",
         "patchSetId": 25
@@ -66,6 +84,30 @@
     },
     {
       "key": {
+        "uuid": "86d43a21_bb0a8df3",
+        "filename": "WORKSPACE",
+        "patchSetId": 25
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-13T08:46:30Z",
+      "side": 1,
+      "message": "This is the CL that changed that: [1],[2]. Included in is telling me:\n\n* v5.4.0.201905081430-m2\n* v5.4.0.201905221418-m3\n* v5.4.0.201906121030-r\n* v5.4.1.201908211225-r\n* v5.4.2.201908231537-r\n* v5.4.3.201909031940-r\n* v5.5.0.201908280940-m3\n* v5.5.0.201909041048-rc1\n* v5.5.0.201909110433-r\n* v5.5.1.201910021850-r\n\nI checked, and the version we are using on stable-3.0 is: \"5.3.6.201910020505-r\", so that apparently only master is affected. Will upload an upgrade to master branch then, and rebase this commit on top of it.\n\nDone in: [3].\n\n[1] https://eclipse.googlesource.com/jgit/jgit/+/1faaccfc218e7b7b7281728fb7a615f7f041f8a4\n[2] https://git.eclipse.org/r/#/c/141023\n[3] https://gerrit-review.googlesource.com/c/gerrit/+/240698",
+      "parentUuid": "a471564b_b3dbdfca",
+      "range": {
+        "startLine": 252,
+        "startChar": 32,
+        "endLine": 252,
+        "endChar": 38
+      },
+      "revId": "21aa37712400493c5e3e298670fa8dd1de13caaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4f70af2d_e6ca9bc5",
         "filename": "plugins/BUILD",
         "patchSetId": 25
@@ -98,6 +140,24 @@
       "revId": "21aa37712400493c5e3e298670fa8dd1de13caaa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a0597a1c_9c5b2a1d",
+        "filename": "plugins/BUILD",
+        "patchSetId": 25
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-13T08:46:30Z",
+      "side": 1,
+      "message": "Correct. This rule is creating plugin API. And it\u0027s unrelated for the Plugin-API where the JGit transitive dependency is coming from:\n\n* maven_jar\n* archive tar.gz is downloaded from some URL and turned into external repository\n* git_repository rule, cloned a repository and checkout a specific commit\n* mount a git submodule and build from source",
+      "parentUuid": "8443680b_0b38e43c",
+      "revId": "21aa37712400493c5e3e298670fa8dd1de13caaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

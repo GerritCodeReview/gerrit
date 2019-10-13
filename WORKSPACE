@@ -171,12 +171,12 @@ maven_jar(
 GUICE_VERS = "4.2.2"
 
 # TODO(davido): Switch to official release again, wenn this issue is fixed:
-# https://github.com/google/guice/issues/1277
+# https://github.com/google/guice/issues/1270
 http_file(
     name = "guice-library",
     downloaded_file_path = "guice.jar",
-    sha256 = "63dee73e43bd60f756d0fab4f9454da3b3f284bd753579ee04bd98040e5bbc8b",
-    urls = ["https://github.com/davido/guice/releases/download/4.2.3/guice-4.2.3.jar"],
+    sha256 = "c76b1bcf318d9c20e89e2d4a6f7284be69a128c3cad6a9bf72704085174066ab",
+    urls = ["https://github.com/davido/guice/releases/download/4.3.0/guice-4.3.0.jar"],
 )
 
 maven_jar(
@@ -628,36 +628,36 @@ maven_jar(
     sha1 = "5e3bda828a80c7a21dfbe2308d1755759c2fd7b4",
 )
 
-OW2_VERS = "7.1"
+OW2_VERS = "7.2"
 
 maven_jar(
     name = "ow2-asm",
     artifact = "org.ow2.asm:asm:" + OW2_VERS,
-    sha1 = "fa29aa438674ff19d5e1386d2c3527a0267f291e",
+    sha1 = "fa637eb67eb7628c915d73762b681ae7ff0b9731",
 )
 
 maven_jar(
     name = "ow2-asm-analysis",
     artifact = "org.ow2.asm:asm-analysis:" + OW2_VERS,
-    sha1 = "379e0250f7a4a42c66c5e94e14d4c4491b3c2ed3",
+    sha1 = "b6e6abe057f23630113f4167c34bda7086691258",
 )
 
 maven_jar(
     name = "ow2-asm-commons",
     artifact = "org.ow2.asm:asm-commons:" + OW2_VERS,
-    sha1 = "431dc677cf5c56660c1c9004870de1ed1ea7ce6c",
+    sha1 = "ca2954e8d92a05bacc28ff465b25c70e0f512497",
 )
 
 maven_jar(
     name = "ow2-asm-tree",
     artifact = "org.ow2.asm:asm-tree:" + OW2_VERS,
-    sha1 = "a3662cf1c1d592893ffe08727f78db35392fa302",
+    sha1 = "3a23cc36edaf8fc5a89cb100182758ccb5991487",
 )
 
 maven_jar(
     name = "ow2-asm-util",
     artifact = "org.ow2.asm:asm-util:" + OW2_VERS,
-    sha1 = "5b0b0f8cdb6c90582302ffcf5c20447206122f48",
+    sha1 = "a3ae34e57fa8a4040e28247291d0cc3d6b8c7bcf",
 )
 
 AUTO_VALUE_VERSION = "1.7"

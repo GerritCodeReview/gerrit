@@ -42,6 +42,30 @@
     },
     {
       "key": {
+        "uuid": "a471564b_b3dbdfca",
+        "filename": "WORKSPACE",
+        "patchSetId": 25
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-10-13T01:45:43Z",
+      "side": 1,
+      "message": "We should check when it started using this, and if we\u0027re already using a jgit version that uses it, then do a separate upgrade here (on a stable branch if necessary).",
+      "parentUuid": "3c07b98c_e3d9b53c",
+      "range": {
+        "startLine": 252,
+        "startChar": 32,
+        "endLine": 252,
+        "endChar": 38
+      },
+      "revId": "21aa37712400493c5e3e298670fa8dd1de13caaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4f70af2d_e6ca9bc5",
         "filename": "plugins/BUILD",
         "patchSetId": 25
@@ -53,6 +77,24 @@
       "writtenOn": "2019-10-12T22:20:04Z",
       "side": 1,
       "message": "this looks a bit odd, jgit is included from a submodule but it\u0027s not a plugin, should this be moved to modules/BUILD ?",
+      "revId": "21aa37712400493c5e3e298670fa8dd1de13caaa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8443680b_0b38e43c",
+        "filename": "plugins/BUILD",
+        "patchSetId": 25
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-10-13T01:45:43Z",
+      "side": 1,
+      "message": "This is needed to export jgit in the plugin API.",
+      "parentUuid": "4f70af2d_e6ca9bc5",
       "revId": "21aa37712400493c5e3e298670fa8dd1de13caaa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

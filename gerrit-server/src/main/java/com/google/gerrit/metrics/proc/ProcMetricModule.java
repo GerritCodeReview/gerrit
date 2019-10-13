@@ -69,7 +69,7 @@ public class ProcMetricModule extends MetricModule {
   }
 
   private void procCpuUsage(MetricMaker metrics) {
-    final OperatingSystemMXBeanProvider provider = OperatingSystemMXBeanProvider.Factory.create();
+    OperatingSystemMXBeanInterface provider = OperatingSystemMXBeanFactory.create();
 
     if (provider == null) {
       return;

@@ -28,7 +28,6 @@
 
   Polymer({
     is: 'gr-ranged-comment-layer',
-    _legacyUndefinedCheck: true,
 
     /**
      * Fired when the range in a range comment was malformed and had to be

@@ -19,7 +19,6 @@
 
   Polymer({
     is: 'gr-change-star',
-    _legacyUndefinedCheck: true,
 
     /**
      * Fired when star state is toggled.

@@ -19,7 +19,6 @@
 
   Polymer({
     is: 'gr-change-table-editor',
-    _legacyUndefinedCheck: true,
 
     properties: {
       displayedColumns: {

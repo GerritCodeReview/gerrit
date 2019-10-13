@@ -19,7 +19,6 @@
 
   Polymer({
     is: 'gr-settings-item',
-    _legacyUndefinedCheck: true,
     properties: {
       anchor: String,
       title: String,

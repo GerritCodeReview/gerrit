@@ -21,7 +21,6 @@
 
   Polymer({
     is: 'gr-keyboard-shortcuts-dialog',
-    _legacyUndefinedCheck: true,
 
     /**
      * Fired when the user presses the close button.

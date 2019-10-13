@@ -919,48 +919,48 @@ maven_jar(
     sha1 = "7e060dd5b19431e6d198e91ff670644372f60fbd",
 )
 
-JETTY_VERS = "9.4.18.v20190429"
+JETTY_VERS = "9.4.24.v20191120"
 
 maven_jar(
     name = "jetty-servlet",
     artifact = "org.eclipse.jetty:jetty-servlet:" + JETTY_VERS,
-    sha1 = "290f7a88f351950d51ebc9fb4a794752c62d7de5",
+    sha1 = "ca1803fde51b795c0a8346ca8bc6277d9d04d01d",
 )
 
 maven_jar(
     name = "jetty-security",
     artifact = "org.eclipse.jetty:jetty-security:" + JETTY_VERS,
-    sha1 = "01aceff3608ca1b223bfd275a497797cfe675ef4",
+    sha1 = "9fa640d36c088cf55843900043d28aef830ade4d",
 )
 
 maven_jar(
     name = "jetty-server",
     artifact = "org.eclipse.jetty:jetty-server:" + JETTY_VERS,
-    sha1 = "b76ef50e04635f11d4d43bc6ccb7c4482a8384f0",
+    sha1 = "7885cc3d5d7701a444acada7ab97f89846514875",
 )
 
 maven_jar(
     name = "jetty-jmx",
     artifact = "org.eclipse.jetty:jetty-jmx:" + JETTY_VERS,
-    sha1 = "f4c2654db1a55f0780acdfcee8bb98550f56ca70",
+    sha1 = "22be18a055850a6cf3b0efd56c789c3929c87e98",
 )
 
 maven_jar(
     name = "jetty-http",
     artifact = "org.eclipse.jetty:jetty-http:" + JETTY_VERS,
-    sha1 = "c2e73db2db5c369326b717da71b6587b3da11e0e",
+    sha1 = "d3f0b0fb016ef8d35ffb199d928ffbcbfa121c86",
 )
 
 maven_jar(
     name = "jetty-io",
     artifact = "org.eclipse.jetty:jetty-io:" + JETTY_VERS,
-    sha1 = "844af5efe58ab23fd0166a796efef123f4cb06b0",
+    sha1 = "dcb6d4d505ef74898e3a64a38c40195c01e97119",
 )
 
 maven_jar(
     name = "jetty-util",
     artifact = "org.eclipse.jetty:jetty-util:" + JETTY_VERS,
-    sha1 = "13e6148bfda7ae511f69ae7e5e3ea898bc9b0e33",
+    sha1 = "3095acb088f4ff9e3fd9aedf98db73e3c18ea849",
 )
 
 maven_jar(

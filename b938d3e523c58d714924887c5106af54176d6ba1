@@ -34,6 +34,24 @@
       "revId": "b938d3e523c58d714924887c5106af54176d6ba1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dd5521bd_820acfaf",
+        "filename": "tools/eclipse/project.py",
+        "patchSetId": 24
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-13T08:46:30Z",
+      "side": 1,
+      "message": "Done. I added a comment to the commit message as well.",
+      "parentUuid": "af4b0d2e_c6bb9a74",
+      "revId": "b938d3e523c58d714924887c5106af54176d6ba1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

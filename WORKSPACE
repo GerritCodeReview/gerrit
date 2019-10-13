@@ -265,8 +265,8 @@ maven_jar(
 
 maven_jar(
     name = "jsch",
-    artifact = "com.jcraft:jsch:0.1.54",
-    sha1 = "da3584329a263616e277e15462b387addd1b208d",
+    artifact = "com.jcraft:jsch:0.1.55",
+    sha1 = "bbd40e5aa7aa3cfad5db34965456cee738a42a50",
 )
 
 maven_jar(

@@ -27,8 +27,7 @@
     "camelcase": "off",
     "comma-dangle": ["error", "always-multiline"],
     "eol-last": "off",
-    "indent": "off",
-    "indent-legacy": ["error", 2, {
+    "indent": ["error", 2, {
       "MemberExpression": 2,
       "FunctionDeclaration": {"body": 1, "parameters": 2},
       "FunctionExpression": {"body": 1, "parameters": 2},
@@ -38,13 +37,14 @@
       "SwitchCase": 1
     }],
     "keyword-spacing": ["error", { "after": true, "before": true }],
+    "lines-between-class-members": ["error", "always"],
     "max-len": [
       "error",
       80,
       2,
       {"ignoreComments": true}
     ],
-    "new-cap": ["error", { "capIsNewExceptions": ["Polymer"] }],
+    "new-cap": ["error", { "capIsNewExceptions": ["Polymer", "LegacyElementMixin", "GestureEventListeners", "LegacyDataMixin"] }],
     "no-console": "off",
     "no-restricted-syntax": [
       "error",
@@ -61,6 +61,19 @@
     "no-useless-escape": "off",
     "no-var": "error",
     "object-shorthand": ["error", "always"],
+    "padding-line-between-statements": [
+      "error",
+      {
+        "blankLine": "always",
+        "prev": "class",
+        "next": "*"
+      },
+      {
+        "blankLine": "always",
+        "prev": "*",
+        "next": "class"
+      }
+    ],
     "prefer-arrow-callback": "error",
     "prefer-const": "error",
     "prefer-spread": "error",

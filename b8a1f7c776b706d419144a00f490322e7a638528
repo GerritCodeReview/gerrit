@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f9517116_e7a8ee64",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 527,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-14T13:28:59Z",
+      "side": 1,
+      "message": "hmm for legacy undefined check, we should only check for params directly, not properties on them. As thats basically what the `legacy` mix does and we should keep that. If `computeDraftCount` is undefined when `changeComments` is defined, I think we should look for the reason why its undefined :)",
+      "revId": "b8a1f7c776b706d419144a00f490322e7a638528",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

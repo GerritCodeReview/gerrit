@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5c236a32_886c8cc2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-10-14T14:37:31Z",
+      "side": 1,
+      "message": "\"fills the\"",
+      "range": {
+        "startLine": 9,
+        "startChar": 20,
+        "endLine": 9,
+        "endChar": 24
+      },
+      "revId": "b5a124d97ccb942f4adec6d9d95ddfbe1ce4d3e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "00e31ad8_f47d1f4b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-10-14T14:37:31Z",
+      "side": 1,
+      "message": ".. the Git ..",
+      "range": {
+        "startLine": 10,
+        "startChar": 60,
+        "endLine": 10,
+        "endChar": 64
+      },
+      "revId": "b5a124d97ccb942f4adec6d9d95ddfbe1ce4d3e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bf2194a1_056a9c1a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-10-14T14:37:31Z",
+      "side": 1,
+      "message": ".. the diff for a fix_suggestion ..",
+      "range": {
+        "startLine": 11,
+        "startChar": 16,
+        "endLine": 11,
+        "endChar": 20
+      },
+      "revId": "b5a124d97ccb942f4adec6d9d95ddfbe1ce4d3e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fca26ebd_41257e72",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-10-14T14:37:31Z",
+      "side": 1,
+      "message": "the",
+      "range": {
+        "startLine": 12,
+        "startChar": 30,
+        "endLine": 12,
+        "endChar": 31
+      },
+      "revId": "b5a124d97ccb942f4adec6d9d95ddfbe1ce4d3e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e13b45b9_3ca87d66",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-10-14T14:37:31Z",
+      "side": 1,
+      "message": "a Side object",
+      "range": {
+        "startLine": 13,
+        "startChar": 32,
+        "endLine": 13,
+        "endChar": 36
+      },
+      "revId": "b5a124d97ccb942f4adec6d9d95ddfbe1ce4d3e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1a341681_ebc4ea2a",
+        "filename": "java/com/google/gerrit/server/patch/PatchScriptBuilder.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-10-14T14:37:31Z",
+      "side": 1,
+      "message": "instead of rewriting all the method signatures, could you make an alternate constructor that takes a and b as arguments instead?",
+      "range": {
+        "startLine": 263,
+        "startChar": 51,
+        "endLine": 263,
+        "endChar": 67
+      },
+      "revId": "b5a124d97ccb942f4adec6d9d95ddfbe1ce4d3e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6d6eef03_6f0698a7",
+        "filename": "java/com/google/gerrit/server/patch/PatchScriptBuilder.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 508,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-10-14T14:37:31Z",
+      "side": 1,
+      "message": "why do you introduce this class? It has no members. Do you want to create static methods instead?",
+      "range": {
+        "startLine": 508,
+        "startChar": 16,
+        "endLine": 508,
+        "endChar": 30
+      },
+      "revId": "b5a124d97ccb942f4adec6d9d95ddfbe1ce4d3e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

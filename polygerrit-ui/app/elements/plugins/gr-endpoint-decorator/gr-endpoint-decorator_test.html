@@ -67,7 +67,7 @@ limitations under the License.
       replacementHook = plugin.registerCustomComponent(
           'second', 'other-module', {replace: true});
       // Mimic all plugins loaded.
-      Gerrit._setPluginsPending([]);
+      Gerrit._loadPlugins([]);
       flush(done);
     });
 

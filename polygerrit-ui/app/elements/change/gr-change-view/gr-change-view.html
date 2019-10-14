@@ -521,7 +521,12 @@ limitations under the License.
 
       <section class="patchInfo">
         <template is="dom-if" if="[[_showPrimaryTabs]]">
-          <paper-tabs id="primaryTabs" on-selected-changed="_handleFileTabChange">
+          <paper-tabs
+            selected="0"
+            no-slide
+            noink
+            id="primaryTabs"
+            on-selected-changed="_handleFileTabChange">
             <paper-tab>Files</paper-tab>
             <template is="dom-repeat" items="[[_dynamicTabHeaderEndpoints]]"
               as="tabHeader">
@@ -605,6 +610,9 @@ limitations under the License.
         </gr-endpoint-param>
       </gr-endpoint-decorator>
       <paper-tabs
+          selected="0"
+          noink
+          no-slide
           id="commentTabs"
           on-selected-changed="_handleCommentTabChange">
         <paper-tab class="changeLog">Change Log</paper-tab>

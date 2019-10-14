@@ -19,6 +19,7 @@
   'use strict';
 
   const PRELOADED_PROTOCOL = 'preloaded:';
+  const PLUGIN_LOADING_TIMEOUT_MS = 10000;
 
   let _restAPI;
 
@@ -28,6 +29,10 @@
     }
     return _restAPI;
   };
+
+  function getBaseUrl() {
+    return Gerrit.BaseUrlBehavior.getBaseUrl();
+  }
 
   function getPluginNameFromUrl(url) {
     if (!(url instanceof URL)) {
@@ -88,6 +93,9 @@
     getPluginNameFromUrl,
     send,
     getRestAPI,
+    getBaseUrl,
+    PRELOADED_PROTOCOL,
+    PLUGIN_LOADING_TIMEOUT_MS,
 
     // TEST only methods
     resetInternalState,

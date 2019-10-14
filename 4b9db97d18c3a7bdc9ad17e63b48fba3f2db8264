@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "71ea994a_4dbe07bb",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-14T14:37:06Z",
+      "side": 1,
+      "message": "can you add a comment on why we need this method :) also maybe refer to the actually implementation of the `reloadDrafts` to make it very clear",
+      "range": {
+        "startLine": 349,
+        "startChar": 0,
+        "endLine": 349,
+        "endChar": 77
+      },
+      "revId": "4b9db97d18c3a7bdc9ad17e63b48fba3f2db8264",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

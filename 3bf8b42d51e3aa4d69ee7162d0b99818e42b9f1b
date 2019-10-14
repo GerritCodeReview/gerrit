@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "959ba2a3_6bd52c75",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-14T08:24:45Z",
+      "side": 1,
+      "message": "you can just use `endsWith`: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/endsWith\n\nAnd maybe move this if to be outside of the `some`, the check is `endsWith(\u0027:\u0027) \u0026\u0026 match with some op`",
+      "range": {
+        "startLine": 196,
+        "startChar": 20,
+        "endLine": 196,
+        "endChar": 42
+      },
+      "revId": "3bf8b42d51e3aa4d69ee7162d0b99818e42b9f1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3e68bc4b_bb686c48",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-14T08:24:45Z",
+      "side": 1,
+      "message": "maybe do the trim before the if ? empty queries should not navigate as well right ?",
+      "range": {
+        "startLine": 197,
+        "startChar": 35,
+        "endLine": 197,
+        "endChar": 43
+      },
+      "revId": "3bf8b42d51e3aa4d69ee7162d0b99818e42b9f1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

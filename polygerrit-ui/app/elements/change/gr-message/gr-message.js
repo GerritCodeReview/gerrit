@@ -215,7 +215,6 @@
       }
       const extremes = labelExtremes[score.label];
       if (extremes) {
-        const extremes = labelExtremes[score.label];
         const intScore = parseInt(score.value, 10);
         if (intScore === extremes.max) {
           classes.push('max');

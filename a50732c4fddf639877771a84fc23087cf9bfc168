@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bb40282a_6ee770c3",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1568,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-10-14T17:13:40Z",
+      "side": 1,
+      "message": "Should this be slave?",
+      "range": {
+        "startLine": 1568,
+        "startChar": 12,
+        "endLine": 1568,
+        "endChar": 19
+      },
+      "revId": "a50732c4fddf639877771a84fc23087cf9bfc168",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

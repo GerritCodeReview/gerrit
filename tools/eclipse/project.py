@@ -175,9 +175,8 @@ def gen_classpath(ext):
     def classpathentry(kind, path, src=None, out=None, exported=None):
         e = doc.createElement('classpathentry')
         e.setAttribute('kind', kind)
-        # TODO(davido): Remove this and other exclude BUILD files hack
-        # when this Bazel bug is fixed:
-        # https://github.com/bazelbuild/bazel/issues/1083
+        # Excluding the BUILD file, to avoid the Eclipse warnings:
+        # "The resource is a duplicate of ..."
         if kind == 'src':
             e.setAttribute('excluding', '**/BUILD')
         e.setAttribute('path', path)

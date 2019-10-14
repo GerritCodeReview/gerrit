@@ -49,6 +49,7 @@
     'text/x-go': 'go',
     'text/x-groovy': 'groovy',
     'text/x-haml': 'haml',
+    'text/x-handlebars': 'handlebars',
     'text/x-haskell': 'haskell',
     'text/x-haxe': 'haxe',
     'text/x-ini': 'ini',

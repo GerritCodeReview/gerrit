@@ -22,6 +22,52 @@
       "revId": "acfd9e0ea73288676e2b635605f26f08c3b4a78b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2c4e1cc6_738cda92",
+        "filename": "java/com/google/gerrit/server/patch/PatchScriptBuilder.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 521,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-10-14T06:13:13Z",
+      "side": 1,
+      "message": "Need more info about it",
+      "range": {
+        "startLine": 521,
+        "startChar": 24,
+        "endLine": 521,
+        "endChar": 77
+      },
+      "revId": "acfd9e0ea73288676e2b635605f26f08c3b4a78b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1b78a2eb_68a77d70",
+        "filename": "java/com/google/gerrit/server/patch/PatchScriptFactory.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-10-14T06:13:13Z",
+      "side": 1,
+      "message": "This code is called for each file in a fix.\nIf it is expensive to open repository - I will pass Repository from outside.",
+      "range": {
+        "startLine": 252,
+        "startChar": 79,
+        "endLine": 252,
+        "endChar": 99
+      },
+      "revId": "acfd9e0ea73288676e2b635605f26f08c3b4a78b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "03920910_cd651c54",
+        "filename": "java/com/google/gerrit/reviewdb/client/Comment.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-10-14T06:01:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3a451ab1_e03fbbfc",
+      "range": {
+        "startLine": 134,
+        "startChar": 6,
+        "endLine": 134,
+        "endChar": 7
+      },
+      "revId": "f6d1bedcd2dbaceb2cc94fbf7c5f1485d84cd617",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dfe94110_cad0b6d0",
         "filename": "java/com/google/gerrit/reviewdb/client/Comment.java",
         "patchSetId": 2
@@ -72,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "a9cef67f_e5b6c3bd",
+        "filename": "java/com/google/gerrit/reviewdb/client/Comment.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-10-14T06:01:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dfe94110_cad0b6d0",
+      "range": {
+        "startLine": 137,
+        "startChar": 13,
+        "endLine": 137,
+        "endChar": 39
+      },
+      "revId": "f6d1bedcd2dbaceb2cc94fbf7c5f1485d84cd617",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c3673abd_9440e7df",
         "filename": "java/com/google/gerrit/reviewdb/client/Comment.java",
         "patchSetId": 2
@@ -83,6 +131,30 @@
       "writtenOn": "2019-10-04T16:44:59Z",
       "side": 1,
       "message": "Does our code currently support the specification of (endLine, endChar) directly after a newline character (that is in the same line)? I would have guessed so but can\u0027t remember how exactly it behaves anymore. If this is supported, I think I would rather change this explanation to: (endLine, endChar) must define a location after a valid character of the text.",
+      "range": {
+        "startLine": 138,
+        "startChar": 7,
+        "endLine": 138,
+        "endChar": 81
+      },
+      "revId": "f6d1bedcd2dbaceb2cc94fbf7c5f1485d84cd617",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a301a755_b9200f72",
+        "filename": "java/com/google/gerrit/reviewdb/client/Comment.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-10-14T06:01:44Z",
+      "side": 1,
+      "message": "No, code doesn\u0027t support it. I added 2 more tests to check it.",
+      "parentUuid": "c3673abd_9440e7df",
       "range": {
         "startLine": 138,
         "startChar": 7,
@@ -118,6 +190,30 @@
     },
     {
       "key": {
+        "uuid": "bc1a9d42_8cb3779f",
+        "filename": "java/com/google/gerrit/reviewdb/client/Comment.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-10-14T06:01:44Z",
+      "side": 1,
+      "message": "How it can be on the right side? A fix is always applied to the left side.\nAs I can see from the code, the Comment.Range type is used only for comments and fixes. If fix is a deletion, it has replacement \u003d\u003d \"\" and range.length \u003e 0",
+      "parentUuid": "628eb53f_8aa938ce",
+      "range": {
+        "startLine": 141,
+        "startChar": 7,
+        "endLine": 141,
+        "endChar": 36
+      },
+      "revId": "f6d1bedcd2dbaceb2cc94fbf7c5f1485d84cd617",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "98b52676_1383cf4c",
         "filename": "java/com/google/gerrit/reviewdb/client/Comment.java",
         "patchSetId": 2
@@ -129,6 +225,30 @@
       "writtenOn": "2019-10-04T16:44:59Z",
       "side": 1,
       "message": "Thanks for adding the test to FixReplacementInterpreterIT. I see that Gerrit currently behaves as you describe here for fix replacements. However, I\u0027m not so sure in the context of diffs (and our internal JGit Edits) in general. From working on I1e15767fc, I remember for diff contexts always having the 0 char offset but a different line number. As I1e15767fc was fixed after adding fix replacements, we might also have an inconsistency there. We should double-check that.",
+      "range": {
+        "startLine": 142,
+        "startChar": 10,
+        "endLine": 145,
+        "endChar": 77
+      },
+      "revId": "f6d1bedcd2dbaceb2cc94fbf7c5f1485d84cd617",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0a793d4b_d1e30b78",
+        "filename": "java/com/google/gerrit/reviewdb/client/Comment.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-10-14T06:01:44Z",
+      "side": 1,
+      "message": "You are right - for the type Edit (from JGit) the behavior is different. But as I can see, the Edit type doesn\u0027t have 1 to 1 relation with Comment.Range.\nFor the comments and fixes the behavior is exactly as described in my comments.\nIf you give me more context about relation between Comment.Range and JGit, I can check and write some additional tests.",
+      "parentUuid": "98b52676_1383cf4c",
       "range": {
         "startLine": 142,
         "startChar": 10,

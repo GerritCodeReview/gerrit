@@ -143,6 +143,30 @@
     },
     {
       "key": {
+        "uuid": "f2a98178_efb4b6d8",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar_test.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-14T11:49:32Z",
+      "side": 1,
+      "message": "ah did not get that from the wording. maybe just be more specific ? i.e: Predefined query op with no predication ?",
+      "parentUuid": "0f6799c5_622d8acd",
+      "range": {
+        "startLine": 96,
+        "startChar": 10,
+        "endLine": 96,
+        "endChar": 15
+      },
+      "revId": "3bf8b42d51e3aa4d69ee7162d0b99818e42b9f1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c0a64c24_b4eba581",
         "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar_test.html",
         "patchSetId": 5
@@ -172,6 +196,24 @@
       "side": 1,
       "message": "yeah I think the behaviour in that case should be not to redirect the user but we are currently not checking for it.\nThis seems like a separate task, handling query that is not pre-defined.",
       "parentUuid": "c0a64c24_b4eba581",
+      "revId": "3bf8b42d51e3aa4d69ee7162d0b99818e42b9f1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c3a21c62_4f7d47b9",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar_test.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-14T11:49:32Z",
+      "side": 1,
+      "message": "ya and you should add a test case for that :) i.e: for query like `xxxx:`, it still calls the `searchSpy`",
+      "parentUuid": "df93b18e_fe43591e",
       "revId": "3bf8b42d51e3aa4d69ee7162d0b99818e42b9f1b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

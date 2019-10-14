@@ -1,0 +1,223 @@
+import {ClassElement, ConstructorDeclaration, Expression, GetAccessorDeclaration, HeritageClause, Identifier, MethodDeclaration, Statement} from 'typescript';
+import {LegacyLifecycleMethodName} from './polymerComponentParser';
+import * as ts from 'typescript';
+import * as tsUtils from './tsUtils';
+import {LegacyLifecycleMethodsArray} from './polymerComponentParser';
+
+enum PolymerClassMemberType {
+  IsAccessor,
+  Constructor,
+  PolymerPropertiesAccessor,
+  PolymerObserversAccessor,
+  Method,
+  ExistingLifecycleMethod,
+  NewLifecycleMethod,
+  GetAccessor,
+}
+
+type PolymerClassMember = PolymerClassIsAccessor | PolymerClassConstructor | PolymerClassExistingLifecycleMethod | PolymerClassNewLifecycleMethod | PolymerClassSimpleMember;
+
+interface PolymerClassExistingLifecycleMethod {
+  member: MethodDeclaration;
+  memberType: PolymerClassMemberType.ExistingLifecycleMethod;
+  name: string;
+  lifecycleOrder: number;
+  originalPos: number;
+}
+
+
+interface PolymerClassNewLifecycleMethod {
+  member: MethodDeclaration;
+  memberType: PolymerClassMemberType.NewLifecycleMethod;
+  name: string;
+  lifecycleOrder: number;
+  originalPos: -1
+}
+
+interface PolymerClassIsAccessor {
+  member: GetAccessorDeclaration;
+  memberType: PolymerClassMemberType.IsAccessor;
+  originalPos: -1
+}
+
+interface PolymerClassConstructor {
+  member: ConstructorDeclaration;
+  memberType: PolymerClassMemberType.Constructor;
+  originalPos: -1
+}
+
+interface PolymerClassSimpleMember {
+  memberType: PolymerClassMemberType.PolymerPropertiesAccessor | PolymerClassMemberType.PolymerObserversAccessor | PolymerClassMemberType.Method | PolymerClassMemberType.GetAccessor;
+  member: ClassElement;
+  originalPos: number;
+}
+
+export class PolymerClassBuilder {
+  private readonly members: PolymerClassMember[] = [];
+  public readonly constructorStatements: Statement[] = [];
+  private baseType: ts.ExpressionWithTypeArguments | undefined;
+  public constructor(public readonly className: string) {
+  }
+
+  public addIsAccessor(accessor: GetAccessorDeclaration) {
+    this.members.push({
+      member: accessor,
+      memberType: PolymerClassMemberType.IsAccessor,
+      originalPos: -1
+    });
+  }
+
+  public addPolymerPropertiesAccessor(originalPos: number, accessor: GetAccessorDeclaration) {
+    this.members.push({
+      member: accessor,
+      memberType: PolymerClassMemberType.PolymerPropertiesAccessor,
+      originalPos: originalPos
+    });
+  }
+
+  public addPolymerObserversAccessor(originalPos: number, accessor: GetAccessorDeclaration) {
+    this.members.push({
+      member: accessor,
+      memberType: PolymerClassMemberType.PolymerObserversAccessor,
+      originalPos: originalPos
+    });
+  }
+
+
+  public addClassFieldInitializer(name: string | Identifier, initializer: Expression) {
+    const assignment = ts.createAssignment(ts.createPropertyAccess(ts.createThis(), name), initializer);
+    this.constructorStatements.push(tsUtils.addNewLineAfterNode(ts.createExpressionStatement(assignment)));
+  }
+  public addMethod(originalPos: number, method: MethodDeclaration) {
+    this.members.push({
+      member: method,
+      memberType: PolymerClassMemberType.Method,
+      originalPos: originalPos
+    });
+  }
+
+  public addGetAccessor(originalPos: number, accessor: GetAccessorDeclaration) {
+    this.members.push({
+      member: accessor,
+      memberType: PolymerClassMemberType.GetAccessor,
+      originalPos: originalPos
+    });
+  }
+
+  public addLifecycleMethod(name: LegacyLifecycleMethodName, originalPos: number, method: MethodDeclaration) {
+    const lifecycleOrder = LegacyLifecycleMethodsArray.indexOf(name);
+    if(lifecycleOrder < 0) {
+      throw new Error(`Invalid lifecycle name`);
+    }
+    if(originalPos >= 0) {
+      this.members.push({
+        member: method,
+        memberType: PolymerClassMemberType.ExistingLifecycleMethod,
+        originalPos: originalPos,
+        name: name,
+        lifecycleOrder: lifecycleOrder
+      })
+    } else {
+      this.members.push({
+        member: method,
+        memberType: PolymerClassMemberType.NewLifecycleMethod,
+        name: name,
+        lifecycleOrder: lifecycleOrder,
+        originalPos: -1
+      })
+    }
+  }
+
+  public setBaseType(type: ts.ExpressionWithTypeArguments) {
+    if(this.baseType) {
+      throw new Error("Class can have only one base type");
+    }
+    this.baseType = type;
+  }
+
+  public build(): ts.ClassDeclaration {
+    let heritageClauses: HeritageClause[] = [];
+    if (this.baseType) {
+      const extendClause = ts.createHeritageClause(ts.SyntaxKind.ExtendsKeyword, [this.baseType]);
+      heritageClauses.push(extendClause);
+    }
+    const finalMembers: PolymerClassMember[] = [];
+    const isAccessors = this.members.filter(member => member.memberType === PolymerClassMemberType.IsAccessor);
+    if(isAccessors.length !== 1) {
+      throw new Error("Class must have exactly one 'is'");
+    }
+    finalMembers.push(isAccessors[0]);
+    const constructorMember = this.createConstructor();
+    if(constructorMember) {
+      finalMembers.push(constructorMember);
+    }
+
+    const newLifecycleMethods: PolymerClassNewLifecycleMethod[] = [];
+    this.members.forEach(member => {
+      if(member.memberType === PolymerClassMemberType.NewLifecycleMethod) {
+        newLifecycleMethods.push(member);
+      }
+    });
+
+    const methodsWithKnownPosition = this.members.filter(member => member.originalPos >= 0);
+    methodsWithKnownPosition.sort((a, b) => a.originalPos - b.originalPos);
+
+    finalMembers.push(...methodsWithKnownPosition);
+
+
+    for(const newLifecycleMethod of newLifecycleMethods) {
+      //Number of methods is small - use brute force solution
+      let closestNextIndex = -1;
+      let closestNextOrderDiff: number = LegacyLifecycleMethodsArray.length;
+      let closestPrevIndex = -1;
+      let closestPrevOrderDiff: number = LegacyLifecycleMethodsArray.length;
+      for (let i = 0; i < finalMembers.length; i++) {
+        const member = finalMembers[i];
+        if (member.memberType !== PolymerClassMemberType.NewLifecycleMethod && member.memberType !== PolymerClassMemberType.ExistingLifecycleMethod) {
+          continue;
+        }
+        const orderDiff = member.lifecycleOrder - newLifecycleMethod.lifecycleOrder;
+        if (orderDiff > 0) {
+          if (orderDiff < closestNextOrderDiff) {
+            closestNextIndex = i;
+            closestNextOrderDiff = orderDiff;
+          }
+        } else if (orderDiff < 0) {
+          if (orderDiff < closestPrevOrderDiff) {
+            closestPrevIndex = i;
+            closestPrevOrderDiff = orderDiff;
+          }
+        }
+      }
+      let insertIndex = finalMembers.length;
+      if (closestNextIndex !== -1 || closestPrevIndex !== -1) {
+        insertIndex = closestNextOrderDiff < closestPrevOrderDiff ?
+            closestNextIndex : closestPrevIndex;
+      }
+      finalMembers.splice(insertIndex, 0, newLifecycleMethod);
+    }
+    //Asserts about finalMembers
+    const nonConstructorMembers = finalMembers.filter(m => m.memberType !== PolymerClassMemberType.Constructor);
+
+    if(nonConstructorMembers.length !== this.members.length) {
+      throw new Error(`Internal error! Some methods are missed`);
+    }
+    return ts.createClassDeclaration(undefined, undefined, this.className, undefined, heritageClauses, finalMembers.map(m => m.member))
+  }
+
+  private createConstructor(): PolymerClassConstructor | null {
+    if(this.constructorStatements.length === 0) {
+      return null;
+    }
+    let superCall: ts.CallExpression = ts.createCall(ts.createSuper(), [], []);
+    const superCallExpression = ts.createExpressionStatement(superCall);
+    const statements = [superCallExpression, ...this.constructorStatements];
+    const constructorDeclaration = ts.createConstructor([], [], [], ts.createBlock(statements, true));
+
+    return {
+      memberType: PolymerClassMemberType.Constructor,
+      member: constructorDeclaration,
+      originalPos: -1
+    };
+  }
+}

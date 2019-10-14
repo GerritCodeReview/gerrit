@@ -1,0 +1,239 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ebb73d34_fd94da95",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-api-utils.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-10-14T14:00:38Z",
+      "side": 1,
+      "message": "I left a bunch of comments, but now think it was probably just moved from somewhere - can we somehow mark this as moved in Gerrit, so that we see the delta?\n\nAlso, do we need the gr- prefix here? That\u0027s used for elements because their selector is gr- to namespace our elements, but this does not define anything global. I think it could just be called api-utils.js. I even wonder if - or _ is more appropriate. We seem to be using - a lot, but that may just be because most of our stuff is elements, and their tag names have to use -? I guess gr-diff-builder-unified using - also, even though it\u0027s not an element, so maybe that is fine.",
+      "revId": "c12a07150d044b1ca48f88ba1e82b62f5fff6005",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f468ea78_4cac2a43",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-api-utils.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-10-14T14:00:38Z",
+      "side": 1,
+      "message": "Does this need to be an arrow function? Does not seem to use `this` anywhere - maybe just\n\nfunction getRestAPI() {...",
+      "range": {
+        "startLine": 25,
+        "startChar": 21,
+        "endLine": 25,
+        "endChar": 26
+      },
+      "revId": "c12a07150d044b1ca48f88ba1e82b62f5fff6005",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "846c6c75_8d3b9dc1",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-api-utils.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-10-14T14:00:38Z",
+      "side": 1,
+      "message": "Should we have JSDoc typings here?",
+      "range": {
+        "startLine": 32,
+        "startChar": 32,
+        "endLine": 32,
+        "endChar": 35
+      },
+      "revId": "c12a07150d044b1ca48f88ba1e82b62f5fff6005",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d26159ed_6f3ff6ef",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-api-utils.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-10-14T14:00:38Z",
+      "side": 1,
+      "message": "This can potentially throw - maybe your check above should be a regexp, so that you can also use `match` to extract the relevant parts in the \"same place\"?",
+      "range": {
+        "startLine": 58,
+        "startChar": 30,
+        "endLine": 58,
+        "endChar": 33
+      },
+      "revId": "c12a07150d044b1ca48f88ba1e82b62f5fff6005",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c5ba018f_0cfc72d3",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-api-utils.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-10-14T14:00:38Z",
+      "side": 1,
+      "message": "Do we have a bug we can attach here instead of a username? I don\u0027t expect Viktar will come back and fix this.",
+      "range": {
+        "startLine": 61,
+        "startChar": 11,
+        "endLine": 61,
+        "endChar": 18
+      },
+      "revId": "c12a07150d044b1ca48f88ba1e82b62f5fff6005",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3cfd0466_ab9b33ed",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-api-utils.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-10-14T14:00:38Z",
+      "side": 1,
+      "message": "Move this up to where the singleton is created.",
+      "revId": "c12a07150d044b1ca48f88ba1e82b62f5fff6005",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fce4fa23_fb6401af",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-api-utils.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-10-14T14:00:38Z",
+      "side": 1,
+      "message": "A bit subideal: Originally this is undefined (because you do not initialize the declaration) and now here we set it to null instead. Maybe use the same bottom value?",
+      "range": {
+        "startLine": 84,
+        "startChar": 15,
+        "endLine": 84,
+        "endChar": 19
+      },
+      "revId": "c12a07150d044b1ca48f88ba1e82b62f5fff6005",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "819cd5ff_72739dea",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-api-utils.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-10-14T14:00:38Z",
+      "side": 1,
+      "message": "What does this underscore mean? I thought it means private, but you are basically exporting this here for everyone to use, no?",
+      "range": {
+        "startLine": 87,
+        "startChar": 9,
+        "endLine": 87,
+        "endChar": 10
+      },
+      "revId": "c12a07150d044b1ca48f88ba1e82b62f5fff6005",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ec875254_48bcd92c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-gerrit.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-10-14T14:00:38Z",
+      "side": 1,
+      "message": "This exposes Gerrit.* not GrGerrit - maybe drop the gr- from the filename? Maybe also add a file level comment explaining what should and should not go here. Have a file gerrit.js in a project gerrit might lead people to put all kinds of random things here.",
+      "revId": "c12a07150d044b1ca48f88ba1e82b62f5fff6005",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "18ba5cc9_52684c2a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-gerrit.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-10-14T14:00:38Z",
+      "side": 1,
+      "message": "I thought this is for tests only? MAybe it should have testsOnly in the name so that this is easier to spot?",
+      "range": {
+        "startLine": 53,
+        "startChar": 6,
+        "endLine": 53,
+        "endChar": 24
+      },
+      "revId": "c12a07150d044b1ca48f88ba1e82b62f5fff6005",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6f993d53_00b5e9eb",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-gerrit.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-10-14T14:00:38Z",
+      "side": 1,
+      "message": "Looks like an API comment, not an implementation comment? (/* */?)",
+      "range": {
+        "startLine": 58,
+        "startChar": 2,
+        "endLine": 58,
+        "endChar": 5
+      },
+      "revId": "c12a07150d044b1ca48f88ba1e82b62f5fff6005",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

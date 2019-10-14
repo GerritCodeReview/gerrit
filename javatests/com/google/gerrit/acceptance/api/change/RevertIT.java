@@ -37,6 +37,7 @@ import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.common.PureRevertInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.permissions.PermissionDeniedException;
@@ -391,6 +392,24 @@ public class RevertIT extends AbstractDaemonTest {
     assertThat(thrown)
         .hasMessageThat()
         .contains("not permitted: create change on refs/heads/master");
+  }
+
+  @Test
+  public void cantCreateRevertWithoutReadPermission() throws Exception {
+    PushOneCommit.Result r = createChange();
+    gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).review(ReviewInput.approve());
+    gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).submit();
+
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(block(Permission.READ).ref("refs/heads/master").group(REGISTERED_USERS))
+        .update();
+
+    ResourceNotFoundException thrown =
+        assertThrows(
+            ResourceNotFoundException.class, () -> gApi.changes().id(r.getChangeId()).revert());
+    assertThat(thrown).hasMessageThat().contains("Not found: " + r.getChangeId());
   }
 
   @Override

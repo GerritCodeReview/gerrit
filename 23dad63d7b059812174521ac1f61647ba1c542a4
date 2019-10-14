@@ -1,0 +1,228 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3d471211_39256975",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-14T06:59:19Z",
+      "side": 1,
+      "message": "with",
+      "range": {
+        "startLine": 25,
+        "startChar": 8,
+        "endLine": 25,
+        "endChar": 10
+      },
+      "revId": "23dad63d7b059812174521ac1f61647ba1c542a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "797f25a6_36d2d538",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-14T06:59:19Z",
+      "side": 1,
+      "message": "better: \"may need to rebase them manually to make them submittable.\"",
+      "range": {
+        "startLine": 26,
+        "startChar": 31,
+        "endLine": 27,
+        "endChar": 33
+      },
+      "revId": "23dad63d7b059812174521ac1f61647ba1c542a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f4707963_ead8d5da",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-14T06:59:19Z",
+      "side": 1,
+      "message": "Maybe move this down after the next paragraph. This talks about the new functionality that is added by the new REST endpoint, but this REST endpoint was not mentioned so far. It is only explained in the next paragraph. This paragraph here should rather only explain the issue that is being solved, not the solution yet.",
+      "range": {
+        "startLine": 24,
+        "startChar": 5,
+        "endLine": 27,
+        "endChar": 33
+      },
+      "revId": "23dad63d7b059812174521ac1f61647ba1c542a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e9eafb1f_d60424e6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-14T06:59:19Z",
+      "side": 1,
+      "message": "better: \"for which the Revert by Submission REST endpoint is invoked\"",
+      "range": {
+        "startLine": 40,
+        "startChar": 25,
+        "endLine": 40,
+        "endChar": 59
+      },
+      "revId": "23dad63d7b059812174521ac1f61647ba1c542a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6ba6e669_0435f67d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-14T06:59:19Z",
+      "side": 1,
+      "message": "better: \"does\"",
+      "range": {
+        "startLine": 41,
+        "startChar": 26,
+        "endLine": 41,
+        "endChar": 30
+      },
+      "revId": "23dad63d7b059812174521ac1f61647ba1c542a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f1a79c9a_8bd63748",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-14T06:59:19Z",
+      "side": 1,
+      "message": "better: \"validations\"",
+      "range": {
+        "startLine": 49,
+        "startChar": 30,
+        "endLine": 49,
+        "endChar": 35
+      },
+      "revId": "23dad63d7b059812174521ac1f61647ba1c542a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "90985c15_40be61a5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-14T06:59:19Z",
+      "side": 1,
+      "message": "better: Duplicate revert changes are created but they will have different unique topics.",
+      "range": {
+        "startLine": 54,
+        "startChar": 2,
+        "endLine": 55,
+        "endChar": 13
+      },
+      "revId": "23dad63d7b059812174521ac1f61647ba1c542a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a083e5f9_50d31fd1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-14T06:59:19Z",
+      "side": 1,
+      "message": "Topics haven\u0027t been mentioned so far. Can you add a paragraph above that explains that the Revert by Submission REST endpoint sets a unique topic on the revert changes and how this topic is constructed? And that users can set the topic in the input.",
+      "range": {
+        "startLine": 55,
+        "startChar": 0,
+        "endLine": 55,
+        "endChar": 12
+      },
+      "revId": "23dad63d7b059812174521ac1f61647ba1c542a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "625b9b7a_7f4450c3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-14T06:59:19Z",
+      "side": 1,
+      "message": "better:\n\nThe result is similar to the result of the Revert Change REST endpoint. The only difference is that the topic of the revert change is set to \u0027revert-\u003csubmission-id\u003e-\u003cTimestamp.now\u003e\u0027",
+      "range": {
+        "startLine": 59,
+        "startChar": 0,
+        "endLine": 61,
+        "endChar": 40
+      },
+      "revId": "23dad63d7b059812174521ac1f61647ba1c542a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be7912c5_5f59b802",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-14T06:59:19Z",
+      "side": 1,
+      "message": "Maybe add a paragraph with the next steps that will be implemented by follow-up changes. This doesn\u0027t require much details, one sentence per follow-up topic should be enough.",
+      "revId": "23dad63d7b059812174521ac1f61647ba1c542a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

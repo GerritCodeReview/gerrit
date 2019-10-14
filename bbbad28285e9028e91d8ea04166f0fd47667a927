@@ -22,6 +22,30 @@
       "revId": "bbbad28285e9028e91d8ea04166f0fd47667a927",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3d41a2a6_ce86e182",
+        "filename": "resources/com/google/gerrit/httpd/raw/PolyGerritIndexHtml.soy",
+        "patchSetId": 64
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-14T15:12:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5e2a5da9_555cb67a",
+      "range": {
+        "startLine": 81,
+        "startChar": 70,
+        "endLine": 81,
+        "endChar": 72
+      },
+      "revId": "bbbad28285e9028e91d8ea04166f0fd47667a927",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

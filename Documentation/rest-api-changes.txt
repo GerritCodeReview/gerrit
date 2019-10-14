@@ -1516,6 +1516,14 @@ RevertInput] The topic of all created revert changes will be
 The changes will not be rebased on onto the destination branch so the users may still
 have to manually rebase them to resolve conflicts and make them submittable.
 
+However, the changes that have the same project and branch will be rebased on top
+of each other. E.g, the first revert change will have the original change as a
+parent, and the second revert change will have the first revert change as a
+parent.
+
+There is one special case that involves merge commits, and in that case the first
+parent will be merge commit.
+
 .Request
 ----
   POST /changes/myProject~master~I1ffe09a505e25f15ce1521bcfb222e51e62c2a14/revert_submission HTTP/1.0

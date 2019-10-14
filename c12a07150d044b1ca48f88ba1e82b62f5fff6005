@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ad73c3e7_207a7ef0",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-api-utils.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-14T14:36:10Z",
+      "side": 1,
+      "message": "ya most of the methods are moved from gr-js-public-api. I refactor all mehtods related to plugin loading to https://gerrit-review.googlesource.com/c/gerrit/+/240614.\n\nas you said, the `gr-` stuff seems pretty standard to every file we had :( I will just stick to it for now",
+      "parentUuid": "ebb73d34_fd94da95",
+      "revId": "c12a07150d044b1ca48f88ba1e82b62f5fff6005",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f468ea78_4cac2a43",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-api-utils.js",
         "patchSetId": 1

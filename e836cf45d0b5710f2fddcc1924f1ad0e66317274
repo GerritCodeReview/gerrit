@@ -22,6 +22,30 @@
       "revId": "e836cf45d0b5710f2fddcc1924f1ad0e66317274",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "df58162e_64e2a7b0",
+        "filename": "java/com/google/gerrit/httpd/raw/IndexHtmlUtil.java",
+        "patchSetId": 64
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-14T14:31:48Z",
+      "side": 0,
+      "message": "not that I am aware of. I tried search through the whole repo, and the other places using `p2` are most in test cases and other files refering to project.",
+      "parentUuid": "56d377d8_828f0cf0",
+      "range": {
+        "startLine": 123,
+        "startChar": 36,
+        "endLine": 123,
+        "endChar": 40
+      },
+      "revId": "e836cf45d0b5710f2fddcc1924f1ad0e66317274",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

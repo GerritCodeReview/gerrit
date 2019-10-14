@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "faa7da4b_d23b1d25",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 1299,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-14T07:55:59Z",
+      "side": 1,
+      "message": "This might have an issue. Since you use the `_showDynamicColumns` for all three endpoints, basically if the plugin registered only content or stats without header, then it will not show up if its the only plugin using these endpoints, but will show up if some other plugin registered the header endpoint (that may mess up the layout). \n\nOne way is to link these three endpoints somehow so all of them are required (or default to empty content) if a plugin registered any of them, so the header / content / stats won\u0027t go out of sync. But it may go beyond the scope of this change.",
+      "revId": "872a50bcb232ad5ce128c1f3e3f66187466facd5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

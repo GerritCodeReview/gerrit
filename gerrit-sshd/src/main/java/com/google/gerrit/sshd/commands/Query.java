@@ -14,6 +14,8 @@
 
 package com.google.gerrit.sshd.commands;
 
+import static com.google.gerrit.sshd.CommandMetaData.Mode.MASTER_OR_SLAVE;
+
 import com.google.gerrit.server.query.change.OutputStreamQuery;
 import com.google.gerrit.server.query.change.OutputStreamQuery.OutputFormat;
 import com.google.gerrit.sshd.CommandMetaData;
@@ -23,7 +25,10 @@ import java.util.List;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 
-@CommandMetaData(name = "query", description = "Query the change database")
+@CommandMetaData(
+    name = "query",
+    description = "Query the change database",
+    runsAt = MASTER_OR_SLAVE)
 public class Query extends SshCommand {
   @Inject private OutputStreamQuery processor;
 

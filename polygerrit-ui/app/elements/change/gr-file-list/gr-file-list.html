@@ -293,6 +293,12 @@ limitations under the License.
         <div class="comments">Comments</div>
         <div class="sizeBars">Size</div>
         <div class="header-stats">Delta</div>
+        <template is="dom-if" if="[[_showDynamicColumns]]">
+          <template is="dom-repeat" items="[[_dynamicHeaderEndpoints]]" as="headerEndpoint">
+            <gr-endpoint-decorator name$="[[headerEndpoint]]">
+            </gr-endpoint-decorator>
+          </template>
+        </template>
         <!-- Empty div here exists to keep spacing in sync with file rows. -->
         <div class="reviewed hideOnEdit" hidden$="[[!_loggedIn]]"></div>
         <div class="editFileControls showOnEdit"></div>

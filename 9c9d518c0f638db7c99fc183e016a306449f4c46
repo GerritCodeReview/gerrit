@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "e1a2a070_35f5d6f6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 63
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-14T14:10:05Z",
+      "side": 1,
+      "message": "Ya, finalizing some tests and verification, will update it soon!",
+      "parentUuid": "8df5e033_d08a9090",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 35
+      },
+      "revId": "9c9d518c0f638db7c99fc183e016a306449f4c46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ca1aa601_84823441",
         "filename": "/COMMIT_MSG",
         "patchSetId": 63
@@ -39,6 +63,24 @@
       "revId": "9c9d518c0f638db7c99fc183e016a306449f4c46",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c36dc46e_d127d183",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 63
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-14T14:10:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ca1aa601_84823441",
+      "revId": "9c9d518c0f638db7c99fc183e016a306449f4c46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -160,6 +202,24 @@
       "side": 1,
       "message": "\u003e the soy tenmplate still needs it [...]\n\nWhy we rather don\u0027t assign it uncoditionally, so that data.put(\"polymer2\", \"true\") can be removed here, something like:\n\n  window.CLOSURE_NO_DEPS \u003d true;\n  window.POLYMER2 \u003d true;",
       "parentUuid": "6f8bc370_26aacc05",
+      "revId": "9c9d518c0f638db7c99fc183e016a306449f4c46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fdd1510f_855ad997",
+        "filename": "java/com/google/gerrit/httpd/raw/IndexHtmlUtil.java",
+        "patchSetId": 63
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-14T14:10:05Z",
+      "side": 1,
+      "message": "ya we can do that as well. I guess Ben is trying to make this change as small as possible. I will remove this polymer2 from the templateData then :)",
+      "parentUuid": "0c81dfdc_63603c3f",
       "revId": "9c9d518c0f638db7c99fc183e016a306449f4c46",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

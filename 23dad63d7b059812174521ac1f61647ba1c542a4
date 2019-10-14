@@ -450,6 +450,30 @@
     },
     {
       "key": {
+        "uuid": "97b05eec_da30aa5b",
+        "filename": "java/com/google/gerrit/extensions/api/changes/ChangeApi.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-14T08:51:24Z",
+      "side": 1,
+      "message": "Just for the record. We discussed this on the whiteboard and came to the conclusion that making this method return Stream\u003cChangeApi\u003e would be the best.",
+      "parentUuid": "8c7d63e8_9f095b60",
+      "range": {
+        "startLine": 168,
+        "startChar": 7,
+        "endLine": 168,
+        "endChar": 16
+      },
+      "revId": "23dad63d7b059812174521ac1f61647ba1c542a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ff50ec6f_e63be940",
         "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
         "patchSetId": 1

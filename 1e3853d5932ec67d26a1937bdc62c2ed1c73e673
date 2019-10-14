@@ -16,6 +16,24 @@
       "revId": "1e3853d5932ec67d26a1937bdc62c2ed1c73e673",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a1928982_41877587",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.js",
+        "patchSetId": 16
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-10-14T07:58:10Z",
+      "side": 1,
+      "message": "Oh, yes definitely accidental.\n\nThanks for the catch!\n\nFixed in https://gerrit-review.googlesource.com/c/gerrit/+/240732",
+      "parentUuid": "65a0bd63_6f1f7b51",
+      "revId": "1e3853d5932ec67d26a1937bdc62c2ed1c73e673",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,15 @@
+{
+  "name": "polygerrit-updater",
+  "version": "1.0.0",
+  "description": "Polygerrit source code updater",
+  "scripts": {
+    "compile": "tsc",
+    "convert": "npm run compile && node js/src/index.js"
+  },
+  "author": "",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@types/node": "^12.7.12",
+    "typescript": "^3.6.4"
+  }
+}

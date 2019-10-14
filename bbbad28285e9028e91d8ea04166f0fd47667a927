@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5e2a5da9_555cb67a",
+        "filename": "resources/com/google/gerrit/httpd/raw/PolyGerritIndexHtml.soy",
+        "patchSetId": 64
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-10-14T14:53:46Z",
+      "side": 1,
+      "message": "Need to remove this so that normal gerrit sites will work, will need to be customised so google can continue to use -p2 here.",
+      "range": {
+        "startLine": 81,
+        "startChar": 70,
+        "endLine": 81,
+        "endChar": 72
+      },
+      "revId": "bbbad28285e9028e91d8ea04166f0fd47667a927",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

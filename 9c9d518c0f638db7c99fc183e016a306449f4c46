@@ -2,6 +2,46 @@
   "comments": [
     {
       "key": {
+        "uuid": "8df5e033_d08a9090",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 63
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-14T12:55:51Z",
+      "side": 1,
+      "message": "Remove this part so that we can merge it?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 35
+      },
+      "revId": "9c9d518c0f638db7c99fc183e016a306449f4c46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ca1aa601_84823441",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 63
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-14T12:55:51Z",
+      "side": 1,
+      "message": "Please link here Issue 4699 created by Andy 3 years ago, on Tue, Oct 4, 2016. ;-)",
+      "revId": "9c9d518c0f638db7c99fc183e016a306449f4c46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0c56ddc6_4d2717f9",
         "filename": "WORKSPACE",
         "patchSetId": 63

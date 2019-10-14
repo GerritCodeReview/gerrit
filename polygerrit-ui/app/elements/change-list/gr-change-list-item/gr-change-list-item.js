@@ -26,7 +26,6 @@
 
   Polymer({
     is: 'gr-change-list-item',
-    _legacyUndefinedCheck: true,
 
     properties: {
       visibleChangeTableColumns: Array,

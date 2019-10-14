@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "65a0bd63_6f1f7b51",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.js",
+        "patchSetId": 16
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-10-14T07:21:36Z",
+      "side": 1,
+      "message": "Was this line accidental or am I missing something? It looks like you already have that line in 216, and that should be enough?",
+      "revId": "1e3853d5932ec67d26a1937bdc62c2ed1c73e673",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

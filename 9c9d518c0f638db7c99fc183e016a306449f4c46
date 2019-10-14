@@ -16,6 +16,24 @@
       "revId": "9c9d518c0f638db7c99fc183e016a306449f4c46",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8314a34c_f9c4c0e3",
+        "filename": "java/com/google/gerrit/httpd/raw/IndexHtmlUtil.java",
+        "patchSetId": 63
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-14T12:48:14Z",
+      "side": 1,
+      "message": "yup, the soy template still needs it: https://gerrit.googlesource.com/gerrit/+/master/resources/com/google/gerrit/httpd/raw/PolyGerritIndexHtml.soy",
+      "parentUuid": "7ac619ef_887b3425",
+      "revId": "9c9d518c0f638db7c99fc183e016a306449f4c46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

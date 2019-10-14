@@ -223,6 +223,407 @@
       "revId": "23dad63d7b059812174521ac1f61647ba1c542a4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "73f7cefa_420c7540",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1512,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-14T07:52:51Z",
+      "side": 1,
+      "message": "I would prefer to change the phrasing of this sentence. We use this particular phrasing only if in the input can contain a single property only. Then this phrasing makes sense: \"If you don\u0027t want to set this property you don\u0027t need to specify an input\". But as soon as there are 2 properties in the input it\u0027s not really appropriate to say: \"If you don\u0027t want to set property1 you don\u0027t need to specify an input\", because you need the input if you want to set property2.\n\nIn this case you can set message, topic and notify details via the RevertInput. I think in case it\u0027s better to say something more generic like: \"Details for the revert can be specified in the request body inside a link:#revert-input[RevertInput] entity\".",
+      "range": {
+        "startLine": 1512,
+        "startChar": 0,
+        "endLine": 1512,
+        "endChar": 41
+      },
+      "revId": "23dad63d7b059812174521ac1f61647ba1c542a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b466c682_7df0849e",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1514,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-14T07:52:51Z",
+      "side": 1,
+      "message": "That\u0027s probably outdated. The commit message says that a timestamp is included,",
+      "range": {
+        "startLine": 1514,
+        "startChar": 24,
+        "endLine": 1514,
+        "endChar": 46
+      },
+      "revId": "23dad63d7b059812174521ac1f61647ba1c542a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ee5c5d52_119389ba",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1515,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-14T07:52:51Z",
+      "side": 1,
+      "message": "Can you copy\u0026paste here the part from the commit message that explains that revert changes are not rebased and that users may need to do that manually?",
+      "revId": "23dad63d7b059812174521ac1f61647ba1c542a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "18c311de_7b950a23",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1522,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-14T07:52:51Z",
+      "side": 1,
+      "message": "revert changes",
+      "range": {
+        "startLine": 1522,
+        "startChar": 14,
+        "endLine": 1522,
+        "endChar": 31
+      },
+      "revId": "23dad63d7b059812174521ac1f61647ba1c542a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "400ed560_8ebeb96e",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1523,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-14T07:52:51Z",
+      "side": 1,
+      "message": "better: revert change",
+      "range": {
+        "startLine": 1523,
+        "startChar": 14,
+        "endLine": 1523,
+        "endChar": 20
+      },
+      "revId": "23dad63d7b059812174521ac1f61647ba1c542a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "00bbcbe5_619e8068",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1554,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-14T07:52:51Z",
+      "side": 1,
+      "message": "This seems to be an invalid Change-Id (Change-Ids must start with \u0027I\u0027)",
+      "range": {
+        "startLine": 1554,
+        "startChar": 20,
+        "endLine": 1554,
+        "endChar": 60
+      },
+      "revId": "23dad63d7b059812174521ac1f61647ba1c542a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6b8b919d_e8e488ad",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1562,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-14T07:52:51Z",
+      "side": 1,
+      "message": "This number must differ from the number of the previous change as numeric change IDs are unique.",
+      "range": {
+        "startLine": 1562,
+        "startChar": 17,
+        "endLine": 1562,
+        "endChar": 21
+      },
+      "revId": "23dad63d7b059812174521ac1f61647ba1c542a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "68697e2f_94871f69",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1566,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-14T07:52:51Z",
+      "side": 1,
+      "message": "These examples miss the topic that is being set by the REST endpoint.",
+      "range": {
+        "startLine": 1534,
+        "startChar": 1,
+        "endLine": 1566,
+        "endChar": 5
+      },
+      "revId": "23dad63d7b059812174521ac1f61647ba1c542a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ab2f07a0_8b50d4c2",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 7006,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-14T07:52:51Z",
+      "side": 1,
+      "message": "The described default is only true for the Revert Change REST endpoint, but not for the Revert Submission REST endpoint. Mention both defaults here.",
+      "range": {
+        "startLine": 7005,
+        "startChar": 41,
+        "endLine": 7006,
+        "endChar": 29
+      },
+      "revId": "23dad63d7b059812174521ac1f61647ba1c542a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8c7d63e8_9f095b60",
+        "filename": "java/com/google/gerrit/extensions/api/changes/ChangeApi.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-14T07:52:51Z",
+      "side": 1,
+      "message": "I think it would be better to return a list of ChangeInfo\u0027s here.",
+      "range": {
+        "startLine": 168,
+        "startChar": 7,
+        "endLine": 168,
+        "endChar": 16
+      },
+      "revId": "23dad63d7b059812174521ac1f61647ba1c542a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ff50ec6f_e63be940",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-14T07:52:51Z",
+      "side": 1,
+      "message": "Can we have a test where this REST endpoint tries to revert a change of a project for which the calling user doesn\u0027t have a contributor agreement, so that this check triggers?",
+      "revId": "23dad63d7b059812174521ac1f61647ba1c542a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fc5f8322_3628dc24",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-14T07:52:51Z",
+      "side": 1,
+      "message": "Same here, we should have tests where these permission checks are hit.",
+      "range": {
+        "startLine": 106,
+        "startChar": 6,
+        "endLine": 107,
+        "endChar": 86
+      },
+      "revId": "23dad63d7b059812174521ac1f61647ba1c542a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9f71a4a3_d469c7d0",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-14T07:52:51Z",
+      "side": 1,
+      "message": "just name this \u0027revertSubmission\u0027?",
+      "range": {
+        "startLine": 119,
+        "startChar": 27,
+        "endLine": 119,
+        "endChar": 49
+      },
+      "revId": "23dad63d7b059812174521ac1f61647ba1c542a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6c168844_181c2057",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-14T07:52:51Z",
+      "side": 1,
+      "message": "better: \"Revert this change and all changes that have been submitted together with this change\"\n\nSubmission ID is not exposed to users, hence they likely don\u0027t know what this is.",
+      "range": {
+        "startLine": 144,
+        "startChar": 19,
+        "endLine": 144,
+        "endChar": 73
+      },
+      "revId": "23dad63d7b059812174521ac1f61647ba1c542a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "88b600f5_9d165835",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-14T07:52:51Z",
+      "side": 1,
+      "message": "ChangeIT is already much too large, with too many tests. Can you please move all tests that are related to revert submission into a new RevertSubmissionIT class?",
+      "revId": "23dad63d7b059812174521ac1f61647ba1c542a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "94de757b_2a6b10e0",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1002,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-14T07:52:51Z",
+      "side": 1,
+      "message": "nit: just \"change\", since there is no second change",
+      "range": {
+        "startLine": 1002,
+        "startChar": 48,
+        "endLine": 1002,
+        "endChar": 60
+      },
+      "revId": "23dad63d7b059812174521ac1f61647ba1c542a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6512f1a9_6baf2be2",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1016,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-14T07:52:51Z",
+      "side": 1,
+      "message": "maybe also assert the topic and the changes messages that are expected on the reverted change and the revert change",
+      "revId": "23dad63d7b059812174521ac1f61647ba1c542a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dd97a1c5_660f2023",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1028,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-14T07:52:51Z",
+      "side": 1,
+      "message": "The tests so far look good, but I think we need some more:\n\n- test that topic that is set in input, is used\n- test that message that is set in input is used\n- test revert of a change series\n- test revert of a submission that spans repos/branches",
+      "revId": "23dad63d7b059812174521ac1f61647ba1c542a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e916923d_bb03d52f",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1031,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-14T07:52:51Z",
+      "side": 1,
+      "message": "nit: here and below, unrelated addition of blank lines",
+      "revId": "23dad63d7b059812174521ac1f61647ba1c542a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

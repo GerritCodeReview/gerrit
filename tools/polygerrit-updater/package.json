@@ -1,0 +1,14 @@
+{
+  "name": "polygerrit-updater",
+  "version": "1.0.0",
+  "description": "Polygerrit source code updater",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "@types/node": "^12.7.12",
+    "typescript": "^3.6.4"
+  }
+}

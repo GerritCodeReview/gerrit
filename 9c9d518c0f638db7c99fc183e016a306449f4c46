@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "895399b5_8d4261e3",
+        "filename": "WORKSPACE",
+        "patchSetId": 63
+      },
+      "lineNbr": 1230,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-14T12:50:42Z",
+      "side": 1,
+      "message": "I think 2.7.2 is well tested within gerrit :) we can the upgrade in a separated cl :)",
+      "parentUuid": "0c56ddc6_4d2717f9",
+      "revId": "9c9d518c0f638db7c99fc183e016a306449f4c46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7ac619ef_887b3425",
         "filename": "java/com/google/gerrit/httpd/raw/IndexHtmlUtil.java",
         "patchSetId": 63

@@ -183,7 +183,8 @@
 
       _showDynamicColumns: {
         type: Boolean,
-        computed: '_computeShowDynamicColumns(_dynamicHeaderEndpoints)',
+        computed: '_computeShowDynamicColumns(_dynamicHeaderEndpoints, ' +
+                  '_dynamicContentEndpoints, _dynamicSummaryEndpoints)',
       },
       /** @type {Array<string>} */
       _dynamicHeaderEndpoints: {
@@ -1295,13 +1296,11 @@
       return `sizeBars desktop ${hideClass}`;
     },
 
-    _computeShowDynamicColumns(dynamicHeaderEndpoints) {
-      // During a design review, it was decided that dynamic columns should
-      // remain hidden until column headers (including existing columns such as
-      // "Comments") are in place to avoid confusion.
-      // TODO(crbug.com/939904): Enable dispaying dynamic columns when there is
-      // at least one of them registered.
-      return false;
+    _computeShowDynamicColumns(dynamicHeaderEndpoints, dynamicContentEndpoints,
+                               dynamicSummaryEndpoints) {
+      return dynamicHeaderEndpoints && dynamicHeaderEndpoints.length > 0 &&
+             dynamicContentEndpoints && dynamicContentEndpoints.length > 0 &&
+             dynamicSummaryEndpoints && dynamicSummaryEndpoints.length > 0;
     },
 
     /**

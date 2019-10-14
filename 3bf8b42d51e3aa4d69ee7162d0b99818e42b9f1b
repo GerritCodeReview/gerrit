@@ -68,6 +68,23 @@
       "revId": "3bf8b42d51e3aa4d69ee7162d0b99818e42b9f1b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c0a64c24_b4eba581",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar_test.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-14T08:28:24Z",
+      "side": 1,
+      "message": "from your logic, maybe also add a test on a query ends with `:` but not in any of the predefined ops.",
+      "revId": "3bf8b42d51e3aa4d69ee7162d0b99818e42b9f1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

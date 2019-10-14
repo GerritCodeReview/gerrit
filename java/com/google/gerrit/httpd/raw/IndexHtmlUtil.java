@@ -120,9 +120,6 @@ public class IndexHtmlUtil {
     if (faviconPath != null) {
       data.put("faviconPath", faviconPath);
     }
-    if (urlParameterMap.containsKey("p2")) {
-      data.put("polymer2", "true");
-    }
     if (urlParameterMap.containsKey("ce")) {
       data.put("polyfillCE", "true");
     }

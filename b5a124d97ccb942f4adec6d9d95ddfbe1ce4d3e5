@@ -140,6 +140,30 @@
     },
     {
       "key": {
+        "uuid": "212bacec_4072bde9",
+        "filename": "java/com/google/gerrit/server/patch/PatchScriptBuilder.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-10-14T15:23:37Z",
+      "side": 1,
+      "message": "a and b are created and assigned in build method. Can\u0027t pass it from outside to constructor.",
+      "parentUuid": "1a341681_ebc4ea2a",
+      "range": {
+        "startLine": 263,
+        "startChar": 51,
+        "endLine": 263,
+        "endChar": 67
+      },
+      "revId": "b5a124d97ccb942f4adec6d9d95ddfbe1ce4d3e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6d6eef03_6f0698a7",
         "filename": "java/com/google/gerrit/server/patch/PatchScriptBuilder.java",
         "patchSetId": 9
@@ -151,6 +175,30 @@
       "writtenOn": "2019-10-14T14:37:31Z",
       "side": 1,
       "message": "why do you introduce this class? It has no members. Do you want to create static methods instead?",
+      "range": {
+        "startLine": 508,
+        "startChar": 16,
+        "endLine": 508,
+        "endChar": 30
+      },
+      "revId": "b5a124d97ccb942f4adec6d9d95ddfbe1ce4d3e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a32bc6ee_54395846",
+        "filename": "java/com/google/gerrit/server/patch/PatchScriptBuilder.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 508,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-10-14T15:23:37Z",
+      "side": 1,
+      "message": "In the next changes I introduced interface and implement it for Fix preview (see https://gerrit-review.googlesource.com/c/gerrit/+/239854/13/java/com/google/gerrit/server/patch/PatchScriptFactory.java#440)",
+      "parentUuid": "6d6eef03_6f0698a7",
       "range": {
         "startLine": 508,
         "startChar": 16,

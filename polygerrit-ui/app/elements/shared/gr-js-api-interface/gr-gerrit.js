@@ -55,6 +55,15 @@
 
   const API_VERSION = '0.1';
 
+  // Trigger the preinstalls for bundled plugins
+  function flushPreinstalls() {
+    if (window.Gerrit.flushPreinstalls) {
+      window.Gerrit.flushPreinstalls();
+    }
+  }
+
+  flushPreinstalls();
+
   window.Gerrit = window.Gerrit || {};
   const Gerrit = window.Gerrit;
 
@@ -257,12 +266,6 @@
     }
   };
 
-  function flushPreinstalls() {
-    if (window.Gerrit.flushPreinstalls) {
-      window.Gerrit.flushPreinstalls();
-    }
-  }
-
   function installPreloadedPlugins() {
     if (!Gerrit._preloadedPlugins) { return; }
     for (const name in Gerrit._preloadedPlugins) {
@@ -271,8 +274,6 @@
       Gerrit.install(callback, API_VERSION, PRELOADED_PROTOCOL + name);
     }
   }
-
-  flushPreinstalls();
 
   // Preloaded plugins should be installed after Gerrit.install() is set,
   // since plugin preloader substitutes Gerrit.install() temporarily.

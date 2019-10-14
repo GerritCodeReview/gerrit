@@ -77,6 +77,7 @@ public class Module extends RestApiModule {
 
     child(PROJECT_KIND, "branches").to(BranchesCollection.class);
     create(BRANCH_KIND).to(CreateBranch.class);
+    post(PROJECT_KIND, "create.change").to(CreateChange.class);
     put(BRANCH_KIND).to(PutBranch.class);
     get(BRANCH_KIND).to(GetBranch.class);
     delete(BRANCH_KIND).to(DeleteBranch.class);

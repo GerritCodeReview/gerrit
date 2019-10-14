@@ -20,6 +20,7 @@ import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.group.db.Groups;
 import com.google.gerrit.server.index.group.GroupIndexer;
+import com.google.gerrit.server.util.ReplicaUtil;
 import com.google.inject.Inject;
 import com.google.inject.Scopes;
 import java.io.IOException;
@@ -50,8 +51,8 @@ public class ReindexGroupsAtStartup implements LifecycleListener {
 
   @Override
   public void start() {
-    // Gerrit slaves without a reindex
-    if (cfg.getBoolean("container", "slave", false)
+    // Gerrit replicas without a reindex
+    if (ReplicaUtil.isReplica(cfg)
         && !cfg.getBoolean("index", "scheduledIndexer", "runOnStartup", true)) {
       return;
     }

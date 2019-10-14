@@ -299,7 +299,7 @@ public class InMemoryModule extends FactoryModule {
 
   private Module indexModule(String moduleClassName) {
     try {
-      boolean slave = cfg.getBoolean("container", "slave", false);
+      boolean slave = cfg.getBoolean("container", "replica", false);
       Class<?> clazz = Class.forName(moduleClassName);
       Method m =
           clazz.getMethod("singleVersionWithExplicitVersions", Map.class, int.class, boolean.class);

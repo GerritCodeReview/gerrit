@@ -241,7 +241,7 @@ public abstract class AbstractReindexTests extends StandaloneSiteTest {
   }
 
   private void enableSlaveMode() throws Exception {
-    updateConfig(config -> config.setBoolean("container", null, "slave", true));
+    updateConfig(config -> config.setBoolean("container", null, "replica", true));
   }
 
   private void updateConfig(Consumer<Config> configConsumer) throws Exception {

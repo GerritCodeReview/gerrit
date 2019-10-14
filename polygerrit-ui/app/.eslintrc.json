@@ -52,6 +52,7 @@
     ],
     "new-cap": ["error", { "capIsNewExceptions": ["Polymer", "LegacyElementMixin", "GestureEventListeners", "LegacyDataMixin"] }],
     "no-console": "off",
+    "no-multiple-empty-lines": [ "error", { "max": 1 } ],
     "no-prototype-builtins": "off",
     "no-redeclare": "off",
     "no-restricted-syntax": [

@@ -802,7 +802,7 @@ limitations under the License.
 
       flushAsynchronousOperations();
       const fileRows =
-          Polymer.dom(element.root).querySelectorAll('.row:not(.header)');
+          Polymer.dom(element.root).querySelectorAll('.row:not(.header-row)');
       const checkSelector = 'input.reviewed[type="checkbox"]';
       const commitMsg = fileRows[0].querySelector(checkSelector);
       const fileAdded = fileRows[1].querySelector(checkSelector);
@@ -933,7 +933,7 @@ limitations under the License.
       sandbox.stub(element, '_expandedPathsChanged');
       flushAsynchronousOperations();
       const fileRows =
-          Polymer.dom(element.root).querySelectorAll('.row:not(.header)');
+          Polymer.dom(element.root).querySelectorAll('.row:not(.header-row)');
       // Because the label surrounds the input, the tap event is triggered
       // there first.
       const showHideLabel = fileRows[0].querySelector('label.show-hide');
@@ -960,7 +960,7 @@ limitations under the License.
 
       // Tap on a file to generate the diff.
       const row = Polymer.dom(element.root)
-          .querySelectorAll('.row:not(.header) label.show-hide')[0];
+          .querySelectorAll('.row:not(.header-row) label.show-hide')[0];
 
       MockInteractions.tap(row);
       flushAsynchronousOperations();
@@ -990,7 +990,7 @@ limitations under the License.
       sandbox.stub(element, '_expandedPathsChanged');
       flushAsynchronousOperations();
       const commitMsgFile = Polymer.dom(element.root)
-          .querySelectorAll('.row:not(.header) a.pathLink')[0];
+          .querySelectorAll('.row:not(.header-row) a.pathLink')[0];
 
       // Remove href attribute so the app doesn't route to a diff view
       commitMsgFile.removeAttribute('href');
@@ -1570,7 +1570,7 @@ limitations under the License.
         nextChunkStub = sandbox.stub(element.$.diffCursor,
             'moveToNextChunk');
         fileRows =
-            Polymer.dom(element.root).querySelectorAll('.row:not(.header)');
+            Polymer.dom(element.root).querySelectorAll('.row:not(.header-row)');
       });
 
       test('n key with some files expanded and no shift key', () => {
@@ -1700,7 +1700,8 @@ limitations under the License.
       // Commit message should not have edit controls.
       const editControls =
           Array.from(
-              Polymer.dom(element.root).querySelectorAll('.row:not(.header)'))
+              Polymer.dom(element.root)
+              .querySelectorAll('.row:not(.header-row)'))
               .map(row => row.querySelector('gr-edit-file-controls'));
       assert.isTrue(editControls[0].classList.contains('invisible'));
     });

@@ -463,6 +463,30 @@
       "revId": "c238e5e3ac4c72b7fe5df3609d94a108a29277ee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1f7724a7_33d630a7",
+        "filename": "lib/jgit/jgit.bzl",
+        "patchSetId": 9
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-10-14T14:21:50Z",
+      "side": 1,
+      "message": "for protocol v2, they\u0027d first need to update to gerrit 3.1, right?",
+      "parentUuid": "b66a7d32_92b77948",
+      "range": {
+        "startLine": 24,
+        "startChar": 10,
+        "endLine": 24,
+        "endChar": 62
+      },
+      "revId": "c238e5e3ac4c72b7fe5df3609d94a108a29277ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

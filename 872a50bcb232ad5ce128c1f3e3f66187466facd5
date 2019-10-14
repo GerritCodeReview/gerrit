@@ -16,6 +16,24 @@
       "revId": "872a50bcb232ad5ce128c1f3e3f66187466facd5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "75ce5aca_d671d556",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 1299,
+      "author": {
+        "id": 1074943
+      },
+      "writtenOn": "2019-10-14T16:20:07Z",
+      "side": 1,
+      "message": "That a great point! I\u0027ve changed the behavior to require that all three of them must to registered in order to show any of the columns. Given that we also log a warning if the length of the 3 endpoints don\u0027t match, I think this is a reasonable behavior to have.",
+      "parentUuid": "faa7da4b_d23b1d25",
+      "revId": "872a50bcb232ad5ce128c1f3e3f66187466facd5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

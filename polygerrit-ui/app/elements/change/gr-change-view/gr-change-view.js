@@ -769,8 +769,9 @@
       // Selected has to be set after the paper-tabs are visible because
       // the selected underline depends on calculations made by the browser.
       this.$.commentTabs.selected = 0;
-      const primaryTabs = this.$$('#primaryTabs');
-      if (primaryTabs) primaryTabs.selected = 0;
+      if (this.$.primaryTabs) {
+        this.$.primaryTabs.selected = 0;
+      }
     },
 
     _performPostLoadTasks() {

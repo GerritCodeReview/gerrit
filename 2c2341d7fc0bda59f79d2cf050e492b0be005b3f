@@ -1,0 +1,180 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4eef95ed_b19c9901",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-plugin-host/gr-plugin-host.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2019-10-14T17:56:38Z",
+      "side": 1,
+      "message": "But why? Is there a piece of documentation, associated issue, etc?",
+      "revId": "2c2341d7fc0bda59f79d2cf050e492b0be005b3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b3b418b3_36af94b8",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-api-utils.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2019-10-14T17:56:38Z",
+      "side": 1,
+      "message": "Nit: this is plugin api utils, right?\nThe name is a bit misleading.",
+      "revId": "2c2341d7fc0bda59f79d2cf050e492b0be005b3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dbe6509a_0d8cdbe2",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-api-utils.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2019-10-14T17:56:38Z",
+      "side": 1,
+      "message": "Are those set only when running tests?",
+      "revId": "2c2341d7fc0bda59f79d2cf050e492b0be005b3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c23fdda9_8b2c6ae9",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-gerrit.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2019-10-14T17:56:38Z",
+      "side": 1,
+      "message": "Looks like ...args could be replaced with just a parameter.\n\nAlso, what\u0027s the purpose of it? Worth documenting, Gerrit.install() is a pretty fundamental API thing.\n\nAlso, maybe there\u0027s another way? What\u0027s the rationale for it?",
+      "range": {
+        "startLine": 82,
+        "startChar": 10,
+        "endLine": 82,
+        "endChar": 17
+      },
+      "revId": "2c2341d7fc0bda59f79d2cf050e492b0be005b3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e984aaee_898ce21b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-gerrit.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2019-10-14T17:56:38Z",
+      "side": 1,
+      "message": "For this one and other private methods on Gerrit:\nThere\u0027s probably no need for a wrapper, so ideally _pluginLoader should be used directly instead of adding another layer of abstraction.\nSince it\u0027s not a part of public plugin API this should be doable.\n\nWhat\u0027s the rationale here?",
+      "revId": "2c2341d7fc0bda59f79d2cf050e492b0be005b3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d8cc28f0_9564a9e7",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-js-api-interface.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2019-10-14T17:56:38Z",
+      "side": 1,
+      "message": "This is great.\nEven better would be to add a few words why and what exactly.",
+      "revId": "2c2341d7fc0bda59f79d2cf050e492b0be005b3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ed86e8e5_22542546",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-loader.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2019-10-14T17:56:38Z",
+      "side": 1,
+      "message": "Just making sure: no .js plugins are supported?\nIs this documented?",
+      "revId": "2c2341d7fc0bda59f79d2cf050e492b0be005b3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "db64bdc2_b392dc4d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-loader.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2019-10-14T17:56:38Z",
+      "side": 1,
+      "message": "Does it take with leading / or without?\nPlease add a comment.",
+      "revId": "2c2341d7fc0bda59f79d2cf050e492b0be005b3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1b41a161_eb2fe15c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-loader.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 386,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2019-10-14T17:56:38Z",
+      "side": 1,
+      "message": "Nit: worth checking if PluginLoader exists on Window already.",
+      "revId": "2c2341d7fc0bda59f79d2cf050e492b0be005b3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "200f4e7d_ef9b3698",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2019-10-14T17:56:38Z",
+      "side": 1,
+      "message": "FYI: plugin has access to it and can override it, that\u0027s why originally it was private.\n\nAlso, this looks like a public plugin API now - it should be added to documentation and covered with tests.",
+      "revId": "2c2341d7fc0bda59f79d2cf050e492b0be005b3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

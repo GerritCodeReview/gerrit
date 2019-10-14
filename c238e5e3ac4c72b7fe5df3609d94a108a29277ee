@@ -487,6 +487,30 @@
       "revId": "c238e5e3ac4c72b7fe5df3609d94a108a29277ee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02fd28d2_fddcc853",
+        "filename": "lib/jgit/jgit.bzl",
+        "patchSetId": 9
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-14T14:39:28Z",
+      "side": 1,
+      "message": "\u003e for protocol v2, they\u0027d first need to update to gerrit 3.1, right?\n\nNot for JGit fetching as submodule, as we use here the URL that is certainly not served by gerrit:\n\n   https://git.eclipse.org/gitroot/jgit/jgit",
+      "parentUuid": "1f7724a7_33d630a7",
+      "range": {
+        "startLine": 24,
+        "startChar": 10,
+        "endLine": 24,
+        "endChar": 62
+      },
+      "revId": "c238e5e3ac4c72b7fe5df3609d94a108a29277ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

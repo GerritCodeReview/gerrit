@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "28a91221_1c9d45a7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-14T12:35:50Z",
+      "side": 1,
+      "message": "Why it is needed to be added to the patchset dropdown, if it is already there? This also raises the question why you are extending the code and the tests for it? May be add some background/explanation to the commit emessage?",
+      "range": {
+        "startLine": 7,
+        "startChar": 4,
+        "endLine": 7,
+        "endChar": 9
+      },
+      "revId": "55558e727a2862115dc0acae48b0472986395da6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a54f490b_13dd0033",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-14T12:35:50Z",
+      "side": 1,
+      "message": "Nit: Superfluous new line, remove.",
+      "revId": "55558e727a2862115dc0acae48b0472986395da6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

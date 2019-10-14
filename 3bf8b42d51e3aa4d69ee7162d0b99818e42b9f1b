@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "0a335ea7_b9245410",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2019-10-14T10:01:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "959ba2a3_6bd52c75",
+      "range": {
+        "startLine": 196,
+        "startChar": 20,
+        "endLine": 196,
+        "endChar": 42
+      },
+      "revId": "3bf8b42d51e3aa4d69ee7162d0b99818e42b9f1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3e68bc4b_bb686c48",
         "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.js",
         "patchSetId": 5
@@ -45,6 +69,30 @@
       "revId": "3bf8b42d51e3aa4d69ee7162d0b99818e42b9f1b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fde906b3_13534839",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2019-10-14T10:01:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3e68bc4b_bb686c48",
+      "range": {
+        "startLine": 197,
+        "startChar": 35,
+        "endLine": 197,
+        "endChar": 43
+      },
+      "revId": "3bf8b42d51e3aa4d69ee7162d0b99818e42b9f1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "0f6799c5_622d8acd",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar_test.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2019-10-14T10:01:51Z",
+      "side": 1,
+      "message": "query \u003d subject:predicate afaik\nso I was trying to test if the predicate was empty.",
+      "parentUuid": "ef1bd058_8c15b00c",
+      "range": {
+        "startLine": 96,
+        "startChar": 10,
+        "endLine": 96,
+        "endChar": 15
+      },
+      "revId": "3bf8b42d51e3aa4d69ee7162d0b99818e42b9f1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c0a64c24_b4eba581",
         "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar_test.html",
         "patchSetId": 5
@@ -82,6 +154,24 @@
       "writtenOn": "2019-10-14T08:28:24Z",
       "side": 1,
       "message": "from your logic, maybe also add a test on a query ends with `:` but not in any of the predefined ops.",
+      "revId": "3bf8b42d51e3aa4d69ee7162d0b99818e42b9f1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "df93b18e_fe43591e",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar_test.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2019-10-14T10:01:51Z",
+      "side": 1,
+      "message": "yeah I think the behaviour in that case should be not to redirect the user but we are currently not checking for it.\nThis seems like a separate task, handling query that is not pre-defined.",
+      "parentUuid": "c0a64c24_b4eba581",
       "revId": "3bf8b42d51e3aa4d69ee7162d0b99818e42b9f1b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

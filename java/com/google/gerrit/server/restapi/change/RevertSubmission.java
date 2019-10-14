@@ -14,37 +14,69 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.gerrit.extensions.conditions.BooleanCondition.and;
 import static com.google.gerrit.server.permissions.RefPermission.CREATE_CHANGE;
 import static java.util.Objects.requireNonNull;
 
+import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.Multimap;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.ChangeMessage;
+import com.google.gerrit.entities.PatchSet;
+import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.Project.NameKey;
+import com.google.gerrit.entities.RefNames;
+import com.google.gerrit.extensions.api.changes.CherryPickInput;
+import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.RevertInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.webui.UiAction;
+import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.PatchSetUtil;
+import com.google.gerrit.server.change.ChangeJson;
+import com.google.gerrit.server.change.ChangeMessages;
 import com.google.gerrit.server.change.ChangeResource;
+import com.google.gerrit.server.change.NotifyResolver;
+import com.google.gerrit.server.change.WalkSorter;
+import com.google.gerrit.server.change.WalkSorter.PatchSetData;
+import com.google.gerrit.server.extensions.events.ChangeReverted;
+import com.google.gerrit.server.git.CommitUtil;
+import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.mail.send.RevertedSender;
+import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.notedb.Sequences;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.project.ContributorAgreementsChecker;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
+import com.google.gerrit.server.restapi.change.CherryPickChange.Result;
 import com.google.gerrit.server.update.BatchUpdate;
+import com.google.gerrit.server.update.BatchUpdateOp;
+import com.google.gerrit.server.update.ChangeContext;
+import com.google.gerrit.server.update.Context;
 import com.google.gerrit.server.update.RetryHelper;
 import com.google.gerrit.server.update.RetryingRestModifyView;
+import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import com.vladsch.flexmark.util.Pair;
 import java.io.IOException;
+import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import org.apache.commons.lang.RandomStringUtils;
+import org.eclipse.jgit.lib.ObjectId;
 
 @Singleton
 public class RevertSubmission
@@ -60,6 +92,20 @@ public class RevertSubmission
   private final ProjectCache projectCache;
   private final PatchSetUtil psUtil;
   private final ContributorAgreementsChecker contributorAgreements;
+  private final CherryPickChange cherryPickChange;
+  private final ChangeJson.Factory json;
+  private final GitRepositoryManager repoManager;
+  private final WalkSorter sorter;
+  private final ChangeMessagesUtil cmUtil;
+  private final CommitUtil commitUtil;
+  private final ChangeNotes.Factory changeNotesFactory;
+  private final ChangeReverted changeReverted;
+  private final RevertedSender.Factory revertedSenderFactory;
+  private final Sequences seq;
+  private final NotifyResolver notifyResolver;
+
+  private String nextBase;
+  private List<ChangeInfo> results;
 
   @Inject
   RevertSubmission(
@@ -71,7 +117,18 @@ public class RevertSubmission
       PermissionBackend permissionBackend,
       ProjectCache projectCache,
       PatchSetUtil psUtil,
-      ContributorAgreementsChecker contributorAgreements) {
+      ContributorAgreementsChecker contributorAgreements,
+      CherryPickChange cherryPickChange,
+      ChangeJson.Factory json,
+      GitRepositoryManager repoManager,
+      WalkSorter sorter,
+      ChangeMessagesUtil cmUtil,
+      CommitUtil commitUtil,
+      ChangeNotes.Factory changeNotesFactory,
+      ChangeReverted changeReverted,
+      RevertedSender.Factory revertedSenderFactory,
+      Sequences seq,
+      NotifyResolver notifyResolver) {
     super(retryHelper);
     this.revert = revert;
     this.queryProvider = queryProvider;
@@ -81,6 +138,17 @@ public class RevertSubmission
     this.projectCache = projectCache;
     this.psUtil = psUtil;
     this.contributorAgreements = contributorAgreements;
+    this.cherryPickChange = cherryPickChange;
+    this.json = json;
+    this.repoManager = repoManager;
+    this.sorter = sorter;
+    this.cmUtil = cmUtil;
+    this.commitUtil = commitUtil;
+    this.changeNotesFactory = changeNotesFactory;
+    this.changeReverted = changeReverted;
+    this.revertedSenderFactory = revertedSenderFactory;
+    this.seq = seq;
+    this.notifyResolver = notifyResolver;
   }
 
   @Override
@@ -118,22 +186,94 @@ public class RevertSubmission
               "current patch set %s of change %s not found",
               change.currentPatchSetId(), change.currentPatchSetId()));
     }
-    return Response.ok(revertSubmission(changeDatas, input, submissionId));
-  }
 
-  private List<ChangeInfo> revertSubmission(
-      List<ChangeData> changeDatas, RevertInput input, String submissionId) throws Exception {
-    List<ChangeInfo> results;
-    results = new ArrayList<>();
     if (input.topic == null) {
       input.topic =
           String.format(
               "revert-%s-%s", submissionId, RandomStringUtils.randomAlphabetic(10).toUpperCase());
     }
-    for (ChangeData changeData : changeDatas) {
-      ChangeResource change = changeResourceFactory.create(changeData.notes(), user.get());
-      // Reverts are done with retrying by using RetryingRestModifyView.
-      results.add(revert.apply(change, input).value());
+    results = new ArrayList<>();
+    nextBase = null;
+
+    return Response.ok(revertSubmission(changeDatas, input, updateFactory));
+  }
+
+  private List<ChangeInfo> revertSubmission(
+      List<ChangeData> changeData, RevertInput revertInput, BatchUpdate.Factory updateFactory)
+      throws Exception {
+    Multimap<Pair<NameKey, String>, ChangeData> changesPerProjectAndBranch =
+        ArrayListMultimap.create();
+    changeData.stream()
+        .forEach(
+            c ->
+                changesPerProjectAndBranch.put(
+                    Pair.of(c.project(), c.change().getDest().branch()), c));
+
+    CherryPickInput cherryPickInput = new CherryPickInput();
+    // We only notify of the new changes that need to be approved.
+    cherryPickInput.notify = revertInput.notify;
+    cherryPickInput.notifyDetails = revertInput.notifyDetails;
+    cherryPickInput.parent = 1;
+    cherryPickInput.keepReviewers = true;
+
+    for (Pair<Project.NameKey, String> projectAndBranch : changesPerProjectAndBranch.keySet()) {
+      Project.NameKey project = projectAndBranch.getFirst();
+      cherryPickInput.destination = projectAndBranch.getSecond();
+      Iterator<PatchSetData> sortedChangesInProject =
+          sorter.sort(changesPerProjectAndBranch.get(projectAndBranch)).iterator();
+
+      while (sortedChangesInProject.hasNext()) {
+        ChangeNotes changeNotes =
+            changeNotesFactory.createChecked(sortedChangesInProject.next().data().getId());
+        cherryPickInput.base =
+            cherryPickInput.base != null
+                ? cherryPickInput.base
+                : changeNotes.getCurrentPatchSet().commitId().getName();
+        ObjectId revCommitId =
+            commitUtil.createRevertCommit(revertInput.message, changeNotes, user.get());
+        cherryPickInput.message =
+            revertInput.message != null
+                ? revertInput.message
+                : MessageFormat.format(
+                    ChangeMessages.get().revertChangeDefaultMessage,
+                    changeNotes.getChange().getSubject(),
+                    changeNotes.getCurrentPatchSet().commitId().name());
+        ObjectId generatedChangeId = Change.generateChangeId();
+        Change.Id cherryPickRevertChangeId = Change.id(seq.nextChangeId());
+        try (BatchUpdate bu = updateFactory.create(project, user.get(), TimeUtil.nowTs())) {
+          bu.setNotify(
+              notifyResolver.resolve(
+                  firstNonNull(cherryPickInput.notify, NotifyHandling.ALL),
+                  cherryPickInput.notifyDetails));
+          bu.addOp(
+              changeNotes.getChange().getId(),
+              new CreateCherryPickOp(
+                  updateFactory,
+                  revCommitId,
+                  cherryPickInput,
+                  revertInput.topic,
+                  generatedChangeId,
+                  cherryPickRevertChangeId));
+          bu.addOp(changeNotes.getChange().getId(), new PostRevertedMessageOp(generatedChangeId));
+          bu.addOp(
+              cherryPickRevertChangeId,
+              new NotifyOp(changeNotes.getChange(), cherryPickRevertChangeId));
+
+          bu.execute();
+        }
+        // It should actually be an IntegrationException but compiler doesn't allow it.
+        catch (Exception ex) {
+          if (!ex.getMessage().contains("identical tree")) {
+            // This means it's a legitimate error and we should throw it further.
+            throw ex;
+          }
+          // If the exception was in fact because of identical trees, it means the cherry-pick
+          // failed
+          // and we can continue performing the reverts.
+        }
+        cherryPickInput.base = nextBase != null ? nextBase : cherryPickInput.base;
+      }
+      cherryPickInput.base = null;
     }
     return results;
   }
@@ -154,10 +294,114 @@ public class RevertSubmission
         .setTitle("Revert submission")
         .setVisible(
             and(
-                projectStatePermitsWrite,
+                change.isMerged() && projectStatePermitsWrite,
                 permissionBackend
                     .user(rsrc.getUser())
                     .ref(change.getDest())
                     .testCond(CREATE_CHANGE)));
+  }
+
+  private class CreateCherryPickOp implements BatchUpdateOp {
+    private final BatchUpdate.Factory updateFactory;
+    private final ObjectId revCommitId;
+    private final CherryPickInput cherryPickInput;
+    private final String topic;
+    private final ObjectId computedChangeId;
+    private final Change.Id cherryPickRevertChangeId;
+
+    CreateCherryPickOp(
+        BatchUpdate.Factory updateFactory,
+        ObjectId revCommitId,
+        CherryPickInput cherryPickInput,
+        String topic,
+        ObjectId computedChangeId,
+        Change.Id cherryPickRevertChangeId) {
+      this.updateFactory = updateFactory;
+      this.revCommitId = revCommitId;
+      this.cherryPickInput = cherryPickInput;
+      this.topic = topic;
+      this.computedChangeId = computedChangeId;
+      this.cherryPickRevertChangeId = cherryPickRevertChangeId;
+    }
+
+    @Override
+    public boolean updateChange(ChangeContext ctx) throws Exception {
+      Change change = ctx.getChange();
+      Result cherryPickResult =
+          cherryPickChange.cherryPick(
+              updateFactory,
+              change,
+              change.getProject(),
+              revCommitId,
+              cherryPickInput,
+              BranchNameKey.create(
+                  change.getProject(), RefNames.fullName(cherryPickInput.destination)),
+              topic,
+              change.getId(),
+              computedChangeId,
+              cherryPickRevertChangeId);
+      // save base for next cherryPick of that branch
+      nextBase =
+          changeNotesFactory
+              .createChecked(cherryPickResult.changeId())
+              .getCurrentPatchSet()
+              .commitId()
+              .getName();
+      results.add(
+          json.noOptions()
+              .format(change.getProject(), cherryPickResult.changeId(), ChangeInfo::new));
+      return true;
+    }
+  }
+
+  private class NotifyOp implements BatchUpdateOp {
+    private final Change change;
+    private final Change.Id revertChangeId;
+
+    NotifyOp(Change change, Change.Id revertChangeId) {
+      this.change = change;
+      this.revertChangeId = revertChangeId;
+    }
+
+    @Override
+    public void postUpdate(Context ctx) throws Exception {
+      changeReverted.fire(
+          change, changeNotesFactory.createChecked(revertChangeId).getChange(), ctx.getWhen());
+      try {
+        RevertedSender cm = revertedSenderFactory.create(ctx.getProject(), change.getId());
+        cm.setFrom(ctx.getAccountId());
+        cm.setNotify(ctx.getNotify(change.getId()));
+        cm.send();
+      } catch (Exception err) {
+        logger.atSevere().withCause(err).log(
+            "Cannot send email for revert change %s", change.getId());
+      }
+    }
+  }
+
+  /**
+   * create a message that describes the revert if the cherry-pick is successful, and point the
+   * revert of the change towards the cherry-pick. The cherry-pick is the updated change that acts
+   * as "revert-of" the original change.
+   */
+  private class PostRevertedMessageOp implements BatchUpdateOp {
+    private final ObjectId computedChangeId;
+
+    PostRevertedMessageOp(ObjectId computedChangeId) {
+      this.computedChangeId = computedChangeId;
+    }
+
+    @Override
+    public boolean updateChange(ChangeContext ctx) throws Exception {
+      Change change = ctx.getChange();
+      PatchSet.Id patchSetId = change.currentPatchSetId();
+      ChangeMessage changeMessage =
+          ChangeMessagesUtil.newMessage(
+              ctx,
+              "Created a revert of this change as I" + computedChangeId.getName(),
+              ChangeMessagesUtil.TAG_REVERT);
+      cmUtil.addChangeMessage(ctx.getUpdate(patchSetId), changeMessage);
+      return true;
+    }
   }
 }

@@ -786,6 +786,17 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void revertWithSetMessage() throws Exception {
+    PushOneCommit.Result result = createChange();
+    gApi.changes().id(result.getChangeId()).current().review(ReviewInput.approve());
+    gApi.changes().id(result.getChangeId()).revision(result.getCommit().name()).submit();
+    RevertInput revertInput = new RevertInput();
+    revertInput.message = "Message from input";
+    assertThat(gApi.changes().id(result.getChangeId()).revert(revertInput).get().subject)
+        .isEqualTo(revertInput.message);
+  }
+
+  @Test
   public void revertNotifications() throws Exception {
     PushOneCommit.Result r = createChange();
     gApi.changes().id(r.getChangeId()).addReviewer(user.email());

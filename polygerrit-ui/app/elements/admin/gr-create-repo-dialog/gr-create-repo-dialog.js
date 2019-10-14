@@ -19,7 +19,6 @@
 
   Polymer({
     is: 'gr-create-repo-dialog',
-    _legacyUndefinedCheck: true,
 
     properties: {
       params: Object,

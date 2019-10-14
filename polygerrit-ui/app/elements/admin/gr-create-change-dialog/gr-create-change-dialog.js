@@ -22,7 +22,6 @@
 
   Polymer({
     is: 'gr-create-change-dialog',
-    _legacyUndefinedCheck: true,
 
     properties: {
       repoName: String,

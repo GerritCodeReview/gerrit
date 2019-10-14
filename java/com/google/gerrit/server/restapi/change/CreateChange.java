@@ -170,15 +170,27 @@ public class CreateChange
       BatchUpdate.Factory updateFactory, TopLevelResource parent, ChangeInput input)
       throws IOException, InvalidChangeOperationException, RestApiException, UpdateException,
           PermissionBackendException, ConfigInvalidException {
+    if (Strings.isNullOrEmpty(input.project)) {
+      throw new BadRequestException("project must be non-empty");
+    }
+
+    return execute(updateFactory, input, projectsCollection.parse(input.project));
+  }
+
+  /** Creates the changes in the given project. This is public for reuse in the project API. */
+  public Response<ChangeInfo> execute(
+      BatchUpdate.Factory updateFactory, ChangeInput input, ProjectResource projectResource)
+      throws IOException, InvalidChangeOperationException, RestApiException, UpdateException,
+          PermissionBackendException, ConfigInvalidException {
     if (!user.get().isIdentifiedUser()) {
       throw new AuthException("Authentication required");
     }
-    IdentifiedUser me = user.get().asIdentifiedUser();
-    checkAndSanitizeChangeInput(input, me);
 
-    ProjectResource projectResource = projectsCollection.parse(input.project);
     ProjectState projectState = projectResource.getProjectState();
     projectState.checkStatePermitsWrite();
+
+    IdentifiedUser me = user.get().asIdentifiedUser();
+    checkAndSanitizeChangeInput(input, me);
 
     Project.NameKey project = projectResource.getNameKey();
     contributorAgreements.check(project, user.get());
@@ -202,10 +214,6 @@ public class CreateChange
    */
   private void checkAndSanitizeChangeInput(ChangeInput input, IdentifiedUser me)
       throws RestApiException, PermissionBackendException, IOException {
-    if (Strings.isNullOrEmpty(input.project)) {
-      throw new BadRequestException("project must be non-empty");
-    }
-
     if (Strings.isNullOrEmpty(input.branch)) {
       throw new BadRequestException("branch must be non-empty");
     }

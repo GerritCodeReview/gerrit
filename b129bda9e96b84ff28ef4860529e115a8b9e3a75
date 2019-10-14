@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ddf27804_abc637eb",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-14T11:49:32Z",
+      "side": 1,
+      "message": "is the `_inputVal` a two way binding ? if so, you may not want to modify the value directly, just assign the trimmed value to a temp variable.",
+      "range": {
+        "startLine": 194,
+        "startChar": 28,
+        "endLine": 194,
+        "endChar": 37
+      },
+      "revId": "b129bda9e96b84ff28ef4860529e115a8b9e3a75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

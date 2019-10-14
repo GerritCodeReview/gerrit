@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a58aee51_ba747cdb",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-loader.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-14T09:44:35Z",
+      "side": 1,
+      "message": "`gr-js-api-interface.html`, as all api related js files loaded only once from that file. So the order of the script tag will decide which lib will be loaded first. I added the gr-api-utils to the top.\nAdded a note in gr-js-api-interface.html file as well.",
+      "parentUuid": "62b58dc8_5301cc52",
+      "range": {
+        "startLine": 27,
+        "startChar": 6,
+        "endLine": 27,
+        "endChar": 22
+      },
+      "revId": "4b9caf2e891efd79c4e0591e6f9962e03f03a6d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6707cf61_e5c8f6da",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-loader.js",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "4b9caf2e891efd79c4e0591e6f9962e03f03a6d9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bf00cefa_033374fa",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-loader.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-14T09:44:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6707cf61_e5c8f6da",
+      "range": {
+        "startLine": 71,
+        "startChar": 18,
+        "endLine": 71,
+        "endChar": 24
+      },
+      "revId": "4b9caf2e891efd79c4e0591e6f9962e03f03a6d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "7cbaaae9_eef98a8c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-loader.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-14T09:44:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0cbc27c6_37c52b01",
+      "range": {
+        "startLine": 72,
+        "startChar": 0,
+        "endLine": 72,
+        "endChar": 4
+      },
+      "revId": "4b9caf2e891efd79c4e0591e6f9962e03f03a6d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5addeb26_237192a6",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-loader.js",
         "patchSetId": 1
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "b7c2e54c_1b1e8247",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-loader.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-14T09:44:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5addeb26_237192a6",
+      "range": {
+        "startLine": 81,
+        "startChar": 0,
+        "endLine": 81,
+        "endChar": 6
+      },
+      "revId": "4b9caf2e891efd79c4e0591e6f9962e03f03a6d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2ba54dd0_ca14375c",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-loader.js",
         "patchSetId": 1
@@ -108,6 +204,24 @@
       "revId": "4b9caf2e891efd79c4e0591e6f9962e03f03a6d9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f3e3af21_bf8e1912",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-loader.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-14T09:44:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2ba54dd0_ca14375c",
+      "revId": "4b9caf2e891efd79c4e0591e6f9962e03f03a6d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

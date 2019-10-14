@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b3970649_63f215e2",
+        "filename": "polygerrit-ui/app/BUILD",
+        "patchSetId": 66
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-14T22:12:20Z",
+      "side": 1,
+      "message": "Why is this suffix needed? Can this be reverted? Or, if we have to keep it for some reason, that I don\u0027t see, add here a TODO to clean that up later and rename to just gr-app.html?\n\nJust guessing: it was needed for googlesource.com, was supporting both Polymer 1 and Polymer 2 applications. For open source gerrit we don\u0027t do that, so that I would like to avoid that mess.",
+      "range": {
+        "startLine": 21,
+        "startChar": 26,
+        "endLine": 21,
+        "endChar": 29
+      },
+      "revId": "93d65b0fd30c523754b8d219926ee6ed26d2e000",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "942c0739_a5134dfc",
+        "filename": "polygerrit-ui/app/polylint_test.sh",
+        "patchSetId": 66
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-14T22:12:20Z",
+      "side": 1,
+      "message": "gr-app.html",
+      "range": {
+        "startLine": 20,
+        "startChar": 61,
+        "endLine": 20,
+        "endChar": 64
+      },
+      "revId": "93d65b0fd30c523754b8d219926ee6ed26d2e000",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "24141c88_c808209a",
+        "filename": "resources/com/google/gerrit/httpd/raw/PolyGerritIndexHtml.soy",
+        "patchSetId": 66
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-14T22:12:20Z",
+      "side": 1,
+      "message": "gr-app.html",
+      "range": {
+        "startLine": 93,
+        "startChar": 64,
+        "endLine": 93,
+        "endChar": 67
+      },
+      "revId": "93d65b0fd30c523754b8d219926ee6ed26d2e000",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ebfc4385_168385f3",
+        "filename": "resources/com/google/gerrit/httpd/raw/PolyGerritIndexHtml.soy",
+        "patchSetId": 66
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-14T22:12:20Z",
+      "side": 1,
+      "message": "\u003cgr-app id\u003d\"app\"\u003e\u003c/gr-app\u003e?",
+      "range": {
+        "startLine": 96,
+        "startChar": 5,
+        "endLine": 96,
+        "endChar": 14
+      },
+      "revId": "93d65b0fd30c523754b8d219926ee6ed26d2e000",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

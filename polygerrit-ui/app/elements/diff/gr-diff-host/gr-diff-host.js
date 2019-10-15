@@ -42,6 +42,9 @@
   // syntax highlighting for the entire file.
   const SYNTAX_MAX_LINE_LENGTH = 500;
 
+  // 120 lines is good enough threshold for full-sized window viewport
+  const NUM_OF_LINES_THRESHOLD_FOR_VIEWPORT = 120;
+
   const WHITESPACE_IGNORE_NONE = 'IGNORE_NONE';
 
   /**
@@ -269,8 +272,12 @@
       });
     },
 
-    /** @return {!Promise} */
-    reload() {
+    /**
+     * @param {boolean=} haveParamsChanged ends reporting events that started
+     * on location change.
+     * @return {!Promise}
+     **/
+    reload(haveParamsChanged) {
       this._loading = true;
       this._errorMessage = null;
       const whitespaceLevel = this._getIgnoreWhitespace();
@@ -282,6 +289,11 @@
         layers.push(pluginLayer);
       }
       this._layers = layers;
+
+      if (haveParamsChanged) {
+        // We listen on render viewport only on DiffPage (on paramsChanged)
+        this._listenToViewportRender();
+      }
 
       this._coverageRanges = [];
       const {changeNum, path, patchRange: {basePatchNum, patchNum}} = this;
@@ -900,6 +912,17 @@
       });
     },
 
+    _listenToViewportRender() {
+      const renderUpdateListener = start => {
+        if (start > NUM_OF_LINES_THRESHOLD_FOR_VIEWPORT) {
+          this.$.reporting.diffViewDisplayed();
+          this.$.syntaxLayer.removeListener(renderUpdateListener);
+        }
+      };
+
+      this.$.syntaxLayer.addListener(renderUpdateListener);
+    },
+
     _handleRenderStart() {
       this.$.reporting.time(TimingLabel.TOTAL);
       this.$.reporting.time(TimingLabel.CONTENT);
@@ -907,6 +930,7 @@
 
     _handleRenderContent() {
       this.$.reporting.timeEnd(TimingLabel.CONTENT);
+      this.$.reporting.diffViewContentDisplayed();
     },
 
     _handleNormalizeRange(event) {

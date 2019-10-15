@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "138ce640_b30bbb6c",
+        "filename": "plugins/replication",
+        "patchSetId": 19
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-15T15:56:44Z",
+      "side": 1,
+      "message": "Why replication plugin was touched in this change? Revert.",
+      "revId": "21597cf978c45f30e8859e69be12908b163e1f57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

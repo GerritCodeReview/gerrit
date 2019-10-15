@@ -16,6 +16,24 @@
       "revId": "4c2c9ea113b0cc48ef48bb2aa92924d07f7812a9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "82b5325f_efcc4b9d",
+        "filename": "java/com/google/gerrit/testing/InMemoryModule.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-10-15T14:15:19Z",
+      "side": 1,
+      "message": "\u003e This part of the change broke our internal test setup. I\u0027ve reverted only this chunk and all upstream and internal tests pass: I119f073\n\nThis was an oversight in the end; thanks for the fix.\n\n\u003e What was the background for changing this part to bind Lucene also for custom index types? It seems to go against the comment in l.229.\n\u003e \n\u003e In any case I am happy to help getting this into the state that you want it to be in and adjust our internal code if needed.\n\nThanks. There was no proper background for having done that. The only true goal was/is to pass the now added test, about supporting more than just lucene|elasticsearch as index type (Google\u0027s own internal case and potentially others\u0027).",
+      "parentUuid": "1ae11eb4_8a869d45",
+      "revId": "4c2c9ea113b0cc48ef48bb2aa92924d07f7812a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d83a32ce_00ac8ff1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-15T11:34:31Z",
+      "side": 1,
+      "message": "Nit: we usually don\u0027t put the point on subject line.",
+      "range": {
+        "startLine": 7,
+        "startChar": 37,
+        "endLine": 7,
+        "endChar": 38
+      },
+      "revId": "70bcbc44f41090bda4c3db31d016e0d3ecdc83a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b5df2738_ab90320d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 16
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-15T11:34:31Z",
+      "side": 1,
+      "message": "There dozen of places in backend and FE, whre patch set is used or shown. Can it be more specific to frontend or even change screen and certainly to patch set dropdown, something like:\n\n  Change screen: Show abbreviated commit sha1 in patch set dropdown",
+      "range": {
+        "startLine": 7,
+        "startChar": 21,
+        "endLine": 7,
+        "endChar": 37
+      },
+      "revId": "70bcbc44f41090bda4c3db31d016e0d3ecdc83a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e88157c0_c28dda57",
+        "filename": "polygerrit-ui/app/behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html",
+        "patchSetId": 16
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-15T11:34:31Z",
+      "side": 1,
+      "message": "Why was that changed? Commit message is updated in recent patch set that sha1 is added. Why to add a sha1 to the patch set dropdown created date of commit is touched? If something needs to be improved with created date of the commit, can it be done in another change (if at all)?",
+      "range": {
+        "startLine": 139,
+        "startChar": 5,
+        "endLine": 139,
+        "endChar": 63
+      },
+      "revId": "70bcbc44f41090bda4c3db31d016e0d3ecdc83a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0573b682_f667f14f",
+        "filename": "polygerrit-ui/app/behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html",
+        "patchSetId": 16
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-15T11:34:31Z",
+      "side": 1,
+      "message": "Same here.",
+      "range": {
+        "startLine": 165,
+        "startChar": 18,
+        "endLine": 165,
+        "endChar": 33
+      },
+      "revId": "70bcbc44f41090bda4c3db31d016e0d3ecdc83a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

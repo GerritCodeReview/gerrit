@@ -1,4 +1,4 @@
-// Copyright (C) 2017 The Android Open Source Project
+// Copyright (C) 2019 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,41 +14,15 @@
 
 package com.google.gerrit.metrics.proc;
 
-import com.google.common.flogger.FluentLogger;
-import java.lang.management.ManagementFactory;
 import java.lang.management.OperatingSystemMXBean;
 import java.lang.reflect.Method;
-import java.util.Arrays;
 
-class OperatingSystemMXBeanProvider {
-  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-
+class OperatingSystemMXBeanReflectionBased implements OperatingSystemMXBeanInterface {
   private final OperatingSystemMXBean sys;
   private final Method getProcessCpuTime;
   private final Method getOpenFileDescriptorCount;
 
-  static class Factory {
-    static OperatingSystemMXBeanProvider create() {
-      OperatingSystemMXBean sys = ManagementFactory.getOperatingSystemMXBean();
-      for (String name :
-          Arrays.asList(
-              "com.sun.management.UnixOperatingSystemMXBean",
-              "com.ibm.lang.management.UnixOperatingSystemMXBean")) {
-        try {
-          Class<?> impl = Class.forName(name);
-          if (impl.isInstance(sys)) {
-            return new OperatingSystemMXBeanProvider(sys);
-          }
-        } catch (ReflectiveOperationException e) {
-          logger.atFine().withCause(e).log("No implementation for %s", name);
-        }
-      }
-      logger.atWarning().log("No implementation of UnixOperatingSystemMXBean found");
-      return null;
-    }
-  }
-
-  private OperatingSystemMXBeanProvider(OperatingSystemMXBean sys)
+  OperatingSystemMXBeanReflectionBased(OperatingSystemMXBean sys)
       throws ReflectiveOperationException {
     this.sys = sys;
     getProcessCpuTime = sys.getClass().getMethod("getProcessCpuTime");
@@ -57,6 +31,7 @@ class OperatingSystemMXBeanProvider {
     getOpenFileDescriptorCount.setAccessible(true);
   }
 
+  @Override
   public long getProcessCpuTime() {
     try {
       return (long) getProcessCpuTime.invoke(sys, new Object[] {});
@@ -65,6 +40,7 @@ class OperatingSystemMXBeanProvider {
     }
   }
 
+  @Override
   public long getOpenFileDescriptorCount() {
     try {
       return (long) getOpenFileDescriptorCount.invoke(sys, new Object[] {});

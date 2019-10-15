@@ -16,6 +16,24 @@
       "revId": "73daa0f57853d471e3e450e062a4a3eae997a48a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "56698e81_2abfe256",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-15T15:56:08Z",
+      "side": 1,
+      "message": "I am actually working with paladox to make sure it works on a fresh new gerrit instance. but meanwhile a broken master seems not ideal.",
+      "parentUuid": "63fec5b2_7f4fcaf1",
+      "revId": "73daa0f57853d471e3e450e062a4a3eae997a48a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

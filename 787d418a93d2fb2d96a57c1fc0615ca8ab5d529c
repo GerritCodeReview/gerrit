@@ -1,0 +1,22 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "88d5bba5_b01c6da4",
+        "filename": "Jenkinsfile",
+        "patchSetId": 51
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-10-15T12:59:19Z",
+      "side": 1,
+      "message": "\u003e Found 6 Spacey/SpaceMix warnings in this file\n\nPlease Fix",
+      "parentUuid": "5ad224ac_722a9a3d",
+      "revId": "787d418a93d2fb2d96a57c1fc0615ca8ab5d529c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -460,6 +460,30 @@
     },
     {
       "key": {
+        "uuid": "f08701e5_dd853a71",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-gerrit.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-15T08:23:56Z",
+      "side": 1,
+      "message": "oh we did not, we only call it inside of the `// No gr-app found (running tests)` section, maybe I should move that method to that block and also update those testOnly method names as well to make it clear. Will update",
+      "parentUuid": "1fc5f80c_a70ab136",
+      "range": {
+        "startLine": 53,
+        "startChar": 6,
+        "endLine": 53,
+        "endChar": 24
+      },
+      "revId": "c12a07150d044b1ca48f88ba1e82b62f5fff6005",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6f993d53_00b5e9eb",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-gerrit.js",
         "patchSetId": 1

@@ -1,0 +1,216 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4b105882_a6c44ac9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-15T13:32:36Z",
+      "side": 1,
+      "message": "As discussed offline, before this step there should be another step.\nIf a series of changes is reverted, the revert changes should be based on each other, so that they form a change series too. The series of revert changes should be based on the base commit of the change series that is being reverted, so that there cannot be any conflicts during the revert.",
+      "revId": "493a306f5549f073a4a092584a6e5756c6436a45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aafa141e_9e8e4bec",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-15T13:32:36Z",
+      "side": 1,
+      "message": "I think, you mean \"on top of the destination branch\"?",
+      "range": {
+        "startLine": 67,
+        "startChar": 57,
+        "endLine": 68,
+        "endChar": 6
+      },
+      "revId": "493a306f5549f073a4a092584a6e5756c6436a45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d1bae32c_50a4ac2b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-15T13:32:36Z",
+      "side": 1,
+      "message": "better: for interactive revert that allows the user to resolve conflicts when they occur (similar to interactive rebase works)\n\n\"an option to fix conflicts\" sounds like Gerrit would magically do the conflict resolution.",
+      "range": {
+        "startLine": 69,
+        "startChar": 17,
+        "endLine": 69,
+        "endChar": 60
+      },
+      "revId": "493a306f5549f073a4a092584a6e5756c6436a45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fa9204b2_81c2789d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-15T13:32:36Z",
+      "side": 1,
+      "message": "I would mark this step as [OPTIONAL] since we are not sure yet, if we want to implement it",
+      "range": {
+        "startLine": 69,
+        "startChar": 0,
+        "endLine": 69,
+        "endChar": 3
+      },
+      "revId": "493a306f5549f073a4a092584a6e5756c6436a45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fee4d8ce_06b133c3",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1516,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-15T13:32:36Z",
+      "side": 1,
+      "message": "onto the destination branch",
+      "range": {
+        "startLine": 1516,
+        "startChar": 32,
+        "endLine": 1516,
+        "endChar": 52
+      },
+      "revId": "493a306f5549f073a4a092584a6e5756c6436a45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "11d97d8b_0258cc99",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1517,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-15T13:32:36Z",
+      "side": 1,
+      "message": "to resolve conflicts and make them submittable",
+      "range": {
+        "startLine": 1517,
+        "startChar": 29,
+        "endLine": 1517,
+        "endChar": 61
+      },
+      "revId": "493a306f5549f073a4a092584a6e5756c6436a45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "df0c9e65_59f721fc",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1517,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-15T13:32:36Z",
+      "side": 1,
+      "message": "\"may still need\"\n\nIf there are no conflicts, rebasing the changes is not needed.",
+      "range": {
+        "startLine": 1516,
+        "startChar": 66,
+        "endLine": 1517,
+        "endChar": 4
+      },
+      "revId": "493a306f5549f073a4a092584a6e5756c6436a45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5c7736d3_a402ac7a",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/RevertIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-15T13:32:36Z",
+      "side": 1,
+      "message": "Please rebase the change to resolve the conflicts in this file.",
+      "revId": "493a306f5549f073a4a092584a6e5756c6436a45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "90c6dfc4_b35ea43f",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/RevertIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 672,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-15T13:32:36Z",
+      "side": 1,
+      "message": "nit: no need to set a topic for this test",
+      "revId": "493a306f5549f073a4a092584a6e5756c6436a45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7323607d_4f0e497b",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/RevertIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 708,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-15T13:32:36Z",
+      "side": 1,
+      "message": "Relying on this can be flaky. E.g. during tests it often happens that changes get the same timestamp. If you want to rely on timestamps you could use the @UseClockStep annotation on this test, but I think it would be better to find a way to not rely in timestamps here (that the reverts are returned in the order of the last updated time is an implementation detail and not a documented behavior of the REST endpoint).\n\nMaybe just create a map by changeId and then do the lookup by changeId?\n\n  ImmutableMap\u003cString, ChangeApi\u003e byChangeId \u003d gApi.changes().id(resultCommits.get(1).getChangeId()).revertSubmission().collect(ImmutableMap.toImmutableMap(changeApi -\u003e changeApi.id(), changeApi -\u003e changeApi));",
+      "range": {
+        "startLine": 708,
+        "startChar": 27,
+        "endLine": 708,
+        "endChar": 57
+      },
+      "revId": "493a306f5549f073a4a092584a6e5756c6436a45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

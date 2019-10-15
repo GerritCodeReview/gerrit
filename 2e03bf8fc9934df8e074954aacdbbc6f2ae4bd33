@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8ea9afa0_2ee3b32b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.js",
+        "patchSetId": 13
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-10-15T13:00:38Z",
+      "side": 1,
+      "message": "Nit: haveParamsChanged?",
+      "range": {
+        "startLine": 276,
+        "startChar": 11,
+        "endLine": 276,
+        "endChar": 14
+      },
+      "revId": "2e03bf8fc9934df8e074954aacdbbc6f2ae4bd33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4204b18a_aae2825a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.js",
+        "patchSetId": 13
+      },
+      "lineNbr": 914,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-10-15T13:00:38Z",
+      "side": 1,
+      "message": "(Optional) Maybe make this a constant further up and add this comment?",
+      "range": {
+        "startLine": 914,
+        "startChar": 20,
+        "endLine": 914,
+        "endChar": 23
+      },
+      "revId": "2e03bf8fc9934df8e074954aacdbbc6f2ae4bd33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

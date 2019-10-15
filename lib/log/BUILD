@@ -4,7 +4,7 @@ java_library(
     name = "api",
     data = ["//lib:LICENSE-slf4j"],
     visibility = [
-        "//lib/jgit/org.eclipse.jgit:__pkg__",
+        "//lib:__pkg__",
         "//plugins:__pkg__",
     ],
     exports = ["@log-api//jar"],

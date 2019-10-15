@@ -16,6 +16,8 @@ junit_tests(
         "//java/com/google/gerrit/server/schema",
         "//java/com/google/gerrit/testing:gerrit-test-util",
         "//lib:guava",
+        "//lib:jgit",
+        "//lib:jgit-junit",
         "//lib/bouncycastle:bcpg",
         "//lib/bouncycastle:bcpg-neverlink",
         "//lib/bouncycastle:bcprov",
@@ -23,8 +25,6 @@ junit_tests(
         "//lib/flogger:api",
         "//lib/guice",
         "//lib/guice:guice-assistedinject",
-        "//lib/jgit/org.eclipse.jgit:jgit",
-        "//lib/jgit/org.eclipse.jgit.junit:junit",
         "//lib/truth",
     ],
 )

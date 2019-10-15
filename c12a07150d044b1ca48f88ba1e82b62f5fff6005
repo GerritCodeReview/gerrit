@@ -436,6 +436,30 @@
     },
     {
       "key": {
+        "uuid": "1fc5f80c_a70ab136",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-gerrit.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-10-15T08:19:16Z",
+      "side": 1,
+      "message": "My question is: If this is a testOnly method, why do we call it here outside of a test?",
+      "parentUuid": "52289559_473c5a31",
+      "range": {
+        "startLine": 53,
+        "startChar": 6,
+        "endLine": 53,
+        "endChar": 24
+      },
+      "revId": "c12a07150d044b1ca48f88ba1e82b62f5fff6005",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6f993d53_00b5e9eb",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-gerrit.js",
         "patchSetId": 1

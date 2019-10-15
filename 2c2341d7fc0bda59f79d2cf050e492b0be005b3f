@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "163e32a7_dd2c7c51",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-plugin-host/gr-plugin-host.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-15T09:56:19Z",
+      "side": 1,
+      "message": "in general, you will want to get the theme in as soon as possible as it contains all the customizes (like logo, font, etc), if you lazy load it, then the page will have a flickering state before and after the theme. I don\u0027t find any documentation or issues on that. The change made with that comment can be traced here: https://gerrit-review.googlesource.com/c/gerrit/+/153290\n\nI will add a comment above mention that theme will be loaded as first as well.",
+      "parentUuid": "4eef95ed_b19c9901",
+      "revId": "2c2341d7fc0bda59f79d2cf050e492b0be005b3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b3b418b3_36af94b8",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-api-utils.js",
         "patchSetId": 4
@@ -30,6 +48,24 @@
       "writtenOn": "2019-10-14T17:56:38Z",
       "side": 1,
       "message": "Nit: this is plugin api utils, right?\nThe name is a bit misleading.",
+      "revId": "2c2341d7fc0bda59f79d2cf050e492b0be005b3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7281c902_7acfb832",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-api-utils.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-15T09:56:19Z",
+      "side": 1,
+      "message": "it was created to hold utils for the gr-js-public-api folder, so i name it after that :)",
+      "parentUuid": "b3b418b3_36af94b8",
       "revId": "2c2341d7fc0bda59f79d2cf050e492b0be005b3f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -50,6 +86,24 @@
       "revId": "2c2341d7fc0bda59f79d2cf050e492b0be005b3f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b4df6e41_1f8a8e46",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-api-utils.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-15T09:56:19Z",
+      "side": 1,
+      "message": "yup, renamed with prefix `testOnly_` to make it very clear",
+      "parentUuid": "dbe6509a_0d8cdbe2",
+      "revId": "2c2341d7fc0bda59f79d2cf050e492b0be005b3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -76,6 +130,30 @@
     },
     {
       "key": {
+        "uuid": "38c28829_29db2cfe",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-gerrit.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-15T09:56:19Z",
+      "side": 1,
+      "message": "Currently the bundled plugins are loaded synchronously before the gr-app.js with the help of the:\n\n```\n  /**\n   * Stub for Gerrit.install() that captures and stores bundled plugins\n   * callbacks in order to call them after PolyGerrit startup.\n   * @param {string} name Plugin name.\n   * @param {function(!Object):null} callback Plugin install callback.\n   */\n  install(name, callback) {\n    Gerrit._preloadedPlugins[name] \u003d callback;\n  },\n```\n\nI was trying to support that in case bundled plugins loaded after the gr-app.js (like if we add async to it).\n\nI just realized that we will need to change quite a few things from bundling to support that. Will remove it here and add a separate bug to track the effort on moving bundling to async",
+      "parentUuid": "c23fdda9_8b2c6ae9",
+      "range": {
+        "startLine": 82,
+        "startChar": 10,
+        "endLine": 82,
+        "endChar": 17
+      },
+      "revId": "2c2341d7fc0bda59f79d2cf050e492b0be005b3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e984aaee_898ce21b",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-gerrit.js",
         "patchSetId": 4
@@ -90,6 +168,24 @@
       "revId": "2c2341d7fc0bda59f79d2cf050e492b0be005b3f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0a1735b0_e80721e8",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-gerrit.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-15T09:56:19Z",
+      "side": 1,
+      "message": "ya two thoughts here:\n0. these methods were used in a lot files, I want to keep this cl a bit smaller :(\n1. `_pluginLoader` is more like an internal implementation and can be changed anytime we want \n2. it seems more intuitive with `Gerrit.*`, as ask Gerrit to `loadPlugins`, check if plugin loaded or not etc\n\nI will have a TODO here for that",
+      "parentUuid": "e984aaee_898ce21b",
+      "revId": "2c2341d7fc0bda59f79d2cf050e492b0be005b3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -110,6 +206,24 @@
     },
     {
       "key": {
+        "uuid": "1d7cf5a1_d90e86f7",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-js-api-interface.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-15T09:56:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d8cc28f0_9564a9e7",
+      "revId": "2c2341d7fc0bda59f79d2cf050e492b0be005b3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ed86e8e5_22542546",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-loader.js",
         "patchSetId": 4
@@ -124,6 +238,24 @@
       "revId": "2c2341d7fc0bda59f79d2cf050e492b0be005b3f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be890f70_762c10ab",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-loader.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-15T09:56:19Z",
+      "side": 1,
+      "message": "`js` will be supported as well, I copied from getPluginNameFromUrl... will update the pattern here! Thanks",
+      "parentUuid": "ed86e8e5_22542546",
+      "revId": "2c2341d7fc0bda59f79d2cf050e492b0be005b3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -144,6 +276,24 @@
     },
     {
       "key": {
+        "uuid": "6ef59d1c_b76b6037",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-loader.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-15T09:56:19Z",
+      "side": 1,
+      "message": "No `/` if name can be retrieved. Added a `@see` link to gr-api-utils.",
+      "parentUuid": "db64bdc2_b392dc4d",
+      "revId": "2c2341d7fc0bda59f79d2cf050e492b0be005b3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1b41a161_eb2fe15c",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-loader.js",
         "patchSetId": 4
@@ -158,6 +308,24 @@
       "revId": "2c2341d7fc0bda59f79d2cf050e492b0be005b3f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0ca8c819_e219c439",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-loader.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 386,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-15T09:56:19Z",
+      "side": 1,
+      "message": "ideally it should never be loaded multiple times. And its terrible to define it in window name space, but we have to live with that before we move to es6 modules.",
+      "parentUuid": "1b41a161_eb2fe15c",
+      "revId": "2c2341d7fc0bda59f79d2cf050e492b0be005b3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

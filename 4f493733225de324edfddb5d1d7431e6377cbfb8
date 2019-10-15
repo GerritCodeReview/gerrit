@@ -88,6 +88,24 @@
       "revId": "4f493733225de324edfddb5d1d7431e6377cbfb8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c088a0ad_ad8b323a",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 1301,
+      "author": {
+        "id": 1074943
+      },
+      "writtenOn": "2019-10-15T17:35:50Z",
+      "side": 1,
+      "message": "Done. Added comments, and while I was adding the comments, it occured to be that it seems to be better to test that they have the exact same length than that their lengths are greater than 0, so I changed that as well.",
+      "parentUuid": "b5c2ad8c_754943af",
+      "revId": "4f493733225de324edfddb5d1d7431e6377cbfb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

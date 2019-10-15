@@ -46,6 +46,7 @@
     {if $versionInfo}window.VERSION_INFO = '{$versionInfo}';{/if}
     {if $staticResourcePath != ''}window.STATIC_RESOURCE_PATH = '{$staticResourcePath}';{/if}
     {if $assetsPath}window.ASSETS_PATH = '{$assetsPath}';{/if}
+    {if $polymer2}window.POLYMER2 = true;{/if}
     {if $polyfillCE}if (window.customElements) window.customElements.forcePolyfill = true;{/if}
     {if $polyfillSD}{literal}ShadyDOM = { force: true };{/literal}{/if}
     {if $polyfillSC}{literal}ShadyCSS = { shimcssproperties: true};{/literal}{/if}
@@ -79,7 +80,11 @@
   <link rel="stylesheet" href="{$staticResourcePath}/styles/fonts.css">{\n}
   <link rel="stylesheet" href="{$staticResourcePath}/styles/main.css">{\n}
 
-  <script src="{$staticResourcePath}/bower_components/webcomponentsjs/webcomponents-lite.js"></script>{\n}
+  {if $polymer2}
+    <script src="{$staticResourcePath}/bower_components/webcomponentsjs-p2/webcomponents-lite.js"></script>{\n}
+  {else}
+    <script src="{$staticResourcePath}/bower_components/webcomponentsjs/webcomponents-lite.js"></script>{\n}
+  {/if}
 
   // Content between webcomponents-lite and the load of the main app element
   // run before polymer-resin is installed so may have security consequences.

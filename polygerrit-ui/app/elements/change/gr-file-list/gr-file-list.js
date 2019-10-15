@@ -183,7 +183,8 @@
 
       _showDynamicColumns: {
         type: Boolean,
-        computed: '_computeShowDynamicColumns(_dynamicHeaderEndpoints)',
+        computed: '_computeShowDynamicColumns(_dynamicHeaderEndpoints, ' +
+                  '_dynamicContentEndpoints, _dynamicSummaryEndpoints)',
       },
       /** @type {Array<string>} */
       _dynamicHeaderEndpoints: {
@@ -1295,13 +1296,17 @@
       return `sizeBars desktop ${hideClass}`;
     },
 
-    _computeShowDynamicColumns(dynamicHeaderEndpoints) {
-      // During a design review, it was decided that dynamic columns should
-      // remain hidden until column headers (including existing columns such as
-      // "Comments") are in place to avoid confusion.
-      // TODO(crbug.com/939904): Enable dispaying dynamic columns when there is
-      // at least one of them registered.
-      return false;
+    /**
+     * Shows registered dynmic columns iff the 'header', 'content' and 'summary'
+     * endpoints are regiestered the exact same number of times.
+     * Ideally, there should be a better way to enforce the expectation of the
+     * dependencies between dynamic endpoints.
+     */
+    _computeShowDynamicColumns(
+        headerEndpoints, contentEndpoints, summaryEndpoints) {
+      return headerEndpoints && contentEndpoints && summaryEndpoints &&
+             headerEndpoints.length === contentEndpoints.length &&
+             headerEndpoints.length === summaryEndpoints.length;
     },
 
     /**

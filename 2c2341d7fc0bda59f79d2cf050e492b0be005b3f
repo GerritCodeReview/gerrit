@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "1be164ba_c461ed1e",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-plugin-host/gr-plugin-host.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2019-10-15T20:16:33Z",
+      "side": 1,
+      "message": "Ah, there was a weird race condition at some point that wasn\u0027t clearly identified.\n\nBut practically, any plugin tend to add UI element that may and likely will cause redraws, so theme being a special one is a bit odd.",
+      "parentUuid": "163e32a7_dd2c7c51",
+      "revId": "2c2341d7fc0bda59f79d2cf050e492b0be005b3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b3b418b3_36af94b8",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-api-utils.js",
         "patchSetId": 4
@@ -183,6 +201,24 @@
       "side": 1,
       "message": "ya two thoughts here:\n0. these methods were used in a lot files, I want to keep this cl a bit smaller :(\n1. `_pluginLoader` is more like an internal implementation and can be changed anytime we want \n2. it seems more intuitive with `Gerrit.*`, as ask Gerrit to `loadPlugins`, check if plugin loaded or not etc\n\nI will have a TODO here for that",
       "parentUuid": "e984aaee_898ce21b",
+      "revId": "2c2341d7fc0bda59f79d2cf050e492b0be005b3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "90c5fa0c_b07f3223",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-gerrit.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2019-10-15T20:16:33Z",
+      "side": 1,
+      "message": "SGTM, a tracking issue would be the best, but up to you.",
+      "parentUuid": "0a1735b0_e80721e8",
       "revId": "2c2341d7fc0bda59f79d2cf050e492b0be005b3f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -340,6 +376,24 @@
       "writtenOn": "2019-10-14T17:56:38Z",
       "side": 1,
       "message": "FYI: plugin has access to it and can override it, that\u0027s why originally it was private.\n\nAlso, this looks like a public plugin API now - it should be added to documentation and covered with tests.",
+      "revId": "2c2341d7fc0bda59f79d2cf050e492b0be005b3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "681c71c7_f0b38ebb",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2019-10-15T20:16:33Z",
+      "side": 1,
+      "message": "Ping?",
+      "parentUuid": "200f4e7d_ef9b3698",
       "revId": "2c2341d7fc0bda59f79d2cf050e492b0be005b3f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

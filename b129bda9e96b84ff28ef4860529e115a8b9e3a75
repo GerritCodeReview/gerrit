@@ -22,6 +22,30 @@
       "revId": "b129bda9e96b84ff28ef4860529e115a8b9e3a75",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6e6e2ea3_02628656",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 194,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2019-10-15T09:42:19Z",
+      "side": 1,
+      "message": "Ah, nice observation.",
+      "parentUuid": "ddf27804_abc637eb",
+      "range": {
+        "startLine": 194,
+        "startChar": 28,
+        "endLine": 194,
+        "endChar": 37
+      },
+      "revId": "b129bda9e96b84ff28ef4860529e115a8b9e3a75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

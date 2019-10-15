@@ -53,8 +53,8 @@ limitations under the License.
   (function() {
     setup(() => {
       if (!window.Gerrit) { return; }
-      if (Gerrit._resetPlugins) {
-        Gerrit._resetPlugins();
+      if (Gerrit._testOnly_resetPlugins) {
+        Gerrit._testOnly_resetPlugins();
       }
     });
   })();

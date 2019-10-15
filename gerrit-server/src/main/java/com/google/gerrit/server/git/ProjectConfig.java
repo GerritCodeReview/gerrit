@@ -75,6 +75,7 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.RefSpec;
 
 public class ProjectConfig extends VersionedMetaData implements ValidationError.Sink {
@@ -205,6 +206,14 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
       throws IOException, ConfigInvalidException {
     ProjectConfig r = new ProjectConfig(update.getProjectName());
     r.load(update, id);
+    return r;
+  }
+
+  //TODO(dpursehouse): Add @UsedAt annotation
+  public static ProjectConfig read(Repository repo, Project.NameKey name)
+      throws IOException, ConfigInvalidException {
+    ProjectConfig r = new ProjectConfig(name);
+    r.load(repo);
     return r;
   }
 

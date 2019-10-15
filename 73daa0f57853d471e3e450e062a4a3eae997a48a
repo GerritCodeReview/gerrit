@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "63fec5b2_7f4fcaf1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-15T15:54:58Z",
+      "side": 1,
+      "message": "Could you rather upload the missing change?",
+      "revId": "73daa0f57853d471e3e450e062a4a3eae997a48a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

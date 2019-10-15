@@ -52,6 +52,24 @@
       "revId": "4f493733225de324edfddb5d1d7431e6377cbfb8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ece24028_e9b9c671",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 1301,
+      "author": {
+        "id": 1074943
+      },
+      "writtenOn": "2019-10-15T17:14:29Z",
+      "side": 1,
+      "message": "Actually, there is already a warning message in the attached function, does that address the concern? (And ofcourse, I\u0027ll mention the dependency when I add documentation for these endpoints.)\n\n        if (this._dynamicHeaderEndpoints.length !\u003d\u003d\n            this._dynamicContentEndpoints.length) {\n          console.warn(\n              \u0027Different number of dynamic file-list header and content.\u0027);\n        }\n        if (this._dynamicHeaderEndpoints.length !\u003d\u003d\n            this._dynamicSummaryEndpoints.length) {\n          console.warn(\n              \u0027Different number of dynamic file-list headers and summary.\u0027);\n        }",
+      "parentUuid": "fd1b65e7_2d07d475",
+      "revId": "4f493733225de324edfddb5d1d7431e6377cbfb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "82dba1e5_f22e5ab7",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 882,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-10-15T14:00:55Z",
+      "side": 1,
+      "message": "https://polymer-library.polymer-project.org/1.0/docs/devguide/local-dom#dom-api\n\nIndicates that these methods return Array in Polymer.",
+      "parentUuid": "93b2c144_683921cf",
+      "revId": "5baee1c91d171961b87a4d237d86dd42f8240e52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "56c97a25_3bd25986",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
         "patchSetId": 2

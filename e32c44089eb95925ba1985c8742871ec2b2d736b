@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "8e6551bb_8bc0cefd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2019-10-15T11:52:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3afea539_e3a914d8",
+      "revId": "e32c44089eb95925ba1985c8742871ec2b2d736b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "01cc3859_7a658238",
         "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.js",
         "patchSetId": 7
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "5dfdf351_74d9d113",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2019-10-15T11:52:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "01cc3859_7a658238",
+      "range": {
+        "startLine": 195,
+        "startChar": 10,
+        "endLine": 195,
+        "endChar": 24
+      },
+      "revId": "e32c44089eb95925ba1985c8742871ec2b2d736b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fcb30a2a_deb61fde",
         "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar_test.html",
         "patchSetId": 7
@@ -62,6 +104,30 @@
       "revId": "e32c44089eb95925ba1985c8742871ec2b2d736b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "44212af4_7c3da61c",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar_test.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2019-10-15T11:52:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fcb30a2a_deb61fde",
+      "range": {
+        "startLine": 117,
+        "startChar": 23,
+        "endLine": 117,
+        "endChar": 35
+      },
+      "revId": "e32c44089eb95925ba1985c8742871ec2b2d736b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

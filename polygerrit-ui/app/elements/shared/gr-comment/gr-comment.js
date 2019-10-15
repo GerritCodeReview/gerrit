@@ -416,7 +416,7 @@
       }, STORAGE_DEBOUNCE_INTERVAL);
     },
 
-    _handleAnchorTap(e) {
+    _handleAnchorClick(e) {
       e.preventDefault();
       if (!this.comment.line) {
         return;

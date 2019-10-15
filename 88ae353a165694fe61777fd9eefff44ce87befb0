@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "435b3cf6_8d057bc4",
+        "filename": "Jenkinsfile",
+        "patchSetId": 50
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-10-15T12:58:22Z",
+      "side": 1,
+      "message": "Done.\nAlso removed all the unnecessary imports, which I copy\u0026pasted without thinking...",
+      "parentUuid": "954aa750_5b5e454b",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 18
+      },
+      "revId": "88ae353a165694fe61777fd9eefff44ce87befb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b30d80b0_47f0a467",
         "filename": "Jenkinsfile",
         "patchSetId": 50
@@ -45,6 +69,30 @@
       "revId": "88ae353a165694fe61777fd9eefff44ce87befb0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4f02187d_c8625246",
+        "filename": "Jenkinsfile",
+        "patchSetId": 50
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-10-15T12:58:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b30d80b0_47f0a467",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 94
+      },
+      "revId": "88ae353a165694fe61777fd9eefff44ce87befb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "da846702_d5bad664",
+        "filename": "Jenkinsfile",
+        "patchSetId": 50
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-10-15T12:58:22Z",
+      "side": 1,
+      "message": "Good idea.\nIt is a change to what we do so far, but since the Jenkinsfile already has to change quite a lot, it should be ok to change that here.",
+      "parentUuid": "40554b1c_4638b733",
+      "range": {
+        "startLine": 82,
+        "startChar": 0,
+        "endLine": 82,
+        "endChar": 29
+      },
+      "revId": "88ae353a165694fe61777fd9eefff44ce87befb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2122be85_5abc459a",
         "filename": "Jenkinsfile",
         "patchSetId": 50
@@ -91,6 +163,30 @@
       "revId": "88ae353a165694fe61777fd9eefff44ce87befb0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "84971460_f6bf1bd2",
+        "filename": "Jenkinsfile",
+        "patchSetId": 50
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-10-15T12:58:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2122be85_5abc459a",
+      "range": {
+        "startLine": 90,
+        "startChar": 15,
+        "endLine": 92,
+        "endChar": 55
+      },
+      "revId": "88ae353a165694fe61777fd9eefff44ce87befb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "1c06151c_7996eb37",
+        "filename": "Jenkinsfile",
+        "patchSetId": 50
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-10-15T12:58:22Z",
+      "side": 1,
+      "message": "Done.\nSince both methods are only used once, I removed the whole class anyway.",
+      "parentUuid": "069188cb_6e33a02f",
+      "range": {
+        "startLine": 97,
+        "startChar": 11,
+        "endLine": 97,
+        "endChar": 14
+      },
+      "revId": "88ae353a165694fe61777fd9eefff44ce87befb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6431d3b5_a3070080",
         "filename": "Jenkinsfile",
         "patchSetId": 50
@@ -140,6 +260,30 @@
     },
     {
       "key": {
+        "uuid": "d8dc4bc6_7de576cd",
+        "filename": "Jenkinsfile",
+        "patchSetId": 50
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-10-15T12:58:22Z",
+      "side": 1,
+      "message": "I removed the class as commented above.",
+      "parentUuid": "6431d3b5_a3070080",
+      "range": {
+        "startLine": 251,
+        "startChar": 8,
+        "endLine": 251,
+        "endChar": 74
+      },
+      "revId": "88ae353a165694fe61777fd9eefff44ce87befb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a45be491_afbb4fd3",
         "filename": "Jenkinsfile",
         "patchSetId": 50
@@ -157,6 +301,24 @@
     },
     {
       "key": {
+        "uuid": "3f2bb43e_4be4f06a",
+        "filename": "Jenkinsfile",
+        "patchSetId": 50
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-10-15T12:58:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a45be491_afbb4fd3",
+      "revId": "88ae353a165694fe61777fd9eefff44ce87befb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "84a64459_3f917f13",
         "filename": "Jenkinsfile",
         "patchSetId": 50
@@ -171,6 +333,24 @@
       "revId": "88ae353a165694fe61777fd9eefff44ce87befb0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f92d7d7c_e0611c27",
+        "filename": "Jenkinsfile",
+        "patchSetId": 50
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-10-15T12:58:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "84a64459_3f917f13",
+      "revId": "88ae353a165694fe61777fd9eefff44ce87befb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

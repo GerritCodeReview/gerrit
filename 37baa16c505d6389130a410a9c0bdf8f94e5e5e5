@@ -16,6 +16,24 @@
       "revId": "37baa16c505d6389130a410a9c0bdf8f94e5e5e5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b816808c_634db771",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/RevertIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-10-15T11:10:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3002c336_fa1137ce",
+      "revId": "37baa16c505d6389130a410a9c0bdf8f94e5e5e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

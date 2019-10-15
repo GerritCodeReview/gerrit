@@ -28,7 +28,7 @@ limitations under the License.
 <script>
   const link = document.createElement('link');
   link.setAttribute('rel', 'import');
-  link.setAttribute('href', window.POLYMER2 ? 'gr-app-p2.html' : 'gr-app.html');
+  link.setAttribute('href', 'gr-app.html');
   document.head.appendChild(link);
 </script>
 
@@ -37,12 +37,6 @@ limitations under the License.
 <test-fixture id="basic">
   <template>
     <gr-app id="app"></gr-app>
-  </template>
-</test-fixture>
-
-<test-fixture id="basic-p2">
-  <template>
-    <gr-app-p2 id="app"></gr-app-p2>
   </template>
 </test-fixture>
 
@@ -80,7 +74,7 @@ limitations under the License.
         probePath() { return Promise.resolve(42); },
       });
 
-      element = fixture(window.POLYMER2 ? 'basic-p2' : 'basic');
+      element = fixture('basic');
       flush(done);
     });
 

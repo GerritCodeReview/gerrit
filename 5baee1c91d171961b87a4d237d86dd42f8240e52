@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "93b2c144_683921cf",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 882,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-15T13:53:10Z",
+      "side": 1,
+      "message": "this comment seems weird... native querySelectorAll always return NodeList, it should not have anything to do with polymer2 ? https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelectorAll\n\nor is it the querySelectorAll from Polymer ?",
+      "revId": "5baee1c91d171961b87a4d237d86dd42f8240e52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "56c97a25_3bd25986",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 885,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-15T13:53:10Z",
+      "side": 1,
+      "message": "this change will change the logic a little bit for empty _files`, can you write some tests or test it manually ? (since the fileCursor.stops and setCursorAtIndex won\u0027t be called if `_files` is empty)",
+      "revId": "5baee1c91d171961b87a4d237d86dd42f8240e52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

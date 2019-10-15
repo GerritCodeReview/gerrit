@@ -16,6 +16,24 @@
       "revId": "e86a0ae519ee91600ff0e6853ce7b59199f4ee8f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "33a5befa_93680ce0",
+        "filename": "polygerrit-ui/app/elements/gr-app-p2.html",
+        "patchSetId": 69
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-15T11:33:24Z",
+      "side": 1,
+      "message": "I modified the gr-app.html so it should work for both polymer 2 and polymer 1. So for Gerrit, it\u0027s ok to keep using gr-app.html as then main entry. The next step is changing the pointers within google to point to gr-app.html as well and then we can get rid of the gr-app-p2 completely.",
+      "parentUuid": "35b4a7e6_5f7f6780",
+      "revId": "e86a0ae519ee91600ff0e6853ce7b59199f4ee8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

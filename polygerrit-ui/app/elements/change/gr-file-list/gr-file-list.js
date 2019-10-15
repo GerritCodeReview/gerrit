@@ -924,12 +924,14 @@
     },
 
     _filesChanged() {
-      Polymer.dom.flush();
-      // Polymer2: querySelectorAll returns NodeList instead of Array.
-      const files = Array.from(
-          Polymer.dom(this.root).querySelectorAll('.file-row'));
-      this.$.fileCursor.stops = files;
-      this.$.fileCursor.setCursorAtIndex(this.selectedIndex, true);
+      if (this._files && this._files.length > 0) {
+        Polymer.dom.flush();
+        // Polymer2: querySelectorAll returns NodeList instead of Array.
+        const files = Array.from(
+            Polymer.dom(this.root).querySelectorAll('.file-row'));
+        this.$.fileCursor.stops = files;
+        this.$.fileCursor.setCursorAtIndex(this.selectedIndex, true);
+      }
     },
 
     _incrementNumFilesShown() {

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f50e45cf_15212a8a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-15T05:17:23Z",
+      "side": 1,
+      "message": "Write a feature request upstream then, and link it here and add a TODO in the code to clean up and consistently use the same thing in Gerrit code base?",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 61
+      },
+      "revId": "358cde2edc8987d7ff65dc251e69254a3f2c18b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5db5fc08_1a89272a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-15T05:17:23Z",
+      "side": 1,
+      "message": "What about plugins? oauth plugins still depends on it: [1] that is also reflected in the BUILD file there:\n\n  deps \u003d [\n      \"@commons-codec//jar:neverlink\",\n      \"@scribe//jar\",\n  ],\n\nShould the plugins be adapted? I guess we can continue to expose the commons-codec in plugin API, given that this library is included in gerrit.war, because of the transitive dependency of httpclient. OpenID and ES packages depend on httpclient currently.\n\n[1] https://cs.bazel.build/search?q\u003dr%3Aplugins%2Foauth+Base64.decodeBase64\u0026num\u003d50",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 62
+      },
+      "revId": "358cde2edc8987d7ff65dc251e69254a3f2c18b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

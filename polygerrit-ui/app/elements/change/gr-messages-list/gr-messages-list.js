@@ -194,7 +194,7 @@
       this.handleExpandCollapse(!this._expanded);
     },
 
-    _handleAnchorTap(e) {
+    _handleAnchorClick(e) {
       this.scrollToMessage(e.detail.id);
     },
 

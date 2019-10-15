@@ -64,7 +64,7 @@ limitations under the License.
       assert.isTrue(element.$$('paper-button').disabled);
     });
 
-    for (const eventName of ['tap', 'click']) {
+    for (const eventName of ['click']) {
       test('dispatches ' + eventName + ' event', () => {
         const spy = addSpyOn(eventName);
         MockInteractions.tap(element);
@@ -74,21 +74,21 @@ limitations under the License.
 
     // Keycodes: 32 for Space, 13 for Enter.
     for (const key of [32, 13]) {
-      test('dispatches tap event on keycode ' + key, () => {
-        const tapSpy = sandbox.spy();
-        element.addEventListener('tap', tapSpy);
+      test('dispatches click event on keycode ' + key, () => {
+        const clickSpy = sandbox.spy();
+        element.addEventListener('click', clickSpy);
         MockInteractions.pressAndReleaseKeyOn(element, key);
-        assert.isTrue(tapSpy.calledOnce);
+        assert.isTrue(clickSpy.calledOnce);
       });
 
-      test('dispatches no tap event with modifier on keycode ' + key, () => {
-        const tapSpy = sandbox.spy();
-        element.addEventListener('tap', tapSpy);
+      test('dispatches no click event with modifier on keycode ' + key, () => {
+        const clickSpy = sandbox.spy();
+        element.addEventListener('click', clickSpy);
         MockInteractions.pressAndReleaseKeyOn(element, key, 'shift');
         MockInteractions.pressAndReleaseKeyOn(element, key, 'ctrl');
         MockInteractions.pressAndReleaseKeyOn(element, key, 'meta');
         MockInteractions.pressAndReleaseKeyOn(element, key, 'alt');
-        assert.isFalse(tapSpy.calledOnce);
+        assert.isFalse(clickSpy.calledOnce);
       });
     }
 
@@ -97,7 +97,7 @@ limitations under the License.
         element.disabled = true;
       });
 
-      for (const eventName of ['tap', 'click']) {
+      for (const eventName of ['click']) {
         test('stops ' + eventName + ' event', () => {
           const spy = addSpyOn(eventName);
           MockInteractions.tap(element);
@@ -107,11 +107,11 @@ limitations under the License.
 
       // Keycodes: 32 for Space, 13 for Enter.
       for (const key of [32, 13]) {
-        test('stops tap event on keycode ' + key, () => {
-          const tapSpy = sandbox.spy();
-          element.addEventListener('tap', tapSpy);
+        test('stops click event on keycode ' + key, () => {
+          const clickSpy = sandbox.spy();
+          element.addEventListener('click', clickSpy);
           MockInteractions.pressAndReleaseKeyOn(element, key);
-          assert.isFalse(tapSpy.called);
+          assert.isFalse(clickSpy.called);
         });
       }
     });

@@ -37,7 +37,7 @@
      */
 
     listeners: {
-      tap: '_handleTap',
+      click: '_handleTap',
     },
 
     properties: {

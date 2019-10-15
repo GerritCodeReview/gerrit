@@ -174,6 +174,24 @@
     },
     {
       "key": {
+        "uuid": "d65c8c04_b5803230",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/RevertIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-15T13:33:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c7736d3_a402ac7a",
+      "revId": "493a306f5549f073a4a092584a6e5756c6436a45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "90c6dfc4_b35ea43f",
         "filename": "javatests/com/google/gerrit/acceptance/api/change/RevertIT.java",
         "patchSetId": 2

@@ -511,6 +511,30 @@
       "revId": "c238e5e3ac4c72b7fe5df3609d94a108a29277ee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d9d3c83_a7f76bf9",
+        "filename": "lib/jgit/jgit.bzl",
+        "patchSetId": 9
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-15T13:22:31Z",
+      "side": 1,
+      "message": "To see, that it\u0027s not gerrit behind https://git.eclipse.org/gitroot/jgit/jgit, git-core verbose variables can be used:\n\n  $ GIT_TRACE\u003d2 \\\n    GIT_CURL_VERBOSE\u003d2 \\\n    GIT_TRACE_PERFORMANCE\u003d2 \\\n    GIT_TRACE_PACK_ACCESS\u003d2 \\\n    GIT_TRACE_PACKET\u003d2 \\\n    GIT_TRACE_PACKFILE\u003d2 \\\n    GIT_TRACE_SETUP\u003d2 \\\n    GIT_TRACE_SHALLOW\u003d2 \\\n    git ls-remote https://git.eclipse.org/gitroot/jgit/jgit\n\nAnd the remote agent is shown in the first line:\n\n  15:14:52.048224 pkt-line.c:80           packet:          git\u003c bca00aa5f464e1bc3aa00d4b757554b54f35ddb2 HEAD\\0multi_ack thin-pack side-band side-band-64k ofs-delta shallow deepen-since deepen-not deepen-relative no-progress include-tag multi_ack_detailed no-done symref\u003dHEAD:refs/heads/master agent\u003dgit/2.19.1\n\n^^^ So it\u0027s git/2.19.1. Given that git wire protocol v2 is supported since git-core 2.18, eclipse.org already has git version that supports it. It\u0027s only the matter of enabling it on the server side.",
+      "parentUuid": "02fd28d2_fddcc853",
+      "range": {
+        "startLine": 24,
+        "startChar": 10,
+        "endLine": 24,
+        "endChar": 62
+      },
+      "revId": "c238e5e3ac4c72b7fe5df3609d94a108a29277ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

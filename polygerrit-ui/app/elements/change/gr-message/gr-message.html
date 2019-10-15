@@ -176,7 +176,7 @@ limitations under the License.
     <div class$="[[_computeClass(_expanded, showAvatar, message)]]">
       <gr-avatar account="[[author]]" image-size="100"></gr-avatar>
       <div class="contentContainer">
-        <div class="author" on-tap="_handleAuthorTap">
+        <div class="author" on-click="_handleAuthorTap">
           <span hidden$="[[!showOnBehalfOf]]">
             <span class="name">[[message.real_author.name]]</span>
             on behalf of
@@ -233,7 +233,7 @@ limitations under the License.
             </span>
           </template>
           <template is="dom-if" if="[[message.id]]">
-            <span class="date" on-tap="_handleAnchorTap">
+            <span class="date" on-click="_handleAnchorTap">
               <gr-date-formatter
                   has-tooltip
                   show-date-and-time
@@ -242,7 +242,7 @@ limitations under the License.
           </template>
           <iron-icon
               id="expandToggle"
-              on-tap="_toggleExpanded"
+              on-click="_toggleExpanded"
               title="Toggle expanded state"
               icon="[[_computeExpandToggleIcon(_expanded)]]">
         </span>

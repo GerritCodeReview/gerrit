@@ -16,6 +16,24 @@
       "revId": "4f493733225de324edfddb5d1d7431e6377cbfb8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c1aa29f8_a7b66931",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 1301,
+      "author": {
+        "id": 1074943
+      },
+      "writtenOn": "2019-10-15T16:59:08Z",
+      "side": 1,
+      "message": "Sorry I don\u0027t fully understand this comment, IIUC, neither documentation nor code warning enforces dependencies.\n\nRegarding documentation, I do have plan to document here: https://cs.corp.google.com/piper///depot/google3/third_party/java_src/gerritcodereview/gerrit/Documentation/pg-plugin-endpoints.txt, is that what you mean? (crbug.com/1013226)",
+      "parentUuid": "02783417_c52b518e",
+      "revId": "4f493733225de324edfddb5d1d7431e6377cbfb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -78,14 +78,6 @@ $ cat << EOF > ~/.bazelrc
 Now, invoking Bazel with just `bazel build :release` would include
 all those options.
 
-Note that the follow option must be added to `container.javaOptions`
-in `$gerrit_site/etc/gerrit.config` to run Gerrit with Java 12:
-
-```
-[container]
-  javaOptions = --add-opens=jdk.management/com.sun.management.internal=ALL-UNNAMED
-```
-
 [[java-11]]
 ==== Java 11 support
 
@@ -100,14 +92,6 @@ To build Gerrit with Java 11, specify JDK 11 java toolchain:
       --host_java_toolchain=@bazel_tools//tools/jdk:toolchain_java11 \
       --java_toolchain=@bazel_tools//tools/jdk:toolchain_java11 \
       :release
-```
-
-Note that the follow option must be added to `container.javaOptions`
-in `$gerrit_site/etc/gerrit.config` to run Gerrit with Java 11:
-
-```
-[container]
-  javaOptions = --add-opens=jdk.management/com.sun.management.internal=ALL-UNNAMED
 ```
 
 === Node.js and npm packages

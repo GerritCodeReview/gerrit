@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2d51a924_4e29fdb1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-15T15:10:03Z",
+      "side": 1,
+      "message": "It\u0027s not rebasing all reverts on top of each other, but only revert changes that correspond to a change series that is being reverted.",
+      "range": {
+        "startLine": 67,
+        "startChar": 27,
+        "endLine": 67,
+        "endChar": 64
+      },
+      "revId": "e76db0e65f94334638b1274c7604b8101c5de9f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1f2f81f4_317a6d06",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-15T15:10:03Z",
+      "side": 1,
+      "message": "I think this should not be an option, but always be done.",
+      "range": {
+        "startLine": 67,
+        "startChar": 3,
+        "endLine": 67,
+        "endChar": 16
+      },
+      "revId": "e76db0e65f94334638b1274c7604b8101c5de9f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "47f9e0f2_c7ae8aac",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-15T15:10:03Z",
+      "side": 1,
+      "message": "drop this\n\nHow could all reverts be rebased on top of each other, e.g. reverts in different repos?",
+      "range": {
+        "startLine": 70,
+        "startChar": 40,
+        "endLine": 71,
+        "endChar": 5
+      },
+      "revId": "e76db0e65f94334638b1274c7604b8101c5de9f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

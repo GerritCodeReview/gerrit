@@ -52,6 +52,24 @@
       "revId": "cd1d6be8c4643530fa4365e4772dd32964f810ac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48086dc3_b8259579",
+        "filename": "polygerrit-ui/app/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-15T16:20:02Z",
+      "side": 1,
+      "message": "ya, we don\u0027t have 3.1 created yet. Will keep my eyes on it.",
+      "parentUuid": "95a9c9d8_75454136",
+      "revId": "cd1d6be8c4643530fa4365e4772dd32964f810ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

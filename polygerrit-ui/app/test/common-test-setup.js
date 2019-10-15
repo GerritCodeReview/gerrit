@@ -15,8 +15,6 @@
  * limitations under the License.
  */
 
-window.POLYMER2 = true;
-
 /**
  * Helps looking up the proper iron-input element during the Polymer 2
  * transition. Polymer 2 uses the <iron-input> element, while Polymer 1 uses

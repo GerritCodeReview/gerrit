@@ -14,10 +14,11 @@ def polygerrit_bundle(name, srcs, outs, app):
         # See: https://github.com/google/closure-compiler/issues/2042
         compilation_level = "WHITESPACE_ONLY",
         defs = [
-            "--polymer_version=2",
+            "--polymer_version=1",
             "--jscomp_off=duplicate",
+            "--force_inject_library=es6_runtime",
         ],
-        language = "ECMASCRIPT_2017",
+        language = "ECMASCRIPT5",
         deps = [name + "_closure_lib"],
     )
 

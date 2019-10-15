@@ -111,10 +111,6 @@ public class IndexHtmlUtil {
 
     SanitizedContent sanitizedStaticPath = urlInScriptTagOrdainer.apply(staticPath);
     ImmutableMap.Builder<String, Object> data = ImmutableMap.builder();
-
-    // TODO(taoalpha): Remove once p2 fully rolled out
-    data.put("polymer2", "true");
-
     if (canonicalPath != null) {
       data.put("canonicalPath", canonicalPath);
     }
@@ -123,6 +119,9 @@ public class IndexHtmlUtil {
     }
     if (faviconPath != null) {
       data.put("faviconPath", faviconPath);
+    }
+    if (urlParameterMap.containsKey("p2")) {
+      data.put("polymer2", "true");
     }
     if (urlParameterMap.containsKey("ce")) {
       data.put("polyfillCE", "true");

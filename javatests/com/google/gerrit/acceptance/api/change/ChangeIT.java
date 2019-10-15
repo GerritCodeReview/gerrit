@@ -172,6 +172,7 @@ import com.google.gerrit.server.patch.IntraLineDiff;
 import com.google.gerrit.server.patch.IntraLineDiffKey;
 import com.google.gerrit.server.patch.PatchList;
 import com.google.gerrit.server.patch.PatchListKey;
+import com.google.gerrit.server.permissions.PermissionDeniedException;
 import com.google.gerrit.server.project.testing.TestLabels;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder.ChangeOperatorFactory;
@@ -894,6 +895,26 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(thrown)
         .hasMessageThat()
         .contains("project state " + ProjectState.READ_ONLY + " does not permit write");
+  }
+
+  @Test
+  public void cantCreateRevertWithoutCreateChangePermission() throws Exception {
+    PushOneCommit.Result r = createChange();
+    gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).review(ReviewInput.approve());
+    gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).submit();
+
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(block(Permission.PUSH).ref("refs/for/*").group(REGISTERED_USERS))
+        .update();
+
+    PermissionDeniedException thrown =
+        assertThrows(
+            PermissionDeniedException.class, () -> gApi.changes().id(r.getChangeId()).revert());
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains("not permitted: create change on refs/heads/master");
   }
 
   @FunctionalInterface

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "02783417_c52b518e",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 1301,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-15T12:07:04Z",
+      "side": 1,
+      "message": "Thanks! Can you also add a comment on there should be some work to enforce the dependency on endpoints ? i.e: documentation or code warning etc",
+      "revId": "4f493733225de324edfddb5d1d7431e6377cbfb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

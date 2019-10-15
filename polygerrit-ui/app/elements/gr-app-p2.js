@@ -14,6 +14,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+// TODO(taoalpha): Remove once p2 fully rolled out
 (function() {
   'use strict';
 

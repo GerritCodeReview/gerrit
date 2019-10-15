@@ -2,6 +2,144 @@
   "comments": [
     {
       "key": {
+        "uuid": "954aa750_5b5e454b",
+        "filename": "Jenkinsfile",
+        "patchSetId": 50
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-10-15T07:18:55Z",
+      "side": 1,
+      "message": "We typically avoid wildcard imports in Java files. Should we do the same in Groovy?",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 18
+      },
+      "revId": "88ae353a165694fe61777fd9eefff44ce87befb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b30d80b0_47f0a467",
+        "filename": "Jenkinsfile",
+        "patchSetId": 50
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-10-15T07:18:55Z",
+      "side": 1,
+      "message": "Should these be final also?",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 94
+      },
+      "revId": "88ae353a165694fe61777fd9eefff44ce87befb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "40554b1c_4638b733",
+        "filename": "Jenkinsfile",
+        "patchSetId": 50
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-10-15T07:18:55Z",
+      "side": 1,
+      "message": "Should this be together with \u0027ABORTED\u0027 and return \u0027NOT_STARTED\u0027 ?",
+      "range": {
+        "startLine": 82,
+        "startChar": 0,
+        "endLine": 82,
+        "endChar": 29
+      },
+      "revId": "88ae353a165694fe61777fd9eefff44ce87befb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2122be85_5abc459a",
+        "filename": "Jenkinsfile",
+        "patchSetId": 50
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-10-15T07:18:55Z",
+      "side": 1,
+      "message": "Would be best to use JsonSlurper (see http://groovy-lang.org/json.html)",
+      "range": {
+        "startLine": 90,
+        "startChar": 15,
+        "endLine": 92,
+        "endChar": 55
+      },
+      "revId": "88ae353a165694fe61777fd9eefff44ce87befb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "069188cb_6e33a02f",
+        "filename": "Jenkinsfile",
+        "patchSetId": 50
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-10-15T07:18:55Z",
+      "side": 1,
+      "message": "Should this be a global static variable? The Gerrit base URL is not going to change in this job.",
+      "range": {
+        "startLine": 97,
+        "startChar": 11,
+        "endLine": 97,
+        "endChar": 14
+      },
+      "revId": "88ae353a165694fe61777fd9eefff44ce87befb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6431d3b5_a3070080",
+        "filename": "Jenkinsfile",
+        "patchSetId": 50
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-10-15T07:18:55Z",
+      "side": 1,
+      "message": "Can this be static? It is not going to change anytime soon and across invocations also.",
+      "range": {
+        "startLine": 251,
+        "startChar": 8,
+        "endLine": 251,
+        "endChar": 74
+      },
+      "revId": "88ae353a165694fe61777fd9eefff44ce87befb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a45be491_afbb4fd3",
         "filename": "Jenkinsfile",
         "patchSetId": 50

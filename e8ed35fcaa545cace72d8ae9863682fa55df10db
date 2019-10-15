@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5629c29f_67d42d1e",
+        "filename": "resources/com/google/gerrit/httpd/raw/PolyGerritIndexHtml.soy",
+        "patchSetId": 67
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-15T08:08:12Z",
+      "side": 1,
+      "message": "we will still need this as google managed hosts still using this parameter to switch between p1 and p2. Once we fully rolled out polymer 2, I will remove this and clean up all POLYMER2 related parts.",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 23
+      },
+      "revId": "e8ed35fcaa545cace72d8ae9863682fa55df10db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

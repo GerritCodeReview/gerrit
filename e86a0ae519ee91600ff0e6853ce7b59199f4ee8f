@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "35b4a7e6_5f7f6780",
+        "filename": "polygerrit-ui/app/elements/gr-app-p2.html",
+        "patchSetId": 69
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-15T11:26:24Z",
+      "side": 1,
+      "message": "Shouldn\u0027t BUILD file be udpated to include gr-app-p2.html now as it was done in patch set 66, see: [1]?\n\nhttps://gerrit-review.googlesource.com/c/gerrit/+/220252/66/polygerrit-ui/app/BUILD#21",
+      "revId": "e86a0ae519ee91600ff0e6853ce7b59199f4ee8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

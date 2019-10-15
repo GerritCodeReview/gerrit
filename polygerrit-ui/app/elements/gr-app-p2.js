@@ -14,6 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
+// TODO(taoalpha): This file is only used by google,
+// remove once polymer fully rolled out.
 (function() {
   'use strict';
 

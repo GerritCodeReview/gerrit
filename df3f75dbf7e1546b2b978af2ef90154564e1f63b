@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d78d1ff6_935394f4",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/RevertIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-10-15T11:09:05Z",
+      "side": 1,
+      "message": "2019?",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "df3f75dbf7e1546b2b978af2ef90154564e1f63b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

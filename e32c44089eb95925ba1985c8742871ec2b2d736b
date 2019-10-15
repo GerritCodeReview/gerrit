@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "3afea539_e3a914d8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2019-10-15T10:03:58Z",
+      "side": 1,
+      "message": "Bug: Issue 7083",
+      "revId": "e32c44089eb95925ba1985c8742871ec2b2d736b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "01cc3859_7a658238",
         "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.js",
         "patchSetId": 7

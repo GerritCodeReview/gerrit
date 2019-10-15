@@ -34,6 +34,24 @@
       "revId": "cd1d6be8c4643530fa4365e4772dd32964f810ac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "95a9c9d8_75454136",
+        "filename": "polygerrit-ui/app/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-15T16:18:00Z",
+      "side": 1,
+      "message": "I see. We should clean up stable -3.1 branch in case it was already created at this time, though.",
+      "parentUuid": "96f5326f_29ef04b3",
+      "revId": "cd1d6be8c4643530fa4365e4772dd32964f810ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "70b3c803_a2de35d3",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-15T11:55:09Z",
+      "side": 1,
+      "message": "hmm sorry for the nitpicking... but this is kind of hard to read. Can you move this expression to variable ? something like:\n```\nconst predefinedOpOnlyQuery \u003d SEARCH_OPERATORS_WITH_NEGATIONS.some(op \u003d\u003e {\n          return op.endsWith(\u0027:\u0027) \u0026\u0026 op \u003d\u003d\u003d trimmedInput;\n});\n\nif (predefinedOpOnlyQuery) return;\n```",
+      "range": {
+        "startLine": 197,
+        "startChar": 9,
+        "endLine": 198,
+        "endChar": 13
+      },
+      "revId": "1ec641d7286b470d61f87af0b76429f8f490404a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

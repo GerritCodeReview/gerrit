@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fd947f60_f8a73ca6",
+        "filename": "polygerrit-ui/app/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-15T16:08:24Z",
+      "side": 1,
+      "message": "This means that actually gr-app-p2.html is used in release.war in open source gerrit:\n\n  $ unzip -t bazel-bin/gerrit.war | grep gr-app\n  testing: polygerrit_ui/elements/gr-app-p2.html   OK\n  testing: polygerrit_ui/elements/gr-app-p2.js   OK\n\nCan this be somehow avoided?",
+      "revId": "cd1d6be8c4643530fa4365e4772dd32964f810ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

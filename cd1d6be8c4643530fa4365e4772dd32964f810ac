@@ -16,6 +16,24 @@
       "revId": "cd1d6be8c4643530fa4365e4772dd32964f810ac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "96f5326f_29ef04b3",
+        "filename": "polygerrit-ui/app/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-15T16:13:04Z",
+      "side": 1,
+      "message": "for now its bit hard. As the template will need to refer to gr-app-p2 for p2 bundles, and google hosts serving both gr-app, gr-app-p2 (thats why we can support polymer 1 and polymer 2).\n\nBut we expect to have all google hosts on polymer 2 soon (maybe this week or next), and I will start sending cleaning cls soon, so we should be able to get rid of it before the 3.1 release.",
+      "parentUuid": "fd947f60_f8a73ca6",
+      "revId": "cd1d6be8c4643530fa4365e4772dd32964f810ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

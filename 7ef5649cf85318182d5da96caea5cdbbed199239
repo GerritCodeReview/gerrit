@@ -45,6 +45,30 @@
       "revId": "7ef5649cf85318182d5da96caea5cdbbed199239",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2e196b08_ed29da5d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 15
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-15T10:13:32Z",
+      "side": 1,
+      "message": "I already added a similar comment on this line in previous patch set.",
+      "parentUuid": "7f7daded_8a027b2d",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 15
+      },
+      "revId": "7ef5649cf85318182d5da96caea5cdbbed199239",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

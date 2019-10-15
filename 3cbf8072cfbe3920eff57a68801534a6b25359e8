@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "adac2792_87796d80",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-15T15:15:26Z",
+      "side": 1,
+      "message": "I hate to say this, but `predefinedQuery` is a bad name :) (i.e why predefinedQuery should return instead of nav ?)",
+      "range": {
+        "startLine": 196,
+        "startChar": 14,
+        "endLine": 196,
+        "endChar": 29
+      },
+      "revId": "3cbf8072cfbe3920eff57a68801534a6b25359e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

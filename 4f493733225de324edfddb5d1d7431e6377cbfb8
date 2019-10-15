@@ -34,6 +34,24 @@
       "revId": "4f493733225de324edfddb5d1d7431e6377cbfb8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fd1b65e7_2d07d475",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 1301,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-15T17:11:37Z",
+      "side": 1,
+      "message": "ya basically just make sure that we either document the new api and the requirement somewhere or we should show some warning when people register not all of these three endpoints (not very clear on how we should do that). Maybe just have that bug link above this method.",
+      "parentUuid": "c1aa29f8_a7b66931",
+      "revId": "4f493733225de324edfddb5d1d7431e6377cbfb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

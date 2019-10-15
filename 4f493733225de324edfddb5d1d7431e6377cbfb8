@@ -70,6 +70,24 @@
       "revId": "4f493733225de324edfddb5d1d7431e6377cbfb8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b5c2ad8c_754943af",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 1301,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-15T17:21:36Z",
+      "side": 1,
+      "message": "ya those only show for all plugins, it will be hard to see which one breaks the pattern. for now, i think a documentation should be good enough.",
+      "parentUuid": "ece24028_e9b9c671",
+      "revId": "4f493733225de324edfddb5d1d7431e6377cbfb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

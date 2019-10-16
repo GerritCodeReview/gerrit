@@ -217,6 +217,14 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
       r.load(update, id);
       return r;
     }
+
+    @UsedAt(UsedAt.Project.COLLABNET)
+    public ProjectConfig read(Repository repo, Project.NameKey name)
+        throws IOException, ConfigInvalidException {
+      ProjectConfig r = create(name);
+      r.load(repo);
+      return r;
+    }
   }
 
   private final StoredConfig baseConfig;

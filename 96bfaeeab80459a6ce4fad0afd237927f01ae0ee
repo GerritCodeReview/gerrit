@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d0354368_4a3aadb7",
+        "filename": "java/com/google/gerrit/server/CommentsUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 366,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-10-16T23:50:58Z",
+      "side": 0,
+      "message": "There are still references to these methods in the javadoc of the Comment class:\n\nhttps://gerrit.googlesource.com/gerrit/+/14dfd821db36b03819e123e64c896cacb87e0bf4/java/com/google/gerrit/entities/Comment.java#52",
+      "range": {
+        "startLine": 357,
+        "startChar": 2,
+        "endLine": 366,
+        "endChar": 3
+      },
+      "revId": "96bfaeeab80459a6ce4fad0afd237927f01ae0ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

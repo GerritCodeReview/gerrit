@@ -63,8 +63,22 @@ public class ActionsIT extends AbstractDaemonTest {
     return gApi.changes().id(id).revision(1).actions();
   }
 
+  protected Map<String, ActionInfo> getChangeActions(String id) throws Exception {
+    return gApi.changes().id(id).get().actions;
+  }
+
   protected String getETag(String id) throws Exception {
     return gApi.changes().id(id).current().etag();
+  }
+
+  @Test
+  public void changeActionOneMergedChangeHasReverts() throws Exception {
+    String changeId = createChangeWithTopic().getChangeId();
+    gApi.changes().id(changeId).current().review(ReviewInput.approve());
+    gApi.changes().id(changeId).current().submit();
+    Map<String, ActionInfo> actions = getChangeActions(changeId);
+    assertThat(actions).containsKey("revert");
+    assertThat(actions).containsKey("revert_submission");
   }
 
   @Test

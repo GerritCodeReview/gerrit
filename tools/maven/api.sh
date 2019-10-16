@@ -60,6 +60,12 @@ if [[ "${VERBOSE:-x}" != "x" ]]; then
   set -o xtrace
 fi
 
+if [[ `which bazelisk` ]]; then
+  BAZEL_CMD=bazelisk
+else
+  BAZEL_CMD=bazel
+fi
+
 bazel build //tools/maven:gen_${command} "$@" || \
   { echo "bazel failed to build gen_${command}. Use VERBOSE=1 for more info" ; exit 1 ; }
 

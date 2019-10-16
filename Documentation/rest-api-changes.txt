@@ -1501,6 +1501,90 @@ the error message is contained in the response body.
   change is new
 ----
 
+[[revert-submission]]
+=== Revert Submission
+--
+'POST /changes/link:#change-id[\{change-id\}]/revert_submission'
+--
+
+Creates open revert changes for all of the changes of a certain submission.
+
+Details for the revert can be specified in the request body inside a link:#revert-input[
+RevertInput] The topic of all created revert changes will be
+`revert-{submission_id}-{random_string_of_size_10}`.
+
+The changes will not be rebased on onto the destination branch so the users may still
+have to manually rebase them to resolve conflicts and make them submittable.
+
+.Request
+----
+  POST /changes/myProject~master~I1ffe09a505e25f15ce1521bcfb222e51e62c2a14/revert_submission HTTP/1.0
+----
+
+As response link:#revert-submission-info[RevertSubmissionInfo] entity
+is returned. That entity describes the revert changes.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  "revert_changes":
+    [
+      {
+        "id": "myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940",
+        "project": "myProject",
+        "branch": "master",
+        "topic": "revert--1571043962462-3640749-ABCEEZGHIJ",
+        "change_id": "I8473b95934b5732ac55d26311a706c9c2bde9940",
+        "subject": "Revert \"Implementing Feature X\"",
+        "status": "NEW",
+        "created": "2013-02-01 09:59:32.126000000",
+        "updated": "2013-02-21 11:16:36.775000000",
+        "mergeable": true,
+        "insertions": 6,
+        "deletions": 4,
+        "_number": 3965,
+        "owner": {
+          "name": "John Doe"
+        }
+      },
+      {
+        "id": "anyProject~master~1eee2c9d8f352483781e772f35dc586a69ff5646",
+        "project": "anyProject",
+        "branch": "master",
+        "topic": "revert--1571043962462-3640749-ABCEEZGHIJ",
+        "change_id": "I1eee2c9d8f352483781e772f35dc586a69ff5646",
+        "subject": "Revert \"Implementing Feature Y\"",
+        "status": "NEW",
+        "created": "2013-02-04 09:59:33.126000000",
+        "updated": "2013-02-21 11:16:37.775000000",
+        "mergeable": true,
+        "insertions": 62,
+        "deletions": 11,
+        "_number": 3966,
+        "owner": {
+          "name": "Jane Doe"
+        }
+      }
+    ]
+----
+
+If any of the changes cannot be reverted because the change state doesn't
+allow reverting the change, the response is "`409 Conflict`" and
+the error message is contained in the response body.
+
+.Response
+----
+  HTTP/1.1 409 Conflict
+  Content-Disposition: attachment
+  Content-Type: text/plain; charset=UTF-8
+
+  change is new
+----
+
 [[submit-change]]
 === Submit Change
 --
@@ -6931,8 +7015,22 @@ If not set, the default is `ALL`.
 Additional information about whom to notify about the revert as a map
 of recipient type to link:#notify-info[NotifyInfo] entity.
 |`topic`         |optional|
-Name of the topic for the revert change. If not set, the default is the topic
-of the change being reverted.
+Name of the topic for the revert change. If not set, the default for Revert
+endpoint is the topic of the change being reverted, and the default for the
+RevertSubmission endpoint is `revert-{submission_id}-{timestamp.now}`.
+|===========================
+
+[[revert-submission-info]]
+=== RevertSubmissionInfo
+The `RevertSubmissionInfo` describes the revert changes.
+
+[options="header",cols="1,6"]
+|===========================
+|Field Name       | Description
+|`revert_changes` |
+A list of #change-info[ChangeInfo] that describes the revert
+changes. Each entity in that list is a revert change that was created in that
+revert submission.
 |=============================
 
 [[review-info]]

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "478849c6_591c764f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2019-10-16T19:19:56Z",
+      "side": 1,
+      "message": "I think you\u0027re using \u0027tasks\u0027 to mean processes, or nodes, or something like that, but I\u0027m not sure. Is there a clearer word you could use?",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 5
+      },
+      "revId": "5ff1f2e9cfb70f53de77b441f974554482a31d71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "700ad186_7c8c71d5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2019-10-16T19:19:56Z",
+      "side": 1,
+      "message": "This is a good point. What\u0027s the plan for the next change API that you want to load balance?",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 42
+      },
+      "revId": "5ff1f2e9cfb70f53de77b441f974554482a31d71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

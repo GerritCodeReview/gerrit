@@ -19,7 +19,6 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.collect.ComparisonChain;
-import com.google.common.collect.FluentIterable;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Ordering;
 import com.google.gerrit.common.Nullable;
@@ -352,16 +351,5 @@ public class CommentsUtil {
   private static <T extends Comment> List<T> sort(List<T> comments) {
     comments.sort(COMMENT_ORDER);
     return comments;
-  }
-
-  public static Iterable<PatchLineComment> toPatchLineComments(
-      Change.Id changeId, PatchLineComment.Status status, Iterable<Comment> comments) {
-    return FluentIterable.from(comments).transform(c -> PatchLineComment.from(changeId, status, c));
-  }
-
-  public static List<Comment> toComments(
-      final String serverId, Iterable<PatchLineComment> comments) {
-    return COMMENT_ORDER.sortedCopy(
-        FluentIterable.from(comments).transform(plc -> plc.asComment(serverId)));
   }
 }

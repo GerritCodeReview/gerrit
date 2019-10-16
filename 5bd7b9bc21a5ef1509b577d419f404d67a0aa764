@@ -22,6 +22,30 @@
       "revId": "5bd7b9bc21a5ef1509b577d419f404d67a0aa764",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e81d9318_25b6b892",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-10-16T02:21:45Z",
+      "side": 1,
+      "message": "It seems the symlink is not being generated any more (using bazel 1.0), so if the project is cleaned and rebuilt the api.sh script doesn\u0027t work.",
+      "parentUuid": "8ead1b87_f7d14a6f",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 70
+      },
+      "revId": "5bd7b9bc21a5ef1509b577d419f404d67a0aa764",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

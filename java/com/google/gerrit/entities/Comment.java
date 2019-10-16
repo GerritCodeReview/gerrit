@@ -129,16 +129,18 @@ public class Comment {
    *
    * <p>The pair (startLine, startChar) defines the first character in the range. The pair (endLine,
    * endChar) defines the first character AFTER the range (i.e. it doesn't belong the range).
-   * (endLine, endChar) must be a valid character inside text, except EOF case.</p>
-   * <p>Special cases:</p>
+   * (endLine, endChar) must be a valid character inside text, except EOF case.
+   *
+   * <p>Special cases:
+   *
    * <ul>
    *   <li>Zero length range: (startLine, startChar) = (endLine, endChar). Range defines insert
-   *       position right before the (startLine, startChar) character (for {@link FixReplacement)
+   *       position right before the (startLine, startChar) character (for {@link FixReplacement})
    *   <li>EOF case - range includes the last character in the file:
    *       <ul>
    *         <li>if a file ends with EOL mark, then (endLine, endChar) = (num_of_lines + 1, 0)
-   *         <li>if a file doesn't end with EOL mark, then
-   *             (endLine, endChar) = (num_of_lines, num_of_chars_in_last_line)
+   *         <li>if a file doesn't end with EOL mark, then (endLine, endChar) = (num_of_lines,
+   *             num_of_chars_in_last_line)
    *       </ul>
    * </ul>
    */

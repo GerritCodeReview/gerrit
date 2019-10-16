@@ -51,32 +51,36 @@ public class PublishCommentUtil {
   }
 
   public void publish(
-      ChangeContext ctx, PatchSet.Id psId, Collection<Comment> drafts, @Nullable String tag) {
+      ChangeContext ctx,
+      PatchSet.Id psId,
+      Collection<Comment> draftComments,
+      @Nullable String tag) {
     ChangeNotes notes = ctx.getNotes();
     checkArgument(notes != null);
-    if (drafts.isEmpty()) {
+    if (draftComments.isEmpty()) {
       return;
     }
 
     Map<PatchSet.Id, PatchSet> patchSets =
-        psUtil.getAsMap(notes, drafts.stream().map(d -> psId(notes, d)).collect(toSet()));
-    for (Comment d : drafts) {
-      PatchSet ps = patchSets.get(psId(notes, d));
+        psUtil.getAsMap(notes, draftComments.stream().map(d -> psId(notes, d)).collect(toSet()));
+    for (Comment draftComment : draftComments) {
+      PatchSet.Id psIdOfDraftComment = psId(notes, draftComment);
+      PatchSet ps = patchSets.get(psIdOfDraftComment);
       if (ps == null) {
-        throw new StorageException("patch set " + ps + " not found");
+        throw new StorageException("patch set " + psIdOfDraftComment + " not found");
       }
-      d.writtenOn = ctx.getWhen();
-      d.tag = tag;
+      draftComment.writtenOn = ctx.getWhen();
+      draftComment.tag = tag;
       // Draft may have been created by a different real user; copy the current real user. (Only
       // applies to X-Gerrit-RunAs, since modifying drafts via on_behalf_of is not allowed.)
-      ctx.getUser().updateRealAccountId(d::setRealAuthor);
+      ctx.getUser().updateRealAccountId(draftComment::setRealAuthor);
       try {
-        CommentsUtil.setCommentCommitId(d, patchListCache, notes.getChange(), ps);
+        CommentsUtil.setCommentCommitId(draftComment, patchListCache, notes.getChange(), ps);
       } catch (PatchListNotAvailableException e) {
         throw new StorageException(e);
       }
     }
-    commentsUtil.putComments(ctx.getUpdate(psId), PUBLISHED, drafts);
+    commentsUtil.putComments(ctx.getUpdate(psId), PUBLISHED, draftComments);
   }
 
   private static PatchSet.Id psId(ChangeNotes notes, Comment c) {

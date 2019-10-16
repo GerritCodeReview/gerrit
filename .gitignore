@@ -9,7 +9,6 @@
 /.apt_generated
 /.apt_generated_tests
 /.bazel_path
-/.buckd
 /.classpath
 /.factorypath
 /.idea

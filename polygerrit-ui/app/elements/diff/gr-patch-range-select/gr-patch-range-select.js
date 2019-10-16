@@ -62,6 +62,10 @@
 
     behaviors: [Gerrit.PatchSetBehavior],
 
+    _getShaForPatch(patch) {
+      return patch.sha.substring(0, 10);
+    },
+
     _computeBaseDropdownContent(availablePatches, patchNum, _sortedRevisions,
         changeComments, revisionInfo) {
       const parentCounts = revisionInfo.getParentCountMap();
@@ -74,7 +78,7 @@
       for (const basePatch of availablePatches) {
         const basePatchNum = basePatch.num;
         const entry = this._createDropdownEntry(basePatchNum, 'Patchset ',
-            _sortedRevisions, changeComments);
+            _sortedRevisions, changeComments, this._getShaForPatch(basePatch));
         dropdownContent.push(Object.assign({}, entry, {
           disabled: this._computeLeftDisabled(
               basePatch.num, patchNum, _sortedRevisions),
@@ -112,7 +116,7 @@
         const patchNum = patch.num;
         const entry = this._createDropdownEntry(
             patchNum, patchNum === 'edit' ? '' : 'Patchset ', _sortedRevisions,
-            changeComments);
+            changeComments, this._getShaForPatch(patch));
         dropdownContent.push(Object.assign({}, entry, {
           disabled: this._computeRightDisabled(basePatchNum, patchNum,
               _sortedRevisions),
@@ -121,12 +125,17 @@
       return dropdownContent;
     },
 
-    _createDropdownEntry(patchNum, prefix, sortedRevisions, changeComments) {
+    _computeText(patchNum, prefix, changeComments, sha) {
+      return `${prefix}${patchNum}` +
+        `${this._computePatchSetCommentsString(changeComments, patchNum)}`
+          + (` | ${sha}`);
+    },
+
+    _createDropdownEntry(patchNum, prefix, sortedRevisions, changeComments,
+        sha) {
       const entry = {
         triggerText: `${prefix}${patchNum}`,
-        text: `${prefix}${patchNum}` +
-            `${this._computePatchSetCommentsString(
-                changeComments, patchNum)}`,
+        text: this._computeText(patchNum, prefix, changeComments, sha),
         mobileText: this._computeMobileText(patchNum, changeComments,
             sortedRevisions),
         bottomText: `${this._computePatchSetDescription(

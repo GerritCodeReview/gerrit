@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e3d8df4c_480b3c04",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-16T13:02:09Z",
+      "side": 1,
+      "message": "This step is still missing:\n\n1. Make the reverts stack on top of each other, when in the same branch\nand in the same repository. It should always succeed since it will not\nrebase on top of the destination branch.",
+      "revId": "2903ebbaa1671ef5447c50d38dd091e69f880bbb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

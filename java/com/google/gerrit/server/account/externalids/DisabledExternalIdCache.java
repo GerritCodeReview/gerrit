@@ -16,7 +16,7 @@ package com.google.gerrit.server.account.externalids;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSetMultimap;
-import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.entities.Account;
 import com.google.inject.AbstractModule;
 import com.google.inject.Module;
 import java.io.IOException;

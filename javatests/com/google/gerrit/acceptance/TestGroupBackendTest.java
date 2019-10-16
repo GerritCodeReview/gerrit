@@ -17,7 +17,7 @@ package com.google.gerrit.acceptance;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.acceptance.ExtensionRegistry.Registration;
-import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.server.account.UniversalGroupBackend;
 import com.google.gerrit.server.group.testing.TestGroupBackend;
 import com.google.inject.Inject;

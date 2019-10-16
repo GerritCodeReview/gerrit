@@ -16,8 +16,8 @@ package com.google.gerrit.server.edit;
 
 import static java.util.Objects.requireNonNull;
 
-import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.PatchSet;
 import org.eclipse.jgit.revwalk.RevCommit;
 
 /**

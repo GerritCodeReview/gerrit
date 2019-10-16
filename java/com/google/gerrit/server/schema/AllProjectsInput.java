@@ -21,8 +21,8 @@ import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelValue;
+import com.google.gerrit.entities.BooleanProjectConfig;
 import com.google.gerrit.extensions.client.InheritableBoolean;
-import com.google.gerrit.reviewdb.client.BooleanProjectConfig;
 import com.google.gerrit.server.notedb.Sequences;
 import java.util.Optional;
 

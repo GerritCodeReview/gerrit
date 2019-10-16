@@ -14,9 +14,9 @@
 
 package com.google.gerrit.server.query.change;
 
+import com.google.gerrit.entities.BranchNameKey;
+import com.google.gerrit.entities.Change;
 import com.google.gerrit.index.query.PostFilterPredicate;
-import com.google.gerrit.reviewdb.client.BranchNameKey;
-import com.google.gerrit.reviewdb.client.Change;
 import java.util.Set;
 
 public class DestinationPredicate extends PostFilterPredicate<ChangeData> {

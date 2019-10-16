@@ -17,8 +17,8 @@ package com.google.gerrit.server.mail.send;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.gerrit.common.data.ParameterizedString;
+import com.google.gerrit.entities.Account;
 import com.google.gerrit.mail.Address;
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;

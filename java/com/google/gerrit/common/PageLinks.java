@@ -14,12 +14,12 @@
 
 package com.google.gerrit.common;
 
-import com.google.gerrit.reviewdb.client.AccountGroup;
-import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.Change.Status;
-import com.google.gerrit.reviewdb.client.KeyUtil;
-import com.google.gerrit.reviewdb.client.PatchSet;
-import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.entities.AccountGroup;
+import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.Change.Status;
+import com.google.gerrit.entities.KeyUtil;
+import com.google.gerrit.entities.PatchSet;
+import com.google.gerrit.entities.Project;
 
 public class PageLinks {
   public static final String PROJECT_CHANGE_DELIMITER = "/+/";

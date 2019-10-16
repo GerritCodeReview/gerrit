@@ -15,7 +15,7 @@
 package com.google.gerrit.server.git.receive;
 
 import com.google.common.annotations.VisibleForTesting;
-import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.inject.Provider;
 import java.util.ArrayList;

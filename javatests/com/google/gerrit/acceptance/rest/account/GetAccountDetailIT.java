@@ -19,8 +19,8 @@ import static com.google.gerrit.acceptance.rest.account.AccountAssert.assertAcco
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
+import com.google.gerrit.entities.Account;
 import com.google.gerrit.extensions.common.AccountDetailInfo;
-import com.google.gerrit.reviewdb.client.Account;
 import org.junit.Test;
 
 public class GetAccountDetailIT extends AbstractDaemonTest {

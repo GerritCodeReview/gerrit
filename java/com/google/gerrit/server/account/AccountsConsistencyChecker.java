@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.account;
 
+import com.google.gerrit.entities.Account;
 import com.google.gerrit.extensions.api.config.ConsistencyCheckInfo.ConsistencyProblemInfo;
-import com.google.gerrit.reviewdb.client.Account;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;

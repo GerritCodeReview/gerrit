@@ -16,7 +16,7 @@ package com.google.gerrit.server.args4j;
 
 import static com.google.gerrit.util.cli.Localizable.localizable;
 
-import com.google.gerrit.reviewdb.client.PatchSet;
+import com.google.gerrit.entities.PatchSet;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import org.kohsuke.args4j.CmdLineException;

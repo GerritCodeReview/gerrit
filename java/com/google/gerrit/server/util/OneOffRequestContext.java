@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.util;
 
-import com.google.gerrit.reviewdb.client.Account;
+import com.google.gerrit.entities.Account;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.InternalUser;
 import com.google.inject.Inject;

@@ -16,7 +16,7 @@ package com.google.gerrit.httpd;
 
 import static com.google.gerrit.httpd.GitOverHttpServlet.URL_REGEX;
 
-import com.google.gerrit.reviewdb.client.CoreDownloadSchemes;
+import com.google.gerrit.entities.CoreDownloadSchemes;
 import com.google.gerrit.server.config.AuthConfig;
 import com.google.gerrit.server.config.DownloadConfig;
 import com.google.inject.Inject;

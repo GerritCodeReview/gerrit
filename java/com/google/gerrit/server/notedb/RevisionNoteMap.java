@@ -15,9 +15,9 @@
 package com.google.gerrit.server.notedb;
 
 import com.google.common.collect.ImmutableMap;
-import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.Comment;
-import com.google.gerrit.reviewdb.client.PatchLineComment;
+import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.Comment;
+import com.google.gerrit.entities.PatchLineComment;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;

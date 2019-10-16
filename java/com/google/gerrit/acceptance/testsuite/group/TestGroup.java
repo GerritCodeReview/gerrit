@@ -16,8 +16,8 @@ package com.google.gerrit.acceptance.testsuite.group;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableSet;
-import com.google.gerrit.reviewdb.client.Account;
-import com.google.gerrit.reviewdb.client.AccountGroup;
+import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.AccountGroup;
 import java.sql.Timestamp;
 import java.util.Optional;
 

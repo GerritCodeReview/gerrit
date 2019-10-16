@@ -14,7 +14,7 @@
 
 package com.google.gerrit.index.project;
 
-import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.entities.Project;
 
 public interface ProjectIndexer {
 

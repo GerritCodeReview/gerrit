@@ -60,7 +60,7 @@ limitations under the License.
 
 
     suite('plugin layers', () => {
-      const pluginLayers = [{annotate: () => {}}, {annotate: () => {}}];
+      const pluginLayers = [{}, {}];
       setup(() => {
         stub('gr-js-api-interface', {
           getDiffLayers() { return pluginLayers; },
@@ -302,81 +302,24 @@ limitations under the License.
         done();
       });
 
-      test('ends content timer on render-content', () => {
+      test('ends content and starts syntax timer on render-content', done => {
         element.dispatchEvent(
             new CustomEvent('render-content', {bubbles: true, composed: true}));
+        assert.isTrue(element.$.reporting.time.calledWithExactly(
+            'Diff Syntax Render'));
         assert.isTrue(element.$.reporting.timeEnd.calledWithExactly(
             'Diff Content Render'));
+        done();
       });
 
-      test('ends total and syntax timer after syntax layer processing', done => {
-        let notifySyntaxProcessed;
-        sandbox.stub(element.$.syntaxLayer, 'process').returns(new Promise(
-            resolve => {
-              notifySyntaxProcessed = resolve;
-            }));
-        sandbox.stub(element.$.restAPI, 'getDiff').returns(
-            Promise.resolve({content: []}));
-        element.patchRange = {};
-        element.$.restAPI.getDiffPreferences().then(prefs => {
-          element.prefs = prefs;
-          return element.reload();
-        });
-        // Multiple cascading microtasks are scheduled.
-        setTimeout(() => {
-          notifySyntaxProcessed();
-          // Assert after the notification task is processed.
-          Promise.resolve().then(() => {
-            assert.isTrue(element.$.reporting.timeEnd.calledThrice);
-            assert.isTrue(element.$.reporting.timeEnd.calledWithExactly(
-                'Diff Total Render'));
-            assert.isTrue(element.$.reporting.timeEnd.calledWithExactly(
-                'Diff Syntax Render'));
-            done();
-          });
-        });
-      });
-
-      test('ends total timer w/ no syntax layer processing', done => {
-        sandbox.stub(element.$.restAPI, 'getDiff').returns(
-            Promise.resolve({content: []}));
-        element.patchRange = {};
-        element.reload();
-        // Multiple cascading microtasks are scheduled.
-        setTimeout(() => {
-          assert.isTrue(element.$.reporting.timeEnd.calledOnce);
-          assert.isTrue(element.$.reporting.timeEnd.calledWithExactly(
-              'Diff Total Render'));
-          done();
-        });
-      });
-
-      test('completes reload promise after syntax layer processing', done => {
-        let notifySyntaxProcessed;
-        sandbox.stub(element.$.syntaxLayer, 'process').returns(new Promise(
-            resolve => {
-              notifySyntaxProcessed = resolve;
-            }));
-        sandbox.stub(element.$.restAPI, 'getDiff').returns(
-            Promise.resolve({content: []}));
-        element.patchRange = {};
-        let reloadComplete = false;
-        element.$.restAPI.getDiffPreferences().then(prefs => {
-          element.prefs = prefs;
-          return element.reload();
-        }).then(() => {
-          reloadComplete = true;
-        });
-        // Multiple cascading microtasks are scheduled.
-        setTimeout(() => {
-          assert.isFalse(reloadComplete);
-          notifySyntaxProcessed();
-          // Assert after the notification task is processed.
-          setTimeout(() => {
-            assert.isTrue(reloadComplete);
-            done();
-          });
-        });
+      test('ends total and syntax timer on render-syntax', done => {
+        element.dispatchEvent(
+            new CustomEvent('render-syntax', {bubbles: true, composed: true}));
+        assert.isTrue(element.$.reporting.timeEnd.calledWithExactly(
+            'Diff Total Render'));
+        assert.isTrue(element.$.reporting.timeEnd.calledWithExactly(
+            'Diff Syntax Render'));
+        done();
       });
     });
 
@@ -1341,58 +1284,6 @@ limitations under the License.
           Gerrit.DiffSide.LEFT), [l]);
       assert.deepEqual(element._filterThreadElsForLocation(threadEls, line,
           Gerrit.DiffSide.RIGHT), [r]);
-    });
-
-    suite('syntax layer', () => {
-      setup(() => {
-        const prefs = {
-          line_length: 10,
-          show_tabs: true,
-          tab_size: 4,
-          context: -1,
-          syntax_highlighting: true,
-        };
-        element.prefs = prefs;
-      });
-
-      test('gr-diff-host provides syntax highlighting layer to gr-diff', () => {
-        element.patchRange = {};
-        element.reload();
-        assert.equal(element.$.diff.layers[0], element.$.syntaxLayer);
-      });
-
-      test('rendering normal-sized diff does not disable syntax', () => {
-        element._diff = {
-          content: [{
-            a: ['foo'],
-          }],
-        };
-        assert.isTrue(element.$.syntaxLayer.enabled);
-      });
-
-      test('rendering large diff disables syntax', () => {
-        // Before it renders, set the first diff line to 500 '*' characters.
-        element._diff = {
-          content: [{
-            a: [new Array(501).join('*')],
-          }],
-        };
-        assert.isFalse(element.$.syntaxLayer.enabled);
-      });
-
-      test('starts syntax layer processing on render event', done => {
-        sandbox.stub(element.$.syntaxLayer, 'process').returns(Promise.resolve());
-        sandbox.stub(element.$.restAPI, 'getDiff').returns(
-            Promise.resolve({content: []}));
-        element.patchRange = {};
-        element.reload();
-        setTimeout(() => {
-          element.dispatchEvent(
-              new CustomEvent('render', {bubbles: true, composed: true}));
-          assert.isTrue(element.$.syntaxLayer.process.called);
-          done();
-        });
-      });
     });
   });
 </script>

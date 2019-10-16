@@ -767,7 +767,7 @@ limitations under the License.
                   new CustomEvent('render', {bubbles: true, composed: true}));
             });
         const mock = document.createElement('mock-diff-response');
-        sandbox.stub(element, 'getDiffLength').returns(10000);
+        sandbox.stub(element.$.diffBuilder, 'getDiffLength').returns(10000);
         element.diff = mock.diffResponse;
         element.noRenderOnPrefsChange = true;
       });
@@ -1100,23 +1100,6 @@ limitations under the License.
             element._diffLength
           ));
       });
-    });
-
-    test('getDiffLength', () => {
-      const diff = document.createElement('mock-diff-response').diffResponse;
-      assert.equal(element.getDiffLength(diff), 52);
-    });
-
-    test('`render` event has contentRendered field in detail', done => {
-      element = fixture('basic');
-      element.prefs = {};
-      renderStub = sandbox.stub(element.$.diffBuilder, 'render')
-            .returns(Promise.resolve());
-      element.addEventListener('render', event => {
-        assert.isTrue(event.detail.contentRendered);
-        done();
-      });
-      element._renderDiffTable();
     });
   });
 

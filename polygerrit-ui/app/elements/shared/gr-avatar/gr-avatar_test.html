@@ -117,7 +117,7 @@ limitations under the License.
       assert.strictEqual(element.style.backgroundImage, '');
 
       // Emulate plugins loaded.
-      Gerrit._setPluginsPending([]);
+      Gerrit._loadPlugins([]);
 
       Promise.all([
         element.$.restAPI.getConfig(),
@@ -155,7 +155,7 @@ limitations under the License.
       assert.isFalse(element.hasAttribute('hidden'));
 
       // Emulate plugins loaded.
-      Gerrit._setPluginsPending([]);
+      Gerrit._loadPlugins([]);
 
       return Promise.all([
         element.$.restAPI.getConfig(),
@@ -197,7 +197,7 @@ limitations under the License.
           _account_id: 123,
         };
         // Emulate plugins loaded.
-        Gerrit._setPluginsPending([]);
+        Gerrit._loadPlugins([]);
 
         return Promise.all([
           element.$.restAPI.getConfig(),

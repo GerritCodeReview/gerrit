@@ -1344,7 +1344,7 @@ limitations under the License.
           Gerrit.DiffSide.RIGHT), [r]);
     });
 
-    suite('syntax layer', () => {
+    suite('syntax layer with syntax_highlighting on', () => {
       setup(() => {
         const prefs = {
           line_length: 10,
@@ -1353,17 +1353,17 @@ limitations under the License.
           context: -1,
           syntax_highlighting: true,
         };
+        element.patchRange = {};
         element.prefs = prefs;
       });
 
       test('gr-diff-host provides syntax highlighting layer to gr-diff', () => {
-        element.patchRange = {};
         element.reload();
         assert.equal(element.$.diff.layers[0], element.$.syntaxLayer);
       });
 
       test('rendering normal-sized diff does not disable syntax', () => {
-        element._diff = {
+        element.diff = {
           content: [{
             a: ['foo'],
           }],
@@ -1373,7 +1373,7 @@ limitations under the License.
 
       test('rendering large diff disables syntax', () => {
         // Before it renders, set the first diff line to 500 '*' characters.
-        element._diff = {
+        element.diff = {
           content: [{
             a: [new Array(501).join('*')],
           }],
@@ -1385,7 +1385,6 @@ limitations under the License.
         sandbox.stub(element.$.syntaxLayer, 'process').returns(Promise.resolve());
         sandbox.stub(element.$.restAPI, 'getDiff').returns(
             Promise.resolve({content: []}));
-        element.patchRange = {};
         element.reload();
         setTimeout(() => {
           element.dispatchEvent(
@@ -1393,6 +1392,43 @@ limitations under the License.
           assert.isTrue(element.$.syntaxLayer.process.called);
           done();
         });
+      });
+    });
+
+    suite('syntax layer with syntax_highlgihting off', () => {
+      setup(() => {
+        const prefs = {
+          line_length: 10,
+          show_tabs: true,
+          tab_size: 4,
+          context: -1,
+        };
+        element.diff = {
+          content: [{
+            a: ['foo'],
+          }],
+        };
+        element.patchRange = {};
+        element.prefs = prefs;
+      });
+
+      test('gr-diff-host provides syntax highlighting layer', () => {
+        element.reload();
+        assert.equal(element.$.diff.layers[0], element.$.syntaxLayer);
+      });
+
+      test('syntax layer should be disabled', () => {
+        assert.isFalse(element.$.syntaxLayer.enabled);
+      });
+
+      test('still disabled for large diff', () => {
+        // Before it renders, set the first diff line to 500 '*' characters.
+        element.diff = {
+          content: [{
+            a: [new Array(501).join('*')],
+          }],
+        };
+        assert.isFalse(element.$.syntaxLayer.enabled);
       });
     });
   });

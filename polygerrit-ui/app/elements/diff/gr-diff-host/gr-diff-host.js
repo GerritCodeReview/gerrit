@@ -223,7 +223,7 @@
       _syntaxHighlightingEnabled: {
         type: Boolean,
         computed:
-          '_isSyntaxHighlightingEnabled(prefs.syntax_highlighting, _diff)',
+          '_isSyntaxHighlightingEnabled(prefs.*, diff)',
       },
 
       _layers: {
@@ -258,6 +258,7 @@
     observers: [
       '_whitespaceChanged(prefs.ignore_whitespace, _loadedWhitespaceLevel,' +
           ' noRenderOnPrefsChange)',
+      '_syntaxHighlightingChanged(noRenderOnPrefsChange, prefs.*)',
     ],
 
     ready() {
@@ -811,6 +812,24 @@
       }
     },
 
+    _syntaxHighlightingChanged(noRenderOnPrefsChange, prefsChangeRecord) {
+      // Polymer 2: check for undefined
+      if ([
+        noRenderOnPrefsChange,
+        prefsChangeRecord,
+      ].some(arg => arg === undefined)) {
+        return;
+      }
+
+      if (prefsChangeRecord.path !== 'prefs.syntax_highlighting') {
+        return;
+      }
+
+      if (!noRenderOnPrefsChange) {
+        this.reload();
+      }
+    },
+
     /**
      * @param {Object} patchRangeRecord
      * @return {number|null}
@@ -892,8 +911,9 @@
           item => item.__draftID === comment.__draftID);
     },
 
-    _isSyntaxHighlightingEnabled(preference, diff) {
-      if (!preference) return false;
+    _isSyntaxHighlightingEnabled(preferenceChangeRecord, diff) {
+      if (!preferenceChangeRecord || !diff) return false;
+      if (!preferenceChangeRecord.base.syntax_highlighting) return false;
       return !this._anyLineTooLong(diff) &&
           this.$.diff.getDiffLength(diff) <= SYNTAX_MAX_DIFF_LENGTH;
     },

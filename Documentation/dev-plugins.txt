@@ -2722,8 +2722,8 @@ implementing this.
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.hash.Hasher;
-import com.google.gerrit.reviewdb.client.Change;
-import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.change.ChangeETagComputation;
 
 public class MyPluginChangeETagComputation implements ChangeETagComputation {

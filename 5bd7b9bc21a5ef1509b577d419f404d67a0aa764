@@ -46,6 +46,30 @@
       "revId": "5bd7b9bc21a5ef1509b577d419f404d67a0aa764",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "65fa011d_ec75ba5c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-16T04:52:28Z",
+      "side": 1,
+      "message": "We should change that too.",
+      "parentUuid": "e81d9318_25b6b892",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 70
+      },
+      "revId": "5bd7b9bc21a5ef1509b577d419f404d67a0aa764",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

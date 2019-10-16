@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7ade5650_14c5672d",
+        "filename": "java/com/google/gerrit/entities/Comment.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-16T05:55:58Z",
+      "side": 0,
+      "message": "Why was this removed? the tag \u003cp\u003e is not closed any more? Here and below.",
+      "revId": "18b5bbe2d4d625f397ba3434c59f05f677fc7ff5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

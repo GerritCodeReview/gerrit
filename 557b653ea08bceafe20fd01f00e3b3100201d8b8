@@ -22,6 +22,30 @@
       "revId": "557b653ea08bceafe20fd01f00e3b3100201d8b8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "94b29a6a_cada60ee",
+        "filename": "tools/maven/api.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-10-16T14:41:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "98d55942_042c11b1",
+      "range": {
+        "startLine": 70,
+        "startChar": 10,
+        "endLine": 70,
+        "endChar": 15
+      },
+      "revId": "557b653ea08bceafe20fd01f00e3b3100201d8b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

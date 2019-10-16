@@ -48,6 +48,7 @@ import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.mail.Address;
+import com.google.gerrit.server.AssigneeStatusUpdate;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.ReviewerSet;
@@ -742,6 +743,35 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
     ChangeNotes notes = newNotes(c);
     assertThat(notes.getPastAssignees()).hasSize(2);
+  }
+
+  @Test
+  public void assigneeStatusUpdateChangeNotes() throws Exception {
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, otherUser);
+    update.setAssignee(otherUserId);
+    update.commit();
+
+    update = newUpdate(c, changeOwner);
+    update.removeAssignee();
+    update.commit();
+
+    update = newUpdate(c, changeOwner);
+    update.setAssignee(changeOwner.getAccountId());
+    update.commit();
+
+    update = newUpdate(c, changeOwner);
+    update.setAssignee(otherUserId);
+    update.commit();
+
+    ChangeNotes notes = newNotes(c);
+    ImmutableList<AssigneeStatusUpdate> statusUpdates = notes.getAssigneeUpdates();
+    assertThat(statusUpdates).hasSize(4);
+    assertThat(statusUpdates.get(3).updatedBy()).isEqualTo(otherUserId);
+    assertThat(statusUpdates.get(3).currentAssignee()).hasValue(otherUserId);
+    assertThat(statusUpdates.get(2).currentAssignee()).isEmpty();
+    assertThat(statusUpdates.get(1).currentAssignee()).hasValue(changeOwner.getAccountId());
+    assertThat(statusUpdates.get(0).currentAssignee()).hasValue(otherUserId);
   }
 
   @Test

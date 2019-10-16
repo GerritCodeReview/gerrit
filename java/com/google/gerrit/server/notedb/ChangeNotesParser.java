@@ -67,6 +67,7 @@ import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.mail.Address;
 import com.google.gerrit.metrics.Timer1;
+import com.google.gerrit.server.AssigneeStatusUpdate;
 import com.google.gerrit.server.ReviewerByEmailSet;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.ReviewerStatusUpdate;
@@ -115,6 +116,7 @@ class ChangeNotesParser {
   private final Table<Address, ReviewerStateInternal, Timestamp> reviewersByEmail;
   private final List<Account.Id> allPastReviewers;
   private final List<ReviewerStatusUpdate> reviewerUpdates;
+  private final List<AssigneeStatusUpdate> assigneeUpdates;
   private final List<SubmitRecord> submitRecords;
   private final ListMultimap<ObjectId, Comment> comments;
   private final Map<PatchSet.Id, PatchSet.Builder> patchSets;
@@ -129,8 +131,6 @@ class ChangeNotesParser {
   private String branch;
   private Change.Status status;
   private String topic;
-  private Optional<Account.Id> assignee;
-  private List<Account.Id> pastAssignees;
   private Set<String> hashtags;
   private Timestamp createdOn;
   private Timestamp lastUpdatedOn;
@@ -172,6 +172,7 @@ class ChangeNotesParser {
     pendingReviewersByEmail = ReviewerByEmailSet.empty();
     allPastReviewers = new ArrayList<>();
     reviewerUpdates = new ArrayList<>();
+    assigneeUpdates = new ArrayList<>();
     submitRecords = Lists.newArrayListWithExpectedSize(1);
     allChangeMessages = new ArrayList<>();
     comments = MultimapBuilder.hashKeys().arrayListValues().build();
@@ -231,9 +232,7 @@ class ChangeNotesParser {
         topic,
         originalSubject,
         submissionId,
-        assignee != null ? assignee.orElse(null) : null,
         status,
-        Sets.newLinkedHashSet(Lists.reverse(pastAssignees)),
         firstNonNull(hashtags, ImmutableSet.of()),
         buildPatchSets(),
         buildApprovals(),
@@ -243,6 +242,7 @@ class ChangeNotesParser {
         pendingReviewersByEmail,
         allPastReviewers,
         buildReviewerUpdates(),
+        assigneeUpdates,
         submitRecords,
         buildAllMessages(),
         comments,
@@ -361,7 +361,7 @@ class ChangeNotesParser {
     }
 
     parseHashtags(commit);
-    parseAssignee(commit);
+    parseAssigneeUpdates(ts, commit);
 
     if (submissionId == null) {
       submissionId = parseSubmissionId(commit);
@@ -566,10 +566,8 @@ class ChangeNotesParser {
     }
   }
 
-  private void parseAssignee(ChangeNotesCommit commit) throws ConfigInvalidException {
-    if (pastAssignees == null) {
-      pastAssignees = Lists.newArrayList();
-    }
+  private void parseAssigneeUpdates(Timestamp ts, ChangeNotesCommit commit)
+      throws ConfigInvalidException {
     String assigneeValue = parseOneFooter(commit, FOOTER_ASSIGNEE);
     if (assigneeValue != null) {
       Optional<Account.Id> parsedAssignee;
@@ -580,12 +578,7 @@ class ChangeNotesParser {
         PersonIdent ident = RawParseUtils.parsePersonIdent(assigneeValue);
         parsedAssignee = Optional.ofNullable(legacyChangeNoteRead.parseIdent(ident, id));
       }
-      if (assignee == null) {
-        assignee = parsedAssignee;
-      }
-      if (parsedAssignee.isPresent()) {
-        pastAssignees.add(parsedAssignee.get());
-      }
+      assigneeUpdates.add(AssigneeStatusUpdate.create(ts, ownerId, parsedAssignee));
     }
   }
 

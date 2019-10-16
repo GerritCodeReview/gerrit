@@ -200,6 +200,14 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     return r;
   }
 
+  // TODO(dpursehouse): Add @UsedAt annotation
+  public static ProjectConfig read(Repository repo, Project.NameKey name)
+      throws IOException, ConfigInvalidException {
+    ProjectConfig r = new ProjectConfig(name);
+    r.load(repo);
+    return r;
+  }
+
   public static CommentLinkInfoImpl buildCommentLink(Config cfg, String name, boolean allowRaw)
       throws IllegalArgumentException {
     String match = cfg.getString(COMMENTLINK, name, KEY_MATCH);

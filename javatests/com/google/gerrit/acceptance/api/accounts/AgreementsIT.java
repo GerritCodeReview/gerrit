@@ -239,6 +239,28 @@ public class AgreementsIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void revertSubmissionWithoutCLA() throws Exception {
+    assume().that(isContributorAgreementsEnabled()).isTrue();
+
+    // Create a change succeeds when agreement is not required
+    setUseContributorAgreements(InheritableBoolean.FALSE);
+    ChangeInfo change = gApi.changes().create(newChangeInput()).get();
+
+    // Approve and submit it
+    requestScopeOperations.setApiUser(admin.id());
+    gApi.changes().id(change.changeId).current().review(ReviewInput.approve());
+    gApi.changes().id(change.changeId).current().submit(new SubmitInput());
+
+    // Revert Submission is not allowed when CLA is required but not signed
+    requestScopeOperations.setApiUser(user.id());
+    setUseContributorAgreements(InheritableBoolean.TRUE);
+    AuthException thrown =
+        assertThrows(
+            AuthException.class, () -> gApi.changes().id(change.changeId).revertSubmission());
+    assertThat(thrown).hasMessageThat().contains("Contributor Agreement");
+  }
+
+  @Test
   public void revertExcludedProjectChangeWithoutCLA() throws Exception {
     // Contributor agreements configured with excludeProjects = ExcludedProject
     // in AbstractDaemonTest.configureContributorAgreement(...)

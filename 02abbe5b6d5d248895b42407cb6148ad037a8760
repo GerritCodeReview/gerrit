@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "5664d300_3150fb26",
+        "filename": "java/com/google/gerrit/index/Schema.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-16T06:54:35Z",
+      "side": 1,
+      "message": "What David said.",
+      "parentUuid": "479638f8_3372b679",
+      "range": {
+        "startLine": 56,
+        "startChar": 22,
+        "endLine": 56,
+        "endChar": 41
+      },
+      "revId": "02abbe5b6d5d248895b42407cb6148ad037a8760",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2f5855bf_e23a63b4",
         "filename": "java/com/google/gerrit/index/Schema.java",
         "patchSetId": 22
@@ -69,6 +93,30 @@
       "revId": "02abbe5b6d5d248895b42407cb6148ad037a8760",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "48c44eeb_05b83dc5",
+        "filename": "java/com/google/gerrit/index/Schema.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-16T06:54:35Z",
+      "side": 1,
+      "message": "Same here.",
+      "parentUuid": "2f5855bf_e23a63b4",
+      "range": {
+        "startLine": 118,
+        "startChar": 23,
+        "endLine": 118,
+        "endChar": 45
+      },
+      "revId": "02abbe5b6d5d248895b42407cb6148ad037a8760",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -95,6 +143,30 @@
     },
     {
       "key": {
+        "uuid": "9613c5fc_5acc7fb0",
+        "filename": "java/com/google/gerrit/lucene/AbstractLuceneIndex.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 371,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-16T06:54:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ceef3964_902d33a8",
+      "range": {
+        "startLine": 364,
+        "startChar": 6,
+        "endLine": 371,
+        "endChar": 9
+      },
+      "revId": "02abbe5b6d5d248895b42407cb6148ad037a8760",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4b646978_95c2288f",
         "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
         "patchSetId": 22
@@ -106,6 +178,30 @@
       "writtenOn": "2019-10-10T17:57:31Z",
       "side": 1,
       "message": "Would it make more sense to call this LEGACY_ID_STR and \"legacy_id_str\"?",
+      "range": {
+        "startLine": 110,
+        "startChar": 51,
+        "endLine": 110,
+        "endChar": 61
+      },
+      "revId": "02abbe5b6d5d248895b42407cb6148ad037a8760",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ec79abc0_6edb3a6e",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-16T06:54:35Z",
+      "side": 1,
+      "message": "We never use type suffixes for other fields, but here the situation is different: legacy_id is already taken. Let\u0027s do that. Here and in other indexes. Done.\n\nMoreover, we could do yet another schema migration and revert the renaming back to legacy_id. Here and for other indexes. I will go ahead and clean that up and add yet another schema migration at the end of this series.",
+      "parentUuid": "4b646978_95c2288f",
       "range": {
         "startLine": 110,
         "startChar": 51,

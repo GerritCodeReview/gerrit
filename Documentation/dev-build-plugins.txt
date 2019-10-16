@@ -69,7 +69,7 @@ bazel build plugins/<plugin-name>:<plugin-name>
 The output can be normally found in the following directory:
 
 ----
-bazel-genfiles/plugins/<plugin-name>/<plugin-name>.jar
+bazel-bin/plugins/<plugin-name>/<plugin-name>.jar
 ----
 
 Some plugins describe their build process in `src/main/resources/Documentation/build.md`

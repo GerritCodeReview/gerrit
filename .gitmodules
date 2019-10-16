@@ -1,7 +1,6 @@
 [submodule "modules/jgit"]
 	path = modules/jgit
 	url = ../jgit
-	branch = .
 
 [submodule "plugins/codemirror-editor"]
 	path = plugins/codemirror-editor

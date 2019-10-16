@@ -169,6 +169,7 @@ public class CherryPickChange {
         dest,
         null,
         null,
+        null,
         null);
   }
 
@@ -203,7 +204,16 @@ public class CherryPickChange {
       throws IOException, InvalidChangeOperationException, IntegrationException, UpdateException,
           RestApiException, ConfigInvalidException, NoSuchProjectException {
     return cherryPick(
-        batchUpdateFactory, sourceChange, project, sourceCommit, input, dest, null, null, null);
+        batchUpdateFactory,
+        sourceChange,
+        project,
+        sourceCommit,
+        input,
+        dest,
+        null,
+        null,
+        null,
+        null);
   }
 
   /**
@@ -222,8 +232,8 @@ public class CherryPickChange {
    * @param revertedChange The id of the change that is reverted. This is used for the "revertOf"
    *     field to mark the created cherry pick change as "revertOf" the original change that was
    *     reverted.
-   * @param changeIdForNewChange The Change-Id that the new change that of the cherry pick will
-   *     have.
+   * @param changeIdForNewChange The Change-Id that the new change of the cherry pick will have.
+   * @param idForNewChange The Id that the new change of the cherry pick will have.
    * @return Result object that describes the cherry pick.
    * @throws IOException Unable to open repository or read from the database.
    * @throws InvalidChangeOperationException Parent or branch don't exist, or two changes with same
@@ -243,7 +253,8 @@ public class CherryPickChange {
       BranchNameKey dest,
       @Nullable String topic,
       @Nullable Change.Id revertedChange,
-      @Nullable ObjectId changeIdForNewChange)
+      @Nullable ObjectId changeIdForNewChange,
+      @Nullable Change.Id idForNewChange)
       throws IOException, InvalidChangeOperationException, IntegrationException, UpdateException,
           RestApiException, ConfigInvalidException, NoSuchProjectException {
 
@@ -335,7 +346,23 @@ public class CherryPickChange {
           Change.Id changeId;
           if (destChanges.size() == 1) {
             // The change key exists on the destination branch. The cherry pick
-            // will be added as a new patch set.
+            // will be added as a new patch set, unless the Id of the change found is not agreeing
+            // with the Id given as input, or changeId of the change found is not agreeing with the
+            // changeId given as input.
+            if (idForNewChange != null && destChanges.get(0).getId() != idForNewChange) {
+              throw new InvalidChangeOperationException(
+                  String.format(
+                      "Found Id %d while trying to find change with Id %d.",
+                      destChanges.get(0).getId().get(), idForNewChange.get()));
+            }
+            if (changeIdForNewChange != null
+                && !destChanges.get(0).change().getKey().equals(changeKey)) {
+              throw new InvalidChangeOperationException(
+                  String.format(
+                      "Found Change-Id %s while trying to find change with Change-Id %s.",
+                      destChanges.get(0).change().getKey().get(), changeKey.get()));
+            }
+
             changeId = insertPatchSet(bu, git, destChanges.get(0).notes(), cherryPickCommit);
           } else {
             // Change key not found on destination branch. We can create a new
@@ -355,7 +382,8 @@ public class CherryPickChange {
                     sourceChange,
                     sourceCommit,
                     input,
-                    revertedChange);
+                    revertedChange,
+                    idForNewChange);
           }
           bu.execute();
           return Result.create(changeId, cherryPickCommit.getFilesWithGitConflicts());
@@ -428,9 +456,10 @@ public class CherryPickChange {
       @Nullable Change sourceChange,
       @Nullable ObjectId sourceCommit,
       CherryPickInput input,
-      @Nullable Change.Id revertOf)
+      @Nullable Change.Id revertOf,
+      @Nullable Change.Id IdForNewChange)
       throws IOException {
-    Change.Id changeId = Change.id(seq.nextChangeId());
+    Change.Id changeId = IdForNewChange != null ? IdForNewChange : Change.id(seq.nextChangeId());
     ChangeInserter ins = changeInserterFactory.create(changeId, cherryPickCommit, refName);
     ins.setRevertOf(revertOf);
     BranchNameKey sourceBranch = sourceChange == null ? null : sourceChange.getDest();

@@ -1283,8 +1283,8 @@
     },
 
     /**
-     * Shows registered dynmic columns iff the 'header', 'content' and 'summary'
-     * endpoints are regiestered the exact same number of times.
+     * Shows registered dynamic columns iff the 'header', 'content' and
+     * 'summary' endpoints are regiestered the exact same number of times.
      * Ideally, there should be a better way to enforce the expectation of the
      * dependencies between dynamic endpoints.
      */

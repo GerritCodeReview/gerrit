@@ -47,10 +47,7 @@ import org.eclipse.jgit.lib.ObjectId;
  *
  * <p>For all utility classes and middle layer functionality using Comment over PatchLineComment is
  * preferred, as ReviewDb is gone so PatchLineComment is slated for deletion as well. This means
- * Comment should be used everywhere and only for storing inline comment in ReviewDb a conversion to
- * PatchLineComment is done. Converting Comments to PatchLineComments and vice verse is done by
- * CommentsUtil#toPatchLineComments(Change.Id, PatchLineComment.Status, Iterable) and
- * CommentsUtil#toComments(String, Iterable).
+ * Comment should be used everywhere.
  */
 public class Comment {
   public static class Key {

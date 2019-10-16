@@ -74,6 +74,30 @@
     },
     {
       "key": {
+        "uuid": "7527f3f9_20180d56",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 1507,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-10-16T18:22:11Z",
+      "side": 1,
+      "message": "Seems like there are a a few options, we can use _ and .\nThere are examples for both cases (e.g past_assignee, pure_revert, etc).",
+      "parentUuid": "ca0c2851_351717cf",
+      "range": {
+        "startLine": 1507,
+        "startChar": 51,
+        "endLine": 1507,
+        "endChar": 54
+      },
+      "revId": "4289069a23a457048f91f09f2a7bf78ba957ea7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a11208f5_3a2660e7",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 9
@@ -194,6 +218,30 @@
     },
     {
       "key": {
+        "uuid": "7fd0fb7d_6acd8d65",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 7019,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-10-16T18:22:11Z",
+      "side": 1,
+      "message": "I don\u0027t think we want to alter this behavior. I think it\u0027s best to let (at least initially) the users play around with creating multiple reverts of submissions. Imagine someone reverting a submission, deleting it (or some of it), and then later on it can\u0027t be reverted anymore?",
+      "parentUuid": "6092e5c5_95e39016",
+      "range": {
+        "startLine": 7019,
+        "startChar": 11,
+        "endLine": 7019,
+        "endChar": 50
+      },
+      "revId": "4289069a23a457048f91f09f2a7bf78ba957ea7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fcf9405b_7f737a30",
         "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
         "patchSetId": 9
@@ -227,6 +275,24 @@
       "revId": "4289069a23a457048f91f09f2a7bf78ba957ea7a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "26cd5680_882ba22a",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-10-16T18:22:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1ee27d70_21ed25aa",
+      "revId": "4289069a23a457048f91f09f2a7bf78ba957ea7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -290,6 +356,30 @@
       "side": 1,
       "message": "not done? won\u0027t this code loop go through \n\n https://gerrit.googlesource.com/gerrit/+/fca32982aa827d37881fc43c4bc002b559476213/java/com/google/gerrit/server/restapi/change/Revert.java#145\n\nwhich does the same checks?",
       "parentUuid": "ef0347ef_950487a9",
+      "range": {
+        "startLine": 106,
+        "startChar": 6,
+        "endLine": 109,
+        "endChar": 0
+      },
+      "revId": "4289069a23a457048f91f09f2a7bf78ba957ea7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e0eadd28_1f500736",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-10-16T18:22:11Z",
+      "side": 1,
+      "message": "Yes, that\u0027s true - which is why I added the comment in the recent patchset. It is necessary to go through those checks now, since we don\u0027t want to create a revert for change X, and then figure out user has no permissions to revert change Y.",
+      "parentUuid": "1c158d4f_69999a7f",
       "range": {
         "startLine": 106,
         "startChar": 6,
@@ -371,6 +461,30 @@
       "revId": "4289069a23a457048f91f09f2a7bf78ba957ea7a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b7bcedf2_1210a7a0",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-10-16T18:22:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aa9b2e5c_91c5e297",
+      "range": {
+        "startLine": 130,
+        "startChar": 25,
+        "endLine": 130,
+        "endChar": 30
+      },
+      "revId": "4289069a23a457048f91f09f2a7bf78ba957ea7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

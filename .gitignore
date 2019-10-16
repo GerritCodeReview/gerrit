@@ -11,7 +11,6 @@
 /.apt_generated
 /.apt_generated_tests
 /.bazel_path
-/.buckd
 /.classpath
 /.factorypath
 /.idea
@@ -22,7 +21,6 @@
 /.settings/org.maven.ide.eclipse.prefs
 /bazel-*
 /bin/
-/buck-out
 /eclipse-out
 /extras
 /gerrit-package-plugins

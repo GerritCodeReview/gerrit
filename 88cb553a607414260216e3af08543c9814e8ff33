@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "08b47e2c_224235d7",
+        "filename": "polygerrit-ui/app/elements/core/gr-smart-search/gr-smart-search.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-10-16T15:12:35Z",
+      "side": 1,
+      "message": "[1]",
+      "range": {
+        "startLine": 87,
+        "startChar": 12,
+        "endLine": 89,
+        "endChar": 0
+      },
+      "revId": "88cb553a607414260216e3af08543c9814e8ff33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9b4e065f_d21bdae5",
+        "filename": "polygerrit-ui/app/elements/core/gr-smart-search/gr-smart-search.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-10-16T15:12:35Z",
+      "side": 1,
+      "message": "For consistency, please change it in the other place in that file [1].",
+      "revId": "88cb553a607414260216e3af08543c9814e8ff33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

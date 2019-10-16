@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d41e6b46_b601d91a",
+        "filename": "java/com/google/gerrit/extensions/api/changes/ChangeApi.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-16T07:17:09Z",
+      "side": 1,
+      "message": "I would like to reconsider this return type.\n\nLooking at the place where this API is used [1] returning a stream doesn\u0027t provide any value (it rather makes the code more complicated because the caller needs to convert the stream to a list).\n\nThe idea of returning a Stream was that callers can use it to easily make follow-up calls on the revert changes by chaining calls, e.g.:\n\n  ImmutableMap\u003cInteger, ChangeApi\u003e byChangeId \u003d gApi.changes().id(changeId).revertSubmission()\n      .collect(ImmutableMap.toImmutableMap(changeApi -\u003e changeApi.get().revertOf, changeApi -\u003e changeApi));\n\nHowever this does not work, since any call to the changeApi (e.g. changeApi.get() in the example above) may throw a RestApiException that needs to be handled. Hence using lambdas here does not work.\n\nIf there is no value in returning a Stream, the return type should be changed to either List\u003cChangeApi\u003e or List\u003cChangeInfo\u003e.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/240188/6/javatests/com/google/gerrit/acceptance/api/change/RevertIT.java#720",
+      "range": {
+        "startLine": 169,
+        "startChar": 2,
+        "endLine": 169,
+        "endChar": 8
+      },
+      "revId": "9abb3e1d3d5ae75192dd540fd8747c8e258ea940",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e6d93951_5da5d345",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-16T07:17:09Z",
+      "side": 1,
+      "message": "I was thinking more about this, and I would prefer not to use a timestamp here, but rather generate some unique ID. The reason is that we have been bitten by using timestamps before, e.g. callers may execute the same request in parallel multiple times, so that the timestamp for some of them is the same (also see [1] which recently fixed such an issue). Generating some random part here will avoid such issues.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/238244",
+      "range": {
+        "startLine": 124,
+        "startChar": 64,
+        "endLine": 124,
+        "endChar": 80
+      },
+      "revId": "9abb3e1d3d5ae75192dd540fd8747c8e258ea940",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

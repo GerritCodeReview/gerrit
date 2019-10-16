@@ -57,26 +57,6 @@ public final class PatchLineComment {
     }
   }
 
-  public static PatchLineComment from(
-      Change.Id changeId, PatchLineComment.Status status, Comment c) {
-    Patch.Key patchKey = Patch.key(PatchSet.id(changeId, c.key.patchSetId), c.key.filename);
-    PatchLineComment plc =
-        new PatchLineComment(
-            patchKey, c.key.uuid, c.lineNbr, c.author.getId(), c.parentUuid, c.writtenOn);
-    plc.setSide(c.side);
-    plc.setMessage(c.message);
-    if (c.range != null) {
-      Comment.Range r = c.range;
-      plc.setRange(new CommentRange(r.startLine, r.startChar, r.endLine, r.endChar));
-    }
-    plc.setTag(c.tag);
-    plc.setCommitId(c.getCommitId());
-    plc.setStatus(status);
-    plc.setRealAuthor(c.getRealAuthor().getId());
-    plc.setUnresolved(c.unresolved);
-    return plc;
-  }
-
   protected Patch.Key patchKey;
 
   protected String uuid;
@@ -256,25 +236,6 @@ public final class PatchLineComment {
 
   public Boolean getUnresolved() {
     return unresolved;
-  }
-
-  public Comment asComment(String serverId) {
-    Comment c =
-        new Comment(
-            new Comment.Key(uuid, patchKey.fileName(), patchKey.patchSetId().get()),
-            author,
-            writtenOn,
-            side,
-            message,
-            serverId,
-            unresolved);
-    c.setCommitId(commitId);
-    c.setRange(range);
-    c.lineNbr = lineNbr;
-    c.parentUuid = parentUuid;
-    c.tag = tag;
-    c.setRealAuthor(getRealAuthor());
-    return c;
   }
 
   @Override

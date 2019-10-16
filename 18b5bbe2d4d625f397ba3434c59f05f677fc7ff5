@@ -16,6 +16,24 @@
       "revId": "18b5bbe2d4d625f397ba3434c59f05f677fc7ff5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8ef04a89_455c65ab",
+        "filename": "java/com/google/gerrit/entities/Comment.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-10-16T05:59:43Z",
+      "side": 0,
+      "message": "The only thing I\u0027ve manually changed here is adding the closing } on L138 (right side).  All the other formatting changes were done by google-java-format.\n\nApparently the closing \u003c/p\u003e is not needed in Javadoc; the expected way to separate paragraphs is only with \u003cp\u003e according to: https://www.oracle.com/technetwork/java/javase/documentation/index-137868.html#format",
+      "parentUuid": "7ade5650_14c5672d",
+      "revId": "18b5bbe2d4d625f397ba3434c59f05f677fc7ff5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

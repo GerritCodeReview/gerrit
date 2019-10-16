@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa2f89e3_119e8499",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 1507,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-10-16T15:10:17Z",
+      "side": 1,
+      "message": "didn\u0027t we have revert.submission as the way to punctuate this?",
+      "range": {
+        "startLine": 1507,
+        "startChar": 51,
+        "endLine": 1507,
+        "endChar": 54
+      },
+      "revId": "4289069a23a457048f91f09f2a7bf78ba957ea7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a11208f5_3a2660e7",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 1540,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-10-16T15:10:17Z",
+      "side": 1,
+      "message": "this looks like it will be hard to put into the search box. It\u0027s also not size 10.",
+      "range": {
+        "startLine": 1540,
+        "startChar": 45,
+        "endLine": 1540,
+        "endChar": 75
+      },
+      "revId": "4289069a23a457048f91f09f2a7bf78ba957ea7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2aba1ffa_71cce4a2",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 7019,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-10-16T15:10:17Z",
+      "side": 1,
+      "message": "I wish we could change this default. The revert-{submission ID} is a much better choice.",
+      "range": {
+        "startLine": 7019,
+        "startChar": 11,
+        "endLine": 7019,
+        "endChar": 50
+      },
+      "revId": "4289069a23a457048f91f09f2a7bf78ba957ea7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fcf9405b_7f737a30",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-10-16T15:10:17Z",
+      "side": 1,
+      "message": "add comment about why this doesn\u0027t do permission checks.",
+      "revId": "4289069a23a457048f91f09f2a7bf78ba957ea7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "34fb1dff_7c743f60",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-10-16T15:10:17Z",
+      "side": 1,
+      "message": "Revert.java already does this. Are you doing it twice? If no, document why. If yes, remove.",
+      "range": {
+        "startLine": 106,
+        "startChar": 6,
+        "endLine": 109,
+        "endChar": 0
+      },
+      "revId": "4289069a23a457048f91f09f2a7bf78ba957ea7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8b42a413_b2434d05",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-10-16T15:10:17Z",
+      "side": 1,
+      "message": "this does a retry, right? \n\nsince you\u0027re doing retries this might amplify retries. I\u0027ll leave it to edwin to decide if that\u0027s OK.",
+      "range": {
+        "startLine": 130,
+        "startChar": 25,
+        "endLine": 130,
+        "endChar": 30
+      },
+      "revId": "4289069a23a457048f91f09f2a7bf78ba957ea7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

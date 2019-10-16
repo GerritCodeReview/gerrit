@@ -1,4 +1,9 @@
-load("@rules_java//java:defs.bzl", "java_library")
+load("@rules_java//java:defs.bzl", "java_import", "java_library")
+
+java_import(
+    name = "guice-file",
+    jars = ["@guice-library//file"],
+)
 
 java_library(
     name = "guice",
@@ -14,7 +19,7 @@ java_library(
     name = "guice-library",
     data = ["//lib:LICENSE-Apache2.0"],
     visibility = ["//visibility:public"],
-    exports = ["@guice-library//jar"],
+    exports = [":guice-file"],
     runtime_deps = ["aopalliance"],
 )
 

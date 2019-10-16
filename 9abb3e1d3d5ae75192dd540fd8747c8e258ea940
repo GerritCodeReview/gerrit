@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "67ba0691_1bdc2dbf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-16T10:23:02Z",
+      "side": 1,
+      "message": "RevertSubmission implements a UI action that can be displayed as a button on the change screen. However at the moment this button doesn\u0027t appear yet (maybe something needs to be done in PolyGerrit to make it show up?).\n\nFor this change it\u0027s okay that this is not working yet, but then please add a step for this to the \"Next Steps\" section below, so that we don\u0027t forget about this. There will also be some UI work to display a dialog for the action and we should decide what the UI should display after revert by submission has been done (e.g. the normal revert opens the change screen of the revert change). For Revert Submission we may want to show the list of revert changes?",
+      "range": {
+        "startLine": 37,
+        "startChar": 22,
+        "endLine": 37,
+        "endChar": 28
+      },
+      "revId": "9abb3e1d3d5ae75192dd540fd8747c8e258ea940",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d41e6b46_b601d91a",
         "filename": "java/com/google/gerrit/extensions/api/changes/ChangeApi.java",
         "patchSetId": 6

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7ded7f62_bd7a6d72",
+        "filename": "java/com/google/gerrit/reviewdb/client/Comment.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-10-16T01:19:27Z",
+      "side": 1,
+      "message": "Broken link tag. Fixed in https://gerrit-review.googlesource.com/c/gerrit/+/241185",
+      "range": {
+        "startLine": 136,
+        "startChar": 75,
+        "endLine": 136,
+        "endChar": 97
+      },
+      "revId": "e9a019e7b9cba5c7c693e0609274cf4f02cc1cba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

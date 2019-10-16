@@ -107,6 +107,9 @@ public class ChangeField {
   public static final FieldDef<ChangeData, Integer> LEGACY_ID =
       integer("legacy_id").stored().build(cd -> cd.getId().get());
 
+  public static final FieldDef<ChangeData, String> LEGACY_ID_STR =
+      exact("legacy_id_str").stored().build(cd -> String.valueOf(cd.getId().get()));
+
   /** Newer style Change-Id key. */
   public static final FieldDef<ChangeData, String> ID =
       prefix(ChangeQueryBuilder.FIELD_CHANGE_ID).build(changeGetter(c -> c.getKey().get()));

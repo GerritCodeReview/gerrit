@@ -249,7 +249,10 @@ public class PostReview
     }
     ProjectState projectState = projectCache.checkedGet(revision.getProject());
     LabelTypes labelTypes = projectState.getLabelTypes(revision.getNotes());
+
     input.drafts = firstNonNull(input.drafts, DraftHandling.KEEP);
+    logger.atFine().log("draft handling = %s", input.drafts);
+
     if (input.onBehalfOf != null) {
       revision = onBehalfOf(revision, labelTypes, input);
     }

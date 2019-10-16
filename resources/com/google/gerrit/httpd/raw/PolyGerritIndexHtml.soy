@@ -40,6 +40,8 @@
   </noscript>
 
   <script>
+    // Disable extra font load from paper-styles
+    window.polymerSkipLoadingFontRoboto = true;
     window.CLOSURE_NO_DEPS = true;
     // TODO(taoalpha): clean up once p2 fully rolled out
     {if $polymer2}window.POLYMER2 = true;{/if}

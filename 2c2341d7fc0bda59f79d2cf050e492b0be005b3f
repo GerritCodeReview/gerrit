@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "7f23d391_832178c5",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-plugin-host/gr-plugin-host.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-16T12:04:27Z",
+      "side": 1,
+      "message": "ya its just the theme will change the UI in the most noticeable way.",
+      "parentUuid": "1be164ba_c461ed1e",
+      "revId": "2c2341d7fc0bda59f79d2cf050e492b0be005b3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b3b418b3_36af94b8",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-api-utils.js",
         "patchSetId": 4
@@ -397,6 +415,24 @@
       "revId": "2c2341d7fc0bda59f79d2cf050e492b0be005b3f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3b968995_eff0b0fa",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-16T12:04:27Z",
+      "side": 1,
+      "message": "oh sorry, missed this one. Move to `_getScreenName` instead",
+      "parentUuid": "681c71c7_f0b38ebb",
+      "revId": "2c2341d7fc0bda59f79d2cf050e492b0be005b3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

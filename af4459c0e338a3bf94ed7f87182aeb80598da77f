@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ff8cd3f4_9dd1b553",
+        "filename": "java/com/google/gerrit/server/index/account/AccountField.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-16T11:26:23Z",
+      "side": 1,
+      "message": "Should be rebased.",
+      "range": {
+        "startLine": 46,
+        "startChar": 13,
+        "endLine": 46,
+        "endChar": 16
+      },
+      "revId": "af4459c0e338a3bf94ed7f87182aeb80598da77f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

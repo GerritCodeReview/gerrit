@@ -190,6 +190,30 @@
     },
     {
       "key": {
+        "uuid": "97e680ac_52c6455c",
+        "filename": "Jenkinsfile",
+        "patchSetId": 50
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-10-16T22:40:06Z",
+      "side": 1,
+      "message": "Cool, it looks so much better now :-)",
+      "parentUuid": "84971460_f6bf1bd2",
+      "range": {
+        "startLine": 90,
+        "startChar": 15,
+        "endLine": 92,
+        "endChar": 55
+      },
+      "revId": "88ae353a165694fe61777fd9eefff44ce87befb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "069188cb_6e33a02f",
         "filename": "Jenkinsfile",
         "patchSetId": 50

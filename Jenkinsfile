@@ -214,7 +214,7 @@ def getLabelValue(acc, res) {
                 return 0;
             }
             switch(res) {
-                case 'SUCCESS': return +1;
+                case 'SUCCESS': return 1;
                 case 'FAILURE': return -1;
                 default: return 0;
             }

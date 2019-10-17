@@ -17,7 +17,6 @@ package com.google.gerrit.server.restapi.change;
 import static com.google.gerrit.server.CommentsUtil.setCommentCommitId;
 
 import com.google.gerrit.entities.Comment;
-import com.google.gerrit.entities.PatchLineComment.Status;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.common.CommentInfo;
@@ -140,7 +139,7 @@ public class PutDraftComment
       }
       setCommentCommitId(comment, patchListCache, ctx.getChange(), ps);
       commentsUtil.putComments(
-          update, Status.DRAFT, Collections.singleton(update(comment, in, ctx.getWhen())));
+          update, Comment.Status.DRAFT, Collections.singleton(update(comment, in, ctx.getWhen())));
       return true;
     }
   }

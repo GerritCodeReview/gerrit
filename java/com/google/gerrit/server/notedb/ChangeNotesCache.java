@@ -354,12 +354,7 @@ public class ChangeNotesCache {
           "Load change notes for change %s of project %s", key.changeId(), key.project());
       ChangeNotesParser parser =
           new ChangeNotesParser(
-              key.changeId(),
-              key.id(),
-              walkSupplier.get(),
-              args.changeNoteJson,
-              args.legacyChangeNoteRead,
-              args.metrics);
+              key.changeId(), key.id(), walkSupplier.get(), args.changeNoteJson, args.metrics);
       ChangeNotesState result = parser.parseAll();
       // This assignment only happens if call() was actually called, which only
       // happens when Cache#get(K, Callable<V>) incurs a cache miss.

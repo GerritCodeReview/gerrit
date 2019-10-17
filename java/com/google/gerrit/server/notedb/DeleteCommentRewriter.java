@@ -15,7 +15,7 @@
 package com.google.gerrit.server.notedb;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.gerrit.entities.PatchLineComment.Status.PUBLISHED;
+import static com.google.gerrit.entities.Comment.Status;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
@@ -95,13 +95,13 @@ public class DeleteCommentRewriter implements NoteDbRewriter {
     ObjectReader reader = revWalk.getObjectReader();
     RevCommit newTipCommit = revWalk.next(); // The first commit will not be rewritten.
     Map<String, Comment> parentComments =
-        getPublishedComments(noteUtil, changeId, reader, NoteMap.read(reader, newTipCommit));
+        getPublishedComments(noteUtil, reader, NoteMap.read(reader, newTipCommit));
 
     boolean rewrite = false;
     RevCommit originalCommit;
     while ((originalCommit = revWalk.next()) != null) {
       NoteMap noteMap = NoteMap.read(reader, originalCommit);
-      Map<String, Comment> currComments = getPublishedComments(noteUtil, changeId, reader, noteMap);
+      Map<String, Comment> currComments = getPublishedComments(noteUtil, reader, noteMap);
 
       if (!rewrite && currComments.containsKey(uuid)) {
         rewrite = true;
@@ -131,28 +131,18 @@ public class DeleteCommentRewriter implements NoteDbRewriter {
    */
   @VisibleForTesting
   public static Map<String, Comment> getPublishedComments(
-      ChangeNoteJson changeNoteJson,
-      LegacyChangeNoteRead legacyChangeNoteRead,
-      Change.Id changeId,
-      ObjectReader reader,
-      NoteMap noteMap)
+      ChangeNoteJson changeNoteJson, ObjectReader reader, NoteMap noteMap)
       throws IOException, ConfigInvalidException {
-    return RevisionNoteMap.parse(
-            changeNoteJson, legacyChangeNoteRead, changeId, reader, noteMap, PUBLISHED)
-        .revisionNotes.values().stream()
+    return RevisionNoteMap.parse(changeNoteJson, reader, noteMap, Status.PUBLISHED).revisionNotes
+        .values().stream()
         .flatMap(n -> n.getEntities().stream())
         .collect(toMap(c -> c.key.uuid, Function.identity()));
   }
 
   public static Map<String, Comment> getPublishedComments(
-      ChangeNoteUtil noteUtil, Change.Id changeId, ObjectReader reader, NoteMap noteMap)
+      ChangeNoteUtil noteUtil, ObjectReader reader, NoteMap noteMap)
       throws IOException, ConfigInvalidException {
-    return getPublishedComments(
-        noteUtil.getChangeNoteJson(),
-        noteUtil.getLegacyChangeNoteRead(),
-        changeId,
-        reader,
-        noteMap);
+    return getPublishedComments(noteUtil.getChangeNoteJson(), reader, noteMap);
   }
   /**
    * Gets the comments put in by the current commit. The message of the target comment will be
@@ -215,11 +205,9 @@ public class DeleteCommentRewriter implements NoteDbRewriter {
     RevisionNoteMap<ChangeRevisionNote> revNotesMap =
         RevisionNoteMap.parse(
             noteUtil.getChangeNoteJson(),
-            noteUtil.getLegacyChangeNoteRead(),
-            changeId,
             reader,
             NoteMap.read(reader, parentCommit),
-            PUBLISHED);
+            Status.PUBLISHED);
     RevisionNoteBuilder.Cache cache = new RevisionNoteBuilder.Cache(revNotesMap);
 
     for (Comment c : putInComments) {

@@ -27,7 +27,6 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Comment;
-import com.google.gerrit.entities.PatchLineComment;
 import com.google.gerrit.entities.Project;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
@@ -121,12 +120,7 @@ public class DraftCommentNotes extends AbstractChangeNotes<DraftCommentNotes> {
     ObjectReader reader = handle.walk().getObjectReader();
     revisionNoteMap =
         RevisionNoteMap.parse(
-            args.changeNoteJson,
-            args.legacyChangeNoteRead,
-            getChangeId(),
-            reader,
-            NoteMap.read(reader, tipCommit),
-            PatchLineComment.Status.DRAFT);
+            args.changeNoteJson, reader, NoteMap.read(reader, tipCommit), Comment.Status.DRAFT);
     ListMultimap<ObjectId, Comment> cs = MultimapBuilder.hashKeys().arrayListValues().build();
     for (ChangeRevisionNote rn : revisionNoteMap.revisionNotes.values()) {
       for (Comment c : rn.getEntities()) {

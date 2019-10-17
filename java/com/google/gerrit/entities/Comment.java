@@ -29,27 +29,33 @@ import org.eclipse.jgit.lib.ObjectId;
  *
  * <p>Changing fields in this class changes the storage format of inline comments in NoteDb and may
  * require a corresponding data migration (adding new optional fields is generally okay).
- *
- * <p>{@link PatchLineComment} historically represented comments in ReviewDb. There are a few
- * notable differences:
- *
- * <ul>
- *   <li>PatchLineComment knows the comment status (published or draft). For comments in NoteDb the
- *       status is determined by the branch in which they are stored (published comments are stored
- *       in the change meta ref; draft comments are store in refs/draft-comments branches in
- *       All-Users). Hence Comment doesn't need to contain the status, but the status is implicitly
- *       known by where the comments are read from.
- *   <li>PatchLineComment knows the change ID. For comments in NoteDb, the change ID is determined
- *       by the branch in which they are stored (the ref name contains the change ID). Hence Comment
- *       doesn't need to contain the change ID, but the change ID is implicitly known by where the
- *       comments are read from.
- * </ul>
- *
- * <p>For all utility classes and middle layer functionality using Comment over PatchLineComment is
- * preferred, as ReviewDb is gone so PatchLineComment is slated for deletion as well. This means
- * Comment should be used everywhere.
  */
 public class Comment {
+  public enum Status {
+    DRAFT('d'),
+
+    PUBLISHED('P');
+
+    private final char code;
+
+    Status(char c) {
+      code = c;
+    }
+
+    public char getCode() {
+      return code;
+    }
+
+    public static Status forCode(char c) {
+      for (Status s : Status.values()) {
+        if (s.code == c) {
+          return s;
+        }
+      }
+      return null;
+    }
+  }
+
   public static class Key {
     public String uuid;
     public String filename;

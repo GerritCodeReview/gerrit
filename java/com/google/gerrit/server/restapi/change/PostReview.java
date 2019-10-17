@@ -49,7 +49,6 @@ import com.google.gerrit.entities.FixReplacement;
 import com.google.gerrit.entities.FixSuggestion;
 import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.Patch;
-import com.google.gerrit.entities.PatchLineComment.Status;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.entities.RobotComment;
@@ -974,7 +973,7 @@ public class PostReview
           break;
       }
       ChangeUpdate changeUpdate = ctx.getUpdate(psId);
-      commentsUtil.putComments(changeUpdate, Status.PUBLISHED, toPublish);
+      commentsUtil.putComments(changeUpdate, Comment.Status.PUBLISHED, toPublish);
       comments.addAll(toPublish);
       return !toPublish.isEmpty();
     }

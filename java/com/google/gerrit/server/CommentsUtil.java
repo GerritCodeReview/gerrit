@@ -26,7 +26,6 @@ import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Comment;
 import com.google.gerrit.entities.Patch;
-import com.google.gerrit.entities.PatchLineComment;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.entities.RobotComment;
@@ -258,8 +257,7 @@ public class CommentsUtil {
     return sort(comments);
   }
 
-  public void putComments(
-      ChangeUpdate update, PatchLineComment.Status status, Iterable<Comment> comments) {
+  public void putComments(ChangeUpdate update, Comment.Status status, Iterable<Comment> comments) {
     for (Comment c : comments) {
       update.putComment(status, c);
     }

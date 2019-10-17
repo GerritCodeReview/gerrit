@@ -1058,10 +1058,10 @@ public class CommentsIT extends AbstractDaemonTest {
 
         Map<String, com.google.gerrit.entities.Comment> commentMapBefore =
             DeleteCommentRewriter.getPublishedComments(
-                noteUtil, changeId, reader, NoteMap.read(reader, commitBefore));
+                noteUtil, reader, NoteMap.read(reader, commitBefore));
         Map<String, com.google.gerrit.entities.Comment> commentMapAfter =
             DeleteCommentRewriter.getPublishedComments(
-                noteUtil, changeId, reader, NoteMap.read(reader, commitAfter));
+                noteUtil, reader, NoteMap.read(reader, commitAfter));
 
         if (commentMapBefore.containsKey(targetCommentUuid)) {
           assertThat(commentMapAfter).containsKey(targetCommentUuid);

@@ -23,7 +23,6 @@ import com.google.common.collect.Sets;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Comment;
-import com.google.gerrit.entities.PatchLineComment;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.exceptions.StorageException;
@@ -265,12 +264,7 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
     // Even though reading from changes might not be enabled, we need to
     // parse any existing revision notes so we can merge them.
     return RevisionNoteMap.parse(
-        noteUtil.getChangeNoteJson(),
-        noteUtil.getLegacyChangeNoteRead(),
-        getId(),
-        rw.getObjectReader(),
-        noteMap,
-        PatchLineComment.Status.DRAFT);
+        noteUtil.getChangeNoteJson(), rw.getObjectReader(), noteMap, Comment.Status.DRAFT);
   }
 
   @Override

@@ -94,6 +94,30 @@
       "revId": "9730f0bcd12fc5640fa68240b2fa5d21c3154c75",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8b9d599f_5b3be8f7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 52
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-10-17T18:27:58Z",
+      "side": 1,
+      "message": "\u003e @Thomas, I mean most of the code outside the node() block is probably common between all Gerrit branches. So if you have a bug in any of them, you have to fix it in all of them. Since that code is independent of the branch, it would be ideal to not have separate copies per-branch.\n\n+1\n\n\u003e @Luca, maybe you can give me a hand-on intro to it during the hackathon. I\u0027d be happy to help with it.\n\nSure, will add as official hackathon topic also :-)",
+      "parentUuid": "d1b36aac_2ded5558",
+      "range": {
+        "startLine": 24,
+        "startChar": 50,
+        "endLine": 26,
+        "endChar": 7
+      },
+      "revId": "9730f0bcd12fc5640fa68240b2fa5d21c3154c75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

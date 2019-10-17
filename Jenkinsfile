@@ -102,7 +102,7 @@ def postCheck(check) {
         def json = check.createCheckPayload()
         httpRequest(httpMode: 'POST', authentication: Globals.gerritCredentialsId,
             contentType: 'APPLICATION_JSON', requestBody: json,
-            validResponseCodes: '201', url: gerritPostUrl)
+            validResponseCodes: '200', url: gerritPostUrl)
         check.printCheckSummary()
     } catch(Exception e) {
         echo "ERROR> Failed to post check results to Gerrit: ${e}"

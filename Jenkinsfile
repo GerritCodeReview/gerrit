@@ -98,8 +98,8 @@ def postCheck(check) {
             contentType: 'APPLICATION_JSON', requestBody: json,
             validResponseCodes: '200', url: gerritPostUrl)
         echo "----------------------------------------------------------------------------"
-        echo "Gerrit Check: ${check.uuid}=" + check.build.result + " to change "
-            + check.changeNum + "/" + check.sha1
+        echo "Gerrit Check: ${check.uuid}=" + check.build.result + " to change " +
+            check.changeNum + "/" + check.sha1
         echo "----------------------------------------------------------------------------"
     } catch(Exception e) {
         echo "ERROR> Failed to post check results to Gerrit: ${e}"

@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1881378a_968599ba",
+        "filename": "java/com/google/gerrit/server/mail/receive/MailProcessor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-10-17T07:42:46Z",
+      "side": 1,
+      "message": "Can we just import Comment and refer to Comment.Status in the code?",
+      "revId": "f0ff33a7725a7bf0a49a33bc53e71b88a77ed3d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f7f79228_61bdd27a",
+        "filename": "java/com/google/gerrit/server/restapi/change/CreateDraftComment.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-10-17T07:42:46Z",
+      "side": 1,
+      "message": "Same here",
+      "revId": "f0ff33a7725a7bf0a49a33bc53e71b88a77ed3d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c0d2f607_20440e87",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-10-17T07:42:46Z",
+      "side": 1,
+      "message": "Same here",
+      "revId": "f0ff33a7725a7bf0a49a33bc53e71b88a77ed3d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "76b49e76_cda60f25",
+        "filename": "java/com/google/gerrit/server/restapi/change/PutDraftComment.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-10-17T07:42:46Z",
+      "side": 1,
+      "message": "Same here",
+      "revId": "f0ff33a7725a7bf0a49a33bc53e71b88a77ed3d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "86b29b89_cddd7dab",
+        "filename": "javatests/com/google/gerrit/server/notedb/ChangeNotesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-10-17T07:42:46Z",
+      "side": 1,
+      "message": "Same here",
+      "revId": "f0ff33a7725a7bf0a49a33bc53e71b88a77ed3d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0c9645a5_25fcd9f3",
+        "filename": "javatests/com/google/gerrit/server/notedb/DraftCommentNotesTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-10-17T07:42:46Z",
+      "side": 1,
+      "message": "Same here",
+      "revId": "f0ff33a7725a7bf0a49a33bc53e71b88a77ed3d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

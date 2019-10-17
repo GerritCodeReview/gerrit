@@ -65,12 +65,6 @@ class GerritCheck {
         this.build = build
     }
 
-    def printCheckSummary() {
-        println "----------------------------------------------------------------------------"
-        println "Gerrit Check: ${uuid}=" + build.result + " to change " + changeNum + "/" + sha1
-        println "----------------------------------------------------------------------------"
-    }
-
     def getCheckResultFromBuild() {
         switch(build.result) {
             case 'SUCCESS':
@@ -103,7 +97,10 @@ def postCheck(check) {
         httpRequest(httpMode: 'POST', authentication: Globals.gerritCredentialsId,
             contentType: 'APPLICATION_JSON', requestBody: json,
             validResponseCodes: '200', url: gerritPostUrl)
-        check.printCheckSummary()
+        echo "----------------------------------------------------------------------------"
+        echo "Gerrit Check: ${check.uuid}=" + check.build.result + " to change "
+            + check.changeNum + "/" + check.sha1
+        echo "----------------------------------------------------------------------------"
     } catch(Exception e) {
         echo "ERROR> Failed to post check results to Gerrit: ${e}"
     }

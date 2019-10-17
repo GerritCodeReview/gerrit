@@ -74,7 +74,6 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
   @Inject private DraftCommentNotes.Factory draftNotesFactory;
 
   @Inject private ChangeNoteJson changeNoteJson;
-  @Inject private LegacyChangeNoteRead legacyChangeNoteRead;
 
   @Inject private @GerritServerId String serverId;
 
@@ -1297,12 +1296,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     try (ChangeNotesRevWalk rw = ChangeNotesCommit.newRevWalk(repo)) {
       ChangeNotesParser notesWithComments =
           new ChangeNotesParser(
-              c.getId(),
-              commitWithComments.copy(),
-              rw,
-              changeNoteJson,
-              legacyChangeNoteRead,
-              args.metrics);
+              c.getId(), commitWithComments.copy(), rw, changeNoteJson, args.metrics);
       ChangeNotesState state = notesWithComments.parseAll();
       assertThat(state.approvals()).isEmpty();
       assertThat(state.publishedComments()).hasSize(1);
@@ -1311,12 +1305,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     try (ChangeNotesRevWalk rw = ChangeNotesCommit.newRevWalk(repo)) {
       ChangeNotesParser notesWithApprovals =
           new ChangeNotesParser(
-              c.getId(),
-              commitWithApprovals.copy(),
-              rw,
-              changeNoteJson,
-              legacyChangeNoteRead,
-              args.metrics);
+              c.getId(), commitWithApprovals.copy(), rw, changeNoteJson, args.metrics);
 
       ChangeNotesState state = notesWithApprovals.parseAll();
       assertThat(state.approvals()).hasSize(1);

@@ -461,12 +461,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     // Even though reading from changes might not be enabled, we need to
     // parse any existing revision notes so we can merge them.
     return RevisionNoteMap.parse(
-        noteUtil.getChangeNoteJson(),
-        noteUtil.getLegacyChangeNoteRead(),
-        getId(),
-        rw.getObjectReader(),
-        noteMap,
-        Comment.Status.PUBLISHED);
+        noteUtil.getChangeNoteJson(), rw.getObjectReader(), noteMap, Comment.Status.PUBLISHED);
   }
 
   private void checkComments(

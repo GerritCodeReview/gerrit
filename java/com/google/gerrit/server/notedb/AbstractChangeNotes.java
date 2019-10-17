@@ -50,7 +50,6 @@ public abstract class AbstractChangeNotes<T> {
     public final ChangeNoteJson changeNoteJson;
     public final GitRepositoryManager repoManager;
     public final AllUsersName allUsers;
-    public final LegacyChangeNoteRead legacyChangeNoteRead;
     public final NoteDbMetrics metrics;
     public final String serverId;
 
@@ -64,14 +63,12 @@ public abstract class AbstractChangeNotes<T> {
         GitRepositoryManager repoManager,
         AllUsersName allUsers,
         ChangeNoteJson changeNoteJson,
-        LegacyChangeNoteRead legacyChangeNoteRead,
         NoteDbMetrics metrics,
         Provider<ChangeNotesCache> cache,
         @GerritServerId String serverId) {
       this.failOnLoadForTest = new AtomicBoolean();
       this.repoManager = repoManager;
       this.allUsers = allUsers;
-      this.legacyChangeNoteRead = legacyChangeNoteRead;
       this.changeNoteJson = changeNoteJson;
       this.metrics = metrics;
       this.cache = cache;

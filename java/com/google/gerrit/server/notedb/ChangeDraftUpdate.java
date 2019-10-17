@@ -23,7 +23,6 @@ import com.google.common.collect.Sets;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Comment;
-import com.google.gerrit.entities.PatchLineComment;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.exceptions.StorageException;
@@ -270,7 +269,7 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
         getId(),
         rw.getObjectReader(),
         noteMap,
-        PatchLineComment.Status.DRAFT);
+        Comment.Status.DRAFT);
   }
 
   @Override

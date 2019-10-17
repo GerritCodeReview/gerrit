@@ -18,7 +18,6 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Comment;
-import com.google.gerrit.entities.PatchLineComment.Status;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.server.util.time.TimeUtil;
 import org.eclipse.jgit.lib.ObjectId;
@@ -32,7 +31,7 @@ public class DraftCommentNotesTest extends AbstractChangeNotesTest {
     Change c = newChange();
     ChangeUpdate update = newUpdate(c, otherUser);
     update.setPatchSetId(c.currentPatchSetId());
-    update.putComment(Status.PUBLISHED, comment(c.currentPatchSetId()));
+    update.putComment(Comment.Status.PUBLISHED, comment(c.currentPatchSetId()));
     update.commit();
 
     assertThat(newNotes(c).getDraftComments(otherUserId)).isEmpty();
@@ -45,13 +44,13 @@ public class DraftCommentNotesTest extends AbstractChangeNotesTest {
     ChangeUpdate update = newUpdate(c, otherUser);
 
     update.setPatchSetId(c.currentPatchSetId());
-    update.putComment(Status.DRAFT, comment(c.currentPatchSetId()));
+    update.putComment(Comment.Status.DRAFT, comment(c.currentPatchSetId()));
     update.commit();
     assertThat(newNotes(c).getDraftComments(otherUserId)).hasSize(1);
     assertableFanOutExecutor.assertInteractions(0);
 
     update = newUpdate(c, otherUser);
-    update.putComment(Status.PUBLISHED, comment(c.currentPatchSetId()));
+    update.putComment(Comment.Status.PUBLISHED, comment(c.currentPatchSetId()));
     update.commit();
 
     assertThat(newNotes(c).getDraftComments(otherUserId)).isEmpty();
@@ -64,7 +63,7 @@ public class DraftCommentNotesTest extends AbstractChangeNotesTest {
 
     ChangeUpdate update = newUpdate(c, otherUser);
     update.setPatchSetId(c.currentPatchSetId());
-    update.putComment(Status.DRAFT, comment(c.currentPatchSetId()));
+    update.putComment(Comment.Status.DRAFT, comment(c.currentPatchSetId()));
     update.commit();
 
     ChangeNotes notes = newNotes(c);

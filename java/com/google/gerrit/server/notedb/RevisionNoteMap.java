@@ -17,7 +17,6 @@ package com.google.gerrit.server.notedb;
 import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Comment;
-import com.google.gerrit.entities.PatchLineComment;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -37,7 +36,7 @@ class RevisionNoteMap<T extends RevisionNote<? extends Comment>> {
       Change.Id changeId,
       ObjectReader reader,
       NoteMap noteMap,
-      PatchLineComment.Status status)
+      Comment.Status status)
       throws ConfigInvalidException, IOException {
     Map<ObjectId, ChangeRevisionNote> result = new HashMap<>();
     for (Note note : noteMap) {

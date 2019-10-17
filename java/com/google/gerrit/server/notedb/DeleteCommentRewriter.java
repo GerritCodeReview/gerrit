@@ -15,7 +15,7 @@
 package com.google.gerrit.server.notedb;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.gerrit.entities.PatchLineComment.Status.PUBLISHED;
+import static com.google.gerrit.entities.Comment.Status;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toMap;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
@@ -138,7 +138,7 @@ public class DeleteCommentRewriter implements NoteDbRewriter {
       NoteMap noteMap)
       throws IOException, ConfigInvalidException {
     return RevisionNoteMap.parse(
-            changeNoteJson, legacyChangeNoteRead, changeId, reader, noteMap, PUBLISHED)
+            changeNoteJson, legacyChangeNoteRead, changeId, reader, noteMap, Status.PUBLISHED)
         .revisionNotes.values().stream()
         .flatMap(n -> n.getEntities().stream())
         .collect(toMap(c -> c.key.uuid, Function.identity()));
@@ -219,7 +219,7 @@ public class DeleteCommentRewriter implements NoteDbRewriter {
             changeId,
             reader,
             NoteMap.read(reader, parentCommit),
-            PUBLISHED);
+            Status.PUBLISHED);
     RevisionNoteBuilder.Cache cache = new RevisionNoteBuilder.Cache(revNotesMap);
 
     for (Comment c : putInComments) {

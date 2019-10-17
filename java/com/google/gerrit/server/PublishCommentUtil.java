@@ -15,7 +15,7 @@
 package com.google.gerrit.server;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.gerrit.entities.PatchLineComment.Status.PUBLISHED;
+import static com.google.gerrit.entities.Comment.Status;
 import static java.util.stream.Collectors.toSet;
 
 import com.google.common.collect.ImmutableList;
@@ -80,7 +80,7 @@ public class PublishCommentUtil {
         throw new StorageException(e);
       }
     }
-    commentsUtil.putComments(ctx.getUpdate(psId), PUBLISHED, draftComments);
+    commentsUtil.putComments(ctx.getUpdate(psId), Status.PUBLISHED, draftComments);
   }
 
   private static PatchSet.Id psId(ChangeNotes notes, Comment c) {

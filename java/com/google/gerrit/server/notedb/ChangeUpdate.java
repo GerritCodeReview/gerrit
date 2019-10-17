@@ -53,7 +53,6 @@ import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Comment;
-import com.google.gerrit.entities.PatchLineComment;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RobotComment;
 import com.google.gerrit.exceptions.StorageException;
@@ -273,10 +272,10 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     this.psDescription = psDescription;
   }
 
-  public void putComment(PatchLineComment.Status status, Comment c) {
+  public void putComment(Comment.Status status, Comment c) {
     verifyComment(c);
     createDraftUpdateIfNull();
-    if (status == PatchLineComment.Status.DRAFT) {
+    if (status == Comment.Status.DRAFT) {
       draftUpdate.putComment(c);
     } else {
       comments.add(c);
@@ -467,7 +466,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
         getId(),
         rw.getObjectReader(),
         noteMap,
-        PatchLineComment.Status.PUBLISHED);
+        Comment.Status.PUBLISHED);
   }
 
   private void checkComments(

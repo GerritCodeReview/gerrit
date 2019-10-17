@@ -46,6 +46,30 @@
       "revId": "8ed1cb6c54e975325566eb7129277b7001db1f65",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4f890092_d1bbf0ee",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetDiff.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 402,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-10-17T16:33:51Z",
+      "side": 1,
+      "message": "? it still looks the same",
+      "parentUuid": "38eb25d8_8df2e6b3",
+      "range": {
+        "startLine": 402,
+        "startChar": 23,
+        "endLine": 402,
+        "endChar": 30
+      },
+      "revId": "8ed1cb6c54e975325566eb7129277b7001db1f65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

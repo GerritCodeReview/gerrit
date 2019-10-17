@@ -98,6 +98,30 @@
     },
     {
       "key": {
+        "uuid": "93556374_a3d0ff68",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 1507,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-17T08:31:55Z",
+      "side": 1,
+      "message": "Yeah, unfortunately we are not consistent here, and we already have usage of both, \u0027_\u0027 and \u0027.\u0027 :(\nSo using either of these punctuations is fine.",
+      "parentUuid": "7527f3f9_20180d56",
+      "range": {
+        "startLine": 1507,
+        "startChar": 51,
+        "endLine": 1507,
+        "endChar": 54
+      },
+      "revId": "4289069a23a457048f91f09f2a7bf78ba957ea7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a11208f5_3a2660e7",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 9
@@ -485,6 +509,30 @@
       "revId": "4289069a23a457048f91f09f2a7bf78ba957ea7a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "05a491bf_284c774d",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-17T08:31:55Z",
+      "side": 1,
+      "message": "Yes, this is not optimal, but I think fine for now.\nWe should add a follow-up step (in the commit message) for creating all revert changes in a single batch. Then we can also avoid the duplicate permission checks.",
+      "parentUuid": "b7bcedf2_1210a7a0",
+      "range": {
+        "startLine": 130,
+        "startChar": 25,
+        "endLine": 130,
+        "endChar": 30
+      },
+      "revId": "4289069a23a457048f91f09f2a7bf78ba957ea7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -61,7 +61,6 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.entities.Comment;
 import com.google.gerrit.entities.LabelId;
-import com.google.gerrit.entities.PatchLineComment;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.entities.RefNames;
@@ -714,7 +713,7 @@ class ChangeNotesParser {
             id,
             reader,
             NoteMap.read(reader, tipCommit),
-            PatchLineComment.Status.PUBLISHED);
+            Comment.Status.PUBLISHED);
     Map<ObjectId, ChangeRevisionNote> rns = revisionNoteMap.revisionNotes;
 
     for (Map.Entry<ObjectId, ChangeRevisionNote> e : rns.entrySet()) {

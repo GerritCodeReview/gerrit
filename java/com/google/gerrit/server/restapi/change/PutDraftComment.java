@@ -17,7 +17,7 @@ package com.google.gerrit.server.restapi.change;
 import static com.google.gerrit.server.CommentsUtil.setCommentCommitId;
 
 import com.google.gerrit.entities.Comment;
-import com.google.gerrit.entities.PatchLineComment.Status;
+import com.google.gerrit.entities.Comment.Status;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.common.CommentInfo;

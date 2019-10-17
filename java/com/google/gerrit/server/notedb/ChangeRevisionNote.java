@@ -19,7 +19,6 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import com.google.common.primitives.Bytes;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Comment;
-import com.google.gerrit.entities.PatchLineComment;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -40,7 +39,7 @@ class ChangeRevisionNote extends RevisionNote<Comment> {
   private final ChangeNoteJson noteJson;
   private final LegacyChangeNoteRead legacyChangeNoteRead;
   private final Change.Id changeId;
-  private final PatchLineComment.Status status;
+  private final Comment.Status status;
   private String pushCert;
 
   ChangeRevisionNote(
@@ -49,7 +48,7 @@ class ChangeRevisionNote extends RevisionNote<Comment> {
       Change.Id changeId,
       ObjectReader reader,
       ObjectId noteId,
-      PatchLineComment.Status status) {
+      Comment.Status status) {
     super(reader, noteId);
     this.legacyChangeNoteRead = legacyChangeNoteRead;
     this.noteJson = noteJson;
@@ -69,7 +68,7 @@ class ChangeRevisionNote extends RevisionNote<Comment> {
 
     if (isJson(raw, p.value)) {
       RevisionNoteData data = parseJson(noteJson, raw, p.value);
-      if (status == PatchLineComment.Status.PUBLISHED) {
+      if (status == Comment.Status.PUBLISHED) {
         pushCert = data.pushCert;
       } else {
         pushCert = null;
@@ -77,7 +76,7 @@ class ChangeRevisionNote extends RevisionNote<Comment> {
       return data.comments;
     }
 
-    if (status == PatchLineComment.Status.PUBLISHED) {
+    if (status == Comment.Status.PUBLISHED) {
       pushCert = parsePushCert(changeId, raw, p);
       trimLeadingEmptyLines(raw, p);
     } else {

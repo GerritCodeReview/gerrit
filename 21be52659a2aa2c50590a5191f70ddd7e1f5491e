@@ -93,6 +93,24 @@
     },
     {
       "key": {
+        "uuid": "00af48f9_d1c451ea",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-group-list/gr-admin-group-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-10-17T16:17:49Z",
+      "side": 1,
+      "message": "The Polymer function (https://github.com/Polymer/polymer/blob/master/lib/legacy/polymer-fn.js) collects all functions from behaviors and component into the lifecycle object (arrays of methods lifecycle.attached, lifecycle.ready, etc...). Then it creates PolymerGenerated class where it calls the super... method first and then all functions - see https://github.com/Polymer/polymer/blob/master/lib/legacy/class.js#L371\n\nNow we declare our own class, so we need to call super... method manually to keep old behavior.",
+      "parentUuid": "4215fc78_f7fe9153",
+      "revId": "21be52659a2aa2c50590a5191f70ddd7e1f5491e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2cd3d767_a9b8b97d",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.js",
         "patchSetId": 1
@@ -116,6 +134,30 @@
     },
     {
       "key": {
+        "uuid": "465db7b8_87a60d08",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 897,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-10-17T16:17:49Z",
+      "side": 1,
+      "message": "Yes, all these names come from handler methods. I think, it is possible to add some diagnostic to the tool to find all such places and then fix them manually before converting.",
+      "parentUuid": "2cd3d767_a9b8b97d",
+      "range": {
+        "startLine": 897,
+        "startChar": 47,
+        "endLine": 897,
+        "endChar": 52
+      },
+      "revId": "21be52659a2aa2c50590a5191f70ddd7e1f5491e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9c1d252e_28b748fc",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 1
@@ -127,6 +169,24 @@
       "writtenOn": "2019-10-17T15:40:31Z",
       "side": 1,
       "message": "Why is this a function? Is that to make it read-only? In TypeScript I would have done `readonly JSON_PREFIX \u003d JSON_PREFIX;` I guess so maybe that\u0027s the reason?",
+      "revId": "21be52659a2aa2c50590a5191f70ddd7e1f5491e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "98cfac5b_da7fc96c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-10-17T16:17:49Z",
+      "side": 1,
+      "message": "2 reasons - a) make it readonly\nb) class fields is not included in the javascript standard yet (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Classes, topic \"Field Declarations\").\n\nAnother way to do the same is to create constructor and assign all fields there, but I like to have readonly \"fields\"",
+      "parentUuid": "9c1d252e_28b748fc",
       "revId": "21be52659a2aa2c50590a5191f70ddd7e1f5491e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

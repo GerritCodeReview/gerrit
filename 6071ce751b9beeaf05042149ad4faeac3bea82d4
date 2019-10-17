@@ -52,6 +52,24 @@
       "revId": "6071ce751b9beeaf05042149ad4faeac3bea82d4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "da490708_12d46cba",
+        "filename": "rules.pl",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2019-10-17T01:09:43Z",
+      "side": 1,
+      "message": "I\u0027m not worried about JGit updates --- if there\u0027s an issue, we can deal with it when it happens.\n\nWe should review changes to .gitmodules instead.",
+      "parentUuid": "26c6126c_0268a806",
+      "revId": "6071ce751b9beeaf05042149ad4faeac3bea82d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

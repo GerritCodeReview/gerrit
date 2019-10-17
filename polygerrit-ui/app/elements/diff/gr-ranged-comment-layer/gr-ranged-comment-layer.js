@@ -25,40 +25,36 @@
 
   /** @typedef {{side: string, range: Gerrit.Range, hovering: boolean}} */
   Gerrit.HoveredRange;
+  class GrRangedCommentLayer extends Polymer.LegacyDataMixin(
+      Polymer.GestureEventListeners(
+          Polymer.LegacyElementMixin(
+              Polymer.Element))) {
+    static get is() { return 'gr-ranged-comment-layer'; }
 
-  Polymer({
-    is: 'gr-ranged-comment-layer',
-    _legacyUndefinedCheck: true,
-
-    /**
-     * Fired when the range in a range comment was malformed and had to be
-     * normalized.
-     *
-     * It's `detail` has a `lineNum` and `side` parameter.
-     *
-     * @event normalize-range
-     */
-
-    properties: {
+    static get properties() {
+      return {
       /** @type {!Array<!Gerrit.HoveredRange>} */
-      commentRanges: Array,
-      _listeners: {
-        type: Array,
-        value() { return []; },
-      },
-      _rangesMap: {
-        type: Object,
-        value() { return {left: {}, right: {}}; },
-      },
-    },
+        commentRanges: Array,
+        _listeners: {
+          type: Array,
+          value() { return []; },
+        },
+        _rangesMap: {
+          type: Object,
+          value() { return {left: {}, right: {}}; },
+        },
+      };
+    }
 
-    observers: [
-      '_handleCommentRangesChange(commentRanges.*)',
-    ],
+    static get observers() {
+      return [
+        '_handleCommentRangesChange(commentRanges.*)',
+      ];
+    }
 
     get styleModuleName() {
       return 'gr-ranged-comment-styles';
-    },
+    }
 
     /**
      * Layer method to add annotations to a line.
@@ -70,12 +66,12 @@
     annotate(el, lineNumberEl, line) {
       let ranges = [];
       if (line.type === GrDiffLine.Type.REMOVE || (
-          line.type === GrDiffLine.Type.BOTH &&
+        line.type === GrDiffLine.Type.BOTH &&
           el.getAttribute('data-side') !== 'right')) {
         ranges = ranges.concat(this._getRangesForLine(line, 'left'));
       }
       if (line.type === GrDiffLine.Type.ADD || (
-          line.type === GrDiffLine.Type.BOTH &&
+        line.type === GrDiffLine.Type.BOTH &&
           el.getAttribute('data-side') !== 'left')) {
         ranges = ranges.concat(this._getRangesForLine(line, 'right'));
       }
@@ -85,7 +81,7 @@
             range.end - range.start,
             range.hovering ? HOVER_HIGHLIGHT : RANGE_HIGHLIGHT);
       }
-    },
+    }
 
     /**
      * Register a listener for layer updates.
@@ -95,7 +91,7 @@
      */
     addListener(fn) {
       this._listeners.push(fn);
-    },
+    }
 
     /**
      * Notify Layer listeners of changes to annotations.
@@ -107,7 +103,7 @@
       for (const listener of this._listeners) {
         listener(start, end, side);
       }
-    },
+    }
 
     /**
      * Handle change in the ranges by updating the ranges maps and by
@@ -138,7 +134,7 @@
         this._updateRangesMap(
             side, range, hovering, (forLine, start, end, hovering) => {
               const index = forLine.findIndex(lineRange =>
-                  lineRange.start === start && lineRange.end === end);
+                lineRange.start === start && lineRange.end === end);
               forLine[index].hovering = hovering;
             });
       }
@@ -151,7 +147,7 @@
             this._updateRangesMap(
                 side, range, hovering, (forLine, start, end) => {
                   const index = forLine.findIndex(lineRange =>
-                      lineRange.start === start && lineRange.end === end);
+                    lineRange.start === start && lineRange.end === end);
                   forLine.splice(index, 1);
                 });
           }
@@ -165,7 +161,7 @@
           }
         }
       }
-    },
+    }
 
     _updateRangesMap(side, range, hovering, operation) {
       const forSide = this._rangesMap[side] || (this._rangesMap[side] = {});
@@ -176,7 +172,7 @@
         operation(forLine, start, end, hovering);
       }
       this._notifyUpdateRange(range.start_line, range.end_line, side);
-    },
+    }
 
     _getRangesForLine(line, side) {
       const lineNum = side === 'left' ? line.beforeNumber : line.afterNumber;
@@ -204,6 +200,7 @@
           })
           // Sort the ranges so that hovering highlights are on top.
           .sort((a, b) => a.hovering && !b.hovering ? 1 : 0);
-    },
-  });
+    }
+  }
+  customElements.define(GrRangedCommentLayer.is, GrRangedCommentLayer);
 })();

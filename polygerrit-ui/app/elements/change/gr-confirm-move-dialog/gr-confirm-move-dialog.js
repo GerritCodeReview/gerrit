@@ -18,50 +18,39 @@
   'use strict';
 
   const SUGGESTIONS_LIMIT = 15;
+  class GrConfirmMoveDialog extends Polymer.mixinBehaviors( [
+    Gerrit.FireBehavior,
+  ], Polymer.LegacyDataMixin(
+      Polymer.GestureEventListeners(
+          Polymer.LegacyElementMixin(
+              Polymer.Element)))) {
+    static get is() { return 'gr-confirm-move-dialog'; }
 
-  Polymer({
-    is: 'gr-confirm-move-dialog',
-    _legacyUndefinedCheck: true,
-
-    /**
-     * Fired when the confirm button is pressed.
-     *
-     * @event confirm
-     */
-
-    /**
-     * Fired when the cancel button is pressed.
-     *
-     * @event cancel
-     */
-
-    properties: {
-      branch: String,
-      message: String,
-      project: String,
-      _query: {
-        type: Function,
-        value() {
-          return this._getProjectBranchesSuggestions.bind(this);
+    static get properties() {
+      return {
+        branch: String,
+        message: String,
+        project: String,
+        _query: {
+          type: Function,
+          value() {
+            return this._getProjectBranchesSuggestions.bind(this);
+          },
         },
-      },
-    },
-
-    behaviors: [
-      Gerrit.FireBehavior,
-    ],
+      };
+    }
 
     _handleConfirmTap(e) {
       e.preventDefault();
       e.stopPropagation();
       this.fire('confirm', null, {bubbles: false});
-    },
+    }
 
     _handleCancelTap(e) {
       e.preventDefault();
       e.stopPropagation();
       this.fire('cancel', null, {bubbles: false});
-    },
+    }
 
     _getProjectBranchesSuggestions(input) {
       if (input.startsWith('refs/heads/')) {
@@ -69,21 +58,22 @@
       }
       return this.$.restAPI.getRepoBranches(
           input, this.project, SUGGESTIONS_LIMIT).then(response => {
-            const branches = [];
-            let branch;
-            for (const key in response) {
-              if (!response.hasOwnProperty(key)) { continue; }
-              if (response[key].ref.startsWith('refs/heads/')) {
-                branch = response[key].ref.substring('refs/heads/'.length);
-              } else {
-                branch = response[key].ref;
-              }
-              branches.push({
-                name: branch,
-              });
-            }
-            return branches;
+        const branches = [];
+        let branch;
+        for (const key in response) {
+          if (!response.hasOwnProperty(key)) { continue; }
+          if (response[key].ref.startsWith('refs/heads/')) {
+            branch = response[key].ref.substring('refs/heads/'.length);
+          } else {
+            branch = response[key].ref;
+          }
+          branches.push({
+            name: branch,
           });
-    },
-  });
+        }
+        return branches;
+      });
+    }
+  }
+  customElements.define(GrConfirmMoveDialog.is, GrConfirmMoveDialog);
 })();

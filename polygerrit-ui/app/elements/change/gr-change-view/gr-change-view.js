@@ -62,253 +62,226 @@
   const CHANGE_DATA_TIMING_LABEL = 'ChangeDataLoaded';
   const CHANGE_RELOAD_TIMING_LABEL = 'ChangeReloaded';
   const SEND_REPLY_TIMING_LABEL = 'SendReply';
+  class GrChangeView extends Polymer.mixinBehaviors( [
+    Gerrit.FireBehavior,
+    Gerrit.KeyboardShortcutBehavior,
+    Gerrit.PatchSetBehavior,
+    Gerrit.RESTClientBehavior,
+  ], Polymer.LegacyDataMixin(
+      Polymer.GestureEventListeners(
+          Polymer.LegacyElementMixin(
+              Polymer.Element)))) {
+    static get is() { return 'gr-change-view'; }
 
-  Polymer({
-    is: 'gr-change-view',
-    _legacyUndefinedCheck: true,
-
-    /**
-     * Fired when the title of the page should change.
-     *
-     * @event title-change
-     */
-
-    /**
-     * Fired if an error occurs when fetching the change data.
-     *
-     * @event page-error
-     */
-
-    /**
-     * Fired if being logged in is required.
-     *
-     * @event show-auth-required
-     */
-
-    properties: {
+    static get properties() {
+      return {
       /**
        * URL params passed from the router.
        */
-      params: {
-        type: Object,
-        observer: '_paramsChanged',
-      },
-      /** @type {?} */
-      viewState: {
-        type: Object,
-        notify: true,
-        value() { return {}; },
-        observer: '_viewStateChanged',
-      },
-      backPage: String,
-      hasParent: Boolean,
-      keyEventTarget: {
-        type: Object,
-        value() { return document.body; },
-      },
-      disableEdit: {
-        type: Boolean,
-        value: false,
-      },
-      disableDiffPrefs: {
-        type: Boolean,
-        value: false,
-      },
-      _diffPrefsDisabled: {
-        type: Boolean,
-        computed: '_computeDiffPrefsDisabled(disableDiffPrefs, _loggedIn)',
-      },
-      _commentThreads: Array,
-      /** @type {?} */
-      _serverConfig: {
-        type: Object,
-        observer: '_startUpdateCheckTimer',
-      },
-      _diffPrefs: Object,
-      _numFilesShown: {
-        type: Number,
-        value: DEFAULT_NUM_FILES_SHOWN,
-        observer: '_numFilesShownChanged',
-      },
-      _account: {
-        type: Object,
-        value: {},
-      },
-      _prefs: Object,
-      /** @type {?} */
-      _changeComments: Object,
-      _canStartReview: {
-        type: Boolean,
-        computed: '_computeCanStartReview(_change)',
-      },
-      _comments: Object,
-      /** @type {?} */
-      _change: {
-        type: Object,
-        observer: '_changeChanged',
-      },
-      _revisionInfo: {
-        type: Object,
-        computed: '_getRevisionInfo(_change)',
-      },
-      /** @type {?} */
-      _commitInfo: Object,
-      _currentRevision: {
-        type: Object,
-        computed: '_computeCurrentRevision(_change.current_revision, ' +
-            '_change.revisions)',
-      },
-      _files: Object,
-      _changeNum: String,
-      _diffDrafts: {
-        type: Object,
-        value() { return {}; },
-      },
-      _editingCommitMessage: {
-        type: Boolean,
-        value: false,
-      },
-      _hideEditCommitMessage: {
-        type: Boolean,
-        computed: '_computeHideEditCommitMessage(_loggedIn, ' +
-            '_editingCommitMessage, _change, _editMode)',
-      },
-      _diffAgainst: String,
-      /** @type {?string} */
-      _latestCommitMessage: {
-        type: String,
-        value: '',
-      },
-      _lineHeight: Number,
-      _changeIdCommitMessageError: {
-        type: String,
-        computed:
-          '_computeChangeIdCommitMessageError(_latestCommitMessage, _change)',
-      },
+        params: {
+          type: Object,
+          observer: '_paramsChanged',
+        },
         /** @type {?} */
-      _patchRange: {
-        type: Object,
-      },
-      _filesExpanded: String,
-      _basePatchNum: String,
-      _selectedRevision: Object,
-      _currentRevisionActions: Object,
-      _allPatchSets: {
-        type: Array,
-        computed: 'computeAllPatchSets(_change, _change.revisions.*)',
-      },
-      _loggedIn: {
-        type: Boolean,
-        value: false,
-      },
-      _loading: Boolean,
-      /** @type {?} */
-      _projectConfig: Object,
-      _rebaseOnCurrent: Boolean,
-      _replyButtonLabel: {
-        type: String,
-        value: 'Reply',
-        computed: '_computeReplyButtonLabel(_diffDrafts.*, _canStartReview)',
-      },
-      _selectedPatchSet: String,
-      _shownFileCount: Number,
-      _initialLoadComplete: {
-        type: Boolean,
-        value: false,
-      },
-      _replyDisabled: {
-        type: Boolean,
-        value: true,
-        computed: '_computeReplyDisabled(_serverConfig)',
-      },
-      _changeStatus: {
-        type: String,
-        computed: 'changeStatusString(_change)',
-      },
-      _changeStatuses: {
-        type: String,
-        computed:
+        viewState: {
+          type: Object,
+          notify: true,
+          value() { return {}; },
+          observer: '_viewStateChanged',
+        },
+        backPage: String,
+        hasParent: Boolean,
+        keyEventTarget: {
+          type: Object,
+          value() { return document.body; },
+        },
+        disableEdit: {
+          type: Boolean,
+          value: false,
+        },
+        disableDiffPrefs: {
+          type: Boolean,
+          value: false,
+        },
+        _diffPrefsDisabled: {
+          type: Boolean,
+          computed: '_computeDiffPrefsDisabled(disableDiffPrefs, _loggedIn)',
+        },
+        _commentThreads: Array,
+        /** @type {?} */
+        _serverConfig: {
+          type: Object,
+          observer: '_startUpdateCheckTimer',
+        },
+        _diffPrefs: Object,
+        _numFilesShown: {
+          type: Number,
+          value: DEFAULT_NUM_FILES_SHOWN,
+          observer: '_numFilesShownChanged',
+        },
+        _account: {
+          type: Object,
+          value: {},
+        },
+        _prefs: Object,
+        /** @type {?} */
+        _changeComments: Object,
+        _canStartReview: {
+          type: Boolean,
+          computed: '_computeCanStartReview(_change)',
+        },
+        _comments: Object,
+        /** @type {?} */
+        _change: {
+          type: Object,
+          observer: '_changeChanged',
+        },
+        _revisionInfo: {
+          type: Object,
+          computed: '_getRevisionInfo(_change)',
+        },
+        /** @type {?} */
+        _commitInfo: Object,
+        _currentRevision: {
+          type: Object,
+          computed: '_computeCurrentRevision(_change.current_revision, ' +
+            '_change.revisions)',
+        },
+        _files: Object,
+        _changeNum: String,
+        _diffDrafts: {
+          type: Object,
+          value() { return {}; },
+        },
+        _editingCommitMessage: {
+          type: Boolean,
+          value: false,
+        },
+        _hideEditCommitMessage: {
+          type: Boolean,
+          computed: '_computeHideEditCommitMessage(_loggedIn, ' +
+            '_editingCommitMessage, _change, _editMode)',
+        },
+        _diffAgainst: String,
+        /** @type {?string} */
+        _latestCommitMessage: {
+          type: String,
+          value: '',
+        },
+        _lineHeight: Number,
+        _changeIdCommitMessageError: {
+          type: String,
+          computed:
+          '_computeChangeIdCommitMessageError(_latestCommitMessage, _change)',
+        },
+        /** @type {?} */
+        _patchRange: {
+          type: Object,
+        },
+        _filesExpanded: String,
+        _basePatchNum: String,
+        _selectedRevision: Object,
+        _currentRevisionActions: Object,
+        _allPatchSets: {
+          type: Array,
+          computed: 'computeAllPatchSets(_change, _change.revisions.*)',
+        },
+        _loggedIn: {
+          type: Boolean,
+          value: false,
+        },
+        _loading: Boolean,
+        /** @type {?} */
+        _projectConfig: Object,
+        _rebaseOnCurrent: Boolean,
+        _replyButtonLabel: {
+          type: String,
+          value: 'Reply',
+          computed: '_computeReplyButtonLabel(_diffDrafts.*, _canStartReview)',
+        },
+        _selectedPatchSet: String,
+        _shownFileCount: Number,
+        _initialLoadComplete: {
+          type: Boolean,
+          value: false,
+        },
+        _replyDisabled: {
+          type: Boolean,
+          value: true,
+          computed: '_computeReplyDisabled(_serverConfig)',
+        },
+        _changeStatus: {
+          type: String,
+          computed: 'changeStatusString(_change)',
+        },
+        _changeStatuses: {
+          type: String,
+          computed:
           '_computeChangeStatusChips(_change, _mergeable, _submitEnabled)',
-      },
-      _commitCollapsed: {
-        type: Boolean,
-        value: true,
-      },
-      _relatedChangesCollapsed: {
-        type: Boolean,
-        value: true,
-      },
-      /** @type {?number} */
-      _updateCheckTimerHandle: Number,
-      _editMode: {
-        type: Boolean,
-        computed: '_computeEditMode(_patchRange.*, params.*)',
-      },
-      _showRelatedToggle: {
-        type: Boolean,
-        value: false,
-        observer: '_updateToggleContainerClass',
-      },
-      _parentIsCurrent: Boolean,
-      _submitEnabled: {
-        type: Boolean,
-        computed: '_isSubmitEnabled(_currentRevisionActions)',
-      },
+        },
+        _commitCollapsed: {
+          type: Boolean,
+          value: true,
+        },
+        _relatedChangesCollapsed: {
+          type: Boolean,
+          value: true,
+        },
+        /** @type {?number} */
+        _updateCheckTimerHandle: Number,
+        _editMode: {
+          type: Boolean,
+          computed: '_computeEditMode(_patchRange.*, params.*)',
+        },
+        _showRelatedToggle: {
+          type: Boolean,
+          value: false,
+          observer: '_updateToggleContainerClass',
+        },
+        _parentIsCurrent: Boolean,
+        _submitEnabled: {
+          type: Boolean,
+          computed: '_isSubmitEnabled(_currentRevisionActions)',
+        },
 
-      /** @type {?} */
-      _mergeable: {
-        type: Boolean,
-        value: undefined,
-      },
-      _showMessagesView: {
-        type: Boolean,
-        value: true,
-      },
-      _showFileTabContent: {
-        type: Boolean,
-        value: true,
-      },
-      /** @type {Array<string>} */
-      _dynamicTabHeaderEndpoints: {
-        type: Array,
-      },
-      _showPrimaryTabs: {
-        type: Boolean,
-        computed: '_computeShowPrimaryTabs(_dynamicTabHeaderEndpoints)',
-      },
-      /** @type {Array<string>} */
-      _dynamicTabContentEndpoints: {
-        type: Array,
-      },
-      _selectedFilesTabPluginEndpoint: {
-        type: String,
-      },
-    },
+        /** @type {?} */
+        _mergeable: {
+          type: Boolean,
+          value: undefined,
+        },
+        _showMessagesView: {
+          type: Boolean,
+          value: true,
+        },
+        _showFileTabContent: {
+          type: Boolean,
+          value: true,
+        },
+        /** @type {Array<string>} */
+        _dynamicTabHeaderEndpoints: {
+          type: Array,
+        },
+        _showPrimaryTabs: {
+          type: Boolean,
+          computed: '_computeShowPrimaryTabs(_dynamicTabHeaderEndpoints)',
+        },
+        /** @type {Array<string>} */
+        _dynamicTabContentEndpoints: {
+          type: Array,
+        },
+        _selectedFilesTabPluginEndpoint: {
+          type: String,
+        },
+      };
+    }
 
-    behaviors: [
-      Gerrit.FireBehavior,
-      Gerrit.KeyboardShortcutBehavior,
-      Gerrit.PatchSetBehavior,
-      Gerrit.RESTClientBehavior,
-    ],
-
-    listeners: {
-      'topic-changed': '_handleTopicChanged',
-      // When an overlay is opened in a mobile viewport, the overlay has a full
-      // screen view. When it has a full screen view, we do not want the
-      // background to be scrollable. This will eliminate background scroll by
-      // hiding most of the contents on the screen upon opening, and showing
-      // again upon closing.
-      'fullscreen-overlay-opened': '_handleHideBackgroundContent',
-      'fullscreen-overlay-closed': '_handleShowBackgroundContent',
-      'diff-comments-modified': '_handleReloadCommentThreads',
-    },
-
-    observers: [
-      '_labelsChanged(_change.labels.*)',
-      '_paramsAndChangeChanged(params, _change)',
-      '_patchNumChanged(_patchRange.patchNum)',
-    ],
+    static get observers() {
+      return [
+        '_labelsChanged(_change.labels.*)',
+        '_paramsAndChangeChanged(params, _change)',
+        '_patchNumChanged(_patchRange.patchNum)',
+      ];
+    }
 
     keyboardShortcuts() {
       return {
@@ -325,9 +298,10 @@
         [this.Shortcut.OPEN_DIFF_PREFS]: '_handleOpenDiffPrefsShortcut',
         [this.Shortcut.EDIT_TOPIC]: '_handleEditTopic',
       };
-    },
+    }
 
     attached() {
+      super.attached();
       this._getServerConfig().then(config => {
         this._serverConfig = config;
       });
@@ -363,24 +337,25 @@
           this._handleCommitMessageCancel.bind(this));
       this.listen(window, 'scroll', '_handleScroll');
       this.listen(document, 'visibilitychange', '_handleVisibilityChange');
-    },
+    }
 
     detached() {
+      super.detached();
       this.unlisten(window, 'scroll', '_handleScroll');
       this.unlisten(document, 'visibilitychange', '_handleVisibilityChange');
 
       if (this._updateCheckTimerHandle) {
         this._cancelUpdateCheckTimer();
       }
-    },
+    }
 
     get messagesList() {
       return this.$$('gr-messages-list');
-    },
+    }
 
     get threadList() {
       return this.$$('gr-thread-list');
-    },
+    }
 
     /**
      * @param {boolean=} opt_reset
@@ -397,7 +372,7 @@
           this.set('viewState.diffMode', 'SIDE_BY_SIDE');
         }
       });
-    },
+    }
 
     _handleToggleDiffMode(e) {
       if (this.shouldSuppressKeyboardShortcut(e) ||
@@ -409,11 +384,11 @@
       } else {
         this.$.fileListHeader.setDiffViewMode(DiffViewMode.SIDE_BY_SIDE);
       }
-    },
+    }
 
     _handleCommentTabChange() {
       this._showMessagesView = this.$.commentTabs.selected === 0;
-    },
+    }
 
     _handleFileTabChange() {
       const selectedIndex = this.$$('#primaryTabs').selected;
@@ -421,7 +396,7 @@
       // Initial tab is the static files list.
       this._selectedFilesTabPluginEndpoint =
           this._dynamicTabContentEndpoints[selectedIndex - 1];
-    },
+    }
 
     _handleShowChecksTable(e) {
       const idx = this._dynamicTabContentEndpoints.indexOf(e.detail.tab);
@@ -432,12 +407,12 @@
       this.$$('#primaryTabs').selected = idx + 1;
       this.$$('#primaryTabs').scrollIntoView();
       this._handleFileTabChange();
-    },
+    }
 
     _handleEditCommitMessage(e) {
       this._editingCommitMessage = true;
       this.$.commitMessageEditor.focusTextarea();
-    },
+    }
 
     _handleCommitMessageSave(e) {
       // Trim trailing whitespace from each line.
@@ -448,25 +423,25 @@
       this.$.commitMessageEditor.disabled = true;
       this.$.restAPI.putChangeCommitMessage(
           this._changeNum, message).then(resp => {
-            this.$.commitMessageEditor.disabled = false;
-            if (!resp.ok) { return; }
+        this.$.commitMessageEditor.disabled = false;
+        if (!resp.ok) { return; }
 
-            this._latestCommitMessage = this._prepareCommitMsgForLinkify(
-                message);
-            this._editingCommitMessage = false;
-            this._reloadWindow();
-          }).catch(err => {
-            this.$.commitMessageEditor.disabled = false;
-          });
-    },
+        this._latestCommitMessage = this._prepareCommitMsgForLinkify(
+            message);
+        this._editingCommitMessage = false;
+        this._reloadWindow();
+      }).catch(err => {
+        this.$.commitMessageEditor.disabled = false;
+      });
+    }
 
     _reloadWindow() {
       window.location.reload();
-    },
+    }
 
     _handleCommitMessageCancel(e) {
       this._editingCommitMessage = false;
-    },
+    }
 
     _computeChangeStatusChips(change, mergeable, submitEnabled) {
       // Polymer 2: check for undefined
@@ -490,7 +465,7 @@
         submitEnabled: !!submitEnabled,
       };
       return this.changeStatuses(change, options);
-    },
+    }
 
     _computeHideEditCommitMessage(loggedIn, editing, change, editMode) {
       if (!loggedIn || editing ||
@@ -500,7 +475,7 @@
       }
 
       return false;
-    },
+    }
 
     _handleReloadCommentThreads() {
       // Get any new drafts that have been saved in the diff view and show
@@ -510,7 +485,7 @@
             .map(c => Object.assign({}, c));
         Polymer.dom.flush();
       });
-    },
+    }
 
     _handleReloadDiffComments(e) {
       // Keeps the file list counts updated.
@@ -521,7 +496,7 @@
             e.detail.path);
         Polymer.dom.flush();
       });
-    },
+    }
 
     _computeTotalCommentCounts(unresolvedCount, changeComments) {
       if (!changeComments) return undefined;
@@ -535,7 +510,7 @@
           // Add a comma and space if both unresolved and draft comments exist.
           (unresolvedString && draftString ? ', ' : '') +
           draftString;
-    },
+    }
 
     _handleCommentSave(e) {
       const draft = e.detail.comment;
@@ -567,7 +542,7 @@
         return (c1.line || -1) - (c2.line || -1);
       });
       this._diffDrafts = diffDrafts;
-    },
+    }
 
     _handleCommentDiscard(e) {
       const draft = e.detail.comment;
@@ -601,16 +576,16 @@
         delete diffDrafts[draft.path];
       }
       this._diffDrafts = diffDrafts;
-    },
+    }
 
     _handleReplyTap(e) {
       e.preventDefault();
       this._openReplyDialog(this.$.replyDialog.FocusTarget.ANY);
-    },
+    }
 
     _handleOpenDiffPrefs() {
       this.$.fileList.openDiffPrefs();
-    },
+    }
 
     _handleOpenIncludedInDialog() {
       this.$.includedInDialog.loadData().then(() => {
@@ -618,11 +593,11 @@
         this.$.includedInOverlay.refit();
       });
       this.$.includedInOverlay.open();
-    },
+    }
 
     _handleIncludedInDialogClose(e) {
       this.$.includedInOverlay.close();
-    },
+    }
 
     _handleOpenDownloadDialog() {
       this.$.downloadOverlay.open().then(() => {
@@ -630,19 +605,19 @@
             .setFocusStops(this.$.downloadDialog.getFocusStops());
         this.$.downloadDialog.focus();
       });
-    },
+    }
 
     _handleDownloadDialogClose(e) {
       this.$.downloadOverlay.close();
-    },
+    }
 
     _handleOpenUploadHelpDialog(e) {
       this.$.uploadHelpOverlay.open();
-    },
+    }
 
     _handleCloseUploadHelpDialog(e) {
       this.$.uploadHelpOverlay.close();
-    },
+    }
 
     _handleMessageReply(e) {
       const msg = e.detail.message.message;
@@ -650,33 +625,33 @@
           line => { return '> ' + line; }).join('\n') + '\n\n';
       this.$.replyDialog.quote = quoteStr;
       this._openReplyDialog(this.$.replyDialog.FocusTarget.BODY);
-    },
+    }
 
     _handleHideBackgroundContent() {
       this.$.mainContent.classList.add('overlayOpen');
-    },
+    }
 
     _handleShowBackgroundContent() {
       this.$.mainContent.classList.remove('overlayOpen');
-    },
+    }
 
     _handleReplySent(e) {
       this.$.replyOverlay.close();
       this._reload().then(() => {
         this.$.reporting.timeEnd(SEND_REPLY_TIMING_LABEL);
       });
-    },
+    }
 
     _handleReplyCancel(e) {
       this.$.replyOverlay.close();
-    },
+    }
 
     _handleReplyAutogrow(e) {
       // If the textarea resizes, we need to re-fit the overlay.
       this.debounce('reply-overlay-refit', () => {
         this.$.replyOverlay.refit();
       }, REPLY_REFIT_DEBOUNCE_INTERVAL_MS);
-    },
+    }
 
     _handleShowReplyDialog(e) {
       let target = this.$.replyDialog.FocusTarget.REVIEWERS;
@@ -684,25 +659,25 @@
         target = this.$.replyDialog.FocusTarget.CCS;
       }
       this._openReplyDialog(target);
-    },
+    }
 
     _handleScroll() {
       this.debounce('scroll', () => {
         this.viewState.scrollTop = document.body.scrollTop;
       }, 150);
-    },
+    }
 
     _setShownFiles(e) {
       this._shownFileCount = e.detail.length;
-    },
+    }
 
     _expandAllDiffs() {
       this.$.fileList.expandAllDiffs();
-    },
+    }
 
     _collapseAllDiffs() {
       this.$.fileList.collapseAllDiffs();
-    },
+    }
 
     _paramsChanged(value) {
       // Change the content of the comment tabs back to messages list, but
@@ -756,7 +731,7 @@
       this._reload(true).then(() => {
         this._performPostLoadTasks();
       });
-    },
+    }
 
     _sendShowChangeEvent() {
       this.$.jsAPI.handleEvent(this.$.jsAPI.EventType.SHOW_CHANGE, {
@@ -764,7 +739,7 @@
         patchNum: this._patchRange.patchNum,
         info: {mergeable: this._mergeable},
       });
-    },
+    }
 
     _setPrimaryTab() {
       // Selected has to be set after the paper-tabs are visible because
@@ -772,7 +747,7 @@
       this.$.commentTabs.selected = 0;
       const primaryTabs = this.$$('#primaryTabs');
       if (primaryTabs) primaryTabs.selected = 0;
-    },
+    }
 
     _performPostLoadTasks() {
       this._maybeShowReplyDialog();
@@ -791,7 +766,7 @@
         }
         this._initialLoadComplete = true;
       });
-    },
+    }
 
     _paramsAndChangeChanged(value, change) {
       // Polymer 2: check for undefined
@@ -807,16 +782,16 @@
           patchRangeState.patchNum !== this._patchRange.patchNum) {
         this._resetFileListViewState();
       }
-    },
+    }
 
     _viewStateChanged(viewState) {
       this._numFilesShown = viewState.numFilesShown ?
-          viewState.numFilesShown : DEFAULT_NUM_FILES_SHOWN;
-    },
+        viewState.numFilesShown : DEFAULT_NUM_FILES_SHOWN;
+    }
 
     _numFilesShownChanged(numFilesShown) {
       this.viewState.numFilesShown = numFilesShown;
-    },
+    }
 
     _handleMessageAnchorTap(e) {
       const hash = MSG_PREFIX + e.detail.id;
@@ -824,18 +799,18 @@
           this._patchRange.patchNum, this._patchRange.basePatchNum,
           this._editMode, hash);
       history.replaceState(null, '', url);
-    },
+    }
 
     _maybeScrollToMessage(hash) {
       if (hash.startsWith(MSG_PREFIX)) {
         this.messagesList.scrollToMessage(hash.substr(MSG_PREFIX.length));
       }
-    },
+    }
 
     _getLocationSearch() {
       // Not inlining to make it easier to test.
       return window.location.search;
-    },
+    }
 
     _getUrlParameter(param) {
       const pageURL = this._getLocationSearch().substring(1);
@@ -847,7 +822,7 @@
         }
       }
       return null;
-    },
+    }
 
     _maybeShowRevertDialog() {
       Gerrit.awaitPluginsLoaded()
@@ -862,7 +837,7 @@
               this.$.actions.showRevertDialog();
             }
           });
-    },
+    }
 
     _maybeShowReplyDialog() {
       this._getLoggedIn().then(loggedIn => {
@@ -876,7 +851,7 @@
           this.set('viewState.showReplyDialog', false);
         }
       });
-    },
+    }
 
     _resetFileListViewState() {
       this.set('viewState.selectedFileIndex', 0);
@@ -890,7 +865,7 @@
       }
       this.set('viewState.changeNum', this._changeNum);
       this.set('viewState.patchRange', this._patchRange);
-    },
+    }
 
     _changeChanged(change) {
       if (!change || !this._patchRange || !this._allPatchSets) { return; }
@@ -906,7 +881,7 @@
 
       const title = change.subject + ' (' + change.change_id.substr(0, 9) + ')';
       this.fire('title-change', {title});
-    },
+    }
 
     /**
      * Gets base patch number, if it is a parent try and decide from
@@ -928,7 +903,7 @@
       // check that there is at least 2 parents otherwise fall back to 1,
       // which means there is only one parent.
       const parentCount = parentCounts.hasOwnProperty(1) ?
-          parentCounts[1] : 1;
+        parentCounts[1] : 1;
 
       const preferFirst = this._prefs &&
           this._prefs.default_base_for_merges === 'FIRST_PARENT';
@@ -938,19 +913,19 @@
       }
 
       return 'PARENT';
-    },
+    }
 
     _computeShowPrimaryTabs(dynamicTabHeaderEndpoints) {
       return dynamicTabHeaderEndpoints && dynamicTabHeaderEndpoints.length > 0;
-    },
+    }
 
     _computeChangeUrl(change) {
       return Gerrit.Nav.getUrlForChange(change);
-    },
+    }
 
     _computeShowCommitInfo(changeStatus, current_revision) {
       return changeStatus === 'Merged' && current_revision;
-    },
+    }
 
     _computeMergedCommitInfo(current_revision, revisions) {
       const rev = revisions[current_revision];
@@ -959,11 +934,11 @@
       // in <gr-commit-info>. @see Issue 5337
       if (!rev.commit.commit) { rev.commit.commit = current_revision; }
       return rev.commit;
-    },
+    }
 
     _computeChangeIdClass(displayChangeId) {
       return displayChangeId === CHANGE_ID_ERROR.MISMATCH ? 'warning' : '';
-    },
+    }
 
     _computeTitleAttributeWarning(displayChangeId) {
       if (displayChangeId === CHANGE_ID_ERROR.MISMATCH) {
@@ -971,7 +946,7 @@
       } else if (displayChangeId === CHANGE_ID_ERROR.MISSING) {
         return 'No Change-Id in commit message';
       }
-    },
+    }
 
     _computeChangeIdCommitMessageError(commitMessage, change) {
       // Polymer 2: check for undefined
@@ -1001,11 +976,11 @@
       }
       // There is no change-id in the commit message.
       return CHANGE_ID_ERROR.MISSING;
-    },
+    }
 
     _computeLabelNames(labels) {
       return Object.keys(labels).sort();
-    },
+    }
 
     _computeLabelValues(labelName, labels) {
       const result = [];
@@ -1030,7 +1005,7 @@
         }
       }
       return result;
-    },
+    }
 
     _computeReplyButtonLabel(changeRecord, canStartReview) {
       // Polymer 2: check for undefined
@@ -1052,7 +1027,7 @@
         label += ' (' + draftCount + ')';
       }
       return label;
-    },
+    }
 
     _handleOpenReplyDialog(e) {
       if (this.shouldSuppressKeyboardShortcut(e) ||
@@ -1068,7 +1043,7 @@
         e.preventDefault();
         this._openReplyDialog(this.$.replyDialog.FocusTarget.ANY);
       });
-    },
+    }
 
     _handleOpenDownloadDialogShortcut(e) {
       if (this.shouldSuppressKeyboardShortcut(e) ||
@@ -1076,7 +1051,7 @@
 
       e.preventDefault();
       this.$.downloadOverlay.open();
-    },
+    }
 
     _handleEditTopic(e) {
       if (this.shouldSuppressKeyboardShortcut(e) ||
@@ -1084,13 +1059,13 @@
 
       e.preventDefault();
       this.$.metadata.editTopic();
-    },
+    }
 
     _handleRefreshChange(e) {
       if (this.shouldSuppressKeyboardShortcut(e)) { return; }
       e.preventDefault();
       Gerrit.Nav.navigateToChange(this._change);
-    },
+    }
 
     _handleToggleChangeStar(e) {
       if (this.shouldSuppressKeyboardShortcut(e) ||
@@ -1098,7 +1073,7 @@
 
       e.preventDefault();
       this.$.changeStar.toggleStar();
-    },
+    }
 
     _handleUpToDashboard(e) {
       if (this.shouldSuppressKeyboardShortcut(e) ||
@@ -1106,7 +1081,7 @@
 
       e.preventDefault();
       this._determinePageBack();
-    },
+    }
 
     _handleExpandAllMessages(e) {
       if (this.shouldSuppressKeyboardShortcut(e) ||
@@ -1114,7 +1089,7 @@
 
       e.preventDefault();
       this.messagesList.handleExpandCollapse(true);
-    },
+    }
 
     _handleCollapseAllMessages(e) {
       if (this.shouldSuppressKeyboardShortcut(e) ||
@@ -1122,7 +1097,7 @@
 
       e.preventDefault();
       this.messagesList.handleExpandCollapse(false);
-    },
+    }
 
     _handleOpenDiffPrefsShortcut(e) {
       if (this.shouldSuppressKeyboardShortcut(e) ||
@@ -1132,14 +1107,14 @@
 
       e.preventDefault();
       this.$.fileList.openDiffPrefs();
-    },
+    }
 
     _determinePageBack() {
       // Default backPage to root if user came to change view page
       // via an email link, etc.
       Gerrit.Nav.navigateToRelativeUrl(this.backPage ||
           Gerrit.Nav.getUrlForRoot());
-    },
+    }
 
     _handleLabelRemoved(splices, path) {
       for (const splice of splices) {
@@ -1154,7 +1129,7 @@
           }
         }
       }
-    },
+    }
 
     _labelsChanged(changeRecord) {
       if (!changeRecord) { return; }
@@ -1165,7 +1140,7 @@
       this.$.jsAPI.handleEvent(this.$.jsAPI.EventType.LABEL_CHANGE, {
         change: this._change,
       });
-    },
+    }
 
     /**
      * @param {string=} opt_section
@@ -1177,7 +1152,7 @@
         Polymer.dom.flush();
         this.$.replyOverlay.center();
       });
-    },
+    }
 
     _handleReloadChange(e) {
       return this._reload().then(() => {
@@ -1188,37 +1163,37 @@
           Gerrit.Nav.navigateToChange(this._change);
         }
       });
-    },
+    }
 
     _handleGetChangeDetailError(response) {
       this.fire('page-error', {response});
-    },
+    }
 
     _getLoggedIn() {
       return this.$.restAPI.getLoggedIn();
-    },
+    }
 
     _getServerConfig() {
       return this.$.restAPI.getConfig();
-    },
+    }
 
     _getProjectConfig() {
       return this.$.restAPI.getProjectConfig(this._change.project).then(
           config => {
             this._projectConfig = config;
           });
-    },
+    }
 
     _getPreferences() {
       return this.$.restAPI.getPreferences();
-    },
+    }
 
     _prepareCommitMsgForLinkify(msg) {
       // TODO(wyatta) switch linkify sequence, see issue 5526.
       // This is a zero-with space. It is added to prevent the linkify library
       // from including R= or CC= as part of the email address.
       return msg.replace(REVIEWERS_REGEX, '$1=\u200B');
-    },
+    }
 
     /**
      * Utility function to make the necessary modifications to a change in the
@@ -1248,7 +1223,7 @@
         change.revisions[edit.commit.commit].actions =
             change.revisions[edit.base_revision].actions;
       }
-    },
+    }
 
     _getChangeDetail() {
       const detailCompletes = this.$.restAPI.getChangeDetail(
@@ -1303,24 +1278,24 @@
                       parseInt(this._patchRange.patchNum, 10));
             }
           });
-    },
+    }
 
     _isSubmitEnabled(revisionActions) {
       return !!(revisionActions && revisionActions.submit &&
         revisionActions.submit.enabled);
-    },
+    }
 
     _getEdit() {
       return this.$.restAPI.getChangeEdit(this._changeNum, true);
-    },
+    }
 
     _getLatestCommitMessage() {
       return this.$.restAPI.getChangeCommitInfo(this._changeNum,
           this.computeLatestPatchNum(this._allPatchSets)).then(commitInfo => {
-            this._latestCommitMessage =
+        this._latestCommitMessage =
                     this._prepareCommitMsgForLinkify(commitInfo.message);
-          });
-    },
+      });
+    }
 
     _getLatestRevisionSHA(change) {
       if (change.current_revision) {
@@ -1339,7 +1314,7 @@
         }
       }
       return latestRev;
-    },
+    }
 
     _getCommitInfo() {
       return this.$.restAPI.getChangeCommitInfo(
@@ -1347,13 +1322,13 @@
           commitInfo => {
             this._commitInfo = commitInfo;
           });
-    },
+    }
 
     _reloadDraftsWithCallback(e) {
       return this._reloadDrafts().then(() => {
         return e.detail.resolve();
       });
-    },
+    }
 
     /**
      * Fetches a new changeComment object, and data for all types of comments
@@ -1365,9 +1340,9 @@
             this._changeComments = comments;
             this._diffDrafts = Object.assign({}, this._changeComments.drafts);
             this._commentThreads = this._changeComments.getAllThreadsForChange()
-              .map(c => Object.assign({}, c));
+                .map(c => Object.assign({}, c));
           });
-    },
+    }
 
     /**
      * Fetches a new changeComment object, but only updated data for drafts is
@@ -1379,7 +1354,7 @@
             this._changeComments = comments;
             this._diffDrafts = Object.assign({}, this._changeComments.drafts);
           });
-    },
+    }
 
     /**
      * Reload the change.
@@ -1486,7 +1461,7 @@
       });
 
       return coreDataPromise;
-    },
+    }
 
     /**
      * Kicks off requests for resources that rely on the patch range
@@ -1497,7 +1472,7 @@
         this._getCommitInfo(),
         this.$.fileList.reload(),
       ]);
-    },
+    }
 
     _getMergeability() {
       // If the change is closed, it is not mergeable. Note: already merged
@@ -1513,59 +1488,59 @@
       return this.$.restAPI.getMergeable(this._changeNum).then(m => {
         this._mergeable = m.mergeable;
       });
-    },
+    }
 
     _computeCanStartReview(change) {
       return !!(change.actions && change.actions.ready &&
           change.actions.ready.enabled);
-    },
+    }
 
-    _computeReplyDisabled() { return false; },
+    _computeReplyDisabled() { return false; }
 
     _computeChangePermalinkAriaLabel(changeNum) {
       return 'Change ' + changeNum;
-    },
+    }
 
     _computeCommitClass(collapsed, commitMessage) {
       if (this._computeCommitToggleHidden(commitMessage)) { return ''; }
       return collapsed ? 'collapsed' : '';
-    },
+    }
 
     _computeRelatedChangesClass(collapsed) {
       return collapsed ? 'collapsed' : '';
-    },
+    }
 
     _computeCollapseText(collapsed) {
       // Symbols are up and down triangles.
       return collapsed ? '\u25bc Show more' : '\u25b2 Show less';
-    },
+    }
 
     _toggleCommitCollapsed() {
       this._commitCollapsed = !this._commitCollapsed;
       if (this._commitCollapsed) {
         window.scrollTo(0, 0);
       }
-    },
+    }
 
     _toggleRelatedChangesCollapsed() {
       this._relatedChangesCollapsed = !this._relatedChangesCollapsed;
       if (this._relatedChangesCollapsed) {
         window.scrollTo(0, 0);
       }
-    },
+    }
 
     _computeCommitToggleHidden(commitMessage) {
       if (!commitMessage) { return true; }
       return commitMessage.split('\n').length < MIN_LINES_FOR_COMMIT_COLLAPSE;
-    },
+    }
 
     _getOffsetHeight(element) {
       return element.offsetHeight;
-    },
+    }
 
     _getScrollHeight(element) {
       return element.scrollHeight;
-    },
+    }
 
     /**
      * Get the line height of an element to the nearest integer.
@@ -1573,7 +1548,7 @@
     _getLineHeight(element) {
       const lineHeightStr = getComputedStyle(element).lineHeight;
       return Math.round(lineHeightStr.slice(0, lineHeightStr.length - 2));
-    },
+    }
 
     /**
      * New max height for the related changes section, shorter than the existing
@@ -1632,7 +1607,7 @@
       }
 
       this.updateStyles(stylesToUpdate);
-    },
+    }
 
     _computeShowRelatedToggle() {
       // Make sure the max height has been applied, since there is now content
@@ -1652,7 +1627,7 @@
         return this._showRelatedToggle = true;
       }
       this._showRelatedToggle = false;
-    },
+    }
 
     _updateToggleContainerClass(showRelatedToggle) {
       if (showRelatedToggle) {
@@ -1660,7 +1635,7 @@
       } else {
         this.$.relatedChangesToggle.classList.remove('showToggle');
       }
-    },
+    }
 
     _startUpdateCheckTimer() {
       if (!this._serverConfig ||
@@ -1703,14 +1678,14 @@
           });
         });
       }, this._serverConfig.change.update_delay * 1000);
-    },
+    }
 
     _cancelUpdateCheckTimer() {
       if (this._updateCheckTimerHandle) {
         this.cancelAsync(this._updateCheckTimerHandle);
       }
       this._updateCheckTimerHandle = null;
-    },
+    }
 
     _handleVisibilityChange() {
       if (document.hidden && this._updateCheckTimerHandle) {
@@ -1718,17 +1693,17 @@
       } else if (!this._updateCheckTimerHandle) {
         this._startUpdateCheckTimer();
       }
-    },
+    }
 
     _handleTopicChanged() {
       this.$.relatedChanges.reload();
-    },
+    }
 
     _computeHeaderClass(editMode) {
       const classes = ['header'];
       if (editMode) { classes.push('editMode'); }
       return classes.join(' ');
-    },
+    }
 
     _computeEditMode(patchRangeRecord, paramsRecord) {
       if ([patchRangeRecord, paramsRecord].some(arg => arg === undefined)) {
@@ -1739,7 +1714,7 @@
 
       const patchRange = patchRangeRecord.base || {};
       return this.patchNumEquals(patchRange.patchNum, this.EDIT_NAME);
-    },
+    }
 
     _handleFileActionTap(e) {
       e.preventDefault();
@@ -1761,11 +1736,11 @@
           controls.openRestoreDialog(path);
           break;
       }
-    },
+    }
 
     _computeCommitMessageKey(number, revision) {
       return `c${number}_rev${revision}`;
-    },
+    }
 
     _patchNumChanged(patchNumStr) {
       if (!this._selectedRevision) {
@@ -1777,7 +1752,7 @@
       }
       this._selectedRevision = Object.values(this._change.revisions).find(
           revision => revision._number === patchNum);
-    },
+    }
 
     /**
      * If an edit exists already, load it. Otherwise, toggle edit mode via the
@@ -1785,7 +1760,7 @@
      */
     _handleEditTap() {
       const editInfo = Object.values(this._change.revisions).find(info =>
-          info._number === this.EDIT_NAME);
+        info._number === this.EDIT_NAME);
 
       if (editInfo) {
         Gerrit.Nav.navigateToChange(this._change, this.EDIT_NAME);
@@ -1800,31 +1775,50 @@
         patchNum = this._patchRange.patchNum;
       }
       Gerrit.Nav.navigateToChange(this._change, patchNum, null, true);
-    },
+    }
 
     _handleStopEditTap() {
       Gerrit.Nav.navigateToChange(this._change, this._patchRange.patchNum);
-    },
+    }
 
     _resetReplyOverlayFocusStops() {
       this.$.replyOverlay.setFocusStops(this.$.replyDialog.getFocusStops());
-    },
+    }
 
     _handleToggleStar(e) {
       this.$.restAPI.saveChangeStarred(e.detail.change._number,
           e.detail.starred);
-    },
+    }
 
     _getRevisionInfo(change) {
       return new Gerrit.RevisionInfo(change);
-    },
+    }
 
     _computeCurrentRevision(currentRevision, revisions) {
       return currentRevision && revisions && revisions[currentRevision];
-    },
+    }
 
     _computeDiffPrefsDisabled(disableDiffPrefs, loggedIn) {
       return disableDiffPrefs || !loggedIn;
-    },
-  });
+    }
+
+    created() {
+      super.created();
+
+      this.addEventListener('topic-changed', () => this._handleTopicChanged());
+
+      this.addEventListener(
+          // When an overlay is opened in a mobile viewport, the overlay has a full
+          // screen view. When it has a full screen view, we do not want the
+          // background to be scrollable. This will eliminate background scroll by
+          // hiding most of the contents on the screen upon opening, and showing
+          // again upon closing.
+          'fullscreen-overlay-opened', () => this._handleHideBackgroundContent());
+
+      this.addEventListener('fullscreen-overlay-closed', () => this._handleShowBackgroundContent());
+
+      this.addEventListener('diff-comments-modified', () => this._handleReloadCommentThreads());
+    }
+  }
+  customElements.define(GrChangeView.is, GrChangeView);
 })();

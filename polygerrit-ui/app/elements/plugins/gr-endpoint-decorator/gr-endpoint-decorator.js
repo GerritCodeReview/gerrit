@@ -18,35 +18,39 @@
   'use strict';
 
   const INIT_PROPERTIES_TIMEOUT_MS = 10000;
+  class GrEndpointDecorator extends Polymer.LegacyDataMixin(
+      Polymer.GestureEventListeners(
+          Polymer.LegacyElementMixin(
+              Polymer.Element))) {
+    static get is() { return 'gr-endpoint-decorator'; }
 
-  Polymer({
-    is: 'gr-endpoint-decorator',
-    _legacyUndefinedCheck: true,
-
-    properties: {
-      name: String,
-      /** @type {!Map} */
-      _domHooks: {
-        type: Map,
-        value() { return new Map(); },
-      },
-      /**
+    static get properties() {
+      return {
+        name: String,
+        /** @type {!Map} */
+        _domHooks: {
+          type: Map,
+          value() { return new Map(); },
+        },
+        /**
        * This map prevents importing the same endpoint twice.
        * Without caching, if a plugin is loaded after the loaded plugins
        * callback fires, it will be imported twice and appear twice on the page.
        * @type {!Map}
        */
-      _initializedPlugins: {
-        type: Map,
-        value() { return new Map(); },
-      },
-    },
+        _initializedPlugins: {
+          type: Map,
+          value() { return new Map(); },
+        },
+      };
+    }
 
     detached() {
+      super.detached();
       for (const [el, domHook] of this._domHooks) {
         domHook.handleInstanceDetached(el);
       }
-    },
+    }
 
     /**
      * @suppress {checkTypes}
@@ -55,7 +59,7 @@
       return new Promise((resolve, reject) => {
         (this.importHref || Polymer.importHref)(url, resolve, reject);
       });
-    },
+    }
 
     _initDecoration(name, plugin) {
       const el = document.createElement(name);
@@ -63,7 +67,7 @@
           this.getContentChildren().find(
               el => el.nodeName !== 'GR-ENDPOINT-PARAM'))
           .then(el => this._appendChild(el));
-    },
+    }
 
     _initReplacement(name, plugin) {
       this.getContentChildNodes()
@@ -72,13 +76,13 @@
       const el = document.createElement(name);
       return this._initProperties(el, plugin).then(
           el => this._appendChild(el));
-    },
+    }
 
     _getEndpointParams() {
       // Polymer2: querySelectorAll returns NodeList instead of Array.
       return Array.from(
           Polymer.dom(this).querySelectorAll('gr-endpoint-param'));
-    },
+    }
 
     /**
      * @param {!Element} el
@@ -97,25 +101,25 @@
         return helper.get('value').then(
             value => helper.bind('value',
                 value => plugin.attributeHelper(el).set(paramName, value))
-            );
+        );
       });
       let timeoutId;
       const timeout = new Promise(
-        resolve => timeoutId = setTimeout(() => {
-          console.warn(
-              'Timeout waiting for endpoint properties initialization: ' +
+          resolve => timeoutId = setTimeout(() => {
+            console.warn(
+                'Timeout waiting for endpoint properties initialization: ' +
               `plugin ${plugin.getPluginName()}, endpoint ${this.name}`);
-        }, INIT_PROPERTIES_TIMEOUT_MS));
+          }, INIT_PROPERTIES_TIMEOUT_MS));
       return Promise.race([timeout, Promise.all(expectProperties)])
           .then(() => {
             clearTimeout(timeoutId);
             return el;
           });
-    },
+    }
 
     _appendChild(el) {
       return Polymer.dom(this.root).appendChild(el);
-    },
+    }
 
     _initModule({moduleName, plugin, type, domHook}) {
       const name = plugin.getPluginName() + '.' + moduleName;
@@ -139,9 +143,10 @@
         domHook.handleInstanceAttached(el);
         this._domHooks.set(el, domHook);
       });
-    },
+    }
 
     ready() {
+      super.ready();
       Gerrit._endpoints.onNewEndpoint(this.name, this._initModule.bind(this));
       Gerrit.awaitPluginsLoaded().then(() => Promise.all(
           Gerrit._endpoints.getPlugins(this.name).map(
@@ -151,6 +156,7 @@
             .getDetails(this.name)
             .forEach(this._initModule, this)
       );
-    },
-  });
+    }
+  }
+  customElements.define(GrEndpointDecorator.is, GrEndpointDecorator);
 })();

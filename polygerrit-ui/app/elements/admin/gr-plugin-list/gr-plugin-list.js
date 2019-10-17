@@ -16,62 +16,64 @@
  */
 (function() {
   'use strict';
+  class GrPluginList extends Polymer.mixinBehaviors( [
+    Gerrit.FireBehavior,
+    Gerrit.ListViewBehavior,
+  ], Polymer.LegacyDataMixin(
+      Polymer.GestureEventListeners(
+          Polymer.LegacyElementMixin(
+              Polymer.Element)))) {
+    static get is() { return 'gr-plugin-list'; }
 
-  Polymer({
-    is: 'gr-plugin-list',
-    _legacyUndefinedCheck: true,
-
-    properties: {
+    static get properties() {
+      return {
       /**
        * URL params passed from the router.
        */
-      params: {
-        type: Object,
-        observer: '_paramsChanged',
-      },
-      /**
+        params: {
+          type: Object,
+          observer: '_paramsChanged',
+        },
+        /**
        * Offset of currently visible query results.
        */
-      _offset: {
-        type: Number,
-        value: 0,
-      },
-      _path: {
-        type: String,
-        readOnly: true,
-        value: '/admin/plugins',
-      },
-      _plugins: Array,
-      /**
+        _offset: {
+          type: Number,
+          value: 0,
+        },
+        _path: {
+          type: String,
+          readOnly: true,
+          value: '/admin/plugins',
+        },
+        _plugins: Array,
+        /**
        * Because  we request one more than the pluginsPerPage, _shownPlugins
        * maybe one less than _plugins.
        * */
-      _shownPlugins: {
-        type: Array,
-        computed: 'computeShownItems(_plugins)',
-      },
-      _pluginsPerPage: {
-        type: Number,
-        value: 25,
-      },
-      _loading: {
-        type: Boolean,
-        value: true,
-      },
-      _filter: {
-        type: String,
-        value: '',
-      },
-    },
-
-    behaviors: [
-      Gerrit.FireBehavior,
-      Gerrit.ListViewBehavior,
-    ],
+        _shownPlugins: {
+          type: Array,
+          computed: 'computeShownItems(_plugins)',
+        },
+        _pluginsPerPage: {
+          type: Number,
+          value: 25,
+        },
+        _loading: {
+          type: Boolean,
+          value: true,
+        },
+        _filter: {
+          type: String,
+          value: '',
+        },
+      };
+    }
 
     attached() {
+      super.attached();
       this.fire('title-change', {title: 'Plugins'});
-    },
+    }
 
     _paramsChanged(params) {
       this._loading = true;
@@ -80,7 +82,7 @@
 
       return this._getPlugins(this._filter, this._pluginsPerPage,
           this._offset);
-    },
+    }
 
     _getPlugins(filter, pluginsPerPage, offset) {
       const errFn = response => {
@@ -93,21 +95,22 @@
               return;
             }
             this._plugins = Object.keys(plugins)
-             .map(key => {
-               const plugin = plugins[key];
-               plugin.name = key;
-               return plugin;
-             });
+                .map(key => {
+                  const plugin = plugins[key];
+                  plugin.name = key;
+                  return plugin;
+                });
             this._loading = false;
           });
-    },
+    }
 
     _status(item) {
       return item.disabled === true ? 'Disabled' : 'Enabled';
-    },
+    }
 
     _computePluginUrl(id) {
       return this.getUrl('/', id);
-    },
-  });
+    }
+  }
+  customElements.define(GrPluginList.is, GrPluginList);
 })();

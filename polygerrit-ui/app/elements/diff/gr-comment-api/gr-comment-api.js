@@ -268,9 +268,9 @@
     const all = comments.concat(drafts).concat(robotComments);
 
     const baseComments = all.filter(c =>
-        this._isInBaseOfPatchRange(c, patchRange));
+      this._isInBaseOfPatchRange(c, patchRange));
     const revisionComments = all.filter(c =>
-        this._isInRevisionOfPatchRange(c, patchRange));
+      this._isInRevisionOfPatchRange(c, patchRange));
 
     return {
       meta: {
@@ -368,7 +368,7 @@
     const threads = this.getCommentThreads(this._sortComments(comments));
 
     const unresolvedThreads = threads
-      .filter(thread =>
+        .filter(thread =>
           thread.comments.length &&
           thread.comments[thread.comments.length - 1].unresolved);
 
@@ -479,22 +479,19 @@
     return this._isInBaseOfPatchRange(comment, range) ||
         this._isInRevisionOfPatchRange(comment, range);
   };
+  class GrCommentApi extends Polymer.mixinBehaviors( [
+    Gerrit.PatchSetBehavior,
+  ], Polymer.LegacyDataMixin(
+      Polymer.GestureEventListeners(
+          Polymer.LegacyElementMixin(
+              Polymer.Element)))) {
+    static get is() { return 'gr-comment-api'; }
 
-  Polymer({
-    is: 'gr-comment-api',
-    _legacyUndefinedCheck: true,
-
-    properties: {
-      _changeComments: Object,
-    },
-
-    listeners: {
-      'reload-drafts': 'reloadDrafts',
-    },
-
-    behaviors: [
-      Gerrit.PatchSetBehavior,
-    ],
+    static get properties() {
+      return {
+        _changeComments: Object,
+      };
+    }
 
     /**
      * Load all comments (with drafts and robot comments) for the given change
@@ -512,10 +509,10 @@
 
       return Promise.all(promises).then(([comments, robotComments, drafts]) => {
         this._changeComments = new ChangeComments(comments,
-          robotComments, drafts, changeNum);
+            robotComments, drafts, changeNum);
         return this._changeComments;
       });
-    },
+    }
 
     /**
      * Re-initialize _changeComments with a new ChangeComments object, that
@@ -534,6 +531,12 @@
             this._changeComments.robotComments, drafts, changeNum);
         return this._changeComments;
       });
-    },
-  });
+    }
+
+    created() {
+      super.created();
+      this.addEventListener('reload-drafts', changeNum => this.reloadDrafts(changeNum));
+    }
+  }
+  customElements.define(GrCommentApi.is, GrCommentApi);
 })();

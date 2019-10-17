@@ -16,23 +16,21 @@
  */
 (function() {
   'use strict';
+  class GrErrorDialog extends Polymer.LegacyDataMixin(
+      Polymer.GestureEventListeners(
+          Polymer.LegacyElementMixin(
+              Polymer.Element))) {
+    static get is() { return 'gr-error-dialog'; }
 
-  Polymer({
-    is: 'gr-error-dialog',
-    _legacyUndefinedCheck: true,
-
-    /**
-     * Fired when the dismiss button is pressed.
-     *
-     * @event dismiss
-     */
-
-    properties: {
-      text: String,
-    },
+    static get properties() {
+      return {
+        text: String,
+      };
+    }
 
     _handleConfirm() {
       this.dispatchEvent(new CustomEvent('dismiss'));
-    },
-  });
+    }
+  }
+  customElements.define(GrErrorDialog.is, GrErrorDialog);
 })();

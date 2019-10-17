@@ -16,19 +16,23 @@
  */
 (function() {
   'use strict';
+  class GrRepoHeader extends Polymer.LegacyDataMixin(
+      Polymer.GestureEventListeners(
+          Polymer.LegacyElementMixin(
+              Polymer.Element))) {
+    static get is() { return 'gr-repo-header'; }
 
-  Polymer({
-    is: 'gr-repo-header',
-    _legacyUndefinedCheck: true,
-    properties: {
+    static get properties() {
+      return {
       /** @type {?String} */
-      repo: {
-        type: String,
-        observer: '_repoChanged',
-      },
-      /** @type {String|null} */
-      _repoUrl: String,
-    },
+        repo: {
+          type: String,
+          observer: '_repoChanged',
+        },
+        /** @type {String|null} */
+        _repoUrl: String,
+      };
+    }
 
     _repoChanged(repoName) {
       if (!repoName) {
@@ -36,6 +40,7 @@
         return;
       }
       this._repoUrl = Gerrit.Nav.getUrlForRepo(repoName);
-    },
-  });
+    }
+  }
+  customElements.define(GrRepoHeader.is, GrRepoHeader);
 })();

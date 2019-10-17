@@ -19,78 +19,71 @@
 
   const AWAIT_MAX_ITERS = 10;
   const AWAIT_STEP = 5;
+  class GrEditableLabel extends Polymer.mixinBehaviors( [
+    Gerrit.FireBehavior,
+    Gerrit.KeyboardShortcutBehavior,
+  ], Polymer.LegacyDataMixin(
+      Polymer.GestureEventListeners(
+          Polymer.LegacyElementMixin(
+              Polymer.Element)))) {
+    static get is() { return 'gr-editable-label'; }
 
-  Polymer({
-    is: 'gr-editable-label',
-    _legacyUndefinedCheck: true,
+    static get properties() {
+      return {
+        labelText: String,
+        editing: {
+          type: Boolean,
+          value: false,
+        },
+        value: {
+          type: String,
+          notify: true,
+          value: '',
+          observer: '_updateTitle',
+        },
+        placeholder: {
+          type: String,
+          value: '',
+        },
+        readOnly: {
+          type: Boolean,
+          value: false,
+        },
+        uppercase: {
+          type: Boolean,
+          reflectToAttribute: true,
+          value: false,
+        },
+        maxLength: Number,
+        _inputText: String,
+        // This is used to push the iron-input element up on the page, so
+        // the input is placed in approximately the same position as the
+        // trigger.
+        _verticalOffset: {
+          type: Number,
+          readOnly: true,
+          value: -30,
+        },
+      };
+    }
 
-    /**
-     * Fired when the value is changed.
-     *
-     * @event changed
-     */
-
-    properties: {
-      labelText: String,
-      editing: {
-        type: Boolean,
-        value: false,
-      },
-      value: {
-        type: String,
-        notify: true,
-        value: '',
-        observer: '_updateTitle',
-      },
-      placeholder: {
-        type: String,
-        value: '',
-      },
-      readOnly: {
-        type: Boolean,
-        value: false,
-      },
-      uppercase: {
-        type: Boolean,
-        reflectToAttribute: true,
-        value: false,
-      },
-      maxLength: Number,
-      _inputText: String,
-      // This is used to push the iron-input element up on the page, so
-      // the input is placed in approximately the same position as the
-      // trigger.
-      _verticalOffset: {
-        type: Number,
-        readOnly: true,
-        value: -30,
-      },
-    },
-
-    behaviors: [
-      Gerrit.FireBehavior,
-      Gerrit.KeyboardShortcutBehavior,
-    ],
-
-    keyBindings: {
-      enter: '_handleEnter',
-      esc: '_handleEsc',
-    },
-
-    hostAttributes: {
-      tabindex: '0',
-    },
+    get keyBindings() {
+      return {
+        enter: '_handleEnter',
+        esc: '_handleEsc',
+      };
+    }
 
     _usePlaceholder(value, placeholder) {
       return (!value || !value.length) && placeholder;
-    },
+    }
 
     _computeLabel(value, placeholder) {
       if (this._usePlaceholder(value, placeholder)) {
         return placeholder;
       }
       return value;
-    },
+    }
 
     _showDropdown() {
       if (this.readOnly || this.editing) { return; }
@@ -99,13 +92,13 @@
         if (!this.$.input.value) { return; }
         this._nativeInput.setSelectionRange(0, this.$.input.value.length);
       });
-    },
+    }
 
     open() {
       return this._open().then(() => {
         this._nativeInput.focus();
       });
-    },
+    }
 
     _open(...args) {
       this.$.dropdown.open();
@@ -116,7 +109,7 @@
         Polymer.IronOverlayBehaviorImpl.open.apply(this.$.dropdown, args);
         this._awaitOpen(resolve);
       });
-    },
+    }
 
     /**
      * NOTE: (wyatta) Slightly hacky way to listen to the overlay actually
@@ -134,11 +127,11 @@
         }, AWAIT_STEP);
       };
       step.call(this);
-    },
+    }
 
     _id() {
       return this.getAttribute('id') || 'global';
-    },
+    }
 
     _save() {
       if (!this.editing) { return; }
@@ -146,20 +139,20 @@
       this.value = this._inputText;
       this.editing = false;
       this.fire('changed', this.value);
-    },
+    }
 
     _cancel() {
       if (!this.editing) { return; }
       this.$.dropdown.close();
       this.editing = false;
       this._inputText = this.value;
-    },
+    }
 
     get _nativeInput() {
       // In Polymer 2, the namespace of nativeInput
       // changed from input to nativeInput
       return this.$.input.$.nativeInput || this.$.input.$.input;
-    },
+    }
 
     /**
      * @suppress {checkTypes}
@@ -173,7 +166,7 @@
         e.preventDefault();
         this._save();
       }
-    },
+    }
 
     /**
      * @suppress {checkTypes}
@@ -187,7 +180,7 @@
         e.preventDefault();
         this._cancel();
       }
-    },
+    }
 
     _computeLabelClass(readOnly, value, placeholder) {
       const classes = [];
@@ -196,10 +189,16 @@
         classes.push('placeholder');
       }
       return classes.join(' ');
-    },
+    }
 
     _updateTitle(value) {
       this.setAttribute('title', this._computeLabel(value, this.placeholder));
-    },
-  });
+    }
+
+    ready() {
+      super.ready();
+      this._ensureAttribute('tabindex', '0');
+    }
+  }
+  customElements.define(GrEditableLabel.is, GrEditableLabel);
 })();

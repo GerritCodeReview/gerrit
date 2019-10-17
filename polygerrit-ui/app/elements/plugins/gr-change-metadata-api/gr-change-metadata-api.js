@@ -31,7 +31,7 @@
       this._createHook();
     }
     this._hook.onAttached(element =>
-        this.plugin.attributeHelper(element).bind('labels', callback));
+      this.plugin.attributeHelper(element).bind('labels', callback));
     return this;
   };
 

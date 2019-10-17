@@ -16,47 +16,49 @@
  */
 (function() {
   'use strict';
-  Polymer({
-    is: 'gr-comment-list',
-    _legacyUndefinedCheck: true,
+  class GrCommentList extends Polymer.mixinBehaviors( [
+    Gerrit.BaseUrlBehavior,
+    Gerrit.PathListBehavior,
+    Gerrit.URLEncodingBehavior,
+  ], Polymer.LegacyDataMixin(
+      Polymer.GestureEventListeners(
+          Polymer.LegacyElementMixin(
+              Polymer.Element)))) {
+    static get is() { return 'gr-comment-list'; }
 
-    behaviors: [
-      Gerrit.BaseUrlBehavior,
-      Gerrit.PathListBehavior,
-      Gerrit.URLEncodingBehavior,
-    ],
-
-    properties: {
-      changeNum: Number,
-      comments: Object,
-      patchNum: Number,
-      projectName: String,
-      /** @type {?} */
-      projectConfig: Object,
-    },
+    static get properties() {
+      return {
+        changeNum: Number,
+        comments: Object,
+        patchNum: Number,
+        projectName: String,
+        /** @type {?} */
+        projectConfig: Object,
+      };
+    }
 
     _computeFilesFromComments(comments) {
       const arr = Object.keys(comments || {});
       return arr.sort(this.specialFilePathCompare);
-    },
+    }
 
     _isOnParent(comment) {
       return comment.side === 'PARENT';
-    },
+    }
 
     _computeDiffLineURL(file, changeNum, patchNum, comment) {
       const basePatchNum = comment.hasOwnProperty('parent') ?
-          -comment.parent : null;
+        -comment.parent : null;
       return Gerrit.Nav.getUrlForDiffById(this.changeNum, this.projectName,
           file, patchNum, basePatchNum, comment.line,
           this._isOnParent(comment));
-    },
+    }
 
     _computeCommentsForFile(comments, file) {
       // Changes are not picked up by the dom-repeat due to the array instance
       // identity not changing even when it has elements added/removed from it.
       return (comments[file] || []).slice();
-    },
+    }
 
     _computePatchDisplayName(comment) {
       if (this._isOnParent(comment)) {
@@ -66,6 +68,7 @@
         return `PS${comment.patch_set}, `;
       }
       return '';
-    },
-  });
+    }
+  }
+  customElements.define(GrCommentList.is, GrCommentList);
 })();

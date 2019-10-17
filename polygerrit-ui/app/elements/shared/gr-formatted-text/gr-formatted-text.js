@@ -19,32 +19,38 @@
 
   // eslint-disable-next-line no-unused-vars
   const QUOTE_MARKER_PATTERN = /\n\s?>\s/g;
+  class GrFormattedText extends Polymer.LegacyDataMixin(
+      Polymer.GestureEventListeners(
+          Polymer.LegacyElementMixin(
+              Polymer.Element))) {
+    static get is() { return 'gr-formatted-text'; }
 
-  Polymer({
-    is: 'gr-formatted-text',
-    _legacyUndefinedCheck: true,
+    static get properties() {
+      return {
+        content: {
+          type: String,
+          observer: '_contentChanged',
+        },
+        config: Object,
+        noTrailingMargin: {
+          type: Boolean,
+          value: false,
+        },
+      };
+    }
 
-    properties: {
-      content: {
-        type: String,
-        observer: '_contentChanged',
-      },
-      config: Object,
-      noTrailingMargin: {
-        type: Boolean,
-        value: false,
-      },
-    },
-
-    observers: [
-      '_contentOrConfigChanged(content, config)',
-    ],
+    static get observers() {
+      return [
+        '_contentOrConfigChanged(content, config)',
+      ];
+    }
 
     ready() {
+      super.ready();
       if (this.noTrailingMargin) {
         this.classList.add('noTrailingMargin');
       }
-    },
+    }
 
     /**
      * Get the plain text as it appears in the generated DOM.
@@ -57,7 +63,7 @@
      */
     getTextContent() {
       return this._blocksToText(this._computeBlocks(this.content));
-    },
+    }
 
     _contentChanged(content) {
       // In the case where the config may not be set (perhaps due to the
@@ -65,7 +71,7 @@
       // prevent waiting on the config to display the text.
       if (this.config) { return; }
       this._contentOrConfigChanged(content);
-    },
+    }
 
     /**
      * Given a source string, update the DOM inside #container.
@@ -82,7 +88,7 @@
       for (const node of this._computeNodes(this._computeBlocks(content))) {
         container.appendChild(node);
       }
-    },
+    }
 
     /**
      * Given a source string, parse into an array of block objects. Each block
@@ -128,7 +134,7 @@
         }
       }
       return result;
-    },
+    }
 
     /**
      * Take a block of comment text that contains a list and potentially
@@ -202,7 +208,7 @@
       if (block !== null) {
         out.push(block);
       }
-    },
+    }
 
     _makeQuote(p) {
       const quotedLines = p
@@ -213,21 +219,21 @@
         type: 'quote',
         blocks: this._computeBlocks(quotedLines),
       };
-    },
+    }
 
     _isQuote(p) {
       return p.startsWith('> ') || p.startsWith(' > ');
-    },
+    }
 
     _isPreFormat(p) {
       return p.includes('\n ') || p.includes('\n\t') ||
           p.startsWith(' ') || p.startsWith('\t');
-    },
+    }
 
     _isList(p) {
       return p.includes('\n- ') || p.includes('\n* ') ||
           p.startsWith('- ') || p.startsWith('* ');
-    },
+    }
 
     /**
      * @param {string} content
@@ -242,7 +248,7 @@
         text.classList.add('pre');
       }
       return text;
-    },
+    }
 
     /**
      * Map an array of block objects to an array of DOM nodes.
@@ -279,7 +285,7 @@
           return ul;
         }
       });
-    },
+    }
 
     _blocksToText(blocks) {
       return blocks.map(block => {
@@ -293,6 +299,7 @@
           return block.items.join('\n');
         }
       }).join('\n\n');
-    },
-  });
+    }
+  }
+  customElements.define(GrFormattedText.is, GrFormattedText);
 })();

@@ -106,79 +106,57 @@
   const ANONYMIZED_CHANGE_BASE_URL = '/changes/*~*';
   const ANONYMIZED_REVISION_BASE_URL = ANONYMIZED_CHANGE_BASE_URL +
       '/revisions/*';
+  class GrRestApiInterface extends Polymer.mixinBehaviors( [
+    Gerrit.FireBehavior,
+    Gerrit.PathListBehavior,
+    Gerrit.PatchSetBehavior,
+    Gerrit.RESTClientBehavior,
+  ], Polymer.LegacyDataMixin(
+      Polymer.GestureEventListeners(
+          Polymer.LegacyElementMixin(
+              Polymer.Element)))) {
+    static get is() { return 'gr-rest-api-interface'; }
 
-  Polymer({
-    is: 'gr-rest-api-interface',
-    _legacyUndefinedCheck: true,
-
-    behaviors: [
-      Gerrit.FireBehavior,
-      Gerrit.PathListBehavior,
-      Gerrit.PatchSetBehavior,
-      Gerrit.RESTClientBehavior,
-    ],
-
-    /**
-     * Fired when an server error occurs.
-     *
-     * @event server-error
-     */
-
-    /**
-     * Fired when a network error occurs.
-     *
-     * @event network-error
-     */
-
-    /**
-     * Fired when credentials were rejected by server (e.g. expired).
-     *
-     * @event auth-error
-     */
-
-    /**
-     * Fired after an RPC completes.
-     *
-     * @event rpc-log
-     */
-
-    properties: {
-      _cache: {
-        type: Object,
-        value: new SiteBasedCache(), // Shared across instances.
-      },
-      _credentialCheck: {
-        type: Object,
-        value: {checking: false}, // Shared across instances.
-      },
-      _sharedFetchPromises: {
-        type: Object,
-        value: new FetchPromisesCache(), // Shared across instances.
-      },
-      _pendingRequests: {
-        type: Object,
-        value: {}, // Intentional to share the object across instances.
-      },
-      _etags: {
-        type: Object,
-        value: new GrEtagDecorator(), // Share across instances.
-      },
-      /**
+    static get properties() {
+      return {
+        _cache: {
+          type: Object,
+          value: new SiteBasedCache(), // Shared across instances.
+        },
+        _credentialCheck: {
+          type: Object,
+          value: {checking: false}, // Shared across instances.
+        },
+        _sharedFetchPromises: {
+          type: Object,
+          value: new FetchPromisesCache(), // Shared across instances.
+        },
+        _pendingRequests: {
+          type: Object,
+          value: {}, // Intentional to share the object across instances.
+        },
+        _etags: {
+          type: Object,
+          value: new GrEtagDecorator(), // Share across instances.
+        },
+        /**
        * Used to maintain a mapping of changeNums to project names.
        */
-      _projectLookup: {
-        type: Object,
-        value: {}, // Intentional to share the object across instances.
-      },
-      _auth: {
-        type: Object,
-        value: Gerrit.Auth, // Share across instances.
-      },
-    },
+        _projectLookup: {
+          type: Object,
+          value: {}, // Intentional to share the object across instances.
+        },
+        _auth: {
+          type: Object,
+          value: Gerrit.Auth, // Share across instances.
+        },
+      };
+    }
 
-    JSON_PREFIX,
+    get JSON_PREFIX() { return JSON_PREFIX; }
 
     created() {
+      super.created();
       /* Polymer 1 and Polymer 2 have slightly different lifecycle.
       * Differences are not very well documented (see
       * https://github.com/Polymer/old-docs-site/issues/2322).
@@ -199,12 +177,13 @@
       //
 
       this._initRestApiHelper();
-    },
+    }
 
     ready() {
+      super.ready();
       // See comments in created()
       this._initRestApiHelper();
-    },
+    }
 
     _initRestApiHelper() {
       if (this._restApiHelper) {
@@ -215,12 +194,12 @@
         this._restApiHelper = new GrRestApiHelper(this._cache, this._auth,
             this._sharedFetchPromises, this._credentialCheck, this);
       }
-    },
+    }
 
     _fetchSharedCacheURL(req) {
       // Cache is shared across instances
       return this._restApiHelper.fetchCacheURL(req);
-    },
+    }
 
     /**
      * @param {!Object} response
@@ -228,7 +207,7 @@
      */
     getResponseObject(response) {
       return this._restApiHelper.getResponseObject(response);
-    },
+    }
 
     getConfig(noCache) {
       if (!noCache) {
@@ -242,7 +221,7 @@
         url: '/config/server/info',
         reportUrlAsIs: true,
       });
-    },
+    }
 
     getRepo(repo, opt_errFn) {
       // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
@@ -252,7 +231,7 @@
         errFn: opt_errFn,
         anonymizedUrl: '/projects/*',
       });
-    },
+    }
 
     getProjectConfig(repo, opt_errFn) {
       // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
@@ -262,7 +241,7 @@
         errFn: opt_errFn,
         anonymizedUrl: '/projects/*/config',
       });
-    },
+    }
 
     getRepoAccess(repo) {
       // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
@@ -271,7 +250,7 @@
         url: '/access/?project=' + encodeURIComponent(repo),
         anonymizedUrl: '/access/?project=*',
       });
-    },
+    }
 
     getRepoDashboards(repo, opt_errFn) {
       // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
@@ -281,7 +260,7 @@
         errFn: opt_errFn,
         anonymizedUrl: '/projects/*/dashboards?inherited',
       });
-    },
+    }
 
     saveRepoConfig(repo, config, opt_errFn) {
       // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
@@ -295,7 +274,7 @@
         errFn: opt_errFn,
         anonymizedUrl: '/projects/*/config',
       });
-    },
+    }
 
     runRepoGC(repo, opt_errFn) {
       if (!repo) { return ''; }
@@ -309,7 +288,7 @@
         errFn: opt_errFn,
         anonymizedUrl: '/projects/*/gc',
       });
-    },
+    }
 
     /**
      * @param {?Object} config
@@ -327,7 +306,7 @@
         errFn: opt_errFn,
         anonymizedUrl: '/projects/*',
       });
-    },
+    }
 
     /**
      * @param {?Object} config
@@ -343,7 +322,7 @@
         errFn: opt_errFn,
         anonymizedUrl: '/groups/*',
       });
-    },
+    }
 
     getGroupConfig(group, opt_errFn) {
       return this._restApiHelper.fetchJSON({
@@ -351,7 +330,7 @@
         errFn: opt_errFn,
         anonymizedUrl: '/groups/*/detail',
       });
-    },
+    }
 
     /**
      * @param {string} repo
@@ -371,7 +350,7 @@
         errFn: opt_errFn,
         anonymizedUrl: '/projects/*/branches/*',
       });
-    },
+    }
 
     /**
      * @param {string} repo
@@ -391,7 +370,7 @@
         errFn: opt_errFn,
         anonymizedUrl: '/projects/*/tags/*',
       });
-    },
+    }
 
     /**
      * @param {string} name
@@ -412,7 +391,7 @@
         errFn: opt_errFn,
         anonymizedUrl: '/projects/*/branches/*',
       });
-    },
+    }
 
     /**
      * @param {string} name
@@ -433,7 +412,7 @@
         errFn: opt_errFn,
         anonymizedUrl: '/projects/*/tags/*',
       });
-    },
+    }
 
     /**
      * @param {!string} groupName
@@ -447,7 +426,7 @@
       };
       return this._fetchSharedCacheURL(req)
           .then(configs => configs.hasOwnProperty(groupName));
-    },
+    }
 
     getGroupMembers(groupName, opt_errFn) {
       const encodeName = encodeURIComponent(groupName);
@@ -456,14 +435,14 @@
         errFn: opt_errFn,
         anonymizedUrl: '/groups/*/members',
       });
-    },
+    }
 
     getIncludedGroup(groupName) {
       return this._restApiHelper.fetchJSON({
         url: `/groups/${encodeURIComponent(groupName)}/groups/`,
         anonymizedUrl: '/groups/*/groups',
       });
-    },
+    }
 
     saveGroupName(groupId, name) {
       const encodeId = encodeURIComponent(groupId);
@@ -473,7 +452,7 @@
         body: {name},
         anonymizedUrl: '/groups/*/name',
       });
-    },
+    }
 
     saveGroupOwner(groupId, ownerId) {
       const encodeId = encodeURIComponent(groupId);
@@ -483,7 +462,7 @@
         body: {owner: ownerId},
         anonymizedUrl: '/groups/*/owner',
       });
-    },
+    }
 
     saveGroupDescription(groupId, description) {
       const encodeId = encodeURIComponent(groupId);
@@ -493,7 +472,7 @@
         body: {description},
         anonymizedUrl: '/groups/*/description',
       });
-    },
+    }
 
     saveGroupOptions(groupId, options) {
       const encodeId = encodeURIComponent(groupId);
@@ -503,7 +482,7 @@
         body: options,
         anonymizedUrl: '/groups/*/options',
       });
-    },
+    }
 
     getGroupAuditLog(group, opt_errFn) {
       return this._fetchSharedCacheURL({
@@ -511,7 +490,7 @@
         errFn: opt_errFn,
         anonymizedUrl: '/groups/*/log.audit',
       });
-    },
+    }
 
     saveGroupMembers(groupName, groupMembers) {
       const encodeName = encodeURIComponent(groupName);
@@ -522,7 +501,7 @@
         parseResponse: true,
         anonymizedUrl: '/groups/*/members/*',
       });
-    },
+    }
 
     saveIncludedGroup(groupName, includedGroup, opt_errFn) {
       const encodeName = encodeURIComponent(groupName);
@@ -538,7 +517,7 @@
           return this.getResponseObject(response);
         }
       });
-    },
+    }
 
     deleteGroupMembers(groupName, groupMembers) {
       const encodeName = encodeURIComponent(groupName);
@@ -548,7 +527,7 @@
         url: `/groups/${encodeName}/members/${encodeMember}`,
         anonymizedUrl: '/groups/*/members/*',
       });
-    },
+    }
 
     deleteIncludedGroup(groupName, includedGroup) {
       const encodeName = encodeURIComponent(groupName);
@@ -558,14 +537,14 @@
         url: `/groups/${encodeName}/groups/${encodeIncludedGroup}`,
         anonymizedUrl: '/groups/*/groups/*',
       });
-    },
+    }
 
     getVersion() {
       return this._fetchSharedCacheURL({
         url: '/config/server/version',
         reportUrlAsIs: true,
       });
-    },
+    }
 
     getDiffPreferences() {
       return this.getLoggedIn().then(loggedIn => {
@@ -596,7 +575,7 @@
           theme: 'DEFAULT',
         });
       });
-    },
+    }
 
     getEditPreferences() {
       return this.getLoggedIn().then(loggedIn => {
@@ -627,7 +606,7 @@
           theme: 'DEFAULT',
         });
       });
-    },
+    }
 
     /**
      * @param {?Object} prefs
@@ -647,7 +626,7 @@
         errFn: opt_errFn,
         reportUrlAsIs: true,
       });
-    },
+    }
 
     /**
      * @param {?Object} prefs
@@ -663,7 +642,7 @@
         errFn: opt_errFn,
         reportUrlAsIs: true,
       });
-    },
+    }
 
     /**
      * @param {?Object} prefs
@@ -679,7 +658,7 @@
         errFn: opt_errFn,
         reportUrlAsIs: true,
       });
-    },
+    }
 
     getAccount() {
       return this._fetchSharedCacheURL({
@@ -691,7 +670,7 @@
           }
         },
       });
-    },
+    }
 
     getAvatarChangeUrl() {
       return this._fetchSharedCacheURL({
@@ -703,14 +682,14 @@
           }
         },
       });
-    },
+    }
 
     getExternalIds() {
       return this._restApiHelper.fetchJSON({
         url: '/accounts/self/external.ids',
         reportUrlAsIs: true,
       });
-    },
+    }
 
     deleteAccountIdentity(id) {
       return this._restApiHelper.send({
@@ -720,7 +699,7 @@
         parseResponse: true,
         reportUrlAsIs: true,
       });
-    },
+    }
 
     /**
      * @param {string} userId the ID of the user usch as an email address.
@@ -731,14 +710,14 @@
         url: `/accounts/${encodeURIComponent(userId)}/detail`,
         anonymizedUrl: '/accounts/*/detail',
       });
-    },
+    }
 
     getAccountEmails() {
       return this._fetchSharedCacheURL({
         url: '/accounts/self/emails',
         reportUrlAsIs: true,
       });
-    },
+    }
 
     /**
      * @param {string} email
@@ -751,7 +730,7 @@
         errFn: opt_errFn,
         anonymizedUrl: '/account/self/emails/*',
       });
-    },
+    }
 
     /**
      * @param {string} email
@@ -764,7 +743,7 @@
         errFn: opt_errFn,
         anonymizedUrl: '/accounts/self/email/*',
       });
-    },
+    }
 
     /**
      * @param {string} email
@@ -793,7 +772,7 @@
           this._cache.set('/accounts/self/emails', emails);
         }
       });
-    },
+    }
 
     /**
      * @param {?Object} obj
@@ -807,7 +786,7 @@
         this._cache.set('/accounts/self/detail',
             Object.assign({}, cachedAccount, obj));
       }
-    },
+    }
 
     /**
      * @param {string} name
@@ -824,7 +803,7 @@
       };
       return this._restApiHelper.send(req)
           .then(newName => this._updateCachedAccount({name: newName}));
-    },
+    }
 
     /**
      * @param {string} username
@@ -841,7 +820,7 @@
       };
       return this._restApiHelper.send(req)
           .then(newName => this._updateCachedAccount({username: newName}));
-    },
+    }
 
     /**
      * @param {string} status
@@ -858,28 +837,28 @@
       };
       return this._restApiHelper.send(req)
           .then(newStatus => this._updateCachedAccount({status: newStatus}));
-    },
+    }
 
     getAccountStatus(userId) {
       return this._restApiHelper.fetchJSON({
         url: `/accounts/${encodeURIComponent(userId)}/status`,
         anonymizedUrl: '/accounts/*/status',
       });
-    },
+    }
 
     getAccountGroups() {
       return this._restApiHelper.fetchJSON({
         url: '/accounts/self/groups',
         reportUrlAsIs: true,
       });
-    },
+    }
 
     getAccountAgreements() {
       return this._restApiHelper.fetchJSON({
         url: '/accounts/self/agreements',
         reportUrlAsIs: true,
       });
-    },
+    }
 
     saveAccountAgreement(name) {
       return this._restApiHelper.send({
@@ -888,7 +867,7 @@
         body: name,
         reportUrlAsIs: true,
       });
-    },
+    }
 
     /**
      * @param {string=} opt_params
@@ -904,7 +883,7 @@
         url: '/accounts/self/capabilities' + queryString,
         anonymizedUrl: '/accounts/self/capabilities?q=*',
       });
-    },
+    }
 
     getLoggedIn() {
       return this.getAccount().then(account => {
@@ -912,7 +891,7 @@
       }).catch(() => {
         return false;
       });
-    },
+    }
 
     getIsAdmin() {
       return this.getLoggedIn().then(isLoggedIn => {
@@ -924,18 +903,18 @@
       }).then(capabilities => {
         return capabilities && capabilities.administrateServer;
       });
-    },
+    }
 
     checkCredentials() {
       return this._restApiHelper.checkCredentials();
-    },
+    }
 
     getDefaultPreferences() {
       return this._fetchSharedCacheURL({
         url: '/config/server/preferences',
         reportUrlAsIs: true,
       });
-    },
+    }
 
     getPreferences() {
       return this.getLoggedIn().then(loggedIn => {
@@ -956,19 +935,19 @@
         return Promise.resolve({
           changes_per_page: 25,
           default_diff_view: this._isNarrowScreen() ?
-              DiffViewMode.UNIFIED : DiffViewMode.SIDE_BY_SIDE,
+            DiffViewMode.UNIFIED : DiffViewMode.SIDE_BY_SIDE,
           diff_view: 'SIDE_BY_SIDE',
           size_bar_in_change_table: true,
         });
       });
-    },
+    }
 
     getWatchedProjects() {
       return this._fetchSharedCacheURL({
         url: '/accounts/self/watched.projects',
         reportUrlAsIs: true,
       });
-    },
+    }
 
     /**
      * @param {string} projects
@@ -983,7 +962,7 @@
         parseResponse: true,
         reportUrlAsIs: true,
       });
-    },
+    }
 
     /**
      * @param {string} projects
@@ -997,11 +976,11 @@
         errFn: opt_errFn,
         reportUrlAsIs: true,
       });
-    },
+    }
 
     _isNarrowScreen() {
       return window.innerWidth < MAX_UNIFIED_DEFAULT_WINDOW_WIDTH_PX;
-    },
+    }
 
     /**
      * @param {number=} opt_changesPerPage
@@ -1057,7 +1036,7 @@
         }
         return response;
       });
-    },
+    }
 
     /**
      * Inserts a change into _projectLookup iff it has a valid structure.
@@ -1067,7 +1046,7 @@
       if (change && change.project && change._number) {
         this.setInProjectLookup(change._number, change.project);
       }
-    },
+    }
 
     /**
      * TODO (beckysiegel) this needs to be rewritten with the optional param
@@ -1081,7 +1060,7 @@
     getChangeActionURL(changeNum, opt_patchNum, endpoint) {
       return this._changeBaseURL(changeNum, opt_patchNum)
           .then(url => url + endpoint);
-    },
+    }
 
     /**
      * @param {number|string} changeNum
@@ -1112,7 +1091,7 @@
             changeNum, optionsHex, opt_errFn, opt_cancelCondition)
             .then(GrReviewerUpdatesParser.parse);
       });
-    },
+    }
 
     /**
      * @param {number|string} changeNum
@@ -1128,7 +1107,7 @@
       );
       return this._getChangeDetail(changeNum, optionsHex, opt_errFn,
           opt_cancelCondition);
-    },
+    }
 
     /**
      * @param {number|string} changeNum
@@ -1166,8 +1145,8 @@
           }
 
           const payloadPromise = response ?
-              this._restApiHelper.readResponsePayload(response) :
-              Promise.resolve(null);
+            this._restApiHelper.readResponsePayload(response) :
+            Promise.resolve(null);
 
           return payloadPromise.then(payload => {
             if (!payload) { return null; }
@@ -1178,7 +1157,7 @@
           });
         });
       });
-    },
+    }
 
     /**
      * @param {number|string} changeNum
@@ -1191,7 +1170,7 @@
         patchNum,
         reportEndpointAsIs: true,
       });
-    },
+    }
 
     /**
      * @param {number|string} changeNum
@@ -1212,7 +1191,7 @@
         params,
         reportEndpointAsIs: true,
       });
-    },
+    }
 
     /**
      * @param {number|string} changeNum
@@ -1230,7 +1209,7 @@
         endpoint,
         anonymizedEndpoint,
       });
-    },
+    }
 
     /**
      * @param {number|string} changeNum
@@ -1245,7 +1224,7 @@
         patchNum,
         anonymizedEndpoint: '/files?q=*',
       });
-    },
+    }
 
     /**
      * @param {number|string} changeNum
@@ -1255,10 +1234,10 @@
     getChangeOrEditFiles(changeNum, patchRange) {
       if (this.patchNumEquals(patchRange.patchNum, this.EDIT_NAME)) {
         return this.getChangeEditFiles(changeNum, patchRange).then(res =>
-            res.files);
+          res.files);
       }
       return this.getChangeFiles(changeNum, patchRange);
-    },
+    }
 
     /**
      * The closure compiler doesn't realize this.specialFilePathCompare is
@@ -1269,7 +1248,7 @@
       return this.getChangeFiles(changeNum, patchRange).then(files => {
         return Object.keys(files).sort(this.specialFilePathCompare);
       });
-    },
+    }
 
     getChangeRevisionActions(changeNum, patchNum) {
       const req = {
@@ -1287,7 +1266,7 @@
         }
         return revisionActions;
       });
-    },
+    }
 
     /**
      * @param {number|string} changeNum
@@ -1297,7 +1276,7 @@
     getChangeSuggestedReviewers(changeNum, inputVal, opt_errFn) {
       return this._getChangeSuggestedGroup('REVIEWER', changeNum, inputVal,
           opt_errFn);
-    },
+    }
 
     /**
      * @param {number|string} changeNum
@@ -1307,7 +1286,7 @@
     getChangeSuggestedCCs(changeNum, inputVal, opt_errFn) {
       return this._getChangeSuggestedGroup('CC', changeNum, inputVal,
           opt_errFn);
-    },
+    }
 
     _getChangeSuggestedGroup(reviewerState, changeNum, inputVal, opt_errFn) {
       // More suggestions may obscure content underneath in the reply dialog,
@@ -1321,7 +1300,7 @@
         params,
         reportEndpointAsIs: true,
       });
-    },
+    }
 
     /**
      * @param {number|string} changeNum
@@ -1332,7 +1311,7 @@
         endpoint: '/in',
         reportEndpointAsIs: true,
       });
-    },
+    }
 
     _computeFilter(filter) {
       if (filter && filter.startsWith('^')) {
@@ -1343,7 +1322,7 @@
         filter = '';
       }
       return filter;
-    },
+    }
 
     /**
      * @param {string} filter
@@ -1355,7 +1334,7 @@
 
       return `/groups/?n=${groupsPerPage + 1}&S=${offset}` +
         this._computeFilter(filter);
-    },
+    }
 
     /**
      * @param {string} filter
@@ -1391,15 +1370,15 @@
 
       return `/projects/?n=${reposPerPage + 1}&S=${offset}` +
         `&query=${encodedFilter}`;
-    },
+    }
 
     invalidateGroupsCache() {
       this._restApiHelper.invalidateFetchPromisesPrefix('/groups/?');
-    },
+    }
 
     invalidateReposCache() {
       this._restApiHelper.invalidateFetchPromisesPrefix('/projects/?');
-    },
+    }
 
     /**
      * @param {string} filter
@@ -1414,7 +1393,7 @@
         url,
         anonymizedUrl: '/groups/?*',
       });
-    },
+    }
 
     /**
      * @param {string} filter
@@ -1431,7 +1410,7 @@
         url,
         anonymizedUrl: '/projects/?*',
       });
-    },
+    }
 
     setRepoHead(repo, ref) {
       // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
@@ -1442,7 +1421,7 @@
         body: {ref},
         anonymizedUrl: '/projects/*/HEAD',
       });
-    },
+    }
 
     /**
      * @param {string} filter
@@ -1465,7 +1444,7 @@
         errFn: opt_errFn,
         anonymizedUrl: '/projects/*/branches?*',
       });
-    },
+    }
 
     /**
      * @param {string} filter
@@ -1489,7 +1468,7 @@
         errFn: opt_errFn,
         anonymizedUrl: '/projects/*/tags',
       });
-    },
+    }
 
     /**
      * @param {string} filter
@@ -1508,7 +1487,7 @@
         errFn: opt_errFn,
         anonymizedUrl: '/plugins/?all',
       });
-    },
+    }
 
     getRepoAccessRights(repoName, opt_errFn) {
       // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
@@ -1518,7 +1497,7 @@
         errFn: opt_errFn,
         anonymizedUrl: '/projects/*/access',
       });
-    },
+    }
 
     setRepoAccessRights(repoName, repoInfo) {
       // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
@@ -1529,7 +1508,7 @@
         body: repoInfo,
         anonymizedUrl: '/projects/*/access',
       });
-    },
+    }
 
     setRepoAccessRightsForReview(projectName, projectInfo) {
       return this._restApiHelper.send({
@@ -1539,7 +1518,7 @@
         parseResponse: true,
         anonymizedUrl: '/projects/*/access:review',
       });
-    },
+    }
 
     /**
      * @param {string} inputVal
@@ -1555,7 +1534,7 @@
         params,
         reportUrlAsIs: true,
       });
-    },
+    }
 
     /**
      * @param {string} inputVal
@@ -1575,7 +1554,7 @@
         params,
         reportUrlAsIs: true,
       });
-    },
+    }
 
     /**
      * @param {string} inputVal
@@ -1594,15 +1573,15 @@
         params,
         anonymizedUrl: '/accounts/?n=*',
       });
-    },
+    }
 
     addChangeReviewer(changeNum, reviewerID) {
       return this._sendChangeReviewerRequest('POST', changeNum, reviewerID);
-    },
+    }
 
     removeChangeReviewer(changeNum, reviewerID) {
       return this._sendChangeReviewerRequest('DELETE', changeNum, reviewerID);
-    },
+    }
 
     _sendChangeReviewerRequest(method, changeNum, reviewerID) {
       return this.getChangeActionURL(changeNum, null, '/reviewers')
@@ -1621,7 +1600,7 @@
 
             return this._restApiHelper.send({method, url, body});
           });
-    },
+    }
 
     getRelatedChanges(changeNum, patchNum) {
       return this._getChangeURLAndFetch({
@@ -1630,7 +1609,7 @@
         patchNum,
         reportEndpointAsIs: true,
       });
-    },
+    }
 
     getChangesSubmittedTogether(changeNum) {
       return this._getChangeURLAndFetch({
@@ -1638,7 +1617,7 @@
         endpoint: '/submitted_together?o=NON_VISIBLE_CHANGES',
         reportEndpointAsIs: true,
       });
-    },
+    }
 
     getChangeConflicts(changeNum) {
       const options = this.listChangesOptionsToHex(
@@ -1654,7 +1633,7 @@
         params,
         anonymizedUrl: '/changes/conflicts:*',
       });
-    },
+    }
 
     getChangeCherryPicks(project, changeID, changeNum) {
       const options = this.listChangesOptionsToHex(
@@ -1676,7 +1655,7 @@
         params,
         anonymizedUrl: '/changes/change:*',
       });
-    },
+    }
 
     getChangesWithSameTopic(topic, changeNum) {
       const options = this.listChangesOptionsToHex(
@@ -1699,7 +1678,7 @@
         params,
         anonymizedUrl: '/changes/topic:*',
       });
-    },
+    }
 
     getReviewedFiles(changeNum, patchNum) {
       return this._getChangeURLAndFetch({
@@ -1708,7 +1687,7 @@
         patchNum,
         reportEndpointAsIs: true,
       });
-    },
+    }
 
     /**
      * @param {number|string} changeNum
@@ -1726,7 +1705,7 @@
         errFn: opt_errFn,
         anonymizedEndpoint: '/files/*/reviewed',
       });
-    },
+    }
 
     /**
      * @param {number|string} changeNum
@@ -1747,7 +1726,7 @@
           errFn: opt_errFn,
         });
       });
-    },
+    }
 
     getChangeEdit(changeNum, opt_download_commands) {
       const params = opt_download_commands ? {'download-commands': true} : null;
@@ -1760,7 +1739,7 @@
           reportEndpointAsIs: true,
         });
       });
-    },
+    }
 
     /**
      * @param {string} project
@@ -1790,7 +1769,7 @@
         parseResponse: true,
         reportUrlAsIs: true,
       });
-    },
+    }
 
     /**
      * @param {number|string} changeNum
@@ -1805,8 +1784,8 @@
         return res;
       };
       const promise = this.patchNumEquals(patchNum, this.EDIT_NAME) ?
-          this._getFileInChangeEdit(changeNum, path) :
-          this._getFileInRevision(changeNum, path, patchNum, suppress404s);
+        this._getFileInChangeEdit(changeNum, path) :
+        this._getFileInRevision(changeNum, path, patchNum, suppress404s);
 
       return promise.then(res => {
         if (!res.ok) { return res; }
@@ -1818,7 +1797,7 @@
           return {content, type, ok: true};
         });
       });
-    },
+    }
 
     /**
      * Gets a file in a specific change and revision.
@@ -1837,7 +1816,7 @@
         headers: {Accept: 'application/json'},
         anonymizedEndpoint: '/files/*/content',
       });
-    },
+    }
 
     /**
      * Gets a file in a change edit.
@@ -1852,7 +1831,7 @@
         headers: {Accept: 'application/json'},
         anonymizedEndpoint: '/edit/*',
       });
-    },
+    }
 
     rebaseChangeEdit(changeNum) {
       return this._getChangeURLAndSend({
@@ -1861,7 +1840,7 @@
         endpoint: '/edit:rebase',
         reportEndpointAsIs: true,
       });
-    },
+    }
 
     deleteChangeEdit(changeNum) {
       return this._getChangeURLAndSend({
@@ -1870,7 +1849,7 @@
         endpoint: '/edit',
         reportEndpointAsIs: true,
       });
-    },
+    }
 
     restoreFileInChangeEdit(changeNum, restore_path) {
       return this._getChangeURLAndSend({
@@ -1880,7 +1859,7 @@
         body: {restore_path},
         reportEndpointAsIs: true,
       });
-    },
+    }
 
     renameFileInChangeEdit(changeNum, old_path, new_path) {
       return this._getChangeURLAndSend({
@@ -1890,7 +1869,7 @@
         body: {old_path, new_path},
         reportEndpointAsIs: true,
       });
-    },
+    }
 
     deleteFileInChangeEdit(changeNum, path) {
       return this._getChangeURLAndSend({
@@ -1899,7 +1878,7 @@
         endpoint: '/edit/' + encodeURIComponent(path),
         anonymizedEndpoint: '/edit/*',
       });
-    },
+    }
 
     saveChangeEdit(changeNum, path, contents) {
       return this._getChangeURLAndSend({
@@ -1910,7 +1889,7 @@
         contentType: 'text/plain',
         anonymizedEndpoint: '/edit/*',
       });
-    },
+    }
 
     // Deprecated, prefer to use putChangeCommitMessage instead.
     saveChangeCommitMessageEdit(changeNum, message) {
@@ -1921,7 +1900,7 @@
         body: {message},
         reportEndpointAsIs: true,
       });
-    },
+    }
 
     publishChangeEdit(changeNum) {
       return this._getChangeURLAndSend({
@@ -1930,7 +1909,7 @@
         endpoint: '/edit:publish',
         reportEndpointAsIs: true,
       });
-    },
+    }
 
     putChangeCommitMessage(changeNum, message) {
       return this._getChangeURLAndSend({
@@ -1940,7 +1919,7 @@
         body: {message},
         reportEndpointAsIs: true,
       });
-    },
+    }
 
     saveChangeStarred(changeNum, starred) {
       // Some servers may require the project name to be provided
@@ -1955,7 +1934,7 @@
           anonymizedUrl: '/accounts/self/starred.changes/*',
         });
       });
-    },
+    }
 
     saveChangeReviewed(changeNum, reviewed) {
       return this._getChangeURLAndSend({
@@ -1963,7 +1942,7 @@
         method: 'PUT',
         endpoint: reviewed ? '/reviewed' : '/unreviewed',
       });
-    },
+    }
 
     /**
      * Public version of the _restApiHelper.send method preserved for plugins.
@@ -1987,7 +1966,7 @@
         contentType: opt_contentType,
         headers: opt_headers,
       });
-    },
+    }
 
     /**
      * @param {number|string} changeNum
@@ -2021,7 +2000,7 @@
         params,
         anonymizedEndpoint: '/files/*/diff',
       });
-    },
+    }
 
     /**
      * @param {number|string} changeNum
@@ -2033,7 +2012,7 @@
     getDiffComments(changeNum, opt_basePatchNum, opt_patchNum, opt_path) {
       return this._getDiffComments(changeNum, '/comments', opt_basePatchNum,
           opt_patchNum, opt_path);
-    },
+    }
 
     /**
      * @param {number|string} changeNum
@@ -2045,7 +2024,7 @@
     getDiffRobotComments(changeNum, opt_basePatchNum, opt_patchNum, opt_path) {
       return this._getDiffComments(changeNum, '/robotcomments',
           opt_basePatchNum, opt_patchNum, opt_path);
-    },
+    }
 
     /**
      * If the user is logged in, fetch the user's draft diff comments. If there
@@ -2064,7 +2043,7 @@
         return this._getDiffComments(changeNum, '/drafts', opt_basePatchNum,
             opt_patchNum, opt_path);
       });
-    },
+    }
 
     _setRange(comments, comment) {
       if (comment.in_reply_to && !comment.range) {
@@ -2076,7 +2055,7 @@
         }
       }
       return comment;
-    },
+    }
 
     _setRanges(comments) {
       comments = comments || [];
@@ -2087,7 +2066,7 @@
         this._setRange(comments, comment);
       }
       return comments;
-    },
+    }
 
     /**
      * @param {number|string} changeNum
@@ -2160,7 +2139,7 @@
           comments,
         });
       });
-    },
+    }
 
     /**
      * @param {number|string} changeNum
@@ -2170,15 +2149,15 @@
     _getDiffCommentsFetchURL(changeNum, endpoint, opt_patchNum) {
       return this._changeBaseURL(changeNum, opt_patchNum)
           .then(url => url + endpoint);
-    },
+    }
 
     saveDiffDraft(changeNum, patchNum, draft) {
       return this._sendDiffDraftRequest('PUT', changeNum, patchNum, draft);
-    },
+    }
 
     deleteDiffDraft(changeNum, patchNum, draft) {
       return this._sendDiffDraftRequest('DELETE', changeNum, patchNum, draft);
-    },
+    }
 
     /**
      * @returns {boolean} Whether there are pending diff draft sends.
@@ -2186,7 +2165,7 @@
     hasPendingDiffDrafts() {
       const promises = this._pendingRequests[Requests.SEND_DIFF_DRAFT];
       return promises && promises.length;
-    },
+    }
 
     /**
      * @returns {!Promise<undefined>} A promise that resolves when all pending
@@ -2197,7 +2176,7 @@
           .then(() => {
             this._pendingRequests[Requests.SEND_DIFF_DRAFT] = [];
           });
-    },
+    }
 
     _sendDiffDraftRequest(method, changeNum, patchNum, draft) {
       const isCreate = !draft.id && method === 'PUT';
@@ -2233,7 +2212,7 @@
       }
 
       return promise;
-    },
+    }
 
     getCommitInfo(project, commit) {
       return this._restApiHelper.fetchJSON({
@@ -2241,7 +2220,7 @@
             '/commits/' + encodeURIComponent(commit),
         anonymizedUrl: '/projects/*/comments/*',
       });
-    },
+    }
 
     _fetchB64File(url) {
       return this._restApiHelper.fetch({url: this.getBaseUrl() + url})
@@ -2255,7 +2234,7 @@
                   return {body: text, type};
                 });
           });
-    },
+    }
 
     /**
      * @param {string} changeId
@@ -2265,12 +2244,12 @@
      */
     getB64FileContents(changeId, patchNum, path, opt_parentIndex) {
       const parent = typeof opt_parentIndex === 'number' ?
-          '?parent=' + opt_parentIndex : '';
+        '?parent=' + opt_parentIndex : '';
       return this._changeBaseURL(changeId, patchNum).then(url => {
         url = `${url}/files/${encodeURIComponent(path)}/content${parent}`;
         return this._fetchB64File(url);
       });
-    },
+    }
 
     getImagesForDiff(changeNum, diff, patchRange) {
       let promiseA;
@@ -2312,7 +2291,7 @@
 
         return {baseImage, revisionImage};
       });
-    },
+    }
 
     /**
      * @param {number|string} changeNum
@@ -2324,8 +2303,8 @@
       // TODO(kaspern): For full slicer migration, app should warn with a call
       // stack every time _changeBaseURL is called without a project.
       const projectPromise = opt_project ?
-          Promise.resolve(opt_project) :
-          this.getFromProjectLookup(changeNum);
+        Promise.resolve(opt_project) :
+        this.getFromProjectLookup(changeNum);
       return projectPromise.then(project => {
         let url = `/changes/${encodeURIComponent(project)}~${changeNum}`;
         if (opt_patchNum) {
@@ -2333,7 +2312,7 @@
         }
         return url;
       });
-    },
+    }
 
     /**
      * @suppress {checkTypes}
@@ -2349,7 +2328,7 @@
         parseResponse: true,
         reportUrlAsIs: true,
       });
-    },
+    }
 
     /**
      * @suppress {checkTypes}
@@ -2365,7 +2344,7 @@
         parseResponse: true,
         reportUrlAsIs: true,
       });
-    },
+    }
 
     deleteAccountHttpPassword() {
       return this._restApiHelper.send({
@@ -2373,7 +2352,7 @@
         url: '/accounts/self/password.http',
         reportUrlAsIs: true,
       });
-    },
+    }
 
     /**
      * @suppress {checkTypes}
@@ -2388,14 +2367,14 @@
         parseResponse: true,
         reportUrlAsIs: true,
       });
-    },
+    }
 
     getAccountSSHKeys() {
       return this._fetchSharedCacheURL({
         url: '/accounts/self/sshkeys',
         reportUrlAsIs: true,
       });
-    },
+    }
 
     addAccountSSHKey(key) {
       const req = {
@@ -2416,7 +2395,7 @@
             if (!obj.valid) { return Promise.reject(new Error('error')); }
             return obj;
           });
-    },
+    }
 
     deleteAccountSSHKey(id) {
       return this._restApiHelper.send({
@@ -2424,14 +2403,14 @@
         url: '/accounts/self/sshkeys/' + id,
         anonymizedUrl: '/accounts/self/sshkeys/*',
       });
-    },
+    }
 
     getAccountGPGKeys() {
       return this._restApiHelper.fetchJSON({
         url: '/accounts/self/gpgkeys',
         reportUrlAsIs: true,
       });
-    },
+    }
 
     addAccountGPGKey(key) {
       const req = {
@@ -2451,7 +2430,7 @@
             if (!obj) { return Promise.reject(new Error('error')); }
             return obj;
           });
-    },
+    }
 
     deleteAccountGPGKey(id) {
       return this._restApiHelper.send({
@@ -2459,7 +2438,7 @@
         url: '/accounts/self/gpgkeys/' + id,
         anonymizedUrl: '/accounts/self/gpgkeys/*',
       });
-    },
+    }
 
     deleteVote(changeNum, account, label) {
       return this._getChangeURLAndSend({
@@ -2468,7 +2447,7 @@
         endpoint: `/reviewers/${account}/votes/${encodeURIComponent(label)}`,
         anonymizedEndpoint: '/reviewers/*/votes/*',
       });
-    },
+    }
 
     setDescription(changeNum, patchNum, desc) {
       return this._getChangeURLAndSend({
@@ -2478,7 +2457,7 @@
         body: {description: desc},
         reportUrlAsIs: true,
       });
-    },
+    }
 
     confirmEmail(token) {
       const req = {
@@ -2493,7 +2472,7 @@
         }
         return null;
       });
-    },
+    }
 
     getCapabilities(opt_errFn) {
       return this._restApiHelper.fetchJSON({
@@ -2501,7 +2480,7 @@
         errFn: opt_errFn,
         reportUrlAsIs: true,
       });
-    },
+    }
 
     getTopMenus(opt_errFn) {
       return this._fetchSharedCacheURL({
@@ -2509,7 +2488,7 @@
         errFn: opt_errFn,
         reportUrlAsIs: true,
       });
-    },
+    }
 
     setAssignee(changeNum, assignee) {
       return this._getChangeURLAndSend({
@@ -2519,7 +2498,7 @@
         body: {assignee},
         reportUrlAsIs: true,
       });
-    },
+    }
 
     deleteAssignee(changeNum) {
       return this._getChangeURLAndSend({
@@ -2528,14 +2507,14 @@
         endpoint: '/assignee',
         reportUrlAsIs: true,
       });
-    },
+    }
 
     probePath(path) {
       return fetch(new Request(path, {method: 'HEAD'}))
           .then(response => {
             return response.ok;
           });
-    },
+    }
 
     /**
      * @param {number|string} changeNum
@@ -2558,7 +2537,7 @@
           return 'Change marked as Work In Progress.';
         }
       });
-    },
+    }
 
     /**
      * @param {number|string} changeNum
@@ -2574,7 +2553,7 @@
         errFn: opt_errFn,
         reportUrlAsIs: true,
       });
-    },
+    }
 
     /**
      * @suppress {checkTypes}
@@ -2591,7 +2570,7 @@
         parseResponse: true,
         anonymizedEndpoint: '/comments/*/delete',
       });
-    },
+    }
 
     /**
      * Given a changeNum, gets the change.
@@ -2610,7 +2589,7 @@
         if (!res || !res.length) { return null; }
         return res[0];
       });
-    },
+    }
 
     /**
      * @param {string|number} changeNum
@@ -2623,7 +2602,7 @@
             'One of them must be invalid.');
       }
       this._projectLookup[changeNum] = project;
-    },
+    }
 
     /**
      * Checks in _projectLookup for the changeNum. If it exists, returns the
@@ -2647,7 +2626,7 @@
         this.setInProjectLookup(changeNum, change.project);
         return change.project;
       });
-    },
+    }
 
     /**
      * Alias for _changeBaseURL.then(send).
@@ -2657,9 +2636,9 @@
      */
     _getChangeURLAndSend(req) {
       const anonymizedBaseUrl = req.patchNum ?
-          ANONYMIZED_REVISION_BASE_URL : ANONYMIZED_CHANGE_BASE_URL;
+        ANONYMIZED_REVISION_BASE_URL : ANONYMIZED_CHANGE_BASE_URL;
       const anonymizedEndpoint = req.reportEndpointAsIs ?
-          req.endpoint : req.anonymizedEndpoint;
+        req.endpoint : req.anonymizedEndpoint;
 
       return this._changeBaseURL(req.changeNum, req.patchNum).then(url => {
         return this._restApiHelper.send({
@@ -2671,10 +2650,10 @@
           headers: req.headers,
           parseResponse: req.parseResponse,
           anonymizedUrl: anonymizedEndpoint ?
-              (anonymizedBaseUrl + anonymizedEndpoint) : undefined,
+            (anonymizedBaseUrl + anonymizedEndpoint) : undefined,
         });
       });
-    },
+    }
 
     /**
      * Alias for _changeBaseURL.then(_fetchJSON).
@@ -2683,9 +2662,9 @@
      */
     _getChangeURLAndFetch(req) {
       const anonymizedEndpoint = req.reportEndpointAsIs ?
-          req.endpoint : req.anonymizedEndpoint;
+        req.endpoint : req.anonymizedEndpoint;
       const anonymizedBaseUrl = req.patchNum ?
-          ANONYMIZED_REVISION_BASE_URL : ANONYMIZED_CHANGE_BASE_URL;
+        ANONYMIZED_REVISION_BASE_URL : ANONYMIZED_CHANGE_BASE_URL;
       return this._changeBaseURL(req.changeNum, req.patchNum).then(url => {
         return this._restApiHelper.fetchJSON({
           url: url + req.endpoint,
@@ -2693,10 +2672,10 @@
           params: req.params,
           fetchOptions: req.fetchOptions,
           anonymizedUrl: anonymizedEndpoint ?
-              (anonymizedBaseUrl + anonymizedEndpoint) : undefined,
+            (anonymizedBaseUrl + anonymizedEndpoint) : undefined,
         });
       });
-    },
+    }
 
     /**
      * Execute a change action or revision action on a change.
@@ -2718,7 +2697,7 @@
         body: opt_payload,
         errFn: opt_errFn,
       });
-    },
+    }
 
     /**
      * Get blame information for the given diff.
@@ -2738,7 +2717,7 @@
         params: opt_base ? {base: 't'} : undefined,
         anonymizedEndpoint: '/files/*/blame',
       });
-    },
+    }
 
     /**
      * Modify the given create draft request promise so that it fails and throws
@@ -2767,7 +2746,7 @@
         }
         return result;
       });
-    },
+    }
 
     /**
      * Fetch a project dashboard definition.
@@ -2786,7 +2765,7 @@
         errFn: opt_errFn,
         anonymizedUrl: '/projects/*/dashboards/*',
       });
-    },
+    }
 
     /**
      * @param {string} filter
@@ -2802,7 +2781,7 @@
         url: `/Documentation/?q=${encodedFilter}`,
         anonymizedUrl: '/Documentation/?*',
       });
-    },
+    }
 
     getMergeable(changeNum) {
       return this._getChangeURLAndFetch({
@@ -2811,7 +2790,7 @@
         parseResponse: true,
         reportEndpointAsIs: true,
       });
-    },
+    }
 
     deleteDraftComments(query) {
       return this._restApiHelper.send({
@@ -2819,6 +2798,7 @@
         url: '/accounts/self/drafts:delete',
         body: {query},
       });
-    },
-  });
+    }
+  }
+  customElements.define(GrRestApiInterface.is, GrRestApiInterface);
 })();

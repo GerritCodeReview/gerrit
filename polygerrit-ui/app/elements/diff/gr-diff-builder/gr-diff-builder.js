@@ -183,7 +183,7 @@
           continue;
         }
         const lineNumber = opt_side === 'left' ?
-            line.beforeNumber : line.afterNumber;
+          line.beforeNumber : line.afterNumber;
         if (lineNumber < start || lineNumber > end) { continue; }
 
         if (out_lines) { out_lines.push(line); }

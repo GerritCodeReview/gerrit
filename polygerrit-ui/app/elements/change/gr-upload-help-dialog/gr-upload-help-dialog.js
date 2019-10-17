@@ -26,43 +26,39 @@
     'cherry pick',
     'pull',
   ];
+  class GrUploadHelpDialog extends Polymer.mixinBehaviors( [
+    Gerrit.FireBehavior,
+  ], Polymer.LegacyDataMixin(
+      Polymer.GestureEventListeners(
+          Polymer.LegacyElementMixin(
+              Polymer.Element)))) {
+    static get is() { return 'gr-upload-help-dialog'; }
 
-  Polymer({
-    is: 'gr-upload-help-dialog',
-    _legacyUndefinedCheck: true,
-
-    /**
-     * Fired when the user presses the close button.
-     *
-     * @event close
-     */
-
-    properties: {
-      revision: Object,
-      targetBranch: String,
-      _commitCommand: {
-        type: String,
-        value: COMMIT_COMMAND,
-        readOnly: true,
-      },
-      _fetchCommand: {
-        type: String,
-        computed: '_computeFetchCommand(revision, ' +
+    static get properties() {
+      return {
+        revision: Object,
+        targetBranch: String,
+        _commitCommand: {
+          type: String,
+          value: COMMIT_COMMAND,
+          readOnly: true,
+        },
+        _fetchCommand: {
+          type: String,
+          computed: '_computeFetchCommand(revision, ' +
             '_preferredDownloadCommand, _preferredDownloadScheme)',
-      },
-      _preferredDownloadCommand: String,
-      _preferredDownloadScheme: String,
-      _pushCommand: {
-        type: String,
-        computed: '_computePushCommand(targetBranch)',
-      },
-    },
-
-    behaviors: [
-      Gerrit.FireBehavior,
-    ],
+        },
+        _preferredDownloadCommand: String,
+        _preferredDownloadScheme: String,
+        _pushCommand: {
+          type: String,
+          computed: '_computePushCommand(targetBranch)',
+        },
+      };
+    }
 
     attached() {
+      super.attached();
       this.$.restAPI.getLoggedIn().then(loggedIn => {
         if (loggedIn) {
           return this.$.restAPI.getPreferences();
@@ -73,13 +69,13 @@
           this._preferredDownloadScheme = prefs.download_scheme;
         }
       });
-    },
+    }
 
     _handleCloseTap(e) {
       e.preventDefault();
       e.stopPropagation();
       this.fire('close', null, {bubbles: false});
-    },
+    }
 
     _computeFetchCommand(revision, preferredDownloadCommand,
         preferredDownloadScheme) {
@@ -127,10 +123,11 @@
       }
 
       return undefined;
-    },
+    }
 
     _computePushCommand(targetBranch) {
       return PUSH_COMMAND_PREFIX + targetBranch;
-    },
-  });
+    }
+  }
+  customElements.define(GrUploadHelpDialog.is, GrUploadHelpDialog);
 })();

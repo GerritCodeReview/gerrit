@@ -16,15 +16,20 @@
  */
 (function() {
   'use strict';
+  class GrEmbedDashboard extends Polymer.LegacyDataMixin(
+      Polymer.GestureEventListeners(
+          Polymer.LegacyElementMixin(
+              Polymer.Element))) {
+    static get is() { return 'gr-embed-dashboard'; }
 
-  Polymer({
-    is: 'gr-embed-dashboard',
-    _legacyUndefinedCheck: true,
-    properties: {
-      account: Object,
-      sections: Array,
-      preferences: Object,
-      showNewUserHelp: Boolean,
-    },
-  });
+    static get properties() {
+      return {
+        account: Object,
+        sections: Array,
+        preferences: Object,
+        showNewUserHelp: Boolean,
+      };
+    }
+  }
+  customElements.define(GrEmbedDashboard.is, GrEmbedDashboard);
 })();

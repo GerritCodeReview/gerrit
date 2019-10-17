@@ -16,60 +16,62 @@
  */
 (function() {
   'use strict';
+  class GrAccountLabel extends Polymer.mixinBehaviors( [
+    Gerrit.DisplayNameBehavior,
+    Gerrit.TooltipBehavior,
+  ], Polymer.LegacyDataMixin(
+      Polymer.GestureEventListeners(
+          Polymer.LegacyElementMixin(
+              Polymer.Element)))) {
+    static get is() { return 'gr-account-label'; }
 
-  Polymer({
-    is: 'gr-account-label',
-    _legacyUndefinedCheck: true,
-
-    properties: {
+    static get properties() {
+      return {
       /**
        * @type {{ name: string, status: string }}
        */
-      account: Object,
-      avatarImageSize: {
-        type: Number,
-        value: 32,
-      },
-      title: {
-        type: String,
-        reflectToAttribute: true,
-        computed: '_computeAccountTitle(account, additionalText)',
-      },
-      additionalText: String,
-      hasTooltip: {
-        type: Boolean,
-        reflectToAttribute: true,
-        computed: '_computeHasTooltip(account)',
-      },
-      hideAvatar: {
-        type: Boolean,
-        value: false,
-      },
-      _serverConfig: {
-        type: Object,
-        value: null,
-      },
-    },
-
-    behaviors: [
-      Gerrit.DisplayNameBehavior,
-      Gerrit.TooltipBehavior,
-    ],
+        account: Object,
+        avatarImageSize: {
+          type: Number,
+          value: 32,
+        },
+        title: {
+          type: String,
+          reflectToAttribute: true,
+          computed: '_computeAccountTitle(account, additionalText)',
+        },
+        additionalText: String,
+        hasTooltip: {
+          type: Boolean,
+          reflectToAttribute: true,
+          computed: '_computeHasTooltip(account)',
+        },
+        hideAvatar: {
+          type: Boolean,
+          value: false,
+        },
+        _serverConfig: {
+          type: Object,
+          value: null,
+        },
+      };
+    }
 
     ready() {
+      super.ready();
       if (!this.additionalText) { this.additionalText = ''; }
       this.$.restAPI.getConfig()
           .then(config => { this._serverConfig = config; });
-    },
+    }
 
     _computeName(account, config) {
       return this.getUserName(config, account, false);
-    },
+    }
 
     _computeStatusTextLength(account, config) {
       // 35 as the max length of the name + status
       return Math.max(10, 35 - this._computeName(account, config).length);
-    },
+    }
 
     _computeAccountTitle(account, tooltip) {
       // Polymer 2: check for undefined
@@ -99,12 +101,12 @@
       }
 
       return result;
-    },
+    }
 
     _computeShowEmailClass(account) {
       if (!account || account.name || !account.email) { return ''; }
       return 'showEmail';
-    },
+    }
 
     _computeEmailStr(account) {
       if (!account || !account.email) {
@@ -114,11 +116,12 @@
         return '(' + account.email + ')';
       }
       return account.email;
-    },
+    }
 
     _computeHasTooltip(account) {
       // If an account has loaded to fire this method, then set to true.
       return !!account;
-    },
-  });
+    }
+  }
+  customElements.define(GrAccountLabel.is, GrAccountLabel);
 })();

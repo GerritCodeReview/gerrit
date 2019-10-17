@@ -29,37 +29,36 @@
   };
 
   const getNewCache = () => { return {left: null, right: null}; };
+  class GrDiffSelection extends Polymer.mixinBehaviors( [
+    Gerrit.DomUtilBehavior,
+  ], Polymer.LegacyDataMixin(
+      Polymer.GestureEventListeners(
+          Polymer.LegacyElementMixin(
+              Polymer.Element)))) {
+    static get is() { return 'gr-diff-selection'; }
 
-  Polymer({
-    is: 'gr-diff-selection',
-    _legacyUndefinedCheck: true,
+    static get properties() {
+      return {
+        diff: Object,
+        /** @type {?Object} */
+        _cachedDiffBuilder: Object,
+        _linesCache: {
+          type: Object,
+          value: getNewCache(),
+        },
+      };
+    }
 
-    properties: {
-      diff: Object,
-      /** @type {?Object} */
-      _cachedDiffBuilder: Object,
-      _linesCache: {
-        type: Object,
-        value: getNewCache(),
-      },
-    },
-
-    observers: [
-      '_diffChanged(diff)',
-    ],
-
-    listeners: {
-      copy: '_handleCopy',
-      down: '_handleDown',
-    },
-
-    behaviors: [
-      Gerrit.DomUtilBehavior,
-    ],
+    static get observers() {
+      return [
+        '_diffChanged(diff)',
+      ];
+    }
 
     attached() {
+      super.attached();
       this.classList.add(SelectionClass.RIGHT);
-    },
+    }
 
     get diffBuilder() {
       if (!this._cachedDiffBuilder) {
@@ -67,11 +66,11 @@
             Polymer.dom(this).querySelector('gr-diff-builder');
       }
       return this._cachedDiffBuilder;
-    },
+    }
 
     _diffChanged() {
       this._linesCache = getNewCache();
-    },
+    }
 
     _handleDownOnRangeComment(node) {
       // Keep the original behavior in polymer 1
@@ -82,13 +81,13 @@
         this._setClasses([
           SelectionClass.COMMENT,
           node.commentSide === 'left' ?
-          SelectionClass.LEFT :
-          SelectionClass.RIGHT,
+            SelectionClass.LEFT :
+            SelectionClass.RIGHT,
         ]);
         return true;
       }
       return false;
-    },
+    }
 
     _handleDown(e) {
       // Handle the down event on comment thread in Polymer 2
@@ -109,8 +108,8 @@
         const side = this.diffBuilder.getSideByLineEl(lineEl);
 
         targetClasses.push(side === 'left' ?
-            SelectionClass.LEFT :
-            SelectionClass.RIGHT);
+          SelectionClass.LEFT :
+          SelectionClass.RIGHT);
 
         if (commentSelected) {
           targetClasses.push(SelectionClass.COMMENT);
@@ -118,7 +117,7 @@
       }
 
       this._setClasses(targetClasses);
-    },
+    }
 
     /**
      * Set the provided list of classes on the element, to the exclusion of all
@@ -141,11 +140,11 @@
           this.classList.add(_class);
         }
       }
-    },
+    }
 
     _getCopyEventTarget(e) {
       return Polymer.dom(e).rootTarget;
-    },
+    }
 
     /**
      * Utility function to determine whether an element is a descendant of
@@ -158,7 +157,7 @@
     _elementDescendedFromClass(element, className) {
       return this.descendedFromClass(element, className,
           this.diffBuilder.diffElement);
-    },
+    }
 
     _handleCopy(e) {
       // Let the browser handle the copy event for polymer 2
@@ -183,7 +182,7 @@
         e.clipboardData.setData('Text', text);
         e.preventDefault();
       }
-    },
+    }
 
     /**
      * Get the text of the current window selection. If commentSelected is
@@ -222,7 +221,7 @@
 
       return this._getRangeFromDiff(startLineNum, range.startOffset, endLineNum,
           range.endOffset, side);
-    },
+    }
 
     /**
      * Query the diff object for the selected lines.
@@ -244,7 +243,7 @@
         lines[0] = lines[0].substring(startOffset);
       }
       return lines.join('\n');
-    },
+    }
 
     /**
      * Query the diff object for the lines from a particular side.
@@ -267,7 +266,7 @@
       }
       this._linesCache[side] = lines;
       return lines;
-    },
+    }
 
     /**
      * Query the diffElement for comments and check whether they lie inside the
@@ -305,7 +304,7 @@
       }
 
       return content.join('\n');
-    },
+    }
 
     /**
      * Given a DOM node, a selection, and a selection range, recursively get all
@@ -335,6 +334,13 @@
         }
       }
       return text;
-    },
-  });
+    }
+
+    created() {
+      super.created();
+      this.addEventListener('copy', e => this._handleCopy(e));
+      Polymer.Gestures.addListener(this, 'down', e => this._handleDown(e));
+    }
+  }
+  customElements.define(GrDiffSelection.is, GrDiffSelection);
 })();

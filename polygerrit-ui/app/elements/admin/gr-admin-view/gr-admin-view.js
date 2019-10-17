@@ -19,65 +19,69 @@
 
 
   const INTERNAL_GROUP_REGEX = /^[\da-f]{40}$/;
+  class GrAdminView extends Polymer.mixinBehaviors( [
+    Gerrit.AdminNavBehavior,
+    Gerrit.BaseUrlBehavior,
+    Gerrit.URLEncodingBehavior,
+  ], Polymer.LegacyDataMixin(
+      Polymer.GestureEventListeners(
+          Polymer.LegacyElementMixin(
+              Polymer.Element)))) {
+    static get is() { return 'gr-admin-view'; }
 
-  Polymer({
-    is: 'gr-admin-view',
-    _legacyUndefinedCheck: true,
-
-    properties: {
+    static get properties() {
+      return {
       /** @type {?} */
-      params: Object,
-      path: String,
-      adminView: String,
+        params: Object,
+        path: String,
+        adminView: String,
 
-      _breadcrumbParentName: String,
-      _repoName: String,
-      _groupId: {
-        type: Number,
-        observer: '_computeGroupName',
-      },
-      _groupIsInternal: Boolean,
-      _groupName: String,
-      _groupOwner: {
-        type: Boolean,
-        value: false,
-      },
-      _subsectionLinks: Array,
-      _filteredLinks: Array,
-      _showDownload: {
-        type: Boolean,
-        value: false,
-      },
-      _isAdmin: {
-        type: Boolean,
-        value: false,
-      },
-      _showGroup: Boolean,
-      _showGroupAuditLog: Boolean,
-      _showGroupList: Boolean,
-      _showGroupMembers: Boolean,
-      _showRepoAccess: Boolean,
-      _showRepoCommands: Boolean,
-      _showRepoDashboards: Boolean,
-      _showRepoDetailList: Boolean,
-      _showRepoMain: Boolean,
-      _showRepoList: Boolean,
-      _showPluginList: Boolean,
-    },
+        _breadcrumbParentName: String,
+        _repoName: String,
+        _groupId: {
+          type: Number,
+          observer: '_computeGroupName',
+        },
+        _groupIsInternal: Boolean,
+        _groupName: String,
+        _groupOwner: {
+          type: Boolean,
+          value: false,
+        },
+        _subsectionLinks: Array,
+        _filteredLinks: Array,
+        _showDownload: {
+          type: Boolean,
+          value: false,
+        },
+        _isAdmin: {
+          type: Boolean,
+          value: false,
+        },
+        _showGroup: Boolean,
+        _showGroupAuditLog: Boolean,
+        _showGroupList: Boolean,
+        _showGroupMembers: Boolean,
+        _showRepoAccess: Boolean,
+        _showRepoCommands: Boolean,
+        _showRepoDashboards: Boolean,
+        _showRepoDetailList: Boolean,
+        _showRepoMain: Boolean,
+        _showRepoList: Boolean,
+        _showPluginList: Boolean,
+      };
+    }
 
-    behaviors: [
-      Gerrit.AdminNavBehavior,
-      Gerrit.BaseUrlBehavior,
-      Gerrit.URLEncodingBehavior,
-    ],
-
-    observers: [
-      '_paramsChanged(params)',
-    ],
+    static get observers() {
+      return [
+        '_paramsChanged(params)',
+      ];
+    }
 
     attached() {
+      super.attached();
       this.reload();
-    },
+    }
 
     reload() {
       const promises = [
@@ -106,37 +110,37 @@
             .then(res => {
               this._filteredLinks = res.links;
               this._breadcrumbParentName = res.expandedSection ?
-                  res.expandedSection.name : '';
+                res.expandedSection.name : '';
 
               if (!res.expandedSection) {
                 this._subsectionLinks = [];
                 return;
               }
               this._subsectionLinks = [res.expandedSection]
-              .concat(res.expandedSection.children).map(section => {
-                return {
-                  text: !section.detailType ? 'Home' : section.name,
-                  value: section.view + (section.detailType || ''),
-                  view: section.view,
-                  url: section.url,
-                  detailType: section.detailType,
-                  parent: this._groupId || this._repoName || '',
-                };
-              });
+                  .concat(res.expandedSection.children).map(section => {
+                    return {
+                      text: !section.detailType ? 'Home' : section.name,
+                      value: section.view + (section.detailType || ''),
+                      view: section.view,
+                      url: section.url,
+                      detailType: section.detailType,
+                      parent: this._groupId || this._repoName || '',
+                    };
+                  });
             });
       });
-    },
+    }
 
     _computeSelectValue(params) {
       if (!params || !params.view) { return; }
       return params.view + (params.detail || '');
-    },
+    }
 
     _selectedIsCurrentPage(selected) {
       return (selected.parent === (this._repoName || this._groupId) &&
           selected.view === this.params.view &&
           selected.detailType === this.params.detail);
-    },
+    }
 
     _handleSubsectionChange(e) {
       const selected = this._subsectionLinks
@@ -147,7 +151,7 @@
         return;
       }
       Gerrit.Nav.navigateToRelativeUrl(selected.url);
-    },
+    }
 
     _paramsChanged(params) {
       const isGroupView = params.view === Gerrit.Nav.View.GROUP;
@@ -196,19 +200,19 @@
       }
       if (!needsReload) { return; }
       this.reload();
-    },
+    }
 
     // TODO (beckysiegel): Update these functions after router abstraction is
     // updated. They are currently copied from gr-dropdown (and should be
     // updated there as well once complete).
     _computeURLHelper(host, path) {
       return '//' + host + this.getBaseUrl() + path;
-    },
+    }
 
     _computeRelativeURL(path) {
       const host = window.location.host;
       return this._computeURLHelper(host, path);
-    },
+    }
 
     _computeLinkURL(link) {
       if (!link || typeof link.url === 'undefined') { return ''; }
@@ -216,7 +220,7 @@
         return link.url;
       }
       return this._computeRelativeURL(link.url);
-    },
+    }
 
     /**
      * @param {string} itemView
@@ -246,7 +250,7 @@
         return '';
       }
       return itemView === params.adminView ? 'selected' : '';
-    },
+    }
 
     _computeGroupName(groupId) {
       if (!groupId) { return ''; }
@@ -272,11 +276,12 @@
           this.reload();
         });
       });
-    },
+    }
 
     _updateGroupName(e) {
       this._groupName = e.detail.name;
       this.reload();
-    },
-  });
+    }
+  }
+  customElements.define(GrAdminView.is, GrAdminView);
 })();

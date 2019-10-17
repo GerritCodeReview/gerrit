@@ -16,21 +16,22 @@
  */
 (function() {
   'use strict';
+  class GrPluginHost extends Polymer.mixinBehaviors( [
+    Gerrit.BaseUrlBehavior,
+  ], Polymer.LegacyDataMixin(
+      Polymer.GestureEventListeners(
+          Polymer.LegacyElementMixin(
+              Polymer.Element)))) {
+    static get is() { return 'gr-plugin-host'; }
 
-  Polymer({
-    is: 'gr-plugin-host',
-    _legacyUndefinedCheck: true,
-
-    properties: {
-      config: {
-        type: Object,
-        observer: '_configChanged',
-      },
-    },
-
-    behaviors: [
-      Gerrit.BaseUrlBehavior,
-    ],
+    static get properties() {
+      return {
+        config: {
+          type: Object,
+          observer: '_configChanged',
+        },
+      };
+    }
 
     _configChanged(config) {
       const plugins = config.plugin;
@@ -39,8 +40,8 @@
           .filter(p => !Gerrit._isPluginPreloaded(p));
       const jsPlugins =
           this._handleMigrations(plugins.js_resource_paths || [], htmlPlugins)
-          .map(p => this._urlFor(p))
-          .filter(p => !Gerrit._isPluginPreloaded(p));
+              .map(p => this._urlFor(p))
+              .filter(p => !Gerrit._isPluginPreloaded(p));
       const shouldLoadTheme = config.default_theme &&
             !Gerrit._isPluginPreloaded('preloaded:gerrit-theme');
       const defaultTheme =
@@ -55,7 +56,7 @@
       }
       this._loadJsPlugins(jsPlugins);
       this._importHtmlPlugins(htmlPlugins);
-    },
+    }
 
     /**
      * Omit .js plugins that have .html counterparts.
@@ -66,7 +67,7 @@
         const counterpart = url.replace(/\.js$/, '.html');
         return !htmlPlugins.includes(counterpart);
       });
-    },
+    }
 
     /**
      * @suppress {checkTypes}
@@ -85,13 +86,13 @@
             Gerrit._pluginInstallError.bind(null, `${url} import error`),
             async);
       }
-    },
+    }
 
     _loadJsPlugins(plugins) {
       for (const url of plugins) {
         this._createScriptTag(this._urlFor(url));
       }
-    },
+    }
 
     _createScriptTag(url) {
       const el = document.createElement('script');
@@ -99,7 +100,7 @@
       el.src = url;
       el.onerror = Gerrit._pluginInstallError.bind(null, `${url} load error`);
       return document.body.appendChild(el);
-    },
+    }
 
     _urlFor(pathOrUrl) {
       if (!pathOrUrl) {
@@ -114,6 +115,7 @@
         pathOrUrl = '/' + pathOrUrl;
       }
       return window.location.origin + this.getBaseUrl() + pathOrUrl;
-    },
-  });
+    }
+  }
+  customElements.define(GrPluginHost.is, GrPluginHost);
 })();

@@ -24,36 +24,39 @@
     {name: 'Submits', key: 'notify_submitted_changes'},
     {name: 'Abandons', key: 'notify_abandoned_changes'},
   ];
+  class GrWatchedProjectsEditor extends Polymer.LegacyDataMixin(
+      Polymer.GestureEventListeners(
+          Polymer.LegacyElementMixin(
+              Polymer.Element))) {
+    static get is() { return 'gr-watched-projects-editor'; }
 
-  Polymer({
-    is: 'gr-watched-projects-editor',
-    _legacyUndefinedCheck: true,
-
-    properties: {
-      hasUnsavedChanges: {
-        type: Boolean,
-        value: false,
-        notify: true,
-      },
-
-      _projects: Array,
-      _projectsToRemove: {
-        type: Array,
-        value() { return []; },
-      },
-      _query: {
-        type: Function,
-        value() {
-          return this._getProjectSuggestions.bind(this);
+    static get properties() {
+      return {
+        hasUnsavedChanges: {
+          type: Boolean,
+          value: false,
+          notify: true,
         },
-      },
-    },
+
+        _projects: Array,
+        _projectsToRemove: {
+          type: Array,
+          value() { return []; },
+        },
+        _query: {
+          type: Function,
+          value() {
+            return this._getProjectSuggestions.bind(this);
+          },
+        },
+      };
+    }
 
     loadData() {
       return this.$.restAPI.getWatchedProjects().then(projs => {
         this._projects = projs;
       });
-    },
+    }
 
     save() {
       let deletePromise;
@@ -73,19 +76,19 @@
             this._projectsToRemove = [];
             this.hasUnsavedChanges = false;
           });
-    },
+    }
 
     _getTypes() {
       return NOTIFICATION_TYPES;
-    },
+    }
 
     _getTypeCount() {
       return this._getTypes().length;
-    },
+    }
 
     _computeCheckboxChecked(project, key) {
       return project.hasOwnProperty(key);
-    },
+    }
 
     _getProjectSuggestions(input) {
       return this.$.restAPI.getSuggestedProjects(input)
@@ -100,7 +103,7 @@
             }
             return projects;
           });
-    },
+    }
 
     _handleRemoveProject(e) {
       const el = Polymer.dom(e).localTarget;
@@ -109,7 +112,7 @@
       this.splice('_projects', index, 1);
       this.push('_projectsToRemove', project);
       this.hasUnsavedChanges = true;
-    },
+    }
 
     _canAddProject(project, text, filter) {
       if ((!project || !project.id) && !text) { return false; }
@@ -127,7 +130,7 @@
       }
 
       return true;
-    },
+    }
 
     _getNewProjectIndex(name, filter) {
       let i;
@@ -139,7 +142,7 @@
         }
       }
       return i;
-    },
+    }
 
     _handleAddProject() {
       const newProject = this.$.newProject.value;
@@ -159,7 +162,7 @@
       this.$.newProject.clear();
       this.$.newFilter.bindValue = '';
       this.hasUnsavedChanges = true;
-    },
+    }
 
     _handleCheckboxChange(e) {
       const el = Polymer.dom(e).localTarget;
@@ -168,11 +171,12 @@
       const checked = el.checked;
       this.set(['_projects', index, key], !!checked);
       this.hasUnsavedChanges = true;
-    },
+    }
 
     _handleNotifCellTap(e) {
       const checkbox = Polymer.dom(e.target).querySelector('input');
       if (checkbox) { checkbox.click(); }
-    },
-  });
+    }
+  }
+  customElements.define(GrWatchedProjectsEditor.is, GrWatchedProjectsEditor);
 })();

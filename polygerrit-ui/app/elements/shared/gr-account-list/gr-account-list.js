@@ -36,98 +36,89 @@
    * }}
    */
   Defs.GrSuggestionsProvider;
+  class GrAccountList extends Polymer.mixinBehaviors( [
+    // Used in the tests for gr-account-list and other elements tests.
+    Gerrit.FireBehavior,
+  ], Polymer.LegacyDataMixin(
+      Polymer.GestureEventListeners(
+          Polymer.LegacyElementMixin(
+              Polymer.Element)))) {
+    static get is() { return 'gr-account-list'; }
 
-  Polymer({
-    is: 'gr-account-list',
-    _legacyUndefinedCheck: true,
+    static get properties() {
+      return {
+        accounts: {
+          type: Array,
+          value() { return []; },
+          notify: true,
+        },
+        change: Object,
+        filter: Function,
+        placeholder: String,
+        disabled: {
+          type: Function,
+          value: false,
+        },
 
-    /**
-     * Fired when user inputs an invalid email address.
-     *
-     * @event show-alert
-     */
-
-    properties: {
-      accounts: {
-        type: Array,
-        value() { return []; },
-        notify: true,
-      },
-      change: Object,
-      filter: Function,
-      placeholder: String,
-      disabled: {
-        type: Function,
-        value: false,
-      },
-
-      /**
+        /**
        * Returns suggestions and convert them to list item
        * @type {Defs.GrSuggestionsProvider}
        */
-      suggestionsProvider: {
-        type: Object,
-      },
+        suggestionsProvider: {
+          type: Object,
+        },
 
-      /**
+        /**
        * Needed for template checking since value is initially set to null.
        * @type {?Object} */
-      pendingConfirmation: {
-        type: Object,
-        value: null,
-        notify: true,
-      },
-      readonly: {
-        type: Boolean,
-        value: false,
-      },
-      /**
+        pendingConfirmation: {
+          type: Object,
+          value: null,
+          notify: true,
+        },
+        readonly: {
+          type: Boolean,
+          value: false,
+        },
+        /**
        * When true, allows for non-suggested inputs to be added.
        */
-      allowAnyInput: {
-        type: Boolean,
-        value: false,
-      },
+        allowAnyInput: {
+          type: Boolean,
+          value: false,
+        },
 
-      /**
+        /**
        * Array of values (groups/accounts) that are removable. When this prop is
        * undefined, all values are removable.
        */
-      removableValues: Array,
-      maxCount: {
-        type: Number,
-        value: 0,
-      },
+        removableValues: Array,
+        maxCount: {
+          type: Number,
+          value: 0,
+        },
 
-      /** Returns suggestion items
+        /** Returns suggestion items
       * @type {!function(string): Promise<Array<Defs.GrSuggestionItem>>}
       */
-      _querySuggestions: {
-        type: Function,
-        value() {
-          return this._getSuggestions.bind(this);
+        _querySuggestions: {
+          type: Function,
+          value() {
+            return this._getSuggestions.bind(this);
+          },
         },
-      },
-    },
-
-    behaviors: [
-      // Used in the tests for gr-account-list and other elements tests.
-      Gerrit.FireBehavior,
-    ],
-
-    listeners: {
-      remove: '_handleRemove',
-    },
+      };
+    }
 
     get accountChips() {
       // Polymer2: querySelectorAll returns NodeList instead of Array.
       return Array.from(
           Polymer.dom(this.root).querySelectorAll('gr-account-chip'));
-    },
+    }
 
     get focusStart() {
       return this.$.entry.focusStart;
-    },
+    }
 
     _getSuggestions(input) {
       const provider = this.suggestionsProvider;
@@ -140,13 +131,13 @@
           suggestions = suggestions.filter(this.filter);
         }
         return suggestions.map(suggestion =>
-            provider.makeSuggestionItem(suggestion));
+          provider.makeSuggestionItem(suggestion));
       });
-    },
+    }
 
     _handleAdd(e) {
       this._addAccountItem(e.detail.value);
-    },
+    }
 
     _addAccountItem(item) {
       // Append new account or group to the accounts property. We add our own
@@ -182,14 +173,14 @@
       }
       this.pendingConfirmation = null;
       return true;
-    },
+    }
 
     confirmGroup(group) {
       group = Object.assign(
           {}, group, {confirmed: true, _pendingAdd: true, _group: true});
       this.push('accounts', group);
       this.pendingConfirmation = null;
-    },
+    }
 
     _computeChipClass(account) {
       const classes = [];
@@ -200,7 +191,7 @@
         classes.push('pendingAdd');
       }
       return classes.join(' ');
-    },
+    }
 
     _accountMatches(a, b) {
       if (a && b) {
@@ -212,7 +203,7 @@
         }
       }
       return a === b;
-    },
+    }
 
     _computeRemovable(account, readonly) {
       if (readonly) { return false; }
@@ -225,13 +216,13 @@
         return !!account._pendingAdd;
       }
       return true;
-    },
+    }
 
     _handleRemove(e) {
       const toRemove = e.detail.account;
       this._removeAccount(toRemove);
       this.$.entry.focus();
-    },
+    }
 
     _removeAccount(toRemove) {
       if (!toRemove || !this._computeRemovable(toRemove, this.readonly)) {
@@ -251,12 +242,12 @@
         }
       }
       console.warn('received remove event for missing account', toRemove);
-    },
+    }
 
     _getNativeInput(paperInput) {
       // In Polymer 2 inputElement isn't nativeInput anymore
       return paperInput.$.nativeInput || paperInput.inputElement;
-    },
+    }
 
     _handleInputKeydown(e) {
       const input = this._getNativeInput(e.detail.input);
@@ -274,7 +265,7 @@
           }
           break;
       }
-    },
+    }
 
     _handleChipKeydown(e) {
       const chip = e.target;
@@ -312,7 +303,7 @@
           }
           break;
       }
-    },
+    }
 
     /**
      * Submit the text of the entry as a reviewer value, if it exists. If it is
@@ -328,7 +319,7 @@
       const wasSubmitted = this._addAccountItem(text);
       if (wasSubmitted) { this.$.entry.clear(); }
       return wasSubmitted;
-    },
+    }
 
     additions() {
       return this.accounts.filter(account => {
@@ -340,10 +331,16 @@
           return {account};
         }
       });
-    },
+    }
 
     _computeEntryHidden(maxCount, accountsRecord, readonly) {
       return (maxCount && maxCount <= accountsRecord.base.length) || readonly;
-    },
-  });
+    }
+
+    created() {
+      super.created();
+      this.addEventListener('remove', e => this._handleRemove(e));
+    }
+  }
+  customElements.define(GrAccountList.is, GrAccountList);
 })();

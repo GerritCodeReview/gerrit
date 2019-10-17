@@ -51,206 +51,175 @@
   const EMPTY_REPLY_MESSAGE = 'Cannot send an empty reply.';
 
   const SEND_REPLY_TIMING_LABEL = 'SendReply';
+  class GrReplyDialog extends Polymer.mixinBehaviors( [
+    Gerrit.BaseUrlBehavior,
+    Gerrit.FireBehavior,
+    Gerrit.KeyboardShortcutBehavior,
+    Gerrit.PatchSetBehavior,
+    Gerrit.RESTClientBehavior,
+  ], Polymer.LegacyDataMixin(
+      Polymer.GestureEventListeners(
+          Polymer.LegacyElementMixin(
+              Polymer.Element)))) {
+    static get is() { return 'gr-reply-dialog'; }
 
-  Polymer({
-    is: 'gr-reply-dialog',
-    _legacyUndefinedCheck: true,
-
-    /**
-     * Fired when a reply is successfully sent.
-     *
-     * @event send
-     */
-
-    /**
-     * Fired when the user presses the cancel button.
-     *
-     * @event cancel
-     */
-
-    /**
-     * Fired when the main textarea's value changes, which may have triggered
-     * a change in size for the dialog.
-     *
-     * @event autogrow
-     */
-
-    /**
-     * Fires to show an alert when a send is attempted on the non-latest patch.
-     *
-     * @event show-alert
-     */
-
-    /**
-     * Fires when the reply dialog believes that the server side diff drafts
-     * have been updated and need to be refreshed.
-     *
-     * @event comment-refresh
-     */
-
-     /**
-      * Fires when the state of the send button (enabled/disabled) changes.
-      *
-      * @event send-disabled-changed
-      */
-
-    properties: {
+    static get properties() {
+      return {
       /**
        * @type {{ _number: number, removable_reviewers: Array }}
        */
-      change: Object,
-      patchNum: String,
-      canBeStarted: {
-        type: Boolean,
-        value: false,
-      },
-      disabled: {
-        type: Boolean,
-        value: false,
-        reflectToAttribute: true,
-      },
-      draft: {
-        type: String,
-        value: '',
-        observer: '_draftChanged',
-      },
-      quote: {
-        type: String,
-        value: '',
-      },
-      diffDrafts: {
-        type: Object,
-        observer: '_handleHeightChanged',
-      },
-      /** @type {!Function} */
-      filterReviewerSuggestion: {
-        type: Function,
-        value() {
-          return this._filterReviewerSuggestionGenerator(false);
+        change: Object,
+        patchNum: String,
+        canBeStarted: {
+          type: Boolean,
+          value: false,
         },
-      },
-      /** @type {!Function} */
-      filterCCSuggestion: {
-        type: Function,
-        value() {
-          return this._filterReviewerSuggestionGenerator(true);
+        disabled: {
+          type: Boolean,
+          value: false,
+          reflectToAttribute: true,
         },
-      },
-      permittedLabels: Object,
-      /**
+        draft: {
+          type: String,
+          value: '',
+          observer: '_draftChanged',
+        },
+        quote: {
+          type: String,
+          value: '',
+        },
+        diffDrafts: {
+          type: Object,
+          observer: '_handleHeightChanged',
+        },
+        /** @type {!Function} */
+        filterReviewerSuggestion: {
+          type: Function,
+          value() {
+            return this._filterReviewerSuggestionGenerator(false);
+          },
+        },
+        /** @type {!Function} */
+        filterCCSuggestion: {
+          type: Function,
+          value() {
+            return this._filterReviewerSuggestionGenerator(true);
+          },
+        },
+        permittedLabels: Object,
+        /**
        * @type {{ commentlinks: Array }}
        */
-      projectConfig: Object,
-      knownLatestState: String,
-      underReview: {
-        type: Boolean,
-        value: true,
-      },
-
-      _account: Object,
-      _ccs: Array,
-      /** @type {?Object} */
-      _ccPendingConfirmation: {
-        type: Object,
-        observer: '_reviewerPendingConfirmationUpdated',
-      },
-      _messagePlaceholder: {
-        type: String,
-        computed: '_computeMessagePlaceholder(canBeStarted)',
-      },
-      _owner: Object,
-      /** @type {?} */
-      _pendingConfirmationDetails: Object,
-      _includeComments: {
-        type: Boolean,
-        value: true,
-      },
-      _reviewers: Array,
-      /** @type {?Object} */
-      _reviewerPendingConfirmation: {
-        type: Object,
-        observer: '_reviewerPendingConfirmationUpdated',
-      },
-      _previewFormatting: {
-        type: Boolean,
-        value: false,
-        observer: '_handleHeightChanged',
-      },
-      _reviewersPendingRemove: {
-        type: Object,
-        value: {
-          CC: [],
-          REVIEWER: [],
+        projectConfig: Object,
+        knownLatestState: String,
+        underReview: {
+          type: Boolean,
+          value: true,
         },
-      },
-      _sendButtonLabel: {
-        type: String,
-        computed: '_computeSendButtonLabel(canBeStarted)',
-      },
-      _savingComments: Boolean,
-      _reviewersMutated: {
-        type: Boolean,
-        value: false,
-      },
-      _labelsChanged: {
-        type: Boolean,
-        value: false,
-      },
-      _saveTooltip: {
-        type: String,
-        value: ButtonTooltips.SAVE,
-        readOnly: true,
-      },
-      _pluginMessage: {
-        type: String,
-        value: '',
-      },
-      _sendDisabled: {
-        type: Boolean,
-        computed: '_computeSendButtonDisabled(_sendButtonLabel, diffDrafts, ' +
+
+        _account: Object,
+        _ccs: Array,
+        /** @type {?Object} */
+        _ccPendingConfirmation: {
+          type: Object,
+          observer: '_reviewerPendingConfirmationUpdated',
+        },
+        _messagePlaceholder: {
+          type: String,
+          computed: '_computeMessagePlaceholder(canBeStarted)',
+        },
+        _owner: Object,
+        /** @type {?} */
+        _pendingConfirmationDetails: Object,
+        _includeComments: {
+          type: Boolean,
+          value: true,
+        },
+        _reviewers: Array,
+        /** @type {?Object} */
+        _reviewerPendingConfirmation: {
+          type: Object,
+          observer: '_reviewerPendingConfirmationUpdated',
+        },
+        _previewFormatting: {
+          type: Boolean,
+          value: false,
+          observer: '_handleHeightChanged',
+        },
+        _reviewersPendingRemove: {
+          type: Object,
+          value: {
+            CC: [],
+            REVIEWER: [],
+          },
+        },
+        _sendButtonLabel: {
+          type: String,
+          computed: '_computeSendButtonLabel(canBeStarted)',
+        },
+        _savingComments: Boolean,
+        _reviewersMutated: {
+          type: Boolean,
+          value: false,
+        },
+        _labelsChanged: {
+          type: Boolean,
+          value: false,
+        },
+        _saveTooltip: {
+          type: String,
+          value: ButtonTooltips.SAVE,
+          readOnly: true,
+        },
+        _pluginMessage: {
+          type: String,
+          value: '',
+        },
+        _sendDisabled: {
+          type: Boolean,
+          computed: '_computeSendButtonDisabled(_sendButtonLabel, diffDrafts, ' +
             'draft, _reviewersMutated, _labelsChanged, _includeComments, ' +
             'disabled)',
-        observer: '_sendDisabledChanged',
-      },
-    },
+          observer: '_sendDisabledChanged',
+        },
+      };
+    }
 
-    FocusTarget,
+    get FocusTarget() { return FocusTarget; }
 
-    behaviors: [
-      Gerrit.BaseUrlBehavior,
-      Gerrit.FireBehavior,
-      Gerrit.KeyboardShortcutBehavior,
-      Gerrit.PatchSetBehavior,
-      Gerrit.RESTClientBehavior,
-    ],
+    get keyBindings() {
+      return {
+        'esc': '_handleEscKey',
+        'ctrl+enter meta+enter': '_handleEnterKey',
+      };
+    }
 
-    keyBindings: {
-      'esc': '_handleEscKey',
-      'ctrl+enter meta+enter': '_handleEnterKey',
-    },
-
-    observers: [
-      '_changeUpdated(change.reviewers.*, change.owner)',
-      '_ccsChanged(_ccs.splices)',
-      '_reviewersChanged(_reviewers.splices)',
-    ],
+    static get observers() {
+      return [
+        '_changeUpdated(change.reviewers.*, change.owner)',
+        '_ccsChanged(_ccs.splices)',
+        '_reviewersChanged(_reviewers.splices)',
+      ];
+    }
 
     attached() {
+      super.attached();
       this._getAccount().then(account => {
         this._account = account || {};
       });
-    },
+    }
 
     ready() {
+      super.ready();
       this.$.jsAPI.addElement(this.$.jsAPI.Element.REPLY_DIALOG, this);
-    },
+    }
 
     open(opt_focusTarget) {
       this.knownLatestState = LatestPatchState.CHECKING;
       this.fetchChangeUpdates(this.change, this.$.restAPI)
           .then(result => {
             this.knownLatestState = result.isLatest ?
-                LatestPatchState.LATEST : LatestPatchState.NOT_LATEST;
+              LatestPatchState.LATEST : LatestPatchState.NOT_LATEST;
           });
 
       this._focusOn(opt_focusTarget);
@@ -269,11 +238,11 @@
           this._savingComments = false;
         });
       }
-    },
+    }
 
     focus() {
       this._focusOn(FocusTarget.ANY);
-    },
+    }
 
     getFocusStops() {
       const end = this._sendDisabled ? this.$.cancelButton : this.$.sendButton;
@@ -281,14 +250,14 @@
         start: this.$.reviewers.focusStart,
         end,
       };
-    },
+    }
 
     setLabelValue(label, value) {
       const selectorEl =
           this.$.labelScores.$$(`gr-label-score-row[name="${label}"]`);
       if (!selectorEl) { return; }
       selectorEl.setSelectedValue(value);
-    },
+    }
 
     getLabelValue(label) {
       const selectorEl =
@@ -296,23 +265,23 @@
       if (!selectorEl) { return null; }
 
       return selectorEl.selectedValue;
-    },
+    }
 
     _handleEscKey(e) {
       this.cancel();
-    },
+    }
 
     _handleEnterKey(e) {
       this._submit();
-    },
+    }
 
     _ccsChanged(splices) {
       this._reviewerTypeChanged(splices, ReviewerTypes.CC);
-    },
+    }
 
     _reviewersChanged(splices) {
       this._reviewerTypeChanged(splices, ReviewerTypes.REVIEWER);
-    },
+    }
 
     _reviewerTypeChanged(splices, reviewerType) {
       if (splices && splices.indexSplices) {
@@ -343,7 +312,7 @@
           }
         }
       }
-    },
+    }
 
     _processReviewerChange(indexSplices, type) {
       for (const splice of indexSplices) {
@@ -355,7 +324,7 @@
           this._reviewersPendingRemove[type].push(account);
         }
       }
-    },
+    }
 
     /**
      * Resets the state of the _reviewersPendingRemove object, and removes
@@ -381,7 +350,7 @@
           this._reviewersPendingRemove[type] = [];
         }
       }
-    },
+    }
 
     /**
      * Removes an account from the change, both on the backend and the client.
@@ -398,17 +367,17 @@
 
       return this.$.restAPI.removeChangeReviewer(this.change._number,
           account._account_id).then(response => {
-            if (!response.ok) { return response; }
+        if (!response.ok) { return response; }
 
-            const reviewers = this.change.reviewers[type] || [];
-            for (let i = 0; i < reviewers.length; i++) {
-              if (reviewers[i]._account_id == account._account_id) {
-                this.splice(['change', 'reviewers', type], i, 1);
-                break;
-              }
-            }
-          });
-    },
+        const reviewers = this.change.reviewers[type] || [];
+        for (let i = 0; i < reviewers.length; i++) {
+          if (reviewers[i]._account_id == account._account_id) {
+            this.splice(['change', 'reviewers', type], i, 1);
+            break;
+          }
+        }
+      });
+    }
 
     _mapReviewer(reviewer) {
       let reviewerId;
@@ -420,7 +389,7 @@
         confirmed = reviewer.group.confirmed;
       }
       return {reviewer: reviewerId, confirmed};
-    },
+    }
 
     send(includeComments, startReview) {
       this.$.reporting.time(SEND_REPLY_TIMING_LABEL);
@@ -483,7 +452,7 @@
         this.disabled = false;
         throw err;
       });
-    },
+    }
 
     _focusOn(section) {
       // Safeguard- always want to focus on something.
@@ -501,7 +470,7 @@
         const ccEntry = this.$$('#ccs').focusStart;
         ccEntry.async(ccEntry.focus);
       }
-    },
+    }
 
     _chooseFocusTarget() {
       // If we are the owner and the reviewers field is empty, focus on that.
@@ -513,7 +482,7 @@
 
       // Default to BODY.
       return FocusTarget.BODY;
-    },
+    }
 
     _handle400Error(response) {
       // A call to _saveReview could fail with a server error if erroneous
@@ -555,11 +524,11 @@
         this.fire('server-error', {response});
         return null; // Means that the error has been handled.
       });
-    },
+    }
 
     _computeHideDraftList(drafts) {
       return Object.keys(drafts || {}).length == 0;
-    },
+    }
 
     _computeDraftsTitle(drafts) {
       let total = 0;
@@ -571,13 +540,13 @@
       if (total == 0) { return ''; }
       if (total == 1) { return '1 Draft'; }
       if (total > 1) { return total + ' Drafts'; }
-    },
+    }
 
     _computeMessagePlaceholder(canBeStarted) {
       return canBeStarted ?
         'Add a note for your reviewers...' :
         'Say something nice...';
-    },
+    }
 
     _changeUpdated(changeRecord, owner) {
       // Polymer 2: check for undefined
@@ -586,7 +555,7 @@
       }
 
       this._rebuildReviewerArrays(changeRecord.base, owner);
-    },
+    }
 
     _rebuildReviewerArrays(change, owner) {
       this._owner = owner;
@@ -618,11 +587,11 @@
 
       this._ccs = ccs;
       this._reviewers = reviewers;
-    },
+    }
 
     _accountOrGroupKey(entry) {
       return entry.id || entry._account_id;
-    },
+    }
 
     /**
      * Generates a function to filter out reviewer/CC entries. When isCCs is
@@ -654,23 +623,23 @@
         }
         return this._reviewers.find(finder) === undefined;
       };
-    },
+    }
 
     _getAccount() {
       return this.$.restAPI.getAccount();
-    },
+    }
 
     _cancelTapHandler(e) {
       e.preventDefault();
       this.cancel();
-    },
+    }
 
     cancel() {
       this.fire('cancel', null, {bubbles: false});
       this.$.textarea.closeDropdown();
       this._purgeReviewersPendingRemove(true);
       this._rebuildReviewerArrays(this.change.reviewers, this._owner);
-    },
+    }
 
     _saveTapHandler(e) {
       e.preventDefault();
@@ -682,12 +651,12 @@
       this.send(this._includeComments, false).then(keepReviewers => {
         this._purgeReviewersPendingRemove(false, keepReviewers);
       });
-    },
+    }
 
     _sendTapHandler(e) {
       e.preventDefault();
       this._submit();
-    },
+    }
 
     _submit() {
       if (!this.$$('#ccs').submitEntryText()) {
@@ -714,12 +683,12 @@
               detail: {message: `Error submitting review ${err}`},
             }));
           });
-    },
+    }
 
     _saveReview(review, opt_errFn) {
       return this.$.restAPI.saveChangeReview(this.change._number, this.patchNum,
           review, opt_errFn);
-    },
+    }
 
     _reviewerPendingConfirmationUpdated(reviewer) {
       if (reviewer === null) {
@@ -729,7 +698,7 @@
             this._ccPendingConfirmation || this._reviewerPendingConfirmation;
         this.$.reviewerConfirmationOverlay.open();
       }
-    },
+    }
 
     _confirmPendingReviewer() {
       if (this._ccPendingConfirmation) {
@@ -739,7 +708,7 @@
         this.$.reviewers.confirmGroup(this._reviewerPendingConfirmation.group);
         this._focusOn(FocusTarget.REVIEWERS);
       }
-    },
+    }
 
     _cancelPendingReviewer() {
       this._ccPendingConfirmation = null;
@@ -748,7 +717,7 @@
       const target =
           this._ccPendingConfirmation ? FocusTarget.CCS : FocusTarget.REVIEWERS;
       this._focusOn(target);
-    },
+    }
 
     _getStorageLocation() {
       // Tests trigger this method without setting change.
@@ -758,12 +727,12 @@
         patchNum: '@change',
         path: '@change',
       };
-    },
+    }
 
     _loadStoredDraft() {
       const draft = this.$.storage.getDraftComment(this._getStorageLocation());
       return draft ? draft.message : '';
-    },
+    }
 
     _handleAccountTextEntry() {
       // When either of the account entries has input added to the autocomplete,
@@ -771,7 +740,7 @@
       //
       // Note: if the text is removed, the save button will not get disabled.
       this._reviewersMutated = true;
-    },
+    }
 
     _draftChanged(newDraft, oldDraft) {
       this.debounce('store', () => {
@@ -784,37 +753,37 @@
               this.draft);
         }
       }, STORAGE_DEBOUNCE_INTERVAL_MS);
-    },
+    }
 
     _handleHeightChanged(e) {
       this.fire('autogrow');
-    },
+    }
 
     _handleLabelsChanged() {
       this._labelsChanged = Object.keys(
           this.$.labelScores.getLabelValues()).length !== 0;
-    },
+    }
 
     _isState(knownLatestState, value) {
       return knownLatestState === value;
-    },
+    }
 
     _reload() {
       // Load the current change without any patch range.
       location.href = this.getBaseUrl() + '/c/' + this.change._number;
-    },
+    }
 
     _computeSendButtonLabel(canBeStarted) {
       return canBeStarted ? ButtonLabels.START_REVIEW : ButtonLabels.SEND;
-    },
+    }
 
     _computeSendButtonTooltip(canBeStarted) {
       return canBeStarted ? ButtonTooltips.START_REVIEW : ButtonTooltips.SEND;
-    },
+    }
 
     _computeSavingLabelClass(savingComments) {
       return savingComments ? 'saving' : '';
-    },
+    }
 
     _computeSendButtonDisabled(buttonLabel, drafts, text, reviewersMutated,
         labelsChanged, includeComments, disabled) {
@@ -835,7 +804,7 @@
       if (buttonLabel === ButtonLabels.START_REVIEW) { return false; }
       const hasDrafts = includeComments && Object.keys(drafts).length;
       return !hasDrafts && !text.length && !reviewersMutated && !labelsChanged;
-    },
+    }
 
     _computePatchSetWarning(patchNum, labelsChanged) {
       let str = `Patch ${patchNum} is not latest.`;
@@ -843,28 +812,29 @@
         str += ' Voting on a non-latest patch will have no effect.';
       }
       return str;
-    },
+    }
 
     setPluginMessage(message) {
       this._pluginMessage = message;
-    },
+    }
 
     _sendDisabledChanged(sendDisabled) {
       this.dispatchEvent(new CustomEvent('send-disabled-changed'));
-    },
+    }
 
     _getReviewerSuggestionsProvider(change) {
       const provider = GrReviewerSuggestionsProvider.create(this.$.restAPI,
           change._number, Gerrit.SUGGESTIONS_PROVIDERS_USERS_TYPES.REVIEWER);
       provider.init();
       return provider;
-    },
+    }
 
     _getCcSuggestionsProvider(change) {
       const provider = GrReviewerSuggestionsProvider.create(this.$.restAPI,
           change._number, Gerrit.SUGGESTIONS_PROVIDERS_USERS_TYPES.CC);
       provider.init();
       return provider;
-    },
-  });
+    }
+  }
+  customElements.define(GrReplyDialog.is, GrReplyDialog);
 })();

@@ -106,118 +106,99 @@
   const COMMIT_MSG_LINE_LENGTH = 72;
 
   const RENDER_DIFF_TABLE_DEBOUNCE_NAME = 'renderDiffTable';
+  class GrDiff extends Polymer.mixinBehaviors( [
+    Gerrit.FireBehavior,
+    Gerrit.PatchSetBehavior,
+  ], Polymer.LegacyDataMixin(
+      Polymer.GestureEventListeners(
+          Polymer.LegacyElementMixin(
+              Polymer.Element)))) {
+    static get is() { return 'gr-diff'; }
 
-  Polymer({
-    is: 'gr-diff',
-    _legacyUndefinedCheck: true,
+    static get properties() {
+      return {
+        changeNum: String,
+        noAutoRender: {
+          type: Boolean,
+          value: false,
+        },
+        /** @type {?} */
+        patchRange: Object,
+        path: {
+          type: String,
+          observer: '_pathObserver',
+        },
+        prefs: {
+          type: Object,
+          observer: '_prefsObserver',
+        },
+        projectName: String,
+        displayLine: {
+          type: Boolean,
+          value: false,
+        },
+        isImageDiff: {
+          type: Boolean,
+        },
+        commitRange: Object,
+        hidden: {
+          type: Boolean,
+          reflectToAttribute: true,
+        },
+        noRenderOnPrefsChange: Boolean,
+        /** @type {!Array<!Gerrit.HoveredRange>} */
+        _commentRanges: {
+          type: Array,
+          value: () => [],
+        },
+        /** @type {!Array<!Gerrit.CoverageRange>} */
+        coverageRanges: {
+          type: Array,
+          value: () => [],
+        },
+        lineWrapping: {
+          type: Boolean,
+          value: false,
+          observer: '_lineWrappingObserver',
+        },
+        viewMode: {
+          type: String,
+          value: DiffViewMode.SIDE_BY_SIDE,
+          observer: '_viewModeObserver',
+        },
 
-    /**
-     * Fired when the user selects a line.
-     * @event line-selected
-     */
+        /** @type ?Defs.LineOfInterest */
+        lineOfInterest: Object,
 
-    /**
-     * Fired if being logged in is required.
-     *
-     * @event show-auth-required
-     */
+        loading: {
+          type: Boolean,
+          value: false,
+          observer: '_loadingChanged',
+        },
 
-    /**
-     * Fired when a comment is created
-     *
-     * @event create-comment
-     */
+        loggedIn: {
+          type: Boolean,
+          value: false,
+        },
+        diff: {
+          type: Object,
+          observer: '_diffChanged',
+        },
+        _diffHeaderItems: {
+          type: Array,
+          value: [],
+          computed: '_computeDiffHeaderItems(diff.*)',
+        },
+        _diffTableClass: {
+          type: String,
+          value: '',
+        },
+        /** @type {?Object} */
+        baseImage: Object,
+        /** @type {?Object} */
+        revisionImage: Object,
 
-    /**
-     * Fired when rendering, including syntax highlighting, is done. Also fired
-     * when no rendering can be done because required preferences are not set.
-     *
-     * @event render
-     */
-
-    properties: {
-      changeNum: String,
-      noAutoRender: {
-        type: Boolean,
-        value: false,
-      },
-      /** @type {?} */
-      patchRange: Object,
-      path: {
-        type: String,
-        observer: '_pathObserver',
-      },
-      prefs: {
-        type: Object,
-        observer: '_prefsObserver',
-      },
-      projectName: String,
-      displayLine: {
-        type: Boolean,
-        value: false,
-      },
-      isImageDiff: {
-        type: Boolean,
-      },
-      commitRange: Object,
-      hidden: {
-        type: Boolean,
-        reflectToAttribute: true,
-      },
-      noRenderOnPrefsChange: Boolean,
-      /** @type {!Array<!Gerrit.HoveredRange>} */
-      _commentRanges: {
-        type: Array,
-        value: () => [],
-      },
-      /** @type {!Array<!Gerrit.CoverageRange>} */
-      coverageRanges: {
-        type: Array,
-        value: () => [],
-      },
-      lineWrapping: {
-        type: Boolean,
-        value: false,
-        observer: '_lineWrappingObserver',
-      },
-      viewMode: {
-        type: String,
-        value: DiffViewMode.SIDE_BY_SIDE,
-        observer: '_viewModeObserver',
-      },
-
-       /** @type ?Defs.LineOfInterest */
-      lineOfInterest: Object,
-
-      loading: {
-        type: Boolean,
-        value: false,
-        observer: '_loadingChanged',
-      },
-
-      loggedIn: {
-        type: Boolean,
-        value: false,
-      },
-      diff: {
-        type: Object,
-        observer: '_diffChanged',
-      },
-      _diffHeaderItems: {
-        type: Array,
-        value: [],
-        computed: '_computeDiffHeaderItems(diff.*)',
-      },
-      _diffTableClass: {
-        type: String,
-        value: '',
-      },
-      /** @type {?Object} */
-      baseImage: Object,
-      /** @type {?Object} */
-      revisionImage: Object,
-
-      /**
+        /**
        * Whether the safety check for large diffs when whole-file is set has
        * been bypassed. If the value is null, then the safety has not been
        * bypassed. If the value is a number, then that number represents the
@@ -225,83 +206,78 @@
        *
        * @type (number|null)
        */
-      _safetyBypass: {
-        type: Number,
-        value: null,
-      },
+        _safetyBypass: {
+          type: Number,
+          value: null,
+        },
 
-      _showWarning: Boolean,
+        _showWarning: Boolean,
 
-      /** @type {?string} */
-      errorMessage: {
-        type: String,
-        value: null,
-      },
+        /** @type {?string} */
+        errorMessage: {
+          type: String,
+          value: null,
+        },
 
-      /** @type {?Object} */
-      blame: {
-        type: Object,
-        value: null,
-        observer: '_blameChanged',
-      },
+        /** @type {?Object} */
+        blame: {
+          type: Object,
+          value: null,
+          observer: '_blameChanged',
+        },
 
-      parentIndex: Number,
+        parentIndex: Number,
 
-      _newlineWarning: {
-        type: String,
-        computed: '_computeNewlineWarning(diff)',
-      },
+        _newlineWarning: {
+          type: String,
+          computed: '_computeNewlineWarning(diff)',
+        },
 
-      _diffLength: Number,
+        _diffLength: Number,
 
-      /**
+        /**
        * Observes comment nodes added or removed after the initial render.
        * Can be used to unregister when the entire diff is (re-)rendered or upon
        * detachment.
        * @type {?PolymerDomApi.ObserveHandle}
        */
-      _incrementalNodeObserver: Object,
+        _incrementalNodeObserver: Object,
 
-      /**
+        /**
        * Observes comment nodes added or removed at any point.
        * Can be used to unregister upon detachment.
        * @type {?PolymerDomApi.ObserveHandle}
        */
-      _nodeObserver: Object,
+        _nodeObserver: Object,
 
-      /** Set by Polymer. */
-      isAttached: Boolean,
-      layers: Array,
-    },
+        /** Set by Polymer. */
+        isAttached: Boolean,
+        layers: Array,
+      };
+    }
 
-    behaviors: [
-      Gerrit.FireBehavior,
-      Gerrit.PatchSetBehavior,
-    ],
-
-    listeners: {
-      'create-range-comment': '_handleCreateRangeComment',
-      'render-content': '_handleRenderContent',
-    },
-
-    observers: [
-      '_enableSelectionObserver(loggedIn, isAttached)',
-    ],
+    static get observers() {
+      return [
+        '_enableSelectionObserver(loggedIn, isAttached)',
+      ];
+    }
 
     attached() {
+      super.attached();
       this._observeNodes();
-    },
+    }
 
     detached() {
+      super.detached();
       this._unobserveIncrementalNodes();
       this._unobserveNodes();
-    },
+    }
 
     showNoChangeMessage(loading, prefs, diffLength) {
       return !loading &&
         prefs && prefs.ignore_whitespace !== 'IGNORE_NONE'
         && diffLength === 0;
-    },
+    }
 
     _enableSelectionObserver(loggedIn, isAttached) {
       // Polymer 2: check for undefined
@@ -316,7 +292,7 @@
         this.unlisten(document, 'selectionchange', '_handleSelectionChange');
         this.unlisten(document, 'mouseup', '_handleMouseUp');
       }
-    },
+    }
 
     _handleSelectionChange() {
       // Because of shadow DOM selections, we handle the selectionchange here,
@@ -324,7 +300,7 @@
       // corresponding range is determined and normalized.
       const selection = this._getShadowOrDocumentSelection();
       this.$.highlights.handleSelectionChange(selection, false);
-    },
+    }
 
     _handleMouseUp(e) {
       // To handle double-click outside of text creating comments, we check on
@@ -332,7 +308,7 @@
       // can't do that on selection change since the user may still be dragging.
       const selection = this._getShadowOrDocumentSelection();
       this.$.highlights.handleSelectionChange(selection, true);
-    },
+    }
 
     /** Gets the current selection, preferring the shadow DOM selection. */
     _getShadowOrDocumentSelection() {
@@ -341,9 +317,9 @@
       // up the diff, because they are in the shadow DOM of the gr-diff element.
       // This takes the shadow DOM selection if one exists.
       return this.root.getSelection ?
-          this.root.getSelection() :
-          document.getSelection();
-    },
+        this.root.getSelection() :
+        document.getSelection();
+    }
 
     _observeNodes() {
       this._nodeObserver = Polymer.dom(this).observeNodes(info => {
@@ -352,7 +328,7 @@
         this._updateRanges(addedThreadEls, removedThreadEls);
         this._redispatchHoverEvents(addedThreadEls);
       });
-    },
+    }
 
     _updateRanges(addedThreadEls, removedThreadEls) {
       function commentRangeFromThreadEl(threadEl) {
@@ -378,7 +354,7 @@
       if (addedCommentRanges && addedCommentRanges.length) {
         this.push('_commentRanges', ...addedCommentRanges);
       }
-    },
+    }
 
     /**
      * The key locations based on the comments and line of interests,
@@ -403,7 +379,7 @@
         keyLocations[commentSide][lineNum] = true;
       }
       return keyLocations;
-    },
+    }
 
     // Dispatch events that are handled by the gr-diff-highlight.
     _redispatchHoverEvents(addedThreadEls) {
@@ -417,13 +393,13 @@
               'comment-thread-mouseleave', {bubbles: true, composed: true}));
         });
       }
-    },
+    }
 
     /** Cancel any remaining diff builder rendering work. */
     cancel() {
       this.$.diffBuilder.cancel();
       this.cancelDebouncer(RENDER_DIFF_TABLE_DEBOUNCE_NAME);
-    },
+    }
 
     /** @return {!Array<!HTMLElement>} */
     getCursorStops() {
@@ -434,16 +410,16 @@
       // Polymer2: querySelectorAll returns NodeList instead of Array.
       return Array.from(
           Polymer.dom(this.root).querySelectorAll('.diff-row'));
-    },
+    }
 
     /** @return {boolean} */
     isRangeSelected() {
       return this.$.highlights.isRangeSelected();
-    },
+    }
 
     toggleLeftDiff() {
       this.toggleClass('no-left');
-    },
+    }
 
     _blameChanged(newValue) {
       this.$.diffBuilder.setBlame(newValue);
@@ -452,7 +428,7 @@
       } else {
         this.classList.remove('showBlame');
       }
-    },
+    }
 
     /** @return {string} */
     _computeContainerClass(loggedIn, viewMode, displayLine) {
@@ -477,7 +453,7 @@
         classes.push('displayLine');
       }
       return classes.join(' ');
-    },
+    }
 
     _handleTap(e) {
       const el = Polymer.dom(e).localTarget;
@@ -492,7 +468,7 @@
         const target = this.$.diffBuilder.getLineElByChild(el);
         if (target) { this._selectLine(target); }
       }
-    },
+    }
 
     _selectLine(el) {
       this.fire('line-selected', {
@@ -500,7 +476,7 @@
         number: el.getAttribute('data-value'),
         path: this.path,
       });
-    },
+    }
 
     addDraftAtLine(el) {
       this._selectLine(el);
@@ -516,7 +492,7 @@
         }
       }
       this._createComment(el, lineNum);
-    },
+    }
 
     _handleCreateRangeComment(e) {
       const range = e.detail.range;
@@ -527,7 +503,7 @@
       if (this._isValidElForComment(lineEl)) {
         this._createComment(lineEl, lineNum, side, range);
       }
-    },
+    }
 
     /** @return {boolean} */
     _isValidElForComment(el) {
@@ -536,8 +512,8 @@
         return false;
       }
       const patchNum = el.classList.contains(DiffSide.LEFT) ?
-          this.patchRange.basePatchNum :
-          this.patchRange.patchNum;
+        this.patchRange.basePatchNum :
+        this.patchRange.patchNum;
 
       const isEdit = this.patchNumEquals(patchNum, this.EDIT_NAME);
       const isEditBase = this.patchNumEquals(patchNum, this.PARENT_NAME) &&
@@ -551,7 +527,7 @@
         return false;
       }
       return true;
-    },
+    }
 
     /**
      * @param {!Object} lineEl
@@ -579,11 +555,11 @@
           range,
         },
       }));
-    },
+    }
 
     _getThreadGroupForLine(contentEl) {
       return contentEl.querySelector('.thread-group');
-    },
+    }
 
     /**
      * Gets or creates a comment thread group for a specific line and side on a
@@ -602,7 +578,7 @@
         contentEl.appendChild(threadGroupEl);
       }
       return threadGroupEl;
-    },
+    }
 
     /**
      * The value to be used for the patch number of new comments created at the
@@ -628,7 +604,7 @@
         patchNum = this.patchRange.basePatchNum;
       }
       return patchNum;
-    },
+    }
 
     /** @return {boolean} */
     _getIsParentCommentByLineAndContent(lineEl, contentEl) {
@@ -639,7 +615,7 @@
         return true;
       }
       return false;
-    },
+    }
 
     /** @return {string} */
     _getCommentSideByLineAndContent(lineEl, contentEl) {
@@ -649,7 +625,7 @@
         side = 'left';
       }
       return side;
-    },
+    }
 
     _prefsObserver(newPrefs, oldPrefs) {
       // Scan the preference objects one level deep to see if they differ.
@@ -665,16 +641,16 @@
       if (differ) {
         this._prefsChanged(newPrefs);
       }
-    },
+    }
 
     _pathObserver() {
       // Call _prefsChanged(), because line-limit style value depends on path.
       this._prefsChanged(this.prefs);
-    },
+    }
 
     _viewModeObserver() {
       this._prefsChanged(this.prefs);
-    },
+    }
 
     /** @param {boolean} newValue */
     _loadingChanged(newValue) {
@@ -685,11 +661,11 @@
         this._showWarning = false;
         this.clearDiffContent();
       }
-    },
+    }
 
     _lineWrappingObserver() {
       this._prefsChanged(this.prefs);
-    },
+    }
 
     _prefsChanged(prefs) {
       if (!prefs) { return; }
@@ -720,14 +696,14 @@
       if (this.diff && !this.noRenderOnPrefsChange) {
         this._debounceRenderDiffTable();
       }
-    },
+    }
 
     _diffChanged(newValue) {
       if (newValue) {
         this._diffLength = this.getDiffLength(newValue);
         this._debounceRenderDiffTable();
       }
-    },
+    }
 
     /**
      * When called multiple times from the same microtask, will call
@@ -742,7 +718,7 @@
     _debounceRenderDiffTable() {
       this.debounce(
           RENDER_DIFF_TABLE_DEBOUNCE_NAME, () => this._renderDiffTable());
-    },
+    }
 
     _renderDiffTable() {
       this._unobserveIncrementalNodes();
@@ -772,7 +748,7 @@
                   detail: {contentRendered: true},
                 }));
           });
-    },
+    }
 
     _handleRenderContent() {
       this._incrementalNodeObserver = Polymer.dom(this).observeNodes(info => {
@@ -802,19 +778,19 @@
           Polymer.dom(threadGroupEl).appendChild(Gerrit.slotToContent(slot));
         }
       });
-    },
+    }
 
     _unobserveIncrementalNodes() {
       if (this._incrementalNodeObserver) {
         Polymer.dom(this).unobserveNodes(this._incrementalNodeObserver);
       }
-    },
+    }
 
     _unobserveNodes() {
       if (this._nodeObserver) {
         Polymer.dom(this).unobserveNodes(this._nodeObserver);
       }
-    },
+    }
 
     /**
      * Get the preferences object including the safety bypass context (if any).
@@ -824,12 +800,12 @@
         return Object.assign({}, this.prefs, {context: this._safetyBypass});
       }
       return this.prefs;
-    },
+    }
 
     clearDiffContent() {
       this._unobserveIncrementalNodes();
       this.$.diffTable.innerHTML = null;
-    },
+    }
 
     /** @return {!Array} */
     _computeDiffHeaderItems(diffInfoRecord) {
@@ -842,27 +818,27 @@
             item.startsWith('--- ') ||
             item === 'Binary files differ');
       });
-    },
+    }
 
     /** @return {boolean} */
     _computeDiffHeaderHidden(items) {
       return items.length === 0;
-    },
+    }
 
     _handleFullBypass() {
       this._safetyBypass = FULL_CONTEXT;
       this._debounceRenderDiffTable();
-    },
+    }
 
     _handleLimitedBypass() {
       this._safetyBypass = LIMITED_CONTEXT;
       this._debounceRenderDiffTable();
-    },
+    }
 
     /** @return {string} */
     _computeWarningClass(showWarning) {
       return showWarning ? 'warn' : '';
-    },
+    }
 
     /**
      * @param {string} errorMessage
@@ -870,11 +846,11 @@
      */
     _computeErrorClass(errorMessage) {
       return errorMessage ? 'showError' : '';
-    },
+    }
 
     expandAllContext() {
       this._handleFullBypass();
-    },
+    }
 
     /**
      * Find the last chunk for the given side.
@@ -895,8 +871,8 @@
         chunkIndex--;
         chunk = diff.content[chunkIndex];
       } while (
-          // We haven't reached the beginning.
-          chunkIndex >= 0 &&
+      // We haven't reached the beginning.
+        chunkIndex >= 0 &&
 
           // The chunk doesn't have both sides.
           !chunk.ab &&
@@ -909,7 +885,7 @@
       if (chunkIndex === -1) { return null; }
 
       return chunk;
-    },
+    }
 
     /**
      * Check whether the specified side of the diff has a trailing newline.
@@ -930,7 +906,7 @@
         lines = leftSide ? chunk.a : chunk.b;
       }
       return lines[lines.length - 1] === '';
-    },
+    }
 
     /**
      * @param {!Object} diff
@@ -948,7 +924,7 @@
       }
       if (!messages.length) { return null; }
       return messages.join(' — ');
-    },
+    }
 
     /**
      * @param {string} warning
@@ -958,7 +934,7 @@
     _computeNewlineWarningClass(warning, loading) {
       if (loading || !warning) { return 'newlineWarning hidden'; }
       return 'newlineWarning';
-    },
+    }
 
     /**
      * Get the approximate length of the diff as the sum of the maximum
@@ -977,6 +953,13 @@
               sec.hasOwnProperty('b') ? sec.b.length : 0);
         }
       }, 0);
-    },
-  });
+    }
+
+    created() {
+      super.created();
+      this.addEventListener('create-range-comment', e => this._handleCreateRangeComment(e));
+      this.addEventListener('render-content', () => this._handleRenderContent());
+    }
+  }
+  customElements.define(GrDiff.is, GrDiff);
 })();

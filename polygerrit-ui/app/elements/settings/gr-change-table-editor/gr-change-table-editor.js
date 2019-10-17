@@ -16,25 +16,26 @@
  */
 (function() {
   'use strict';
+  class GrChangeTableEditor extends Polymer.mixinBehaviors( [
+    Gerrit.ChangeTableBehavior,
+  ], Polymer.LegacyDataMixin(
+      Polymer.GestureEventListeners(
+          Polymer.LegacyElementMixin(
+              Polymer.Element)))) {
+    static get is() { return 'gr-change-table-editor'; }
 
-  Polymer({
-    is: 'gr-change-table-editor',
-    _legacyUndefinedCheck: true,
-
-    properties: {
-      displayedColumns: {
-        type: Array,
-        notify: true,
-      },
-      showNumber: {
-        type: Boolean,
-        notify: true,
-      },
-    },
-
-    behaviors: [
-      Gerrit.ChangeTableBehavior,
-    ],
+    static get properties() {
+      return {
+        displayedColumns: {
+          type: Array,
+          notify: true,
+        },
+        showNumber: {
+          type: Boolean,
+          notify: true,
+        },
+      };
+    }
 
     /**
      * Get the list of enabled column names from whichever checkboxes are
@@ -47,7 +48,7 @@
           .querySelectorAll('.checkboxContainer input:not([name=number])'))
           .filter(checkbox => checkbox.checked)
           .map(checkbox => checkbox.name);
-    },
+    }
 
     /**
      * Handle a tap on a checkbox container and relay the tap to the checkbox it
@@ -57,7 +58,7 @@
       const checkbox = Polymer.dom(e.target).querySelector('input');
       if (!checkbox) { return; }
       checkbox.click();
-    },
+    }
 
     /**
      * Handle a tap on the number checkbox and update the showNumber property
@@ -65,7 +66,7 @@
      */
     _handleNumberCheckboxTap(e) {
       this.showNumber = Polymer.dom(e).rootTarget.checked;
-    },
+    }
 
     /**
      * Handle a tap on a displayed column checkboxes (excluding number) and
@@ -73,6 +74,7 @@
      */
     _handleTargetTap(e) {
       this.set('displayedColumns', this._getDisplayedColumns());
-    },
-  });
+    }
+  }
+  customElements.define(GrChangeTableEditor.is, GrChangeTableEditor);
 })();

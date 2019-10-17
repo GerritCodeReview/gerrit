@@ -16,35 +16,37 @@
  */
 (function() {
   'use strict';
+  class GrClaView extends Polymer.mixinBehaviors( [
+    Gerrit.BaseUrlBehavior,
+    Gerrit.FireBehavior,
+  ], Polymer.LegacyDataMixin(
+      Polymer.GestureEventListeners(
+          Polymer.LegacyElementMixin(
+              Polymer.Element)))) {
+    static get is() { return 'gr-cla-view'; }
 
-  Polymer({
-    is: 'gr-cla-view',
-    _legacyUndefinedCheck: true,
-
-    properties: {
-      _groups: Object,
-      /** @type {?} */
-      _serverConfig: Object,
-      _agreementsText: String,
-      _agreementName: String,
-      _signedAgreements: Array,
-      _showAgreements: {
-        type: Boolean,
-        value: false,
-      },
-      _agreementsUrl: String,
-    },
-
-    behaviors: [
-      Gerrit.BaseUrlBehavior,
-      Gerrit.FireBehavior,
-    ],
+    static get properties() {
+      return {
+        _groups: Object,
+        /** @type {?} */
+        _serverConfig: Object,
+        _agreementsText: String,
+        _agreementName: String,
+        _signedAgreements: Array,
+        _showAgreements: {
+          type: Boolean,
+          value: false,
+        },
+        _agreementsUrl: String,
+      };
+    }
 
     attached() {
+      super.attached();
       this.loadData();
 
       this.fire('title-change', {title: 'New Contributor Agreement'});
-    },
+    }
 
     loadData() {
       const promises = [];
@@ -63,7 +65,7 @@
       }));
 
       return Promise.all(promises);
-    },
+    }
 
     _getAgreementsUrl(configUrl) {
       let url;
@@ -77,14 +79,14 @@
       }
 
       return url;
-    },
+    }
 
     _handleShowAgreement(e) {
       this._agreementName = e.target.getAttribute('data-name');
       this._agreementsUrl =
           this._getAgreementsUrl(e.target.getAttribute('data-url'));
       this._showAgreements = true;
-    },
+    }
 
     _handleSaveAgreements(e) {
       this._createToast('Agreement saving...');
@@ -100,16 +102,16 @@
         this._agreementsText = '';
         this._showAgreements = false;
       });
-    },
+    }
 
     _createToast(message) {
       this.dispatchEvent(new CustomEvent(
           'show-alert', {detail: {message}, bubbles: true, composed: true}));
-    },
+    }
 
     _computeShowAgreementsClass(agreements) {
       return agreements ? 'show' : '';
-    },
+    }
 
     _disableAggreements(item, groups, signedAgreements) {
       for (const group of groups) {
@@ -120,16 +122,16 @@
         }
       }
       return false;
-    },
+    }
 
     _hideAggreements(item, groups, signedAgreements) {
       return this._disableAggreements(item, groups, signedAgreements) ?
-          '' : 'hide';
-    },
+        '' : 'hide';
+    }
 
     _disableAgreementsText(text) {
       return text.toLowerCase() === 'i agree' ? false : true;
-    },
+    }
 
     // This checks for auto_verify_group,
     // if specified it returns 'hideAgreementsTextBox' which
@@ -149,6 +151,7 @@
           }
         }
       }
-    },
-  });
+    }
+  }
+  customElements.define(GrClaView.is, GrClaView);
 })();

@@ -19,46 +19,48 @@
 
   const SUGGESTIONS_LIMIT = 15;
   const REF_PREFIX = 'refs/heads/';
-
-  Polymer({
-    is: 'gr-create-change-dialog',
-    _legacyUndefinedCheck: true,
-
-    properties: {
-      repoName: String,
-      branch: String,
-      /** @type {?} */
-      _repoConfig: Object,
-      subject: String,
-      topic: String,
-      _query: {
-        type: Function,
-        value() {
-          return this._getRepoBranchesSuggestions.bind(this);
-        },
-      },
-      baseChange: String,
-      baseCommit: String,
-      privateByDefault: String,
-      canCreate: {
-        type: Boolean,
-        notify: true,
-        value: false,
-      },
-      _privateChangesEnabled: Boolean,
-    },
-
-    behaviors: [
-      Gerrit.BaseUrlBehavior,
-      /**
+  class GrCreateChangeDialog extends Polymer.mixinBehaviors( [
+    Gerrit.BaseUrlBehavior,
+    /**
        * Unused in this element, but called by other elements in tests
        * e.g gr-repo-commands_test.
        */
-      Gerrit.FireBehavior,
-      Gerrit.URLEncodingBehavior,
-    ],
+    Gerrit.FireBehavior,
+    Gerrit.URLEncodingBehavior,
+  ], Polymer.LegacyDataMixin(
+      Polymer.GestureEventListeners(
+          Polymer.LegacyElementMixin(
+              Polymer.Element)))) {
+    static get is() { return 'gr-create-change-dialog'; }
+
+    static get properties() {
+      return {
+        repoName: String,
+        branch: String,
+        /** @type {?} */
+        _repoConfig: Object,
+        subject: String,
+        topic: String,
+        _query: {
+          type: Function,
+          value() {
+            return this._getRepoBranchesSuggestions.bind(this);
+          },
+        },
+        baseChange: String,
+        baseCommit: String,
+        privateByDefault: String,
+        canCreate: {
+          type: Boolean,
+          notify: true,
+          value: false,
+        },
+        _privateChangesEnabled: Boolean,
+      };
+    }
 
     attached() {
+      super.attached();
       if (!this.repoName) { return Promise.resolve(); }
 
       const promises = [];
@@ -76,19 +78,21 @@
       }));
 
       return Promise.all(promises);
-    },
+    }
 
-    observers: [
-      '_allowCreate(branch, subject)',
-    ],
+    static get observers() {
+      return [
+        '_allowCreate(branch, subject)',
+      ];
+    }
 
     _computeBranchClass(baseChange) {
       return baseChange ? 'hide' : '';
-    },
+    }
 
     _allowCreate(branch, subject) {
       this.canCreate = !!branch && !!subject;
-    },
+    }
 
     handleCreateChange() {
       const isPrivate = this.$.privateChangeCheckBox.checked;
@@ -100,7 +104,7 @@
             if (!changeCreated) { return; }
             Gerrit.Nav.navigateToChange(changeCreated);
           });
-    },
+    }
 
     _getRepoBranchesSuggestions(input) {
       if (input.startsWith(REF_PREFIX)) {
@@ -108,22 +112,22 @@
       }
       return this.$.restAPI.getRepoBranches(
           input, this.repoName, SUGGESTIONS_LIMIT).then(response => {
-            const branches = [];
-            let branch;
-            for (const key in response) {
-              if (!response.hasOwnProperty(key)) { continue; }
-              if (response[key].ref.startsWith('refs/heads/')) {
-                branch = response[key].ref.substring('refs/heads/'.length);
-              } else {
-                branch = response[key].ref;
-              }
-              branches.push({
-                name: branch,
-              });
-            }
-            return branches;
+        const branches = [];
+        let branch;
+        for (const key in response) {
+          if (!response.hasOwnProperty(key)) { continue; }
+          if (response[key].ref.startsWith('refs/heads/')) {
+            branch = response[key].ref.substring('refs/heads/'.length);
+          } else {
+            branch = response[key].ref;
+          }
+          branches.push({
+            name: branch,
           });
-    },
+        }
+        return branches;
+      });
+    }
 
     _formatBooleanString(config) {
       if (config && config.configured_value === 'TRUE') {
@@ -139,10 +143,11 @@
       } else {
         return false;
       }
-    },
+    }
 
     _computePrivateSectionClass(config) {
       return config ? 'hide' : '';
-    },
-  });
+    }
+  }
+  customElements.define(GrCreateChangeDialog.is, GrCreateChangeDialog);
 })();

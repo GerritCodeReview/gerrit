@@ -16,16 +16,19 @@
  */
 (function() {
   'use strict';
+  class GrRepoCommand extends Polymer.LegacyDataMixin(
+      Polymer.GestureEventListeners(
+          Polymer.LegacyElementMixin(
+              Polymer.Element))) {
+    static get is() { return 'gr-repo-command'; }
 
-  Polymer({
-    is: 'gr-repo-command',
-    _legacyUndefinedCheck: true,
-
-    properties: {
-      title: String,
-      disabled: Boolean,
-      tooltip: String,
-    },
+    static get properties() {
+      return {
+        title: String,
+        disabled: Boolean,
+        tooltip: String,
+      };
+    }
 
     /**
      * Fired when command button is tapped.
@@ -36,6 +39,7 @@
     _onCommandTap() {
       this.dispatchEvent(
           new CustomEvent('command-tap', {bubbles: true, composed: true}));
-    },
-  });
+    }
+  }
+  customElements.define(GrRepoCommand.is, GrRepoCommand);
 })();

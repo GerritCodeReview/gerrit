@@ -18,67 +18,64 @@
   'use strict';
 
   const PROJECT_PLACEHOLDER_PATTERN = /\$\{project\}/g;
+  class GrDashboardView extends Polymer.mixinBehaviors( [
+    Gerrit.FireBehavior,
+    Gerrit.RESTClientBehavior,
+  ], Polymer.LegacyDataMixin(
+      Polymer.GestureEventListeners(
+          Polymer.LegacyElementMixin(
+              Polymer.Element)))) {
+    static get is() { return 'gr-dashboard-view'; }
 
-  Polymer({
-    is: 'gr-dashboard-view',
-    _legacyUndefinedCheck: true,
-
-    /**
-     * Fired when the title of the page should change.
-     *
-     * @event title-change
-     */
-
-    properties: {
-      account: {
-        type: Object,
-        value: null,
-      },
-      preferences: Object,
-      /** @type {{ selectedChangeIndex: number }} */
-      viewState: Object,
-
-      /** @type {{ project: string, user: string }} */
-      params: {
-        type: Object,
-      },
-
-      createChangeTap: {
-        type: Function,
-        value() {
-          return this._createChangeTap.bind(this);
+    static get properties() {
+      return {
+        account: {
+          type: Object,
+          value: null,
         },
-      },
+        preferences: Object,
+        /** @type {{ selectedChangeIndex: number }} */
+        viewState: Object,
 
-      _results: Array,
+        /** @type {{ project: string, user: string }} */
+        params: {
+          type: Object,
+        },
 
-      /**
+        createChangeTap: {
+          type: Function,
+          value() {
+            return this._createChangeTap.bind(this);
+          },
+        },
+
+        _results: Array,
+
+        /**
        * For showing a "loading..." string during ajax requests.
        */
-      _loading: {
-        type: Boolean,
-        value: true,
-      },
+        _loading: {
+          type: Boolean,
+          value: true,
+        },
 
-      _showDraftsBanner: {
-        type: Boolean,
-        value: false,
-      },
+        _showDraftsBanner: {
+          type: Boolean,
+          value: false,
+        },
 
-      _showNewUserHelp: {
-        type: Boolean,
-        value: false,
-      },
-    },
+        _showNewUserHelp: {
+          type: Boolean,
+          value: false,
+        },
+      };
+    }
 
-    observers: [
-      '_paramsChanged(params.*)',
-    ],
-
-    behaviors: [
-      Gerrit.FireBehavior,
-      Gerrit.RESTClientBehavior,
-    ],
+    static get observers() {
+      return [
+        '_paramsChanged(params.*)',
+      ];
+    }
 
     get options() {
       return this.listChangesOptionsToHex(
@@ -86,11 +83,12 @@
           this.ListChangesOption.DETAILED_ACCOUNTS,
           this.ListChangesOption.REVIEWED
       );
-    },
+    }
 
     attached() {
+      super.attached();
       this._loadPreferences();
-    },
+    }
 
     _loadPreferences() {
       return this.$.restAPI.getLoggedIn().then(loggedIn => {
@@ -102,7 +100,7 @@
           this.preferences = {};
         }
       });
-    },
+    }
 
     _getProjectDashboard(project, dashboard) {
       const errFn = response => {
@@ -110,33 +108,33 @@
       };
       return this.$.restAPI.getDashboard(
           project, dashboard, errFn).then(response => {
-            if (!response) {
-              return;
-            }
+        if (!response) {
+          return;
+        }
+        return {
+          title: response.title,
+          sections: response.sections.map(section => {
+            const suffix = response.foreach ? ' ' + response.foreach : '';
             return {
-              title: response.title,
-              sections: response.sections.map(section => {
-                const suffix = response.foreach ? ' ' + response.foreach : '';
-                return {
-                  name: section.name,
-                  query: (section.query + suffix).replace(
-                      PROJECT_PLACEHOLDER_PATTERN, project),
-                };
-              }),
+              name: section.name,
+              query: (section.query + suffix).replace(
+                  PROJECT_PLACEHOLDER_PATTERN, project),
             };
-          });
-    },
+          }),
+        };
+      });
+    }
 
     _computeTitle(user) {
       if (!user || user === 'self') {
         return 'My Reviews';
       }
       return 'Dashboard for ' + user;
-    },
+    }
 
     _isViewActive(params) {
       return params.view === Gerrit.Nav.View.DASHBOARD;
-    },
+    }
 
     _paramsChanged(paramsChangeRecord) {
       const params = paramsChangeRecord.base;
@@ -146,7 +144,7 @@
       }
 
       return this._reload();
-    },
+    }
 
     /**
      * Reloads the element.
@@ -157,11 +155,11 @@
       this._loading = true;
       const {project, dashboard, title, user, sections} = this.params;
       const dashboardPromise = project ?
-          this._getProjectDashboard(project, dashboard) :
-          Promise.resolve(Gerrit.Nav.getUserDashboard(
-              user,
-              sections,
-              title || this._computeTitle(user)));
+        this._getProjectDashboard(project, dashboard) :
+        Promise.resolve(Gerrit.Nav.getUserDashboard(
+            user,
+            sections,
+            title || this._computeTitle(user)));
 
       const checkForNewUser = !project && user === 'self';
       return dashboardPromise
@@ -180,7 +178,7 @@
             });
             console.warn(err);
           }).then(() => { this._loading = false; });
-    },
+    }
 
     /**
      * Fetches the changes for each dashboard section and sets this._results
@@ -195,8 +193,8 @@
 
       const queries = res.sections
           .map(section => section.suffixForDashboard ?
-              section.query + ' ' + section.suffixForDashboard :
-              section.query);
+            section.query + ' ' + section.suffixForDashboard :
+            section.query);
 
       if (checkForNewUser) {
         queries.push('owner:self limit:1');
@@ -215,10 +213,10 @@
               results,
               isOutgoing: res.sections[i].isOutgoing,
             })).filter((section, i) => i < res.sections.length && (
-                !res.sections[i].hideIfEmpty ||
+              !res.sections[i].hideIfEmpty ||
                 section.results.length));
           });
-    },
+    }
 
     _computeSectionName(name, changes) {
       if (!changes || !changes.length || changes.length == 0) {
@@ -229,7 +227,7 @@
       const andMore = more ? ' and more' : '';
       const changeLabel = `change${numChanges > 1 ? 's' : ''}`;
       return `${name} (${numChanges} ${changeLabel}${andMore})`;
-    },
+    }
 
     _computeUserHeaderClass(params) {
       if (!params || !!params.project || !params.user
@@ -237,17 +235,17 @@
         return 'hide';
       }
       return '';
-    },
+    }
 
     _handleToggleStar(e) {
       this.$.restAPI.saveChangeStarred(e.detail.change._number,
           e.detail.starred);
-    },
+    }
 
     _handleToggleReviewed(e) {
       this.$.restAPI.saveChangeReviewed(e.detail.change._number,
           e.detail.reviewed);
-    },
+    }
 
     /**
      * Banner is shown if a user is on their own dashboard and they have draft
@@ -266,15 +264,15 @@
       if (!closedChanges.length) { return; }
 
       this._showDraftsBanner = true;
-    },
+    }
 
     _computeBannerClass(show) {
       return show ? '' : 'hide';
-    },
+    }
 
     _handleOpenDeleteDialog() {
       this.$.confirmDeleteOverlay.open();
-    },
+    }
 
     _handleConfirmDelete() {
       this.$.confirmDeleteDialog.disabled = true;
@@ -282,23 +280,24 @@
         this._closeConfirmDeleteOverlay();
         this._reload();
       });
-    },
+    }
 
     _closeConfirmDeleteOverlay() {
       this.$.confirmDeleteOverlay.close();
-    },
+    }
 
     _computeDraftsLink() {
       return Gerrit.Nav.getUrlForSearchQuery('has:draft -is:open');
-    },
+    }
 
     _createChangeTap(e) {
       this.$.destinationDialog.open();
-    },
+    }
 
     _handleDestinationConfirm(e) {
       this.$.commandsDialog.branch = e.detail.branch;
       this.$.commandsDialog.open();
-    },
-  });
+    }
+  }
+  customElements.define(GrDashboardView.is, GrDashboardView);
 })();

@@ -16,42 +16,33 @@
  */
 (function() {
   'use strict';
+  class GrDownloadDialog extends Polymer.mixinBehaviors( [
+    Gerrit.FireBehavior,
+    Gerrit.PatchSetBehavior,
+    Gerrit.RESTClientBehavior,
+  ], Polymer.LegacyDataMixin(
+      Polymer.GestureEventListeners(
+          Polymer.LegacyElementMixin(
+              Polymer.Element)))) {
+    static get is() { return 'gr-download-dialog'; }
 
-  Polymer({
-    is: 'gr-download-dialog',
-    _legacyUndefinedCheck: true,
-
-    /**
-     * Fired when the user presses the close button.
-     *
-     * @event close
-     */
-
-    properties: {
+    static get properties() {
+      return {
       /** @type {{ revisions: Array }} */
-      change: Object,
-      patchNum: String,
-      /** @type {?} */
-      config: Object,
+        change: Object,
+        patchNum: String,
+        /** @type {?} */
+        config: Object,
 
-      _schemes: {
-        type: Array,
-        value() { return []; },
-        computed: '_computeSchemes(change, patchNum)',
-        observer: '_schemesChanged',
-      },
-      _selectedScheme: String,
-    },
-
-    hostAttributes: {
-      role: 'dialog',
-    },
-
-    behaviors: [
-      Gerrit.FireBehavior,
-      Gerrit.PatchSetBehavior,
-      Gerrit.RESTClientBehavior,
-    ],
+        _schemes: {
+          type: Array,
+          value() { return []; },
+          computed: '_computeSchemes(change, patchNum)',
+          observer: '_schemesChanged',
+        },
+        _selectedScheme: String,
+      };
+    }
 
     focus() {
       if (this._schemes.length) {
@@ -59,7 +50,7 @@
       } else {
         this.$.download.focus();
       }
-    },
+    }
 
     getFocusStops() {
       const links = this.$$('#archives').querySelectorAll('a');
@@ -67,7 +58,7 @@
         start: this.$.closeButton,
         end: links[links.length - 1],
       };
-    },
+    }
 
     _computeDownloadCommands(change, patchNum, _selectedScheme) {
       let commandObj;
@@ -88,7 +79,7 @@
         });
       }
       return commands;
-    },
+    }
 
     /**
      * @param {!Object} change
@@ -98,7 +89,7 @@
      */
     _computeZipDownloadLink(change, patchNum) {
       return this._computeDownloadLink(change, patchNum, true);
-    },
+    }
 
     /**
      * @param {!Object} change
@@ -108,7 +99,7 @@
      */
     _computeZipDownloadFilename(change, patchNum) {
       return this._computeDownloadFilename(change, patchNum, true);
-    },
+    }
 
     /**
      * @param {!Object} change
@@ -124,7 +115,7 @@
       }
       return this.changeBaseURL(change.project, change._number, patchNum) +
           '/patch?' + (opt_zip ? 'zip' : 'download');
-    },
+    }
 
 
     /**
@@ -148,7 +139,7 @@
         }
       }
       return shortRev + '.diff.' + (opt_zip ? 'zip' : 'base64');
-    },
+    }
 
     _computeHidePatchFile(change, patchNum) {
       // Polymer 2: check for undefined
@@ -158,12 +149,12 @@
       for (const rev of Object.values(change.revisions || {})) {
         if (this.patchNumEquals(rev._number, patchNum)) {
           const parentLength = rev.commit && rev.commit.parents ?
-                rev.commit.parents.length : 0;
+            rev.commit.parents.length : 0;
           return parentLength == 0;
         }
       }
       return false;
-    },
+    }
 
     _computeArchiveDownloadLink(change, patchNum, format) {
       // Polymer 2: check for undefined
@@ -172,7 +163,7 @@
       }
       return this.changeBaseURL(change.project, change._number, patchNum) +
           '/archive?format=' + format;
-    },
+    }
 
     _computeSchemes(change, patchNum) {
       // Polymer 2: check for undefined
@@ -190,28 +181,34 @@
         }
       }
       return [];
-    },
+    }
 
     _computePatchSetQuantity(revisions) {
       if (!revisions) { return 0; }
       return Object.keys(revisions).length;
-    },
+    }
 
     _handleCloseTap(e) {
       e.preventDefault();
       e.stopPropagation();
       this.fire('close', null, {bubbles: false});
-    },
+    }
 
     _schemesChanged(schemes) {
       if (schemes.length === 0) { return; }
       if (!schemes.includes(this._selectedScheme)) {
         this._selectedScheme = schemes.sort()[0];
       }
-    },
+    }
 
     _computeShowDownloadCommands(schemes) {
       return schemes.length ? '' : 'hidden';
-    },
-  });
+    }
+
+    ready() {
+      super.ready();
+      this._ensureAttribute('role', 'dialog');
+    }
+  }
+  customElements.define(GrDownloadDialog.is, GrDownloadDialog);
 })();

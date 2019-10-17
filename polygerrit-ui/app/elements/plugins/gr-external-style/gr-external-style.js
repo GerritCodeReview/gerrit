@@ -16,22 +16,25 @@
  */
 (function() {
   'use strict';
+  class GrExternalStyle extends Polymer.LegacyDataMixin(
+      Polymer.GestureEventListeners(
+          Polymer.LegacyElementMixin(
+              Polymer.Element))) {
+    static get is() { return 'gr-external-style'; }
 
-  Polymer({
-    is: 'gr-external-style',
-    _legacyUndefinedCheck: true,
-
-    properties: {
-      name: String,
-      _urlsImported: {
-        type: Array,
-        value() { return []; },
-      },
-      _stylesApplied: {
-        type: Array,
-        value() { return []; },
-      },
-    },
+    static get properties() {
+      return {
+        name: String,
+        _urlsImported: {
+          type: Array,
+          value() { return []; },
+        },
+        _stylesApplied: {
+          type: Array,
+          value() { return []; },
+        },
+      };
+    }
 
     /**
      * @suppress {checkTypes}
@@ -42,7 +45,7 @@
       return new Promise((resolve, reject) => {
         (this.importHref || Polymer.importHref)(url, resolve, reject);
       });
-    },
+    }
 
     _applyStyle(name) {
       if (this._stylesApplied.includes(name)) { return; }
@@ -58,7 +61,7 @@
       const topEl = document.getElementsByTagName('body')[0];
       topEl.insertBefore(cs, topEl.firstChild);
       Polymer.updateStyles();
-    },
+    }
 
     _importAndApply() {
       Promise.all(Gerrit._endpoints.getPlugins(this.name).map(
@@ -69,14 +72,17 @@
           this._applyStyle(name);
         }
       });
-    },
+    }
 
     attached() {
+      super.attached();
       this._importAndApply();
-    },
+    }
 
     ready() {
+      super.ready();
       Gerrit.awaitPluginsLoaded().then(() => this._importAndApply());
-    },
-  });
+    }
+  }
+  customElements.define(GrExternalStyle.is, GrExternalStyle);
 })();

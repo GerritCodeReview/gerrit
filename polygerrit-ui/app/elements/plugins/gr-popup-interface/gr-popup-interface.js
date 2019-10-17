@@ -46,17 +46,17 @@
     if (!this._openingPromise) {
       this._openingPromise =
           this.plugin.hook('plugin-overlay').getLastAttached()
-      .then(hookEl => {
-        const popup = document.createElement('gr-plugin-popup');
-        if (this._moduleName) {
-          const el = Polymer.dom(popup).appendChild(
-              document.createElement(this._moduleName));
-          el.plugin = this.plugin;
-        }
-        this._popup = Polymer.dom(hookEl).appendChild(popup);
-        Polymer.dom.flush();
-        return this._popup.open().then(() => this);
-      });
+              .then(hookEl => {
+                const popup = document.createElement('gr-plugin-popup');
+                if (this._moduleName) {
+                  const el = Polymer.dom(popup).appendChild(
+                      document.createElement(this._moduleName));
+                  el.plugin = this.plugin;
+                }
+                this._popup = Polymer.dom(hookEl).appendChild(popup);
+                Polymer.dom.flush();
+                return this._popup.open().then(() => this);
+              });
     }
     return this._openingPromise;
   };

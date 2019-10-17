@@ -16,69 +16,71 @@
  */
 (function() {
   'use strict';
+  class GrRepoList extends Polymer.mixinBehaviors( [
+    Gerrit.ListViewBehavior,
+  ], Polymer.LegacyDataMixin(
+      Polymer.GestureEventListeners(
+          Polymer.LegacyElementMixin(
+              Polymer.Element)))) {
+    static get is() { return 'gr-repo-list'; }
 
-  Polymer({
-    is: 'gr-repo-list',
-    _legacyUndefinedCheck: true,
-
-    properties: {
+    static get properties() {
+      return {
       /**
        * URL params passed from the router.
        */
-      params: {
-        type: Object,
-        observer: '_paramsChanged',
-      },
+        params: {
+          type: Object,
+          observer: '_paramsChanged',
+        },
 
-      /**
+        /**
        * Offset of currently visible query results.
        */
-      _offset: Number,
-      _path: {
-        type: String,
-        readOnly: true,
-        value: '/admin/repos',
-      },
-      _hasNewRepoName: Boolean,
-      _createNewCapability: {
-        type: Boolean,
-        value: false,
-      },
-      _repos: Array,
+        _offset: Number,
+        _path: {
+          type: String,
+          readOnly: true,
+          value: '/admin/repos',
+        },
+        _hasNewRepoName: Boolean,
+        _createNewCapability: {
+          type: Boolean,
+          value: false,
+        },
+        _repos: Array,
 
-      /**
+        /**
        * Because  we request one more than the projectsPerPage, _shownProjects
        * maybe one less than _projects.
        * */
-      _shownRepos: {
-        type: Array,
-        computed: 'computeShownItems(_repos)',
-      },
+        _shownRepos: {
+          type: Array,
+          computed: 'computeShownItems(_repos)',
+        },
 
-      _reposPerPage: {
-        type: Number,
-        value: 25,
-      },
+        _reposPerPage: {
+          type: Number,
+          value: 25,
+        },
 
-      _loading: {
-        type: Boolean,
-        value: true,
-      },
-      _filter: {
-        type: String,
-        value: '',
-      },
-    },
-
-    behaviors: [
-      Gerrit.ListViewBehavior,
-    ],
+        _loading: {
+          type: Boolean,
+          value: true,
+        },
+        _filter: {
+          type: String,
+          value: '',
+        },
+      };
+    }
 
     attached() {
+      super.attached();
       this._getCreateRepoCapability();
       this.fire('title-change', {title: 'Repos'});
       this._maybeOpenCreateOverlay(this.params);
-    },
+    }
 
     _paramsChanged(params) {
       this._loading = true;
@@ -87,7 +89,7 @@
 
       return this._getRepos(this._filter, this._reposPerPage,
           this._offset);
-    },
+    }
 
     /**
      * Opens the create overlay if the route has a hash 'create'
@@ -97,15 +99,15 @@
       if (params && params.openCreateModal) {
         this.$.createOverlay.open();
       }
-    },
+    }
 
     _computeRepoUrl(name) {
       return this.getUrl(this._path + '/', name);
-    },
+    }
 
     _computeChangesLink(name) {
       return Gerrit.Nav.getUrlForProjectChanges(name);
-    },
+    }
 
     _getCreateRepoCapability() {
       return this.$.restAPI.getAccount().then(account => {
@@ -117,7 +119,7 @@
               }
             });
       });
-    },
+    }
 
     _getRepos(filter, reposPerPage, offset) {
       this._repos = [];
@@ -128,36 +130,37 @@
             this._repos = repos;
             this._loading = false;
           });
-    },
+    }
 
     _refreshReposList() {
       this.$.restAPI.invalidateReposCache();
       return this._getRepos(this._filter, this._reposPerPage,
           this._offset);
-    },
+    }
 
     _handleCreateRepo() {
       this.$.createNewModal.handleCreateRepo().then(() => {
         this._refreshReposList();
       });
-    },
+    }
 
     _handleCloseCreate() {
       this.$.createOverlay.close();
-    },
+    }
 
     _handleCreateClicked() {
       this.$.createOverlay.open();
-    },
+    }
 
     _readOnly(item) {
       return item.state === 'READ_ONLY' ? 'Y' : '';
-    },
+    }
 
     _computeWeblink(repo) {
       if (!repo.web_links) { return ''; }
       const webLinks = repo.web_links;
       return webLinks.length ? webLinks : null;
-    },
-  });
+    }
+  }
+  customElements.define(GrRepoList.is, GrRepoList);
 })();

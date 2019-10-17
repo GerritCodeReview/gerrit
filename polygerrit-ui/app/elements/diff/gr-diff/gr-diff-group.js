@@ -185,11 +185,11 @@
 
       if (before.length) {
         beforeGroups.push(before.length === group.lines.length ?
-            group : group.cloneWithLines(before));
+          group : group.cloneWithLines(before));
       }
       if (after.length) {
         afterGroups.push(after.length === group.lines.length ?
-            group : group.cloneWithLines(after));
+          group : group.cloneWithLines(after));
       }
     }
     return [beforeGroups, afterGroups];

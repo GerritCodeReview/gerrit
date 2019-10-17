@@ -206,40 +206,41 @@
       reporting.timeEnd('WebComponentsReady');
     });
   })();
+  class GrRouter extends Polymer.mixinBehaviors( [
+    Gerrit.BaseUrlBehavior,
+    Gerrit.FireBehavior,
+    Gerrit.PatchSetBehavior,
+    Gerrit.URLEncodingBehavior,
+  ], Polymer.LegacyDataMixin(
+      Polymer.GestureEventListeners(
+          Polymer.LegacyElementMixin(
+              Polymer.Element)))) {
+    static get is() { return 'gr-router'; }
 
-  Polymer({
-    is: 'gr-router',
-    _legacyUndefinedCheck: true,
-
-    properties: {
-      _app: {
-        type: Object,
-        value: app,
-      },
-      _isRedirecting: Boolean,
-      // This variable is to differentiate between internal navigation (false)
-      // and for first navigation in app after loaded from server (true).
-      _isInitialLoad: {
-        type: Boolean,
-        value: true,
-      },
-    },
-
-    behaviors: [
-      Gerrit.BaseUrlBehavior,
-      Gerrit.FireBehavior,
-      Gerrit.PatchSetBehavior,
-      Gerrit.URLEncodingBehavior,
-    ],
+    static get properties() {
+      return {
+        _app: {
+          type: Object,
+          value: app,
+        },
+        _isRedirecting: Boolean,
+        // This variable is to differentiate between internal navigation (false)
+        // and for first navigation in app after loaded from server (true).
+        _isInitialLoad: {
+          type: Boolean,
+          value: true,
+        },
+      };
+    }
 
     start() {
       if (!this._app) { return; }
       this._startRouter();
-    },
+    }
 
     _setParams(params) {
       this._appElement().params = params;
-    },
+    }
 
     _appElement() {
       // In Polymer2 you have to reach through the shadow root of the app
@@ -249,12 +250,12 @@
       return document.getElementById('app-element') ||
           document.getElementById('app').shadowRoot.getElementById(
               'app-element');
-    },
+    }
 
     _redirect(url) {
       this._isRedirecting = true;
       page.redirect(url);
-    },
+    }
 
     /**
      * @param {!Object} params
@@ -286,7 +287,7 @@
       }
 
       return base + url;
-    },
+    }
 
     _generateWeblinks(params) {
       const type = params.type;
@@ -300,7 +301,7 @@
         default:
           console.warn(`Unsupported weblink ${type}!`);
       }
-    },
+    }
 
     _getPatchSetWeblink(params) {
       const {commit, options} = params;
@@ -312,7 +313,7 @@
       } else {
         return {name, url: weblink.url};
       }
-    },
+    }
 
     _firstCodeBrowserWeblink(weblinks) {
       // This is an ordered whitelist of web link types that provide direct
@@ -324,7 +325,7 @@
         if (weblink) { return weblink; }
       }
       return null;
-    },
+    }
 
 
     _getBrowseCommitWeblink(weblinks, config) {
@@ -341,7 +342,7 @@
       }
       if (!weblink) { return null; }
       return weblink;
-    },
+    }
 
     _getChangeWeblinks({repo, commit, options: {weblinks, config}}) {
       if (!weblinks || !weblinks.length) return [];
@@ -350,11 +351,11 @@
         !commitWeblink ||
         !commitWeblink.name ||
         weblink.name !== commitWeblink.name);
-    },
+    }
 
     _getFileWebLinks({repo, commit, file, options: {weblinks}}) {
       return weblinks;
-    },
+    }
 
     /**
      * @param {!Object} params
@@ -401,7 +402,7 @@
       }
 
       return '/q/' + operators.join('+') + offsetExpr;
-    },
+    }
 
     /**
      * @param {!Object} params
@@ -425,7 +426,7 @@
       } else {
         return `/c/${params.changeNum}${suffix}`;
       }
-    },
+    }
 
     /**
      * @param {!Object} params
@@ -450,7 +451,7 @@
         // User dashboard.
         return `/dashboard/${params.user || 'self'}`;
       }
-    },
+    }
 
     /**
      * @param {!Array<!{name: string, query: string}>} sections
@@ -462,12 +463,12 @@
         // If there is a repo name provided, make sure to substitute it into the
         // ${repo} (or legacy ${project}) query tokens.
         const query = opt_repoName ?
-            section.query.replace(REPO_TOKEN_PATTERN, opt_repoName) :
-            section.query;
+          section.query.replace(REPO_TOKEN_PATTERN, opt_repoName) :
+          section.query;
         return encodeURIComponent(section.name) + '=' +
             encodeURIComponent(query);
       });
-    },
+    }
 
     /**
      * @param {!Object} params
@@ -493,7 +494,7 @@
       } else {
         return `/c/${params.changeNum}${suffix}`;
       }
-    },
+    }
 
     /**
      * @param {!Object} params
@@ -507,7 +508,7 @@
         url += ',audit-log';
       }
       return url;
-    },
+    }
 
     /**
      * @param {!Object} params
@@ -527,7 +528,7 @@
         url += ',dashboards';
       }
       return url;
-    },
+    }
 
     /**
      * @param {!Object} params
@@ -535,7 +536,7 @@
      */
     _generateSettingsUrl(params) {
       return '/settings';
-    },
+    }
 
     /**
      * Given an object of parameters, potentially including a `patchNum` or a
@@ -549,7 +550,7 @@
       if (params.patchNum) { range = '' + params.patchNum; }
       if (params.basePatchNum) { range = params.basePatchNum + '..' + range; }
       return range;
-    },
+    }
 
     /**
      * Given a set of params without a project, gets the project from the rest
@@ -573,7 +574,7 @@
             this._normalizePatchRangeParams(params);
             this._redirect(this._generateUrl(params));
           });
-    },
+    }
 
     /**
      * Normalizes the params object, and determines if the URL needs to be
@@ -602,7 +603,7 @@
         params.basePatchNum = null;
       }
       return needsRedirect;
-    },
+    }
 
     /**
      * Redirect the user to login using the given return-URL for redirection
@@ -613,7 +614,7 @@
       const basePath = this.getBaseUrl() || '';
       page(
           '/login/' + encodeURIComponent(returnUrl.substring(basePath.length)));
-    },
+    }
 
     /**
      * Hashes parsed by page.js exclude "inner" hashes, so a URL like "/a#b#c"
@@ -624,7 +625,7 @@
      */
     _getHashFromCanonicalPath(canonicalPath) {
       return canonicalPath.split('#').slice(1).join('#');
-    },
+    }
 
     _parseLineAddress(hash) {
       const match = hash.match(LINE_ADDRESS_PATTERN);
@@ -633,7 +634,7 @@
         leftSide: !!match[1],
         lineNum: parseInt(match[2], 10),
       };
-    },
+    }
 
     /**
      * Check to see if the user is logged in and return a promise that only
@@ -652,12 +653,12 @@
           return Promise.reject(new Error());
         }
       });
-    },
+    }
 
     /**  Page.js middleware that warms the REST API's logged-in cache line. */
     _loadUserMiddleware(ctx, next) {
       this.$.restAPI.getLoggedIn().then(() => { next(); });
-    },
+    }
 
     /**
      * Map a route to a method on the router.
@@ -684,7 +685,7 @@
           this._redirectIfNotLoggedIn(data) : Promise.resolve();
         promise.then(() => { this[handlerName](data); });
       });
-    },
+    }
 
     _startRouter() {
       const base = this.getBaseUrl();
@@ -880,7 +881,7 @@
       this._mapRoute(RoutePattern.DEFAULT, '_handleDefaultRoute');
 
       page.start();
-    },
+    }
 
     /**
      * @param {!Object} data
@@ -921,7 +922,7 @@
           this._redirect('/q/status:open');
         }
       });
-    },
+    }
 
     /**
      * Decode an application/x-www-form-urlencoded string.
@@ -931,7 +932,7 @@
      */
     _decodeQueryString(qs) {
       return decodeURIComponent(qs.replace(PLUS_PATTERN, ' '));
-    },
+    }
 
     /**
      * Parse a query string (e.g. window.location.search) into an array of
@@ -963,7 +964,7 @@
         }
       });
       return params;
-    },
+    }
 
     /**
      * Handle dashboard routes. These may be user, or project dashboards.
@@ -988,7 +989,7 @@
           });
         }
       });
-    },
+    }
 
     /**
      * Handle custom dashboard routes.
@@ -1040,7 +1041,7 @@
       // Redirect /dashboard/ -> /dashboard/self.
       this._redirect('/dashboard/self');
       return Promise.resolve();
-    },
+    }
 
     _handleProjectDashboardRoute(data) {
       this._setParams({
@@ -1048,22 +1049,22 @@
         project: data.params[0],
         dashboard: decodeURIComponent(data.params[1]),
       });
-    },
+    }
 
     _handleGroupInfoRoute(data) {
       this._redirect('/admin/groups/' + encodeURIComponent(data.params[0]));
-    },
+    }
 
     _handleGroupSelfRedirectRoute(data) {
       this._redirect('/settings/#Groups');
-    },
+    }
 
     _handleGroupRoute(data) {
       this._setParams({
         view: Gerrit.Nav.View.GROUP,
         groupId: data.params[0],
       });
-    },
+    }
 
     _handleGroupAuditLogRoute(data) {
       this._setParams({
@@ -1071,7 +1072,7 @@
         detail: Gerrit.Nav.GroupDetailView.LOG,
         groupId: data.params[0],
       });
-    },
+    }
 
     _handleGroupMembersRoute(data) {
       this._setParams({
@@ -1079,7 +1080,7 @@
         detail: Gerrit.Nav.GroupDetailView.MEMBERS,
         groupId: data.params[0],
       });
-    },
+    }
 
     _handleGroupListOffsetRoute(data) {
       this._setParams({
@@ -1089,7 +1090,7 @@
         filter: null,
         openCreateModal: data.hash === 'create',
       });
-    },
+    }
 
     _handleGroupListFilterOffsetRoute(data) {
       this._setParams({
@@ -1098,7 +1099,7 @@
         offset: data.params.offset,
         filter: data.params.filter,
       });
-    },
+    }
 
     _handleGroupListFilterRoute(data) {
       this._setParams({
@@ -1106,7 +1107,7 @@
         adminView: 'gr-admin-group-list',
         filter: data.params.filter || null,
       });
-    },
+    }
 
     _handleProjectsOldRoute(data) {
       let params = '';
@@ -1119,7 +1120,7 @@
       }
 
       this._redirect(`/admin/repos/${params}`);
-    },
+    }
 
     _handleRepoCommandsRoute(data) {
       this._setParams({
@@ -1127,7 +1128,7 @@
         detail: Gerrit.Nav.RepoDetailView.COMMANDS,
         repo: data.params[0],
       });
-    },
+    }
 
     _handleRepoAccessRoute(data) {
       this._setParams({
@@ -1135,7 +1136,7 @@
         detail: Gerrit.Nav.RepoDetailView.ACCESS,
         repo: data.params[0],
       });
-    },
+    }
 
     _handleRepoDashboardsRoute(data) {
       this._setParams({
@@ -1143,7 +1144,7 @@
         detail: Gerrit.Nav.RepoDetailView.DASHBOARDS,
         repo: data.params[0],
       });
-    },
+    }
 
     _handleBranchListOffsetRoute(data) {
       this._setParams({
@@ -1153,7 +1154,7 @@
         offset: data.params[2] || 0,
         filter: null,
       });
-    },
+    }
 
     _handleBranchListFilterOffsetRoute(data) {
       this._setParams({
@@ -1163,7 +1164,7 @@
         offset: data.params.offset,
         filter: data.params.filter,
       });
-    },
+    }
 
     _handleBranchListFilterRoute(data) {
       this._setParams({
@@ -1172,7 +1173,7 @@
         repo: data.params.repo,
         filter: data.params.filter || null,
       });
-    },
+    }
 
     _handleTagListOffsetRoute(data) {
       this._setParams({
@@ -1182,7 +1183,7 @@
         offset: data.params[2] || 0,
         filter: null,
       });
-    },
+    }
 
     _handleTagListFilterOffsetRoute(data) {
       this._setParams({
@@ -1192,7 +1193,7 @@
         offset: data.params.offset,
         filter: data.params.filter,
       });
-    },
+    }
 
     _handleTagListFilterRoute(data) {
       this._setParams({
@@ -1201,7 +1202,7 @@
         repo: data.params.repo,
         filter: data.params.filter || null,
       });
-    },
+    }
 
     _handleRepoListOffsetRoute(data) {
       this._setParams({
@@ -1211,7 +1212,7 @@
         filter: null,
         openCreateModal: data.hash === 'create',
       });
-    },
+    }
 
     _handleRepoListFilterOffsetRoute(data) {
       this._setParams({
@@ -1220,7 +1221,7 @@
         offset: data.params.offset,
         filter: data.params.filter,
       });
-    },
+    }
 
     _handleRepoListFilterRoute(data) {
       this._setParams({
@@ -1228,26 +1229,26 @@
         adminView: 'gr-repo-list',
         filter: data.params.filter || null,
       });
-    },
+    }
 
     _handleCreateProjectRoute(data) {
       // Redirects the legacy route to the new route, which displays the project
       // list with a hash 'create'.
       this._redirect('/admin/repos#create');
-    },
+    }
 
     _handleCreateGroupRoute(data) {
       // Redirects the legacy route to the new route, which displays the group
       // list with a hash 'create'.
       this._redirect('/admin/groups#create');
-    },
+    }
 
     _handleRepoRoute(data) {
       this._setParams({
         view: Gerrit.Nav.View.REPO,
         repo: data.params[0],
       });
-    },
+    }
 
     _handlePluginListOffsetRoute(data) {
       this._setParams({
@@ -1256,7 +1257,7 @@
         offset: data.params[1] || 0,
         filter: null,
       });
-    },
+    }
 
     _handlePluginListFilterOffsetRoute(data) {
       this._setParams({
@@ -1265,7 +1266,7 @@
         offset: data.params.offset,
         filter: data.params.filter,
       });
-    },
+    }
 
     _handlePluginListFilterRoute(data) {
       this._setParams({
@@ -1273,14 +1274,14 @@
         adminView: 'gr-plugin-list',
         filter: data.params.filter || null,
       });
-    },
+    }
 
     _handlePluginListRoute(data) {
       this._setParams({
         view: Gerrit.Nav.View.ADMIN,
         adminView: 'gr-plugin-list',
       });
-    },
+    }
 
     _handleQueryRoute(data) {
       this._setParams({
@@ -1288,15 +1289,15 @@
         query: data.params[0],
         offset: data.params[2],
       });
-    },
+    }
 
     _handleQueryLegacySuffixRoute(ctx) {
       this._redirect(ctx.path.replace(LEGACY_QUERY_SUFFIX_PATTERN, ''));
-    },
+    }
 
     _handleChangeNumberLegacyRoute(ctx) {
       this._redirect('/c/' + encodeURIComponent(ctx.params[0]));
-    },
+    }
 
     _handleChangeRoute(ctx) {
       // Parameter order is based on the regex group number matched.
@@ -1309,7 +1310,7 @@
       };
 
       this._redirectOrNavigate(params);
-    },
+    }
 
     _handleDiffRoute(ctx) {
       // Parameter order is based on the regex group number matched.
@@ -1329,7 +1330,7 @@
       }
 
       this._redirectOrNavigate(params);
-    },
+    }
 
     _handleChangeLegacyRoute(ctx) {
       // Parameter order is based on the regex group number matched.
@@ -1342,11 +1343,11 @@
       };
 
       this._normalizeLegacyRouteParams(params);
-    },
+    }
 
     _handleLegacyLinenum(ctx) {
       this._redirect(ctx.path.replace(LEGACY_LINENUM_PATTERN, '#$1'));
-    },
+    }
 
     _handleDiffLegacyRoute(ctx) {
       // Parameter order is based on the regex group number matched.
@@ -1365,7 +1366,7 @@
       }
 
       this._normalizeLegacyRouteParams(params);
-    },
+    }
 
     _handleDiffEditRoute(ctx) {
       // Parameter order is based on the regex group number matched.
@@ -1376,7 +1377,7 @@
         path: ctx.params[3],
         view: Gerrit.Nav.View.EDIT,
       });
-    },
+    }
 
     _handleChangeEditRoute(ctx) {
       // Parameter order is based on the regex group number matched.
@@ -1387,7 +1388,7 @@
         view: Gerrit.Nav.View.CHANGE,
         edit: true,
       });
-    },
+    }
 
     /**
      * Normalize the patch range params for a the change or diff view and
@@ -1400,18 +1401,18 @@
       } else {
         this._setParams(params);
       }
-    },
+    }
 
     // TODO fix this so it properly redirects
     // to /settings#Agreements (Scrolls down)
     _handleAgreementsRoute(data) {
       this._redirect('/settings/#Agreements');
-    },
+    }
 
     _handleNewAgreementsRoute(data) {
       data.params.view = Gerrit.Nav.View.AGREEMENTS;
       this._setParams(data.params);
-    },
+    }
 
     _handleSettingsLegacyRoute(data) {
       // email tokens may contain '+' but no space.
@@ -1422,11 +1423,11 @@
         view: Gerrit.Nav.View.SETTINGS,
         emailToken: token,
       });
-    },
+    }
 
     _handleSettingsRoute(data) {
       this._setParams({view: Gerrit.Nav.View.SETTINGS});
-    },
+    }
 
     _handleRegisterRoute(ctx) {
       this._setParams({justRegistered: true});
@@ -1437,7 +1438,7 @@
 
       if (path[0] !== '/') { return; }
       this._redirect(this.getBaseUrl() + path);
-    },
+    }
 
     /**
      * Handler for routes that should pass through the router and not be caught
@@ -1445,7 +1446,7 @@
      */
     _handlePassThroughRoute() {
       location.reload();
-    },
+    }
 
 
     /**
@@ -1456,26 +1457,26 @@
       let hash = this._getHashFromCanonicalPath(ctx.canonicalPath);
       if (hash.length) { hash = '#' + hash; }
       this._redirect(`/c/${ctx.params[0]}/+/${ctx.params[1]}${hash}`);
-    },
+    }
 
     _handlePluginScreen(ctx) {
       const view = Gerrit.Nav.View.PLUGIN_SCREEN;
       const plugin = ctx.params[0];
       const screen = ctx.params[1];
       this._setParams({view, plugin, screen});
-    },
+    }
 
     _handleDocumentationSearchRoute(data) {
       this._setParams({
         view: Gerrit.Nav.View.DOCUMENTATION_SEARCH,
         filter: data.params.filter || null,
       });
-    },
+    }
 
     _handleDocumentationSearchRedirectRoute(data) {
       this._redirect('/Documentation/q/filter:' +
           encodeURIComponent(data.params[0]));
-    },
+    }
 
     _handleDocumentationRedirectRoute(data) {
       if (data.params[1]) {
@@ -1484,7 +1485,7 @@
         // Redirect /Documentation to /Documentation/index.html
         this._redirect('/Documentation/index.html');
       }
-    },
+    }
 
     /**
      * Catchall route for when no other route is matched.
@@ -1497,7 +1498,7 @@
         // Route can be recognized by server, so we pass it to server.
         this._handlePassThroughRoute();
       }
-    },
+    }
 
     _show404() {
       // Note: the app's 404 display is tightly-coupled with catching 404
@@ -1505,6 +1506,7 @@
       // TODO: Decouple the gr-app error view from network responses.
       this._appElement().dispatchEvent(new CustomEvent('page-error',
           {detail: {response: {status: 404}}}));
-    },
-  });
+    }
+  }
+  customElements.define(GrRouter.is, GrRouter);
 })();

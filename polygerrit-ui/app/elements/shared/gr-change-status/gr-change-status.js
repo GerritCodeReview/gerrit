@@ -31,37 +31,40 @@
 
   const PRIVATE_TOOLTIP = 'This change is only visible to its owner and ' +
       'current reviewers (or anyone with "View Private Changes" permission).';
+  class GrChangeStatus extends Polymer.LegacyDataMixin(
+      Polymer.GestureEventListeners(
+          Polymer.LegacyElementMixin(
+              Polymer.Element))) {
+    static get is() { return 'gr-change-status'; }
 
-  Polymer({
-    is: 'gr-change-status',
-    _legacyUndefinedCheck: true,
-
-    properties: {
-      flat: {
-        type: Boolean,
-        value: false,
-        reflectToAttribute: true,
-      },
-      status: {
-        type: String,
-        observer: '_updateChipDetails',
-      },
-      tooltipText: {
-        type: String,
-        value: '',
-      },
-    },
+    static get properties() {
+      return {
+        flat: {
+          type: Boolean,
+          value: false,
+          reflectToAttribute: true,
+        },
+        status: {
+          type: String,
+          observer: '_updateChipDetails',
+        },
+        tooltipText: {
+          type: String,
+          value: '',
+        },
+      };
+    }
 
     _computeStatusString(status) {
       if (status === ChangeStates.WIP && !this.flat) {
         return 'Work in Progress';
       }
       return status;
-    },
+    }
 
     _toClassName(str) {
       return str.toLowerCase().replace(/\s/g, '-');
-    },
+    }
 
     _updateChipDetails(status, previousStatus) {
       if (previousStatus) {
@@ -80,6 +83,7 @@
           this.tooltipText = '';
           break;
       }
-    },
-  });
+    }
+  }
+  customElements.define(GrChangeStatus.is, GrChangeStatus);
 })();

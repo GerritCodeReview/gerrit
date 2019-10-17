@@ -210,7 +210,8 @@
               this._showNewUserHelp = lastResultSet.length == 0;
             }
             this._results = changes.map((results, i) => ({
-              name: this._computeSectionName(res.sections[i].name, results),
+              name: res.sections[i].name,
+              countLabel: this._computeSectionCountLabel(results),
               query: res.sections[i].query,
               results,
               isOutgoing: res.sections[i].isOutgoing,
@@ -220,15 +221,14 @@
           });
     },
 
-    _computeSectionName(name, changes) {
+    _computeSectionCountLabel(changes) {
       if (!changes || !changes.length || changes.length == 0) {
-        return name;
+        return undefined;
       }
       const more = changes[changes.length - 1]._more_changes;
       const numChanges = changes.length;
       const andMore = more ? ' and more' : '';
-      const changeLabel = `change${numChanges > 1 ? 's' : ''}`;
-      return `${name} (${numChanges} ${changeLabel}${andMore})`;
+      return `(${numChanges}${andMore})`;
     },
 
     _computeUserHeaderClass(params) {

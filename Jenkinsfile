@@ -19,6 +19,7 @@ import groovy.json.JsonOutput
 
 class Globals {
     static final String gerritUrl = "https://gerrit-review.googlesource.com/"
+    static final String gerritCredentialsId = "gerrit-review.googlesource.com"
     static final long curlTimeout = 10000
     static final int waitForResultTimeout = 10000
     static final String gerritRepositoryNameSha1Suffix = "-a6a0e4682515f3521897c5f950d1394f4619d928"
@@ -99,9 +100,9 @@ def postCheck(check) {
 
     try {
         def json = check.createCheckPayload()
-        httpRequest(contentType: 'APPLICATION_JSON',
-            httpMode: 'POST', requestBody: json,
-            validResponseCodes: '201' ,url: gerritPostUrl)
+        httpRequest(httpMode: 'POST', authentication: Globals.gerritCredentialsId,
+            contentType: 'APPLICATION_JSON', requestBody: json,
+            validResponseCodes: '201', url: gerritPostUrl)
         check.printCheckSummary()
     } catch(Exception e) {
         echo "ERROR> Failed to post check results to Gerrit: ${e}"

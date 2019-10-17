@@ -55,6 +55,7 @@ junit_tests(
         "//java/com/google/gerrit/server/account/externalids/testing",
         "//java/com/google/gerrit/server/cache/serialize",
         "//java/com/google/gerrit/server/cache/testing",
+        "//java/com/google/gerrit/server/git/receive:ref_cache",
         "//java/com/google/gerrit/server/ioutil",
         "//java/com/google/gerrit/server/logging",
         "//java/com/google/gerrit/server/project/testing:project-test-util",

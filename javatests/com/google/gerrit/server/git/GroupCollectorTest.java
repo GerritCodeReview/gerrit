@@ -21,10 +21,13 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.SortedSetMultimap;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
+import com.google.gerrit.server.git.receive.ReceivePackRefCache;
+import java.io.IOException;
 import org.eclipse.jgit.internal.storage.dfs.DfsRepositoryDescription;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevSort;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -44,8 +47,7 @@ public class GroupCollectorTest {
     RevCommit branchTip = tr.commit().create();
     RevCommit a = tr.commit().parent(branchTip).create();
 
-    SortedSetMultimap<ObjectId, String> groups =
-        collectGroups(newWalk(a, branchTip), patchSets(), groups());
+    SortedSetMultimap<ObjectId, String> groups = collectGroups(newWalk(a, branchTip), groups());
 
     assertThat(groups).containsEntry(a, a.name());
   }
@@ -56,8 +58,7 @@ public class GroupCollectorTest {
     RevCommit a = tr.commit().parent(branchTip).create();
     RevCommit b = tr.commit().parent(a).create();
 
-    SortedSetMultimap<ObjectId, String> groups =
-        collectGroups(newWalk(b, branchTip), patchSets(), groups());
+    SortedSetMultimap<ObjectId, String> groups = collectGroups(newWalk(b, branchTip), groups());
 
     assertThat(groups).containsEntry(a, a.name());
     assertThat(groups).containsEntry(b, a.name());
@@ -67,12 +68,12 @@ public class GroupCollectorTest {
   public void commitWhoseParentIsExistingPatchSetGetsParentsGroup() throws Exception {
     RevCommit branchTip = tr.commit().create();
     RevCommit a = tr.commit().parent(branchTip).create();
+    createRef(psId(1, 1), a, tr);
     RevCommit b = tr.commit().parent(a).create();
 
     String group = "deadbeefdeadbeefdeadbeefdeadbeefdeadbeef";
     SortedSetMultimap<ObjectId, String> groups =
-        collectGroups(
-            newWalk(b, branchTip), patchSets().put(a, psId(1, 1)), groups().put(psId(1, 1), group));
+        collectGroups(newWalk(b, branchTip), groups().put(psId(1, 1), group));
 
     assertThat(groups).containsEntry(a, group);
     assertThat(groups).containsEntry(b, group);
@@ -84,8 +85,7 @@ public class GroupCollectorTest {
     RevCommit a = tr.commit().parent(branchTip).create();
     RevCommit b = tr.commit().parent(a).create();
 
-    SortedSetMultimap<ObjectId, String> groups =
-        collectGroups(newWalk(b, branchTip), patchSets().put(a, psId(1, 1)), groups());
+    SortedSetMultimap<ObjectId, String> groups = collectGroups(newWalk(b, branchTip), groups());
 
     assertThat(groups).containsEntry(a, a.name());
     assertThat(groups).containsEntry(b, a.name());
@@ -98,8 +98,7 @@ public class GroupCollectorTest {
     RevCommit b = tr.commit().parent(branchTip).create();
     RevCommit m = tr.commit().parent(a).parent(b).create();
 
-    SortedSetMultimap<ObjectId, String> groups =
-        collectGroups(newWalk(m, branchTip), patchSets(), groups());
+    SortedSetMultimap<ObjectId, String> groups = collectGroups(newWalk(m, branchTip), groups());
 
     assertThat(groups).containsEntry(a, a.name());
     assertThat(groups).containsEntry(b, a.name());
@@ -110,13 +109,13 @@ public class GroupCollectorTest {
   public void mergeCommitWhereOneParentHasExistingGroup() throws Exception {
     RevCommit branchTip = tr.commit().create();
     RevCommit a = tr.commit().parent(branchTip).create();
+    createRef(psId(1, 1), a, tr);
     RevCommit b = tr.commit().parent(branchTip).create();
     RevCommit m = tr.commit().parent(a).parent(b).create();
 
     String group = "deadbeefdeadbeefdeadbeefdeadbeefdeadbeef";
     SortedSetMultimap<ObjectId, String> groups =
-        collectGroups(
-            newWalk(m, branchTip), patchSets().put(b, psId(1, 1)), groups().put(psId(1, 1), group));
+        collectGroups(newWalk(m, branchTip), groups().put(psId(1, 1), group));
 
     // Merge commit and other parent get the existing group.
     assertThat(groups).containsEntry(a, group);
@@ -128,16 +127,16 @@ public class GroupCollectorTest {
   public void mergeCommitWhereBothParentsHaveDifferentGroups() throws Exception {
     RevCommit branchTip = tr.commit().create();
     RevCommit a = tr.commit().parent(branchTip).create();
+    createRef(psId(1, 1), a, tr);
     RevCommit b = tr.commit().parent(branchTip).create();
+    createRef(psId(2, 1), b, tr);
     RevCommit m = tr.commit().parent(a).parent(b).create();
 
     String group1 = "deadbeefdeadbeefdeadbeefdeadbeefdeadbeef";
     String group2 = "1234567812345678123456781234567812345678";
     SortedSetMultimap<ObjectId, String> groups =
         collectGroups(
-            newWalk(m, branchTip),
-            patchSets().put(a, psId(1, 1)).put(b, psId(2, 1)),
-            groups().put(psId(1, 1), group1).put(psId(2, 1), group2));
+            newWalk(m, branchTip), groups().put(psId(1, 1), group1).put(psId(2, 1), group2));
 
     assertThat(groups).containsEntry(a, group1);
     assertThat(groups).containsEntry(b, group2);
@@ -149,7 +148,9 @@ public class GroupCollectorTest {
   public void mergeCommitMergesGroupsFromParent() throws Exception {
     RevCommit branchTip = tr.commit().create();
     RevCommit a = tr.commit().parent(branchTip).create();
+    createRef(psId(1, 1), a, tr);
     RevCommit b = tr.commit().parent(branchTip).create();
+    createRef(psId(2, 1), b, tr);
     RevCommit m = tr.commit().parent(a).parent(b).create();
 
     String group1 = "deadbeefdeadbeefdeadbeefdeadbeefdeadbeef";
@@ -158,7 +159,6 @@ public class GroupCollectorTest {
     SortedSetMultimap<ObjectId, String> groups =
         collectGroups(
             newWalk(m, branchTip),
-            patchSets().put(a, psId(1, 1)).put(b, psId(2, 1)),
             groups().put(psId(1, 1), group1).put(psId(2, 1), group2a).put(psId(2, 1), group2b));
 
     assertThat(groups).containsEntry(a, group1);
@@ -171,12 +171,12 @@ public class GroupCollectorTest {
   public void mergeCommitWithOneUninterestingParentAndOtherParentIsExisting() throws Exception {
     RevCommit branchTip = tr.commit().create();
     RevCommit a = tr.commit().parent(branchTip).create();
+    createRef(psId(1, 1), a, tr);
     RevCommit m = tr.commit().parent(branchTip).parent(a).create();
 
     String group = "deadbeefdeadbeefdeadbeefdeadbeefdeadbeef";
     SortedSetMultimap<ObjectId, String> groups =
-        collectGroups(
-            newWalk(m, branchTip), patchSets().put(a, psId(1, 1)), groups().put(psId(1, 1), group));
+        collectGroups(newWalk(m, branchTip), groups().put(psId(1, 1), group));
 
     assertThat(groups).containsEntry(a, group);
     assertThat(groups).containsEntry(m, group);
@@ -188,8 +188,7 @@ public class GroupCollectorTest {
     RevCommit a = tr.commit().parent(branchTip).create();
     RevCommit m = tr.commit().parent(branchTip).parent(a).create();
 
-    SortedSetMultimap<ObjectId, String> groups =
-        collectGroups(newWalk(m, branchTip), patchSets(), groups());
+    SortedSetMultimap<ObjectId, String> groups = collectGroups(newWalk(m, branchTip), groups());
 
     assertThat(groups).containsEntry(a, a.name());
     assertThat(groups).containsEntry(m, a.name());
@@ -204,8 +203,7 @@ public class GroupCollectorTest {
     RevCommit m1 = tr.commit().parent(b).parent(c).create();
     RevCommit m2 = tr.commit().parent(a).parent(m1).create();
 
-    SortedSetMultimap<ObjectId, String> groups =
-        collectGroups(newWalk(m2, branchTip), patchSets(), groups());
+    SortedSetMultimap<ObjectId, String> groups = collectGroups(newWalk(m2, branchTip), groups());
 
     assertThat(groups).containsEntry(a, a.name());
     assertThat(groups).containsEntry(b, a.name());
@@ -223,8 +221,7 @@ public class GroupCollectorTest {
     assertThat(m.getParentCount()).isEqualTo(2);
     assertThat(m.getParent(0)).isEqualTo(m.getParent(1));
 
-    SortedSetMultimap<ObjectId, String> groups =
-        collectGroups(newWalk(m, branchTip), patchSets(), groups());
+    SortedSetMultimap<ObjectId, String> groups = collectGroups(newWalk(m, branchTip), groups());
 
     assertThat(groups).containsEntry(a, a.name());
     assertThat(groups).containsEntry(m, a.name());
@@ -234,7 +231,9 @@ public class GroupCollectorTest {
   public void mergeCommitWithOneNewParentAndTwoExistingPatchSets() throws Exception {
     RevCommit branchTip = tr.commit().create();
     RevCommit a = tr.commit().parent(branchTip).create();
+    createRef(psId(1, 1), a, tr);
     RevCommit b = tr.commit().parent(branchTip).create();
+    createRef(psId(2, 1), b, tr);
     RevCommit c = tr.commit().parent(b).create();
     RevCommit m = tr.commit().parent(a).parent(c).create();
 
@@ -242,9 +241,7 @@ public class GroupCollectorTest {
     String group2 = "1234567812345678123456781234567812345678";
     SortedSetMultimap<ObjectId, String> groups =
         collectGroups(
-            newWalk(m, branchTip),
-            patchSets().put(a, psId(1, 1)).put(b, psId(2, 1)),
-            groups().put(psId(1, 1), group1).put(psId(2, 1), group2));
+            newWalk(m, branchTip), groups().put(psId(1, 1), group1).put(psId(2, 1), group2));
 
     assertThat(groups).containsEntry(a, group1);
     assertThat(groups).containsEntry(b, group2);
@@ -264,16 +261,7 @@ public class GroupCollectorTest {
     rw.markStart(rw.parseCommit(d));
     // Schema upgrade case: all commits are existing patch sets, but none have
     // groups assigned yet.
-    SortedSetMultimap<ObjectId, String> groups =
-        collectGroups(
-            rw,
-            patchSets()
-                .put(branchTip, psId(1, 1))
-                .put(a, psId(2, 1))
-                .put(b, psId(3, 1))
-                .put(c, psId(4, 1))
-                .put(d, psId(5, 1)),
-            groups());
+    SortedSetMultimap<ObjectId, String> groups = collectGroups(rw, groups());
 
     assertThat(groups).containsEntry(a, a.name());
     assertThat(groups).containsEntry(b, a.name());
@@ -287,6 +275,13 @@ public class GroupCollectorTest {
     return PatchSet.id(Change.id(c), p);
   }
 
+  private static void createRef(PatchSet.Id psId, ObjectId id, TestRepository<?> tr)
+      throws IOException {
+    RefUpdate ru = tr.getRepository().updateRef(psId.toRefName());
+    ru.setNewObjectId(id);
+    assertThat(ru.update()).isEqualTo(RefUpdate.Result.NEW);
+  }
+
   private RevWalk newWalk(ObjectId start, ObjectId branchTip) throws Exception {
     // Match RevWalk conditions from ReceiveCommits.
     RevWalk rw = new RevWalk(tr.getRepository());
@@ -297,12 +292,12 @@ public class GroupCollectorTest {
     return rw;
   }
 
-  private static SortedSetMultimap<ObjectId, String> collectGroups(
-      RevWalk rw,
-      ImmutableListMultimap.Builder<ObjectId, PatchSet.Id> patchSetsBySha,
-      ImmutableListMultimap.Builder<PatchSet.Id, String> groupLookup)
-      throws Exception {
-    GroupCollector gc = new GroupCollector(patchSetsBySha.build(), groupLookup.build());
+  private SortedSetMultimap<ObjectId, String> collectGroups(
+      RevWalk rw, ImmutableListMultimap.Builder<PatchSet.Id, String> groupLookup) throws Exception {
+    ImmutableListMultimap<PatchSet.Id, String> groups = groupLookup.build();
+    GroupCollector gc =
+        new GroupCollector(
+            ReceivePackRefCache.noCache(tr.getRepository().getRefDatabase()), (s) -> groups.get(s));
     RevCommit c;
     while ((c = rw.next()) != null) {
       gc.visit(c);

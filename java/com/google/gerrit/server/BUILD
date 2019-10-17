@@ -54,6 +54,7 @@ java_library(
         "//java/com/google/gerrit/prettify:server",
         "//java/com/google/gerrit/proto",
         "//java/com/google/gerrit/server/cache/serialize",
+        "//java/com/google/gerrit/server/git/receive:ref_cache",
         "//java/com/google/gerrit/server/ioutil",
         "//java/com/google/gerrit/server/logging",
         "//java/com/google/gerrit/server/util/git",

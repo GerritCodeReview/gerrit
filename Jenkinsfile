@@ -273,7 +273,6 @@ node ('master') {
     stage('Preparing'){
         gerritReview labels: ['Verified': 0, 'Code-Style': 0]
 
-        checkout scm
         getChangeMetaData()
         collectBuildModes()
     }

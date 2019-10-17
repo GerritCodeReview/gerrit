@@ -44,6 +44,7 @@ import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.git.receive.AsyncReceiveCommits;
 import com.google.gerrit.server.schema.JdbcAccountPatchReviewStore;
 import com.google.gerrit.server.ssh.NoSshModule;
+import com.google.gerrit.server.util.ReplicaUtil;
 import com.google.gerrit.server.util.SocketUtil;
 import com.google.gerrit.server.util.SystemLog;
 import com.google.gerrit.testing.FakeEmailSender;
@@ -450,7 +451,7 @@ public class GerritServer implements AutoCloseable {
       @Nullable InMemoryRepositoryManager inMemoryRepoManager)
       throws Exception {
     Config cfg = desc.buildConfig(baseConfig);
-    daemon.setReplica(isReplica(baseConfig) || isReplica(cfg));
+    daemon.setReplica(ReplicaUtil.isReplica(baseConfig) || ReplicaUtil.isReplica(cfg));
     mergeTestConfig(cfg);
     // Set the log4j configuration to an invalid one to prevent system logs
     // from getting configured and creating log files.
@@ -463,7 +464,8 @@ public class GerritServer implements AutoCloseable {
     cfg.setString(
         "accountPatchReviewDb", null, "url", JdbcAccountPatchReviewStore.TEST_IN_MEMORY_URL);
     daemon.setEnableHttpd(desc.httpd());
-    daemon.setLuceneModule(LuceneIndexModule.singleVersionAllLatest(0, isReplica(baseConfig)));
+    daemon.setLuceneModule(
+        LuceneIndexModule.singleVersionAllLatest(0, ReplicaUtil.isReplica(baseConfig)));
     daemon.setDatabaseForTesting(
         ImmutableList.of(
             new InMemoryTestingDatabaseModule(cfg, site, inMemoryRepoManager),
@@ -477,10 +479,6 @@ public class GerritServer implements AutoCloseable {
         new ReindexProjectsAtStartup.Module(), new ReindexGroupsAtStartup.Module());
     daemon.start();
     return new GerritServer(desc, null, createTestInjector(daemon), daemon, null);
-  }
-
-  private static boolean isReplica(Config baseConfig) {
-    return baseConfig.getBoolean("container", "slave", false);
   }
 
   private static GerritServer startOnDisk(
@@ -662,7 +660,7 @@ public class GerritServer implements AutoCloseable {
     Path site = server.testInjector.getInstance(Key.get(Path.class, SitePath.class));
 
     Config cfg = server.testInjector.getInstance(Key.get(Config.class, GerritServerConfig.class));
-    cfg.setBoolean("container", null, "slave", true);
+    cfg.setBoolean("container", null, "replica", true);
 
     InMemoryRepositoryManager inMemoryRepoManager = null;
     if (hasBinding(server.testInjector, InMemoryRepositoryManager.class)) {

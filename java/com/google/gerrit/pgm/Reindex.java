@@ -34,6 +34,7 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.index.IndexModule;
 import com.google.gerrit.server.index.change.ChangeSchemaDefinitions;
 import com.google.gerrit.server.plugins.PluginGuiceEnvironment;
+import com.google.gerrit.server.util.ReplicaUtil;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import com.google.inject.Key;
@@ -144,14 +145,15 @@ public class Reindex extends SiteProgram {
     if (changesVersion != null) {
       versions.put(ChangeSchemaDefinitions.INSTANCE.getName(), changesVersion);
     }
-    boolean slave = globalConfig.getBoolean("container", "slave", false);
+    boolean replica = ReplicaUtil.isReplica(globalConfig);
     List<Module> modules = new ArrayList<>();
     Module indexModule;
     IndexType indexType = IndexModule.getIndexType(dbInjector);
     if (indexType.isLucene()) {
-      indexModule = LuceneIndexModule.singleVersionWithExplicitVersions(versions, threads, slave);
+      indexModule = LuceneIndexModule.singleVersionWithExplicitVersions(versions, threads, replica);
     } else if (indexType.isElasticsearch()) {
-      indexModule = ElasticIndexModule.singleVersionWithExplicitVersions(versions, threads, slave);
+      indexModule =
+          ElasticIndexModule.singleVersionWithExplicitVersions(versions, threads, replica);
     } else {
       throw new IllegalStateException("unsupported index.type = " + indexType);
     }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "74ec2bfe_0d812dd3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 12
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-17T08:31:55Z",
+      "side": 1,
+      "message": "Please add a step for the sharding issue mentioned by Hanwen.",
+      "revId": "0a7b67e41e70a9dc5bdcbeeb59e2646f8a525049",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

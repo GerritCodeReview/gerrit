@@ -25,7 +25,6 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 import java.security.SecureRandom;
 import java.util.Collection;
-import java.util.Map;
 import java.util.Random;
 import java.util.Set;
 import java.util.stream.Stream;
@@ -47,22 +46,6 @@ public class ChangeUtil {
     byte[] buf = new byte[8];
     UUID_RANDOM.nextBytes(buf);
     return UUID_ENCODING.encode(buf, 0, 4) + '_' + UUID_ENCODING.encode(buf, 4, 4);
-  }
-
-  /**
-   * Get the next patch set ID from a previously-read map of all refs.
-   *
-   * @param allRefs map of full ref name to ref.
-   * @param id previous patch set ID.
-   * @return next unused patch set ID for the same change, skipping any IDs whose corresponding ref
-   *     names appear in the {@code allRefs} map.
-   */
-  public static PatchSet.Id nextPatchSetIdFromAllRefsMap(Map<String, Ref> allRefs, PatchSet.Id id) {
-    PatchSet.Id next = nextPatchSetId(id);
-    while (allRefs.containsKey(next.toRefName())) {
-      next = nextPatchSetId(next);
-    }
-    return next;
   }
 
   /**
@@ -95,9 +78,7 @@ public class ChangeUtil {
   /**
    * Get the next patch set ID just looking at a single previous patch set ID.
    *
-   * <p>This patch set ID may or may not be available in the database; callers that want a
-   * previously-unused ID should use {@link #nextPatchSetIdFromAllRefsMap} or {@link
-   * #nextPatchSetIdFromChangeRefs}.
+   * <p>This patch set ID may or may not be available in the database.
    *
    * @param id previous patch set ID.
    * @return next patch set ID for the same change, incrementing by 1.

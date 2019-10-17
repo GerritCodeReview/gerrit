@@ -343,7 +343,6 @@ class ReceiveCommits {
   private final SetPrivateOp.Factory setPrivateOpFactory;
 
   // Assisted injected fields.
-  private final AllRefsWatcher allRefsWatcher;
   private final ProjectState projectState;
   private final IdentifiedUser user;
   private final ReceivePack receivePack;
@@ -363,11 +362,8 @@ class ReceiveCommits {
   private final ListMultimap<String, String> errors;
 
   private final ListMultimap<String, String> pushOptions;
+  private final ReceivePackRefCache receivePackRefCache;
   private final Map<Change.Id, ReplaceRequest> replaceByChange;
-
-  // Collections lazily populated during processing.
-  private ListMultimap<Change.Id, Ref> refsByChange;
-  private ListMultimap<ObjectId, Ref> refsById;
 
   // Other settings populated during processing.
   private MagicBranchInput magicBranch;
@@ -469,7 +465,6 @@ class ReceiveCommits {
     this.setPrivateOpFactory = setPrivateOpFactory;
 
     // Assisted injected fields.
-    this.allRefsWatcher = allRefsWatcher;
     this.projectState = projectState;
     this.user = user;
     this.receivePack = rp;
@@ -501,6 +496,8 @@ class ReceiveCommits {
     this.messageSender = messageSender != null ? messageSender : new ReceivePackMessageSender();
     this.resultChangeIds = resultChangeIds;
     this.loggingTags = ImmutableMap.of();
+
+    receivePackRefCache = ReceivePackRefCache.withAdvertisedRefs(() -> allRefsWatcher.getAllRefs());
   }
 
   void init() {
@@ -654,7 +651,14 @@ class ReceiveCommits {
 
     List<CreateRequest> newChanges = Collections.emptyList();
     if (magicBranch != null && magicBranch.cmd.getResult() == NOT_ATTEMPTED) {
-      newChanges = selectNewAndReplacedChangesFromMagicBranch(newProgress);
+      try {
+        newChanges = selectNewAndReplacedChangesFromMagicBranch(newProgress);
+      } catch (IOException e) {
+        newProgress.end();
+        replaceProgress.end();
+        logger.atSevere().withCause(e).log("Failed to select new changes in %s", project.getName());
+        return;
+      }
     }
 
     // Commit validation has already happened, so any changes without Change-Id are for the
@@ -1850,11 +1854,12 @@ class ReceiveCommits {
             reject(cmd, "cannot use merged with base");
             return;
           }
-          RevCommit branchTip = readBranchTip(magicBranch.dest);
-          if (branchTip == null) {
+          Ref refTip = receivePackRefCache.exactRef(magicBranch.dest.branch());
+          if (refTip == null) {
             reject(cmd, magicBranch.dest.branch() + " not found");
             return;
           }
+          RevCommit branchTip = receivePack.getRevWalk().parseCommit(refTip.getObjectId());
           if (!walk.isMergedInto(tip, branchTip)) {
             reject(cmd, "not merged into branch");
             return;
@@ -1891,8 +1896,9 @@ class ReceiveCommits {
             }
           }
         } else if (newChangeForAllNotInTarget) {
-          RevCommit branchTip = readBranchTip(magicBranch.dest);
-          if (branchTip != null) {
+          Ref refTip = receivePackRefCache.exactRef(magicBranch.dest.branch());
+          if (refTip != null) {
+            RevCommit branchTip = receivePack.getRevWalk().parseCommit(refTip.getObjectId());
             magicBranch.baseCommit = Collections.singletonList(branchTip);
             logger.atFine().log("Set baseCommit = %s", magicBranch.baseCommit.get(0).name());
           } else {
@@ -1986,14 +1992,6 @@ class ReceiveCommits {
     }
   }
 
-  private RevCommit readBranchTip(BranchNameKey branch) throws IOException {
-    Ref r = allRefs().get(branch.branch());
-    if (r == null) {
-      return null;
-    }
-    return receivePack.getRevWalk().parseCommit(r.getObjectId());
-  }
-
   /**
    * Update an existing change. If draft comments are to be published, these are validated and may
    * be withheld.
@@ -2001,7 +1999,8 @@ class ReceiveCommits {
    * @return True if the command succeeded, false if it was rejected.
    */
   private boolean requestReplaceAndValidateComments(
-      ReceiveCommand cmd, boolean checkMergedInto, Change change, RevCommit newCommit) {
+      ReceiveCommand cmd, boolean checkMergedInto, Change change, RevCommit newCommit)
+      throws IOException {
     try (TraceTimer traceTimer = newTimer("requestReplaceAndValidateComments")) {
       if (change.isClosed()) {
         reject(
@@ -2063,14 +2062,14 @@ class ReceiveCommits {
     }
   }
 
-  private List<CreateRequest> selectNewAndReplacedChangesFromMagicBranch(Task newProgress) {
+  private List<CreateRequest> selectNewAndReplacedChangesFromMagicBranch(Task newProgress)
+      throws IOException {
     try (TraceTimer traceTimer = newTimer("selectNewAndReplacedChangesFromMagicBranch")) {
       logger.atFine().log("Finding new and replaced changes");
       List<CreateRequest> newChanges = new ArrayList<>();
 
-      ListMultimap<ObjectId, Ref> existing = changeRefsById();
       GroupCollector groupCollector =
-          GroupCollector.create(changeRefsById(), psUtil, notesFactory, project.getNameKey());
+          GroupCollector.create(receivePackRefCache, psUtil, notesFactory, project.getNameKey());
 
       BranchCommitValidator validator =
           commitValidatorFactory.create(projectState, magicBranch.dest, user);
@@ -2111,7 +2110,8 @@ class ReceiveCommits {
           receivePack.getRevWalk().parseBody(c);
           String name = c.name();
           groupCollector.visit(c);
-          Collection<Ref> existingRefs = existing.get(c);
+          Collection<Ref> existingRefs =
+              receivePackRefCache.tipsFromObjectId(c, RefNames.REFS_CHANGES);
 
           if (rejectImplicitMerges) {
             Collections.addAll(mergedParents, c.getParents());
@@ -2275,7 +2275,8 @@ class ReceiveCommits {
 
             // In case the change look up from the index failed,
             // double check against the existing refs
-            if (foundInExistingRef(existing.get(p.commit))) {
+            if (foundInExistingRef(
+                receivePackRefCache.tipsFromObjectId(p.commit, RefNames.REFS_CHANGES))) {
               if (pending.size() == 1) {
                 reject(magicBranch.cmd, "commit(s) already exists (as current patchset)");
                 return Collections.emptyList();
@@ -2382,7 +2383,7 @@ class ReceiveCommits {
       for (RevCommit c : magicBranch.baseCommit) {
         receivePack.getRevWalk().markUninteresting(c);
       }
-      Ref targetRef = allRefs().get(magicBranch.dest.branch());
+      Ref targetRef = receivePackRefCache.exactRef(magicBranch.dest.branch());
       if (targetRef != null) {
         logger.atFine().log(
             "Marking target ref %s (%s) uninteresting",
@@ -2397,7 +2398,7 @@ class ReceiveCommits {
   private void rejectImplicitMerges(Set<RevCommit> mergedParents) throws IOException {
     try (TraceTimer traceTimer = newTimer("rejectImplicitMerges")) {
       if (!mergedParents.isEmpty()) {
-        Ref targetRef = allRefs().get(magicBranch.dest.branch());
+        Ref targetRef = receivePackRefCache.exactRef(magicBranch.dest.branch());
         if (targetRef != null) {
           RevWalk rw = receivePack.getRevWalk();
           RevCommit tip = rw.parseCommit(targetRef.getObjectId());
@@ -2432,13 +2433,15 @@ class ReceiveCommits {
 
   // Mark all branch tips as uninteresting in the given revwalk,
   // so we get only the new commits when walking rw.
-  private void markHeadsAsUninteresting(RevWalk rw, @Nullable String forRef) {
+  private void markHeadsAsUninteresting(RevWalk rw, @Nullable String forRef) throws IOException {
     try (TraceTimer traceTimer =
         newTimer("markHeadsAsUninteresting", Metadata.builder().branchName(forRef))) {
       int i = 0;
-      for (Ref ref : allRefs().values()) {
-        if ((ref.getName().startsWith(R_HEADS) || ref.getName().equals(forRef))
-            && ref.getObjectId() != null) {
+      for (Ref ref :
+          Iterables.concat(
+              receivePackRefCache.byPrefix(R_HEADS),
+              Collections.singletonList(receivePackRefCache.exactRef(forRef)))) {
+        if (ref != null && ref.getObjectId() != null) {
           try {
             rw.markUninteresting(rw.parseCommit(ref.getObjectId()));
             i++;
@@ -2703,7 +2706,8 @@ class ReceiveCommits {
     ReplaceOp replaceOp;
 
     ReplaceRequest(
-        Change.Id toChange, RevCommit newCommit, ReceiveCommand cmd, boolean checkMergedInto) {
+        Change.Id toChange, RevCommit newCommit, ReceiveCommand cmd, boolean checkMergedInto)
+        throws IOException {
       this.ontoChange = toChange;
       this.newCommitId = newCommit.copy();
       this.inputCommand = requireNonNull(cmd);
@@ -2715,11 +2719,12 @@ class ReceiveCommits {
         revCommit = null;
       }
       revisions = HashBiMap.create();
-      for (Ref ref : refs(toChange)) {
+      for (Ref ref : receivePackRefCache.byPrefix(RefNames.changeRefPrefix(toChange))) {
         try {
-          revisions.forcePut(
-              receivePack.getRevWalk().parseCommit(ref.getObjectId()),
-              PatchSet.Id.fromRef(ref.getName()));
+          PatchSet.Id psId = PatchSet.Id.fromRef(ref.getName());
+          if (psId != null) {
+            revisions.forcePut(receivePack.getRevWalk().parseCommit(ref.getObjectId()), psId);
+          }
         } catch (IOException err) {
           logger.atWarning().withCause(err).log(
               "Project %s contains invalid change ref %s", project.getName(), ref.getName());
@@ -2950,12 +2955,18 @@ class ReceiveCommits {
     private void newPatchSet() throws IOException {
       try (TraceTimer traceTimer = newTimer("newPatchSet")) {
         RevCommit newCommit = receivePack.getRevWalk().parseCommit(newCommitId);
-        psId =
-            ChangeUtil.nextPatchSetIdFromAllRefsMap(
-                allRefs(), notes.getChange().currentPatchSetId());
+        psId = nextPatchSetId(notes.getChange().currentPatchSetId());
         info = patchSetInfoFactory.get(receivePack.getRevWalk(), newCommit, psId);
         cmd = new ReceiveCommand(ObjectId.zeroId(), newCommitId, psId.toRefName());
       }
+    }
+
+    private PatchSet.Id nextPatchSetId(PatchSet.Id psId) throws IOException {
+      PatchSet.Id next = ChangeUtil.nextPatchSetId(psId);
+      while (receivePackRefCache.exactRef(next.toRefName()) != null) {
+        next = ChangeUtil.nextPatchSetId(next);
+      }
+      return next;
     }
 
     void addOps(BatchUpdate bu, @Nullable Task progress) throws IOException {
@@ -3091,45 +3102,6 @@ class ReceiveCommits {
     }
   }
 
-  private List<Ref> refs(Change.Id changeId) {
-    return refsByChange().get(changeId);
-  }
-
-  private void initChangeRefMaps() {
-    if (refsByChange != null) {
-      return;
-    }
-
-    try (TraceTimer traceTimer = newTimer("initChangeRefMaps")) {
-      int estRefsPerChange = 4;
-      refsById = MultimapBuilder.hashKeys().arrayListValues().build();
-      refsByChange =
-          MultimapBuilder.hashKeys(allRefs().size() / estRefsPerChange)
-              .arrayListValues(estRefsPerChange)
-              .build();
-      for (Ref ref : allRefs().values()) {
-        ObjectId obj = ref.getObjectId();
-        if (obj != null) {
-          PatchSet.Id psId = PatchSet.Id.fromRef(ref.getName());
-          if (psId != null) {
-            refsById.put(obj, ref);
-            refsByChange.put(psId.changeId(), ref);
-          }
-        }
-      }
-    }
-  }
-
-  private ListMultimap<Change.Id, Ref> refsByChange() {
-    initChangeRefMaps();
-    return refsByChange;
-  }
-
-  private ListMultimap<ObjectId, Ref> changeRefsById() {
-    initChangeRefMaps();
-    return refsById;
-  }
-
   private static boolean parentsEqual(RevCommit a, RevCommit b) {
     if (a.getParentCount() != b.getParentCount()) {
       return false;
@@ -3214,7 +3186,6 @@ class ReceiveCommits {
         if (!(parsedObject instanceof RevCommit)) {
           return;
         }
-        ListMultimap<ObjectId, Ref> existing = changeRefsById();
         walk.markStart((RevCommit) parsedObject);
         markHeadsAsUninteresting(walk, cmd.getRefName());
         int limit = receiveConfig.maxBatchCommits;
@@ -3231,7 +3202,7 @@ class ReceiveCommits {
                     "more than %d commits, and %s not set", limit, PUSH_OPTION_SKIP_VALIDATION));
             return;
           }
-          if (existing.keySet().contains(c)) {
+          if (!receivePackRefCache.tipsFromObjectId(c, RefNames.REFS_CHANGES).isEmpty()) {
             continue;
           }
 
@@ -3281,7 +3252,6 @@ class ReceiveCommits {
                   rw.markUninteresting(rw.parseCommit(cmd.getOldId()));
                 }
 
-                ListMultimap<ObjectId, Ref> byCommit = changeRefsById();
                 Map<Change.Key, ChangeNotes> byKey = null;
                 List<ReplaceRequest> replaceAndClose = new ArrayList<>();
 
@@ -3291,7 +3261,8 @@ class ReceiveCommits {
                 for (RevCommit c; (c = rw.next()) != null; ) {
                   rw.parseBody(c);
 
-                  for (Ref ref : byCommit.get(c.copy())) {
+                  for (Ref ref :
+                      receivePackRefCache.tipsFromObjectId(c.copy(), RefNames.REFS_CHANGES)) {
                     PatchSet.Id psId = PatchSet.Id.fromRef(ref.getName());
                     Optional<ChangeNotes> notes = getChangeNotes(psId.changeId());
                     if (notes.isPresent() && notes.get().getChange().getDest().equals(branch)) {
@@ -3401,13 +3372,6 @@ class ReceiveCommits {
       }
       return r;
     }
-  }
-
-  // allRefsWatcher hooks into the protocol negotation to get a list of all known refs.
-  // This is used as a cache of ref -> sha1 values, and to build an inverse index
-  // of (change => list of refs) and a (SHA1 => refs).
-  private Map<String, Ref> allRefs() {
-    return allRefsWatcher.getAllRefs();
   }
 
   private TraceTimer newTimer(String name) {

@@ -95,6 +95,30 @@
       "revId": "5ff1f2e9cfb70f53de77b441f974554482a31d71",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f630c372_1c1be485",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2019-10-17T18:08:16Z",
+      "side": 1,
+      "message": "If this is the only one, why keep this paragraph in later patch sets?",
+      "parentUuid": "176a5f29_bc1aa991",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 42
+      },
+      "revId": "5ff1f2e9cfb70f53de77b441f974554482a31d71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

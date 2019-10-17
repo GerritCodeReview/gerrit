@@ -172,11 +172,11 @@ limitations under the License.
         {_number: 2},
       ];
       flushAsynchronousOperations();
-      const elementItems = Polymer.dom(element.root).querySelectorAll(
-          'gr-change-list-item');
-      assert.equal(elementItems.length, 3);
+      Polymer.RenderStatus.afterNextRender(element.root, () => {
+        const elementItems = Polymer.dom(element.root).querySelectorAll(
+            'gr-change-list-item');
+        assert.equal(elementItems.length, 3);
 
-      flush(() => {
         assert.isTrue(elementItems[0].hasAttribute('selected'));
         MockInteractions.pressAndReleaseKeyOn(element, 74, null, 'j');
         assert.equal(element.selectedIndex, 1);
@@ -470,42 +470,44 @@ limitations under the License.
         },
       ];
       flushAsynchronousOperations();
-      const elementItems = Polymer.dom(element.root).querySelectorAll(
-          'gr-change-list-item');
-      assert.equal(elementItems.length, 9);
+      Polymer.RenderStatus.afterNextRender(element.root, () => {
+        const elementItems = Polymer.dom(element.root).querySelectorAll(
+            'gr-change-list-item');
+        assert.equal(elementItems.length, 9);
 
-      MockInteractions.pressAndReleaseKeyOn(element, 74); // 'j'
-      assert.equal(element.selectedIndex, 1);
-      MockInteractions.pressAndReleaseKeyOn(element, 74); // 'j'
+        MockInteractions.pressAndReleaseKeyOn(element, 74); // 'j'
+        assert.equal(element.selectedIndex, 1);
+        MockInteractions.pressAndReleaseKeyOn(element, 74); // 'j'
 
-      const navStub = sandbox.stub(Gerrit.Nav, 'navigateToChange');
-      assert.equal(element.selectedIndex, 2);
+        const navStub = sandbox.stub(Gerrit.Nav, 'navigateToChange');
+        assert.equal(element.selectedIndex, 2);
 
-      MockInteractions.pressAndReleaseKeyOn(element, 13); // 'enter'
-      assert.deepEqual(navStub.lastCall.args[0], {_number: 2},
-          'Should navigate to /c/2/');
+        MockInteractions.pressAndReleaseKeyOn(element, 13); // 'enter'
+        assert.deepEqual(navStub.lastCall.args[0], {_number: 2},
+            'Should navigate to /c/2/');
 
-      MockInteractions.pressAndReleaseKeyOn(element, 75); // 'k'
-      assert.equal(element.selectedIndex, 1);
-      MockInteractions.pressAndReleaseKeyOn(element, 13); // 'enter'
-      assert.deepEqual(navStub.lastCall.args[0], {_number: 1},
-          'Should navigate to /c/1/');
+        MockInteractions.pressAndReleaseKeyOn(element, 75); // 'k'
+        assert.equal(element.selectedIndex, 1);
+        MockInteractions.pressAndReleaseKeyOn(element, 13); // 'enter'
+        assert.deepEqual(navStub.lastCall.args[0], {_number: 1},
+            'Should navigate to /c/1/');
 
-      MockInteractions.pressAndReleaseKeyOn(element, 74); // 'j'
-      MockInteractions.pressAndReleaseKeyOn(element, 74); // 'j'
-      MockInteractions.pressAndReleaseKeyOn(element, 74); // 'j'
-      assert.equal(element.selectedIndex, 4);
-      MockInteractions.pressAndReleaseKeyOn(element, 13); // 'enter'
-      assert.deepEqual(navStub.lastCall.args[0], {_number: 4},
-          'Should navigate to /c/4/');
+        MockInteractions.pressAndReleaseKeyOn(element, 74); // 'j'
+        MockInteractions.pressAndReleaseKeyOn(element, 74); // 'j'
+        MockInteractions.pressAndReleaseKeyOn(element, 74); // 'j'
+        assert.equal(element.selectedIndex, 4);
+        MockInteractions.pressAndReleaseKeyOn(element, 13); // 'enter'
+        assert.deepEqual(navStub.lastCall.args[0], {_number: 4},
+            'Should navigate to /c/4/');
 
-      MockInteractions.pressAndReleaseKeyOn(element, 82); // 'r'
-      const change = element._changeForIndex(element.selectedIndex);
-      assert.equal(change.reviewed, true,
-          'Should mark change as reviewed');
-      MockInteractions.pressAndReleaseKeyOn(element, 82); // 'r'
-      assert.equal(change.reviewed, false,
-          'Should mark change as unreviewed');
+        MockInteractions.pressAndReleaseKeyOn(element, 82); // 'r'
+        const change = element._changeForIndex(element.selectedIndex);
+        assert.equal(change.reviewed, true,
+            'Should mark change as reviewed');
+        MockInteractions.pressAndReleaseKeyOn(element, 82); // 'r'
+        assert.equal(change.reviewed, false,
+            'Should mark change as unreviewed');
+      });
     });
 
     test('highlight attribute is updated correctly', () => {

@@ -366,9 +366,10 @@
 
     _sectionsChanged() {
       // Flush DOM operations so that the list item elements will be loaded.
-      Polymer.dom.flush();
-      this.$.cursor.stops = this._getListItems();
-      this.$.cursor.moveToStart();
+      Polymer.RenderStatus.afterNextRender(this.root, () => {
+        this.$.cursor.stops = this._getListItems();
+        this.$.cursor.moveToStart();
+      });
     },
 
     _isOutgoing(section) {

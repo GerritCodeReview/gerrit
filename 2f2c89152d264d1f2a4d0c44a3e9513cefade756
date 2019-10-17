@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a0340a22_f1bec0c6",
+        "filename": "java/com/google/gerrit/server/patch/PatchScriptBuilder.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-10-17T16:30:37Z",
+      "side": 1,
+      "message": "since you probably spent some time studying this, can you add Javadoc to the classes you touch while you\u0027re at it? Can do in follow change.",
+      "range": {
+        "startLine": 55,
+        "startChar": 6,
+        "endLine": 55,
+        "endChar": 24
+      },
+      "revId": "2f2c89152d264d1f2a4d0c44a3e9513cefade756",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b6a30ba2_5d92e271",
+        "filename": "java/com/google/gerrit/server/patch/PatchScriptBuilder.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 593,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-10-17T16:30:37Z",
+      "side": 1,
+      "message": "why not a 2nd constructor?",
+      "range": {
+        "startLine": 593,
+        "startChar": 17,
+        "endLine": 593,
+        "endChar": 27
+      },
+      "revId": "2f2c89152d264d1f2a4d0c44a3e9513cefade756",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

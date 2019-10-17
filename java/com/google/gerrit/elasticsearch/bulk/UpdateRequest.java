@@ -40,11 +40,7 @@ public class UpdateRequest<V> extends BulkRequest {
       for (Values<V> values : schema.buildFields(v)) {
         String name = values.getField().getName();
         if (values.getField().isRepeatable()) {
-          builder.field(
-              name,
-              Streams.stream(values.getValues())
-                  .filter(e -> shouldAddElement(e))
-                  .collect(toList()));
+          builder.field(name, Streams.stream(values.getValues()).collect(toList()));
         } else {
           Object element = Iterables.getOnlyElement(values.getValues(), "");
           if (shouldAddElement(element)) {

@@ -38,7 +38,6 @@ import com.google.gerrit.exceptions.NotSignedInException;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.index.IndexConfig;
-import com.google.gerrit.index.IndexType;
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.SchemaUtil;
 import com.google.gerrit.index.query.LimitPredicate;
@@ -738,9 +737,6 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   @Operator
   public Predicate<ChangeData> extension(String ext) throws QueryParseException {
     if (args.getSchema().hasField(ChangeField.EXTENSION)) {
-      if (ext.isEmpty() && IndexType.isElasticsearch(args.indexConfig.type())) {
-        return new FileWithNoExtensionInElasticPredicate();
-      }
       return new FileExtensionPredicate(ext);
     }
     throw new QueryParseException("'extension' operator is not supported by change index version");
@@ -778,11 +774,6 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
     if (args.getSchema().hasField(ChangeField.DIRECTORY)) {
       if (directory.startsWith("^")) {
         return new RegexDirectoryPredicate(directory);
-      }
-
-      if (IndexType.isElasticsearch(args.indexConfig.type())
-          && (directory.isEmpty() || directory.equals("/"))) {
-        return Predicate.any();
       }
       return new DirectoryPredicate(directory);
     }

@@ -258,7 +258,7 @@ def createCodeStyleMsgBody(build, label) {
 def createVerifyMsgBody(builds) {
     def msgList = builds.collect { type, build -> [
         'type': type, 'res': build.result, 'url': build.url + "consoleText" ]
-    } sort { a,b -> a['res'].compareTo(b['res']) }
+    }
 
     return msgList.collect {
         "${Globals.resTicks[it.res]} ${it.type} : ${it.res}\n    (${it.url})"

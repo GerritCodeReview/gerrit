@@ -179,10 +179,6 @@ public class ChangeNotesCache {
           + I; // updateCount
     }
 
-    private static int ptr(Object o, int size) {
-      return o != null ? P + size : P;
-    }
-
     private static int str(String s) {
       if (s == null) {
         return P;

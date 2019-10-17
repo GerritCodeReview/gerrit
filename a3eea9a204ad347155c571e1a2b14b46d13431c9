@@ -22,6 +22,30 @@
       "revId": "a3eea9a204ad347155c571e1a2b14b46d13431c9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9263aae3_18b75975",
+        "filename": "java/com/google/gerrit/server/restapi/group/GroupsCollection.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-10-17T08:00:12Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "a27bb006_bb277be4",
+      "range": {
+        "startLine": 82,
+        "startChar": 4,
+        "endLine": 86,
+        "endChar": 22
+      },
+      "revId": "a3eea9a204ad347155c571e1a2b14b46d13431c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

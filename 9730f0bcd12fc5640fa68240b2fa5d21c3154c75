@@ -46,6 +46,30 @@
       "revId": "9730f0bcd12fc5640fa68240b2fa5d21c3154c75",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4950573e_e84b1852",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 52
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-10-17T07:11:05Z",
+      "side": 1,
+      "message": "How is this duplicated code?\nHere an example of what I meant:\nIn stable-2.14, we don\u0027t have the notedb, so we don\u0027t test against it. From stable-2.15 onwards however we have so the Jenkinsfile will have an additional build mode added. That would not be duplicated, but just a change with a newer version. We just have to take care of it, when merging this change upwards. The overall structure of the Jenkinsfile will stay the same. I don\u0027t see the issue.\n\nHowever, trying to simplify the Jenkinsfile and use as many standard libraries/Jenkins plugins as possible is certainly a valid goal.",
+      "parentUuid": "6e19a9dd_f9e759d0",
+      "range": {
+        "startLine": 24,
+        "startChar": 50,
+        "endLine": 26,
+        "endChar": 7
+      },
+      "revId": "9730f0bcd12fc5640fa68240b2fa5d21c3154c75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

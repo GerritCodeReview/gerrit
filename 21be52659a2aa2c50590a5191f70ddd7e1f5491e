@@ -42,6 +42,23 @@
     },
     {
       "key": {
+        "uuid": "89288e41_a15ca3fc",
+        "filename": "polygerrit-ui/app/elements/admin/gr-access-section/gr-access-section.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-10-17T16:40:51Z",
+      "side": 1,
+      "message": "Can we have it so class is on a seperate line?\n\nE.g \n\n  const LABEL \u003d \u0027Label\u0027;\n\n  class GrAccessSection extends Polymer.mixinBehaviors( [",
+      "revId": "21be52659a2aa2c50590a5191f70ddd7e1f5491e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a7e2a246_7a5acf26",
         "filename": "polygerrit-ui/app/elements/admin/gr-access-section/gr-access-section.js",
         "patchSetId": 1
@@ -70,6 +87,23 @@
       "writtenOn": "2019-10-17T15:40:31Z",
       "side": 1,
       "message": "One thing I would like to talk about is whether we want/can enforce an order on the members in a class. I personally always like public first, implementation details later.\nDownsides of changing order is that the diff will get much less readable, we may break more blame information (unless we anyways have to indent every line, which Gerrit does not show but probably breaks blame already anyways).\nDownsides of having the public methods first and private later is that helpers might be further away from their public wrappers.\nLet\u0027s hear other opinions!",
+      "revId": "21be52659a2aa2c50590a5191f70ddd7e1f5491e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e764f0c8_1e8d9f07",
+        "filename": "polygerrit-ui/app/elements/admin/gr-access-section/gr-access-section.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-10-17T16:40:51Z",
+      "side": 1,
+      "message": "New line.",
       "revId": "21be52659a2aa2c50590a5191f70ddd7e1f5491e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

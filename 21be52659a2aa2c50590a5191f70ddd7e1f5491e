@@ -1,0 +1,158 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c0a79102_9f56d8aa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-10-17T15:40:31Z",
+      "side": 1,
+      "message": "Can you link in the commit message to any prior reading we should have? Like the Polymer documentation for class based syntax, any Polymer style guides that may already prescribe some conventions etc.",
+      "revId": "21be52659a2aa2c50590a5191f70ddd7e1f5491e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "46fe4e61_fb1fcff7",
+        "filename": "polygerrit-ui/app/elements/admin/gr-access-section/gr-access-section.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-10-17T15:40:31Z",
+      "side": 1,
+      "message": "I think we should discuss if this prefix is useful. My opinion is that this is needed on the tag (\"is\"), because those are dumped into a global namespace and because web components must contain a -, and it probably makes sense to keep on filenames because then they can be exactly the tag name and are easy to search for. I see less of a need for this on the classes, which already use completely different casing and are not searchable, and are also not in a global namespace where it would be needed to distinguish. Not a massive deal, and maybe a global Polymer style guide exists that prescribes that? But otherwise I would prefer to drop.",
+      "range": {
+        "startLine": 38,
+        "startChar": 8,
+        "endLine": 38,
+        "endChar": 10
+      },
+      "revId": "21be52659a2aa2c50590a5191f70ddd7e1f5491e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a7e2a246_7a5acf26",
+        "filename": "polygerrit-ui/app/elements/admin/gr-access-section/gr-access-section.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-10-17T15:40:31Z",
+      "side": 1,
+      "message": "Nit: I think I would like a newline before this line - otherwise it mingles into the unwieldy base class expression.",
+      "revId": "21be52659a2aa2c50590a5191f70ddd7e1f5491e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6f631b9e_0b3cdca4",
+        "filename": "polygerrit-ui/app/elements/admin/gr-access-section/gr-access-section.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-10-17T15:40:31Z",
+      "side": 1,
+      "message": "One thing I would like to talk about is whether we want/can enforce an order on the members in a class. I personally always like public first, implementation details later.\nDownsides of changing order is that the diff will get much less readable, we may break more blame information (unless we anyways have to indent every line, which Gerrit does not show but probably breaks blame already anyways).\nDownsides of having the public methods first and private later is that helpers might be further away from their public wrappers.\nLet\u0027s hear other opinions!",
+      "revId": "21be52659a2aa2c50590a5191f70ddd7e1f5491e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4215fc78_f7fe9153",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-group-list/gr-admin-group-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-10-17T15:40:31Z",
+      "side": 1,
+      "message": "Is this a change in behavior from before? What code is in the attached method of the super class? How was that executed before?",
+      "revId": "21be52659a2aa2c50590a5191f70ddd7e1f5491e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2cd3d767_a9b8b97d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 897,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-10-17T15:40:31Z",
+      "side": 1,
+      "message": "Where do these parameter names come from - I am guessing from the handler method? It\u0027s a bit odd that they are inconsistently between event and e, but maybe that is an unrelated cleanup.",
+      "range": {
+        "startLine": 897,
+        "startChar": 47,
+        "endLine": 897,
+        "endChar": 52
+      },
+      "revId": "21be52659a2aa2c50590a5191f70ddd7e1f5491e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9c1d252e_28b748fc",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-10-17T15:40:31Z",
+      "side": 1,
+      "message": "Why is this a function? Is that to make it read-only? In TypeScript I would have done `readonly JSON_PREFIX \u003d JSON_PREFIX;` I guess so maybe that\u0027s the reason?",
+      "revId": "21be52659a2aa2c50590a5191f70ddd7e1f5491e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b8c5325e_16439d37",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-10-17T15:40:31Z",
+      "side": 1,
+      "message": "How do you know these should be readonly? Is it not possible that some classes actually mutate these?",
+      "range": {
+        "startLine": 105,
+        "startChar": 4,
+        "endLine": 105,
+        "endChar": 7
+      },
+      "revId": "21be52659a2aa2c50590a5191f70ddd7e1f5491e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

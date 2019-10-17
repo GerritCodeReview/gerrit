@@ -134,7 +134,7 @@ def getChangeMetaData(){
 }
 
 def collectBuildModes() {
-    Builds.modes = ["reviewdb"]
+    Builds.modes = ["reviewdb", "notedb"]]
     def changedFiles = queryChangedFiles(Globals.gerritUrl, Change.number, Change.sha1)
     def polygerritFiles = changedFiles.findAll { it.startsWith("polygerrit-ui") ||
         it.startsWith("lib/js") }

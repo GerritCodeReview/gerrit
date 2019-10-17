@@ -36,6 +36,9 @@ limitations under the License.
         border-collapse: collapse;
         width: 100%;
       }
+      .section-count-label {
+        color: var(--dashboard-section-count);
+      }
     </style>
     <table id="changeList">
       <tr class="topHeader">
@@ -70,8 +73,10 @@ limitations under the License.
             <td class="cell"
                 colspan$="[[_computeColspan(changeTableColumns, labelNames)]]">
               <a href$="[[_sectionHref(changeSection.query)]]">
-                [[changeSection.name]]
-              </a>
+                [[changeSection.name]]</a>
+              <template is="dom-if" if="[[changeSection.countLabel]]">
+                  <span class="section-count-label">[[changeSection.countLabel]]</span>
+              </template>
             </td>
           </tr>
         </template>

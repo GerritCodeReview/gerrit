@@ -149,28 +149,24 @@ limitations under the License.
       assert.equal(element._computeTitle('not self'), 'Dashboard for not self');
     });
 
-    suite('_computeSectionName', () => {
-      test('empty changes dont change name', () => {
-        const name = 'Work in progress';
-        assert.equal(name, element._computeSectionName(name, []));
+    suite('_computeSectionCountLabel', () => {
+      test('empty changes dont count label', () => {
+        assert.equal(undefined, element._computeSectionCountLabel([]));
       });
 
       test('1 change', () => {
-        const name = 'Work in progress';
-        assert.equal(name + ' (1 change)',
-            element._computeSectionName(name, ['1']));
+        assert.equal('(1)',
+            element._computeSectionCountLabel(['1']));
       });
 
       test('2 changes', () => {
-        const name = 'Work in progress';
-        assert.equal(name + ' (2 changes)',
-            element._computeSectionName(name, ['1', '2']));
+        assert.equal('(2)',
+            element._computeSectionCountLabel(['1', '2']));
       });
 
       test('1 change and more', () => {
-        const name = 'Work in progress';
-        assert.equal(name + ' (1 change and more)',
-            element._computeSectionName(name, [{_more_changes: true}]));
+        assert.equal('(1 and more)',
+            element._computeSectionCountLabel([{_more_changes: true}]));
       });
     });
 
@@ -305,7 +301,7 @@ limitations under the License.
 
       return element._fetchDashboardChanges({sections}, false).then(() => {
         assert.equal(element._results.length, 1);
-        assert.equal(element._results[0].name, 'test2 (1 change)');
+        assert.equal(element._results[0].name, 'test2');
       });
     });
 

@@ -70,6 +70,24 @@
       "revId": "6071ce751b9beeaf05042149ad4faeac3bea82d4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f4950004_a50be295",
+        "filename": "rules.pl",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-10-17T01:22:25Z",
+      "side": 1,
+      "message": "Are you saying you want the Library Compliance rule for .gitmodules?",
+      "parentUuid": "da490708_12d46cba",
+      "revId": "6071ce751b9beeaf05042149ad4faeac3bea82d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

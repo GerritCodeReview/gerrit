@@ -62,6 +62,7 @@ junit_tests(
         "//java/com/google/gerrit/server/schema",
         "//java/com/google/gerrit/server/schema/testing",
         "//java/com/google/gerrit/server/util/time",
+         "//java/com/google/gerrit/server/git/receive:ref_cache",
         "//java/com/google/gerrit/testing:assertable-executor",
         "//java/com/google/gerrit/testing:gerrit-test-util",
         "//java/com/google/gerrit/truth",

@@ -2,9 +2,10 @@ load("@rules_java//java:defs.bzl", "java_library")
 
 java_library(
     name = "receive",
-    srcs = glob(["**/*.java"]),
+    srcs = glob(["**/*.java"], exclude = ["ReceivePackRefCache.java"]),
     visibility = ["//visibility:public"],
     deps = [
+        ":ref_cache",
         "//java/com/google/gerrit/common:annotations",
         "//java/com/google/gerrit/common:server",
         "//java/com/google/gerrit/entities",
@@ -24,5 +25,16 @@ java_library(
         "//lib/flogger:api",
         "//lib/guice",
         "//lib/guice:guice-assistedinject",
+    ],
+)
+
+java_library(
+    name = "ref_cache",
+    srcs = glob(["ReceivePackRefCache.java"]),
+    visibility = ["//visibility:public"],
+    deps = [
+        "//java/com/google/gerrit/entities",
+        "//lib:guava",
+        "//lib:jgit",
     ],
 )

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e9fe3da0_5878e4c9",
+        "filename": "java/com/google/gerrit/testing/InMemoryModule.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-10-17T23:09:52Z",
+      "side": 1,
+      "message": "Why don\u0027t we use ReplicaUtil here?",
+      "revId": "a51f1c0b32b7809da3a4cfd44b58ee9e45780ee9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

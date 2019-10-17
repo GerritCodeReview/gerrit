@@ -26,8 +26,8 @@
 
   // Import utils methods
   const {
-      getPluginNameFromUrl,
-      send,
+    getPluginNameFromUrl,
+    send,
   } = window._apiUtils;
 
   /**
@@ -113,7 +113,7 @@
   Plugin.prototype._registerCustomComponent = function(
       endpointName, opt_moduleName, opt_options, dynamicEndpoint) {
     const type = opt_options && opt_options.replace ?
-          EndpointType.REPLACE : EndpointType.DECORATE;
+      EndpointType.REPLACE : EndpointType.DECORATE;
     const hook = this._domHooks.getDomHook(endpointName, opt_moduleName);
     const moduleName = opt_moduleName || hook.getModuleName();
     Gerrit._endpoints.registerModule(
@@ -184,14 +184,14 @@
 
   Plugin.prototype.changeActions = function() {
     return new GrChangeActionsInterface(this,
-      Plugin._sharedAPIElement.getElement(
-          Plugin._sharedAPIElement.Element.CHANGE_ACTIONS));
+        Plugin._sharedAPIElement.getElement(
+            Plugin._sharedAPIElement.Element.CHANGE_ACTIONS));
   };
 
   Plugin.prototype.changeReply = function() {
     return new GrChangeReplyInterface(this,
-      Plugin._sharedAPIElement.getElement(
-          Plugin._sharedAPIElement.Element.REPLY_DIALOG));
+        Plugin._sharedAPIElement.getElement(
+            Plugin._sharedAPIElement.Element.REPLY_DIALOG));
   };
 
   Plugin.prototype.changeView = function() {

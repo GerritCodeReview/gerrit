@@ -19,65 +19,48 @@
 
   const RESTORED_MESSAGE = 'Content restored from a previous edit.';
   const STORAGE_DEBOUNCE_INTERVAL_MS = 400;
+  class GrEditableContent extends Polymer.mixinBehaviors( [
+    Gerrit.FireBehavior,
+  ], Polymer.LegacyDataMixin(
+      Polymer.GestureEventListeners(
+          Polymer.LegacyElementMixin(
+              Polymer.Element)))) {
+    static get is() { return 'gr-editable-content'; }
 
-  Polymer({
-    is: 'gr-editable-content',
-    _legacyUndefinedCheck: true,
-
-    /**
-     * Fired when the save button is pressed.
-     *
-     * @event editable-content-save
-     */
-
-    /**
-     * Fired when the cancel button is pressed.
-     *
-     * @event editable-content-cancel
-     */
-
-    /**
-     * Fired when content is restored from storage.
-     *
-     * @event show-alert
-     */
-
-    properties: {
-      content: {
-        notify: true,
-        type: String,
-      },
-      disabled: {
-        reflectToAttribute: true,
-        type: Boolean,
-        value: false,
-      },
-      editing: {
-        observer: '_editingChanged',
-        type: Boolean,
-        value: false,
-      },
-      removeZeroWidthSpace: Boolean,
-      // If no storage key is provided, content is not stored.
-      storageKey: String,
-      _saveDisabled: {
-        computed: '_computeSaveDisabled(disabled, content, _newContent)',
-        type: Boolean,
-        value: true,
-      },
-      _newContent: {
-        type: String,
-        observer: '_newContentChanged',
-      },
-    },
-
-    behaviors: [
-      Gerrit.FireBehavior,
-    ],
+    static get properties() {
+      return {
+        content: {
+          notify: true,
+          type: String,
+        },
+        disabled: {
+          reflectToAttribute: true,
+          type: Boolean,
+          value: false,
+        },
+        editing: {
+          observer: '_editingChanged',
+          type: Boolean,
+          value: false,
+        },
+        removeZeroWidthSpace: Boolean,
+        // If no storage key is provided, content is not stored.
+        storageKey: String,
+        _saveDisabled: {
+          computed: '_computeSaveDisabled(disabled, content, _newContent)',
+          type: Boolean,
+          value: true,
+        },
+        _newContent: {
+          type: String,
+          observer: '_newContentChanged',
+        },
+      };
+    }
 
     focusTextarea() {
       this.$$('iron-autogrow-textarea').textarea.focus();
-    },
+    }
 
     _newContentChanged(newContent, oldContent) {
       if (!this.storageKey) { return; }
@@ -89,7 +72,7 @@
           this.$.storage.eraseEditableContentItem(this.storageKey);
         }
       }, STORAGE_DEBOUNCE_INTERVAL_MS);
-    },
+    }
 
     _editingChanged(editing) {
       if (!editing) { return; }
@@ -113,9 +96,9 @@
 
       // TODO(wyatta) switch linkify sequence, see issue 5526.
       this._newContent = this.removeZeroWidthSpace ?
-          content.replace(/^R=\u200B/gm, 'R=') :
-          content;
-    },
+        content.replace(/^R=\u200B/gm, 'R=') :
+        content;
+    }
 
     _computeSaveDisabled(disabled, content, newContent) {
       // Polymer 2: check for undefined
@@ -128,17 +111,18 @@
       }
 
       return disabled || (content === newContent);
-    },
+    }
 
     _handleSave(e) {
       e.preventDefault();
       this.fire('editable-content-save', {content: this._newContent});
-    },
+    }
 
     _handleCancel(e) {
       e.preventDefault();
       this.editing = false;
       this.fire('editable-content-cancel');
-    },
-  });
+    }
+  }
+  customElements.define(GrEditableContent.is, GrEditableContent);
 })();

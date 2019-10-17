@@ -16,77 +16,68 @@
  */
 (function() {
   'use strict';
+  class GrAutocompleteDropdown extends Polymer.mixinBehaviors( [
+    Gerrit.FireBehavior,
+    Gerrit.KeyboardShortcutBehavior,
+    Polymer.IronFitBehavior,
+  ], Polymer.LegacyDataMixin(
+      Polymer.GestureEventListeners(
+          Polymer.LegacyElementMixin(
+              Polymer.Element)))) {
+    static get is() { return 'gr-autocomplete-dropdown'; }
 
-  Polymer({
-    is: 'gr-autocomplete-dropdown',
-    _legacyUndefinedCheck: true,
+    static get properties() {
+      return {
+        index: Number,
+        isHidden: {
+          type: Boolean,
+          value: true,
+          reflectToAttribute: true,
+        },
+        verticalOffset: {
+          type: Number,
+          value: null,
+        },
+        horizontalOffset: {
+          type: Number,
+          value: null,
+        },
+        suggestions: {
+          type: Array,
+          value: () => [],
+          observer: '_resetCursorStops',
+        },
+        _suggestionEls: {
+          type: Array,
+          observer: '_resetCursorIndex',
+        },
+      };
+    }
 
-    /**
-     * Fired when the dropdown is closed.
-     *
-     * @event dropdown-closed
-     */
-
-    /**
-     * Fired when item is selected.
-     *
-     * @event item-selected
-     */
-
-    properties: {
-      index: Number,
-      isHidden: {
-        type: Boolean,
-        value: true,
-        reflectToAttribute: true,
-      },
-      verticalOffset: {
-        type: Number,
-        value: null,
-      },
-      horizontalOffset: {
-        type: Number,
-        value: null,
-      },
-      suggestions: {
-        type: Array,
-        value: () => [],
-        observer: '_resetCursorStops',
-      },
-      _suggestionEls: {
-        type: Array,
-        observer: '_resetCursorIndex',
-      },
-    },
-
-    behaviors: [
-      Gerrit.FireBehavior,
-      Gerrit.KeyboardShortcutBehavior,
-      Polymer.IronFitBehavior,
-    ],
-
-    keyBindings: {
-      up: '_handleUp',
-      down: '_handleDown',
-      enter: '_handleEnter',
-      esc: '_handleEscape',
-      tab: '_handleTab',
-    },
+    get keyBindings() {
+      return {
+        up: '_handleUp',
+        down: '_handleDown',
+        enter: '_handleEnter',
+        esc: '_handleEscape',
+        tab: '_handleTab',
+      };
+    }
 
     close() {
       this.isHidden = true;
-    },
+    }
 
     open() {
       this.isHidden = false;
       this.refit();
       this._resetCursorStops();
       this._resetCursorIndex();
-    },
+    }
 
     getCurrentText() {
       return this.getCursorTarget().dataset.value;
-    },
+    }
 
     _handleUp(e) {
       if (!this.isHidden) {
@@ -94,7 +85,7 @@
         e.stopPropagation();
         this.cursorUp();
       }
-    },
+    }
 
     _handleDown(e) {
       if (!this.isHidden) {
@@ -102,19 +93,19 @@
         e.stopPropagation();
         this.cursorDown();
       }
-    },
+    }
 
     cursorDown() {
       if (!this.isHidden) {
         this.$.cursor.next();
       }
-    },
+    }
 
     cursorUp() {
       if (!this.isHidden) {
         this.$.cursor.previous();
       }
-    },
+    }
 
     _handleTab(e) {
       e.preventDefault();
@@ -123,7 +114,7 @@
         trigger: 'tab',
         selected: this.$.cursor.target,
       });
-    },
+    }
 
     _handleEnter(e) {
       e.preventDefault();
@@ -132,12 +123,12 @@
         trigger: 'enter',
         selected: this.$.cursor.target,
       });
-    },
+    }
 
     _handleEscape() {
       this._fireClose();
       this.close();
-    },
+    }
 
     _handleTapItem(e) {
       e.preventDefault();
@@ -151,15 +142,15 @@
         trigger: 'tap',
         selected,
       });
-    },
+    }
 
     _fireClose() {
       this.fire('dropdown-closed');
-    },
+    }
 
     getCursorTarget() {
       return this.$.cursor.target;
-    },
+    }
 
     _resetCursorStops() {
       if (this.suggestions.length > 0) {
@@ -170,14 +161,15 @@
       } else {
         this._suggestionEls = [];
       }
-    },
+    }
 
     _resetCursorIndex() {
       this.$.cursor.setCursorAtIndex(0);
-    },
+    }
 
     _computeLabelClass(item) {
       return item.label ? '' : 'hide';
-    },
-  });
+    }
+  }
+  customElements.define(GrAutocompleteDropdown.is, GrAutocompleteDropdown);
 })();

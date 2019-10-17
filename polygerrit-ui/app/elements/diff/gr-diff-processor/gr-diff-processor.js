@@ -76,98 +76,78 @@
    * performance needs.
    */
   const MAX_GROUP_SIZE = 120;
+  class GrDiffProcessor extends Polymer.LegacyDataMixin(
+      Polymer.GestureEventListeners(
+          Polymer.LegacyElementMixin(
+              Polymer.Element))) {
+    static get is() { return 'gr-diff-processor'; }
 
-  /**
-   * Converts the API's `DiffContent`s  to `GrDiffGroup`s for rendering.
-   *
-   * Glossary:
-   * - "chunk": A single `DiffContent` as returned by the API.
-   * - "group": A single `GrDiffGroup` as used for rendering.
-   * - "common" chunk/group: A chunk/group that should be considered unchanged
-   *   for diffing purposes. This can mean its either actually unchanged, or it
-   *   has only whitespace changes.
-   * - "key location": A line number and side of the diff that should not be
-   *   collapsed e.g. because a comment is attached to it, or because it was
-   *   provided in the URL and thus should be visible
-   * - "uncollapsible" chunk/group: A chunk/group that is either not "common",
-   *   or cannot be collapsed because it contains a key location
-   *
-   * Here a a number of tasks this processor performs:
-   *  - splitting large chunks to allow more granular async rendering
-   *  - adding a group for the "File" pseudo line that file-level comments can
-   *    be attached to
-   *  - replacing common parts of the diff that are outside the user's
-   *    context setting and do not have comments with a group representing the
-   *    "expand context" widget. This may require splitting a chunk/group so
-   *    that the part that is within the context or has comments is shown, while
-   *    the rest is not.
-   */
-  Polymer({
-    is: 'gr-diff-processor',
-    _legacyUndefinedCheck: true,
+    static get properties() {
+      return {
 
-    properties: {
-
-      /**
+        /**
        * The amount of context around collapsed groups.
        */
-      context: Number,
+        context: Number,
 
-      /**
+        /**
        * The array of groups output by the processor.
        */
-      groups: {
-        type: Array,
-        notify: true,
-      },
+        groups: {
+          type: Array,
+          notify: true,
+        },
 
-      /**
+        /**
        * Locations that should not be collapsed, including the locations of
        * comments.
        */
-      keyLocations: {
-        type: Object,
-        value() { return {left: {}, right: {}}; },
-      },
+        keyLocations: {
+          type: Object,
+          value() { return {left: {}, right: {}}; },
+        },
 
-      /**
+        /**
        * The maximum number of lines to process synchronously.
        */
-      _asyncThreshold: {
-        type: Number,
-        value: 64,
-      },
+        _asyncThreshold: {
+          type: Number,
+          value: 64,
+        },
 
-      /** @type {?number} */
-      _nextStepHandle: Number,
-      /**
+        /** @type {?number} */
+        _nextStepHandle: Number,
+        /**
        * The promise last returned from `process()` while the asynchronous
        * processing is running - `null` otherwise. Provides a `cancel()`
        * method that rejects it with `{isCancelled: true}`.
        * @type {?Object}
        */
-      _processPromise: {
-        type: Object,
-        value: null,
-      },
-      _isScrolling: Boolean,
-    },
+        _processPromise: {
+          type: Object,
+          value: null,
+        },
+        _isScrolling: Boolean,
+      };
+    }
 
     attached() {
+      super.attached();
       this.listen(window, 'scroll', '_handleWindowScroll');
-    },
+    }
 
     detached() {
+      super.detached();
       this.cancel();
       this.unlisten(window, 'scroll', '_handleWindowScroll');
-    },
+    }
 
     _handleWindowScroll() {
       this._isScrolling = true;
       this.debounce('resetIsScrolling', () => {
         this._isScrolling = false;
       }, 50);
-    },
+    }
 
     /**
      * Asynchronously process the diff chunks into groups. As it processes, it
@@ -236,7 +216,7 @@
           }));
       return this._processPromise
           .finally(() => { this._processPromise = null; });
-    },
+    }
 
     /**
      * Cancel any jobs that are running.
@@ -249,7 +229,7 @@
       if (this._processPromise) {
         this._processPromise.cancel();
       }
-    },
+    }
 
     /**
      * Process the next uncollapsible chunk, or the next collapsible chunks.
@@ -276,15 +256,15 @@
 
       return this._processCollapsibleChunks(
           state, chunks, firstUncollapsibleChunkIndex);
-    },
+    }
 
     _linesLeft(chunk) {
       return chunk.ab || chunk.a || [];
-    },
+    }
 
     _linesRight(chunk) {
       return chunk.ab || chunk.b || [];
-    },
+    }
 
     _firstUncollapsibleChunkIndex(chunks, offset) {
       let chunkIndex = offset;
@@ -293,11 +273,11 @@
         chunkIndex++;
       }
       return chunkIndex;
-    },
+    }
 
     _isCollapsibleChunk(chunk) {
       return (chunk.ab || chunk.common) && !chunk.keyLocation;
-    },
+    }
 
     /**
      * Process a stretch of collapsible chunks.
@@ -329,7 +309,7 @@
       if (this.context !== WHOLE_FILE) {
         const hiddenStart = state.chunkIndex === 0 ? 0 : this.context;
         const hiddenEnd = lineCount - (
-            firstUncollapsibleChunkIndex === chunks.length ?
+          firstUncollapsibleChunkIndex === chunks.length ?
             0 : this.context);
         groups = GrDiffGroup.hideInContextControl(
             groups, hiddenStart, hiddenEnd);
@@ -343,7 +323,7 @@
         groups,
         newChunkIndex: firstUncollapsibleChunkIndex,
       };
-    },
+    }
 
     _commonChunkLength(chunk) {
       console.assert(chunk.ab || chunk.common);
@@ -351,7 +331,7 @@
           !chunk.a || (chunk.b && chunk.a.length === chunk.b.length),
           `common chunk needs same number of a and b lines: `, chunk);
       return this._linesLeft(chunk).length;
-    },
+    }
 
     /**
      * @param {!Array<!Object>} chunks
@@ -367,7 +347,7 @@
         offsetRight += chunkLength;
         return group;
       });
-    },
+    }
 
     /**
      * @param {!Object} chunk
@@ -383,7 +363,7 @@
       group.dueToRebase = chunk.due_to_rebase;
       group.ignoredWhitespaceOnly = chunk.common;
       return group;
-    },
+    }
 
     _linesFromChunk(chunk, offsetLeft, offsetRight) {
       if (chunk.ab) {
@@ -406,7 +386,7 @@
             chunk[DiffHighlights.ADDED]));
       }
       return lines;
-    },
+    }
 
     /**
      * @param {string} lineType (GrDiffLine.Type)
@@ -420,7 +400,7 @@
         this._convertIntralineInfos(rows, opt_intralineInfos) : undefined;
       return rows.map((row, i) => this._lineFromRow(
           lineType, offset, offset, row, i, grDiffHighlights));
-    },
+    }
 
     /**
      * @param {string} type (GrDiffLine.Type)
@@ -443,14 +423,14 @@
         line.hasIntralineInfo = false;
       }
       return line;
-    },
+    }
 
     _makeFileComments() {
       const line = new GrDiffLine(GrDiffLine.Type.BOTH);
       line.beforeNumber = GrDiffLine.FILE;
       line.afterNumber = GrDiffLine.FILE;
       return new GrDiffGroup(GrDiffGroup.Type.BOTH, [line]);
-    },
+    }
 
 
     /**
@@ -493,7 +473,7 @@
         }
       }
       return newChunks;
-    },
+    }
 
     /**
      * In order to show key locations, such as comments, out of the bounds of
@@ -522,7 +502,7 @@
 
         if (chunk.common && chunk.a.length != chunk.b.length) {
           throw new Error(
-            'DiffContent with common=true must always have equal length');
+              'DiffContent with common=true must always have equal length');
         }
         const numLines = this._commonChunkLength(chunk);
         const chunkEnds = this._findChunkEndsAtKeyLocations(
@@ -533,7 +513,7 @@
         if (chunk.ab) {
           result.push(...this._splitAtChunkEnds(chunk.ab, chunkEnds)
               .map(({lines, keyLocation}) =>
-                  Object.assign({}, chunk, {ab: lines, keyLocation})));
+                Object.assign({}, chunk, {ab: lines, keyLocation})));
         } else if (chunk.common) {
           const aChunks = this._splitAtChunkEnds(chunk.a, chunkEnds);
           const bChunks = this._splitAtChunkEnds(chunk.b, chunkEnds);
@@ -544,7 +524,7 @@
       }
 
       return result;
-    },
+    }
 
     /**
      * @return {!Array<{offset: number, keyLocation: boolean}>} Offsets of the
@@ -575,7 +555,7 @@
       }
 
       return result;
-    },
+    }
 
     _splitAtChunkEnds(lines, chunkEnds) {
       const result = [];
@@ -586,7 +566,7 @@
         lastChunkEndOffset = offset;
       }
       return result;
-    },
+    }
 
     /**
      * Converts `IntralineInfo`s return by the API to `GrLineHighlights` used
@@ -636,7 +616,7 @@
         normalized.push(lineHighlight);
       }
       return normalized;
-    },
+    }
 
     /**
      * If a group is an addition or a removal, break it down into smaller groups
@@ -666,7 +646,7 @@
             }
             return subChunk;
           });
-    },
+    }
 
     /**
      * Given an array and a size, return an array of arrays where no inner array
@@ -684,6 +664,7 @@
       const tail = array.slice(array.length - size);
 
       return this._breakdown(head, size).concat([tail]);
-    },
-  });
+    }
+  }
+  customElements.define(GrDiffProcessor.is, GrDiffProcessor);
 })();

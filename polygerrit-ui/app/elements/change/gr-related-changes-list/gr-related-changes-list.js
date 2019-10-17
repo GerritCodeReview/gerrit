@@ -16,77 +16,72 @@
  */
 (function() {
   'use strict';
+  class GrRelatedChangesList extends Polymer.mixinBehaviors( [
+    Gerrit.FireBehavior,
+    Gerrit.PatchSetBehavior,
+    Gerrit.RESTClientBehavior,
+  ], Polymer.LegacyDataMixin(
+      Polymer.GestureEventListeners(
+          Polymer.LegacyElementMixin(
+              Polymer.Element)))) {
+    static get is() { return 'gr-related-changes-list'; }
 
-  Polymer({
-    is: 'gr-related-changes-list',
-    _legacyUndefinedCheck: true,
-
-    /**
-     * Fired when a new section is loaded so that the change view can determine
-     * a show more button is needed, sometimes before all the sections finish
-     * loading.
-     *
-     * @event new-section-loaded
-     */
-
-    properties: {
-      change: Object,
-      hasParent: {
-        type: Boolean,
-        notify: true,
-        value: false,
-      },
-      patchNum: String,
-      parentChange: Object,
-      hidden: {
-        type: Boolean,
-        value: false,
-        reflectToAttribute: true,
-      },
-      loading: {
-        type: Boolean,
-        notify: true,
-      },
-      mergeable: Boolean,
-      _connectedRevisions: {
-        type: Array,
-        computed: '_computeConnectedRevisions(change, patchNum, ' +
+    static get properties() {
+      return {
+        change: Object,
+        hasParent: {
+          type: Boolean,
+          notify: true,
+          value: false,
+        },
+        patchNum: String,
+        parentChange: Object,
+        hidden: {
+          type: Boolean,
+          value: false,
+          reflectToAttribute: true,
+        },
+        loading: {
+          type: Boolean,
+          notify: true,
+        },
+        mergeable: Boolean,
+        _connectedRevisions: {
+          type: Array,
+          computed: '_computeConnectedRevisions(change, patchNum, ' +
             '_relatedResponse.changes)',
-      },
-      /** @type {?} */
-      _relatedResponse: {
-        type: Object,
-        value() { return {changes: []}; },
-      },
-      /** @type {?} */
-      _submittedTogether: {
-        type: Object,
-        value() { return {changes: []}; },
-      },
-      _conflicts: {
-        type: Array,
-        value() { return []; },
-      },
-      _cherryPicks: {
-        type: Array,
-        value() { return []; },
-      },
-      _sameTopic: {
-        type: Array,
-        value() { return []; },
-      },
-    },
+        },
+        /** @type {?} */
+        _relatedResponse: {
+          type: Object,
+          value() { return {changes: []}; },
+        },
+        /** @type {?} */
+        _submittedTogether: {
+          type: Object,
+          value() { return {changes: []}; },
+        },
+        _conflicts: {
+          type: Array,
+          value() { return []; },
+        },
+        _cherryPicks: {
+          type: Array,
+          value() { return []; },
+        },
+        _sameTopic: {
+          type: Array,
+          value() { return []; },
+        },
+      };
+    }
 
-    behaviors: [
-      Gerrit.FireBehavior,
-      Gerrit.PatchSetBehavior,
-      Gerrit.RESTClientBehavior,
-    ],
-
-    observers: [
-      '_resultsChanged(_relatedResponse, _submittedTogether, ' +
+    static get observers() {
+      return [
+        '_resultsChanged(_relatedResponse, _submittedTogether, ' +
           '_conflicts, _cherryPicks, _sameTopic)',
-    ],
+      ];
+    }
 
     clear() {
       this.loading = true;
@@ -97,7 +92,7 @@
       this._conflicts = [];
       this._cherryPicks = [];
       this._sameTopic = [];
-    },
+    }
 
     reload() {
       if (!this.change || !this.patchNum) {
@@ -145,7 +140,7 @@
       return Promise.all(promises).then(() => {
         this.loading = false;
       });
-    },
+    }
 
     _fireReloadEvent() {
       // The listener on the change computes height of the related changes
@@ -153,7 +148,7 @@
       // that requires a flush.
       Polymer.dom.flush();
       this.dispatchEvent(new CustomEvent('new-section-loaded'));
-    },
+    }
 
     /**
      * Determines whether or not the given change has a parent change. If there
@@ -167,34 +162,34 @@
       return relatedChanges.length > 0 &&
           relatedChanges[relatedChanges.length - 1].change_id !==
           currentChangeId;
-    },
+    }
 
     _getRelatedChanges() {
       return this.$.restAPI.getRelatedChanges(this.change._number,
           this.patchNum);
-    },
+    }
 
     _getSubmittedTogether() {
       return this.$.restAPI.getChangesSubmittedTogether(this.change._number);
-    },
+    }
 
     _getServerConfig() {
       return this.$.restAPI.getConfig();
-    },
+    }
 
     _getConflicts() {
       return this.$.restAPI.getChangeConflicts(this.change._number);
-    },
+    }
 
     _getCherryPicks() {
       return this.$.restAPI.getChangeCherryPicks(this.change.project,
           this.change.change_id, this.change._number);
-    },
+    }
 
     _getChangesWithSameTopic() {
       return this.$.restAPI.getChangesWithSameTopic(this.change.topic,
           this.change._number);
-    },
+    }
 
     /**
      * @param {number} changeNum
@@ -204,7 +199,7 @@
      */
     _computeChangeURL(changeNum, project, opt_patchNum) {
       return Gerrit.Nav.getUrlForChangeById(changeNum, project, opt_patchNum);
-    },
+    }
 
     _computeChangeContainerClass(currentChange, relatedChange) {
       const classes = ['changeContainer'];
@@ -215,7 +210,7 @@
         classes.push('thisChange');
       }
       return classes.join(' ');
-    },
+    }
 
     /**
      * Do the given objects describe the same change? Compares the changes by
@@ -230,7 +225,7 @@
       const aNum = this._getChangeNumber(a);
       const bNum = this._getChangeNumber(b);
       return aNum === bNum;
-    },
+    }
 
     /**
      * Get the change number from either a ChangeInfo (such as those included in
@@ -252,7 +247,7 @@
         return change._change_number;
       }
       return change._number;
-    },
+    }
 
     _computeLinkClass(change) {
       const statuses = [];
@@ -263,7 +258,7 @@
         statuses.push('submittable');
       }
       return statuses.join(' ');
-    },
+    }
 
     _computeChangeStatusClass(change) {
       const classes = ['status'];
@@ -277,7 +272,7 @@
         classes.push('hidden');
       }
       return classes.join(' ');
-    },
+    }
 
     _computeChangeStatus(change) {
       switch (change.status) {
@@ -294,7 +289,7 @@
         return 'Submittable';
       }
       return '';
-    },
+    }
 
     _resultsChanged(related, submittedTogether, conflicts,
         cherryPicks, sameTopic) {
@@ -324,11 +319,11 @@
         }
       }
       this.hidden = true;
-    },
+    }
 
     _isIndirectAncestor(change) {
       return !this._connectedRevisions.includes(change.commit.commit);
-    },
+    }
 
     _computeConnectedRevisions(change, patchNum, relatedChanges) {
       // Polymer 2: check for undefined
@@ -365,20 +360,21 @@
         --pos;
       }
       return connected;
-    },
+    }
 
     _computeSubmittedTogetherClass(submittedTogether) {
       if (!submittedTogether || (
-          submittedTogether.changes.length === 0 &&
+        submittedTogether.changes.length === 0 &&
           !submittedTogether.non_visible_changes)) {
         return 'hidden';
       }
       return '';
-    },
+    }
 
     _computeNonVisibleChangesNote(n) {
       const noun = n === 1 ? 'change' : 'changes';
       return `(+ ${n} non-visible ${noun})`;
-    },
-  });
+    }
+  }
+  customElements.define(GrRelatedChangesList.is, GrRelatedChangesList);
 })();

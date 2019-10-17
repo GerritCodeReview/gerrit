@@ -16,92 +16,82 @@
  */
 (function() {
   'use strict';
+  class GrAppElement extends Polymer.mixinBehaviors( [
+    Gerrit.BaseUrlBehavior,
+    Gerrit.KeyboardShortcutBehavior,
+  ], Polymer.LegacyDataMixin(
+      Polymer.GestureEventListeners(
+          Polymer.LegacyElementMixin(
+              Polymer.Element)))) {
+    static get is() { return 'gr-app-element'; }
 
-  Polymer({
-    is: 'gr-app-element',
-    _legacyUndefinedCheck: true,
-
-    /**
-     * Fired when the URL location changes.
-     *
-     * @event location-change
-     */
-
-    properties: {
+    static get properties() {
+      return {
       /**
        * @type {{ query: string, view: string, screen: string }}
        */
-      params: Object,
-      keyEventTarget: {
-        type: Object,
-        value() { return document.body; },
-      },
+        params: Object,
+        keyEventTarget: {
+          type: Object,
+          value() { return document.body; },
+        },
 
-      _account: {
-        type: Object,
-        observer: '_accountChanged',
-      },
+        _account: {
+          type: Object,
+          observer: '_accountChanged',
+        },
 
-      /**
+        /**
        * The last time the g key was pressed in milliseconds (or a keydown event
        * was handled if the key is held down).
        * @type {number|null}
        */
-      _lastGKeyPressTimestamp: {
-        type: Number,
-        value: null,
-      },
+        _lastGKeyPressTimestamp: {
+          type: Number,
+          value: null,
+        },
 
-      /**
+        /**
        * @type {{ plugin: Object }}
        */
-      _serverConfig: Object,
-      _version: String,
-      _showChangeListView: Boolean,
-      _showDashboardView: Boolean,
-      _showChangeView: Boolean,
-      _showDiffView: Boolean,
-      _showSettingsView: Boolean,
-      _showAdminView: Boolean,
-      _showCLAView: Boolean,
-      _showEditorView: Boolean,
-      _showPluginScreen: Boolean,
-      _showDocumentationSearch: Boolean,
-      /** @type {?} */
-      _viewState: Object,
-      /** @type {?} */
-      _lastError: Object,
-      _lastSearchPage: String,
-      _path: String,
-      _pluginScreenName: {
-        type: String,
-        computed: '_computePluginScreenName(params)',
-      },
-      _settingsUrl: String,
-      _feedbackUrl: String,
-      // Used to allow searching on mobile
-      mobileSearch: {
-        type: Boolean,
-        value: false,
-      },
-    },
+        _serverConfig: Object,
+        _version: String,
+        _showChangeListView: Boolean,
+        _showDashboardView: Boolean,
+        _showChangeView: Boolean,
+        _showDiffView: Boolean,
+        _showSettingsView: Boolean,
+        _showAdminView: Boolean,
+        _showCLAView: Boolean,
+        _showEditorView: Boolean,
+        _showPluginScreen: Boolean,
+        _showDocumentationSearch: Boolean,
+        /** @type {?} */
+        _viewState: Object,
+        /** @type {?} */
+        _lastError: Object,
+        _lastSearchPage: String,
+        _path: String,
+        _pluginScreenName: {
+          type: String,
+          computed: '_computePluginScreenName(params)',
+        },
+        _settingsUrl: String,
+        _feedbackUrl: String,
+        // Used to allow searching on mobile
+        mobileSearch: {
+          type: Boolean,
+          value: false,
+        },
+      };
+    }
 
-    listeners: {
-      'page-error': '_handlePageError',
-      'title-change': '_handleTitleChange',
-      'location-change': '_handleLocationChange',
-      'rpc-log': '_handleRpcLog',
-    },
-
-    observers: [
-      '_viewChanged(params.view)',
-      '_paramsChanged(params.*)',
-    ],
-
-    behaviors: [
-      Gerrit.BaseUrlBehavior,
-      Gerrit.KeyboardShortcutBehavior,
-    ],
+    static get observers() {
+      return [
+        '_viewChanged(params.view)',
+        '_paramsChanged(params.*)',
+      ];
+    }
 
     keyboardShortcuts() {
       return {
@@ -112,13 +102,19 @@
         [this.Shortcut.GO_TO_ABANDONED_CHANGES]: '_goToAbandonedChanges',
         [this.Shortcut.GO_TO_WATCHED_CHANGES]: '_goToWatchedChanges',
       };
-    },
+    }
 
     created() {
+      super.created();
       this._bindKeyboardShortcuts();
-    },
+      this.addEventListener('page-error', e => this._handlePageError(e));
+      this.addEventListener('title-change', e => this._handleTitleChange(e));
+      this.addEventListener('location-change', e => this._handleLocationChange(e));
+      this.addEventListener('rpc-log', e => this._handleRpcLog(e));
+    }
 
     ready() {
+      super.ready();
       this.$.reporting.appStarted(document.visibilityState === 'hidden');
       this.$.router.start();
 
@@ -166,7 +162,7 @@
           selectedChangeIndex: 0,
         },
       };
-    },
+    }
 
     _bindKeyboardShortcuts() {
       this.bindShortcut(this.Shortcut.SEND_REPLY,
@@ -286,7 +282,7 @@
 
       this.bindShortcut(
           this.Shortcut.SEARCH, '/');
-    },
+    }
 
     _accountChanged(account) {
       if (!account) { return; }
@@ -297,7 +293,7 @@
       this.$.restAPI.getEditPreferences();
       this.$.errorManager.knownAccountId =
           this._account && this._account._account_id || null;
-    },
+    }
 
     _viewChanged(view) {
       this.$.errorView.classList.remove('show');
@@ -327,7 +323,7 @@
         });
       }
       this.$.header.unfloat();
-    },
+    }
 
     _handlePageError(e) {
       const props = [
@@ -355,7 +351,7 @@
           this._lastError = err;
         });
       }
-    },
+    }
 
     _handleLocationChange(e) {
       const hash = e.detail.hash.substring(1);
@@ -364,7 +360,7 @@
         pathname += '@' + hash;
       }
       this.set('_path', pathname);
-    },
+    }
 
     _paramsChanged(paramsRecord) {
       const params = paramsRecord.base;
@@ -372,7 +368,7 @@
       if (viewsToCheck.includes(params.view)) {
         this.set('_lastSearchPage', location.pathname);
       }
-    },
+    }
 
     _handleTitleChange(e) {
       if (e.detail.title) {
@@ -380,53 +376,53 @@
       } else {
         document.title = '';
       }
-    },
+    }
 
     _showKeyboardShortcuts(e) {
       if (this.shouldSuppressKeyboardShortcut(e)) { return; }
       this.$.keyboardShortcuts.open();
-    },
+    }
 
     _handleKeyboardShortcutDialogClose() {
       this.$.keyboardShortcuts.close();
-    },
+    }
 
     _handleAccountDetailUpdate(e) {
       this.$.mainHeader.reload();
       if (this.params.view === Gerrit.Nav.View.SETTINGS) {
         this.$$('gr-settings-view').reloadAccountDetail();
       }
-    },
+    }
 
     _handleRegistrationDialogClose(e) {
       this.params.justRegistered = false;
       this.$.registrationOverlay.close();
-    },
+    }
 
     _goToOpenedChanges() {
       Gerrit.Nav.navigateToStatusSearch('open');
-    },
+    }
 
     _goToUserDashboard() {
       Gerrit.Nav.navigateToUserDashboard();
-    },
+    }
 
     _goToMergedChanges() {
       Gerrit.Nav.navigateToStatusSearch('merged');
-    },
+    }
 
     _goToAbandonedChanges() {
       Gerrit.Nav.navigateToStatusSearch('abandoned');
-    },
+    }
 
     _goToWatchedChanges() {
       // The query is hardcoded, and doesn't respect custom menu entries
       Gerrit.Nav.navigateToSearchQuery('is:watched is:open');
-    },
+    }
 
     _computePluginScreenName({plugin, screen}) {
       return Gerrit._getPluginScreenName(plugin, screen);
-    },
+    }
 
     _logWelcome() {
       console.group('Runtime Info');
@@ -439,7 +435,7 @@
         console.log(`Please file bugs and feedback at: ${this._feedbackUrl}`);
       }
       console.groupEnd();
-    },
+    }
 
     /**
      * Intercept RPC log events emitted by REST API interfaces.
@@ -449,17 +445,18 @@
     _handleRpcLog(e) {
       this.$.reporting.reportRpcTiming(e.detail.anonymizedUrl,
           e.detail.elapsed);
-    },
+    }
 
     _mobileSearchToggle(e) {
       this.mobileSearch = !this.mobileSearch;
-    },
+    }
 
     getThemeEndpoint() {
       // For now, we only have dark mode and light mode
       return window.localStorage.getItem('dark-theme') ?
         'app-theme-dark' :
         'app-theme-light';
-    },
-  });
+    }
+  }
+  customElements.define(GrAppElement.is, GrAppElement);
 })();

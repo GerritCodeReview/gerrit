@@ -20,101 +20,80 @@
   // Maximum length for patch set descriptions.
   const PATCH_DESC_MAX_LENGTH = 500;
   const MERGED_STATUS = 'MERGED';
+  class GrFileListHeader extends Polymer.mixinBehaviors( [
+    Gerrit.FireBehavior,
+    Gerrit.PatchSetBehavior,
+  ], Polymer.LegacyDataMixin(
+      Polymer.GestureEventListeners(
+          Polymer.LegacyElementMixin(
+              Polymer.Element)))) {
+    static get is() { return 'gr-file-list-header'; }
 
-  Polymer({
-    is: 'gr-file-list-header',
-    _legacyUndefinedCheck: true,
+    static get properties() {
+      return {
+        account: Object,
+        allPatchSets: Array,
+        /** @type {?} */
+        change: Object,
+        changeNum: String,
+        changeUrl: String,
+        changeComments: Object,
+        commitInfo: Object,
+        editMode: Boolean,
+        loggedIn: Boolean,
+        serverConfig: Object,
+        shownFileCount: Number,
+        diffPrefs: Object,
+        diffPrefsDisabled: Boolean,
+        diffViewMode: {
+          type: String,
+          notify: true,
+        },
+        patchNum: String,
+        basePatchNum: String,
+        filesExpanded: String,
+        // Caps the number of files that can be shown and have the 'show diffs' /
+        // 'hide diffs' buttons still be functional.
+        _maxFilesForBulkActions: {
+          type: Number,
+          readOnly: true,
+          value: 225,
+        },
+        _patchsetDescription: {
+          type: String,
+          value: '',
+        },
+        showTitle: {
+          type: Boolean,
+          value: true,
+        },
+        _descriptionReadOnly: {
+          type: Boolean,
+          computed: '_computeDescriptionReadOnly(loggedIn, change, account)',
+        },
+        revisionInfo: Object,
+      };
+    }
 
-    /**
-     * @event expand-diffs
-     */
-
-    /**
-     * @event collapse-diffs
-     */
-
-    /**
-     * @event open-diff-prefs
-     */
-
-    /**
-     * @event open-included-in-dialog
-     */
-
-    /**
-     * @event open-download-dialog
-     */
-
-    /**
-     * @event open-upload-help-dialog
-     */
-
-    properties: {
-      account: Object,
-      allPatchSets: Array,
-      /** @type {?} */
-      change: Object,
-      changeNum: String,
-      changeUrl: String,
-      changeComments: Object,
-      commitInfo: Object,
-      editMode: Boolean,
-      loggedIn: Boolean,
-      serverConfig: Object,
-      shownFileCount: Number,
-      diffPrefs: Object,
-      diffPrefsDisabled: Boolean,
-      diffViewMode: {
-        type: String,
-        notify: true,
-      },
-      patchNum: String,
-      basePatchNum: String,
-      filesExpanded: String,
-      // Caps the number of files that can be shown and have the 'show diffs' /
-      // 'hide diffs' buttons still be functional.
-      _maxFilesForBulkActions: {
-        type: Number,
-        readOnly: true,
-        value: 225,
-      },
-      _patchsetDescription: {
-        type: String,
-        value: '',
-      },
-      showTitle: {
-        type: Boolean,
-        value: true,
-      },
-      _descriptionReadOnly: {
-        type: Boolean,
-        computed: '_computeDescriptionReadOnly(loggedIn, change, account)',
-      },
-      revisionInfo: Object,
-    },
-
-    behaviors: [
-      Gerrit.FireBehavior,
-      Gerrit.PatchSetBehavior,
-    ],
-
-    observers: [
-      '_computePatchSetDescription(change, patchNum)',
-    ],
+    static get observers() {
+      return [
+        '_computePatchSetDescription(change, patchNum)',
+      ];
+    }
 
     setDiffViewMode(mode) {
       this.$.modeSelect.setMode(mode);
-    },
+    }
 
     _expandAllDiffs() {
       this._expanded = true;
       this.fire('expand-diffs');
-    },
+    }
 
     _collapseAllDiffs() {
       this._expanded = false;
       this.fire('collapse-diffs');
-    },
+    }
 
     _computeExpandedClass(filesExpanded) {
       const classes = [];
@@ -126,11 +105,11 @@
         classes.push('openFile');
       }
       return classes.join(' ');
-    },
+    }
 
     _computeDescriptionPlaceholder(readOnly) {
       return (readOnly ? 'No' : 'Add') + ' patchset description';
-    },
+    }
 
     _computeDescriptionReadOnly(loggedIn, change, account) {
       // Polymer 2: check for undefined
@@ -139,7 +118,7 @@
       }
 
       return !(loggedIn && (account._account_id === change.owner._account_id));
-    },
+    }
 
     _computePatchSetDescription(change, patchNum) {
       // Polymer 2: check for undefined
@@ -149,12 +128,12 @@
 
       const rev = this.getRevisionByPatchNum(change.revisions, patchNum);
       this._patchsetDescription = (rev && rev.description) ?
-          rev.description.substring(0, PATCH_DESC_MAX_LENGTH) : '';
-    },
+        rev.description.substring(0, PATCH_DESC_MAX_LENGTH) : '';
+    }
 
     _handleDescriptionRemoved(e) {
       return this._updateDescription('', e);
-    },
+    }
 
     /**
      * @param {!Object} revisions The revisions object keyed by revision hashes
@@ -168,12 +147,12 @@
           return rev;
         }
       }
-    },
+    }
 
     _handleDescriptionChanged(e) {
       const desc = e.detail.trim();
       this._updateDescription(desc, e);
-    },
+    }
 
     /**
      * Update the patchset description with the rest API.
@@ -198,43 +177,43 @@
             if (target) { target.disabled = false; }
             return;
           });
-    },
+    }
 
     _computePrefsButtonHidden(prefs, diffPrefsDisabled) {
       return diffPrefsDisabled || !prefs;
-    },
+    }
 
     _fileListActionsVisible(shownFileCount, maxFilesForBulkActions) {
       return shownFileCount <= maxFilesForBulkActions;
-    },
+    }
 
     _handlePatchChange(e) {
       const {basePatchNum, patchNum} = e.detail;
       if (this.patchNumEquals(basePatchNum, this.basePatchNum) &&
           this.patchNumEquals(patchNum, this.patchNum)) { return; }
       Gerrit.Nav.navigateToChange(this.change, patchNum, basePatchNum);
-    },
+    }
 
     _handlePrefsTap(e) {
       e.preventDefault();
       this.fire('open-diff-prefs');
-    },
+    }
 
     _handleIncludedInTap(e) {
       e.preventDefault();
       this.fire('open-included-in-dialog');
-    },
+    }
 
     _handleDownloadTap(e) {
       e.preventDefault();
       e.stopPropagation();
       this.dispatchEvent(
           new CustomEvent('open-download-dialog', {bubbles: false}));
-    },
+    }
 
     _computeEditModeClass(editMode) {
       return editMode ? 'editMode' : '';
-    },
+    }
 
     _computePatchInfoClass(patchNum, allPatchSets) {
       const latestNum = this.computeLatestPatchNum(allPatchSets);
@@ -242,27 +221,28 @@
         return '';
       }
       return 'patchInfoOldPatchSet';
-    },
+    }
 
     _hideIncludedIn(change) {
       return change && change.status === MERGED_STATUS ? '' : 'hide';
-    },
+    }
 
     _handleUploadTap(e) {
       e.preventDefault();
       e.stopPropagation();
       this.dispatchEvent(
           new CustomEvent('open-upload-help-dialog', {bubbles: false}));
-    },
+    }
 
     _computeUploadHelpContainerClass(change, account) {
       const changeIsMerged = change && change.status === MERGED_STATUS;
       const ownerId = change && change.owner && change.owner._account_id ?
-          change.owner._account_id : null;
+        change.owner._account_id : null;
       const userId = account && account._account_id;
       const userIsOwner = ownerId && userId && ownerId === userId;
       const hideContainer = !userIsOwner || changeIsMerged;
       return 'uploadContainer desktop' + (hideContainer ? ' hide' : '');
-    },
-  });
+    }
+  }
+  customElements.define(GrFileListHeader.is, GrFileListHeader);
 })();

@@ -16,26 +16,27 @@
  */
 (function() {
   'use strict';
+  class GrRepoDashboards extends Polymer.mixinBehaviors( [
+    Gerrit.FireBehavior,
+  ], Polymer.LegacyDataMixin(
+      Polymer.GestureEventListeners(
+          Polymer.LegacyElementMixin(
+              Polymer.Element)))) {
+    static get is() { return 'gr-repo-dashboards'; }
 
-  Polymer({
-    is: 'gr-repo-dashboards',
-    _legacyUndefinedCheck: true,
-
-    properties: {
-      repo: {
-        type: String,
-        observer: '_repoChanged',
-      },
-      _loading: {
-        type: Boolean,
-        value: true,
-      },
-      _dashboards: Array,
-    },
-
-    behaviors: [
-      Gerrit.FireBehavior,
-    ],
+    static get properties() {
+      return {
+        repo: {
+          type: String,
+          observer: '_repoChanged',
+        },
+        _loading: {
+          type: Boolean,
+          value: true,
+        },
+        _dashboards: Array,
+      };
+    }
 
     _repoChanged(repo) {
       this._loading = true;
@@ -50,7 +51,7 @@
 
         // Group by ref and sort by id.
         const dashboards = res.concat.apply([], res).sort((a, b) =>
-            a.id < b.id ? -1 : 1);
+          a.id < b.id ? -1 : 1);
         const dashboardsByRef = {};
         dashboards.forEach(d => {
           if (!dashboardsByRef[d.ref]) {
@@ -71,24 +72,25 @@
         this._loading = false;
         Polymer.dom.flush();
       });
-    },
+    }
 
     _getUrl(project, id) {
       if (!project || !id) { return ''; }
 
       return Gerrit.Nav.getUrlForRepoDashboard(project, id);
-    },
+    }
 
     _computeLoadingClass(loading) {
       return loading ? 'loading' : '';
-    },
+    }
 
     _computeInheritedFrom(project, definingProject) {
       return project === definingProject ? '' : definingProject;
-    },
+    }
 
     _computeIsDefault(isDefault) {
       return isDefault ? '✓' : '';
-    },
-  });
+    }
+  }
+  customElements.define(GrRepoDashboards.is, GrRepoDashboards);
 })();

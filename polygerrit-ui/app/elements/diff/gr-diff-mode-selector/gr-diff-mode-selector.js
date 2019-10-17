@@ -16,36 +16,39 @@
  */
 (function() {
   'use strict';
+  class GrDiffModeSelector extends Polymer.LegacyDataMixin(
+      Polymer.GestureEventListeners(
+          Polymer.LegacyElementMixin(
+              Polymer.Element))) {
+    static get is() { return 'gr-diff-mode-selector'; }
 
-  Polymer({
-    is: 'gr-diff-mode-selector',
-    _legacyUndefinedCheck: true,
+    static get properties() {
+      return {
+        mode: {
+          type: String,
+          notify: true,
+        },
 
-    properties: {
-      mode: {
-        type: String,
-        notify: true,
-      },
-
-      /**
+        /**
        * If set to true, the user's preference will be updated every time a
        * button is tapped. Don't set to true if there is no user.
        */
-      saveOnChange: {
-        type: Boolean,
-        value: false,
-      },
-
-      /** @type {?} */
-      _VIEW_MODES: {
-        type: Object,
-        readOnly: true,
-        value: {
-          SIDE_BY_SIDE: 'SIDE_BY_SIDE',
-          UNIFIED: 'UNIFIED_DIFF',
+        saveOnChange: {
+          type: Boolean,
+          value: false,
         },
-      },
-    },
+
+        /** @type {?} */
+        _VIEW_MODES: {
+          type: Object,
+          readOnly: true,
+          value: {
+            SIDE_BY_SIDE: 'SIDE_BY_SIDE',
+            UNIFIED: 'UNIFIED_DIFF',
+          },
+        },
+      };
+    }
 
     /**
      * Set the mode. If save on change is enabled also update the preference.
@@ -55,18 +58,19 @@
         this.$.restAPI.savePreferences({diff_view: newMode});
       }
       this.mode = newMode;
-    },
+    }
 
     _computeSelectedClass(diffViewMode, buttonViewMode) {
       return buttonViewMode === diffViewMode ? 'selected' : '';
-    },
+    }
 
     _handleSideBySideTap() {
       this.setMode(this._VIEW_MODES.SIDE_BY_SIDE);
-    },
+    }
 
     _handleUnifiedTap() {
       this.setMode(this._VIEW_MODES.UNIFIED);
-    },
-  });
+    }
+  }
+  customElements.define(GrDiffModeSelector.is, GrDiffModeSelector);
 })();

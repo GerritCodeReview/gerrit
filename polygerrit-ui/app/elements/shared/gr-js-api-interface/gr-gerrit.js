@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
- /**
+/**
   * This defines the Gerrit instance. All methods directly attached to Gerrit
   * should be defined or linked here.
   */
@@ -52,9 +52,9 @@
 
   // Import utils methods
   const {
-      getPluginNameFromUrl,
-      send,
-      getRestAPI,
+    getPluginNameFromUrl,
+    send,
+    getRestAPI,
   } = window._apiUtils;
 
   const API_VERSION = '0.1';

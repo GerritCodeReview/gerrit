@@ -19,77 +19,68 @@
 
   const REL_NOOPENER = 'noopener';
   const REL_EXTERNAL = 'external';
+  class GrDropdown extends Polymer.mixinBehaviors( [
+    Gerrit.BaseUrlBehavior,
+    Gerrit.KeyboardShortcutBehavior,
+  ], Polymer.LegacyDataMixin(
+      Polymer.GestureEventListeners(
+          Polymer.LegacyElementMixin(
+              Polymer.Element)))) {
+    static get is() { return 'gr-dropdown'; }
 
-  Polymer({
-    is: 'gr-dropdown',
-    _legacyUndefinedCheck: true,
+    static get properties() {
+      return {
+        items: {
+          type: Array,
+          observer: '_resetCursorStops',
+        },
+        downArrow: Boolean,
+        topContent: Object,
+        horizontalAlign: {
+          type: String,
+          value: 'left',
+        },
 
-    /**
-     * Fired when a non-link dropdown item with the given ID is tapped.
-     *
-     * @event tap-item-<id>
-     */
-
-    /**
-     * Fired when a non-link dropdown item is tapped.
-     *
-     * @event tap-item
-     */
-
-    properties: {
-      items: {
-        type: Array,
-        observer: '_resetCursorStops',
-      },
-      downArrow: Boolean,
-      topContent: Object,
-      horizontalAlign: {
-        type: String,
-        value: 'left',
-      },
-
-      /**
+        /**
        * Style the dropdown trigger as a link (rather than a button).
        */
-      link: {
-        type: Boolean,
-        value: false,
-      },
+        link: {
+          type: Boolean,
+          value: false,
+        },
 
-      verticalOffset: {
-        type: Number,
-        value: 40,
-      },
+        verticalOffset: {
+          type: Number,
+          value: 40,
+        },
 
-      /**
+        /**
        * List the IDs of dropdown buttons to be disabled. (Note this only
        * diisables bittons and not link entries.)
        */
-      disabledIds: {
-        type: Array,
-        value() { return []; },
-      },
+        disabledIds: {
+          type: Array,
+          value() { return []; },
+        },
 
-      /**
+        /**
        * The elements of the list.
        */
-      _listElements: {
-        type: Array,
-        value() { return []; },
-      },
-    },
+        _listElements: {
+          type: Array,
+          value() { return []; },
+        },
+      };
+    }
 
-    behaviors: [
-      Gerrit.BaseUrlBehavior,
-      Gerrit.KeyboardShortcutBehavior,
-    ],
-
-    keyBindings: {
-      'down': '_handleDown',
-      'enter space': '_handleEnter',
-      'tab': '_handleTab',
-      'up': '_handleUp',
-    },
+    get keyBindings() {
+      return {
+        'down': '_handleDown',
+        'enter space': '_handleEnter',
+        'tab': '_handleTab',
+        'up': '_handleUp',
+      };
+    }
 
     /**
      * Handle the up key.
@@ -103,7 +94,7 @@
       } else {
         this._open();
       }
-    },
+    }
 
     /**
      * Handle the down key.
@@ -117,7 +108,7 @@
       } else {
         this._open();
       }
-    },
+    }
 
     /**
      * Handle the tab key.
@@ -129,7 +120,7 @@
         e.preventDefault();
         e.stopPropagation();
       }
-    },
+    }
 
     /**
      * Handle the enter key.
@@ -147,7 +138,7 @@
       } else {
         this._open();
       }
-    },
+    }
 
     /**
      * Handle a click on the iron-dropdown element.
@@ -155,7 +146,7 @@
      */
     _handleDropdownTap(e) {
       this._close();
-    },
+    }
 
     /**
      * Hanlde a click on the button to open the dropdown.
@@ -169,7 +160,7 @@
       } else {
         this._open();
       }
-    },
+    }
 
     /**
      * Open the dropdown and initialize the cursor.
@@ -179,7 +170,7 @@
       this.$.cursor.setCursorAtIndex(0);
       Polymer.dom.flush();
       this.$.cursor.target.focus();
-    },
+    }
 
     _close() {
       // async is needed so that that the click event is fired before the
@@ -187,7 +178,7 @@
       this.async(() => {
         this.$.dropdown.close();
       }, 1);
-    },
+    }
 
     /**
      * Get the class for a top-content item based on the given boolean.
@@ -196,7 +187,7 @@
      */
     _getClassIfBold(bold) {
       return bold ? 'bold-text' : '';
-    },
+    }
 
     /**
      * Build a URL for the given host and path. The base URL will be only added,
@@ -207,9 +198,9 @@
      */
     _computeURLHelper(host, path) {
       const base = path.startsWith(this.getBaseUrl()) ?
-          '' : this.getBaseUrl();
+        '' : this.getBaseUrl();
       return '//' + host + base + path;
-    },
+    }
 
     /**
      * Build a scheme-relative URL for the current host. Will include the base
@@ -221,7 +212,7 @@
     _computeRelativeURL(path) {
       const host = window.location.host;
       return this._computeURLHelper(host, path);
-    },
+    }
 
     /**
      * Compute the URL for a link object.
@@ -236,7 +227,7 @@
         return link.url;
       }
       return this._computeRelativeURL(link.url);
-    },
+    }
 
     /**
      * Compute the value for the rel attribute of an anchor for the given link
@@ -250,7 +241,7 @@
       if (link.target) { return REL_NOOPENER; }
       if (link.external) { return REL_EXTERNAL; }
       return null;
-    },
+    }
 
     /**
      * Handle a click on an item of the dropdown.
@@ -265,7 +256,7 @@
         }
         this.dispatchEvent(new CustomEvent('tap-item-' + id));
       }
-    },
+    }
 
     /**
      * If a dropdown item is shown as a button, get the class for the button.
@@ -276,7 +267,7 @@
      */
     _computeDisabledClass(id, disabledIdsRecord) {
       return disabledIdsRecord.base.includes(id) ? 'disabled' : '';
-    },
+    }
 
     /**
      * Recompute the stops for the dropdown item cursor.
@@ -286,14 +277,15 @@
       // Polymer2: querySelectorAll returns NodeList instead of Array.
       this._listElements = Array.from(
           Polymer.dom(this.root).querySelectorAll('li'));
-    },
+    }
 
     _computeHasTooltip(tooltip) {
       return !!tooltip;
-    },
+    }
 
     _computeIsDownload(link) {
       return !!link.download;
-    },
-  });
+    }
+  }
+  customElements.define(GrDropdown.is, GrDropdown);
 })();

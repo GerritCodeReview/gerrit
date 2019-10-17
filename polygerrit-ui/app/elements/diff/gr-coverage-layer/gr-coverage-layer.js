@@ -53,21 +53,23 @@
    * }}
    */
   Gerrit.CoverageRange;
+  class GrCoverageLayer extends Polymer.GestureEventListeners(
+      Polymer.LegacyElementMixin(
+          Polymer.Element)) {
+    static get is() { return 'gr-coverage-layer'; }
 
-  Polymer({
-    is: 'gr-coverage-layer',
-
-    properties: {
+    static get properties() {
+      return {
       /**
        * Must be sorted by code_range.start_line.
        * Must only contain ranges that match the side.
        *
        * @type {!Array<!Gerrit.CoverageRange>}
        */
-      coverageRanges: Array,
-      side: String,
+        coverageRanges: Array,
+        side: String,
 
-      /**
+        /**
        * We keep track of the line number from the previous annotate() call,
        * and also of the index of the coverage range that had matched.
        * annotate() calls are coming in with increasing line numbers and
@@ -75,15 +77,16 @@
        * and efficient way for finding the coverage range that matches a given
        * line number.
        */
-      _lineNumber: {
-        type: Number,
-        value: 0,
-      },
-      _index: {
-        type: Number,
-        value: 0,
-      },
-    },
+        _lineNumber: {
+          type: Number,
+          value: 0,
+        },
+        _index: {
+          type: Number,
+          value: 0,
+        },
+      };
+    }
 
     /**
      * Layer method to add annotations to a line.
@@ -132,6 +135,7 @@
         lineNumberEl.title = TOOLTIP_MAP.get(coverageRange.type);
         return;
       }
-    },
-  });
+    }
+  }
+  customElements.define(GrCoverageLayer.is, GrCoverageLayer);
 })();

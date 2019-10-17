@@ -16,31 +16,33 @@
  */
 (function() {
   'use strict';
+  class GrAvatar extends Polymer.mixinBehaviors( [
+    Gerrit.BaseUrlBehavior,
+  ], Polymer.LegacyDataMixin(
+      Polymer.GestureEventListeners(
+          Polymer.LegacyElementMixin(
+              Polymer.Element)))) {
+    static get is() { return 'gr-avatar'; }
 
-  Polymer({
-    is: 'gr-avatar',
-    _legacyUndefinedCheck: true,
-
-    properties: {
-      account: {
-        type: Object,
-        observer: '_accountChanged',
-      },
-      imageSize: {
-        type: Number,
-        value: 16,
-      },
-      _hasAvatars: {
-        type: Boolean,
-        value: false,
-      },
-    },
-
-    behaviors: [
-      Gerrit.BaseUrlBehavior,
-    ],
+    static get properties() {
+      return {
+        account: {
+          type: Object,
+          observer: '_accountChanged',
+        },
+        imageSize: {
+          type: Number,
+          value: 16,
+        },
+        _hasAvatars: {
+          type: Boolean,
+          value: false,
+        },
+      };
+    }
 
     attached() {
+      super.attached();
       Promise.all([
         this._getConfig(),
         Gerrit.awaitPluginsLoaded(),
@@ -49,15 +51,15 @@
 
         this._updateAvatarURL();
       });
-    },
+    }
 
     _getConfig() {
       return this.$.restAPI.getConfig();
-    },
+    }
 
     _accountChanged(account) {
       this._updateAvatarURL();
-    },
+    }
 
     _updateAvatarURL() {
       if (!this._hasAvatars || !this.account) {
@@ -70,12 +72,12 @@
       if (url) {
         this.style.backgroundImage = 'url("' + url + '")';
       }
-    },
+    }
 
     _getAccounts(account) {
       return account._account_id || account.email || account.username ||
           account.name;
-    },
+    }
 
     _buildAvatarURL(account) {
       if (!account) { return ''; }
@@ -88,6 +90,7 @@
       return this.getBaseUrl() + '/accounts/' +
         encodeURIComponent(this._getAccounts(account)) +
         '/avatar?s=' + this.imageSize;
-    },
-  });
+    }
+  }
+  customElements.define(GrAvatar.is, GrAvatar);
 })();

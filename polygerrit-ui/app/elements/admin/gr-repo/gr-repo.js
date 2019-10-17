@@ -50,78 +50,82 @@
       label: 'Cherry pick',
     },
   };
+  class GrRepo extends Polymer.mixinBehaviors( [
+    Gerrit.FireBehavior,
+  ], Polymer.LegacyDataMixin(
+      Polymer.GestureEventListeners(
+          Polymer.LegacyElementMixin(
+              Polymer.Element)))) {
+    static get is() { return 'gr-repo'; }
 
-  Polymer({
-    is: 'gr-repo',
-    _legacyUndefinedCheck: true,
+    static get properties() {
+      return {
+        params: Object,
+        repo: String,
 
-    properties: {
-      params: Object,
-      repo: String,
-
-      _configChanged: {
-        type: Boolean,
-        value: false,
-      },
-      _loading: {
-        type: Boolean,
-        value: true,
-      },
-      _loggedIn: {
-        type: Boolean,
-        value: false,
-        observer: '_loggedInChanged',
-      },
-      /** @type {?} */
-      _repoConfig: Object,
-      /** @type {?} */
-      _pluginData: {
-        type: Array,
-        computed: '_computePluginData(_repoConfig.plugin_config.*)',
-      },
-      _readOnly: {
-        type: Boolean,
-        value: true,
-      },
-      _states: {
-        type: Array,
-        value() {
-          return Object.values(STATES);
+        _configChanged: {
+          type: Boolean,
+          value: false,
         },
-      },
-      _submitTypes: {
-        type: Array,
-        value() {
-          return Object.values(SUBMIT_TYPES);
+        _loading: {
+          type: Boolean,
+          value: true,
         },
-      },
-      _schemes: {
-        type: Array,
-        value() { return []; },
-        computed: '_computeSchemes(_schemesObj)',
-        observer: '_schemesChanged',
-      },
-      _selectedCommand: {
-        type: String,
-        value: 'Clone',
-      },
-      _selectedScheme: String,
-      _schemesObj: Object,
-    },
+        _loggedIn: {
+          type: Boolean,
+          value: false,
+          observer: '_loggedInChanged',
+        },
+        /** @type {?} */
+        _repoConfig: Object,
+        /** @type {?} */
+        _pluginData: {
+          type: Array,
+          computed: '_computePluginData(_repoConfig.plugin_config.*)',
+        },
+        _readOnly: {
+          type: Boolean,
+          value: true,
+        },
+        _states: {
+          type: Array,
+          value() {
+            return Object.values(STATES);
+          },
+        },
+        _submitTypes: {
+          type: Array,
+          value() {
+            return Object.values(SUBMIT_TYPES);
+          },
+        },
+        _schemes: {
+          type: Array,
+          value() { return []; },
+          computed: '_computeSchemes(_schemesObj)',
+          observer: '_schemesChanged',
+        },
+        _selectedCommand: {
+          type: String,
+          value: 'Clone',
+        },
+        _selectedScheme: String,
+        _schemesObj: Object,
+      };
+    }
 
-    behaviors: [
-      Gerrit.FireBehavior,
-    ],
-
-    observers: [
-      '_handleConfigChanged(_repoConfig.*)',
-    ],
+    static get observers() {
+      return [
+        '_handleConfigChanged(_repoConfig.*)',
+      ];
+    }
 
     attached() {
+      super.attached();
       this._loadRepo();
 
       this.fire('title-change', {title: this.repo});
-    },
+    }
 
     _computePluginData(configRecord) {
       if (!configRecord ||
@@ -130,7 +134,7 @@
       const pluginConfig = configRecord.base;
       return Object.keys(pluginConfig)
           .map(name => ({name, config: pluginConfig[name]}));
-    },
+    }
 
     _loadRepo() {
       if (!this.repo) { return Promise.resolve(); }
@@ -180,15 +184,15 @@
       }));
 
       return Promise.all(promises);
-    },
+    }
 
     _computeLoadingClass(loading) {
       return loading ? 'loading' : '';
-    },
+    }
 
     _computeHideClass(arr) {
       return !arr || !arr.length ? 'hide' : '';
-    },
+    }
 
     _loggedInChanged(_loggedIn) {
       if (!_loggedIn) { return; }
@@ -198,7 +202,7 @@
           this._selectedScheme = prefs.download_scheme.toLowerCase();
         }
       });
-    },
+    }
 
     _formatBooleanSelect(item) {
       if (!item) { return; }
@@ -219,7 +223,7 @@
           value: 'FALSE',
         },
       ];
-    },
+    }
 
     _formatSubmitTypeSelect(projectConfig) {
       if (!projectConfig) { return; }
@@ -249,15 +253,15 @@
         },
         ...allValues,
       ];
-    },
+    }
 
     _isLoading() {
       return this._loading || this._loading === undefined;
-    },
+    }
 
     _getLoggedIn() {
       return this.$.restAPI.getLoggedIn();
-    },
+    }
 
     _formatRepoConfigForSave(repoConfig) {
       const configInputObj = {};
@@ -279,38 +283,38 @@
         }
       }
       return configInputObj;
-    },
+    }
 
     _handleSaveRepoConfig() {
       return this.$.restAPI.saveRepoConfig(this.repo,
           this._formatRepoConfigForSave(this._repoConfig)).then(() => {
-            this._configChanged = false;
-          });
-    },
+        this._configChanged = false;
+      });
+    }
 
     _handleConfigChanged() {
       if (this._isLoading()) { return; }
       this._configChanged = true;
-    },
+    }
 
     _computeButtonDisabled(readOnly, configChanged) {
       return readOnly || !configChanged;
-    },
+    }
 
     _computeHeaderClass(configChanged) {
       return configChanged ? 'edited' : '';
-    },
+    }
 
     _computeSchemes(schemesObj) {
       return Object.keys(schemesObj);
-    },
+    }
 
     _schemesChanged(schemes) {
       if (schemes.length === 0) { return; }
       if (!schemes.includes(this._selectedScheme)) {
         this._selectedScheme = schemes.sort()[0];
       }
-    },
+    }
 
     _computeCommands(repo, schemesObj, _selectedScheme) {
       if (!schemesObj || !repo || !_selectedScheme) {
@@ -328,23 +332,24 @@
           command: commandObj[title]
               .replace(/\$\{project\}/gi, encodeURI(repo))
               .replace(/\$\{project-base-name\}/gi,
-              encodeURI(repo.substring(repo.lastIndexOf('/') + 1))),
+                  encodeURI(repo.substring(repo.lastIndexOf('/') + 1))),
         });
       }
       return commands;
-    },
+    }
 
     _computeRepositoriesClass(config) {
       return config ? 'showConfig': '';
-    },
+    }
 
     _computeChangesUrl(name) {
       return Gerrit.Nav.getUrlForProjectChanges(name);
-    },
+    }
 
     _handlePluginConfigChanged({detail: {name, config, notifyPath}}) {
       this._repoConfig.plugin_config[name] = config;
       this.notifyPath('_repoConfig.plugin_config.' + notifyPath);
-    },
-  });
+    }
+  }
+  customElements.define(GrRepo.is, GrRepo);
 })();

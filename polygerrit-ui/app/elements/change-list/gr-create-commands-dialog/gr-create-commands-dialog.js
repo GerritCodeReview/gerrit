@@ -22,38 +22,43 @@
     AMEND: 'git commit --amend',
     PUSH_PREFIX: 'git push origin HEAD:refs/for/',
   };
+  class GrCreateCommandsDialog extends Polymer.LegacyDataMixin(
+      Polymer.GestureEventListeners(
+          Polymer.LegacyElementMixin(
+              Polymer.Element))) {
+    static get is() { return 'gr-create-commands-dialog'; }
 
-  Polymer({
-    is: 'gr-create-commands-dialog',
-    _legacyUndefinedCheck: true,
-    properties: {
-      branch: String,
-      _createNewCommitCommand: {
-        type: String,
-        readonly: true,
-        value: Commands.CREATE,
-      },
-      _amendExistingCommitCommand: {
-        type: String,
-        readonly: true,
-        value: Commands.AMEND,
-      },
-      _pushCommand: {
-        type: String,
-        computed: '_computePushCommand(branch)',
-      },
-    },
+    static get properties() {
+      return {
+        branch: String,
+        _createNewCommitCommand: {
+          type: String,
+          readonly: true,
+          value: Commands.CREATE,
+        },
+        _amendExistingCommitCommand: {
+          type: String,
+          readonly: true,
+          value: Commands.AMEND,
+        },
+        _pushCommand: {
+          type: String,
+          computed: '_computePushCommand(branch)',
+        },
+      };
+    }
 
     open() {
       this.$.commandsOverlay.open();
-    },
+    }
 
     _handleClose() {
       this.$.commandsOverlay.close();
-    },
+    }
 
     _computePushCommand(branch) {
       return Commands.PUSH_PREFIX + branch;
-    },
-  });
+    }
+  }
+  customElements.define(GrCreateCommandsDialog.is, GrCreateCommandsDialog);
 })();

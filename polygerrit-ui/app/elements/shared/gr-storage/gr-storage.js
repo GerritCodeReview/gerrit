@@ -27,71 +27,74 @@
     'draft:',
     'editablecontent:',
   ];
+  class GrStorage extends Polymer.LegacyDataMixin(
+      Polymer.GestureEventListeners(
+          Polymer.LegacyElementMixin(
+              Polymer.Element))) {
+    static get is() { return 'gr-storage'; }
 
-  Polymer({
-    is: 'gr-storage',
-    _legacyUndefinedCheck: true,
-
-    properties: {
-      _lastCleanup: Number,
-      /** @type {?Storage} */
-      _storage: {
-        type: Object,
-        value() {
-          return window.localStorage;
+    static get properties() {
+      return {
+        _lastCleanup: Number,
+        /** @type {?Storage} */
+        _storage: {
+          type: Object,
+          value() {
+            return window.localStorage;
+          },
         },
-      },
-      _exceededQuota: {
-        type: Boolean,
-        value: false,
-      },
-    },
+        _exceededQuota: {
+          type: Boolean,
+          value: false,
+        },
+      };
+    }
 
     getDraftComment(location) {
       this._cleanupItems();
       return this._getObject(this._getDraftKey(location));
-    },
+    }
 
     setDraftComment(location, message) {
       const key = this._getDraftKey(location);
       this._setObject(key, {message, updated: Date.now()});
-    },
+    }
 
     eraseDraftComment(location) {
       const key = this._getDraftKey(location);
       this._storage.removeItem(key);
-    },
+    }
 
     getEditableContentItem(key) {
       this._cleanupItems();
       return this._getObject(this._getEditableContentKey(key));
-    },
+    }
 
     setEditableContentItem(key, message) {
       this._setObject(this._getEditableContentKey(key),
           {message, updated: Date.now()});
-    },
+    }
 
     eraseEditableContentItem(key) {
       this._storage.removeItem(this._getEditableContentKey(key));
-    },
+    }
 
     _getDraftKey(location) {
       const range = location.range ?
-          `${location.range.start_line}-${location.range.start_character}` +
+        `${location.range.start_line}-${location.range.start_character}` +
               `-${location.range.end_character}-${location.range.end_line}` :
-          null;
+        null;
       let key = ['draft', location.changeNum, location.patchNum, location.path,
         location.line || ''].join(':');
       if (range) {
         key = key + ':' + range;
       }
       return key;
-    },
+    }
 
     _getEditableContentKey(key) {
       return `editablecontent:${key}`;
-    },
+    }
 
     _cleanupItems() {
       // Throttle cleanup to the throttle interval.
@@ -114,13 +117,13 @@
           }
         }
       }
-    },
+    }
 
     _getObject(key) {
       const serial = this._storage.getItem(key);
       if (!serial) { return null; }
       return JSON.parse(serial);
-    },
+    }
 
     _setObject(key, obj) {
       if (this._exceededQuota) { return; }
@@ -137,6 +140,7 @@
           throw exc;
         }
       }
-    },
-  });
+    }
+  }
+  customElements.define(GrStorage.is, GrStorage);
 })();

@@ -16,18 +16,21 @@
  */
 (function() {
   'use strict';
+  class CommentApiMock extends Polymer.LegacyDataMixin(
+      Polymer.GestureEventListeners(
+          Polymer.LegacyElementMixin(
+              Polymer.Element))) {
+    static get is() { return 'comment-api-mock'; }
 
-  Polymer({
-    is: 'comment-api-mock',
-    _legacyUndefinedCheck: true,
-
-    properties: {
-      _changeComments: Object,
-    },
+    static get properties() {
+      return {
+        _changeComments: Object,
+      };
+    }
 
     loadComments() {
       return this._reloadComments();
-    },
+    }
 
     /**
      * For the purposes of the mock, _reloadDrafts is not included because its
@@ -39,13 +42,14 @@
       return this._reloadComments().then(() => {
         return e.detail.resolve();
       });
-    },
+    }
 
     _reloadComments() {
       return this.$.commentAPI.loadAll(this._changeNum)
           .then(comments => {
             this._changeComments = this.$.commentAPI._changeComments;
           });
-    },
-  });
+    }
+  }
+  customElements.define(CommentApiMock.is, CommentApiMock);
 })();

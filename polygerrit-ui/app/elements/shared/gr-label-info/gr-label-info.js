@@ -16,19 +16,22 @@
  */
 (function() {
   'use strict';
+  class GrLabelInfo extends Polymer.LegacyDataMixin(
+      Polymer.GestureEventListeners(
+          Polymer.LegacyElementMixin(
+              Polymer.Element))) {
+    static get is() { return 'gr-label-info'; }
 
-  Polymer({
-    is: 'gr-label-info',
-    _legacyUndefinedCheck: true,
-
-    properties: {
-      labelInfo: Object,
-      label: String,
-      /** @type {?} */
-      change: Object,
-      account: Object,
-      mutable: Boolean,
-    },
+    static get properties() {
+      return {
+        labelInfo: Object,
+        label: String,
+        /** @type {?} */
+        change: Object,
+        account: Object,
+        mutable: Boolean,
+      };
+    }
 
     /**
      * @param {!Object} labelInfo
@@ -86,7 +89,7 @@
         }
       }
       return result;
-    },
+    }
 
     /**
      * A user is able to delete a vote iff the mutable property is true and the
@@ -107,7 +110,7 @@
         return '';
       }
       return 'hidden';
-    },
+    }
 
     /**
      * Closure annotation for Polymer.prototype.splice is off.
@@ -126,22 +129,22 @@
       const accountID = parseInt(target.getAttribute('data-account-id'), 10);
       this._xhrPromise =
           this.$.restAPI.deleteVote(this.change._number, accountID, this.label)
-          .then(response => {
-            target.disabled = false;
-            if (!response.ok) { return; }
-            Gerrit.Nav.navigateToChange(this.change);
-          }).catch(err => {
-            target.disabled = false;
-            return;
-          });
-    },
+              .then(response => {
+                target.disabled = false;
+                if (!response.ok) { return; }
+                Gerrit.Nav.navigateToChange(this.change);
+              }).catch(err => {
+                target.disabled = false;
+                return;
+              });
+    }
 
     _computeValueTooltip(labelInfo, score) {
       if (!labelInfo || !labelInfo.values || !labelInfo.values[score]) {
         return '';
       }
       return labelInfo.values[score];
-    },
+    }
 
     /**
      * @param {!Object} labelInfo
@@ -157,6 +160,7 @@
         }
       }
       return '';
-    },
-  });
+    }
+  }
+  customElements.define(GrLabelInfo.is, GrLabelInfo);
 })();

@@ -21,45 +21,38 @@
   const CLOSED_STATUS = ['MERGED', 'ABANDONED'];
   const LABEL_PREFIX_INVALID_PROLOG = 'Invalid-Prolog-Rules-Label-Name--';
   const MAX_SHORTCUT_CHARS = 5;
+  class GrChangeList extends Polymer.mixinBehaviors( [
+    Gerrit.BaseUrlBehavior,
+    Gerrit.ChangeTableBehavior,
+    Gerrit.FireBehavior,
+    Gerrit.KeyboardShortcutBehavior,
+    Gerrit.RESTClientBehavior,
+    Gerrit.URLEncodingBehavior,
+  ], Polymer.LegacyDataMixin(
+      Polymer.GestureEventListeners(
+          Polymer.LegacyElementMixin(
+              Polymer.Element)))) {
+    static get is() { return 'gr-change-list'; }
 
-  Polymer({
-    is: 'gr-change-list',
-    _legacyUndefinedCheck: true,
-
-    /**
-     * Fired when next page key shortcut was pressed.
-     *
-     * @event next-page
-     */
-
-    /**
-     * Fired when previous page key shortcut was pressed.
-     *
-     * @event previous-page
-     */
-
-    hostAttributes: {
-      tabindex: 0,
-    },
-
-    properties: {
+    static get properties() {
+      return {
       /**
        * The logged-in user's account, or an empty object if no user is logged
        * in.
        */
-      account: {
-        type: Object,
-        value: null,
-      },
-      /**
+        account: {
+          type: Object,
+          value: null,
+        },
+        /**
        * An array of ChangeInfo objects to render.
        * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#change-info
        */
-      changes: {
-        type: Array,
-        observer: '_changesChanged',
-      },
-      /**
+        changes: {
+          type: Array,
+          observer: '_changesChanged',
+        },
+        /**
        * ChangeInfo objects grouped into arrays. The sections and changes
        * properties should not be used together.
        *
@@ -69,56 +62,46 @@
        *   results: !Array<!Object>
        * }>}
        */
-      sections: {
-        type: Array,
-        value() { return []; },
-      },
-      labelNames: {
-        type: Array,
-        computed: '_computeLabelNames(sections)',
-      },
-      _dynamicHeaderEndpoints: {
-        type: Array,
-      },
-      selectedIndex: {
-        type: Number,
-        notify: true,
-      },
-      showNumber: Boolean, // No default value to prevent flickering.
-      showStar: {
-        type: Boolean,
-        value: false,
-      },
-      showReviewedState: {
-        type: Boolean,
-        value: false,
-      },
-      keyEventTarget: {
-        type: Object,
-        value() { return document.body; },
-      },
-      changeTableColumns: Array,
-      visibleChangeTableColumns: Array,
-      preferences: Object,
-    },
+        sections: {
+          type: Array,
+          value() { return []; },
+        },
+        labelNames: {
+          type: Array,
+          computed: '_computeLabelNames(sections)',
+        },
+        _dynamicHeaderEndpoints: {
+          type: Array,
+        },
+        selectedIndex: {
+          type: Number,
+          notify: true,
+        },
+        showNumber: Boolean, // No default value to prevent flickering.
+        showStar: {
+          type: Boolean,
+          value: false,
+        },
+        showReviewedState: {
+          type: Boolean,
+          value: false,
+        },
+        keyEventTarget: {
+          type: Object,
+          value() { return document.body; },
+        },
+        changeTableColumns: Array,
+        visibleChangeTableColumns: Array,
+        preferences: Object,
+      };
+    }
 
-    behaviors: [
-      Gerrit.BaseUrlBehavior,
-      Gerrit.ChangeTableBehavior,
-      Gerrit.FireBehavior,
-      Gerrit.KeyboardShortcutBehavior,
-      Gerrit.RESTClientBehavior,
-      Gerrit.URLEncodingBehavior,
-    ],
-
-    listeners: {
-      keydown: '_scopedKeydownHandler',
-    },
-
-    observers: [
-      '_sectionsChanged(sections.*)',
-      '_computePreferences(account, preferences)',
-    ],
+    static get observers() {
+      return [
+        '_sectionsChanged(sections.*)',
+        '_computePreferences(account, preferences)',
+      ];
+    }
 
     keyboardShortcuts() {
       return {
@@ -131,14 +114,15 @@
         [this.Shortcut.TOGGLE_CHANGE_STAR]: '_toggleChangeStar',
         [this.Shortcut.REFRESH_CHANGE_LIST]: '_refreshChangeList',
       };
-    },
+    }
 
     attached() {
+      super.attached();
       Gerrit.awaitPluginsLoaded().then(() => {
         this._dynamicHeaderEndpoints = Gerrit._endpoints.getDynamicEndpoints(
             'change-list-header');
       });
-    },
+    }
 
     /**
      * Iron-a11y-keys-behavior catches keyboard events globally. Some keyboard
@@ -152,11 +136,11 @@
         // Enter.
         this._openChange(e);
       }
-    },
+    }
 
     _lowerCase(column) {
       return column.toLowerCase();
-    },
+    }
 
     _computePreferences(account, preferences) {
       // Polymer 2: check for undefined
@@ -170,19 +154,19 @@
         this.showNumber = !!(preferences &&
             preferences.legacycid_in_change_table);
         this.visibleChangeTableColumns = preferences.change_table.length > 0 ?
-            this.getVisibleColumns(preferences.change_table) : this.columnNames;
+          this.getVisibleColumns(preferences.change_table) : this.columnNames;
       } else {
         // Not logged in.
         this.showNumber = false;
         this.visibleChangeTableColumns = this.columnNames;
       }
-    },
+    }
 
     _computeColspan(changeTableColumns, labelNames) {
       if (!changeTableColumns || !labelNames) return;
       return changeTableColumns.length + labelNames.length +
           NUMBER_FIXED_COLUMNS;
-    },
+    }
 
     _computeLabelNames(sections) {
       if (!sections) { return []; }
@@ -199,7 +183,7 @@
         }
       }
       return labels.sort();
-    },
+    }
 
     _computeLabelShortcut(labelName) {
       if (labelName.startsWith(LABEL_PREFIX_INVALID_PROLOG)) {
@@ -211,15 +195,15 @@
             return a + i[0].toUpperCase();
           }, '')
           .slice(0, MAX_SHORTCUT_CHARS);
-    },
+    }
 
     _changesChanged(changes) {
       this.sections = changes ? [{results: changes}] : [];
-    },
+    }
 
     _sectionHref(query) {
       return Gerrit.Nav.getUrlForSearchQuery(query);
-    },
+    }
 
     /**
      * Maps an index local to a particular section to the absolute index
@@ -235,19 +219,19 @@
         idx += this.sections[i].results.length;
       }
       return idx + localIndex;
-    },
+    }
 
     _computeItemSelected(sectionIndex, index, selectedIndex) {
       const idx = this._computeItemAbsoluteIndex(sectionIndex, index);
       return idx == selectedIndex;
-    },
+    }
 
     _computeItemNeedsReview(account, change, showReviewedState) {
       return showReviewedState && !change.reviewed &&
           !change.work_in_progress &&
           this.changeIsOpen(change) &&
           (!account || account._account_id != change.owner._account_id);
-    },
+    }
 
     _computeItemHighlight(account, change) {
       // Do not show the assignee highlight if the change is not open.
@@ -257,7 +241,7 @@
         return false;
       }
       return account._account_id === change.assignee._account_id;
-    },
+    }
 
     _nextChange(e) {
       if (this.shouldSuppressKeyboardShortcut(e) ||
@@ -265,7 +249,7 @@
 
       e.preventDefault();
       this.$.cursor.next();
-    },
+    }
 
     _prevChange(e) {
       if (this.shouldSuppressKeyboardShortcut(e) ||
@@ -273,7 +257,7 @@
 
       e.preventDefault();
       this.$.cursor.previous();
-    },
+    }
 
     _openChange(e) {
       if (this.shouldSuppressKeyboardShortcut(e) ||
@@ -281,7 +265,7 @@
 
       e.preventDefault();
       Gerrit.Nav.navigateToChange(this._changeForIndex(this.selectedIndex));
-    },
+    }
 
     _nextPage(e) {
       if (this.shouldSuppressKeyboardShortcut(e) ||
@@ -291,7 +275,7 @@
 
       e.preventDefault();
       this.fire('next-page');
-    },
+    }
 
     _prevPage(e) {
       if (this.shouldSuppressKeyboardShortcut(e) ||
@@ -301,7 +285,7 @@
 
       e.preventDefault();
       this.fire('previous-page');
-    },
+    }
 
     _toggleChangeReviewed(e) {
       if (this.shouldSuppressKeyboardShortcut(e) ||
@@ -309,7 +293,7 @@
 
       e.preventDefault();
       this._toggleReviewedForIndex(this.selectedIndex);
-    },
+    }
 
     _toggleReviewedForIndex(index) {
       const changeEls = this._getListItems();
@@ -319,18 +303,18 @@
 
       const changeEl = changeEls[index];
       changeEl.toggleReviewed();
-    },
+    }
 
     _refreshChangeList(e) {
       if (this.shouldSuppressKeyboardShortcut(e)) { return; }
 
       e.preventDefault();
       this._reloadWindow();
-    },
+    }
 
     _reloadWindow() {
       window.location.reload();
-    },
+    }
 
     _toggleChangeStar(e) {
       if (this.shouldSuppressKeyboardShortcut(e) ||
@@ -338,7 +322,7 @@
 
       e.preventDefault();
       this._toggleStarForIndex(this.selectedIndex);
-    },
+    }
 
     _toggleStarForIndex(index) {
       const changeEls = this._getListItems();
@@ -348,7 +332,7 @@
 
       const changeEl = changeEls[index];
       changeEl.$$('gr-change-star').toggleStar();
-    },
+    }
 
     _changeForIndex(index) {
       const changeEls = this._getListItems();
@@ -356,27 +340,38 @@
         return changeEls[index].change;
       }
       return null;
-    },
+    }
 
     _getListItems() {
       // Polymer2: querySelectorAll returns NodeList instead of Array.
       return Array.from(
           Polymer.dom(this.root).querySelectorAll('gr-change-list-item'));
-    },
+    }
 
     _sectionsChanged() {
       // Flush DOM operations so that the list item elements will be loaded.
       Polymer.dom.flush();
       this.$.cursor.stops = this._getListItems();
       this.$.cursor.moveToStart();
-    },
+    }
 
     _isOutgoing(section) {
       return !!section.isOutgoing;
-    },
+    }
 
     _isEmpty(section) {
       return !section.results.length;
-    },
-  });
+    }
+
+    ready() {
+      super.ready();
+      this._ensureAttribute('tabindex', 0);
+    }
+
+    created() {
+      super.created();
+      this.addEventListener('keydown', e => this._scopedKeydownHandler(e));
+    }
+  }
+  customElements.define(GrChangeList.is, GrChangeList);
 })();

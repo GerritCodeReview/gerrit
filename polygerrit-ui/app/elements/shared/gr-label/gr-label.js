@@ -16,13 +16,13 @@
  */
 (function() {
   'use strict';
-
-  Polymer({
-    is: 'gr-label',
-    _legacyUndefinedCheck: true,
-
-    behaviors: [
-      Gerrit.TooltipBehavior,
-    ],
-  });
+  class GrLabel extends Polymer.mixinBehaviors( [
+    Gerrit.TooltipBehavior,
+  ], Polymer.LegacyDataMixin(
+      Polymer.GestureEventListeners(
+          Polymer.LegacyElementMixin(
+              Polymer.Element)))) {
+    static get is() { return 'gr-label'; }
+  }
+  customElements.define(GrLabel.is, GrLabel);
 })();

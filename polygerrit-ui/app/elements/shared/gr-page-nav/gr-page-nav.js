@@ -16,29 +16,34 @@
  */
 (function() {
   'use strict';
+  class GrPageNav extends Polymer.LegacyDataMixin(
+      Polymer.GestureEventListeners(
+          Polymer.LegacyElementMixin(
+              Polymer.Element))) {
+    static get is() { return 'gr-page-nav'; }
 
-  Polymer({
-    is: 'gr-page-nav',
-    _legacyUndefinedCheck: true,
-
-    properties: {
-      _headerHeight: Number,
-    },
+    static get properties() {
+      return {
+        _headerHeight: Number,
+      };
+    }
 
     attached() {
+      super.attached();
       this.listen(window, 'scroll', '_handleBodyScroll');
-    },
+    }
 
     detached() {
+      super.detached();
       this.unlisten(window, 'scroll', '_handleBodyScroll');
-    },
+    }
 
     _handleBodyScroll() {
       if (this._headerHeight === undefined) {
         let top = this._getOffsetTop(this);
         for (let offsetParent = this.offsetParent;
-           offsetParent;
-           offsetParent = this._getOffsetParent(offsetParent)) {
+          offsetParent;
+          offsetParent = this._getOffsetParent(offsetParent)) {
           top += this._getOffsetTop(offsetParent);
         }
         this._headerHeight = top;
@@ -46,20 +51,21 @@
 
       this.$.nav.classList.toggle('pinned',
           this._getScrollY() >= this._headerHeight);
-    },
+    }
 
     /* Functions used for test purposes */
     _getOffsetParent(element) {
       if (!element || !element.offsetParent) { return ''; }
       return element.offsetParent;
-    },
+    }
 
     _getOffsetTop(element) {
       return element.offsetTop;
-    },
+    }
 
     _getScrollY() {
       return window.scrollY;
-    },
-  });
+    }
+  }
+  customElements.define(GrPageNav.is, GrPageNav);
 })();

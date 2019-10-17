@@ -16,58 +16,55 @@
  */
 (function() {
   'use strict';
+  class GrLabelScoreRow extends Polymer.LegacyDataMixin(
+      Polymer.GestureEventListeners(
+          Polymer.LegacyElementMixin(
+              Polymer.Element))) {
+    static get is() { return 'gr-label-score-row'; }
 
-  Polymer({
-    is: 'gr-label-score-row',
-    _legacyUndefinedCheck: true,
-
-    /**
-     * Fired when any label is changed.
-     *
-     * @event labels-changed
-     */
-
-    properties: {
+    static get properties() {
+      return {
       /**
        * @type {{ name: string }}
        */
-      label: Object,
-      labels: Object,
-      name: {
-        type: String,
-        reflectToAttribute: true,
-      },
-      permittedLabels: Object,
-      labelValues: Object,
-      _selectedValueText: {
-        type: String,
-        value: 'No value selected',
-      },
-      _items: {
-        type: Array,
-        computed: '_computePermittedLabelValues(permittedLabels, label.name)',
-      },
-    },
+        label: Object,
+        labels: Object,
+        name: {
+          type: String,
+          reflectToAttribute: true,
+        },
+        permittedLabels: Object,
+        labelValues: Object,
+        _selectedValueText: {
+          type: String,
+          value: 'No value selected',
+        },
+        _items: {
+          type: Array,
+          computed: '_computePermittedLabelValues(permittedLabels, label.name)',
+        },
+      };
+    }
 
     get selectedItem() {
       if (!this._ironSelector) { return undefined; }
       return this._ironSelector.selectedItem;
-    },
+    }
 
     get selectedValue() {
       if (!this._ironSelector) { return undefined; }
       return this._ironSelector.selected;
-    },
+    }
 
     setSelectedValue(value) {
       // The selector may not be present if it’s not at the latest patch set.
       if (!this._ironSelector) { return; }
       this._ironSelector.select(value);
-    },
+    }
 
     get _ironSelector() {
       return this.$$('iron-selector');
-    },
+    }
 
     _computeBlankItems(permittedLabels, label, side) {
       if (!permittedLabels || !permittedLabels[label] ||
@@ -83,7 +80,7 @@
       const endPosition = this.labelValues[parseInt(
           permittedLabels[label][permittedLabels[label].length - 1], 10)];
       return new Array(Object.keys(this.labelValues).length - endPosition - 1);
-    },
+    }
 
     _getLabelValue(labels, permittedLabels, label) {
       if (label.value) {
@@ -94,7 +91,7 @@
         return permittedLabels[label.name].find(
             value => parseInt(value, 10) === labels[label.name].default_value);
       }
-    },
+    }
 
     _computeButtonClass(value, index, totalItems) {
       if (value < 0 && index === 0) {
@@ -107,7 +104,7 @@
         return 'positive';
       }
       return 'neutral';
-    },
+    }
 
     _computeLabelValue(labels, permittedLabels, label) {
       if ([labels, permittedLabels, label].some(arg => arg === undefined)) {
@@ -116,7 +113,7 @@
       if (!labels[label.name]) { return null; }
       const labelValue = this._getLabelValue(labels, permittedLabels, label);
       const len = permittedLabels[label.name] != null ?
-          permittedLabels[label.name].length : 0;
+        permittedLabels[label.name].length : 0;
       for (let i = 0; i < len; i++) {
         const val = permittedLabels[label.name][i];
         if (val === labelValue) {
@@ -124,7 +121,7 @@
         }
       }
       return null;
-    },
+    }
 
     _setSelectedValueText(e) {
       // Needed because when the selected item changes, it first changes to
@@ -138,17 +135,17 @@
       this.dispatchEvent(new CustomEvent(
           'labels-changed',
           {detail: {name, value}, bubbles: true, composed: true}));
-    },
+    }
 
     _computeAnyPermittedLabelValues(permittedLabels, label) {
       return permittedLabels && permittedLabels.hasOwnProperty(label) &&
         permittedLabels[label].length;
-    },
+    }
 
     _computeHiddenClass(permittedLabels, label) {
       return !this._computeAnyPermittedLabelValues(permittedLabels, label) ?
-          'hidden' : '';
-    },
+        'hidden' : '';
+    }
 
     _computePermittedLabelValues(permittedLabels, label) {
       // Polymer 2: check for undefined
@@ -157,12 +154,13 @@
       }
 
       return permittedLabels[label];
-    },
+    }
 
     _computeLabelValueTitle(labels, label, value) {
       return labels[label] &&
         labels[label].values &&
         labels[label].values[value];
-    },
-  });
+    }
+  }
+  customElements.define(GrLabelScoreRow.is, GrLabelScoreRow);
 })();

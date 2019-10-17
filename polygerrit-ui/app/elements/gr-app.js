@@ -25,8 +25,10 @@
   if (!window.POLYMER2) {
     Polymer.RenderStatus._makeReady();
   }
-
-  Polymer({
-    is: 'gr-app',
-  });
+  class GrApp extends Polymer.GestureEventListeners(
+      Polymer.LegacyElementMixin(
+          Polymer.Element)) {
+    static get is() { return 'gr-app'; }
+  }
+  customElements.define(GrApp.is, GrApp);
 })();

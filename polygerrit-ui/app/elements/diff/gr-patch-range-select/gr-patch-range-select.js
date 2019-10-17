@@ -19,48 +19,42 @@
 
   // Maximum length for patch set descriptions.
   const PATCH_DESC_MAX_LENGTH = 500;
+  class GrPatchRangeSelect extends Polymer.mixinBehaviors( [Gerrit.PatchSetBehavior], Polymer.LegacyDataMixin(
+      Polymer.GestureEventListeners(
+          Polymer.LegacyElementMixin(
+              Polymer.Element)))) {
+    static get is() { return 'gr-patch-range-select'; }
 
-  /**
-   * Fired when the patch range changes
-   *
-   * @event patch-range-change
-   *
-   * @property {string} patchNum
-   * @property {string} basePatchNum
-   */
-
-  Polymer({
-    is: 'gr-patch-range-select',
-    _legacyUndefinedCheck: true,
-
-    properties: {
-      availablePatches: Array,
-      _baseDropdownContent: {
-        type: Object,
-        computed: '_computeBaseDropdownContent(availablePatches, patchNum,' +
+    static get properties() {
+      return {
+        availablePatches: Array,
+        _baseDropdownContent: {
+          type: Object,
+          computed: '_computeBaseDropdownContent(availablePatches, patchNum,' +
             '_sortedRevisions, changeComments, revisionInfo)',
-      },
-      _patchDropdownContent: {
-        type: Object,
-        computed: '_computePatchDropdownContent(availablePatches,' +
+        },
+        _patchDropdownContent: {
+          type: Object,
+          computed: '_computePatchDropdownContent(availablePatches,' +
             'basePatchNum, _sortedRevisions, changeComments)',
-      },
-      changeNum: String,
-      changeComments: Object,
-      /** @type {{ meta_a: !Array, meta_b: !Array}} */
-      filesWeblinks: Object,
-      patchNum: String,
-      basePatchNum: String,
-      revisions: Object,
-      revisionInfo: Object,
-      _sortedRevisions: Array,
-    },
+        },
+        changeNum: String,
+        changeComments: Object,
+        /** @type {{ meta_a: !Array, meta_b: !Array}} */
+        filesWeblinks: Object,
+        patchNum: String,
+        basePatchNum: String,
+        revisions: Object,
+        revisionInfo: Object,
+        _sortedRevisions: Array,
+      };
+    }
 
-    observers: [
-      '_updateSortedRevisions(revisions.*)',
-    ],
-
-    behaviors: [Gerrit.PatchSetBehavior],
+    static get observers() {
+      return [
+        '_updateSortedRevisions(revisions.*)',
+      ];
+    }
 
     _computeBaseDropdownContent(availablePatches, patchNum, _sortedRevisions,
         changeComments, revisionInfo) {
@@ -77,7 +71,7 @@
 
       const parentCounts = revisionInfo.getParentCountMap();
       const currentParentCount = parentCounts.hasOwnProperty(patchNum) ?
-          parentCounts[patchNum] : 1;
+        parentCounts[patchNum] : 1;
       const maxParents = revisionInfo.getMaxParents();
       const isMerge = currentParentCount > 1;
 
@@ -108,13 +102,13 @@
       }
 
       return dropdownContent;
-    },
+    }
 
     _computeMobileText(patchNum, changeComments, revisions) {
       return `${patchNum}` +
           `${this._computePatchSetCommentsString(changeComments, patchNum)}` +
           `${this._computePatchSetDescription(revisions, patchNum, true)}`;
-    },
+    }
 
     _computePatchDropdownContent(availablePatches, basePatchNum,
         _sortedRevisions, changeComments) {
@@ -140,7 +134,7 @@
         }));
       }
       return dropdownContent;
-    },
+    }
 
     _createDropdownEntry(patchNum, prefix, sortedRevisions, changeComments) {
       const entry = {
@@ -159,12 +153,12 @@
         entry['date'] = date;
       }
       return entry;
-    },
+    }
 
     _updateSortedRevisions(revisionsRecord) {
       const revisions = revisionsRecord.base;
       this._sortedRevisions = this.sortRevisions(Object.values(revisions));
-    },
+    }
 
     /**
      * The basePatchNum should always be <= patchNum -- because sortedRevisions
@@ -177,7 +171,7 @@
     _computeLeftDisabled(basePatchNum, patchNum, sortedRevisions) {
       return this.findSortedIndex(basePatchNum, sortedRevisions) <=
           this.findSortedIndex(patchNum, sortedRevisions);
-    },
+    }
 
     /**
      * The basePatchNum should always be <= patchNum -- because sortedRevisions
@@ -206,7 +200,7 @@
 
       return this.findSortedIndex(basePatchNum, sortedRevisions) <=
           this.findSortedIndex(patchNum, sortedRevisions);
-    },
+    }
 
 
     _computePatchSetCommentsString(changeComments, patchNum) {
@@ -228,7 +222,7 @@
           // Add a comma + space if both comments and unresolved
           (commentString && unresolvedString ? ', ' : '') +
           `${unresolvedString})`;
-    },
+    }
 
     /**
      * @param {!Array} revisions
@@ -238,9 +232,9 @@
     _computePatchSetDescription(revisions, patchNum, opt_addFrontSpace) {
       const rev = this.getRevisionByPatchNum(revisions, patchNum);
       return (rev && rev.description) ?
-          (opt_addFrontSpace ? ' ' : '') +
+        (opt_addFrontSpace ? ' ' : '') +
           rev.description.substring(0, PATCH_DESC_MAX_LENGTH) : '';
-    },
+    }
 
     /**
      * @param {!Array} revisions
@@ -249,7 +243,7 @@
     _computePatchSetDate(revisions, patchNum) {
       const rev = this.getRevisionByPatchNum(revisions, patchNum);
       return rev ? rev.created : undefined;
-    },
+    }
 
     /**
      * Catches value-change events from the patchset dropdowns and determines
@@ -267,6 +261,7 @@
 
       this.dispatchEvent(
           new CustomEvent('patch-range-change', {detail, bubbles: false}));
-    },
-  });
+    }
+  }
+  customElements.define(GrPatchRangeSelect.is, GrPatchRangeSelect);
 })();

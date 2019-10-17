@@ -127,52 +127,55 @@
   const JAVA_PARAM_ANNOT_PATTERN = /(@[^\s]+)\(([^)]+)\)/g;
   const GO_BACKSLASH_LITERAL = '\'\\\\\'';
   const GLOBAL_LT_PATTERN = /</g;
+  class GrSyntaxLayer extends Polymer.LegacyDataMixin(
+      Polymer.GestureEventListeners(
+          Polymer.LegacyElementMixin(
+              Polymer.Element))) {
+    static get is() { return 'gr-syntax-layer'; }
 
-  Polymer({
-    is: 'gr-syntax-layer',
-    _legacyUndefinedCheck: true,
-
-    properties: {
-      diff: {
-        type: Object,
-        observer: '_diffChanged',
-      },
-      enabled: {
-        type: Boolean,
-        value: true,
-      },
-      _baseRanges: {
-        type: Array,
-        value() { return []; },
-      },
-      _revisionRanges: {
-        type: Array,
-        value() { return []; },
-      },
-      _baseLanguage: String,
-      _revisionLanguage: String,
-      _listeners: {
-        type: Array,
-        value() { return []; },
-      },
-      /** @type {?number} */
-      _processHandle: Number,
-      /**
+    static get properties() {
+      return {
+        diff: {
+          type: Object,
+          observer: '_diffChanged',
+        },
+        enabled: {
+          type: Boolean,
+          value: true,
+        },
+        _baseRanges: {
+          type: Array,
+          value() { return []; },
+        },
+        _revisionRanges: {
+          type: Array,
+          value() { return []; },
+        },
+        _baseLanguage: String,
+        _revisionLanguage: String,
+        _listeners: {
+          type: Array,
+          value() { return []; },
+        },
+        /** @type {?number} */
+        _processHandle: Number,
+        /**
        * The promise last returned from `process()` while the asynchronous
        * processing is running - `null` otherwise. Provides a `cancel()`
        * method that rejects it with `{isCancelled: true}`.
        * @type {?Object}
        */
-      _processPromise: {
-        type: Object,
-        value: null,
-      },
-      _hljs: Object,
-    },
+        _processPromise: {
+          type: Object,
+          value: null,
+        },
+        _hljs: Object,
+      };
+    }
 
     addListener(fn) {
       this.push('_listeners', fn);
-    },
+    }
 
     /**
      * Annotation layer method to add syntax annotations to the given element
@@ -187,11 +190,11 @@
       // Determine the side.
       let side;
       if (line.type === GrDiffLine.Type.REMOVE || (
-          line.type === GrDiffLine.Type.BOTH &&
+        line.type === GrDiffLine.Type.BOTH &&
           el.getAttribute('data-side') !== 'right')) {
         side = 'left';
       } else if (line.type === GrDiffLine.Type.ADD || (
-          el.getAttribute('data-side') !== 'left')) {
+        el.getAttribute('data-side') !== 'left')) {
         side = 'right';
       }
 
@@ -209,14 +212,14 @@
         GrAnnotation.annotateElement(
             el, range.start, range.length, range.className);
       }
-    },
+    }
 
     _getLanguage(diffFileMetaInfo) {
       // The Gerrit API provides only content-type, but for other users of
       // gr-diff it may be more convenient to specify the language directly.
       return diffFileMetaInfo.language ||
           LANGUAGE_MAP[diffFileMetaInfo.content_type];
-    },
+    }
 
     /**
      * Start processing syntax for the loaded diff and notify layer listeners
@@ -291,7 +294,7 @@
           }));
       return this._processPromise
           .finally(() => { this._processPromise = null; });
-    },
+    }
 
     /**
      * Cancel any asynchronous syntax processing jobs.
@@ -304,13 +307,13 @@
       if (this._processPromise) {
         this._processPromise.cancel();
       }
-    },
+    }
 
     _diffChanged() {
       this._cancel();
       this._baseRanges = [];
       this._revisionRanges = [];
-    },
+    }
 
     /**
      * Take a string of HTML with the (potentially nested) syntax markers
@@ -323,7 +326,7 @@
       const div = document.createElement('div');
       div.innerHTML = str;
       return this._rangesFromElement(div, 0);
-    },
+    }
 
     _rangesFromElement(elem, offset) {
       let result = [];
@@ -346,7 +349,7 @@
         offset += nodeLength;
       }
       return result;
-    },
+    }
 
     /**
      * For a given state, process the syntax for the next line (or pair of
@@ -394,7 +397,7 @@
         this.push('_revisionRanges', this._rangesFromString(result.value));
         state.revisionContext = result.top;
       }
-    },
+    }
 
     /**
      * Ad hoc fixes for HLJS parsing bugs. Rewrite lines of code in constrained
@@ -461,7 +464,7 @@
       }
 
       return line;
-    },
+    }
 
     /**
      * Tells whether the state has exhausted its current section.
@@ -476,7 +479,7 @@
         return (!section.a || state.lineIndex >= section.a.length) &&
             (!section.b || state.lineIndex >= section.b.length);
       }
-    },
+    }
 
     /**
      * For a given state, notify layer listeners of any processed line ranges
@@ -498,18 +501,19 @@
             'right');
         state.lastNotify.right = state.lineNums.right;
       }
-    },
+    }
 
     _notifyRange(start, end, side) {
       for (const fn of this._listeners) {
         fn(start, end, side);
       }
-    },
+    }
 
     _loadHLJS() {
       return this.$.libLoader.getHLJS().then(hljs => {
         this._hljs = hljs;
       });
-    },
-  });
+    }
+  }
+  customElements.define(GrSyntaxLayer.is, GrSyntaxLayer);
 })();

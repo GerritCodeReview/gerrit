@@ -16,16 +16,19 @@
  */
 (function() {
   'use strict';
+  class GrMenuEditor extends Polymer.LegacyDataMixin(
+      Polymer.GestureEventListeners(
+          Polymer.LegacyElementMixin(
+              Polymer.Element))) {
+    static get is() { return 'gr-menu-editor'; }
 
-  Polymer({
-    is: 'gr-menu-editor',
-    _legacyUndefinedCheck: true,
-
-    properties: {
-      menuItems: Array,
-      _newName: String,
-      _newUrl: String,
-    },
+    static get properties() {
+      return {
+        menuItems: Array,
+        _newName: String,
+        _newUrl: String,
+      };
+    }
 
     _handleMoveUpButton(e) {
       const index = Polymer.dom(e).localTarget.dataIndex;
@@ -33,7 +36,7 @@
       const row = this.menuItems[index];
       const prev = this.menuItems[index - 1];
       this.splice('menuItems', index - 1, 2, row, prev);
-    },
+    }
 
     _handleMoveDownButton(e) {
       const index = Polymer.dom(e).localTarget.dataIndex;
@@ -41,12 +44,12 @@
       const row = this.menuItems[index];
       const next = this.menuItems[index + 1];
       this.splice('menuItems', index, 2, next, row);
-    },
+    }
 
     _handleDeleteButton(e) {
       const index = Polymer.dom(e).localTarget.dataIndex;
       this.splice('menuItems', index, 1);
-    },
+    }
 
     _handleAddButton() {
       if (this._computeAddDisabled(this._newName, this._newUrl)) { return; }
@@ -59,17 +62,18 @@
 
       this._newName = '';
       this._newUrl = '';
-    },
+    }
 
     _computeAddDisabled(newName, newUrl) {
       return !newName.length || !newUrl.length;
-    },
+    }
 
     _handleInputKeydown(e) {
       if (e.keyCode === 13) {
         e.stopPropagation();
         this._handleAddButton();
       }
-    },
-  });
+    }
+  }
+  customElements.define(GrMenuEditor.is, GrMenuEditor);
 })();

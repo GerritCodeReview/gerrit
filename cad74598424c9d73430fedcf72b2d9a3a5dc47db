@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9905ccdd_a20a6bd5",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-10-18T12:11:49Z",
+      "side": 1,
+      "message": "Is it possible to have reportRepoName \u003d\u003d\u003d undefined here?",
+      "range": {
+        "startLine": 180,
+        "startChar": 59,
+        "endLine": 180,
+        "endChar": 73
+      },
+      "revId": "cad74598424c9d73430fedcf72b2d9a3a5dc47db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4770169c_57682ca5",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 1152,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-10-18T12:11:49Z",
+      "side": 1,
+      "message": "Why this method (and other similar methods) doesn\u0027t call setRepoName ?",
+      "range": {
+        "startLine": 1152,
+        "startChar": 4,
+        "endLine": 1152,
+        "endChar": 32
+      },
+      "revId": "cad74598424c9d73430fedcf72b2d9a3a5dc47db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

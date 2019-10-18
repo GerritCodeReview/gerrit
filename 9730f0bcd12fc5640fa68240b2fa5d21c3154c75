@@ -142,6 +142,30 @@
       "revId": "9730f0bcd12fc5640fa68240b2fa5d21c3154c75",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c06db4e7_138fed1a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 52
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-10-18T11:10:57Z",
+      "side": 1,
+      "message": "\u003e I mean most of the code outside the node() block is probably common between all Gerrit branches\n\nI do not understand this argument. Isn\u0027t this true for a lot\nof java files in the Gerrit source code? Handling different versions\nof the same file in different branches is what Git is made for.",
+      "parentUuid": "65a6d2c9_a326c120",
+      "range": {
+        "startLine": 24,
+        "startChar": 50,
+        "endLine": 26,
+        "endChar": 7
+      },
+      "revId": "9730f0bcd12fc5640fa68240b2fa5d21c3154c75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

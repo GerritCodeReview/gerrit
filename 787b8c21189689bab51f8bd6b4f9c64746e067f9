@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "18ab1986_2c5e25b6",
+        "filename": "polygerrit-ui/app/elements/shared/gr-button/gr-button_test.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-10-18T12:19:48Z",
+      "side": 1,
+      "message": "May be remove \u0027tap\u0027 from tests completely?",
+      "range": {
+        "startLine": 104,
+        "startChar": 6,
+        "endLine": 104,
+        "endChar": 49
+      },
+      "revId": "787b8c21189689bab51f8bd6b4f9c64746e067f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

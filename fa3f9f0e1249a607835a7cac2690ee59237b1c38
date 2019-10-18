@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "db4c4bca_a06a123f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2019-10-18T19:36:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "205530c8_727a021a",
+      "revId": "fa3f9f0e1249a607835a7cac2690ee59237b1c38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "36799797_22f548fe",
         "filename": "/COMMIT_MSG",
         "patchSetId": 9
@@ -123,6 +141,30 @@
       "revId": "fa3f9f0e1249a607835a7cac2690ee59237b1c38",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5c437506_decfce1d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2019-10-18T19:36:38Z",
+      "side": 1,
+      "message": "\u003e \u003e It was done in All-Projects to support easily updating them without server downtime \n\u003e \n\u003e Thanks for explaining. This makes sense, but I wonder if aliases really need to be changed that frequently, that having them in gerrit.config would be an issue. I think for consistency I would prefer if the aliases are all stored at the same place.\n\u003e \n\nProbably true. Done.\n\n\u003e \n\u003e Some reasons for putting things into All-Projects that I\u0027m aware of are:\n\u003e \n\u003e - if projects should be able to overwrite a setting\n\u003e - if the version history of the data is important\n\u003e \n\nI agree with those. We can continue discussion on the issue you created https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d11285",
+      "parentUuid": "a688a612_4f462473",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 29
+      },
+      "revId": "fa3f9f0e1249a607835a7cac2690ee59237b1c38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

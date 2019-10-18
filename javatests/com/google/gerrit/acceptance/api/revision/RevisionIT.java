@@ -87,6 +87,7 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSetApproval;
+import com.google.gerrit.reviewdb.client.RefNames;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.restapi.change.GetRevisionActions;
@@ -909,8 +910,26 @@ public class RevisionIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void cherryPickToNonExistingBranch() throws Exception {
+    PushOneCommit.Result result = createChange();
+
+    CherryPickInput input = new CherryPickInput();
+    input.message = "foo bar";
+    input.destination = "non-existing";
+    // TODO(ekempin): This should rather result in an UnprocessableEntityException.
+    BadRequestException thrown =
+        assertThrows(
+            BadRequestException.class,
+            () -> gApi.changes().id(result.getChangeId()).current().cherryPick(input));
+    assertThat(thrown)
+        .hasMessageThat()
+        .isEqualTo(
+            String.format("Branch %s does not exist.", RefNames.REFS_HEADS + input.destination));
+  }
+
+  @Test
   public void cherryPickToNonExistingBaseCommit() throws Exception {
-    createBranch(BranchNameKey.create(project, "foo"));
+    createBranch(new Branch.NameKey(project, "foo"));
     PushOneCommit.Result result = createChange();
 
     CherryPickInput input = new CherryPickInput();

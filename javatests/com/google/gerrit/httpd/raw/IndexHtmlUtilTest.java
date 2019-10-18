@@ -29,7 +29,7 @@ public class IndexHtmlUtilTest {
     assertThat(
             staticTemplateData(
                 "http://example.com/", null, null, new HashMap<>(), IndexHtmlUtilTest::ordain))
-        .containsExactly("canonicalPath", "", "polymer2", "true", "staticResourcePath", ordain(""));
+        .containsExactly("canonicalPath", "", "staticResourcePath", ordain(""));
   }
 
   @Test
@@ -41,13 +41,7 @@ public class IndexHtmlUtilTest {
                 null,
                 new HashMap<>(),
                 IndexHtmlUtilTest::ordain))
-        .containsExactly(
-            "canonicalPath",
-            "/gerrit",
-            "polymer2",
-            "true",
-            "staticResourcePath",
-            ordain("/gerrit"));
+        .containsExactly("canonicalPath", "/gerrit", "staticResourcePath", ordain("/gerrit"));
   }
 
   @Test
@@ -60,12 +54,7 @@ public class IndexHtmlUtilTest {
                 new HashMap<>(),
                 IndexHtmlUtilTest::ordain))
         .containsExactly(
-            "canonicalPath",
-            "",
-            "polymer2",
-            "true",
-            "staticResourcePath",
-            ordain("http://my-cdn.com/foo/bar/"));
+            "canonicalPath", "", "staticResourcePath", ordain("http://my-cdn.com/foo/bar/"));
   }
 
   @Test
@@ -78,12 +67,7 @@ public class IndexHtmlUtilTest {
                 new HashMap<>(),
                 IndexHtmlUtilTest::ordain))
         .containsExactly(
-            "canonicalPath",
-            "/gerrit",
-            "polymer2",
-            "true",
-            "staticResourcePath",
-            ordain("http://my-cdn.com/foo/bar/"));
+            "canonicalPath", "/gerrit", "staticResourcePath", ordain("http://my-cdn.com/foo/bar/"));
   }
 
   private static SanitizedContent ordain(String s) {

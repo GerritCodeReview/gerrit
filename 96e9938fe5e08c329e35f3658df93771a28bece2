@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5cdc6052_53af7872",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 14
+      },
+      "lineNbr": 7034,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-18T08:53:47Z",
+      "side": 1,
+      "message": "nit: superfluous blank line",
+      "revId": "96e9938fe5e08c329e35f3658df93771a28bece2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8d9cf938_52f33017",
+        "filename": "java/com/google/gerrit/extensions/common/RevertSubmissionInfo.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-18T08:53:47Z",
+      "side": 1,
+      "message": "nit: 2019",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "96e9938fe5e08c329e35f3658df93771a28bece2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f627e430_0f420e3b",
+        "filename": "java/com/google/gerrit/extensions/common/RevertSubmissionInfo.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-18T08:53:47Z",
+      "side": 1,
+      "message": "Should be camelCase in Java.",
+      "range": {
+        "startLine": 20,
+        "startChar": 26,
+        "endLine": 20,
+        "endChar": 40
+      },
+      "revId": "96e9938fe5e08c329e35f3658df93771a28bece2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "31f486a7_b686c0a6",
+        "filename": "java/com/google/gerrit/server/api/changes/ChangeApiImpl.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 367,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-18T08:53:47Z",
+      "side": 1,
+      "message": "I actually think this should be changed to RevertSubmissionInfo now, as the Java extension API should  be on a par with the REST API.",
+      "range": {
+        "startLine": 367,
+        "startChar": 9,
+        "endLine": 367,
+        "endChar": 24
+      },
+      "revId": "96e9938fe5e08c329e35f3658df93771a28bece2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

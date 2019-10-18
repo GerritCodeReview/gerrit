@@ -203,7 +203,7 @@ def gen_classpath(ext):
             testAtt.setAttribute('name', 'test')
             testAtt.setAttribute('value', 'true')
             atts.appendChild(testAtt)
-        if "apt_generated" in path:
+        if "apt_generated" in path or "modules/jgit" in path:
             if not atts:
                 atts = doc.createElement('attributes')
             ignoreOptionalProblems = doc.createElement('attribute')

@@ -118,6 +118,30 @@
       "revId": "9730f0bcd12fc5640fa68240b2fa5d21c3154c75",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "65a6d2c9_a326c120",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 52
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-10-18T07:25:31Z",
+      "side": 1,
+      "message": "True, the code will be mostly the same between branches. I think it will be even easier to remove it from the branches than creating a separate groovy library. Let me elaborate:\n\n- One part of the code just retrieves metadata of the change from Gerrit. With the GerritCodeReview-plugin on version 0.3.4 this metadata will already be supplied via env variables from the plugin, making this code obsolete. This however will require an update to a newer Jenkins version, which we will hopefully be finally able to do as soon as all gerrit branches are build with the pipeline and we removed the current verifier workflow jobs.\n\n- Another big chunk is the posting of the checks results. As I already discussed with Luca, this should be part of the GerritCodeReview plugin as well. This might be part of the Hackathon.\n\n- The third block would be selection of build modes to select the jobs that will be started. This part is also the part, which will be influenced most by the branches. I think in the end it might make sense to not use this pipeline to start other jobs, but to perform the verification steps in the pipeline itself. (It might make sense though to split up code style validation and verification into two pipelines to make the Jenkinsfile/Pipeline not overly complex). Doing this would however also introduce duplicated code between branches as long as the build/test procedure stays the same. However, I don\u0027t know how much sense it makes to decouple that from Gerrit itself, since this is rather specific to the project and the respective version/branch.\n\n- With the previous point we would also not have to parse the logs of other jobs anymore as we do to get misformatted files (which is broken already in the old workflow-job), but could directly retrieve them from the respective operations.\n\nThis leaves the following methods in the Jenkinsfile:\n\n- queryChangedFiles(): Could also be something that could be part of the GerritCodeReview-plugin.\n\n- findFlakyBuilds(): Detects whether some but not all build modes did not build/test successfully and retries the failed ones. The question is, whether we want to even keep that. Flakyness should be detected directly.\n\n- create*MsgBody(): These two methods will remain, but IMHO wouldn\u0027t be enough to create a library.\n\nWhat do you think?\n\nI would be happy to help with the GerritCodeReview plugin (of which I don\u0027t know the code yet) and the update of Jenkins.",
+      "parentUuid": "8b9d599f_5b3be8f7",
+      "range": {
+        "startLine": 24,
+        "startChar": 50,
+        "endLine": 26,
+        "endChar": 7
+      },
+      "revId": "9730f0bcd12fc5640fa68240b2fa5d21c3154c75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

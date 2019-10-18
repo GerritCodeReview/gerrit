@@ -148,6 +148,27 @@
   };
   catchErrors();
 
+  // taskNumber is reset by location changed
+  let taskNumber = 1;
+  if (PerformanceObserver) {
+    const observer = new PerformanceObserver(list => {
+      const perfEntries = list.getEntries();
+      for (let i = 0; i < perfEntries.length; i++) {
+        const task = perfEntries[i];
+        // We are interested for longtask longer than 200 not default 50
+        if (task.duration > 200) {
+          GrReporting.prototype.reporter(TIMING.TYPE,
+              TIMING.CATEGORY_UI_LATENCY, `Task ${task.name} ${taskNumber}`,
+              Math.round(task.duration));
+          taskNumber += 1;
+        }
+      }
+    });
+    // register observer for long task notifications
+    observer.observe({entryTypes: ['longtask']});
+  }
+
+
   // The Polymer pass of JSCompiler requires this to be reassignable
   // eslint-disable-next-line prefer-const
   let GrReporting = Polymer({
@@ -249,7 +270,7 @@
       if (this._isMetricsPluginLoaded()) {
         if (pending.length) {
           for (const args of pending.splice(0)) {
-            this.reporter(...args);
+            this.defaultReporter(...args);
           }
         }
         this.reporter(type, category, eventName, eventValue,
@@ -297,6 +318,7 @@
       this.time(TIMER.DIFF_VIEW_DISPLAYED);
       this.time(TIMER.DIFF_VIEW_LOAD_FULL);
       this.time(TIMER.FILE_LIST_DISPLAYED);
+      taskNumber = 1;
     },
 
     locationChanged(page) {

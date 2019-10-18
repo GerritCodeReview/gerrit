@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "e35973ff_58637819",
+        "filename": "polygerrit-ui/app/elements/shared/gr-button/gr-button_test.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-10-18T13:19:08Z",
+      "side": 1,
+      "message": "It\u0027s not clear to me why there would be a tap event after removing on tap everywhere- please leave a comment explaining.",
+      "revId": "787b8c21189689bab51f8bd6b4f9c64746e067f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "18ab1986_2c5e25b6",
         "filename": "polygerrit-ui/app/elements/shared/gr-button/gr-button_test.html",
         "patchSetId": 5
@@ -37,6 +54,30 @@
       "side": 1,
       "message": "We want to check that if plugins add tap on gr-button - it still works",
       "parentUuid": "18ab1986_2c5e25b6",
+      "range": {
+        "startLine": 104,
+        "startChar": 6,
+        "endLine": 104,
+        "endChar": 49
+      },
+      "revId": "787b8c21189689bab51f8bd6b4f9c64746e067f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cdfb601c_5339cfa7",
+        "filename": "polygerrit-ui/app/elements/shared/gr-button/gr-button_test.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-10-18T13:19:08Z",
+      "side": 1,
+      "message": "Same question I had - please add comments to the source file to explain this.",
+      "parentUuid": "79f15964_f6d0e4f5",
       "range": {
         "startLine": 104,
         "startChar": 6,

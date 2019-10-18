@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "e6b7b8b8_be0d481d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2019-10-18T08:50:44Z",
+      "side": 1,
+      "message": "I added more details to commit message and I hope I explained why there is duplication and cache is useful",
+      "parentUuid": "619f089d_de58cb30",
+      "range": {
+        "startLine": 10,
+        "startChar": 25,
+        "endLine": 10,
+        "endChar": 54
+      },
+      "revId": "144bbece674114ad096973ae2fa7507ef898aadf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87a464aa_78d4de9a",
         "filename": "polygerrit-ui/app/elements/diff/gr-syntax-layer/gr-syntax-layer.js",
         "patchSetId": 8
@@ -45,6 +69,30 @@
       "revId": "144bbece674114ad096973ae2fa7507ef898aadf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "41507eb2_920ac261",
+        "filename": "polygerrit-ui/app/elements/diff/gr-syntax-layer/gr-syntax-layer.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2019-10-18T08:50:44Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "87a464aa_78d4de9a",
+      "range": {
+        "startLine": 262,
+        "startChar": 12,
+        "endLine": 262,
+        "endChar": 23
+      },
+      "revId": "144bbece674114ad096973ae2fa7507ef898aadf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -94,6 +142,54 @@
     },
     {
       "key": {
+        "uuid": "d6c216fa_93a54acf",
+        "filename": "polygerrit-ui/app/elements/diff/gr-syntax-layer/gr-syntax-layer.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2019-10-18T08:50:44Z",
+      "side": 1,
+      "message": "Yes, I added both change description and explain more why cache is useful.",
+      "parentUuid": "98ef4432_a2c6b1ef",
+      "range": {
+        "startLine": 326,
+        "startChar": 57,
+        "endLine": 326,
+        "endChar": 74
+      },
+      "revId": "144bbece674114ad096973ae2fa7507ef898aadf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "89ebd76d_91f0f809",
+        "filename": "polygerrit-ui/app/elements/diff/gr-syntax-layer/gr-syntax-layer.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2019-10-18T08:50:44Z",
+      "side": 1,
+      "message": "Sure. Btw. Visual Studio code has different color for param, type and paramater name, so it is visually better to spot.",
+      "parentUuid": "07fa9b81_d8dbe64c",
+      "range": {
+        "startLine": 326,
+        "startChar": 57,
+        "endLine": 326,
+        "endChar": 58
+      },
+      "revId": "144bbece674114ad096973ae2fa7507ef898aadf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "79efb2f2_700e6f24",
         "filename": "polygerrit-ui/app/elements/diff/gr-syntax-layer/gr-syntax-layer.js",
         "patchSetId": 8
@@ -105,6 +201,30 @@
       "writtenOn": "2019-10-17T16:16:43Z",
       "side": 1,
       "message": "Matter of taste, but I prefer\n\nconst cached \u003d cacheRanges.get(str);\nif (cached) return cached;\n...\n\nBecause it\u0027s one less hash map lookup, and it keeps the else code left.",
+      "range": {
+        "startLine": 330,
+        "startChar": 10,
+        "endLine": 331,
+        "endChar": 36
+      },
+      "revId": "144bbece674114ad096973ae2fa7507ef898aadf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc821e9a_8e5e316c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-syntax-layer/gr-syntax-layer.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2019-10-18T08:50:44Z",
+      "side": 1,
+      "message": "Yes, the diff will be nicer. I change id. \n\nBtw. I hope hash map is caching lookups so sequential has and get is fast :)  I will look at this someday.",
+      "parentUuid": "79efb2f2_700e6f24",
       "range": {
         "startLine": 330,
         "startChar": 10,

@@ -53,6 +53,7 @@ import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSetApproval;
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.CherryPickInput;
 import com.google.gerrit.extensions.api.changes.DraftApi;
@@ -971,6 +972,42 @@ public class RevisionIT extends AbstractDaemonTest {
     ChangeInfo changeInfo =
         gApi.changes().id(srcChange.getChangeId()).current().cherryPick(input).get();
     assertCherryPickResult(changeInfo, input, srcChange.getChangeId());
+  }
+
+  @Test
+  public void cherryPickToNonExistingBranch() throws Exception {
+    PushOneCommit.Result result = createChange();
+
+    CherryPickInput input = new CherryPickInput();
+    input.message = "foo bar";
+    input.destination = "non-existing";
+    // TODO(ekempin): This should rather result in an UnprocessableEntityException.
+    BadRequestException thrown =
+        assertThrows(
+            BadRequestException.class,
+            () -> gApi.changes().id(result.getChangeId()).current().cherryPick(input));
+    assertThat(thrown)
+        .hasMessageThat()
+        .isEqualTo(
+            String.format("Branch %s does not exist.", RefNames.REFS_HEADS + input.destination));
+  }
+
+  @Test
+  public void cherryPickToNonExistingBaseCommit() throws Exception {
+    createBranch(BranchNameKey.create(project, "foo"));
+    PushOneCommit.Result result = createChange();
+
+    CherryPickInput input = new CherryPickInput();
+    input.message = "foo bar";
+    input.destination = "foo";
+    input.base = "deadbeefdeadbeefdeadbeefdeadbeefdeadbeef";
+    UnprocessableEntityException thrown =
+        assertThrows(
+            UnprocessableEntityException.class,
+            () -> gApi.changes().id(result.getChangeId()).current().cherryPick(input));
+    assertThat(thrown)
+        .hasMessageThat()
+        .isEqualTo(String.format("Base %s doesn't exist", input.base));
   }
 
   @Test

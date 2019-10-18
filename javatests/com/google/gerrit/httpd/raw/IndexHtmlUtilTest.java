@@ -29,7 +29,7 @@ public class IndexHtmlUtilTest {
     assertThat(
             staticTemplateData(
                 "http://example.com/", null, null, new HashMap<>(), IndexHtmlUtilTest::ordain))
-        .containsExactly("canonicalPath", "", "polymer2", "true", "staticResourcePath", ordain(""));
+        .containsExactly("canonicalPath", "", "staticResourcePath", ordain(""));
   }
 
   @Test
@@ -44,8 +44,6 @@ public class IndexHtmlUtilTest {
         .containsExactly(
             "canonicalPath",
             "/gerrit",
-            "polymer2",
-            "true",
             "staticResourcePath",
             ordain("/gerrit"));
   }
@@ -62,8 +60,6 @@ public class IndexHtmlUtilTest {
         .containsExactly(
             "canonicalPath",
             "",
-            "polymer2",
-            "true",
             "staticResourcePath",
             ordain("http://my-cdn.com/foo/bar/"));
   }
@@ -80,8 +76,6 @@ public class IndexHtmlUtilTest {
         .containsExactly(
             "canonicalPath",
             "/gerrit",
-            "polymer2",
-            "true",
             "staticResourcePath",
             ordain("http://my-cdn.com/foo/bar/"));
   }

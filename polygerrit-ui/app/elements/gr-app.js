@@ -16,16 +16,6 @@
  */
 (function() {
   'use strict';
-
-  // Eagerly render Polymer components when backgrounded. (Skips
-  // requestAnimationFrame.)
-  // @see https://github.com/Polymer/polymer/issues/3851
-  // @see Issue 4699
-  // TODO(taoalpha): Remove once p2 fully rolled out
-  if (!window.POLYMER2) {
-    Polymer.RenderStatus._makeReady();
-  }
-
   Polymer({
     is: 'gr-app',
   });

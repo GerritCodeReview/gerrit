@@ -17,6 +17,7 @@ package com.google.gerrit.server.edit;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -228,7 +229,12 @@ public class ChangeEditModifier {
         createCommit(repository, basePatchSetCommit, baseTree, newCommitMessage, nowTimestamp);
 
     if (optionalChangeEdit.isPresent()) {
-      updateEdit(repository, optionalChangeEdit.get(), newEditCommit, nowTimestamp);
+      updateEdit(
+          notes.getProjectName(),
+          repository,
+          optionalChangeEdit.get(),
+          newEditCommit,
+          nowTimestamp);
     } else {
       createEdit(repository, notes, basePatchSet, newEditCommit, nowTimestamp);
     }
@@ -331,7 +337,12 @@ public class ChangeEditModifier {
         createCommit(repository, basePatchSetCommit, newTreeId, commitMessage, nowTimestamp);
 
     if (optionalChangeEdit.isPresent()) {
-      updateEdit(repository, optionalChangeEdit.get(), newEditCommit, nowTimestamp);
+      updateEdit(
+          notes.getProjectName(),
+          repository,
+          optionalChangeEdit.get(),
+          newEditCommit,
+          nowTimestamp);
     } else {
       createEdit(repository, notes, basePatchSet, newEditCommit, nowTimestamp);
     }
@@ -384,7 +395,12 @@ public class ChangeEditModifier {
         createCommit(repository, patchSetCommit, newTreeId, commitMessage, nowTimestamp);
 
     if (optionalChangeEdit.isPresent()) {
-      return updateEdit(repository, optionalChangeEdit.get(), newEditCommit, nowTimestamp);
+      return updateEdit(
+          notes.getProjectName(),
+          repository,
+          optionalChangeEdit.get(),
+          newEditCommit,
+          nowTimestamp);
     }
     return createEdit(repository, notes, patchSet, newEditCommit, nowTimestamp);
   }
@@ -531,7 +547,13 @@ public class ChangeEditModifier {
       throws IOException {
     Change change = notes.getChange();
     String editRefName = getEditRefName(change, basePatchSet);
-    updateReference(repository, editRefName, ObjectId.zeroId(), newEditCommitId, timestamp);
+    updateReference(
+        notes.getProjectName(),
+        repository,
+        editRefName,
+        ObjectId.zeroId(),
+        newEditCommitId,
+        timestamp);
     reindex(change);
 
     RevCommit newEditCommit = lookupCommit(repository, newEditCommitId);
@@ -544,11 +566,16 @@ public class ChangeEditModifier {
   }
 
   private ChangeEdit updateEdit(
-      Repository repository, ChangeEdit changeEdit, ObjectId newEditCommitId, Timestamp timestamp)
+      Project.NameKey projectName,
+      Repository repository,
+      ChangeEdit changeEdit,
+      ObjectId newEditCommitId,
+      Timestamp timestamp)
       throws IOException {
     String editRefName = changeEdit.getRefName();
     RevCommit currentEditCommit = changeEdit.getEditCommit();
-    updateReference(repository, editRefName, currentEditCommit, newEditCommitId, timestamp);
+    updateReference(
+        projectName, repository, editRefName, currentEditCommit, newEditCommitId, timestamp);
     reindex(changeEdit.getChange());
 
     RevCommit newEditCommit = lookupCommit(repository, newEditCommitId);
@@ -557,6 +584,7 @@ public class ChangeEditModifier {
   }
 
   private void updateReference(
+      Project.NameKey projectName,
       Repository repository,
       String refName,
       ObjectId currentObjectId,
@@ -573,12 +601,7 @@ public class ChangeEditModifier {
       RefUpdate.Result res = ru.update(revWalk);
       if (res != RefUpdate.Result.NEW && res != RefUpdate.Result.FORCED) {
         throw new IOException(
-            "cannot update "
-                + ru.getName()
-                + " in "
-                + repository.getDirectory()
-                + ": "
-                + ru.getResult());
+            "cannot update " + ru.getName() + " in " + projectName + ": " + ru.getResult());
       }
     }
   }

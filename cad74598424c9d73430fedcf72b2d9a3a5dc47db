@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "bbc6d3db_5af3671d",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-10-18T13:28:42Z",
+      "side": 1,
+      "message": "Comment how this is different than repoName please.",
+      "range": {
+        "startLine": 98,
+        "startChar": 6,
+        "endLine": 98,
+        "endChar": 20
+      },
+      "revId": "cad74598424c9d73430fedcf72b2d9a3a5dc47db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9905ccdd_a20a6bd5",
         "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
         "patchSetId": 8
@@ -46,6 +69,46 @@
       "revId": "cad74598424c9d73430fedcf72b2d9a3a5dc47db",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8567a9f9_88b614f5",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-10-18T13:28:42Z",
+      "side": 1,
+      "message": "I find this ...args/splice/apply relatively hard to understand. Would it help using something like\n\nreporter(type, category, eventName, eventValue)\n...\n\nreport(type, category, eventName, eventValue, loadedPlugins, detectedExtensions, reportRepoName, isInBackgroundTab)\n\n?\nA bit more to type, but much easier to understand.\n\nAnother option would be to change the reporters to take the first 4 arguments plus some contextInfo: {} object, and then you would at least not need the splicing and could just append an info object with these data points in there?",
+      "revId": "cad74598424c9d73430fedcf72b2d9a3a5dc47db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dc90e848_d0a5d7c5",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-10-18T13:28:42Z",
+      "side": 1,
+      "message": "Is this just `arguments`? Here it feels like it would make sense to use that to reduce the chance for those to get out of sync...",
+      "range": {
+        "startLine": 262,
+        "startChar": 21,
+        "endLine": 264,
+        "endChar": 39
+      },
+      "revId": "cad74598424c9d73430fedcf72b2d9a3a5dc47db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     },
     {
       "key": {

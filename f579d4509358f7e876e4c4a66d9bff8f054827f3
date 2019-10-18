@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "82511129_f0bf2c80",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-18T07:30:41Z",
+      "side": 1,
+      "message": "Maybe add another step for the UI here, optionally the revert submission action should show a preview of the changes that are going to be reverted.",
+      "range": {
+        "startLine": 69,
+        "startChar": 0,
+        "endLine": 70,
+        "endChar": 41
+      },
+      "revId": "f579d4509358f7e876e4c4a66d9bff8f054827f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2ba86076_b146f684",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-18T07:30:41Z",
+      "side": 1,
+      "message": "This should also be marked as \"Optionally\", since we are not sure yet that we really want to implement this.",
+      "range": {
+        "startLine": 76,
+        "startChar": 0,
+        "endLine": 77,
+        "endChar": 53
+      },
+      "revId": "f579d4509358f7e876e4c4a66d9bff8f054827f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5cad9c6f_9ecd5c32",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-18T07:30:41Z",
+      "side": 1,
+      "message": "I think this should be done much earlier. But I guess the numbering doesn\u0027t imply a strict order of steps?\nMaybe better use \u0027*\u0027 bullet-points to avoid confusion here, or move it up.",
+      "range": {
+        "startLine": 78,
+        "startChar": 0,
+        "endLine": 79,
+        "endChar": 19
+      },
+      "revId": "f579d4509358f7e876e4c4a66d9bff8f054827f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ddadf196_8fd657ff",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-18T07:30:41Z",
+      "side": 1,
+      "message": "This is a Google-specific thing and should be marked as such, e.g. prefix with \"[Google only]\".",
+      "range": {
+        "startLine": 80,
+        "startChar": 3,
+        "endLine": 81,
+        "endChar": 46
+      },
+      "revId": "f579d4509358f7e876e4c4a66d9bff8f054827f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8598e46a_8d1accd0",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-18T07:30:41Z",
+      "side": 1,
+      "message": "Do you want to reconsider this Response type?\n\nWhen we discussed yesterday, it sounded like we may want to return additional information from this REST endpoint in the future.\nIn this case it would be better to return a RevertSubmissionInfo here, that contains one field (\u0027revert_changes\u0027) with the list of revert changes. This way we can add additional information to the  RevertSubmissionInfo without breaking the backwards compatibility of this REST endpoint.",
+      "range": {
+        "startLine": 87,
+        "startChar": 9,
+        "endLine": 87,
+        "endChar": 35
+      },
+      "revId": "f579d4509358f7e876e4c4a66d9bff8f054827f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

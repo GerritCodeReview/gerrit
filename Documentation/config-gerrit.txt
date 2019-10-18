@@ -3644,7 +3644,10 @@ remotely, or disable existing plugins.  Defaults to false.
 [[plugins.mandatory]]plugins.mandatory::
 +
 List of mandatory plugins. If a plugin from this list does not load,
-Gerrit start will fail.
+Gerrit will fail to start.
++
+Disabling and restarting of a mandatory plugin is rejected, but reloading
+of a mandatory plugin is still possible.
 
 [[plugins.jsLoadTimeout]]plugins.jsLoadTimeout::
 +

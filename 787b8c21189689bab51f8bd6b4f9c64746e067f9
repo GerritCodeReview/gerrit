@@ -22,6 +22,30 @@
       "revId": "787b8c21189689bab51f8bd6b4f9c64746e067f9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "79f15964_f6d0e4f5",
+        "filename": "polygerrit-ui/app/elements/shared/gr-button/gr-button_test.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2019-10-18T12:31:10Z",
+      "side": 1,
+      "message": "We want to check that if plugins add tap on gr-button - it still works",
+      "parentUuid": "18ab1986_2c5e25b6",
+      "range": {
+        "startLine": 104,
+        "startChar": 6,
+        "endLine": 104,
+        "endChar": 49
+      },
+      "revId": "787b8c21189689bab51f8bd6b4f9c64746e067f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

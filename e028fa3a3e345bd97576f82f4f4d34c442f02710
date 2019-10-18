@@ -34,6 +34,24 @@
       "revId": "e028fa3a3e345bd97576f82f4f4d34c442f02710",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6f5ee175_76a683c1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-18T08:32:16Z",
+      "side": 1,
+      "message": "Hence I think ignoring comments in this situation is making things a little better.",
+      "parentUuid": "295018c5_323bd0f7",
+      "revId": "e028fa3a3e345bd97576f82f4f4d34c442f02710",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

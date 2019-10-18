@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "db81ea6a_8c097cfe",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-10-18T11:33:36Z",
+      "side": 1,
+      "message": "Had to fix this.  I can see we\u0027re going to run into this quite often if we cherry pick fixes back from master/stable-3.1 to stable-3.0",
+      "range": {
+        "startLine": 90,
+        "startChar": 0,
+        "endLine": 90,
+        "endChar": 50
+      },
+      "revId": "6f3d487f04b2f425239cbb5eca2226b10e8def84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f9ac9740_34b95a04",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 932,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-10-18T11:33:36Z",
+      "side": 1,
+      "message": "Not sure what happened here.",
+      "range": {
+        "startLine": 932,
+        "startChar": 4,
+        "endLine": 932,
+        "endChar": 53
+      },
+      "revId": "6f3d487f04b2f425239cbb5eca2226b10e8def84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -909,6 +909,24 @@ public class RevisionIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void cherryPickToNonExistingBaseCommit() throws Exception {
+    createBranch(BranchNameKey.create(project, "foo"));
+    PushOneCommit.Result result = createChange();
+
+    CherryPickInput input = new CherryPickInput();
+    input.message = "foo bar";
+    input.destination = "foo";
+    input.base = "deadbeefdeadbeefdeadbeefdeadbeefdeadbeef";
+    UnprocessableEntityException thrown =
+        assertThrows(
+            UnprocessableEntityException.class,
+            () -> gApi.changes().id(result.getChangeId()).current().cherryPick(input));
+    assertThat(thrown)
+        .hasMessageThat()
+        .isEqualTo(String.format("Base %s doesn't exist", input.base));
+  }
+
+  @Test
   public void canRebase() throws Exception {
     PushOneCommit push = pushFactory.create(admin.newIdent(), testRepo);
     PushOneCommit.Result r1 = push.to("refs/for/master");

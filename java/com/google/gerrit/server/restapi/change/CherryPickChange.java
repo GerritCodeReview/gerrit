@@ -70,6 +70,7 @@ import java.util.Set;
 import java.util.TimeZone;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.InvalidObjectIdException;
+import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectReader;
@@ -288,7 +289,14 @@ public class CherryPickChange {
       throw new BadRequestException(String.format("Base %s doesn't represent a valid SHA-1", base));
     }
 
-    RevCommit baseCommit = revWalk.parseCommit(baseObjectId);
+    RevCommit baseCommit;
+    try {
+      baseCommit = revWalk.parseCommit(baseObjectId);
+    } catch (MissingObjectException e) {
+      throw new UnprocessableEntityException(
+          String.format("Base %s doesn't exist", baseObjectId.name()), e);
+    }
+
     InternalChangeQuery changeQuery = queryProvider.get();
     changeQuery.enforceVisibility(true);
     List<ChangeData> changeDatas = changeQuery.byBranchCommit(project, destRef.getName(), base);

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6427775d_41dbacb4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-10-18T08:19:05Z",
+      "side": 1,
+      "message": "Should we treat this (root cause) instead of the symptom (failing draft comments)?\n\nEven if we prevent hard errors when the referenced patch set is missing, we might still post comments to the wrong changes (same user, two changes with same numeric ID on a patch set that exists).",
+      "revId": "e028fa3a3e345bd97576f82f4f4d34c442f02710",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "842ddb6c_ca59468a",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2019-10-18T12:29:03Z",
+      "side": 1,
+      "message": "It can be undefined and clearcut_lib is checking if it is defined/or not. We will send undefined or string to clearcut from here.",
+      "parentUuid": "9905ccdd_a20a6bd5",
+      "range": {
+        "startLine": 180,
+        "startChar": 59,
+        "endLine": 180,
+        "endChar": 73
+      },
+      "revId": "cad74598424c9d73430fedcf72b2d9a3a5dc47db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4770169c_57682ca5",
         "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
         "patchSetId": 8
@@ -45,6 +69,30 @@
       "revId": "cad74598424c9d73430fedcf72b2d9a3a5dc47db",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "734c5b3f_671c8dde",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 1152,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2019-10-18T12:29:03Z",
+      "side": 1,
+      "message": "We don\u0027t have metrics for Branch Page. I added it to Dashboard, Change, Diff, where we measure loading time.",
+      "parentUuid": "4770169c_57682ca5",
+      "range": {
+        "startLine": 1152,
+        "startChar": 4,
+        "endLine": 1152,
+        "endChar": 32
+      },
+      "revId": "cad74598424c9d73430fedcf72b2d9a3a5dc47db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

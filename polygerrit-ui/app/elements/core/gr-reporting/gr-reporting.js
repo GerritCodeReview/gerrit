@@ -142,6 +142,24 @@
   };
   catchErrors();
 
+  if (PerformanceObserver) {
+    const observer = new PerformanceObserver(list => {
+      const perfEntries = list.getEntries();
+      for (let i = 0; i < perfEntries.length; i++) {
+        const task = perfEntries[i];
+        // We are interested for longtask longer than 200 not default 50
+        if (task.duration > 200) {
+          GrReporting.prototype.reporter(TIMING.TYPE,
+              TIMING.CATEGORY_UI_LATENCY, `Task ${task.name}`,
+              Math.round(task.duration), false);
+        }
+      }
+    });
+    // register observer for long task notifications
+    observer.observe({entryTypes: ['longtask']});
+  }
+
+
   // The Polymer pass of JSCompiler requires this to be reassignable
   // eslint-disable-next-line prefer-const
   let GrReporting = Polymer({

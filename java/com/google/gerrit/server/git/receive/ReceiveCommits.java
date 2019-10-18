@@ -2785,6 +2785,16 @@ class ReceiveCommits {
         Change change = notes.getChange();
         priorPatchSet = change.currentPatchSetId();
         if (!revisions.containsValue(priorPatchSet)) {
+          logger.atWarning().log(
+              "Change %d is missing revision for patch set %s"
+                  + " (it has revisions for these patch sets: %s)",
+              change.getChangeId(),
+              priorPatchSet.getId(),
+              Iterables.toString(
+                  revisions.values().stream()
+                      .limit(100) // Enough for "normal" changes.
+                      .map(PatchSet.Id::getId)
+                      .collect(Collectors.toList())));
           reject(inputCommand, "change " + ontoChange + " missing revisions");
           return false;
         }

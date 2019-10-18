@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "aa15c6d7_5b07fd3b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-10-18T10:32:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c0a79102_9f56d8aa",
+      "revId": "21be52659a2aa2c50590a5191f70ddd7e1f5491e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "46fe4e61_fb1fcff7",
         "filename": "polygerrit-ui/app/elements/admin/gr-access-section/gr-access-section.js",
         "patchSetId": 1
@@ -59,6 +77,24 @@
     },
     {
       "key": {
+        "uuid": "28e8dd3d_b08e5546",
+        "filename": "polygerrit-ui/app/elements/admin/gr-access-section/gr-access-section.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-10-18T10:32:20Z",
+      "side": 1,
+      "message": "Good idea, will add empty line to .eslint rules",
+      "parentUuid": "89288e41_a15ca3fc",
+      "revId": "21be52659a2aa2c50590a5191f70ddd7e1f5491e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7e2a246_7a5acf26",
         "filename": "polygerrit-ui/app/elements/admin/gr-access-section/gr-access-section.js",
         "patchSetId": 1
@@ -70,6 +106,24 @@
       "writtenOn": "2019-10-17T15:40:31Z",
       "side": 1,
       "message": "Nit: I think I would like a newline before this line - otherwise it mingles into the unwieldy base class expression.",
+      "revId": "21be52659a2aa2c50590a5191f70ddd7e1f5491e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ef121a32_1a3ca277",
+        "filename": "polygerrit-ui/app/elements/admin/gr-access-section/gr-access-section.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-10-18T10:32:20Z",
+      "side": 1,
+      "message": "Can\u0027t find appropriate rule for eslint. Eslint has rule to add new lines at the start AND at the end of class\u0027 block, but I can\u0027t find how to add new line only at the start of class\u0027 block.",
+      "parentUuid": "a7e2a246_7a5acf26",
       "revId": "21be52659a2aa2c50590a5191f70ddd7e1f5491e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -93,6 +147,24 @@
     },
     {
       "key": {
+        "uuid": "fb66beb1_ea89ec85",
+        "filename": "polygerrit-ui/app/elements/admin/gr-access-section/gr-access-section.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-10-18T10:32:20Z",
+      "side": 1,
+      "message": "If we decided to change method order - I would prefer separate change for it and avoid massive code movements during moving to class-based components (it can be done automatically later). In overall - I agree, we should introduce some order, but this is a separate topic.",
+      "parentUuid": "6f631b9e_0b3cdca4",
+      "revId": "21be52659a2aa2c50590a5191f70ddd7e1f5491e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e764f0c8_1e8d9f07",
         "filename": "polygerrit-ui/app/elements/admin/gr-access-section/gr-access-section.js",
         "patchSetId": 1
@@ -107,6 +179,24 @@
       "revId": "21be52659a2aa2c50590a5191f70ddd7e1f5491e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6809b3ad_f6ad8756",
+        "filename": "polygerrit-ui/app/elements/admin/gr-access-section/gr-access-section.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-10-18T10:32:20Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "e764f0c8_1e8d9f07",
+      "revId": "21be52659a2aa2c50590a5191f70ddd7e1f5491e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -227,6 +317,24 @@
     },
     {
       "key": {
+        "uuid": "c8ed9e05_770d2d48",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-10-18T10:32:20Z",
+      "side": 1,
+      "message": "I rethink it again and decided to assign fields in constructor instead.  Assigning fields in the element\u0027s constructor better mimic behavior of Polymer function.",
+      "parentUuid": "98cfac5b_da7fc96c",
+      "revId": "21be52659a2aa2c50590a5191f70ddd7e1f5491e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b8c5325e_16439d37",
         "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.js",
         "patchSetId": 1
@@ -238,6 +346,30 @@
       "writtenOn": "2019-10-17T15:40:31Z",
       "side": 1,
       "message": "How do you know these should be readonly? Is it not possible that some classes actually mutate these?",
+      "range": {
+        "startLine": 105,
+        "startChar": 4,
+        "endLine": 105,
+        "endChar": 7
+      },
+      "revId": "21be52659a2aa2c50590a5191f70ddd7e1f5491e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e5955650_59d7eda4",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-10-18T10:32:20Z",
+      "side": 1,
+      "message": "Yes, this is possible. I will change it and assign all such properties in a constructor.",
+      "parentUuid": "b8c5325e_16439d37",
       "range": {
         "startLine": 105,
         "startChar": 4,

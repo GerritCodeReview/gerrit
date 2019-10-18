@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8809bcdd_bdc49197",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2789,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-18T13:13:11Z",
+      "side": 1,
+      "message": "better: \"revision for patch set\"",
+      "range": {
+        "startLine": 2789,
+        "startChar": 36,
+        "endLine": 2789,
+        "endChar": 44
+      },
+      "revId": "be7496d047d689c5dbce3953dbe48bb2d795e813",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "83489753_677031ac",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2789,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-18T13:13:11Z",
+      "side": 1,
+      "message": "better: \"revisions for these patch sets\"\n\nrevision \u003d SHA1 of the commit that belongs to the patch set\npatch set \u003d the Gerrit representation of a change version, it has a numeric ID (patch set ID)\n\nSo the revisions map is a map of revisions (SHA1s) to patch set IDs.\npriorPatchSet and the values in the revisions map are patch set IDs, hence it\u0027s more precise if the message talks about patch sets.",
+      "range": {
+        "startLine": 2789,
+        "startChar": 56,
+        "endLine": 2789,
+        "endChar": 71
+      },
+      "revId": "be7496d047d689c5dbce3953dbe48bb2d795e813",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

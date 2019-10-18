@@ -16,6 +16,24 @@
       "revId": "e028fa3a3e345bd97576f82f4f4d34c442f02710",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "295018c5_323bd0f7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-18T08:31:14Z",
+      "side": 1,
+      "message": "\u003e Should we treat this (root cause) instead of the symptom (failing draft comments)?\n\nThe root cause is outside of Gerrit\u0027s control (somebody modified the repos behind Gerrit\u0027s back). Hence Gerrit cannot fix this.\n\n\u003e Even if we prevent hard errors when the referenced patch set is missing, we might still post\n\u003e comments to the wrong changes (same user, two changes with same numeric ID on a patch set that\n\u003e exists).\n\nYes, but it\u0027s not so bad, because if you save a draft on one of the changes, you see it on both changes. That might be unexpected, but at least when you click Reply you see exactly those comments that, actually will be published.\n\nI know that duplicate changes likely cause a lot of other issues, but at least being able to post comments on them is worth something. Admins can still see that there is an issue, because we write a warning to the log.",
+      "parentUuid": "6427775d_41dbacb4",
+      "revId": "e028fa3a3e345bd97576f82f4f4d34c442f02710",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

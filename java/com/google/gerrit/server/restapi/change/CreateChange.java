@@ -180,8 +180,8 @@ public class CreateChange
   /** Creates the changes in the given project. This is public for reuse in the project API. */
   public Response<ChangeInfo> execute(
       BatchUpdate.Factory updateFactory, ChangeInput input, ProjectResource projectResource)
-      throws IOException, InvalidChangeOperationException, RestApiException, UpdateException,
-          PermissionBackendException, ConfigInvalidException {
+      throws IOException, RestApiException, UpdateException, PermissionBackendException,
+          ConfigInvalidException {
     if (!user.get().isIdentifiedUser()) {
       throw new AuthException("Authentication required");
     }

@@ -166,6 +166,30 @@
       "revId": "9730f0bcd12fc5640fa68240b2fa5d21c3154c75",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6a50424_3ceb9017",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 52
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2019-10-18T16:18:08Z",
+      "side": 1,
+      "message": "\u003e \u003e I mean most of the code outside the node() block is probably common between all Gerrit branches\n\u003e \n\u003e I do not understand this argument. Isn\u0027t this true for a lot\n\u003e of java files in the Gerrit source code? Handling different versions\n\u003e of the same file in different branches is what Git is made for.\n\nTrue, yet who wants to maintain more versions of the same code than they have to? That\u0027s the reason we have libraries.\n\nFor example, a big reason we\u0027ve had to create an EOL policy for Gerrit is because we have many versions. I think it\u0027s been suggested that if Gerrit were composed of smaller parts that versioned independently (similar to how Gerrit depends on JGit), we could have fewer versions of the lower layer components since those change less. That would align with the idea I\u0027m presenting here where we end up with less overall duplication (i.e. fewer branches).",
+      "parentUuid": "c06db4e7_138fed1a",
+      "range": {
+        "startLine": 24,
+        "startChar": 50,
+        "endLine": 26,
+        "endChar": 7
+      },
+      "revId": "9730f0bcd12fc5640fa68240b2fa5d21c3154c75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

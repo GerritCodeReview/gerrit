@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4ca2fb4c_afc25e64",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-18T07:33:14Z",
+      "side": 1,
+      "message": "Thanks for adding this info. I\u0027m not convinced that this is true. Hence I will approve this only after I saw how this is being used in follow-up changes.",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 15
+      },
+      "revId": "205a5ee8d717519ccb3ca6570b14f06cc2b5c18b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

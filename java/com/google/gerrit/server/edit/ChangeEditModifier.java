@@ -24,6 +24,7 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MergeConflictException;
 import com.google.gerrit.extensions.restapi.RawInput;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.git.LockFailureException;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
@@ -599,9 +600,12 @@ public class ChangeEditModifier {
     ru.setForceUpdate(true);
     try (RevWalk revWalk = new RevWalk(repository)) {
       RefUpdate.Result res = ru.update(revWalk);
+      String message = "cannot update " + ru.getName() + " in " + projectName + ": " + res;
+      if (res == RefUpdate.Result.LOCK_FAILURE) {
+        throw new LockFailureException(message, ru);
+      }
       if (res != RefUpdate.Result.NEW && res != RefUpdate.Result.FORCED) {
-        throw new IOException(
-            "cannot update " + ru.getName() + " in " + projectName + ": " + ru.getResult());
+        throw new IOException(message);
       }
     }
   }

@@ -214,6 +214,30 @@
     },
     {
       "key": {
+        "uuid": "7c19e8e5_3a3d3797",
+        "filename": "polygerrit-ui/app/elements/diff/gr-syntax-layer/gr-syntax-layer.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2019-10-18T09:25:37Z",
+      "side": 1,
+      "message": "It\u0027s open issue. https://github.com/highlightjs/highlight.js/issues/1857 It has tag beginner friendly - so maybe I can look at it. I did lexers in Netbeans.",
+      "parentUuid": "fc1b93b8_82ce1488",
+      "range": {
+        "startLine": 326,
+        "startChar": 57,
+        "endLine": 326,
+        "endChar": 58
+      },
+      "revId": "144bbece674114ad096973ae2fa7507ef898aadf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "79efb2f2_700e6f24",
         "filename": "polygerrit-ui/app/elements/diff/gr-syntax-layer/gr-syntax-layer.js",
         "patchSetId": 8
@@ -273,6 +297,30 @@
       "side": 1,
       "message": "Yeah, probably the cache lookup is not a huge issue. It\u0027s more of a side reason. Thanks for the change.",
       "parentUuid": "bc821e9a_8e5e316c",
+      "range": {
+        "startLine": 330,
+        "startChar": 10,
+        "endLine": 331,
+        "endChar": 36
+      },
+      "revId": "144bbece674114ad096973ae2fa7507ef898aadf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "57ce14eb_eb6b70f8",
+        "filename": "polygerrit-ui/app/elements/diff/gr-syntax-layer/gr-syntax-layer.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2019-10-18T09:25:37Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "f5f4b7d8_3d4250de",
       "range": {
         "startLine": 330,
         "startChar": 10,

@@ -98,7 +98,7 @@ Commit the changes and create a signed release tag on the new commit:
 Tag the plugins:
 
 ----
-  git submodule foreach git tag -s -m "v$version" "v$version"
+  git submodule foreach '[ "$path" == "modules/jgit" ] || git tag -s -m "v$version" "v$version"'
 ----
 
 [[build-gerrit]]

@@ -504,7 +504,7 @@ public class MergeOp implements AutoCloseable {
               try {
                 integrateIntoHistory(cs);
               } catch (IntegrationException e) {
-                logger.atSevere().withCause(e).log("Error from integrateIntoHistory");
+                logger.atWarning().withCause(e).log("Error from integrateIntoHistory");
                 throw new ResourceConflictException(e.getMessage(), e);
               }
               return null;

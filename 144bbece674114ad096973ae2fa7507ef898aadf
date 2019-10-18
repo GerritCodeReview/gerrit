@@ -190,6 +190,30 @@
     },
     {
       "key": {
+        "uuid": "fc1b93b8_82ce1488",
+        "filename": "polygerrit-ui/app/elements/diff/gr-syntax-layer/gr-syntax-layer.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-10-18T09:11:36Z",
+      "side": 1,
+      "message": "Would be great to update highlightjs to distinguish this... :)",
+      "parentUuid": "89ebd76d_91f0f809",
+      "range": {
+        "startLine": 326,
+        "startChar": 57,
+        "endLine": 326,
+        "endChar": 58
+      },
+      "revId": "144bbece674114ad096973ae2fa7507ef898aadf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "79efb2f2_700e6f24",
         "filename": "polygerrit-ui/app/elements/diff/gr-syntax-layer/gr-syntax-layer.js",
         "patchSetId": 8
@@ -225,6 +249,30 @@
       "side": 1,
       "message": "Yes, the diff will be nicer. I change id. \n\nBtw. I hope hash map is caching lookups so sequential has and get is fast :)  I will look at this someday.",
       "parentUuid": "79efb2f2_700e6f24",
+      "range": {
+        "startLine": 330,
+        "startChar": 10,
+        "endLine": 331,
+        "endChar": 36
+      },
+      "revId": "144bbece674114ad096973ae2fa7507ef898aadf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f5f4b7d8_3d4250de",
+        "filename": "polygerrit-ui/app/elements/diff/gr-syntax-layer/gr-syntax-layer.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-10-18T09:11:36Z",
+      "side": 1,
+      "message": "Yeah, probably the cache lookup is not a huge issue. It\u0027s more of a side reason. Thanks for the change.",
+      "parentUuid": "bc821e9a_8e5e316c",
       "range": {
         "startLine": 330,
         "startChar": 10,

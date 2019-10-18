@@ -24,7 +24,6 @@
   {@param? assetsBundle: ?}  /** {string} Assets bundle .html file, served from $assetsPath. */
   {@param? faviconPath: ?}
   {@param? versionInfo: ?}
-  {@param? polymer2: ?}
   {@param? polyfillCE: ?}
   {@param? polyfillSD: ?}
   {@param? polyfillSC: ?}
@@ -43,8 +42,6 @@
     // Disable extra font load from paper-styles
     window.polymerSkipLoadingFontRoboto = true;
     window.CLOSURE_NO_DEPS = true;
-    // TODO(taoalpha): clean up once p2 fully rolled out
-    {if $polymer2}window.POLYMER2 = true;{/if}
     {if $canonicalPath != ''}window.CANONICAL_PATH = '{$canonicalPath}';{/if}
     {if $versionInfo}window.VERSION_INFO = '{$versionInfo}';{/if}
     {if $staticResourcePath != ''}window.STATIC_RESOURCE_PATH = '{$staticResourcePath}';{/if}
@@ -94,17 +91,8 @@
     <link rel="import" href="{$assetsPath}/{$assetsBundle}">{\n}
   {/if}
 
-  // TODO(taoalpha): only used by Google, remove once polymer 2 fully rolled out
-  {if $polymer2}
-    <link rel="import" href="{$staticResourcePath}/elements/gr-app-p2.html">{\n}
-  {else}
-    <link rel="import" href="{$staticResourcePath}/elements/gr-app.html">{\n}
-  {/if}
+  <link rel="import" href="{$staticResourcePath}/elements/gr-app.html">{\n}
 
   <body unresolved>{\n}
-  {if $polymer2}
-    <gr-app-p2 id="app"></gr-app-p2>{\n}
-  {else}
-    <gr-app id="app"></gr-app>{\n}
-  {/if}
+  <gr-app id="app"></gr-app>{\n}
 {/template}

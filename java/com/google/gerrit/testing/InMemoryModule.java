@@ -86,6 +86,7 @@ import com.google.gerrit.server.securestore.DefaultSecureStore;
 import com.google.gerrit.server.securestore.SecureStore;
 import com.google.gerrit.server.ssh.NoSshKeyCache;
 import com.google.gerrit.server.submit.LocalMergeSuperSetComputation;
+import com.google.gerrit.server.util.ReplicaUtil;
 import com.google.inject.AbstractModule;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -299,11 +300,10 @@ public class InMemoryModule extends FactoryModule {
 
   private Module indexModule(String moduleClassName) {
     try {
-      boolean slave = cfg.getBoolean("container", "replica", false);
       Class<?> clazz = Class.forName(moduleClassName);
       Method m =
           clazz.getMethod("singleVersionWithExplicitVersions", Map.class, int.class, boolean.class);
-      return (Module) m.invoke(null, getSingleSchemaVersions(), 0, slave);
+      return (Module) m.invoke(null, getSingleSchemaVersions(), 0, ReplicaUtil.isReplica(cfg));
     } catch (ClassNotFoundException
         | SecurityException
         | NoSuchMethodException

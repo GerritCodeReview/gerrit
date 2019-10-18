@@ -43,6 +43,7 @@ var (
 	host                  = flag.String("host", "gerrit-review.googlesource.com", "Host to proxy requests to")
 	scheme                = flag.String("scheme", "https", "URL scheme")
 	cdnPattern            = regexp.MustCompile("https://cdn.googlesource.com/polygerrit_ui/[0-9.]*")
+	webComponentPattern   = regexp.MustCompile("webcomponentsjs-p2")
 	bundledPluginsPattern = regexp.MustCompile("https://cdn.googlesource.com/polygerrit_assets/[0-9.]*")
 )
 
@@ -184,9 +185,12 @@ func rewriteHostPage(reader io.Reader) io.Reader {
 	buf.ReadFrom(reader)
 	original := buf.String()
 
+	// Replace the webcomponentsjs-p2 with webcomponentsjs
+	replaced := webComponentPattern.ReplaceAllString(original, "webcomponentsjs")
+
 	// Simply remove all CDN references, so files are loaded from the local file system  or the proxy
 	// server instead.
-	replaced := cdnPattern.ReplaceAllString(original, "")
+	replaced = cdnPattern.ReplaceAllString(replaced, "")
 
 	// Modify window.INITIAL_DATA so that it has the same effect as injectLocalPlugins. To achieve
 	// this let's add JavaScript lines at the end of the <script>...</script> snippet that also

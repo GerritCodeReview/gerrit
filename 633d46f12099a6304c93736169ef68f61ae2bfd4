@@ -34,6 +34,24 @@
       "revId": "633d46f12099a6304c93736169ef68f61ae2bfd4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b1d8804f_6a312cdb",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2019-10-18T12:27:53Z",
+      "side": 1,
+      "message": "For dark theme, we should use:\n- Grey 200 for section title\n- Grey 500 for number of changes\n\nWe would need to change the section background to meet WCAG AA, I propose we use Grey 500 with 24% opacity (translates to #333538).",
+      "parentUuid": "9aa2104d_927a6f38",
+      "revId": "633d46f12099a6304c93736169ef68f61ae2bfd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

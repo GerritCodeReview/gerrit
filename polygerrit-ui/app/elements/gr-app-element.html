@@ -69,7 +69,7 @@ limitations under the License.
       }
       gr-main-header {
         background: var(--header-background, var(--header-background-color, #eee));
-        padding: 0 var(--default-horizontal-margin);
+        padding: 0 var(--spacing-l);
         border-bottom: var(--header-border-bottom);
         border-image: var(--header-border-image);
         border-right: 0;
@@ -81,12 +81,12 @@ limitations under the License.
         border-top: var(--footer-border-top);
         display: flex;
         justify-content: space-between;
-        padding: .5rem var(--default-horizontal-margin);
+        padding: var(--spacing-m) var(--spacing-l);
         z-index: 100;
       }
       main {
         flex: 1;
-        padding-bottom: 2em;
+        padding-bottom: var(--spacing-xxl);
         position: relative;
       }
       .errorView {
@@ -108,7 +108,7 @@ limitations under the License.
       }
       .errorText,
       .errorMoreInfo {
-        margin-top: .75em;
+        margin-top: var(--spacing-m);
       }
       .errorText {
         font-size: 1.2rem;

@@ -54,7 +54,7 @@ limitations under the License.
         @apply --diff-container-styles;
       }
       .diffContainer.hiddenscroll {
-        margin-bottom: .8em;
+        margin-bottom: var(--spacing-m);
       }
       table {
         border-collapse: collapse;
@@ -119,7 +119,7 @@ limitations under the License.
         user-select: none;
 
         color: var(--deemphasized-text-color);
-        padding: 0 .5em;
+        padding: 0 var(--spacing-m);
         text-align: right;
       }
       .canComment .lineNum {
@@ -190,7 +190,7 @@ limitations under the License.
         text-decoration: none;
         --gr-button: {
           color: var(--diff-context-control-color);
-          padding: .2em;
+          padding: var(--spacing-xs);
         }
       }
       .contextControl td:not(.lineNum) {
@@ -227,12 +227,12 @@ limitations under the License.
         color: var(--link-color);
         font-family: var(--monospace-font-family);
         font-size: var(--font-size, var(--font-size-normal));
-        padding: 0.5em 0 0.5em 4em;
+        padding: var(--spacing-m) 0 var(--spacing-m) 48px;
       }
       #loadingError,
       #sizeWarning {
         display: none;
-        margin: 1em auto;
+        margin: var(--spacing-l) auto;
         max-width: 60em;
         text-align: center;
       }
@@ -240,7 +240,7 @@ limitations under the License.
         color: var(--error-text-color);
       }
       #sizeWarning gr-button {
-        margin: 1em;
+        margin: var(--spacing-l);
       }
       #loadingError.showError,
       #sizeWarning.warn {
@@ -256,7 +256,7 @@ limitations under the License.
         display: none;
         font-family: var(--font-family);
         font-size: var(--font-size, var(--font-size-normal));
-        padding: 0 .5em;
+        padding: 0 var(--spacing-m);
         white-space: pre;
       }
       :host(.showBlame) col.blame {

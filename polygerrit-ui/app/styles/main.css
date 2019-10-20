@@ -42,7 +42,7 @@ body {
    * Work around this using font-size and font-family.
    */
   -webkit-text-size-adjust: none;
-  font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
+  font-family: var(--font-family, ''), 'Roboto', Arial, sans-serif;
   font-size: var(--font-size-normal, 1rem);
   line-height: var(--line-height-normal, 1.4);
 }

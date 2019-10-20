@@ -42,7 +42,7 @@ limitations under the License.
       :host {
         display: block;
         font-family: var(--font-family);
-        padding: .7em .7em;
+        padding: var(--spacing-l);
         --iron-autogrow-textarea: {
           box-sizing: border-box;
           padding: 2px;
@@ -63,12 +63,11 @@ limitations under the License.
         align-items: baseline;
         cursor: pointer;
         display: flex;
-        font-family: 'Open Sans', sans-serif;
-        margin: -.7em -.7em 0 -.7em;
-        padding: .7em;
+        margin: calc(0 - var(--spacing-l)) calc(0 - var(--spacing-l)) 0 calc(0 - var(--spacing-l));
+        padding: var(--spacing-l);
       }
       .container.collapsed .header {
-        margin-bottom: -.7em;
+        margin-bottom: calc(0 - var(--spacing-l));
       }
       .headerMiddle {
         color: var(--deemphasized-text-color);
@@ -104,7 +103,7 @@ limitations under the License.
         padding-top: 0;
       }
       .action {
-        margin-left: 1em;
+        margin-left: var(--spacing-xl);
       }
       .robotActions {
         display: flex;
@@ -113,8 +112,8 @@ limitations under the License.
       }
       .robotActions .action {
         /* Keep button text lined up with output text */
-        margin-left: -.3rem;
-        margin-right: 1em;
+        margin-left: -4px;
+        margin-right: var(--spacing-xl);
       }
       .rightActions {
         display: flex;
@@ -122,7 +121,7 @@ limitations under the License.
       }
       .editMessage {
         display: none;
-        margin: .5em 0;
+        margin: var(--spacing-l) 0;
         width: 100%;
       }
       .container:not(.draft) .actions .hideOnPublished {
@@ -156,27 +155,27 @@ limitations under the License.
         display: block;
       }
       .show-hide {
-        margin-left: .4em;
+        margin-left: var(--spacing-m);
       }
       .robotId {
         color: var(--deemphasized-text-color);
-        margin-bottom: .8em;
+        margin-bottom: var(--spacing-l);
         margin-top: -.4em;
       }
       .robotIcon {
-        margin-right: .2em;
+        margin-right: var(--spacing-s);
         /* because of the antenna of the robot, it looks off center even when it
          is centered. artificially adjust margin to account for this. */
-        margin-top: -.3em;
+        margin-top: -4px;
       }
       .runIdInformation {
-        margin: .7em 0;
+        margin: var(--spacing-l) 0;
       }
       .robotRun {
-        margin-left: .5em;
+        margin-left: var(--spacing-l);
       }
       .robotRunLink {
-        margin-left: .5em;
+        margin-left: var(--spacing-l);
       }
       input.show-hide {
         display: none;
@@ -187,7 +186,7 @@ limitations under the License.
         display: block;
         font-size: .8rem;
         height: 1.1em;
-        margin-top: .1em;
+        margin-top: var(--spacing-xs);
       }
       #container .collapsedContent {
         display: none;

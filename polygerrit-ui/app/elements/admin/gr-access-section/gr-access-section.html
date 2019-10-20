@@ -34,7 +34,7 @@ limitations under the License.
     <style include="shared-styles">
       :host {
         display: block;
-        margin-bottom: 1em;
+        margin-bottom: var(--spacing-xs);
       }
       fieldset {
         border: 1px solid var(--border-color);
@@ -51,13 +51,13 @@ limitations under the License.
         display: flex;
         justify-content: space-between;
         min-height: 3em;
-        padding: 0 .7em;
+        padding: 0 var(--spacing-l);
       }
       #deletedContainer {
         border-bottom: 0;
       }
       .sectionContent {
-        padding: .7em;
+        padding: var(--spacing-l);
       }
       #editBtn,
       .editing #editBtn.global,
@@ -83,7 +83,7 @@ limitations under the License.
       }
       .editing #deleteBtn,
       #undoRemoveBtn {
-        padding-right: .7em;
+        padding-right: var(--spacing-l);
       }
     </style>
     <style include="gr-form-styles"></style>

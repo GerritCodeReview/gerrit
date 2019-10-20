@@ -43,10 +43,10 @@ limitations under the License.
       }
       .container {
         display: flex;
-        margin: .5em 0;
+        margin: var(--spacing-l) 0;
       }
       .lineNum {
-        margin-right: .5em;
+        margin-right: var(--spacing-l);
         min-width: 10em;
         text-align: right;
       }
@@ -57,7 +57,7 @@ limitations under the License.
       @media screen and (max-width: 50em) {
         .container {
           flex-direction: column;
-          margin: 0 0 .5em .5em;
+          margin: 0 0 var(--spacing-l) var(--spacing-l);
         }
         .lineNum {
           min-width: initial;

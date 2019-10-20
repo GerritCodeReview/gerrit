@@ -49,7 +49,7 @@ limitations under the License.
         border-top: 1px solid var(--border-color);
         display: flex;
         min-height: 2.25em;
-        padding: .2em var(--default-horizontal-margin) .2em calc(var(--default-horizontal-margin) - .35rem);
+        padding: var(--spacing-s) var(--spacing-xl) var(--spacing-s) calc(var(--spacing-xl) - .35rem);
       }
       :host(.loading) .row {
         opacity: .5;
@@ -131,7 +131,7 @@ limitations under the License.
         text-align: right;
       }
       .comments {
-        padding-left: 2em;
+        padding-left: var(--spacing-xxxl);
       }
       .stats {
         min-width: 7em;
@@ -141,7 +141,7 @@ limitations under the License.
         font-family: var(--monospace-font-family);
       }
       .sizeBars {
-        margin-left: .5em;
+        margin-left: var(--spacing-l);
       }
       .sizeBars.hide {
         display: none;
@@ -163,11 +163,11 @@ limitations under the License.
         font-weight: var(--font-weight-bold);
       }
       .show-hide {
-        margin-left: .35em;
+        margin-left: var(--spacing-m);
         width: 1.9em;
       }
       .fileListButton {
-        margin: .5em;
+        margin: var(--spacing-l);
       }
       .totalChanges {
         justify-content: flex-end;
@@ -199,7 +199,7 @@ limitations under the License.
         display: none;
       }
       .reviewed {
-        margin-left: 2em;
+        margin-left: var(--spacing-xxxl);
         width: 15em;
       }
       .reviewed label {
@@ -225,7 +225,7 @@ limitations under the License.
       }
       .reviewedLabel {
         color: var(--deemphasized-text-color);
-        margin-right: 1em;
+        margin-right: var(--spacing-xl);
         opacity: 0;
       }
       .reviewedLabel.isReviewed {
@@ -238,8 +238,8 @@ limitations under the License.
       .markReviewed,
       .pathLink {
         display: inline-block;
-        margin: -.2em 0;
-        padding: .4em 0;
+        margin: -2px 0;
+        padding: var(--spacing-m) 0;
       }
       @media screen and (max-width: 50em) {
         .desktop {

@@ -63,25 +63,25 @@ limitations under the License.
       }
       .container.loading {
         color: var(--deemphasized-text-color);
-        padding: 1em var(--default-horizontal-margin);
+        padding: var(--spacing-xl);
       }
       .header {
         align-items: center;
         background-color: var(--table-header-background-color);
         border-bottom: 1px solid var(--border-color);
         display: flex;
-        padding: .55em var(--default-horizontal-margin);
+        padding: var(--spacing-l) var(--spacing-xl);
         z-index: 99;  /* Less than gr-overlay's backdrop */
       }
       .header.editMode {
         background-color: var(--edit-mode-background-color);
       }
       .header .download {
-        margin-right: 1em;
+        margin-right: var(--spacing-xl);
       }
       gr-change-status {
         display: initial;
-        margin: .1em .1em .1em .4em;
+        margin: var(--spacing-xs) var(--spacing-xs) var(--spacing-xs) var(--spacing-m);
       }
       gr-change-status:first-child {
         margin-left: 0;
@@ -96,11 +96,11 @@ limitations under the License.
         font-weight: var(--font-weight-bold);
       }
       #replyBtn {
-        margin-bottom: 1em;
+        margin-bottom: var(--spacing-xl);
       }
       gr-change-star {
         font-size: var(--font-size-normal);
-        margin-right: .25em;
+        margin-right: var(--spacing-s);
       }
       gr-reply-dialog {
         width: 60em;
@@ -116,15 +116,15 @@ limitations under the License.
       .changeId {
         color: var(--deemphasized-text-color);
         font-family: var(--font-family);
-        margin-top: 1em;
+        margin-top: var(--spacing-xl);
       }
       .changeMetadata {
         border-right: 1px solid var(--border-color);
       }
       .commitMessage {
         font-family: var(--monospace-font-family);
-        margin-right: 1em;
-        margin-bottom: 1em;
+        margin-right: var(--spacing-xl);
+        margin-bottom: var(--spacing-xl);
         max-width: var(--commit-message-max-width, 72ch);;
       }
       .commitMessage gr-linked-text {
@@ -134,7 +134,7 @@ limitations under the License.
         min-width: 72ch;
       }
       .editCommitMessage {
-        margin-top: 1em;
+        margin-top: var(--spacing-xl);
 
         --gr-button: {
           padding: 5px 0px;
@@ -164,7 +164,7 @@ limitations under the License.
       .relatedChanges {
         flex: 1 1 auto;
         overflow: hidden;
-        padding: 1em 0;
+        padding: var(--spacing-xl) 0;
       }
       .mobile {
         display: none;
@@ -176,7 +176,7 @@ limitations under the License.
         border: 0;
         border-top: 1px solid var(--border-color);
         height: 0;
-        margin-bottom: 1em;
+        margin-bottom: var(--spacing-xl);
       }
       #commitMessage.collapsed {
         max-height: 36em;
@@ -185,7 +185,7 @@ limitations under the License.
       #relatedChanges {
       }
       #relatedChanges.collapsed {
-        margin-bottom: 1.1em;
+        margin-bottom: var(--spacing-xl);
         max-height: var(--relation-chain-max-height, 2em);
         overflow: hidden;
       }
@@ -193,8 +193,8 @@ limitations under the License.
         display: flex;
         flex-direction: column;
         flex-shrink: 0;
-        margin: 1em 0;
-        padding: 0 1em;
+        margin: var(--spacing-xl) 0;
+        padding: 0 var(--spacing-xl);
       }
       .collapseToggleContainer {
         display: flex;
@@ -210,7 +210,7 @@ limitations under the License.
         display: block;
       }
       #relatedChangesToggle {
-        margin-left: 1em;
+        margin-left: var(--spacing-xl);
         padding-top: var(--related-change-btn-top-padding, 0);
       }
       .showOnEdit {
@@ -253,8 +253,8 @@ limitations under the License.
         }
       }
       #metadata {
-        --metadata-horizontal-padding: 1em;
-        padding-top: 1em;
+        --metadata-horizontal-padding: var(--spacing-xl);
+        padding-top: var(--spacing-xl);
         width: 100%;
       }
       /* NOTE: If you update this breakpoint, also update the
@@ -265,7 +265,7 @@ limitations under the License.
         }
         #relatedChanges {
           border-top: 1px solid var(--border-color);
-          padding-top: 1em;
+          padding-top: var(--spacing-xl);
         }
         #commitAndRelated {
           flex-direction: column;
@@ -291,7 +291,7 @@ limitations under the License.
           align-items: flex-start;
           flex-direction: column;
           flex: 1;
-          padding: .5em var(--default-horizontal-margin);
+          padding: var(--spacing-l) var(--spacing-xl);
         }
         gr-change-star {
           vertical-align: middle;
@@ -320,7 +320,7 @@ limitations under the License.
         }
         .commitContainer {
           margin: 0;
-          padding: 1em;
+          padding: var(--spacing-xl);
         }
         .relatedChanges,
         .changeMetadata {
@@ -329,7 +329,7 @@ limitations under the License.
         .changeMetadata {
           border-bottom: 1px solid var(--border-color);
           border-right: none;
-          margin-top: .25em;
+          margin-top: var(--spacing-s);
           max-width: none;
         }
         #metadata,
@@ -338,7 +338,7 @@ limitations under the License.
         }
         .commitActions {
           display: block;
-          margin-top: 1em;
+          margin-top: var(--spacing-xl);
           width: 100%;
         }
         .commitMessage {

@@ -45,4 +45,5 @@ body {
   font-family: var(--font-family, ''), 'Roboto', Arial, sans-serif;
   font-size: var(--font-size-normal, 1rem);
   line-height: var(--line-height-normal, 1.4);
+  color: var(--primary-text-color, black);
 }

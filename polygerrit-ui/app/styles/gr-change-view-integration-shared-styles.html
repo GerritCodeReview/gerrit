@@ -26,18 +26,17 @@ limitations under the License.
 <dom-module id="gr-change-view-integration-shared-styles">
   <template>
     <style>
-      /* TODO(taoalpha): update spacings once change 241809 submitted */
       .header {
         color: var(--primary-text-color);
         background-color: var(--table-header-background-color);
         justify-content: space-between;
-        padding: .5em var(--default-horizontal-margin, 1rem);
+        padding: var(--spacing-m) var(--spacing-l);
         border-bottom: 1px solid var(--border-color);
       }
       .header .label {
         font-weight: var(--font-weight-bold);
-        font-size: 1.17em;
-        margin: 0 1em 0 0;
+        font-size: var(--font-size-large);
+        margin: 0 var(--spacing-l) 0 0;
       }
       .header .note {
         color: var(--deemphasized-text-color);

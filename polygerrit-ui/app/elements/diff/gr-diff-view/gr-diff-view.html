@@ -72,7 +72,7 @@ limitations under the License.
         justify-content: space-between;
       }
       header {
-        padding: .75em var(--default-horizontal-margin);
+        padding: var(--spacing-m) var(--spacing-l);
       }
       .patchRangeLeft {
         align-items: center;
@@ -87,11 +87,11 @@ limitations under the License.
         white-space: nowrap;
       }
       .navLink {
-        padding: 0 .25em;
+        padding: 0 var(--spacing-xs);
       }
       .reviewed {
         display: inline-block;
-        margin: 0 .25em;
+        margin: 0 var(--spacing-xs);
         vertical-align: .15em;
       }
       .jumpToFileContainer {
@@ -101,22 +101,22 @@ limitations under the License.
         display: none;
       }
       gr-button {
-        padding: .3em 0;
+        padding: var(--spacing-s) 0;
         text-decoration: none;
       }
       .loading {
         color: var(--deemphasized-text-color);
         font-size: 2rem;
         height: 100%;
-        padding: 1em var(--default-horizontal-margin);
+        padding: var(--spacing-l);
         text-align: center;
       }
       .subHeader {
         flex-wrap: wrap;
-        padding: 0 var(--default-horizontal-margin) .75em;
+        padding: 0 var(--spacing-l) var(--spacing-m);
       }
       .subHeader > div {
-        margin-top: .25em;
+        margin-top: var(--spacing-xs);
       }
       .prefsButton {
         text-align: right;
@@ -145,7 +145,7 @@ limitations under the License.
         display: flex;
       }
       .diffModeSelector span {
-        margin-right: .2rem;
+        margin-right: var(--spacing-xs);
       }
       .diffModeSelector.hide,
       .separator.hide {
@@ -158,7 +158,7 @@ limitations under the License.
       }
       @media screen and (max-width: 50em) {
         header {
-          padding: .5em var(--default-horizontal-margin);
+          padding: var(--spacing-m) var(--spacing-l);
         }
         .dash {
           display: none;
@@ -169,19 +169,19 @@ limitations under the License.
         .fileNav {
           align-items: flex-start;
           display: flex;
-          margin: 0 .25em;
+          margin: 0 var(--spacing-xs);
         }
         .fullFileName {
           display: block;
           font-style: italic;
           min-width: 50%;
-          padding: 0 .1em;
+          padding: 0 var(--spacing-xxs);
           text-align: center;
           width: 100%;
           word-wrap: break-word;
         }
         .reviewed {
-          vertical-align: -.1em;
+          vertical-align: -1px;
         }
         .mobileNavLink {
           color: var(--primary-text-color);

@@ -32,13 +32,13 @@ limitations under the License.
     <style include="shared-styles">
       :host {
         display: block;
-        margin-bottom: .7em;
+        margin-bottom: var(--spacing-m);
       }
       .header {
         align-items: baseline;
         display: flex;
         justify-content: space-between;
-        margin: .3em .7em;
+        margin: var(--spacing-s) var(--spacing-m);
       }
       .rules {
         background: var(--table-header-background-color);
@@ -49,7 +49,7 @@ limitations under the License.
         border-bottom: 1px solid var(--border-color);
       }
       .title {
-        margin-bottom: .3em;
+        margin-bottom: var(--spacing-s);
       }
       #addRule,
       #removeBtn {
@@ -61,11 +61,11 @@ limitations under the License.
       }
       .editing #removeBtn {
         display: block;
-        margin-left: 1.5em;
+        margin-left: var(--spacing-xl);
       }
       .editing #addRule {
         display: block;
-        padding: .7em;
+        padding: var(--spacing-m);
       }
       #deletedContainer,
       .deleted #mainContainer {
@@ -76,7 +76,7 @@ limitations under the License.
         border: 1px solid var(--border-color);
         display: flex;
         justify-content: space-between;
-        padding: .7em;
+        padding: var(--spacing-m);
       }
       #mainContainer {
         display: block;

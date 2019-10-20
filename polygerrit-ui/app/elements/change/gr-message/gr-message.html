@@ -43,11 +43,11 @@ limitations under the License.
         cursor: auto;
       }
       :host > div {
-        padding: 0 var(--default-horizontal-margin);
+        padding: 0 var(--spacing-l);
       }
       gr-avatar {
         position: absolute;
-        left: var(--default-horizontal-margin);
+        left: var(--spacing-l);
       }
       .collapsed .contentContainer {
         align-items: baseline;
@@ -56,11 +56,11 @@ limitations under the License.
         white-space: nowrap;
       }
       .contentContainer {
-        margin-left: calc(var(--default-horizontal-margin) + 2.5em);
+        margin-left: calc(var(--spacing-l) + 2.5em);
         padding: 10px 0;
       }
       .showAvatar.collapsed .contentContainer {
-        margin-left: calc(var(--default-horizontal-margin) + 1.75em);
+        margin-left: calc(var(--spacing-l) + 1.75em);
       }
       .hideAvatar.collapsed .contentContainer,
       .hideAvatar.expanded .contentContainer {
@@ -69,10 +69,10 @@ limitations under the License.
       .showAvatar.collapsed .contentContainer,
       .hideAvatar.collapsed .contentContainer,
       .hideAvatar.expanded .contentContainer {
-        padding: .75em 0;
+        padding: var(--spacing-m) 0;
       }
       .collapsed gr-avatar {
-        top: .5em;
+        top: var(--spacing-m);
         height: 1.75em;
         width: 1.75em;
       }
@@ -113,7 +113,7 @@ limitations under the License.
       }
       .collapsed .content {
         flex: 1;
-        margin-right: .25em;
+        margin-right: var(--spacing-xs);
         min-width: 0;
         overflow: hidden;
         text-overflow: ellipsis;
@@ -124,15 +124,15 @@ limitations under the License.
       .collapsed .author {
         overflow: hidden;
         color: var(--primary-text-color);
-        margin-right: .4em;
+        margin-right: var(--spacing-s);
       }
       .expanded .author {
         cursor: pointer;
-        margin-bottom: .4em;
+        margin-bottom: var(--spacing-s);
       }
       .dateContainer {
         position: absolute;
-        right: var(--default-horizontal-margin);
+        right: var(--spacing-l);
         top: 10px;
       }
       span.date {
@@ -145,15 +145,15 @@ limitations under the License.
         cursor: pointer;
       }
       .replyContainer {
-        padding: .5em 0 0 0;
+        padding: var(--spacing-m) 0 0 0;
       }
       .score {
         border: 1px solid rgba(0,0,0,.12);
         border-radius: 3px;
         color: var(--primary-text-color);
         display: inline-block;
-        margin: -.1em 0;
-        padding: 0 .1em;
+        margin: -1px 0;
+        padding: 0 var(--spacing-xxs);
       }
       .score.negative {
         background-color: var(--vote-color-disliked);

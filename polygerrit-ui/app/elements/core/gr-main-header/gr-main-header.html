@@ -63,7 +63,7 @@ limitations under the License.
       }
       ul {
         list-style: none;
-        padding-left: 1em;
+        padding-left: var(--spacing-l);
       }
       .links > li {
         cursor: default;
@@ -87,16 +87,16 @@ limitations under the License.
         justify-content: flex-end;
       }
       .rightItems gr-endpoint-decorator:not(:empty) {
-        margin-left: 1em;
+        margin-left: var(--spacing-l);
       }
       gr-smart-search {
         flex-grow: 1;
-        margin-left: .5em;
+        margin-left: var(--spacing-m);
         max-width: 500px;
       }
       gr-dropdown,
       .browse {
-        padding: .6em .5em;
+        padding: var(--spacing-m);
       }
       gr-dropdown {
         --gr-dropdown-item: {
@@ -104,7 +104,7 @@ limitations under the License.
         }
       }
       .settingsButton {
-        margin-left: .5em;
+        margin-left: var(--spacing-m);
       }
       .browse {
         color: var(--header-text-color);
@@ -129,13 +129,13 @@ limitations under the License.
       .accountContainer {
         align-items: center;
         display: flex;
-        margin: 0 -.5em 0 .5em;
+        margin: 0 calc(0 - var(--spacing-m)) 0 var(--spacing-m);
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
       }
       .loginButton, .registerButton {
-        padding: .5em 1em;
+        padding: var(--spacing-m) var(--spacing-l);
       }
       .dropdown-trigger {
         text-decoration: none;
@@ -174,10 +174,10 @@ limitations under the License.
           display: inline-flex;
         }
         .accountContainer {
-          margin-left: .5em !important;
+          margin-left: var(--spacing-m) !important;
         }
         gr-dropdown {
-          padding: .5em 0 .5em .5em;
+          padding: var(--spacing-m) 0 var(--spacing-m) var(--spacing-m);
         }
       }
     </style>

@@ -49,7 +49,7 @@ limitations under the License.
         border-top: 1px solid var(--border-color);
         display: flex;
         min-height: 2.25em;
-        padding: .2em var(--default-horizontal-margin) .2em calc(var(--default-horizontal-margin) - .35rem);
+        padding: var(--spacing-xs) var(--spacing-l) var(--spacing-xs) calc(var(--spacing-l) - .35rem);
       }
       :host(.loading) .row {
         opacity: .5;
@@ -132,7 +132,7 @@ limitations under the License.
         min-width: 7.5em;
       }
       .comments {
-        padding-left: 1em;
+        padding-left: var(--spacing-l);
         min-width: 7.5em;
       }
       .row:not(.header-row) .stats,
@@ -141,7 +141,7 @@ limitations under the License.
         display: flex;
       }
       .sizeBars {
-        margin-left: .5em;
+        margin-left: var(--spacing-m);
         min-width: 7em;
         text-align: center;
       }
@@ -160,18 +160,18 @@ limitations under the License.
         color: var(--vote-text-color-disliked);
         text-align: left;
         min-width: 4em;
-        padding-left: 0.5em;
+        padding-left: var(--spacing-s);
       }
       .drafts {
         color: #C62828;
         font-weight: var(--font-weight-bold);
       }
       .show-hide {
-        margin-left: .35em;
+        margin-left: var(--spacing-s);
         width: 1.9em;
       }
       .fileListButton {
-        margin: .5em;
+        margin: var(--spacing-m);
       }
       .totalChanges {
         justify-content: flex-end;
@@ -203,7 +203,7 @@ limitations under the License.
         display: none;
       }
       .reviewed {
-        margin-left: 2em;
+        margin-left: var(--spacing-xxl);
         width: 15em;
       }
       .reviewed label {
@@ -229,7 +229,7 @@ limitations under the License.
       }
       .reviewedLabel {
         color: var(--deemphasized-text-color);
-        margin-right: 1em;
+        margin-right: var(--spacing-l);
         opacity: 0;
       }
       .reviewedLabel.isReviewed {
@@ -242,8 +242,8 @@ limitations under the License.
       .markReviewed,
       .pathLink {
         display: inline-block;
-        margin: -.2em 0;
-        padding: .4em 0;
+        margin: -2px 0;
+        padding: var(--spacing-s) 0;
       }
       @media screen and (max-width: 50em) {
         .desktop {

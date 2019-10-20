@@ -31,7 +31,7 @@ limitations under the License.
     <style include="shared-styles">
       .placeholder {
         color: var(--deemphasized-text-color);
-        padding-top: .2em;
+        padding-top: var(--spacing-xs);
       }
       .hidden {
         display: none;
@@ -39,8 +39,8 @@ limitations under the License.
       .voteChip {
         display: flex;
         justify-content: center;
-        margin-right: .3em;
-        padding: .05em .85em;
+        margin-right: var(--spacing-s);
+        padding: var(--spacing-xxs) var(--spacing-m);
         @apply --vote-chip-styles;
       }
       .max {
@@ -75,14 +75,14 @@ limitations under the License.
         color: var(--border-color);
       }
       gr-account-chip {
-        margin-right: .25em;
+        margin-right: var(--spacing-xs);
       }
       iron-icon {
         height: 1.2em;
         width: 1.2em;
       }
       .labelValueContainer:not(:first-of-type) td {
-        padding-top: .3em;
+        padding-top: var(--spacing-s);
       }
     </style>
     <table>

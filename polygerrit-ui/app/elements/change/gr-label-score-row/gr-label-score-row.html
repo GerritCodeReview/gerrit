@@ -28,12 +28,12 @@ limitations under the License.
       .labelContainer {
         align-items: center;
         display: flex;
-        margin-bottom: .5em;
+        margin-bottom: var(--spacing-m);
       }
       .labelName {
         display: inline-block;
         flex: 0 0 auto;
-        margin-right: .5em;
+        margin-right: var(--spacing-m);
         min-width: 7em;
         text-align: left;
         width: 20%;
@@ -47,7 +47,7 @@ limitations under the License.
       .selectedValueText {
         color: var(--deemphasized-text-color);
         font-style: italic;
-        margin: 0 .5em 0 .5em;
+        margin: 0 var(--spacing-m);
       }
       .selectedValueText.hidden {
         display: none;
@@ -60,7 +60,7 @@ limitations under the License.
         --gr-button: {
           background-color: var(--button-background-color, var(--table-header-background-color));
           color: var(--primary-text-color);
-          padding: .2em .85em;
+          padding: var(--spacing-xs) var(--spacing-m);
           @apply --vote-chip-styles;
         }
       }

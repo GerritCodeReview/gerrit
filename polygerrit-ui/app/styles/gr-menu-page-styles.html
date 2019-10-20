@@ -22,12 +22,12 @@ limitations under the License.
         display: block;
       }
       main {
-        margin: 2em auto;
+        margin: var(--spacing-xxl) auto;
         max-width: 50em;
       }
       .mainHeader {
         margin-left: 14em;
-        padding: 1em 0 1em 2em;
+        padding: var(--spacing-l) 0 var(--spacing-l) var(--spacing-xxl);
       }
       main.table,
       .mainHeader {
@@ -42,11 +42,11 @@ limitations under the License.
       }
       .loading {
         color: var(--deemphasized-text-color);
-        padding: 1em var(--default-horizontal-margin);
+        padding: var(--spacing-l);
       }
       @media only screen and (max-width: 67em) {
         main {
-          margin: 2em 0 2em 15em;
+          margin: var(--spacing-xxl) 0 var(--spacing-xxl) 15em;
         }
         main.table {
           margin-left: 14em;
@@ -54,17 +54,17 @@ limitations under the License.
       }
       @media only screen and (max-width: 53em) {
         .loading {
-          padding: 0 var(--default-horizontal-margin);
+          padding: 0 var(--spacing-l);
         }
         main {
-          margin: 2em 1em;
+          margin: var(--spacing-xxl) var(--spacing-l);
         }
         main.table {
           margin: 0;
         }
         .mainHeader {
           margin-left: 0;
-          padding: .5em 0 .5em 1em;
+          padding: var(--spacing-m) 0 var(--spacing-m) var(--spacing-l);
         }
       }
     </style>

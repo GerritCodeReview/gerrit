@@ -64,7 +64,7 @@ limitations under the License.
         user-select: none;
         cursor: pointer;
         z-index: 0;
-        padding: 0.7em 0.57em;
+        padding: var(--spacing-m);
 
         @apply --paper-font-common-base;
         @apply --paper-button;
@@ -152,8 +152,8 @@ limitations under the License.
         border-top: .36em solid #ccc;
         border-left: .36em solid transparent;
         border-right: .36em solid transparent;
-        margin-bottom: .05em;
-        margin-left: .5em;
+        margin-bottom: var(--spacing-xxs);
+        margin-left: var(--spacing-m);
         transition: border-top-color 200ms;
       }
       :host([down-arrow]) paper-button:hover .downArrow {

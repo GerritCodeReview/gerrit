@@ -123,7 +123,7 @@ limitations under the License.
         vertical-align: middle;
       }
       .leftPadding {
-        width: var(--default-horizontal-margin);
+        width: var(--spacing-l);
       }
       .star {
         width: 30px;
@@ -170,7 +170,7 @@ limitations under the License.
         gr-change-list-item {
           flex-wrap: wrap;
           justify-content: space-between;
-          padding: .25em .5em;
+          padding: var(--spacing-xs) var(--spacing-m);
         }
         gr-change-list-item[selected],
         gr-change-list-item:focus {
@@ -199,10 +199,10 @@ limitations under the License.
         }
         .groupHeader .cell,
         .noChanges .cell {
-          padding: 0 .5em;
+          padding: 0 var(--spacing-m);
         }
         .subject {
-          margin-bottom: .25em;
+          margin-bottom: var(--spacing-xs);
           width: calc(100% - 2em);
         }
         .owner,

@@ -18,7 +18,8 @@ polygerrit_bundle(
         ],
     ),
     outs = ["polygerrit_ui.zip"],
-    app = "elements/gr-app.html",
+    # TODO(taoalpha): replace with gr-app.html once p2 fully rolled out
+    app = "elements/gr-app-p2.html",
 )
 
 bower_component_bundle(

@@ -112,6 +112,9 @@ public class IndexHtmlUtil {
     SanitizedContent sanitizedStaticPath = urlInScriptTagOrdainer.apply(staticPath);
     ImmutableMap.Builder<String, Object> data = ImmutableMap.builder();
 
+    // TODO(taoalpha): Remove once p2 fully rolled out
+    data.put("polymer2", "true");
+
     if (canonicalPath != null) {
       data.put("canonicalPath", canonicalPath);
     }

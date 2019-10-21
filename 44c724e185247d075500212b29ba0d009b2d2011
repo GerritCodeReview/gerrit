@@ -118,6 +118,30 @@
       "revId": "44c724e185247d075500212b29ba0d009b2d2011",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7993bb0d_4383c020",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2019-10-21T14:58:31Z",
+      "side": 1,
+      "message": "\u003e the change was discussed at some length with Martin \u0026 Shawn at the Nov 2017 hackathon. IIRC, Shawn overrode Martin\u0027s objections, and the change you saw is the crystallization of that. \n\nI think that was [2]. And Shawn didn\u0027t override Martin\u0027s objections, he asked Martin if his objections were strong enough that he (Shawn) should reject the feature and Martin agreed to allow it in. There was no veto from Martin and no overriding of a veto from Shawn.\n\n[2] https://gerrit-review.googlesource.com/c/gerrit/+/108592",
+      "parentUuid": "972d45d7_fc21755a",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 67
+      },
+      "revId": "44c724e185247d075500212b29ba0d009b2d2011",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

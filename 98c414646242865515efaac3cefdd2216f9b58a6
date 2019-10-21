@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c6c11368_64d47592",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-21T14:33:24Z",
+      "side": 1,
+      "message": "Make sure to cover the new file app/styles/gr-change-view-integration-shared-styles.html",
+      "revId": "98c414646242865515efaac3cefdd2216f9b58a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -51,6 +51,24 @@
       "revId": "1e0b0453e90c2d28dedd8f6654de0d1e1430e7b2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cef1c159_45cf9c4e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-button/gr-button_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2019-10-21T09:56:26Z",
+      "side": 1,
+      "message": "I left it for tests.",
+      "parentUuid": "726300e9_9524c818",
+      "revId": "1e0b0453e90c2d28dedd8f6654de0d1e1430e7b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

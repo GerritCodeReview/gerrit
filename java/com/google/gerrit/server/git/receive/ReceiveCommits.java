@@ -1648,8 +1648,9 @@ class ReceiveCommits {
     /**
      * returns the destination ref of the magic branch, and populates options in the cmdLineParser.
      */
-    String parse(Repository repo, Set<String> refs, ListMultimap<String, String> pushOptions)
-        throws CmdLineException {
+    String parse(
+        Repository repo, ReceivePackRefCache refCache, ListMultimap<String, String> pushOptions)
+        throws CmdLineException, IOException {
       String ref = RefNames.fullName(MagicBranch.getDestBranchName(cmd.getRefName()));
 
       ListMultimap<String, String> options = LinkedListMultimap.create(pushOptions);
@@ -1679,7 +1680,7 @@ class ReceiveCommits {
       int split = ref.length();
       for (; ; ) {
         String name = ref.substring(0, split);
-        if (refs.contains(name) || name.equals(head)) {
+        if (refCache.exactRef(name) != null || name.equals(head)) {
           break;
         }
 
@@ -1738,7 +1739,7 @@ class ReceiveCommits {
    *
    * <p>Assumes we are handling a magic branch here.
    */
-  private void parseMagicBranch(ReceiveCommand cmd) throws PermissionBackendException {
+  private void parseMagicBranch(ReceiveCommand cmd) throws PermissionBackendException, IOException {
     try (TraceTimer traceTimer = newTimer("parseMagicBranch")) {
       logger.atFine().log("Found magic branch %s", cmd.getRefName());
       MagicBranchInput magicBranch = new MagicBranchInput(user, projectState, cmd, labelTypes);
@@ -1747,7 +1748,7 @@ class ReceiveCommits {
       magicBranch.cmdLineParser = optionParserFactory.create(magicBranch);
 
       try {
-        ref = magicBranch.parse(repo, receivePack.getAdvertisedRefs().keySet(), pushOptions);
+        ref = magicBranch.parse(repo, receivePackRefCache, pushOptions);
       } catch (CmdLineException e) {
         if (!magicBranch.cmdLineParser.wasHelpRequestedByOption()) {
           logger.atFine().log("Invalid branch syntax");
@@ -1779,7 +1780,7 @@ class ReceiveCommits {
       // review to these branches is allowed even if the branch does not exist yet. This allows to
       // push initial code for review to an empty repository and to review an initial project
       // configuration.
-      if (!receivePack.getAdvertisedRefs().containsKey(ref)
+      if (receivePackRefCache.exactRef(ref) == null
           && !ref.equals(readHEAD(repo))
           && !ref.equals(RefNames.REFS_CONFIG)) {
         logger.atFine().log("Ref %s not found", ref);
@@ -1945,7 +1946,7 @@ class ReceiveCommits {
         newTimer("validateConnected", Metadata.builder().branchName(dest.branch()))) {
       RevWalk walk = receivePack.getRevWalk();
       try {
-        Ref targetRef = receivePack.getAdvertisedRefs().get(dest.branch());
+        Ref targetRef = receivePackRefCache.exactRef(dest.branch());
         if (targetRef == null || targetRef.getObjectId() == null) {
           // The destination branch does not yet exist. Assume the
           // history being sent for review will start it and thus
@@ -2817,11 +2818,14 @@ class ReceiveCommits {
           return false;
         }
 
-        for (Ref r : receivePack.getRepository().getRefDatabase().getRefsByPrefix("refs/changes")) {
-          if (r.getObjectId().equals(newCommit)) {
-            reject(inputCommand, "commit already exists (in the project)");
-            return false;
-          }
+        List<Ref> existingChangesWithSameCommit =
+            receivePackRefCache.tipsFromObjectId(newCommit, RefNames.REFS_CHANGES);
+        if (!existingChangesWithSameCommit.isEmpty()) {
+          reject(
+              inputCommand,
+              "commit already exists (in the project): "
+                  + existingChangesWithSameCommit.get(0).getName());
+          return false;
         }
 
         try (TraceTimer traceTimer2 = newTimer("validateNewPatchSetNoteDb#isMergedInto")) {

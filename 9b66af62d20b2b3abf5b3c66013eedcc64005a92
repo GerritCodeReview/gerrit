@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2d0a7e59_bba12b59",
+        "filename": "polygerrit-ui/app/styles/gr-change-view-integration-shared-styles.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-21T14:36:58Z",
+      "side": 1,
+      "message": "FYI Once https://gerrit-review.googlesource.com/c/gerrit/+/241809 is reviewed and submitted this will have be based on css vars only. Will make sure to also update this file.",
+      "revId": "9b66af62d20b2b3abf5b3c66013eedcc64005a92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17675d4e_a5da8554",
+        "filename": "polygerrit-ui/app/styles/gr-change-view-integration-shared-styles.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-21T14:36:58Z",
+      "side": 1,
+      "message": "Remove the \"inherit\". That is the default anyway.",
+      "revId": "9b66af62d20b2b3abf5b3c66013eedcc64005a92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c515aeea_35af8ddd",
+        "filename": "polygerrit-ui/app/styles/gr-change-view-integration-shared-styles.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-21T14:36:58Z",
+      "side": 1,
+      "message": "FYI Once https://gerrit-review.googlesource.com/c/gerrit/+/241853 and https://gerrit-review.googlesource.com/c/gerrit/+/241854 are reviewed and submitted this will have be based on css vars only: font-size: var(--font-size-h3); Will make sure to also update this file.",
+      "revId": "9b66af62d20b2b3abf5b3c66013eedcc64005a92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

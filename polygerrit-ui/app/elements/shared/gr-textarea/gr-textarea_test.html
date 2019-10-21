@@ -53,6 +53,7 @@ limitations under the License.
     setup(() => {
       sandbox = sinon.sandbox.create();
       element = fixture('basic');
+      sandbox.stub(element.$.reporting, 'reportInteraction');
     });
 
     teardown(() => {
@@ -97,7 +98,7 @@ limitations under the License.
           assert.isFalse(element.$.emojiSuggestions.isHidden);
           assert.equal(element._colonIndex, 0);
           assert.isFalse(element._hideAutocomplete);
-          assert.equal(element._currentSearchString, 't');
+          assert.equal(element._currentSearchString, ':t');
         });
 
     test('emoji selector closes when text changes before the colon', () => {
@@ -114,7 +115,7 @@ limitations under the License.
       element.$.textarea.selectionEnd = 15;
       element.text = 'test test :smi';
 
-      assert.equal(element._currentSearchString, 'smi');
+      assert.equal(element._currentSearchString, ':smi');
       assert.isFalse(resetStub.called);
       element.text = 'test test test :smi';
       assert.isTrue(resetStub.called);

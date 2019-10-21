@@ -6,6 +6,12 @@
       "created": "2019-10-21T10:30:39Z",
       "updated": "2019-10-21T10:30:39Z"
     },
+    "gerritforge:notedb-a6a0e4682515f3521897c5f950d1394f4619d928": {
+      "state": "FAILED",
+      "url": "https://gerrit-ci.gerritforge.com/job/Gerrit-verifier-bazel/73957/consoleText",
+      "created": "2019-10-21T10:30:41Z",
+      "updated": "2019-10-21T10:30:41Z"
+    },
     "gerritforge:polygerrit-a6a0e4682515f3521897c5f950d1394f4619d928": {
       "state": "SUCCESSFUL",
       "url": "https://gerrit-ci.gerritforge.com/job/Gerrit-verifier-bazel/73950/consoleText",

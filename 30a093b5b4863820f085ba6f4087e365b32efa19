@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a3718126_a3c1527a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-21T12:13:27Z",
+      "side": 1,
+      "message": "seems this is only related to test files, so maybe rewrite this commit message to mention that",
+      "revId": "30a093b5b4863820f085ba6f4087e365b32efa19",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

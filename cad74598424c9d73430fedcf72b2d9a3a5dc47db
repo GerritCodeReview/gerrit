@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5ae394fd_3b1d0744",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2019-10-21T13:08:33Z",
+      "side": 1,
+      "message": "This is just variable holding information about repoName in global scope. I added comment.",
+      "parentUuid": "bbc6d3db_5af3671d",
+      "range": {
+        "startLine": 98,
+        "startChar": 6,
+        "endLine": 98,
+        "endChar": 20
+      },
+      "revId": "cad74598424c9d73430fedcf72b2d9a3a5dc47db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9905ccdd_a20a6bd5",
         "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
         "patchSetId": 8
@@ -107,6 +131,24 @@
     },
     {
       "key": {
+        "uuid": "b941d46f_93afcf67",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2019-10-21T13:08:33Z",
+      "side": 1,
+      "message": "You are right, it was out of the control. I added contextInfo",
+      "parentUuid": "bbe323ae_2433fa7d",
+      "revId": "cad74598424c9d73430fedcf72b2d9a3a5dc47db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7ae9ffd7_07d2625c",
         "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
         "patchSetId": 8
@@ -130,6 +172,30 @@
     },
     {
       "key": {
+        "uuid": "63415d6e_3425a561",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2019-10-21T13:08:33Z",
+      "side": 1,
+      "message": "Remove, it was my attempt to add if if it shows later than we reported and cached it.",
+      "parentUuid": "7ae9ffd7_07d2625c",
+      "range": {
+        "startLine": 213,
+        "startChar": 17,
+        "endLine": 213,
+        "endChar": 31
+      },
+      "revId": "cad74598424c9d73430fedcf72b2d9a3a5dc47db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dc90e848_d0a5d7c5",
         "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
         "patchSetId": 8
@@ -150,6 +216,30 @@
       "revId": "cad74598424c9d73430fedcf72b2d9a3a5dc47db",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "60746db5_56059561",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2019-10-21T13:08:33Z",
+      "side": 1,
+      "message": "You are right, I added contextInfo as you suggested",
+      "parentUuid": "dc90e848_d0a5d7c5",
+      "range": {
+        "startLine": 262,
+        "startChar": 21,
+        "endLine": 264,
+        "endChar": 39
+      },
+      "revId": "cad74598424c9d73430fedcf72b2d9a3a5dc47db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

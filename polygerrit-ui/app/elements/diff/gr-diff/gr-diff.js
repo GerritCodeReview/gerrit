@@ -400,7 +400,13 @@
         const commentSide = threadEl.getAttribute('comment-side');
         const lineNum = Number(threadEl.getAttribute('line-num')) ||
             GrDiffLine.FILE;
+        const commentRange = threadEl.range || {};
         keyLocations[commentSide][lineNum] = true;
+        // Add start_line as well if exists,
+        // the being and end of the range should not be collapsed.
+        if (commentRange.start_line) {
+          keyLocations[commentSide][commentRange.start_line] = true;
+        }
       }
       return keyLocations;
     },

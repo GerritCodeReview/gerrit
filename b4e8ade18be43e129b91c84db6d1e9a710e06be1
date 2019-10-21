@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1e88b055_9365cde4",
+        "filename": "javatests/com/google/gerrit/server/git/receive/ReceivePackRefCacheTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-10-21T14:45:50Z",
+      "side": 1,
+      "message": "the mocks set off alarm bells. In this case, you can instantiate a ref directly. See \n\nhttps://eclipse.googlesource.com/jgit/jgit/+/c020848dbb2d583824aa682a354236374e4bfe69/org.eclipse.jgit/src/org/eclipse/jgit/internal/storage/reftable/BlockReader.java#187",
+      "range": {
+        "startLine": 62,
+        "startChar": 16,
+        "endLine": 62,
+        "endChar": 33
+      },
+      "revId": "b4e8ade18be43e129b91c84db6d1e9a710e06be1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

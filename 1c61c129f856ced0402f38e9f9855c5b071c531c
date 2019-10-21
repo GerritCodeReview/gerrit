@@ -45,6 +45,29 @@
       "revId": "1c61c129f856ced0402f38e9f9855c5b071c531c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "60fa4cb4_cb6955d3",
+        "filename": "polygerrit-ui/app/styles/themes/dark-theme.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-21T11:56:59Z",
+      "side": 1,
+      "message": "nit: space to keep theme consistent across the file ^",
+      "range": {
+        "startLine": 62,
+        "startChar": 50,
+        "endLine": 62,
+        "endChar": 51
+      },
+      "revId": "1c61c129f856ced0402f38e9f9855c5b071c531c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

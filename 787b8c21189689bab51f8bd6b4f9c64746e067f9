@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "2b0d5521_a995b3fa",
+        "filename": "polygerrit-ui/app/elements/shared/gr-button/gr-button_test.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2019-10-21T09:56:26Z",
+      "side": 1,
+      "message": "I left some explains into commit message and source code. If a plugin will register \u003cgr-button on-tap\u003d\"something\"\u003e this will still work. That\u0027s why I left tap tests in unit-tests.",
+      "parentUuid": "e35973ff_58637819",
+      "revId": "787b8c21189689bab51f8bd6b4f9c64746e067f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "18ab1986_2c5e25b6",
         "filename": "polygerrit-ui/app/elements/shared/gr-button/gr-button_test.html",
         "patchSetId": 5

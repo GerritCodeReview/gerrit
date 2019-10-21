@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "18a58cd6_d00b8f44",
+        "filename": "java/com/google/gerrit/common/data/PatchScript.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-10-21T14:28:27Z",
+      "side": 1,
+      "message": "nice clean up, BTW.  I hadn\u0027t realized this code was so crufty.",
+      "range": {
+        "startLine": 118,
+        "startChar": 20,
+        "endLine": 118,
+        "endChar": 39
+      },
+      "revId": "946b58e2fc64f3d396b623a465b09caa47ecd14f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

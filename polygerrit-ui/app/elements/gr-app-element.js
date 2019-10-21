@@ -19,7 +19,6 @@
 
   Polymer({
     is: 'gr-app-element',
-    _legacyUndefinedCheck: true,
 
     /**
      * Fired when the URL location changes.

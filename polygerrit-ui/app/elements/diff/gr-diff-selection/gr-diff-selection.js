@@ -161,11 +161,6 @@
     },
 
     _handleCopy(e) {
-      // Let the browser handle the copy event for polymer 2
-      // as selection across shadow DOM will be hard to process
-      // If you remove the following line, please remove it from tests also.
-      if (window.POLYMER2) return;
-
       let commentSelected = false;
       const target = this._getCopyEventTarget(e);
       if (target.type === 'textarea') { return; }
@@ -186,7 +181,21 @@
     },
 
     /**
-     * Get the text of the current window selection. If commentSelected is
+     * For Polymer 2, use shadowRoot.getSelection instead.
+     */
+    _getSelection() {
+      let selection;
+      if (window.POLYMER2) {
+        const diffHost = util.querySelector(document.body, 'gr-diff');
+        selection = diffHost &&
+          diffHost.shadowRoot &&
+          diffHost.shadowRoot.getSelection();
+      }
+      return selection ? selection: window.getSelection();
+    },
+
+    /**
+     * Get the text of the current selection. If commentSelected is
      * true, it returns only the text of comments within the selection.
      * Otherwise it returns the text of the selected diff region.
      *
@@ -195,7 +204,7 @@
      * @return {string} The selected text.
      */
     _getSelectedText(side, commentSelected) {
-      const sel = window.getSelection();
+      const sel = this._getSelection();
       if (sel.rangeCount != 1) {
         return ''; // No multi-select support yet.
       }

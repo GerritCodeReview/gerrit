@@ -35,6 +35,10 @@
 
     properties: {
       index: Number,
+      disableOnEnter: {
+        type: Boolean,
+        value: false,
+      },
       isHidden: {
         type: Boolean,
         value: true,
@@ -126,6 +130,9 @@
     },
 
     _handleEnter(e) {
+      if (this.disableOnEnter) {
+        return;
+      }
       e.preventDefault();
       e.stopPropagation();
       this.fire('item-selected', {

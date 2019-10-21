@@ -118,7 +118,7 @@
     _computeItems(messages, reviewerUpdates) {
       // Polymer 2: check for undefined
       if ([messages, reviewerUpdates].some(arg => arg === undefined)) {
-        return undefined;
+        return [];
       }
 
       messages = messages || [];
@@ -155,15 +155,19 @@
     },
 
     _expandedChanged(exp) {
-      for (let i = 0; i < this._processedMessages.length; i++) {
-        this._processedMessages[i].expanded = exp;
+      if (this._processedMessages) {
+        for (let i = 0; i < this._processedMessages.length; i++) {
+          this._processedMessages[i].expanded = exp;
+        }
       }
       // _visibleMessages is a subarray of _processedMessages
       // _processedMessages contains all items from _visibleMessages
       // At this point all _visibleMessages.expanded values are set,
       // and notifyPath must be used to notify Polymer about changes.
-      for (let i = 0; i < this._visibleMessages.length; i++) {
-        this.notifyPath(`_visibleMessages.${i}.expanded`);
+      if (this._visibleMessages) {
+        for (let i = 0; i < this._visibleMessages.length; i++) {
+          this.notifyPath(`_visibleMessages.${i}.expanded`);
+        }
       }
     },
 

@@ -24,6 +24,7 @@ limitations under the License.
 <link rel="import" href="/bower_components/iron-a11y-keys-behavior/iron-a11y-keys-behavior.html">
 <link rel="import" href="/bower_components/iron-autogrow-textarea/iron-autogrow-textarea.html">
 <link rel="import" href="../../../styles/shared-styles.html">
+<link rel="import" href="../../core/gr-reporting/gr-reporting.html">
 
 <dom-module id="gr-textarea">
   <template>
@@ -96,6 +97,7 @@ limitations under the License.
         max-rows="[[maxRows]]"
         value="{{text}}"
         on-bind-value-changed="_onValueChanged"></iron-autogrow-textarea>
+    <gr-reporting id="reporting"></gr-reporting>
   </template>
   <script src="gr-textarea.js"></script>
 </dom-module>

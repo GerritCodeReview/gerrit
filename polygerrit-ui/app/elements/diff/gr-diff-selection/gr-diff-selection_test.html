@@ -189,18 +189,12 @@ limitations under the License.
     });
 
     test('ignores copy for non-content Element', () => {
-      // See _handleCopy for explanation
-      if (window.POLYMER2) return;
-
       sandbox.stub(element, '_getSelectedText');
       emulateCopyOn(element.querySelector('.not-diff-row'));
       assert.isFalse(element._getSelectedText.called);
     });
 
     test('asks for text for left side Elements', () => {
-      // See _handleCopy for explanation
-      if (window.POLYMER2) return;
-
       element._cachedDiffBuilder.getSideByLineEl.returns('left');
       sandbox.stub(element, '_getSelectedText');
       emulateCopyOn(element.querySelector('div.contentText'));
@@ -208,18 +202,12 @@ limitations under the License.
     });
 
     test('reacts to copy for content Elements', () => {
-      // See _handleCopy for explanation
-      if (window.POLYMER2) return;
-
       sandbox.stub(element, '_getSelectedText');
       emulateCopyOn(element.querySelector('div.contentText'));
       assert.isTrue(element._getSelectedText.called);
     });
 
     test('copy event is prevented for content Elements', () => {
-      // See _handleCopy for explanation
-      if (window.POLYMER2) return;
-
       sandbox.stub(element, '_getSelectedText');
       element._cachedDiffBuilder.getSideByLineEl.returns('left');
       element._getSelectedText.returns('test');
@@ -228,9 +216,6 @@ limitations under the License.
     });
 
     test('inserts text into clipboard on copy', () => {
-      // See _handleCopy for explanation
-      if (window.POLYMER2) return;
-
       sandbox.stub(element, '_getSelectedText').returns('the text');
       const event = emulateCopyOn(element.querySelector('div.contentText'));
       assert.deepEqual(

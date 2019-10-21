@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ff07f518_87cf4353",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.html",
+        "patchSetId": 23
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-21T18:46:59Z",
+      "side": 1,
+      "message": "I would go for at least 90vw. Just seeing 50 chars on each side, if the viewport could fit 80 chars, would be annoying.",
+      "revId": "7442f89612d1909acf13393e059eda12607f2919",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

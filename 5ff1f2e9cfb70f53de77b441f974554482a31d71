@@ -119,6 +119,30 @@
       "revId": "5ff1f2e9cfb70f53de77b441f974554482a31d71",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "983ac076_01ac5f32",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-10-21T13:54:49Z",
+      "side": 1,
+      "message": "because I thought this was a good idea when I was coding it up, but there are good reasons not to do this.  It seems better to err on the side of verboseness when writing commit descriptions.",
+      "parentUuid": "f630c372_1c1be485",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 42
+      },
+      "revId": "5ff1f2e9cfb70f53de77b441f974554482a31d71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

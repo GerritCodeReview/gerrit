@@ -114,7 +114,6 @@
     },
 
     ready() {
-      this._resetEmojiDropdown();
       if (this.monospace) {
         this.classList.add('monospace');
       }
@@ -169,11 +168,13 @@
       e.preventDefault();
       e.stopPropagation();
       this.text = this._getText(this.$.emojiSuggestions.getCurrentText());
+      this.$.reporting.reportInteraction('select-emoji');
       this._resetEmojiDropdown();
     },
 
     _handleEmojiSelect(e) {
       this.text = this._getText(e.detail.selected.dataset.value);
+      this.$.reporting.reportInteraction('select-emoji');
       this._resetEmojiDropdown();
     },
 
@@ -216,44 +217,47 @@
       // Relay the event.
       this.fire('bind-value-changed', e);
 
-      // If cursor is not in textarea (just opened with colon as last char),
-      // Don't do anything.
-      if (!e.currentTarget.focused) { return; }
       const newChar = e.detail.value[this.$.textarea.selectionStart - 1];
+      // If cursor is not in textarea (just opened with colon as last char),
+      // or we don't have trigger for dropdown (newChar or colonIndex defined)
+      if (!e.currentTarget.focused ||
+        (newChar !== ':' && this._colonIndex === null)) {
+        return;
+      }
 
-      // When a colon is detected, set a colon index, but don't do anything else
-      // yet.
+      // When a colon is detected, set a colon index.
       if (newChar === ':') {
         this._colonIndex = this.$.textarea.selectionStart - 1;
-      // If the colon index exists, continue to determine what needs to be done
-      // with the dropdown. It may be open or closed at this point.
-      } else if (this._colonIndex !== null) {
-        // The search string is a substring of the textarea's value from (1
-        // position after) the colon index to the cursor position.
-        this._currentSearchString = e.detail.value.substr(this._colonIndex + 1,
-            this.$.textarea.selectionStart);
-        // Under the following conditions, close and reset the dropdown:
-        // - The cursor is no longer at the end of the current search string
-        // - The search string is an space or new line
-        // - The colon has been removed
-        // - There are no suggestions that match the search string
-        if (this.$.textarea.selectionStart !==
-            this._currentSearchString.length + this._colonIndex + 1 ||
-            this._currentSearchString === ' ' ||
-            this._currentSearchString === '\n' ||
-            !(e.detail.value[this._colonIndex] === ':') ||
-            !this._suggestions.length) {
-          this._resetEmojiDropdown();
-        // Otherwise open the dropdown and set the position to be just below the
-        // cursor.
-        } else if (this.$.emojiSuggestions.isHidden) {
-          this._updateCaratPosition();
-        }
-        this.$.textarea.textarea.focus();
       }
+
+      // currentSearchString is with colon so we understand difference between
+      // empty searchString - onReady, and searchString triggered by colon
+      this._currentSearchString = e.detail.value.substr(this._colonIndex,
+          this.$.textarea.selectionStart);
+
+      // Under the following conditions, close and reset the dropdown:
+      // - The cursor is no longer at the end of the current search string
+      // - The search string is an space or new line
+      // - The colon has been removed
+      // - There are no suggestions that match the search string
+      if (this.$.textarea.selectionStart !==
+          this._currentSearchString.length + this._colonIndex ||
+          this._currentSearchString === ': ' ||
+          this._currentSearchString === ':\n' ||
+          !(e.detail.value[this._colonIndex] === ':') ||
+          !this._suggestions.length) {
+        this._resetEmojiDropdown();
+      // Otherwise open the dropdown and set the position to be just below the
+      // cursor.
+      } else if (this.$.emojiSuggestions.isHidden) {
+        this._updateCaratPosition();
+      }
+      this.$.textarea.textarea.focus();
     },
+
     _openEmojiDropdown() {
       this.$.emojiSuggestions.open();
+      this.$.reporting.reportInteraction('open-emoji-dropdown');
     },
 
     _formatSuggestions(matchedSuggestions) {
@@ -267,13 +271,19 @@
     },
 
     _determineSuggestions(emojiText) {
-      if (!emojiText.length) {
-        this._formatSuggestions(ALL_SUGGESTIONS);
+      if (emojiText.length > 0) {
+        if (emojiText.charAt(0) === ':') {
+          emojiText = emojiText.substring(1);
+        }
+
+        let matches = ALL_SUGGESTIONS;
+        if (emojiText.length > 0) {
+          matches = ALL_SUGGESTIONS.filter(suggestion => {
+            return suggestion.match.includes(emojiText);
+          }).splice(0, MAX_ITEMS_DROPDOWN);
+        }
+        this._formatSuggestions(matches);
       }
-      const matches = ALL_SUGGESTIONS.filter(suggestion => {
-        return suggestion.match.includes(emojiText);
-      }).splice(0, MAX_ITEMS_DROPDOWN);
-      this._formatSuggestions(matches);
     },
 
     _resetEmojiDropdown() {

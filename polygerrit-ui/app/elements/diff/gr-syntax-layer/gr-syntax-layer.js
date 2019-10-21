@@ -78,6 +78,7 @@
     'text/x-scss': 'scss',
     'text/x-scheme': 'scheme',
     'text/x-shell': 'shell',
+    'text/x-soy': 'soy',
     'text/x-spreadsheet': 'excel',
     'text/x-sh': 'bash',
     'text/x-sql': 'sql',

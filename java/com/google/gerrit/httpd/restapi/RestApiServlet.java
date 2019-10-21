@@ -280,7 +280,7 @@ public class RestApiServlet extends HttpServlet {
 
   private final Globals globals;
   private final Provider<RestCollection<RestResource, RestResource>> members;
-  private Optional<String> traceId;
+  private Optional<String> traceId = Optional.empty();
 
   public RestApiServlet(
       Globals globals, RestCollection<? extends RestResource, ? extends RestResource> members) {

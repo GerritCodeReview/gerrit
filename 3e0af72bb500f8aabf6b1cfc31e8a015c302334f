@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4e37098f_54774eca",
+        "filename": "Jenkinsfile",
+        "patchSetId": 3
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-10-21T14:18:31Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be notedb as reviewdb is not on 3.0+?",
+      "range": {
+        "startLine": 153,
+        "startChar": 42,
+        "endLine": 153,
+        "endChar": 50
+      },
+      "revId": "3e0af72bb500f8aabf6b1cfc31e8a015c302334f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

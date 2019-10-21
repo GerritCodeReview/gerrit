@@ -94,6 +94,30 @@
       "revId": "44c724e185247d075500212b29ba0d009b2d2011",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "972d45d7_fc21755a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-10-21T13:54:49Z",
+      "side": 1,
+      "message": "the change was discussed at some length with Martin \u0026 Shawn at the Nov 2017 hackathon. IIRC, Shawn overrode Martin\u0027s objections, and the change you saw is the crystallization of that. \n\nI think the word \"deprecated\" is a poor choice; there is little upside in forbidding the numeric-only ID. We should probably say that \"project~number\" is the recommended ID instead.",
+      "parentUuid": "26e1568b_b6e1b9a9",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 67
+      },
+      "revId": "44c724e185247d075500212b29ba0d009b2d2011",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

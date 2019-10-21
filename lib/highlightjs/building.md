@@ -22,6 +22,8 @@ languages included. Build it with the following:
     $>  # start in some temp directory
     $>  git clone https://github.com/highlightjs/highlight.js
     $>  cd highlight.js
+    $>  git clone https://github.com/highlightjs/highlightjs-closure-templates
+    $>  ln -s highlightjs-closure-templates/soy.js src/languages/soy.js
     $>  npm install
     $>  node tools/build.js -n
 

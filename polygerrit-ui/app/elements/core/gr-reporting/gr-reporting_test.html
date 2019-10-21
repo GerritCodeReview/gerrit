@@ -191,7 +191,6 @@ limitations under the License.
       assert.isTrue(element.reporter.calledOnce);
       assert.throws(() => {
         timer.end();
-        done();
       }, 'Timer for "foo-bar" already ended.');
     });
 

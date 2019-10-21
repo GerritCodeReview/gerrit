@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a1e2d0c2_47a5f01a",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 1130,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-21T14:45:42Z",
+      "side": 1,
+      "message": "Also call setRepoName from here?",
+      "range": {
+        "startLine": 1130,
+        "startChar": 8,
+        "endLine": 1130,
+        "endChar": 12
+      },
+      "revId": "bd9199170dceeb91b84b421cca90c5582ba287fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f02167d4_e7c371a3",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 1138,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-21T14:45:42Z",
+      "side": 1,
+      "message": "Also call setRepoName from here?",
+      "range": {
+        "startLine": 1138,
+        "startChar": 8,
+        "endLine": 1138,
+        "endChar": 12
+      },
+      "revId": "bd9199170dceeb91b84b421cca90c5582ba287fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2c678369_2bd83a90",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 1252,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-21T14:45:42Z",
+      "side": 1,
+      "message": "Also call setRepoName from here?",
+      "range": {
+        "startLine": 1252,
+        "startChar": 8,
+        "endLine": 1252,
+        "endChar": 12
+      },
+      "revId": "bd9199170dceeb91b84b421cca90c5582ba287fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8fc01a02_07960041",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 1378,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-21T14:45:42Z",
+      "side": 1,
+      "message": "Also call setRepoName from here?",
+      "range": {
+        "startLine": 1378,
+        "startChar": 8,
+        "endLine": 1378,
+        "endChar": 15
+      },
+      "revId": "bd9199170dceeb91b84b421cca90c5582ba287fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aa9cd2a8_c2af1dd0",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 1389,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-21T14:45:42Z",
+      "side": 1,
+      "message": "Also call setRepoName from here?",
+      "range": {
+        "startLine": 1389,
+        "startChar": 8,
+        "endLine": 1389,
+        "endChar": 15
+      },
+      "revId": "bd9199170dceeb91b84b421cca90c5582ba287fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

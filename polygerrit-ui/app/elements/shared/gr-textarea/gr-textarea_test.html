@@ -53,6 +53,7 @@ limitations under the License.
     setup(() => {
       sandbox = sinon.sandbox.create();
       element = fixture('basic');
+      sandbox.stub(element.$.reporting, 'reportInteraction');
     });
 
     teardown(() => {
@@ -83,6 +84,21 @@ limitations under the License.
     });
 
     test('emoji selector opens when a colon is typed & the textarea has focus',
+        () => {
+          MockInteractions.focus(element.$.textarea);
+          // Needed for Safari tests. selectionStart is not updated when text is
+          // updated.
+          element.$.textarea.selectionStart = 1;
+          element.$.textarea.selectionEnd = 1;
+          element.text = ':';
+          flushAsynchronousOperations();
+          assert.isFalse(element.$.emojiSuggestions.isHidden);
+          assert.equal(element._colonIndex, 0);
+          assert.isFalse(element._hideAutocomplete);
+          assert.equal(element._currentSearchString, '');
+        });
+
+    test('emoji selector opens when a colon is typed and some substring',
         () => {
           MockInteractions.focus(element.$.textarea);
           // Needed for Safari tests. selectionStart is not updated when text is
@@ -161,7 +177,7 @@ limitations under the License.
       const selectedItem = {dataset: {value: '😂'}};
       const event = {detail: {selected: selectedItem}};
       element._handleEmojiSelect(event);
-      assert.equal(element.text, 'test test 😂 ');
+      assert.equal(element.text, 'test test 😂');
     });
 
     test('_updateCaratPosition', () => {
@@ -236,8 +252,21 @@ limitations under the License.
         MockInteractions.pressAndReleaseKeyOn(element.$.textarea, 13);
         assert.isTrue(enterSpy.called);
         flushAsynchronousOperations();
-        // A space is automatically added at the end.
-        assert.equal(element.text, '💯 ');
+        assert.equal(element.text, '💯');
+      });
+
+      test('enter key - ignored on just colon without more information', () => {
+        const enterSpy = sandbox.spy(element.$.emojiSuggestions,
+            'getCursorTarget');
+        MockInteractions.pressAndReleaseKeyOn(element.$.textarea, 13);
+        assert.isFalse(enterSpy.called);
+        MockInteractions.focus(element.$.textarea);
+        element.$.textarea.selectionStart = 1;
+        element.$.textarea.selectionEnd = 1;
+        element.text = ':';
+        flushAsynchronousOperations();
+        MockInteractions.pressAndReleaseKeyOn(element.$.textarea, 13);
+        assert.isFalse(enterSpy.called);
       });
     });
   });

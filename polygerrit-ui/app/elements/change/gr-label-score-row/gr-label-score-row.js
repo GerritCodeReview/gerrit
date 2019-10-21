@@ -19,7 +19,6 @@
 
   Polymer({
     is: 'gr-label-score-row',
-    _legacyUndefinedCheck: true,
 
     /**
      * Fired when any label is changed.

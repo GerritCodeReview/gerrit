@@ -1,0 +1,233 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "990adb5a_b58c7d93",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2019-10-21T15:11:19Z",
+      "side": 1,
+      "message": "supernit: ...s",
+      "range": {
+        "startLine": 21,
+        "startChar": 3,
+        "endLine": 21,
+        "endChar": 16
+      },
+      "revId": "e7c07fd5a44b74c874d3e8833461d6e05fbc1e20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cd8e9c19_81841d6d",
+        "filename": "java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2019-10-21T15:11:19Z",
+      "side": 1,
+      "message": "Do you think it would make this code more readable to change the name from \"patch set ID\" to \"patch set number\"? When reading the code above it\u0027s strange that you\u0027d find the next ID by iterating through existing IDs, because an ID is usually non-incremental.",
+      "range": {
+        "startLine": 87,
+        "startChar": 46,
+        "endLine": 87,
+        "endChar": 50
+      },
+      "revId": "e7c07fd5a44b74c874d3e8833461d6e05fbc1e20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f93feb9d_d302b66c",
+        "filename": "java/com/google/gerrit/server/git/GroupCollector.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2019-10-21T15:11:19Z",
+      "side": 1,
+      "message": "How about adding javadoc to the parts of the public API that we touch? :-)",
+      "revId": "e7c07fd5a44b74c874d3e8833461d6e05fbc1e20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "504bb128_ba4fbcfb",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceivePackRefCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2019-10-21T15:11:19Z",
+      "side": 1,
+      "message": "@link",
+      "range": {
+        "startLine": 42,
+        "startChar": 68,
+        "endLine": 42,
+        "endChar": 72
+      },
+      "revId": "e7c07fd5a44b74c874d3e8833461d6e05fbc1e20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8de964c7_8d6fc6de",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceivePackRefCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2019-10-21T15:11:19Z",
+      "side": 1,
+      "message": "private?",
+      "revId": "e7c07fd5a44b74c874d3e8833461d6e05fbc1e20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3ae8d28a_115775e8",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceivePackRefCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2019-10-21T15:11:19Z",
+      "side": 1,
+      "message": "private?",
+      "revId": "e7c07fd5a44b74c874d3e8833461d6e05fbc1e20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c2439d8b_dc4607a4",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceivePackRefCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2019-10-21T15:11:19Z",
+      "side": 1,
+      "message": "Should these be javadoc comments for these fields?",
+      "range": {
+        "startLine": 103,
+        "startChar": 55,
+        "endLine": 103,
+        "endChar": 86
+      },
+      "revId": "e7c07fd5a44b74c874d3e8833461d6e05fbc1e20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "91826cd1_a87d4077",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceivePackRefCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2019-10-21T15:11:19Z",
+      "side": 1,
+      "message": "Maybe name this lazilyInitRefMaps?",
+      "revId": "e7c07fd5a44b74c874d3e8833461d6e05fbc1e20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4f79bbf6_d44c3748",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceivePackRefCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2019-10-21T15:11:19Z",
+      "side": 1,
+      "message": "The C++ style guide suggests to not abbreviate words (https://engdoc.corp.google.com/eng/doc/devguide/cpp/styleguide.md?cl\u003dhead#General_Naming_Rules), though the Java style guide doesn\u0027t mention this. IMHO, even though it\u0027s clear what \"est\" means here, I still feel that spelling things out increases readability.\n\n(And this should probably be a static final field.)",
+      "range": {
+        "startLine": 152,
+        "startChar": 10,
+        "endLine": 152,
+        "endChar": 13
+      },
+      "revId": "e7c07fd5a44b74c874d3e8833461d6e05fbc1e20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "73d9193a_1f514e6c",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceivePackRefCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2019-10-21T15:11:19Z",
+      "side": 1,
+      "message": "Can you also explain where the number 4 comes from?",
+      "range": {
+        "startLine": 152,
+        "startChar": 35,
+        "endLine": 152,
+        "endChar": 71
+      },
+      "revId": "e7c07fd5a44b74c874d3e8833461d6e05fbc1e20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "acc1029d_67d3110f",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceivePackRefCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2019-10-21T15:11:19Z",
+      "side": 1,
+      "message": "Same comment as above: Personally I\u0027d find objectId and changeId more readable.",
+      "range": {
+        "startLine": 162,
+        "startChar": 20,
+        "endLine": 162,
+        "endChar": 23
+      },
+      "revId": "e7c07fd5a44b74c874d3e8833461d6e05fbc1e20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

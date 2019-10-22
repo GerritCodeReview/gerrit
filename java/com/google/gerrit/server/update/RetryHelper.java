@@ -115,10 +115,6 @@ public class RetryHelper {
 
       public abstract Builder caller(String caller);
 
-      public Builder caller(Class<?> caller) {
-        return caller(caller.getSimpleName());
-      }
-
       public abstract Builder retryWithTrace(Predicate<Throwable> exceptionPredicate);
 
       public abstract Builder onAutoTrace(Consumer<String> traceIdConsumer);

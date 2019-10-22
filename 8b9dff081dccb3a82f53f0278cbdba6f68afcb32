@@ -46,6 +46,30 @@
       "revId": "8b9dff081dccb3a82f53f0278cbdba6f68afcb32",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e2e2fe2c_dbeb252f",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 3760,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-10-22T14:43:16Z",
+      "side": 1,
+      "message": "fair enough. Maybe add a TODO somewhere?",
+      "parentUuid": "c01f8d60_e7436fa0",
+      "range": {
+        "startLine": 3757,
+        "startChar": 1,
+        "endLine": 3760,
+        "endChar": 70
+      },
+      "revId": "8b9dff081dccb3a82f53f0278cbdba6f68afcb32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

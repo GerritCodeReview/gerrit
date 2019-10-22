@@ -1043,11 +1043,13 @@
     },
 
     _handleProjectDashboardRoute(data) {
+      const project = data.params[0];
       this._setParams({
         view: Gerrit.Nav.View.DASHBOARD,
-        project: data.params[0],
+        project,
         dashboard: decodeURIComponent(data.params[1]),
       });
+      this.$.reporting.setRepoName(project);
     },
 
     _handleGroupInfoRoute(data) {
@@ -1122,27 +1124,33 @@
     },
 
     _handleRepoCommandsRoute(data) {
+      const repo = data.params[0];
       this._setParams({
         view: Gerrit.Nav.View.REPO,
         detail: Gerrit.Nav.RepoDetailView.COMMANDS,
-        repo: data.params[0],
+        repo,
       });
+      this.$.reporting.setRepoName(repo);
     },
 
     _handleRepoAccessRoute(data) {
+      const repo = data.params[0];
       this._setParams({
         view: Gerrit.Nav.View.REPO,
         detail: Gerrit.Nav.RepoDetailView.ACCESS,
-        repo: data.params[0],
+        repo,
       });
+      this.$.reporting.setRepoName(repo);
     },
 
     _handleRepoDashboardsRoute(data) {
+      const repo = data.params[0];
       this._setParams({
         view: Gerrit.Nav.View.REPO,
         detail: Gerrit.Nav.RepoDetailView.DASHBOARDS,
-        repo: data.params[0],
+        repo,
       });
+      this.$.reporting.setRepoName(repo);
     },
 
     _handleBranchListOffsetRoute(data) {
@@ -1243,10 +1251,12 @@
     },
 
     _handleRepoRoute(data) {
+      const repo = data.params[0];
       this._setParams({
         view: Gerrit.Nav.View.REPO,
-        repo: data.params[0],
+        repo,
       });
+      this.$.reporting.setRepoName(repo);
     },
 
     _handlePluginListOffsetRoute(data) {
@@ -1308,6 +1318,7 @@
         view: Gerrit.Nav.View.CHANGE,
       };
 
+      this.$.reporting.setRepoName(params.project);
       this._redirectOrNavigate(params);
     },
 
@@ -1327,7 +1338,7 @@
         params.leftSide = address.leftSide;
         params.lineNum = address.lineNum;
       }
-
+      this.$.reporting.setRepoName(params.project);
       this._redirectOrNavigate(params);
     },
 
@@ -1369,24 +1380,28 @@
 
     _handleDiffEditRoute(ctx) {
       // Parameter order is based on the regex group number matched.
+      const project = ctx.params[0];
       this._redirectOrNavigate({
-        project: ctx.params[0],
+        project,
         changeNum: ctx.params[1],
         patchNum: ctx.params[2],
         path: ctx.params[3],
         view: Gerrit.Nav.View.EDIT,
       });
+      this.$.reporting.setRepoName(project);
     },
 
     _handleChangeEditRoute(ctx) {
       // Parameter order is based on the regex group number matched.
+      const project = ctx.params[0];
       this._redirectOrNavigate({
-        project: ctx.params[0],
+        project,
         changeNum: ctx.params[1],
         patchNum: ctx.params[3],
         view: Gerrit.Nav.View.CHANGE,
         edit: true,
       });
+      this.$.reporting.setRepoName(project);
     },
 
     /**

@@ -64,14 +64,10 @@ limitations under the License.
 
     test('appStarted', () => {
       sandbox.stub(element, 'now').returns(42);
-      element.appStarted(true);
+      element.appStarted();
       assert.isTrue(
           element.reporter.calledWithExactly(
               'timing-report', 'UI Latency', 'App Started', 42
-      ));
-      assert.isTrue(
-          element.reporter.calledWithExactly(
-              'lifecycle', 'Page Visibility', 'hidden'
       ));
     });
 
@@ -289,9 +285,9 @@ limitations under the License.
         // element.pluginLoaded('foo');
         element.time('timeAction');
         element.timeEnd('timeAction');
-        assert.isTrue(element.defaultReporter.getCall(1).calledWith(
+        assert.isTrue(element.defaultReporter.getCall(1).calledWithMatch(
             'timing-report', 'UI Latency', 'timeAction', 0,
-            ['metrics-xyz1']
+            {loadedPlugins: ['metrics-xyz1']}
         ));
       });
 

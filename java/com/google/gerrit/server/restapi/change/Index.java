@@ -17,31 +17,29 @@ package com.google.gerrit.server.restapi.change;
 import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.Response;
+import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.index.change.ChangeIndexer;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.update.RetryHelper;
-import com.google.gerrit.server.update.RetryingRestModifyView;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
 
 @Singleton
-public class Index extends RetryingRestModifyView<ChangeResource, Input, Object> {
+public class Index implements RestModifyView<ChangeResource, Input> {
   private final PermissionBackend permissionBackend;
   private final ChangeIndexer indexer;
 
   @Inject
-  Index(RetryHelper retryHelper, PermissionBackend permissionBackend, ChangeIndexer indexer) {
-    super(retryHelper);
+  Index(PermissionBackend permissionBackend, ChangeIndexer indexer) {
     this.permissionBackend = permissionBackend;
     this.indexer = indexer;
   }
 
   @Override
-  protected Response<Object> applyImpl(ChangeResource rsrc, Input input)
+  public Response<Object> apply(ChangeResource rsrc, Input input)
       throws IOException, AuthException, PermissionBackendException {
     permissionBackend.currentUser().check(GlobalPermission.MAINTAIN_SERVER);
     indexer.index(rsrc.getChange());

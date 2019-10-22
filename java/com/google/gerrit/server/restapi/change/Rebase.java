@@ -260,28 +260,23 @@ public class Rebase extends RetryingRestModifyView<RevisionResource, RebaseInput
     return description;
   }
 
-  public static class CurrentRevision
-      extends RetryingRestModifyView<ChangeResource, RebaseInput, ChangeInfo> {
+  public static class CurrentRevision implements RestModifyView<ChangeResource, RebaseInput> {
     private final PatchSetUtil psUtil;
     private final Rebase rebase;
 
     @Inject
-    CurrentRevision(RetryHelper retryHelper, PatchSetUtil psUtil, Rebase rebase) {
-      super(retryHelper);
+    CurrentRevision(PatchSetUtil psUtil, Rebase rebase) {
       this.psUtil = psUtil;
       this.rebase = rebase;
     }
 
     @Override
-    protected Response<ChangeInfo> applyImpl(
-        BatchUpdate.Factory updateFactory, ChangeResource rsrc, RebaseInput input)
-        throws Exception {
+    public Response<ChangeInfo> apply(ChangeResource rsrc, RebaseInput input) throws Exception {
       PatchSet ps = psUtil.current(rsrc.getNotes());
       if (ps == null) {
         throw new ResourceConflictException("current revision is missing");
       }
-      return Response.ok(
-          rebase.applyImpl(updateFactory, new RevisionResource(rsrc, ps), input).value());
+      return Response.ok(rebase.apply(new RevisionResource(rsrc, ps), input).value());
     }
   }
 }

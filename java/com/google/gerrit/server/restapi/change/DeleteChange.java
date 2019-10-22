@@ -21,6 +21,7 @@ import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.DeleteChangeOp;
@@ -28,31 +29,25 @@ import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.update.BatchUpdate;
-import com.google.gerrit.server.update.RetryHelper;
-import com.google.gerrit.server.update.RetryingRestModifyView;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 @Singleton
-public class DeleteChange extends RetryingRestModifyView<ChangeResource, Input, Object>
-    implements UiAction<ChangeResource> {
+public class DeleteChange
+    implements RestModifyView<ChangeResource, Input>, UiAction<ChangeResource> {
   private final BatchUpdate.Factory updateFactory;
   private final DeleteChangeOp.Factory opFactory;
 
   @Inject
-  public DeleteChange(
-      RetryHelper retryHelper,
-      BatchUpdate.Factory updateFactory,
-      DeleteChangeOp.Factory opFactory) {
-    super(retryHelper);
+  public DeleteChange(BatchUpdate.Factory updateFactory, DeleteChangeOp.Factory opFactory) {
     this.updateFactory = updateFactory;
     this.opFactory = opFactory;
   }
 
   @Override
-  protected Response<Object> applyImpl(ChangeResource rsrc, Input input)
+  public Response<Object> apply(ChangeResource rsrc, Input input)
       throws RestApiException, UpdateException, PermissionBackendException {
     if (!isChangeDeletable(rsrc)) {
       throw new MethodNotAllowedException("delete not permitted");

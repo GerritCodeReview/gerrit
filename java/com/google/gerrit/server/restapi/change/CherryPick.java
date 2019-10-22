@@ -25,6 +25,7 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.server.change.ChangeJson;
 import com.google.gerrit.server.change.RevisionResource;
@@ -39,8 +40,6 @@ import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.submit.IntegrationException;
 import com.google.gerrit.server.update.BatchUpdate;
-import com.google.gerrit.server.update.RetryHelper;
-import com.google.gerrit.server.update.RetryingRestModifyView;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -49,8 +48,7 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton
 public class CherryPick
-    extends RetryingRestModifyView<RevisionResource, CherryPickInput, CherryPickChangeInfo>
-    implements UiAction<RevisionResource> {
+    implements RestModifyView<RevisionResource, CherryPickInput>, UiAction<RevisionResource> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final PermissionBackend permissionBackend;
@@ -62,14 +60,12 @@ public class CherryPick
 
   @Inject
   CherryPick(
-      RetryHelper retryHelper,
       PermissionBackend permissionBackend,
       BatchUpdate.Factory updateFactory,
       CherryPickChange cherryPickChange,
       ChangeJson.Factory json,
       ContributorAgreementsChecker contributorAgreements,
       ProjectCache projectCache) {
-    super(retryHelper);
     this.permissionBackend = permissionBackend;
     this.updateFactory = updateFactory;
     this.cherryPickChange = cherryPickChange;
@@ -79,7 +75,7 @@ public class CherryPick
   }
 
   @Override
-  public Response<CherryPickChangeInfo> applyImpl(RevisionResource rsrc, CherryPickInput input)
+  public Response<CherryPickChangeInfo> apply(RevisionResource rsrc, CherryPickInput input)
       throws IOException, UpdateException, RestApiException, PermissionBackendException,
           ConfigInvalidException, NoSuchProjectException {
     input.parent = input.parent == null ? 1 : input.parent;

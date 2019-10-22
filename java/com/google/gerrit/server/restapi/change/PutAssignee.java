@@ -24,6 +24,7 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.IdentifiedUser;
@@ -38,8 +39,6 @@ import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.update.BatchUpdate;
-import com.google.gerrit.server.update.RetryHelper;
-import com.google.gerrit.server.update.RetryingRestModifyView;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
@@ -48,8 +47,8 @@ import java.io.IOException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton
-public class PutAssignee extends RetryingRestModifyView<ChangeResource, AssigneeInput, AccountInfo>
-    implements UiAction<ChangeResource> {
+public class PutAssignee
+    implements RestModifyView<ChangeResource, AssigneeInput>, UiAction<ChangeResource> {
 
   private final BatchUpdate.Factory updateFactory;
   private final AccountResolver accountResolver;
@@ -64,12 +63,10 @@ public class PutAssignee extends RetryingRestModifyView<ChangeResource, Assignee
       BatchUpdate.Factory updateFactory,
       AccountResolver accountResolver,
       SetAssigneeOp.Factory assigneeFactory,
-      RetryHelper retryHelper,
       ReviewerAdder reviewerAdder,
       AccountLoader.Factory accountLoaderFactory,
       PermissionBackend permissionBackend,
       ApprovalsUtil approvalsUtil) {
-    super(retryHelper);
     this.updateFactory = updateFactory;
     this.accountResolver = accountResolver;
     this.assigneeFactory = assigneeFactory;
@@ -80,7 +77,7 @@ public class PutAssignee extends RetryingRestModifyView<ChangeResource, Assignee
   }
 
   @Override
-  protected Response<AccountInfo> applyImpl(ChangeResource rsrc, AssigneeInput input)
+  public Response<AccountInfo> apply(ChangeResource rsrc, AssigneeInput input)
       throws RestApiException, UpdateException, IOException, PermissionBackendException,
           ConfigInvalidException {
     rsrc.permissions().check(ChangePermission.EDIT_ASSIGNEE);

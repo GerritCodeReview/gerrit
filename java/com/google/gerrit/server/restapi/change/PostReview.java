@@ -73,6 +73,7 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.extensions.validators.CommentForValidation;
@@ -120,8 +121,6 @@ import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.CommentsRejectedException;
 import com.google.gerrit.server.update.Context;
-import com.google.gerrit.server.update.RetryHelper;
-import com.google.gerrit.server.update.RetryingRestModifyView;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.LabelVote;
 import com.google.gerrit.server.util.time.TimeUtil;
@@ -150,8 +149,7 @@ import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 
 @Singleton
-public class PostReview
-    extends RetryingRestModifyView<RevisionResource, ReviewInput, ReviewResult> {
+public class PostReview implements RestModifyView<RevisionResource, ReviewInput> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private static final String ERROR_ADDING_REVIEWER = "error adding reviewer";
@@ -187,7 +185,6 @@ public class PostReview
 
   @Inject
   PostReview(
-      RetryHelper retryHelper,
       BatchUpdate.Factory updateFactory,
       ChangeResource.Factory changeResourceFactory,
       ChangeData.Factory changeDataFactory,
@@ -208,7 +205,6 @@ public class PostReview
       ProjectCache projectCache,
       PermissionBackend permissionBackend,
       PluginSetContext<CommentValidator> commentValidators) {
-    super(retryHelper);
     this.updateFactory = updateFactory;
     this.changeResourceFactory = changeResourceFactory;
     this.changeDataFactory = changeDataFactory;
@@ -233,7 +229,7 @@ public class PostReview
   }
 
   @Override
-  protected Response<ReviewResult> applyImpl(RevisionResource revision, ReviewInput input)
+  public Response<ReviewResult> apply(RevisionResource revision, ReviewInput input)
       throws RestApiException, UpdateException, IOException, PermissionBackendException,
           ConfigInvalidException, PatchListNotAvailableException {
     return apply(revision, input, TimeUtil.nowTs());

@@ -18,14 +18,13 @@ import com.google.common.collect.ImmutableSortedSet;
 import com.google.gerrit.extensions.api.changes.HashtagsInput;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.SetHashtagsOp;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.update.BatchUpdate;
-import com.google.gerrit.server.update.RetryHelper;
-import com.google.gerrit.server.update.RetryingRestModifyView;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
@@ -33,23 +32,18 @@ import com.google.inject.Singleton;
 
 @Singleton
 public class PostHashtags
-    extends RetryingRestModifyView<ChangeResource, HashtagsInput, ImmutableSortedSet<String>>
-    implements UiAction<ChangeResource> {
+    implements RestModifyView<ChangeResource, HashtagsInput>, UiAction<ChangeResource> {
   private final BatchUpdate.Factory updateFactory;
   private final SetHashtagsOp.Factory hashtagsFactory;
 
   @Inject
-  PostHashtags(
-      RetryHelper retryHelper,
-      BatchUpdate.Factory updateFactory,
-      SetHashtagsOp.Factory hashtagsFactory) {
-    super(retryHelper);
+  PostHashtags(BatchUpdate.Factory updateFactory, SetHashtagsOp.Factory hashtagsFactory) {
     this.updateFactory = updateFactory;
     this.hashtagsFactory = hashtagsFactory;
   }
 
   @Override
-  protected Response<ImmutableSortedSet<String>> applyImpl(ChangeResource req, HashtagsInput input)
+  public Response<ImmutableSortedSet<String>> apply(ChangeResource req, HashtagsInput input)
       throws RestApiException, UpdateException, PermissionBackendException {
     req.permissions().check(ChangePermission.EDIT_HASHTAGS);
 

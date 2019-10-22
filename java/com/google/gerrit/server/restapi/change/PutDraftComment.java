@@ -24,6 +24,7 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.PatchSetUtil;
@@ -35,8 +36,6 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
-import com.google.gerrit.server.update.RetryHelper;
-import com.google.gerrit.server.update.RetryingRestModifyView;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
@@ -47,8 +46,7 @@ import java.util.Collections;
 import java.util.Optional;
 
 @Singleton
-public class PutDraftComment
-    extends RetryingRestModifyView<DraftCommentResource, DraftInput, CommentInfo> {
+public class PutDraftComment implements RestModifyView<DraftCommentResource, DraftInput> {
   private final BatchUpdate.Factory updateFactory;
   private final DeleteDraftComment delete;
   private final CommentsUtil commentsUtil;
@@ -58,14 +56,12 @@ public class PutDraftComment
 
   @Inject
   PutDraftComment(
-      RetryHelper retryHelper,
       BatchUpdate.Factory updateFactory,
       DeleteDraftComment delete,
       CommentsUtil commentsUtil,
       PatchSetUtil psUtil,
       Provider<CommentJson> commentJson,
       PatchListCache patchListCache) {
-    super(retryHelper);
     this.updateFactory = updateFactory;
     this.delete = delete;
     this.commentsUtil = commentsUtil;
@@ -75,10 +71,10 @@ public class PutDraftComment
   }
 
   @Override
-  protected Response<CommentInfo> applyImpl(DraftCommentResource rsrc, DraftInput in)
+  public Response<CommentInfo> apply(DraftCommentResource rsrc, DraftInput in)
       throws RestApiException, UpdateException, PermissionBackendException {
     if (in == null || in.message == null || in.message.trim().isEmpty()) {
-      return delete.applyImpl(rsrc, null);
+      return delete.apply(rsrc, null);
     } else if (in.id != null && !rsrc.getId().equals(in.id)) {
       throw new BadRequestException("id must match URL");
     } else if (in.line != null && in.line < 0) {

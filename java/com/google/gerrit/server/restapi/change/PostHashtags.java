@@ -35,17 +35,21 @@ import com.google.inject.Singleton;
 public class PostHashtags
     extends RetryingRestModifyView<ChangeResource, HashtagsInput, ImmutableSortedSet<String>>
     implements UiAction<ChangeResource> {
+  private final BatchUpdate.Factory updateFactory;
   private final SetHashtagsOp.Factory hashtagsFactory;
 
   @Inject
-  PostHashtags(RetryHelper retryHelper, SetHashtagsOp.Factory hashtagsFactory) {
+  PostHashtags(
+      RetryHelper retryHelper,
+      BatchUpdate.Factory updateFactory,
+      SetHashtagsOp.Factory hashtagsFactory) {
     super(retryHelper);
+    this.updateFactory = updateFactory;
     this.hashtagsFactory = hashtagsFactory;
   }
 
   @Override
-  protected Response<ImmutableSortedSet<String>> applyImpl(
-      BatchUpdate.Factory updateFactory, ChangeResource req, HashtagsInput input)
+  protected Response<ImmutableSortedSet<String>> applyImpl(ChangeResource req, HashtagsInput input)
       throws RestApiException, UpdateException, PermissionBackendException {
     req.permissions().check(ChangePermission.EDIT_HASHTAGS);
 

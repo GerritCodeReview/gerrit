@@ -38,21 +38,23 @@ import com.google.inject.Singleton;
 public class DeletePrivate
     extends RetryingRestModifyView<ChangeResource, SetPrivateOp.Input, String> {
   private final PermissionBackend permissionBackend;
+  private final BatchUpdate.Factory updateFactory;
   private final SetPrivateOp.Factory setPrivateOpFactory;
 
   @Inject
   DeletePrivate(
       RetryHelper retryHelper,
       PermissionBackend permissionBackend,
+      BatchUpdate.Factory updateFactory,
       SetPrivateOp.Factory setPrivateOpFactory) {
     super(retryHelper);
     this.permissionBackend = permissionBackend;
+    this.updateFactory = updateFactory;
     this.setPrivateOpFactory = setPrivateOpFactory;
   }
 
   @Override
-  protected Response<String> applyImpl(
-      BatchUpdate.Factory updateFactory, ChangeResource rsrc, @Nullable SetPrivateOp.Input input)
+  protected Response<String> applyImpl(ChangeResource rsrc, @Nullable SetPrivateOp.Input input)
       throws RestApiException, UpdateException {
     if (!canDeletePrivate(rsrc).value()) {
       throw new AuthException("not allowed to unmark private");

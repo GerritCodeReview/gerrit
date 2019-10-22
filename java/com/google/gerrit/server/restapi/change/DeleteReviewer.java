@@ -35,23 +35,24 @@ import com.google.inject.Singleton;
 @Singleton
 public class DeleteReviewer
     extends RetryingRestModifyView<ReviewerResource, DeleteReviewerInput, Object> {
-
+  private final BatchUpdate.Factory updateFactory;
   private final DeleteReviewerOp.Factory deleteReviewerOpFactory;
   private final DeleteReviewerByEmailOp.Factory deleteReviewerByEmailOpFactory;
 
   @Inject
   DeleteReviewer(
       RetryHelper retryHelper,
+      BatchUpdate.Factory updateFactory,
       DeleteReviewerOp.Factory deleteReviewerOpFactory,
       DeleteReviewerByEmailOp.Factory deleteReviewerByEmailOpFactory) {
     super(retryHelper);
+    this.updateFactory = updateFactory;
     this.deleteReviewerOpFactory = deleteReviewerOpFactory;
     this.deleteReviewerByEmailOpFactory = deleteReviewerByEmailOpFactory;
   }
 
   @Override
-  protected Response<Object> applyImpl(
-      BatchUpdate.Factory updateFactory, ReviewerResource rsrc, DeleteReviewerInput input)
+  protected Response<Object> applyImpl(ReviewerResource rsrc, DeleteReviewerInput input)
       throws RestApiException, UpdateException {
     if (input == null) {
       input = new DeleteReviewerInput();

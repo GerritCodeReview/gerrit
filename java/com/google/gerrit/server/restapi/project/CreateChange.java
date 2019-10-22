@@ -38,22 +38,24 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton
 public class CreateChange extends RetryingRestModifyView<ProjectResource, ChangeInput, ChangeInfo> {
+  private final BatchUpdate.Factory updateFactory;
   private final com.google.gerrit.server.restapi.change.CreateChange changeCreateChange;
   private final Provider<CurrentUser> user;
 
   @Inject
   public CreateChange(
       RetryHelper retryHelper,
+      BatchUpdate.Factory updateFactory,
       Provider<CurrentUser> user,
       com.google.gerrit.server.restapi.change.CreateChange changeCreateChange) {
     super(retryHelper);
+    this.updateFactory = updateFactory;
     this.changeCreateChange = changeCreateChange;
     this.user = user;
   }
 
   @Override
-  public Response<ChangeInfo> applyImpl(
-      BatchUpdate.Factory updateFactory, ProjectResource rsrc, ChangeInput input)
+  public Response<ChangeInfo> applyImpl(ProjectResource rsrc, ChangeInput input)
       throws PermissionBackendException, IOException, ConfigInvalidException,
           InvalidChangeOperationException, InvalidNameException, UpdateException, RestApiException {
     if (!user.get().isIdentifiedUser()) {

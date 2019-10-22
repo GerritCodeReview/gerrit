@@ -84,6 +84,7 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final PermissionBackend permissionBackend;
+  private final BatchUpdate.Factory updateFactory;
   private final GitRepositoryManager repoManager;
   private final ChangeInserter.Factory changeInserterFactory;
   private final ChangeMessagesUtil cmUtil;
@@ -101,6 +102,7 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
   @Inject
   Revert(
       PermissionBackend permissionBackend,
+      BatchUpdate.Factory updateFactory,
       GitRepositoryManager repoManager,
       ChangeInserter.Factory changeInserterFactory,
       ChangeMessagesUtil cmUtil,
@@ -117,6 +119,7 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
       CommitUtil commitUtil) {
     super(retryHelper);
     this.permissionBackend = permissionBackend;
+    this.updateFactory = updateFactory;
     this.repoManager = repoManager;
     this.changeInserterFactory = changeInserterFactory;
     this.cmUtil = cmUtil;
@@ -133,8 +136,7 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
   }
 
   @Override
-  public Response<ChangeInfo> applyImpl(
-      BatchUpdate.Factory updateFactory, ChangeResource rsrc, RevertInput input)
+  public Response<ChangeInfo> applyImpl(ChangeResource rsrc, RevertInput input)
       throws IOException, RestApiException, UpdateException, NoSuchChangeException,
           PermissionBackendException, NoSuchProjectException, ConfigInvalidException {
     Change change = rsrc.getChange();

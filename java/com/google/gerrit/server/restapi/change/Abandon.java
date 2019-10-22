@@ -48,6 +48,7 @@ public class Abandon extends RetryingRestModifyView<ChangeResource, AbandonInput
     implements UiAction<ChangeResource> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
+  private final BatchUpdate.Factory updateFactory;
   private final ChangeJson.Factory json;
   private final AbandonOp.Factory abandonOpFactory;
   private final NotifyResolver notifyResolver;
@@ -55,12 +56,14 @@ public class Abandon extends RetryingRestModifyView<ChangeResource, AbandonInput
 
   @Inject
   Abandon(
+      BatchUpdate.Factory updateFactory,
       ChangeJson.Factory json,
       RetryHelper retryHelper,
       AbandonOp.Factory abandonOpFactory,
       NotifyResolver notifyResolver,
       PatchSetUtil patchSetUtil) {
     super(retryHelper);
+    this.updateFactory = updateFactory;
     this.json = json;
     this.abandonOpFactory = abandonOpFactory;
     this.notifyResolver = notifyResolver;
@@ -68,8 +71,7 @@ public class Abandon extends RetryingRestModifyView<ChangeResource, AbandonInput
   }
 
   @Override
-  protected Response<ChangeInfo> applyImpl(
-      BatchUpdate.Factory updateFactory, ChangeResource rsrc, AbandonInput input)
+  protected Response<ChangeInfo> applyImpl(ChangeResource rsrc, AbandonInput input)
       throws RestApiException, UpdateException, PermissionBackendException, IOException,
           ConfigInvalidException {
     // Not allowed to abandon if the current patch set is locked.

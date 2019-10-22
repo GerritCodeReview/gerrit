@@ -58,6 +58,7 @@ public class DeleteChangeMessage
 
   private final Provider<CurrentUser> userProvider;
   private final PermissionBackend permissionBackend;
+  private final BatchUpdate.Factory updateFactory;
   private final ChangeMessagesUtil changeMessagesUtil;
   private final AccountLoader.Factory accountLoaderFactory;
   private final ChangeNotes.Factory notesFactory;
@@ -66,6 +67,7 @@ public class DeleteChangeMessage
   public DeleteChangeMessage(
       Provider<CurrentUser> userProvider,
       PermissionBackend permissionBackend,
+      BatchUpdate.Factory updateFactory,
       ChangeMessagesUtil changeMessagesUtil,
       AccountLoader.Factory accountLoaderFactory,
       ChangeNotes.Factory notesFactory,
@@ -73,6 +75,7 @@ public class DeleteChangeMessage
     super(retryHelper);
     this.userProvider = userProvider;
     this.permissionBackend = permissionBackend;
+    this.updateFactory = updateFactory;
     this.changeMessagesUtil = changeMessagesUtil;
     this.accountLoaderFactory = accountLoaderFactory;
     this.notesFactory = notesFactory;
@@ -80,9 +83,7 @@ public class DeleteChangeMessage
 
   @Override
   public Response<ChangeMessageInfo> applyImpl(
-      BatchUpdate.Factory updateFactory,
-      ChangeMessageResource resource,
-      DeleteChangeMessageInput input)
+      ChangeMessageResource resource, DeleteChangeMessageInput input)
       throws RestApiException, PermissionBackendException, UpdateException, IOException {
     CurrentUser user = userProvider.get();
     permissionBackend.user(user).check(GlobalPermission.ADMINISTRATE_SERVER);

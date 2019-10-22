@@ -43,7 +43,7 @@ import com.google.inject.Singleton;
 
 @Singleton
 public class DeleteAssignee extends RetryingRestModifyView<ChangeResource, Input, AccountInfo> {
-
+  private final BatchUpdate.Factory updateFactory;
   private final ChangeMessagesUtil cmUtil;
   private final AssigneeChanged assigneeChanged;
   private final IdentifiedUser.GenericFactory userFactory;
@@ -52,11 +52,13 @@ public class DeleteAssignee extends RetryingRestModifyView<ChangeResource, Input
   @Inject
   DeleteAssignee(
       RetryHelper retryHelper,
+      BatchUpdate.Factory updateFactory,
       ChangeMessagesUtil cmUtil,
       AssigneeChanged assigneeChanged,
       IdentifiedUser.GenericFactory userFactory,
       AccountLoader.Factory accountLoaderFactory) {
     super(retryHelper);
+    this.updateFactory = updateFactory;
     this.cmUtil = cmUtil;
     this.assigneeChanged = assigneeChanged;
     this.userFactory = userFactory;
@@ -64,8 +66,7 @@ public class DeleteAssignee extends RetryingRestModifyView<ChangeResource, Input
   }
 
   @Override
-  protected Response<AccountInfo> applyImpl(
-      BatchUpdate.Factory updateFactory, ChangeResource rsrc, Input input)
+  protected Response<AccountInfo> applyImpl(ChangeResource rsrc, Input input)
       throws RestApiException, UpdateException, PermissionBackendException {
     rsrc.permissions().check(ChangePermission.EDIT_ASSIGNEE);
 

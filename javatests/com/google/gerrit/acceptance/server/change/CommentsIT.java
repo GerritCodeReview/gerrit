@@ -445,7 +445,7 @@ public class CommentsIT extends AbstractDaemonTest {
       ChangeResource changeRsrc =
           changes.get().parse(TopLevelResource.INSTANCE, IdString.fromDecoded(changeId));
       RevisionResource revRsrc = revisions.parse(changeRsrc, IdString.fromDecoded(revId));
-      postReview.get().apply(batchUpdateFactory, revRsrc, input, timestamp);
+      postReview.get().apply(revRsrc, input, timestamp);
       Map<String, List<CommentInfo>> result = getPublishedComments(changeId, revId);
       assertThat(result).isNotEmpty();
       CommentInfo actual = Iterables.getOnlyElement(result.get(comment.path));

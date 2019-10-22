@@ -70,6 +70,7 @@ public class Rebase extends RetryingRestModifyView<RevisionResource, RebaseInput
   private static final ImmutableSet<ListChangesOption> OPTIONS =
       Sets.immutableEnumSet(ListChangesOption.CURRENT_REVISION, ListChangesOption.CURRENT_COMMIT);
 
+  private final BatchUpdate.Factory updateFactory;
   private final GitRepositoryManager repoManager;
   private final RebaseChangeOp.Factory rebaseFactory;
   private final RebaseUtil rebaseUtil;
@@ -81,6 +82,7 @@ public class Rebase extends RetryingRestModifyView<RevisionResource, RebaseInput
   @Inject
   public Rebase(
       RetryHelper retryHelper,
+      BatchUpdate.Factory updateFactory,
       GitRepositoryManager repoManager,
       RebaseChangeOp.Factory rebaseFactory,
       RebaseUtil rebaseUtil,
@@ -89,6 +91,7 @@ public class Rebase extends RetryingRestModifyView<RevisionResource, RebaseInput
       ProjectCache projectCache,
       PatchSetUtil patchSetUtil) {
     super(retryHelper);
+    this.updateFactory = updateFactory;
     this.repoManager = repoManager;
     this.rebaseFactory = rebaseFactory;
     this.rebaseUtil = rebaseUtil;
@@ -99,8 +102,7 @@ public class Rebase extends RetryingRestModifyView<RevisionResource, RebaseInput
   }
 
   @Override
-  protected Response<ChangeInfo> applyImpl(
-      BatchUpdate.Factory updateFactory, RevisionResource rsrc, RebaseInput input)
+  protected Response<ChangeInfo> applyImpl(RevisionResource rsrc, RebaseInput input)
       throws UpdateException, RestApiException, IOException, PermissionBackendException {
     // Not allowed to rebase if the current patch set is locked.
     patchSetUtil.checkPatchSetNotLocked(rsrc.getNotes());

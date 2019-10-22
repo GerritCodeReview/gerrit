@@ -43,19 +43,24 @@ import com.google.inject.Singleton;
 @Singleton
 public class PutTopic extends RetryingRestModifyView<ChangeResource, TopicInput, String>
     implements UiAction<ChangeResource> {
+  private final BatchUpdate.Factory updateFactory;
   private final ChangeMessagesUtil cmUtil;
   private final TopicEdited topicEdited;
 
   @Inject
-  PutTopic(ChangeMessagesUtil cmUtil, RetryHelper retryHelper, TopicEdited topicEdited) {
+  PutTopic(
+      RetryHelper retryHelper,
+      BatchUpdate.Factory updateFactory,
+      ChangeMessagesUtil cmUtil,
+      TopicEdited topicEdited) {
     super(retryHelper);
+    this.updateFactory = updateFactory;
     this.cmUtil = cmUtil;
     this.topicEdited = topicEdited;
   }
 
   @Override
-  protected Response<String> applyImpl(
-      BatchUpdate.Factory updateFactory, ChangeResource req, TopicInput input)
+  protected Response<String> applyImpl(ChangeResource req, TopicInput input)
       throws UpdateException, RestApiException, PermissionBackendException {
     req.permissions().check(ChangePermission.EDIT_TOPIC_NAME);
 

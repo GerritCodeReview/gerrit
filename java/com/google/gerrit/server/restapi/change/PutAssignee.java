@@ -51,6 +51,7 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 public class PutAssignee extends RetryingRestModifyView<ChangeResource, AssigneeInput, AccountInfo>
     implements UiAction<ChangeResource> {
 
+  private final BatchUpdate.Factory updateFactory;
   private final AccountResolver accountResolver;
   private final SetAssigneeOp.Factory assigneeFactory;
   private final ReviewerAdder reviewerAdder;
@@ -60,6 +61,7 @@ public class PutAssignee extends RetryingRestModifyView<ChangeResource, Assignee
 
   @Inject
   PutAssignee(
+      BatchUpdate.Factory updateFactory,
       AccountResolver accountResolver,
       SetAssigneeOp.Factory assigneeFactory,
       RetryHelper retryHelper,
@@ -68,6 +70,7 @@ public class PutAssignee extends RetryingRestModifyView<ChangeResource, Assignee
       PermissionBackend permissionBackend,
       ApprovalsUtil approvalsUtil) {
     super(retryHelper);
+    this.updateFactory = updateFactory;
     this.accountResolver = accountResolver;
     this.assigneeFactory = assigneeFactory;
     this.reviewerAdder = reviewerAdder;
@@ -77,8 +80,7 @@ public class PutAssignee extends RetryingRestModifyView<ChangeResource, Assignee
   }
 
   @Override
-  protected Response<AccountInfo> applyImpl(
-      BatchUpdate.Factory updateFactory, ChangeResource rsrc, AssigneeInput input)
+  protected Response<AccountInfo> applyImpl(ChangeResource rsrc, AssigneeInput input)
       throws RestApiException, UpdateException, IOException, PermissionBackendException,
           ConfigInvalidException {
     rsrc.permissions().check(ChangePermission.EDIT_ASSIGNEE);

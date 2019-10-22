@@ -41,19 +41,24 @@ import com.google.inject.Singleton;
 public class PutDescription
     extends RetryingRestModifyView<RevisionResource, DescriptionInput, String>
     implements UiAction<RevisionResource> {
+  private final BatchUpdate.Factory updateFactory;
   private final ChangeMessagesUtil cmUtil;
   private final PatchSetUtil psUtil;
 
   @Inject
-  PutDescription(ChangeMessagesUtil cmUtil, RetryHelper retryHelper, PatchSetUtil psUtil) {
+  PutDescription(
+      RetryHelper retryHelper,
+      BatchUpdate.Factory updateFactory,
+      ChangeMessagesUtil cmUtil,
+      PatchSetUtil psUtil) {
     super(retryHelper);
+    this.updateFactory = updateFactory;
     this.cmUtil = cmUtil;
     this.psUtil = psUtil;
   }
 
   @Override
-  protected Response<String> applyImpl(
-      BatchUpdate.Factory updateFactory, RevisionResource rsrc, DescriptionInput input)
+  protected Response<String> applyImpl(RevisionResource rsrc, DescriptionInput input)
       throws UpdateException, RestApiException, PermissionBackendException {
     rsrc.permissions().check(ChangePermission.EDIT_DESCRIPTION);
 

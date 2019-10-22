@@ -56,6 +56,7 @@ public class Restore extends RetryingRestModifyView<ChangeResource, RestoreInput
     implements UiAction<ChangeResource> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
+  private final BatchUpdate.Factory updateFactory;
   private final RestoredSender.Factory restoredSenderFactory;
   private final ChangeJson.Factory json;
   private final ChangeMessagesUtil cmUtil;
@@ -65,6 +66,7 @@ public class Restore extends RetryingRestModifyView<ChangeResource, RestoreInput
 
   @Inject
   Restore(
+      BatchUpdate.Factory updateFactory,
       RestoredSender.Factory restoredSenderFactory,
       ChangeJson.Factory json,
       ChangeMessagesUtil cmUtil,
@@ -73,6 +75,7 @@ public class Restore extends RetryingRestModifyView<ChangeResource, RestoreInput
       ChangeRestored changeRestored,
       ProjectCache projectCache) {
     super(retryHelper);
+    this.updateFactory = updateFactory;
     this.restoredSenderFactory = restoredSenderFactory;
     this.json = json;
     this.cmUtil = cmUtil;
@@ -82,8 +85,7 @@ public class Restore extends RetryingRestModifyView<ChangeResource, RestoreInput
   }
 
   @Override
-  protected Response<ChangeInfo> applyImpl(
-      BatchUpdate.Factory updateFactory, ChangeResource rsrc, RestoreInput input)
+  protected Response<ChangeInfo> applyImpl(ChangeResource rsrc, RestoreInput input)
       throws RestApiException, UpdateException, PermissionBackendException, IOException {
     // Not allowed to restore if the current patch set is locked.
     psUtil.checkPatchSetNotLocked(rsrc.getNotes());

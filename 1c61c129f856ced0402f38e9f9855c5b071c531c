@@ -120,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "a3832a00_4c3bfddf",
+        "filename": "polygerrit-ui/app/styles/themes/dark-theme.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2019-10-22T13:55:51Z",
+      "side": 1,
+      "message": "Ok for setting this color for all UI as demphasized color because in dark theme, there is a primary color and secondary color (that would be the deemphasized color).\n\nPlease change the Dark theme deemphasized color to #9AA0A6 (Grey 500).",
+      "parentUuid": "d8ac2eea_5aeed82a",
+      "range": {
+        "startLine": 33,
+        "startChar": 34,
+        "endLine": 33,
+        "endChar": 40
+      },
+      "revId": "1c61c129f856ced0402f38e9f9855c5b071c531c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "60fa4cb4_cb6955d3",
         "filename": "polygerrit-ui/app/styles/themes/dark-theme.html",
         "patchSetId": 4
@@ -179,6 +203,30 @@
       "side": 1,
       "message": "sorry for the nit here. @delphine, can we use a solid color instead of the opacity here ? I think the opacity sometimes will have different support from different monitors. (some monitors will not render the opacity very well, like if less than a threshold, it will be almost completely transparent)",
       "parentUuid": "61b8b5d3_81071980",
+      "range": {
+        "startLine": 62,
+        "startChar": 50,
+        "endLine": 62,
+        "endChar": 51
+      },
+      "revId": "1c61c129f856ced0402f38e9f9855c5b071c531c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "22638d6c_fbd3189d",
+        "filename": "polygerrit-ui/app/styles/themes/dark-theme.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2019-10-22T13:55:51Z",
+      "side": 1,
+      "message": "We could try it on a monitor and make the decision, what do you think?  This spec for color is based on Material design guidelines. \n\nAs an alternative I converted this rgba color to an HEX color. Would rendering be better using an HEX color instead?",
+      "parentUuid": "a539ae40_81616fc1",
       "range": {
         "startLine": 62,
         "startChar": 50,

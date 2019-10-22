@@ -14,10 +14,6 @@
 
 package com.google.gerrit.extensions.restapi;
 
-import static com.google.common.base.Preconditions.checkArgument;
-
-import com.google.gerrit.common.Nullable;
-import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 /** Special return value to mean specific HTTP status codes in a REST API. */
@@ -66,48 +62,24 @@ public abstract class Response<T> {
     return new Redirect(location);
   }
 
-  /**
-   * HTTP 500 Internal Server Error: failure due to an unexpected exception.
-   *
-   * <p>Can be returned from REST endpoints, instead of throwing the exception, if additional
-   * properties (e.g. a traceId) should be set on the response.
-   *
-   * @param cause the exception that caused the request to fail, must not be a {@link
-   *     RestApiException} because such an exception would result in a 4XX response code
-   */
-  public static <T> InternalServerError<T> internalServerError(Exception cause) {
-    return new InternalServerError<>(cause);
-  }
-
   /** Arbitrary status code with wrapped result. */
   public static <T> Response<T> withStatusCode(int statusCode, T value) {
     return new Impl<>(statusCode, value);
   }
 
   @SuppressWarnings({"unchecked", "rawtypes"})
-  public static <T> T unwrap(T obj) throws Exception {
+  public static <T> T unwrap(T obj) {
     while (obj instanceof Response) {
       obj = (T) ((Response) obj).value();
     }
     return obj;
   }
 
-  private String traceId;
-
-  public Response<T> traceId(@Nullable String traceId) {
-    this.traceId = traceId;
-    return this;
-  }
-
-  public Optional<String> traceId() {
-    return Optional.ofNullable(traceId);
-  }
-
   public abstract boolean isNone();
 
   public abstract int statusCode();
 
-  public abstract T value() throws Exception;
+  public abstract T value();
 
   public abstract CacheControl caching();
 
@@ -295,59 +267,6 @@ public abstract class Response<T> {
     @Override
     public String toString() {
       return String.format("[202 Accepted] %s", location);
-    }
-  }
-
-  public static final class InternalServerError<T> extends Response<T> {
-    private final Exception cause;
-
-    private InternalServerError(Exception cause) {
-      checkArgument(!(cause instanceof RestApiException), "cause must not be a RestApiException");
-      this.cause = cause;
-    }
-
-    @Override
-    public boolean isNone() {
-      return false;
-    }
-
-    @Override
-    public int statusCode() {
-      return 500;
-    }
-
-    @Override
-    public T value() throws Exception {
-      throw cause();
-    }
-
-    @Override
-    public CacheControl caching() {
-      return CacheControl.NONE;
-    }
-
-    @Override
-    public Response<T> caching(CacheControl c) {
-      throw new UnsupportedOperationException();
-    }
-
-    public Exception cause() {
-      return cause;
-    }
-
-    @Override
-    public int hashCode() {
-      return cause.hashCode();
-    }
-
-    @Override
-    public boolean equals(Object o) {
-      return o instanceof InternalServerError && ((InternalServerError<?>) o).cause.equals(cause);
-    }
-
-    @Override
-    public String toString() {
-      return String.format("[500 Internal Server Error] %s", cause.getClass());
     }
   }
 }

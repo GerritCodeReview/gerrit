@@ -24,9 +24,11 @@ import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.project.DashboardResource;
 import com.google.gerrit.server.project.ProjectCache;
@@ -34,6 +36,7 @@ import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import java.io.IOException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.kohsuke.args4j.Option;
@@ -67,7 +70,7 @@ class SetDefaultDashboard implements RestModifyView<DashboardResource, SetDashbo
 
   @Override
   public Response<DashboardInfo> apply(DashboardResource rsrc, SetDashboardInput input)
-      throws Exception {
+      throws RestApiException, IOException, PermissionBackendException {
     if (input == null) {
       input = new SetDashboardInput(); // Delete would set input to null.
     }

@@ -267,7 +267,7 @@ limitations under the License.
         assert.isTrue(downSpy.called);
       });
 
-      test('enter key', () => {
+      test.only('enter key', () => {
         const enterSpy = sandbox.spy(element.$.emojiSuggestions,
             'getCursorTarget');
         MockInteractions.pressAndReleaseKeyOn(element.$.textarea, 13);

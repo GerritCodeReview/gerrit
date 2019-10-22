@@ -782,6 +782,7 @@
         // not hurt. It's probably a bigger performance cost to remove them than
         // to keep them around. Medium term we can even consider to add one slot
         // for each line from the start.
+        let lastEl;
         for (const threadEl of addedThreadEls) {
           const lineNumString = threadEl.getAttribute('line-num') || 'FILE';
           const commentSide = threadEl.getAttribute('comment-side');
@@ -800,6 +801,14 @@
           const slot = document.createElement('slot');
           slot.name = threadEl.getAttribute('slot');
           Polymer.dom(threadGroupEl).appendChild(Gerrit.slotToContent(slot));
+          lastEl = threadEl;
+        }
+
+        // Safari is not binding newly created comment-thread
+        // with the slot somehow, replace itself will rebind it
+        // @see Issue 11182
+        if (lastEl && lastEl.replaceWith) {
+          lastEl.replaceWith(lastEl);
         }
       });
     },

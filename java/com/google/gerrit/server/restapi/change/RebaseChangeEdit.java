@@ -24,7 +24,6 @@ import com.google.gerrit.server.edit.ChangeEditModifier;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
-import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.RetryHelper;
 import com.google.gerrit.server.update.RetryingRestModifyView;
 import com.google.inject.Inject;
@@ -48,8 +47,7 @@ public class RebaseChangeEdit extends RetryingRestModifyView<ChangeResource, Inp
   }
 
   @Override
-  protected Response<Object> applyImpl(
-      BatchUpdate.Factory updateFactory, ChangeResource rsrc, Input in)
+  protected Response<Object> applyImpl(ChangeResource rsrc, Input in)
       throws AuthException, ResourceConflictException, IOException, PermissionBackendException {
     Project.NameKey project = rsrc.getProject();
     try (Repository repository = repositoryManager.openRepository(project)) {

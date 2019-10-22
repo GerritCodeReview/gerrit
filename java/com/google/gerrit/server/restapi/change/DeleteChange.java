@@ -38,18 +38,21 @@ import com.google.inject.Singleton;
 @Singleton
 public class DeleteChange extends RetryingRestModifyView<ChangeResource, Input, Object>
     implements UiAction<ChangeResource> {
-
+  private final BatchUpdate.Factory updateFactory;
   private final DeleteChangeOp.Factory opFactory;
 
   @Inject
-  public DeleteChange(RetryHelper retryHelper, DeleteChangeOp.Factory opFactory) {
+  public DeleteChange(
+      RetryHelper retryHelper,
+      BatchUpdate.Factory updateFactory,
+      DeleteChangeOp.Factory opFactory) {
     super(retryHelper);
+    this.updateFactory = updateFactory;
     this.opFactory = opFactory;
   }
 
   @Override
-  protected Response<Object> applyImpl(
-      BatchUpdate.Factory updateFactory, ChangeResource rsrc, Input input)
+  protected Response<Object> applyImpl(ChangeResource rsrc, Input input)
       throws RestApiException, UpdateException, PermissionBackendException {
     if (!isChangeDeletable(rsrc)) {
       throw new MethodNotAllowedException("delete not permitted");

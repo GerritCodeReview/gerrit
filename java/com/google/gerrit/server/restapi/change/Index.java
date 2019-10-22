@@ -22,7 +22,6 @@ import com.google.gerrit.server.index.change.ChangeIndexer;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
-import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.RetryHelper;
 import com.google.gerrit.server.update.RetryingRestModifyView;
 import com.google.inject.Inject;
@@ -42,8 +41,7 @@ public class Index extends RetryingRestModifyView<ChangeResource, Input, Object>
   }
 
   @Override
-  protected Response<Object> applyImpl(
-      BatchUpdate.Factory updateFactory, ChangeResource rsrc, Input input)
+  protected Response<Object> applyImpl(ChangeResource rsrc, Input input)
       throws IOException, AuthException, PermissionBackendException {
     permissionBackend.currentUser().check(GlobalPermission.MAINTAIN_SERVER);
     indexer.index(rsrc.getChange());

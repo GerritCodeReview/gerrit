@@ -19,7 +19,6 @@ import static java.util.stream.Collectors.joining;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
-import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Sets;
@@ -190,7 +189,8 @@ public class Submit
   @UsedAt(UsedAt.Project.GOOGLE)
   public Response<Output> mergeChange(
       RevisionResource rsrc, IdentifiedUser submitter, SubmitInput input)
-      throws RestApiException, IOException {
+      throws RestApiException, IOException, UpdateException, ConfigInvalidException,
+          PermissionBackendException {
     Change change = rsrc.getChange();
     if (!change.isNew()) {
       throw new ResourceConflictException("change is " + ChangeUtil.status(change));
@@ -207,13 +207,7 @@ public class Submit
     try (MergeOp op = mergeOpProvider.get()) {
       Change updatedChange;
 
-      try {
-        updatedChange = op.merge(change, submitter, true, input, false);
-      } catch (Exception e) {
-        Throwables.throwIfInstanceOf(e, RestApiException.class);
-        return Response.<Output>internalServerError(e).traceId(op.getTraceId().orElse(null));
-      }
-
+      updatedChange = op.merge(change, submitter, true, input, false);
       if (updatedChange.isMerged()) {
         return Response.ok(new Output(change));
       }
@@ -471,12 +465,6 @@ public class Submit
       }
 
       Response<Output> response = submit.apply(new RevisionResource(rsrc, ps), input);
-      if (response instanceof Response.InternalServerError) {
-        Response.InternalServerError<?> ise = (Response.InternalServerError<?>) response;
-        return Response.<ChangeInfo>internalServerError(ise.cause())
-            .traceId(ise.traceId().orElse(null));
-      }
-
       return Response.ok(json.noOptions().format(response.value().change));
     }
   }

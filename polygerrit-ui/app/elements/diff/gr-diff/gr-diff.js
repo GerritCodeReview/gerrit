@@ -908,7 +908,8 @@
           !chunk.ab &&
 
           // The chunk doesn't have the given side.
-          ((leftSide && !chunk.a) || (!leftSide && !chunk.b)));
+          ((leftSide && (!chunk.a || !chunk.a.length)) ||
+           (!leftSide && (!chunk.b || !chunk.b.length))));
 
       // If we reached the beginning of the diff and failed to find a chunk
       // with the given side, return null.

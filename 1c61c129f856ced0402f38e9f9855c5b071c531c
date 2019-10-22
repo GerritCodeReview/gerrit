@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "d8ac2eea_5aeed82a",
+        "filename": "polygerrit-ui/app/styles/themes/dark-theme.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-22T13:25:53Z",
+      "side": 1,
+      "message": "quite a lot, almost every page. Just want to make sure you are aware of this change and ok with it. It should be ok.",
+      "parentUuid": "a49ceb77_5c2c4cf0",
+      "range": {
+        "startLine": 33,
+        "startChar": 34,
+        "endLine": 33,
+        "endChar": 40
+      },
+      "revId": "1c61c129f856ced0402f38e9f9855c5b071c531c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "60fa4cb4_cb6955d3",
         "filename": "polygerrit-ui/app/styles/themes/dark-theme.html",
         "patchSetId": 4
@@ -140,6 +164,30 @@
       "revId": "1c61c129f856ced0402f38e9f9855c5b071c531c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a539ae40_81616fc1",
+        "filename": "polygerrit-ui/app/styles/themes/dark-theme.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-22T13:25:53Z",
+      "side": 1,
+      "message": "sorry for the nit here. @delphine, can we use a solid color instead of the opacity here ? I think the opacity sometimes will have different support from different monitors. (some monitors will not render the opacity very well, like if less than a threshold, it will be almost completely transparent)",
+      "parentUuid": "61b8b5d3_81071980",
+      "range": {
+        "startLine": 62,
+        "startChar": 50,
+        "endLine": 62,
+        "endChar": 51
+      },
+      "revId": "1c61c129f856ced0402f38e9f9855c5b071c531c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

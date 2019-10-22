@@ -31,6 +31,7 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
@@ -59,8 +60,6 @@ import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.Context;
-import com.google.gerrit.server.update.RetryHelper;
-import com.google.gerrit.server.update.RetryingRestModifyView;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
@@ -79,8 +78,8 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 
 @Singleton
-public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, ChangeInfo>
-    implements UiAction<ChangeResource> {
+public class Revert
+    implements RestModifyView<ChangeResource, RevertInput>, UiAction<ChangeResource> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final PermissionBackend permissionBackend;
@@ -106,7 +105,6 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
       GitRepositoryManager repoManager,
       ChangeInserter.Factory changeInserterFactory,
       ChangeMessagesUtil cmUtil,
-      RetryHelper retryHelper,
       Sequences seq,
       PatchSetUtil psUtil,
       RevertedSender.Factory revertedSenderFactory,
@@ -117,7 +115,6 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
       ProjectCache projectCache,
       NotifyResolver notifyResolver,
       CommitUtil commitUtil) {
-    super(retryHelper);
     this.permissionBackend = permissionBackend;
     this.updateFactory = updateFactory;
     this.repoManager = repoManager;
@@ -136,7 +133,7 @@ public class Revert extends RetryingRestModifyView<ChangeResource, RevertInput, 
   }
 
   @Override
-  public Response<ChangeInfo> applyImpl(ChangeResource rsrc, RevertInput input)
+  public Response<ChangeInfo> apply(ChangeResource rsrc, RevertInput input)
       throws IOException, RestApiException, UpdateException, NoSuchChangeException,
           PermissionBackendException, NoSuchProjectException, ConfigInvalidException {
     Change change = rsrc.getChange();

@@ -23,6 +23,7 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.SetPrivateOp;
@@ -30,8 +31,6 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.update.BatchUpdate;
-import com.google.gerrit.server.update.RetryHelper;
-import com.google.gerrit.server.update.RetryingRestModifyView;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
@@ -39,8 +38,8 @@ import com.google.inject.Singleton;
 import org.eclipse.jgit.lib.Config;
 
 @Singleton
-public class PostPrivate extends RetryingRestModifyView<ChangeResource, SetPrivateOp.Input, String>
-    implements UiAction<ChangeResource> {
+public class PostPrivate
+    implements RestModifyView<ChangeResource, SetPrivateOp.Input>, UiAction<ChangeResource> {
   private final PermissionBackend permissionBackend;
   private final BatchUpdate.Factory updateFactory;
   private final SetPrivateOp.Factory setPrivateOpFactory;
@@ -48,12 +47,10 @@ public class PostPrivate extends RetryingRestModifyView<ChangeResource, SetPriva
 
   @Inject
   PostPrivate(
-      RetryHelper retryHelper,
       PermissionBackend permissionBackend,
       BatchUpdate.Factory updateFactory,
       SetPrivateOp.Factory setPrivateOpFactory,
       @GerritServerConfig Config config) {
-    super(retryHelper);
     this.permissionBackend = permissionBackend;
     this.updateFactory = updateFactory;
     this.setPrivateOpFactory = setPrivateOpFactory;
@@ -61,7 +58,7 @@ public class PostPrivate extends RetryingRestModifyView<ChangeResource, SetPriva
   }
 
   @Override
-  public Response<String> applyImpl(ChangeResource rsrc, SetPrivateOp.Input input)
+  public Response<String> apply(ChangeResource rsrc, SetPrivateOp.Input input)
       throws RestApiException, UpdateException {
     if (disablePrivateChanges) {
       throw new MethodNotAllowedException("private changes are disabled");

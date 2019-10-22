@@ -332,12 +332,7 @@ public class RestApiServlet extends HttpServlet {
         // TraceIT#performanceLoggingForRestCall()).
         try (PerformanceLogContext performanceLogContext =
             new PerformanceLogContext(globals.config, globals.performanceLoggers)) {
-          logger.atFinest().log(
-              "Received REST request: %s %s (parameters: %s)",
-              req.getMethod(), req.getRequestURI(), getParameterNames(req));
-          logger.atFinest().log("Calling user: %s", globals.currentUser.get().getLoggableName());
-          logger.atFinest().log(
-              "Groups: %s", globals.currentUser.get().getEffectiveGroups().getKnownGroups());
+          traceRequestData(req);
 
           if (isCorsPreflight(req)) {
             doCorsPreflight(req, res);
@@ -509,7 +504,7 @@ public class RestApiServlet extends HttpServlet {
 
             Type type = inputType(m);
             inputRequestBody = parseRequest(req, type);
-            response = invokeRestModifyViewWithRetry(traceContext, m, rsrc, inputRequestBody);
+            response = invokeRestModifyViewWithRetry(req, traceContext, m, rsrc, inputRequestBody);
 
             if (inputRequestBody instanceof RawInput) {
               try (InputStream is = req.getInputStream()) {
@@ -550,7 +545,8 @@ public class RestApiServlet extends HttpServlet {
             Type type = inputType(m);
             inputRequestBody = parseRequest(req, type);
             response =
-                invokeRestCollectionModifyViewWithRetry(traceContext, m, rsrc, inputRequestBody);
+                invokeRestCollectionModifyViewWithRetry(
+                    req, traceContext, m, rsrc, inputRequestBody);
             if (inputRequestBody instanceof RawInput) {
               try (InputStream is = req.getInputStream()) {
                 ServletUtils.consumeRequestBody(is);
@@ -688,43 +684,59 @@ public class RestApiServlet extends HttpServlet {
   }
 
   private Response<?> invokeRestModifyViewWithRetry(
+      HttpServletRequest req,
       TraceContext traceContext,
       RestModifyView<RestResource, Object> view,
       RestResource rsrc,
       Object inputRequestBody)
       throws Exception {
-    return invokeRestEndpointWithRetry(traceContext, () -> view.apply(rsrc, inputRequestBody));
+    return invokeRestEndpointWithRetry(req, traceContext, () -> view.apply(rsrc, inputRequestBody));
   }
 
   private Response<?> invokeRestCollectionModifyViewWithRetry(
+      HttpServletRequest req,
       TraceContext traceContext,
       RestCollectionModifyView<RestResource, RestResource, Object> view,
       RestResource rsrc,
       Object inputRequestBody)
       throws Exception {
-    return invokeRestEndpointWithRetry(traceContext, () -> view.apply(rsrc, inputRequestBody));
+    return invokeRestEndpointWithRetry(req, traceContext, () -> view.apply(rsrc, inputRequestBody));
   }
 
   private Response<?> invokeRestEndpointWithRetry(
-      TraceContext traceContext, Action<Response<?>> action) throws Exception {
+      HttpServletRequest req, TraceContext traceContext, Action<Response<?>> action)
+      throws Exception {
     RetryHelper.Options.Builder retryOptionsBuilder = RetryHelper.options().caller(getClass());
     if (!traceContext.isTracing()) {
       // enable automatic retry with tracing in case of non-recoverable failure
       retryOptionsBuilder =
           retryOptionsBuilder
               .retryWithTrace(t -> !(t instanceof RestApiException))
-              .onAutoTrace(autoTraceId -> traceId = Optional.of(autoTraceId));
+              .onAutoTrace(
+                  autoTraceId -> {
+                    traceId = Optional.of(autoTraceId);
+
+                    // Include details of the request into the trace.
+                    traceRequestData(req);
+                  });
     }
-    return globals.retryHelper.execute(
-        ActionType.REST_REQUEST,
-        action,
-        retryOptionsBuilder.build(),
-        t -> {
-          if (t instanceof UpdateException) {
-            t = t.getCause();
-          }
-          return t instanceof LockFailureException;
-        });
+    try {
+      return globals.retryHelper.execute(
+          ActionType.REST_REQUEST,
+          action,
+          retryOptionsBuilder.build(),
+          t -> {
+            if (t instanceof UpdateException) {
+              t = t.getCause();
+            }
+            return t instanceof LockFailureException;
+          });
+    } finally {
+      // If auto-tracing got triggered due to a non-recoverable failure, also trace the rest of
+      // this request. This means logging is forced for all further log statements and the logs are
+      // associated with the same trace ID.
+      traceId.ifPresent(tid -> traceContext.addTag(RequestId.Type.TRACE_ID, tid).forceLogging());
+    }
   }
 
   private static HttpServletRequest applyXdOverrides(HttpServletRequest req, QueryParams qp)
@@ -1488,6 +1500,15 @@ public class RestApiServlet extends HttpServlet {
       }
     }
     return requestInfo.build();
+  }
+
+  private void traceRequestData(HttpServletRequest req) {
+    logger.atFinest().log(
+        "Received REST request: %s %s (parameters: %s)",
+        req.getMethod(), req.getRequestURI(), getParameterNames(req));
+    logger.atFinest().log("Calling user: %s", globals.currentUser.get().getLoggableName());
+    logger.atFinest().log(
+        "Groups: %s", globals.currentUser.get().getEffectiveGroups().getKnownGroups());
   }
 
   private boolean isDelete(HttpServletRequest req) {

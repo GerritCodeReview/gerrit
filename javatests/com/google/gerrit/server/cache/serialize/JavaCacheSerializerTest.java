@@ -17,6 +17,7 @@ package com.google.gerrit.server.cache.serialize;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.auto.value.AutoValue;
+import com.google.gerrit.entities.Project;
 import java.io.Serializable;
 import org.junit.Test;
 
@@ -31,6 +32,11 @@ public class JavaCacheSerializerTest {
   @Test
   public void customType() throws Exception {
     assertRoundTrip(new AutoValue_JavaCacheSerializerTest_MyType(123, "four five six"));
+  }
+
+  @Test
+  public void gerritEntities() throws Exception {
+    assertRoundTrip(Project.nameKey("foo"));
   }
 
   @AutoValue

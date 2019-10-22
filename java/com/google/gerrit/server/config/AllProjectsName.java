@@ -18,6 +18,8 @@ import com.google.gerrit.entities.Project;
 
 /** Special name of the project that all projects derive from. */
 public class AllProjectsName extends Project.NameKey {
+  private static final long serialVersionUID = 1L;
+
   public AllProjectsName(String name) {
     super(name);
   }

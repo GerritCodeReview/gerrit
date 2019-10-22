@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cb59b447_cfda32c5",
+        "filename": "javatests/com/google/gerrit/server/git/receive/ReceivePackRefCacheTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-10-22T14:41:26Z",
+      "side": 1,
+      "message": "nit: could make a helper method for this, or for generating the ObjectId.\n\nSee eg. https://gerrit.googlesource.com/jgit/+/4f83544e50a34589abfc4ee03a4d87a53847f0c6/org.eclipse.jgit.test/tst/org/eclipse/jgit/internal/storage/reftable/ReftableTest.java#919\n\nif you want to also generate the IDs procedurally. (you could just twiddle the lowest byte.)",
+      "range": {
+        "startLine": 39,
+        "startChar": 65,
+        "endLine": 45,
+        "endChar": 15
+      },
+      "revId": "b145f0951414e6e2229f1bcd4a93bf72af9793d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

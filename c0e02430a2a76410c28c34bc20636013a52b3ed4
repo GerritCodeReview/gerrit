@@ -1,0 +1,89 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "12b5b256_887c2d40",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-loader.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2019-10-22T18:19:27Z",
+      "side": 1,
+      "message": "How is handled the case when plugins are loaded from different locations but use same plugin name?\nFor example, there are (were?) old GWT UI .js plugins that still work in PolyGerrit.\n\nhttps://gerrit-review.googlesource.com/Documentation/pg-plugin-migration.html#migration",
+      "revId": "c0e02430a2a76410c28c34bc20636013a52b3ed4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e4210d9e_824f3af7",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-loader.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2019-10-22T18:19:27Z",
+      "side": 1,
+      "message": "Plugin key is not really a name, and names are used in number of places in the API as a part of URLs, paths, insertion points etc.\nI\u0027m not sure this is a good idea to use pluginKey here.",
+      "revId": "c0e02430a2a76410c28c34bc20636013a52b3ed4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7c3203ae_2d5bff9f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-loader.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2019-10-22T18:19:27Z",
+      "side": 1,
+      "message": "_checkIfCompleted() should probably come explicitly after this one.",
+      "revId": "c0e02430a2a76410c28c34bc20636013a52b3ed4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aad6e5a4_151745fe",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-loader.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2019-10-22T18:19:27Z",
+      "side": 1,
+      "message": "It looks inconsistent as _checkIfCompleted declares plugin load being finished to the rest of the components *and* returns some data further.\nIdeally, _checkIfCompleted() should be the last in the sequence. See _failToLoad() for an example - and same for the rest of _updatePluginState() uses.",
+      "revId": "c0e02430a2a76410c28c34bc20636013a52b3ed4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1ec1c00a_7d14fe29",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-loader.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1024777
+      },
+      "writtenOn": "2019-10-22T18:19:27Z",
+      "side": 1,
+      "message": "Mostly a nit, and up to you:\nI think there\u0027s a pluginKey (or name) known by this point, and using it would increase the consistency and improve performance a bit.",
+      "revId": "c0e02430a2a76410c28c34bc20636013a52b3ed4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

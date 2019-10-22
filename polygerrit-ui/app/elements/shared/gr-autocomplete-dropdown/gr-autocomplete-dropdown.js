@@ -79,8 +79,8 @@
 
     open() {
       this.isHidden = false;
-      this.refit();
       this._resetCursorStops();
+      this.refit();
       this._resetCursorIndex();
     },
 
@@ -162,7 +162,7 @@
     },
 
     _resetCursorStops() {
-      if (this.suggestions.length > 0) {
+      if (this.suggestions.length > 0 && !this.isHidden) {
         Polymer.dom.flush();
         // Polymer2: querySelectorAll returns NodeList instead of Array.
         this._suggestionEls = Array.from(

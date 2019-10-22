@@ -153,6 +153,10 @@
       }
     },
 
+    getSelectedElement() {
+      return this.target;
+    },
+
     setCursorAtIndex(index, opt_noScroll) {
       this.setCursor(this.stops[index], opt_noScroll);
     },

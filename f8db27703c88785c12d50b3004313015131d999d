@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f27822e4_c8aad93c",
+        "filename": "polygerrit-ui/app/test/index.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-22T13:01:05Z",
+      "side": 1,
+      "message": "remove todo",
+      "revId": "f8db27703c88785c12d50b3004313015131d999d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

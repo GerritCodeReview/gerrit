@@ -48,6 +48,7 @@ import java.util.Collections;
 @Singleton
 public class CreateDraftComment
     extends RetryingRestModifyView<RevisionResource, DraftInput, CommentInfo> {
+  private final BatchUpdate.Factory updateFactory;
   private final Provider<CommentJson> commentJson;
   private final CommentsUtil commentsUtil;
   private final PatchSetUtil psUtil;
@@ -56,11 +57,13 @@ public class CreateDraftComment
   @Inject
   CreateDraftComment(
       RetryHelper retryHelper,
+      BatchUpdate.Factory updateFactory,
       Provider<CommentJson> commentJson,
       CommentsUtil commentsUtil,
       PatchSetUtil psUtil,
       PatchListCache patchListCache) {
     super(retryHelper);
+    this.updateFactory = updateFactory;
     this.commentJson = commentJson;
     this.commentsUtil = commentsUtil;
     this.psUtil = psUtil;
@@ -68,8 +71,7 @@ public class CreateDraftComment
   }
 
   @Override
-  protected Response<CommentInfo> applyImpl(
-      BatchUpdate.Factory updateFactory, RevisionResource rsrc, DraftInput in)
+  protected Response<CommentInfo> applyImpl(RevisionResource rsrc, DraftInput in)
       throws RestApiException, UpdateException, PermissionBackendException {
     if (Strings.isNullOrEmpty(in.path)) {
       throw new BadRequestException("path must be non-empty");

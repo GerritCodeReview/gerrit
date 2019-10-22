@@ -19,6 +19,8 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.RestResource;
+import com.google.gerrit.git.LockFailureException;
+import com.google.gerrit.server.update.RetryHelper.ActionType;
 import java.util.concurrent.atomic.AtomicReference;
 
 public abstract class RetryingRestModifyView<R extends RestResource, I, O>
@@ -40,7 +42,16 @@ public abstract class RetryingRestModifyView<R extends RestResource, I, O>
               .onAutoTrace(traceId::set)
               .build();
       return retryHelper
-          .execute((updateFactory) -> applyImpl(updateFactory, resource, input), retryOptions)
+          .execute(
+              ActionType.REST_REQUEST,
+              () -> applyImpl(resource, input),
+              retryOptions,
+              t -> {
+                if (t instanceof UpdateException) {
+                  t = t.getCause();
+                }
+                return t instanceof LockFailureException;
+              })
           .traceId(traceId.get());
     } catch (Exception e) {
       Throwables.throwIfInstanceOf(e, RestApiException.class);
@@ -48,6 +59,5 @@ public abstract class RetryingRestModifyView<R extends RestResource, I, O>
     }
   }
 
-  protected abstract Response<O> applyImpl(BatchUpdate.Factory updateFactory, R resource, I input)
-      throws Exception;
+  protected abstract Response<O> applyImpl(R resource, I input) throws Exception;
 }

@@ -42,6 +42,7 @@ import org.eclipse.jgit.lib.Config;
 public class PostPrivate extends RetryingRestModifyView<ChangeResource, SetPrivateOp.Input, String>
     implements UiAction<ChangeResource> {
   private final PermissionBackend permissionBackend;
+  private final BatchUpdate.Factory updateFactory;
   private final SetPrivateOp.Factory setPrivateOpFactory;
   private final boolean disablePrivateChanges;
 
@@ -49,17 +50,18 @@ public class PostPrivate extends RetryingRestModifyView<ChangeResource, SetPriva
   PostPrivate(
       RetryHelper retryHelper,
       PermissionBackend permissionBackend,
+      BatchUpdate.Factory updateFactory,
       SetPrivateOp.Factory setPrivateOpFactory,
       @GerritServerConfig Config config) {
     super(retryHelper);
     this.permissionBackend = permissionBackend;
+    this.updateFactory = updateFactory;
     this.setPrivateOpFactory = setPrivateOpFactory;
     this.disablePrivateChanges = config.getBoolean("change", null, "disablePrivateChanges", false);
   }
 
   @Override
-  public Response<String> applyImpl(
-      BatchUpdate.Factory updateFactory, ChangeResource rsrc, SetPrivateOp.Input input)
+  public Response<String> applyImpl(ChangeResource rsrc, SetPrivateOp.Input input)
       throws RestApiException, UpdateException {
     if (disablePrivateChanges) {
       throw new MethodNotAllowedException("private changes are disabled");

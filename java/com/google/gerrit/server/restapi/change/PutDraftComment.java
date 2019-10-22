@@ -49,7 +49,7 @@ import java.util.Optional;
 @Singleton
 public class PutDraftComment
     extends RetryingRestModifyView<DraftCommentResource, DraftInput, CommentInfo> {
-
+  private final BatchUpdate.Factory updateFactory;
   private final DeleteDraftComment delete;
   private final CommentsUtil commentsUtil;
   private final PatchSetUtil psUtil;
@@ -58,13 +58,15 @@ public class PutDraftComment
 
   @Inject
   PutDraftComment(
+      RetryHelper retryHelper,
+      BatchUpdate.Factory updateFactory,
       DeleteDraftComment delete,
       CommentsUtil commentsUtil,
       PatchSetUtil psUtil,
-      RetryHelper retryHelper,
       Provider<CommentJson> commentJson,
       PatchListCache patchListCache) {
     super(retryHelper);
+    this.updateFactory = updateFactory;
     this.delete = delete;
     this.commentsUtil = commentsUtil;
     this.psUtil = psUtil;
@@ -73,11 +75,10 @@ public class PutDraftComment
   }
 
   @Override
-  protected Response<CommentInfo> applyImpl(
-      BatchUpdate.Factory updateFactory, DraftCommentResource rsrc, DraftInput in)
+  protected Response<CommentInfo> applyImpl(DraftCommentResource rsrc, DraftInput in)
       throws RestApiException, UpdateException, PermissionBackendException {
     if (in == null || in.message == null || in.message.trim().isEmpty()) {
-      return delete.applyImpl(updateFactory, rsrc, null);
+      return delete.applyImpl(rsrc, null);
     } else if (in.id != null && !rsrc.getId().equals(in.id)) {
       throw new BadRequestException("id must match URL");
     } else if (in.line != null && in.line < 0) {

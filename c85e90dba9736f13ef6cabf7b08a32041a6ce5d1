@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8c66bd10_e3b63018",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-22T09:42:25Z",
+      "side": 1,
+      "message": "Note, that this only applies, when the cache is using JavaCacheSerializer, as can be seen in the check. So that it wouldn\u0027t happen, when the cache would use protobuf serialization. May be clarify this statement to be more accurate.\n\n  if (serializer instanceof JavaCacheSerializer) {\n      checkState(\n          Serializable.class.isAssignableFrom(type.getRawType()),\n          \"%s type %s must implement Serializable\",\n          name,\n          type);\n  }",
+      "range": {
+        "startLine": 13,
+        "startChar": 42,
+        "endLine": 14,
+        "endChar": 6
+      },
+      "revId": "c85e90dba9736f13ef6cabf7b08a32041a6ce5d1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

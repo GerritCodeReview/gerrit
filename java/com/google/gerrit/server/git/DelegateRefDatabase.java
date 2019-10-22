@@ -27,7 +27,8 @@ import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 
 /**
- * Wrapper around {@link RefDatabase} that delegates all calls to the wrapped {@link RefDatabase}.
+ * Wrapper around {@link RefDatabase} that delegates all calls to the wrapped {@link Repository}'s
+ * {@link RefDatabase}.
  */
 public class DelegateRefDatabase extends RefDatabase {
 
@@ -44,7 +45,7 @@ public class DelegateRefDatabase extends RefDatabase {
 
   @Override
   public void close() {
-    delegate.close();
+    delegate.getRefDatabase().close();
   }
 
   @Override

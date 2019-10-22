@@ -29,6 +29,20 @@ limitations under the License.
   <template>
     <style include="shared-styles"></style>
     <style include="gr-table-styles"></style>
+    <style>
+      .genericList tr td:last-of-type {
+        text-align: left;
+      }
+      .genericList tr th:last-of-type {
+        text-align: left;
+      }
+      .readOnly {
+        text-align: center;
+      }
+      .changesLink, .name, .repositoryBrowser, .readOnly {
+        white-space:nowrap;
+      }
+    </style>
     <gr-list-view
         create-new=[[_createNewCapability]]
         filter="[[_filter]]"
@@ -41,10 +55,10 @@ limitations under the License.
       <table id="list" class="genericList">
         <tr class="headerRow">
           <th class="name topHeader">Repository Name</th>
-          <th class="description topHeader">Repository Description</th>
-          <th class="changesLink topHeader">Changes</th>
           <th class="repositoryBrowser topHeader">Repository Browser</th>
-          <th class="readOnly topHeader">Read only</th>
+          <th class="changesLink topHeader">Changes</th>
+          <th class="topHeader readOnly">Read only</th>
+          <th class="description topHeader">Repository Description</th>
         </tr>
         <tr id="loading" class$="loadingMsg [[computeLoadingClass(_loading)]]">
           <td>Loading...</td>
@@ -55,8 +69,6 @@ limitations under the License.
               <td class="name">
                 <a href$="[[_computeRepoUrl(item.name)]]">[[item.name]]</a>
               </td>
-              <td class="description">[[item.description]]</td>
-              <td class="changesLink"><a href$="[[_computeChangesLink(item.name)]]">(view all)</a></td>
               <td class="repositoryBrowser">
                 <template is="dom-repeat"
                     items="[[_computeWeblink(item)]]" as="link">
@@ -64,11 +76,13 @@ limitations under the License.
                       class="webLink"
                       rel="noopener"
                       target="_blank">
-                    ([[link.name]])
+                    [[link.name]]
                   </a>
                 </template>
               </td>
+              <td class="changesLink"><a href$="[[_computeChangesLink(item.name)]]">view all</a></td>
               <td class="readOnly">[[_readOnly(item)]]</td>
+              <td class="description">[[item.description]]</td>
             </tr>
           </template>
         </tbody>

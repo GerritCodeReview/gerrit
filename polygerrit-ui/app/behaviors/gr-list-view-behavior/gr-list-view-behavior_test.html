@@ -69,10 +69,10 @@ limitations under the License.
 
     test('getFilterValue', () => {
       let params;
-      assert.equal(element.getFilterValue(params), null);
+      assert.equal(element.getFilterValue(params), '');
 
       params = {filter: null};
-      assert.equal(element.getFilterValue(params), null);
+      assert.equal(element.getFilterValue(params), '');
 
       params = {filter: 'test'};
       assert.equal(element.getFilterValue(params), 'test');

@@ -40,6 +40,7 @@ import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
@@ -59,8 +60,6 @@ import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
-import com.google.gerrit.server.update.RetryHelper;
-import com.google.gerrit.server.update.RetryingRestModifyView;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
@@ -76,8 +75,7 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 
 @Singleton
-public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, ChangeInfo>
-    implements UiAction<ChangeResource> {
+public class Move implements RestModifyView<ChangeResource, MoveInput>, UiAction<ChangeResource> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final PermissionBackend permissionBackend;
@@ -99,12 +97,10 @@ public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, Chan
       GitRepositoryManager repoManager,
       Provider<InternalChangeQuery> queryProvider,
       ChangeMessagesUtil cmUtil,
-      RetryHelper retryHelper,
       PatchSetUtil psUtil,
       ApprovalsUtil approvalsUtil,
       ProjectCache projectCache,
       @GerritServerConfig Config gerritConfig) {
-    super(retryHelper);
     this.permissionBackend = permissionBackend;
     this.updateFactory = updateFactory;
     this.json = json;
@@ -118,7 +114,7 @@ public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, Chan
   }
 
   @Override
-  protected Response<ChangeInfo> applyImpl(ChangeResource rsrc, MoveInput input)
+  public Response<ChangeInfo> apply(ChangeResource rsrc, MoveInput input)
       throws RestApiException, UpdateException, PermissionBackendException, IOException {
     if (!moveEnabled) {
       // This will be removed with the above config once we reach consensus for the move change

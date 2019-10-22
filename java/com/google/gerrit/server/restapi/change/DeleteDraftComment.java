@@ -23,6 +23,7 @@ import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.change.DraftCommentResource;
@@ -31,8 +32,6 @@ import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
-import com.google.gerrit.server.update.RetryHelper;
-import com.google.gerrit.server.update.RetryingRestModifyView;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
@@ -41,8 +40,7 @@ import java.util.Collections;
 import java.util.Optional;
 
 @Singleton
-public class DeleteDraftComment
-    extends RetryingRestModifyView<DraftCommentResource, Input, CommentInfo> {
+public class DeleteDraftComment implements RestModifyView<DraftCommentResource, Input> {
   private final BatchUpdate.Factory updateFactory;
   private final CommentsUtil commentsUtil;
   private final PatchSetUtil psUtil;
@@ -53,9 +51,7 @@ public class DeleteDraftComment
       BatchUpdate.Factory updateFactory,
       CommentsUtil commentsUtil,
       PatchSetUtil psUtil,
-      RetryHelper retryHelper,
       PatchListCache patchListCache) {
-    super(retryHelper);
     this.updateFactory = updateFactory;
     this.commentsUtil = commentsUtil;
     this.psUtil = psUtil;
@@ -63,7 +59,7 @@ public class DeleteDraftComment
   }
 
   @Override
-  protected Response<CommentInfo> applyImpl(DraftCommentResource rsrc, Input input)
+  public Response<CommentInfo> apply(DraftCommentResource rsrc, Input input)
       throws RestApiException, UpdateException {
     try (BatchUpdate bu =
         updateFactory.create(rsrc.getChange().getProject(), rsrc.getUser(), TimeUtil.nowTs())) {

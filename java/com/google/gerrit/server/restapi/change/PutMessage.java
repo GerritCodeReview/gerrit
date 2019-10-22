@@ -24,6 +24,7 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
@@ -38,8 +39,6 @@ import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.update.BatchUpdate;
-import com.google.gerrit.server.update.RetryHelper;
-import com.google.gerrit.server.update.RetryingRestModifyView;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.CommitMessageUtil;
 import com.google.gerrit.server.util.time.TimeUtil;
@@ -61,7 +60,7 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 
 @Singleton
-public class PutMessage extends RetryingRestModifyView<ChangeResource, CommitMessageInput, String> {
+public class PutMessage implements RestModifyView<ChangeResource, CommitMessageInput> {
 
   private final BatchUpdate.Factory updateFactory;
   private final GitRepositoryManager repositoryManager;
@@ -75,7 +74,6 @@ public class PutMessage extends RetryingRestModifyView<ChangeResource, CommitMes
 
   @Inject
   PutMessage(
-      RetryHelper retryHelper,
       BatchUpdate.Factory updateFactory,
       GitRepositoryManager repositoryManager,
       Provider<CurrentUser> userProvider,
@@ -85,7 +83,6 @@ public class PutMessage extends RetryingRestModifyView<ChangeResource, CommitMes
       PatchSetUtil psUtil,
       NotifyResolver notifyResolver,
       ProjectCache projectCache) {
-    super(retryHelper);
     this.updateFactory = updateFactory;
     this.repositoryManager = repositoryManager;
     this.userProvider = userProvider;
@@ -98,7 +95,7 @@ public class PutMessage extends RetryingRestModifyView<ChangeResource, CommitMes
   }
 
   @Override
-  protected Response<String> applyImpl(ChangeResource resource, CommitMessageInput input)
+  public Response<String> apply(ChangeResource resource, CommitMessageInput input)
       throws IOException, RestApiException, UpdateException, PermissionBackendException,
           ConfigInvalidException {
     PatchSet ps = psUtil.current(resource.getNotes());

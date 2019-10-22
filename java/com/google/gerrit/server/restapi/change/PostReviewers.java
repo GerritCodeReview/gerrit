@@ -21,6 +21,7 @@ import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.extensions.restapi.RestCollectionModifyView;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.change.ReviewerAdder;
@@ -29,8 +30,6 @@ import com.google.gerrit.server.change.ReviewerResource;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.update.BatchUpdate;
-import com.google.gerrit.server.update.RetryHelper;
-import com.google.gerrit.server.update.RetryingRestCollectionModifyView;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
@@ -40,8 +39,7 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton
 public class PostReviewers
-    extends RetryingRestCollectionModifyView<
-        ChangeResource, ReviewerResource, AddReviewerInput, AddReviewerResult> {
+    implements RestCollectionModifyView<ChangeResource, ReviewerResource, AddReviewerInput> {
   private final BatchUpdate.Factory updateFactory;
   private final ChangeData.Factory changeDataFactory;
   private final NotifyResolver notifyResolver;
@@ -49,12 +47,10 @@ public class PostReviewers
 
   @Inject
   PostReviewers(
-      RetryHelper retryHelper,
       BatchUpdate.Factory updateFactory,
       ChangeData.Factory changeDataFactory,
       NotifyResolver notifyResolver,
       ReviewerAdder reviewerAdder) {
-    super(retryHelper);
     this.updateFactory = updateFactory;
     this.changeDataFactory = changeDataFactory;
     this.notifyResolver = notifyResolver;
@@ -62,7 +58,7 @@ public class PostReviewers
   }
 
   @Override
-  protected Response<AddReviewerResult> applyImpl(ChangeResource rsrc, AddReviewerInput input)
+  public Response<AddReviewerResult> apply(ChangeResource rsrc, AddReviewerInput input)
       throws IOException, RestApiException, UpdateException, PermissionBackendException,
           ConfigInvalidException {
     if (input.reviewer == null) {

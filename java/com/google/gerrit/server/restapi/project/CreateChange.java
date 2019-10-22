@@ -22,12 +22,11 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.ProjectResource;
-import com.google.gerrit.server.update.RetryHelper;
-import com.google.gerrit.server.update.RetryingRestModifyView;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -36,22 +35,20 @@ import java.io.IOException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton
-public class CreateChange extends RetryingRestModifyView<ProjectResource, ChangeInput, ChangeInfo> {
+public class CreateChange implements RestModifyView<ProjectResource, ChangeInput> {
   private final com.google.gerrit.server.restapi.change.CreateChange changeCreateChange;
   private final Provider<CurrentUser> user;
 
   @Inject
   public CreateChange(
-      RetryHelper retryHelper,
       Provider<CurrentUser> user,
       com.google.gerrit.server.restapi.change.CreateChange changeCreateChange) {
-    super(retryHelper);
     this.changeCreateChange = changeCreateChange;
     this.user = user;
   }
 
   @Override
-  public Response<ChangeInfo> applyImpl(ProjectResource rsrc, ChangeInput input)
+  public Response<ChangeInfo> apply(ProjectResource rsrc, ChangeInput input)
       throws PermissionBackendException, IOException, ConfigInvalidException,
           InvalidChangeOperationException, InvalidNameException, UpdateException, RestApiException {
     if (!user.get().isIdentifiedUser()) {

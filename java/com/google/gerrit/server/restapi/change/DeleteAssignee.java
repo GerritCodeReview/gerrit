@@ -21,6 +21,7 @@ import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountLoader;
@@ -34,15 +35,13 @@ import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.Context;
-import com.google.gerrit.server.update.RetryHelper;
-import com.google.gerrit.server.update.RetryingRestModifyView;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 @Singleton
-public class DeleteAssignee extends RetryingRestModifyView<ChangeResource, Input, AccountInfo> {
+public class DeleteAssignee implements RestModifyView<ChangeResource, Input> {
   private final BatchUpdate.Factory updateFactory;
   private final ChangeMessagesUtil cmUtil;
   private final AssigneeChanged assigneeChanged;
@@ -51,13 +50,11 @@ public class DeleteAssignee extends RetryingRestModifyView<ChangeResource, Input
 
   @Inject
   DeleteAssignee(
-      RetryHelper retryHelper,
       BatchUpdate.Factory updateFactory,
       ChangeMessagesUtil cmUtil,
       AssigneeChanged assigneeChanged,
       IdentifiedUser.GenericFactory userFactory,
       AccountLoader.Factory accountLoaderFactory) {
-    super(retryHelper);
     this.updateFactory = updateFactory;
     this.cmUtil = cmUtil;
     this.assigneeChanged = assigneeChanged;
@@ -66,7 +63,7 @@ public class DeleteAssignee extends RetryingRestModifyView<ChangeResource, Input
   }
 
   @Override
-  protected Response<AccountInfo> applyImpl(ChangeResource rsrc, Input input)
+  public Response<AccountInfo> apply(ChangeResource rsrc, Input input)
       throws RestApiException, UpdateException, PermissionBackendException {
     rsrc.permissions().check(ChangePermission.EDIT_ASSIGNEE);
 

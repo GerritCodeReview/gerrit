@@ -21,6 +21,7 @@ import com.google.gerrit.extensions.api.changes.TopicInput;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
@@ -33,34 +34,27 @@ import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.Context;
-import com.google.gerrit.server.update.RetryHelper;
-import com.google.gerrit.server.update.RetryingRestModifyView;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 @Singleton
-public class PutTopic extends RetryingRestModifyView<ChangeResource, TopicInput, String>
-    implements UiAction<ChangeResource> {
+public class PutTopic
+    implements RestModifyView<ChangeResource, TopicInput>, UiAction<ChangeResource> {
   private final BatchUpdate.Factory updateFactory;
   private final ChangeMessagesUtil cmUtil;
   private final TopicEdited topicEdited;
 
   @Inject
-  PutTopic(
-      RetryHelper retryHelper,
-      BatchUpdate.Factory updateFactory,
-      ChangeMessagesUtil cmUtil,
-      TopicEdited topicEdited) {
-    super(retryHelper);
+  PutTopic(BatchUpdate.Factory updateFactory, ChangeMessagesUtil cmUtil, TopicEdited topicEdited) {
     this.updateFactory = updateFactory;
     this.cmUtil = cmUtil;
     this.topicEdited = topicEdited;
   }
 
   @Override
-  protected Response<String> applyImpl(ChangeResource req, TopicInput input)
+  public Response<String> apply(ChangeResource req, TopicInput input)
       throws UpdateException, RestApiException, PermissionBackendException {
     req.permissions().check(ChangePermission.EDIT_TOPIC_NAME);
 

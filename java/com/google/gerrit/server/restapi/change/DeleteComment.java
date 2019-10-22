@@ -51,29 +51,31 @@ public class DeleteComment
 
   private final Provider<CurrentUser> userProvider;
   private final PermissionBackend permissionBackend;
+  private final BatchUpdate.Factory updateFactory;
   private final CommentsUtil commentsUtil;
   private final Provider<CommentJson> commentJson;
   private final ChangeNotes.Factory notesFactory;
 
   @Inject
   public DeleteComment(
+      RetryHelper retryHelper,
       Provider<CurrentUser> userProvider,
       PermissionBackend permissionBackend,
-      RetryHelper retryHelper,
+      BatchUpdate.Factory updateFactory,
       CommentsUtil commentsUtil,
       Provider<CommentJson> commentJson,
       ChangeNotes.Factory notesFactory) {
     super(retryHelper);
     this.userProvider = userProvider;
     this.permissionBackend = permissionBackend;
+    this.updateFactory = updateFactory;
     this.commentsUtil = commentsUtil;
     this.commentJson = commentJson;
     this.notesFactory = notesFactory;
   }
 
   @Override
-  public Response<CommentInfo> applyImpl(
-      BatchUpdate.Factory batchUpdateFactory, CommentResource rsrc, DeleteCommentInput input)
+  public Response<CommentInfo> applyImpl(CommentResource rsrc, DeleteCommentInput input)
       throws RestApiException, IOException, ConfigInvalidException, PermissionBackendException,
           UpdateException {
     CurrentUser user = userProvider.get();
@@ -86,8 +88,7 @@ public class DeleteComment
     String newMessage = getCommentNewMessage(user.asIdentifiedUser().getName(), input.reason);
     DeleteCommentOp deleteCommentOp = new DeleteCommentOp(rsrc, newMessage);
     try (BatchUpdate batchUpdate =
-        batchUpdateFactory.create(
-            rsrc.getRevisionResource().getProject(), user, TimeUtil.nowTs())) {
+        updateFactory.create(rsrc.getRevisionResource().getProject(), user, TimeUtil.nowTs())) {
       batchUpdate.addOp(rsrc.getRevisionResource().getChange().getId(), deleteCommentOp).execute();
     }
 

@@ -40,6 +40,7 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 @Singleton
 public class PublishChangeEdit
     extends RetryingRestModifyView<ChangeResource, PublishChangeEditInput, Object> {
+  private final BatchUpdate.Factory updateFactory;
   private final ChangeEditUtil editUtil;
   private final NotifyResolver notifyResolver;
   private final ContributorAgreementsChecker contributorAgreementsChecker;
@@ -47,18 +48,19 @@ public class PublishChangeEdit
   @Inject
   PublishChangeEdit(
       RetryHelper retryHelper,
+      BatchUpdate.Factory updateFactory,
       ChangeEditUtil editUtil,
       NotifyResolver notifyResolver,
       ContributorAgreementsChecker contributorAgreementsChecker) {
     super(retryHelper);
+    this.updateFactory = updateFactory;
     this.editUtil = editUtil;
     this.notifyResolver = notifyResolver;
     this.contributorAgreementsChecker = contributorAgreementsChecker;
   }
 
   @Override
-  protected Response<Object> applyImpl(
-      BatchUpdate.Factory updateFactory, ChangeResource rsrc, PublishChangeEditInput in)
+  protected Response<Object> applyImpl(ChangeResource rsrc, PublishChangeEditInput in)
       throws IOException, RestApiException, UpdateException, ConfigInvalidException,
           NoSuchProjectException {
     contributorAgreementsChecker.check(rsrc.getProject(), rsrc.getUser());

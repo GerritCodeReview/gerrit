@@ -74,7 +74,6 @@ limitations under the License.
       element.addEventListener('item-selected', itemSelectedStub);
       MockInteractions.pressAndReleaseKeyOn(element, 9);
       assert.isTrue(handleTabSpy.called);
-      assert.equal(element.$.cursor.index, 0);
       assert.isTrue(itemSelectedStub.called);
       assert.deepEqual(itemSelectedStub.lastCall.args[0].detail, {
         trigger: 'tab',
@@ -88,7 +87,6 @@ limitations under the License.
       element.addEventListener('item-selected', itemSelectedStub);
       MockInteractions.pressAndReleaseKeyOn(element, 13);
       assert.isTrue(handleEnterSpy.called);
-      assert.equal(element.$.cursor.index, 0);
       assert.deepEqual(itemSelectedStub.lastCall.args[0].detail, {
         trigger: 'enter',
         selected: element.getCursorTarget(),
@@ -100,8 +98,8 @@ limitations under the License.
       const nextSpy = sandbox.spy(element.$.cursor, 'next');
       MockInteractions.pressAndReleaseKeyOn(element, 40);
       assert.isFalse(nextSpy.called);
-      assert.equal(element.$.cursor.index, 0);
       element.isHidden = false;
+      element.$.cursor.setCursorAtIndex(0);
       MockInteractions.pressAndReleaseKeyOn(element, 40);
       assert.isTrue(nextSpy.called);
       assert.equal(element.$.cursor.index, 1);
@@ -112,7 +110,6 @@ limitations under the License.
       const prevSpy = sandbox.spy(element.$.cursor, 'previous');
       MockInteractions.pressAndReleaseKeyOn(element, 38);
       assert.isFalse(prevSpy.called);
-      assert.equal(element.$.cursor.index, 0);
       element.isHidden = false;
       element.$.cursor.setCursorAtIndex(1);
       assert.equal(element.$.cursor.index, 1);

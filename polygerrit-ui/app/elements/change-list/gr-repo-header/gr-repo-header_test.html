@@ -46,30 +46,13 @@ limitations under the License.
 
     teardown(() => { sandbox.restore(); });
 
-    test('loads and clears account info', done => {
-      sandbox.stub(element.$.restAPI, 'getAccountDetails')
-          .returns(Promise.resolve({
-            name: 'foo',
-            email: 'bar',
-            registered_on: '2015-03-12 18:32:08.000000000',
-          }));
-      sandbox.stub(element.$.restAPI, 'getAccountStatus')
-          .returns(Promise.resolve('baz'));
-
-      element.userId = 'foo.bar@baz';
-      flush(() => {
-        assert.isOk(element._accountDetails);
-        assert.isOk(element._status);
-
-        element.userId = null;
-        flush(() => {
-          flushAsynchronousOperations();
-          assert.isNull(element._accountDetails);
-          assert.isNull(element._status);
-
-          done();
-        });
-      });
+    test('repoUrl reset once repo changed', () => {
+      sandbox.stub(Gerrit.Nav, 'getUrlForRepo',
+          repoName => `http://test.com/${repoName}`
+      );
+      assert.equal(element._repoUrl, undefined);
+      element.repo = 'test';
+      assert.equal(element._repoUrl, 'http://test.com/test');
     });
   });
 </script>

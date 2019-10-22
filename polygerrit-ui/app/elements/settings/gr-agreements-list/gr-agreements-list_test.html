@@ -47,7 +47,7 @@ limitations under the License.
       }];
 
       stub('gr-rest-api-interface', {
-        getAccountGroups() { return Promise.resolve(agreements); },
+        getAccountAgreements() { return Promise.resolve(agreements); },
       });
 
       element = fixture('basic');
@@ -58,10 +58,10 @@ limitations under the License.
     test('renders', () => {
       const rows = Polymer.dom(element.root).querySelectorAll('tbody tr');
 
-      assert.equal(rows.length, 3);
+      assert.equal(rows.length, 1);
 
-      const nameCells = rows.map(row =>
-        row.querySelectorAll('td')[0].textContent
+      const nameCells = Array.from(rows).map(row =>
+        row.querySelectorAll('td')[0].textContent.trim()
       );
 
       assert.equal(nameCells[0], 'Agreements 1');

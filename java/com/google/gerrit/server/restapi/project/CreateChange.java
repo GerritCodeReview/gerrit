@@ -26,7 +26,6 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.ProjectResource;
-import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.RetryHelper;
 import com.google.gerrit.server.update.RetryingRestModifyView;
 import com.google.gerrit.server.update.UpdateException;
@@ -38,18 +37,15 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton
 public class CreateChange extends RetryingRestModifyView<ProjectResource, ChangeInput, ChangeInfo> {
-  private final BatchUpdate.Factory updateFactory;
   private final com.google.gerrit.server.restapi.change.CreateChange changeCreateChange;
   private final Provider<CurrentUser> user;
 
   @Inject
   public CreateChange(
       RetryHelper retryHelper,
-      BatchUpdate.Factory updateFactory,
       Provider<CurrentUser> user,
       com.google.gerrit.server.restapi.change.CreateChange changeCreateChange) {
     super(retryHelper);
-    this.updateFactory = updateFactory;
     this.changeCreateChange = changeCreateChange;
     this.user = user;
   }
@@ -67,6 +63,6 @@ public class CreateChange extends RetryingRestModifyView<ProjectResource, Change
     }
 
     input.project = rsrc.getName();
-    return changeCreateChange.execute(updateFactory, input, rsrc);
+    return changeCreateChange.execute(input, rsrc);
   }
 }

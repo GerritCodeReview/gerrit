@@ -105,6 +105,7 @@ import org.eclipse.jgit.util.ChangeIdUtil;
 public class CreateChange
     extends RetryingRestCollectionModifyView<
         TopLevelResource, ChangeResource, ChangeInput, ChangeInfo> {
+  private final BatchUpdate.Factory updateFactory;
   private final String anonymousCowardName;
   private final GitRepositoryManager gitManager;
   private final Sequences seq;
@@ -126,6 +127,8 @@ public class CreateChange
 
   @Inject
   CreateChange(
+      RetryHelper retryHelper,
+      BatchUpdate.Factory updateFactory,
       @AnonymousCowardName String anonymousCowardName,
       GitRepositoryManager gitManager,
       Sequences seq,
@@ -138,13 +141,13 @@ public class CreateChange
       ChangeJson.Factory json,
       ChangeFinder changeFinder,
       Provider<InternalChangeQuery> queryProvider,
-      RetryHelper retryHelper,
       PatchSetUtil psUtil,
       @GerritServerConfig Config config,
       MergeUtil.Factory mergeUtilFactory,
       NotifyResolver notifyResolver,
       ContributorAgreementsChecker contributorAgreements) {
     super(retryHelper);
+    this.updateFactory = updateFactory;
     this.anonymousCowardName = anonymousCowardName;
     this.gitManager = gitManager;
     this.seq = seq;
@@ -166,20 +169,18 @@ public class CreateChange
   }
 
   @Override
-  protected Response<ChangeInfo> applyImpl(
-      BatchUpdate.Factory updateFactory, TopLevelResource parent, ChangeInput input)
+  protected Response<ChangeInfo> applyImpl(TopLevelResource parent, ChangeInput input)
       throws IOException, InvalidChangeOperationException, RestApiException, UpdateException,
           PermissionBackendException, ConfigInvalidException {
     if (Strings.isNullOrEmpty(input.project)) {
       throw new BadRequestException("project must be non-empty");
     }
 
-    return execute(updateFactory, input, projectsCollection.parse(input.project));
+    return execute(input, projectsCollection.parse(input.project));
   }
 
   /** Creates the changes in the given project. This is public for reuse in the project API. */
-  public Response<ChangeInfo> execute(
-      BatchUpdate.Factory updateFactory, ChangeInput input, ProjectResource projectResource)
+  public Response<ChangeInfo> execute(ChangeInput input, ProjectResource projectResource)
       throws IOException, RestApiException, UpdateException, PermissionBackendException,
           ConfigInvalidException {
     if (!user.get().isIdentifiedUser()) {

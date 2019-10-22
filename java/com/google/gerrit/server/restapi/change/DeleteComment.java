@@ -23,6 +23,7 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.change.CommentResource;
@@ -33,8 +34,6 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
-import com.google.gerrit.server.update.RetryHelper;
-import com.google.gerrit.server.update.RetryingRestModifyView;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
@@ -46,8 +45,7 @@ import java.util.Optional;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton
-public class DeleteComment
-    extends RetryingRestModifyView<CommentResource, DeleteCommentInput, CommentInfo> {
+public class DeleteComment implements RestModifyView<CommentResource, DeleteCommentInput> {
 
   private final Provider<CurrentUser> userProvider;
   private final PermissionBackend permissionBackend;
@@ -58,14 +56,12 @@ public class DeleteComment
 
   @Inject
   public DeleteComment(
-      RetryHelper retryHelper,
       Provider<CurrentUser> userProvider,
       PermissionBackend permissionBackend,
       BatchUpdate.Factory updateFactory,
       CommentsUtil commentsUtil,
       Provider<CommentJson> commentJson,
       ChangeNotes.Factory notesFactory) {
-    super(retryHelper);
     this.userProvider = userProvider;
     this.permissionBackend = permissionBackend;
     this.updateFactory = updateFactory;
@@ -75,7 +71,7 @@ public class DeleteComment
   }
 
   @Override
-  public Response<CommentInfo> applyImpl(CommentResource rsrc, DeleteCommentInput input)
+  public Response<CommentInfo> apply(CommentResource rsrc, DeleteCommentInput input)
       throws RestApiException, IOException, ConfigInvalidException, PermissionBackendException,
           UpdateException {
     CurrentUser user = userProvider.get();

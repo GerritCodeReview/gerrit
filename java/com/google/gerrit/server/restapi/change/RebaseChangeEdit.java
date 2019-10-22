@@ -19,35 +19,30 @@ import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
+import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.edit.ChangeEditModifier;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
-import com.google.gerrit.server.update.RetryHelper;
-import com.google.gerrit.server.update.RetryingRestModifyView;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import org.eclipse.jgit.lib.Repository;
 
 @Singleton
-public class RebaseChangeEdit extends RetryingRestModifyView<ChangeResource, Input, Object> {
+public class RebaseChangeEdit implements RestModifyView<ChangeResource, Input> {
   private final GitRepositoryManager repositoryManager;
   private final ChangeEditModifier editModifier;
 
   @Inject
-  RebaseChangeEdit(
-      RetryHelper retryHelper,
-      GitRepositoryManager repositoryManager,
-      ChangeEditModifier editModifier) {
-    super(retryHelper);
+  RebaseChangeEdit(GitRepositoryManager repositoryManager, ChangeEditModifier editModifier) {
     this.repositoryManager = repositoryManager;
     this.editModifier = editModifier;
   }
 
   @Override
-  protected Response<Object> applyImpl(ChangeResource rsrc, Input in)
+  public Response<Object> apply(ChangeResource rsrc, Input in)
       throws AuthException, ResourceConflictException, IOException, PermissionBackendException {
     Project.NameKey project = rsrc.getProject();
     try (Repository repository = repositoryManager.openRepository(project)) {

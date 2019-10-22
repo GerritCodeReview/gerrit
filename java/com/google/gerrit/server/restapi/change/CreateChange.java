@@ -40,6 +40,7 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.extensions.restapi.RestCollectionModifyView;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.CurrentUser;
@@ -69,8 +70,6 @@ import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.restapi.project.CommitsCollection;
 import com.google.gerrit.server.restapi.project.ProjectsCollection;
 import com.google.gerrit.server.update.BatchUpdate;
-import com.google.gerrit.server.update.RetryHelper;
-import com.google.gerrit.server.update.RetryingRestCollectionModifyView;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
@@ -103,8 +102,7 @@ import org.eclipse.jgit.util.ChangeIdUtil;
 
 @Singleton
 public class CreateChange
-    extends RetryingRestCollectionModifyView<
-        TopLevelResource, ChangeResource, ChangeInput, ChangeInfo> {
+    implements RestCollectionModifyView<TopLevelResource, ChangeResource, ChangeInput> {
   private final BatchUpdate.Factory updateFactory;
   private final String anonymousCowardName;
   private final GitRepositoryManager gitManager;
@@ -127,7 +125,6 @@ public class CreateChange
 
   @Inject
   CreateChange(
-      RetryHelper retryHelper,
       BatchUpdate.Factory updateFactory,
       @AnonymousCowardName String anonymousCowardName,
       GitRepositoryManager gitManager,
@@ -146,7 +143,6 @@ public class CreateChange
       MergeUtil.Factory mergeUtilFactory,
       NotifyResolver notifyResolver,
       ContributorAgreementsChecker contributorAgreements) {
-    super(retryHelper);
     this.updateFactory = updateFactory;
     this.anonymousCowardName = anonymousCowardName;
     this.gitManager = gitManager;
@@ -169,7 +165,7 @@ public class CreateChange
   }
 
   @Override
-  protected Response<ChangeInfo> applyImpl(TopLevelResource parent, ChangeInput input)
+  public Response<ChangeInfo> apply(TopLevelResource parent, ChangeInput input)
       throws IOException, InvalidChangeOperationException, RestApiException, UpdateException,
           PermissionBackendException, ConfigInvalidException {
     if (!user.get().isIdentifiedUser()) {

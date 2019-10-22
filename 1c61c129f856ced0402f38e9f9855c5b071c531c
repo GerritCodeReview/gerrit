@@ -144,6 +144,30 @@
     },
     {
       "key": {
+        "uuid": "ea92136d_ec27e879",
+        "filename": "polygerrit-ui/app/styles/themes/dark-theme.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2019-10-22T13:58:39Z",
+      "side": 1,
+      "message": "Some examples in deemphasized text color:\n  dates in comments \n  line numbers in diff\n  disabled buttons\n  statuses - like change has been succesfully merged\n\nI don\u0027t see much differences in these two greys. I think we should change it to default material one.",
+      "parentUuid": "d8ac2eea_5aeed82a",
+      "range": {
+        "startLine": 33,
+        "startChar": 34,
+        "endLine": 33,
+        "endChar": 40
+      },
+      "revId": "1c61c129f856ced0402f38e9f9855c5b071c531c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "60fa4cb4_cb6955d3",
         "filename": "polygerrit-ui/app/styles/themes/dark-theme.html",
         "patchSetId": 4
@@ -226,6 +250,30 @@
       "writtenOn": "2019-10-22T13:55:51Z",
       "side": 1,
       "message": "We could try it on a monitor and make the decision, what do you think?  This spec for color is based on Material design guidelines. \n\nAs an alternative I converted this rgba color to an HEX color. Would rendering be better using an HEX color instead?",
+      "parentUuid": "a539ae40_81616fc1",
+      "range": {
+        "startLine": 62,
+        "startChar": 50,
+        "endLine": 62,
+        "endChar": 51
+      },
+      "revId": "1c61c129f856ced0402f38e9f9855c5b071c531c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4642fd0c_cf047bc4",
+        "filename": "polygerrit-ui/app/styles/themes/dark-theme.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2019-10-22T13:58:39Z",
+      "side": 1,
+      "message": "We have several places with opacity like --selection-backgroound-color. I think opacity is clearer, but I would leave this to delphine.",
       "parentUuid": "a539ae40_81616fc1",
       "range": {
         "startLine": 62,

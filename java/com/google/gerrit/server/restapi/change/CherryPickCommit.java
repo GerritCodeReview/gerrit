@@ -24,6 +24,7 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.change.ChangeJson;
 import com.google.gerrit.server.permissions.PermissionBackend;
@@ -35,8 +36,6 @@ import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.submit.IntegrationException;
 import com.google.gerrit.server.update.BatchUpdate;
-import com.google.gerrit.server.update.RetryHelper;
-import com.google.gerrit.server.update.RetryingRestModifyView;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -45,8 +44,7 @@ import java.io.IOException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton
-public class CherryPickCommit
-    extends RetryingRestModifyView<CommitResource, CherryPickInput, CherryPickChangeInfo> {
+public class CherryPickCommit implements RestModifyView<CommitResource, CherryPickInput> {
   private final PermissionBackend permissionBackend;
   private final BatchUpdate.Factory updateFactory;
   private final Provider<CurrentUser> user;
@@ -56,14 +54,12 @@ public class CherryPickCommit
 
   @Inject
   CherryPickCommit(
-      RetryHelper retryHelper,
       PermissionBackend permissionBackend,
       BatchUpdate.Factory updateFactory,
       Provider<CurrentUser> user,
       CherryPickChange cherryPickChange,
       ChangeJson.Factory json,
       ContributorAgreementsChecker contributorAgreements) {
-    super(retryHelper);
     this.permissionBackend = permissionBackend;
     this.updateFactory = updateFactory;
     this.user = user;
@@ -73,7 +69,7 @@ public class CherryPickCommit
   }
 
   @Override
-  public Response<CherryPickChangeInfo> applyImpl(CommitResource rsrc, CherryPickInput input)
+  public Response<CherryPickChangeInfo> apply(CommitResource rsrc, CherryPickInput input)
       throws IOException, UpdateException, RestApiException, PermissionBackendException,
           ConfigInvalidException, NoSuchProjectException {
     String destination = Strings.nullToEmpty(input.destination).trim();

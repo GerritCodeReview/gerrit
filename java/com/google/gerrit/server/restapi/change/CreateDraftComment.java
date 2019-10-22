@@ -25,6 +25,7 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.server.CommentsUtil;
@@ -36,8 +37,6 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
-import com.google.gerrit.server.update.RetryHelper;
-import com.google.gerrit.server.update.RetryingRestModifyView;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
@@ -46,8 +45,7 @@ import com.google.inject.Singleton;
 import java.util.Collections;
 
 @Singleton
-public class CreateDraftComment
-    extends RetryingRestModifyView<RevisionResource, DraftInput, CommentInfo> {
+public class CreateDraftComment implements RestModifyView<RevisionResource, DraftInput> {
   private final BatchUpdate.Factory updateFactory;
   private final Provider<CommentJson> commentJson;
   private final CommentsUtil commentsUtil;
@@ -56,13 +54,11 @@ public class CreateDraftComment
 
   @Inject
   CreateDraftComment(
-      RetryHelper retryHelper,
       BatchUpdate.Factory updateFactory,
       Provider<CommentJson> commentJson,
       CommentsUtil commentsUtil,
       PatchSetUtil psUtil,
       PatchListCache patchListCache) {
-    super(retryHelper);
     this.updateFactory = updateFactory;
     this.commentJson = commentJson;
     this.commentsUtil = commentsUtil;
@@ -71,7 +67,7 @@ public class CreateDraftComment
   }
 
   @Override
-  protected Response<CommentInfo> applyImpl(RevisionResource rsrc, DraftInput in)
+  public Response<CommentInfo> apply(RevisionResource rsrc, DraftInput in)
       throws RestApiException, UpdateException, PermissionBackendException {
     if (Strings.isNullOrEmpty(in.path)) {
       throw new BadRequestException("path must be non-empty");

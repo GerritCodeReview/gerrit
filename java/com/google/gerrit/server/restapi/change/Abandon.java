@@ -22,6 +22,7 @@ import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.PatchSetUtil;
@@ -34,8 +35,6 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.update.BatchUpdate;
-import com.google.gerrit.server.update.RetryHelper;
-import com.google.gerrit.server.update.RetryingRestModifyView;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
@@ -44,8 +43,8 @@ import java.io.IOException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton
-public class Abandon extends RetryingRestModifyView<ChangeResource, AbandonInput, ChangeInfo>
-    implements UiAction<ChangeResource> {
+public class Abandon
+    implements RestModifyView<ChangeResource, AbandonInput>, UiAction<ChangeResource> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final BatchUpdate.Factory updateFactory;
@@ -58,11 +57,9 @@ public class Abandon extends RetryingRestModifyView<ChangeResource, AbandonInput
   Abandon(
       BatchUpdate.Factory updateFactory,
       ChangeJson.Factory json,
-      RetryHelper retryHelper,
       AbandonOp.Factory abandonOpFactory,
       NotifyResolver notifyResolver,
       PatchSetUtil patchSetUtil) {
-    super(retryHelper);
     this.updateFactory = updateFactory;
     this.json = json;
     this.abandonOpFactory = abandonOpFactory;
@@ -71,7 +68,7 @@ public class Abandon extends RetryingRestModifyView<ChangeResource, AbandonInput
   }
 
   @Override
-  protected Response<ChangeInfo> applyImpl(ChangeResource rsrc, AbandonInput input)
+  public Response<ChangeInfo> apply(ChangeResource rsrc, AbandonInput input)
       throws RestApiException, UpdateException, PermissionBackendException, IOException,
           ConfigInvalidException {
     // Not allowed to abandon if the current patch set is locked.

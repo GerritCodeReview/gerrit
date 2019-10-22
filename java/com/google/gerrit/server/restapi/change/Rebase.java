@@ -47,8 +47,6 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.update.BatchUpdate;
-import com.google.gerrit.server.update.RetryHelper;
-import com.google.gerrit.server.update.RetryingRestModifyView;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
@@ -63,7 +61,7 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 
 @Singleton
-public class Rebase extends RetryingRestModifyView<RevisionResource, RebaseInput, ChangeInfo>
+public class Rebase
     implements RestModifyView<RevisionResource, RebaseInput>, UiAction<RevisionResource> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
@@ -81,7 +79,6 @@ public class Rebase extends RetryingRestModifyView<RevisionResource, RebaseInput
 
   @Inject
   public Rebase(
-      RetryHelper retryHelper,
       BatchUpdate.Factory updateFactory,
       GitRepositoryManager repoManager,
       RebaseChangeOp.Factory rebaseFactory,
@@ -90,7 +87,6 @@ public class Rebase extends RetryingRestModifyView<RevisionResource, RebaseInput
       PermissionBackend permissionBackend,
       ProjectCache projectCache,
       PatchSetUtil patchSetUtil) {
-    super(retryHelper);
     this.updateFactory = updateFactory;
     this.repoManager = repoManager;
     this.rebaseFactory = rebaseFactory;
@@ -102,7 +98,7 @@ public class Rebase extends RetryingRestModifyView<RevisionResource, RebaseInput
   }
 
   @Override
-  protected Response<ChangeInfo> applyImpl(RevisionResource rsrc, RebaseInput input)
+  public Response<ChangeInfo> apply(RevisionResource rsrc, RebaseInput input)
       throws UpdateException, RestApiException, IOException, PermissionBackendException {
     // Not allowed to rebase if the current patch set is locked.
     patchSetUtil.checkPatchSetNotLocked(rsrc.getNotes());

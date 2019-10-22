@@ -31,6 +31,7 @@ import com.google.gerrit.extensions.restapi.MergeConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
@@ -53,8 +54,6 @@ import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.restapi.project.CommitsCollection;
 import com.google.gerrit.server.submit.MergeIdenticalTreeException;
 import com.google.gerrit.server.update.BatchUpdate;
-import com.google.gerrit.server.update.RetryHelper;
-import com.google.gerrit.server.update.RetryingRestModifyView;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
@@ -75,8 +74,7 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.util.ChangeIdUtil;
 
 @Singleton
-public class CreateMergePatchSet
-    extends RetryingRestModifyView<ChangeResource, MergePatchSetInput, ChangeInfo> {
+public class CreateMergePatchSet implements RestModifyView<ChangeResource, MergePatchSetInput> {
   private final BatchUpdate.Factory updateFactory;
   private final GitRepositoryManager gitManager;
   private final CommitsCollection commits;
@@ -100,12 +98,10 @@ public class CreateMergePatchSet
       ChangeJson.Factory json,
       PatchSetUtil psUtil,
       MergeUtil.Factory mergeUtilFactory,
-      RetryHelper retryHelper,
       PatchSetInserter.Factory patchSetInserterFactory,
       ProjectCache projectCache,
       ChangeFinder changeFinder,
       PermissionBackend permissionBackend) {
-    super(retryHelper);
     this.updateFactory = updateFactory;
     this.gitManager = gitManager;
     this.commits = commits;
@@ -121,7 +117,7 @@ public class CreateMergePatchSet
   }
 
   @Override
-  protected Response<ChangeInfo> applyImpl(ChangeResource rsrc, MergePatchSetInput in)
+  public Response<ChangeInfo> apply(ChangeResource rsrc, MergePatchSetInput in)
       throws IOException, RestApiException, UpdateException, PermissionBackendException {
     // Not allowed to create a new patch set if the current patch set is locked.
     psUtil.checkPatchSetNotLocked(rsrc.getNotes());

@@ -123,6 +123,9 @@ import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.quota.QuotaException;
 import com.google.gerrit.server.restapi.change.ChangesCollection;
 import com.google.gerrit.server.restapi.project.ProjectsCollection;
+import com.google.gerrit.server.update.RetryHelper;
+import com.google.gerrit.server.update.RetryHelper.Action;
+import com.google.gerrit.server.update.RetryHelper.ActionType;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.util.http.CacheHeaders;
@@ -241,6 +244,7 @@ public class RestApiServlet extends HttpServlet {
     final Config config;
     final DynamicSet<PerformanceLogger> performanceLoggers;
     final ChangeFinder changeFinder;
+    final RetryHelper retryHelper;
 
     @Inject
     Globals(
@@ -254,7 +258,8 @@ public class RestApiServlet extends HttpServlet {
         RestApiQuotaEnforcer quotaChecker,
         @GerritServerConfig Config config,
         DynamicSet<PerformanceLogger> performanceLoggers,
-        ChangeFinder changeFinder) {
+        ChangeFinder changeFinder,
+        RetryHelper retryHelper) {
       this.currentUser = currentUser;
       this.webSession = webSession;
       this.paramParser = paramParser;
@@ -266,6 +271,7 @@ public class RestApiServlet extends HttpServlet {
       this.config = config;
       this.performanceLoggers = performanceLoggers;
       this.changeFinder = changeFinder;
+      this.retryHelper = retryHelper;
       allowOrigin = makeAllowOrigin(config);
     }
 
@@ -503,7 +509,9 @@ public class RestApiServlet extends HttpServlet {
 
             Type type = inputType(m);
             inputRequestBody = parseRequest(req, type);
-            response = m.apply(rsrc, inputRequestBody);
+            response =
+                invokeRestModifyViewWithRetry(traceContext, viewData, m, rsrc, inputRequestBody);
+
             if (inputRequestBody instanceof RawInput) {
               try (InputStream is = req.getInputStream()) {
                 ServletUtils.consumeRequestBody(is);
@@ -542,7 +550,9 @@ public class RestApiServlet extends HttpServlet {
 
             Type type = inputType(m);
             inputRequestBody = parseRequest(req, type);
-            response = m.apply(rsrc, inputRequestBody);
+            response =
+                invokeRestCollectionModifyViewWithRetry(
+                    traceContext, viewData, m, rsrc, inputRequestBody);
             if (inputRequestBody instanceof RawInput) {
               try (InputStream is = req.getInputStream()) {
                 ServletUtils.consumeRequestBody(is);
@@ -661,8 +671,7 @@ public class RestApiServlet extends HttpServlet {
         status = SC_INTERNAL_SERVER_ERROR;
         responseBytes = handleException(e, req, res);
       } finally {
-        String metric =
-            viewData != null && viewData.view != null ? globals.metrics.view(viewData) : "_unknown";
+        String metric = getViewName(viewData);
         globals.metrics.count.increment(metric);
         if (status >= SC_BAD_REQUEST) {
           globals.metrics.errorCount.increment(metric, status);
@@ -686,6 +695,55 @@ public class RestApiServlet extends HttpServlet {
                 viewData == null ? null : viewData.view));
       }
     }
+  }
+
+  private Response<?> invokeRestModifyViewWithRetry(
+      TraceContext traceContext,
+      ViewData viewData,
+      RestModifyView<RestResource, Object> view,
+      RestResource rsrc,
+      Object inputRequestBody)
+      throws Exception {
+    return invokeRestEndpointWithRetry(
+        traceContext, viewData, () -> view.apply(rsrc, inputRequestBody));
+  }
+
+  private Response<?> invokeRestCollectionModifyViewWithRetry(
+      TraceContext traceContext,
+      ViewData viewData,
+      RestCollectionModifyView<RestResource, RestResource, Object> view,
+      RestResource rsrc,
+      Object inputRequestBody)
+      throws Exception {
+    return invokeRestEndpointWithRetry(
+        traceContext, viewData, () -> view.apply(rsrc, inputRequestBody));
+  }
+
+  private Response<?> invokeRestEndpointWithRetry(
+      TraceContext traceContext, ViewData viewData, Action<Response<?>> action) throws Exception {
+    RetryHelper.Options.Builder retryOptionsBuilder =
+        RetryHelper.options().caller(getViewName(viewData));
+    if (!traceContext.isTracing()) {
+      // enable automatic retry with tracing in case of non-recoverable failure
+      retryOptionsBuilder =
+          retryOptionsBuilder
+              .retryWithTrace(t -> !(t instanceof RestApiException))
+              .onAutoTrace(autoTraceId -> traceId = Optional.of(autoTraceId));
+    }
+    return globals.retryHelper.execute(
+        ActionType.REST_REQUEST,
+        action,
+        retryOptionsBuilder.build(),
+        t -> {
+          if (t instanceof UpdateException) {
+            t = t.getCause();
+          }
+          return t instanceof LockFailureException;
+        });
+  }
+
+  private String getViewName(ViewData viewData) {
+    return viewData != null && viewData.view != null ? globals.metrics.view(viewData) : "_unknown";
   }
 
   private static HttpServletRequest applyXdOverrides(HttpServletRequest req, QueryParams qp)

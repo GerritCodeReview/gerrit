@@ -32,6 +32,7 @@ import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.IdentifiedUser;
@@ -51,8 +52,6 @@ import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.Context;
-import com.google.gerrit.server.update.RetryHelper;
-import com.google.gerrit.server.update.RetryingRestModifyView;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.LabelVote;
 import com.google.gerrit.server.util.time.TimeUtil;
@@ -64,7 +63,7 @@ import java.util.Map;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton
-public class DeleteVote extends RetryingRestModifyView<VoteResource, DeleteVoteInput, Object> {
+public class DeleteVote implements RestModifyView<VoteResource, DeleteVoteInput> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final BatchUpdate.Factory updateFactory;
@@ -80,7 +79,6 @@ public class DeleteVote extends RetryingRestModifyView<VoteResource, DeleteVoteI
 
   @Inject
   DeleteVote(
-      RetryHelper retryHelper,
       BatchUpdate.Factory updateFactory,
       ApprovalsUtil approvalsUtil,
       PatchSetUtil psUtil,
@@ -91,7 +89,6 @@ public class DeleteVote extends RetryingRestModifyView<VoteResource, DeleteVoteI
       NotifyResolver notifyResolver,
       RemoveReviewerControl removeReviewerControl,
       ProjectCache projectCache) {
-    super(retryHelper);
     this.updateFactory = updateFactory;
     this.approvalsUtil = approvalsUtil;
     this.psUtil = psUtil;
@@ -105,7 +102,7 @@ public class DeleteVote extends RetryingRestModifyView<VoteResource, DeleteVoteI
   }
 
   @Override
-  protected Response<Object> applyImpl(VoteResource rsrc, DeleteVoteInput input)
+  public Response<Object> apply(VoteResource rsrc, DeleteVoteInput input)
       throws RestApiException, UpdateException, IOException, ConfigInvalidException {
     if (input == null) {
       input = new DeleteVoteInput();

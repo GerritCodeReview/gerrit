@@ -26,6 +26,7 @@ import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.ChangeUtil;
@@ -43,8 +44,6 @@ import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.Context;
-import com.google.gerrit.server.update.RetryHelper;
-import com.google.gerrit.server.update.RetryingRestModifyView;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
@@ -52,8 +51,8 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 
 @Singleton
-public class Restore extends RetryingRestModifyView<ChangeResource, RestoreInput, ChangeInfo>
-    implements UiAction<ChangeResource> {
+public class Restore
+    implements RestModifyView<ChangeResource, RestoreInput>, UiAction<ChangeResource> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final BatchUpdate.Factory updateFactory;
@@ -71,10 +70,8 @@ public class Restore extends RetryingRestModifyView<ChangeResource, RestoreInput
       ChangeJson.Factory json,
       ChangeMessagesUtil cmUtil,
       PatchSetUtil psUtil,
-      RetryHelper retryHelper,
       ChangeRestored changeRestored,
       ProjectCache projectCache) {
-    super(retryHelper);
     this.updateFactory = updateFactory;
     this.restoredSenderFactory = restoredSenderFactory;
     this.json = json;
@@ -85,7 +82,7 @@ public class Restore extends RetryingRestModifyView<ChangeResource, RestoreInput
   }
 
   @Override
-  protected Response<ChangeInfo> applyImpl(ChangeResource rsrc, RestoreInput input)
+  public Response<ChangeInfo> apply(ChangeResource rsrc, RestoreInput input)
       throws RestApiException, UpdateException, PermissionBackendException, IOException {
     // Not allowed to restore if the current patch set is locked.
     psUtil.checkPatchSetNotLocked(rsrc.getNotes());

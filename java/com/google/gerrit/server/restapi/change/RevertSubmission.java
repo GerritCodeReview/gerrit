@@ -25,6 +25,7 @@ import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.RevertSubmissionInfo;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
+import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
@@ -36,8 +37,6 @@ import com.google.gerrit.server.project.ContributorAgreementsChecker;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
-import com.google.gerrit.server.update.RetryHelper;
-import com.google.gerrit.server.update.RetryingRestModifyView;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -48,8 +47,7 @@ import org.apache.commons.lang.RandomStringUtils;
 
 @Singleton
 public class RevertSubmission
-    extends RetryingRestModifyView<ChangeResource, RevertInput, RevertSubmissionInfo>
-    implements UiAction<ChangeResource> {
+    implements RestModifyView<ChangeResource, RevertInput>, UiAction<ChangeResource> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final Revert revert;
@@ -63,7 +61,6 @@ public class RevertSubmission
 
   @Inject
   RevertSubmission(
-      RetryHelper retryHelper,
       Revert revert,
       Provider<InternalChangeQuery> queryProvider,
       ChangeResource.Factory changeResourceFactory,
@@ -72,7 +69,6 @@ public class RevertSubmission
       ProjectCache projectCache,
       PatchSetUtil psUtil,
       ContributorAgreementsChecker contributorAgreements) {
-    super(retryHelper);
     this.revert = revert;
     this.queryProvider = queryProvider;
     this.changeResourceFactory = changeResourceFactory;
@@ -84,7 +80,7 @@ public class RevertSubmission
   }
 
   @Override
-  public Response<RevertSubmissionInfo> applyImpl(ChangeResource changeResource, RevertInput input)
+  public Response<RevertSubmissionInfo> apply(ChangeResource changeResource, RevertInput input)
       throws Exception {
 
     if (!changeResource.getChange().isMerged()) {

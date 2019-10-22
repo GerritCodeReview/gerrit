@@ -72,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "a49ceb77_5c2c4cf0",
+        "filename": "polygerrit-ui/app/styles/themes/dark-theme.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2019-10-22T13:14:03Z",
+      "side": 1,
+      "message": "Where is demphasized color used in the UI? In dark theme we have 2 colors for text, a light grey (close to white) and a darker grey (with enough contrast with dark background).",
+      "parentUuid": "c83084fc_0b344f5f",
+      "range": {
+        "startLine": 33,
+        "startChar": 34,
+        "endLine": 33,
+        "endChar": 40
+      },
+      "revId": "1c61c129f856ced0402f38e9f9855c5b071c531c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "60fa4cb4_cb6955d3",
         "filename": "polygerrit-ui/app/styles/themes/dark-theme.html",
         "patchSetId": 4

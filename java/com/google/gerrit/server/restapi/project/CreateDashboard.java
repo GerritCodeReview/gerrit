@@ -19,12 +19,15 @@ import com.google.gerrit.extensions.api.projects.SetDashboardInput;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestCollectionCreateView;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.DashboardResource;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+import java.io.IOException;
 import org.kohsuke.args4j.Option;
 
 @Singleton
@@ -42,7 +45,7 @@ public class CreateDashboard
 
   @Override
   public Response<DashboardInfo> apply(ProjectResource parent, IdString id, SetDashboardInput input)
-      throws Exception {
+      throws RestApiException, IOException, PermissionBackendException {
     parent.getProjectState().checkStatePermitsWrite();
     if (!DashboardsCollection.isDefaultDashboard(id)) {
       throw new ResourceNotFoundException(id);

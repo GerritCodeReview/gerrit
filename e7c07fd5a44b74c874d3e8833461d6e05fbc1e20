@@ -236,6 +236,24 @@
     },
     {
       "key": {
+        "uuid": "c7b14245_ed6d73c1",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceivePackRefCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2019-10-22T10:25:50Z",
+      "side": 1,
+      "message": "SGTM",
+      "parentUuid": "8ff29159_79d54110",
+      "revId": "e7c07fd5a44b74c874d3e8833461d6e05fbc1e20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3ae8d28a_115775e8",
         "filename": "java/com/google/gerrit/server/git/receive/ReceivePackRefCache.java",
         "patchSetId": 1
@@ -512,6 +530,30 @@
       "side": 1,
       "message": "context: a lot of the code that shawn wrote looks like this. JGit looks even more like this.",
       "parentUuid": "ee5b4964_077d6da2",
+      "range": {
+        "startLine": 162,
+        "startChar": 20,
+        "endLine": 162,
+        "endChar": 23
+      },
+      "revId": "e7c07fd5a44b74c874d3e8833461d6e05fbc1e20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02f2ee92_32a2be5c",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceivePackRefCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2019-10-22T10:25:50Z",
+      "side": 1,
+      "message": "I see. But do you think that makes it more readable? I\u0027m honestly confused about why the Java style guide doesn\u0027t say more about this. Personally I find it very helpful when names are fully spelled out, like the C++ style guide recommends.",
+      "parentUuid": "98501653_fbbc224b",
       "range": {
         "startLine": 162,
         "startChar": 20,

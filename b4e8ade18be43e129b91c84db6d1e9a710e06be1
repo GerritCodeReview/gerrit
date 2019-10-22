@@ -104,6 +104,30 @@
     },
     {
       "key": {
+        "uuid": "8f2a3a40_a896d0a0",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 658,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2019-10-22T10:25:50Z",
+      "side": 1,
+      "message": "Yes, I\u0027d find that easier to read, but I realize it\u0027s a personal preference :-) so no strong opinion. Another (though maybe more complicated) option would be a second try around the existing one and the subsequent code with a finally just to end() the two progress tasks.",
+      "parentUuid": "e0b37a58_bf8ff453",
+      "range": {
+        "startLine": 657,
+        "startChar": 0,
+        "endLine": 658,
+        "endChar": 30
+      },
+      "revId": "b4e8ade18be43e129b91c84db6d1e9a710e06be1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f7df468b_ede15dca",
         "filename": "javatests/com/google/gerrit/server/git/receive/ReceivePackRefCacheTest.java",
         "patchSetId": 2

@@ -497,7 +497,11 @@ class ReceiveCommits {
     this.resultChangeIds = resultChangeIds;
     this.loggingTags = ImmutableMap.of();
 
-    receivePackRefCache = ReceivePackRefCache.withAdvertisedRefs(() -> allRefsWatcher.getAllRefs());
+    boolean useRefCache = config.getBoolean("receive", "enableInMemoryRefCache", true);
+    receivePackRefCache =
+        useRefCache
+            ? ReceivePackRefCache.withAdvertisedRefs(() -> allRefsWatcher.getAllRefs())
+            : ReceivePackRefCache.noCache(receivePack.getRepository().getRefDatabase());
   }
 
   void init() {

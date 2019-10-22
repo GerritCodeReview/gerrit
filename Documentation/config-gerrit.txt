@@ -3748,6 +3748,19 @@ references to access commits intended to be hidden from the user.
 +
 Default is true.
 
+[[receive.enableInMemoryRefCache]]receive.enableInMemoryRefCache::
++
+If true, Gerrit will cache all refs advertised during push in memory and
+base later receive operations on that cache.
++
+Turning this cache off is considered experimental.
++
+This cache provides value when the ref database is slow and/or does not
+offer an inverse lookup of object ID to ref name. When RefTable is used,
+this cache can be turned off (experimental) to get speed improvements.
++
+Default is true.
+
 [[receive.enableSignedPush]]receive.enableSignedPush::
 +
 If true, server-side signed push validation is enabled.

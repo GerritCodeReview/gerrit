@@ -22,6 +22,30 @@
       "revId": "e112ea8c66947ad197fc75994ffb9562328dd61a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ffd70f10_710c0630",
+        "filename": "Documentation/pg-plugin-admin-api.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-22T11:37:25Z",
+      "side": 1,
+      "message": "you r right! somehow I missed that... thx!",
+      "parentUuid": "4b9b84aa_55a34aaf",
+      "range": {
+        "startLine": 7,
+        "startChar": 33,
+        "endLine": 7,
+        "endChar": 45
+      },
+      "revId": "e112ea8c66947ad197fc75994ffb9562328dd61a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

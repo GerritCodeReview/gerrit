@@ -20,6 +20,7 @@ import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.extensions.common.DescriptionInput;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.PatchSetUtil;
@@ -30,8 +31,6 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
-import com.google.gerrit.server.update.RetryHelper;
-import com.google.gerrit.server.update.RetryingRestModifyView;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
@@ -39,26 +38,21 @@ import com.google.inject.Singleton;
 
 @Singleton
 public class PutDescription
-    extends RetryingRestModifyView<RevisionResource, DescriptionInput, String>
-    implements UiAction<RevisionResource> {
+    implements RestModifyView<RevisionResource, DescriptionInput>, UiAction<RevisionResource> {
   private final BatchUpdate.Factory updateFactory;
   private final ChangeMessagesUtil cmUtil;
   private final PatchSetUtil psUtil;
 
   @Inject
   PutDescription(
-      RetryHelper retryHelper,
-      BatchUpdate.Factory updateFactory,
-      ChangeMessagesUtil cmUtil,
-      PatchSetUtil psUtil) {
-    super(retryHelper);
+      BatchUpdate.Factory updateFactory, ChangeMessagesUtil cmUtil, PatchSetUtil psUtil) {
     this.updateFactory = updateFactory;
     this.cmUtil = cmUtil;
     this.psUtil = psUtil;
   }
 
   @Override
-  protected Response<String> applyImpl(RevisionResource rsrc, DescriptionInput input)
+  public Response<String> apply(RevisionResource rsrc, DescriptionInput input)
       throws UpdateException, RestApiException, PermissionBackendException {
     rsrc.permissions().check(ChangePermission.EDIT_DESCRIPTION);
 

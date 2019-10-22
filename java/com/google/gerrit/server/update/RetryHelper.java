@@ -101,7 +101,7 @@ public class RetryHelper {
     @Nullable
     abstract Duration timeout();
 
-    abstract Optional<Class<?>> caller();
+    abstract Optional<String> caller();
 
     abstract Optional<Predicate<Throwable>> retryWithTrace();
 
@@ -113,7 +113,11 @@ public class RetryHelper {
 
       public abstract Builder timeout(Duration timeout);
 
-      public abstract Builder caller(Class<?> caller);
+      public abstract Builder caller(String caller);
+
+      public Builder caller(Class<?> caller) {
+        return caller(caller.getSimpleName());
+      }
 
       public abstract Builder retryWithTrace(Predicate<Throwable> exceptionPredicate);
 
@@ -328,7 +332,7 @@ public class RetryHelper {
                 if (retryWithTraceOnFailure
                     && opts.retryWithTrace().isPresent()
                     && opts.retryWithTrace().get().test(t)) {
-                  String caller = opts.caller().map(Class::getSimpleName).orElse("N/A");
+                  String caller = opts.caller().orElse("N/A");
                   if (!traceContext.isTracing()) {
                     String traceId = "retry-on-failure-" + new RequestId();
                     traceContext.addTag(RequestId.Type.TRACE_ID, traceId).forceLogging();

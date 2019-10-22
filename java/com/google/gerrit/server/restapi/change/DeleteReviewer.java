@@ -19,40 +19,36 @@ import com.google.gerrit.extensions.api.changes.DeleteReviewerInput;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.change.DeleteReviewerByEmailOp;
 import com.google.gerrit.server.change.DeleteReviewerOp;
 import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.change.ReviewerResource;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
-import com.google.gerrit.server.update.RetryHelper;
-import com.google.gerrit.server.update.RetryingRestModifyView;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 @Singleton
-public class DeleteReviewer
-    extends RetryingRestModifyView<ReviewerResource, DeleteReviewerInput, Object> {
+public class DeleteReviewer implements RestModifyView<ReviewerResource, DeleteReviewerInput> {
   private final BatchUpdate.Factory updateFactory;
   private final DeleteReviewerOp.Factory deleteReviewerOpFactory;
   private final DeleteReviewerByEmailOp.Factory deleteReviewerByEmailOpFactory;
 
   @Inject
   DeleteReviewer(
-      RetryHelper retryHelper,
       BatchUpdate.Factory updateFactory,
       DeleteReviewerOp.Factory deleteReviewerOpFactory,
       DeleteReviewerByEmailOp.Factory deleteReviewerByEmailOpFactory) {
-    super(retryHelper);
     this.updateFactory = updateFactory;
     this.deleteReviewerOpFactory = deleteReviewerOpFactory;
     this.deleteReviewerByEmailOpFactory = deleteReviewerByEmailOpFactory;
   }
 
   @Override
-  protected Response<Object> applyImpl(ReviewerResource rsrc, DeleteReviewerInput input)
+  public Response<Object> apply(ReviewerResource rsrc, DeleteReviewerInput input)
       throws RestApiException, UpdateException {
     if (input == null) {
       input = new DeleteReviewerInput();

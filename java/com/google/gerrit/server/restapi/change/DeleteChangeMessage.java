@@ -40,8 +40,6 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
-import com.google.gerrit.server.update.RetryHelper;
-import com.google.gerrit.server.update.RetryingRestModifyView;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
@@ -53,8 +51,7 @@ import java.util.List;
 /** Deletes a change message by rewriting history. */
 @Singleton
 public class DeleteChangeMessage
-    extends RetryingRestModifyView<
-        ChangeMessageResource, DeleteChangeMessageInput, ChangeMessageInfo> {
+    implements RestModifyView<ChangeMessageResource, DeleteChangeMessageInput> {
 
   private final Provider<CurrentUser> userProvider;
   private final PermissionBackend permissionBackend;
@@ -70,9 +67,7 @@ public class DeleteChangeMessage
       BatchUpdate.Factory updateFactory,
       ChangeMessagesUtil changeMessagesUtil,
       AccountLoader.Factory accountLoaderFactory,
-      ChangeNotes.Factory notesFactory,
-      RetryHelper retryHelper) {
-    super(retryHelper);
+      ChangeNotes.Factory notesFactory) {
     this.userProvider = userProvider;
     this.permissionBackend = permissionBackend;
     this.updateFactory = updateFactory;
@@ -82,7 +77,7 @@ public class DeleteChangeMessage
   }
 
   @Override
-  public Response<ChangeMessageInfo> applyImpl(
+  public Response<ChangeMessageInfo> apply(
       ChangeMessageResource resource, DeleteChangeMessageInput input)
       throws RestApiException, PermissionBackendException, UpdateException, IOException {
     CurrentUser user = userProvider.get();
@@ -158,7 +153,7 @@ public class DeleteChangeMessage
 
     @Override
     public Response<ChangeMessageInfo> apply(ChangeMessageResource resource, Input input)
-        throws RestApiException {
+        throws RestApiException, PermissionBackendException, UpdateException, IOException {
       return deleteChangeMessage.apply(resource, new DeleteChangeMessageInput());
     }
   }

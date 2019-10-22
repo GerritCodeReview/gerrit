@@ -21,6 +21,7 @@ import com.google.gerrit.extensions.api.changes.PublishChangeEditInput;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.edit.ChangeEdit;
@@ -28,8 +29,6 @@ import com.google.gerrit.server.edit.ChangeEditUtil;
 import com.google.gerrit.server.project.ContributorAgreementsChecker;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.update.BatchUpdate;
-import com.google.gerrit.server.update.RetryHelper;
-import com.google.gerrit.server.update.RetryingRestModifyView;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -38,8 +37,7 @@ import java.util.Optional;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton
-public class PublishChangeEdit
-    extends RetryingRestModifyView<ChangeResource, PublishChangeEditInput, Object> {
+public class PublishChangeEdit implements RestModifyView<ChangeResource, PublishChangeEditInput> {
   private final BatchUpdate.Factory updateFactory;
   private final ChangeEditUtil editUtil;
   private final NotifyResolver notifyResolver;
@@ -47,12 +45,10 @@ public class PublishChangeEdit
 
   @Inject
   PublishChangeEdit(
-      RetryHelper retryHelper,
       BatchUpdate.Factory updateFactory,
       ChangeEditUtil editUtil,
       NotifyResolver notifyResolver,
       ContributorAgreementsChecker contributorAgreementsChecker) {
-    super(retryHelper);
     this.updateFactory = updateFactory;
     this.editUtil = editUtil;
     this.notifyResolver = notifyResolver;
@@ -60,7 +56,7 @@ public class PublishChangeEdit
   }
 
   @Override
-  protected Response<Object> applyImpl(ChangeResource rsrc, PublishChangeEditInput in)
+  public Response<Object> apply(ChangeResource rsrc, PublishChangeEditInput in)
       throws IOException, RestApiException, UpdateException, ConfigInvalidException,
           NoSuchProjectException {
     contributorAgreementsChecker.check(rsrc.getProject(), rsrc.getUser());

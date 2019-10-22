@@ -22,6 +22,7 @@ import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.change.ChangeResource;
@@ -31,31 +32,25 @@ import com.google.gerrit.server.change.WorkInProgressOp.Input;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.update.BatchUpdate;
-import com.google.gerrit.server.update.RetryHelper;
-import com.google.gerrit.server.update.RetryingRestModifyView;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 @Singleton
-public class SetWorkInProgress extends RetryingRestModifyView<ChangeResource, Input, String>
-    implements UiAction<ChangeResource> {
+public class SetWorkInProgress
+    implements RestModifyView<ChangeResource, Input>, UiAction<ChangeResource> {
   private final BatchUpdate.Factory updateFactory;
   private final WorkInProgressOp.Factory opFactory;
 
   @Inject
-  SetWorkInProgress(
-      RetryHelper retryHelper,
-      BatchUpdate.Factory updateFactory,
-      WorkInProgressOp.Factory opFactory) {
-    super(retryHelper);
+  SetWorkInProgress(BatchUpdate.Factory updateFactory, WorkInProgressOp.Factory opFactory) {
     this.updateFactory = updateFactory;
     this.opFactory = opFactory;
   }
 
   @Override
-  protected Response<String> applyImpl(ChangeResource rsrc, Input input)
+  public Response<String> apply(ChangeResource rsrc, Input input)
       throws RestApiException, UpdateException, PermissionBackendException {
     rsrc.permissions().check(ChangePermission.TOGGLE_WORK_IN_PROGRESS_STATE);
 

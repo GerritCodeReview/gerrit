@@ -20,7 +20,6 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.extensions.restapi.RestModifyView;
-import com.google.gerrit.server.update.RetryingRestModifyView;
 import java.sql.Timestamp;
 import java.util.Optional;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -34,8 +33,7 @@ public class NoteDbUtil {
   private static final ImmutableList<String> PACKAGE_PREFIXES =
       ImmutableList.of("com.google.gerrit.server.", "com.google.gerrit.");
   private static final ImmutableSet<String> SERVLET_NAMES =
-      ImmutableSet.of(
-          "com.google.gerrit.httpd.restapi.RestApiServlet", RetryingRestModifyView.class.getName());
+      ImmutableSet.of("com.google.gerrit.httpd.restapi.RestApiServlet");
 
   /** Returns an AccountId for the given email address. */
   public static Optional<Account.Id> parseIdent(PersonIdent ident) {
@@ -74,13 +72,16 @@ public class NoteDbUtil {
     StackTraceElement[] trace = Thread.currentThread().getStackTrace();
     int i = findRestApiServlet(trace);
     if (i < 0) {
+      i = findApiImpl(trace);
+    }
+    if (i < 0) {
       return null;
     }
     try {
       for (i--; i >= 0; i--) {
         String cn = trace[i].getClassName();
         Class<?> cls = Class.forName(cn);
-        if (RestModifyView.class.isAssignableFrom(cls) && cls != RetryingRestModifyView.class) {
+        if (RestModifyView.class.isAssignableFrom(cls)) {
           return viewName(cn);
         }
       }
@@ -104,6 +105,16 @@ public class NoteDbUtil {
   private static int findRestApiServlet(StackTraceElement[] trace) {
     for (int i = 0; i < trace.length; i++) {
       if (SERVLET_NAMES.contains(trace[i].getClassName())) {
+        return i;
+      }
+    }
+    return -1;
+  }
+
+  private static int findApiImpl(StackTraceElement[] trace) {
+    for (int i = 0; i < trace.length; i++) {
+      String clazz = trace[i].getClassName();
+      if (clazz.startsWith("com.google.gerrit.server.api.") && clazz.endsWith("ApiImpl")) {
         return i;
       }
     }

@@ -21,7 +21,6 @@ import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.SetPrivateOp;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.update.BatchUpdate;
-import com.google.gerrit.server.update.RetryHelper;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
@@ -29,11 +28,10 @@ import com.google.inject.Singleton;
 public class DeletePrivateByPost extends DeletePrivate implements UiAction<ChangeResource> {
   @Inject
   DeletePrivateByPost(
-      RetryHelper retryHelper,
       PermissionBackend permissionBackend,
       BatchUpdate.Factory updateFactory,
       SetPrivateOp.Factory setPrivateOpFactory) {
-    super(retryHelper, permissionBackend, updateFactory, setPrivateOpFactory);
+    super(permissionBackend, updateFactory, setPrivateOpFactory);
   }
 
   @Override

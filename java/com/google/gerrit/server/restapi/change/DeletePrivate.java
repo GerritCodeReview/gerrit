@@ -23,39 +23,35 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.SetPrivateOp;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.update.BatchUpdate;
-import com.google.gerrit.server.update.RetryHelper;
-import com.google.gerrit.server.update.RetryingRestModifyView;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
 @Singleton
-public class DeletePrivate
-    extends RetryingRestModifyView<ChangeResource, InputWithMessage, String> {
+public class DeletePrivate implements RestModifyView<ChangeResource, InputWithMessage> {
   private final PermissionBackend permissionBackend;
   private final BatchUpdate.Factory updateFactory;
   private final SetPrivateOp.Factory setPrivateOpFactory;
 
   @Inject
   DeletePrivate(
-      RetryHelper retryHelper,
       PermissionBackend permissionBackend,
       BatchUpdate.Factory updateFactory,
       SetPrivateOp.Factory setPrivateOpFactory) {
-    super(retryHelper);
     this.permissionBackend = permissionBackend;
     this.updateFactory = updateFactory;
     this.setPrivateOpFactory = setPrivateOpFactory;
   }
 
   @Override
-  protected Response<String> applyImpl(ChangeResource rsrc, @Nullable InputWithMessage input)
+  public Response<String> apply(ChangeResource rsrc, @Nullable InputWithMessage input)
       throws RestApiException, UpdateException {
     if (!canDeletePrivate(rsrc).value()) {
       throw new AuthException("not allowed to unmark private");

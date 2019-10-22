@@ -16,6 +16,24 @@
       "revId": "7442f89612d1909acf13393e059eda12607f2919",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f8f0044b_e3ec1f54",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.html",
+        "patchSetId": 23
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1089918
+      },
+      "writtenOn": "2019-10-22T15:18:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ff07f518_87cf4353",
+      "revId": "7442f89612d1909acf13393e059eda12607f2919",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

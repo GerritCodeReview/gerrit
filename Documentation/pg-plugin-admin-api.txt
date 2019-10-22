@@ -4,14 +4,18 @@ This API is provided by link:pg-plugin-dev.html#plugin-admin[plugin.admin()]
 and provides customization of the admin menu.
 
 == addMenuLink
-`adminApi.addMenuLink(text, url, opt_external, opt_capabilities)`
+`adminApi.addMenuLink(text, url, opt_external, opt_capability)`
 
 Add a new link to the end of the admin navigation menu.
 
 .Params
 - *text* String text to appear in the link.
 - *url* String of the destination URL for the link.
+- *opt_capability* String of capability required to show this link.
 
 When adding an external link, the URL provided should be a full URL. Otherwise,
 a non-external link should be relative beginning with a slash. For example, to
 create a link to open changes, use the value `/q/status:open`.
+
+See more about capability from
+link:rest-api-accounts.html#list-account-capabilities[List Account Capabilities].

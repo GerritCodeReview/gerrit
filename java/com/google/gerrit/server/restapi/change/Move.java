@@ -81,6 +81,7 @@ public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, Chan
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final PermissionBackend permissionBackend;
+  private final BatchUpdate.Factory updateFactory;
   private final ChangeJson.Factory json;
   private final GitRepositoryManager repoManager;
   private final Provider<InternalChangeQuery> queryProvider;
@@ -93,6 +94,7 @@ public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, Chan
   @Inject
   Move(
       PermissionBackend permissionBackend,
+      BatchUpdate.Factory updateFactory,
       ChangeJson.Factory json,
       GitRepositoryManager repoManager,
       Provider<InternalChangeQuery> queryProvider,
@@ -104,6 +106,7 @@ public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, Chan
       @GerritServerConfig Config gerritConfig) {
     super(retryHelper);
     this.permissionBackend = permissionBackend;
+    this.updateFactory = updateFactory;
     this.json = json;
     this.repoManager = repoManager;
     this.queryProvider = queryProvider;
@@ -115,8 +118,7 @@ public class Move extends RetryingRestModifyView<ChangeResource, MoveInput, Chan
   }
 
   @Override
-  protected Response<ChangeInfo> applyImpl(
-      BatchUpdate.Factory updateFactory, ChangeResource rsrc, MoveInput input)
+  protected Response<ChangeInfo> applyImpl(ChangeResource rsrc, MoveInput input)
       throws RestApiException, UpdateException, PermissionBackendException, IOException {
     if (!moveEnabled) {
       // This will be removed with the above config once we reach consensus for the move change

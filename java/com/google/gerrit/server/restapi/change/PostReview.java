@@ -163,6 +163,7 @@ public class PostReview
   private static final Gson GSON = OutputFormat.JSON_COMPACT.newGson();
   private static final int DEFAULT_ROBOT_COMMENT_SIZE_LIMIT_IN_BYTES = 1024 * 1024;
 
+  private final BatchUpdate.Factory updateFactory;
   private final ChangeResource.Factory changeResourceFactory;
   private final ChangeData.Factory changeDataFactory;
   private final ApprovalsUtil approvalsUtil;
@@ -187,6 +188,7 @@ public class PostReview
   @Inject
   PostReview(
       RetryHelper retryHelper,
+      BatchUpdate.Factory updateFactory,
       ChangeResource.Factory changeResourceFactory,
       ChangeData.Factory changeDataFactory,
       ApprovalsUtil approvalsUtil,
@@ -207,6 +209,7 @@ public class PostReview
       PermissionBackend permissionBackend,
       PluginSetContext<CommentValidator> commentValidators) {
     super(retryHelper);
+    this.updateFactory = updateFactory;
     this.changeResourceFactory = changeResourceFactory;
     this.changeDataFactory = changeDataFactory;
     this.commentsUtil = commentsUtil;
@@ -230,15 +233,13 @@ public class PostReview
   }
 
   @Override
-  protected Response<ReviewResult> applyImpl(
-      BatchUpdate.Factory updateFactory, RevisionResource revision, ReviewInput input)
+  protected Response<ReviewResult> applyImpl(RevisionResource revision, ReviewInput input)
       throws RestApiException, UpdateException, IOException, PermissionBackendException,
           ConfigInvalidException, PatchListNotAvailableException {
-    return apply(updateFactory, revision, input, TimeUtil.nowTs());
+    return apply(revision, input, TimeUtil.nowTs());
   }
 
-  public Response<ReviewResult> apply(
-      BatchUpdate.Factory updateFactory, RevisionResource revision, ReviewInput input, Timestamp ts)
+  public Response<ReviewResult> apply(RevisionResource revision, ReviewInput input, Timestamp ts)
       throws RestApiException, UpdateException, IOException, PermissionBackendException,
           ConfigInvalidException, PatchListNotAvailableException {
     // Respect timestamp, but truncate at change created-on time.

@@ -23,7 +23,6 @@ import com.google.gerrit.server.git.BanCommitResult;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.server.restapi.project.BanCommit.BanResultInfo;
-import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.RetryHelper;
 import com.google.gerrit.server.update.RetryingRestModifyView;
 import com.google.gerrit.server.update.UpdateException;
@@ -46,8 +45,7 @@ public class BanCommit
   }
 
   @Override
-  protected Response<BanResultInfo> applyImpl(
-      BatchUpdate.Factory updateFactory, ProjectResource rsrc, BanCommitInput input)
+  protected Response<BanResultInfo> applyImpl(ProjectResource rsrc, BanCommitInput input)
       throws RestApiException, UpdateException, IOException, PermissionBackendException {
     BanResultInfo r = new BanResultInfo();
     if (input != null && input.commits != null && !input.commits.isEmpty()) {

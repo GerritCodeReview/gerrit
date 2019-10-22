@@ -77,6 +77,7 @@ import org.eclipse.jgit.util.ChangeIdUtil;
 @Singleton
 public class CreateMergePatchSet
     extends RetryingRestModifyView<ChangeResource, MergePatchSetInput, ChangeInfo> {
+  private final BatchUpdate.Factory updateFactory;
   private final GitRepositoryManager gitManager;
   private final CommitsCollection commits;
   private final TimeZone serverTimeZone;
@@ -91,6 +92,7 @@ public class CreateMergePatchSet
 
   @Inject
   CreateMergePatchSet(
+      BatchUpdate.Factory updateFactory,
       GitRepositoryManager gitManager,
       CommitsCollection commits,
       @GerritPersonIdent PersonIdent myIdent,
@@ -104,6 +106,7 @@ public class CreateMergePatchSet
       ChangeFinder changeFinder,
       PermissionBackend permissionBackend) {
     super(retryHelper);
+    this.updateFactory = updateFactory;
     this.gitManager = gitManager;
     this.commits = commits;
     this.serverTimeZone = myIdent.getTimeZone();
@@ -118,8 +121,7 @@ public class CreateMergePatchSet
   }
 
   @Override
-  protected Response<ChangeInfo> applyImpl(
-      BatchUpdate.Factory updateFactory, ChangeResource rsrc, MergePatchSetInput in)
+  protected Response<ChangeInfo> applyImpl(ChangeResource rsrc, MergePatchSetInput in)
       throws IOException, RestApiException, UpdateException, PermissionBackendException {
     // Not allowed to create a new patch set if the current patch set is locked.
     psUtil.checkPatchSetNotLocked(rsrc.getNotes());

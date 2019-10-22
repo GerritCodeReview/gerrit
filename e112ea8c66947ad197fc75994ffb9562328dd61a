@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4b9b84aa_55a34aaf",
+        "filename": "Documentation/pg-plugin-admin-api.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-10-22T11:28:50Z",
+      "side": 1,
+      "message": "Should this be removed?  In the code it looks like:\n\n GrAdminApi.prototype.addMenuLink \u003d function(text, url, opt_capability) {",
+      "range": {
+        "startLine": 7,
+        "startChar": 33,
+        "endLine": 7,
+        "endChar": 45
+      },
+      "revId": "e112ea8c66947ad197fc75994ffb9562328dd61a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

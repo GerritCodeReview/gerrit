@@ -22,6 +22,8 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestCollectionModifyView;
 import com.google.gerrit.extensions.restapi.RestResource;
+import com.google.gerrit.git.LockFailureException;
+import com.google.gerrit.server.update.RetryHelper.ActionType;
 import java.util.concurrent.atomic.AtomicReference;
 
 public abstract class RetryingRestCollectionModifyView<
@@ -45,7 +47,16 @@ public abstract class RetryingRestCollectionModifyView<
               .onAutoTrace(traceId::set)
               .build();
       return retryHelper
-          .execute((updateFactory) -> applyImpl(updateFactory, parentResource, input), retryOptions)
+          .execute(
+              ActionType.REST_REQUEST,
+              () -> applyImpl(parentResource, input),
+              retryOptions,
+              t -> {
+                if (t instanceof UpdateException) {
+                  t = t.getCause();
+                }
+                return t instanceof LockFailureException;
+              })
           .traceId(traceId.get());
     } catch (Exception e) {
       Throwables.throwIfInstanceOf(e, RestApiException.class);
@@ -53,6 +64,5 @@ public abstract class RetryingRestCollectionModifyView<
     }
   }
 
-  protected abstract Response<O> applyImpl(
-      BatchUpdate.Factory updateFactory, P parentResource, I input) throws Exception;
+  protected abstract Response<O> applyImpl(P parentResource, I input) throws Exception;
 }

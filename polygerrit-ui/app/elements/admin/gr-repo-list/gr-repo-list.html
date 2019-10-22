@@ -41,9 +41,9 @@ limitations under the License.
       <table id="list" class="genericList">
         <tr class="headerRow">
           <th class="name topHeader">Repository Name</th>
+          <th class="repositoryBrowser topHeader">Repository Browser</th>
           <th class="description topHeader">Repository Description</th>
           <th class="changesLink topHeader">Changes</th>
-          <th class="repositoryBrowser topHeader">Repository Browser</th>
           <th class="readOnly topHeader">Read only</th>
         </tr>
         <tr id="loading" class$="loadingMsg [[computeLoadingClass(_loading)]]">
@@ -55,8 +55,6 @@ limitations under the License.
               <td class="name">
                 <a href$="[[_computeRepoUrl(item.name)]]">[[item.name]]</a>
               </td>
-              <td class="description">[[item.description]]</td>
-              <td class="changesLink"><a href$="[[_computeChangesLink(item.name)]]">(view all)</a></td>
               <td class="repositoryBrowser">
                 <template is="dom-repeat"
                     items="[[_computeWeblink(item)]]" as="link">
@@ -68,6 +66,8 @@ limitations under the License.
                   </a>
                 </template>
               </td>
+              <td class="description">[[item.description]]</td>
+              <td class="changesLink"><a href$="[[_computeChangesLink(item.name)]]">(view all)</a></td>
               <td class="readOnly">[[_readOnly(item)]]</td>
             </tr>
           </template>

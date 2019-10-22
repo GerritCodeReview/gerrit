@@ -91,7 +91,6 @@ import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
@@ -248,7 +247,6 @@ public class MergeOp implements AutoCloseable {
   private Set<Project.NameKey> allProjects;
   private boolean dryrun;
   private TopicMetrics topicMetrics;
-  private String traceId;
 
   @Inject
   MergeOp(
@@ -518,9 +516,6 @@ public class MergeOp implements AutoCloseable {
                     retryHelper
                         .getDefaultTimeout(ActionType.CHANGE_UPDATE)
                         .multipliedBy(cs.projects().size()))
-                .caller(getClass())
-                .retryWithTrace(t -> !(t instanceof RestApiException))
-                .onAutoTrace(traceId -> this.traceId = traceId)
                 .build());
 
         if (projects > 1) {
@@ -539,10 +534,6 @@ public class MergeOp implements AutoCloseable {
         throw new StorageException(e);
       }
     }
-  }
-
-  public Optional<String> getTraceId() {
-    return Optional.ofNullable(traceId);
   }
 
   private void openRepoManager() {

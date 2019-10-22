@@ -168,6 +168,30 @@
     },
     {
       "key": {
+        "uuid": "26dc1974_25c34450",
+        "filename": "polygerrit-ui/app/styles/themes/dark-theme.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2019-10-22T14:41:03Z",
+      "side": 1,
+      "message": "Per Material guidelines, the two font colors in dark theme are:\nPrimary: Grey 200\nSecondary: Grey 500\n\nGrey 700 is used for hairline and UI elements but do not have enough contrast as a font color and will not pass WCAG AA on the current blue background of comment dialog.\n\nGrey 500 will have enough contrast with background on the UIs you mentioned and will be aligned with Material guidelines.\n\nThe disabled buttons is an exception here. We can use Grey 500 as well for now but I\u0027d like to address button color in dark theme in a bug that is in the UX-incoming hotlist, so this button should not be defined under deemphasized color in the future (but for now we can keep it that way).",
+      "parentUuid": "ea92136d_ec27e879",
+      "range": {
+        "startLine": 33,
+        "startChar": 34,
+        "endLine": 33,
+        "endChar": 40
+      },
+      "revId": "1c61c129f856ced0402f38e9f9855c5b071c531c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "60fa4cb4_cb6955d3",
         "filename": "polygerrit-ui/app/styles/themes/dark-theme.html",
         "patchSetId": 4

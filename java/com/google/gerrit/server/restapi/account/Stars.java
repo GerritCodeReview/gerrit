@@ -98,7 +98,8 @@ public class Stars implements ChildCollection<AccountResource, AccountResource.S
 
     @Override
     @SuppressWarnings("unchecked")
-    public Response<List<ChangeInfo>> apply(AccountResource rsrc) throws Exception {
+    public Response<List<ChangeInfo>> apply(AccountResource rsrc)
+        throws RestApiException, PermissionBackendException {
       if (!self.get().hasSameAccountId(rsrc.getUser())) {
         throw new AuthException("not allowed to list stars of another account");
       }

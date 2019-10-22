@@ -100,6 +100,11 @@ public class GroupCollector {
 
   private boolean done;
 
+  /**
+   * Returns a new {@link GroupCollector} instance.
+   *
+   * @see GroupCollector for what this class does.
+   */
   public static GroupCollector create(
       ReceivePackRefCache receivePackRefCache,
       PatchSetUtil psUtil,
@@ -115,6 +120,15 @@ public class GroupCollector {
         });
   }
 
+  /**
+   * Returns a new {@link GroupCollector} instance.
+   *
+   * <p>Used in production code by using {@link ChangeNotes.Factory} to get a group SHA1 (40 bytes
+   * string representation) from a {@link PatchSet.Id}. Unit tests use this method directly by
+   * passing their own lookup function.
+   *
+   * @see GroupCollector for what this class does.
+   */
   @VisibleForTesting
   GroupCollector(ReceivePackRefCache receivePackRefCache, Lookup groupLookup) {
     this.receivePackRefCache = receivePackRefCache;
@@ -123,6 +137,13 @@ public class GroupCollector {
     groupAliases = MultimapBuilder.hashKeys().hashSetValues().build();
   }
 
+  /**
+   * Process the given {@link RevCommit}. Callers must call {@link #visit(RevCommit)} on all commits
+   * between the current branch tip and * the tip of a push, in reverse topo order (parents before
+   * children). Once all commits have been * visited, call {@link #getGroups()} for the result.
+   *
+   * @see GroupCollector for what this class does.
+   */
   public void visit(RevCommit c) throws IOException {
     checkState(!done, "visit() called after getGroups()");
     Set<RevCommit> interestingParents = getInterestingParents(c);
@@ -183,6 +204,9 @@ public class GroupCollector {
     }
   }
 
+  /**
+   * Returns the groups that got collected from visiting commits using {@link #visit(RevCommit)}.
+   */
   public SortedSetMultimap<ObjectId, String> getGroups() throws IOException {
     done = true;
     SortedSetMultimap<ObjectId, String> result =

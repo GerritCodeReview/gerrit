@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "5a41e3c6_7b180b51",
+        "filename": "java/com/google/gerrit/server/git/DelegateRefDatabase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-10-22T12:55:09Z",
+      "side": 1,
+      "message": "somehow this class changed shape.  This one actually delegates to a Repository not to a standalone refdb.",
+      "range": {
+        "startLine": 30,
+        "startChar": 69,
+        "endLine": 30,
+        "endChar": 98
+      },
+      "revId": "e0753f9369028244fde49c61bd091be83ac632fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a451abe4_39244c23",
+        "filename": "java/com/google/gerrit/server/git/DelegateRefDatabase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-10-22T12:55:09Z",
+      "side": 1,
+      "message": "this is wrong. It closes the repo, not the db.",
+      "range": {
+        "startLine": 47,
+        "startChar": 3,
+        "endLine": 47,
+        "endChar": 21
+      },
+      "revId": "e0753f9369028244fde49c61bd091be83ac632fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3409e128_9cf83c04",
         "filename": "java/com/google/gerrit/server/git/PermissionAwareReadOnlyRefDatabase.java",
         "patchSetId": 1

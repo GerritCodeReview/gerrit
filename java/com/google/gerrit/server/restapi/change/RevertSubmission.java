@@ -25,6 +25,7 @@ import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.RevertSubmissionInfo;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
+import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.webui.UiAction;
 import com.google.gerrit.server.ChangeUtil;
@@ -33,10 +34,14 @@ import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ContributorAgreementsChecker;
+import com.google.gerrit.server.project.NoSuchChangeException;
+import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
+import com.google.gerrit.server.update.UpdateException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -44,6 +49,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.commons.lang.RandomStringUtils;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton
 public class RevertSubmission
@@ -81,7 +87,8 @@ public class RevertSubmission
 
   @Override
   public Response<RevertSubmissionInfo> apply(ChangeResource changeResource, RevertInput input)
-      throws Exception {
+      throws RestApiException, NoSuchChangeException, IOException, UpdateException,
+          PermissionBackendException, NoSuchProjectException, ConfigInvalidException {
 
     if (!changeResource.getChange().isMerged()) {
       throw new ResourceConflictException(
@@ -117,7 +124,9 @@ public class RevertSubmission
   }
 
   private RevertSubmissionInfo revertSubmission(
-      List<ChangeData> changeDatas, RevertInput input, String submissionId) throws Exception {
+      List<ChangeData> changeDatas, RevertInput input, String submissionId)
+      throws RestApiException, NoSuchChangeException, IOException, UpdateException,
+          PermissionBackendException, NoSuchProjectException, ConfigInvalidException {
     List<ChangeInfo> results;
     results = new ArrayList<>();
     if (input.topic == null) {

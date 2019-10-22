@@ -563,6 +563,30 @@
       "revId": "e7c07fd5a44b74c874d3e8833461d6e05fbc1e20",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d69a4a03_76c54432",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceivePackRefCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-10-22T12:05:22Z",
+      "side": 1,
+      "message": "it\u0027s nice when you can find short words that cover the variable, but in Java there is a tendency to use variableName for something of type VariableName, making it almost like Hungarian notation.\n\nI have gone back and forth on this style (depending on what programming language I use).",
+      "parentUuid": "02f2ee92_32a2be5c",
+      "range": {
+        "startLine": 162,
+        "startChar": 20,
+        "endLine": 162,
+        "endChar": 23
+      },
+      "revId": "e7c07fd5a44b74c874d3e8833461d6e05fbc1e20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

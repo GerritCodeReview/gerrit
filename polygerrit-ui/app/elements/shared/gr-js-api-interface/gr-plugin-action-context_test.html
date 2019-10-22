@@ -142,12 +142,12 @@ limitations under the License.
         send: sendStub,
       });
       const errorStub = sandbox.stub();
-      document.addEventListener('network-error', errorStub);
+      document.addEventListener('show-alert', errorStub);
       instance.call();
       flush(() => {
         assert.isTrue(errorStub.calledOnce);
         assert.equal(errorStub.args[0][0].detail.message,
-            'Plugin network error: boom');
+            'Plugin network error: Error: boom');
         done();
       });
     });

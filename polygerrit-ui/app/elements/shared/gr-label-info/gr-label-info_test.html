@@ -100,7 +100,6 @@ limitations under the License.
         assert.isTrue(button.disabled);
         return deleteResponse.then(() => {
           assert.isFalse(button.disabled);
-          assert.notOk(element.change.labels.test.recommended);
           assert.isTrue(deleteStub.calledWithExactly(42, 1, 'test'));
         });
       });

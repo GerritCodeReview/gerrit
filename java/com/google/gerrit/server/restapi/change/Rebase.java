@@ -269,7 +269,8 @@ public class Rebase
     }
 
     @Override
-    public Response<ChangeInfo> apply(ChangeResource rsrc, RebaseInput input) throws Exception {
+    public Response<ChangeInfo> apply(ChangeResource rsrc, RebaseInput input)
+        throws RestApiException, UpdateException, IOException, PermissionBackendException {
       PatchSet ps = psUtil.current(rsrc.getNotes());
       if (ps == null) {
         throw new ResourceConflictException("current revision is missing");

@@ -139,10 +139,10 @@
       e.preventDefault();
       e.stopPropagation();
       if (this.$.dropdown.opened) {
-        // TODO(kaspern): This solution will not work in Shadow DOM, and
-        // is not particularly robust in general. Find a better solution
-        // when page.js has been abstracted away from components.
-        const el = this.$.cursor.target.querySelector(':not([hidden])');
+        // TODO(milutin): This solution is not particularly robust in general.
+        // Since gr-tooltip-content click on shadow dom is not propagated down,
+        // we have to target `a` inside it.
+        const el = this.$.cursor.target.querySelector(':not([hidden]) a');
         if (el) { el.click(); }
       } else {
         this._open();
@@ -176,8 +176,8 @@
      */
     _open() {
       this.$.dropdown.open();
+      this._resetCursorStops();
       this.$.cursor.setCursorAtIndex(0);
-      Polymer.dom.flush();
       this.$.cursor.target.focus();
     },
 
@@ -282,9 +282,8 @@
      * Recompute the stops for the dropdown item cursor.
      */
     _resetCursorStops() {
-      if (this.items && this.items.length > 0) {
+      if (this.items && this.items.length > 0 && this.$.dropdown.opened) {
         Polymer.dom.flush();
-        // Polymer2: querySelectorAll returns NodeList instead of Array.
         this._listElements = Array.from(
             Polymer.dom(this.root).querySelectorAll('li'));
       }

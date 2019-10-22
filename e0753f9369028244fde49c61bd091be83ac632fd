@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "afe649db_0d417c0c",
+        "filename": "java/com/google/gerrit/server/git/DelegateRefDatabase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-10-22T13:47:05Z",
+      "side": 1,
+      "message": "I\u0027ll send a separate change to fix this and your comment in l.47",
+      "parentUuid": "5a41e3c6_7b180b51",
+      "range": {
+        "startLine": 30,
+        "startChar": 69,
+        "endLine": 30,
+        "endChar": 98
+      },
+      "revId": "e0753f9369028244fde49c61bd091be83ac632fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a451abe4_39244c23",
         "filename": "java/com/google/gerrit/server/git/DelegateRefDatabase.java",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "e0753f9369028244fde49c61bd091be83ac632fd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "799eb24b_c5fec074",
+        "filename": "java/com/google/gerrit/server/git/DelegateRefDatabase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-10-22T13:47:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a451abe4_39244c23",
+      "range": {
+        "startLine": 47,
+        "startChar": 3,
+        "endLine": 47,
+        "endChar": 21
+      },
+      "revId": "e0753f9369028244fde49c61bd091be83ac632fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -80,6 +128,24 @@
       "revId": "e0753f9369028244fde49c61bd091be83ac632fd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b7b4a575_16bb1454",
+        "filename": "java/com/google/gerrit/server/git/PermissionAwareReadOnlyRefDatabase.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-10-22T13:47:05Z",
+      "side": 1,
+      "message": "resolved",
+      "parentUuid": "24f5bf99_db0b544e",
+      "revId": "e0753f9369028244fde49c61bd091be83ac632fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

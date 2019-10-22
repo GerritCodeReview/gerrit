@@ -43,26 +43,27 @@ import java.util.Optional;
 @Singleton
 public class DeleteDraftComment
     extends RetryingRestModifyView<DraftCommentResource, Input, CommentInfo> {
-
+  private final BatchUpdate.Factory updateFactory;
   private final CommentsUtil commentsUtil;
   private final PatchSetUtil psUtil;
   private final PatchListCache patchListCache;
 
   @Inject
   DeleteDraftComment(
+      BatchUpdate.Factory updateFactory,
       CommentsUtil commentsUtil,
       PatchSetUtil psUtil,
       RetryHelper retryHelper,
       PatchListCache patchListCache) {
     super(retryHelper);
+    this.updateFactory = updateFactory;
     this.commentsUtil = commentsUtil;
     this.psUtil = psUtil;
     this.patchListCache = patchListCache;
   }
 
   @Override
-  protected Response<CommentInfo> applyImpl(
-      BatchUpdate.Factory updateFactory, DraftCommentResource rsrc, Input input)
+  protected Response<CommentInfo> applyImpl(DraftCommentResource rsrc, Input input)
       throws RestApiException, UpdateException {
     try (BatchUpdate bu =
         updateFactory.create(rsrc.getChange().getProject(), rsrc.getUser(), TimeUtil.nowTs())) {

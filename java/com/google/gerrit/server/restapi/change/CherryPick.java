@@ -54,6 +54,7 @@ public class CherryPick
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final PermissionBackend permissionBackend;
+  private final BatchUpdate.Factory updateFactory;
   private final CherryPickChange cherryPickChange;
   private final ChangeJson.Factory json;
   private final ContributorAgreementsChecker contributorAgreements;
@@ -61,14 +62,16 @@ public class CherryPick
 
   @Inject
   CherryPick(
-      PermissionBackend permissionBackend,
       RetryHelper retryHelper,
+      PermissionBackend permissionBackend,
+      BatchUpdate.Factory updateFactory,
       CherryPickChange cherryPickChange,
       ChangeJson.Factory json,
       ContributorAgreementsChecker contributorAgreements,
       ProjectCache projectCache) {
     super(retryHelper);
     this.permissionBackend = permissionBackend;
+    this.updateFactory = updateFactory;
     this.cherryPickChange = cherryPickChange;
     this.json = json;
     this.contributorAgreements = contributorAgreements;
@@ -76,8 +79,7 @@ public class CherryPick
   }
 
   @Override
-  public Response<CherryPickChangeInfo> applyImpl(
-      BatchUpdate.Factory updateFactory, RevisionResource rsrc, CherryPickInput input)
+  public Response<CherryPickChangeInfo> applyImpl(RevisionResource rsrc, CherryPickInput input)
       throws IOException, UpdateException, RestApiException, PermissionBackendException,
           ConfigInvalidException, NoSuchProjectException {
     input.parent = input.parent == null ? 1 : input.parent;

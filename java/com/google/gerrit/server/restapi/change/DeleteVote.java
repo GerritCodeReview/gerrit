@@ -67,6 +67,7 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 public class DeleteVote extends RetryingRestModifyView<VoteResource, DeleteVoteInput, Object> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
+  private final BatchUpdate.Factory updateFactory;
   private final ApprovalsUtil approvalsUtil;
   private final PatchSetUtil psUtil;
   private final ChangeMessagesUtil cmUtil;
@@ -80,6 +81,7 @@ public class DeleteVote extends RetryingRestModifyView<VoteResource, DeleteVoteI
   @Inject
   DeleteVote(
       RetryHelper retryHelper,
+      BatchUpdate.Factory updateFactory,
       ApprovalsUtil approvalsUtil,
       PatchSetUtil psUtil,
       ChangeMessagesUtil cmUtil,
@@ -90,6 +92,7 @@ public class DeleteVote extends RetryingRestModifyView<VoteResource, DeleteVoteI
       RemoveReviewerControl removeReviewerControl,
       ProjectCache projectCache) {
     super(retryHelper);
+    this.updateFactory = updateFactory;
     this.approvalsUtil = approvalsUtil;
     this.psUtil = psUtil;
     this.cmUtil = cmUtil;
@@ -102,8 +105,7 @@ public class DeleteVote extends RetryingRestModifyView<VoteResource, DeleteVoteI
   }
 
   @Override
-  protected Response<Object> applyImpl(
-      BatchUpdate.Factory updateFactory, VoteResource rsrc, DeleteVoteInput input)
+  protected Response<Object> applyImpl(VoteResource rsrc, DeleteVoteInput input)
       throws RestApiException, UpdateException, IOException, ConfigInvalidException {
     if (input == null) {
       input = new DeleteVoteInput();

@@ -48,6 +48,7 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 public class CherryPickCommit
     extends RetryingRestModifyView<CommitResource, CherryPickInput, CherryPickChangeInfo> {
   private final PermissionBackend permissionBackend;
+  private final BatchUpdate.Factory updateFactory;
   private final Provider<CurrentUser> user;
   private final CherryPickChange cherryPickChange;
   private final ChangeJson.Factory json;
@@ -56,13 +57,15 @@ public class CherryPickCommit
   @Inject
   CherryPickCommit(
       RetryHelper retryHelper,
+      PermissionBackend permissionBackend,
+      BatchUpdate.Factory updateFactory,
       Provider<CurrentUser> user,
       CherryPickChange cherryPickChange,
       ChangeJson.Factory json,
-      PermissionBackend permissionBackend,
       ContributorAgreementsChecker contributorAgreements) {
     super(retryHelper);
     this.permissionBackend = permissionBackend;
+    this.updateFactory = updateFactory;
     this.user = user;
     this.cherryPickChange = cherryPickChange;
     this.json = json;
@@ -70,8 +73,7 @@ public class CherryPickCommit
   }
 
   @Override
-  public Response<CherryPickChangeInfo> applyImpl(
-      BatchUpdate.Factory updateFactory, CommitResource rsrc, CherryPickInput input)
+  public Response<CherryPickChangeInfo> applyImpl(CommitResource rsrc, CherryPickInput input)
       throws IOException, UpdateException, RestApiException, PermissionBackendException,
           ConfigInvalidException, NoSuchProjectException {
     String destination = Strings.nullToEmpty(input.destination).trim();

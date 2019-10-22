@@ -63,6 +63,7 @@ import org.eclipse.jgit.revwalk.RevWalk;
 @Singleton
 public class PutMessage extends RetryingRestModifyView<ChangeResource, CommitMessageInput, String> {
 
+  private final BatchUpdate.Factory updateFactory;
   private final GitRepositoryManager repositoryManager;
   private final Provider<CurrentUser> userProvider;
   private final TimeZone tz;
@@ -75,6 +76,7 @@ public class PutMessage extends RetryingRestModifyView<ChangeResource, CommitMes
   @Inject
   PutMessage(
       RetryHelper retryHelper,
+      BatchUpdate.Factory updateFactory,
       GitRepositoryManager repositoryManager,
       Provider<CurrentUser> userProvider,
       PatchSetInserter.Factory psInserterFactory,
@@ -84,6 +86,7 @@ public class PutMessage extends RetryingRestModifyView<ChangeResource, CommitMes
       NotifyResolver notifyResolver,
       ProjectCache projectCache) {
     super(retryHelper);
+    this.updateFactory = updateFactory;
     this.repositoryManager = repositoryManager;
     this.userProvider = userProvider;
     this.psInserterFactory = psInserterFactory;
@@ -95,8 +98,7 @@ public class PutMessage extends RetryingRestModifyView<ChangeResource, CommitMes
   }
 
   @Override
-  protected Response<String> applyImpl(
-      BatchUpdate.Factory updateFactory, ChangeResource resource, CommitMessageInput input)
+  protected Response<String> applyImpl(ChangeResource resource, CommitMessageInput input)
       throws IOException, RestApiException, UpdateException, PermissionBackendException,
           ConfigInvalidException {
     PatchSet ps = psUtil.current(resource.getNotes());

@@ -197,7 +197,7 @@ final class ShowCaches extends SshCommand {
     stdout.flush();
   }
 
-  private Collection<CacheInfo> getCaches() throws Exception {
+  private Collection<CacheInfo> getCaches() {
     @SuppressWarnings("unchecked")
     Map<String, CacheInfo> caches =
         (Map<String, CacheInfo>) listCaches.apply(new ConfigResource()).value();

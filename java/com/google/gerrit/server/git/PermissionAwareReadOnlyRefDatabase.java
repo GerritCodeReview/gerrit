@@ -26,10 +26,13 @@ import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.annotations.Nullable;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefRename;
 import org.eclipse.jgit.lib.RefUpdate;
@@ -155,5 +158,18 @@ public class PermissionAwareReadOnlyRefDatabase extends DelegateRefDatabase {
       }
     }
     return null;
+  }
+
+  @Override
+  @NonNull
+  public Set<Ref> getTipsWithSha1(ObjectId id) throws IOException {
+    Set<Ref> unfiltered = super.getTipsWithSha1(id);
+    Set<Ref> result = new HashSet<>(unfiltered.size());
+    for (Ref ref : unfiltered) {
+      if (exactRef(ref.getName()) != null) {
+        result.add(ref);
+      }
+    }
+    return result;
   }
 }

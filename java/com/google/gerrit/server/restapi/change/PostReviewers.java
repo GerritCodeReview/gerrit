@@ -42,26 +42,27 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 public class PostReviewers
     extends RetryingRestCollectionModifyView<
         ChangeResource, ReviewerResource, AddReviewerInput, AddReviewerResult> {
-
+  private final BatchUpdate.Factory updateFactory;
   private final ChangeData.Factory changeDataFactory;
   private final NotifyResolver notifyResolver;
   private final ReviewerAdder reviewerAdder;
 
   @Inject
   PostReviewers(
-      ChangeData.Factory changeDataFactory,
       RetryHelper retryHelper,
+      BatchUpdate.Factory updateFactory,
+      ChangeData.Factory changeDataFactory,
       NotifyResolver notifyResolver,
       ReviewerAdder reviewerAdder) {
     super(retryHelper);
+    this.updateFactory = updateFactory;
     this.changeDataFactory = changeDataFactory;
     this.notifyResolver = notifyResolver;
     this.reviewerAdder = reviewerAdder;
   }
 
   @Override
-  protected Response<AddReviewerResult> applyImpl(
-      BatchUpdate.Factory updateFactory, ChangeResource rsrc, AddReviewerInput input)
+  protected Response<AddReviewerResult> applyImpl(ChangeResource rsrc, AddReviewerInput input)
       throws IOException, RestApiException, UpdateException, PermissionBackendException,
           ConfigInvalidException {
     if (input.reviewer == null) {

@@ -105,6 +105,7 @@ import org.eclipse.jgit.util.ChangeIdUtil;
 public class CreateChange
     extends RetryingRestCollectionModifyView<
         TopLevelResource, ChangeResource, ChangeInput, ChangeInfo> {
+  private final BatchUpdate.Factory updateFactory;
   private final String anonymousCowardName;
   private final GitRepositoryManager gitManager;
   private final Sequences seq;
@@ -126,6 +127,8 @@ public class CreateChange
 
   @Inject
   CreateChange(
+      RetryHelper retryHelper,
+      BatchUpdate.Factory updateFactory,
       @AnonymousCowardName String anonymousCowardName,
       GitRepositoryManager gitManager,
       Sequences seq,
@@ -138,13 +141,13 @@ public class CreateChange
       ChangeJson.Factory json,
       ChangeFinder changeFinder,
       Provider<InternalChangeQuery> queryProvider,
-      RetryHelper retryHelper,
       PatchSetUtil psUtil,
       @GerritServerConfig Config config,
       MergeUtil.Factory mergeUtilFactory,
       NotifyResolver notifyResolver,
       ContributorAgreementsChecker contributorAgreements) {
     super(retryHelper);
+    this.updateFactory = updateFactory;
     this.anonymousCowardName = anonymousCowardName;
     this.gitManager = gitManager;
     this.seq = seq;
@@ -166,8 +169,7 @@ public class CreateChange
   }
 
   @Override
-  protected Response<ChangeInfo> applyImpl(
-      BatchUpdate.Factory updateFactory, TopLevelResource parent, ChangeInput input)
+  protected Response<ChangeInfo> applyImpl(TopLevelResource parent, ChangeInput input)
       throws IOException, InvalidChangeOperationException, RestApiException, UpdateException,
           PermissionBackendException, ConfigInvalidException {
     if (!user.get().isIdentifiedUser()) {

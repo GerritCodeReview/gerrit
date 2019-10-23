@@ -17,6 +17,9 @@ package com.google.gerrit.server.git;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import org.eclipse.jgit.annotations.NonNull;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.RefRename;
@@ -24,7 +27,8 @@ import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 
 /**
- * Wrapper around {@link RefDatabase} that delegates all calls to the wrapped {@link RefDatabase}.
+ * Wrapper around {@link RefDatabase} that delegates all calls to the wrapped {@link Repository}'s
+ * {@link RefDatabase}.
  */
 public class DelegateRefDatabase extends RefDatabase {
 
@@ -41,7 +45,7 @@ public class DelegateRefDatabase extends RefDatabase {
 
   @Override
   public void close() {
-    delegate.close();
+    delegate.getRefDatabase().close();
   }
 
   @Override
@@ -68,6 +72,12 @@ public class DelegateRefDatabase extends RefDatabase {
   @Override
   public Map<String, Ref> getRefs(String prefix) throws IOException {
     return delegate.getRefDatabase().getRefs(prefix);
+  }
+
+  @Override
+  @NonNull
+  public Set<Ref> getTipsWithSha1(ObjectId id) throws IOException {
+    return delegate.getRefDatabase().getTipsWithSha1(id);
   }
 
   @Override

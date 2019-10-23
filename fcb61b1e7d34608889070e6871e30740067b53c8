@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f983ec70_2485815d",
+        "filename": "java/com/google/gerrit/server/git/GroupCollector.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-10-23T02:40:22Z",
+      "side": 1,
+      "message": "remove this",
+      "range": {
+        "startLine": 142,
+        "startChar": 40,
+        "endLine": 142,
+        "endChar": 42
+      },
+      "revId": "fcb61b1e7d34608889070e6871e30740067b53c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d47de93d_db90793a",
+        "filename": "java/com/google/gerrit/server/git/GroupCollector.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-10-23T02:40:22Z",
+      "side": 1,
+      "message": "and this",
+      "range": {
+        "startLine": 143,
+        "startChar": 43,
+        "endLine": 143,
+        "endChar": 45
+      },
+      "revId": "fcb61b1e7d34608889070e6871e30740067b53c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

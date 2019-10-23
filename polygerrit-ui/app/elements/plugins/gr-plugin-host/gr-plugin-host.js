@@ -27,33 +27,29 @@
       },
     },
 
-    behaviors: [
-      Gerrit.BaseUrlBehavior,
-    ],
-
     _configChanged(config) {
       const plugins = config.plugin;
-      const htmlPlugins = (plugins.html_resource_paths || [])
-          .map(p => this._urlFor(p))
-          .filter(p => !Gerrit._isPluginPreloaded(p));
+      const htmlPlugins = (plugins.html_resource_paths || []);
       const jsPlugins =
-          this._handleMigrations(plugins.js_resource_paths || [], htmlPlugins)
-          .map(p => this._urlFor(p))
-          .filter(p => !Gerrit._isPluginPreloaded(p));
+          this._handleMigrations(plugins.js_resource_paths || [], htmlPlugins);
+
       const shouldLoadTheme = config.default_theme &&
             !Gerrit._isPluginPreloaded('preloaded:gerrit-theme');
-      const defaultTheme =
-            shouldLoadTheme ? this._urlFor(config.default_theme) : null;
+      const themeToLoad =
+            shouldLoadTheme ? [config.default_theme] : [];
+
+      // Theme should be loaded first if has one to have better UX
       const pluginsPending =
-          [].concat(jsPlugins, htmlPlugins, defaultTheme || []);
-      Gerrit._setPluginsPending(pluginsPending);
-      if (defaultTheme) {
-        // Make theme first to be first to load.
-        // Load sync to work around rare theme loading race condition.
-        this._importHtmlPlugins([defaultTheme], true);
+          themeToLoad.concat(jsPlugins, htmlPlugins);
+
+      const pluginOpts = {};
+
+      if (shouldLoadTheme) {
+        // Theme needs to be loaded synchronous.
+        pluginOpts[config.default_theme] = {sync: true};
       }
-      this._loadJsPlugins(jsPlugins);
-      this._importHtmlPlugins(htmlPlugins);
+
+      Gerrit._loadPlugins(pluginsPending, pluginOpts);
     },
 
     /**
@@ -65,54 +61,6 @@
         const counterpart = url.replace(/\.js$/, '.html');
         return !htmlPlugins.includes(counterpart);
       });
-    },
-
-    /**
-     * @suppress {checkTypes}
-     * States that it expects no more than 3 parameters, but that's not true.
-     * @todo (beckysiegel) check Polymer annotations and submit change.
-     * @param {Array} plugins
-     * @param {boolean=} opt_sync
-     */
-    _importHtmlPlugins(plugins, opt_sync) {
-      const async = !opt_sync;
-      for (const url of plugins) {
-        // onload (second param) needs to be a function. When null or undefined
-        // were passed, plugins were not loaded correctly.
-        (this.importHref || Polymer.importHref)(
-            this._urlFor(url), () => {},
-            Gerrit._pluginInstallError.bind(null, `${url} import error`),
-            async);
-      }
-    },
-
-    _loadJsPlugins(plugins) {
-      for (const url of plugins) {
-        this._createScriptTag(this._urlFor(url));
-      }
-    },
-
-    _createScriptTag(url) {
-      const el = document.createElement('script');
-      el.defer = true;
-      el.src = url;
-      el.onerror = Gerrit._pluginInstallError.bind(null, `${url} load error`);
-      return document.body.appendChild(el);
-    },
-
-    _urlFor(pathOrUrl) {
-      if (!pathOrUrl) {
-        return pathOrUrl;
-      }
-      if (pathOrUrl.startsWith('preloaded:') ||
-          pathOrUrl.startsWith('http')) {
-        // Plugins are loaded from another domain or preloaded.
-        return pathOrUrl;
-      }
-      if (!pathOrUrl.startsWith('/')) {
-        pathOrUrl = '/' + pathOrUrl;
-      }
-      return window.location.origin + this.getBaseUrl() + pathOrUrl;
     },
   });
 })();

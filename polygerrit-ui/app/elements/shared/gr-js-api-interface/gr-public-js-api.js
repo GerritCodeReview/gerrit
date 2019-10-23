@@ -267,8 +267,12 @@
       return;
     }
     return this.registerCustomComponent(
-        Gerrit._getPluginScreenName(this.getPluginName(), screenName),
+        this._getScreenName(screenName),
         opt_moduleName);
+  };
+
+  Plugin.prototype._getScreenName = function(screenName) {
+    return `${this.getPluginName()}-screen-${screenName}`;
   };
 
   const deprecatedAPI = {
@@ -321,7 +325,7 @@
             'Please use strings for patterns.');
         return;
       }
-      this.hook(Gerrit._getPluginScreenName(this.getPluginName(), pattern))
+      this.hook(this._getScreenName(pattern))
           .onAttached(el => {
             el.style.display = 'none';
             callback({

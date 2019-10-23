@@ -46,7 +46,7 @@ limitations under the License.
       let plugin;
       Gerrit.install(p => { plugin = p; }, '0.1',
           'http://test.com/plugins/testplugin/static/test.js');
-      sandbox.stub(Gerrit, '_arePluginsLoaded').returns(true);
+      Gerrit._loadPlugins([]);
       repoApi = plugin.project();
     });
 

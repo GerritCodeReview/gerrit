@@ -35,6 +35,7 @@ limitations under the License.
 </test-fixture>
 
 <script>
+  const {PLUGIN_LOADING_TIMEOUT_MS} = window._apiUtils;
   suite('gr-js-api-interface tests', () => {
     let element;
     let plugin;
@@ -48,6 +49,7 @@ limitations under the License.
     };
 
     setup(() => {
+      this.clock = sinon.useFakeTimers();
       sandbox = sinon.sandbox.create();
       getResponseObjectStub = sandbox.stub().returns(Promise.resolve());
       sendStub = sandbox.stub().returns(Promise.resolve({status: 200}));
@@ -64,10 +66,11 @@ limitations under the License.
       errorStub = sandbox.stub(console, 'error');
       Gerrit.install(p => { plugin = p; }, '0.1',
           'http://test.com/plugins/testplugin/static/test.js');
-      Gerrit._setPluginsPending([]);
+      Gerrit._loadPlugins([]);
     });
 
     teardown(() => {
+      this.clock.restore();
       sandbox.restore();
       element._removeEventCallbacks();
       plugin = null;
@@ -194,12 +197,15 @@ limitations under the License.
         revisions: {def: {_number: 2}, abc: {_number: 1}},
       };
       const spy = sandbox.spy();
-      Gerrit._setPluginsCount(1);
+      Gerrit._loadPlugins(['plugins/test.html']);
       plugin.on(element.EventType.SHOW_CHANGE, spy);
       element.handleEvent(element.EventType.SHOW_CHANGE,
           {change: testChange, patchNum: 1});
       assert.isFalse(spy.called);
-      Gerrit._setPluginsCount(0);
+
+      // Timeout on loading plugins
+      this.clock.tick(PLUGIN_LOADING_TIMEOUT_MS * 2);
+
       flush(() => {
         assert.isTrue(spy.called);
         done();
@@ -334,7 +340,6 @@ limitations under the License.
       setup(() => {
         sandbox.stub(Gerrit.BaseUrlBehavior, 'getBaseUrl').returns('/r');
 
-        Gerrit._setPluginsCount(1);
         Gerrit.install(p => { baseUrlPlugin = p; }, '0.1',
             'http://test.com/r/plugins/baseurlplugin/static/test.js');
       });

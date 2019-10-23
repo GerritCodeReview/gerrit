@@ -36,6 +36,18 @@ limitations under the License.
         border-collapse: collapse;
         width: 100%;
       }
+      .section-count-label {
+        color: var(--deemphasized-text-color);
+      }
+      a.section-title:hover {
+        text-decoration: none;
+      }
+      a.section-title:hover .section-count-label {
+        text-decoration: none;
+      }
+      a.section-title:hover .section-name {
+        text-decoration: underline;
+      }
     </style>
     <table id="changeList">
       <tr class="topHeader">
@@ -69,8 +81,9 @@ limitations under the License.
             <td class="star" hidden$="[[!showStar]]" hidden></td>
             <td class="cell"
                 colspan$="[[_computeColspan(changeTableColumns, labelNames)]]">
-              <a href$="[[_sectionHref(changeSection.query)]]">
-                [[changeSection.name]]
+              <a href$="[[_sectionHref(changeSection.query)]]" class="section-title">
+                <span class="section-name">[[changeSection.name]]</span>
+                <span class="section-count-label">[[changeSection.countLabel]]</span>
               </a>
             </td>
           </tr>

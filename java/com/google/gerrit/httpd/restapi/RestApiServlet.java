@@ -520,7 +520,9 @@ public class RestApiServlet extends HttpServlet {
 
             Type type = inputType(m);
             inputRequestBody = parseRequest(req, type);
-            response = m.apply(rsrc, path.get(0), inputRequestBody);
+            response =
+                invokeRestCollectionCreateViewWithRetry(
+                    req, traceContext, viewData, m, rsrc, path.get(0), inputRequestBody);
             if (inputRequestBody instanceof RawInput) {
               try (InputStream is = req.getInputStream()) {
                 ServletUtils.consumeRequestBody(is);
@@ -533,7 +535,9 @@ public class RestApiServlet extends HttpServlet {
 
             Type type = inputType(m);
             inputRequestBody = parseRequest(req, type);
-            response = m.apply(rsrc, path.get(0), inputRequestBody);
+            response =
+                invokeRestCollectionDeleteMissingViewWithRetry(
+                    req, traceContext, viewData, m, rsrc, path.get(0), inputRequestBody);
             if (inputRequestBody instanceof RawInput) {
               try (InputStream is = req.getInputStream()) {
                 ServletUtils.consumeRequestBody(is);
@@ -694,6 +698,32 @@ public class RestApiServlet extends HttpServlet {
       throws Exception {
     return invokeRestEndpointWithRetry(
         req, traceContext, viewData, () -> view.apply(rsrc, inputRequestBody));
+  }
+
+  private Response<?> invokeRestCollectionCreateViewWithRetry(
+      HttpServletRequest req,
+      TraceContext traceContext,
+      ViewData viewData,
+      RestCollectionCreateView<RestResource, RestResource, Object> view,
+      RestResource rsrc,
+      IdString path,
+      Object inputRequestBody)
+      throws Exception {
+    return invokeRestEndpointWithRetry(
+        req, traceContext, viewData, () -> view.apply(rsrc, path, inputRequestBody));
+  }
+
+  private Response<?> invokeRestCollectionDeleteMissingViewWithRetry(
+      HttpServletRequest req,
+      TraceContext traceContext,
+      ViewData viewData,
+      RestCollectionDeleteMissingView<RestResource, RestResource, Object> view,
+      RestResource rsrc,
+      IdString path,
+      Object inputRequestBody)
+      throws Exception {
+    return invokeRestEndpointWithRetry(
+        req, traceContext, viewData, () -> view.apply(rsrc, path, inputRequestBody));
   }
 
   private Response<?> invokeRestCollectionModifyViewWithRetry(

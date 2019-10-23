@@ -2849,19 +2849,37 @@ class ReceiveCommits {
         }
 
         try (TraceTimer traceTimer2 = newTimer("validateNewPatchSetNoteDb#isMergedInto")) {
-          for (RevCommit prior : revisions.keySet()) {
-            // Don't allow a change to directly depend upon itself. This is a
-            // very common error due to users making a new commit rather than
-            // amending when trying to address review comments.
-            if (receivePack.getRevWalk().isMergedInto(prior, newCommit)) {
-              reject(inputCommand, SAME_CHANGE_ID_IN_MULTIPLE_CHANGES);
-              return false;
-            }
+          if (newPatchSetDependsOnPriorPatchSet(change, newCommit, revisions.keySet())) {
+            // Don't allow a change to directly depend upon itself. This is a very common error due
+            // to users making a new commit rather than amending when trying to address review
+            // comments.
+            reject(inputCommand, SAME_CHANGE_ID_IN_MULTIPLE_CHANGES);
+            return false;
           }
         }
 
         return true;
       }
+    }
+
+    /** Checks a change for self-dependency by performing a rev walk. */
+    private boolean newPatchSetDependsOnPriorPatchSet(
+        Change change, RevCommit newCommit, Set<RevCommit> oldPatchSets) throws IOException {
+      // Look at all commits between the new patch set and the base in the destination. This covers
+      // all changes that are an ancestor of the new patch set - including the current change itself
+      // in case of self-dependency.
+      ObjectId targetRefTip = receivePackRefCache.exactRef(change.getDest().branch()).getObjectId();
+      RevWalk rw = receivePack.getRevWalk();
+      rw.reset();
+      rw.markUninteresting(receivePack.getRepository().parseCommit(targetRefTip));
+      rw.markStart(newCommit);
+      RevCommit curr;
+      while ((curr = rw.next()) != null) {
+        if (oldPatchSets.contains(curr)) {
+          return true;
+        }
+      }
+      return false;
     }
 
     /** Validates whether the WIP change is allowed. Rejects inputCommand if not. */

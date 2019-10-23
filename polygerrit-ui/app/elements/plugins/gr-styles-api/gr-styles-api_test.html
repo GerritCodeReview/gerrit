@@ -46,7 +46,7 @@ limitations under the License.
       let plugin;
       Gerrit.install(p => { plugin = p; }, '0.1',
           'http://test.com/plugins/testplugin/static/test.js');
-      sandbox.stub(Gerrit, '_arePluginsLoaded').returns(true);
+      Gerrit._loadPlugins([]);
       stylesApi = plugin.styles();
     });
 
@@ -76,7 +76,7 @@ limitations under the License.
       let plugin;
       Gerrit.install(p => { plugin = p; }, '0.1',
           'http://test.com/plugins/testplugin/static/test.js');
-      sandbox.stub(Gerrit, '_arePluginsLoaded').returns(true);
+      Gerrit._loadPlugins([]);
       stylesApi = plugin.styles();
       displayInlineStyle = stylesApi.css('display: inline');
       displayNoneStyle = stylesApi.css('display: none');

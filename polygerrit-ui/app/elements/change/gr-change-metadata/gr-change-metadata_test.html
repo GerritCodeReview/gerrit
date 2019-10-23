@@ -725,7 +725,7 @@ limitations under the License.
             },
             '0.1',
             'http://some/plugins/url.html');
-        Gerrit._setPluginsCount(0);
+        Gerrit._loadPlugins([]);
         flush(() => {
           assert.strictEqual(hookEl.plugin, plugin);
           assert.strictEqual(hookEl.change, element.change);

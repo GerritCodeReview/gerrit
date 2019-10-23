@@ -37,11 +37,11 @@ limitations under the License.
 <script>
   suite('gr-gerrit tests', () => {
     let element;
-    let plugin;
     let sandbox;
     let sendStub;
 
     setup(() => {
+      this.clock = sinon.useFakeTimers();
       sandbox = sinon.sandbox.create();
       sendStub = sandbox.stub().returns(Promise.resolve({status: 200}));
       stub('gr-rest-api-interface', {
@@ -53,136 +53,48 @@ limitations under the License.
         },
       });
       element = fixture('basic');
-      Gerrit.install(p => { plugin = p; }, '0.1',
-          'http://test.com/plugins/testplugin/static/test.js');
-      Gerrit._setPluginsPending([]);
     });
 
     teardown(() => {
+      this.clock.restore();
       sandbox.restore();
       element._removeEventCallbacks();
-      plugin = null;
+      Gerrit._testOnly_resetPlugins();
     });
 
-    test('reuse plugin for install calls', () => {
-      let otherPlugin;
-      Gerrit.install(p => { otherPlugin = p; }, '0.1',
-          'http://test.com/plugins/testplugin/static/test.js');
-      assert.strictEqual(plugin, otherPlugin);
-    });
-
-    test('flushes preinstalls if provided', () => {
-      assert.doesNotThrow(() => {
-        Gerrit._testOnly_flushPreinstalls();
+    suite('proxy methods', () => {
+      test('Gerrit._isPluginEnabled proxy to pluginLoader', () => {
+        const stubFn = sandbox.stub();
+        sandbox.stub(
+            Gerrit._pluginLoader,
+            'isPluginEnabled',
+            (...args) => stubFn(...args)
+        );
+        Gerrit._isPluginEnabled('test_plugin');
+        assert.isTrue(stubFn.calledWith('test_plugin'));
       });
-      window.Gerrit.flushPreinstalls = sandbox.stub();
-      Gerrit._testOnly_flushPreinstalls();
-      assert.isTrue(window.Gerrit.flushPreinstalls.calledOnce);
-      delete window.Gerrit.flushPreinstalls;
-    });
 
-    test('versioning', () => {
-      const callback = sandbox.spy();
-      Gerrit.install(callback, '0.0pre-alpha');
-      assert(callback.notCalled);
-    });
-
-    test('_setPluginsCount', done => {
-      stub('gr-reporting', {
-        pluginsLoaded() {
-          done();
-        },
+      test('Gerrit._isPluginLoaded proxy to pluginLoader', () => {
+        const stubFn = sandbox.stub();
+        sandbox.stub(
+            Gerrit._pluginLoader,
+            'isPluginLoaded',
+            (...args) => stubFn(...args)
+        );
+        Gerrit._isPluginLoaded('test_plugin');
+        assert.isTrue(stubFn.calledWith('test_plugin'));
       });
-      Gerrit._setPluginsCount(0);
-    });
 
-    test('_arePluginsLoaded', () => {
-      assert.isTrue(Gerrit._arePluginsLoaded());
-      Gerrit._setPluginsCount(1);
-      assert.isFalse(Gerrit._arePluginsLoaded());
-      Gerrit._setPluginsCount(0);
-      assert.isTrue(Gerrit._arePluginsLoaded());
-    });
-
-    test('_pluginInstalled', () => {
-      const pluginsLoadedStub = sandbox.stub();
-      stub('gr-reporting', {
-        pluginsLoaded: (...args) => pluginsLoadedStub(...args),
+      test('Gerrit._isPluginPreloaded proxy to pluginLoader', () => {
+        const stubFn = sandbox.stub();
+        sandbox.stub(
+            Gerrit._pluginLoader,
+            'isPluginPreloaded',
+            (...args) => stubFn(...args)
+        );
+        Gerrit._isPluginPreloaded('test_plugin');
+        assert.isTrue(stubFn.calledWith('test_plugin'));
       });
-      const plugins = [
-        'http://test.com/plugins/foo/static/test.js',
-        'http://test.com/plugins/bar/static/test.js',
-      ];
-      Gerrit._setPluginsPending(plugins);
-      Gerrit._pluginInstalled(plugins[0]);
-      Gerrit._pluginInstalled(plugins[1]);
-      assert.isTrue(pluginsLoadedStub.calledWithExactly(['foo', 'bar']));
-    });
-
-    test('install calls _pluginInstalled', () => {
-      sandbox.stub(Gerrit, '_pluginInstalled');
-      Gerrit.install(p => { plugin = p; }, '0.1',
-          'http://test.com/plugins/testplugin/static/test.js');
-
-      // testplugin has already been installed once (in setup).
-      assert.isFalse(Gerrit._pluginInstalled.called);
-
-      // testplugin2 plugin has not yet been installed.
-      Gerrit.install(p => { plugin = p; }, '0.1',
-          'http://test.com/plugins/testplugin2/static/test.js');
-      assert.isTrue(Gerrit._pluginInstalled.calledOnce);
-    });
-
-    test('plugin install errors mark plugins as loaded', () => {
-      Gerrit._setPluginsCount(1);
-      Gerrit.install(() => {}, '0.0pre-alpha');
-      return Gerrit.awaitPluginsLoaded();
-    });
-
-    test('multiple ui plugins per java plugin', () => {
-      const file1 = 'http://test.com/plugins/qaz/static/foo.nocache.js';
-      const file2 = 'http://test.com/plugins/qaz/static/bar.js';
-      Gerrit._setPluginsPending([file1, file2]);
-      Gerrit.install(() => {}, '0.1', file1);
-      Gerrit.install(() => {}, '0.1', file2);
-      return Gerrit.awaitPluginsLoaded();
-    });
-
-    test('plugin install errors shows toasts', () => {
-      const alertStub = sandbox.stub();
-      document.addEventListener('show-alert', alertStub);
-      Gerrit._setPluginsCount(1);
-      Gerrit.install(() => {}, '0.0pre-alpha');
-      return Gerrit.awaitPluginsLoaded().then(() => {
-        assert.isTrue(alertStub.calledOnce);
-      });
-    });
-
-    test('Gerrit._isPluginPreloaded', () => {
-      Gerrit._preloadedPlugins = {baz: ()=>{}};
-      assert.isFalse(Gerrit._isPluginPreloaded('plugins/foo/bar'));
-      assert.isFalse(Gerrit._isPluginPreloaded('http://a.com/42'));
-      assert.isTrue(Gerrit._isPluginPreloaded('preloaded:baz'));
-      Gerrit._preloadedPlugins = null;
-    });
-
-    test('preloaded plugins are installed', () => {
-      const installStub = sandbox.stub();
-      Gerrit._preloadedPlugins = {foo: installStub};
-      Gerrit._testOnly_installPreloadedPlugins();
-      assert.isTrue(installStub.called);
-      const pluginApi = installStub.lastCall.args[0];
-      assert.strictEqual(pluginApi.getPluginName(), 'foo');
-    });
-
-    test('installing preloaded plugin', () => {
-      let plugin;
-      window.ASSETS_PATH = 'http://blips.com/chitz';
-      Gerrit.install(p => { plugin = p; }, '0.1', 'preloaded:foo');
-      assert.strictEqual(plugin.getPluginName(), 'foo');
-      assert.strictEqual(plugin.url('/some/thing.html'),
-          'http://blips.com/chitz/plugins/foo/some/thing.html');
-      delete window.ASSETS_PATH;
     });
   });
 </script>

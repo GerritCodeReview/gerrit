@@ -81,7 +81,7 @@ limitations under the License.
       });
       element = fixture('basic');
       sandbox.stub(element.$.actions, 'reload').returns(Promise.resolve());
-      Gerrit._setPluginsCount(0);
+      Gerrit._loadPlugins([]);
     });
 
     teardown(done => {

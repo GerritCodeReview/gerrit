@@ -1,0 +1,193 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ef819268_b40e037f",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-23T08:25:07Z",
+      "side": 1,
+      "message": "not your change, but here should return empty array instead here.",
+      "revId": "12ea921739760f4387fa185ae3eb1ee2c6579afc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eb86ab94_5094d23f",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-23T08:25:07Z",
+      "side": 1,
+      "message": "maybe just have a if around the for loops instead, easier to follow :)",
+      "revId": "12ea921739760f4387fa185ae3eb1ee2c6579afc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ce23cb99_f8aef1c7",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-23T08:25:07Z",
+      "side": 1,
+      "message": "1. maybe use `charAtCursor` instead ?\n2. `focused` should be checked before anything, not sure what the `selectionStart` will be when its not focused.",
+      "range": {
+        "startLine": 220,
+        "startChar": 12,
+        "endLine": 220,
+        "endChar": 19
+      },
+      "revId": "12ea921739760f4387fa185ae3eb1ee2c6579afc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "efa736d6_b81d8244",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-23T08:25:07Z",
+      "side": 1,
+      "message": "this comment is a bit confusing,  i think you need make it clear that it should be either `charAtCursor` is `:` or `:` detected before.",
+      "range": {
+        "startLine": 223,
+        "startChar": 9,
+        "endLine": 223,
+        "endChar": 78
+      },
+      "revId": "12ea921739760f4387fa185ae3eb1ee2c6579afc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c0e3b48a_e58eff58",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-23T08:25:07Z",
+      "side": 1,
+      "message": "Why changed to `+1` here ? some examples can be helpful\n\n```\ntest :abc \u003d\u003e \":abc\" or \"abc\" \n```",
+      "revId": "12ea921739760f4387fa185ae3eb1ee2c6579afc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "097a445e_1123b0d1",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 243,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-23T08:25:07Z",
+      "side": 1,
+      "message": "can you also update here as well ?",
+      "range": {
+        "startLine": 240,
+        "startChar": 9,
+        "endLine": 243,
+        "endChar": 60
+      },
+      "revId": "12ea921739760f4387fa185ae3eb1ee2c6579afc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fda2a1e3_78b009f9",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-23T08:25:07Z",
+      "side": 1,
+      "message": "why space ?",
+      "range": {
+        "startLine": 246,
+        "startChar": 42,
+        "endLine": 246,
+        "endChar": 43
+      },
+      "revId": "12ea921739760f4387fa185ae3eb1ee2c6579afc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c2123919_8e531ee9",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-23T08:25:07Z",
+      "side": 1,
+      "message": "why not just pass only string without `:` to here ? and if you really need it, maybe have it in a separate block before the next if",
+      "range": {
+        "startLine": 275,
+        "startChar": 5,
+        "endLine": 278,
+        "endChar": 9
+      },
+      "revId": "12ea921739760f4387fa185ae3eb1ee2c6579afc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "459dd016_99bce009",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-23T08:25:07Z",
+      "side": 1,
+      "message": "nit: slice should do the same and have better performance.",
+      "range": {
+        "startLine": 284,
+        "startChar": 13,
+        "endLine": 284,
+        "endChar": 19
+      },
+      "revId": "12ea921739760f4387fa185ae3eb1ee2c6579afc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

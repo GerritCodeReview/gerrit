@@ -1203,6 +1203,7 @@
     },
 
     _getProjectConfig() {
+      if (!this._change) return;
       return this.$.restAPI.getProjectConfig(this._change.project).then(
           config => {
             this._projectConfig = config;

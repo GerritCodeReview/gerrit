@@ -23,16 +23,18 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
-import com.google.common.collect.Multimaps;
 import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
 import com.google.common.collect.SortedSetMultimap;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.change.RevisionResource;
+import com.google.gerrit.server.git.receive.ReceivePackRefCache;
 import com.google.gerrit.server.notedb.ChangeNotes;
+import java.io.IOException;
 import java.util.ArrayDeque;
 import java.util.Collection;
 import java.util.Deque;
@@ -87,11 +89,11 @@ public class GroupCollector {
     return rsrc.getPatchSet().groups();
   }
 
-  private interface Lookup {
+  interface Lookup {
     List<String> lookup(PatchSet.Id psId);
   }
 
-  private final ListMultimap<ObjectId, PatchSet.Id> patchSetsBySha;
+  private final ReceivePackRefCache receivePackRefCache;
   private final ListMultimap<ObjectId, String> groups;
   private final SetMultimap<String, String> groupAliases;
   private final Lookup groupLookup;
@@ -99,12 +101,12 @@ public class GroupCollector {
   private boolean done;
 
   public static GroupCollector create(
-      ListMultimap<ObjectId, Ref> changeRefsById,
+      ReceivePackRefCache receivePackRefCache,
       PatchSetUtil psUtil,
       ChangeNotes.Factory notesFactory,
       Project.NameKey project) {
     return new GroupCollector(
-        transformRefs(changeRefsById),
+        receivePackRefCache,
         psId -> {
           // TODO(dborowitz): Reuse open repository from caller.
           ChangeNotes notes = notesFactory.createChecked(project, psId.changeId());
@@ -113,31 +115,15 @@ public class GroupCollector {
         });
   }
 
-  private GroupCollector(ListMultimap<ObjectId, PatchSet.Id> patchSetsBySha, Lookup groupLookup) {
-    this.patchSetsBySha = patchSetsBySha;
+  @VisibleForTesting
+  GroupCollector(ReceivePackRefCache receivePackRefCache, Lookup groupLookup) {
+    this.receivePackRefCache = receivePackRefCache;
     this.groupLookup = groupLookup;
     groups = MultimapBuilder.hashKeys().arrayListValues().build();
     groupAliases = MultimapBuilder.hashKeys().hashSetValues().build();
   }
 
-  private static ListMultimap<ObjectId, PatchSet.Id> transformRefs(
-      ListMultimap<ObjectId, Ref> refs) {
-    return Multimaps.transformValues(refs, r -> PatchSet.Id.fromRef(r.getName()));
-  }
-
-  @VisibleForTesting
-  GroupCollector(
-      ListMultimap<ObjectId, PatchSet.Id> patchSetsBySha,
-      ListMultimap<PatchSet.Id, String> groupLookup) {
-    this(
-        patchSetsBySha,
-        psId -> {
-          List<String> groups = groupLookup.get(psId);
-          return !groups.isEmpty() ? groups : null;
-        });
-  }
-
-  public void visit(RevCommit c) {
+  public void visit(RevCommit c) throws IOException {
     checkState(!done, "visit() called after getGroups()");
     Set<RevCommit> interestingParents = getInterestingParents(c);
 
@@ -197,7 +183,7 @@ public class GroupCollector {
     }
   }
 
-  public SortedSetMultimap<ObjectId, String> getGroups() {
+  public SortedSetMultimap<ObjectId, String> getGroups() throws IOException {
     done = true;
     SortedSetMultimap<ObjectId, String> result =
         MultimapBuilder.hashKeys(groups.keySet().size()).treeSetValues().build();
@@ -218,12 +204,13 @@ public class GroupCollector {
     return result;
   }
 
-  private boolean isGroupFromExistingPatchSet(RevCommit commit, String group) {
+  private boolean isGroupFromExistingPatchSet(RevCommit commit, String group) throws IOException {
     ObjectId id = parseGroup(commit, group);
-    return id != null && patchSetsBySha.containsKey(id);
+    return id != null && !receivePackRefCache.tipsFromObjectId(id, RefNames.REFS_CHANGES).isEmpty();
   }
 
-  private Set<String> resolveGroups(ObjectId forCommit, Collection<String> candidates) {
+  private Set<String> resolveGroups(ObjectId forCommit, Collection<String> candidates)
+      throws IOException {
     Set<String> actual = Sets.newTreeSet();
     Set<String> done = Sets.newHashSetWithExpectedSize(candidates.size());
     Set<String> seen = Sets.newHashSetWithExpectedSize(candidates.size());
@@ -258,16 +245,20 @@ public class GroupCollector {
     }
   }
 
-  private Iterable<String> resolveGroup(ObjectId forCommit, String group) {
+  private Iterable<String> resolveGroup(ObjectId forCommit, String group) throws IOException {
     ObjectId id = parseGroup(forCommit, group);
     if (id != null) {
-      PatchSet.Id psId = Iterables.getFirst(patchSetsBySha.get(id), null);
-      if (psId != null) {
-        List<String> groups = groupLookup.lookup(psId);
-        // Group for existing patch set may be missing, e.g. if group has not
-        // been migrated yet.
-        if (groups != null && !groups.isEmpty()) {
-          return groups;
+      Ref ref =
+          Iterables.getFirst(receivePackRefCache.tipsFromObjectId(id, RefNames.REFS_CHANGES), null);
+      if (ref != null) {
+        PatchSet.Id psId = PatchSet.Id.fromRef(ref.getName());
+        if (psId != null) {
+          List<String> groups = groupLookup.lookup(psId);
+          // Group for existing patch set may be missing, e.g. if group has not
+          // been migrated yet.
+          if (groups != null && !groups.isEmpty()) {
+            return groups;
+          }
         }
       }
     }

@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "52d27f85_f6a1f53d",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-list/gr-repo-list.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-23T07:57:17Z",
+      "side": 1,
+      "message": "do you need to make the header to center aligned as well ?",
+      "range": {
+        "startLine": 39,
+        "startChar": 5,
+        "endLine": 39,
+        "endChar": 21
+      },
+      "revId": "efa268e78d37a2dff6061015250891a1cbb43ff3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c1780637_c64459d0",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-list/gr-repo-list.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-23T07:57:17Z",
+      "side": 1,
+      "message": "is this used anywhere ?",
+      "range": {
+        "startLine": 57,
+        "startChar": 21,
+        "endLine": 57,
+        "endChar": 29
+      },
+      "revId": "efa268e78d37a2dff6061015250891a1cbb43ff3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be7edba5_eae032d0",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-list/gr-repo-list.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-23T07:57:17Z",
+      "side": 1,
+      "message": "nit: Can we remove the `()` here and also the `view all` ? its a bit weird to have those when text not at the last column, or maybe just me :)",
+      "range": {
+        "startLine": 76,
+        "startChar": 20,
+        "endLine": 76,
+        "endChar": 35
+      },
+      "revId": "efa268e78d37a2dff6061015250891a1cbb43ff3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "80f059f2_973a9664",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-list/gr-repo-list.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-23T07:57:17Z",
+      "side": 1,
+      "message": "do you need two classes ?",
+      "range": {
+        "startLine": 81,
+        "startChar": 25,
+        "endLine": 81,
+        "endChar": 46
+      },
+      "revId": "efa268e78d37a2dff6061015250891a1cbb43ff3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

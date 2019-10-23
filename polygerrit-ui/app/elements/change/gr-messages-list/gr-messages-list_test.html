@@ -567,10 +567,17 @@ limitations under the License.
           {'my-label': {min: -12, max: -12}});
 
       element.labels = {
+        'my-label': {values: {'-2': {}, '-1': {}, '0': {}, '+1': {}, '+2': {}}},
+      };
+      assert.equal(computeSpy.callCount, 6);
+      assert.deepEqual(computeSpy.lastCall.returnValue,
+          {'my-label': {min: -2, max: 2}});
+
+      element.labels = {
         'my-label': {values: {'-12': {}}},
         'other-label': {values: {'-1': {}, ' 0': {}, '+1': {}}},
       };
-      assert.equal(computeSpy.callCount, 6);
+      assert.equal(computeSpy.callCount, 7);
       assert.deepEqual(computeSpy.lastCall.returnValue, {
         'my-label': {min: -12, max: -12},
         'other-label': {min: -1, max: 1},

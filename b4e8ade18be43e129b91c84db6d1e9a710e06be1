@@ -128,6 +128,30 @@
     },
     {
       "key": {
+        "uuid": "233e8cd4_b5199f57",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 658,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2019-10-23T07:33:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8f2a3a40_a896d0a0",
+      "range": {
+        "startLine": 657,
+        "startChar": 0,
+        "endLine": 658,
+        "endChar": 30
+      },
+      "revId": "b4e8ade18be43e129b91c84db6d1e9a710e06be1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f7df468b_ede15dca",
         "filename": "javatests/com/google/gerrit/server/git/receive/ReceivePackRefCacheTest.java",
         "patchSetId": 2

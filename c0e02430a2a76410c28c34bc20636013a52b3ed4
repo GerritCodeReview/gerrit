@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5bf2f0d0_056b33a1",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-loader.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-23T07:31:26Z",
+      "side": 1,
+      "message": "Currently we have two sources of plugins:\n1. plugins enabled from config, that Gerrit will load them with `loadPlugins` method\n2. plugins enabled and loaded by the server plugin (cases in the link), and they will still be loaded by `Gerrit.install` method\n\n\nif the plugin is not using `Gerrit.install` then it won\u0027t be tracked by this pluginLoader.\n\n\nRegarding the same name plugin, if they all loaded by the `loadPlugins` method, same name plugins will only be loaded once, as you should not have same name plugin loaded multiple times from the `config`. This also matches with existing behavior.\n\nBut you still can load plugin with same name with `Gerrit.install` tho its not recommended and may have issues.\n\nThe `pluginKey` here is actually very restricted as it only recognizes the `/plugins/name/static/a.html|js` or `/plugins/name.html|js`. otherwise will fallback to use the full url. And from the way we load plugins on server, we don\u0027t expect two plugins have the same name.",
+      "parentUuid": "12b5b256_887c2d40",
+      "revId": "c0e02430a2a76410c28c34bc20636013a52b3ed4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e4210d9e_824f3af7",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-loader.js",
         "patchSetId": 8
@@ -30,6 +48,24 @@
       "writtenOn": "2019-10-22T18:19:27Z",
       "side": 1,
       "message": "Plugin key is not really a name, and names are used in number of places in the API as a part of URLs, paths, insertion points etc.\nI\u0027m not sure this is a good idea to use pluginKey here.",
+      "revId": "c0e02430a2a76410c28c34bc20636013a52b3ed4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7958dfd3_f8bb5d2d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-loader.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-23T07:31:26Z",
+      "side": 1,
+      "message": "We expect all plugins follow the patterns that we can recognize so the pluginKey should be the unique plugin name for most cases. And this is the internal storage only (`_plugins`), the name will be used in reporting and logging. Plugin itself will have the `name` property which will extract the name from the url, for those not fit the patterns, it will just return empty string (that is still the same with what we have now)",
+      "parentUuid": "e4210d9e_824f3af7",
       "revId": "c0e02430a2a76410c28c34bc20636013a52b3ed4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "123192ef_02bc8829",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-loader.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-23T07:31:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7c3203ae_2d5bff9f",
+      "revId": "c0e02430a2a76410c28c34bc20636013a52b3ed4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aad6e5a4_151745fe",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-loader.js",
         "patchSetId": 8
@@ -70,6 +124,24 @@
     },
     {
       "key": {
+        "uuid": "55091d75_e32b10a0",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-loader.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-23T07:31:26Z",
+      "side": 1,
+      "message": "I see, was meant to always check to see if completed once a plugin state changed. ya I can move it to _failToLoad and _pluginInstalled to make the flow more clear! THanks!",
+      "parentUuid": "aad6e5a4_151745fe",
+      "revId": "c0e02430a2a76410c28c34bc20636013a52b3ed4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1ec1c00a_7d14fe29",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-loader.js",
         "patchSetId": 8
@@ -81,6 +153,24 @@
       "writtenOn": "2019-10-22T18:19:27Z",
       "side": 1,
       "message": "Mostly a nit, and up to you:\nI think there\u0027s a pluginKey (or name) known by this point, and using it would increase the consistency and improve performance a bit.",
+      "revId": "c0e02430a2a76410c28c34bc20636013a52b3ed4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "39585421_72cfad6e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-loader.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-23T07:31:26Z",
+      "side": 1,
+      "message": "ya thx!",
+      "parentUuid": "1ec1c00a_7d14fe29",
       "revId": "c0e02430a2a76410c28c34bc20636013a52b3ed4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

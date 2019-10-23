@@ -851,7 +851,7 @@ limitations under the License.
           assert.equal(element._lastChunkForSide(diff, true), diff.content[3]);
         });
 
-        test('addition', () => {
+        test('addition with a undefined', () => {
           const diff = {content: [
             {b: ['foo', 'bar', 'baz']},
           ]};
@@ -859,9 +859,26 @@ limitations under the License.
           assert.isNull(element._lastChunkForSide(diff, true));
         });
 
-        test('deletion', () => {
+        test('addition with a empty', () => {
+          const diff = {content: [
+            {a: [], b: ['foo', 'bar', 'baz']},
+          ]};
+          assert.equal(element._lastChunkForSide(diff, false), diff.content[0]);
+          assert.isNull(element._lastChunkForSide(diff, true));
+        });
+
+
+        test('deletion with b undefined', () => {
           const diff = {content: [
             {a: ['foo', 'bar', 'baz']},
+          ]};
+          assert.isNull(element._lastChunkForSide(diff, false));
+          assert.equal(element._lastChunkForSide(diff, true), diff.content[0]);
+        });
+
+        test('deletion with b empty', () => {
+          const diff = {content: [
+            {a: ['foo', 'bar', 'baz'], b: []},
           ]};
           assert.isNull(element._lastChunkForSide(diff, false));
           assert.equal(element._lastChunkForSide(diff, true), diff.content[0]);

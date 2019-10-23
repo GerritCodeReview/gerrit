@@ -426,7 +426,8 @@
     },
 
     _computePluginScreenName({plugin, screen}) {
-      return Gerrit._getPluginScreenName(plugin, screen);
+      if (!plugin || !screen) return '';
+      return `${plugin}-screen-${screen}`;
     },
 
     _logWelcome() {

@@ -42,7 +42,6 @@ limitations under the License.
 
     setup(() => {
       sandbox = sinon.sandbox.create();
-      Gerrit._setPluginsCount(1);
       Gerrit.install(p => { plugin = p; }, '0.1',
           'http://test.com/plugins/testplugin/static/test.js');
       instance = new GrPluginActionContext(plugin);

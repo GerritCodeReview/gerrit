@@ -1,0 +1,502 @@
+<!DOCTYPE html>
+<!--
+@license
+Copyright (C) 2017 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+<title>gr-plugin-host</title>
+<script src="/test/common-test-setup.js"></script>
+<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+
+<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/bower_components/web-component-tester/browser.js"></script>
+<link rel="import" href="../../../test/common-test-setup.html"/>
+<link rel="import" href="gr-js-api-interface.html">
+
+<script>void(0);</script>
+
+<test-fixture id="basic">
+  <template>
+    <gr-js-api-interface></gr-js-api-interface>
+  </template>
+</test-fixture>
+
+<script>
+  const {PRELOADED_PROTOCOL, PLUGIN_LOADING_TIMEOUT_MS} = window._apiUtils;
+  suite('gr-plugin-loader tests', () => {
+    let plugin;
+    let sandbox;
+    let url;
+    let sendStub;
+
+    setup(() => {
+      this.clock = sinon.useFakeTimers();
+      sandbox = sinon.sandbox.create();
+      sendStub = sandbox.stub().returns(Promise.resolve({status: 200}));
+      stub('gr-rest-api-interface', {
+        getAccount() {
+          return Promise.resolve({name: 'Judy Hopps'});
+        },
+        send(...args) {
+          return sendStub(...args);
+        },
+      });
+      sandbox.stub(document.body, 'appendChild');
+      fixture('basic');
+      url = window.location.origin;
+    });
+
+    teardown(() => {
+      sandbox.restore();
+      this.clock.restore();
+      Gerrit._testOnly_resetPlugins();
+    });
+
+    test('reuse plugin for install calls', () => {
+      Gerrit.install(p => { plugin = p; }, '0.1',
+          'http://test.com/plugins/testplugin/static/test.js');
+
+      let otherPlugin;
+      Gerrit.install(p => { otherPlugin = p; }, '0.1',
+          'http://test.com/plugins/testplugin/static/test.js');
+      assert.strictEqual(plugin, otherPlugin);
+    });
+
+    test('flushes preinstalls if provided', () => {
+      assert.doesNotThrow(() => {
+        Gerrit._testOnly_flushPreinstalls();
+      });
+      window.Gerrit.flushPreinstalls = sandbox.stub();
+      Gerrit._testOnly_flushPreinstalls();
+      assert.isTrue(window.Gerrit.flushPreinstalls.calledOnce);
+      delete window.Gerrit.flushPreinstalls;
+    });
+
+    test('versioning', () => {
+      const callback = sandbox.spy();
+      Gerrit.install(callback, '0.0pre-alpha');
+      assert(callback.notCalled);
+    });
+
+    test('report pluginsLoaded', done => {
+      stub('gr-reporting', {
+        pluginsLoaded() {
+          done();
+        },
+      });
+      Gerrit._loadPlugins([]);
+    });
+
+    test('arePluginsLoaded', done => {
+      assert.isFalse(Gerrit._arePluginsLoaded());
+      const plugins = [
+        'http://test.com/plugins/foo/static/test.js',
+        'http://test.com/plugins/bar/static/test.js',
+      ];
+
+      Gerrit._loadPlugins(plugins);
+      assert.isFalse(Gerrit._arePluginsLoaded());
+      // Timeout on loading plugins
+      this.clock.tick(PLUGIN_LOADING_TIMEOUT_MS * 2);
+
+      flush(() => {
+        assert.isTrue(Gerrit._arePluginsLoaded());
+        done();
+      });
+    });
+
+    test('plugins installed successfully', done => {
+      sandbox.stub(Gerrit._pluginLoader, '_loadJsPlugin', url => {
+        Gerrit.install(() => void 0, undefined, url);
+      });
+      const pluginsLoadedStub = sandbox.stub();
+      stub('gr-reporting', {
+        pluginsLoaded: (...args) => pluginsLoadedStub(...args),
+      });
+
+      const plugins = [
+        'http://test.com/plugins/foo/static/test.js',
+        'http://test.com/plugins/bar/static/test.js',
+      ];
+      Gerrit._loadPlugins(plugins);
+
+      flush(() => {
+        assert.isTrue(pluginsLoadedStub.calledWithExactly(['foo', 'bar']));
+        assert.isTrue(Gerrit._arePluginsLoaded());
+        done();
+      });
+    });
+
+    test('isPluginEnabled and isPluginLoaded', done => {
+      sandbox.stub(Gerrit._pluginLoader, '_loadJsPlugin', url => {
+        Gerrit.install(() => void 0, undefined, url);
+      });
+      const pluginsLoadedStub = sandbox.stub();
+      stub('gr-reporting', {
+        pluginsLoaded: (...args) => pluginsLoadedStub(...args),
+      });
+
+      const plugins = [
+        'http://test.com/plugins/foo/static/test.js',
+        'http://test.com/plugins/bar/static/test.js',
+        'bar/static/test.js',
+      ];
+      Gerrit._loadPlugins(plugins);
+      assert.isTrue(
+          plugins.every(plugin => Gerrit._pluginLoader.isPluginEnabled(plugin))
+      );
+
+      flush(() => {
+        assert.isTrue(Gerrit._arePluginsLoaded());
+        assert.isTrue(
+            plugins.every(plugin => Gerrit._pluginLoader.isPluginLoaded(plugin))
+        );
+
+        done();
+      });
+    });
+
+    test('plugins installed mixed result, 1 fail 1 succeed', done => {
+      const plugins = [
+        'http://test.com/plugins/foo/static/test.js',
+        'http://test.com/plugins/bar/static/test.js',
+      ];
+
+      const alertStub = sandbox.stub();
+      document.addEventListener('show-alert', alertStub);
+
+      sandbox.stub(Gerrit._pluginLoader, '_loadJsPlugin', url => {
+        Gerrit.install(() => {
+          if (url === plugins[0]) {
+            throw new Error('failed');
+          }
+        }, undefined, url);
+      });
+
+      const pluginsLoadedStub = sandbox.stub();
+      stub('gr-reporting', {
+        pluginsLoaded: (...args) => pluginsLoadedStub(...args),
+      });
+
+      Gerrit._loadPlugins(plugins);
+
+      flush(() => {
+        assert.isTrue(pluginsLoadedStub.calledWithExactly(['bar']));
+        assert.isTrue(Gerrit._arePluginsLoaded());
+        assert.isTrue(alertStub.calledOnce);
+        done();
+      });
+    });
+
+    test('isPluginEnabled and isPluginLoaded for mixed results', done => {
+      const plugins = [
+        'http://test.com/plugins/foo/static/test.js',
+        'http://test.com/plugins/bar/static/test.js',
+      ];
+
+      const alertStub = sandbox.stub();
+      document.addEventListener('show-alert', alertStub);
+
+      sandbox.stub(Gerrit._pluginLoader, '_loadJsPlugin', url => {
+        Gerrit.install(() => {
+          if (url === plugins[0]) {
+            throw new Error('failed');
+          }
+        }, undefined, url);
+      });
+
+      const pluginsLoadedStub = sandbox.stub();
+      stub('gr-reporting', {
+        pluginsLoaded: (...args) => pluginsLoadedStub(...args),
+      });
+
+      Gerrit._loadPlugins(plugins);
+      assert.isTrue(
+          plugins.every(plugin => Gerrit._pluginLoader.isPluginEnabled(plugin))
+      );
+
+      flush(() => {
+        assert.isTrue(pluginsLoadedStub.calledWithExactly(['bar']));
+        assert.isTrue(Gerrit._arePluginsLoaded());
+        assert.isTrue(alertStub.calledOnce);
+        assert.isTrue(Gerrit._pluginLoader.isPluginLoaded(plugins[1]));
+        assert.isFalse(Gerrit._pluginLoader.isPluginLoaded(plugins[0]));
+        done();
+      });
+    });
+
+    test('plugins installed all failed', done => {
+      const plugins = [
+        'http://test.com/plugins/foo/static/test.js',
+        'http://test.com/plugins/bar/static/test.js',
+      ];
+
+      const alertStub = sandbox.stub();
+      document.addEventListener('show-alert', alertStub);
+
+      sandbox.stub(Gerrit._pluginLoader, '_loadJsPlugin', url => {
+        Gerrit.install(() => {
+          throw new Error('failed');
+        }, undefined, url);
+      });
+
+      const pluginsLoadedStub = sandbox.stub();
+      stub('gr-reporting', {
+        pluginsLoaded: (...args) => pluginsLoadedStub(...args),
+      });
+
+      Gerrit._loadPlugins(plugins);
+
+      flush(() => {
+        assert.isTrue(pluginsLoadedStub.calledWithExactly([]));
+        assert.isTrue(Gerrit._arePluginsLoaded());
+        assert.isTrue(alertStub.calledTwice);
+        done();
+      });
+    });
+
+    test('plugins installed failed becasue of wrong version', done => {
+      const plugins = [
+        'http://test.com/plugins/foo/static/test.js',
+        'http://test.com/plugins/bar/static/test.js',
+      ];
+
+      const alertStub = sandbox.stub();
+      document.addEventListener('show-alert', alertStub);
+
+      sandbox.stub(Gerrit._pluginLoader, '_loadJsPlugin', url => {
+        Gerrit.install(() => {
+        }, url === plugins[0] ? '' : 'alpha', url);
+      });
+
+      const pluginsLoadedStub = sandbox.stub();
+      stub('gr-reporting', {
+        pluginsLoaded: (...args) => pluginsLoadedStub(...args),
+      });
+
+      Gerrit._loadPlugins(plugins);
+
+      flush(() => {
+        assert.isTrue(pluginsLoadedStub.calledWithExactly(['foo']));
+        assert.isTrue(Gerrit._arePluginsLoaded());
+        assert.isTrue(alertStub.calledOnce);
+        done();
+      });
+    });
+
+    test('multiple assets for same plugin installed successfully', done => {
+      sandbox.stub(Gerrit._pluginLoader, '_loadJsPlugin', url => {
+        Gerrit.install(() => void 0, undefined, url);
+      });
+      const pluginsLoadedStub = sandbox.stub();
+      stub('gr-reporting', {
+        pluginsLoaded: (...args) => pluginsLoadedStub(...args),
+      });
+
+      const plugins = [
+        'http://test.com/plugins/foo/static/test.js',
+        'http://test.com/plugins/foo/static/test2.js',
+        'http://test.com/plugins/bar/static/test.js',
+      ];
+      Gerrit._loadPlugins(plugins);
+
+      flush(() => {
+        assert.isTrue(pluginsLoadedStub.calledWithExactly(['foo', 'bar']));
+        assert.isTrue(Gerrit._arePluginsLoaded());
+        done();
+      });
+    });
+
+    suite('plugin path and url', () => {
+      let importHtmlPluginStub;
+      let loadJsPluginStub;
+      setup(() => {
+        importHtmlPluginStub = sandbox.stub();
+        sandbox.stub(Gerrit._pluginLoader, '_importHtmlPlugin', url => {
+          importHtmlPluginStub(url);
+        });
+        loadJsPluginStub = sandbox.stub();
+        sandbox.stub(Gerrit._pluginLoader, '_loadJsPlugin', url => {
+          loadJsPluginStub(url);
+        });
+      });
+
+      test('invalid plugin path', () => {
+        const failToLoadStub = sandbox.stub();
+        sandbox.stub(Gerrit._pluginLoader, '_failToLoad', (...args) => {
+          failToLoadStub(...args);
+        });
+
+        Gerrit._loadPlugins([
+          'foo/bar',
+        ]);
+
+        assert.isTrue(failToLoadStub.calledOnce);
+        assert.isTrue(failToLoadStub.calledWithExactly(
+            `Unrecognized plugin url ${url}/foo/bar`,
+            `${url}/foo/bar`
+        ));
+      });
+
+      test('relative path for plugins', () => {
+        Gerrit._loadPlugins([
+          'foo/bar.js',
+          'foo/bar.html',
+        ]);
+
+        assert.isTrue(importHtmlPluginStub.calledOnce);
+        assert.isTrue(
+            importHtmlPluginStub.calledWithExactly(`${url}/foo/bar.html`)
+        );
+        assert.isTrue(loadJsPluginStub.calledOnce);
+        assert.isTrue(
+            loadJsPluginStub.calledWithExactly(`${url}/foo/bar.js`)
+        );
+      });
+
+
+      test('relative path should honor getBaseUrl', () => {
+        const testUrl = '/test';
+        sandbox.stub(Gerrit.BaseUrlBehavior, 'getBaseUrl', () => {
+          return testUrl;
+        });
+
+        Gerrit._loadPlugins([
+          'foo/bar.js',
+          'foo/bar.html',
+        ]);
+
+        assert.isTrue(importHtmlPluginStub.calledOnce);
+        assert.isTrue(loadJsPluginStub.calledOnce);
+        assert.isTrue(
+            importHtmlPluginStub.calledWithExactly(
+                `${url}${testUrl}/foo/bar.html`
+            )
+        );
+        assert.isTrue(
+            loadJsPluginStub.calledWithExactly(`${url}${testUrl}/foo/bar.js`)
+        );
+      });
+
+      test('absolute path for plugins', () => {
+        Gerrit._loadPlugins([
+          'http://e.com/foo/bar.js',
+          'http://e.com/foo/bar.html',
+        ]);
+
+        assert.isTrue(importHtmlPluginStub.calledOnce);
+        assert.isTrue(
+            importHtmlPluginStub.calledWithExactly(`http://e.com/foo/bar.html`)
+        );
+        assert.isTrue(loadJsPluginStub.calledOnce);
+        assert.isTrue(
+            loadJsPluginStub.calledWithExactly(`http://e.com/foo/bar.js`)
+        );
+      });
+    });
+
+    test('adds js plugins will call the body', () => {
+      Gerrit._loadPlugins([
+        'http://e.com/foo/bar.js',
+        'http://e.com/bar/foo.js',
+      ]);
+      assert.isTrue(document.body.appendChild.calledTwice);
+    });
+
+    test('can call awaitPluginsLoaded multiple times', done => {
+      const plugins = [
+        'http://e.com/foo/bar.js',
+        'http://e.com/bar/foo.js',
+      ];
+
+      let installed = false;
+      function pluginCallback(url) {
+        if (url === plugins[1]) {
+          installed = true;
+        }
+      }
+      sandbox.stub(Gerrit._pluginLoader, '_loadJsPlugin', url => {
+        Gerrit.install(() => pluginCallback(url), undefined, url);
+      });
+
+      Gerrit._loadPlugins(plugins);
+
+      Gerrit.awaitPluginsLoaded().then(() => {
+        assert.isTrue(installed);
+
+        Gerrit.awaitPluginsLoaded().then(() => {
+          done();
+        });
+      });
+    });
+
+    suite('preloaded plugins', () => {
+      test('skips preloaded plugins when load plugins', () => {
+        const importHtmlPluginStub = sandbox.stub();
+        sandbox.stub(Gerrit._pluginLoader, '_importHtmlPlugin', url => {
+          importHtmlPluginStub(url);
+        });
+        const loadJsPluginStub = sandbox.stub();
+        sandbox.stub(Gerrit._pluginLoader, '_loadJsPlugin', url => {
+          loadJsPluginStub(url);
+        });
+
+        Gerrit._preloadedPlugins = {
+          foo: () => void 0,
+          bar: () => void 0,
+        };
+
+        Gerrit._loadPlugins([
+          'http://e.com/plugins/foo.js',
+          'plugins/bar.html',
+          'http://e.com/plugins/test/foo.js',
+        ]);
+
+        assert.isTrue(importHtmlPluginStub.notCalled);
+        assert.isTrue(loadJsPluginStub.calledOnce);
+      });
+
+      test('isPluginPreloaded', () => {
+        Gerrit._preloadedPlugins = {baz: ()=>{}};
+        assert.isFalse(Gerrit._pluginLoader.isPluginPreloaded('plugins/foo/bar'));
+        assert.isFalse(Gerrit._pluginLoader.isPluginPreloaded('http://a.com/42'));
+        assert.isTrue(
+            Gerrit._pluginLoader.isPluginPreloaded(PRELOADED_PROTOCOL + 'baz')
+        );
+        Gerrit._preloadedPlugins = null;
+      });
+
+      test('preloaded plugins are installed', () => {
+        const installStub = sandbox.stub();
+        Gerrit._preloadedPlugins = {foo: installStub};
+        Gerrit._pluginLoader.installPreloadedPlugins();
+        assert.isTrue(installStub.called);
+        const pluginApi = installStub.lastCall.args[0];
+        assert.strictEqual(pluginApi.getPluginName(), 'foo');
+      });
+
+      test('installing preloaded plugin', () => {
+        let plugin;
+        window.ASSETS_PATH = 'http://blips.com/chitz';
+        Gerrit.install(p => { plugin = p; }, '0.1', 'preloaded:foo');
+        assert.strictEqual(plugin.getPluginName(), 'foo');
+        assert.strictEqual(plugin.url('/some/thing.html'),
+            'http://blips.com/chitz/plugins/foo/some/thing.html');
+        delete window.ASSETS_PATH;
+      });
+    });
+  });
+</script>

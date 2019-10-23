@@ -28,6 +28,7 @@ import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountLoader;
@@ -146,21 +147,18 @@ public class DeleteChangeMessage
 
   @Singleton
   public static class DefaultDeleteChangeMessage
-      extends RetryingRestModifyView<ChangeMessageResource, Input, ChangeMessageInfo> {
+      implements RestModifyView<ChangeMessageResource, Input> {
     private final DeleteChangeMessage deleteChangeMessage;
 
     @Inject
-    public DefaultDeleteChangeMessage(
-        DeleteChangeMessage deleteChangeMessage, RetryHelper retryHelper) {
-      super(retryHelper);
+    public DefaultDeleteChangeMessage(DeleteChangeMessage deleteChangeMessage) {
       this.deleteChangeMessage = deleteChangeMessage;
     }
 
     @Override
-    protected Response<ChangeMessageInfo> applyImpl(
-        BatchUpdate.Factory updateFactory, ChangeMessageResource resource, Input input)
-        throws Exception {
-      return deleteChangeMessage.applyImpl(updateFactory, resource, new DeleteChangeMessageInput());
+    public Response<ChangeMessageInfo> apply(ChangeMessageResource resource, Input input)
+        throws RestApiException {
+      return deleteChangeMessage.apply(resource, new DeleteChangeMessageInput());
     }
   }
 }

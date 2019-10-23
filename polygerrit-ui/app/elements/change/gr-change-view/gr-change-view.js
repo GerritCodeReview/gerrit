@@ -1203,6 +1203,7 @@
     },
 
     _getProjectConfig() {
+      if (!this._change) return;
       return this.$.restAPI.getProjectConfig(this._change.project).then(
           config => {
             this._projectConfig = config;
@@ -1500,6 +1501,10 @@
     },
 
     _getMergeability() {
+      if (!this._change) {
+        this._mergeable = false;
+        return Promise.resolve();
+      }
       // If the change is closed, it is not mergeable. Note: already merged
       // changes are obviously not mergeable, but the mergeability API will not
       // answer for abandoned changes.

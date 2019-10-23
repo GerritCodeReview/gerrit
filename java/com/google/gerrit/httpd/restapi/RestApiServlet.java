@@ -173,6 +173,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.concurrent.TimeUnit;
+import java.util.function.Predicate;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 import java.util.zip.GZIPOutputStream;
@@ -496,7 +497,9 @@ public class RestApiServlet extends HttpServlet {
           }
 
           if (viewData.view instanceof RestReadView<?> && isRead(req)) {
-            response = ((RestReadView<RestResource>) viewData.view).apply(rsrc);
+            response =
+                invokeRestReadViewWithRetry(
+                    req, traceContext, viewData, (RestReadView<RestResource>) viewData.view, rsrc);
           } else if (viewData.view instanceof RestModifyView<?, ?>) {
             @SuppressWarnings("unchecked")
             RestModifyView<RestResource, Object> m =
@@ -688,6 +691,17 @@ public class RestApiServlet extends HttpServlet {
     }
   }
 
+  private Response<?> invokeRestReadViewWithRetry(
+      HttpServletRequest req,
+      TraceContext traceContext,
+      ViewData viewData,
+      RestReadView<RestResource> view,
+      RestResource rsrc)
+      throws Exception {
+    return invokeRestEndpointWithRetry(
+        req, traceContext, viewData, () -> view.apply(rsrc), noRetry());
+  }
+
   private Response<?> invokeRestModifyViewWithRetry(
       HttpServletRequest req,
       TraceContext traceContext,
@@ -697,7 +711,11 @@ public class RestApiServlet extends HttpServlet {
       Object inputRequestBody)
       throws Exception {
     return invokeRestEndpointWithRetry(
-        req, traceContext, viewData, () -> view.apply(rsrc, inputRequestBody));
+        req,
+        traceContext,
+        viewData,
+        () -> view.apply(rsrc, inputRequestBody),
+        retryOnLockFailure());
   }
 
   private Response<?> invokeRestCollectionCreateViewWithRetry(
@@ -710,7 +728,11 @@ public class RestApiServlet extends HttpServlet {
       Object inputRequestBody)
       throws Exception {
     return invokeRestEndpointWithRetry(
-        req, traceContext, viewData, () -> view.apply(rsrc, path, inputRequestBody));
+        req,
+        traceContext,
+        viewData,
+        () -> view.apply(rsrc, path, inputRequestBody),
+        retryOnLockFailure());
   }
 
   private Response<?> invokeRestCollectionDeleteMissingViewWithRetry(
@@ -723,7 +745,11 @@ public class RestApiServlet extends HttpServlet {
       Object inputRequestBody)
       throws Exception {
     return invokeRestEndpointWithRetry(
-        req, traceContext, viewData, () -> view.apply(rsrc, path, inputRequestBody));
+        req,
+        traceContext,
+        viewData,
+        () -> view.apply(rsrc, path, inputRequestBody),
+        retryOnLockFailure());
   }
 
   private Response<?> invokeRestCollectionModifyViewWithRetry(
@@ -735,14 +761,19 @@ public class RestApiServlet extends HttpServlet {
       Object inputRequestBody)
       throws Exception {
     return invokeRestEndpointWithRetry(
-        req, traceContext, viewData, () -> view.apply(rsrc, inputRequestBody));
+        req,
+        traceContext,
+        viewData,
+        () -> view.apply(rsrc, inputRequestBody),
+        retryOnLockFailure());
   }
 
   private Response<?> invokeRestEndpointWithRetry(
       HttpServletRequest req,
       TraceContext traceContext,
       ViewData viewData,
-      Action<Response<?>> action)
+      Action<Response<?>> action,
+      Predicate<Throwable> retryExceptionPredicate)
       throws Exception {
     RetryHelper.Options.Builder retryOptionsBuilder =
         RetryHelper.options().caller(getViewName(viewData));
@@ -761,21 +792,26 @@ public class RestApiServlet extends HttpServlet {
     }
     try {
       return globals.retryHelper.execute(
-          ActionType.REST_REQUEST,
-          action,
-          retryOptionsBuilder.build(),
-          t -> {
-            if (t instanceof UpdateException) {
-              t = t.getCause();
-            }
-            return t instanceof LockFailureException;
-          });
+          ActionType.REST_REQUEST, action, retryOptionsBuilder.build(), retryExceptionPredicate);
     } finally {
       // If auto-tracing got triggered due to a non-recoverable failure, also trace the rest of
       // this request. This means logging is forced for all further log statements and the logs are
       // associated with the same trace ID.
       traceId.ifPresent(tid -> traceContext.addTag(RequestId.Type.TRACE_ID, tid).forceLogging());
     }
+  }
+
+  private static Predicate<Throwable> noRetry() {
+    return t -> false;
+  }
+
+  private static Predicate<Throwable> retryOnLockFailure() {
+    return t -> {
+      if (t instanceof UpdateException) {
+        t = t.getCause();
+      }
+      return t instanceof LockFailureException;
+    };
   }
 
   private String getViewName(ViewData viewData) {

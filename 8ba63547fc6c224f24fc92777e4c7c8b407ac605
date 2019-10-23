@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2756b080_247b8e31",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-23T10:51:23Z",
+      "side": 1,
+      "message": "maybe add some tests ?",
+      "revId": "8ba63547fc6c224f24fc92777e4c7c8b407ac605",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

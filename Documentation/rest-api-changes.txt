@@ -7018,20 +7018,20 @@ of recipient type to link:#notify-info[NotifyInfo] entity.
 Name of the topic for the revert change. If not set, the default for Revert
 endpoint is the topic of the change being reverted, and the default for the
 RevertSubmission endpoint is `revert-{submission_id}-{timestamp.now}`.
-|===========================
+|=============================
 
 [[revert-submission-info]]
 === RevertSubmissionInfo
 The `RevertSubmissionInfo` describes the revert changes.
 
 [options="header",cols="1,6"]
-|===========================
+|==============================
 |Field Name       | Description
 |`revert_changes` |
 A list of #change-info[ChangeInfo] that describes the revert
 changes. Each entity in that list is a revert change that was created in that
 revert submission.
-|=============================
+|==============================
 
 [[review-info]]
 === ReviewInfo

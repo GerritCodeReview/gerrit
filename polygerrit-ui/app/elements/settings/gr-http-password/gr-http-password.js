@@ -19,7 +19,6 @@
 
   Polymer({
     is: 'gr-http-password',
-    _legacyUndefinedCheck: true,
 
     properties: {
       _username: String,

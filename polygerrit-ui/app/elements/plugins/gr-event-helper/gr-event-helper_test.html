@@ -74,14 +74,23 @@ limitations under the License.
       instance.onTap(() => {
         done();
       });
-      element.fire('tap');
+      MockInteractions.tap(element);
     });
 
     test('onTap() cancel', () => {
       const tapStub = sandbox.stub();
-      element.parentElement.addEventListener('tap', tapStub);
+      Polymer.Gestures.addListener(element.parentElement, 'tap', tapStub);
       instance.onTap(() => false);
-      element.fire('tap');
+      MockInteractions.tap(element);
+      flushAsynchronousOperations();
+      assert.isFalse(tapStub.called);
+    });
+
+    test('onClick() cancel', () => {
+      const tapStub = sandbox.stub();
+      element.parentElement.addEventListener('click', tapStub);
+      instance.onTap(() => false);
+      MockInteractions.tap(element);
       flushAsynchronousOperations();
       assert.isFalse(tapStub.called);
     });
@@ -90,14 +99,30 @@ limitations under the License.
       instance.captureTap(() => {
         done();
       });
-      element.fire('tap');
+      MockInteractions.tap(element);
+    });
+
+    test('captureClick()', done => {
+      instance.captureClick(() => {
+        done();
+      });
+      MockInteractions.tap(element);
     });
 
     test('captureTap() cancels tap()', () => {
       const tapStub = sandbox.stub();
-      element.addEventListener('tap', tapStub);
+      Polymer.Gestures.addListener(element.parentElement, 'tap', tapStub);
       instance.captureTap(() => false);
-      element.fire('tap');
+      MockInteractions.tap(element);
+      flushAsynchronousOperations();
+      assert.isFalse(tapStub.called);
+    });
+
+    test('captureClick() cancels click()', () => {
+      const tapStub = sandbox.stub();
+      element.addEventListener('click', tapStub);
+      instance.captureTap(() => false);
+      MockInteractions.tap(element);
       flushAsynchronousOperations();
       assert.isFalse(tapStub.called);
     });

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "752d743e_80697f79",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.js",
+        "patchSetId": 16
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-24T10:24:58Z",
+      "side": 1,
+      "message": "disableEnterKeyForSelectingEmoji is assigned to 4 times, but it is never used anywhere",
+      "range": {
+        "startLine": 155,
+        "startChar": 11,
+        "endLine": 155,
+        "endChar": 43
+      },
+      "revId": "ff0b91583a32d841496f5750a0b9738482604ad0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -104,7 +104,6 @@
 
   Polymer({
     is: 'gr-search-bar',
-    _legacyUndefinedCheck: true,
 
     /**
      * Fired when a search is committed

@@ -157,7 +157,7 @@ public class RevertSubmission
             "Revert this change and all changes that have been submitted together with this change")
         .setVisible(
             and(
-                projectStatePermitsWrite,
+                change.isMerged() && projectStatePermitsWrite,
                 permissionBackend
                     .user(rsrc.getUser())
                     .ref(change.getDest())

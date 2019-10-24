@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c6b6a3d2_bef98184",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-24T11:06:27Z",
+      "side": 1,
+      "message": "It would be safer to check if the token starts with \u0027limit\u003d\u0027, \u0027age\u003d\u0027 or \u0027-age\u003d\u0027, instead of using include (e.g. at the moment it also removes \u0027message:limit\u0027).",
+      "range": {
+        "startLine": 222,
+        "startChar": 17,
+        "endLine": 222,
+        "endChar": 65
+      },
+      "revId": "ebdefa24c434bdbdce3aea1c03b5c684dd888056",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a14019ca_fe76182e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-24T20:47:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c6c11368_64d47592",
+      "revId": "98c414646242865515efaac3cefdd2216f9b58a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b8b3e0fd_be40216e",
         "filename": "polygerrit-ui/app/elements/admin/gr-access-section/gr-access-section.html",
         "patchSetId": 7
@@ -39,6 +57,30 @@
       "revId": "98c414646242865515efaac3cefdd2216f9b58a6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ca381236_eaf52a8f",
+        "filename": "polygerrit-ui/app/elements/admin/gr-access-section/gr-access-section.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-24T20:47:30Z",
+      "side": 1,
+      "message": "Good catch!",
+      "parentUuid": "b8b3e0fd_be40216e",
+      "range": {
+        "startLine": 37,
+        "startChar": 27,
+        "endLine": 37,
+        "endChar": 40
+      },
+      "revId": "98c414646242865515efaac3cefdd2216f9b58a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "655731cb_574c5c21",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-24T20:47:30Z",
+      "side": 1,
+      "message": "Good catch!",
+      "parentUuid": "ae6e2f45_e14967ed",
+      "range": {
+        "startLine": 98,
+        "startChar": 16,
+        "endLine": 98,
+        "endChar": 33
+      },
+      "revId": "98c414646242865515efaac3cefdd2216f9b58a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "88a1f9b0_73dc2830",
         "filename": "polygerrit-ui/app/styles/gr-change-metadata-shared-styles.html",
         "patchSetId": 7
@@ -85,6 +151,30 @@
       "revId": "98c414646242865515efaac3cefdd2216f9b58a6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "40077589_064a5a12",
+        "filename": "polygerrit-ui/app/styles/gr-change-metadata-shared-styles.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-24T20:47:30Z",
+      "side": 1,
+      "message": ".5em is the most tricky, because it translates to 6.5px. But my change reduces the options to either using spacing-s (4px) or spacing-m (8px). So I have tried to think about each usage whether we want to become slightly smaller or bigger. In this case I have gone deliberately for smaller, because the height of the change metadata is already a concern. 4px is the better choice here than 8px.",
+      "parentUuid": "88a1f9b0_73dc2830",
+      "range": {
+        "startLine": 26,
+        "startChar": 24,
+        "endLine": 26,
+        "endChar": 37
+      },
+      "revId": "98c414646242865515efaac3cefdd2216f9b58a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -111,6 +201,30 @@
     },
     {
       "key": {
+        "uuid": "08623c64_60dfa9c3",
+        "filename": "polygerrit-ui/app/styles/gr-change-metadata-shared-styles.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-24T20:47:30Z",
+      "side": 1,
+      "message": "table-rows cannot have margins, so this is a stupid rule anyway. :-) Let\u0027s remove it.\n\nThat said, you are correct that 1em (13px) should typically become spacing-l (12px).",
+      "parentUuid": "647dcf0e_344d05a8",
+      "range": {
+        "startLine": 30,
+        "startChar": 23,
+        "endLine": 30,
+        "endChar": 35
+      },
+      "revId": "98c414646242865515efaac3cefdd2216f9b58a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "58b2f332_29c21e49",
         "filename": "polygerrit-ui/app/styles/gr-page-nav-styles.html",
         "patchSetId": 7
@@ -131,6 +245,30 @@
       "revId": "98c414646242865515efaac3cefdd2216f9b58a6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9a022ccf_358d6508",
+        "filename": "polygerrit-ui/app/styles/gr-page-nav-styles.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-24T20:47:30Z",
+      "side": 1,
+      "message": "l+m is 20px and xl is 16px. Are you arguing that 4 pixels more padding makes any difference? :-)",
+      "parentUuid": "58b2f332_29c21e49",
+      "range": {
+        "startLine": 27,
+        "startChar": 19,
+        "endLine": 27,
+        "endChar": 36
+      },
+      "revId": "98c414646242865515efaac3cefdd2216f9b58a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

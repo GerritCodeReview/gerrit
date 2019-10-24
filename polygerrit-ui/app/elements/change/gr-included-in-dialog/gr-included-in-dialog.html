@@ -45,9 +45,6 @@ limitations under the License.
         font-size: var(--font-size-h3);
         margin-top: var(--spacing-xs);
       }
-      h2 {
-        font-size: var(--font-size-normal);
-      }
       #filterInput {
         display: inline-block;
         float: right;
@@ -95,7 +92,7 @@ limitations under the License.
         items="[[_computeGroups(_includedIn, _filterText)]]"
         as="group">
       <div>
-        <h2>[[group.title]]:</h2>
+        <span>[[group.title]]:</span>
         <ul>
           <template is="dom-repeat" items="[[group.items]]">
             <li>[[item]]</li>

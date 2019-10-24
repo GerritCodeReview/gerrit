@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "04864a76_8dcc0135",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-24T14:11:56Z",
+      "side": 1,
+      "message": "It should also remove tokens that start with \u0027-age\u0027 because that is commonly used (also see [1]).\n\n[1] https://gerrit-review.googlesource.com/Documentation/user-search.html#age",
+      "revId": "b2e9b0dbf95313709e8787ec8c27b9f6a336e217",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

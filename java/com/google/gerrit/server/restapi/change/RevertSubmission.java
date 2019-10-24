@@ -152,9 +152,9 @@ public class RevertSubmission
           "Failed to check if project state permits write: %s", rsrc.getProject());
     }
     return new UiAction.Description()
-        .setLabel(
+        .setLabel("Revert submission")
+        .setTitle(
             "Revert this change and all changes that have been submitted together with this change")
-        .setTitle("Revert submission")
         .setVisible(
             and(
                 projectStatePermitsWrite,

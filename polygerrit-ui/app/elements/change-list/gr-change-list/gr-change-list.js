@@ -217,7 +217,11 @@
     },
 
     _sectionHref(query) {
-      return Gerrit.Nav.getUrlForSearchQuery(query);
+      let tokens = query.split(' ');
+      tokens = tokens.filter(token => {
+        return !(token.includes('limit') || token.includes('age'));
+      });
+      return Gerrit.Nav.getUrlForSearchQuery(tokens.join(' '));
     },
 
     /**

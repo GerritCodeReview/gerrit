@@ -853,7 +853,8 @@
       Gerrit.awaitPluginsLoaded()
           .then(this._getLoggedIn.bind(this))
           .then(loggedIn => {
-            if (!loggedIn || this._change.status !== this.ChangeStatus.MERGED) {
+            if (!loggedIn || !this._change ||
+                this._change.status !== this.ChangeStatus.MERGED) {
             // Do not display dialog if not logged-in or the change is not
             // merged.
               return;
@@ -1203,6 +1204,7 @@
     },
 
     _getProjectConfig() {
+      if (!this._change) return;
       return this.$.restAPI.getProjectConfig(this._change.project).then(
           config => {
             this._projectConfig = config;
@@ -1317,6 +1319,7 @@
     _getLatestCommitMessage() {
       return this.$.restAPI.getChangeCommitInfo(this._changeNum,
           this.computeLatestPatchNum(this._allPatchSets)).then(commitInfo => {
+            if (!commitInfo) return Promise.resolve();
             this._latestCommitMessage =
                     this._prepareCommitMsgForLinkify(commitInfo.message);
           });
@@ -1500,6 +1503,10 @@
     },
 
     _getMergeability() {
+      if (!this._change) {
+        this._mergeable = null;
+        return Promise.resolve();
+      }
       // If the change is closed, it is not mergeable. Note: already merged
       // changes are obviously not mergeable, but the mergeability API will not
       // answer for abandoned changes.

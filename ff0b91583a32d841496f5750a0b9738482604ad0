@@ -22,6 +22,30 @@
       "revId": "ff0b91583a32d841496f5750a0b9738482604ad0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1be4f03f_dabcd254",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.js",
+        "patchSetId": 16
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2019-10-24T10:51:12Z",
+      "side": 1,
+      "message": "Oh, sorry. Renaming in ide didn\u0027t work properly. I renamed ignoreEnter to disableEnterKyeForSelectingEmoji. Fixed",
+      "parentUuid": "752d743e_80697f79",
+      "range": {
+        "startLine": 155,
+        "startChar": 11,
+        "endLine": 155,
+        "endChar": 43
+      },
+      "revId": "ff0b91583a32d841496f5750a0b9738482604ad0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

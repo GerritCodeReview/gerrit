@@ -19,7 +19,6 @@
 
   Polymer({
     is: 'gr-fixed-panel',
-    _legacyUndefinedCheck: true,
 
     properties: {
       floatingDisabled: Boolean,

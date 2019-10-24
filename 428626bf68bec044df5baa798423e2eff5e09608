@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "edc7419f_5b969e97",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list_test.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 483,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-24T14:38:10Z",
+      "side": 1,
+      "message": "Should this be a \u0027k\u0027?",
+      "range": {
+        "startLine": 483,
+        "startChar": 44,
+        "endLine": 483,
+        "endChar": 45
+      },
+      "revId": "428626bf68bec044df5baa798423e2eff5e09608",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

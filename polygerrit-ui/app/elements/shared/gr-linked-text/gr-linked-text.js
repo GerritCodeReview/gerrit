@@ -19,7 +19,6 @@
 
   Polymer({
     is: 'gr-linked-text',
-    _legacyUndefinedCheck: true,
 
     properties: {
       removeZeroWidthSpace: Boolean,

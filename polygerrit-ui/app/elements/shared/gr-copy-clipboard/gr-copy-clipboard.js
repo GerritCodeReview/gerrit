@@ -21,7 +21,6 @@
 
   Polymer({
     is: 'gr-copy-clipboard',
-    _legacyUndefinedCheck: true,
 
     properties: {
       text: String,

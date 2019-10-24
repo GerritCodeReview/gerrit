@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c59ade46_b4ce8c85",
+        "filename": "Documentation/pg-plugin-rest-api.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-10-24T23:28:56Z",
+      "side": 1,
+      "message": "getConfig",
+      "range": {
+        "startLine": 28,
+        "startChar": 3,
+        "endLine": 28,
+        "endChar": 13
+      },
+      "revId": "42d45ad37e24d6944d97153744c3cea901ae3562",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

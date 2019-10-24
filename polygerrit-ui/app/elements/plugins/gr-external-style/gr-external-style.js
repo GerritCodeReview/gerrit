@@ -19,7 +19,6 @@
 
   Polymer({
     is: 'gr-external-style',
-    _legacyUndefinedCheck: true,
 
     properties: {
       name: String,

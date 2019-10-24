@@ -38,6 +38,10 @@
     return getRestApi().getVersion();
   };
 
+  GrPluginRestApi.prototype.getConfig = function() {
+    return getRestApi().getConfig();
+  };
+
   GrPluginRestApi.prototype.invalidateReposCache = function() {
     getRestApi().invalidateReposCache();
   };

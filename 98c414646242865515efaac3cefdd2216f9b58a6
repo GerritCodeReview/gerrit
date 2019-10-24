@@ -39,6 +39,98 @@
       "revId": "98c414646242865515efaac3cefdd2216f9b58a6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ae6e2f45_e14967ed",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2019-10-24T14:54:54Z",
+      "side": 1,
+      "message": "This was previously negative.",
+      "range": {
+        "startLine": 98,
+        "startChar": 16,
+        "endLine": 98,
+        "endChar": 33
+      },
+      "revId": "98c414646242865515efaac3cefdd2216f9b58a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "88a1f9b0_73dc2830",
+        "filename": "polygerrit-ui/app/styles/gr-change-metadata-shared-styles.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2019-10-24T14:54:54Z",
+      "side": 1,
+      "message": "In other places (like below on line 43) .5em was replaced with \"--spacing-m\".",
+      "range": {
+        "startLine": 26,
+        "startChar": 24,
+        "endLine": 26,
+        "endChar": 37
+      },
+      "revId": "98c414646242865515efaac3cefdd2216f9b58a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "647dcf0e_344d05a8",
+        "filename": "polygerrit-ui/app/styles/gr-change-metadata-shared-styles.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2019-10-24T14:54:54Z",
+      "side": 1,
+      "message": "In other places 1em was replaced with \"--spacing-l\".",
+      "range": {
+        "startLine": 30,
+        "startChar": 23,
+        "endLine": 30,
+        "endChar": 35
+      },
+      "revId": "98c414646242865515efaac3cefdd2216f9b58a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "58b2f332_29c21e49",
+        "filename": "polygerrit-ui/app/styles/gr-page-nav-styles.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2019-10-24T14:54:54Z",
+      "side": 1,
+      "message": "calc(var(--spacing-l) + var(--spacing-m))?",
+      "range": {
+        "startLine": 27,
+        "startChar": 19,
+        "endLine": 27,
+        "endChar": 36
+      },
+      "revId": "98c414646242865515efaac3cefdd2216f9b58a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

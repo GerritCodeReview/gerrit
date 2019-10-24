@@ -129,7 +129,7 @@ public class ProjectApiImpl implements ProjectApi {
   private final SetParent setParent;
   private final Index index;
   private final IndexChanges indexChanges;
-  private final ListLabels listLabels;
+  private final Provider<ListLabels> listLabels;
 
   @AssistedInject
   ProjectApiImpl(
@@ -165,7 +165,7 @@ public class ProjectApiImpl implements ProjectApi {
       SetParent setParent,
       Index index,
       IndexChanges indexChanges,
-      ListLabels listLabels,
+      Provider<ListLabels> listLabels,
       @Assisted ProjectResource project) {
     this(
         permissionBackend,
@@ -239,7 +239,7 @@ public class ProjectApiImpl implements ProjectApi {
       SetParent setParent,
       Index index,
       IndexChanges indexChanges,
-      ListLabels listLabels,
+      Provider<ListLabels> listLabels,
       @Assisted String name) {
     this(
         permissionBackend,
@@ -313,7 +313,7 @@ public class ProjectApiImpl implements ProjectApi {
       SetParent setParent,
       Index index,
       IndexChanges indexChanges,
-      ListLabels listLabels,
+      Provider<ListLabels> listLabels,
       String name) {
     this.permissionBackend = permissionBackend;
     this.createProject = createProject;
@@ -688,7 +688,7 @@ public class ProjectApiImpl implements ProjectApi {
       @Override
       public List<LabelDefinitionInfo> get() throws RestApiException {
         try {
-          return listLabels.apply(checkExists()).value();
+          return listLabels.get().withInherited(inherited).apply(checkExists()).value();
         } catch (Exception e) {
           throw asRestApiException("Cannot list labels", e);
         }

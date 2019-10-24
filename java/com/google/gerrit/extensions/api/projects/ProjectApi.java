@@ -208,7 +208,14 @@ public interface ProjectApi {
   ListLabelsRequest labels() throws RestApiException;
 
   abstract class ListLabelsRequest {
+    protected boolean inherited;
+
     public abstract List<LabelDefinitionInfo> get() throws RestApiException;
+
+    public ListLabelsRequest withInherited(boolean inherited) {
+      this.inherited = inherited;
+      return this;
+    }
   }
 
   /**

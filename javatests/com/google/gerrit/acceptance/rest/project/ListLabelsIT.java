@@ -15,6 +15,8 @@
 package com.google.gerrit.acceptance.rest.project;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
+import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.util.stream.Collectors.toList;
 
@@ -22,9 +24,13 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.data.LabelFunction;
 import com.google.gerrit.common.data.LabelType;
+import com.google.gerrit.common.data.Permission;
+import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.common.LabelDefinitionInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.inject.Inject;
@@ -34,6 +40,7 @@ import org.junit.Test;
 @NoHttpd
 public class ListLabelsIT extends AbstractDaemonTest {
   @Inject private RequestScopeOperations requestScopeOperations;
+  @Inject private ProjectOperations projectOperations;
 
   @Test
   public void notAllowed() throws Exception {
@@ -54,32 +61,7 @@ public class ListLabelsIT extends AbstractDaemonTest {
     assertThat(labelNames(labels)).containsExactly("Code-Review");
 
     LabelDefinitionInfo codeReviewLabel = Iterables.getOnlyElement(labels);
-    assertThat(codeReviewLabel.name).isEqualTo("Code-Review");
-    assertThat(codeReviewLabel.function).isEqualTo(LabelFunction.MAX_WITH_BLOCK.getFunctionName());
-    assertThat(codeReviewLabel.values)
-        .containsExactly(
-            "+2",
-            "Looks good to me, approved",
-            "+1",
-            "Looks good to me, but someone else must approve",
-            " 0",
-            "No score",
-            "-1",
-            "I would prefer this is not merged as is",
-            "-2",
-            "This shall not be merged");
-    assertThat(codeReviewLabel.defaultValue).isEqualTo(0);
-    assertThat(codeReviewLabel.branches).isNull();
-    assertThat(codeReviewLabel.canOverride).isTrue();
-    assertThat(codeReviewLabel.copyAnyScore).isNull();
-    assertThat(codeReviewLabel.copyMinScore).isTrue();
-    assertThat(codeReviewLabel.copyMaxScore).isNull();
-    assertThat(codeReviewLabel.copyAllScoresIfNoChange).isTrue();
-    assertThat(codeReviewLabel.copyAllScoresIfNoCodeChange).isNull();
-    assertThat(codeReviewLabel.copyAllScoresOnTrivialRebase).isTrue();
-    assertThat(codeReviewLabel.copyAllScoresOnMergeFirstParentUpdate).isNull();
-    assertThat(codeReviewLabel.allowPostSubmit).isTrue();
-    assertThat(codeReviewLabel.ignoreSelfApproval).isNull();
+    assertCodeReviewLabel(codeReviewLabel);
   }
 
   @Test
@@ -185,6 +167,121 @@ public class ListLabelsIT extends AbstractDaemonTest {
     assertThat(fooLabel.copyAllScoresOnMergeFirstParentUpdate).isTrue();
     assertThat(fooLabel.allowPostSubmit).isTrue();
     assertThat(fooLabel.ignoreSelfApproval).isTrue();
+  }
+
+  @Test
+  public void withInheritedLabelsNotAllowed() throws Exception {
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.READ).ref(RefNames.REFS_CONFIG).group(REGISTERED_USERS))
+        .update();
+
+    requestScopeOperations.setApiUser(user.id());
+
+    // can list labels without inheritance
+    gApi.projects().name(project.get()).labels().get();
+
+    // cannot list labels with inheritance
+    AuthException thrown =
+        assertThrows(
+            AuthException.class,
+            () -> gApi.projects().name(project.get()).labels().withInherited(true).get());
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains("All-Projects: read refs/meta/config not permitted");
+  }
+
+  @Test
+  public void inheritedLabelsOnly() throws Exception {
+    List<LabelDefinitionInfo> labels =
+        gApi.projects().name(project.get()).labels().withInherited(true).get();
+    assertThat(labelNames(labels)).containsExactly("Code-Review");
+
+    LabelDefinitionInfo codeReviewLabel = Iterables.getOnlyElement(labels);
+    assertCodeReviewLabel(codeReviewLabel);
+  }
+
+  @Test
+  public void withInheritedLabels() throws Exception {
+    configLabel("foo", LabelFunction.NO_OP);
+    configLabel("bar", LabelFunction.NO_OP);
+    configLabel("baz", LabelFunction.NO_OP);
+
+    List<LabelDefinitionInfo> labels =
+        gApi.projects().name(project.get()).labels().withInherited(true).get();
+    assertThat(labelNames(labels)).containsExactly("Code-Review", "bar", "baz", "foo").inOrder();
+
+    assertCodeReviewLabel(labels.get(0));
+    assertThat(labels.get(1).name).isEqualTo("bar");
+    assertThat(labels.get(1).projectName).isEqualTo(project.get());
+    assertThat(labels.get(2).name).isEqualTo("baz");
+    assertThat(labels.get(2).projectName).isEqualTo(project.get());
+    assertThat(labels.get(3).name).isEqualTo("foo");
+    assertThat(labels.get(3).projectName).isEqualTo(project.get());
+  }
+
+  @Test
+  public void withInheritedLabelsAndOverriddenLabel() throws Exception {
+    configLabel("Code-Review", LabelFunction.NO_OP);
+
+    List<LabelDefinitionInfo> labels =
+        gApi.projects().name(project.get()).labels().withInherited(true).get();
+    assertThat(labelNames(labels)).containsExactly("Code-Review", "Code-Review");
+
+    assertCodeReviewLabel(labels.get(0));
+    assertThat(labels.get(1).name).isEqualTo("Code-Review");
+    assertThat(labels.get(1).projectName).isEqualTo(project.get());
+    assertThat(labels.get(1).function).isEqualTo(LabelFunction.NO_OP.getFunctionName());
+  }
+
+  @Test
+  public void withInheritedLabelsFromMultipleParents() throws Exception {
+    configLabel(project, "foo", LabelFunction.NO_OP);
+
+    Project.NameKey childProject =
+        projectOperations.newProject().name("child").parent(project).create();
+    configLabel(childProject, "bar", LabelFunction.NO_OP);
+
+    List<LabelDefinitionInfo> labels =
+        gApi.projects().name(childProject.get()).labels().withInherited(true).get();
+    assertThat(labelNames(labels)).containsExactly("Code-Review", "foo", "bar").inOrder();
+
+    assertCodeReviewLabel(labels.get(0));
+    assertThat(labels.get(1).name).isEqualTo("foo");
+    assertThat(labels.get(1).projectName).isEqualTo(project.get());
+    assertThat(labels.get(2).name).isEqualTo("bar");
+    assertThat(labels.get(2).projectName).isEqualTo(childProject.get());
+  }
+
+  private void assertCodeReviewLabel(LabelDefinitionInfo codeReviewLabel) {
+    assertThat(codeReviewLabel.name).isEqualTo("Code-Review");
+    assertThat(codeReviewLabel.projectName).isEqualTo(allProjects.get());
+    assertThat(codeReviewLabel.function).isEqualTo(LabelFunction.MAX_WITH_BLOCK.getFunctionName());
+    assertThat(codeReviewLabel.values)
+        .containsExactly(
+            "+2",
+            "Looks good to me, approved",
+            "+1",
+            "Looks good to me, but someone else must approve",
+            " 0",
+            "No score",
+            "-1",
+            "I would prefer this is not merged as is",
+            "-2",
+            "This shall not be merged");
+    assertThat(codeReviewLabel.defaultValue).isEqualTo(0);
+    assertThat(codeReviewLabel.branches).isNull();
+    assertThat(codeReviewLabel.canOverride).isTrue();
+    assertThat(codeReviewLabel.copyAnyScore).isNull();
+    assertThat(codeReviewLabel.copyMinScore).isTrue();
+    assertThat(codeReviewLabel.copyMaxScore).isNull();
+    assertThat(codeReviewLabel.copyAllScoresIfNoChange).isTrue();
+    assertThat(codeReviewLabel.copyAllScoresIfNoCodeChange).isNull();
+    assertThat(codeReviewLabel.copyAllScoresOnTrivialRebase).isTrue();
+    assertThat(codeReviewLabel.copyAllScoresOnMergeFirstParentUpdate).isNull();
+    assertThat(codeReviewLabel.allowPostSubmit).isTrue();
+    assertThat(codeReviewLabel.ignoreSelfApproval).isNull();
   }
 
   private static List<String> labelNames(List<LabelDefinitionInfo> labels) {

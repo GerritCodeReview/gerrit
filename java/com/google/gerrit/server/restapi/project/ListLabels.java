@@ -26,14 +26,14 @@ import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.project.ProjectResource;
+import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
-import com.google.inject.Singleton;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
+import org.kohsuke.args4j.Option;
 
-@Singleton
 public class ListLabels implements RestReadView<ProjectResource> {
   private final PermissionBackend permissionBackend;
 
@@ -42,17 +42,44 @@ public class ListLabels implements RestReadView<ProjectResource> {
     this.permissionBackend = permissionBackend;
   }
 
+  @Option(name = "--inherited", usage = "to include inherited label definitions")
+  private boolean inherited;
+
+  public ListLabels withInherited(boolean inherited) {
+    this.inherited = inherited;
+    return this;
+  }
+
   @Override
   public Response<List<LabelDefinitionInfo>> apply(ProjectResource rsrc)
       throws AuthException, PermissionBackendException {
-    permissionBackend.currentUser().project(rsrc.getNameKey()).check(ProjectPermission.READ_CONFIG);
+    if (inherited) {
+      List<LabelDefinitionInfo> allLabels = new ArrayList<>();
+      for (ProjectState projectState : rsrc.getProjectState().treeInOrder()) {
+        try {
+          permissionBackend
+              .currentUser()
+              .project(projectState.getNameKey())
+              .check(ProjectPermission.READ_CONFIG);
+        } catch (AuthException e) {
+          throw new AuthException(projectState.getNameKey() + ": " + e.getMessage(), e);
+        }
+        allLabels.addAll(listLabels(projectState));
+      }
+      return Response.ok(allLabels);
+    }
 
-    Collection<LabelType> labelTypes =
-        rsrc.getProjectState().getConfig().getLabelSections().values();
+    permissionBackend.currentUser().project(rsrc.getNameKey()).check(ProjectPermission.READ_CONFIG);
+    return Response.ok(listLabels(rsrc.getProjectState()));
+  }
+
+  private List<LabelDefinitionInfo> listLabels(ProjectState projectState) {
+    Collection<LabelType> labelTypes = projectState.getConfig().getLabelSections().values();
     List<LabelDefinitionInfo> labels = new ArrayList<>(labelTypes.size());
     for (LabelType labelType : labelTypes) {
       LabelDefinitionInfo label = new LabelDefinitionInfo();
       label.name = labelType.getName();
+      label.projectName = projectState.getName();
       label.function = labelType.getFunction().getFunctionName();
       label.values =
           labelType.getValues().stream()
@@ -73,7 +100,7 @@ public class ListLabels implements RestReadView<ProjectResource> {
       labels.add(label);
     }
     labels.sort(Comparator.comparing(l -> l.name));
-    return Response.ok(labels);
+    return labels;
   }
 
   private static Boolean toBoolean(boolean v) {

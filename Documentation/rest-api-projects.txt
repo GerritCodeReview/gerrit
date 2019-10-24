@@ -2997,8 +2997,9 @@ project.
 
 As result a list of link:#label-definition-info[LabelDefinitionInfo] entities
 is returned that describe the labels that are defined in this project
-(inherited labels are not returned). The returned labels are sorted by label
-name.
+(inherited labels are not returned unless the `inherited` parameter is set, see
+link:#list-with-inherited-labels[below]). The returned labels are sorted by
+label name.
 
 .Response
 ----
@@ -3010,6 +3011,7 @@ name.
   [
     {
       "name": "Code-Review",
+      "project": "All-Projects",
       "function": "MaxWithBlock",
       "values": {
         " 0": "No score",
@@ -3023,6 +3025,69 @@ name.
       "copy_min_score": true,
       "copy_all_scores_if_no_change": true,
       "copy_all_scores_on_trivial_rebase": true,
+      "allow_post_submit": true
+    }
+  ]
+----
+
+[[list-with-inherited-labels]]
+To include inherited labels from all parent projects the parameter `inherited`
+can be set.
+
+The calling user must have read access to the `refs/meta/config` branch of the
+project and all its parent projects.
+
+.Request
+----
+  GET /projects/My-Project/labels/?inherited HTTP/1.0
+----
+
+As result a list of link:#label-definition-info[LabelDefinitionInfo] entities
+is returned that describe the labels that are defined in this project and in
+all its parent projects. The returned labels are sorted by parent projects
+in-order from `All-Projects` through the project hierarchy to this project.
+Labels that belong to the same project are sorted by label name.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  [
+    {
+      "name": "Code-Review",
+      "project": "All-Projects",
+      "function": "MaxWithBlock",
+      "values": {
+        " 0": "No score",
+        "-1": "I would prefer this is not merged as is",
+        "-2": "This shall not be merged",
+        "+1": "Looks good to me, but someone else must approve",
+        "+2": "Looks good to me, approved"
+      },
+      "default_value": 0,
+      "can_override": true,
+      "copy_min_score": true,
+      "copy_all_scores_if_no_change": true,
+      "copy_all_scores_on_trivial_rebase": true,
+      "allow_post_submit": true
+    },
+    {
+      "name": "Foo-Review",
+      "project": "My-Project",
+      "function": "MaxWithBlock",
+      "values": {
+        " 0": "No score",
+        "-1": "I would prefer this is not merged as is",
+        "-2": "This shall not be merged",
+        "+1": "Looks good to me, but someone else must approve",
+        "+2": "Looks good to me, approved"
+      },
+      "default_value": 0,
+      "can_override": true,
+      "copy_any_score": true,
       "allow_post_submit": true
     }
   ]
@@ -3572,6 +3637,8 @@ review label].
 |Field Name      ||Description
 |`name`          ||
 The link:config-labels.html#label_name[name] of the label.
+|`project_name`  ||
+The name of the project in which this label is defined.
 |`function`      ||
 The link:config-labels.html#label_function[function] of the label (can be
 `MaxWithBlock`, `AnyWithBlock`, `MaxNoBlock`, `NoBlock`, `NoOp` and `PatchSetLock`.

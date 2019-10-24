@@ -15,6 +15,7 @@
 package com.google.gerrit.httpd.restapi;
 
 import com.google.common.base.Strings;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.registration.PluginName;
 import com.google.gerrit.httpd.restapi.RestApiServlet.ViewData;
 import com.google.gerrit.metrics.Counter1;
@@ -79,16 +80,19 @@ public class RestApiMetrics {
   }
 
   String view(ViewData viewData) {
-    String impl = viewData.view.getClass().getName().replace('$', '.');
+    return view(viewData.view.getClass(), viewData.pluginName);
+  }
+
+  String view(Class<?> clazz, @Nullable String pluginName) {
+    String impl = clazz.getName().replace('$', '.');
     for (String p : PKGS) {
       if (impl.startsWith(p)) {
         impl = impl.substring(p.length());
         break;
       }
     }
-    if (!Strings.isNullOrEmpty(viewData.pluginName)
-        && !PluginName.GERRIT.equals(viewData.pluginName)) {
-      impl = viewData.pluginName + '-' + impl;
+    if (!Strings.isNullOrEmpty(pluginName) && !PluginName.GERRIT.equals(pluginName)) {
+      impl = pluginName + '-' + impl;
     }
     return impl;
   }

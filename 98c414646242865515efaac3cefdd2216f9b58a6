@@ -16,6 +16,29 @@
       "revId": "98c414646242865515efaac3cefdd2216f9b58a6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b8b3e0fd_be40216e",
+        "filename": "polygerrit-ui/app/elements/admin/gr-access-section/gr-access-section.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2019-10-24T13:37:36Z",
+      "side": 1,
+      "message": "Here you use \"--spacing-xxs\" and in other cases (f.i. [1]) you use \"--spacing-1\" to replace \"1em\".\nShould \"--spacing-xxs\" really be replacing \".1em\"?\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/241809/7/polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.html#b77",
+      "range": {
+        "startLine": 37,
+        "startChar": 27,
+        "endLine": 37,
+        "endChar": 40
+      },
+      "revId": "98c414646242865515efaac3cefdd2216f9b58a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

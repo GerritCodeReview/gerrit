@@ -912,8 +912,12 @@
     },
 
     _isSyntaxHighlightingEnabled(preferenceChangeRecord, diff) {
-      if (!preferenceChangeRecord || !diff) return false;
-      if (!preferenceChangeRecord.base.syntax_highlighting) return false;
+      if (!preferenceChangeRecord ||
+          !preferenceChangeRecord.base ||
+          !preferenceChangeRecord.base.syntax_highlighting ||
+          !diff) {
+        return false;
+      }
       return !this._anyLineTooLong(diff) &&
           this.$.diff.getDiffLength(diff) <= SYNTAX_MAX_DIFF_LENGTH;
     },

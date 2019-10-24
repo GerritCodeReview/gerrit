@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "57a408d4_8f6f2812",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-submission-dialog/gr-confirm-revert-submission-dialog.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-24T15:14:19Z",
+      "side": 1,
+      "message": "I think we do not want to include the original title here, as this description will be used for all revert changes (this is the title of just one of the changes that is being reverted, which may not make sense for the other changes that are reverted).",
+      "range": {
+        "startLine": 50,
+        "startChar": 49,
+        "endLine": 50,
+        "endChar": 67
+      },
+      "revId": "39e03256b92532ea75056cc30076191195aadb2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a1739efb_afc3e916",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-submission-dialog/gr-confirm-revert-submission-dialog.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-24T15:14:19Z",
+      "side": 1,
+      "message": "That\u0027s not correct. The commitHash is for this one change only, but we revert the commits of all changes that share the same submission ID (so we would want to show the submission ID here, but so far the submission ID is not known to the client, hence we can\u0027t do that yet).",
+      "range": {
+        "startLine": 56,
+        "startChar": 14,
+        "endLine": 56,
+        "endChar": 27
+      },
+      "revId": "39e03256b92532ea75056cc30076191195aadb2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

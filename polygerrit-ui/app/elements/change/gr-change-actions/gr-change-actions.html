@@ -36,6 +36,7 @@ limitations under the License.
 <link rel="import" href="../gr-confirm-move-dialog/gr-confirm-move-dialog.html">
 <link rel="import" href="../gr-confirm-rebase-dialog/gr-confirm-rebase-dialog.html">
 <link rel="import" href="../gr-confirm-revert-dialog/gr-confirm-revert-dialog.html">
+<link rel="import" href="../gr-confirm-revert-submission-dialog/gr-confirm-revert-submission-dialog.html">
 <link rel="import" href="../gr-confirm-submit-dialog/gr-confirm-submit-dialog.html">
 <link rel="import" href="../../../styles/shared-styles.html">
 
@@ -208,6 +209,11 @@ limitations under the License.
           on-confirm="_handleRevertDialogConfirm"
           on-cancel="_handleConfirmDialogCancel"
           hidden></gr-confirm-revert-dialog>
+      <gr-confirm-revert-submission-dialog id="confirmRevertSubmissionDialog"
+          class="confirmDialog"
+          on-confirm="_handleRevertSubmissionDialogConfirm"
+          on-cancel="_handleConfirmDialogCancel"
+          hidden></gr-confirm-revert-submission-dialog>
       <gr-confirm-abandon-dialog id="confirmAbandonDialog"
           class="confirmDialog"
           on-confirm="_handleAbandonDialogConfirm"

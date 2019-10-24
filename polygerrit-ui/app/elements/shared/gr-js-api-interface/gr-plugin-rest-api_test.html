@@ -42,6 +42,7 @@ limitations under the License.
         send: sendStub,
         getLoggedIn: sandbox.stub(),
         getVersion: sandbox.stub(),
+        getConfig: sandbox.stub(),
       };
       stub('gr-rest-api-interface', Object.keys(restApiStub).reduce((a, k) => {
         a[k] = (...args) => restApiStub[k](...args);
@@ -133,10 +134,18 @@ limitations under the License.
       });
     });
 
-    test('getConfig', () => {
+    test('getVersion', () => {
       restApiStub.getVersion.returns(Promise.resolve('foo bar'));
       return instance.getVersion().then(result => {
         assert.isTrue(restApiStub.getVersion.calledOnce);
+        assert.equal(result, 'foo bar');
+      });
+    });
+
+    test('getConfig', () => {
+      restApiStub.getConfig.returns(Promise.resolve('foo bar'));
+      return instance.getConfig().then(result => {
+        assert.isTrue(restApiStub.getConfig.calledOnce);
         assert.equal(result, 'foo bar');
       });
     });

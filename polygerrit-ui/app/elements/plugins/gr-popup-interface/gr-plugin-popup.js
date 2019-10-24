@@ -16,15 +16,18 @@
  */
 (function(window) {
   'use strict';
+
   Polymer({
     is: 'gr-plugin-popup',
-    _legacyUndefinedCheck: true,
+
     get opened() {
       return this.$.overlay.opened;
     },
+
     open() {
       return this.$.overlay.open();
     },
+
     close() {
       this.$.overlay.close();
     },

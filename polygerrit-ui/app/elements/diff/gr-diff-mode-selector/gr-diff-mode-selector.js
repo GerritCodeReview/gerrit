@@ -19,7 +19,6 @@
 
   Polymer({
     is: 'gr-diff-mode-selector',
-    _legacyUndefinedCheck: true,
 
     properties: {
       mode: {

@@ -25,6 +25,17 @@ Get server version.
 .Returns
 - Promise<string>
 
+== getConfig
+`repoApi.getConfig()`
+
+Get server config.
+
+.Params
+- None
+
+.Returns
+- Promise<Object>
+
 == get
 `repoApi.get(url)`
 

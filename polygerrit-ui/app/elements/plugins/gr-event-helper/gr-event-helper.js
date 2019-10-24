@@ -34,13 +34,29 @@
   };
 
   /**
+   * Alias of onClick
+   * @see onClick
+   */
+  GrEventHelper.prototype.onTap = function(callback) {
+    return this._listen(this.element, callback);
+  };
+
+  /**
    * Add a callback to element click or touch.
    * The callback may return false to prevent event bubbling.
    * @param {function(Event):boolean} callback
    * @return {function()} Unsubscribe function.
    */
-  GrEventHelper.prototype.onTap = function(callback) {
+  GrEventHelper.prototype.onClick = function(callback) {
     return this._listen(this.element, callback);
+  };
+
+  /**
+   * Alias of captureClick
+   * @see captureClick
+   */
+  GrEventHelper.prototype.captureTap = function(callback) {
+    return this._listen(this.element.parentElement, callback, {capture: true});
   };
 
   /**
@@ -51,13 +67,13 @@
    * @param {function(Event):boolean} callback
    * @return {function()} Unsubscribe function.
    */
-  GrEventHelper.prototype.captureTap = function(callback) {
+  GrEventHelper.prototype.captureClick = function(callback) {
     return this._listen(this.element.parentElement, callback, {capture: true});
   };
 
   GrEventHelper.prototype._listen = function(container, callback, opt_options) {
     const capture = opt_options && opt_options.capture;
-    const event = opt_options && opt_options.event || 'tap';
+    const event = opt_options && opt_options.event || 'click';
     const handler = e => {
       if (e.path.indexOf(this.element) !== -1) {
         let mayContinue = true;

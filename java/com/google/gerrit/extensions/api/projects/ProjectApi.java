@@ -19,6 +19,7 @@ import com.google.gerrit.extensions.api.access.ProjectAccessInput;
 import com.google.gerrit.extensions.api.config.AccessCheckInfo;
 import com.google.gerrit.extensions.api.config.AccessCheckInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.common.LabelDefinitionInfo;
 import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -204,6 +205,12 @@ public interface ProjectApi {
   /** Reindexes all changes of the project. */
   void indexChanges() throws RestApiException;
 
+  ListLabelsRequest labels() throws RestApiException;
+
+  abstract class ListLabelsRequest {
+    public abstract List<LabelDefinitionInfo> get() throws RestApiException;
+  }
+
   /**
    * A default implementation which allows source compatibility when adding new methods to the
    * interface.
@@ -376,6 +383,11 @@ public interface ProjectApi {
 
     @Override
     public void indexChanges() throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public ListLabelsRequest labels() throws RestApiException {
       throw new NotImplementedException();
     }
   }

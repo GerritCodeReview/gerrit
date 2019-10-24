@@ -44,6 +44,7 @@ import com.google.gerrit.extensions.api.projects.TagApi;
 import com.google.gerrit.extensions.api.projects.TagInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.Input;
+import com.google.gerrit.extensions.common.LabelDefinitionInfo;
 import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.IdString;
@@ -73,6 +74,7 @@ import com.google.gerrit.server.restapi.project.Index;
 import com.google.gerrit.server.restapi.project.IndexChanges;
 import com.google.gerrit.server.restapi.project.ListBranches;
 import com.google.gerrit.server.restapi.project.ListDashboards;
+import com.google.gerrit.server.restapi.project.ListLabels;
 import com.google.gerrit.server.restapi.project.ListTags;
 import com.google.gerrit.server.restapi.project.ProjectsCollection;
 import com.google.gerrit.server.restapi.project.PutConfig;
@@ -127,6 +129,7 @@ public class ProjectApiImpl implements ProjectApi {
   private final SetParent setParent;
   private final Index index;
   private final IndexChanges indexChanges;
+  private final ListLabels listLabels;
 
   @AssistedInject
   ProjectApiImpl(
@@ -162,6 +165,7 @@ public class ProjectApiImpl implements ProjectApi {
       SetParent setParent,
       Index index,
       IndexChanges indexChanges,
+      ListLabels listLabels,
       @Assisted ProjectResource project) {
     this(
         permissionBackend,
@@ -197,6 +201,7 @@ public class ProjectApiImpl implements ProjectApi {
         setParent,
         index,
         indexChanges,
+        listLabels,
         null);
   }
 
@@ -234,6 +239,7 @@ public class ProjectApiImpl implements ProjectApi {
       SetParent setParent,
       Index index,
       IndexChanges indexChanges,
+      ListLabels listLabels,
       @Assisted String name) {
     this(
         permissionBackend,
@@ -269,6 +275,7 @@ public class ProjectApiImpl implements ProjectApi {
         setParent,
         index,
         indexChanges,
+        listLabels,
         name);
   }
 
@@ -306,6 +313,7 @@ public class ProjectApiImpl implements ProjectApi {
       SetParent setParent,
       Index index,
       IndexChanges indexChanges,
+      ListLabels listLabels,
       String name) {
     this.permissionBackend = permissionBackend;
     this.createProject = createProject;
@@ -341,6 +349,7 @@ public class ProjectApiImpl implements ProjectApi {
     this.name = name;
     this.index = index;
     this.indexChanges = indexChanges;
+    this.listLabels = listLabels;
   }
 
   @Override
@@ -671,5 +680,19 @@ public class ProjectApiImpl implements ProjectApi {
       throw new ResourceNotFoundException(name);
     }
     return project;
+  }
+
+  @Override
+  public ListLabelsRequest labels() {
+    return new ListLabelsRequest() {
+      @Override
+      public List<LabelDefinitionInfo> get() throws RestApiException {
+        try {
+          return listLabels.apply(checkExists()).value();
+        } catch (Exception e) {
+          throw asRestApiException("Cannot list labels", e);
+        }
+      }
+    };
   }
 }

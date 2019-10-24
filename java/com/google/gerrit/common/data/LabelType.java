@@ -173,6 +173,7 @@ public class LabelType {
     return canOverride;
   }
 
+  @Nullable
   public List<String> getRefPatterns() {
     return refPatterns;
   }

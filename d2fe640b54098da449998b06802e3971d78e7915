@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6ac648a7_aaf76d79",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-24T15:47:27Z",
+      "side": 1,
+      "message": "is this necessary ? if so maybe add a comment",
+      "revId": "d2fe640b54098da449998b06802e3971d78e7915",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2e3ec5cf_cc0ed8fa",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown/gr-dropdown.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-24T15:47:27Z",
+      "side": 1,
+      "message": "how the `a` different with the `:not([hiddne])` here ?",
+      "range": {
+        "startLine": 144,
+        "startChar": 43,
+        "endLine": 144,
+        "endChar": 49
+      },
+      "revId": "d2fe640b54098da449998b06802e3971d78e7915",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "644042df_faee1a93",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown/gr-dropdown.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-24T15:47:27Z",
+      "side": 1,
+      "message": "nit: remove this, i think this is not relevant to polymer 2",
+      "range": {
+        "startLine": 289,
+        "startChar": 0,
+        "endLine": 289,
+        "endChar": 72
+      },
+      "revId": "d2fe640b54098da449998b06802e3971d78e7915",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

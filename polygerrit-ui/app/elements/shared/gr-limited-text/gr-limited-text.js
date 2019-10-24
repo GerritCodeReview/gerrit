@@ -26,7 +26,6 @@
 
   Polymer({
     is: 'gr-limited-text',
-    _legacyUndefinedCheck: true,
 
     properties: {
       /** The un-truncated text to display. */

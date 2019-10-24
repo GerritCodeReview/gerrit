@@ -23,7 +23,6 @@
    */
   Polymer({
     is: 'gr-account-entry',
-    _legacyUndefinedCheck: true,
 
     /**
      * Fired when an account is entered.

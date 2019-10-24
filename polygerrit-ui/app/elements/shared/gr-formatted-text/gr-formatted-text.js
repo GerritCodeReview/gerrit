@@ -22,7 +22,6 @@
 
   Polymer({
     is: 'gr-formatted-text',
-    _legacyUndefinedCheck: true,
 
     properties: {
       content: {

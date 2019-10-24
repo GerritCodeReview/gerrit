@@ -19,7 +19,6 @@
 
   Polymer({
     is: 'gr-alert',
-    _legacyUndefinedCheck: true,
 
     /**
      * Fired when the action button is pressed.

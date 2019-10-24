@@ -7,10 +7,10 @@
       "updated": "2019-10-24T22:41:06Z"
     },
     "gerritforge:polygerrit-a6a0e4682515f3521897c5f950d1394f4619d928": {
-      "state": "NOT_STARTED",
-      "url": "https://gerrit-ci.gerritforge.com/job/Gerrit-verifier-bazel/74203/consoleText",
+      "state": "SUCCESSFUL",
+      "url": "https://gerrit-ci.gerritforge.com/job/Gerrit-verifier-bazel/74208/consoleText",
       "created": "2019-10-24T22:08:21Z",
-      "updated": "2019-10-24T22:08:21Z"
+      "updated": "2019-10-24T22:41:09Z"
     }
   }
 }

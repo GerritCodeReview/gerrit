@@ -378,7 +378,7 @@ public class RestApiServlet extends HttpServlet {
           } else {
             IdString id = path.remove(0);
             try {
-              rsrc = rc.parse(rsrc, id);
+              rsrc = parseResourceWithRetry(req, traceContext, viewData.pluginName, rc, rsrc, id);
               globals.quotaChecker.enforce(rsrc, req);
               if (path.isEmpty()) {
                 checkPreconditions(req);
@@ -451,7 +451,7 @@ public class RestApiServlet extends HttpServlet {
             }
             IdString id = path.remove(0);
             try {
-              rsrc = c.parse(rsrc, id);
+              rsrc = parseResourceWithRetry(req, traceContext, viewData.pluginName, c, rsrc, id);
               checkPreconditions(req);
               viewData = new ViewData(null, null);
             } catch (ResourceNotFoundException e) {
@@ -691,6 +691,22 @@ public class RestApiServlet extends HttpServlet {
     }
   }
 
+  private RestResource parseResourceWithRetry(
+      HttpServletRequest req,
+      TraceContext traceContext,
+      @Nullable String pluginName,
+      RestCollection<RestResource, RestResource> restCollection,
+      RestResource parentResource,
+      IdString id)
+      throws Exception {
+    return invokeRestEndpointWithRetry(
+        req,
+        traceContext,
+        globals.metrics.view(restCollection.getClass(), pluginName) + "#parse",
+        () -> restCollection.parse(parentResource, id),
+        noRetry());
+  }
+
   private Response<?> invokeRestReadViewWithRetry(
       HttpServletRequest req,
       TraceContext traceContext,
@@ -699,7 +715,7 @@ public class RestApiServlet extends HttpServlet {
       RestResource rsrc)
       throws Exception {
     return invokeRestEndpointWithRetry(
-        req, traceContext, viewData, () -> view.apply(rsrc), noRetry());
+        req, traceContext, getViewName(viewData), () -> view.apply(rsrc), noRetry());
   }
 
   private Response<?> invokeRestModifyViewWithRetry(
@@ -713,7 +729,7 @@ public class RestApiServlet extends HttpServlet {
     return invokeRestEndpointWithRetry(
         req,
         traceContext,
-        viewData,
+        getViewName(viewData),
         () -> view.apply(rsrc, inputRequestBody),
         retryOnLockFailure());
   }
@@ -730,7 +746,7 @@ public class RestApiServlet extends HttpServlet {
     return invokeRestEndpointWithRetry(
         req,
         traceContext,
-        viewData,
+        getViewName(viewData),
         () -> view.apply(rsrc, path, inputRequestBody),
         retryOnLockFailure());
   }
@@ -747,7 +763,7 @@ public class RestApiServlet extends HttpServlet {
     return invokeRestEndpointWithRetry(
         req,
         traceContext,
-        viewData,
+        getViewName(viewData),
         () -> view.apply(rsrc, path, inputRequestBody),
         retryOnLockFailure());
   }
@@ -763,20 +779,19 @@ public class RestApiServlet extends HttpServlet {
     return invokeRestEndpointWithRetry(
         req,
         traceContext,
-        viewData,
+        getViewName(viewData),
         () -> view.apply(rsrc, inputRequestBody),
         retryOnLockFailure());
   }
 
-  private Response<?> invokeRestEndpointWithRetry(
+  private <T> T invokeRestEndpointWithRetry(
       HttpServletRequest req,
       TraceContext traceContext,
-      ViewData viewData,
-      Action<Response<?>> action,
+      String caller,
+      Action<T> action,
       Predicate<Throwable> retryExceptionPredicate)
       throws Exception {
-    RetryHelper.Options.Builder retryOptionsBuilder =
-        RetryHelper.options().caller(getViewName(viewData));
+    RetryHelper.Options.Builder retryOptionsBuilder = RetryHelper.options().caller(caller);
     if (!traceContext.isTracing()) {
       // enable automatic retry with tracing in case of non-recoverable failure
       retryOptionsBuilder =

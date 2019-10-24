@@ -122,9 +122,12 @@ limitations under the License.
         text-decoration: underline;
       }
       .path,
-      .path div {
+      .path .pathLink {
         overflow: hidden;
         text-overflow: ellipsis;
+      }
+      .path .pathLink {
+        width: 100%;
       }
       .oldPath {
         color: var(--deemphasized-text-color);
@@ -138,8 +141,7 @@ limitations under the License.
         min-width: 7.5em;
       }
       .comments {
-        padding-left: 2em;
-        min-width: 20em;
+        padding-left: 1em;
       }
       .row:not(.header-row) .stats,
       .total-stats {

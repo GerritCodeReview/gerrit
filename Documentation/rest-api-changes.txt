@@ -7028,9 +7028,9 @@ The `RevertSubmissionInfo` describes the revert changes.
 |==============================
 |Field Name       | Description
 |`revert_changes` |
-A list of #change-info[ChangeInfo] that describes the revert
-changes. Each entity in that list is a revert change that was created in that
-revert submission.
+A list of link:#change-info[ChangeInfo] that describes the revert changes. Each
+entity in that list is a revert change that was created in that revert
+submission.
 |==============================
 
 [[review-info]]

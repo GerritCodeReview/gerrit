@@ -17,7 +17,9 @@ limitations under the License.
 <dom-module id="shared-styles">
   <template>
     <style>
+
       /* CSS reset */
+
       html, body, button, div, span, applet, object, iframe, h1, h2, h3,
       h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite,
       code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub,
@@ -70,18 +72,30 @@ limitations under the License.
         border-collapse: collapse;
         border-spacing: 0;
       }
-      /* Other Shared Styles*/
-      h1 {
+
+      /* Fonts */
+
+      .font-normal {
+        font-size: var(--font-size-normal);
+        font-weight: var(--font-weight-normal);
+        line-height: var(--line-height-normal);
+      }
+      .font-small {
+        font-size: var(--font-size-small);
+        font-weight: var(--font-weight-normal);
+        line-height: var(--line-height-small);
+      }
+      h1, .font-h1 {
         font-size: var(--font-size-h1);
         font-weight: var(--font-weight-bold);
         line-height: var(--line-height-h1);
       }
-      h2 {
+      h2, .font-h2 {
         font-size: var(--font-size-h2);
         font-weight: var(--font-weight-bold);
         line-height: var(--line-height-h2);
       }
-      h3 {
+      h3, .font-h3 {
         font-size: var(--font-size-h3);
         font-weight: var(--font-weight-bold);
         line-height: var(--line-height-h3);
@@ -91,7 +105,9 @@ limitations under the License.
         --iron-icon-height: 20px;
         --iron-icon-width: 20px;
       }
+
       /* Stopgap solution until we remove hidden$ attributes. */
+
       [hidden] {
         display: none !important;
       }

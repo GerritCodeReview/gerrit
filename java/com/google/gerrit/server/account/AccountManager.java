@@ -236,7 +236,6 @@ public class AccountManager {
 
     if (!Strings.isNullOrEmpty(who.getDisplayName())
         && !Objects.equals(user.getAccount().getFullName(), who.getDisplayName())) {
-      accountUpdates.add(u -> u.setFullName(who.getDisplayName()));
       if (realm.allowsEdit(AccountFieldName.FULL_NAME)) {
         accountUpdates.add(a -> a.setFullName(who.getDisplayName()));
       } else {

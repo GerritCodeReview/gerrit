@@ -562,7 +562,7 @@
      * @return {?Object}
      */
     _getNavLinkPath(path, fileList, direction, opt_noUp) {
-      if (!path || fileList.length === 0) { return null; }
+      if (!path || !fileList || fileList.length === 0) { return null; }
 
       let idx = fileList.indexOf(path);
       if (idx === -1) {
@@ -640,22 +640,24 @@
       promises.push(this._getChangeDetail(this._changeNum).then(change => {
         let commit;
         let baseCommit;
-        for (const commitSha in change.revisions) {
-          if (!change.revisions.hasOwnProperty(commitSha)) continue;
-          const revision = change.revisions[commitSha];
-          const patchNum = revision._number.toString();
-          if (patchNum === this._patchRange.patchNum) {
-            commit = commitSha;
-            const commitObj = revision.commit || {};
-            const parents = commitObj.parents || [];
-            if (this._patchRange.basePatchNum === PARENT && parents.length) {
-              baseCommit = parents[parents.length - 1].commit;
+        if (change) {
+          for (const commitSha in change.revisions) {
+            if (!change.revisions.hasOwnProperty(commitSha)) continue;
+            const revision = change.revisions[commitSha];
+            const patchNum = revision._number.toString();
+            if (patchNum === this._patchRange.patchNum) {
+              commit = commitSha;
+              const commitObj = revision.commit || {};
+              const parents = commitObj.parents || [];
+              if (this._patchRange.basePatchNum === PARENT && parents.length) {
+                baseCommit = parents[parents.length - 1].commit;
+              }
+            } else if (patchNum === this._patchRange.basePatchNum) {
+              baseCommit = commitSha;
             }
-          } else if (patchNum === this._patchRange.basePatchNum) {
-            baseCommit = commitSha;
           }
+          this._commitRange = {commit, baseCommit};
         }
-        this._commitRange = {commit, baseCommit};
       }));
 
       promises.push(this._loadComments());

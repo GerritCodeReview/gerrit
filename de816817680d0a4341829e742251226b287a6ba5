@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e404c189_b92b5169",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-25T08:01:31Z",
+      "side": 1,
+      "message": "I thought we changed it to 14px ? maybe have that change in this cl as well if not created yet ?",
+      "range": {
+        "startLine": 77,
+        "startChar": 34,
+        "endLine": 77,
+        "endChar": 36
+      },
+      "revId": "de816817680d0a4341829e742251226b287a6ba5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

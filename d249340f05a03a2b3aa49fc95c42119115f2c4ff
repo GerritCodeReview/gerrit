@@ -25,6 +25,23 @@
     },
     {
       "key": {
+        "uuid": "7750f0ff_2d88fb6d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-chip/gr-account-chip.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-25T08:01:31Z",
+      "side": 0,
+      "message": "should not we keep this or move it to variable like `x-large` ?",
+      "revId": "d249340f05a03a2b3aa49fc95c42119115f2c4ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3e56ea1f_b9616d28",
         "filename": "polygerrit-ui/app/elements/shared/gr-copy-clipboard/gr-copy-clipboard.html",
         "patchSetId": 4

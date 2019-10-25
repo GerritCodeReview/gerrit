@@ -16,6 +16,24 @@
       "revId": "47867e26948a32925b4cc8915212e543bd50727e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f76eb3e_7c5422d4",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-10-25T00:01:07Z",
+      "side": 1,
+      "message": "No, I think this is a merge error. Thanks for pointing it out.",
+      "parentUuid": "06bb50bb_c31a20fa",
+      "revId": "47867e26948a32925b4cc8915212e543bd50727e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

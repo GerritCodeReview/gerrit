@@ -132,6 +132,31 @@ public class PatchFile {
     }
   }
 
+  /**
+   * Get the number of lines in the file.
+   *
+   * @param file the file index to extract.
+   * @return the number of lines in the file.
+   */
+  public int getNumLines(int file) throws IOException, NoSuchEntityException {
+    switch (file) {
+      case 0:
+        if (a == null) {
+          a = load(aTree, getOldName());
+        }
+        return a.size();
+
+      case 1:
+        if (b == null) {
+          b = load(bTree, entry.getNewName());
+        }
+        return b.size();
+
+      default:
+        throw new NoSuchEntityException();
+    }
+  }
+
   private Text load(ObjectId tree, String path)
       throws MissingObjectException, IncorrectObjectTypeException, CorruptObjectException,
           IOException {

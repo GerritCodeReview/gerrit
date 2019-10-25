@@ -216,8 +216,19 @@
       this.sections = changes ? [{results: changes}] : [];
     },
 
+    _processQuery(query) {
+      let tokens = query.split(' ');
+      const invalidTokens = ['limit:', 'age:', '-age:'];
+      tokens = tokens.filter(token => {
+        return !invalidTokens.some(invalidToken => {
+          return token.startsWith(invalidToken);
+        });
+      });
+      return tokens.join(' ');
+    },
+
     _sectionHref(query) {
-      return Gerrit.Nav.getUrlForSearchQuery(query);
+      return Gerrit.Nav.getUrlForSearchQuery(this._processQuery(query));
     },
 
     /**

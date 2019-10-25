@@ -19,7 +19,6 @@
 
   Polymer({
     is: 'gr-default-editor',
-    _legacyUndefinedCheck: true,
 
     /**
      * Fired when the content of the editor changes.

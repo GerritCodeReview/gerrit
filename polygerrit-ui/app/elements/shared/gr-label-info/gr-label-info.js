@@ -19,7 +19,6 @@
 
   Polymer({
     is: 'gr-label-info',
-    _legacyUndefinedCheck: true,
 
     properties: {
       labelInfo: Object,
@@ -149,7 +148,7 @@
      *    order to trigger computation when a label is removed from the change.
      */
     _computeShowPlaceholder(labelInfo, changeLabelsRecord) {
-      if (labelInfo.all) {
+      if (labelInfo && labelInfo.all) {
         for (const label of labelInfo.all) {
           if (label.value && label.value != labelInfo.default_value) {
             return 'hidden';

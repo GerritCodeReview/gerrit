@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f012106b_3bad7804",
+        "filename": "polygerrit-ui/app/styles/shared-styles.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-25T08:07:55Z",
+      "side": 0,
+      "message": "this may break something like:\n\n```\n\u003cdiv style\u003d\"color: red;\"\u003e\n  \u003cgr-component\u003e\n    // color will be red instead of --primary-text-color ?\n  \u003c/gr-component\u003e\n\u003c/div\u003e\n```",
+      "revId": "e3eea3b076fc0ddc545b20bcbeb956de66ca94b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

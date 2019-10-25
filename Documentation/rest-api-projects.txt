@@ -3139,6 +3139,65 @@ returned that describes the label.
   }
 ----
 
+[[create-label]]
+=== Create Label
+--
+'PUT /projects/link:#project-name[\{project-name\}]/labels/link:#label-name[\{label-name\}]'
+--
+
+Creates a new label definition in this project.
+
+The calling user must have write access to the `refs/meta/config` branch of the
+project.
+
+If a label with this name is already defined in this project, this label
+definition is updated (see link:#set-label[Set Label]).
+
+.Request
+----
+  PUT /projects/My-Project/labels/Foo HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+  {
+    "commit_message": "Create Foo Label",
+    "values": {
+      " 0": "No score",
+      "-1": "I would prefer this is not merged as is",
+      "-2": "This shall not be merged",
+      "+1": "Looks good to me, but someone else must approve",
+      "+2": "Looks good to me, approved"
+    }
+  }
+----
+
+As response a link:#label-definition-info[LabelDefinitionInfo] entity is
+returned that describes the created label.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "name": "Foo",
+    "project_name": "My-Project",
+    "function": "MaxWithBlock",
+    "values": {
+      " 0": "No score",
+      "-1": "I would prefer this is not merged as is",
+      "-2": "This shall not be merged",
+      "+1": "Looks good to me, but someone else must approve",
+      "+2": "Looks good to me, approved"
+    },
+    "default_value": 0,
+    "can_override": true,
+    "copy_all_scores_if_no_change": true,
+    "allow_post_submit": true
+  }
+----
+
 [[set-label]]
 === Set Label
 --

@@ -19,33 +19,70 @@ import static com.google.gerrit.server.api.ApiUtil.asRestApiException;
 import com.google.gerrit.extensions.api.projects.LabelApi;
 import com.google.gerrit.extensions.common.LabelDefinitionInfo;
 import com.google.gerrit.extensions.common.LabelDefinitionInput;
+import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.LabelResource;
+import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectResource;
+import com.google.gerrit.server.restapi.project.CreateLabel;
 import com.google.gerrit.server.restapi.project.GetLabel;
+import com.google.gerrit.server.restapi.project.LabelsCollection;
 import com.google.gerrit.server.restapi.project.SetLabel;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
 public class LabelApiImpl implements LabelApi {
   interface Factory {
-    LabelApiImpl create(LabelResource rsrc);
+    LabelApiImpl create(ProjectResource project, String label);
   }
 
+  private final LabelsCollection labels;
+  private final CreateLabel createLabel;
   private final GetLabel getLabel;
   private final SetLabel setLabel;
-  private final LabelResource rsrc;
+  private final ProjectCache projectCache;
+  private final String label;
+
+  private ProjectResource project;
 
   @Inject
-  LabelApiImpl(GetLabel getLabel, SetLabel setLabel, @Assisted LabelResource rsrc) {
+  LabelApiImpl(
+      LabelsCollection labels,
+      CreateLabel createLabel,
+      GetLabel getLabel,
+      SetLabel setLabel,
+      ProjectCache projectCache,
+      @Assisted ProjectResource project,
+      @Assisted String label) {
+    this.labels = labels;
+    this.createLabel = createLabel;
     this.getLabel = getLabel;
     this.setLabel = setLabel;
-    this.rsrc = rsrc;
+    this.projectCache = projectCache;
+    this.project = project;
+    this.label = label;
+  }
+
+  @Override
+  public LabelApi create(LabelDefinitionInput input) throws RestApiException {
+    try {
+      createLabel.apply(project, IdString.fromDecoded(label), input);
+
+      // recreate project resource because project state was updated by creating the new label and
+      // needs to be reloaded
+      project =
+          new ProjectResource(projectCache.checkedGet(project.getNameKey()), project.getUser());
+      return this;
+    } catch (Exception e) {
+      throw asRestApiException("Cannot create branch", e);
+    }
   }
 
   @Override
   public LabelDefinitionInfo get() throws RestApiException {
     try {
-      return getLabel.apply(rsrc).value();
+      return getLabel.apply(resource()).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot get label", e);
     }
@@ -54,9 +91,13 @@ public class LabelApiImpl implements LabelApi {
   @Override
   public LabelDefinitionInfo update(LabelDefinitionInput input) throws RestApiException {
     try {
-      return setLabel.apply(rsrc, input).value();
+      return setLabel.apply(resource(), input).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot update label", e);
     }
+  }
+
+  private LabelResource resource() throws RestApiException, PermissionBackendException {
+    return labels.parse(project, IdString.fromDecoded(label));
   }
 }

@@ -83,7 +83,8 @@ public class ProjectsRestApiBindingsIT extends AbstractDaemonTest {
               // GET /projects/<project>/branches/<branch>/commits is not implemented
               .expectedResponseCode(SC_NOT_FOUND)
               .build(),
-          RestCall.get("/projects/%s/dashboards"));
+          RestCall.get("/projects/%s/dashboards"),
+          RestCall.put("/projects/%s/labels/new-label"));
 
   /**
    * Child project REST endpoints to be tested, each URL contains placeholders for the parent

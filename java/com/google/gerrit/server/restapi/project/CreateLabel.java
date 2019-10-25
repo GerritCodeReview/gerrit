@@ -15,14 +15,17 @@
 package com.google.gerrit.server.restapi.project;
 
 import com.google.common.base.Strings;
+import com.google.gerrit.common.data.LabelFunction;
 import com.google.gerrit.common.data.LabelType;
+import com.google.gerrit.common.data.LabelValue;
 import com.google.gerrit.extensions.common.LabelDefinitionInfo;
 import com.google.gerrit.extensions.common.LabelDefinitionInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
-import com.google.gerrit.extensions.restapi.RestModifyView;
+import com.google.gerrit.extensions.restapi.RestCollectionCreateView;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -31,20 +34,23 @@ import com.google.gerrit.server.project.LabelDefinitionJson;
 import com.google.gerrit.server.project.LabelResource;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectConfig;
+import com.google.gerrit.server.project.ProjectResource;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import java.util.List;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
 @Singleton
-public class SetLabel implements RestModifyView<LabelResource, LabelDefinitionInput> {
+public class CreateLabel
+    implements RestCollectionCreateView<ProjectResource, LabelResource, LabelDefinitionInput> {
   private final PermissionBackend permissionBackend;
   private final MetaDataUpdate.User updateFactory;
   private final ProjectConfig.Factory projectConfigFactory;
   private final ProjectCache projectCache;
 
   @Inject
-  public SetLabel(
+  public CreateLabel(
       PermissionBackend permissionBackend,
       MetaDataUpdate.User updateFactory,
       ProjectConfig.Factory projectConfigFactory,
@@ -56,89 +62,72 @@ public class SetLabel implements RestModifyView<LabelResource, LabelDefinitionIn
   }
 
   @Override
-  public Response<LabelDefinitionInfo> apply(LabelResource rsrc, LabelDefinitionInput input)
+  public Response<LabelDefinitionInfo> apply(
+      ProjectResource rsrc, IdString id, LabelDefinitionInput input)
       throws AuthException, BadRequestException, ResourceConflictException,
           PermissionBackendException, IOException, ConfigInvalidException {
     permissionBackend
         .currentUser()
-        .project(rsrc.getProject().getNameKey())
+        .project(rsrc.getNameKey())
         .check(ProjectPermission.WRITE_CONFIG);
 
     if (input == null) {
       input = new LabelDefinitionInput();
     }
 
-    LabelType labelType = rsrc.getLabelType();
+    if (input.name != null && !input.name.equals(id.get())) {
+      throw new BadRequestException("name in input must match name in URL");
+    }
 
-    try (MetaDataUpdate md = updateFactory.create(rsrc.getProject().getNameKey())) {
-      boolean dirty = false;
-
+    try (MetaDataUpdate md = updateFactory.create(rsrc.getNameKey())) {
       ProjectConfig config = projectConfigFactory.read(md);
-      config.getLabelSections().remove(labelType.getName());
 
-      if (input.name != null) {
-        String newName = input.name.trim();
-        if (newName.isEmpty()) {
-          throw new BadRequestException("name cannot be empty");
-        }
-        if (!newName.equals(labelType.getName())) {
-          if (config.getLabelSections().containsKey(newName)) {
-            throw new ResourceConflictException("name " + newName + " already in use");
-          }
-          try {
-            labelType.setName(newName);
-          } catch (IllegalArgumentException e) {
-            throw new BadRequestException("invalid name: " + input.name, e);
-          }
-          dirty = true;
-        }
+      if (config.getLabelSections().containsKey(id.get())) {
+        throw new ResourceConflictException("label " + id.get() + " already exists");
       }
 
-      if (input.function != null) {
-        if (input.function.trim().isEmpty()) {
-          throw new BadRequestException("function cannot be empty");
-        }
+      if (input.values == null || input.values.isEmpty()) {
+        throw new BadRequestException("values are required");
+      }
+
+      List<LabelValue> values = LabelDefinitionInputParser.parseValues(input.values);
+
+      LabelType labelType;
+      try {
+        labelType = new LabelType(id.get(), values);
+      } catch (IllegalArgumentException e) {
+        throw new BadRequestException("invalid name: " + id.get(), e);
+      }
+
+      if (input.function != null && !input.function.trim().isEmpty()) {
         labelType.setFunction(LabelDefinitionInputParser.parseFunction(input.function));
-        dirty = true;
-      }
-
-      if (input.values != null) {
-        if (input.values.isEmpty()) {
-          throw new BadRequestException("values cannot be empty");
-        }
-        labelType.setValues(LabelDefinitionInputParser.parseValues(input.values));
-        dirty = true;
+      } else {
+        labelType.setFunction(LabelFunction.MAX_WITH_BLOCK);
       }
 
       if (input.defaultValue != null) {
         labelType.setDefaultValue(
             LabelDefinitionInputParser.parseDefaultValue(labelType, input.defaultValue));
-        dirty = true;
       }
 
       if (input.branches != null) {
         labelType.setRefPatterns(LabelDefinitionInputParser.parseBranches(input.branches));
-        dirty = true;
       }
 
       if (input.canOverride != null) {
         labelType.setCanOverride(input.canOverride);
-        dirty = true;
       }
 
       if (input.copyAnyScore != null) {
         labelType.setCopyAnyScore(input.copyAnyScore);
-        dirty = true;
       }
 
       if (input.copyMinScore != null) {
         labelType.setCopyMinScore(input.copyMinScore);
-        dirty = true;
       }
 
       if (input.copyMaxScore != null) {
         labelType.setCopyMaxScore(input.copyMaxScore);
-        dirty = true;
       }
 
       if (input.copyAllScoresIfNoChange != null) {
@@ -147,43 +136,37 @@ public class SetLabel implements RestModifyView<LabelResource, LabelDefinitionIn
 
       if (input.copyAllScoresIfNoCodeChange != null) {
         labelType.setCopyAllScoresIfNoCodeChange(input.copyAllScoresIfNoCodeChange);
-        dirty = true;
       }
 
       if (input.copyAllScoresOnTrivialRebase != null) {
         labelType.setCopyAllScoresOnTrivialRebase(input.copyAllScoresOnTrivialRebase);
-        dirty = true;
       }
 
       if (input.copyAllScoresOnMergeFirstParentUpdate != null) {
         labelType.setCopyAllScoresOnMergeFirstParentUpdate(
             input.copyAllScoresOnMergeFirstParentUpdate);
-        dirty = true;
       }
 
       if (input.allowPostSubmit != null) {
         labelType.setAllowPostSubmit(input.allowPostSubmit);
-        dirty = true;
       }
 
       if (input.ignoreSelfApproval != null) {
         labelType.setIgnoreSelfApproval(input.ignoreSelfApproval);
-        dirty = true;
       }
 
-      if (dirty) {
-        config.getLabelSections().put(labelType.getName(), labelType);
-
-        if (input.commitMessage != null) {
-          md.setMessage(Strings.emptyToNull(input.commitMessage.trim()));
-        } else {
-          md.setMessage("Update label");
-        }
-
-        config.commit(md);
-        projectCache.evict(rsrc.getProject().getProjectState().getProject());
+      if (input.commitMessage != null) {
+        md.setMessage(Strings.emptyToNull(input.commitMessage.trim()));
+      } else {
+        md.setMessage("Update label");
       }
+
+      config.getLabelSections().put(labelType.getName(), labelType);
+      config.commit(md);
+
+      projectCache.evict(rsrc.getProjectState().getProject());
+
+      return Response.created(LabelDefinitionJson.format(rsrc.getNameKey(), labelType));
     }
-    return Response.ok(LabelDefinitionJson.format(rsrc.getProject().getNameKey(), labelType));
   }
 }

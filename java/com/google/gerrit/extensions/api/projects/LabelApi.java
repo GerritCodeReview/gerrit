@@ -20,6 +20,8 @@ import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 
 public interface LabelApi {
+  LabelApi create(LabelDefinitionInput input) throws RestApiException;
+
   LabelDefinitionInfo get() throws RestApiException;
 
   LabelDefinitionInfo update(LabelDefinitionInput input) throws RestApiException;
@@ -29,6 +31,11 @@ public interface LabelApi {
    * interface.
    */
   class NotImplemented implements LabelApi {
+    @Override
+    public LabelApi create(LabelDefinitionInput input) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
     @Override
     public LabelDefinitionInfo get() throws RestApiException {
       throw new NotImplementedException();

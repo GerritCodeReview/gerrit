@@ -172,6 +172,7 @@ limitations under the License.
         {_number: 2},
       ];
       flushAsynchronousOperations();
+      // Wait until rendered
       Polymer.RenderStatus.afterNextRender(element, () => {
         const elementItems = Polymer.dom(element.root).querySelectorAll(
             'gr-change-list-item');
@@ -497,7 +498,7 @@ limitations under the License.
 
     teardown(() => { sandbox.restore(); });
 
-    test('keyboard shortcuts', () => {
+    test('keyboard shortcuts', (done) => {
       element.selectedIndex = 0;
       element.sections = [
         {
@@ -560,6 +561,7 @@ limitations under the License.
         MockInteractions.pressAndReleaseKeyOn(element, 82); // 'r'
         assert.equal(change.reviewed, false,
             'Should mark change as unreviewed');
+        done();
       });
     });
 

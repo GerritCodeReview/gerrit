@@ -34,6 +34,24 @@
       "revId": "47867e26948a32925b4cc8915212e543bd50727e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5e3f9d65_14d6cf14",
+        "filename": "java/com/google/gerrit/server/account/AccountManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-10-25T04:27:21Z",
+      "side": 1,
+      "message": "Fixed in https://gerrit-review.googlesource.com/c/gerrit/+/242537",
+      "parentUuid": "5f76eb3e_7c5422d4",
+      "revId": "47867e26948a32925b4cc8915212e543bd50727e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

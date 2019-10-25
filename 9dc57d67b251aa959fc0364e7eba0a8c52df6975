@@ -16,6 +16,24 @@
       "revId": "9dc57d67b251aa959fc0364e7eba0a8c52df6975",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d2fbe5ea_f1265b8b",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-25T15:36:00Z",
+      "side": 1,
+      "message": "Yes, I have looked at Material and other Google projects for examples. Grids are typically 4px based, so 4/8/12/16 should cover all needs, and xs/xxs should be rarely used.",
+      "parentUuid": "53aa710f_d51fc340",
+      "revId": "9dc57d67b251aa959fc0364e7eba0a8c52df6975",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

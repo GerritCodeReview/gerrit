@@ -218,6 +218,8 @@ public interface ProjectApi {
     }
   }
 
+  LabelApi label(String labelName) throws RestApiException;
+
   /**
    * A default implementation which allows source compatibility when adding new methods to the
    * interface.
@@ -395,6 +397,11 @@ public interface ProjectApi {
 
     @Override
     public ListLabelsRequest labels() throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public LabelApi label(String labelName) throws RestApiException {
       throw new NotImplementedException();
     }
   }

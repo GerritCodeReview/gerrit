@@ -61,7 +61,7 @@ public class ListLabelsIT extends AbstractDaemonTest {
     assertThat(labelNames(labels)).containsExactly("Code-Review");
 
     LabelDefinitionInfo codeReviewLabel = Iterables.getOnlyElement(labels);
-    assertCodeReviewLabel(codeReviewLabel);
+    LabelAssert.assertCodeReviewLabel(codeReviewLabel);
   }
 
   @Test
@@ -199,7 +199,7 @@ public class ListLabelsIT extends AbstractDaemonTest {
     assertThat(labelNames(labels)).containsExactly("Code-Review");
 
     LabelDefinitionInfo codeReviewLabel = Iterables.getOnlyElement(labels);
-    assertCodeReviewLabel(codeReviewLabel);
+    LabelAssert.assertCodeReviewLabel(codeReviewLabel);
   }
 
   @Test
@@ -212,7 +212,7 @@ public class ListLabelsIT extends AbstractDaemonTest {
         gApi.projects().name(project.get()).labels().withInherited(true).get();
     assertThat(labelNames(labels)).containsExactly("Code-Review", "bar", "baz", "foo").inOrder();
 
-    assertCodeReviewLabel(labels.get(0));
+    LabelAssert.assertCodeReviewLabel(labels.get(0));
     assertThat(labels.get(1).name).isEqualTo("bar");
     assertThat(labels.get(1).projectName).isEqualTo(project.get());
     assertThat(labels.get(2).name).isEqualTo("baz");
@@ -229,7 +229,7 @@ public class ListLabelsIT extends AbstractDaemonTest {
         gApi.projects().name(project.get()).labels().withInherited(true).get();
     assertThat(labelNames(labels)).containsExactly("Code-Review", "Code-Review");
 
-    assertCodeReviewLabel(labels.get(0));
+    LabelAssert.assertCodeReviewLabel(labels.get(0));
     assertThat(labels.get(1).name).isEqualTo("Code-Review");
     assertThat(labels.get(1).projectName).isEqualTo(project.get());
     assertThat(labels.get(1).function).isEqualTo(LabelFunction.NO_OP.getFunctionName());
@@ -247,41 +247,11 @@ public class ListLabelsIT extends AbstractDaemonTest {
         gApi.projects().name(childProject.get()).labels().withInherited(true).get();
     assertThat(labelNames(labels)).containsExactly("Code-Review", "foo", "bar").inOrder();
 
-    assertCodeReviewLabel(labels.get(0));
+    LabelAssert.assertCodeReviewLabel(labels.get(0));
     assertThat(labels.get(1).name).isEqualTo("foo");
     assertThat(labels.get(1).projectName).isEqualTo(project.get());
     assertThat(labels.get(2).name).isEqualTo("bar");
     assertThat(labels.get(2).projectName).isEqualTo(childProject.get());
-  }
-
-  private void assertCodeReviewLabel(LabelDefinitionInfo codeReviewLabel) {
-    assertThat(codeReviewLabel.name).isEqualTo("Code-Review");
-    assertThat(codeReviewLabel.projectName).isEqualTo(allProjects.get());
-    assertThat(codeReviewLabel.function).isEqualTo(LabelFunction.MAX_WITH_BLOCK.getFunctionName());
-    assertThat(codeReviewLabel.values)
-        .containsExactly(
-            "+2",
-            "Looks good to me, approved",
-            "+1",
-            "Looks good to me, but someone else must approve",
-            " 0",
-            "No score",
-            "-1",
-            "I would prefer this is not merged as is",
-            "-2",
-            "This shall not be merged");
-    assertThat(codeReviewLabel.defaultValue).isEqualTo(0);
-    assertThat(codeReviewLabel.branches).isNull();
-    assertThat(codeReviewLabel.canOverride).isTrue();
-    assertThat(codeReviewLabel.copyAnyScore).isNull();
-    assertThat(codeReviewLabel.copyMinScore).isTrue();
-    assertThat(codeReviewLabel.copyMaxScore).isNull();
-    assertThat(codeReviewLabel.copyAllScoresIfNoChange).isTrue();
-    assertThat(codeReviewLabel.copyAllScoresIfNoCodeChange).isNull();
-    assertThat(codeReviewLabel.copyAllScoresOnTrivialRebase).isTrue();
-    assertThat(codeReviewLabel.copyAllScoresOnMergeFirstParentUpdate).isNull();
-    assertThat(codeReviewLabel.allowPostSubmit).isTrue();
-    assertThat(codeReviewLabel.ignoreSelfApproval).isNull();
   }
 
   private static List<String> labelNames(List<LabelDefinitionInfo> labels) {

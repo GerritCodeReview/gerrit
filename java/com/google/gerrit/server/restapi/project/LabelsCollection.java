@@ -14,13 +14,17 @@
 
 package com.google.gerrit.server.restapi.project;
 
+import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.extensions.registration.DynamicMap;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.IdString;
-import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestView;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.permissions.ProjectPermission;
 import com.google.gerrit.server.project.LabelResource;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.inject.Inject;
@@ -31,11 +35,16 @@ import com.google.inject.Singleton;
 public class LabelsCollection implements ChildCollection<ProjectResource, LabelResource> {
   private final Provider<ListLabels> list;
   private final DynamicMap<RestView<LabelResource>> views;
+  private final PermissionBackend permissionBackend;
 
   @Inject
-  LabelsCollection(Provider<ListLabels> list, DynamicMap<RestView<LabelResource>> views) {
+  LabelsCollection(
+      Provider<ListLabels> list,
+      DynamicMap<RestView<LabelResource>> views,
+      PermissionBackend permissionBackend) {
     this.list = list;
     this.views = views;
+    this.permissionBackend = permissionBackend;
   }
 
   @Override
@@ -45,8 +54,16 @@ public class LabelsCollection implements ChildCollection<ProjectResource, LabelR
 
   @Override
   public LabelResource parse(ProjectResource parent, IdString id)
-      throws ResourceNotFoundException, Exception {
-    throw new MethodNotAllowedException();
+      throws AuthException, ResourceNotFoundException, PermissionBackendException {
+    permissionBackend
+        .currentUser()
+        .project(parent.getNameKey())
+        .check(ProjectPermission.READ_CONFIG);
+    LabelType labelType = parent.getProjectState().getConfig().getLabelSections().get(id.get());
+    if (labelType == null) {
+      throw new ResourceNotFoundException(id);
+    }
+    return new LabelResource(parent, labelType);
   }
 
   @Override

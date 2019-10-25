@@ -68,6 +68,7 @@ public class Module extends RestApiModule {
     get(CHILD_PROJECT_KIND).to(GetChildProject.class);
 
     child(PROJECT_KIND, "labels").to(LabelsCollection.class);
+    get(LABEL_KIND).to(GetLabel.class);
 
     get(PROJECT_KIND, "HEAD").to(GetHead.class);
     put(PROJECT_KIND, "HEAD").to(SetHead.class);

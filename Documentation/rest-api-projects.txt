@@ -3093,6 +3093,52 @@ Labels that belong to the same project are sorted by label name.
   ]
 ----
 
+[[get-label]]
+=== Get Label
+--
+'GET /projects/link:#project-name[\{project-name\}]/labels/link:#label-name[\{label-name\}]'
+--
+
+Retrieves the definition of a label that is defined in this project.
+
+The calling user must have read access to the `refs/meta/config` branch of the
+project.
+
+.Request
+----
+  GET /projects/All-Projects/labels/Code-Review HTTP/1.0
+----
+
+As response a link:#label-definition-info[LabelDefinitionInfo] entity is
+returned that describes the label.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "name": "Code-Review",
+    "project": "All-Projects",
+    "function": "MaxWithBlock",
+    "values": {
+      " 0": "No score",
+      "-1": "I would prefer this is not merged as is",
+      "-2": "This shall not be merged",
+      "+1": "Looks good to me, but someone else must approve",
+      "+2": "Looks good to me, approved"
+    },
+    "default_value": 0,
+    "can_override": true,
+    "copy_min_score": true,
+    "copy_all_scores_if_no_change": true,
+    "copy_all_scores_on_trivial_rebase": true,
+    "allow_post_submit": true
+  }
+----
+
 
 [[ids]]
 == IDs
@@ -3116,6 +3162,10 @@ The ID of a dashboard in the format '<ref>:<path>'.
 
 A special dashboard ID is `default` which represents the default
 dashboard of a project.
+
+[[label-name]]
+=== \{label-name\}
+The name of a review label.
 
 [[project-name]]
 === \{project-name\}

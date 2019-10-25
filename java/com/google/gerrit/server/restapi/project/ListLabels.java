@@ -14,10 +14,7 @@
 
 package com.google.gerrit.server.restapi.project;
 
-import static java.util.stream.Collectors.toMap;
-
 import com.google.gerrit.common.data.LabelType;
-import com.google.gerrit.common.data.LabelValue;
 import com.google.gerrit.extensions.common.LabelDefinitionInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.Response;
@@ -25,6 +22,7 @@ import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
+import com.google.gerrit.server.project.LabelDefinitionJson;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
@@ -77,33 +75,9 @@ public class ListLabels implements RestReadView<ProjectResource> {
     Collection<LabelType> labelTypes = projectState.getConfig().getLabelSections().values();
     List<LabelDefinitionInfo> labels = new ArrayList<>(labelTypes.size());
     for (LabelType labelType : labelTypes) {
-      LabelDefinitionInfo label = new LabelDefinitionInfo();
-      label.name = labelType.getName();
-      label.projectName = projectState.getName();
-      label.function = labelType.getFunction().getFunctionName();
-      label.values =
-          labelType.getValues().stream()
-              .collect(toMap(LabelValue::formatValue, LabelValue::getText));
-      label.defaultValue = labelType.getDefaultValue();
-      label.branches = labelType.getRefPatterns() != null ? labelType.getRefPatterns() : null;
-      label.canOverride = toBoolean(labelType.canOverride());
-      label.copyAnyScore = toBoolean(labelType.isCopyAnyScore());
-      label.copyMinScore = toBoolean(labelType.isCopyMinScore());
-      label.copyMaxScore = toBoolean(labelType.isCopyMaxScore());
-      label.copyAllScoresIfNoChange = toBoolean(labelType.isCopyAllScoresIfNoChange());
-      label.copyAllScoresIfNoCodeChange = toBoolean(labelType.isCopyAllScoresIfNoCodeChange());
-      label.copyAllScoresOnTrivialRebase = toBoolean(labelType.isCopyAllScoresOnTrivialRebase());
-      label.copyAllScoresOnMergeFirstParentUpdate =
-          toBoolean(labelType.isCopyAllScoresOnMergeFirstParentUpdate());
-      label.allowPostSubmit = toBoolean(labelType.allowPostSubmit());
-      label.ignoreSelfApproval = toBoolean(labelType.ignoreSelfApproval());
-      labels.add(label);
+      labels.add(LabelDefinitionJson.format(projectState.getNameKey(), labelType));
     }
     labels.sort(Comparator.comparing(l -> l.name));
     return labels;
-  }
-
-  private static Boolean toBoolean(boolean v) {
-    return v ? v : null;
   }
 }

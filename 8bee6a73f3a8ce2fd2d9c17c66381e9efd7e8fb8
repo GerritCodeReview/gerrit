@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e40e9dd0_4bd8ea5b",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-25T09:05:53Z",
+      "side": 1,
+      "message": "do you need `:` for them to make sure it only removes these three ?",
+      "range": {
+        "startLine": 221,
+        "startChar": 29,
+        "endLine": 221,
+        "endChar": 51
+      },
+      "revId": "8bee6a73f3a8ce2fd2d9c17c66381e9efd7e8fb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

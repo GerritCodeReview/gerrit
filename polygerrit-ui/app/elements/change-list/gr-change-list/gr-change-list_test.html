@@ -497,7 +497,7 @@ limitations under the License.
 
     teardown(() => { sandbox.restore(); });
 
-    test('keyboard shortcuts', () => {
+    test('keyboard shortcuts', done => {
       element.selectedIndex = 0;
       element.sections = [
         {
@@ -560,6 +560,7 @@ limitations under the License.
         MockInteractions.pressAndReleaseKeyOn(element, 82); // 'r'
         assert.equal(change.reviewed, false,
             'Should mark change as unreviewed');
+        done();
       });
     });
 

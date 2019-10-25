@@ -116,7 +116,7 @@
         this.classList.add('monospace');
       }
       if (this.hideBorder) {
-        this.$.textarea.classList.add('noBorder');
+        this.$.borderWrapper.classList.add('noBorder');
       }
     },
 

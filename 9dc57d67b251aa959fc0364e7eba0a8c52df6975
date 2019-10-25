@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "53aa710f_d51fc340",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-25T07:56:01Z",
+      "side": 1,
+      "message": "just curious, how we determine those levels ? from material or somewhere ? seems the new mapping will map old `--default-horizontal-margin` to `--spacing-l`, and they will be changed from 13px to 12px ?",
+      "revId": "9dc57d67b251aa959fc0364e7eba0a8c52df6975",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

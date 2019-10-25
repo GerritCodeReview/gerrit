@@ -259,8 +259,14 @@
    */
   ChangeComments.prototype.getCommentsBySideForPath = function(path,
       patchRange, opt_projectConfig) {
-    const comments = this.comments[path] || [];
-    const drafts = this.drafts[path] || [];
+    let comments = [];
+    let drafts;
+    if (this.comments && this.comments[path]) {
+      comments = this.comments[path];
+    }
+    if (this.drafts && this.drafts[path]) {
+      drafts = this.drafts[path];
+    }
     const robotComments = this.robotComments[path] || [];
 
     drafts.forEach(d => { d.__draft = true; });

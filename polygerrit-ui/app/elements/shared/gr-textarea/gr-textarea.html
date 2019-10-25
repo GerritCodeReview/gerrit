@@ -35,6 +35,9 @@ limitations under the License.
       }
       :host(.monospace) {
         font-family: var(--monospace-font-family);
+        font-size: var(--font-size-mono);
+        font-weight: var(--font-weight-normal);
+        line-height: var(--line-height-mono);
       }
       #emojiSuggestions {
         font-family: var(--font-family);
@@ -59,6 +62,10 @@ limitations under the License.
 
         /** This is needed for firefox */
         --iron-autogrow-textarea_-_white-space: pre-wrap;
+
+        /* iron-autogrow-textarea has a "-webkit-appearance: textarea" :host
+           css rule, which prevents overriding the border color. Clear that. */
+        -webkit-appearance: none;
       }
       #textarea.noBorder {
         border: none;
@@ -88,15 +95,17 @@ limitations under the License.
         on-dropdown-closed="_resetEmojiDropdown"
         on-item-selected="_handleEmojiSelect">
     </gr-autocomplete-dropdown>
-    <iron-autogrow-textarea
-        id="textarea"
-        autocomplete="[[autocomplete]]"
-        placeholder=[[placeholder]]
-        disabled="[[disabled]]"
-        rows="[[rows]]"
-        max-rows="[[maxRows]]"
-        value="{{text}}"
-        on-bind-value-changed="_onValueChanged"></iron-autogrow-textarea>
+    <div id="borderWrapper">
+      <iron-autogrow-textarea
+          id="textarea"
+          autocomplete="[[autocomplete]]"
+          placeholder=[[placeholder]]
+          disabled="[[disabled]]"
+          rows="[[rows]]"
+          max-rows="[[maxRows]]"
+          value="{{text}}"
+          on-bind-value-changed="_onValueChanged"></iron-autogrow-textarea>
+    </div>
     <gr-reporting id="reporting"></gr-reporting>
   </template>
   <script src="gr-textarea.js"></script>

@@ -52,6 +52,24 @@
       "revId": "5cd0dc287b79859c20da46b84a6ec4641b6c164c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "db409c1f_2b29063f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2019-10-25T13:01:09Z",
+      "side": 1,
+      "message": "Yes, \nstops: {\n        type: Array,\n        value() {\n          return [];\n        },\n        observer: \u0027_updateIndex\u0027,\n}",
+      "parentUuid": "2e201916_4afa2c4c",
+      "revId": "5cd0dc287b79859c20da46b84a6ec4641b6c164c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

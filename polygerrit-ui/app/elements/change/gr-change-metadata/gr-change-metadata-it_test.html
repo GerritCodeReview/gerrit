@@ -89,6 +89,7 @@ limitations under the License.
 
     teardown(() => {
       sandbox.restore();
+      Gerrit._testOnly_resetPlugins();
     });
 
     suite('by default', () => {
@@ -141,7 +142,7 @@ limitations under the License.
             new URL('test/plugin.html?' + Math.random(),
                     window.location.href).toString());
         sandbox.stub(Gerrit, '_arePluginsLoaded').returns(true);
-        Gerrit._setPluginsPending([]);
+        Gerrit._loadPlugins([]);
         element = createElement();
       });
 

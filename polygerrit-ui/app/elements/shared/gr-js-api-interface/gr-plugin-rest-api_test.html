@@ -50,7 +50,6 @@ limitations under the License.
         a[k] = (...args) => restApiStub[k](...args);
         return a;
       }, {}));
-      Gerrit._setPluginsCount(1);
       Gerrit.install(p => { plugin = p; }, '0.1',
           'http://test.com/plugins/testplugin/static/test.js');
       instance = new GrPluginRestApi();

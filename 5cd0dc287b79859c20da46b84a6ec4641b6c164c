@@ -34,6 +34,24 @@
       "revId": "5cd0dc287b79859c20da46b84a6ec4641b6c164c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2e201916_4afa2c4c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-25T12:59:36Z",
+      "side": 1,
+      "message": "what if its from \u003e 1 list -\u003e empty list ? is the cursor manager listening on the `suggestionEls` ?",
+      "parentUuid": "6f832214_b70ed193",
+      "revId": "5cd0dc287b79859c20da46b84a6ec4641b6c164c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

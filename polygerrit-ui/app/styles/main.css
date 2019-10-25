@@ -26,10 +26,10 @@ html {
   -webkit-text-size-adjust: none;
   /*
    * Default browser fonts are 16px. We want users with default settings to see
-   * a base font of 13px. 13/16 = .8125. This needs to be in html because
+   * a base font of 14px. 14/16 = .875. This needs to be in html because
    * can use rems based on this font-size throughout the app.
    */
-  font-size: .8125em;
+  font-size: .875em;
 }
 html,
 body {

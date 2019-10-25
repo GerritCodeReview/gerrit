@@ -39,14 +39,18 @@ limitations under the License.
         border: 1px solid var(--border-color);
       }
       paper-input {
-        height: 100%;
+        height: var(--line-height-normal);
         width: 100%;
         @apply --gr-autocomplete;
         --paper-input-container: {
           padding: 0;
         }
         --paper-input-container-input: {
-          font-size: inherit;
+          font-size: var(--font-size-normal);
+          /* paper-input insists on adding 1px above and below such that we have
+             to substract that to get a line height that is consistent with
+             normal text. */
+          line-height: calc(var(--line-height-normal) - 2px);
         }
         --paper-input-container-underline: {
           display: none;

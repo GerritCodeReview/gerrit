@@ -34,6 +34,9 @@ limitations under the License.
       }
       :host(.monospace) {
         font-family: var(--monospace-font-family);
+        font-size: var(--font-size-mono);
+        font-weight: var(--font-weight-normal);
+        line-height: var(--line-height-mono);
       }
       #emojiSuggestions {
         font-family: var(--font-family);
@@ -58,6 +61,10 @@ limitations under the License.
 
         /** This is needed for firefox */
         --iron-autogrow-textarea_-_white-space: pre-wrap;
+
+        /* iron-autogrow-textarea has a "-webkit-appearance: textarea" :host
+           css rule, which prevents overriding the border color. Clear that. */
+        -webkit-appearance: none;
       }
       #textarea.noBorder {
         border: none;
@@ -87,6 +94,7 @@ limitations under the License.
         on-dropdown-closed="_resetEmojiDropdown"
         on-item-selected="_handleEmojiSelect">
     </gr-autocomplete-dropdown>
+<<<<<<< HEAD   (ba30ff Merge branch 'stable-3.0' into stable-3.1)
     <iron-autogrow-textarea
         id="textarea"
         autocomplete="[[autocomplete]]"
@@ -96,6 +104,20 @@ limitations under the License.
         max-rows="[[maxRows]]"
         value="{{text}}"
         on-bind-value-changed="_onValueChanged"></iron-autogrow-textarea>
+=======
+    <div id="borderWrapper">
+      <iron-autogrow-textarea
+          id="textarea"
+          autocomplete="[[autocomplete]]"
+          placeholder=[[placeholder]]
+          disabled="[[disabled]]"
+          rows="[[rows]]"
+          max-rows="[[maxRows]]"
+          value="{{text}}"
+          on-bind-value-changed="_onValueChanged"></iron-autogrow-textarea>
+    </div>
+    <gr-reporting id="reporting"></gr-reporting>
+>>>>>>> CHANGE (4a809a Change font-size to 14px and tweak the UI)
   </template>
   <script src="gr-textarea.js"></script>
 </dom-module>

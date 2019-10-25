@@ -15,11 +15,14 @@
 package com.google.gerrit.extensions.api.projects;
 
 import com.google.gerrit.extensions.common.LabelDefinitionInfo;
+import com.google.gerrit.extensions.common.LabelDefinitionInput;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 
 public interface LabelApi {
   LabelDefinitionInfo get() throws RestApiException;
+
+  LabelDefinitionInfo update(LabelDefinitionInput input) throws RestApiException;
 
   /**
    * A default implementation which allows source compatibility when adding new methods to the
@@ -28,6 +31,11 @@ public interface LabelApi {
   class NotImplemented implements LabelApi {
     @Override
     public LabelDefinitionInfo get() throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public LabelDefinitionInfo update(LabelDefinitionInput input) throws RestApiException {
       throw new NotImplementedException();
     }
   }

@@ -18,9 +18,11 @@ import static com.google.gerrit.server.api.ApiUtil.asRestApiException;
 
 import com.google.gerrit.extensions.api.projects.LabelApi;
 import com.google.gerrit.extensions.common.LabelDefinitionInfo;
+import com.google.gerrit.extensions.common.LabelDefinitionInput;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.project.LabelResource;
 import com.google.gerrit.server.restapi.project.GetLabel;
+import com.google.gerrit.server.restapi.project.SetLabel;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
@@ -30,11 +32,13 @@ public class LabelApiImpl implements LabelApi {
   }
 
   private final GetLabel getLabel;
+  private final SetLabel setLabel;
   private final LabelResource rsrc;
 
   @Inject
-  LabelApiImpl(GetLabel getLabel, @Assisted LabelResource rsrc) {
+  LabelApiImpl(GetLabel getLabel, SetLabel setLabel, @Assisted LabelResource rsrc) {
     this.getLabel = getLabel;
+    this.setLabel = setLabel;
     this.rsrc = rsrc;
   }
 
@@ -44,6 +48,15 @@ public class LabelApiImpl implements LabelApi {
       return getLabel.apply(rsrc).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot get label", e);
+    }
+  }
+
+  @Override
+  public LabelDefinitionInfo update(LabelDefinitionInput input) throws RestApiException {
+    try {
+      return setLabel.apply(rsrc, input).value();
+    } catch (Exception e) {
+      throw asRestApiException("Cannot update label", e);
     }
   }
 }

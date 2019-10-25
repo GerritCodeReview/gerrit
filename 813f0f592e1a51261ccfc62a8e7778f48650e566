@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b3001202_2f6719c1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-10-25T07:24:56Z",
+      "side": 1,
+      "message": "I think it would be better for the history if the first line was about what the user facing outcome is, not so much what \"operation\" was applied to the source code. Which things will actually change font as a result of pulling this up?",
+      "revId": "813f0f592e1a51261ccfc62a8e7778f48650e566",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5c92e38b_0f76bd86",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2019-10-25T09:49:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6ac648a7_aaf76d79",
+      "revId": "d2fe640b54098da449998b06802e3971d78e7915",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2e3ec5cf_cc0ed8fa",
         "filename": "polygerrit-ui/app/elements/shared/gr-dropdown/gr-dropdown.js",
         "patchSetId": 2
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "0d2e3a0b_d104cf99",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown/gr-dropdown.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2019-10-25T09:49:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2e3ec5cf_cc0ed8fa",
+      "range": {
+        "startLine": 144,
+        "startChar": 43,
+        "endLine": 144,
+        "endChar": 49
+      },
+      "revId": "d2fe640b54098da449998b06802e3971d78e7915",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "644042df_faee1a93",
         "filename": "polygerrit-ui/app/elements/shared/gr-dropdown/gr-dropdown.js",
         "patchSetId": 2
@@ -62,6 +104,30 @@
       "revId": "d2fe640b54098da449998b06802e3971d78e7915",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eaae2915_939edf4b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown/gr-dropdown.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 289,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2019-10-25T09:49:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "644042df_faee1a93",
+      "range": {
+        "startLine": 289,
+        "startChar": 0,
+        "endLine": 289,
+        "endChar": 72
+      },
+      "revId": "d2fe640b54098da449998b06802e3971d78e7915",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

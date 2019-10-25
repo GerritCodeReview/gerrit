@@ -1267,6 +1267,7 @@
      */
     getChangeFilePathsAsSpeciallySortedArray(changeNum, patchRange) {
       return this.getChangeFiles(changeNum, patchRange).then(files => {
+        if (!files) return;
         return Object.keys(files).sort(this.specialFilePathCompare);
       });
     },

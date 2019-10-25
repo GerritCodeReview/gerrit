@@ -57,7 +57,7 @@ limitations under the License.
       }
       .contentContainer {
         margin-left: calc(var(--spacing-l) + 2.5em);
-        padding: 10px 0;
+        padding: var(--spacing-m) 0;
       }
       .showAvatar.collapsed .contentContainer {
         margin-left: calc(var(--spacing-l) + 1.75em);
@@ -73,13 +73,13 @@ limitations under the License.
       }
       .collapsed gr-avatar {
         top: var(--spacing-m);
-        height: 1.75em;
-        width: 1.75em;
+        height: var(--line-height-normal);
+        width: var(--line-height-normal);
       }
       .expanded gr-avatar {
-        top: 12px;
-        height: 2.5em;
-        width: 2.5em;
+        top: var(--spacing-l);
+        height: var(--line-height-h1);
+        width: var(--line-height-h1);
       }
       .name {
         font-weight: var(--font-weight-bold);
@@ -143,6 +143,7 @@ limitations under the License.
       }
       .dateContainer iron-icon {
         cursor: pointer;
+        vertical-align: top;
       }
       .replyContainer {
         padding: var(--spacing-m) 0 0 0;

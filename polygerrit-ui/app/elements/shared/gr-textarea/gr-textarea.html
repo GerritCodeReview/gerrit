@@ -35,6 +35,9 @@ limitations under the License.
       }
       :host(.monospace) {
         font-family: var(--monospace-font-family);
+        font-size: var(--font-size-mono);
+        font-weight: var(--font-weight-normal);
+        line-height: var(--line-height-mono);
       }
       #emojiSuggestions {
         font-family: var(--font-family);
@@ -60,9 +63,22 @@ limitations under the License.
         /** This is needed for firefox */
         --iron-autogrow-textarea_-_white-space: pre-wrap;
       }
-      #textarea.noBorder {
+      /* It is impossible to override the :host rule in iron-autogrow-textarea
+         that says "border: 1px solid;" in terms of border color. You can only
+         turn the border off or have a black border. Thus we always turn it off
+         and put the real border on a wrapper div. */
+      iron-autogrow-textarea {
+        display: block;
+        width: 100%;
         border: none;
       }
+      #borderWrapper {
+        border: 1px solid var(--border-color);
+      }
+      #borderWrapper.noBorder {
+        border: none;
+      }
+
       #hiddenText {
         display: block;
         float: left;
@@ -88,15 +104,17 @@ limitations under the License.
         on-dropdown-closed="_resetEmojiDropdown"
         on-item-selected="_handleEmojiSelect">
     </gr-autocomplete-dropdown>
-    <iron-autogrow-textarea
-        id="textarea"
-        autocomplete="[[autocomplete]]"
-        placeholder=[[placeholder]]
-        disabled="[[disabled]]"
-        rows="[[rows]]"
-        max-rows="[[maxRows]]"
-        value="{{text}}"
-        on-bind-value-changed="_onValueChanged"></iron-autogrow-textarea>
+    <div id="borderWrapper">
+      <iron-autogrow-textarea
+          id="textarea"
+          autocomplete="[[autocomplete]]"
+          placeholder=[[placeholder]]
+          disabled="[[disabled]]"
+          rows="[[rows]]"
+          max-rows="[[maxRows]]"
+          value="{{text}}"
+          on-bind-value-changed="_onValueChanged"></iron-autogrow-textarea>
+    </div>
     <gr-reporting id="reporting"></gr-reporting>
   </template>
   <script src="gr-textarea.js"></script>

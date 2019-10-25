@@ -40,8 +40,9 @@ limitations under the License.
         display: flex;
         justify-content: center;
         margin-right: var(--spacing-s);
-        padding: var(--spacing-xxs) var(--spacing-m);
+        padding: 0;
         @apply --vote-chip-styles;
+        border-width: 0;
       }
       .max {
         background-color: var(--vote-color-approved);
@@ -59,16 +60,17 @@ limitations under the License.
         display: none;
       }
       td {
-        vertical-align: middle;
+        vertical-align: top;
       }
       tr {
-        min-height: 2.25em;
+        min-height: var(--line-height-normal);
       }
       gr-button {
+        vertical-align: top;
         --gr-button: {
-          height: 2em;
+          height: var(--line-height-normal);
+          width: var(--line-height-normal);
           padding: 0;
-          width: 2em;
         }
       }
       gr-button[disabled] iron-icon {
@@ -78,8 +80,8 @@ limitations under the License.
         margin-right: var(--spacing-xs);
       }
       iron-icon {
-        height: 1.2em;
-        width: 1.2em;
+        height: calc(var(--line-height-normal) - 2px);
+        width: calc(var(--line-height-normal) - 2px);
       }
       .labelValueContainer:not(:first-of-type) td {
         padding-top: var(--spacing-s);

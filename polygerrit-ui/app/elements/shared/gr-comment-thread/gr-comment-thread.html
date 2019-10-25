@@ -28,6 +28,12 @@ limitations under the License.
 <dom-module id="gr-comment-thread">
   <template>
     <style include="shared-styles">
+      :host {
+        font-family: var(--font-family);
+        font-size: var(--font-size-normal);
+        font-weight: var(--font-weight-normal);
+        line-height: var(--line-height-normal);
+      }
       gr-button {
         margin-left: var(--spacing-m);
       }
@@ -37,12 +43,12 @@ limitations under the License.
       }
       #container {
         background-color: var(--comment-background-color);
-        border: 1px solid var(--border-color);
         color: var(--comment-text-color);
         display: block;
-        margin-bottom: 1px;
+        margin: 0 4px 4px 4px;
         white-space: normal;
-
+        box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+        border-radius: 4px;
         /** This is required for firefox to continue the inheritance */
         -webkit-user-select: inherit;
         -moz-user-select: inherit;

@@ -46,8 +46,8 @@ limitations under the License.
       iron-icon {
         color: inherit;
       }
-      .name {
-        font-weight: var(--font-weight-bold);
+      .status iron-icon {
+        vertical-align: top;
       }
       section {
         display: table-row;
@@ -57,16 +57,15 @@ limitations under the License.
       }
       .title {
         min-width: 10em;
-        padding: var(--spacing-m) var(--spacing-m) 0 var(--requirements-horizontal-padding);
-        vertical-align: top;
+        padding: var(--spacing-s) var(--spacing-m) 0 var(--requirements-horizontal-padding);
       }
       .value {
-        padding: var(--spacing-m) var(--spacing-m) 0 0;
-        vertical-align: middle;
+        padding: var(--spacing-s) var(--spacing-m) 0 0;
       }
       .title,
       .value {
         display: table-cell;
+        vertical-align: top;
       }
       .hidden {
         display: none;
@@ -89,7 +88,7 @@ limitations under the License.
         float: right;
       }
       .spacer {
-        height: .5em;
+        height: var(--spacing-m);
       }
     </style>
     <template

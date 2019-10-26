@@ -29,6 +29,7 @@ import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.rest.util.RestApiCallHelper;
 import com.google.gerrit.acceptance.rest.util.RestCall;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
+import com.google.gerrit.common.data.LabelFunction;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
@@ -74,6 +75,7 @@ public class ProjectsRestApiBindingsIT extends AbstractDaemonTest {
           RestCall.get("/projects/%s/branches"),
           RestCall.post("/projects/%s/branches:delete"),
           RestCall.put("/projects/%s/branches/new-branch"),
+          RestCall.get("/projects/%s/labels"),
           RestCall.get("/projects/%s/tags"),
           RestCall.post("/projects/%s/tags:delete"),
           RestCall.put("/projects/%s/tags/new-tag"),
@@ -81,7 +83,8 @@ public class ProjectsRestApiBindingsIT extends AbstractDaemonTest {
               // GET /projects/<project>/branches/<branch>/commits is not implemented
               .expectedResponseCode(SC_NOT_FOUND)
               .build(),
-          RestCall.get("/projects/%s/dashboards"));
+          RestCall.get("/projects/%s/dashboards"),
+          RestCall.put("/projects/%s/labels/new-label"));
 
   /**
    * Child project REST endpoints to be tested, each URL contains placeholders for the parent
@@ -159,6 +162,13 @@ public class ProjectsRestApiBindingsIT extends AbstractDaemonTest {
   private static final ImmutableList<RestCall> COMMIT_FILE_ENDPOINTS =
       ImmutableList.of(RestCall.get("/projects/%s/commits/%s/files/%s/content"));
 
+  /**
+   * Label REST endpoints to be tested, each URL contains placeholders for the project identifier
+   * and the label name.
+   */
+  private static final ImmutableList<RestCall> LABEL_ENDPOINTS =
+      ImmutableList.of(RestCall.get("/projects/%s/labels/%s"));
+
   private static final String FILENAME = "test.txt";
   @Inject private ProjectOperations projectOperations;
 
@@ -211,6 +221,13 @@ public class ProjectsRestApiBindingsIT extends AbstractDaemonTest {
     String commit = createAndSubmitChange(FILENAME);
     RestApiCallHelper.execute(
         adminRestSession, COMMIT_FILE_ENDPOINTS, project.get(), commit, FILENAME);
+  }
+
+  @Test
+  public void labelEndpoints() throws Exception {
+    String label = "Foo-Review";
+    configLabel(label, LabelFunction.NO_OP);
+    RestApiCallHelper.execute(adminRestSession, LABEL_ENDPOINTS, project.get(), label);
   }
 
   private String createAndSubmitChange(String filename) throws Exception {

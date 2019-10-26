@@ -1488,6 +1488,8 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
       List<String> refPatterns = label.getRefPatterns();
       if (refPatterns != null && !refPatterns.isEmpty()) {
         rc.setStringList(LABEL, name, KEY_BRANCH, refPatterns);
+      } else {
+        rc.unset(LABEL, name, KEY_BRANCH);
       }
     }
 

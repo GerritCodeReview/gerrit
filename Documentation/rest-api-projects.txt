@@ -2976,6 +2976,283 @@ requests.
   HTTP/1.1 204 No Content
 ----
 
+[[label-endpoints]]
+== Label Endpoints
+
+[[list-labels]]
+=== List Labels
+--
+'GET /projects/link:#project-name[\{project-name\}]/labels/'
+--
+
+Lists the labels that are defined in this project.
+
+The calling user must have read access to the `refs/meta/config` branch of the
+project.
+
+.Request
+----
+  GET /projects/All-Projects/labels/ HTTP/1.0
+----
+
+As result a list of link:#label-definition-info[LabelDefinitionInfo] entities
+is returned that describe the labels that are defined in this project
+(inherited labels are not returned unless the `inherited` parameter is set, see
+link:#list-with-inherited-labels[below]). The returned labels are sorted by
+label name.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  [
+    {
+      "name": "Code-Review",
+      "project": "All-Projects",
+      "function": "MaxWithBlock",
+      "values": {
+        " 0": "No score",
+        "-1": "I would prefer this is not merged as is",
+        "-2": "This shall not be merged",
+        "+1": "Looks good to me, but someone else must approve",
+        "+2": "Looks good to me, approved"
+      },
+      "default_value": 0,
+      "can_override": true,
+      "copy_min_score": true,
+      "copy_all_scores_if_no_change": true,
+      "copy_all_scores_on_trivial_rebase": true,
+      "allow_post_submit": true
+    }
+  ]
+----
+
+[[list-with-inherited-labels]]
+To include inherited labels from all parent projects the parameter `inherited`
+can be set.
+
+The calling user must have read access to the `refs/meta/config` branch of the
+project and all its parent projects.
+
+.Request
+----
+  GET /projects/My-Project/labels/?inherited HTTP/1.0
+----
+
+As result a list of link:#label-definition-info[LabelDefinitionInfo] entities
+is returned that describe the labels that are defined in this project and in
+all its parent projects. The returned labels are sorted by parent projects
+in-order from `All-Projects` through the project hierarchy to this project.
+Labels that belong to the same project are sorted by label name.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  [
+    {
+      "name": "Code-Review",
+      "project": "All-Projects",
+      "function": "MaxWithBlock",
+      "values": {
+        " 0": "No score",
+        "-1": "I would prefer this is not merged as is",
+        "-2": "This shall not be merged",
+        "+1": "Looks good to me, but someone else must approve",
+        "+2": "Looks good to me, approved"
+      },
+      "default_value": 0,
+      "can_override": true,
+      "copy_min_score": true,
+      "copy_all_scores_if_no_change": true,
+      "copy_all_scores_on_trivial_rebase": true,
+      "allow_post_submit": true
+    },
+    {
+      "name": "Foo-Review",
+      "project": "My-Project",
+      "function": "MaxWithBlock",
+      "values": {
+        " 0": "No score",
+        "-1": "I would prefer this is not merged as is",
+        "-2": "This shall not be merged",
+        "+1": "Looks good to me, but someone else must approve",
+        "+2": "Looks good to me, approved"
+      },
+      "default_value": 0,
+      "can_override": true,
+      "copy_any_score": true,
+      "allow_post_submit": true
+    }
+  ]
+----
+
+[[get-label]]
+=== Get Label
+--
+'GET /projects/link:#project-name[\{project-name\}]/labels/link:#label-name[\{label-name\}]'
+--
+
+Retrieves the definition of a label that is defined in this project.
+
+The calling user must have read access to the `refs/meta/config` branch of the
+project.
+
+.Request
+----
+  GET /projects/All-Projects/labels/Code-Review HTTP/1.0
+----
+
+As response a link:#label-definition-info[LabelDefinitionInfo] entity is
+returned that describes the label.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "name": "Code-Review",
+    "project": "All-Projects",
+    "function": "MaxWithBlock",
+    "values": {
+      " 0": "No score",
+      "-1": "I would prefer this is not merged as is",
+      "-2": "This shall not be merged",
+      "+1": "Looks good to me, but someone else must approve",
+      "+2": "Looks good to me, approved"
+    },
+    "default_value": 0,
+    "can_override": true,
+    "copy_min_score": true,
+    "copy_all_scores_if_no_change": true,
+    "copy_all_scores_on_trivial_rebase": true,
+    "allow_post_submit": true
+  }
+----
+
+[[create-label]]
+=== Create Label
+--
+'PUT /projects/link:#project-name[\{project-name\}]/labels/link:#label-name[\{label-name\}]'
+--
+
+Creates a new label definition in this project.
+
+The calling user must have write access to the `refs/meta/config` branch of the
+project.
+
+If a label with this name is already defined in this project, this label
+definition is updated (see link:#set-label[Set Label]).
+
+.Request
+----
+  PUT /projects/My-Project/labels/Foo HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+  {
+    "commit_message": "Create Foo Label",
+    "values": {
+      " 0": "No score",
+      "-1": "I would prefer this is not merged as is",
+      "-2": "This shall not be merged",
+      "+1": "Looks good to me, but someone else must approve",
+      "+2": "Looks good to me, approved"
+    }
+  }
+----
+
+As response a link:#label-definition-info[LabelDefinitionInfo] entity is
+returned that describes the created label.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "name": "Foo",
+    "project_name": "My-Project",
+    "function": "MaxWithBlock",
+    "values": {
+      " 0": "No score",
+      "-1": "I would prefer this is not merged as is",
+      "-2": "This shall not be merged",
+      "+1": "Looks good to me, but someone else must approve",
+      "+2": "Looks good to me, approved"
+    },
+    "default_value": 0,
+    "can_override": true,
+    "copy_all_scores_if_no_change": true,
+    "allow_post_submit": true
+  }
+----
+
+[[set-label]]
+=== Set Label
+--
+'PUT /projects/link:#project-name[\{project-name\}]/labels/link:#label-name[\{label-name\}]'
+--
+
+Updates the definition of a label that is defined in this project.
+
+The calling user must have write access to the `refs/meta/config` branch of the
+project.
+
+Properties which are not set in the input entity are not modified.
+
+.Request
+----
+  PUT /projects/All-Projects/labels/Code-Review HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+  {
+    "commit_message": "Ignore self approvals for Code-Review label",
+    "ignore_self_approval": true
+  }
+----
+
+As response a link:#label-definition-info[LabelDefinitionInfo] entity is
+returned that describes the updated label.
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "name": "Code-Review",
+    "project": "All-Projects",
+    "function": "MaxWithBlock",
+    "values": {
+      " 0": "No score",
+      "-1": "I would prefer this is not merged as is",
+      "-2": "This shall not be merged",
+      "+1": "Looks good to me, but someone else must approve",
+      "+2": "Looks good to me, approved"
+    },
+    "default_value": 0,
+    "can_override": true,
+    "copy_min_score": true,
+    "copy_all_scores_if_no_change": true,
+    "copy_all_scores_on_trivial_rebase": true,
+    "allow_post_submit": true,
+    "ignore_self_approval": true
+  }
+----
+
 
 [[ids]]
 == IDs
@@ -2999,6 +3276,10 @@ The ID of a dashboard in the format '<ref>:<path>'.
 
 A special dashboard ID is `default` which represents the default
 dashboard of a project.
+
+[[label-name]]
+=== \{label-name\}
+The name of a review label.
 
 [[project-name]]
 === \{project-name\}
@@ -3510,6 +3791,123 @@ The boolean value inherited from the parent. +
 Not set if there is no parent.
 |================================
 
+[[label-definition-info]]
+=== LabelDefinitionInfo
+The `LabelTypeInfo` entity describes a link:config-labels.html[
+review label].
+
+[options="header",cols="1,^2,4"]
+|=============================
+|Field Name      ||Description
+|`name`          ||
+The link:config-labels.html#label_name[name] of the label.
+|`project_name`  ||
+The name of the project in which this label is defined.
+|`function`      ||
+The link:config-labels.html#label_function[function] of the label (can be
+`MaxWithBlock`, `AnyWithBlock`, `MaxNoBlock`, `NoBlock`, `NoOp` and `PatchSetLock`.
+|`values`        ||
+The link:config-labels.html#label_value[values] of the label as a map of label
+value to value description. The label values are formatted strings, e.g. "+1"
+instead of "1", " 0" instead of "0".
+|`default_value` ||
+The link:config-labels.html#label_defaultValue[default value] of the label (as
+integer).
+|`branches`      |optional|
+A list of link:config-labels.html#label_branch[branches] for which the label
+applies. A branch can be a ref, a ref pattern or a regular expression. If not
+set, the label applies for all branches.
+|`can_override`  |`false` if not set|
+Whether this label can be link:config-labels.html#label_canOverride[overridden]
+by child projects.
+|`copy_any_score`|`false` if not set|
+Whether link:config-labels.html#label_copyAnyScore[copyAnyScore] is set on the
+label.
+|`copy_min_score`|`false` if not set|
+Whether link:config-labels.html#label_copyMinScore[copyMinScore] is set on the
+label.
+|`copy_max_score`|`false` if not set|
+Whether link:config-labels.html#label_copyMaxScore[copyMaxScore] is set on the
+label.
+|`copy_all_scores_if_no_change`|`false` if not set|
+Whether link:config-labels.html#label_copyAllScoresIfNoChange[
+copyAllScoresIfNoChange] is set on the label.
+|`copy_all_scores_if_no_code_change`|`false` if not set|
+Whether link:config-labels.html#label_copyAllScoresIfNoCodeChange[
+copyAllScoresIfNoCodeChange] is set on the label.
+|`copy_all_scores_on_trivial_rebase`|`false` if not set|
+Whether link:config-labels.html#label_copyAllScoresOnTrivialRebase[
+copyAllScoresOnTrivialRebase] is set on the label.
+|`copy_all_scores_on_merge_first_parent_update`|`false` if not set|
+Whether link:config-labels.html#label_copyAllScoresOnMergeFirstParentUpdate[
+copyAllScoresOnMergeFirstParentUpdate] is set on the label.
+|`allow_post_submit`|`false` if not set|
+Whether link:config-labels.html#label_allowPostSubmit[allowPostSubmit] is set
+on the label.
+|`ignore_self_approval`|`false` if not set|
+Whether link:config-labels.html#label_ignoreSelfApproval[ignoreSelfApproval] is
+set on the label.
+|=============================
+
+[[label-definition-input]]
+=== LabelDefinitionInput
+The `LabelTypeInput` entity describes a link:config-labels.html[
+review label].
+
+[options="header",cols="1,^2,4"]
+|=============================
+|Field Name      ||Description
+|`commit_message`|optional|
+Message that should be used to commit the change of the label in the
+`project.config` file to the `refs/meta/config` branch.
+|`name`          |optional|
+The new link:config-labels.html#label_name[name] of the label.
+|`function`      |optional|
+The new link:config-labels.html#label_function[function] of the label (can be
+`MaxWithBlock`, `AnyWithBlock`, `MaxNoBlock`, `NoBlock`, `NoOp` and `PatchSetLock`.
+|`values`        |optional|
+The new link:config-labels.html#label_value[values] of the label as a map of
+label value to value description. The label values are formatted strings, e.g.
+"+1" instead of "1", " 0" instead of "0".
+|`default_value` |optional|
+The new link:config-labels.html#label_defaultValue[default value] of the label
+(as integer).
+|`branches`      |optional|
+The new branches for which the label applies as a list of
+link:config-labels.html#label_branch[branches]. A branch can be a ref, a ref
+pattern or a regular expression. If not set, the label applies for all
+branches.
+|`can_override`  |optional|
+Whether this label can be link:config-labels.html#label_canOverride[overridden]
+by child projects.
+|`copy_any_score`|optional|
+Whether link:config-labels.html#label_copyAnyScore[copyAnyScore] is set on the
+label.
+|`copy_min_score`|optional|
+Whether link:config-labels.html#label_copyMinScore[copyMinScore] is set on the
+label.
+|`copy_max_score`|optional|
+Whether link:config-labels.html#label_copyMaxScore[copyMaxScore] is set on the
+label.
+|`copy_all_scores_if_no_change`|optional|
+Whether link:config-labels.html#label_copyAllScoresIfNoChange[
+copyAllScoresIfNoChange] is set on the label.
+|`copy_all_scores_if_no_code_change`|optional|
+Whether link:config-labels.html#label_copyAllScoresIfNoCodeChange[
+copyAllScoresIfNoCodeChange] is set on the label.
+|`copy_all_scores_on_trivial_rebase`|optional|
+Whether link:config-labels.html#label_copyAllScoresOnTrivialRebase[
+copyAllScoresOnTrivialRebase] is set on the label.
+|`copy_all_scores_on_merge_first_parent_update`|optional|
+Whether link:config-labels.html#label_copyAllScoresOnMergeFirstParentUpdate[
+copyAllScoresOnMergeFirstParentUpdate] is set on the label.
+|`allow_post_submit`|optional|
+Whether link:config-labels.html#label_allowPostSubmit[allowPostSubmit] is set
+on the label.
+|`ignore_self_approval`|optional|
+Whether link:config-labels.html#label_ignoreSelfApproval[ignoreSelfApproval] is
+set on the label.
+|=============================
 
 [[label-type-info]]
 === LabelTypeInfo

@@ -28,5 +28,6 @@ public class Module extends FactoryModule {
     factory(ChildProjectApiImpl.Factory.class);
     factory(CommitApiImpl.Factory.class);
     factory(DashboardApiImpl.Factory.class);
+    factory(LabelApiImpl.Factory.class);
   }
 }

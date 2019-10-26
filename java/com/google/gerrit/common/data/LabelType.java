@@ -157,6 +157,10 @@ public class LabelType {
     return name;
   }
 
+  public void setName(String name) {
+    this.name = checkName(name);
+  }
+
   public boolean matches(PatchSetApproval psa) {
     return psa.labelId().get().equalsIgnoreCase(name);
   }
@@ -173,6 +177,7 @@ public class LabelType {
     return canOverride;
   }
 
+  @Nullable
   public List<String> getRefPatterns() {
     return refPatterns;
   }
@@ -198,7 +203,7 @@ public class LabelType {
   }
 
   public void setRefPatterns(List<String> refPatterns) {
-    if (refPatterns != null) {
+    if (refPatterns != null && !refPatterns.isEmpty()) {
       this.refPatterns =
           refPatterns.stream().collect(collectingAndThen(toList(), Collections::unmodifiableList));
     } else {
@@ -208,6 +213,10 @@ public class LabelType {
 
   public List<LabelValue> getValues() {
     return values;
+  }
+
+  public void setValues(List<LabelValue> values) {
+    this.values = sortValues(values);
   }
 
   public LabelValue getMin() {

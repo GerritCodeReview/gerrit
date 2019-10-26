@@ -37,6 +37,7 @@ import com.google.gerrit.extensions.api.projects.DeleteTagsInput;
 import com.google.gerrit.extensions.api.projects.DescriptionInput;
 import com.google.gerrit.extensions.api.projects.HeadInput;
 import com.google.gerrit.extensions.api.projects.IndexProjectInput;
+import com.google.gerrit.extensions.api.projects.LabelApi;
 import com.google.gerrit.extensions.api.projects.ParentInput;
 import com.google.gerrit.extensions.api.projects.ProjectApi;
 import com.google.gerrit.extensions.api.projects.ProjectInput;
@@ -44,6 +45,7 @@ import com.google.gerrit.extensions.api.projects.TagApi;
 import com.google.gerrit.extensions.api.projects.TagInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.Input;
+import com.google.gerrit.extensions.common.LabelDefinitionInfo;
 import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.IdString;
@@ -73,6 +75,7 @@ import com.google.gerrit.server.restapi.project.Index;
 import com.google.gerrit.server.restapi.project.IndexChanges;
 import com.google.gerrit.server.restapi.project.ListBranches;
 import com.google.gerrit.server.restapi.project.ListDashboards;
+import com.google.gerrit.server.restapi.project.ListLabels;
 import com.google.gerrit.server.restapi.project.ListTags;
 import com.google.gerrit.server.restapi.project.ProjectsCollection;
 import com.google.gerrit.server.restapi.project.PutConfig;
@@ -127,6 +130,8 @@ public class ProjectApiImpl implements ProjectApi {
   private final SetParent setParent;
   private final Index index;
   private final IndexChanges indexChanges;
+  private final Provider<ListLabels> listLabels;
+  private final LabelApiImpl.Factory labelApi;
 
   @AssistedInject
   ProjectApiImpl(
@@ -162,6 +167,8 @@ public class ProjectApiImpl implements ProjectApi {
       SetParent setParent,
       Index index,
       IndexChanges indexChanges,
+      Provider<ListLabels> listLabels,
+      LabelApiImpl.Factory labelApi,
       @Assisted ProjectResource project) {
     this(
         permissionBackend,
@@ -197,6 +204,8 @@ public class ProjectApiImpl implements ProjectApi {
         setParent,
         index,
         indexChanges,
+        listLabels,
+        labelApi,
         null);
   }
 
@@ -234,6 +243,8 @@ public class ProjectApiImpl implements ProjectApi {
       SetParent setParent,
       Index index,
       IndexChanges indexChanges,
+      Provider<ListLabels> listLabels,
+      LabelApiImpl.Factory labelApi,
       @Assisted String name) {
     this(
         permissionBackend,
@@ -269,6 +280,8 @@ public class ProjectApiImpl implements ProjectApi {
         setParent,
         index,
         indexChanges,
+        listLabels,
+        labelApi,
         name);
   }
 
@@ -306,6 +319,8 @@ public class ProjectApiImpl implements ProjectApi {
       SetParent setParent,
       Index index,
       IndexChanges indexChanges,
+      Provider<ListLabels> listLabels,
+      LabelApiImpl.Factory labelApi,
       String name) {
     this.permissionBackend = permissionBackend;
     this.createProject = createProject;
@@ -341,6 +356,8 @@ public class ProjectApiImpl implements ProjectApi {
     this.name = name;
     this.index = index;
     this.indexChanges = indexChanges;
+    this.listLabels = listLabels;
+    this.labelApi = labelApi;
   }
 
   @Override
@@ -671,5 +688,28 @@ public class ProjectApiImpl implements ProjectApi {
       throw new ResourceNotFoundException(name);
     }
     return project;
+  }
+
+  @Override
+  public ListLabelsRequest labels() {
+    return new ListLabelsRequest() {
+      @Override
+      public List<LabelDefinitionInfo> get() throws RestApiException {
+        try {
+          return listLabels.get().withInherited(inherited).apply(checkExists()).value();
+        } catch (Exception e) {
+          throw asRestApiException("Cannot list labels", e);
+        }
+      }
+    };
+  }
+
+  @Override
+  public LabelApi label(String labelName) throws RestApiException {
+    try {
+      return labelApi.create(checkExists(), labelName);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot parse label", e);
+    }
   }
 }

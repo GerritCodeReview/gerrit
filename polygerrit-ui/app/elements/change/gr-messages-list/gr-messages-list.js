@@ -354,7 +354,7 @@
         if (!labels[key] || !labels[key].values) { continue; }
         const values = Object.keys(labels[key].values)
             .map(v => parseInt(v, 10));
-        values.sort();
+        values.sort((a, b) => a - b);
         if (!values.length) { continue; }
         extremes[key] = {min: values[0], max: values[values.length - 1]};
       }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c525fc60_8aceef6a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-10-26T02:16:45Z",
+      "side": 1,
+      "message": "On a related note, I was trying to get bazel to build the jgit submodule with error prone enabled but couldn\u0027t get it working.\n\nAny ideas?",
+      "range": {
+        "startLine": 12,
+        "startChar": 12,
+        "endLine": 12,
+        "endChar": 24
+      },
+      "revId": "87ff58c19e4091e0ba56c626025c75e3404fecce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

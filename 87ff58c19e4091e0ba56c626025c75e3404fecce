@@ -46,6 +46,30 @@
       "revId": "87ff58c19e4091e0ba56c626025c75e3404fecce",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8d3d948c_b01565f6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-10-27T23:21:04Z",
+      "side": 1,
+      "message": "I also tried the same solution. We can fix this in a separate commit though, it doesn\u0027t need to be resolved with this one.",
+      "parentUuid": "3e4da2fa_196002f7",
+      "range": {
+        "startLine": 12,
+        "startChar": 12,
+        "endLine": 12,
+        "endChar": 24
+      },
+      "revId": "87ff58c19e4091e0ba56c626025c75e3404fecce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

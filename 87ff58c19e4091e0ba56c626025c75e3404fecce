@@ -22,6 +22,30 @@
       "revId": "87ff58c19e4091e0ba56c626025c75e3404fecce",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3e4da2fa_196002f7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-10-27T20:44:16Z",
+      "side": 1,
+      "message": "\u003e On a related note, I was trying to get bazel to build the jgit submodule with error prone enabled but couldn\u0027t get it working.\n\u003e \n\u003e Any ideas?\n\nI tried adding this line below to [1] locally, but unsure if it has any effect. After checking 6a39da37f out under ./modules/jgit, to revert these few errorprone fixes in jgit, I notice no errorprone warning in my console. However they do show when building directly under ./modules/jgit. Maybe somebody else can try this out or otherwise?\n\n[1] diff --git a/tools/BUILD b/tools/BUILD\nindex 208a7fc..96612a4 100644\n--- a/tools/BUILD\n+++ b/tools/BUILD\n@@ -118,6 +118,7 @@ package_group(\n     packages \u003d [\n         \"//java/...\",\n         \"//javatests/...\",\n+        \"//modules/jgit/org.eclipse.jgit/src/...\",\n         \"//plugins/codemirror-editor/...\",\n         \"//plugins/commit-message-length-validator/...\",\n         \"//plugins/delete-project/...\",",
+      "parentUuid": "c525fc60_8aceef6a",
+      "range": {
+        "startLine": 12,
+        "startChar": 12,
+        "endLine": 12,
+        "endChar": 24
+      },
+      "revId": "87ff58c19e4091e0ba56c626025c75e3404fecce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

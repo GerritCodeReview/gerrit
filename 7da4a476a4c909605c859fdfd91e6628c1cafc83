@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "8e0dbd3f_ffd478cc",
+        "filename": "Documentation/config-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-28T15:35:18Z",
+      "side": 1,
+      "message": "Good point. I\u0027ve added this to the criteria list that is added by [1].\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/242690",
+      "parentUuid": "b796afe5_068857d8",
+      "range": {
+        "startLine": 27,
+        "startChar": 28,
+        "endLine": 29,
+        "endChar": 7
+      },
+      "revId": "7da4a476a4c909605c859fdfd91e6628c1cafc83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ae4d0a80_7b018345",
         "filename": "Documentation/config-plugins.txt",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "67508cfe_199420c4",
+        "filename": "Documentation/config-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-28T15:35:18Z",
+      "side": 1,
+      "message": "Yes, I would address this as part of issue 11635 (\"Document process for making a plugin a core plugin\"). One step of that process should be the creation of a component in the issue tracker. I added a comment to the issue, so that this won\u0027t be forgotten.",
+      "parentUuid": "ae4d0a80_7b018345",
+      "range": {
+        "startLine": 38,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 15
+      },
+      "revId": "7da4a476a4c909605c859fdfd91e6628c1cafc83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2683b344_5682c429",
         "filename": "Documentation/config-plugins.txt",
         "patchSetId": 1
@@ -59,6 +107,30 @@
       "writtenOn": "2019-10-28T15:12:02Z",
       "side": 1,
       "message": "I would appreciate it, if core plugins must even have a more concrete contact channel for communication, either an individual maintainer or a group of maintainer or at least a mailing list that you can write to. WDYT?",
+      "range": {
+        "startLine": 43,
+        "startChar": 35,
+        "endLine": 44,
+        "endChar": 51
+      },
+      "revId": "7da4a476a4c909605c859fdfd91e6628c1cafc83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "831b13b4_c374c4d6",
+        "filename": "Documentation/config-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-28T15:35:18Z",
+      "side": 1,
+      "message": "I wouldn\u0027t do this right now, but we can still consider this. Do you want to file a Community issue to discuss this further?\n\nAt the moment a core plugin means, that the plugin is maintained by all of Gerrit maintainers, the same way as any other functionality in Gerrit core.\n\nFor me having dedicated persons which take care of a core plugin, would be similar to having owners for certain components in Gerrit core (e.g. an owner/contact person for the group system). I\u0027m not sure we want to go this way, but if we do I would not limit this to core plugins.",
+      "parentUuid": "2683b344_5682c429",
       "range": {
         "startLine": 43,
         "startChar": 35,

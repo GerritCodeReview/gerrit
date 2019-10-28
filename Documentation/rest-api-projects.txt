@@ -3269,7 +3269,7 @@ DeleteLabelInput] entity if no commit message is specified.
 
 .Request
 ----
-  Delete /projects/My-Project/labels/Foo-Review HTTP/1.0
+  DELETE /projects/My-Project/labels/Foo-Review HTTP/1.0
   Content-Type: application/json; charset=UTF-8
 
   {

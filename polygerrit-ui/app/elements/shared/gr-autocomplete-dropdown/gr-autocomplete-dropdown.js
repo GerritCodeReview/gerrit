@@ -144,7 +144,7 @@
         selected = selected.parentElement;
       }
       this.fire('item-selected', {
-        trigger: 'tap',
+        trigger: 'click',
         selected,
       });
     },

@@ -16,6 +16,24 @@
       "revId": "e3eea3b076fc0ddc545b20bcbeb956de66ca94b3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "827eba2c_4d1a3001",
+        "filename": "polygerrit-ui/app/styles/shared-styles.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-28T07:57:43Z",
+      "side": 0,
+      "message": "Yes, I am aware of this potential breakage, but I could not find any issue.",
+      "parentUuid": "f012106b_3bad7804",
+      "revId": "e3eea3b076fc0ddc545b20bcbeb956de66ca94b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

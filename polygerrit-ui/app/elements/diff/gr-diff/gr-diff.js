@@ -484,11 +484,12 @@
       return classes.join(' ');
     },
 
-    _handleTap(e) {
+    _handleClick(e) {
       const el = Polymer.dom(e).localTarget;
 
       if (el.classList.contains('showContext')) {
-        this.$.diffBuilder.showContext(e.detail.groups, e.detail.section);
+        this.$.diffBuilder.showContext(e.diffDetail.groups,
+            e.diffDetail.section);
       } else if (el.classList.contains('lineNum')) {
         this.addDraftAtLine(el);
       } else if (el.tagName === 'HL' ||

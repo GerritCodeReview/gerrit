@@ -288,8 +288,8 @@
 
     Polymer.dom(button).textContent = text;
 
-    button.addEventListener('tap', e => {
-      e.detail = {
+    button.addEventListener('click', e => {
+      e.diffDetail = {
         groups,
         section,
       };

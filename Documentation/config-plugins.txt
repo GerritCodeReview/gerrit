@@ -58,6 +58,47 @@ Note that the documentation and configuration links in the list below are
 to the plugins' master branch. Please refer to the appropriate branch or
 revision for the Gerrit version you are using.
 
+[[core-plugins-criteria]]
+=== Criteria for Core Plugins
+
+To be considered as a core plugin, a plugin must fulfill the following
+criteria:
+
+1. License:
++
+The plugin code is available under the
+link:http://www.apache.org/licenses/LICENSE-2.0[Apache License Version 2.0].
+
+2. Hosting:
++
+The plugin development is hosted on the
+link:https://gerrit-review.googlesource.com[gerrit-review] Gerrit Server.
+
+3. Relevance:
++
+Multiple parties use the plugin and agree that it should be offered as core
+plugin.
+
+4. Scope:
++
+The plugin functionality is Gerrit-related, has a clear scope and does not
+conflict with existing and planned Gerrit core features.
+
+5. Code Quality:
++
+The plugin code is mature and has a good test coverage. Maintaining the plugin
+code creates only little overhead for the Gerrit maintainers.
+
+6. Documentation:
++
+The plugin functionality is fully documented.
+
+7. Ownership:
++
+Existing plugin owners which are not Gerrit maintainers must agree to give up
+their ownership. If the current plugin owners disagree, forking the plugin is
+possible, but this should happen only in exceptional cases.
+
 [[codemirror-editor]]
 === codemirror-editor
 

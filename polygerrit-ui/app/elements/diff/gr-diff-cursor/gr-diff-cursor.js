@@ -304,7 +304,7 @@
     },
 
     _rowHasThread(row) {
-      return row.querySelector('.comment-thread');
+      return row.querySelector('.thread-group');
     },
 
     /**

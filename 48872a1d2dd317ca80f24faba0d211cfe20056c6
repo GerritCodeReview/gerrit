@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1c9eb040_4a672788",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-10-28T08:58:05Z",
+      "side": 1,
+      "message": "Those are a lot of changes in one. Can we get before after screenshots as comments?",
+      "revId": "48872a1d2dd317ca80f24faba0d211cfe20056c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

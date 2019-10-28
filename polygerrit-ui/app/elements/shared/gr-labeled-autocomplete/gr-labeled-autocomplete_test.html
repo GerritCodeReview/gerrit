@@ -49,7 +49,7 @@ limitations under the License.
       const e = {stopPropagation: () => undefined};
       sandbox.stub(e, 'stopPropagation');
       sandbox.stub(element.$.autocomplete, 'focus');
-      element._handleTriggerTap(e);
+      element._handleTriggerClick(e);
       assert.isTrue(e.stopPropagation.calledOnce);
       assert.isTrue(element.$.autocomplete.focus.calledOnce);
     });

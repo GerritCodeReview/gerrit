@@ -135,7 +135,7 @@
       this.close();
     },
 
-    _handleTapItem(e) {
+    _handleClickItem(e) {
       e.preventDefault();
       e.stopPropagation();
       let selected = e.target;
@@ -144,7 +144,7 @@
         selected = selected.parentElement;
       }
       this.fire('item-selected', {
-        trigger: 'tap',
+        trigger: 'click',
         selected,
       });
     },

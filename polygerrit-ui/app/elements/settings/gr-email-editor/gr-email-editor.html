@@ -62,7 +62,7 @@ limitations under the License.
           <template is="dom-repeat" items="[[_emails]]">
             <tr>
               <td class="emailColumn">[[item.email]]</td>
-              <td class="preferredControl" on-tap="_handlePreferredControlTap">
+              <td class="preferredControl" on-click="_handlePreferredControlClick">
                 <iron-input
                     class="preferredRadio"
                     type="radio"

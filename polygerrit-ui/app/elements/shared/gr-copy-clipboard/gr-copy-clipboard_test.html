@@ -65,7 +65,7 @@ limitations under the License.
           element.$$('.copyToClipboard'));
     });
 
-    test('_handleInputTap', () => {
+    test('_handleInputClick', () => {
       const inputElement = element.$$('input');
       MockInteractions.tap(inputElement);
       assert.equal(inputElement.selectionStart, 0);

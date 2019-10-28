@@ -136,7 +136,7 @@
       this.$.parentInput.focus();
     },
 
-    _handleEnterChangeNumberTap() {
+    _handleEnterChangeNumberClick() {
       this.$.rebaseOnOtherInput.checked = true;
     },
 

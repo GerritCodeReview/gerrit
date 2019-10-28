@@ -169,7 +169,7 @@
       this.hasUnsavedChanges = true;
     },
 
-    _handleNotifCellTap(e) {
+    _handleNotifCellClick(e) {
       const checkbox = Polymer.dom(e.target).querySelector('input');
       if (checkbox) { checkbox.click(); }
     },

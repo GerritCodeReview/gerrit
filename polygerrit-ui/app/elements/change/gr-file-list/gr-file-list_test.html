@@ -817,7 +817,7 @@ limitations under the License.
       assert.isTrue(commitReviewLabel.classList.contains('isReviewed'));
       assert.equal(markReviewLabel.textContent, 'MARK UNREVIEWED');
 
-      const tapSpy = sandbox.spy(element, '_handleFileListTap');
+      const tapSpy = sandbox.spy(element, '_handleFileListClick');
       MockInteractions.tap(markReviewLabel);
       assert.isTrue(saveStub.lastCall.calledWithExactly('/COMMIT_MSG', false));
       assert.isFalse(commitReviewLabel.classList.contains('isReviewed'));
@@ -836,7 +836,7 @@ limitations under the License.
       assert.equal(element._computeFileStatusLabel('M'), 'Modified');
     });
 
-    test('_handleFileListTap', () => {
+    test('_handleFileListClick', () => {
       element._filesByPath = {
         '/COMMIT_MSG': {},
         'f1.txt': {},
@@ -848,7 +848,7 @@ limitations under the License.
         patchNum: '2',
       };
 
-      const tapSpy = sandbox.spy(element, '_handleFileListTap');
+      const tapSpy = sandbox.spy(element, '_handleFileListClick');
       const reviewStub = sandbox.stub(element, '_reviewFile');
       const toggleExpandSpy = sandbox.spy(element, '_togglePathExpanded');
 
@@ -877,7 +877,7 @@ limitations under the License.
       assert.isTrue(reviewStub.calledOnce);
     });
 
-    test('_handleFileListTap editMode', () => {
+    test('_handleFileListClick editMode', () => {
       element._filesByPath = {
         '/COMMIT_MSG': {},
         'f1.txt': {},
@@ -890,10 +890,10 @@ limitations under the License.
       };
       element.editMode = true;
       flushAsynchronousOperations();
-      const tapSpy = sandbox.spy(element, '_handleFileListTap');
+      const tapSpy = sandbox.spy(element, '_handleFileListClick');
       const toggleExpandSpy = sandbox.spy(element, '_togglePathExpanded');
 
-      // Tap the edit controls. Should be ignored by _handleFileListTap.
+      // Tap the edit controls. Should be ignored by _handleFileListClick.
       MockInteractions.tap(element.$$('.editFileControls'));
       assert.isTrue(tapSpy.calledOnce);
       assert.isFalse(toggleExpandSpy.called);

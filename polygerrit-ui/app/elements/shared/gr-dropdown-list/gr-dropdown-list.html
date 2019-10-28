@@ -46,7 +46,7 @@ limitations under the License.
         background-color: var(--dropdown-background-color);
         box-shadow: 0 1px 5px rgba(0, 0, 0, .3);
         max-height: 70vh;
-        margin-top: 2em;
+        margin-top: var(--spacing-xxl);
         min-width: 266px;
         @apply --dropdown-content-style;
       }
@@ -58,7 +58,7 @@ limitations under the License.
       paper-item {
         cursor: pointer;
         flex-direction: column;
-        font-size: var(--font-size-normal);
+        font-size: inherit;
         --paper-item: {
           min-height: 0;
           padding: 10px 16px;
@@ -78,20 +78,10 @@ limitations under the License.
       }
       .bottomContent {
         color: var(--deemphasized-text-color);
-        /*
-         * Should be 16px when the base font size is 13px (browser default of
-         * 16px.
-         */
-        line-height: 1.37rem;
       }
       .bottomContent,
       .topContent {
         display: flex;
-        /*
-         * Should be 16px when the base font size is 13px (browser default of
-         * 16px.
-         */
-        line-height: 1.37rem;
         justify-content: space-between;
         flex-direction: row;
         width: 100%;
@@ -103,7 +93,7 @@ limitations under the License.
       }
       gr-date-formatter {
         color: var(--deemphasized-text-color);
-        margin-left: 2em;
+        margin-left: var(--spacing-xxl);
         white-space: nowrap;
       }
       gr-select {

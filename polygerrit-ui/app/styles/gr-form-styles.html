@@ -27,18 +27,18 @@ limitations under the License.
       }
       .gr-form-styles h1,
       .gr-form-styles h2 {
-        margin-bottom: .3em;
+        margin-bottom: var(--spacing-s);
       }
       .gr-form-styles h4 {
         font-weight: var(--font-weight-bold);
       }
       .gr-form-styles fieldset {
         border: none;
-        margin-bottom: 2em;
+        margin-bottom: var(--spacing-xxl);
       }
       .gr-form-styles section {
         display: flex;
-        margin: .25em 0;
+        margin: var(--spacing-s) 0;
         min-height: 2em;
       }
       .gr-form-styles section * {
@@ -51,11 +51,8 @@ limitations under the License.
       .gr-form-styles .title {
         color: var(--deemphasized-text-color);
         font-weight: var(--font-weight-bold);
-        padding-right: .5em;
+        padding-right: var(--spacing-m);
         width: 15em;
-      }
-      .gr-form-styles iron-autogrow-textarea {
-        font-size: var(--font-size-normal);
       }
       .gr-form-styles th {
         color: var(--deemphasized-text-color);
@@ -65,7 +62,7 @@ limitations under the License.
       .gr-form-styles td,
       .gr-form-styles tfoot th {
         height: 2em;
-        padding: .25em 0;
+        padding: var(--spacing-s) 0;
         vertical-align: middle;
       }
       .gr-form-styles .emptyHeader {
@@ -87,9 +84,8 @@ limitations under the License.
       .gr-form-styles textarea {
         border: 1px solid var(--border-color);
         border-radius: 2px;
-        font-size: var(--font-size-normal);
         height: 2em;
-        padding: 0 .15em;
+        padding: 0 var(--spacing-xs);
       }
       .gr-form-styles td:last-child {
         width: 5em;
@@ -106,8 +102,7 @@ limitations under the License.
           border: 1px solid var(--border-color);
           border-radius: 2px;
           box-sizing: border-box;
-          font-size: var(--font-size-normal);
-          padding: .25em .15em 0 .15em;
+          padding: var(--spacing-s) var(--spacing-xs) 0 var(--spacing-xs);
         }
       }
       .gr-form-styles gr-autocomplete {
@@ -115,15 +110,14 @@ limitations under the License.
         --gr-autocomplete: {
           border: 1px solid var(--border-color);
           border-radius: 2px;
-          font-size: var(--font-size-normal);
           height: 2em;
-          padding: 0 .15em;
+          padding: 0 var(--spacing-xs);
           width: 14em;
         }
       }
       @media only screen and (max-width: 40em) {
         .gr-form-styles section {
-          margin-bottom: 1em;
+          margin-bottom: var(--spacing-l);
         }
         .gr-form-styles .title,
         .gr-form-styles .value {

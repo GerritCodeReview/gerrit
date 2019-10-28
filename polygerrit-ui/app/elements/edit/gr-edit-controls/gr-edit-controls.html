@@ -43,7 +43,7 @@ limitations under the License.
         display: none;
       }
       gr-button {
-        margin-left: 1em;
+        margin-left: var(--spacing-l);
         text-decoration: none;
       }
       gr-dialog {
@@ -59,18 +59,16 @@ limitations under the License.
         --gr-autocomplete: {
           border: 1px solid var(--border-color);
           border-radius: 2px;
-          font-size: var(--font-size-normal);
           height: 2em;
-          padding: 0 .15em;
+          padding: 0 var(--spacing-xs);
         }
       }
       input {
         border: 1px solid var(--border-color);
         border-radius: 2px;
-        font-size: var(--font-size-normal);
         height: 2em;
-        margin: .5em 0;
-        padding: 0 .15em;
+        margin: var(--spacing-m) 0;
+        padding: 0 var(--spacing-xs);
         width: 100%;
       }
       @media screen and (max-width: 50em) {

@@ -24,7 +24,7 @@ limitations under the License.
       }
       .genericList td {
         height: 2.25rem;
-        padding: .3rem 0;
+        padding: var(--spacing-s) 0;
         vertical-align: middle;
       }
       .genericList tr {
@@ -38,11 +38,11 @@ limitations under the License.
       }
       .genericList th,
       .genericList td {
-        padding-right: 1rem;
+        padding-right: var(--spacing-l);
       }
       .genericList tr th:first-of-type,
       .genericList tr td:first-of-type {
-        padding-left: 1rem;
+        padding-left: var(--spacing-l);
       }
       .genericList tr:first-of-type {
         border-top: 1px solid var(--border-color);
@@ -51,7 +51,7 @@ limitations under the License.
       .genericList tr td:last-of-type {
         border-left: 1px solid var(--border-color);
         text-align: center;
-        padding: 0 1em;
+        padding: 0 var(--spacing-l);
       }
       .genericList tr th.delete,
       .genericList tr td.delete,
@@ -78,7 +78,7 @@ limitations under the License.
       }
       .genericList .groupHeader {
         background-color: var(--table-subheader-background-color);
-        font-size: var(--font-size-large);
+        font-size: var(--font-size-h3);
       }
       .genericList a {
         color: var(--primary-text-color);
@@ -93,7 +93,7 @@ limitations under the License.
       .genericList .loadingMsg {
         color: var(--deemphasized-text-color);
         display: block;
-        padding: .3em var(--default-horizontal-margin);
+        padding: var(--spacing-s) var(--spacing-l);
       }
       .genericList .loadingMsg:not(.loading) {
         display: none;

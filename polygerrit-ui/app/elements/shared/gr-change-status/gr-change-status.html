@@ -27,9 +27,7 @@ limitations under the License.
       .chip {
         border-radius: 4px;
         background-color: var(--chip-background-color);
-        font-family: var(--font-family);
-        font-size: var(--font-size-normal);
-        padding: .1em .5em;
+        padding: var(--spacing-xxs) var(--spacing-m);
         white-space: nowrap;
       }
       :host(.merged) .chip {
@@ -66,7 +64,7 @@ limitations under the License.
       }
       :host([flat]) .chip {
         background-color: transparent;
-        padding: .1em;
+        padding: var(--spacing-xxs);
       }
       :host(:not([flat])) .chip {
         color: white;

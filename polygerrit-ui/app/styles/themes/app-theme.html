@@ -74,15 +74,29 @@ html {
 
   /* fonts */
   --font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
-  --font-size-normal: 1rem;
-  --font-size-small: .92rem;
-  --font-size-large: 1.154rem;
-    /* Used on text for change list that needs user's attention. */
-  --font-weight-bold: 500;
   --monospace-font-family: 'Roboto Mono', Menlo, 'Lucida Console', Monaco, monospace;
+  --font-size-small: .92rem; /* 12px */
+  --font-size-normal: 1rem;  /* 13px */
+  --font-size-h3: 1.154rem;  /* 15px */
+  --font-size-h2: 1.5rem;    /* 19.5px */
+  --font-size-h1: 2rem;      /* 26px */
+  --line-height-mono: 16px;
+  --line-height-small: 1.4;  /* 16.8px */
+  --line-height-normal: 1.4; /* 18.2px */
+  --line-height-h3: 1.4;     /* 21.0px */
+  --line-height-h2: 1.4;     /* 27.3px */
+  --line-height-h1: 1.4;     /* 36.4px */
+  --font-weight-normal: 400;
+  --font-weight-bold: 500;
 
   /* spacing */
-  --default-horizontal-margin: 1rem;
+  --spacing-xxs: 1px;
+  --spacing-xs: 2px;
+  --spacing-s: 4px;
+  --spacing-m: 8px;
+  --spacing-l: 12px;
+  --spacing-xl: 16px;
+  --spacing-xxl: 24px;
 
   /* header and footer */
   --footer-background-color: #eee;
@@ -150,7 +164,13 @@ html {
 }
 @media screen and (max-width: 50em) {
   html {
-    --default-horizontal-margin: .7rem;
+    --spacing-xxs: 1px;
+    --spacing-xs: 1px;
+    --spacing-s: 2px;
+    --spacing-m: 4px;
+    --spacing-l: 8px;
+    --spacing-xl: 12px;
+    --spacing-xxl: 16px;
   }
 }
 </style></custom-style>

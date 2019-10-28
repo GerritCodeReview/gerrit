@@ -17,9 +17,6 @@ limitations under the License.
 <dom-module id="gr-change-list-styles">
   <template>
     <style>
-      :host {
-        font-size: var(--font-size-normal);
-      }
       gr-change-list-item,
       tr {
         border-top: 1px solid var(--border-color);
@@ -123,7 +120,7 @@ limitations under the License.
         vertical-align: middle;
       }
       .leftPadding {
-        width: var(--default-horizontal-margin);
+        width: var(--spacing-l);
       }
       .star {
         width: 30px;
@@ -165,12 +162,12 @@ limitations under the License.
       }
       @media only screen and (max-width: 50em) {
         :host {
-          font-size: var(--font-size-large);
+          font-size: var(--font-size-h3);
         }
         gr-change-list-item {
           flex-wrap: wrap;
           justify-content: space-between;
-          padding: .25em .5em;
+          padding: var(--spacing-xs) var(--spacing-m);
         }
         gr-change-list-item[selected],
         gr-change-list-item:focus {
@@ -199,10 +196,10 @@ limitations under the License.
         }
         .groupHeader .cell,
         .noChanges .cell {
-          padding: 0 .5em;
+          padding: 0 var(--spacing-m);
         }
         .subject {
-          margin-bottom: .25em;
+          margin-bottom: var(--spacing-xs);
           width: calc(100% - 2em);
         }
         .owner,
@@ -212,11 +209,6 @@ limitations under the License.
         .noChanges .cell {
           display: block;
           height: auto;
-        }
-      }
-      @media only screen and (min-width: 1450px) {
-        :host {
-          font-size: 14px;
         }
       }
     </style>

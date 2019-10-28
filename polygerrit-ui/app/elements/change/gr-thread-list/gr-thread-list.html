@@ -26,11 +26,11 @@ limitations under the License.
       #threads {
         display: block;
         min-height: 20rem;
-        padding: 1rem;
+        padding: var(--spacing-l);
       }
       gr-comment-thread {
         display: block;
-        margin-bottom: .5rem;
+        margin-bottom: var(--spacing-m);
         max-width: 80ch;
       }
       .header {
@@ -41,7 +41,7 @@ limitations under the License.
         display: flex;
         justify-content: left;
         min-height: 3.2em;
-        padding: .5em var(--default-horizontal-margin);
+        padding: var(--spacing-m) var(--spacing-l);
       }
       .toggleItem.draftToggle {
         display: none;
@@ -52,7 +52,7 @@ limitations under the License.
       .toggleItem {
         align-items: center;
         display: flex;
-        margin-right: 1rem;
+        margin-right: var(--spacing-l);
       }
       .draftsOnly:not(.unresolvedOnly) gr-comment-thread[has-draft],
       .unresolvedOnly:not(.draftsOnly) gr-comment-thread[unresolved],

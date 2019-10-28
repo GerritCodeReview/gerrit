@@ -18,13 +18,13 @@ limitations under the License.
   <template>
     <style>
       .navStyles ul {
-        padding: 1em 0;
+        padding: var(--spacing-l) 0;
       }
       .navStyles li {
         border-bottom: 1px solid transparent;
         border-top: 1px solid transparent;
         display: block;
-        padding: 0 calc(var(--default-horizontal-margin) + 0.5em);
+        padding: 0 var(--spacing-xl);
       }
       .navStyles li a {
         display: block;
@@ -33,20 +33,20 @@ limitations under the License.
         white-space: nowrap;
       }
       .navStyles .subsectionItem {
-        padding-left: calc(var(--default-horizontal-margin) + 1.5em);
+        padding-left: var(--spacing-xxl);
       }
       .navStyles .hideSubsection {
         display: none;
       }
       .navStyles li.sectionTitle {
-        padding: 0 2em 0 var(--default-horizontal-margin);
+        padding: 0 var(--spacing-xxl) 0 var(--spacing-l);
       }
       .navStyles li.sectionTitle:not(:first-child) {
-        margin-top: 1em;
+        margin-top: var(--spacing-l);
       }
       .navStyles .title {
         font-weight: var(--font-weight-bold);
-        margin: .4em 0;
+        margin: var(--spacing-s) 0;
       }
       .navStyles .selected {
         background-color: var(--view-background-color);
@@ -57,7 +57,7 @@ limitations under the License.
       .navStyles a {
         color: var(--primary-text-color);
         display: inline-block;
-        margin: .4em 0;
+        margin: var(--spacing-s) 0;
       }
     </style>
   </template>

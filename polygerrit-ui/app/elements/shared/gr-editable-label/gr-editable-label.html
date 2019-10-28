@@ -36,9 +36,6 @@ limitations under the License.
       label {
         width: 100%;
       }
-      input {
-        font: inherit;
-      }
       label {
         color: var(--deemphasized-text-color);
         display: inline-block;
@@ -57,17 +54,17 @@ limitations under the License.
       }
       .inputContainer {
         background-color: var(--dialog-background-color);
-        padding: .8em;
+        padding: var(--spacing-m);
         @apply --input-style;
       }
       .buttons {
         display: flex;
         justify-content: flex-end;
-        padding-top: 1.2em;
+        padding-top: var(--spacing-l);
         width: 100%;
       }
       .buttons gr-button {
-        margin-left: .5em;
+        margin-left: var(--spacing-m);
       }
       paper-input {
         --paper-input-container: {
@@ -75,7 +72,7 @@ limitations under the License.
           min-width: 15em;
         }
         --paper-input-container-input: {
-          font-size: var(--font-size-normal);
+          font-size: inherit;
         }
         --paper-input-container-focus-color: var(--link-color);
       }

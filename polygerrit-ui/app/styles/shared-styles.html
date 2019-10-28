@@ -17,7 +17,9 @@ limitations under the License.
 <dom-module id="shared-styles">
   <template>
     <style>
+
       /* CSS reset */
+
       html, body, button, div, span, applet, object, iframe, h1, h2, h3,
       h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite,
       code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub,
@@ -55,9 +57,6 @@ limitations under the License.
       button {
         font: inherit;
       }
-      body {
-        line-height: 1;
-      }
       ol, ul {
         list-style: none;
       }
@@ -73,25 +72,42 @@ limitations under the License.
         border-collapse: collapse;
         border-spacing: 0;
       }
-      /* Other Shared Styles*/
-      h1 {
-        font-size: 2rem;
-        font-weight: var(--font-weight-bold);
+
+      /* Fonts */
+
+      .font-normal {
+        font-size: var(--font-size-normal);
+        font-weight: var(--font-weight-normal);
+        line-height: var(--line-height-normal);
       }
-      h2 {
-        font-size: 1.5rem;
-        font-weight: var(--font-weight-bold);
+      .font-small {
+        font-size: var(--font-size-small);
+        font-weight: var(--font-weight-normal);
+        line-height: var(--line-height-small);
       }
-      h3 {
-        font-size: 1.17em;
+      h1, .font-h1 {
+        font-size: var(--font-size-h1);
         font-weight: var(--font-weight-bold);
+        line-height: var(--line-height-h1);
+      }
+      h2, .font-h2 {
+        font-size: var(--font-size-h2);
+        font-weight: var(--font-weight-bold);
+        line-height: var(--line-height-h2);
+      }
+      h3, .font-h3 {
+        font-size: var(--font-size-h3);
+        font-weight: var(--font-weight-bold);
+        line-height: var(--line-height-h3);
       }
       iron-icon {
         color: var(--deemphasized-text-color);
         --iron-icon-height: 20px;
         --iron-icon-width: 20px;
       }
+
       /* Stopgap solution until we remove hidden$ attributes. */
+
       [hidden] {
         display: none !important;
       }
@@ -109,9 +125,6 @@ limitations under the License.
       }
       strong {
         font-weight: var(--font-weight-bold);
-      }
-      :host {
-        color: var(--primary-text-color);
       }
     </style>
   </template>

@@ -27,7 +27,6 @@ limitations under the License.
   <template>
     <style include="shared-styles">
       #filter {
-        font-size: var(--font-size-normal);
         max-width: 25em;
       }
       #filter:focus {
@@ -38,7 +37,7 @@ limitations under the License.
         display: flex;
         height: 3rem;
         justify-content: space-between;
-        margin: 0 1em;
+        margin: 0 var(--spacing-l);
       }
       #createNewContainer:not(.show) {
         display: none;

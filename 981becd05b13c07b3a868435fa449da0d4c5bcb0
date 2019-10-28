@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "29010331_e8c8df82",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-10-28T16:35:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8baa845c_30bdf31c",
+      "range": {
+        "startLine": 18,
+        "startChar": 52,
+        "endLine": 18,
+        "endChar": 63
+      },
+      "revId": "981becd05b13c07b3a868435fa449da0d4c5bcb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c339aeb9_ff0c7e4d",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "c7c319f9_f8392053",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-10-28T16:35:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c339aeb9_ff0c7e4d",
+      "range": {
+        "startLine": 19,
+        "startChar": 38,
+        "endLine": 19,
+        "endChar": 50
+      },
+      "revId": "981becd05b13c07b3a868435fa449da0d4c5bcb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f28d0ac0_9f573471",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -59,6 +107,24 @@
       "writtenOn": "2019-10-28T16:29:26Z",
       "side": 1,
       "message": "I believe this could miss the circular dependency case of when a previous patchset is already merged in the current branch?",
+      "revId": "981becd05b13c07b3a868435fa449da0d4c5bcb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cfcb3a37_0d57b220",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-10-28T16:35:30Z",
+      "side": 1,
+      "message": "Can this ever happen?\n\nWe don\u0027t allow pushing new patch sets to closed changes and we don\u0027t allow creating a new change with a patch set that is already part of the target branch. Are there other cases how we could get into this situation?",
+      "parentUuid": "f28d0ac0_9f573471",
       "revId": "981becd05b13c07b3a868435fa449da0d4c5bcb0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -88,6 +154,30 @@
     },
     {
       "key": {
+        "uuid": "aec94b32_7dfd25f3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-10-28T16:35:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "491f7e25_9f1da02a",
+      "range": {
+        "startLine": 25,
+        "startChar": 37,
+        "endLine": 25,
+        "endChar": 43
+      },
+      "revId": "981becd05b13c07b3a868435fa449da0d4c5bcb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "73e0c92f_892d4ff6",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -99,6 +189,30 @@
       "writtenOn": "2019-10-28T11:00:24Z",
       "side": 1,
       "message": "What\u0027s the performance with the new code?",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 16
+      },
+      "revId": "981becd05b13c07b3a868435fa449da0d4c5bcb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "599bb338_ec81e2d6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-10-28T16:35:30Z",
+      "side": 1,
+      "message": "I\u0027ll run an offline benchmark.",
+      "parentUuid": "73e0c92f_892d4ff6",
       "range": {
         "startLine": 27,
         "startChar": 0,

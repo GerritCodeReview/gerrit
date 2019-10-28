@@ -312,6 +312,7 @@
     keyboardShortcuts() {
       return {
         [this.Shortcut.SEND_REPLY]: null, // DOC_ONLY binding
+        [this.Shortcut.EMOJI_DROPDOWN]: null, // DOC_ONLY binding
         [this.Shortcut.REFRESH_CHANGE]: '_handleRefreshChange',
         [this.Shortcut.OPEN_REPLY_DIALOG]: '_handleOpenReplyDialog',
         [this.Shortcut.OPEN_DOWNLOAD_DIALOG]:

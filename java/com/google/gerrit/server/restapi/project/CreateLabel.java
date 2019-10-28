@@ -91,85 +91,7 @@ public class CreateLabel
     try (MetaDataUpdate md = updateFactory.create(rsrc.getNameKey())) {
       ProjectConfig config = projectConfigFactory.read(md);
 
-      if (config.getLabelSections().containsKey(id.get())) {
-        throw new ResourceConflictException(String.format("label %s already exists", id.get()));
-      }
-
-      for (String labelName : config.getLabelSections().keySet()) {
-        if (labelName.equalsIgnoreCase(id.get())) {
-          throw new ResourceConflictException(
-              String.format("label %s conflicts with existing label %s", id.get(), labelName));
-        }
-      }
-
-      if (input.values == null || input.values.isEmpty()) {
-        throw new BadRequestException("values are required");
-      }
-
-      List<LabelValue> values = LabelDefinitionInputParser.parseValues(input.values);
-
-      LabelType labelType;
-      try {
-        labelType = new LabelType(id.get(), values);
-      } catch (IllegalArgumentException e) {
-        throw new BadRequestException("invalid name: " + id.get(), e);
-      }
-
-      if (input.function != null && !input.function.trim().isEmpty()) {
-        labelType.setFunction(LabelDefinitionInputParser.parseFunction(input.function));
-      } else {
-        labelType.setFunction(LabelFunction.MAX_WITH_BLOCK);
-      }
-
-      if (input.defaultValue != null) {
-        labelType.setDefaultValue(
-            LabelDefinitionInputParser.parseDefaultValue(labelType, input.defaultValue));
-      }
-
-      if (input.branches != null) {
-        labelType.setRefPatterns(LabelDefinitionInputParser.parseBranches(input.branches));
-      }
-
-      if (input.canOverride != null) {
-        labelType.setCanOverride(input.canOverride);
-      }
-
-      if (input.copyAnyScore != null) {
-        labelType.setCopyAnyScore(input.copyAnyScore);
-      }
-
-      if (input.copyMinScore != null) {
-        labelType.setCopyMinScore(input.copyMinScore);
-      }
-
-      if (input.copyMaxScore != null) {
-        labelType.setCopyMaxScore(input.copyMaxScore);
-      }
-
-      if (input.copyAllScoresIfNoChange != null) {
-        labelType.setCopyAllScoresIfNoChange(input.copyAllScoresIfNoChange);
-      }
-
-      if (input.copyAllScoresIfNoCodeChange != null) {
-        labelType.setCopyAllScoresIfNoCodeChange(input.copyAllScoresIfNoCodeChange);
-      }
-
-      if (input.copyAllScoresOnTrivialRebase != null) {
-        labelType.setCopyAllScoresOnTrivialRebase(input.copyAllScoresOnTrivialRebase);
-      }
-
-      if (input.copyAllScoresOnMergeFirstParentUpdate != null) {
-        labelType.setCopyAllScoresOnMergeFirstParentUpdate(
-            input.copyAllScoresOnMergeFirstParentUpdate);
-      }
-
-      if (input.allowPostSubmit != null) {
-        labelType.setAllowPostSubmit(input.allowPostSubmit);
-      }
-
-      if (input.ignoreSelfApproval != null) {
-        labelType.setIgnoreSelfApproval(input.ignoreSelfApproval);
-      }
+      LabelType labelType = createLabel(config, id.get(), input);
 
       if (input.commitMessage != null) {
         md.setMessage(Strings.emptyToNull(input.commitMessage.trim()));
@@ -177,12 +99,108 @@ public class CreateLabel
         md.setMessage("Update label");
       }
 
-      config.getLabelSections().put(labelType.getName(), labelType);
       config.commit(md);
 
       projectCache.evict(rsrc.getProjectState().getProject());
 
       return Response.created(LabelDefinitionJson.format(rsrc.getNameKey(), labelType));
     }
+  }
+
+  /**
+   * Creates a new label.
+   *
+   * @param config the project config
+   * @param label the name of the new label
+   * @param input the input that describes the new label
+   * @return the created label type
+   * @throws BadRequestException if there was invalid data in the input
+   * @throws ResourceConflictException if the label cannot be created due to a conflict
+   */
+  public LabelType createLabel(ProjectConfig config, String label, LabelDefinitionInput input)
+      throws BadRequestException, ResourceConflictException {
+    if (config.getLabelSections().containsKey(label)) {
+      throw new ResourceConflictException(String.format("label %s already exists", label));
+    }
+
+    for (String labelName : config.getLabelSections().keySet()) {
+      if (labelName.equalsIgnoreCase(label)) {
+        throw new ResourceConflictException(
+            String.format("label %s conflicts with existing label %s", label, labelName));
+      }
+    }
+
+    if (input.values == null || input.values.isEmpty()) {
+      throw new BadRequestException("values are required");
+    }
+
+    List<LabelValue> values = LabelDefinitionInputParser.parseValues(input.values);
+
+    LabelType labelType;
+    try {
+      labelType = new LabelType(label, values);
+    } catch (IllegalArgumentException e) {
+      throw new BadRequestException("invalid name: " + label, e);
+    }
+
+    if (input.function != null && !input.function.trim().isEmpty()) {
+      labelType.setFunction(LabelDefinitionInputParser.parseFunction(input.function));
+    } else {
+      labelType.setFunction(LabelFunction.MAX_WITH_BLOCK);
+    }
+
+    if (input.defaultValue != null) {
+      labelType.setDefaultValue(
+          LabelDefinitionInputParser.parseDefaultValue(labelType, input.defaultValue));
+    }
+
+    if (input.branches != null) {
+      labelType.setRefPatterns(LabelDefinitionInputParser.parseBranches(input.branches));
+    }
+
+    if (input.canOverride != null) {
+      labelType.setCanOverride(input.canOverride);
+    }
+
+    if (input.copyAnyScore != null) {
+      labelType.setCopyAnyScore(input.copyAnyScore);
+    }
+
+    if (input.copyMinScore != null) {
+      labelType.setCopyMinScore(input.copyMinScore);
+    }
+
+    if (input.copyMaxScore != null) {
+      labelType.setCopyMaxScore(input.copyMaxScore);
+    }
+
+    if (input.copyAllScoresIfNoChange != null) {
+      labelType.setCopyAllScoresIfNoChange(input.copyAllScoresIfNoChange);
+    }
+
+    if (input.copyAllScoresIfNoCodeChange != null) {
+      labelType.setCopyAllScoresIfNoCodeChange(input.copyAllScoresIfNoCodeChange);
+    }
+
+    if (input.copyAllScoresOnTrivialRebase != null) {
+      labelType.setCopyAllScoresOnTrivialRebase(input.copyAllScoresOnTrivialRebase);
+    }
+
+    if (input.copyAllScoresOnMergeFirstParentUpdate != null) {
+      labelType.setCopyAllScoresOnMergeFirstParentUpdate(
+          input.copyAllScoresOnMergeFirstParentUpdate);
+    }
+
+    if (input.allowPostSubmit != null) {
+      labelType.setAllowPostSubmit(input.allowPostSubmit);
+    }
+
+    if (input.ignoreSelfApproval != null) {
+      labelType.setIgnoreSelfApproval(input.ignoreSelfApproval);
+    }
+
+    config.getLabelSections().put(labelType.getName(), labelType);
+
+    return labelType;
   }
 }

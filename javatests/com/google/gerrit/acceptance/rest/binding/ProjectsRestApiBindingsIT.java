@@ -83,7 +83,8 @@ public class ProjectsRestApiBindingsIT extends AbstractDaemonTest {
               .expectedResponseCode(SC_NOT_FOUND)
               .build(),
           RestCall.get("/projects/%s/dashboards"),
-          RestCall.put("/projects/%s/labels/new-label"));
+          RestCall.put("/projects/%s/labels/new-label"),
+          RestCall.post("/projects/%s/labels/"));
 
   /**
    * Child project REST endpoints to be tested, each URL contains placeholders for the parent

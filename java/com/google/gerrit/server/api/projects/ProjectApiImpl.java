@@ -46,6 +46,7 @@ import com.google.gerrit.extensions.api.projects.TagInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.common.LabelDefinitionInfo;
+import com.google.gerrit.extensions.common.PostLabelsInput;
 import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.IdString;
@@ -77,6 +78,7 @@ import com.google.gerrit.server.restapi.project.ListBranches;
 import com.google.gerrit.server.restapi.project.ListDashboards;
 import com.google.gerrit.server.restapi.project.ListLabels;
 import com.google.gerrit.server.restapi.project.ListTags;
+import com.google.gerrit.server.restapi.project.PostLabels;
 import com.google.gerrit.server.restapi.project.ProjectsCollection;
 import com.google.gerrit.server.restapi.project.PutConfig;
 import com.google.gerrit.server.restapi.project.PutDescription;
@@ -131,6 +133,7 @@ public class ProjectApiImpl implements ProjectApi {
   private final Index index;
   private final IndexChanges indexChanges;
   private final Provider<ListLabels> listLabels;
+  private final PostLabels postLabels;
   private final LabelApiImpl.Factory labelApi;
 
   @AssistedInject
@@ -168,6 +171,7 @@ public class ProjectApiImpl implements ProjectApi {
       Index index,
       IndexChanges indexChanges,
       Provider<ListLabels> listLabels,
+      PostLabels postLabels,
       LabelApiImpl.Factory labelApi,
       @Assisted ProjectResource project) {
     this(
@@ -205,6 +209,7 @@ public class ProjectApiImpl implements ProjectApi {
         index,
         indexChanges,
         listLabels,
+        postLabels,
         labelApi,
         null);
   }
@@ -244,6 +249,7 @@ public class ProjectApiImpl implements ProjectApi {
       Index index,
       IndexChanges indexChanges,
       Provider<ListLabels> listLabels,
+      PostLabels postLabels,
       LabelApiImpl.Factory labelApi,
       @Assisted String name) {
     this(
@@ -281,6 +287,7 @@ public class ProjectApiImpl implements ProjectApi {
         index,
         indexChanges,
         listLabels,
+        postLabels,
         labelApi,
         name);
   }
@@ -320,6 +327,7 @@ public class ProjectApiImpl implements ProjectApi {
       Index index,
       IndexChanges indexChanges,
       Provider<ListLabels> listLabels,
+      PostLabels postLabels,
       LabelApiImpl.Factory labelApi,
       String name) {
     this.permissionBackend = permissionBackend;
@@ -357,6 +365,7 @@ public class ProjectApiImpl implements ProjectApi {
     this.index = index;
     this.indexChanges = indexChanges;
     this.listLabels = listLabels;
+    this.postLabels = postLabels;
     this.labelApi = labelApi;
   }
 
@@ -710,6 +719,15 @@ public class ProjectApiImpl implements ProjectApi {
       return labelApi.create(checkExists(), labelName);
     } catch (Exception e) {
       throw asRestApiException("Cannot parse label", e);
+    }
+  }
+
+  @Override
+  public void labels(PostLabelsInput input) throws RestApiException {
+    try {
+      postLabels.apply(checkExists(), input);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot update labels", e);
     }
   }
 }

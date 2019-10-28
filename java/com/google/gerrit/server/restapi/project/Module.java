@@ -72,6 +72,7 @@ public class Module extends RestApiModule {
     get(LABEL_KIND).to(GetLabel.class);
     put(LABEL_KIND).to(SetLabel.class);
     delete(LABEL_KIND).to(DeleteLabel.class);
+    postOnCollection(LABEL_KIND).to(PostLabels.class);
 
     get(PROJECT_KIND, "HEAD").to(GetHead.class);
     put(PROJECT_KIND, "HEAD").to(SetHead.class);

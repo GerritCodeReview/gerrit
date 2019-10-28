@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b796afe5_068857d8",
+        "filename": "Documentation/config-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-28T15:12:02Z",
+      "side": 1,
+      "message": "Is that required for core plugins?",
+      "range": {
+        "startLine": 27,
+        "startChar": 28,
+        "endLine": 29,
+        "endChar": 7
+      },
+      "revId": "7da4a476a4c909605c859fdfd91e6628c1cafc83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ae4d0a80_7b018345",
+        "filename": "Documentation/config-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-28T15:12:02Z",
+      "side": 1,
+      "message": "Should we also mention that every core plugin must have a \"plugins\u003e...\" component in Monorail where issues are tracked?",
+      "range": {
+        "startLine": 38,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 15
+      },
+      "revId": "7da4a476a4c909605c859fdfd91e6628c1cafc83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2683b344_5682c429",
+        "filename": "Documentation/config-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-28T15:12:02Z",
+      "side": 1,
+      "message": "I would appreciate it, if core plugins must even have a more concrete contact channel for communication, either an individual maintainer or a group of maintainer or at least a mailing list that you can write to. WDYT?",
+      "range": {
+        "startLine": 43,
+        "startChar": 35,
+        "endLine": 44,
+        "endChar": 51
+      },
+      "revId": "7da4a476a4c909605c859fdfd91e6628c1cafc83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

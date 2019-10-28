@@ -328,7 +328,7 @@
     _createScriptTag(url) {
       const el = document.createElement('script');
       el.defer = true;
-      el.src = url;
+      el.setAttribute('src', url);
       el.onerror = () => this._failToLoad(`${url} load error`, url);
       return document.body.appendChild(el);
     }

@@ -26,6 +26,7 @@ import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestCollectionCreateView;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -36,6 +37,7 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.List;
@@ -44,6 +46,7 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 @Singleton
 public class CreateLabel
     implements RestCollectionCreateView<ProjectResource, LabelResource, LabelDefinitionInput> {
+  private final Provider<CurrentUser> user;
   private final PermissionBackend permissionBackend;
   private final MetaDataUpdate.User updateFactory;
   private final ProjectConfig.Factory projectConfigFactory;
@@ -51,10 +54,12 @@ public class CreateLabel
 
   @Inject
   public CreateLabel(
+      Provider<CurrentUser> user,
       PermissionBackend permissionBackend,
       MetaDataUpdate.User updateFactory,
       ProjectConfig.Factory projectConfigFactory,
       ProjectCache projectCache) {
+    this.user = user;
     this.permissionBackend = permissionBackend;
     this.updateFactory = updateFactory;
     this.projectConfigFactory = projectConfigFactory;
@@ -66,6 +71,10 @@ public class CreateLabel
       ProjectResource rsrc, IdString id, LabelDefinitionInput input)
       throws AuthException, BadRequestException, ResourceConflictException,
           PermissionBackendException, IOException, ConfigInvalidException {
+    if (!user.get().isIdentifiedUser()) {
+      throw new AuthException("Authentication required");
+    }
+
     permissionBackend
         .currentUser()
         .project(rsrc.getNameKey())

@@ -19,6 +19,7 @@ import com.google.gerrit.extensions.common.LabelDefinitionInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
@@ -26,6 +27,7 @@ import com.google.gerrit.server.project.LabelDefinitionJson;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
@@ -33,10 +35,12 @@ import java.util.List;
 import org.kohsuke.args4j.Option;
 
 public class ListLabels implements RestReadView<ProjectResource> {
+  private final Provider<CurrentUser> user;
   private final PermissionBackend permissionBackend;
 
   @Inject
-  public ListLabels(PermissionBackend permissionBackend) {
+  public ListLabels(Provider<CurrentUser> user, PermissionBackend permissionBackend) {
+    this.user = user;
     this.permissionBackend = permissionBackend;
   }
 
@@ -51,6 +55,10 @@ public class ListLabels implements RestReadView<ProjectResource> {
   @Override
   public Response<List<LabelDefinitionInfo>> apply(ProjectResource rsrc)
       throws AuthException, PermissionBackendException {
+    if (!user.get().isIdentifiedUser()) {
+      throw new AuthException("Authentication required");
+    }
+
     if (inherited) {
       List<LabelDefinitionInfo> allLabels = new ArrayList<>();
       for (ProjectState projectState : rsrc.getProjectState().treeInOrder()) {

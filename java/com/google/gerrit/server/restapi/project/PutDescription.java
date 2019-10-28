@@ -77,7 +77,7 @@ public class PutDescription implements RestModifyView<ProjectResource, Descripti
 
       String msg =
           MoreObjects.firstNonNull(
-              Strings.emptyToNull(input.commitMessage), "Updated description.\n");
+              Strings.emptyToNull(input.commitMessage), "Update description\n");
       if (!msg.endsWith("\n")) {
         msg += "\n";
       }

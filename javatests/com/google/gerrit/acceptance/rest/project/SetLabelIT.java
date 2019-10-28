@@ -45,6 +45,20 @@ public class SetLabelIT extends AbstractDaemonTest {
   @Inject private ProjectOperations projectOperations;
 
   @Test
+  public void anonymous() throws Exception {
+    requestScopeOperations.setApiUserAnonymous();
+    AuthException thrown =
+        assertThrows(
+            AuthException.class,
+            () ->
+                gApi.projects()
+                    .name(allProjects.get())
+                    .label("Code-Review")
+                    .update(new LabelDefinitionInput()));
+    assertThat(thrown).hasMessageThat().contains("Authentication required");
+  }
+
+  @Test
   public void notAllowed() throws Exception {
     projectOperations
         .project(allProjects)

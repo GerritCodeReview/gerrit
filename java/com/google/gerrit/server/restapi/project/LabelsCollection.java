@@ -22,6 +22,7 @@ import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestView;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
@@ -35,15 +36,18 @@ import com.google.inject.Singleton;
 public class LabelsCollection implements ChildCollection<ProjectResource, LabelResource> {
   private final Provider<ListLabels> list;
   private final DynamicMap<RestView<LabelResource>> views;
+  private final Provider<CurrentUser> user;
   private final PermissionBackend permissionBackend;
 
   @Inject
   LabelsCollection(
       Provider<ListLabels> list,
       DynamicMap<RestView<LabelResource>> views,
+      Provider<CurrentUser> user,
       PermissionBackend permissionBackend) {
     this.list = list;
     this.views = views;
+    this.user = user;
     this.permissionBackend = permissionBackend;
   }
 
@@ -55,6 +59,10 @@ public class LabelsCollection implements ChildCollection<ProjectResource, LabelR
   @Override
   public LabelResource parse(ProjectResource parent, IdString id)
       throws AuthException, ResourceNotFoundException, PermissionBackendException {
+    if (!user.get().isIdentifiedUser()) {
+      throw new AuthException("Authentication required");
+    }
+
     permissionBackend
         .currentUser()
         .project(parent.getNameKey())

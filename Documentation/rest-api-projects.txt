@@ -3253,6 +3253,37 @@ returned that describes the updated label.
   }
 ----
 
+[[delete-label]]
+=== Delete Label
+--
+'DELETE /projects/link:#project-name[\{project-name\}]/labels/link:#label-name[\{label-name\}]'
+--
+
+Deletes the definition of a label that is defined in this project.
+
+The calling user must have write access to the `refs/meta/config` branch of the
+project.
+
+The request body does not need to include a link:#delete-label-input[
+DeleteLabelInput] entity if no commit message is specified.
+
+.Request
+----
+  Delete /projects/My-Project/labels/Foo-Review HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+  {
+    "commit_message": "Delete Foo-Review label",
+  }
+----
+
+If a label was deleted the response is "`204 No Content`".
+
+.Response
+----
+  HTTP/1.1 204 No Content
+----
+
 
 [[ids]]
 == IDs
@@ -3708,6 +3739,19 @@ in a dashboard.
 |`query`       |The query of the section. +
 Tokens such as `${project}` are not resolved.
 |===========================
+
+[[delete-label-input]]
+=== DeleteLabelInput
+The `DeleteLabelInput` entity contains information for deleting a label
+definition in a project.
+
+[options="header",cols="1,^2,4"]
+|=============================
+|Field Name      ||Description
+|`commit_message`|optional|
+Message that should be used to commit the deletion of the label in the
+`project.config` file to the `refs/meta/config` branch.
+|=============================
 
 [[delete-branches-input]]
 === DeleteBranchesInput

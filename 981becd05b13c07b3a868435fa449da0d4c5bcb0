@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "33dc10af_7a623552",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-10-28T16:45:54Z",
+      "side": 1,
+      "message": "To be more specific: pushCommitWithSameChangeIdAsPredecessorChange is the one that would fail if this logic was removed",
+      "parentUuid": "c5adcebb_8425a36d",
+      "revId": "981becd05b13c07b3a868435fa449da0d4c5bcb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8baa845c_30bdf31c",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

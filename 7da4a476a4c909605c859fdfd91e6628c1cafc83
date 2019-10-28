@@ -140,6 +140,52 @@
       "revId": "7da4a476a4c909605c859fdfd91e6628c1cafc83",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "23cf02ec_f01fc09b",
+        "filename": "Documentation/config-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2019-10-28T17:00:06Z",
+      "side": 1,
+      "message": "s/feature/core plugin feature/",
+      "range": {
+        "startLine": 47,
+        "startChar": 13,
+        "endLine": 47,
+        "endChar": 20
+      },
+      "revId": "7da4a476a4c909605c859fdfd91e6628c1cafc83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8a57b63f_d2931fa8",
+        "filename": "Documentation/config-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2019-10-28T17:00:06Z",
+      "side": 1,
+      "message": "It is not clear to me what owned\" means here?",
+      "range": {
+        "startLine": 54,
+        "startChar": 23,
+        "endLine": 54,
+        "endChar": 28
+      },
+      "revId": "7da4a476a4c909605c859fdfd91e6628c1cafc83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

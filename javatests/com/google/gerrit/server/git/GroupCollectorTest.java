@@ -305,12 +305,6 @@ public class GroupCollectorTest {
     return gc.getGroups();
   }
 
-  // Helper methods for constructing various map arguments, to avoid lots of
-  // type specifications.
-  private static ImmutableListMultimap.Builder<ObjectId, PatchSet.Id> patchSets() {
-    return ImmutableListMultimap.builder();
-  }
-
   private static ImmutableListMultimap.Builder<PatchSet.Id, String> groups() {
     return ImmutableListMultimap.builder();
   }

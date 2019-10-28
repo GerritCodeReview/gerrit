@@ -77,11 +77,9 @@ public class DeleteLabel implements RestModifyView<LabelResource, InputWithCommi
     try (MetaDataUpdate md = updateFactory.create(rsrc.getProject().getNameKey())) {
       ProjectConfig config = projectConfigFactory.read(md);
 
-      if (!config.getLabelSections().containsKey(rsrc.getLabelType().getName())) {
+      if (!deleteLabel(config, rsrc.getLabelType().getName())) {
         throw new ResourceNotFoundException(IdString.fromDecoded(rsrc.getLabelType().getName()));
       }
-
-      config.getLabelSections().remove(rsrc.getLabelType().getName());
 
       if (input.commitMessage != null) {
         md.setMessage(Strings.emptyToNull(input.commitMessage.trim()));
@@ -95,5 +93,21 @@ public class DeleteLabel implements RestModifyView<LabelResource, InputWithCommi
     projectCache.evict(rsrc.getProject().getProjectState().getProject());
 
     return Response.none();
+  }
+
+  /**
+   * Delete the given label from the given project config.
+   *
+   * @param config the project config from which the label should be deleted
+   * @param labelName the name of the label that should be deleted
+   * @return {@code true} if the label was deleted, {@code false} if the label was not found
+   */
+  public boolean deleteLabel(ProjectConfig config, String labelName) {
+    if (!config.getLabelSections().containsKey(labelName)) {
+      return false;
+    }
+
+    config.getLabelSections().remove(labelName);
+    return true;
   }
 }

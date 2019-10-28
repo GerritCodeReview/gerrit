@@ -18,6 +18,7 @@ import com.google.gerrit.extensions.api.access.ProjectAccessInfo;
 import com.google.gerrit.extensions.api.access.ProjectAccessInput;
 import com.google.gerrit.extensions.api.config.AccessCheckInfo;
 import com.google.gerrit.extensions.api.config.AccessCheckInput;
+import com.google.gerrit.extensions.common.BatchLabelInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.LabelDefinitionInfo;
 import com.google.gerrit.extensions.common.ProjectInfo;
@@ -221,6 +222,13 @@ public interface ProjectApi {
   LabelApi label(String labelName) throws RestApiException;
 
   /**
+   * Adds, updates and deletes label definitions in a batch.
+   *
+   * @param input input that describes additions, updates and deletions of label definitions
+   */
+  void labels(BatchLabelInput input) throws RestApiException;
+
+  /**
    * A default implementation which allows source compatibility when adding new methods to the
    * interface.
    */
@@ -402,6 +410,11 @@ public interface ProjectApi {
 
     @Override
     public LabelApi label(String labelName) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public void labels(BatchLabelInput input) throws RestApiException {
       throw new NotImplementedException();
     }
   }

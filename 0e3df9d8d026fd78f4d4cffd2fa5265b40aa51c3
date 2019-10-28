@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c0eda785_b56ebf43",
+        "filename": "java/com/google/gerrit/extensions/api/projects/CommentLinkInput.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-10-28T07:40:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "015cf0d4_23e9b60e",
+      "revId": "0e3df9d8d026fd78f4d4cffd2fa5265b40aa51c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3fdfbddc_65a9faa4",
         "filename": "javatests/com/google/gerrit/acceptance/api/project/ProjectIT.java",
         "patchSetId": 7

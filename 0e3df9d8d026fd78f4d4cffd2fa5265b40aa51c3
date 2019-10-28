@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "015cf0d4_23e9b60e",
+        "filename": "java/com/google/gerrit/extensions/api/projects/CommentLinkInput.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-10-28T07:16:34Z",
+      "side": 1,
+      "message": "Please add a 1-line JavaDoc summary. I know we don\u0027t have a lot of these in the API types, but gearing up on documentation for public classes seems like a good path to me.",
+      "revId": "0e3df9d8d026fd78f4d4cffd2fa5265b40aa51c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3fdfbddc_65a9faa4",
+        "filename": "javatests/com/google/gerrit/acceptance/api/project/ProjectIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 820,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-10-28T07:16:34Z",
+      "side": 1,
+      "message": "nit: already handled in \u0027addCommentLink\u0027, but I think it doesn\u0027t hurt here as well :-)",
+      "range": {
+        "startLine": 817,
+        "startChar": 0,
+        "endLine": 820,
+        "endChar": 39
+      },
+      "revId": "0e3df9d8d026fd78f4d4cffd2fa5265b40aa51c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

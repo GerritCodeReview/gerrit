@@ -66,7 +66,9 @@ limitations under the License.
           <li><a href="#ChangeTableColumns">Change Table Columns</a></li>
           <li><a href="#Notifications">Notifications</a></li>
           <li><a href="#EmailAddresses">Email Addresses</a></li>
-          <li><a href="#HTTPCredentials">HTTP Credentials</a></li>
+          <template is="dom-if" if="[[_showHttpAuth(_serverConfig)]]">
+            <li><a href="#HTTPCredentials">HTTP Credentials</a></li>
+          </template>
           <li hidden$="[[!_serverConfig.sshd]]"><a href="#SSHKeys">
             SSH Keys
           </a></li>

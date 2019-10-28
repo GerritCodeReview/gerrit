@@ -16,6 +16,24 @@
       "revId": "44098d0219a5c4ca232c6c865b0c59698d469557",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dbd51c4b_d0aefcd3",
+        "filename": "java/com/google/gerrit/common/data/LabelType.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-28T08:38:39Z",
+      "side": 1,
+      "message": "Yes, I guess this should be changed. At least I expected to get an empty list when I used this API in this change.",
+      "parentUuid": "2e5a3fe1_cdb5093d",
+      "revId": "44098d0219a5c4ca232c6c865b0c59698d469557",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

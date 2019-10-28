@@ -167,7 +167,12 @@ public class ProjectsRestApiBindingsIT extends AbstractDaemonTest {
    * and the label name.
    */
   private static final ImmutableList<RestCall> LABEL_ENDPOINTS =
-      ImmutableList.of(RestCall.get("/projects/%s/labels/%s"));
+      ImmutableList.of(
+          RestCall.get("/projects/%s/labels/%s"),
+          RestCall.put("/projects/%s/labels/%s"),
+
+          // Label deletion must be tested last
+          RestCall.delete("/projects/%s/labels/%s"));
 
   private static final String FILENAME = "test.txt";
   @Inject private ProjectOperations projectOperations;

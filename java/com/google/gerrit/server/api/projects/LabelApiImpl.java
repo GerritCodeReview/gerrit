@@ -16,7 +16,9 @@ package com.google.gerrit.server.api.projects;
 
 import static com.google.gerrit.server.api.ApiUtil.asRestApiException;
 
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.api.projects.LabelApi;
+import com.google.gerrit.extensions.common.InputWithCommitMessage;
 import com.google.gerrit.extensions.common.LabelDefinitionInfo;
 import com.google.gerrit.extensions.common.LabelDefinitionInput;
 import com.google.gerrit.extensions.restapi.IdString;
@@ -26,6 +28,7 @@ import com.google.gerrit.server.project.LabelResource;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.server.restapi.project.CreateLabel;
+import com.google.gerrit.server.restapi.project.DeleteLabel;
 import com.google.gerrit.server.restapi.project.GetLabel;
 import com.google.gerrit.server.restapi.project.LabelsCollection;
 import com.google.gerrit.server.restapi.project.SetLabel;
@@ -41,6 +44,7 @@ public class LabelApiImpl implements LabelApi {
   private final CreateLabel createLabel;
   private final GetLabel getLabel;
   private final SetLabel setLabel;
+  private final DeleteLabel deleteLabel;
   private final ProjectCache projectCache;
   private final String label;
 
@@ -52,6 +56,7 @@ public class LabelApiImpl implements LabelApi {
       CreateLabel createLabel,
       GetLabel getLabel,
       SetLabel setLabel,
+      DeleteLabel deleteLabel,
       ProjectCache projectCache,
       @Assisted ProjectResource project,
       @Assisted String label) {
@@ -59,6 +64,7 @@ public class LabelApiImpl implements LabelApi {
     this.createLabel = createLabel;
     this.getLabel = getLabel;
     this.setLabel = setLabel;
+    this.deleteLabel = deleteLabel;
     this.projectCache = projectCache;
     this.project = project;
     this.label = label;
@@ -94,6 +100,15 @@ public class LabelApiImpl implements LabelApi {
       return setLabel.apply(resource(), input).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot update label", e);
+    }
+  }
+
+  @Override
+  public void delete(@Nullable String commitMessage) throws RestApiException {
+    try {
+      deleteLabel.apply(resource(), new InputWithCommitMessage(commitMessage));
+    } catch (Exception e) {
+      throw asRestApiException("Cannot delete label", e);
     }
   }
 

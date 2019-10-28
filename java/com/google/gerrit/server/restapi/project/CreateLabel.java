@@ -92,7 +92,14 @@ public class CreateLabel
       ProjectConfig config = projectConfigFactory.read(md);
 
       if (config.getLabelSections().containsKey(id.get())) {
-        throw new ResourceConflictException("label " + id.get() + " already exists");
+        throw new ResourceConflictException(String.format("label %s already exists", id.get()));
+      }
+
+      for (String labelName : config.getLabelSections().keySet()) {
+        if (labelName.equalsIgnoreCase(id.get())) {
+          throw new ResourceConflictException(
+              String.format("label %s conflicts with existing label %s", id.get(), labelName));
+        }
       }
 
       if (input.values == null || input.values.isEmpty()) {

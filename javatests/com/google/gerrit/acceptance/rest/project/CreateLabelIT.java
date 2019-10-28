@@ -101,6 +101,21 @@ public class CreateLabelIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void cannotCreateLabelWithNameThatConflicts() throws Exception {
+    ResourceConflictException thrown =
+        assertThrows(
+            ResourceConflictException.class,
+            () ->
+                gApi.projects()
+                    .name(allProjects.get())
+                    .label("code-review")
+                    .create(new LabelDefinitionInput()));
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains("label code-review conflicts with existing label Code-Review");
+  }
+
+  @Test
   public void cannotCreateLabelWithInvalidName() throws Exception {
     LabelDefinitionInput input = new LabelDefinitionInput();
     input.values = ImmutableMap.of("+1", "Looks Good", "0", "Don't Know", "-1", "Looks Bad");

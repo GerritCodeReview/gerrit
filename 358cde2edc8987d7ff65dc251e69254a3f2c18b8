@@ -93,6 +93,30 @@
       "revId": "358cde2edc8987d7ff65dc251e69254a3f2c18b8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4f4fc613_417296bd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-10-28T09:17:06Z",
+      "side": 1,
+      "message": "I\u0027ve removed the bit that restricts the visibility; we can follow up later on plugins\u0027 usage.",
+      "parentUuid": "e6cbf825_b2cffbc5",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 62
+      },
+      "revId": "358cde2edc8987d7ff65dc251e69254a3f2c18b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

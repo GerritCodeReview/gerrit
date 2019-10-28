@@ -49,28 +49,28 @@
     },
 
     /**
-     * Handle a tap on a checkbox container and relay the tap to the checkbox it
+     * Handle a click on a checkbox container and relay the click to the checkbox it
      * contains.
      */
-    _handleCheckboxContainerTap(e) {
+    _handleCheckboxContainerClick(e) {
       const checkbox = Polymer.dom(e.target).querySelector('input');
       if (!checkbox) { return; }
       checkbox.click();
     },
 
     /**
-     * Handle a tap on the number checkbox and update the showNumber property
+     * Handle a click on the number checkbox and update the showNumber property
      * accordingly.
      */
-    _handleNumberCheckboxTap(e) {
+    _handleNumberCheckboxClick(e) {
       this.showNumber = Polymer.dom(e).rootTarget.checked;
     },
 
     /**
-     * Handle a tap on a displayed column checkboxes (excluding number) and
+     * Handle a click on a displayed column checkboxes (excluding number) and
      * update the displayedColumns property accordingly.
      */
-    _handleTargetTap(e) {
+    _handleTargetClick(e) {
       this.set('displayedColumns', this._getDisplayedColumns());
     },
   });

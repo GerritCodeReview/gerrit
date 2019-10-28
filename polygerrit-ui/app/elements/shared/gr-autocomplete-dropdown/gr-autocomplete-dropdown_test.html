@@ -128,7 +128,7 @@ limitations under the License.
       MockInteractions.tap(element.$.suggestions.querySelectorAll('li')[1]);
       flushAsynchronousOperations();
       assert.deepEqual(itemSelectedStub.lastCall.args[0].detail, {
-        trigger: 'tap',
+        trigger: 'click',
         selected: element.$.suggestions.querySelectorAll('li')[1],
       });
     });
@@ -141,7 +141,7 @@ limitations under the License.
           .lastElementChild);
       flushAsynchronousOperations();
       assert.deepEqual(itemSelectedStub.lastCall.args[0].detail, {
-        trigger: 'tap',
+        trigger: 'click',
         selected: element.$.suggestions.querySelectorAll('li')[0],
       });
     });

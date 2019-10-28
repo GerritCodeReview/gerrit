@@ -20,6 +20,7 @@ import com.google.gerrit.extensions.api.config.AccessCheckInfo;
 import com.google.gerrit.extensions.api.config.AccessCheckInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.LabelDefinitionInfo;
+import com.google.gerrit.extensions.common.PostLabelsInput;
 import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -220,6 +221,8 @@ public interface ProjectApi {
 
   LabelApi label(String labelName) throws RestApiException;
 
+  void labelBatchUpdate(PostLabelsInput input) throws RestApiException;
+
   /**
    * A default implementation which allows source compatibility when adding new methods to the
    * interface.
@@ -402,6 +405,11 @@ public interface ProjectApi {
 
     @Override
     public LabelApi label(String labelName) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public void labelBatchUpdate(PostLabelsInput input) throws RestApiException {
       throw new NotImplementedException();
     }
   }

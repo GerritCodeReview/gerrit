@@ -89,7 +89,7 @@
       this._tooltip = tooltip;
       this.listen(window, 'scroll', '_handleWindowScroll');
       this.listen(this, 'mouseleave', '_handleHideTooltip');
-      this.listen(this, 'tap', '_handleHideTooltip');
+      this.listen(this, 'click', '_handleHideTooltip');
     },
 
     _handleHideTooltip(e) {
@@ -101,7 +101,7 @@
 
       this.unlisten(window, 'scroll', '_handleWindowScroll');
       this.unlisten(this, 'mouseleave', '_handleHideTooltip');
-      this.unlisten(this, 'tap', '_handleHideTooltip');
+      this.unlisten(this, 'click', '_handleHideTooltip');
       this.setAttribute('title', this._titleText);
       if (this._tooltip && this._tooltip.parentNode) {
         this._tooltip.parentNode.removeChild(this._tooltip);

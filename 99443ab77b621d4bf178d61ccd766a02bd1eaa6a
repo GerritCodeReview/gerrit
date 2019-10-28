@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "233c5d78_2d79b19b",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2856,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2019-10-28T17:46:41Z",
+      "side": 0,
+      "message": "I believe it is possible to improve the efficiency of this loop by performing a single RevWalk if all the previous patchesets are loaded into the RevWalk up front.",
+      "revId": "99443ab77b621d4bf178d61ccd766a02bd1eaa6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

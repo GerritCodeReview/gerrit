@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "491f7e25_9f1da02a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-10-28T11:00:24Z",
+      "side": 1,
+      "message": "cache",
+      "range": {
+        "startLine": 25,
+        "startChar": 37,
+        "endLine": 25,
+        "endChar": 43
+      },
+      "revId": "981becd05b13c07b3a868435fa449da0d4c5bcb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "73e0c92f_892d4ff6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-10-28T11:00:24Z",
+      "side": 1,
+      "message": "What\u0027s the performance with the new code?",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 16
+      },
+      "revId": "981becd05b13c07b3a868435fa449da0d4c5bcb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

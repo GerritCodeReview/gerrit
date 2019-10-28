@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07c40e08_875d3157",
+        "filename": "Documentation/config-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2019-10-28T17:17:58Z",
+      "side": 1,
+      "message": "Can you elaborate on what \"multiple parties\" means.",
+      "range": {
+        "startLine": 78,
+        "startChar": 0,
+        "endLine": 78,
+        "endChar": 16
+      },
+      "revId": "d2f42ce5a1039859312ba632ccad4380ef8aac6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9a423b42_ad959d2d",
+        "filename": "Documentation/config-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2019-10-28T17:17:58Z",
+      "side": 1,
+      "message": "Aside from this criteria, all the other criteria are mostly procedural/legal/minimum bars. As is, this list feels fairly vague and open to adding almost anything as long as it passes the minimum bar. I think it would be good to also add more criteria such as:\n\n* It would be expected that most sites would use the plugin\n* If there is more than one plugin providing related functionality (gitblit, gitles), the plugin is the clear recommended solution by the community.\n\nEven with those 2 extra criteria, I am concerned that the Gerrit maintainers are going to be signing up fro maintaining a lot more code than they want to.\n\nPerhaps we should add something like:\n\n* An out of the box Gerrit installation would seem like it is missing something if the plugin is not installed.",
+      "revId": "d2f42ce5a1039859312ba632ccad4380ef8aac6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

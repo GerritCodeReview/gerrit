@@ -202,6 +202,24 @@
     },
     {
       "key": {
+        "uuid": "508534d0_6b46a201",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2019-10-28T16:50:22Z",
+      "side": 1,
+      "message": "I think it is important to keep safety checks, even for situations that we hope that Gerrit can prevent. Code changes, and there can be situations we don\u0027t think of that can alter things in unexpected ways. So even if we thought this were not likely possible, I would not recommend removing this check.\n\nTo answer your question though, yes, it can happen, it is possible to push to branches without going through Gerrit. Also, I can believe in the Gerrit WUI you could probably create a new branch pointing an open existing patchset, then I think you could move the change to the new branch.",
+      "parentUuid": "cfcb3a37_0d57b220",
+      "revId": "981becd05b13c07b3a868435fa449da0d4c5bcb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "491f7e25_9f1da02a",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

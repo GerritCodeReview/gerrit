@@ -55,11 +55,11 @@ limitations under the License.
           <tr>
             <td>Number</td>
             <td class="checkboxContainer"
-                on-tap="_handleCheckboxContainerTap">
+                on-click="_handleCheckboxContainerClick">
               <input
                   type="checkbox"
                   name="number"
-                  on-tap="_handleNumberCheckboxTap"
+                  on-click="_handleNumberCheckboxClick"
                   checked$="[[showNumber]]">
             </td>
           </tr>
@@ -67,11 +67,11 @@ limitations under the License.
             <tr>
               <td>[[item]]</td>
               <td class="checkboxContainer"
-                  on-tap="_handleCheckboxContainerTap">
+                  on-click="_handleCheckboxContainerClick">
                 <input
                     type="checkbox"
                     name="[[item]]"
-                    on-tap="_handleTargetTap"
+                    on-click="_handleTargetClick"
                     checked$="[[!isColumnHidden(item, displayedColumns)]]">
               </td>
             </tr>

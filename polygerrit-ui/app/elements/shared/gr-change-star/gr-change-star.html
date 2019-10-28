@@ -30,7 +30,7 @@ limitations under the License.
         fill: var(--link-color);
       }
     </style>
-    <button aria-label="Change star" on-tap="toggleStar">
+    <button aria-label="Change star" on-click="toggleStar">
       <iron-icon
           class$="[[_computeStarClass(change.starred)]]"
           icon$="[[_computeStarIcon(change.starred)]]"></iron-icon>

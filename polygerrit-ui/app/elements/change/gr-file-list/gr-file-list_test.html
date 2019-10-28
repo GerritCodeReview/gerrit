@@ -817,18 +817,18 @@ limitations under the License.
       assert.isTrue(commitReviewLabel.classList.contains('isReviewed'));
       assert.equal(markReviewLabel.textContent, 'MARK UNREVIEWED');
 
-      const tapSpy = sandbox.spy(element, '_handleFileListTap');
+      const clickSpy = sandbox.spy(element, '_handleFileListClick');
       MockInteractions.tap(markReviewLabel);
       assert.isTrue(saveStub.lastCall.calledWithExactly('/COMMIT_MSG', false));
       assert.isFalse(commitReviewLabel.classList.contains('isReviewed'));
       assert.equal(markReviewLabel.textContent, 'MARK REVIEWED');
-      assert.isTrue(tapSpy.lastCall.args[0].defaultPrevented);
+      assert.isTrue(clickSpy.lastCall.args[0].defaultPrevented);
 
       MockInteractions.tap(markReviewLabel);
       assert.isTrue(saveStub.lastCall.calledWithExactly('/COMMIT_MSG', true));
       assert.isTrue(commitReviewLabel.classList.contains('isReviewed'));
       assert.equal(markReviewLabel.textContent, 'MARK UNREVIEWED');
-      assert.isTrue(tapSpy.lastCall.args[0].defaultPrevented);
+      assert.isTrue(clickSpy.lastCall.args[0].defaultPrevented);
     });
 
     test('_computeFileStatusLabel', () => {
@@ -836,7 +836,7 @@ limitations under the License.
       assert.equal(element._computeFileStatusLabel('M'), 'Modified');
     });
 
-    test('_handleFileListTap', () => {
+    test('_handleFileListClick', () => {
       element._filesByPath = {
         '/COMMIT_MSG': {},
         'f1.txt': {},
@@ -848,7 +848,7 @@ limitations under the License.
         patchNum: '2',
       };
 
-      const tapSpy = sandbox.spy(element, '_handleFileListTap');
+      const clickSpy = sandbox.spy(element, '_handleFileListClick');
       const reviewStub = sandbox.stub(element, '_reviewFile');
       const toggleExpandSpy = sandbox.spy(element, '_togglePathExpanded');
 
@@ -858,26 +858,26 @@ limitations under the License.
       // Click on the expand button, resulting in _togglePathExpanded being
       // called and not resulting in a call to _reviewFile.
       row.querySelector('div.show-hide').click();
-      assert.isTrue(tapSpy.calledOnce);
+      assert.isTrue(clickSpy.calledOnce);
       assert.isTrue(toggleExpandSpy.calledOnce);
       assert.isFalse(reviewStub.called);
 
       // Click inside the diff. This should result in no additional calls to
       // _togglePathExpanded or _reviewFile.
       Polymer.dom(element.root).querySelector('gr-diff-host').click();
-      assert.isTrue(tapSpy.calledTwice);
+      assert.isTrue(clickSpy.calledTwice);
       assert.isTrue(toggleExpandSpy.calledOnce);
       assert.isFalse(reviewStub.called);
 
       // Click the reviewed checkbox, resulting in a call to _reviewFile, but
       // no additional call to _togglePathExpanded.
       row.querySelector('.markReviewed').click();
-      assert.isTrue(tapSpy.calledThrice);
+      assert.isTrue(clickSpy.calledThrice);
       assert.isTrue(toggleExpandSpy.calledOnce);
       assert.isTrue(reviewStub.calledOnce);
     });
 
-    test('_handleFileListTap editMode', () => {
+    test('_handleFileListClick editMode', () => {
       element._filesByPath = {
         '/COMMIT_MSG': {},
         'f1.txt': {},
@@ -890,12 +890,12 @@ limitations under the License.
       };
       element.editMode = true;
       flushAsynchronousOperations();
-      const tapSpy = sandbox.spy(element, '_handleFileListTap');
+      const clickSpy = sandbox.spy(element, '_handleFileListClick');
       const toggleExpandSpy = sandbox.spy(element, '_togglePathExpanded');
 
-      // Tap the edit controls. Should be ignored by _handleFileListTap.
+      // Tap the edit controls. Should be ignored by _handleFileListClick.
       MockInteractions.tap(element.$$('.editFileControls'));
-      assert.isTrue(tapSpy.calledOnce);
+      assert.isTrue(clickSpy.calledOnce);
       assert.isFalse(toggleExpandSpy.called);
     });
 

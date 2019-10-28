@@ -92,8 +92,16 @@ public class SetLabel implements RestModifyView<LabelResource, LabelDefinitionIn
         }
         if (!newName.equals(labelType.getName())) {
           if (config.getLabelSections().containsKey(newName)) {
-            throw new ResourceConflictException("name " + newName + " already in use");
+            throw new ResourceConflictException(String.format("name %s already in use", newName));
           }
+
+          for (String labelName : config.getLabelSections().keySet()) {
+            if (labelName.equalsIgnoreCase(newName)) {
+              throw new ResourceConflictException(
+                  String.format("name %s conflicts with existing label %s", newName, labelName));
+            }
+          }
+
           try {
             labelType.setName(newName);
           } catch (IllegalArgumentException e) {

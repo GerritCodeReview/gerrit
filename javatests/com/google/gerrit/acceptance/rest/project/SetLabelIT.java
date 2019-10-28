@@ -148,6 +148,23 @@ public class SetLabelIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void cannotSetNameIfNameConflicts() throws Exception {
+    configLabel("Foo-Review", LabelFunction.NO_OP);
+    configLabel("Bar-Review", LabelFunction.NO_OP);
+
+    LabelDefinitionInput input = new LabelDefinitionInput();
+    input.name = "bar-review";
+
+    ResourceConflictException thrown =
+        assertThrows(
+            ResourceConflictException.class,
+            () -> gApi.projects().name(project.get()).label("Foo-Review").update(input));
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains("name bar-review conflicts with existing label Bar-Review");
+  }
+
+  @Test
   public void updateFunction() throws Exception {
     LabelDefinitionInput input = new LabelDefinitionInput();
     input.function = LabelFunction.NO_OP.getFunctionName();

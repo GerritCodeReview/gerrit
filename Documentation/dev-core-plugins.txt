@@ -26,6 +26,61 @@ docs. The ESC is also in charge of adding and removing core plugins.
 Non-Gerrit maintainers cannot have link:access-control.html#category_owner[
 Owner] permissions for core plugins.
 
+[[criteria]]
+=== Criteria for Core Plugins
+
+To be considered as a core plugin, a plugin must fulfill the following
+criteria:
+
+1. License:
++
+The plugin code is available under the
+link:http://www.apache.org/licenses/LICENSE-2.0[Apache License Version 2.0].
+
+2. Hosting:
++
+The plugin development is hosted on the
+link:https://gerrit-review.googlesource.com[gerrit-review] Gerrit Server.
+
+3. Scope:
++
+The plugin functionality is Gerrit-related, has a clear scope and does not
+conflict with other core plugins or existing and planned Gerrit core features.
+
+4. Relevance:
++
+The plugin functionality is relevant to a majority of the Gerrit community:
++
+--
+** An out of the box Gerrit installation would seem like it is missing
+   something if the plugin is not installed.
+** It's expected that most sites would use the plugin.
+** Multiple parties (different organizations/companies) already use the plugin
+   and agree that it should be offered as core plugin.
+** If the same or similar functionality is provided by multiple plugins,
+   the plugin is the clear recommended solution by the community.
+--
++
+Whether a plugin is relevant to a majority of the Gerrit community must be
+discussed on a case-by-case basis. In case of doubt, it's up to the
+link:dev-processes.html#steering-committee[engineering steering committee] to
+make a decision.
+
+5. Code Quality:
++
+The plugin code is mature and has a good test coverage. Maintaining the plugin
+code creates only little overhead for the Gerrit maintainers.
+
+6. Documentation:
++
+The plugin functionality is fully documented.
+
+7. Ownership:
++
+Existing plugin owners which are not Gerrit maintainers must agree to give up
+their ownership. If the current plugin owners disagree, forking the plugin is
+possible, but this should happen only in exceptional cases.
+
 [[list]]
 == Which core plugins exist?
 

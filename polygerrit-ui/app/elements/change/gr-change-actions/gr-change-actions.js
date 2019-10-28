@@ -65,7 +65,6 @@
     REBASE_EDIT: 'rebaseEdit',
     RESTORE: 'restore',
     REVERT: 'revert',
-    REVERT_SUBMISSION: 'revert_submission',
     REVIEWED: 'reviewed',
     STOP_EDIT: 'stopEdit',
     UNIGNORE: 'unignore',
@@ -89,7 +88,6 @@
     rebase: 'Rebasing...',
     restore: 'Restoring...',
     revert: 'Reverting...',
-    revert_submission: 'Reverting Submission...',
     submit: 'Submitting...',
   };
 
@@ -184,7 +182,6 @@
     ChangeActions.REBASE_EDIT,
     ChangeActions.RESTORE,
     ChangeActions.REVERT,
-    ChangeActions.REVERT_SUBMISSION,
     ChangeActions.STOP_EDIT,
     QUICK_APPROVE_ACTION.key,
     RevisionActions.REBASE,
@@ -911,19 +908,6 @@
       this._showActionDialog(this.$.confirmRevertDialog);
     },
 
-    _modifyRevertSubmissionMsg() {
-      return this.$.jsAPI.modifyRevertSubmissionMsg(this.change,
-          this.$.confirmRevertSubmissionDialog.message, this.commitMessage);
-    },
-
-    showRevertSubmissionDialog() {
-      this.$.confirmRevertSubmissionDialog.populateRevertSubmissionMessage(
-          this.commitMessage, this.change.current_revision);
-      this.$.confirmRevertSubmissionDialog.message =
-          this._modifyRevertSubmissionMsg();
-      this._showActionDialog(this.$.confirmRevertSubmissionDialog);
-    },
-
     _handleActionTap(e) {
       e.preventDefault();
       let el = Polymer.dom(e).localTarget;
@@ -973,9 +957,6 @@
       switch (key) {
         case ChangeActions.REVERT:
           this.showRevertDialog();
-          break;
-        case ChangeActions.REVERT_SUBMISSION:
-          this.showRevertSubmissionDialog();
           break;
         case ChangeActions.ABANDON:
           this._showActionDialog(this.$.confirmAbandonDialog);
@@ -1138,14 +1119,6 @@
       el.hidden = true;
       this._fireAction('/revert', this.actions.revert, false,
           {message: el.message});
-    },
-
-    _handleRevertSubmissionDialogConfirm() {
-      const el = this.$.confirmRevertSubmissionDialog;
-      this.$.overlay.close();
-      el.hidden = true;
-      this._fireAction('/revert_submission', this.actions.revert_submission,
-          false, {message: el.message});
     },
 
     _handleAbandonDialogConfirm() {

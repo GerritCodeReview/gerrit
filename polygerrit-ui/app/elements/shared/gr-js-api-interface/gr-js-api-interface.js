@@ -25,7 +25,6 @@
     COMMIT_MSG_EDIT: 'commitmsgedit',
     COMMENT: 'comment',
     REVERT: 'revert',
-    REVERT_SUBMISSION: 'revert_submission',
     POST_REVERT: 'postrevert',
     ANNOTATE_DIFF: 'annotatediff',
     ADMIN_MENU_LINKS: 'admin-menu-links',
@@ -212,17 +211,6 @@
         }
       }
       return revertMsg;
-    },
-
-    modifyRevertSubmissionMsg(change, revertSubmissionMsg, origMsg) {
-      for (const cb of this._getEventCallbacks(EventType.REVERT_SUBMISSION)) {
-        try {
-          revertSubmissionMsg = cb(change, revertSubmissionMsg, origMsg);
-        } catch (err) {
-          console.error(err);
-        }
-      }
-      return revertSubmissionMsg;
     },
 
     getDiffLayers(path, changeNum, patchNum) {

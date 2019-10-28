@@ -49,7 +49,7 @@ public class ChildProjectApiImpl implements ChildProjectApi {
       getChildProject.setRecursive(recursive);
       return getChildProject.apply(rsrc).value();
     } catch (Exception e) {
-      throw asRestApiException("Cannot child project", e);
+      throw asRestApiException("Cannot get child project", e);
     }
   }
 }

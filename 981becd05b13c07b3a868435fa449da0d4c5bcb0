@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "7e73a33c_ba322529",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2019-10-28T16:47:13Z",
+      "side": 1,
+      "message": "I don\u0027t think either of those test the case you\u0027re modifying. A test like \u0027pushNewPatchSetWithPreviousPatchSetAsParent\u0027 is what\u0027s missing. And maybe some permutations of what else could match that parent commit (is it the branch tip like Martin raised, a different branch tip, a prior patch set of another change, etc).",
+      "parentUuid": "c5adcebb_8425a36d",
+      "revId": "981becd05b13c07b3a868435fa449da0d4c5bcb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8baa845c_30bdf31c",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f0f0e721_ad045fa2",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown.js",
+        "patchSetId": 14
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-28T10:40:32Z",
+      "side": 1,
+      "message": "you don\u0027t need this comment :) but i won\u0027t block this change for that.",
+      "range": {
+        "startLine": 164,
+        "startChar": 10,
+        "endLine": 164,
+        "endChar": 74
+      },
+      "revId": "7f9abf6165c229b82e76fa078be0cc3038949cb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

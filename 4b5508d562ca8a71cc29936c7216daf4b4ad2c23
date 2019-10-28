@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7119819f_bb1cf81a",
+        "filename": "Documentation/config-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2019-10-28T17:14:11Z",
+      "side": 1,
+      "message": "This wording seems out of context for this doc in the sense that it describes what core plugins aren\u0027t, not what they are. Does all this text really belong in the config doc?",
+      "revId": "4b5508d562ca8a71cc29936c7216daf4b4ad2c23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

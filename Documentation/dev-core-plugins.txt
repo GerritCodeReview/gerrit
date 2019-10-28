@@ -7,8 +7,19 @@ Core plugins are plugins that are packaged within the Gerrit war file. This
 means during the link:pgm-init.html[Gerrit initialization] they can be easily
 installed without downloading any additional files.
 
-The core plugins are developed and maintained by the Gerrit maintainers
-and the Gerrit community.
+All core plugins are developed and maintained by the
+link:dev-roles.html#maintainers[Gerrit maintainers] and everyone can
+link:dev-contributing.html[contribute] to them.
+
+Adding a new core plugin feature that is large or complex requires a
+link:dev-design-doc.html[design doc] (also see
+link:dev-contributing.html#design-driven-contribution-process[design-driven
+contribution process]). The link:dev-processes.html#steering-committee[
+engineering steering committee (ESC)] is the authority that approves the design
+docs. The ESC is also in charge of adding and removing core plugins.
+
+Non-Gerrit maintainers cannot have link:access-control.html#category_owner[
+Owner] permissions for core plugins.
 
 [[list]]
 == Which core plugins exist?

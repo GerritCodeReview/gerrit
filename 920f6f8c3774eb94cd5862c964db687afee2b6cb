@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bd6b1966_401f2afb",
+        "filename": "java/com/google/gerrit/extensions/common/InputWithCommitMessage.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-10-28T10:57:23Z",
+      "side": 1,
+      "message": "Nice.  This can probably be used to replace some other existing static inner Input classes.",
+      "revId": "920f6f8c3774eb94cd5862c964db687afee2b6cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

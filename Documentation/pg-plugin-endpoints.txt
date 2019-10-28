@@ -79,6 +79,17 @@ link:rest-api-changes.html#revision-info[RevisionInfo]
 labels with scores applied to the change, map of the label names to
 link:rest-api-changes.html#label-info[LabelInfo] entries
 
+=== formatted-text
+This endpoint wraps the content of `gr-formatted-text`, the element used to format
+the text in messages and comments. It can be used to add additional formatters for
+those texts.
+To format the text, a plugin has to install a hook to this endpoint and execute the
+formatting, when the hook is attached using the `onAttached(callback)`-method. The
+`content` field of the parameter given to the callback function will contain the
+message. Note, that the formatting of the text done in Gerrit core and the attachment
+of the hook installed by the plugin are asynchronous. The plugin should consider
+this.
+
 === robot-comment-controls
 The `robot-comment-controls` extension point is located inside each comment
 rendered on the diff page, and is only visible when the comment is a robot

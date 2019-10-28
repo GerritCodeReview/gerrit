@@ -62,7 +62,7 @@ limitations under the License.
           <input id="rebaseOnParentInput"
               name="rebaseOptions"
               type="radio"
-              on-tap="_handleRebaseOnParent">
+              on-click="_handleRebaseOnParent">
           <label id="rebaseOnParentLabel" for="rebaseOnParentInput">
             Rebase on parent change
           </label>
@@ -77,7 +77,7 @@ limitations under the License.
               name="rebaseOptions"
               type="radio"
               disabled$="[[!_displayTipOption(rebaseOnCurrent, hasParent)]]"
-              on-tap="_handleRebaseOnTip">
+              on-click="_handleRebaseOnTip">
           <label id="rebaseOnTipLabel" for="rebaseOnTipInput">
             Rebase on top of the [[branch]]
             branch<span hidden$="[[!hasParent]]">
@@ -93,7 +93,7 @@ limitations under the License.
           <input id="rebaseOnOtherInput"
               name="rebaseOptions"
               type="radio"
-              on-tap="_handleRebaseOnOther">
+              on-click="_handleRebaseOnOther">
           <label id="rebaseOnOtherLabel" for="rebaseOnOtherInput">
             Rebase on a specific change, ref, or commit <span hidden$="[[!hasParent]]">
               (breaks relation chain)
@@ -106,7 +106,7 @@ limitations under the License.
               query="[[_query]]"
               no-debounce
               text="{{_text}}"
-              on-tap="_handleEnterChangeNumberTap"
+              on-click="_handleEnterChangeNumberClick"
               allow-non-suggested-values
               placeholder="Change number, ref, or commit hash">
           </gr-autocomplete>

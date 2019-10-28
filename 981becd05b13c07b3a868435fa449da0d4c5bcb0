@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c5adcebb_8425a36d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-10-28T16:40:58Z",
+      "side": 1,
+      "message": "This part actually has coverage:\n\nAbstractPushForReview:\npushCommitWithSameChangeIdAsPredecessorChange\npushTwoCommitWithSameChangeId\n\nIs there more you would test for this code fragment specifically?",
+      "parentUuid": "8ad0d279_cf374569",
+      "revId": "981becd05b13c07b3a868435fa449da0d4c5bcb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8baa845c_30bdf31c",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

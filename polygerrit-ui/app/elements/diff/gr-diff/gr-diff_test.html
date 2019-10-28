@@ -544,12 +544,12 @@ limitations under the License.
         });
       });
 
-      test('_handleTap lineNum', done => {
+      test('_handleClick lineNum', done => {
         const addDraftStub = sandbox.stub(element, 'addDraftAtLine');
         const el = document.createElement('div');
         el.className = 'lineNum';
         el.addEventListener('click', e => {
-          element._handleTap(e);
+          element._handleClick(e);
           assert.isTrue(addDraftStub.called);
           assert.equal(addDraftStub.lastCall.args[0], el);
           done();
@@ -557,20 +557,21 @@ limitations under the License.
         el.click();
       });
 
-      test('_handleTap context', done => {
+      test('_handleClick context', done => {
         const showContextStub =
             sandbox.stub(element.$.diffBuilder, 'showContext');
         const el = document.createElement('div');
         el.className = 'showContext';
         el.addEventListener('click', e => {
-          element._handleTap(e);
+          e.diffDetail = {};
+          element._handleClick(e);
           assert.isTrue(showContextStub.called);
           done();
         });
         el.click();
       });
 
-      test('_handleTap content', done => {
+      test('_handleClick content', done => {
         const content = document.createElement('div');
         const lineEl = document.createElement('div');
 
@@ -579,7 +580,7 @@ limitations under the License.
 
         content.className = 'content';
         content.addEventListener('click', e => {
-          element._handleTap(e);
+          element._handleClick(e);
           assert.isTrue(selectStub.called);
           assert.equal(selectStub.lastCall.args[0], lineEl);
           done();

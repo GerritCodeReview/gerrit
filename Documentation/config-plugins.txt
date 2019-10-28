@@ -40,8 +40,18 @@ branches for old releases.
 Core plugins are packaged within the Gerrit war file and can easily be
 installed during the link:pgm-init.html[Gerrit initialization].
 
-The core plugins are developed and maintained by the Gerrit maintainers
-and the Gerrit community.
+All core plugins are developed and maintained by the
+link:dev-roles.html#maintainers[Gerrit maintainers] and everyone can
+link:dev-contributing.html[contribute] to them.
+
+Adding a new feature that is large or complex requires a
+link:dev-design-doc.html[design doc] (also see
+link:dev-contributing.html#design-driven-contribution-process[design-driven
+contribution process]). The link:dev-processes.html#steering-committee[
+engineering steering committee (ESC)] is the authority that approves the design
+docs. The ESC is also in charge of adding and removing core plugins.
+
+Core plugins cannot be owned by non-Gerrit maintainers.
 
 Note that the documentation and configuration links in the list below are
 to the plugins' master branch. Please refer to the appropriate branch or

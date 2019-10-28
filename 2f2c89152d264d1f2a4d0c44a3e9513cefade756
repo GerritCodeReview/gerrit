@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "638a0fa5_c29fae1b",
+        "filename": "java/com/google/gerrit/server/patch/PatchScriptBuilder.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-10-28T09:42:17Z",
+      "side": 1,
+      "message": "Ok, will do as a separate change.",
+      "parentUuid": "a0340a22_f1bec0c6",
+      "range": {
+        "startLine": 55,
+        "startChar": 6,
+        "endLine": 55,
+        "endChar": 24
+      },
+      "revId": "2f2c89152d264d1f2a4d0c44a3e9513cefade756",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b6a30ba2_5d92e271",
         "filename": "java/com/google/gerrit/server/patch/PatchScriptBuilder.java",
         "patchSetId": 10
@@ -36,6 +60,30 @@
       "writtenOn": "2019-10-17T16:30:37Z",
       "side": 1,
       "message": "why not a 2nd constructor?",
+      "range": {
+        "startLine": 593,
+        "startChar": 17,
+        "endLine": 593,
+        "endChar": 27
+      },
+      "revId": "2f2c89152d264d1f2a4d0c44a3e9513cefade756",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "97e3fd20_5e08d932",
+        "filename": "java/com/google/gerrit/server/patch/PatchScriptBuilder.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 593,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-10-28T09:42:17Z",
+      "side": 1,
+      "message": "Right now this code can\u0027t be reused in other places. Also it seems that this code works only inside SideResolver (i.e. conditions in the createSide method make sense only inside this class).\nAlso, I want to keep Side as simple as possible - it should only describe one side of patch.",
+      "parentUuid": "b6a30ba2_5d92e271",
       "range": {
         "startLine": 593,
         "startChar": 17,

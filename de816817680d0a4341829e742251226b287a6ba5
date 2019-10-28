@@ -22,6 +22,30 @@
       "revId": "de816817680d0a4341829e742251226b287a6ba5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6ab1c72e_8aed58fc",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-28T07:51:21Z",
+      "side": 1,
+      "message": "The 14px change is in https://gerrit-review.googlesource.com/c/gerrit/+/242420.\n\nI would prefer to keep it there. This change here is mostly just a refactoring with minimal user facing impact. And the 14px change is a huge (and potentially controversial) one.",
+      "parentUuid": "e404c189_b92b5169",
+      "range": {
+        "startLine": 77,
+        "startChar": 34,
+        "endLine": 77,
+        "endChar": 36
+      },
+      "revId": "de816817680d0a4341829e742251226b287a6ba5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

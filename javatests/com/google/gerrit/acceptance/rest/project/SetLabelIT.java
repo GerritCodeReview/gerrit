@@ -90,7 +90,7 @@ public class SetLabelIT extends AbstractDaemonTest {
     assertThat(gApi.projects().name(allProjects.get()).label("Foo-Review").get()).isNotNull();
     assertThrows(
         ResourceNotFoundException.class,
-        () -> gApi.projects().name(project.get()).label("Code-Review").get());
+        () -> gApi.projects().name(allProjects.get()).label("Code-Review").get());
   }
 
   @Test
@@ -105,7 +105,7 @@ public class SetLabelIT extends AbstractDaemonTest {
     assertThat(gApi.projects().name(allProjects.get()).label("Foo-Review").get()).isNotNull();
     assertThrows(
         ResourceNotFoundException.class,
-        () -> gApi.projects().name(project.get()).label("Code-Review").get());
+        () -> gApi.projects().name(allProjects.get()).label("Code-Review").get());
   }
 
   @Test

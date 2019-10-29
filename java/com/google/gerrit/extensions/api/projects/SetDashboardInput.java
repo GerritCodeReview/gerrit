@@ -14,9 +14,9 @@
 
 package com.google.gerrit.extensions.api.projects;
 
+import com.google.gerrit.extensions.common.InputWithCommitMessage;
 import com.google.gerrit.extensions.restapi.DefaultInput;
 
-public class SetDashboardInput {
+public class SetDashboardInput extends InputWithCommitMessage {
   @DefaultInput public String id;
-  public String commitMessage;
 }

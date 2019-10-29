@@ -14,9 +14,9 @@
 
 package com.google.gerrit.extensions.api.projects;
 
+import com.google.gerrit.extensions.common.InputWithCommitMessage;
 import com.google.gerrit.extensions.restapi.DefaultInput;
 
-public class ParentInput {
+public class ParentInput extends InputWithCommitMessage {
   @DefaultInput public String parent;
-  public String commitMessage;
 }

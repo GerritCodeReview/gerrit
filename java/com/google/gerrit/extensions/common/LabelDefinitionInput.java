@@ -17,8 +17,7 @@ package com.google.gerrit.extensions.common;
 import java.util.List;
 import java.util.Map;
 
-public class LabelDefinitionInput {
-  public String commitMessage;
+public class LabelDefinitionInput extends InputWithCommitMessage {
   public String name;
   public String function;
   public Map<String, String> values;

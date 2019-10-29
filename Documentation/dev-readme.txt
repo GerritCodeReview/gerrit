@@ -5,6 +5,7 @@ compile the code.
 
 == Git Setup
 
+[[clone]]
 === Getting the Source
 
 Create a new client workspace:

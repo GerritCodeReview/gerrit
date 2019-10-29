@@ -7,7 +7,8 @@
 The Gerrit project has an engineering steering committee (ESC) that is
 in charge of:
 
-* Gerrit core (the `gerrit` project) and the core plugins
+* Gerrit core (the `gerrit` project) and the link:dev-core-plugins.html[core
+  plugins]
 * defining the project vision and the project scope
 * maintaining a roadmap, a release plan and a prioritized backlog
 * ensuring timely design reviews
@@ -293,6 +294,11 @@ should be made public.
 The ESC should discuss if there are any learnings from the security
 vulnerability and define action items to follow up in the
 link:https://bugs.chromium.org/p/gerrit[issue tracker].
+
+[[core-plugins]]
+== Core Plugins
+
+See link:dev-core-plugins.html[here].
 
 [[upgrading-libraries]]
 == Upgrading Libraries

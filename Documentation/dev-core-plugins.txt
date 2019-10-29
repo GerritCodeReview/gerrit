@@ -1,0 +1,23 @@
+= Gerrit Code Review - Core Plugins
+
+[[definition]]
+== What are core plugins?
+
+Core plugins are plugins that are packaged within the Gerrit war file. This
+means during the link:pgm-init.html[Gerrit initialization] they can be easily
+installed without downloading any additional files.
+
+The core plugins are developed and maintained by the Gerrit maintainers
+and the Gerrit community.
+
+[[list]]
+== Which core plugins exist?
+
+See link:config-plugins.html#core-plugins[here].
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

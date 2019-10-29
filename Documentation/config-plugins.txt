@@ -37,11 +37,9 @@ branches for old releases.
 [[core-plugins]]
 == Core Plugins
 
-Core plugins are packaged within the Gerrit war file and can easily be
-installed during the link:pgm-init.html[Gerrit initialization].
-
-The core plugins are developed and maintained by the Gerrit maintainers
-and the Gerrit community.
+link:dev-core-plugins.html[Core plugins] are packaged within the Gerrit
+war file and can easily be installed during the link:pgm-init.html[
+Gerrit initialization].
 
 Note that the documentation and configuration links in the list below are
 to the plugins' master branch. Please refer to the appropriate branch or

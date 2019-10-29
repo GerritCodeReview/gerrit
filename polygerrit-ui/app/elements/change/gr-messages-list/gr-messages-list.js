@@ -53,7 +53,7 @@
       },
       _hideAutomated: {
         type: Boolean,
-        value: false,
+        value: true,
       },
       /**
        * The messages after processing and including merged reviewer updates.

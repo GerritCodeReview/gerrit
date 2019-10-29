@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b3817cdf_eede191b",
+        "filename": "Documentation/dev-core-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-10-29T09:48:49Z",
+      "side": 1,
+      "message": "maybe mention that they are linked as submodules in the gerrit repository ?",
+      "revId": "3d7a14e08cbee074de090e6e65cf8d073da4c734",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

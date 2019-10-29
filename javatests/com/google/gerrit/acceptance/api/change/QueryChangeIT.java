@@ -18,6 +18,7 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
@@ -95,6 +96,31 @@ public class QueryChangeIT extends AbstractDaemonTest {
     // _moreChanges is set on the second response, but not on the first.
     assertNoChangeHasMoreChangesSet(result2.get(0));
     assertThat(result2.get(1).get(0)._moreChanges).isTrue();
+  }
+
+  @Test
+  @SuppressWarnings("unchecked")
+  @GerritConfig(name = "operator-alias.change.numberaliastest", value = "change")
+  public void aliasQuery() throws Exception {
+    String cId1 = createChange().getChangeId();
+    String cId2 = createChange().getChangeId();
+    int numericId1 = gApi.changes().id(cId1).get()._number;
+    int numericId2 = gApi.changes().id(cId2).get()._number;
+
+    QueryChanges queryChanges = queryChangesProvider.get();
+    queryChanges.addQuery("numberaliastest:12345");
+    queryChanges.addQuery("numberaliastest:" + numericId1);
+    queryChanges.addQuery("numberaliastest:" + numericId2);
+
+    List<List<ChangeInfo>> result =
+        (List<List<ChangeInfo>>) queryChanges.apply(TopLevelResource.INSTANCE).value();
+    assertThat(result).hasSize(3);
+    assertThat(result.get(0)).hasSize(0);
+    assertThat(result.get(1)).hasSize(1);
+    assertThat(result.get(2)).hasSize(1);
+
+    assertThat(result.get(1).get(0)._number).isEqualTo(numericId1);
+    assertThat(result.get(2).get(0)._number).isEqualTo(numericId2);
   }
 
   private static void assertNoChangeHasMoreChangesSet(List<ChangeInfo> results) {

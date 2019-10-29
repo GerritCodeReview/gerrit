@@ -222,7 +222,7 @@ limitations under the License.
       .content .trailing-whitespace,
       .trailing-whitespace .intraline,
       .content .trailing-whitespace .intraline {
-        border-radius: .4em;
+        border-radius: var(--border-radius, 4px);
         background-color: var(--diff-trailing-whitespace-indicator);
       }
       #diffHeader {

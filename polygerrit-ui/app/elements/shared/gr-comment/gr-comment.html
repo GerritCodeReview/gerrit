@@ -183,12 +183,11 @@ limitations under the License.
         display: none;
       }
       label.show-hide {
-        color: var(--comment-text-color);
         cursor: pointer;
         display: block;
-        font-size: var(--font-size-small);
-        height: 1.1em;
-        margin-top: var(--spacing-xxs);
+      }
+      label.show-hide iron-icon {
+        vertical-align: top;
       }
       #container .collapsedContent {
         display: none;
@@ -276,7 +275,10 @@ limitations under the License.
             <input type="checkbox" class="show-hide"
                checked$="[[collapsed]]"
                on-change="_handleToggleCollapsed">
-            [[_computeShowHideText(collapsed)]]
+            <iron-icon
+                id="icon"
+                icon="[[_computeShowHideIcon(collapsed)]]">
+            </iron-icon>
           </label>
         </div>
       </div>

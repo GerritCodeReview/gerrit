@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e82ab246_88272e35",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-29T12:12:15Z",
+      "side": 1,
+      "message": "try `e.detail.groups \u003d groups`, it may work (readonly on detail should be same as `style`, you can attach more but can not change the reference).",
+      "range": {
+        "startLine": 292,
+        "startChar": 6,
+        "endLine": 295,
+        "endChar": 8
+      },
+      "revId": "8bd2328af66d54ac068e65b4d50ad8dec78e0b63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f8042443_0a7cda8d",
+        "filename": "java/com/google/gerrit/sshd/commands/CreateGroupCommand.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-10-29T08:11:04Z",
+      "side": 1,
+      "message": "Wrap them up to RestApiException?",
+      "range": {
+        "startLine": 128,
+        "startChar": 13,
+        "endLine": 129,
+        "endChar": 62
+      },
+      "revId": "92231b69678fe8a774b271ad75612efb97dffe6c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

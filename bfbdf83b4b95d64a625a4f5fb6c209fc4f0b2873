@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3669ed92_bebdaaef",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 18
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-10-29T07:24:42Z",
+      "side": 1,
+      "message": "supports",
+      "range": {
+        "startLine": 9,
+        "startChar": 7,
+        "endLine": 9,
+        "endChar": 14
+      },
+      "revId": "bfbdf83b4b95d64a625a4f5fb6c209fc4f0b2873",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b559e490_ed5d2758",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 18
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-10-29T07:24:42Z",
+      "side": 1,
+      "message": "setting",
+      "range": {
+        "startLine": 9,
+        "startChar": 17,
+        "endLine": 9,
+        "endChar": 25
+      },
+      "revId": "bfbdf83b4b95d64a625a4f5fb6c209fc4f0b2873",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2e612588_5ba1e0e4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 18
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-10-29T07:24:42Z",
+      "side": 1,
+      "message": "that implements",
+      "range": {
+        "startLine": 10,
+        "startChar": 6,
+        "endLine": 10,
+        "endChar": 16
+      },
+      "revId": "bfbdf83b4b95d64a625a4f5fb6c209fc4f0b2873",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8266a4b8_404d979f",
+        "filename": "javatests/com/google/gerrit/acceptance/filter/FilterClassIT.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-10-29T07:24:42Z",
+      "side": 1,
+      "message": "It would be a lot more readable if set from a string, like that:\n\n  cfg.fromText(\"[httpd] ...\")",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 44,
+        "endChar": 17
+      },
+      "revId": "bfbdf83b4b95d64a625a4f5fb6c209fc4f0b2873",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

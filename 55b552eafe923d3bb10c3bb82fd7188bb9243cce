@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "85a8f447_6b889860",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2019-10-29T10:50:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3fd25774_0163012c",
+      "range": {
+        "startLine": 7,
+        "startChar": 16,
+        "endLine": 7,
+        "endChar": 26
+      },
+      "revId": "55b552eafe923d3bb10c3bb82fd7188bb9243cce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bd23c9a3_14b9a242",
         "filename": "polygerrit-ui/app/elements/admin/gr-repo-list/gr-repo-list.html",
         "patchSetId": 3
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "2115ab9a_3b909a41",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-list/gr-repo-list.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2019-10-29T10:50:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bd23c9a3_14b9a242",
+      "range": {
+        "startLine": 39,
+        "startChar": 7,
+        "endLine": 39,
+        "endChar": 19
+      },
+      "revId": "55b552eafe923d3bb10c3bb82fd7188bb9243cce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ad3bcace_cbedb784",
         "filename": "polygerrit-ui/app/elements/admin/gr-repo-list/gr-repo-list.html",
         "patchSetId": 3
@@ -68,6 +116,30 @@
       "revId": "55b552eafe923d3bb10c3bb82fd7188bb9243cce",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f00e2ae2_5c1f12b9",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-list/gr-repo-list.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2019-10-29T10:50:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ad3bcace_cbedb784",
+      "range": {
+        "startLine": 80,
+        "startChar": 25,
+        "endLine": 80,
+        "endChar": 36
+      },
+      "revId": "55b552eafe923d3bb10c3bb82fd7188bb9243cce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

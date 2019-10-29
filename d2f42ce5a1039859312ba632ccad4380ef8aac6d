@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "91cf59be_be996461",
+        "filename": "Documentation/config-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-29T10:50:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07c40e08_875d3157",
+      "range": {
+        "startLine": 78,
+        "startChar": 0,
+        "endLine": 78,
+        "endChar": 16
+      },
+      "revId": "d2f42ce5a1039859312ba632ccad4380ef8aac6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a423b42_ad959d2d",
         "filename": "Documentation/config-plugins.txt",
         "patchSetId": 2
@@ -39,6 +63,24 @@
       "revId": "d2f42ce5a1039859312ba632ccad4380ef8aac6d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f857292e_1cbc9230",
+        "filename": "Documentation/config-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-29T10:50:43Z",
+      "side": 1,
+      "message": "I share your concern about accepting too many core plugins, and making the burden of maintaining core plugins too heavy for the maintainers. This is also why further below it\u0027s said that the overhead for maintaining the core plugins must be low.\n\nI agree that this is vague and each case needs a discussion on its own. Your suggestions on this are very good and I added them to the docs. I think it\u0027s much clearer now. If we find more criteria to consider, I\u0027m happy to add them.",
+      "parentUuid": "9a423b42_ad959d2d",
+      "revId": "d2f42ce5a1039859312ba632ccad4380ef8aac6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

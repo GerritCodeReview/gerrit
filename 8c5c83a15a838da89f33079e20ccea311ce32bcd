@@ -16,6 +16,24 @@
       "revId": "8c5c83a15a838da89f33079e20ccea311ce32bcd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ddf32a8a_f6d32841",
+        "filename": "Documentation/config-plugins.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-29T10:50:43Z",
+      "side": 1,
+      "message": "\u003e If the ESC has a majority of google employees on it, and if the ESC is being given the\n\u003e power to make decisions about core plugins, then should it follow that all core\n\u003e plugins must be plugins that google uses?\n\nNo, this is not a criteria. Actually all core plugins which have been recently added are plugins that are not used by Google (plugin-manager [1], gitiles [2], webhooks [3], delete-project [4]).\n\n\u003e If not, does it make sense for google (or any company\u0027s) employees to have overriding\n\u003e direction on plugins they don\u0027t use?\n\nAccording to our project governance the ESC is in charge of Gerrit core and the core plugins [1]. If ESC authority is not wanted for a plugin, it should not be a core plugin. \n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/221236\n[2] https://gerrit-review.googlesource.com/c/gerrit/+/210959\n[3] https://gerrit-review.googlesource.com/c/gerrit/+/206726\n[4] https://gerrit-review.googlesource.com/c/gerrit/+/203712\n[5] https://gerrit-review.googlesource.com/Documentation/dev-processes.html#steering-committee",
+      "parentUuid": "a44fc1be_2fdae9db",
+      "revId": "8c5c83a15a838da89f33079e20ccea311ce32bcd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

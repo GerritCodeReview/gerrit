@@ -43,6 +43,53 @@
     },
 
     /**
+     * Annotates the [offset, offset+length) text segment with the wrapper node
+     * provided.
+     *
+     * @param {!Element} parent the node whose contents will be annotated.
+     * @param {number} offset the 0-based offset from which the annotation will
+     *   start.
+     * @param {number} length of the annotated text.
+     * @param {!Element} wrapper the node to be used for the annotation. This
+     *   node must:
+     *     1. not have any child nodes
+     *     2. should not have event listeners (since it might be cloned)
+     */
+    annotateWithNode(parent, offset, length, wrapper) {
+      if (wrapper.childNodes.length) {
+	throw new Error('Annotating node should not have child nodes');
+      }
+      const childNodes = Array.from(parent.childNodes);
+      let innerItems = [];
+
+      for (let node of childNodes) {
+	const initialNodeLength = this.getLength(node);
+        // If the current node is completely before the offset.
+        if (initialNodeLength <= offset) {
+          offset -= initialNodeLength;
+          continue;
+        }
+
+	if (offset > 0) {
+	  node = this.splitNode(node, offset);
+	  offset = 0;
+	}
+	if (this.getLength(node) > length) {
+	  this.splitNode(node, length);
+	}
+	innerItems.push(node);
+
+	length -= this.getLength(node);
+	if (!length) break;
+      }
+
+      for (const inner of innerItems) {
+	parent.replaceChild(wrapper, inner);
+	wrapper.appendChild(inner);
+      }
+    },
+
+    /**
      * Surrounds the element's text at specified range in an ANNOTATION_TAG
      * element. If the element has child elements, the range is split and
      * applied as deeply as possible.

@@ -70,6 +70,30 @@
       "revId": "87ff58c19e4091e0ba56c626025c75e3404fecce",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2bf5791b_f9589d9a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-10-29T20:13:00Z",
+      "side": 1,
+      "message": "\u003d\u003e Issue 11833.",
+      "parentUuid": "8d3d948c_b01565f6",
+      "range": {
+        "startLine": 12,
+        "startChar": 12,
+        "endLine": 12,
+        "endChar": 24
+      },
+      "revId": "87ff58c19e4091e0ba56c626025c75e3404fecce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

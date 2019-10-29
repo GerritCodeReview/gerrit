@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8ad82701_e42bd302",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-10-29T23:53:47Z",
+      "side": 1,
+      "message": "Add a list of the commits that will be included.",
+      "revId": "58aad85d7ddc5f6ff51644c2f3963c4c62238b9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

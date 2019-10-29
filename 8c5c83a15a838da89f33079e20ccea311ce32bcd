@@ -34,6 +34,24 @@
       "revId": "8c5c83a15a838da89f33079e20ccea311ce32bcd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "793c7655_fb7f938a",
+        "filename": "Documentation/config-plugins.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-29T10:57:40Z",
+      "side": 1,
+      "message": "To clarify about gitiles, we do use gitiles, but not the gitiles plugin.",
+      "parentUuid": "ddf32a8a_f6d32841",
+      "revId": "8c5c83a15a838da89f33079e20ccea311ce32bcd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

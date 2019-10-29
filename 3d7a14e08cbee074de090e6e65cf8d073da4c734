@@ -16,6 +16,24 @@
       "revId": "3d7a14e08cbee074de090e6e65cf8d073da4c734",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "09c6290b_9903e289",
+        "filename": "Documentation/dev-core-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-29T11:50:18Z",
+      "side": 1,
+      "message": "Good idea. Done.",
+      "parentUuid": "b3817cdf_eede191b",
+      "revId": "3d7a14e08cbee074de090e6e65cf8d073da4c734",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

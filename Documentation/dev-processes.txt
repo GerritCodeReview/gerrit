@@ -294,6 +294,11 @@ The ESC should discuss if there are any learnings from the security
 vulnerability and define action items to follow up in the
 link:https://bugs.chromium.org/p/gerrit[issue tracker].
 
+[[core-plugins]]
+== Core Plugins
+
+See link:dev-core-plugins.html[here].
+
 [[upgrading-libraries]]
 == Upgrading Libraries
 

@@ -21,6 +21,7 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
+import com.google.gerrit.extensions.common.InputWithMessage;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.extensions.events.WorkInProgressStateChanged;
@@ -34,15 +35,15 @@ import com.google.inject.assistedinject.Assisted;
 
 /* Set work in progress or ready for review state on a change */
 public class WorkInProgressOp implements BatchUpdateOp {
-  public static class Input {
-    @Nullable public String message;
-
+  public static class Input extends InputWithMessage {
     @Nullable public NotifyHandling notify;
 
-    public Input() {}
+    public Input() {
+      this(null);
+    }
 
-    public Input(String message) {
-      this.message = message;
+    public Input(@Nullable String message) {
+      super(message);
     }
   }
 

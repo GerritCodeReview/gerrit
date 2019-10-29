@@ -17,6 +17,7 @@ package com.google.gerrit.server.restapi.change;
 import static com.google.gerrit.extensions.conditions.BooleanCondition.or;
 
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.extensions.common.InputWithMessage;
 import com.google.gerrit.extensions.conditions.BooleanCondition;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -36,7 +37,7 @@ import com.google.inject.Singleton;
 
 @Singleton
 public class DeletePrivate
-    extends RetryingRestModifyView<ChangeResource, SetPrivateOp.Input, String> {
+    extends RetryingRestModifyView<ChangeResource, InputWithMessage, String> {
   private final PermissionBackend permissionBackend;
   private final SetPrivateOp.Factory setPrivateOpFactory;
 
@@ -52,7 +53,7 @@ public class DeletePrivate
 
   @Override
   protected Response<String> applyImpl(
-      BatchUpdate.Factory updateFactory, ChangeResource rsrc, @Nullable SetPrivateOp.Input input)
+      BatchUpdate.Factory updateFactory, ChangeResource rsrc, @Nullable InputWithMessage input)
       throws RestApiException, UpdateException {
     if (!canDeletePrivate(rsrc).value()) {
       throw new AuthException("not allowed to unmark private");

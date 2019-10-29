@@ -48,6 +48,7 @@ import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.CommitMessageInput;
 import com.google.gerrit.extensions.common.Input;
+import com.google.gerrit.extensions.common.InputWithMessage;
 import com.google.gerrit.extensions.common.MergePatchSetInput;
 import com.google.gerrit.extensions.common.PureRevertInfo;
 import com.google.gerrit.extensions.common.RevertSubmissionInfo;
@@ -63,7 +64,6 @@ import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.StarredChangesUtil.IllegalLabelException;
 import com.google.gerrit.server.change.ChangeMessageResource;
 import com.google.gerrit.server.change.ChangeResource;
-import com.google.gerrit.server.change.SetPrivateOp;
 import com.google.gerrit.server.change.WorkInProgressOp;
 import com.google.gerrit.server.restapi.change.Abandon;
 import com.google.gerrit.server.restapi.change.ChangeIncludedIn;
@@ -324,7 +324,7 @@ class ChangeApiImpl implements ChangeApi {
   @Override
   public void setPrivate(boolean value, @Nullable String message) throws RestApiException {
     try {
-      SetPrivateOp.Input input = new SetPrivateOp.Input(message);
+      InputWithMessage input = new InputWithMessage(message);
       if (value) {
         postPrivate.apply(change, input);
       } else {

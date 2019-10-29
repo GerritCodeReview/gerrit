@@ -18,6 +18,7 @@ import static com.google.gerrit.extensions.conditions.BooleanCondition.and;
 import static com.google.gerrit.extensions.conditions.BooleanCondition.or;
 
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.extensions.common.InputWithMessage;
 import com.google.gerrit.extensions.conditions.BooleanCondition;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
@@ -39,7 +40,7 @@ import com.google.inject.Singleton;
 import org.eclipse.jgit.lib.Config;
 
 @Singleton
-public class PostPrivate extends RetryingRestModifyView<ChangeResource, SetPrivateOp.Input, String>
+public class PostPrivate extends RetryingRestModifyView<ChangeResource, InputWithMessage, String>
     implements UiAction<ChangeResource> {
   private final PermissionBackend permissionBackend;
   private final SetPrivateOp.Factory setPrivateOpFactory;
@@ -59,7 +60,7 @@ public class PostPrivate extends RetryingRestModifyView<ChangeResource, SetPriva
 
   @Override
   public Response<String> applyImpl(
-      BatchUpdate.Factory updateFactory, ChangeResource rsrc, SetPrivateOp.Input input)
+      BatchUpdate.Factory updateFactory, ChangeResource rsrc, InputWithMessage input)
       throws RestApiException, UpdateException {
     if (disablePrivateChanges) {
       throw new MethodNotAllowedException("private changes are disabled");

@@ -19,6 +19,7 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.entities.PatchSet;
+import com.google.gerrit.extensions.common.InputWithMessage;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.server.ChangeMessagesUtil;
@@ -34,25 +35,15 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
 public class SetPrivateOp implements BatchUpdateOp {
-  public static class Input {
-    String message;
-
-    public Input() {}
-
-    public Input(String message) {
-      this.message = message;
-    }
-  }
-
   public interface Factory {
-    SetPrivateOp create(boolean isPrivate, @Nullable Input input);
+    SetPrivateOp create(boolean isPrivate, @Nullable InputWithMessage input);
   }
 
   private final PrivateStateChanged privateStateChanged;
   private final PatchSetUtil psUtil;
   private final ChangeMessagesUtil cmUtil;
   private final boolean isPrivate;
-  @Nullable private final Input input;
+  @Nullable private final InputWithMessage input;
 
   private Change change;
   private PatchSet ps;
@@ -64,7 +55,7 @@ public class SetPrivateOp implements BatchUpdateOp {
       PatchSetUtil psUtil,
       ChangeMessagesUtil cmUtil,
       @Assisted boolean isPrivate,
-      @Assisted @Nullable Input input) {
+      @Assisted @Nullable InputWithMessage input) {
     this.privateStateChanged = privateStateChanged;
     this.psUtil = psUtil;
     this.cmUtil = cmUtil;

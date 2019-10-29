@@ -107,6 +107,7 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
    * PUT request with a path was called but change edit wasn't created yet. Change edit is created
    * and PUT handler is called.
    */
+  @Singleton
   public static class Create
       implements RestCollectionCreateView<ChangeResource, ChangeEditResource, Put.Input> {
     private final Put putEdit;
@@ -124,6 +125,7 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
     }
   }
 
+  @Singleton
   public static class DeleteFile
       implements RestCollectionDeleteMissingView<ChangeResource, ChangeEditResource, Input> {
     private final DeleteContent deleteContent;

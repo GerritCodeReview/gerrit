@@ -3062,6 +3062,38 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     assertThat(newNotes(c).getUpdateCount()).isEqualTo(3);
   }
 
+  @Test
+  public void createPatchSetAfterPatchSetDeletion() throws Exception {
+    Change c = newChange();
+    assertThat(newNotes(c).getChange().currentPatchSetId().get()).isEqualTo(1);
+
+    // Create PS2.
+    incrementCurrentPatchSetFieldOnly(c);
+    RevCommit commit = tr.commit().message("PS" + c.currentPatchSetId().get()).create();
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    update.setCommit(rw, commit);
+    update.setGroups(ImmutableList.of(commit.name()));
+    update.commit();
+    assertThat(newNotes(c).getChange().currentPatchSetId().get()).isEqualTo(2);
+
+    // Delete PS2.
+    update = newUpdate(c, changeOwner);
+    update.setPatchSetState(PatchSetState.DELETED);
+    update.commit();
+    c = newNotes(c).getChange();
+    assertThat(c.currentPatchSetId().get()).isEqualTo(1);
+
+    // Create another PS2
+    incrementCurrentPatchSetFieldOnly(c);
+    commit = tr.commit().message("PS" + c.currentPatchSetId().get()).create();
+    update = newUpdate(c, changeOwner);
+    update.setPatchSetState(PatchSetState.PUBLISHED);
+    update.setCommit(rw, commit);
+    update.setGroups(ImmutableList.of(commit.name()));
+    update.commit();
+    assertThat(newNotes(c).getChange().currentPatchSetId().get()).isEqualTo(2);
+  }
+
   private String readNote(ChangeNotes notes, ObjectId noteId) throws Exception {
     ObjectId dataId = notes.revisionNoteMap.noteMap.getNote(noteId).getData();
     return new String(rw.getObjectReader().open(dataId, OBJ_BLOB).getCachedBytes(), UTF_8);

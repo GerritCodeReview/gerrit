@@ -363,6 +363,15 @@ class ChangeNotesParser {
       submissionId = parseSubmissionId(commit);
     }
 
+    if (lastUpdatedOn == null || ts.after(lastUpdatedOn)) {
+      lastUpdatedOn = ts;
+    }
+
+    if (deletedPatchSets.contains(psId)) {
+      // Do not update PS details as PS was deleted and this meta data is of no relevance.
+      return;
+    }
+
     // Parse mutable patch set fields first so they can be recorded in the PendingPatchSetFields.
     parseDescription(psId, commit);
     parseGroups(psId, commit);
@@ -410,10 +419,6 @@ class ChangeNotesParser {
 
     previousWorkInProgressFooter = null;
     parseWorkInProgress(commit);
-
-    if (lastUpdatedOn == null || ts.after(lastUpdatedOn)) {
-      lastUpdatedOn = ts;
-    }
   }
 
   private String parseSubmissionId(ChangeNotesCommit commit) throws ConfigInvalidException {
@@ -487,10 +492,6 @@ class ChangeNotesParser {
       throw parseException("patch set %s requires an identified user as uploader", psId.get());
     }
     if (patchSetCommitParsed(psId)) {
-      if (deletedPatchSets.contains(psId)) {
-        // Do not update PS details as PS was deleted and this meta data is of no relevance.
-        return;
-      }
       ObjectId commitId = patchSets.get(psId).commitId().orElseThrow(IllegalStateException::new);
       throw new ConfigInvalidException(
           String.format(

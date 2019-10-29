@@ -16,6 +16,24 @@
       "revId": "4f889cba0d0aa59e1b88a3cafb3a6bbe2db13dd9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cbc6a9b0_73e2c834",
+        "filename": "plugins/replication",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-29T14:31:48Z",
+      "side": 0,
+      "message": "Thanks for catching!\n\nDone.\n\nhttps://gerrit-review.googlesource.com/c/gerrit/+/242878",
+      "parentUuid": "f6d11598_07bdc0ad",
+      "revId": "4f889cba0d0aa59e1b88a3cafb3a6bbe2db13dd9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fea15071_bad309e4",
+        "filename": "Documentation/dev-core-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-10-29T08:46:37Z",
+      "side": 1,
+      "message": "\"What is a core plugin?\" or \"What are core plugins?\"",
+      "range": {
+        "startLine": 4,
+        "startChar": 3,
+        "endLine": 4,
+        "endChar": 26
+      },
+      "revId": "843fa4c514d519498ad84f20154febfd1f79bf27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

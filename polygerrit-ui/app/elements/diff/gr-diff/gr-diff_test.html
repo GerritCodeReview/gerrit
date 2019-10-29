@@ -762,9 +762,9 @@ limitations under the License.
         element = fixture('basic');
         renderStub = sandbox.stub(element.$.diffBuilder, 'render',
             () => {
-              Promise.resolve();
               element.$.diffBuilder.dispatchEvent(
                   new CustomEvent('render', {bubbles: true, composed: true}));
+              return Promise.resolve({});
             });
         const mock = document.createElement('mock-diff-response');
         sandbox.stub(element, 'getDiffLength').returns(10000);

@@ -18,7 +18,7 @@ import com.google.gerrit.common.Nullable;
 
 /** A generic input with a commit message only. */
 public class InputWithCommitMessage {
-  public String commitMessage;
+  @Nullable public String commitMessage;
 
   public InputWithCommitMessage() {
     this(null);

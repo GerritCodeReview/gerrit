@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "72f178ed_d9165699",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_test.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 820,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-29T13:01:29Z",
+      "side": 1,
+      "message": "nit: rename this as well :)",
+      "range": {
+        "startLine": 820,
+        "startChar": 12,
+        "endLine": 820,
+        "endChar": 18
+      },
+      "revId": "4389c602332bfb1e1be0e4552c99cc43ab5af9d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

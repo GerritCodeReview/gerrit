@@ -143,6 +143,30 @@
     },
     {
       "key": {
+        "uuid": "9b196efd_17fd6c92",
+        "filename": "Documentation/config-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-29T08:41:54Z",
+      "side": 1,
+      "message": "Marking as resolved.",
+      "parentUuid": "831b13b4_c374c4d6",
+      "range": {
+        "startLine": 43,
+        "startChar": 35,
+        "endLine": 44,
+        "endChar": 51
+      },
+      "revId": "7da4a476a4c909605c859fdfd91e6628c1cafc83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "23cf02ec_f01fc09b",
         "filename": "Documentation/config-plugins.txt",
         "patchSetId": 1

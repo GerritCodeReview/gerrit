@@ -137,6 +137,36 @@ maven_jar(
     sha1 = "83cd2cd674a217ade95a4bb83a8a14f351f48bd0",
 )
 
+JMH_VERS = "1.21"
+
+maven_jar(
+    name = "jmh-core",
+    artifact = "org.openjdk.jmh:jmh-core:" + JMH_VERS,
+    attach_source = False,
+    sha1 = "442447101f63074c61063858033fbfde8a076873",
+)
+
+maven_jar(
+    name = "jmh-annotations",
+    artifact = "org.openjdk.jmh:jmh-generator-annprocess:" + JMH_VERS,
+    attach_source = False,
+    sha1 = "7aac374614a8a76cad16b91f1a4419d31a7dcda3",
+)
+
+maven_jar(
+    name = "jopt",
+    artifact = "net.sf.jopt-simple:jopt-simple:5.0.4",
+    attach_source = False,
+    sha1 = "4fdac2fbe92dfad86aa6e9301736f6b4342a3f5c",
+)
+
+maven_jar(
+    name = "math3",
+    artifact = "org.apache.commons:commons-math3:3.6.1",
+    attach_source = False,
+    sha1 = "e4ba98f1d4b3c80ec46392f25e094a6a2e58fcbf",
+)
+
 GUICE_VERS = "4.2.2"
 
 maven_jar(

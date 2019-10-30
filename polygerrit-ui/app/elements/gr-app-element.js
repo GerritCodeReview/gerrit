@@ -170,6 +170,8 @@
     _bindKeyboardShortcuts() {
       this.bindShortcut(this.Shortcut.SEND_REPLY,
           this.DOC_ONLY, 'ctrl+enter', 'meta+enter');
+      this.bindShortcut(this.Shortcut.EMOJI_DROPDOWN,
+          this.DOC_ONLY, ':');
 
       this.bindShortcut(
           this.Shortcut.OPEN_SHORTCUT_HELP_DIALOG, '?');

@@ -180,6 +180,7 @@ shortcuts are.
 
     SEARCH: 'SEARCH',
     SEND_REPLY: 'SEND_REPLY',
+    EMOJI_DROPDOWN: 'EMOJI_DROPDOWN',
   };
 
   const _help = new Map();
@@ -292,6 +293,8 @@ shortcuts are.
       'Show/hide selected inline diff');
 
   _describe(Shortcut.SEND_REPLY, ShortcutSection.REPLY_DIALOG, 'Send reply');
+  _describe(Shortcut.EMOJI_DROPDOWN, ShortcutSection.REPLY_DIALOG,
+      'Emoji dropdown');
 
   // Must be declared outside behavior implementation to be accessed inside
   // behavior functions.
@@ -423,6 +426,9 @@ shortcuts are.
     }
 
     describeBinding(binding) {
+      if (binding.length === 1) {
+        return [binding];
+      }
       return binding.split(':')[0].split('+').map(part => {
         switch (part) {
           case 'shift':

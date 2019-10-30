@@ -27,6 +27,11 @@ docs. The ESC is also in charge of adding and removing core plugins.
 Non-Gerrit maintainers cannot have link:access-control.html#category_owner[
 Owner] permissions for core plugins.
 
+[[list]]
+== Which core plugins exist?
+
+See link:config-plugins.html#core-plugins[here].
+
 [[criteria]]
 === Criteria for Core Plugins
 
@@ -82,10 +87,73 @@ Existing plugin owners which are not Gerrit maintainers must agree to give up
 their ownership. If the current plugin owners disagree, forking the plugin is
 possible, but this should happen only in exceptional cases.
 
-[[list]]
-== Which core plugins exist?
+[[process-to-make-a-plugin-a-core-plugin]]
+== Process to make a plugin a core plugin
 
-See link:config-plugins.html#core-plugins[here].
+Anyone can propose to make a plugin a core plugin, but to be accepted as core
+plugin the plugin must fulfill certain link:#criteria[criteria].
+
+1. Propose a plugin as core plugin:
++
+File a link:https://bugs.chromium.org/p/gerrit/issues/entry?template=Core+Plugin+Request[
+Core Plugin Request] in the issue tracker and provide the information that is
+being asked for in the request template.
+
+2. Community Feedback:
++
+Anyone can comment on the issue to raise concerns or to support the request.
+The issue should stay open for at least 10 calendar days so that everyone in
+the community has a chance to comment.
+
+3. ESC Decision:
++
+The ESC should discuss the request and reject/approve it or ask for further
+information that the reporter or commenters should provide.
++
+Any decision must be based on the link:#criteria[criteria] that core plugins
+are expected to fulfill and should take the feedback from the community into
+account.
++
+Accepting the request is only possible if the issue was open for at least 10
+calendar days (see 2., this gives the community time to comment).
++
+When the ESC approves/rejects the request a summary of the reasons for the
+decision should be added to the issue.
++
+If a request is rejected, it's possible to ask for a revalidation if the
+concerns that led to the rejection have been addressed (e.g. the plugin was
+rejected due to missing tests, but tests have been added afterwards).
+
+4. Add plugin as core plugin:
++
+If the request was accepted, a Gerrit maintainer should add the plugin as
+core plugin:
++
+--
+** Host the plugin repo on link:https://gerrit-review.googlesource.com/[
+   gerrit-review].
+** Ensure that the plugin repo inherits from the
+   link:https://gerrit-review.googlesource.com/admin/repos/Public-Plugins[
+   Public-Plugins] repo.
+** Remove all permissions on the plugin repo (the inherited permissions from
+   `Public-Plugins` should be enough). Especially make sure that there are no
+   link:access-control.html#category_owner[Owner],
+   link:access-control.html#category_push_direct[Direct Push],
+   link:access-control.html#category_submit[Submit] or
+   link:access-control.html#category_review_labels[Code-Review+2]
+   permissions for non-Gerrit maintainers.
+** Create a component for the plugin in
+   link:https://bugs.chromium.org/p/gerrit/adminComponents[Monorail] and assign
+   all issues that already exist for the plugin to this component.
+** Add the plugin as
+   link:https://gerrit.googlesource.com/gerrit/+/refs/heads/master/.gitmodules[Git
+   submodule].
+** Register the plugin as core plugin in
+   link:https://gerrit.googlesource.com/gerrit/+/refs/heads/master/tools/bzl/plugins.bzl[
+   plugins.bzl].
+** Announce the new core plugin in the
+   link:https://www.gerritcodereview.com/news.html[project news].
+--
 
 GERRIT
 ------

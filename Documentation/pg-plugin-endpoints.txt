@@ -114,6 +114,10 @@ In addition to default parameters, the following are available:
 +
 String name of the repository currently being configured.
 
+* `readOnly`
++
+Boolean whether the repository configuration is read only by the logged in user.
+
 === settings-menu-item
 This endpoint is situated at the end of the navigation menu in the settings
 screen.

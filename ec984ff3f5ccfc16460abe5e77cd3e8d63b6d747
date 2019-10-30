@@ -22,6 +22,30 @@
       "revId": "ec984ff3f5ccfc16460abe5e77cd3e8d63b6d747",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4e2be1d8_1cbf79b0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-10-30T05:33:40Z",
+      "side": 1,
+      "message": "Not sure what we\u0027re using on CI, but I\u0027m using Oracle\u0027s JDK on OSX and reproduced the exact same error message after upgrading to the latest available version (1.8.0_231-b11).\n\nI\u0027ll remove \"Oracle\" here but leave the link below.",
+      "parentUuid": "5c97667e_0ef7ea00",
+      "range": {
+        "startLine": 9,
+        "startChar": 11,
+        "endLine": 9,
+        "endChar": 17
+      },
+      "revId": "ec984ff3f5ccfc16460abe5e77cd3e8d63b6d747",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

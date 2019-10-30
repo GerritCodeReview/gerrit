@@ -16,6 +16,24 @@
       "revId": "d3efab14c992fa6aeb59789c63f7a7616514f56b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f123a77e_0ed8588a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-10-30T14:29:16Z",
+      "side": 1,
+      "message": "Thanks for looking at this :-)\n\n1. Sure, if we want to add this change, we should merge it up to master, let alone to allow plugins using this endpoint to work in all future versions.\n2. That is a valid point. I only checked for stable-2.16:\n\n  \u003e git grep \"\u003cgr-formatted-text\"\n  polygerrit-ui/app/elements/change/gr-comment-list/gr-comment-list.html:          \u003cgr-formatted-text\npolygerrit-ui/app/elements/change/gr-message/gr-message.html:            \u003cgr-formatted-text\npolygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.html:        \u003cgr-formatted-text\npolygerrit-ui/app/elements/diff/gr-diff-comment/gr-diff-comment.html:        \u003cgr-formatted-text class\u003d\"message\"\npolygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text_test.html:    \u003cgr-formatted-text\u003e\u003c/gr-formatted-text\u003e\n\nAll these occurrences are either messages or comments, thus I assumed it would be OK to just use it, since it would be the smallest effort/change. Also since comments and messages are managed independently in all these places and potentially more in the future, it would be nice to not have to maintain this endpoint at all these places.\nLet me check on master as well, whether this element is used there for other things as well.\n\nHowever, as I mentioned in my earlier message my biggest concern with this change is actually that changes made to the formatting by Gerrit core and the plugins are not at all synchronized and can easily interfere with each other, especially if more than one plugin is involved. It would be nice to have this pluggable in a different way. Ideally the method that does the formatting in Gerrit core would just call the methods provided by plugins one after the other after it itself finished formatting the text. I have however no idea how to do something like that. Do you have any ideas?",
+      "parentUuid": "7a920fd0_df13fdb9",
+      "revId": "d3efab14c992fa6aeb59789c63f7a7616514f56b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

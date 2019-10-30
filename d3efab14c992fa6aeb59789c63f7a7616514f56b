@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7a920fd0_df13fdb9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-30T14:03:57Z",
+      "side": 1,
+      "message": "Awesome! just a few questions:\n1. will this be merged to master ? if not, seems there will be a diverge between this branch and the master\n2. we are using `gr-formatted-text` in quite a few places, potentially not limited to comments and message texts, but adding a plugin endpoint to replace it will affect all of them, we may need to think twice on that :) if you only target on messages and comments, maybe add endpoints there instead ? its like you can control how you format message texts and comments, a bit more specific ?",
+      "revId": "d3efab14c992fa6aeb59789c63f7a7616514f56b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

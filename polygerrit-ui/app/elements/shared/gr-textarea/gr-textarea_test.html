@@ -179,9 +179,10 @@ limitations under the License.
       element._determineSuggestions(emojiText);
       assert.isTrue(formatSpy.called);
       assert.isTrue(formatSpy.lastCall.calledWithExactly(
-          [{dataValue: '😢', value: '😢', match: 'tear', text: '😢 tear'},
-            {dataValue: '😂', value: '😂', match: 'tears :\')',
-              text: '😂 tears :\')'}]));
+          [{dataValue: '😂', value: '😂', match: 'tears :\')',
+            text: '😂 tears :\')'},
+            {dataValue: '😢', value: '😢', match: 'tear', text: '😢 tear'},
+          ]));
     });
 
     test('_formatSuggestions', () => {

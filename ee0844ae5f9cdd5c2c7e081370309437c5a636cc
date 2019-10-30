@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a9313ac5_134642b8",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-10-30T13:19:35Z",
+      "side": 1,
+      "message": "I think this is not required for the fix. \"block\" is just fine. That is how it was before my change.",
+      "revId": "ee0844ae5f9cdd5c2c7e081370309437c5a636cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

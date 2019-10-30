@@ -22,6 +22,30 @@
       "revId": "2dc2db9a2ccf5239cfaf29e855eb50d46dc8b00e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "102f163a_904439e4",
+        "filename": "a/test/path/file.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-10-30T18:33:01Z",
+      "side": 1,
+      "message": "Another comment from the browser.",
+      "parentUuid": "a54784ea_f70af80b",
+      "range": {
+        "startLine": 6,
+        "startChar": 0,
+        "endLine": 6,
+        "endChar": 6
+      },
+      "revId": "2dc2db9a2ccf5239cfaf29e855eb50d46dc8b00e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

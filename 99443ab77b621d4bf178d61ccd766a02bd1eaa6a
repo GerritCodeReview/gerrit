@@ -16,6 +16,24 @@
       "revId": "99443ab77b621d4bf178d61ccd766a02bd1eaa6a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6ba61ca3_0e98386f",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2856,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-10-30T14:12:06Z",
+      "side": 0,
+      "message": "Thanks, this is helpful. I prototyped this alongside a benchmark integration here: https://gerrit-review.googlesource.com/c/gerrit/+/243053\n\nIs this what you meant?",
+      "parentUuid": "233c5d78_2d79b19b",
+      "revId": "99443ab77b621d4bf178d61ccd766a02bd1eaa6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

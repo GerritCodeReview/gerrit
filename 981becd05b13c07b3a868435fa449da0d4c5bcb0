@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "c66010b4_d6809459",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-10-30T14:12:06Z",
+      "side": 1,
+      "message": "pushNewPatchSetWithPreviousPatchSetAsParent sounds like a really useful addition to the tests that we have. I\u0027ll add that before proceeding and look into useful permutations.",
+      "parentUuid": "7e73a33c_ba322529",
+      "revId": "981becd05b13c07b3a868435fa449da0d4c5bcb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8baa845c_30bdf31c",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -220,6 +238,24 @@
     },
     {
       "key": {
+        "uuid": "a6a42718_eb1dc40d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-10-30T14:12:06Z",
+      "side": 1,
+      "message": "\u003e To answer your question though, yes, it can happen, it is possible to push to branches without going through Gerrit.\n\nSure, you can use git to screw up Gerrit. Not just here but pretty much everywhere (think of NoteDb). That covers only admin access (mingling with the Git repo directly, bypassing Gerrit, which hopefully only admins can do and they do it ~never).\n\nIf you push a patch set to a ref directly (git push origin refs/heads/master) Gerrit auto-closes the change preventing any further patch sets from getting added.\n\n\u003e Also, I can believe in the Gerrit WUI you could probably create a new branch pointing an open existing patchset, then I think you could move the change to the new branch.\n\nMoving changes is a more interesting case in my opinion because it\u0027s an operation that a user does while using Gerrit as intended. I would argue that the MoveChange operation has to run any checks for things it could screw up.\n\nAnyway, I think we can improve this code with your suggestion from the other in-line comment and not have to think about this edge-case any further :-)",
+      "parentUuid": "508534d0_6b46a201",
+      "revId": "981becd05b13c07b3a868435fa449da0d4c5bcb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "491f7e25_9f1da02a",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -311,6 +347,30 @@
       "revId": "981becd05b13c07b3a868435fa449da0d4c5bcb0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dc1ac993_b8d5e6cd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-10-30T14:12:06Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "599bb338_ec81e2d6",
+      "range": {
+        "startLine": 27,
+        "startChar": 0,
+        "endLine": 30,
+        "endChar": 16
+      },
+      "revId": "981becd05b13c07b3a868435fa449da0d4c5bcb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -276,8 +276,8 @@ CI systems with Gerrit.
 
 link:https://gerrit-review.googlesource.com/admin/repos/plugins/checks[
 Project] |
-link:https://gerrit.googlesource.com/plugins/checks/+doc/master/src/main/resources/Documentation/about.md[
-Plugin Documentation]]
+link:https://gerrit.googlesource.com/plugins/checks/+doc/master/README.md[
+Plugin Documentation]
 
 [[egit]]
 === egit

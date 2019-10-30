@@ -107,6 +107,9 @@ limitations under the License.
       .changeStatus {
         text-transform: capitalize;
       }
+      .changeInfo {
+        background-color: var(--table-header-background-color);
+      }
       /* Strong specificity here is needed due to
          https://github.com/Polymer/polymer/issues/2531 */
       .container section.changeInfo {
@@ -118,7 +121,6 @@ limitations under the License.
         margin-top: var(--spacing-l);
       }
       .changeMetadata {
-        border-right: 1px solid var(--border-color);
         /* Limit meta section to half of the screen at max */
         max-width: 50%;
       }
@@ -265,7 +267,6 @@ limitations under the License.
           padding: 0;
         }
         #relatedChanges {
-          border-top: 1px solid var(--border-color);
           padding-top: var(--spacing-l);
         }
         #commitAndRelated {
@@ -324,8 +325,6 @@ limitations under the License.
           padding: var(--spacing-l);
         }
         .changeMetadata {
-          border-bottom: 1px solid var(--border-color);
-          border-right: none;
           margin-top: var(--spacing-xs);
           max-width: none;
         }

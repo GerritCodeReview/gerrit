@@ -1778,6 +1778,7 @@
         method: 'POST',
         url: `/projects/${encodeURIComponent(project)}/create.change`,
         body: {
+          project,
           branch,
           subject,
           topic: opt_topic,

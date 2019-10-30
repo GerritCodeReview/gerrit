@@ -45,7 +45,7 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
  * <p>During the transition phase, we have to keep these permissions in sync with the global
  * capabilities that serve as the source of truth.
  *
- * <p><This class implements a one-way synchronization from the global {@code CREATE_GROUP}
+ * <p>This class implements a one-way synchronization from the global {@code CREATE_GROUP}
  * capability in {@code All-Projects} to a {@code CREATE} permission on {@code refs/groups/*} in
  * {@code All-Users}.
  */

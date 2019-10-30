@@ -427,7 +427,7 @@
 
     _computePluginScreenName({plugin, screen}) {
       if (!plugin || !screen) return '';
-      return `${plugin.getPluginName()}-screen-${screen}`;
+      return `${plugin}-screen-${screen}`;
     },
 
     _logWelcome() {

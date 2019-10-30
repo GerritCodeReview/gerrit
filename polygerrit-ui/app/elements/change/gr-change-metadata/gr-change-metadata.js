@@ -454,6 +454,11 @@
     },
 
     _computeParentListClass(parents, parentIsCurrent) {
+      // Undefined check for polymer 2
+      if (parents === undefined || parentIsCurrent === undefined) {
+        return '';
+      }
+
       return [
         'parentList',
         parents && parents.length > 1 ? 'merge' : 'nonMerge',

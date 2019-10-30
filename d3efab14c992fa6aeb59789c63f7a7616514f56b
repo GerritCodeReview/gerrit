@@ -34,6 +34,24 @@
       "revId": "d3efab14c992fa6aeb59789c63f7a7616514f56b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a10b92b6_742fa94f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-10-30T15:11:59Z",
+      "side": 1,
+      "message": "I checked on the master-branch as well. `gr-formatted-text` is used in the same locations as in stable-2.16. So just for messages and comments. The name of the element is thus probably at least for now suggesting a bigger scope than necessary.",
+      "parentUuid": "f123a77e_0ed8588a",
+      "revId": "d3efab14c992fa6aeb59789c63f7a7616514f56b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

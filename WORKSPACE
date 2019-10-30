@@ -139,10 +139,17 @@ maven_jar(
 
 GUICE_VERS = "4.2.2"
 
-maven_jar(
-    name = "guice-library",
-    artifact = "com.google.inject:guice:" + GUICE_VERS,
-    sha1 = "6dacbe18e5eaa7f6c9c36db33b42e7985e94ce77",
+http_file(
+    name = "guice-library-no-aop",
+    downloaded_file_path = "guice-library-no-aop.jar",
+    sha256 = "0f4f5fb28609a4d2b38b7f7128be7cf9b541f25283d71b4e56066d99683aafff",
+    urls = [
+        "https://repo1.maven.org/maven2/com/google/inject/guice/" +
+        GUICE_VERS +
+        "/guice-" +
+        GUICE_VERS +
+        "-no_aop.jar",
+    ],
 )
 
 maven_jar(
@@ -155,12 +162,6 @@ maven_jar(
     name = "guice-servlet",
     artifact = "com.google.inject.extensions:guice-servlet:" + GUICE_VERS,
     sha1 = "0d0054bdd812224078357a9b11409e43d182a046",
-)
-
-maven_jar(
-    name = "aopalliance",
-    artifact = "aopalliance:aopalliance:1.0",
-    sha1 = "0235ba8b489512805ac13a8f9ea77a1ca5ebe3e8",
 )
 
 maven_jar(

@@ -30,7 +30,7 @@ limitations under the License.
   <template>
     <style include="shared-styles">
       :host {
-        display: block;
+        display: flex;
         position: relative;
       }
       :host(.monospace) {
@@ -95,17 +95,15 @@ limitations under the License.
         on-dropdown-closed="_resetEmojiDropdown"
         on-item-selected="_handleEmojiSelect">
     </gr-autocomplete-dropdown>
-    <div id="borderWrapper">
-      <iron-autogrow-textarea
-          id="textarea"
-          autocomplete="[[autocomplete]]"
-          placeholder=[[placeholder]]
-          disabled="[[disabled]]"
-          rows="[[rows]]"
-          max-rows="[[maxRows]]"
-          value="{{text}}"
-          on-bind-value-changed="_onValueChanged"></iron-autogrow-textarea>
-    </div>
+    <iron-autogrow-textarea
+        id="textarea"
+        autocomplete="[[autocomplete]]"
+        placeholder=[[placeholder]]
+        disabled="[[disabled]]"
+        rows="[[rows]]"
+        max-rows="[[maxRows]]"
+        value="{{text}}"
+        on-bind-value-changed="_onValueChanged"></iron-autogrow-textarea>
     <gr-reporting id="reporting"></gr-reporting>
   </template>
   <script src="gr-textarea.js"></script>

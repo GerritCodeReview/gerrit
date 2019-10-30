@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bd659018_bfa7e2a9",
+        "filename": "polygerrit-ui/app/styles/shared-styles.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2019-10-30T13:22:08Z",
+      "side": 1,
+      "message": "Are we using Grey 700 for deemphasized color? (The grey of an unselected secondary tab)?",
+      "range": {
+        "startLine": 134,
+        "startChar": 17,
+        "endLine": 134,
+        "endChar": 47
+      },
+      "revId": "b21b648ca9408e53465763505344b5cdc81d676d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

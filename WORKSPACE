@@ -776,8 +776,8 @@ maven_jar(
 
 maven_jar(
     name = "dropwizard-core",
-    artifact = "io.dropwizard.metrics:metrics-core:4.0.5",
-    sha1 = "b81ef162970cdb9f4512ee2da09715a856ff4c4c",
+    artifact = "io.dropwizard.metrics:metrics-core:4.0.7",
+    sha1 = "673899f605f52ca35836673ccfee97154a496a61",
 )
 
 # When updating Bouncy Castle, also update it in bazlets.

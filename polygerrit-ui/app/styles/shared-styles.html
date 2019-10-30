@@ -39,14 +39,27 @@ limitations under the License.
       *::before {
         box-sizing: border-box;
       }
-      input,
-      iron-autogrow-textarea {
+      input {
         background-color: inherit;
         border: 1px solid var(--border-color);
         box-sizing: border-box;
         color: var(--primary-text-color);
         margin: 0;
         padding: 0;
+      }
+      iron-autogrow-textarea {
+        background-color: inherit;
+        color: var(--primary-text-color);
+        border: 1px solid var(--border-color);
+        border-radius: 4px;
+        box-sizing: border-box;
+        /* iron-autogrow-textarea has a "-webkit-appearance: textarea" :host
+           css rule, which prevents overriding the border color. Clear that. */
+        -webkit-appearance: none;
+
+        --iron-autogrow-textarea: {
+          padding: 4px;
+        };
       }
       a {
         color: var(--link-color);

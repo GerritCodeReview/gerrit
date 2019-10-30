@@ -30,10 +30,18 @@ limitations under the License.
       :host([disabled]) iron-autogrow-textarea {
         opacity: .5;
       }
-      iron-autogrow-textarea {
+      .viewer {
+        background-color: var(--view-background-color);
+        border: 1px solid var(--border-color);
+        border-radius: 4px;
+        padding: var(--spacing-s);
+      }
+      .editor iron-autogrow-textarea {
+        background-color: var(--view-background-color);
         width: 100%;
 
         --iron-autogrow-textarea: {
+          padding: 4px;
           box-sizing: border-box;
           overflow-y: hidden;
           white-space: pre;
@@ -44,7 +52,7 @@ limitations under the License.
         justify-content: space-between;
       }
     </style>
-    <div hidden$="[[editing]]">
+    <div class="viewer" hidden$="[[editing]]">
       <slot></slot>
     </div>
     <div class="editor" hidden$="[[!editing]]">

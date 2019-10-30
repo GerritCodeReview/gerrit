@@ -1,0 +1,56 @@
+TODO(ekempin): remove this file before submit
+
+Name: Core Plugin Request
+
+Summary: Make <plugin-name> a core plugin
+
+Description:
+Please provide as much of the following information as possible (also see
+https://gerrit-review.googlesource.com/Documentation/dev-core-plugins.html#criteria):
+
+1. URL to plugin repo (If not on gerrit-review, is it OK to move it to
+gerrit-review?):
+
+2. URL to the plugin license (must be Apache License Version 2.0):
+
+3. Plugin Scope (describe which functionality the plugin provides and how
+it integrates with Gerrit core, does it conflict with any functionality
+from Gerrit core or other core plugins?):
+
+4. Related Plugins (other plugins that provide similar functionality):
+
+4a. Why is this plugin preferred over the other plugins?
+
+5. Relevance (explain why this plugin is relevant to a majority of the
+Gerrit community):
+
+6. Existing Users (Which parties/organizations/companies already use the
+plugin? If known, since when and how many users?):
+
+7. Code Quality: (Are there any known issues? Does the code
+adhere to Gerrit's quality standards? What's the expected maintenance
+overhead for the maintainers?):
+
+8. Scalability/Performance (How well does the plugin functionality scale
+for large repos and hosts with many repos? How does it affect latency of user
+requests?):
+
+9. Test Coverage (How good is the test coverage? Which
+functionality is not covered by tests? If there are missing tests, is there a
+documented manual test plan?):
+
+10. Plugin documentation (provide a link to the plugin documentation and
+point out things that are not properly documented):
+
+11. Ongoing/Planned Work (Are there larger features that are in-progress or
+planned? Preferably provide links to issues in Monorail.):
+
+12. Do the current plugin owners agree to transfer the plugin ownership to
+the ESC (of course any contributions from them continue to be welcome)?
+
+(Note to ESC: Keep this issue open for at least 10 calendar days so that
+everyone in the community has a chance to raise concerns.)
+
+Components: ESC
+
+Labels: Priority-3

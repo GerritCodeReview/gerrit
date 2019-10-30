@@ -1776,7 +1776,7 @@
         opt_workInProgress, opt_baseChange, opt_baseCommit) {
       return this._restApiHelper.send({
         method: 'POST',
-        url: `/projects/${encodeURIComponent(project)}/create.change`,
+        url: '/changes/',
         body: {
           project,
           branch,

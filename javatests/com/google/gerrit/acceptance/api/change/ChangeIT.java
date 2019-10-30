@@ -4375,10 +4375,10 @@ public class ChangeIT extends AbstractDaemonTest {
             ListChangesOption.SKIP_DIFFSTAT);
 
     PushOneCommit.Result change = createChange();
-    int number = gApi.changes().id(change.getChangeId()).get(options)._number;
+    int number = gApi.changes().id(change.getChangeId()).get()._number;
 
     try (AutoCloseable ignored = disableChangeIndex()) {
-      assertThat(gApi.changes().id(project.get(), number).get().changeId)
+      assertThat(gApi.changes().id(project.get(), number).get(options).changeId)
           .isEqualTo(change.getChangeId());
     }
   }

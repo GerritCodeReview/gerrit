@@ -57,7 +57,7 @@ public abstract class AbstractIndexTests extends AbstractDaemonTest {
       disableChangeIndexWrites();
       amendChange(changeId, "second test", "test2.txt", "test2");
 
-      assertChangeQuery("message:second", change.getChange(), false);
+      assertChangeQuery(change.getChange(), false);
       enableChangeIndexWrites();
 
       changeIndexedCounter.clear();
@@ -67,7 +67,7 @@ public abstract class AbstractIndexTests extends AbstractDaemonTest {
 
       changeIndexedCounter.assertReindexOf(changeInfo, 1);
 
-      assertChangeQuery("message:second", change.getChange(), true);
+      assertChangeQuery(change.getChange(), true);
     }
   }
 
@@ -86,7 +86,7 @@ public abstract class AbstractIndexTests extends AbstractDaemonTest {
       disableChangeIndexWrites();
       amendChange(changeId, "second test", "test2.txt", "test2");
 
-      assertChangeQuery("message:second", change.getChange(), false);
+      assertChangeQuery(change.getChange(), false);
       enableChangeIndexWrites();
 
       changeIndexedCounter.clear();
@@ -103,13 +103,12 @@ public abstract class AbstractIndexTests extends AbstractDaemonTest {
 
       changeIndexedCounter.assertReindexOf(changeInfo, 1);
 
-      assertChangeQuery("message:second", change.getChange(), true);
+      assertChangeQuery(change.getChange(), true);
     }
   }
 
-  protected void assertChangeQuery(String q, ChangeData change, boolean assertTrue)
-      throws Exception {
-    List<Integer> ids = query(q).stream().map(c -> c._number).collect(toList());
+  private void assertChangeQuery(ChangeData change, boolean assertTrue) throws Exception {
+    List<Integer> ids = query("message:second").stream().map(c -> c._number).collect(toList());
     if (assertTrue) {
       assertThat(ids).contains(change.getId().get());
     } else {

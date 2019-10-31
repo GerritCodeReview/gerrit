@@ -21,8 +21,8 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.io.BaseEncoding;
 import com.google.gerrit.exceptions.EmailException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.common.Input;
-import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -108,9 +108,10 @@ public class DeleteGpgKey implements RestModifyView<GpgKey, Input> {
                 rsrc.getUser().getAccount().preferredEmail());
           }
           break;
+        case LOCK_FAILURE:
+          // should not happen since this case is already handled by PublicKeyStore#save
         case FORCED:
         case IO_FAILURE:
-        case LOCK_FAILURE:
         case NEW:
         case NOT_ATTEMPTED:
         case REJECTED:
@@ -119,7 +120,7 @@ public class DeleteGpgKey implements RestModifyView<GpgKey, Input> {
         case REJECTED_MISSING_OBJECT:
         case REJECTED_OTHER_REASON:
         default:
-          throw new ResourceConflictException("Failed to delete public key: " + saveResult);
+          throw new StorageException(String.format("Failed to delete public key: %s", saveResult));
       }
     }
     return Response.none();

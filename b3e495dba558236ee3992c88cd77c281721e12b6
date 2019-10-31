@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c59d1f11_c40f4bde",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-10-31T13:43:07Z",
+      "side": 1,
+      "message": "I heard some concern about having these links in the description because they will go away after a couple of months. I don\u0027t mind much either way.",
+      "revId": "b3e495dba558236ee3992c88cd77c281721e12b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45ce3e02_944182bb",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-10-31T13:43:07Z",
+      "side": 1,
+      "message": "Maybe check with Milutin - I remember he was concerned about iron-icon being slow, and if this is used in a place we use many many instances it might actually matter.",
+      "revId": "b3e495dba558236ee3992c88cd77c281721e12b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -371,21 +371,34 @@ public class RetryHelper {
         logger.atFine().log("%s was attempted %d times", actionType, listener.getAttemptCount());
         metrics.attemptCounts.incrementBy(
             actionType,
-            listener.getCause().map(RetryHelper::formatCause).orElse("_unknown"),
+            listener.getCause().map(this::formatCause).orElse("_unknown"),
             listener.getAttemptCount() - 1);
       }
     }
   }
 
-  private static String formatCause(Throwable t) {
+  private String formatCause(Throwable t) {
     if (t instanceof UpdateException || t instanceof StorageException) {
       t = t.getCause();
+    }
+
+    Optional<String> formattedCause = getFormattedCauseFromHooks(t);
+    if (formattedCause.isPresent()) {
+      return formattedCause.get();
     }
 
     if (t instanceof LockFailureException) {
       return RefUpdate.Result.LOCK_FAILURE.name();
     }
     return t.getClass().getSimpleName();
+  }
+
+  private Optional<String> getFormattedCauseFromHooks(Throwable t) {
+    return exceptionHooks.stream()
+        .map(h -> h.formatCause(t))
+        .filter(Optional::isPresent)
+        .map(Optional::get)
+        .findFirst();
   }
 
   /**

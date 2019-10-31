@@ -27,6 +27,7 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.server.IdentifiedUser;
@@ -167,8 +168,7 @@ public class DeleteRef {
         case REJECTED_MISSING_OBJECT:
         case REJECTED_OTHER_REASON:
         default:
-          logger.atSevere().log("Cannot delete %s: %s", ref, result.name());
-          throw new ResourceConflictException("cannot delete: " + result.name());
+          throw new StorageException(String.format("Cannot delete %s: %s", ref, result.name()));
       }
     }
   }

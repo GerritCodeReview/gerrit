@@ -54,6 +54,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.StringJoiner;
+import java.util.function.Supplier;
 import org.apache.commons.lang.StringUtils;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
@@ -114,10 +115,12 @@ public abstract class OutgoingEmail {
     if (!args.emailSender.isEnabled()) {
       // Server has explicitly disabled email sending.
       //
+      logNotSending(() -> "Email sending is disabled by server config");
       return;
     }
 
     if (NotifyHandling.NONE.equals(notify) && accountsToNotify.isEmpty()) {
+      logNotSending(() -> "Notify handling is NONE");
       return;
     }
 
@@ -164,6 +167,7 @@ public abstract class OutgoingEmail {
               new Address(thisUser.getFullName(), thisUser.getPreferredEmail()));
         }
         if (smtpRcptTo.isEmpty() && smtpRcptToPlaintextOnly.isEmpty()) {
+          logNotSending(() -> "No SMTP recipients");
           return;
         }
       }
@@ -202,6 +206,8 @@ public abstract class OutgoingEmail {
         try {
           validator.validateOutgoingEmail(va);
         } catch (ValidationException e) {
+          logNotSending(
+              () -> String.format("Rejected by outgoing email validator: %s", e.getMessage()));
           return;
         }
       }
@@ -405,6 +411,7 @@ public abstract class OutgoingEmail {
   protected boolean shouldSendMessage() {
     if (textBody.length() == 0) {
       // If we have no message body, don't send.
+      logNotSending(() -> "No message body");
       return false;
     }
 
@@ -412,6 +419,7 @@ public abstract class OutgoingEmail {
       // If we have nobody to send this message to, then all of our
       // selection filters previously for this type of message were
       // unable to match a destination. Don't bother sending it.
+      logNotSending(() -> "No recipients");
       return false;
     }
 
@@ -421,10 +429,17 @@ public abstract class OutgoingEmail {
         && rcptTo.contains(fromId)) {
       // If the only recipient is also the sender, don't bother.
       //
+      logNotSending(() -> "Sender is only recipient");
       return false;
     }
 
     return true;
+  }
+
+  private void logNotSending(Supplier<String> reason) {
+    if (log.isDebugEnabled()) {
+      log.debug("Not sending '{}': {}", messageClass, reason.get());
+    }
   }
 
   /** Schedule this message for delivery to the listed accounts. */

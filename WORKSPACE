@@ -1118,8 +1118,8 @@ maven_jar(
 
 maven_jar(
     name = "jackson-core",
-    artifact = "com.fasterxml.jackson.core:jackson-core:2.9.8",
-    sha1 = "0f5a654e4675769c716e5b387830d19b501ca191",
+    artifact = "com.fasterxml.jackson.core:jackson-core:2.10.0",
+    sha1 = "4e2c5fa04648ec9772c63e2101c53af6504e624e",
 )
 
 TESTCONTAINERS_VERSION = "1.12.3"

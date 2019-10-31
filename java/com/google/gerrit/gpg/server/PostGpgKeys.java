@@ -28,6 +28,7 @@ import com.google.common.collect.Maps;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.io.BaseEncoding;
 import com.google.gerrit.exceptions.EmailException;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.accounts.GpgKeysInput;
 import com.google.gerrit.extensions.common.GpgKeyInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -248,8 +249,9 @@ public class PostGpgKeys implements RestModifyView<AccountResource, GpgKeysInput
           break;
         case NO_CHANGE:
           break;
-        case IO_FAILURE:
         case LOCK_FAILURE:
+          // should not happen since this case is already handled by PublicKeyStore#save
+        case IO_FAILURE:
         case NOT_ATTEMPTED:
         case REJECTED:
         case REJECTED_CURRENT_BRANCH:
@@ -257,8 +259,7 @@ public class PostGpgKeys implements RestModifyView<AccountResource, GpgKeysInput
         case REJECTED_MISSING_OBJECT:
         case REJECTED_OTHER_REASON:
         default:
-          // TODO(dborowitz): Backoff and retry on LOCK_FAILURE.
-          throw new ResourceConflictException("Failed to save public keys: " + saveResult);
+          throw new StorageException(String.format("Failed to save public keys: %s", saveResult));
       }
     }
   }

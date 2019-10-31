@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "7d859297_38bd3644",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 3333,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-31T08:40:55Z",
+      "side": 1,
+      "message": "Actually this just works, because the updates are processed in the order of delete, create and update. I\u0027ve added this information to the documentation and also added tests for this.",
+      "parentUuid": "67703d59_dcc79b29",
+      "revId": "1534f3c55346e6a07ce7e15ea019360c16844f7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e8239b3d_1c189a6c",
         "filename": "java/com/google/gerrit/extensions/api/projects/ProjectApi.java",
         "patchSetId": 3
@@ -39,6 +57,30 @@
       "revId": "1534f3c55346e6a07ce7e15ea019360c16844f7f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6e2ebf43_c8ae71a4",
+        "filename": "java/com/google/gerrit/extensions/api/projects/ProjectApi.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-31T08:40:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e8239b3d_1c189a6c",
+      "range": {
+        "startLine": 224,
+        "startChar": 7,
+        "endLine": 224,
+        "endChar": 23
+      },
+      "revId": "1534f3c55346e6a07ce7e15ea019360c16844f7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "e7e1655c_3d829c99",
+        "filename": "java/com/google/gerrit/server/restapi/project/PostLabels.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-31T08:40:55Z",
+      "side": 1,
+      "message": "Not yet, but I agree it would make sense to add such a variant.",
+      "parentUuid": "6beac79e_0eb36dff",
+      "range": {
+        "startLine": 145,
+        "startChar": 20,
+        "endLine": 145,
+        "endChar": 26
+      },
+      "revId": "1534f3c55346e6a07ce7e15ea019360c16844f7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6630d0c6_32faac30",
         "filename": "javatests/com/google/gerrit/acceptance/rest/project/PostLabelsIT.java",
         "patchSetId": 3
@@ -79,6 +145,24 @@
       "revId": "1534f3c55346e6a07ce7e15ea019360c16844f7f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e7a85193_f81ae191",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/PostLabelsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-31T08:40:55Z",
+      "side": 1,
+      "message": "Done, and also a few more.",
+      "parentUuid": "6630d0c6_32faac30",
+      "revId": "1534f3c55346e6a07ce7e15ea019360c16844f7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

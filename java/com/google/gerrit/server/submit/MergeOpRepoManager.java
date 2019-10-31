@@ -42,10 +42,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
-import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectReader;
-import org.eclipse.jgit.lib.RefUpdate;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevFlag;
 import org.eclipse.jgit.revwalk.RevSort;
@@ -130,19 +129,17 @@ public class MergeOpRepoManager implements AutoCloseable {
   }
 
   public static class OpenBranch {
-    final RefUpdate update;
     final CodeReviewCommit oldTip;
     MergeTip mergeTip;
 
     OpenBranch(OpenRepo or, BranchNameKey name) throws IntegrationException {
       try {
-        update = or.repo.updateRef(name.branch());
-        if (update.getOldObjectId() != null) {
-          oldTip = or.rw.parseCommit(update.getOldObjectId());
+        Ref ref = or.getRepo().exactRef(name.branch());
+        if (ref != null) {
+          oldTip = or.rw.parseCommit(ref.getObjectId());
         } else if (Objects.equals(or.repo.getFullBranch(), name.branch())
             || Objects.equals(RefNames.REFS_CONFIG, name.branch())) {
           oldTip = null;
-          update.setExpectedOldObjectId(ObjectId.zeroId());
         } else {
           throw new IntegrationException(
               "The destination branch " + name + " does not exist anymore.");

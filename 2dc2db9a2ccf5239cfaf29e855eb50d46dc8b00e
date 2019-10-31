@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "73154d0d_895ff57e",
+        "filename": "a/test/path/file.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-10-31T08:39:28Z",
+      "side": 1,
+      "message": "A different comment from the browser.",
+      "range": {
+        "startLine": 2,
+        "startChar": 0,
+        "endLine": 2,
+        "endChar": 6
+      },
+      "revId": "2dc2db9a2ccf5239cfaf29e855eb50d46dc8b00e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a54784ea_f70af80b",
         "filename": "a/test/path/file.txt",
         "patchSetId": 2

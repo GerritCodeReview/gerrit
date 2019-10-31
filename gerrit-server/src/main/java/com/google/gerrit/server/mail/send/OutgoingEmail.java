@@ -21,6 +21,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ListMultimap;
+import com.google.common.collect.Sets;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.errors.EmailException;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
@@ -210,6 +211,11 @@ public abstract class OutgoingEmail {
               () -> String.format("Rejected by outgoing email validator: %s", e.getMessage()));
           return;
         }
+      }
+
+      Set<Address> intersection = Sets.intersection(smtpRcptTo, smtpRcptToPlaintextOnly);
+      if (!intersection.isEmpty()) {
+        log.error("Email '{}' will be sent twice to {}", messageClass, intersection);
       }
 
       if (!smtpRcptTo.isEmpty()) {

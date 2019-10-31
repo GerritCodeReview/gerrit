@@ -249,6 +249,8 @@ public class PostReview
     ProjectState projectState = projectCache.checkedGet(revision.getProject());
     LabelTypes labelTypes = projectState.getLabelTypes(revision.getNotes());
 
+    logger.atFine().log("strict label checking is %s", (strictLabels ? "enabled" : "disabled"));
+
     input.drafts = firstNonNull(input.drafts, DraftHandling.KEEP);
     logger.atFine().log("draft handling = %s", input.drafts);
 
@@ -270,6 +272,7 @@ public class PostReview
     if (input.notify == null) {
       input.notify = defaultNotify(revision.getChange(), input);
     }
+    logger.atFine().log("notify handling = %s", input.notify);
 
     Map<String, AddReviewerResult> reviewerJsonResults = null;
     List<ReviewerAddition> reviewerResults = Lists.newArrayList();
@@ -282,13 +285,18 @@ public class PostReview
             reviewerAdder.prepare(revision.getNotes(), revision.getUser(), reviewerInput, true);
         reviewerJsonResults.put(reviewerInput.reviewer, result.result);
         if (result.result.error != null) {
+          logger.atFine().log(
+              "Adding %s as reviewer failed: %s", reviewerInput.reviewer, result.result.error);
           hasError = true;
           continue;
         }
         if (result.result.confirm != null) {
+          logger.atFine().log(
+              "Adding %s as reviewer requires confirmation", reviewerInput.reviewer);
           confirm = true;
           continue;
         }
+        logger.atFine().log("Adding %s as reviewer was prepared", reviewerInput.reviewer);
         reviewerResults.add(result);
       }
     }
@@ -307,6 +315,9 @@ public class PostReview
       boolean ccOrReviewer = false;
       if (input.labels != null && !input.labels.isEmpty()) {
         ccOrReviewer = input.labels.values().stream().anyMatch(v -> v != 0);
+        if (ccOrReviewer) {
+          logger.atFine().log("calling user is cc/reviewer on the change due to voting on a label");
+        }
       }
 
       if (!ccOrReviewer) {
@@ -314,17 +325,22 @@ public class PostReview
         ReviewerSet currentReviewers =
             approvalsUtil.getReviewers(revision.getChangeResource().getNotes());
         ccOrReviewer = currentReviewers.all().contains(id);
+        if (ccOrReviewer) {
+          logger.atFine().log("calling user is already cc/reviewer on the change");
+        }
       }
 
       // Apply reviewer changes first. Revision emails should be sent to the
       // updated set of reviewers. Also keep track of whether the user added
       // themselves as a reviewer or to the CC list.
+      logger.atFine().log("adding reviewer additions");
       for (ReviewerAddition reviewerResult : reviewerResults) {
         reviewerResult.op.suppressEmail(); // Send a single batch email below.
         bu.addOp(revision.getChange().getId(), reviewerResult.op);
         if (!ccOrReviewer && reviewerResult.result.reviewers != null) {
           for (ReviewerInfo reviewerInfo : reviewerResult.result.reviewers) {
             if (Objects.equals(id.get(), reviewerInfo._accountId)) {
+              logger.atFine().log("calling user is explicitly added as reviewer");
               ccOrReviewer = true;
               break;
             }
@@ -333,6 +349,7 @@ public class PostReview
         if (!ccOrReviewer && reviewerResult.result.ccs != null) {
           for (AccountInfo accountInfo : reviewerResult.result.ccs) {
             if (Objects.equals(id.get(), accountInfo._accountId)) {
+              logger.atFine().log("calling user is explicitly added as cc");
               ccOrReviewer = true;
               break;
             }
@@ -344,6 +361,7 @@ public class PostReview
         // User posting this review isn't currently in the reviewer or CC list,
         // isn't being explicitly added, and isn't voting on any label.
         // Automatically CC them on this change so they receive replies.
+        logger.atFine().log("CCing calling user");
         ReviewerAddition selfAddition = reviewerAdder.ccCurrentUser(revision.getUser(), revision);
         selfAddition.op.suppressEmail();
         bu.addOp(revision.getChange().getId(), selfAddition.op);
@@ -365,6 +383,7 @@ public class PostReview
           output.ready = true;
         }
 
+        logger.atFine().log("setting work-in-progress to %s", input.workInProgress);
         WorkInProgressOp wipOp =
             workInProgressOpFactory.create(input.workInProgress, new WorkInProgressOp.Input());
         wipOp.suppressEmail();
@@ -372,6 +391,7 @@ public class PostReview
       }
 
       // Add the review op.
+      logger.atFine().log("posting review");
       bu.addOp(
           revision.getChange().getId(), new Op(projectState, revision.getPatchSet().id(), input));
 
@@ -455,6 +475,8 @@ public class PostReview
   private RevisionResource onBehalfOf(RevisionResource rev, LabelTypes labelTypes, ReviewInput in)
       throws BadRequestException, AuthException, UnprocessableEntityException,
           PermissionBackendException, IOException, ConfigInvalidException {
+    logger.atFine().log("request is executed on behalf of %s", in.onBehalfOf);
+
     if (in.labels == null || in.labels.isEmpty()) {
       throw new AuthException(
           String.format("label required to post review on behalf of \"%s\"", in.onBehalfOf));
@@ -463,6 +485,8 @@ public class PostReview
       throw new AuthException("not allowed to modify other user's drafts");
     }
 
+    logger.atFine().log("label input: %s", in.labels);
+
     CurrentUser caller = rev.getUser();
     PermissionBackend.ForChange perm = rev.permissions();
     Iterator<Map.Entry<String, Short>> itr = in.labels.entrySet().iterator();
@@ -470,15 +494,22 @@ public class PostReview
       Map.Entry<String, Short> ent = itr.next();
       LabelType type = labelTypes.byLabel(ent.getKey());
       if (type == null) {
+        logger.atFine().log("label %s not found", ent.getKey());
         if (strictLabels) {
           throw new BadRequestException(
               String.format("label \"%s\" is not a configured label", ent.getKey()));
         }
+        logger.atFine().log("ignoring input for unknown label %s", ent.getKey());
         itr.remove();
         continue;
       }
 
-      if (!caller.isInternalUser()) {
+      if (caller.isInternalUser()) {
+        logger.atFine().log(
+            "skipping on behalf of permission check for label %s"
+                + " because caller is an internal user",
+            type.getName());
+      } else {
         try {
           perm.check(new LabelPermission.WithValue(ON_BEHALF_OF, type, ent.getValue()));
         } catch (AuthException e) {
@@ -490,11 +521,13 @@ public class PostReview
       }
     }
     if (in.labels.isEmpty()) {
+      logger.atFine().log("labels are empty after unknown labels have been removed");
       throw new AuthException(
           String.format("label required to post review on behalf of \"%s\"", in.onBehalfOf));
     }
 
     IdentifiedUser reviewer = accountResolver.resolve(in.onBehalfOf).asUniqueUserOnBehalfOf(caller);
+    logger.atFine().log("on behalf of user was resolved to %s", reviewer.getLoggableName());
     try {
       permissionBackend.user(reviewer).change(rev.getNotes()).check(ChangePermission.READ);
     } catch (AuthException e) {
@@ -508,16 +541,20 @@ public class PostReview
 
   private void checkLabels(RevisionResource rsrc, LabelTypes labelTypes, Map<String, Short> labels)
       throws BadRequestException, AuthException, PermissionBackendException {
+    logger.atFine().log("checking label input: %s", labels);
+
     PermissionBackend.ForChange perm = rsrc.permissions();
     Iterator<Map.Entry<String, Short>> itr = labels.entrySet().iterator();
     while (itr.hasNext()) {
       Map.Entry<String, Short> ent = itr.next();
       LabelType lt = labelTypes.byLabel(ent.getKey());
       if (lt == null) {
+        logger.atFine().log("label %s not found", ent.getKey());
         if (strictLabels) {
           throw new BadRequestException(
               String.format("label \"%s\" is not a configured label", ent.getKey()));
         }
+        logger.atFine().log("ignoring input for unknown label %s", ent.getKey());
         itr.remove();
         continue;
       }
@@ -529,10 +566,13 @@ public class PostReview
       }
 
       if (lt.getValue(ent.getValue()) == null) {
+        logger.atFine().log("label value %s not found", ent.getValue());
         if (strictLabels) {
           throw new BadRequestException(
               String.format("label \"%s\": %d is not a valid value", ent.getKey(), ent.getValue()));
         }
+        logger.atFine().log(
+            "ignoring input for label %s because label value is unknown", ent.getKey());
         itr.remove();
         continue;
       }
@@ -576,6 +616,7 @@ public class PostReview
   private <T extends CommentInput> void checkComments(
       RevisionResource revision, Map<String, List<T>> commentsPerPath)
       throws BadRequestException, PatchListNotAvailableException {
+    logger.atFine().log("checking comments");
     Set<String> revisionFilePaths = getAffectedFilePaths(revision);
     for (Map.Entry<String, List<T>> entry : commentsPerPath.entrySet()) {
       String path = entry.getKey();
@@ -628,6 +669,7 @@ public class PostReview
   private void checkRobotComments(
       RevisionResource revision, Map<String, List<RobotCommentInput>> in)
       throws BadRequestException, PatchListNotAvailableException {
+    logger.atFine().log("checking robot comments");
     for (Map.Entry<String, List<RobotCommentInput>> e : in.entrySet()) {
       String commentPath = e.getKey();
       for (RobotCommentInput c : e.getValue()) {

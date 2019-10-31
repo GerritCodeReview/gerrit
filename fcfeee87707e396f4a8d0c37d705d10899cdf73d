@@ -16,6 +16,24 @@
       "revId": "fcfeee87707e396f4a8d0c37d705d10899cdf73d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "68e45ebc_f139bc04",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-10-31T06:41:55Z",
+      "side": 1,
+      "message": "We don\u0027t usually put a point at the end of commit message subjects.",
+      "parentUuid": "f8d3aae6_9e18ad4a",
+      "revId": "fcfeee87707e396f4a8d0c37d705d10899cdf73d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

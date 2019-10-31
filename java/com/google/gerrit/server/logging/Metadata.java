@@ -59,6 +59,9 @@ public abstract class Metadata {
   // The type of change ID which the user used to identify a change (e.g. numeric ID, triplet etc.).
   public abstract Optional<String> changeIdType();
 
+  // The cause of an error.
+  public abstract Optional<String> cause();
+
   // The type of an event.
   public abstract Optional<String> eventType();
 
@@ -158,12 +161,12 @@ public abstract class Metadata {
    * Metadata{accountId=Optional.empty, actionType=Optional.empty, authDomainName=Optional.empty,
    * branchName=Optional.empty, cacheKey=Optional.empty, cacheName=Optional.empty,
    * className=Optional.empty, changeId=Optional[9212550], changeIdType=Optional.empty,
-   * eventType=Optional.empty, exportValue=Optional.empty, filePath=Optional.empty,
-   * garbageCollectorName=Optional.empty, gitOperation=Optional.empty, groupId=Optional.empty,
-   * groupName=Optional.empty, groupUuid=Optional.empty, httpStatus=Optional.empty,
-   * indexName=Optional.empty, indexVersion=Optional[0], methodName=Optional.empty,
-   * multiple=Optional.empty, operationName=Optional.empty, partial=Optional.empty,
-   * noteDbFilePath=Optional.empty, noteDbRefName=Optional.empty,
+   * cause=Optional.empty, eventType=Optional.empty, exportValue=Optional.empty,
+   * filePath=Optional.empty, garbageCollectorName=Optional.empty, gitOperation=Optional.empty,
+   * groupId=Optional.empty, groupName=Optional.empty, groupUuid=Optional.empty,
+   * httpStatus=Optional.empty, indexName=Optional.empty, indexVersion=Optional[0],
+   * methodName=Optional.empty, multiple=Optional.empty, operationName=Optional.empty,
+   * partial=Optional.empty, noteDbFilePath=Optional.empty, noteDbRefName=Optional.empty,
    * noteDbSequenceType=Optional.empty, noteDbTable=Optional.empty, patchSetId=Optional.empty,
    * pluginMetadata=[], pluginName=Optional.empty, projectName=Optional.empty,
    * pushType=Optional.empty, resourceCount=Optional.empty, restViewName=Optional.empty,
@@ -275,6 +278,8 @@ public abstract class Metadata {
     public abstract Builder changeId(int changeId);
 
     public abstract Builder changeIdType(@Nullable String changeIdType);
+
+    public abstract Builder cause(@Nullable String cause);
 
     public abstract Builder eventType(@Nullable String eventType);
 

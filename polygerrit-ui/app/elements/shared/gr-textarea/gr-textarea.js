@@ -74,7 +74,14 @@
         type: Boolean,
         value: false,
       },
+      /** Text input should be rendered in monspace font.  */
       monospace: {
+        type: Boolean,
+        value: false,
+      },
+      /** Text input should be rendered in code font, which is smaller than the
+          standard monospace font. */
+      code: {
         type: Boolean,
         value: false,
       },
@@ -114,6 +121,9 @@
     ready() {
       if (this.monospace) {
         this.classList.add('monospace');
+      }
+      if (this.code) {
+        this.classList.add('code');
       }
       if (this.hideBorder) {
         this.$.textarea.classList.add('noBorder');

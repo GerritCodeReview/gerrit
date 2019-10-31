@@ -52,6 +52,24 @@
       "revId": "d3efab14c992fa6aeb59789c63f7a7616514f56b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "00459d47_bfc45ad9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-31T10:56:57Z",
+      "side": 1,
+      "message": "Yup, the name of this component is pretty generic. I won\u0027t limit it to only for messages and comments.\n\nRegarding to the order of Gerrit core and plugin loading issue, we are actually working on something to see if we can support config certain plugins to load before others, some even before main Gerrit (preloaders). But that will be an ongoing work without a defined date to support yet.\n\nRegarding multiple plugins issues, can you elaborate it a bit more ? is it for multiple plugins that may register into the same endpoint ?",
+      "parentUuid": "f123a77e_0ed8588a",
+      "revId": "d3efab14c992fa6aeb59789c63f7a7616514f56b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

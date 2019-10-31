@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "f630555a_87a9e5a0",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-annotation.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-31T15:49:51Z",
+      "side": 1,
+      "message": "seems quite a few restrictions here, maybe consider just pass the node name instead ? you can always create the element from it ? `document.createElement(wrapperNodeName)` ?",
+      "range": {
+        "startLine": 53,
+        "startChar": 26,
+        "endLine": 53,
+        "endChar": 71
+      },
+      "revId": "abd1040b46cbed65e9371b2d07133df127f01614",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "71e45e6d_63b1a884",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-annotation.js",
         "patchSetId": 2
@@ -19,6 +42,46 @@
         "endLine": 56,
         "endChar": 71
       },
+      "revId": "abd1040b46cbed65e9371b2d07133df127f01614",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "75c3b5dd_c31fadd6",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-annotation.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-31T15:49:51Z",
+      "side": 1,
+      "message": "just curious, is this method added for future uses ? what are the use cases ?",
+      "range": {
+        "startLine": 58,
+        "startChar": 4,
+        "endLine": 58,
+        "endChar": 20
+      },
+      "revId": "abd1040b46cbed65e9371b2d07133df127f01614",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6aeaa48b_4d2e6847",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-annotation.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-10-31T15:49:51Z",
+      "side": 1,
+      "message": "maybe add some tests for this new method as well ?",
       "revId": "abd1040b46cbed65e9371b2d07133df127f01614",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

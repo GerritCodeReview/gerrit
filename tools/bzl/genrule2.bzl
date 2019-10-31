@@ -21,6 +21,7 @@ def genrule2(cmd, **kwargs):
         "ROOT=$$PWD",
         "TMP=$$(mktemp -d || mktemp -d -t bazel-tmp)",
         "(" + cmd + ")",
+        "rm -rf $$TMP",
     ])
     native.genrule(
         cmd = cmd,

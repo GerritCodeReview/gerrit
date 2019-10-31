@@ -522,69 +522,67 @@ class PatchScriptBuilder {
                 MimeUtil2.UNKNOWN_MIME_TYPE,
                 DisplayMethod.NONE,
                 false);
+          }
+          Text src =
+              isCommitMsg
+                  ? Text.forCommit(reader, within)
+                  : Text.forMergeList(comparisonType, reader, within);
+          byte[] srcContent = src.getContent();
+          DisplayMethod displayMethod;
+          FileMode mode;
+          if (src == Text.EMPTY) {
+            mode = FileMode.MISSING;
+            displayMethod = DisplayMethod.NONE;
           } else {
-            Text src =
-                isCommitMsg
-                    ? Text.forCommit(reader, within)
-                    : Text.forMergeList(comparisonType, reader, within);
-            byte[] srcContent = src.getContent();
-            DisplayMethod displayMethod;
-            FileMode mode;
-            if (src == Text.EMPTY) {
-              mode = FileMode.MISSING;
-              displayMethod = DisplayMethod.NONE;
-            } else {
-              mode = FileMode.REGULAR_FILE;
-              displayMethod = DisplayMethod.DIFF;
-            }
-            return createSide(
-                path,
-                within,
-                mode,
-                srcContent,
-                src,
-                MimeUtil2.UNKNOWN_MIME_TYPE,
-                displayMethod,
-                false);
+            mode = FileMode.REGULAR_FILE;
+            displayMethod = DisplayMethod.DIFF;
           }
-        } else {
-          final TreeWalk tw = find(path, within);
-          ObjectId id = tw != null ? tw.getObjectId(0) : ObjectId.zeroId();
-          FileMode mode = tw != null ? tw.getFileMode(0) : FileMode.MISSING;
-          boolean reuse =
-              other != null
-                  && other.id.equals(id)
-                  && (other.mode == mode || isBothFile(other.mode, mode));
-          Text src = null;
-          byte[] srcContent;
-          if (reuse) {
-            srcContent = other.srcContent;
-
-          } else if (mode.getObjectType() == Constants.OBJ_BLOB) {
-            srcContent = Text.asByteArray(db.open(id, Constants.OBJ_BLOB));
-
-          } else if (mode.getObjectType() == Constants.OBJ_COMMIT) {
-            String strContent = "Subproject commit " + ObjectId.toString(id);
-            srcContent = strContent.getBytes(UTF_8);
-
-          } else {
-            srcContent = Text.NO_BYTES;
-          }
-          MimeType mimeType = MimeUtil2.UNKNOWN_MIME_TYPE;
-          DisplayMethod displayMethod = DisplayMethod.DIFF;
-          if (reuse) {
-            mimeType = other.mimeType;
-            displayMethod = other.displayMethod;
-            src = other.src;
-
-          } else if (srcContent.length > 0 && FileMode.SYMLINK != mode) {
-            mimeType = registry.getMimeType(path, srcContent);
-            if ("image".equals(mimeType.getMediaType()) && registry.isSafeInline(mimeType)) {
-              displayMethod = DisplayMethod.IMG;
-            }
-          }
-          return createSide(path, id, mode, srcContent, src, mimeType, displayMethod, reuse);
+          return createSide(
+              path,
+              within,
+              mode,
+              srcContent,
+              src,
+              MimeUtil2.UNKNOWN_MIME_TYPE,
+              displayMethod,
+              false);
         }
+        final TreeWalk tw = find(path, within);
+        ObjectId id = tw != null ? tw.getObjectId(0) : ObjectId.zeroId();
+        FileMode mode = tw != null ? tw.getFileMode(0) : FileMode.MISSING;
+        boolean reuse =
+            other != null
+                && other.id.equals(id)
+                && (other.mode == mode || isBothFile(other.mode, mode));
+        Text src = null;
+        byte[] srcContent;
+        if (reuse) {
+          srcContent = other.srcContent;
+
+        } else if (mode.getObjectType() == Constants.OBJ_BLOB) {
+          srcContent = Text.asByteArray(db.open(id, Constants.OBJ_BLOB));
+
+        } else if (mode.getObjectType() == Constants.OBJ_COMMIT) {
+          String strContent = "Subproject commit " + ObjectId.toString(id);
+          srcContent = strContent.getBytes(UTF_8);
+
+        } else {
+          srcContent = Text.NO_BYTES;
+        }
+        MimeType mimeType = MimeUtil2.UNKNOWN_MIME_TYPE;
+        DisplayMethod displayMethod = DisplayMethod.DIFF;
+        if (reuse) {
+          mimeType = other.mimeType;
+          displayMethod = other.displayMethod;
+          src = other.src;
+
+        } else if (srcContent.length > 0 && FileMode.SYMLINK != mode) {
+          mimeType = registry.getMimeType(path, srcContent);
+          if ("image".equals(mimeType.getMediaType()) && registry.isSafeInline(mimeType)) {
+            displayMethod = DisplayMethod.IMG;
+          }
+        }
+        return createSide(path, id, mode, srcContent, src, mimeType, displayMethod, reuse);
       } catch (IOException err) {
         throw new IOException("Cannot read " + within.name() + ":" + path, err);
       }

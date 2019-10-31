@@ -28,6 +28,7 @@ import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.events.NewProjectCreatedListener;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.git.LockFailureException;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.GroupBackend;
@@ -200,10 +201,11 @@ public class ProjectCreator {
             referenceUpdated.fire(
                 project, ru, ReceiveCommand.Type.CREATE, identifiedUser.get().state());
             break;
+          case LOCK_FAILURE:
+            throw new LockFailureException(String.format("Failed to create ref \"%s\"", ref), ru);
           case FAST_FORWARD:
           case FORCED:
           case IO_FAILURE:
-          case LOCK_FAILURE:
           case NOT_ATTEMPTED:
           case NO_CHANGE:
           case REJECTED:

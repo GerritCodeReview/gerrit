@@ -24,6 +24,7 @@ import com.google.gerrit.extensions.client.ChangeKind;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.git.LockFailureException;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
@@ -248,9 +249,10 @@ public class ChangeEditUtil {
       case NEW:
       case NO_CHANGE:
         break;
+      case LOCK_FAILURE:
+        throw new LockFailureException(String.format("Failed to delete ref %s", refName), ru);
       case FAST_FORWARD:
       case IO_FAILURE:
-      case LOCK_FAILURE:
       case NOT_ATTEMPTED:
       case REJECTED:
       case REJECTED_CURRENT_BRANCH:

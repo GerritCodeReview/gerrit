@@ -232,9 +232,13 @@
         e.detail.value[this.$.textarea.selectionStart - 1] : '';
       if (charAtCursor !== ':' && this._colonIndex == null) { return; }
 
-      // When a colon is detected, set a colon index.
+      // When a colon is detected, set a colon index. We are interested only on
+      // colons after space or in beginning of textarea
       if (charAtCursor === ':') {
-        this._colonIndex = this.$.textarea.selectionStart - 1;
+        if (this.$.textarea.selectionStart < 2 ||
+            e.detail.value[this.$.textarea.selectionStart - 2] === ' ') {
+          this._colonIndex = this.$.textarea.selectionStart - 1;
+        }
       }
 
       this._currentSearchString = e.detail.value.substr(this._colonIndex + 1,

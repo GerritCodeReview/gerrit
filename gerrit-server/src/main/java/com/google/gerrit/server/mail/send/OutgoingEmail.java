@@ -114,10 +114,12 @@ public abstract class OutgoingEmail {
     if (!args.emailSender.isEnabled()) {
       // Server has explicitly disabled email sending.
       //
+      log.debug("Not sending: email sending is disabled by server config");
       return;
     }
 
     if (NotifyHandling.NONE.equals(notify) && accountsToNotify.isEmpty()) {
+      log.debug("Not sending: notify handling is NONE");
       return;
     }
 
@@ -164,6 +166,7 @@ public abstract class OutgoingEmail {
               new Address(thisUser.getFullName(), thisUser.getPreferredEmail()));
         }
         if (smtpRcptTo.isEmpty() && smtpRcptToPlaintextOnly.isEmpty()) {
+          log.debug("Not sending: No SMTP recipients");
           return;
         }
       }
@@ -202,6 +205,7 @@ public abstract class OutgoingEmail {
         try {
           validator.validateOutgoingEmail(va);
         } catch (ValidationException e) {
+          log.debug("Not sending: rejected by outgoing email validator: {}", e.getMessage());
           return;
         }
       }
@@ -405,6 +409,7 @@ public abstract class OutgoingEmail {
   protected boolean shouldSendMessage() {
     if (textBody.length() == 0) {
       // If we have no message body, don't send.
+      log.debug("Not sending: no message body");
       return false;
     }
 
@@ -412,6 +417,7 @@ public abstract class OutgoingEmail {
       // If we have nobody to send this message to, then all of our
       // selection filters previously for this type of message were
       // unable to match a destination. Don't bother sending it.
+      log.debug("Not sending: No recipients");
       return false;
     }
 
@@ -421,6 +427,7 @@ public abstract class OutgoingEmail {
         && rcptTo.contains(fromId)) {
       // If the only recipient is also the sender, don't bother.
       //
+      log.debug("Not sending: Sender is only recipient");
       return false;
     }
 

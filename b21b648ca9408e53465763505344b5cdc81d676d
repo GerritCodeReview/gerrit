@@ -46,6 +46,30 @@
       "revId": "b21b648ca9408e53465763505344b5cdc81d676d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "08be7fee_6eea8264",
+        "filename": "polygerrit-ui/app/styles/shared-styles.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2019-10-31T17:34:47Z",
+      "side": 1,
+      "message": "I would recommend using Google Grey 700 (#5F6368) for deemphasized color throughout the UI. It will have enough contrast on the current --table-header-background-color: #fafafa.\n\nDo you see any areas in the UI where there could be contrast issue with this proposed color?",
+      "parentUuid": "8293e860_ca42e253",
+      "range": {
+        "startLine": 134,
+        "startChar": 17,
+        "endLine": 134,
+        "endChar": 47
+      },
+      "revId": "b21b648ca9408e53465763505344b5cdc81d676d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -118,8 +118,7 @@ public abstract class AbstractIndexTests extends AbstractDaemonTest {
     assertChangeQuery("message:second", change.getChange(), true);
   }
 
-  protected void assertChangeQuery(String q, ChangeData change, boolean assertTrue)
-      throws Exception {
+  private void assertChangeQuery(String q, ChangeData change, boolean assertTrue) throws Exception {
     List<Integer> ids = query(q).stream().map(c -> c._number).collect(toList());
     if (assertTrue) {
       assertThat(ids).contains(change.getId().get());

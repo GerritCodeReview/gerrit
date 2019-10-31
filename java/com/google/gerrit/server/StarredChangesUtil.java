@@ -479,8 +479,10 @@ public class StarredChangesUtil {
         case FAST_FORWARD:
           gitRefUpdated.fire(allUsers, u, null);
           return;
-        case IO_FAILURE:
         case LOCK_FAILURE:
+          throw new LockFailureException(
+              String.format("Update star labels on ref %s failed", refName), u);
+        case IO_FAILURE:
         case NOT_ATTEMPTED:
         case REJECTED:
         case REJECTED_CURRENT_BRANCH:
@@ -513,11 +515,12 @@ public class StarredChangesUtil {
         case FORCED:
           gitRefUpdated.fire(allUsers, u, null);
           return;
+        case LOCK_FAILURE:
+          throw new LockFailureException(String.format("Delete star ref %s failed", refName), u);
         case NEW:
         case NO_CHANGE:
         case FAST_FORWARD:
         case IO_FAILURE:
-        case LOCK_FAILURE:
         case NOT_ATTEMPTED:
         case REJECTED:
         case REJECTED_CURRENT_BRANCH:

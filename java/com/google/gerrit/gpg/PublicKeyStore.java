@@ -21,6 +21,7 @@ import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
 import com.google.common.base.Preconditions;
 import com.google.common.io.ByteStreams;
+import com.google.gerrit.git.LockFailureException;
 import com.google.gerrit.git.ObjectIds;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -387,9 +388,10 @@ public class PublicKeyStore implements AutoCloseable {
         toAdd.clear();
         toRemove.clear();
         break;
+      case LOCK_FAILURE:
+        throw new LockFailureException("Failed to store public keys", ru);
       case FORCED:
       case IO_FAILURE:
-      case LOCK_FAILURE:
       case NOT_ATTEMPTED:
       case REJECTED:
       case REJECTED_CURRENT_BRANCH:

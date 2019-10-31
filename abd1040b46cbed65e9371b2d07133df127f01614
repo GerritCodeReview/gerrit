@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "a400a516_524a5e90",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-annotation.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1062212
+      },
+      "writtenOn": "2019-10-31T19:02:50Z",
+      "side": 1,
+      "message": "To Tao\u0027s question, we could take in an element name and a dictionary of attribute name-values, and create the element ourselves and put in the attributes.\nThat leaves the question of events, since event listeners don\u0027t go well with cloning (see reason for cloning in Ole\u0027s comment). We could:\n1. Expect clients to add listeners on a parent node (e.g. the lineEl, or gr-diff as a whole).\n2. Take a dictionary of event name-listeners, store it as a property on the node (e.g. __pgListeners), and each time we clone a node, reattach those listeners.\n3. Take a nodeFactory instead of a node, store it with the node, and call it for cloning.",
+      "parentUuid": "fded24fc_d14b435b",
+      "range": {
+        "startLine": 53,
+        "startChar": 26,
+        "endLine": 53,
+        "endChar": 71
+      },
+      "revId": "abd1040b46cbed65e9371b2d07133df127f01614",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "71e45e6d_63b1a884",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-annotation.js",
         "patchSetId": 2
@@ -69,6 +93,30 @@
       "revId": "abd1040b46cbed65e9371b2d07133df127f01614",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a8c0f10b_87c74155",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-annotation.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1062212
+      },
+      "writtenOn": "2019-10-31T19:02:50Z",
+      "side": 1,
+      "message": "We\u0027ll need to clone this if/when we need to split this node. This will happen if another annotation needs to split our node. E.g.:\n\nhttps://example.org/i-searched-for-this and this\n------------LINK-----------------------\n                   ----highlight/etc------------",
+      "parentUuid": "71e45e6d_63b1a884",
+      "range": {
+        "startLine": 56,
+        "startChar": 56,
+        "endLine": 56,
+        "endChar": 71
+      },
+      "revId": "abd1040b46cbed65e9371b2d07133df127f01614",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -116,6 +164,30 @@
       "revId": "abd1040b46cbed65e9371b2d07133df127f01614",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "636ef8ab_5756facd",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-annotation.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1062212
+      },
+      "writtenOn": "2019-10-31T19:02:50Z",
+      "side": 1,
+      "message": "As Ole said, currently this is for links, but might aid in non-navigation use cases as well. E.g., while it\u0027s technically possible to do hovercards with class annotations, they might become easier if custom elements can be added.",
+      "parentUuid": "ba40e24f_0607db61",
+      "range": {
+        "startLine": 58,
+        "startChar": 4,
+        "endLine": 58,
+        "endChar": 20
+      },
+      "revId": "abd1040b46cbed65e9371b2d07133df127f01614",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

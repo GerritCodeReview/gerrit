@@ -25,6 +25,7 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
+import com.google.gerrit.git.LockFailureException;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.extensions.events.AbstractNoNotifyEvent;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -96,9 +97,10 @@ public class SetHead implements RestModifyView<ProjectResource, HeadInput> {
           case FORCED:
           case NEW:
             break;
+          case LOCK_FAILURE:
+            throw new LockFailureException("Setting HEAD failed", u);
           case FAST_FORWARD:
           case IO_FAILURE:
-          case LOCK_FAILURE:
           case NOT_ATTEMPTED:
           case REJECTED:
           case REJECTED_CURRENT_BRANCH:

@@ -15,6 +15,7 @@
 package com.google.gerrit.server;
 
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
+import java.util.Optional;
 
 /**
  * Allows implementors to control how certain exceptions should be handled.
@@ -38,5 +39,18 @@ public interface ExceptionHook {
    */
   default boolean shouldRetry(Throwable throwable) {
     return false;
+  }
+
+  /**
+   * Formats the cause of an exception for use in metrics.
+   *
+   * <p>This method allows implementors to group exceptions that have the same cause into one metric
+   * bucket.
+   *
+   * @param throwable the exception cause
+   * @return formatted cause or {@link Optional#empty()} if no formatting was done
+   */
+  default Optional<String> formatCause(Throwable throwable) {
+    return Optional.empty();
   }
 }

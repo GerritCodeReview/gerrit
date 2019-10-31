@@ -111,13 +111,13 @@ public abstract class OutgoingEmail {
    * @throws EmailException
    */
   public void send() throws EmailException {
-    if (NotifyHandling.NONE.equals(notify) && accountsToNotify.isEmpty()) {
-      return;
-    }
-
     if (!args.emailSender.isEnabled()) {
       // Server has explicitly disabled email sending.
       //
+      return;
+    }
+
+    if (NotifyHandling.NONE.equals(notify) && accountsToNotify.isEmpty()) {
       return;
     }
 

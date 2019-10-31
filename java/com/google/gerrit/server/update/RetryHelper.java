@@ -32,10 +32,12 @@ import com.google.common.base.Throwables;
 import com.google.common.collect.Maps;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.git.LockFailureException;
 import com.google.gerrit.metrics.Counter1;
 import com.google.gerrit.metrics.Counter2;
+import com.google.gerrit.metrics.Counter3;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.Field;
 import com.google.gerrit.metrics.MetricMaker;
@@ -55,6 +57,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.RefUpdate;
 
 @Singleton
 public class RetryHelper {
@@ -127,10 +130,10 @@ public class RetryHelper {
   @VisibleForTesting
   @Singleton
   public static class Metrics {
-    final Counter1<ActionType> attemptCounts;
+    final Counter2<ActionType, String> attemptCounts;
     final Counter1<ActionType> timeoutCount;
-    final Counter2<ActionType, String> autoRetryCount;
-    final Counter2<ActionType, String> failuresOnAutoRetryCount;
+    final Counter3<ActionType, String, String> autoRetryCount;
+    final Counter3<ActionType, String, String> failuresOnAutoRetryCount;
 
     @Inject
     Metrics(MetricMaker metricMaker) {
@@ -144,7 +147,10 @@ public class RetryHelper {
                           + " (0 == single attempt, no retry)")
                   .setCumulative()
                   .setUnit("attempts"),
-              actionTypeField);
+              actionTypeField,
+              Field.ofString("cause", Metadata.Builder::cause)
+                  .description("The cause for the last attempt.")
+                  .build());
       timeoutCount =
           metricMaker.newCounter(
               "action/retry_timeout_count",
@@ -162,6 +168,9 @@ public class RetryHelper {
               actionTypeField,
               Field.ofString("operation_name", Metadata.Builder::operationName)
                   .description("The name of the operation that was retried.")
+                  .build(),
+              Field.ofString("cause", Metadata.Builder::cause)
+                  .description("The cause for the retry.")
                   .build());
       failuresOnAutoRetryCount =
           metricMaker.newCounter(
@@ -172,6 +181,9 @@ public class RetryHelper {
               actionTypeField,
               Field.ofString("operation_name", Metadata.Builder::operationName)
                   .description("The name of the operation that was retried.")
+                  .build(),
+              Field.ofString("cause", Metadata.Builder::cause)
+                  .description("The cause for the retry.")
                   .build());
     }
   }
@@ -330,13 +342,14 @@ public class RetryHelper {
                     && opts.retryWithTrace().isPresent()
                     && opts.retryWithTrace().get().test(t)) {
                   String caller = opts.caller().orElse("N/A");
+                  String cause = formatCause(t);
                   if (!traceContext.isTracing()) {
                     String traceId = "retry-on-failure-" + new RequestId();
                     traceContext.addTag(RequestId.Type.TRACE_ID, traceId).forceLogging();
                     opts.onAutoTrace().ifPresent(c -> c.accept(traceId));
                     logger.atFine().withCause(t).log(
                         "AutoRetry: %s failed, retry with tracing enabled", caller);
-                    metrics.autoRetryCount.increment(actionType, caller);
+                    metrics.autoRetryCount.increment(actionType, caller, cause);
                     return true;
                   }
 
@@ -345,7 +358,7 @@ public class RetryHelper {
                   // differs from the failure that triggered the retry.
                   logger.atFine().withCause(t).log(
                       "AutoRetry: auto-retry of %s has failed", caller);
-                  metrics.failuresOnAutoRetryCount.increment(actionType, caller);
+                  metrics.failuresOnAutoRetryCount.increment(actionType, caller, cause);
                   return false;
                 }
 
@@ -356,9 +369,23 @@ public class RetryHelper {
     } finally {
       if (listener.getAttemptCount() > 1) {
         logger.atFine().log("%s was attempted %d times", actionType, listener.getAttemptCount());
-        metrics.attemptCounts.incrementBy(actionType, listener.getAttemptCount() - 1);
+        metrics.attemptCounts.incrementBy(
+            actionType,
+            listener.getCause().map(RetryHelper::formatCause).orElse("_unknown"),
+            listener.getAttemptCount() - 1);
       }
     }
+  }
+
+  private static String formatCause(Throwable t) {
+    if (t instanceof UpdateException || t instanceof StorageException) {
+      t = t.getCause();
+    }
+
+    if (t instanceof LockFailureException) {
+      return RefUpdate.Result.LOCK_FAILURE.name();
+    }
+    return t.getClass().getSimpleName();
   }
 
   /**
@@ -409,18 +436,27 @@ public class RetryHelper {
 
   private static class MetricListener implements RetryListener {
     private long attemptCount;
+    private Optional<Throwable> cause;
 
     MetricListener() {
       attemptCount = 1;
+      cause = Optional.empty();
     }
 
     @Override
     public <V> void onRetry(Attempt<V> attempt) {
       attemptCount = attempt.getAttemptNumber();
+      if (attempt.hasException()) {
+        cause = Optional.of(attempt.getExceptionCause());
+      }
     }
 
     long getAttemptCount() {
       return attemptCount;
+    }
+
+    Optional<Throwable> getCause() {
+      return cause;
     }
   }
 }

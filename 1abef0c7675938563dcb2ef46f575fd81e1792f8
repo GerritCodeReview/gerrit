@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cb856027_f2a94323",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-10-31T08:23:40Z",
+      "side": 1,
+      "message": "Remove the blank line, so that the bug line is in the footer.",
+      "revId": "1abef0c7675938563dcb2ef46f575fd81e1792f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -22,6 +22,30 @@
       "revId": "b089417d6ccbf34a2fb53ee7eb81f7751c1bf742",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "94e50a09_3fe08e6e",
+        "filename": "java/com/google/gerrit/server/mail/send/OutgoingEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-10-31T07:49:41Z",
+      "side": 1,
+      "message": "OK, I\u0027ll fix this.",
+      "parentUuid": "3f04b150_5c259e0c",
+      "range": {
+        "startLine": 201,
+        "startChar": 10,
+        "endLine": 202,
+        "endChar": 95
+      },
+      "revId": "b089417d6ccbf34a2fb53ee7eb81f7751c1bf742",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

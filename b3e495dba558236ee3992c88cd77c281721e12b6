@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3db34eb9_6a119965",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-10-31T14:21:16Z",
+      "side": 1,
+      "message": "Will imgur links go away?  I\u0027ve never heard that.\n\nAnyway, if that\u0027s a concern how about associating this fix to an issue in the tracker and adding the screen shots there?  Assuming of course that the attachments on the tracker are somewhat permanent.",
+      "parentUuid": "c59d1f11_c40f4bde",
+      "revId": "b3e495dba558236ee3992c88cd77c281721e12b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "45ce3e02_944182bb",
         "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.html",
         "patchSetId": 2

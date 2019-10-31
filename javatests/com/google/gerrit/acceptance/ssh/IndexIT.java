@@ -14,10 +14,4 @@
 
 package com.google.gerrit.acceptance.ssh;
 
-import com.google.inject.Injector;
-
-public class IndexIT extends AbstractIndexTests {
-
-  @Override
-  public void configureIndex(Injector injector) throws Exception {}
-}
+public class IndexIT extends AbstractIndexTests {}

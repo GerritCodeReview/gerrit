@@ -2752,6 +2752,9 @@ update could not be achieved (e.g. due to slow responding server nodes)
 this interface can be used to retry the request instead of failing it
 immediately.
 
+It also allows implementors to group exceptions that have the same
+cause into one metric bucket.
+
 [[mail-soy-template-provider]]
 == MailSoyTemplateProvider
 

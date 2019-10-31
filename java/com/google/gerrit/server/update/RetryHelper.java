@@ -76,7 +76,8 @@ public class RetryHelper {
     GROUP_UPDATE,
     INDEX_QUERY,
     PLUGIN_UPDATE,
-    REST_REQUEST,
+    REST_READ_REQUEST,
+    REST_WRITE_REQUEST,
   }
 
   /**

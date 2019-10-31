@@ -703,6 +703,7 @@ public class RestApiServlet extends HttpServlet {
         req,
         traceContext,
         globals.metrics.view(restCollection.getClass(), pluginName) + "#parse",
+        ActionType.REST_READ_REQUEST,
         () -> restCollection.parse(parentResource, id),
         noRetry());
   }
@@ -715,7 +716,12 @@ public class RestApiServlet extends HttpServlet {
       RestResource rsrc)
       throws Exception {
     return invokeRestEndpointWithRetry(
-        req, traceContext, getViewName(viewData), () -> view.apply(rsrc), noRetry());
+        req,
+        traceContext,
+        getViewName(viewData),
+        ActionType.REST_READ_REQUEST,
+        () -> view.apply(rsrc),
+        noRetry());
   }
 
   private Response<?> invokeRestModifyViewWithRetry(
@@ -730,6 +736,7 @@ public class RestApiServlet extends HttpServlet {
         req,
         traceContext,
         getViewName(viewData),
+        ActionType.REST_WRITE_REQUEST,
         () -> view.apply(rsrc, inputRequestBody),
         retryOnLockFailure());
   }
@@ -747,6 +754,7 @@ public class RestApiServlet extends HttpServlet {
         req,
         traceContext,
         getViewName(viewData),
+        ActionType.REST_WRITE_REQUEST,
         () -> view.apply(rsrc, path, inputRequestBody),
         retryOnLockFailure());
   }
@@ -764,6 +772,7 @@ public class RestApiServlet extends HttpServlet {
         req,
         traceContext,
         getViewName(viewData),
+        ActionType.REST_WRITE_REQUEST,
         () -> view.apply(rsrc, path, inputRequestBody),
         retryOnLockFailure());
   }
@@ -780,6 +789,7 @@ public class RestApiServlet extends HttpServlet {
         req,
         traceContext,
         getViewName(viewData),
+        ActionType.REST_WRITE_REQUEST,
         () -> view.apply(rsrc, inputRequestBody),
         retryOnLockFailure());
   }
@@ -788,6 +798,7 @@ public class RestApiServlet extends HttpServlet {
       HttpServletRequest req,
       TraceContext traceContext,
       String caller,
+      ActionType actionType,
       Action<T> action,
       Predicate<Throwable> retryExceptionPredicate)
       throws Exception {
@@ -807,7 +818,7 @@ public class RestApiServlet extends HttpServlet {
     }
     try {
       return globals.retryHelper.execute(
-          ActionType.REST_REQUEST, action, retryOptionsBuilder.build(), retryExceptionPredicate);
+          actionType, action, retryOptionsBuilder.build(), retryExceptionPredicate);
     } finally {
       // If auto-tracing got triggered due to a non-recoverable failure, also trace the rest of
       // this request. This means logging is forced for all further log statements and the logs are

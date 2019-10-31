@@ -27,6 +27,7 @@ import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestCollectionCreateView;
+import com.google.gerrit.git.LockFailureException;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -159,8 +160,7 @@ public class CreateBranch
               }
               refPrefix = RefUtil.getRefPrefix(refPrefix);
             }
-            // fall through
-            // $FALL-THROUGH$
+            throw new LockFailureException(String.format("Failed to create %s", ref), u);
           case FORCED:
           case IO_FAILURE:
           case NOT_ATTEMPTED:
@@ -170,9 +170,7 @@ public class CreateBranch
           case REJECTED_MISSING_OBJECT:
           case REJECTED_OTHER_REASON:
           default:
-            {
-              throw new IOException(result.name());
-            }
+            throw new IOException(String.format("Failed to create %s: %s", ref, result.name()));
         }
 
         BranchInfo info = new BranchInfo();

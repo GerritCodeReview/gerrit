@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3f04b150_5c259e0c",
+        "filename": "java/com/google/gerrit/server/mail/send/OutgoingEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-10-31T07:44:50Z",
+      "side": 1,
+      "message": "[optional] I wonder if it\u0027s worth to have the logNotSending method, or whether it would be better to inline it.\n\nIf to compare the calls,\n\n  logNotSending(() -\u003e String.format(\"Rejected by outgoing email validator: %s\", e.getMessage()));\n\nvs.\n\n  logger.atFine().log(\"Not sending \u0027%s\u0027: Rejected by outgoing email validator: %s\", messageClass, e.getMessage());\n\nit doesn\u0027t look like we are saving a lot.\n\nUsing a helper method for logging has the disadvantage that in the logs we see the same source line number for all the logs (e.g. line 440) instead of the line numbers where the logs are actually written.",
+      "range": {
+        "startLine": 201,
+        "startChar": 10,
+        "endLine": 202,
+        "endChar": 95
+      },
+      "revId": "b089417d6ccbf34a2fb53ee7eb81f7751c1bf742",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -98,6 +98,34 @@ limitations under the License.
           assert.equal(element._currentSearchString, '');
         });
 
+    test('emoji selector opens when a colon is typed after space',
+        () => {
+          MockInteractions.focus(element.$.textarea);
+          // Needed for Safari tests. selectionStart is not updated when text is
+          // updated.
+          element.$.textarea.selectionStart = 2;
+          element.$.textarea.selectionEnd = 2;
+          element.text = ' :';
+          flushAsynchronousOperations();
+          assert.isFalse(element.$.emojiSuggestions.isHidden);
+          assert.equal(element._colonIndex, 1);
+          assert.isFalse(element._hideAutocomplete);
+          assert.equal(element._currentSearchString, '');
+        });
+
+    test('emoji selector doesn\`t open when a colon is typed after character',
+        () => {
+          MockInteractions.focus(element.$.textarea);
+          // Needed for Safari tests. selectionStart is not updated when text is
+          // updated.
+          element.$.textarea.selectionStart = 5;
+          element.$.textarea.selectionEnd = 5;
+          element.text = 'test:';
+          flushAsynchronousOperations();
+          assert.isTrue(element.$.emojiSuggestions.isHidden);
+          assert.isTrue(element._hideAutocomplete);
+        });
+
     test('emoji selector opens when a colon is typed and some substring',
         () => {
           MockInteractions.focus(element.$.textarea);

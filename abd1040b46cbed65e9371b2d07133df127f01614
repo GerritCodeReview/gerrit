@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "fded24fc_d14b435b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-annotation.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-10-31T17:00:38Z",
+      "side": 1,
+      "message": "I thought the same, but the issue is that you may want to set attributes such as href on the wrapping anchor. So long as there is only one wrapper element, you could return the new element and let users of the API add the href afterwards, that\u0027s why I asked about the cloning below...",
+      "parentUuid": "f630555a_87a9e5a0",
+      "range": {
+        "startLine": 53,
+        "startChar": 26,
+        "endLine": 53,
+        "endChar": 71
+      },
+      "revId": "abd1040b46cbed65e9371b2d07133df127f01614",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "71e45e6d_63b1a884",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-annotation.js",
         "patchSetId": 2
@@ -59,6 +83,30 @@
       "writtenOn": "2019-10-31T15:49:51Z",
       "side": 1,
       "message": "just curious, is this method added for future uses ? what are the use cases ?",
+      "range": {
+        "startLine": 58,
+        "startChar": 4,
+        "endLine": 58,
+        "endChar": 20
+      },
+      "revId": "abd1040b46cbed65e9371b2d07133df127f01614",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ba40e24f_0607db61",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-annotation.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-10-31T17:00:38Z",
+      "side": 1,
+      "message": "This is for adding links, like when a comment contains a URL. It might also come in handy for cross references.",
+      "parentUuid": "75c3b5dd_c31fadd6",
       "range": {
         "startLine": 58,
         "startChar": 4,

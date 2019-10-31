@@ -214,10 +214,12 @@ public abstract class OutgoingEmail {
 
       if (!smtpRcptTo.isEmpty()) {
         // Send multipart message
+        log.debug("Sending multipart '{}'", messageClass);
         args.emailSender.send(va.smtpFromAddress, va.smtpRcptTo, va.headers, va.body, va.htmlBody);
       }
 
       if (!smtpRcptToPlaintextOnly.isEmpty()) {
+        log.debug("Sending plaintext '{}'", messageClass);
         // Send plaintext message
         Map<String, EmailHeader> shallowCopy = new HashMap<>();
         shallowCopy.putAll(headers);

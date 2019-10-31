@@ -137,7 +137,7 @@ public class DeleteRef {
           break;
 
         case REJECTED_CURRENT_BRANCH:
-          logger.atSevere().log("Cannot delete %s: %s", ref, result.name());
+          logger.atFine().log("Cannot delete current branch %s: %s", ref, result.name());
           throw new ResourceConflictException("cannot delete current branch");
 
         case LOCK_FAILURE:

@@ -26,6 +26,7 @@ import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestView;
+import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
 import com.google.gerrit.server.project.CommitResource;
@@ -33,7 +34,9 @@ import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.Reachable;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.query.change.CommitPredicate;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
+import com.google.gerrit.server.query.change.ProjectPredicate;
 import com.google.gerrit.server.update.RetryHelper;
 import com.google.gerrit.server.update.RetryHelper.Action;
 import com.google.gerrit.server.update.RetryHelper.ActionType;
@@ -41,11 +44,14 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 import org.eclipse.jgit.errors.IncorrectObjectTypeException;
 import org.eclipse.jgit.errors.MissingObjectException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
+import org.eclipse.jgit.lib.RefDatabase;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -116,12 +122,13 @@ public class CommitsCollection implements ChildCollection<ProjectResource, Commi
   public boolean canRead(ProjectState state, Repository repo, RevCommit commit) throws IOException {
     Project.NameKey project = state.getNameKey();
     if (indexes.getSearchIndex() == null) {
-      // No index in slaves, fall back to scanning refs.
+      // No index in slaves, fall back to scanning refs. We must inspect change refs too
+      // as the commit might be a patchset of a not yet submitted change.
       return reachable.fromRefs(project, repo, commit, repo.getRefDatabase().getRefs());
     }
 
-    // Check first if any change references the commit in question. This is much cheaper than ref
-    // visibility filtering and reachability computation.
+    // Check first if any patchset of any change references the commit in question. This is much
+    // cheaper than ref visibility filtering and reachability computation.
     List<ChangeData> changes =
         executeIndexQuery(
             () ->
@@ -131,6 +138,42 @@ public class CommitsCollection implements ChildCollection<ProjectResource, Commi
                     .setLimit(1)
                     .byProjectCommit(project, commit));
     if (!changes.isEmpty()) {
+      return true;
+    }
+
+    // Maybe the commit was a merge commit of a change. Try to find promising candidates for
+    // branches to check.
+    changes =
+        executeIndexQuery(
+            () ->
+                queryProvider
+                    .get()
+                    .enforceVisibility(true)
+                    .setLimit(1)
+                    .query(
+                        Predicate.and(
+                            new ProjectPredicate(project.get()),
+                            Predicate.or(
+                                Arrays.stream(commit.getParents())
+                                    .map(parent -> new CommitPredicate(parent.getId().getName()))
+                                    .collect(Collectors.toList())))));
+
+    RefDatabase refDb = repo.getRefDatabase();
+    List<Ref> parentRefs =
+        changes.stream()
+            .map(cd -> cd.change().getDest())
+            .map(
+                bnk -> {
+                  try {
+                    return refDb.exactRef(bnk.branch());
+                  } catch (IOException e) {
+                    // ignore if we can't open the branch.
+                  }
+                  return null;
+                })
+            .filter(r -> r != null)
+            .collect(Collectors.toList());
+    if (reachable.fromRefs(project, repo, commit, parentRefs)) {
       return true;
     }
 

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "68d3a544_d22a499e",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/mail/send/OutgoingEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-10-31T02:48:23Z",
+      "side": 1,
+      "message": "Unrelated to my change, but I wonder if these two separate blocks are the reason that I often receive two email notifications for the same thing.",
+      "range": {
+        "startLine": 213,
+        "startChar": 6,
+        "endLine": 232,
+        "endChar": 7
+      },
+      "revId": "7f81654f14c92c7135ae9df27bbfdd3c18026cdf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

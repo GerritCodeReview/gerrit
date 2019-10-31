@@ -1313,7 +1313,7 @@ The default limit is 1024kB.
 [[change.strictLabels]]change.strictLabels::
 +
 Reject invalid label votes: invalid labels or invalid values. This
-configuration option is provided for backwards compaitbility and may
+configuration option is provided for backwards compatibility and may
 be removed in future gerrit versions.
 +
 Default is false.

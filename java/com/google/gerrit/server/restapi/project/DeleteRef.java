@@ -29,6 +29,7 @@ import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.git.LockFailureException;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -42,7 +43,6 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
-import org.eclipse.jgit.errors.LockFailedException;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.NullProgressMonitor;
 import org.eclipse.jgit.lib.ObjectId;
@@ -56,9 +56,6 @@ import org.eclipse.jgit.transport.ReceiveCommand.Result;
 @Singleton
 public class DeleteRef {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-
-  private static final int MAX_LOCK_FAILURE_CALLS = 10;
-  private static final long SLEEP_ON_LOCK_FAILURE_MS = 15;
 
   private final Provider<IdentifiedUser> identifiedUser;
   private final PermissionBackend permissionBackend;
@@ -125,23 +122,7 @@ public class DeleteRef {
       u.setNewObjectId(ObjectId.zeroId());
       u.setForceUpdate(true);
       refDeletionValidator.validateRefOperation(projectState.getName(), identifiedUser.get(), u);
-      int remainingLockFailureCalls = MAX_LOCK_FAILURE_CALLS;
-      for (; ; ) {
-        try {
-          result = u.delete();
-        } catch (LockFailedException e) {
-          result = RefUpdate.Result.LOCK_FAILURE;
-        }
-        if (result == RefUpdate.Result.LOCK_FAILURE && --remainingLockFailureCalls > 0) {
-          try {
-            Thread.sleep(SLEEP_ON_LOCK_FAILURE_MS);
-          } catch (InterruptedException ie) {
-            // ignore
-          }
-        } else {
-          break;
-        }
-      }
+      result = u.delete();
 
       switch (result) {
         case NEW:
@@ -159,8 +140,9 @@ public class DeleteRef {
           logger.atSevere().log("Cannot delete %s: %s", ref, result.name());
           throw new ResourceConflictException("cannot delete current branch");
 
-        case IO_FAILURE:
         case LOCK_FAILURE:
+          throw new LockFailureException(String.format("Cannot delete %s", ref), u);
+        case IO_FAILURE:
         case NOT_ATTEMPTED:
         case REJECTED:
         case RENAMED:

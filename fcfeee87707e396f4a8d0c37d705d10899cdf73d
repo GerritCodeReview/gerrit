@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f8d3aae6_9e18ad4a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-10-31T06:26:51Z",
+      "side": 1,
+      "message": "Nit: point at the end of the statement.",
+      "revId": "fcfeee87707e396f4a8d0c37d705d10899cdf73d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

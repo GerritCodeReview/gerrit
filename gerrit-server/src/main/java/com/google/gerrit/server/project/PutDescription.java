@@ -27,6 +27,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.MetaDataUpdate;
 import com.google.gerrit.server.git.ProjectConfig;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -35,10 +36,10 @@ import org.eclipse.jgit.errors.RepositoryNotFoundException;
 @Singleton
 public class PutDescription implements RestModifyView<ProjectResource, DescriptionInput> {
   private final ProjectCache cache;
-  private final MetaDataUpdate.Server updateFactory;
+  private final Provider<MetaDataUpdate.Server> updateFactory;
 
   @Inject
-  PutDescription(ProjectCache cache, MetaDataUpdate.Server updateFactory) {
+  PutDescription(ProjectCache cache, Provider<MetaDataUpdate.Server> updateFactory) {
     this.cache = cache;
     this.updateFactory = updateFactory;
   }
@@ -56,7 +57,7 @@ public class PutDescription implements RestModifyView<ProjectResource, Descripti
       throw new AuthException("not project owner");
     }
 
-    try (MetaDataUpdate md = updateFactory.create(resource.getNameKey())) {
+    try (MetaDataUpdate md = updateFactory.get().create(resource.getNameKey())) {
       ProjectConfig config = ProjectConfig.read(md);
       Project project = config.getProject();
       project.setDescription(Strings.emptyToNull(input.description));

@@ -30,6 +30,7 @@ public abstract class Response<T> {
     return new Impl<>(200, value);
   }
 
+  /** HTTP 200 OK: with forced revalidation of cache. */
   public static <T> Response<T> withMustRevalidate(T value) {
     return ok(value).caching(CacheControl.PRIVATE(0, TimeUnit.SECONDS).setMustRevalidate());
   }

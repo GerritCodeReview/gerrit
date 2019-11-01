@@ -69,7 +69,7 @@ public class SetReadyForReview extends RetryingRestModifyView<ChangeResource, In
       bu.setNotify(NotifyResolver.Result.create(firstNonNull(input.notify, NotifyHandling.ALL)));
       bu.addOp(rsrc.getChange().getId(), opFactory.create(false, input));
       bu.execute();
-      return Response.ok("");
+      return Response.ok();
     }
   }
 

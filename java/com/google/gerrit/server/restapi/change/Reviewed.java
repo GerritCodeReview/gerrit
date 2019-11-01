@@ -43,7 +43,7 @@ public class Reviewed {
                       resource.getPatchKey().patchSetId(),
                       resource.getAccountId(),
                       resource.getPatchKey().fileName()));
-      return reviewFlagUpdated ? Response.created("") : Response.ok("");
+      return reviewFlagUpdated ? Response.created() : Response.ok();
     }
   }
 

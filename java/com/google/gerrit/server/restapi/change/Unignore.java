@@ -50,7 +50,7 @@ public class Unignore implements RestModifyView<ChangeResource, Input>, UiAction
     if (isIgnored(rsrc)) {
       stars.unignore(rsrc);
     }
-    return Response.ok("");
+    return Response.ok();
   }
 
   private boolean isIgnored(ChangeResource rsrc) {

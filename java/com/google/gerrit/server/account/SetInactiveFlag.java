@@ -106,6 +106,6 @@ public class SetInactiveFlag {
     if (exception.get().isPresent()) {
       throw exception.get().get();
     }
-    return alreadyActive.get() ? Response.ok("") : Response.created("");
+    return alreadyActive.get() ? Response.ok() : Response.created();
   }
 }

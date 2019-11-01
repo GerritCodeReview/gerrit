@@ -52,7 +52,7 @@ public class MarkAsUnreviewed
   @Override
   public Response<String> apply(ChangeResource rsrc, Input input) throws IllegalLabelException {
     stars.markAsUnreviewed(rsrc);
-    return Response.ok("");
+    return Response.ok();
   }
 
   private boolean isReviewed(ChangeResource rsrc) {

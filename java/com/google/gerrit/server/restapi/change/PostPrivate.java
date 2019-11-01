@@ -71,7 +71,7 @@ public class PostPrivate extends RetryingRestModifyView<ChangeResource, InputWit
     }
 
     if (rsrc.getChange().isPrivate()) {
-      return Response.ok("");
+      return Response.ok();
     }
 
     SetPrivateOp op = setPrivateOpFactory.create(true, input);
@@ -80,7 +80,7 @@ public class PostPrivate extends RetryingRestModifyView<ChangeResource, InputWit
       u.addOp(rsrc.getId(), op).execute();
     }
 
-    return Response.created("");
+    return Response.created();
   }
 
   @Override

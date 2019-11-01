@@ -69,7 +69,7 @@ public class SetWorkInProgress extends RetryingRestModifyView<ChangeResource, In
       bu.setNotify(NotifyResolver.Result.create(firstNonNull(input.notify, NotifyHandling.NONE)));
       bu.addOp(rsrc.getChange().getId(), opFactory.create(true, input));
       bu.execute();
-      return Response.ok("");
+      return Response.ok();
     }
   }
 

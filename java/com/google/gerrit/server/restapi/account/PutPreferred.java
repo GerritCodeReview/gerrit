@@ -145,6 +145,6 @@ public class PutPreferred implements RestModifyView<AccountResource.Email, Input
     if (exception.get().isPresent()) {
       throw exception.get().get();
     }
-    return alreadyPreferred.get() ? Response.ok("") : Response.created("");
+    return alreadyPreferred.get() ? Response.ok() : Response.created();
   }
 }

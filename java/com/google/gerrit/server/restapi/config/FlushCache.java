@@ -50,6 +50,6 @@ public class FlushCache implements RestModifyView<CacheResource, Input> {
     }
 
     rsrc.getCache().invalidateAll();
-    return Response.ok("");
+    return Response.ok();
   }
 }

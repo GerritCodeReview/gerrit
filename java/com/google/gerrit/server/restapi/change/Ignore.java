@@ -60,7 +60,7 @@ public class Ignore implements RestModifyView<ChangeResource, Input>, UiAction<C
       if (!isIgnored(rsrc)) {
         stars.ignore(rsrc);
       }
-      return Response.ok("");
+      return Response.ok();
     } catch (MutuallyExclusiveLabelsException e) {
       throw new ResourceConflictException(e.getMessage());
     }

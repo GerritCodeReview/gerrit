@@ -30,6 +30,11 @@ public abstract class Response<T> {
     return new Impl<>(200, value);
   }
 
+  /** HTTP 200 OK: with empty value. */
+  public static Response<String> ok() {
+    return ok("");
+  }
+
   /** HTTP 200 OK: with forced revalidation of cache. */
   public static <T> Response<T> withMustRevalidate(T value) {
     return ok(value).caching(CacheControl.PRIVATE(0, TimeUnit.SECONDS).setMustRevalidate());
@@ -38,6 +43,11 @@ public abstract class Response<T> {
   /** HTTP 201 Created: typically used when a new resource is made. */
   public static <T> Response<T> created(T value) {
     return new Impl<>(201, value);
+  }
+
+  /** HTTP 201 Created: with empty value. */
+  public static Response<String> created() {
+    return created("");
   }
 
   /** HTTP 202 Accepted: accepted as background task. */

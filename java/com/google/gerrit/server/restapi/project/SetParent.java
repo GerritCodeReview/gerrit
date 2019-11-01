@@ -47,6 +47,7 @@ import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -58,7 +59,7 @@ public class SetParent
     implements RestModifyView<ProjectResource, ParentInput>, GerritConfigListener {
   private final ProjectCache cache;
   private final PermissionBackend permissionBackend;
-  private final MetaDataUpdate.Server updateFactory;
+  private final Provider<MetaDataUpdate.Server> updateFactory;
   private final AllProjectsName allProjects;
   private final AllUsersName allUsers;
   private final ProjectConfig.Factory projectConfigFactory;
@@ -68,7 +69,7 @@ public class SetParent
   SetParent(
       ProjectCache cache,
       PermissionBackend permissionBackend,
-      MetaDataUpdate.Server updateFactory,
+      Provider<MetaDataUpdate.Server> updateFactory,
       AllProjectsName allProjects,
       AllUsersName allUsers,
       ProjectConfig.Factory projectConfigFactory,
@@ -99,7 +100,7 @@ public class SetParent
     String parentName =
         MoreObjects.firstNonNull(Strings.emptyToNull(input.parent), allProjects.get());
     validateParentUpdate(rsrc.getProjectState().getNameKey(), user, parentName, checkIfAdmin);
-    try (MetaDataUpdate md = updateFactory.create(rsrc.getNameKey())) {
+    try (MetaDataUpdate md = updateFactory.get().create(rsrc.getNameKey())) {
       ProjectConfig config = projectConfigFactory.read(md);
       Project project = config.getProject();
       project.setParentName(parentName);

@@ -205,8 +205,8 @@
       return this._overlays.confirmDiscard;
     },
 
-    _computeShowHideText(collapsed) {
-      return collapsed ? '◀' : '▼';
+    _computeShowHideIcon(collapsed) {
+      return collapsed ? 'gr-icons:expand-more' : 'gr-icons:expand-less';
     },
 
     _calculateActionstoShow(showActions, isRobotComment) {

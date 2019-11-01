@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "8d2b4169_22abefcf",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountCacheImpl.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-11-01T10:13:30Z",
+      "side": 1,
+      "message": "Is there an issue for replacing guava with caffeine?  If so, please mention it here.",
+      "range": {
+        "startLine": 87,
+        "startChar": 4,
+        "endLine": 89,
+        "endChar": 47
+      },
+      "revId": "52cd9eb056f03e68796923ac1d7c48ea72746cf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0f1e204a_524a76cb",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountCacheImpl.java",
         "patchSetId": 11

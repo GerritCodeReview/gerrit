@@ -51,7 +51,7 @@ limitations under the License.
           class="copyText"
           type="text"
           bind-value="[[text]]"
-          on-tap="_handleInputTap"
+          on-tap="_handleInputClick"
           readonly>
         <input
             id="input"
@@ -59,7 +59,7 @@ limitations under the License.
             class$="[[_computeInputClass(hideInput)]]"
             type="text"
             bind-value="[[text]]"
-            on-tap="_handleInputTap"
+            on-click="_handleInputClick"
             readonly>
       </iron-input>
       <gr-button id="button"

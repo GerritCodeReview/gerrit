@@ -73,7 +73,7 @@
       this.hasUnsavedChanges = true;
     },
 
-    _handlePreferredControlTap(e) {
+    _handlePreferredControlClick(e) {
       if (e.target.classList.contains('preferredControl')) {
         e.target.firstElementChild.click();
       }

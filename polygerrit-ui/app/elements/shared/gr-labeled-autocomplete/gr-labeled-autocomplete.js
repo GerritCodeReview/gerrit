@@ -58,7 +58,7 @@
       },
     },
 
-    _handleTriggerTap(e) {
+    _handleTriggerClick(e) {
       // Stop propagation here so we don't confuse gr-autocomplete, which
       // listens for taps on body to try to determine when it's blurred.
       e.stopPropagation();

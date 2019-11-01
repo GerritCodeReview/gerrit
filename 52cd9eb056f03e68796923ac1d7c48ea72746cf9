@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b8addae3_6dffe57f",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountCacheImpl.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-11-01T20:42:26Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "8d2b4169_22abefcf",
+      "range": {
+        "startLine": 87,
+        "startChar": 4,
+        "endLine": 89,
+        "endChar": 47
+      },
+      "revId": "52cd9eb056f03e68796923ac1d7c48ea72746cf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0f1e204a_524a76cb",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountCacheImpl.java",
         "patchSetId": 11
@@ -72,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "83bf4f20_51a7cd83",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountCacheImpl.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-11-01T20:42:26Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "ad22989a_2da2186d",
+      "range": {
+        "startLine": 92,
+        "startChar": 10,
+        "endLine": 92,
+        "endChar": 15
+      },
+      "revId": "52cd9eb056f03e68796923ac1d7c48ea72746cf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "90b53bb9_5f221a85",
         "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountCacheImpl.java",
         "patchSetId": 11
@@ -116,6 +164,30 @@
       "revId": "52cd9eb056f03e68796923ac1d7c48ea72746cf9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3440698a_c8737511",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountCacheImpl.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-11-01T20:42:26Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "5a3ff64e_41706d26",
+      "range": {
+        "startLine": 96,
+        "startChar": 10,
+        "endLine": 96,
+        "endChar": 15
+      },
+      "revId": "52cd9eb056f03e68796923ac1d7c48ea72746cf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

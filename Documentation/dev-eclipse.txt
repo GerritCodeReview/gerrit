@@ -53,7 +53,7 @@ Java 9 and later are supported, but some adjustments must be done, because
 Java 8 is still the default:
 
 * Add JRE, e.g.: directory: /usr/lib64/jvm/java-9-openjdk, name: java-9-openjdk-9
-* Change execution environemnt for gerrit project to: JavaSE-9 (java-9-openjdk-9)
+* Change execution environment for gerrit project to: JavaSE-9 (java-9-openjdk-9)
 * Check that compiler compliance level in gerrit project is set to: 9
 
 [[Formatting]]

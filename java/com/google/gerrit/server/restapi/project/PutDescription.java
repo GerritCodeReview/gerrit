@@ -32,6 +32,7 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.ProjectResource;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -40,14 +41,14 @@ import org.eclipse.jgit.errors.RepositoryNotFoundException;
 @Singleton
 public class PutDescription implements RestModifyView<ProjectResource, DescriptionInput> {
   private final ProjectCache cache;
-  private final MetaDataUpdate.Server updateFactory;
+  private final Provider<MetaDataUpdate.Server> updateFactory;
   private final PermissionBackend permissionBackend;
   private final ProjectConfig.Factory projectConfigFactory;
 
   @Inject
   PutDescription(
       ProjectCache cache,
-      MetaDataUpdate.Server updateFactory,
+      Provider<MetaDataUpdate.Server> updateFactory,
       PermissionBackend permissionBackend,
       ProjectConfig.Factory projectConfigFactory) {
     this.cache = cache;
@@ -70,7 +71,7 @@ public class PutDescription implements RestModifyView<ProjectResource, Descripti
         .project(resource.getNameKey())
         .check(ProjectPermission.WRITE_CONFIG);
 
-    try (MetaDataUpdate md = updateFactory.create(resource.getNameKey())) {
+    try (MetaDataUpdate md = updateFactory.get().create(resource.getNameKey())) {
       ProjectConfig config = projectConfigFactory.read(md);
       Project project = config.getProject();
       project.setDescription(Strings.emptyToNull(input.description));

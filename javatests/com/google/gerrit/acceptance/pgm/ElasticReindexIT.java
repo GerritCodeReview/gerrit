@@ -41,7 +41,7 @@ public class ElasticReindexIT extends AbstractReindexTests {
   }
 
   @Override
-  public void configureIndex(Injector injector) throws Exception {
+  public void configureIndex(Injector injector) {
     createAllIndexes(injector);
   }
 

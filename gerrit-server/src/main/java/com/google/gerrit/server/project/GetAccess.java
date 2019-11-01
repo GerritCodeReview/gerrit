@@ -90,7 +90,7 @@ public class GetAccess implements RestReadView<ProjectResource> {
   private final AllProjectsName allProjectsName;
   private final ProjectJson projectJson;
   private final ProjectCache projectCache;
-  private final MetaDataUpdate.Server metaDataUpdateFactory;
+  private final Provider<MetaDataUpdate.Server> metaDataUpdateFactory;
   private final ProjectControl.GenericFactory projectControlFactory;
   private final GroupBackend groupBackend;
   private final GroupJson groupJson;
@@ -102,7 +102,7 @@ public class GetAccess implements RestReadView<ProjectResource> {
       GroupControl.Factory groupControlFactory,
       AllProjectsName allProjectsName,
       ProjectCache projectCache,
-      MetaDataUpdate.Server metaDataUpdateFactory,
+      Provider<MetaDataUpdate.Server> metaDataUpdateFactory,
       ProjectJson projectJson,
       ProjectControl.GenericFactory projectControlFactory,
       GroupBackend groupBackend,
@@ -143,7 +143,7 @@ public class GetAccess implements RestReadView<ProjectResource> {
     PermissionBackend.ForProject perm = permissionBackend.user(user).project(projectName);
 
     ProjectConfig config;
-    try (MetaDataUpdate md = metaDataUpdateFactory.create(projectName)) {
+    try (MetaDataUpdate md = metaDataUpdateFactory.get().create(projectName)) {
       config = ProjectConfig.read(md);
 
       if (config.updateGroupNames(groupBackend)) {

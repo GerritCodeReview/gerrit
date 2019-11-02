@@ -561,7 +561,7 @@
      * Handle all events from the file list dom-repeat so event handleers don't
      * have to get registered for potentially very long lists.
      */
-    _handleFileListTap(e) {
+    _handleFileListClick(e) {
       // Traverse upwards to find the row element if the target is not the row.
       let row = e.target;
       while (!row.classList.contains('row') && row.parentElement) {

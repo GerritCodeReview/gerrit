@@ -60,7 +60,7 @@ limitations under the License.
         padding: var(--spacing-s) var(--spacing-m) 0 var(--requirements-horizontal-padding);
       }
       .value {
-        padding: var(--spacing-s) var(--spacing-m) 0 0;
+        padding: var(--spacing-s) 0 0 0;
       }
       .title,
       .value {
@@ -127,7 +127,7 @@ limitations under the License.
     <section class$="spacer [[_computeShowOptional(_optionalLabels.*)]]"></section>
     <section
         show-bottom-border$="[[_showOptionalLabels]]"
-        on-tap="_handleShowHide"
+        on-click="_handleShowHide"
         class$="showHide [[_computeShowOptional(_optionalLabels.*)]]">
       <div class="title">Other labels</div>
       <div class="value">

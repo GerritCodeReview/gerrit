@@ -97,7 +97,7 @@
       this.listen(this._target, 'focus', 'show');
       this.listen(this._target, 'mouseleave', 'hide');
       this.listen(this._target, 'blur', 'hide');
-      this.listen(this._target, 'tap', 'hide');
+      this.listen(this._target, 'click', 'hide');
     },
 
     ready() {
@@ -118,7 +118,7 @@
       this.unlisten(this._target, 'focus', 'show');
       this.unlisten(this._target, 'mouseleave', 'hide');
       this.unlisten(this._target, 'blur', 'hide');
-      this.unlisten(this._target, 'tap', 'hide');
+      this.unlisten(this._target, 'click', 'hide');
     },
 
     /**

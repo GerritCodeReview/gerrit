@@ -182,11 +182,11 @@
     },
 
     attached() {
-      this.listen(document.body, 'tap', '_handleBodyTap');
+      this.listen(document.body, 'click', '_handleBodyClick');
     },
 
     detached() {
-      this.unlisten(document.body, 'tap', '_handleBodyTap');
+      this.unlisten(document.body, 'click', '_handleBodyClick');
       this.cancelDebouncer('update-suggestions');
     },
 
@@ -210,7 +210,7 @@
 
     _handleItemSelect(e) {
       // Let _handleKeydown deal with keyboard interaction.
-      if (e.detail.trigger !== 'tap') { return; }
+      if (e.detail.trigger !== 'click') { return; }
       this._selected = e.detail.selected;
       this._commit();
     },
@@ -374,7 +374,7 @@
       }
     },
 
-    _handleBodyTap(e) {
+    _handleBodyClick(e) {
       const eventPath = Polymer.dom(e).path;
       for (let i = 0; i < eventPath.length; i++) {
         if (eventPath[i] === this) {

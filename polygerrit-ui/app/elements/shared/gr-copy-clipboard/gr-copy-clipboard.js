@@ -43,7 +43,7 @@
       return hideInput ? 'hideInput' : '';
     },
 
-    _handleInputTap(e) {
+    _handleInputClick(e) {
       e.preventDefault();
       Polymer.dom(e).rootTarget.select();
     },

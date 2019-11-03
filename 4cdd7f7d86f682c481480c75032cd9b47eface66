@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "09578c4d_a7fb66bf",
+        "filename": "tools/workspace_status.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-11-03T11:21:08Z",
+      "side": 1,
+      "message": "I realized this addition \"unknown\" handling logic only after trying to merge stable-2.14 branch to stable-2.15 branch. In 2.14 there wasn\u0027t this logic implemented and that why I have missed that, unfortunately.",
+      "range": {
+        "startLine": 44,
+        "startChar": 56,
+        "endLine": 44,
+        "endChar": 65
+      },
+      "revId": "4cdd7f7d86f682c481480c75032cd9b47eface66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

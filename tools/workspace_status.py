@@ -29,8 +29,8 @@ def revision(directory, parent):
         print('could not invoke git: %s' % err, file=sys.stderr)
         sys.exit(1)
     except subprocess.CalledProcessError as err:
-        print('error using git: %s' % err, file=sys.stderr)
-        sys.exit(1)
+        # ignore "not a git repository error" to report unknown version
+        return None
     finally:
         os.chdir(parent)
 
@@ -40,5 +40,5 @@ for d in os.listdir(os.path.join(ROOT, 'plugins')):
     p = os.path.join('plugins', d)
     if os.path.isdir(p):
         v = revision(p, ROOT)
-        if v:
-            print('STABLE_BUILD_%s_LABEL %s' % (os.path.basename(p).upper(), v))
+        print('STABLE_BUILD_%s_LABEL %s' % (os.path.basename(p).upper(),
+                                            v if v else 'unknown'))

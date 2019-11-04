@@ -17,6 +17,9 @@ package com.google.gerrit.server.project;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.change.IncludedInResolver;
+import com.google.gerrit.server.logging.Metadata;
+import com.google.gerrit.server.logging.TraceContext;
+import com.google.gerrit.server.logging.TraceContext.TraceTimer;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackend.RefFilterOptions;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -58,7 +61,12 @@ public class Reachable {
               .currentUser()
               .project(project)
               .filter(refs, repo, RefFilterOptions.defaults());
-      return IncludedInResolver.includedInAny(repo, rw, commit, filtered.values());
+      try (TraceTimer timer =
+          TraceContext.newTimer(
+              "IncludedInResolver.includedInAny",
+              Metadata.builder().projectName(project.get()).inputSize(refs.size()).build())) {
+        return IncludedInResolver.includedInAny(repo, rw, commit, filtered.values());
+      }
     } catch (IOException | PermissionBackendException e) {
       logger.atSevere().withCause(e).log(
           "Cannot verify permissions to commit object %s in repository %s", commit.name(), project);

@@ -68,10 +68,6 @@ limitations under the License.
     setup(() => {
       sandbox = sinon.sandbox.create();
       element = fixture('basic');
-      stub('gr-rest-api-interface', {
-        getLoggedIn() { return Promise.resolve(false); },
-        getProjectConfig() { return Promise.resolve({}); },
-      });
       prefs = {
         line_length: 10,
         show_tabs: true,

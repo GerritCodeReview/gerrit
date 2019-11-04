@@ -92,6 +92,9 @@ public abstract class Metadata {
   // The version of a secondary index.
   public abstract Optional<Integer> indexVersion();
 
+  // The number of inputs to an operation, eg. Reachable.fromRefs.
+  public abstract Optional<Integer> inputSize();
+
   // The name of the implementation method.
   public abstract Optional<String> methodName();
 
@@ -294,6 +297,8 @@ public abstract class Metadata {
     public abstract Builder indexName(@Nullable String indexName);
 
     public abstract Builder indexVersion(int indexVersion);
+
+    public abstract Builder inputSize(int size);
 
     public abstract Builder methodName(@Nullable String methodName);
 

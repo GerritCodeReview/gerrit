@@ -70,6 +70,30 @@
       "revId": "b21b648ca9408e53465763505344b5cdc81d676d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7f922c4e_35bf0b36",
+        "filename": "polygerrit-ui/app/styles/shared-styles.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-11-04T06:15:56Z",
+      "side": 1,
+      "message": "Sent https://gerrit-review.googlesource.com/c/gerrit/+/243663 for the color change to #5F6368.\n\nI am not sure whether \"Google Grey\" is a public color palette. I think it is an internal spec only.\n\nNo, I think contrast should be fine with #5F6368.",
+      "parentUuid": "08be7fee_6eea8264",
+      "range": {
+        "startLine": 134,
+        "startChar": 17,
+        "endLine": 134,
+        "endChar": 47
+      },
+      "revId": "b21b648ca9408e53465763505344b5cdc81d676d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

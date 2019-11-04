@@ -1,1 +1,0 @@
-echo STABLE_BUILD_GERRIT_LABEL dev

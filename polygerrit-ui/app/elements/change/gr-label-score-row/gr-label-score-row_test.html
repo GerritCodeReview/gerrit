@@ -108,7 +108,7 @@ limitations under the License.
     test('label picker', () => {
       const labelsChangedHandler = sandbox.stub();
       element.addEventListener('labels-changed', labelsChangedHandler);
-      assert.ok(element.$$('iron-selector'));
+      assert.ok(element.$.labelSelector);
       MockInteractions.tap(element.$$(
           'gr-button[value="-1"]'));
       flushAsynchronousOperations();
@@ -157,9 +157,9 @@ limitations under the License.
 
     test('correct item is selected', () => {
       // 1 should be the value of the selected item
-      assert.strictEqual(element.$$('iron-selector').selected, '+1');
+      assert.strictEqual(element.$.labelSelector.selected, '+1');
       assert.strictEqual(
-          element.$$('iron-selector').selectedItem
+          element.$.labelSelector.selectedItem
               .textContent.trim(), '+1');
       assert.strictEqual(
           element.$.selectedValueLabel.textContent.trim(), 'good');
@@ -236,7 +236,7 @@ limitations under the License.
           default_value: 0,
         },
       };
-      const selector = element.$$('iron-selector');
+      const selector = element.$.labelSelector;
       element.set('label', {name: 'Verified', value: ' 0'});
       flushAsynchronousOperations();
       assert.strictEqual(selector.selected, ' 0');
@@ -253,18 +253,18 @@ limitations under the License.
         ],
       };
       flushAsynchronousOperations();
-      assert.isOk(element.$$('iron-selector'));
-      assert.isFalse(element.$$('iron-selector').hidden);
+      assert.isOk(element.$.labelSelector);
+      assert.isFalse(element.$.labelSelector.hidden);
 
       element.permittedLabels = {};
       flushAsynchronousOperations();
-      assert.isOk(element.$$('iron-selector'));
-      assert.isTrue(element.$$('iron-selector').hidden);
+      assert.isOk(element.$.labelSelector);
+      assert.isTrue(element.$.labelSelector.hidden);
 
       element.permittedLabels = {Verified: []};
       flushAsynchronousOperations();
-      assert.isOk(element.$$('iron-selector'));
-      assert.isTrue(element.$$('iron-selector').hidden);
+      assert.isOk(element.$.labelSelector);
+      assert.isTrue(element.$.labelSelector.hidden);
     });
 
     test('asymetrical labels', done => {
@@ -282,7 +282,7 @@ limitations under the License.
         ],
       };
       flush(() => {
-        assert.strictEqual(element.$$('iron-selector')
+        assert.strictEqual(element.$.labelSelector
             .items.length, 2);
         assert.strictEqual(
             Polymer.dom(element.root).querySelectorAll('.placeholder').length,
@@ -302,7 +302,7 @@ limitations under the License.
           ],
         };
         flush(() => {
-          assert.strictEqual(element.$$('iron-selector')
+          assert.strictEqual(element.$.labelSelector
               .items.length, 5);
           assert.strictEqual(
               Polymer.dom(element.root).querySelectorAll('.placeholder').length,

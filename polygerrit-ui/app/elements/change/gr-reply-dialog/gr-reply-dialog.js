@@ -442,7 +442,7 @@
         }
         return this._mapReviewer(reviewer);
       });
-      const ccsEl = this.$$('#ccs');
+      const ccsEl = this.$.ccs;
       if (ccsEl) {
         for (let reviewer of ccsEl.additions()) {
           if (reviewer.account) {
@@ -494,7 +494,7 @@
         const reviewerEntry = this.$.reviewers.focusStart;
         reviewerEntry.async(reviewerEntry.focus);
       } else if (section === FocusTarget.CCS) {
-        const ccEntry = this.$$('#ccs').focusStart;
+        const ccEntry = this.$.ccs.focusStart;
         ccEntry.async(ccEntry.focus);
       }
     },
@@ -670,7 +670,7 @@
 
     _saveTapHandler(e) {
       e.preventDefault();
-      if (!this.$$('#ccs').submitEntryText()) {
+      if (!this.$.ccs.submitEntryText()) {
         // Do not proceed with the save if there is an invalid email entry in
         // the text field of the CC entry.
         return;
@@ -686,7 +686,7 @@
     },
 
     _submit() {
-      if (!this.$$('#ccs').submitEntryText()) {
+      if (!this.$.ccs.submitEntryText()) {
         // Do not proceed with the send if there is an invalid email entry in
         // the text field of the CC entry.
         return;
@@ -729,7 +729,7 @@
 
     _confirmPendingReviewer() {
       if (this._ccPendingConfirmation) {
-        this.$$('#ccs').confirmGroup(this._ccPendingConfirmation.group);
+        this.$.ccs.confirmGroup(this._ccPendingConfirmation.group);
         this._focusOn(FocusTarget.CCS);
       } else {
         this.$.reviewers.confirmGroup(this._reviewerPendingConfirmation.group);

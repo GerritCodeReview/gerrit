@@ -114,6 +114,10 @@ public class FileContentUtil {
           return BinaryResult.create(id.name()).setContentType(X_GIT_GITLINK).base64();
         }
 
+        if (mode == org.eclipse.jgit.lib.FileMode.TREE) {
+          throw new ResourceNotFoundException("cannot retrieve content of directories");
+        }
+
         ObjectLoader obj = repo.open(id, OBJ_BLOB);
         byte[] raw;
         try {

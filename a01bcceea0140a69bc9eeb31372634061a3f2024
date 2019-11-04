@@ -52,6 +52,24 @@
       "revId": "a01bcceea0140a69bc9eeb31372634061a3f2024",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "27f63142_3337b719",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-11-04T09:25:34Z",
+      "side": 1,
+      "message": "SGTM, let me amend this change to allow customisation of the padding instead.",
+      "parentUuid": "4a4f7aea_2de49313",
+      "revId": "a01bcceea0140a69bc9eeb31372634061a3f2024",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

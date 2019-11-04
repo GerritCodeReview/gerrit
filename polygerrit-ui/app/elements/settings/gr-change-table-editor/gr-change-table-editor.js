@@ -41,7 +41,6 @@
      * @return {!Array<string>}
      */
     _getDisplayedColumns() {
-      // Polymer2: querySelectorAll returns NodeList instead of Array.
       return Array.from(Polymer.dom(this.root)
           .querySelectorAll('.checkboxContainer input:not([name=number])'))
           .filter(checkbox => checkbox.checked)

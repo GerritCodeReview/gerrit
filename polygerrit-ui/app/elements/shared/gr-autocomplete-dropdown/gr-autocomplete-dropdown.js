@@ -161,7 +161,6 @@
       if (this.suggestions.length > 0) {
         if (!this.isHidden) {
           Polymer.dom.flush();
-          // Polymer2: querySelectorAll returns NodeList instead of Array.
           this._suggestionEls = Array.from(
               this.$.suggestions.querySelectorAll('li'));
           this._resetCursorIndex();

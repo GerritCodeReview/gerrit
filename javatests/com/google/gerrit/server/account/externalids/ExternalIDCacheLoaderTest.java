@@ -18,9 +18,9 @@ import static com.google.common.truth.Truth.assertThat;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
-import static org.mockito.Mockito.when;
 
 import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.RefNames;
@@ -44,7 +44,6 @@ import org.eclipse.jgit.treewalk.TreeWalk;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
@@ -52,8 +51,7 @@ import org.mockito.junit.MockitoJUnitRunner;
 public class ExternalIDCacheLoaderTest {
   private static AllUsersName ALL_USERS = new AllUsersName(AllUsersNameProvider.DEFAULT);
 
-  @Mock Cache<ObjectId, AllExternalIds> externalIdCache;
-
+  private Cache<ObjectId, AllExternalIds> externalIdCache;
   private ExternalIdCacheLoader loader;
   private GitRepositoryManager repoManager = new InMemoryRepositoryManager();
   private ExternalIdReader externalIdReader;
@@ -61,6 +59,7 @@ public class ExternalIDCacheLoaderTest {
 
   @Before
   public void setUp() throws Exception {
+    externalIdCache = CacheBuilder.newBuilder().build();
     repoManager.createRepository(ALL_USERS).close();
     externalIdReader = new ExternalIdReader(repoManager, ALL_USERS, new DisabledMetricMaker());
     externalIdReaderSpy = Mockito.spy(externalIdReader);
@@ -78,8 +77,7 @@ public class ExternalIDCacheLoaderTest {
   public void reloadsSingleUpdateUsingPartialReload() throws Exception {
     ObjectId firstState = insertExternalId(1, 1);
     ObjectId head = insertExternalId(2, 2);
-
-    when(externalIdCache.getIfPresent(firstState)).thenReturn(allFromGit(firstState));
+    externalIdCache.put(firstState, allFromGit(firstState));
 
     assertThat(loader.load(head)).isEqualTo(allFromGit(head));
     verifyZeroInteractions(externalIdReaderSpy);
@@ -91,8 +89,7 @@ public class ExternalIDCacheLoaderTest {
     insertExternalId(2, 2);
     insertExternalId(3, 3);
     ObjectId head = insertExternalId(4, 4);
-
-    when(externalIdCache.getIfPresent(firstState)).thenReturn(allFromGit(firstState));
+    externalIdCache.put(firstState, allFromGit(firstState));
 
     assertThat(loader.load(head)).isEqualTo(allFromGit(head));
     verifyZeroInteractions(externalIdReaderSpy);
@@ -100,10 +97,8 @@ public class ExternalIDCacheLoaderTest {
 
   @Test
   public void reloadsAllExternalIdsWhenNoOldStateIsCached() throws Exception {
-    ObjectId firstState = insertExternalId(1, 1);
+    insertExternalId(1, 1);
     ObjectId head = insertExternalId(2, 2);
-
-    when(externalIdCache.getIfPresent(firstState)).thenReturn(null);
 
     assertThat(loader.load(head)).isEqualTo(allFromGit(head));
     verify(externalIdReaderSpy, times(1)).all(head);
@@ -144,8 +139,7 @@ public class ExternalIDCacheLoaderTest {
     ObjectId firstState = insertExternalId(1, 1);
     ObjectId head = deleteExternalId(1, 1);
     assertThat(allFromGit(head).byAccount().size()).isEqualTo(0);
-
-    when(externalIdCache.getIfPresent(firstState)).thenReturn(allFromGit(firstState));
+    externalIdCache.put(firstState, allFromGit(firstState));
 
     assertThat(loader.load(head)).isEqualTo(allFromGit(head));
     verifyZeroInteractions(externalIdReaderSpy);
@@ -159,8 +153,7 @@ public class ExternalIDCacheLoaderTest {
             externalId(1, 1),
             ExternalId.create("fooschema", "bar1", Account.id(1), "foo@bar.com", "password"));
     assertThat(allFromGit(head).byAccount().size()).isEqualTo(1);
-
-    when(externalIdCache.getIfPresent(firstState)).thenReturn(allFromGit(firstState));
+    externalIdCache.put(firstState, allFromGit(firstState));
 
     assertThat(loader.load(head)).isEqualTo(allFromGit(head));
     verifyZeroInteractions(externalIdReaderSpy);
@@ -177,7 +170,7 @@ public class ExternalIDCacheLoaderTest {
       head = repo.exactRef(RefNames.REFS_EXTERNAL_IDS).getObjectId();
     }
 
-    when(externalIdCache.getIfPresent(firstState)).thenReturn(allFromGit(firstState));
+    externalIdCache.put(firstState, allFromGit(firstState));
 
     assertThat(loader.load(head)).isEqualTo(allFromGit(head));
     verifyZeroInteractions(externalIdReaderSpy);
@@ -190,8 +183,7 @@ public class ExternalIDCacheLoaderTest {
     ObjectId oldState = inserExternalIds(257);
     assertAllFilesHaveSlashesInPath();
     ObjectId head = insertExternalId(500, 500);
-
-    when(externalIdCache.getIfPresent(oldState)).thenReturn(allFromGit(oldState));
+    externalIdCache.put(oldState, allFromGit(oldState));
 
     assertThat(loader.load(head)).isEqualTo(allFromGit(head));
     verifyZeroInteractions(externalIdReaderSpy);
@@ -205,8 +197,7 @@ public class ExternalIDCacheLoaderTest {
     // Create one more external ID and then have the Loader compute the new state
     ObjectId head = insertExternalId(500, 500);
     assertAllFilesHaveSlashesInPath(); // NoteMap resharded
-
-    when(externalIdCache.getIfPresent(oldState)).thenReturn(allFromGit(oldState));
+    externalIdCache.put(oldState, allFromGit(oldState));
 
     assertThat(loader.load(head)).isEqualTo(allFromGit(head));
     verifyZeroInteractions(externalIdReaderSpy);

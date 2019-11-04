@@ -134,6 +134,13 @@
      * @event render
      */
 
+    /**
+     * Fired for interaction reporting when a diff context is expanded.
+     * Contains an event.detail
+     *
+     * @event diff-context-expanded
+     */
+
     properties: {
       changeNum: String,
       noAutoRender: {
@@ -488,6 +495,9 @@
       const el = Polymer.dom(e).localTarget;
 
       if (el.classList.contains('showContext')) {
+        this.fire('diff-context-expanded', {
+          numLines: e.detail.numLines,
+        });
         this.$.diffBuilder.showContext(e.detail.groups, e.detail.section);
       } else if (el.classList.contains('lineNum')) {
         this.addDraftAtLine(el);

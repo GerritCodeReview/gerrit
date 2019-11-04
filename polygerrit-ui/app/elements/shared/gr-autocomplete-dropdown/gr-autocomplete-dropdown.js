@@ -162,10 +162,19 @@
 
     _resetCursorStops() {
       if (this.suggestions.length > 0) {
+<<<<<<< HEAD   (680f69 Remove 1px border-top for additional requirement sections)
         Polymer.dom.flush();
         // Polymer2: querySelectorAll returns NodeList instead of Array.
         this._suggestionEls = Array.from(
             this.$.suggestions.querySelectorAll('li'));
+=======
+        if (!this.isHidden) {
+          Polymer.dom.flush();
+          this._suggestionEls = Array.from(
+              this.$.suggestions.querySelectorAll('li'));
+          this._resetCursorIndex();
+        }
+>>>>>>> CHANGE (34486c Remove all usage on POLYMER2)
       } else {
         this._suggestionEls = [];
       }

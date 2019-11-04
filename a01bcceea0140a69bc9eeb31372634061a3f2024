@@ -16,6 +16,24 @@
       "revId": "a01bcceea0140a69bc9eeb31372634061a3f2024",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d2691574_fd786a27",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-11-04T07:43:10Z",
+      "side": 1,
+      "message": "See https://imgur.com/i4bXtau, which is the theme with:\n        --header-background-color: rgb(59,120,231);\n        --header-border-top: 5px solid rgb(59,120,231);\n        --header-border-bottom: 5px solid rgb(59,120,231);",
+      "parentUuid": "25b27f64_77da0fad",
+      "revId": "a01bcceea0140a69bc9eeb31372634061a3f2024",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

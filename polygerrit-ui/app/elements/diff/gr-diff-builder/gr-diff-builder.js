@@ -292,6 +292,7 @@
       e.detail = {
         groups,
         section,
+        numLines,
       };
       // Let it bubble up the DOM tree.
     });

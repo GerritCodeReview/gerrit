@@ -252,6 +252,7 @@
       'render-content': '_handleRenderContent',
 
       'normalize-range': '_handleNormalizeRange',
+      'diff-context-expanded': '_handleDiffContextExpanded',
     },
 
     observers: [
@@ -959,6 +960,11 @@
       this.$.reporting.reportInteraction('normalize-range',
           `Modified invalid comment range on l. ${event.detail.lineNum}` +
           ` of the ${event.detail.side} side`);
+    },
+
+    _handleDiffContextExpanded(event) {
+      this.$.reporting.reportInteraction(
+          'diff-context-expanded', event.detail.numLines);
     },
   });
 })();

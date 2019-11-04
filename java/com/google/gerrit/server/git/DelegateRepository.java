@@ -81,7 +81,8 @@ class DelegateRepository extends Repository {
   @SuppressWarnings("rawtypes")
   private static BaseRepositoryBuilder toBuilder(Repository repo) {
     if (!repo.isBare()) {
-      throw new IllegalArgumentException("non-bare repository is not supported");
+      throw new IllegalArgumentException(
+          "non-bare repository is not supported: " + repo.getIdentifier());
     }
 
     return new BaseRepositoryBuilder<>().setFS(repo.getFS()).setGitDir(repo.getDirectory());

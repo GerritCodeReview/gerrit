@@ -17,6 +17,9 @@ package com.google.gerrit.server.project;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.change.IncludedInResolver;
+import com.google.gerrit.server.logging.Metadata;
+import com.google.gerrit.server.logging.TraceContext;
+import com.google.gerrit.server.logging.TraceContext.TraceTimer;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackend.RefFilterOptions;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -52,7 +55,11 @@ public class Reachable {
    */
   public boolean fromRefs(
       Project.NameKey project, Repository repo, RevCommit commit, List<Ref> refs) {
-    try (RevWalk rw = new RevWalk(repo)) {
+    try (TraceTimer timer =
+            TraceContext.newTimer(
+                "Reachable.fromRefs",
+                Metadata.builder().projectName(project.get()).listSize(refs.size()).build());
+        RevWalk rw = new RevWalk(repo)) {
       Map<String, Ref> filtered =
           permissionBackend
               .currentUser()

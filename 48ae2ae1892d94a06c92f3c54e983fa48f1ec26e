@@ -1,0 +1,347 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cdadfbe4_f9791127",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 3287,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2019-11-04T15:28:37Z",
+      "side": 1,
+      "message": "typo: labels",
+      "range": {
+        "startLine": 3287,
+        "startChar": 15,
+        "endLine": 3287,
+        "endChar": 21
+      },
+      "revId": "48ae2ae1892d94a06c92f3c54e983fa48f1ec26e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f4f95d96_f82d0afe",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 3309,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2019-11-04T15:28:37Z",
+      "side": 1,
+      "message": "Do you expect that users will want to do this? I admit the thought also immediately crossed my mind, but I wonder if it\u0027s realistic enough to warn users about it or if we can omit it from the docs.",
+      "range": {
+        "startLine": 3307,
+        "startChar": 0,
+        "endLine": 3309,
+        "endChar": 36
+      },
+      "revId": "48ae2ae1892d94a06c92f3c54e983fa48f1ec26e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dec82e06_7520d29a",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 3986,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2019-11-04T15:28:37Z",
+      "side": 1,
+      "message": "Should this be \"Definition\"? (Also in the previous section.)",
+      "range": {
+        "startLine": 3986,
+        "startChar": 10,
+        "endLine": 3986,
+        "endChar": 14
+      },
+      "revId": "48ae2ae1892d94a06c92f3c54e983fa48f1ec26e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "11a3fdb5_9ea29f2b",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 4084,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2019-11-04T15:28:37Z",
+      "side": 1,
+      "message": "Would BatchUpdateLabelsInput be clearer?",
+      "range": {
+        "startLine": 4084,
+        "startChar": 4,
+        "endLine": 4084,
+        "endChar": 19
+      },
+      "revId": "48ae2ae1892d94a06c92f3c54e983fa48f1ec26e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fd8c2d28_de41cf89",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 4095,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2019-11-04T15:28:37Z",
+      "side": 1,
+      "message": "Maybe just \"labels\"? (Is there another way of referring to labels?)",
+      "range": {
+        "startLine": 4095,
+        "startChar": 8,
+        "endLine": 4095,
+        "endChar": 22
+      },
+      "revId": "48ae2ae1892d94a06c92f3c54e983fa48f1ec26e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "720cdd7e_2ee68eb2",
+        "filename": "java/com/google/gerrit/extensions/api/projects/ProjectApi.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2019-11-04T15:28:37Z",
+      "side": 1,
+      "message": "Could you add Javadoc?",
+      "revId": "48ae2ae1892d94a06c92f3c54e983fa48f1ec26e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5c2a12b2_f0644512",
+        "filename": "java/com/google/gerrit/extensions/common/PostLabelsInput.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2019-11-04T15:28:37Z",
+      "side": 1,
+      "message": "Javadoc",
+      "revId": "48ae2ae1892d94a06c92f3c54e983fa48f1ec26e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "95ddc835_08095675",
+        "filename": "java/com/google/gerrit/server/restapi/project/CreateLabel.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2019-11-04T15:28:37Z",
+      "side": 1,
+      "message": "Isn\u0027t this handled by the check below?",
+      "range": {
+        "startLine": 122,
+        "startChar": 0,
+        "endLine": 124,
+        "endChar": 5
+      },
+      "revId": "48ae2ae1892d94a06c92f3c54e983fa48f1ec26e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e9f2cdd3_c5f6288a",
+        "filename": "java/com/google/gerrit/server/restapi/project/PostLabels.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2019-11-04T15:28:37Z",
+      "side": 1,
+      "message": "Javadoc",
+      "revId": "48ae2ae1892d94a06c92f3c54e983fa48f1ec26e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ef5b39fc_e26d0008",
+        "filename": "java/com/google/gerrit/server/restapi/project/PostLabels.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2019-11-04T15:28:37Z",
+      "side": 1,
+      "message": "Just out of curiosity, why would this happen?",
+      "revId": "48ae2ae1892d94a06c92f3c54e983fa48f1ec26e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5d32a31b_28cc753c",
+        "filename": "java/com/google/gerrit/server/restapi/project/PostLabels.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2019-11-04T15:28:37Z",
+      "side": 1,
+      "message": "Should we check that commit_message is unset, like for the other two? (Maybe extract to a method then?)",
+      "revId": "48ae2ae1892d94a06c92f3c54e983fa48f1ec26e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ada9432a_706166e0",
+        "filename": "java/com/google/gerrit/server/restapi/project/SetLabel.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2019-11-04T15:28:37Z",
+      "side": 1,
+      "message": "typo",
+      "range": {
+        "startLine": 100,
+        "startChar": 13,
+        "endLine": 100,
+        "endChar": 15
+      },
+      "revId": "48ae2ae1892d94a06c92f3c54e983fa48f1ec26e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e09d7ead_f01e65f8",
+        "filename": "java/com/google/gerrit/server/restapi/project/SetLabel.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2019-11-04T15:28:37Z",
+      "side": 1,
+      "message": "Some of these checks overlap with the other operations. WDYT about extracting them?",
+      "range": {
+        "startLine": 125,
+        "startChar": 0,
+        "endLine": 130,
+        "endChar": 9
+      },
+      "revId": "48ae2ae1892d94a06c92f3c54e983fa48f1ec26e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1bea38b1_91cec9e8",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/PostLabelsIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2019-11-04T15:28:37Z",
+      "side": 1,
+      "message": "Maybe add a link to the class under test?",
+      "revId": "48ae2ae1892d94a06c92f3c54e983fa48f1ec26e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b6afb266_22f2638e",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/PostLabelsIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2019-11-04T15:28:37Z",
+      "side": 1,
+      "message": "Maybe simplify the test by updating them both to avoid throwing?",
+      "revId": "48ae2ae1892d94a06c92f3c54e983fa48f1ec26e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "721182a3_01c3cb39",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/PostLabelsIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2019-11-04T15:28:37Z",
+      "side": 1,
+      "message": "I think the test names would be easier to read with an underscore, e.g. updateLabels_LabelNameAreTrimmed().\n\nhttp://go/java-style#s5.2.3-method-names",
+      "range": {
+        "startLine": 310,
+        "startChar": 14,
+        "endLine": 310,
+        "endChar": 26
+      },
+      "revId": "48ae2ae1892d94a06c92f3c54e983fa48f1ec26e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0a492b83_1bc2b4cd",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/PostLabelsIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 431,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2019-11-04T15:28:37Z",
+      "side": 1,
+      "message": "Should a no-op be rejected? This is likely a client error, right?",
+      "revId": "48ae2ae1892d94a06c92f3c54e983fa48f1ec26e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

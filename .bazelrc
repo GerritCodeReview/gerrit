@@ -1,4 +1,4 @@
-build --workspace_status_command=./tools/workspace-status.sh --strategy=Closure=worker
+build --workspace_status_command="python ./tools/workspace_status.py" --strategy=Closure=worker
 build --repository_cache=~/.gerritcodereview/bazel-cache/repository
 build --action_env=PATH
 build --disk_cache=~/.gerritcodereview/bazel-cache/cas

@@ -34,6 +34,24 @@
       "revId": "a01bcceea0140a69bc9eeb31372634061a3f2024",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4a4f7aea_2de49313",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-11-04T08:12:38Z",
+      "side": 1,
+      "message": "If background and border have the same color, then you probably want to use \"padding\" instead. I am OK with adding a \"--header-padding\" variable and using it in line 72 of gr-app-element.html. WDYT?",
+      "parentUuid": "d2691574_fd786a27",
+      "revId": "a01bcceea0140a69bc9eeb31372634061a3f2024",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

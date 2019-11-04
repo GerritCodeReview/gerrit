@@ -1,0 +1,187 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "595357ef_315a9d47",
+        "filename": "java/com/google/gerrit/server/git/TagSet.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-11-04T09:10:55Z",
+      "side": 1,
+      "message": "It seems this logic is the same as for refs. I think it would be easier to read if we do this only once:\n\n    for (Ref ref : Iterables.concat(refs, tags)) {\n      if (!skip(ref)) {\n        Node node \u003d getNodeIfUpToDate(repo, m.toUpdate, ref);\n        if (node !\u003d null) {\n          nodes.add(node);\n        }\n      }\n    }\n\nThat way, the reader has to understand the logic just once.",
+      "range": {
+        "startLine": 88,
+        "startChar": 0,
+        "endLine": 92,
+        "endChar": 5
+      },
+      "revId": "fb8628e0cfd5308a584c957a4b73dfc344050ef0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "148a4f6a_5275de2d",
+        "filename": "java/com/google/gerrit/server/git/TagSet.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-11-04T09:10:55Z",
+      "side": 1,
+      "message": "This needs: @Supress(\"unchecked\")",
+      "range": {
+        "startLine": 97,
+        "startChar": 11,
+        "endLine": 97,
+        "endChar": 32
+      },
+      "revId": "fb8628e0cfd5308a584c957a4b73dfc344050ef0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0782651b_253e24b3",
+        "filename": "java/com/google/gerrit/server/git/TagSet.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-11-04T09:10:55Z",
+      "side": 1,
+      "message": "nit: blank lines would help readability here. if the comments would go into their own lines for when they are the only content of a block, that would also help IMO.",
+      "revId": "fb8628e0cfd5308a584c957a4b73dfc344050ef0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "89e175dd_49e4c933",
+        "filename": "java/com/google/gerrit/server/git/TagSet.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-11-04T09:10:55Z",
+      "side": 1,
+      "message": "nit: @Nullable (here and wherever applicable)",
+      "revId": "fb8628e0cfd5308a584c957a4b73dfc344050ef0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aeb1e663_c8eda736",
+        "filename": "java/com/google/gerrit/server/git/TagSet.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-11-04T09:10:55Z",
+      "side": 1,
+      "message": "Can Dag go into it\u0027s own file with JavaDoc comments to indicate that?",
+      "range": {
+        "startLine": 140,
+        "startChar": 43,
+        "endLine": 140,
+        "endChar": 53
+      },
+      "revId": "fb8628e0cfd5308a584c957a4b73dfc344050ef0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3bcb97a0_4fabbbee",
+        "filename": "java/com/google/gerrit/server/git/TagSet.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-11-04T09:10:55Z",
+      "side": 1,
+      "message": "This method is deprecated (you can use getRefDatabase() and then get the refs you want).\n\nSide note: Getting all refs is very expensive. On our large repos, that operation takes somewhere around 4s for a large repo. I was hoping that we can extend RefDatabase with a seek() and iterator() approach to speed this up, but that is certainly out of scope for this change. Though, would help, because you want to skip all of refs/changes which is ~most refs on a normal Gerrit installation.",
+      "range": {
+        "startLine": 147,
+        "startChar": 25,
+        "endLine": 147,
+        "endChar": 35
+      },
+      "revId": "fb8628e0cfd5308a584c957a4b73dfc344050ef0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ac6b4d85_16d573d0",
+        "filename": "java/com/google/gerrit/server/git/TagSet.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-11-04T09:10:55Z",
+      "side": 1,
+      "message": "Can we factor this out and extend CacheSerializer\u003cTagSet\u003e and add a test?",
+      "revId": "fb8628e0cfd5308a584c957a4b73dfc344050ef0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cbd58933_ff4b9421",
+        "filename": "java/com/google/gerrit/server/git/TagSet.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-11-04T09:10:55Z",
+      "side": 1,
+      "message": "It would be interesting to get some latency numbers on this and also get the required memory footprint.",
+      "revId": "fb8628e0cfd5308a584c957a4b73dfc344050ef0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f2d0c25_a69c0a0a",
+        "filename": "proto/cache.proto",
+        "patchSetId": 5
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-11-04T09:10:55Z",
+      "side": 1,
+      "message": "This should be \u00274\u0027 to be sure that de/serializiation is compatible.\n\nIt wouldn\u0027t make a difference because our caches are versioned, but it\u0027s a good best-practice to follow anyway.",
+      "range": {
+        "startLine": 227,
+        "startChar": 31,
+        "endLine": 227,
+        "endChar": 32
+      },
+      "revId": "fb8628e0cfd5308a584c957a4b73dfc344050ef0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

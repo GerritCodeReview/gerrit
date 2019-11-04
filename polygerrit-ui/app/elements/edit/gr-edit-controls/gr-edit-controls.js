@@ -169,10 +169,7 @@
         dialog.querySelectorAll('gr-autocomplete')
             .forEach(input => { input.text = ''; });
 
-        // TODO: reveiw binding for input after drop Polymer 1 support
-        // All docs related to Polymer 2 set binding only for iron-input,
-        // and doesn't add binding to input.
-        dialog.querySelectorAll(window.POLYMER2 ? 'iron-input' : 'input')
+        dialog.querySelectorAll('iron-input')
             .forEach(input => { input.bindValue = ''; });
       }
 

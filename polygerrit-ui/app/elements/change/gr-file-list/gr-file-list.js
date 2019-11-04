@@ -332,7 +332,6 @@
     },
 
     get diffs() {
-      // Polymer2: querySelectorAll returns NodeList instead of Array.
       return Array.from(
           Polymer.dom(this.root).querySelectorAll('gr-diff-host'));
     },
@@ -926,7 +925,6 @@
     _filesChanged() {
       if (this._files && this._files.length > 0) {
         Polymer.dom.flush();
-        // Polymer2: querySelectorAll returns NodeList instead of Array.
         const files = Array.from(
             Polymer.dom(this.root).querySelectorAll('.file-row'));
         this.$.fileCursor.stops = files;

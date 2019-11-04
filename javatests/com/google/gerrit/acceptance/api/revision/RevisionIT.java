@@ -1328,6 +1328,23 @@ public class RevisionIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void cannotGetContentOfDirectory() throws Exception {
+    Map<String, String> files = ImmutableMap.of("dir/file1.txt", "content 1");
+    PushOneCommit.Result result =
+        pushFactory.create(admin.newIdent(), testRepo, SUBJECT, files).to("refs/for/master");
+    result.assertOkStatus();
+
+    assertThrows(
+        ResourceNotFoundException.class,
+        () ->
+            gApi.changes()
+                .id(result.getChangeId())
+                .revision(result.getCommit().name())
+                .file("dir")
+                .content());
+  }
+
+  @Test
   public void contentType() throws Exception {
     PushOneCommit.Result r = createChange();
 

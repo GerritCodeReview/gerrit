@@ -18,6 +18,7 @@ import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
@@ -65,8 +66,8 @@ public class ApplyFix implements RestModifyView<FixResource, Void> {
 
   @Override
   public Response<EditInfo> apply(FixResource fixResource, Void nothing)
-      throws AuthException, ResourceConflictException, IOException, ResourceNotFoundException,
-          PermissionBackendException {
+      throws AuthException, BadRequestException, ResourceConflictException, IOException,
+          ResourceNotFoundException, PermissionBackendException {
     RevisionResource revisionResource = fixResource.getRevisionResource();
     Project.NameKey project = revisionResource.getProject();
     ProjectState projectState = projectCache.checkedGet(project);

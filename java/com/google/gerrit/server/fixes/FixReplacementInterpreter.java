@@ -20,6 +20,7 @@ import static java.util.stream.Collectors.groupingBy;
 import com.google.gerrit.common.RawInputUtil;
 import com.google.gerrit.entities.Comment;
 import com.google.gerrit.entities.FixReplacement;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
@@ -69,7 +70,8 @@ public class FixReplacementInterpreter {
       ProjectState projectState,
       ObjectId patchSetCommitId,
       List<FixReplacement> fixReplacements)
-      throws ResourceNotFoundException, IOException, ResourceConflictException {
+      throws BadRequestException, ResourceNotFoundException, IOException,
+          ResourceConflictException {
     requireNonNull(fixReplacements, "Fix replacements must not be null");
 
     Map<String, List<FixReplacement>> fixReplacementsPerFilePath =
@@ -91,7 +93,8 @@ public class FixReplacementInterpreter {
       ObjectId patchSetCommitId,
       String filePath,
       List<FixReplacement> fixReplacements)
-      throws ResourceNotFoundException, IOException, ResourceConflictException {
+      throws BadRequestException, ResourceNotFoundException, IOException,
+          ResourceConflictException {
     String fileContent = getFileContent(repository, projectState, patchSetCommitId, filePath);
     String newFileContent = getNewFileContent(fileContent, fixReplacements);
     return new ChangeFileContentModification(filePath, RawInputUtil.create(newFileContent));
@@ -99,7 +102,7 @@ public class FixReplacementInterpreter {
 
   private String getFileContent(
       Repository repository, ProjectState projectState, ObjectId patchSetCommitId, String filePath)
-      throws ResourceNotFoundException, IOException {
+      throws ResourceNotFoundException, BadRequestException, IOException {
     try (BinaryResult fileContent =
         fileContentUtil.getContent(repository, projectState, patchSetCommitId, filePath)) {
       return fileContent.asString();

@@ -108,6 +108,7 @@ limitations under the License.
           <span class="placeholder" data-label$="[[label.name]]"></span>
         </template>
         <iron-selector
+            id="labelSelector"
             attr-for-selected="value"
             selected="[[_computeLabelValue(labels, permittedLabels, label)]]"
             hidden$="[[!_computeAnyPermittedLabelValues(permittedLabels, label.name)]]"

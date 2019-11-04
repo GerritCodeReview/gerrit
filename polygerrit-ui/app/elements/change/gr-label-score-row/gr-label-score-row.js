@@ -65,7 +65,7 @@
     },
 
     get _ironSelector() {
-      return this.$$('iron-selector');
+      return this.$ && this.$.labelSelector;
     },
 
     _computeBlankItems(permittedLabels, label, side) {
@@ -96,16 +96,24 @@
     },
 
     _computeButtonClass(value, index, totalItems) {
-      if (value < 0 && index === 0) {
-        return 'min';
-      } else if (value < 0) {
-        return 'negative';
-      } else if (value > 0 && index === totalItems - 1) {
-        return 'max';
-      } else if (value > 0) {
-        return 'positive';
+      const classes = [];
+      if (value === this.selectedValue) {
+        classes.push('iron-selected');
       }
-      return 'neutral';
+
+      if (value < 0 && index === 0) {
+        classes.push('min');
+      } else if (value < 0) {
+        classes.push('negative');
+      } else if (value > 0 && index === totalItems - 1) {
+        classes.push('max');
+      } else if (value > 0) {
+        classes.push('positive');
+      } else {
+        classes.push('neutral');
+      }
+
+      return classes.join(' ');
     },
 
     _computeLabelValue(labels, permittedLabels, label) {

@@ -389,7 +389,7 @@ limitations under the License.
             isFocusInsideElement(element.$.reviewers.$.entry.$.input.$.input));
 
         // No reviewer/CC should have been added.
-        assert.equal(element.$$('#ccs').additions().length, 0);
+        assert.equal(element.$.ccs.additions().length, 0);
         assert.equal(element.$.reviewers.additions().length, 0);
 
         // Reopen confirmation dialog.
@@ -414,7 +414,7 @@ limitations under the License.
       }).then(() => {
         assert.isFalse(isVisible(element.$.reviewerConfirmationOverlay));
         const additions = cc ?
-            element.$$('#ccs').additions() :
+            element.$.ccs.additions() :
             element.$.reviewers.additions();
         assert.deepEqual(
             additions,
@@ -459,9 +459,9 @@ limitations under the License.
     test('_reviewersMutated when account-text-change is fired from ccs', () => {
       flushAsynchronousOperations();
       assert.isFalse(element._reviewersMutated);
-      assert.isTrue(element.$$('#ccs').allowAnyInput);
+      assert.isTrue(element.$.ccs.allowAnyInput);
       assert.isFalse(element.$$('#reviewers').allowAnyInput);
-      element.$$('#ccs').dispatchEvent(new CustomEvent('account-text-changed',
+      element.$.ccs.dispatchEvent(new CustomEvent('account-text-changed',
           {bubbles: true, composed: true}));
       assert.isTrue(element._reviewersMutated);
     });
@@ -595,7 +595,7 @@ limitations under the License.
       const textareaStub = sandbox.stub(element.$.textarea, 'async');
       const reviewerEntryStub = sandbox.stub(element.$.reviewers.focusStart,
           'async');
-      const ccStub = sandbox.stub(element.$$('#ccs').focusStart, 'async');
+      const ccStub = sandbox.stub(element.$.ccs.focusStart, 'async');
       element._focusOn();
       assert.equal(element._chooseFocusTarget.callCount, 1);
       assert.deepEqual(textareaStub.callCount, 1);
@@ -803,7 +803,7 @@ limitations under the License.
       };
       flushAsynchronousOperations();
       const reviewers = element.$.reviewers;
-      const ccs = element.$$('#ccs');
+      const ccs = element.$.ccs;
       const reviewer1 = makeAccount();
       const reviewer2 = makeAccount();
       const cc1 = makeAccount();

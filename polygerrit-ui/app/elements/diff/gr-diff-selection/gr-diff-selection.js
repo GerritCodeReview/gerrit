@@ -73,8 +73,6 @@
     },
 
     _handleDownOnRangeComment(node) {
-      // Keep the original behavior in polymer 1
-      if (!window.POLYMER2) return false;
       if (node &&
           node.nodeName &&
           node.nodeName.toLowerCase() === 'gr-comment-thread') {
@@ -184,12 +182,10 @@
      */
     _getSelection() {
       let selection;
-      if (window.POLYMER2) {
-        const diffHost = util.querySelector(document.body, 'gr-diff');
-        selection = diffHost &&
-          diffHost.shadowRoot &&
-          diffHost.shadowRoot.getSelection();
-      }
+      const diffHost = util.querySelector(document.body, 'gr-diff');
+      selection = diffHost &&
+        diffHost.shadowRoot &&
+        diffHost.shadowRoot.getSelection();
       return selection ? selection: window.getSelection();
     },
 

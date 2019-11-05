@@ -120,12 +120,12 @@ limitations under the License.
       // resolving.
       sandbox.stub(element, '_purgeReviewersPendingRemove');
 
-      element.$$('#ccs').$.entry.setText('test');
+      element.$.ccs.$.entry.setText('test');
       MockInteractions.tap(element.$$('gr-button.send'));
       assert.isFalse(sendStub.called);
       flushAsynchronousOperations();
 
-      element.$$('#ccs').$.entry.setText('test@test.test');
+      element.$.ccs.$.entry.setText('test@test.test');
       MockInteractions.tap(element.$$('gr-button.send'));
       assert.isTrue(sendStub.called);
     });

@@ -100,7 +100,7 @@ public class FileContentUtil {
 
   public BinaryResult getContent(
       Repository repo, ProjectState project, ObjectId revstr, String path)
-      throws IOException, ResourceNotFoundException {
+      throws IOException, ResourceNotFoundException, BadRequestException {
     try (RevWalk rw = new RevWalk(repo)) {
       RevCommit commit = rw.parseCommit(revstr);
       try (TreeWalk tw = TreeWalk.forPath(rw.getObjectReader(), path, commit.getTree())) {
@@ -112,6 +112,10 @@ public class FileContentUtil {
         ObjectId id = tw.getObjectId(0);
         if (mode == org.eclipse.jgit.lib.FileMode.GITLINK) {
           return BinaryResult.create(id.name()).setContentType(X_GIT_GITLINK).base64();
+        }
+
+        if (mode == org.eclipse.jgit.lib.FileMode.TREE) {
+          throw new BadRequestException("cannot retrieve content of directories");
         }
 
         ObjectLoader obj = repo.open(id, OBJ_BLOB);

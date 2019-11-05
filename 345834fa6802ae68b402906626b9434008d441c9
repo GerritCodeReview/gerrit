@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1aa70ac3_66ddac22",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 365,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2019-11-05T15:46:55Z",
+      "side": 1,
+      "message": "I don\u0027t want to break checks. cc @Dhruv?",
+      "parentUuid": "c7c2f1d9_12082c8f",
+      "range": {
+        "startLine": 365,
+        "startChar": 8,
+        "endLine": 365,
+        "endChar": 28
+      },
+      "revId": "345834fa6802ae68b402906626b9434008d441c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0d73ab24_2d256d5d",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 3
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "dd5076ed_7a1687a1",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 422,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2019-11-05T15:46:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0d73ab24_2d256d5d",
+      "range": {
+        "startLine": 422,
+        "startChar": 12,
+        "endLine": 422,
+        "endChar": 42
+      },
+      "revId": "345834fa6802ae68b402906626b9434008d441c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "803624e6_bea9ee51",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 3
@@ -62,6 +110,24 @@
       "revId": "345834fa6802ae68b402906626b9434008d441c9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7b2b5fc0_aa259d54",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 443,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2019-11-05T15:46:55Z",
+      "side": 1,
+      "message": "I think this is enough for now. I don\u0027t want to add too much logic into events",
+      "parentUuid": "803624e6_bea9ee51",
+      "revId": "345834fa6802ae68b402906626b9434008d441c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

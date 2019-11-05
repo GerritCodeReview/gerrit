@@ -105,7 +105,7 @@ public class ReviewersUtil {
   // give the ranking algorithm a good set of candidates it can work with
   private static final int CANDIDATE_LIST_MULTIPLIER = 2;
 
-  private final AccountLoader accountLoader;
+  private final AccountLoader.Factory accountLoaderFactory;
   private final AccountQueryBuilder accountQueryBuilder;
   private final Provider<AccountQueryProcessor> queryProvider;
   private final GroupBackend groupBackend;
@@ -113,6 +113,7 @@ public class ReviewersUtil {
   private final Provider<CurrentUser> currentUser;
   private final ReviewerRecommender reviewerRecommender;
   private final Metrics metrics;
+  private final EnumSet<FillOptions> fillOptions;
 
   @Inject
   ReviewersUtil(
@@ -124,9 +125,9 @@ public class ReviewersUtil {
       Provider<CurrentUser> currentUser,
       ReviewerRecommender reviewerRecommender,
       Metrics metrics) {
-    Set<FillOptions> fillOptions = EnumSet.of(FillOptions.SECONDARY_EMAILS);
-    fillOptions.addAll(AccountLoader.DETAILED_OPTIONS);
-    this.accountLoader = accountLoaderFactory.create(fillOptions);
+    this.fillOptions = EnumSet.of(FillOptions.SECONDARY_EMAILS);
+    this.fillOptions.addAll(AccountLoader.DETAILED_OPTIONS);
+    this.accountLoaderFactory = accountLoaderFactory;
     this.accountQueryBuilder = accountQueryBuilder;
     this.queryProvider = queryProvider;
     this.currentUser = currentUser;
@@ -222,6 +223,7 @@ public class ReviewersUtil {
   private List<SuggestedReviewerInfo> loadAccounts(List<Account.Id> accountIds)
       throws OrmException {
     try (Timer0.Context ctx = metrics.loadAccountsLatency.start()) {
+      AccountLoader accountLoader = accountLoaderFactory.create(fillOptions);
       List<SuggestedReviewerInfo> reviewer =
           accountIds.stream()
               .map(accountLoader::get)

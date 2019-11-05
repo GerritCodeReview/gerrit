@@ -228,7 +228,7 @@
 
     _computeGroupName(groups, groupId) {
       return groups && groups[groupId] && groups[groupId].name ?
-          groups[groupId].name : groupId;
+        groups[groupId].name : groupId;
     },
 
     _getGroupSuggestions() {

@@ -102,8 +102,8 @@
       el.set('message.expanded', true);
       let top = el.offsetTop;
       for (let offsetParent = el.offsetParent;
-           offsetParent;
-           offsetParent = offsetParent.offsetParent) {
+        offsetParent;
+        offsetParent = offsetParent.offsetParent) {
         top += offsetParent.offsetTop;
       }
       window.scrollTo(0, top);

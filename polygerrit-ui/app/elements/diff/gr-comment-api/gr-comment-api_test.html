@@ -109,7 +109,7 @@ limitations under the License.
       let draftStub;
       setup(() => {
         commentStub = sandbox.stub(element.$.restAPI, 'getDiffComments')
-          .returns(Promise.resolve({}));
+            .returns(Promise.resolve({}));
         robotCommentStub = sandbox.stub(element.$.restAPI,
             'getDiffRobotComments').returns(Promise.resolve({}));
         draftStub = sandbox.stub(element.$.restAPI, 'getDiffDrafts')

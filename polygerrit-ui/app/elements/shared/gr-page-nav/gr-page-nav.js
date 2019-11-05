@@ -36,8 +36,8 @@
       if (this._headerHeight === undefined) {
         let top = this._getOffsetTop(this);
         for (let offsetParent = this.offsetParent;
-           offsetParent;
-           offsetParent = this._getOffsetParent(offsetParent)) {
+          offsetParent;
+          offsetParent = this._getOffsetParent(offsetParent)) {
           top += this._getOffsetTop(offsetParent);
         }
         this._headerHeight = top;

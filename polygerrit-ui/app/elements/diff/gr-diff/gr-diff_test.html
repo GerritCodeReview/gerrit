@@ -1069,7 +1069,7 @@ limitations under the License.
             /* loading= */ false,
             element.prefs,
             element._diffLength
-          ));
+        ));
       });
 
       test('do not show the message if still loading', () => {
@@ -1078,7 +1078,7 @@ limitations under the License.
             /* loading= */ true,
             element.prefs,
             element._diffLength
-          ));
+        ));
       });
 
       test('do not show the message if contains valid changes', () => {
@@ -1097,7 +1097,7 @@ limitations under the License.
             /* loading= */ false,
             element.prefs,
             element._diffLength
-          ));
+        ));
       });
 
       test('do not show message if ignore whitespace is disabled', () => {
@@ -1115,7 +1115,7 @@ limitations under the License.
             /* loading= */ false,
             element.prefs,
             element._diffLength
-          ));
+        ));
       });
     });
 
@@ -1128,7 +1128,7 @@ limitations under the License.
       element = fixture('basic');
       element.prefs = {};
       renderStub = sandbox.stub(element.$.diffBuilder, 'render')
-            .returns(Promise.resolve());
+          .returns(Promise.resolve());
       element.addEventListener('render', event => {
         assert.isTrue(event.detail.contentRendered);
         done();

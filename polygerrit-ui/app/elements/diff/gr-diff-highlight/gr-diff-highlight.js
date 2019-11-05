@@ -137,7 +137,7 @@
       }
 
       return this.commentRanges.findIndex(commentRange =>
-          commentRange.side === side && rangesEqual(commentRange.range, range));
+        commentRange.side === side && rangesEqual(commentRange.range, range));
     },
 
     /**

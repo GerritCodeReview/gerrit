@@ -124,8 +124,8 @@ limitations under the License.
       // 2 -> 3, 3 -> 5, etc.
       // Map an edit to the patchNum of parent*2... I.e. edit on 2 -> 4.
       const num = r => r._number === Gerrit.PatchSetBehavior.EDIT_NAME ?
-          2 * editParent :
-          2 * (r._number - 1) + 1;
+        2 * editParent :
+        2 * (r._number - 1) + 1;
       return revisions.sort((a, b) => num(b) - num(a));
     },
 

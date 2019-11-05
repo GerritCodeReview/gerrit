@@ -22,6 +22,53 @@
       "revId": "980fd31cb36dec3b14425edb0eb2c2ebfe980a0b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9e39b033_72a88012",
+        "filename": "java/com/google/gerrit/server/change/FileContentUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-11-05T01:51:18Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "4b7cf339_8f82977e",
+      "range": {
+        "startLine": 118,
+        "startChar": 20,
+        "endLine": 118,
+        "endChar": 45
+      },
+      "revId": "980fd31cb36dec3b14425edb0eb2c2ebfe980a0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "32510f89_91b1052b",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1331,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-11-05T01:51:18Z",
+      "side": 1,
+      "message": "Rename this to better describe what it\u0027s testing?  I.e. something like cannotGetContentOfDirectory?",
+      "range": {
+        "startLine": 1331,
+        "startChar": 14,
+        "endLine": 1331,
+        "endChar": 30
+      },
+      "revId": "980fd31cb36dec3b14425edb0eb2c2ebfe980a0b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

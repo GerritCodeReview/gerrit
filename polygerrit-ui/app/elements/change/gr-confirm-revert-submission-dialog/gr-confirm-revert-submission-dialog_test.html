@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<!--
+@license
+Copyright (C) 2019 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+<title>gr-confirm-revert-submission-dialog</title>
+<script src="/test/common-test-setup.js"></script>
+<script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+
+<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/bower_components/web-component-tester/browser.js"></script>
+<link rel="import" href="../../../test/common-test-setup.html"/>
+<link rel="import" href="gr-confirm-revert-submission-dialog.html">
+
+<script>void(0);</script>
+
+<test-fixture id="basic">
+  <template>
+    <gr-confirm-revert-submission-dialog>
+    </gr-confirm-revert-submission-dialog>
+  </template>
+</test-fixture>
+
+<script>
+  suite('gr-confirm-revert-submission-dialog tests', () => {
+    let element;
+    let sandbox;
+
+    setup(() => {
+      element = fixture('basic');
+      sandbox =sinon.sandbox.create();
+    });
+
+    teardown(() => sandbox.restore());
+
+    test('no match', () => {
+      assert.isNotOk(element.message);
+      const alertStub = sandbox.stub();
+      element.addEventListener('show-alert', alertStub);
+      element.populateRevertSubmissionMessage(
+          'not a commitHash in sight'
+      );
+      assert.isTrue(alertStub.calledOnce);
+    });
+
+    test('single line', () => {
+      assert.isNotOk(element.message);
+      element.populateRevertSubmissionMessage(
+          'one line commit\n\nChange-Id: abcdefg\n',
+          'abcd123');
+      const expected = 'Revert submission\n\n' +
+        'Reason for revert: <INSERT REASONING HERE>\n';
+      assert.equal(element.message, expected);
+    });
+
+    test('multi line', () => {
+      assert.isNotOk(element.message);
+      element.populateRevertSubmissionMessage(
+          'many lines\ncommit\n\nmessage\n\nChange-Id: abcdefg\n',
+          'abcd123');
+      const expected = 'Revert submission\n\n' +
+        'Reason for revert: <INSERT REASONING HERE>\n';
+      assert.equal(element.message, expected);
+    });
+
+    test('issue above change id', () => {
+      assert.isNotOk(element.message);
+      element.populateRevertSubmissionMessage(
+          'test \nvery\n\ncommit\n\nBug: Issue 42\nChange-Id: abcdefg\n',
+          'abcd123');
+      const expected = 'Revert submission\n\n' +
+          'Reason for revert: <INSERT REASONING HERE>\n';
+      assert.equal(element.message, expected);
+    });
+
+    test('revert a revert', () => {
+      assert.isNotOk(element.message);
+      element.populateRevertSubmissionMessage(
+          'Revert "one line commit"\n\nChange-Id: abcdefg\n',
+          'abcd123');
+      const expected = 'Revert submission\n\n' +
+        'Reason for revert: <INSERT REASONING HERE>\n';
+      assert.equal(element.message, expected);
+    });
+  });
+</script>

@@ -18,6 +18,7 @@ import static java.util.stream.Collectors.toList;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.common.errors.NoSuchGroupException;
 import com.google.gerrit.extensions.common.GroupBaseInfo;
@@ -51,7 +52,6 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.EnumSet;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -105,7 +105,13 @@ public class ReviewersUtil {
   // give the ranking algorithm a good set of candidates it can work with
   private static final int CANDIDATE_LIST_MULTIPLIER = 2;
 
-  private final AccountLoader accountLoader;
+  private final ImmutableSet<FillOptions> FILL_OPTIONS =
+      ImmutableSet.<FillOptions>builder()
+          .add(FillOptions.SECONDARY_EMAILS)
+          .addAll(AccountLoader.DETAILED_OPTIONS)
+          .build();
+
+  private final AccountLoader.Factory accountLoaderFactory;
   private final AccountQueryBuilder accountQueryBuilder;
   private final Provider<AccountQueryProcessor> queryProvider;
   private final GroupBackend groupBackend;
@@ -124,9 +130,7 @@ public class ReviewersUtil {
       Provider<CurrentUser> currentUser,
       ReviewerRecommender reviewerRecommender,
       Metrics metrics) {
-    Set<FillOptions> fillOptions = EnumSet.of(FillOptions.SECONDARY_EMAILS);
-    fillOptions.addAll(AccountLoader.DETAILED_OPTIONS);
-    this.accountLoader = accountLoaderFactory.create(fillOptions);
+    this.accountLoaderFactory = accountLoaderFactory;
     this.accountQueryBuilder = accountQueryBuilder;
     this.queryProvider = queryProvider;
     this.currentUser = currentUser;
@@ -222,6 +226,7 @@ public class ReviewersUtil {
   private List<SuggestedReviewerInfo> loadAccounts(List<Account.Id> accountIds)
       throws OrmException {
     try (Timer0.Context ctx = metrics.loadAccountsLatency.start()) {
+      AccountLoader accountLoader = accountLoaderFactory.create(FILL_OPTIONS);
       List<SuggestedReviewerInfo> reviewer =
           accountIds.stream()
               .map(accountLoader::get)

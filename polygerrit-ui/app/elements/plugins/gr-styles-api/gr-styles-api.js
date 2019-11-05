@@ -38,7 +38,7 @@
    */
   GrStyleObject.prototype.getClassName = function(element) {
     let rootNode = Polymer.Settings.useShadow
-        ? element.getRootNode() : document.body;
+      ? element.getRootNode() : document.body;
     if (rootNode === document) {
       rootNode = document.head;
     }

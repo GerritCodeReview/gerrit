@@ -839,7 +839,7 @@
 
     _computeShowHideIcon(path, expandedFilesRecord) {
       return this._isFileExpanded(path, expandedFilesRecord) ?
-          'gr-icons:expand-less' : 'gr-icons:expand-more';
+        'gr-icons:expand-less' : 'gr-icons:expand-more';
     },
 
     _computeFiles(filesByPath, changeComments, patchRange, reviewed, loading) {
@@ -879,7 +879,7 @@
       }
 
       const previousNumFilesShown = this._shownFiles ?
-          this._shownFiles.length : 0;
+        this._shownFiles.length : 0;
 
       const filesShown = files.slice(0, numFilesShown);
       this.fire('files-shown-changed', {length: filesShown.length});
@@ -954,7 +954,7 @@
 
       const rev = this.getRevisionByPatchNum(revisions, patchNum);
       return (rev && rev.description) ?
-          rev.description.substring(0, PATCH_DESC_MAX_LENGTH) : '';
+        rev.description.substring(0, PATCH_DESC_MAX_LENGTH) : '';
     },
 
     /**
@@ -966,7 +966,7 @@
     _computeFileStatusLabel(status) {
       const statusCode = this._computeFileStatus(status);
       return FileStatus.hasOwnProperty(statusCode) ?
-          FileStatus[statusCode] : 'Status Unknown';
+        FileStatus[statusCode] : 'Status Unknown';
     },
 
     _isFileExpanded(path, expandedFilesRecord) {
@@ -998,7 +998,7 @@
       // Clear content for any diffs that are not open so if they get re-opened
       // the stale content does not flash before it is cleared and reloaded.
       const collapsedDiffs = this.diffs.filter(diff =>
-          this._expandedFilePaths.indexOf(diff.path) === -1);
+        this._expandedFilePaths.indexOf(diff.path) === -1);
       this._clearCollapsedDiffs(collapsedDiffs);
 
       if (!record) { return; } // Happens after "Collapse all" clicked.
@@ -1008,9 +1008,9 @@
 
       // Find the paths introduced by the new index splices:
       const newPaths = record.indexSplices
-            .map(splice => splice.object.slice(
-                splice.index, splice.index + splice.addedCount))
-            .reduce((acc, paths) => acc.concat(paths), []);
+          .map(splice => splice.object.slice(
+              splice.index, splice.index + splice.addedCount))
+          .reduce((acc, paths) => acc.concat(paths), []);
 
       // Required so that the newly created diff view is included in this.diffs.
       Polymer.dom.flush();

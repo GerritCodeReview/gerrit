@@ -120,7 +120,7 @@
           suggestions = suggestions.filter(this.filter);
         }
         return suggestions.map(suggestion =>
-            provider.makeSuggestionItem(suggestion));
+          provider.makeSuggestionItem(suggestion));
       });
     },
 

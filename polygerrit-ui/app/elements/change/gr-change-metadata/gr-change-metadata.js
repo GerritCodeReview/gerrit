@@ -228,12 +228,12 @@
       this._newHashtag = '';
       this.$.restAPI.setChangeHashtag(
           this.change._number, {add: [newHashtag]}).then(newHashtag => {
-            this.set(['change', 'hashtags'], newHashtag);
-            if (newHashtag !== lastHashtag) {
-              this.dispatchEvent(new CustomEvent(
-                  'hashtag-changed', {bubbles: true, composed: true}));
-            }
-          });
+        this.set(['change', 'hashtags'], newHashtag);
+        if (newHashtag !== lastHashtag) {
+          this.dispatchEvent(new CustomEvent(
+              'hashtag-changed', {bubbles: true, composed: true}));
+        }
+      });
     },
 
     _computeTopicReadOnly(mutable, change) {
@@ -344,7 +344,7 @@
       if (!this.change || !this.change.status) return '';
       return Gerrit.Nav.getUrlForBranch(branch, project,
           this.change.status == this.ChangeStatus.NEW ? 'open' :
-              this.change.status.toLowerCase());
+            this.change.status.toLowerCase());
     },
 
     _computeTopicURL(topic) {

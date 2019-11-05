@@ -92,7 +92,7 @@ limitations under the License.
 
     test('account-text-changed not fired when input text changed without ' +
         'allowAnyInput', () => {
-          // Spy on query, as that is called when _updateSuggestions proceeds.
+      // Spy on query, as that is called when _updateSuggestions proceeds.
       const changeStub = sandbox.stub();
       element.querySuggestions = input => Promise.resolve([]);
       element.addEventListener('account-text-changed', changeStub);

@@ -105,7 +105,7 @@
     let tr = content.parentElement.parentElement;
     while (tr = tr.nextSibling) {
       if (tr.classList.contains('both') || (
-          (side === 'left' && tr.classList.contains('remove')) ||
+        (side === 'left' && tr.classList.contains('remove')) ||
           (side === 'right' && tr.classList.contains('add')))) {
         return tr.querySelector('.contentText');
       }

@@ -35,7 +35,7 @@
      * @event thread-changed
      */
 
-     /**
+    /**
       * gr-comment-thread exposes the following attributes that allow a
       * diff widget like gr-diff to show the thread in the right location:
       *
@@ -165,7 +165,7 @@
         commentEl.collapsed = false;
       } else {
         const range = opt_range ? opt_range :
-            lastComment ? lastComment.range : undefined;
+          lastComment ? lastComment.range : undefined;
         const unresolved = lastComment ? lastComment.unresolved : undefined;
         this.addDraft(opt_lineNum, range, unresolved);
       }

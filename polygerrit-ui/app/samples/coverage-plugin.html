@@ -39,16 +39,16 @@
 
       annotationApi.addLayer(context => {
         if (Object.keys(coverageData).length === 0) {
-           // Coverage data is not ready yet.
+          // Coverage data is not ready yet.
           return;
         }
         const path = context.path;
         const line = context.line;
-          // Highlight lines missing coverage with this background color if
-          // coverage should be displayed, else do nothing.
+        // Highlight lines missing coverage with this background color if
+        // coverage should be displayed, else do nothing.
         const annotationStyle = displayCoverage
-                         ? coverageStyle
-                         : emptyStyle;
+          ? coverageStyle
+          : emptyStyle;
         if (coverageData[path] &&
               coverageData[path].changeNum === context.changeNum &&
               coverageData[path].patchNum === context.patchNum) {

@@ -378,7 +378,7 @@ limitations under the License.
         element._handleRebaseConfirm({detail: {base: '1234'}});
         rebaseAction.rebaseOnCurrent = true;
         assert.deepEqual(fireActionStub.lastCall.args,
-          ['/rebase', rebaseAction, true, {base: '1234'}]);
+            ['/rebase', rebaseAction, true, {base: '1234'}]);
         done();
       });
     });

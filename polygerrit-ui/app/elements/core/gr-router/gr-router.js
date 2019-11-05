@@ -461,8 +461,8 @@
         // If there is a repo name provided, make sure to substitute it into the
         // ${repo} (or legacy ${project}) query tokens.
         const query = opt_repoName ?
-            section.query.replace(REPO_TOKEN_PATTERN, opt_repoName) :
-            section.query;
+          section.query.replace(REPO_TOKEN_PATTERN, opt_repoName) :
+          section.query;
         return encodeURIComponent(section.name) + '=' +
             encodeURIComponent(query);
       });

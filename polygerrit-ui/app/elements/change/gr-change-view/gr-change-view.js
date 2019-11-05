@@ -184,7 +184,7 @@
         computed:
           '_computeChangeIdCommitMessageError(_latestCommitMessage, _change)',
       },
-        /** @type {?} */
+      /** @type {?} */
       _patchRange: {
         type: Object,
       },
@@ -456,16 +456,16 @@
       this.$.commitMessageEditor.disabled = true;
       this.$.restAPI.putChangeCommitMessage(
           this._changeNum, message).then(resp => {
-            this.$.commitMessageEditor.disabled = false;
-            if (!resp.ok) { return; }
+        this.$.commitMessageEditor.disabled = false;
+        if (!resp.ok) { return; }
 
-            this._latestCommitMessage = this._prepareCommitMsgForLinkify(
-                message);
-            this._editingCommitMessage = false;
-            this._reloadWindow();
-          }).catch(err => {
-            this.$.commitMessageEditor.disabled = false;
-          });
+        this._latestCommitMessage = this._prepareCommitMsgForLinkify(
+            message);
+        this._editingCommitMessage = false;
+        this._reloadWindow();
+      }).catch(err => {
+        this.$.commitMessageEditor.disabled = false;
+      });
     },
 
     _reloadWindow() {
@@ -819,7 +819,7 @@
 
     _viewStateChanged(viewState) {
       this._numFilesShown = viewState.numFilesShown ?
-          viewState.numFilesShown : DEFAULT_NUM_FILES_SHOWN;
+        viewState.numFilesShown : DEFAULT_NUM_FILES_SHOWN;
     },
 
     _numFilesShownChanged(numFilesShown) {
@@ -937,7 +937,7 @@
       // check that there is at least 2 parents otherwise fall back to 1,
       // which means there is only one parent.
       const parentCount = parentCounts.hasOwnProperty(1) ?
-          parentCounts[1] : 1;
+        parentCounts[1] : 1;
 
       const preferFirst = this._prefs &&
           this._prefs.default_base_for_merges === 'FIRST_PARENT';
@@ -1327,10 +1327,10 @@
     _getLatestCommitMessage() {
       return this.$.restAPI.getChangeCommitInfo(this._changeNum,
           this.computeLatestPatchNum(this._allPatchSets)).then(commitInfo => {
-            if (!commitInfo) return Promise.resolve();
-            this._latestCommitMessage =
+        if (!commitInfo) return Promise.resolve();
+        this._latestCommitMessage =
                     this._prepareCommitMsgForLinkify(commitInfo.message);
-          });
+      });
     },
 
     _getLatestRevisionSHA(change) {
@@ -1376,7 +1376,7 @@
             this._changeComments = comments;
             this._diffDrafts = Object.assign({}, this._changeComments.drafts);
             this._commentThreads = this._changeComments.getAllThreadsForChange()
-              .map(c => Object.assign({}, c));
+                .map(c => Object.assign({}, c));
           });
     },
 
@@ -1800,7 +1800,7 @@
      */
     _handleEditTap() {
       const editInfo = Object.values(this._change.revisions).find(info =>
-          info._number === this.EDIT_NAME);
+        info._number === this.EDIT_NAME);
 
       if (editInfo) {
         Gerrit.Nav.navigateToChange(this._change, this.EDIT_NAME);

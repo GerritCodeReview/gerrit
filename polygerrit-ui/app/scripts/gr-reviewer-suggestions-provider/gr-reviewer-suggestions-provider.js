@@ -35,14 +35,15 @@
       switch (usersType) {
         case Gerrit.SUGGESTIONS_PROVIDERS_USERS_TYPES.REVIEWER:
           return new GrReviewerSuggestionsProvider(restApi, changeNumber,
-            input => restApi.getChangeSuggestedReviewers(changeNumber, input));
+              input =>
+                restApi.getChangeSuggestedReviewers(changeNumber, input));
         case Gerrit.SUGGESTIONS_PROVIDERS_USERS_TYPES.CC:
           return new GrReviewerSuggestionsProvider(restApi, changeNumber,
-            input => restApi.getChangeSuggestedCCs(changeNumber, input));
+              input => restApi.getChangeSuggestedCCs(changeNumber, input));
         case Gerrit.SUGGESTIONS_PROVIDERS_USERS_TYPES.ANY:
           return new GrReviewerSuggestionsProvider(restApi, changeNumber,
-            input => restApi.getSuggestedAccounts(
-                `cansee:${changeNumber} ${input}`));
+              input => restApi.getSuggestedAccounts(
+                  `cansee:${changeNumber} ${input}`));
         default:
           throw new Error(`Unknown users type: ${usersType}`);
       }
@@ -65,9 +66,9 @@
         this._loggedIn = loggedIn;
       });
       this._initPromise = Promise.all([getConfigPromise, getLoggedInPromise])
-        .then(() => {
-          this._initialized = true;
-        });
+          .then(() => {
+            this._initialized = true;
+          });
       return this._initPromise;
     }
 

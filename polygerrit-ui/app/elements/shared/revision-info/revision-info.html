@@ -74,7 +74,7 @@ limitations under the License.
      */
     RevisionInfo.prototype.getParentId = function(patchNum, parentIndex) {
       const rev = Object.values(this._change.revisions).find(rev =>
-          Gerrit.PatchSetBehavior.patchNumEquals(rev._number, patchNum));
+        Gerrit.PatchSetBehavior.patchNumEquals(rev._number, patchNum));
       return rev.commit.parents[parentIndex].commit;
     };
 

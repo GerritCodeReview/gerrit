@@ -136,8 +136,8 @@
         target = Polymer.dom(ownerRoot).querySelector('#' + this.for);
       } else {
         target = parentNode.nodeType == Node.DOCUMENT_FRAGMENT_NODE ?
-            ownerRoot.host :
-            parentNode;
+          ownerRoot.host :
+          parentNode;
       }
       return target;
     },
@@ -244,7 +244,7 @@
           hovercardLeft = targetLeft + (targetRect.width - thisRect.width) / 2;
           hovercardTop = targetTop - thisRect.height - this.offset;
           cssText += `padding-bottom:${this.offset
-              }px; margin-bottom:-${this.offset}px;`;
+          }px; margin-bottom:-${this.offset}px;`;
           break;
         case 'bottom':
           hovercardLeft = targetLeft + (targetRect.width - thisRect.width) / 2;

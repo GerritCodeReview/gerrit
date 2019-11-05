@@ -49,28 +49,28 @@ limitations under the License.
     });
 
     test('methods', () => {
-      assert.equal(element._buildAvatarURL(
-          {
+      assert.equal(
+          element._buildAvatarURL({
             _account_id: 123,
           }),
           '/accounts/123/avatar?s=16');
-      assert.equal(element._buildAvatarURL(
-          {
+      assert.equal(
+          element._buildAvatarURL({
             email: 'test@example.com',
           }),
           '/accounts/test%40example.com/avatar?s=16');
-      assert.equal(element._buildAvatarURL(
-          {
+      assert.equal(
+          element._buildAvatarURL({
             name: 'John Doe',
           }),
           '/accounts/John%20Doe/avatar?s=16');
-      assert.equal(element._buildAvatarURL(
-          {
+      assert.equal(
+          element._buildAvatarURL({
             username: 'John_Doe',
           }),
           '/accounts/John_Doe/avatar?s=16');
-      assert.equal(element._buildAvatarURL(
-          {
+      assert.equal(
+          element._buildAvatarURL({
             _account_id: 123,
             avatars: [
               {
@@ -88,8 +88,8 @@ limitations under the License.
             ],
           }),
           'https://cdn.example.com/s16-p/photo.jpg');
-      assert.equal(element._buildAvatarURL(
-          {
+      assert.equal(
+          element._buildAvatarURL({
             _account_id: 123,
             avatars: [
               {

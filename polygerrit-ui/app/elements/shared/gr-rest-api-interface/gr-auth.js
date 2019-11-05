@@ -76,7 +76,8 @@
       }, this._defaultOptions, opt_options);
       if (this._type === Gerrit.Auth.TYPE.ACCESS_TOKEN) {
         return this._getAccessToken().then(
-            accessToken => this._fetchWithAccessToken(url, options, accessToken)
+            accessToken =>
+              this._fetchWithAccessToken(url, options, accessToken)
         );
       } else {
         return this._fetchWithXsrfToken(url, options);
@@ -146,7 +147,7 @@
         params.push(`access_token=${accessToken}`);
         const baseUrl = Gerrit.BaseUrlBehavior.getBaseUrl();
         const pathname = baseUrl ?
-              url.substring(url.indexOf(baseUrl) + baseUrl.length) : url;
+          url.substring(url.indexOf(baseUrl) + baseUrl.length) : url;
         if (!pathname.startsWith('/a/')) {
           url = url.replace(pathname, '/a' + pathname);
         }

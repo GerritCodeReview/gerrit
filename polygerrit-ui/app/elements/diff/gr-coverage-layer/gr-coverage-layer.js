@@ -17,42 +17,12 @@
 (function() {
   'use strict';
 
-  /** @enum {string} */
-  Gerrit.CoverageType = {
-    /**
-     * start_character and end_character of the range will be ignored for this
-     * type.
-     */
-    COVERED: 'COVERED',
-    /**
-     * start_character and end_character of the range will be ignored for this
-     * type.
-     */
-    NOT_COVERED: 'NOT_COVERED',
-    PARTIALLY_COVERED: 'PARTIALLY_COVERED',
-    /**
-     * You don't have to use this. If there is no coverage information for a
-     * range, then it implicitly means NOT_INSTRUMENTED. start_character and
-     * end_character of the range will be ignored for this type.
-     */
-    NOT_INSTRUMENTED: 'NOT_INSTRUMENTED',
-  };
-
   const TOOLTIP_MAP = new Map([
     [Gerrit.CoverageType.COVERED, 'Covered by tests.'],
     [Gerrit.CoverageType.NOT_COVERED, 'Not covered by tests.'],
     [Gerrit.CoverageType.PARTIALLY_COVERED, 'Partially covered by tests.'],
     [Gerrit.CoverageType.NOT_INSTRUMENTED, 'Not instrumented by any tests.'],
   ]);
-
-  /**
-   * @typedef {{
-   *   side: string,
-   *   type: Gerrit.CoverageType,
-   *   code_range: Gerrit.Range,
-   * }}
-   */
-  Gerrit.CoverageRange;
 
   Polymer({
     is: 'gr-coverage-layer',

@@ -388,9 +388,6 @@
      *
      * @param {!Object} account
      * @param {string} type
-     *
-     * * TODO(beckysiegel) submit Polymer PR
-     * @suppress {checkTypes}
      */
     _removeAccount(account, type) {
       if (account._pendingAdd) { return; }

@@ -22,6 +22,30 @@
       "revId": "0e7c67c6644a5f7abb2d71e07809b8fd74891246",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9bb0363c_4949d886",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2019-11-05T15:08:00Z",
+      "side": 1,
+      "message": "Removed.",
+      "parentUuid": "256e3e2e_a98a6e1f",
+      "range": {
+        "startLine": 9,
+        "startChar": 11,
+        "endLine": 9,
+        "endChar": 20
+      },
+      "revId": "0e7c67c6644a5f7abb2d71e07809b8fd74891246",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

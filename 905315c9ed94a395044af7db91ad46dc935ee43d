@@ -34,6 +34,24 @@
       "revId": "905315c9ed94a395044af7db91ad46dc935ee43d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ee9860dd_2c1754fd",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ReviewersUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-11-05T23:56:38Z",
+      "side": 1,
+      "message": "I reworked this to me more similar to the previous implementation.",
+      "parentUuid": "60db33b3_3c171858",
+      "revId": "905315c9ed94a395044af7db91ad46dc935ee43d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

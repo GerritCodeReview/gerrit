@@ -351,6 +351,10 @@
                   resolve();
                 }
                 this.removeEventListener('render', callback);
+                if (haveParamsChanged) {
+                  // We report diffViewContentDisplayed only on Diff Page
+                  this.$.reporting.diffViewContentDisplayed();
+                }
               };
               this.addEventListener('render', callback);
               this.diff = diff;
@@ -953,7 +957,6 @@
 
     _handleRenderContent() {
       this.$.reporting.timeEnd(TimingLabel.CONTENT);
-      this.$.reporting.diffViewContentDisplayed();
     },
 
     _handleNormalizeRange(event) {

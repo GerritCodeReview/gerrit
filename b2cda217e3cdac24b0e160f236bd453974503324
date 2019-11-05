@@ -16,6 +16,24 @@
       "revId": "b2cda217e3cdac24b0e160f236bd453974503324",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d18d321b_df8dace5",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 443,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2019-11-05T14:28:53Z",
+      "side": 1,
+      "message": "That\u0027s the only way how to identify that select was change by this code and not by user clicking on tab name.\n\nCheck _handleFileTabChange(event) :\n\n        event \u003d this._tabSelectedOriginalEvent || event;",
+      "parentUuid": "fb4b0bf2_923cfcd9",
+      "revId": "b2cda217e3cdac24b0e160f236bd453974503324",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

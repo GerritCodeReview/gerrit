@@ -35,25 +35,9 @@
     RIGHT: 'right',
   };
 
-  const Defs = {};
-
-  /**
-   * Special line number which should not be collapsed into a shared region.
-   *
-   * @typedef {{
-   *  number: number,
-   *  leftSide: boolean
-   * }}
-   */
-  Defs.LineOfInterest;
-
   const LARGE_DIFF_THRESHOLD_LINES = 10000;
   const FULL_CONTEXT = -1;
   const LIMITED_CONTEXT = 10;
-
-  /** @typedef {{start_line: number, start_character: number,
-   *             end_line: number, end_character: number}} */
-  Gerrit.Range;
 
   /**
    * Compare two ranges. Either argument may be falsy, but will only return
@@ -185,7 +169,7 @@
         observer: '_viewModeObserver',
       },
 
-       /** @type ?Defs.LineOfInterest */
+       /** @type ?Gerrit.LineOfInterest */
       lineOfInterest: Object,
 
       loading: {

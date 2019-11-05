@@ -19,24 +19,6 @@
 
   const VALID_EMAIL_ALERT = 'Please input a valid email.';
 
-  const Defs = {};
-
-  /**
-   * @typedef {{
-   *   name: string,
-   *   value: Object,
-   * }}
-   */
-  Defs.GrSuggestionItem;
-
-  /**
-   * @typedef {{
-   *    getSuggestions: function(string): Promise<Array<Object>>,
-   *    makeSuggestionItem: function(Object): Defs.GrSuggestionItem,
-   * }}
-   */
-  Defs.GrSuggestionsProvider;
-
   Polymer({
     is: 'gr-account-list',
 
@@ -62,7 +44,7 @@
 
       /**
        * Returns suggestions and convert them to list item
-       * @type {Defs.GrSuggestionsProvider}
+       * @type {Gerrit.GrSuggestionsProvider}
        */
       suggestionsProvider: {
         type: Object,
@@ -99,7 +81,7 @@
       },
 
       /** Returns suggestion items
-      * @type {!function(string): Promise<Array<Defs.GrSuggestionItem>>}
+      * @type {!function(string): Promise<Array<Gerrit.GrSuggestionItem>>}
       */
       _querySuggestions: {
         type: Function,

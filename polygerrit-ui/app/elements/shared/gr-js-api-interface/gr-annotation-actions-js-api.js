@@ -65,10 +65,8 @@
    * providers are not supported. A second call will just overwrite the
    * provider of the first call.
    *
-   * TODO(brohlfs): Replace Array<Object> type by Array<Gerrit.CoverageRange>.
-   *
    * @param {function(changeNum, path, basePatchNum, patchNum):
-   * !Promise<!Array<Object>>} coverageProvider
+   * !Promise<!Array<!Gerrit.CoverageRange>>} coverageProvider
    * @return {GrAnnotationActionsInterface}
    */
   GrAnnotationActionsInterface.prototype.setCoverageProvider = function(

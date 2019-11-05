@@ -234,13 +234,11 @@
      * provider, the first one is used. If no plugin offers a coverage provider,
      * will resolve to [].
      *
-     * TODO(brohlfs): Replace Array<Object> type by Array<Gerrit.CoverageRange>.
-     *
      * @param {string|number} changeNum
      * @param {string} path
      * @param {string|number} basePatchNum
      * @param {string|number} patchNum
-     * @return {!Promise<!Array<Object>>}
+     * @return {!Promise<!Array<!Gerrit.CoverageRange>>}
      */
     getCoverageRanges(changeNum, path, basePatchNum, patchNum) {
       return Gerrit.awaitPluginsLoaded().then(() => {

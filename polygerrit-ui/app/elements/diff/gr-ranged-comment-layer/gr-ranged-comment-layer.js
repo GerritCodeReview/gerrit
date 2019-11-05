@@ -23,9 +23,6 @@
   const RANGE_HIGHLIGHT = 'style-scope gr-diff range';
   const HOVER_HIGHLIGHT = 'style-scope gr-diff rangeHighlight';
 
-  /** @typedef {{side: string, range: Gerrit.Range, hovering: boolean}} */
-  Gerrit.HoveredRange;
-
   Polymer({
     is: 'gr-ranged-comment-layer',
 

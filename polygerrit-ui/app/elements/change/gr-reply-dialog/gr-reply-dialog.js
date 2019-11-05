@@ -388,9 +388,6 @@
      *
      * @param {!Object} account
      * @param {string} type
-     *
-     * * TODO(beckysiegel) submit Polymer PR
-     * @suppress {checkTypes}
      */
     _removeAccount(account, type) {
       if (account._pendingAdd) { return; }
@@ -402,7 +399,7 @@
             const reviewers = this.change.reviewers[type] || [];
             for (let i = 0; i < reviewers.length; i++) {
               if (reviewers[i]._account_id == account._account_id) {
-                this.splice(['change', 'reviewers', type], i, 1);
+                this.splice(`change.reviewers.${type}`, i, 1);
                 break;
               }
             }

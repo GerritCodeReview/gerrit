@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "683bb35c_f51f3aae",
+        "filename": "java/com/google/gerrit/server/diff/DiffCalculator.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-11-05T18:13:41Z",
+      "side": 1,
+      "message": "Agree. What about DiffInfoCreator? Formatter sounds like it should do some text processing, but it doesn\u0027t.",
+      "parentUuid": "d38ee191_6646f758",
+      "range": {
+        "startLine": 42,
+        "startChar": 13,
+        "endLine": 42,
+        "endChar": 27
+      },
+      "revId": "d2fd9729d3d5821fb3fec3b7e9d70136cd38913f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d3c67b1f_bc3445ce",
         "filename": "java/com/google/gerrit/server/diff/DiffCalculator.java",
         "patchSetId": 15
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "9fd652c1_783c30f8",
+        "filename": "java/com/google/gerrit/server/diff/DiffCalculator.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-11-05T18:13:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d3c67b1f_bc3445ce",
+      "range": {
+        "startLine": 57,
+        "startChar": 2,
+        "endLine": 57,
+        "endChar": 21
+      },
+      "revId": "d2fd9729d3d5821fb3fec3b7e9d70136cd38913f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ef2a69c3_e4d4597b",
         "filename": "java/com/google/gerrit/server/diff/DiffCalculator.java",
         "patchSetId": 15
@@ -59,6 +107,30 @@
       "writtenOn": "2019-11-05T15:20:36Z",
       "side": 1,
       "message": "Optional: To increase readability, I would extract this code to a separate method.",
+      "range": {
+        "startLine": 69,
+        "startChar": 4,
+        "endLine": 99,
+        "endChar": 18
+      },
+      "revId": "d2fd9729d3d5821fb3fec3b7e9d70136cd38913f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a04688b6_95f87a68",
+        "filename": "java/com/google/gerrit/server/diff/DiffCalculator.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-11-05T18:13:41Z",
+      "side": 1,
+      "message": "I\u0027ve changed method a little bit. Does it make sense extract code to a separate method now?",
+      "parentUuid": "ef2a69c3_e4d4597b",
       "range": {
         "startLine": 69,
         "startChar": 4,
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "5b40f21a_113cddd5",
+        "filename": "java/com/google/gerrit/server/diff/DiffCalculator.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-11-05T18:13:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da0b004a_aef6fa85",
+      "range": {
+        "startLine": 102,
+        "startChar": 2,
+        "endLine": 102,
+        "endChar": 8
+      },
+      "revId": "d2fd9729d3d5821fb3fec3b7e9d70136cd38913f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "36a5d914_7811eed0",
         "filename": "java/com/google/gerrit/server/diff/DiffCalculator.java",
         "patchSetId": 15
@@ -105,6 +201,30 @@
       "writtenOn": "2019-11-05T15:20:36Z",
       "side": 1,
       "message": "The official recommendation for Java code is to try to avoid returning null in new code.\nAlternatives here:\n1) We could check the condition before calling this method.\n2) We could return an Optional. The calling code could still use optional.orElse(null) but then this would be much more explicit.",
+      "range": {
+        "startLine": 143,
+        "startChar": 6,
+        "endLine": 143,
+        "endChar": 18
+      },
+      "revId": "d2fd9729d3d5821fb3fec3b7e9d70136cd38913f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "32814bee_fdda3ae6",
+        "filename": "java/com/google/gerrit/server/diff/DiffCalculator.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-11-05T18:13:41Z",
+      "side": 1,
+      "message": "Wow, didn\u0027t know about Optional.\nI think in this case Optional is better, because it allows to write condition in one place (inside createFileMeta method).\nChanged to Optional.",
+      "parentUuid": "36a5d914_7811eed0",
       "range": {
         "startLine": 143,
         "startChar": 6,
@@ -140,6 +260,30 @@
     },
     {
       "key": {
+        "uuid": "b4f81d9c_c9a8afe7",
+        "filename": "java/com/google/gerrit/server/diff/DiffCalculator.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-11-05T18:13:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2c292fab_62e8fc38",
+      "range": {
+        "startLine": 156,
+        "startChar": 23,
+        "endLine": 156,
+        "endChar": 39
+      },
+      "revId": "d2fd9729d3d5821fb3fec3b7e9d70136cd38913f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6ba7aa39_a25cc0ce",
         "filename": "java/com/google/gerrit/server/diff/DiffCalculator.java",
         "patchSetId": 15
@@ -160,6 +304,30 @@
       "revId": "d2fd9729d3d5821fb3fec3b7e9d70136cd38913f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bbdbd18b_94f2a953",
+        "filename": "java/com/google/gerrit/server/diff/DiffCalculator.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-11-05T18:13:41Z",
+      "side": 1,
+      "message": "Removed",
+      "parentUuid": "6ba7aa39_a25cc0ce",
+      "range": {
+        "startLine": 257,
+        "startChar": 23,
+        "endLine": 257,
+        "endChar": 30
+      },
+      "revId": "d2fd9729d3d5821fb3fec3b7e9d70136cd38913f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -186,6 +354,30 @@
     },
     {
       "key": {
+        "uuid": "b27de943_f2006536",
+        "filename": "java/com/google/gerrit/server/diff/DiffSide.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-11-05T18:13:41Z",
+      "side": 1,
+      "message": "I am not sure. AutoValue in java is a way to create some \"value\" type.\nBut DiffSide itself doesn\u0027t look like a \"value\". For example, it doesn\u0027t make sense to compare 2 DiffSide.\nAlso, it doesn\u0027t make code shorter in this case.",
+      "parentUuid": "ef3b5a5e_b2420761",
+      "range": {
+        "startLine": 19,
+        "startChar": 13,
+        "endLine": 19,
+        "endChar": 21
+      },
+      "revId": "d2fd9729d3d5821fb3fec3b7e9d70136cd38913f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "69bfb99d_4756cd6b",
         "filename": "java/com/google/gerrit/server/diff/DiffSide.java",
         "patchSetId": 15
@@ -197,6 +389,30 @@
       "writtenOn": "2019-11-05T15:20:36Z",
       "side": 1,
       "message": "Thought for future: It\u0027s a bit strange that DiffSide refers to something called \"PatchScriptFileInfo\", as 1) \"DiffSide\" is a very clear and nice name whereas \"PatchScriptFileInfo\" is rather meaningless to most developers, and 2) the xxxInfo objects are typically the ones sent as return types from the REST API, which doesn\u0027t seem to be true for PatchScriptFileInfo. In addition, it\u0027s non-obvious that DiffSide is in the server.diff package and PatchScriptFileInfo is somewhere totally different. I guess we just need to do some additional cleanups after these nice refactorings of this chain of changes.",
+      "range": {
+        "startLine": 29,
+        "startChar": 18,
+        "endLine": 29,
+        "endChar": 37
+      },
+      "revId": "d2fd9729d3d5821fb3fec3b7e9d70136cd38913f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "80f6b29d_3fe4f216",
+        "filename": "java/com/google/gerrit/server/diff/DiffSide.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-11-05T18:13:41Z",
+      "side": 1,
+      "message": "Yes. If you don\u0027t mind, I can do it after submit ApplyFix",
+      "parentUuid": "69bfb99d_4756cd6b",
       "range": {
         "startLine": 29,
         "startChar": 18,
@@ -278,6 +494,30 @@
     },
     {
       "key": {
+        "uuid": "700a5f0d_3315ef98",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetDiff.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-11-05T18:13:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "04810d69_be47a0d9",
+      "range": {
+        "startLine": 143,
+        "startChar": 6,
+        "endLine": 143,
+        "endChar": 30
+      },
+      "revId": "d2fd9729d3d5821fb3fec3b7e9d70136cd38913f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "51f64234_c0ca6739",
         "filename": "java/com/google/gerrit/server/restapi/change/GetDiff.java",
         "patchSetId": 15
@@ -289,6 +529,30 @@
       "writtenOn": "2019-11-05T15:20:36Z",
       "side": 1,
       "message": "I like the idea of extracting this part of the code. The current version has some bits which are not as elegant as I would wish them to be. For instance, sideA and sideB or both stored within this class. This works fine for getDiffLinks(). On the other hand, getFileWebLinks() needs to get the DiffSide.Type passed in upon which an if-condition is necessary even though the calling code of getFileWebLinks() has an own instance of DiffSide. I think we could improve the code even further with some small additional adjustments. (I hope those don\u0027t conflict with your follow-up changes.)\n\nSuggestions:\nAdd the String revA/revB as field to DiffSide. Thus, getFileWebLinks() could take DiffSide as argument from which all necessary details can be retrieved (-\u003e no if-condition). As additional benefit, we could remove the enum DiffSide.Type. Furthermore, getDiffLinks could take \"DiffSide sideA, DiffSide sideB\" as argument. Thus, it wouldn\u0027t be confusing that getFileWebLinks() takes in a DiffSide but getDiffLinks() uses the internal fields.",
+      "range": {
+        "startLine": 160,
+        "startChar": 23,
+        "endLine": 160,
+        "endChar": 79
+      },
+      "revId": "d2fd9729d3d5821fb3fec3b7e9d70136cd38913f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9190a4b2_329bf5f0",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetDiff.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-11-05T18:13:41Z",
+      "side": 1,
+      "message": "\u003e Suggestions:\n\u003e Add the String revA/revB as field to DiffSide. Thus, getFileWebLinks() could take DiffSide as argument from which all necessary details can be retrieved (-\u003e no if-condition). As additional benefit, we could remove the enum DiffSide.Type. Furthermore, getDiffLinks could take \"DiffSide sideA, DiffSide sideB\" as argument. Thus, it wouldn\u0027t be confusing that getFileWebLinks() takes in a DiffSide but getDiffLinks() uses the internal fields.\n\nI agree, that this code looks ugly, but I tried something similar to what you describe here and result was much worse. Unfortunately, I forgot what was the problem.\nI will try to work on this comment separately.",
+      "parentUuid": "51f64234_c0ca6739",
       "range": {
         "startLine": 160,
         "startChar": 23,
@@ -370,6 +634,54 @@
     },
     {
       "key": {
+        "uuid": "12b807ab_9da0bb36",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetDiff.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-11-05T18:13:41Z",
+      "side": 1,
+      "message": "Probably, I need some help with it. It is not clear for me how to use PatchSet.Id instead of refName",
+      "parentUuid": "500e9fb6_4467696f",
+      "range": {
+        "startLine": 168,
+        "startChar": 4,
+        "endLine": 169,
+        "endChar": 40
+      },
+      "revId": "d2fd9729d3d5821fb3fec3b7e9d70136cd38913f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0df8fe49_699cf4bd",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetDiff.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-11-05T18:13:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3c33501a_d97d42e0",
+      "range": {
+        "startLine": 169,
+        "startChar": 4,
+        "endLine": 169,
+        "endChar": 40
+      },
+      "revId": "d2fd9729d3d5821fb3fec3b7e9d70136cd38913f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9e3773fa_12cd06ab",
         "filename": "java/com/google/gerrit/server/restapi/change/GetDiff.java",
         "patchSetId": 15
@@ -393,6 +705,30 @@
     },
     {
       "key": {
+        "uuid": "a6c8b90e_3b7b8809",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetDiff.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-11-05T18:13:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9e3773fa_12cd06ab",
+      "range": {
+        "startLine": 187,
+        "startChar": 10,
+        "endLine": 189,
+        "endChar": 63
+      },
+      "revId": "d2fd9729d3d5821fb3fec3b7e9d70136cd38913f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a822334f_f9598ae6",
         "filename": "java/com/google/gerrit/server/restapi/change/GetDiff.java",
         "patchSetId": 15
@@ -413,6 +749,30 @@
       "revId": "d2fd9729d3d5821fb3fec3b7e9d70136cd38913f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2a30bbe9_25a7d74c",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetDiff.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-11-05T18:13:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a822334f_f9598ae6",
+      "range": {
+        "startLine": 220,
+        "startChar": 23,
+        "endLine": 220,
+        "endChar": 35
+      },
+      "revId": "d2fd9729d3d5821fb3fec3b7e9d70136cd38913f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

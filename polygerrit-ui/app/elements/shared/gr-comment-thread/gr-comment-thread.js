@@ -212,7 +212,8 @@
     },
 
     _hideActions(_showActions, _lastComment) {
-      return !_showActions || !_lastComment || !!_lastComment.__draft;
+      return !_showActions || !_lastComment || !!_lastComment.__draft ||
+        !!_lastComment.robot_id;
     },
 
     _getLastComment() {

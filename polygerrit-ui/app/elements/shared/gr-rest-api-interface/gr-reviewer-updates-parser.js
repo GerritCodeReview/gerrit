@@ -21,7 +21,6 @@
   if (window.GrReviewerUpdatesParser) { return; }
 
   function GrReviewerUpdatesParser(change) {
-    // TODO (viktard): Polyfill Object.assign for IE.
     this.result = Object.assign({}, change);
     this._lastState = {};
   }

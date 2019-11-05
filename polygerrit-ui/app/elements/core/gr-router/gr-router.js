@@ -1416,9 +1416,7 @@
       }
     },
 
-    // TODO fix this so it properly redirects
-    // to /settings#Agreements (Scrolls down)
-    _handleAgreementsRoute(data) {
+    _handleAgreementsRoute() {
       this._redirect('/settings/#Agreements');
     },
 

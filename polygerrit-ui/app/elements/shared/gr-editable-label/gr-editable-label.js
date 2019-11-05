@@ -161,9 +161,7 @@
     },
 
     /**
-     * @suppress {checkTypes}
-     * Closure doesn't think 'e' is an Event.
-     * TODO(beckysiegel) figure out why.
+     * @param {Event} e
      */
     _handleEnter(e) {
       e = this.getKeyboardEvent(e);
@@ -175,9 +173,7 @@
     },
 
     /**
-     * @suppress {checkTypes}
-     * Closure doesn't think 'e' is an Event.
-     * TODO(beckysiegel) figure out why.
+     * @param {Event} e
      */
     _handleEsc(e) {
       e = this.getKeyboardEvent(e);

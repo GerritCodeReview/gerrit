@@ -415,12 +415,22 @@
       this._showMessagesView = this.$.commentTabs.selected === 0;
     },
 
-    _handleFileTabChange() {
+    _handleFileTabChange(event) {
       const selectedIndex = this.$$('#primaryTabs').selected;
       this._showFileTabContent = selectedIndex === 0;
       // Initial tab is the static files list.
-      this._selectedFilesTabPluginEndpoint =
+      const selectedFilesTabPluginEndpoint =
           this._dynamicTabContentEndpoints[selectedIndex - 1];
+      if (selectedFilesTabPluginEndpoint !==
+          this._selectedFilesTabPluginEndpoint) {
+        this._selectedFilesTabPluginEndpoint = selectedFilesTabPluginEndpoint;
+
+        const tabName = this._selectedFilesTabPluginEndpoint || 'files';
+        event = this._tabSelectedOriginalEvent || event;
+        const source = event && event.type ? event.type : '';
+        this.$.reporting.reportInteraction('tab-changed',
+            `tabname: ${tabName}, source: ${source}`);
+      }
     },
 
     _handleShowChecksTable(e) {
@@ -429,9 +439,12 @@
         console.warn(e.detail.tab + ' tab not found');
         return;
       }
-      this.$$('#primaryTabs').selected = idx + 1;
+      if (this.$$('#primaryTabs').selected != idx + 1) {
+        this._tabSelectedOriginalEvent = e;
+        this.$$('#primaryTabs').selected = idx + 1;
+        this._tabSelectedOriginalEvent = undefined;
+      }
       this.$$('#primaryTabs').scrollIntoView();
-      this._handleFileTabChange();
     },
 
     _handleEditCommitMessage(e) {

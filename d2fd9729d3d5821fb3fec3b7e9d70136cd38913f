@@ -237,6 +237,30 @@
     },
     {
       "key": {
+        "uuid": "e66509f6_b5c3a2fb",
+        "filename": "java/com/google/gerrit/server/diff/DiffCalculator.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-11-05T18:14:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "32814bee_fdda3ae6",
+      "range": {
+        "startLine": 143,
+        "startChar": 6,
+        "endLine": 143,
+        "endChar": 18
+      },
+      "revId": "d2fd9729d3d5821fb3fec3b7e9d70136cd38913f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2c292fab_62e8fc38",
         "filename": "java/com/google/gerrit/server/diff/DiffCalculator.java",
         "patchSetId": 15

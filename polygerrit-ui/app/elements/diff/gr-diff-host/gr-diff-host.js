@@ -273,8 +273,8 @@
     },
 
     /**
-     * @param {boolean=} haveParamsChanged ends reporting events that started
-     * on location change.
+     * @param {boolean=} haveParamsChanged indicate a new Diff Page. This is a
+     * signal to report metrics event that started on location change.
      * @return {!Promise}
      **/
     reload(haveParamsChanged) {
@@ -351,6 +351,11 @@
                   resolve();
                 }
                 this.removeEventListener('render', callback);
+                if (haveParamsChanged) {
+                  // We report diffViewContentDisplayed only on reload caused
+                  // by params changed - expected only on Diff Page.
+                  this.$.reporting.diffViewContentDisplayed();
+                }
               };
               this.addEventListener('render', callback);
               this.diff = diff;
@@ -953,7 +958,6 @@
 
     _handleRenderContent() {
       this.$.reporting.timeEnd(TimingLabel.CONTENT);
-      this.$.reporting.diffViewContentDisplayed();
     },
 
     _handleNormalizeRange(event) {

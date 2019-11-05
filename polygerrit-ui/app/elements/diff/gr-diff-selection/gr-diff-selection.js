@@ -79,8 +79,8 @@
         this._setClasses([
           SelectionClass.COMMENT,
           node.commentSide === 'left' ?
-          SelectionClass.LEFT :
-          SelectionClass.RIGHT,
+            SelectionClass.LEFT :
+            SelectionClass.RIGHT,
         ]);
         return true;
       }
@@ -106,8 +106,8 @@
         const side = this.diffBuilder.getSideByLineEl(lineEl);
 
         targetClasses.push(side === 'left' ?
-            SelectionClass.LEFT :
-            SelectionClass.RIGHT);
+          SelectionClass.LEFT :
+          SelectionClass.RIGHT);
 
         if (commentSelected) {
           targetClasses.push(SelectionClass.COMMENT);

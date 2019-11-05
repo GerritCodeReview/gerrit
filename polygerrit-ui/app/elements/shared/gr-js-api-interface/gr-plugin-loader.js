@@ -20,10 +20,10 @@
 
   // Import utils methods
   const {
-      PLUGIN_LOADING_TIMEOUT_MS,
-      PRELOADED_PROTOCOL,
-      getPluginNameFromUrl,
-      getBaseUrl,
+    PLUGIN_LOADING_TIMEOUT_MS,
+    PRELOADED_PROTOCOL,
+    getPluginNameFromUrl,
+    getBaseUrl,
   } = window._apiUtils;
 
   /**

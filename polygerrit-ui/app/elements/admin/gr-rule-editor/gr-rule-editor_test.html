@@ -125,7 +125,7 @@ limitations under the License.
         let permission = 'priority';
         let label;
         assert.deepEqual(element._getDefaultRuleValues(permission, label),
-          {action: 'BATCH'});
+            {action: 'BATCH'});
         permission = 'label-Code-Review';
         label = {values: [
           {value: -2, text: 'This shall not be merged'},
@@ -139,7 +139,7 @@ limitations under the License.
         permission = 'push';
         label = undefined;
         assert.deepEqual(element._getDefaultRuleValues(permission, label),
-          {action: 'ALLOW', force: false});
+            {action: 'ALLOW', force: false});
         permission = 'submit';
         assert.deepEqual(element._getDefaultRuleValues(permission, label),
             {action: 'ALLOW'});

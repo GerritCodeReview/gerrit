@@ -114,7 +114,7 @@ limitations under the License.
             js_resource_paths: [],
             html_resource_paths: [
               new URL('test/plugin.html?' + Math.random(),
-                      window.location.href).toString(),
+                  window.location.href).toString(),
             ],
           },
         };
@@ -140,7 +140,7 @@ limitations under the License.
       setup(() => {
         Gerrit.install(p => plugin = p, '0.1',
             new URL('test/plugin.html?' + Math.random(),
-                    window.location.href).toString());
+                window.location.href).toString());
         sandbox.stub(Gerrit, '_arePluginsLoaded').returns(true);
         Gerrit._loadPlugins([]);
         element = createElement();

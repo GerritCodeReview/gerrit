@@ -94,7 +94,7 @@
     _inputTextChanged(text) {
       if (text.length && this.allowAnyInput) {
         this.dispatchEvent(new CustomEvent(
-                'account-text-changed', {bubbles: true, composed: true}));
+            'account-text-changed', {bubbles: true, composed: true}));
       }
     },
   });

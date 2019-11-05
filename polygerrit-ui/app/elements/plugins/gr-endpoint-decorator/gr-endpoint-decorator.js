@@ -95,15 +95,15 @@
         return helper.get('value').then(
             value => helper.bind('value',
                 value => plugin.attributeHelper(el).set(paramName, value))
-            );
+        );
       });
       let timeoutId;
       const timeout = new Promise(
-        resolve => timeoutId = setTimeout(() => {
-          console.warn(
-              'Timeout waiting for endpoint properties initialization: ' +
+          resolve => timeoutId = setTimeout(() => {
+            console.warn(
+                'Timeout waiting for endpoint properties initialization: ' +
               `plugin ${plugin.getPluginName()}, endpoint ${this.name}`);
-        }, INIT_PROPERTIES_TIMEOUT_MS));
+          }, INIT_PROPERTIES_TIMEOUT_MS));
       return Promise.race([timeout, Promise.all(expectProperties)])
           .then(() => {
             clearTimeout(timeoutId);

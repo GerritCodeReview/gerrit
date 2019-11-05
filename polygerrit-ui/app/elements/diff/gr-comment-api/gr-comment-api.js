@@ -277,9 +277,9 @@
     const all = comments.concat(drafts).concat(robotComments);
 
     const baseComments = all.filter(c =>
-        this._isInBaseOfPatchRange(c, patchRange));
+      this._isInBaseOfPatchRange(c, patchRange));
     const revisionComments = all.filter(c =>
-        this._isInRevisionOfPatchRange(c, patchRange));
+      this._isInRevisionOfPatchRange(c, patchRange));
 
     return {
       meta: {
@@ -377,7 +377,7 @@
     const threads = this.getCommentThreads(this._sortComments(comments));
 
     const unresolvedThreads = threads
-      .filter(thread =>
+        .filter(thread =>
           thread.comments.length &&
           thread.comments[thread.comments.length - 1].unresolved);
 
@@ -520,7 +520,7 @@
 
       return Promise.all(promises).then(([comments, robotComments, drafts]) => {
         this._changeComments = new ChangeComments(comments,
-          robotComments, drafts, changeNum);
+            robotComments, drafts, changeNum);
         return this._changeComments;
       });
     },

@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7c2f1d9_12082c8f",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 365,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-11-05T15:34:24Z",
+      "side": 1,
+      "message": "maybe change the event name as well ?",
+      "range": {
+        "startLine": 365,
+        "startChar": 8,
+        "endLine": 365,
+        "endChar": 28
+      },
+      "revId": "345834fa6802ae68b402906626b9434008d441c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0d73ab24_2d256d5d",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 422,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-11-05T15:34:24Z",
+      "side": 1,
+      "message": "it deserves a better name :)",
+      "range": {
+        "startLine": 422,
+        "startChar": 12,
+        "endLine": 422,
+        "endChar": 42
+      },
+      "revId": "345834fa6802ae68b402906626b9434008d441c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "803624e6_bea9ee51",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 443,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-11-05T15:34:24Z",
+      "side": 1,
+      "message": "not sure if we want to capture the info like `clicking but not changing the tab as its already selected` ?",
+      "revId": "345834fa6802ae68b402906626b9434008d441c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

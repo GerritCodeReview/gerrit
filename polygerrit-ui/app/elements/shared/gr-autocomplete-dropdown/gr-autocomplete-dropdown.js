@@ -52,10 +52,7 @@
         value: () => [],
         observer: '_resetCursorStops',
       },
-      _suggestionEls: {
-        type: Array,
-        observer: '_resetCursorIndex',
-      },
+      _suggestionEls: Array,
     },
 
     behaviors: [
@@ -78,9 +75,9 @@
 
     open() {
       this.isHidden = false;
-      this.refit();
       this._resetCursorStops();
-      this._resetCursorIndex();
+      // Refit should run after we call Polymer.flush inside _resetCursorStops
+      this.refit();
     },
 
     getCurrentText() {
@@ -162,10 +159,13 @@
 
     _resetCursorStops() {
       if (this.suggestions.length > 0) {
-        Polymer.dom.flush();
-        // Polymer2: querySelectorAll returns NodeList instead of Array.
-        this._suggestionEls = Array.from(
-            this.$.suggestions.querySelectorAll('li'));
+        if (!this.isHidden) {
+          Polymer.dom.flush();
+          // Polymer2: querySelectorAll returns NodeList instead of Array.
+          this._suggestionEls = Array.from(
+              this.$.suggestions.querySelectorAll('li'));
+          this._resetCursorIndex();
+        }
       } else {
         this._suggestionEls = [];
       }

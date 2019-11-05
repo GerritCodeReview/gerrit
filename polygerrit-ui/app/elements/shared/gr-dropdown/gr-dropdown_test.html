@@ -196,7 +196,7 @@ limitations under the License.
         MockInteractions.pressAndReleaseKeyOn(element, 32); // Space
         assert.isTrue(element.$.dropdown.opened);
 
-        const el = element.$.cursor.target.querySelector(':not([hidden])');
+        const el = element.$.cursor.target.querySelector(':not([hidden]) a');
         const stub = sandbox.stub(el, 'click');
         MockInteractions.pressAndReleaseKeyOn(element, 32); // Space
         assert.isTrue(stub.called);

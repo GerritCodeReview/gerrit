@@ -118,7 +118,7 @@
       });
       if (!selectedObj) { return; }
       this.text = selectedObj.triggerText? selectedObj.triggerText :
-          selectedObj.text;
+        selectedObj.text;
       this.dispatchEvent(new CustomEvent('value-change', {
         detail: {value},
         bubbles: false,

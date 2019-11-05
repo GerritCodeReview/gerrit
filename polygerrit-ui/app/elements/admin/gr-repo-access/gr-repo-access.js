@@ -167,7 +167,7 @@
             // current value appears. If there is no parent repo, it is
             // initialized as an empty string.
             this._inheritFromFilter = res.inherits_from ?
-                this._inheritsFrom.name : '';
+              this._inheritsFrom.name : '';
             this._local = res.local;
             this._groups = res.groups;
             this._weblinks = res.config_web_links || [];
@@ -370,11 +370,11 @@
       };
 
       const originalInheritsFromId = this._originalInheritsFrom ?
-          this.singleDecodeURL(this._originalInheritsFrom.id) :
-          null;
+        this.singleDecodeURL(this._originalInheritsFrom.id) :
+        null;
       const inheritsFromId = this._inheritsFrom ?
-          this.singleDecodeURL(this._inheritsFrom.id) :
-          null;
+        this.singleDecodeURL(this._inheritsFrom.id) :
+        null;
 
       const inheritFromChanged =
           // Inherit from changed

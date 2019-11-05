@@ -148,7 +148,7 @@
 
       const rev = this.getRevisionByPatchNum(change.revisions, patchNum);
       this._patchsetDescription = (rev && rev.description) ?
-          rev.description.substring(0, PATCH_DESC_MAX_LENGTH) : '';
+        rev.description.substring(0, PATCH_DESC_MAX_LENGTH) : '';
     },
 
     _handleDescriptionRemoved(e) {
@@ -257,7 +257,7 @@
     _computeUploadHelpContainerClass(change, account) {
       const changeIsMerged = change && change.status === MERGED_STATUS;
       const ownerId = change && change.owner && change.owner._account_id ?
-          change.owner._account_id : null;
+        change.owner._account_id : null;
       const userId = account && account._account_id;
       const userIsOwner = ownerId && userId && ownerId === userId;
       const hideContainer = !userIsOwner || changeIsMerged;

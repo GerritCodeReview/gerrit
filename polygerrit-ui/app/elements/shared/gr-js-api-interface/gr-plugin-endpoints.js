@@ -33,7 +33,7 @@
   GrPluginEndpoints.prototype._getOrCreateModuleInfo = function(plugin,
       endpoint, type, moduleName, domHook) {
     const existingModule = this._endpoints[endpoint].find(info =>
-        info.plugin === plugin &&
+      info.plugin === plugin &&
         info.moduleName === moduleName &&
         info.domHook === domHook
     );

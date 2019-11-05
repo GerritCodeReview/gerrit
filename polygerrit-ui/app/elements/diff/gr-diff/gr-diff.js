@@ -185,7 +185,7 @@
         observer: '_viewModeObserver',
       },
 
-       /** @type ?Defs.LineOfInterest */
+      /** @type ?Defs.LineOfInterest */
       lineOfInterest: Object,
 
       loading: {
@@ -340,8 +340,8 @@
       // up the diff, because they are in the shadow DOM of the gr-diff element.
       // This takes the shadow DOM selection if one exists.
       return this.root.getSelection ?
-          this.root.getSelection() :
-          document.getSelection();
+        this.root.getSelection() :
+        document.getSelection();
     },
 
     _observeNodes() {
@@ -540,8 +540,8 @@
         return false;
       }
       const patchNum = el.classList.contains(DiffSide.LEFT) ?
-          this.patchRange.basePatchNum :
-          this.patchRange.patchNum;
+        this.patchRange.basePatchNum :
+        this.patchRange.patchNum;
 
       const isEdit = this.patchNumEquals(patchNum, this.EDIT_NAME);
       const isEditBase = this.patchNumEquals(patchNum, this.PARENT_NAME) &&
@@ -908,8 +908,8 @@
         chunkIndex--;
         chunk = diff.content[chunkIndex];
       } while (
-          // We haven't reached the beginning.
-          chunkIndex >= 0 &&
+      // We haven't reached the beginning.
+        chunkIndex >= 0 &&
 
           // The chunk doesn't have both sides.
           !chunk.ab &&

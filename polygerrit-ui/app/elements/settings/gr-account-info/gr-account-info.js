@@ -127,20 +127,20 @@
 
     _maybeSetName() {
       return this._hasNameChange && this.nameMutable ?
-          this.$.restAPI.setAccountName(this._account.name) :
-          Promise.resolve();
+        this.$.restAPI.setAccountName(this._account.name) :
+        Promise.resolve();
     },
 
     _maybeSetUsername() {
       return this._hasUsernameChange && this.usernameMutable ?
-          this.$.restAPI.setAccountUsername(this._username) :
-          Promise.resolve();
+        this.$.restAPI.setAccountUsername(this._username) :
+        Promise.resolve();
     },
 
     _maybeSetStatus() {
       return this._hasStatusChange ?
-          this.$.restAPI.setAccountStatus(this._account.status) :
-          Promise.resolve();
+        this.$.restAPI.setAccountStatus(this._account.status) :
+        Promise.resolve();
     },
 
     _computeHasUnsavedChanges(nameChanged, usernameChanged, statusChanged) {

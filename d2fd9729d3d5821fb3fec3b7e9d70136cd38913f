@@ -1,0 +1,418 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d38ee191_6646f758",
+        "filename": "java/com/google/gerrit/server/diff/DiffCalculator.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-11-05T15:20:36Z",
+      "side": 1,
+      "message": "I don\u0027t want to bikeshed but I think that this name is a bit confusing. Reading \"DiffCalculator\", I would think that this class is responsible for computing diffs inside of Gerrit, kind of like the core of the diff computation. In reality, it\u0027s not. It\u0027s just a formatter which processes the already available details and diff results and fills them into a DiffInfo. Could we please go away from \"calculator\"? I would suggest something like \"DiffInfoFormatter\". If we want to follow in the steps of other Gerrit naming patterns (which are not always ideal), we could also go for \"DiffJson\" (analogous to ChangeJson, ChangeEditJson, GroupJson, ...).",
+      "range": {
+        "startLine": 42,
+        "startChar": 13,
+        "endLine": 42,
+        "endChar": 27
+      },
+      "revId": "d2fd9729d3d5821fb3fec3b7e9d70136cd38913f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d3c67b1f_bc3445ce",
+        "filename": "java/com/google/gerrit/server/diff/DiffCalculator.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-11-05T15:20:36Z",
+      "side": 1,
+      "message": "Should be \"private final\".",
+      "range": {
+        "startLine": 57,
+        "startChar": 2,
+        "endLine": 57,
+        "endChar": 21
+      },
+      "revId": "d2fd9729d3d5821fb3fec3b7e9d70136cd38913f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ef2a69c3_e4d4597b",
+        "filename": "java/com/google/gerrit/server/diff/DiffCalculator.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-11-05T15:20:36Z",
+      "side": 1,
+      "message": "Optional: To increase readability, I would extract this code to a separate method.",
+      "range": {
+        "startLine": 69,
+        "startChar": 4,
+        "endLine": 99,
+        "endChar": 18
+      },
+      "revId": "d2fd9729d3d5821fb3fec3b7e9d70136cd38913f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "da0b004a_aef6fa85",
+        "filename": "java/com/google/gerrit/server/diff/DiffCalculator.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-11-05T15:20:36Z",
+      "side": 1,
+      "message": "Should be private. Could additionally be static. (We use \u0027static\u0027 for methods whenever possible.)",
+      "range": {
+        "startLine": 102,
+        "startChar": 2,
+        "endLine": 102,
+        "endChar": 8
+      },
+      "revId": "d2fd9729d3d5821fb3fec3b7e9d70136cd38913f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "36a5d914_7811eed0",
+        "filename": "java/com/google/gerrit/server/diff/DiffCalculator.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-11-05T15:20:36Z",
+      "side": 1,
+      "message": "The official recommendation for Java code is to try to avoid returning null in new code.\nAlternatives here:\n1) We could check the condition before calling this method.\n2) We could return an Optional. The calling code could still use optional.orElse(null) but then this would be much more explicit.",
+      "range": {
+        "startLine": 143,
+        "startChar": 6,
+        "endLine": 143,
+        "endChar": 18
+      },
+      "revId": "d2fd9729d3d5821fb3fec3b7e9d70136cd38913f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2c292fab_62e8fc38",
+        "filename": "java/com/google/gerrit/server/diff/DiffCalculator.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-11-05T15:20:36Z",
+      "side": 1,
+      "message": "Optional (as this class was copied): The fields should be private.",
+      "range": {
+        "startLine": 156,
+        "startChar": 23,
+        "endLine": 156,
+        "endChar": 39
+      },
+      "revId": "d2fd9729d3d5821fb3fec3b7e9d70136cd38913f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6ba7aa39_a25cc0ce",
+        "filename": "java/com/google/gerrit/server/diff/DiffCalculator.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-11-05T15:20:36Z",
+      "side": 1,
+      "message": "Will this class get additional fields or methods in a follow-up change? If not, I think we should rather use List\u003cContentEntry\u003e in all places to avoid unnecessary boilerplate code. If this class will get additional fields, can we make it an AutoValue class?",
+      "range": {
+        "startLine": 257,
+        "startChar": 23,
+        "endLine": 257,
+        "endChar": 30
+      },
+      "revId": "d2fd9729d3d5821fb3fec3b7e9d70136cd38913f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ef3b5a5e_b2420761",
+        "filename": "java/com/google/gerrit/server/diff/DiffSide.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-11-05T15:20:36Z",
+      "side": 1,
+      "message": "Ideally, this should be an AutoValue class.",
+      "range": {
+        "startLine": 19,
+        "startChar": 13,
+        "endLine": 19,
+        "endChar": 21
+      },
+      "revId": "d2fd9729d3d5821fb3fec3b7e9d70136cd38913f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "69bfb99d_4756cd6b",
+        "filename": "java/com/google/gerrit/server/diff/DiffSide.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-11-05T15:20:36Z",
+      "side": 1,
+      "message": "Thought for future: It\u0027s a bit strange that DiffSide refers to something called \"PatchScriptFileInfo\", as 1) \"DiffSide\" is a very clear and nice name whereas \"PatchScriptFileInfo\" is rather meaningless to most developers, and 2) the xxxInfo objects are typically the ones sent as return types from the REST API, which doesn\u0027t seem to be true for PatchScriptFileInfo. In addition, it\u0027s non-obvious that DiffSide is in the server.diff package and PatchScriptFileInfo is somewhere totally different. I guess we just need to do some additional cleanups after these nice refactorings of this chain of changes.",
+      "range": {
+        "startLine": 29,
+        "startChar": 18,
+        "endLine": 29,
+        "endChar": 37
+      },
+      "revId": "d2fd9729d3d5821fb3fec3b7e9d70136cd38913f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ab41f519_e804b706",
+        "filename": "java/com/google/gerrit/server/diff/DiffWebLinksProvider.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-11-05T15:20:36Z",
+      "side": 1,
+      "message": "Please add Javadoc descriptions to all new classes/interfaces, at least the public ones.",
+      "range": {
+        "startLine": 21,
+        "startChar": 17,
+        "endLine": 21,
+        "endChar": 37
+      },
+      "revId": "d2fd9729d3d5821fb3fec3b7e9d70136cd38913f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7ef50f27_1350b68a",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetDiff.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-11-05T15:20:36Z",
+      "side": 1,
+      "message": "It\u0027s nice that we have this exact code in just one place now. :-)",
+      "range": {
+        "startLine": 140,
+        "startChar": 14,
+        "endLine": 140,
+        "endChar": 71
+      },
+      "revId": "d2fd9729d3d5821fb3fec3b7e9d70136cd38913f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "04810d69_be47a0d9",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetDiff.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-11-05T15:20:36Z",
+      "side": 1,
+      "message": "Nit: It\u0027s recommended to use DiffWebLinksProvider here. (Effective Java 3rd edition, item 64: \"Refer to objects by their interfaces\")",
+      "range": {
+        "startLine": 143,
+        "startChar": 6,
+        "endLine": 143,
+        "endChar": 30
+      },
+      "revId": "d2fd9729d3d5821fb3fec3b7e9d70136cd38913f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "51f64234_c0ca6739",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetDiff.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-11-05T15:20:36Z",
+      "side": 1,
+      "message": "I like the idea of extracting this part of the code. The current version has some bits which are not as elegant as I would wish them to be. For instance, sideA and sideB or both stored within this class. This works fine for getDiffLinks(). On the other hand, getFileWebLinks() needs to get the DiffSide.Type passed in upon which an if-condition is necessary even though the calling code of getFileWebLinks() has an own instance of DiffSide. I think we could improve the code even further with some small additional adjustments. (I hope those don\u0027t conflict with your follow-up changes.)\n\nSuggestions:\nAdd the String revA/revB as field to DiffSide. Thus, getFileWebLinks() could take DiffSide as argument from which all necessary details can be retrieved (-\u003e no if-condition). As additional benefit, we could remove the enum DiffSide.Type. Furthermore, getDiffLinks could take \"DiffSide sideA, DiffSide sideB\" as argument. Thus, it wouldn\u0027t be confusing that getFileWebLinks() takes in a DiffSide but getDiffLinks() uses the internal fields.",
+      "range": {
+        "startLine": 160,
+        "startChar": 23,
+        "endLine": 160,
+        "endChar": 79
+      },
+      "revId": "d2fd9729d3d5821fb3fec3b7e9d70136cd38913f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b6ba1097_0105419f",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetDiff.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-11-05T15:20:36Z",
+      "side": 1,
+      "message": "This could just be Project.NameKey. It would also be nice, if the below code in getDiffLinks() and in getFileWebLinks() would use the same method to get the String version of the project name.",
+      "range": {
+        "startLine": 163,
+        "startChar": 18,
+        "endLine": 163,
+        "endChar": 36
+      },
+      "revId": "d2fd9729d3d5821fb3fec3b7e9d70136cd38913f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3c33501a_d97d42e0",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetDiff.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-11-05T15:20:36Z",
+      "side": 1,
+      "message": "This should be marked as nullable here and in the constructor.",
+      "range": {
+        "startLine": 169,
+        "startChar": 4,
+        "endLine": 169,
+        "endChar": 40
+      },
+      "revId": "d2fd9729d3d5821fb3fec3b7e9d70136cd38913f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "500e9fb6_4467696f",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetDiff.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-11-05T15:20:36Z",
+      "side": 1,
+      "message": "If revA/revB are moved out of this class, we should consider to use more specific types for these fields (e.g. just PatchSet.Id for both of them).",
+      "range": {
+        "startLine": 168,
+        "startChar": 4,
+        "endLine": 169,
+        "endChar": 40
+      },
+      "revId": "d2fd9729d3d5821fb3fec3b7e9d70136cd38913f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9e3773fa_12cd06ab",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetDiff.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-11-05T15:20:36Z",
+      "side": 1,
+      "message": "Optional: I saw that this was copied and hence I\u0027m marking it as optional. This code block could be rewritten with Optional#map and Optional#orElseGet, which is recommended instead of explicitly calling Optional#isPresent.",
+      "range": {
+        "startLine": 187,
+        "startChar": 10,
+        "endLine": 189,
+        "endChar": 63
+      },
+      "revId": "d2fd9729d3d5821fb3fec3b7e9d70136cd38913f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a822334f_f9598ae6",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetDiff.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-11-05T15:20:36Z",
+      "side": 1,
+      "message": "This class seems to be currently unused and should be removed. If you need it in a follow-up change, please add it in that change.",
+      "range": {
+        "startLine": 220,
+        "startChar": 23,
+        "endLine": 220,
+        "endChar": 35
+      },
+      "revId": "d2fd9729d3d5821fb3fec3b7e9d70136cd38913f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "50a1bfd5_4f68b37a",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/ReviewersUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-11-05T15:23:38Z",
+      "side": 1,
+      "message": "nit: can be static\n\nI think it can also be an enum set:\nImmutableSet\u003cFillOptions\u003e FILL_OPTIONS \u003d Sets.immutableEnumSet(...)",
+      "revId": "905315c9ed94a395044af7db91ad46dc935ee43d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

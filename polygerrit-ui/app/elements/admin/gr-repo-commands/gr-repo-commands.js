@@ -101,17 +101,17 @@
     _handleEditRepoConfig() {
       return this.$.restAPI.createChange(this.repo, CONFIG_BRANCH,
           EDIT_CONFIG_SUBJECT, undefined, false, true).then(change => {
-            const message = change ?
-                CREATE_CHANGE_SUCCEEDED_MESSAGE :
-                CREATE_CHANGE_FAILED_MESSAGE;
-            this.dispatchEvent(new CustomEvent(
-                'show-alert',
-                {detail: {message}, bubbles: true, composed: true}));
-            if (!change) { return; }
+        const message = change ?
+          CREATE_CHANGE_SUCCEEDED_MESSAGE :
+          CREATE_CHANGE_FAILED_MESSAGE;
+        this.dispatchEvent(new CustomEvent(
+            'show-alert',
+            {detail: {message}, bubbles: true, composed: true}));
+        if (!change) { return; }
 
-            Gerrit.Nav.navigateToRelativeUrl(Gerrit.Nav.getEditUrlForDiff(
-                change, CONFIG_PATH, INITIAL_PATCHSET));
-          });
+        Gerrit.Nav.navigateToRelativeUrl(Gerrit.Nav.getEditUrlForDiff(
+            change, CONFIG_PATH, INITIAL_PATCHSET));
+      });
     },
   });
 })();

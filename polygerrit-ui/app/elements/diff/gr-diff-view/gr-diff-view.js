@@ -272,8 +272,8 @@
       const patchRange = patchRangeRecord.base;
       return this.$.restAPI.getChangeFilePathsAsSpeciallySortedArray(
           changeNum, patchRange).then(files => {
-            this._fileList = files;
-          });
+        this._fileList = files;
+      });
     },
 
     _getDiffPreferences() {
@@ -566,8 +566,8 @@
       let idx = fileList.indexOf(path);
       if (idx === -1) {
         const file = direction > 0 ?
-            fileList[0] :
-            fileList[fileList.length - 1];
+          fileList[0] :
+          fileList[fileList.length - 1];
         return {path: file};
       }
 
@@ -706,8 +706,8 @@
         // is specified.
         this._getReviewedStatus(this.editMode, this._changeNum,
             this._patchRange.patchNum, this._path).then(status => {
-              this.$.reviewed.checked = status;
-            });
+          this.$.reviewed.checked = status;
+        });
         return;
       }
 
@@ -1138,7 +1138,7 @@
       // so we resolve the right "next" file.
       const unreviewedFiles = this._fileList
           .filter(file =>
-          (file === this._path || !this._reviewedFiles.has(file)));
+            (file === this._path || !this._reviewedFiles.has(file)));
       this._navToFile(this._path, unreviewedFiles, 1);
     },
 

@@ -368,7 +368,7 @@
 
     _computeSubmittedTogetherClass(submittedTogether) {
       if (!submittedTogether || (
-          submittedTogether.changes.length === 0 &&
+        submittedTogether.changes.length === 0 &&
           !submittedTogether.non_visible_changes)) {
         return 'hidden';
       }

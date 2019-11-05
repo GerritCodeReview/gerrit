@@ -513,7 +513,7 @@
       // digits. Diffs with no delta are considered 0%.
       const totalDelta = rebaseDelta + nonRebaseDelta;
       const percentRebaseDelta = !totalDelta ? 0 :
-          Math.round(100 * rebaseDelta / totalDelta);
+        Math.round(100 * rebaseDelta / totalDelta);
 
       // Report the due_to_rebase percentage in the "diff" category when
       // applicable.
@@ -590,7 +590,7 @@
         // thread and append to it.
         if (comment.in_reply_to) {
           const thread = threads.find(thread =>
-              thread.comments.some(c => c.id === comment.in_reply_to));
+            thread.comments.some(c => c.id === comment.in_reply_to));
           if (thread) {
             thread.comments.push(comment);
             continue;
@@ -731,7 +731,7 @@
       }
       function matchesRange(threadEl) {
         const threadRange = /** @type {!Gerrit.Range} */(
-            JSON.parse(threadEl.getAttribute('range')));
+          JSON.parse(threadEl.getAttribute('range')));
         return Gerrit.rangesEqual(threadRange, range);
       }
 
@@ -782,7 +782,7 @@
         matchers.push(matchesFileComment);
       }
       return threadEls.filter(threadEl =>
-          matchers.some(matcher => matcher(threadEl)));
+        matchers.some(matcher => matcher(threadEl)));
     },
 
     _getIgnoreWhitespace() {
@@ -834,7 +834,7 @@
      */
     _computeParentIndex(patchRangeRecord) {
       return this.isMergeParent(patchRangeRecord.base.basePatchNum) ?
-          this.getParentIndex(patchRangeRecord.base.basePatchNum) : null;
+        this.getParentIndex(patchRangeRecord.base.basePatchNum) : null;
     },
 
     _handleCommentSave(e) {
@@ -928,8 +928,8 @@
       if (!diff) return false;
       return diff.content.some(section => {
         const lines = section.ab ?
-              section.ab :
-              (section.a || []).concat(section.b || []);
+          section.ab :
+          (section.a || []).concat(section.b || []);
         return lines.some(line => line.length >= SYNTAX_MAX_LINE_LENGTH);
       });
     },

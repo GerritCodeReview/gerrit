@@ -22,6 +22,30 @@
       "revId": "d2b219a8156bad3ea6dff334f4f4f6b8c7519c3c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c7fad6d2_8602161d",
+        "filename": "java/com/google/gerrit/server/git/TagSet.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-11-05T12:29:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2acb5903_03366dce",
+      "range": {
+        "startLine": 71,
+        "startChar": 54,
+        "endLine": 71,
+        "endChar": 63
+      },
+      "revId": "d2b219a8156bad3ea6dff334f4f4f6b8c7519c3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

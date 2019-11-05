@@ -52,6 +52,24 @@
       "revId": "b2cda217e3cdac24b0e160f236bd453974503324",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e5a18721_f5792ec0",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 443,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2019-11-05T15:19:47Z",
+      "side": 1,
+      "message": "Since Dhruv, Tao and me didn\u0027t like the code, I changed it. We will send two types of events.",
+      "parentUuid": "641b5a8c_61db3b22",
+      "revId": "b2cda217e3cdac24b0e160f236bd453974503324",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

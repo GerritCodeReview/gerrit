@@ -472,6 +472,30 @@
     },
     {
       "key": {
+        "uuid": "6e324718_b869e9d4",
+        "filename": "java/com/google/gerrit/server/diff/DiffWebLinksProvider.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-11-05T18:45:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ab41f519_e804b706",
+      "range": {
+        "startLine": 21,
+        "startChar": 17,
+        "endLine": 21,
+        "endChar": 37
+      },
+      "revId": "d2fd9729d3d5821fb3fec3b7e9d70136cd38913f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7ef50f27_1350b68a",
         "filename": "java/com/google/gerrit/server/restapi/change/GetDiff.java",
         "patchSetId": 15

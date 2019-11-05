@@ -320,7 +320,7 @@ limitations under the License.
         element.patchRange = {};
         element.$.restAPI.getDiffPreferences().then(prefs => {
           element.prefs = prefs;
-          return element.reload();
+          return element.reload(true);
         });
         // Multiple cascading microtasks are scheduled.
         setTimeout(() => {

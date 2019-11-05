@@ -32,18 +32,19 @@ import java.util.stream.Collectors;
 @Singleton
 public class ListChangeMessages implements RestReadView<ChangeResource> {
   private final ChangeMessagesUtil changeMessagesUtil;
-  private final AccountLoader accountLoader;
+  private final AccountLoader.Factory accountLoaderFactory;
 
   @Inject
   public ListChangeMessages(
       ChangeMessagesUtil changeMessagesUtil, AccountLoader.Factory accountLoaderFactory) {
     this.changeMessagesUtil = changeMessagesUtil;
-    this.accountLoader = accountLoaderFactory.create(true);
+    this.accountLoaderFactory = accountLoaderFactory;
   }
 
   @Override
   public Response<List<ChangeMessageInfo>> apply(ChangeResource resource)
       throws PermissionBackendException {
+    AccountLoader accountLoader = accountLoaderFactory.create(true);
     List<ChangeMessage> messages = changeMessagesUtil.byChange(resource.getNotes());
     List<ChangeMessageInfo> messageInfos =
         messages.stream()

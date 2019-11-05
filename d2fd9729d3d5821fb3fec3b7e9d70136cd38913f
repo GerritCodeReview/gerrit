@@ -589,6 +589,30 @@
     },
     {
       "key": {
+        "uuid": "c52edbb5_9409608a",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetDiff.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-11-05T18:35:32Z",
+      "side": 1,
+      "message": "Tried to do it and I remembered what was the problem.\nIn case of robot suggestions, there are no revision for a side. I.e. revA/revB make sense only for diff between 2 commits.\nI decided to localize this knowledge here, so nobody can use rev property with robot suggestions.",
+      "parentUuid": "9190a4b2_329bf5f0",
+      "range": {
+        "startLine": 160,
+        "startChar": 23,
+        "endLine": 160,
+        "endChar": 79
+      },
+      "revId": "d2fd9729d3d5821fb3fec3b7e9d70136cd38913f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b6ba1097_0105419f",
         "filename": "java/com/google/gerrit/server/restapi/change/GetDiff.java",
         "patchSetId": 15
@@ -609,6 +633,30 @@
       "revId": "d2fd9729d3d5821fb3fec3b7e9d70136cd38913f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "50a1c0e1_3fbec39c",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetDiff.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-11-05T18:35:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b6ba1097_0105419f",
+      "range": {
+        "startLine": 163,
+        "startChar": 18,
+        "endLine": 163,
+        "endChar": 36
+      },
+      "revId": "d2fd9729d3d5821fb3fec3b7e9d70136cd38913f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

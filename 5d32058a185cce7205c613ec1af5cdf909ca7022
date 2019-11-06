@@ -1,0 +1,24 @@
+{
+  "comments": [
+    {
+      "robotId": "happy_robot_id",
+      "robotRunId": "5838406743490560",
+      "fixSuggestions": [],
+      "key": {
+        "uuid": "27ae357c_f6b6d750",
+        "filename": "polygerrit-ui/app/elements/diff/gr-patch-range-select/gr-patch-range-select.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2019-11-06T14:24:34Z",
+      "side": 1,
+      "message": "This is a robot comment",
+      "revId": "5d32058a185cce7205c613ec1af5cdf909ca7022",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

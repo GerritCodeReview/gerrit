@@ -27,6 +27,7 @@ import com.google.gerrit.index.project.ProjectField;
 import com.google.gerrit.index.project.ProjectIndex;
 import com.google.gerrit.index.project.ProjectIndexCollection;
 import com.google.gerrit.index.query.FieldBundle;
+import com.google.gerrit.server.index.StalenessCheckResult;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.inject.Inject;
 import java.util.Optional;
@@ -47,17 +48,18 @@ public class StalenessChecker {
     this.indexConfig = indexConfig;
   }
 
-  public boolean isStale(Project.NameKey project) {
+  public StalenessCheckResult check(Project.NameKey project) {
     ProjectData projectData = projectCache.get(project).toProjectData();
     ProjectIndex i = indexes.getSearchIndex();
     if (i == null) {
-      return false; // No index; caller couldn't do anything if it is stale.
+      return StalenessCheckResult
+          .notStale(); // No index; caller couldn't do anything if it is stale.
     }
 
     Optional<FieldBundle> result =
         i.getRaw(project, QueryOptions.create(indexConfig, 0, 1, FIELDS));
     if (!result.isPresent()) {
-      return true;
+      return StalenessCheckResult.stale("Document %s missing from index", project);
     }
 
     SetMultimap<Project.NameKey, RefState> indexedRefStates =
@@ -73,6 +75,10 @@ public class StalenessChecker {
                     p.getProject().getNameKey(),
                     RefState.create(RefNames.REFS_CONFIG, p.getProject().getConfigRefState())));
 
-    return !currentRefStates.equals(indexedRefStates);
+    if (currentRefStates.equals(indexedRefStates)) {
+      return StalenessCheckResult.notStale();
+    }
+    return StalenessCheckResult.stale(
+        "Document has unexpected ref states (%s != %s)", currentRefStates, indexedRefStates);
   }
 }

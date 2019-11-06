@@ -21,6 +21,7 @@ import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.query.FieldBundle;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.index.StalenessCheckResult;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
@@ -59,10 +60,11 @@ public class StalenessChecker {
     this.allUsers = allUsers;
   }
 
-  public boolean isStale(AccountGroup.UUID uuid) throws IOException {
+  public StalenessCheckResult check(AccountGroup.UUID uuid) throws IOException {
     GroupIndex i = indexes.getSearchIndex();
     if (i == null) {
-      return false; // No index; caller couldn't do anything if it is stale.
+      return StalenessCheckResult
+          .notStale(); // No index; caller couldn't do anything if it is stale.
     }
 
     Optional<FieldBundle> result =
@@ -73,14 +75,23 @@ public class StalenessChecker {
         Ref ref = repo.exactRef(RefNames.refsGroups(uuid));
 
         // Stale if the group actually exists.
-        return ref != null;
+        if (ref == null) {
+          return StalenessCheckResult.notStale();
+        }
+        return StalenessCheckResult.stale(
+            "Document missing in index, but found %s in the repo", ref);
       }
     }
 
     try (Repository repo = repoManager.openRepository(allUsers)) {
       Ref ref = repo.exactRef(RefNames.refsGroups(uuid));
       ObjectId head = ref == null ? ObjectId.zeroId() : ref.getObjectId();
-      return !head.equals(ObjectId.fromString(result.get().getValue(GroupField.REF_STATE), 0));
+      ObjectId idFromIndex = ObjectId.fromString(result.get().getValue(GroupField.REF_STATE), 0);
+      if (head.equals(idFromIndex)) {
+        return StalenessCheckResult.notStale();
+      }
+      return StalenessCheckResult.stale(
+          "Document has unexpected ref state (%s != %s)", head, idFromIndex);
     }
   }
 }

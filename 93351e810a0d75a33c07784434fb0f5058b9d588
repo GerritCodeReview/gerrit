@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c57e3219_4df44b2d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-11-06T18:45:56Z",
+      "side": 1,
+      "message": "dotted??? I see we are using that in gr-comment-thread.html, but we will want to change that at some point ...",
+      "range": {
+        "startLine": 107,
+        "startChar": 24,
+        "endLine": 107,
+        "endChar": 30
+      },
+      "revId": "93351e810a0d75a33c07784434fb0f5058b9d588",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "23e22b8b_6cb42091",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-11-06T18:45:56Z",
+      "side": 1,
+      "message": "That is unlikely to be the best fix for aligning something. Can you point me to a page with a robot comment? Then I can fiddle with the css and try to come up with a better suggestion.",
+      "range": {
+        "startLine": 113,
+        "startChar": 0,
+        "endLine": 113,
+        "endChar": 48
+      },
+      "revId": "93351e810a0d75a33c07784434fb0f5058b9d588",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

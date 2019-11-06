@@ -22,6 +22,30 @@
       "revId": "757b33dfe392512a5090bf81c8a382eb6901c6ec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eb33d21c_ac9566fd",
+        "filename": "java/com/google/gerrit/server/restapi/project/CommitsCollection.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-11-06T17:03:06Z",
+      "side": 1,
+      "message": "let\u0027s do this in a separate change. I\u0027m worried that it becomes a yak shave with rollback potential.",
+      "parentUuid": "3ed2811f_a404f930",
+      "range": {
+        "startLine": 165,
+        "startChar": 31,
+        "endLine": 165,
+        "endChar": 94
+      },
+      "revId": "757b33dfe392512a5090bf81c8a382eb6901c6ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

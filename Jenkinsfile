@@ -186,8 +186,9 @@ def collectBuilds() {
 }
 
 def findFlakyBuilds() {
-    def flaky = Builds.verification.findAll { it.value.result == null ||
-        it.value.result != 'SUCCESS' }
+    // def flaky = Builds.verification.findAll { it.value.result == null ||
+    //    it.value.result != 'SUCCESS' }
+    def flaky = Builds.verification.findAll { it.key != 'reviewdb' }
 
     if(flaky.size() == Builds.verification.size()) {
         return []
@@ -196,7 +197,7 @@ def findFlakyBuilds() {
     def retryBuilds = []
     flaky.each {
         def mode = it.key
-        Builds.verification.remove(mode)
+        Builds.verification = Builds.verification.findAll { it.key != mode }
         retryBuilds += mode
     }
 

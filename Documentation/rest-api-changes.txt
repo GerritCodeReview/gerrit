@@ -7355,6 +7355,13 @@ Callers can find out if there were conflicts by checking the
 `contains_git_conflicts` field in the link:#change-info[ChangeInfo]. If
 there are conflicts the cherry-pick change is marked as
 work-in-progress.
+<<<<<<< PATCH SET (a7a17b Add 'on_behalf_of' to cherrypick REST options)
+|`on_behalf_of`     |optional|
+The link:rest-api-accounts.html#account-id[\{account-id\}] of the user on
+whose behalf the action should be done. The user specified will be made the owner
+when the change is cherry-picked. To use this option the caller must
+have been granted the `Forge Committer` permission.
+=======
 |`topic`             |optional|
 The topic of the created cherry-picked change. If not set, the default depends
 on the source. If the source is a change with a topic, the resulting topic
@@ -7375,6 +7382,7 @@ Gerrit core doesn't support any validation options, but commit validation
 listeners that are implemented in plugins may. Please refer to the
 documentation of the installed plugins to learn whether they support validation
 options. Unknown validation options are silently ignored.
+>>>>>>> BASE      (f8fd64 Merge branch 'stable-3.8')
 |===========================
 
 [[comment-info]]

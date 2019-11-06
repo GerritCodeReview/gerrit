@@ -29,7 +29,17 @@ public class CherryPickInput {
 
   public boolean keepReviewers;
   public boolean allowConflicts;
+<<<<<<< PATCH SET (a7a17b Add 'on_behalf_of' to cherrypick REST options)
+
+  /**
+   * Account ID, name, email address or username of another user. The review will be cherry-picked
+   * on behalf of this named user instead of the caller. The caller must have forge committer
+   * permission
+   */
+  public String onBehalfOf;
+=======
   public String topic;
   public boolean allowEmpty;
   public Map<String, String> validationOptions;
+>>>>>>> BASE      (f8fd64 Merge branch 'stable-3.8')
 }

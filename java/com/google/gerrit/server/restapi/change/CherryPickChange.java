@@ -29,6 +29,7 @@ import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.api.changes.CherryPickInput;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MergeConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -36,7 +37,12 @@ import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.ReviewerSet;
+<<<<<<< PATCH SET (a7a17b Add 'on_behalf_of' to cherrypick REST options)
+import com.google.gerrit.server.account.AccountResolver;
+import com.google.gerrit.server.account.AccountResolver.UnresolvableAccountException;
+=======
 import com.google.gerrit.server.approval.ApprovalsUtil;
+>>>>>>> BASE      (f8fd64 Merge branch 'stable-3.8')
 import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.change.PatchSetInserter;
@@ -53,6 +59,9 @@ import com.google.gerrit.server.git.MergeUtilFactory;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.notedb.Sequences;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
@@ -111,7 +120,12 @@ public class CherryPickChange {
   private final ProjectCache projectCache;
   private final ApprovalsUtil approvalsUtil;
   private final NotifyResolver notifyResolver;
+<<<<<<< PATCH SET (a7a17b Add 'on_behalf_of' to cherrypick REST options)
+  private final AccountResolver accountResolver;
+  private final PermissionBackend permissionBackend;
+=======
   private final BatchUpdate.Factory batchUpdateFactory;
+>>>>>>> BASE      (f8fd64 Merge branch 'stable-3.8')
 
   @Inject
   CherryPickChange(
@@ -128,7 +142,12 @@ public class CherryPickChange {
       ProjectCache projectCache,
       ApprovalsUtil approvalsUtil,
       NotifyResolver notifyResolver,
+<<<<<<< PATCH SET (a7a17b Add 'on_behalf_of' to cherrypick REST options)
+      AccountResolver accountResolver,
+      PermissionBackend permissionBackend) {
+=======
       BatchUpdate.Factory batchUpdateFactory) {
+>>>>>>> BASE      (f8fd64 Merge branch 'stable-3.8')
     this.seq = seq;
     this.queryProvider = queryProvider;
     this.gitManager = gitManager;
@@ -142,7 +161,12 @@ public class CherryPickChange {
     this.projectCache = projectCache;
     this.approvalsUtil = approvalsUtil;
     this.notifyResolver = notifyResolver;
+<<<<<<< PATCH SET (a7a17b Add 'on_behalf_of' to cherrypick REST options)
+    this.accountResolver = accountResolver;
+    this.permissionBackend = permissionBackend;
+=======
     this.batchUpdateFactory = batchUpdateFactory;
+>>>>>>> BASE      (f8fd64 Merge branch 'stable-3.8')
   }
 
   /**
@@ -161,9 +185,21 @@ public class CherryPickChange {
    * @throws ConfigInvalidException Can't find account to notify.
    * @throws NoSuchProjectException Can't find project state.
    */
+<<<<<<< PATCH SET (a7a17b Add 'on_behalf_of' to cherrypick REST options)
+  public Result cherryPick(
+      BatchUpdate.Factory batchUpdateFactory,
+      Change change,
+      PatchSet patch,
+      CherryPickInput input,
+      BranchNameKey dest)
+      throws IOException, InvalidChangeOperationException, IntegrationException, UpdateException,
+          RestApiException, ConfigInvalidException, NoSuchProjectException, AuthException,
+          PermissionBackendException {
+=======
   public Result cherryPick(Change change, PatchSet patch, CherryPickInput input, BranchNameKey dest)
       throws IOException, InvalidChangeOperationException, UpdateException, RestApiException,
           ConfigInvalidException, NoSuchProjectException {
+>>>>>>> BASE      (f8fd64 Merge branch 'stable-3.8')
     return cherryPick(
         change,
         change.getProject(),
@@ -202,8 +238,14 @@ public class CherryPickChange {
       ObjectId sourceCommit,
       CherryPickInput input,
       BranchNameKey dest)
+<<<<<<< PATCH SET (a7a17b Add 'on_behalf_of' to cherrypick REST options)
+      throws IOException, InvalidChangeOperationException, IntegrationException, UpdateException,
+          RestApiException, ConfigInvalidException, NoSuchProjectException, AuthException,
+          PermissionBackendException {
+=======
       throws IOException, InvalidChangeOperationException, UpdateException, RestApiException,
           ConfigInvalidException, NoSuchProjectException {
+>>>>>>> BASE      (f8fd64 Merge branch 'stable-3.8')
     return cherryPick(
         sourceChange, project, sourceCommit, input, dest, TimeUtil.now(), null, null, null, null);
   }
@@ -245,12 +287,26 @@ public class CherryPickChange {
       BranchNameKey dest,
       Instant timestamp,
       @Nullable Change.Id revertedChange,
+<<<<<<< PATCH SET (a7a17b Add 'on_behalf_of' to cherrypick REST options)
+      @Nullable ObjectId changeIdForNewChange)
+      throws IOException, InvalidChangeOperationException, IntegrationException, UpdateException,
+          RestApiException, ConfigInvalidException, NoSuchProjectException, AuthException,
+          PermissionBackendException {
+    IdentifiedUser identifiedUser;
+    if (input.onBehalfOf != null) {
+      identifiedUser = onBehalfOf(input, dest);
+    } else {
+      identifiedUser = user.get();
+    }
+
+=======
       @Nullable ObjectId changeIdForNewChange,
       @Nullable Change.Id idForNewChange,
       @Nullable Boolean workInProgress)
       throws IOException, InvalidChangeOperationException, UpdateException, RestApiException,
           ConfigInvalidException, NoSuchProjectException {
     IdentifiedUser identifiedUser = user.get();
+>>>>>>> BASE      (f8fd64 Merge branch 'stable-3.8')
     try (Repository git = gitManager.openRepository(project);
         // This inserter and revwalk *must* be passed to any BatchUpdates
         // created later on, to ensure the cherry-picked commit is flushed
@@ -508,6 +564,17 @@ public class CherryPickChange {
       throws BadRequestException, ConfigInvalidException, IOException {
     return notifyResolver.resolve(
         firstNonNull(input.notify, NotifyHandling.ALL), input.notifyDetails);
+  }
+
+  private IdentifiedUser onBehalfOf(CherryPickInput input, BranchNameKey branch)
+      throws AuthException, ConfigInvalidException, IOException, PermissionBackendException,
+          UnresolvableAccountException {
+    // Check if the user has forge committer permission
+    PermissionBackend.ForRef perm = permissionBackend.user(user.get()).ref(branch);
+    perm.check(RefPermission.FORGE_COMMITTER);
+    IdentifiedUser cherryPicker =
+        accountResolver.resolve(input.onBehalfOf).asUniqueUserOnBehalfOf(user.get());
+    return cherryPicker;
   }
 
   private String messageForDestinationChange(

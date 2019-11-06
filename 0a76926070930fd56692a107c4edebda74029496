@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "44dda5a7_7443310d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-11-06T09:32:25Z",
+      "side": 1,
+      "message": "maybe rename to something like `shouldReportMetric` ? so its very clear what you want to do with that parameter",
+      "range": {
+        "startLine": 276,
+        "startChar": 25,
+        "endLine": 276,
+        "endChar": 42
+      },
+      "revId": "0a76926070930fd56692a107c4edebda74029496",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

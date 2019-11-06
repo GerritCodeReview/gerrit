@@ -134,7 +134,7 @@ def getChangeMetaData(){
 }
 
 def collectBuildModes() {
-    Builds.modes = ["reviewdb"]
+    Builds.modes = ["reviewdb","notedb"]
     def changedFiles = queryChangedFiles(Globals.gerritUrl, Change.number, Change.sha1)
     def polygerritFiles = changedFiles.findAll { it.startsWith("polygerrit-ui") ||
         it.startsWith("lib/js") }
@@ -186,8 +186,9 @@ def collectBuilds() {
 }
 
 def findFlakyBuilds() {
-    def flaky = Builds.verification.findAll { it.value.result == null ||
-        it.value.result != 'SUCCESS' }
+    // def flaky = Builds.verification.findAll { it.value.result == null ||
+    //    it.value.result != 'SUCCESS' }
+    def flaky = [ Builds.verification.entrySet().iterator().next() ]
 
     if(flaky.size() == Builds.verification.size()) {
         return []
@@ -196,7 +197,7 @@ def findFlakyBuilds() {
     def retryBuilds = []
     flaky.each {
         def mode = it.key
-        Builds.verification.remove(mode)
+        Builds.verification = Builds.verification.findAll { it.key != mode }
         retryBuilds += mode
     }
 

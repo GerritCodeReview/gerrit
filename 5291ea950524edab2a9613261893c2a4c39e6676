@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a852ec34_de62f039",
+        "filename": "java/com/google/gerrit/server/diff/DiffCalculator.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-11-06T15:59:32Z",
+      "side": 1,
+      "message": "Javadoc description?",
+      "range": {
+        "startLine": 43,
+        "startChar": 13,
+        "endLine": 43,
+        "endChar": 27
+      },
+      "revId": "5291ea950524edab2a9613261893c2a4c39e6676",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a3d73394_f67e7c27",
+        "filename": "java/com/google/gerrit/server/diff/DiffSide.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-11-06T15:59:32Z",
+      "side": 1,
+      "message": "Javadoc description?",
+      "range": {
+        "startLine": 19,
+        "startChar": 13,
+        "endLine": 19,
+        "endChar": 21
+      },
+      "revId": "5291ea950524edab2a9613261893c2a4c39e6676",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "08b4cef1_c4dae577",
+        "filename": "java/com/google/gerrit/server/diff/DiffSide.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-11-06T15:59:32Z",
+      "side": 1,
+      "message": "Nit: According to Java conventions and our style guide (https://google.github.io/styleguide/javaguide.html#s5.2.4-constant-names), enum values should use constant case (\u003d uppercase letters with words separated by underscores).",
+      "range": {
+        "startLine": 21,
+        "startChar": 4,
+        "endLine": 22,
+        "endChar": 9
+      },
+      "revId": "5291ea950524edab2a9613261893c2a4c39e6676",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "885487ee_48192813",
+        "filename": "java/com/google/gerrit/server/diff/DiffWebLinksProvider.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-11-06T15:59:32Z",
+      "side": 1,
+      "message": "Nit: By the way, we have an official style guide for Java which also covers how Javadoc comments should be written (https://google.github.io/styleguide/javaguide.html#s7-javadoc). A Javadoc description of a class typically starts with a noun phrase. So, this could be \"Provider for different types of links which can be displayed in a diff view.\".",
+      "range": {
+        "startLine": 22,
+        "startChar": 3,
+        "endLine": 22,
+        "endChar": 85
+      },
+      "revId": "5291ea950524edab2a9613261893c2a4c39e6676",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cfcae058_d50bbe0f",
+        "filename": "java/com/google/gerrit/server/diff/DiffWebLinksProvider.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-11-06T15:59:32Z",
+      "side": 1,
+      "message": "Nit: By this, do you mean that we don\u0027t hand out that class via the REST API? Or to other parts of our code base? Most of the time, it\u0027s best to restrict visibility by carefully choosing which classes go into which package and then e.g. only using package-private visibility settings. I would probably just drop that part of the Javadoc description if it\u0027s not very essential in your opinion.",
+      "range": {
+        "startLine": 22,
+        "startChar": 87,
+        "endLine": 23,
+        "endChar": 7
+      },
+      "revId": "5291ea950524edab2a9613261893c2a4c39e6676",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0a6b62ea_232f89be",
+        "filename": "java/com/google/gerrit/server/diff/DiffWebLinksProvider.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-11-06T15:59:32Z",
+      "side": 1,
+      "message": "Nit, here and below: According to the style guide (https://google.github.io/styleguide/javaguide.html#s7.2-summary-fragment), this should rather be \"Returns links associated with the diff view.\".",
+      "range": {
+        "startLine": 27,
+        "startChar": 6,
+        "endLine": 27,
+        "endChar": 49
+      },
+      "revId": "5291ea950524edab2a9613261893c2a4c39e6676",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3ae7755a_c32fc0a1",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetDiff.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-11-06T15:59:32Z",
+      "side": 1,
+      "message": "Optional: The refName() call does some computations, so it would be better to use orElseGet(..) instead of orElse(..) to not execute those computations if an edit is present. Arguably, the performance impact is negligible. I\u0027m mentioning it so that you\u0027re aware of the differences.",
+      "range": {
+        "startLine": 193,
+        "startChar": 15,
+        "endLine": 193,
+        "endChar": 55
+      },
+      "revId": "5291ea950524edab2a9613261893c2a4c39e6676",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "4a8f26a4_eb92867c",
+        "filename": "java/com/google/gerrit/server/diff/DiffCalculator.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-11-06T15:59:32Z",
+      "side": 1,
+      "message": "True. DiffInfoCreator sounds very good to me.",
+      "parentUuid": "683bb35c_f51f3aae",
+      "range": {
+        "startLine": 42,
+        "startChar": 13,
+        "endLine": 42,
+        "endChar": 27
+      },
+      "revId": "d2fd9729d3d5821fb3fec3b7e9d70136cd38913f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d3c67b1f_bc3445ce",
         "filename": "java/com/google/gerrit/server/diff/DiffCalculator.java",
         "patchSetId": 15
@@ -140,6 +164,30 @@
       "revId": "d2fd9729d3d5821fb3fec3b7e9d70136cd38913f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6307fabd_4a4ffc93",
+        "filename": "java/com/google/gerrit/server/diff/DiffCalculator.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-11-06T15:59:32Z",
+      "side": 1,
+      "message": "I agree that with the adjustments, it\u0027s better to not extract the code.",
+      "parentUuid": "a04688b6_95f87a68",
+      "range": {
+        "startLine": 69,
+        "startChar": 4,
+        "endLine": 99,
+        "endChar": 18
+      },
+      "revId": "d2fd9729d3d5821fb3fec3b7e9d70136cd38913f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -402,6 +450,30 @@
     },
     {
       "key": {
+        "uuid": "3b1ec0e0_597eb27a",
+        "filename": "java/com/google/gerrit/server/diff/DiffSide.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-11-06T15:59:32Z",
+      "side": 1,
+      "message": "I took this class as a value type at first glance. If this class isn\u0027t a value type, what is it?\n\nFor me, it would also make sense to have e.g. an equals() or toString() method on a DiffSide. We currently don\u0027t have it but it would be useful if we ever end up adding unit tests. A proper toString() method would also be helpful for debugging purposes.\n\nBy the way, using AutoValue is not just about making the code shorter. There are quite some resources which mention the benefits of using it. I can point you to them if you want.\n\nInside of Gerrit, we are definitely pushing for AutoValue. We\u0027ve been converting old classes to AutoValue over the last years and directly used AutoValue for new ones.\n\nI currently only see one obstacle for making this class an AutoValue: PatchScriptFileInfo is not deeply immutable, which it actually should be as sharing mutable classes is discouraged. We sometimes do this inside of Gerrit but that\u0027s because of legacy reasons. Honestly, PatchScriptFileInfo should also have been an AutoValue. Do you think that\u0027s possible to change?",
+      "parentUuid": "b27de943_f2006536",
+      "range": {
+        "startLine": 19,
+        "startChar": 13,
+        "endLine": 19,
+        "endChar": 21
+      },
+      "revId": "d2fd9729d3d5821fb3fec3b7e9d70136cd38913f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "69bfb99d_4756cd6b",
         "filename": "java/com/google/gerrit/server/diff/DiffSide.java",
         "patchSetId": 15
@@ -637,6 +709,30 @@
     },
     {
       "key": {
+        "uuid": "f0a2b5a4_244d4ea7",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetDiff.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-11-06T15:59:32Z",
+      "side": 1,
+      "message": "I see. Let\u0027s get your other changes in first and then we can revisit whether there\u0027s a chance to separate the code in a better way.",
+      "parentUuid": "c52edbb5_9409608a",
+      "range": {
+        "startLine": 160,
+        "startChar": 23,
+        "endLine": 160,
+        "endChar": 79
+      },
+      "revId": "d2fd9729d3d5821fb3fec3b7e9d70136cd38913f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b6ba1097_0105419f",
         "filename": "java/com/google/gerrit/server/restapi/change/GetDiff.java",
         "patchSetId": 15
@@ -768,6 +864,30 @@
       "parentUuid": "3c33501a_d97d42e0",
       "range": {
         "startLine": 169,
+        "startChar": 4,
+        "endLine": 169,
+        "endChar": 40
+      },
+      "revId": "d2fd9729d3d5821fb3fec3b7e9d70136cd38913f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dd9858f4_b1bba00f",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetDiff.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-11-06T15:59:32Z",
+      "side": 1,
+      "message": "I was referring to the other suggestions I left in the comment above. Without them, changing these fields to PatchSet.Id is not possible as you noticed. Marking as resolved now as revA/revB will remain in this class.",
+      "parentUuid": "12b807ab_9da0bb36",
+      "range": {
+        "startLine": 168,
         "startChar": 4,
         "endLine": 169,
         "endChar": 40

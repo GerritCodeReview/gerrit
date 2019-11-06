@@ -1265,7 +1265,7 @@ public class GroupsIT extends AbstractDaemonTest {
     // Newly created group is not stale
     GroupInfo groupInfo = gApi.groups().create(name("foo")).get();
     AccountGroup.UUID groupUuid = AccountGroup.uuid(groupInfo.id);
-    assertThat(stalenessChecker.isStale(groupUuid)).isFalse();
+    assertThat(stalenessChecker.check(groupUuid).isStale()).isFalse();
 
     // Manual update makes index document stale
     String groupRef = RefNames.refsGroups(groupUuid);
@@ -1406,11 +1406,11 @@ public class GroupsIT extends AbstractDaemonTest {
   private void assertStaleGroupAndReindex(AccountGroup.UUID groupUuid) throws IOException {
     // Evict group from cache to be sure that we use the index state for staleness checks.
     groupCache.evict(groupUuid);
-    assertThat(stalenessChecker.isStale(groupUuid)).isTrue();
+    assertThat(stalenessChecker.check(groupUuid).isStale()).isTrue();
 
     // Reindex fixes staleness
     groupIndexer.index(groupUuid);
-    assertThat(stalenessChecker.isStale(groupUuid)).isFalse();
+    assertThat(stalenessChecker.check(groupUuid).isStale()).isFalse();
   }
 
   private void pushToGroupBranchForReviewAndSubmit(

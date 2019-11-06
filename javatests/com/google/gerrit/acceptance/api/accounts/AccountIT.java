@@ -3010,7 +3010,7 @@ public class AccountIT extends AbstractDaemonTest {
     // Newly created account is not stale.
     AccountInfo accountInfo = gApi.accounts().create(name("foo")).get();
     Account.Id accountId = Account.id(accountInfo._accountId);
-    assertThat(stalenessChecker.isStale(accountId)).isFalse();
+    assertThat(stalenessChecker.check(accountId).isStale()).isFalse();
 
     // Manually updating the user ref makes the index document stale.
     String userRef = RefNames.refsUsers(accountId);
@@ -3078,11 +3078,11 @@ public class AccountIT extends AbstractDaemonTest {
     // has to happen directly on the accounts cache because AccountCacheImpl triggers a reindex for
     // the account.
     accountsCache.invalidate(accountId);
-    assertThat(stalenessChecker.isStale(accountId)).isTrue();
+    assertThat(stalenessChecker.check(accountId).isStale()).isTrue();
 
     // Reindex fixes staleness
     accountIndexer.index(accountId);
-    assertThat(stalenessChecker.isStale(accountId)).isFalse();
+    assertThat(stalenessChecker.check(accountId).isStale()).isFalse();
   }
 
   @Test

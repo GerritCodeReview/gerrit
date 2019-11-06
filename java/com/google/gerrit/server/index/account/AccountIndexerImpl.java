@@ -23,6 +23,7 @@ import com.google.gerrit.extensions.events.AccountIndexedListener;
 import com.google.gerrit.index.Index;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.index.StalenessCheckResult;
 import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.logging.TraceContext.TraceTimer;
@@ -116,7 +117,9 @@ public class AccountIndexerImpl implements AccountIndexer {
   @Override
   public boolean reindexIfStale(Account.Id id) {
     try {
-      if (stalenessChecker.isStale(id)) {
+      StalenessCheckResult stalenessCheckResult = stalenessChecker.check(id);
+      if (stalenessCheckResult.isStale()) {
+        logger.atInfo().log("Reindexing stale document %s", stalenessCheckResult);
         index(id);
         return true;
       }

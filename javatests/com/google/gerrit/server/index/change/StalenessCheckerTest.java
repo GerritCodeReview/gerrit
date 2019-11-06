@@ -163,34 +163,37 @@ public class StalenessCheckerTest {
     // Not stale.
     assertThat(
             refsAreStale(
-                repoManager,
-                C,
-                ImmutableSetMultimap.of(
-                    P1, RefState.create(ref1, id1.name()),
-                    P2, RefState.create(ref2, id2.name())),
-                ImmutableListMultimap.of()))
+                    repoManager,
+                    C,
+                    ImmutableSetMultimap.of(
+                        P1, RefState.create(ref1, id1.name()),
+                        P2, RefState.create(ref2, id2.name())),
+                    ImmutableListMultimap.of())
+                .isStale())
         .isFalse();
 
     // Wrong ref value.
     assertThat(
             refsAreStale(
-                repoManager,
-                C,
-                ImmutableSetMultimap.of(
-                    P1, RefState.create(ref1, SHA1),
-                    P2, RefState.create(ref2, id2.name())),
-                ImmutableListMultimap.of()))
+                    repoManager,
+                    C,
+                    ImmutableSetMultimap.of(
+                        P1, RefState.create(ref1, SHA1),
+                        P2, RefState.create(ref2, id2.name())),
+                    ImmutableListMultimap.of())
+                .isStale())
         .isTrue();
 
     // Swapped repos.
     assertThat(
             refsAreStale(
-                repoManager,
-                C,
-                ImmutableSetMultimap.of(
-                    P1, RefState.create(ref1, id2.name()),
-                    P2, RefState.create(ref2, id1.name())),
-                ImmutableListMultimap.of()))
+                    repoManager,
+                    C,
+                    ImmutableSetMultimap.of(
+                        P1, RefState.create(ref1, id2.name()),
+                        P2, RefState.create(ref2, id1.name())),
+                    ImmutableListMultimap.of())
+                .isStale())
         .isTrue();
 
     // Two refs in same repo, not stale.
@@ -199,32 +202,35 @@ public class StalenessCheckerTest {
     tr1.update(ref3, id3);
     assertThat(
             refsAreStale(
-                repoManager,
-                C,
-                ImmutableSetMultimap.of(
-                    P1, RefState.create(ref1, id1.name()),
-                    P1, RefState.create(ref3, id3.name())),
-                ImmutableListMultimap.of()))
+                    repoManager,
+                    C,
+                    ImmutableSetMultimap.of(
+                        P1, RefState.create(ref1, id1.name()),
+                        P1, RefState.create(ref3, id3.name())),
+                    ImmutableListMultimap.of())
+                .isStale())
         .isFalse();
 
     // Ignore ref not mentioned.
     assertThat(
             refsAreStale(
-                repoManager,
-                C,
-                ImmutableSetMultimap.of(P1, RefState.create(ref1, id1.name())),
-                ImmutableListMultimap.of()))
+                    repoManager,
+                    C,
+                    ImmutableSetMultimap.of(P1, RefState.create(ref1, id1.name())),
+                    ImmutableListMultimap.of())
+                .isStale())
         .isFalse();
 
     // One ref wrong.
     assertThat(
             refsAreStale(
-                repoManager,
-                C,
-                ImmutableSetMultimap.of(
-                    P1, RefState.create(ref1, id1.name()),
-                    P1, RefState.create(ref3, SHA1)),
-                ImmutableListMultimap.of()))
+                    repoManager,
+                    C,
+                    ImmutableSetMultimap.of(
+                        P1, RefState.create(ref1, id1.name()),
+                        P1, RefState.create(ref3, SHA1)),
+                    ImmutableListMultimap.of())
+                .isStale())
         .isTrue();
   }
 
@@ -236,10 +242,11 @@ public class StalenessCheckerTest {
     // ref1 is only ref matching pattern.
     assertThat(
             refsAreStale(
-                repoManager,
-                C,
-                ImmutableSetMultimap.of(P1, RefState.create(ref1, id1.name())),
-                ImmutableListMultimap.of(P1, RefStatePattern.create("refs/heads/*"))))
+                    repoManager,
+                    C,
+                    ImmutableSetMultimap.of(P1, RefState.create(ref1, id1.name())),
+                    ImmutableListMultimap.of(P1, RefStatePattern.create("refs/heads/*")))
+                .isStale())
         .isFalse();
 
     // Now ref2 matches pattern, so stale unless ref2 is present in state map.
@@ -247,19 +254,21 @@ public class StalenessCheckerTest {
     ObjectId id2 = tr1.update(ref2, tr1.commit().message("commit 2"));
     assertThat(
             refsAreStale(
-                repoManager,
-                C,
-                ImmutableSetMultimap.of(P1, RefState.create(ref1, id1.name())),
-                ImmutableListMultimap.of(P1, RefStatePattern.create("refs/heads/*"))))
+                    repoManager,
+                    C,
+                    ImmutableSetMultimap.of(P1, RefState.create(ref1, id1.name())),
+                    ImmutableListMultimap.of(P1, RefStatePattern.create("refs/heads/*")))
+                .isStale())
         .isTrue();
     assertThat(
             refsAreStale(
-                repoManager,
-                C,
-                ImmutableSetMultimap.of(
-                    P1, RefState.create(ref1, id1.name()),
-                    P1, RefState.create(ref2, id2.name())),
-                ImmutableListMultimap.of(P1, RefStatePattern.create("refs/heads/*"))))
+                    repoManager,
+                    C,
+                    ImmutableSetMultimap.of(
+                        P1, RefState.create(ref1, id1.name()),
+                        P1, RefState.create(ref2, id2.name())),
+                    ImmutableListMultimap.of(P1, RefStatePattern.create("refs/heads/*")))
+                .isStale())
         .isFalse();
   }
 
@@ -272,10 +281,11 @@ public class StalenessCheckerTest {
     // ref1 is only ref matching pattern.
     assertThat(
             refsAreStale(
-                repoManager,
-                C,
-                ImmutableSetMultimap.of(P1, RefState.create(ref1, id1.name())),
-                ImmutableListMultimap.of(P1, RefStatePattern.create("refs/*/foo"))))
+                    repoManager,
+                    C,
+                    ImmutableSetMultimap.of(P1, RefState.create(ref1, id1.name())),
+                    ImmutableListMultimap.of(P1, RefStatePattern.create("refs/*/foo")))
+                .isStale())
         .isFalse();
 
     // Now ref2 matches pattern, so stale unless ref2 is present in state map.
@@ -283,19 +293,21 @@ public class StalenessCheckerTest {
     ObjectId id3 = tr1.update(ref3, tr1.commit().message("commit 3"));
     assertThat(
             refsAreStale(
-                repoManager,
-                C,
-                ImmutableSetMultimap.of(P1, RefState.create(ref1, id1.name())),
-                ImmutableListMultimap.of(P1, RefStatePattern.create("refs/*/foo"))))
+                    repoManager,
+                    C,
+                    ImmutableSetMultimap.of(P1, RefState.create(ref1, id1.name())),
+                    ImmutableListMultimap.of(P1, RefStatePattern.create("refs/*/foo")))
+                .isStale())
         .isTrue();
     assertThat(
             refsAreStale(
-                repoManager,
-                C,
-                ImmutableSetMultimap.of(
-                    P1, RefState.create(ref1, id1.name()),
-                    P1, RefState.create(ref3, id3.name())),
-                ImmutableListMultimap.of(P1, RefStatePattern.create("refs/*/foo"))))
+                    repoManager,
+                    C,
+                    ImmutableSetMultimap.of(
+                        P1, RefState.create(ref1, id1.name()),
+                        P1, RefState.create(ref3, id3.name())),
+                    ImmutableListMultimap.of(P1, RefStatePattern.create("refs/*/foo")))
+                .isStale())
         .isFalse();
   }
 

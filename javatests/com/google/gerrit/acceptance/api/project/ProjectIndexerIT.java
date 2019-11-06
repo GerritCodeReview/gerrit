@@ -83,19 +83,19 @@ public class ProjectIndexerIT extends AbstractDaemonTest {
 
   @Test
   public void stalenessChecker_currentProject_notStale() throws Exception {
-    assertThat(stalenessChecker.isStale(project)).isFalse();
+    assertThat(stalenessChecker.check(project).isStale()).isFalse();
   }
 
   @Test
   public void stalenessChecker_currentProjectUpdates_isStale() throws Exception {
     updateProjectConfigWithoutIndexUpdate(project);
-    assertThat(stalenessChecker.isStale(project)).isTrue();
+    assertThat(stalenessChecker.check(project).isStale()).isTrue();
   }
 
   @Test
   public void stalenessChecker_parentProjectUpdates_isStale() throws Exception {
     updateProjectConfigWithoutIndexUpdate(allProjects);
-    assertThat(stalenessChecker.isStale(project)).isTrue();
+    assertThat(stalenessChecker.check(project).isStale()).isTrue();
   }
 
   @Test
@@ -106,10 +106,10 @@ public class ProjectIndexerIT extends AbstractDaemonTest {
       u.getConfig().getProject().setParentName(p1);
       u.save();
     }
-    assertThat(stalenessChecker.isStale(project)).isFalse();
+    assertThat(stalenessChecker.check(project).isStale()).isFalse();
 
     updateProjectConfigWithoutIndexUpdate(p1, c -> c.getProject().setParentName(p2));
-    assertThat(stalenessChecker.isStale(project)).isTrue();
+    assertThat(stalenessChecker.check(project).isStale()).isTrue();
   }
 
   private void updateProjectConfigWithoutIndexUpdate(Project.NameKey project) throws Exception {

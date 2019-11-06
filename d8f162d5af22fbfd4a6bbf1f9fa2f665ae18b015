@@ -16,6 +16,24 @@
       "revId": "d8f162d5af22fbfd4a6bbf1f9fa2f665ae18b015",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "55b91a7b_ce10156d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-syntax-layer/gr-syntax-layer.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-11-06T07:48:47Z",
+      "side": 1,
+      "message": "Can you give an example what doctag is?",
+      "parentUuid": "b7c0e98b_9e10b20e",
+      "revId": "d8f162d5af22fbfd4a6bbf1f9fa2f665ae18b015",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

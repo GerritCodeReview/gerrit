@@ -23,6 +23,7 @@ import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.api.changes.CherryPickInput;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MergeConflictException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -38,6 +39,8 @@ import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.ReviewerSet;
+import com.google.gerrit.server.account.AccountResolver;
+import com.google.gerrit.server.account.AccountResolver.UnresolvableAccountException;
 import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.change.PatchSetInserter;
@@ -48,6 +51,9 @@ import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.notedb.Sequences;
+import com.google.gerrit.server.permissions.PermissionBackend;
+import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.ProjectCache;
@@ -106,6 +112,8 @@ public class CherryPickChange {
   private final ProjectCache projectCache;
   private final ApprovalsUtil approvalsUtil;
   private final NotifyResolver notifyResolver;
+  private final AccountResolver accountResolver;
+  private final PermissionBackend permissionBackend;
 
   @Inject
   CherryPickChange(
@@ -120,7 +128,9 @@ public class CherryPickChange {
       ChangeNotes.Factory changeNotesFactory,
       ProjectCache projectCache,
       ApprovalsUtil approvalsUtil,
-      NotifyResolver notifyResolver) {
+      NotifyResolver notifyResolver,
+      AccountResolver accountResolver,
+      PermissionBackend permissionBackend) {
     this.seq = seq;
     this.queryProvider = queryProvider;
     this.gitManager = gitManager;
@@ -133,6 +143,8 @@ public class CherryPickChange {
     this.projectCache = projectCache;
     this.approvalsUtil = approvalsUtil;
     this.notifyResolver = notifyResolver;
+    this.accountResolver = accountResolver;
+    this.permissionBackend = permissionBackend;
   }
 
   public Result cherryPick(
@@ -142,7 +154,8 @@ public class CherryPickChange {
       CherryPickInput input,
       Branch.NameKey dest)
       throws IOException, InvalidChangeOperationException, IntegrationException, UpdateException,
-          RestApiException, ConfigInvalidException, NoSuchProjectException {
+          RestApiException, ConfigInvalidException, NoSuchProjectException,
+          PermissionBackendException {
     return cherryPick(
         batchUpdateFactory,
         change,
@@ -160,9 +173,15 @@ public class CherryPickChange {
       CherryPickInput input,
       Branch.NameKey dest)
       throws IOException, InvalidChangeOperationException, IntegrationException, UpdateException,
-          RestApiException, ConfigInvalidException, NoSuchProjectException {
+          RestApiException, ConfigInvalidException, NoSuchProjectException, AuthException,
+          PermissionBackendException {
+    IdentifiedUser identifiedUser;
+    if (input.onBehalfOf != null) {
+      identifiedUser = onBehalfOf(input, dest);
+    } else {
+      identifiedUser = user.get();
+    }
 
-    IdentifiedUser identifiedUser = user.get();
     try (Repository git = gitManager.openRepository(project);
         // This inserter and revwalk *must* be passed to any BatchUpdates
         // created later on, to ensure the cherry-picked commit is flushed
@@ -375,6 +394,17 @@ public class CherryPickChange {
         firstNonNull(input.notify, NotifyHandling.ALL), input.notifyDetails);
   }
 
+  private IdentifiedUser onBehalfOf(CherryPickInput input, Branch.NameKey branch)
+      throws AuthException, ConfigInvalidException, IOException, PermissionBackendException,
+          UnresolvableAccountException {
+    // Check if the user has forge committer permission
+    PermissionBackend.ForRef perm = permissionBackend.user(user.get()).ref(branch);
+    perm.check(RefPermission.FORGE_COMMITTER);
+    IdentifiedUser cherryPicker =
+        accountResolver.resolve(input.onBehalfOf).asUniqueUserOnBehalfOf(user.get());
+    return cherryPicker;
+  }
+
   private String messageForDestinationChange(
       PatchSet.Id patchSetId,
       Branch.NameKey sourceBranch,
@@ -390,7 +420,9 @@ public class CherryPickChange {
 
     if (!cherryPickCommit.getFilesWithGitConflicts().isEmpty()) {
       stringBuilder.append("\n\nThe following files contain Git conflicts:");
-      cherryPickCommit.getFilesWithGitConflicts().stream()
+      cherryPickCommit
+          .getFilesWithGitConflicts()
+          .stream()
           .sorted()
           .forEach(filePath -> stringBuilder.append("\n* ").append(filePath));
     }

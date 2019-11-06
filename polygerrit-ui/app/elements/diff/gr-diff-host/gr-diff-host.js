@@ -203,9 +203,7 @@
       },
 
       /**
-       * TODO(brohlfs): Replace Object type by Gerrit.CoverageRange.
-       *
-       * @type {!Array<!Object>}
+       * @type {!Array<!Gerrit.CoverageRange>}
        */
       _coverageRanges: {
         type: Array,

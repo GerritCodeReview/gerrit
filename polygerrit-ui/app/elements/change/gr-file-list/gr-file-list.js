@@ -41,26 +41,6 @@
     U: 'Unchanged',
   };
 
-  const Defs = {};
-
-  /**
-   * Object containing layout values to be used in rendering size-bars.
-   * `max{Inserted,Deleted}` represent the largest values of the
-   * `lines_inserted` and `lines_deleted` fields of the files respectively. The
-   * `max{Addition,Deletion}Width` represent the width of the graphic allocated
-   * to the insertion or deletion side respectively. Finally, the
-   * `deletionOffset` value represents the x-position for the deletion bar.
-   *
-   * @typedef {{
-   *    maxInserted: number,
-   *    maxDeleted: number,
-   *    maxAdditionWidth: number,
-   *    maxDeletionWidth: number,
-   *    deletionOffset: number,
-   * }}
-   */
-  Defs.LayoutStats;
-
   Polymer({
     is: 'gr-file-list',
 
@@ -165,7 +145,7 @@
         type: Boolean,
         observer: '_loadingChanged',
       },
-      /** @type {Defs.LayoutStats|undefined} */
+      /** @type {Gerrit.LayoutStats|undefined} */
       _sizeBarLayout: {
         type: Object,
         computed: '_computeSizeBarLayout(_shownFiles.*)',
@@ -1195,7 +1175,7 @@
 
     /**
      * Compute size bar layout values from the file list.
-     * @return {Defs.LayoutStats|undefined}
+     * @return {Gerrit.LayoutStats|undefined}
      */
     _computeSizeBarLayout(shownFilesRecord) {
       if (!shownFilesRecord || !shownFilesRecord.base) { return undefined; }
@@ -1230,7 +1210,7 @@
     /**
      * Get the width of the addition bar for a file.
      * @param {Object} file
-     * @param {Defs.LayoutStats} stats
+     * @param {Gerrit.LayoutStats} stats
      * @return {number}
      */
     _computeBarAdditionWidth(file, stats) {
@@ -1247,7 +1227,7 @@
     /**
      * Get the x-offset of the addition bar for a file.
      * @param {Object} file
-     * @param {Defs.LayoutStats} stats
+     * @param {Gerrit.LayoutStats} stats
      * @return {number}
      */
     _computeBarAdditionX(file, stats) {
@@ -1258,7 +1238,7 @@
     /**
      * Get the width of the deletion bar for a file.
      * @param {Object} file
-     * @param {Defs.LayoutStats} stats
+     * @param {Gerrit.LayoutStats} stats
      * @return {number}
      */
     _computeBarDeletionWidth(file, stats) {
@@ -1274,7 +1254,7 @@
 
     /**
      * Get the x-offset of the deletion bar for a file.
-     * @param {Defs.LayoutStats} stats
+     * @param {Gerrit.LayoutStats} stats
      * @return {number}
      */
     _computeBarDeletionX(stats) {

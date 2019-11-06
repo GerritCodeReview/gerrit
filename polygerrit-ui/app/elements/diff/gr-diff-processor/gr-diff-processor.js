@@ -19,44 +19,6 @@
 
   const WHOLE_FILE = -1;
 
-  const Defs = {};
-
-  /**
-   * The DiffIntralineInfo entity contains information about intraline edits in a
-   * file.
-   *
-   * The information consists of a list of <skip length, mark length> pairs, where
-   * the skip length is the number of characters between the end of the previous
-   * edit and the start of this edit, and the mark length is the number of edited
-   * characters following the skip. The start of the edits is from the beginning
-   * of the related diff content lines.
-   *
-   * Note that the implied newline character at the end of each line is included
-   * in the length calculation, and thus it is possible for the edits to span
-   * newlines.
-   * @typedef {!Array<number>}
-   */
-  Defs.IntralineInfo;
-
-  /**
-   * A portion of the diff that is treated the same.
-   *
-   * Called `DiffContent` in the API, see
-   * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#diff-content
-   *
-   * @typedef {{
-   *  ab: ?Array<!string>,
-   *  a: ?Array<!string>,
-   *  b: ?Array<!string>,
-   *  skip: ?number,
-   *  edit_a: ?Array<!Defs.IntralineInfo>,
-   *  edit_b: ?Array<!Defs.IntralineInfo>,
-   *  due_to_rebase: ?boolean,
-   *  common: ?boolean
-   * }}
-   */
-  Defs.Chunk;
-
   const DiffSide = {
     LEFT: 'left',
     RIGHT: 'right',
@@ -171,7 +133,7 @@
     /**
      * Asynchronously process the diff chunks into groups. As it processes, it
      * will splice groups into the `groups` property of the component.
-     * @param {!Array<!Defs.Chunk>} chunks
+     * @param {!Array<!Gerrit.DiffChunk>} chunks
      * @param {boolean} isBinary
      * @return {!Promise<!Array<!Object>>} A promise that resolves with an
      *     array of GrDiffGroups when the diff is completely processed.
@@ -411,7 +373,7 @@
      * @param {string} lineType (GrDiffLine.Type)
      * @param {!Array<string>} rows
      * @param {number} offset
-     * @param {?Array<!Defs.IntralineInfo>=} opt_intralineInfos
+     * @param {?Array<!Gerrit.IntralineInfo>=} opt_intralineInfos
      * @return {!Array<!Object>} (GrDiffLine)
      */
     _linesFromRows(lineType, rows, offset, opt_intralineInfos) {
@@ -464,8 +426,8 @@
      * into 2 chunks, one max sized one and the rest (for reasons that are
      * unclear to me).
      *
-     * @param {!Array<!Defs.Chunk>} chunks Chunks as returned from the server
-     * @return {!Array<!Defs.Chunk>} Finer grained chunks.
+     * @param {!Array<!Gerrit.DiffChunk>} chunks Chunks as returned from the server
+     * @return {!Array<!Gerrit.DiffChunk>} Finer grained chunks.
      */
     _splitLargeChunks(chunks) {
       const newChunks = [];
@@ -592,7 +554,7 @@
      * for rendering.
      *
      * @param {!Array<string>} rows
-     * @param {!Array<!Defs.IntralineInfo>} intralineInfos
+     * @param {!Array<!Gerrit.IntralineInfo>} intralineInfos
      * @return {!Array<!Object>} (GrDiffLine.Highlight)
      */
     _convertIntralineInfos(rows, intralineInfos) {
@@ -641,7 +603,7 @@
      * If a group is an addition or a removal, break it down into smaller groups
      * of that type using the MAX_GROUP_SIZE. If the group is a shared chunk
      * or a delta it is returned as the single element of the result array.
-     * @param {!Defs.Chunk} chunk A raw chunk from a diff response.
+     * @param {!Gerrit.DiffChunk} chunk A raw chunk from a diff response.
      * @return {!Array<!Array<!Object>>}
      */
     _breakdownChunk(chunk) {

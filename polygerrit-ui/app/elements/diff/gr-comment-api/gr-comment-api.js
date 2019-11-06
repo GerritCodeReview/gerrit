@@ -19,35 +19,6 @@
 
   const PARENT = 'PARENT';
 
-  const Defs = {};
-
-  /**
-   * @typedef {{
-   *    basePatchNum: (string|number),
-   *    patchNum: (number),
-   * }}
-   */
-  Defs.patchRange;
-
-  /**
-   * @typedef {{
-   *    changeNum: number,
-   *    path: string,
-   *    patchRange: !Defs.patchRange,
-   *    projectConfig: (Object|undefined),
-   * }}
-   */
-  Defs.commentMeta;
-
-  /**
-   * @typedef {{
-   *    meta: !Defs.commentMeta,
-   *    left: !Array,
-   *    right: !Array,
-   * }}
-   */
-  Defs.commentsBySide;
-
   /**
    * Construct a change comments object, which can be data-bound to child
    * elements of that which uses the gr-comment-api.
@@ -92,7 +63,7 @@
    * Paths with comments are mapped to true, whereas paths without comments
    * are not mapped.
    *
-   * @param {Defs.patchRange=} opt_patchRange The patch-range object containing
+   * @param {Gerrit.PatchRange=} opt_patchRange The patch-range object containing
    *     patchNum and basePatchNum properties to represent the range.
    * @return {!Object}
    */
@@ -251,11 +222,11 @@
    * arrays of comments in on either side of the patch range for that path.
    *
    * @param {!string} path
-   * @param {!Defs.patchRange} patchRange The patch-range object containing patchNum
+   * @param {!Gerrit.PatchRange} patchRange The patch-range object containing patchNum
    *     and basePatchNum properties to represent the range.
    * @param {Object=} opt_projectConfig Optional project config object to
    *     include in the meta sub-object.
-   * @return {!Defs.commentsBySide}
+   * @return {!Gerrit.CommentsBySide}
    */
   ChangeComments.prototype.getCommentsBySideForPath = function(path,
       patchRange, opt_projectConfig) {
@@ -438,7 +409,7 @@
   * Whether the given comment should be included in the base side of the
   * given patch range.
   * @param {!Object} comment
-  * @param {!Defs.patchRange} range
+  * @param {!Gerrit.PatchRange} range
   * @return {boolean}
   */
   ChangeComments.prototype._isInBaseOfPatchRange = function(comment, range) {
@@ -469,7 +440,7 @@
    * Whether the given comment should be included in the revision side of the
    * given patch range.
    * @param {!Object} comment
-   * @param {!Defs.patchRange} range
+   * @param {!Gerrit.PatchRange} range
    * @return {boolean}
    */
   ChangeComments.prototype._isInRevisionOfPatchRange = function(comment,
@@ -481,7 +452,7 @@
   /**
    * Whether the given comment should be included in the given patch range.
    * @param {!Object} comment
-   * @param {!Defs.patchRange} range
+   * @param {!Gerrit.PatchRange} range
    * @return {boolean|undefined}
    */
   ChangeComments.prototype._isInPatchRange = function(comment, range) {

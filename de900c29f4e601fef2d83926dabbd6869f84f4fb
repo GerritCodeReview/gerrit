@@ -22,6 +22,30 @@
       "revId": "de900c29f4e601fef2d83926dabbd6869f84f4fb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "81e368ed_c200a8e8",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2019-11-06T09:24:49Z",
+      "side": 1,
+      "message": "I tried in new patchset with better comment. Reload with haveParamsChanged \u003d true is a best signal that this was done on DiffPage when location changed to DiffPage.",
+      "parentUuid": "22e52c1d_556103cc",
+      "range": {
+        "startLine": 276,
+        "startChar": 25,
+        "endLine": 278,
+        "endChar": 0
+      },
+      "revId": "de900c29f4e601fef2d83926dabbd6869f84f4fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

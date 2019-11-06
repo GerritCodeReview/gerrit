@@ -152,7 +152,7 @@ limitations under the License.
         usernameChangedSpy = sandbox.spy(element, '_usernameChanged');
         statusChangedSpy = sandbox.spy(element, '_statusChanged');
         element.set('_serverConfig',
-          {auth: {editable_account_fields: ['FULL_NAME', 'USER_NAME']}});
+            {auth: {editable_account_fields: ['FULL_NAME', 'USER_NAME']}});
 
         nameStub = sandbox.stub(element.$.restAPI, 'setAccountName',
             name => Promise.resolve());
@@ -280,7 +280,7 @@ limitations under the License.
       setup(() => {
         statusChangedSpy = sandbox.spy(element, '_statusChanged');
         element.set('_serverConfig',
-          {auth: {editable_account_fields: []}});
+            {auth: {editable_account_fields: []}});
 
         statusStub = sandbox.stub(element.$.restAPI, 'setAccountStatus',
             status => Promise.resolve());

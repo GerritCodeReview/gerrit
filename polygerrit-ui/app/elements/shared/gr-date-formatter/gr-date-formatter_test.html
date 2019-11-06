@@ -89,7 +89,7 @@ limitations under the License.
     suite('24 hours time format preference', () => {
       setup(() => {
         return stubRestAPI(
-          {time_format: 'HHMM_24', relative_date_in_change_table: false}
+            {time_format: 'HHMM_24', relative_date_in_change_table: false}
         ).then(() => {
           element = fixture('basic');
           sandbox.stub(element, '_getUtcOffsetString').returns('');
@@ -139,7 +139,7 @@ limitations under the License.
       setup(() => {
         // relative_date_in_change_table is not set when false.
         return stubRestAPI(
-          {time_format: 'HHMM_12'}
+            {time_format: 'HHMM_12'}
         ).then(() => {
           element = fixture('basic');
           sandbox.stub(element, '_getUtcOffsetString').returns('');
@@ -159,7 +159,7 @@ limitations under the License.
     suite('relative date preference', () => {
       setup(() => {
         return stubRestAPI(
-          {time_format: 'HHMM_12', relative_date_in_change_table: true}
+            {time_format: 'HHMM_12', relative_date_in_change_table: true}
         ).then(() => {
           element = fixture('basic');
           sandbox.stub(element, '_getUtcOffsetString').returns('');
@@ -187,7 +187,7 @@ limitations under the License.
     suite('logged in', () => {
       setup(() => {
         return stubRestAPI(
-          {time_format: 'HHMM_12', relative_date_in_change_table: true}
+            {time_format: 'HHMM_12', relative_date_in_change_table: true}
         ).then(() => {
           element = fixture('basic');
           return element._loadPreferences();

@@ -509,7 +509,7 @@ limitations under the License.
               'getB64FileContents',
               (changeId, patchNum, path, opt_parentIndex) => {
                 return Promise.resolve(opt_parentIndex === 1 ? mockFile1 :
-                    mockFile2);
+                  mockFile2);
               });
 
           element.patchRange = {basePatchNum: 'PARENT', patchNum: 1};

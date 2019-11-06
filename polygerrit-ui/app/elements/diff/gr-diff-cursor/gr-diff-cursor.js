@@ -196,7 +196,7 @@
       if (!this.diffRow) return null;
 
       const hostOwner = Polymer.dom(/** @type {Node} */ (this.diffRow))
-        .getOwnerRoot();
+          .getOwnerRoot();
       if (hostOwner && hostOwner.host &&
           hostOwner.host.tagName === 'GR-DIFF') {
         return hostOwner.host;
@@ -232,8 +232,8 @@
       if (!this.diffRow) {
         // does not scroll during init unless requested
         const scrollingBehaviorForInit = this.initialLineNumber ?
-            ScrollBehavior.KEEP_VISIBLE :
-            ScrollBehavior.NEVER;
+          ScrollBehavior.KEEP_VISIBLE :
+          ScrollBehavior.NEVER;
         this._scrollBehavior = scrollingBehaviorForInit;
         this.reInitCursor();
       }
@@ -315,7 +315,7 @@
       if (this._getViewMode() === DiffViewMode.SIDE_BY_SIDE &&
           this._isTargetBlank()) {
         this.side = this.side === DiffSides.LEFT ?
-            DiffSides.RIGHT : DiffSides.LEFT;
+          DiffSides.RIGHT : DiffSides.LEFT;
       }
     },
 
@@ -391,15 +391,15 @@
         splice = changeRecord.indexSplices[spliceIdx];
 
         for (i = splice.index;
-            i < splice.index + splice.addedCount;
-            i++) {
+          i < splice.index + splice.addedCount;
+          i++) {
           this.listen(this.diffs[i], 'render-start', '_handleDiffRenderStart');
           this.listen(this.diffs[i], 'render-content', 'handleDiffUpdate');
         }
 
         for (i = 0;
-            i < splice.removed && splice.removed.length;
-            i++) {
+          i < splice.removed && splice.removed.length;
+          i++) {
           this.unlisten(splice.removed[i],
               'render-start', '_handleDiffRenderStart');
           this.unlisten(splice.removed[i],

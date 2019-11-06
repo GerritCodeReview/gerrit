@@ -123,7 +123,7 @@
 
     _hideAggreements(item, groups, signedAgreements) {
       return this._disableAggreements(item, groups, signedAgreements) ?
-          '' : 'hide';
+        '' : 'hide';
     },
 
     _disableAgreementsText(text) {

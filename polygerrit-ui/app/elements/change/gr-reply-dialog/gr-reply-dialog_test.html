@@ -414,8 +414,8 @@ limitations under the License.
       }).then(() => {
         assert.isFalse(isVisible(element.$.reviewerConfirmationOverlay));
         const additions = cc ?
-            element.$.ccs.additions() :
-            element.$.reviewers.additions();
+          element.$.ccs.additions() :
+          element.$.reviewers.additions();
         assert.deepEqual(
             additions,
             [
@@ -843,7 +843,7 @@ limitations under the License.
       // Send and purge and verify moves, delete cc3.
       element.send()
           .then(keepReviewers =>
-              element._purgeReviewersPendingRemove(false, keepReviewers))
+            element._purgeReviewersPendingRemove(false, keepReviewers))
           .then(() => {
             assert.deepEqual(
                 mutations, [
@@ -1084,7 +1084,7 @@ limitations under the License.
           /* reviewersMutated= */ false,
           /* labelsChanged= */ false,
           /* includeComments= */ false,
-          /* disabled= */ false,
+          /* disabled= */ false
       ));
       assert.isTrue(fn(
           /* buttonLabel= */ 'Send',
@@ -1093,7 +1093,7 @@ limitations under the License.
           /* reviewersMutated= */ false,
           /* labelsChanged= */ false,
           /* includeComments= */ false,
-          /* disabled= */ false,
+          /* disabled= */ false
       ));
       // Mock nonempty comment draft array, with seding comments.
       assert.isFalse(fn(
@@ -1103,7 +1103,7 @@ limitations under the License.
           /* reviewersMutated= */ false,
           /* labelsChanged= */ false,
           /* includeComments= */ true,
-          /* disabled= */ false,
+          /* disabled= */ false
       ));
       // Mock nonempty comment draft array, without seding comments.
       assert.isTrue(fn(
@@ -1113,7 +1113,7 @@ limitations under the License.
           /* reviewersMutated= */ false,
           /* labelsChanged= */ false,
           /* includeComments= */ false,
-          /* disabled= */ false,
+          /* disabled= */ false
       ));
       // Mock nonempty change message.
       assert.isFalse(fn(
@@ -1123,7 +1123,7 @@ limitations under the License.
           /* reviewersMutated= */ false,
           /* labelsChanged= */ false,
           /* includeComments= */ false,
-          /* disabled= */ false,
+          /* disabled= */ false
       ));
       // Mock reviewers mutated.
       assert.isFalse(fn(
@@ -1133,7 +1133,7 @@ limitations under the License.
           /* reviewersMutated= */ true,
           /* labelsChanged= */ false,
           /* includeComments= */ false,
-          /* disabled= */ false,
+          /* disabled= */ false
       ));
       // Mock labels changed.
       assert.isFalse(fn(
@@ -1143,7 +1143,7 @@ limitations under the License.
           /* reviewersMutated= */ false,
           /* labelsChanged= */ true,
           /* includeComments= */ false,
-          /* disabled= */ false,
+          /* disabled= */ false
       ));
       // Whole dialog is disabled.
       assert.isTrue(fn(
@@ -1153,7 +1153,7 @@ limitations under the License.
           /* reviewersMutated= */ false,
           /* labelsChanged= */ true,
           /* includeComments= */ false,
-          /* disabled= */ true,
+          /* disabled= */ true
       ));
     });
 

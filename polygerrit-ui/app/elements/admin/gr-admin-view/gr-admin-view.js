@@ -105,23 +105,23 @@
             .then(res => {
               this._filteredLinks = res.links;
               this._breadcrumbParentName = res.expandedSection ?
-                  res.expandedSection.name : '';
+                res.expandedSection.name : '';
 
               if (!res.expandedSection) {
                 this._subsectionLinks = [];
                 return;
               }
               this._subsectionLinks = [res.expandedSection]
-              .concat(res.expandedSection.children).map(section => {
-                return {
-                  text: !section.detailType ? 'Home' : section.name,
-                  value: section.view + (section.detailType || ''),
-                  view: section.view,
-                  url: section.url,
-                  detailType: section.detailType,
-                  parent: this._groupId || this._repoName || '',
-                };
-              });
+                  .concat(res.expandedSection.children).map(section => {
+                    return {
+                      text: !section.detailType ? 'Home' : section.name,
+                      value: section.view + (section.detailType || ''),
+                      view: section.view,
+                      url: section.url,
+                      detailType: section.detailType,
+                      parent: this._groupId || this._repoName || '',
+                    };
+                  });
             });
       });
     },

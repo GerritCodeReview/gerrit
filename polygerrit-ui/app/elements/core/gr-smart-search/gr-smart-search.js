@@ -144,8 +144,8 @@
       return accounts.map(account => ({
         label: account.name || '',
         text: account.email ?
-            `${predicate}:${account.email}` :
-            `${predicate}:"${this._accountOrAnon(account)}"`,
+          `${predicate}:${account.email}` :
+          `${predicate}:"${this._accountOrAnon(account)}"`,
       }));
     },
   });

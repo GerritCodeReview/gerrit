@@ -123,7 +123,7 @@ limitations under the License.
       const labelName = 'Code-Review';
       assert.strictEqual(element._getVoteForAccount(
           element.change.labels, labelName, element.account),
-          '+1');
+      '+1');
     });
 
     test('_computeColumns', () => {
@@ -187,10 +187,10 @@ limitations under the License.
           {name: 'Verified', value: null}
       ]);
       element.set(['change', 'labels', 'Verified', 'all'],
-         [{_account_id: 123, value: 1}]);
+          [{_account_id: 123, value: 1}]);
       assert.deepEqual(element._labels, [
-          {name: 'Code-Review', value: null},
-          {name: 'Verified', value: '+1'},
+        {name: 'Code-Review', value: null},
+        {name: 'Verified', value: '+1'},
       ]);
     });
   });

@@ -206,8 +206,9 @@ limitations under the License.
           id: 'administrateServer',
           value: {},
         };
-        assert.equal(element._computePermissionName(name, permission,
-            element.permissionValues, element.capabilities),
+        assert.equal(
+            element._computePermissionName(name, permission,
+                element.permissionValues, element.capabilities),
             element.capabilities[permission.id].name);
 
         name = 'refs/for/*';
@@ -216,8 +217,9 @@ limitations under the License.
           value: {},
         };
 
-        assert.equal(element._computePermissionName(
-            name, permission, element.permissionValues, element.capabilities),
+        assert.equal(
+            element._computePermissionName(
+                name, permission, element.permissionValues, element.capabilities),
             element.permissionValues[permission.id].name);
 
         name = 'refs/for/*';
@@ -228,8 +230,9 @@ limitations under the License.
           },
         };
 
-        assert.equal(element._computePermissionName(name, permission,
-            element.permissionValues, element.capabilities),
+        assert.equal(
+            element._computePermissionName(name, permission,
+                element.permissionValues, element.capabilities),
             'Label Code-Review');
 
         permission = {
@@ -239,8 +242,9 @@ limitations under the License.
           },
         };
 
-        assert.equal(element._computePermissionName(name, permission,
-            element.permissionValues, element.capabilities),
+        assert.equal(
+            element._computePermissionName(name, permission,
+                element.permissionValues, element.capabilities),
             'Label Code-Review(On Behalf Of)');
       });
 

@@ -64,19 +64,21 @@ limitations under the License.
     });
 
     test('computed fields', () => {
-      assert.equal(element._computeAccountTitle(
-          {
+      assert.equal(
+          element._computeAccountTitle({
             name: 'Andrew Bonventre',
             email: 'andybons+gerrit@gmail.com',
           }, /* additionalText= */ ''),
           'Andrew Bonventre <andybons+gerrit@gmail.com>');
 
-      assert.equal(element._computeAccountTitle(
-          {name: 'Andrew Bonventre'}, /* additionalText= */ ''),
+      assert.equal(
+          element._computeAccountTitle({
+            name: 'Andrew Bonventre',
+          }, /* additionalText= */ ''),
           'Andrew Bonventre');
 
-      assert.equal(element._computeAccountTitle(
-          {
+      assert.equal(
+          element._computeAccountTitle({
             email: 'andybons+gerrit@gmail.com',
           }, /* additionalText= */ ''),
           'Anonymous <andybons+gerrit@gmail.com>');
@@ -94,9 +96,9 @@ limitations under the License.
 
       assert.equal(element._computeShowEmailClass(
           {name: 'Andrew Bonventre'},
-          /* additionalText= */ '',
+          /* additionalText= */ ''
       ),
-          '');
+      '');
 
       assert.equal(element._computeShowEmailClass(undefined), '');
 

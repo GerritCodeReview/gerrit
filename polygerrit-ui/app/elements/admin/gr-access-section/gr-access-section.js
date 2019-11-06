@@ -224,8 +224,8 @@
 
     editRefInput() {
       return Polymer.dom(this.root).querySelector(Polymer.Element ?
-          'iron-input.editRefInput' :
-          'input[is=iron-input].editRefInput');
+        'iron-input.editRefInput' :
+        'input[is=iron-input].editRefInput');
     },
 
     editReference() {

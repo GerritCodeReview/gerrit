@@ -269,28 +269,28 @@ limitations under the License.
       assert.isTrue(element._loading);
       assert(diffNavStub.lastCall.calledWithExactly(element._change,
           'wheatley.md', '10', '5'),
-          'Should navigate to /c/42/5..10/wheatley.md');
+      'Should navigate to /c/42/5..10/wheatley.md');
       element._path = 'wheatley.md';
 
       MockInteractions.pressAndReleaseKeyOn(element, 219, null, '[');
       assert.isTrue(element._loading);
       assert(diffNavStub.lastCall.calledWithExactly(element._change,
           'glados.txt', '10', '5'),
-          'Should navigate to /c/42/5..10/glados.txt');
+      'Should navigate to /c/42/5..10/glados.txt');
       element._path = 'glados.txt';
 
       MockInteractions.pressAndReleaseKeyOn(element, 219, null, '[');
       assert.isTrue(element._loading);
       assert(diffNavStub.lastCall.calledWithExactly(element._change, 'chell.go',
           '10', '5'),
-          'Should navigate to /c/42/5..10/chell.go');
+      'Should navigate to /c/42/5..10/chell.go');
       element._path = 'chell.go';
 
       MockInteractions.pressAndReleaseKeyOn(element, 219, null, '[');
       assert.isTrue(element._loading);
       assert(changeNavStub.lastCall.calledWithExactly(element._change, '10',
           '5'),
-          'Should navigate to /c/42/5..10');
+      'Should navigate to /c/42/5..10');
     });
 
     test('keyboard shortcuts with old patch number', () => {
@@ -332,13 +332,13 @@ limitations under the License.
       MockInteractions.pressAndReleaseKeyOn(element, 221, null, ']');
       assert(diffNavStub.lastCall.calledWithExactly(element._change,
           'wheatley.md', '1', PARENT),
-          'Should navigate to /c/42/1/wheatley.md');
+      'Should navigate to /c/42/1/wheatley.md');
       element._path = 'wheatley.md';
 
       MockInteractions.pressAndReleaseKeyOn(element, 219, null, '[');
       assert(diffNavStub.lastCall.calledWithExactly(element._change,
           'glados.txt', '1', PARENT),
-          'Should navigate to /c/42/1/glados.txt');
+      'Should navigate to /c/42/1/glados.txt');
       element._path = 'glados.txt';
 
       MockInteractions.pressAndReleaseKeyOn(element, 219, null, '[');

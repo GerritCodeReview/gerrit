@@ -203,7 +203,7 @@
     messages.forEach((message, index) => {
       const messageDate = util.parseDate(message.date).getTime();
       const nextMessageDate = index === messages.length - 1 ? null :
-          util.parseDate(messages[index + 1].date).getTime();
+        util.parseDate(messages[index + 1].date).getTime();
       for (const update of updates) {
         const date = util.parseDate(update.date).getTime();
         if (date >= messageDate
@@ -211,7 +211,7 @@
           const timestamp = util.parseDate(update.date).getTime() -
               GrReviewerUpdatesParser.MESSAGE_REVIEWERS_THRESHOLD_MILLIS;
           update.date = new Date(timestamp)
-            .toISOString().replace('T', ' ').replace('Z', '000000');
+              .toISOString().replace('T', ' ').replace('Z', '000000');
         }
         if (nextMessageDate && date > nextMessageDate) {
           break;

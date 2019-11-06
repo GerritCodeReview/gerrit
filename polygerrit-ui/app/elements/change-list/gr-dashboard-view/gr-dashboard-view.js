@@ -109,21 +109,21 @@
       };
       return this.$.restAPI.getDashboard(
           project, dashboard, errFn).then(response => {
-            if (!response) {
-              return;
-            }
+        if (!response) {
+          return;
+        }
+        return {
+          title: response.title,
+          sections: response.sections.map(section => {
+            const suffix = response.foreach ? ' ' + response.foreach : '';
             return {
-              title: response.title,
-              sections: response.sections.map(section => {
-                const suffix = response.foreach ? ' ' + response.foreach : '';
-                return {
-                  name: section.name,
-                  query: (section.query + suffix).replace(
-                      PROJECT_PLACEHOLDER_PATTERN, project),
-                };
-              }),
+              name: section.name,
+              query: (section.query + suffix).replace(
+                  PROJECT_PLACEHOLDER_PATTERN, project),
             };
-          });
+          }),
+        };
+      });
     },
 
     _computeTitle(user) {
@@ -156,11 +156,11 @@
       this._loading = true;
       const {project, dashboard, title, user, sections} = this.params;
       const dashboardPromise = project ?
-          this._getProjectDashboard(project, dashboard) :
-          Promise.resolve(Gerrit.Nav.getUserDashboard(
-              user,
-              sections,
-              title || this._computeTitle(user)));
+        this._getProjectDashboard(project, dashboard) :
+        Promise.resolve(Gerrit.Nav.getUserDashboard(
+            user,
+            sections,
+            title || this._computeTitle(user)));
 
       const checkForNewUser = !project && user === 'self';
       return dashboardPromise
@@ -194,8 +194,8 @@
 
       const queries = res.sections
           .map(section => section.suffixForDashboard ?
-              section.query + ' ' + section.suffixForDashboard :
-              section.query);
+            section.query + ' ' + section.suffixForDashboard :
+            section.query);
 
       if (checkForNewUser) {
         queries.push('owner:self limit:1');
@@ -215,7 +215,7 @@
               results,
               isOutgoing: res.sections[i].isOutgoing,
             })).filter((section, i) => i < res.sections.length && (
-                !res.sections[i].hideIfEmpty ||
+              !res.sections[i].hideIfEmpty ||
                 section.results.length));
           });
     },

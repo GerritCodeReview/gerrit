@@ -147,7 +147,7 @@
      */
     _logCall(req, startTime, status) {
       const method = (req.fetchOptions && req.fetchOptions.method) ?
-          req.fetchOptions.method : 'GET';
+        req.fetchOptions.method : 'GET';
       const endTime = Date.now();
       const elapsed = (endTime - startTime);
       const startAt = new Date(startTime);
@@ -339,7 +339,7 @@
         options.headers.set(
             'Content-Type', req.contentType || 'application/json');
         options.body = typeof req.body === 'string' ?
-            req.body : JSON.stringify(req.body);
+          req.body : JSON.stringify(req.body);
       }
       if (req.headers) {
         if (!options.headers) { options.headers = new Headers(); }
@@ -349,7 +349,7 @@
         }
       }
       const url = req.url.startsWith('http') ?
-          req.url : this.getBaseUrl() + req.url;
+        req.url : this.getBaseUrl() + req.url;
       const fetchReq = {
         url,
         fetchOptions: options,

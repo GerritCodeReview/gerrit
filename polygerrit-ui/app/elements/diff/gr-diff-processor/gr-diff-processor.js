@@ -290,7 +290,7 @@
       if (this.context !== WHOLE_FILE) {
         const hiddenStart = state.chunkIndex === 0 ? 0 : this.context;
         const hiddenEnd = lineCount - (
-            firstUncollapsibleChunkIndex === chunks.length ?
+          firstUncollapsibleChunkIndex === chunks.length ?
             0 : this.context);
         groups = GrDiffGroup.hideInContextControl(
             groups, hiddenStart, hiddenEnd);
@@ -483,7 +483,7 @@
 
         if (chunk.common && chunk.a.length != chunk.b.length) {
           throw new Error(
-            'DiffContent with common=true must always have equal length');
+              'DiffContent with common=true must always have equal length');
         }
         const numLines = this._commonChunkLength(chunk);
         const chunkEnds = this._findChunkEndsAtKeyLocations(
@@ -494,7 +494,7 @@
         if (chunk.ab) {
           result.push(...this._splitAtChunkEnds(chunk.ab, chunkEnds)
               .map(({lines, keyLocation}) =>
-                  Object.assign({}, chunk, {ab: lines, keyLocation})));
+                Object.assign({}, chunk, {ab: lines, keyLocation})));
         } else if (chunk.common) {
           const aChunks = this._splitAtChunkEnds(chunk.a, chunkEnds);
           const bChunks = this._splitAtChunkEnds(chunk.b, chunkEnds);

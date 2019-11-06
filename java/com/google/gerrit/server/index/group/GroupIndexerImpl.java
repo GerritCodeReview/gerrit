@@ -23,6 +23,7 @@ import com.google.gerrit.extensions.events.GroupIndexedListener;
 import com.google.gerrit.index.Index;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.group.InternalGroup;
+import com.google.gerrit.server.index.StalenessCheckResult;
 import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.logging.TraceContext.TraceTimer;
@@ -116,7 +117,9 @@ public class GroupIndexerImpl implements GroupIndexer {
   @Override
   public boolean reindexIfStale(AccountGroup.UUID uuid) {
     try {
-      if (stalenessChecker.isStale(uuid)) {
+      StalenessCheckResult stalenessCheckResult = stalenessChecker.check(uuid);
+      if (stalenessCheckResult.isStale()) {
+        logger.atInfo().log("Reindexing stale document %s", stalenessCheckResult);
         index(uuid);
         return true;
       }

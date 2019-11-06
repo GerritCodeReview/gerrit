@@ -35,6 +35,7 @@ import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.RefState;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.index.StalenessCheckResult;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -68,27 +69,28 @@ public class StalenessChecker {
     this.indexConfig = indexConfig;
   }
 
-  public boolean isStale(Change.Id id) {
+  public StalenessCheckResult check(Change.Id id) {
     ChangeIndex i = indexes.getSearchIndex();
     if (i == null) {
-      return false; // No index; caller couldn't do anything if it is stale.
+      return StalenessCheckResult
+          .notStale(); // No index; caller couldn't do anything if it is stale.
     }
     if (!i.getSchema().hasField(ChangeField.REF_STATE)
         || !i.getSchema().hasField(ChangeField.REF_STATE_PATTERN)) {
-      return false; // Index version not new enough for this check.
+      return StalenessCheckResult.notStale(); // Index version not new enough for this check.
     }
 
     Optional<ChangeData> result =
         i.get(id, IndexedChangeQuery.createOptions(indexConfig, 0, 1, FIELDS));
     if (!result.isPresent()) {
-      return true; // Not in index, but caller wants it to be.
+      return StalenessCheckResult.stale("Document %s missing from index", id);
     }
     ChangeData cd = result.get();
-    return isStale(repoManager, id, parseStates(cd), parsePatterns(cd));
+    return check(repoManager, id, parseStates(cd), parsePatterns(cd));
   }
 
   @UsedAt(UsedAt.Project.GOOGLE)
-  public static boolean isStale(
+  public static StalenessCheckResult check(
       GitRepositoryManager repoManager,
       Change.Id id,
       SetMultimap<Project.NameKey, RefState> states,
@@ -97,7 +99,7 @@ public class StalenessChecker {
   }
 
   @VisibleForTesting
-  static boolean refsAreStale(
+  static StalenessCheckResult refsAreStale(
       GitRepositoryManager repoManager,
       Change.Id id,
       SetMultimap<Project.NameKey, RefState> states,
@@ -105,12 +107,13 @@ public class StalenessChecker {
     Set<Project.NameKey> projects = Sets.union(states.keySet(), patterns.keySet());
 
     for (Project.NameKey p : projects) {
-      if (refsAreStale(repoManager, id, p, states, patterns)) {
-        return true;
+      StalenessCheckResult result = refsAreStale(repoManager, id, p, states, patterns);
+      if (result.isStale()) {
+        return result;
       }
     }
 
-    return false;
+    return StalenessCheckResult.notStale();
   }
 
   private SetMultimap<Project.NameKey, RefState> parseStates(ChangeData cd) {
@@ -136,7 +139,7 @@ public class StalenessChecker {
     return result;
   }
 
-  private static boolean refsAreStale(
+  private static StalenessCheckResult refsAreStale(
       GitRepositoryManager repoManager,
       Change.Id id,
       Project.NameKey project,
@@ -146,18 +149,22 @@ public class StalenessChecker {
       Set<RefState> states = allStates.get(project);
       for (RefState state : states) {
         if (!state.match(repo)) {
-          return true;
+          return StalenessCheckResult.stale(
+              "Ref states don't match for document %s (%s != %s)",
+              id, state, repo.exactRef(state.ref()));
         }
       }
       for (RefStatePattern pattern : allPatterns.get(project)) {
         if (!pattern.match(repo, states)) {
-          return true;
+          return StalenessCheckResult.stale(
+              "Ref patterns don't match for document %s. Pattern: %s States: %s",
+              id, pattern, states);
         }
       }
-      return false;
+      return StalenessCheckResult.notStale();
     } catch (IOException e) {
       logger.atWarning().withCause(e).log("error checking staleness of %s in %s", id, project);
-      return true;
+      return StalenessCheckResult.stale("Exceptions while processing document %s", e.getMessage());
     }
   }
 

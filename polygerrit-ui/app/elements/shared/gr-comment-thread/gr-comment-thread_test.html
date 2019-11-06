@@ -161,6 +161,9 @@ limitations under the License.
       showActions = true;
       lastComment.__draft = true;
       assert.equal(element._hideActions(showActions, lastComment), true);
+      const robotComment = {};
+      robotComment.robot_id = true;
+      assert.equal(element._hideActions(showActions, robotComment), true);
     });
 
     test('setting project name loads the project config', done => {

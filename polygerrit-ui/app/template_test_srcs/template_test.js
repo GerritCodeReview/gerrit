@@ -5,9 +5,6 @@ const twinkie = require('fried-twinkie');
  * For the purposes of template type checking, externs should be added for
  * anything set on the window object. Note that sub-properties of these
  * declared properties are considered something separate.
- *
- * @todo (beckysiegel) Gerrit's class definitions should be recognized in
- *    closure types.
  */
 const EXTERN_NAMES = [
   'Gerrit',
@@ -96,6 +93,13 @@ fs.readdir('./polygerrit-ui/temp/behaviors/', (err, data) => {
     path: 'custom-externs.js',
     src: '/** @externs */' +
         EXTERN_NAMES.map( name => { return `var ${name};`; }).join(' '),
+  });
+
+  /** Types in Gerrit */
+  additionalSources.push({
+    path: './polygerrit-ui/app/types/types.js',
+    src: fs.readFileSync(
+        `./polygerrit-ui/app/types/types.js`, 'utf-8'),
   });
 
   const toCheck = [];

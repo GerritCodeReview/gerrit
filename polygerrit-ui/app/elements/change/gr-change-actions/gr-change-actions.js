@@ -50,7 +50,6 @@
     OPTIONAL: 'OPTIONAL',
   };
 
-  // TODO(davido): Add the rest of the change actions.
   const ChangeActions = {
     ABANDON: 'abandon',
     DELETE: '/',
@@ -72,7 +71,6 @@
     WIP: 'wip',
   };
 
-  // TODO(andybons): Add the rest of the revision actions.
   const RevisionActions = {
     CHERRYPICK: 'cherrypick',
     REBASE: 'rebase',
@@ -1071,7 +1069,6 @@
     _handleCherryPickRestApi(conflicts) {
       const el = this.$.confirmCherrypick;
       if (!el.branch) {
-        // TODO(davido): Fix error handling
         this.fire('show-alert', {message: ERR_BRANCH_EMPTY});
         return;
       }

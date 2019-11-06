@@ -17,74 +17,6 @@
 (function() {
   'use strict';
 
-  const Defs = {};
-
-  /**
-   * @typedef {{
-   *    basePatchNum: (string|number),
-   *    patchNum: (number),
-   * }}
-   */
-  Defs.patchRange;
-
-  /**
-   * @typedef {{
-   *   changeNum: (string|number),
-   *   endpoint: string,
-   *   patchNum: (string|number|null|undefined),
-   *   errFn: (function(?Response, string=)|null|undefined),
-   *   params: (Object|null|undefined),
-   *   fetchOptions: (Object|null|undefined),
-   *   anonymizedEndpoint: (string|undefined),
-   *   reportEndpointAsIs: (boolean|undefined),
-   * }}
-   */
-  Defs.ChangeFetchRequest;
-
-  /**
-   * Object to describe a request for passing into _send.
-   * - method is the HTTP method to use in the request.
-   * - url is the URL for the request
-   * - body is a request payload.
-   *     TODO (beckysiegel) remove need for number at least.
-   * - errFn is a function to invoke when the request fails.
-   * - cancelCondition is a function that, if provided and returns true, will
-   *   cancel the response after it resolves.
-   * - contentType is the content type of the body.
-   * - headers is a key-value hash to describe HTTP headers for the request.
-   * - parseResponse states whether the result should be parsed as a JSON
-   *     object using getResponseObject.
-   * @typedef {{
-   *   method: string,
-   *   url: string,
-   *   body: (string|number|Object|null|undefined),
-   *   errFn: (function(?Response, string=)|null|undefined),
-   *   contentType: (string|null|undefined),
-   *   headers: (Object|undefined),
-   *   parseResponse: (boolean|undefined),
-   *   anonymizedUrl: (string|undefined),
-   *   reportUrlAsIs: (boolean|undefined),
-   * }}
-   */
-  Defs.SendRequest;
-
-  /**
-   * @typedef {{
-   *   changeNum: (string|number),
-   *   method: string,
-   *   patchNum: (string|number|undefined),
-   *   endpoint: string,
-   *   body: (string|number|Object|null|undefined),
-   *   errFn: (function(?Response, string=)|null|undefined),
-   *   contentType: (string|null|undefined),
-   *   headers: (Object|undefined),
-   *   parseResponse: (boolean|undefined),
-   *   anonymizedEndpoint: (string|undefined),
-   *   reportEndpointAsIs: (boolean|undefined),
-   * }}
-   */
-  Defs.ChangeSendRequest;
-
   const DiffViewMode = {
     SIDE_BY_SIDE: 'SIDE_BY_SIDE',
     UNIFIED: 'UNIFIED_DIFF',
@@ -1194,7 +1126,7 @@
 
     /**
      * @param {number|string} changeNum
-     * @param {Defs.patchRange} patchRange
+     * @param {Gerrit.PatchRange} patchRange
      * @param {number=} opt_parentIndex
      */
     getChangeFiles(changeNum, patchRange, opt_parentIndex) {
@@ -1215,7 +1147,7 @@
 
     /**
      * @param {number|string} changeNum
-     * @param {Defs.patchRange} patchRange
+     * @param {Gerrit.PatchRange} patchRange
      */
     getChangeEditFiles(changeNum, patchRange) {
       let endpoint = '/edit?list';
@@ -1248,7 +1180,7 @@
 
     /**
      * @param {number|string} changeNum
-     * @param {Defs.patchRange} patchRange
+     * @param {Gerrit.PatchRange} patchRange
      * @return {!Promise<!Array<!Object>>}
      */
     getChangeOrEditFiles(changeNum, patchRange) {
@@ -2652,7 +2584,7 @@
     /**
      * Alias for _changeBaseURL.then(send).
      * @todo(beckysiegel) clean up comments
-     * @param {Defs.ChangeSendRequest} req
+     * @param {Gerrit.ChangeSendRequest} req
      * @return {!Promise<!Object>}
      */
     _getChangeURLAndSend(req) {
@@ -2678,7 +2610,7 @@
 
     /**
      * Alias for _changeBaseURL.then(_fetchJSON).
-     * @param {Defs.ChangeFetchRequest} req
+     * @param {Gerrit.ChangeFetchRequest} req
      * @return {!Promise<!Object>}
      */
     _getChangeURLAndFetch(req) {

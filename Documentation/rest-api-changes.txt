@@ -6140,6 +6140,11 @@ Callers can find out if there were conflicts by checking the
 CherryPickChangeInfo] that is returned by the cherry-pick REST
 endpoints. If there are conflicts the cherry-pick change is marked as
 work-in-progress.
+|`on_behalf_of`     |optional|
+The link:rest-api-accounts.html#account-id[\{account-id\}] of the user on
+whose behalf the action should be done. The user specified will be made the owner
+when the change is cherry-picked. To use this option the caller must
+have been granted the `Forge Committer` permission.
 |===========================
 
 [[comment-info]]

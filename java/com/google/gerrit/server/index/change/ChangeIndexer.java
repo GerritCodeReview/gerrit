@@ -28,6 +28,7 @@ import com.google.gerrit.extensions.events.ChangeIndexedListener;
 import com.google.gerrit.index.Index;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.index.IndexExecutor;
+import com.google.gerrit.server.index.StalenessCheckResult;
 import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.logging.TraceContext.TraceTimer;
@@ -432,7 +433,9 @@ public class ChangeIndexer {
     public Boolean callImpl() throws Exception {
       remove();
       try {
-        if (stalenessChecker.isStale(id)) {
+        StalenessCheckResult stalenessCheckResult = stalenessChecker.check(id);
+        if (stalenessCheckResult.isStale()) {
+          logger.atInfo().log("Reindexing stale document %s", stalenessCheckResult);
           indexImpl(changeDataFactory.create(project, id));
           return true;
         }

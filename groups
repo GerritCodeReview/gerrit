@@ -3,7 +3,6 @@
 24570b0b94101debd911e621add4bd51ac3fc348                      	gerrit-release-creators
 90b3042d9094a37985f3f9281391dbbe9a5addad                      	gerrit-lib
 b49f61711e6c0148f9f4d90702015bb894289be9                      	gerrit-verifiers
-c7af6dd375c092ff3b23c0937aa910693dc0c44c                      	polygerrit-maintainers
 fe9fc67e21a7363f44c986a0a4697becdc319ae2                      	gerrit-tricium-admins
 global:Change-Owner                                           	Change Owner
 global:Registered-Users                                       	Registered Users

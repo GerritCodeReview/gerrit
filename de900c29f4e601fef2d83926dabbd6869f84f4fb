@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "22e52c1d_556103cc",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-11-06T08:20:02Z",
+      "side": 1,
+      "message": "The haveParamsChanged paramater, its comment and its usage confuse me.\n\nIs the param true if and only if reload was called from a diff page?\n\nHow are reporting events ended?",
+      "range": {
+        "startLine": 276,
+        "startChar": 25,
+        "endLine": 278,
+        "endChar": 0
+      },
+      "revId": "de900c29f4e601fef2d83926dabbd6869f84f4fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

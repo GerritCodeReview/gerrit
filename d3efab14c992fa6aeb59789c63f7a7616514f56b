@@ -70,6 +70,24 @@
       "revId": "d3efab14c992fa6aeb59789c63f7a7616514f56b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "448f5c66_f3e69d0a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-11-06T14:16:54Z",
+      "side": 1,
+      "message": "\u003e Yup, the name of this component is pretty generic. I won\u0027t limit it to only for messages and comments.\n\nOk, I will try to make the endpoint more specific and push a new patchset asap.\n\n\u003e Regarding to the order of Gerrit core and plugin loading issue, we are actually working on something to see if we can support config certain plugins to load before others, some even before main Gerrit (preloaders). But that will be an ongoing work without a defined date to support yet.\n\nSounds great!\n\n\u003e Regarding multiple plugins issues, can you elaborate it a bit more ? is it for multiple plugins that may register into the same endpoint ?\n\nI meant specifically this endpoint. If you look at `gr-formatted-text.js` the component will check, whether the content of `div#container`-content changes and will then format the contents. I noticed that this did not always happen after the hook to this endpoint is attached, but sometimes did. I solved this issue from the plugin site by adding a mutation observer that also checks for changes in the div\u0027s content and does the formatting afterwards. This causes a some unnecessary checks on the content, but works, although this might get out of hand with multiple plugins doing the same thing. Since it would also not set, which plugin hooks first, the output would be unpredictable if two plugins check for the same pattern to decide on formatting; Or if a plugin tries to overwrite core formatting. Having thought a little bit more about that and trying to come up with sensible examples however, I think this might anyway out of scope and could just be not supported.",
+      "parentUuid": "00459d47_bfc45ad9",
+      "revId": "d3efab14c992fa6aeb59789c63f7a7616514f56b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

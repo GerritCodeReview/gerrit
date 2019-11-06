@@ -1,0 +1,153 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b42a6d18_4464acef",
+        "filename": "java/com/google/gerrit/server/git/TagSet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2019-11-06T20:29:15Z",
+      "side": 1,
+      "message": "I believe this also holds currently non reachable tags.",
+      "revId": "11690c697cc995695e269948ac2c4e2c4bf19e21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "89fdce27_51f2e01c",
+        "filename": "java/com/google/gerrit/server/git/TagSet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2019-11-06T20:29:15Z",
+      "side": 1,
+      "message": "There are also partial updates that come through updateFastForward().",
+      "range": {
+        "startLine": 48,
+        "startChar": 70,
+        "endLine": 48,
+        "endChar": 77
+      },
+      "revId": "11690c697cc995695e269948ac2c4e2c4bf19e21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dd6defe1_c79c3e99",
+        "filename": "java/com/google/gerrit/server/git/TagSet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2019-11-06T20:29:15Z",
+      "side": 1,
+      "message": "This feels a bit weird to tie a lower level class like this one to this upper level class using it.",
+      "revId": "11690c697cc995695e269948ac2c4e2c4bf19e21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ecc8fcfb_cafd1126",
+        "filename": "java/com/google/gerrit/server/git/TagSet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 422,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2019-11-06T20:29:15Z",
+      "side": 1,
+      "message": "A ref along with its index into a BitSet?",
+      "range": {
+        "startLine": 422,
+        "startChar": 7,
+        "endLine": 422,
+        "endChar": 15
+      },
+      "revId": "11690c697cc995695e269948ac2c4e2c4bf19e21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e58834e4_647dfe94",
+        "filename": "java/com/google/gerrit/server/git/TagSet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 424,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2019-11-06T20:29:15Z",
+      "side": 1,
+      "message": "It\u0027s used in the updateFastForward() path from other threads.",
+      "range": {
+        "startLine": 424,
+        "startChar": 88,
+        "endLine": 424,
+        "endChar": 91
+      },
+      "revId": "11690c697cc995695e269948ac2c4e2c4bf19e21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "06fbb899_731429e4",
+        "filename": "java/com/google/gerrit/server/git/TagSet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 433,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2019-11-06T20:29:15Z",
+      "side": 1,
+      "message": "This would be much clearer as \"bitIndex\" instead of \"flag\".",
+      "range": {
+        "startLine": 433,
+        "startChar": 14,
+        "endLine": 433,
+        "endChar": 18
+      },
+      "revId": "11690c697cc995695e269948ac2c4e2c4bf19e21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7bae7190_1298ea3e",
+        "filename": "java/com/google/gerrit/server/git/TagSet.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 468,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2019-11-06T20:29:15Z",
+      "side": 1,
+      "message": "Would be better as visibleFromRef or visibleFromRefIndex.",
+      "range": {
+        "startLine": 468,
+        "startChar": 17,
+        "endLine": 468,
+        "endChar": 25
+      },
+      "revId": "11690c697cc995695e269948ac2c4e2c4bf19e21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

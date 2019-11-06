@@ -45,6 +45,30 @@
       "revId": "93351e810a0d75a33c07784434fb0f5058b9d588",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c0dc5d19_bf4b258b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-11-06T19:05:10Z",
+      "side": 1,
+      "message": "Thanks, Alice, for pointing me to an example. My suggestion is to match the bottom padding coming from gr-comment in the .robotActions{} rule above, i.e. change line 106 to\n\n  padding-top: var(--spacing-m);\n\nThen you have the button centered just fine and can remove line 113. Then you would match the padding and height of the REPLY, QUOTE, ACK, DONE row of actions.\n\nIf you want to reduce the height, then you would insert such a property in line 113:\n\n  --padding: ?px 4px;\n\n? is normally 5, you could go as low as 0. But if we tweak that here, then I would also tweak the REPLY, QUOTE, ACK, DONE row of actions in the same way. FWIW, Critique Ng also uses 8px padding, but typically uses 24px button height, so 2 for ? would probably be a good compromise. Let\u0027s ask Delphine about that as a follow-up.",
+      "parentUuid": "23e22b8b_6cb42091",
+      "range": {
+        "startLine": 113,
+        "startChar": 0,
+        "endLine": 113,
+        "endChar": 48
+      },
+      "revId": "93351e810a0d75a33c07784434fb0f5058b9d588",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

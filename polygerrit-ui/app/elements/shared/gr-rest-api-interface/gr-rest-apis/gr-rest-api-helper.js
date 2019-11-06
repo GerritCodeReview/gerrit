@@ -17,36 +17,6 @@
 (function(window) {
   'use strict';
 
-  const Defs = {};
-
-  /**
-   * @typedef {{
-   *    url: string,
-   *    fetchOptions: (Object|null|undefined),
-   *    anonymizedUrl: (string|undefined),
-   * }}
-   */
-  Defs.FetchRequest;
-
-  /**
-   * Object to describe a request for passing into fetchJSON or fetchRawJSON.
-   * - url is the URL for the request (excluding get params)
-   * - errFn is a function to invoke when the request fails.
-   * - cancelCondition is a function that, if provided and returns true, will
-   *     cancel the response after it resolves.
-   * - params is a key-value hash to specify get params for the request URL.
-   * @typedef {{
-   *    url: string,
-   *    errFn: (function(?Response, string=)|null|undefined),
-   *    cancelCondition: (function()|null|undefined),
-   *    params: (Object|null|undefined),
-   *    fetchOptions: (Object|null|undefined),
-   *    anonymizedUrl: (string|undefined),
-   *    reportUrlAsIs: (boolean|undefined),
-   * }}
-   */
-  Defs.FetchJSONRequest;
-
   const JSON_PREFIX = ')]}\'';
   const FAILED_TO_FETCH_ERROR = 'Failed to fetch';
 
@@ -152,7 +122,7 @@
     /**
      * Wraps calls to the underlying authenticated fetch function (_auth.fetch)
      * with timing and logging.
-     * @param {Defs.FetchRequest} req
+     * @param {Gerrit.FetchRequest} req
      */
     fetch(req) {
       const start = Date.now();
@@ -169,7 +139,7 @@
      * Log information about a REST call. Because the elapsed time is determined
      * by this method, it should be called immediately after the request
      * finishes.
-     * @param {Defs.FetchRequest} req
+     * @param {Gerrit.FetchRequest} req
      * @param {number} startTime the time that the request was started.
      * @param {number} status the HTTP status of the response. The status value
      *     is used here rather than the response object so there is no way this
@@ -201,7 +171,7 @@
      * Returns a Promise that resolves to a native Response.
      * Doesn't do error checking. Supports cancel condition. Performs auth.
      * Validates auth expiry errors.
-     * @param {Defs.FetchJSONRequest} req
+     * @param {Gerrit.FetchJSONRequest} req
      */
     fetchRawJSON(req) {
       const urlWithParams = this.urlWithParams(req.url, req.params);
@@ -235,7 +205,7 @@
      * Fetch JSON from url provided.
      * Returns a Promise that resolves to a parsed response.
      * Same as {@link fetchRawJSON}, plus error handling.
-     * @param {Defs.FetchJSONRequest} req
+     * @param {Gerrit.FetchJSONRequest} req
      */
     fetchJSON(req) {
       req = this.addAcceptJsonHeader(req);
@@ -311,8 +281,8 @@
     }
 
     /**
-     * @param {Defs.FetchJSONRequest} req
-     * @return {Defs.FetchJSONRequest}
+     * @param {Gerrit.FetchJSONRequest} req
+     * @return {Gerrit.FetchJSONRequest}
      */
     addAcceptJsonHeader(req) {
       if (!req.fetchOptions) req.fetchOptions = {};
@@ -332,7 +302,7 @@
     }
 
     /**
-     * @param {Defs.FetchJSONRequest} req
+     * @param {Gerrit.FetchJSONRequest} req
      */
     fetchCacheURL(req) {
       if (this._fetchPromisesCache.has(req.url)) {
@@ -359,7 +329,7 @@
 
     /**
      * Send an XHR.
-     * @param {Defs.SendRequest} req
+     * @param {Gerrit.SendRequest} req
      * @return {Promise}
      */
     send(req) {

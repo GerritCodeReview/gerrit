@@ -17,17 +17,6 @@
 (function() {
   'use strict';
 
-  const Defs = {};
-
-  /**
-   * @typedef {{
-   *    message: string,
-   *    icon: string,
-   *    class: string,
-   *  }}
-   */
-  Defs.PushCertificateValidation;
-
   const HASHTAG_ADD_MESSAGE = 'Add Hashtag';
 
   const SubmitTypeLabel = {
@@ -100,7 +89,7 @@
         computed: '_computeHashtagReadOnly(_mutable, change)',
       },
       /**
-       * @type {Defs.PushCertificateValidation}
+       * @type {Gerrit.PushCertificateValidation}
        */
       _pushCertificateValidation: {
         type: Object,
@@ -295,7 +284,7 @@
     },
 
     /**
-     * @return {?Defs.PushCertificateValidation} object representing data for
+     * @return {?Gerrit.PushCertificateValidation} object representing data for
      *     the push validation.
      */
     _computePushCertificateValidation(serverConfig, change) {

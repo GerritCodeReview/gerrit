@@ -272,11 +272,11 @@
     },
 
     /**
-     * @param {boolean=} haveParamsChanged ends reporting events that started
-     * on location change.
+     * @param {boolean=} shouldReportMetric indicate a new Diff Page. This is a
+     * signal to report metrics event that started on location change.
      * @return {!Promise}
      **/
-    reload(haveParamsChanged) {
+    reload(shouldReportMetric) {
       this._loading = true;
       this._errorMessage = null;
       const whitespaceLevel = this._getIgnoreWhitespace();
@@ -289,7 +289,7 @@
       }
       this._layers = layers;
 
-      if (haveParamsChanged) {
+      if (shouldReportMetric) {
         // We listen on render viewport only on DiffPage (on paramsChanged)
         this._listenToViewportRender();
       }
@@ -350,6 +350,11 @@
                   resolve();
                 }
                 this.removeEventListener('render', callback);
+                if (shouldReportMetric) {
+                  // We report diffViewContentDisplayed only on reload caused
+                  // by params changed - expected only on Diff Page.
+                  this.$.reporting.diffViewContentDisplayed();
+                }
               };
               this.addEventListener('render', callback);
               this.diff = diff;
@@ -951,7 +956,6 @@
 
     _handleRenderContent() {
       this.$.reporting.timeEnd(TimingLabel.CONTENT);
-      this.$.reporting.diffViewContentDisplayed();
     },
 
     _handleNormalizeRange(event) {

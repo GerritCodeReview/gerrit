@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "ebbf63e6_078c37cb",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-annotation.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-11-06T10:05:43Z",
+      "side": 1,
+      "message": "I think returning the node or take a nodeFactory seems better and more flexible",
+      "parentUuid": "a400a516_524a5e90",
+      "range": {
+        "startLine": 53,
+        "startChar": 26,
+        "endLine": 53,
+        "endChar": 71
+      },
+      "revId": "abd1040b46cbed65e9371b2d07133df127f01614",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "71e45e6d_63b1a884",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-annotation.js",
         "patchSetId": 2
@@ -117,6 +141,30 @@
       "revId": "abd1040b46cbed65e9371b2d07133df127f01614",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8775e7f6_81a439be",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-annotation.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-11-06T10:05:43Z",
+      "side": 1,
+      "message": "not sure I follow this example here, which part will be cloned ? for the highlight part, won\u0027t it just split the text node inside of the `a` node and keep the `a` untouched ? will that cancel all the event listeners on a before ?",
+      "parentUuid": "a8c0f10b_87c74155",
+      "range": {
+        "startLine": 56,
+        "startChar": 56,
+        "endLine": 56,
+        "endChar": 71
+      },
+      "revId": "abd1040b46cbed65e9371b2d07133df127f01614",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     },
     {
       "key": {
@@ -179,6 +227,30 @@
       "side": 1,
       "message": "As Ole said, currently this is for links, but might aid in non-navigation use cases as well. E.g., while it\u0027s technically possible to do hovercards with class annotations, they might become easier if custom elements can be added.",
       "parentUuid": "ba40e24f_0607db61",
+      "range": {
+        "startLine": 58,
+        "startChar": 4,
+        "endLine": 58,
+        "endChar": 20
+      },
+      "revId": "abd1040b46cbed65e9371b2d07133df127f01614",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a9387a84_8a6c0cbe",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-annotation.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-11-06T10:05:43Z",
+      "side": 1,
+      "message": "thanks! A few test cases will make it more obvious :)",
+      "parentUuid": "636ef8ab_5756facd",
       "range": {
         "startLine": 58,
         "startChar": 4,

@@ -16,6 +16,24 @@
       "revId": "fbc296bdd8b9e14bfaf2970410763a64c168ca7d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a4c075c1_df229dc6",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-11-06T17:22:21Z",
+      "side": 1,
+      "message": "Also is this necessary ? At least for YOUR dropdown, I am not sure if adding a plugin endpoint makes sense to it as it should be and only contain those customized links controlled by the user.",
+      "parentUuid": "048e10c4_4531d992",
+      "revId": "fbc296bdd8b9e14bfaf2970410763a64c168ca7d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

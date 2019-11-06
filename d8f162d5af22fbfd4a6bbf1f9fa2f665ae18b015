@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b7c0e98b_9e10b20e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-syntax-layer/gr-syntax-layer.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-11-06T01:03:28Z",
+      "side": 1,
+      "message": "@Ben not sure what colour we should give doctag?",
+      "revId": "d8f162d5af22fbfd4a6bbf1f9fa2f665ae18b015",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

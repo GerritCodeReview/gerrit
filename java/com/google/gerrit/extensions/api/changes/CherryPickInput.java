@@ -29,4 +29,11 @@ public class CherryPickInput {
 
   public boolean keepReviewers;
   public boolean allowConflicts;
+
+  /**
+   * Account ID, name, email address or username of another user. The review will be cherry-picked
+   * on behalf of this named user instead of the caller. The caller must have forge committer
+   * permission
+   */
+  public String onBehalfOf;
 }

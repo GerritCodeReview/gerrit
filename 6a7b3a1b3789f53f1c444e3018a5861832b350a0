@@ -16,6 +16,24 @@
       "revId": "6a7b3a1b3789f53f1c444e3018a5861832b350a0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6020d0be_82ecfa53",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 6145,
+      "author": {
+        "id": 1069975
+      },
+      "writtenOn": "2019-11-06T23:47:39Z",
+      "side": 1,
+      "message": "This was suggested by David Pursehouse in https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d11875\n\nWhat would you suggest we use instead? Create a new permission: \u0027Cherry_Pick_As\u0027 or \u0027Forge Owner\u0027?",
+      "parentUuid": "4f1d847f_c38260f7",
+      "revId": "6a7b3a1b3789f53f1c444e3018a5861832b350a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

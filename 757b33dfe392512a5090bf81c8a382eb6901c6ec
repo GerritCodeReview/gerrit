@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3ed2811f_a404f930",
+        "filename": "java/com/google/gerrit/server/restapi/project/CommitsCollection.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-11-06T15:29:46Z",
+      "side": 1,
+      "message": "nit: the interface of fromRefs to accept a Collection instead of a list, do the same for PermissionBackend#filter and you spare this extra step at no cost (plus interfaces get more generic/abstract)",
+      "range": {
+        "startLine": 165,
+        "startChar": 31,
+        "endLine": 165,
+        "endChar": 94
+      },
+      "revId": "757b33dfe392512a5090bf81c8a382eb6901c6ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

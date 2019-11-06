@@ -70,6 +70,24 @@
       "revId": "d8f162d5af22fbfd4a6bbf1f9fa2f665ae18b015",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1761ff89_a666c925",
+        "filename": "polygerrit-ui/app/elements/diff/gr-syntax-layer/gr-syntax-layer.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2019-11-06T18:10:52Z",
+      "side": 1,
+      "message": "I think highlightjs is just bolding doctag and color is same as in comment. But I may be wrong.",
+      "parentUuid": "f6578720_7dac85d0",
+      "revId": "d8f162d5af22fbfd4a6bbf1f9fa2f665ae18b015",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

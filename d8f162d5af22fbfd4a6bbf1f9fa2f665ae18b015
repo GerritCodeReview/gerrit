@@ -88,6 +88,24 @@
       "revId": "d8f162d5af22fbfd4a6bbf1f9fa2f665ae18b015",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b947a0f2_6af0c417",
+        "filename": "polygerrit-ui/app/elements/diff/gr-syntax-layer/gr-syntax-layer.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-11-06T18:34:10Z",
+      "side": 1,
+      "message": "Milutin, I think highlightjs just emits the css class for us. We have to decide what to do with it:\n\nelements/diff/gr-syntax-themes/gr-syntax-theme.html\n\nI don\u0027t really care much, but bolding sounds reasonable.",
+      "parentUuid": "1761ff89_a666c925",
+      "revId": "d8f162d5af22fbfd4a6bbf1f9fa2f665ae18b015",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

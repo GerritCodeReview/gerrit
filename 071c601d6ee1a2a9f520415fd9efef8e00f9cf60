@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c7be1334_47885e36",
+        "filename": "java/com/google/gerrit/server/restapi/project/CommitsCollection.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-11-06T09:00:50Z",
+      "side": 1,
+      "message": "nit: factor this out in a variable, use toImmutableList as collector",
+      "range": {
+        "startLine": 156,
+        "startChar": 32,
+        "endLine": 158,
+        "endChar": 66
+      },
+      "revId": "071c601d6ee1a2a9f520415fd9efef8e00f9cf60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ed9a0438_a8a86408",
+        "filename": "java/com/google/gerrit/server/restapi/project/CommitsCollection.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-11-06T09:00:50Z",
+      "side": 1,
+      "message": "nit: this is an over-use of streams that makes it hard to read this code block. It\u0027s easier to write this as:\n\nSet\u003cRef\u003e parentRefs \u003d new HashSet\u003c\u003e(changes.size());\nfor (ChangeData c : changes) {\n  String refName \u003d cd.change().getDest().branch();\n  Ref resolvedRef \u003d refDb.exactRef(refName);\n  if (resolvedRef !\u003d null) {\n    parentRefs.add(resolvedRef);\n  }\n}\n\nWe should also just propagate the IOE.",
+      "range": {
+        "startLine": 161,
+        "startChar": 0,
+        "endLine": 175,
+        "endChar": 42
+      },
+      "revId": "071c601d6ee1a2a9f520415fd9efef8e00f9cf60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "38bea9fd_72ebe0e9",
+        "filename": "java/com/google/gerrit/server/restapi/project/CommitsCollection.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-11-06T09:00:50Z",
+      "side": 1,
+      "message": "parentRefs is a misnomer that took me a while to figure out. How about destRefOfParentChange or likelyRefTips",
+      "range": {
+        "startLine": 176,
+        "startChar": 50,
+        "endLine": 176,
+        "endChar": 60
+      },
+      "revId": "071c601d6ee1a2a9f520415fd9efef8e00f9cf60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

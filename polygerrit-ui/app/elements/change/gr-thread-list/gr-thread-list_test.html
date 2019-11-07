@@ -170,6 +170,68 @@ limitations under the License.
           rootId: 'zcf0b9fa_fe1a5f62',
           start_datetime: '2018-02-09 18:49:18.000000000',
         },
+        {
+          comments: [
+            {
+              __path: '/COMMIT_MSG',
+              author: {
+                _account_id: 1000000,
+                name: 'user',
+                username: 'user',
+              },
+              patch_set: 4,
+              id: 'rc1',
+              line: 5,
+              updated: '2019-02-08 18:49:18.000000000',
+              message: 'test',
+              unresolved: true,
+              robot_id: 'rc1',
+            },
+          ],
+          patchNum: 4,
+          path: '/COMMIT_MSG',
+          line: 5,
+          rootId: 'rc1',
+          start_datetime: '2019-02-08 18:49:18.000000000',
+        },
+        {
+          comments: [
+            {
+              __path: '/COMMIT_MSG',
+              author: {
+                _account_id: 1000000,
+                name: 'user',
+                username: 'user',
+              },
+              patch_set: 4,
+              id: 'rc2',
+              line: 5,
+              updated: '2019-03-08 18:49:18.000000000',
+              message: 'test',
+              unresolved: true,
+              robot_id: 'rc2',
+            },
+            {
+              __path: '/COMMIT_MSG',
+              author: {
+                _account_id: 1000000,
+                name: 'user',
+                username: 'user',
+              },
+              patch_set: 4,
+              id: 'c2_1',
+              line: 5,
+              updated: '2019-03-08 18:49:18.000000000',
+              message: 'test',
+              unresolved: true,
+            },
+          ],
+          patchNum: 4,
+          path: '/COMMIT_MSG',
+          line: 5,
+          rootId: 'rc2',
+          start_datetime: '2019-03-08 18:49:18.000000000',
+        },
       ];
       flushAsynchronousOperations();
       threadElements = Polymer.dom(element.root)
@@ -194,46 +256,69 @@ limitations under the License.
     });
 
     test('_computeSortedThreads', () => {
-      assert.equal(element._sortedThreads.length, 5);
+      assert.equal(element._sortedThreads.length, 7);
       // Draft and unresolved
       assert.equal(element._sortedThreads[0].thread.rootId,
           'ecf0b9fa_fe1a5f62');
-      // unresolved
+      // Unresolved robot comment
       assert.equal(element._sortedThreads[1].thread.rootId,
+          'rc2');
+      // Unresolved robot comment
+      assert.equal(element._sortedThreads[2].thread.rootId,
+          'rc1');
+      // unresolved
+      assert.equal(element._sortedThreads[3].thread.rootId,
           'scaddf38_44770ec1');
       // unresolved
-      assert.equal(element._sortedThreads[2].thread.rootId,
+      assert.equal(element._sortedThreads[4].thread.rootId,
           '8caddf38_44770ec1');
       // resolved and draft
-      assert.equal(element._sortedThreads[3].thread.rootId,
+      assert.equal(element._sortedThreads[5].thread.rootId,
           'zcf0b9fa_fe1a5f62');
       // resolved
-      assert.equal(element._sortedThreads[4].thread.rootId,
+      assert.equal(element._sortedThreads[6].thread.rootId,
           '09a9fb0a_1484e6cf');
     });
+
+    test('filtered threads do not contain robot comments without reply', () => {
+      const thread = element.threads.find(thread => thread.rootId === 'rc1');
+      assert.equal(element._filteredThreads.includes(thread), false);
+    });
+
+    test('filtered threads contains robot comments with reply', () => {
+      const thread = element.threads.find(thread => thread.rootId === 'rc2');
+      assert.equal(element._filteredThreads.includes(thread), true);
+    });
+
 
     test('thread removal', () => {
-      threadElements[1].fire('thread-discard', {rootId: 'scaddf38_44770ec1'});
+      threadElements[1].fire('thread-discard', {rootId: 'rc2'});
       flushAsynchronousOperations();
-      assert.equal(element._sortedThreads.length, 4);
+      assert.equal(element._sortedThreads.length, 6);
       assert.equal(element._sortedThreads[0].thread.rootId,
           'ecf0b9fa_fe1a5f62');
-      // unresolved
+      // Unresolved robot comment
       assert.equal(element._sortedThreads[1].thread.rootId,
+          'rc1');
+      // unresolved
+      assert.equal(element._sortedThreads[2].thread.rootId,
+          'scaddf38_44770ec1');
+      // unresolved
+      assert.equal(element._sortedThreads[3].thread.rootId,
           '8caddf38_44770ec1');
       // resolved and draft
-      assert.equal(element._sortedThreads[2].thread.rootId,
+      assert.equal(element._sortedThreads[4].thread.rootId,
           'zcf0b9fa_fe1a5f62');
       // resolved
-      assert.equal(element._sortedThreads[3].thread.rootId,
+      assert.equal(element._sortedThreads[5].thread.rootId,
           '09a9fb0a_1484e6cf');
     });
 
-    test('toggle unresolved only shows unressolved comments', () => {
+    test('toggle unresolved only shows unresolved comments', () => {
       MockInteractions.tap(element.$.unresolvedToggle);
       flushAsynchronousOperations();
       assert.equal(Polymer.dom(element.root)
-          .querySelectorAll('gr-comment-thread').length, 3);
+          .querySelectorAll('gr-comment-thread').length, 5);
     });
 
     test('toggle drafts only shows threads with draft comments', () => {

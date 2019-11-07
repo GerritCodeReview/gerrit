@@ -160,6 +160,24 @@
       "revId": "d3efab14c992fa6aeb59789c63f7a7616514f56b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3808555d_1e3eb699",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-11-07T13:51:59Z",
+      "side": 1,
+      "message": "This sounds like exactly what I was aiming for. Thanks Tao! Let me try to implement that.",
+      "parentUuid": "58cd7ace_76b9f77c",
+      "revId": "d3efab14c992fa6aeb59789c63f7a7616514f56b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

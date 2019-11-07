@@ -106,6 +106,24 @@
       "revId": "d3efab14c992fa6aeb59789c63f7a7616514f56b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e4ba1ddf_76a4bdae",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-11-07T11:57:21Z",
+      "side": 1,
+      "message": "I think the main issue is this component is quite generic. And once we added the endpoint, we will need to maintain it and mind ourselves once we plan to use it anywhere else.\n\nAnd also if I understand you correctly, I think what you want is to be able to replace this `gr-formatted-text` with some plugin, by adding this endpoint here, it will work but a bit weird... and the gr-formatted-text.js is relying on the #container, but once you replaced it with something else, it won\u0027t work).\n\nI think its a bit better to have one or more endpoints where you actually want to replace the `gr-formatted-text`. And you can just provide an implementation for formatting with the plugin.\n\n\n```\n\u003cgr-endpoint-decorator name\u003d\"formatted-text\"\u003e\n  \u003c!-- fallback to gr-formatted-text if not provided --\u003e\n  \u003cgr-formatted-text\u003e\u003c/gr-formatted-text\u003e\n\u003c/gr-endpoint-decorator\u003e\n```",
+      "parentUuid": "eaa87ecb_d840aaf4",
+      "revId": "d3efab14c992fa6aeb59789c63f7a7616514f56b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -52,6 +52,24 @@
       "revId": "6a7b3a1b3789f53f1c444e3018a5861832b350a0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "50601859_008f22db",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 6145,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2019-11-07T03:42:50Z",
+      "side": 1,
+      "message": "I think FORGE_OWNER makes sense and find be used for reverts also then and uploads if desired.",
+      "parentUuid": "948863dc_7f3b83b8",
+      "revId": "6a7b3a1b3789f53f1c444e3018a5861832b350a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -88,6 +88,24 @@
       "revId": "d3efab14c992fa6aeb59789c63f7a7616514f56b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eaa87ecb_d840aaf4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-11-07T08:38:43Z",
+      "side": 1,
+      "message": "On the other hand, what contradicts to use this endpoint to not only let plugins format other texts than comments and messages, i.e. leaving the endpoint as is and just changing the commit message accordingly?",
+      "parentUuid": "448f5c66_f3e69d0a",
+      "revId": "d3efab14c992fa6aeb59789c63f7a7616514f56b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

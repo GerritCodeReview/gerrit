@@ -1,0 +1,228 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "abb039bf_37c9794f",
+        "filename": "java/com/google/gerrit/server/patch/PatchScriptBuilder.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-11-07T18:50:34Z",
+      "side": 1,
+      "message": "Optional (probably rather a future cleanup): I see that you followed the already existing pattern of adding non-injected constructor fields via setters. I guess when the old setters were added, we didn\u0027t have access to Guice factories. At some point, we should convert this class. Having mandatory fields filled by optional setters is a bit brittle.",
+      "range": {
+        "startLine": 96,
+        "startChar": 2,
+        "endLine": 96,
+        "endChar": 23
+      },
+      "revId": "173370280f921af46406a1352970c415b5ee8679",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "51d897c2_3877c6d6",
+        "filename": "java/com/google/gerrit/server/patch/PatchScriptBuilder.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-11-07T18:50:34Z",
+      "side": 1,
+      "message": "Would it make sense to move this check into the IntraLineDiffCalculator as well?",
+      "range": {
+        "startLine": 119,
+        "startChar": 8,
+        "endLine": 119,
+        "endChar": 25
+      },
+      "revId": "173370280f921af46406a1352970c415b5ee8679",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7baf832c_be7b63b8",
+        "filename": "java/com/google/gerrit/server/patch/PatchScriptBuilder.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 425,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-11-07T18:50:34Z",
+      "side": 1,
+      "message": "This is one of the objects I meant when we talked in person earlier. PatchSide is passed around many methods and even to a different class. Hence, it would be safest (e.g. avoid unintended side effects) if it was immutable. This might mean that PatchSide would need to be split up into multiple, smaller objects, which might even be a benefit as those could focus on the fields they really need. Of course, there could still be one class which has the modifying methods like addLine() but that class wouldn\u0027t be passed around methods. Instead, an immutable object which contains the result could be used for that. That immutable object should ideally be an AutoValue. If that\u0027s too much effort due to many deeper objects being immutable, another option would be to go for hand-written objects which appear to be immutable from the outside (e.g. only read access).",
+      "range": {
+        "startLine": 425,
+        "startChar": 15,
+        "endLine": 425,
+        "endChar": 24
+      },
+      "revId": "173370280f921af46406a1352970c415b5ee8679",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "10375c71_509df5fd",
+        "filename": "java/com/google/gerrit/server/patch/PatchScriptBuilder.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 483,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-11-07T18:50:34Z",
+      "side": 1,
+      "message": "Nit: Please use more meaningful names in new code, especially in interfaces.",
+      "range": {
+        "startLine": 483,
+        "startChar": 48,
+        "endLine": 483,
+        "endChar": 51
+      },
+      "revId": "173370280f921af46406a1352970c415b5ee8679",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2ab698fb_6f62d262",
+        "filename": "java/com/google/gerrit/server/patch/PatchScriptBuilder.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 487,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-11-07T18:50:34Z",
+      "side": 1,
+      "message": "This would be another candidate for AutoValue/immutable object.",
+      "range": {
+        "startLine": 487,
+        "startChar": 15,
+        "endLine": 487,
+        "endChar": 28
+      },
+      "revId": "173370280f921af46406a1352970c415b5ee8679",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "89945196_c17ea249",
+        "filename": "java/com/google/gerrit/server/patch/PatchScriptBuilder.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 547,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-11-07T18:50:34Z",
+      "side": 1,
+      "message": "I\u0027m a bit confused by the added else-branches. Did they change any of the logic? If not, we should drop them again as we only keep necessary else-branches in Gerrit.",
+      "range": {
+        "startLine": 547,
+        "startChar": 12,
+        "endLine": 547,
+        "endChar": 18
+      },
+      "revId": "173370280f921af46406a1352970c415b5ee8679",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d4090402_6d32293b",
+        "filename": "java/com/google/gerrit/server/patch/PatchScriptBuilder.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 676,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-11-07T18:50:34Z",
+      "side": 1,
+      "message": "I see that this structure allows to extract the IntraLineDiffCalculatorImpl but I\u0027m not convinced of it very much. Some issues I see:\n- A null check for the edits is necessary in line 122. As written on a prior change, we try to avoid null values, especially as return values. Switching to an empty list here also wouldn\u0027t work as that breaks the logic in the above code.\n- The constructor allows to specify combinations of parameters which should never occur (e.g. having edits and a failure).\n- There doesn\u0027t seem to be much additional benefit compared to the existing IntraLineDiff class.\n\nI\u0027m wondering if it wouldn\u0027t be sufficient to just keep the IntraLineDiff class as result. It would mean that PatchScriptBuilder still contains some \"knowledge\" about intraline diffs and how to fill the PatchScript class from it but such knowledge seems to stay around anyway even after the follow-up change. Do you think that using the IntraLineDiff class instead of IntraLineDiffCalculatorResult would be possible?",
+      "range": {
+        "startLine": 667,
+        "startChar": 4,
+        "endLine": 676,
+        "endChar": 34
+      },
+      "revId": "173370280f921af46406a1352970c415b5ee8679",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "39891f65_18b80f34",
+        "filename": "java/com/google/gerrit/server/patch/PatchScriptBuilder.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 691,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-11-07T18:50:34Z",
+      "side": 1,
+      "message": "This is one of the classes for which we should discuss another name.\nReasons:\n- We typically use xxxInput for objects representing REST API inputs. Some other classes use it too but we should strive to not introduce more confusion.\n- A follow-up change introduces PatchScriptBuilderInputImpl. A xxxInputImpl is rather strange to me.\n- This is an interface. I automatically associate xxxInput classes with vallue objects.",
+      "range": {
+        "startLine": 691,
+        "startChar": 12,
+        "endLine": 691,
+        "endChar": 35
+      },
+      "revId": "173370280f921af46406a1352970c415b5ee8679",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f5294217_09e14652",
+        "filename": "java/com/google/gerrit/server/patch/PatchScriptFactory.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-11-07T18:50:34Z",
+      "side": 1,
+      "message": "Here and below: Please try to avoid unrelated formatting changes.",
+      "revId": "173370280f921af46406a1352970c415b5ee8679",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e3b2763f_544c2cbc",
+        "filename": "java/com/google/gerrit/server/patch/PatchScriptFactory.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 450,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-11-07T18:50:34Z",
+      "side": 1,
+      "message": "getEdits() deliberately returns an ImmutableList. We should stick to the immutable version as long as possible.",
+      "range": {
+        "startLine": 450,
+        "startChar": 51,
+        "endLine": 450,
+        "endChar": 80
+      },
+      "revId": "173370280f921af46406a1352970c415b5ee8679",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

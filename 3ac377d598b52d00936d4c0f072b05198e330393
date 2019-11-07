@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6907a92b_229ae547",
+        "filename": "java/com/google/gerrit/server/index/StalenessCheckResult.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-11-07T12:04:55Z",
+      "side": 1,
+      "message": "This method passes a pair of parameters through to String.format, but the enclosing method wasn\u0027t annotated @FormatMethod. Doing so gives compile-time rather than run-time protection against malformed format strings.",
+      "range": {
+        "startLine": 32,
+        "startChar": 50,
+        "endLine": 32,
+        "endChar": 56
+      },
+      "revId": "3ac377d598b52d00936d4c0f072b05198e330393",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1cd53186_2189cb8b",
+        "filename": "java/com/google/gerrit/server/index/change/StalenessChecker.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-11-07T12:04:55Z",
+      "side": 1,
+      "message": "too late now, but Javadoc in follow up change?",
+      "range": {
+        "startLine": 51,
+        "startChar": 13,
+        "endLine": 51,
+        "endChar": 29
+      },
+      "revId": "3ac377d598b52d00936d4c0f072b05198e330393",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

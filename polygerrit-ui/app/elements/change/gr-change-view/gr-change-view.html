@@ -136,7 +136,8 @@ limitations under the License.
         word-break: break-word;
       }
       #commitMessageEditor {
-        min-width: 72ch;
+        /* Account for border and padding */
+        min-width: calc(72ch + 2px + 2*var(--spacing-m));
       }
       .editCommitMessage {
         margin-top: var(--spacing-l);

@@ -108,6 +108,20 @@
         } else if (unresolvedOnly) {
           return c.unresolved;
         } else {
+          const comments = c && c.thread && c.thread.comments;
+          let robotComment = false;
+          let humanReplyToRobotComment = false;
+          comments.forEach(comment => {
+            if (comment.robot_id) {
+              robotComment = true;
+            } else if (robotComment) {
+              // Robot comment exists and human comment exists after it
+              humanReplyToRobotComment = true;
+            }
+          });
+          if (robotComment) {
+            return humanReplyToRobotComment ? c : false;
+          }
           return c;
         }
       }).map(threadInfo => threadInfo.thread);

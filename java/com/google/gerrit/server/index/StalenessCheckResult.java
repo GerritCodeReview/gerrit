@@ -15,6 +15,7 @@
 package com.google.gerrit.server.index;
 
 import com.google.auto.value.AutoValue;
+import com.google.errorprone.annotations.FormatMethod;
 import java.util.Optional;
 
 /** Structured result of a staleness check. */
@@ -29,6 +30,7 @@ public abstract class StalenessCheckResult {
     return new AutoValue_StalenessCheckResult(true, Optional.of(reason));
   }
 
+  @FormatMethod
   public static StalenessCheckResult stale(String reason, Object... args) {
     return stale(String.format(reason, args));
   }

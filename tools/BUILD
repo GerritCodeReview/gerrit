@@ -53,6 +53,7 @@ java_package_configuration(
         "-Xep:ExpectedExceptionChecker:ERROR",
         "-Xep:Finally:ERROR",
         "-Xep:FloatingPointLiteralPrecision:ERROR",
+        "-Xep:FormatStringAnnotation:ERROR",
         "-Xep:FragmentInjection:ERROR",
         "-Xep:FragmentNotInstantiable:ERROR",
         "-Xep:FunctionalInterfaceClash:ERROR",

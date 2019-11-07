@@ -39,6 +39,7 @@ import com.google.gerrit.extensions.api.changes.ChangeApi;
 import com.google.gerrit.extensions.api.changes.CherryPickInput;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -604,6 +605,67 @@ public class CreateChangeIT extends AbstractDaemonTest {
       executor.shutdown();
       executor.awaitTermination(5, TimeUnit.SECONDS);
     }
+  }
+
+  @Test
+  public void createChangeWithSubmittedMergeSource() throws Exception {
+    // Provide coverage for a performance optimization in CommitsCollection#canRead.
+    BranchInput branchInput = new BranchInput();
+    String mergeTarget = "refs/heads/new-branch";
+    RevCommit startCommit = projectOperations.project(project).getHead("master");
+
+    branchInput.revision = startCommit.name();
+    branchInput.ref = mergeTarget;
+
+    gApi.projects().name(project.get()).branch(mergeTarget).create(branchInput);
+
+    PushOneCommit.Result result1 =
+        pushFactory
+            .create(
+                admin.newIdent(), testRepo, "subject1", ImmutableMap.of("file1.txt", "content 1"))
+            .to("refs/for/master");
+    result1.assertOkStatus();
+
+    testRepo.branch("HEAD").update(startCommit);
+    PushOneCommit.Result result2 =
+        pushFactory
+            .create(
+                admin.newIdent(), testRepo, "subject2", ImmutableMap.of("file2.txt", "content 2"))
+            .to("refs/for/master");
+    result2.assertOkStatus();
+
+    ReviewInput reviewInput = ReviewInput.approve().label("Code-Review", 2);
+
+    gApi.changes().id(result1.getChangeId()).revision("current").review(reviewInput);
+    gApi.changes().id(result1.getChangeId()).revision("current").submit();
+
+    gApi.changes().id(result2.getChangeId()).revision("current").review(reviewInput);
+    gApi.changes().id(result2.getChangeId()).revision("current").submit();
+
+    String mergeRev = gApi.projects().name(project.get()).branch("master").get().revision;
+    RevCommit mergeCommit = projectOperations.project(project).getHead("master");
+    assertThat(mergeCommit.getParents().length).isEqualTo(2);
+
+    testRepo.git().fetch().call();
+    testRepo.branch("HEAD").update(mergeCommit);
+    PushOneCommit.Result result3 =
+        pushFactory
+            .create(
+                admin.newIdent(), testRepo, "subject3", ImmutableMap.of("file1.txt", "content 3"))
+            .to("refs/for/master");
+    result2.assertOkStatus();
+    gApi.changes().id(result3.getChangeId()).revision("current").review(reviewInput);
+    gApi.changes().id(result3.getChangeId()).revision("current").submit();
+
+    // Now master doesn't point directly to mergeRev
+    ChangeInput in = new ChangeInput();
+    in.branch = mergeTarget;
+    in.merge = new MergeInput();
+    in.project = project.get();
+    in.merge.source = mergeRev;
+    in.subject = "propagate merge";
+
+    gApi.changes().create(in);
   }
 
   private ChangeInput newChangeInput(ChangeStatus status) {

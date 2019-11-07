@@ -271,7 +271,8 @@
     },
 
     /**
-     * Page load time, should be reported at any time after navigation.
+     * Page load time and other metrics, should be reported at any time
+     * after navigation.
      */
     pageLoaded() {
       if (this.performanceTiming.loadEventEnd === 0) {
@@ -281,7 +282,35 @@
         const loadTime = this.performanceTiming.loadEventEnd -
             this.performanceTiming.navigationStart;
         this.reporter(TIMING.TYPE, TIMING.CATEGORY_UI_LATENCY,
-            TIMING.PAGE_LOADED, loadTime);
+            TIMING.PAGE_LOADED, loadTime, true);
+
+        const requestStart = this.performanceTiming.requestStart -
+            this.performanceTiming.navigationStart;
+        this.reporter(TIMING.TYPE, TIMING.CATEGORY_UI_LATENCY,
+            'requestStart', requestStart, true);
+
+        const responseEnd = this.performanceTiming.responseEnd -
+            this.performanceTiming.navigationStart;
+        this.reporter(TIMING.TYPE, TIMING.CATEGORY_UI_LATENCY,
+            'responseEnd', responseEnd, true);
+
+        const domLoading = this.performanceTiming.domLoading -
+          this.performanceTiming.navigationStart;
+        this.reporter(TIMING.TYPE, TIMING.CATEGORY_UI_LATENCY,
+            'domLoading', domLoading, true);
+
+        const domContentLoadedEventStart =
+          this.performanceTiming.domContentLoadedEventStart -
+          this.performanceTiming.navigationStart;
+        this.reporter(TIMING.TYPE, TIMING.CATEGORY_UI_LATENCY,
+            'domContentLoadedEventStart', domContentLoadedEventStart, true);
+
+        if (this.performanceTiming.redirectEnd > 0) {
+          const redirectEnd = this.performanceTiming.redirectEnd -
+              this.performanceTiming.navigationStart;
+          this.reporter(TIMING.TYPE, TIMING.CATEGORY_UI_LATENCY,
+              'redirectEnd', redirectEnd, true);
+        }
       }
     },
 

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ccfe0aeb_021b7c0d",
+        "filename": "java/com/google/gerrit/server/restapi/change/CherryPickChange.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-11-07T03:15:04Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this also declare the UnresolveableAccountException?  Or better, should we catch that at L267 and throw an UnprocessableEntityException?",
+      "range": {
+        "startLine": 262,
+        "startChar": 6,
+        "endLine": 264,
+        "endChar": 38
+      },
+      "revId": "b7919af447cbcaea894763e2c940a2989c290069",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

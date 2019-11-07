@@ -34,6 +34,24 @@
       "revId": "6a7b3a1b3789f53f1c444e3018a5861832b350a0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "948863dc_7f3b83b8",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 6145,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-11-07T03:15:04Z",
+      "side": 1,
+      "message": "\u003e \"Forge Committer\" does not provide the ability to do this uploading changes.\n\nGood point. Should we then introduce a new permission as Luke suggested (note we had some discussion previously about limiting introduction of new permissions) or use Forge Committer and update its documentation to clarify the new use case?",
+      "parentUuid": "6020d0be_82ecfa53",
+      "revId": "6a7b3a1b3789f53f1c444e3018a5861832b350a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

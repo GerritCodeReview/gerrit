@@ -124,6 +124,24 @@
       "revId": "d3efab14c992fa6aeb59789c63f7a7616514f56b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cef1e6e8_cc4df762",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-11-07T12:51:23Z",
+      "side": 1,
+      "message": "Ok, I uploaded a patch set doing that.\nJust to clarify, I did not plan to replace the \u0027#container\u0027, but to use it in the same way as gr-formatted-text. Thus, the formatting done in Gerrit core would still happen together with the formatting provided by plugins. The endpoint would be meant to be used for hooks and not to replace the gr-formatted-text.\nFor an example how I intend to use it, check this change: https://gerrit-review.googlesource.com/c/plugins/imagare/+/242733",
+      "parentUuid": "e4ba1ddf_76a4bdae",
+      "revId": "d3efab14c992fa6aeb59789c63f7a7616514f56b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ce25e721_83d82954",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-11-07T19:06:24Z",
+      "side": 1,
+      "message": "It would be good if the commit message mentioned that this is a REST endpoint.",
+      "range": {
+        "startLine": 7,
+        "startChar": 10,
+        "endLine": 7,
+        "endChar": 18
+      },
+      "revId": "d428b4d7c78eb30a84a2cab057cc12bcc5138f4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "47c8c6d6_d5d514d3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-11-07T19:06:24Z",
+      "side": 1,
+      "message": "When do you intend to add an entry for this REST endpoint to the REST API documentation? I\u0027m also fine if it\u0027s added in the change implementing this endpoint but we shouldn\u0027t forget it. Alternatively, we could already prepare the documentation in this change.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 48
+      },
+      "revId": "d428b4d7c78eb30a84a2cab057cc12bcc5138f4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "51ba9faa_1c0f2048",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetFixPreview.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-11-07T19:06:24Z",
+      "side": 1,
+      "message": "Should be a singleton (\u003d annotated by @Singleton).",
+      "range": {
+        "startLine": 27,
+        "startChar": 13,
+        "endLine": 27,
+        "endChar": 26
+      },
+      "revId": "d428b4d7c78eb30a84a2cab057cc12bcc5138f4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d04b93c4_27a26ad8",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 969,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-11-07T19:06:24Z",
+      "side": 1,
+      "message": "Unused fields.",
+      "range": {
+        "startLine": 966,
+        "startChar": 4,
+        "endLine": 969,
+        "endChar": 52
+      },
+      "revId": "d428b4d7c78eb30a84a2cab057cc12bcc5138f4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e1a520ad_a96246c8",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 976,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-11-07T19:06:24Z",
+      "side": 1,
+      "message": "A test typically should include an assertion. In this case, we could test that the preview is empty as long as it\u0027s just a dummy endpoint.",
+      "range": {
+        "startLine": 976,
+        "startChar": 14,
+        "endLine": 976,
+        "endChar": 27
+      },
+      "revId": "d428b4d7c78eb30a84a2cab057cc12bcc5138f4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

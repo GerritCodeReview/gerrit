@@ -197,9 +197,9 @@
       this.bindShortcut(
           this.Shortcut.PREV_PAGE, 'p', '[');
       this.bindShortcut(
-          this.Shortcut.TOGGLE_CHANGE_REVIEWED, 'r');
+          this.Shortcut.TOGGLE_CHANGE_REVIEWED, 'r:keyup');
       this.bindShortcut(
-          this.Shortcut.TOGGLE_CHANGE_STAR, 's');
+          this.Shortcut.TOGGLE_CHANGE_STAR, 's:keyup');
       this.bindShortcut(
           this.Shortcut.REFRESH_CHANGE_LIST, 'shift+r');
       this.bindShortcut(
@@ -220,7 +220,7 @@
       this.bindShortcut(
           this.Shortcut.UP_TO_CHANGE, 'u');
       this.bindShortcut(
-          this.Shortcut.TOGGLE_DIFF_MODE, 'm');
+          this.Shortcut.TOGGLE_DIFF_MODE, 'm:keyup');
 
       this.bindShortcut(
           this.Shortcut.NEXT_LINE, 'j', 'down');
@@ -255,7 +255,7 @@
       this.bindShortcut(
           this.Shortcut.OPEN_DIFF_PREFS, ',');
       this.bindShortcut(
-          this.Shortcut.TOGGLE_DIFF_REVIEWED, 'r');
+          this.Shortcut.TOGGLE_DIFF_REVIEWED, 'r:keyup');
 
       this.bindShortcut(
           this.Shortcut.NEXT_FILE, ']');
@@ -272,7 +272,7 @@
       this.bindShortcut(
           this.Shortcut.OPEN_FILE, 'o', 'enter');
       this.bindShortcut(
-          this.Shortcut.TOGGLE_FILE_REVIEWED, 'r');
+          this.Shortcut.TOGGLE_FILE_REVIEWED, 'r:keyup');
       this.bindShortcut(
           this.Shortcut.NEXT_UNREVIEWED_FILE, 'shift+m');
       this.bindShortcut(

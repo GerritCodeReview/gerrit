@@ -35,6 +35,7 @@ import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.AllUsersNameProvider;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.index.IndexUtils;
+import com.google.gerrit.server.index.StalenessCheckResult;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
@@ -87,16 +88,16 @@ public class StalenessChecker {
     this.indexConfig = indexConfig;
   }
 
-  public boolean isStale(Account.Id id) throws IOException {
+  public StalenessCheckResult check(Account.Id id) throws IOException {
     AccountIndex i = indexes.getSearchIndex();
     if (i == null) {
       // No index; caller couldn't do anything if it is stale.
-      return false;
+      return StalenessCheckResult.notStale();
     }
     if (!i.getSchema().hasField(AccountField.REF_STATE)
         || !i.getSchema().hasField(AccountField.EXTERNAL_ID_STATE)) {
       // Index version not new enough for this check.
-      return false;
+      return StalenessCheckResult.notStale();
     }
 
     boolean useLegacyNumericFields = i.getSchema().useLegacyNumericFields();
@@ -112,7 +113,11 @@ public class StalenessChecker {
         Ref ref = repo.exactRef(RefNames.refsUsers(id));
 
         // Stale if the account actually exists.
-        return ref != null;
+        if (ref == null) {
+          return StalenessCheckResult.notStale();
+        }
+        return StalenessCheckResult.stale(
+            "Document missing in index, but found %s in the repo", ref);
       }
     }
 
@@ -124,8 +129,9 @@ public class StalenessChecker {
           e.getKey().get().equals(AllUsersNameProvider.DEFAULT) ? allUsersName : e.getKey();
       try (Repository repo = repoManager.openRepository(repoName)) {
         if (!e.getValue().match(repo)) {
-          // Ref was modified since the account was indexed.
-          return true;
+          return StalenessCheckResult.stale(
+              "Ref was modified since the account was indexed (%s != %s)",
+              e.getValue(), repo.exactRef(e.getValue().ref()));
         }
       }
     }
@@ -134,17 +140,22 @@ public class StalenessChecker {
     ListMultimap<ObjectId, ObjectId> extIdStates =
         parseExternalIdStates(result.get().getValue(AccountField.EXTERNAL_ID_STATE));
     if (extIdStates.size() != extIds.size()) {
-      // External IDs of the account were modified since the account was indexed.
-      return true;
+      return StalenessCheckResult.stale(
+          "External IDs of the account were modified since the account was indexed. (%s != %s)",
+          extIdStates.size(), extIds.size());
     }
     for (ExternalId extId : extIds) {
+      if (!extIdStates.containsKey(extId.key().sha1())) {
+        return StalenessCheckResult.stale("External ID missing: %s", extId.key().sha1());
+      }
       if (!extIdStates.containsEntry(extId.key().sha1(), extId.blobId())) {
-        // External IDs of the account were modified since the account was indexed.
-        return true;
+        return StalenessCheckResult.stale(
+            "External ID has unexpected value. (%s != %s)",
+            extIdStates.get(extId.key().sha1()), extId.blobId());
       }
     }
 
-    return false;
+    return StalenessCheckResult.notStale();
   }
 
   public static ListMultimap<ObjectId, ObjectId> parseExternalIdStates(

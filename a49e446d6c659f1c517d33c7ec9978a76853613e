@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "32e1b600_b713dff4",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-11-07T07:13:37Z",
+      "side": 1,
+      "message": "Maybe add a comment that PerformanceObserver is a browser API.",
+      "range": {
+        "startLine": 146,
+        "startChar": 25,
+        "endLine": 146,
+        "endChar": 44
+      },
+      "revId": "a49e446d6c659f1c517d33c7ec9978a76853613e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "028527e9_2af0a62b",
         "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
         "patchSetId": 3
@@ -48,6 +71,46 @@
     },
     {
       "key": {
+        "uuid": "b2b5d06e_469dbde1",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-11-07T07:13:37Z",
+      "side": 1,
+      "message": "ms? Add the unit to the comment.",
+      "range": {
+        "startLine": 150,
+        "startChar": 54,
+        "endLine": 150,
+        "endChar": 57
+      },
+      "revId": "a49e446d6c659f1c517d33c7ec9978a76853613e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "91abf02a_3b00ec49",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-11-07T07:13:37Z",
+      "side": 1,
+      "message": "The reporter method makes use of other \"this\" properties and methods. Does that even work in this static context?\n\nMaybe it is cleaner to create some kind of performance tracker class or component, which instantiates a gr-reporting object. That performance tracker could maybe be instantiated in gr-app-element?\n\n550 lines is probably large enough to consider not adding more functionality to this component.",
+      "revId": "a49e446d6c659f1c517d33c7ec9978a76853613e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ed21b811_856710f6",
         "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
         "patchSetId": 3
@@ -65,6 +128,23 @@
         "endLine": 158,
         "endChar": 8
       },
+      "revId": "a49e446d6c659f1c517d33c7ec9978a76853613e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0384e53a_83a7e878",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-11-07T07:13:37Z",
+      "side": 1,
+      "message": "This comment does not add value IMO. Maybe remove it.",
       "revId": "a49e446d6c659f1c517d33c7ec9978a76853613e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

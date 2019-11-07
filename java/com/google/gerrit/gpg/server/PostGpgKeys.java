@@ -196,7 +196,7 @@ public class PostGpgKeys implements RestModifyView<AccountResource, GpgKeysInput
 
   private void storeKeys(
       AccountResource rsrc, List<PGPPublicKeyRing> keyRings, Collection<Fingerprint> toRemove)
-      throws BadRequestException, ResourceConflictException, PGPException, IOException {
+      throws BadRequestException, PGPException, IOException {
     try (PublicKeyStore store = storeProvider.get()) {
       List<String> addedKeys = new ArrayList<>();
       IdentifiedUser user = rsrc.getUser();

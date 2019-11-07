@@ -1,0 +1,182 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "21f0cda5_9a5327c8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-11-07T04:36:15Z",
+      "side": 1,
+      "message": "structured",
+      "range": {
+        "startLine": 16,
+        "startChar": 47,
+        "endLine": 16,
+        "endChar": 56
+      },
+      "revId": "94bd76f7ef2558f7f718449e03154d5cac0963e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f4a1f54e_7beb30ca",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-11-07T04:36:15Z",
+      "side": 1,
+      "message": "result",
+      "range": {
+        "startLine": 16,
+        "startChar": 30,
+        "endLine": 16,
+        "endChar": 37
+      },
+      "revId": "94bd76f7ef2558f7f718449e03154d5cac0963e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7bdc8196_cbb6b5cf",
+        "filename": "java/com/google/gerrit/server/index/StalenessCheckResult.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-11-07T04:36:15Z",
+      "side": 1,
+      "message": "Instances of this class are getting included in log messages. Does AutoValue provide an implementation of toString that returns a human readable format?",
+      "revId": "94bd76f7ef2558f7f718449e03154d5cac0963e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cc1210f2_e321f766",
+        "filename": "java/com/google/gerrit/server/index/StalenessCheckResult.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-11-07T04:36:15Z",
+      "side": 1,
+      "message": "Could just be:\n\n return stale(String.format(reason, args));",
+      "range": {
+        "startLine": 33,
+        "startChar": 4,
+        "endLine": 33,
+        "endChar": 94
+      },
+      "revId": "94bd76f7ef2558f7f718449e03154d5cac0963e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "70199c27_6273a515",
+        "filename": "java/com/google/gerrit/server/index/account/AccountIndexerImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-11-07T04:36:15Z",
+      "side": 1,
+      "message": "atFine?",
+      "range": {
+        "startLine": 122,
+        "startChar": 15,
+        "endLine": 122,
+        "endChar": 21
+      },
+      "revId": "94bd76f7ef2558f7f718449e03154d5cac0963e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eb4de25c_8cae735b",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeIndexer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 438,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-11-07T04:36:15Z",
+      "side": 1,
+      "message": "atFine?",
+      "range": {
+        "startLine": 438,
+        "startChar": 17,
+        "endLine": 438,
+        "endChar": 23
+      },
+      "revId": "94bd76f7ef2558f7f718449e03154d5cac0963e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "774cff81_7525a632",
+        "filename": "java/com/google/gerrit/server/index/group/GroupIndexerImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-11-07T04:36:15Z",
+      "side": 1,
+      "message": "atFine",
+      "range": {
+        "startLine": 122,
+        "startChar": 15,
+        "endLine": 122,
+        "endChar": 21
+      },
+      "revId": "94bd76f7ef2558f7f718449e03154d5cac0963e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1965bd8b_3b3f839e",
+        "filename": "java/com/google/gerrit/server/index/group/StalenessChecker.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-11-07T04:36:15Z",
+      "side": 1,
+      "message": "Move this comment above the return statement so we don\u0027t get the weird line breaking?",
+      "range": {
+        "startLine": 67,
+        "startChar": 23,
+        "endLine": 67,
+        "endChar": 79
+      },
+      "revId": "94bd76f7ef2558f7f718449e03154d5cac0963e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

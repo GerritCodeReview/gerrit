@@ -16,6 +16,24 @@
       "revId": "652c593dc999a830909a79bfe0aa080bf16badda",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "13500e2a_0c21f9a1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-11-07T14:28:41Z",
+      "side": 1,
+      "message": "Sure. I tried, but it was rejected, because internally Google is using outdated version and is not able to upgrade, see [1]. Should we think about \"light fork gerrit\"? Other deps are affected as well, like Bouncy Castle security library, that is 3 major releases behind, see: [2].\n\nMy idea that we release two gerrit-3.2 versions one with Google approved deps, and another one with latest and greatest deps. See also Google Guice issue that prevents running gerrit on the latest JDK versions 13 and 14: [3],[4].\n\n* [1] https://gerrit-review.googlesource.com/c/gerrit/+/240699\n* [2] https://gerrit-review.googlesource.com/c/gerrit/+/241130\n* [3] https://groups.google.com/d/topic/repo-discuss/ZqEj7r9w_bY/discussion\n* [4] https://gerrit-review.googlesource.com/c/gerrit/+/243014",
+      "parentUuid": "cabfa758_597e1897",
+      "revId": "652c593dc999a830909a79bfe0aa080bf16badda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

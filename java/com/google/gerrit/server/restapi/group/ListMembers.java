@@ -44,7 +44,7 @@ import org.kohsuke.args4j.Option;
 public class ListMembers implements RestReadView<GroupResource> {
   private final GroupCache groupCache;
   private final GroupControl.Factory groupControlFactory;
-  private final AccountLoader accountLoader;
+  private final AccountLoader.Factory accountLoaderFactory;
 
   @Option(name = "--recursive", usage = "to resolve included groups recursively")
   private boolean recursive;
@@ -56,7 +56,7 @@ public class ListMembers implements RestReadView<GroupResource> {
       AccountLoader.Factory accountLoaderFactory) {
     this.groupCache = groupCache;
     this.groupControlFactory = groupControlFactory;
-    this.accountLoader = accountLoaderFactory.create(true);
+    this.accountLoaderFactory = accountLoaderFactory;
   }
 
   public ListMembers setRecursive(boolean recursive) {
@@ -111,6 +111,7 @@ public class ListMembers implements RestReadView<GroupResource> {
 
   private List<AccountInfo> toAccountInfos(Set<Account.Id> members)
       throws PermissionBackendException {
+    AccountLoader accountLoader = accountLoaderFactory.create(true);
     List<AccountInfo> memberInfos = new ArrayList<>(members.size());
     for (Account.Id member : members) {
       memberInfos.add(accountLoader.get(member));

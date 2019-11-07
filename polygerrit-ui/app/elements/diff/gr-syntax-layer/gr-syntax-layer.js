@@ -89,6 +89,7 @@
     'text/x-twig': 'twig',
     'text/x-vb': 'vb',
     'text/x-verilog': 'v',
+    'text/x-vhdl': 'vhdl',
     'text/x-yaml': 'yaml',
     'text/vbscript': 'vbscript',
   };

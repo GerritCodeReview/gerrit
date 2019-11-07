@@ -46,6 +46,30 @@
       "revId": "757b33dfe392512a5090bf81c8a382eb6901c6ec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ae095206_99592706",
+        "filename": "java/com/google/gerrit/server/restapi/project/CommitsCollection.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-11-07T07:38:26Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "eb33d21c_ac9566fd",
+      "range": {
+        "startLine": 165,
+        "startChar": 31,
+        "endLine": 165,
+        "endChar": 94
+      },
+      "revId": "757b33dfe392512a5090bf81c8a382eb6901c6ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

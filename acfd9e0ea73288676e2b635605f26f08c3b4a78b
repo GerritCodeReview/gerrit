@@ -25,6 +25,76 @@
     },
     {
       "key": {
+        "uuid": "136377aa_15fba80d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-11-07T19:53:39Z",
+      "side": 1,
+      "message": "Can you please already add many more tests? We need them anyway no matter how the implementation looks. Those tests would also be helpful for the review to see which use cases (and corner cases) the logic already covers.",
+      "parentUuid": "cfe5d858_bb497b51",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 3
+      },
+      "revId": "acfd9e0ea73288676e2b635605f26f08c3b4a78b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d13ce8d2_2cc84615",
+        "filename": "java/com/google/gerrit/server/fixes/FixReplacementInterpreter.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-11-07T19:53:39Z",
+      "side": 1,
+      "message": "In Java-8-land, it\u0027s a bit strange to extract such a method. If you\u0027re interested, I can write a longer explanation why so (or tell you in person).\n\nI saw that this method is used in two places. It would just inline it.",
+      "range": {
+        "startLine": 56,
+        "startChar": 50,
+        "endLine": 56,
+        "endChar": 83
+      },
+      "revId": "acfd9e0ea73288676e2b635605f26f08c3b4a78b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d07444b7_922c4155",
+        "filename": "java/com/google/gerrit/server/fixes/FixReplacementInterpreter.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-11-07T19:53:39Z",
+      "side": 1,
+      "message": "Code using a FixResult shouldn\u0027t need to deal with such details. Instead, it should be possible to directly get the new file content as string.",
+      "range": {
+        "startLine": 121,
+        "startChar": 11,
+        "endLine": 121,
+        "endChar": 69
+      },
+      "revId": "acfd9e0ea73288676e2b635605f26f08c3b4a78b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2c4e1cc6_738cda92",
         "filename": "java/com/google/gerrit/server/patch/PatchScriptBuilder.java",
         "patchSetId": 13
@@ -72,6 +142,53 @@
     },
     {
       "key": {
+        "uuid": "5c44d874_a2e4acc8",
+        "filename": "java/com/google/gerrit/server/patch/PatchScriptBuilder.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 521,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-11-07T19:53:39Z",
+      "side": 1,
+      "message": "An addition from our conversation: Yes, it\u0027s possible that both ObjectIds are equal as our API allows to diff a patch set against itself.",
+      "parentUuid": "a4a2811c_98c20587",
+      "range": {
+        "startLine": 521,
+        "startChar": 24,
+        "endLine": 521,
+        "endChar": 77
+      },
+      "revId": "acfd9e0ea73288676e2b635605f26f08c3b4a78b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "249e7bfa_ea1a3c28",
+        "filename": "java/com/google/gerrit/server/patch/PatchScriptBuilder.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 538,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-11-07T19:53:39Z",
+      "side": 1,
+      "message": "I currently don\u0027t see why this was necessary to be changed. Is this just a general improvement?",
+      "range": {
+        "startLine": 538,
+        "startChar": 61,
+        "endLine": 538,
+        "endChar": 71
+      },
+      "revId": "acfd9e0ea73288676e2b635605f26f08c3b4a78b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1b78a2eb_68a77d70",
         "filename": "java/com/google/gerrit/server/patch/PatchScriptFactory.java",
         "patchSetId": 13
@@ -112,6 +229,75 @@
         "startChar": 79,
         "endLine": 252,
         "endChar": 99
+      },
+      "revId": "acfd9e0ea73288676e2b635605f26f08c3b4a78b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e64e69de_24c37653",
+        "filename": "java/com/google/gerrit/server/patch/PatchScriptFactory.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 485,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-11-07T19:53:39Z",
+      "side": 1,
+      "message": "I don\u0027t really see a benefit in adding this strategy interface and its implementations. There\u0027s not a lot of code being shared. In addition, the implementations are non-static inner classes, which should be used with care. Would it be possible to instead have two separate classes/variants of PatchScriptFactory, one for fixes, one for the regular diff code?",
+      "range": {
+        "startLine": 485,
+        "startChar": 20,
+        "endLine": 485,
+        "endChar": 39
+      },
+      "revId": "acfd9e0ea73288676e2b635605f26f08c3b4a78b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9a752feb_32e87802",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 993,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-11-07T19:53:39Z",
+      "side": 1,
+      "message": "We should rather use the DiffInfoSubject for assertions. If it doesn\u0027t contain methods for all fields, we should extend it.",
+      "range": {
+        "startLine": 993,
+        "startChar": 4,
+        "endLine": 993,
+        "endChar": 36
+      },
+      "revId": "acfd9e0ea73288676e2b635605f26f08c3b4a78b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c4b8d8e3_010fcbd3",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 1002,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-11-07T19:53:39Z",
+      "side": 1,
+      "message": "I guess this is just a sanity check that the REST endpoint is working in general. When you add more tests, can you please only do those assertions which are necessary for the specific test? We should also rather have more but smaller, targeted tests.",
+      "range": {
+        "startLine": 994,
+        "startChar": 3,
+        "endLine": 1002,
+        "endChar": 35
       },
       "revId": "acfd9e0ea73288676e2b635605f26f08c3b4a78b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

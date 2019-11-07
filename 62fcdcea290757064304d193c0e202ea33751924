@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ffaf6985_56d30423",
+        "filename": "java/com/google/gerrit/server/fixes/FixReplacementInterpreter.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-11-07T19:53:39Z",
+      "side": 0,
+      "message": "This class is not used anymore. Hence, we should delete it.\n\nWould it have been possible to reuse that class to implement FixCalculator? I\u0027m asking as we have a lot of unit tests which ensure that LineIdentifier is doing the right things and we would need to write a lot of tests for FixCalculator from scratch again.",
+      "range": {
+        "startLine": 114,
+        "startChar": 4,
+        "endLine": 114,
+        "endChar": 18
+      },
+      "revId": "62fcdcea290757064304d193c0e202ea33751924",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2b9ab633_d6bd905a",
+        "filename": "java/com/google/gerrit/server/patch/PatchScriptBuilder.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 686,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-11-07T19:53:39Z",
+      "side": 0,
+      "message": "Would it be possible to keep ImmutableList here? It\u0027s recommended to use the Immutablexxx collections whenever possible.",
+      "range": {
+        "startLine": 686,
+        "startChar": 4,
+        "endLine": 686,
+        "endChar": 17
+      },
+      "revId": "62fcdcea290757064304d193c0e202ea33751924",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

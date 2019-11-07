@@ -34,6 +34,24 @@
       "revId": "652c593dc999a830909a79bfe0aa080bf16badda",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5ea32aa2_650be43b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-11-07T14:32:21Z",
+      "side": 1,
+      "message": "Next week in Sunnyvale, there will be both JGit and Gerrit maintainers from inside and outside Google: this is a very valid point to raise.\n\nIf JGit isn\u0027t following Google rules about updating dependencies, does that mean that Google uses a private fork of JGit with its own validated deps?\n\nImagine that JGit upgrades Jetty to a major version that isn\u0027t compatible anymore with the outdated we have in Gerrit: how can we move forward? What Google does in that case?\n\nThere will be *plenty* of Google people in Sunnyvale on Monday, let\u0027s talk to them F2F :-)",
+      "parentUuid": "13500e2a_0c21f9a1",
+      "revId": "652c593dc999a830909a79bfe0aa080bf16badda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -207,6 +207,24 @@
     },
     {
       "key": {
+        "uuid": "bf4faf56_8301ee61",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2019-11-07T14:23:08Z",
+      "side": 1,
+      "message": "I agree and I should look how to refactor gr-reporting. However this is less than 10 lines of code and at least for the moment I don\u0027t think it needs its own class.",
+      "parentUuid": "91abf02a_3b00ec49",
+      "revId": "a49e446d6c659f1c517d33c7ec9978a76853613e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ed21b811_856710f6",
         "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
         "patchSetId": 3

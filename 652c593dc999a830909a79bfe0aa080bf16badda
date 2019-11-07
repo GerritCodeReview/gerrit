@@ -52,6 +52,24 @@
       "revId": "652c593dc999a830909a79bfe0aa080bf16badda",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b2a5eb59_6d7d0fc1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-11-07T23:30:51Z",
+      "side": 1,
+      "message": "IIRC Gerrit isn\u0027t using any part of JGit that has dependency on jetty, which is why it\u0027s OK to have mismatched versions.",
+      "parentUuid": "5ea32aa2_650be43b",
+      "revId": "652c593dc999a830909a79bfe0aa080bf16badda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

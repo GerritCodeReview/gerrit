@@ -34,6 +34,7 @@ limitations under the License.
       }
       iron-icon {
         margin: 0 var(--spacing-xs);
+        vertical-align: top;
       }
       paper-input:not(.borderless) {
         border: 1px solid var(--border-color);
@@ -44,14 +45,11 @@ limitations under the License.
         @apply --gr-autocomplete;
         --paper-input-container: {
           padding: 0;
-        }
+        };
         --paper-input-container-input: {
           font-size: var(--font-size-normal);
-          /* paper-input insists on adding 1px above and below such that we have
-             to substract that to get a line height that is consistent with
-             normal text. */
-          line-height: calc(var(--line-height-normal) - 2px);
-        }
+          line-height: var(--line-height-normal);
+        };
         --paper-input-container-underline: {
           display: none;
         };

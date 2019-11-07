@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "94976de8_c3e18519",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 404,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-11-07T07:12:08Z",
+      "side": 1,
+      "message": "do not both try",
+      "range": {
+        "startLine": 404,
+        "startChar": 43,
+        "endLine": 404,
+        "endChar": 54
+      },
+      "revId": "0bb4ac77fe2b9015abea188915f24351af70ec7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "170361a4_910b330d",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 405,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-11-07T07:12:08Z",
+      "side": 1,
+      "message": "This implies that it will be supported at some future time, but if the classes are immutable will it ever be possible?",
+      "range": {
+        "startLine": 405,
+        "startChar": 13,
+        "endLine": 405,
+        "endChar": 22
+      },
+      "revId": "0bb4ac77fe2b9015abea188915f24351af70ec7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5bee4d0c_761091af",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 405,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-11-07T07:12:08Z",
+      "side": 1,
+      "message": "\"do not\" or \"don\u0027t\"",
+      "range": {
+        "startLine": 405,
+        "startChar": 23,
+        "endLine": 405,
+        "endChar": 31
+      },
+      "revId": "0bb4ac77fe2b9015abea188915f24351af70ec7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6da9baf3_ba5ac361",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 406,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-11-07T07:12:08Z",
+      "side": 1,
+      "message": "are immutable",
+      "range": {
+        "startLine": 405,
+        "startChar": 82,
+        "endLine": 406,
+        "endChar": 14
+      },
+      "revId": "0bb4ac77fe2b9015abea188915f24351af70ec7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2cb450fd_77e50f9f",
+        "filename": "java/com/google/gerrit/acceptance/GerritServer.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-11-07T07:12:08Z",
+      "side": 1,
+      "message": "Override?",
+      "range": {
+        "startLine": 264,
+        "startChar": 7,
+        "endLine": 264,
+        "endChar": 17
+      },
+      "revId": "0bb4ac77fe2b9015abea188915f24351af70ec7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0f1a03be_273c3c84",
+        "filename": "java/com/google/gerrit/acceptance/GerritServer.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-11-07T07:12:08Z",
+      "side": 1,
+      "message": "exclude",
+      "range": {
+        "startLine": 264,
+        "startChar": 45,
+        "endLine": 264,
+        "endChar": 51
+      },
+      "revId": "0bb4ac77fe2b9015abea188915f24351af70ec7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

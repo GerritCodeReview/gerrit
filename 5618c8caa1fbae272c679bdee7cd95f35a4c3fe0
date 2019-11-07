@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bac1cb6d_7d53e704",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-11-07T14:03:44Z",
+      "side": 1,
+      "message": "Add some context about what this annotation does and why it\u0027s needed?\n\nAlso, it there a setting that can be enabled for the version of error prone that we are using?",
+      "revId": "5618c8caa1fbae272c679bdee7cd95f35a4c3fe0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

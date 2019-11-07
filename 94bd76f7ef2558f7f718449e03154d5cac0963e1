@@ -134,6 +134,24 @@
     },
     {
       "key": {
+        "uuid": "ed235074_815c78f7",
+        "filename": "java/com/google/gerrit/server/index/StalenessCheckResult.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-11-07T07:53:45Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "9f90e6f9_a546a5be",
+      "revId": "94bd76f7ef2558f7f718449e03154d5cac0963e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cc1210f2_e321f766",
         "filename": "java/com/google/gerrit/server/index/StalenessCheckResult.java",
         "patchSetId": 3
@@ -227,6 +245,30 @@
       "revId": "94bd76f7ef2558f7f718449e03154d5cac0963e1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "14da3caa_394e91d2",
+        "filename": "java/com/google/gerrit/server/index/account/AccountIndexerImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-11-07T07:53:45Z",
+      "side": 1,
+      "message": "OK, let\u0027s leave them at info level. If they get too spammy we can change them later.",
+      "parentUuid": "0097313f_5e6d4986",
+      "range": {
+        "startLine": 122,
+        "startChar": 15,
+        "endLine": 122,
+        "endChar": 21
+      },
+      "revId": "94bd76f7ef2558f7f718449e03154d5cac0963e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

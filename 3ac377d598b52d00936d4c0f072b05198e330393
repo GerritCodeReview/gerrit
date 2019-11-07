@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "026ad908_39d409ab",
+        "filename": "java/com/google/gerrit/server/index/StalenessCheckResult.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-11-07T13:07:30Z",
+      "side": 1,
+      "message": "https://gerrit-review.googlesource.com/c/gerrit/+/244273",
+      "parentUuid": "6907a92b_229ae547",
+      "range": {
+        "startLine": 32,
+        "startChar": 50,
+        "endLine": 32,
+        "endChar": 56
+      },
+      "revId": "3ac377d598b52d00936d4c0f072b05198e330393",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1cd53186_2189cb8b",
         "filename": "java/com/google/gerrit/server/index/change/StalenessChecker.java",
         "patchSetId": 4

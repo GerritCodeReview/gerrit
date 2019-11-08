@@ -62,7 +62,6 @@
     element.classList.add(this.getClassName(element));
   };
 
-
   function GrStylesApi() {
   }
 
@@ -74,7 +73,6 @@
   GrStylesApi.prototype.css = function(ruleStr) {
     return new GrStyleObject(ruleStr);
   };
-
 
   window.GrStylesApi = GrStylesApi;
 })(window);

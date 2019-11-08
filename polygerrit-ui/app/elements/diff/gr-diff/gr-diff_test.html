@@ -76,7 +76,6 @@ limitations under the License.
       });
     });
 
-
     test('cancel', () => {
       element = fixture('basic');
       const cancelStub = sandbox.stub(element.$.diffBuilder, 'cancel');
@@ -867,7 +866,6 @@ limitations under the License.
           assert.equal(element._lastChunkForSide(diff, false), diff.content[0]);
           assert.isNull(element._lastChunkForSide(diff, true));
         });
-
 
         test('deletion with b undefined', () => {
           const diff = {content: [

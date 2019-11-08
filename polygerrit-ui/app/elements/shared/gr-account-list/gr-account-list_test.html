@@ -187,7 +187,6 @@ limitations under the License.
         };
       });
 
-
       element._getSuggestions().then(suggestions => {
         // Default is no filtering.
         assert.equal(suggestions.length, 3);
@@ -224,7 +223,6 @@ limitations under the License.
       element.removableValues = [];
       assert.isFalse(element._computeRemovable(existingAccount1, false));
       assert.isTrue(element._computeRemovable(newAccount, false));
-
 
       element.removableValues = [existingAccount1];
       assert.isTrue(element._computeRemovable(existingAccount1, false));

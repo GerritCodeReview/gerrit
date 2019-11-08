@@ -53,7 +53,6 @@
       return this._cachedDiffBuilder;
     },
 
-
     isRangeSelected() {
       return !!this.$$('gr-selection-action-box');
     },

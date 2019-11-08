@@ -1060,7 +1060,6 @@ limitations under the License.
         element.reload().then(() => { flush(done); });
       });
 
-
       test('unignore button is not outside of the overflow menu', () => {
         assert.isNotOk(element.$$('[data-action-key="unignore"]'));
       });
@@ -1139,7 +1138,6 @@ limitations under the License.
 
         element.reload().then(() => { flush(done); });
       });
-
 
       test('unreviewed button not outside of the overflow menu', () => {
         assert.isNotOk(element.$$('[data-action-key="unreviewed"]'));
@@ -1540,7 +1538,6 @@ limitations under the License.
       element.change = {};
       element.changeNum = '42';
       element.latestPatchNum = '2';
-
 
       sandbox.stub(element.$.confirmCherrypick.$.restAPI,
           'getRepoBranches').returns(Promise.resolve([]));

@@ -188,7 +188,6 @@ limitations under the License.
         assert.isTrue(element.toSortedArray.lastCall.
             calledWithExactly(element.capabilities));
 
-
         // For everything else, include possible label values before filtering.
         name = 'refs/for/*';
         assert.deepEqual(element._computePermissions(name, element.capabilities,

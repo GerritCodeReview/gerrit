@@ -67,7 +67,6 @@
    */
   Defs.projectAccessInput;
 
-
   Polymer({
     is: 'gr-repo-access',
 

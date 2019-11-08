@@ -68,7 +68,6 @@
         computed: '_computeHiddenCount(_reviewers, _displayedReviewers)',
       },
 
-
       // Used for testing.
       _lastAutocompleteRequest: Object,
       _xhrPromise: Object,

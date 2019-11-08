@@ -150,7 +150,6 @@
       // so finish processing.
       if (isBinary) { return Promise.resolve(); }
 
-
       this._processPromise = util.makeCancelable(
           new Promise(resolve => {
             const state = {
@@ -412,7 +411,6 @@
       line.afterNumber = GrDiffLine.FILE;
       return new GrDiffGroup(GrDiffGroup.Type.BOTH, [line]);
     },
-
 
     /**
      * Split chunks into smaller chunks of the same kind.

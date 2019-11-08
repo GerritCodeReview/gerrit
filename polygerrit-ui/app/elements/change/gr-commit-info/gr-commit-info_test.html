@@ -101,7 +101,6 @@ limitations under the License.
           element.serverConfig), 'https://link-url');
     });
 
-
     test('ignore web links that are neither gitweb nor gitiles', () => {
       const router = document.createElement('gr-router');
       sandbox.stub(Gerrit.Nav, '_generateWeblinks',

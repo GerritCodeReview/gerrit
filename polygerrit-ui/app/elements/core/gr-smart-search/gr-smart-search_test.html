@@ -48,7 +48,6 @@ limitations under the License.
       sandbox.restore();
     });
 
-
     test('Autocompletes accounts', () => {
       sandbox.stub(element.$.restAPI, 'getSuggestedAccounts', () =>
         Promise.resolve([

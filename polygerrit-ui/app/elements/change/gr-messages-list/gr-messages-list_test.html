@@ -49,7 +49,6 @@ limitations under the License.
 </test-fixture>
 
 <script>
-
   const randomMessage = function(opt_params) {
     const params = opt_params || {};
     const author1 = {
@@ -516,7 +515,6 @@ limitations under the License.
       let messages = [randomMessage()];
       assert.equal(element._getDelta([], messages, false), 1);
       assert.equal(element._getDelta([], messages, true), 1);
-
 
       messages = _.times(7, randomMessage);
       assert.equal(element._getDelta([], messages, false), 5);

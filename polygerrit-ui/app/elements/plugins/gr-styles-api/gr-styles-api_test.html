@@ -105,7 +105,6 @@ limitations under the License.
       return [element1, element2, element3];
     }
 
-
     test('getClassName  - body level elements', () => {
       const bodyLevelElements = createNestedElements(document.body);
 
@@ -160,7 +159,6 @@ limitations under the License.
       displayInlineStyle.apply(elements[2]);
       assertDisplayPropertyValues(elements, ['inline', 'none', 'inline']);
     }
-
 
     function assertAllElementsHaveDefaultStyle(elements) {
       for (const element of elements) {

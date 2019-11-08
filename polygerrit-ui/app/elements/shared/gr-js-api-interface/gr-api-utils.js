@@ -90,7 +90,6 @@
     });
   }
 
-
   // TEST only methods / properties
 
   function testOnly_resetInternalState() {

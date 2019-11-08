@@ -17,7 +17,6 @@
 (function() {
   'use strict';
 
-
   const INTERNAL_GROUP_REGEX = /^[\da-f]{40}$/;
 
   Polymer({

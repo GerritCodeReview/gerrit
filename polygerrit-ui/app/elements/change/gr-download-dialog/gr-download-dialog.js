@@ -125,7 +125,6 @@
           '/patch?' + (opt_zip ? 'zip' : 'download');
     },
 
-
     /**
      * @param {!Object} change
      * @param {number|string} patchNum

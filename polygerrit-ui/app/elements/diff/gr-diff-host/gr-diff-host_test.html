@@ -58,7 +58,6 @@ limitations under the License.
       sandbox.restore();
     });
 
-
     suite('plugin layers', () => {
       const pluginLayers = [{annotate: () => {}}, {annotate: () => {}}];
       setup(() => {
@@ -1260,7 +1259,6 @@ limitations under the License.
       assert.equal(threads[0].range, undefined);
       assert.equal(threads[0].isOnParent, false);
       assert.equal(threads[0].patchNum, 2);
-
 
       // Try to fetch a thread with a different range.
       range = {

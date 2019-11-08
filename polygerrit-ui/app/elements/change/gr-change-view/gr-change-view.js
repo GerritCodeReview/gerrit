@@ -1288,7 +1288,6 @@
               this._latestCommitMessage = null;
             }
 
-
             const lineHeight = getComputedStyle(this).lineHeight;
 
             // Slice returns a number as a string, convert to an int.

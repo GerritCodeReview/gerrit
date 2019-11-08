@@ -216,7 +216,6 @@
           this.findSortedIndex(patchNum, sortedRevisions);
     },
 
-
     _computePatchSetCommentsString(changeComments, patchNum) {
       if (!changeComments) { return; }
 

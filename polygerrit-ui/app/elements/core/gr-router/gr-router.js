@@ -325,7 +325,6 @@
       return null;
     },
 
-
     _getBrowseCommitWeblink(weblinks, config) {
       if (!weblinks) { return null; }
       let weblink;
@@ -1458,7 +1457,6 @@
     _handlePassThroughRoute() {
       location.reload();
     },
-
 
     /**
      * URL may sometimes have /+/ encoded to / /.

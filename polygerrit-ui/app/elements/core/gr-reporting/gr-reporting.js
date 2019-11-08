@@ -157,7 +157,6 @@
     catchLongJsTasks.observe({entryTypes: ['longtask']});
   }
 
-
   // The Polymer pass of JSCompiler requires this to be reassignable
   // eslint-disable-next-line prefer-const
   let GrReporting = Polymer({

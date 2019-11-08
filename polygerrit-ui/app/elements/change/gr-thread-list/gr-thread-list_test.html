@@ -290,7 +290,6 @@ limitations under the License.
       assert.equal(element._filteredThreads.includes(thread), true);
     });
 
-
     test('thread removal', () => {
       threadElements[1].fire('thread-discard', {rootId: 'rc2'});
       flushAsynchronousOperations();

@@ -79,7 +79,6 @@
     DELTA: 'delta',
   };
 
-
   /**
    * Hides lines in the given range behind a context control group.
    *

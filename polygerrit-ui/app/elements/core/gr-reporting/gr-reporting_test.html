@@ -84,7 +84,8 @@ limitations under the License.
       assert.isTrue(
           element.reporter.calledWithExactly(
               'timing-report', 'UI Latency', 'Page Loaded',
-              fakePerformance.loadEventEnd - fakePerformance.navigationStart)
+              fakePerformance.loadEventEnd - fakePerformance.navigationStart,
+              true)
       );
     });
 

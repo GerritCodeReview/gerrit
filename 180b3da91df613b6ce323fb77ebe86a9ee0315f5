@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a384012d_6ec86a73",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-11-08T07:39:26Z",
+      "side": 1,
+      "message": "In data analysis you may want to group by event name. Then it would probably be better to give this a fixed name like \"long-js-task\". The task name is rather a detail.\n\nOTOH I understand that you want to only have the duration in the value field, that also makes it easier to do data analysis. So a third option might be to not report the task.name at all. Is it meaningful?\n\nAnyway, feel also free to ignore my comment and keep as is.",
+      "range": {
+        "startLine": 152,
+        "startChar": 42,
+        "endLine": 152,
+        "endChar": 61
+      },
+      "revId": "180b3da91df613b6ce323fb77ebe86a9ee0315f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

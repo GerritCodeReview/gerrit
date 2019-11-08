@@ -95,7 +95,7 @@
         image._width = imageEl.naturalWidth;
         this._updateImageLabel(section, className, image);
       }.bind(this);
-      imageEl.src = 'data:' + image.type + ';base64, ' + image.body;
+      imageEl.setAttribute('src', `data:${image.type};base64, ${image.body}`);
       imageEl.addEventListener('error', () => {
         imageEl.remove();
         td.textContent = '[Image failed to load]';

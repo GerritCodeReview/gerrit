@@ -256,6 +256,10 @@
     return new GrAnnotationActionsInterface(this);
   };
 
+  Plugin.prototype.formatTextApi = function() {
+    return new GrFormatTextApi(this);
+  };
+
   Plugin.prototype.changeActions = function() {
     return new GrChangeActionsInterface(this,
       Plugin._sharedAPIElement.getElement(

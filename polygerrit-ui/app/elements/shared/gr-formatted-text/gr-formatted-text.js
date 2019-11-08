@@ -77,10 +77,17 @@
         container.removeChild(container.firstChild);
       }
 
-      // Add new content.
-      for (const node of this._computeNodes(this._computeBlocks(content))) {
-        container.appendChild(node);
-      }
+      Gerrit.awaitPluginsLoaded().then(() => {
+        const pluginFormatCallbacks = this.$.jsAPI.getFormattedTextCallbacks();
+
+        // Add new content.
+        for (let node of this._computeNodes(this._computeBlocks(content))) {
+          for (const callback of pluginFormatCallbacks) {
+            node = callback(node);
+          }
+          container.appendChild(node);
+        }
+      });
     },
 
     /**

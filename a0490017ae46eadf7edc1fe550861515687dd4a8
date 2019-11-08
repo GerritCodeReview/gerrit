@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4b8f50c3_bd4ef814",
+        "filename": "gerrit-server/src/main/java/com/google/gerrit/server/account/AccountCacheImpl.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-11-08T16:18:55Z",
+      "side": 1,
+      "message": "If you don\u0027t guard this with a (striped) lock as in Ben\u0027s example when multiple threads try to load the value for the same key they can all proceed which costs performance.",
+      "revId": "a0490017ae46eadf7edc1fe550861515687dd4a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

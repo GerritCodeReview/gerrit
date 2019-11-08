@@ -35,6 +35,10 @@
       },
     },
 
+    listeners: {
+      'plugin-format-added': '_pluginCallbacksChanged',
+    },
+
     observers: [
       '_contentOrConfigChanged(content, config)',
     ],
@@ -66,6 +70,10 @@
       this._contentOrConfigChanged(content);
     },
 
+    _pluginCallbacksChanged() {
+      this._contentOrConfigChanged(this.content);
+    },
+
     /**
      * Given a source string, update the DOM inside #container.
      */
@@ -77,8 +85,13 @@
         container.removeChild(container.firstChild);
       }
 
+      const pluginFormatCallbacks = this.$.jsAPI.getFormattedTextCallbacks();
+
       // Add new content.
-      for (const node of this._computeNodes(this._computeBlocks(content))) {
+      for (let node of this._computeNodes(this._computeBlocks(content))) {
+        for (const callback of pluginFormatCallbacks) {
+          node = callback(node);
+        }
         container.appendChild(node);
       }
     },

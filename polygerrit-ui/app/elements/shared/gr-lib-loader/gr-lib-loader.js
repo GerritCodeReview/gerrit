@@ -135,7 +135,7 @@
           return;
         }
 
-        script.src = src;
+        script.setAttribute('src', src);
         script.onload = resolve;
         script.onerror = reject;
         Polymer.dom(document.head).appendChild(script);

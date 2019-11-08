@@ -22,6 +22,30 @@
       "revId": "180b3da91df613b6ce323fb77ebe86a9ee0315f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eaafc0da_2b5a1593",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2019-11-08T10:55:02Z",
+      "side": 1,
+      "message": "It looks meaningful on my machine (only self), but maybe we will find other extensions, web-workers causing slow javascript, so I want to send it.\n\nI will group by if it starts on Task. I think it will be good enough. However I am ok to change it in future.",
+      "parentUuid": "a384012d_6ec86a73",
+      "range": {
+        "startLine": 152,
+        "startChar": 42,
+        "endLine": 152,
+        "endChar": 61
+      },
+      "revId": "180b3da91df613b6ce323fb77ebe86a9ee0315f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

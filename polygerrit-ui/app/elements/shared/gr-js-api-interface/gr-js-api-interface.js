@@ -28,6 +28,7 @@
     POST_REVERT: 'postrevert',
     ANNOTATE_DIFF: 'annotatediff',
     ADMIN_MENU_LINKS: 'admin-menu-links',
+    FORMAT_TEXT: 'format-text',
   };
 
   const Element = {
@@ -211,6 +212,10 @@
         }
       }
       return layers;
+    },
+
+    getFormattedTextCallbacks() {
+      return this._getEventCallbacks(EventType.FORMAT_TEXT);
     },
 
     getAdminMenuLinks() {

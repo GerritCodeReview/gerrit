@@ -43,6 +43,9 @@
       if (this.noTrailingMargin) {
         this.classList.add('noTrailingMargin');
       }
+      Gerrit.on('plugin-format-added', () => {
+        this._contentOrConfigChanged(this.content);
+      });
     },
 
     /**
@@ -77,8 +80,13 @@
         container.removeChild(container.firstChild);
       }
 
+      const pluginFormatCallbacks = this.$.jsAPI.getFormattedTextCallbacks();
+
       // Add new content.
-      for (const node of this._computeNodes(this._computeBlocks(content))) {
+      for (let node of this._computeNodes(this._computeBlocks(content))) {
+        for (const callback of pluginFormatCallbacks) {
+          node = callback(node);
+        }
         container.appendChild(node);
       }
     },

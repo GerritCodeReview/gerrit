@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "bde21549_8de3bef0",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-format-text-api/gr-format-text-api.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-11-08T16:24:33Z",
+      "side": 1,
+      "message": "this probably not needed. Since you already added the new EventType in `gr-js-api-interface`, then you can just use `plugin.on(YOUR_EVENT, cb)` and the `cb` will be stored in gr-js-api-interface, and you can just retrieve it with `getFormattedTextCallbacks`",
+      "revId": "81edc7d7f28932e35a402974f6a3fadef737468f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "619a5c2c_e30de862",
         "filename": "polygerrit-ui/app/elements/plugins/gr-format-text-api/gr-format-text-api.js",
         "patchSetId": 4
@@ -30,6 +47,47 @@
       "writtenOn": "2019-11-08T15:55:29Z",
       "side": 1,
       "message": "There are still issues here, if the plugin itself depends on an asynchronous call to provide the callback function, e.g. to get configuration.\nAny ideas how to deal with that?",
+      "revId": "81edc7d7f28932e35a402974f6a3fadef737468f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5023cf12_6e124bf9",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-11-08T16:24:33Z",
+      "side": 1,
+      "message": "maybe call this in `ready`, one of the lifycycle of polymer component ?\n\n```\nready() {\n  Gerrit.awaitPluginsLoaded().then(() \u003d\u003e this._contentOrConfigChanged(this.content));\n}\n```",
+      "range": {
+        "startLine": 80,
+        "startChar": 5,
+        "endLine": 80,
+        "endChar": 42
+      },
+      "revId": "81edc7d7f28932e35a402974f6a3fadef737468f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9efd9ae9_40f1c895",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-11-08T16:24:33Z",
+      "side": 1,
+      "message": "ya that\u0027s a tricky one. And I think this maybe a common case for quite a few plugins.\n\nMaybe use a event emitter ?\n\n```\nGerrit.awaitPluginsLoaded().then(() \u003d\u003e {\n  // render\n  this._contentOrConfigChanged(this.content);\n  \n  // just random thoughts\n  // Gerrit will need to support event emitter interface\n  Gerrit.on(SOME_EVENT, () \u003d\u003e this._contentOrConfigChanged(this.content));\n});\n```",
+      "parentUuid": "8772f4e0_1facf4e0",
       "revId": "81edc7d7f28932e35a402974f6a3fadef737468f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

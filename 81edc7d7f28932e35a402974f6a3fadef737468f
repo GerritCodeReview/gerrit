@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "619a5c2c_e30de862",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-format-text-api/gr-format-text-api.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-11-08T15:55:29Z",
+      "side": 1,
+      "message": "Documentation of GrFormatTextApi missing.",
+      "revId": "81edc7d7f28932e35a402974f6a3fadef737468f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8772f4e0_1facf4e0",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-11-08T15:55:29Z",
+      "side": 1,
+      "message": "There are still issues here, if the plugin itself depends on an asynchronous call to provide the callback function, e.g. to get configuration.\nAny ideas how to deal with that?",
+      "revId": "81edc7d7f28932e35a402974f6a3fadef737468f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

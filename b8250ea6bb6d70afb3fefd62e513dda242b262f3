@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "99fff106_21d47f7f",
+        "filename": "java/com/google/gerrit/server/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-11-09T10:55:14Z",
+      "side": 1,
+      "message": "Is not used and should be removed.",
+      "range": {
+        "startLine": 95,
+        "startChar": 0,
+        "endLine": 95,
+        "endChar": 18
+      },
+      "revId": "b8250ea6bb6d70afb3fefd62e513dda242b262f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

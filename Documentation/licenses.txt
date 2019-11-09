@@ -88,6 +88,8 @@ Apache2.0
 * openid:xerces
 * polymer_externs:polymer_closure
 * blame-cache
+* caffeine
+* caffeine-guava
 * gson
 * guava
 * guava-failureaccess

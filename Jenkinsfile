@@ -196,7 +196,7 @@ def findFlakyBuilds() {
     def retryBuilds = []
     flaky.each {
         def mode = it.key
-        Builds.verification.remove(mode)
+        Builds.verification = Builds.verification.findAll { it.key != mode }
         retryBuilds += mode
     }
 

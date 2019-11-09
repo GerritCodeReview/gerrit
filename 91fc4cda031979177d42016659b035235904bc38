@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c2239987_a29e63fa",
+        "filename": "java/com/google/gerrit/server/cache/h2/BUILD",
+        "patchSetId": 5
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-11-09T11:26:08Z",
+      "side": 1,
+      "message": "Unused.",
+      "range": {
+        "startLine": 16,
+        "startChar": 8,
+        "endLine": 16,
+        "endChar": 31
+      },
+      "revId": "91fc4cda031979177d42016659b035235904bc38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

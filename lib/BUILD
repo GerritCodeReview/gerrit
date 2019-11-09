@@ -1,4 +1,4 @@
-load("@rules_java//java:defs.bzl", "java_library")
+load("@rules_java//java:defs.bzl", "java_import", "java_library")
 
 exports_files(glob([
     "LICENSE-*",
@@ -104,6 +104,25 @@ java_library(
         "//lib/commons:lang",
         "//lib/commons:oro",
     ],
+)
+
+java_library(
+    name = "caffeine",
+    data = ["//lib:LICENSE-Apache2.0"],
+    visibility = ["//visibility:public"],
+    exports = ["@caffeine//jar"],
+)
+
+java_import(
+    name = "caffeine-guava-renamed",
+    jars = ["@caffeine-guava-renamed//file"],
+)
+
+java_library(
+    name = "caffeine-guava",
+    data = ["//lib:LICENSE-Apache2.0"],
+    visibility = ["//visibility:public"],
+    exports = [":caffeine-guava-renamed"],
 )
 
 java_library(

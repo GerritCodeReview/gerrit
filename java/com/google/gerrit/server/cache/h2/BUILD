@@ -12,6 +12,8 @@ java_library(
         "//java/com/google/gerrit/server/cache/serialize",
         "//java/com/google/gerrit/server/logging",
         "//java/com/google/gerrit/server/util/time",
+        "//lib:caffeine",
+        "//lib:caffeine-guava",
         "//lib:guava",
         "//lib:h2",
         "//lib:jgit",

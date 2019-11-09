@@ -128,4 +128,16 @@ public class Sequences {
       return groupSeq.next();
     }
   }
+
+  public int currentChangeId() {
+    return changeSeq.current();
+  }
+
+  public int currentAccountId() {
+    return accountSeq.current();
+  }
+
+  public int currentGroupId() {
+    return groupSeq.current();
+  }
 }

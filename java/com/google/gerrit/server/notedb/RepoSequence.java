@@ -291,4 +291,23 @@ public class RepoSequence {
     ObjectId newId = ins.insert(OBJ_BLOB, Integer.toString(val).getBytes(UTF_8));
     return new ReceiveCommand(ObjectId.zeroId(), newId, RefNames.REFS_SEQUENCES + name);
   }
+
+  public int current() {
+    counterLock.lock();
+    try (Repository repo = repoManager.openRepository(projectName);
+        RevWalk rw = new RevWalk(repo)) {
+      Optional<IntBlob> blob = IntBlob.parse(repo, refName, rw);
+      int current;
+      if (!blob.isPresent()) {
+        current = seed.get();
+      } else {
+        current = blob.get().value();
+      }
+      return current;
+    } catch (IOException e) {
+      throw new StorageException(e);
+    } finally {
+      counterLock.unlock();
+    }
+  }
 }

@@ -178,6 +178,9 @@ link:cmd-reload-config.html[gerrit reload-config]::
 link:cmd-set-account.html[gerrit set-account]::
 	Change an account's settings.
 
+link:cmd-sequence-show.html[gerrit sequence show]::
+        Display current sequence value.
+
 link:cmd-set-members.html[gerrit set-members]::
 	Set group members.
 

@@ -25,8 +25,13 @@
 
   // Import utils methods
   const {
+<<<<<<< HEAD
     send,
     getRestAPI,
+=======
+      send,
+      getRestAPI,
+>>>>>>> stable-3.1
   } = window._apiUtils;
 
   /**
@@ -54,7 +59,11 @@
       testOnly_resetInternalState,
     } = window._apiUtils;
     Gerrit._testOnly_installPreloadedPlugins = (...args) => Gerrit._pluginLoader
+<<<<<<< HEAD
         .installPreloadedPlugins(...args);
+=======
+      .installPreloadedPlugins(...args);
+>>>>>>> stable-3.1
     Gerrit._testOnly_flushPreinstalls = flushPreinstalls;
     Gerrit._testOnly_resetPlugins = () => {
       testOnly_resetInternalState();

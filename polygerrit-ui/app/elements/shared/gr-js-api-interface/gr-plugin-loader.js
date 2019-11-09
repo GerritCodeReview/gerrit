@@ -20,10 +20,17 @@
 
   // Import utils methods
   const {
+<<<<<<< HEAD
     PLUGIN_LOADING_TIMEOUT_MS,
     PRELOADED_PROTOCOL,
     getPluginNameFromUrl,
     getBaseUrl,
+=======
+      PLUGIN_LOADING_TIMEOUT_MS,
+      PRELOADED_PROTOCOL,
+      getPluginNameFromUrl,
+      getBaseUrl,
+>>>>>>> stable-3.1
   } = window._apiUtils;
 
   /**
@@ -328,7 +335,11 @@
     _createScriptTag(url) {
       const el = document.createElement('script');
       el.defer = true;
+<<<<<<< HEAD
       el.setAttribute('src', url);
+=======
+      el.src = url;
+>>>>>>> stable-3.1
       el.onerror = () => this._failToLoad(`${url} load error`, url);
       return document.body.appendChild(el);
     }

@@ -92,6 +92,7 @@ java_library(
         "//lib:flexmark-profile-pegdown",
         "//lib:flexmark-util",
         "//lib:gson",
+	"//lib:caffeine",
         "//lib:guava",
         "//lib:guava-retrying",
         "//lib:jgit",

@@ -247,6 +247,20 @@ maven_jar(
     sha1 = "ed28ded51a8b1c6b112568def5f4b455e6809019",
 )
 
+CAFFEINE_VERS = "2.8.0"
+
+maven_jar(
+    name = "caffeine",
+    artifact = "com.github.ben-manes.caffeine:caffeine:" + CAFFEINE_VERS,
+    sha1 = "6000774d7f8412ced005a704188ced78beeed2bb",
+)
+
+maven_jar(
+    name = "caffeine-guava",
+    artifact = "com.github.ben-manes.caffeine:guava:" + CAFFEINE_VERS,
+    sha1 = "e3cf0d6629b64706041cffe9de5b1dadab2fec4e",
+)
+
 maven_jar(
     name = "jsch",
     artifact = "com.jcraft:jsch:0.1.54",

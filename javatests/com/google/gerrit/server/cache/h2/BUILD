@@ -7,6 +7,8 @@ junit_tests(
         "//java/com/google/gerrit/server/cache/h2",
         "//java/com/google/gerrit/server/cache/serialize",
         "//lib:guava",
+        "//lib:caffeine",
+        "//lib:caffeine-guava",
         "//lib:h2",
         "//lib:junit",
         "//lib/guice",

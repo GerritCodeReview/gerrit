@@ -67,6 +67,7 @@ public class SshCommandsIT extends AbstractDaemonTest {
           "receive-pack",
           "rename-group",
           "review",
+          "sequence",
           "set-account",
           "set-head",
           "set-members",

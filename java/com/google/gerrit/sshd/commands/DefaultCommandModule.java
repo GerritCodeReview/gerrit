@@ -42,6 +42,7 @@ public class DefaultCommandModule extends CommandModule {
     CommandName logging = Commands.named(gerrit, "logging");
     CommandName plugin = Commands.named(gerrit, "plugin");
     CommandName testSubmit = Commands.named(gerrit, "test-submit");
+    CommandName sequence = Commands.named(gerrit, "sequence");
 
     command(gerrit).toProvider(new DispatchCommandProvider(gerrit));
     command(gerrit, AproposCommand.class);
@@ -69,6 +70,9 @@ public class DefaultCommandModule extends CommandModule {
     command(plugin, PluginRemoveCommand.class);
     alias(plugin, "add", PluginInstallCommand.class);
     alias(plugin, "rm", PluginRemoveCommand.class);
+
+    command(gerrit, "sequence").toProvider(new DispatchCommandProvider(sequence));
+    command(sequence, SequenceShowCommand.class);
 
     command(git).toProvider(new DispatchCommandProvider(git));
 

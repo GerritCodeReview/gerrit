@@ -111,6 +111,20 @@ java_library(
 )
 
 java_library(
+    name = "caffeine",
+    data = ["//lib:LICENSE-Apache2.0"],
+    visibility = ["//visibility:public"],
+    exports = ["@caffeine//jar"],
+)
+
+java_library(
+    name = "caffeine-guava",
+    data = ["//lib:LICENSE-Apache2.0"],
+    visibility = ["//visibility:public"],
+    exports = ["@caffeine-guava//jar"],
+)
+
+java_library(
     name = "jsch",
     data = ["//lib:LICENSE-jsch"],
     visibility = ["//visibility:public"],

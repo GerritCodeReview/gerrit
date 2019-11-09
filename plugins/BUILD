@@ -80,6 +80,7 @@ EXPORTS = [
     "//lib/ow2:ow2-asm-util",
     "//lib:args4j",
     "//lib:blame-cache",
+    "//lib:caffeine",
     "//lib:guava",
     "//lib:guava-retrying",
     "//lib:gson",

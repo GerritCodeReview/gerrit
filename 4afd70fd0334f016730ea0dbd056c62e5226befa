@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5389dded_6587150a",
+        "filename": "java/com/google/gerrit/server/cache/mem/DefaultMemoryCacheFactory.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-11-09T11:57:32Z",
+      "side": 1,
+      "message": "It is @FunctionalInterface, so that it can be simplified.",
+      "range": {
+        "startLine": 124,
+        "startChar": 49,
+        "endLine": 124,
+        "endChar": 56
+      },
+      "revId": "4afd70fd0334f016730ea0dbd056c62e5226befa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

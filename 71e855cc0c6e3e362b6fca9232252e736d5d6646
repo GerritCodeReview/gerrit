@@ -22,6 +22,29 @@
       "revId": "71e855cc0c6e3e362b6fca9232252e736d5d6646",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "75fa9a33_a3580a5e",
+        "filename": "java/com/google/gerrit/sshd/commands/SequenceShowCommand.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-11-10T19:56:57Z",
+      "side": 1,
+      "message": "groups",
+      "range": {
+        "startLine": 44,
+        "startChar": 12,
+        "endLine": 44,
+        "endChar": 17
+      },
+      "revId": "71e855cc0c6e3e362b6fca9232252e736d5d6646",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

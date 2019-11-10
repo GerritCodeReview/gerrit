@@ -26,6 +26,7 @@ public class SequenceCommandsModule extends CommandModule {
     CommandName gerrit = Commands.named("gerrit");
     CommandName sequence = Commands.named(gerrit, "sequence");
     command(sequence).toProvider(new DispatchCommandProvider(sequence));
+    command(sequence, SequenceSetCommand.class);
     command(sequence, SequenceShowCommand.class);
   }
 }

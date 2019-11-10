@@ -1,12 +1,12 @@
-= gerrit sequence show
+= gerrit sequence set
 
 == NAME
-gerrit sequence show - Display current sequence value.
+gerrit sequence set - Set new sequence value.
 
 == SYNOPSIS
 [verse]
 --
-_ssh_ -p <port> <host> _gerrit sequence show_ <NAME>
+_ssh_ -p <port> <host> _gerrit sequence set_ <NAME> <VALUE>
 --
 
 == DESCRIPTION
@@ -16,9 +16,9 @@ a blob pointed to by the `refs/sequences/accounts`, `refs/sequences/groups`
 and `refs/sequences/changes` refs. Those refs are stored in `All-Users` and
 `All-Projects` git repositories correspondingly.
 
-This command allows to display the current sequence value for those sequences.
+This command allows to set a new sequence value for those sequences.
 
-The link:cmd-sequence-set.html[sequence-set] command allows to set a new
+The link:cmd-sequence-show.html[sequence-show] command displays current
 sequence value.
 
 == ACCESS
@@ -29,18 +29,21 @@ This command is intended to be used in scripts.
 
 == OPTIONS
 <NAME>::
-  Sequence name to show the current value for.
+  Sequence name to set a new value for.
   Currently supported values:
     * accounts
     * groups
     * changes
 
+<VALUE>::
+  New value for the sequence.
+
 == EXAMPLES
-Display the current value for the 'changes' sequence:
+Set a new value for the 'changes' sequence:
 
 ----
-$ ssh -p 29418 review.example.com gerrit sequence show changes
-42
+$ ssh -p 29418 review.example.com gerrit sequence set changes 42
+The value for the changes sequence was set to 42.
 ----
 
 GERRIT

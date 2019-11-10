@@ -140,4 +140,16 @@ public class Sequences {
   public int currentGroupId() {
     return groupSeq.current();
   }
+
+  public void setChangeIdValue(int value) {
+    changeSeq.storeNew(value);
+  }
+
+  public void setAccountIdValue(int value) {
+    accountSeq.storeNew(value);
+  }
+
+  public void setGroupIdValue(int value) {
+    groupSeq.storeNew(value);
+  }
 }

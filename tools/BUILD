@@ -15,19 +15,6 @@ py_binary(
     visibility = ["//visibility:public"],
 )
 
-# TODO(davido): Remove this workaround and switch to using toolchain_vanilla
-# from this Bazel package again: @bazel_tools//tools/jdk:toolchain_vanilla,
-# when this issue is fixed: https://github.com/bazelbuild/bazel/issues/9415.
-default_java_toolchain(
-    name = "toolchain_vanilla",
-    forcibly_disable_header_compilation = True,
-    javabuilder = ["@bazel_tools//tools/jdk:vanillajavabuilder"],
-    jvm_opts = [],
-    source_version = "",
-    target_version = "",
-    visibility = ["//visibility:public"],
-)
-
 default_java_toolchain(
     name = "error_prone_warnings_toolchain",
     bootclasspath = ["@bazel_tools//tools/jdk:platformclasspath.jar"],

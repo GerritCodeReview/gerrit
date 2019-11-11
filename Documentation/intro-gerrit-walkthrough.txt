@@ -186,6 +186,7 @@ workflow for updating a commit:
 
 * Check out the commit
 * Amend the commit
+* Rebase the commit if needed
 * Push the commit to Gerrit
 
 ----
@@ -195,6 +196,20 @@ $ git commit --amend
 [master 30a6f44] Change to a proper, yeast based pizza dough.
  Date: Fri Jun 8 16:28:23 2018 +0200
  1 file changed, 10 insertions(+), 5 deletions(-)
+----
+
+At this point Max wants to make sure that his change is on top of the branch.
+
+----
+$ git fetch
+$
+----
+
+Max got no output from the fetch command, which is good news.
+This means that the master branch has not progressed and there is no need for link:intro-user.html#rebase[*rebase*].
+Max is now ready to push his change:
+
+----
 $ git push origin HEAD:refs/for/master
 Counting objects: 3, done.
 Delta compression using up to 8 threads.

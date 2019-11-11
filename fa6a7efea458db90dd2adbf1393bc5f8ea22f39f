@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "920731b3_87192f7c",
+        "filename": "Documentation/cmd-sequence-set.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-11-11T07:46:38Z",
+      "side": 1,
+      "message": "Should this be a proper sentence such as:\n\"The value for the changes sequence was set to 42.\"",
+      "range": {
+        "startLine": 46,
+        "startChar": 0,
+        "endLine": 46,
+        "endChar": 43
+      },
+      "revId": "fa6a7efea458db90dd2adbf1393bc5f8ea22f39f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d3abc681_d0c539d6",
+        "filename": "Documentation/cmd-sequence-show.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-11-11T07:46:38Z",
+      "side": 1,
+      "message": "s/seta/set a",
+      "range": {
+        "startLine": 21,
+        "startChar": 63,
+        "endLine": 21,
+        "endChar": 67
+      },
+      "revId": "fa6a7efea458db90dd2adbf1393bc5f8ea22f39f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "85918f76_1b62feb5",
+        "filename": "java/com/google/gerrit/server/notedb/RepoSequence.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 296,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-11-11T07:46:38Z",
+      "side": 1,
+      "message": "Don\u0027t we need to acquire a counterLock?",
+      "revId": "fa6a7efea458db90dd2adbf1393bc5f8ea22f39f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

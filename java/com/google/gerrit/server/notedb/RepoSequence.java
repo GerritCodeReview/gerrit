@@ -291,4 +291,48 @@ public class RepoSequence {
     ObjectId newId = ins.insert(OBJ_BLOB, Integer.toString(val).getBytes(UTF_8));
     return new ReceiveCommand(ObjectId.zeroId(), newId, RefNames.REFS_SEQUENCES + name);
   }
+
+  public void storeNew(int value) {
+    counterLock.lock();
+    try (Repository repo = repoManager.openRepository(projectName);
+        RevWalk rw = new RevWalk(repo)) {
+      Optional<IntBlob> blob = IntBlob.parse(repo, refName, rw);
+      afterReadRef.run();
+      ObjectId oldId;
+      if (!blob.isPresent()) {
+        oldId = ObjectId.zeroId();
+      } else {
+        oldId = blob.get().id();
+      }
+      RefUpdate refUpdate =
+          IntBlob.tryStore(repo, rw, projectName, refName, oldId, value, gitRefUpdated);
+      RefUpdateUtil.checkResult(refUpdate);
+      counter = value;
+      limit = counter + batchSize;
+      acquireCount++;
+    } catch (IOException e) {
+      throw new StorageException(e);
+    } finally {
+      counterLock.unlock();
+    }
+  }
+
+  public int current() {
+    counterLock.lock();
+    try (Repository repo = repoManager.openRepository(projectName);
+        RevWalk rw = new RevWalk(repo)) {
+      Optional<IntBlob> blob = IntBlob.parse(repo, refName, rw);
+      int current;
+      if (!blob.isPresent()) {
+        current = seed.get();
+      } else {
+        current = blob.get().value();
+      }
+      return current;
+    } catch (IOException e) {
+      throw new StorageException(e);
+    } finally {
+      counterLock.unlock();
+    }
+  }
 }

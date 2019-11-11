@@ -128,4 +128,28 @@ public class Sequences {
       return groupSeq.next();
     }
   }
+
+  public int currentChangeId() {
+    return changeSeq.current();
+  }
+
+  public int currentAccountId() {
+    return accountSeq.current();
+  }
+
+  public int currentGroupId() {
+    return groupSeq.current();
+  }
+
+  public void setChangeIdValue(int value) {
+    changeSeq.storeNew(value);
+  }
+
+  public void setAccountIdValue(int value) {
+    accountSeq.storeNew(value);
+  }
+
+  public void setGroupIdValue(int value) {
+    groupSeq.storeNew(value);
+  }
 }

@@ -67,6 +67,7 @@ public class SshCommandsIT extends AbstractDaemonTest {
           "receive-pack",
           "rename-group",
           "review",
+          "sequence",
           "set-account",
           "set-head",
           "set-members",
@@ -96,6 +97,7 @@ public class SshCommandsIT extends AbstractDaemonTest {
               "gerrit plugin",
               ImmutableList.of("add", "enable", "install", "ls", "reload", "remove", "rm"))
           .put("gerrit test-submit", ImmutableList.of("rule", "type"))
+          .put("gerrit sequence", ImmutableList.of("set", "show"))
           .build();
 
   private static final ImmutableMap<String, List<String>> SLAVE_COMMANDS =

@@ -71,6 +71,30 @@
     },
     {
       "key": {
+        "uuid": "6737d712_7277d84e",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 3986,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-11-11T12:12:36Z",
+      "side": 1,
+      "message": "Since this is unrelated to this change, I fixed this in a separate change:\nhttps://gerrit-review.googlesource.com/c/gerrit/+/244640",
+      "parentUuid": "dec82e06_7520d29a",
+      "range": {
+        "startLine": 3986,
+        "startChar": 10,
+        "endLine": 3986,
+        "endChar": 14
+      },
+      "revId": "48ae2ae1892d94a06c92f3c54e983fa48f1ec26e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "11a3fdb5_9ea29f2b",
         "filename": "Documentation/rest-api-projects.txt",
         "patchSetId": 5

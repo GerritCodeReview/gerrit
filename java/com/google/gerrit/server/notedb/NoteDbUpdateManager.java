@@ -78,7 +78,7 @@ public class NoteDbUpdateManager implements AutoCloseable {
   private final ListMultimap<String, ChangeDraftUpdate> draftUpdates;
   private final ListMultimap<String, RobotCommentUpdate> robotCommentUpdates;
   private final ListMultimap<String, NoteDbRewriter> rewriters;
-  private final Set<Change.Id> toDelete;
+  private final Set<Change.Id> changesToDelete;
 
   private OpenRepo changeRepo;
   private OpenRepo allUsersRepo;
@@ -108,7 +108,7 @@ public class NoteDbUpdateManager implements AutoCloseable {
     draftUpdates = MultimapBuilder.hashKeys().arrayListValues().build();
     robotCommentUpdates = MultimapBuilder.hashKeys().arrayListValues().build();
     rewriters = MultimapBuilder.hashKeys().arrayListValues().build();
-    toDelete = new HashSet<>();
+    changesToDelete = new HashSet<>();
   }
 
   @Override
@@ -181,7 +181,7 @@ public class NoteDbUpdateManager implements AutoCloseable {
         && draftUpdates.isEmpty()
         && robotCommentUpdates.isEmpty()
         && rewriters.isEmpty()
-        && toDelete.isEmpty()
+        && changesToDelete.isEmpty()
         && !hasCommands(changeRepo)
         && !hasCommands(allUsersRepo)
         && updateAllUsersAsync.isEmpty();
@@ -258,7 +258,7 @@ public class NoteDbUpdateManager implements AutoCloseable {
 
   public void deleteChange(Change.Id id) {
     checkNotExecuted();
-    toDelete.add(id);
+    changesToDelete.add(id);
   }
 
   /**
@@ -273,7 +273,7 @@ public class NoteDbUpdateManager implements AutoCloseable {
       }
 
       initChangeRepo();
-      if (!draftUpdates.isEmpty() || !toDelete.isEmpty()) {
+      if (!draftUpdates.isEmpty() || !changesToDelete.isEmpty()) {
         initAllUsersRepo();
       }
       addCommands();
@@ -367,7 +367,7 @@ public class NoteDbUpdateManager implements AutoCloseable {
       addRewrites(rewriters, changeRepo);
     }
 
-    for (Change.Id id : toDelete) {
+    for (Change.Id id : changesToDelete) {
       doDelete(id);
     }
   }

@@ -146,7 +146,6 @@ def _maven_jar_impl(ctx):
 
     parts = ctx.attr.artifact.split(":")
 
-    # TODO(davido): Only releases for now, implement handling snapshots
     jar, url = _maven_release(ctx, parts)
 
     binjar = jar + ".jar"

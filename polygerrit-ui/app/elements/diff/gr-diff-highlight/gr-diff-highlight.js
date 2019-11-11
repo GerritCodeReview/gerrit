@@ -17,33 +17,39 @@
 (function() {
   'use strict';
 
-  Polymer({
-    is: 'gr-diff-highlight',
+  class GrDiffHighlight extends Polymer.mixinBehaviors( [
+    Gerrit.FireBehavior,
+  ], Polymer.GestureEventListeners(
+      Polymer.LegacyElementMixin(
+          Polymer.Element))) {
+    static get is() { return 'gr-diff-highlight'; }
 
-    properties: {
+    static get properties() {
+      return {
       /** @type {!Array<!Gerrit.HoveredRange>} */
-      commentRanges: {
-        type: Array,
-        notify: true,
-      },
-      loggedIn: Boolean,
-      /**
+        commentRanges: {
+          type: Array,
+          notify: true,
+        },
+        loggedIn: Boolean,
+        /**
        * querySelector can return null, so needs to be nullable.
        *
        * @type {?HTMLElement}
        * */
-      _cachedDiffBuilder: Object,
-    },
+        _cachedDiffBuilder: Object,
+      };
+    }
 
-    behaviors: [
-      Gerrit.FireBehavior,
-    ],
-
-    listeners: {
-      'comment-thread-mouseleave': '_handleCommentThreadMouseleave',
-      'comment-thread-mouseenter': '_handleCommentThreadMouseenter',
-      'create-range-comment': '_createRangeComment',
-    },
+    created() {
+      super.created();
+      this.addEventListener('comment-thread-mouseleave',
+          e => this._handleCommentThreadMouseleave(e));
+      this.addEventListener('comment-thread-mouseenter',
+          e => this._handleCommentThreadMouseenter(e));
+      this.addEventListener('create-range-comment',
+          e => this._createRangeComment(e));
+    }
 
     get diffBuilder() {
       if (!this._cachedDiffBuilder) {
@@ -51,11 +57,11 @@
             Polymer.dom(this).querySelector('gr-diff-builder');
       }
       return this._cachedDiffBuilder;
-    },
+    }
 
     isRangeSelected() {
       return !!this.$$('gr-selection-action-box');
-    },
+    }
 
     /**
      * Determines side/line/range for a DOM selection and shows a tooltip.
@@ -84,7 +90,7 @@
       this.debounce(
           'selectionChange', () => this._handleSelection(selection, isMouseUp),
           10);
-    },
+    }
 
     _getThreadEl(e) {
       const path = Polymer.dom(e).path || [];
@@ -92,7 +98,7 @@
         if (pathEl.classList.contains('comment-thread')) return pathEl;
       }
       return null;
-    },
+    }
 
     _handleCommentThreadMouseenter(e) {
       const threadEl = this._getThreadEl(e);
@@ -101,7 +107,7 @@
       if (index !== undefined) {
         this.set(['commentRanges', index, 'hovering'], true);
       }
-    },
+    }
 
     _handleCommentThreadMouseleave(e) {
       const threadEl = this._getThreadEl(e);
@@ -110,7 +116,7 @@
       if (index !== undefined) {
         this.set(['commentRanges', index, 'hovering'], false);
       }
-    },
+    }
 
     _indexForThreadEl(threadEl) {
       const side = threadEl.getAttribute('comment-side');
@@ -119,7 +125,7 @@
       if (!range) return undefined;
 
       return this._indexOfCommentRange(side, range);
-    },
+    }
 
     _indexOfCommentRange(side, range) {
       function rangesEqual(a, b) {
@@ -137,7 +143,7 @@
 
       return this.commentRanges.findIndex(commentRange =>
         commentRange.side === side && rangesEqual(commentRange.range, range));
-    },
+    }
 
     /**
      * Get current normalized selection.
@@ -175,7 +181,7 @@
           end: endRange.end,
         };
       }
-    },
+    }
 
     /**
      * Normalize a specific DOM Range.
@@ -189,7 +195,7 @@
         end: this._normalizeSelectionSide(
             range.endContainer, range.endOffset),
       }, domRange);
-    },
+    }
 
     /**
      * Adjust triple click selection for the whole line.
@@ -230,7 +236,7 @@
         };
       }
       return range;
-    },
+    }
 
     /**
      * Convert DOM Range selection to concrete numbers (line, column, side).
@@ -287,7 +293,7 @@
         line,
         column,
       };
-    },
+    }
 
     /**
      * The only line in which add a comment tooltip is cut off is the first
@@ -303,7 +309,7 @@
       }
       actionBox.positionBelow = true;
       actionBox.placeBelow(range);
-    },
+    }
 
     _isRangeValid(range) {
       if (!range || !range.start || !range.end) {
@@ -317,7 +323,7 @@
         return false;
       }
       return true;
-    },
+    }
 
     _handleSelection(selection, isMouseUp) {
       const normalizedRange = this._getNormalizedRange(selection);
@@ -387,18 +393,18 @@
       } else {
         this._positionActionBox(actionBox, start.line, start.node);
       }
-    },
+    }
 
     _createRangeComment(e) {
       this._removeActionBox();
-    },
+    }
 
     _removeActionBox() {
       const actionBox = this.$$('gr-selection-action-box');
       if (actionBox) {
         Polymer.dom(this.root).removeChild(actionBox);
       }
-    },
+    }
 
     _convertOffsetToColumn(el, offset) {
       if (el instanceof Element && el.classList.contains('content')) {
@@ -414,7 +420,7 @@
         }
       }
       return offset;
-    },
+    }
 
     /**
      * Traverse Element from right to left, call callback for each node.
@@ -439,7 +445,7 @@
         }
         node = nextNode;
       }
-    },
+    }
 
     /**
      * Get length of a node. If the node is a content node, then only give the
@@ -454,6 +460,8 @@
       } else {
         return GrAnnotation.getLength(node);
       }
-    },
-  });
+    }
+  }
+
+  customElements.define(GrDiffHighlight.is, GrDiffHighlight);
 })();

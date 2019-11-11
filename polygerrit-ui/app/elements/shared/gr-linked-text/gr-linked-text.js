@@ -17,31 +17,37 @@
 (function() {
   'use strict';
 
-  Polymer({
-    is: 'gr-linked-text',
+  class GrLinkedText extends Polymer.GestureEventListeners(
+      Polymer.LegacyElementMixin(
+          Polymer.Element)) {
+    static get is() { return 'gr-linked-text'; }
 
-    properties: {
-      removeZeroWidthSpace: Boolean,
-      content: {
-        type: String,
-        observer: '_contentChanged',
-      },
-      pre: {
-        type: Boolean,
-        value: false,
-        reflectToAttribute: true,
-      },
-      disabled: {
-        type: Boolean,
-        value: false,
-        reflectToAttribute: true,
-      },
-      config: Object,
-    },
+    static get properties() {
+      return {
+        removeZeroWidthSpace: Boolean,
+        content: {
+          type: String,
+          observer: '_contentChanged',
+        },
+        pre: {
+          type: Boolean,
+          value: false,
+          reflectToAttribute: true,
+        },
+        disabled: {
+          type: Boolean,
+          value: false,
+          reflectToAttribute: true,
+        },
+        config: Object,
+      };
+    }
 
-    observers: [
-      '_contentOrConfigChanged(content, config)',
-    ],
+    static get observers() {
+      return [
+        '_contentOrConfigChanged(content, config)',
+      ];
+    }
 
     _contentChanged(content) {
       // In the case where the config may not be set (perhaps due to the
@@ -49,7 +55,7 @@
       // prevent waiting on the config to display the text.
       if (this.config != null) { return; }
       this.$.output.textContent = content;
-    },
+    }
 
     /**
      * Because either the source text or the linkification config has changed,
@@ -74,7 +80,7 @@
         anchor.setAttribute('target', '_blank');
         anchor.setAttribute('rel', 'noopener');
       });
-    },
+    }
 
     /**
      * This method is called when the GrLikTextParser emits a partial result
@@ -100,6 +106,8 @@
       } else if (fragment) {
         output.appendChild(fragment);
       }
-    },
-  });
+    }
+  }
+
+  customElements.define(GrLinkedText.is, GrLinkedText);
 })();

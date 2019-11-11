@@ -17,43 +17,46 @@
 (function() {
   'use strict';
 
-  Polymer({
-    is: 'gr-confirm-delete-comment-dialog',
-
+  class GrConfirmDeleteCommentDialog extends Polymer.mixinBehaviors( [
+    Gerrit.FireBehavior,
+  ], Polymer.GestureEventListeners(
+      Polymer.LegacyElementMixin(
+          Polymer.Element))) {
+    static get is() { return 'gr-confirm-delete-comment-dialog'; }
     /**
      * Fired when the confirm button is pressed.
      *
      * @event confirm
      */
-
     /**
      * Fired when the cancel button is pressed.
      *
      * @event cancel
      */
 
-    properties: {
-      message: String,
-    },
-
-    behaviors: [
-      Gerrit.FireBehavior,
-    ],
+    static get properties() {
+      return {
+        message: String,
+      };
+    }
 
     resetFocus() {
       this.$.messageInput.textarea.focus();
-    },
+    }
 
     _handleConfirmTap(e) {
       e.preventDefault();
       e.stopPropagation();
       this.fire('confirm', {reason: this.message}, {bubbles: false});
-    },
+    }
 
     _handleCancelTap(e) {
       e.preventDefault();
       e.stopPropagation();
       this.fire('cancel', null, {bubbles: false});
-    },
-  });
+    }
+  }
+
+  customElements.define(GrConfirmDeleteCommentDialog.is,
+      GrConfirmDeleteCommentDialog);
 })();

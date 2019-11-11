@@ -17,14 +17,20 @@
 (function() {
   'use strict';
 
-  Polymer({
-    is: 'gr-embed-dashboard',
+  class GrEmbedDashboard extends Polymer.GestureEventListeners(
+      Polymer.LegacyElementMixin(
+          Polymer.Element)) {
+    static get is() { return 'gr-embed-dashboard'; }
 
-    properties: {
-      account: Object,
-      sections: Array,
-      preferences: Object,
-      showNewUserHelp: Boolean,
-    },
-  });
+    static get properties() {
+      return {
+        account: Object,
+        sections: Array,
+        preferences: Object,
+        showNewUserHelp: Boolean,
+      };
+    }
+  }
+
+  customElements.define(GrEmbedDashboard.is, GrEmbedDashboard);
 })();

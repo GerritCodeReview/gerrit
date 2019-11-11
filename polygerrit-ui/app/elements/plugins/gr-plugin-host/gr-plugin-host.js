@@ -17,15 +17,19 @@
 (function() {
   'use strict';
 
-  Polymer({
-    is: 'gr-plugin-host',
+  class GrPluginHost extends Polymer.GestureEventListeners(
+      Polymer.LegacyElementMixin(
+          Polymer.Element)) {
+    static get is() { return 'gr-plugin-host'; }
 
-    properties: {
-      config: {
-        type: Object,
-        observer: '_configChanged',
-      },
-    },
+    static get properties() {
+      return {
+        config: {
+          type: Object,
+          observer: '_configChanged',
+        },
+      };
+    }
 
     _configChanged(config) {
       const plugins = config.plugin;
@@ -50,7 +54,7 @@
       }
 
       Gerrit._loadPlugins(pluginsPending, pluginOpts);
-    },
+    }
 
     /**
      * Omit .js plugins that have .html counterparts.
@@ -61,6 +65,8 @@
         const counterpart = url.replace(/\.js$/, '.html');
         return !htmlPlugins.includes(counterpart);
       });
-    },
-  });
+    }
+  }
+
+  customElements.define(GrPluginHost.is, GrPluginHost);
 })();

@@ -17,55 +17,56 @@
 (function() {
   'use strict';
 
-  Polymer({
-    is: 'gr-registration-dialog',
-
+  class GrRegistrationDialog extends Polymer.mixinBehaviors( [
+    Gerrit.FireBehavior,
+  ], Polymer.GestureEventListeners(
+      Polymer.LegacyElementMixin(
+          Polymer.Element))) {
+    static get is() { return 'gr-registration-dialog'; }
     /**
      * Fired when account details are changed.
      *
      * @event account-detail-update
      */
-
     /**
      * Fired when the close button is pressed.
      *
      * @event close
      */
 
-    properties: {
-      settingsUrl: String,
-      /** @type {?} */
-      _account: {
-        type: Object,
-        value: () => {
+    static get properties() {
+      return {
+        settingsUrl: String,
+        /** @type {?} */
+        _account: {
+          type: Object,
+          value: () => {
           // Prepopulate possibly undefined fields with values to trigger
           // computed bindings.
-          return {email: null, name: null, username: null};
+            return {email: null, name: null, username: null};
+          },
         },
-      },
-      _usernameMutable: {
-        type: Boolean,
-        computed: '_computeUsernameMutable(_serverConfig, _account.username)',
-      },
-      _loading: {
-        type: Boolean,
-        value: true,
-        observer: '_loadingChanged',
-      },
-      _saving: {
-        type: Boolean,
-        value: false,
-      },
-      _serverConfig: Object,
-    },
+        _usernameMutable: {
+          type: Boolean,
+          computed: '_computeUsernameMutable(_serverConfig, _account.username)',
+        },
+        _loading: {
+          type: Boolean,
+          value: true,
+          observer: '_loadingChanged',
+        },
+        _saving: {
+          type: Boolean,
+          value: false,
+        },
+        _serverConfig: Object,
+      };
+    }
 
-    behaviors: [
-      Gerrit.FireBehavior,
-    ],
-
-    hostAttributes: {
-      role: 'dialog',
-    },
+    ready() {
+      super.ready();
+      this._ensureAttribute('role', 'dialog');
+    }
 
     loadData() {
       this._loading = true;
@@ -84,7 +85,7 @@
       return Promise.all([loadAccount, loadConfig]).then(() => {
         this._loading = false;
       });
-    },
+    }
 
     _save() {
       this._saving = true;
@@ -101,26 +102,26 @@
         this._saving = false;
         this.fire('account-detail-update');
       });
-    },
+    }
 
     _handleSave(e) {
       e.preventDefault();
       this._save().then(this.close.bind(this));
-    },
+    }
 
     _handleClose(e) {
       e.preventDefault();
       this.close();
-    },
+    }
 
     close() {
       this._saving = true; // disable buttons indefinitely
       this.fire('close');
-    },
+    }
 
     _computeSaveDisabled(name, email, saving) {
       return !name || !email || saving;
-    },
+    }
 
     _computeUsernameMutable(config, username) {
       // Polymer 2: check for undefined
@@ -133,14 +134,16 @@
 
       return config.auth.editable_account_fields.includes('USER_NAME') &&
           !username;
-    },
+    }
 
     _computeUsernameClass(usernameMutable) {
       return usernameMutable ? '' : 'hide';
-    },
+    }
 
     _loadingChanged() {
       this.classList.toggle('loading', this._loading);
-    },
-  });
+    }
+  }
+
+  customElements.define(GrRegistrationDialog.is, GrRegistrationDialog);
 })();

@@ -23,9 +23,10 @@
   const RANGE_HIGHLIGHT = 'style-scope gr-diff range';
   const HOVER_HIGHLIGHT = 'style-scope gr-diff rangeHighlight';
 
-  Polymer({
-    is: 'gr-ranged-comment-layer',
-
+  class GrRangedCommentLayer extends Polymer.GestureEventListeners(
+      Polymer.LegacyElementMixin(
+          Polymer.Element)) {
+    static get is() { return 'gr-ranged-comment-layer'; }
     /**
      * Fired when the range in a range comment was malformed and had to be
      * normalized.
@@ -35,26 +36,30 @@
      * @event normalize-range
      */
 
-    properties: {
+    static get properties() {
+      return {
       /** @type {!Array<!Gerrit.HoveredRange>} */
-      commentRanges: Array,
-      _listeners: {
-        type: Array,
-        value() { return []; },
-      },
-      _rangesMap: {
-        type: Object,
-        value() { return {left: {}, right: {}}; },
-      },
-    },
+        commentRanges: Array,
+        _listeners: {
+          type: Array,
+          value() { return []; },
+        },
+        _rangesMap: {
+          type: Object,
+          value() { return {left: {}, right: {}}; },
+        },
+      };
+    }
 
-    observers: [
-      '_handleCommentRangesChange(commentRanges.*)',
-    ],
+    static get observers() {
+      return [
+        '_handleCommentRangesChange(commentRanges.*)',
+      ];
+    }
 
     get styleModuleName() {
       return 'gr-ranged-comment-styles';
-    },
+    }
 
     /**
      * Layer method to add annotations to a line.
@@ -81,7 +86,7 @@
             range.end - range.start,
             range.hovering ? HOVER_HIGHLIGHT : RANGE_HIGHLIGHT);
       }
-    },
+    }
 
     /**
      * Register a listener for layer updates.
@@ -91,7 +96,7 @@
      */
     addListener(fn) {
       this._listeners.push(fn);
-    },
+    }
 
     /**
      * Notify Layer listeners of changes to annotations.
@@ -103,7 +108,7 @@
       for (const listener of this._listeners) {
         listener(start, end, side);
       }
-    },
+    }
 
     /**
      * Handle change in the ranges by updating the ranges maps and by
@@ -161,7 +166,7 @@
           }
         }
       }
-    },
+    }
 
     _updateRangesMap(side, range, hovering, operation) {
       const forSide = this._rangesMap[side] || (this._rangesMap[side] = {});
@@ -172,7 +177,7 @@
         operation(forLine, start, end, hovering);
       }
       this._notifyUpdateRange(range.start_line, range.end_line, side);
-    },
+    }
 
     _getRangesForLine(line, side) {
       const lineNum = side === 'left' ? line.beforeNumber : line.afterNumber;
@@ -200,6 +205,8 @@
           })
           // Sort the ranges so that hovering highlights are on top.
           .sort((a, b) => a.hovering && !b.hovering ? 1 : 0);
-    },
-  });
+    }
+  }
+
+  customElements.define(GrRangedCommentLayer.is, GrRangedCommentLayer);
 })();

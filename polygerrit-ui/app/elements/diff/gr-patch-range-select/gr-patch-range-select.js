@@ -28,42 +28,47 @@
    * @property {string} patchNum
    * @property {string} basePatchNum
    */
+  class GrPatchRangeSelect extends Polymer.mixinBehaviors( [
+    Gerrit.PatchSetBehavior,
+  ], Polymer.GestureEventListeners(
+      Polymer.LegacyElementMixin(
+          Polymer.Element))) {
+    static get is() { return 'gr-patch-range-select'; }
 
-  Polymer({
-    is: 'gr-patch-range-select',
-
-    properties: {
-      availablePatches: Array,
-      _baseDropdownContent: {
-        type: Object,
-        computed: '_computeBaseDropdownContent(availablePatches, patchNum,' +
+    static get properties() {
+      return {
+        availablePatches: Array,
+        _baseDropdownContent: {
+          type: Object,
+          computed: '_computeBaseDropdownContent(availablePatches, patchNum,' +
             '_sortedRevisions, changeComments, revisionInfo)',
-      },
-      _patchDropdownContent: {
-        type: Object,
-        computed: '_computePatchDropdownContent(availablePatches,' +
+        },
+        _patchDropdownContent: {
+          type: Object,
+          computed: '_computePatchDropdownContent(availablePatches,' +
             'basePatchNum, _sortedRevisions, changeComments)',
-      },
-      changeNum: String,
-      changeComments: Object,
-      /** @type {{ meta_a: !Array, meta_b: !Array}} */
-      filesWeblinks: Object,
-      patchNum: String,
-      basePatchNum: String,
-      revisions: Object,
-      revisionInfo: Object,
-      _sortedRevisions: Array,
-    },
+        },
+        changeNum: String,
+        changeComments: Object,
+        /** @type {{ meta_a: !Array, meta_b: !Array}} */
+        filesWeblinks: Object,
+        patchNum: String,
+        basePatchNum: String,
+        revisions: Object,
+        revisionInfo: Object,
+        _sortedRevisions: Array,
+      };
+    }
 
-    observers: [
-      '_updateSortedRevisions(revisions.*)',
-    ],
-
-    behaviors: [Gerrit.PatchSetBehavior],
+    static get observers() {
+      return [
+        '_updateSortedRevisions(revisions.*)',
+      ];
+    }
 
     _getShaForPatch(patch) {
       return patch.sha.substring(0, 10);
-    },
+    }
 
     _computeBaseDropdownContent(availablePatches, patchNum, _sortedRevisions,
         changeComments, revisionInfo) {
@@ -111,13 +116,13 @@
       }
 
       return dropdownContent;
-    },
+    }
 
     _computeMobileText(patchNum, changeComments, revisions) {
       return `${patchNum}` +
           `${this._computePatchSetCommentsString(changeComments, patchNum)}` +
           `${this._computePatchSetDescription(revisions, patchNum, true)}`;
-    },
+    }
 
     _computePatchDropdownContent(availablePatches, basePatchNum,
         _sortedRevisions, changeComments) {
@@ -143,13 +148,13 @@
         }));
       }
       return dropdownContent;
-    },
+    }
 
     _computeText(patchNum, prefix, changeComments, sha) {
       return `${prefix}${patchNum}` +
         `${this._computePatchSetCommentsString(changeComments, patchNum)}`
           + (` | ${sha}`);
-    },
+    }
 
     _createDropdownEntry(patchNum, prefix, sortedRevisions, changeComments,
         sha) {
@@ -167,12 +172,12 @@
         entry['date'] = date;
       }
       return entry;
-    },
+    }
 
     _updateSortedRevisions(revisionsRecord) {
       const revisions = revisionsRecord.base;
       this._sortedRevisions = this.sortRevisions(Object.values(revisions));
-    },
+    }
 
     /**
      * The basePatchNum should always be <= patchNum -- because sortedRevisions
@@ -185,7 +190,7 @@
     _computeLeftDisabled(basePatchNum, patchNum, sortedRevisions) {
       return this.findSortedIndex(basePatchNum, sortedRevisions) <=
           this.findSortedIndex(patchNum, sortedRevisions);
-    },
+    }
 
     /**
      * The basePatchNum should always be <= patchNum -- because sortedRevisions
@@ -214,7 +219,7 @@
 
       return this.findSortedIndex(basePatchNum, sortedRevisions) <=
           this.findSortedIndex(patchNum, sortedRevisions);
-    },
+    }
 
     _computePatchSetCommentsString(changeComments, patchNum) {
       if (!changeComments) { return; }
@@ -235,7 +240,7 @@
           // Add a comma + space if both comments and unresolved
           (commentString && unresolvedString ? ', ' : '') +
           `${unresolvedString})`;
-    },
+    }
 
     /**
      * @param {!Array} revisions
@@ -247,7 +252,7 @@
       return (rev && rev.description) ?
         (opt_addFrontSpace ? ' ' : '') +
           rev.description.substring(0, PATCH_DESC_MAX_LENGTH) : '';
-    },
+    }
 
     /**
      * @param {!Array} revisions
@@ -256,7 +261,7 @@
     _computePatchSetDate(revisions, patchNum) {
       const rev = this.getRevisionByPatchNum(revisions, patchNum);
       return rev ? rev.created : undefined;
-    },
+    }
 
     /**
      * Catches value-change events from the patchset dropdowns and determines
@@ -274,6 +279,8 @@
 
       this.dispatchEvent(
           new CustomEvent('patch-range-change', {detail, bubbles: false}));
-    },
-  });
+    }
+  }
+
+  customElements.define(GrPatchRangeSelect.is, GrPatchRangeSelect);
 })();

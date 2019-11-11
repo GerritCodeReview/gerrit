@@ -17,31 +17,34 @@
 (function() {
   'use strict';
 
-  Polymer({
-    is: 'gr-change-star',
-
+  class GrChangeStar extends Polymer.GestureEventListeners(
+      Polymer.LegacyElementMixin(
+          Polymer.Element)) {
+    static get is() { return 'gr-change-star'; }
     /**
      * Fired when star state is toggled.
      *
      * @event toggle-star
      */
 
-    properties: {
+    static get properties() {
+      return {
       /** @type {?} */
-      change: {
-        type: Object,
-        notify: true,
-      },
-    },
+        change: {
+          type: Object,
+          notify: true,
+        },
+      };
+    }
 
     _computeStarClass(starred) {
       return starred ? 'active' : '';
-    },
+    }
 
     _computeStarIcon(starred) {
       // Hollow star is used to indicate inactive state.
       return `gr-icons:star${starred ? '' : '-border'}`;
-    },
+    }
 
     toggleStar() {
       const newVal = !this.change.starred;
@@ -51,6 +54,8 @@
         composed: true,
         detail: {change: this.change, starred: newVal},
       }));
-    },
-  });
+    }
+  }
+
+  customElements.define(GrChangeStar.is, GrChangeStar);
 })();

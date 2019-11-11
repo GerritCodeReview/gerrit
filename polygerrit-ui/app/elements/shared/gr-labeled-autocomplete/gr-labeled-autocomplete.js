@@ -17,60 +17,65 @@
 (function() {
   'use strict';
 
-  Polymer({
-    is: 'gr-labeled-autocomplete',
-
+  class GrLabeledAutocomplete extends Polymer.GestureEventListeners(
+      Polymer.LegacyElementMixin(
+          Polymer.Element)) {
+    static get is() { return 'gr-labeled-autocomplete'; }
     /**
      * Fired when a value is chosen.
      *
      * @event commit
      */
 
-    properties: {
+    static get properties() {
+      return {
 
-      /**
+        /**
        * Used just like the query property of gr-autocomplete.
        *
        * @type {function(string): Promise<?>}
        */
-      query: {
-        type: Function,
-        value() {
-          return function() {
-            return Promise.resolve([]);
-          };
+        query: {
+          type: Function,
+          value() {
+            return function() {
+              return Promise.resolve([]);
+            };
+          },
         },
-      },
 
-      text: {
-        type: String,
-        value: '',
-        notify: true,
-      },
-      label: String,
-      placeholder: String,
-      disabled: Boolean,
+        text: {
+          type: String,
+          value: '',
+          notify: true,
+        },
+        label: String,
+        placeholder: String,
+        disabled: Boolean,
 
-      _autocompleteThreshold: {
-        type: Number,
-        value: 0,
-        readOnly: true,
-      },
-    },
+        _autocompleteThreshold: {
+          type: Number,
+          value: 0,
+          readOnly: true,
+        },
+      };
+    }
 
     _handleTriggerClick(e) {
       // Stop propagation here so we don't confuse gr-autocomplete, which
       // listens for taps on body to try to determine when it's blurred.
       e.stopPropagation();
       this.$.autocomplete.focus();
-    },
+    }
 
     setText(text) {
       this.$.autocomplete.setText(text);
-    },
+    }
 
     clear() {
       this.setText('');
-    },
-  });
+    }
+  }
+
+  customElements.define(GrLabeledAutocomplete.is, GrLabeledAutocomplete);
 })();

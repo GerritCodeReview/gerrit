@@ -17,23 +17,27 @@
 (function() {
   'use strict';
 
-  Polymer({
-    is: 'gr-commit-info',
+  class GrCommitInfo extends Polymer.GestureEventListeners(
+      Polymer.LegacyElementMixin(
+          Polymer.Element)) {
+    static get is() { return 'gr-commit-info'; }
 
-    properties: {
-      change: Object,
-      /** @type {?} */
-      commitInfo: Object,
-      serverConfig: Object,
-      _showWebLink: {
-        type: Boolean,
-        computed: '_computeShowWebLink(change, commitInfo, serverConfig)',
-      },
-      _webLink: {
-        type: String,
-        computed: '_computeWebLink(change, commitInfo, serverConfig)',
-      },
-    },
+    static get properties() {
+      return {
+        change: Object,
+        /** @type {?} */
+        commitInfo: Object,
+        serverConfig: Object,
+        _showWebLink: {
+          type: Boolean,
+          computed: '_computeShowWebLink(change, commitInfo, serverConfig)',
+        },
+        _webLink: {
+          type: String,
+          computed: '_computeWebLink(change, commitInfo, serverConfig)',
+        },
+      };
+    }
 
     _getWeblink(change, commitInfo, config) {
       return Gerrit.Nav.getPatchSetWeblink(
@@ -43,7 +47,7 @@
             weblinks: commitInfo.web_links,
             config,
           });
-    },
+    }
 
     _computeShowWebLink(change, commitInfo, serverConfig) {
       // Polymer 2: check for undefined
@@ -53,7 +57,7 @@
 
       const weblink = this._getWeblink(change, commitInfo, serverConfig);
       return !!weblink && !!weblink.url;
-    },
+    }
 
     _computeWebLink(change, commitInfo, serverConfig) {
       // Polymer 2: check for undefined
@@ -63,12 +67,14 @@
 
       const {url} = this._getWeblink(change, commitInfo, serverConfig) || {};
       return url;
-    },
+    }
 
     _computeShortHash(commitInfo) {
       const {name} =
             this._getWeblink(this.change, commitInfo, this.serverConfig) || {};
       return name;
-    },
-  });
+    }
+  }
+
+  customElements.define(GrCommitInfo.is, GrCommitInfo);
 })();

@@ -26,15 +26,6 @@ class Globals {
     static final resTicks = [ 'ABORTED':'\u26aa', 'SUCCESS':'\u2705', 'FAILURE':'\u274c' ]
 }
 
-class Change {
-    static String sha1 = ""
-    static String number = ""
-    static String branch = ""
-    static String ref = ""
-    static String patchNum = ""
-    static String url = ""
-}
-
 class Build {
     String url
     String result
@@ -106,36 +97,17 @@ def postCheck(check) {
     }
 }
 
-def queryChangedFiles(url, changeNum, sha1) {
-    def queryUrl = "${url}changes/${Change.number}/revisions/${Change.sha1}/files/"
+def queryChangedFiles(url) {
+    def queryUrl = "${url}changes/${env.GERRIT_CHANGE_NUMBER}/revisions/${env.GERRIT_PATCHSET_REVISION}/files/"
     def response = httpRequest queryUrl
     def files = response.getContent().substring(5)
     def filesJson = new JsonSlurper().parseText(files)
     return filesJson.keySet().findAll { it != "/COMMIT_MSG" }
 }
 
-def queryChange(){
-    def requestedChangeId = env.BRANCH_NAME.split('/')[1]
-    def queryUrl = "${Globals.gerritUrl}changes/${requestedChangeId}/?pp=0&O=3"
-    def response = httpRequest queryUrl
-    def jsonSlurper = new JsonSlurper()
-    return jsonSlurper.parseText(response.getContent().substring(5))
-}
-
-def getChangeMetaData(){
-    def changeJson = queryChange()
-    Change.sha1 = changeJson.current_revision
-    Change.number = changeJson._number
-    Change.branch = changeJson.branch
-    def revision = changeJson.revisions.get(Change.sha1)
-    Change.ref = revision.ref
-    Change.patchNum = revision._number
-    Change.url = Globals.gerritUrl + "#/c/" + Change.number + "/" + Change.patchNum
-}
-
 def collectBuildModes() {
     Builds.modes = ["reviewdb"]
-    def changedFiles = queryChangedFiles(Globals.gerritUrl, Change.number, Change.sha1)
+    def changedFiles = queryChangedFiles(Globals.gerritUrl)
     def polygerritFiles = changedFiles.findAll { it.startsWith("polygerrit-ui") ||
         it.startsWith("lib/js") }
 
@@ -157,11 +129,11 @@ def prepareBuildsForMode(buildName, mode="reviewdb", retryTimes = 1) {
             catchError{
                 retry(retryTimes){
                     def slaveBuild = build job: "${buildName}", parameters: [
-                        string(name: 'REFSPEC', value: Change.ref),
-                        string(name: 'BRANCH', value: Change.sha1),
-                        string(name: 'CHANGE_URL', value: Change.url),
+                        string(name: 'REFSPEC', value: env.BRANCH_NAME),
+                        string(name: 'BRANCH', value: env.GERRIT_PATCHSET_REVISION),
+                        string(name: 'CHANGE_URL', value: env.GERRIT_CHANGE_URL),
                         string(name: 'MODE', value: mode),
-                        string(name: 'TARGET_BRANCH', value: Change.branch)
+                        string(name: 'TARGET_BRANCH', value: env.GERRIT_BRANCH)
                     ], propagate: propagate
                     if (buildName == "Gerrit-codestyle"){
                         Builds.codeStyle = new Build(
@@ -270,7 +242,6 @@ node ('master') {
     stage('Preparing'){
         gerritReview labels: ['Verified': 0, 'Code-Style': 0]
 
-        getChangeMetaData()
         collectBuildModes()
     }
 
@@ -291,7 +262,8 @@ node ('master') {
         gerritReview(
             labels: ['Code-Style': resCodeStyle],
             message: createCodeStyleMsgBody(Builds.codeStyle, resCodeStyle))
-        postCheck(new GerritCheck("codestyle", Change.number, Change.sha1, Builds.codeStyle))
+        postCheck(new GerritCheck("codestyle", env.GERRIT_CHANGE_NUMBER,
+			env.GERRIT_PATCHSET_REVISION, Builds.codeStyle))
 
         def verificationResults = Builds.verification.collect { k, v -> v }
         def resVerify = verificationResults.inject(1) {
@@ -302,7 +274,7 @@ node ('master') {
             message: createVerifyMsgBody(Builds.verification))
 
         Builds.verification.each { type, build -> postCheck(
-            new GerritCheck(type, Change.number, Change.sha1, build)
+            new GerritCheck(type, env.GERRIT_CHANGE_NUMBER, env.GERRIT_PATCHSET_REVISION, build)
         )}
 
         setResult(resVerify, resCodeStyle)

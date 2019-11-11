@@ -109,7 +109,6 @@ public class DeleteGpgKey implements RestModifyView<GpgKey, Input> {
           }
           break;
         case LOCK_FAILURE:
-          // should not happen since this case is already handled by PublicKeyStore#save
         case FORCED:
         case IO_FAILURE:
         case NEW:

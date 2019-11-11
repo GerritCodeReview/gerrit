@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "4b105e4e_6106a39c",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-format-text-api/gr-format-text-api.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-11-11T15:15:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bde21549_8de3bef0",
+      "revId": "81edc7d7f28932e35a402974f6a3fadef737468f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "619a5c2c_e30de862",
         "filename": "polygerrit-ui/app/elements/plugins/gr-format-text-api/gr-format-text-api.js",
         "patchSetId": 4
@@ -33,6 +51,24 @@
       "revId": "81edc7d7f28932e35a402974f6a3fadef737468f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2b7387e4_86a0b304",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-format-text-api/gr-format-text-api.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-11-11T15:15:22Z",
+      "side": 1,
+      "message": "Not required anymore.",
+      "parentUuid": "619a5c2c_e30de862",
+      "revId": "81edc7d7f28932e35a402974f6a3fadef737468f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -88,6 +124,24 @@
       "side": 1,
       "message": "ya that\u0027s a tricky one. And I think this maybe a common case for quite a few plugins.\n\nMaybe use a event emitter ?\n\n```\nGerrit.awaitPluginsLoaded().then(() \u003d\u003e {\n  // render\n  this._contentOrConfigChanged(this.content);\n  \n  // just random thoughts\n  // Gerrit will need to support event emitter interface\n  Gerrit.on(SOME_EVENT, () \u003d\u003e this._contentOrConfigChanged(this.content));\n});\n```",
       "parentUuid": "8772f4e0_1facf4e0",
+      "revId": "81edc7d7f28932e35a402974f6a3fadef737468f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "96e3a05c_6ddb0c48",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-11-11T15:15:22Z",
+      "side": 1,
+      "message": "Gerrit.awaitPluginsLoaded() leads to duplication of the text sometimes, since this._contentOrConfigChanged is then called multiple times simultaneously. So we can\u0027t use that and Gerrit.on() does not exist here.\nI now solved this in a similar fashion, just implementing a listener for an event, that has to be fired by the plugin after adding the callback function.",
+      "parentUuid": "9efd9ae9_40f1c895",
       "revId": "81edc7d7f28932e35a402974f6a3fadef737468f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

@@ -317,6 +317,7 @@ public class StreamEventsApiListener
 
       event.change = changeAttributeSupplier(change, notes);
       event.patchSet = patchSetAttributeSupplier(change, psUtil.current(notes));
+      event.adder = accountAttributeSupplier(ev.getWho());
       for (AccountInfo reviewer : ev.getReviewers()) {
         event.reviewer = accountAttributeSupplier(reviewer);
         dispatcher.run(d -> d.postEvent(event));

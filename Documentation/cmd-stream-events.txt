@@ -234,6 +234,8 @@ patchSet:: link:json.html#patchSet[patchSet attribute]
 
 reviewer:: link:json.html#account[account attribute]
 
+adder:: user that added the reviewer as link:json.html#account[account attribute]
+
 eventCreatedOn:: Time in seconds since the UNIX epoch when this event was
 created.
 

@@ -250,7 +250,6 @@ public class PostGpgKeys implements RestModifyView<AccountResource, GpgKeysInput
         case NO_CHANGE:
           break;
         case LOCK_FAILURE:
-          // should not happen since this case is already handled by PublicKeyStore#save
         case IO_FAILURE:
         case NOT_ATTEMPTED:
         case REJECTED:

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27f83022_229f8b7b",
+        "filename": "java/com/google/gerrit/server/logging/Metadata.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-11-11T08:44:28Z",
+      "side": 1,
+      "message": "Instead of adding a new field, could you have used the existing resourceCount field?",
+      "range": {
+        "startLine": 96,
+        "startChar": 2,
+        "endLine": 96,
+        "endChar": 48
+      },
+      "revId": "c7787805c91140c5c1ad1a0858ab20d4d57561ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

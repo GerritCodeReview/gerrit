@@ -46,6 +46,40 @@
       "revId": "ac5756895dab7b9e35303d8bfc0228d3481cfba7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9726152b_bedd28f4",
+        "filename": "Documentation/licenses.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 1195,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-11-11T23:36:37Z",
+      "side": 1,
+      "message": "I suspect we only need to include the MIT license for the annotations ?\n\nhttps://github.com/typetools/checker-framework/blob/master/LICENSE.txt",
+      "revId": "ac5756895dab7b9e35303d8bfc0228d3481cfba7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "50ad4484_c20fa90d",
+        "filename": "WORKSPACE",
+        "patchSetId": 18
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-11-11T23:36:37Z",
+      "side": 1,
+      "message": "why do we need this ? It\u0027s declared as a compile dependency for caffeine, but we do not compile caffeine so our use should work without this dependency",
+      "revId": "ac5756895dab7b9e35303d8bfc0228d3481cfba7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

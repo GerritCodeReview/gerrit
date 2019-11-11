@@ -69,6 +69,30 @@
       "revId": "93351e810a0d75a33c07784434fb0f5058b9d588",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2a8d6882_04ce1b92",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2019-11-11T10:11:50Z",
+      "side": 1,
+      "message": "Did follow the suggestions but not sure what reducing the height really means.",
+      "parentUuid": "c0dc5d19_bf4b258b",
+      "range": {
+        "startLine": 113,
+        "startChar": 0,
+        "endLine": 113,
+        "endChar": 48
+      },
+      "revId": "93351e810a0d75a33c07784434fb0f5058b9d588",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

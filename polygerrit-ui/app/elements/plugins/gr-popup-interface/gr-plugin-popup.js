@@ -17,19 +17,23 @@
 (function(window) {
   'use strict';
 
-  Polymer({
-    is: 'gr-plugin-popup',
+  class GrPluginPopup extends Polymer.GestureEventListeners(
+      Polymer.LegacyElementMixin(
+          Polymer.Element)) {
+    static get is() { return 'gr-plugin-popup'; }
 
     get opened() {
       return this.$.overlay.opened;
-    },
+    }
 
     open() {
       return this.$.overlay.open();
-    },
+    }
 
     close() {
       this.$.overlay.close();
-    },
-  });
+    }
+  }
+
+  customElements.define(GrPluginPopup.is, GrPluginPopup);
 })(window);

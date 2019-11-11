@@ -17,48 +17,53 @@
 (function() {
   'use strict';
 
-  Polymer({
-    is: 'gr-selection-action-box',
-
+  class GrSelectionActionBox extends Polymer.mixinBehaviors( [
+    Gerrit.FireBehavior,
+    Gerrit.KeyboardShortcutBehavior,
+  ], Polymer.GestureEventListeners(
+      Polymer.LegacyElementMixin(
+          Polymer.Element))) {
+    static get is() { return 'gr-selection-action-box'; }
     /**
      * Fired when the comment creation action was taken (hotkey, click).
      *
      * @event create-range-comment
      */
 
-    properties: {
-      keyEventTarget: {
-        type: Object,
-        value() { return document.body; },
-      },
-      range: {
-        type: Object,
-        value: {
-          start_line: NaN,
-          start_character: NaN,
-          end_line: NaN,
-          end_character: NaN,
+    static get properties() {
+      return {
+        keyEventTarget: {
+          type: Object,
+          value() { return document.body; },
         },
-      },
-      positionBelow: Boolean,
-      side: {
-        type: String,
-        value: '',
-      },
-    },
+        range: {
+          type: Object,
+          value: {
+            start_line: NaN,
+            start_character: NaN,
+            end_line: NaN,
+            end_character: NaN,
+          },
+        },
+        positionBelow: Boolean,
+        side: {
+          type: String,
+          value: '',
+        },
+      };
+    }
 
-    behaviors: [
-      Gerrit.FireBehavior,
-      Gerrit.KeyboardShortcutBehavior,
-    ],
+    created() {
+      super.created();
+      // See https://crbug.com/gerrit/4767
+      this.addEventListener('mousedown', e => this._handleMouseDown(e));
+    }
 
-    listeners: {
-      mousedown: '_handleMouseDown', // See https://crbug.com/gerrit/4767
-    },
-
-    keyBindings: {
-      c: '_handleCKey',
-    },
+    get keyBindings() {
+      return {
+        c: '_handleCKey',
+      };
+    }
 
     placeAbove(el) {
       Polymer.dom.flush();
@@ -69,7 +74,7 @@
           rect.top - parentRect.top - boxRect.height - 6 + 'px';
       this.style.left =
           rect.left - parentRect.left + (rect.width - boxRect.width) / 2 + 'px';
-    },
+    }
 
     placeBelow(el) {
       Polymer.dom.flush();
@@ -80,14 +85,14 @@
       rect.top - parentRect.top + boxRect.height - 6 + 'px';
       this.style.left =
       rect.left - parentRect.left + (rect.width - boxRect.width) / 2 + 'px';
-    },
+    }
 
     _getParentBoundingClientRect() {
       // With native shadow DOM, the parent is the shadow root, not the gr-diff
       // element
       const parent = this.parentElement || this.parentNode.host;
       return parent.getBoundingClientRect();
-    },
+    }
 
     _getTargetBoundingRect(el) {
       let rect;
@@ -100,7 +105,7 @@
         rect = el.getBoundingClientRect();
       }
       return rect;
-    },
+    }
 
     _handleCKey(e) {
       if (this.shouldSuppressKeyboardShortcut(e) ||
@@ -108,17 +113,19 @@
 
       e.preventDefault();
       this._fireCreateComment();
-    },
+    }
 
     _handleMouseDown(e) {
       if (e.button !== 0) { return; } // 0 = main button
       e.preventDefault();
       e.stopPropagation();
       this._fireCreateComment();
-    },
+    }
 
     _fireCreateComment() {
       this.fire('create-range-comment', {side: this.side, range: this.range});
-    },
-  });
+    }
+  }
+
+  customElements.define(GrSelectionActionBox.is, GrSelectionActionBox);
 })();

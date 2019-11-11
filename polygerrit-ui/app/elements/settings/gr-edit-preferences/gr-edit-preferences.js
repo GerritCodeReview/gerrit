@@ -17,66 +17,72 @@
 (function() {
   'use strict';
 
-  Polymer({
-    is: 'gr-edit-preferences',
+  class GrEditPreferences extends Polymer.GestureEventListeners(
+      Polymer.LegacyElementMixin(
+          Polymer.Element)) {
+    static get is() { return 'gr-edit-preferences'; }
 
-    properties: {
-      hasUnsavedChanges: {
-        type: Boolean,
-        notify: true,
-        value: false,
-      },
+    static get properties() {
+      return {
+        hasUnsavedChanges: {
+          type: Boolean,
+          notify: true,
+          value: false,
+        },
 
-      /** @type {?} */
-      editPrefs: Object,
-    },
+        /** @type {?} */
+        editPrefs: Object,
+      };
+    }
 
     loadData() {
       return this.$.restAPI.getEditPreferences().then(prefs => {
         this.editPrefs = prefs;
       });
-    },
+    }
 
     _handleEditPrefsChanged() {
       this.hasUnsavedChanges = true;
-    },
+    }
 
     _handleEditSyntaxHighlightingChanged() {
       this.set('editPrefs.syntax_highlighting',
           this.$.editSyntaxHighlighting.checked);
       this._handleEditPrefsChanged();
-    },
+    }
 
     _handleEditShowTabsChanged() {
       this.set('editPrefs.show_tabs', this.$.editShowTabs.checked);
       this._handleEditPrefsChanged();
-    },
+    }
 
     _handleMatchBracketsChanged() {
       this.set('editPrefs.match_brackets', this.$.showMatchBrackets.checked);
       this._handleEditPrefsChanged();
-    },
+    }
 
     _handleEditLineWrappingChanged() {
       this.set('editPrefs.line_wrapping', this.$.editShowLineWrapping.checked);
       this._handleEditPrefsChanged();
-    },
+    }
 
     _handleIndentWithTabsChanged() {
       this.set('editPrefs.indent_with_tabs', this.$.showIndentWithTabs.checked);
       this._handleEditPrefsChanged();
-    },
+    }
 
     _handleAutoCloseBracketsChanged() {
       this.set('editPrefs.auto_close_brackets',
           this.$.showAutoCloseBrackets.checked);
       this._handleEditPrefsChanged();
-    },
+    }
 
     save() {
       return this.$.restAPI.saveEditPreferences(this.editPrefs).then(res => {
         this.hasUnsavedChanges = false;
       });
-    },
-  });
+    }
+  }
+
+  customElements.define(GrEditPreferences.is, GrEditPreferences);
 })();

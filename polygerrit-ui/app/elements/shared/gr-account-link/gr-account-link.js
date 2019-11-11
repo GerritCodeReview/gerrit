@@ -17,27 +17,31 @@
 (function() {
   'use strict';
 
-  Polymer({
-    is: 'gr-account-link',
+  class GrAccountLink extends Polymer.mixinBehaviors( [
+    Gerrit.BaseUrlBehavior,
+  ], Polymer.GestureEventListeners(
+      Polymer.LegacyElementMixin(
+          Polymer.Element))) {
+    static get is() { return 'gr-account-link'; }
 
-    properties: {
-      additionalText: String,
-      account: Object,
-      avatarImageSize: {
-        type: Number,
-        value: 32,
-      },
-    },
-
-    behaviors: [
-      Gerrit.BaseUrlBehavior,
-    ],
+    static get properties() {
+      return {
+        additionalText: String,
+        account: Object,
+        avatarImageSize: {
+          type: Number,
+          value: 32,
+        },
+      };
+    }
 
     _computeOwnerLink(account) {
       if (!account) { return; }
       return Gerrit.Nav.getUrlForOwner(
           account.email || account.username || account.name ||
           account._account_id);
-    },
-  });
+    }
+  }
+
+  customElements.define(GrAccountLink.is, GrAccountLink);
 })();

@@ -17,47 +17,52 @@
 (function() {
   'use strict';
 
-  Polymer({
-    is: 'gr-fixed-panel',
+  class GrFixedPanel extends Polymer.GestureEventListeners(
+      Polymer.LegacyElementMixin(
+          Polymer.Element)) {
+    static get is() { return 'gr-fixed-panel'; }
 
-    properties: {
-      floatingDisabled: Boolean,
-      readyForMeasure: {
-        type: Boolean,
-        observer: '_readyForMeasureObserver',
-      },
-      keepOnScroll: {
-        type: Boolean,
-        value: false,
-      },
-      _isMeasured: {
-        type: Boolean,
-        value: false,
-      },
+    static get properties() {
+      return {
+        floatingDisabled: Boolean,
+        readyForMeasure: {
+          type: Boolean,
+          observer: '_readyForMeasureObserver',
+        },
+        keepOnScroll: {
+          type: Boolean,
+          value: false,
+        },
+        _isMeasured: {
+          type: Boolean,
+          value: false,
+        },
 
-      /**
+        /**
        * Initial offset from the top of the document, in pixels.
        */
-      _topInitial: Number,
+        _topInitial: Number,
 
-      /**
+        /**
        * Current offset from the top of the window, in pixels.
        */
-      _topLast: Number,
+        _topLast: Number,
 
-      _headerHeight: Number,
-      _headerFloating: {
-        type: Boolean,
-        value: false,
-      },
-      _observer: {
-        type: Object,
-        value: null,
-      },
-      _webComponentsReady: Boolean,
-    },
+        _headerHeight: Number,
+        _headerFloating: {
+          type: Boolean,
+          value: false,
+        },
+        _observer: {
+          type: Object,
+          value: null,
+        },
+        _webComponentsReady: Boolean,
+      };
+    }
 
     attached() {
+      super.attached();
       if (this.floatingDisabled) {
         return;
       }
@@ -69,21 +74,22 @@
       this.listen(window, 'scroll', '_updateOnScroll');
       this._observer = new MutationObserver(this.update.bind(this));
       this._observer.observe(this.$.header, {childList: true, subtree: true});
-    },
+    }
 
     detached() {
+      super.detached();
       this.unlisten(window, 'scroll', '_updateOnScroll');
       this.unlisten(window, 'resize', 'update');
       if (this._observer) {
         this._observer.disconnect();
       }
-    },
+    }
 
     _readyForMeasureObserver(readyForMeasure) {
       if (readyForMeasure) {
         this.update();
       }
-    },
+    }
 
     _computeHeaderClass(headerFloating, topLast) {
       const fixedAtTop = this.keepOnScroll && topLast === 0;
@@ -91,7 +97,7 @@
         headerFloating ? 'floating' : '',
         fixedAtTop ? 'fixedAtTop' : '',
       ].join(' ');
-    },
+    }
 
     unfloat() {
       if (this.floatingDisabled) {
@@ -100,19 +106,19 @@
       this.$.header.style.top = '';
       this._headerFloating = false;
       this.updateStyles({'--header-height': ''});
-    },
+    }
 
     update() {
       this.debounce('update', () => {
         this._updateDebounced();
       }, 100);
-    },
+    }
 
     _updateOnScroll() {
       this.debounce('update', () => {
         this._updateDebounced();
       });
-    },
+    }
 
     _updateDebounced() {
       if (this.floatingDisabled) {
@@ -121,11 +127,11 @@
       this._isMeasured = false;
       this._maybeFloatHeader();
       this._reposition();
-    },
+    }
 
     _getElementTop() {
       return this.getBoundingClientRect().top;
-    },
+    }
 
     _reposition() {
       if (!this._headerFloating) {
@@ -155,7 +161,7 @@
         }
         this._topLast = newTop;
       }
-    },
+    }
 
     _measure() {
       if (this._isMeasured) {
@@ -171,12 +177,12 @@
       this._topInitial =
         this.getBoundingClientRect().top + document.body.scrollTop;
       this._isMeasured = true;
-    },
+    }
 
     _isFloatingNeeded() {
       return this.keepOnScroll ||
         document.body.scrollWidth > document.body.clientWidth;
-    },
+    }
 
     _maybeFloatHeader() {
       if (!this._isFloatingNeeded()) {
@@ -186,11 +192,13 @@
       if (this._isMeasured) {
         this._floatHeader();
       }
-    },
+    }
 
     _floatHeader() {
       this.updateStyles({'--header-height': this._headerHeight + 'px'});
       this._headerFloating = true;
-    },
-  });
+    }
+  }
+
+  customElements.define(GrFixedPanel.is, GrFixedPanel);
 })();

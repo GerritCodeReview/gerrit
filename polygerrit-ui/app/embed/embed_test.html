@@ -67,32 +67,32 @@ limitations under the License.
   suite('embed test', () => {
     test('gr-change-view is embedded', () => {
       const element = fixture('change-view');
-      assert.equal(element.is, 'gr-change-view');
+      assert.equal(element.tagName.toLowerCase(), 'gr-change-view');
     });
 
     test('diff-view is embedded', () => {
       const element = fixture('diff-view');
-      assert.equal(element.is, 'gr-diff-view');
+      assert.equal(element.tagName.toLowerCase(), 'gr-diff-view');
     });
 
     test('dashboard-view is embedded', () => {
       const element = fixture('dashboard-view');
-      assert.equal(element.is, 'gr-dashboard-view');
+      assert.equal(element.tagName.toLowerCase(), 'gr-dashboard-view');
     });
 
     test('change-list-view is embedded', () => {
       const element = fixture('change-list-view');
-      assert.equal(element.is, 'gr-change-list-view');
+      assert.equal(element.tagName.toLowerCase(), 'gr-change-list-view');
     });
 
     test('change-list is embedded', () => {
       const element = fixture('change-list');
-      assert.equal(element.is, 'gr-change-list');
+      assert.equal(element.tagName.toLowerCase(), 'gr-change-list');
     });
 
     test('search-bar is embedded', () => {
       const element = fixture('search-bar');
-      assert.equal(element.is, 'gr-search-bar');
+      assert.equal(element.tagName.toLowerCase(), 'gr-search-bar');
     });
   });
 </script>

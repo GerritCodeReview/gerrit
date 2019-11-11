@@ -17,33 +17,37 @@
 (function() {
   'use strict';
 
-  Polymer({
-    is: 'gr-email-editor',
+  class GrEmailEditor extends Polymer.GestureEventListeners(
+      Polymer.LegacyElementMixin(
+          Polymer.Element)) {
+    static get is() { return 'gr-email-editor'; }
 
-    properties: {
-      hasUnsavedChanges: {
-        type: Boolean,
-        notify: true,
-        value: false,
-      },
+    static get properties() {
+      return {
+        hasUnsavedChanges: {
+          type: Boolean,
+          notify: true,
+          value: false,
+        },
 
-      _emails: Array,
-      _emailsToRemove: {
-        type: Array,
-        value() { return []; },
-      },
-      /** @type {?string} */
-      _newPreferred: {
-        type: String,
-        value: null,
-      },
-    },
+        _emails: Array,
+        _emailsToRemove: {
+          type: Array,
+          value() { return []; },
+        },
+        /** @type {?string} */
+        _newPreferred: {
+          type: String,
+          value: null,
+        },
+      };
+    }
 
     loadData() {
       return this.$.restAPI.getAccountEmails().then(emails => {
         this._emails = emails;
       });
-    },
+    }
 
     save() {
       const promises = [];
@@ -62,7 +66,7 @@
         this._newPreferred = null;
         this.hasUnsavedChanges = false;
       });
-    },
+    }
 
     _handleDeleteButton(e) {
       const index = parseInt(Polymer.dom(e).localTarget
@@ -71,13 +75,13 @@
       this.push('_emailsToRemove', email);
       this.splice('_emails', index, 1);
       this.hasUnsavedChanges = true;
-    },
+    }
 
     _handlePreferredControlClick(e) {
       if (e.target.classList.contains('preferredControl')) {
         e.target.firstElementChild.click();
       }
-    },
+    }
 
     _handlePreferredChange(e) {
       const preferred = e.target.value;
@@ -90,6 +94,8 @@
           this.set(['_emails', i, 'preferred'], false);
         }
       }
-    },
-  });
+    }
+  }
+
+  customElements.define(GrEmailEditor.is, GrEmailEditor);
 })();

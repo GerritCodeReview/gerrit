@@ -45,119 +45,122 @@
     'HTTP_LDAP',
   ];
 
-  Polymer({
-    is: 'gr-settings-view',
-
+  class GrSettingsView extends Polymer.mixinBehaviors( [
+    Gerrit.DocsUrlBehavior,
+    Gerrit.ChangeTableBehavior,
+    Gerrit.FireBehavior,
+  ], Polymer.GestureEventListeners(
+      Polymer.LegacyElementMixin(
+          Polymer.Element))) {
+    static get is() { return 'gr-settings-view'; }
     /**
      * Fired when the title of the page should change.
      *
      * @event title-change
      */
-
     /**
      * Fired with email confirmation text, or when the page reloads.
      *
      * @event show-alert
      */
 
-    properties: {
-      prefs: {
-        type: Object,
-        value() { return {}; },
-      },
-      params: {
-        type: Object,
-        value() { return {}; },
-      },
-      _accountNameMutable: Boolean,
-      _accountInfoChanged: Boolean,
-      _changeTableColumnsNotDisplayed: Array,
-      /** @type {?} */
-      _localPrefs: {
-        type: Object,
-        value() { return {}; },
-      },
-      _localChangeTableColumns: {
-        type: Array,
-        value() { return []; },
-      },
-      _localMenu: {
-        type: Array,
-        value() { return []; },
-      },
-      _loading: {
-        type: Boolean,
-        value: true,
-      },
-      _changeTableChanged: {
-        type: Boolean,
-        value: false,
-      },
-      _prefsChanged: {
-        type: Boolean,
-        value: false,
-      },
-      /** @type {?} */
-      _diffPrefsChanged: Boolean,
-      /** @type {?} */
-      _editPrefsChanged: Boolean,
-      _menuChanged: {
-        type: Boolean,
-        value: false,
-      },
-      _watchedProjectsChanged: {
-        type: Boolean,
-        value: false,
-      },
-      _keysChanged: {
-        type: Boolean,
-        value: false,
-      },
-      _gpgKeysChanged: {
-        type: Boolean,
-        value: false,
-      },
-      _newEmail: String,
-      _addingEmail: {
-        type: Boolean,
-        value: false,
-      },
-      _lastSentVerificationEmail: {
-        type: String,
-        value: null,
-      },
-      /** @type {?} */
-      _serverConfig: Object,
-      /** @type {?string} */
-      _docsBaseUrl: String,
-      _emailsChanged: Boolean,
+    static get properties() {
+      return {
+        prefs: {
+          type: Object,
+          value() { return {}; },
+        },
+        params: {
+          type: Object,
+          value() { return {}; },
+        },
+        _accountNameMutable: Boolean,
+        _accountInfoChanged: Boolean,
+        _changeTableColumnsNotDisplayed: Array,
+        /** @type {?} */
+        _localPrefs: {
+          type: Object,
+          value() { return {}; },
+        },
+        _localChangeTableColumns: {
+          type: Array,
+          value() { return []; },
+        },
+        _localMenu: {
+          type: Array,
+          value() { return []; },
+        },
+        _loading: {
+          type: Boolean,
+          value: true,
+        },
+        _changeTableChanged: {
+          type: Boolean,
+          value: false,
+        },
+        _prefsChanged: {
+          type: Boolean,
+          value: false,
+        },
+        /** @type {?} */
+        _diffPrefsChanged: Boolean,
+        /** @type {?} */
+        _editPrefsChanged: Boolean,
+        _menuChanged: {
+          type: Boolean,
+          value: false,
+        },
+        _watchedProjectsChanged: {
+          type: Boolean,
+          value: false,
+        },
+        _keysChanged: {
+          type: Boolean,
+          value: false,
+        },
+        _gpgKeysChanged: {
+          type: Boolean,
+          value: false,
+        },
+        _newEmail: String,
+        _addingEmail: {
+          type: Boolean,
+          value: false,
+        },
+        _lastSentVerificationEmail: {
+          type: String,
+          value: null,
+        },
+        /** @type {?} */
+        _serverConfig: Object,
+        /** @type {?string} */
+        _docsBaseUrl: String,
+        _emailsChanged: Boolean,
 
-      /**
+        /**
        * For testing purposes.
        */
-      _loadingPromise: Object,
+        _loadingPromise: Object,
 
-      _showNumber: Boolean,
+        _showNumber: Boolean,
 
-      _isDark: {
-        type: Boolean,
-        value: false,
-      },
-    },
+        _isDark: {
+          type: Boolean,
+          value: false,
+        },
+      };
+    }
 
-    behaviors: [
-      Gerrit.DocsUrlBehavior,
-      Gerrit.ChangeTableBehavior,
-      Gerrit.FireBehavior,
-    ],
-
-    observers: [
-      '_handlePrefsChanged(_localPrefs.*)',
-      '_handleMenuChanged(_localMenu.splices)',
-      '_handleChangeTableChanged(_localChangeTableColumns, _showNumber)',
-    ],
+    static get observers() {
+      return [
+        '_handlePrefsChanged(_localPrefs.*)',
+        '_handleMenuChanged(_localMenu.splices)',
+        '_handleChangeTableChanged(_localChangeTableColumns, _showNumber)',
+      ];
+    }
 
     attached() {
+      super.attached();
       // Polymer 2: anchor tag won't work on shadow DOM
       // we need to manually calling scrollIntoView when hash changed
       this.listen(window, 'location-change', '_handleLocationChange');
@@ -221,11 +224,12 @@
         // Handle anchor tag for initial load
         this._handleLocationChange();
       });
-    },
+    }
 
     detached() {
+      super.detached();
       this.unlisten(window, 'location-change', '_handleLocationChange');
-    },
+    }
 
     _handleLocationChange() {
       // Handle anchor tag after dom attached
@@ -237,25 +241,25 @@
           elem.scrollIntoView();
         }
       }
-    },
+    }
 
     reloadAccountDetail() {
       Promise.all([
         this.$.accountInfo.loadData(),
         this.$.emailEditor.loadData(),
       ]);
-    },
+    }
 
     _isLoading() {
       return this._loading || this._loading === undefined;
-    },
+    }
 
     _copyPrefs(to, from) {
       for (let i = 0; i < PREFS_SECTION_FIELDS.length; i++) {
         this.set([to, PREFS_SECTION_FIELDS[i]],
             this[from][PREFS_SECTION_FIELDS[i]]);
       }
-    },
+    }
 
     _cloneMenu(prefs) {
       const menu = [];
@@ -267,7 +271,7 @@
         });
       }
       this._localMenu = menu;
-    },
+    }
 
     _cloneChangeTableColumns() {
       let columns = this.getVisibleColumns(this.prefs.change_table);
@@ -280,56 +284,56 @@
             this.prefs.change_table);
       }
       this._localChangeTableColumns = columns;
-    },
+    }
 
     _formatChangeTableColumns(changeTableArray) {
       return changeTableArray.map(item => {
         return {column: item};
       });
-    },
+    }
 
     _handleChangeTableChanged() {
       if (this._isLoading()) { return; }
       this._changeTableChanged = true;
-    },
+    }
 
     _handlePrefsChanged(prefs) {
       if (this._isLoading()) { return; }
       this._prefsChanged = true;
-    },
+    }
 
     _handleRelativeDateInChangeTable() {
       this.set('_localPrefs.relative_date_in_change_table',
           this.$.relativeDateInChangeTable.checked);
-    },
+    }
 
     _handleShowSizeBarsInFileListChanged() {
       this.set('_localPrefs.size_bar_in_change_table',
           this.$.showSizeBarsInFileList.checked);
-    },
+    }
 
     _handlePublishCommentsOnPushChanged() {
       this.set('_localPrefs.publish_comments_on_push',
           this.$.publishCommentsOnPush.checked);
-    },
+    }
 
     _handleWorkInProgressByDefault() {
       this.set('_localPrefs.work_in_progress_by_default',
           this.$.workInProgressByDefault.checked);
-    },
+    }
 
     _handleInsertSignedOff() {
       this.set('_localPrefs.signed_off_by', this.$.insertSignedOff.checked);
-    },
+    }
 
     _handleMenuChanged() {
       if (this._isLoading()) { return; }
       this._menuChanged = true;
-    },
+    }
 
     _handleSaveAccountInfo() {
       this.$.accountInfo.save();
-    },
+    }
 
     _handleSavePreferences() {
       this._copyPrefs('prefs', '_localPrefs');
@@ -337,7 +341,7 @@
       return this.$.restAPI.savePreferences(this.prefs).then(() => {
         this._prefsChanged = false;
       });
-    },
+    }
 
     _handleSaveChangeTable() {
       this.set('prefs.change_table', this._localChangeTableColumns);
@@ -346,15 +350,15 @@
       return this.$.restAPI.savePreferences(this.prefs).then(() => {
         this._changeTableChanged = false;
       });
-    },
+    }
 
     _handleSaveDiffPreferences() {
       this.$.diffPrefs.save();
-    },
+    }
 
     _handleSaveEditPreferences() {
       this.$.editPrefs.save();
-    },
+    }
 
     _handleSaveMenu() {
       this.set('prefs.my', this._localMenu);
@@ -362,7 +366,7 @@
       return this.$.restAPI.savePreferences(this.prefs).then(() => {
         this._menuChanged = false;
       });
-    },
+    }
 
     _handleResetMenuButton() {
       return this.$.restAPI.getDefaultPreferences().then(data => {
@@ -370,34 +374,34 @@
           this._cloneMenu(data.my);
         }
       });
-    },
+    }
 
     _handleSaveWatchedProjects() {
       this.$.watchedProjectsEditor.save();
-    },
+    }
 
     _computeHeaderClass(changed) {
       return changed ? 'edited' : '';
-    },
+    }
 
     _handleSaveEmails() {
       this.$.emailEditor.save();
-    },
+    }
 
     _handleNewEmailKeydown(e) {
       if (e.keyCode === 13) { // Enter
         e.stopPropagation();
         this._handleAddEmailButton();
       }
-    },
+    }
 
     _isNewEmailValid(newEmail) {
       return newEmail && newEmail.includes('@');
-    },
+    }
 
     _computeAddEmailButtonEnabled(newEmail, addingEmail) {
       return this._isNewEmailValid(newEmail) && !addingEmail;
-    },
+    }
 
     _handleAddEmailButton() {
       if (!this._isNewEmailValid(this._newEmail)) { return; }
@@ -412,7 +416,7 @@
         this._lastSentVerificationEmail = this._newEmail;
         this._newEmail = '';
       });
-    },
+    }
 
     _getFilterDocsLink(docsBaseUrl) {
       let base = docsBaseUrl;
@@ -424,7 +428,7 @@
       base = base.replace(TRAILING_SLASH_PATTERN, '');
 
       return base + GERRIT_DOCS_FILTER_PATH;
-    },
+    }
 
     _handleToggleDark() {
       if (this._isDark) {
@@ -440,7 +444,7 @@
       this.async(() => {
         window.location.reload();
       }, 1);
-    },
+    }
 
     _showHttpAuth(config) {
       if (config && config.auth &&
@@ -450,6 +454,8 @@
       }
 
       return false;
-    },
-  });
+    }
+  }
+
+  customElements.define(GrSettingsView.is, GrSettingsView);
 })();

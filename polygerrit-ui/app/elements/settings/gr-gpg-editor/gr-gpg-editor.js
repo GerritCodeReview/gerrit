@@ -17,27 +17,31 @@
 (function() {
   'use strict';
 
-  Polymer({
-    is: 'gr-gpg-editor',
+  class GrGpgEditor extends Polymer.GestureEventListeners(
+      Polymer.LegacyElementMixin(
+          Polymer.Element)) {
+    static get is() { return 'gr-gpg-editor'; }
 
-    properties: {
-      hasUnsavedChanges: {
-        type: Boolean,
-        value: false,
-        notify: true,
-      },
-      _keys: Array,
-      /** @type {?} */
-      _keyToView: Object,
-      _newKey: {
-        type: String,
-        value: '',
-      },
-      _keysToRemove: {
-        type: Array,
-        value() { return []; },
-      },
-    },
+    static get properties() {
+      return {
+        hasUnsavedChanges: {
+          type: Boolean,
+          value: false,
+          notify: true,
+        },
+        _keys: Array,
+        /** @type {?} */
+        _keyToView: Object,
+        _newKey: {
+          type: String,
+          value: '',
+        },
+        _keysToRemove: {
+          type: Array,
+          value() { return []; },
+        },
+      };
+    }
 
     loadData() {
       this._keys = [];
@@ -52,7 +56,7 @@
               return gpgKey;
             });
       });
-    },
+    }
 
     save() {
       const promises = this._keysToRemove.map(key => {
@@ -63,18 +67,18 @@
         this._keysToRemove = [];
         this.hasUnsavedChanges = false;
       });
-    },
+    }
 
     _showKey(e) {
       const el = Polymer.dom(e).localTarget;
       const index = parseInt(el.getAttribute('data-index'), 10);
       this._keyToView = this._keys[index];
       this.$.viewKeyOverlay.open();
-    },
+    }
 
     _closeOverlay() {
       this.$.viewKeyOverlay.close();
-    },
+    }
 
     _handleDeleteKey(e) {
       const el = Polymer.dom(e).localTarget;
@@ -82,7 +86,7 @@
       this.push('_keysToRemove', this._keys[index]);
       this.splice('_keys', index, 1);
       this.hasUnsavedChanges = true;
-    },
+    }
 
     _handleAddKey() {
       this.$.addButton.disabled = true;
@@ -96,10 +100,12 @@
             this.$.addButton.disabled = false;
             this.$.newKey.disabled = false;
           });
-    },
+    }
 
     _computeAddButtonDisabled(newKey) {
       return !newKey.length;
-    },
-  });
+    }
+  }
+
+  customElements.define(GrGpgEditor.is, GrGpgEditor);
 })();

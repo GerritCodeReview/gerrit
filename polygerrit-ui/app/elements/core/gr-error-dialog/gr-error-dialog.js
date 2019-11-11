@@ -17,21 +17,26 @@
 (function() {
   'use strict';
 
-  Polymer({
-    is: 'gr-error-dialog',
-
+  class GrErrorDialog extends Polymer.GestureEventListeners(
+      Polymer.LegacyElementMixin(
+          Polymer.Element)) {
+    static get is() { return 'gr-error-dialog'; }
     /**
      * Fired when the dismiss button is pressed.
      *
      * @event dismiss
      */
 
-    properties: {
-      text: String,
-    },
+    static get properties() {
+      return {
+        text: String,
+      };
+    }
 
     _handleConfirm() {
       this.dispatchEvent(new CustomEvent('dismiss'));
-    },
-  });
+    }
+  }
+
+  customElements.define(GrErrorDialog.is, GrErrorDialog);
 })();

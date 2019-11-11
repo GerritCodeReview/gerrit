@@ -22,6 +22,30 @@
       "revId": "ac5756895dab7b9e35303d8bfc0228d3481cfba7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c3603a6a_0648ee12",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 18
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-11-11T13:07:58Z",
+      "side": 1,
+      "message": "I can reproduce if I remove lib:caffeine from some places, also with this patch the test is passing again:[1]. This was the change in patch set 18.\n\n* [1] http://paste.openstack.org/show/785940",
+      "parentUuid": "fc2efe18_db41692e",
+      "range": {
+        "startLine": 13,
+        "startChar": 41,
+        "endLine": 14,
+        "endChar": 24
+      },
+      "revId": "ac5756895dab7b9e35303d8bfc0228d3481cfba7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -17,20 +17,26 @@
 (function() {
   'use strict';
 
-  Polymer({
-    is: 'gr-page-nav',
+  class GrPageNav extends Polymer.GestureEventListeners(
+      Polymer.LegacyElementMixin(
+          Polymer.Element)) {
+    static get is() { return 'gr-page-nav'; }
 
-    properties: {
-      _headerHeight: Number,
-    },
+    static get properties() {
+      return {
+        _headerHeight: Number,
+      };
+    }
 
     attached() {
+      super.attached();
       this.listen(window, 'scroll', '_handleBodyScroll');
-    },
+    }
 
     detached() {
+      super.detached();
       this.unlisten(window, 'scroll', '_handleBodyScroll');
-    },
+    }
 
     _handleBodyScroll() {
       if (this._headerHeight === undefined) {
@@ -45,20 +51,22 @@
 
       this.$.nav.classList.toggle('pinned',
           this._getScrollY() >= this._headerHeight);
-    },
+    }
 
     /* Functions used for test purposes */
     _getOffsetParent(element) {
       if (!element || !element.offsetParent) { return ''; }
       return element.offsetParent;
-    },
+    }
 
     _getOffsetTop(element) {
       return element.offsetTop;
-    },
+    }
 
     _getScrollY() {
       return window.scrollY;
-    },
-  });
+    }
+  }
+
+  customElements.define(GrPageNav.is, GrPageNav);
 })();

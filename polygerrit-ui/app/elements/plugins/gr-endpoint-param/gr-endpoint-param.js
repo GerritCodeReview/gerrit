@@ -17,17 +17,21 @@
 (function() {
   'use strict';
 
-  Polymer({
-    is: 'gr-endpoint-param',
+  class GrEndpointParam extends Polymer.GestureEventListeners(
+      Polymer.LegacyElementMixin(
+          Polymer.Element)) {
+    static get is() { return 'gr-endpoint-param'; }
 
-    properties: {
-      name: String,
-      value: {
-        type: Object,
-        notify: true,
-        observer: '_valueChanged',
-      },
-    },
+    static get properties() {
+      return {
+        name: String,
+        value: {
+          type: Object,
+          notify: true,
+          observer: '_valueChanged',
+        },
+      };
+    }
 
     _valueChanged(newValue, oldValue) {
       /* In polymer 2 the following change was made:
@@ -42,6 +46,8 @@
         value: newValue,
       };
       this.dispatchEvent(new CustomEvent('value-changed', {detail}));
-    },
-  });
+    }
+  }
+
+  customElements.define(GrEndpointParam.is, GrEndpointParam);
 })();

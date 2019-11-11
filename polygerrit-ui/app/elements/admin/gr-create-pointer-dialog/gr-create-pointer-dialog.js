@@ -22,35 +22,39 @@
     tags: 'tags',
   };
 
-  Polymer({
-    is: 'gr-create-pointer-dialog',
+  class GrCreatePointerDialog extends Polymer.mixinBehaviors( [
+    Gerrit.BaseUrlBehavior,
+    Gerrit.URLEncodingBehavior,
+  ], Polymer.GestureEventListeners(
+      Polymer.LegacyElementMixin(
+          Polymer.Element))) {
+    static get is() { return 'gr-create-pointer-dialog'; }
 
-    properties: {
-      detailType: String,
-      repoName: String,
-      hasNewItemName: {
-        type: Boolean,
-        notify: true,
-        value: false,
-      },
-      itemDetail: String,
-      _itemName: String,
-      _itemRevision: String,
-      _itemAnnotation: String,
-    },
+    static get properties() {
+      return {
+        detailType: String,
+        repoName: String,
+        hasNewItemName: {
+          type: Boolean,
+          notify: true,
+          value: false,
+        },
+        itemDetail: String,
+        _itemName: String,
+        _itemRevision: String,
+        _itemAnnotation: String,
+      };
+    }
 
-    behaviors: [
-      Gerrit.BaseUrlBehavior,
-      Gerrit.URLEncodingBehavior,
-    ],
-
-    observers: [
-      '_updateItemName(_itemName)',
-    ],
+    static get observers() {
+      return [
+        '_updateItemName(_itemName)',
+      ];
+    }
 
     _updateItemName(name) {
       this.hasNewItemName = !!name;
-    },
+    }
 
     _computeItemUrl(project) {
       if (this.itemDetail === DETAIL_TYPES.branches) {
@@ -60,7 +64,7 @@
         return this.getBaseUrl() + '/admin/repos/' +
             this.encodeURL(this.repoName, true) + ',tags';
       }
-    },
+    }
 
     handleCreateItem() {
       const USE_HEAD = this._itemRevision ? this._itemRevision : 'HEAD';
@@ -82,10 +86,12 @@
               }
             });
       }
-    },
+    }
 
     _computeHideItemClass(type) {
       return type === DETAIL_TYPES.branches ? 'hideItem' : '';
-    },
-  });
+    }
+  }
+
+  customElements.define(GrCreatePointerDialog.is, GrCreatePointerDialog);
 })();

@@ -31,142 +31,144 @@
 
   const FILE = 'FILE';
 
-  Polymer({
-    is: 'gr-comment',
-
+  class GrComment extends Polymer.mixinBehaviors( [
+    Gerrit.FireBehavior,
+    Gerrit.KeyboardShortcutBehavior,
+  ], Polymer.GestureEventListeners(
+      Polymer.LegacyElementMixin(
+          Polymer.Element))) {
+    static get is() { return 'gr-comment'; }
     /**
      * Fired when the create fix comment action is triggered.
      *
      * @event create-fix-comment
      */
-
     /**
      * Fired when this comment is discarded.
      *
      * @event comment-discard
      */
-
     /**
      * Fired when this comment is saved.
      *
      * @event comment-save
      */
-
     /**
      * Fired when this comment is updated.
      *
      * @event comment-update
      */
-
     /**
      * Fired when the comment's timestamp is tapped.
      *
      * @event comment-anchor-tap
      */
 
-    properties: {
-      changeNum: String,
-      /** @type {?} */
-      comment: {
-        type: Object,
-        notify: true,
-        observer: '_commentChanged',
-      },
-      isRobotComment: {
-        type: Boolean,
-        value: false,
-        reflectToAttribute: true,
-      },
-      disabled: {
-        type: Boolean,
-        value: false,
-        reflectToAttribute: true,
-      },
-      draft: {
-        type: Boolean,
-        value: false,
-        observer: '_draftChanged',
-      },
-      editing: {
-        type: Boolean,
-        value: false,
-        observer: '_editingChanged',
-      },
-      discarding: {
-        type: Boolean,
-        value: false,
-        reflectToAttribute: true,
-      },
-      hasChildren: Boolean,
-      patchNum: String,
-      showActions: Boolean,
-      _showHumanActions: Boolean,
-      _showRobotActions: Boolean,
-      collapsed: {
-        type: Boolean,
-        value: true,
-        observer: '_toggleCollapseClass',
-      },
-      /** @type {?} */
-      projectConfig: Object,
-      robotButtonDisabled: Boolean,
-      _isAdmin: {
-        type: Boolean,
-        value: false,
-      },
+    static get properties() {
+      return {
+        changeNum: String,
+        /** @type {?} */
+        comment: {
+          type: Object,
+          notify: true,
+          observer: '_commentChanged',
+        },
+        isRobotComment: {
+          type: Boolean,
+          value: false,
+          reflectToAttribute: true,
+        },
+        disabled: {
+          type: Boolean,
+          value: false,
+          reflectToAttribute: true,
+        },
+        draft: {
+          type: Boolean,
+          value: false,
+          observer: '_draftChanged',
+        },
+        editing: {
+          type: Boolean,
+          value: false,
+          observer: '_editingChanged',
+        },
+        discarding: {
+          type: Boolean,
+          value: false,
+          reflectToAttribute: true,
+        },
+        hasChildren: Boolean,
+        patchNum: String,
+        showActions: Boolean,
+        _showHumanActions: Boolean,
+        _showRobotActions: Boolean,
+        collapsed: {
+          type: Boolean,
+          value: true,
+          observer: '_toggleCollapseClass',
+        },
+        /** @type {?} */
+        projectConfig: Object,
+        robotButtonDisabled: Boolean,
+        _isAdmin: {
+          type: Boolean,
+          value: false,
+        },
 
-      _xhrPromise: Object, // Used for testing.
-      _messageText: {
-        type: String,
-        value: '',
-        observer: '_messageTextChanged',
-      },
-      commentSide: String,
-      side: String,
+        _xhrPromise: Object, // Used for testing.
+        _messageText: {
+          type: String,
+          value: '',
+          observer: '_messageTextChanged',
+        },
+        commentSide: String,
+        side: String,
 
-      resolved: Boolean,
+        resolved: Boolean,
 
-      _numPendingDraftRequests: {
-        type: Object,
-        value:
+        _numPendingDraftRequests: {
+          type: Object,
+          value:
             {number: 0}, // Intentional to share the object across instances.
-      },
+        },
 
-      _enableOverlay: {
-        type: Boolean,
-        value: false,
-      },
+        _enableOverlay: {
+          type: Boolean,
+          value: false,
+        },
 
-      /**
+        /**
        * Property for storing references to overlay elements. When the overlays
        * are moved to Gerrit.getRootElement() to be shown they are no-longer
        * children, so they can't be queried along the tree, so they are stored
        * here.
        */
-      _overlays: {
-        type: Object,
-        value: () => ({}),
-      },
-    },
+        _overlays: {
+          type: Object,
+          value: () => ({}),
+        },
+      };
+    }
 
-    observers: [
-      '_commentMessageChanged(comment.message)',
-      '_loadLocalDraft(changeNum, patchNum, comment)',
-      '_isRobotComment(comment)',
-      '_calculateActionstoShow(showActions, isRobotComment)',
-    ],
+    static get observers() {
+      return [
+        '_commentMessageChanged(comment.message)',
+        '_loadLocalDraft(changeNum, patchNum, comment)',
+        '_isRobotComment(comment)',
+        '_calculateActionstoShow(showActions, isRobotComment)',
+      ];
+    }
 
-    behaviors: [
-      Gerrit.FireBehavior,
-      Gerrit.KeyboardShortcutBehavior,
-    ],
-
-    keyBindings: {
-      'ctrl+enter meta+enter ctrl+s meta+s': '_handleSaveKey',
-      'esc': '_handleEsc',
-    },
+    get keyBindings() {
+      return {
+        'ctrl+enter meta+enter ctrl+s meta+s': '_handleSaveKey',
+        'esc': '_handleEsc',
+      };
+    }
 
     attached() {
+      super.attached();
       if (this.editing) {
         this.collapsed = false;
       } else if (this.comment) {
@@ -175,18 +177,19 @@
       this._getIsAdmin().then(isAdmin => {
         this._isAdmin = isAdmin;
       });
-    },
+    }
 
     detached() {
+      super.detached();
       this.cancelDebouncer('fire-update');
       if (this.textarea) {
         this.textarea.closeDropdown();
       }
-    },
+    }
 
     get textarea() {
       return this.$$('#editTextarea');
-    },
+    }
 
     get confirmDeleteOverlay() {
       if (!this._overlays.confirmDelete) {
@@ -195,7 +198,7 @@
         this._overlays.confirmDelete = this.$$('#confirmDeleteOverlay');
       }
       return this._overlays.confirmDelete;
-    },
+    }
 
     get confirmDiscardOverlay() {
       if (!this._overlays.confirmDiscard) {
@@ -204,11 +207,11 @@
         this._overlays.confirmDiscard = this.$$('#confirmDiscardOverlay');
       }
       return this._overlays.confirmDiscard;
-    },
+    }
 
     _computeShowHideIcon(collapsed) {
       return collapsed ? 'gr-icons:expand-more' : 'gr-icons:expand-less';
-    },
+    }
 
     _calculateActionstoShow(showActions, isRobotComment) {
       // Polymer 2: check for undefined
@@ -218,19 +221,19 @@
 
       this._showHumanActions = showActions && !isRobotComment;
       this._showRobotActions = showActions && isRobotComment;
-    },
+    }
 
     _isRobotComment(comment) {
       this.isRobotComment = !!comment.robot_id;
-    },
+    }
 
     isOnParent() {
       return this.side === 'PARENT';
-    },
+    }
 
     _getIsAdmin() {
       return this.$.restAPI.getIsAdmin();
-    },
+    }
 
     /**
      * @param {*=} opt_comment
@@ -273,7 +276,7 @@
       });
 
       return this._xhrPromise;
-    },
+    }
 
     _eraseDraftComment() {
       // Prevents a race condition in which removing the draft comment occurs
@@ -287,7 +290,7 @@
         line: this.comment.line,
         range: this.comment.range,
       });
-    },
+    }
 
     _commentChanged(comment) {
       this.editing = !!comment.__editing;
@@ -295,7 +298,7 @@
       if (this.editing) { // It's a new draft/reply, notify.
         this._fireUpdate();
       }
-    },
+    }
 
     /**
      * @param {!Object=} opt_mixin
@@ -307,21 +310,21 @@
         comment: this.comment,
         patchNum: this.patchNum,
       });
-    },
+    }
 
     _fireSave() {
       this.fire('comment-save', this._getEventPayload());
-    },
+    }
 
     _fireUpdate() {
       this.debounce('fire-update', () => {
         this.fire('comment-update', this._getEventPayload());
       });
-    },
+    }
 
     _draftChanged(draft) {
       this.$.container.classList.toggle('draft', draft);
-    },
+    }
 
     _editingChanged(editing, previousValue) {
       // Polymer 2: observer fires when at least one property is defined.
@@ -346,11 +349,11 @@
           this.textarea.putCursorAtEnd();
         }, 1);
       }
-    },
+    }
 
     _computeDeleteButtonClass(isAdmin, draft) {
       return isAdmin && !draft ? 'showDeleteButtons' : '';
-    },
+    }
 
     _computeSaveDisabled(draft, comment, resolved) {
       // If resolved state has changed and a msg exists, save should be enabled.
@@ -358,7 +361,7 @@
         return false;
       }
       return !draft || draft.trim() === '';
-    },
+    }
 
     _handleSaveKey(e) {
       if (!this._computeSaveDisabled(this._messageText, this.comment,
@@ -366,18 +369,18 @@
         e.preventDefault();
         this._handleSave(e);
       }
-    },
+    }
 
     _handleEsc(e) {
       if (!this._messageText.length) {
         e.preventDefault();
         this._handleCancel(e);
       }
-    },
+    }
 
     _handleToggleCollapsed() {
       this.collapsed = !this.collapsed;
-    },
+    }
 
     _toggleCollapseClass(collapsed) {
       if (collapsed) {
@@ -385,11 +388,11 @@
       } else {
         this.$.container.classList.remove('collapsed');
       }
-    },
+    }
 
     _commentMessageChanged(message) {
       this._messageText = message || '';
-    },
+    }
 
     _messageTextChanged(newValue, oldValue) {
       if (!this.comment || (this.comment && this.comment.id)) {
@@ -414,7 +417,7 @@
           this.$.storage.setDraftComment(commentLocation, message);
         }
       }, STORAGE_DEBOUNCE_INTERVAL);
-    },
+    }
 
     _handleAnchorClick(e) {
       e.preventDefault();
@@ -429,14 +432,14 @@
           side: this.side,
         },
       }));
-    },
+    }
 
     _handleEdit(e) {
       e.preventDefault();
       this._messageText = this.comment.message;
       this.editing = true;
       this.$.reporting.recordDraftInteraction();
-    },
+    }
 
     _handleSave(e) {
       e.preventDefault();
@@ -450,7 +453,7 @@
       const timer = this.$.reporting.getTimer(timingLabel);
       this.set('comment.__editing', false);
       return this.save().then(() => { timer.end(); });
-    },
+    }
 
     _handleCancel(e) {
       e.preventDefault();
@@ -463,12 +466,12 @@
       }
       this._messageText = this.comment.message;
       this.editing = false;
-    },
+    }
 
     _fireDiscard() {
       this.cancelDebouncer('fire-update');
       this.fire('comment-discard', this._getEventPayload());
-    },
+    }
 
     _handleFix() {
       this.dispatchEvent(new CustomEvent('create-fix-comment', {
@@ -476,7 +479,7 @@
         composed: true,
         detail: this._getEventPayload(),
       }));
-    },
+    }
 
     _handleDiscard(e) {
       e.preventDefault();
@@ -491,14 +494,14 @@
         this.confirmDiscardOverlay.querySelector('#confirmDiscardDialog')
             .resetFocus();
       });
-    },
+    }
 
     _handleConfirmDiscard(e) {
       e.preventDefault();
       const timer = this.$.reporting.getTimer(REPORT_DISCARD_DRAFT);
       this._closeConfirmDiscardOverlay();
       return this._discardDraft().then(() => { timer.end(); });
-    },
+    }
 
     _discardDraft() {
       if (!this.comment.__draft) {
@@ -529,11 +532,11 @@
       });
 
       return this._xhrPromise;
-    },
+    }
 
     _closeConfirmDiscardOverlay() {
       this._closeOverlay(this.confirmDiscardOverlay);
-    },
+    }
 
     _getSavingMessage(numPending) {
       if (numPending === 0) {
@@ -544,17 +547,17 @@
         numPending,
         numPending === 1 ? DRAFT_SINGULAR : DRAFT_PLURAL,
       ].join(' ');
-    },
+    }
 
     _showStartRequest() {
       const numPending = ++this._numPendingDraftRequests.number;
       this._updateRequestToast(numPending);
-    },
+    }
 
     _showEndRequest() {
       const numPending = --this._numPendingDraftRequests.number;
       this._updateRequestToast(numPending);
-    },
+    }
 
     _handleFailedDraftRequest() {
       this._numPendingDraftRequests.number--;
@@ -562,7 +565,7 @@
       // Cancel the debouncer so that error toasts from the error-manager will
       // not be overridden.
       this.cancelDebouncer('draft-toast');
-    },
+    }
 
     _updateRequestToast(numPending) {
       const message = this._getSavingMessage(numPending);
@@ -573,7 +576,7 @@
         document.body.dispatchEvent(new CustomEvent(
             'show-alert', {detail: {message}, bubbles: true, composed: true}));
       }, TOAST_DEBOUNCE_INTERVAL);
-    },
+    }
 
     _saveDraft(draft) {
       this._showStartRequest();
@@ -586,7 +589,7 @@
             }
             return result;
           });
-    },
+    }
 
     _deleteDraft(draft) {
       this._showStartRequest();
@@ -599,11 +602,11 @@
         }
         return result;
       });
-    },
+    }
 
     _getPatchNum() {
       return this.isOnParent() ? 'PARENT' : this.patchNum;
-    },
+    }
 
     _loadLocalDraft(changeNum, patchNum, comment) {
       // Polymer 2: check for undefined
@@ -632,7 +635,7 @@
       if (draft) {
         this.set('comment.message', draft.message);
       }
-    },
+    }
 
     _handleToggleResolved() {
       this.$.reporting.recordDraftInteraction();
@@ -646,25 +649,25 @@
         // Save the resolved state immediately.
         this.save(payload.comment);
       }
-    },
+    }
 
     _handleCommentDelete() {
       this._openOverlay(this.confirmDeleteOverlay);
-    },
+    }
 
     _handleCancelDeleteComment() {
       this._closeOverlay(this.confirmDeleteOverlay);
-    },
+    }
 
     _openOverlay(overlay) {
       Polymer.dom(Gerrit.getRootElement()).appendChild(overlay);
       return overlay.open();
-    },
+    }
 
     _closeOverlay(overlay) {
       Polymer.dom(Gerrit.getRootElement()).removeChild(overlay);
       overlay.close();
-    },
+    }
 
     _handleConfirmDeleteComment() {
       const dialog =
@@ -675,6 +678,8 @@
             this._handleCancelDeleteComment();
             this.comment = newComment;
           });
-    },
-  });
+    }
+  }
+
+  customElements.define(GrComment.is, GrComment);
 })();

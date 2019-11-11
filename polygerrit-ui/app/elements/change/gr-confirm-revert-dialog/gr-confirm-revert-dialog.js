@@ -20,28 +20,28 @@
   const ERR_COMMIT_NOT_FOUND =
       'Unable to find the commit hash of this change.';
 
-  Polymer({
-    is: 'gr-confirm-revert-dialog',
-
+  class GrConfirmRevertDialog extends Polymer.mixinBehaviors( [
+    Gerrit.FireBehavior,
+  ], Polymer.GestureEventListeners(
+      Polymer.LegacyElementMixin(
+          Polymer.Element))) {
+    static get is() { return 'gr-confirm-revert-dialog'; }
     /**
      * Fired when the confirm button is pressed.
      *
      * @event confirm
      */
-
     /**
      * Fired when the cancel button is pressed.
      *
      * @event cancel
      */
 
-    properties: {
-      message: String,
-    },
-
-    behaviors: [
-      Gerrit.FireBehavior,
-    ],
+    static get properties() {
+      return {
+        message: String,
+      };
+    }
 
     populateRevertMessage(message, commitHash) {
       // Figure out what the revert title should be.
@@ -55,18 +55,20 @@
 
       this.message = `${revertTitle}\n\n${revertCommitText}\n\n` +
           `Reason for revert: <INSERT REASONING HERE>\n`;
-    },
+    }
 
     _handleConfirmTap(e) {
       e.preventDefault();
       e.stopPropagation();
       this.fire('confirm', null, {bubbles: false});
-    },
+    }
 
     _handleCancelTap(e) {
       e.preventDefault();
       e.stopPropagation();
       this.fire('cancel', null, {bubbles: false});
-    },
-  });
+    }
+  }
+
+  customElements.define(GrConfirmRevertDialog.is, GrConfirmRevertDialog);
 })();

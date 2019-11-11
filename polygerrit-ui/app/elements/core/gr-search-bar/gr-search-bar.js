@@ -102,75 +102,76 @@
 
   const TOKENIZE_REGEX = /(?:[^\s"]+|"[^"]*")+\s*/g;
 
-  Polymer({
-    is: 'gr-search-bar',
-
+  class GrSearchBar extends Polymer.mixinBehaviors( [
+    Gerrit.KeyboardShortcutBehavior,
+    Gerrit.URLEncodingBehavior,
+  ], Polymer.GestureEventListeners(
+      Polymer.LegacyElementMixin(
+          Polymer.Element))) {
+    static get is() { return 'gr-search-bar'; }
     /**
      * Fired when a search is committed
      *
      * @event handle-search
      */
 
-    behaviors: [
-      Gerrit.KeyboardShortcutBehavior,
-      Gerrit.URLEncodingBehavior,
-    ],
-
-    properties: {
-      value: {
-        type: String,
-        value: '',
-        notify: true,
-        observer: '_valueChanged',
-      },
-      keyEventTarget: {
-        type: Object,
-        value() { return document.body; },
-      },
-      query: {
-        type: Function,
-        value() {
-          return this._getSearchSuggestions.bind(this);
+    static get properties() {
+      return {
+        value: {
+          type: String,
+          value: '',
+          notify: true,
+          observer: '_valueChanged',
         },
-      },
-      projectSuggestions: {
-        type: Function,
-        value() {
-          return () => Promise.resolve([]);
+        keyEventTarget: {
+          type: Object,
+          value() { return document.body; },
         },
-      },
-      groupSuggestions: {
-        type: Function,
-        value() {
-          return () => Promise.resolve([]);
+        query: {
+          type: Function,
+          value() {
+            return this._getSearchSuggestions.bind(this);
+          },
         },
-      },
-      accountSuggestions: {
-        type: Function,
-        value() {
-          return () => Promise.resolve([]);
+        projectSuggestions: {
+          type: Function,
+          value() {
+            return () => Promise.resolve([]);
+          },
         },
-      },
-      _inputVal: String,
-      _threshold: {
-        type: Number,
-        value: 1,
-      },
-    },
+        groupSuggestions: {
+          type: Function,
+          value() {
+            return () => Promise.resolve([]);
+          },
+        },
+        accountSuggestions: {
+          type: Function,
+          value() {
+            return () => Promise.resolve([]);
+          },
+        },
+        _inputVal: String,
+        _threshold: {
+          type: Number,
+          value: 1,
+        },
+      };
+    }
 
     keyboardShortcuts() {
       return {
         [this.Shortcut.SEARCH]: '_handleSearch',
       };
-    },
+    }
 
     _valueChanged(value) {
       this._inputVal = value;
-    },
+    }
 
     _handleInputCommit(e) {
       this._preventDefaultAndNavigateToInputVal(e);
-    },
+    }
 
     /**
      * This function is called in a few different cases:
@@ -204,7 +205,7 @@
           detail: {inputVal: this._inputVal},
         }));
       }
-    },
+    }
 
     /**
      * Determine what array of possible suggestions should be provided
@@ -246,7 +247,7 @@
               .filter(operator => operator.includes(input))
               .map(operator => ({text: operator})));
       }
-    },
+    }
 
     /**
      * Get the sorted, pruned list of suggestions for the current search query.
@@ -289,7 +290,7 @@
                   };
                 });
           });
-    },
+    }
 
     _handleSearch(e) {
       const keyboardEvent = this.getKeyboardEvent(e);
@@ -299,6 +300,8 @@
       e.preventDefault();
       this.$.searchInput.focus();
       this.$.searchInput.selectAll();
-    },
-  });
+    }
+  }
+
+  customElements.define(GrSearchBar.is, GrSearchBar);
 })();

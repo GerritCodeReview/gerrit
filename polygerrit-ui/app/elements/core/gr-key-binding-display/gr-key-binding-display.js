@@ -17,20 +17,26 @@
 (function() {
   'use strict';
 
-  Polymer({
-    is: 'gr-key-binding-display',
+  class GrKeyBindingDisplay extends Polymer.GestureEventListeners(
+      Polymer.LegacyElementMixin(
+          Polymer.Element)) {
+    static get is() { return 'gr-key-binding-display'; }
 
-    properties: {
+    static get properties() {
+      return {
       /** @type {Array<string>} */
-      binding: Array,
-    },
+        binding: Array,
+      };
+    }
 
     _computeModifiers(binding) {
       return binding.slice(0, binding.length - 1);
-    },
+    }
 
     _computeKey(binding) {
       return binding[binding.length - 1];
-    },
-  });
+    }
+  }
+
+  customElements.define(GrKeyBindingDisplay.is, GrKeyBindingDisplay);
 })();

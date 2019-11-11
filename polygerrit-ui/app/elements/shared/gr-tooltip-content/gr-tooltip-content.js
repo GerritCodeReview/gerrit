@@ -17,31 +17,35 @@
 (function() {
   'use strict';
 
-  Polymer({
-    is: 'gr-tooltip-content',
+  class GrTooltipContent extends Polymer.mixinBehaviors( [
+    Gerrit.TooltipBehavior,
+  ], Polymer.GestureEventListeners(
+      Polymer.LegacyElementMixin(
+          Polymer.Element))) {
+    static get is() { return 'gr-tooltip-content'; }
 
-    properties: {
-      title: {
-        type: String,
-        reflectToAttribute: true,
-      },
-      maxWidth: {
-        type: String,
-        reflectToAttribute: true,
-      },
-      positionBelow: {
-        type: Boolean,
-        valye: false,
-        reflectToAttribute: true,
-      },
-      showIcon: {
-        type: Boolean,
-        value: false,
-      },
-    },
+    static get properties() {
+      return {
+        title: {
+          type: String,
+          reflectToAttribute: true,
+        },
+        maxWidth: {
+          type: String,
+          reflectToAttribute: true,
+        },
+        positionBelow: {
+          type: Boolean,
+          valye: false,
+          reflectToAttribute: true,
+        },
+        showIcon: {
+          type: Boolean,
+          value: false,
+        },
+      };
+    }
+  }
 
-    behaviors: [
-      Gerrit.TooltipBehavior,
-    ],
-  });
+  customElements.define(GrTooltipContent.is, GrTooltipContent);
 })();

@@ -3810,7 +3810,7 @@ Not set if there is no parent.
 
 [[label-definition-info]]
 === LabelDefinitionInfo
-The `LabelTypeInfo` entity describes a link:config-labels.html[
+The `LabelDefinitionInfo` entity describes a link:config-labels.html[
 review label].
 
 [options="header",cols="1,^2,4"]
@@ -3868,7 +3868,7 @@ set on the label.
 
 [[label-definition-input]]
 === LabelDefinitionInput
-The `LabelTypeInput` entity describes a link:config-labels.html[
+The `LabelDefinitionInput` entity describes a link:config-labels.html[
 review label].
 
 [options="header",cols="1,^2,4"]

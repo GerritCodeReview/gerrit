@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a26d17e_5b0784c7",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 1956,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-11-12T18:41:32Z",
+      "side": 1,
+      "message": "Invalidate?",
+      "range": {
+        "startLine": 1956,
+        "startChar": 9,
+        "endLine": 1956,
+        "endChar": 16
+      },
+      "revId": "bc4b68a2a56838bbb53cc40ff1d8367c900708ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ba94d70d_59b2e014",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 1957,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-11-12T18:41:32Z",
+      "side": 1,
+      "message": "The Gerrit.PatchSetBehavior is available here, and there we define:\n\n  EDIT_NAME: \u0027edit\u0027\n\nso that this constant can be used here?",
+      "range": {
+        "startLine": 1957,
+        "startChar": 23,
+        "endLine": 1957,
+        "endChar": 29
+      },
+      "revId": "bc4b68a2a56838bbb53cc40ff1d8367c900708ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

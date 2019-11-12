@@ -19,6 +19,7 @@ import static com.google.common.base.MoreObjects.firstNonNull;
 import com.google.auto.value.AutoValue;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
@@ -83,6 +84,7 @@ import org.eclipse.jgit.util.ChangeIdUtil;
 
 @Singleton
 public class CherryPickChange {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
   @AutoValue
   abstract static class Result {
     static Result create(Change.Id changeId, ImmutableSet<String> filesWithGitConflicts) {
@@ -247,7 +249,7 @@ public class CherryPickChange {
       @Nullable ObjectId changeIdForNewChange)
       throws IOException, InvalidChangeOperationException, IntegrationException, UpdateException,
           RestApiException, ConfigInvalidException, NoSuchProjectException {
-
+    logger.atWarning().log("KKKK - Calling cherryPick...");
     IdentifiedUser identifiedUser = user.get();
     try (Repository git = gitManager.openRepository(project);
         // This inserter and revwalk *must* be passed to any BatchUpdates
@@ -442,6 +444,8 @@ public class CherryPickChange {
     ChangeInserter ins = changeInserterFactory.create(changeId, cherryPickCommit, refName);
     ins.setRevertOf(revertOf);
     BranchNameKey sourceBranch = sourceChange == null ? null : sourceChange.getDest();
+    Integer sourceChangeId = sourceChange == null ? null : sourceChange.getChangeId();
+    logger.atWarning().log("KKKK - Setting source to %s", sourceChangeId.toString());
     ins.setMessage(
             revertOf == null
                 ? messageForDestinationChange(
@@ -449,6 +453,7 @@ public class CherryPickChange {
                 : "Uploaded patch set 1.") // For revert commits, the message should not include
         // cherry-pick information.
         .setTopic(topic)
+        .setSource(sourceChangeId)
         .setWorkInProgress(
             (sourceChange != null && sourceChange.isWorkInProgress())
                 || !cherryPickCommit.getFilesWithGitConflicts().isEmpty());

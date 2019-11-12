@@ -449,6 +449,9 @@ public class BatchUpdate implements AutoCloseable {
   public BatchUpdate insertChange(InsertChangeOp op) throws IOException {
     Context ctx = new ContextImpl();
     Change c = op.createChange(ctx);
+    if(c.getSource() != null) {
+      logger.atWarning().log("KKKK - new change %s created with source %s", c.getChangeId(), c.getSource().toString());
+    }
     checkArgument(
         !newChanges.containsKey(c.getId()), "only one op allowed to create change %s", c.getId());
     newChanges.put(c.getId(), c);

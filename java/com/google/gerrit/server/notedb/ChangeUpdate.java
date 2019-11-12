@@ -38,6 +38,7 @@ import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBMITTED_WI
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_TAG;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_TOPIC;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_WORK_IN_PROGRESS;
+import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SOURCE;
 import static com.google.gerrit.server.notedb.NoteDbUtil.sanitizeFooter;
 import static java.util.Comparator.naturalOrder;
 import static java.util.Objects.requireNonNull;
@@ -137,6 +138,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private Boolean isPrivate;
   private Boolean workInProgress;
   private Integer revertOf;
+  private Integer source;
 
   private ChangeDraftUpdate draftUpdate;
   private RobotCommentUpdate robotCommentUpdate;
@@ -339,6 +341,9 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     this.topic = Strings.nullToEmpty(topic);
   }
 
+  public void setSource(Integer source) {
+	  this.source = source;
+  }
   public void setCommit(RevWalk rw, ObjectId id) throws IOException {
     setCommit(rw, id, null);
   }
@@ -566,6 +571,10 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       addFooter(msg, FOOTER_TOPIC, topic);
     }
 
+    if (source != null) {
+      addFooter(msg, FOOTER_SOURCE, source);
+    }
+
     if (commit != null) {
       addFooter(msg, FOOTER_COMMIT, commit);
     }
@@ -712,7 +721,8 @@ public class ChangeUpdate extends AbstractChangeUpdate {
         && !currentPatchSet
         && isPrivate == null
         && workInProgress == null
-        && revertOf == null;
+        && revertOf == null
+        && source == null;
   }
 
   ChangeDraftUpdate getDraftUpdate() {

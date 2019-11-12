@@ -148,6 +148,7 @@ class ChangeNotesParser {
   private ReviewerByEmailSet pendingReviewersByEmail;
   private Change.Id revertOf;
   private int updateCount;
+  private Integer source;
 
   ChangeNotesParser(
       Change.Id changeId,
@@ -246,6 +247,7 @@ class ChangeNotesParser {
         firstNonNull(workInProgress, false),
         firstNonNull(hasReviewStarted, true),
         revertOf,
+        source,
         updateCount);
   }
 

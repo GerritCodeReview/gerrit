@@ -184,6 +184,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   public static final String FIELD_WATCHEDBY = "watchedby";
   public static final String FIELD_WIP = "wip";
   public static final String FIELD_REVERTOF = "revertof";
+  public static final String FIELD_SOURCE = "source";
 
   public static final String ARG_ID_USER = "user";
   public static final String ARG_ID_GROUP = "group";

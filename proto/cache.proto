@@ -197,6 +197,8 @@ message ChangeNotesStateProto {
     bool has_current_assignee = 4;
   }
   repeated AssigneeStatusUpdateProto assignee_update = 22;
+  int32 source = 23;
+  bool has_source = 24;
 }
 
 

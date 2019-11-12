@@ -30,6 +30,7 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.flogger.FluentLogger;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.LabelTypes;
@@ -100,6 +101,7 @@ import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 
 public class ChangeData {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
   public static List<Change> asChanges(List<ChangeData> changeDatas) {
     List<Change> result = new ArrayList<>(changeDatas.size());
     for (ChangeData cd : changeDatas) {
@@ -301,6 +303,7 @@ public class ChangeData {
   private Integer unresolvedCommentCount;
   private Integer totalCommentCount;
   private LabelTypes labelTypes;
+  private Integer source;
 
   private ImmutableList<byte[]> refStates;
   private ImmutableList<byte[]> refStatePatterns;
@@ -827,6 +830,26 @@ public class ChangeData {
 
   public void setTotalCommentCount(Integer count) {
     this.totalCommentCount = count;
+  }
+
+  @Nullable
+  public Integer source() {
+    if(source == null) {
+      if (!lazyLoad) {
+        return null;
+      }
+      source = notes().getSource();
+    }
+    if(source == null) {
+      logger.atWarning().log("KKKK - ChangeData source() - change is %s and source is null. Refname is %s", change.getChangeId(), notes().getRefName());
+    } else {
+      logger.atWarning().log("KKKK - ChangeData source() - change is %s and source is %s", change.getChangeId(), source);
+    }
+    return source;
+  }
+  
+  public void setSource(Integer source) {
+	  this.source = source;
   }
 
   public List<ChangeMessage> messages() {

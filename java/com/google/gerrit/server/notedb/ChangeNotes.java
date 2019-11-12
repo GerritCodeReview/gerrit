@@ -394,6 +394,14 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     return ImmutableSortedSet.copyOf(state.hashtags());
   }
 
+  /**
+   * @return the Source change for this change. Only changes that were cherry-picked will
+   *     have a source.
+   */
+  public Integer getSource() {
+    return state.source();
+  }
+
   /** @return a list of all users who have ever been a reviewer on this change. */
   public ImmutableList<Account.Id> getAllPastReviewers() {
     return state.allPastReviewers();

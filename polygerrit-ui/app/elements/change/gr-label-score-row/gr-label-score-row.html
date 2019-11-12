@@ -111,7 +111,7 @@ limitations under the License.
         </template>
         <iron-selector
             id="labelSelector"
-            attr-for-selected="value"
+            attr-for-selected="data-value"
             selected="[[_computeLabelValue(labels, permittedLabels, label)]]"
             hidden$="[[!_computeAnyPermittedLabelValues(permittedLabels, label.name)]]"
             on-selected-item-changed="_setSelectedValueText">
@@ -121,8 +121,8 @@ limitations under the License.
             <gr-button
                 class$="[[_computeButtonClass(value, index, _items.length)]]"
                 has-tooltip
-                name="[[label.name]]"
-                value$="[[value]]"
+                data-name$="[[label.name]]"
+                data-value$="[[value]]"
                 title$="[[_computeLabelValueTitle(labels, label.name, value)]]">
               [[value]]</gr-button>
           </template>

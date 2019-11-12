@@ -32,6 +32,7 @@ import com.google.common.flogger.FluentLogger;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
@@ -66,9 +67,11 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.TimeZone;
 import java.util.TreeMap;
 import org.eclipse.jgit.lib.BatchRefUpdate;
@@ -243,6 +246,9 @@ public class BatchUpdate implements AutoCloseable {
   }
 
   private class RepoContextImpl extends ContextImpl implements RepoContext {
+
+    private Set<AccountGroup.UUID> groupsToDelete = new HashSet<>();
+
     @Override
     public ObjectInserter getInserter() throws IOException {
       return getRepoView().getInserterWrapper();
@@ -251,6 +257,11 @@ public class BatchUpdate implements AutoCloseable {
     @Override
     public void addRefUpdate(ReceiveCommand cmd) throws IOException {
       getRepoView().getCommands().add(cmd);
+    }
+
+    @Override
+    public void deleteGroup(AccountGroup.UUID groupId) {
+      groupsToDelete.add(groupId);
     }
   }
 

@@ -27,7 +27,7 @@
     },
 
     _handleMoveUpButton(e) {
-      const index = Polymer.dom(e).localTarget.dataIndex;
+      const index = Number(Polymer.dom(e).localTarget.dataset.index);
       if (index === 0) { return; }
       const row = this.menuItems[index];
       const prev = this.menuItems[index - 1];
@@ -35,7 +35,7 @@
     },
 
     _handleMoveDownButton(e) {
-      const index = Polymer.dom(e).localTarget.dataIndex;
+      const index = Number(Polymer.dom(e).localTarget.dataset.index);
       if (index === this.menuItems.length - 1) { return; }
       const row = this.menuItems[index];
       const next = this.menuItems[index + 1];
@@ -43,7 +43,7 @@
     },
 
     _handleDeleteButton(e) {
-      const index = Polymer.dom(e).localTarget.dataIndex;
+      const index = Number(Polymer.dom(e).localTarget.dataset.index);
       this.splice('menuItems', index, 1);
     },
 

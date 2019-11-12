@@ -90,6 +90,7 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
   // New numeric types: use dimensional points using the k-d tree geo-spatial data structure
   // to offer fast single- and multi-dimensional numeric range. As the consequense, integer
   // document id type is replaced with string document id type.
+  @Deprecated
   static final Schema<ChangeData> V57 =
       new Schema.Builder<ChangeData>()
           .add(V56)
@@ -97,6 +98,10 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
           .add(ChangeField.LEGACY_ID_STR)
           .legacyNumericFields(false)
           .build();
+
+  // Add new field CHERRY_PICK_OF
+  static final Schema<ChangeData> V58 =
+      new Schema.Builder<ChangeData>().add(V57).add(ChangeField.CHERRY_PICK_OF).build();
 
   public static final String NAME = "changes";
   public static final ChangeSchemaDefinitions INSTANCE = new ChangeSchemaDefinitions();

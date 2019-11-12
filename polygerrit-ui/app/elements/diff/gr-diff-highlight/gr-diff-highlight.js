@@ -33,6 +33,19 @@
        * @type {?HTMLElement}
        * */
       _cachedDiffBuilder: Object,
+
+      /**
+       * Which range is currently selected by the user.
+       * Stored in order to add a range-based comment
+       * later.
+       * undefined if no range is selected.
+       *
+       * @type {{side: string, range: Gerrit.Range}|undefined}
+       */
+      selectedRange: {
+        type: Object,
+        notify: true,
+      },
     },
 
     behaviors: [
@@ -42,7 +55,7 @@
     listeners: {
       'comment-thread-mouseleave': '_handleCommentThreadMouseleave',
       'comment-thread-mouseenter': '_handleCommentThreadMouseenter',
-      'create-range-comment': '_createRangeComment',
+      'create-comment-requested': '_handleRangeCommentRequest',
     },
 
     get diffBuilder() {
@@ -51,10 +64,6 @@
             Polymer.dom(this).querySelector('gr-diff-builder');
       }
       return this._cachedDiffBuilder;
-    },
-
-    isRangeSelected() {
-      return !!this.$$('gr-selection-action-box');
     },
 
     /**
@@ -350,12 +359,12 @@
         // is empty to see that it's at the end of a line.
         const content = domRange.cloneContents().querySelector('.contentText');
         if (isMouseUp && this._getLength(content) === 0) {
-          this.fire('create-range-comment', {side: start.side, range: {
+          this._fireCreateRangeComment(start.side, {
             start_line: start.line,
             start_character: 0,
             end_line: start.line,
             end_character: start.column,
-          }});
+          });
         }
         return;
       }
@@ -366,13 +375,15 @@
         const root = Polymer.dom(this.root);
         root.insertBefore(actionBox, root.firstElementChild);
       }
-      actionBox.range = {
-        start_line: start.line,
-        start_character: start.column,
-        end_line: end.line,
-        end_character: end.column,
+      this.selectedRange = {
+        range: {
+          start_line: start.line,
+          start_character: start.column,
+          end_line: end.line,
+          end_character: end.column,
+        },
+        side: start.side,
       };
-      actionBox.side = start.side;
       if (start.line === end.line) {
         this._positionActionBox(actionBox, start.line, domRange);
       } else if (start.node instanceof Text) {
@@ -389,11 +400,22 @@
       }
     },
 
-    _createRangeComment(e) {
+    _fireCreateRangeComment(side, range) {
+      this.fire('create-range-comment', {side, range});
       this._removeActionBox();
     },
 
+    _handleRangeCommentRequest(e) {
+      e.stopPropagation();
+      if (!this.selectedRange) {
+        throw Error('Selected Range is needed for new range comment!');
+      }
+      const {side, range} = this.selectedRange;
+      this._fireCreateRangeComment(side, range);
+    },
+
     _removeActionBox() {
+      this.selectedRange = undefined;
       const actionBox = this.$$('gr-selection-action-box');
       if (actionBox) {
         Polymer.dom(this.root).removeChild(actionBox);

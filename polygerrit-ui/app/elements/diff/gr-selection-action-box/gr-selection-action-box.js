@@ -21,7 +21,7 @@
     is: 'gr-selection-action-box',
 
     /**
-     * Fired when the comment creation action was taken (hotkey, click).
+     * Fired when the comment creation action was taken (click).
      *
      * @event create-range-comment
      */
@@ -31,33 +31,14 @@
         type: Object,
         value() { return document.body; },
       },
-      range: {
-        type: Object,
-        value: {
-          start_line: NaN,
-          start_character: NaN,
-          end_line: NaN,
-          end_character: NaN,
-        },
+      createRangeComment: {
+        type: Function
       },
       positionBelow: Boolean,
-      side: {
-        type: String,
-        value: '',
-      },
     },
-
-    behaviors: [
-      Gerrit.FireBehavior,
-      Gerrit.KeyboardShortcutBehavior,
-    ],
 
     listeners: {
       mousedown: '_handleMouseDown', // See https://crbug.com/gerrit/4767
-    },
-
-    keyBindings: {
-      c: '_handleCKey',
     },
 
     placeAbove(el) {
@@ -102,23 +83,14 @@
       return rect;
     },
 
-    _handleCKey(e) {
-      if (this.shouldSuppressKeyboardShortcut(e) ||
-          this.modifierPressed(e)) { return; }
-
-      e.preventDefault();
-      this._fireCreateComment();
-    },
-
     _handleMouseDown(e) {
       if (e.button !== 0) { return; } // 0 = main button
       e.preventDefault();
       e.stopPropagation();
-      this._fireCreateComment();
-    },
-
-    _fireCreateComment() {
-      this.fire('create-range-comment', {side: this.side, range: this.range});
+      if(!this.createRangeComment){
+        throw new Error('createRangeComment property is mandatory');
+      }
+      this.createRangeComment();
     },
   });
 })();

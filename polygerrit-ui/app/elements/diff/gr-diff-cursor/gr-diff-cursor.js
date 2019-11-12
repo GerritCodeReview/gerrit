@@ -246,6 +246,20 @@
       this._listeningForScroll = true;
     },
 
+    createCommentInPlace() {
+      const diffWithRangeSelected = this.diffs.find(diff => {
+        return diff.isRangeSelected();
+      });
+      if (diffWithRangeSelected) {
+        diffWithRangeSelected.createRangeComment();
+      } else {
+        const line = this.getTargetLineElement();
+        if (line) {
+          this.getTargetDiffElement().addDraftAtLine(line);
+        }
+      }
+    },
+
     /**
      * Get an object describing the location of the cursor. Such as
      * {leftSide: false, number: 123} for line 123 of the revision, or

@@ -639,14 +639,8 @@
     _handleNewComment(e) {
       if (this.shouldSuppressKeyboardShortcut(e) ||
           this.modifierPressed(e)) { return; }
-
-      const isRangeSelected = this.diffs.some(diff => {
-        return diff.isRangeSelected();
-      }, this);
-      if (!isRangeSelected) {
-        e.preventDefault();
-        this._addDraftAtTarget();
-      }
+      e.preventDefault();
+      this.$.diffCursor.createCommentInPlace();
     },
 
     _handleOpenLastFile(e) {

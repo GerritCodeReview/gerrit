@@ -53,6 +53,8 @@ public class ChangeInfo {
   public Boolean hasReviewStarted;
   public Integer revertOf;
   public String submissionId;
+  public Integer cherryPickOfChange;
+  public Integer cherryPickOfPatchSet;
 
   public int _number;
 

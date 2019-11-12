@@ -40,6 +40,7 @@ import com.google.gerrit.server.change.PatchSetInserter;
 import com.google.gerrit.server.change.RebaseChangeOp;
 import com.google.gerrit.server.change.ReviewerResource;
 import com.google.gerrit.server.change.SetAssigneeOp;
+import com.google.gerrit.server.change.SetCherryPickOp;
 import com.google.gerrit.server.change.SetHashtagsOp;
 import com.google.gerrit.server.change.SetPrivateOp;
 import com.google.gerrit.server.change.WorkInProgressOp;
@@ -201,6 +202,7 @@ public class Module extends RestApiModule {
     factory(RebaseChangeOp.Factory.class);
     factory(ReviewerResource.Factory.class);
     factory(SetAssigneeOp.Factory.class);
+    factory(SetCherryPickOp.Factory.class);
     factory(SetHashtagsOp.Factory.class);
     factory(SetPrivateOp.Factory.class);
     factory(WorkInProgressOp.Factory.class);

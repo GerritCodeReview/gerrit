@@ -335,6 +335,7 @@ public class ChangeProtoConverterTest {
                 .put("workInProgress", boolean.class)
                 .put("reviewStarted", boolean.class)
                 .put("revertOf", Change.Id.class)
+                .put("cherryPickOf", PatchSet.Id.class)
                 .build());
   }
 

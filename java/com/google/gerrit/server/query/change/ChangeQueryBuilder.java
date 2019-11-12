@@ -34,6 +34,7 @@ import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.exceptions.NotSignedInException;
 import com.google.gerrit.exceptions.StorageException;
@@ -189,6 +190,9 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   public static final String FIELD_WATCHEDBY = "watchedby";
   public static final String FIELD_WIP = "wip";
   public static final String FIELD_REVERTOF = "revertof";
+  public static final String FIELD_CHERRY_PICK_OF = "cherrypickof";
+  public static final String FIELD_CHERRY_PICK_OF_CHANGE = "cherrypickofchange";
+  public static final String FIELD_CHERRY_PICK_OF_PATCHSET = "cherrypickofpatchset";
 
   public static final String ARG_ID_USER = "user";
   public static final String ARG_ID_GROUP = "group";
@@ -1266,6 +1270,29 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
     }
     throw new QueryParseException(
         "'submissionid' operator is not supported by change index version");
+  }
+
+  @Operator
+  public Predicate<ChangeData> cherryPickOf(String value) throws QueryParseException {
+    if (args.getSchema().hasField(ChangeField.CHERRY_PICK_OF_CHANGE)
+        && args.getSchema().hasField(ChangeField.CHERRY_PICK_OF_PATCHSET)) {
+      if (Ints.tryParse(value) != null) {
+        return new CherryPickOfChangePredicate(value);
+      }
+      try {
+        PatchSet.Id patchSetId = PatchSet.Id.parse(value);
+        return Predicate.and(
+            new CherryPickOfChangePredicate(patchSetId.changeId().toString()),
+            new CherryPickOfPatchSetPredicate(patchSetId.getId()));
+      } catch (IllegalArgumentException e) {
+        throw new QueryParseException(
+            "'"
+                + value
+                + "' is not a valid patchset. 'ChangeNumber,PatchsetNumber' is a valid patchset representation.");
+      }
+    }
+    throw new QueryParseException(
+        "'cherrypickof' operator is not supported by change index version");
   }
 
   @Override

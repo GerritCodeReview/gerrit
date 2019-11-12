@@ -31,17 +31,17 @@ To check the installed version of Java, open a terminal window and run:
 
 `java -version`
 
-[[java-12]]
-==== Java 12 support
+[[java-13]]
+==== Java 13 support
 
-Java 12 (and newer) is supported through vanilla java toolchain
+Java 13 (and newer) is supported through vanilla java toolchain
 link:https://docs.bazel.build/versions/master/toolchains.html[Bazel option].
-To build Gerrit with Java 12 and newer, specify vanilla java toolchain and
+To build Gerrit with Java 13 and newer, specify vanilla java toolchain and
 provide the path to JDK home:
 
 ```
   $ bazel build \
-    --define=ABSOLUTE_JAVABASE=<path-to-java-12> \
+    --define=ABSOLUTE_JAVABASE=<path-to-java-13> \
     --javabase=@bazel_tools//tools/jdk:absolute_javabase \
     --host_javabase=@bazel_tools//tools/jdk:absolute_javabase \
     --host_java_toolchain=@bazel_tools//tools/jdk:toolchain_vanilla \
@@ -54,7 +54,7 @@ bazel test runs the test using the target javabase:
 
 ```
   $ bazel test \
-    --define=ABSOLUTE_JAVABASE=<path-to-java-12> \
+    --define=ABSOLUTE_JAVABASE=<path-to-java-13> \
     --javabase=@bazel_tools//tools/jdk:absolute_javabase \
     --host_javabase=@bazel_tools//tools/jdk:absolute_javabase \
     --host_java_toolchain=@bazel_tools//tools/jdk:toolchain_vanilla \
@@ -67,7 +67,7 @@ they could be added to ~/.bazelrc resource file:
 
 ```
 $ cat << EOF > ~/.bazelrc
-> build --define=ABSOLUTE_JAVABASE=<path-to-java-12>
+> build --define=ABSOLUTE_JAVABASE=<path-to-java-13>
 > build --javabase=@bazel_tools//tools/jdk:absolute_javabase
 > build --host_javabase=@bazel_tools//tools/jdk:absolute_javabase
 > build --host_java_toolchain=@bazel_tools//tools/jdk:toolchain_vanilla

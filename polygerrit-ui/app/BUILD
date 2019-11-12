@@ -46,6 +46,23 @@ filegroup(
 )
 
 filegroup(
+    name = "pg_code_without_test",
+    srcs = glob(
+        [
+            "**/*.html",
+            "**/*.js",
+        ],
+        exclude = [
+            "bower_components/**",
+            "**/*_test.html",
+            "embed/test.html",
+            "test/**",
+            "samples/**",
+        ],
+    ),
+)
+
+filegroup(
     name = "bower_components",
     srcs = glob(
         [
@@ -108,7 +125,7 @@ sh_test(
     size = "large",
     srcs = ["polylint_test.sh"],
     data = [
-        ":pg_code",
+        ":pg_code_without_test",
         "//polygerrit-ui:polygerrit_components.bower_components.zip",
     ],
     # Should not run sandboxed.

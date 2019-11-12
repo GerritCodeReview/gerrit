@@ -140,8 +140,8 @@
       this._selectedValueText = e.target.selectedItem.getAttribute('title');
       // Needed to update the style of the selected button.
       this.updateStyles();
-      const name = e.target.selectedItem.name;
-      const value = e.target.selectedItem.getAttribute('value');
+      const name = e.target.selectedItem.dataset.name;
+      const value = e.target.selectedItem.dataset.value;
       this.dispatchEvent(new CustomEvent(
           'labels-changed',
           {detail: {name, value}, bubbles: true, composed: true}));

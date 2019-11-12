@@ -35,7 +35,9 @@ limitations under the License.
         display: block;
       }
     </style>
-    <style include="gr-table-styles"></style>
+    <style include="gr-table-styles">
+      /* Workaround for empty style block - see https://github.com/Polymer/tools/issues/408 */
+    </style>
     <table id="list" class$="genericList [[_computeLoadingClass(_loading)]]">
       <tr class="headerRow">
         <th class="topHeader">Dashboard name</th>

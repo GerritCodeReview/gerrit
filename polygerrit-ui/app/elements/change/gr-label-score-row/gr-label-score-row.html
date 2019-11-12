@@ -23,7 +23,9 @@ limitations under the License.
 
 <dom-module id="gr-label-score-row">
   <template>
-    <style include="gr-voting-styles"></style>
+    <style include="gr-voting-styles">
+      /* Workaround for empty style block - see https://github.com/Polymer/tools/issues/408 */
+    </style>
     <style include="shared-styles">
       .labelContainer {
         align-items: center;

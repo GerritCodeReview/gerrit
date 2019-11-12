@@ -16,6 +16,24 @@
       "revId": "16c84bbb4446fae3a76dde32c93321bb1df1bb8b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "da1088ff_d02d80f9",
+        "filename": "polygerrit-ui/app/polylint_test.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-11-12T20:22:15Z",
+      "side": 1,
+      "message": "https://github.com/GerritCodeReview/gerrit-ci-scripts/blob/de71bca3bc9e4b3323360ed8527b6fb90874b5aa/jenkins-docker/slave-node-wct/Dockerfile#L21",
+      "parentUuid": "c990ee1e_dcea0d33",
+      "revId": "16c84bbb4446fae3a76dde32c93321bb1df1bb8b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

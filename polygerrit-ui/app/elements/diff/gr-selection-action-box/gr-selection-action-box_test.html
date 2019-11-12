@@ -59,11 +59,6 @@ limitations under the License.
       assert.isFalse(element.fire.called);
     });
 
-    test('reacts to hotkey', () => {
-      MockInteractions.pressAndReleaseKeyOn(document.body, 67, null, 'c');
-      assert.isTrue(element.fire.called);
-    });
-
     suite('mousedown reacts only to main button', () => {
       let e;
 
@@ -98,7 +93,11 @@ limitations under the License.
       };
       element.side = 'left';
       element.range = range;
-      MockInteractions.pressAndReleaseKeyOn(document.body, 67, null, 'c');
+      element._handleMouseDown({
+        button: 0,
+        preventDefault: sandbox.stub(),
+        stopPropagation: sandbox.stub(),
+      });
       assert(element.fire.calledWithExactly(
           'create-range-comment',
           {

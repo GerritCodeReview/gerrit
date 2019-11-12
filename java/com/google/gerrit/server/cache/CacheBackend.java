@@ -1,4 +1,4 @@
-// Copyright (C) 2012 The Android Open Source Project
+// Copyright (C) 2009 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,13 +14,11 @@
 
 package com.google.gerrit.server.cache;
 
-import com.google.common.cache.Cache;
-import com.google.common.cache.CacheLoader;
-import com.google.common.cache.LoadingCache;
+public enum CacheBackend {
+  CAFFEINE,
+  GUAVA;
 
-public interface MemoryCacheFactory {
-  <K, V> Cache<K, V> build(CacheDef<K, V> def, CacheBackend backend);
-
-  <K, V> LoadingCache<K, V> build(
-      CacheDef<K, V> def, CacheLoader<K, V> loader, CacheBackend backend);
+  public boolean isLegacyBackend() {
+    return this == GUAVA;
+  }
 }

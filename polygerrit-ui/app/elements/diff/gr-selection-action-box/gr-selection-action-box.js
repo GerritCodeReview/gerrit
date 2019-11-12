@@ -21,7 +21,7 @@
     is: 'gr-selection-action-box',
 
     /**
-     * Fired when the comment creation action was taken (hotkey, click).
+     * Fired when the comment creation action was taken (click).
      *
      * @event create-range-comment
      */
@@ -49,15 +49,10 @@
 
     behaviors: [
       Gerrit.FireBehavior,
-      Gerrit.KeyboardShortcutBehavior,
     ],
 
     listeners: {
       mousedown: '_handleMouseDown', // See https://crbug.com/gerrit/4767
-    },
-
-    keyBindings: {
-      c: '_handleCKey',
     },
 
     placeAbove(el) {
@@ -100,14 +95,6 @@
         rect = el.getBoundingClientRect();
       }
       return rect;
-    },
-
-    _handleCKey(e) {
-      if (this.shouldSuppressKeyboardShortcut(e) ||
-          this.modifierPressed(e)) { return; }
-
-      e.preventDefault();
-      this._fireCreateComment();
     },
 
     _handleMouseDown(e) {

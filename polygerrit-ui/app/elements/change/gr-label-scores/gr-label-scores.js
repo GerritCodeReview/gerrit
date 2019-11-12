@@ -31,6 +31,9 @@
       },
       /** @type {?} */
       change: Object,
+      /** @type {?} */
+      account: Object,
+
       _labelValues: Object,
     },
 

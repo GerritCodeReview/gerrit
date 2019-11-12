@@ -186,6 +186,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   public static final String FIELD_WATCHEDBY = "watchedby";
   public static final String FIELD_WIP = "wip";
   public static final String FIELD_REVERTOF = "revertof";
+  public static final String FIELD_CHERRY_PICK_OF_CHANGE = "cherrypickofchange";
+  public static final String FIELD_CHERRY_PICK_OF_PATCHSET = "cherrypickofpatchset";
 
   public static final String ARG_ID_USER = "user";
   public static final String ARG_ID_GROUP = "group";
@@ -1263,6 +1265,24 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
     }
     throw new QueryParseException(
         "'submissionid' operator is not supported by change index version");
+  }
+
+  @Operator
+  public Predicate<ChangeData> cherrypickofchange(String value) throws QueryParseException {
+    if (args.getSchema().hasField(ChangeField.CHERRY_PICK_OF_CHANGE)) {
+      return new CherryPickOfChangePredicate(value);
+    }
+    throw new QueryParseException(
+        "'cherrypickofchange' operator is not supported by change index version");
+  }
+
+  @Operator
+  public Predicate<ChangeData> cherrypickofpatchset(String value) throws QueryParseException {
+    if (args.getSchema().hasField(ChangeField.CHERRY_PICK_OF_PATCHSET)) {
+      return new CherryPickOfPatchSetPredicate(value);
+    }
+    throw new QueryParseException(
+        "'cherrypickofpatchset' operator is not supported by change index version");
   }
 
   @Override

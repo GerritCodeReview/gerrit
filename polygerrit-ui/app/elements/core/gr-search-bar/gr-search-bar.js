@@ -29,6 +29,8 @@
     'cc:',
     'cc:self',
     'change:',
+    'cherrypickofchange:',
+    'cherrypickofpatchset:',
     'comment:',
     'commentby:',
     'commit:',

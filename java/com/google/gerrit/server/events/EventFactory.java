@@ -144,6 +144,10 @@ public class EventFactory {
     a.createdOn = change.getCreatedOn().getTime() / 1000L;
     a.wip = change.isWorkInProgress() ? true : null;
     a.isPrivate = change.isPrivate() ? true : null;
+    a.cherryPickOfChange =
+        change.getCherryPickOf() != null ? change.getCherryPickOf().changeId().get() : null;
+    a.cherryPickOfPatchSet =
+        change.getCherryPickOf() != null ? change.getCherryPickOf().get() : null;
     return a;
   }
 

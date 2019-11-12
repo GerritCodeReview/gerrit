@@ -350,6 +350,30 @@
       "revId": "fb8628e0cfd5308a584c957a4b73dfc344050ef0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4cf6c3f7_072d640b",
+        "filename": "proto/cache.proto",
+        "patchSetId": 5
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2019-11-12T23:16:29Z",
+      "side": 1,
+      "message": "There is not code to handle the backwards compatibility, so don\u0027t I want it to fail if an old entry exists in the cache?",
+      "parentUuid": "3f2d0c25_a69c0a0a",
+      "range": {
+        "startLine": 227,
+        "startChar": 31,
+        "endLine": 227,
+        "endChar": 32
+      },
+      "revId": "fb8628e0cfd5308a584c957a4b73dfc344050ef0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

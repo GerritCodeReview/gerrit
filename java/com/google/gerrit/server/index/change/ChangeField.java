@@ -269,6 +269,11 @@ public class ChangeField {
   public static final FieldDef<ChangeData, Integer> OWNER =
       integer(ChangeQueryBuilder.FIELD_OWNER).build(changeGetter(c -> c.getOwner().get()));
 
+  /** References the source change that this change was cherry-picked from. */
+  public static final FieldDef<ChangeData, Integer> SOURCE =
+      integer(ChangeQueryBuilder.FIELD_SOURCE)
+          .build(cd -> cd.change().getSource() != null ? cd.change().getSource().get() : null);
+
   /** The user assigned to the change. */
   public static final FieldDef<ChangeData, Integer> ASSIGNEE =
       integer(ChangeQueryBuilder.FIELD_ASSIGNEE)

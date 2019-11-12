@@ -464,6 +464,12 @@ limitations under the License.
       assert.isTrue(element._showTopicChip({base: {topic: 'foo'}}, false));
     });
 
+    test('_showSource', () => {
+      assert.isFalse(element._showSource(null));
+      assert.isFalse(element._showSource({base: {source: null}}));
+      assert.isTrue(element._showSource({base: {topic: 123}}));
+    });
+
     suite('Topic removal', () => {
       let change;
       setup(() => {

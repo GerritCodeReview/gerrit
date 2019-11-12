@@ -247,7 +247,6 @@ public class CherryPickChange {
       @Nullable ObjectId changeIdForNewChange)
       throws IOException, InvalidChangeOperationException, IntegrationException, UpdateException,
           RestApiException, ConfigInvalidException, NoSuchProjectException {
-
     IdentifiedUser identifiedUser = user.get();
     try (Repository git = gitManager.openRepository(project);
         // This inserter and revwalk *must* be passed to any BatchUpdates
@@ -442,6 +441,7 @@ public class CherryPickChange {
     ChangeInserter ins = changeInserterFactory.create(changeId, cherryPickCommit, refName);
     ins.setRevertOf(revertOf);
     BranchNameKey sourceBranch = sourceChange == null ? null : sourceChange.getDest();
+    Change.Id sourceChangeId = sourceChange == null ? null : sourceChange.getId();
     ins.setMessage(
             revertOf == null
                 ? messageForDestinationChange(
@@ -449,6 +449,7 @@ public class CherryPickChange {
                 : "Uploaded patch set 1.") // For revert commits, the message should not include
         // cherry-pick information.
         .setTopic(topic)
+        .setSource(sourceChangeId)
         .setWorkInProgress(
             (sourceChange != null && sourceChange.isWorkInProgress())
                 || !cherryPickCommit.getFilesWithGitConflicts().isEmpty());

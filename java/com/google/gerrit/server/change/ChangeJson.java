@@ -586,6 +586,7 @@ public class ChangeJson {
       out.plugins = pluginDefinedAttributesFactory.get().create(cd);
     }
     out.revertOf = cd.change().getRevertOf() != null ? cd.change().getRevertOf().get() : null;
+    out.source = cd.change().getSource() != null ? cd.change().getSource().get() : null;
 
     if (has(REVIEWER_UPDATES)) {
       out.reviewerUpdates = reviewerUpdates(cd);

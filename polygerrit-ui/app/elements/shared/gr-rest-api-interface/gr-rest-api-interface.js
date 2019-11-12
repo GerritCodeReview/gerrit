@@ -1944,15 +1944,23 @@
         params.base = basePatchNum;
       }
       const endpoint = `/files/${encodeURIComponent(path)}/diff`;
-
-      return this._getChangeURLAndFetch({
+      const req = {
         changeNum,
         endpoint,
         patchNum,
         errFn: opt_errFn,
         params,
         anonymizedEndpoint: '/files/*/diff',
-      });
+      };
+
+      // Invalidate the cache if its edit patch to make sure we always get latest.
+      if (patchNum === this.EDIT_NAME) {
+        if (!req.fetchOptions) req.fetchOptions = {};
+        if (!req.fetchOptions.headers) req.fetchOptions.headers = new Headers();
+        req.fetchOptions.headers.append('Cache-Control', 'no-cache');
+      }
+
+      return this._getChangeURLAndFetch(req);
     },
 
     /**

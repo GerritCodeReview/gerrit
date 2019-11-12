@@ -91,7 +91,7 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
       return null;
     }
     return FluentIterable.from(field)
-        .transform(i -> codec.decode(decodeBase64(i.toString())))
+        .transform(i -> codec.decode(decodeBase64(i.getAsString())))
         .toList();
   }
 

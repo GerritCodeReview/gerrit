@@ -417,7 +417,7 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
     }
     ChangeField.parseSubmitRecords(
         FluentIterable.from(records)
-            .transform(i -> new String(decodeBase64(i.toString()), UTF_8))
+            .transform(i -> new String(decodeBase64(i.getAsString()), UTF_8))
             .toList(),
         opts,
         out);

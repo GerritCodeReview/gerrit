@@ -517,15 +517,28 @@
       this._createComment(el, lineNum);
     },
 
-    _handleCreateRangeComment(e) {
-      const range = e.detail.range;
-      const side = e.detail.side;
+    createRangeComment() {
+      const selectionBox = this.$.highlights.getSelectionBox();
+      if (!selectionBox) {
+        throw Error('Selection box is needed for new range comment');
+      }
+      const range = selectionBox.range;
+      const side = selectionBox.side;
+      this._createCommentForSelection(side, range);
+    },
+
+    _createCommentForSelection(side, range) {
       const lineNum = range.end_line;
       const lineEl = this.$.diffBuilder.getLineElByNumber(lineNum, side);
-
       if (this._isValidElForComment(lineEl)) {
         this._createComment(lineEl, lineNum, side, range);
       }
+    },
+
+    _handleCreateRangeComment(e) {
+      const range = e.detail.range;
+      const side = e.detail.side;
+      this._createCommentForSelection(side, range);
     },
 
     /** @return {boolean} */

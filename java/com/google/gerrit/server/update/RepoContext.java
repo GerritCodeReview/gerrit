@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.update;
 
+import com.google.gerrit.entities.AccountGroup;
 import java.io.IOException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
@@ -56,4 +57,11 @@ public interface RepoContext extends Context {
   default void addRefUpdate(ObjectId oldId, ObjectId newId, String refName) throws IOException {
     addRefUpdate(new ReceiveCommand(oldId, newId, refName));
   }
+
+  /**
+   * Instruct {@link BatchUpdate} to delete this group.
+   *
+   * <p>If called, all other updates are ignored.
+   */
+  void deleteGroup(AccountGroup.UUID groupId);
 }

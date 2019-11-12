@@ -23,6 +23,7 @@ import com.google.gerrit.extensions.restapi.RestApiModule;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.ServerInitiated;
 import com.google.gerrit.server.UserInitiated;
+import com.google.gerrit.server.group.DeleteGroupOp;
 import com.google.gerrit.server.group.db.GroupsUpdate;
 import com.google.gerrit.server.restapi.group.AddMembers.CreateMember;
 import com.google.gerrit.server.restapi.group.AddMembers.UpdateMember;
@@ -78,6 +79,7 @@ public class Module extends RestApiModule {
     delete(SUBGROUP_KIND).to(DeleteSubgroup.class);
 
     factory(GroupsUpdate.Factory.class);
+    factory(DeleteGroupOp.Factory.class);
   }
 
   @Provides

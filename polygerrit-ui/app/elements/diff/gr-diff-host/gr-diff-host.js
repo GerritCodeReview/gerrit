@@ -395,6 +395,10 @@
       return this.$.diff.isRangeSelected();
     },
 
+    createRangeComment() {
+      return this.$.diff.createRangeComment();
+    },
+
     toggleLeftDiff() {
       this.$.diff.toggleLeftDiff();
     },

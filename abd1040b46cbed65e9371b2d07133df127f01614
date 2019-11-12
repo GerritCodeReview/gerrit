@@ -121,6 +121,30 @@
     },
     {
       "key": {
+        "uuid": "8f06eb30_2197088a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-annotation.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-11-12T16:13:07Z",
+      "side": 1,
+      "message": "k, that sounds reasonable to me. \nOne suggestion if you decide to go with this will be wrap the last two parameters into an Object (with a typedef will be even better), so in case we need more, we don\u0027t necessarily need to add more parameters to this method.\n\nI guess you may need to use `setAttribute` to apply all attributes, then it may have some problems with attributes that associated with functions, like `onclick` etc, not sure what you expect it to do if people actually pass that to it ? i mean technically, this is valid js:\n\n```\nel.setAttribute(\u0027onclick\u0027,\u0027doSomething();\u0027)\n```",
+      "parentUuid": "fe1d2bf5_126a44c7",
+      "range": {
+        "startLine": 53,
+        "startChar": 26,
+        "endLine": 53,
+        "endChar": 71
+      },
+      "revId": "abd1040b46cbed65e9371b2d07133df127f01614",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "71e45e6d_63b1a884",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-annotation.js",
         "patchSetId": 2

@@ -84,7 +84,6 @@ limitations under the License.
             hidden$="[[!usernameMutable]]"
             class="value">
           <iron-input
-              disabled="[[_saving]]"
               on-keydown="_handleKeydown"
               bind-value="{{_username}}">
             <input
@@ -105,7 +104,6 @@ limitations under the License.
             hidden$="[[!nameMutable]]"
             class="value">
           <iron-input
-              disabled="[[_saving]]"
               on-keydown="_handleKeydown"
               bind-value="{{_account.name}}">
             <input
@@ -121,7 +119,6 @@ limitations under the License.
         <span class="title">Status (e.g. "Vacation")</span>
         <span class="value">
           <iron-input
-              disabled="[[_saving]]"
               on-keydown="_handleKeydown"
               bind-value="{{_account.status}}">
             <input

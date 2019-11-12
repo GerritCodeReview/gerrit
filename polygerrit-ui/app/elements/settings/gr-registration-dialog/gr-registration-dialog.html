@@ -86,8 +86,7 @@ limitations under the License.
         <section>
           <div class="title">Full Name</div>
           <iron-input
-              bind-value="{{_account.name}}"
-              disabled="[[_saving]]">
+              bind-value="{{_account.name}}">
             <input
                 is="iron-input"
                 id="name"
@@ -98,8 +97,7 @@ limitations under the License.
         <section class$="[[_computeUsernameClass(_usernameMutable)]]">
           <div class="title">Username</div>
           <iron-input
-              bind-value="{{_account.username}}"
-              disabled="[[_saving]]">
+              bind-value="{{_account.username}}">
             <input
                 is="iron-input"
                 id="username"

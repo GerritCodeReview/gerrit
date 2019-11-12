@@ -56,6 +56,25 @@ public class DeleteGroupIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void cannotDeleteGroupThatIsOwnedByOtherGroups() throws Exception {
+    String parent = createGroup("parent");
+    String child = createGroup("child", parent);
+    ResourceConflictException thrown =
+        assertThrows(ResourceConflictException.class, () -> gApi.groups().id(child).delete());
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains("cannot delete group that is owned by other groups");
+  }
+
+  @Test
+  public void DeleteGroup() throws Exception {
+    String group = createGroup("parent");
+    assertThat(gApi.groups().id(group).get()).isNotNull();
+    gApi.groups().id(group).delete();
+    assertThat(gApi.groups().id(group).get()).isNull();
+  }
+
+  @Test
   public void cannotDeleteSystemGroup() throws Exception {
     ResourceConflictException thrown =
         assertThrows(

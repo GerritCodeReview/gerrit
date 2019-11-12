@@ -156,7 +156,7 @@ limitations under the License.
             const labelScoreRows = Polymer.dom(element.$.labelScores.root)
                 .querySelector('gr-label-score-row[name="Code-Review"]');
             const selectedBtn = Polymer.dom(labelScoreRows.root)
-                .querySelector('gr-button[value="+1"].iron-selected');
+                .querySelector('gr-button[data-value="+1"].iron-selected');
             assert.isOk(selectedBtn);
             done();
           });

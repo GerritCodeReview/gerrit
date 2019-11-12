@@ -124,13 +124,17 @@ public abstract class PatchSet {
       return id();
     }
 
+    public String getCommaSeparatedChangeAndPatchSetId() {
+      return changeId().toString() + ',' + id();
+    }
+
     public String toRefName() {
       return changeId().refPrefixBuilder().append(id()).toString();
     }
 
     @Override
     public final String toString() {
-      return changeId().toString() + ',' + id();
+      return getCommaSeparatedChangeAndPatchSetId();
     }
   }
 

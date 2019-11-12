@@ -270,6 +270,19 @@ limitations under the License.
           </template>
         </span>
       </section>
+      <template is="dom-if" if="[[_showCherryPickOf(change.*)]]">
+        <section>
+          <span class="title">Cherry pick of</span>
+          <span class="value">
+            <a href$="[[_computeCherryPickOfURL(change.cherry_pick_of_change, change.cherry_pick_of_patch_set, change.project)]]">
+              <gr-limited-text
+                  text="[[change.cherry_pick_of_change]],[[change.cherry_pick_of_patch_set]]"
+                  limit="40">
+              </gr-limited-text>
+            </a>
+          </span>
+        </section>
+      </template>
       <section class="strategy" hidden$="[[_computeHideStrategy(change)]]" hidden>
         <span class="title">Strategy</span>
         <span class="value">[[_computeStrategy(change)]]</span>

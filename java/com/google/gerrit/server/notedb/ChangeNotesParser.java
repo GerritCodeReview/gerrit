@@ -18,6 +18,7 @@ import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_ASSIGNEE;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_BRANCH;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_CHANGE_ID;
+import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_CHERRY_PICK_OF;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_COMMIT;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_CURRENT;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_GROUPS;
@@ -148,6 +149,7 @@ class ChangeNotesParser {
   private ReviewerByEmailSet pendingReviewersByEmail;
   private Change.Id revertOf;
   private int updateCount;
+  private PatchSet.Id cherryPickOf;
 
   ChangeNotesParser(
       Change.Id changeId,
@@ -246,6 +248,7 @@ class ChangeNotesParser {
         firstNonNull(workInProgress, false),
         firstNonNull(hasReviewStarted, true),
         revertOf,
+        cherryPickOf,
         updateCount);
   }
 
@@ -415,6 +418,10 @@ class ChangeNotesParser {
 
     if (revertOf == null) {
       revertOf = parseRevertOf(commit);
+    }
+
+    if (cherryPickOf == null) {
+      cherryPickOf = parseCherryPickOf(commit);
     }
 
     previousWorkInProgressFooter = null;
@@ -964,6 +971,18 @@ class ChangeNotesParser {
       throw invalidFooter(FOOTER_REVERT_OF, footer);
     }
     return Change.id(revertOf);
+  }
+
+  private PatchSet.Id parseCherryPickOf(ChangeNotesCommit commit) throws ConfigInvalidException {
+    String cherryPickOf = parseOneFooter(commit, FOOTER_CHERRY_PICK_OF);
+    if (cherryPickOf == null) {
+      return null;
+    }
+    try {
+      return PatchSet.Id.parse(cherryPickOf);
+    } catch (IllegalArgumentException e) {
+      throw new ConfigInvalidException("\"" + cherryPickOf + "\" is not a valid patchset", e);
+    }
   }
 
   private void pruneReviewers() {

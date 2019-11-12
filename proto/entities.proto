@@ -31,7 +31,7 @@ message Change_Key {
 }
 
 // Serialized form of com.google.gerrit.entities.Change.
-// Next ID: 24
+// Next ID: 25
 message Change {
   required Change_Id change_id = 1;
   optional Change_Key change_key = 2;
@@ -51,6 +51,7 @@ message Change {
   optional bool work_in_progress = 21;
   optional bool review_started = 22;
   optional Change_Id revert_of = 23;
+  optional PatchSet_Id cherry_pick_of = 24;
 
   // Deleted fields, should not be reused:
   reserved 6;    // sortkey

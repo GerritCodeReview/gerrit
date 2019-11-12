@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b37d233e_aae865ad",
+        "filename": "polygerrit-ui/app/behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-11-12T19:23:16Z",
+      "side": 1,
+      "message": "Trailing space maybe? Here and elsewhere?",
+      "range": {
+        "startLine": 34,
+        "startChar": 46,
+        "endLine": 34,
+        "endChar": 48
+      },
+      "revId": "393e960d19bd8e6b03f3bfe7b6dd53f0084454da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

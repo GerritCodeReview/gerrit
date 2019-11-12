@@ -83,6 +83,7 @@
     'reviewer:self',
     'reviewerin:',
     'size:',
+    'source:',
     'star:',
     'status:',
     'status:abandoned',

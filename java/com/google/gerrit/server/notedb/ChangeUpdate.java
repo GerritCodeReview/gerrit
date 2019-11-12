@@ -31,6 +31,7 @@ import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_PATCH_SET_DE
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_PRIVATE;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_REAL_USER;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_REVERT_OF;
+import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SOURCE;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_STATUS;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBJECT;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBMISSION_ID;
@@ -137,6 +138,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private Boolean isPrivate;
   private Boolean workInProgress;
   private Integer revertOf;
+  private Integer source;
 
   private ChangeDraftUpdate draftUpdate;
   private RobotCommentUpdate robotCommentUpdate;
@@ -415,6 +417,10 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     rootOnly = true;
   }
 
+  public void setSource(int source) {
+    this.source = source;
+  }
+
   /** @return the tree id for the updated tree */
   private ObjectId storeRevisionNotes(RevWalk rw, ObjectInserter inserter, ObjectId curr)
       throws ConfigInvalidException, IOException {
@@ -663,6 +669,10 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       addFooter(msg, FOOTER_REVERT_OF, revertOf);
     }
 
+    if (source != null) {
+      addFooter(msg, FOOTER_SOURCE, source);
+    }
+
     cb.setMessage(msg.toString());
     try {
       ObjectId treeId = storeRevisionNotes(rw, ins, curr);
@@ -712,7 +722,8 @@ public class ChangeUpdate extends AbstractChangeUpdate {
         && !currentPatchSet
         && isPrivate == null
         && workInProgress == null
-        && revertOf == null;
+        && revertOf == null
+        && source == null;
   }
 
   ChangeDraftUpdate getDraftUpdate() {

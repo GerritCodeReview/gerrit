@@ -52,6 +52,7 @@ public class ChangeInfo {
   public Boolean workInProgress;
   public Boolean hasReviewStarted;
   public Integer revertOf;
+  public Integer source;
 
   public int _number;
 

@@ -14,10 +14,12 @@
 
 package com.google.gerrit.server.update;
 
-import java.io.IOException;
+import com.google.gerrit.reviewdb.client.AccountGroup;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.transport.ReceiveCommand;
+
+import java.io.IOException;
 
 /** Context for performing the {@link BatchUpdateOp#updateRepo} phase. */
 public interface RepoContext extends Context {
@@ -56,4 +58,11 @@ public interface RepoContext extends Context {
   default void addRefUpdate(ObjectId oldId, ObjectId newId, String refName) throws IOException {
     addRefUpdate(new ReceiveCommand(oldId, newId, refName));
   }
+
+  /**
+   * Instruct {@link BatchUpdate} to delete this group.
+   *
+   * <p>If called, all other updates are ignored.
+   */
+  void deleteGroup(AccountGroup.UUID groupId);
 }

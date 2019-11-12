@@ -14,9 +14,6 @@
 
 package com.google.gerrit.acceptance.rest.group;
 
-import static com.google.common.truth.Truth.assertThat;
-import static com.google.gerrit.testing.GerritJUnit.assertThrows;
-
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.data.GroupDescription;
@@ -30,6 +27,9 @@ import com.google.gerrit.server.group.testing.TestGroupBackend;
 import com.google.inject.Inject;
 import org.junit.Ignore;
 import org.junit.Test;
+
+import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 public class DeleteGroupIT extends AbstractDaemonTest {
   @Inject private DynamicSet<GroupBackend> groupBackends;
@@ -53,6 +53,24 @@ public class DeleteGroupIT extends AbstractDaemonTest {
     assertThat(thrown)
         .hasMessageThat()
         .contains("cannot delete group that is owner of other groups");
+  }
+  @Test
+  public void cannotDeleteGroupThatIsOwnedByOtherGroups() throws Exception {
+    String parent = createGroup("parent");
+    String child = createGroup("child", parent);
+    ResourceConflictException thrown =
+        assertThrows(ResourceConflictException.class, () -> gApi.groups().id(child).delete());
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains("cannot delete group that is owned by other groups");
+  }
+
+  @Test
+  public void DeleteGroup() throws Exception {
+    String group = createGroup("parent");
+    assertThat(gApi.groups().id(group).get()).isNotNull();
+    gApi.groups().id(group).delete();
+    assertThat(gApi.groups().id(group).get()).isNull();
   }
 
   @Test

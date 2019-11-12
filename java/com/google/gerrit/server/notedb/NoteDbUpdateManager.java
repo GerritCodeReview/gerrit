@@ -25,6 +25,7 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.git.RefUpdateUtil;
 import com.google.gerrit.metrics.Timer1;
+import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
@@ -79,6 +80,7 @@ public class NoteDbUpdateManager implements AutoCloseable {
   private final ListMultimap<String, RobotCommentUpdate> robotCommentUpdates;
   private final ListMultimap<String, NoteDbRewriter> rewriters;
   private final Set<Change.Id> toDelete;
+  private final Set<AccountGroup.UUID> groupToDelete;
 
   private OpenRepo changeRepo;
   private OpenRepo allUsersRepo;
@@ -109,6 +111,7 @@ public class NoteDbUpdateManager implements AutoCloseable {
     robotCommentUpdates = MultimapBuilder.hashKeys().arrayListValues().build();
     rewriters = MultimapBuilder.hashKeys().arrayListValues().build();
     toDelete = new HashSet<>();
+    groupToDelete = new HashSet<>();
   }
 
   @Override
@@ -120,13 +123,13 @@ public class NoteDbUpdateManager implements AutoCloseable {
         r.close();
       }
     } finally {
-      if (changeRepo != null) {
-        OpenRepo r = changeRepo;
-        changeRepo = null;
-        r.close();
+        if (changeRepo != null) {
+          OpenRepo r = changeRepo;
+          changeRepo = null;
+          r.close();
+        }
       }
     }
-  }
 
   public NoteDbUpdateManager setChangeRepo(
       Repository repo, RevWalk rw, @Nullable ObjectInserter ins, ChainedReceiveCommands cmds) {
@@ -182,6 +185,7 @@ public class NoteDbUpdateManager implements AutoCloseable {
         && robotCommentUpdates.isEmpty()
         && rewriters.isEmpty()
         && toDelete.isEmpty()
+        && groupToDelete.isEmpty()
         && !hasCommands(changeRepo)
         && !hasCommands(allUsersRepo)
         && updateAllUsersAsync.isEmpty();
@@ -259,6 +263,11 @@ public class NoteDbUpdateManager implements AutoCloseable {
   public void deleteChange(Change.Id id) {
     checkNotExecuted();
     toDelete.add(id);
+  }
+
+  public void deleteGroup(AccountGroup.UUID id) {
+    checkNotExecuted();
+    groupToDelete.add(id);
   }
 
   /**
@@ -370,6 +379,9 @@ public class NoteDbUpdateManager implements AutoCloseable {
     for (Change.Id id : toDelete) {
       doDelete(id);
     }
+    for (AccountGroup.UUID id : groupToDelete) {
+      doDelete(id);
+    }
   }
 
   private void doDelete(Change.Id id) throws IOException {
@@ -386,6 +398,14 @@ public class NoteDbUpdateManager implements AutoCloseable {
       if (old.isPresent()) {
         allUsersRepo.cmds.add(new ReceiveCommand(old.get(), ObjectId.zeroId(), r.getName()));
       }
+    }
+  }
+
+  private void doDelete(AccountGroup.UUID id) throws IOException {
+    String metaRef = RefNames.refsGroups(id);
+    Optional<ObjectId> old = allUsersRepo.cmds.get(metaRef);
+    if (old.isPresent()) {
+      allUsersRepo.cmds.add(new ReceiveCommand(old.get(), ObjectId.zeroId(), metaRef));
     }
   }
 

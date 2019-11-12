@@ -20,6 +20,7 @@ import static com.google.gerrit.server.group.SubgroupResource.SUBGROUP_KIND;
 
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.RestApiModule;
+import com.google.gerrit.server.group.DeleteGroupOp;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.ServerInitiated;
 import com.google.gerrit.server.UserInitiated;
@@ -78,6 +79,7 @@ public class Module extends RestApiModule {
     delete(SUBGROUP_KIND).to(DeleteSubgroup.class);
 
     factory(GroupsUpdate.Factory.class);
+    factory(DeleteGroupOp.Factory.class);
   }
 
   @Provides

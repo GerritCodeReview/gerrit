@@ -14,8 +14,6 @@
 
 package com.google.gerrit.server.change;
 
-import static com.google.common.flogger.LazyArgs.lazy;
-
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -32,12 +30,15 @@ import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.RepoContext;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.revwalk.RevWalk;
+
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Optional;
-import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.revwalk.RevWalk;
+
+import static com.google.common.flogger.LazyArgs.lazy;
 
 public class DeleteChangeOp implements BatchUpdateOp {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
@@ -121,7 +122,6 @@ public class DeleteChangeOp implements BatchUpdateOp {
 
   private void cleanUpReferences(Change.Id id) throws IOException {
     accountPatchReviewStore.run(s -> s.clearReviewed(id));
-
     // Non-atomic operation on All-Users refs; not much we can do to make it atomic.
     starredChangesUtil.unstarAllForChangeDeletion(id);
   }

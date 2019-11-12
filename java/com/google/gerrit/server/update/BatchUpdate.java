@@ -14,14 +14,6 @@
 
 package com.google.gerrit.server.update;
 
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkState;
-import static com.google.common.collect.ImmutableMultiset.toImmutableMultiset;
-import static com.google.common.flogger.LazyArgs.lazy;
-import static java.util.Comparator.comparing;
-import static java.util.Objects.requireNonNull;
-import static java.util.stream.Collectors.toSet;
-
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -38,6 +30,7 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
@@ -61,6 +54,14 @@ import com.google.gerrit.server.project.NoSuchRefException;
 import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.assistedinject.Assisted;
+import org.eclipse.jgit.lib.BatchRefUpdate;
+import org.eclipse.jgit.lib.ObjectInserter;
+import org.eclipse.jgit.lib.PersonIdent;
+import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.transport.PushCertificate;
+import org.eclipse.jgit.transport.ReceiveCommand;
+
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
@@ -69,15 +70,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 import java.util.TimeZone;
 import java.util.TreeMap;
-import org.eclipse.jgit.lib.BatchRefUpdate;
-import org.eclipse.jgit.lib.ObjectInserter;
-import org.eclipse.jgit.lib.PersonIdent;
-import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.revwalk.RevWalk;
-import org.eclipse.jgit.transport.PushCertificate;
-import org.eclipse.jgit.transport.ReceiveCommand;
+
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.collect.ImmutableMultiset.toImmutableMultiset;
+import static com.google.common.flogger.LazyArgs.lazy;
+import static java.util.Comparator.comparing;
+import static java.util.Objects.requireNonNull;
+import static java.util.stream.Collectors.toSet;
 
 /**
  * Helper for a set of change updates that should be applied to the NoteDb database.
@@ -243,6 +246,9 @@ public class BatchUpdate implements AutoCloseable {
   }
 
   private class RepoContextImpl extends ContextImpl implements RepoContext {
+
+    private Set<AccountGroup.UUID> groupsToDelete;
+
     @Override
     public ObjectInserter getInserter() throws IOException {
       return getRepoView().getInserterWrapper();
@@ -252,6 +258,12 @@ public class BatchUpdate implements AutoCloseable {
     public void addRefUpdate(ReceiveCommand cmd) throws IOException {
       getRepoView().getCommands().add(cmd);
     }
+
+    @Override
+    public void deleteGroup(AccountGroup.UUID groupId) {
+      groupsToDelete.add(groupId);
+    }
+
   }
 
   private class ChangeContextImpl extends ContextImpl implements ChangeContext {

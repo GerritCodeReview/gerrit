@@ -309,6 +309,17 @@ limitations under the License.
       },
 
       /**
+       * @param {string} source The source change.
+       * @return {string}
+       */
+      getUrlForSource(source) {
+        return this._getUrlFor({
+          view: Gerrit.Nav.View.CHANGE,
+          changeNum: source,
+        });
+      },
+
+      /**
        * @param {string} topic The name of the topic.
        * @param {string=} opt_host The host in which to search.
        * @return {string}

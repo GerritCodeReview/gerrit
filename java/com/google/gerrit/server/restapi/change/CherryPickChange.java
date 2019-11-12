@@ -41,6 +41,7 @@ import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.change.PatchSetInserter;
+import com.google.gerrit.server.change.SetSourceOp;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -101,6 +102,7 @@ public class CherryPickChange {
   private final Provider<IdentifiedUser> user;
   private final ChangeInserter.Factory changeInserterFactory;
   private final PatchSetInserter.Factory patchSetInserterFactory;
+  private final SetSourceOp.Factory setSourceFactory;
   private final MergeUtil.Factory mergeUtilFactory;
   private final ChangeNotes.Factory changeNotesFactory;
   private final ProjectCache projectCache;
@@ -116,6 +118,7 @@ public class CherryPickChange {
       Provider<IdentifiedUser> user,
       ChangeInserter.Factory changeInserterFactory,
       PatchSetInserter.Factory patchSetInserterFactory,
+      SetSourceOp.Factory setSourceFactory,
       MergeUtil.Factory mergeUtilFactory,
       ChangeNotes.Factory changeNotesFactory,
       ProjectCache projectCache,
@@ -128,6 +131,7 @@ public class CherryPickChange {
     this.user = user;
     this.changeInserterFactory = changeInserterFactory;
     this.patchSetInserterFactory = patchSetInserterFactory;
+    this.setSourceFactory = setSourceFactory;
     this.mergeUtilFactory = mergeUtilFactory;
     this.changeNotesFactory = changeNotesFactory;
     this.projectCache = projectCache;
@@ -337,7 +341,9 @@ public class CherryPickChange {
           if (destChanges.size() == 1) {
             // The change key exists on the destination branch. The cherry pick
             // will be added as a new patch set.
-            changeId = insertPatchSet(bu, git, destChanges.get(0).notes(), cherryPickCommit);
+            changeId =
+                insertPatchSet(
+                    bu, git, destChanges.get(0).notes(), cherryPickCommit, sourceChange.getId());
           } else {
             // Change key not found on destination branch. We can create a new
             // change.
@@ -418,13 +424,21 @@ public class CherryPickChange {
   }
 
   private Change.Id insertPatchSet(
-      BatchUpdate bu, Repository git, ChangeNotes destNotes, CodeReviewCommit cherryPickCommit)
+      BatchUpdate bu,
+      Repository git,
+      ChangeNotes destNotes,
+      CodeReviewCommit cherryPickCommit,
+      Change.Id sourceChangeId)
       throws IOException {
     Change destChange = destNotes.getChange();
     PatchSet.Id psId = ChangeUtil.nextPatchSetId(git, destChange.currentPatchSetId());
     PatchSetInserter inserter = patchSetInserterFactory.create(destNotes, psId, cherryPickCommit);
     inserter.setMessage("Uploaded patch set " + inserter.getPatchSetId().get() + ".");
     bu.addOp(destChange.getId(), inserter);
+    if (destChange.getSource() == null || destChange.getSource().get() != sourceChangeId.get()) {
+      SetSourceOp sourceUpdater = setSourceFactory.create(sourceChangeId);
+      bu.addOp(destChange.getId(), sourceUpdater);
+    }
     return destChange.getId();
   }
 
@@ -442,6 +456,7 @@ public class CherryPickChange {
     ChangeInserter ins = changeInserterFactory.create(changeId, cherryPickCommit, refName);
     ins.setRevertOf(revertOf);
     BranchNameKey sourceBranch = sourceChange == null ? null : sourceChange.getDest();
+    Change.Id sourceChangeId = sourceChange == null ? null : sourceChange.getId();
     ins.setMessage(
             revertOf == null
                 ? messageForDestinationChange(
@@ -449,6 +464,7 @@ public class CherryPickChange {
                 : "Uploaded patch set 1.") // For revert commits, the message should not include
         // cherry-pick information.
         .setTopic(topic)
+        .setSource(sourceChangeId)
         .setWorkInProgress(
             (sourceChange != null && sourceChange.isWorkInProgress())
                 || !cherryPickCommit.getFilesWithGitConflicts().isEmpty());

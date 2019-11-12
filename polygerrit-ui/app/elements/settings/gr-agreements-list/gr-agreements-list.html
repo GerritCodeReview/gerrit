@@ -32,7 +32,9 @@ limitations under the License.
         width: auto;
       }
     </style>
-    <style include="gr-form-styles"></style>
+    <style include="gr-form-styles">
+      /* Workaround for empty style block - see https://github.com/Polymer/tools/issues/408 */
+    </style>
     <div class="gr-form-styles">
       <table id="agreements">
         <thead>

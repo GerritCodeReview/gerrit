@@ -27,7 +27,9 @@ limitations under the License.
 
 <dom-module id="gr-user-header">
   <template>
-    <style include="shared-styles"></style>
+    <style include="shared-styles">
+      /* Workaround for empty style block - see https://github.com/Polymer/tools/issues/408 */
+    </style>
     <style include="dashboard-header-styles">
       .name {
         display: inline-block;

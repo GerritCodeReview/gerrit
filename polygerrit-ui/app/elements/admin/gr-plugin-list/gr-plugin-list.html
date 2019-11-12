@@ -25,8 +25,12 @@ limitations under the License.
 
 <dom-module id="gr-plugin-list">
   <template>
-    <style include="shared-styles"></style>
-    <style include="gr-table-styles"></style>
+    <style include="shared-styles">
+      /* Workaround for empty style block - see https://github.com/Polymer/tools/issues/408 */
+    </style>
+    <style include="gr-table-styles">
+      /* Workaround for empty style block - see https://github.com/Polymer/tools/issues/408 */
+    </style>
     <gr-list-view
         filter="[[_filter]]"
         items-per-page="[[_pluginsPerPage]]"

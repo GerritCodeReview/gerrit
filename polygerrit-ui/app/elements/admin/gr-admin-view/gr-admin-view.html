@@ -43,8 +43,12 @@ limitations under the License.
 
 <dom-module id="gr-admin-view">
   <template>
-    <style include="shared-styles"></style>
-    <style include="gr-menu-page-styles"></style>
+    <style include="shared-styles">
+      /* Workaround for empty style block - see https://github.com/Polymer/tools/issues/408 */
+    </style>
+    <style include="gr-menu-page-styles">
+      /* Workaround for empty style block - see https://github.com/Polymer/tools/issues/408 */
+    </style>
     <style include="gr-page-nav-styles">
       gr-dropdown-list {
         --trigger-style: {

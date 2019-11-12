@@ -25,7 +25,9 @@ limitations under the License.
 -->
 <dom-module id="gr-change-view-integration-shared-styles">
   <template>
-    <style include="shared-styles"></style>
+    <style include="shared-styles">
+      /* Workaround for empty style block - see https://github.com/Polymer/tools/issues/408 */
+    </style>
     <style>
       .header {
         color: var(--primary-text-color);

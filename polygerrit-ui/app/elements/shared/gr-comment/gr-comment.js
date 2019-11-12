@@ -122,6 +122,7 @@
         observer: '_messageTextChanged',
       },
       commentSide: String,
+      side: String,
 
       resolved: Boolean,
 

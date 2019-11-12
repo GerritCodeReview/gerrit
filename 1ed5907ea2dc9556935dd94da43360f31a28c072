@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6d813771_64b3c41a",
+        "filename": "polygerrit-ui/app/polylint_test.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-11-12T17:11:51Z",
+      "side": 1,
+      "message": "Should also keep the npm check too.\n\nSince nodejs can be installed on debian without npm (unless you use the offical nodejs deb from there website).",
+      "revId": "1ed5907ea2dc9556935dd94da43360f31a28c072",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

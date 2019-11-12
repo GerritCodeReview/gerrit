@@ -54,7 +54,11 @@
     },
 
     isRangeSelected() {
-      return !!this.$$('gr-selection-action-box');
+      return !!this.getSelectionBox();
+    },
+
+    getSelectionBox() {
+      return this.$$('gr-selection-action-box');
     },
 
     /**

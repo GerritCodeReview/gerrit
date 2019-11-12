@@ -56,10 +56,6 @@
       mousedown: '_handleMouseDown', // See https://crbug.com/gerrit/4767
     },
 
-    keyBindings: {
-      c: '_handleCKey',
-    },
-
     placeAbove(el) {
       Polymer.dom.flush();
       const rect = this._getTargetBoundingRect(el);
@@ -100,14 +96,6 @@
         rect = el.getBoundingClientRect();
       }
       return rect;
-    },
-
-    _handleCKey(e) {
-      if (this.shouldSuppressKeyboardShortcut(e) ||
-          this.modifierPressed(e)) { return; }
-
-      e.preventDefault();
-      this._fireCreateComment();
     },
 
     _handleMouseDown(e) {

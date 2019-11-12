@@ -647,9 +647,10 @@ limitations under the License.
         assert.equal(element.$.fileCursor.index, 0);
         assert.equal(element.selectedIndex, 0);
 
-        sandbox.stub(element, '_addDraftAtTarget');
+        const createCommentInPlaceStub = sandbox.stub(element.$.diffCursor,
+            'createCommentInPlace');
         MockInteractions.pressAndReleaseKeyOn(element, 67, null, 'c');
-        assert.isTrue(element._addDraftAtTarget.called);
+        assert.isTrue(createCommentInPlaceStub.called);
       });
 
       test('i key shows/hides selected inline diff', () => {

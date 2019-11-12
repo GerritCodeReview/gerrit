@@ -29,6 +29,8 @@ public enum ChangeProtoConverter implements ProtoConverter<Entities.Change, Chan
 
   private final ProtoConverter<Entities.Change_Id, Change.Id> changeIdConverter =
       ChangeIdProtoConverter.INSTANCE;
+  private final ProtoConverter<Entities.PatchSet_Id, PatchSet.Id> patchSetIdConverter =
+      PatchSetIdProtoConverter.INSTANCE;
   private final ProtoConverter<Entities.Change_Key, Change.Key> changeKeyConverter =
       ChangeKeyProtoConverter.INSTANCE;
   private final ProtoConverter<Entities.Account_Id, Account.Id> accountIdConverter =
@@ -78,6 +80,10 @@ public enum ChangeProtoConverter implements ProtoConverter<Entities.Change, Chan
     if (revertOf != null) {
       builder.setRevertOf(changeIdConverter.toProto(revertOf));
     }
+    PatchSet.Id cherryPickOf = change.getCherryPickOf();
+    if (cherryPickOf != null) {
+      builder.setCherryPickOf(patchSetIdConverter.toProto(cherryPickOf));
+    }
     return builder.build();
   }
 
@@ -117,6 +123,9 @@ public enum ChangeProtoConverter implements ProtoConverter<Entities.Change, Chan
     change.setReviewStarted(proto.getReviewStarted());
     if (proto.hasRevertOf()) {
       change.setRevertOf(changeIdConverter.fromProto(proto.getRevertOf()));
+    }
+    if (proto.hasCherryPickOf()) {
+      change.setCherryPickOf(patchSetIdConverter.fromProto(proto.getCherryPickOf()));
     }
     return change;
   }

@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "fe1d2bf5_126a44c7",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-annotation.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1062212
+      },
+      "writtenOn": "2019-11-12T00:12:40Z",
+      "side": 1,
+      "message": "After thinking a bit more, the best option to me seems to be the following:\n\nfunction annotateWithNode(parent, offset, length, tagName, attributes) {\n  ...\n}\n\nThis has the following advantages:\n- No need to validate the absence of child nodes. Using a factory would require validating the returned element.\n- No risk of event listeners being attached. If a factory is used, the factory can generate new nodes with correct event listeners, *but* we\u0027ll need to validate that each call to the factory returns a new node.\n- No need to add a \u0027private\u0027 property to the element to store its factory.\n- The splitting logic stays the same - element.cloneNode(), followed by splitting of contents.\n- No risk of leaking event listeners/memory. If a factory is used to generate elements, there should be a way to \u0027destroy\u0027 the node such that the caller can perform any cleanup necessary (e.g. removing listeners, cleaning cached references, etc.). This would require a significant refactor, in part because GrAnnotation is completely unaware of the logical concepts of diffs/layers/lines/etc., and so it doesn\u0027t know when a diff line is hidden/re-rendered.\n- Reduces security risk surface since elements will be created by the library, and it can invoke the sanitizer for attributes.",
+      "parentUuid": "ebbf63e6_078c37cb",
+      "range": {
+        "startLine": 53,
+        "startChar": 26,
+        "endLine": 53,
+        "endChar": 71
+      },
+      "revId": "abd1040b46cbed65e9371b2d07133df127f01614",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "71e45e6d_63b1a884",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-annotation.js",
         "patchSetId": 2
@@ -165,6 +189,30 @@
       "revId": "abd1040b46cbed65e9371b2d07133df127f01614",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4278157f_a8fa51b8",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-annotation.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1062212
+      },
+      "writtenOn": "2019-11-12T00:12:40Z",
+      "side": 1,
+      "message": "Ah you\u0027re right, highlights won\u0027t split the \u003ca\u003e.\nWhat I should\u0027ve said was: any other node annotation that does not fully contain the \u003ca\u003e will cause the \u003ca\u003e to be split.\nAlthough this is unlikely to happen with \u003ca\u003e, I\u0027m not sure we can count on this never happening once we add the API.",
+      "parentUuid": "8775e7f6_81a439be",
+      "range": {
+        "startLine": 56,
+        "startChar": 56,
+        "endLine": 56,
+        "endChar": 71
+      },
+      "revId": "abd1040b46cbed65e9371b2d07133df127f01614",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -277,6 +325,24 @@
       "revId": "abd1040b46cbed65e9371b2d07133df127f01614",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ad643255_20547192",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-annotation.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1062212
+      },
+      "writtenOn": "2019-11-12T00:12:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6aeaa48b_4d2e6847",
+      "revId": "abd1040b46cbed65e9371b2d07133df127f01614",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -228,6 +228,12 @@ hashtag:'HASHTAG'::
 Changes whose link:intro-user.html#hashtags[hashtag] matches 'HASHTAG'.
 The match is case-insensitive.
 
+[[cherrypickof]]
+cherrypickof:'CHANGE'::
++
+Changes which were created using the 'cherry-pick' functionality
+and whose source change matches the 'CHANGE' number.
+
 [[ref]]
 ref:'REF'::
 +

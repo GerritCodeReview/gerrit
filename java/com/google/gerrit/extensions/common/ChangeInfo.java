@@ -53,6 +53,7 @@ public class ChangeInfo {
   public Boolean hasReviewStarted;
   public Integer revertOf;
   public String submissionId;
+  public Integer cherryPickOf;
 
   public int _number;
 

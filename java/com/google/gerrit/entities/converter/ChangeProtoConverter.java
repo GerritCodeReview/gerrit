@@ -78,6 +78,10 @@ public enum ChangeProtoConverter implements ProtoConverter<Entities.Change, Chan
     if (revertOf != null) {
       builder.setRevertOf(changeIdConverter.toProto(revertOf));
     }
+    Change.Id cherryPickOf = change.getCherryPickOf();
+    if (cherryPickOf != null) {
+      builder.setCherryPickOf(changeIdConverter.toProto(cherryPickOf));
+    }
     return builder.build();
   }
 
@@ -117,6 +121,9 @@ public enum ChangeProtoConverter implements ProtoConverter<Entities.Change, Chan
     change.setReviewStarted(proto.getReviewStarted());
     if (proto.hasRevertOf()) {
       change.setRevertOf(changeIdConverter.fromProto(proto.getRevertOf()));
+    }
+    if (proto.hasCherryPickOf()) {
+      change.setCherryPickOf(changeIdConverter.fromProto(proto.getCherryPickOf()));
     }
     return change;
   }

@@ -144,6 +144,7 @@ public class ActionJson {
     copy.unresolvedCommentCount = changeInfo.unresolvedCommentCount;
     copy.workInProgress = changeInfo.workInProgress;
     copy.id = changeInfo.id;
+    copy.cherryPickOf = changeInfo.cherryPickOf;
     return copy;
   }
 

@@ -84,6 +84,24 @@
     },
     {
       "key": {
+        "uuid": "430039dc_dadf1b78",
+        "filename": "Documentation/licenses.txt",
+        "patchSetId": 18
+      },
+      "lineNbr": 1195,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-11-12T15:30:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "26d79661_bde16331",
+      "revId": "ac5756895dab7b9e35303d8bfc0228d3481cfba7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "50ad4484_c20fa90d",
         "filename": "WORKSPACE",
         "patchSetId": 18
@@ -110,6 +128,24 @@
         "id": 1011323
       },
       "writtenOn": "2019-11-12T14:02:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "50ad4484_c20fa90d",
+      "revId": "ac5756895dab7b9e35303d8bfc0228d3481cfba7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "650c4f40_7da01b87",
+        "filename": "WORKSPACE",
+        "patchSetId": 18
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-11-12T15:30:45Z",
       "side": 1,
       "message": "Done",
       "parentUuid": "50ad4484_c20fa90d",

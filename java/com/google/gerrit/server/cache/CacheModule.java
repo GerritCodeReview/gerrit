@@ -123,7 +123,23 @@ public abstract class CacheModule extends FactoryModule {
    */
   protected <K, V> PersistentCacheBinding<K, V> persist(
       String name, Class<K> keyType, Class<V> valType) {
-    return persist(name, TypeLiteral.get(keyType), TypeLiteral.get(valType));
+    TypeLiteral<K> key = TypeLiteral.get(keyType);
+    TypeLiteral<V> val = TypeLiteral.get(valType);
+    return persist(name, key, val, new PersistentCacheProvider<>(this, name, key, val));
+  }
+
+  /**
+   * Declare a named in-memory/on-disk cache with legacy backend.
+   *
+   * @param <K> type of key used to lookup entries.
+   * @param <V> type of value stored by the cache.
+   * @return binding to describe the cache.
+   */
+  protected <K, V> PersistentCacheBinding<K, V> persistLegacy(
+      String name, Class<K> keyType, Class<V> valType) {
+    TypeLiteral<K> key = TypeLiteral.get(keyType);
+    TypeLiteral<V> val = TypeLiteral.get(valType);
+    return persist(name, key, val, new PersistentLegacyCacheProvider<>(this, name, key, val));
   }
 
   /**
@@ -135,7 +151,8 @@ public abstract class CacheModule extends FactoryModule {
    */
   protected <K, V> PersistentCacheBinding<K, V> persist(
       String name, Class<K> keyType, TypeLiteral<V> valType) {
-    return persist(name, TypeLiteral.get(keyType), valType);
+    TypeLiteral<K> key = TypeLiteral.get(keyType);
+    return persist(name, key, valType, new PersistentCacheProvider<>(this, name, key, valType));
   }
 
   /**
@@ -143,22 +160,26 @@ public abstract class CacheModule extends FactoryModule {
    *
    * @param <K> type of key used to lookup entries.
    * @param <V> type of value stored by the cache.
+   * @param provider PersistentCacheProvider.
    * @return binding to describe the cache.
    */
   protected <K, V> PersistentCacheBinding<K, V> persist(
-      String name, TypeLiteral<K> keyType, TypeLiteral<V> valType) {
-    PersistentCacheProvider<K, V> m = new PersistentCacheProvider<>(this, name, keyType, valType);
-    bindCache(m, name, keyType, valType);
+      String name,
+      TypeLiteral<K> keyType,
+      TypeLiteral<V> valType,
+      PersistentCacheProvider<K, V> provider) {
+    bindCache(provider, name, keyType, valType);
 
     Type cacheDefType =
         Types.newParameterizedType(PersistentCacheDef.class, keyType.getType(), valType.getType());
     @SuppressWarnings("unchecked")
     Key<PersistentCacheDef<K, V>> cacheDefKey =
         (Key<PersistentCacheDef<K, V>>) Key.get(cacheDefType, Names.named(name));
-    bind(cacheDefKey).toInstance(m);
+    bind(cacheDefKey).toInstance(provider);
 
     // TODO(dborowitz): Once default Java serialization is removed, leave no default.
-    return m.version(0)
+    return provider
+        .version(0)
         .keySerializer(new JavaCacheSerializer<>())
         .valueSerializer(new JavaCacheSerializer<>());
   }

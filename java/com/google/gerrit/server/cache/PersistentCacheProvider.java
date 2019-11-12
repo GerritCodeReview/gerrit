@@ -30,12 +30,12 @@ import java.time.Duration;
 
 class PersistentCacheProvider<K, V> extends CacheProvider<K, V>
     implements Provider<Cache<K, V>>, PersistentCacheBinding<K, V>, PersistentCacheDef<K, V> {
-  private int version;
+  protected int version;
   private long diskLimit;
-  private CacheSerializer<K> keySerializer;
-  private CacheSerializer<V> valueSerializer;
+  protected CacheSerializer<K> keySerializer;
+  protected CacheSerializer<V> valueSerializer;
 
-  private PersistentCacheFactory persistentCacheFactory;
+  protected PersistentCacheFactory persistentCacheFactory;
 
   PersistentCacheProvider(
       CacheModule module, String name, TypeLiteral<K> keyType, TypeLiteral<V> valType) {
@@ -134,7 +134,7 @@ class PersistentCacheProvider<K, V> extends CacheProvider<K, V>
         : persistentCacheFactory.build(this);
   }
 
-  private static <T> void checkSerializer(
+  protected static <T> void checkSerializer(
       TypeLiteral<T> type, CacheSerializer<T> serializer, String name) {
     checkState(serializer != null, "%sSerializer is required", name);
     if (serializer instanceof JavaCacheSerializer) {

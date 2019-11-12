@@ -45,7 +45,9 @@ public class PatchListCacheImpl implements PatchListCache {
       @Override
       protected void configure() {
         factory(PatchListLoader.Factory.class);
-        persist(FILE_NAME, PatchListKey.class, PatchList.class)
+        // TODO(davido): Switch off using legacy cache backend, after fixing PatchListLoader
+        // to be recursion free.
+        persistLegacy(FILE_NAME, PatchListKey.class, PatchList.class)
             .maximumWeight(10 << 20)
             .weigher(PatchListWeigher.class);
 

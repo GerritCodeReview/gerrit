@@ -20,8 +20,12 @@ limitations under the License.
 
 <dom-module id="gr-settings-menu-item">
   <template>
-    <style include="shared-styles"></style>
-    <style include="gr-page-nav-styles"></style>
+    <style include="shared-styles">
+      /* Workaround for empty style block - see https://github.com/Polymer/tools/issues/408 */
+    </style>
+    <style include="gr-page-nav-styles">
+      /* Workaround for empty style block - see https://github.com/Polymer/tools/issues/408 */
+    </style>
     <div class="navStyles">
       <li><a href$="[[href]]">[[title]]</a></li>
     </div>

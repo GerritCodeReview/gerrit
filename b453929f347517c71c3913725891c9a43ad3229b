@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a1a2bb7_8dc51833",
+        "filename": "polygerrit-ui/app/elements/admin/gr-access-section/gr-access-section.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-11-12T19:29:01Z",
+      "side": 1,
+      "message": "Can we get this on one line? Maybe drop the \"see\"?",
+      "revId": "b453929f347517c71c3913725891c9a43ad3229b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

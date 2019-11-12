@@ -269,6 +269,17 @@ limitations under the License.
           </template>
         </span>
       </section>
+      <template is="dom-if" if="[[_showSource(change.*)]]">
+        <section>
+          <span class="title">Source</span>
+          <span class="value">
+              <a href$="[[_computeSourceURL(change.source)]]">
+              <gr-limited-text
+                  text="[[change.source]]"
+                  limit="40"></gr-limited-text>
+          </span>
+        </section>
+      </template>
       <section class="strategy" hidden$="[[_computeHideStrategy(change)]]" hidden>
         <span class="title">Strategy</span>
         <span class="value">[[_computeStrategy(change)]]</span>
@@ -323,3 +334,4 @@ limitations under the License.
   </template>
   <script src="gr-change-metadata.js"></script>
 </dom-module>
+

@@ -513,6 +513,9 @@ public final class Change {
   /** References a change that this change reverts. */
   @Nullable protected Id revertOf;
 
+  /** References the source change that this change was cherry-picked from. */
+  @Nullable protected Id source;
+
   protected Change() {}
 
   public Change(
@@ -549,6 +552,7 @@ public final class Change {
     workInProgress = other.workInProgress;
     reviewStarted = other.reviewStarted;
     revertOf = other.revertOf;
+    source = other.source;
   }
 
   /** Legacy 32 bit integer identity for a change. */
@@ -600,6 +604,11 @@ public final class Change {
 
   public Account.Id getOwner() {
     return owner;
+  }
+
+  @Nullable
+  public Id getSource() {
+    return source;
   }
 
   public void setOwner(Account.Id owner) {
@@ -708,6 +717,10 @@ public final class Change {
 
   public void setTopic(String topic) {
     this.topic = topic;
+  }
+
+  public void setSource(@Nullable Id source) {
+    this.source = source;
   }
 
   public boolean isPrivate() {

@@ -84,7 +84,7 @@ message ChangeNotesStateProto {
 
   int32 change_id = 2;
 
-  // Next ID: 24
+  // Next ID: 26
   message ChangeColumnsProto {
     string change_key = 1;
 
@@ -124,6 +124,9 @@ message ChangeNotesStateProto {
 
     int32 revert_of = 22;
     bool has_revert_of = 23;
+
+    string cherry_pick_of = 24;
+    bool has_cherry_pick_of = 25;
   }
   // Effectively required, even though the corresponding ChangeNotesState field
   // is optional, since the field is only absent when NoteDb is disabled, in

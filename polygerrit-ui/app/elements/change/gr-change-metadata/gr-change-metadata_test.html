@@ -464,6 +464,12 @@ limitations under the License.
       assert.isTrue(element._showTopicChip({base: {topic: 'foo'}}, false));
     });
 
+    test('_showCherryPickOf', () => {
+      assert.isFalse(element._showCherryPickOf(null));
+      assert.isFalse(element._showCherryPickOf({base: {cherry_pick_of: null}}));
+      assert.isTrue(element._showCherryPickOf({base: {cherry_pick_of: 123}}));
+    });
+
     suite('Topic removal', () => {
       let change;
       setup(() => {

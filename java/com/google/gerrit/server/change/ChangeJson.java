@@ -587,6 +587,8 @@ public class ChangeJson {
     }
     out.revertOf = cd.change().getRevertOf() != null ? cd.change().getRevertOf().get() : null;
     out.submissionId = cd.change().getSubmissionId();
+    out.cherryPickOf =
+        cd.change().getCherryPickOf() != null ? cd.change().getCherryPickOf().toString() : null;
 
     if (has(REVIEWER_UPDATES)) {
       out.reviewerUpdates = reviewerUpdates(cd);

@@ -301,6 +301,7 @@ public class ChangeData {
   private Integer unresolvedCommentCount;
   private Integer totalCommentCount;
   private LabelTypes labelTypes;
+  private PatchSet.Id cherryPickOf;
 
   private ImmutableList<byte[]> refStates;
   private ImmutableList<byte[]> refStatePatterns;
@@ -827,6 +828,25 @@ public class ChangeData {
 
   public void setTotalCommentCount(Integer count) {
     this.totalCommentCount = count;
+  }
+
+  @Nullable
+  public PatchSet.Id cherryPickOf() {
+    if (cherryPickOf == null) {
+      if (!lazyLoad) {
+        return null;
+      }
+      Change c = change();
+      if (c == null) {
+        return null;
+      }
+      cherryPickOf = c.getCherryPickOf();
+    }
+    return cherryPickOf;
+  }
+
+  public void setCherryPickOf(PatchSet.Id cherryPickOf) {
+    this.cherryPickOf = cherryPickOf;
   }
 
   public List<ChangeMessage> messages() {

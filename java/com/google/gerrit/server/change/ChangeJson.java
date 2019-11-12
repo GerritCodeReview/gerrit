@@ -518,6 +518,7 @@ public class ChangeJson {
     out.topic = in.getTopic();
     out.assignee = in.getAssignee() != null ? accountLoader.get(in.getAssignee()) : null;
     out.hashtags = cd.hashtags();
+    out.source = cd.source();
     out.changeId = in.getKey().get();
     if (in.isNew()) {
       SubmitTypeRecord str = cd.submitTypeRecord();

@@ -110,6 +110,7 @@ public class ChangeInserter implements InsertChangeOp {
   private final String refName;
 
   // Fields exposed as setters.
+  private Integer source;
   private Change.Status status;
   private String topic;
   private String message;
@@ -188,6 +189,7 @@ public class ChangeInserter implements InsertChangeOp {
             ctx.getWhen());
     change.setStatus(MoreObjects.firstNonNull(status, Change.Status.NEW));
     change.setTopic(topic);
+    change.setSource(source);
     change.setPrivate(isPrivate);
     change.setWorkInProgress(workInProgress);
     change.setReviewStarted(!workInProgress);
@@ -223,6 +225,11 @@ public class ChangeInserter implements InsertChangeOp {
   public ChangeInserter setTopic(String topic) {
     checkState(change == null, "setTopic(String) only valid before creating change");
     this.topic = topic;
+    return this;
+  }
+
+  public ChangeInserter setSource(Integer source) {
+    this.source = source;
     return this;
   }
 
@@ -371,6 +378,7 @@ public class ChangeInserter implements InsertChangeOp {
     update.setSubjectForCommit("Create change");
     update.setBranch(change.getDest().branch());
     update.setTopic(change.getTopic());
+    update.setSource(change.getSource());
     update.setPsDescription(patchSetDescription);
     update.setPrivate(isPrivate);
     update.setWorkInProgress(workInProgress);

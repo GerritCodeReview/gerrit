@@ -136,6 +136,7 @@ public class LuceneChangeIndex implements ChangeIndex {
   private static final String TOTAL_COMMENT_COUNT_FIELD = ChangeField.TOTAL_COMMENT_COUNT.getName();
   private static final String UNRESOLVED_COMMENT_COUNT_FIELD =
       ChangeField.UNRESOLVED_COMMENT_COUNT.getName();
+  private static final String SOURCE_FIELD = ChangeField.SOURCE.getName();
 
   @FunctionalInterface
   static interface IdTerm {
@@ -529,6 +530,9 @@ public class LuceneChangeIndex implements ChangeIndex {
     if (fields.contains(REF_STATE_PATTERN_FIELD)) {
       decodeRefStatePatterns(doc, cd);
     }
+    if(fields.contains(SOURCE_FIELD)) {
+      decodeSource(doc, cd);
+    }
 
     decodeUnresolvedCommentCount(doc, cd);
     decodeTotalCommentCount(doc, cd);
@@ -667,6 +671,10 @@ public class LuceneChangeIndex implements ChangeIndex {
 
   private void decodeTotalCommentCount(ListMultimap<String, IndexableField> doc, ChangeData cd) {
     decodeIntField(doc, TOTAL_COMMENT_COUNT_FIELD, cd::setTotalCommentCount);
+  }
+
+  private void decodeSource(ListMultimap<String, IndexableField> doc, ChangeData cd) {
+    decodeIntField(doc, SOURCE_FIELD, cd::setSource);
   }
 
   private static void decodeIntField(

@@ -123,6 +123,7 @@ public abstract class ChangeNotesState {
       boolean workInProgress,
       boolean reviewStarted,
       @Nullable Change.Id revertOf,
+      @Nullable Integer source,
       int updateCount) {
     requireNonNull(
         metaId,
@@ -154,6 +155,7 @@ public abstract class ChangeNotesState {
                 .revertOf(revertOf)
                 .build())
         .hashtags(hashtags)
+        .source(source)
         .serverId(serverId)
         .patchSets(patchSets.entrySet())
         .approvals(approvals.entries())
@@ -272,6 +274,9 @@ public abstract class ChangeNotesState {
   abstract ImmutableSet<String> hashtags();
 
   @Nullable
+  abstract Integer source();
+
+  @Nullable
   abstract String serverId();
 
   abstract ImmutableList<Map.Entry<PatchSet.Id, PatchSet>> patchSets();
@@ -382,6 +387,8 @@ public abstract class ChangeNotesState {
 
     abstract Builder hashtags(Iterable<String> hashtags);
 
+    abstract Builder source(Integer source);
+
     abstract Builder patchSets(Iterable<Map.Entry<PatchSet.Id, PatchSet>> patchSets);
 
     abstract Builder approvals(Iterable<Map.Entry<PatchSet.Id, PatchSetApproval>> approvals);
@@ -473,8 +480,12 @@ public abstract class ChangeNotesState {
           .changeMessages()
           .forEach(m -> b.addChangeMessage(toByteString(m, ChangeMessageProtoConverter.INSTANCE)));
       object.publishedComments().values().forEach(c -> b.addPublishedComment(GSON.toJson(c)));
+      if (object.source() != null) {
+        b.setSource(object.source());
+        b.setHasSource(true);
+      }
       b.setUpdateCount(object.updateCount());
-
+      
       return Protos.toByteArray(b.build());
     }
 
@@ -597,6 +608,7 @@ public abstract class ChangeNotesState {
                   proto.getPublishedCommentList().stream()
                       .map(r -> GSON.fromJson(r, Comment.class))
                       .collect(toImmutableListMultimap(Comment::getCommitId, c -> c)))
+              .source(proto.getHasSource() ? proto.getSource() : null)
               .updateCount(proto.getUpdateCount());
       return b.build();
     }

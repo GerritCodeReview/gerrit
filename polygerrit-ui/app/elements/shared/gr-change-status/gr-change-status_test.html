@@ -35,6 +35,17 @@ limitations under the License.
 </test-fixture>
 
 <script>
+  const WIP_TOOLTIP = 'This change isn\'t ready to be reviewed or submitted. ' +
+      'It will not appear on dashboards unless you are CC\'ed or assigned, ' +
+      'and email notifications will be silenced until the review is started.';
+
+  const MERGE_CONFLICT_TOOLTIP = 'This change has merge conflicts. ' +
+    'Download the patch and run "git rebase master". ' +
+    'Upload a new patchset after resolving all merge conflicts.';
+
+  const PRIVATE_TOOLTIP = 'This change is only visible to its owner and ' +
+      'current reviewers (or anyone with "View Private Changes" permission).';
+
   suite('gr-change-status tests', () => {
     let element;
     let sandbox;
@@ -51,7 +62,7 @@ limitations under the License.
     test('WIP', () => {
       element.status = 'WIP';
       assert.equal(element.$$('.chip').innerText, 'Work in Progress');
-      assert.isDefined(element.tooltipText);
+      assert.equal(element.tooltipText, WIP_TOOLTIP);
       assert.isTrue(element.classList.contains('wip'));
     });
 
@@ -81,14 +92,14 @@ limitations under the License.
     test('merge conflict', () => {
       element.status = 'Merge Conflict';
       assert.equal(element.$$('.chip').innerText, element.status);
-      assert.equal(element.tooltipText, '');
+      assert.equal(element.tooltipText, MERGE_CONFLICT_TOOLTIP);
       assert.isTrue(element.classList.contains('merge-conflict'));
     });
 
     test('private', () => {
       element.status = 'Private';
       assert.equal(element.$$('.chip').innerText, element.status);
-      assert.isDefined(element.tooltipText);
+      assert.equal(element.tooltipText, PRIVATE_TOOLTIP);
       assert.isTrue(element.classList.contains('private'));
     });
 

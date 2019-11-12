@@ -29,6 +29,10 @@
       'It will not appear on dashboards unless you are CC\'ed or assigned, ' +
       'and email notifications will be silenced until the review is started.';
 
+  const MERGE_CONFLICT_TOOLTIP = 'This change has merge conflicts. ' +
+      'Download the patch and run "git rebase master". ' +
+      'Upload a new patchset after resolving all merge conflicts.';
+
   const PRIVATE_TOOLTIP = 'This change is only visible to its owner and ' +
       'current reviewers (or anyone with "View Private Changes" permission).';
 
@@ -78,6 +82,9 @@
           break;
         case ChangeStates.PRIVATE:
           this.tooltipText = PRIVATE_TOOLTIP;
+          break;
+        case ChangeStates.MERGE_CONFLICT:
+          this.tooltipText = MERGE_CONFLICT_TOOLTIP;
           break;
         default:
           this.tooltipText = '';

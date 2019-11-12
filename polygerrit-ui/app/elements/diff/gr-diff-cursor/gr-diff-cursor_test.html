@@ -259,6 +259,70 @@ limitations under the License.
       );
     });
 
+    suite('createCommentInPlace', () => {
+      setup(() => {
+        diffElement.loggedIn = true;
+      });
+
+      test('adds new draft for selected line on the left', done => {
+        cursorElement.moveToLineNumber(2, 'left');
+        diffElement.addEventListener('create-comment', e => {
+          const {lineNum, range, side, patchNum} = e.detail;
+          assert.equal(lineNum, 2);
+          assert.equal(range, undefined);
+          assert.equal(patchNum, 1);
+          assert.equal(side, 'left');
+          done();
+        });
+        cursorElement.createCommentInPlace();
+      });
+
+      test('adds draft for selected line on the right', done => {
+        cursorElement.moveToLineNumber(4, 'right');
+        diffElement.addEventListener('create-comment', e => {
+          const {lineNum, range, side, patchNum} = e.detail;
+          assert.equal(lineNum, 4);
+          assert.equal(range, undefined);
+          assert.equal(patchNum, 2);
+          assert.equal(side, 'right');
+          done();
+        });
+        cursorElement.createCommentInPlace();
+      });
+
+      test('createCommentInPlace creates comment for range if selected', done => {
+        const someRange = {
+          start_line: 2,
+          start_character: 3,
+          end_line: 6,
+          end_character: 1,
+        };
+        diffElement.$.highlights.selectedRange = {
+          side: 'right',
+          range: someRange,
+        };
+        diffElement.addEventListener('create-comment', e => {
+          const {lineNum, range, side, patchNum} = e.detail;
+          assert.equal(lineNum, 6);
+          assert.equal(range, someRange);
+          assert.equal(patchNum, 2);
+          assert.equal(side, 'right');
+          done();
+        });
+        cursorElement.createCommentInPlace();
+      });
+
+      test('createCommentInPlace ignores call if nothing is selected', () => {
+        const createRangeCommentStub = sandbox.stub(diffElement,
+            'createRangeComment');
+        const addDraftAtLineStub = sandbox.stub(diffElement, 'addDraftAtLine');
+        cursorElement.diffRow = undefined;
+        cursorElement.createCommentInPlace();
+        assert.isFalse(createRangeCommentStub.called);
+        assert.isFalse(addDraftAtLineStub.called);
+      });
+    });
+
     test('getAddress', () => {
       // It should initialize to the first chunk: line 5 of the revision.
       assert.deepEqual(cursorElement.getAddress(),

@@ -123,6 +123,7 @@ public abstract class ChangeNotesState {
       boolean workInProgress,
       boolean reviewStarted,
       @Nullable Change.Id revertOf,
+      @Nullable PatchSet.Id cherryPickOf,
       int updateCount) {
     requireNonNull(
         metaId,
@@ -152,6 +153,7 @@ public abstract class ChangeNotesState {
                 .workInProgress(workInProgress)
                 .reviewStarted(reviewStarted)
                 .revertOf(revertOf)
+                .cherryPickOf(cherryPickOf)
                 .build())
         .hashtags(hashtags)
         .serverId(serverId)
@@ -220,6 +222,9 @@ public abstract class ChangeNotesState {
     @Nullable
     abstract Change.Id revertOf();
 
+    @Nullable
+    abstract PatchSet.Id cherryPickOf();
+
     abstract Builder toBuilder();
 
     @AutoValue.Builder
@@ -253,6 +258,8 @@ public abstract class ChangeNotesState {
       abstract Builder reviewStarted(boolean reviewStarted);
 
       abstract Builder revertOf(@Nullable Change.Id revertOf);
+
+      abstract Builder cherryPickOf(@Nullable PatchSet.Id cherryPickOf);
 
       abstract ChangeColumns build();
     }
@@ -341,6 +348,7 @@ public abstract class ChangeNotesState {
     change.setWorkInProgress(c.workInProgress());
     change.setReviewStarted(c.reviewStarted());
     change.setRevertOf(c.revertOf());
+    change.setCherryPickOf(c.cherryPickOf());
 
     if (!patchSets().isEmpty()) {
       change.setCurrentPatchSet(c.currentPatchSetId(), c.subject(), c.originalSubject());
@@ -514,6 +522,10 @@ public abstract class ChangeNotesState {
       if (cols.revertOf() != null) {
         b.setRevertOf(cols.revertOf().get()).setHasRevertOf(true);
       }
+      if (cols.cherryPickOf() != null) {
+        b.setCherryPickOf(cols.cherryPickOf().getCommaSeparatedChangeAndPatchSetId())
+            .setHasCherryPickOf(true);
+      }
       return b.build();
     }
 
@@ -636,6 +648,9 @@ public abstract class ChangeNotesState {
           .reviewStarted(proto.getReviewStarted());
       if (proto.getHasRevertOf()) {
         b.revertOf(Change.id(proto.getRevertOf()));
+      }
+      if (proto.getHasCherryPickOf()) {
+        b.cherryPickOf(PatchSet.Id.parse(proto.getCherryPickOf()));
       }
       return b.build();
     }

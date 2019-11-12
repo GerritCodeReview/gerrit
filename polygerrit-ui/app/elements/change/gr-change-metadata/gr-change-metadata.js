@@ -227,6 +227,12 @@
       return hasTopic && !settingTopic;
     }
 
+    _showSourceChip(changeRecord) {
+      const hasSource = !!changeRecord &&
+          !!changeRecord.base && !!changeRecord.base.source;
+      return hasSource;
+    }
+
     _handleHashtagChanged(e) {
       const lastHashtag = this.change.hashtag;
       if (!this._newHashtag.length) { return; }
@@ -351,6 +357,10 @@
       return Gerrit.Nav.getUrlForBranch(branch, project,
           this.change.status == this.ChangeStatus.NEW ? 'open' :
             this.change.status.toLowerCase());
+    }
+
+    _computeSourceURL(source) {
+      return Gerrit.Nav.getUrlForSource(source);
     }
 
     _computeTopicURL(topic) {

@@ -42,6 +42,7 @@ import com.google.gerrit.server.change.ReviewerResource;
 import com.google.gerrit.server.change.SetAssigneeOp;
 import com.google.gerrit.server.change.SetHashtagsOp;
 import com.google.gerrit.server.change.SetPrivateOp;
+import com.google.gerrit.server.change.SetSourceOp;
 import com.google.gerrit.server.change.WorkInProgressOp;
 import com.google.gerrit.server.restapi.change.Reviewed.DeleteReviewed;
 import com.google.gerrit.server.restapi.change.Reviewed.PutReviewed;
@@ -202,6 +203,7 @@ public class Module extends RestApiModule {
     factory(SetAssigneeOp.Factory.class);
     factory(SetHashtagsOp.Factory.class);
     factory(SetPrivateOp.Factory.class);
+    factory(SetSourceOp.Factory.class);
     factory(WorkInProgressOp.Factory.class);
   }
 }

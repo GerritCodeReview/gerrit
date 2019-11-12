@@ -123,6 +123,7 @@ public abstract class ChangeNotesState {
       boolean workInProgress,
       boolean reviewStarted,
       @Nullable Change.Id revertOf,
+      @Nullable Change.Id source,
       int updateCount) {
     requireNonNull(
         metaId,
@@ -152,6 +153,7 @@ public abstract class ChangeNotesState {
                 .workInProgress(workInProgress)
                 .reviewStarted(reviewStarted)
                 .revertOf(revertOf)
+                .source(source)
                 .build())
         .hashtags(hashtags)
         .serverId(serverId)
@@ -220,6 +222,9 @@ public abstract class ChangeNotesState {
     @Nullable
     abstract Change.Id revertOf();
 
+    @Nullable
+    abstract Change.Id source();
+
     abstract Builder toBuilder();
 
     @AutoValue.Builder
@@ -253,6 +258,8 @@ public abstract class ChangeNotesState {
       abstract Builder reviewStarted(boolean reviewStarted);
 
       abstract Builder revertOf(@Nullable Change.Id revertOf);
+
+      abstract Builder source(@Nullable Change.Id source);
 
       abstract ChangeColumns build();
     }
@@ -341,6 +348,7 @@ public abstract class ChangeNotesState {
     change.setWorkInProgress(c.workInProgress());
     change.setReviewStarted(c.reviewStarted());
     change.setRevertOf(c.revertOf());
+    change.setSource(c.source());
 
     if (!patchSets().isEmpty()) {
       change.setCurrentPatchSet(c.currentPatchSetId(), c.subject(), c.originalSubject());
@@ -514,6 +522,9 @@ public abstract class ChangeNotesState {
       if (cols.revertOf() != null) {
         b.setRevertOf(cols.revertOf().get()).setHasRevertOf(true);
       }
+      if (cols.source() != null) {
+        b.setSource(cols.source().get()).setHasSource(true);
+      }
       return b.build();
     }
 
@@ -636,6 +647,9 @@ public abstract class ChangeNotesState {
           .reviewStarted(proto.getReviewStarted());
       if (proto.getHasRevertOf()) {
         b.revertOf(Change.id(proto.getRevertOf()));
+      }
+      if (proto.getHasSource()) {
+        b.source(Change.id(proto.getSource()));
       }
       return b.build();
     }

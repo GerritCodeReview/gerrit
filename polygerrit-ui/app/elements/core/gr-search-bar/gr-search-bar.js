@@ -29,6 +29,7 @@
     'cc:',
     'cc:self',
     'change:',
+    'cherrypickof:',
     'comment:',
     'commentby:',
     'commit:',

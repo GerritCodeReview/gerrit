@@ -776,6 +776,7 @@ public class ChangeNotesStateTest {
                 .put("workInProgress", boolean.class)
                 .put("reviewStarted", boolean.class)
                 .put("revertOf", Change.Id.class)
+                .put("cherryPickOf", PatchSet.Id.class)
                 .put("toBuilder", ChangeNotesState.ChangeColumns.Builder.class)
                 .build());
   }

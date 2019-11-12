@@ -31,6 +31,7 @@ public class ChangeAttribute {
   public String url;
   public String commitMessage;
   public List<String> hashtags;
+  public String cherryPickOf;
 
   public Long createdOn;
   public Long lastUpdated;

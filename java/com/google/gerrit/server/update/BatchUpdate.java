@@ -128,23 +128,23 @@ public class BatchUpdate implements AutoCloseable {
 
     try {
       List<ListenableFuture<?>> indexFutures = new ArrayList<>();
-      List<ChangesHandle> handles = new ArrayList<>(updates.size());
+      List<ChangesHandle> changesHandles = new ArrayList<>(updates.size());
       try {
         for (BatchUpdate u : updates) {
           u.executeUpdateRepo();
         }
         listener.afterUpdateRepos();
         for (BatchUpdate u : updates) {
-          handles.add(u.executeChangeOps(dryrun));
+          changesHandles.add(u.executeChangeOps(dryrun));
         }
-        for (ChangesHandle h : handles) {
+        for (ChangesHandle h : changesHandles) {
           h.execute();
           indexFutures.addAll(h.startIndexFutures());
         }
         listener.afterUpdateRefs();
         listener.afterUpdateChanges();
       } finally {
-        for (ChangesHandle h : handles) {
+        for (ChangesHandle h : changesHandles) {
           h.close();
         }
       }

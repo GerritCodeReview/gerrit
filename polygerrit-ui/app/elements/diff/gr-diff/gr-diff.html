@@ -344,8 +344,12 @@ limitations under the License.
         text-align: center;
       }
     </style>
-    <style include="gr-syntax-theme"></style>
-    <style include="gr-ranged-comment-theme"></style>
+    <style include="gr-syntax-theme">
+      /* Workaround for empty style block - see https://github.com/Polymer/tools/issues/408 */
+    </style>
+    <style include="gr-ranged-comment-theme">
+      /* Workaround for empty style block - see https://github.com/Polymer/tools/issues/408 */
+    </style>
     <div id="diffHeader" hidden$="[[_computeDiffHeaderHidden(_diffHeaderItems)]]">
       <template
           is="dom-repeat"

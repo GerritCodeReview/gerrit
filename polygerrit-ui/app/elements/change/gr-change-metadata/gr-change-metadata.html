@@ -43,7 +43,9 @@ limitations under the License.
 
 <dom-module id="gr-change-metadata">
   <template>
-    <style include="gr-change-metadata-shared-styles"></style>
+    <style include="gr-change-metadata-shared-styles">
+      /* Workaround for empty style block - see https://github.com/Polymer/tools/issues/408 */
+    </style>
     <style include="shared-styles">
       :host {
         display: table;

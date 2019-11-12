@@ -32,7 +32,9 @@ limitations under the License.
 
 <dom-module id="gr-repo">
   <template>
-    <style include="shared-styles"></style>
+    <style include="shared-styles">
+      /* Workaround for empty style block - see https://github.com/Polymer/tools/issues/408 */
+    </style>
     <style include="gr-subpage-styles">
       h2.edited:after {
         color: var(--deemphasized-text-color);
@@ -55,9 +57,13 @@ limitations under the License.
         display: block;
       }
     </style>
-    <style include="gr-form-styles"></style>
+    <style include="gr-form-styles">
+      /* Workaround for empty style block - see https://github.com/Polymer/tools/issues/408 */
+    </style>
     <main class="gr-form-styles read-only">
-      <style include="shared-styles"></style>
+      <style include="shared-styles">
+        /* Workaround for empty style block - see https://github.com/Polymer/tools/issues/408 */
+      </style>
       <div class="info">
         <h1 id="Title" class$="name">
           [[repo]]

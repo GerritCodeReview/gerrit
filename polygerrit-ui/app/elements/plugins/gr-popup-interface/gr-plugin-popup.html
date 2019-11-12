@@ -20,7 +20,9 @@ limitations under the License.
 
 <dom-module id="gr-plugin-popup">
   <template>
-    <style include="shared-styles"></style>
+    <style include="shared-styles">
+      /* Workaround for empty style block - see https://github.com/Polymer/tools/issues/408 */
+    </style>
     <gr-overlay id="overlay" with-backdrop>
       <slot></slot>
     </gr-overlay>

@@ -74,9 +74,15 @@ limitations under the License.
         margin-right: var(--spacing-l);
       }
     </style>
-    <style include="gr-form-styles"></style>
-    <style include="gr-menu-page-styles"></style>
-    <style include="gr-page-nav-styles"></style>
+    <style include="gr-form-styles">
+      /* Workaround for empty style block - see https://github.com/Polymer/tools/issues/408 */
+    </style>
+    <style include="gr-menu-page-styles">
+      /* Workaround for empty style block - see https://github.com/Polymer/tools/issues/408 */
+    </style>
+    <style include="gr-page-nav-styles">
+      /* Workaround for empty style block - see https://github.com/Polymer/tools/issues/408 */
+    </style>
     <div class="loading" hidden$="[[!_loading]]">Loading...</div>
     <div hidden$="[[_loading]]" hidden>
       <gr-page-nav class="navStyles">

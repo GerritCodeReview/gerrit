@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a1a41d0b_84b37a24",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-11-12T14:40:34Z",
+      "side": 1,
+      "message": "what kind of `breaks` we are talking here, will it break the page load entirely or just js errors in the console ?",
+      "revId": "00b1dcc94a870219641126a315beb90359454287",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

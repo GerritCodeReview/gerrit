@@ -8,7 +8,7 @@
     "eslint-config-google": "^0.13.0",
     "eslint-plugin-html": "^6.0.0",
     "fried-twinkie": "^0.2.2",
-    "polylint": "^2.10.4",
+    "polymer-cli": "^1.9.11",
     "typescript": "^2.x.x",
     "web-component-tester": "^6.5.0"
   },

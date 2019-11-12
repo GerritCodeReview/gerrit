@@ -67,7 +67,7 @@
     },
 
     _handleDelete(e) {
-      const value = Polymer.dom(e).localTarget.dataItem;
+      const value = Polymer.dom(e).localTarget.dataset.item;
       this._dispatchChanged(
           this.pluginOption.info.values.filter(str => str !== value));
     },

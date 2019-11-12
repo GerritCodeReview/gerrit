@@ -143,6 +143,7 @@ public class ActionJson {
     copy.unresolvedCommentCount = changeInfo.unresolvedCommentCount;
     copy.workInProgress = changeInfo.workInProgress;
     copy.id = changeInfo.id;
+    copy.source = changeInfo.source;
     return copy;
   }
 

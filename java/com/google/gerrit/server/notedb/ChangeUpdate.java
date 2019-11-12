@@ -38,6 +38,7 @@ import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBMITTED_WI
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_TAG;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_TOPIC;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_WORK_IN_PROGRESS;
+import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SOURCE;
 import static com.google.gerrit.server.notedb.NoteDbUtil.sanitizeFooter;
 import static java.util.Comparator.naturalOrder;
 import static java.util.Objects.requireNonNull;
@@ -137,6 +138,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private Boolean isPrivate;
   private Boolean workInProgress;
   private Integer revertOf;
+  private Integer source;
 
   private ChangeDraftUpdate draftUpdate;
   private RobotCommentUpdate robotCommentUpdate;
@@ -415,6 +417,10 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     rootOnly = true;
   }
 
+  public void setSource(int source) {
+    this.source = source;
+  }
+
   /** @return the tree id for the updated tree */
   private ObjectId storeRevisionNotes(RevWalk rw, ObjectInserter inserter, ObjectId curr)
       throws ConfigInvalidException, IOException {
@@ -566,6 +572,10 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       addFooter(msg, FOOTER_TOPIC, topic);
     }
 
+    if (source != null) {
+      addFooter(msg, FOOTER_SOURCE, source);
+    }
+
     if (commit != null) {
       addFooter(msg, FOOTER_COMMIT, commit);
     }
@@ -663,6 +673,10 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       addFooter(msg, FOOTER_REVERT_OF, revertOf);
     }
 
+    if (source != null) {
+      addFooter(msg, FOOTER_SOURCE, source);
+    }
+
     cb.setMessage(msg.toString());
     try {
       ObjectId treeId = storeRevisionNotes(rw, ins, curr);
@@ -712,7 +726,8 @@ public class ChangeUpdate extends AbstractChangeUpdate {
         && !currentPatchSet
         && isPrivate == null
         && workInProgress == null
-        && revertOf == null;
+        && revertOf == null
+        && source == null;
   }
 
   ChangeDraftUpdate getDraftUpdate() {

@@ -69,7 +69,6 @@
         type: Object,
         value() { return {}; },
       },
-      _accountNameMutable: Boolean,
       _accountInfoChanged: Boolean,
       _changeTableColumnsNotDisplayed: Array,
       /** @type {?} */

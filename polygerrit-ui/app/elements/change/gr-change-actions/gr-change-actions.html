@@ -191,12 +191,8 @@ limitations under the License.
           hidden></gr-confirm-cherrypick-dialog>
       <gr-confirm-cherrypick-conflict-dialog id="confirmCherrypickConflict"
           class="confirmDialog"
-          change-status="[[changeStatus]]"
-          commit-message="[[commitMessage]]"
-          commit-num="[[commitNum]]"
           on-confirm="_handleCherrypickConflictConfirm"
           on-cancel="_handleConfirmDialogCancel"
-          project="[[change.project]]"
           hidden></gr-confirm-cherrypick-conflict-dialog>
       <gr-confirm-move-dialog id="confirmMove"
           class="confirmDialog"

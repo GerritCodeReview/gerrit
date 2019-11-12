@@ -27,7 +27,9 @@ limitations under the License.
 
 <dom-module id="gr-group-audit-log">
   <template>
-    <style include="shared-styles"></style>
+    <style include="shared-styles">
+      /* Workaround for empty style block - see https://github.com/Polymer/tools/issues/408 */
+    </style>
     <style include="gr-table-styles">
       /* GenericList style centers the last column, but we don't want that here. */
       .genericList tr th:last-of-type,

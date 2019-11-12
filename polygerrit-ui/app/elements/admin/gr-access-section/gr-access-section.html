@@ -86,7 +86,9 @@ limitations under the License.
         padding-right: var(--spacing-m);
       }
     </style>
-    <style include="gr-form-styles"></style>
+    <style include="gr-form-styles">
+      /* Workaround for empty style block - see https://github.com/Polymer/tools/issues/408 */
+    </style>
     <fieldset id="section"
         class$="gr-form-styles [[_computeSectionClass(editing, canUpload, ownerOf, _editingRef, _deleted)]]">
       <div id="mainContainer">

@@ -24,8 +24,12 @@ limitations under the License.
 
 <dom-module id="gr-edit-preferences">
   <template>
-    <style include="shared-styles"></style>
-    <style include="gr-form-styles"></style>
+    <style include="shared-styles">
+      /* Workaround for empty style block - see https://github.com/Polymer/tools/issues/408 */
+    </style>
+    <style include="gr-form-styles">
+      /* Workaround for empty style block - see https://github.com/Polymer/tools/issues/408 */
+    </style>
     <div id="editPreferences" class="gr-form-styles">
       <section>
         <span class="title">Tab width</span>

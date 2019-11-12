@@ -174,6 +174,29 @@ class H2CacheFactory implements PersistentCacheFactory, LifecycleListener {
     return cache;
   }
 
+  @SuppressWarnings({"unchecked"})
+  @Override
+  public <K, V> Cache<K, V> buildLegacy(PersistentCacheDef<K, V> in) {
+    long limit = config.getLong("cache", in.configKey(), "diskLimit", in.diskLimit());
+
+    if (cacheDir == null || limit <= 0) {
+      return memCacheFactory.buildLegacy(in);
+    }
+
+    H2CacheDefProxy<K, V> def = new H2CacheDefProxy<>(in);
+    SqlStore<K, V> store = newSqlStore(def, limit);
+    H2CacheImpl<K, V> cache =
+        new H2CacheImpl<>(
+            executor,
+            store,
+            def.keyType(),
+            (Cache<K, ValueHolder<V>>) memCacheFactory.buildLegacy(def));
+    synchronized (caches) {
+      caches.add(cache);
+    }
+    return cache;
+  }
+
   @SuppressWarnings("unchecked")
   @Override
   public <K, V> LoadingCache<K, V> build(PersistentCacheDef<K, V> in, CacheLoader<K, V> loader) {
@@ -188,6 +211,29 @@ class H2CacheFactory implements PersistentCacheFactory, LifecycleListener {
     Cache<K, ValueHolder<V>> mem =
         (Cache<K, ValueHolder<V>>)
             memCacheFactory.build(
+                def, (CacheLoader<K, V>) new H2CacheImpl.Loader<>(executor, store, loader));
+    H2CacheImpl<K, V> cache = new H2CacheImpl<>(executor, store, def.keyType(), mem);
+    synchronized (caches) {
+      caches.add(cache);
+    }
+    return cache;
+  }
+
+  @SuppressWarnings("unchecked")
+  @Override
+  public <K, V> LoadingCache<K, V> buildLegacy(
+      PersistentCacheDef<K, V> in, CacheLoader<K, V> loader) {
+    long limit = config.getLong("cache", in.configKey(), "diskLimit", in.diskLimit());
+
+    if (cacheDir == null || limit <= 0) {
+      return memCacheFactory.buildLegacy(in, loader);
+    }
+
+    H2CacheDefProxy<K, V> def = new H2CacheDefProxy<>(in);
+    SqlStore<K, V> store = newSqlStore(def, limit);
+    Cache<K, ValueHolder<V>> mem =
+        (Cache<K, ValueHolder<V>>)
+            memCacheFactory.buildLegacy(
                 def, (CacheLoader<K, V>) new H2CacheImpl.Loader<>(executor, store, loader));
     H2CacheImpl<K, V> cache = new H2CacheImpl<>(executor, store, def.keyType(), mem);
     synchronized (caches) {

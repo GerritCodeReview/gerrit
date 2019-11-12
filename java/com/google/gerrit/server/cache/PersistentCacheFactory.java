@@ -23,5 +23,9 @@ public interface PersistentCacheFactory {
 
   <K, V> LoadingCache<K, V> build(PersistentCacheDef<K, V> def, CacheLoader<K, V> loader);
 
+  <K, V> Cache<K, V> buildLegacy(PersistentCacheDef<K, V> def);
+
+  <K, V> LoadingCache<K, V> buildLegacy(PersistentCacheDef<K, V> def, CacheLoader<K, V> loader);
+
   void onStop(String plugin);
 }

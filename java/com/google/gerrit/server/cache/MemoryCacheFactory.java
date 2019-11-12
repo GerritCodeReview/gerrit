@@ -22,4 +22,8 @@ public interface MemoryCacheFactory {
   <K, V> Cache<K, V> build(CacheDef<K, V> def);
 
   <K, V> LoadingCache<K, V> build(CacheDef<K, V> def, CacheLoader<K, V> loader);
+
+  <K, V> Cache<K, V> buildLegacy(CacheDef<K, V> def);
+
+  <K, V> LoadingCache<K, V> buildLegacy(CacheDef<K, V> def, CacheLoader<K, V> loader);
 }

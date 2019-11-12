@@ -39,7 +39,9 @@ import com.google.gerrit.server.patch.PatchListKey;
 import com.google.gerrit.server.patch.Text;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -64,6 +66,18 @@ public class PatchListCacheIT extends AbstractDaemonTest {
   @Inject
   @Named("diff")
   private Cache<PatchListKey, PatchList> abstractPatchListCache;
+
+  @Test
+  public void ensureLegacyBackendIsUsedForFileCacheBackend() throws Exception {
+    Field cacheBackendField = patchListCache.getClass().getDeclaredField("fileCache");
+    cacheBackendField.setAccessible(true);
+    assertThat(
+            Arrays.stream(cacheBackendField.get(patchListCache).getClass().getDeclaredFields())
+                .filter(f -> f.getName().equals("localCache"))
+                .findAny()
+                .isPresent())
+        .isTrue();
+  }
 
   @Test
   public void listPatchesAgainstBase() throws Exception {
@@ -296,7 +310,9 @@ public class PatchListCacheIT extends AbstractDaemonTest {
 
   private static PatchListEntry getEntryFor(PatchList patchList, String filePath) {
     Optional<PatchListEntry> patchListEntry =
-        patchList.getPatches().stream()
+        patchList
+            .getPatches()
+            .stream()
             .filter(entry -> entry.getNewName().equals(filePath))
             .findAny();
     return patchListEntry.orElseThrow(

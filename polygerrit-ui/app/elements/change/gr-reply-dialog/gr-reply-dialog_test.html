@@ -1168,7 +1168,7 @@ limitations under the License.
       MockInteractions.tap(element.$$('gr-button.send'));
       assert.isFalse(sendStub.called);
 
-      element.diffDrafts = {test: true};
+      element.diffDrafts = {test: [{val: true}]};
       flushAsynchronousOperations();
 
       MockInteractions.tap(element.$$('gr-button.send'));
@@ -1180,7 +1180,7 @@ limitations under the License.
       // computed to false.
       element.diffDrafts = {};
       assert.equal(element.getFocusStops().end, element.$.cancelButton);
-      element.diffDrafts = {test: true};
+      element.diffDrafts = {test: [{val: true}]};
       assert.equal(element.getFocusStops().end, element.$.sendButton);
     });
 

@@ -531,6 +531,9 @@ public final class Change {
   /** References a change that this change reverts. */
   @Nullable protected Id revertOf;
 
+  /** References the source change and patchset that this change was cherry-picked from. */
+  @Nullable protected PatchSet.Id cherryPickOf;
+
   protected Change() {}
 
   public Change(
@@ -567,6 +570,7 @@ public final class Change {
     workInProgress = other.workInProgress;
     reviewStarted = other.reviewStarted;
     revertOf = other.revertOf;
+    cherryPickOf = other.cherryPickOf;
   }
 
   /** Legacy 32 bit integer identity for a change. */
@@ -758,6 +762,14 @@ public final class Change {
 
   public Id getRevertOf() {
     return this.revertOf;
+  }
+
+  public PatchSet.Id getCherryPickOf() {
+    return cherryPickOf;
+  }
+
+  public void setCherryPickOf(@Nullable PatchSet.Id cherryPickOf) {
+    this.cherryPickOf = cherryPickOf;
   }
 
   @Override

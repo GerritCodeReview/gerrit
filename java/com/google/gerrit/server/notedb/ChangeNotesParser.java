@@ -28,6 +28,7 @@ import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_PATCH_SET_DE
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_PRIVATE;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_REAL_USER;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_REVERT_OF;
+import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SOURCE;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_STATUS;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBJECT;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_SUBMISSION_ID;
@@ -148,6 +149,7 @@ class ChangeNotesParser {
   private ReviewerByEmailSet pendingReviewersByEmail;
   private Change.Id revertOf;
   private int updateCount;
+  private Change.Id source;
 
   ChangeNotesParser(
       Change.Id changeId,
@@ -246,6 +248,7 @@ class ChangeNotesParser {
         firstNonNull(workInProgress, false),
         firstNonNull(hasReviewStarted, true),
         revertOf,
+        source,
         updateCount);
   }
 
@@ -415,6 +418,10 @@ class ChangeNotesParser {
 
     if (revertOf == null) {
       revertOf = parseRevertOf(commit);
+    }
+
+    if (source == null) {
+      source = parseSource(commit);
     }
 
     previousWorkInProgressFooter = null;
@@ -964,6 +971,18 @@ class ChangeNotesParser {
       throw invalidFooter(FOOTER_REVERT_OF, footer);
     }
     return Change.id(revertOf);
+  }
+
+  private Change.Id parseSource(ChangeNotesCommit commit) throws ConfigInvalidException {
+    String footer = parseOneFooter(commit, FOOTER_SOURCE);
+    if (footer == null) {
+      return null;
+    }
+    Integer source = Ints.tryParse(footer);
+    if (source == null) {
+      throw invalidFooter(FOOTER_SOURCE, footer);
+    }
+    return Change.id(source);
   }
 
   private void pruneReviewers() {

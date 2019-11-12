@@ -301,6 +301,7 @@ public class ChangeData {
   private Integer unresolvedCommentCount;
   private Integer totalCommentCount;
   private LabelTypes labelTypes;
+  private Change.Id source;
 
   private ImmutableList<byte[]> refStates;
   private ImmutableList<byte[]> refStatePatterns;
@@ -827,6 +828,25 @@ public class ChangeData {
 
   public void setTotalCommentCount(Integer count) {
     this.totalCommentCount = count;
+  }
+
+  @Nullable
+  public Change.Id source() {
+    if (source == null) {
+      if (!lazyLoad) {
+        return null;
+      }
+      Change c = change();
+      if (c == null) {
+        return null;
+      }
+      source = c.getSource();
+    }
+    return source;
+  }
+
+  public void setSource(Change.Id source) {
+    this.source = source;
   }
 
   public List<ChangeMessage> messages() {

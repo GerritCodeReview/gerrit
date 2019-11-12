@@ -336,6 +336,7 @@ public class RevisionIT extends AbstractDaemonTest {
 
     assertThat(cherry.get().subject).contains(in.message);
     assertThat(cherry.get().topic).isEqualTo("someTopic-foo");
+    assertThat(cherry.get().source).isEqualTo(orig.get()._number);
     cherry.current().review(ReviewInput.approve());
     cherry.current().submit();
   }
@@ -415,23 +416,21 @@ public class RevisionIT extends AbstractDaemonTest {
     ChangeApi orig = gApi.changes().id(project.get() + "~master~" + r.getChangeId());
 
     ChangeApi cherry = orig.revision(r.getCommit().name()).cherryPick(in);
+    assertThat(cherry.get().source).isEqualTo(orig.get()._number);
     assertThat(cherry.get().workInProgress).isTrue();
   }
 
   @Test
   public void cherryPickToSameBranch() throws Exception {
     PushOneCommit.Result r = createChange();
+    ChangeApi change = gApi.changes().id(project.get() + "~master~" + r.getChangeId());
     CherryPickInput in = new CherryPickInput();
     in.destination = "master";
     in.message = "it generates a new patch set\n\nChange-Id: " + r.getChangeId();
-    ChangeInfo cherryInfo =
-        gApi.changes()
-            .id(project.get() + "~master~" + r.getChangeId())
-            .revision(r.getCommit().name())
-            .cherryPick(in)
-            .get();
+    ChangeInfo cherryInfo = change.revision(r.getCommit().name()).cherryPick(in).get();
     assertThat(cherryInfo.messages).hasSize(2);
     Iterator<ChangeMessageInfo> cherryIt = cherryInfo.messages.iterator();
+    assertThat(cherryInfo.source).isEqualTo(change.get()._number);
     assertThat(cherryIt.next().message).isEqualTo("Uploaded patch set 1.");
     assertThat(cherryIt.next().message).isEqualTo("Uploaded patch set 2.");
   }
@@ -621,6 +620,34 @@ public class RevisionIT extends AbstractDaemonTest {
                 + "The following files contain Git conflicts:\n"
                 + "* "
                 + PushOneCommit.FILE_NAME);
+  }
+
+  @Test
+  public void cherryPickToExistingChangeUpdatesSource() throws Exception {
+    PushOneCommit.Result r1 =
+        pushFactory
+            .create(admin.newIdent(), testRepo, SUBJECT, FILE_NAME, "a")
+            .to("refs/for/master");
+    String t1 = project.get() + "~master~" + r1.getChangeId();
+    ChangeApi orig = gApi.changes().id(project.get() + "~master~" + r1.getChangeId());
+
+    BranchInput bin = new BranchInput();
+    bin.revision = r1.getCommit().getParent(0).name();
+    gApi.projects().name(project.get()).branch("foo").create(bin);
+
+    PushOneCommit.Result r2 =
+        pushFactory
+            .create(admin.newIdent(), testRepo, SUBJECT, FILE_NAME, "b", r1.getChangeId())
+            .to("refs/for/foo");
+    String t2 = project.get() + "~foo~" + r2.getChangeId();
+
+    CherryPickInput in = new CherryPickInput();
+    in.destination = "foo";
+    in.message = r1.getCommit().getFullMessage();
+    ChangeApi cherry = gApi.changes().id(t1).current().cherryPick(in);
+
+    assertThat(get(t2, ALL_REVISIONS).revisions).hasSize(2);
+    assertThat(cherry.get().source).isEqualTo(orig.get()._number);
   }
 
   @Test

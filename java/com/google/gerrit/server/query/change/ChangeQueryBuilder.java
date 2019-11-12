@@ -184,6 +184,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   public static final String FIELD_WATCHEDBY = "watchedby";
   public static final String FIELD_WIP = "wip";
   public static final String FIELD_REVERTOF = "revertof";
+  public static final String FIELD_SOURCE = "source";
 
   public static final String ARG_ID_USER = "user";
   public static final String ARG_ID_GROUP = "group";
@@ -1252,6 +1253,14 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
     }
     throw new QueryParseException(
         "'submissionid' operator is not supported by change index version");
+  }
+  
+  @Operator
+  public Predicate<ChangeData> source(String value) throws QueryParseException {
+    if (args.getSchema().hasField(ChangeField.SOURCE)) {
+      return new SourcePredicate(value);
+    }
+    throw new QueryParseException("'source' operator is not supported by change index version");
   }
 
   @Override

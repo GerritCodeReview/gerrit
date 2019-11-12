@@ -228,13 +228,25 @@ limitations under the License.
         assert.isFalse(element.set.called);
       });
 
-      test('on create-range-comment action box is removed', () => {
+      test(`create-range-comment for range when create-comment-requested
+            is fired`, () => {
         sandbox.stub(element, '_removeActionBox');
-        element.fire('create-range-comment', {
-          comment: {
-            range: {},
+        element.selectedRange = {
+          side: 'left',
+          range: {
+            start_line: 7,
+            start_character: 11,
+            end_line: 24,
+            end_character: 42,
           },
+        };
+        const requestEvent = new CustomEvent('create-comment-requested');
+        let createRangeEvent;
+        element.addEventListener('create-range-comment', e => {
+          createRangeEvent = e;
         });
+        element.dispatchEvent(requestEvent);
+        assert.deepEqual(element.selectedRange, createRangeEvent.detail);
         assert.isTrue(element._removeActionBox.called);
       });
     });
@@ -270,14 +282,6 @@ limitations under the License.
         selection.addRange(range);
         element._handleSelection(selection);
       };
-
-      const getActionRange = () =>
-        Polymer.dom(element.root).querySelector(
-            'gr-selection-action-box').range;
-
-      const getActionSide = () =>
-        Polymer.dom(element.root).querySelector(
-            'gr-selection-action-box').side;
 
       const getLineElByChild = node => {
         const stubs = contentStubs.find(stub => stub.contentTd.contains(node));
@@ -329,14 +333,14 @@ limitations under the License.
         sandbox.spy(element, '_positionActionBox');
         emulateSelection(content.firstChild, 5, content.firstChild, 12);
         const actionBox = element.$$('gr-selection-action-box');
-        assert.isTrue(element.isRangeSelected());
-        assert.deepEqual(getActionRange(), {
+        const {range, side} = element.selectedRange;
+        assert.deepEqual(range, {
           start_line: 138,
           start_character: 5,
           end_line: 138,
           end_character: 12,
         });
-        assert.equal(getActionSide(), 'left');
+        assert.equal(side, 'left');
         assert.notOk(actionBox.positionBelow);
       });
 
@@ -346,16 +350,15 @@ limitations under the License.
         sandbox.spy(element, '_positionActionBox');
         emulateSelection(
             startContent.firstChild, 10, endContent.lastChild, 7);
-        assert.isTrue(element.isRangeSelected());
         const actionBox = element.$$('gr-selection-action-box');
-
-        assert.deepEqual(getActionRange(), {
+        const {range, side} = element.selectedRange;
+        assert.deepEqual(range, {
           start_line: 119,
           start_character: 10,
           end_line: 120,
           end_character: 36,
         });
-        assert.equal(getActionSide(), 'right');
+        assert.equal(side, 'right');
         assert.notOk(actionBox.positionBelow);
       });
 
@@ -381,8 +384,8 @@ limitations under the License.
           removeAllRanges: sandbox.stub(),
         };
         element._handleSelection(selection);
-        assert.isTrue(element.isRangeSelected());
-        assert.deepEqual(getActionRange(), {
+        const {range} = element.selectedRange;
+        assert.deepEqual(range, {
           start_line: 119,
           start_character: 10,
           end_line: 120,
@@ -394,43 +397,43 @@ limitations under the License.
         const startContent = stubContent(119, 'right');
         const endContent = stubContent(120, 'right');
         emulateSelection(startContent.firstChild, 10, endContent.firstChild, 2);
-        assert.isTrue(element.isRangeSelected());
-        assert.deepEqual(getActionRange(), {
+        const {range, side} = element.selectedRange;
+        assert.deepEqual(range, {
           start_line: 119,
           start_character: 10,
           end_line: 120,
           end_character: 2,
         });
-        assert.equal(getActionSide(), 'right');
+        assert.equal(side, 'right');
       });
 
       test('collapsed', () => {
         const content = stubContent(138, 'left');
         emulateSelection(content.firstChild, 5, content.firstChild, 5);
         assert.isOk(window.getSelection().getRangeAt(0).startContainer);
-        assert.isFalse(element.isRangeSelected());
+        assert.isFalse(!!element.selectedRange);
       });
 
       test('starts inside hl', () => {
         const content = stubContent(140, 'left');
         const hl = content.querySelector('.foo');
         emulateSelection(hl.firstChild, 2, hl.nextSibling, 7);
-        assert.isTrue(element.isRangeSelected());
-        assert.deepEqual(getActionRange(), {
+        const {range, side} = element.selectedRange;
+        assert.deepEqual(range, {
           start_line: 140,
           start_character: 8,
           end_line: 140,
           end_character: 23,
         });
-        assert.equal(getActionSide(), 'left');
+        assert.equal(side, 'left');
       });
 
       test('ends inside hl', () => {
         const content = stubContent(140, 'left');
         const hl = content.querySelector('.bar');
         emulateSelection(hl.previousSibling, 2, hl.firstChild, 3);
-        assert.isTrue(element.isRangeSelected());
-        assert.deepEqual(getActionRange(), {
+        const {range} = element.selectedRange;
+        assert.deepEqual(range, {
           start_line: 140,
           start_character: 18,
           end_line: 140,
@@ -442,14 +445,14 @@ limitations under the License.
         const content = stubContent(140, 'left');
         const hl = content.querySelectorAll('hl')[4];
         emulateSelection(content.firstChild, 2, hl.firstChild, 2);
-        assert.isTrue(element.isRangeSelected());
-        assert.deepEqual(getActionRange(), {
+        const {range, side} = element.selectedRange;
+        assert.deepEqual(range, {
           start_line: 140,
           start_character: 2,
           end_line: 140,
           end_character: 61,
         });
-        assert.equal(getActionSide(), 'left');
+        assert.equal(side, 'left');
       });
 
       test('starts outside of diff', () => {
@@ -458,21 +461,21 @@ limitations under the License.
 
         emulateSelection(contentTd.previousElementSibling, 0,
             contentText.firstChild, 2);
-        assert.isFalse(element.isRangeSelected());
+        assert.isFalse(!!element.selectedRange);
       });
 
       test('ends outside of diff', () => {
         const content = stubContent(140, 'left');
         emulateSelection(content.nextElementSibling.firstChild, 2,
             content.firstChild, 2);
-        assert.isFalse(element.isRangeSelected());
+        assert.isFalse(!!element.selectedRange);
       });
 
       test('starts and ends on different sides', () => {
         const startContent = stubContent(140, 'left');
         const endContent = stubContent(130, 'right');
         emulateSelection(startContent.firstChild, 2, endContent.firstChild, 2);
-        assert.isFalse(element.isRangeSelected());
+        assert.isFalse(!!element.selectedRange);
       });
 
       test('starts in comment thread element', () => {
@@ -481,14 +484,14 @@ limitations under the License.
             '.comment-thread');
         const endContent = stubContent(141, 'left');
         emulateSelection(comment.firstChild, 2, endContent.firstChild, 4);
-        assert.isTrue(element.isRangeSelected());
-        assert.deepEqual(getActionRange(), {
+        const {range, side} = element.selectedRange;
+        assert.deepEqual(range, {
           start_line: 140,
           start_character: 83,
           end_line: 141,
           end_character: 4,
         });
-        assert.equal(getActionSide(), 'left');
+        assert.equal(side, 'left');
       });
 
       test('ends in comment thread element', () => {
@@ -496,14 +499,14 @@ limitations under the License.
         const comment = content.parentElement.querySelector(
             '.comment-thread');
         emulateSelection(content.firstChild, 4, comment.firstChild, 1);
-        assert.isTrue(element.isRangeSelected());
-        assert.deepEqual(getActionRange(), {
+        const {range, side} = element.selectedRange;
+        assert.deepEqual(range, {
           start_line: 140,
           start_character: 4,
           end_line: 140,
           end_character: 83,
         });
-        assert.equal(getActionSide(), 'left');
+        assert.equal(side, 'left');
       });
 
       test('starts in context element', () => {
@@ -512,7 +515,7 @@ limitations under the License.
         const content = stubContent(146, 'right');
         emulateSelection(contextControl, 0, content.firstChild, 7);
         // TODO (viktard): Select nearest line.
-        assert.isFalse(element.isRangeSelected());
+        assert.isFalse(!!element.selectedRange);
       });
 
       test('ends in context element', () => {
@@ -521,35 +524,35 @@ limitations under the License.
         const content = stubContent(141, 'left');
         emulateSelection(content.firstChild, 2, contextControl, 1);
         // TODO (viktard): Select nearest line.
-        assert.isFalse(element.isRangeSelected());
+        assert.isFalse(!!element.selectedRange);
       });
 
       test('selection containing context element', () => {
         const startContent = stubContent(130, 'right');
         const endContent = stubContent(146, 'right');
         emulateSelection(startContent.firstChild, 3, endContent.firstChild, 14);
-        assert.isTrue(element.isRangeSelected());
-        assert.deepEqual(getActionRange(), {
+        const {range, side} = element.selectedRange;
+        assert.deepEqual(range, {
           start_line: 130,
           start_character: 3,
           end_line: 146,
           end_character: 14,
         });
-        assert.equal(getActionSide(), 'right');
+        assert.equal(side, 'right');
       });
 
       test('ends at a tab', () => {
         const content = stubContent(140, 'left');
         emulateSelection(
             content.firstChild, 1, content.querySelector('span'), 0);
-        assert.isTrue(element.isRangeSelected());
-        assert.deepEqual(getActionRange(), {
+        const {range, side} = element.selectedRange;
+        assert.deepEqual(range, {
           start_line: 140,
           start_character: 1,
           end_line: 140,
           end_character: 51,
         });
-        assert.equal(getActionSide(), 'left');
+        assert.equal(side, 'left');
       });
 
       test('starts at a tab', () => {
@@ -557,14 +560,14 @@ limitations under the License.
         emulateSelection(
             content.querySelectorAll('hl')[3], 0,
             content.querySelectorAll('span')[1].nextSibling, 1);
-        assert.isTrue(element.isRangeSelected());
-        assert.deepEqual(getActionRange(), {
+        const {range, side} = element.selectedRange;
+        assert.deepEqual(range, {
           start_line: 140,
           start_character: 51,
           end_line: 140,
           end_character: 71,
         });
-        assert.equal(getActionSide(), 'left');
+        assert.equal(side, 'left');
       });
 
       test('properly accounts for syntax highlighting', () => {
@@ -593,14 +596,14 @@ limitations under the License.
         const startContent = stubContent(119, 'right');
         const endContent = stubContent(120, 'right');
         emulateSelection(startContent.firstChild, 0, endContent.firstChild, 0);
-        assert.isTrue(element.isRangeSelected());
-        assert.deepEqual(getActionRange(), {
+        const {range, side} = element.selectedRange;
+        assert.deepEqual(range, {
           start_line: 119,
           start_character: 0,
           end_line: 119,
           end_character: element._getLength(startContent),
         });
-        assert.equal(getActionSide(), 'right');
+        assert.equal(side, 'right');
       });
 
       test('_fixTripleClickSelection empty line', () => {
@@ -608,14 +611,14 @@ limitations under the License.
         const endContent = stubContent(165, 'left');
         emulateSelection(startContent.firstChild, 0,
             endContent.parentElement.previousElementSibling, 0);
-        assert.isTrue(element.isRangeSelected());
-        assert.deepEqual(getActionRange(), {
+        const {range, side} = element.selectedRange;
+        assert.deepEqual(range, {
           start_line: 146,
           start_character: 0,
           end_line: 146,
           end_character: 84,
         });
-        assert.equal(getActionSide(), 'right');
+        assert.equal(side, 'right');
       });
     });
   });

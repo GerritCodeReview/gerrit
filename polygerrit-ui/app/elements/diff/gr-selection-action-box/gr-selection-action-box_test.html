@@ -59,11 +59,6 @@ limitations under the License.
       assert.isFalse(element.fire.called);
     });
 
-    test('reacts to hotkey', () => {
-      MockInteractions.pressAndReleaseKeyOn(document.body, 67, null, 'c');
-      assert.isTrue(element.fire.called);
-    });
-
     suite('mousedown reacts only to main button', () => {
       let e;
 
@@ -73,38 +68,20 @@ limitations under the License.
           preventDefault: sandbox.stub(),
           stopPropagation: sandbox.stub(),
         };
-        sandbox.stub(element, '_fireCreateComment');
       });
 
       test('event handled if main button', () => {
         element._handleMouseDown(e);
         assert.isTrue(e.preventDefault.called);
+        assert(element.fire.calledWithExactly('create-comment-requested'));
       });
 
       test('event ignored if not main button', () => {
         e.button = 1;
         element._handleMouseDown(e);
         assert.isFalse(e.preventDefault.called);
+        assert.isFalse(element.fire.called);
       });
-    });
-
-    test('event fired contains playload', () => {
-      const side = 'left';
-      const range = {
-        start_line: 1,
-        start_character: 11,
-        end_line: 2,
-        end_character: 42,
-      };
-      element.side = 'left';
-      element.range = range;
-      MockInteractions.pressAndReleaseKeyOn(document.body, 67, null, 'c');
-      assert(element.fire.calledWithExactly(
-          'create-range-comment',
-          {
-            side,
-            range,
-          }));
     });
 
     suite('placeAbove', () => {

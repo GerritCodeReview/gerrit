@@ -28,7 +28,9 @@ limitations under the License.
 
 <dom-module id="gr-label-info">
   <template strip-whitespace>
-    <style include="gr-voting-styles"></style>
+    <style include="gr-voting-styles">
+      /* Workaround for empty style block - see https://github.com/Polymer/tools/issues/408 */
+    </style>
     <style include="shared-styles">
       .placeholder {
         color: var(--deemphasized-text-color);

@@ -24,7 +24,9 @@ limitations under the License.
 
 <dom-module id="gr-watched-projects-editor">
   <template>
-    <style include="shared-styles"></style>
+    <style include="shared-styles">
+      /* Workaround for empty style block - see https://github.com/Polymer/tools/issues/408 */
+    </style>
     <style include="gr-form-styles">
       #watchedProjects .notifType {
         text-align: center;

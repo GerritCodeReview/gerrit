@@ -82,8 +82,12 @@ limitations under the License.
         display: block;
       }
     </style>
-    <style include="gr-form-styles"></style>
-    <style include="gr-menu-page-styles"></style>
+    <style include="gr-form-styles">
+      /* Workaround for empty style block - see https://github.com/Polymer/tools/issues/408 */
+    </style>
+    <style include="gr-menu-page-styles">
+      /* Workaround for empty style block - see https://github.com/Polymer/tools/issues/408 */
+    </style>
     <section
         id="permission"
         class$="gr-form-styles [[_computeSectionClass(editing, _deleted)]]">

@@ -21,6 +21,7 @@ import com.google.common.flogger.FluentLogger;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.extensions.registration.DynamicMap;
+import com.google.gerrit.server.cache.CacheBackend;
 import com.google.gerrit.server.cache.MemoryCacheFactory;
 import com.google.gerrit.server.cache.PersistentCacheDef;
 import com.google.gerrit.server.cache.PersistentCacheFactory;
@@ -156,18 +157,21 @@ class H2CacheFactory implements PersistentCacheFactory, LifecycleListener {
 
   @SuppressWarnings({"unchecked"})
   @Override
-  public <K, V> Cache<K, V> build(PersistentCacheDef<K, V> in) {
+  public <K, V> Cache<K, V> build(PersistentCacheDef<K, V> in, CacheBackend backend) {
     long limit = config.getLong("cache", in.configKey(), "diskLimit", in.diskLimit());
 
     if (cacheDir == null || limit <= 0) {
-      return memCacheFactory.build(in);
+      return memCacheFactory.build(in, backend);
     }
 
     H2CacheDefProxy<K, V> def = new H2CacheDefProxy<>(in);
     SqlStore<K, V> store = newSqlStore(def, limit);
     H2CacheImpl<K, V> cache =
         new H2CacheImpl<>(
-            executor, store, def.keyType(), (Cache<K, ValueHolder<V>>) memCacheFactory.build(def));
+            executor,
+            store,
+            def.keyType(),
+            (Cache<K, ValueHolder<V>>) memCacheFactory.build(def, backend));
     synchronized (caches) {
       caches.add(cache);
     }
@@ -176,11 +180,12 @@ class H2CacheFactory implements PersistentCacheFactory, LifecycleListener {
 
   @SuppressWarnings("unchecked")
   @Override
-  public <K, V> LoadingCache<K, V> build(PersistentCacheDef<K, V> in, CacheLoader<K, V> loader) {
+  public <K, V> LoadingCache<K, V> build(
+      PersistentCacheDef<K, V> in, CacheLoader<K, V> loader, CacheBackend backend) {
     long limit = config.getLong("cache", in.configKey(), "diskLimit", in.diskLimit());
 
     if (cacheDir == null || limit <= 0) {
-      return memCacheFactory.build(in, loader);
+      return memCacheFactory.build(in, loader, backend);
     }
 
     H2CacheDefProxy<K, V> def = new H2CacheDefProxy<>(in);
@@ -188,7 +193,9 @@ class H2CacheFactory implements PersistentCacheFactory, LifecycleListener {
     Cache<K, ValueHolder<V>> mem =
         (Cache<K, ValueHolder<V>>)
             memCacheFactory.build(
-                def, (CacheLoader<K, V>) new H2CacheImpl.Loader<>(executor, store, loader));
+                def,
+                (CacheLoader<K, V>) new H2CacheImpl.Loader<>(executor, store, loader),
+                backend);
     H2CacheImpl<K, V> cache = new H2CacheImpl<>(executor, store, def.keyType(), mem);
     synchronized (caches) {
       caches.add(cache);

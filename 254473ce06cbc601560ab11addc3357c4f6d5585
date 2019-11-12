@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f4d843b3_91b5257d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1014257
+      },
+      "writtenOn": "2019-11-12T00:50:24Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "671e2cda_06a056af",
+      "range": {
+        "startLine": 10,
+        "startChar": 46,
+        "endLine": 10,
+        "endChar": 50
+      },
+      "revId": "254473ce06cbc601560ab11addc3357c4f6d5585",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "62467aa3_6c9b1280",
         "filename": "Documentation/intro-gerrit-walkthrough.txt",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2019-11-12T00:38:13Z",
       "side": 1,
       "message": "Remove this empty prompt command line?",
+      "range": {
+        "startLine": 205,
+        "startChar": 0,
+        "endLine": 205,
+        "endChar": 1
+      },
+      "revId": "254473ce06cbc601560ab11addc3357c4f6d5585",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7cc1badd_dbb8f839",
+        "filename": "Documentation/intro-gerrit-walkthrough.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1014257
+      },
+      "writtenOn": "2019-11-12T00:50:24Z",
+      "side": 1,
+      "message": "Well I will prefer to keep it as it is the result of this command",
+      "parentUuid": "62467aa3_6c9b1280",
       "range": {
         "startLine": 205,
         "startChar": 0,
@@ -91,6 +139,54 @@
       "revId": "254473ce06cbc601560ab11addc3357c4f6d5585",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "da956ff8_1436c650",
+        "filename": "Documentation/intro-gerrit-walkthrough.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1014257
+      },
+      "writtenOn": "2019-11-12T00:50:24Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "a8b6c6af_4659a5b9",
+      "range": {
+        "startLine": 208,
+        "startChar": 18,
+        "endLine": 208,
+        "endChar": 28
+      },
+      "revId": "254473ce06cbc601560ab11addc3357c4f6d5585",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "254d1035_acbd7593",
+        "filename": "Documentation/intro-gerrit-walkthrough.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1014257
+      },
+      "writtenOn": "2019-11-12T00:50:24Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "b1255901_9a606c5d",
+      "range": {
+        "startLine": 208,
+        "startChar": 44,
+        "endLine": 208,
+        "endChar": 53
+      },
+      "revId": "254473ce06cbc601560ab11addc3357c4f6d5585",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

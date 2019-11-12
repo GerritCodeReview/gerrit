@@ -109,7 +109,7 @@ limitations under the License.
 
         assert.isNotOk(Polymer.dom(items[0]).querySelector('gr-date-formatter'));
         assert.isNotOk(Polymer.dom(items[0]).querySelector('.bottomContent'));
-        assert.equal(items[0].value, element.items[0].value);
+        assert.equal(items[0].dataset.value, element.items[0].value);
         assert.equal(mobileItems[0].value, element.items[0].value);
         assert.equal(Polymer.dom(items[0]).querySelector('.topContent div')
             .innerText, element.items[0].text);
@@ -126,7 +126,7 @@ limitations under the License.
 
         assert.isNotOk(Polymer.dom(items[1]).querySelector('gr-date-formatter'));
         assert.isOk(Polymer.dom(items[1]).querySelector('.bottomContent'));
-        assert.equal(items[1].value, element.items[1].value);
+        assert.equal(items[1].dataset.value, element.items[1].value);
         assert.equal(mobileItems[1].value, element.items[1].value);
         assert.equal(Polymer.dom(items[1]).querySelector('.topContent div')
             .innerText, element.items[1].text);
@@ -147,7 +147,7 @@ limitations under the License.
 
         assert.isOk(Polymer.dom(items[2]).querySelector('gr-date-formatter'));
         assert.isOk(Polymer.dom(items[2]).querySelector('.bottomContent'));
-        assert.equal(items[2].value, element.items[2].value);
+        assert.equal(items[2].dataset.value, element.items[2].value);
         assert.equal(mobileItems[2].value, element.items[2].value);
         assert.equal(Polymer.dom(items[2]).querySelector('.topContent div')
             .innerText, element.items[2].text);

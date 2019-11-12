@@ -394,15 +394,10 @@
     },
 
     _handleNewComment(e) {
-      if (this.shouldSuppressKeyboardShortcut(e)) { return; }
-      if (this.$.diffHost.isRangeSelected()) { return; }
-      if (this.modifierPressed(e)) { return; }
-
+      if (this.shouldSuppressKeyboardShortcut(e) ||
+          this.modifierPressed(e)) { return; }
       e.preventDefault();
-      const line = this.$.cursor.getTargetLineElement();
-      if (line) {
-        this.$.diffHost.addDraftAtLine(line);
-      }
+      this.$.cursor.createCommentInPlace();
     },
 
     _handlePrevFile(e) {

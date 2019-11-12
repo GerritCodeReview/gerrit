@@ -259,6 +259,67 @@ limitations under the License.
       );
     });
 
+    suite('createCommentInPlace', () => {
+      setup(done => {
+        diffElement.loggedIn = true;
+        done();
+      });
+
+      test('adds new draft for selected line on the left', done => {
+        cursorElement.moveToLineNumber(2, 'left');
+        diffElement.addEventListener('create-comment', e => {
+          const {lineNum, range, side, patchNum} = e.detail;
+          assert.equal(lineNum, 2);
+          assert.equal(range, undefined);
+          assert.equal(patchNum, 1);
+          assert.equal(side, 'left');
+          done();
+        });
+        cursorElement.createCommentInPlace();
+      });
+
+      test('adds draft for selected line on the right', done => {
+        cursorElement.moveToLineNumber(4, 'right');
+        diffElement.addEventListener('create-comment', e => {
+          const {lineNum, range, side, patchNum} = e.detail;
+          assert.equal(lineNum, 4);
+          assert.equal(range, undefined);
+          assert.equal(patchNum, 2);
+          assert.equal(side, 'right');
+          done();
+        });
+        cursorElement.createCommentInPlace();
+      });
+
+      test('createCommentInPlace creates comment for range if selected', done => {
+        const selectedRange = {
+          start_line: 2,
+          start_character: 3,
+          end_line: 6,
+          end_character: 1,
+        };
+        sandbox.stub(diffElement.$.highlights, 'getSelectionBox')
+            .returns({range: selectedRange, side: 'right'});
+        diffElement.addEventListener('create-comment', e => {
+          const {lineNum, range, side, patchNum} = e.detail;
+          assert.equal(lineNum, 6);
+          assert.equal(range, selectedRange);
+          assert.equal(patchNum, 2);
+          assert.equal(side, 'right');
+          done();
+        });
+        cursorElement.createCommentInPlace();
+      });
+
+      test('createCommentInPlace ignores call if nothing is selected', () => {
+        diffElement.addEventListener('create-comment', () => {
+          assert.fail('Should not create comment in this case!');
+        });
+        cursorElement.diffRow = undefined;
+        cursorElement.createCommentInPlace();
+      });
+    });
+
     test('getAddress', () => {
       // It should initialize to the first chunk: line 5 of the revision.
       assert.deepEqual(cursorElement.getAddress(),

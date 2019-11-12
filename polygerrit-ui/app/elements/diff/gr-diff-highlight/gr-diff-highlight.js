@@ -54,7 +54,11 @@
     },
 
     isRangeSelected() {
-      return !!this.$$('gr-selection-action-box');
+      return !!this.getSelectionBox();
+    },
+
+    getSelectionBox() {
+      return this.$$('gr-selection-action-box');
     },
 
     /**
@@ -360,7 +364,7 @@
         return;
       }
 
-      let actionBox = this.$$('gr-selection-action-box');
+      let actionBox = this.getSelectionBox();
       if (!actionBox) {
         actionBox = document.createElement('gr-selection-action-box');
         const root = Polymer.dom(this.root);

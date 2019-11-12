@@ -49,6 +49,7 @@ limitations under the License.
     teardown(() => { sandbox.restore(); });
 
     test('save event', done => {
+      element.content = '';
       element._newContent = 'foo';
       element.addEventListener('editable-content-save', e => {
         assert.equal(e.detail.content, 'foo');

@@ -21,6 +21,7 @@ import static com.google.gerrit.entities.RefNames.changeMetaRef;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_ASSIGNEE;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_BRANCH;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_CHANGE_ID;
+import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_CHERRY_PICK_OF;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_COMMIT;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_CURRENT;
 import static com.google.gerrit.server.notedb.ChangeNoteUtil.FOOTER_GROUPS;
@@ -137,6 +138,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private Boolean isPrivate;
   private Boolean workInProgress;
   private Integer revertOf;
+  private String cherryPickOf;
 
   private ChangeDraftUpdate draftUpdate;
   private RobotCommentUpdate robotCommentUpdate;
@@ -417,6 +419,10 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     rootOnly = true;
   }
 
+  public void setCherryPickOf(String cherryPickOf) {
+    this.cherryPickOf = cherryPickOf;
+  }
+
   /** @return the tree id for the updated tree */
   private ObjectId storeRevisionNotes(RevWalk rw, ObjectInserter inserter, ObjectId curr)
       throws ConfigInvalidException, IOException {
@@ -665,6 +671,10 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       addFooter(msg, FOOTER_REVERT_OF, revertOf);
     }
 
+    if (cherryPickOf != null) {
+      addFooter(msg, FOOTER_CHERRY_PICK_OF, cherryPickOf);
+    }
+
     cb.setMessage(msg.toString());
     try {
       ObjectId treeId = storeRevisionNotes(rw, ins, curr);
@@ -714,7 +724,8 @@ public class ChangeUpdate extends AbstractChangeUpdate {
         && !currentPatchSet
         && isPrivate == null
         && workInProgress == null
-        && revertOf == null;
+        && revertOf == null
+        && cherryPickOf == null;
   }
 
   ChangeDraftUpdate getDraftUpdate() {

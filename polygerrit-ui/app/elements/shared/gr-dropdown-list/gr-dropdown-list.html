@@ -142,7 +142,7 @@ limitations under the License.
       <paper-listbox
           class="dropdown-content"
           slot="dropdown-content"
-          attr-for-selected="value"
+          attr-for-selected="data-value"
           selected="{{value}}"
           on-tap="_handleDropdownTap">
         <template is="dom-repeat"
@@ -150,7 +150,7 @@ limitations under the License.
             initial-count="[[initialCount]]">
           <paper-item
               disabled="[[item.disabled]]"
-              value="[[item.value]]">
+              data-value$="[[item.value]]">
             <div class="topContent">
               <div>[[item.text]]</div>
               <template is="dom-if" if="[[item.date]]">

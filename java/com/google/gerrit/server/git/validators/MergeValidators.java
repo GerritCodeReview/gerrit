@@ -23,7 +23,6 @@ import com.google.gerrit.extensions.registration.Extension;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.Branch;
-import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.client.RefNames;
@@ -84,7 +83,6 @@ public class MergeValidators {
       CodeReviewCommit commit,
       ProjectState destProject,
       Branch.NameKey destBranch,
-      Change.Id changeId,
       PatchSet.Id patchSetId,
       IdentifiedUser caller)
       throws MergeValidationException {
@@ -96,7 +94,7 @@ public class MergeValidators {
             groupValidatorFactory.create());
 
     for (MergeValidationListener validator : validators) {
-      validator.onPreMerge(repo, commit, destProject, destBranch, changeId, patchSetId, caller);
+      validator.onPreMerge(repo, commit, destProject, destBranch, patchSetId, caller);
     }
   }
 
@@ -158,7 +156,6 @@ public class MergeValidators {
         final CodeReviewCommit commit,
         final ProjectState destProject,
         final Branch.NameKey destBranch,
-        final Change.Id changeId,
         final PatchSet.Id patchSetId,
         IdentifiedUser caller)
         throws MergeValidationException {
@@ -254,12 +251,11 @@ public class MergeValidators {
         CodeReviewCommit commit,
         ProjectState destProject,
         Branch.NameKey destBranch,
-        Change.Id changeId,
         PatchSet.Id patchSetId,
         IdentifiedUser caller)
         throws MergeValidationException {
       mergeValidationListeners.runEach(
-          l -> l.onPreMerge(repo, commit, destProject, destBranch, changeId, patchSetId, caller),
+          l -> l.onPreMerge(repo, commit, destProject, destBranch, patchSetId, caller),
           MergeValidationException.class);
     }
   }
@@ -292,7 +288,6 @@ public class MergeValidators {
         CodeReviewCommit commit,
         ProjectState destProject,
         Branch.NameKey destBranch,
-        Change.Id changeId,
         PatchSet.Id patchSetId,
         IdentifiedUser caller)
         throws MergeValidationException {
@@ -344,7 +339,6 @@ public class MergeValidators {
         CodeReviewCommit commit,
         ProjectState destProject,
         Branch.NameKey destBranch,
-        Change.Id changeId,
         PatchSet.Id patchSetId,
         IdentifiedUser caller)
         throws MergeValidationException {

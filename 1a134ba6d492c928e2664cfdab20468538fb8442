@@ -22,6 +22,30 @@
       "revId": "1a134ba6d492c928e2664cfdab20468538fb8442",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cea76d3b_0393aeec",
+        "filename": "Jenkinsfile",
+        "patchSetId": 5
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-11-13T13:54:45Z",
+      "side": 1,
+      "message": "Pardon me, it is early morning. Yes, if we change the WORKSPACE file, even if there are no java code changes we *NEED* to rebuild java code also.",
+      "parentUuid": "046cb6ad_eee461d9",
+      "range": {
+        "startLine": 150,
+        "startChar": 0,
+        "endLine": 153,
+        "endChar": 1
+      },
+      "revId": "1a134ba6d492c928e2664cfdab20468538fb8442",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

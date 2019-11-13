@@ -28,14 +28,14 @@ limitations under the License.
 
 <test-fixture id="basic">
   <template>
-    <test-element></test-element>
+    <keyboard-shortcut-mixin-element></keyboard-shortcut-mixin-element>
   </template>
 </test-fixture>
 
 <test-fixture id="within-overlay">
   <template>
     <gr-overlay>
-      <test-element></test-element>
+      <keyboard-shortcut-mixin-element></keyboard-shortcut-mixin-element>
     </gr-overlay>
   </template>
 </test-fixture>
@@ -48,17 +48,26 @@ limitations under the License.
     let overlay;
     let sandbox;
 
+    const mixinIs = 'keyboard-shortcut-mixin-element';
+
     suiteSetup(() => {
-      // Define a Polymer element that uses this behavior.
-      Polymer({
-        is: 'test-element',
-        behaviors: [Gerrit.KeyboardShortcutBehavior],
-        keyBindings: {
-          k: '_handleKey',
-          enter: '_handleKey',
-        },
-        _handleKey() {},
-      });
+      // Define a Polymer element that uses this mixin.
+      class TestElement extends Gerrit.KeyboardShortcutMixin(Polymer.Element) {
+        static get is() {
+          return mixinIs;
+        }
+
+        get keyBindings() {
+          return {
+            k: '_handleKey',
+            enter: '_handleKey',
+          };
+        }
+
+        _handleKey() {}
+      }
+
+      customElements.define(TestElement.is, TestElement);
     });
 
     setup(() => {
@@ -325,7 +334,7 @@ limitations under the License.
 
     test('blocks kb shortcuts for anything in a gr-overlay', done => {
       const divEl = document.createElement('div');
-      const element = overlay.querySelector('test-element');
+      const element = overlay.querySelector('keyboard-shortcut-mixin-element');
       element.appendChild(divEl);
       element._handleKey = e => {
         assert.isTrue(element.shouldSuppressKeyboardShortcut(e));
@@ -336,7 +345,7 @@ limitations under the License.
 
     test('blocks enter shortcut on an anchor', done => {
       const anchorEl = document.createElement('a');
-      const element = overlay.querySelector('test-element');
+      const element = overlay.querySelector(mixinIs);
       element.appendChild(anchorEl);
       element._handleKey = e => {
         assert.isTrue(element.shouldSuppressKeyboardShortcut(e));

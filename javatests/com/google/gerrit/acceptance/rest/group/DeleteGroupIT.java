@@ -15,25 +15,36 @@
 package com.google.gerrit.acceptance.rest.group;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth8.assertThat;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
+import static com.google.gerrit.common.data.Permission.OWNER;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
+
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.data.GroupDescription;
+import com.google.gerrit.common.data.GroupReference;
+import com.google.gerrit.entities.AccountGroup;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.group.SystemGroupBackend;
+import com.google.gerrit.server.group.db.GroupNameNotes;
 import com.google.gerrit.server.group.testing.TestGroupBackend;
 import com.google.inject.Inject;
-import org.junit.Ignore;
+import java.util.Optional;
+import org.eclipse.jgit.lib.Repository;
 import org.junit.Test;
 
 public class DeleteGroupIT extends AbstractDaemonTest {
   @Inject private DynamicSet<GroupBackend> groupBackends;
   @Inject private RequestScopeOperations requestScopeOperations;
+  @Inject private ProjectOperations projectOperations;
   private final TestGroupBackend testGroupBackend = new TestGroupBackend();
 
   @Test
@@ -76,10 +87,20 @@ public class DeleteGroupIT extends AbstractDaemonTest {
   }
 
   @Test
-  @Ignore
   public void cannotDeleteGroupUsedInRefPermissions() throws Exception {
-    // TODO should it be possible to delete a group if it is used
-    // to set permissions?
+    String group = createGroup("group");
+    assertThat(gApi.groups().id(group).get()).isNotNull();
+    Optional<GroupReference> groupRef = Optional.empty();
+    try (Repository repo = repoManager.openRepository(Project.nameKey("All-Users"))) {
+      groupRef = GroupNameNotes.loadGroup(repo, AccountGroup.nameKey(group));
+    }
+    assertThat(groupRef).isPresent();
+    projectOperations
+        .project(Project.nameKey("All-Users"))
+        .forUpdate()
+        .add(allow(OWNER).ref("refs/*").group(groupRef.get().getUUID()))
+        .update();
+    assertThrows(ResourceConflictException.class, () -> gApi.groups().id(group).delete());
   }
 
   @Test

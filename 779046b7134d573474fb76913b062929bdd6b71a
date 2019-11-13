@@ -22,6 +22,30 @@
       "revId": "779046b7134d573474fb76913b062929bdd6b71a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0e4d91d3_c80a4b3f",
+        "filename": "java/com/google/gerrit/pgm/http/jetty/ProjectQoSFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1006432
+      },
+      "writtenOn": "2019-11-13T19:12:32Z",
+      "side": 1,
+      "message": "EXPIRED and CANCELED end up being the same state. EXPIRED happened in Continuation.onTimeout(), which calls cancel() on the Future task. In that cancel() we record the request as CANCELED.\n\nRemoved EXPIRED.",
+      "parentUuid": "9ed48a98_cfb90796",
+      "range": {
+        "startLine": 130,
+        "startChar": 6,
+        "endLine": 132,
+        "endChar": 14
+      },
+      "revId": "779046b7134d573474fb76913b062929bdd6b71a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

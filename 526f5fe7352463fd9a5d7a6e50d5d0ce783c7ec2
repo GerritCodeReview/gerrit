@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "89480830_2302b6ac",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-11-13T15:23:38Z",
+      "side": 1,
+      "message": "Document type. Something like `@type {{side: string, range: Gerrit.Range}}`",
+      "revId": "526f5fe7352463fd9a5d7a6e50d5d0ce783c7ec2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "73266463_ccb21bcb",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-11-13T15:23:38Z",
+      "side": 1,
+      "message": "Maybe document \"undefined/null when no range is selected\"...",
+      "revId": "526f5fe7352463fd9a5d7a6e50d5d0ce783c7ec2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "16dbad85_150a0942",
+        "filename": "polygerrit-ui/app/elements/diff/gr-selection-action-box/gr-selection-action-box.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-11-13T15:23:38Z",
+      "side": 1,
+      "message": "Can you explain why you changed this? I think using an event here is more idiomatic in Polymer than passing in a callback.\n\nIf we anyways listen to any mousedown events anywhere on this component, and all we do is call a callback, could we install this listener one level higher, like in gr-diff-highlight.js\n\nactionBox.addEventListener(\u0027mousedown\u0027, ....)\n\nI think that would make things simpler...",
+      "revId": "526f5fe7352463fd9a5d7a6e50d5d0ce783c7ec2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

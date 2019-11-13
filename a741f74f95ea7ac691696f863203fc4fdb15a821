@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "f6aea52b_075ca76f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor_test.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-11-13T15:23:38Z",
+      "side": 1,
+      "message": "Yes, that\u0027s reasonable. If this was a new code base we or in the medium term it might be good to rely less on events and use an async abstraction like promises instead - this could return a Promise\u003cboolean\u003e for example. But I agree that a lot of the stuff here is not ideal, and we cannot boil the ocean.",
+      "parentUuid": "86f8be95_cd9cb8c3",
+      "revId": "a741f74f95ea7ac691696f863203fc4fdb15a821",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "55d9a1e2_e1b7f61e",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
         "patchSetId": 7

@@ -29,9 +29,11 @@ import com.google.common.collect.Lists;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Patch;
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.changes.DeleteCommentInput;
 import com.google.gerrit.extensions.api.changes.DraftInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
@@ -68,6 +70,7 @@ import java.util.function.Supplier;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.eclipse.jgit.lib.ObjectReader;
+import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.notes.NoteMap;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -81,6 +84,7 @@ public class CommentsIT extends AbstractDaemonTest {
   @Inject private Provider<ChangesCollection> changes;
   @Inject private Provider<PostReview> postReview;
   @Inject private RequestScopeOperations requestScopeOperations;
+  @Inject ProjectOperations projectOperations;
 
   private final Integer[] lines = {0, 1};
 
@@ -311,6 +315,47 @@ public class CommentsIT extends AbstractDaemonTest {
     // DraftHandling.KEEP is ignored on publishing a comment.
     drafts = getDraftComments(changeId, revId);
     assertThat(drafts).isEmpty();
+  }
+
+  @Test
+  public void postCommentsUnreachableData() throws Exception {
+    requestScopeOperations.setApiUser(admin.id());
+
+    String file = "file";
+    PushOneCommit push =
+        pushFactory.create(admin.newIdent(), testRepo, "first subject", file, "l1\nl2\n");
+
+    String dest = "refs/for/master";
+    PushOneCommit.Result r1 = push.to(dest);
+    r1.assertOkStatus();
+    String changeId = r1.getChangeId();
+    String revId = r1.getCommit().getName();
+
+    PushOneCommit.Result r2 = amendChange(r1.getChangeId());
+    r2.assertOkStatus();
+
+    String draftRefName = RefNames.refsDraftComments(r1.getChange().getId(), admin.id());
+
+    DraftInput draft = newDraft(file, Side.REVISION, 1, "comment");
+    addDraft(changeId, "1", draft);
+    ReviewInput reviewInput = new ReviewInput();
+    reviewInput.drafts = DraftHandling.PUBLISH;
+    reviewInput.message = "foo";
+    gApi.changes().id(r1.getChangeId()).revision(1).review(reviewInput);
+
+    addDraft(changeId, "2", newDraft(file, Side.REVISION, 2, "comment2"));
+    reviewInput = new ReviewInput();
+    reviewInput.drafts = DraftHandling.PUBLISH_ALL_REVISIONS;
+    reviewInput.message = "bar";
+    gApi.changes().id(r1.getChangeId()).revision(2).review(reviewInput);
+
+    Map<String, List<CommentInfo>> drafts = getDraftComments(changeId, revId);
+    assertThat(drafts.isEmpty()).isTrue();
+
+    try (Repository repo = repoManager.openRepository(allUsers)) {
+      Ref ref = repo.exactRef(draftRefName);
+      assertThat(ref).isNull();
+    }
   }
 
   @Test

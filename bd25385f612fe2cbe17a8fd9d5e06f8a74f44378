@@ -51,6 +51,24 @@
       "revId": "bd25385f612fe2cbe17a8fd9d5e06f8a74f44378",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "068f600f_49e7d90c",
+        "filename": "WORKSPACE",
+        "patchSetId": 11
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-11-13T14:08:05Z",
+      "side": 1,
+      "message": "Switched to consuming: jakarta.servlet:jakarta.servlet-api artifact. Done.",
+      "parentUuid": "2ce73930_516ff8db",
+      "revId": "bd25385f612fe2cbe17a8fd9d5e06f8a74f44378",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

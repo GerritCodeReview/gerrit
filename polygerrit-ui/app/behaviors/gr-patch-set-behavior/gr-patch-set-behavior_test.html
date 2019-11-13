@@ -24,18 +24,43 @@ limitations under the License.
 
 <link rel="import" href="gr-patch-set-behavior.html">
 
+<test-fixture id="basic">
+  <template>
+    <patch-set-mixin-element></patch-set-mixin-element>
+  </template>
+</test-fixture>
+
 <script>
   suite('gr-patch-set-behavior tests', () => {
+    let element;
+
+    suiteSetup(() => {
+      // Define a Polymer element that uses this mixin.
+      class TestElement extends Gerrit.PatchSetMixin(Polymer.Element) {
+        static get is() {
+          return 'patch-set-mixin-element';
+        }
+      }
+
+      customElements.define(TestElement.is, TestElement);
+    });
+
+    setup(() => {
+      element = fixture('basic');
+    });
+
     test('getRevisionByPatchNum', () => {
-      const get = Gerrit.PatchSetBehavior.getRevisionByPatchNum;
       const revisions = [
         {_number: 0},
         {_number: 1},
         {_number: 2},
       ];
-      assert.deepEqual(get(revisions, '1'), revisions[1]);
-      assert.deepEqual(get(revisions, 2), revisions[2]);
-      assert.equal(get(revisions, '3'), undefined);
+      assert.deepEqual(
+          element.getRevisionByPatchNum(revisions, '1'), revisions[1]);
+      assert.deepEqual(
+          element.getRevisionByPatchNum(revisions, 2), revisions[2]);
+      assert.equal(
+          element.getRevisionByPatchNum(revisions, '3'), undefined);
     });
 
     test('fetchChangeUpdates on latest', done => {
@@ -52,7 +77,7 @@ limitations under the License.
           return Promise.resolve(knownChange);
         },
       };
-      Gerrit.PatchSetBehavior.fetchChangeUpdates(knownChange, mockRestApi)
+      element.fetchChangeUpdates(knownChange, mockRestApi)
           .then(result => {
             assert.isTrue(result.isLatest);
             assert.isNotOk(result.newStatus);
@@ -84,7 +109,7 @@ limitations under the License.
           return Promise.resolve(actualChange);
         },
       };
-      Gerrit.PatchSetBehavior.fetchChangeUpdates(knownChange, mockRestApi)
+      element.fetchChangeUpdates(knownChange, mockRestApi)
           .then(result => {
             assert.isFalse(result.isLatest);
             assert.isNotOk(result.newStatus);
@@ -115,7 +140,7 @@ limitations under the License.
           return Promise.resolve(actualChange);
         },
       };
-      Gerrit.PatchSetBehavior.fetchChangeUpdates(knownChange, mockRestApi)
+      element.fetchChangeUpdates(knownChange, mockRestApi)
           .then(result => {
             assert.isTrue(result.isLatest);
             assert.equal(result.newStatus, 'MERGED');
@@ -146,7 +171,7 @@ limitations under the License.
           return Promise.resolve(actualChange);
         },
       };
-      Gerrit.PatchSetBehavior.fetchChangeUpdates(knownChange, mockRestApi)
+      element.fetchChangeUpdates(knownChange, mockRestApi)
           .then(result => {
             assert.isTrue(result.isLatest);
             assert.isNotOk(result.newStatus);
@@ -182,7 +207,7 @@ limitations under the License.
           }
         }
         let patchNums = revs.map(rev => { return {num: rev}; });
-        patchNums = Gerrit.PatchSetBehavior._computeWipForPatchSets(
+        patchNums = element._computeWipForPatchSets(
             change, patchNums);
         const actualWipsByRevision = {};
         for (const patchNum of patchNums) {
@@ -238,7 +263,7 @@ limitations under the License.
     });
 
     test('patchNumEquals', () => {
-      const equals = Gerrit.PatchSetBehavior.patchNumEquals;
+      const equals = element.patchNumEquals;
       assert.isFalse(equals('edit', 'PARENT'));
       assert.isFalse(equals('edit', NaN));
       assert.isFalse(equals(1, '2'));
@@ -250,7 +275,7 @@ limitations under the License.
     });
 
     test('isMergeParent', () => {
-      const isParent = Gerrit.PatchSetBehavior.isMergeParent;
+      const isParent = element.isMergeParent;
       assert.isFalse(isParent(1));
       assert.isFalse(isParent(4321));
       assert.isFalse(isParent('52'));
@@ -264,37 +289,34 @@ limitations under the License.
     });
 
     test('findEditParentRevision', () => {
-      const findParent = Gerrit.PatchSetBehavior.findEditParentRevision;
       let revisions = [
         {_number: 0},
         {_number: 1},
         {_number: 2},
       ];
-      assert.strictEqual(findParent(revisions), null);
+      assert.strictEqual(element.findEditParentRevision(revisions), null);
 
       revisions = [...revisions, {_number: 'edit', basePatchNum: 3}];
-      assert.strictEqual(findParent(revisions), null);
+      assert.strictEqual(element.findEditParentRevision(revisions), null);
 
       revisions = [...revisions, {_number: 3}];
-      assert.deepEqual(findParent(revisions), {_number: 3});
+      assert.deepEqual(element.findEditParentRevision(revisions), {_number: 3});
     });
 
     test('findEditParentPatchNum', () => {
-      const findNum = Gerrit.PatchSetBehavior.findEditParentPatchNum;
       let revisions = [
         {_number: 0},
         {_number: 1},
         {_number: 2},
       ];
-      assert.equal(findNum(revisions), -1);
+      assert.equal(element.findEditParentPatchNum(revisions), -1);
 
       revisions =
           [...revisions, {_number: 'edit', basePatchNum: 3}, {_number: 3}];
-      assert.deepEqual(findNum(revisions), 3);
+      assert.deepEqual(element.findEditParentPatchNum(revisions), 3);
     });
 
     test('sortRevisions', () => {
-      const sort = Gerrit.PatchSetBehavior.sortRevisions;
       const revisions = [
         {_number: 0},
         {_number: 2},
@@ -306,24 +328,24 @@ limitations under the License.
         {_number: 0},
       ];
 
-      assert.deepEqual(sort(revisions), sorted);
+      assert.deepEqual(element.sortRevisions(revisions), sorted);
 
       // Edit patchset should follow directly after its basePatchNum.
       revisions.push({_number: 'edit', basePatchNum: 2});
       sorted.unshift({_number: 'edit', basePatchNum: 2});
-      assert.deepEqual(sort(revisions), sorted);
+      assert.deepEqual(element.sortRevisions(revisions), sorted);
 
       revisions[0].basePatchNum = 0;
       const edit = sorted.shift();
       edit.basePatchNum = 0;
       // Edit patchset should be at index 2.
       sorted.splice(2, 0, edit);
-      assert.deepEqual(sort(revisions), sorted);
+      assert.deepEqual(element.sortRevisions(revisions), sorted);
     });
 
     test('getParentIndex', () => {
-      assert.equal(Gerrit.PatchSetBehavior.getParentIndex('-13'), 13);
-      assert.equal(Gerrit.PatchSetBehavior.getParentIndex(-4), 4);
+      assert.equal(element.getParentIndex('-13'), 13);
+      assert.equal(element.getParentIndex(-4), 4);
     });
   });
 </script>

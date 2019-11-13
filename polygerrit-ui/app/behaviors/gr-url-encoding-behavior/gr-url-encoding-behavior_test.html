@@ -29,7 +29,7 @@ limitations under the License.
 
 <test-fixture id="basic">
   <template>
-    <test-element></test-element>
+    <url-encoding-mixin-element></url-encoding-mixin-element>
   </template>
 </test-fixture>
 
@@ -39,11 +39,14 @@ limitations under the License.
     let sandbox;
 
     suiteSetup(() => {
-      // Define a Polymer element that uses this behavior.
-      Polymer({
-        is: 'test-element',
-        behaviors: [Gerrit.URLEncodingBehavior],
-      });
+      // Define a Polymer element that uses this mixin.
+      class TestElement extends Gerrit.URLEncodingMixin(Polymer.Element) {
+        static get is() {
+          return 'url-encoding-mixin-element';
+        }
+      }
+
+      customElements.define(TestElement.is, TestElement);
     });
 
     setup(() => {

@@ -28,7 +28,7 @@ limitations under the License.
 
 <test-fixture id="basic">
   <template>
-    <test-element></test-element>
+    <admin-nav-mixin-element></admin-nav-mixin-element>
   </template>
 </test-fixture>
 
@@ -40,13 +40,14 @@ limitations under the License.
     let menuLinkStub;
 
     suiteSetup(() => {
-      // Define a Polymer element that uses this behavior.
-      Polymer({
-        is: 'test-element',
-        behaviors: [
-          Gerrit.AdminNavBehavior,
-        ],
-      });
+      // Define a Polymer element that uses this mixin.
+      class TestElement extends Gerrit.AdminNavMixin(Polymer.Element) {
+        static get is() {
+          return 'admin-nav-mixin-element';
+        }
+      }
+
+      customElements.define(TestElement.is, TestElement);
     });
 
     setup(() => {

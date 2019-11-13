@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "6729ef8d_54382111",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2019-11-13T17:25:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "16c71809_92d4a34f",
+      "range": {
+        "startLine": 7,
+        "startChar": 23,
+        "endLine": 7,
+        "endChar": 30
+      },
+      "revId": "0221f090e6c26896e8fe6bbe0f8b9227edabafba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ee4e16a4_3c91fead",
         "filename": "polygerrit-ui/app/samples/coverage-plugin.html",
         "patchSetId": 1
@@ -39,6 +63,24 @@
       "revId": "0221f090e6c26896e8fe6bbe0f8b9227edabafba",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f85bf7e3_cf7f0b59",
+        "filename": "polygerrit-ui/app/samples/coverage-plugin.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2019-11-13T17:25:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ee4e16a4_3c91fead",
+      "revId": "0221f090e6c26896e8fe6bbe0f8b9227edabafba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

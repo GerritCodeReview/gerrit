@@ -65,7 +65,6 @@ Apache2.0
 * httpcomponents:httpcore
 * httpcomponents:httpcore-nio
 * jackson:jackson-core
-* jetty:continuation
 * jetty:http
 * jetty:io
 * jetty:jmx

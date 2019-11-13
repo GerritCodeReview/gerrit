@@ -20,19 +20,26 @@ limitations under the License.
 
   window.Gerrit = window.Gerrit || {};
 
-  /** @polymerBehavior Gerrit.RepoPluginConfig*/
-  Gerrit.RepoPluginConfig = {
-    // Should be kept in sync with
-    // gerrit/java/com/google/gerrit/extensions/api/projects/ProjectConfigEntryType.java.
-    ENTRY_TYPES: {
-      ARRAY: 'ARRAY',
-      BOOLEAN: 'BOOLEAN',
-      INT: 'INT',
-      LIST: 'LIST',
-      LONG: 'LONG',
-      STRING: 'STRING',
-    },
-    PLUGIN_CONFIG_CHANGED: 'plugin-config-changed',
-  };
+  const internalRepoPluginMixin = base =>
+    class extends base {
+      // Should be kept in sync with
+      // gerrit/java/com/google/gerrit/extensions/api/projects/ProjectConfigEntryType.java.
+      get ENTRY_TYPES() {
+        return {
+          ARRAY: 'ARRAY',
+          BOOLEAN: 'BOOLEAN',
+          INT: 'INT',
+          LIST: 'LIST',
+          LONG: 'LONG',
+          STRING: 'STRING',
+        };
+      }
+
+      get PLUGIN_CONFIG_CHANGED() {
+        return 'plugin-config-changed';
+      }
+    };
+
+  Gerrit.RepoPluginMixin = Polymer.dedupingMixin(internalRepoPluginMixin);
 })(window);
 </script>

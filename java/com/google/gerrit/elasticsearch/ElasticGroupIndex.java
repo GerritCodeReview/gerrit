@@ -14,6 +14,7 @@
 
 package com.google.gerrit.elasticsearch;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.elasticsearch.ElasticMapping.MappingProperties;
 import com.google.gerrit.elasticsearch.bulk.BulkRequest;
 import com.google.gerrit.elasticsearch.bulk.IndexRequest;
@@ -74,7 +75,7 @@ public class ElasticGroupIndex extends AbstractElasticIndex<AccountGroup.UUID, I
   public void replace(InternalGroup group) {
     BulkRequest bulk =
         new IndexRequest(getId(group), indexName, type, client.adapter())
-            .add(new UpdateRequest<>(schema, group));
+            .add(new UpdateRequest<>(schema, group, ImmutableSet.of()));
 
     String uri = getURI(type, BULK);
     Response response = postRequest(uri, bulk, getRefreshParam());

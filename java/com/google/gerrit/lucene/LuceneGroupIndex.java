@@ -17,6 +17,7 @@ package com.google.gerrit.lucene;
 import static com.google.common.collect.Iterables.getOnlyElement;
 import static com.google.gerrit.server.index.group.GroupField.UUID;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.index.FieldDef;
@@ -90,6 +91,7 @@ public class LuceneGroupIndex extends AbstractLuceneIndex<AccountGroup.UUID, Int
         sitePaths,
         dir(schema, cfg, sitePaths),
         GROUPS,
+        ImmutableSet.of(),
         null,
         new GerritIndexWriterConfig(cfg, GROUPS),
         new SearcherFactory());

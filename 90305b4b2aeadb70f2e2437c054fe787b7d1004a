@@ -22,6 +22,30 @@
       "revId": "90305b4b2aeadb70f2e2437c054fe787b7d1004a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3d51c32d_65f2ee83",
+        "filename": "java/com/google/gerrit/server/git/receive/LazyPostReceiveHookChain.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-11-13T18:00:10Z",
+      "side": 1,
+      "message": "I have tested that case now.  It works.",
+      "parentUuid": "e4d13caf_66fe6601",
+      "range": {
+        "startLine": 82,
+        "startChar": 4,
+        "endLine": 85,
+        "endChar": 33
+      },
+      "revId": "90305b4b2aeadb70f2e2437c054fe787b7d1004a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

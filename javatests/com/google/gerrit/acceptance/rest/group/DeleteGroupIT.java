@@ -31,6 +31,7 @@ import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.group.db.GroupNameNotes;
@@ -63,6 +64,31 @@ public class DeleteGroupIT extends AbstractDaemonTest {
     assertThat(thrown)
         .hasMessageThat()
         .contains("cannot delete group that is owner of other groups");
+  }
+
+  @Test
+  public void cannotDeleteGroupThatIsOwnedByOtherGroups() throws Exception {
+    String parent = createGroup("parent");
+    String child = createGroup("child", parent);
+    ResourceConflictException thrown =
+        assertThrows(ResourceConflictException.class, () -> gApi.groups().id(child).delete());
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains("cannot delete group that is owned by other groups");
+  }
+
+  @Test
+  public void DeleteGroup() throws Exception {
+    String group = createGroup("group");
+    assertThat(gApi.groups().id(group).get()).isNotNull();
+    try (Repository repo = repoManager.openRepository(Project.nameKey("All-Users"))) {
+      assertThat(GroupNameNotes.loadAllGroups(repo)).hasSize(3);
+    }
+    gApi.groups().id(group).delete();
+    try (Repository repo = repoManager.openRepository(Project.nameKey("All-Users"))) {
+      assertThat(GroupNameNotes.loadAllGroups(repo)).hasSize(2);
+    }
+    assertThrows(ResourceNotFoundException.class, () -> gApi.groups().id(group));
   }
 
   @Test

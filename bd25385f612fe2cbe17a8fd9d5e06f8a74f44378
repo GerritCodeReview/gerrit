@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "86fa1e8b_394261b0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-11-13T11:07:27Z",
+      "side": 1,
+      "message": "I think we should use the official servlet-api from Jakarta EE [2].\n\nJava EE moved to Eclipse Foundation and became Jakarta EE and is now fully open source [3].\nJEE 8 and JakartaEE 8 have identical APIs hence servlet 4.0 is part of both JEE 8 and JakartaEE. The (Jakarta) servlet 4.0 spec lives here [4].\n\nSince Oracle refused to grant the license to do any modifications under the javax.* package namespace future jakarta ee versions will use jakarta.* namespace for any APIs they modify after JakartaEE 8 [5].\n\nThis probably needs a similar move in JGit which is currently using javax.servlet:javax.servlet-api:3.1.0.\n\n[2] https://search.maven.org/search?q\u003dg:jakarta.servlet%20AND%20a:jakarta.servlet-api\u0026core\u003dgav\n[3] https://jakarta.ee/\nhttps://www.eclipse.org/community/eclipse_newsletter/2019/august/jakartaee8.php\n[4] https://jakarta.ee/specifications/servlet/4.0/\n[5] https://webtide.com/renaming-from-javax-to-jakarta/",
+      "revId": "bd25385f612fe2cbe17a8fd9d5e06f8a74f44378",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "88cb6988_00019649",
+        "filename": "WORKSPACE",
+        "patchSetId": 11
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-11-13T11:07:27Z",
+      "side": 1,
+      "message": "use the official jakarta.servlet:jakarta.servlet-api:4.0.3 [1] ?\n\n[1] https://search.maven.org/artifact/jakarta.servlet/jakarta.servlet-api/4.0.3/jar",
+      "revId": "bd25385f612fe2cbe17a8fd9d5e06f8a74f44378",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "09059ba0_15290a7f",
+        "filename": "java/com/google/gerrit/pgm/http/jetty/ProjectQoSFilter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2019-11-13T19:51:18Z",
+      "side": 1,
+      "message": "This rename seems confusing.",
+      "range": {
+        "startLine": 135,
+        "startChar": 18,
+        "endLine": 135,
+        "endChar": 25
+      },
+      "revId": "f237fd75f0bd78841d0765ba3a7f8e423a4b5e1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5885368d_1bce1c46",
+        "filename": "java/com/google/gerrit/pgm/http/jetty/ProjectQoSFilter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1010013
+      },
+      "writtenOn": "2019-11-13T19:51:18Z",
+      "side": 1,
+      "message": "This and the getState() method above probably could go on the enum.",
+      "range": {
+        "startLine": 175,
+        "startChar": 15,
+        "endLine": 175,
+        "endChar": 23
+      },
+      "revId": "f237fd75f0bd78841d0765ba3a7f8e423a4b5e1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

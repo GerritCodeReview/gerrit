@@ -87,6 +87,10 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
   protected static final String SEARCH = "_search";
   protected static final String SETTINGS = "settings";
 
+  protected static byte[] decodeBase64(String base64String) {
+    return Base64.decodeBase64(base64String);
+  }
+
   protected static <T> List<T> decodeProtos(
       JsonObject doc, String fieldName, ProtoConverter<?, T> converter) {
     JsonArray field = doc.getAsJsonArray(fieldName);
@@ -94,8 +98,8 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
       return null;
     }
     return Streams.stream(field)
-        .map(JsonElement::toString)
-        .map(Base64::decodeBase64)
+        .map(JsonElement::getAsString)
+        .map(AbstractElasticIndex::decodeBase64)
         .map(bytes -> parseProtoFrom(bytes, converter))
         .collect(toImmutableList());
   }

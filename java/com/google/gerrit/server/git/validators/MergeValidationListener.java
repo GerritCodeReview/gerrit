@@ -15,6 +15,7 @@
 package com.google.gerrit.server.git.validators;
 
 import com.google.gerrit.entities.BranchNameKey;
+import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
 import com.google.gerrit.server.IdentifiedUser;
@@ -45,6 +46,7 @@ public interface MergeValidationListener {
       CodeReviewCommit commit,
       ProjectState destProject,
       BranchNameKey destBranch,
+      Change.Id changeId,
       PatchSet.Id patchSetId,
       IdentifiedUser caller)
       throws MergeValidationException;

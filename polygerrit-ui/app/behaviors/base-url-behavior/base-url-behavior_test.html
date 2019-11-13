@@ -32,14 +32,14 @@ limitations under the License.
 
 <test-fixture id="basic">
   <template>
-    <test-element></test-element>
+    <base-url-mixin-element></base-url-mixin-element>
   </template>
 </test-fixture>
 
 <test-fixture id="within-overlay">
   <template>
     <gr-overlay>
-      <test-element></test-element>
+      <base-url-mixin-element></base-url-mixin-element>
     </gr-overlay>
   </template>
 </test-fixture>
@@ -51,13 +51,14 @@ limitations under the License.
     let overlay;
 
     suiteSetup(() => {
-      // Define a Polymer element that uses this behavior.
-      Polymer({
-        is: 'test-element',
-        behaviors: [
-          Gerrit.BaseUrlBehavior,
-        ],
-      });
+      // Define a Polymer element that uses this mixin.
+      class TestElement extends Gerrit.BaseUrlMixin(Polymer.Element) {
+        static get is() {
+          return 'base-url-mixin-element';
+        }
+      }
+
+      customElements.define(TestElement.is, TestElement);
     });
 
     setup(() => {

@@ -28,7 +28,7 @@ limitations under the License.
 
 <test-fixture id="nested-structure">
   <template>
-    <test-element></test-element>
+    <dom-util-mixin-element></dom-util-mixin-element>
     <div>
       <div class="a">
         <div class="b">
@@ -45,11 +45,14 @@ limitations under the License.
     let divs;
 
     suiteSetup(() => {
-      // Define a Polymer element that uses this behavior.
-      Polymer({
-        is: 'test-element',
-        behaviors: [Gerrit.DomUtilBehavior],
-      });
+      // Define a Polymer element that uses this mixin.
+      class TestElement extends Gerrit.DomUtilMixin(Polymer.Element) {
+        static get is() {
+          return 'dom-util-mixin-element';
+        }
+      }
+
+      customElements.define(TestElement.is, TestElement);
     });
 
     setup(() => {

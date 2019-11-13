@@ -26,11 +26,34 @@ limitations under the License.
 <link rel="import" href="../../test/common-test-setup.html"/>
 <link rel="import" href="async-foreach-behavior.html">
 
+<test-fixture id="basic">
+  <template>
+    <async-foreach-mixin-element></async-foreach-mixin-element>
+  </template>
+</test-fixture>
+
 <script>
   suite('async-foreach-behavior tests', () => {
+    let element;
+
+    suiteSetup(() => {
+      // Define a Polymer element that uses this mixin.
+      class TestElement extends Gerrit.AsyncForeachMixin(Polymer.Element) {
+        static get is() {
+          return 'async-foreach-mixin-element';
+        }
+      }
+
+      customElements.define(TestElement.is, TestElement);
+    });
+
+    setup(() => {
+      element = fixture('basic');
+    });
+
     test('loops over each item', () => {
       const fn = sinon.stub().returns(Promise.resolve());
-      return Gerrit.AsyncForeachBehavior.asyncForeach([1, 2, 3], fn)
+      return element.asyncForeach([1, 2, 3], fn)
           .then(() => {
             assert.isTrue(fn.calledThrice);
             assert.equal(fn.getCall(0).args[0], 1);
@@ -46,7 +69,7 @@ limitations under the License.
         stop();
         return Promise.resolve();
       };
-      return Gerrit.AsyncForeachBehavior.asyncForeach([1, 2, 3], fn)
+      return element.asyncForeach([1, 2, 3], fn)
           .then(() => {
             assert.isTrue(stub.calledOnce);
             assert.equal(stub.lastCall.args[0], 1);

@@ -34,14 +34,14 @@ limitations under the License.
 
 <test-fixture id="basic">
   <template>
-    <test-element></test-element>
+    <rest-client-mixin-element></rest-client-mixin-element>
   </template>
 </test-fixture>
 
 <test-fixture id="within-overlay">
   <template>
     <gr-overlay>
-      <test-element></test-element>
+      <rest-client-mixin-element></rest-client-mixin-element>
     </gr-overlay>
   </template>
 </test-fixture>
@@ -53,15 +53,14 @@ limitations under the License.
     let overlay;
 
     suiteSetup(() => {
-      // Define a Polymer element that uses this behavior.
-      Polymer({
-        is: 'test-element',
-        behaviors: [
-          Gerrit.BaseUrlBehavior,
-          Gerrit.RESTClientBehavior,
-        ],
-      });
-    });
+      // Define a Polymer element that uses this mixin.
+      class TestElement extends Gerrit.RESTClientMixin(Polymer.Element) {
+        static get is() {
+          return 'rest-client-mixin-element';
+        }
+      }
+
+      customElements.define(TestElement.is, TestElement);    });
 
     setup(() => {
       element = fixture('basic');

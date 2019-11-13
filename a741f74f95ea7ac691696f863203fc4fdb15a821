@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "83d9e3d7_f7d7740c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor_test.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2019-11-13T14:44:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6b3a1f2e_829b71a7",
+      "revId": "a741f74f95ea7ac691696f863203fc4fdb15a821",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "418ec8c7_e94f53e5",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor_test.html",
         "patchSetId": 7
@@ -30,6 +48,24 @@
       "writtenOn": "2019-11-13T10:30:05Z",
       "side": 1,
       "message": "Does this actually check anything? If the event is send asynchronous, and we do not wait for an async event here, this might not be called in time even if it was called. Is any of this even async?\nShould createCommentInPlace maybe return a boolean to make this easier to test and to observe by callers?",
+      "revId": "a741f74f95ea7ac691696f863203fc4fdb15a821",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "86f8be95_cd9cb8c3",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor_test.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2019-11-13T14:44:14Z",
+      "side": 1,
+      "message": "Currently this test works because events are being fired synchronously. I did not want to rely on sync behavior for the other scenarios above - reason why I expected everything using event listener + done.\n\nI think it can be risky to return a boolean for createCommentInPlace as this would implicitly assume all behavior of creating comments is synchronous. Since part of the actual behavior resides in eventListeners and relies on events being fired, I find this assumption to be potentially risky. I would not want to return \"true\" for createCommentsInPlace when this actually failed in some async eventListener.\n\nHowever, checking that something is *not* called inside a potentially async process is hard - I would need timers and stuff.\n\nI took the direction of using partial mocks (as the rest of the code in this file). Is it good enough?",
+      "parentUuid": "418ec8c7_e94f53e5",
       "revId": "a741f74f95ea7ac691696f863203fc4fdb15a821",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -50,6 +86,24 @@
       "revId": "a741f74f95ea7ac691696f863203fc4fdb15a821",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d4924108_ca8e6c53",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2019-11-13T14:44:14Z",
+      "side": 1,
+      "message": "I actually don\u0027t like to get this info from the child UI element at all - I did it like that to be faster. \n\nI imagine, we would rather want that gr-highlight knows its selected range on its own - instead of this info residing solely inside gr-selection-action-box. Currently we set this range from gr-hightlights (in _handleSelection) and then forget about it.\n\nI will experiment trying to move the range up to gr-hightlights",
+      "parentUuid": "55d9a1e2_e1b7f61e",
+      "revId": "a741f74f95ea7ac691696f863203fc4fdb15a821",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -14,7 +14,9 @@
 
 package com.google.gerrit.server.restapi.group;
 
+import com.google.gerrit.common.data.GroupReference;
 import com.google.gerrit.entities.AccountGroup;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
@@ -28,6 +30,8 @@ import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.project.ProjectConfig;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -37,15 +41,18 @@ public class DeleteGroup implements RestModifyView<GroupResource, Input> {
   private final Provider<IdentifiedUser> user;
   private final PermissionBackend permissionBackend;
   private final Provider<ListGroups> listProvider;
+  private final ProjectCache projectCache;
 
   @Inject
   DeleteGroup(
       Provider<IdentifiedUser> user,
       PermissionBackend permissionBackend,
-      Provider<ListGroups> listProvider) {
+      Provider<ListGroups> listProvider,
+      ProjectCache projectCache) {
     this.user = user;
     this.permissionBackend = permissionBackend;
     this.listProvider = listProvider;
+    this.projectCache = projectCache;
   }
 
   @Override
@@ -79,9 +86,22 @@ public class DeleteGroup implements RestModifyView<GroupResource, Input> {
       throw new ResourceConflictException("cannot delete group that is owner of other groups");
     }
 
-    // TODO check if the group is used in ref permissions
+    verifyRefPermissions(uuid);
 
     // TODO actually delete the group...
     throw new NotImplementedException();
+  }
+
+  private void verifyRefPermissions(AccountGroup.UUID uuid) throws ResourceConflictException {
+    Iterable<Project.NameKey> names = projectCache.all();
+    for (Project.NameKey projectName : names) {
+      ProjectConfig config = projectCache.get(projectName).getConfig();
+      GroupReference ref = config.getGroup(uuid);
+      if (ref != null) {
+        throw new ResourceConflictException(
+            "cannot delete group that is referenced in access permissions for project "
+                + projectName);
+      }
+    }
   }
 }

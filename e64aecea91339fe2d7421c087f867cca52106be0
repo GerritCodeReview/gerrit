@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b70c4f6e_fa0800db",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 309,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-11-13T23:40:49Z",
+      "side": 1,
+      "message": "I will clean this up in a follow up change by removing SKIP_MERGEABLE.",
+      "revId": "e64aecea91339fe2d7421c087f867cca52106be0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

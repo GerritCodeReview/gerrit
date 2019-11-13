@@ -139,7 +139,11 @@ def collectBuildModes() {
     def polygerritFiles = changedFiles.findAll { it.startsWith("polygerrit-ui") ||
         it.startsWith("lib/js") }
 
-    if(polygerritFiles.size() > 0 || changedFiles.contains("WORKSPACE")) {
+    if(changedFiles.contains("WORKSPACE")) {
+        Builds.modes += "polygerrit"
+    }
+
+    if(polygerritFiles.size() > 0 && !changedFiles.contains("WORKSPACE")) {
         if(changedFiles.size() == polygerritFiles.size()) {
             println "Only PolyGerrit UI changes detected, skipping other test modes..."
             Builds.modes = ["polygerrit"]

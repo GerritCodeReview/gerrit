@@ -59,7 +59,6 @@ import com.google.inject.Provider;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -1000,20 +999,6 @@ public class CommentsIT extends AbstractDaemonTest {
 
     assertMetaBranchCommitsAfterRewriting(commitsBeforeDelete, id, uuid, expectedMsg);
     assertThat(getChangeSortedComments(id.get())).hasSize(3);
-  }
-
-  @Test
-  public void jsonCommentHasLegacyFormatFalse() throws Exception {
-    PushOneCommit.Result result = createChange();
-    Change.Id changeId = result.getChange().getId();
-    addComment(result.getChangeId(), "comment");
-
-    Collection<com.google.gerrit.entities.Comment> comments =
-        notesFactory.createChecked(project, changeId).getComments().values();
-    assertThat(comments).hasSize(1);
-    com.google.gerrit.entities.Comment comment = comments.iterator().next();
-    assertThat(comment.message).isEqualTo("comment");
-    assertThat(comment.legacyFormat).isFalse();
   }
 
   private List<CommentInfo> getRevisionComments(String changeId, String revId) throws Exception {

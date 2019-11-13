@@ -938,7 +938,6 @@ public class ChangeNotesStateTest {
                 .put("revId", String.class)
                 .put("serverId", String.class)
                 .put("unresolved", boolean.class)
-                .put("legacyFormat", boolean.class)
                 .build());
   }
 

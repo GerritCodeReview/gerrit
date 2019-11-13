@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "54273d6e_f7cb2b4f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2019-11-13T21:55:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "89480830_2302b6ac",
+      "revId": "526f5fe7352463fd9a5d7a6e50d5d0ce783c7ec2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "73266463_ccb21bcb",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
         "patchSetId": 11
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "f55a8968_53166da5",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2019-11-13T21:55:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "73266463_ccb21bcb",
+      "revId": "526f5fe7352463fd9a5d7a6e50d5d0ce783c7ec2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "16dbad85_150a0942",
         "filename": "polygerrit-ui/app/elements/diff/gr-selection-action-box/gr-selection-action-box.js",
         "patchSetId": 11
@@ -47,6 +83,24 @@
       "writtenOn": "2019-11-13T15:23:38Z",
       "side": 1,
       "message": "Can you explain why you changed this? I think using an event here is more idiomatic in Polymer than passing in a callback.\n\nIf we anyways listen to any mousedown events anywhere on this component, and all we do is call a callback, could we install this listener one level higher, like in gr-diff-highlight.js\n\nactionBox.addEventListener(\u0027mousedown\u0027, ....)\n\nI think that would make things simpler...",
+      "revId": "526f5fe7352463fd9a5d7a6e50d5d0ce783c7ec2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cd2571b3_3bd23b96",
+        "filename": "polygerrit-ui/app/elements/diff/gr-selection-action-box/gr-selection-action-box.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2019-11-13T21:55:44Z",
+      "side": 1,
+      "message": "First to explain my idea when I did that: \n\nSending the callback down was primarily to avoid sending the range/side - the only reason why we were receiving it was to fire the \u0027create-range-comment\u0027 event with this data.\n\nPreviously we were sending a \u0027create-range-comment\u0027 from this component up - that was handled by two listeners (I believe both of them were executed by every event):\n- one in gr-highlights that would make sure the action-box is closed.\n- another in gr-diff that was effectively creating the comment.\n\nThe same event (\u0027create-range-comment\u0027) was already being sent from gr-highlights directly in a particular case (double-click on the line). By sending a callback down we unify the firing of the event in only one place (the parent).\n\nA reason why not to handle direct mousedown events from this component is that it checks:\n\n```if (e.button !\u003d\u003d 0) { return; } // 0 \u003d main button```\n\nThis filters that only in specific cases of mousedown (specific of internal implementation of this component) we actually want to create a comment. \n\nWe could replace indeed the callback by an event. But then most likely another event - not \u0027create-range-comment\u0027 as it is handled in gr-diff and assumes a range as parameter. Maybe another name?\n\nI think we might need to discuss about this point as well.",
+      "parentUuid": "16dbad85_150a0942",
       "revId": "526f5fe7352463fd9a5d7a6e50d5d0ce783c7ec2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

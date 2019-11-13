@@ -22,6 +22,7 @@ import static java.util.Objects.requireNonNull;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
@@ -48,6 +49,7 @@ import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.server.ReviewerByEmailSet;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.StarredChangesUtil;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.IndexUtils;
 import com.google.gerrit.server.index.change.ChangeField;
@@ -65,6 +67,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import org.apache.http.HttpStatus;
+import org.eclipse.jgit.lib.Config;
 import org.elasticsearch.client.Response;
 
 /** Secondary index implementation using Elasticsearch. */
@@ -91,6 +94,7 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
   private final ChangeData.Factory changeDataFactory;
   private final Schema<ChangeData> schema;
   private final FieldDef<ChangeData, ?> idField;
+  private final ImmutableSet<String> skipFields;
 
   @Inject
   ElasticChangeIndex(
@@ -98,6 +102,7 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
       ChangeData.Factory changeDataFactory,
       SitePaths sitePaths,
       ElasticRestClientProvider clientBuilder,
+      @GerritServerConfig Config gerritConfig,
       @Assisted Schema<ChangeData> schema) {
     super(cfg, sitePaths, schema, clientBuilder, CHANGES);
     this.changeDataFactory = changeDataFactory;
@@ -105,6 +110,10 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
     this.mapping = new ChangeMapping(schema, client.adapter());
     this.idField =
         this.schema.useLegacyNumericFields() ? ChangeField.LEGACY_ID : ChangeField.LEGACY_ID_STR;
+    this.skipFields =
+        gerritConfig.getBoolean("index", "change", "indexMergeable", true)
+            ? ImmutableSet.of()
+            : ImmutableSet.of(ChangeField.MERGEABLE.getName());
   }
 
   @Override
@@ -123,7 +132,7 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
     ElasticQueryAdapter adapter = client.adapter();
     BulkRequest bulk =
         new IndexRequest(getId(cd), indexName, adapter.getType(insertIndex), adapter)
-            .add(new UpdateRequest<>(schema, cd));
+            .add(new UpdateRequest<>(schema, cd, skipFields));
     if (adapter.deleteToReplace()) {
       bulk.add(new DeleteRequest(cd.getId().toString(), indexName, deleteIndex, adapter));
     }
@@ -263,7 +272,7 @@ class ElasticChangeIndex extends AbstractElasticIndex<Change.Id, ChangeData>
 
     // Mergeable.
     JsonElement mergeableElement = source.get(ChangeField.MERGEABLE.getName());
-    if (mergeableElement != null) {
+    if (mergeableElement != null && !skipFields.contains(ChangeField.MERGEABLE.getName())) {
       String mergeable = mergeableElement.getAsString();
       if ("1".equals(mergeable)) {
         cd.setMergeable(true);

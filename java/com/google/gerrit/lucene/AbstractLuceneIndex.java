@@ -21,6 +21,7 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import com.google.common.base.Joiner;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
@@ -98,6 +99,7 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
   private final SitePaths sitePaths;
   private final Directory dir;
   private final String name;
+  private final ImmutableSet<String> skipFields;
   private final ListeningExecutorService writerThread;
   private final IndexWriter writer;
   private final ReferenceManager<IndexSearcher> searcherManager;
@@ -110,6 +112,7 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
       SitePaths sitePaths,
       Directory dir,
       String name,
+      ImmutableSet<String> skipFields,
       String subIndex,
       GerritIndexWriterConfig writerConfig,
       SearcherFactory searcherFactory)
@@ -118,6 +121,7 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
     this.sitePaths = sitePaths;
     this.dir = dir;
     this.name = name;
+    this.skipFields = skipFields;
     String index = Joiner.on('_').skipNulls().join(name, subIndex);
     long commitPeriod = writerConfig.getCommitWithinMs();
 
@@ -311,7 +315,7 @@ public abstract class AbstractLuceneIndex<K, V> implements Index<K, V> {
 
   Document toDocument(V obj) {
     Document result = new Document();
-    for (Values<V> vs : schema.buildFields(obj)) {
+    for (Values<V> vs : schema.buildFields(obj, skipFields)) {
       if (vs.getValues() != null) {
         add(result, vs);
       }

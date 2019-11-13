@@ -30,6 +30,7 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static java.util.stream.Collectors.toList;
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.Assert.fail;
 
 import com.google.common.base.MoreObjects;
@@ -41,6 +42,7 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Streams;
 import com.google.common.truth.ThrowableSubject;
+import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.LabelType;
@@ -79,6 +81,7 @@ import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.query.Predicate;
+import com.google.gerrit.index.query.QueryParseException;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
@@ -2023,6 +2026,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   }
 
   @Test
+  @GerritConfig(name = "index.change.indexMergeable", value = "true")
   public void mergeable() throws Exception {
     TestRepository<Repo> repo = createProject("repo");
     RevCommit commit1 = repo.parseBody(repo.commit().add("file1", "contents1").create());
@@ -2040,7 +2044,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     // If a change gets submitted, the remaining open changes get reindexed asynchronously to update
     // their mergeability information. If the further assertions in this test are done before the
     // asynchronous reindex completed they fail because the mergeability information in the index
-    // was not updated yet. To avoid this flakiness reindexAfterRefUpdate is switched off for the
+    // was not updated yet. To avoid this flakiness indexMergeable is switched off for the
     // tests and we index change2 synchronously here.
     gApi.changes().id(change2.getChangeId()).index();
 
@@ -3077,6 +3081,20 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
       assertQuery(
           Predicate.and(Predicate.not(ChangeIndexPredicate.none()), matchingOneChange), change);
     }
+  }
+
+  @Test
+  @GerritConfig(name = "index.change.indexMergeable", value = "false")
+  public void mergeableFailsWhenNotIndexed() throws Exception {
+    TestRepository<Repo> repo = createProject("repo");
+    RevCommit commit1 = repo.parseBody(repo.commit().add("file1", "contents1").create());
+    insert(repo, newChangeForCommit(repo, commit1));
+
+    Throwable thrown = assertThrows(Throwable.class, () -> assertQuery("status:open is:mergeable"));
+    assertThat(thrown.getCause()).isInstanceOf(QueryParseException.class);
+    assertThat(thrown)
+        .hasMessageThat()
+        .contains("server does not support 'mergeable'. check configs");
   }
 
   protected ChangeInserter newChange(TestRepository<Repo> repo) throws Exception {

@@ -7,5 +7,5 @@ docker build . -t e2e-tests
 # How to run a test
 
 ```$shell
-docker run -it e2e-tests -s com.google.gerrit.scenarios.ReplayRecordsFromFeederScenario
+docker run -it e2e-tests -s com.google.gerrit.scenarios.ConstantUsersUploadPacksOnly
 ```

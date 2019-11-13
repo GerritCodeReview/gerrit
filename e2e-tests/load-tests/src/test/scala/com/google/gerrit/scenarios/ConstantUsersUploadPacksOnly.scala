@@ -27,34 +27,32 @@ import com.github.barbasa.gatling.git.{
 import org.apache.commons.io.FileUtils
 
 import scala.concurrent.duration._
-import org.eclipse.jgit.hooks._
 
-class ReplayRecordsFromFeederScenario extends Simulation {
+class ConstantUsersUploadPacksOnly extends Simulation {
+
+  val concurrentUsers = Integer.getInteger("users", 5).toInt
+  val durationMinutes = Integer.getInteger("durationMinutes", 5).toInt
+  val description = System.getProperty("description", "")
 
   val gitProtocol = GitProtocol()
   implicit val conf = GatlingGitConfiguration()
-  implicit val postMessageHook: Option[String] = Some(
-    s"hooks/${CommitMsgHook.NAME}")
 
-  val feeder = jsonFile("data/requests.json").circular
+  val feeder = jsonFile("data/requests-upload-packs-only.json").shuffle.circular
 
   val replayCallsScenario: ScenarioBuilder =
-    scenario("Git commands")
-      .repeat(10000) {
+    scenario("Git clones constant users " + description)
+      .forever {
         feed(feeder)
-          .exec(new GitRequestBuilder(GitRequestSession("${cmd}", "${url}")))
+          .exec(
+            new GitRequestBuilder(
+              GitRequestSession("${cmd}", "${url}", "${ref-spec}")
+            )
+          )
       }
 
-  setUp(
-    replayCallsScenario.inject(
-      nothingFor(4 seconds),
-      atOnceUsers(10),
-      rampUsers(10) during (5 seconds),
-      constantUsersPerSec(20) during (15 seconds),
-      constantUsersPerSec(20) during (15 seconds) randomized
-    ))
+  setUp(replayCallsScenario.inject(atOnceUsers(concurrentUsers)))
     .protocols(gitProtocol)
-    .maxDuration(60 seconds)
+    .maxDuration(durationMinutes minutes)
 
   after {
     try {
@@ -64,7 +62,8 @@ class ReplayRecordsFromFeederScenario extends Simulation {
     } catch {
       case e: IOException => {
         System.err.println(
-          "Unable to delete temporary directory: " + conf.tmpBasePath)
+          "Unable to delete temporary directory: " + conf.tmpBasePath
+        )
         e.printStackTrace
       }
     }

@@ -213,7 +213,7 @@ message ConflictKeyProto {
 message TagSetHolderProto {
   string project_name = 1;
 
-  // Next ID: 3
+  // Next ID: 5
   message TagSetProto {
     string project_name = 1;
 
@@ -224,7 +224,7 @@ message TagSetHolderProto {
       repeated int32 parent_numbers = 3;
     }
 
-    repeated NodeProto nodes = 2;
+    repeated NodeProto nodes = 4;
   }
   TagSetProto tags = 2;
 }

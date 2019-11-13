@@ -60,8 +60,9 @@ public class DecoratedDag extends ObjectIdOwnerMap<DecoratedDag.Node> {
 
   /** Base class used to walk a {@link DecoratedDag} */
   public static class ParentWalker<V> {
-    protected V result;
+    protected V result; // Use to store a value computing while walking
 
+    /* return whether to continue walking or not */
     public boolean walkParents(DecoratedDag dag, Node node) {
       return true;
     }
@@ -95,10 +96,10 @@ public class DecoratedDag extends ObjectIdOwnerMap<DecoratedDag.Node> {
   }
 
   /**
-   * Use to prune all undecorated {@link Node}s. This can greatly reduce the size of the {@link
-   * DecoratedDag} since most commits are not decorated.
+   * Pruning undecorated {@link Node}s can greatly reduce the size of the {@link DecoratedDag} since
+   * most commits are not decorated.
    */
-  public static class Pruner extends ParentWalker<Boolean> {
+  public static class UndecoratedPruner extends ParentWalker<Boolean> {
     public static class DecoratedAncestorsFinder extends ParentWalkerNodeSet {
       @Override
       public boolean walkParents(DecoratedDag dag, Node node) {
@@ -117,10 +118,10 @@ public class DecoratedDag extends ObjectIdOwnerMap<DecoratedDag.Node> {
     }
   }
 
-  public static class ParentSettingWalker extends ParentWalkerNodeSet {
+  public static class UpdateParents extends ParentWalkerNodeSet {
     protected RevWalk rw;
 
-    public ParentSettingWalker(RevWalk rw) {
+    public UpdateParents(RevWalk rw) {
       this.rw = rw;
     }
 
@@ -136,8 +137,9 @@ public class DecoratedDag extends ObjectIdOwnerMap<DecoratedDag.Node> {
     }
   }
 
-  public static class UndecoratedWalker extends ParentSettingWalker {
-    public UndecoratedWalker(RevWalk rw) {
+  /** Stops when it finds decorated ancestors */
+  public static class UpdateUndecoratedParents extends UpdateParents {
+    public UpdateUndecoratedParents(RevWalk rw) {
       super(rw);
     }
 
@@ -221,6 +223,6 @@ public class DecoratedDag extends ObjectIdOwnerMap<DecoratedDag.Node> {
   }
 
   public void prune() {
-    walk(decorated, new Pruner());
+    walk(decorated, new UndecoratedPruner());
   }
 }

@@ -46,7 +46,11 @@ import org.eclipse.jgit.revwalk.RevWalk;
 /**
  * A TagSet keeps track of tag reachability from other refs to make reachability lookups fast.
  *
- * <p>Use a cacheable {@link DecoratedDag} to determine reachability on the fly.
+ * <p>Use a cacheable {@link DecoratedDag} to determine reachability on the fly. The DAG is built
+ * the first time by calling build(). Confirm that all the interesting refs are in the DAG when
+ * checking for reachability and use the TagMatcher to signal that the DAG is out of date. When the
+ * DAG is out of date the TagMatcher will call refresh() which copies the Dag to a new {@link
+ * TagSet} and then updates the new DAG with the new updates.
  */
 class TagSet {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
@@ -71,6 +75,7 @@ class TagSet {
     return false;
   }
 
+  @Nullable
   @SuppressWarnings("unchecked")
   public Set<ObjectId> getReachableTags(
       Repository repo, TagMatcher m, Iterable<Ref> refs, Iterable<Ref> tags) {
@@ -165,7 +170,7 @@ class TagSet {
       }
 
       // Traverse the complete history of all refs creating a DAG for all the commits.
-      dag.walk(dag.decorated, new DecoratedDag.ParentSettingWalker(rw));
+      dag.walk(dag.decorated, new DecoratedDag.UpdateParents(rw));
     }
     dag.prune();
   }
@@ -221,6 +226,11 @@ class TagSet {
 
   /** Only use on a copy of a {@link TagSet} that is not in use by other threads. */
   public boolean refresh(Repository repo, Map<String, ObjectId> idByRef) {
+    /*
+     * Since the {@link DecoratedDag.Node}s are based on {@link ObjectIds}, and not refs, treat all ref
+     * updates similarly in that they can only add and remove decorations to commits. In other words, don't see updates from the point of view of the ref, i.e. don't
+     * care if the updates are deletes, fast forwards, rewinds...
+     */
     boolean updated = false;
     Map<String, Node> nodeByDecoration = new HashMap<>(dag.decorated.size());
     for (Node node : dag.decorated) {
@@ -256,7 +266,7 @@ class TagSet {
 
         Node old = nodeByDecoration.get(refName);
         if (old != null && !old.equals(node)) {
-          old.decorations.remove(refName); // old {@link Node} was still decorated
+          old.decorations.remove(refName);
         }
         nodeByDecoration.put(refName, node);
       }
@@ -340,24 +350,36 @@ class TagSet {
         .toString();
   }
 
-  /** Add a new decorated {@link Node} to an already built {@link DecoratedDag} */
+  /**
+   * Insert a new decorated {@link ObjectId} to an already built {@link DecoratedDag}.
+   *
+   * <p>before: A <- B after: A <- commitToInsert <- B
+   */
   protected Node insertDecorated(RevWalk rw, ObjectId id, String refName)
       throws IncorrectObjectTypeException, IOException, MissingObjectException {
     RevCommit commitToInsert = rw.parseCommit(id);
     Node nodeToInsert = dag.getOrCreate(id);
 
+    // Find "A"(s) pointed to by commitToInsert
     Set<Node> decoratedAncestors =
-        dag.walk(Collections.singleton(nodeToInsert), new DecoratedDag.UndecoratedWalker(rw));
+        dag.walk(
+            Collections.singleton(nodeToInsert), new DecoratedDag.UpdateUndecoratedParents(rw));
     dag.decorate(id, refName); // Has to be done after walk to prevent short stop
 
     for (Node ancestor : decoratedAncestors) {
+      // A <- commitToInsert
+      // A <- B
       nodeToInsert.parents.add(ancestor);
+      // Find "B"(s):  A <- B
       for (Node child : dag.getChildrenOf(ancestor)) {
+        // Does B point to commitToInsert?
         if (!child.equals(nodeToInsert)) {
           try {
             RevCommit cChild = rw.parseCommit(child);
             if (rw.isMergedInto(commitToInsert, cChild)) {
+              // <- B
               child.parents.remove(ancestor);
+              // commitToInsert <- B
               child.parents.add(nodeToInsert);
             }
           } catch (IOException e) {

@@ -4393,6 +4393,20 @@ public class ChangeIT extends AbstractDaemonTest {
     }
   }
 
+  @Test
+  @GerritConfig(name = "index.change.indexMergeable", value = "true")
+  public void changeQueryReturnsMergeableWhenGerritIndexMergeable() throws Exception {
+    String changeId = createChange().getChangeId();
+    assertThat(gApi.changes().query(changeId).get().get(0).mergeable).isTrue();
+  }
+
+  @Test
+  @GerritConfig(name = "index.change.indexMergeable", value = "false")
+  public void changeQueryDoesNotReturnMergeableWhenGerritDoesNotIndexMergeable() throws Exception {
+    String changeId = createChange().getChangeId();
+    assertThat(gApi.changes().query(changeId).get().get(0).mergeable).isNull();
+  }
+
   private PushOneCommit.Result createWorkInProgressChange() throws Exception {
     return pushTo("refs/for/master%wip");
   }

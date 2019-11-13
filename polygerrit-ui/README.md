@@ -64,14 +64,16 @@ the command line:
 The biggest draw back of this method is that you cannot log in, so cannot test
 scenarios that require it.
 
-#### MITM Proxy
+#### Chrome extension: Gerrit FE Dev Helper
 
-[MITM Proxy](https://mitmproxy.org/) is an open source product for proxying
-https servers. The
-[contrib/mitm-ui/](https://gerrit.googlesource.com/gerrit/+/master/contrib/mitm-ui/)
-directory contains scripts (and documentation) for using this technology
-(instead of the Go server). These scripts are somewhat experimental and
-unmaintained though.
+To be able to bypass the auth and also help improve the productivity of Gerrit FE developers,
+we created this chrome extension: [Gerrit FE Dev Helper](https://chrome.google.com/webstore/detail/gerrit-fe-dev-helper/jimgomcnodkialnpmienbomamgomglkd).
+
+It basically works as a proxy that will block / redirect requests from current sites to any given url base on certain rules.
+
+The source code is in [Gerrit - gerrit-fe-dev-helper](https://gerrit-review.googlesource.com/q/project:gerrit-fe-dev-helper), contributions are welcomed!
+
+To use this extension, just follow its [readme here](https://gerrit.googlesource.com/gerrit-fe-dev-helper/+/master/README.md).
 
 ## Running locally against a Gerrit test site
 

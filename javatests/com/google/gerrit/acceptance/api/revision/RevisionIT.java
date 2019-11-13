@@ -46,6 +46,7 @@ import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.TestProjectInput;
+import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.data.Permission;
@@ -1062,6 +1063,7 @@ public class RevisionIT extends AbstractDaemonTest {
   }
 
   @Test
+  @GerritConfig(name = "index.change.indexMergeable", value = "true")
   public void mergeable() throws Exception {
     ObjectId initial = repo().exactRef(HEAD).getLeaf().getObjectId();
 

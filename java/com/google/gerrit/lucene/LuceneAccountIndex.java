@@ -20,6 +20,7 @@ import static com.google.gerrit.server.index.account.AccountField.ID;
 import static com.google.gerrit.server.index.account.AccountField.ID_STR;
 import static com.google.gerrit.server.index.account.AccountField.PREFERRED_EMAIL_EXACT;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.index.FieldDef;
@@ -100,6 +101,7 @@ public class LuceneAccountIndex extends AbstractLuceneIndex<Account.Id, AccountS
         sitePaths,
         dir(schema, cfg, sitePaths),
         ACCOUNTS,
+        ImmutableSet.of(),
         null,
         new GerritIndexWriterConfig(cfg, ACCOUNTS),
         new SearcherFactory());

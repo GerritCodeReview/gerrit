@@ -14,6 +14,7 @@
 
 package com.google.gerrit.elasticsearch;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.elasticsearch.ElasticMapping.MappingProperties;
 import com.google.gerrit.elasticsearch.bulk.BulkRequest;
 import com.google.gerrit.elasticsearch.bulk.IndexRequest;
@@ -74,7 +75,7 @@ public class ElasticAccountIndex extends AbstractElasticIndex<Account.Id, Accoun
   public void replace(AccountState as) {
     BulkRequest bulk =
         new IndexRequest(getId(as), indexName, type, client.adapter())
-            .add(new UpdateRequest<>(schema, as));
+            .add(new UpdateRequest<>(schema, as, ImmutableSet.of()));
 
     String uri = getURI(type, BULK);
     Response response = postRequest(uri, bulk, getRefreshParam());

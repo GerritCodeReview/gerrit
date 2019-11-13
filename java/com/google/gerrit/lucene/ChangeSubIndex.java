@@ -20,6 +20,7 @@ import static com.google.gerrit.lucene.LuceneChangeIndex.ID_SORT_FIELD;
 import static com.google.gerrit.lucene.LuceneChangeIndex.UPDATED_SORT_FIELD;
 import static com.google.gerrit.server.index.change.ChangeSchemaDefinitions.NAME;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.QueryOptions;
@@ -48,6 +49,7 @@ public class ChangeSubIndex extends AbstractLuceneIndex<Change.Id, ChangeData>
       Schema<ChangeData> schema,
       SitePaths sitePaths,
       Path path,
+      ImmutableSet<String> skipFields,
       GerritIndexWriterConfig writerConfig,
       SearcherFactory searcherFactory)
       throws IOException {
@@ -56,6 +58,7 @@ public class ChangeSubIndex extends AbstractLuceneIndex<Change.Id, ChangeData>
         sitePaths,
         FSDirectory.open(path),
         path.getFileName().toString(),
+        skipFields,
         writerConfig,
         searcherFactory);
   }
@@ -65,10 +68,11 @@ public class ChangeSubIndex extends AbstractLuceneIndex<Change.Id, ChangeData>
       SitePaths sitePaths,
       Directory dir,
       String subIndex,
+      ImmutableSet<String> skipFields,
       GerritIndexWriterConfig writerConfig,
       SearcherFactory searcherFactory)
       throws IOException {
-    super(schema, sitePaths, dir, NAME, subIndex, writerConfig, searcherFactory);
+    super(schema, sitePaths, dir, NAME, skipFields, subIndex, writerConfig, searcherFactory);
   }
 
   @Override

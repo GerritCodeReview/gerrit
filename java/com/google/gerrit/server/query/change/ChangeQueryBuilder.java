@@ -63,6 +63,7 @@ import com.google.gerrit.server.account.VersionedAccountQueries;
 import com.google.gerrit.server.change.ChangeTriplet;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.OperatorAliasConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.index.change.ChangeField;
@@ -94,6 +95,7 @@ import java.util.function.Function;
 import java.util.regex.Pattern;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Repository;
 
 /** Parses a query string meant to be applied to change objects. */
@@ -221,6 +223,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
     final GroupMembers groupMembers;
     final Provider<AnonymousUser> anonymousUserProvider;
     final OperatorAliasConfig operatorAliasConfig;
+    final boolean indexMergeable;
 
     private final Provider<CurrentUser> self;
 
@@ -253,7 +256,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
         AccountCache accountCache,
         GroupMembers groupMembers,
         Provider<AnonymousUser> anonymousUserProvider,
-        OperatorAliasConfig operatorAliasConfig) {
+        OperatorAliasConfig operatorAliasConfig,
+        @GerritServerConfig Config gerritConfig) {
       this(
           queryProvider,
           rewriter,
@@ -281,7 +285,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
           accountCache,
           groupMembers,
           anonymousUserProvider,
-          operatorAliasConfig);
+          operatorAliasConfig,
+          gerritConfig.getBoolean("index", "change", "indexMergeable", true));
     }
 
     private Arguments(
@@ -311,7 +316,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
         AccountCache accountCache,
         GroupMembers groupMembers,
         Provider<AnonymousUser> anonymousUserProvider,
-        OperatorAliasConfig operatorAliasConfig) {
+        OperatorAliasConfig operatorAliasConfig,
+        boolean indexMergeable) {
       this.queryProvider = queryProvider;
       this.rewriter = rewriter;
       this.opFactories = opFactories;
@@ -339,6 +345,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
       this.groupMembers = groupMembers;
       this.anonymousUserProvider = anonymousUserProvider;
       this.operatorAliasConfig = operatorAliasConfig;
+      this.indexMergeable = indexMergeable;
     }
 
     Arguments asUser(CurrentUser otherUser) {
@@ -369,7 +376,8 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
           accountCache,
           groupMembers,
           anonymousUserProvider,
-          operatorAliasConfig);
+          operatorAliasConfig,
+          indexMergeable);
     }
 
     Arguments asUser(Account.Id otherId) {
@@ -570,6 +578,9 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
     }
 
     if ("mergeable".equalsIgnoreCase(value)) {
+      if (!args.indexMergeable) {
+        throw new QueryParseException("server does not support 'mergeable'. check configs");
+      }
       return new BooleanPredicate(ChangeField.MERGEABLE);
     }
 

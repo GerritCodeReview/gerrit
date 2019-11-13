@@ -17,6 +17,7 @@ package com.google.gerrit.lucene;
 import static com.google.common.collect.Iterables.getOnlyElement;
 import static com.google.gerrit.index.project.ProjectField.NAME;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.index.FieldDef;
@@ -90,6 +91,7 @@ public class LuceneProjectIndex extends AbstractLuceneIndex<Project.NameKey, Pro
         sitePaths,
         dir(schema, cfg, sitePaths),
         PROJECTS,
+        ImmutableSet.of(),
         null,
         new GerritIndexWriterConfig(cfg, PROJECTS),
         new SearcherFactory());

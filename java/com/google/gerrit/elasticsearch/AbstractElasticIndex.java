@@ -17,7 +17,6 @@ package com.google.gerrit.elasticsearch;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.gson.FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES;
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static org.apache.commons.codec.binary.Base64.decodeBase64;
 
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.FluentIterable;
@@ -83,6 +82,10 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
   protected static final String ORDER = "order";
   protected static final String SEARCH = "_search";
   protected static final String SETTINGS = "settings";
+
+  protected static byte[] decodeBase64(String base64String) {
+    return Base64.decodeBase64(base64String);
+  }
 
   protected static <T> List<T> decodeProtos(
       JsonObject doc, String fieldName, ProtobufCodec<T> codec) {

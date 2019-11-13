@@ -21,7 +21,6 @@ import static com.google.gerrit.server.index.change.ChangeIndexRewriter.CLOSED_S
 import static com.google.gerrit.server.index.change.ChangeIndexRewriter.OPEN_STATUSES;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Objects.requireNonNull;
-import static org.apache.commons.codec.binary.Base64.decodeBase64;
 
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableListMultimap;

@@ -28,7 +28,7 @@ limitations under the License.
 
 <test-fixture id="basic">
   <template>
-    <test-element></test-element>
+    <access-mixin-element></access-mixin-element>
   </template>
 </test-fixture>
 
@@ -37,11 +37,14 @@ limitations under the License.
     let element;
 
     suiteSetup(() => {
-      // Define a Polymer element that uses this behavior.
-      Polymer({
-        is: 'test-element',
-        behaviors: [Gerrit.AccessBehavior],
-      });
+      // Define a Polymer element that uses this mixin.
+      class TestElement extends Gerrit.AccessMixin(Polymer.Element) {
+        static get is() {
+          return 'access-mixin-element';
+        }
+      }
+
+      customElements.define(TestElement.is, TestElement);
     });
 
     setup(() => {

@@ -22,42 +22,41 @@ limitations under the License.
 
   window.Gerrit = window.Gerrit || {};
 
-  /** @polymerBehavior Gerrit.ListViewBehavior */
-  Gerrit.ListViewBehavior = [{
-    computeLoadingClass(loading) {
-      return loading ? 'loading' : '';
-    },
-
-    computeShownItems(items) {
-      return items.slice(0, 25);
-    },
-
-    getUrl(path, item) {
-      return this.getBaseUrl() + path + this.encodeURL(item, true);
-    },
-
-    /**
-     * @param {Object} params
-     * @return {string}
-     */
-    getFilterValue(params) {
-      if (!params) { return ''; }
-      return params.filter || '';
-    },
-
-    /**
-     * @param {Object} params
-     * @return {number}
-     */
-    getOffsetValue(params) {
-      if (params && params.offset) {
-        return params.offset;
+  const internalListViewMixin = base =>
+    class extends Gerrit.URLEncodingMixin(Gerrit.BaseUrlMixin(base)) {
+      computeLoadingClass(loading) {
+        return loading ? 'loading' : '';
       }
-      return 0;
-    },
-  },
-  Gerrit.BaseUrlBehavior,
-  Gerrit.URLEncodingBehavior,
-  ];
+
+      computeShownItems(items) {
+        return items.slice(0, 25);
+      }
+
+      getUrl(path, item) {
+        return this.getBaseUrl() + path + this.encodeURL(item, true);
+      }
+
+      /**
+       * @param {Object} params
+       * @return {string}
+       */
+      getFilterValue(params) {
+        if (!params) { return ''; }
+        return params.filter || '';
+      }
+
+      /**
+       * @param {Object} params
+       * @return {number}
+       */
+      getOffsetValue(params) {
+        if (params && params.offset) {
+          return params.offset;
+        }
+        return 0;
+      }
+    };
+
+  Gerrit.ListViewMixin = Polymer.dedupingMixin(internalListViewMixin);
 })(window);
 </script>

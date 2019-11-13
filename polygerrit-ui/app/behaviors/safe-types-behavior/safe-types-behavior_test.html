@@ -27,36 +27,11 @@ limitations under the License.
 
 <script>void(0);</script>
 
-<test-fixture id="basic">
-  <template>
-    <safe-types-element></safe-types-element>
-  </template>
-</test-fixture>
-
 <script>
   suite('gr-tooltip-behavior tests', () => {
-    let element;
-    let sandbox;
-
-    suiteSetup(() => {
-      Polymer({
-        is: 'safe-types-element',
-        behaviors: [Gerrit.SafeTypes],
-      });
-    });
-
-    setup(() => {
-      sandbox = sinon.sandbox.create();
-      element = fixture('basic');
-    });
-
-    teardown(() => {
-      sandbox.restore();
-    });
-
     test('SafeUrl accepts valid urls', () => {
       function accepts(url) {
-        const safeUrl = new element.SafeUrl(url);
+        const safeUrl = new Gerrit.SafeTypes.SafeUrl(url);
         assert.isOk(safeUrl);
         assert.equal(url, safeUrl.asString());
       }
@@ -71,7 +46,7 @@ limitations under the License.
 
     test('SafeUrl rejects invalid urls', () => {
       function rejects(url) {
-        assert.throws(() => { new element.SafeUrl(url); });
+        assert.throws(() => { new Gerrit.SafeTypes.SafeUrl(url); });
       }
       rejects('javascript://alert("evil");');
       rejects('ftp:example.com');
@@ -99,7 +74,7 @@ limitations under the License.
 
       test('accepts SafeUrl values', () => {
         const url = '/abc/123';
-        const safeUrl = new element.SafeUrl(url);
+        const safeUrl = new Gerrit.SafeTypes.SafeUrl(url);
         assert.equal(Gerrit.SafeTypes.safeTypesBridge(safeUrl, 'URL'), url);
       });
 

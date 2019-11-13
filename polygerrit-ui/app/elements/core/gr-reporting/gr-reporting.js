@@ -142,6 +142,25 @@
   };
   catchErrors();
 
+  // PerformanceObserver interface is a browser API.
+  if (window.PerformanceObserver) {
+    const supportedEntryTypes = PerformanceObserver.supportedEntryTypes || [];
+    // Safari doesn't support longtask yet
+    if (supportedEntryTypes.includes('longtask')) {
+      const catchLongJsTasks = new PerformanceObserver(list => {
+        for (const task of list.getEntries()) {
+          // We are interested in longtask longer than 200 ms (default is 50 ms)
+          if (task.duration > 200) {
+            GrReporting.prototype.reporter(TIMING.TYPE,
+                TIMING.CATEGORY_UI_LATENCY, `Task ${task.name}`,
+                Math.round(task.duration), false);
+          }
+        }
+      });
+      catchLongJsTasks.observe({entryTypes: ['longtask']});
+    }
+  }
+
   // The Polymer pass of JSCompiler requires this to be reassignable
   // eslint-disable-next-line prefer-const
   let GrReporting = Polymer({

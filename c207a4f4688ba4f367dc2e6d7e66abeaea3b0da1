@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "74ae6e2f_0f8b4fc6",
+        "filename": "java/com/google/gerrit/pgm/http/jetty/ProjectQoSFilter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1006432
+      },
+      "writtenOn": "2019-11-13T17:51:43Z",
+      "side": 1,
+      "message": "I don\u0027t like having all these vs a single STATE attribute...",
+      "range": {
+        "startLine": 69,
+        "startChar": 0,
+        "endLine": 72,
+        "endChar": 67
+      },
+      "revId": "c207a4f4688ba4f367dc2e6d7e66abeaea3b0da1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

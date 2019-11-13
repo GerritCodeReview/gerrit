@@ -13,6 +13,7 @@ java_library(
         "//lib/mockito",
     ],
     deps = [
+        "//java/com/google/gerrit/acceptance/config",
         "//java/com/google/gerrit/acceptance/testsuite/project",
         "//java/com/google/gerrit/common:annotations",
         "//java/com/google/gerrit/entities",

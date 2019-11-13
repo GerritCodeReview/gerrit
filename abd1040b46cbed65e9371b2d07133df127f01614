@@ -145,6 +145,30 @@
     },
     {
       "key": {
+        "uuid": "f42e872e_b1cc7087",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-annotation.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1062212
+      },
+      "writtenOn": "2019-11-13T03:21:31Z",
+      "side": 1,
+      "message": "Added a wrapper type.\nRegarding the event attributes, it seems like the sanitizer removes them, so there\u0027s nothing special we need to do there.",
+      "parentUuid": "8f06eb30_2197088a",
+      "range": {
+        "startLine": 53,
+        "startChar": 26,
+        "endLine": 53,
+        "endChar": 71
+      },
+      "revId": "abd1040b46cbed65e9371b2d07133df127f01614",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "71e45e6d_63b1a884",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-annotation.js",
         "patchSetId": 2

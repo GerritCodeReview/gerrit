@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fcc07a4b_ec09cdcd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-11-13T10:50:38Z",
+      "side": 1,
+      "message": "This change also considerably changes the scenario. Can we do that in a separate change or at least mention that here in the commit message?\n\nIn general it would be a good idea to have a document describing the scenarios provided in the project, and how and when to use them.",
+      "revId": "0bc42570f8f082ed9a1e41a002b2f5439243be4f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

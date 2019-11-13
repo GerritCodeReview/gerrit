@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "0b5f7573_7fa5e34e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 521,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2019-11-13T09:49:36Z",
+      "side": 1,
+      "message": "Now I\u0027m asserting via an \"Error\". I haven\u0027t found a better way to assert in the code.",
+      "parentUuid": "7d95eee3_c0276a1e",
+      "range": {
+        "startLine": 521,
+        "startChar": 12,
+        "endLine": 521,
+        "endChar": 24
+      },
+      "revId": "d1e0a247b1f5da3b35b1fe2882a18df8fe521f01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "42f2b61f_6acbfd33",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
         "patchSetId": 3
@@ -71,6 +95,54 @@
     },
     {
       "key": {
+        "uuid": "e5058c9f_02bfa7a3",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 527,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2019-11-13T09:49:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "42f2b61f_6acbfd33",
+      "range": {
+        "startLine": 527,
+        "startChar": 27,
+        "endLine": 527,
+        "endChar": 38
+      },
+      "revId": "d1e0a247b1f5da3b35b1fe2882a18df8fe521f01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7640780a_c2a429e8",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 527,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2019-11-13T09:49:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "01698241_5035c591",
+      "range": {
+        "startLine": 527,
+        "startChar": 23,
+        "endLine": 527,
+        "endChar": 26
+      },
+      "revId": "d1e0a247b1f5da3b35b1fe2882a18df8fe521f01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fdf9317e_2b5d24b2",
         "filename": "polygerrit-ui/app/elements/diff/gr-selection-action-box/gr-selection-action-box.js",
         "patchSetId": 3
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "73ffc4da_9ca279e0",
+        "filename": "polygerrit-ui/app/elements/diff/gr-selection-action-box/gr-selection-action-box.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2019-11-13T09:49:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fdf9317e_2b5d24b2",
+      "range": {
+        "startLine": 24,
+        "startChar": 57,
+        "endLine": 24,
+        "endChar": 63
+      },
+      "revId": "d1e0a247b1f5da3b35b1fe2882a18df8fe521f01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6537eb31_c28aa6e1",
         "filename": "polygerrit-ui/app/elements/diff/gr-selection-action-box/gr-selection-action-box.js",
         "patchSetId": 3
@@ -108,6 +204,24 @@
       "revId": "d1e0a247b1f5da3b35b1fe2882a18df8fe521f01",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "22abf08e_86c471f9",
+        "filename": "polygerrit-ui/app/elements/diff/gr-selection-action-box/gr-selection-action-box.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2019-11-13T09:49:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6537eb31_c28aa6e1",
+      "revId": "d1e0a247b1f5da3b35b1fe2882a18df8fe521f01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

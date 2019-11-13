@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b98ff306_687dd628",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-11-13T00:27:38Z",
+      "side": 1,
+      "message": "new line above plz. Also bug and change-id should be next to each other, no need to have a new line between them.",
+      "revId": "cd9685b80824fe68118db62c9ab9976d4cdc7aee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

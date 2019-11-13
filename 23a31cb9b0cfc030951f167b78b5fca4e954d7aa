@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9e56ca3d_3c220d1b",
+        "filename": "java/com/google/gerrit/server/restapi/group/DeleteGroup.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-11-13T18:38:59Z",
+      "side": 1,
+      "message": "Don\u0027t explicitly import this.  See L96",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 52
+      },
+      "revId": "23a31cb9b0cfc030951f167b78b5fca4e954d7aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2a92fa55_83e1c524",
+        "filename": "java/com/google/gerrit/server/restapi/group/DeleteGroup.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-11-13T18:38:59Z",
+      "side": 1,
+      "message": "AccountGroup.UUID",
+      "range": {
+        "startLine": 96,
+        "startChar": 36,
+        "endLine": 96,
+        "endChar": 40
+      },
+      "revId": "23a31cb9b0cfc030951f167b78b5fca4e954d7aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d8264483_286c6741",
+        "filename": "java/com/google/gerrit/server/restapi/group/DeleteGroup.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-11-13T18:38:59Z",
+      "side": 1,
+      "message": "\"in access permissions for project\"",
+      "range": {
+        "startLine": 103,
+        "startChar": 55,
+        "endLine": 103,
+        "endChar": 65
+      },
+      "revId": "23a31cb9b0cfc030951f167b78b5fca4e954d7aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "55321acf_a360f754",
+        "filename": "java/com/google/gerrit/server/restapi/group/DeleteGroup.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-11-13T18:38:59Z",
+      "side": 1,
+      "message": "\"cannot\" for consistency with other messages (i.e. L87)",
+      "range": {
+        "startLine": 103,
+        "startChar": 13,
+        "endLine": 103,
+        "endChar": 22
+      },
+      "revId": "23a31cb9b0cfc030951f167b78b5fca4e954d7aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

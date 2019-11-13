@@ -29,6 +29,7 @@ import com.google.common.base.Throwables;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
@@ -167,6 +168,7 @@ public class LuceneChangeIndex implements ChangeIndex {
   private final String idSortFieldName;
   private final IdTerm idTerm;
   private final ChangeIdExtractor extractor;
+  private final ImmutableSet<String> skipFields;
 
   @Inject
   LuceneChangeIndex(
@@ -179,6 +181,10 @@ public class LuceneChangeIndex implements ChangeIndex {
     this.executor = executor;
     this.changeDataFactory = changeDataFactory;
     this.schema = schema;
+    this.skipFields =
+        cfg.getBoolean("index", "change", "indexMergeable", true)
+            ? ImmutableSet.of()
+            : ImmutableSet.of(ChangeField.MERGEABLE.getName());
 
     GerritIndexWriterConfig openConfig = new GerritIndexWriterConfig(cfg, "changes_open");
     GerritIndexWriterConfig closedConfig = new GerritIndexWriterConfig(cfg, "changes_closed");
@@ -189,18 +195,40 @@ public class LuceneChangeIndex implements ChangeIndex {
     if (LuceneIndexModule.isInMemoryTest(cfg)) {
       openIndex =
           new ChangeSubIndex(
-              schema, sitePaths, new RAMDirectory(), "ramOpen", openConfig, searcherFactory);
+              schema,
+              sitePaths,
+              new RAMDirectory(),
+              "ramOpen",
+              skipFields,
+              openConfig,
+              searcherFactory);
       closedIndex =
           new ChangeSubIndex(
-              schema, sitePaths, new RAMDirectory(), "ramClosed", closedConfig, searcherFactory);
+              schema,
+              sitePaths,
+              new RAMDirectory(),
+              "ramClosed",
+              skipFields,
+              closedConfig,
+              searcherFactory);
     } else {
       Path dir = LuceneVersionManager.getDir(sitePaths, CHANGES, schema);
       openIndex =
           new ChangeSubIndex(
-              schema, sitePaths, dir.resolve(CHANGES_OPEN), openConfig, searcherFactory);
+              schema,
+              sitePaths,
+              dir.resolve(CHANGES_OPEN),
+              skipFields,
+              openConfig,
+              searcherFactory);
       closedIndex =
           new ChangeSubIndex(
-              schema, sitePaths, dir.resolve(CHANGES_CLOSED), closedConfig, searcherFactory);
+              schema,
+              sitePaths,
+              dir.resolve(CHANGES_CLOSED),
+              skipFields,
+              closedConfig,
+              searcherFactory);
     }
 
     idField = this.schema.useLegacyNumericFields() ? LEGACY_ID : LEGACY_ID_STR;
@@ -565,7 +593,7 @@ public class LuceneChangeIndex implements ChangeIndex {
 
   private void decodeMergeable(ListMultimap<String, IndexableField> doc, ChangeData cd) {
     IndexableField f = Iterables.getFirst(doc.get(MERGEABLE_FIELD), null);
-    if (f != null) {
+    if (f != null && !skipFields.contains(MERGEABLE_FIELD)) {
       String mergeable = f.stringValue();
       if ("1".equals(mergeable)) {
         cd.setMergeable(true);

@@ -2766,6 +2766,22 @@ online schema upgrades.
 If not set or set to a zero, defaults to the number of logical CPUs as returned
 by the JVM. If set to a negative value, defaults to a direct executor.
 
+[[index.change.indexMergeable]]index.change.indexMergeable::
++
+Specifies if `mergeable` should be index or not. Indexing this field enables
+queries that contain the mergeability operator (`is:mergeable`). If enabled,
+Gerrit will check if the change is mergeable into the target branch when
+reindexing a change. This is an expensive operation.
++
+If true, Gerrit will reindex all open changes when the target ref advances.
+Depending on the frequency of updates to the ref and the number of open changes,
+this can be very expensive.
++
+When this setting is changed from `false` to `true`, all changes need to be
+reindexed.
++
+Defaults to true.
+
 [[index.onlineUpgrade]]index.onlineUpgrade::
 +
 Whether to upgrade to new index schema versions while the server is
@@ -2812,19 +2828,6 @@ permitted per BooleanQuery. This is so that all enforced query limits
 are the same.
 +
 Defaults to 1024.
-
-[[index.reindexAfterRefUpdate]]index.reindexAfterRefUpdate::
-+
-Whether to reindex all affected open changes after a ref is updated. This
-includes reindexing all open changes to recompute the "mergeable" bit every time
-the destination branch moves, as well as reindexing changes to take into account
-new project configuration (e.g. label definitions).
-+
-Leaving this enabled may result in fresher results, but may cause performance
-problems if there are lots of open changes on a project whose branches advance
-frequently.
-+
-Defaults to true.
 
 [[index.autoReindexIfStale]]index.autoReindexIfStale::
 +

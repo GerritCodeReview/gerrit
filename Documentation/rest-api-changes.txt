@@ -315,6 +315,11 @@ When link:config-gerrit.html#change.api.excludeMergeableInChangeInfo[
 the `mergeable` field will always be omitted and `SKIP_MERGEABLE` has no
 effect.
 +
+When link:config-gerrit.html#index.change.indexMergeable[
+`index.change.indexMergeable`] is set to `false` in the `gerrit.config`,
+the `mergeable` field will always be omitted when querying changes and
+`SKIP_MERGEABLE` has no effect.
++
 A change's mergeability can be requested separately by calling the
 link:#get-mergeable[get-mergeable] endpoint.
 --

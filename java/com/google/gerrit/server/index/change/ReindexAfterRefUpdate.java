@@ -76,7 +76,7 @@ public class ReindexAfterRefUpdate implements GitReferenceUpdatedListener {
     this.accountCache = accountCache;
     this.indexer = indexer;
     this.executor = executor;
-    this.enabled = cfg.getBoolean("index", null, "reindexAfterRefUpdate", true);
+    this.enabled = cfg.getBoolean("index", "change", "indexMergeable", true);
   }
 
   @Override

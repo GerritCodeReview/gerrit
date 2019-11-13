@@ -28,7 +28,7 @@ limitations under the License.
 
 <test-fixture id="basic">
   <template>
-    <test-element-anon></test-element-anon>
+    <display-name-mixin-element></display-name-mixin-element>
   </template>
 </test-fixture>
 
@@ -43,13 +43,14 @@ limitations under the License.
     };
 
     suiteSetup(() => {
-      // Define a Polymer element that uses this behavior.
-      Polymer({
-        is: 'test-element-anon',
-        behaviors: [
-          Gerrit.DisplayNameBehavior,
-        ],
-      });
+      // Define a Polymer element that uses this mixin.
+      class TestElement extends Gerrit.DisplayNameMixin(Polymer.Element) {
+        static get is() {
+          return 'display-name-mixin-element';
+        }
+      }
+
+      customElements.define(TestElement.is, TestElement);
     });
 
     setup(() => {

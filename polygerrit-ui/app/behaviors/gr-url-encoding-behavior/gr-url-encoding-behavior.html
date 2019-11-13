@@ -20,38 +20,40 @@ limitations under the License.
 
   window.Gerrit = window.Gerrit || {};
 
-  /** @polymerBehavior Gerrit.URLEncodingBehavior */
-  Gerrit.URLEncodingBehavior = {
-    /**
-     * Pretty-encodes a URL. Double-encodes the string, and then replaces
-     *   benevolent characters for legibility.
-     * @param {string} url
-     * @param {boolean=} replaceSlashes
-     * @return {string}
-     */
-    encodeURL(url, replaceSlashes) {
-      // @see Issue 4255 regarding double-encoding.
-      let output = encodeURIComponent(encodeURIComponent(url));
-      // @see Issue 4577 regarding more readable URLs.
-      output = output.replace(/%253A/g, ':');
-      output = output.replace(/%2520/g, '+');
-      if (replaceSlashes) {
-        output = output.replace(/%252F/g, '/');
+  const internalURLEncodingMixin = base =>
+    class extends base {
+      /**
+       * Pretty-encodes a URL. Double-encodes the string, and then replaces
+       *   benevolent characters for legibility.
+       * @param {string} url
+       * @param {boolean=} replaceSlashes
+       * @return {string}
+       */
+      encodeURL(url, replaceSlashes) {
+        // @see Issue 4255 regarding double-encoding.
+        let output = encodeURIComponent(encodeURIComponent(url));
+        // @see Issue 4577 regarding more readable URLs.
+        output = output.replace(/%253A/g, ':');
+        output = output.replace(/%2520/g, '+');
+        if (replaceSlashes) {
+          output = output.replace(/%252F/g, '/');
+        }
+        return output;
       }
-      return output;
-    },
 
-    /**
-     * Single decode for URL components. Will decode plus signs ('+') to spaces.
-     * Note: because this function decodes once, it is not the inverse of
-     * encodeURL.
-     * @param {string} url
-     * @return {string}
-     */
-    singleDecodeURL(url) {
-      const withoutPlus = url.replace(/\+/g, '%20');
-      return decodeURIComponent(withoutPlus);
-    },
-  };
+      /**
+       * Single decode for URL components. Will decode plus signs ('+') to spaces.
+       * Note: because this function decodes once, it is not the inverse of
+       * encodeURL.
+       * @param {string} url
+       * @return {string}
+       */
+      singleDecodeURL(url) {
+        const withoutPlus = url.replace(/\+/g, '%20');
+        return decodeURIComponent(withoutPlus);
+      }
+    };
+
+  Gerrit.URLEncodingMixin = Polymer.dedupingMixin(internalURLEncodingMixin);
 })(window);
 </script>

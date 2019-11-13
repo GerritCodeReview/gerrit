@@ -21,35 +21,37 @@ limitations under the License.
 
   window.Gerrit = window.Gerrit || {};
 
-  /** @polymerBehavior Gerrit.FireBehavior */
-  Gerrit.FireBehavior = {
-    /**
-     * Dispatches a custom event with an optional detail value.
-     *
-     * @param {string} type Name of event type.
-     * @param {*=} detail Detail value containing event-specific
-     *   payload.
-     * @param {{ bubbles: (boolean|undefined), cancelable: (boolean|undefined),
-     *     composed: (boolean|undefined) }=}
-     *  options Object specifying options.  These may include:
-     *  `bubbles` (boolean, defaults to `true`),
-     *  `cancelable` (boolean, defaults to false), and
-     *  `composed` (boolean, defaults to true).
-     * @return {!Event} The new event that was fired.
-     * @override
-     */
-    fire(type, detail, options) {
-      options = options || {};
-      detail = (detail === null || detail === undefined) ? {} : detail;
-      const event = new Event(type, {
-        bubbles: options.bubbles === undefined ? true : options.bubbles,
-        cancelable: Boolean(options.cancelable),
-        composed: options.composed === undefined ? true: options.composed,
-      });
-      event.detail = detail;
-      this.dispatchEvent(event);
-      return event;
-    },
-  };
+  const internalFireMixin = base =>
+    class extends base {
+      /**
+       * Dispatches a custom event with an optional detail value.
+       *
+       * @param {string} type Name of event type.
+       * @param {*=} detail Detail value containing event-specific
+       *   payload.
+       * @param {{ bubbles: (boolean|undefined), cancelable: (boolean|undefined),
+       *     composed: (boolean|undefined) }=}
+       *  options Object specifying options.  These may include:
+       *  `bubbles` (boolean, defaults to `true`),
+       *  `cancelable` (boolean, defaults to false), and
+       *  `composed` (boolean, defaults to true).
+       * @return {!Event} The new event that was fired.
+       * @override
+       */
+      fire(type, detail, options) {
+        options = options || {};
+        detail = (detail === null || detail === undefined) ? {} : detail;
+        const event = new Event(type, {
+          bubbles: options.bubbles === undefined ? true : options.bubbles,
+          cancelable: Boolean(options.cancelable),
+          composed: options.composed === undefined ? true: options.composed,
+        });
+        event.detail = detail;
+        this.dispatchEvent(event);
+        return event;
+      }
+    };
+
+  Gerrit.FireMixin = Polymer.dedupingMixin(internalFireMixin);
 })(window);
 </script>

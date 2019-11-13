@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6b3a1f2e_829b71a7",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor_test.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-11-13T10:30:05Z",
+      "side": 1,
+      "message": "Nit: I don\u0027t think you need async here - not passing done and not calling done here should also work, no?",
+      "revId": "a741f74f95ea7ac691696f863203fc4fdb15a821",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "418ec8c7_e94f53e5",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor_test.html",
+        "patchSetId": 7
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-11-13T10:30:05Z",
+      "side": 1,
+      "message": "Does this actually check anything? If the event is send asynchronous, and we do not wait for an async event here, this might not be called in time even if it was called. Is any of this even async?\nShould createCommentInPlace maybe return a boolean to make this easier to test and to observe by callers?",
+      "revId": "a741f74f95ea7ac691696f863203fc4fdb15a821",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "55d9a1e2_e1b7f61e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-diff-highlight.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-11-13T10:30:05Z",
+      "side": 1,
+      "message": "Is this really the right thing to expose? Do we need this full box on the outside? Or should we maybe have a RangeLocation type that is just the `range` and the `side`, instead of exposing the full dom element here?",
+      "revId": "a741f74f95ea7ac691696f863203fc4fdb15a821",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

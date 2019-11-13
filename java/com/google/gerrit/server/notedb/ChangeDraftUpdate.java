@@ -233,20 +233,13 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
       return NO_OP_UPDATE;
     }
 
-    // If we touched every revision and there are no comments left, tell the
+    // If there are no comments left, tell the
     // caller to delete the entire ref.
-    boolean touchedAllRevs = updatedCommits.equals(rnm.revisionNotes.keySet());
-    if (touchedAllRevs && !hasComments) {
+    if (!rnm.noteMap.iterator().hasNext()) {
       return null;
     }
 
     ObjectId treeId = rnm.noteMap.writeTree(ins);
-    if (!rnm.noteMap.iterator().hasNext()) {
-      logger.atSevere().log(
-          "building draft update without content: hasComments=%s "
-              + "touchedAllRevs=%s updateCommits=%d revisionNotes=%d",
-          hasComments, touchedAllRevs, updatedCommits.size(), rnm.revisionNotes.size());
-    }
     cb.setTreeId(treeId);
     return cb;
   }

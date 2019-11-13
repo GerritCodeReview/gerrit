@@ -20,27 +20,29 @@ limitations under the License.
 
   window.Gerrit = window.Gerrit || {};
 
-  /** @polymerBehavior Gerrit.DomUtilBehavior */
-  Gerrit.DomUtilBehavior = {
-    /**
-     * Are any ancestors of the element (or the element itself) members of the
-     * given class.
-     * @param {!Element} element
-     * @param {string} className
-     * @param {Element=} opt_stopElement If provided, stop traversing the
-     *     ancestry when the stop element is reached. The stop element's class
-     *     is not checked.
-     * @return {boolean}
-     */
-    descendedFromClass(element, className, opt_stopElement) {
-      let isDescendant = element.classList.contains(className);
-      while (!isDescendant && element.parentElement &&
-          (!opt_stopElement || element.parentElement !== opt_stopElement)) {
-        isDescendant = element.classList.contains(className);
-        element = element.parentElement;
+  const internalDomUtilMixin = base =>
+    class extends base {
+      /**
+       * Are any ancestors of the element (or the element itself) members of the
+       * given class.
+       * @param {!Element} element
+       * @param {string} className
+       * @param {Element=} opt_stopElement If provided, stop traversing the
+       *     ancestry when the stop element is reached. The stop element's class
+       *     is not checked.
+       * @return {boolean}
+       */
+      descendedFromClass(element, className, opt_stopElement) {
+        let isDescendant = element.classList.contains(className);
+        while (!isDescendant && element.parentElement &&
+        (!opt_stopElement || element.parentElement !== opt_stopElement)) {
+          isDescendant = element.classList.contains(className);
+          element = element.parentElement;
+        }
+        return isDescendant;
       }
-      return isDescendant;
-    },
-  };
+    };
+
+  Gerrit.DomUtilMixin = Polymer.dedupingMixin(internalDomUtilMixin);
 })(window);
 </script>

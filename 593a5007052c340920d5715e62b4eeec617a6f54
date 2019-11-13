@@ -16,6 +16,24 @@
       "revId": "593a5007052c340920d5715e62b4eeec617a6f54",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c78247a8_1cee78ed",
+        "filename": "java/com/google/gerrit/server/git/validators/MergeValidationListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-11-13T08:08:58Z",
+      "side": 1,
+      "message": "Or also via commit.change().getChangeId()",
+      "parentUuid": "06a77abf_94109e09",
+      "revId": "593a5007052c340920d5715e62b4eeec617a6f54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -34,6 +34,24 @@
       "revId": "593a5007052c340920d5715e62b4eeec617a6f54",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "69989797_484b393d",
+        "filename": "java/com/google/gerrit/server/git/validators/MergeValidationListener.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-11-13T08:39:20Z",
+      "side": 1,
+      "message": "I overlooked this.  It would be better to do this as it would avoid breaking the API.\n\nDone in https://gerrit-review.googlesource.com/c/gerrit/+/245134",
+      "parentUuid": "c78247a8_1cee78ed",
+      "revId": "593a5007052c340920d5715e62b4eeec617a6f54",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

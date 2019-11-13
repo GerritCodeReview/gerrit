@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "efe8f62c_b0ab19c4",
+        "filename": "java/com/google/gerrit/acceptance/config/BUILD",
+        "patchSetId": 7
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-11-13T22:35:03Z",
+      "side": 1,
+      "message": "Not used and should be removed.",
+      "range": {
+        "startLine": 14,
+        "startChar": 8,
+        "endLine": 15,
+        "endChar": 21
+      },
+      "revId": "a87bdb97f463b07a94b3907316ee018d65a9b8dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

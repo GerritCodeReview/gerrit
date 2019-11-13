@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ae7bdb48_fb42bf35",
+        "filename": "e2e-tests/load-tests/Dockerfile",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-11-13T10:39:47Z",
+      "side": 1,
+      "message": "Why not use/build on the docker image maintained in the gatling-git project?",
+      "revId": "d8bf14c1e01f25686e641472e42a15bf45fd7f8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "204a58c1_defadc23",
+        "filename": "e2e-tests/load-tests/Dockerfile",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-11-13T10:39:47Z",
+      "side": 1,
+      "message": "This build probably won\u0027t be available forever. Can we use a build-arg to set the URL with using the last successful build URL as the default?",
+      "range": {
+        "startLine": 3,
+        "startChar": 65,
+        "endLine": 3,
+        "endChar": 67
+      },
+      "revId": "d8bf14c1e01f25686e641472e42a15bf45fd7f8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d4442535_1c8a3924",
+        "filename": "e2e-tests/load-tests/Dockerfile",
+        "patchSetId": 2
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-11-13T10:39:47Z",
+      "side": 1,
+      "message": "Remove this?",
+      "revId": "d8bf14c1e01f25686e641472e42a15bf45fd7f8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4c59e2ef_63643a7f",
+        "filename": "e2e-tests/load-tests/Dockerfile",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-11-13T10:39:47Z",
+      "side": 1,
+      "message": "This runs the container as root. Can we change that?",
+      "revId": "d8bf14c1e01f25686e641472e42a15bf45fd7f8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

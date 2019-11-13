@@ -185,10 +185,10 @@
         return reviewer._account_id != owner._account_id;
       });
 
-      // If there is one more than the max reviewers, don't show the 'show
-      // more' button, because it takes up just as much space.
+      // If there is one or two more than the max reviewers, don't show the
+      // 'show more' button, because it takes up just as much space.
       if (this.maxReviewersDisplayed &&
-          this._reviewers.length > this.maxReviewersDisplayed + 1) {
+          this._reviewers.length > this.maxReviewersDisplayed + 2) {
         this._displayedReviewers =
           this._reviewers.slice(0, this.maxReviewersDisplayed);
       } else {

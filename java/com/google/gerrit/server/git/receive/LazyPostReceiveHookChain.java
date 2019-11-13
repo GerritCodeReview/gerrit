@@ -79,13 +79,9 @@ public class LazyPostReceiveHookChain implements PostReceiveHook {
   }
 
   public static boolean affectsSize(ReceivePack rp, Collection<ReceiveCommand> commands) {
-    if (rp.getPackSize() > 0L) {
-      for (ReceiveCommand cmd : commands) {
-        if (cmd.getType() != ReceiveCommand.Type.DELETE) {
-          return true;
-        }
-      }
+    if (commands.stream().allMatch(c -> c.getType() == ReceiveCommand.Type.DELETE)) {
+      return false;
     }
-    return false;
+    return rp.getPackSize() > 0L;
   }
 }

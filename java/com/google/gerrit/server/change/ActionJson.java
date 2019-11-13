@@ -136,6 +136,7 @@ public class ActionJson {
     copy._number = changeInfo._number;
     copy.requirements = changeInfo.requirements;
     copy.revertOf = changeInfo.revertOf;
+    copy.submissionId = changeInfo.submissionId;
     copy.starred = changeInfo.starred;
     copy.stars = changeInfo.stars;
     copy.submitted = changeInfo.submitted;

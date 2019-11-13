@@ -249,6 +249,7 @@ public class ChangeIT extends AbstractDaemonTest {
     assertThat(c.owner.email).isNull();
     assertThat(c.owner.username).isNull();
     assertThat(c.owner.avatars).isNull();
+    assertThat(c.submissionId).isNull();
   }
 
   @Test
@@ -311,6 +312,15 @@ public class ChangeIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     ChangeInfo c = gApi.changes().id(r.getChangeId()).get();
     assertThat(c.mergeable).isNull();
+  }
+
+  @Test
+  public void getSubmissionId() throws Exception {
+    PushOneCommit.Result changeResult = createChange();
+    String changeId = changeResult.getChangeId();
+
+    merge(changeResult);
+    assertThat(gApi.changes().id(changeId).get().submissionId).isNotNull();
   }
 
   @Test

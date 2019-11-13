@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "0ccad2fb_aab7156f",
+        "filename": "java/com/google/gerrit/server/restapi/group/DeleteGroup.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1014257
+      },
+      "writtenOn": "2019-11-13T23:49:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2a92fa55_83e1c524",
+      "range": {
+        "startLine": 96,
+        "startChar": 36,
+        "endLine": 96,
+        "endChar": 40
+      },
+      "revId": "23a31cb9b0cfc030951f167b78b5fca4e954d7aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d8264483_286c6741",
         "filename": "java/com/google/gerrit/server/restapi/group/DeleteGroup.java",
         "patchSetId": 1
@@ -91,6 +115,54 @@
       "revId": "23a31cb9b0cfc030951f167b78b5fca4e954d7aa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bbdbd463_7a0158fa",
+        "filename": "java/com/google/gerrit/server/restapi/group/DeleteGroup.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1014257
+      },
+      "writtenOn": "2019-11-13T23:49:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d8264483_286c6741",
+      "range": {
+        "startLine": 103,
+        "startChar": 55,
+        "endLine": 103,
+        "endChar": 65
+      },
+      "revId": "23a31cb9b0cfc030951f167b78b5fca4e954d7aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8e5512e5_9d6c3036",
+        "filename": "java/com/google/gerrit/server/restapi/group/DeleteGroup.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1014257
+      },
+      "writtenOn": "2019-11-13T23:49:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "55321acf_a360f754",
+      "range": {
+        "startLine": 103,
+        "startChar": 13,
+        "endLine": 103,
+        "endChar": 22
+      },
+      "revId": "23a31cb9b0cfc030951f167b78b5fca4e954d7aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

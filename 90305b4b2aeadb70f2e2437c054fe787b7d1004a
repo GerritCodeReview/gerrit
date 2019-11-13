@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e4d13caf_66fe6601",
+        "filename": "java/com/google/gerrit/server/git/receive/LazyPostReceiveHookChain.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2019-11-13T17:58:03Z",
+      "side": 1,
+      "message": "it passes the test when ref deletion through the push is performed but it would be nice to test it also when delete and regular push is performed in the same command...",
+      "range": {
+        "startLine": 82,
+        "startChar": 4,
+        "endLine": 85,
+        "endChar": 33
+      },
+      "revId": "90305b4b2aeadb70f2e2437c054fe787b7d1004a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

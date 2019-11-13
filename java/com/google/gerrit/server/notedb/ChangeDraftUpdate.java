@@ -198,14 +198,23 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
       return NO_OP_UPDATE;
     }
 
-    // If we touched every revision and there are no comments left, tell the
+    // If there are no comments left, tell the
     // caller to delete the entire ref.
+<<<<<<< HEAD   (3ec122 Fix loading font-roboto-local in the ui)
     boolean touchedAllRevs = updatedRevs.equals(rnm.revisionNotes.keySet());
     if (touchedAllRevs && !hasComments) {
+=======
+    if (!rnm.noteMap.iterator().hasNext()) {
+>>>>>>> CHANGE (d69498 Fix deletion of draft comment refs)
       return null;
     }
 
+<<<<<<< HEAD   (3ec122 Fix loading font-roboto-local in the ui)
     cb.setTreeId(rnm.noteMap.writeTree(ins));
+=======
+    ObjectId treeId = rnm.noteMap.writeTree(ins);
+    cb.setTreeId(treeId);
+>>>>>>> CHANGE (d69498 Fix deletion of draft comment refs)
     return cb;
   }
 

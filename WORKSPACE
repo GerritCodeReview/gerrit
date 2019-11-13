@@ -954,12 +954,6 @@ maven_jar(
 )
 
 maven_jar(
-    name = "jetty-continuation",
-    artifact = "org.eclipse.jetty:jetty-continuation:" + JETTY_VERS,
-    sha1 = "3c421a3be5be5805e32b1a7f9c6046526524181d",
-)
-
-maven_jar(
     name = "jetty-http",
     artifact = "org.eclipse.jetty:jetty-http:" + JETTY_VERS,
     sha1 = "c2e73db2db5c369326b717da71b6587b3da11e0e",

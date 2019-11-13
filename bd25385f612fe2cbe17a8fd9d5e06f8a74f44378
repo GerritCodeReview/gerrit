@@ -33,6 +33,24 @@
       "revId": "bd25385f612fe2cbe17a8fd9d5e06f8a74f44378",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2ce73930_516ff8db",
+        "filename": "WORKSPACE",
+        "patchSetId": 11
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-11-13T12:55:25Z",
+      "side": 1,
+      "message": "Thanks. I also got a similar comment from Jetty maintainers here: [1].\n\n* [1] https://github.com/eclipse/jetty.project/issues/4112",
+      "parentUuid": "88cb6988_00019649",
+      "revId": "bd25385f612fe2cbe17a8fd9d5e06f8a74f44378",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

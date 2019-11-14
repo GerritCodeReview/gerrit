@@ -152,6 +152,24 @@ limitations under the License.
       assert.isTrue(addDraftStub.called);
     });
 
+    test('_shouldDisableAction', () => {
+      let showActions = true;
+      const lastComment = {};
+      assert.equal(
+          element._shouldDisableAction(showActions, lastComment), false);
+      showActions = false;
+      assert.equal(
+          element._shouldDisableAction(showActions, lastComment), true);
+      showActions = true;
+      lastComment.__draft = true;
+      assert.equal(
+          element._shouldDisableAction(showActions, lastComment), true);
+      const robotComment = {};
+      robotComment.robot_id = true;
+      assert.equal(
+          element._shouldDisableAction(showActions, robotComment), false);
+    });
+
     test('_hideActions', () => {
       let showActions = true;
       const lastComment = {};

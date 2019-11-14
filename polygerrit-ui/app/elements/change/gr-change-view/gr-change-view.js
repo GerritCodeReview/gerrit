@@ -847,6 +847,14 @@
       this.viewState.numFilesShown = numFilesShown;
     }
 
+    getNavUrl(message, change) {
+      const hash = MSG_PREFIX + message.id;
+      const url = Gerrit.Nav.getUrlForChange(change,
+          this._patchRange.patchNum, this._patchRange.basePatchNum,
+          this._editMode, hash);
+      return url;
+    }
+
     _handleMessageAnchorTap(e) {
       const hash = MSG_PREFIX + e.detail.id;
       const url = Gerrit.Nav.getUrlForChange(this._change,
@@ -1315,6 +1323,9 @@
             this._lineHeight =
                 parseInt(lineHeight.slice(0, lineHeight.length - 2), 10);
 
+            change.messages && change.messages.forEach(msg => {
+              msg.navUrl = this.getNavUrl(msg, change);
+            });
             this._change = change;
             if (!this._patchRange || !this._patchRange.patchNum ||
                 this.patchNumEquals(this._patchRange.patchNum,

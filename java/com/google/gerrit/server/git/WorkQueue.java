@@ -23,6 +23,7 @@ import com.google.gerrit.extensions.events.LifecycleListener;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.MetricMaker;
+import com.google.gerrit.server.config.GcConfig;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.ScheduleConfig.Schedule;
 import com.google.gerrit.server.logging.LoggingContext;
@@ -94,8 +95,17 @@ public class WorkQueue {
   private final CopyOnWriteArrayList<Executor> queues;
 
   @Inject
-  WorkQueue(IdGenerator idGenerator, @GerritServerConfig Config cfg, MetricMaker metrics) {
-    this(idGenerator, cfg.getInt("execution", "defaultThreadPoolSize", 1), metrics);
+  WorkQueue(
+      IdGenerator idGenerator,
+      @GerritServerConfig Config cfg,
+      MetricMaker metrics,
+      GcConfig gcConfig) {
+    this(
+        idGenerator,
+        Math.max(
+            cfg.getInt("execution", "defaultThreadPoolSize", 1),
+            gcConfig.getSchedule().isPresent() ? 2 : 1),
+        metrics);
   }
 
   /** Constructor to allow binding the WorkQueue more explicitly in a vhost setup. */

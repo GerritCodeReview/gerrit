@@ -29,10 +29,20 @@ limitations under the License.
         color: inherit;
         display: inline;
       }
+      .navLink {
+        color: inherit;
+      }
     </style>
-    <span>
-      [[_computeDateStr(dateStr, _timeFormat, _relative, showDateAndTime)]]
-    </span>
+    <template is="dom-if" if="[[linkUrl]]">
+      <a class="navLink" href="[[linkUrl]]">
+        [[_computeDateStr(dateStr, _timeFormat, _relative, showDateAndTime)]]
+      </a>
+    </template>
+    <template is="dom-if" if="[[!linkUrl]]">
+      <span>
+        [[_computeDateStr(dateStr, _timeFormat, _relative, showDateAndTime)]]
+      </span>
+    </template>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>
   <script src="gr-date-formatter.js"></script>

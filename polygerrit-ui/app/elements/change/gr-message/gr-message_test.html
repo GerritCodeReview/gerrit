@@ -37,14 +37,28 @@ limitations under the License.
 <script>
   suite('gr-message tests', () => {
     let element;
-
+    let sandbox;
     setup(done => {
+      sandbox = sinon.sandbox.create();
       stub('gr-rest-api-interface', {
         getLoggedIn() { return Promise.resolve(false); },
         getConfig() { return Promise.resolve({}); },
       });
       element = fixture('basic');
       flush(done);
+    });
+
+    test('navUrl links are assigned correctly', done => {
+      sandbox.stub(Gerrit.Nav, '_generateUrl', params => {
+        return params.changeNum + params.messageHash;
+      });
+      element.changeNum = 199;
+      element.projectName = 'gerrit';
+      flushAsynchronousOperations();
+      assert.equal(element.computeLinkUrl({id:
+        'dfc9ea9d98dffaef5d60ea9bb7b152399ccde503'}),
+      '199#message-dfc9ea9d98dffaef5d60ea9bb7b152399ccde503');
+      done();
     });
 
     test('reply event', done => {
@@ -164,24 +178,6 @@ limitations under the License.
         assert.isNotOk(
             Polymer.dom(element.root).querySelector('.positiveVote'));
       });
-    });
-
-    test('clicking on date link fires event', () => {
-      element.message = {
-        type: 'REVIEWER_UPDATE',
-        updated: '2016-01-12 20:24:49.448000000',
-        reviewer: {},
-        id: '47c43261_55aa2c41',
-      };
-      flushAsynchronousOperations();
-      const stub = sinon.stub();
-      element.addEventListener('message-anchor-tap', stub);
-      const dateEl = element.$$('.date');
-      assert.ok(dateEl);
-      MockInteractions.tap(dateEl);
-
-      assert.isTrue(stub.called);
-      assert.deepEqual(stub.lastCall.args[0].detail, {id: element.message.id});
     });
 
     test('votes', () => {

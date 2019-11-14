@@ -90,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "51a0ab44_02195a19",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2019-11-14T17:19:39Z",
+      "side": 1,
+      "message": "https://source.corp.google.com/piper///depot/google3/third_party/javascript/polygerrit/elements/shared/gr-comment-thread/gr-comment-thread.html;l\u003d103?q\u003dgr-comment-thread\u0026sq\u003dpackage:piper%20file:%2F%2Fdepot%2Fgoogle3%20-file:google3%2Fexperimental\n\nSeems there is still one usage?",
+      "parentUuid": "4c700171_d68cab39",
+      "revId": "0a1045db4b6433774a7c65496aed3e65f555e854",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ae1d804b_2312a6b2",
         "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.js",
         "patchSetId": 5

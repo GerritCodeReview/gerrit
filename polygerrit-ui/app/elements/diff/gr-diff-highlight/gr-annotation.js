@@ -43,6 +43,65 @@
     },
 
     /**
+     * Annotates the [offset, offset+length) text segment in the parent with the
+     * element definition provided as arguments.
+     *
+     * @param {!Element} parent the node whose contents will be annotated.
+     * @param {number} offset the 0-based offset from which the annotation will
+     *   start.
+     * @param {number} length of the annotated text.
+     * @param {GrAnnotation.ElementSpec} elementSpec the spec to create the
+     *   annotating element.
+     */
+    annotateWithElement(parent, offset, length, {tagName, attributes = {}}) {
+      let childNodes;
+
+      if (parent instanceof Element) {
+        childNodes = Array.from(parent.childNodes);
+      } else if (parent instanceof Text) {
+        childNodes = [parent];
+        parent = parent.parentNode;
+      } else {
+        return;
+      }
+
+      const nestedNodes = [];
+      for (let node of childNodes) {
+        const initialNodeLength = this.getLength(node);
+        // If the current node is completely before the offset.
+        if (initialNodeLength <= offset) {
+          offset -= initialNodeLength;
+          continue;
+        }
+
+        if (offset > 0) {
+          node = this.splitNode(node, offset);
+          offset = 0;
+        }
+        if (this.getLength(node) > length) {
+          this.splitNode(node, length);
+        }
+        nestedNodes.push(node);
+
+        length -= this.getLength(node);
+        if (!length) break;
+      }
+
+      const wrapper = document.createElement(tagName);
+      const sanitizer = window.Polymer.sanitizeDOMValue;
+      for (const [name, value] of Object.entries(attributes)) {
+        wrapper.setAttribute(
+            name, sanitizer
+              ? sanitizer(value, name, 'attribute', wrapper)
+              : value);
+      }
+      for (const inner of nestedNodes) {
+        parent.replaceChild(wrapper, inner);
+        wrapper.appendChild(inner);
+      }
+    },
+
+    /**
      * Surrounds the element's text at specified range in an ANNOTATION_TAG
      * element. If the element has child elements, the range is split and
      * applied as deeply as possible.
@@ -209,6 +268,16 @@
       }
     },
   };
+
+  /**
+   * Data used to construct an element.
+   *
+   * @typedef {{
+   *   tagName: string,
+   *   attributes: (!Object<string, *>|undefined)
+   * }}
+   */
+  GrAnnotation.ElementSpec;
 
   window.GrAnnotation = GrAnnotation;
 })(window);

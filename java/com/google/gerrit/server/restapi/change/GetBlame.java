@@ -76,6 +76,11 @@ public class GetBlame implements RestReadView<FileResource> {
     this.autoMerger = autoMerger;
   }
 
+  public GetBlame setBase(boolean base) {
+    this.base = base;
+    return this;
+  }
+
   @Override
   public Response<List<BlameInfo>> apply(FileResource resource)
       throws RestApiException, IOException, InvalidChangeOperationException {

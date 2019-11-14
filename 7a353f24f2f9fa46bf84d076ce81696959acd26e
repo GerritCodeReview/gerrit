@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "824d06b9_5483c943",
+        "filename": "java/com/google/gerrit/pgm/http/jetty/ProjectQoSFilter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1006432
+      },
+      "writtenOn": "2019-11-14T22:11:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d0f39da3_9d3cb501",
+      "range": {
+        "startLine": 92,
+        "startChar": 12,
+        "endLine": 92,
+        "endChar": 18
+      },
+      "revId": "7a353f24f2f9fa46bf84d076ce81696959acd26e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3d174cc4_7bdbb032",
         "filename": "java/com/google/gerrit/pgm/http/jetty/ProjectQoSFilter.java",
         "patchSetId": 6
@@ -45,6 +69,30 @@
       "revId": "7a353f24f2f9fa46bf84d076ce81696959acd26e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b4d3d9a4_d19c2c7d",
+        "filename": "java/com/google/gerrit/pgm/http/jetty/ProjectQoSFilter.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 1006432
+      },
+      "writtenOn": "2019-11-14T22:11:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3d174cc4_7bdbb032",
+      "range": {
+        "startLine": 288,
+        "startChar": 21,
+        "endLine": 288,
+        "endChar": 30
+      },
+      "revId": "7a353f24f2f9fa46bf84d076ce81696959acd26e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

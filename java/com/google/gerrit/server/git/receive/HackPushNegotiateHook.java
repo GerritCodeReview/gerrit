@@ -28,7 +28,7 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.AdvertiseRefsHook;
-import org.eclipse.jgit.transport.BaseReceivePack;
+import org.eclipse.jgit.transport.ReceivePack;
 import org.eclipse.jgit.transport.ServiceMayNotContinueException;
 import org.eclipse.jgit.transport.UploadPack;
 
@@ -74,7 +74,7 @@ public class HackPushNegotiateHook implements AdvertiseRefsHook {
 
   @SuppressWarnings("deprecation")
   @Override
-  public void advertiseRefs(BaseReceivePack rp) throws ServiceMayNotContinueException {
+  public void advertiseRefs(ReceivePack rp) throws ServiceMayNotContinueException {
     Map<String, Ref> r = rp.getAdvertisedRefs();
     if (r == null) {
       try {
@@ -90,7 +90,7 @@ public class HackPushNegotiateHook implements AdvertiseRefsHook {
     rp.setAdvertisedRefs(r, history(r.values(), rp));
   }
 
-  private Set<ObjectId> history(Collection<Ref> refs, BaseReceivePack rp) {
+  private Set<ObjectId> history(Collection<Ref> refs, ReceivePack rp) {
     Set<ObjectId> alreadySending = rp.getAdvertisedObjects();
     if (MAX_HISTORY <= alreadySending.size()) {
       return alreadySending;

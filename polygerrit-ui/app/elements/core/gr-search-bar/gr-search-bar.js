@@ -92,6 +92,7 @@
     'status:reviewed',
     'topic:',
     'tr:',
+    'submissionid:'
   ];
 
   // All of the ops, with corresponding negations.

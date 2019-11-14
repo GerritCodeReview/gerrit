@@ -100,7 +100,7 @@ public class WorkQueue {
 
   @Inject
   WorkQueue(IdGenerator idGenerator, @GerritServerConfig Config cfg, MetricMaker metrics) {
-    this(idGenerator, cfg.getInt("execution", "defaultThreadPoolSize", 1), metrics);
+    this(idGenerator, Math.max(cfg.getInt("execution", "defaultThreadPoolSize", 2), 2), metrics);
   }
 
   /** Constructor to allow binding the WorkQueue more explicitly in a vhost setup. */

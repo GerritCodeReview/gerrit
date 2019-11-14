@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0ec2479f_4937a853",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 6014,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-11-14T08:40:18Z",
+      "side": 1,
+      "message": "Maybe add \"Only set if the status is `MERGED`.\"\n\nThis should make it clearer that the submission ID is about changes which have been submitted in the sense of having been merged into the target branch. Unfortunately some people use the term \"submit change\" also as term for uploading a change for review and those people might expect that each change would have a submission ID and wonder why this field is optional.",
+      "revId": "1ef08d879253503705b366ae6444d57700c93ccb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "00d39277_89f9fc13",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 589,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-11-14T08:40:18Z",
+      "side": 1,
+      "message": "I think this can be simply:\n\n  out.submissionId \u003d cd.change().getSubmissionId();",
+      "range": {
+        "startLine": 589,
+        "startChar": 23,
+        "endLine": 589,
+        "endChar": 99
+      },
+      "revId": "1ef08d879253503705b366ae6444d57700c93ccb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

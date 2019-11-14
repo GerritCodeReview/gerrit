@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d70570b4_f304d9cd",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 4155,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2019-11-14T14:44:10Z",
+      "side": 1,
+      "message": "Before we merge, I\u0027ve been thinking that maybe a short explanation of why this should be added above; mentioning GC needs potentially.",
+      "range": {
+        "startLine": 4155,
+        "startChar": 0,
+        "endLine": 4155,
+        "endChar": 25
+      },
+      "revId": "6d219631cba602c4e1eabbc9c2784b4751ec08a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

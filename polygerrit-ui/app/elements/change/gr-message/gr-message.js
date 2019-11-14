@@ -101,6 +101,7 @@
         type: Boolean,
         value: false,
       },
+      getNavUrl: Function,
     },
 
     behaviors: [

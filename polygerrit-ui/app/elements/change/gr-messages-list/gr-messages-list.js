@@ -75,6 +75,7 @@
         type: Object,
         computed: '_computeLabelExtremes(labels.*)',
       },
+      getNavUrl: Function,
     },
 
     scrollToMessage(messageID) {

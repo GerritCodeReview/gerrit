@@ -60,6 +60,11 @@
         computed: '_computeFullDateStr(dateStr, _timeFormat)',
       },
 
+      showDateAsLink: {
+        type: String,
+        value: '',
+      },
+
       _timeFormat: String, // No default value to prevent flickering.
       _relative: Boolean, // No default value to prevent flickering.
     },

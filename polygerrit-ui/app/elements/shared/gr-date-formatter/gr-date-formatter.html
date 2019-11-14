@@ -30,9 +30,16 @@ limitations under the License.
         display: inline;
       }
     </style>
-    <span>
-      [[_computeDateStr(dateStr, _timeFormat, _relative, showDateAndTime)]]
-    </span>
+    <template is="dom-if" if="[[showDateAsLink]]">
+      <a href="[[showDateAsLink]]">
+        [[_computeDateStr(dateStr, _timeFormat, _relative, showDateAndTime)]]
+      </a>
+    </template>
+    <template is="dom-if" if="[[!showDateAsLink]]">
+      <span>
+        [[_computeDateStr(dateStr, _timeFormat, _relative, showDateAndTime)]]
+      </span>
+    </template>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>
   <script src="gr-date-formatter.js"></script>

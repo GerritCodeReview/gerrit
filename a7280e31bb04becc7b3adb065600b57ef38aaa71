@@ -16,6 +16,24 @@
       "revId": "a7280e31bb04becc7b3adb065600b57ef38aaa71",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8a9d684c_0110bca2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-11-14T07:26:00Z",
+      "side": 1,
+      "message": "+1 seems missing some changes here :)",
+      "parentUuid": "cb299d95_25e688fd",
+      "revId": "a7280e31bb04becc7b3adb065600b57ef38aaa71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

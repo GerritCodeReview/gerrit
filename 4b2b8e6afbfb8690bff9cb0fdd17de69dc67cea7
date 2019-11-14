@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0b35269c_e4fd7cd0",
+        "filename": "java/com/google/gerrit/server/group/DeleteGroupOp.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-11-14T00:01:56Z",
+      "side": 1,
+      "message": "2019",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "4b2b8e6afbfb8690bff9cb0fdd17de69dc67cea7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4ddfaa3b_243d12fa",
+        "filename": "java/com/google/gerrit/server/group/DeleteGroupOp.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-11-14T00:01:56Z",
+      "side": 1,
+      "message": "nit: We usually put the @Assisted parameters last",
+      "range": {
+        "startLine": 59,
+        "startChar": 6,
+        "endLine": 59,
+        "endChar": 45
+      },
+      "revId": "4b2b8e6afbfb8690bff9cb0fdd17de69dc67cea7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "033e0d34_e0463f03",
+        "filename": "java/com/google/gerrit/server/restapi/group/DeleteGroup.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-11-14T00:01:56Z",
+      "side": 1,
+      "message": "Remove?",
+      "range": {
+        "startLine": 106,
+        "startChar": 4,
+        "endLine": 110,
+        "endChar": 6
+      },
+      "revId": "4b2b8e6afbfb8690bff9cb0fdd17de69dc67cea7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "93bc43b2_4cbca2c6",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/group/DeleteGroupIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-11-14T00:01:56Z",
+      "side": 1,
+      "message": "Why are we adding this restriction?",
+      "range": {
+        "startLine": 69,
+        "startChar": 2,
+        "endLine": 78,
+        "endChar": 3
+      },
+      "revId": "4b2b8e6afbfb8690bff9cb0fdd17de69dc67cea7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "80aee045_c55ad217",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/group/DeleteGroupIT.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-11-14T00:01:56Z",
+      "side": 1,
+      "message": "d",
+      "range": {
+        "startLine": 81,
+        "startChar": 14,
+        "endLine": 81,
+        "endChar": 15
+      },
+      "revId": "4b2b8e6afbfb8690bff9cb0fdd17de69dc67cea7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

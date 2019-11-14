@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c07c37a7_226397a2",
+        "filename": "java/com/google/gerrit/server/cache/CacheModule.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-11-14T15:45:53Z",
+      "side": 1,
+      "message": "Here and in the other classes: This duplicates a lot of code.\n\nCan we instead just pass in an enum\n\nenum CacheBackend {\nGUAVA,CAFFEINE\n}\n\nand gate just the difference on that?",
+      "revId": "7655c01323a130a3525937f738e28094b120abd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1099b98e_7edc3d82",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/PatchListCacheIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-11-14T15:45:53Z",
+      "side": 1,
+      "message": "I assume \u0027localCache\u0027 is a Guava term? An inline comment would help to explain why this is asserting that the Guava backend is used.",
+      "revId": "7655c01323a130a3525937f738e28094b120abd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

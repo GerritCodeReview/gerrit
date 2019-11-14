@@ -140,6 +140,11 @@ revertof:'ID'::
 +
 Changes that revert the change specified by the numeric 'ID'.
 
+[[submissionid]]
+submissionid:'ID'::
++
+Changes that have the specified submission 'ID'.
+
 [[reviewerin]]
 reviewerin:'GROUP'::
 +

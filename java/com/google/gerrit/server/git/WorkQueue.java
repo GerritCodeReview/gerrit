@@ -20,6 +20,8 @@ import com.google.common.base.CaseFormat;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.events.LifecycleListener;
+import com.google.gerrit.extensions.registration.DynamicMap;
+import com.google.gerrit.extensions.registration.Extension;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.MetricMaker;
@@ -59,6 +61,17 @@ import org.eclipse.jgit.lib.Config;
 public class WorkQueue {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
+  /**
+   * Register a TaskListener from a plugin like this:
+   *
+   * <p>bind(TaskListener.class).annotatedWith(Exports.named("MyListener")).to(MyListener.class);
+   */
+  public interface TaskListener {
+    void beforeRunning(Task<?> task);
+
+    void afterRunning(Task<?> task);
+  }
+
   public static class Lifecycle implements LifecycleListener {
     private final WorkQueue workQueue;
 
@@ -92,10 +105,16 @@ public class WorkQueue {
   private final IdGenerator idGenerator;
   private final MetricMaker metrics;
   private final CopyOnWriteArrayList<Executor> queues;
+  private TaskListener taskListener;
 
   @Inject
   WorkQueue(IdGenerator idGenerator, @GerritServerConfig Config cfg, MetricMaker metrics) {
     this(idGenerator, cfg.getInt("execution", "defaultThreadPoolSize", 1), metrics);
+  }
+
+  @Inject(optional = true)
+  public void setDynamicListeners(DynamicMap<TaskListener> listeners) {
+    taskListener = new DynamicListener(listeners);
   }
 
   /** Constructor to allow binding the WorkQueue more explicitly in a vhost setup. */
@@ -241,6 +260,40 @@ public class WorkQueue {
       } while (!isTerminated);
     }
     queues.clear();
+  }
+
+  private static class DynamicListener implements TaskListener {
+    private final DynamicMap<TaskListener> listeners;
+
+    public DynamicListener(DynamicMap<TaskListener> listeners) {
+      this.listeners = listeners;
+    }
+
+    @Override
+    public void beforeRunning(Task<?> task) {
+      if (listeners != null) {
+        for (Extension<TaskListener> e : listeners) {
+          try {
+            e.getProvider().get().beforeRunning(task);
+          } catch (Exception ex) {
+            // Ignore to protect tasks from plugins.
+          }
+        }
+      }
+    }
+
+    @Override
+    public void afterRunning(Task<?> task) {
+      if (listeners != null) {
+        for (Extension<TaskListener> e : listeners) {
+          try {
+            e.getProvider().get().afterRunning(task);
+          } catch (Exception ex) {
+            // Ignore to protect tasks from plugins.
+          }
+        }
+      }
+    }
   }
 
   /** An isolated queue. */
@@ -409,10 +462,14 @@ public class WorkQueue {
           runnable = ((LoggingContextAwareRunnable) runnable).unwrap();
         }
 
+        if (taskListener == null) {
+          taskListener = new DynamicListener(null);
+        }
+
         if (runnable instanceof ProjectRunnable) {
-          task = new ProjectTask<>((ProjectRunnable) runnable, r, this, id);
+          task = new ProjectTask<>((ProjectRunnable) runnable, r, this, id, taskListener);
         } else {
-          task = new Task<>(runnable, r, this, id);
+          task = new Task<>(runnable, r, this, id, taskListener);
         }
 
         if (all.putIfAbsent(task.getTaskId(), task) == null) {
@@ -497,14 +554,21 @@ public class WorkQueue {
     private final int taskId;
     private final AtomicBoolean running;
     private final Date startTime;
+    private final TaskListener taskListener;
 
-    Task(Runnable runnable, RunnableScheduledFuture<V> task, Executor executor, int taskId) {
+    Task(
+        Runnable runnable,
+        RunnableScheduledFuture<V> task,
+        Executor executor,
+        int taskId,
+        TaskListener taskListener) {
       this.runnable = runnable;
       this.task = task;
       this.executor = executor;
       this.taskId = taskId;
       this.running = new AtomicBoolean();
       this.startTime = new Date();
+      this.taskListener = taskListener;
     }
 
     public int getTaskId() {
@@ -607,8 +671,10 @@ public class WorkQueue {
     public void run() {
       if (running.compareAndSet(false, true)) {
         try {
+          taskListener.beforeRunning(this);
           task.run();
         } finally {
+          taskListener.afterRunning(this);
           if (isPeriodic()) {
             running.set(false);
           } else {
@@ -662,8 +728,12 @@ public class WorkQueue {
     private final ProjectRunnable runnable;
 
     ProjectTask(
-        ProjectRunnable runnable, RunnableScheduledFuture<V> task, Executor executor, int taskId) {
-      super(runnable, task, executor, taskId);
+        ProjectRunnable runnable,
+        RunnableScheduledFuture<V> task,
+        Executor executor,
+        int taskId,
+        TaskListener taskListener) {
+      super(runnable, task, executor, taskId, taskListener);
       this.runnable = runnable;
     }
 

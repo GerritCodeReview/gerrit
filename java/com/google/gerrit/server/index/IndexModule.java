@@ -24,6 +24,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.common.util.concurrent.MoreExecutors;
 import com.google.gerrit.extensions.events.LifecycleListener;
+import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.index.IndexDefinition;
 import com.google.gerrit.index.IndexType;
@@ -154,6 +155,7 @@ public class IndexModule extends LifecycleModule {
     OptionalBinder.newOptionalBinder(binder(), IsFirstInsertForEntry.class)
         .setDefault()
         .toInstance(IsFirstInsertForEntry.NO);
+    DynamicMap.mapOf(binder(), WorkQueue.TaskListener.class);
   }
 
   @Provides

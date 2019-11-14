@@ -21,52 +21,58 @@
   const SELF_EXPRESSION = 'self';
   const ME_EXPRESSION = 'me';
 
-  Polymer({
-    is: 'gr-smart-search',
+  /**
+    * @appliesMixin Gerrit.DisplayNameMixin
+    */
+  class GrSmartSearch extends Polymer.mixinBehaviors( [
+    Gerrit.DisplayNameBehavior,
+  ], Polymer.GestureEventListeners(
+      Polymer.LegacyElementMixin(
+          Polymer.Element))) {
+    static get is() { return 'gr-smart-search'; }
 
-    properties: {
-      searchQuery: String,
-      _config: Object,
-      _projectSuggestions: {
-        type: Function,
-        value() {
-          return this._fetchProjects.bind(this);
+    static get properties() {
+      return {
+        searchQuery: String,
+        _config: Object,
+        _projectSuggestions: {
+          type: Function,
+          value() {
+            return this._fetchProjects.bind(this);
+          },
         },
-      },
-      _groupSuggestions: {
-        type: Function,
-        value() {
-          return this._fetchGroups.bind(this);
+        _groupSuggestions: {
+          type: Function,
+          value() {
+            return this._fetchGroups.bind(this);
+          },
         },
-      },
-      _accountSuggestions: {
-        type: Function,
-        value() {
-          return this._fetchAccounts.bind(this);
+        _accountSuggestions: {
+          type: Function,
+          value() {
+            return this._fetchAccounts.bind(this);
+          },
         },
-      },
-    },
-
-    behaviors: [
-      Gerrit.DisplayNameBehavior,
-    ],
+      };
+    }
 
     attached() {
+      super.attached();
       this.$.restAPI.getConfig().then(cfg => {
         this._config = cfg;
       });
-    },
+    }
 
     _handleSearch(e) {
       const input = e.detail.inputVal;
       if (input) {
         Gerrit.Nav.navigateToSearchQuery(input);
       }
-    },
+    }
 
     _accountOrAnon(name) {
       return this.getUserName(this._serverConfig, name, false);
-    },
+    }
 
     /**
      * Fetch from the API the predicted projects.
@@ -86,7 +92,7 @@
             const keys = Object.keys(projects);
             return keys.map(key => ({text: predicate + ':' + key}));
           });
-    },
+    }
 
     /**
      * Fetch from the API the predicted groups.
@@ -107,7 +113,7 @@
             const keys = Object.keys(groups);
             return keys.map(key => ({text: predicate + ':' + key}));
           });
-    },
+    }
 
     /**
      * Fetch from the API the predicted accounts.
@@ -138,7 +144,7 @@
               return accounts;
             }
           });
-    },
+    }
 
     _mapAccountsHelper(accounts, predicate) {
       return accounts.map(account => ({
@@ -147,6 +153,8 @@
           `${predicate}:${account.email}` :
           `${predicate}:"${this._accountOrAnon(account)}"`,
       }));
-    },
-  });
+    }
+  }
+
+  customElements.define(GrSmartSearch.is, GrSmartSearch);
 })();

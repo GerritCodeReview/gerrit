@@ -17,47 +17,54 @@
 (function() {
   'use strict';
 
-  Polymer({
-    is: 'gr-change-requirements',
+  /**
+    * @appliesMixin Gerrit.RESTClientMixin
+    */
+  class GrChangeRequirements extends Polymer.mixinBehaviors( [
+    Gerrit.RESTClientBehavior,
+  ], Polymer.GestureEventListeners(
+      Polymer.LegacyElementMixin(
+          Polymer.Element))) {
+    static get is() { return 'gr-change-requirements'; }
 
-    properties: {
+    static get properties() {
+      return {
       /** @type {?} */
-      change: Object,
-      account: Object,
-      mutable: Boolean,
-      _requirements: {
-        type: Array,
-        computed: '_computeRequirements(change)',
-      },
-      _requiredLabels: {
-        type: Array,
-        value: () => [],
-      },
-      _optionalLabels: {
-        type: Array,
-        value: () => [],
-      },
-      _showWip: {
-        type: Boolean,
-        computed: '_computeShowWip(change)',
-      },
-      _showOptionalLabels: {
-        type: Boolean,
-        value: true,
-      },
-    },
+        change: Object,
+        account: Object,
+        mutable: Boolean,
+        _requirements: {
+          type: Array,
+          computed: '_computeRequirements(change)',
+        },
+        _requiredLabels: {
+          type: Array,
+          value: () => [],
+        },
+        _optionalLabels: {
+          type: Array,
+          value: () => [],
+        },
+        _showWip: {
+          type: Boolean,
+          computed: '_computeShowWip(change)',
+        },
+        _showOptionalLabels: {
+          type: Boolean,
+          value: true,
+        },
+      };
+    }
 
-    behaviors: [
-      Gerrit.RESTClientBehavior,
-    ],
-
-    observers: [
-      '_computeLabels(change.labels.*)',
-    ],
+    static get observers() {
+      return [
+        '_computeLabels(change.labels.*)',
+      ];
+    }
 
     _computeShowWip(change) {
       return change.work_in_progress;
-    },
+    }
 
     _computeRequirements(change) {
       const _requirements = [];
@@ -78,15 +85,15 @@
       }
 
       return _requirements;
-    },
+    }
 
     _computeRequirementClass(requirementStatus) {
       return requirementStatus ? 'approved' : '';
-    },
+    }
 
     _computeRequirementIcon(requirementStatus) {
       return requirementStatus ? 'gr-icons:check' : 'gr-icons:hourglass';
-    },
+    }
 
     _computeLabels(labelsRecord) {
       const labels = labelsRecord.base;
@@ -103,7 +110,7 @@
 
         this.push(path, {label, icon, style, labelInfo});
       }
-    },
+    }
 
     /**
      * @param {Object} labelInfo
@@ -114,7 +121,7 @@
       if (labelInfo.approved) { return 'gr-icons:check'; }
       if (labelInfo.rejected) { return 'gr-icons:close'; }
       return 'gr-icons:hourglass';
-    },
+    }
 
     /**
      * @param {Object} labelInfo
@@ -123,28 +130,30 @@
       if (labelInfo.approved) { return 'approved'; }
       if (labelInfo.rejected) { return 'rejected'; }
       return '';
-    },
+    }
 
     _computeShowOptional(optionalFieldsRecord) {
       return optionalFieldsRecord.base.length ? '' : 'hidden';
-    },
+    }
 
     _computeLabelValue(value) {
       return (value > 0 ? '+' : '') + value;
-    },
+    }
 
     _computeShowHideIcon(showOptionalLabels) {
       return showOptionalLabels ?
         'gr-icons:expand-less' :
         'gr-icons:expand-more';
-    },
+    }
 
     _computeSectionClass(show) {
       return show ? '' : 'hidden';
-    },
+    }
 
     _handleShowHide(e) {
       this._showOptionalLabels = !this._showOptionalLabels;
-    },
-  });
+    }
+  }
+
+  customElements.define(GrChangeRequirements.is, GrChangeRequirements);
 })();

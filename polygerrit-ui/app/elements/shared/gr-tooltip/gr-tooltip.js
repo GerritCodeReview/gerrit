@@ -17,23 +17,29 @@
 (function() {
   'use strict';
 
-  Polymer({
-    is: 'gr-tooltip',
+  class GrTooltip extends Polymer.GestureEventListeners(
+      Polymer.LegacyElementMixin(
+          Polymer.Element)) {
+    static get is() { return 'gr-tooltip'; }
 
-    properties: {
-      text: String,
-      maxWidth: {
-        type: String,
-        observer: '_updateWidth',
-      },
-      positionBelow: {
-        type: Boolean,
-        reflectToAttribute: true,
-      },
-    },
+    static get properties() {
+      return {
+        text: String,
+        maxWidth: {
+          type: String,
+          observer: '_updateWidth',
+        },
+        positionBelow: {
+          type: Boolean,
+          reflectToAttribute: true,
+        },
+      };
+    }
 
     _updateWidth(maxWidth) {
       this.updateStyles({'--tooltip-max-width': maxWidth});
-    },
-  });
+    }
+  }
+
+  customElements.define(GrTooltip.is, GrTooltip);
 })();

@@ -19,29 +19,39 @@
 
   const INTERPOLATE_URL_PATTERN = /\$\{([\w]+)\}/g;
 
-  Polymer({
-    is: 'gr-account-dropdown',
+  /**
+    * @appliesMixin Gerrit.DisplayNameMixin
+    */
+  class GrAccountDropdown extends Polymer.mixinBehaviors( [
+    Gerrit.DisplayNameBehavior,
+  ], Polymer.GestureEventListeners(
+      Polymer.LegacyElementMixin(
+          Polymer.Element))) {
+    static get is() { return 'gr-account-dropdown'; }
 
-    properties: {
-      account: Object,
-      config: Object,
-      links: {
-        type: Array,
-        computed: '_getLinks(_switchAccountUrl, _path)',
-      },
-      topContent: {
-        type: Array,
-        computed: '_getTopContent(account)',
-      },
-      _path: {
-        type: String,
-        value: '/',
-      },
-      _hasAvatars: Boolean,
-      _switchAccountUrl: String,
-    },
+    static get properties() {
+      return {
+        account: Object,
+        config: Object,
+        links: {
+          type: Array,
+          computed: '_getLinks(_switchAccountUrl, _path)',
+        },
+        topContent: {
+          type: Array,
+          computed: '_getTopContent(account)',
+        },
+        _path: {
+          type: String,
+          value: '/',
+        },
+        _hasAvatars: Boolean,
+        _switchAccountUrl: String,
+      };
+    }
 
     attached() {
+      super.attached();
       this._handleLocationChange();
       this.listen(window, 'location-change', '_handleLocationChange');
       this.$.restAPI.getConfig().then(cfg => {
@@ -54,15 +64,12 @@
         }
         this._hasAvatars = !!(cfg && cfg.plugin && cfg.plugin.has_avatars);
       });
-    },
-
-    behaviors: [
-      Gerrit.DisplayNameBehavior,
-    ],
+    }
 
     detached() {
+      super.detached();
       this.unlisten(window, 'location-change', '_handleLocationChange');
-    },
+    }
 
     _getLinks(switchAccountUrl, path) {
       // Polymer 2: check for undefined
@@ -78,30 +85,32 @@
       }
       links.push({name: 'Sign out', url: '/logout'});
       return links;
-    },
+    }
 
     _getTopContent(account) {
       return [
         {text: this._accountName(account), bold: true},
         {text: account.email ? account.email : ''},
       ];
-    },
+    }
 
     _handleLocationChange() {
       this._path =
           window.location.pathname +
           window.location.search +
           window.location.hash;
-    },
+    }
 
     _interpolateUrl(url, replacements) {
       return url.replace(INTERPOLATE_URL_PATTERN, (match, p1) => {
         return replacements[p1] || '';
       });
-    },
+    }
 
     _accountName(account) {
       return this.getUserName(this.config, account, true);
-    },
-  });
+    }
+  }
+
+  customElements.define(GrAccountDropdown.is, GrAccountDropdown);
 })();

@@ -24,75 +24,82 @@
 
   const PGP_START = '-----BEGIN PGP SIGNATURE-----';
 
-  Polymer({
-    is: 'gr-repo-detail-list',
+  /**
+    * @appliesMixin Gerrit.ListViewMixin
+    * @appliesMixin Gerrit.FireMixin
+    * @appliesMixin Gerrit.URLEncodingMixin
+    */
+  class GrRepoDetailList extends Polymer.mixinBehaviors( [
+    Gerrit.ListViewBehavior,
+    Gerrit.FireBehavior,
+    Gerrit.URLEncodingBehavior,
+  ], Polymer.GestureEventListeners(
+      Polymer.LegacyElementMixin(
+          Polymer.Element))) {
+    static get is() { return 'gr-repo-detail-list'; }
 
-    properties: {
+    static get properties() {
+      return {
       /**
        * URL params passed from the router.
        */
-      params: {
-        type: Object,
-        observer: '_paramsChanged',
-      },
-      /**
+        params: {
+          type: Object,
+          observer: '_paramsChanged',
+        },
+        /**
        * The kind of detail we are displaying, possibilities are determined by
        * the const DETAIL_TYPES.
        */
-      detailType: String,
+        detailType: String,
 
-      _editing: {
-        type: Boolean,
-        value: false,
-      },
-      _isOwner: {
-        type: Boolean,
-        value: false,
-      },
-      _loggedIn: {
-        type: Boolean,
-        value: false,
-      },
-      /**
+        _editing: {
+          type: Boolean,
+          value: false,
+        },
+        _isOwner: {
+          type: Boolean,
+          value: false,
+        },
+        _loggedIn: {
+          type: Boolean,
+          value: false,
+        },
+        /**
        * Offset of currently visible query results.
        */
-      _offset: Number,
-      _repo: Object,
-      _items: Array,
-      /**
+        _offset: Number,
+        _repo: Object,
+        _items: Array,
+        /**
        * Because  we request one more than the projectsPerPage, _shownProjects
        * maybe one less than _projects.
        */
-      _shownItems: {
-        type: Array,
-        computed: 'computeShownItems(_items)',
-      },
-      _itemsPerPage: {
-        type: Number,
-        value: 25,
-      },
-      _loading: {
-        type: Boolean,
-        value: true,
-      },
-      _filter: String,
-      _refName: String,
-      _hasNewItemName: Boolean,
-      _isEditing: Boolean,
-      _revisedRef: String,
-    },
-
-    behaviors: [
-      Gerrit.ListViewBehavior,
-      Gerrit.FireBehavior,
-      Gerrit.URLEncodingBehavior,
-    ],
+        _shownItems: {
+          type: Array,
+          computed: 'computeShownItems(_items)',
+        },
+        _itemsPerPage: {
+          type: Number,
+          value: 25,
+        },
+        _loading: {
+          type: Boolean,
+          value: true,
+        },
+        _filter: String,
+        _refName: String,
+        _hasNewItemName: Boolean,
+        _isEditing: Boolean,
+        _revisedRef: String,
+      };
+    }
 
     _determineIfOwner(repo) {
       return this.$.restAPI.getRepoAccess(repo)
           .then(access =>
             this._isOwner = access && !!access[repo].is_owner);
-    },
+    }
 
     _paramsChanged(params) {
       if (!params || !params.repo) { return; }
@@ -113,7 +120,7 @@
 
       return this._getItems(this._filter, this._repo,
           this._itemsPerPage, this._offset, this.detailType);
-    },
+    }
 
     _getItems(filter, repo, itemsPerPage, offset, detailType) {
       this._loading = true;
@@ -137,24 +144,24 @@
           this._loading = false;
         });
       }
-    },
+    }
 
     _getPath(repo) {
       return `/admin/repos/${this.encodeURL(repo, false)},` +
           `${this.detailType}`;
-    },
+    }
 
     _computeWeblink(repo) {
       if (!repo.web_links) { return ''; }
       const webLinks = repo.web_links;
       return webLinks.length ? webLinks : null;
-    },
+    }
 
     _computeMessage(message) {
       if (!message) { return; }
       // Strip PGP info.
       return message.split(PGP_START)[0];
-    },
+    }
 
     _stripRefs(item, detailType) {
       if (detailType === DETAIL_TYPES.BRANCHES) {
@@ -162,33 +169,33 @@
       } else if (detailType === DETAIL_TYPES.TAGS) {
         return item.replace('refs/tags/', '');
       }
-    },
+    }
 
     _getLoggedIn() {
       return this.$.restAPI.getLoggedIn();
-    },
+    }
 
     _computeEditingClass(isEditing) {
       return isEditing ? 'editing' : '';
-    },
+    }
 
     _computeCanEditClass(ref, detailType, isOwner) {
       return isOwner && this._stripRefs(ref, detailType) === 'HEAD' ?
         'canEdit' : '';
-    },
+    }
 
     _handleEditRevision(e) {
       this._revisedRef = e.model.get('item.revision');
       this._isEditing = true;
-    },
+    }
 
     _handleCancelRevision() {
       this._isEditing = false;
-    },
+    }
 
     _handleSaveRevision(e) {
       this._setRepoHead(this._repo, this._revisedRef, e);
-    },
+    }
 
     _setRepoHead(repo, ref, e) {
       return this.$.restAPI.setRepoHead(repo, ref).then(res => {
@@ -202,7 +209,7 @@
               this._offset, this.detailType);
         }
       });
-    },
+    }
 
     _computeItemName(detailType) {
       if (detailType === DETAIL_TYPES.BRANCHES) {
@@ -210,7 +217,7 @@
       } else if (detailType === DETAIL_TYPES.TAGS) {
         return 'Tag';
       }
-    },
+    }
 
     _handleDeleteItemConfirm() {
       this.$.overlay.close();
@@ -233,18 +240,18 @@
               }
             });
       }
-    },
+    }
 
     _handleConfirmDialogCancel() {
       this.$.overlay.close();
-    },
+    }
 
     _handleDeleteItem(e) {
       const name = this._stripRefs(e.model.get('item.ref'), this.detailType);
       if (!name) { return; }
       this._refName = name;
       this.$.overlay.open();
-    },
+    }
 
     _computeHideDeleteClass(owner, canDelete) {
       if (canDelete || owner) {
@@ -252,20 +259,20 @@
       }
 
       return '';
-    },
+    }
 
     _handleCreateItem() {
       this.$.createNewModal.handleCreateItem();
       this._handleCloseCreate();
-    },
+    }
 
     _handleCloseCreate() {
       this.$.createOverlay.close();
-    },
+    }
 
     _handleCreateClicked() {
       this.$.createOverlay.open();
-    },
+    }
 
     _hideIfBranch(type) {
       if (type === DETAIL_TYPES.BRANCHES) {
@@ -273,10 +280,12 @@
       }
 
       return '';
-    },
+    }
 
     _computeHideTagger(tagger) {
       return tagger ? '' : 'hide';
-    },
-  });
+    }
+  }
+
+  customElements.define(GrRepoDetailList.is, GrRepoDetailList);
 })();

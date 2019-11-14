@@ -23,37 +23,44 @@
    *
    * @event confirm
    */
+  class GrCreateDestinationDialog extends Polymer.GestureEventListeners(
+      Polymer.LegacyElementMixin(
+          Polymer.Element)) {
+    static get is() { return 'gr-create-destination-dialog'; }
 
-  Polymer({
-    is: 'gr-create-destination-dialog',
+    static get properties() {
+      return {
+        _repo: String,
+        _branch: String,
+        _repoAndBranchSelected: {
+          type: Boolean,
+          value: false,
+          computed: '_computeRepoAndBranchSelected(_repo, _branch)',
+        },
+      };
+    }
 
-    properties: {
-      _repo: String,
-      _branch: String,
-      _repoAndBranchSelected: {
-        type: Boolean,
-        value: false,
-        computed: '_computeRepoAndBranchSelected(_repo, _branch)',
-      },
-    },
     open() {
       this._repo = '';
       this._branch = '';
       this.$.createOverlay.open();
-    },
+    }
 
     _handleClose() {
       this.$.createOverlay.close();
-    },
+    }
 
     _pickerConfirm() {
       this.$.createOverlay.close();
       const detail = {repo: this._repo, branch: this._branch};
       this.dispatchEvent(new CustomEvent('confirm', {detail, bubbles: false}));
-    },
+    }
 
     _computeRepoAndBranchSelected(repo, branch) {
       return !!(repo && branch);
-    },
-  });
+    }
+  }
+
+  customElements.define(GrCreateDestinationDialog.is,
+      GrCreateDestinationDialog);
 })();

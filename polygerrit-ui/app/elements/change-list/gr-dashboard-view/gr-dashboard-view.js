@@ -19,65 +19,72 @@
 
   const PROJECT_PLACEHOLDER_PATTERN = /\$\{project\}/g;
 
-  Polymer({
-    is: 'gr-dashboard-view',
-
+  /**
+    * @appliesMixin Gerrit.FireMixin
+    * @appliesMixin Gerrit.RESTClientMixin
+    */
+  class GrDashboardView extends Polymer.mixinBehaviors( [
+    Gerrit.FireBehavior,
+    Gerrit.RESTClientBehavior,
+  ], Polymer.GestureEventListeners(
+      Polymer.LegacyElementMixin(
+          Polymer.Element))) {
+    static get is() { return 'gr-dashboard-view'; }
     /**
      * Fired when the title of the page should change.
      *
      * @event title-change
      */
 
-    properties: {
-      account: {
-        type: Object,
-        value: null,
-      },
-      preferences: Object,
-      /** @type {{ selectedChangeIndex: number }} */
-      viewState: Object,
-
-      /** @type {{ project: string, user: string }} */
-      params: {
-        type: Object,
-      },
-
-      createChangeTap: {
-        type: Function,
-        value() {
-          return this._createChangeTap.bind(this);
+    static get properties() {
+      return {
+        account: {
+          type: Object,
+          value: null,
         },
-      },
+        preferences: Object,
+        /** @type {{ selectedChangeIndex: number }} */
+        viewState: Object,
 
-      _results: Array,
+        /** @type {{ project: string, user: string }} */
+        params: {
+          type: Object,
+        },
 
-      /**
+        createChangeTap: {
+          type: Function,
+          value() {
+            return this._createChangeTap.bind(this);
+          },
+        },
+
+        _results: Array,
+
+        /**
        * For showing a "loading..." string during ajax requests.
        */
-      _loading: {
-        type: Boolean,
-        value: true,
-      },
+        _loading: {
+          type: Boolean,
+          value: true,
+        },
 
-      _showDraftsBanner: {
-        type: Boolean,
-        value: false,
-      },
+        _showDraftsBanner: {
+          type: Boolean,
+          value: false,
+        },
 
-      _showNewUserHelp: {
-        type: Boolean,
-        value: false,
-      },
-    },
+        _showNewUserHelp: {
+          type: Boolean,
+          value: false,
+        },
+      };
+    }
 
-    observers: [
-      '_paramsChanged(params.*)',
-    ],
-
-    behaviors: [
-      Gerrit.FireBehavior,
-      Gerrit.RESTClientBehavior,
-    ],
+    static get observers() {
+      return [
+        '_paramsChanged(params.*)',
+      ];
+    }
 
     get options() {
       return this.listChangesOptionsToHex(
@@ -85,11 +92,12 @@
           this.ListChangesOption.DETAILED_ACCOUNTS,
           this.ListChangesOption.REVIEWED
       );
-    },
+    }
 
     attached() {
+      super.attached();
       this._loadPreferences();
-    },
+    }
 
     _loadPreferences() {
       return this.$.restAPI.getLoggedIn().then(loggedIn => {
@@ -101,7 +109,7 @@
           this.preferences = {};
         }
       });
-    },
+    }
 
     _getProjectDashboard(project, dashboard) {
       const errFn = response => {
@@ -124,18 +132,18 @@
           }),
         };
       });
-    },
+    }
 
     _computeTitle(user) {
       if (!user || user === 'self') {
         return 'My Reviews';
       }
       return 'Dashboard for ' + user;
-    },
+    }
 
     _isViewActive(params) {
       return params.view === Gerrit.Nav.View.DASHBOARD;
-    },
+    }
 
     _paramsChanged(paramsChangeRecord) {
       const params = paramsChangeRecord.base;
@@ -145,7 +153,7 @@
       }
 
       return this._reload();
-    },
+    }
 
     /**
      * Reloads the element.
@@ -179,7 +187,7 @@
             });
             console.warn(err);
           }).then(() => { this._loading = false; });
-    },
+    }
 
     /**
      * Fetches the changes for each dashboard section and sets this._results
@@ -218,7 +226,7 @@
               !res.sections[i].hideIfEmpty ||
                 section.results.length));
           });
-    },
+    }
 
     _computeSectionCountLabel(changes) {
       if (!changes || !changes.length || changes.length == 0) {
@@ -228,7 +236,7 @@
       const numChanges = changes.length;
       const andMore = more ? ' and more' : '';
       return `(${numChanges}${andMore})`;
-    },
+    }
 
     _computeUserHeaderClass(params) {
       if (!params || !!params.project || !params.user
@@ -236,17 +244,17 @@
         return 'hide';
       }
       return '';
-    },
+    }
 
     _handleToggleStar(e) {
       this.$.restAPI.saveChangeStarred(e.detail.change._number,
           e.detail.starred);
-    },
+    }
 
     _handleToggleReviewed(e) {
       this.$.restAPI.saveChangeReviewed(e.detail.change._number,
           e.detail.reviewed);
-    },
+    }
 
     /**
      * Banner is shown if a user is on their own dashboard and they have draft
@@ -265,15 +273,15 @@
       if (!closedChanges.length) { return; }
 
       this._showDraftsBanner = true;
-    },
+    }
 
     _computeBannerClass(show) {
       return show ? '' : 'hide';
-    },
+    }
 
     _handleOpenDeleteDialog() {
       this.$.confirmDeleteOverlay.open();
-    },
+    }
 
     _handleConfirmDelete() {
       this.$.confirmDeleteDialog.disabled = true;
@@ -281,23 +289,25 @@
         this._closeConfirmDeleteOverlay();
         this._reload();
       });
-    },
+    }
 
     _closeConfirmDeleteOverlay() {
       this.$.confirmDeleteOverlay.close();
-    },
+    }
 
     _computeDraftsLink() {
       return Gerrit.Nav.getUrlForSearchQuery('has:draft -is:open');
-    },
+    }
 
     _createChangeTap(e) {
       this.$.destinationDialog.open();
-    },
+    }
 
     _handleDestinationConfirm(e) {
       this.$.commandsDialog.branch = e.detail.branch;
       this.$.commandsDialog.open();
-    },
-  });
+    }
+  }
+
+  customElements.define(GrDashboardView.is, GrDashboardView);
 })();

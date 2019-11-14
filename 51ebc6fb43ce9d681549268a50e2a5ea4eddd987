@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ef901080_751d6566",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2816,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-11-14T05:16:47Z",
+      "side": 0,
+      "message": "Why this change also doesn\u0027t remove: `change.api.excludeMergeableInChangeInfo` option? My understanding was, that we would like to replace 2 mergeable options with the new and single one. If the option index.change.indexMergeable is disabled on the site, would it make sense to still preserve the excludeMergeableInChangeInfo \u003d false?\n\nIOW, why don\u0027t we call the option mergeabilityFeature \u003d disable|enable? That would then cover every place: index + change screen.",
+      "range": {
+        "startLine": 2816,
+        "startChar": 0,
+        "endLine": 2816,
+        "endChar": 60
+      },
+      "revId": "51ebc6fb43ce9d681549268a50e2a5ea4eddd987",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

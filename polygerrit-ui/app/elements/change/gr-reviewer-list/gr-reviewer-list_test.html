@@ -214,10 +214,10 @@ limitations under the License.
       assert.isTrue(element.$$('.hiddenReviewers').hidden);
     });
 
-    test('show all reviewers button with 7 reviewers', () => {
+    test('show all reviewers button with 8 reviewers', () => {
       const reviewers = [];
       element.maxReviewersDisplayed = 5;
-      for (let i = 0; i < 7; i++) {
+      for (let i = 0; i < 8; i++) {
         reviewers.push(
           {email: i+'reviewer@google.com', name: 'reviewer-' + i});
       }
@@ -231,9 +231,9 @@ limitations under the License.
           CC: reviewers,
         },
       };
-      assert.equal(element._hiddenReviewerCount, 2);
+      assert.equal(element._hiddenReviewerCount, 3);
       assert.equal(element._displayedReviewers.length, 5);
-      assert.equal(element._reviewers.length, 7);
+      assert.equal(element._reviewers.length, 8);
       assert.isFalse(element.$$('.hiddenReviewers').hidden);
     });
 

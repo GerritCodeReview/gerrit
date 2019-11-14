@@ -55,7 +55,6 @@
      *
      * @event title-change
      */
-
     /**
      * Fired when user tries to navigate away while comments are pending save.
      *

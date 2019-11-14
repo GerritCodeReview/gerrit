@@ -59,19 +59,16 @@
      *
      * @event server-error
      */
-
     /**
      * Fired when a network error occurs.
      *
      * @event network-error
      */
-
     /**
      * Fired when credentials were rejected by server (e.g. expired).
      *
      * @event auth-error
      */
-
     /**
      * Fired after an RPC completes.
      *

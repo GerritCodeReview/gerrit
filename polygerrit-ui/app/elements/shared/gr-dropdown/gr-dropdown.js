@@ -36,7 +36,6 @@
      *
      * @event tap-item-<id>
      */
-
     /**
      * Fired when a non-link dropdown item is tapped.
      *

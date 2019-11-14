@@ -34,13 +34,11 @@
      *
      * @event editable-content-save
      */
-
     /**
      * Fired when the cancel button is pressed.
      *
      * @event editable-content-cancel
      */
-
     /**
      * Fired when content is restored from storage.
      *

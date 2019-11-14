@@ -106,26 +106,22 @@
      * Fired when the user selects a line.
      * @event line-selected
      */
-
     /**
      * Fired if being logged in is required.
      *
      * @event show-auth-required
      */
-
     /**
      * Fired when a comment is created
      *
      * @event create-comment
      */
-
     /**
      * Fired when rendering, including syntax highlighting, is done. Also fired
      * when no rendering can be done because required preferences are not set.
      *
      * @event render
      */
-
     /**
      * Fired for interaction reporting when a diff context is expanded.
      * Contains an event.detail with numLines about the number of lines that

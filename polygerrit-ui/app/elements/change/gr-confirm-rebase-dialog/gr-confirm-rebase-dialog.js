@@ -26,7 +26,6 @@
      *
      * @event confirm
      */
-
     /**
      * Fired when the cancel button is pressed.
      *

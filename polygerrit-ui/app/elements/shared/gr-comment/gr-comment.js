@@ -47,25 +47,21 @@
      *
      * @event create-fix-comment
      */
-
     /**
      * Fired when this comment is discarded.
      *
      * @event comment-discard
      */
-
     /**
      * Fired when this comment is saved.
      *
      * @event comment-save
      */
-
     /**
      * Fired when this comment is updated.
      *
      * @event comment-update
      */
-
     /**
      * Fired when the comment's timestamp is tapped.
      *

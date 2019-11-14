@@ -36,13 +36,11 @@
      *
      * @event commit
      */
-
     /**
      * Fired when the user cancels.
      *
      * @event cancel
      */
-
     /**
      * Fired on keydown to allow for custom hooks into autocomplete textbox
      * behavior.

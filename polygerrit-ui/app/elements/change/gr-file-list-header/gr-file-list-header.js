@@ -35,23 +35,18 @@
     /**
      * @event expand-diffs
      */
-
     /**
      * @event collapse-diffs
      */
-
     /**
      * @event open-diff-prefs
      */
-
     /**
      * @event open-included-in-dialog
      */
-
     /**
      * @event open-download-dialog
      */
-
     /**
      * @event open-upload-help-dialog
      */

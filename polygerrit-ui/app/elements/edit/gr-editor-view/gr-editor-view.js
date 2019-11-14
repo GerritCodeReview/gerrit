@@ -44,7 +44,6 @@
      *
      * @event title-change
      */
-
     /**
      * Fired to notify the user of
      *

@@ -31,7 +31,6 @@
      *
      * @event account-chip-keydown
      */
-
     /**
      * Fired to indicate this chip should be removed, i.e. when the x button is
      * clicked or when the remove function is called.

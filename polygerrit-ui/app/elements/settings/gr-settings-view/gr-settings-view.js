@@ -63,7 +63,6 @@
      *
      * @event title-change
      */
-
     /**
      * Fired with email confirmation text, or when the page reloads.
      *

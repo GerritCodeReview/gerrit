@@ -31,7 +31,6 @@
      *
      * @event account-detail-update
      */
-
     /**
      * Fired when the close button is pressed.
      *

@@ -22,6 +22,75 @@
       "revId": "641be7b359474a665c8c870b644d962c5fde62e5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f23832dd_55226686",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 837,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-11-14T21:26:54Z",
+      "side": 1,
+      "message": "Missing source between if and open bracket. Here and below.",
+      "range": {
+        "startLine": 837,
+        "startChar": 4,
+        "endLine": 837,
+        "endChar": 7
+      },
+      "revId": "641be7b359474a665c8c870b644d962c5fde62e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c7e11eee_51f41696",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 852,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-11-14T21:26:54Z",
+      "side": 1,
+      "message": "Tab, etc, ... Just use google-java-format.",
+      "range": {
+        "startLine": 852,
+        "startChar": 0,
+        "endLine": 852,
+        "endChar": 2
+      },
+      "revId": "641be7b359474a665c8c870b644d962c5fde62e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0200cecb_720cc0da",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 854,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-11-14T21:26:54Z",
+      "side": 1,
+      "message": "Tab.",
+      "range": {
+        "startLine": 854,
+        "startChar": 0,
+        "endLine": 854,
+        "endChar": 3
+      },
+      "revId": "641be7b359474a665c8c870b644d962c5fde62e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

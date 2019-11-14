@@ -211,8 +211,12 @@
       }
     },
 
+    _shouldDisableAction(_showActions, _lastComment) {
+      return !_showActions || !_lastComment || !!_lastComment.__draft;
+    },
+
     _hideActions(_showActions, _lastComment) {
-      return !_showActions || !_lastComment || !!_lastComment.__draft ||
+      return this._shouldDisableAction(_showActions, _lastComment) ||
         !!_lastComment.robot_id;
     },
 

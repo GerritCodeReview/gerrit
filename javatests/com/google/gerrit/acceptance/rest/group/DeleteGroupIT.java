@@ -29,8 +29,8 @@ import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.AuthException;
-import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.gerrit.server.group.db.GroupNameNotes;
@@ -63,6 +63,45 @@ public class DeleteGroupIT extends AbstractDaemonTest {
     assertThat(thrown)
         .hasMessageThat()
         .contains("cannot delete group that is owner of other groups");
+  }
+
+  @Test
+  public void deleteGroup() throws Exception {
+    String group = createGroup("group");
+    assertThat(gApi.groups().id(group).get()).isNotNull();
+    GroupReference groupReference;
+
+    try (Repository repo = repoManager.openRepository(Project.nameKey("All-Users"))) {
+      // Check existence in GroupNameNotes.
+      groupReference = GroupNameNotes.loadGroup(repo, AccountGroup.nameKey(group)).get();
+      assertThat(groupReference).isNotNull();
+      // Check existence in the database.
+      assertThat(
+              repo.getRefDatabase()
+                  .getRefsByPrefix(
+                      String.format(
+                          "refs/groups/%s/%s",
+                          groupReference.getUUID().toString().substring(0, 2),
+                          groupReference.getUUID())))
+          .isNotEmpty();
+    }
+    gApi.groups().id(group).delete();
+
+    try (Repository repo = repoManager.openRepository(Project.nameKey("All-Users"))) {
+      // Check deletion from GroupNameNotes
+      assertThat(GroupNameNotes.loadGroup(repo, AccountGroup.nameKey(group)))
+          .isEqualTo(Optional.empty());
+      // Check deletion from the database.
+      assertThat(
+              repo.getRefDatabase()
+                  .getRefsByPrefix(
+                      String.format(
+                          "refs/groups/%s/%s",
+                          groupReference.getUUID().toString().substring(0, 2),
+                          groupReference.getUUID())))
+          .isEmpty();
+    }
+    assertThrows(ResourceNotFoundException.class, () -> gApi.groups().id(group));
   }
 
   @Test
@@ -100,11 +139,5 @@ public class DeleteGroupIT extends AbstractDaemonTest {
         .add(allow(OWNER).ref("refs/*").group(groupRef.get().getUUID()))
         .update();
     assertThrows(ResourceConflictException.class, () -> gApi.groups().id(group).delete());
-  }
-
-  @Test
-  public void deleteGroupNotImplementedYet() throws Exception {
-    String g = createGroup("test");
-    assertThrows(NotImplementedException.class, () -> gApi.groups().id(g).delete());
   }
 }

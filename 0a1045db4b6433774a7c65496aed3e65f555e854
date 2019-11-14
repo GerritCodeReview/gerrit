@@ -108,6 +108,24 @@
     },
     {
       "key": {
+        "uuid": "82a62dc8_a2647ad6",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-11-14T17:26:40Z",
+      "side": 1,
+      "message": "ah i see, thx for pointing out. I think the method name for `pleaseFix` can be updated to something like `shouldDisableAction`",
+      "parentUuid": "51a0ab44_02195a19",
+      "revId": "0a1045db4b6433774a7c65496aed3e65f555e854",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ae1d804b_2312a6b2",
         "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.js",
         "patchSetId": 5

@@ -19,6 +19,7 @@
 
   const PATCH_SET_PREFIX_PATTERN = /^Patch Set \d+: /;
   const LABEL_TITLE_SCORE_PATTERN = /^([A-Za-z0-9-]+)([+-]\d+)$/;
+  const MSG_PREFIX = '#message-';
 
   /**
     * @appliesMixin Gerrit.FireMixin
@@ -240,13 +241,21 @@
       return classes.join(' ');
     }
 
+    computeLinkUrl(message) {
+      if (!message.id) return '';
+      const hash = MSG_PREFIX + message.id;
+      const url = Gerrit.Nav.getUrlForChangeById(this.changeNum,
+          this.projectName, null, hash);
+      return url;
+    }
+
     _handleAnchorClick(e) {
       e.preventDefault();
-      this.dispatchEvent(new CustomEvent('message-anchor-tap', {
-        bubbles: true,
-        composed: true,
-        detail: {id: this.message.id},
-      }));
+      if (!this.message.id) return;
+      const hash = MSG_PREFIX + this.message.id;
+      const url = Gerrit.Nav.getUrlForChangeById(this.changeNum,
+          this.projectName, null, hash);
+      history.replaceState(null, '', url);
     }
 
     _handleReplyTap(e) {

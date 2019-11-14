@@ -188,8 +188,6 @@ limitations under the License.
         max-height: 36em;
         overflow: hidden;
       }
-      #relatedChanges {
-      }
       #relatedChanges.collapsed {
         margin-bottom: var(--spacing-l);
         max-height: var(--relation-chain-max-height, 2em);
@@ -623,7 +621,6 @@ limitations under the License.
             change-comments="[[_changeComments]]"
             project-name="[[_change.project]]"
             show-reply-buttons="[[_loggedIn]]"
-            on-message-anchor-tap="_handleMessageAnchorTap"
             on-reply="_handleMessageReply"></gr-messages-list>
       </template>
       <template is="dom-if" if="[[!_showMessagesView]]">

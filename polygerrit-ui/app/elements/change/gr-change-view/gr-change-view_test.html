@@ -95,20 +95,6 @@ limitations under the License.
       return util.getComputedStyleValue(cssParam, element);
     };
 
-    test('_handleMessageAnchorTap', () => {
-      element._changeNum = '1';
-      element._patchRange = {
-        basePatchNum: 'PARENT',
-        patchNum: 1,
-      };
-      const getUrlStub = sandbox.stub(Gerrit.Nav, 'getUrlForChange');
-      const replaceStateStub = sandbox.stub(history, 'replaceState');
-      element._handleMessageAnchorTap({detail: {id: 'a12345'}});
-
-      assert.equal(getUrlStub.lastCall.args[4], '#message-a12345');
-      assert.isTrue(replaceStateStub.called);
-    });
-
     suite('keyboard shortcuts', () => {
       test('t to add topic', () => {
         const editStub = sandbox.stub(element.$.metadata, 'editTopic');

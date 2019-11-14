@@ -294,13 +294,16 @@ limitations under the License.
         display: none;
       }
       .lineNum.COVERED {
-         background-color: #E0F2F1;
+         background-color: var(--coverage-covered, #e0f2f1);
       }
       .lineNum.NOT_COVERED {
-        background-color: #FFD1A4;
+        background-color: var(--coverage-not-covered, #ffd1a4);
       }
       .lineNum.PARTIALLY_COVERED {
-        background: linear-gradient(to right bottom, #FFD1A4 0%, #FFD1A4 50%, #E0F2F1 50%, #E0F2F1 100%);
+        background: linear-gradient(to right bottom, var(--coverage-not-covered, #ffd1a4) 0%,
+                                                     var(--coverage-not-covered, #ffd1a4) 50%,
+                                                     var(--coverage-covered, #e0f2f1) 50%,
+                                                     var(--coverage-covered, #e0f2f1) 100%);
       }
 
       /** BEGIN: Select and copy for Polymer 2 */

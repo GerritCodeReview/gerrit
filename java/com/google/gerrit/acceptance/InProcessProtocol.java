@@ -342,7 +342,7 @@ class InProcessProtocol extends TestProtocol<Context> {
             ImmutableList.<PostReceiveHook>builder()
                 .add(
                     (pack, commands) -> {
-                      if (affectsSize(pack, commands)) {
+                      if (affectsSize(pack)) {
                         try {
                           quotaBackend
                               .user(identifiedUser)

@@ -17,39 +17,42 @@
 (function() {
   'use strict';
 
-  Polymer({
-    is: 'gr-plugin-config-array-editor',
-
+  class GrPluginConfigArrayEditor extends Polymer.GestureEventListeners(
+      Polymer.LegacyElementMixin(
+          Polymer.Element)) {
+    static get is() { return 'gr-plugin-config-array-editor'; }
     /**
      * Fired when the plugin config option changes.
      *
      * @event plugin-config-option-changed
      */
 
-    properties: {
+    static get properties() {
+      return {
       /** @type {?} */
-      pluginOption: Object,
-      /** @type {Boolean} */
-      disabled: {
-        type: Boolean,
-        computed: '_computeDisabled(pluginOption.*)',
-      },
-      /** @type {?} */
-      _newValue: {
-        type: String,
-        value: '',
-      },
-    },
+        pluginOption: Object,
+        /** @type {Boolean} */
+        disabled: {
+          type: Boolean,
+          computed: '_computeDisabled(pluginOption.*)',
+        },
+        /** @type {?} */
+        _newValue: {
+          type: String,
+          value: '',
+        },
+      };
+    }
 
     _computeDisabled(record) {
       return !(record && record.base && record.base.info &&
           record.base.info.editable);
-    },
+    }
 
     _handleAddTap(e) {
       e.preventDefault();
       this._handleAdd();
-    },
+    }
 
     _handleInputKeydown(e) {
       // Enter.
@@ -57,20 +60,20 @@
         e.preventDefault();
         this._handleAdd();
       }
-    },
+    }
 
     _handleAdd() {
       if (!this._newValue.length) { return; }
       this._dispatchChanged(
           this.pluginOption.info.values.concat([this._newValue]));
       this._newValue = '';
-    },
+    }
 
     _handleDelete(e) {
       const value = Polymer.dom(e).localTarget.dataset.item;
       this._dispatchChanged(
           this.pluginOption.info.values.filter(str => str !== value));
-    },
+    }
 
     _dispatchChanged(values) {
       const {_key, info} = this.pluginOption;
@@ -81,10 +84,13 @@
       };
       this.dispatchEvent(
           new CustomEvent('plugin-config-option-changed', {detail}));
-    },
+    }
 
     _computeShowInputRow(disabled) {
       return disabled ? 'hide' : '';
-    },
-  });
+    }
+  }
+
+  customElements.define(GrPluginConfigArrayEditor.is,
+      GrPluginConfigArrayEditor);
 })();

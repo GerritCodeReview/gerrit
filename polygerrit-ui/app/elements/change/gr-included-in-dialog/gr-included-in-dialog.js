@@ -17,36 +17,40 @@
 (function() {
   'use strict';
 
-  Polymer({
-    is: 'gr-included-in-dialog',
-
+  /**
+    * @appliesMixin Gerrit.FireMixin
+    */
+  class GrIncludedInDialog extends Polymer.mixinBehaviors( [
+    Gerrit.FireBehavior,
+  ], Polymer.GestureEventListeners(
+      Polymer.LegacyElementMixin(
+          Polymer.Element))) {
+    static get is() { return 'gr-included-in-dialog'; }
     /**
      * Fired when the user presses the close button.
      *
      * @event close
      */
 
-    properties: {
+    static get properties() {
+      return {
       /** @type {?} */
-      changeNum: {
-        type: Object,
-        observer: '_resetData',
-      },
-      /** @type {?} */
-      _includedIn: Object,
-      _loaded: {
-        type: Boolean,
-        value: false,
-      },
-      _filterText: {
-        type: String,
-        value: '',
-      },
-    },
-
-    behaviors: [
-      Gerrit.FireBehavior,
-    ],
+        changeNum: {
+          type: Object,
+          observer: '_resetData',
+        },
+        /** @type {?} */
+        _includedIn: Object,
+        _loaded: {
+          type: Boolean,
+          value: false,
+        },
+        _filterText: {
+          type: String,
+          value: '',
+        },
+      };
+    }
 
     loadData() {
       if (!this.changeNum) { return; }
@@ -57,12 +61,12 @@
             this._includedIn = configs;
             this._loaded = true;
           });
-    },
+    }
 
     _resetData() {
       this._includedIn = null;
       this._loaded = false;
-    },
+    }
 
     _computeGroups(includedIn, filterText) {
       if (!includedIn) { return []; }
@@ -83,22 +87,24 @@
         }
       }
       return groups.filter(g => g.items.length);
-    },
+    }
 
     _handleCloseTap(e) {
       e.preventDefault();
       e.stopPropagation();
       this.fire('close', null, {bubbles: false});
-    },
+    }
 
     _computeLoadingClass(loaded) {
       return loaded ? 'loading loaded' : 'loading';
-    },
+    }
 
     _onFilterChanged() {
       this.debounce('filter-change', () => {
         this._filterText = this.$.filterInput.bindValue;
       }, 100);
-    },
-  });
+    }
+  }
+
+  customElements.define(GrIncludedInDialog.is, GrIncludedInDialog);
 })();

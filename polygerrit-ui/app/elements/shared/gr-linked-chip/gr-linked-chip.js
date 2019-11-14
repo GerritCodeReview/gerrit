@@ -17,41 +17,48 @@
 (function() {
   'use strict';
 
-  Polymer({
-    is: 'gr-linked-chip',
+  /**
+    * @appliesMixin Gerrit.FireMixin
+    */
+  class GrLinkedChip extends Polymer.mixinBehaviors( [
+    Gerrit.FireBehavior,
+  ], Polymer.GestureEventListeners(
+      Polymer.LegacyElementMixin(
+          Polymer.Element))) {
+    static get is() { return 'gr-linked-chip'; }
 
-    properties: {
-      href: String,
-      disabled: {
-        type: Boolean,
-        value: false,
-        reflectToAttribute: true,
-      },
-      removable: {
-        type: Boolean,
-        value: false,
-      },
-      text: String,
-      transparentBackground: {
-        type: Boolean,
-        value: false,
-      },
+    static get properties() {
+      return {
+        href: String,
+        disabled: {
+          type: Boolean,
+          value: false,
+          reflectToAttribute: true,
+        },
+        removable: {
+          type: Boolean,
+          value: false,
+        },
+        text: String,
+        transparentBackground: {
+          type: Boolean,
+          value: false,
+        },
 
-      /**  If provided, sets the maximum length of the content. */
-      limit: Number,
-    },
-
-    behaviors: [
-      Gerrit.FireBehavior,
-    ],
+        /**  If provided, sets the maximum length of the content. */
+        limit: Number,
+      };
+    }
 
     _getBackgroundClass(transparent) {
       return transparent ? 'transparentBackground' : '';
-    },
+    }
 
     _handleRemoveTap(e) {
       e.preventDefault();
       this.fire('remove');
-    },
-  });
+    }
+  }
+
+  customElements.define(GrLinkedChip.is, GrLinkedChip);
 })();

@@ -17,46 +17,51 @@
 (function() {
   'use strict';
 
-  Polymer({
-    is: 'gr-alert',
-
+  class GrAlert extends Polymer.GestureEventListeners(
+      Polymer.LegacyElementMixin(
+          Polymer.Element)) {
+    static get is() { return 'gr-alert'; }
     /**
      * Fired when the action button is pressed.
      *
      * @event action
      */
 
-    properties: {
-      text: String,
-      actionText: String,
-      shown: {
-        type: Boolean,
-        value: true,
-        readOnly: true,
-        reflectToAttribute: true,
-      },
-      toast: {
-        type: Boolean,
-        value: true,
-        reflectToAttribute: true,
-      },
+    static get properties() {
+      return {
+        text: String,
+        actionText: String,
+        shown: {
+          type: Boolean,
+          value: true,
+          readOnly: true,
+          reflectToAttribute: true,
+        },
+        toast: {
+          type: Boolean,
+          value: true,
+          reflectToAttribute: true,
+        },
 
-      _hideActionButton: Boolean,
-      _boundTransitionEndHandler: {
-        type: Function,
-        value() { return this._handleTransitionEnd.bind(this); },
-      },
-      _actionCallback: Function,
-    },
+        _hideActionButton: Boolean,
+        _boundTransitionEndHandler: {
+          type: Function,
+          value() { return this._handleTransitionEnd.bind(this); },
+        },
+        _actionCallback: Function,
+      };
+    }
 
     attached() {
+      super.attached();
       this.addEventListener('transitionend', this._boundTransitionEndHandler);
-    },
+    }
 
     detached() {
+      super.detached();
       this.removeEventListener('transitionend',
           this._boundTransitionEndHandler);
-    },
+    }
 
     show(text, opt_actionText, opt_actionCallback) {
       this.text = text;
@@ -65,31 +70,33 @@
       this._actionCallback = opt_actionCallback;
       Gerrit.getRootElement().appendChild(this);
       this._setShown(true);
-    },
+    }
 
     hide() {
       this._setShown(false);
       if (this._hasZeroTransitionDuration()) {
         Gerrit.getRootElement().removeChild(this);
       }
-    },
+    }
 
     _hasZeroTransitionDuration() {
       const style = window.getComputedStyle(this);
       // transitionDuration is always given in seconds.
       const duration = Math.round(parseFloat(style.transitionDuration) * 100);
       return duration === 0;
-    },
+    }
 
     _handleTransitionEnd(e) {
       if (this.shown) { return; }
 
       Gerrit.getRootElement().removeChild(this);
-    },
+    }
 
     _handleActionTap(e) {
       e.preventDefault();
       if (this._actionCallback) { this._actionCallback(); }
-    },
-  });
+    }
+  }
+
+  customElements.define(GrAlert.is, GrAlert);
 })();

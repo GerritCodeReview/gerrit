@@ -17,69 +17,77 @@
 (function() {
   'use strict';
 
-  Polymer({
-    is: 'gr-create-repo-dialog',
+  /**
+    * @appliesMixin Gerrit.BaseUrlMixin
+    * @appliesMixin Gerrit.URLEncodingMixin
+    */
+  class GrCreateRepoDialog extends Polymer.mixinBehaviors( [
+    Gerrit.BaseUrlBehavior,
+    Gerrit.URLEncodingBehavior,
+  ], Polymer.GestureEventListeners(
+      Polymer.LegacyElementMixin(
+          Polymer.Element))) {
+    static get is() { return 'gr-create-repo-dialog'; }
 
-    properties: {
-      params: Object,
-      hasNewRepoName: {
-        type: Boolean,
-        notify: true,
-        value: false,
-      },
+    static get properties() {
+      return {
+        params: Object,
+        hasNewRepoName: {
+          type: Boolean,
+          notify: true,
+          value: false,
+        },
 
-      /** @type {?} */
-      _repoConfig: {
-        type: Object,
-        value: () => {
+        /** @type {?} */
+        _repoConfig: {
+          type: Object,
+          value: () => {
           // Set default values for dropdowns.
-          return {
-            create_empty_commit: true,
-            permissions_only: false,
-          };
+            return {
+              create_empty_commit: true,
+              permissions_only: false,
+            };
+          },
         },
-      },
-      _repoCreated: {
-        type: Boolean,
-        value: false,
-      },
-      _repoOwner: String,
-      _repoOwnerId: {
-        type: String,
-        observer: '_repoOwnerIdUpdate',
-      },
-
-      _query: {
-        type: Function,
-        value() {
-          return this._getRepoSuggestions.bind(this);
+        _repoCreated: {
+          type: Boolean,
+          value: false,
         },
-      },
-      _queryGroups: {
-        type: Function,
-        value() {
-          return this._getGroupSuggestions.bind(this);
+        _repoOwner: String,
+        _repoOwnerId: {
+          type: String,
+          observer: '_repoOwnerIdUpdate',
         },
-      },
-    },
 
-    observers: [
-      '_updateRepoName(_repoConfig.name)',
-    ],
+        _query: {
+          type: Function,
+          value() {
+            return this._getRepoSuggestions.bind(this);
+          },
+        },
+        _queryGroups: {
+          type: Function,
+          value() {
+            return this._getGroupSuggestions.bind(this);
+          },
+        },
+      };
+    }
 
-    behaviors: [
-      Gerrit.BaseUrlBehavior,
-      Gerrit.URLEncodingBehavior,
-    ],
+    static get observers() {
+      return [
+        '_updateRepoName(_repoConfig.name)',
+      ];
+    }
 
     _computeRepoUrl(repoName) {
       return this.getBaseUrl() + '/admin/repos/' +
           this.encodeURL(repoName, true);
-    },
+    }
 
     _updateRepoName(name) {
       this.hasNewRepoName = !!name;
-    },
+    }
 
     _repoOwnerIdUpdate(id) {
       if (id) {
@@ -87,7 +95,7 @@
       } else {
         this.set('_repoConfig.owners', undefined);
       }
-    },
+    }
 
     handleCreateRepo() {
       return this.$.restAPI.createRepo(this._repoConfig)
@@ -97,7 +105,7 @@
               page.show(this._computeRepoUrl(this._repoConfig.name));
             }
           });
-    },
+    }
 
     _getRepoSuggestions(input) {
       return this.$.restAPI.getSuggestedProjects(input)
@@ -112,7 +120,7 @@
             }
             return repos;
           });
-    },
+    }
 
     _getGroupSuggestions(input) {
       return this.$.restAPI.getSuggestedGroups(input)
@@ -127,6 +135,8 @@
             }
             return groups;
           });
-    },
-  });
+    }
+  }
+
+  customElements.define(GrCreateRepoDialog.is, GrCreateRepoDialog);
 })();

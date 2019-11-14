@@ -15,10 +15,12 @@
 package com.google.gerrit.extensions.api.changes;
 
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
+import com.google.gerrit.extensions.common.BlameInfo;
 import com.google.gerrit.extensions.common.DiffInfo;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import java.util.List;
 import java.util.OptionalInt;
 
 public interface FileApi {
@@ -41,6 +43,12 @@ public interface FileApi {
 
   /** Set the file reviewed or not reviewed */
   void setReviewed(boolean reviewed) throws RestApiException;
+
+  /**
+   * Creates a request to retrieve the blame information. On the returned request formatting options
+   * for the blame request can be set.
+   */
+  BlameRequest blameRequest() throws RestApiException;
 
   abstract class DiffRequest {
     private String base;
@@ -97,6 +105,21 @@ public interface FileApi {
     }
   }
 
+  abstract class BlameRequest {
+    private boolean forBase;
+
+    public abstract List<BlameInfo> get() throws RestApiException;
+
+    public BlameRequest forBase(boolean forBase) {
+      this.forBase = forBase;
+      return this;
+    }
+
+    public boolean isForBase() {
+      return forBase;
+    }
+  }
+
   /**
    * A default implementation which allows source compatibility when adding new methods to the
    * interface.
@@ -129,6 +152,11 @@ public interface FileApi {
 
     @Override
     public void setReviewed(boolean reviewed) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public BlameRequest blameRequest() throws RestApiException {
       throw new NotImplementedException();
     }
   }

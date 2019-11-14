@@ -47,6 +47,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.merge.ThreeWayMergeStrategy;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.treewalk.TreeWalk;
 import org.kohsuke.args4j.Option;
 
 public class GetBlame implements RestReadView<FileResource> {
@@ -74,6 +75,11 @@ public class GetBlame implements RestReadView<FileResource> {
     this.blameCache = blameCache;
     this.mergeStrategy = MergeUtil.getMergeStrategy(cfg);
     this.autoMerger = autoMerger;
+  }
+
+  public GetBlame setBase(boolean base) {
+    this.base = base;
+    return this;
   }
 
   @Override
@@ -131,7 +137,8 @@ public class GetBlame implements RestReadView<FileResource> {
     ListMultimap<BlameInfo, RangeInfo> ranges =
         MultimapBuilder.hashKeys().arrayListValues().build();
     List<BlameInfo> result = new ArrayList<>();
-    if (blameCache.findLastCommit(repository, id, path) == null) {
+    if (!fileExistsInCommit(revWalk, id, path)
+        || blameCache.findLastCommit(repository, id, path) == null) {
       return result;
     }
 
@@ -149,6 +156,20 @@ public class GetBlame implements RestReadView<FileResource> {
       result.add(key);
     }
     return result;
+  }
+
+  private boolean fileExistsInCommit(RevWalk revWalk, ObjectId objectId, String path)
+      throws IOException {
+    try (TreeWalk treeWalk = new TreeWalk(revWalk.getObjectReader())) {
+      treeWalk.addTree(revWalk.parseCommit(objectId).getTree());
+      treeWalk.setRecursive(true);
+      while (treeWalk.next()) {
+        if (treeWalk.getPathString().equals(path)) {
+          return true;
+        }
+      }
+    }
+    return false;
   }
 
   private static BlameInfo toBlameInfo(RevCommit commit, PersonIdent sourceAuthor) {

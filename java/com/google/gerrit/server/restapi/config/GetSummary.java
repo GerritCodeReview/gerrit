@@ -90,13 +90,21 @@ public class GetSummary implements RestReadView<ConfigResource> {
   private TaskSummaryInfo getTaskSummary() {
     Collection<Task<?>> pending = workQueue.getTasks();
     int tasksTotal = pending.size();
+    int tasksStopping = 0;
     int tasksRunning = 0;
+    int tasksStarting = 0;
     int tasksReady = 0;
     int tasksSleeping = 0;
     for (Task<?> task : pending) {
       switch (task.getState()) {
+        case STOPPING:
+          tasksStopping++;
+          break;
         case RUNNING:
           tasksRunning++;
+          break;
+        case STARTING:
+          tasksStarting++;
           break;
         case READY:
           tasksReady++;
@@ -113,7 +121,9 @@ public class GetSummary implements RestReadView<ConfigResource> {
 
     TaskSummaryInfo taskSummary = new TaskSummaryInfo();
     taskSummary.total = toInteger(tasksTotal);
+    taskSummary.stopping = toInteger(tasksStopping);
     taskSummary.running = toInteger(tasksRunning);
+    taskSummary.starting = toInteger(tasksStarting);
     taskSummary.ready = toInteger(tasksReady);
     taskSummary.sleeping = toInteger(tasksSleeping);
     return taskSummary;
@@ -247,7 +257,9 @@ public class GetSummary implements RestReadView<ConfigResource> {
 
   public static class TaskSummaryInfo {
     public Integer total;
+    public Integer stopping;
     public Integer running;
+    public Integer starting;
     public Integer ready;
     public Integer sleeping;
   }

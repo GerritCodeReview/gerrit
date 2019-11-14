@@ -212,6 +212,25 @@ public class TaskListenerIT extends AbstractDaemonTest {
     assertTaskCountIsEventually(0);
   }
 
+  @Test
+  public void states() throws Exception {
+    executor.execute(runnable);
+    listener.onStart.assertAwait();
+    assertThat(forwarder.task.getState()).isEqualTo(Task.State.STARTING);
+
+    listener.onStart.complete();
+    runnable.run.assertAwait();
+    assertThat(forwarder.task.getState()).isEqualTo(Task.State.RUNNING);
+
+    runnable.run.complete();
+    listener.onStop.assertAwait();
+    assertThat(forwarder.task.getState()).isEqualTo(Task.State.STOPPING);
+
+    listener.onStop.complete();
+    assertTaskCountIsEventually(0);
+    assertThat(forwarder.task.getState()).isEqualTo(Task.State.DONE);
+  }
+
   private void assertTaskCountIsEventually(int count) throws InterruptedException {
     long i = 0;
     do {

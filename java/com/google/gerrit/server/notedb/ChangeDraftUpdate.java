@@ -20,6 +20,7 @@ import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.Sets;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Comment;
@@ -55,6 +56,8 @@ import org.eclipse.jgit.revwalk.RevWalk;
  * <p>This class is not thread safe.
  */
 public class ChangeDraftUpdate extends AbstractChangeUpdate {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   public interface Factory {
     ChangeDraftUpdate create(
         ChangeNotes notes,
@@ -236,7 +239,14 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
       return null;
     }
 
-    cb.setTreeId(rnm.noteMap.writeTree(ins));
+    ObjectId treeId = rnm.noteMap.writeTree(ins);
+    if (!rnm.noteMap.iterator().hasNext()) {
+      logger.atSevere().log(
+          "building draft update without content: hasComments=%s "
+              + "touchedAllRevs=%s updateCommits=%d revisionNotes=%d",
+          hasComments, touchedAllRevs, updatedCommits.size(), rnm.revisionNotes.size());
+    }
+    cb.setTreeId(treeId);
     return cb;
   }
 

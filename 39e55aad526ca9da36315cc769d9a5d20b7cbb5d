@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "4706f58d_67067a0b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 22
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-11-14T22:11:54Z",
+      "side": 1,
+      "message": "Sorry. Uploaded the new patch set.",
+      "parentUuid": "52e703bc_89947112",
+      "range": {
+        "startLine": 14,
+        "startChar": 6,
+        "endLine": 14,
+        "endChar": 14
+      },
+      "revId": "39e55aad526ca9da36315cc769d9a5d20b7cbb5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a2fc425_f434137c",
         "filename": "/COMMIT_MSG",
         "patchSetId": 22
@@ -132,6 +156,30 @@
       "side": 1,
       "message": "you didn\u0027t change this text",
       "parentUuid": "1fbe5acd_fe393135",
+      "range": {
+        "startLine": 15,
+        "startChar": 64,
+        "endLine": 15,
+        "endChar": 70
+      },
+      "revId": "39e55aad526ca9da36315cc769d9a5d20b7cbb5d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c457975_b20664c1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 22
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-11-14T22:11:54Z",
+      "side": 1,
+      "message": "Same here.",
+      "parentUuid": "6d49996a_daf43b9b",
       "range": {
         "startLine": 15,
         "startChar": 64,

@@ -48,6 +48,31 @@
     },
     {
       "key": {
+        "uuid": "7bb424f7_88c136d8",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-11-14T07:47:57Z",
+      "side": 1,
+      "message": "It won\u0027t stay the only one.",
+      "parentUuid": "ab597118_3fb4233d",
+      "range": {
+        "startLine": 90,
+        "startChar": 37,
+        "endLine": 90,
+        "endChar": 51
+      },
+      "tag": "mailMessageId\u003d\u003cCAJeB\u003d4qRseuyKkMtQrS2Vig+q0oufYiNy-XvhLFQz3BBrtSJMQ@mail.gmail.com\u003e",
+      "revId": "0a1045db4b6433774a7c65496aed3e65f555e854",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4c700171_d68cab39",
         "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.js",
         "patchSetId": 5

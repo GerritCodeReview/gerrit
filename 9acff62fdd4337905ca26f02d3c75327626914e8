@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5e453c4e_ec8b0cc7",
+        "filename": "java/com/google/gerrit/server/restapi/group/DeleteGroup.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-11-14T00:00:28Z",
+      "side": 1,
+      "message": "Cannot",
+      "range": {
+        "startLine": 102,
+        "startChar": 13,
+        "endLine": 102,
+        "endChar": 19
+      },
+      "revId": "9acff62fdd4337905ca26f02d3c75327626914e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "90d8d2bc_15dc4404",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/group/DeleteGroupIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-11-14T00:00:28Z",
+      "side": 1,
+      "message": "Nit: AssertThat(groupRef).isPresent();\nwould be better",
+      "range": {
+        "startLine": 96,
+        "startChar": 0,
+        "endLine": 96,
+        "endChar": 37
+      },
+      "revId": "9acff62fdd4337905ca26f02d3c75327626914e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

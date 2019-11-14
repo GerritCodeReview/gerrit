@@ -104,6 +104,24 @@
       "revId": "526f5fe7352463fd9a5d7a6e50d5d0ce783c7ec2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "93f6c918_d232b054",
+        "filename": "polygerrit-ui/app/elements/diff/gr-selection-action-box/gr-selection-action-box.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2019-11-14T09:47:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cd2571b3_3bd23b96",
+      "revId": "526f5fe7352463fd9a5d7a6e50d5d0ce783c7ec2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

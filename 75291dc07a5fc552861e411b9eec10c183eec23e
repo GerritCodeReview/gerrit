@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "245d2619_ad6cd4c7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-11-14T00:49:59Z",
+      "side": 1,
+      "message": "configured? It wasn\u0027t clear to me, what this means until I checked the code.",
+      "range": {
+        "startLine": 7,
+        "startChar": 59,
+        "endLine": 7,
+        "endChar": 68
+      },
+      "revId": "75291dc07a5fc552861e411b9eec10c183eec23e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "48f6b7db_2369796d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-11-14T00:49:59Z",
+      "side": 1,
+      "message": "Here it\"s using the right word, do the same in the subject.",
+      "range": {
+        "startLine": 11,
+        "startChar": 46,
+        "endLine": 11,
+        "endChar": 56
+      },
+      "revId": "75291dc07a5fc552861e411b9eec10c183eec23e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

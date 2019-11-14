@@ -129,6 +129,7 @@ import com.google.gerrit.server.git.PureRevertCache;
 import com.google.gerrit.server.git.ReceivePackInitializer;
 import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.git.TransferConfig;
+import com.google.gerrit.server.git.WorkQueue;
 import com.google.gerrit.server.git.receive.ReceiveCommitsModule;
 import com.google.gerrit.server.git.validators.CommentCountValidator;
 import com.google.gerrit.server.git.validators.CommentCumulativeSizeValidator;
@@ -410,6 +411,7 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicSet.setOf(binder(), ExceptionHook.class);
     DynamicSet.bind(binder(), ExceptionHook.class).to(ExceptionHookImpl.class);
     DynamicSet.setOf(binder(), MailSoyTemplateProvider.class);
+    DynamicMap.mapOf(binder(), WorkQueue.TaskListener.class);
 
     DynamicMap.mapOf(binder(), MailFilter.class);
     bind(MailFilter.class).annotatedWith(Exports.named("ListMailFilter")).to(ListMailFilter.class);

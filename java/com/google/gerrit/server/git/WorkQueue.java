@@ -20,6 +20,8 @@ import com.google.common.base.CaseFormat;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.events.LifecycleListener;
+import com.google.gerrit.extensions.registration.DynamicMap;
+import com.google.gerrit.extensions.registration.Extension;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.MetricMaker;
@@ -59,6 +61,25 @@ import org.eclipse.jgit.lib.Config;
 public class WorkQueue {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
+  /**
+   * Register a TaskListener from a plugin like this:
+   *
+   * <p>bind(TaskListener.class).annotatedWith(Exports.named("MyListener")).to(MyListener.class);
+   */
+  public interface TaskListener {
+    public static class NoOp implements TaskListener {
+      @Override
+      public void onStart(Task<?> task) {}
+
+      @Override
+      public void onStop(Task<?> task) {}
+    }
+
+    void onStart(Task<?> task);
+
+    void onStop(Task<?> task);
+  }
+
   public static class Lifecycle implements LifecycleListener {
     private final WorkQueue workQueue;
 
@@ -92,10 +113,16 @@ public class WorkQueue {
   private final IdGenerator idGenerator;
   private final MetricMaker metrics;
   private final CopyOnWriteArrayList<Executor> queues;
+  private DynamicMap<TaskListener> listeners;
 
   @Inject
   WorkQueue(IdGenerator idGenerator, @GerritServerConfig Config cfg, MetricMaker metrics) {
     this(idGenerator, Math.max(cfg.getInt("execution", "defaultThreadPoolSize", 2), 2), metrics);
+  }
+
+  @Inject(optional = true)
+  public void setDynamicListeners(DynamicMap<TaskListener> listeners) {
+    this.listeners = listeners;
   }
 
   /** Constructor to allow binding the WorkQueue more explicitly in a vhost setup. */
@@ -244,7 +271,7 @@ public class WorkQueue {
   }
 
   /** An isolated queue. */
-  private class Executor extends ScheduledThreadPoolExecutor {
+  private class Executor extends ScheduledThreadPoolExecutor implements TaskListener {
     private final ConcurrentHashMap<Integer, Task<?>> all;
     private final String queueName;
 
@@ -442,6 +469,36 @@ public class WorkQueue {
     Collection<Task<?>> getTasks() {
       return all.values();
     }
+
+    @Override
+    public void onStart(Task<?> task) {
+      if (listeners != null) {
+        for (Extension<TaskListener> e : listeners) {
+          try {
+            e.getProvider().get().onStart(task);
+          } catch (Exception ex) { // Protect operations from unchecked exceptions
+            logger.atSevere().withCause(ex).log(
+                "Error in plugin %s TaskListener(%s) for task %s",
+                e.getPluginName(), e.getExportName(), task.toString());
+          }
+        }
+      }
+    }
+
+    @Override
+    public void onStop(Task<?> task) {
+      if (listeners != null) {
+        for (Extension<TaskListener> e : listeners) {
+          try {
+            e.getProvider().get().onStop(task);
+          } catch (Exception ex) { // Protect operations from unchecked exceptions
+            logger.atSevere().withCause(ex).log(
+                "Error in plugin %s TaskListener(%s) for task %s",
+                e.getPluginName(), e.getExportName(), task.toString());
+          }
+        }
+      }
+    }
   }
 
   /**
@@ -608,10 +665,12 @@ public class WorkQueue {
       if (running.compareAndSet(false, true)) {
         String oldThreadName = Thread.currentThread().getName();
         try {
+          executor.onStart(this);
           Thread.currentThread().setName(oldThreadName + "[" + task.toString() + "]");
           task.run();
         } finally {
           Thread.currentThread().setName(oldThreadName);
+          executor.onStop(this);
           if (isPeriodic()) {
             running.set(false);
           } else {

@@ -1245,6 +1245,15 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
     throw new QueryParseException("'revertof' operator is not supported by change index version");
   }
 
+  @Operator
+  public Predicate<ChangeData> submissionId(String value) throws QueryParseException {
+    if (args.getSchema().hasField(ChangeField.SUBMISSIONID)) {
+      return new SubmissionIdPredicate(value);
+    }
+    throw new QueryParseException(
+        "'submissionid' operator is not supported by change index version");
+  }
+
   @Override
   protected Predicate<ChangeData> defaultField(String query) throws QueryParseException {
     if (query.startsWith("refs/")) {

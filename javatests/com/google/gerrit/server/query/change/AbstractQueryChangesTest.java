@@ -2502,6 +2502,20 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQueryByIds("revertof:" + changeToRevert._number, Change.id(changeThatReverts._number));
   }
 
+  @Test
+  public void submissionId() throws Exception {
+    TestRepository<Repo> repo = createProject("repo");
+    Change change = insert(repo, newChange(repo));
+    // create irrelevant change
+    insert(repo, newChange(repo));
+    gApi.changes().id(change.getChangeId()).current().review(ReviewInput.approve());
+    gApi.changes().id(change.getChangeId()).current().submit();
+    String submissionId = gApi.changes().id(change.getChangeId()).get().submissionId;
+
+    String query = "submissionid:\"" + submissionId + "\"";
+    assertQueryByIds(query, change.getId());
+  }
+
   /** Change builder for helping in tests for dashboard sections. */
   protected class DashboardChangeState {
     private final Account.Id ownerId;

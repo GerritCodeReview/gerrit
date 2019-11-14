@@ -20,6 +20,8 @@ import com.google.common.base.CaseFormat;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.events.LifecycleListener;
+import com.google.gerrit.extensions.registration.DynamicMap;
+import com.google.gerrit.extensions.registration.Extension;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.MetricMaker;
@@ -59,6 +61,11 @@ import org.eclipse.jgit.lib.Config;
 public class WorkQueue {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
+  public interface TaskMonitor {
+    void beforeRunning(Task task);
+    void afterRunning(Task task);
+  }
+
   public static class Lifecycle implements LifecycleListener {
     private final WorkQueue workQueue;
 
@@ -92,18 +99,20 @@ public class WorkQueue {
   private final IdGenerator idGenerator;
   private final MetricMaker metrics;
   private final CopyOnWriteArrayList<Executor> queues;
+  private final TaskMonitor taskMonitor;
 
   @Inject
-  WorkQueue(IdGenerator idGenerator, @GerritServerConfig Config cfg, MetricMaker metrics) {
-    this(idGenerator, cfg.getInt("execution", "defaultThreadPoolSize", 1), metrics);
+  WorkQueue(IdGenerator idGenerator, @GerritServerConfig Config cfg, MetricMaker metrics, DynamicMap<TaskMonitor> monitors) {
+    this(idGenerator, cfg.getInt("execution", "defaultThreadPoolSize", 1), metrics, monitors);
   }
 
   /** Constructor to allow binding the WorkQueue more explicitly in a vhost setup. */
-  public WorkQueue(IdGenerator idGenerator, int defaultThreadPoolSize, MetricMaker metrics) {
+  public WorkQueue(IdGenerator idGenerator, int defaultThreadPoolSize, MetricMaker metrics, DynamicMap<TaskMonitor> monitors) {
     this.idGenerator = idGenerator;
     this.metrics = metrics;
     this.queues = new CopyOnWriteArrayList<>();
     this.defaultQueue = createQueue(defaultThreadPoolSize, "WorkQueue", true);
+    this.taskMonitor = new DynamicMonitor(monitors);
   }
 
   /** Get the default work queue, for miscellaneous tasks. */
@@ -241,6 +250,28 @@ public class WorkQueue {
       } while (!isTerminated);
     }
     queues.clear();
+  }
+
+  private static class DynamicMonitor implements TaskMonitor {
+    private final DynamicMap<TaskMonitor> monitors;
+
+    public DynamicMonitor(DynamicMap<TaskMonitor> monitors) {
+      this.monitors = monitors;
+    }
+
+    @Override
+    public void beforeRunning(Task task) {
+      for (Extension<TaskMonitor> e : monitors) {
+        e.getProvider().get().beforeRunning(task);
+      }
+    }
+
+    @Override
+    public void afterRunning(Task task) {
+      for (Extension<TaskMonitor> e : monitors) {
+        e.getProvider().get().afterRunning(task);
+      }
+    }
   }
 
   /** An isolated queue. */
@@ -410,9 +441,9 @@ public class WorkQueue {
         }
 
         if (runnable instanceof ProjectRunnable) {
-          task = new ProjectTask<>((ProjectRunnable) runnable, r, this, id);
+          task = new ProjectTask<>((ProjectRunnable) runnable, r, this, id, taskMonitor);
         } else {
-          task = new Task<>(runnable, r, this, id);
+          task = new Task<>(runnable, r, this, id, taskMonitor);
         }
 
         if (all.putIfAbsent(task.getTaskId(), task) == null) {
@@ -497,14 +528,16 @@ public class WorkQueue {
     private final int taskId;
     private final AtomicBoolean running;
     private final Date startTime;
+    private final TaskMonitor taskMonitor;
 
-    Task(Runnable runnable, RunnableScheduledFuture<V> task, Executor executor, int taskId) {
+    Task(Runnable runnable, RunnableScheduledFuture<V> task, Executor executor, int taskId, TaskMonitor taskMonitor) {
       this.runnable = runnable;
       this.task = task;
       this.executor = executor;
       this.taskId = taskId;
       this.running = new AtomicBoolean();
       this.startTime = new Date();
+      this.taskMonitor = taskMonitor;
     }
 
     public int getTaskId() {
@@ -607,8 +640,10 @@ public class WorkQueue {
     public void run() {
       if (running.compareAndSet(false, true)) {
         try {
+          taskMonitor.beforeRunning(this);
           task.run();
         } finally {
+          taskMonitor.afterRunning(this);
           if (isPeriodic()) {
             running.set(false);
           } else {
@@ -662,8 +697,8 @@ public class WorkQueue {
     private final ProjectRunnable runnable;
 
     ProjectTask(
-        ProjectRunnable runnable, RunnableScheduledFuture<V> task, Executor executor, int taskId) {
-      super(runnable, task, executor, taskId);
+        ProjectRunnable runnable, RunnableScheduledFuture<V> task, Executor executor, int taskId, TaskMonitor taskMonitor) {
+      super(runnable, task, executor, taskId, taskMonitor);
       this.runnable = runnable;
     }
 

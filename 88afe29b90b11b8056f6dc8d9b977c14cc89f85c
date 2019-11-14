@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "55a549e9_913b935e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1091606
+      },
+      "writtenOn": "2019-11-14T20:32:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "31e2c8c7_f530beca",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 12
+      },
+      "revId": "88afe29b90b11b8056f6dc8d9b977c14cc89f85c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c93b8071_6cb1ff25",
         "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.js",
         "patchSetId": 2
@@ -39,6 +63,24 @@
       "revId": "88afe29b90b11b8056f6dc8d9b977c14cc89f85c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "63f502d0_7383c191",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1091606
+      },
+      "writtenOn": "2019-11-14T20:32:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c93b8071_6cb1ff25",
+      "revId": "88afe29b90b11b8056f6dc8d9b977c14cc89f85c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

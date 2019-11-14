@@ -86,6 +86,9 @@ func main() {
 		log.Println("Local plugins from", "../plugins")
 	} else {
 		http.HandleFunc("/plugins/", handleProxy)
+		// Serve local plugins from `local/plugins`
+		http.Handle("/local_plugins/", http.StripPrefix("/local_plugins/",
+			http.FileServer(http.Dir("../plugins"))))
 	}
 	log.Println("Serving on port", *port)
 	log.Fatal(http.ListenAndServe(*port, &server{}))

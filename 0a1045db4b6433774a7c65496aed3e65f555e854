@@ -2,6 +2,69 @@
   "comments": [
     {
       "key": {
+        "uuid": "62e14e18_429c4a35",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-11-14T06:43:58Z",
+      "side": 1,
+      "message": "nit, can you add a `` around the `Please fix` :) just make it easier to read",
+      "range": {
+        "startLine": 7,
+        "startChar": 4,
+        "endLine": 7,
+        "endChar": 14
+      },
+      "revId": "0a1045db4b6433774a7c65496aed3e65f555e854",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ab597118_3fb4233d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.html",
+        "patchSetId": 5
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-11-14T06:43:58Z",
+      "side": 1,
+      "message": "just curious, why rename ? not sure if `please fix` will be the only action for robot comments ?",
+      "range": {
+        "startLine": 90,
+        "startChar": 37,
+        "endLine": 90,
+        "endChar": 51
+      },
+      "revId": "0a1045db4b6433774a7c65496aed3e65f555e854",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4c700171_d68cab39",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-11-14T06:43:58Z",
+      "side": 1,
+      "message": "do you still need this method ? seems not used by anywhere after this change.",
+      "revId": "0a1045db4b6433774a7c65496aed3e65f555e854",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ae1d804b_2312a6b2",
         "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.js",
         "patchSetId": 5
@@ -13,6 +76,30 @@
       "writtenOn": "2019-11-14T02:12:44Z",
       "side": 1,
       "message": "Not something to address in this CL, but: The internal Polymer style guide (go/polymer-js-style#accessing-the-current-value) recommends accessing properties as `this._showActions` rather than via the param that\u0027s passed in. Is the style guide used for this project different?",
+      "range": {
+        "startLine": 214,
+        "startChar": 0,
+        "endLine": 221,
+        "endChar": 6
+      },
+      "revId": "0a1045db4b6433774a7c65496aed3e65f555e854",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "99c50559_97c84e16",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-11-14T06:43:58Z",
+      "side": 1,
+      "message": "This is more like a historical issue, Gerrit used quite a lot computed bindings, they are very similar to computed properties, but slightly different (you can take a look with this link:\nhttps://polymer-library.polymer-project.org/2.0/docs/devguide/data-binding#annotated-computed if you are interested).\n\nIn terms of style guide, Gerrit is an open source project, so it won\u0027t use google internal style guide :) We are using google javascript guideline in general.\n\nWe are also in the middle of the migration to polymer 3 (class based etc), and we probably will adopt more about getter / setter, decorators along the way 😊",
+      "parentUuid": "ae1d804b_2312a6b2",
       "range": {
         "startLine": 214,
         "startChar": 0,

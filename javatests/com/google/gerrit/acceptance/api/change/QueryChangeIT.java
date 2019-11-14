@@ -20,6 +20,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.GerritConfig;
 import com.google.gerrit.acceptance.NoHttpd;
+import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.server.restapi.change.QueryChanges;
@@ -96,6 +97,23 @@ public class QueryChangeIT extends AbstractDaemonTest {
     // _moreChanges is set on the second response, but not on the first.
     assertNoChangeHasMoreChangesSet(result2.get(0));
     assertThat(result2.get(1).get(0)._moreChanges).isTrue();
+  }
+
+  @Test
+  public void queryBySubmissionId() throws Exception {
+    String changeId = createChange().getChangeId();
+    createChange().getChangeId(); // unrelated change that shouldn't be in the query.
+    gApi.changes().id(changeId).current().review(ReviewInput.approve());
+    gApi.changes().id(changeId).current().submit();
+    String submissionId = gApi.changes().id(changeId).get().submissionId;
+
+    String query = "submissionid:\"" + submissionId + "\"";
+    QueryChanges queryChanges = queryChangesProvider.get();
+    queryChanges.addQuery(query);
+    List<ChangeInfo> result =
+        (List<ChangeInfo>) queryChanges.apply(TopLevelResource.INSTANCE).value();
+    assertThat(result).hasSize(1);
+    assertThat(result.get(0).changeId).isEqualTo(changeId);
   }
 
   @Test

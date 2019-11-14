@@ -847,6 +847,14 @@
       this.viewState.numFilesShown = numFilesShown;
     }
 
+    getNavUrl(message) {
+      const hash = MSG_PREFIX + message.id;
+      const url = Gerrit.Nav.getUrlForChange(this._change,
+          this._patchRange.patchNum, this._patchRange.basePatchNum,
+          this._editMode, hash);
+      return url;
+    },
+
     _handleMessageAnchorTap(e) {
       const hash = MSG_PREFIX + e.detail.id;
       const url = Gerrit.Nav.getUrlForChange(this._change,

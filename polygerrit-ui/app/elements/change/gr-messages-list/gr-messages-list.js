@@ -78,6 +78,7 @@
           type: Object,
           computed: '_computeLabelExtremes(labels.*)',
         },
+        getNavUrl: Function,
       };
     }
 

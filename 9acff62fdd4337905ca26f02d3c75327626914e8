@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "2c237582_46e23c0b",
+        "filename": "java/com/google/gerrit/server/restapi/group/DeleteGroup.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1014257
+      },
+      "writtenOn": "2019-11-14T00:23:14Z",
+      "side": 1,
+      "message": "if we want to change this, lets do that consistently across all the exceptions",
+      "parentUuid": "5e453c4e_ec8b0cc7",
+      "range": {
+        "startLine": 102,
+        "startChar": 13,
+        "endLine": 102,
+        "endChar": 19
+      },
+      "revId": "9acff62fdd4337905ca26f02d3c75327626914e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "90d8d2bc_15dc4404",
         "filename": "javatests/com/google/gerrit/acceptance/rest/group/DeleteGroupIT.java",
         "patchSetId": 2

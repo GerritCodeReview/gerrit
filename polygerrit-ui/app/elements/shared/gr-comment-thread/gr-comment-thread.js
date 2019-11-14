@@ -226,7 +226,7 @@
 
     _shouldDisableAction(_showActions, _lastComment) {
       return !_showActions || !_lastComment || !!_lastComment.__draft;
-    },
+    }
 
     _hideActions(_showActions, _lastComment) {
       return this._shouldDisableAction(_showActions, _lastComment) ||

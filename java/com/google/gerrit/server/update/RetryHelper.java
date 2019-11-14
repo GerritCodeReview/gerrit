@@ -378,7 +378,7 @@ public class RetryHelper {
   }
 
   private String formatCause(Throwable t) {
-    if (t instanceof UpdateException || t instanceof StorageException) {
+    if ((t instanceof UpdateException || t instanceof StorageException) && t.getCause() != null) {
       t = t.getCause();
     }
 

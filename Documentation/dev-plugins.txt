@@ -533,6 +533,24 @@ a DynamicItem, so Gerrit may only have one copy.
 Certain operations in Gerrit can be validated by plugins by
 implementing the corresponding link:config-validation.html[listeners].
 
+[[taskListeners]]
+== WorkQueue.TaskListeners
+
+It is possible for plugins to listen to
+`com.google.gerrit.server.git.WorkQueue$Task`s right before they run, and
+right after they complete. This may be used to delay task executions based
+on custom criteria by blocking, likely on a lock or semaphore, inside
+onStart(), and a lock/semaphore release in onStop(). Plugins may listen to
+tasks by implementing a `com.google.gerrit.server.git.WorkQueue$TaskListener`
+and registering the new listener like this:
+
+[source,java]
+----
+  bind(TaskListener.class)
+      .annotatedWith(Exports.named("MyListener"))
+      .to(MyListener.class);
+----
+
 [[change-message-modifier]]
 == Change Message Modifier
 

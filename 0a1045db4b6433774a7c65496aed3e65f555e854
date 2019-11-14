@@ -242,6 +242,30 @@
       "revId": "0a1045db4b6433774a7c65496aed3e65f555e854",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "91e4988e_1e2674ad",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1091607
+      },
+      "writtenOn": "2019-11-14T21:02:58Z",
+      "side": 1,
+      "message": "Thanks, Tao. I realize that Gerrit doesn\u0027t use the Google-internal style guide, of course.\n\nJust to clarify the question: Within the context of `_hideActions`, `_showActions` and `this._showActions` are aliases for the same value. More generally, for any computed binding, computed property function, observer, etc., Polymer properties can be accessed in one of two ways: either by listing them as params, or via the `this` pointer. Does Gerrit code tend to prefer params over access via `this`?\n\nThe main reason that the internal style guide recommends accessing via `this` is that type information for the JS compiler gets better preserved that way. The secondary reason is to reduce redundancy, since there\u0027s no need to give new names to variables that already have an existing name. I\u0027m guessing that Gerrit code isn\u0027t type-checked, so the first reason probably doesn\u0027t apply, but the second one might?",
+      "parentUuid": "99c50559_97c84e16",
+      "range": {
+        "startLine": 214,
+        "startChar": 0,
+        "endLine": 221,
+        "endChar": 6
+      },
+      "revId": "0a1045db4b6433774a7c65496aed3e65f555e854",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

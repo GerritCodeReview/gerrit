@@ -79,6 +79,7 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.PerThreadRequestScope;
 import com.google.gerrit.server.git.SearchingChangeCacheImpl.SearchingChangeCacheImplModule;
 import com.google.gerrit.server.git.WorkQueue;
+import com.google.gerrit.server.git.WorkQueue.WorkQueueModule;
 import com.google.gerrit.server.group.testing.TestGroupBackend;
 import com.google.gerrit.server.index.account.AccountSchemaDefinitions;
 import com.google.gerrit.server.index.account.AllAccountsIndexer;
@@ -195,6 +196,7 @@ public class InMemoryModule extends FactoryModule {
     install(new AuditModule());
     install(new SubscriptionGraphModule());
     install(new SuperprojectUpdateSubmissionListenerModule());
+    install(new WorkQueueModule());
 
     bindScope(RequestScoped.class, PerThreadRequestScope.REQUEST);
 

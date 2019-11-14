@@ -36,6 +36,7 @@ import com.google.gerrit.server.cache.CacheDisplay;
 import com.google.gerrit.server.cache.CacheInfo;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.git.WorkQueue.WorkQueueModule;
 import com.google.gerrit.server.index.IndexModule;
 import com.google.gerrit.server.index.change.ChangeSchemaDefinitions;
 import com.google.gerrit.server.index.options.AutoFlush;
@@ -175,6 +176,8 @@ public class Reindex extends SiteProgram {
     }
     boolean replica = ReplicaUtil.isReplica(globalConfig);
     List<Module> modules = new ArrayList<>();
+    modules.add(new WorkQueueModule());
+
     Module indexModule;
     IndexType indexType = IndexModule.getIndexType(dbInjector);
     if (indexType.isLucene()) {

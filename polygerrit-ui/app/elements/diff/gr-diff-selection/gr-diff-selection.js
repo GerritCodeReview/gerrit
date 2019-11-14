@@ -30,35 +30,44 @@
 
   const getNewCache = () => { return {left: null, right: null}; };
 
-  Polymer({
-    is: 'gr-diff-selection',
+  /**
+    * @appliesMixin Gerrit.DomUtilMixin
+    */
+  class GrDiffSelection extends Polymer.mixinBehaviors( [
+    Gerrit.DomUtilBehavior,
+  ], Polymer.GestureEventListeners(
+      Polymer.LegacyElementMixin(
+          Polymer.Element))) {
+    static get is() { return 'gr-diff-selection'; }
 
-    properties: {
-      diff: Object,
-      /** @type {?Object} */
-      _cachedDiffBuilder: Object,
-      _linesCache: {
-        type: Object,
-        value: getNewCache(),
-      },
-    },
+    static get properties() {
+      return {
+        diff: Object,
+        /** @type {?Object} */
+        _cachedDiffBuilder: Object,
+        _linesCache: {
+          type: Object,
+          value: getNewCache(),
+        },
+      };
+    }
 
-    observers: [
-      '_diffChanged(diff)',
-    ],
+    static get observers() {
+      return [
+        '_diffChanged(diff)',
+      ];
+    }
 
-    listeners: {
-      copy: '_handleCopy',
-      down: '_handleDown',
-    },
-
-    behaviors: [
-      Gerrit.DomUtilBehavior,
-    ],
+    created() {
+      super.created();
+      this.addEventListener('copy', e => this._handleCopy(e));
+      Polymer.Gestures.addListener(this, 'down', e => this._handleDown(e));
+    }
 
     attached() {
+      super.attached();
       this.classList.add(SelectionClass.RIGHT);
-    },
+    }
 
     get diffBuilder() {
       if (!this._cachedDiffBuilder) {
@@ -66,11 +75,11 @@
             Polymer.dom(this).querySelector('gr-diff-builder');
       }
       return this._cachedDiffBuilder;
-    },
+    }
 
     _diffChanged() {
       this._linesCache = getNewCache();
-    },
+    }
 
     _handleDownOnRangeComment(node) {
       if (node &&
@@ -85,7 +94,7 @@
         return true;
       }
       return false;
-    },
+    }
 
     _handleDown(e) {
       // Handle the down event on comment thread in Polymer 2
@@ -115,7 +124,7 @@
       }
 
       this._setClasses(targetClasses);
-    },
+    }
 
     /**
      * Set the provided list of classes on the element, to the exclusion of all
@@ -138,11 +147,11 @@
           this.classList.add(_class);
         }
       }
-    },
+    }
 
     _getCopyEventTarget(e) {
       return Polymer.dom(e).rootTarget;
-    },
+    }
 
     /**
      * Utility function to determine whether an element is a descendant of
@@ -155,7 +164,7 @@
     _elementDescendedFromClass(element, className) {
       return this.descendedFromClass(element, className,
           this.diffBuilder.diffElement);
-    },
+    }
 
     _handleCopy(e) {
       let commentSelected = false;
@@ -175,7 +184,7 @@
         e.clipboardData.setData('Text', text);
         e.preventDefault();
       }
-    },
+    }
 
     /**
      * For Polymer 2, use shadowRoot.getSelection instead.
@@ -186,7 +195,7 @@
         diffHost.shadowRoot &&
         diffHost.shadowRoot.getSelection();
       return selection ? selection: window.getSelection();
-    },
+    }
 
     /**
      * Get the text of the current selection. If commentSelected is
@@ -225,7 +234,7 @@
 
       return this._getRangeFromDiff(startLineNum, range.startOffset, endLineNum,
           range.endOffset, side);
-    },
+    }
 
     /**
      * Query the diff object for the selected lines.
@@ -247,7 +256,7 @@
         lines[0] = lines[0].substring(startOffset);
       }
       return lines.join('\n');
-    },
+    }
 
     /**
      * Query the diff object for the lines from a particular side.
@@ -270,7 +279,7 @@
       }
       this._linesCache[side] = lines;
       return lines;
-    },
+    }
 
     /**
      * Query the diffElement for comments and check whether they lie inside the
@@ -308,7 +317,7 @@
       }
 
       return content.join('\n');
-    },
+    }
 
     /**
      * Given a DOM node, a selection, and a selection range, recursively get all
@@ -338,6 +347,8 @@
         }
       }
       return text;
-    },
-  });
+    }
+  }
+
+  customElements.define(GrDiffSelection.is, GrDiffSelection);
 })();

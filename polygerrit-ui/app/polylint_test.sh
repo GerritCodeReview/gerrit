@@ -25,4 +25,4 @@ fi
 
 unzip -o polygerrit-ui/polygerrit_components.bower_components.zip -d polygerrit-ui/app
 
-$polymer_bin lint --root polygerrit-ui/app --entrypoint polygerrit-ui/app/elements/gr-app.html --component-dir 'polygerrit-ui/app/bower_components' --verbose --rules polymer-2-hybrid --sources "polygerrit-ui/app/**/*"
+$polymer_bin lint --root polygerrit-ui/app --entrypoint polygerrit-ui/app/elements/gr-app.html --component-dir 'polygerrit-ui/app/bower_components' --verbose --rules polymer-2 --sources "polygerrit-ui/app/**/*"

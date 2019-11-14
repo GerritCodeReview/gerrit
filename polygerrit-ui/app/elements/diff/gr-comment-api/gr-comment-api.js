@@ -460,20 +460,27 @@
         this._isInRevisionOfPatchRange(comment, range);
   };
 
-  Polymer({
-    is: 'gr-comment-api',
+  /**
+    * @appliesMixin Gerrit.PatchSetMixin
+    */
+  class GrCommentApi extends Polymer.mixinBehaviors( [
+    Gerrit.PatchSetBehavior,
+  ], Polymer.GestureEventListeners(
+      Polymer.LegacyElementMixin(
+          Polymer.Element))) {
+    static get is() { return 'gr-comment-api'; }
 
-    properties: {
-      _changeComments: Object,
-    },
+    static get properties() {
+      return {
+        _changeComments: Object,
+      };
+    }
 
-    listeners: {
-      'reload-drafts': 'reloadDrafts',
-    },
-
-    behaviors: [
-      Gerrit.PatchSetBehavior,
-    ],
+    created() {
+      super.created();
+      this.addEventListener('reload-drafts',
+          changeNum => this.reloadDrafts(changeNum));
+    }
 
     /**
      * Load all comments (with drafts and robot comments) for the given change
@@ -494,7 +501,7 @@
             robotComments, drafts, changeNum);
         return this._changeComments;
       });
-    },
+    }
 
     /**
      * Re-initialize _changeComments with a new ChangeComments object, that
@@ -513,6 +520,8 @@
             this._changeComments.robotComments, drafts, changeNum);
         return this._changeComments;
       });
-    },
-  });
+    }
+  }
+
+  customElements.define(GrCommentApi.is, GrCommentApi);
 })();

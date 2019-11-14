@@ -52,73 +52,81 @@
     {value: '😜', match: 'winking tongue ;)'},
   ];
 
-  Polymer({
-    is: 'gr-textarea',
-
+  /**
+    * @appliesMixin Gerrit.FireMixin
+    * @appliesMixin Gerrit.KeyboardShortcutMixin
+    */
+  class GrTextarea extends Polymer.mixinBehaviors( [
+    Gerrit.FireBehavior,
+    Gerrit.KeyboardShortcutBehavior,
+  ], Polymer.GestureEventListeners(
+      Polymer.LegacyElementMixin(
+          Polymer.Element))) {
+    static get is() { return 'gr-textarea'; }
     /**
      * @event bind-value-changed
      */
 
-    properties: {
-      autocomplete: Boolean,
-      disabled: Boolean,
-      rows: Number,
-      maxRows: Number,
-      placeholder: String,
-      text: {
-        type: String,
-        notify: true,
-        observer: '_handleTextChanged',
-      },
-      hideBorder: {
-        type: Boolean,
-        value: false,
-      },
-      /** Text input should be rendered in monspace font.  */
-      monospace: {
-        type: Boolean,
-        value: false,
-      },
-      /** Text input should be rendered in code font, which is smaller than the
+    static get properties() {
+      return {
+        autocomplete: Boolean,
+        disabled: Boolean,
+        rows: Number,
+        maxRows: Number,
+        placeholder: String,
+        text: {
+          type: String,
+          notify: true,
+          observer: '_handleTextChanged',
+        },
+        hideBorder: {
+          type: Boolean,
+          value: false,
+        },
+        /** Text input should be rendered in monspace font.  */
+        monospace: {
+          type: Boolean,
+          value: false,
+        },
+        /** Text input should be rendered in code font, which is smaller than the
           standard monospace font. */
-      code: {
-        type: Boolean,
-        value: false,
-      },
-      /** @type(?number) */
-      _colonIndex: Number,
-      _currentSearchString: {
-        type: String,
-        observer: '_determineSuggestions',
-      },
-      _hideAutocomplete: {
-        type: Boolean,
-        value: true,
-      },
-      _index: Number,
-      _suggestions: Array,
-      // Offset makes dropdown appear below text.
-      _verticalOffset: {
-        type: Number,
-        value: 20,
-        readOnly: true,
-      },
-    },
+        code: {
+          type: Boolean,
+          value: false,
+        },
+        /** @type(?number) */
+        _colonIndex: Number,
+        _currentSearchString: {
+          type: String,
+          observer: '_determineSuggestions',
+        },
+        _hideAutocomplete: {
+          type: Boolean,
+          value: true,
+        },
+        _index: Number,
+        _suggestions: Array,
+        // Offset makes dropdown appear below text.
+        _verticalOffset: {
+          type: Number,
+          value: 20,
+          readOnly: true,
+        },
+      };
+    }
 
-    behaviors: [
-      Gerrit.FireBehavior,
-      Gerrit.KeyboardShortcutBehavior,
-    ],
-
-    keyBindings: {
-      esc: '_handleEscKey',
-      tab: '_handleEnterByKey',
-      enter: '_handleEnterByKey',
-      up: '_handleUpKey',
-      down: '_handleDownKey',
-    },
+    get keyBindings() {
+      return {
+        esc: '_handleEscKey',
+        tab: '_handleEnterByKey',
+        enter: '_handleEnterByKey',
+        up: '_handleUpKey',
+        down: '_handleDownKey',
+      };
+    }
 
     ready() {
+      super.ready();
       if (this.monospace) {
         this.classList.add('monospace');
       }
@@ -128,15 +136,15 @@
       if (this.hideBorder) {
         this.$.textarea.classList.add('noBorder');
       }
-    },
+    }
 
     closeDropdown() {
       return this.$.emojiSuggestions.close();
-    },
+    }
 
     getNativeTextarea() {
       return this.$.textarea.textarea;
-    },
+    }
 
     putCursorAtEnd() {
       const textarea = this.getNativeTextarea();
@@ -146,14 +154,14 @@
       this.async(() => {
         textarea.focus();
       });
-    },
+    }
 
     _handleEscKey(e) {
       if (this._hideAutocomplete) { return; }
       e.preventDefault();
       e.stopPropagation();
       this._resetEmojiDropdown();
-    },
+    }
 
     _handleUpKey(e) {
       if (this._hideAutocomplete) { return; }
@@ -162,7 +170,7 @@
       this.$.emojiSuggestions.cursorUp();
       this.$.textarea.textarea.focus();
       this.disableEnterKeyForSelectingEmoji = false;
-    },
+    }
 
     _handleDownKey(e) {
       if (this._hideAutocomplete) { return; }
@@ -171,7 +179,7 @@
       this.$.emojiSuggestions.cursorDown();
       this.$.textarea.textarea.focus();
       this.disableEnterKeyForSelectingEmoji = false;
-    },
+    }
 
     _handleEnterByKey(e) {
       if (this._hideAutocomplete || this.disableEnterKeyForSelectingEmoji) {
@@ -180,11 +188,11 @@
       e.preventDefault();
       e.stopPropagation();
       this._setEmoji(this.$.emojiSuggestions.getCurrentText());
-    },
+    }
 
     _handleEmojiSelect(e) {
       this._setEmoji(e.detail.selected.dataset.value);
-    },
+    }
 
     _setEmoji(text) {
       const colonIndex = this._colonIndex;
@@ -193,12 +201,13 @@
       this.$.textarea.selectionEnd = colonIndex + 1;
       this.$.reporting.reportInteraction('select-emoji');
       this._resetEmojiDropdown();
-    },
+    }
 
     _getText(value) {
       return this.text.substr(0, this._colonIndex || 0) +
           value + this.text.substr(this.$.textarea.selectionStart);
-    },
+    }
+
     /**
      * Uses a hidden element with the same width and styling of the textarea and
      * the text up until the point of interest. Then caratSpan element is added
@@ -214,17 +223,17 @@
       this.$.hiddenText.appendChild(caratSpan);
       this.$.emojiSuggestions.positionTarget = caratSpan;
       this._openEmojiDropdown();
-    },
+    }
 
     _getFontSize() {
       const fontSizePx = getComputedStyle(this).fontSize || '12px';
       return parseInt(fontSizePx.substr(0, fontSizePx.length - 2),
           10);
-    },
+    }
 
     _getScrollTop() {
       return document.body.scrollTop;
-    },
+    }
 
     /**
      * _handleKeydown used for key handling in the this.$.textarea AND all child
@@ -271,12 +280,12 @@
         this._updateCaratPosition();
       }
       this.$.textarea.textarea.focus();
-    },
+    }
 
     _openEmojiDropdown() {
       this.$.emojiSuggestions.open();
       this.$.reporting.reportInteraction('open-emoji-dropdown');
-    },
+    }
 
     _formatSuggestions(matchedSuggestions) {
       const suggestions = [];
@@ -286,7 +295,7 @@
         suggestions.push(suggestion);
       }
       this.set('_suggestions', suggestions);
-    },
+    }
 
     _determineSuggestions(emojiText) {
       if (!emojiText.length) {
@@ -299,7 +308,7 @@
         this._formatSuggestions(matches);
         this.disableEnterKeyForSelectingEmoji = false;
       }
-    },
+    }
 
     _resetEmojiDropdown() {
       // hide and reset the autocomplete dropdown.
@@ -309,11 +318,13 @@
       this.closeDropdown();
       this._colonIndex = null;
       this.$.textarea.textarea.focus();
-    },
+    }
 
     _handleTextChanged(text) {
       this.dispatchEvent(
           new CustomEvent('value-changed', {detail: {value: text}}));
-    },
-  });
+    }
+  }
+
+  customElements.define(GrTextarea.is, GrTextarea);
 })();

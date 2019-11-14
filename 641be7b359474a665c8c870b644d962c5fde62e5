@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "80b959e5_9b10e2ee",
+        "filename": "java/com/google/gerrit/entities/Change.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 517,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-11-14T20:10:44Z",
+      "side": 1,
+      "message": "Use Id, like it was done for revertOf?",
+      "range": {
+        "startLine": 517,
+        "startChar": 22,
+        "endLine": 517,
+        "endChar": 29
+      },
+      "revId": "641be7b359474a665c8c870b644d962c5fde62e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

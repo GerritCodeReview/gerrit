@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cb299d95_25e688fd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-11-14T02:08:09Z",
+      "side": 1,
+      "message": "You mention that this is done for change metadata rows, but appears to only be touching gr-reviewer-list and gr-copy-clipboard?",
+      "revId": "a7280e31bb04becc7b3adb065600b57ef38aaa71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

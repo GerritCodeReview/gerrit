@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f936e3df_83441946",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1006432
+      },
+      "writtenOn": "2019-11-15T02:21:18Z",
+      "side": 1,
+      "message": "Probably want to add more about how source can be used",
+      "revId": "498f9b86b1ae8820c332c15237320c432f5427ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bf17aba7_4f1eca3f",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1006432
+      },
+      "writtenOn": "2019-11-15T02:21:18Z",
+      "side": 1,
+      "message": "Maybe use the same text as you used in java/com/google/gerrit/entities/Change.java ?",
+      "range": {
+        "startLine": 272,
+        "startChar": 2,
+        "endLine": 272,
+        "endChar": 30
+      },
+      "revId": "498f9b86b1ae8820c332c15237320c432f5427ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

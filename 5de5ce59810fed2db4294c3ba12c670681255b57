@@ -1,4 +1,45 @@
 {
   "pushCert": "certificate version 0.1\npusher F41A2656 1573827373 +0100\nnonce AC6AUtORTbyZlPT3tMp4gts6Mi9+BcwpfbmtecdszSh2tmSkaB5eqWq4dyJdXejufX+4hkM0aNx0\n\n0000000000000000000000000000000000000000 5de5ce59810fed2db4294c3ba12c670681255b57 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJdzrMtAAoJEHFVO370GiZW944H/j101pM3TM55X4yGESpsigqp\nBCICCvTe2tMbzd74jKDhKh/qe5yTswg5HgYPltTBJ9CAiYFOJUULP92+zcDtZ4vt\nbXCLwM1yoUUtJwq1f49IDphUGhMNP60cz/fPabML9plOgkBBXJbygN6oZKG8KwMi\npvXsQPsB+haLMMkDFwWasYs8Ku4CjuytNZ8OkFP1nBrunP9rO/v4SFnSF/ZsopS0\nJVJzekdxgPMKfK9SWQAa3FHYi/ePSd+uZdP+2nY7TsFUrfAdn6i8gkAmSBn2t/x8\nXw8aXo6yUHQlc7gQJ3U50qQzIhHK2D4660A5E5tQBb/X8V9JT4n2TzZtRebVPKQ\u003d\n\u003dF6Zq\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "3f96c67b_1cf86231",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-11-15T16:28:18Z",
+      "side": 1,
+      "message": "Remove blank line",
+      "revId": "5de5ce59810fed2db4294c3ba12c670681255b57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d1a938a1_b39ec324",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetDiff.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-11-15T16:28:18Z",
+      "side": 1,
+      "message": "addCommon",
+      "range": {
+        "startLine": 331,
+        "startChar": 27,
+        "endLine": 331,
+        "endChar": 36
+      },
+      "revId": "5de5ce59810fed2db4294c3ba12c670681255b57",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

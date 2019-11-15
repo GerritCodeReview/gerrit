@@ -42,6 +42,7 @@ import com.google.gerrit.server.query.account.AccountQueryBuilder;
 import com.google.gerrit.server.query.account.AccountQueryProcessor;
 import com.google.gwtorm.server.OrmException;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.LinkedHashMap;
@@ -57,12 +58,13 @@ public class QueryAccounts implements RestReadView<TopLevelResource> {
   private final PermissionBackend permissionBackend;
   private final AccountLoader.Factory accountLoaderFactory;
   private final AccountQueryBuilder queryBuilder;
-  private final AccountQueryProcessor queryProcessor;
+  private final Provider<AccountQueryProcessor> queryProcessorProvider;
   private final boolean suggestConfig;
   private final int suggestFrom;
 
   private AccountLoader accountLoader;
   private boolean suggest;
+  private Integer limit;
   private int suggestLimit = 10;
   private String query;
   private Integer start;
@@ -79,7 +81,7 @@ public class QueryAccounts implements RestReadView<TopLevelResource> {
       metaVar = "CNT",
       usage = "maximum number of users to return")
   public void setLimit(int n) {
-    queryProcessor.setUserProvidedLimit(n);
+    this.limit = n;
 
     if (n < 0) {
       suggestLimit = 10;
@@ -123,12 +125,12 @@ public class QueryAccounts implements RestReadView<TopLevelResource> {
       PermissionBackend permissionBackend,
       AccountLoader.Factory accountLoaderFactory,
       AccountQueryBuilder queryBuilder,
-      AccountQueryProcessor queryProcessor,
+      Provider<AccountQueryProcessor> queryProcessorProvider,
       @GerritServerConfig Config cfg) {
     this.permissionBackend = permissionBackend;
     this.accountLoaderFactory = accountLoaderFactory;
     this.queryBuilder = queryBuilder;
-    this.queryProcessor = queryProcessor;
+    this.queryProcessorProvider = queryProcessorProvider;
     this.suggestFrom = cfg.getInt("suggest", null, "from", 0);
     this.options = EnumSet.noneOf(ListAccountsOption.class);
 
@@ -185,8 +187,13 @@ public class QueryAccounts implements RestReadView<TopLevelResource> {
     }
     accountLoader = accountLoaderFactory.create(fillOptions);
 
+    AccountQueryProcessor queryProcessor = queryProcessorProvider.get();
     if (queryProcessor.isDisabled()) {
       throw new MethodNotAllowedException("query disabled");
+    }
+
+    if (limit != null) {
+      queryProcessor.setUserProvidedLimit(limit);
     }
 
     if (start != null) {

@@ -55,7 +55,7 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
 
     createSubmoduleSubscription(superRepo, "master", subKey, "master");
     pushChangeTo(subRepo, "master");
-    assertThat(hasSubmodule(superRepo, "master", subKey)).isFalse();
+    assertThat(hasSubmodule(superKey, "master", subKey)).isFalse();
   }
 
   @Test
@@ -73,7 +73,7 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
     createSubmoduleSubscription(superRepo, "master", subKey, "master");
     pushChangeTo(subRepo, "master");
     ObjectId subHEAD = pushChangeTo(subRepo, "master");
-    assertThat(hasSubmodule(superRepo, "master", subKey)).isTrue();
+    assertThat(hasSubmodule(superKey, "master", subKey)).isTrue();
     expectToHaveSubmoduleState(superRepo, "master", subKey, subHEAD);
   }
 

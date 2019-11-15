@@ -425,7 +425,7 @@ public abstract class AbstractSubmoduleSubscription extends AbstractDaemonTest {
     if (branchTip == null) {
       return false;
     }
-
+    
     ObjectId commitId = branchTip.getObjectId();
 
     RevWalk rw = repo.getRevWalk();
@@ -439,6 +439,13 @@ public abstract class AbstractSubmoduleSubscription extends AbstractDaemonTest {
     } catch (AssertionError e) {
       return false;
     }
+  }
+  
+  protected boolean hasSubmodule(Project.NameKey repo, String branch, Project.NameKey submodule)
+  throws Exception {
+    List<String> submodules =
+    gApi.projects().name(repo.get()).branch(branch).submodules().stream().map(s -> s.path).collect(toList());
+    return submodules.contains(submodule.get());
   }
 
   protected void expectToHaveCommitMessage(

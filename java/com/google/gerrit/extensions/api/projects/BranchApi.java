@@ -30,6 +30,8 @@ public interface BranchApi {
   BinaryResult file(String path) throws RestApiException;
 
   List<ReflogEntryInfo> reflog() throws RestApiException;
+  
+  List<SubmoduleInfo> submodules() throws RestApiException;
 
   /**
    * A default implementation which allows source compatibility when adding new methods to the
@@ -58,6 +60,11 @@ public interface BranchApi {
 
     @Override
     public List<ReflogEntryInfo> reflog() throws RestApiException {
+      throw new NotImplementedException();
+    }
+    
+    @Override
+    public List<SubmoduleInfo> submodules() throws RestApiException {
       throw new NotImplementedException();
     }
   }

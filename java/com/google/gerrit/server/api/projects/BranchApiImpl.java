@@ -20,6 +20,7 @@ import com.google.gerrit.extensions.api.projects.BranchApi;
 import com.google.gerrit.extensions.api.projects.BranchInfo;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.api.projects.ReflogEntryInfo;
+import com.google.gerrit.extensions.api.projects.SubmoduleInfo;
 import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.IdString;
@@ -35,6 +36,7 @@ import com.google.gerrit.server.restapi.project.FilesCollection;
 import com.google.gerrit.server.restapi.project.GetBranch;
 import com.google.gerrit.server.restapi.project.GetContent;
 import com.google.gerrit.server.restapi.project.GetReflog;
+import com.google.gerrit.server.restapi.project.ListSubmodules;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
@@ -52,6 +54,7 @@ public class BranchApiImpl implements BranchApi {
   private final GetBranch getBranch;
   private final GetContent getContent;
   private final GetReflog getReflog;
+  private final ListSubmodules listSubmodules;
   private final String ref;
   private final ProjectResource project;
 
@@ -64,6 +67,7 @@ public class BranchApiImpl implements BranchApi {
       GetBranch getBranch,
       GetContent getContent,
       GetReflog getReflog,
+      ListSubmodules listSubmodules,
       @Assisted ProjectResource project,
       @Assisted String ref) {
     this.branches = branches;
@@ -73,6 +77,7 @@ public class BranchApiImpl implements BranchApi {
     this.getBranch = getBranch;
     this.getContent = getContent;
     this.getReflog = getReflog;
+    this.listSubmodules = listSubmodules;
     this.project = project;
     this.ref = ref;
   }
@@ -121,6 +126,15 @@ public class BranchApiImpl implements BranchApi {
       return getReflog.apply(resource()).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot retrieve reflog", e);
+    }
+  }
+  
+  @Override
+  public List<SubmoduleInfo> submodules() throws RestApiException {
+    try {
+      return listSubmodules.apply(resource()).value();
+    } catch (Exception e) {
+      throw asRestApiException("Cannot retrieve submodules", e);
     }
   }
 

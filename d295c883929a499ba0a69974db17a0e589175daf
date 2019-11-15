@@ -46,6 +46,29 @@
       "revId": "d295c883929a499ba0a69974db17a0e589175daf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e71d1b30_3d0a7cc9",
+        "filename": "javatests/com/google/gerrit/acceptance/config/UseGlobalPluginConfigAnnotationTest.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-11-15T00:57:35Z",
+      "side": 1,
+      "message": "This should have been removed.",
+      "range": {
+        "startLine": 21,
+        "startChar": 0,
+        "endLine": 21,
+        "endChar": 62
+      },
+      "revId": "d295c883929a499ba0a69974db17a0e589175daf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

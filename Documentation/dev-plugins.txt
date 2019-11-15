@@ -451,8 +451,8 @@ its own custom event class derived from
 [source,java]
 ----
 import com.google.gerrit.common.EventDispatcher;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.registration.DynamicItem;
-import com.google.exceptions.StorageException;
 import com.google.inject.Inject;
 
 class MyPlugin {

@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8b2cbff0_3f81e232",
+        "filename": "java/com/google/gerrit/server/cache/CacheBackend.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-11-15T22:46:21Z",
+      "side": 1,
+      "message": "nit: Add JavaDoc",
+      "revId": "bba1dab5c214719d078f45f159e5ace1cd3474a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "038c915c_32cf0b83",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/PatchListCacheIT.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-11-15T22:46:21Z",
+      "side": 1,
+      "message": "nit: use anyMatch (or noneMatch)\n\nSame above",
+      "range": {
+        "startLine": 87,
+        "startChar": 16,
+        "endLine": 89,
+        "endChar": 28
+      },
+      "revId": "bba1dab5c214719d078f45f159e5ace1cd3474a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

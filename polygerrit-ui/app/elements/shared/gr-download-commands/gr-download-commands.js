@@ -17,40 +17,46 @@
 (function() {
   'use strict';
 
-  Polymer({
-    is: 'gr-download-commands',
+  /**
+    * @appliesMixin Gerrit.RESTClientMixin
+    */
+  class GrDownloadCommands extends Polymer.mixinBehaviors( [
+    Gerrit.RESTClientBehavior,
+  ], Polymer.GestureEventListeners(
+      Polymer.LegacyElementMixin(
+          Polymer.Element))) {
+    static get is() { return 'gr-download-commands'; }
 
-    properties: {
-      commands: Array,
-      _loggedIn: {
-        type: Boolean,
-        value: false,
-        observer: '_loggedInChanged',
-      },
-      schemes: Array,
-      selectedScheme: {
-        type: String,
-        notify: true,
-      },
-    },
-
-    behaviors: [
-      Gerrit.RESTClientBehavior,
-    ],
+    static get properties() {
+      return {
+        commands: Array,
+        _loggedIn: {
+          type: Boolean,
+          value: false,
+          observer: '_loggedInChanged',
+        },
+        schemes: Array,
+        selectedScheme: {
+          type: String,
+          notify: true,
+        },
+      };
+    }
 
     attached() {
+      super.attached();
       this._getLoggedIn().then(loggedIn => {
         this._loggedIn = loggedIn;
       });
-    },
+    }
 
     focusOnCopy() {
       this.$$('gr-shell-command').focusOnCopy();
-    },
+    }
 
     _getLoggedIn() {
       return this.$.restAPI.getLoggedIn();
-    },
+    }
 
     _loggedInChanged(loggedIn) {
       if (!loggedIn) { return; }
@@ -60,7 +66,7 @@
           this.selectedScheme = prefs.download_scheme.toLowerCase();
         }
       });
-    },
+    }
 
     _handleTabChange(e) {
       const scheme = this.schemes[e.detail.value];
@@ -71,15 +77,17 @@
               {download_scheme: this.selectedScheme});
         }
       }
-    },
+    }
 
     _computeSelected(schemes, selectedScheme) {
       return (schemes.findIndex(scheme => scheme === selectedScheme) || 0)
           + '';
-    },
+    }
 
     _computeShowTabs(schemes) {
       return schemes.length > 1 ? '' : 'hidden';
-    },
-  });
+    }
+  }
+
+  customElements.define(GrDownloadCommands.is, GrDownloadCommands);
 })();

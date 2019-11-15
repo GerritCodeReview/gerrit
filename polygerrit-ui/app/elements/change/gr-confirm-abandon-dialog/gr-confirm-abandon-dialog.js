@@ -17,9 +17,17 @@
 (function() {
   'use strict';
 
-  Polymer({
-    is: 'gr-confirm-abandon-dialog',
-
+  /**
+    * @appliesMixin Gerrit.FireMixin
+    * @appliesMixin Gerrit.KeyboardShortcutMixin
+    */
+  class GrConfirmAbandonDialog extends Polymer.mixinBehaviors( [
+    Gerrit.FireBehavior,
+    Gerrit.KeyboardShortcutBehavior,
+  ], Polymer.GestureEventListeners(
+      Polymer.LegacyElementMixin(
+          Polymer.Element))) {
+    static get is() { return 'gr-confirm-abandon-dialog'; }
     /**
      * Fired when the confirm button is pressed.
      *
@@ -32,41 +40,42 @@
      * @event cancel
      */
 
-    properties: {
-      message: String,
-    },
+    static get properties() {
+      return {
+        message: String,
+      };
+    }
 
-    behaviors: [
-      Gerrit.FireBehavior,
-      Gerrit.KeyboardShortcutBehavior,
-    ],
-
-    keyBindings: {
-      'ctrl+enter meta+enter': '_handleEnterKey',
-    },
+    get keyBindings() {
+      return {
+        'ctrl+enter meta+enter': '_handleEnterKey',
+      };
+    }
 
     resetFocus() {
       this.$.messageInput.textarea.focus();
-    },
+    }
 
     _handleEnterKey(e) {
       this._confirm();
-    },
+    }
 
     _handleConfirmTap(e) {
       e.preventDefault();
       e.stopPropagation();
       this._confirm();
-    },
+    }
 
     _confirm() {
       this.fire('confirm', {reason: this.message}, {bubbles: false});
-    },
+    }
 
     _handleCancelTap(e) {
       e.preventDefault();
       e.stopPropagation();
       this.fire('cancel', null, {bubbles: false});
-    },
-  });
+    }
+  }
+
+  customElements.define(GrConfirmAbandonDialog.is, GrConfirmAbandonDialog);
 })();

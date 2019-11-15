@@ -22,72 +22,77 @@
     KEEP_VISIBLE: 'keep-visible',
   };
 
-  Polymer({
-    is: 'gr-cursor-manager',
+  class GrCursorManager extends Polymer.GestureEventListeners(
+      Polymer.LegacyElementMixin(
+          Polymer.Element)) {
+    static get is() { return 'gr-cursor-manager'; }
 
-    properties: {
-      stops: {
-        type: Array,
-        value() {
-          return [];
+    static get properties() {
+      return {
+        stops: {
+          type: Array,
+          value() {
+            return [];
+          },
+          observer: '_updateIndex',
         },
-        observer: '_updateIndex',
-      },
-      /**
+        /**
        * @type (?Object)
        */
-      target: {
-        type: Object,
-        notify: true,
-        observer: '_scrollToTarget',
-      },
-      /**
+        target: {
+          type: Object,
+          notify: true,
+          observer: '_scrollToTarget',
+        },
+        /**
        * The height of content intended to be included with the target.
        * @type (?number)
        */
-      _targetHeight: Number,
+        _targetHeight: Number,
 
-      /**
+        /**
        * The index of the current target (if any). -1 otherwise.
        */
-      index: {
-        type: Number,
-        value: -1,
-        notify: true,
-      },
+        index: {
+          type: Number,
+          value: -1,
+          notify: true,
+        },
 
-      /**
+        /**
        * The class to apply to the current target. Use null for no class.
        */
-      cursorTargetClass: {
-        type: String,
-        value: null,
-      },
+        cursorTargetClass: {
+          type: String,
+          value: null,
+        },
 
-      /**
+        /**
        * The scroll behavior for the cursor. Values are 'never' and
        * 'keep-visible'. 'keep-visible' will only scroll if the cursor is beyond
        * the viewport.
        * TODO (beckysiegel) figure out why it can be undefined
        * @type (string|undefined)
        */
-      scrollBehavior: {
-        type: String,
-        value: ScrollBehavior.NEVER,
-      },
+        scrollBehavior: {
+          type: String,
+          value: ScrollBehavior.NEVER,
+        },
 
-      /**
+        /**
        * When true, will call element.focus() during scrolling.
        */
-      focusOnMove: {
-        type: Boolean,
-        value: false,
-      },
-    },
+        focusOnMove: {
+          type: Boolean,
+          value: false,
+        },
+      };
+    }
 
     detached() {
+      super.detached();
       this.unsetCursor();
-    },
+    }
 
     /**
      * Move the cursor forward. Clipped to the ends of the stop list.
@@ -104,11 +109,11 @@
 
     next(opt_condition, opt_getTargetHeight, opt_clipToTop) {
       this._moveCursor(1, opt_condition, opt_getTargetHeight, opt_clipToTop);
-    },
+    }
 
     previous(opt_condition) {
       this._moveCursor(-1, opt_condition);
-    },
+    }
 
     /**
      * Set the cursor to an arbitrary element.
@@ -129,32 +134,32 @@
       this._decorateTarget();
 
       if (opt_noScroll) { this.scrollBehavior = behavior; }
-    },
+    }
 
     unsetCursor() {
       this._unDecorateTarget();
       this.index = -1;
       this.target = null;
       this._targetHeight = null;
-    },
+    }
 
     isAtStart() {
       return this.index === 0;
-    },
+    }
 
     isAtEnd() {
       return this.index === this.stops.length - 1;
-    },
+    }
 
     moveToStart() {
       if (this.stops.length) {
         this.setCursor(this.stops[0]);
       }
-    },
+    }
 
     setCursorAtIndex(index, opt_noScroll) {
       this.setCursor(this.stops[index], opt_noScroll);
-    },
+    }
 
     /**
      * Move the cursor forward or backward by delta. Clipped to the beginning or
@@ -199,19 +204,19 @@
       if (this.focusOnMove) { this.target.focus(); }
 
       this._decorateTarget();
-    },
+    }
 
     _decorateTarget() {
       if (this.target && this.cursorTargetClass) {
         this.target.classList.add(this.cursorTargetClass);
       }
-    },
+    }
 
     _unDecorateTarget() {
       if (this.target && this.cursorTargetClass) {
         this.target.classList.remove(this.cursorTargetClass);
       }
-    },
+    }
 
     /**
      * Get the next stop index indicated by the delta direction.
@@ -247,7 +252,7 @@
       }
 
       return newIndex;
-    },
+    }
 
     _updateIndex() {
       if (!this.target) {
@@ -261,7 +266,7 @@
       } else {
         this.index = newIndex;
       }
-    },
+    }
 
     /**
      * Calculate where the element is relative to the window.
@@ -276,7 +281,7 @@
         top += offsetParent.offsetTop;
       }
       return top;
-    },
+    }
 
     /**
      * @return {boolean}
@@ -286,12 +291,12 @@
       return this.scrollBehavior === ScrollBehavior.KEEP_VISIBLE &&
           top > dims.pageYOffset &&
           top < dims.pageYOffset + dims.innerHeight;
-    },
+    }
 
     _calculateScrollToValue(top, target) {
       const dims = this._getWindowDims();
       return top - (dims.innerHeight / 3) + (target.offsetHeight / 2);
-    },
+    }
 
     _scrollToTarget() {
       if (!this.target || this.scrollBehavior === ScrollBehavior.NEVER) {
@@ -319,7 +324,7 @@
       // element appears to be below the center of the window even when it
       // isn't.
       window.scrollTo(dims.scrollX, scrollToValue);
-    },
+    }
 
     _getWindowDims() {
       return {
@@ -328,6 +333,8 @@
         innerHeight: window.innerHeight,
         pageYOffset: window.pageYOffset,
       };
-    },
-  });
+    }
+  }
+
+  customElements.define(GrCursorManager.is, GrCursorManager);
 })();

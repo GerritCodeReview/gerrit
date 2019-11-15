@@ -33,9 +33,23 @@
     UNIFIED: 'UNIFIED_DIFF',
   };
 
-  Polymer({
-    is: 'gr-diff-view',
-
+  /**
+    * @appliesMixin Gerrit.FireMixin
+    * @appliesMixin Gerrit.KeyboardShortcutMixin
+    * @appliesMixin Gerrit.PatchSetMixin
+    * @appliesMixin Gerrit.PathListMixin
+    * @appliesMixin Gerrit.RESTClientMixin
+    */
+  class GrDiffView extends Polymer.mixinBehaviors( [
+    Gerrit.FireBehavior,
+    Gerrit.KeyboardShortcutBehavior,
+    Gerrit.PatchSetBehavior,
+    Gerrit.PathListBehavior,
+    Gerrit.RESTClientBehavior,
+  ], Polymer.GestureEventListeners(
+      Polymer.LegacyElementMixin(
+          Polymer.Element))) {
+    static get is() { return 'gr-diff-view'; }
     /**
      * Fired when the title of the page should change.
      *
@@ -48,154 +62,152 @@
      * @event show-alert
      */
 
-    properties: {
+    static get properties() {
+      return {
       /**
        * URL params passed from the router.
        */
-      params: {
-        type: Object,
-        observer: '_paramsChanged',
-      },
-      keyEventTarget: {
-        type: Object,
-        value() { return document.body; },
-      },
-      /**
+        params: {
+          type: Object,
+          observer: '_paramsChanged',
+        },
+        keyEventTarget: {
+          type: Object,
+          value() { return document.body; },
+        },
+        /**
        * @type {{ diffMode: (string|undefined) }}
        */
-      changeViewState: {
-        type: Object,
-        notify: true,
-        value() { return {}; },
-        observer: '_changeViewStateChanged',
-      },
-      disableDiffPrefs: {
-        type: Boolean,
-        value: false,
-      },
-      _diffPrefsDisabled: {
-        type: Boolean,
-        computed: '_computeDiffPrefsDisabled(disableDiffPrefs, _loggedIn)',
-      },
-      /** @type {?} */
-      _patchRange: Object,
-      /** @type {?} */
-      _commitRange: Object,
-      /**
+        changeViewState: {
+          type: Object,
+          notify: true,
+          value() { return {}; },
+          observer: '_changeViewStateChanged',
+        },
+        disableDiffPrefs: {
+          type: Boolean,
+          value: false,
+        },
+        _diffPrefsDisabled: {
+          type: Boolean,
+          computed: '_computeDiffPrefsDisabled(disableDiffPrefs, _loggedIn)',
+        },
+        /** @type {?} */
+        _patchRange: Object,
+        /** @type {?} */
+        _commitRange: Object,
+        /**
        * @type {{
        *  subject: string,
        *  project: string,
        *  revisions: string,
        * }}
        */
-      _change: Object,
-      /** @type {?} */
-      _changeComments: Object,
-      _changeNum: String,
-      /**
+        _change: Object,
+        /** @type {?} */
+        _changeComments: Object,
+        _changeNum: String,
+        /**
        * This is a DiffInfo object.
        * This is retrieved and owned by a child component.
        */
-      _diff: Object,
-      // An array specifically formatted to be used in a gr-dropdown-list
-      // element for selected a file to view.
-      _formattedFiles: {
-        type: Array,
-        computed: '_formatFilesForDropdown(_fileList, ' +
+        _diff: Object,
+        // An array specifically formatted to be used in a gr-dropdown-list
+        // element for selected a file to view.
+        _formattedFiles: {
+          type: Array,
+          computed: '_formatFilesForDropdown(_fileList, ' +
             '_patchRange.patchNum, _changeComments)',
-      },
-      // An sorted array of files, as returned by the rest API.
-      _fileList: {
-        type: Array,
-        value() { return []; },
-      },
-      _path: {
-        type: String,
-        observer: '_pathChanged',
-      },
-      _fileNum: {
-        type: Number,
-        computed: '_computeFileNum(_path, _formattedFiles)',
-      },
-      _loggedIn: {
-        type: Boolean,
-        value: false,
-      },
-      _loading: {
-        type: Boolean,
-        value: true,
-      },
-      _prefs: Object,
-      _localPrefs: Object,
-      _projectConfig: Object,
-      _userPrefs: Object,
-      _diffMode: {
-        type: String,
-        computed: '_getDiffViewMode(changeViewState.diffMode, _userPrefs)',
-      },
-      _isImageDiff: Boolean,
-      _filesWeblinks: Object,
+        },
+        // An sorted array of files, as returned by the rest API.
+        _fileList: {
+          type: Array,
+          value() { return []; },
+        },
+        _path: {
+          type: String,
+          observer: '_pathChanged',
+        },
+        _fileNum: {
+          type: Number,
+          computed: '_computeFileNum(_path, _formattedFiles)',
+        },
+        _loggedIn: {
+          type: Boolean,
+          value: false,
+        },
+        _loading: {
+          type: Boolean,
+          value: true,
+        },
+        _prefs: Object,
+        _localPrefs: Object,
+        _projectConfig: Object,
+        _userPrefs: Object,
+        _diffMode: {
+          type: String,
+          computed: '_getDiffViewMode(changeViewState.diffMode, _userPrefs)',
+        },
+        _isImageDiff: Boolean,
+        _filesWeblinks: Object,
 
-      /**
+        /**
        * Map of paths in the current change and patch range that have comments
        * or drafts or robot comments.
        */
-      _commentMap: Object,
+        _commentMap: Object,
 
-      _commentsForDiff: Object,
+        _commentsForDiff: Object,
 
-      /**
+        /**
        * Object to contain the path of the next and previous file in the current
        * change and patch range that has comments.
        */
-      _commentSkips: {
-        type: Object,
-        computed: '_computeCommentSkips(_commentMap, _fileList, _path)',
-      },
-      _panelFloatingDisabled: {
-        type: Boolean,
-        value: () => { return window.PANEL_FLOATING_DISABLED; },
-      },
-      _editMode: {
-        type: Boolean,
-        computed: '_computeEditMode(_patchRange.*)',
-      },
-      _isBlameLoaded: Boolean,
-      _isBlameLoading: {
-        type: Boolean,
-        value: false,
-      },
-      _allPatchSets: {
-        type: Array,
-        computed: 'computeAllPatchSets(_change, _change.revisions.*)',
-      },
-      _revisionInfo: {
-        type: Object,
-        computed: '_getRevisionInfo(_change)',
-      },
-      _reviewedFiles: {
-        type: Object,
-        value: () => new Set(),
-      },
-    },
+        _commentSkips: {
+          type: Object,
+          computed: '_computeCommentSkips(_commentMap, _fileList, _path)',
+        },
+        _panelFloatingDisabled: {
+          type: Boolean,
+          value: () => { return window.PANEL_FLOATING_DISABLED; },
+        },
+        _editMode: {
+          type: Boolean,
+          computed: '_computeEditMode(_patchRange.*)',
+        },
+        _isBlameLoaded: Boolean,
+        _isBlameLoading: {
+          type: Boolean,
+          value: false,
+        },
+        _allPatchSets: {
+          type: Array,
+          computed: 'computeAllPatchSets(_change, _change.revisions.*)',
+        },
+        _revisionInfo: {
+          type: Object,
+          computed: '_getRevisionInfo(_change)',
+        },
+        _reviewedFiles: {
+          type: Object,
+          value: () => new Set(),
+        },
+      };
+    }
 
-    behaviors: [
-      Gerrit.FireBehavior,
-      Gerrit.KeyboardShortcutBehavior,
-      Gerrit.PatchSetBehavior,
-      Gerrit.PathListBehavior,
-      Gerrit.RESTClientBehavior,
-    ],
+    static get observers() {
+      return [
+        '_getProjectConfig(_change.project)',
+        '_getFiles(_changeNum, _patchRange.*)',
+        '_setReviewedObserver(_loggedIn, params.*, _prefs)',
+      ];
+    }
 
-    observers: [
-      '_getProjectConfig(_change.project)',
-      '_getFiles(_changeNum, _patchRange.*)',
-      '_setReviewedObserver(_loggedIn, params.*, _prefs)',
-    ],
-
-    keyBindings: {
-      esc: '_handleEscKey',
-    },
+    get keyBindings() {
+      return {
+        esc: '_handleEscKey',
+      };
+    }
 
     keyboardShortcuts() {
       return {
@@ -230,37 +242,38 @@
         [this.Shortcut.EXPAND_ALL_COMMENT_THREADS]: null,
         [this.Shortcut.COLLAPSE_ALL_COMMENT_THREADS]: null,
       };
-    },
+    }
 
     attached() {
+      super.attached();
       this._getLoggedIn().then(loggedIn => {
         this._loggedIn = loggedIn;
       });
 
       this.$.cursor.push('diffs', this.$.diffHost);
-    },
+    }
 
     _getLoggedIn() {
       return this.$.restAPI.getLoggedIn();
-    },
+    }
 
     _getProjectConfig(project) {
       return this.$.restAPI.getProjectConfig(project).then(
           config => {
             this._projectConfig = config;
           });
-    },
+    }
 
     _getChangeDetail(changeNum) {
       return this.$.restAPI.getDiffChangeDetail(changeNum).then(change => {
         this._change = change;
         return change;
       });
-    },
+    }
 
     _getChangeEdit(changeNum) {
       return this.$.restAPI.getChangeEdit(this._changeNum);
-    },
+    }
 
     _getFiles(changeNum, patchRangeRecord) {
       // Polymer 2: check for undefined
@@ -274,25 +287,25 @@
           changeNum, patchRange).then(files => {
         this._fileList = files;
       });
-    },
+    }
 
     _getDiffPreferences() {
       return this.$.restAPI.getDiffPreferences().then(prefs => {
         this._prefs = prefs;
       });
-    },
+    }
 
     _getPreferences() {
       return this.$.restAPI.getPreferences();
-    },
+    }
 
     _getWindowWidth() {
       return window.innerWidth;
-    },
+    }
 
     _handleReviewedChange(e) {
       this._setReviewed(Polymer.dom(e).rootTarget.checked);
-    },
+    }
 
     _setReviewed(reviewed) {
       if (this._editMode) { return; }
@@ -301,12 +314,12 @@
         this.fire('show-alert', {message: ERR_REVIEW_STATUS});
         throw err;
       });
-    },
+    }
 
     _saveReviewedState(reviewed) {
       return this.$.restAPI.saveFileReviewed(this._changeNum,
           this._patchRange.patchNum, this._path, reviewed);
-    },
+    }
 
     _handleToggleFileReviewed(e) {
       if (this.shouldSuppressKeyboardShortcut(e) ||
@@ -314,7 +327,7 @@
 
       e.preventDefault();
       this._setReviewed(!this.$.reviewed.checked);
-    },
+    }
 
     _handleEscKey(e) {
       if (this.shouldSuppressKeyboardShortcut(e) ||
@@ -322,21 +335,21 @@
 
       e.preventDefault();
       this.$.diffHost.displayLine = false;
-    },
+    }
 
     _handleLeftPane(e) {
       if (this.shouldSuppressKeyboardShortcut(e)) { return; }
 
       e.preventDefault();
       this.$.cursor.moveLeft();
-    },
+    }
 
     _handleRightPane(e) {
       if (this.shouldSuppressKeyboardShortcut(e)) { return; }
 
       e.preventDefault();
       this.$.cursor.moveRight();
-    },
+    }
 
     _handlePrevLineOrFileWithComments(e) {
       if (this.shouldSuppressKeyboardShortcut(e)) { return; }
@@ -350,7 +363,7 @@
       e.preventDefault();
       this.$.diffHost.displayLine = true;
       this.$.cursor.moveUp();
-    },
+    }
 
     _handleNextLineOrFileWithComments(e) {
       if (this.shouldSuppressKeyboardShortcut(e)) { return; }
@@ -364,7 +377,7 @@
       e.preventDefault();
       this.$.diffHost.displayLine = true;
       this.$.cursor.moveDown();
-    },
+    }
 
     _moveToPreviousFileWithComment() {
       if (!this._commentSkips) { return; }
@@ -378,7 +391,7 @@
 
       Gerrit.Nav.navigateToDiff(this._change, this._commentSkips.previous,
           this._patchRange.patchNum, this._patchRange.basePatchNum);
-    },
+    }
 
     _moveToNextFileWithComment() {
       if (!this._commentSkips) { return; }
@@ -391,14 +404,14 @@
 
       Gerrit.Nav.navigateToDiff(this._change, this._commentSkips.next,
           this._patchRange.patchNum, this._patchRange.basePatchNum);
-    },
+    }
 
     _handleNewComment(e) {
       if (this.shouldSuppressKeyboardShortcut(e) ||
           this.modifierPressed(e)) { return; }
       e.preventDefault();
       this.$.cursor.createCommentInPlace();
-    },
+    }
 
     _handlePrevFile(e) {
       // Check for meta key to avoid overriding native chrome shortcut.
@@ -407,7 +420,7 @@
 
       e.preventDefault();
       this._navToFile(this._path, this._fileList, -1);
-    },
+    }
 
     _handleNextFile(e) {
       // Check for meta key to avoid overriding native chrome shortcut.
@@ -416,7 +429,7 @@
 
       e.preventDefault();
       this._navToFile(this._path, this._fileList, 1);
-    },
+    }
 
     _handleNextChunkOrCommentThread(e) {
       if (this.shouldSuppressKeyboardShortcut(e)) { return; }
@@ -428,7 +441,7 @@
         if (this.modifierPressed(e)) { return; }
         this.$.cursor.moveToNextChunk();
       }
-    },
+    }
 
     _handlePrevChunkOrCommentThread(e) {
       if (this.shouldSuppressKeyboardShortcut(e)) { return; }
@@ -440,7 +453,7 @@
         if (this.modifierPressed(e)) { return; }
         this.$.cursor.moveToPreviousChunk();
       }
-    },
+    }
 
     _handleOpenReplyDialogOrToggleLeftPane(e) {
       if (this.shouldSuppressKeyboardShortcut(e)) { return; }
@@ -458,7 +471,7 @@
       this.set('changeViewState.showReplyDialog', true);
       e.preventDefault();
       this._navToChangeView();
-    },
+    }
 
     _handleUpToChange(e) {
       if (this.shouldSuppressKeyboardShortcut(e) ||
@@ -466,7 +479,7 @@
 
       e.preventDefault();
       this._navToChangeView();
-    },
+    }
 
     _handleCommaKey(e) {
       if (this.shouldSuppressKeyboardShortcut(e) ||
@@ -475,7 +488,7 @@
 
       e.preventDefault();
       this.$.diffPreferencesDialog.open();
-    },
+    }
 
     _handleToggleDiffMode(e) {
       if (this.shouldSuppressKeyboardShortcut(e) ||
@@ -487,7 +500,7 @@
       } else {
         this.$.modeSelect.setMode(DiffViewMode.SIDE_BY_SIDE);
       }
-    },
+    }
 
     _navToChangeView() {
       if (!this._changeNum || !this._patchRange.patchNum) { return; }
@@ -495,7 +508,7 @@
           this._change,
           this._patchRange,
           this._change && this._change.revisions);
-    },
+    }
 
     _navToFile(path, fileList, direction) {
       const newPath = this._getNavLinkPath(path, fileList, direction);
@@ -511,7 +524,7 @@
 
       Gerrit.Nav.navigateToDiff(this._change, newPath.path,
           this._patchRange.patchNum, this._patchRange.basePatchNum);
-    },
+    }
 
     /**
      * @param {?string} path The path of the current file being shown.
@@ -535,7 +548,7 @@
             this._change && this._change.revisions);
       }
       return this._getDiffUrl(this._change, this._patchRange, newPath.path);
-    },
+    }
 
     /**
      * Gives an object representing the target of navigating either left or
@@ -575,7 +588,7 @@
       }
 
       return {path: fileList[idx]};
-    },
+    }
 
     _getReviewedFiles(changeNum, patchNum) {
       return this.$.restAPI.getReviewedFiles(changeNum, patchNum)
@@ -583,13 +596,13 @@
             this._reviewedFiles = new Set(files);
             return this._reviewedFiles;
           });
-    },
+    }
 
     _getReviewedStatus(editMode, changeNum, patchNum, path) {
       if (editMode) { return Promise.resolve(false); }
       return this._getReviewedFiles(changeNum, patchNum)
           .then(files => files.has(path));
-    },
+    }
 
     _paramsChanged(value) {
       if (value.view !== Gerrit.Nav.View.DIFF) { return; }
@@ -676,7 +689,7 @@
         // If diff view displayed has not ended yet, it ends here.
         this.$.reporting.diffViewDisplayed();
       });
-    },
+    }
 
     _changeViewStateChanged(changeViewState) {
       if (changeViewState.diffMode === null) {
@@ -685,7 +698,7 @@
           this.set('changeViewState.diffMode', prefs.default_diff_view);
         });
       }
-    },
+    }
 
     _setReviewedObserver(_loggedIn, paramsRecord, _prefs) {
       // Polymer 2: check for undefined
@@ -709,7 +722,7 @@
       if (params.view === Gerrit.Nav.View.DIFF) {
         this._setReviewed(true);
       }
-    },
+    }
 
     /**
      * If the params specify a diff address then configure the diff cursor.
@@ -722,14 +735,14 @@
         this.$.cursor.side = DiffSides.RIGHT;
       }
       this.$.cursor.initialLineNumber = params.lineNum;
-    },
+    }
 
     _getLineOfInterest(params) {
       // If there is a line number specified, pass it along to the diff so that
       // it will not get collapsed.
       if (!params.lineNum) { return null; }
       return {number: params.lineNum, leftSide: params.leftSide};
-    },
+    }
 
     _pathChanged(path) {
       if (path) {
@@ -741,7 +754,7 @@
 
       this.set('changeViewState.selectedFileIndex',
           this._fileList.indexOf(path));
-    },
+    }
 
     _getDiffUrl(change, patchRange, path) {
       if ([change, patchRange, path].some(arg => arg === undefined)) {
@@ -749,7 +762,7 @@
       }
       return Gerrit.Nav.getUrlForDiff(change, path, patchRange.patchNum,
           patchRange.basePatchNum);
-    },
+    }
 
     _patchRangeStr(patchRange) {
       let patchStr = patchRange.patchNum;
@@ -758,7 +771,7 @@
         patchStr = patchRange.basePatchNum + '..' + patchRange.patchNum;
       }
       return patchStr;
-    },
+    }
 
     /**
      * When the latest patch of the change is selected (and there is no base
@@ -782,7 +795,7 @@
         basePatchNum = patchRange.basePatchNum;
       }
       return {patchNum, basePatchNum};
-    },
+    }
 
     _getChangePath(change, patchRange, revisions) {
       if ([change, patchRange].some(arg => arg === undefined)) {
@@ -791,16 +804,16 @@
       const range = this._getChangeUrlRange(patchRange, revisions);
       return Gerrit.Nav.getUrlForChange(change, range.patchNum,
           range.basePatchNum);
-    },
+    }
 
     _navigateToChange(change, patchRange, revisions) {
       const range = this._getChangeUrlRange(patchRange, revisions);
       Gerrit.Nav.navigateToChange(change, range.patchNum, range.basePatchNum);
-    },
+    }
 
     _computeChangePath(change, patchRangeRecord, revisions) {
       return this._getChangePath(change, patchRangeRecord.base, revisions);
-    },
+    }
 
     _formatFilesForDropdown(fileList, patchNum, changeComments) {
       // Polymer 2: check for undefined
@@ -824,7 +837,7 @@
         });
       }
       return dropdownContent;
-    },
+    }
 
     _computeCommentString(changeComments, patchNum, path) {
       const unresolvedCount = changeComments.computeUnresolvedNum(patchNum,
@@ -840,11 +853,11 @@
           (commentString && unresolvedString ? ', ' : '') +
           // Add parentheses around unresolved if it exists.
           (unresolvedString ? `${unresolvedString}` : '');
-    },
+    }
 
     _computePrefsButtonHidden(prefs, prefsDisabled) {
       return prefsDisabled || !prefs;
-    },
+    }
 
     _handleFileChange(e) {
       // This is when it gets set initially.
@@ -855,7 +868,7 @@
 
       Gerrit.Nav.navigateToDiff(this._change, path, this._patchRange.patchNum,
           this._patchRange.basePatchNum);
-    },
+    }
 
     _handleFileTap(e) {
       // async is needed so that that the click event is fired before the
@@ -863,7 +876,7 @@
       this.async(() => {
         this.$.dropdown.close();
       }, 1);
-    },
+    }
 
     _handlePatchChange(e) {
       const {basePatchNum, patchNum} = e.detail;
@@ -871,12 +884,12 @@
           this.patchNumEquals(patchNum, this._patchRange.patchNum)) { return; }
       Gerrit.Nav.navigateToDiff(
           this._change, this._path, patchNum, basePatchNum);
-    },
+    }
 
     _handlePrefsTap(e) {
       e.preventDefault();
       this.$.diffPreferencesDialog.open();
-    },
+    }
 
     /**
      * _getDiffViewMode: Get the diff view (side-by-side or unified) based on
@@ -901,11 +914,11 @@
       } else {
         return 'SIDE_BY_SIDE';
       }
-    },
+    }
 
     _computeModeSelectHideClass(isImageDiff) {
       return isImageDiff ? 'hide' : '';
-    },
+    }
 
     _onLineSelected(e, detail) {
       this.$.cursor.moveToLineNumber(detail.number, detail.side);
@@ -917,7 +930,7 @@
           this._change.project, this._path, this._patchRange.patchNum,
           this._patchRange.basePatchNum, number, leftSide);
       history.replaceState(null, '', url);
-    },
+    }
 
     _computeDownloadDropdownLinks(
         project, changeNum, patchRange, path, diff) {
@@ -956,7 +969,7 @@
       }
 
       return links;
-    },
+    }
 
     _computeDownloadFileLink(
         project, changeNum, patchRange, path, isBase) {
@@ -976,13 +989,13 @@
       }
 
       return url;
-    },
+    }
 
     _computeDownloadPatchLink(project, changeNum, patchRange, path) {
       let url = this.changeBaseURL(project, changeNum, patchRange.patchNum);
       url += '/patch?zip&path=' + encodeURIComponent(path);
       return url;
-    },
+    }
 
     _loadComments() {
       return this.$.commentAPI.loadAll(this._changeNum).then(comments => {
@@ -992,20 +1005,20 @@
         this._commentsForDiff = this._getCommentsForPath(this._path,
             this._patchRange, this._projectConfig);
       });
-    },
+    }
 
     _getPaths(patchRange) {
       return this._changeComments.getPaths(patchRange);
-    },
+    }
 
     _getCommentsForPath(path, patchRange, projectConfig) {
       return this._changeComments.getCommentsBySideForPath(path, patchRange,
           projectConfig);
-    },
+    }
 
     _getDiffDrafts() {
       return this.$.restAPI.getDiffDrafts(this._changeNum);
-    },
+    }
 
     _computeCommentSkips(commentMap, fileList, path) {
       // Polymer 2: check for undefined
@@ -1038,13 +1051,13 @@
       }
 
       return skips;
-    },
+    }
 
     _computeDiffClass(panelFloatingDisabled) {
       if (panelFloatingDisabled) {
         return 'noOverflow';
       }
-    },
+    }
 
     /**
      * @param {!Object} patchRangeRecord
@@ -1052,19 +1065,19 @@
     _computeEditMode(patchRangeRecord) {
       const patchRange = patchRangeRecord.base || {};
       return this.patchNumEquals(patchRange.patchNum, this.EDIT_NAME);
-    },
+    }
 
     /**
      * @param {boolean} editMode
      */
     _computeContainerClass(editMode) {
       return editMode ? 'editMode' : '';
-    },
+    }
 
     _computeBlameToggleLabel(loaded, loading) {
       if (loaded) { return 'Hide blame'; }
       return 'Show blame';
-    },
+    }
 
     /**
      * Load and display blame information if it has not already been loaded.
@@ -1086,15 +1099,15 @@
           .catch(() => {
             this._isBlameLoading = false;
           });
-    },
+    }
 
     _computeBlameLoaderClass(isImageDiff) {
       return !isImageDiff ? 'show' : '';
-    },
+    }
 
     _getRevisionInfo(change) {
       return new Gerrit.RevisionInfo(change);
-    },
+    }
 
     _computeFileNum(file, files) {
       // Polymer 2: check for undefined
@@ -1103,7 +1116,7 @@
       }
 
       return files.findIndex(({value}) => value === file) + 1;
-    },
+    }
 
     /**
      * @param {number} fileNum
@@ -1115,16 +1128,16 @@
         return 'show';
       }
       return '';
-    },
+    }
 
     _handleExpandAllDiffContext(e) {
       if (this.shouldSuppressKeyboardShortcut(e)) { return; }
       this.$.diffHost.expandAllContext();
-    },
+    }
 
     _computeDiffPrefsDisabled(disableDiffPrefs, loggedIn) {
       return disableDiffPrefs || !loggedIn;
-    },
+    }
 
     _handleNextUnreviewedFile(e) {
       if (this.shouldSuppressKeyboardShortcut(e)) { return; }
@@ -1135,10 +1148,12 @@
           .filter(file =>
             (file === this._path || !this._reviewedFiles.has(file)));
       this._navToFile(this._path, unreviewedFiles, 1);
-    },
+    }
 
     _handleReloadingDiffPreference() {
       this._getDiffPreferences();
-    },
-  });
+    }
+  }
+
+  customElements.define(GrDiffView.is, GrDiffView);
 })();

@@ -25,91 +25,100 @@
   ];
 
   /**
+    * @appliesMixin Gerrit.AccessMixin
+    * @appliesMixin Gerrit.FireMixin
+    */
+  /**
    * Fired when the permission has been modified or removed.
    *
    * @event access-modified
    */
-
   /**
    * Fired when a permission that was previously added was removed.
    * @event added-permission-removed
    */
-
-  Polymer({
-    is: 'gr-permission',
-
-    properties: {
-      labels: Object,
-      name: String,
-      /** @type {?} */
-      permission: {
-        type: Object,
-        observer: '_sortPermission',
-        notify: true,
-      },
-      groups: Object,
-      section: String,
-      editing: {
-        type: Boolean,
-        value: false,
-        observer: '_handleEditingChanged',
-      },
-      _label: {
-        type: Object,
-        computed: '_computeLabel(permission, labels)',
-      },
-      _groupFilter: String,
-      _query: {
-        type: Function,
-        value() {
-          return this._getGroupSuggestions.bind(this);
-        },
-      },
-      _rules: Array,
-      _groupsWithRules: Object,
-      _deleted: {
-        type: Boolean,
-        value: false,
-      },
-      _originalExclusiveValue: Boolean,
-    },
-
-    behaviors: [
-      Gerrit.AccessBehavior,
-      /**
+  class GrPermission extends Polymer.mixinBehaviors( [
+    Gerrit.AccessBehavior,
+    /**
        * Unused in this element, but called by other elements in tests
        * e.g gr-access-section_test.
        */
-      Gerrit.FireBehavior,
-    ],
+    Gerrit.FireBehavior,
+  ], Polymer.GestureEventListeners(
+      Polymer.LegacyElementMixin(
+          Polymer.Element))) {
+    static get is() { return 'gr-permission'; }
 
-    observers: [
-      '_handleRulesChanged(_rules.splices)',
-    ],
+    static get properties() {
+      return {
+        labels: Object,
+        name: String,
+        /** @type {?} */
+        permission: {
+          type: Object,
+          observer: '_sortPermission',
+          notify: true,
+        },
+        groups: Object,
+        section: String,
+        editing: {
+          type: Boolean,
+          value: false,
+          observer: '_handleEditingChanged',
+        },
+        _label: {
+          type: Object,
+          computed: '_computeLabel(permission, labels)',
+        },
+        _groupFilter: String,
+        _query: {
+          type: Function,
+          value() {
+            return this._getGroupSuggestions.bind(this);
+          },
+        },
+        _rules: Array,
+        _groupsWithRules: Object,
+        _deleted: {
+          type: Boolean,
+          value: false,
+        },
+        _originalExclusiveValue: Boolean,
+      };
+    }
 
-    listeners: {
-      'access-saved': '_handleAccessSaved',
-    },
+    static get observers() {
+      return [
+        '_handleRulesChanged(_rules.splices)',
+      ];
+    }
+
+    created() {
+      super.created();
+      this.addEventListener('access-saved',
+          () => this._handleAccessSaved());
+    }
 
     ready() {
+      super.ready();
       this._setupValues();
-    },
+    }
 
     _setupValues() {
       if (!this.permission) { return; }
       this._originalExclusiveValue = !!this.permission.value.exclusive;
       Polymer.dom.flush();
-    },
+    }
 
     _handleAccessSaved() {
       // Set a new 'original' value to keep track of after the value has been
       // saved.
       this._setupValues();
-    },
+    }
 
     _permissionIsOwnerOrGlobal(permissionId, section) {
       return permissionId === 'owner' || section === 'GLOBAL_CAPABILITIES';
-    },
+    }
 
     _handleEditingChanged(editing, editingOld) {
       // Ignore when editing gets set initially.
@@ -130,20 +139,20 @@
         this.set(['permission', 'value', 'exclusive'],
             this._originalExclusiveValue);
       }
-    },
+    }
 
     _handleAddedRuleRemoved(e) {
       const index = e.model.index;
       this._rules = this._rules.slice(0, index)
           .concat(this._rules.slice(index + 1, this._rules.length));
-    },
+    }
 
     _handleValueChange() {
       this.permission.value.modified = true;
       // Allows overall access page to know a change has been made.
       this.dispatchEvent(
           new CustomEvent('access-modified', {bubbles: true, composed: true}));
-    },
+    }
 
     _handleRemovePermission() {
       if (this.permission.value.added) {
@@ -154,16 +163,16 @@
       this.permission.value.deleted = true;
       this.dispatchEvent(
           new CustomEvent('access-modified', {bubbles: true, composed: true}));
-    },
+    }
 
     _handleRulesChanged(changeRecord) {
       // Update the groups to exclude in the autocomplete.
       this._groupsWithRules = this._computeGroupsWithRules(this._rules);
-    },
+    }
 
     _sortPermission(permission) {
       this._rules = this.toSortedArray(permission.value.rules);
-    },
+    }
 
     _computeSectionClass(editing, deleted) {
       const classList = [];
@@ -174,12 +183,12 @@
         classList.push('deleted');
       }
       return classList.join(' ');
-    },
+    }
 
     _handleUndoRemove() {
       this._deleted = false;
       delete this.permission.value.deleted;
-    },
+    }
 
     _computeLabel(permission, labels) {
       if (!labels || !permission ||
@@ -195,7 +204,7 @@
         values: this._computeLabelValues(labels[labelName].values),
       };
       return label;
-    },
+    }
 
     _computeLabelValues(values) {
       const valuesArr = [];
@@ -211,7 +220,7 @@
         valuesArr.push({value: parseInt(key, 10), text});
       }
       return valuesArr;
-    },
+    }
 
     /**
      * @param {!Array} rules
@@ -224,12 +233,12 @@
         groups[rule.id] = true;
       }
       return groups;
-    },
+    }
 
     _computeGroupName(groups, groupId) {
       return groups && groups[groupId] && groups[groupId].name ?
         groups[groupId].name : groupId;
-    },
+    }
 
     _getGroupSuggestions() {
       return this.$.restAPI.getSuggestedGroups(
@@ -249,7 +258,7 @@
               return !this._groupsWithRules[group.value.id];
             });
           });
-    },
+    }
 
     /**
      * Handles adding a skeleton item to the dom-repeat.
@@ -283,12 +292,14 @@
       this.set(['permission', 'value', 'rules', groupId], value);
       this.dispatchEvent(
           new CustomEvent('access-modified', {bubbles: true, composed: true}));
-    },
+    }
 
     _computeHasRange(name) {
       if (!name) { return false; }
 
       return RANGE_NAMES.includes(name.toUpperCase());
-    },
-  });
+    }
+  }
+
+  customElements.define(GrPermission.is, GrPermission);
 })();

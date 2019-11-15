@@ -20,44 +20,52 @@
   const SUGGESTIONS_LIMIT = 15;
   const REF_PREFIX = 'refs/heads/';
 
-  Polymer({
-    is: 'gr-create-change-dialog',
-
-    properties: {
-      repoName: String,
-      branch: String,
-      /** @type {?} */
-      _repoConfig: Object,
-      subject: String,
-      topic: String,
-      _query: {
-        type: Function,
-        value() {
-          return this._getRepoBranchesSuggestions.bind(this);
-        },
-      },
-      baseChange: String,
-      baseCommit: String,
-      privateByDefault: String,
-      canCreate: {
-        type: Boolean,
-        notify: true,
-        value: false,
-      },
-      _privateChangesEnabled: Boolean,
-    },
-
-    behaviors: [
-      Gerrit.BaseUrlBehavior,
-      /**
+  /**
+    * @appliesMixin Gerrit.BaseUrlMixin
+    * @appliesMixin Gerrit.FireMixin
+    * @appliesMixin Gerrit.URLEncodingMixin
+    */
+  class GrCreateChangeDialog extends Polymer.mixinBehaviors( [
+    Gerrit.BaseUrlBehavior,
+    /**
        * Unused in this element, but called by other elements in tests
        * e.g gr-repo-commands_test.
        */
-      Gerrit.FireBehavior,
-      Gerrit.URLEncodingBehavior,
-    ],
+    Gerrit.FireBehavior,
+    Gerrit.URLEncodingBehavior,
+  ], Polymer.GestureEventListeners(
+      Polymer.LegacyElementMixin(
+          Polymer.Element))) {
+    static get is() { return 'gr-create-change-dialog'; }
+
+    static get properties() {
+      return {
+        repoName: String,
+        branch: String,
+        /** @type {?} */
+        _repoConfig: Object,
+        subject: String,
+        topic: String,
+        _query: {
+          type: Function,
+          value() {
+            return this._getRepoBranchesSuggestions.bind(this);
+          },
+        },
+        baseChange: String,
+        baseCommit: String,
+        privateByDefault: String,
+        canCreate: {
+          type: Boolean,
+          notify: true,
+          value: false,
+        },
+        _privateChangesEnabled: Boolean,
+      };
+    }
 
     attached() {
+      super.attached();
       if (!this.repoName) { return Promise.resolve(); }
 
       const promises = [];
@@ -75,19 +83,21 @@
       }));
 
       return Promise.all(promises);
-    },
+    }
 
-    observers: [
-      '_allowCreate(branch, subject)',
-    ],
+    static get observers() {
+      return [
+        '_allowCreate(branch, subject)',
+      ];
+    }
 
     _computeBranchClass(baseChange) {
       return baseChange ? 'hide' : '';
-    },
+    }
 
     _allowCreate(branch, subject) {
       this.canCreate = !!branch && !!subject;
-    },
+    }
 
     handleCreateChange() {
       const isPrivate = this.$.privateChangeCheckBox.checked;
@@ -99,7 +109,7 @@
             if (!changeCreated) { return; }
             Gerrit.Nav.navigateToChange(changeCreated);
           });
-    },
+    }
 
     _getRepoBranchesSuggestions(input) {
       if (input.startsWith(REF_PREFIX)) {
@@ -122,7 +132,7 @@
         }
         return branches;
       });
-    },
+    }
 
     _formatBooleanString(config) {
       if (config && config.configured_value === 'TRUE') {
@@ -138,10 +148,12 @@
       } else {
         return false;
       }
-    },
+    }
 
     _computePrivateSectionClass(config) {
       return config ? 'hide' : '';
-    },
-  });
+    }
+  }
+
+  customElements.define(GrCreateChangeDialog.is, GrCreateChangeDialog);
 })();

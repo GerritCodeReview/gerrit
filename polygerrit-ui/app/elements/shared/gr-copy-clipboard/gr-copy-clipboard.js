@@ -19,34 +19,38 @@
 
   const COPY_TIMEOUT_MS = 1000;
 
-  Polymer({
-    is: 'gr-copy-clipboard',
+  class GrCopyClipboard extends Polymer.GestureEventListeners(
+      Polymer.LegacyElementMixin(
+          Polymer.Element)) {
+    static get is() { return 'gr-copy-clipboard'; }
 
-    properties: {
-      text: String,
-      buttonTitle: String,
-      hasTooltip: {
-        type: Boolean,
-        value: false,
-      },
-      hideInput: {
-        type: Boolean,
-        value: false,
-      },
-    },
+    static get properties() {
+      return {
+        text: String,
+        buttonTitle: String,
+        hasTooltip: {
+          type: Boolean,
+          value: false,
+        },
+        hideInput: {
+          type: Boolean,
+          value: false,
+        },
+      };
+    }
 
     focusOnCopy() {
       this.$.button.focus();
-    },
+    }
 
     _computeInputClass(hideInput) {
       return hideInput ? 'hideInput' : '';
-    },
+    }
 
     _handleInputClick(e) {
       e.preventDefault();
       Polymer.dom(e).rootTarget.select();
-    },
+    }
 
     _copyToClipboard() {
       if (this.hideInput) {
@@ -62,6 +66,8 @@
       this.async(
           () => this.$.icon.icon = 'gr-icons:content-copy',
           COPY_TIMEOUT_MS);
-    },
-  });
+    }
+  }
+
+  customElements.define(GrCopyClipboard.is, GrCopyClipboard);
 })();

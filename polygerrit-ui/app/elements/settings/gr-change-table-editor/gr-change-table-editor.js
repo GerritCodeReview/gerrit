@@ -17,23 +17,28 @@
 (function() {
   'use strict';
 
-  Polymer({
-    is: 'gr-change-table-editor',
+  /**
+    * @appliesMixin Gerrit.ChangeTableMixin
+    */
+  class GrChangeTableEditor extends Polymer.mixinBehaviors( [
+    Gerrit.ChangeTableBehavior,
+  ], Polymer.GestureEventListeners(
+      Polymer.LegacyElementMixin(
+          Polymer.Element))) {
+    static get is() { return 'gr-change-table-editor'; }
 
-    properties: {
-      displayedColumns: {
-        type: Array,
-        notify: true,
-      },
-      showNumber: {
-        type: Boolean,
-        notify: true,
-      },
-    },
-
-    behaviors: [
-      Gerrit.ChangeTableBehavior,
-    ],
+    static get properties() {
+      return {
+        displayedColumns: {
+          type: Array,
+          notify: true,
+        },
+        showNumber: {
+          type: Boolean,
+          notify: true,
+        },
+      };
+    }
 
     /**
      * Get the list of enabled column names from whichever checkboxes are
@@ -45,7 +50,7 @@
           .querySelectorAll('.checkboxContainer input:not([name=number])'))
           .filter(checkbox => checkbox.checked)
           .map(checkbox => checkbox.name);
-    },
+    }
 
     /**
      * Handle a click on a checkbox container and relay the click to the checkbox it
@@ -55,7 +60,7 @@
       const checkbox = Polymer.dom(e.target).querySelector('input');
       if (!checkbox) { return; }
       checkbox.click();
-    },
+    }
 
     /**
      * Handle a click on the number checkbox and update the showNumber property
@@ -63,7 +68,7 @@
      */
     _handleNumberCheckboxClick(e) {
       this.showNumber = Polymer.dom(e).rootTarget.checked;
-    },
+    }
 
     /**
      * Handle a click on a displayed column checkboxes (excluding number) and
@@ -71,6 +76,8 @@
      */
     _handleTargetClick(e) {
       this.set('displayedColumns', this._getDisplayedColumns());
-    },
-  });
+    }
+  }
+
+  customElements.define(GrChangeTableEditor.is, GrChangeTableEditor);
 })();

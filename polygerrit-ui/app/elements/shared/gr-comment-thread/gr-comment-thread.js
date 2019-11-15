@@ -20,9 +20,22 @@
   const UNRESOLVED_EXPAND_COUNT = 5;
   const NEWLINE_PATTERN = /\n/g;
 
-  Polymer({
-    is: 'gr-comment-thread',
-
+  /**
+    * @appliesMixin Gerrit.FireMixin
+    * @appliesMixin Gerrit.KeyboardShortcutMixin
+    * @appliesMixin Gerrit.PathListMixin
+    */
+  class GrCommentThread extends Polymer.mixinBehaviors( [
+    /**
+       * Not used in this element rather other elements tests
+       */
+    Gerrit.FireBehavior,
+    Gerrit.KeyboardShortcutBehavior,
+    Gerrit.PathListBehavior,
+  ], Polymer.GestureEventListeners(
+      Polymer.LegacyElementMixin(
+          Polymer.Element))) {
+    static get is() { return 'gr-comment-thread'; }
     /**
      * Fired when the thread should be discarded.
      *
@@ -36,122 +49,122 @@
      */
 
     /**
-      * gr-comment-thread exposes the following attributes that allow a
-      * diff widget like gr-diff to show the thread in the right location:
-      *
-      * line-num:
-      *     1-based line number or undefined if it refers to the entire file.
-      *
-      * comment-side:
-      *     "left" or "right". These indicate which of the two diffed versions
-      *     the comment relates to. In the case of unified diff, the left
-      *     version is the one whose line number column is further to the left.
-      *
-      * range:
-      *     The range of text that the comment refers to (start_line,
-      *     start_character, end_line, end_character), serialized as JSON. If
-      *     set, range's end_line will have the same value as line-num. Line
-      *     numbers are 1-based, char numbers are 0-based. The start position
-      *     (start_line, start_character) is inclusive, and the end position
-      *     (end_line, end_character) is exclusive.
-      */
-    properties: {
-      changeNum: String,
-      comments: {
-        type: Array,
-        value() { return []; },
-      },
-      /**
+              * gr-comment-thread exposes the following attributes that allow a
+              * diff widget like gr-diff to show the thread in the right location:
+              *
+              * line-num:
+              *     1-based line number or undefined if it refers to the entire file.
+              *
+              * comment-side:
+              *     "left" or "right". These indicate which of the two diffed versions
+              *     the comment relates to. In the case of unified diff, the left
+              *     version is the one whose line number column is further to the left.
+              *
+              * range:
+              *     The range of text that the comment refers to (start_line,
+              *     start_character, end_line, end_character), serialized as JSON. If
+              *     set, range's end_line will have the same value as line-num. Line
+              *     numbers are 1-based, char numbers are 0-based. The start position
+              *     (start_line, start_character) is inclusive, and the end position
+              *     (end_line, end_character) is exclusive.
+              */
+    static get properties() {
+      return {
+        changeNum: String,
+        comments: {
+          type: Array,
+          value() { return []; },
+        },
+        /**
        * @type {?{start_line: number, start_character: number, end_line: number,
        *          end_character: number}}
        */
-      range: {
-        type: Object,
-        reflectToAttribute: true,
-      },
-      keyEventTarget: {
-        type: Object,
-        value() { return document.body; },
-      },
-      commentSide: {
-        type: String,
-        reflectToAttribute: true,
-      },
-      patchNum: String,
-      path: String,
-      projectName: {
-        type: String,
-        observer: '_projectNameChanged',
-      },
-      hasDraft: {
-        type: Boolean,
-        notify: true,
-        reflectToAttribute: true,
-      },
-      isOnParent: {
-        type: Boolean,
-        value: false,
-      },
-      parentIndex: {
-        type: Number,
-        value: null,
-      },
-      rootId: {
-        type: String,
-        notify: true,
-        computed: '_computeRootId(comments.*)',
-      },
-      /**
+        range: {
+          type: Object,
+          reflectToAttribute: true,
+        },
+        keyEventTarget: {
+          type: Object,
+          value() { return document.body; },
+        },
+        commentSide: {
+          type: String,
+          reflectToAttribute: true,
+        },
+        patchNum: String,
+        path: String,
+        projectName: {
+          type: String,
+          observer: '_projectNameChanged',
+        },
+        hasDraft: {
+          type: Boolean,
+          notify: true,
+          reflectToAttribute: true,
+        },
+        isOnParent: {
+          type: Boolean,
+          value: false,
+        },
+        parentIndex: {
+          type: Number,
+          value: null,
+        },
+        rootId: {
+          type: String,
+          notify: true,
+          computed: '_computeRootId(comments.*)',
+        },
+        /**
        * If this is true, the comment thread also needs to have the change and
        * line properties property set
        */
-      showFilePath: {
-        type: Boolean,
-        value: false,
-      },
-      /** Necessary only if showFilePath is true or when used with gr-diff */
-      lineNum: {
-        type: Number,
-        reflectToAttribute: true,
-      },
-      unresolved: {
-        type: Boolean,
-        notify: true,
-        reflectToAttribute: true,
-      },
-      _showActions: Boolean,
-      _lastComment: Object,
-      _orderedComments: Array,
-      _projectConfig: Object,
-    },
+        showFilePath: {
+          type: Boolean,
+          value: false,
+        },
+        /** Necessary only if showFilePath is true or when used with gr-diff */
+        lineNum: {
+          type: Number,
+          reflectToAttribute: true,
+        },
+        unresolved: {
+          type: Boolean,
+          notify: true,
+          reflectToAttribute: true,
+        },
+        _showActions: Boolean,
+        _lastComment: Object,
+        _orderedComments: Array,
+        _projectConfig: Object,
+      };
+    }
 
-    behaviors: [
-      /**
-       * Not used in this element rather other elements tests
-       */
-      Gerrit.FireBehavior,
-      Gerrit.KeyboardShortcutBehavior,
-      Gerrit.PathListBehavior,
-    ],
+    static get observers() {
+      return [
+        '_commentsChanged(comments.*)',
+      ];
+    }
 
-    listeners: {
-      'comment-update': '_handleCommentUpdate',
-    },
+    get keyBindings() {
+      return {
+        'e shift+e': '_handleEKey',
+      };
+    }
 
-    observers: [
-      '_commentsChanged(comments.*)',
-    ],
-
-    keyBindings: {
-      'e shift+e': '_handleEKey',
-    },
+    created() {
+      super.created();
+      this.addEventListener('comment-update',
+          e => this._handleCommentUpdate(e));
+    }
 
     attached() {
+      super.attached();
       this._getLoggedIn().then(loggedIn => {
         this._showActions = loggedIn;
       });
       this._setInitialExpandedState();
-    },
+    }
 
     addOrEditDraft(opt_lineNum, opt_range) {
       const lastComment = this.comments[this.comments.length - 1] || {};
@@ -169,39 +182,39 @@
         const unresolved = lastComment ? lastComment.unresolved : undefined;
         this.addDraft(opt_lineNum, range, unresolved);
       }
-    },
+    }
 
     addDraft(opt_lineNum, opt_range, opt_unresolved) {
       const draft = this._newDraft(opt_lineNum, opt_range);
       draft.__editing = true;
       draft.unresolved = opt_unresolved === false ? opt_unresolved : true;
       this.push('comments', draft);
-    },
+    }
 
     fireRemoveSelf() {
       this.dispatchEvent(new CustomEvent('thread-discard',
           {detail: {rootId: this.rootId}, bubbles: false}));
-    },
+    }
 
     _getDiffUrlForComment(projectName, changeNum, path, patchNum) {
       return Gerrit.Nav.getUrlForDiffById(changeNum,
           projectName, path, patchNum,
           null, this.lineNum);
-    },
+    }
 
     _computeDisplayPath(path) {
       const lineString = this.lineNum ? `#${this.lineNum}` : '';
       return this.computeDisplayPath(path) + lineString;
-    },
+    }
 
     _getLoggedIn() {
       return this.$.restAPI.getLoggedIn();
-    },
+    }
 
     _commentsChanged() {
       this._orderedComments = this._sortedComments(this.comments);
       this.updateThreadProperties();
-    },
+    }
 
     updateThreadProperties() {
       if (this._orderedComments.length) {
@@ -209,16 +222,16 @@
         this.unresolved = this._lastComment.unresolved;
         this.hasDraft = this._lastComment.__draft;
       }
-    },
+    }
 
     _hideActions(_showActions, _lastComment) {
       return !_showActions || !_lastComment || !!_lastComment.__draft ||
         !!_lastComment.robot_id;
-    },
+    }
 
     _getLastComment() {
       return this._orderedComments[this._orderedComments.length - 1] || {};
-    },
+    }
 
     _handleEKey(e) {
       if (this.shouldSuppressKeyboardShortcut(e)) { return; }
@@ -231,7 +244,7 @@
         if (this.modifierPressed(e)) { return; }
         this._expandCollapseComments(false);
       }
-    },
+    }
 
     _expandCollapseComments(actionIsCollapse) {
       const comments =
@@ -239,7 +252,7 @@
       for (const comment of comments) {
         comment.collapsed = actionIsCollapse;
       }
-    },
+    }
 
     /**
      * Sets the initial state of the comment thread.
@@ -259,7 +272,7 @@
           comment.collapsed = !isRobotComment && resolvedThread;
         }
       }
-    },
+    }
 
     _sortedComments(comments) {
       return comments.slice().sort((c1, c2) => {
@@ -275,7 +288,7 @@
         // If same date, fall back to sorting by id.
         return dateCompare ? dateCompare : c1.id.localeCompare(c2.id);
       });
-    },
+    }
 
     _createReplyComment(parent, content, opt_isEditing,
         opt_unresolved) {
@@ -309,11 +322,11 @@
           commentEl.save();
         }, 1);
       }
-    },
+    }
 
     _isDraft(comment) {
       return !!comment.__draft;
-    },
+    }
 
     /**
      * @param {boolean=} opt_quote
@@ -326,25 +339,25 @@
         quoteStr = '> ' + msg.replace(NEWLINE_PATTERN, '\n> ') + '\n\n';
       }
       this._createReplyComment(comment, quoteStr, true, comment.unresolved);
-    },
+    }
 
     _handleCommentReply(e) {
       this._processCommentReply();
-    },
+    }
 
     _handleCommentQuote(e) {
       this._processCommentReply(true);
-    },
+    }
 
     _handleCommentAck(e) {
       const comment = this._lastComment;
       this._createReplyComment(comment, 'Ack', false, false);
-    },
+    }
 
     _handleCommentDone(e) {
       const comment = this._lastComment;
       this._createReplyComment(comment, 'Done', false, false);
-    },
+    }
 
     _handleCommentFix(e) {
       const comment = e.detail.comment;
@@ -352,7 +365,7 @@
       const quoteStr = '> ' + msg.replace(NEWLINE_PATTERN, '\n> ') + '\n\n';
       const response = quoteStr + 'Please Fix';
       this._createReplyComment(comment, response, false, true);
-    },
+    }
 
     _commentElWithDraftID(id) {
       const els = Polymer.dom(this.root).querySelectorAll('gr-comment');
@@ -362,7 +375,7 @@
         }
       }
       return null;
-    },
+    }
 
     _newReply(inReplyTo, opt_lineNum, opt_message, opt_unresolved,
         opt_range) {
@@ -376,7 +389,7 @@
         d.unresolved = opt_unresolved;
       }
       return d;
-    },
+    }
 
     /**
      * @param {number=} opt_lineNum
@@ -402,12 +415,12 @@
         d.parent = this.parentIndex;
       }
       return d;
-    },
+    }
 
     _getSide(isOnParent) {
       if (isOnParent) { return 'PARENT'; }
       return 'REVISION';
-    },
+    }
 
     _computeRootId(comments) {
       // Keep the root ID even if the comment was removed, so that notification
@@ -415,7 +428,7 @@
       if (!comments.base.length) { return this.rootId; }
       const rootComment = comments.base[0];
       return rootComment.id || rootComment.__draftID;
-    },
+    }
 
     _handleCommentDiscard(e) {
       const diffCommentEl = Polymer.dom(e).rootTarget;
@@ -445,13 +458,13 @@
               changeComment.message);
         }
       }
-    },
+    }
 
     _handleCommentSavedOrDiscarded(e) {
       this.dispatchEvent(new CustomEvent('thread-changed',
           {detail: {rootId: this.rootId, path: this.path},
             bubbles: false}));
-    },
+    }
 
     _handleCommentUpdate(e) {
       const comment = e.detail.comment;
@@ -467,7 +480,7 @@
       // observers, the this.set() call above will not cause a thread update in
       // some situations.
       this.updateThreadProperties();
-    },
+    }
 
     _indexOf(comment, arr) {
       for (let i = 0; i < arr.length; i++) {
@@ -478,11 +491,11 @@
         }
       }
       return -1;
-    },
+    }
 
     _computeHostClass(unresolved) {
       return unresolved ? 'unresolved' : '';
-    },
+    }
 
     /**
      * Load the project config when a project name has been provided.
@@ -493,6 +506,8 @@
       this.$.restAPI.getProjectConfig(name).then(config => {
         this._projectConfig = config;
       });
-    },
-  });
+    }
+  }
+
+  customElements.define(GrCommentThread.is, GrCommentThread);
 })();

@@ -17,40 +17,48 @@
 (function() {
   'use strict';
 
-  Polymer({
-    is: 'gr-create-group-dialog',
+  /**
+    * @appliesMixin Gerrit.BaseUrlMixin
+    * @appliesMixin Gerrit.URLEncodingMixin
+    */
+  class GrCreateGroupDialog extends Polymer.mixinBehaviors( [
+    Gerrit.BaseUrlBehavior,
+    Gerrit.URLEncodingBehavior,
+  ], Polymer.GestureEventListeners(
+      Polymer.LegacyElementMixin(
+          Polymer.Element))) {
+    static get is() { return 'gr-create-group-dialog'; }
 
-    properties: {
-      params: Object,
-      hasNewGroupName: {
-        type: Boolean,
-        notify: true,
-        value: false,
-      },
-      _name: Object,
-      _groupCreated: {
-        type: Boolean,
-        value: false,
-      },
-    },
+    static get properties() {
+      return {
+        params: Object,
+        hasNewGroupName: {
+          type: Boolean,
+          notify: true,
+          value: false,
+        },
+        _name: Object,
+        _groupCreated: {
+          type: Boolean,
+          value: false,
+        },
+      };
+    }
 
-    observers: [
-      '_updateGroupName(_name)',
-    ],
-
-    behaviors: [
-      Gerrit.BaseUrlBehavior,
-      Gerrit.URLEncodingBehavior,
-    ],
+    static get observers() {
+      return [
+        '_updateGroupName(_name)',
+      ];
+    }
 
     _computeGroupUrl(groupId) {
       return this.getBaseUrl() + '/admin/groups/' +
           this.encodeURL(groupId, true);
-    },
+    }
 
     _updateGroupName(name) {
       this.hasNewGroupName = !!name;
-    },
+    }
 
     handleCreateGroup() {
       return this.$.restAPI.createGroup({name: this._name})
@@ -62,6 +70,8 @@
                   page.show(this._computeGroupUrl(group.group_id));
                 });
           });
-    },
-  });
+    }
+  }
+
+  customElements.define(GrCreateGroupDialog.is, GrCreateGroupDialog);
 })();

@@ -20,47 +20,54 @@
   const SUGGESTIONS_LIMIT = 15;
   const REF_PREFIX = 'refs/heads/';
 
-  Polymer({
-    is: 'gr-repo-branch-picker',
+  /**
+    * @appliesMixin Gerrit.URLEncodingMixin
+    */
+  class GrRepoBranchPicker extends Polymer.mixinBehaviors( [
+    Gerrit.URLEncodingBehavior,
+  ], Polymer.GestureEventListeners(
+      Polymer.LegacyElementMixin(
+          Polymer.Element))) {
+    static get is() { return 'gr-repo-branch-picker'; }
 
-    properties: {
-      repo: {
-        type: String,
-        notify: true,
-        observer: '_repoChanged',
-      },
-      branch: {
-        type: String,
-        notify: true,
-      },
-      _branchDisabled: Boolean,
-      _query: {
-        type: Function,
-        value() {
-          return this._getRepoBranchesSuggestions.bind(this);
+    static get properties() {
+      return {
+        repo: {
+          type: String,
+          notify: true,
+          observer: '_repoChanged',
         },
-      },
-      _repoQuery: {
-        type: Function,
-        value() {
-          return this._getRepoSuggestions.bind(this);
+        branch: {
+          type: String,
+          notify: true,
         },
-      },
-    },
-
-    behaviors: [
-      Gerrit.URLEncodingBehavior,
-    ],
+        _branchDisabled: Boolean,
+        _query: {
+          type: Function,
+          value() {
+            return this._getRepoBranchesSuggestions.bind(this);
+          },
+        },
+        _repoQuery: {
+          type: Function,
+          value() {
+            return this._getRepoSuggestions.bind(this);
+          },
+        },
+      };
+    }
 
     attached() {
+      super.attached();
       if (this.repo) {
         this.$.repoInput.setText(this.repo);
       }
-    },
+    }
 
     ready() {
+      super.ready();
       this._branchDisabled = !this.repo;
-    },
+    }
 
     _getRepoBranchesSuggestions(input) {
       if (!this.repo) { return Promise.resolve([]); }
@@ -69,19 +76,19 @@
       }
       return this.$.restAPI.getRepoBranches(input, this.repo, SUGGESTIONS_LIMIT)
           .then(this._branchResponseToSuggestions.bind(this));
-    },
+    }
 
     _getRepoSuggestions(input) {
       return this.$.restAPI.getRepos(input, SUGGESTIONS_LIMIT)
           .then(this._repoResponseToSuggestions.bind(this));
-    },
+    }
 
     _repoResponseToSuggestions(res) {
       return res.map(repo => ({
         name: repo.name,
         value: this.singleDecodeURL(repo.id),
       }));
-    },
+    }
 
     _branchResponseToSuggestions(res) {
       return Object.keys(res).map(key => {
@@ -91,19 +98,21 @@
         }
         return {name: branch, value: branch};
       });
-    },
+    }
 
     _repoCommitted(e) {
       this.repo = e.detail.value;
-    },
+    }
 
     _branchCommitted(e) {
       this.branch = e.detail.value;
-    },
+    }
 
     _repoChanged() {
       this.$.branchInput.clear();
       this._branchDisabled = !this.repo;
-    },
-  });
+    }
+  }
+
+  customElements.define(GrRepoBranchPicker.is, GrRepoBranchPicker);
 })();

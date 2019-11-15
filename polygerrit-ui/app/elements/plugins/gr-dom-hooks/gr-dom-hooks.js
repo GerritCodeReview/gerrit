@@ -51,14 +51,22 @@
     }
   }
 
-  GrDomHook.prototype._createPlaceholder = function(hookName) {
-    Polymer({
-      is: hookName,
-      properties: {
+  class GrDomHookPlaceholder extends
+    Polymer.LegacyElementMixin(Polymer.Element) {
+    static get properties() {
+      return {
         plugin: Object,
         content: Object,
-      },
-    });
+      };
+    }
+  }
+
+  GrDomHook.prototype._createPlaceholder = function(hookName) {
+    // Assign customElements to a temporary variable to avoid
+    // the following warning from polymer linter:
+    // cant-determine-element-tagname
+    const customElementsVar = customElements;
+    customElementsVar.define(hookName, GrDomHookPlaceholder);
   };
 
   GrDomHook.prototype.handleInstanceDetached = function(instance) {

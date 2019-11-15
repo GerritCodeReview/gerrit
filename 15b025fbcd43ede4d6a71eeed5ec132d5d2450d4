@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "73d146df_50f5347a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-11-15T18:14:00Z",
+      "side": 1,
+      "message": "I think the confusion here is seems the change has nothing to do with this 24px thing, I guess its changing back to 24px after you removed the vertical paddings right ?",
+      "revId": "15b025fbcd43ede4d6a71eeed5ec132d5d2450d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

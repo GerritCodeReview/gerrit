@@ -1,0 +1,159 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ea8b2566_0a0d4cd3",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-11-15T01:37:16Z",
+      "side": 1,
+      "message": "Here table-header could be justified?",
+      "range": {
+        "startLine": 70,
+        "startChar": 0,
+        "endLine": 70,
+        "endChar": 63
+      },
+      "revId": "31dcbba5d40f18aefb2cb85c9c0f597874613a93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "329b5327_f6cb23c2",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-11-15T01:37:16Z",
+      "side": 1,
+      "message": "Here table-header could also be justified?",
+      "range": {
+        "startLine": 236,
+        "startChar": 0,
+        "endLine": 236,
+        "endChar": 63
+      },
+      "revId": "31dcbba5d40f18aefb2cb85c9c0f597874613a93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9a1f7630_12712380",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list-header/gr-file-list-header.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-11-15T01:37:16Z",
+      "side": 1,
+      "message": "Why not table-header?",
+      "range": {
+        "startLine": 49,
+        "startChar": 0,
+        "endLine": 49,
+        "endChar": 63
+      },
+      "revId": "31dcbba5d40f18aefb2cb85c9c0f597874613a93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d0e15d2d_97b8eb02",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-11-15T01:37:16Z",
+      "side": 1,
+      "message": "This is for .header, so maybe using --table-header-bg-color is ok?",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 63
+      },
+      "revId": "31dcbba5d40f18aefb2cb85c9c0f597874613a93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2c25262f_1870ad64",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-11-15T01:37:16Z",
+      "side": 1,
+      "message": "Using a header color for a header is ok, not?",
+      "range": {
+        "startLine": 38,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 63
+      },
+      "revId": "31dcbba5d40f18aefb2cb85c9c0f597874613a93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4a2e4c37_e9a966d2",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-11-15T01:37:16Z",
+      "side": 1,
+      "message": "Using a header color for a header is ok, not?",
+      "range": {
+        "startLine": 229,
+        "startChar": 0,
+        "endLine": 229,
+        "endChar": 8
+      },
+      "revId": "31dcbba5d40f18aefb2cb85c9c0f597874613a93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4ef2272b_e62aa4ea",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-11-15T01:37:16Z",
+      "side": 1,
+      "message": "What I don\u0027t like about this change is that we already have 20 background colors. And a lot of them are gray. What I would like to see is to establish something that goes with \"view-background-color\" similar to how \"deemphasized-text-color\" goes with \"primary-text-color\". In other words I would be fine with this change, if we use a name that is independent from where it is used, e.g. we could go for \"primary-background-color\" and \"secondary-background-color\".\n\nAnd then we should try to get rid of some of the other background colors in favor of these two.",
+      "revId": "31dcbba5d40f18aefb2cb85c9c0f597874613a93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

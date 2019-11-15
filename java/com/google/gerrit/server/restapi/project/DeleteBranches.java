@@ -17,8 +17,10 @@ package com.google.gerrit.server.restapi.project;
 import static org.eclipse.jgit.lib.Constants.R_HEADS;
 
 import com.google.common.collect.ImmutableSet;
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.projects.DeleteBranchesInput;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
@@ -43,6 +45,14 @@ public class DeleteBranches implements RestModifyView<ProjectResource, DeleteBra
     if (input == null || input.branches == null || input.branches.isEmpty()) {
       throw new BadRequestException("branches must be specified");
     }
+
+    if (input.branches.contains(RefNames.HEAD)) {
+      throw new MethodNotAllowedException("not allowed to delete HEAD");
+    } else if (input.branches.stream().anyMatch(RefNames::isConfigRef)) {
+      // Never allow to delete the meta config branch.
+      throw new MethodNotAllowedException("not allowed to delete branch " + RefNames.REFS_CONFIG);
+    }
+
     deleteRef.deleteMultipleRefs(
         project.getProjectState(), ImmutableSet.copyOf(input.branches), R_HEADS);
     return Response.none();

@@ -33,6 +33,7 @@ import com.google.gerrit.extensions.api.projects.BranchApi;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.IdString;
+import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.inject.Inject;
@@ -170,6 +171,24 @@ public class DeleteBranchIT extends AbstractDaemonTest {
                 branch(BranchNameKey.create(allUsers, RefNames.refsGroups(adminGroupUuid())))
                     .delete());
     assertThat(thrown).hasMessageThat().contains("Not allowed to delete group branch.");
+  }
+
+  @Test
+  public void cannotDeleteRefsMetaConfig() throws Exception {
+    MethodNotAllowedException thrown =
+        assertThrows(
+            MethodNotAllowedException.class,
+            () -> branch(BranchNameKey.create(allUsers, RefNames.REFS_CONFIG)).delete());
+    assertThat(thrown).hasMessageThat().contains("not allowed to delete branch refs/meta/config");
+  }
+
+  @Test
+  public void cannotDeleteHead() throws Exception {
+    MethodNotAllowedException thrown =
+        assertThrows(
+            MethodNotAllowedException.class,
+            () -> branch(BranchNameKey.create(allUsers, RefNames.HEAD)).delete());
+    assertThat(thrown).hasMessageThat().contains("not allowed to delete HEAD");
   }
 
   private void blockForcePush() throws Exception {

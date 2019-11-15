@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1c4f4a13_77b259f0",
+        "filename": "Jenkinsfile",
+        "patchSetId": 2
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1006432
+      },
+      "writtenOn": "2019-11-15T00:30:18Z",
+      "side": 1,
+      "message": "(educational question for me) Why does this have to be quoted?",
+      "range": {
+        "startLine": 133,
+        "startChar": 54,
+        "endLine": 133,
+        "endChar": 87
+      },
+      "revId": "7f843e71a5748ad9fbc23d3c3dfd5a36d7d80f3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

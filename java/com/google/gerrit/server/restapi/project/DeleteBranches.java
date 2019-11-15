@@ -46,7 +46,9 @@ public class DeleteBranches implements RestModifyView<ProjectResource, DeleteBra
       throw new BadRequestException("branches must be specified");
     }
 
-    if (input.branches.stream().anyMatch(RefNames::isConfigRef)) {
+    if (input.branches.contains(RefNames.HEAD)) {
+      throw new MethodNotAllowedException("not allowed to delete HEAD");
+    } else if (input.branches.stream().anyMatch(RefNames::isConfigRef)) {
       // Never allow to delete the meta config branch.
       throw new MethodNotAllowedException("not allowed to delete branch " + RefNames.REFS_CONFIG);
     }

@@ -2,7 +2,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.google.gerrit</groupId>
   <artifactId>gerrit-plugin-api</artifactId>
-  <version>3.1.0-rc3</version>
+  <version>3.1.0</version>
   <packaging>jar</packaging>
   <name>Gerrit Code Review - Plugin API</name>
   <description>API for Gerrit Plugins</description>

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2035b69e_1204a08f",
+        "filename": "javatests/com/google/gerrit/acceptance/config/UseGerritConfigAnnotationTest.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-11-15T00:42:41Z",
+      "side": 1,
+      "message": "This should have been removed, as it is the same package now.",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 56
+      },
+      "revId": "ba31068a8bf3df652fda8cc0882eac58b47c1eb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

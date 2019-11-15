@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b1ed06cd_18e7e265",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1006432
+      },
+      "writtenOn": "2019-11-15T00:18:27Z",
+      "side": 1,
+      "message": "What about the UI \"Merge Conflict\" behavior? I think you said that was independent of the \u0027mergeable\u0027 field? Might be worth clarifying in this message that the UI behavior does/doesn\u0027t change.",
+      "range": {
+        "startLine": 20,
+        "startChar": 31,
+        "endLine": 20,
+        "endChar": 52
+      },
+      "revId": "b3b111a34088eee8c0071598487afe4d0f58eeec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f61d9b49_d061a190",
+        "filename": "java/com/google/gerrit/testing/IndexConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1006432
+      },
+      "writtenOn": "2019-11-15T00:18:27Z",
+      "side": 1,
+      "message": "Do you need this here at all with the @GerritConfig annotation? Or is this here for some other reason?",
+      "range": {
+        "startLine": 26,
+        "startChar": 56,
+        "endLine": 26,
+        "endChar": 61
+      },
+      "revId": "b3b111a34088eee8c0071598487afe4d0f58eeec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "df4009a4_d928d4b7",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 2049,
+      "author": {
+        "id": 1006432
+      },
+      "writtenOn": "2019-11-15T00:18:27Z",
+      "side": 1,
+      "message": "Ah, is this the missing reason for the default \u0027false\u0027 in IndexConfig?",
+      "range": {
+        "startLine": 2048,
+        "startChar": 28,
+        "endLine": 2049,
+        "endChar": 12
+      },
+      "revId": "b3b111a34088eee8c0071598487afe4d0f58eeec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4b1ad974_67d2ae0a",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 3076,
+      "author": {
+        "id": 1006432
+      },
+      "writtenOn": "2019-11-15T00:18:27Z",
+      "side": 1,
+      "message": "nit: rename as mergeableFailsWhenNotIndexed?",
+      "range": {
+        "startLine": 3076,
+        "startChar": 14,
+        "endLine": 3076,
+        "endChar": 37
+      },
+      "revId": "b3b111a34088eee8c0071598487afe4d0f58eeec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

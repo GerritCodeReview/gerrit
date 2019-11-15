@@ -184,6 +184,11 @@ npm run polylint
 ```
 
 ## Template Type Safety
+
+> **Warning**: This feature is temporary disabled, because it doesn't work with Polymer 2 and Polymer 3. 
+Some of the checks are made by polymer linter.
+
+
 Polymer elements are not type checked against the element definition, making it
 trivial to break the display when refactoring or moving code. We now run
 additional tests to help ensure that template types are checked.

@@ -34,6 +34,24 @@
       "revId": "a7280e31bb04becc7b3adb065600b57ef38aaa71",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "73602164_541d5d2b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-11-15T01:54:47Z",
+      "side": 1,
+      "message": "I have clarified in the commit message that this affects \"Reviewers\", \"CC\" and \"Parent\" rows only. All the others are already fine with 24px.",
+      "parentUuid": "8a9d684c_0110bca2",
+      "revId": "a7280e31bb04becc7b3adb065600b57ef38aaa71",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

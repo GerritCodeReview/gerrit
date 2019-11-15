@@ -16,6 +16,24 @@
       "revId": "0da07f223468e2672c50861671ed451642c2d9ad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cd3f15c2_31de1579",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-11-15T23:08:04Z",
+      "side": 1,
+      "message": "I may find a workaround :) \n\nOnce you moved the `Gerrit.awaitPluginsLoaded` to `ready`, then you can solve the communication issue by moving your `ajax` plugin request before `Gerrit.install` as that\u0027s what triggers pluginLoaded. \n\nso something like:\n\n\n```\n// Gerrit gr-formatted-text\nready() {\n  Gerrit.awaitPluginsLoaded().then(() \u003d\u003e this.contentChanged());\n}\n\n// plugin\n\nfetch(\"plugin_config\").then(config \u003d\u003e {\n  Gerrit.install(plugin \u003d\u003e {\n     // now just add your formatted rules\n  });\n});\n```\n\nnot ideal, but it should work. I will propose the communication channel between plugin and gerrit to the community as well for a better solution.",
+      "parentUuid": "dce1ba08_d8039ad4",
+      "revId": "0da07f223468e2672c50861671ed451642c2d9ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -298,12 +298,11 @@ public class ChangeIT extends AbstractDaemonTest {
   public void skipMergeable() throws Exception {
     PushOneCommit.Result r = createChange();
     String triplet = project.get() + "~master~" + r.getChangeId();
-    ChangeInfo c =
-        gApi.changes().id(triplet).get(ImmutableList.of(ListChangesOption.SKIP_MERGEABLE));
-    assertThat(c.mergeable).isNull();
+    ChangeInfo c = gApi.changes().id(triplet).get(ImmutableList.of(ListChangesOption.MERGEABLE));
+    assertThat(c.mergeable).isTrue();
 
     c = gApi.changes().id(triplet).get();
-    assertThat(c.mergeable).isTrue();
+    assertThat(c.mergeable).isNull();
   }
 
   @Test
@@ -4381,7 +4380,6 @@ public class ChangeIT extends AbstractDaemonTest {
             ListChangesOption.MESSAGES,
             ListChangesOption.SUBMITTABLE,
             ListChangesOption.WEB_LINKS,
-            ListChangesOption.SKIP_MERGEABLE,
             ListChangesOption.SKIP_DIFFSTAT);
 
     PushOneCommit.Result change = createChange();

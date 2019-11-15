@@ -14,24 +14,7 @@
 
 package com.google.gerrit.server.change;
 
-import static com.google.gerrit.extensions.client.ListChangesOption.ALL_COMMITS;
-import static com.google.gerrit.extensions.client.ListChangesOption.ALL_REVISIONS;
-import static com.google.gerrit.extensions.client.ListChangesOption.CHANGE_ACTIONS;
-import static com.google.gerrit.extensions.client.ListChangesOption.CHECK;
-import static com.google.gerrit.extensions.client.ListChangesOption.COMMIT_FOOTERS;
-import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_ACTIONS;
-import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_COMMIT;
-import static com.google.gerrit.extensions.client.ListChangesOption.CURRENT_REVISION;
-import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_ACCOUNTS;
-import static com.google.gerrit.extensions.client.ListChangesOption.DETAILED_LABELS;
-import static com.google.gerrit.extensions.client.ListChangesOption.LABELS;
-import static com.google.gerrit.extensions.client.ListChangesOption.MESSAGES;
-import static com.google.gerrit.extensions.client.ListChangesOption.REVIEWED;
-import static com.google.gerrit.extensions.client.ListChangesOption.REVIEWER_UPDATES;
-import static com.google.gerrit.extensions.client.ListChangesOption.SKIP_DIFFSTAT;
-import static com.google.gerrit.extensions.client.ListChangesOption.SKIP_MERGEABLE;
-import static com.google.gerrit.extensions.client.ListChangesOption.SUBMITTABLE;
-import static com.google.gerrit.extensions.client.ListChangesOption.TRACKING_IDS;
+import static com.google.gerrit.extensions.client.ListChangesOption.*;
 import static com.google.gerrit.server.ChangeMessagesUtil.createChangeMessageInfo;
 import static java.util.stream.Collectors.toList;
 
@@ -257,7 +240,7 @@ public class ChangeJson {
     this.revisionJson = revisionJsonFactory.create(options);
     this.options = Sets.immutableEnumSet(options);
     this.excludeMergeableInChangeInfo =
-        cfg.getBoolean("change", "api", "excludeMergeableInChangeInfo", false);
+        cfg.getBoolean("change", "api", "excludeMergeableInChangeInfo", true);
     this.lazyLoad = containsAnyOf(this.options, REQUIRE_LAZY_LOAD);
     this.pluginDefinedAttributesFactory = pluginDefinedAttributesFactory;
 
@@ -524,7 +507,8 @@ public class ChangeJson {
       if (str.isOk()) {
         out.submitType = str.type;
       }
-      if (!excludeMergeableInChangeInfo && !has(SKIP_MERGEABLE)) {
+      // TODO(hiesel): Remove SKIP_MERGEABLE
+      if (!has(SKIP_MERGEABLE) && (!excludeMergeableInChangeInfo || has(MERGEABLE))) {
         out.mergeable = cd.isMergeable();
       }
       if (has(SUBMITTABLE)) {

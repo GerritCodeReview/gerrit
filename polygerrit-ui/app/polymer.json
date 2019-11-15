@@ -1,0 +1,13 @@
+{
+  "entrypoint": "elements/gr-app.html",
+  "sources": [
+    "behaviors/**/*",
+    "elements/**/*",
+    "scripts/**/*",
+    "styles/**/*",
+    "types/**/*"
+  ],
+  "lint": {
+    "rules": ["polymer-2-hybrid"]
+  }
+}

@@ -25,4 +25,7 @@ fi
 
 unzip -o polygerrit-ui/polygerrit_components.bower_components.zip -d polygerrit-ui/app
 
-$polymer_bin lint --root polygerrit-ui/app --entrypoint polygerrit-ui/app/elements/gr-app.html --component-dir 'polygerrit-ui/app/bower_components' --verbose --rules polymer-2-hybrid --sources "polygerrit-ui/app/**/*"
+#Can't use --root with polymer.json - see https://github.com/Polymer/tools/issues/2616
+#Change current directory to the root folder
+cd polygerrit-ui/app
+$polymer_bin lint --component-dir 'bower_components' --verbose

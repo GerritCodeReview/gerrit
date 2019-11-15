@@ -118,6 +118,121 @@
     },
     {
       "key": {
+        "uuid": "62761725_ef843dec",
+        "filename": "java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-11-15T00:56:15Z",
+      "side": 1,
+      "message": "plural?",
+      "range": {
+        "startLine": 185,
+        "startChar": 33,
+        "endLine": 185,
+        "endChar": 39
+      },
+      "revId": "b3b111a34088eee8c0071598487afe4d0f58eeec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b00ad745_9f2e1bec",
+        "filename": "java/com/google/gerrit/lucene/LuceneChangeIndex.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 596,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-11-15T00:56:15Z",
+      "side": 1,
+      "message": "Can\u0027t this be done already earlier, so that we don\u0027t unnecessary retrieve the field from the document, so move the condition as the very first statement in this method:\n\n  if (skipFields.contains(MERGEABLE_FIELD)) {\n    return;\n  }",
+      "range": {
+        "startLine": 596,
+        "startChar": 22,
+        "endLine": 596,
+        "endChar": 58
+      },
+      "revId": "b3b111a34088eee8c0071598487afe4d0f58eeec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d571aafb_36c5463b",
+        "filename": "java/com/google/gerrit/server/index/change/ReindexAfterRefUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-11-15T00:56:15Z",
+      "side": 1,
+      "message": "plural?",
+      "range": {
+        "startLine": 79,
+        "startChar": 44,
+        "endLine": 79,
+        "endChar": 50
+      },
+      "revId": "b3b111a34088eee8c0071598487afe4d0f58eeec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9d949bd8_388b1871",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-11-15T00:56:15Z",
+      "side": 1,
+      "message": "I don\u0027t think it\u0027s needed. For the same reason we was trying to avoid to Gerrit Config addition to the ChangeData creation and we should ty to avoid that addition complexity in Query builder as well. You have already schema instance here. Schema instance already has skipFields knowledge and could answer the question. See also my comment below.",
+      "range": {
+        "startLine": 260,
+        "startChar": 8,
+        "endLine": 260,
+        "endChar": 47
+      },
+      "revId": "b3b111a34088eee8c0071598487afe4d0f58eeec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c3184a6f_a235e15c",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 582,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-11-15T00:56:15Z",
+      "side": 1,
+      "message": "If you add the method to the Schema skipField(Field field), you could just call it here:\n\n  if (args.getSchema().hasField(ChangeField.MERGEABLE)) {\n     throw new QueryParseException(...);\n  }",
+      "range": {
+        "startLine": 581,
+        "startChar": 6,
+        "endLine": 582,
+        "endChar": 92
+      },
+      "revId": "b3b111a34088eee8c0071598487afe4d0f58eeec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f61d9b49_d061a190",
         "filename": "java/com/google/gerrit/testing/IndexConfig.java",
         "patchSetId": 2
@@ -134,6 +249,98 @@
         "startChar": 56,
         "endLine": 26,
         "endChar": 61
+      },
+      "revId": "b3b111a34088eee8c0071598487afe4d0f58eeec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8713ee3c_2300d4df",
+        "filename": "java/com/google/gerrit/testing/IndexConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-11-15T00:56:15Z",
+      "side": 1,
+      "message": "plural?",
+      "range": {
+        "startLine": 26,
+        "startChar": 29,
+        "endLine": 26,
+        "endChar": 35
+      },
+      "revId": "b3b111a34088eee8c0071598487afe4d0f58eeec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4e02d79b_3b3cf3bc",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 4388,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-11-15T00:56:15Z",
+      "side": 1,
+      "message": "Just \"IndexMergeable\"",
+      "range": {
+        "startLine": 4388,
+        "startChar": 56,
+        "endLine": 4388,
+        "endChar": 58
+      },
+      "revId": "b3b111a34088eee8c0071598487afe4d0f58eeec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "694eed8a_b28e07d2",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 4395,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-11-15T00:56:15Z",
+      "side": 1,
+      "message": "\"IndexMergeable\"",
+      "range": {
+        "startLine": 4395,
+        "startChar": 64,
+        "endLine": 4395,
+        "endChar": 79
+      },
+      "revId": "b3b111a34088eee8c0071598487afe4d0f58eeec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7f5c3b5a_05198509",
+        "filename": "javatests/com/google/gerrit/server/index/change/FakeQueryBuilder.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-11-15T00:56:15Z",
+      "side": 1,
+      "message": "Shouldn\u0027t be needed to extend.",
+      "range": {
+        "startLine": 30,
+        "startChar": 93,
+        "endLine": 30,
+        "endChar": 97
       },
       "revId": "b3b111a34088eee8c0071598487afe4d0f58eeec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
@@ -180,6 +387,29 @@
         "startChar": 14,
         "endLine": 3076,
         "endChar": 37
+      },
+      "revId": "b3b111a34088eee8c0071598487afe4d0f58eeec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cfae1561_a7dbce85",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 3082,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-11-15T00:56:15Z",
+      "side": 1,
+      "message": "This could be simplified:\n\n  assertThat(thrown.getCause()).isInstanceOf(QueryParseException.class);",
+      "range": {
+        "startLine": 3082,
+        "startChar": 4,
+        "endLine": 3082,
+        "endChar": 73
       },
       "revId": "b3b111a34088eee8c0071598487afe4d0f58eeec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

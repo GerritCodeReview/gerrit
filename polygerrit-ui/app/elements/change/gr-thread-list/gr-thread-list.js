@@ -37,8 +37,8 @@
       },
       _filteredThreads: {
         type: Array,
-        computed: '_computeFilteredThreads(_sortedThreads, _unresolvedOnly, ' +
-            '_draftsOnly)',
+        computed: '_computeFilteredThreads(_sortedThreads, ' +
+            '_unresolvedOnly, _draftsOnly)',
       },
       _unresolvedOnly: {
         type: Boolean,

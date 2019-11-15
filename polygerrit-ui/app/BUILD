@@ -125,6 +125,7 @@ sh_test(
     size = "large",
     srcs = ["polylint_test.sh"],
     data = [
+        "polymer.json",
         ":pg_code_without_test",
         "//polygerrit-ui:polygerrit_components.bower_components.zip",
     ],

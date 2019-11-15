@@ -312,8 +312,8 @@
       _topLevelSecondaryActions: Array,
       _menuActions: {
         type: Array,
-        computed: '_computeMenuActions(_allActionValues.*, _hiddenActions.*, ' +
-            '_overflowActions.*)',
+        computed: '_computeMenuActions(_allActionValues.*, ' +
+            '_hiddenActions.*, _overflowActions.*)',
       },
       _overflowActions: {
         type: Array,

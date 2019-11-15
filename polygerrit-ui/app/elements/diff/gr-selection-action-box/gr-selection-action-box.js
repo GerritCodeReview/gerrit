@@ -39,7 +39,8 @@
     ],
 
     listeners: {
-      mousedown: '_handleMouseDown', // See https://crbug.com/gerrit/4767
+      // See https://crbug.com/gerrit/4767
+      mousedown: '_handleMouseDown',
     },
 
     placeAbove(el) {

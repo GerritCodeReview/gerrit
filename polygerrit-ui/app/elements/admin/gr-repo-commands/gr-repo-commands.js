@@ -26,30 +26,36 @@
   const CREATE_CHANGE_FAILED_MESSAGE = 'Failed to create change.';
   const CREATE_CHANGE_SUCCEEDED_MESSAGE = 'Navigating to change';
 
-  Polymer({
-    is: 'gr-repo-commands',
+  /**
+    * @appliesMixin Gerrit.FireMixin
+    */
+  class GrRepoCommands extends Polymer.mixinBehaviors( [
+    Gerrit.FireBehavior,
+  ], Polymer.GestureEventListeners(
+      Polymer.LegacyElementMixin(
+          Polymer.Element))) {
+    static get is() { return 'gr-repo-commands'; }
 
-    properties: {
-      params: Object,
-      repo: String,
-      _loading: {
-        type: Boolean,
-        value: true,
-      },
-      /** @type {?} */
-      _repoConfig: Object,
-      _canCreate: Boolean,
-    },
-
-    behaviors: [
-      Gerrit.FireBehavior,
-    ],
+    static get properties() {
+      return {
+        params: Object,
+        repo: String,
+        _loading: {
+          type: Boolean,
+          value: true,
+        },
+        /** @type {?} */
+        _repoConfig: Object,
+        _canCreate: Boolean,
+      };
+    }
 
     attached() {
+      super.attached();
       this._loadRepo();
 
       this.fire('title-change', {title: 'Repo Commands'});
-    },
+    }
 
     _loadRepo() {
       if (!this.repo) { return Promise.resolve(); }
@@ -65,15 +71,15 @@
             this._repoConfig = config;
             this._loading = false;
           });
-    },
+    }
 
     _computeLoadingClass(loading) {
       return loading ? 'loading' : '';
-    },
+    }
 
     _isLoading() {
       return this._loading || this._loading === undefined;
-    },
+    }
 
     _handleRunningGC() {
       return this.$.restAPI.runRepoGC(this.repo).then(response => {
@@ -83,20 +89,20 @@
               {detail: {message: GC_MESSAGE}, bubbles: true, composed: true}));
         }
       });
-    },
+    }
 
     _createNewChange() {
       this.$.createChangeOverlay.open();
-    },
+    }
 
     _handleCreateChange() {
       this.$.createNewChangeModal.handleCreateChange();
       this._handleCloseCreateChange();
-    },
+    }
 
     _handleCloseCreateChange() {
       this.$.createChangeOverlay.close();
-    },
+    }
 
     _handleEditRepoConfig() {
       return this.$.restAPI.createChange(this.repo, CONFIG_BRANCH,
@@ -112,6 +118,8 @@
         Gerrit.Nav.navigateToRelativeUrl(Gerrit.Nav.getEditUrlForDiff(
             change, CONFIG_PATH, INITIAL_PATCHSET));
       });
-    },
-  });
+    }
+  }
+
+  customElements.define(GrRepoCommands.is, GrRepoCommands);
 })();

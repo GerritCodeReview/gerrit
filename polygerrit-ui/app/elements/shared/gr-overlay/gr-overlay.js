@@ -21,9 +21,16 @@
   const AWAIT_STEP = 5;
   const BREAKPOINT_FULLSCREEN_OVERLAY = '50em';
 
-  Polymer({
-    is: 'gr-overlay',
-
+  /**
+    * @appliesMixin Gerrit.FireMixin
+    */
+  class GrOverlay extends Polymer.mixinBehaviors( [
+    Gerrit.FireBehavior,
+    Polymer.IronOverlayBehavior,
+  ], Polymer.GestureEventListeners(
+      Polymer.LegacyElementMixin(
+          Polymer.Element))) {
+    static get is() { return 'gr-overlay'; }
     /**
      * Fired when a fullscreen overlay is closed
      *
@@ -36,22 +43,22 @@
      * @event fullscreen-overlay-opened
      */
 
-    properties: {
-      _fullScreenOpen: {
-        type: Boolean,
-        value: false,
-      },
-    },
+    static get properties() {
+      return {
+        _fullScreenOpen: {
+          type: Boolean,
+          value: false,
+        },
+      };
+    }
 
-    behaviors: [
-      Gerrit.FireBehavior,
-      Polymer.IronOverlayBehavior,
-    ],
-
-    listeners: {
-      'iron-overlay-closed': '_close',
-      'iron-overlay-cancelled': '_close',
-    },
+    created() {
+      super.created();
+      this.addEventListener('iron-overlay-closed',
+          () => this._close());
+      this.addEventListener('iron-overlay-cancelled',
+          () => this._close());
+    }
 
     open(...args) {
       return new Promise(resolve => {
@@ -62,18 +69,18 @@
         }
         this._awaitOpen(resolve);
       });
-    },
+    }
 
     _isMobile() {
       return window.matchMedia(`(max-width: ${BREAKPOINT_FULLSCREEN_OVERLAY})`);
-    },
+    }
 
     _close() {
       if (this._fullScreenOpen) {
         this.fire('fullscreen-overlay-closed');
         this._fullScreenOpen = false;
       }
-    },
+    }
 
     /**
      * Override the focus stops that iron-overlay-behavior tries to find.
@@ -81,7 +88,7 @@
     setFocusStops(stops) {
       this.__firstFocusableNode = stops.start;
       this.__lastFocusableNode = stops.end;
-    },
+    }
 
     /**
      * NOTE: (wyatta) Slightly hacky way to listen to the overlay actually
@@ -99,10 +106,12 @@
         }, AWAIT_STEP);
       };
       step.call(this);
-    },
+    }
 
     _id() {
       return this.getAttribute('id') || 'global';
-    },
-  });
+    }
+  }
+
+  customElements.define(GrOverlay.is, GrOverlay);
 })();

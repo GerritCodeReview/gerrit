@@ -20,9 +20,17 @@
   const TOKENIZE_REGEX = /(?:[^\s"]+|"[^"]*")+/g;
   const DEBOUNCE_WAIT_MS = 200;
 
-  Polymer({
-    is: 'gr-autocomplete',
-
+  /**
+    * @appliesMixin Gerrit.FireMixin
+    * @appliesMixin Gerrit.KeyboardShortcutMixin
+    */
+  class GrAutocomplete extends Polymer.mixinBehaviors( [
+    Gerrit.FireBehavior,
+    Gerrit.KeyboardShortcutBehavior,
+  ], Polymer.GestureEventListeners(
+      Polymer.LegacyElementMixin(
+          Polymer.Element))) {
+    static get is() { return 'gr-autocomplete'; }
     /**
      * Fired when a value is chosen.
      *
@@ -42,9 +50,10 @@
      * @event input-keydown
      */
 
-    properties: {
+    static get properties() {
+      return {
 
-      /**
+        /**
        * Query for requesting autocomplete suggestions. The function should
        * accept the input as a string parameter and return a promise. The
        * promise yields an array of suggestion objects with "name", "label",
@@ -55,170 +64,170 @@
        *
        * @type {function(string): Promise<?>}
        */
-      query: {
-        type: Function,
-        value() {
-          return function() {
-            return Promise.resolve([]);
-          };
+        query: {
+          type: Function,
+          value() {
+            return function() {
+              return Promise.resolve([]);
+            };
+          },
         },
-      },
 
-      /**
+        /**
        * The number of characters that must be typed before suggestions are
        * made. If threshold is zero, default suggestions are enabled.
        */
-      threshold: {
-        type: Number,
-        value: 1,
-      },
+        threshold: {
+          type: Number,
+          value: 1,
+        },
 
-      allowNonSuggestedValues: Boolean,
-      borderless: Boolean,
-      disabled: Boolean,
-      showSearchIcon: {
-        type: Boolean,
-        value: false,
-      },
-      // Vertical offset needed for a 1em font-size with no vertical padding.
-      // Inputs with additional padding will need to increase vertical offset.
-      verticalOffset: {
-        type: Number,
-        value: 20,
-      },
+        allowNonSuggestedValues: Boolean,
+        borderless: Boolean,
+        disabled: Boolean,
+        showSearchIcon: {
+          type: Boolean,
+          value: false,
+        },
+        // Vertical offset needed for a 1em font-size with no vertical padding.
+        // Inputs with additional padding will need to increase vertical offset.
+        verticalOffset: {
+          type: Number,
+          value: 20,
+        },
 
-      text: {
-        type: String,
-        value: '',
-        notify: true,
-      },
+        text: {
+          type: String,
+          value: '',
+          notify: true,
+        },
 
-      placeholder: String,
+        placeholder: String,
 
-      clearOnCommit: {
-        type: Boolean,
-        value: false,
-      },
+        clearOnCommit: {
+          type: Boolean,
+          value: false,
+        },
 
-      /**
+        /**
        * When true, tab key autocompletes but does not fire the commit event.
        * When false, tab key not caught, and focus is removed from the element.
        * See Issue 4556, Issue 6645.
        */
-      tabComplete: {
-        type: Boolean,
-        value: false,
-      },
+        tabComplete: {
+          type: Boolean,
+          value: false,
+        },
 
-      value: {
-        type: String,
-        notify: true,
-      },
+        value: {
+          type: String,
+          notify: true,
+        },
 
-      /**
+        /**
        * Multi mode appends autocompleted entries to the value.
        * If false, autocompleted entries replace value.
        */
-      multi: {
-        type: Boolean,
-        value: false,
-      },
+        multi: {
+          type: Boolean,
+          value: false,
+        },
 
-      /**
+        /**
        * When true and uncommitted text is left in the autocomplete input after
        * blurring, the text will appear red.
        */
-      warnUncommitted: {
-        type: Boolean,
-        value: false,
-      },
+        warnUncommitted: {
+          type: Boolean,
+          value: false,
+        },
 
-      /**
+        /**
        * When true, querying for suggestions is not debounced w/r/t keypresses
        */
-      noDebounce: {
-        type: Boolean,
-        value: false,
-      },
+        noDebounce: {
+          type: Boolean,
+          value: false,
+        },
 
-      /** @type {?} */
-      _suggestions: {
-        type: Array,
-        value() { return []; },
-      },
+        /** @type {?} */
+        _suggestions: {
+          type: Array,
+          value() { return []; },
+        },
 
-      _suggestionEls: {
-        type: Array,
-        value() { return []; },
-      },
+        _suggestionEls: {
+          type: Array,
+          value() { return []; },
+        },
 
-      _index: Number,
-      _disableSuggestions: {
-        type: Boolean,
-        value: false,
-      },
-      _focused: {
-        type: Boolean,
-        value: false,
-      },
+        _index: Number,
+        _disableSuggestions: {
+          type: Boolean,
+          value: false,
+        },
+        _focused: {
+          type: Boolean,
+          value: false,
+        },
 
-      /** The DOM element of the selected suggestion. */
-      _selected: Object,
-    },
+        /** The DOM element of the selected suggestion. */
+        _selected: Object,
+      };
+    }
 
-    behaviors: [
-      Gerrit.FireBehavior,
-      Gerrit.KeyboardShortcutBehavior,
-    ],
-
-    observers: [
-      '_maybeOpenDropdown(_suggestions, _focused)',
-      '_updateSuggestions(text, threshold, noDebounce)',
-    ],
+    static get observers() {
+      return [
+        '_maybeOpenDropdown(_suggestions, _focused)',
+        '_updateSuggestions(text, threshold, noDebounce)',
+      ];
+    }
 
     get _nativeInput() {
       // In Polymer 2 inputElement isn't nativeInput anymore
       return this.$.input.$.nativeInput || this.$.input.inputElement;
-    },
+    }
 
     attached() {
+      super.attached();
       this.listen(document.body, 'click', '_handleBodyClick');
-    },
+    }
 
     detached() {
+      super.detached();
       this.unlisten(document.body, 'click', '_handleBodyClick');
       this.cancelDebouncer('update-suggestions');
-    },
+    }
 
     get focusStart() {
       return this.$.input;
-    },
+    }
 
     focus() {
       this._nativeInput.focus();
-    },
+    }
 
     selectAll() {
       const nativeInputElement = this._nativeInput;
       if (!this.$.input.value) { return; }
       nativeInputElement.setSelectionRange(0, this.$.input.value.length);
-    },
+    }
 
     clear() {
       this.text = '';
-    },
+    }
 
     _handleItemSelect(e) {
       // Let _handleKeydown deal with keyboard interaction.
       if (e.detail.trigger !== 'click') { return; }
       this._selected = e.detail.selected;
       this._commit();
-    },
+    }
 
     get _inputElement() {
       // Polymer2: this.$ can be undefined when this is first evaluated.
       return this.$ && this.$.input;
-    },
+    }
 
     /**
      * Set the text of the input without triggering the suggestion dropdown.
@@ -228,7 +237,7 @@
       this._disableSuggestions = true;
       this.text = text;
       this._disableSuggestions = false;
-    },
+    }
 
     _onInputFocus() {
       this._focused = true;
@@ -236,14 +245,14 @@
       this.$.input.classList.remove('warnUncommitted');
       // Needed so that --paper-input-container-input updated style is applied.
       this.updateStyles();
-    },
+    }
 
     _onInputBlur() {
       this.$.input.classList.toggle('warnUncommitted',
           this.warnUncommitted && this.text.length && !this._focused);
       // Needed so that --paper-input-container-input updated style is applied.
       this.updateStyles();
-    },
+    }
 
     _updateSuggestions(text, threshold, noDebounce) {
       // Polymer 2: check for undefined
@@ -280,18 +289,18 @@
       } else {
         this.debounce('update-suggestions', update, DEBOUNCE_WAIT_MS);
       }
-    },
+    }
 
     _maybeOpenDropdown(suggestions, focused) {
       if (suggestions.length > 0 && focused) {
         return this.$.suggestions.open();
       }
       return this.$.suggestions.close();
-    },
+    }
 
     _computeClass(borderless) {
       return borderless ? 'borderless' : '';
-    },
+    }
 
     /**
      * _handleKeydown used for key handling in the this.$.input AND all child
@@ -338,7 +347,7 @@
           this._suggestions = [];
       }
       this.fire('input-keydown', {keyCode: e.keyCode, input: this.$.input});
-    },
+    }
 
     _cancel() {
       if (this._suggestions.length) {
@@ -346,7 +355,7 @@
       } else {
         this.fire('cancel');
       }
-    },
+    }
 
     /**
      * @param {boolean=} opt_tabComplete
@@ -358,7 +367,7 @@
 
       this._selected = this.$.suggestions.getCursorTarget();
       this._commit(opt_tabComplete);
-    },
+    }
 
     _updateValue(suggestion, suggestions) {
       if (!suggestion) { return; }
@@ -372,7 +381,7 @@
       } else {
         this.value = completed;
       }
-    },
+    }
 
     _handleBodyClick(e) {
       const eventPath = Polymer.dom(e).path;
@@ -382,13 +391,13 @@
         }
       }
       this._focused = false;
-    },
+    }
 
     _handleSuggestionTap(e) {
       e.stopPropagation();
       this.$.cursor.setCursor(e.target);
       this._commit();
-    },
+    }
 
     /**
      * Commits the suggestion, optionally firing the commit event.
@@ -424,10 +433,12 @@
       }
 
       this._textChangedSinceCommit = false;
-    },
+    }
 
     _computeShowSearchIconClass(showSearchIcon) {
       return showSearchIcon ? 'showSearchIcon' : '';
-    },
-  });
+    }
+  }
+
+  customElements.define(GrAutocomplete.is, GrAutocomplete);
 })();

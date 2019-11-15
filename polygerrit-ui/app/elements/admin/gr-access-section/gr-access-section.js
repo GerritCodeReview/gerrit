@@ -36,61 +36,69 @@
   const ON_BEHALF_OF = '(On Behalf Of)';
   const LABEL = 'Label';
 
-  Polymer({
-    is: 'gr-access-section',
-
-    properties: {
-      capabilities: Object,
-      /** @type {?} */
-      section: {
-        type: Object,
-        notify: true,
-        observer: '_updateSection',
-      },
-      groups: Object,
-      labels: Object,
-      editing: {
-        type: Boolean,
-        value: false,
-        observer: '_handleEditingChanged',
-      },
-      canUpload: Boolean,
-      ownerOf: Array,
-      _originalId: String,
-      _editingRef: {
-        type: Boolean,
-        value: false,
-      },
-      _deleted: {
-        type: Boolean,
-        value: false,
-      },
-      _permissions: Array,
-    },
-
-    behaviors: [
-      Gerrit.AccessBehavior,
-      /**
+  /**
+    * @appliesMixin Gerrit.AccessMixin
+    * @appliesMixin Gerrit.FireMixin
+    */
+  class GrAccessSection extends Polymer.mixinBehaviors( [
+    Gerrit.AccessBehavior,
+    /**
        * Unused in this element, but called by other elements in tests
        * e.g gr-repo-access_test.
        */
-      Gerrit.FireBehavior,
-    ],
+    Gerrit.FireBehavior,
+  ], Polymer.GestureEventListeners(
+      Polymer.LegacyElementMixin(
+          Polymer.Element))) {
+    static get is() { return 'gr-access-section'; }
 
-    listeners: {
-      'access-saved': '_handleAccessSaved',
-    },
+    static get properties() {
+      return {
+        capabilities: Object,
+        /** @type {?} */
+        section: {
+          type: Object,
+          notify: true,
+          observer: '_updateSection',
+        },
+        groups: Object,
+        labels: Object,
+        editing: {
+          type: Boolean,
+          value: false,
+          observer: '_handleEditingChanged',
+        },
+        canUpload: Boolean,
+        ownerOf: Array,
+        _originalId: String,
+        _editingRef: {
+          type: Boolean,
+          value: false,
+        },
+        _deleted: {
+          type: Boolean,
+          value: false,
+        },
+        _permissions: Array,
+      };
+    }
+
+    created() {
+      super.created();
+      this.addEventListener('access-saved',
+          () => this._handleAccessSaved());
+    }
 
     _updateSection(section) {
       this._permissions = this.toSortedArray(section.value.permissions);
       this._originalId = section.id;
-    },
+    }
 
     _handleAccessSaved() {
       // Set a new 'original' value to keep track of after the value has been
       // saved.
       this._updateSection(this.section);
-    },
+    }
 
     _handleValueChange() {
       if (!this.section.value.added) {
@@ -103,7 +111,7 @@
             'access-modified', {bubbles: true, composed: true}));
       }
       this.section.value.updatedId = this.section.id;
-    },
+    }
 
     _handleEditingChanged(editing, editingOld) {
       // Ignore when editing gets set initially.
@@ -123,7 +131,7 @@
           }
         }
       }
-    },
+    }
 
     _computePermissions(name, capabilities, labels) {
       let allPermissions;
@@ -140,17 +148,17 @@
       return allPermissions.filter(permission => {
         return !this.section.value.permissions[permission.id];
       });
-    },
+    }
 
     _computeHideEditClass(section) {
       return section.id === 'GLOBAL_CAPABILITIES' ? 'hide' : '';
-    },
+    }
 
     _handleAddedPermissionRemoved(e) {
       const index = e.model.index;
       this._permissions = this._permissions.slice(0, index).concat(
           this._permissions.slice(index + 1, this._permissions.length));
-    },
+    }
 
     _computeLabelOptions(labels) {
       const labelOptions = [];
@@ -172,7 +180,7 @@
         });
       }
       return labelOptions;
-    },
+    }
 
     _computePermissionName(name, permission, permissionValues, capabilities) {
       if (name === GLOBAL_NAME) {
@@ -186,7 +194,7 @@
         }
         return `${LABEL} ${permission.value.label}${behalfOf}`;
       }
-    },
+    }
 
     _computeSectionName(name) {
       // When a new section is created, it doesn't yet have a ref. Set into
@@ -204,7 +212,7 @@
         return `Reference: ${name}`;
       }
       return name;
-    },
+    }
 
     _handleRemoveReference() {
       if (this.section.value.added) {
@@ -215,27 +223,27 @@
       this.section.value.deleted = true;
       this.dispatchEvent(
           new CustomEvent('access-modified', {bubbles: true, composed: true}));
-    },
+    }
 
     _handleUndoRemove() {
       this._deleted = false;
       delete this.section.value.deleted;
-    },
+    }
 
     editRefInput() {
       return Polymer.dom(this.root).querySelector(Polymer.Element ?
         'iron-input.editRefInput' :
         'input[is=iron-input].editRefInput');
-    },
+    }
 
     editReference() {
       this._editingRef = true;
       this.editRefInput().focus();
-    },
+    }
 
     _isEditEnabled(canUpload, ownerOf, sectionId) {
       return canUpload || (ownerOf && ownerOf.indexOf(sectionId) >= 0);
-    },
+    }
 
     _computeSectionClass(editing, canUpload, ownerOf, editingRef, deleted) {
       const classList = [];
@@ -249,11 +257,11 @@
         classList.push('deleted');
       }
       return classList.join(' ');
-    },
+    }
 
     _computeEditBtnClass(name) {
       return name === GLOBAL_NAME ? 'global' : '';
-    },
+    }
 
     _handleAddPermission() {
       const value = this.$.permissionSelect.value;
@@ -286,6 +294,8 @@
       this.push('_permissions', permission);
       this.set(['section.value.permissions', permission.id],
           permission.value);
-    },
-  });
+    }
+  }
+
+  customElements.define(GrAccessSection.is, GrAccessSection);
 })();

@@ -17,65 +17,71 @@
 (function() {
   'use strict';
 
-  Polymer({
-    is: 'gr-account-info',
-
+  /**
+    * @appliesMixin Gerrit.FireMixin
+    */
+  class GrAccountInfo extends Polymer.mixinBehaviors( [
+    Gerrit.FireBehavior,
+  ], Polymer.GestureEventListeners(
+      Polymer.LegacyElementMixin(
+          Polymer.Element))) {
+    static get is() { return 'gr-account-info'; }
     /**
      * Fired when account details are changed.
      *
      * @event account-detail-update
      */
 
-    properties: {
-      usernameMutable: {
-        type: Boolean,
-        notify: true,
-        computed: '_computeUsernameMutable(_serverConfig, _account.username)',
-      },
-      nameMutable: {
-        type: Boolean,
-        notify: true,
-        computed: '_computeNameMutable(_serverConfig)',
-      },
-      hasUnsavedChanges: {
-        type: Boolean,
-        notify: true,
-        computed: '_computeHasUnsavedChanges(_hasNameChange, ' +
+    static get properties() {
+      return {
+        usernameMutable: {
+          type: Boolean,
+          notify: true,
+          computed: '_computeUsernameMutable(_serverConfig, _account.username)',
+        },
+        nameMutable: {
+          type: Boolean,
+          notify: true,
+          computed: '_computeNameMutable(_serverConfig)',
+        },
+        hasUnsavedChanges: {
+          type: Boolean,
+          notify: true,
+          computed: '_computeHasUnsavedChanges(_hasNameChange, ' +
             '_hasUsernameChange, _hasStatusChange)',
-      },
+        },
 
-      _hasNameChange: Boolean,
-      _hasUsernameChange: Boolean,
-      _hasStatusChange: Boolean,
-      _loading: {
-        type: Boolean,
-        value: false,
-      },
-      _saving: {
-        type: Boolean,
-        value: false,
-      },
-      /** @type {?} */
-      _account: Object,
-      _serverConfig: Object,
-      _username: {
-        type: String,
-        observer: '_usernameChanged',
-      },
-      _avatarChangeUrl: {
-        type: String,
-        value: '',
-      },
-    },
+        _hasNameChange: Boolean,
+        _hasUsernameChange: Boolean,
+        _hasStatusChange: Boolean,
+        _loading: {
+          type: Boolean,
+          value: false,
+        },
+        _saving: {
+          type: Boolean,
+          value: false,
+        },
+        /** @type {?} */
+        _account: Object,
+        _serverConfig: Object,
+        _username: {
+          type: String,
+          observer: '_usernameChanged',
+        },
+        _avatarChangeUrl: {
+          type: String,
+          value: '',
+        },
+      };
+    }
 
-    behaviors: [
-      Gerrit.FireBehavior,
-    ],
-
-    observers: [
-      '_nameChanged(_account.name)',
-      '_statusChanged(_account.status)',
-    ],
+    static get observers() {
+      return [
+        '_nameChanged(_account.name)',
+        '_statusChanged(_account.status)',
+      ];
+    }
 
     loadData() {
       const promises = [];
@@ -104,7 +110,7 @@
       return Promise.all(promises).then(() => {
         this._loading = false;
       });
-    },
+    }
 
     save() {
       if (!this.hasUnsavedChanges) {
@@ -123,29 +129,29 @@
             this._saving = false;
             this.fire('account-detail-update');
           });
-    },
+    }
 
     _maybeSetName() {
       return this._hasNameChange && this.nameMutable ?
         this.$.restAPI.setAccountName(this._account.name) :
         Promise.resolve();
-    },
+    }
 
     _maybeSetUsername() {
       return this._hasUsernameChange && this.usernameMutable ?
         this.$.restAPI.setAccountUsername(this._username) :
         Promise.resolve();
-    },
+    }
 
     _maybeSetStatus() {
       return this._hasStatusChange ?
         this.$.restAPI.setAccountStatus(this._account.status) :
         Promise.resolve();
-    },
+    }
 
     _computeHasUnsavedChanges(nameChanged, usernameChanged, statusChanged) {
       return nameChanged || usernameChanged || statusChanged;
-    },
+    }
 
     _computeUsernameMutable(config, username) {
       // Polymer 2: check for undefined
@@ -159,34 +165,34 @@
       // Username may not be changed once it is set.
       return config.auth.editable_account_fields.includes('USER_NAME') &&
           !username;
-    },
+    }
 
     _computeNameMutable(config) {
       return config.auth.editable_account_fields.includes('FULL_NAME');
-    },
+    }
 
     _statusChanged() {
       if (this._loading) { return; }
       this._hasStatusChange = true;
-    },
+    }
 
     _usernameChanged() {
       if (this._loading || !this._account) { return; }
       this._hasUsernameChange =
           (this._account.username || '') !== (this._username || '');
-    },
+    }
 
     _nameChanged() {
       if (this._loading) { return; }
       this._hasNameChange = true;
-    },
+    }
 
     _handleKeydown(e) {
       if (e.keyCode === 13) { // Enter
         e.stopPropagation();
         this.save();
       }
-    },
+    }
 
     _hideAvatarChangeUrl(avatarChangeUrl) {
       if (!avatarChangeUrl) {
@@ -194,6 +200,8 @@
       }
 
       return '';
-    },
-  });
+    }
+  }
+
+  customElements.define(GrAccountInfo.is, GrAccountInfo);
 })();

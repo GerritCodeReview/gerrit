@@ -17,65 +17,72 @@
 (function() {
   'use strict';
 
-  Polymer({
-    is: 'gr-admin-group-list',
+  /**
+    * @appliesMixin Gerrit.FireMixin
+    * @appliesMixin Gerrit.ListViewMixin
+    */
+  class GrAdminGroupList extends Polymer.mixinBehaviors( [
+    Gerrit.FireBehavior,
+    Gerrit.ListViewBehavior,
+  ], Polymer.GestureEventListeners(
+      Polymer.LegacyElementMixin(
+          Polymer.Element))) {
+    static get is() { return 'gr-admin-group-list'; }
 
-    properties: {
+    static get properties() {
+      return {
       /**
        * URL params passed from the router.
        */
-      params: {
-        type: Object,
-        observer: '_paramsChanged',
-      },
+        params: {
+          type: Object,
+          observer: '_paramsChanged',
+        },
 
-      /**
+        /**
        * Offset of currently visible query results.
        */
-      _offset: Number,
-      _path: {
-        type: String,
-        readOnly: true,
-        value: '/admin/groups',
-      },
-      _hasNewGroupName: Boolean,
-      _createNewCapability: {
-        type: Boolean,
-        value: false,
-      },
-      _groups: Array,
+        _offset: Number,
+        _path: {
+          type: String,
+          readOnly: true,
+          value: '/admin/groups',
+        },
+        _hasNewGroupName: Boolean,
+        _createNewCapability: {
+          type: Boolean,
+          value: false,
+        },
+        _groups: Array,
 
-      /**
+        /**
        * Because  we request one more than the groupsPerPage, _shownGroups
        * may be one less than _groups.
        * */
-      _shownGroups: {
-        type: Array,
-        computed: 'computeShownItems(_groups)',
-      },
+        _shownGroups: {
+          type: Array,
+          computed: 'computeShownItems(_groups)',
+        },
 
-      _groupsPerPage: {
-        type: Number,
-        value: 25,
-      },
+        _groupsPerPage: {
+          type: Number,
+          value: 25,
+        },
 
-      _loading: {
-        type: Boolean,
-        value: true,
-      },
-      _filter: String,
-    },
-
-    behaviors: [
-      Gerrit.FireBehavior,
-      Gerrit.ListViewBehavior,
-    ],
+        _loading: {
+          type: Boolean,
+          value: true,
+        },
+        _filter: String,
+      };
+    }
 
     attached() {
+      super.attached();
       this._getCreateGroupCapability();
       this.fire('title-change', {title: 'Groups'});
       this._maybeOpenCreateOverlay(this.params);
-    },
+    }
 
     _paramsChanged(params) {
       this._loading = true;
@@ -84,7 +91,7 @@
 
       return this._getGroups(this._filter, this._groupsPerPage,
           this._offset);
-    },
+    }
 
     /**
      * Opens the create overlay if the route has a hash 'create'
@@ -94,11 +101,11 @@
       if (params && params.openCreateModal) {
         this.$.createOverlay.open();
       }
-    },
+    }
 
     _computeGroupUrl(id) {
       return Gerrit.Nav.getUrlForGroup(id);
-    },
+    }
 
     _getCreateGroupCapability() {
       return this.$.restAPI.getAccount().then(account => {
@@ -110,7 +117,7 @@
               }
             });
       });
-    },
+    }
 
     _getGroups(filter, groupsPerPage, offset) {
       this._groups = [];
@@ -127,30 +134,32 @@
                 });
             this._loading = false;
           });
-    },
+    }
 
     _refreshGroupsList() {
       this.$.restAPI.invalidateGroupsCache();
       return this._getGroups(this._filter, this._groupsPerPage,
           this._offset);
-    },
+    }
 
     _handleCreateGroup() {
       this.$.createNewModal.handleCreateGroup().then(() => {
         this._refreshGroupsList();
       });
-    },
+    }
 
     _handleCloseCreate() {
       this.$.createOverlay.close();
-    },
+    }
 
     _handleCreateClicked() {
       this.$.createOverlay.open();
-    },
+    }
 
     _visibleToAll(item) {
       return item.options.visible_to_all === true ? 'Y' : 'N';
-    },
-  });
+    }
+  }
+
+  customElements.define(GrAdminGroupList.is, GrAdminGroupList);
 })();

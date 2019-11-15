@@ -17,62 +17,68 @@
 (function() {
   'use strict';
 
-  Polymer({
-    is: 'gr-diff-preferences',
+  class GrDiffPreferences extends Polymer.GestureEventListeners(
+      Polymer.LegacyElementMixin(
+          Polymer.Element)) {
+    static get is() { return 'gr-diff-preferences'; }
 
-    properties: {
-      hasUnsavedChanges: {
-        type: Boolean,
-        notify: true,
-        value: false,
-      },
+    static get properties() {
+      return {
+        hasUnsavedChanges: {
+          type: Boolean,
+          notify: true,
+          value: false,
+        },
 
-      /** @type {?} */
-      diffPrefs: Object,
-    },
+        /** @type {?} */
+        diffPrefs: Object,
+      };
+    }
 
     loadData() {
       return this.$.restAPI.getDiffPreferences().then(prefs => {
         this.diffPrefs = prefs;
       });
-    },
+    }
 
     _handleDiffPrefsChanged() {
       this.hasUnsavedChanges = true;
-    },
+    }
 
     _handleLineWrappingTap() {
       this.set('diffPrefs.line_wrapping', this.$.lineWrappingInput.checked);
       this._handleDiffPrefsChanged();
-    },
+    }
 
     _handleShowTabsTap() {
       this.set('diffPrefs.show_tabs', this.$.showTabsInput.checked);
       this._handleDiffPrefsChanged();
-    },
+    }
 
     _handleShowTrailingWhitespaceTap() {
       this.set('diffPrefs.show_whitespace_errors',
           this.$.showTrailingWhitespaceInput.checked);
       this._handleDiffPrefsChanged();
-    },
+    }
 
     _handleSyntaxHighlightTap() {
       this.set('diffPrefs.syntax_highlighting',
           this.$.syntaxHighlightInput.checked);
       this._handleDiffPrefsChanged();
-    },
+    }
 
     _handleAutomaticReviewTap() {
       this.set('diffPrefs.manual_review',
           !this.$.automaticReviewInput.checked);
       this._handleDiffPrefsChanged();
-    },
+    }
 
     save() {
       return this.$.restAPI.saveDiffPreferences(this.diffPrefs).then(res => {
         this.hasUnsavedChanges = false;
       });
-    },
-  });
+    }
+  }
+
+  customElements.define(GrDiffPreferences.is, GrDiffPreferences);
 })();

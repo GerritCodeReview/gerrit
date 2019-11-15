@@ -192,9 +192,19 @@
   const AWAIT_CHANGE_ATTEMPTS = 5;
   const AWAIT_CHANGE_TIMEOUT_MS = 1000;
 
-  Polymer({
-    is: 'gr-change-actions',
-
+  /**
+    * @appliesMixin Gerrit.FireMixin
+    * @appliesMixin Gerrit.PatchSetMixin
+    * @appliesMixin Gerrit.RESTClientMixin
+    */
+  class GrChangeActions extends Polymer.mixinBehaviors( [
+    Gerrit.FireBehavior,
+    Gerrit.PatchSetBehavior,
+    Gerrit.RESTClientBehavior,
+  ], Polymer.GestureEventListeners(
+      Polymer.LegacyElementMixin(
+          Polymer.Element))) {
+    static get is() { return 'gr-change-actions'; }
     /**
      * Fired when the change should be reloaded.
      *
@@ -219,7 +229,15 @@
      * @event show-error
      */
 
-    properties: {
+    constructor() {
+      super();
+      this.ActionType = ActionType;
+      this.ChangeActions = ChangeActions;
+      this.RevisionActions = RevisionActions;
+    }
+
+    static get properties() {
+      return {
       /**
        * @type {{
        *    _number: number,
@@ -229,217 +247,214 @@
        *    subject: string,
        *  }}
        */
-      change: Object,
-      actions: {
-        type: Object,
-        value() { return {}; },
-      },
-      primaryActionKeys: {
-        type: Array,
-        value() {
-          return [
-            RevisionActions.SUBMIT,
-          ];
+        change: Object,
+        actions: {
+          type: Object,
+          value() { return {}; },
         },
-      },
-      disableEdit: {
-        type: Boolean,
-        value: false,
-      },
-      _hasKnownChainState: {
-        type: Boolean,
-        value: false,
-      },
-      _hideQuickApproveAction: {
-        type: Boolean,
-        value: false,
-      },
-      changeNum: String,
-      changeStatus: String,
-      commitNum: String,
-      hasParent: {
-        type: Boolean,
-        observer: '_computeChainState',
-      },
-      latestPatchNum: String,
-      commitMessage: {
-        type: String,
-        value: '',
-      },
-      /** @type {?} */
-      revisionActions: {
-        type: Object,
-        notify: true,
-        value() { return {}; },
-      },
-      // If property binds directly to [[revisionActions.submit]] it is not
-      // updated when revisionActions doesn't contain submit action.
-      /** @type {?} */
-      _revisionSubmitAction: {
-        type: Object,
-        computed: '_getSubmitAction(revisionActions)',
-      },
-      // If property binds directly to [[revisionActions.rebase]] it is not
-      // updated when revisionActions doesn't contain rebase action.
-      /** @type {?} */
-      _revisionRebaseAction: {
-        type: Object,
-        computed: '_getRebaseAction(revisionActions)',
-      },
-      privateByDefault: String,
+        primaryActionKeys: {
+          type: Array,
+          value() {
+            return [
+              RevisionActions.SUBMIT,
+            ];
+          },
+        },
+        disableEdit: {
+          type: Boolean,
+          value: false,
+        },
+        _hasKnownChainState: {
+          type: Boolean,
+          value: false,
+        },
+        _hideQuickApproveAction: {
+          type: Boolean,
+          value: false,
+        },
+        changeNum: String,
+        changeStatus: String,
+        commitNum: String,
+        hasParent: {
+          type: Boolean,
+          observer: '_computeChainState',
+        },
+        latestPatchNum: String,
+        commitMessage: {
+          type: String,
+          value: '',
+        },
+        /** @type {?} */
+        revisionActions: {
+          type: Object,
+          notify: true,
+          value() { return {}; },
+        },
+        // If property binds directly to [[revisionActions.submit]] it is not
+        // updated when revisionActions doesn't contain submit action.
+        /** @type {?} */
+        _revisionSubmitAction: {
+          type: Object,
+          computed: '_getSubmitAction(revisionActions)',
+        },
+        // If property binds directly to [[revisionActions.rebase]] it is not
+        // updated when revisionActions doesn't contain rebase action.
+        /** @type {?} */
+        _revisionRebaseAction: {
+          type: Object,
+          computed: '_getRebaseAction(revisionActions)',
+        },
+        privateByDefault: String,
 
-      _loading: {
-        type: Boolean,
-        value: true,
-      },
-      _actionLoadingMessage: {
-        type: String,
-        value: '',
-      },
-      _allActionValues: {
-        type: Array,
-        computed: '_computeAllActions(actions.*, revisionActions.*,' +
+        _loading: {
+          type: Boolean,
+          value: true,
+        },
+        _actionLoadingMessage: {
+          type: String,
+          value: '',
+        },
+        _allActionValues: {
+          type: Array,
+          computed: '_computeAllActions(actions.*, revisionActions.*,' +
             'primaryActionKeys.*, _additionalActions.*, change, ' +
             '_actionPriorityOverrides.*)',
-      },
-      _topLevelActions: {
-        type: Array,
-        computed: '_computeTopLevelActions(_allActionValues.*, ' +
-            '_hiddenActions.*, _overflowActions.*)',
-        observer: '_filterPrimaryActions',
-      },
-      _topLevelPrimaryActions: Array,
-      _topLevelSecondaryActions: Array,
-      _menuActions: {
-        type: Array,
-        computed: '_computeMenuActions(_allActionValues.*, ' +
-            '_hiddenActions.*, _overflowActions.*)',
-      },
-      _overflowActions: {
-        type: Array,
-        value() {
-          const value = [
-            {
-              type: ActionType.CHANGE,
-              key: ChangeActions.WIP,
-            },
-            {
-              type: ActionType.CHANGE,
-              key: ChangeActions.DELETE,
-            },
-            {
-              type: ActionType.REVISION,
-              key: RevisionActions.CHERRYPICK,
-            },
-            {
-              type: ActionType.CHANGE,
-              key: ChangeActions.MOVE,
-            },
-            {
-              type: ActionType.REVISION,
-              key: RevisionActions.DOWNLOAD,
-            },
-            {
-              type: ActionType.CHANGE,
-              key: ChangeActions.IGNORE,
-            },
-            {
-              type: ActionType.CHANGE,
-              key: ChangeActions.UNIGNORE,
-            },
-            {
-              type: ActionType.CHANGE,
-              key: ChangeActions.REVIEWED,
-            },
-            {
-              type: ActionType.CHANGE,
-              key: ChangeActions.UNREVIEWED,
-            },
-            {
-              type: ActionType.CHANGE,
-              key: ChangeActions.PRIVATE,
-            },
-            {
-              type: ActionType.CHANGE,
-              key: ChangeActions.PRIVATE_DELETE,
-            },
-            {
-              type: ActionType.CHANGE,
-              key: ChangeActions.FOLLOW_UP,
-            },
-          ];
-          return value;
         },
-      },
-      _actionPriorityOverrides: {
-        type: Array,
-        value() { return []; },
-      },
-      _additionalActions: {
-        type: Array,
-        value() { return []; },
-      },
-      _hiddenActions: {
-        type: Array,
-        value() { return []; },
-      },
-      _disabledMenuActions: {
-        type: Array,
-        value() { return []; },
-      },
-      // editPatchsetLoaded == "does the current selected patch range have
-      // 'edit' as one of either basePatchNum or patchNum".
-      editPatchsetLoaded: {
-        type: Boolean,
-        value: false,
-      },
-      // editMode == "is edit mode enabled in the file list".
-      editMode: {
-        type: Boolean,
-        value: false,
-      },
-      editBasedOnCurrentPatchSet: {
-        type: Boolean,
-        value: true,
-      },
-    },
+        _topLevelActions: {
+          type: Array,
+          computed: '_computeTopLevelActions(_allActionValues.*, ' +
+            '_hiddenActions.*, _overflowActions.*)',
+          observer: '_filterPrimaryActions',
+        },
+        _topLevelPrimaryActions: Array,
+        _topLevelSecondaryActions: Array,
+        _menuActions: {
+          type: Array,
+          computed: '_computeMenuActions(_allActionValues.*, ' +
+            '_hiddenActions.*, _overflowActions.*)',
+        },
+        _overflowActions: {
+          type: Array,
+          value() {
+            const value = [
+              {
+                type: ActionType.CHANGE,
+                key: ChangeActions.WIP,
+              },
+              {
+                type: ActionType.CHANGE,
+                key: ChangeActions.DELETE,
+              },
+              {
+                type: ActionType.REVISION,
+                key: RevisionActions.CHERRYPICK,
+              },
+              {
+                type: ActionType.CHANGE,
+                key: ChangeActions.MOVE,
+              },
+              {
+                type: ActionType.REVISION,
+                key: RevisionActions.DOWNLOAD,
+              },
+              {
+                type: ActionType.CHANGE,
+                key: ChangeActions.IGNORE,
+              },
+              {
+                type: ActionType.CHANGE,
+                key: ChangeActions.UNIGNORE,
+              },
+              {
+                type: ActionType.CHANGE,
+                key: ChangeActions.REVIEWED,
+              },
+              {
+                type: ActionType.CHANGE,
+                key: ChangeActions.UNREVIEWED,
+              },
+              {
+                type: ActionType.CHANGE,
+                key: ChangeActions.PRIVATE,
+              },
+              {
+                type: ActionType.CHANGE,
+                key: ChangeActions.PRIVATE_DELETE,
+              },
+              {
+                type: ActionType.CHANGE,
+                key: ChangeActions.FOLLOW_UP,
+              },
+            ];
+            return value;
+          },
+        },
+        _actionPriorityOverrides: {
+          type: Array,
+          value() { return []; },
+        },
+        _additionalActions: {
+          type: Array,
+          value() { return []; },
+        },
+        _hiddenActions: {
+          type: Array,
+          value() { return []; },
+        },
+        _disabledMenuActions: {
+          type: Array,
+          value() { return []; },
+        },
+        // editPatchsetLoaded == "does the current selected patch range have
+        // 'edit' as one of either basePatchNum or patchNum".
+        editPatchsetLoaded: {
+          type: Boolean,
+          value: false,
+        },
+        // editMode == "is edit mode enabled in the file list".
+        editMode: {
+          type: Boolean,
+          value: false,
+        },
+        editBasedOnCurrentPatchSet: {
+          type: Boolean,
+          value: true,
+        },
+      };
+    }
 
-    ActionType,
-    ChangeActions,
-    RevisionActions,
-
-    behaviors: [
-      Gerrit.FireBehavior,
-      Gerrit.PatchSetBehavior,
-      Gerrit.RESTClientBehavior,
-    ],
-
-    observers: [
-      '_actionsChanged(actions.*, revisionActions.*, _additionalActions.*)',
-      '_changeChanged(change)',
-      '_editStatusChanged(editMode, editPatchsetLoaded, ' +
+    static get observers() {
+      return [
+        '_actionsChanged(actions.*, revisionActions.*, _additionalActions.*)',
+        '_changeChanged(change)',
+        '_editStatusChanged(editMode, editPatchsetLoaded, ' +
           'editBasedOnCurrentPatchSet, disableEdit, actions.*, change.*)',
-    ],
+      ];
+    }
 
-    listeners: {
-      'fullscreen-overlay-opened': '_handleHideBackgroundContent',
-      'fullscreen-overlay-closed': '_handleShowBackgroundContent',
-    },
+    created() {
+      super.created();
+      this.addEventListener('fullscreen-overlay-opened',
+          () => this._handleHideBackgroundContent());
+      this.addEventListener('fullscreen-overlay-closed',
+          () => this._handleShowBackgroundContent());
+    }
 
     ready() {
+      super.ready();
       this.$.jsAPI.addElement(this.$.jsAPI.Element.CHANGE_ACTIONS, this);
       this._handleLoadingComplete();
-    },
+    }
 
     _getSubmitAction(revisionActions) {
       return this._getRevisionAction(revisionActions, 'submit', null);
-    },
+    }
 
     _getRebaseAction(revisionActions) {
       return this._getRevisionAction(revisionActions, 'rebase',
           {rebaseOnCurrent: null}
       );
-    },
+    }
 
     _getRevisionAction(revisionActions, actionName, emptyActionValue) {
       if (!revisionActions) {
@@ -451,7 +466,7 @@
         return emptyActionValue;
       }
       return revisionActions[actionName];
-    },
+    }
 
     reload() {
       if (!this.changeNum || !this.latestPatchNum) {
@@ -469,11 +484,11 @@
         this._loading = false;
         throw err;
       });
-    },
+    }
 
     _handleLoadingComplete() {
       Gerrit.awaitPluginsLoaded().then(() => this._loading = false);
-    },
+    }
 
     _updateRebaseAction(revisionActions) {
       if (revisionActions && revisionActions.rebase) {
@@ -485,11 +500,11 @@
         this._parentIsCurrent = true;
       }
       return revisionActions;
-    },
+    }
 
     _changeChanged() {
       this.reload();
-    },
+    }
 
     addActionButton(type, label) {
       if (type !== ActionType.CHANGE && type !== ActionType.REVISION) {
@@ -504,7 +519,7 @@
       };
       this.push('_additionalActions', action);
       return action.__key;
-    },
+    }
 
     removeActionButton(key) {
       const idx = this._indexOfActionButtonWithKey(key);
@@ -512,7 +527,7 @@
         return;
       }
       this.splice('_additionalActions', idx, 1);
-    },
+    }
 
     setActionButtonProp(key, prop, value) {
       this.set([
@@ -520,7 +535,7 @@
         this._indexOfActionButtonWithKey(key),
         prop,
       ], value);
-    },
+    }
 
     setActionOverflow(type, key, overflow) {
       if (type !== ActionType.CHANGE && type !== ActionType.REVISION) {
@@ -537,7 +552,7 @@
       } else if (overflow) {
         this.push('_overflowActions', action);
       }
-    },
+    }
 
     setActionPriority(type, key, priority) {
       if (type !== ActionType.CHANGE && type !== ActionType.REVISION) {
@@ -556,7 +571,7 @@
       } else {
         this.push('_actionPriorityOverrides', action);
       }
-    },
+    }
 
     setActionHidden(type, key, hidden) {
       if (type !== ActionType.CHANGE && type !== ActionType.REVISION) {
@@ -569,7 +584,7 @@
       } else if (!hidden && idx !== -1) {
         this.splice('_hiddenActions', idx, 1);
       }
-    },
+    }
 
     getActionDetails(action) {
       if (this.revisionActions[action]) {
@@ -577,7 +592,7 @@
       } else if (this.actions[action]) {
         return this.actions[action];
       }
-    },
+    }
 
     _indexOfActionButtonWithKey(key) {
       for (let i = 0; i < this._additionalActions.length; i++) {
@@ -586,20 +601,20 @@
         }
       }
       return -1;
-    },
+    }
 
     _getRevisionActions() {
       return this.$.restAPI.getChangeRevisionActions(this.changeNum,
           this.latestPatchNum);
-    },
+    }
 
     _shouldHideActions(actions, loading) {
       return loading || !actions || !actions.base || !actions.base.length;
-    },
+    }
 
     _keyCount(changeRecord) {
       return Object.keys((changeRecord && changeRecord.base) || {}).length;
-    },
+    }
 
     _actionsChanged(actionsChangeRecord, revisionActionsChangeRecord,
         additionalActionsChangeRecord) {
@@ -626,7 +641,7 @@
           this.set('revisionActions.download', DOWNLOAD_ACTION);
         }
       }
-    },
+    }
 
     /**
        * @param {string=} actionName
@@ -638,7 +653,7 @@
         // see https://github.com/Polymer/polymer/issues/2631
         this.notifyPath('actions.' + actionName, false);
       }
-    },
+    }
 
     _editStatusChanged(editMode, editPatchsetLoaded,
         editBasedOnCurrentPatchSet, disableEdit) {
@@ -705,13 +720,13 @@
         // Remove edit button.
         this._deleteAndNotify('edit');
       }
-    },
+    }
 
     _getValuesFor(obj) {
       return Object.keys(obj).map(key => {
         return obj[key];
       });
-    },
+    }
 
     _getLabelStatus(label) {
       if (label.approved) {
@@ -723,7 +738,7 @@
       } else {
         return LabelStatus.NEED;
       }
-    },
+    }
 
     /**
      * Get highest score for last missing permitted label for current change.
@@ -771,7 +786,7 @@
         }
       }
       return null;
-    },
+    }
 
     hideQuickApproveAction() {
       this._topLevelSecondaryActions =
@@ -779,7 +794,7 @@
           return sa.key !== QUICK_APPROVE_ACTION.key;
         });
       this._hideQuickApproveAction = true;
-    },
+    }
 
     _getQuickApproveAction() {
       if (this._hideQuickApproveAction) {
@@ -798,7 +813,7 @@
       review.labels[approval.label] = approval.score;
       action.payload = review;
       return action;
-    },
+    }
 
     _getActionValues(actionsChangeRecord, primariesChangeRecord,
         additionalActionsChangeRecord, type) {
@@ -843,7 +858,7 @@
         return Object.assign({}, a);
       });
       return result.concat(additionalActions).concat(pluginActions);
-    },
+    }
 
     _populateActionUrl(action) {
       const patchNum =
@@ -851,7 +866,7 @@
       this.$.restAPI.getChangeActionURL(
           this.changeNum, patchNum, '/' + action.__key)
           .then(url => action.__url = url);
-    },
+    }
 
     /**
      * Given a change action, return a display label that uses the appropriate
@@ -867,7 +882,7 @@
       }
       // Otherwise, just map the name to sentence case.
       return this._toSentenceCase(action.label);
-    },
+    }
 
     /**
      * Capitalize the first letter and lowecase all others.
@@ -877,16 +892,16 @@
     _toSentenceCase(s) {
       if (!s.length) { return ''; }
       return s[0].toUpperCase() + s.slice(1).toLowerCase();
-    },
+    }
 
     _computeLoadingLabel(action) {
       return ActionLoadingLabels[action] || 'Working...';
-    },
+    }
 
     _canSubmitChange() {
       return this.$.jsAPI.canSubmitChange(this.change,
           this._getRevision(this.change, this.latestPatchNum));
-    },
+    }
 
     _getRevision(change, patchNum) {
       for (const rev of Object.values(change.revisions)) {
@@ -895,24 +910,24 @@
         }
       }
       return null;
-    },
+    }
 
     _modifyRevertMsg() {
       return this.$.jsAPI.modifyRevertMsg(this.change,
           this.$.confirmRevertDialog.message, this.commitMessage);
-    },
+    }
 
     showRevertDialog() {
       this.$.confirmRevertDialog.populateRevertMessage(
           this.commitMessage, this.change.current_revision);
       this.$.confirmRevertDialog.message = this._modifyRevertMsg();
       this._showActionDialog(this.$.confirmRevertDialog);
-    },
+    }
 
     _modifyRevertSubmissionMsg() {
       return this.$.jsAPI.modifyRevertSubmissionMsg(this.change,
           this.$.confirmRevertSubmissionDialog.message, this.commitMessage);
-    },
+    }
 
     showRevertSubmissionDialog() {
       this.$.confirmRevertSubmissionDialog.populateRevertSubmissionMessage(
@@ -920,7 +935,7 @@
       this.$.confirmRevertSubmissionDialog.message =
           this._modifyRevertSubmissionMsg();
       this._showActionDialog(this.$.confirmRevertSubmissionDialog);
-    },
+    }
 
     _handleActionTap(e) {
       e.preventDefault();
@@ -938,7 +953,7 @@
       }
       const type = el.getAttribute('data-action-type');
       this._handleAction(type, key);
-    },
+    }
 
     _handleOveflowItemTap(e) {
       e.preventDefault();
@@ -950,7 +965,7 @@
         return;
       }
       this._handleAction(e.detail.action.__type, e.detail.action.__key);
-    },
+    }
 
     _handleAction(type, key) {
       this.$.reporting.reportInteraction(`${type}-${key}`);
@@ -964,7 +979,7 @@
         default:
           this._fireAction(this._prependSlash(key), this.actions[key], false);
       }
-    },
+    }
 
     _handleChangeAction(key) {
       let action;
@@ -1015,7 +1030,7 @@
         default:
           this._fireAction(this._prependSlash(key), this.actions[key], false);
       }
-    },
+    }
 
     _handleRevisionAction(key) {
       switch (key) {
@@ -1037,11 +1052,11 @@
           this._fireAction(this._prependSlash(key),
               this.revisionActions[key], true);
       }
-    },
+    }
 
     _prependSlash(key) {
       return key === '/' ? key : `/${key}`;
-    },
+    }
 
     /**
      * _hasKnownChainState set to true true if hasParent is defined (can be
@@ -1049,25 +1064,25 @@
      */
     _computeChainState(hasParent) {
       this._hasKnownChainState = true;
-    },
+    }
 
     _calculateDisabled(action, hasKnownChainState) {
       if (action.__key === 'rebase' && hasKnownChainState === false) {
         return true;
       }
       return !action.enabled;
-    },
+    }
 
     _handleConfirmDialogCancel() {
       this._hideAllDialogs();
-    },
+    }
 
     _hideAllDialogs() {
       const dialogEls =
           Polymer.dom(this.root).querySelectorAll('.confirmDialog');
       for (const dialogEl of dialogEls) { dialogEl.hidden = true; }
       this.$.overlay.close();
-    },
+    }
 
     _handleRebaseConfirm(e) {
       const el = this.$.confirmRebase;
@@ -1075,15 +1090,15 @@
       this.$.overlay.close();
       el.hidden = true;
       this._fireAction('/rebase', this.revisionActions.rebase, true, payload);
-    },
+    }
 
     _handleCherrypickConfirm() {
       this._handleCherryPickRestApi(false);
-    },
+    }
 
     _handleCherrypickConflictConfirm() {
       this._handleCherryPickRestApi(true);
-    },
+    }
 
     _handleCherryPickRestApi(conflicts) {
       const el = this.$.confirmCherrypick;
@@ -1108,7 +1123,7 @@
             allow_conflicts: conflicts,
           }
       );
-    },
+    }
 
     _handleMoveConfirm() {
       const el = this.$.confirmMove;
@@ -1127,7 +1142,7 @@
             message: el.message,
           }
       );
-    },
+    }
 
     _handleRevertDialogConfirm() {
       const el = this.$.confirmRevertDialog;
@@ -1135,7 +1150,7 @@
       el.hidden = true;
       this._fireAction('/revert', this.actions.revert, false,
           {message: el.message});
-    },
+    }
 
     _handleRevertSubmissionDialogConfirm() {
       const el = this.$.confirmRevertSubmissionDialog;
@@ -1143,7 +1158,7 @@
       el.hidden = true;
       this._fireAction('/revert_submission', this.actions.revert_submission,
           false, {message: el.message});
-    },
+    }
 
     _handleAbandonDialogConfirm() {
       const el = this.$.confirmAbandonDialog;
@@ -1151,38 +1166,38 @@
       el.hidden = true;
       this._fireAction('/abandon', this.actions.abandon, false,
           {message: el.message});
-    },
+    }
 
     _handleCreateFollowUpChange() {
       this.$.createFollowUpChange.handleCreateChange();
       this._handleCloseCreateFollowUpChange();
-    },
+    }
 
     _handleCloseCreateFollowUpChange() {
       this.$.overlay.close();
-    },
+    }
 
     _handleDeleteConfirm() {
       this._fireAction('/', this.actions[ChangeActions.DELETE], false);
-    },
+    }
 
     _handleDeleteEditConfirm() {
       this._hideAllDialogs();
 
       this._fireAction('/edit', this.actions.deleteEdit, false);
-    },
+    }
 
     _handleSubmitConfirm() {
       if (!this._canSubmitChange()) { return; }
       this._hideAllDialogs();
       this._fireAction('/submit', this.revisionActions.submit, true);
-    },
+    }
 
     _getActionOverflowIndex(type, key) {
       return this._overflowActions.findIndex(action => {
         return action.type === type && action.key === key;
       });
-    },
+    }
 
     _setLoadingOnButtonWithKey(type, key) {
       this._actionLoadingMessage = this._computeLoadingLabel(key);
@@ -1205,7 +1220,7 @@
         buttonEl.removeAttribute('loading');
         buttonEl.disabled = false;
       }.bind(this);
-    },
+    }
 
     /**
      * @param {string} endpoint
@@ -1219,7 +1234,7 @@
 
       this._send(action.method, opt_payload, endpoint, revAction, cleanupFn,
           action).then(this._handleResponse.bind(this, action));
-    },
+    }
 
     _showActionDialog(dialog) {
       this._hideAllDialogs();
@@ -1230,7 +1245,7 @@
           dialog.resetFocus();
         }
       });
-    },
+    }
 
     // TODO(rmistry): Redo this after
     // https://bugs.chromium.org/p/gerrit/issues/detail?id=4671 is resolved.
@@ -1238,7 +1253,7 @@
       const labels = this.$.jsAPI.getLabelValuesPostRevert(this.change);
       if (!labels) { return Promise.resolve(); }
       return this.$.restAPI.saveChangeReview(newChangeId, 'current', {labels});
-    },
+    }
 
     _handleResponse(action, response) {
       if (!response) { return; }
@@ -1273,7 +1288,7 @@
             break;
         }
       });
-    },
+    }
 
     _handleResponseError(action, response, body) {
       if (action && action.__key === RevisionActions.CHERRYPICK) {
@@ -1290,7 +1305,7 @@
           throw Error(errText);
         }
       });
-    },
+    }
 
     /**
      * @param {string} method
@@ -1333,58 +1348,58 @@
                   return response;
                 });
           });
-    },
+    }
 
     _handleAbandonTap() {
       this._showActionDialog(this.$.confirmAbandonDialog);
-    },
+    }
 
     _handleCherrypickTap() {
       this.$.confirmCherrypick.branch = '';
       this._showActionDialog(this.$.confirmCherrypick);
-    },
+    }
 
     _handleMoveTap() {
       this.$.confirmMove.branch = '';
       this.$.confirmMove.message = '';
       this._showActionDialog(this.$.confirmMove);
-    },
+    }
 
     _handleDownloadTap() {
       this.fire('download-tap', null, {bubbles: false});
-    },
+    }
 
     _handleDeleteTap() {
       this._showActionDialog(this.$.confirmDeleteDialog);
-    },
+    }
 
     _handleDeleteEditTap() {
       this._showActionDialog(this.$.confirmDeleteEditDialog);
-    },
+    }
 
     _handleFollowUpTap() {
       this._showActionDialog(this.$.createFollowUpDialog);
-    },
+    }
 
     _handleWipTap() {
       this._fireAction('/wip', this.actions.wip, false);
-    },
+    }
 
     _handlePublishEditTap() {
       this._fireAction('/edit:publish', this.actions.publishEdit, false);
-    },
+    }
 
     _handleRebaseEditTap() {
       this._fireAction('/edit:rebase', this.actions.rebaseEdit, false);
-    },
+    }
 
     _handleHideBackgroundContent() {
       this.$.mainContent.classList.add('overlayOpen');
-    },
+    }
 
     _handleShowBackgroundContent() {
       this.$.mainContent.classList.remove('overlayOpen');
-    },
+    }
 
     /**
      * Merge sources of change actions into a single ordered array of action
@@ -1427,7 +1442,7 @@
             }
             return action;
           });
-    },
+    }
 
     _getActionPriority(action) {
       if (action.__type && action.__key) {
@@ -1449,7 +1464,7 @@
         return ActionPriority.REVISION;
       }
       return ActionPriority.DEFAULT;
-    },
+    }
 
     /**
      * Sort comparator to define the order of change actions.
@@ -1463,7 +1478,7 @@
       } else {
         return priorityDelta;
       }
-    },
+    }
 
     _computeTopLevelActions(actionRecord, hiddenActionsRecord) {
       const hiddenActions = hiddenActionsRecord.base || [];
@@ -1471,14 +1486,14 @@
         const overflow = this._getActionOverflowIndex(a.__type, a.__key) !== -1;
         return !(overflow || hiddenActions.includes(a.__key));
       });
-    },
+    }
 
     _filterPrimaryActions(_topLevelActions) {
       this._topLevelPrimaryActions = _topLevelActions.filter(action =>
         action.__primary);
       this._topLevelSecondaryActions = _topLevelActions.filter(action =>
         !action.__primary);
-    },
+    }
 
     _computeMenuActions(actionRecord, hiddenActionsRecord) {
       const hiddenActions = hiddenActionsRecord.base || [];
@@ -1495,7 +1510,7 @@
           tooltip: action.title,
         };
       });
-    },
+    }
 
     /**
      * Occasionally, a change created by a change action is not yet knwon to the
@@ -1529,22 +1544,24 @@
         };
         check();
       });
-    },
+    }
 
     _handleEditTap() {
       this.dispatchEvent(new CustomEvent('edit-tap', {bubbles: false}));
-    },
+    }
 
     _handleStopEditTap() {
       this.dispatchEvent(new CustomEvent('stop-edit-tap', {bubbles: false}));
-    },
+    }
 
     _computeHasTooltip(title) {
       return !!title;
-    },
+    }
 
     _computeHasIcon(action) {
       return action.icon ? '' : 'hidden';
-    },
-  });
+    }
+  }
+
+  customElements.define(GrChangeActions.is, GrChangeActions);
 })();

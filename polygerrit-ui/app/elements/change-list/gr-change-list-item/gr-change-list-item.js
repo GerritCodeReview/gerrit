@@ -24,57 +24,67 @@
     LARGE: 1000,
   };
 
-  Polymer({
-    is: 'gr-change-list-item',
+  /**
+    * @appliesMixin Gerrit.BaseUrlMixin
+    * @appliesMixin Gerrit.ChangeTableMixin
+    * @appliesMixin Gerrit.PathListMixin
+    * @appliesMixin Gerrit.RESTClientMixin
+    * @appliesMixin Gerrit.URLEncodingMixin
+    */
+  class GrChangeListItem extends Polymer.mixinBehaviors( [
+    Gerrit.BaseUrlBehavior,
+    Gerrit.ChangeTableBehavior,
+    Gerrit.PathListBehavior,
+    Gerrit.RESTClientBehavior,
+    Gerrit.URLEncodingBehavior,
+  ], Polymer.GestureEventListeners(
+      Polymer.LegacyElementMixin(
+          Polymer.Element))) {
+    static get is() { return 'gr-change-list-item'; }
 
-    properties: {
-      visibleChangeTableColumns: Array,
-      labelNames: {
-        type: Array,
-      },
+    static get properties() {
+      return {
+        visibleChangeTableColumns: Array,
+        labelNames: {
+          type: Array,
+        },
 
-      /** @type {?} */
-      change: Object,
-      changeURL: {
-        type: String,
-        computed: '_computeChangeURL(change)',
-      },
-      statuses: {
-        type: Array,
-        computed: 'changeStatuses(change)',
-      },
-      showStar: {
-        type: Boolean,
-        value: false,
-      },
-      showNumber: Boolean,
-      _changeSize: {
-        type: String,
-        computed: '_computeChangeSize(change)',
-      },
-      _dynamicCellEndpoints: {
-        type: Array,
-      },
-    },
-
-    behaviors: [
-      Gerrit.BaseUrlBehavior,
-      Gerrit.ChangeTableBehavior,
-      Gerrit.PathListBehavior,
-      Gerrit.RESTClientBehavior,
-      Gerrit.URLEncodingBehavior,
-    ],
+        /** @type {?} */
+        change: Object,
+        changeURL: {
+          type: String,
+          computed: '_computeChangeURL(change)',
+        },
+        statuses: {
+          type: Array,
+          computed: 'changeStatuses(change)',
+        },
+        showStar: {
+          type: Boolean,
+          value: false,
+        },
+        showNumber: Boolean,
+        _changeSize: {
+          type: String,
+          computed: '_computeChangeSize(change)',
+        },
+        _dynamicCellEndpoints: {
+          type: Array,
+        },
+      };
+    }
 
     attached() {
+      super.attached();
       Gerrit.awaitPluginsLoaded().then(() => {
         this._dynamicCellEndpoints = Gerrit._endpoints.getDynamicEndpoints(
             'change-list-item-cell');
       });
-    },
+    }
 
     _computeChangeURL(change) {
       return Gerrit.Nav.getUrlForChange(change);
-    },
+    }
 
     _computeLabelTitle(change, labelName) {
       const label = change.labels[labelName];
@@ -85,7 +95,7 @@
         return labelName + '\nby ' + significantLabel.name;
       }
       return labelName;
-    },
+    }
 
     _computeLabelClass(change, labelName) {
       const label = change.labels[labelName];
@@ -112,7 +122,7 @@
         classes['u-gray-background'] = true;
       }
       return Object.keys(classes).sort().join(' ');
-    },
+    }
 
     _computeLabelValue(change, labelName) {
       const label = change.labels[labelName];
@@ -130,22 +140,22 @@
         return label.value;
       }
       return '';
-    },
+    }
 
     _computeRepoUrl(change) {
       return Gerrit.Nav.getUrlForProjectChanges(change.project, true,
           change.internalHost);
-    },
+    }
 
     _computeRepoBranchURL(change) {
       return Gerrit.Nav.getUrlForBranch(change.branch, change.project, null,
           change.internalHost);
-    },
+    }
 
     _computeTopicURL(change) {
       if (!change.topic) { return ''; }
       return Gerrit.Nav.getUrlForTopic(change.topic, change.internalHost);
-    },
+    }
 
     /**
      * Computes the display string for the project column. If there is a host
@@ -162,7 +172,7 @@
       if (change.internalHost) { str += change.internalHost + '/'; }
       str += truncate ? this.truncatePath(change.project, 2) : change.project;
       return str;
-    },
+    }
 
     _computeSizeTooltip(change) {
       if (change.insertions + change.deletions === 0 ||
@@ -171,7 +181,7 @@
       } else {
         return `+${change.insertions}, -${change.deletions}`;
       }
-    },
+    }
 
     /**
      * TShirt sizing is based on the following paper:
@@ -193,7 +203,7 @@
       } else {
         return 'XL';
       }
-    },
+    }
 
     toggleReviewed() {
       const newVal = !this.change.reviewed;
@@ -203,6 +213,8 @@
         composed: true,
         detail: {change: this.change, reviewed: newVal},
       }));
-    },
-  });
+    }
+  }
+
+  customElements.define(GrChangeListItem.is, GrChangeListItem);
 })();

@@ -17,17 +17,21 @@
 (function() {
   'use strict';
 
-  Polymer({
-    is: 'gr-label-info',
+  class GrLabelInfo extends Polymer.GestureEventListeners(
+      Polymer.LegacyElementMixin(
+          Polymer.Element)) {
+    static get is() { return 'gr-label-info'; }
 
-    properties: {
-      labelInfo: Object,
-      label: String,
-      /** @type {?} */
-      change: Object,
-      account: Object,
-      mutable: Boolean,
-    },
+    static get properties() {
+      return {
+        labelInfo: Object,
+        label: String,
+        /** @type {?} */
+        change: Object,
+        account: Object,
+        mutable: Boolean,
+      };
+    }
 
     /**
      * @param {!Object} labelInfo
@@ -85,7 +89,7 @@
         }
       }
       return result;
-    },
+    }
 
     /**
      * A user is able to delete a vote iff the mutable property is true and the
@@ -106,7 +110,7 @@
         return '';
       }
       return 'hidden';
-    },
+    }
 
     /**
      * Closure annotation for Polymer.prototype.splice is off.
@@ -133,14 +137,14 @@
                 target.disabled = false;
                 return;
               });
-    },
+    }
 
     _computeValueTooltip(labelInfo, score) {
       if (!labelInfo || !labelInfo.values || !labelInfo.values[score]) {
         return '';
       }
       return labelInfo.values[score];
-    },
+    }
 
     /**
      * @param {!Object} labelInfo
@@ -156,6 +160,8 @@
         }
       }
       return '';
-    },
-  });
+    }
+  }
+
+  customElements.define(GrLabelInfo.is, GrLabelInfo);
 })();

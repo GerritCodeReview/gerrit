@@ -37,26 +37,34 @@
     REPLY_DIALOG: 'replydialog',
   };
 
-  Polymer({
-    is: 'gr-js-api-interface',
+  /**
+    * @appliesMixin Gerrit.PatchSetMixin
+    */
+  class GrJsApiInterface extends Polymer.mixinBehaviors( [
+    Gerrit.PatchSetBehavior,
+  ], Polymer.GestureEventListeners(
+      Polymer.LegacyElementMixin(
+          Polymer.Element))) {
+    static get is() { return 'gr-js-api-interface'; }
 
-    properties: {
-      _elements: {
-        type: Object,
-        value: {}, // Shared across all instances.
-      },
-      _eventCallbacks: {
-        type: Object,
-        value: {}, // Shared across all instances.
-      },
-    },
+    constructor() {
+      super();
+      this.Element = Element;
+      this.EventType = EventType;
+    }
 
-    behaviors: [
-      Gerrit.PatchSetBehavior,
-    ],
-
-    Element,
-    EventType,
+    static get properties() {
+      return {
+        _elements: {
+          type: Object,
+          value: {}, // Shared across all instances.
+        },
+        _eventCallbacks: {
+          type: Object,
+          value: {}, // Shared across all instances.
+        },
+      };
+    }
 
     handleEvent(type, detail) {
       Gerrit.awaitPluginsLoaded().then(() => {
@@ -82,22 +90,22 @@
             break;
         }
       });
-    },
+    }
 
     addElement(key, el) {
       this._elements[key] = el;
-    },
+    }
 
     getElement(key) {
       return this._elements[key];
-    },
+    }
 
     addEventCallback(eventName, callback) {
       if (!this._eventCallbacks[eventName]) {
         this._eventCallbacks[eventName] = [];
       }
       this._eventCallbacks[eventName].push(callback);
-    },
+    }
 
     canSubmitChange(change, revision) {
       const submitCallbacks = this._getEventCallbacks(EventType.SUBMIT_CHANGE);
@@ -111,14 +119,14 @@
       });
 
       return !cancelSubmit;
-    },
+    }
 
     _removeEventCallbacks() {
       for (const k in EventType) {
         if (!EventType.hasOwnProperty(k)) { continue; }
         this._eventCallbacks[EventType[k]] = [];
       }
-    },
+    }
 
     _handleHistory(detail) {
       for (const cb of this._getEventCallbacks(EventType.HISTORY)) {
@@ -128,7 +136,7 @@
           console.error(err);
         }
       }
-    },
+    }
 
     _handleShowChange(detail) {
       // Note (issue 8221) Shallow clone the change object and add a mergeable
@@ -163,7 +171,7 @@
           console.error(err);
         }
       }
-    },
+    }
 
     handleCommitMessage(change, msg) {
       for (const cb of this._getEventCallbacks(EventType.COMMIT_MSG_EDIT)) {
@@ -173,7 +181,7 @@
           console.error(err);
         }
       }
-    },
+    }
 
     _handleComment(detail) {
       for (const cb of this._getEventCallbacks(EventType.COMMENT)) {
@@ -183,7 +191,7 @@
           console.error(err);
         }
       }
-    },
+    }
 
     _handleLabelChange(detail) {
       for (const cb of this._getEventCallbacks(EventType.LABEL_CHANGE)) {
@@ -193,7 +201,7 @@
           console.error(err);
         }
       }
-    },
+    }
 
     _handleHighlightjsLoaded(detail) {
       for (const cb of this._getEventCallbacks(EventType.HIGHLIGHTJS_LOADED)) {
@@ -203,7 +211,7 @@
           console.error(err);
         }
       }
-    },
+    }
 
     modifyRevertMsg(change, revertMsg, origMsg) {
       for (const cb of this._getEventCallbacks(EventType.REVERT)) {
@@ -214,7 +222,7 @@
         }
       }
       return revertMsg;
-    },
+    }
 
     modifyRevertSubmissionMsg(change, revertSubmissionMsg, origMsg) {
       for (const cb of this._getEventCallbacks(EventType.REVERT_SUBMISSION)) {
@@ -225,7 +233,7 @@
         }
       }
       return revertSubmissionMsg;
-    },
+    }
 
     getDiffLayers(path, changeNum, patchNum) {
       const layers = [];
@@ -239,7 +247,7 @@
         }
       }
       return layers;
-    },
+    }
 
     /**
      * Retrieves coverage data possibly provided by a plugin.
@@ -267,7 +275,7 @@
         }
         return [];
       });
-    },
+    }
 
     getAdminMenuLinks() {
       const links = [];
@@ -276,7 +284,7 @@
         links.push(...adminApi.getMenuLinks());
       }
       return links;
-    },
+    }
 
     getLabelValuesPostRevert(change) {
       let labels = {};
@@ -288,10 +296,12 @@
         }
       }
       return labels;
-    },
+    }
 
     _getEventCallbacks(type) {
       return this._eventCallbacks[type] || [];
-    },
-  });
+    }
+  }
+
+  customElements.define(GrJsApiInterface.is, GrJsApiInterface);
 })();

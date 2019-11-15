@@ -17,9 +17,10 @@
 (function() {
   'use strict';
 
-  Polymer({
-    is: 'gr-confirm-submit-dialog',
-
+  class GrConfirmSubmitDialog extends Polymer.GestureEventListeners(
+      Polymer.LegacyElementMixin(
+          Polymer.Element)) {
+    static get is() { return 'gr-confirm-submit-dialog'; }
     /**
      * Fired when the confirm button is pressed.
      *
@@ -32,37 +33,41 @@
      * @event cancel
      */
 
-    properties: {
+    static get properties() {
+      return {
       /**
        * @type {{
        *    is_private: boolean,
        *    subject: string,
        *  }}
        */
-      change: Object,
+        change: Object,
 
-      /**
+        /**
        * @type {{
        *    label: string,
        *  }}
        */
-      action: Object,
-    },
+        action: Object,
+      };
+    }
 
     resetFocus(e) {
       this.$.dialog.resetFocus();
-    },
+    }
 
     _handleConfirmTap(e) {
       e.preventDefault();
       e.stopPropagation();
       this.dispatchEvent(new CustomEvent('confirm', {bubbles: false}));
-    },
+    }
 
     _handleCancelTap(e) {
       e.preventDefault();
       e.stopPropagation();
       this.dispatchEvent(new CustomEvent('cancel', {bubbles: false}));
-    },
-  });
+    }
+  }
+
+  customElements.define(GrConfirmSubmitDialog.is, GrConfirmSubmitDialog);
 })();

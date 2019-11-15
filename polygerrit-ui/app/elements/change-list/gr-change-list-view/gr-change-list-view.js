@@ -29,44 +29,49 @@
 
   const LIMIT_OPERATOR_PATTERN = /\blimit:(\d+)/i;
 
-  Polymer({
-    is: 'gr-change-list-view',
-
+  /**
+    * @appliesMixin Gerrit.BaseUrlMixin
+    * @appliesMixin Gerrit.FireMixin
+    * @appliesMixin Gerrit.URLEncodingMixin
+    */
+  class GrChangeListView extends Polymer.mixinBehaviors( [
+    Gerrit.BaseUrlBehavior,
+    Gerrit.FireBehavior,
+    Gerrit.URLEncodingBehavior,
+  ], Polymer.GestureEventListeners(
+      Polymer.LegacyElementMixin(
+          Polymer.Element))) {
+    static get is() { return 'gr-change-list-view'; }
     /**
      * Fired when the title of the page should change.
      *
      * @event title-change
      */
 
-    behaviors: [
-      Gerrit.BaseUrlBehavior,
-      Gerrit.FireBehavior,
-      Gerrit.URLEncodingBehavior,
-    ],
-
-    properties: {
+    static get properties() {
+      return {
       /**
        * URL params passed from the router.
        */
-      params: {
-        type: Object,
-        observer: '_paramsChanged',
-      },
+        params: {
+          type: Object,
+          observer: '_paramsChanged',
+        },
 
-      /**
+        /**
        * True when user is logged in.
        */
-      _loggedIn: {
-        type: Boolean,
-        computed: '_computeLoggedIn(account)',
-      },
+        _loggedIn: {
+          type: Boolean,
+          computed: '_computeLoggedIn(account)',
+        },
 
-      account: {
-        type: Object,
-        value: null,
-      },
+        account: {
+          type: Object,
+          value: null,
+        },
 
-      /**
+        /**
        * State persisted across restamps of the element.
        *
        * Need sub-property declaration since it is used in template before
@@ -74,66 +79,71 @@
        * @type {{ selectedChangeIndex: (number|undefined) }}
        *
        */
-      viewState: {
-        type: Object,
-        notify: true,
-        value() { return {}; },
-      },
+        viewState: {
+          type: Object,
+          notify: true,
+          value() { return {}; },
+        },
 
-      preferences: Object,
+        preferences: Object,
 
-      _changesPerPage: Number,
+        _changesPerPage: Number,
 
-      /**
+        /**
        * Currently active query.
        */
-      _query: {
-        type: String,
-        value: '',
-      },
+        _query: {
+          type: String,
+          value: '',
+        },
 
-      /**
+        /**
        * Offset of currently visible query results.
        */
-      _offset: Number,
+        _offset: Number,
 
-      /**
+        /**
        * Change objects loaded from the server.
        */
-      _changes: {
-        type: Array,
-        observer: '_changesChanged',
-      },
+        _changes: {
+          type: Array,
+          observer: '_changesChanged',
+        },
 
-      /**
+        /**
        * For showing a "loading..." string during ajax requests.
        */
-      _loading: {
-        type: Boolean,
-        value: true,
-      },
+        _loading: {
+          type: Boolean,
+          value: true,
+        },
 
-      /** @type {?String} */
-      _userId: {
-        type: String,
-        value: null,
-      },
+        /** @type {?String} */
+        _userId: {
+          type: String,
+          value: null,
+        },
 
-      /** @type {?String} */
-      _repo: {
-        type: String,
-        value: null,
-      },
-    },
+        /** @type {?String} */
+        _repo: {
+          type: String,
+          value: null,
+        },
+      };
+    }
 
-    listeners: {
-      'next-page': '_handleNextPage',
-      'previous-page': '_handlePreviousPage',
-    },
+    created() {
+      super.created();
+      this.addEventListener('next-page',
+          () => this._handleNextPage());
+      this.addEventListener('previous-page',
+          () => this._handlePreviousPage());
+    }
 
     attached() {
+      super.attached();
       this._loadPreferences();
-    },
+    }
 
     _paramsChanged(value) {
       if (value.view !== Gerrit.Nav.View.SEARCH) { return; }
@@ -170,7 +180,7 @@
         this._changes = changes;
         this._loading = false;
       });
-    },
+    }
 
     _loadPreferences() {
       return this.$.restAPI.getLoggedIn().then(loggedIn => {
@@ -182,20 +192,20 @@
           this.preferences = {};
         }
       });
-    },
+    }
 
     _replaceCurrentLocation(url) {
       window.location.replace(url);
-    },
+    }
 
     _getChanges() {
       return this.$.restAPI.getChanges(this._changesPerPage, this._query,
           this._offset);
-    },
+    }
 
     _getPreferences() {
       return this.$.restAPI.getPreferences();
-    },
+    }
 
     _limitFor(query, defaultLimit) {
       const match = query.match(LIMIT_OPERATOR_PATTERN);
@@ -203,7 +213,7 @@
         return defaultLimit;
       }
       return parseInt(match[1], 10);
-    },
+    }
 
     _computeNavLink(query, offset, direction, changesPerPage) {
       // Offset could be a string when passed from the router.
@@ -211,32 +221,32 @@
       const limit = this._limitFor(query, changesPerPage);
       const newOffset = Math.max(0, offset + (limit * direction));
       return Gerrit.Nav.getUrlForSearchQuery(query, newOffset);
-    },
+    }
 
     _computePrevArrowClass(offset) {
       return offset === 0 ? 'hide' : '';
-    },
+    }
 
     _computeNextArrowClass(changes) {
       const more = changes.length && changes[changes.length - 1]._more_changes;
       return more ? '' : 'hide';
-    },
+    }
 
     _computeNavClass(loading) {
       return loading || !this._changes || !this._changes.length ? 'hide' : '';
-    },
+    }
 
     _handleNextPage() {
       if (this.$.nextArrow.hidden) { return; }
       page.show(this._computeNavLink(
           this._query, this._offset, 1, this._changesPerPage));
-    },
+    }
 
     _handlePreviousPage() {
       if (this.$.prevArrow.hidden) { return; }
       page.show(this._computeNavLink(
           this._query, this._offset, -1, this._changesPerPage));
-    },
+    }
 
     _changesChanged(changes) {
       this._userId = null;
@@ -255,28 +265,30 @@
       if (REPO_QUERY_PATTERN.test(this._query)) {
         this._repo = changes[0].project;
       }
-    },
+    }
 
     _computeHeaderClass(id) {
       return id ? '' : 'hide';
-    },
+    }
 
     _computePage(offset, changesPerPage) {
       return offset / changesPerPage + 1;
-    },
+    }
 
     _computeLoggedIn(account) {
       return !!(account && Object.keys(account).length > 0);
-    },
+    }
 
     _handleToggleStar(e) {
       this.$.restAPI.saveChangeStarred(e.detail.change._number,
           e.detail.starred);
-    },
+    }
 
     _handleToggleReviewed(e) {
       this.$.restAPI.saveChangeReviewed(e.detail.change._number,
           e.detail.reviewed);
-    },
-  });
+    }
+  }
+
+  customElements.define(GrChangeListView.is, GrChangeListView);
 })();

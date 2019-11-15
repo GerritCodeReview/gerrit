@@ -17,57 +17,63 @@
 (function() {
   'use strict';
 
+  /**
+    * @appliesMixin Gerrit.TooltipMixin
+    */
   /*
    * The gr-limited-text element is for displaying text with a maximum length
    * (in number of characters) to display. If the length of the text exceeds the
    * configured limit, then an ellipsis indicates that the text was truncated
    * and a tooltip containing the full text is enabled.
    */
+  class GrLimitedText extends Polymer.mixinBehaviors( [
+    Gerrit.TooltipBehavior,
+  ], Polymer.GestureEventListeners(
+      Polymer.LegacyElementMixin(
+          Polymer.Element))) {
+    static get is() { return 'gr-limited-text'; }
 
-  Polymer({
-    is: 'gr-limited-text',
-
-    properties: {
+    static get properties() {
+      return {
       /** The un-truncated text to display. */
-      text: String,
+        text: String,
 
-      /** The maximum length for the text to display before truncating. */
-      limit: {
-        type: Number,
-        value: null,
-      },
+        /** The maximum length for the text to display before truncating. */
+        limit: {
+          type: Number,
+          value: null,
+        },
 
-      /** Boolean property used by Gerrit.TooltipBehavior. */
-      hasTooltip: {
-        type: Boolean,
-        value: false,
-      },
+        /** Boolean property used by Gerrit.TooltipBehavior. */
+        hasTooltip: {
+          type: Boolean,
+          value: false,
+        },
 
-      /**
+        /**
        * Disable the tooltip.
        * When set to true, will not show tooltip even text is over limit
        */
-      disableTooltip: {
-        type: Boolean,
-        value: false,
-      },
+        disableTooltip: {
+          type: Boolean,
+          value: false,
+        },
 
-      /**
+        /**
        * The maximum number of characters to display in the tooltop.
        */
-      tooltipLimit: {
-        type: Number,
-        value: 1024,
-      },
-    },
+        tooltipLimit: {
+          type: Number,
+          value: 1024,
+        },
+      };
+    }
 
-    observers: [
-      '_updateTitle(text, limit, tooltipLimit)',
-    ],
-
-    behaviors: [
-      Gerrit.TooltipBehavior,
-    ],
+    static get observers() {
+      return [
+        '_updateTitle(text, limit, tooltipLimit)',
+      ];
+    }
 
     /**
      * The text or limit have changed. Recompute whether a tooltip needs to be
@@ -85,13 +91,15 @@
       } else {
         this.removeAttribute('title');
       }
-    },
+    }
 
     _computeDisplayText(text, limit) {
       if (!!limit && !!text && text.length > limit) {
         return text.substr(0, limit - 1) + '…';
       }
       return text;
-    },
-  });
+    }
+  }
+
+  customElements.define(GrLimitedText.is, GrLimitedText);
 })();

@@ -17,31 +17,38 @@
 (function() {
   'use strict';
 
-  Polymer({
-    is: 'gr-selection-action-box',
-
+  /**
+    * @appliesMixin Gerrit.FireMixin
+    */
+  class GrSelectionActionBox extends Polymer.mixinBehaviors( [
+    Gerrit.FireBehavior,
+  ], Polymer.GestureEventListeners(
+      Polymer.LegacyElementMixin(
+          Polymer.Element))) {
+    static get is() { return 'gr-selection-action-box'; }
     /**
      * Fired when the comment creation action was taken (click).
      *
      * @event create-comment-requested
      */
 
-    properties: {
-      keyEventTarget: {
-        type: Object,
-        value() { return document.body; },
-      },
-      positionBelow: Boolean,
-    },
+    static get properties() {
+      return {
+        keyEventTarget: {
+          type: Object,
+          value() { return document.body; },
+        },
+        positionBelow: Boolean,
+      };
+    }
 
-    behaviors: [
-      Gerrit.FireBehavior,
-    ],
+    created() {
+      super.created();
 
-    listeners: {
       // See https://crbug.com/gerrit/4767
-      mousedown: '_handleMouseDown',
-    },
+      this.addEventListener('mousedown',
+          e => this._handleMouseDown(e));
+    }
 
     placeAbove(el) {
       Polymer.dom.flush();
@@ -52,7 +59,7 @@
           rect.top - parentRect.top - boxRect.height - 6 + 'px';
       this.style.left =
           rect.left - parentRect.left + (rect.width - boxRect.width) / 2 + 'px';
-    },
+    }
 
     placeBelow(el) {
       Polymer.dom.flush();
@@ -63,14 +70,14 @@
       rect.top - parentRect.top + boxRect.height - 6 + 'px';
       this.style.left =
       rect.left - parentRect.left + (rect.width - boxRect.width) / 2 + 'px';
-    },
+    }
 
     _getParentBoundingClientRect() {
       // With native shadow DOM, the parent is the shadow root, not the gr-diff
       // element
       const parent = this.parentElement || this.parentNode.host;
       return parent.getBoundingClientRect();
-    },
+    }
 
     _getTargetBoundingRect(el) {
       let rect;
@@ -83,13 +90,15 @@
         rect = el.getBoundingClientRect();
       }
       return rect;
-    },
+    }
 
     _handleMouseDown(e) {
       if (e.button !== 0) { return; } // 0 = main button
       e.preventDefault();
       e.stopPropagation();
       this.fire('create-comment-requested');
-    },
-  });
+    }
+  }
+
+  customElements.define(GrSelectionActionBox.is, GrSelectionActionBox);
 })();

@@ -25,82 +25,90 @@
    */
   const DIAGONAL_OVERFLOW = 15;
 
-  Polymer({
-    is: 'gr-hovercard',
+  class GrHovercard extends Polymer.GestureEventListeners(
+      Polymer.LegacyElementMixin(
+          Polymer.Element)) {
+    static get is() { return 'gr-hovercard'; }
 
-    properties: {
+    static get properties() {
+      return {
       /**
        * @type {?}
        */
-      _target: Object,
+        _target: Object,
 
-      /**
+        /**
        * Determines whether or not the hovercard is visible.
        *
        * @type {boolean}
        */
-      _isShowing: {
-        type: Boolean,
-        value: false,
-      },
-      /**
+        _isShowing: {
+          type: Boolean,
+          value: false,
+        },
+        /**
        * The `id` of the element that the hovercard is anchored to.
        *
        * @type {string}
        */
-      for: {
-        type: String,
-        observer: '_forChanged',
-      },
+        for: {
+          type: String,
+          observer: '_forChanged',
+        },
 
-      /**
+        /**
        * The spacing between the top of the hovercard and the element it is
        * anchored to.
        *
        * @type {number}
        */
-      offset: {
-        type: Number,
-        value: 14,
-      },
+        offset: {
+          type: Number,
+          value: 14,
+        },
 
-      /**
+        /**
        * Positions the hovercard to the top, right, bottom, left, bottom-left,
        * bottom-right, top-left, or top-right of its content.
        *
        * @type {string}
        */
-      position: {
-        type: String,
-        value: 'bottom',
-      },
+        position: {
+          type: String,
+          value: 'bottom',
+        },
 
-      container: Object,
-      /**
+        container: Object,
+        /**
        * ID for the container element.
        *
        * @type {string}
        */
-      containerId: {
-        type: String,
-        value: 'gr-hovercard-container',
-      },
-    },
-
-    listeners: {
-      mouseleave: 'hide',
-    },
+        containerId: {
+          type: String,
+          value: 'gr-hovercard-container',
+        },
+      };
+    }
 
     attached() {
+      super.attached();
       if (!this._target) { this._target = this.target; }
       this.listen(this._target, 'mouseenter', 'show');
       this.listen(this._target, 'focus', 'show');
       this.listen(this._target, 'mouseleave', 'hide');
       this.listen(this._target, 'blur', 'hide');
       this.listen(this._target, 'click', 'hide');
-    },
+    }
+
+    created() {
+      super.created();
+      this.addEventListener('mouseleave',
+          e => this.hide(e));
+    }
 
     ready() {
+      super.ready();
       // First, check to see if the container has already been created.
       this.container = Gerrit.getRootElement()
           .querySelector('#' + this.containerId);
@@ -111,7 +119,7 @@
       this.container = document.createElement('div');
       this.container.setAttribute('id', this.containerId);
       Gerrit.getRootElement().appendChild(this.container);
-    },
+    }
 
     removeListeners() {
       this.unlisten(this._target, 'mouseenter', 'show');
@@ -119,7 +127,7 @@
       this.unlisten(this._target, 'mouseleave', 'hide');
       this.unlisten(this._target, 'blur', 'hide');
       this.unlisten(this._target, 'click', 'hide');
-    },
+    }
 
     /**
      * Returns the target element that the hovercard is anchored to (the `id` of
@@ -140,7 +148,7 @@
           parentNode;
       }
       return target;
-    },
+    }
 
     /**
      * Hides/closes the hovercard. This occurs when the user triggers the
@@ -184,7 +192,7 @@
       if (this.container.contains(this)) {
         this.container.removeChild(this);
       }
-    },
+    }
 
     /**
      * Shows/opens the hovercard. This occurs when the user triggers the
@@ -207,7 +215,7 @@
 
       // Trigger the transition
       this.classList.add(HOVER_CLASS);
-    },
+    }
 
     /**
      * Updates the hovercard's position based on the `position` attribute
@@ -306,7 +314,7 @@
       // Set the hovercard's position
       cssText += `left:${hovercardLeft}px; top:${hovercardTop}px;`;
       this.style.cssText = cssText;
-    },
+    }
 
     /**
      * Responds to a change in the `for` value and gets the updated `target`
@@ -316,6 +324,8 @@
      */
     _forChanged() {
       this._target = this.target;
-    },
-  });
+    }
+  }
+
+  customElements.define(GrHovercard.is, GrHovercard);
 })();

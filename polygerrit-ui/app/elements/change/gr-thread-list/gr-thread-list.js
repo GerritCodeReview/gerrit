@@ -22,39 +22,42 @@
    *
    * @event thread-list-modified
    */
+  class GrThreadList extends Polymer.GestureEventListeners(
+      Polymer.LegacyElementMixin(
+          Polymer.Element)) {
+    static get is() { return 'gr-thread-list'; }
 
-  Polymer({
-    is: 'gr-thread-list',
-
-    properties: {
+    static get properties() {
+      return {
       /** @type {?} */
-      change: Object,
-      threads: Array,
-      changeNum: String,
-      loggedIn: Boolean,
-      _sortedThreads: {
-        type: Array,
-      },
-      _filteredThreads: {
-        type: Array,
-        computed: '_computeFilteredThreads(_sortedThreads, ' +
+        change: Object,
+        threads: Array,
+        changeNum: String,
+        loggedIn: Boolean,
+        _sortedThreads: {
+          type: Array,
+        },
+        _filteredThreads: {
+          type: Array,
+          computed: '_computeFilteredThreads(_sortedThreads, ' +
             '_unresolvedOnly, _draftsOnly)',
-      },
-      _unresolvedOnly: {
-        type: Boolean,
-        value: false,
-      },
-      _draftsOnly: {
-        type: Boolean,
-        value: false,
-      },
-    },
+        },
+        _unresolvedOnly: {
+          type: Boolean,
+          value: false,
+        },
+        _draftsOnly: {
+          type: Boolean,
+          value: false,
+        },
+      };
+    }
 
-    observers: ['_computeSortedThreads(threads.*)'],
+    static get observers() { return ['_computeSortedThreads(threads.*)']; }
 
     _computeShowDraftToggle(loggedIn) {
       return loggedIn ? 'show' : '';
-    },
+    }
 
     /**
      * Order as follows:
@@ -68,7 +71,7 @@
       const threads = changeRecord.base;
       if (!threads) { return []; }
       this._updateSortedThreads(threads);
-    },
+    }
 
     _updateSortedThreads(threads) {
       this._sortedThreads =
@@ -90,7 +93,7 @@
             }
             return dateCompare ? dateCompare : c1.id.localeCompare(c2.id);
           });
-    },
+    }
 
     _computeFilteredThreads(sortedThreads, unresolvedOnly, draftsOnly) {
       // Polymer 2: check for undefined
@@ -125,7 +128,7 @@
           return c;
         }
       }).map(threadInfo => threadInfo.thread);
-    },
+    }
 
     _getThreadWithSortInfo(thread) {
       const lastComment = thread.comments[thread.comments.length - 1] || {};
@@ -143,7 +146,7 @@
         hasDraft: !!lastComment.__draft,
         updated: lastComment.updated,
       };
-    },
+    }
 
     removeThread(rootId) {
       for (let i = 0; i < this.threads.length; i++) {
@@ -154,11 +157,11 @@
           return;
         }
       }
-    },
+    }
 
     _handleThreadDiscard(e) {
       this.removeThread(e.detail.rootId);
-    },
+    }
 
     _handleCommentsChanged(e) {
       // Reset threads so thread computations occur on deep array changes to
@@ -167,10 +170,12 @@
 
       this.dispatchEvent(new CustomEvent('thread-list-modified',
           {detail: {rootId: e.detail.rootId, path: e.detail.path}}));
-    },
+    }
 
     _isOnParent(side) {
       return !!side;
-    },
-  });
+    }
+  }
+
+  customElements.define(GrThreadList.is, GrThreadList);
 })();

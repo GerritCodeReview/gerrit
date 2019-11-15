@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a9cf68b5_d4aa8497",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 2515,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-11-15T07:10:59Z",
+      "side": 1,
+      "message": "Are the quotes around the submissionId needed?",
+      "range": {
+        "startLine": 2515,
+        "startChar": 33,
+        "endLine": 2515,
+        "endChar": 57
+      },
+      "revId": "542a7103642ffc0de5321039139bac484571e9f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4ef87e66_8f1c7670",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 2516,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-11-15T07:10:59Z",
+      "side": 1,
+      "message": "Maybe just inline the query here.",
+      "range": {
+        "startLine": 2516,
+        "startChar": 21,
+        "endLine": 2516,
+        "endChar": 26
+      },
+      "revId": "542a7103642ffc0de5321039139bac484571e9f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e4cb6d7a_44cd837e",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-11-15T07:10:59Z",
+      "side": 1,
+      "message": "nit: keep this list sorted alphabetically",
+      "revId": "542a7103642ffc0de5321039139bac484571e9f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

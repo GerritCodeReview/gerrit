@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dce1ba08_d8039ad4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-11-15T22:55:13Z",
+      "side": 1,
+      "message": "this will work for p1, but won\u0027t work for polymer 2 :( as `querySelectorAll` can not pierce through the shadow DOM.\n\nI am thinking of providing a communication channel between plugin and Gerrit main:\n\n```\n// emitter from plugin\nplugin.emit(EVENT_NAME, ...args);\n\n// and then listener from Gerrit\nGerrit.on(PLUGIN_PREFIX + EVENT_NAME, (...args) \u003d\u003e {\n});\n```\n\nBut that will be a new API introduced to plugin, I will need to discuss with Ben on how we move forward with that.",
+      "revId": "0da07f223468e2672c50861671ed451642c2d9ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

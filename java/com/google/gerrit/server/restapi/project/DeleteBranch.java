@@ -17,6 +17,7 @@ package com.google.gerrit.server.restapi.project;
 import static com.google.gerrit.entities.RefNames.isConfigRef;
 import static org.eclipse.jgit.lib.Constants.R_HEADS;
 
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -46,7 +47,9 @@ public class DeleteBranch implements RestModifyView<BranchResource, Input> {
   @Override
   public Response<?> apply(BranchResource rsrc, Input input)
       throws RestApiException, IOException, PermissionBackendException {
-    if (isConfigRef(rsrc.getBranchKey().branch())) {
+    if (RefNames.HEAD.equals(rsrc.getBranchKey().branch())) {
+      throw new MethodNotAllowedException("not allowed to delete HEAD");
+    } else if (isConfigRef(rsrc.getBranchKey().branch())) {
       // Never allow to delete the meta config branch.
       throw new MethodNotAllowedException(
           "not allowed to delete branch " + rsrc.getBranchKey().branch());

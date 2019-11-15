@@ -266,6 +266,30 @@
       "revId": "0a1045db4b6433774a7c65496aed3e65f555e854",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "848a5011_917a36ee",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-11-15T22:02:18Z",
+      "side": 1,
+      "message": "ya i found its pretty annoying as well, to have the variables repeated in the template. But ya, its what the code base is having right now. We definitely can revisit this during the class migration and ts.",
+      "parentUuid": "91e4988e_1e2674ad",
+      "range": {
+        "startLine": 214,
+        "startChar": 0,
+        "endLine": 221,
+        "endChar": 6
+      },
+      "revId": "0a1045db4b6433774a7c65496aed3e65f555e854",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

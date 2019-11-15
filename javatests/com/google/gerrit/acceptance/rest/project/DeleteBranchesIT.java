@@ -169,6 +169,16 @@ public class DeleteBranchesIT extends AbstractDaemonTest {
     assertThat(thrown).hasMessageThat().contains("not allowed to delete branch refs/meta/config");
   }
 
+  @Test
+  public void cannotDeleteHead() throws Exception {
+    DeleteBranchesInput input = new DeleteBranchesInput();
+    input.branches = Lists.newArrayList();
+    input.branches.add(RefNames.HEAD);
+    MethodNotAllowedException thrown =
+        assertThrows(MethodNotAllowedException.class, () -> project().deleteBranches(input));
+    assertThat(thrown).hasMessageThat().contains("not allowed to delete HEAD");
+  }
+
   private String errorMessageForBranches(List<String> branches) {
     StringBuilder message = new StringBuilder();
     for (String branch : branches) {

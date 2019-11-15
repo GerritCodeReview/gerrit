@@ -90,6 +90,7 @@
     'status:merged',
     'status:open',
     'status:reviewed',
+    'submissionid:',
     'topic:',
     'tr:',
   ];

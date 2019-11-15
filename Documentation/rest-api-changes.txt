@@ -310,11 +310,6 @@ default. Optional fields are:
 link:#change-info[ChangeInfo]. For fast moving projects, this field must
 be recomputed often, which is slow for projects with big trees.
 +
-When link:config-gerrit.html#change.api.excludeMergeableInChangeInfo[
-`change.api.excludeMergeableInChangeInfo`] is set in the `gerrit.config`,
-the `mergeable` field will always be omitted and `SKIP_MERGEABLE` has no
-effect.
-+
 When link:config-gerrit.html#index.change.indexMergeable[
 `index.change.indexMergeable`] is set to `false` in the `gerrit.config`,
 the `mergeable` field will always be omitted when querying changes and
@@ -5923,9 +5918,7 @@ Not set for merged changes.
 |`mergeable`          |optional|
 Whether the change is mergeable. +
 Only set if link:#mergeable[mergeable] option is set. +
-Not set for merged changes or when
-link:config-gerrit.html#change.api.excludeMergeableInChangeInfo[change.api.excludeMergeableInChangeInfo]
-is `false`.
+Not set for merged changes.
 |`submittable`        |optional|
 Whether the change has been approved by the project submit rules. +
 Only set if link:#submittable[requested].

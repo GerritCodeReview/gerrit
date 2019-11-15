@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d0cd4dc2_8a472738",
+        "filename": "polygerrit-ui/app/BUILD",
+        "patchSetId": 3
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-11-15T16:00:17Z",
+      "side": 1,
+      "message": "this may fit better in `polylint_test` rule as its only required for that i believe",
+      "revId": "9d8ceff52a191179499f9e5311bb98072eee65bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "89d8733e_6a9d8b9c",
+        "filename": "polygerrit-ui/app/polylint_test.sh",
+        "patchSetId": 3
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-11-15T16:00:17Z",
+      "side": 1,
+      "message": "nit, do you need to chain these three commands with \"\u0026\u0026\" ? i think most of times, its totally fine without the `\u0026\u0026`, but probably better to show this kind of dependency chain (one after another).",
+      "revId": "9d8ceff52a191179499f9e5311bb98072eee65bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

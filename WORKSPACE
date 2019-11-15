@@ -789,8 +789,6 @@ maven_jar(
     sha1 = "89bb3aa5b98b48e584eee2a7401b7682a46779b4",
 )
 
-SSHD_VERS = "2.3.0"
-
 maven_jar(
     name = "h2",
     artifact = "com.h2database:h2:1.3.176",

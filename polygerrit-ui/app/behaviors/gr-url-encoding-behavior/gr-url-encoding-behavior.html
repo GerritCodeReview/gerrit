@@ -53,5 +53,22 @@ limitations under the License.
       return decodeURIComponent(withoutPlus);
     },
   };
+
+  // eslint-disable-next-line no-unused-vars
+  function defineEmptyMixin() {
+    // This is a temporary function.
+    // Polymer linter doesn't process correctly the following code:
+    // class MyElement extends Polymer.mixinBehaviors([legacyBehaviors], ...) {...}
+    // To workaround this issue, the mock mixin is declared in this method.
+    // In the following changes, legacy behaviors will be converted to mixins.
+
+    /**
+     * @polymer
+     * @mixinFunction
+     */
+    Gerrit.URLEncodingMixin = base =>
+      class extends base {
+      };
+  }
 })(window);
 </script>

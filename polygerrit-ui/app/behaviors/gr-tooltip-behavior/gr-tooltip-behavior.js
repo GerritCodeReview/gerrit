@@ -146,4 +146,28 @@
       }
     },
   };
+
+  // eslint-disable-next-line no-unused-vars
+  function defineEmptyMixin() {
+    // This is a temporary function.
+    // Polymer linter doesn't process correctly the following code:
+    // class MyElement extends Polymer.mixinBehaviors([legacyBehaviors], ...) {...}
+    // To workaround this issue, the mock mixin is declared in this method.
+    // In the following changes, legacy behaviors will be converted to mixins.
+
+    /**
+     * @polymer
+     * @mixinFunction
+     */
+    Gerrit.TooltipMixin = base =>
+      class extends base {
+        static get properties() {
+          return {
+            hasTooltip: {
+              type: Boolean,
+            },
+          };
+        }
+      };
+  }
 })(window);

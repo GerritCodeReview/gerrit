@@ -32,6 +32,7 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.query.group.GroupQueryBuilder;
 import com.google.gerrit.server.query.group.GroupQueryProcessor;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
@@ -39,7 +40,7 @@ import org.kohsuke.args4j.Option;
 
 public class QueryGroups implements RestReadView<TopLevelResource> {
   private final GroupQueryBuilder queryBuilder;
-  private final GroupQueryProcessor queryProcessor;
+  private final Provider<GroupQueryProcessor> queryProcessorProvider;
   private final GroupJson json;
 
   private String query;
@@ -88,9 +89,11 @@ public class QueryGroups implements RestReadView<TopLevelResource> {
 
   @Inject
   protected QueryGroups(
-      GroupQueryBuilder queryBuilder, GroupQueryProcessor queryProcessor, GroupJson json) {
+      GroupQueryBuilder queryBuilder,
+      Provider<GroupQueryProcessor> queryProcessorProvider,
+      GroupJson json) {
     this.queryBuilder = queryBuilder;
-    this.queryProcessor = queryProcessor;
+    this.queryProcessorProvider = queryProcessorProvider;
     this.json = json;
   }
 
@@ -100,6 +103,8 @@ public class QueryGroups implements RestReadView<TopLevelResource> {
     if (Strings.isNullOrEmpty(query)) {
       throw new BadRequestException("missing query field");
     }
+
+    GroupQueryProcessor queryProcessor = queryProcessorProvider.get();
 
     if (queryProcessor.isDisabled()) {
       throw new MethodNotAllowedException("query disabled");

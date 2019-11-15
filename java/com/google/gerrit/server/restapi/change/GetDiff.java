@@ -22,6 +22,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.data.PatchScript;
 import com.google.gerrit.common.data.PatchScript.DisplayMethod;
 import com.google.gerrit.entities.Patch;
@@ -73,6 +74,8 @@ import org.kohsuke.args4j.spi.Parameters;
 import org.kohsuke.args4j.spi.Setter;
 
 public class GetDiff implements RestReadView<FileResource> {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   private static final ImmutableMap<Patch.ChangeType, ChangeType> CHANGE_TYPE =
       Maps.immutableEnumMap(
           new ImmutableMap.Builder<Patch.ChangeType, ChangeType>()
@@ -134,11 +137,16 @@ public class GetDiff implements RestReadView<FileResource> {
     }
     prefs.context = context;
     prefs.intralineDifference = intraline;
+    logger.atFine().log(
+        "diff preferences: ignoreWhitespace = %s, context = %s, intralineDifference = %s",
+        prefs.ignoreWhitespace, prefs.context, prefs.intralineDifference);
 
     PatchScriptFactory psf;
     PatchSet basePatchSet = null;
     PatchSet.Id pId = resource.getPatchKey().patchSetId();
     String fileName = resource.getPatchKey().fileName();
+    logger.atFine().log(
+        "patchSetId = %d, fileName = %s, base = %s", pId.get(), fileName, base, parentNum);
     ChangeNotes notes = resource.getRevision().getNotes();
     if (base != null) {
       RevisionResource baseResource =
@@ -158,7 +166,10 @@ public class GetDiff implements RestReadView<FileResource> {
       ContentCollector contentCollector = new ContentCollector(ps);
       Set<Edit> editsDueToRebase = ps.getEditsDueToRebase();
       for (Edit edit : ps.getEdits()) {
+        logger.atFine().log("next edit = %s", edit);
+
         if (edit.getType() == Edit.Type.EMPTY) {
+          logger.atFine().log("skip empty edit");
           continue;
         }
         contentCollector.addCommon(edit.getBeginA());
@@ -197,6 +208,7 @@ public class GetDiff implements RestReadView<FileResource> {
           resource.getRevision().getEdit().isPresent()
               ? resource.getRevision().getEdit().get().getRefName()
               : resource.getRevision().getPatchSet().refName();
+      logger.atFine().log("revA = %s, revB = %s", revA, revB);
 
       ImmutableList<DiffWebLinkInfo> links =
           webLinks.getDiffLinks(
@@ -243,9 +255,11 @@ public class GetDiff implements RestReadView<FileResource> {
         } else {
           result.intralineStatus = IntraLineStatus.OK;
         }
+        logger.atFine().log("intralineStatus = %s", result.intralineStatus);
       }
 
       result.changeType = CHANGE_TYPE.get(ps.getChangeType());
+      logger.atFine().log("changeType = %s", result.changeType);
       if (result.changeType == null) {
         throw new IllegalStateException("unknown change type: " + ps.getChangeType());
       }
@@ -314,18 +328,29 @@ public class GetDiff implements RestReadView<FileResource> {
     }
 
     void addCommon(int end) {
+      logger.atFine().log("addCommen: end = %d", end);
+
       end = Math.min(end, fileA.size());
+      logger.atFine().log("end = %d", end);
+
       if (nextA >= end) {
+        logger.atFine().log("nextA >= end: nextA = %d, end = %d", nextA, end);
         return;
       }
 
       while (nextA < end) {
+        logger.atFine().log("nextA < end: nextA = %d, end = %d", nextA, end);
+
         if (!fileA.contains(nextA)) {
+          logger.atFine().log("fileA does not contain nextA: nextA = %d", nextA);
+
           int endRegion = Math.min(end, nextA == 0 ? fileA.first() : fileA.next(nextA - 1));
           int len = endRegion - nextA;
           entry().skip = len;
           nextA = endRegion;
           nextB += len;
+
+          logger.atFine().log("setting: nextA = %d, nextB = %d", nextA, nextB);
           continue;
         }
 
@@ -333,6 +358,7 @@ public class GetDiff implements RestReadView<FileResource> {
         for (int i = nextA; i == nextA && i < end; i = fileA.next(i), nextA++, nextB++) {
           if (ignoreWS && fileB.contains(nextB)) {
             if (e == null || e.common == null) {
+              logger.atFine().log("create new common entry: nextA = %d, nextB = %d", nextA, nextB);
               e = entry();
               e.a = Lists.newArrayListWithCapacity(end - nextA);
               e.b = Lists.newArrayListWithCapacity(end - nextA);
@@ -342,48 +368,71 @@ public class GetDiff implements RestReadView<FileResource> {
             e.b.add(fileB.get(nextB));
           } else {
             if (e == null || e.common != null) {
+              logger.atFine().log(
+                  "create new non-common entry: nextA = %d, nextB = %d", nextA, nextB);
               e = entry();
               e.ab = Lists.newArrayListWithCapacity(end - nextA);
             }
             e.ab.add(fileA.get(nextA));
           }
         }
+        logger.atFine().log("nextA = %d, nextB = %d", nextA, nextB);
       }
     }
 
     void addDiff(int endA, int endB, List<Edit> internalEdit, boolean dueToRebase) {
+      logger.atFine().log(
+          "addDiff: endA = %d, endB = %d, numberOfInternalEdits = %d, dueToRebase = %s",
+          endA, endB, internalEdit != null ? internalEdit.size() : 0, dueToRebase);
+
       int lenA = endA - nextA;
       int lenB = endB - nextB;
+      logger.atFine().log("lenA = %d, lenB = %d", lenA, lenB);
       checkState(lenA > 0 || lenB > 0);
 
+      logger.atFine().log("create non-common entry");
       ContentEntry e = entry();
       if (lenA > 0) {
+        logger.atFine().log("lenA > 0: lenA = %d", lenA);
         e.a = Lists.newArrayListWithCapacity(lenA);
         for (; nextA < endA; nextA++) {
           e.a.add(fileA.get(nextA));
         }
       }
       if (lenB > 0) {
+        logger.atFine().log("lenB > 0: lenB = %d", lenB);
         e.b = Lists.newArrayListWithCapacity(lenB);
         for (; nextB < endB; nextB++) {
           e.b.add(fileB.get(nextB));
         }
       }
       if (internalEdit != null && !internalEdit.isEmpty()) {
+        logger.atFine().log("processing internal edits");
+
         e.editA = Lists.newArrayListWithCapacity(internalEdit.size() * 2);
         e.editB = Lists.newArrayListWithCapacity(internalEdit.size() * 2);
         int lastA = 0;
         int lastB = 0;
         for (Edit edit : internalEdit) {
+          logger.atFine().log("internal edit = %s", edit);
+
           if (edit.getBeginA() != edit.getEndA()) {
+            logger.atFine().log(
+                "edit.getBeginA() != edit.getEndA(): edit.getBeginA() = %d, edit.getEndA() = %d",
+                edit.getBeginA(), edit.getEndA());
             e.editA.add(
                 ImmutableList.of(edit.getBeginA() - lastA, edit.getEndA() - edit.getBeginA()));
             lastA = edit.getEndA();
+            logger.atFine().log("lastA = %d", lastA);
           }
           if (edit.getBeginB() != edit.getEndB()) {
+            logger.atFine().log(
+                "edit.getBeginB() != edit.getEndB(): edit.getBeginB() = %d, edit.getEndB() = %d",
+                edit.getBeginB(), edit.getEndB());
             e.editB.add(
                 ImmutableList.of(edit.getBeginB() - lastB, edit.getEndB() - edit.getBeginB()));
             lastB = edit.getEndB();
+            logger.atFine().log("lastB = %d", lastB);
           }
         }
       }

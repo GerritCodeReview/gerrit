@@ -101,7 +101,11 @@ public class MergeSuperSet {
         closeOrm = true;
       }
       List<ChangeData> cds = queryProvider.get().byLegacyChangeId(change.getId());
-      checkState(cds.size() == 1, "Expected exactly one ChangeData, got " + cds.size());
+      checkState(
+          cds.size() == 1,
+          "Expected exactly one ChangeData for change ID %s, got %s",
+          change.getId(),
+          cds.size());
       ChangeData cd = Iterables.getFirst(cds, null);
 
       boolean visible = false;

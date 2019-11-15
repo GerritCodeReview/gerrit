@@ -21,29 +21,14 @@ limitations under the License.
 
   window.Gerrit = window.Gerrit || {};
 
-  /** @polymerBehavior Gerrit.BaseUrlBehavior */
-  Gerrit.BaseUrlBehavior = {
-    /** @return {string} */
-    getBaseUrl() {
-      return window.CANONICAL_PATH || '';
-    },
-  };
+  const internalBaseUrlMixin = base =>
+    class extends base {
+      /** @return {string} */
+      getBaseUrl() {
+        return window.CANONICAL_PATH || '';
+      }
+    };
 
-  // eslint-disable-next-line no-unused-vars
-  function defineEmptyMixin() {
-    // This is a temporary function.
-    // Polymer linter doesn't process correctly the following code:
-    // class MyElement extends Polymer.mixinBehaviors([legacyBehaviors], ...) {...}
-    // To workaround this issue, the mock mixin is declared in this method.
-    // In the following changes, legacy behaviors will be converted to mixins.
-
-    /**
-     * @polymer
-     * @mixinFunction
-     */
-    Gerrit.BaseUrlMixin = base =>
-      class extends base {
-      };
-  }
+  Gerrit.BaseUrlMixin = Polymer.dedupingMixin(internalBaseUrlMixin);
 })(window);
 </script>

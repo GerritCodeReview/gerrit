@@ -22,6 +22,30 @@
       "revId": "7f843e71a5748ad9fbc23d3c3dfd5a36d7d80f3c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b2c54320_6d507dde",
+        "filename": "Jenkinsfile",
+        "patchSetId": 2
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-11-15T09:08:39Z",
+      "side": 1,
+      "message": "I got errors from the downstream job that some variable was not correctly set and I was thinking of some type issue. By now. I know that GERRIT_CHANGE_URL is not set contrary of what the GerritCodeReview-plugin docs state. Will probably remove this, since it would be preferable that the job fails, if a value is missing than doing something unpredictable.",
+      "parentUuid": "1c4f4a13_77b259f0",
+      "range": {
+        "startLine": 133,
+        "startChar": 54,
+        "endLine": 133,
+        "endChar": 87
+      },
+      "revId": "7f843e71a5748ad9fbc23d3c3dfd5a36d7d80f3c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

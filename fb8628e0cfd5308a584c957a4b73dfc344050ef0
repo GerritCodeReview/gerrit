@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "1836315e_4fc90068",
+        "filename": "java/com/google/gerrit/server/git/TagSet.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1006432
+      },
+      "writtenOn": "2019-11-15T01:31:59Z",
+      "side": 1,
+      "message": "It\u0027s not the same, there\u0027s no \u0027nodes.add()\u0027 for the tags. Fixed in PS9.",
+      "parentUuid": "8fc49f7d_db1f2c9c",
+      "range": {
+        "startLine": 88,
+        "startChar": 0,
+        "endLine": 92,
+        "endChar": 5
+      },
+      "revId": "fb8628e0cfd5308a584c957a4b73dfc344050ef0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "148a4f6a_5275de2d",
         "filename": "java/com/google/gerrit/server/git/TagSet.java",
         "patchSetId": 5

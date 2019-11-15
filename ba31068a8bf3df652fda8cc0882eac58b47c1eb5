@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f1637248_c783a964",
+        "filename": "java/com/google/gerrit/testing/GerritServerTests.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-11-15T00:00:30Z",
+      "side": 0,
+      "message": "Nit: Unrelated white space change.",
+      "revId": "ba31068a8bf3df652fda8cc0882eac58b47c1eb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

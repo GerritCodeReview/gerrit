@@ -5922,10 +5922,10 @@ The link:config-project-config.html#submit-type[submit type] of the change. +
 Not set for merged changes.
 |`mergeable`          |optional|
 Whether the change is mergeable. +
-Not set for merged changes, if the change has not yet been tested, or
-if the link:#skip_mergeable[skip_mergeable] option is set or when
+Only set if link:#mergeable[mergeable] option is set. +
+Not set for merged changes or when
 link:config-gerrit.html#change.api.excludeMergeableInChangeInfo[change.api.excludeMergeableInChangeInfo]
-is set.
+is `false`.
 |`submittable`        |optional|
 Whether the change has been approved by the project submit rules. +
 Only set if link:#submittable[requested].

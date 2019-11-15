@@ -265,11 +265,7 @@ public interface ChangeApi {
    */
   default ChangeInfo get() throws RestApiException {
     return get(
-        EnumSet.complementOf(
-            EnumSet.of(
-                ListChangesOption.CHECK,
-                ListChangesOption.SKIP_MERGEABLE,
-                ListChangesOption.SKIP_DIFFSTAT)));
+        EnumSet.complementOf(EnumSet.of(ListChangesOption.CHECK, ListChangesOption.SKIP_DIFFSTAT)));
   }
 
   /** {@link #get(ListChangesOption...)} with no options included. */

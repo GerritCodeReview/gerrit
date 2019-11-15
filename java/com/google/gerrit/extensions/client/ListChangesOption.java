@@ -74,14 +74,19 @@ public enum ListChangesOption implements ListOption {
   /** If tracking Ids are included, include detailed tracking Ids info. */
   TRACKING_IDS(21),
 
-  /** Skip mergeability data */
+  /** See {@link ListChangesOption#MERGEABLE} */
+  @Deprecated
   SKIP_MERGEABLE(22),
 
   /**
    * Skip diffstat computation that compute the insertions field (number of lines inserted) and
    * deletions field (number of lines deleted)
    */
-  SKIP_DIFFSTAT(23);
+  SKIP_DIFFSTAT(23),
+
+  /** Include mergeability data */
+  MERGEABLE(24);
+  ;
 
   private final int value;
 

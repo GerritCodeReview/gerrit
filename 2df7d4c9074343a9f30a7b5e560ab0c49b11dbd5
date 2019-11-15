@@ -22,6 +22,23 @@
       "revId": "2df7d4c9074343a9f30a7b5e560ab0c49b11dbd5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fee8e9a7_4aae9034",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-11-15T15:10:53Z",
+      "side": 1,
+      "message": "this raises the following warning in Eclipse:\nWorkQueue.Task is a raw type. References to generic type WorkQueue.Task\u003cV\u003e should be parameterized\n\nsame warning for the other method and implementation of the interface below",
+      "revId": "2df7d4c9074343a9f30a7b5e560ab0c49b11dbd5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

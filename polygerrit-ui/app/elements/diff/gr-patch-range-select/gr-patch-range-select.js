@@ -59,7 +59,9 @@
       '_updateSortedRevisions(revisions.*)',
     ],
 
-    behaviors: [Gerrit.PatchSetBehavior],
+    behaviors: [
+      Gerrit.PatchSetBehavior,
+    ],
 
     _getShaForPatch(patch) {
       return patch.sha.substring(0, 10);

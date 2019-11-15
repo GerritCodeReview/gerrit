@@ -206,9 +206,9 @@
       },
       _sendDisabled: {
         type: Boolean,
-        computed: '_computeSendButtonDisabled(_sendButtonLabel, diffDrafts, ' +
-            'draft, _reviewersMutated, _labelsChanged, _includeComments, ' +
-            'disabled)',
+        computed: '_computeSendButtonDisabled(_sendButtonLabel, ' +
+            'diffDrafts, draft, _reviewersMutated, _labelsChanged, ' +
+            '_includeComments, disabled)',
         observer: '_sendDisabledChanged',
       },
     },

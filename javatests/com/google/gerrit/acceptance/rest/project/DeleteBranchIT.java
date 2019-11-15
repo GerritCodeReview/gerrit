@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance.rest.project;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.server.group.SystemGroupBackend.ANONYMOUS_USERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static org.eclipse.jgit.lib.Constants.R_HEADS;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -28,6 +29,7 @@ import com.google.gerrit.extensions.api.projects.BranchApi;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.IdString;
+import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.reviewdb.client.Branch;
@@ -149,6 +151,24 @@ public class DeleteBranchIT extends AbstractDaemonTest {
     exception.expect(ResourceConflictException.class);
     exception.expectMessage("Not allowed to delete group branch.");
     branch(new Branch.NameKey(allUsers, RefNames.refsGroups(adminGroupUuid()))).delete();
+  }
+
+  @Test
+  public void cannotDeleteRefsMetaConfig() throws Exception {
+    MethodNotAllowedException thrown =
+        assertThrows(
+            MethodNotAllowedException.class,
+            () -> branch(new Branch.NameKey(allUsers, RefNames.REFS_CONFIG)).delete());
+    assertThat(thrown).hasMessageThat().contains("not allowed to delete branch refs/meta/config");
+  }
+
+  @Test
+  public void cannotDeleteHead() throws Exception {
+    MethodNotAllowedException thrown =
+        assertThrows(
+            MethodNotAllowedException.class,
+            () -> branch(new Branch.NameKey(allUsers, RefNames.HEAD)).delete());
+    assertThat(thrown).hasMessageThat().contains("not allowed to delete HEAD");
   }
 
   private void blockForcePush() throws Exception {

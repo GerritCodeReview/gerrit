@@ -201,7 +201,6 @@ public class ChangeJson {
   private final Metrics metrics;
   private final RevisionJson revisionJson;
   private final Optional<PluginDefinedAttributesFactory> pluginDefinedAttributesFactory;
-  private final boolean excludeMergeableInChangeInfo;
   private final boolean lazyLoad;
 
   private AccountLoader accountLoader;
@@ -239,8 +238,6 @@ public class ChangeJson {
     this.metrics = metrics;
     this.revisionJson = revisionJsonFactory.create(options);
     this.options = Sets.immutableEnumSet(options);
-    this.excludeMergeableInChangeInfo =
-        cfg.getBoolean("change", "api", "excludeMergeableInChangeInfo", true);
     this.lazyLoad = containsAnyOf(this.options, REQUIRE_LAZY_LOAD);
     this.pluginDefinedAttributesFactory = pluginDefinedAttributesFactory;
 
@@ -507,8 +504,7 @@ public class ChangeJson {
       if (str.isOk()) {
         out.submitType = str.type;
       }
-      // TODO(hiesel): Remove SKIP_MERGEABLE
-      if (!has(SKIP_MERGEABLE) && (!excludeMergeableInChangeInfo || has(MERGEABLE))) {
+      if (has(MERGEABLE)) {
         out.mergeable = cd.isMergeable();
       }
       if (has(SUBMITTABLE)) {

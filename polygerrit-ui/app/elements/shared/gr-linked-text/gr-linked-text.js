@@ -14,35 +14,40 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-(function () {
+(function() {
   'use strict';
-    class GrLinkedText extends Polymer.GestureEventListeners(
-Polymer.LegacyElementMixin(
-Polymer.Element)) {
-        static get is() { return "gr-linked-text"; } 
 
+  class GrLinkedText extends Polymer.GestureEventListeners(
+      Polymer.LegacyElementMixin(
+          Polymer.Element)) {
+    static get is() { return 'gr-linked-text'; }
 
-        static get properties() { return {
-      removeZeroWidthSpace: Boolean,
-      content: {
-        type: String,
-        observer: '_contentChanged',
-      },
-      pre: {
-        type: Boolean,
-        value: false,
-        reflectToAttribute: true,
-      },
-      disabled: {
-        type: Boolean,
-        value: false,
-        reflectToAttribute: true,
-      },
-      config: Object,
-    }; }
-        static get observers() { return [
-      '_contentOrConfigChanged(content, config)',
-    ]; }
+    static get properties() {
+      return {
+        removeZeroWidthSpace: Boolean,
+        content: {
+          type: String,
+          observer: '_contentChanged',
+        },
+        pre: {
+          type: Boolean,
+          value: false,
+          reflectToAttribute: true,
+        },
+        disabled: {
+          type: Boolean,
+          value: false,
+          reflectToAttribute: true,
+        },
+        config: Object,
+      };
+    }
+
+    static get observers() {
+      return [
+        '_contentOrConfigChanged(content, config)',
+      ];
+    }
 
     _contentChanged(content) {
       // In the case where the config may not be set (perhaps due to the
@@ -102,6 +107,7 @@ Polymer.Element)) {
         output.appendChild(fragment);
       }
     }
-    }
-    customElements.define(GrLinkedText.is, GrLinkedText);
+  }
+
+  customElements.define(GrLinkedText.is, GrLinkedText);
 })();

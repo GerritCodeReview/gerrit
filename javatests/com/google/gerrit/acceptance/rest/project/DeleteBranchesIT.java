@@ -35,6 +35,7 @@ import com.google.gerrit.extensions.api.projects.DeleteBranchesInput;
 import com.google.gerrit.extensions.api.projects.ProjectApi;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.inject.Inject;
 import java.util.HashMap;
@@ -154,6 +155,16 @@ public class DeleteBranchesIT extends AbstractDaemonTest {
     BadRequestException thrown =
         assertThrows(BadRequestException.class, () -> project().deleteBranches(input));
     assertThat(thrown).hasMessageThat().contains("branches must be specified");
+  }
+
+  @Test
+  public void cannotDeleteRefsMetaConfig() throws Exception {
+    DeleteBranchesInput input = new DeleteBranchesInput();
+    input.branches = Lists.newArrayList();
+    input.branches.add(RefNames.REFS_CONFIG);
+    MethodNotAllowedException thrown =
+        assertThrows(MethodNotAllowedException.class, () -> project().deleteBranches(input));
+    assertThat(thrown).hasMessageThat().contains("not allowed to delete branch refs/meta/config");
   }
 
   private String errorMessageForBranches(List<String> branches) {

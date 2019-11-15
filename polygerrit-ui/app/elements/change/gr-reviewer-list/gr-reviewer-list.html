@@ -32,51 +32,35 @@ limitations under the License.
         opacity: .8;
         pointer-events: none;
       }
-      .autocompleteContainer {
-        position: relative;
-      }
-      .hiddenReviewers {
-        margin-top: var(--spacing-s);
-      }
-      .inputContainer {
-        display: flex;
-        margin-top: var(--spacing-xs);
-      }
-      .inputContainer input {
-        flex: 1;
-      }
-      gr-account-chip {
+      .container > :not(:first-child) {
         margin-top: var(--spacing-s);
       }
       gr-button {
         --gr-button: {
-          padding: 5px 0px;
-        }
-      }
-      @media screen and (max-width: 50em), screen and (min-width: 75em) {
-        gr-account-chip:first-of-type {
-          margin-top: 0;
+          padding: 0px 0px;
         }
       }
     </style>
-    <template is="dom-repeat" items="[[_displayedReviewers]]" as="reviewer">
-      <gr-account-chip class="reviewer" account="[[reviewer]]"
-          on-remove="_handleRemove"
-          additional-text="[[_computeReviewerTooltip(reviewer, change)]]"
-          removable="[[_computeCanRemoveReviewer(reviewer, mutable)]]">
-      </gr-account-chip>
-    </template>
-    <gr-button
-        class="hiddenReviewers"
-        link
-        hidden$="[[!_hiddenReviewerCount]]"
-        on-click="_handleViewAll">and [[_hiddenReviewerCount]] more</gr-button>
-    <div class="controlsContainer" hidden$="[[!mutable]]">
+    <div class="container">
+      <template is="dom-repeat" items="[[_displayedReviewers]]" as="reviewer">
+        <gr-account-chip class="reviewer" account="[[reviewer]]"
+            on-remove="_handleRemove"
+            additional-text="[[_computeReviewerTooltip(reviewer, change)]]"
+            removable="[[_computeCanRemoveReviewer(reviewer, mutable)]]">
+        </gr-account-chip>
+      </template>
       <gr-button
+          class="hiddenReviewers"
           link
-          id="addReviewer"
-          class="addReviewer"
-          on-click="_handleAddTap">[[_addLabel]]</gr-button>
+          hidden$="[[!_hiddenReviewerCount]]"
+          on-click="_handleViewAll">and [[_hiddenReviewerCount]] more</gr-button>
+      <div class="controlsContainer" hidden$="[[!mutable]]">
+        <gr-button
+            link
+            id="addReviewer"
+            class="addReviewer"
+            on-click="_handleAddTap">[[_addLabel]]</gr-button>
+      </div>
     </div>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>

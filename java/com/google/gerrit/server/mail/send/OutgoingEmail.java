@@ -127,11 +127,19 @@ public abstract class OutgoingEmail {
             // this message so they can always review and audit what we sent
             // on their behalf to others.
             //
+            logger.atFine().log(
+                "CC email sender %s because the email strategy of this user is %s",
+                fromUser.get().account().id(), CC_ON_OWN_COMMENTS);
             add(RecipientType.CC, fromId);
           } else if (!notify.accounts().containsValue(fromId) && rcptTo.remove(fromId)) {
             // If they don't want a copy, but we queued one up anyway,
             // drop them from the recipient lists.
             //
+            logger.atFine().log(
+                "Not CCing email sender %s because the email strategy of this user is not %s but %s",
+                fromUser.get().account().id(),
+                CC_ON_OWN_COMMENTS,
+                senderPrefs != null ? senderPrefs.getEmailStrategy() : null);
             removeUser(fromUser.get().account());
           }
         }
@@ -145,8 +153,13 @@ public abstract class OutgoingEmail {
           Account thisUserAccount = thisUser.get().account();
           GeneralPreferencesInfo prefs = thisUser.get().generalPreferences();
           if (prefs == null || prefs.getEmailStrategy() == DISABLED) {
+            logger.atFine().log(
+                "Not emailing account %s because user has set email strategy to %s", id, DISABLED);
             removeUser(thisUserAccount);
           } else if (useHtml() && prefs.getEmailFormat() == EmailFormat.PLAINTEXT) {
+            logger.atFine().log(
+                "Removing account %s from HTML email because user prefers %s emails",
+                id, EmailFormat.PLAINTEXT);
             removeUser(thisUserAccount);
             smtpRcptToPlaintextOnly.add(
                 new Address(thisUserAccount.fullName(), thisUserAccount.preferredEmail()));
@@ -206,12 +219,13 @@ public abstract class OutgoingEmail {
 
       if (!smtpRcptTo.isEmpty()) {
         // Send multipart message
-        logger.atFine().log("Sending multipart '%s'", messageClass);
+        logger.atFine().log(
+            "Sending multipart '%s' from %s to %s",
+            messageClass, va.smtpFromAddress, va.smtpRcptTo);
         args.emailSender.send(va.smtpFromAddress, va.smtpRcptTo, va.headers, va.body, va.htmlBody);
       }
 
       if (!smtpRcptToPlaintextOnly.isEmpty()) {
-        logger.atFine().log("Sending plaintext '%s'", messageClass);
         // Send plaintext message
         Map<String, EmailHeader> shallowCopy = new HashMap<>();
         shallowCopy.putAll(headers);
@@ -224,6 +238,9 @@ public abstract class OutgoingEmail {
           to.add(a);
           shallowCopy.put(FieldName.TO, to);
         }
+        logger.atFine().log(
+            "Sending plaintext '%s' from %s to %s",
+            messageClass, va.smtpFromAddress, smtpRcptToPlaintextOnly);
         args.emailSender.send(va.smtpFromAddress, smtpRcptToPlaintextOnly, shallowCopy, va.body);
       }
     }

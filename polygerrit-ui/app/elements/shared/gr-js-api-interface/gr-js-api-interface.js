@@ -51,7 +51,9 @@
       },
     },
 
-    behaviors: [Gerrit.PatchSetBehavior],
+    behaviors: [
+      Gerrit.PatchSetBehavior,
+    ],
 
     Element,
     EventType,

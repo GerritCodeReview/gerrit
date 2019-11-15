@@ -101,8 +101,8 @@
       // element for selected a file to view.
       _formattedFiles: {
         type: Array,
-        computed: '_formatFilesForDropdown(_fileList, _patchRange.patchNum, ' +
-            '_changeComments)',
+        computed: '_formatFilesForDropdown(_fileList, ' +
+            '_patchRange.patchNum, _changeComments)',
       },
       // An sorted array of files, as returned by the rest API.
       _fileList: {

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a7edf40e_07b47f4a",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2019-11-15T18:32:27Z",
+      "side": 1,
+      "message": "I just realised that the change ID in the commit message also links to a change by linking to \"/q/{change_id}\" so I also ended up using the same link.",
+      "parentUuid": "a456ec8a_a8f8f21f",
+      "revId": "dacdadc8aabf3f4036befcba63d0c7faf14bce7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aa9c3bcb_65ae19ba",
         "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
         "patchSetId": 1
@@ -33,6 +51,24 @@
       "revId": "dacdadc8aabf3f4036befcba63d0c7faf14bce7f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "01a73c69_f59d68eb",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 1250,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2019-11-15T18:32:27Z",
+      "side": 1,
+      "message": "Eslint was giving an error when declaring it at the switch block. Assigning a value for now.",
+      "parentUuid": "aa9c3bcb_65ae19ba",
+      "revId": "dacdadc8aabf3f4036befcba63d0c7faf14bce7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -420,6 +420,10 @@
           type: Boolean,
           value: true,
         },
+        _revertChanges: {
+          type: Array,
+          value: [],
+        },
       };
     }
 
@@ -1258,6 +1262,7 @@
     _handleResponse(action, response) {
       if (!response) { return; }
       return this.$.restAPI.getResponseObject(response).then(obj => {
+        let revertChanges = [];
         switch (action.__key) {
           case ChangeActions.REVERT:
             this._waitForChangeReachable(obj._number)
@@ -1282,12 +1287,36 @@
           case ChangeActions.REBASE_EDIT:
             Gerrit.Nav.navigateToChange(this.change);
             break;
+          case ChangeActions.REVERT_SUBMISSION:
+            revertChanges = obj.revert_changes || [];
+            revertChanges = revertChanges.map(change => {
+              change.link = '/q/' + encodeURIComponent(change.change_id);
+              return change;
+            });
+            if (revertChanges.length === 1) {
+              const change = revertChanges[0];
+              this._waitForChangeReachable(change._number).then(success => {
+                if (success) {
+                  Gerrit.Nav.navigateToChange(change);
+                } else {
+                  console.error('Change ' + change._number + ' not reachable');
+                }
+              });
+            } else {
+              this._revertChanges = revertChanges;
+              this._showActionDialog(this.$.showRevertSubmissionChangesDialog);
+            }
+            break;
           default:
             this.dispatchEvent(new CustomEvent('reload-change',
                 {detail: {action: action.__key}, bubbles: false}));
             break;
         }
       });
+    }
+
+    _handleShowRevertSubmissionChangesConfirm() {
+      this._hideAllDialogs();
     }
 
     _handleResponseError(action, response, body) {

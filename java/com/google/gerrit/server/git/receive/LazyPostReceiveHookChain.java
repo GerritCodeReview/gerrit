@@ -61,7 +61,7 @@ public class LazyPostReceiveHookChain implements PostReceiveHook {
   @Override
   public void onPostReceive(ReceivePack rp, Collection<ReceiveCommand> commands) {
     hooks.runEach(h -> h.onPostReceive(rp, commands));
-    if (affectsSize(rp, commands)) {
+    if (affectsSize(rp)) {
       QuotaResponse.Aggregated a =
           quotaBackend
               .user(user)
@@ -78,10 +78,7 @@ public class LazyPostReceiveHookChain implements PostReceiveHook {
     }
   }
 
-  public static boolean affectsSize(ReceivePack rp, Collection<ReceiveCommand> commands) {
-    if (commands.stream().allMatch(c -> c.getType() == ReceiveCommand.Type.DELETE)) {
-      return false;
-    }
-    return rp.getPackSize() > 0L;
+  public static boolean affectsSize(ReceivePack rp) {
+    return rp.hasReceivedPack() && rp.getPackSize() > 0L;
   }
 }

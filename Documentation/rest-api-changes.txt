@@ -6010,6 +6010,8 @@ When present, change is marked as Work In Progress.
 When present, change has been marked Ready at some point in time.
 |`revert_of`          |optional|
 The numeric Change-Id of the change that this change reverts.
+|`submission_id`      |optional|
+ID of the submission of this change. Only set if the status is `MERGED`.
 |==================================
 
 [[change-input]]

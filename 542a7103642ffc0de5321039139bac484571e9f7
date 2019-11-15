@@ -74,6 +74,30 @@
     },
     {
       "key": {
+        "uuid": "73ea855c_2d117128",
+        "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 2515,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-11-15T08:53:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7e79c7a4_8e07cef5",
+      "range": {
+        "startLine": 2515,
+        "startChar": 33,
+        "endLine": 2515,
+        "endChar": 57
+      },
+      "revId": "542a7103642ffc0de5321039139bac484571e9f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4ef87e66_8f1c7670",
         "filename": "javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java",
         "patchSetId": 4

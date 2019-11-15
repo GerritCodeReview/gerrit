@@ -51,6 +51,7 @@ filegroup(
         [
             "**/*.html",
             "**/*.js",
+            "polymer.json",
         ],
         exclude = [
             "bower_components/**",

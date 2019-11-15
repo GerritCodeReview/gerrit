@@ -30,78 +30,85 @@
     },
   };
 
-  Polymer({
-    is: 'gr-group',
-
+  /**
+    * @appliesMixin Gerrit.FireMixin
+    */
+  class GrGroup extends Polymer.mixinBehaviors( [
+    Gerrit.FireBehavior,
+  ], Polymer.GestureEventListeners(
+      Polymer.LegacyElementMixin(
+          Polymer.Element))) {
+    static get is() { return 'gr-group'; }
     /**
      * Fired when the group name changes.
      *
      * @event name-changed
      */
 
-    properties: {
-      groupId: Number,
-      _rename: {
-        type: Boolean,
-        value: false,
-      },
-      _groupIsInternal: Boolean,
-      _description: {
-        type: Boolean,
-        value: false,
-      },
-      _owner: {
-        type: Boolean,
-        value: false,
-      },
-      _options: {
-        type: Boolean,
-        value: false,
-      },
-      _loading: {
-        type: Boolean,
-        value: true,
-      },
-      /** @type {?} */
-      _groupConfig: Object,
-      _groupConfigOwner: String,
-      _groupName: Object,
-      _groupOwner: {
-        type: Boolean,
-        value: false,
-      },
-      _submitTypes: {
-        type: Array,
-        value() {
-          return Object.values(OPTIONS);
+    static get properties() {
+      return {
+        groupId: Number,
+        _rename: {
+          type: Boolean,
+          value: false,
         },
-      },
-      _query: {
-        type: Function,
-        value() {
-          return this._getGroupSuggestions.bind(this);
+        _groupIsInternal: Boolean,
+        _description: {
+          type: Boolean,
+          value: false,
         },
-      },
-      _isAdmin: {
-        type: Boolean,
-        value: false,
-      },
-    },
+        _owner: {
+          type: Boolean,
+          value: false,
+        },
+        _options: {
+          type: Boolean,
+          value: false,
+        },
+        _loading: {
+          type: Boolean,
+          value: true,
+        },
+        /** @type {?} */
+        _groupConfig: Object,
+        _groupConfigOwner: String,
+        _groupName: Object,
+        _groupOwner: {
+          type: Boolean,
+          value: false,
+        },
+        _submitTypes: {
+          type: Array,
+          value() {
+            return Object.values(OPTIONS);
+          },
+        },
+        _query: {
+          type: Function,
+          value() {
+            return this._getGroupSuggestions.bind(this);
+          },
+        },
+        _isAdmin: {
+          type: Boolean,
+          value: false,
+        },
+      };
+    }
 
-    behaviors: [
-      Gerrit.FireBehavior,
-    ],
-
-    observers: [
-      '_handleConfigName(_groupConfig.name)',
-      '_handleConfigOwner(_groupConfig.owner, _groupConfigOwner)',
-      '_handleConfigDescription(_groupConfig.description)',
-      '_handleConfigOptions(_groupConfig.options.visible_to_all)',
-    ],
+    static get observers() {
+      return [
+        '_handleConfigName(_groupConfig.name)',
+        '_handleConfigOwner(_groupConfig.owner, _groupConfigOwner)',
+        '_handleConfigDescription(_groupConfig.description)',
+        '_handleConfigOptions(_groupConfig.options.visible_to_all)',
+      ];
+    }
 
     attached() {
+      super.attached();
       this._loadGroup();
-    },
+    }
 
     _loadGroup() {
       if (!this.groupId) { return; }
@@ -143,15 +150,15 @@
               this._loading = false;
             });
           });
-    },
+    }
 
     _computeLoadingClass(loading) {
       return loading ? 'loading' : '';
-    },
+    }
 
     _isLoading() {
       return this._loading || this._loading === undefined;
-    },
+    }
 
     _handleSaveName() {
       return this.$.restAPI.saveGroupName(this.groupId, this._groupConfig.name)
@@ -163,7 +170,7 @@
               this._rename = false;
             }
           });
-    },
+    }
 
     _handleSaveOwner() {
       let owner = this._groupConfig.owner;
@@ -174,14 +181,14 @@
           owner).then(config => {
         this._owner = false;
       });
-    },
+    }
 
     _handleSaveDescription() {
       return this.$.restAPI.saveGroupDescription(this.groupId,
           this._groupConfig.description).then(config => {
         this._description = false;
       });
-    },
+    }
 
     _handleSaveOptions() {
       const visible = this._groupConfig.options.visible_to_all;
@@ -192,31 +199,31 @@
           options).then(config => {
         this._options = false;
       });
-    },
+    }
 
     _handleConfigName() {
       if (this._isLoading()) { return; }
       this._rename = true;
-    },
+    }
 
     _handleConfigOwner() {
       if (this._isLoading()) { return; }
       this._owner = true;
-    },
+    }
 
     _handleConfigDescription() {
       if (this._isLoading()) { return; }
       this._description = true;
-    },
+    }
 
     _handleConfigOptions() {
       if (this._isLoading()) { return; }
       this._options = true;
-    },
+    }
 
     _computeHeaderClass(configChanged) {
       return configChanged ? 'edited' : '';
-    },
+    }
 
     _getGroupSuggestions(input) {
       return this.$.restAPI.getSuggestedGroups(input)
@@ -231,10 +238,12 @@
             }
             return groups;
           });
-    },
+    }
 
     _computeGroupDisabled(owner, admin, groupIsInternal) {
       return groupIsInternal && (admin || owner) ? false : true;
-    },
-  });
+    }
+  }
+
+  customElements.define(GrGroup.is, GrGroup);
 })();

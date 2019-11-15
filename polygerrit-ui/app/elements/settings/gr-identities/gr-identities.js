@@ -22,61 +22,66 @@
     'OAUTH',
   ];
 
-  Polymer({
-    is: 'gr-identities',
+  /**
+    * @appliesMixin Gerrit.BaseUrlMixin
+    */
+  class GrIdentities extends Polymer.mixinBehaviors( [
+    Gerrit.BaseUrlBehavior,
+  ], Polymer.GestureEventListeners(
+      Polymer.LegacyElementMixin(
+          Polymer.Element))) {
+    static get is() { return 'gr-identities'; }
 
-    properties: {
-      _identities: Object,
-      _idName: String,
-      serverConfig: Object,
-      _showLinkAnotherIdentity: {
-        type: Boolean,
-        computed: '_computeShowLinkAnotherIdentity(serverConfig)',
-      },
-    },
-
-    behaviors: [
-      Gerrit.BaseUrlBehavior,
-    ],
+    static get properties() {
+      return {
+        _identities: Object,
+        _idName: String,
+        serverConfig: Object,
+        _showLinkAnotherIdentity: {
+          type: Boolean,
+          computed: '_computeShowLinkAnotherIdentity(serverConfig)',
+        },
+      };
+    }
 
     loadData() {
       return this.$.restAPI.getExternalIds().then(id => {
         this._identities = id;
       });
-    },
+    }
 
     _computeIdentity(id) {
       return id && id.startsWith('mailto:') ? '' : id;
-    },
+    }
 
     _computeHideDeleteClass(canDelete) {
       return canDelete ? 'show' : '';
-    },
+    }
 
     _handleDeleteItemConfirm() {
       this.$.overlay.close();
       return this.$.restAPI.deleteAccountIdentity([this._idName])
           .then(() => { this.loadData(); });
-    },
+    }
 
     _handleConfirmDialogCancel() {
       this.$.overlay.close();
-    },
+    }
 
     _handleDeleteItem(e) {
       const name = e.model.get('item.identity');
       if (!name) { return; }
       this._idName = name;
       this.$.overlay.open();
-    },
+    }
 
     _computeIsTrusted(item) {
       return item ? '' : 'Untrusted';
-    },
+    }
 
     filterIdentities(item) {
       return !item.identity.startsWith('username:');
-    },
+    }
 
     _computeShowLinkAnotherIdentity(config) {
       if (config && config.auth &&
@@ -86,7 +91,7 @@
       }
 
       return false;
-    },
+    }
 
     _computeLinkAnotherIdentity() {
       const baseUrl = this.getBaseUrl() || '';
@@ -95,6 +100,8 @@
         pathname = '/' + pathname.substring(baseUrl.length);
       }
       return baseUrl + '/login/' + encodeURIComponent(pathname) + '?link';
-    },
-  });
+    }
+  }
+
+  customElements.define(GrIdentities.is, GrIdentities);
 })();

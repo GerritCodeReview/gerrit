@@ -17,69 +17,75 @@
 (function() {
   'use strict';
 
-  Polymer({
-    is: 'gr-reviewer-list',
-
+  /**
+    * @appliesMixin Gerrit.FireMixin
+    */
+  class GrReviewerList extends Polymer.mixinBehaviors( [
+    Gerrit.FireBehavior,
+  ], Polymer.GestureEventListeners(
+      Polymer.LegacyElementMixin(
+          Polymer.Element))) {
+    static get is() { return 'gr-reviewer-list'; }
     /**
      * Fired when the "Add reviewer..." button is tapped.
      *
      * @event show-reply-dialog
      */
 
-    properties: {
-      change: Object,
-      disabled: {
-        type: Boolean,
-        value: false,
-        reflectToAttribute: true,
-      },
-      mutable: {
-        type: Boolean,
-        value: false,
-      },
-      reviewersOnly: {
-        type: Boolean,
-        value: false,
-      },
-      ccsOnly: {
-        type: Boolean,
-        value: false,
-      },
-      maxReviewersDisplayed: Number,
+    static get properties() {
+      return {
+        change: Object,
+        disabled: {
+          type: Boolean,
+          value: false,
+          reflectToAttribute: true,
+        },
+        mutable: {
+          type: Boolean,
+          value: false,
+        },
+        reviewersOnly: {
+          type: Boolean,
+          value: false,
+        },
+        ccsOnly: {
+          type: Boolean,
+          value: false,
+        },
+        maxReviewersDisplayed: Number,
 
-      _displayedReviewers: {
-        type: Array,
-        value() { return []; },
-      },
-      _reviewers: {
-        type: Array,
-        value() { return []; },
-      },
-      _showInput: {
-        type: Boolean,
-        value: false,
-      },
-      _addLabel: {
-        type: String,
-        computed: '_computeAddLabel(ccsOnly)',
-      },
-      _hiddenReviewerCount: {
-        type: Number,
-        computed: '_computeHiddenCount(_reviewers, _displayedReviewers)',
-      },
+        _displayedReviewers: {
+          type: Array,
+          value() { return []; },
+        },
+        _reviewers: {
+          type: Array,
+          value() { return []; },
+        },
+        _showInput: {
+          type: Boolean,
+          value: false,
+        },
+        _addLabel: {
+          type: String,
+          computed: '_computeAddLabel(ccsOnly)',
+        },
+        _hiddenReviewerCount: {
+          type: Number,
+          computed: '_computeHiddenCount(_reviewers, _displayedReviewers)',
+        },
 
-      // Used for testing.
-      _lastAutocompleteRequest: Object,
-      _xhrPromise: Object,
-    },
+        // Used for testing.
+        _lastAutocompleteRequest: Object,
+        _xhrPromise: Object,
+      };
+    }
 
-    behaviors: [
-      Gerrit.FireBehavior,
-    ],
-
-    observers: [
-      '_reviewersChanged(change.reviewers.*, change.owner)',
-    ],
+    static get observers() {
+      return [
+        '_reviewersChanged(change.reviewers.*, change.owner)',
+      ];
+    }
 
     /**
      * Converts change.permitted_labels to an array of hashes of label keys to
@@ -100,7 +106,7 @@
         label,
         scores: labels[label].map(v => parseInt(v, 10)),
       }));
-    },
+    }
 
     /**
      * Returns hash of labels to max permitted score.
@@ -114,7 +120,7 @@
                 .map(v => parseInt(v, 10))
                 .reduce((a, b) => Math.max(a, b))}))
           .reduce((acc, i) => Object.assign(acc, i), {});
-    },
+    }
 
     /**
      * Returns max permitted score for reviewer.
@@ -139,7 +145,7 @@
         return 0;
       }
       return NaN;
-    },
+    }
 
     _computeReviewerTooltip(reviewer, change) {
       if (!change || !change.labels) { return ''; }
@@ -160,7 +166,7 @@
       } else {
         return '';
       }
-    },
+    }
 
     _reviewersChanged(changeRecord, owner) {
       // Polymer 2: check for undefined
@@ -194,7 +200,7 @@
       } else {
         this._displayedReviewers = this._reviewers;
       }
-    },
+    }
 
     _computeHiddenCount(reviewers, displayedReviewers) {
       // Polymer 2: check for undefined
@@ -203,7 +209,7 @@
       }
 
       return reviewers.length - displayedReviewers.length;
-    },
+    }
 
     _computeCanRemoveReviewer(reviewer, mutable) {
       if (!mutable) { return false; }
@@ -217,7 +223,7 @@
         }
       }
       return false;
-    },
+    }
 
     _handleRemove(e) {
       e.preventDefault();
@@ -245,7 +251,7 @@
         this.disabled = false;
         throw err;
       });
-    },
+    }
 
     _handleAddTap(e) {
       e.preventDefault();
@@ -257,18 +263,20 @@
         value.ccsOnly = true;
       }
       this.fire('show-reply-dialog', {value});
-    },
+    }
 
     _handleViewAll(e) {
       this._displayedReviewers = this._reviewers;
-    },
+    }
 
     _removeReviewer(id) {
       return this.$.restAPI.removeChangeReviewer(this.change._number, id);
-    },
+    }
 
     _computeAddLabel(ccsOnly) {
       return ccsOnly ? 'Add CC' : 'Add reviewer';
-    },
-  });
+    }
+  }
+
+  customElements.define(GrReviewerList.is, GrReviewerList);
 })();

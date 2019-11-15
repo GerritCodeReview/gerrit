@@ -19,60 +19,68 @@
 
   const {ShortcutSection} = window.Gerrit.KeyboardShortcutBinder;
 
-  Polymer({
-    is: 'gr-keyboard-shortcuts-dialog',
-
+  /**
+    * @appliesMixin Gerrit.FireMixin
+    * @appliesMixin Gerrit.KeyboardShortcutMixin
+    */
+  class GrKeyboardShortcutsDialog extends Polymer.mixinBehaviors( [
+    Gerrit.FireBehavior,
+    Gerrit.KeyboardShortcutBehavior,
+  ], Polymer.GestureEventListeners(
+      Polymer.LegacyElementMixin(
+          Polymer.Element))) {
+    static get is() { return 'gr-keyboard-shortcuts-dialog'; }
     /**
      * Fired when the user presses the close button.
      *
      * @event close
      */
 
-    properties: {
-      _left: Array,
-      _right: Array,
+    static get properties() {
+      return {
+        _left: Array,
+        _right: Array,
 
-      _propertyBySection: {
-        type: Object,
-        value() {
-          return {
-            [ShortcutSection.EVERYWHERE]: '_everywhere',
-            [ShortcutSection.NAVIGATION]: '_navigation',
-            [ShortcutSection.DASHBOARD]: '_dashboard',
-            [ShortcutSection.CHANGE_LIST]: '_changeList',
-            [ShortcutSection.ACTIONS]: '_actions',
-            [ShortcutSection.REPLY_DIALOG]: '_replyDialog',
-            [ShortcutSection.FILE_LIST]: '_fileList',
-            [ShortcutSection.DIFFS]: '_diffs',
-          };
+        _propertyBySection: {
+          type: Object,
+          value() {
+            return {
+              [ShortcutSection.EVERYWHERE]: '_everywhere',
+              [ShortcutSection.NAVIGATION]: '_navigation',
+              [ShortcutSection.DASHBOARD]: '_dashboard',
+              [ShortcutSection.CHANGE_LIST]: '_changeList',
+              [ShortcutSection.ACTIONS]: '_actions',
+              [ShortcutSection.REPLY_DIALOG]: '_replyDialog',
+              [ShortcutSection.FILE_LIST]: '_fileList',
+              [ShortcutSection.DIFFS]: '_diffs',
+            };
+          },
         },
-      },
-    },
+      };
+    }
 
-    behaviors: [
-      Gerrit.FireBehavior,
-      Gerrit.KeyboardShortcutBehavior,
-    ],
-
-    hostAttributes: {
-      role: 'dialog',
-    },
+    ready() {
+      super.ready();
+      this._ensureAttribute('role', 'dialog');
+    }
 
     attached() {
+      super.attached();
       this.addKeyboardShortcutDirectoryListener(
           this._onDirectoryUpdated.bind(this));
-    },
+    }
 
     detached() {
+      super.detached();
       this.removeKeyboardShortcutDirectoryListener(
           this._onDirectoryUpdated.bind(this));
-    },
+    }
 
     _handleCloseTap(e) {
       e.preventDefault();
       e.stopPropagation();
       this.fire('close', null, {bubbles: false});
-    },
+    }
 
     _onDirectoryUpdated(directory) {
       const left = [];
@@ -122,6 +130,9 @@
 
       this.set('_left', left);
       this.set('_right', right);
-    },
-  });
+    }
+  }
+
+  customElements.define(GrKeyboardShortcutsDialog.is,
+      GrKeyboardShortcutsDialog);
 })();

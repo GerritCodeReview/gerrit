@@ -17,7 +17,11 @@
 (function() {
   'use strict';
 
-  Polymer({
-    is: 'gr-app',
-  });
+  class GrApp extends Polymer.GestureEventListeners(
+      Polymer.LegacyElementMixin(
+          Polymer.Element)) {
+    static get is() { return 'gr-app'; }
+  }
+
+  customElements.define(GrApp.is, GrApp);
 })();

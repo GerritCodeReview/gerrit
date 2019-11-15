@@ -24,9 +24,21 @@
 
   const STORAGE_DEBOUNCE_INTERVAL_MS = 100;
 
-  Polymer({
-    is: 'gr-editor-view',
-
+  /**
+    * @appliesMixin Gerrit.FireMixin
+    * @appliesMixin Gerrit.KeyboardShortcutMixin
+    * @appliesMixin Gerrit.PatchSetMixin
+    * @appliesMixin Gerrit.PathListMixin
+    */
+  class GrEditorView extends Polymer.mixinBehaviors( [
+    Gerrit.FireBehavior,
+    Gerrit.KeyboardShortcutBehavior,
+    Gerrit.PatchSetBehavior,
+    Gerrit.PathListBehavior,
+  ], Polymer.GestureEventListeners(
+      Polymer.LegacyElementMixin(
+          Polymer.Element))) {
+    static get is() { return 'gr-editor-view'; }
     /**
      * Fired when the title of the page should change.
      *
@@ -39,69 +51,69 @@
      * @event show-alert
      */
 
-    properties: {
+    static get properties() {
+      return {
       /**
        * URL params passed from the router.
        */
-      params: {
-        type: Object,
-        observer: '_paramsChanged',
-      },
+        params: {
+          type: Object,
+          observer: '_paramsChanged',
+        },
 
-      _change: Object,
-      _changeEditDetail: Object,
-      _changeNum: String,
-      _patchNum: String,
-      _path: String,
-      _type: String,
-      _content: String,
-      _newContent: String,
-      _saving: {
-        type: Boolean,
-        value: false,
-      },
-      _successfulSave: {
-        type: Boolean,
-        value: false,
-      },
-      _saveDisabled: {
-        type: Boolean,
-        value: true,
-        computed: '_computeSaveDisabled(_content, _newContent, _saving)',
-      },
-      _prefs: Object,
-    },
+        _change: Object,
+        _changeEditDetail: Object,
+        _changeNum: String,
+        _patchNum: String,
+        _path: String,
+        _type: String,
+        _content: String,
+        _newContent: String,
+        _saving: {
+          type: Boolean,
+          value: false,
+        },
+        _successfulSave: {
+          type: Boolean,
+          value: false,
+        },
+        _saveDisabled: {
+          type: Boolean,
+          value: true,
+          computed: '_computeSaveDisabled(_content, _newContent, _saving)',
+        },
+        _prefs: Object,
+      };
+    }
 
-    behaviors: [
-      Gerrit.FireBehavior,
-      Gerrit.KeyboardShortcutBehavior,
-      Gerrit.PatchSetBehavior,
-      Gerrit.PathListBehavior,
-    ],
+    get keyBindings() {
+      return {
+        'ctrl+s meta+s': '_handleSaveShortcut',
+      };
+    }
 
-    listeners: {
-      'content-change': '_handleContentChange',
-    },
-
-    keyBindings: {
-      'ctrl+s meta+s': '_handleSaveShortcut',
-    },
+    created() {
+      super.created();
+      this.addEventListener('content-change',
+          e => this._handleContentChange(e));
+    }
 
     attached() {
+      super.attached();
       this._getEditPrefs().then(prefs => { this._prefs = prefs; });
-    },
+    }
 
     get storageKey() {
       return `c${this._changeNum}_ps${this._patchNum}_${this._path}`;
-    },
+    }
 
     _getLoggedIn() {
       return this.$.restAPI.getLoggedIn();
-    },
+    }
 
     _getEditPrefs() {
       return this.$.restAPI.getEditPreferences();
-    },
+    }
 
     _paramsChanged(value) {
       if (value.view !== Gerrit.Nav.View.EDIT) {
@@ -126,13 +138,13 @@
       promises.push(
           this._getFileData(this._changeNum, this._path, this._patchNum));
       return Promise.all(promises);
-    },
+    }
 
     _getChangeDetail(changeNum) {
       return this.$.restAPI.getDiffChangeDetail(changeNum).then(change => {
         this._change = change;
       });
-    },
+    }
 
     _handlePathChanged(e) {
       const path = e.detail;
@@ -146,13 +158,13 @@
         this._successfulSave = true;
         this._viewEditInChangeView();
       });
-    },
+    }
 
     _viewEditInChangeView() {
       const patch = this._successfulSave ? this.EDIT_NAME : this._patchNum;
       Gerrit.Nav.navigateToChange(this._change, patch, null,
           patch !== this.EDIT_NAME);
-    },
+    }
 
     _getFileData(changeNum, path, patchNum) {
       const storedContent =
@@ -183,7 +195,7 @@
               this._type = '';
             }
           });
-    },
+    }
 
     _saveEdit() {
       this._saving = true;
@@ -198,7 +210,7 @@
         this._content = this._newContent;
         this._successfulSave = true;
       });
-    },
+    }
 
     _showAlert(message) {
       this.dispatchEvent(new CustomEvent('show-alert', {
@@ -206,7 +218,7 @@
         bubbles: true,
         composed: true,
       }));
-    },
+    }
 
     _computeSaveDisabled(content, newContent, saving) {
       // Polymer 2: check for undefined
@@ -222,12 +234,12 @@
         return true;
       }
       return content === newContent;
-    },
+    }
 
     _handleCloseTap() {
       // TODO(kaspern): Add a confirm dialog if there are unsaved changes.
       this._viewEditInChangeView();
-    },
+    }
 
     _handleContentChange(e) {
       this.debounce('store', () => {
@@ -239,13 +251,15 @@
           this.$.storage.eraseEditableContentItem(this.storageKey);
         }
       }, STORAGE_DEBOUNCE_INTERVAL_MS);
-    },
+    }
 
     _handleSaveShortcut(e) {
       e.preventDefault();
       if (!this._saveDisabled) {
         this._saveEdit();
       }
-    },
-  });
+    }
+  }
+
+  customElements.define(GrEditorView.is, GrEditorView);
 })();

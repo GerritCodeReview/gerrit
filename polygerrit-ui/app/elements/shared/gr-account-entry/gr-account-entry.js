@@ -21,9 +21,10 @@
    * gr-account-entry is an element for entering account
    * and/or group with autocomplete support.
    */
-  Polymer({
-    is: 'gr-account-entry',
-
+  class GrAccountEntry extends Polymer.GestureEventListeners(
+      Polymer.LegacyElementMixin(
+          Polymer.Element)) {
+    static get is() { return 'gr-account-entry'; }
     /**
      * Fired when an account is entered.
      *
@@ -37,65 +38,70 @@
      *
      * @event account-text-changed
      */
-    properties: {
-      allowAnyInput: Boolean,
-      borderless: Boolean,
-      placeholder: String,
 
-      // suggestFrom = 0 to enable default suggestions.
-      suggestFrom: {
-        type: Number,
-        value: 0,
-      },
+    static get properties() {
+      return {
+        allowAnyInput: Boolean,
+        borderless: Boolean,
+        placeholder: String,
 
-      /** @type {!function(string): !Promise<Array<{name, value}>>} */
-      querySuggestions: {
-        type: Function,
-        notify: true,
-        value() {
-          return input => Promise.resolve([]);
+        // suggestFrom = 0 to enable default suggestions.
+        suggestFrom: {
+          type: Number,
+          value: 0,
         },
-      },
 
-      _config: Object,
-      /** The value of the autocomplete entry. */
-      _inputText: {
-        type: String,
-        observer: '_inputTextChanged',
-      },
+        /** @type {!function(string): !Promise<Array<{name, value}>>} */
+        querySuggestions: {
+          type: Function,
+          notify: true,
+          value() {
+            return input => Promise.resolve([]);
+          },
+        },
 
-    },
+        _config: Object,
+        /** The value of the autocomplete entry. */
+        _inputText: {
+          type: String,
+          observer: '_inputTextChanged',
+        },
+
+      };
+    }
 
     get focusStart() {
       return this.$.input.focusStart;
-    },
+    }
 
     focus() {
       this.$.input.focus();
-    },
+    }
 
     clear() {
       this.$.input.clear();
-    },
+    }
 
     setText(text) {
       this.$.input.setText(text);
-    },
+    }
 
     getText() {
       return this.$.input.text;
-    },
+    }
 
     _handleInputCommit(e) {
       this.fire('add', {value: e.detail.value});
       this.$.input.focus();
-    },
+    }
 
     _inputTextChanged(text) {
       if (text.length && this.allowAnyInput) {
         this.dispatchEvent(new CustomEvent(
             'account-text-changed', {bubbles: true, composed: true}));
       }
-    },
-  });
+    }
+  }
+
+  customElements.define(GrAccountEntry.is, GrAccountEntry);
 })();

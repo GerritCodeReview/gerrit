@@ -17,11 +17,16 @@
 (function() {
   'use strict';
 
-  Polymer({
-    is: 'gr-label',
+  /**
+    * @appliesMixin Gerrit.TooltipMixin
+    */
+  class GrLabel extends Polymer.mixinBehaviors( [
+    Gerrit.TooltipBehavior,
+  ], Polymer.GestureEventListeners(
+      Polymer.LegacyElementMixin(
+          Polymer.Element))) {
+    static get is() { return 'gr-label'; }
+  }
 
-    behaviors: [
-      Gerrit.TooltipBehavior,
-    ],
-  });
+  customElements.define(GrLabel.is, GrLabel);
 })();

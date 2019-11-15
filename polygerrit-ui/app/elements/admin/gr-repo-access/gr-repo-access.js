@@ -67,66 +67,77 @@
    */
   Defs.projectAccessInput;
 
-  Polymer({
-    is: 'gr-repo-access',
+  /**
+    * @appliesMixin Gerrit.AccessMixin
+    * @appliesMixin Gerrit.BaseUrlMixin
+    * @appliesMixin Gerrit.FireMixin
+    * @appliesMixin Gerrit.URLEncodingMixin
+    */
+  class GrRepoAccess extends Polymer.mixinBehaviors( [
+    Gerrit.AccessBehavior,
+    Gerrit.BaseUrlBehavior,
+    Gerrit.FireBehavior,
+    Gerrit.URLEncodingBehavior,
+  ], Polymer.GestureEventListeners(
+      Polymer.LegacyElementMixin(
+          Polymer.Element))) {
+    static get is() { return 'gr-repo-access'; }
 
-    properties: {
-      repo: {
-        type: String,
-        observer: '_repoChanged',
-      },
-      // The current path
-      path: String,
-
-      _canUpload: {
-        type: Boolean,
-        value: false,
-      },
-      _inheritFromFilter: String,
-      _query: {
-        type: Function,
-        value() {
-          return this._getInheritFromSuggestions.bind(this);
+    static get properties() {
+      return {
+        repo: {
+          type: String,
+          observer: '_repoChanged',
         },
-      },
-      _ownerOf: Array,
-      _capabilities: Object,
-      _groups: Object,
-      /** @type {?} */
-      _inheritsFrom: Object,
-      _labels: Object,
-      _local: Object,
-      _editing: {
-        type: Boolean,
-        value: false,
-        observer: '_handleEditingChanged',
-      },
-      _modified: {
-        type: Boolean,
-        value: false,
-      },
-      _sections: Array,
-      _weblinks: Array,
-      _loading: {
-        type: Boolean,
-        value: true,
-      },
-    },
+        // The current path
+        path: String,
 
-    behaviors: [
-      Gerrit.AccessBehavior,
-      Gerrit.BaseUrlBehavior,
-      Gerrit.FireBehavior,
-      Gerrit.URLEncodingBehavior,
-    ],
+        _canUpload: {
+          type: Boolean,
+          value: false,
+        },
+        _inheritFromFilter: String,
+        _query: {
+          type: Function,
+          value() {
+            return this._getInheritFromSuggestions.bind(this);
+          },
+        },
+        _ownerOf: Array,
+        _capabilities: Object,
+        _groups: Object,
+        /** @type {?} */
+        _inheritsFrom: Object,
+        _labels: Object,
+        _local: Object,
+        _editing: {
+          type: Boolean,
+          value: false,
+          observer: '_handleEditingChanged',
+        },
+        _modified: {
+          type: Boolean,
+          value: false,
+        },
+        _sections: Array,
+        _weblinks: Array,
+        _loading: {
+          type: Boolean,
+          value: true,
+        },
+      };
+    }
 
-    listeners: {
-      'access-modified': '_handleAccessModified',
-    },
+    created() {
+      super.created();
+      this.addEventListener('access-modified',
+          () =>
+            this._handleAccessModified());
+    }
 
     _handleAccessModified() {
       this._modified = true;
-    },
+    }
 
     /**
      * @param {string} repo
@@ -138,7 +149,7 @@
       if (!repo) { return Promise.resolve(); }
 
       return this._reload(repo);
-    },
+    }
 
     _reload(repo) {
       const promises = [];
@@ -195,7 +206,7 @@
         this._sections = sections;
         this._loading = false;
       });
-    },
+    }
 
     _handleUpdateInheritFrom(e) {
       if (!this._inheritsFrom) {
@@ -204,7 +215,7 @@
       this._inheritsFrom.id = e.detail.value;
       this._inheritsFrom.name = this._inheritFromFilter;
       this._handleAccessModified();
-    },
+    }
 
     _getInheritFromSuggestions() {
       return this.$.restAPI.getRepos(
@@ -221,33 +232,33 @@
             }
             return projects;
           });
-    },
+    }
 
     _computeLoadingClass(loading) {
       return loading ? 'loading' : '';
-    },
+    }
 
     _handleEdit() {
       this._editing = !this._editing;
-    },
+    }
 
     _editOrCancel(editing) {
       return editing ? 'Cancel' : 'Edit';
-    },
+    }
 
     _computeWebLinkClass(weblinks) {
       return weblinks && weblinks.length ? 'show' : '';
-    },
+    }
 
     _computeShowInherit(inheritsFrom) {
       return inheritsFrom ? 'show' : '';
-    },
+    }
 
     _handleAddedSectionRemoved(e) {
       const index = e.model.index;
       this._sections = this._sections.slice(0, index)
           .concat(this._sections.slice(index + 1, this._sections.length));
-    },
+    }
 
     _handleEditingChanged(editing, editingOld) {
       // Ignore when editing gets set initially.
@@ -266,7 +277,7 @@
           delete this._local[key];
         }
       }
-    },
+    }
 
     /**
      * @param {!Defs.projectAccessInput} addRemoveObj
@@ -296,7 +307,7 @@
         curPos = curPos[item];
       }
       return addRemoveObj;
-    },
+    }
 
     /**
      * Used to recursively remove any objects with a 'deleted' bit.
@@ -313,7 +324,7 @@
           this._recursivelyRemoveDeleted(obj[k]);
         }
       }
-    },
+    }
 
     _recursivelyUpdateAddRemoveObj(obj, addRemoveObj, path = []) {
       for (const k in obj) {
@@ -354,7 +365,7 @@
               path.concat(k));
         }
       }
-    },
+    }
 
     /**
      * Returns an object formatted for saving or submitting access changes for
@@ -388,7 +399,7 @@
         addRemoveObj.parent = inheritsFromId;
       }
       return addRemoveObj;
-    },
+    }
 
     _handleCreateSection() {
       let newRef = 'refs/for/*';
@@ -403,7 +414,7 @@
       Polymer.dom.flush();
       Polymer.dom(this.root).querySelector('gr-access-section:last-of-type')
           .editReference();
-    },
+    }
 
     _getObjforSave() {
       const addRemoveObj = this._computeAddAndRemove();
@@ -426,7 +437,7 @@
         obj.parent = addRemoveObj.parent;
       }
       return obj;
-    },
+    }
 
     _handleSave() {
       const obj = this._getObjforSave();
@@ -435,7 +446,7 @@
           .then(() => {
             this._reload(this.repo);
           });
-    },
+    }
 
     _handleSaveForReview() {
       const obj = this._getObjforSave();
@@ -444,15 +455,15 @@
           .then(change => {
             Gerrit.Nav.navigateToChange(change);
           });
-    },
+    }
 
     _computeSaveReviewBtnClass(canUpload) {
       return !canUpload ? 'invisible' : '';
-    },
+    }
 
     _computeSaveBtnClass(ownerOf) {
       return ownerOf && ownerOf.length === 0 ? 'invisible' : '';
-    },
+    }
 
     _computeMainClass(ownerOf, canUpload, editing) {
       const classList = [];
@@ -463,11 +474,13 @@
         classList.push('editing');
       }
       return classList.join(' ');
-    },
+    }
 
     _computeParentHref(repoName) {
       return this.getBaseUrl() +
           `/admin/repos/${this.encodeURL(repoName, true)},access`;
-    },
-  });
+    }
+  }
+
+  customElements.define(GrRepoAccess.is, GrRepoAccess);
 })();

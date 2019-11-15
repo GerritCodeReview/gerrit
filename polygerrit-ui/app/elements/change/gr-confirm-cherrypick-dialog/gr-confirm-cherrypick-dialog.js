@@ -19,9 +19,15 @@
 
   const SUGGESTIONS_LIMIT = 15;
 
-  Polymer({
-    is: 'gr-confirm-cherrypick-dialog',
-
+  /**
+    * @appliesMixin Gerrit.FireMixin
+    */
+  class GrConfirmCherrypickDialog extends Polymer.mixinBehaviors( [
+    Gerrit.FireBehavior,
+  ], Polymer.GestureEventListeners(
+      Polymer.LegacyElementMixin(
+          Polymer.Element))) {
+    static get is() { return 'gr-confirm-cherrypick-dialog'; }
     /**
      * Fired when the confirm button is pressed.
      *
@@ -34,29 +40,29 @@
      * @event cancel
      */
 
-    properties: {
-      branch: String,
-      baseCommit: String,
-      changeStatus: String,
-      commitMessage: String,
-      commitNum: String,
-      message: String,
-      project: String,
-      _query: {
-        type: Function,
-        value() {
-          return this._getProjectBranchesSuggestions.bind(this);
+    static get properties() {
+      return {
+        branch: String,
+        baseCommit: String,
+        changeStatus: String,
+        commitMessage: String,
+        commitNum: String,
+        message: String,
+        project: String,
+        _query: {
+          type: Function,
+          value() {
+            return this._getProjectBranchesSuggestions.bind(this);
+          },
         },
-      },
-    },
+      };
+    }
 
-    behaviors: [
-      Gerrit.FireBehavior,
-    ],
-
-    observers: [
-      '_computeMessage(changeStatus, commitNum, commitMessage)',
-    ],
+    static get observers() {
+      return [
+        '_computeMessage(changeStatus, commitNum, commitMessage)',
+      ];
+    }
 
     _computeMessage(changeStatus, commitNum, commitMessage) {
       // Polymer 2: check for undefined
@@ -74,23 +80,23 @@
         newMessage += '(cherry picked from commit ' + commitNum + ')';
       }
       this.message = newMessage;
-    },
+    }
 
     _handleConfirmTap(e) {
       e.preventDefault();
       e.stopPropagation();
       this.fire('confirm', null, {bubbles: false});
-    },
+    }
 
     _handleCancelTap(e) {
       e.preventDefault();
       e.stopPropagation();
       this.fire('cancel', null, {bubbles: false});
-    },
+    }
 
     resetFocus() {
       this.$.branchInput.focus();
-    },
+    }
 
     _getProjectBranchesSuggestions(input) {
       if (input.startsWith('refs/heads/')) {
@@ -113,6 +119,9 @@
         }
         return branches;
       });
-    },
-  });
+    }
+  }
+
+  customElements.define(GrConfirmCherrypickDialog.is,
+      GrConfirmCherrypickDialog);
 })();

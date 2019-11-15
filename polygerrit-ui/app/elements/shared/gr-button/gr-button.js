@@ -17,65 +17,77 @@
 (function() {
   'use strict';
 
-  Polymer({
-    is: 'gr-button',
+  /**
+    * @appliesMixin Gerrit.KeyboardShortcutMixin
+    * @appliesMixin Gerrit.TooltipMixin
+    */
+  class GrButton extends Polymer.mixinBehaviors( [
+    Gerrit.KeyboardShortcutBehavior,
+    Gerrit.TooltipBehavior,
+  ], Polymer.GestureEventListeners(
+      Polymer.LegacyElementMixin(
+          Polymer.Element))) {
+    static get is() { return 'gr-button'; }
 
-    properties: {
-      tooltip: String,
-      downArrow: {
-        type: Boolean,
-        reflectToAttribute: true,
-      },
-      link: {
-        type: Boolean,
-        value: false,
-        reflectToAttribute: true,
-      },
-      loading: {
-        type: Boolean,
-        value: false,
-        reflectToAttribute: true,
-      },
-      disabled: {
-        type: Boolean,
-        observer: '_disabledChanged',
-        reflectToAttribute: true,
-      },
-      noUppercase: {
-        type: Boolean,
-        value: false,
-      },
-      _enabledTabindex: {
-        type: String,
-        value: '0',
-      },
-    },
+    static get properties() {
+      return {
+        tooltip: String,
+        downArrow: {
+          type: Boolean,
+          reflectToAttribute: true,
+        },
+        link: {
+          type: Boolean,
+          value: false,
+          reflectToAttribute: true,
+        },
+        loading: {
+          type: Boolean,
+          value: false,
+          reflectToAttribute: true,
+        },
+        disabled: {
+          type: Boolean,
+          observer: '_disabledChanged',
+          reflectToAttribute: true,
+        },
+        noUppercase: {
+          type: Boolean,
+          value: false,
+        },
+        _enabledTabindex: {
+          type: String,
+          value: '0',
+        },
+      };
+    }
 
-    listeners: {
-      click: '_handleAction',
-      keydown: '_handleKeydown',
-    },
+    static get observers() {
+      return [
+        '_computeDisabled(disabled, loading)',
+      ];
+    }
 
-    observers: [
-      '_computeDisabled(disabled, loading)',
-    ],
+    created() {
+      super.created();
+      this.addEventListener('click',
+          e => this._handleAction(e));
+      this.addEventListener('keydown',
+          e => this._handleKeydown(e));
+    }
 
-    behaviors: [
-      Gerrit.KeyboardShortcutBehavior,
-      Gerrit.TooltipBehavior,
-    ],
-
-    hostAttributes: {
-      role: 'button',
-      tabindex: '0',
-    },
+    ready() {
+      super.ready();
+      this._ensureAttribute('role', 'button');
+      this._ensureAttribute('tabindex', '0');
+    }
 
     _handleAction(e) {
       if (this.disabled) {
         e.preventDefault();
         e.stopImmediatePropagation();
       }
-    },
+    }
 
     _disabledChanged(disabled) {
       if (disabled) {
@@ -83,11 +95,11 @@
       }
       this.setAttribute('tabindex', disabled ? '-1' : this._enabledTabindex);
       this.updateStyles();
-    },
+    }
 
     _computeDisabled(disabled, loading) {
       return disabled || loading;
-    },
+    }
 
     _handleKeydown(e) {
       if (this.modifierPressed(e)) { return; }
@@ -98,6 +110,8 @@
         e.stopPropagation();
         this.click();
       }
-    },
-  });
+    }
+  }
+
+  customElements.define(GrButton.is, GrButton);
 })();

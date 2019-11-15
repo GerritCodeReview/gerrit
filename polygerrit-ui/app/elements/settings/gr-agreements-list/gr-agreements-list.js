@@ -17,33 +17,41 @@
 (function() {
   'use strict';
 
-  Polymer({
-    is: 'gr-agreements-list',
+  /**
+    * @appliesMixin Gerrit.BaseUrlMixin
+    */
+  class GrAgreementsList extends Polymer.mixinBehaviors( [
+    Gerrit.BaseUrlBehavior,
+  ], Polymer.GestureEventListeners(
+      Polymer.LegacyElementMixin(
+          Polymer.Element))) {
+    static get is() { return 'gr-agreements-list'; }
 
-    properties: {
-      _agreements: Array,
-    },
-
-    behaviors: [
-      Gerrit.BaseUrlBehavior,
-    ],
+    static get properties() {
+      return {
+        _agreements: Array,
+      };
+    }
 
     attached() {
+      super.attached();
       this.loadData();
-    },
+    }
 
     loadData() {
       return this.$.restAPI.getAccountAgreements().then(agreements => {
         this._agreements = agreements;
       });
-    },
+    }
 
     getUrl() {
       return this.getBaseUrl() + '/settings/new-agreement';
-    },
+    }
 
     getUrlBase(item) {
       return this.getBaseUrl() + '/' + item;
-    },
-  });
+    }
+  }
+
+  customElements.define(GrAgreementsList.is, GrAgreementsList);
 })();

@@ -17,40 +17,44 @@
 (function() {
   'use strict';
 
-  Polymer({
-    is: 'gr-user-header',
+  class GrUserHeader extends Polymer.GestureEventListeners(
+      Polymer.LegacyElementMixin(
+          Polymer.Element)) {
+    static get is() { return 'gr-user-header'; }
 
-    properties: {
+    static get properties() {
+      return {
       /** @type {?String} */
-      userId: {
-        type: String,
-        observer: '_accountChanged',
-      },
+        userId: {
+          type: String,
+          observer: '_accountChanged',
+        },
 
-      showDashboardLink: {
-        type: Boolean,
-        value: false,
-      },
+        showDashboardLink: {
+          type: Boolean,
+          value: false,
+        },
 
-      loggedIn: {
-        type: Boolean,
-        value: false,
-      },
+        loggedIn: {
+          type: Boolean,
+          value: false,
+        },
 
-      /**
+        /**
        * @type {?{name: ?, email: ?, registered_on: ?}}
        */
-      _accountDetails: {
-        type: Object,
-        value: null,
-      },
+        _accountDetails: {
+          type: Object,
+          value: null,
+        },
 
-      /** @type {?String} */
-      _status: {
-        type: String,
-        value: null,
-      },
-    },
+        /** @type {?String} */
+        _status: {
+          type: String,
+          value: null,
+        },
+      };
+    }
 
     _accountChanged(userId) {
       if (!userId) {
@@ -65,19 +69,19 @@
       this.$.restAPI.getAccountStatus(userId).then(status => {
         this._status = status;
       });
-    },
+    }
 
     _computeDisplayClass(status) {
       return status ? ' ' : 'hide';
-    },
+    }
 
     _computeDetail(accountDetails, name) {
       return accountDetails ? accountDetails[name] : '';
-    },
+    }
 
     _computeStatusClass(accountDetails) {
       return this._computeDetail(accountDetails, 'status') ? '' : 'hide';
-    },
+    }
 
     _computeDashboardUrl(accountDetails) {
       if (!accountDetails) { return null; }
@@ -85,11 +89,13 @@
       const email = accountDetails.email;
       if (!id && !email ) { return null; }
       return Gerrit.Nav.getUrlForUserDashboard(id ? id : email);
-    },
+    }
 
     _computeDashboardLinkClass(showDashboardLink, loggedIn) {
       return showDashboardLink && loggedIn ?
         'dashboardLink' : 'dashboardLink hide';
-    },
-  });
+    }
+  }
+
+  customElements.define(GrUserHeader.is, GrUserHeader);
 })();

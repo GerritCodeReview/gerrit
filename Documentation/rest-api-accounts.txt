@@ -2152,7 +2152,7 @@ This can be:
 * a user name ("username")
 
 In all cases, accounts that are not
-link:config-gerrit.txt#accounts.visibility[visible] to the calling user are not
+link:config-gerrit.html#accounts.visibility[visible] to the calling user are not
 considered.
 
 In all cases _except_ a bare account ID and `self`/`me`, inactive accounts are

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a5bc58a9_5de47126",
+        "filename": "polygerrit-ui/app/BUILD",
+        "patchSetId": 3
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-11-15T16:33:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d0cd4dc2_8a472738",
+      "revId": "9d8ceff52a191179499f9e5311bb98072eee65bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "89d8733e_6a9d8b9c",
         "filename": "polygerrit-ui/app/polylint_test.sh",
         "patchSetId": 3

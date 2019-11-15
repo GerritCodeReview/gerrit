@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher F41A2656 1573831185 +0100\nnonce AC6AUtMQiCR5TMzmGKH4+coxDIRd/XRrIs8SDcEaWDD0Abx4q4Jcj9fKvQVKAoIY9eLEHbBERwWH\n\n0000000000000000000000000000000000000000 3cf06592dd2920e85f884588bef7ed09aa260a5e refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJdzsIRAAoJEHFVO370GiZWe1UH/0VGMbkVkmsPMnhmzZ2QNeJz\nfQK4vcYBVn4rB0f6SSkQPHM5xOyB2Awq5K+EFp2QmglMyy/wT6kURH5ExNaYKtaJ\nTtdIn7F2bjS04W9a5+SxWNvsQhFRMtngFHfopmhJ0LIaJAyqXY/osDTG3QNrVC2K\ndG+CCzkbOROq/G3y6eRFXC4YtDJJ4r1ak+MmcWOJq4O0OFLeaVLWmFE2LkfL8vYN\naJ8vHnm2TML/bxhT1Gqm82WliM+IqG+GHQ7dzDtViD9YRqan7d/+ypqyTsKVCEMN\nwoOkYP9JINkCOlUtbLP25kONSAJqY8eo+txWv/X7HWLM2gTztKcUzc9lHsOhfYs\u003d\n\u003dD4S4\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "da610d56_d7b3fccd",
+        "filename": "java/com/google/gerrit/server/mail/send/OutgoingEmail.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-11-15T16:26:55Z",
+      "side": 1,
+      "message": "Why is this passed as format argument but HTML is not?",
+      "range": {
+        "startLine": 162,
+        "startChar": 20,
+        "endLine": 162,
+        "endChar": 41
+      },
+      "revId": "3cf06592dd2920e85f884588bef7ed09aa260a5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

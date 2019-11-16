@@ -19,6 +19,9 @@
 
   const util = window.util || {};
 
+  // Astral code point as per https://mathiasbynens.be/notes/javascript-unicode
+  const REGEX_ASTRAL_SYMBOL = /[\uD800-\uDBFF][\uDC00-\uDFFF]/;
+
   util.parseDate = function(dateStr) {
     // Timestamps are given in UTC and have the format
     // "'yyyy-mm-dd hh:mm:ss.fffffffff'" where "'ffffffffff'" represents
@@ -126,6 +129,32 @@
       }
     }
     return element;
+  };
+
+  /**
+   * Node.prototype.splitText Unicode-valid alternative.
+   *
+   * DOM Api for splitText() is broken for Unicode:
+   * https://mathiasbynens.be/notes/javascript-unicode
+   *
+   */
+  util.splitTextNode = (node, offset) => {
+    if (node.textContent.match(REGEX_ASTRAL_SYMBOL)) {
+      const head = Array.from(node.textContent);
+      const tail = head.splice(offset);
+      const parent = node.parentNode;
+
+      // Split the content of the original node.
+      node.textContent = head.join('');
+
+      const tailNode = document.createTextNode(tail.join(''));
+      if (parent) {
+        parent.insertBefore(tailNode, node.nextSibling);
+      }
+      return tailNode;
+    } else {
+      return node.splitText(offset);
+    }
   };
 
   window.util = util;

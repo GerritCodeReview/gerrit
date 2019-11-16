@@ -1,6 +1,6 @@
 <!--
 @license
-Copyright (C) 2016 The Android Open Source Project
+Copyright (C) 2019 The Android Open Source Project
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
@@ -15,31 +15,18 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <link rel="import" href="/bower_components/polymer/polymer.html">
-
-<link rel="import" href="../../../behaviors/fire-behavior/fire-behavior.html">
 <link rel="import" href="../../../styles/shared-styles.html">
-<link rel="import" href="../gr-selection-action-box/gr-selection-action-box.html">
+<script src="../../../scripts/util.js"></script>
 
-<dom-module id="gr-diff-highlight">
+<dom-module id="gr-highlight-text">
   <template>
     <style include="shared-styles">
-      :host {
-        position: relative;
-      }
-      gr-selection-action-box {
-        /**
-         * Needs z-index to apear above wrapped content, since it's inseted
-         * into DOM before it.
-         */
-        z-index: 10;
+      ::slotted(.highlight-text) {
+        font-weight: 500;
+        background: yellow;
       }
     </style>
-    <div class="contentWrapper">
-      <slot></slot>
-    </div>
+    <slot id="highlightContainer"></slot>
   </template>
-  <script src="../../../scripts/util.js"></script>
-  <script src="gr-annotation.js"></script>
-  <script src="gr-range-normalizer.js"></script>
-  <script src="gr-diff-highlight.js"></script>
+  <script src="gr-highlight-text.js"></script>
 </dom-module>

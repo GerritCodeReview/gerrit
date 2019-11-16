@@ -196,11 +196,13 @@
     * @appliesMixin Gerrit.FireMixin
     * @appliesMixin Gerrit.PatchSetMixin
     * @appliesMixin Gerrit.RESTClientMixin
+    * @appliesMixin Gerrit.CommonInterfaceMixin
     */
   class GrChangeActions extends Polymer.mixinBehaviors( [
     Gerrit.FireBehavior,
     Gerrit.PatchSetBehavior,
     Gerrit.RESTClientBehavior,
+    Gerrit.CommonInterfaceBehavior,
   ], Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(
           Polymer.Element))) {
@@ -442,7 +444,7 @@
 
     ready() {
       super.ready();
-      this.$.jsAPI.addElement(this.$.jsAPI.Element.CHANGE_ACTIONS, this);
+      this.jsAPI.addElement(this.jsAPI.Element.CHANGE_ACTIONS, this);
       this._handleLoadingComplete();
     }
 
@@ -604,7 +606,7 @@
     }
 
     _getRevisionActions() {
-      return this.$.restAPI.getChangeRevisionActions(this.changeNum,
+      return this.restAPI.getChangeRevisionActions(this.changeNum,
           this.latestPatchNum);
     }
 
@@ -863,7 +865,7 @@
     _populateActionUrl(action) {
       const patchNum =
             action.__type === ActionType.REVISION ? this.latestPatchNum : null;
-      this.$.restAPI.getChangeActionURL(
+      this.restAPI.getChangeActionURL(
           this.changeNum, patchNum, '/' + action.__key)
           .then(url => action.__url = url);
     }
@@ -899,7 +901,7 @@
     }
 
     _canSubmitChange() {
-      return this.$.jsAPI.canSubmitChange(this.change,
+      return this.jsAPI.canSubmitChange(this.change,
           this._getRevision(this.change, this.latestPatchNum));
     }
 
@@ -913,7 +915,7 @@
     }
 
     _modifyRevertMsg() {
-      return this.$.jsAPI.modifyRevertMsg(this.change,
+      return this.jsAPI.modifyRevertMsg(this.change,
           this.$.confirmRevertDialog.message, this.commitMessage);
     }
 
@@ -925,7 +927,7 @@
     }
 
     _modifyRevertSubmissionMsg() {
-      return this.$.jsAPI.modifyRevertSubmissionMsg(this.change,
+      return this.jsAPI.modifyRevertSubmissionMsg(this.change,
           this.$.confirmRevertSubmissionDialog.message, this.commitMessage);
     }
 
@@ -1250,14 +1252,14 @@
     // TODO(rmistry): Redo this after
     // https://bugs.chromium.org/p/gerrit/issues/detail?id=4671 is resolved.
     _setLabelValuesOnRevert(newChangeId) {
-      const labels = this.$.jsAPI.getLabelValuesPostRevert(this.change);
+      const labels = this.jsAPI.getLabelValuesPostRevert(this.change);
       if (!labels) { return Promise.resolve(); }
-      return this.$.restAPI.saveChangeReview(newChangeId, 'current', {labels});
+      return this.restAPI.saveChangeReview(newChangeId, 'current', {labels});
     }
 
     _handleResponse(action, response) {
       if (!response) { return; }
-      return this.$.restAPI.getResponseObject(response).then(obj => {
+      return this.restAPI.getResponseObject(response).then(obj => {
         switch (action.__key) {
           case ChangeActions.REVERT:
             this._waitForChangeReachable(obj._number)
@@ -1321,7 +1323,7 @@
         this._handleResponseError(action, response, payload);
       };
 
-      return this.fetchChangeUpdates(this.change, this.$.restAPI)
+      return this.fetchChangeUpdates(this.change, this.restAPI)
           .then(result => {
             if (!result.isLatest) {
               this.fire('show-alert', {
@@ -1341,7 +1343,7 @@
               return Promise.resolve();
             }
             const patchNum = revisionAction ? this.latestPatchNum : null;
-            return this.$.restAPI.executeChangeAction(this.changeNum, method,
+            return this.restAPI.executeChangeAction(this.changeNum, method,
                 actionEndpoint, patchNum, payload, handleError)
                 .then(response => {
                   cleanupFn.call(this);
@@ -1528,7 +1530,7 @@
         const check = () => {
           attempsRemaining--;
           // Pass a no-op error handler to avoid the "not found" error toast.
-          this.$.restAPI.getChange(changeNum, () => {}).then(response => {
+          this.restAPI.getChange(changeNum, () => {}).then(response => {
             // If the response is 404, the response will be undefined.
             if (response) {
               resolve(true);

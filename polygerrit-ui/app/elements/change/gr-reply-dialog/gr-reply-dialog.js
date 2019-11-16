@@ -58,6 +58,7 @@
     * @appliesMixin Gerrit.KeyboardShortcutMixin
     * @appliesMixin Gerrit.PatchSetMixin
     * @appliesMixin Gerrit.RESTClientMixin
+    * @appliesMixin Gerrit.CommonInterfaceMixin
     */
   class GrReplyDialog extends Polymer.mixinBehaviors( [
     Gerrit.BaseUrlBehavior,
@@ -65,6 +66,7 @@
     Gerrit.KeyboardShortcutBehavior,
     Gerrit.PatchSetBehavior,
     Gerrit.RESTClientBehavior,
+    Gerrit.CommonInterfaceBehavior,
   ], Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(
           Polymer.Element))) {
@@ -258,12 +260,12 @@
 
     ready() {
       super.ready();
-      this.$.jsAPI.addElement(this.$.jsAPI.Element.REPLY_DIALOG, this);
+      this.jsAPI.addElement(this.jsAPI.Element.REPLY_DIALOG, this);
     }
 
     open(opt_focusTarget) {
       this.knownLatestState = LatestPatchState.CHECKING;
-      this.fetchChangeUpdates(this.change, this.$.restAPI)
+      this.fetchChangeUpdates(this.change, this.restAPI)
           .then(result => {
             this.knownLatestState = result.isLatest ?
               LatestPatchState.LATEST : LatestPatchState.NOT_LATEST;
@@ -278,9 +280,9 @@
         // Otherwise, check for an unsaved draft in localstorage.
         this.draft = this._loadStoredDraft();
       }
-      if (this.$.restAPI.hasPendingDiffDrafts()) {
+      if (this.restAPI.hasPendingDiffDrafts()) {
         this._savingComments = true;
-        this.$.restAPI.awaitPendingDiffDrafts().then(() => {
+        this.restAPI.awaitPendingDiffDrafts().then(() => {
           this.fire('comment-refresh');
           this._savingComments = false;
         });
@@ -409,7 +411,7 @@
     _removeAccount(account, type) {
       if (account._pendingAdd) { return; }
 
-      return this.$.restAPI.removeChangeReviewer(this.change._number,
+      return this.restAPI.removeChangeReviewer(this.change._number,
           account._account_id).then(response => {
         if (!response.ok) { return response; }
 
@@ -436,7 +438,7 @@
     }
 
     send(includeComments, startReview) {
-      this.$.reporting.time(SEND_REPLY_TIMING_LABEL);
+      this.reporting.time(SEND_REPLY_TIMING_LABEL);
       const labels = this.$.labelScores.getLabelValues();
 
       const obj = {
@@ -545,7 +547,7 @@
       // Using response.clone() here, because getResponseObject() and
       // potentially the generic error handler will want to call text() on the
       // response object, which can only be done once per object.
-      const jsonPromise = this.$.restAPI.getResponseObject(response.clone());
+      const jsonPromise = this.restAPI.getResponseObject(response.clone());
       return jsonPromise.then(result => {
         // Only perform custom error handling for 400s and a parseable
         // ReviewResult response.
@@ -670,7 +672,7 @@
     }
 
     _getAccount() {
-      return this.$.restAPI.getAccount();
+      return this.restAPI.getAccount();
     }
 
     _cancelTapHandler(e) {
@@ -730,7 +732,7 @@
     }
 
     _saveReview(review, opt_errFn) {
-      return this.$.restAPI.saveChangeReview(this.change._number, this.patchNum,
+      return this.restAPI.saveChangeReview(this.change._number, this.patchNum,
           review, opt_errFn);
     }
 
@@ -774,7 +776,7 @@
     }
 
     _loadStoredDraft() {
-      const draft = this.$.storage.getDraftComment(this._getStorageLocation());
+      const draft = this.storage.getDraftComment(this._getStorageLocation());
       return draft ? draft.message : '';
     }
 
@@ -791,9 +793,9 @@
         if (!newDraft.length && oldDraft) {
           // If the draft has been modified to be empty, then erase the storage
           // entry.
-          this.$.storage.eraseDraftComment(this._getStorageLocation());
+          this.storage.eraseDraftComment(this._getStorageLocation());
         } else if (newDraft.length) {
-          this.$.storage.setDraftComment(this._getStorageLocation(),
+          this.storage.setDraftComment(this._getStorageLocation(),
               this.draft);
         }
       }, STORAGE_DEBOUNCE_INTERVAL_MS);
@@ -867,14 +869,14 @@
     }
 
     _getReviewerSuggestionsProvider(change) {
-      const provider = GrReviewerSuggestionsProvider.create(this.$.restAPI,
+      const provider = GrReviewerSuggestionsProvider.create(this.restAPI,
           change._number, Gerrit.SUGGESTIONS_PROVIDERS_USERS_TYPES.REVIEWER);
       provider.init();
       return provider;
     }
 
     _getCcSuggestionsProvider(change) {
-      const provider = GrReviewerSuggestionsProvider.create(this.$.restAPI,
+      const provider = GrReviewerSuggestionsProvider.create(this.restAPI,
           change._number, Gerrit.SUGGESTIONS_PROVIDERS_USERS_TYPES.CC);
       provider.init();
       return provider;

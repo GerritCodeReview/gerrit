@@ -19,9 +19,11 @@
 
   /**
     * @appliesMixin Gerrit.FireMixin
+    * @appliesMixin Gerrit.CommonInterfaceMixin
     */
   class GrAccountInfo extends Polymer.mixinBehaviors( [
     Gerrit.FireBehavior,
+    Gerrit.CommonInterfaceBehavior,
   ], Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(
           Polymer.Element))) {
@@ -88,11 +90,11 @@
 
       this._loading = true;
 
-      promises.push(this.$.restAPI.getConfig().then(config => {
+      promises.push(this.restAPI.getConfig().then(config => {
         this._serverConfig = config;
       }));
 
-      promises.push(this.$.restAPI.getAccount().then(account => {
+      promises.push(this.restAPI.getAccount().then(account => {
         this._hasNameChange = false;
         this._hasUsernameChange = false;
         this._hasStatusChange = false;
@@ -103,7 +105,7 @@
         this._username = account.username;
       }));
 
-      promises.push(this.$.restAPI.getAvatarChangeUrl().then(url => {
+      promises.push(this.restAPI.getAvatarChangeUrl().then(url => {
         this._avatarChangeUrl = url;
       }));
 
@@ -133,19 +135,19 @@
 
     _maybeSetName() {
       return this._hasNameChange && this.nameMutable ?
-        this.$.restAPI.setAccountName(this._account.name) :
+        this.restAPI.setAccountName(this._account.name) :
         Promise.resolve();
     }
 
     _maybeSetUsername() {
       return this._hasUsernameChange && this.usernameMutable ?
-        this.$.restAPI.setAccountUsername(this._username) :
+        this.restAPI.setAccountUsername(this._username) :
         Promise.resolve();
     }
 
     _maybeSetStatus() {
       return this._hasStatusChange ?
-        this.$.restAPI.setAccountStatus(this._account.status) :
+        this.restAPI.setAccountStatus(this._account.status) :
         Promise.resolve();
     }
 

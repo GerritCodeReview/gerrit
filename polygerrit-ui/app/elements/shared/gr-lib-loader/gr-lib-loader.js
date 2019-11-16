@@ -20,9 +20,14 @@
   const HLJS_PATH = 'bower_components/highlightjs/highlight.min.js';
   const DARK_THEME_PATH = 'styles/themes/dark-theme.html';
 
-  class GrLibLoader extends Polymer.GestureEventListeners(
+  /**
+   * @appliesMixin Gerrit.CommonInterfaceMixin
+   */
+  class GrLibLoader extends Polymer.mixinBehaviors( [
+    Gerrit.CommonInterfaceBehavior,
+  ], Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(
-          Polymer.Element)) {
+          Polymer.Element))) {
     static get is() { return 'gr-lib-loader'; }
 
     static get properties() {
@@ -91,7 +96,7 @@
     _onHLJSLibLoaded() {
       const lib = this._getHighlightLib();
       this._hljsState.loading = false;
-      this.$.jsAPI.handleEvent(this.$.jsAPI.EventType.HIGHLIGHTJS_LOADED, {
+      this.jsAPI.handleEvent(this.jsAPI.EventType.HIGHLIGHTJS_LOADED, {
         hljs: lib,
       });
       for (const cb of this._hljsState.callbacks) {

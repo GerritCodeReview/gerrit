@@ -24,9 +24,11 @@
 
   /**
     * @appliesMixin Gerrit.BaseUrlMixin
+    * @appliesMixin Gerrit.CommonInterfaceMixin
     */
   class GrIdentities extends Polymer.mixinBehaviors( [
     Gerrit.BaseUrlBehavior,
+    Gerrit.CommonInterfaceBehavior,
   ], Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(
           Polymer.Element))) {
@@ -45,7 +47,7 @@
     }
 
     loadData() {
-      return this.$.restAPI.getExternalIds().then(id => {
+      return this.restAPI.getExternalIds().then(id => {
         this._identities = id;
       });
     }
@@ -60,7 +62,7 @@
 
     _handleDeleteItemConfirm() {
       this.$.overlay.close();
-      return this.$.restAPI.deleteAccountIdentity([this._idName])
+      return this.restAPI.deleteAccountIdentity([this._idName])
           .then(() => { this.loadData(); });
     }
 

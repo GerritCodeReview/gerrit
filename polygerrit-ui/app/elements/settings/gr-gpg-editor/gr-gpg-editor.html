@@ -21,8 +21,8 @@ limitations under the License.
 <link rel="import" href="../../shared/gr-button/gr-button.html">
 <link rel="import" href="../../shared/gr-copy-clipboard/gr-copy-clipboard.html">
 <link rel="import" href="../../shared/gr-overlay/gr-overlay.html">
-<link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../../../styles/shared-styles.html">
+<link rel="import" href="../../../behaviors/gr-common-interface-behavior/gr-common-interface-behavior.html">
 
 <dom-module id="gr-gpg-editor">
   <template>
@@ -139,7 +139,6 @@ limitations under the License.
             on-click="_handleAddKey">Add new GPG key</gr-button>
       </fieldset>
     </div>
-    <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>
   <script src="gr-gpg-editor.js"></script>
 </dom-module>

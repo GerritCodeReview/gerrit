@@ -17,9 +17,14 @@
 (function() {
   'use strict';
 
-  class GrHttpPassword extends Polymer.GestureEventListeners(
+  /**
+   * @appliesMixin Gerrit.CommonInterfaceMixin
+   */
+  class GrHttpPassword extends Polymer.mixinBehaviors( [
+    Gerrit.CommonInterfaceBehavior,
+  ], Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(
-          Polymer.Element)) {
+          Polymer.Element))) {
     static get is() { return 'gr-http-password'; }
 
     static get properties() {
@@ -38,11 +43,11 @@
     loadData() {
       const promises = [];
 
-      promises.push(this.$.restAPI.getAccount().then(account => {
+      promises.push(this.restAPI.getAccount().then(account => {
         this._username = account.username;
       }));
 
-      promises.push(this.$.restAPI.getConfig().then(info => {
+      promises.push(this.restAPI.getConfig().then(info => {
         this._passwordUrl = info.auth.http_password_url || null;
       }));
 
@@ -52,7 +57,7 @@
     _handleGenerateTap() {
       this._generatedPassword = 'Generating...';
       this.$.generatedPasswordOverlay.open();
-      this.$.restAPI.generateAccountHttpPassword().then(newPassword => {
+      this.restAPI.generateAccountHttpPassword().then(newPassword => {
         this._generatedPassword = newPassword;
       });
     }

@@ -20,10 +20,12 @@
   /**
     * @appliesMixin Gerrit.FireMixin
     * @appliesMixin Gerrit.ListViewMixin
+    * @appliesMixin Gerrit.CommonInterfaceMixin
     */
   class GrAdminGroupList extends Polymer.mixinBehaviors( [
     Gerrit.FireBehavior,
     Gerrit.ListViewBehavior,
+    Gerrit.CommonInterfaceBehavior,
   ], Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(
           Polymer.Element))) {
@@ -108,9 +110,9 @@
     }
 
     _getCreateGroupCapability() {
-      return this.$.restAPI.getAccount().then(account => {
+      return this.restAPI.getAccount().then(account => {
         if (!account) { return; }
-        return this.$.restAPI.getAccountCapabilities(['createGroup'])
+        return this.restAPI.getAccountCapabilities(['createGroup'])
             .then(capabilities => {
               if (capabilities.createGroup) {
                 this._createNewCapability = true;
@@ -121,7 +123,7 @@
 
     _getGroups(filter, groupsPerPage, offset) {
       this._groups = [];
-      return this.$.restAPI.getGroups(filter, groupsPerPage, offset)
+      return this.restAPI.getGroups(filter, groupsPerPage, offset)
           .then(groups => {
             if (!groups) {
               return;
@@ -137,7 +139,7 @@
     }
 
     _refreshGroupsList() {
-      this.$.restAPI.invalidateGroupsCache();
+      this.restAPI.invalidateGroupsCache();
       return this._getGroups(this._filter, this._groupsPerPage,
           this._offset);
     }

@@ -21,21 +21,19 @@ limitations under the License.
 <link rel="import" href="../../../behaviors/gr-path-list-behavior/gr-path-list-behavior.html">
 <link rel="import" href="../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.html">
 <link rel="import" href="../../../behaviors/rest-client-behavior/rest-client-behavior.html">
+<link rel="import" href="../../../behaviors/gr-common-interface-behavior/gr-common-interface-behavior.html">
 <link rel="import" href="/bower_components/iron-dropdown/iron-dropdown.html">
 <link rel="import" href="/bower_components/iron-input/iron-input.html">
 <link rel="import" href="../../../styles/shared-styles.html">
 <link rel="import" href="../../core/gr-navigation/gr-navigation.html">
-<link rel="import" href="../../core/gr-reporting/gr-reporting.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
 <link rel="import" href="../../shared/gr-count-string-formatter/gr-count-string-formatter.html">
 <link rel="import" href="../../shared/gr-dropdown/gr-dropdown.html">
 <link rel="import" href="../../shared/gr-dropdown-list/gr-dropdown-list.html">
 <link rel="import" href="../../shared/gr-fixed-panel/gr-fixed-panel.html">
 <link rel="import" href="../../shared/gr-icons/gr-icons.html">
-<link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../../shared/gr-select/gr-select.html">
 <link rel="import" href="../../shared/revision-info/revision-info.html">
-<link rel="import" href="../gr-comment-api/gr-comment-api.html">
 <link rel="import" href="../gr-diff-cursor/gr-diff-cursor.html">
 <link rel="import" href="../gr-diff-host/gr-diff-host.html">
 <link rel="import" href="../gr-diff-mode-selector/gr-diff-mode-selector.html">
@@ -348,11 +346,7 @@ limitations under the License.
         diff-prefs="{{_prefs}}"
         on-reload-diff-preference="_handleReloadingDiffPreference">
     </gr-diff-preferences-dialog>
-    <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
-    <gr-storage id="storage"></gr-storage>
     <gr-diff-cursor id="cursor"></gr-diff-cursor>
-    <gr-comment-api id="commentAPI"></gr-comment-api>
-    <gr-reporting id="reporting"></gr-reporting>
   </template>
   <script src="gr-diff-view.js"></script>
 </dom-module>

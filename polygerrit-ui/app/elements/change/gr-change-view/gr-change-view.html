@@ -20,11 +20,10 @@ limitations under the License.
 <link rel="import" href="../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html">
 <link rel="import" href="../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.html">
 <link rel="import" href="../../../behaviors/rest-client-behavior/rest-client-behavior.html">
+<link rel="import" href="../../../behaviors/gr-common-interface-behavior/gr-common-interface-behavior.html">
 <link rel="import" href="/bower_components/paper-tabs/paper-tabs.html">
 <link rel="import" href="../../../styles/shared-styles.html">
 <link rel="import" href="../../core/gr-navigation/gr-navigation.html">
-<link rel="import" href="../../core/gr-reporting/gr-reporting.html">
-<link rel="import" href="../../diff/gr-comment-api/gr-comment-api.html">
 <link rel="import" href="../../edit/gr-edit-constants.html">
 <link rel="import" href="../../plugins/gr-endpoint-decorator/gr-endpoint-decorator.html">
 <link rel="import" href="../../plugins/gr-endpoint-param/gr-endpoint-param.html">
@@ -35,10 +34,8 @@ limitations under the License.
 <link rel="import" href="../../shared/gr-count-string-formatter/gr-count-string-formatter.html">
 <link rel="import" href="../../shared/gr-date-formatter/gr-date-formatter.html">
 <link rel="import" href="../../shared/gr-editable-content/gr-editable-content.html">
-<link rel="import" href="../../shared/gr-js-api-interface/gr-js-api-interface.html">
 <link rel="import" href="../../shared/gr-linked-text/gr-linked-text.html">
 <link rel="import" href="../../shared/gr-overlay/gr-overlay.html">
-<link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../../shared/gr-tooltip-content/gr-tooltip-content.html">
 <link rel="import" href="../../shared/revision-info/revision-info.html">
 <link rel="import" href="../gr-change-actions/gr-change-actions.html">
@@ -674,10 +671,6 @@ limitations under the License.
           hidden$="[[!_loggedIn]]">
       </gr-reply-dialog>
     </gr-overlay>
-    <gr-js-api-interface id="jsAPI"></gr-js-api-interface>
-    <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
-    <gr-comment-api id="commentAPI"></gr-comment-api>
-    <gr-reporting id="reporting"></gr-reporting>
   </template>
   <script src="gr-change-view.js"></script>
 </dom-module>

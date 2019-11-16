@@ -34,10 +34,12 @@
   /**
     * @appliesMixin Gerrit.FireMixin
     * @appliesMixin Gerrit.KeyboardShortcutMixin
+    * @appliesMixin Gerrit.CommonInterfaceMixin
     */
   class GrComment extends Polymer.mixinBehaviors( [
     Gerrit.FireBehavior,
     Gerrit.KeyboardShortcutBehavior,
+    Gerrit.CommonInterfaceBehavior,
   ], Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(
           Polymer.Element))) {
@@ -240,7 +242,7 @@
     }
 
     _getIsAdmin() {
-      return this.$.restAPI.getIsAdmin();
+      return this.restAPI.getIsAdmin();
     }
 
     /**
@@ -265,7 +267,7 @@
         if (!response.ok) { return response; }
 
         this._eraseDraftComment();
-        return this.$.restAPI.getResponseObject(response).then(obj => {
+        return this.restAPI.getResponseObject(response).then(obj => {
           const resComment = obj;
           resComment.__draft = true;
           // Maintain the ephemeral draft ID for identification by other
@@ -291,7 +293,7 @@
       // prior to it being saved.
       this.cancelDebouncer('store');
 
-      this.$.storage.eraseDraftComment({
+      this.storage.eraseDraftComment({
         changeNum: this.changeNum,
         patchNum: this._getPatchNum(),
         path: this.comment.path,
@@ -420,9 +422,9 @@
         if ((!this._messageText || !this._messageText.length) && oldValue) {
           // If the draft has been modified to be empty, then erase the storage
           // entry.
-          this.$.storage.eraseDraftComment(commentLocation);
+          this.storage.eraseDraftComment(commentLocation);
         } else {
-          this.$.storage.setDraftComment(commentLocation, message);
+          this.storage.setDraftComment(commentLocation, message);
         }
       }, STORAGE_DEBOUNCE_INTERVAL);
     }
@@ -446,7 +448,7 @@
       e.preventDefault();
       this._messageText = this.comment.message;
       this.editing = true;
-      this.$.reporting.recordDraftInteraction();
+      this.reporting.recordDraftInteraction();
     }
 
     _handleSave(e) {
@@ -458,7 +460,7 @@
       }
       const timingLabel = this.comment.id ?
         REPORT_UPDATE_DRAFT : REPORT_CREATE_DRAFT;
-      const timer = this.$.reporting.getTimer(timingLabel);
+      const timer = this.reporting.getTimer(timingLabel);
       this.set('comment.__editing', false);
       return this.save().then(() => { timer.end(); });
     }
@@ -491,7 +493,7 @@
 
     _handleDiscard(e) {
       e.preventDefault();
-      this.$.reporting.recordDraftInteraction();
+      this.reporting.recordDraftInteraction();
 
       if (!this._messageText) {
         this._discardDraft();
@@ -506,7 +508,7 @@
 
     _handleConfirmDiscard(e) {
       e.preventDefault();
-      const timer = this.$.reporting.getTimer(REPORT_DISCARD_DRAFT);
+      const timer = this.reporting.getTimer(REPORT_DISCARD_DRAFT);
       this._closeConfirmDiscardOverlay();
       return this._discardDraft().then(() => { timer.end(); });
     }
@@ -588,7 +590,7 @@
 
     _saveDraft(draft) {
       this._showStartRequest();
-      return this.$.restAPI.saveDiffDraft(this.changeNum, this.patchNum, draft)
+      return this.restAPI.saveDiffDraft(this.changeNum, this.patchNum, draft)
           .then(result => {
             if (result.ok) {
               this._showEndRequest();
@@ -601,7 +603,7 @@
 
     _deleteDraft(draft) {
       this._showStartRequest();
-      return this.$.restAPI.deleteDiffDraft(this.changeNum, this.patchNum,
+      return this.restAPI.deleteDiffDraft(this.changeNum, this.patchNum,
           draft).then(result => {
         if (result.ok) {
           this._showEndRequest();
@@ -632,7 +634,7 @@
         return;
       }
 
-      const draft = this.$.storage.getDraftComment({
+      const draft = this.storage.getDraftComment({
         changeNum,
         patchNum: this._getPatchNum(),
         path: comment.path,
@@ -646,7 +648,7 @@
     }
 
     _handleToggleResolved() {
-      this.$.reporting.recordDraftInteraction();
+      this.reporting.recordDraftInteraction();
       this.resolved = !this.resolved;
       // Modify payload instead of this.comment, as this.comment is passed from
       // the parent by ref.
@@ -680,7 +682,7 @@
     _handleConfirmDeleteComment() {
       const dialog =
           this.confirmDeleteOverlay.querySelector('#confirmDeleteComment');
-      this.$.restAPI.deleteComment(
+      this.restAPI.deleteComment(
           this.changeNum, this.patchNum, this.comment.id, dialog.message)
           .then(newComment => {
             this._handleCancelDeleteComment();

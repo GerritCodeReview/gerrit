@@ -19,9 +19,11 @@
 
   /**
     * @appliesMixin Gerrit.ListViewMixin
+    * @appliesMixin Gerrit.CommonInterfaceMixin
     */
   class GrDocumentationSearch extends Polymer.mixinBehaviors( [
     Gerrit.ListViewBehavior,
+    Gerrit.CommonInterfaceBehavior,
   ], Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(
           Polymer.Element))) {
@@ -70,7 +72,7 @@
 
     _getDocumentationSearches(filter) {
       this._documentationSearches = [];
-      return this.$.restAPI.getDocumentationSearches(filter)
+      return this.restAPI.getDocumentationSearches(filter)
           .then(searches => {
             // Late response.
             if (filter !== this._filter || !searches) { return; }

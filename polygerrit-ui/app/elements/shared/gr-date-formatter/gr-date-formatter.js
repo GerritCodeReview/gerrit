@@ -33,9 +33,11 @@
 
   /**
     * @appliesMixin Gerrit.TooltipMixin
+    * @appliesMixin Gerrit.CommonInterfaceMixin
     */
   class GrDateFormatter extends Polymer.mixinBehaviors( [
     Gerrit.TooltipBehavior,
+    Gerrit.CommonInterfaceBehavior,
   ], Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(
           Polymer.Element))) {
@@ -120,11 +122,11 @@
     }
 
     _getLoggedIn() {
-      return this.$.restAPI.getLoggedIn();
+      return this.restAPI.getLoggedIn();
     }
 
     _getPreferences() {
-      return this.$.restAPI.getPreferences();
+      return this.restAPI.getPreferences();
     }
 
     /**

@@ -17,9 +17,14 @@
 (function() {
   'use strict';
 
-  class GrConfirmRebaseDialog extends Polymer.GestureEventListeners(
+  /**
+   * @appliesMixin Gerrit.CommonInterfaceMixin
+   */
+  class GrConfirmRebaseDialog extends Polymer.mixinBehaviors( [
+    Gerrit.CommonInterfaceBehavior,
+  ], Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(
-          Polymer.Element)) {
+          Polymer.Element))) {
     static get is() { return 'gr-confirm-rebase-dialog'; }
     /**
      * Fired when the confirm button is pressed.
@@ -63,7 +68,7 @@
     // in case there are new/updated changes in the generic query since the
     // last time it was run.
     fetchRecentChanges() {
-      return this.$.restAPI.getChanges(null, `is:open -age:90d`)
+      return this.restAPI.getChanges(null, `is:open -age:90d`)
           .then(response => {
             const changes = [];
             for (const key in response) {

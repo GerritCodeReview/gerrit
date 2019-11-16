@@ -33,11 +33,13 @@
     * @appliesMixin Gerrit.BaseUrlMixin
     * @appliesMixin Gerrit.FireMixin
     * @appliesMixin Gerrit.URLEncodingMixin
+    * @appliesMixin Gerrit.CommonInterfaceMixin
     */
   class GrChangeListView extends Polymer.mixinBehaviors( [
     Gerrit.BaseUrlBehavior,
     Gerrit.FireBehavior,
     Gerrit.URLEncodingBehavior,
+    Gerrit.CommonInterfaceBehavior,
   ], Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(
           Polymer.Element))) {
@@ -183,7 +185,7 @@
     }
 
     _loadPreferences() {
-      return this.$.restAPI.getLoggedIn().then(loggedIn => {
+      return this.restAPI.getLoggedIn().then(loggedIn => {
         if (loggedIn) {
           this._getPreferences().then(preferences => {
             this.preferences = preferences;
@@ -199,12 +201,12 @@
     }
 
     _getChanges() {
-      return this.$.restAPI.getChanges(this._changesPerPage, this._query,
+      return this.restAPI.getChanges(this._changesPerPage, this._query,
           this._offset);
     }
 
     _getPreferences() {
-      return this.$.restAPI.getPreferences();
+      return this.restAPI.getPreferences();
     }
 
     _limitFor(query, defaultLimit) {
@@ -280,12 +282,12 @@
     }
 
     _handleToggleStar(e) {
-      this.$.restAPI.saveChangeStarred(e.detail.change._number,
+      this.restAPI.saveChangeStarred(e.detail.change._number,
           e.detail.starred);
     }
 
     _handleToggleReviewed(e) {
-      this.$.restAPI.saveChangeReviewed(e.detail.change._number,
+      this.restAPI.saveChangeReviewed(e.detail.change._number,
           e.detail.reviewed);
     }
   }

@@ -53,9 +53,11 @@
 
   /**
     * @appliesMixin Gerrit.FireMixin
+    * @appliesMixin Gerrit.CommonInterfaceMixin
     */
   class GrRepo extends Polymer.mixinBehaviors( [
     Gerrit.FireBehavior,
+    Gerrit.CommonInterfaceBehavior,
   ], Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(
           Polymer.Element))) {
@@ -151,7 +153,7 @@
       promises.push(this._getLoggedIn().then(loggedIn => {
         this._loggedIn = loggedIn;
         if (loggedIn) {
-          this.$.restAPI.getRepoAccess(this.repo).then(access => {
+          this.restAPI.getRepoAccess(this.repo).then(access => {
             if (!access) { return Promise.resolve(); }
 
             // If the user is not an owner, is_owner is not a property.
@@ -160,7 +162,7 @@
         }
       }));
 
-      promises.push(this.$.restAPI.getProjectConfig(this.repo, errFn)
+      promises.push(this.restAPI.getProjectConfig(this.repo, errFn)
           .then(config => {
             if (!config) { return Promise.resolve(); }
 
@@ -180,7 +182,7 @@
             this._loading = false;
           }));
 
-      promises.push(this.$.restAPI.getConfig().then(config => {
+      promises.push(this.restAPI.getConfig().then(config => {
         if (!config) { return Promise.resolve(); }
 
         this._schemesObj = config.download.schemes;
@@ -199,7 +201,7 @@
 
     _loggedInChanged(_loggedIn) {
       if (!_loggedIn) { return; }
-      this.$.restAPI.getPreferences().then(prefs => {
+      this.restAPI.getPreferences().then(prefs => {
         if (prefs.download_scheme) {
           // Note (issue 5180): normalize the download scheme with lower-case.
           this._selectedScheme = prefs.download_scheme.toLowerCase();
@@ -263,7 +265,7 @@
     }
 
     _getLoggedIn() {
-      return this.$.restAPI.getLoggedIn();
+      return this.restAPI.getLoggedIn();
     }
 
     _formatRepoConfigForSave(repoConfig) {
@@ -289,7 +291,7 @@
     }
 
     _handleSaveRepoConfig() {
-      return this.$.restAPI.saveRepoConfig(this.repo,
+      return this.restAPI.saveRepoConfig(this.repo,
           this._formatRepoConfigForSave(this._repoConfig)).then(() => {
         this._configChanged = false;
       });

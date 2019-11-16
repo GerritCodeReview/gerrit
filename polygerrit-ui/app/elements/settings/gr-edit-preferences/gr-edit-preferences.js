@@ -17,9 +17,14 @@
 (function() {
   'use strict';
 
-  class GrEditPreferences extends Polymer.GestureEventListeners(
+  /**
+   * @appliesMixin Gerrit.CommonInterfaceMixin
+   */
+  class GrEditPreferences extends Polymer.mixinBehaviors( [
+    Gerrit.CommonInterfaceBehavior,
+  ], Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(
-          Polymer.Element)) {
+          Polymer.Element))) {
     static get is() { return 'gr-edit-preferences'; }
 
     static get properties() {
@@ -36,7 +41,7 @@
     }
 
     loadData() {
-      return this.$.restAPI.getEditPreferences().then(prefs => {
+      return this.restAPI.getEditPreferences().then(prefs => {
         this.editPrefs = prefs;
       });
     }
@@ -78,7 +83,7 @@
     }
 
     save() {
-      return this.$.restAPI.saveEditPreferences(this.editPrefs).then(res => {
+      return this.restAPI.saveEditPreferences(this.editPrefs).then(res => {
         this.hasUnsavedChanges = false;
       });
     }

@@ -23,9 +23,11 @@
 
   /**
     * @appliesMixin Gerrit.DisplayNameMixin
+    * @appliesMixin Gerrit.CommonInterfaceMixin
     */
   class GrSmartSearch extends Polymer.mixinBehaviors( [
     Gerrit.DisplayNameBehavior,
+    Gerrit.CommonInterfaceBehavior,
   ], Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(
           Polymer.Element))) {
@@ -58,7 +60,7 @@
 
     attached() {
       super.attached();
-      this.$.restAPI.getConfig().then(cfg => {
+      this.restAPI.getConfig().then(cfg => {
         this._config = cfg;
       });
     }
@@ -84,7 +86,7 @@
      *     strings.
      */
     _fetchProjects(predicate, expression) {
-      return this.$.restAPI.getSuggestedProjects(
+      return this.restAPI.getSuggestedProjects(
           expression,
           MAX_AUTOCOMPLETE_RESULTS)
           .then(projects => {
@@ -105,7 +107,7 @@
      */
     _fetchGroups(predicate, expression) {
       if (expression.length === 0) { return Promise.resolve([]); }
-      return this.$.restAPI.getSuggestedGroups(
+      return this.restAPI.getSuggestedGroups(
           expression,
           MAX_AUTOCOMPLETE_RESULTS)
           .then(groups => {
@@ -126,7 +128,7 @@
      */
     _fetchAccounts(predicate, expression) {
       if (expression.length === 0) { return Promise.resolve([]); }
-      return this.$.restAPI.getSuggestedAccounts(
+      return this.restAPI.getSuggestedAccounts(
           expression,
           MAX_AUTOCOMPLETE_RESULTS)
           .then(accounts => {

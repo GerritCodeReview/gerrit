@@ -19,9 +19,11 @@
 
   /**
     * @appliesMixin Gerrit.BaseUrlMixin
+    * @appliesMixin Gerrit.CommonInterfaceMixin
     */
   class GrAgreementsList extends Polymer.mixinBehaviors( [
     Gerrit.BaseUrlBehavior,
+    Gerrit.CommonInterfaceBehavior,
   ], Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(
           Polymer.Element))) {
@@ -39,7 +41,7 @@
     }
 
     loadData() {
-      return this.$.restAPI.getAccountAgreements().then(agreements => {
+      return this.restAPI.getAccountAgreements().then(agreements => {
         this._agreements = agreements;
       });
     }

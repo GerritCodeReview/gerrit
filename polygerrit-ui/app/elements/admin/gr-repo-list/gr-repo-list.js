@@ -19,9 +19,11 @@
 
   /**
     * @appliesMixin Gerrit.ListViewMixin
+    * @appliesMixin Gerrit.CommonInterfaceMixin
     */
   class GrRepoList extends Polymer.mixinBehaviors( [
     Gerrit.ListViewBehavior,
+    Gerrit.CommonInterfaceBehavior,
   ], Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(
           Polymer.Element))) {
@@ -113,9 +115,9 @@
     }
 
     _getCreateRepoCapability() {
-      return this.$.restAPI.getAccount().then(account => {
+      return this.restAPI.getAccount().then(account => {
         if (!account) { return; }
-        return this.$.restAPI.getAccountCapabilities(['createProject'])
+        return this.restAPI.getAccountCapabilities(['createProject'])
             .then(capabilities => {
               if (capabilities.createProject) {
                 this._createNewCapability = true;
@@ -126,7 +128,7 @@
 
     _getRepos(filter, reposPerPage, offset) {
       this._repos = [];
-      return this.$.restAPI.getRepos(filter, reposPerPage, offset)
+      return this.restAPI.getRepos(filter, reposPerPage, offset)
           .then(repos => {
             // Late response.
             if (filter !== this._filter || !repos) { return; }
@@ -136,7 +138,7 @@
     }
 
     _refreshReposList() {
-      this.$.restAPI.invalidateReposCache();
+      this.restAPI.invalidateReposCache();
       return this._getRepos(this._filter, this._reposPerPage,
           this._offset);
     }

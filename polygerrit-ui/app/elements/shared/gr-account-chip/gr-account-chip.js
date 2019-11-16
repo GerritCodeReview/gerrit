@@ -19,9 +19,11 @@
 
   /**
     * @appliesMixin Gerrit.FireMixin
+    * @appliesMixin Gerrit.CommonInterfaceMixin
     */
   class GrAccountChip extends Polymer.mixinBehaviors( [
     Gerrit.FireBehavior,
+    Gerrit.CommonInterfaceBehavior,
   ], Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(
           Polymer.Element))) {
@@ -80,7 +82,7 @@
     }
 
     _getHasAvatars() {
-      return this.$.restAPI.getConfig().then(cfg => {
+      return this.restAPI.getConfig().then(cfg => {
         return Promise.resolve(!!(cfg && cfg.plugin && cfg.plugin.has_avatars));
       });
     }

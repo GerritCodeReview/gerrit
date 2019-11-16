@@ -19,9 +19,11 @@
 
   /**
     * @appliesMixin Gerrit.FireMixin
+    * @appliesMixin Gerrit.CommonInterfaceMixin
     */
   class GrReviewerList extends Polymer.mixinBehaviors( [
     Gerrit.FireBehavior,
+    Gerrit.CommonInterfaceBehavior,
   ], Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(
           Polymer.Element))) {
@@ -270,7 +272,7 @@
     }
 
     _removeReviewer(id) {
-      return this.$.restAPI.removeChangeReviewer(this.change._number, id);
+      return this.restAPI.removeChangeReviewer(this.change._number, id);
     }
 
     _computeAddLabel(ccsOnly) {

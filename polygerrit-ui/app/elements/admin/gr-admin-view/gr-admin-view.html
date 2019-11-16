@@ -20,15 +20,14 @@ limitations under the License.
 <link rel="import" href="../../../behaviors/base-url-behavior/base-url-behavior.html">
 <link rel="import" href="../../../behaviors/gr-admin-nav-behavior/gr-admin-nav-behavior.html">
 <link rel="import" href="../../../behaviors/gr-url-encoding-behavior/gr-url-encoding-behavior.html">
+<link rel="import" href="../../../behaviors/gr-common-interface-behavior/gr-common-interface-behavior.html">
 <link rel="import" href="../../../styles/gr-menu-page-styles.html">
 <link rel="import" href="../../../styles/gr-page-nav-styles.html">
 <link rel="import" href="../../../styles/shared-styles.html">
 <link rel="import" href="../../core/gr-navigation/gr-navigation.html">
 <link rel="import" href="../../shared/gr-dropdown-list/gr-dropdown-list.html">
 <link rel="import" href="../../shared/gr-icons/gr-icons.html">
-<link rel="import" href="../../shared/gr-js-api-interface/gr-js-api-interface.html">
 <link rel="import" href="../../shared/gr-page-nav/gr-page-nav.html">
-<link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../gr-admin-group-list/gr-admin-group-list.html">
 <link rel="import" href="../gr-group/gr-group.html">
 <link rel="import" href="../gr-group-audit-log/gr-group-audit-log.html">
@@ -193,8 +192,6 @@ limitations under the License.
         <gr-repo-dashboards repo="[[params.repo]]"></gr-repo-dashboards>
       </main>
     </template>
-    <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
-    <gr-js-api-interface id="jsAPI"></gr-js-api-interface>
   </template>
   <script src="gr-admin-view.js"></script>
 </dom-module>

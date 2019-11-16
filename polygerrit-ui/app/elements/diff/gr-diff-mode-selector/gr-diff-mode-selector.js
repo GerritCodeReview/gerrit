@@ -17,9 +17,14 @@
 (function() {
   'use strict';
 
-  class GrDiffModeSelector extends Polymer.GestureEventListeners(
+  /**
+   * @appliesMixin Gerrit.CommonInterfaceMixin
+   */
+  class GrDiffModeSelector extends Polymer.mixinBehaviors( [
+    Gerrit.CommonInterfaceBehavior,
+  ], Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(
-          Polymer.Element)) {
+          Polymer.Element))) {
     static get is() { return 'gr-diff-mode-selector'; }
 
     static get properties() {
@@ -55,7 +60,7 @@
      */
     setMode(newMode) {
       if (this.saveOnChange && this.mode && this.mode !== newMode) {
-        this.$.restAPI.savePreferences({diff_view: newMode});
+        this.restAPI.savePreferences({diff_view: newMode});
       }
       this.mode = newMode;
     }

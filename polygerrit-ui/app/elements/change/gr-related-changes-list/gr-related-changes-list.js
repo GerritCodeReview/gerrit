@@ -21,11 +21,13 @@
     * @appliesMixin Gerrit.FireMixin
     * @appliesMixin Gerrit.PatchSetMixin
     * @appliesMixin Gerrit.RESTClientMixin
+    * @appliesMixin Gerrit.CommonInterfaceMixin
     */
   class GrRelatedChangesList extends Polymer.mixinBehaviors( [
     Gerrit.FireBehavior,
     Gerrit.PatchSetBehavior,
     Gerrit.RESTClientBehavior,
+    Gerrit.CommonInterfaceBehavior,
   ], Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(
           Polymer.Element))) {
@@ -177,29 +179,29 @@
     }
 
     _getRelatedChanges() {
-      return this.$.restAPI.getRelatedChanges(this.change._number,
+      return this.restAPI.getRelatedChanges(this.change._number,
           this.patchNum);
     }
 
     _getSubmittedTogether() {
-      return this.$.restAPI.getChangesSubmittedTogether(this.change._number);
+      return this.restAPI.getChangesSubmittedTogether(this.change._number);
     }
 
     _getServerConfig() {
-      return this.$.restAPI.getConfig();
+      return this.restAPI.getConfig();
     }
 
     _getConflicts() {
-      return this.$.restAPI.getChangeConflicts(this.change._number);
+      return this.restAPI.getChangeConflicts(this.change._number);
     }
 
     _getCherryPicks() {
-      return this.$.restAPI.getChangeCherryPicks(this.change.project,
+      return this.restAPI.getChangeCherryPicks(this.change.project,
           this.change.change_id, this.change._number);
     }
 
     _getChangesWithSameTopic() {
-      return this.$.restAPI.getChangesWithSameTopic(this.change.topic,
+      return this.restAPI.getChangesWithSameTopic(this.change.topic,
           this.change._number);
     }
 

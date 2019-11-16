@@ -23,11 +23,13 @@
     * @appliesMixin Gerrit.AdminNavMixin
     * @appliesMixin Gerrit.BaseUrlMixin
     * @appliesMixin Gerrit.URLEncodingMixin
+    * @appliesMixin Gerrit.CommonInterfaceMixin
     */
   class GrAdminView extends Polymer.mixinBehaviors( [
     Gerrit.AdminNavBehavior,
     Gerrit.BaseUrlBehavior,
     Gerrit.URLEncodingBehavior,
+    Gerrit.CommonInterfaceBehavior,
   ], Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(
           Polymer.Element))) {
@@ -89,7 +91,7 @@
 
     reload() {
       const promises = [
-        this.$.restAPI.getAccount(),
+        this.restAPI.getAccount(),
         Gerrit.awaitPluginsLoaded(),
       ];
       return Promise.all(promises).then(result => {
@@ -108,8 +110,8 @@
         }
 
         return this.getAdminLinks(this._account,
-            this.$.restAPI.getAccountCapabilities.bind(this.$.restAPI),
-            this.$.jsAPI.getAdminMenuLinks.bind(this.$.jsAPI),
+            this.restAPI.getAccountCapabilities.bind(this.restAPI),
+            this.jsAPI.getAdminMenuLinks.bind(this.jsAPI),
             options)
             .then(res => {
               this._filteredLinks = res.links;
@@ -260,18 +262,18 @@
       if (!groupId) { return ''; }
 
       const promises = [];
-      this.$.restAPI.getGroupConfig(groupId).then(group => {
+      this.restAPI.getGroupConfig(groupId).then(group => {
         if (!group || !group.name) { return; }
 
         this._groupName = group.name;
         this._groupIsInternal = !!group.id.match(INTERNAL_GROUP_REGEX);
         this.reload();
 
-        promises.push(this.$.restAPI.getIsAdmin().then(isAdmin => {
+        promises.push(this.restAPI.getIsAdmin().then(isAdmin => {
           this._isAdmin = isAdmin;
         }));
 
-        promises.push(this.$.restAPI.getIsGroupOwner(group.name).then(
+        promises.push(this.restAPI.getIsGroupOwner(group.name).then(
             isOwner => {
               this._groupOwner = isOwner;
             }));

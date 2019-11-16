@@ -167,6 +167,8 @@
     is: 'gr-reporting',
 
     properties: {
+      // TODO(taoalpha): should not inlcude report info in html attribute
+      // As report should be just a singleton class
       category: String,
 
       _baselines: {

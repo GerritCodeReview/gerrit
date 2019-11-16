@@ -17,9 +17,14 @@
 (function() {
   'use strict';
 
-  class GrUserHeader extends Polymer.GestureEventListeners(
+  /**
+   * @appliesMixin Gerrit.CommonInterfaceMixin
+   */
+  class GrUserHeader extends Polymer.mixinBehaviors( [
+    Gerrit.CommonInterfaceBehavior,
+  ], Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(
-          Polymer.Element)) {
+          Polymer.Element))) {
     static get is() { return 'gr-user-header'; }
 
     static get properties() {
@@ -63,10 +68,10 @@
         return;
       }
 
-      this.$.restAPI.getAccountDetails(userId).then(details => {
+      this.restAPI.getAccountDetails(userId).then(details => {
         this._accountDetails = details;
       });
-      this.$.restAPI.getAccountStatus(userId).then(status => {
+      this.restAPI.getAccountStatus(userId).then(status => {
         this._status = status;
       });
     }

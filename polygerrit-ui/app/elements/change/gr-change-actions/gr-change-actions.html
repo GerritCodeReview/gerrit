@@ -20,16 +20,14 @@ limitations under the License.
 <link rel="import" href="../../../behaviors/fire-behavior/fire-behavior.html">
 <link rel="import" href="../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html">
 <link rel="import" href="../../../behaviors/rest-client-behavior/rest-client-behavior.html">
+<link rel="import" href="../../../behaviors/gr-common-interface-behavior/gr-common-interface-behavior.html">
 <link rel="import" href="../../admin/gr-create-change-dialog/gr-create-change-dialog.html">
 <link rel="import" href="../../core/gr-navigation/gr-navigation.html">
-<link rel="import" href="../../core/gr-reporting/gr-reporting.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
 <link rel="import" href="../../shared/gr-dialog/gr-dialog.html">
 <link rel="import" href="../../shared/gr-dropdown/gr-dropdown.html">
 <link rel="import" href="../../shared/gr-icons/gr-icons.html">
-<link rel="import" href="../../shared/gr-js-api-interface/gr-js-api-interface.html">
 <link rel="import" href="../../shared/gr-overlay/gr-overlay.html">
-<link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../gr-confirm-abandon-dialog/gr-confirm-abandon-dialog.html">
 <link rel="import" href="../gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.html">
 <link rel="import" href="../gr-confirm-cherrypick-conflict-dialog/gr-confirm-cherrypick-conflict-dialog.html">
@@ -270,8 +268,6 @@ limitations under the License.
         </div>
       </gr-dialog>
     </gr-overlay>
-    <gr-js-api-interface id="jsAPI"></gr-js-api-interface>
-    <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
     <gr-reporting id="reporting" category="change-actions"></gr-reporting>
   </template>
   <script src="gr-change-actions.js"></script>

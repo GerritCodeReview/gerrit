@@ -17,9 +17,14 @@
 (function() {
   'use strict';
 
-  class GrGpgEditor extends Polymer.GestureEventListeners(
+  /**
+   * @appliesMixin Gerrit.CommonInterfaceMixin
+   */
+  class GrGpgEditor extends Polymer.mixinBehaviors( [
+    Gerrit.CommonInterfaceBehavior,
+  ], Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(
-          Polymer.Element)) {
+          Polymer.Element))) {
     static get is() { return 'gr-gpg-editor'; }
 
     static get properties() {
@@ -45,7 +50,7 @@
 
     loadData() {
       this._keys = [];
-      return this.$.restAPI.getAccountGPGKeys().then(keys => {
+      return this.restAPI.getAccountGPGKeys().then(keys => {
         if (!keys) {
           return;
         }
@@ -60,7 +65,7 @@
 
     save() {
       const promises = this._keysToRemove.map(key => {
-        this.$.restAPI.deleteAccountGPGKey(key.id);
+        this.restAPI.deleteAccountGPGKey(key.id);
       });
 
       return Promise.all(promises).then(() => {
@@ -91,7 +96,7 @@
     _handleAddKey() {
       this.$.addButton.disabled = true;
       this.$.newKey.disabled = true;
-      return this.$.restAPI.addAccountGPGKey({add: [this._newKey.trim()]})
+      return this.restAPI.addAccountGPGKey({add: [this._newKey.trim()]})
           .then(key => {
             this.$.newKey.disabled = false;
             this._newKey = '';

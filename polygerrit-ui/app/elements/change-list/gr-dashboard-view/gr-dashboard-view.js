@@ -22,10 +22,12 @@
   /**
     * @appliesMixin Gerrit.FireMixin
     * @appliesMixin Gerrit.RESTClientMixin
+    * @appliesMixin Gerrit.CommonInterfaceMixin
     */
   class GrDashboardView extends Polymer.mixinBehaviors( [
     Gerrit.FireBehavior,
     Gerrit.RESTClientBehavior,
+    Gerrit.CommonInterfaceBehavior,
   ], Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(
           Polymer.Element))) {
@@ -100,9 +102,9 @@
     }
 
     _loadPreferences() {
-      return this.$.restAPI.getLoggedIn().then(loggedIn => {
+      return this.restAPI.getLoggedIn().then(loggedIn => {
         if (loggedIn) {
-          this.$.restAPI.getPreferences().then(preferences => {
+          this.restAPI.getPreferences().then(preferences => {
             this.preferences = preferences;
           });
         } else {
@@ -115,7 +117,7 @@
       const errFn = response => {
         this.fire('page-error', {response});
       };
-      return this.$.restAPI.getDashboard(
+      return this.restAPI.getDashboard(
           project, dashboard, errFn).then(response => {
         if (!response) {
           return;
@@ -180,7 +182,7 @@
           })
           .then(() => {
             this._maybeShowDraftsBanner();
-            this.$.reporting.dashboardDisplayed();
+            this.reporting.dashboardDisplayed();
           }).catch(err => {
             this.fire('title-change', {
               title: title || this._computeTitle(user),
@@ -209,7 +211,7 @@
         queries.push('owner:self limit:1');
       }
 
-      return this.$.restAPI.getChanges(null, queries, null, this.options)
+      return this.restAPI.getChanges(null, queries, null, this.options)
           .then(changes => {
             if (checkForNewUser) {
               // Last set of results is not meant for dashboard display.
@@ -247,12 +249,12 @@
     }
 
     _handleToggleStar(e) {
-      this.$.restAPI.saveChangeStarred(e.detail.change._number,
+      this.restAPI.saveChangeStarred(e.detail.change._number,
           e.detail.starred);
     }
 
     _handleToggleReviewed(e) {
-      this.$.restAPI.saveChangeReviewed(e.detail.change._number,
+      this.restAPI.saveChangeReviewed(e.detail.change._number,
           e.detail.reviewed);
     }
 
@@ -285,7 +287,7 @@
 
     _handleConfirmDelete() {
       this.$.confirmDeleteDialog.disabled = true;
-      return this.$.restAPI.deleteDraftComments('-is:open').then(() => {
+      return this.restAPI.deleteDraftComments('-is:open').then(() => {
         this._closeConfirmDeleteOverlay();
         this._reload();
       });

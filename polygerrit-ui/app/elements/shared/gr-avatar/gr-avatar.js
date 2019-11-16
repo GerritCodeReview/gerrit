@@ -19,9 +19,11 @@
 
   /**
     * @appliesMixin Gerrit.BaseUrlMixin
+    * @appliesMixin Gerrit.CommonInterfaceMixin
     */
   class GrAvatar extends Polymer.mixinBehaviors( [
     Gerrit.BaseUrlBehavior,
+    Gerrit.CommonInterfaceBehavior,
   ], Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(
           Polymer.Element))) {
@@ -57,7 +59,7 @@
     }
 
     _getConfig() {
-      return this.$.restAPI.getConfig();
+      return this.restAPI.getConfig();
     }
 
     _accountChanged(account) {

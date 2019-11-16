@@ -68,12 +68,14 @@
     * @appliesMixin Gerrit.KeyboardShortcutMixin
     * @appliesMixin Gerrit.PatchSetMixin
     * @appliesMixin Gerrit.RESTClientMixin
+    * @appliesMixin Gerrit.CommonInterfaceMixin
     */
   class GrChangeView extends Polymer.mixinBehaviors( [
     Gerrit.FireBehavior,
     Gerrit.KeyboardShortcutBehavior,
     Gerrit.PatchSetBehavior,
     Gerrit.RESTClientBehavior,
+    Gerrit.CommonInterfaceBehavior,
   ], Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(
           Polymer.Element))) {
@@ -355,7 +357,7 @@
       this._getLoggedIn().then(loggedIn => {
         this._loggedIn = loggedIn;
         if (loggedIn) {
-          this.$.restAPI.getAccount().then(acct => {
+          this.restAPI.getAccount().then(acct => {
             this._account = acct;
           });
         }
@@ -447,7 +449,7 @@
 
         const tabName = this._selectedFilesTabPluginEndpoint || 'files';
         const source = e && e.type ? e.type : '';
-        this.$.reporting.reportInteraction('tab-changed',
+        this.reporting.reportInteraction('tab-changed',
             `tabname: ${tabName}, source: ${source}`);
       }
     }
@@ -460,7 +462,7 @@
       }
       this.$$('#primaryTabs').selected = idx + 1;
       this.$$('#primaryTabs').scrollIntoView();
-      this.$.reporting.reportInteraction('show-tab', e.detail.tab);
+      this.reporting.reportInteraction('show-tab', e.detail.tab);
     }
 
     _handleEditCommitMessage(e) {
@@ -472,10 +474,10 @@
       // Trim trailing whitespace from each line.
       const message = e.detail.content.replace(TRAILING_WHITESPACE_REGEX, '');
 
-      this.$.jsAPI.handleCommitMessage(this._change, message);
+      this.jsAPI.handleCommitMessage(this._change, message);
 
       this.$.commitMessageEditor.disabled = true;
-      this.$.restAPI.putChangeCommitMessage(
+      this.restAPI.putChangeCommitMessage(
           this._changeNum, message).then(resp => {
         this.$.commitMessageEditor.disabled = false;
         if (!resp.ok) { return; }
@@ -692,7 +694,7 @@
     _handleReplySent(e) {
       this.$.replyOverlay.close();
       this._reload().then(() => {
-        this.$.reporting.timeEnd(SEND_REPLY_TIMING_LABEL);
+        this.reporting.timeEnd(SEND_REPLY_TIMING_LABEL);
       });
     }
 
@@ -747,7 +749,7 @@
       }
 
       if (value.changeNum && value.project) {
-        this.$.restAPI.setInProjectLookup(value.changeNum, value.project);
+        this.restAPI.setInProjectLookup(value.changeNum, value.project);
       }
 
       const patchChanged = this._patchRange &&
@@ -788,7 +790,7 @@
     }
 
     _sendShowChangeEvent() {
-      this.$.jsAPI.handleEvent(this.$.jsAPI.EventType.SHOW_CHANGE, {
+      this.jsAPI.handleEvent(this.jsAPI.EventType.SHOW_CHANGE, {
         change: this._change,
         patchNum: this._patchRange.patchNum,
         info: {mergeable: this._mergeable},
@@ -1192,7 +1194,7 @@
         this._handleLabelRemoved(changeRecord.value.indexSplices,
             changeRecord.path);
       }
-      this.$.jsAPI.handleEvent(this.$.jsAPI.EventType.LABEL_CHANGE, {
+      this.jsAPI.handleEvent(this.jsAPI.EventType.LABEL_CHANGE, {
         change: this._change,
       });
     }
@@ -1225,23 +1227,23 @@
     }
 
     _getLoggedIn() {
-      return this.$.restAPI.getLoggedIn();
+      return this.restAPI.getLoggedIn();
     }
 
     _getServerConfig() {
-      return this.$.restAPI.getConfig();
+      return this.restAPI.getConfig();
     }
 
     _getProjectConfig() {
       if (!this._change) return;
-      return this.$.restAPI.getProjectConfig(this._change.project).then(
+      return this.restAPI.getProjectConfig(this._change.project).then(
           config => {
             this._projectConfig = config;
           });
     }
 
     _getPreferences() {
-      return this.$.restAPI.getPreferences();
+      return this.restAPI.getPreferences();
     }
 
     _prepareCommitMsgForLinkify(msg) {
@@ -1282,7 +1284,7 @@
     }
 
     _getChangeDetail() {
-      const detailCompletes = this.$.restAPI.getChangeDetail(
+      const detailCompletes = this.restAPI.getChangeDetail(
           this._changeNum, this._handleGetChangeDetailError.bind(this));
       const editCompletes = this._getEdit();
       const prefCompletes = this._getPreferences();
@@ -1341,11 +1343,11 @@
     }
 
     _getEdit() {
-      return this.$.restAPI.getChangeEdit(this._changeNum, true);
+      return this.restAPI.getChangeEdit(this._changeNum, true);
     }
 
     _getLatestCommitMessage() {
-      return this.$.restAPI.getChangeCommitInfo(this._changeNum,
+      return this.restAPI.getChangeCommitInfo(this._changeNum,
           this.computeLatestPatchNum(this._allPatchSets)).then(commitInfo => {
         if (!commitInfo) return Promise.resolve();
         this._latestCommitMessage =
@@ -1373,7 +1375,7 @@
     }
 
     _getCommitInfo() {
-      return this.$.restAPI.getChangeCommitInfo(
+      return this.restAPI.getChangeCommitInfo(
           this._changeNum, this._patchRange.patchNum).then(
           commitInfo => {
             this._commitInfo = commitInfo;
@@ -1391,7 +1393,7 @@
      * (comments, robot comments, draft comments) is requested.
      */
     _reloadComments() {
-      return this.$.commentAPI.loadAll(this._changeNum)
+      return this.commentAPI.loadAll(this._changeNum)
           .then(comments => {
             this._changeComments = comments;
             this._diffDrafts = Object.assign({}, this._changeComments.drafts);
@@ -1405,7 +1407,7 @@
      * requested.
      */
     _reloadDrafts() {
-      return this.$.commentAPI.reloadDrafts(this._changeNum)
+      return this.commentAPI.reloadDrafts(this._changeNum)
           .then(comments => {
             this._changeComments = comments;
             this._diffDrafts = Object.assign({}, this._changeComments.drafts);
@@ -1423,8 +1425,8 @@
     _reload(opt_isLocationChange) {
       this._loading = true;
       this._relatedChangesCollapsed = true;
-      this.$.reporting.time(CHANGE_RELOAD_TIMING_LABEL);
-      this.$.reporting.time(CHANGE_DATA_TIMING_LABEL);
+      this.reporting.time(CHANGE_RELOAD_TIMING_LABEL);
+      this.reporting.time(CHANGE_DATA_TIMING_LABEL);
 
       // Array to house all promises related to data requests.
       const allDataPromises = [];
@@ -1439,9 +1441,9 @@
       const loadingFlagSet = detailCompletes
           .then(() => { this._loading = false; })
           .then(() => {
-            this.$.reporting.timeEnd(CHANGE_RELOAD_TIMING_LABEL);
+            this.reporting.timeEnd(CHANGE_RELOAD_TIMING_LABEL);
             if (opt_isLocationChange) {
-              this.$.reporting.changeDisplayed();
+              this.reporting.changeDisplayed();
             }
           });
 
@@ -1510,9 +1512,9 @@
       }
 
       Promise.all(allDataPromises).then(() => {
-        this.$.reporting.timeEnd(CHANGE_DATA_TIMING_LABEL);
+        this.reporting.timeEnd(CHANGE_DATA_TIMING_LABEL);
         if (opt_isLocationChange) {
-          this.$.reporting.changeFullyLoaded();
+          this.reporting.changeFullyLoaded();
         }
       });
 
@@ -1545,7 +1547,7 @@
       }
 
       this._mergeable = null;
-      return this.$.restAPI.getMergeable(this._changeNum).then(m => {
+      return this.restAPI.getMergeable(this._changeNum).then(m => {
         this._mergeable = m.mergeable;
       });
     }
@@ -1706,7 +1708,7 @@
       }
 
       this._updateCheckTimerHandle = this.async(() => {
-        this.fetchChangeUpdates(this._change, this.$.restAPI).then(result => {
+        this.fetchChangeUpdates(this._change, this.restAPI).then(result => {
           let toastMessage = null;
           if (!result.isLatest) {
             toastMessage = ReloadToastMessage.NEWER_REVISION;
@@ -1846,7 +1848,7 @@
     }
 
     _handleToggleStar(e) {
-      this.$.restAPI.saveChangeStarred(e.detail.change._number,
+      this.restAPI.saveChangeStarred(e.detail.change._number,
           e.detail.starred);
     }
 

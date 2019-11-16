@@ -19,9 +19,11 @@
 
   /**
     * @appliesMixin Gerrit.FireMixin
+    * @appliesMixin Gerrit.CommonInterfaceMixin
     */
   class GrRegistrationDialog extends Polymer.mixinBehaviors( [
     Gerrit.FireBehavior,
+    Gerrit.CommonInterfaceBehavior,
   ], Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(
           Polymer.Element))) {
@@ -75,14 +77,14 @@
     loadData() {
       this._loading = true;
 
-      const loadAccount = this.$.restAPI.getAccount().then(account => {
+      const loadAccount = this.restAPI.getAccount().then(account => {
         // Using Object.assign here allows preservation of the default values
         // supplied in the value generating function of this._account, unless
         // they are overridden by properties in the account from the response.
         this._account = Object.assign({}, this._account, account);
       });
 
-      const loadConfig = this.$.restAPI.getConfig().then(config => {
+      const loadConfig = this.restAPI.getConfig().then(config => {
         this._serverConfig = config;
       });
 
@@ -94,12 +96,12 @@
     _save() {
       this._saving = true;
       const promises = [
-        this.$.restAPI.setAccountName(this.$.name.value),
-        this.$.restAPI.setPreferredAccountEmail(this.$.email.value || ''),
+        this.restAPI.setAccountName(this.$.name.value),
+        this.restAPI.setPreferredAccountEmail(this.$.email.value || ''),
       ];
 
       if (this._usernameMutable) {
-        promises.push(this.$.restAPI.setAccountUsername(this.$.username.value));
+        promises.push(this.restAPI.setAccountUsername(this.$.username.value));
       }
 
       return Promise.all(promises).then(() => {

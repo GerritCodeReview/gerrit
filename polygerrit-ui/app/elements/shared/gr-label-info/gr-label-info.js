@@ -17,9 +17,14 @@
 (function() {
   'use strict';
 
-  class GrLabelInfo extends Polymer.GestureEventListeners(
+  /**
+   * @appliesMixin Gerrit.CommonInterfaceMixin
+   */
+  class GrLabelInfo extends Polymer.mixinBehaviors( [
+    Gerrit.CommonInterfaceBehavior,
+  ], Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(
-          Polymer.Element)) {
+          Polymer.Element))) {
     static get is() { return 'gr-label-info'; }
 
     static get properties() {
@@ -128,7 +133,7 @@
       target.disabled = true;
       const accountID = parseInt(target.getAttribute('data-account-id'), 10);
       this._xhrPromise =
-          this.$.restAPI.deleteVote(this.change._number, accountID, this.label)
+          this.restAPI.deleteVote(this.change._number, accountID, this.label)
               .then(response => {
                 target.disabled = false;
                 if (!response.ok) { return; }

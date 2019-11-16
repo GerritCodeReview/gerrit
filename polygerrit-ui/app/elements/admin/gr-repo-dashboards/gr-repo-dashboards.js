@@ -19,9 +19,11 @@
 
   /**
     * @appliesMixin Gerrit.FireMixin
+    * @appliesMixin Gerrit.CommonInterfaceMixin
     */
   class GrRepoDashboards extends Polymer.mixinBehaviors( [
     Gerrit.FireBehavior,
+    Gerrit.CommonInterfaceBehavior,
   ], Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(
           Polymer.Element))) {
@@ -49,7 +51,7 @@
         this.fire('page-error', {response});
       };
 
-      this.$.restAPI.getRepoDashboards(this.repo, errFn).then(res => {
+      this.restAPI.getRepoDashboards(this.repo, errFn).then(res => {
         if (!res) { return Promise.resolve(); }
 
         // Group by ref and sort by id.

@@ -194,7 +194,8 @@
 
   // Setup listeners outside of the router component initialization.
   (function() {
-    const reporting = document.createElement('gr-reporting');
+    const reporting = document.getElementsByTagName('gr-reporting')[0]
+      || document.createElement('gr-reporting');
 
     window.addEventListener('load', () => {
       setTimeout(() => {
@@ -212,12 +213,14 @@
     * @appliesMixin Gerrit.FireMixin
     * @appliesMixin Gerrit.PatchSetMixin
     * @appliesMixin Gerrit.URLEncodingMixin
+    * @appliesMixin Gerrit.CommonInterfaceMixin
     */
   class GrRouter extends Polymer.mixinBehaviors( [
     Gerrit.BaseUrlBehavior,
     Gerrit.FireBehavior,
     Gerrit.PatchSetBehavior,
     Gerrit.URLEncodingBehavior,
+    Gerrit.CommonInterfaceBehavior,
   ], Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(
           Polymer.Element))) {
@@ -566,7 +569,7 @@
     _normalizeLegacyRouteParams(params) {
       if (!params.changeNum) { return Promise.resolve(); }
 
-      return this.$.restAPI.getFromProjectLookup(params.changeNum)
+      return this.restAPI.getFromProjectLookup(params.changeNum)
           .then(project => {
             // Show a 404 and terminate if the lookup request failed. Attempting
             // to redirect after failing to get the project loops infinitely.
@@ -650,7 +653,7 @@
      *     (if it resolves).
      */
     _redirectIfNotLoggedIn(data) {
-      return this.$.restAPI.getLoggedIn().then(loggedIn => {
+      return this.restAPI.getLoggedIn().then(loggedIn => {
         if (loggedIn) {
           return Promise.resolve();
         } else {
@@ -662,7 +665,7 @@
 
     /**  Page.js middleware that warms the REST API's logged-in cache line. */
     _loadUserMiddleware(ctx, next) {
-      this.$.restAPI.getLoggedIn().then(() => { next(); });
+      this.restAPI.getLoggedIn().then(() => { next(); });
     }
 
     /**
@@ -685,7 +688,7 @@
         return;
       }
       page(pattern, this._loadUserMiddleware.bind(this), data => {
-        this.$.reporting.locationChanged(handlerName);
+        this.reporting.locationChanged(handlerName);
         const promise = opt_authRedirect ?
           this._redirectIfNotLoggedIn(data) : Promise.resolve();
         promise.then(() => { this[handlerName](data); });
@@ -707,7 +710,7 @@
 
       page.exit('*', (ctx, next) => {
         if (!this._isRedirecting) {
-          this.$.reporting.beforeLocationChanged();
+          this.reporting.beforeLocationChanged();
         }
         this._isRedirecting = false;
         this._isInitialLoad = false;
@@ -920,7 +923,7 @@
         this._redirect(newUrl);
         return null;
       }
-      return this.$.restAPI.getLoggedIn().then(loggedIn => {
+      return this.restAPI.getLoggedIn().then(loggedIn => {
         if (loggedIn) {
           this._redirect('/dashboard/self');
         } else {
@@ -980,7 +983,7 @@
       // User dashboard. We require viewing user to be logged in, else we
       // redirect to login for self dashboard or simple owner search for
       // other user dashboard.
-      return this.$.restAPI.getLoggedIn().then(loggedIn => {
+      return this.restAPI.getLoggedIn().then(loggedIn => {
         if (!loggedIn) {
           if (data.params[0].toLowerCase() === 'self') {
             this._redirectToLogin(data.canonicalPath);
@@ -1055,7 +1058,7 @@
         project,
         dashboard: decodeURIComponent(data.params[1]),
       });
-      this.$.reporting.setRepoName(project);
+      this.reporting.setRepoName(project);
     }
 
     _handleGroupInfoRoute(data) {
@@ -1136,7 +1139,7 @@
         detail: Gerrit.Nav.RepoDetailView.COMMANDS,
         repo,
       });
-      this.$.reporting.setRepoName(repo);
+      this.reporting.setRepoName(repo);
     }
 
     _handleRepoAccessRoute(data) {
@@ -1146,7 +1149,7 @@
         detail: Gerrit.Nav.RepoDetailView.ACCESS,
         repo,
       });
-      this.$.reporting.setRepoName(repo);
+      this.reporting.setRepoName(repo);
     }
 
     _handleRepoDashboardsRoute(data) {
@@ -1156,7 +1159,7 @@
         detail: Gerrit.Nav.RepoDetailView.DASHBOARDS,
         repo,
       });
-      this.$.reporting.setRepoName(repo);
+      this.reporting.setRepoName(repo);
     }
 
     _handleBranchListOffsetRoute(data) {
@@ -1262,7 +1265,7 @@
         view: Gerrit.Nav.View.REPO,
         repo,
       });
-      this.$.reporting.setRepoName(repo);
+      this.reporting.setRepoName(repo);
     }
 
     _handlePluginListOffsetRoute(data) {
@@ -1324,7 +1327,7 @@
         view: Gerrit.Nav.View.CHANGE,
       };
 
-      this.$.reporting.setRepoName(params.project);
+      this.reporting.setRepoName(params.project);
       this._redirectOrNavigate(params);
     }
 
@@ -1344,7 +1347,7 @@
         params.leftSide = address.leftSide;
         params.lineNum = address.lineNum;
       }
-      this.$.reporting.setRepoName(params.project);
+      this.reporting.setRepoName(params.project);
       this._redirectOrNavigate(params);
     }
 
@@ -1394,7 +1397,7 @@
         path: ctx.params[3],
         view: Gerrit.Nav.View.EDIT,
       });
-      this.$.reporting.setRepoName(project);
+      this.reporting.setRepoName(project);
     }
 
     _handleChangeEditRoute(ctx) {
@@ -1407,7 +1410,7 @@
         view: Gerrit.Nav.View.CHANGE,
         edit: true,
       });
-      this.$.reporting.setRepoName(project);
+      this.reporting.setRepoName(project);
     }
 
     /**

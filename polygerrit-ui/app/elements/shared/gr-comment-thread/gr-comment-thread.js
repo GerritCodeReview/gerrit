@@ -24,6 +24,7 @@
     * @appliesMixin Gerrit.FireMixin
     * @appliesMixin Gerrit.KeyboardShortcutMixin
     * @appliesMixin Gerrit.PathListMixin
+    * @appliesMixin Gerrit.CommonInterfaceMixin
     */
   class GrCommentThread extends Polymer.mixinBehaviors( [
     /**
@@ -32,6 +33,7 @@
     Gerrit.FireBehavior,
     Gerrit.KeyboardShortcutBehavior,
     Gerrit.PathListBehavior,
+    Gerrit.CommonInterfaceBehavior,
   ], Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(
           Polymer.Element))) {
@@ -208,7 +210,7 @@
     }
 
     _getLoggedIn() {
-      return this.$.restAPI.getLoggedIn();
+      return this.restAPI.getLoggedIn();
     }
 
     _commentsChanged() {
@@ -292,7 +294,7 @@
 
     _createReplyComment(parent, content, opt_isEditing,
         opt_unresolved) {
-      this.$.reporting.recordDraftInteraction();
+      this.reporting.recordDraftInteraction();
       const reply = this._newReply(
           this._orderedComments[this._orderedComments.length - 1].id,
           parent.line,
@@ -454,7 +456,7 @@
             path: changeComment.path,
             line: changeComment.line,
           };
-          return this.$.storage.setDraftComment(commentLocation,
+          return this.storage.setDraftComment(commentLocation,
               changeComment.message);
         }
       }
@@ -503,7 +505,7 @@
      */
     _projectNameChanged(name) {
       if (!name) { return; }
-      this.$.restAPI.getProjectConfig(name).then(config => {
+      this.restAPI.getProjectConfig(name).then(config => {
         this._projectConfig = config;
       });
     }

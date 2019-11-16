@@ -74,12 +74,14 @@
     * @appliesMixin Gerrit.BaseUrlMixin
     * @appliesMixin Gerrit.DocsUrlMixin
     * @appliesMixin Gerrit.FireMixin
+    * @appliesMixin Gerrit.CommonInterfaceMixin
     */
   class GrMainHeader extends Polymer.mixinBehaviors( [
     Gerrit.AdminNavBehavior,
     Gerrit.BaseUrlBehavior,
     Gerrit.DocsUrlBehavior,
     Gerrit.FireBehavior,
+    Gerrit.CommonInterfaceBehavior,
   ], Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(
           Polymer.Element))) {
@@ -267,8 +269,8 @@
     _loadAccount() {
       this.loading = true;
       const promises = [
-        this.$.restAPI.getAccount(),
-        this.$.restAPI.getTopMenus(),
+        this.restAPI.getAccount(),
+        this.restAPI.getTopMenus(),
         Gerrit.awaitPluginsLoaded(),
       ];
 
@@ -280,8 +282,8 @@
         this._topMenus = result[1];
 
         return this.getAdminLinks(account,
-            this.$.restAPI.getAccountCapabilities.bind(this.$.restAPI),
-            this.$.jsAPI.getAdminMenuLinks.bind(this.$.jsAPI))
+            this.restAPI.getAccountCapabilities.bind(this.restAPI),
+            this.jsAPI.getAdminMenuLinks.bind(this.jsAPI))
             .then(res => {
               this._adminLinks = res.links;
             });
@@ -289,10 +291,10 @@
     }
 
     _loadConfig() {
-      this.$.restAPI.getConfig()
+      this.restAPI.getConfig()
           .then(config => {
             this._retrieveRegisterURL(config);
-            return this.getDocsBaseUrl(config, this.$.restAPI);
+            return this.getDocsBaseUrl(config, this.restAPI);
           })
           .then(docBaseUrl => { this._docBaseUrl = docBaseUrl; });
     }
@@ -300,7 +302,7 @@
     _accountLoaded(account) {
       if (!account) { return; }
 
-      this.$.restAPI.getPreferences().then(prefs => {
+      this.restAPI.getPreferences().then(prefs => {
         this._userLinks = prefs.my.map(this._fixCustomMenuItem);
       });
     }

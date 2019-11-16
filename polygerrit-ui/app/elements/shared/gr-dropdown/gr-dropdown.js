@@ -23,10 +23,12 @@
   /**
     * @appliesMixin Gerrit.BaseUrlMixin
     * @appliesMixin Gerrit.KeyboardShortcutMixin
+    * @appliesMixin Gerrit.CommonInterfaceMixin
     */
   class GrDropdown extends Polymer.mixinBehaviors( [
     Gerrit.BaseUrlBehavior,
     Gerrit.KeyboardShortcutBehavior,
+    Gerrit.CommonInterfaceBehavior,
   ], Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(
           Polymer.Element))) {

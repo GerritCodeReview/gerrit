@@ -19,9 +19,11 @@
 
   /**
     * @appliesMixin Gerrit.RESTClientMixin
+    * @appliesMixin Gerrit.CommonInterfaceMixin
     */
   class GrDownloadCommands extends Polymer.mixinBehaviors( [
     Gerrit.RESTClientBehavior,
+    Gerrit.CommonInterfaceBehavior,
   ], Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(
           Polymer.Element))) {
@@ -55,12 +57,12 @@
     }
 
     _getLoggedIn() {
-      return this.$.restAPI.getLoggedIn();
+      return this.restAPI.getLoggedIn();
     }
 
     _loggedInChanged(loggedIn) {
       if (!loggedIn) { return; }
-      return this.$.restAPI.getPreferences().then(prefs => {
+      return this.restAPI.getPreferences().then(prefs => {
         if (prefs.download_scheme) {
           // Note (issue 5180): normalize the download scheme with lower-case.
           this.selectedScheme = prefs.download_scheme.toLowerCase();
@@ -73,7 +75,7 @@
       if (scheme && scheme !== this.selectedScheme) {
         this.set('selectedScheme', scheme);
         if (this._loggedIn) {
-          this.$.restAPI.savePreferences(
+          this.restAPI.savePreferences(
               {download_scheme: this.selectedScheme});
         }
       }

@@ -17,9 +17,14 @@
 (function() {
   'use strict';
 
-  class GrDiffPreferences extends Polymer.GestureEventListeners(
+  /**
+   * @appliesMixin Gerrit.CommonInterfaceMixin
+   */
+  class GrDiffPreferences extends Polymer.mixinBehaviors( [
+    Gerrit.CommonInterfaceBehavior,
+  ], Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(
-          Polymer.Element)) {
+          Polymer.Element))) {
     static get is() { return 'gr-diff-preferences'; }
 
     static get properties() {
@@ -36,7 +41,7 @@
     }
 
     loadData() {
-      return this.$.restAPI.getDiffPreferences().then(prefs => {
+      return this.restAPI.getDiffPreferences().then(prefs => {
         this.diffPrefs = prefs;
       });
     }
@@ -74,7 +79,7 @@
     }
 
     save() {
-      return this.$.restAPI.saveDiffPreferences(this.diffPrefs).then(res => {
+      return this.restAPI.saveDiffPreferences(this.diffPrefs).then(res => {
         this.hasUnsavedChanges = false;
       });
     }

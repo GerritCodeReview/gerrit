@@ -25,10 +25,12 @@
   /**
     * @appliesMixin Gerrit.BaseUrlMixin
     * @appliesMixin Gerrit.URLEncodingMixin
+    * @appliesMixin Gerrit.CommonInterfaceMixin
     */
   class GrCreatePointerDialog extends Polymer.mixinBehaviors( [
     Gerrit.BaseUrlBehavior,
     Gerrit.URLEncodingBehavior,
+    Gerrit.CommonInterfaceBehavior,
   ], Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(
           Polymer.Element))) {
@@ -73,7 +75,7 @@
     handleCreateItem() {
       const USE_HEAD = this._itemRevision ? this._itemRevision : 'HEAD';
       if (this.itemDetail === DETAIL_TYPES.branches) {
-        return this.$.restAPI.createRepoBranch(this.repoName,
+        return this.restAPI.createRepoBranch(this.repoName,
             this._itemName, {revision: USE_HEAD})
             .then(itemRegistered => {
               if (itemRegistered.status === 201) {
@@ -81,7 +83,7 @@
               }
             });
       } else if (this.itemDetail === DETAIL_TYPES.tags) {
-        return this.$.restAPI.createRepoTag(this.repoName,
+        return this.restAPI.createRepoTag(this.repoName,
             this._itemName,
             {revision: USE_HEAD, message: this._itemAnnotation || null})
             .then(itemRegistered => {

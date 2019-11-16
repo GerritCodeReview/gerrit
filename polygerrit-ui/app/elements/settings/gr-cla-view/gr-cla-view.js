@@ -20,10 +20,12 @@
   /**
     * @appliesMixin Gerrit.BaseUrlMixin
     * @appliesMixin Gerrit.FireMixin
+    * @appliesMixin Gerrit.CommonInterfaceMixin
     */
   class GrClaView extends Polymer.mixinBehaviors( [
     Gerrit.BaseUrlBehavior,
     Gerrit.FireBehavior,
+    Gerrit.CommonInterfaceBehavior,
   ], Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(
           Polymer.Element))) {
@@ -54,17 +56,17 @@
 
     loadData() {
       const promises = [];
-      promises.push(this.$.restAPI.getConfig(true).then(config => {
+      promises.push(this.restAPI.getConfig(true).then(config => {
         this._serverConfig = config;
       }));
 
-      promises.push(this.$.restAPI.getAccountGroups().then(groups => {
+      promises.push(this.restAPI.getAccountGroups().then(groups => {
         this._groups = groups.sort((a, b) => {
           return a.name.localeCompare(b.name);
         });
       }));
 
-      promises.push(this.$.restAPI.getAccountAgreements().then(agreements => {
+      promises.push(this.restAPI.getAccountAgreements().then(agreements => {
         this._signedAgreements = agreements || [];
       }));
 
@@ -96,7 +98,7 @@
       this._createToast('Agreement saving...');
 
       const name = this._agreementName;
-      return this.$.restAPI.saveAccountAgreement({name}).then(res => {
+      return this.restAPI.saveAccountAgreement({name}).then(res => {
         let message = 'Agreement failed to be submitted, please try again';
         if (res.status === 200) {
           message = 'Agreement has been successfully submited.';

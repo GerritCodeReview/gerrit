@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "28b8bde6_9c5c9807",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-11-16T16:01:27Z",
+      "side": 1,
+      "message": "it is",
+      "range": {
+        "startLine": 22,
+        "startChar": 59,
+        "endLine": 22,
+        "endChar": 66
+      },
+      "revId": "9cf481dd74043d6c9ebee741830f3d2a644189ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "004ac3a2_ccc5660d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-11-16T16:01:27Z",
+      "side": 1,
+      "message": "are",
+      "range": {
+        "startLine": 31,
+        "startChar": 46,
+        "endLine": 31,
+        "endChar": 48
+      },
+      "revId": "9cf481dd74043d6c9ebee741830f3d2a644189ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4a14baff_74e29db0",
         "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
         "patchSetId": 3

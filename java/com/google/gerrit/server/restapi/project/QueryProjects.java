@@ -14,8 +14,10 @@
 
 package com.google.gerrit.server.restapi.project;
 
+import static java.util.stream.Collectors.toList;
+
 import com.google.common.base.Strings;
-import com.google.common.collect.Lists;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.common.ProjectInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
@@ -32,11 +34,12 @@ import com.google.gerrit.server.query.project.ProjectQueryBuilder;
 import com.google.gerrit.server.query.project.ProjectQueryProcessor;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import java.util.ArrayList;
 import java.util.List;
 import org.kohsuke.args4j.Option;
 
 public class QueryProjects implements RestReadView<TopLevelResource> {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   private final ProjectIndexCollection indexes;
   private final ProjectQueryBuilder queryBuilder;
   private final Provider<ProjectQueryProcessor> queryProcessorProvider;
@@ -114,13 +117,13 @@ public class QueryProjects implements RestReadView<TopLevelResource> {
     }
 
     try {
+      logger.atFine().log("query: %s", query);
       QueryResult<ProjectData> result = queryProcessor.query(queryBuilder.parse(query));
       List<ProjectData> pds = result.entities();
-
-      ArrayList<ProjectInfo> projectInfos = Lists.newArrayListWithCapacity(pds.size());
-      for (ProjectData pd : pds) {
-        projectInfos.add(json.format(pd.getProject()));
-      }
+      logger.atFine().log("query returned %d results", pds.size());
+      List<ProjectInfo> projectInfos =
+          pds.stream().map(pd -> json.format(pd.getProject())).distinct().collect(toList());
+      logger.atFine().log("returning %d distinct results", projectInfos.size());
       return projectInfos;
     } catch (QueryParseException e) {
       throw new BadRequestException(e.getMessage());

@@ -18,9 +18,9 @@ limitations under the License.
 <link rel="import" href="/bower_components/iron-icon/iron-icon.html">
 <link rel="import" href="../../../styles/shared-styles.html">
 <link rel="import" href="../../../behaviors/gr-url-encoding-behavior/gr-url-encoding-behavior.html">
+<link rel="import" href="../../../behaviors/gr-common-interface-behavior/gr-common-interface-behavior.html">
 <link rel="import" href="../../shared/gr-icons/gr-icons.html">
 <link rel="import" href="../../shared/gr-labeled-autocomplete/gr-labeled-autocomplete.html">
-<link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 
 <dom-module id="gr-repo-branch-picker">
   <template>
@@ -54,7 +54,6 @@ limitations under the License.
           query="[[_query]]">
       </gr-labeled-autocomplete>
     </div>
-    <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>
   <script src="gr-repo-branch-picker.js"></script>
 </dom-module>

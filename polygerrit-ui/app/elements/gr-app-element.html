@@ -20,6 +20,7 @@ limitations under the License.
 <link rel="import" href="/bower_components/polymer/polymer.html">
 <link rel="import" href="../behaviors/base-url-behavior/base-url-behavior.html">
 <link rel="import" href="../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.html">
+<link rel="import" href="../behaviors/gr-common-interface-behavior/gr-common-interface-behavior.html">
 <link rel="import" href="../styles/shared-styles.html">
 <link rel="import" href="../styles/themes/app-theme.html">
 <link rel="import" href="./admin/gr-admin-view/gr-admin-view.html">
@@ -31,7 +32,6 @@ limitations under the License.
 <link rel="import" href="./core/gr-keyboard-shortcuts-dialog/gr-keyboard-shortcuts-dialog.html">
 <link rel="import" href="./core/gr-main-header/gr-main-header.html">
 <link rel="import" href="./core/gr-navigation/gr-navigation.html">
-<link rel="import" href="./core/gr-reporting/gr-reporting.html">
 <link rel="import" href="./core/gr-router/gr-router.html">
 <link rel="import" href="./core/gr-smart-search/gr-smart-search.html">
 <link rel="import" href="./diff/gr-diff-view/gr-diff-view.html">
@@ -45,7 +45,6 @@ limitations under the License.
 <link rel="import" href="./settings/gr-settings-view/gr-settings-view.html">
 <link rel="import" href="./shared/gr-fixed-panel/gr-fixed-panel.html">
 <link rel="import" href="./shared/gr-lib-loader/gr-lib-loader.html">
-<link rel="import" href="./shared/gr-rest-api-interface/gr-rest-api-interface.html">
 
 <dom-module id="gr-app-element">
   <template>
@@ -223,8 +222,6 @@ limitations under the License.
     </gr-overlay>
     <gr-endpoint-decorator name="plugin-overlay"></gr-endpoint-decorator>
     <gr-error-manager id="errorManager"></gr-error-manager>
-    <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
-    <gr-reporting id="reporting"></gr-reporting>
     <gr-router id="router"></gr-router>
     <gr-plugin-host id="plugins"
         config="[[_serverConfig]]">

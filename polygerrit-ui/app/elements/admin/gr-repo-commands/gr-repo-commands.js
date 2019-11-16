@@ -28,9 +28,11 @@
 
   /**
     * @appliesMixin Gerrit.FireMixin
+    * @appliesMixin Gerrit.CommonInterfaceMixin
     */
   class GrRepoCommands extends Polymer.mixinBehaviors( [
     Gerrit.FireBehavior,
+    Gerrit.CommonInterfaceBehavior,
   ], Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(
           Polymer.Element))) {
@@ -64,7 +66,7 @@
         this.fire('page-error', {response});
       };
 
-      return this.$.restAPI.getProjectConfig(this.repo, errFn)
+      return this.restAPI.getProjectConfig(this.repo, errFn)
           .then(config => {
             if (!config) { return Promise.resolve(); }
 
@@ -82,7 +84,7 @@
     }
 
     _handleRunningGC() {
-      return this.$.restAPI.runRepoGC(this.repo).then(response => {
+      return this.restAPI.runRepoGC(this.repo).then(response => {
         if (response.status === 200) {
           this.dispatchEvent(new CustomEvent(
               'show-alert',
@@ -105,7 +107,7 @@
     }
 
     _handleEditRepoConfig() {
-      return this.$.restAPI.createChange(this.repo, CONFIG_BRANCH,
+      return this.restAPI.createChange(this.repo, CONFIG_BRANCH,
           EDIT_CONFIG_SUBJECT, undefined, false, true).then(change => {
         const message = change ?
           CREATE_CHANGE_SUCCEEDED_MESSAGE :

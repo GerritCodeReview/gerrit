@@ -15,11 +15,11 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<link rel="import" href="../../../behaviors/base-url-behavior/base-url-behavior.html">
 <link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="../../../behaviors/base-url-behavior/base-url-behavior.html">
+<link rel="import" href="../../../behaviors/gr-common-interface-behavior/gr-common-interface-behavior.html">
 <link rel="import" href="../../../styles/gr-form-styles.html">
 <link rel="import" href="../../../styles/shared-styles.html">
-<link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 
 <dom-module id="gr-agreements-list">
   <template>
@@ -58,7 +58,6 @@ limitations under the License.
       </table>
       <a href$="[[getUrl()]]">New Contributor Agreement</a>
     </div>
-    <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>
   <script src="gr-agreements-list.js"></script>
 </dom-module>

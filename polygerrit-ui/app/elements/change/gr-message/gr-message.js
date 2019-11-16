@@ -22,9 +22,11 @@
 
   /**
     * @appliesMixin Gerrit.FireMixin
+    * @appliesMixin Gerrit.CommonInterfaceMixin
     */
   class GrMessage extends Polymer.mixinBehaviors( [
     Gerrit.FireBehavior,
+    Gerrit.CommonInterfaceBehavior,
   ], Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(
           Polymer.Element))) {
@@ -121,10 +123,10 @@
 
     ready() {
       super.ready();
-      this.$.restAPI.getConfig().then(config => {
+      this.restAPI.getConfig().then(config => {
         this.config = config;
       });
-      this.$.restAPI.getLoggedIn().then(loggedIn => {
+      this.restAPI.getLoggedIn().then(loggedIn => {
         this._loggedIn = loggedIn;
       });
     }
@@ -255,7 +257,7 @@
     }
 
     _projectNameChanged(name) {
-      this.$.restAPI.getProjectConfig(name).then(config => {
+      this.restAPI.getProjectConfig(name).then(config => {
         this._projectConfig = config;
       });
     }

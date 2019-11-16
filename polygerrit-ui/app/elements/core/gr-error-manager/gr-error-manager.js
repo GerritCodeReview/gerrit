@@ -28,10 +28,12 @@
   /**
     * @appliesMixin Gerrit.BaseUrlMixin
     * @appliesMixin Gerrit.FireMixin
+    * @appliesMixin Gerrit.CommonInterfaceMixin
     */
   class GrErrorManager extends Polymer.mixinBehaviors( [
     Gerrit.BaseUrlBehavior,
     Gerrit.FireBehavior,
+    Gerrit.CommonInterfaceBehavior,
   ], Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(
           Polymer.Element))) {
@@ -143,7 +145,7 @@
     }
 
     _getLoggedIn() {
-      return this.$.restAPI.getLoggedIn();
+      return this.restAPI.getLoggedIn();
     }
 
     /**
@@ -222,7 +224,7 @@
           this.knownAccountId !== undefined &&
           timeSinceLastCheck > STALE_CREDENTIAL_THRESHOLD_MS) {
         this._lastCredentialCheck = Date.now();
-        this.$.restAPI.checkCredentials();
+        this.restAPI.checkCredentials();
       }
     }
 
@@ -232,7 +234,7 @@
     }
 
     _checkSignedIn() {
-      this.$.restAPI.checkCredentials().then(account => {
+      this.restAPI.checkCredentials().then(account => {
         const isLoggedIn = !!account;
         this._lastCredentialCheck = Date.now();
         if (this._refreshingCredentials) {
@@ -292,7 +294,7 @@
     }
 
     _showErrorDialog(message) {
-      this.$.reporting.reportErrorDialog(message);
+      this.reporting.reportErrorDialog(message);
       this.$.errorDialog.text = message;
       this.$.errorOverlay.open();
     }

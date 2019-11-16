@@ -19,8 +19,8 @@ limitations under the License.
 <link rel="import" href="../../../behaviors/keyboard-shortcut-behavior/keyboard-shortcut-behavior.html">
 <link rel="import" href="/bower_components/iron-autogrow-textarea/iron-autogrow-textarea.html">
 <link rel="import" href="../../../behaviors/fire-behavior/fire-behavior.html">
+<link rel="import" href="../../../behaviors/gr-common-interface-behavior/gr-common-interface-behavior.html">
 <link rel="import" href="../../../styles/shared-styles.html">
-<link rel="import" href="../../core/gr-reporting/gr-reporting.html">
 <link rel="import" href="../../plugins/gr-endpoint-decorator/gr-endpoint-decorator.html">
 <link rel="import" href="../../plugins/gr-endpoint-param/gr-endpoint-param.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
@@ -29,8 +29,6 @@ limitations under the License.
 <link rel="import" href="../../shared/gr-formatted-text/gr-formatted-text.html">
 <link rel="import" href="../../shared/gr-icons/gr-icons.html">
 <link rel="import" href="../../shared/gr-overlay/gr-overlay.html">
-<link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
-<link rel="import" href="../../shared/gr-storage/gr-storage.html">
 <link rel="import" href="../../shared/gr-textarea/gr-textarea.html">
 <link rel="import" href="../../shared/gr-tooltip-content/gr-tooltip-content.html">
 <link rel="import" href="../gr-confirm-delete-comment-dialog/gr-confirm-delete-comment-dialog.html">
@@ -394,9 +392,6 @@ limitations under the License.
         </gr-dialog>
       </gr-overlay>
     </template>
-    <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
-    <gr-storage id="storage"></gr-storage>
-    <gr-reporting id="reporting"></gr-reporting>
   </template>
   <script src="gr-comment.js"></script>
 </dom-module>

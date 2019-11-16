@@ -27,11 +27,13 @@
     * @appliesMixin Gerrit.BaseUrlMixin
     * @appliesMixin Gerrit.FireMixin
     * @appliesMixin Gerrit.URLEncodingMixin
+    * @appliesMixin Gerrit.CommonInterfaceMixin
     */
   class GrGroupMembers extends Polymer.mixinBehaviors( [
     Gerrit.BaseUrlBehavior,
     Gerrit.FireBehavior,
     Gerrit.URLEncodingBehavior,
+    Gerrit.CommonInterfaceBehavior,
   ], Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(
           Polymer.Element))) {
@@ -92,27 +94,27 @@
         this.fire('page-error', {response});
       };
 
-      return this.$.restAPI.getGroupConfig(this.groupId, errFn)
+      return this.restAPI.getGroupConfig(this.groupId, errFn)
           .then(config => {
             if (!config || !config.name) { return Promise.resolve(); }
 
             this._groupName = config.name;
 
-            promises.push(this.$.restAPI.getIsAdmin().then(isAdmin => {
+            promises.push(this.restAPI.getIsAdmin().then(isAdmin => {
               this._isAdmin = isAdmin ? true : false;
             }));
 
-            promises.push(this.$.restAPI.getIsGroupOwner(config.name)
+            promises.push(this.restAPI.getIsGroupOwner(config.name)
                 .then(isOwner => {
                   this._groupOwner = isOwner ? true : false;
                 }));
 
-            promises.push(this.$.restAPI.getGroupMembers(config.name).then(
+            promises.push(this.restAPI.getGroupMembers(config.name).then(
                 members => {
                   this._groupMembers = members;
                 }));
 
-            promises.push(this.$.restAPI.getIncludedGroup(config.name)
+            promises.push(this.restAPI.getIncludedGroup(config.name)
                 .then(includedGroup => {
                   this._includedGroups = includedGroup;
                 }));
@@ -147,12 +149,12 @@
     }
 
     _handleSavingGroupMember() {
-      return this.$.restAPI.saveGroupMembers(this._groupName,
+      return this.restAPI.saveGroupMembers(this._groupName,
           this._groupMemberSearchId).then(config => {
         if (!config) {
           return;
         }
-        this.$.restAPI.getGroupMembers(this._groupName).then(members => {
+        this.restAPI.getGroupMembers(this._groupName).then(members => {
           this._groupMembers = members;
         });
         this._groupMemberSearchName = '';
@@ -163,22 +165,22 @@
     _handleDeleteConfirm() {
       this.$.overlay.close();
       if (this._itemType === 'member') {
-        return this.$.restAPI.deleteGroupMembers(this._groupName,
+        return this.restAPI.deleteGroupMembers(this._groupName,
             this._itemId)
             .then(itemDeleted => {
               if (itemDeleted.status === 204) {
-                this.$.restAPI.getGroupMembers(this._groupName)
+                this.restAPI.getGroupMembers(this._groupName)
                     .then(members => {
                       this._groupMembers = members;
                     });
               }
             });
       } else if (this._itemType === 'includedGroup') {
-        return this.$.restAPI.deleteIncludedGroup(this._groupName,
+        return this.restAPI.deleteIncludedGroup(this._groupName,
             this._itemId)
             .then(itemDeleted => {
               if (itemDeleted.status === 204 || itemDeleted.status === 205) {
-                this.$.restAPI.getIncludedGroup(this._groupName)
+                this.restAPI.getIncludedGroup(this._groupName)
                     .then(includedGroup => {
                       this._includedGroups = includedGroup;
                     });
@@ -207,7 +209,7 @@
     }
 
     _handleSavingIncludedGroups() {
-      return this.$.restAPI.saveIncludedGroup(this._groupName,
+      return this.restAPI.saveIncludedGroup(this._groupName,
           this._includedGroupSearchId.replace(/\+/g, ' '), err => {
             if (err.status === 404) {
               this.dispatchEvent(new CustomEvent('show-alert', {
@@ -223,7 +225,7 @@
             if (!config) {
               return;
             }
-            this.$.restAPI.getIncludedGroup(this._groupName)
+            this.restAPI.getIncludedGroup(this._groupName)
                 .then(includedGroup => {
                   this._includedGroups = includedGroup;
                 });
@@ -245,7 +247,7 @@
 
     _getAccountSuggestions(input) {
       if (input.length === 0) { return Promise.resolve([]); }
-      return this.$.restAPI.getSuggestedAccounts(
+      return this.restAPI.getSuggestedAccounts(
           input, SUGGESTIONS_LIMIT).then(accounts => {
         const accountSuggestions = [];
         let nameAndEmail;
@@ -268,7 +270,7 @@
     }
 
     _getGroupSuggestions(input) {
-      return this.$.restAPI.getSuggestedGroups(input)
+      return this.restAPI.getSuggestedGroups(input)
           .then(response => {
             const groups = [];
             for (const key in response) {

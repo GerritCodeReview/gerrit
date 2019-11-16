@@ -24,10 +24,12 @@
   /**
     * @appliesMixin Gerrit.FireMixin
     * @appliesMixin Gerrit.PatchSetMixin
+    * @appliesMixin Gerrit.CommonInterfaceMixin
     */
   class GrFileListHeader extends Polymer.mixinBehaviors( [
     Gerrit.FireBehavior,
     Gerrit.PatchSetBehavior,
+    Gerrit.CommonInterfaceBehavior,
   ], Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(
           Polymer.Element))) {
@@ -193,7 +195,7 @@
       const rev = this.getRevisionByPatchNum(this.change.revisions,
           this.patchNum);
       const sha = this._getPatchsetHash(this.change.revisions, rev);
-      return this.$.restAPI.setDescription(this.changeNum, this.patchNum, desc)
+      return this.restAPI.setDescription(this.changeNum, this.patchNum, desc)
           .then(res => {
             if (res.ok) {
               if (target) { target.disabled = false; }

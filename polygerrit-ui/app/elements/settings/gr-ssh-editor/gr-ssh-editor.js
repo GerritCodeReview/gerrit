@@ -17,9 +17,14 @@
 (function() {
   'use strict';
 
-  class GrSshEditor extends Polymer.GestureEventListeners(
+  /**
+   * @appliesMixin Gerrit.CommonInterfaceMixin
+   */
+  class GrSshEditor extends Polymer.mixinBehaviors( [
+    Gerrit.CommonInterfaceBehavior,
+  ], Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(
-          Polymer.Element)) {
+          Polymer.Element))) {
     static get is() { return 'gr-ssh-editor'; }
 
     static get properties() {
@@ -44,14 +49,14 @@
     }
 
     loadData() {
-      return this.$.restAPI.getAccountSSHKeys().then(keys => {
+      return this.restAPI.getAccountSSHKeys().then(keys => {
         this._keys = keys;
       });
     }
 
     save() {
       const promises = this._keysToRemove.map(key => {
-        this.$.restAPI.deleteAccountSSHKey(key.seq);
+        this.restAPI.deleteAccountSSHKey(key.seq);
       });
 
       return Promise.all(promises).then(() => {
@@ -86,7 +91,7 @@
     _handleAddKey() {
       this.$.addButton.disabled = true;
       this.$.newKey.disabled = true;
-      return this.$.restAPI.addAccountSSHKey(this._newKey.trim())
+      return this.restAPI.addAccountSSHKey(this._newKey.trim())
           .then(key => {
             this.$.newKey.disabled = false;
             this._newKey = '';

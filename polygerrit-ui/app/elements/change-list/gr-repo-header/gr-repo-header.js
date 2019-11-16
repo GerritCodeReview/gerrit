@@ -17,9 +17,15 @@
 (function() {
   'use strict';
 
-  class GrRepoHeader extends Polymer.GestureEventListeners(
+
+  /**
+   * @appliesMixin Gerrit.CommonInterfaceMixin
+   */
+  class GrRepoHeader extends Polymer.mixinBehaviors( [
+    Gerrit.CommonInterfaceBehavior,
+  ], Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(
-          Polymer.Element)) {
+          Polymer.Element))) {
     static get is() { return 'gr-repo-header'; }
 
     static get properties() {

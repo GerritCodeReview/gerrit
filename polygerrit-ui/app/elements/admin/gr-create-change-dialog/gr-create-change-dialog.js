@@ -24,6 +24,7 @@
     * @appliesMixin Gerrit.BaseUrlMixin
     * @appliesMixin Gerrit.FireMixin
     * @appliesMixin Gerrit.URLEncodingMixin
+    * @appliesMixin Gerrit.CommonInterfaceMixin
     */
   class GrCreateChangeDialog extends Polymer.mixinBehaviors( [
     Gerrit.BaseUrlBehavior,
@@ -33,6 +34,7 @@
        */
     Gerrit.FireBehavior,
     Gerrit.URLEncodingBehavior,
+    Gerrit.CommonInterfaceBehavior,
   ], Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(
           Polymer.Element))) {
@@ -70,12 +72,12 @@
 
       const promises = [];
 
-      promises.push(this.$.restAPI.getProjectConfig(this.repoName)
+      promises.push(this.restAPI.getProjectConfig(this.repoName)
           .then(config => {
             this.privateByDefault = config.private_by_default;
           }));
 
-      promises.push(this.$.restAPI.getConfig().then(config => {
+      promises.push(this.restAPI.getConfig().then(config => {
         if (!config) { return; }
 
         this._privateConfig = config && config.change &&
@@ -102,7 +104,7 @@
     handleCreateChange() {
       const isPrivate = this.$.privateChangeCheckBox.checked;
       const isWip = true;
-      return this.$.restAPI.createChange(this.repoName, this.branch,
+      return this.restAPI.createChange(this.repoName, this.branch,
           this.subject, this.topic, isPrivate, isWip, this.baseChange,
           this.baseCommit || null)
           .then(changeCreated => {
@@ -115,7 +117,7 @@
       if (input.startsWith(REF_PREFIX)) {
         input = input.substring(REF_PREFIX.length);
       }
-      return this.$.restAPI.getRepoBranches(
+      return this.restAPI.getRepoBranches(
           input, this.repoName, SUGGESTIONS_LIMIT).then(response => {
         const branches = [];
         let branch;

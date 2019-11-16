@@ -25,9 +25,14 @@
     {name: 'Abandons', key: 'notify_abandoned_changes'},
   ];
 
-  class GrWatchedProjectsEditor extends Polymer.GestureEventListeners(
+  /**
+   * @appliesMixin Gerrit.CommonInterfaceMixin
+   */
+  class GrWatchedProjectsEditor extends Polymer.mixinBehaviors( [
+    Gerrit.CommonInterfaceBehavior,
+  ], Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(
-          Polymer.Element)) {
+          Polymer.Element))) {
     static get is() { return 'gr-watched-projects-editor'; }
 
     static get properties() {
@@ -53,7 +58,7 @@
     }
 
     loadData() {
-      return this.$.restAPI.getWatchedProjects().then(projs => {
+      return this.restAPI.getWatchedProjects().then(projs => {
         this._projects = projs;
       });
     }
@@ -61,7 +66,7 @@
     save() {
       let deletePromise;
       if (this._projectsToRemove.length) {
-        deletePromise = this.$.restAPI.deleteWatchedProjects(
+        deletePromise = this.restAPI.deleteWatchedProjects(
             this._projectsToRemove);
       } else {
         deletePromise = Promise.resolve();
@@ -69,7 +74,7 @@
 
       return deletePromise
           .then(() => {
-            return this.$.restAPI.saveWatchedProjects(this._projects);
+            return this.restAPI.saveWatchedProjects(this._projects);
           })
           .then(projects => {
             this._projects = projects;
@@ -91,7 +96,7 @@
     }
 
     _getProjectSuggestions(input) {
-      return this.$.restAPI.getSuggestedProjects(input)
+      return this.restAPI.getSuggestedProjects(input)
           .then(response => {
             const projects = [];
             for (const key in response) {

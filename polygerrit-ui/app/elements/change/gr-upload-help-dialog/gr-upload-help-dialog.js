@@ -29,9 +29,11 @@
 
   /**
     * @appliesMixin Gerrit.FireMixin
+    * @appliesMixin Gerrit.CommonInterfaceMixin
     */
   class GrUploadHelpDialog extends Polymer.mixinBehaviors( [
     Gerrit.FireBehavior,
+    Gerrit.CommonInterfaceBehavior,
   ], Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(
           Polymer.Element))) {
@@ -67,9 +69,9 @@
 
     attached() {
       super.attached();
-      this.$.restAPI.getLoggedIn().then(loggedIn => {
+      this.restAPI.getLoggedIn().then(loggedIn => {
         if (loggedIn) {
-          return this.$.restAPI.getPreferences();
+          return this.restAPI.getPreferences();
         }
       }).then(prefs => {
         if (prefs) {

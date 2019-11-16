@@ -17,9 +17,9 @@ limitations under the License.
 
 <link rel="import" href="/bower_components/polymer/polymer.html">
 <link rel="import" href="../../../behaviors/fire-behavior/fire-behavior.html">
+<link rel="import" href="../../../behaviors/gr-common-interface-behavior/gr-common-interface-behavior.html">
 <link rel="import" href="../../shared/gr-account-chip/gr-account-chip.html">
 <link rel="import" href="../../shared/gr-button/gr-button.html">
-<link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../../../styles/shared-styles.html">
 
 <dom-module id="gr-reviewer-list">
@@ -62,7 +62,6 @@ limitations under the License.
             on-click="_handleAddTap">[[_addLabel]]</gr-button>
       </div>
     </div>
-    <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>
   <script src="gr-reviewer-list.js"></script>
 </dom-module>

@@ -39,6 +39,7 @@
     * @appliesMixin Gerrit.PatchSetMixin
     * @appliesMixin Gerrit.PathListMixin
     * @appliesMixin Gerrit.RESTClientMixin
+    * @appliesMixin Gerrit.CommonInterfaceMixin
     */
   class GrDiffView extends Polymer.mixinBehaviors( [
     Gerrit.FireBehavior,
@@ -46,6 +47,7 @@
     Gerrit.PatchSetBehavior,
     Gerrit.PathListBehavior,
     Gerrit.RESTClientBehavior,
+    Gerrit.CommonInterfaceBehavior,
   ], Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(
           Polymer.Element))) {
@@ -254,25 +256,25 @@
     }
 
     _getLoggedIn() {
-      return this.$.restAPI.getLoggedIn();
+      return this.restAPI.getLoggedIn();
     }
 
     _getProjectConfig(project) {
-      return this.$.restAPI.getProjectConfig(project).then(
+      return this.restAPI.getProjectConfig(project).then(
           config => {
             this._projectConfig = config;
           });
     }
 
     _getChangeDetail(changeNum) {
-      return this.$.restAPI.getDiffChangeDetail(changeNum).then(change => {
+      return this.restAPI.getDiffChangeDetail(changeNum).then(change => {
         this._change = change;
         return change;
       });
     }
 
     _getChangeEdit(changeNum) {
-      return this.$.restAPI.getChangeEdit(this._changeNum);
+      return this.restAPI.getChangeEdit(this._changeNum);
     }
 
     _getFiles(changeNum, patchRangeRecord) {
@@ -283,20 +285,20 @@
       }
 
       const patchRange = patchRangeRecord.base;
-      return this.$.restAPI.getChangeFilePathsAsSpeciallySortedArray(
+      return this.restAPI.getChangeFilePathsAsSpeciallySortedArray(
           changeNum, patchRange).then(files => {
         this._fileList = files;
       });
     }
 
     _getDiffPreferences() {
-      return this.$.restAPI.getDiffPreferences().then(prefs => {
+      return this.restAPI.getDiffPreferences().then(prefs => {
         this._prefs = prefs;
       });
     }
 
     _getPreferences() {
-      return this.$.restAPI.getPreferences();
+      return this.restAPI.getPreferences();
     }
 
     _getWindowWidth() {
@@ -317,7 +319,7 @@
     }
 
     _saveReviewedState(reviewed) {
-      return this.$.restAPI.saveFileReviewed(this._changeNum,
+      return this.restAPI.saveFileReviewed(this._changeNum,
           this._patchRange.patchNum, this._path, reviewed);
     }
 
@@ -591,7 +593,7 @@
     }
 
     _getReviewedFiles(changeNum, patchNum) {
-      return this.$.restAPI.getReviewedFiles(changeNum, patchNum)
+      return this.restAPI.getReviewedFiles(changeNum, patchNum)
           .then(files => {
             this._reviewedFiles = new Set(files);
             return this._reviewedFiles;
@@ -608,7 +610,7 @@
       if (value.view !== Gerrit.Nav.View.DIFF) { return; }
 
       if (value.changeNum && value.project) {
-        this.$.restAPI.setInProjectLookup(value.changeNum, value.project);
+        this.restAPI.setInProjectLookup(value.changeNum, value.project);
       }
 
       this.$.diffHost.lineOfInterest = this._getLineOfInterest(this.params);
@@ -685,16 +687,16 @@
         this.$.diffHost.comments = this._commentsForDiff;
         return this.$.diffHost.reload(true);
       }).then(() => {
-        this.$.reporting.diffViewFullyLoaded();
+        this.reporting.diffViewFullyLoaded();
         // If diff view displayed has not ended yet, it ends here.
-        this.$.reporting.diffViewDisplayed();
+        this.reporting.diffViewDisplayed();
       });
     }
 
     _changeViewStateChanged(changeViewState) {
       if (changeViewState.diffMode === null) {
         // If screen size is small, always default to unified view.
-        this.$.restAPI.getPreferences().then(prefs => {
+        this.restAPI.getPreferences().then(prefs => {
           this.set('changeViewState.diffMode', prefs.default_diff_view);
         });
       }
@@ -998,7 +1000,7 @@
     }
 
     _loadComments() {
-      return this.$.commentAPI.loadAll(this._changeNum).then(comments => {
+      return this.commentAPI.loadAll(this._changeNum).then(comments => {
         this._changeComments = comments;
         this._commentMap = this._getPaths(this._patchRange);
 
@@ -1017,7 +1019,7 @@
     }
 
     _getDiffDrafts() {
-      return this.$.restAPI.getDiffDrafts(this._changeNum);
+      return this.restAPI.getDiffDrafts(this._changeNum);
     }
 
     _computeCommentSkips(commentMap, fileList, path) {

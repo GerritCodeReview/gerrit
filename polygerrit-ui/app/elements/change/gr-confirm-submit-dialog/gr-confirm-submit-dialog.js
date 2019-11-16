@@ -17,9 +17,14 @@
 (function() {
   'use strict';
 
-  class GrConfirmSubmitDialog extends Polymer.GestureEventListeners(
+  /**
+   * @appliesMixin Gerrit.CommonInterfaceMixin
+   */
+  class GrConfirmSubmitDialog extends Polymer.mixinBehaviors( [
+    Gerrit.CommonInterfaceBehavior,
+  ], Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(
-          Polymer.Element)) {
+          Polymer.Element))) {
     static get is() { return 'gr-confirm-submit-dialog'; }
     /**
      * Fired when the confirm button is pressed.

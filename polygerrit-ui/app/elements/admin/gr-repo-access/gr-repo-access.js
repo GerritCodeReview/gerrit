@@ -72,12 +72,14 @@
     * @appliesMixin Gerrit.BaseUrlMixin
     * @appliesMixin Gerrit.FireMixin
     * @appliesMixin Gerrit.URLEncodingMixin
+    * @appliesMixin Gerrit.CommonInterfaceMixin
     */
   class GrRepoAccess extends Polymer.mixinBehaviors( [
     Gerrit.AccessBehavior,
     Gerrit.BaseUrlBehavior,
     Gerrit.FireBehavior,
     Gerrit.URLEncodingBehavior,
+    Gerrit.CommonInterfaceBehavior,
   ], Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(
           Polymer.Element))) {
@@ -162,7 +164,7 @@
 
       // Always reset sections when a project changes.
       this._sections = [];
-      promises.push(this.$.restAPI.getRepoAccessRights(repo, errFn)
+      promises.push(this.restAPI.getRepoAccessRights(repo, errFn)
           .then(res => {
             if (!res) { return Promise.resolve(); }
 
@@ -186,14 +188,14 @@
             return this.toSortedArray(this._local);
           }));
 
-      promises.push(this.$.restAPI.getCapabilities(errFn)
+      promises.push(this.restAPI.getCapabilities(errFn)
           .then(res => {
             if (!res) { return Promise.resolve(); }
 
             return res;
           }));
 
-      promises.push(this.$.restAPI.getRepo(repo, errFn)
+      promises.push(this.restAPI.getRepo(repo, errFn)
           .then(res => {
             if (!res) { return Promise.resolve(); }
 
@@ -218,7 +220,7 @@
     }
 
     _getInheritFromSuggestions() {
-      return this.$.restAPI.getRepos(
+      return this.restAPI.getRepos(
           this._inheritFromFilter,
           MAX_AUTOCOMPLETE_RESULTS)
           .then(response => {
@@ -442,7 +444,7 @@
     _handleSave() {
       const obj = this._getObjforSave();
       if (!obj) { return; }
-      return this.$.restAPI.setRepoAccessRights(this.repo, obj)
+      return this.restAPI.setRepoAccessRights(this.repo, obj)
           .then(() => {
             this._reload(this.repo);
           });
@@ -451,7 +453,7 @@
     _handleSaveForReview() {
       const obj = this._getObjforSave();
       if (!obj) { return; }
-      return this.$.restAPI.setRepoAccessRightsForReview(this.repo, obj)
+      return this.restAPI.setRepoAccessRightsForReview(this.repo, obj)
           .then(change => {
             Gerrit.Nav.navigateToChange(change);
           });

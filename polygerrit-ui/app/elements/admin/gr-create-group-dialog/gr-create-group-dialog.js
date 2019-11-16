@@ -20,10 +20,12 @@
   /**
     * @appliesMixin Gerrit.BaseUrlMixin
     * @appliesMixin Gerrit.URLEncodingMixin
+    * @appliesMixin Gerrit.CommonInterfaceMixin
     */
   class GrCreateGroupDialog extends Polymer.mixinBehaviors( [
     Gerrit.BaseUrlBehavior,
     Gerrit.URLEncodingBehavior,
+    Gerrit.CommonInterfaceBehavior,
   ], Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(
           Polymer.Element))) {
@@ -61,11 +63,11 @@
     }
 
     handleCreateGroup() {
-      return this.$.restAPI.createGroup({name: this._name})
+      return this.restAPI.createGroup({name: this._name})
           .then(groupRegistered => {
             if (groupRegistered.status !== 201) { return; }
             this._groupCreated = true;
-            return this.$.restAPI.getGroupConfig(this._name)
+            return this.restAPI.getGroupConfig(this._name)
                 .then(group => {
                   page.show(this._computeGroupUrl(group.group_id));
                 });

@@ -22,10 +22,12 @@
   /**
     * @appliesMixin Gerrit.FireMixin
     * @appliesMixin Gerrit.ListViewMixin
+    * @appliesMixin Gerrit.CommonInterfaceMixin
     */
   class GrGroupAuditLog extends Polymer.mixinBehaviors( [
     Gerrit.FireBehavior,
     Gerrit.ListViewBehavior,
+    Gerrit.CommonInterfaceBehavior,
   ], Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(
           Polymer.Element))) {
@@ -59,7 +61,7 @@
         this.fire('page-error', {response});
       };
 
-      return this.$.restAPI.getGroupAuditLog(this.groupId, errFn)
+      return this.restAPI.getGroupAuditLog(this.groupId, errFn)
           .then(auditLog => {
             if (!auditLog) {
               this._auditLog = [];

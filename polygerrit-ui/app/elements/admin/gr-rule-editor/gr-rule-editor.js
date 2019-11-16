@@ -68,6 +68,7 @@
     * @appliesMixin Gerrit.BaseUrlMixin
     * @appliesMixin Gerrit.FireMixin
     * @appliesMixin Gerrit.URLEncodingMixin
+    * @appliesMixin Gerrit.CommonInterfaceMixin
     */
   class GrRuleEditor extends Polymer.mixinBehaviors( [
     Gerrit.AccessBehavior,
@@ -78,6 +79,7 @@
        */
     Gerrit.FireBehavior,
     Gerrit.URLEncodingBehavior,
+    Gerrit.CommonInterfaceBehavior,
   ], Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(
           Polymer.Element))) {

@@ -20,10 +20,12 @@
   /**
     * @appliesMixin Gerrit.DisplayNameMixin
     * @appliesMixin Gerrit.TooltipMixin
+    * @appliesMixin Gerrit.CommonInterfaceMixin
     */
   class GrAccountLabel extends Polymer.mixinBehaviors( [
     Gerrit.DisplayNameBehavior,
     Gerrit.TooltipBehavior,
+    Gerrit.CommonInterfaceBehavior,
   ], Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(
           Polymer.Element))) {
@@ -64,7 +66,7 @@
     ready() {
       super.ready();
       if (!this.additionalText) { this.additionalText = ''; }
-      this.$.restAPI.getConfig()
+      this.restAPI.getConfig()
           .then(config => { this._serverConfig = config; });
     }
 

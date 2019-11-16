@@ -19,8 +19,8 @@ limitations under the License.
 <link rel="import" href="../../../behaviors/fire-behavior/fire-behavior.html">
 <link rel="import" href="../../../behaviors/gr-patch-set-behavior/gr-patch-set-behavior.html">
 <link rel="import" href="../../../behaviors/rest-client-behavior/rest-client-behavior.html">
+<link rel="import" href="../../../behaviors/gr-common-interface-behavior/gr-common-interface-behavior.html">
 <link rel="import" href="../../core/gr-navigation/gr-navigation.html">
-<link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../../../styles/shared-styles.html">
 
 <dom-module id="gr-related-changes-list">
@@ -183,7 +183,6 @@ limitations under the License.
       </section>
     </div>
     <div hidden$="[[!loading]]">Loading...</div>
-    <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>
   <script src="gr-related-changes-list.js"></script>
 </dom-module>

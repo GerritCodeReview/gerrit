@@ -50,9 +50,11 @@
 
   /**
     * @appliesMixin Gerrit.RESTClientMixin
+    * @appliesMixin Gerrit.CommonInterfaceMixin
     */
   class GrChangeMetadata extends Polymer.mixinBehaviors( [
     Gerrit.RESTClientBehavior,
+    Gerrit.CommonInterfaceBehavior,
   ], Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(
           Polymer.Element))) {
@@ -162,11 +164,11 @@
         if (this.change.assignee &&
             acct._account_id === this.change.assignee._account_id) { return; }
         this.set(['change', 'assignee'], acct);
-        this.$.restAPI.setAssignee(this.change._number, acct._account_id);
+        this.restAPI.setAssignee(this.change._number, acct._account_id);
       } else {
         if (!this.change.assignee) { return; }
         this.set(['change', 'assignee'], undefined);
-        this.$.restAPI.deleteAssignee(this.change._number);
+        this.restAPI.deleteAssignee(this.change._number);
       }
     }
 
@@ -204,7 +206,7 @@
       const lastTopic = this.change.topic;
       if (!topic.length) { topic = null; }
       this._settingTopic = true;
-      this.$.restAPI.setChangeTopic(this.change._number, topic)
+      this.restAPI.setChangeTopic(this.change._number, topic)
           .then(newTopic => {
             this._settingTopic = false;
             this.set(['change', 'topic'], newTopic);
@@ -232,7 +234,7 @@
       if (!this._newHashtag.length) { return; }
       const newHashtag = this._newHashtag;
       this._newHashtag = '';
-      this.$.restAPI.setChangeHashtag(
+      this.restAPI.setChangeHashtag(
           this.change._number, {add: [newHashtag]}).then(newHashtag => {
         this.set(['change', 'hashtags'], newHashtag);
         if (newHashtag !== lastHashtag) {
@@ -364,7 +366,7 @@
     _handleTopicRemoved(e) {
       const target = Polymer.dom(e).rootTarget;
       target.disabled = true;
-      this.$.restAPI.setChangeTopic(this.change._number, null).then(() => {
+      this.restAPI.setChangeTopic(this.change._number, null).then(() => {
         target.disabled = false;
         this.set(['change', 'topic'], '');
         this.dispatchEvent(
@@ -379,7 +381,7 @@
       e.preventDefault();
       const target = Polymer.dom(e).rootTarget;
       target.disabled = true;
-      this.$.restAPI.setChangeHashtag(this.change._number,
+      this.restAPI.setChangeHashtag(this.change._number,
           {remove: [target.text]})
           .then(newHashtag => {
             target.disabled = false;
@@ -473,7 +475,7 @@
     }
 
     _getReviewerSuggestionsProvider(change) {
-      const provider = GrReviewerSuggestionsProvider.create(this.$.restAPI,
+      const provider = GrReviewerSuggestionsProvider.create(this.restAPI,
           change._number, Gerrit.SUGGESTIONS_PROVIDERS_USERS_TYPES.ANY);
       provider.init();
       return provider;

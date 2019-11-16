@@ -29,12 +29,14 @@
     * @appliesMixin Gerrit.KeyboardShortcutMixin
     * @appliesMixin Gerrit.PatchSetMixin
     * @appliesMixin Gerrit.PathListMixin
+    * @appliesMixin Gerrit.CommonInterfaceMixin
     */
   class GrEditorView extends Polymer.mixinBehaviors( [
     Gerrit.FireBehavior,
     Gerrit.KeyboardShortcutBehavior,
     Gerrit.PatchSetBehavior,
     Gerrit.PathListBehavior,
+    Gerrit.CommonInterfaceBehavior,
   ], Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(
           Polymer.Element))) {
@@ -108,11 +110,11 @@
     }
 
     _getLoggedIn() {
-      return this.$.restAPI.getLoggedIn();
+      return this.restAPI.getLoggedIn();
     }
 
     _getEditPrefs() {
-      return this.$.restAPI.getEditPreferences();
+      return this.restAPI.getEditPreferences();
     }
 
     _paramsChanged(value) {
@@ -141,7 +143,7 @@
     }
 
     _getChangeDetail(changeNum) {
-      return this.$.restAPI.getDiffChangeDetail(changeNum).then(change => {
+      return this.restAPI.getDiffChangeDetail(changeNum).then(change => {
         this._change = change;
       });
     }
@@ -151,7 +153,7 @@
       if (path === this._path) {
         return Promise.resolve();
       }
-      return this.$.restAPI.renameFileInChangeEdit(this._changeNum,
+      return this.restAPI.renameFileInChangeEdit(this._changeNum,
           this._path, path).then(res => {
         if (!res.ok) { return; }
 
@@ -168,9 +170,9 @@
 
     _getFileData(changeNum, path, patchNum) {
       const storedContent =
-            this.$.storage.getEditableContentItem(this.storageKey);
+            this.storage.getEditableContentItem(this.storageKey);
 
-      return this.$.restAPI.getFileContent(changeNum, path, patchNum)
+      return this.restAPI.getFileContent(changeNum, path, patchNum)
           .then(res => {
             if (storedContent && storedContent.message &&
                 storedContent.message !== res.content) {
@@ -200,8 +202,8 @@
     _saveEdit() {
       this._saving = true;
       this._showAlert(SAVING_MESSAGE);
-      this.$.storage.eraseEditableContentItem(this.storageKey);
-      return this.$.restAPI.saveChangeEdit(this._changeNum, this._path,
+      this.storage.eraseEditableContentItem(this.storageKey);
+      return this.restAPI.saveChangeEdit(this._changeNum, this._path,
           this._newContent).then(res => {
         this._saving = false;
         this._showAlert(res.ok ? SAVED_MESSAGE : SAVE_FAILED_MSG);
@@ -246,9 +248,9 @@
         const content = e.detail.value;
         if (content) {
           this.set('_newContent', e.detail.value);
-          this.$.storage.setEditableContentItem(this.storageKey, content);
+          this.storage.setEditableContentItem(this.storageKey, content);
         } else {
-          this.$.storage.eraseEditableContentItem(this.storageKey);
+          this.storage.eraseEditableContentItem(this.storageKey);
         }
       }, STORAGE_DEBOUNCE_INTERVAL_MS);
     }

@@ -27,6 +27,7 @@
   /**
     * @appliesMixin Gerrit.AccessMixin
     * @appliesMixin Gerrit.FireMixin
+    * @appliesMixin Gerrit.CommonInterfaceMixin
     */
   /**
    * Fired when the permission has been modified or removed.
@@ -44,6 +45,7 @@
        * e.g gr-access-section_test.
        */
     Gerrit.FireBehavior,
+    Gerrit.CommonInterfaceBehavior,
   ], Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(
           Polymer.Element))) {
@@ -241,7 +243,7 @@
     }
 
     _getGroupSuggestions() {
-      return this.$.restAPI.getSuggestedGroups(
+      return this.restAPI.getSuggestedGroups(
           this._groupFilter,
           MAX_AUTOCOMPLETE_RESULTS)
           .then(response => {

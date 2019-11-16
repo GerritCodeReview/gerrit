@@ -71,6 +71,7 @@
   /**
     * @appliesMixin Gerrit.FireMixin
     * @appliesMixin Gerrit.PatchSetMixin
+    * @appliesMixin Gerrit.CommonInterfaceMixin
     */
   /**
    * Wrapper around gr-diff.
@@ -81,6 +82,7 @@
   class GrDiffHost extends Polymer.mixinBehaviors( [
     Gerrit.FireBehavior,
     Gerrit.PatchSetBehavior,
+    Gerrit.CommonInterfaceBehavior,
   ], Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(
           Polymer.Element))) {
@@ -300,7 +302,7 @@
 
       const layers = [this.$.syntaxLayer];
       // Get layers from plugins (if any).
-      for (const pluginLayer of this.$.jsAPI.getDiffLayers(
+      for (const pluginLayer of this.jsAPI.getDiffLayers(
           this.diffPath, this.changeNum, this.patchNum)) {
         layers.push(pluginLayer);
       }
@@ -313,7 +315,7 @@
 
       this._coverageRanges = [];
       const {changeNum, path, patchRange: {basePatchNum, patchNum}} = this;
-      this.$.jsAPI.getCoverageRanges(changeNum, path, basePatchNum, patchNum).
+      this.jsAPI.getCoverageRanges(changeNum, path, basePatchNum, patchNum).
           then(coverageRanges => {
             if (changeNum !== this.changeNum ||
                 path !== this.path ||
@@ -425,7 +427,7 @@
      * @return {Promise} A promise that resolves when blame finishes rendering.
      */
     loadBlame() {
-      return this.$.restAPI.getBlame(this.changeNum, this.patchRange.patchNum,
+      return this.restAPI.getBlame(this.changeNum, this.patchRange.patchNum,
           this.path, true)
           .then(blame => {
             if (!blame.length) {
@@ -466,7 +468,7 @@
 
     /** @return {!Promise} */
     _getLoggedIn() {
-      return this.$.restAPI.getLoggedIn();
+      return this.restAPI.getLoggedIn();
     }
 
     /** @return {boolean}} */
@@ -480,7 +482,7 @@
       // Wrap the diff request in a new promise so that the error handler
       // rejects the promise, allowing the error to be handled in the .catch.
       return new Promise((resolve, reject) => {
-        this.$.restAPI.getDiff(
+        this.restAPI.getDiff(
             this.changeNum,
             this.patchRange.basePatchNum,
             this.patchRange.patchNum,
@@ -653,7 +655,7 @@
      * @return {!Promise}
      */
     _getImages(diff) {
-      return this.$.restAPI.getImagesForDiff(this.changeNum, diff,
+      return this.restAPI.getImagesForDiff(this.changeNum, diff,
           this.patchRange);
     }
 

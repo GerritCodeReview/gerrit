@@ -20,10 +20,12 @@
   /**
     * @appliesMixin Gerrit.FireMixin
     * @appliesMixin Gerrit.ListViewMixin
+    * @appliesMixin Gerrit.CommonInterfaceMixin
     */
   class GrPluginList extends Polymer.mixinBehaviors( [
     Gerrit.FireBehavior,
     Gerrit.ListViewBehavior,
+    Gerrit.CommonInterfaceBehavior,
   ], Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(
           Polymer.Element))) {
@@ -92,7 +94,7 @@
       const errFn = response => {
         this.fire('page-error', {response});
       };
-      return this.$.restAPI.getPlugins(filter, pluginsPerPage, offset, errFn)
+      return this.restAPI.getPlugins(filter, pluginsPerPage, offset, errFn)
           .then(plugins => {
             if (!plugins) {
               this._plugins = [];

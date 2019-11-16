@@ -32,9 +32,11 @@
 
   /**
     * @appliesMixin Gerrit.FireMixin
+    * @appliesMixin Gerrit.CommonInterfaceMixin
     */
   class GrGroup extends Polymer.mixinBehaviors( [
     Gerrit.FireBehavior,
+    Gerrit.CommonInterfaceBehavior,
   ], Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(
           Polymer.Element))) {
@@ -119,18 +121,18 @@
         this.fire('page-error', {response});
       };
 
-      return this.$.restAPI.getGroupConfig(this.groupId, errFn)
+      return this.restAPI.getGroupConfig(this.groupId, errFn)
           .then(config => {
             if (!config || !config.name) { return Promise.resolve(); }
 
             this._groupName = config.name;
             this._groupIsInternal = !!config.id.match(INTERNAL_GROUP_REGEX);
 
-            promises.push(this.$.restAPI.getIsAdmin().then(isAdmin => {
+            promises.push(this.restAPI.getIsAdmin().then(isAdmin => {
               this._isAdmin = isAdmin ? true : false;
             }));
 
-            promises.push(this.$.restAPI.getIsGroupOwner(config.name)
+            promises.push(this.restAPI.getIsGroupOwner(config.name)
                 .then(isOwner => {
                   this._groupOwner = isOwner ? true : false;
                 }));
@@ -161,7 +163,7 @@
     }
 
     _handleSaveName() {
-      return this.$.restAPI.saveGroupName(this.groupId, this._groupConfig.name)
+      return this.restAPI.saveGroupName(this.groupId, this._groupConfig.name)
           .then(config => {
             if (config.status === 200) {
               this._groupName = this._groupConfig.name;
@@ -177,14 +179,14 @@
       if (this._groupConfigOwner) {
         owner = decodeURIComponent(this._groupConfigOwner);
       }
-      return this.$.restAPI.saveGroupOwner(this.groupId,
+      return this.restAPI.saveGroupOwner(this.groupId,
           owner).then(config => {
         this._owner = false;
       });
     }
 
     _handleSaveDescription() {
-      return this.$.restAPI.saveGroupDescription(this.groupId,
+      return this.restAPI.saveGroupDescription(this.groupId,
           this._groupConfig.description).then(config => {
         this._description = false;
       });
@@ -195,7 +197,7 @@
 
       const options = {visible_to_all: visible};
 
-      return this.$.restAPI.saveGroupOptions(this.groupId,
+      return this.restAPI.saveGroupOptions(this.groupId,
           options).then(config => {
         this._options = false;
       });
@@ -226,7 +228,7 @@
     }
 
     _getGroupSuggestions(input) {
-      return this.$.restAPI.getSuggestedGroups(input)
+      return this.restAPI.getSuggestedGroups(input)
           .then(response => {
             const groups = [];
             for (const key in response) {

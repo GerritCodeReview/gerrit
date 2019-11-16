@@ -22,9 +22,11 @@
 
   /**
     * @appliesMixin Gerrit.URLEncodingMixin
+    * @appliesMixin Gerrit.CommonInterfaceMixin
     */
   class GrRepoBranchPicker extends Polymer.mixinBehaviors( [
     Gerrit.URLEncodingBehavior,
+    Gerrit.CommonInterfaceBehavior,
   ], Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(
           Polymer.Element))) {
@@ -74,12 +76,12 @@
       if (input.startsWith(REF_PREFIX)) {
         input = input.substring(REF_PREFIX.length);
       }
-      return this.$.restAPI.getRepoBranches(input, this.repo, SUGGESTIONS_LIMIT)
+      return this.restAPI.getRepoBranches(input, this.repo, SUGGESTIONS_LIMIT)
           .then(this._branchResponseToSuggestions.bind(this));
     }
 
     _getRepoSuggestions(input) {
-      return this.$.restAPI.getRepos(input, SUGGESTIONS_LIMIT)
+      return this.restAPI.getRepos(input, SUGGESTIONS_LIMIT)
           .then(this._repoResponseToSuggestions.bind(this));
     }
 

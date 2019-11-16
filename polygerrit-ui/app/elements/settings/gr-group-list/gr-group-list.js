@@ -17,9 +17,14 @@
 (function() {
   'use strict';
 
-  class GrGroupList extends Polymer.GestureEventListeners(
+  /**
+   * @appliesMixin Gerrit.CommonInterfaceMixin
+   */
+  class GrGroupList extends Polymer.mixinBehaviors( [
+    Gerrit.CommonInterfaceBehavior,
+  ], Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(
-          Polymer.Element)) {
+          Polymer.Element))) {
     static get is() { return 'gr-group-list'; }
 
     static get properties() {
@@ -29,7 +34,7 @@
     }
 
     loadData() {
-      return this.$.restAPI.getAccountGroups().then(groups => {
+      return this.restAPI.getAccountGroups().then(groups => {
         this._groups = groups.sort((a, b) => {
           return a.name.localeCompare(b.name);
         });

@@ -20,10 +20,12 @@
   /**
     * @appliesMixin Gerrit.BaseUrlMixin
     * @appliesMixin Gerrit.URLEncodingMixin
+    * @appliesMixin Gerrit.CommonInterfaceMixin
     */
   class GrCreateRepoDialog extends Polymer.mixinBehaviors( [
     Gerrit.BaseUrlBehavior,
     Gerrit.URLEncodingBehavior,
+    Gerrit.CommonInterfaceBehavior,
   ], Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(
           Polymer.Element))) {
@@ -98,7 +100,7 @@
     }
 
     handleCreateRepo() {
-      return this.$.restAPI.createRepo(this._repoConfig)
+      return this.restAPI.createRepo(this._repoConfig)
           .then(repoRegistered => {
             if (repoRegistered.status === 201) {
               this._repoCreated = true;
@@ -108,7 +110,7 @@
     }
 
     _getRepoSuggestions(input) {
-      return this.$.restAPI.getSuggestedProjects(input)
+      return this.restAPI.getSuggestedProjects(input)
           .then(response => {
             const repos = [];
             for (const key in response) {
@@ -123,7 +125,7 @@
     }
 
     _getGroupSuggestions(input) {
-      return this.$.restAPI.getSuggestedGroups(input)
+      return this.restAPI.getSuggestedGroups(input)
           .then(response => {
             const groups = [];
             for (const key in response) {

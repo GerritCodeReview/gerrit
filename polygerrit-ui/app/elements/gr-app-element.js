@@ -20,10 +20,12 @@
   /**
     * @appliesMixin Gerrit.BaseUrlMixin
     * @appliesMixin Gerrit.KeyboardShortcutMixin
+    * @appliesMixin Gerrit.CommonInterfaceMixin
     */
   class GrAppElement extends Polymer.mixinBehaviors( [
     Gerrit.BaseUrlBehavior,
     Gerrit.KeyboardShortcutBehavior,
+    Gerrit.CommonInterfaceBehavior,
   ], Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(
           Polymer.Element))) {
@@ -128,20 +130,20 @@
 
     ready() {
       super.ready();
-      this.$.reporting.appStarted();
+      this.reporting.appStarted();
       this.$.router.start();
 
-      this.$.restAPI.getAccount().then(account => {
+      this.restAPI.getAccount().then(account => {
         this._account = account;
       });
-      this.$.restAPI.getConfig().then(config => {
+      this.restAPI.getConfig().then(config => {
         this._serverConfig = config;
 
         if (config && config.gerrit && config.gerrit.report_bug_url) {
           this._feedbackUrl = config.gerrit.report_bug_url;
         }
       });
-      this.$.restAPI.getVersion().then(version => {
+      this.restAPI.getVersion().then(version => {
         this._version = version;
         this._logWelcome();
       });
@@ -303,9 +305,9 @@
       if (!account) { return; }
 
       // Preferences are cached when a user is logged in; warm them.
-      this.$.restAPI.getPreferences();
-      this.$.restAPI.getDiffPreferences();
-      this.$.restAPI.getEditPreferences();
+      this.restAPI.getPreferences();
+      this.restAPI.getDiffPreferences();
+      this.restAPI.getEditPreferences();
       this.$.errorManager.knownAccountId =
           this._account && this._account._account_id || null;
     }
@@ -459,7 +461,7 @@
      * that would create a cyclic dependency.
      */
     _handleRpcLog(e) {
-      this.$.reporting.reportRpcTiming(e.detail.anonymizedUrl,
+      this.reporting.reportRpcTiming(e.detail.anonymizedUrl,
           e.detail.elapsed);
     }
 

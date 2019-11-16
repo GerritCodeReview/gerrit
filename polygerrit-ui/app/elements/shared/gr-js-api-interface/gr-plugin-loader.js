@@ -88,7 +88,8 @@
 
     _getReporting() {
       if (!this._reporting) {
-        this._reporting = document.createElement('gr-reporting');
+        this._reporting = document.getElementsByTagName('gr-reporting')[0]
+          || document.createElement('gr-reporting');
       }
       return this._reporting;
     }

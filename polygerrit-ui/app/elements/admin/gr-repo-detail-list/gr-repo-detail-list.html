@@ -15,10 +15,11 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
+<link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="/bower_components/iron-input/iron-input.html">
 <link rel="import" href="../../../behaviors/gr-list-view-behavior/gr-list-view-behavior.html">
 <link rel="import" href="../../../behaviors/gr-url-encoding-behavior/gr-url-encoding-behavior.html">
-<link rel="import" href="/bower_components/iron-input/iron-input.html">
-<link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="../../../behaviors/gr-common-interface-behavior/gr-common-interface-behavior.html">
 <link rel="import" href="../../../behaviors/fire-behavior/fire-behavior.html">
 <link rel="import" href="../../../styles/gr-form-styles.html">
 <link rel="import" href="../../../styles/gr-table-styles.html">
@@ -29,7 +30,6 @@ limitations under the License.
 <link rel="import" href="../../shared/gr-dialog/gr-dialog.html">
 <link rel="import" href="../../shared/gr-list-view/gr-list-view.html">
 <link rel="import" href="../../shared/gr-overlay/gr-overlay.html">
-<link rel="import" href="../../shared/gr-rest-api-interface/gr-rest-api-interface.html">
 <link rel="import" href="../gr-create-pointer-dialog/gr-create-pointer-dialog.html">
 <link rel="import" href="../gr-confirm-delete-item-dialog/gr-confirm-delete-item-dialog.html">
 
@@ -218,7 +218,6 @@ limitations under the License.
         </div>
       </gr-dialog>
     </gr-overlay>
-    <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
   </template>
   <script src="gr-repo-detail-list.js"></script>
 </dom-module>

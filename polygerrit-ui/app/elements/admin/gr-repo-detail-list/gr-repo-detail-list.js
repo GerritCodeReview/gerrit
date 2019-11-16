@@ -28,11 +28,13 @@
     * @appliesMixin Gerrit.ListViewMixin
     * @appliesMixin Gerrit.FireMixin
     * @appliesMixin Gerrit.URLEncodingMixin
+    * @appliesMixin Gerrit.CommonInterfaceMixin
     */
   class GrRepoDetailList extends Polymer.mixinBehaviors( [
     Gerrit.ListViewBehavior,
     Gerrit.FireBehavior,
     Gerrit.URLEncodingBehavior,
+    Gerrit.CommonInterfaceBehavior,
   ], Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(
           Polymer.Element))) {
@@ -96,7 +98,7 @@
     }
 
     _determineIfOwner(repo) {
-      return this.$.restAPI.getRepoAccess(repo)
+      return this.restAPI.getRepoAccess(repo)
           .then(access =>
             this._isOwner = access && !!access[repo].is_owner);
     }
@@ -130,14 +132,14 @@
         this.fire('page-error', {response});
       };
       if (detailType === DETAIL_TYPES.BRANCHES) {
-        return this.$.restAPI.getRepoBranches(
+        return this.restAPI.getRepoBranches(
             filter, repo, itemsPerPage, offset, errFn).then(items => {
           if (!items) { return; }
           this._items = items;
           this._loading = false;
         });
       } else if (detailType === DETAIL_TYPES.TAGS) {
-        return this.$.restAPI.getRepoTags(
+        return this.restAPI.getRepoTags(
             filter, repo, itemsPerPage, offset, errFn).then(items => {
           if (!items) { return; }
           this._items = items;
@@ -172,7 +174,7 @@
     }
 
     _getLoggedIn() {
-      return this.$.restAPI.getLoggedIn();
+      return this.restAPI.getLoggedIn();
     }
 
     _computeEditingClass(isEditing) {
@@ -198,7 +200,7 @@
     }
 
     _setRepoHead(repo, ref, e) {
-      return this.$.restAPI.setRepoHead(repo, ref).then(res => {
+      return this.restAPI.setRepoHead(repo, ref).then(res => {
         if (res.status < 400) {
           this._isEditing = false;
           e.model.set('item.revision', ref);
@@ -222,7 +224,7 @@
     _handleDeleteItemConfirm() {
       this.$.overlay.close();
       if (this.detailType === DETAIL_TYPES.BRANCHES) {
-        return this.$.restAPI.deleteRepoBranches(this._repo, this._refName)
+        return this.restAPI.deleteRepoBranches(this._repo, this._refName)
             .then(itemDeleted => {
               if (itemDeleted.status === 204) {
                 this._getItems(
@@ -231,7 +233,7 @@
               }
             });
       } else if (this.detailType === DETAIL_TYPES.TAGS) {
-        return this.$.restAPI.deleteRepoTags(this._repo, this._refName)
+        return this.restAPI.deleteRepoTags(this._repo, this._refName)
             .then(itemDeleted => {
               if (itemDeleted.status === 204) {
                 this._getItems(

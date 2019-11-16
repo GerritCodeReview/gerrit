@@ -17,9 +17,14 @@
 (function() {
   'use strict';
 
-  class GrEmailEditor extends Polymer.GestureEventListeners(
+  /**
+   * @appliesMixin Gerrit.CommonInterfaceMixin
+   */
+  class GrEmailEditor extends Polymer.mixinBehaviors( [
+    Gerrit.CommonInterfaceBehavior,
+  ], Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(
-          Polymer.Element)) {
+          Polymer.Element))) {
     static get is() { return 'gr-email-editor'; }
 
     static get properties() {
@@ -44,7 +49,7 @@
     }
 
     loadData() {
-      return this.$.restAPI.getAccountEmails().then(emails => {
+      return this.restAPI.getAccountEmails().then(emails => {
         this._emails = emails;
       });
     }
@@ -53,11 +58,11 @@
       const promises = [];
 
       for (const emailObj of this._emailsToRemove) {
-        promises.push(this.$.restAPI.deleteAccountEmail(emailObj.email));
+        promises.push(this.restAPI.deleteAccountEmail(emailObj.email));
       }
 
       if (this._newPreferred) {
-        promises.push(this.$.restAPI.setPreferredAccountEmail(
+        promises.push(this.restAPI.setPreferredAccountEmail(
             this._newPreferred));
       }
 

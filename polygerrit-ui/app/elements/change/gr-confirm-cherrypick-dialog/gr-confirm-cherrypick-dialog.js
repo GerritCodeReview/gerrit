@@ -21,9 +21,11 @@
 
   /**
     * @appliesMixin Gerrit.FireMixin
+    * @appliesMixin Gerrit.CommonInterfaceMixin
     */
   class GrConfirmCherrypickDialog extends Polymer.mixinBehaviors( [
     Gerrit.FireBehavior,
+    Gerrit.CommonInterfaceBehavior,
   ], Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(
           Polymer.Element))) {
@@ -102,7 +104,7 @@
       if (input.startsWith('refs/heads/')) {
         input = input.substring('refs/heads/'.length);
       }
-      return this.$.restAPI.getRepoBranches(
+      return this.restAPI.getRepoBranches(
           input, this.project, SUGGESTIONS_LIMIT).then(response => {
         const branches = [];
         let branch;

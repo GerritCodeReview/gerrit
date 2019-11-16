@@ -21,9 +21,11 @@
 
   /**
     * @appliesMixin Gerrit.DisplayNameMixin
+    * @appliesMixin Gerrit.CommonInterfaceMixin
     */
   class GrAccountDropdown extends Polymer.mixinBehaviors( [
     Gerrit.DisplayNameBehavior,
+    Gerrit.CommonInterfaceBehavior,
   ], Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(
           Polymer.Element))) {
@@ -54,7 +56,7 @@
       super.attached();
       this._handleLocationChange();
       this.listen(window, 'location-change', '_handleLocationChange');
-      this.$.restAPI.getConfig().then(cfg => {
+      this.restAPI.getConfig().then(cfg => {
         this.config = cfg;
 
         if (cfg && cfg.auth && cfg.auth.switch_account_url) {

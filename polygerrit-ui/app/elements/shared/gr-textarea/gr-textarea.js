@@ -55,10 +55,12 @@
   /**
     * @appliesMixin Gerrit.FireMixin
     * @appliesMixin Gerrit.KeyboardShortcutMixin
+    * @appliesMixin Gerrit.CommonInterfaceMixin
     */
   class GrTextarea extends Polymer.mixinBehaviors( [
     Gerrit.FireBehavior,
     Gerrit.KeyboardShortcutBehavior,
+    Gerrit.CommonInterfaceBehavior,
   ], Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(
           Polymer.Element))) {
@@ -199,7 +201,7 @@
       this.text = this._getText(text);
       this.$.textarea.selectionStart = colonIndex + 1;
       this.$.textarea.selectionEnd = colonIndex + 1;
-      this.$.reporting.reportInteraction('select-emoji');
+      this.reporting.reportInteraction('select-emoji');
       this._resetEmojiDropdown();
     }
 
@@ -284,7 +286,7 @@
 
     _openEmojiDropdown() {
       this.$.emojiSuggestions.open();
-      this.$.reporting.reportInteraction('open-emoji-dropdown');
+      this.reporting.reportInteraction('open-emoji-dropdown');
     }
 
     _formatSuggestions(matchedSuggestions) {

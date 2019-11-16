@@ -49,11 +49,13 @@
     * @appliesMixin Gerrit.DocsUrlMixin
     * @appliesMixin Gerrit.ChangeTableMixin
     * @appliesMixin Gerrit.FireMixin
+    * @appliesMixin Gerrit.CommonInterfaceMixin
     */
   class GrSettingsView extends Polymer.mixinBehaviors( [
     Gerrit.DocsUrlBehavior,
     Gerrit.ChangeTableBehavior,
     Gerrit.FireBehavior,
+    Gerrit.CommonInterfaceBehavior,
   ], Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(
           Polymer.Element))) {
@@ -182,7 +184,7 @@
         this.$.diffPrefs.loadData(),
       ];
 
-      promises.push(this.$.restAPI.getPreferences().then(prefs => {
+      promises.push(this.restAPI.getPreferences().then(prefs => {
         this.prefs = prefs;
         this._showNumber = !!prefs.legacycid_in_change_table;
         this._copyPrefs('_localPrefs', 'prefs');
@@ -190,7 +192,7 @@
         this._cloneChangeTableColumns();
       }));
 
-      promises.push(this.$.restAPI.getConfig().then(config => {
+      promises.push(this.restAPI.getConfig().then(config => {
         this._serverConfig = config;
         const configPromises = [];
 
@@ -205,14 +207,14 @@
         }
 
         configPromises.push(
-            this.getDocsBaseUrl(config, this.$.restAPI)
+            this.getDocsBaseUrl(config, this.restAPI)
                 .then(baseUrl => { this._docsBaseUrl = baseUrl; }));
 
         return Promise.all(configPromises);
       }));
 
       if (this.params.emailToken) {
-        promises.push(this.$.restAPI.confirmEmail(this.params.emailToken).then(
+        promises.push(this.restAPI.confirmEmail(this.params.emailToken).then(
             message => {
               if (message) {
                 this.fire('show-alert', {message});
@@ -343,7 +345,7 @@
     _handleSavePreferences() {
       this._copyPrefs('prefs', '_localPrefs');
 
-      return this.$.restAPI.savePreferences(this.prefs).then(() => {
+      return this.restAPI.savePreferences(this.prefs).then(() => {
         this._prefsChanged = false;
       });
     }
@@ -352,7 +354,7 @@
       this.set('prefs.change_table', this._localChangeTableColumns);
       this.set('prefs.legacycid_in_change_table', this._showNumber);
       this._cloneChangeTableColumns();
-      return this.$.restAPI.savePreferences(this.prefs).then(() => {
+      return this.restAPI.savePreferences(this.prefs).then(() => {
         this._changeTableChanged = false;
       });
     }
@@ -368,13 +370,13 @@
     _handleSaveMenu() {
       this.set('prefs.my', this._localMenu);
       this._cloneMenu(this.prefs.my);
-      return this.$.restAPI.savePreferences(this.prefs).then(() => {
+      return this.restAPI.savePreferences(this.prefs).then(() => {
         this._menuChanged = false;
       });
     }
 
     _handleResetMenuButton() {
-      return this.$.restAPI.getDefaultPreferences().then(data => {
+      return this.restAPI.getDefaultPreferences().then(data => {
         if (data && data.my) {
           this._cloneMenu(data.my);
         }
@@ -412,7 +414,7 @@
       if (!this._isNewEmailValid(this._newEmail)) { return; }
 
       this._addingEmail = true;
-      this.$.restAPI.addAccountEmail(this._newEmail).then(response => {
+      this.restAPI.addAccountEmail(this._newEmail).then(response => {
         this._addingEmail = false;
 
         // If it was unsuccessful.

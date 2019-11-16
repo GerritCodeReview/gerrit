@@ -31,6 +31,7 @@ import com.google.gerrit.server.project.ProjectJson;
 import com.google.gerrit.server.query.project.ProjectQueryBuilder;
 import com.google.gerrit.server.query.project.ProjectQueryProcessor;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import java.util.ArrayList;
 import java.util.List;
 import org.kohsuke.args4j.Option;
@@ -38,7 +39,7 @@ import org.kohsuke.args4j.Option;
 public class QueryProjects implements RestReadView<TopLevelResource> {
   private final ProjectIndexCollection indexes;
   private final ProjectQueryBuilder queryBuilder;
-  private final ProjectQueryProcessor queryProcessor;
+  private final Provider<ProjectQueryProcessor> queryProcessorProvider;
   private final ProjectJson json;
 
   private String query;
@@ -78,11 +79,11 @@ public class QueryProjects implements RestReadView<TopLevelResource> {
   protected QueryProjects(
       ProjectIndexCollection indexes,
       ProjectQueryBuilder queryBuilder,
-      ProjectQueryProcessor queryProcessor,
+      Provider<ProjectQueryProcessor> queryProcessorProvider,
       ProjectJson json) {
     this.indexes = indexes;
     this.queryBuilder = queryBuilder;
-    this.queryProcessor = queryProcessor;
+    this.queryProcessorProvider = queryProcessorProvider;
     this.json = json;
   }
 
@@ -101,6 +102,8 @@ public class QueryProjects implements RestReadView<TopLevelResource> {
     if (searchIndex == null) {
       throw new MethodNotAllowedException("no project index");
     }
+
+    ProjectQueryProcessor queryProcessor = queryProcessorProvider.get();
 
     if (start != 0) {
       queryProcessor.setStart(start);

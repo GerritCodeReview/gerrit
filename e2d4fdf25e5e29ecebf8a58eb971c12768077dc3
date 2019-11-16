@@ -22,6 +22,30 @@
       "revId": "e2d4fdf25e5e29ecebf8a58eb971c12768077dc3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a91c8c32_8b309280",
+        "filename": "polygerrit-ui/app/elements/shared/gr-highlight-text/gr-highlight-text.js",
+        "patchSetId": 13
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-11-16T15:33:15Z",
+      "side": 1,
+      "message": "string has length as well :) https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/length",
+      "parentUuid": "a0a26791_4dd7bb38",
+      "range": {
+        "startLine": 145,
+        "startChar": 44,
+        "endLine": 145,
+        "endChar": 46
+      },
+      "revId": "e2d4fdf25e5e29ecebf8a58eb971c12768077dc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

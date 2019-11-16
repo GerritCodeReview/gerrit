@@ -34,9 +34,11 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
 import com.google.gerrit.server.query.change.ChangeQueryProcessor;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EnumSet;
+import java.util.HashMap;
 import java.util.List;
 import org.kohsuke.args4j.Option;
 
@@ -45,8 +47,12 @@ public class QueryChanges implements RestReadView<TopLevelResource>, DynamicOpti
 
   private final ChangeJson.Factory json;
   private final ChangeQueryBuilder qb;
-  private final ChangeQueryProcessor imp;
+  private final Provider<ChangeQueryProcessor> queryProcessorProvider;
+  private final HashMap<String, DynamicOptions.DynamicBean> dynamicBeans = new HashMap<>();
   private EnumSet<ListChangesOption> options;
+  private Integer limit;
+  private Integer start;
+  private Boolean noLimit;
 
   @Option(
       name = "--query",
@@ -61,7 +67,7 @@ public class QueryChanges implements RestReadView<TopLevelResource>, DynamicOpti
       metaVar = "CNT",
       usage = "Maximum number of results to return")
   public void setLimit(int limit) {
-    imp.setUserProvidedLimit(limit);
+    this.limit = limit;
   }
 
   @Option(name = "-o", usage = "Output options per change")
@@ -80,24 +86,27 @@ public class QueryChanges implements RestReadView<TopLevelResource>, DynamicOpti
       metaVar = "CNT",
       usage = "Number of changes to skip")
   public void setStart(int start) {
-    imp.setStart(start);
+    this.start = start;
   }
 
   @Option(name = "--no-limit", usage = "Return all results, overriding the default limit")
   public void setNoLimit(boolean on) {
-    imp.setNoLimit(on);
+    this.noLimit = on;
   }
 
   @Override
   public void setDynamicBean(String plugin, DynamicOptions.DynamicBean dynamicBean) {
-    imp.setDynamicBean(plugin, dynamicBean);
+    dynamicBeans.put(plugin, dynamicBean);
   }
 
   @Inject
-  QueryChanges(ChangeJson.Factory json, ChangeQueryBuilder qb, ChangeQueryProcessor qp) {
+  QueryChanges(
+      ChangeJson.Factory json,
+      ChangeQueryBuilder qb,
+      Provider<ChangeQueryProcessor> queryProcessorProvider) {
     this.json = json;
     this.qb = qb;
-    this.imp = qp;
+    this.queryProcessorProvider = queryProcessorProvider;
 
     options = EnumSet.noneOf(ListChangesOption.class);
   }
@@ -129,9 +138,22 @@ public class QueryChanges implements RestReadView<TopLevelResource>, DynamicOpti
   }
 
   private List<List<ChangeInfo>> query() throws QueryParseException, PermissionBackendException {
-    if (imp.isDisabled()) {
+    ChangeQueryProcessor queryProcessor = queryProcessorProvider.get();
+    if (queryProcessor.isDisabled()) {
       throw new QueryParseException("query disabled");
     }
+
+    if (limit != null) {
+      queryProcessor.setUserProvidedLimit(limit);
+    }
+    if (start != null) {
+      queryProcessor.setStart(start);
+    }
+    if (noLimit != null) {
+      queryProcessor.setNoLimit(noLimit);
+    }
+    dynamicBeans.forEach((p, b) -> queryProcessor.setDynamicBean(p, b));
+
     if (queries == null || queries.isEmpty()) {
       queries = Collections.singletonList("status:open");
     } else if (queries.size() > 10) {
@@ -141,9 +163,9 @@ public class QueryChanges implements RestReadView<TopLevelResource>, DynamicOpti
     }
 
     int cnt = queries.size();
-    List<QueryResult<ChangeData>> results = imp.query(qb.parse(queries));
+    List<QueryResult<ChangeData>> results = queryProcessor.query(qb.parse(queries));
     List<List<ChangeInfo>> res =
-        json.create(options, this.imp.getAttributesFactory()).format(results);
+        json.create(options, queryProcessor.getAttributesFactory()).format(results);
     for (int n = 0; n < cnt; n++) {
       List<ChangeInfo> info = res.get(n);
       if (results.get(n).more() && !info.isEmpty()) {

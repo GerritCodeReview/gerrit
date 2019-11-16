@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "43fe0021_52c9dc44",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 3287,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-11-16T16:42:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cdadfbe4_f9791127",
+      "range": {
+        "startLine": 3287,
+        "startChar": 15,
+        "endLine": 3287,
+        "endChar": 21
+      },
+      "revId": "48ae2ae1892d94a06c92f3c54e983fa48f1ec26e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f4f95d96_f82d0afe",
         "filename": "Documentation/rest-api-projects.txt",
         "patchSetId": 5
@@ -45,6 +69,30 @@
       "revId": "48ae2ae1892d94a06c92f3c54e983fa48f1ec26e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "85131d26_78c6459b",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 3309,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-11-16T16:42:55Z",
+      "side": 1,
+      "message": "Yeah, let\u0027s just drop this from the documentation.",
+      "parentUuid": "f4f95d96_f82d0afe",
+      "range": {
+        "startLine": 3307,
+        "startChar": 0,
+        "endLine": 3309,
+        "endChar": 36
+      },
+      "revId": "48ae2ae1892d94a06c92f3c54e983fa48f1ec26e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -118,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "8fcd1e3b_e64cce7f",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 4084,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-11-16T16:42:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "11a3fdb5_9ea29f2b",
+      "range": {
+        "startLine": 4084,
+        "startChar": 4,
+        "endLine": 4084,
+        "endChar": 19
+      },
+      "revId": "48ae2ae1892d94a06c92f3c54e983fa48f1ec26e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fd8c2d28_de41cf89",
         "filename": "Documentation/rest-api-projects.txt",
         "patchSetId": 5
@@ -141,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "f46f0d3b_5218f73c",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 4095,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-11-16T16:42:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fd8c2d28_de41cf89",
+      "range": {
+        "startLine": 4095,
+        "startChar": 8,
+        "endLine": 4095,
+        "endChar": 22
+      },
+      "revId": "48ae2ae1892d94a06c92f3c54e983fa48f1ec26e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "720cdd7e_2ee68eb2",
         "filename": "java/com/google/gerrit/extensions/api/projects/ProjectApi.java",
         "patchSetId": 5
@@ -158,6 +254,24 @@
     },
     {
       "key": {
+        "uuid": "936a4f52_d821c5c1",
+        "filename": "java/com/google/gerrit/extensions/api/projects/ProjectApi.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-11-16T16:42:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "720cdd7e_2ee68eb2",
+      "revId": "48ae2ae1892d94a06c92f3c54e983fa48f1ec26e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5c2a12b2_f0644512",
         "filename": "java/com/google/gerrit/extensions/common/PostLabelsInput.java",
         "patchSetId": 5
@@ -172,6 +286,24 @@
       "revId": "48ae2ae1892d94a06c92f3c54e983fa48f1ec26e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a06afc45_7ab2961e",
+        "filename": "java/com/google/gerrit/extensions/common/PostLabelsInput.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-11-16T16:42:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c2a12b2_f0644512",
+      "revId": "48ae2ae1892d94a06c92f3c54e983fa48f1ec26e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -198,6 +330,30 @@
     },
     {
       "key": {
+        "uuid": "ebbfe93b_2e52ecaa",
+        "filename": "java/com/google/gerrit/server/restapi/project/CreateLabel.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-11-16T16:42:55Z",
+      "side": 1,
+      "message": "Yes, but it\u0027s a more specific error message here.",
+      "parentUuid": "95ddc835_08095675",
+      "range": {
+        "startLine": 122,
+        "startChar": 0,
+        "endLine": 124,
+        "endChar": 5
+      },
+      "revId": "48ae2ae1892d94a06c92f3c54e983fa48f1ec26e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e9f2cdd3_c5f6288a",
         "filename": "java/com/google/gerrit/server/restapi/project/PostLabels.java",
         "patchSetId": 5
@@ -212,6 +368,24 @@
       "revId": "48ae2ae1892d94a06c92f3c54e983fa48f1ec26e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6307dfe9_3b0caec4",
+        "filename": "java/com/google/gerrit/server/restapi/project/PostLabels.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-11-16T16:42:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e9f2cdd3_c5f6288a",
+      "revId": "48ae2ae1892d94a06c92f3c54e983fa48f1ec26e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -232,6 +406,24 @@
     },
     {
       "key": {
+        "uuid": "c5b7f227_54e7de2f",
+        "filename": "java/com/google/gerrit/server/restapi/project/PostLabels.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-11-16T16:42:55Z",
+      "side": 1,
+      "message": "Honestly I don\u0027t remember, it was some edge case, but I\u0027m not sure if this actually can still happen. But since we have this safety check everywhere I would keep it here too. Maybe it\u0027s worth to check this once, and then remove all of these checks if possible.",
+      "parentUuid": "ef5b39fc_e26d0008",
+      "revId": "48ae2ae1892d94a06c92f3c54e983fa48f1ec26e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5d32a31b_28cc753c",
         "filename": "java/com/google/gerrit/server/restapi/project/PostLabels.java",
         "patchSetId": 5
@@ -246,6 +438,24 @@
       "revId": "48ae2ae1892d94a06c92f3c54e983fa48f1ec26e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d593447e_416d1647",
+        "filename": "java/com/google/gerrit/server/restapi/project/PostLabels.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-11-16T16:42:55Z",
+      "side": 1,
+      "message": "Here we have just label names (not LabelDefinitionInputs), hence we don\u0027t have a commit_message field.\n\nNot sure if extracting a method for the 2 occurrences is worth it.",
+      "parentUuid": "5d32a31b_28cc753c",
+      "revId": "48ae2ae1892d94a06c92f3c54e983fa48f1ec26e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -272,6 +482,30 @@
     },
     {
       "key": {
+        "uuid": "34fe5711_0b0a0c34",
+        "filename": "java/com/google/gerrit/server/restapi/project/SetLabel.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-11-16T16:42:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ada9432a_706166e0",
+      "range": {
+        "startLine": 100,
+        "startChar": 13,
+        "endLine": 100,
+        "endChar": 15
+      },
+      "revId": "48ae2ae1892d94a06c92f3c54e983fa48f1ec26e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e09d7ead_f01e65f8",
         "filename": "java/com/google/gerrit/server/restapi/project/SetLabel.java",
         "patchSetId": 5
@@ -295,6 +529,30 @@
     },
     {
       "key": {
+        "uuid": "3e1b88bb_f1bffafa",
+        "filename": "java/com/google/gerrit/server/restapi/project/SetLabel.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-11-16T16:42:55Z",
+      "side": 1,
+      "message": "I considered this, but there is no good place for these methods, e.g. I would need to add yet anther util class with static methods and I think that would rather harm readability, hence I was thinking it\u0027s not worth it, but I can reconsider if you think this would be better.",
+      "parentUuid": "e09d7ead_f01e65f8",
+      "range": {
+        "startLine": 125,
+        "startChar": 0,
+        "endLine": 130,
+        "endChar": 9
+      },
+      "revId": "48ae2ae1892d94a06c92f3c54e983fa48f1ec26e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1bea38b1_91cec9e8",
         "filename": "javatests/com/google/gerrit/acceptance/rest/project/PostLabelsIT.java",
         "patchSetId": 5
@@ -312,6 +570,24 @@
     },
     {
       "key": {
+        "uuid": "ae85bfa5_a0101d31",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/PostLabelsIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-11-16T16:42:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1bea38b1_91cec9e8",
+      "revId": "48ae2ae1892d94a06c92f3c54e983fa48f1ec26e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b6afb266_22f2638e",
         "filename": "javatests/com/google/gerrit/acceptance/rest/project/PostLabelsIT.java",
         "patchSetId": 5
@@ -326,6 +602,24 @@
       "revId": "48ae2ae1892d94a06c92f3c54e983fa48f1ec26e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2880f242_ac472dfe",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/PostLabelsIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-11-16T16:42:55Z",
+      "side": 1,
+      "message": "Not sure I follow, this test should test label deletion, hence we do want to delete the labels and not update them?",
+      "parentUuid": "b6afb266_22f2638e",
+      "revId": "48ae2ae1892d94a06c92f3c54e983fa48f1ec26e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -352,6 +646,30 @@
     },
     {
       "key": {
+        "uuid": "65347628_6c1fcfde",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/PostLabelsIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-11-16T16:42:55Z",
+      "side": 1,
+      "message": "Done. Not sure if we follow this convention upstream, but since we already have some tests with underscore in the name, this should be fine.",
+      "parentUuid": "721182a3_01c3cb39",
+      "range": {
+        "startLine": 310,
+        "startChar": 14,
+        "endLine": 310,
+        "endChar": 26
+      },
+      "revId": "48ae2ae1892d94a06c92f3c54e983fa48f1ec26e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0a492b83_1bc2b4cd",
         "filename": "javatests/com/google/gerrit/acceptance/rest/project/PostLabelsIT.java",
         "patchSetId": 5
@@ -366,6 +684,24 @@
       "revId": "48ae2ae1892d94a06c92f3c54e983fa48f1ec26e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f9838892_c9137de5",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/PostLabelsIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 431,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-11-16T16:42:55Z",
+      "side": 1,
+      "message": "I think we never reject no-ops, hence for consistency we should support it here too.",
+      "parentUuid": "0a492b83_1bc2b4cd",
+      "revId": "48ae2ae1892d94a06c92f3c54e983fa48f1ec26e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

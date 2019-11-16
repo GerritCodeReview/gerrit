@@ -16,6 +16,24 @@
       "revId": "a7b6cb8695dae1850bef87a2b8bd8dae5be4f719",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5d1f8440_1ee57b8b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-11-16T16:50:48Z",
+      "side": 1,
+      "message": "It should have caught it, so i guess eslint needs tweeking because what ever it\u0027s using thinks it\u0027s correct.",
+      "parentUuid": "b38799ec_f58c6aad",
+      "revId": "a7b6cb8695dae1850bef87a2b8bd8dae5be4f719",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

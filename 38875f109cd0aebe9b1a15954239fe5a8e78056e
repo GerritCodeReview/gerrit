@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6d62504e_b9d0ce84",
+        "filename": ".bazelversion",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-11-16T00:39:07Z",
+      "side": 1,
+      "message": "why are you downgrading bazel ?",
+      "revId": "38875f109cd0aebe9b1a15954239fe5a8e78056e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c39d2cb5_8f3f777f",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-11-16T00:39:07Z",
+      "side": 1,
+      "message": "log exceptions so we can see if something is fishy",
+      "revId": "38875f109cd0aebe9b1a15954239fe5a8e78056e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "faa80d0d_89c370f1",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-11-16T00:39:07Z",
+      "side": 1,
+      "message": "log exceptions ?",
+      "revId": "38875f109cd0aebe9b1a15954239fe5a8e78056e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

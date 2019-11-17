@@ -415,6 +415,10 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     rootOnly = true;
   }
 
+  public void setSubmissionId(String submissionId) {
+    this.submissionId = submissionId;
+  }
+
   /** @return the tree id for the updated tree */
   private ObjectId storeRevisionNotes(RevWalk rw, ObjectInserter inserter, ObjectId curr)
       throws ConfigInvalidException, IOException {

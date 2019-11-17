@@ -1591,7 +1591,7 @@
       );
       const params = {
         O: options,
-        q: 'status:open is:mergeable conflicts:' + changeNum,
+        q: 'status:open conflicts:' + changeNum,
       };
       return this._restApiHelper.fetchJSON({
         url: '/changes/',

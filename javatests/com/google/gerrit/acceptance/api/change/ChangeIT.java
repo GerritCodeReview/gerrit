@@ -3390,6 +3390,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
     ChangeInfo change = gApi.changes().id(r.getChangeId()).get();
     assertThat(change.status).isEqualTo(ChangeStatus.MERGED);
+    assertThat(change.submissionId).isNotNull();
     assertThat(change.labels.keySet()).containsExactly("Code-Review");
     assertThat(change.permittedLabels.keySet()).containsExactly("Code-Review");
     assertPermitted(change, "Code-Review", 2);
@@ -3550,6 +3551,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
     ChangeInfo change = gApi.changes().id(r.getChangeId()).get();
     assertThat(change.status).isEqualTo(ChangeStatus.MERGED);
+    assertThat(change.submissionId).isNotNull();
     assertThat(change.labels.keySet()).containsExactly("Code-Review", "Non-Author-Code-Review");
     assertThat(change.permittedLabels.keySet()).containsExactly("Code-Review");
     assertPermitted(change, "Code-Review", 0, 1, 2);
@@ -3565,6 +3567,7 @@ public class ChangeIT extends AbstractDaemonTest {
 
     ChangeInfo change = gApi.changes().id(r.getChangeId()).get();
     assertThat(change.status).isEqualTo(ChangeStatus.MERGED);
+    assertThat(change.submissionId).isNotNull();
     assertThat(change.labels.keySet()).containsExactly("Code-Review");
     assertPermitted(change, "Code-Review", 0, 1, 2);
   }

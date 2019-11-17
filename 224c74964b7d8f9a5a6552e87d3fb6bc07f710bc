@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4808b158_34e82b98",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-11-17T12:58:31Z",
+      "side": 1,
+      "message": "`_blank`",
+      "range": {
+        "startLine": 284,
+        "startChar": 46,
+        "endLine": 284,
+        "endChar": 51
+      },
+      "revId": "224c74964b7d8f9a5a6552e87d3fb6bc07f710bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f7faeccc_c3f96dc2",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 1313,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-11-17T12:58:31Z",
+      "side": 1,
+      "message": "unnecessary (not used)",
+      "range": {
+        "startLine": 1313,
+        "startChar": 46,
+        "endLine": 1313,
+        "endChar": 47
+      },
+      "revId": "224c74964b7d8f9a5a6552e87d3fb6bc07f710bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

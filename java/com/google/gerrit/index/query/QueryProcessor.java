@@ -18,7 +18,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.flogger.LazyArgs.lazy;
-import static java.util.stream.Collectors.toSet;
+import static java.util.stream.Collectors.toList;
 
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
@@ -272,7 +272,7 @@ public abstract class QueryProcessor<T> {
         ImmutableList<T> matchesList = matches.get(i).toList();
         logger.atFine().log(
             "Matches[%d]:\n%s",
-            i, lazy(() -> matchesList.stream().map(this::formatForLogging).collect(toSet())));
+            i, lazy(() -> matchesList.stream().map(this::formatForLogging).collect(toList())));
         out.add(
             QueryResult.create(
                 queryStrings != null ? queryStrings.get(i) : null,

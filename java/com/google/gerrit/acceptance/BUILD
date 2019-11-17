@@ -79,7 +79,6 @@ java_library2(
     ),
     exported_deps = [
         ":function",
-        "//java/com/google/gerrit/acceptance/config",
         "//java/com/google/gerrit/acceptance/testsuite/project",
         "//java/com/google/gerrit/exceptions",
         "//java/com/google/gerrit/gpg",

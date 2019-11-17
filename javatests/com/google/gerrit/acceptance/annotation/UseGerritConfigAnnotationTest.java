@@ -12,11 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.acceptance.config;
+package com.google.gerrit.acceptance.annotation;
 
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.GerritConfig;
 import org.junit.Test;
 
 public class UseGerritConfigAnnotationTest extends AbstractDaemonTest {

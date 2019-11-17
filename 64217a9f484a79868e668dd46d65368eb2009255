@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3732c4b5_3e8f43fb",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 1012449
+      },
+      "writtenOn": "2019-11-17T22:36:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "77ea5e36_9dbea58d",
+      "revId": "64217a9f484a79868e668dd46d65368eb2009255",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b584c99c_a05519e2",
         "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
         "patchSetId": 9
@@ -30,6 +48,30 @@
       "writtenOn": "2019-11-16T19:43:37Z",
       "side": 1,
       "message": "can you use getUrlForChange instead?",
+      "range": {
+        "startLine": 363,
+        "startChar": 24,
+        "endLine": 363,
+        "endChar": 39
+      },
+      "revId": "64217a9f484a79868e668dd46d65368eb2009255",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b754a047_653cab7d",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 1012449
+      },
+      "writtenOn": "2019-11-17T22:36:38Z",
+      "side": 1,
+      "message": "Doesn\u0027t seem to work. I see change number as \u0027undefined\u0027 in the url if I use getUrlForChange",
+      "parentUuid": "b584c99c_a05519e2",
       "range": {
         "startLine": 363,
         "startChar": 24,

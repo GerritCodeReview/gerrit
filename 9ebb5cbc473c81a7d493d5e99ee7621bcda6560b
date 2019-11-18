@@ -83,6 +83,24 @@
       "revId": "9ebb5cbc473c81a7d493d5e99ee7621bcda6560b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5b023730_6e047995",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-11-18T22:19:54Z",
+      "side": 1,
+      "message": "That was a really cool suggestion, thanks!",
+      "parentUuid": "6eba1ee2_7f651f9c",
+      "revId": "9ebb5cbc473c81a7d493d5e99ee7621bcda6560b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

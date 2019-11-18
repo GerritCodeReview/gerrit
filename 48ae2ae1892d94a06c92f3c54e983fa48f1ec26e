@@ -623,6 +623,24 @@
     },
     {
       "key": {
+        "uuid": "d9ca6177_aca93d0a",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/PostLabelsIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2019-11-18T11:33:32Z",
+      "side": 1,
+      "message": "Sorry, I meant recreating instead of updating. I.e. would it be easier to not have the test throw? E.g. by recreating the labels, or reading the list of labels, to verify they were deleted? I think that would be easier than deleting them twice and then verifying the exception.",
+      "parentUuid": "2880f242_ac472dfe",
+      "revId": "48ae2ae1892d94a06c92f3c54e983fa48f1ec26e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "721182a3_01c3cb39",
         "filename": "javatests/com/google/gerrit/acceptance/rest/project/PostLabelsIT.java",
         "patchSetId": 5
@@ -658,6 +676,30 @@
       "side": 1,
       "message": "Done. Not sure if we follow this convention upstream, but since we already have some tests with underscore in the name, this should be fine.",
       "parentUuid": "721182a3_01c3cb39",
+      "range": {
+        "startLine": 310,
+        "startChar": 14,
+        "endLine": 310,
+        "endChar": 26
+      },
+      "revId": "48ae2ae1892d94a06c92f3c54e983fa48f1ec26e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "881295b8_811aea0a",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/PostLabelsIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2019-11-18T11:33:32Z",
+      "side": 1,
+      "message": "nit: updateLabels_labelNamesAreTrimmed\nSorry, my own text was messed up.",
+      "parentUuid": "65347628_6c1fcfde",
       "range": {
         "startLine": 310,
         "startChar": 14,

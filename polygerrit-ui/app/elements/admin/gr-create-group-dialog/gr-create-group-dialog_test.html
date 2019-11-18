@@ -18,7 +18,7 @@ limitations under the License.
 
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>gr-create-group-dialog</title>
-<script src="/test/common-test-setup.js"></script>
+
 <script src="/bower_components/webcomponentsjs/custom-elements-es5-adapter.js"></script>
 
 <script src="/bower_components/page/page.js"></script>
@@ -56,7 +56,8 @@ limitations under the License.
     test('name is updated correctly', done => {
       assert.isFalse(element.hasNewGroupName);
 
-      ironInput(element.root).bindValue = GROUP_NAME;
+      const inputEl = element.root.querySelector('iron-input');
+      inputEl.bindValue = GROUP_NAME;
 
       setTimeout(() => {
         assert.isTrue(element.hasNewGroupName);

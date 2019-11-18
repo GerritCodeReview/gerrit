@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "26b88009_dcb047e6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-11-18T17:27:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ce25e721_83d82954",
+      "range": {
+        "startLine": 7,
+        "startChar": 10,
+        "endLine": 7,
+        "endChar": 18
+      },
+      "revId": "d428b4d7c78eb30a84a2cab057cc12bcc5138f4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "47c8c6d6_d5d514d3",
         "filename": "/COMMIT_MSG",
         "patchSetId": 8
@@ -45,6 +69,30 @@
       "revId": "d428b4d7c78eb30a84a2cab057cc12bcc5138f4e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e88c9a18_32935180",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-11-18T17:27:36Z",
+      "side": 1,
+      "message": "Thank you, forgot about it. Will add it together with implementation.",
+      "parentUuid": "47c8c6d6_d5d514d3",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 48
+      },
+      "revId": "d428b4d7c78eb30a84a2cab057cc12bcc5138f4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "03a20d89_ed5f505b",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetFixPreview.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-11-18T17:27:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "51ba9faa_1c0f2048",
+      "range": {
+        "startLine": 27,
+        "startChar": 13,
+        "endLine": 27,
+        "endChar": 26
+      },
+      "revId": "d428b4d7c78eb30a84a2cab057cc12bcc5138f4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d04b93c4_27a26ad8",
         "filename": "javatests/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
         "patchSetId": 8
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "030a577f_ab8cf9d2",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 969,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-11-18T17:27:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d04b93c4_27a26ad8",
+      "range": {
+        "startLine": 966,
+        "startChar": 4,
+        "endLine": 969,
+        "endChar": 52
+      },
+      "revId": "d428b4d7c78eb30a84a2cab057cc12bcc5138f4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e1a520ad_a96246c8",
         "filename": "javatests/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
         "patchSetId": 8
@@ -114,6 +210,30 @@
       "revId": "d428b4d7c78eb30a84a2cab057cc12bcc5138f4e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "66e48f71_cc01e0e4",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 976,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-11-18T17:27:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e1a520ad_a96246c8",
+      "range": {
+        "startLine": 976,
+        "startChar": 14,
+        "endLine": 976,
+        "endChar": 27
+      },
+      "revId": "d428b4d7c78eb30a84a2cab057cc12bcc5138f4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -146,7 +146,8 @@ public class GetDiff implements RestReadView<FileResource> {
     PatchSet.Id pId = resource.getPatchKey().patchSetId();
     String fileName = resource.getPatchKey().fileName();
     logger.atFine().log(
-        "patchSetId = %d, fileName = %s, base = %s", pId.get(), fileName, base, parentNum);
+        "patchSetId = %d, fileName = %s, base = %s, parentNum = %d",
+        pId.get(), fileName, base, parentNum);
     ChangeNotes notes = resource.getRevision().getNotes();
     if (base != null) {
       RevisionResource baseResource =

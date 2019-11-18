@@ -644,6 +644,14 @@ public abstract class AbstractDaemonTest {
     return result;
   }
 
+  protected PushOneCommit.Result createChange(TestRepository<InMemoryRepository> repo)
+      throws Exception {
+    PushOneCommit push = pushFactory.create(admin.newIdent(), repo);
+    PushOneCommit.Result result = push.to("refs/for/master");
+    result.assertOkStatus();
+    return result;
+  }
+
   protected PushOneCommit.Result createMergeCommitChange(String ref) throws Exception {
     return createMergeCommitChange(ref, "foo");
   }

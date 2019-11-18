@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a6a38d96_bd53b5b3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-11-18T23:22:50Z",
+      "side": 1,
+      "message": "cherryPickOf to be consistent with the existing revertOf change. Another option would be to combine the two in the same field, in which case you could rename the revertOf to revertOfOrCherryPickOf.",
+      "range": {
+        "startLine": 7,
+        "startChar": 5,
+        "endLine": 7,
+        "endChar": 11
+      },
+      "revId": "86d20ec63b4e1dff199a1620b1c13978bf37c8b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "261a2c23_ad0455c8",
+        "filename": "java/com/google/gerrit/entities/Change.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 517,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-11-18T23:22:50Z",
+      "side": 1,
+      "message": "Nobody understands from attribute name \"source\" what this attribute means, until she reads the source code and this comment. Why don\u0027t you name it similar to revertOf on line 514: \"cherryPickOf\"?",
+      "range": {
+        "startLine": 517,
+        "startChar": 25,
+        "endLine": 517,
+        "endChar": 31
+      },
+      "revId": "86d20ec63b4e1dff199a1620b1c13978bf37c8b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "96608a87_998e5771",
+        "filename": "java/com/google/gerrit/entities/Change.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 609,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-11-18T23:22:50Z",
+      "side": 1,
+      "message": "We don\u0027t use this annotation in this class on nullable fields, remove.",
+      "range": {
+        "startLine": 609,
+        "startChar": 2,
+        "endLine": 609,
+        "endChar": 11
+      },
+      "revId": "86d20ec63b4e1dff199a1620b1c13978bf37c8b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fa78abdd_e5aade67",
+        "filename": "java/com/google/gerrit/entities/Change.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 612,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-11-18T23:22:50Z",
+      "side": 1,
+      "message": "Why you added this method on this line, and setter method below? Why don\u0027t you follow the same pattern as getRevertOf and setRevertOf? Just add the two new method 757.",
+      "range": {
+        "startLine": 610,
+        "startChar": 2,
+        "endLine": 612,
+        "endChar": 3
+      },
+      "revId": "86d20ec63b4e1dff199a1620b1c13978bf37c8b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

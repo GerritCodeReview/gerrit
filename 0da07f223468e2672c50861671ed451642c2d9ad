@@ -34,6 +34,24 @@
       "revId": "0da07f223468e2672c50861671ed451642c2d9ad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "99cf102e_e5a93d58",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-11-18T09:24:29Z",
+      "side": 1,
+      "message": "I tried to get your workaround to work, but it doesn\u0027t seem to work as hoped. There seem to be two issues (with the example of the imagare plugin):\n\n- I get this warning, when Gerrit tries to install this part of the plugin:\n\n  gr-app.js:formatted:27915 Plugin not being loaded from /plugins \n  base path. Unable to determine name.\n\nThis looks to me that Gerrit has issues to deal with Gerrit.install(), if called inside .then(), because it can\u0027t get the URL of the script. Nevertheless, the plugin is somehow loaded, because if opening comments in the diff or posting new comments with images, the image is rendered.\n\n- Existing images in messages are not rendered. I think the .awaitPluginsLoaded() does not work as expected, if the plugin installation is registered quite late, as it is here, since it is only happening after resolving the async-request.\n\nWould there be a way for plugins not to use `.querySelectorAll` from 3.1 onwards and nevertheless achieve the same result? Then, the current solution would work until you finished the new event API.",
+      "parentUuid": "cd3f15c2_31de1579",
+      "revId": "0da07f223468e2672c50861671ed451642c2d9ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -4,7 +4,7 @@
     "behaviors/**/*",
     "elements/**/*",
     "scripts/**/*",
-    "styles/**/*",
+    "styles/*",
     "types/**/*"
   ],
   "lint": {

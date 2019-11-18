@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "149b3597_77dea36c",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2019-11-18T22:28:07Z",
+      "side": 1,
+      "message": "consider adding no_op listener so that it could be used in when no listeners were provided",
+      "revId": "38875f109cd0aebe9b1a15954239fe5a8e78056e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c39d2cb5_8f3f777f",
         "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
         "patchSetId": 3

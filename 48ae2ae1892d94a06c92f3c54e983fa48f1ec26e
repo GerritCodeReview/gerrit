@@ -641,6 +641,24 @@
     },
     {
       "key": {
+        "uuid": "15676b32_00a07bd6",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/PostLabelsIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-11-18T12:31:31Z",
+      "side": 1,
+      "message": "Got it. Thanks for the suggestion, it indeed simplifies the test.\n\nDone.",
+      "parentUuid": "d9ca6177_aca93d0a",
+      "revId": "48ae2ae1892d94a06c92f3c54e983fa48f1ec26e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "721182a3_01c3cb39",
         "filename": "javatests/com/google/gerrit/acceptance/rest/project/PostLabelsIT.java",
         "patchSetId": 5
@@ -700,6 +718,30 @@
       "side": 1,
       "message": "nit: updateLabels_labelNamesAreTrimmed\nSorry, my own text was messed up.",
       "parentUuid": "65347628_6c1fcfde",
+      "range": {
+        "startLine": 310,
+        "startChar": 14,
+        "endLine": 310,
+        "endChar": 26
+      },
+      "revId": "48ae2ae1892d94a06c92f3c54e983fa48f1ec26e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "793892c4_10eaeba7",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/PostLabelsIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-11-18T12:31:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "881295b8_811aea0a",
       "range": {
         "startLine": 310,
         "startChar": 14,

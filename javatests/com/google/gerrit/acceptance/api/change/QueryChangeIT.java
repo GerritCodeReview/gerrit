@@ -15,22 +15,31 @@
 package com.google.gerrit.acceptance.api.change;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
+import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
+import static java.util.stream.Collectors.toList;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
+import com.google.gerrit.acceptance.UseClockStep;
 import com.google.gerrit.acceptance.config.GerritConfig;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
+import com.google.gerrit.common.data.Permission;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.server.restapi.change.QueryChanges;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.util.List;
+import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
+import org.eclipse.jgit.junit.TestRepository;
 import org.junit.Test;
 
 @NoHttpd
 public class QueryChangeIT extends AbstractDaemonTest {
-
+  @Inject private ProjectOperations projectOperations;
   @Inject private Provider<QueryChanges> queryChangesProvider;
 
   @Test
@@ -121,6 +130,56 @@ public class QueryChangeIT extends AbstractDaemonTest {
 
     assertThat(result.get(1).get(0)._number).isEqualTo(numericId1);
     assertThat(result.get(2).get(0)._number).isEqualTo(numericId2);
+  }
+
+  @Test
+  @UseClockStep
+  @SuppressWarnings("unchecked")
+  public void withPagedResults() throws Exception {
+    // Create 4 visible changes.
+    createChange(testRepo).getChange().getId().get();
+    createChange(testRepo).getChange().getId().get();
+    int changeId3 = createChange(testRepo).getChange().getId().get();
+    int changeId4 = createChange(testRepo).getChange().getId().get();
+
+    // Create hidden project.
+    Project.NameKey hiddenProject = projectOperations.newProject().create();
+    projectOperations
+        .project(hiddenProject)
+        .forUpdate()
+        .add(block(Permission.READ).ref("refs/*").group(REGISTERED_USERS))
+        .update();
+    TestRepository<InMemoryRepository> hiddenRepo = cloneProject(hiddenProject, admin);
+
+    // Create 2 hidden changes.
+    createChange(hiddenRepo);
+    createChange(hiddenRepo);
+
+    // Create a change query that matches all changes (visible and hidden changes).
+    // The index returns the changes ordered by last updated timestamp:
+    // hiddenChange2, hiddenChange1, change4, change3, change2, change1
+    QueryChanges queryChanges = queryChangesProvider.get();
+    queryChanges.addQuery("branch:master");
+
+    // Set a limit on the query so that we need to paginate over the results from the index.
+    queryChanges.setLimit(2);
+
+    // Execute the query and verify the results.
+    // Since the limit is set to 2, at most 2 changes are returned to user, but the index query is
+    // executed with limit 3 (+1 so that we can populate the _more_changes field on the last
+    // result).
+    // This means the index query with limit 3 returns these changes:
+    // hiddenChange2, hiddenChange1, change4
+    // The 2 hidden changes are filtered out because they are not visible to the caller.
+    // This means we have only one matching result (change4) but the limit (3) is not exhausted
+    // yet. Hence the next page is loaded from the index (startIndex is 3 to skip the results
+    // that we already processed, limit is again 3). The results for the next page are:
+    // change3, change2, change1
+    // change2 and change1 are dropped because they are over the limit.
+    List<ChangeInfo> result =
+        (List<ChangeInfo>) queryChanges.apply(TopLevelResource.INSTANCE).value();
+    assertThat(result.stream().map(i -> i._number).collect(toList()))
+        .containsExactly(changeId3, changeId4);
   }
 
   private static void assertNoChangeHasMoreChangesSet(List<ChangeInfo> results) {

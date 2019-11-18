@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5cc42045_eb34dd8e",
+        "filename": "java/com/google/gerrit/pgm/http/jetty/ProjectQoSFilter.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1089651
+      },
+      "writtenOn": "2019-11-18T20:27:00Z",
+      "side": 1,
+      "message": "Can we name it populateAttributes instead? \"set\" is very confusing name for the enum member since this method doesn\u0027t actually change state of an enum constant (and it shouldn\u0027t), but it changes parameter state.",
+      "range": {
+        "startLine": 92,
+        "startChar": 17,
+        "endLine": 92,
+        "endChar": 20
+      },
+      "revId": "3b145b7c5cc66c320d2d69e7a970557cb7739fe3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

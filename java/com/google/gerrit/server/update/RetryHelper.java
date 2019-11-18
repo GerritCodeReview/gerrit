@@ -288,7 +288,7 @@ public class RetryHelper {
           () -> changeAction.call(updateFactory),
           opts,
           t -> {
-            if (t instanceof UpdateException) {
+            if (t instanceof UpdateException || t instanceof StorageException) {
               t = t.getCause();
             }
             return t instanceof LockFailureException;

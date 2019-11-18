@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "813223d7_90d7453a",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-11-18T13:59:30Z",
+      "side": 1,
+      "message": "I was wondering why we need this method now, and how the submissionId was set so far.\n\nThe answer is that\n\n  public void merge(RequestId submissionId, Iterable\u003cSubmitRecord\u003e submitRecords)\n\nwhich sets a change to MERGED during the submit code path requires to pass in a submissionId. This way callers cannot forget to set the submissionId when they merge the change.\n\nI think it would be good to do the same for setting a change to MERGED on other occasions. E.g. would it make sense to change the existing method\n\n  fixStatus(Change.Status)\n\nto\n\n  fixStatusToMerged(RequestId submissionId)\n\n?\n\nThis way all callers which want to fix the status to merged are required to pass in a submissionId. E.g. if this is done, you will notice that there is another code path that fixes the status to MERGED without setting a submissionId (ConsistencyChecker.FixMergedOp#updateChange). That code path should be fixed as well.\n\nThe fixStatus(Change.Status) method is anyway only used to set the status to MERGED, hence it would be okay to change it to fixStatusToMerged so that no other status can be set by it (OK, there is one call in ChangeInserter, but ChangeInserter can just use setStatus(Change.Status) if status !\u003d MERGED).",
+      "revId": "9ebb5cbc473c81a7d493d5e99ee7621bcda6560b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d73c14c5_4f4d0170",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-11-18T13:59:30Z",
+      "side": 1,
+      "message": "better pass in RequestId here, as it is done in merge(RequestId, Iterable\u003cSubmitRecord\u003e)",
+      "range": {
+        "startLine": 418,
+        "startChar": 30,
+        "endLine": 418,
+        "endChar": 36
+      },
+      "revId": "9ebb5cbc473c81a7d493d5e99ee7621bcda6560b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

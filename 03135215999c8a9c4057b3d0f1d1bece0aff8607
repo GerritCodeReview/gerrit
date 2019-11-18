@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7ec9f116_8406195e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-11-18T12:01:11Z",
+      "side": 1,
+      "message": "ignore",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 6
+      },
+      "revId": "03135215999c8a9c4057b3d0f1d1bece0aff8607",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "43ab0850_cee9be33",
+        "filename": "polygerrit-ui/app/styles/themes/dark-theme.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-11-18T12:01:11Z",
+      "side": 1,
+      "message": "What I did not understand yet: If this file is not part of the Polymer built, why does it need to use \u003ccustom-style\u003e at all? Why does it need to follow the Polymer linter? Why does it need to be a DOM module? Could this be fully vanilla CSS?",
+      "revId": "03135215999c8a9c4057b3d0f1d1bece0aff8607",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

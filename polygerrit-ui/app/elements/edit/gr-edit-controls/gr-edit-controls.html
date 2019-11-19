@@ -89,12 +89,12 @@ limitations under the License.
           id="openDialog"
           class="invisible dialog"
           disabled$="[[!_isValidPath(_path)]]"
-          confirm-label="Open"
+          confirm-label="Confirm"
           confirm-on-enter
           on-confirm="_handleOpenConfirm"
           on-cancel="_handleDialogCancel">
         <div class="header" slot="header">
-          Open an existing or new file
+          Add a new file or open an existing file
         </div>
         <div class="main" slot="main">
           <gr-autocomplete

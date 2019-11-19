@@ -55,6 +55,7 @@ import com.google.gerrit.server.extensions.events.RevisionCreated;
 import com.google.gerrit.server.git.GroupCollector;
 import com.google.gerrit.server.git.validators.CommitValidationException;
 import com.google.gerrit.server.git.validators.CommitValidators;
+import com.google.gerrit.server.logging.RequestId;
 import com.google.gerrit.server.mail.send.CreateChangeSender;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
@@ -386,7 +387,7 @@ public class ChangeInserter implements InsertChangeOp {
         psUtil.insert(
             ctx.getRevWalk(), update, psId, commitId, newGroups, pushCert, patchSetDescription);
 
-    /* TODO: fixStatus is used here because the tests
+    /* TODO: fixStatusToMerged is used here because the tests
      * (byStatusClosed() in AbstractQueryChangesTest)
      * insert changes that are already merged,
      * and setStatus may not be used to set the Status to merged
@@ -394,7 +395,11 @@ public class ChangeInserter implements InsertChangeOp {
      * is it possible to make the tests use the merge code path,
      * instead of setting the status directly?
      */
-    update.fixStatus(change.getStatus());
+    if (change.getStatus() == Change.Status.MERGED) {
+      update.fixStatusToMerged(new RequestId(ctx.getChange().getId().toString()));
+    } else {
+      update.setStatus(change.getStatus());
+    }
 
     reviewerAdditions =
         reviewerAdder.prepare(ctx.getNotes(), ctx.getUser(), getReviewerInputs(), true);

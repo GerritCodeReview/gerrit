@@ -220,8 +220,10 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     this.status = status;
   }
 
-  public void fixStatus(Change.Status status) {
-    this.status = status;
+  public void fixStatusToMerged(RequestId submissionId) {
+    checkArgument(submissionId != null, "submission id must be set for merged changes");
+    this.status = Change.Status.MERGED;
+    this.submissionId = submissionId.toStringForStorage();
   }
 
   public void putApproval(String label, short value) {

@@ -44,6 +44,7 @@ import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.account.Accounts;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.logging.RequestId;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.PatchSetState;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
@@ -576,7 +577,8 @@ public class ConsistencyChecker {
     @Override
     public boolean updateChange(ChangeContext ctx) {
       ctx.getChange().setStatus(Change.Status.MERGED);
-      ctx.getUpdate(ctx.getChange().currentPatchSetId()).fixStatus(Change.Status.MERGED);
+      ctx.getUpdate(ctx.getChange().currentPatchSetId())
+          .fixStatusToMerged(new RequestId(ctx.getChange().getId().toString()));
       p.status = Status.FIXED;
       p.outcome = "Marked change as merged";
       return true;

@@ -26,6 +26,7 @@ import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.config.SendEmailExecutor;
 import com.google.gerrit.server.extensions.events.ChangeMerged;
+import com.google.gerrit.server.logging.RequestId;
 import com.google.gerrit.server.mail.send.MergedSender;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
@@ -132,9 +133,11 @@ public class MergedByPushOp implements BatchUpdateOp {
     }
     change.setCurrentPatchSet(info);
     change.setStatus(Change.Status.MERGED);
+    RequestId submissionId = new RequestId(change.getId().toString());
+    change.setSubmissionId(submissionId.toStringForStorage());
     // we cannot reconstruct the submit records for when this change was
-    // submitted, this is why we must fix the status
-    update.fixStatus(Change.Status.MERGED);
+    // submitted, this is why we must fix the status and other details.
+    update.fixStatusToMerged(submissionId);
     update.setCurrentPatchSet();
     if (change.isWorkInProgress()) {
       change.setWorkInProgress(false);

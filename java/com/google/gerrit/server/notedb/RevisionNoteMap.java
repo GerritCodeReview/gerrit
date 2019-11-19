@@ -26,7 +26,10 @@ import org.eclipse.jgit.notes.Note;
 import org.eclipse.jgit.notes.NoteMap;
 
 class RevisionNoteMap<T extends RevisionNote<? extends Comment>> {
+  // ObjectId => blob ID
   final NoteMap noteMap;
+
+  // BlobID => parsed data.
   final ImmutableMap<ObjectId, T> revisionNotes;
 
   static RevisionNoteMap<ChangeRevisionNote> parse(
@@ -36,6 +39,8 @@ class RevisionNoteMap<T extends RevisionNote<? extends Comment>> {
     for (Note note : noteMap) {
       ChangeRevisionNote rn = new ChangeRevisionNote(noteJson, reader, note.getData(), status);
       rn.parse();
+
+      // map blob ID for serialized JSON => parsed comment data
       result.put(note.copy(), rn);
     }
     return new RevisionNoteMap<>(noteMap, ImmutableMap.copyOf(result));

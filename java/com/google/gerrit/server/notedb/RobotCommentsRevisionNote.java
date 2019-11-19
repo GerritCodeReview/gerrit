@@ -26,6 +26,7 @@ import java.util.List;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
 
+/** Like {@link RevisionNote} but for robot comments. */
 public class RobotCommentsRevisionNote extends RevisionNote<RobotComment> {
   private final ChangeNoteJson noteUtil;
 

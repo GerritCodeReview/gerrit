@@ -89,11 +89,12 @@
           type: Boolean,
           value: false,
         },
-        // Vertical offset needed for a 1em font-size with no vertical padding.
-        // Inputs with additional padding will need to increase vertical offset.
+        // Vertical offset needed for an element with 20px line-height
+        // and 4px padding.
+        // Inputs with different line-height or padding will need to tweak vertical offset.
         verticalOffset: {
           type: Number,
-          value: 20,
+          value: 31,
         },
 
         text: {

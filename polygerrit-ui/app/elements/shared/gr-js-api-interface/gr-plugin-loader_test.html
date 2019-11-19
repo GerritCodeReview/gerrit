@@ -407,6 +407,72 @@ limitations under the License.
       });
     });
 
+    suite('With ASSETS_PATH', () => {
+      let importHtmlPluginStub;
+      let loadJsPluginStub;
+      setup(() => {
+        window.ASSETS_PATH = 'https://cdn.com';
+        importHtmlPluginStub = sandbox.stub();
+        sandbox.stub(Gerrit._pluginLoader, '_loadHtmlPlugin', url => {
+          importHtmlPluginStub(url);
+        });
+        loadJsPluginStub = sandbox.stub();
+        sandbox.stub(Gerrit._pluginLoader, '_loadJsPlugin', url => {
+          loadJsPluginStub(url);
+        });
+      });
+
+      teardown(() => {
+        window.ASSETS_PATH = '';
+      });
+
+      test('Should try load plugins from assets path instead', () => {
+        Gerrit._loadPlugins([
+          'foo/bar.js',
+          'foo/bar.html',
+        ]);
+
+        assert.isTrue(importHtmlPluginStub.calledOnce);
+        assert.isTrue(
+            importHtmlPluginStub.calledWithExactly(`https://cdn.com/foo/bar.html`)
+        );
+        assert.isTrue(loadJsPluginStub.calledOnce);
+        assert.isTrue(
+            loadJsPluginStub.calledWithExactly(`https://cdn.com/foo/bar.js`));
+      });
+
+      test('Should honor original path if exists', () => {
+        Gerrit._loadPlugins([
+          'http://e.com/foo/bar.html',
+          'http://e.com/foo/bar.js',
+        ]);
+
+        assert.isTrue(importHtmlPluginStub.calledOnce);
+        assert.isTrue(
+            importHtmlPluginStub.calledWithExactly(`http://e.com/foo/bar.html`)
+        );
+        assert.isTrue(loadJsPluginStub.calledOnce);
+        assert.isTrue(
+            loadJsPluginStub.calledWithExactly(`http://e.com/foo/bar.js`));
+      });
+
+      test('Should try replace current host with assetsPath', () => {
+        const host = window.location.origin;
+        Gerrit._loadPlugins([
+          `${host}/foo/bar.html`,
+          `${host}/foo/bar.js`,
+        ]);
+
+        assert.isTrue(importHtmlPluginStub.calledOnce);
+        assert.isTrue(
+            importHtmlPluginStub.calledWithExactly(`https://cdn.com/foo/bar.html`)
+        );
+        assert.isTrue(loadJsPluginStub.calledOnce);
+        assert.isTrue(
+            loadJsPluginStub.calledWithExactly(`https://cdn.com/foo/bar.js`));
+      });
+    });
+
     test('adds js plugins will call the body', () => {
       Gerrit._loadPlugins([
         'http://e.com/foo/bar.js',

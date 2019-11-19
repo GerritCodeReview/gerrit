@@ -2216,6 +2216,25 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  @GerritConfig(name = "accounts.visibility", value = "NONE")
+  public void listVotesEvenWhenAccountsAreNotVisible() throws Exception {
+    PushOneCommit.Result r = createChange();
+    gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).review(ReviewInput.approve());
+
+    requestScopeOperations.setApiUser(user.id());
+
+    // check finding by address works
+    Map<String, Short> m = gApi.changes().id(r.getChangeId()).reviewer(admin.email()).votes();
+    assertThat(m).hasSize(1);
+    assertThat(m).containsEntry("Code-Review", Short.valueOf((short) 2));
+
+    // check finding by id works
+    m = gApi.changes().id(r.getChangeId()).reviewer(admin.id().toString()).votes();
+    assertThat(m).hasSize(1);
+    assertThat(m).containsEntry("Code-Review", Short.valueOf((short) 2));
+  }
+
+  @Test
   public void removeReviewerNoVotes() throws Exception {
     LabelType verified =
         label("Verified", value(1, "Passes"), value(0, "No score"), value(-1, "Failed"));

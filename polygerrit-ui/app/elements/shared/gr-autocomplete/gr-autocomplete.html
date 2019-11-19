@@ -36,13 +36,14 @@ limitations under the License.
         margin: 0 var(--spacing-xs);
         vertical-align: top;
       }
-      paper-input:not(.borderless) {
-        border: 1px solid var(--border-color);
+      paper-input.borderless {
+        border: none;
+        padding: 0;
       }
       paper-input {
-        height: var(--line-height-normal);
-        width: 100%;
-        @apply --gr-autocomplete;
+        border: 1px solid var(--border-color);
+        border-radius: var(--border-radius);
+        padding: var(--spacing-s);
         --paper-input-container: {
           padding: 0;
         };
@@ -50,13 +51,25 @@ limitations under the License.
           font-size: var(--font-size-normal);
           line-height: var(--line-height-normal);
         };
+        /* This is a hack for not being able to set height:0 on the underline
+           of a paper-input 2.2.3 element. All the underline fixes below only
+           actually work in 3.x.x, so the height must be adjusted directly as
+           a workaround until we are on Polymer 3. */
+        height: var(--line-height-normal);
+        --paper-input-container-underline-height: 0;
+        --paper-input-container-underline-wrapper-height: 0;
+        --paper-input-container-underline-focus-height: 0;
+        --paper-input-container-underline-legacy-height: 0;
         --paper-input-container-underline: {
+          height: 0;
           display: none;
         };
         --paper-input-container-underline-focus: {
+          height: 0;
           display: none;
         };
         --paper-input-container-underline-disabled: {
+          height: 0;
           display: none;
         };
       }

@@ -16,6 +16,24 @@
       "revId": "134b7e3ece70fe4993619dc034bc126d3aaa21cc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8a91cef0_20442b15",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-11-19T09:24:42Z",
+      "side": 1,
+      "message": "No, I think this is not possible yet, but I agree it makes sense to add such an option.",
+      "parentUuid": "09846ed6_0ed39bf4",
+      "revId": "134b7e3ece70fe4993619dc034bc126d3aaa21cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

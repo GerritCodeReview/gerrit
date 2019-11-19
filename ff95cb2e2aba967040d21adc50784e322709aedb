@@ -2,6 +2,138 @@
   "comments": [
     {
       "key": {
+        "uuid": "811acfd1_221f3c69",
+        "filename": "java/com/google/gerrit/server/notedb/AbstractChangeNotes.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-11-19T20:14:49Z",
+      "side": 1,
+      "message": "should end in .\n\n(fragments should be punctuated and capitalized)",
+      "range": {
+        "startLine": 79,
+        "startChar": 73,
+        "endLine": 79,
+        "endChar": 74
+      },
+      "revId": "ff95cb2e2aba967040d21adc50784e322709aedb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cf198c2c_846bbdc5",
+        "filename": "java/com/google/gerrit/server/notedb/AbstractChangeNotes.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-11-19T20:14:49Z",
+      "side": 1,
+      "message": "{@link AutoCloseable}",
+      "range": {
+        "startLine": 79,
+        "startChar": 9,
+        "endLine": 79,
+        "endChar": 22
+      },
+      "revId": "ff95cb2e2aba967040d21adc50784e322709aedb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "adf12186_d4f83040",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeDraftUpdate.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-11-19T20:14:49Z",
+      "side": 1,
+      "message": "unintended change?\n\nThe commit message just advertised comments, but this touches code.",
+      "revId": "ff95cb2e2aba967040d21adc50784e322709aedb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ff8afc8f_e045c1ad",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesCommit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-11-19T20:14:49Z",
+      "side": 1,
+      "message": "{@link RevWalk}",
+      "range": {
+        "startLine": 47,
+        "startChar": 8,
+        "endLine": 47,
+        "endChar": 15
+      },
+      "revId": "ff95cb2e2aba967040d21adc50784e322709aedb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "704f9524_2f9119bc",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesCommit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-11-19T20:14:49Z",
+      "side": 1,
+      "message": ".\n\n(here and in other classes)",
+      "range": {
+        "startLine": 47,
+        "startChar": 43,
+        "endLine": 47,
+        "endChar": 45
+      },
+      "revId": "ff95cb2e2aba967040d21adc50784e322709aedb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "12620888_96236f6c",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesCommit.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-11-19T20:14:49Z",
+      "side": 1,
+      "message": "{@link ChangeNotesCommits}\n\n\n(here and in other classes)",
+      "range": {
+        "startLine": 47,
+        "startChar": 26,
+        "endLine": 47,
+        "endChar": 44
+      },
+      "revId": "ff95cb2e2aba967040d21adc50784e322709aedb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e8dda878_2fffbac1",
         "filename": "java/com/google/gerrit/server/notedb/RevisionNote.java",
         "patchSetId": 4

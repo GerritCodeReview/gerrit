@@ -30,16 +30,35 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class TaskListenerIT extends AbstractDaemonTest {
-  public TaskListener listener =
+  private static class ForwardingListener implements TaskListener {
+    public TaskListener delegate;
+
+    @Override
+    public void onStart(Task<?> task) {
+      delegate.onStart(task);
+    }
+
+    @Override
+    public void onStop(Task<?> task) {
+      delegate.onStop(task);
+    }
+  }
+
+  private static ForwardingListener forwarder;
+
+  private TaskListener listener =
       new TaskListener() {
         @Override
         public void onStart(Task<?> task) {
           started = true;
+          stateInStarting = task.getState();
+          TaskListenerIT.this.task = task;
         }
 
         @Override
         public void onStop(Task<?> task) {
           stopped = true;
+          stateInStopping = task.getState();
         }
       };
 
@@ -48,6 +67,10 @@ public class TaskListenerIT extends AbstractDaemonTest {
 
   private volatile boolean started;
   private volatile boolean stopped;
+  private volatile Task task;
+  private volatile Task.State stateInStarting;
+  private volatile Task.State stateInRunning;
+  private volatile Task.State stateInStopping;
 
   @Before
   public void setupExecutor() {
@@ -59,15 +82,15 @@ public class TaskListenerIT extends AbstractDaemonTest {
     return new AbstractModule() {
       @Override
       public void configure() {
-        bind(TaskListener.class).annotatedWith(Exports.named("listener")).toInstance(listener);
+        forwarder = new ForwardingListener(); // Only gets bound once for all tests
+        bind(TaskListener.class).annotatedWith(Exports.named("listener")).toInstance(forwarder);
       }
     };
   }
 
   @Before
-  public void resetListener() {
-    started = false;
-    stopped = false;
+  public void forwardToNewResetTestCaseListener() {
+    forwarder.delegate = listener;
   }
 
   @Test
@@ -77,12 +100,22 @@ public class TaskListenerIT extends AbstractDaemonTest {
     assertThat(stopped).isEqualTo(true);
   }
 
+  @Test
+  public void states() throws Exception {
+    executeOne();
+    assertThat(stateInStarting).isEqualTo(Task.State.STARTING);
+    assertThat(stateInRunning).isEqualTo(Task.State.RUNNING);
+    assertThat(stateInStopping).isEqualTo(Task.State.STOPPING);
+  }
+
   private void executeOne() throws InterruptedException {
     int count = workQueue.getTasks().size();
     executor.execute(
         new Runnable() {
           @Override
-          public void run() {};
+          public void run() {
+            stateInRunning = task.getState();
+          };
         });
     while (count != workQueue.getTasks().size()) {
       TimeUnit.MILLISECONDS.sleep(1);

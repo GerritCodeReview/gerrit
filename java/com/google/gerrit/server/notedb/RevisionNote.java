@@ -26,6 +26,10 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.util.MutableInteger;
 
+/**
+ * Data stored in a note, parsed on demand. The data type to parse into is a generic list of type T.
+ * The source of the data is a array of raw bytes
+ */
 @UsedAt(UsedAt.Project.PLUGIN_CHECKS)
 public abstract class RevisionNote<T> {
   static final int MAX_NOTE_SZ = 25 << 20;
@@ -64,6 +68,7 @@ public abstract class RevisionNote<T> {
     return entities;
   }
 
+  /** Reads the raw data, and delegates parsing to the {@link #parse(byte[], int)} method. */
   public void parse() throws IOException, ConfigInvalidException {
     raw = reader.open(noteId, OBJ_BLOB).getCachedBytes(MAX_NOTE_SZ);
     MutableInteger p = new MutableInteger();

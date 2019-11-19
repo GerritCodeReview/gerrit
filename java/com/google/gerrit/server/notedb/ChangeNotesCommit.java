@@ -43,6 +43,8 @@ import org.eclipse.jgit.revwalk.RevWalk;
  * </ul>
  */
 public class ChangeNotesCommit extends RevCommit {
+
+  /** A {@link RevWalk} producing {@link ChangeNotesCommit}s. */
   public static ChangeNotesRevWalk newRevWalk(Repository repo) {
     return new ChangeNotesRevWalk(repo);
   }
@@ -62,6 +64,7 @@ public class ChangeNotesCommit extends RevCommit {
     };
   }
 
+  /** A {@link RevWalk} that creates {@link ChangeNotesCommit}s rather than {@link RevCommit}s */
   public static class ChangeNotesRevWalk extends RevWalk {
     private ChangeNotesRevWalk(Repository repo) {
       super(repo);

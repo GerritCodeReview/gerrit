@@ -25,8 +25,16 @@ import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.notes.Note;
 import org.eclipse.jgit.notes.NoteMap;
 
+/**
+ * A utility class that parses a NoteMap into commit => comment list data.
+ *
+ * @param <T> the RevisionNote for the comment type.
+ */
 class RevisionNoteMap<T extends RevisionNote<? extends Comment>> {
+  // CommitID => blob ID
   final NoteMap noteMap;
+
+  // CommitID => parsed data, immutable map.
   final ImmutableMap<ObjectId, T> revisionNotes;
 
   static RevisionNoteMap<ChangeRevisionNote> parse(
@@ -36,6 +44,7 @@ class RevisionNoteMap<T extends RevisionNote<? extends Comment>> {
     for (Note note : noteMap) {
       ChangeRevisionNote rn = new ChangeRevisionNote(noteJson, reader, note.getData(), status);
       rn.parse();
+
       result.put(note.copy(), rn);
     }
     return new RevisionNoteMap<>(noteMap, ImmutableMap.copyOf(result));

@@ -36,6 +36,7 @@ import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.ObjectId;
 
 class RevisionNoteBuilder {
+  /** Construct a new RevisionNoteMap, seeding it with an existing (immutable) RevisionNoteMap */
   static class Cache {
     private final RevisionNoteMap<? extends RevisionNote<? extends Comment>> revisionNoteMap;
     private final Map<ObjectId, RevisionNoteBuilder> builders;

@@ -28,6 +28,7 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.util.MutableInteger;
 
+/** Implements the parsing of comment data, handling JSON decoding and push certificates. */
 class ChangeRevisionNote extends RevisionNote<Comment> {
   private final ChangeNoteJson noteJson;
   private final Comment.Status status;

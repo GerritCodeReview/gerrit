@@ -63,14 +63,14 @@ suite('gr-edit-controls tests', () => {
 
   suite('edit button CUJ', () => {
     let navStubs;
-    let openAutoCcmplete;
+    let addAutoCcmplete;
 
     setup(() => {
       navStubs = [
         sandbox.stub(Gerrit.Nav, 'getEditUrlForDiff'),
         sandbox.stub(Gerrit.Nav, 'navigateToRelativeUrl'),
       ];
-      openAutoCcmplete = element.$.openDialog.querySelector('gr-autocomplete');
+      addAutoCcmplete = element.$.addDialog.querySelector('gr-autocomplete');
     });
 
     test('_isValidPath', () => {
@@ -81,18 +81,18 @@ suite('gr-edit-controls tests', () => {
       assert.isTrue(element._isValidPath('test.js'));
     });
 
-    test('open', () => {
-      MockInteractions.tap(element.$$('#open'));
+    test('add', () => {
+      MockInteractions.tap(element.$$('#add'));
       element.patchNum = 1;
       return showDialogSpy.lastCall.returnValue.then(() => {
         assert.isTrue(element._hideAllDialogs.called);
-        assert.isTrue(element.$.openDialog.disabled);
+        assert.isTrue(element.$.addDialog.disabled);
         assert.isFalse(queryStub.called);
-        openAutoCcmplete.noDebounce = true;
-        openAutoCcmplete.text = 'src/test.cpp';
+        addAutoCcmplete.noDebounce = true;
+        addAutoCcmplete.text = 'src/test.cpp';
         assert.isTrue(queryStub.called);
-        assert.isFalse(element.$.openDialog.disabled);
-        MockInteractions.tap(element.$.openDialog.$$('gr-button[primary]'));
+        assert.isFalse(element.$.addDialog.disabled);
+        MockInteractions.tap(element.$.addDialog.$$('gr-button[primary]'));
         for (const stub of navStubs) { assert.isTrue(stub.called); }
         assert.deepEqual(Gerrit.Nav.getEditUrlForDiff.lastCall.args,
             [element.change, 'src/test.cpp', element.patchNum]);
@@ -101,13 +101,13 @@ suite('gr-edit-controls tests', () => {
     });
 
     test('cancel', () => {
-      MockInteractions.tap(element.$$('#open'));
+      MockInteractions.tap(element.$$('#add'));
       return showDialogSpy.lastCall.returnValue.then(() => {
-        assert.isTrue(element.$.openDialog.disabled);
-        openAutoCcmplete.noDebounce = true;
-        openAutoCcmplete.text = 'src/test.cpp';
-        assert.isFalse(element.$.openDialog.disabled);
-        MockInteractions.tap(element.$.openDialog.$$('gr-button'));
+        assert.isTrue(element.$.addDialog.disabled);
+        addAutoCcmplete.noDebounce = true;
+        addAutoCcmplete.text = 'src/test.cpp';
+        assert.isFalse(element.$.addDialog.disabled);
+        MockInteractions.tap(element.$.addDialog.$$('gr-button'));
         for (const stub of navStubs) { assert.isFalse(stub.called); }
         assert.isTrue(closeDialogSpy.called);
         assert.equal(element._path, 'src/test.cpp');
@@ -335,10 +335,10 @@ suite('gr-edit-controls tests', () => {
     });
   });
 
-  test('openOpenDialog', () => {
-    return element.openOpenDialog('test/path.cpp').then(() => {
-      assert.isFalse(element.$.openDialog.hasAttribute('hidden'));
-      assert.equal(element.$.openDialog.querySelector('gr-autocomplete').text,
+  test('openAddDialog', () => {
+    return element.openAddDialog('test/path.cpp').then(() => {
+      assert.isFalse(element.$.addDialog.hasAttribute('hidden'));
+      assert.equal(element.$.addDialog.querySelector('gr-autocomplete').text,
           'test/path.cpp');
     });
   });
@@ -347,9 +347,9 @@ suite('gr-edit-controls tests', () => {
     const spy = sandbox.spy(element, '_getDialogFromEvent');
     element.addEventListener('tap', element._getDialogFromEvent);
 
-    MockInteractions.tap(element.$.openDialog);
+    MockInteractions.tap(element.$.addDialog);
     flushAsynchronousOperations();
-    assert.equal(spy.lastCall.returnValue.id, 'openDialog');
+    assert.equal(spy.lastCall.returnValue.id, 'addDialog');
 
     MockInteractions.tap(element.$.deleteDialog);
     flushAsynchronousOperations();

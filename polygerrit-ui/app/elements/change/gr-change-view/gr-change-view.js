@@ -1784,7 +1784,7 @@
         case GrEditConstants.Actions.DELETE.id:
           controls.openDeleteDialog(path);
           break;
-        case GrEditConstants.Actions.OPEN.id:
+        case GrEditConstants.Actions.ADD.id:
           Gerrit.Nav.navigateToRelativeUrl(
               Gerrit.Nav.getEditUrlForDiff(this._change, path,
                   this._patchRange.patchNum));

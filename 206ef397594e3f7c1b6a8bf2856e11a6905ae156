@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e341f259_fe667a22",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-11-19T23:23:09Z",
+      "side": 1,
+      "message": "we can wait for more comments on this change. But if you we go with `Add/Open` as I suggested, you probably can revert most of the changes in this commit and just modify the label",
+      "revId": "206ef397594e3f7c1b6a8bf2856e11a6905ae156",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

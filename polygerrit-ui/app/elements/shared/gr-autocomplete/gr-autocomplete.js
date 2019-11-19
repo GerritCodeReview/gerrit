@@ -74,9 +74,9 @@
         },
 
         /**
-       * The number of characters that must be typed before suggestions are
-       * made. If threshold is zero, default suggestions are enabled.
-       */
+         * The number of characters that must be typed before suggestions are
+         * made. If threshold is zero, default suggestions are enabled.
+         */
         threshold: {
           type: Number,
           value: 1,
@@ -89,11 +89,15 @@
           type: Boolean,
           value: false,
         },
-        // Vertical offset needed for a 1em font-size with no vertical padding.
-        // Inputs with additional padding will need to increase vertical offset.
+        /**
+         * Vertical offset needed for an element with 20px line-height, 4px
+         * padding and 1px border (30px height total). Plus 1px spacing between
+         * input and dropdown. Inputs with different line-height or padding will
+         * need to tweak vertical offset.
+         */
         verticalOffset: {
           type: Number,
-          value: 20,
+          value: 31,
         },
 
         text: {
@@ -110,10 +114,10 @@
         },
 
         /**
-       * When true, tab key autocompletes but does not fire the commit event.
-       * When false, tab key not caught, and focus is removed from the element.
-       * See Issue 4556, Issue 6645.
-       */
+         * When true, tab key autocompletes but does not fire the commit event.
+         * When false, tab key not caught, and focus is removed from the element.
+         * See Issue 4556, Issue 6645.
+         */
         tabComplete: {
           type: Boolean,
           value: false,

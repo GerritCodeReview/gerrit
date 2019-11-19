@@ -516,12 +516,22 @@ public class AccountResolver {
    * @throws IOException if an error occurs.
    */
   public Result resolve(String input) throws ConfigInvalidException, IOException {
-    return searchImpl(input, searchers, visibilitySupplier(), accountActivityPredicate());
+    return searchImpl(input, searchers, visibilitySupplierCanSee(), accountActivityPredicate());
   }
 
   public Result resolve(String input, Predicate<AccountState> accountActivityPredicate)
       throws ConfigInvalidException, IOException {
-    return searchImpl(input, searchers, visibilitySupplier(), accountActivityPredicate);
+    return searchImpl(input, searchers, visibilitySupplierCanSee(), accountActivityPredicate);
+  }
+
+  public Result resolveIgnoreVisibility(String input) throws ConfigInvalidException, IOException {
+    return searchImpl(input, searchers, visibilitySupplierAll(), accountActivityPredicate());
+  }
+
+  public Result resolveIgnoreVisibility(
+      String input, Predicate<AccountState> accountActivityPredicate)
+      throws ConfigInvalidException, IOException {
+    return searchImpl(input, searchers, visibilitySupplierAll(), accountActivityPredicate);
   }
 
   /**
@@ -550,11 +560,21 @@ public class AccountResolver {
   @Deprecated
   public Result resolveByNameOrEmail(String input) throws ConfigInvalidException, IOException {
     return searchImpl(
-        input, nameOrEmailSearchers, visibilitySupplier(), accountActivityPredicate());
+        input, nameOrEmailSearchers, visibilitySupplierCanSee(), accountActivityPredicate());
   }
 
-  private Supplier<Predicate<AccountState>> visibilitySupplier() {
+  private Supplier<Predicate<AccountState>> visibilitySupplierCanSee() {
     return () -> accountControlFactory.get()::canSee;
+  }
+
+  private Supplier<Predicate<AccountState>> visibilitySupplierAll() {
+    return () -> all();
+  }
+
+  private Predicate<AccountState> all() {
+    return accountState -> {
+      return true;
+    };
   }
 
   private Predicate<AccountState> accountActivityPredicate() {

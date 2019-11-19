@@ -21,12 +21,11 @@ import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestView;
-import com.google.gerrit.extensions.restapi.TopLevelResource;
 import com.google.gerrit.mail.Address;
 import com.google.gerrit.server.ApprovalsUtil;
+import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.ReviewerResource;
-import com.google.gerrit.server.restapi.account.AccountsCollection;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
@@ -37,22 +36,22 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 public class Reviewers implements ChildCollection<ChangeResource, ReviewerResource> {
   private final DynamicMap<RestView<ReviewerResource>> views;
   private final ApprovalsUtil approvalsUtil;
-  private final AccountsCollection accounts;
   private final ReviewerResource.Factory resourceFactory;
   private final ListReviewers list;
+  private final AccountResolver accountResolver;
 
   @Inject
   Reviewers(
       ApprovalsUtil approvalsUtil,
-      AccountsCollection accounts,
       ReviewerResource.Factory resourceFactory,
       DynamicMap<RestView<ReviewerResource>> views,
-      ListReviewers list) {
+      ListReviewers list,
+      AccountResolver accountResolver) {
     this.approvalsUtil = approvalsUtil;
-    this.accounts = accounts;
     this.resourceFactory = resourceFactory;
     this.views = views;
     this.list = list;
+    this.accountResolver = accountResolver;
   }
 
   @Override
@@ -68,22 +67,18 @@ public class Reviewers implements ChildCollection<ChangeResource, ReviewerResour
   @Override
   public ReviewerResource parse(ChangeResource rsrc, IdString id)
       throws ResourceNotFoundException, AuthException, IOException, ConfigInvalidException {
-    Address address = Address.tryParse(id.get());
-
-    Account.Id accountId = null;
     try {
-      accountId = accounts.parse(TopLevelResource.INSTANCE, id).getUser().getAccountId();
-    } catch (ResourceNotFoundException e) {
-      if (address == null) {
-        throw e;
+
+      AccountResolver.Result result = accountResolver.resolveIgnoreVisibility(id.get());
+      if (fetchAccountIds(rsrc).contains(result.asUniqueUser().getAccountId())) {
+        return resourceFactory.create(rsrc, result.asUniqueUser().getAccountId());
+      }
+    } catch (AccountResolver.UnresolvableAccountException e) {
+      if (e.isSelf()) {
+        throw new AuthException(e.getMessage(), e);
       }
     }
-    // See if the id exists as a reviewer for this change
-    if (accountId != null && fetchAccountIds(rsrc).contains(accountId)) {
-      return resourceFactory.create(rsrc, accountId);
-    }
-
-    // See if the address exists as a reviewer on the change
+    Address address = Address.tryParse(id.get());
     if (address != null && rsrc.getNotes().getReviewersByEmail().all().contains(address)) {
       return new ReviewerResource(rsrc, address);
     }

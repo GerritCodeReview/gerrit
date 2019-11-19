@@ -206,12 +206,13 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
       cache.get(k.commitId()).deleteComment(k.key());
     }
 
+    // keyed by commit ID.
     Map<ObjectId, RevisionNoteBuilder> builders = cache.getBuilders();
     boolean touchedAnyRevs = false;
     boolean hasComments = false;
     for (Map.Entry<ObjectId, RevisionNoteBuilder> e : builders.entrySet()) {
-      updatedCommits.add(e.getKey());
       ObjectId id = e.getKey();
+      updatedCommits.add(id);
       byte[] data = e.getValue().build(noteUtil.getChangeNoteJson());
       if (!Arrays.equals(data, e.getValue().baseRaw)) {
         touchedAnyRevs = true;

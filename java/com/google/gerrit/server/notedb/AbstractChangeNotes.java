@@ -76,6 +76,7 @@ public abstract class AbstractChangeNotes<T> {
     }
   }
 
+  /** An autocloseable for parsing a single commit into ChangeNotesCommits */
   public static class LoadHandle implements AutoCloseable {
     private final Repository repo;
     private final ObjectId id;

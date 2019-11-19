@@ -198,8 +198,12 @@ final class ShowQueue extends SshCommand {
         return "....... done";
       case CANCELLED:
         return "..... killed";
+      case STOPPING:
+        return "... stopping";
       case RUNNING:
         return "";
+      case STARTING:
+        return "starting ...";
       case READY:
         return "waiting ....";
       case SLEEPING:

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "188049d0_543719ed",
+        "filename": ".bazelversion",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2019-11-19T22:55:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6d62504e_b9d0ce84",
+      "revId": "38875f109cd0aebe9b1a15954239fe5a8e78056e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "149b3597_77dea36c",
         "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
         "patchSetId": 3
@@ -33,6 +51,24 @@
       "revId": "38875f109cd0aebe9b1a15954239fe5a8e78056e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0a9f2b1b_d18a7a34",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2019-11-19T22:55:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "149b3597_77dea36c",
+      "revId": "38875f109cd0aebe9b1a15954239fe5a8e78056e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "7415956e_3573ec07",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 279,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2019-11-19T22:55:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c39d2cb5_8f3f777f",
+      "revId": "38875f109cd0aebe9b1a15954239fe5a8e78056e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "faa80d0d_89c370f1",
         "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
         "patchSetId": 3
@@ -67,6 +121,24 @@
       "revId": "38875f109cd0aebe9b1a15954239fe5a8e78056e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9ef59307_990f1663",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2019-11-19T22:55:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "faa80d0d_89c370f1",
+      "revId": "38875f109cd0aebe9b1a15954239fe5a8e78056e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

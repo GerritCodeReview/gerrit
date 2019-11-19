@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d6ac7fe2_b588cdcd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-11-19T08:15:56Z",
+      "side": 1,
+      "message": "This is the first time I hear about a browser setup that is not able to interpret rgba values. Can you give more background on that?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 36
+      },
+      "revId": "bfb5c6d7c42c728e0c9fdde4108d89eaffc2220b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8cf73ad6_44076633",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-11-19T08:15:56Z",
+      "side": 1,
+      "message": "But sometimes you actually want that. :-)",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 42
+      },
+      "revId": "bfb5c6d7c42c728e0c9fdde4108d89eaffc2220b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b92bdf03_a1f1ecb3",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-11-19T08:15:56Z",
+      "side": 1,
+      "message": "lowercase",
+      "range": {
+        "startLine": 58,
+        "startChar": 33,
+        "endLine": 58,
+        "endChar": 39
+      },
+      "revId": "bfb5c6d7c42c728e0c9fdde4108d89eaffc2220b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "98cb35e0_ffccf566",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-11-19T08:15:56Z",
+      "side": 1,
+      "message": "I think here we really want alpha, please consult with Delphine: https://imgur.com/a/LIaCzCR.",
+      "range": {
+        "startLine": 127,
+        "startChar": 2,
+        "endLine": 128,
+        "endChar": 46
+      },
+      "revId": "bfb5c6d7c42c728e0c9fdde4108d89eaffc2220b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

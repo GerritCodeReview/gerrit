@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "09846ed6_0ed39bf4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-11-19T09:21:51Z",
+      "side": 1,
+      "message": "Is it possible to override the log level when running tests locally i.e. if a test is failing run it again but with the DEBUG level enabled?",
+      "revId": "134b7e3ece70fe4993619dc034bc126d3aaa21cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

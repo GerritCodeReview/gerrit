@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7a2662c7_5bae7802",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-11-19T09:03:04Z",
+      "side": 1,
+      "message": "This is not set in the dark theme, do we want to set it for that theme? and if yes then what colour should we set?",
+      "revId": "6c8277f3ef6769746aec760ec5adc7199cbc275b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

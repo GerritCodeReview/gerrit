@@ -211,7 +211,7 @@ public class GerritServer implements AutoCloseable {
 
   private static final ImmutableMap<String, Level> LOG_LEVELS =
       ImmutableMap.<String, Level>builder()
-          .put("com.google.gerrit", Level.DEBUG)
+          .put("com.google.gerrit", Level.INFO)
 
           // Silence non-critical messages from MINA SSHD.
           .put("org.apache.mina", Level.WARN)

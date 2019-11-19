@@ -69,7 +69,7 @@
       const action = Polymer.dom(e).localTarget.id;
       switch (action) {
         case GrEditConstants.Actions.OPEN.id:
-          this.openOpenDialog();
+          this.openAddDialog();
           return;
         case GrEditConstants.Actions.DELETE.id:
           this.openDeleteDialog();
@@ -86,9 +86,9 @@
     /**
      * @param {string=} opt_path
      */
-    openOpenDialog(opt_path) {
+    openAddDialog(opt_path) {
       if (opt_path) { this._path = opt_path; }
-      return this._showDialog(this.$.openDialog);
+      return this._showDialog(this.$.addDialog);
     }
 
     /**
@@ -186,7 +186,7 @@
       this._closeDialog(this._getDialogFromEvent(e));
     }
 
-    _handleOpenConfirm(e) {
+    _handleAddConfirm(e) {
       const url = Gerrit.Nav.getEditUrlForDiff(this.change, this._path,
           this.patchNum);
       Gerrit.Nav.navigateToRelativeUrl(url);

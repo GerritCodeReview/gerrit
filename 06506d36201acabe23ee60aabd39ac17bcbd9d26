@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "448ecfb0_4507d912",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-11-19T22:35:26Z",
+      "side": 1,
+      "message": "nit: extra blank line",
+      "revId": "06506d36201acabe23ee60aabd39ac17bcbd9d26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b27f354f_05f3cb01",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 346,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-11-19T22:35:26Z",
+      "side": 1,
+      "message": "Should this be two tests?",
+      "revId": "06506d36201acabe23ee60aabd39ac17bcbd9d26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2eaf3cd9_962b07c9",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-11-19T22:35:26Z",
+      "side": 1,
+      "message": "nit: no abbreviations",
+      "range": {
+        "startLine": 362,
+        "startChar": 41,
+        "endLine": 362,
+        "endChar": 44
+      },
+      "revId": "06506d36201acabe23ee60aabd39ac17bcbd9d26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8d7651b4_47fe4915",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-11-19T22:35:26Z",
+      "side": 1,
+      "message": "remove",
+      "range": {
+        "startLine": 377,
+        "startChar": 0,
+        "endLine": 381,
+        "endChar": 5
+      },
+      "revId": "06506d36201acabe23ee60aabd39ac17bcbd9d26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "43aa46ca_9d0c13e9",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 392,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-11-19T22:35:26Z",
+      "side": 1,
+      "message": "Why is this conditional? We should be able to know that this exists?",
+      "revId": "06506d36201acabe23ee60aabd39ac17bcbd9d26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

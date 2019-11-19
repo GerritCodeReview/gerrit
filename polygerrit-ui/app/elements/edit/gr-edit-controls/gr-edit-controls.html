@@ -86,19 +86,19 @@ limitations under the License.
     </template>
     <gr-overlay id="overlay" with-backdrop>
       <gr-dialog
-          id="openDialog"
+          id="addDialog"
           class="invisible dialog"
           disabled$="[[!_isValidPath(_path)]]"
-          confirm-label="Open"
+          confirm-label="Add"
           confirm-on-enter
-          on-confirm="_handleOpenConfirm"
+          on-confirm="_handleAddConfirm"
           on-cancel="_handleDialogCancel">
         <div class="header" slot="header">
-          Open an existing or new file
+          Add or open an existing file
         </div>
         <div class="main" slot="main">
           <gr-autocomplete
-              placeholder="Enter an existing or new full file path."
+              placeholder="Enter an new or existing full file path."
               query="[[_query]]"
               text="{{_path}}"></gr-autocomplete>
         </div>

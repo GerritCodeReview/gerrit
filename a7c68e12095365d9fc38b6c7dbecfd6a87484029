@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "80b00093_fe5652aa",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 4041,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-11-19T17:19:24Z",
+      "side": 1,
+      "message": "labels",
+      "range": {
+        "startLine": 4041,
+        "startChar": 8,
+        "endLine": 4041,
+        "endChar": 13
+      },
+      "revId": "a7c68e12095365d9fc38b6c7dbecfd6a87484029",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1a5acb7c_f60f2bc3",
+        "filename": "java/com/google/gerrit/extensions/api/projects/ProjectApi.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-11-19T17:19:24Z",
+      "side": 1,
+      "message": "nit: This ties it to HTTP methods, but the Java API isn\u0027t specific to HTTP methods. Maybe use \"BatchLabelInput\"?",
+      "range": {
+        "startLine": 229,
+        "startChar": 14,
+        "endLine": 229,
+        "endChar": 18
+      },
+      "revId": "a7c68e12095365d9fc38b6c7dbecfd6a87484029",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

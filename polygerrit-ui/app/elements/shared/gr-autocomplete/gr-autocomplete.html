@@ -40,8 +40,9 @@ limitations under the License.
         border: 1px solid var(--border-color);
       }
       paper-input {
+        /* This is a hack for not being able to set height:0 on the underline
+           of a paper-input 2.2.3 element. */
         height: var(--line-height-normal);
-        width: 100%;
         @apply --gr-autocomplete;
         --paper-input-container: {
           padding: 0;
@@ -50,13 +51,20 @@ limitations under the License.
           font-size: var(--font-size-normal);
           line-height: var(--line-height-normal);
         };
+        --paper-input-container-underline-height: 0;
+        --paper-input-container-underline-wrapper-height: 0;
+        --paper-input-container-underline-focus-height: 0;
+        --paper-input-container-underline-legacy-height: 0;
         --paper-input-container-underline: {
+          height: 0;
           display: none;
         };
         --paper-input-container-underline-focus: {
+          height: 0;
           display: none;
         };
         --paper-input-container-underline-disabled: {
+          height: 0;
           display: none;
         };
       }

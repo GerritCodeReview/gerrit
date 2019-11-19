@@ -34,6 +34,24 @@
       "revId": "134b7e3ece70fe4993619dc034bc126d3aaa21cc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "57557bf6_491060a5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-11-19T10:44:47Z",
+      "side": 1,
+      "message": "I agree that it would be nice to have that option. As this is about running tests locally, a possible workaround right now is to simply adjust the log level as in this change.",
+      "parentUuid": "8a91cef0_20442b15",
+      "revId": "134b7e3ece70fe4993619dc034bc126d3aaa21cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

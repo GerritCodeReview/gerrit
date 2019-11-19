@@ -71,6 +71,54 @@
     },
     {
       "key": {
+        "uuid": "b1dcd853_571cfc22",
+        "filename": "Documentation/backup.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-11-19T23:56:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aea4f0bd_d5a68e9f",
+      "range": {
+        "startLine": 11,
+        "startChar": 53,
+        "endLine": 11,
+        "endChar": 62
+      },
+      "revId": "c23f66b29ff9aa91e12d8ac6867bbccab79f605e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9e707f74_603d6824",
+        "filename": "Documentation/backup.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-11-19T23:56:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3ede694e_576754ec",
+      "range": {
+        "startLine": 11,
+        "startChar": 22,
+        "endLine": 11,
+        "endChar": 28
+      },
+      "revId": "c23f66b29ff9aa91e12d8ac6867bbccab79f605e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8c4daaed_0b21d0b9",
         "filename": "Documentation/backup.txt",
         "patchSetId": 1
@@ -91,6 +139,30 @@
       "revId": "c23f66b29ff9aa91e12d8ac6867bbccab79f605e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "533eb142_cb3713f6",
+        "filename": "Documentation/backup.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-11-19T23:56:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8c4daaed_0b21d0b9",
+      "range": {
+        "startLine": 17,
+        "startChar": 40,
+        "endLine": 17,
+        "endChar": 49
+      },
+      "revId": "c23f66b29ff9aa91e12d8ac6867bbccab79f605e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -117,6 +189,30 @@
     },
     {
       "key": {
+        "uuid": "3fb1836e_8b0b8fa2",
+        "filename": "Documentation/backup.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-11-19T23:56:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5b1f6085_1aa898b7",
+      "range": {
+        "startLine": 30,
+        "startChar": 4,
+        "endLine": 30,
+        "endChar": 10
+      },
+      "revId": "c23f66b29ff9aa91e12d8ac6867bbccab79f605e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "45e5734c_86154b7f",
         "filename": "Documentation/backup.txt",
         "patchSetId": 1
@@ -137,6 +233,30 @@
       "revId": "c23f66b29ff9aa91e12d8ac6867bbccab79f605e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "288e3c21_e2e23709",
+        "filename": "Documentation/backup.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-11-19T23:56:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "45e5734c_86154b7f",
+      "range": {
+        "startLine": 33,
+        "startChar": 4,
+        "endLine": 33,
+        "endChar": 14
+      },
+      "revId": "c23f66b29ff9aa91e12d8ac6867bbccab79f605e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -163,6 +283,30 @@
     },
     {
       "key": {
+        "uuid": "d21d0975_9e050e7c",
+        "filename": "Documentation/backup.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-11-19T23:56:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8351e285_2652d4dd",
+      "range": {
+        "startLine": 49,
+        "startChar": 0,
+        "endLine": 50,
+        "endChar": 57
+      },
+      "revId": "c23f66b29ff9aa91e12d8ac6867bbccab79f605e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aa560980_46e94aa5",
         "filename": "Documentation/backup.txt",
         "patchSetId": 1
@@ -180,6 +324,24 @@
     },
     {
       "key": {
+        "uuid": "74f86aa2_366d0c7d",
+        "filename": "Documentation/backup.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-11-19T23:56:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aa560980_46e94aa5",
+      "revId": "c23f66b29ff9aa91e12d8ac6867bbccab79f605e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "76b45b81_493c98ad",
         "filename": "Documentation/backup.txt",
         "patchSetId": 1
@@ -194,6 +356,24 @@
       "revId": "c23f66b29ff9aa91e12d8ac6867bbccab79f605e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4a48e6bc_69981780",
+        "filename": "Documentation/backup.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-11-19T23:56:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "76b45b81_493c98ad",
+      "revId": "c23f66b29ff9aa91e12d8ac6867bbccab79f605e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -231,6 +411,24 @@
     },
     {
       "key": {
+        "uuid": "7e0ab972_02c07e9b",
+        "filename": "Documentation/backup.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-11-19T23:56:22Z",
+      "side": 1,
+      "message": "We do this once per week on the weekend at a time we have very little traffic.\nThough we use a file system supporting snapshots so it\u0027s a short downtime.",
+      "parentUuid": "e8673fdd_e8a142c8",
+      "revId": "c23f66b29ff9aa91e12d8ac6867bbccab79f605e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a9ed14aa_847b102e",
         "filename": "Documentation/backup.txt",
         "patchSetId": 1
@@ -254,6 +452,30 @@
     },
     {
       "key": {
+        "uuid": "a8481902_3f3109a7",
+        "filename": "Documentation/backup.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-11-19T23:56:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a9ed14aa_847b102e",
+      "range": {
+        "startLine": 71,
+        "startChar": 4,
+        "endLine": 71,
+        "endChar": 8
+      },
+      "revId": "c23f66b29ff9aa91e12d8ac6867bbccab79f605e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c29b8849_3c1579e7",
         "filename": "Documentation/backup.txt",
         "patchSetId": 1
@@ -274,6 +496,30 @@
       "revId": "c23f66b29ff9aa91e12d8ac6867bbccab79f605e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ea6a3e54_3de0c202",
+        "filename": "Documentation/backup.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-11-19T23:56:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c29b8849_3c1579e7",
+      "range": {
+        "startLine": 74,
+        "startChar": 32,
+        "endLine": 74,
+        "endChar": 75
+      },
+      "revId": "c23f66b29ff9aa91e12d8ac6867bbccab79f605e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -312,6 +558,24 @@
     },
     {
       "key": {
+        "uuid": "f754d37d_7bc1b7c3",
+        "filename": "Documentation/backup.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-11-19T23:56:22Z",
+      "side": 1,
+      "message": "JGit with file storage doesn\u0027t support transactional ref updates across repositories.\nWhich Gerrit functionality would depend on ref updates of different repositories ?\n\nSince JGit 4.9 (used by Gerrit 2.15) RefDirectory uses PackedBatchRefUpdate to ensure ref updates are atomic per repository.",
+      "parentUuid": "da9cba84_5725b668",
+      "revId": "c23f66b29ff9aa91e12d8ac6867bbccab79f605e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "eaa24095_5a13e80b",
         "filename": "Documentation/backup.txt",
         "patchSetId": 1
@@ -335,6 +599,30 @@
     },
     {
       "key": {
+        "uuid": "1fa22782_5ca15232",
+        "filename": "Documentation/backup.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-11-19T23:56:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eaa24095_5a13e80b",
+      "range": {
+        "startLine": 82,
+        "startChar": 41,
+        "endLine": 82,
+        "endChar": 46
+      },
+      "revId": "c23f66b29ff9aa91e12d8ac6867bbccab79f605e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "20fb9698_171e2622",
         "filename": "Documentation/backup.txt",
         "patchSetId": 1
@@ -355,6 +643,30 @@
       "revId": "c23f66b29ff9aa91e12d8ac6867bbccab79f605e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f3dc5d29_7801bdff",
+        "filename": "Documentation/backup.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-11-19T23:56:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "20fb9698_171e2622",
+      "range": {
+        "startLine": 83,
+        "startChar": 12,
+        "endLine": 83,
+        "endChar": 17
+      },
+      "revId": "c23f66b29ff9aa91e12d8ac6867bbccab79f605e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -410,6 +722,24 @@
     },
     {
       "key": {
+        "uuid": "b14d68ea_f629dd7d",
+        "filename": "Documentation/backup.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-11-19T23:56:22Z",
+      "side": 1,
+      "message": "This depends on remote.NAME.replicateProjectDeletions [1], if that\u0027s set to true deletions will be replicated.\nThis makes a big difference if you retain more then one backup. Something like a full backup once a week\nand incremental backups every 6 hours and keep e.g. all these backups for 4 weeks.\n\n[1] https://gerrit.googlesource.com/plugins/replication/+/refs/heads/master/src/main/resources/Documentation/config.md",
+      "parentUuid": "83106a71_1e6042ca",
+      "revId": "c23f66b29ff9aa91e12d8ac6867bbccab79f605e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a89a40df_23c4111f",
         "filename": "Documentation/backup.txt",
         "patchSetId": 1
@@ -424,6 +754,24 @@
       "revId": "c23f66b29ff9aa91e12d8ac6867bbccab79f605e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "15ece5b2_0dc9bd10",
+        "filename": "Documentation/backup.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-11-19T23:56:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a89a40df_23c4111f",
+      "revId": "c23f66b29ff9aa91e12d8ac6867bbccab79f605e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -467,6 +815,48 @@
     },
     {
       "key": {
+        "uuid": "c01c7e7b_7095ae0a",
+        "filename": "Documentation/backup.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-11-19T23:56:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0c2729ba_94b763ce",
+      "range": {
+        "startLine": 96,
+        "startChar": 0,
+        "endLine": 97,
+        "endChar": 48
+      },
+      "revId": "c23f66b29ff9aa91e12d8ac6867bbccab79f605e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d5aa5ef3_40207677",
+        "filename": "Documentation/backup.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-11-19T23:56:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ce6dd9c_91025e6d",
+      "revId": "c23f66b29ff9aa91e12d8ac6867bbccab79f605e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "610e8884_911642d2",
         "filename": "Documentation/backup.txt",
         "patchSetId": 1
@@ -498,6 +888,24 @@
       "revId": "c23f66b29ff9aa91e12d8ac6867bbccab79f605e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a466c0bf_5f2300e5",
+        "filename": "Documentation/backup.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-11-19T23:56:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5e46ebaf_474b0ef6",
+      "revId": "c23f66b29ff9aa91e12d8ac6867bbccab79f605e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

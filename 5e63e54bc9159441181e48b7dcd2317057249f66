@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "42fa4cb2_c873d5e0",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-11-19T23:49:56Z",
+      "side": 1,
+      "message": "should this comment be moved to above the `x-height: 0` changes instead ?",
+      "revId": "5e63e54bc9159441181e48b7dcd2317057249f66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a4154d6c_ccfacd5a",
+        "filename": "polygerrit-ui/app/styles/shared-styles.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-11-19T23:49:56Z",
+      "side": 1,
+      "message": "i think we can get rid of this entirely and move this whole part to `gr-autocomplete` and also remove the `@apply`, if we change the `border: var(--gr-autocomplete-border, 1px solid var(--border-color))`\n\nand then we can just use local scoped css variable to override them.\n\nin the case you need border and padding to be 0, can just do:\n\n```\ngr-autocomplete {\n  --gr-autocomplete-border: 0px;\n  --gr-autocomplete-padding: 0px;\n}\n```\n\nAnd as an local scoped variable, we don\u0027t need to expose it to theme.",
+      "revId": "5e63e54bc9159441181e48b7dcd2317057249f66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -55,21 +55,13 @@ limitations under the License.
       gr-dialog .main > iron-input{
         width: 100%;
       }
-      gr-autocomplete {
-        --gr-autocomplete: {
-          border: 1px solid var(--border-color);
-          border-radius: var(--border-radius);
-          height: 2em;
-          padding: 0 var(--spacing-xs);
-        }
-      }
       input {
         border: 1px solid var(--border-color);
         border-radius: var(--border-radius);
-        height: 2em;
         margin: var(--spacing-m) 0;
-        padding: 0 var(--spacing-xs);
+        padding: var(--spacing-s);
         width: 100%;
+        box-sizing: content-box;
       }
       @media screen and (max-width: 50em) {
         gr-dialog {

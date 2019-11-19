@@ -39,6 +39,30 @@
       "revId": "041663071ca9be5f9a2a9d682521062ab2ecaeb2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d4a2e50d_7a0d4a6d",
+        "filename": "polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-11-19T23:56:58Z",
+      "side": 1,
+      "message": "Oh! Right!\n\nYou are right.\n\nThanks, done!",
+      "parentUuid": "b23873d8_5e3cd9d2",
+      "range": {
+        "startLine": 92,
+        "startChar": 25,
+        "endLine": 92,
+        "endChar": 33
+      },
+      "revId": "041663071ca9be5f9a2a9d682521062ab2ecaeb2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

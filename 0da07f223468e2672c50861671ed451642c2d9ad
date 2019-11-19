@@ -70,6 +70,24 @@
       "revId": "0da07f223468e2672c50861671ed451642c2d9ad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c788053b_52776e50",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-11-19T23:59:31Z",
+      "side": 1,
+      "message": "hmm thats actually strange, the `Gerrit.awaitPluginsLoaded` should at least wait until all plugins loaded, which will be only marked as loaded if `Gerrit.install` called or failed due to timeout / js error etc. Let me see if I can make the change to 2.16 to add the event api to Gerrit. Thanks for trying my proposal :)",
+      "parentUuid": "68d3243b_9eb8eae1",
+      "revId": "0da07f223468e2672c50861671ed451642c2d9ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

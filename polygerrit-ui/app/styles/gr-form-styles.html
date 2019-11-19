@@ -61,7 +61,6 @@ limitations under the License.
       }
       .gr-form-styles td,
       .gr-form-styles tfoot th {
-        height: 2em;
         padding: var(--spacing-s) 0;
         vertical-align: middle;
       }
@@ -84,8 +83,7 @@ limitations under the License.
       .gr-form-styles textarea {
         border: 1px solid var(--border-color);
         border-radius: var(--border-radius);
-        height: 2em;
-        padding: 0 var(--spacing-xs);
+        padding: var(--spacing-s);
       }
       .gr-form-styles td:last-child {
         width: 5em;
@@ -97,23 +95,16 @@ limitations under the License.
       .gr-form-styles iron-autogrow-textarea {
         border: none;
         height: auto;
-        min-height: 2em;
+        min-height: 4em;
         --iron-autogrow-textarea: {
           border: 1px solid var(--border-color);
           border-radius: var(--border-radius);
           box-sizing: border-box;
-          padding: var(--spacing-s) var(--spacing-xs) 0 var(--spacing-xs);
+          padding: var(--spacing-s);
         }
       }
       .gr-form-styles gr-autocomplete {
-        border: none;
-        --gr-autocomplete: {
-          border: 1px solid var(--border-color);
-          border-radius: var(--border-radius);
-          height: 2em;
-          padding: 0 var(--spacing-xs);
-          width: 14em;
-        }
+        width: 14em;
       }
       @media only screen and (max-width: 40em) {
         .gr-form-styles section {

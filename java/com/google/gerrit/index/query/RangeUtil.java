@@ -106,6 +106,10 @@ public final class RangeUtil {
         break;
     }
 
+    // Ensure that minValue <= min/max <= maxValue.
+    min = Ints.constrainToRange(min, minValue, maxValue);
+    max = Ints.constrainToRange(max, minValue, maxValue);
+
     return new Range(prefix, min, max);
   }
 

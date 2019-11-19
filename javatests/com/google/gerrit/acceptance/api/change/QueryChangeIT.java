@@ -18,6 +18,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static java.util.stream.Collectors.toList;
+import static javax.servlet.http.HttpServletResponse.SC_OK;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -180,6 +181,18 @@ public class QueryChangeIT extends AbstractDaemonTest {
         (List<ChangeInfo>) queryChanges.apply(TopLevelResource.INSTANCE).value();
     assertThat(result.stream().map(i -> i._number).collect(toList()))
         .containsExactly(changeId3, changeId4);
+  }
+
+  @Test
+  public void usingOutOfRangeLabelValuesDoesNotCauseError() throws Exception {
+    for (String operator : ImmutableList.of("=", ">", ">=", "<", "<=")) {
+      QueryChanges queryChanges = queryChangesProvider.get();
+      queryChanges.addQuery("label:Code-Review" + operator + "10");
+      queryChanges.addQuery("label:Code-Review" + operator + "-10");
+      queryChanges.addQuery("Code-Review" + operator + "10");
+      queryChanges.addQuery("Code-Review" + operator + "-10");
+      assertThat(queryChanges.apply(TopLevelResource.INSTANCE).statusCode()).isEqualTo(SC_OK);
+    }
   }
 
   private static void assertNoChangeHasMoreChangesSet(List<ChangeInfo> results) {

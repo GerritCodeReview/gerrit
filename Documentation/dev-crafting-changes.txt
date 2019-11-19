@@ -230,6 +230,12 @@ when coding:
 
   * Tests for new code will greatly help your change get approved.
 
+[[javadoc]]
+== Javadoc
+
+  * Javadocs are wanted for all public classes and public/protected
+    methods.
+
 [[change-size]]
 == Change Size/Number of Files Touched
 

@@ -440,7 +440,7 @@ class RefControl {
     @Override
     public ForChange change(ChangeData cd) {
       try {
-        return getProjectControl().controlFor(cd.change()).asForChange(cd);
+        return getProjectControl().controlFor(cd.notes()).asForChange(cd);
       } catch (StorageException e) {
         return FailedPermissionBackend.change("unavailable", e);
       }

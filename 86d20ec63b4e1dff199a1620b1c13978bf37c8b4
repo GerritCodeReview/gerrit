@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "3fbc6e55_562f8a00",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2019-11-19T23:16:31Z",
+      "side": 1,
+      "message": "I agree with the cherryPickOf naming.\n\nI don\u0027t think we want to combine as there are some scenarios where you probably want both. For example, Martin and I were just talking about tracking propagation of reverts. i.e. in a bug-fix-on-master model some projects use, I would revert buggy change 123 on master (creates 124 on master), then cherry-pick 124 to bug-fix-1.2 branch (creates 125 on bug-fix-1.2) because I branched bug-fix-1.2 from master at some previous point and it has change 123. In that case, it would be good to track that 125 and 124 are both reverts of 123.\n\nYou could even use that in some fancy logic where if you try to cherry-pick a revert, it checks if that branch got the commit you\u0027re reverting (by consulting revertOf), if not, looks for a matching change (by change-id) and suggests you revert it or just updates your cherry-pick to track that change as the revertOf (don\u0027t know if that\u0027s actually a good user experience or not).",
+      "parentUuid": "a6a38d96_bd53b5b3",
+      "range": {
+        "startLine": 7,
+        "startChar": 5,
+        "endLine": 7,
+        "endChar": 11
+      },
+      "revId": "86d20ec63b4e1dff199a1620b1c13978bf37c8b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "261a2c23_ad0455c8",
         "filename": "java/com/google/gerrit/entities/Change.java",
         "patchSetId": 11

@@ -14,6 +14,8 @@
 
 package com.google.gerrit.index.query;
 
+import static com.google.common.base.Preconditions.checkState;
+
 import com.google.common.primitives.Ints;
 import com.google.gerrit.common.Nullable;
 import java.util.regex.Matcher;
@@ -106,6 +108,15 @@ public final class RangeUtil {
         break;
     }
 
+    // Ensure that minValue <= min <= maxValue.
+    min = Math.min(min, maxValue);
+    min = Math.max(min, minValue);
+
+    // Ensure that maxValue <= min <= maxValue.
+    max = Math.min(max, maxValue);
+    max = Math.max(max, minValue);
+
+    checkState(min <= max, "min is greater than max: min = %s, max = %s", min, max);
     return new Range(prefix, min, max);
   }
 

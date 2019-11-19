@@ -182,6 +182,18 @@ public class QueryChangeIT extends AbstractDaemonTest {
         .containsExactly(changeId3, changeId4);
   }
 
+  @Test
+  public void usingOutOfRangeLabelValuesDoesNotCauseError() throws Exception {
+    for (String operator : new String[] {"=", ">", ">=", "<", "<="}) {
+      QueryChanges queryChanges = queryChangesProvider.get();
+      queryChanges.addQuery("label:Code-Review" + operator + "10");
+      queryChanges.addQuery("label:Code-Review" + operator + "-10");
+      queryChanges.addQuery("Code-Review" + operator + "10");
+      queryChanges.addQuery("Code-Review" + operator + "-10");
+      queryChanges.apply(TopLevelResource.INSTANCE);
+    }
+  }
+
   private static void assertNoChangeHasMoreChangesSet(List<ChangeInfo> results) {
     for (ChangeInfo info : results) {
       assertThat(info._moreChanges).isNull();

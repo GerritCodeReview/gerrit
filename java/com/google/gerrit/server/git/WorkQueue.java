@@ -52,8 +52,8 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.concurrent.atomic.AtomicReference;
 import org.eclipse.jgit.lib.Config;
 
 /** Delayed execution of tasks using a background thread pool. */
@@ -546,21 +546,30 @@ public class WorkQueue {
     public enum State {
       // Ordered like this so ordinal matches the order we would
       // prefer to see tasks sorted in: done before running,
-      // running before ready, ready before sleeping.
+      // stopping before running, running before starting,
+      // starting before ready, ready before sleeping.
       //
       DONE,
       CANCELLED,
+      STOPPING,
       RUNNING,
+      STARTING,
       READY,
       SLEEPING,
       OTHER
+    }
+
+    private enum Running {
+      RUNNING,
+      STARTING,
+      STOPPING
     }
 
     private final Runnable runnable;
     private final RunnableScheduledFuture<V> task;
     private final Executor executor;
     private final int taskId;
-    private final AtomicBoolean running;
+    private final AtomicReference<Running> running;
     private final Date startTime;
     private final TaskListener taskListener;
 
@@ -574,7 +583,7 @@ public class WorkQueue {
       this.task = task;
       this.executor = executor;
       this.taskId = taskId;
-      this.running = new AtomicBoolean();
+      this.running = new AtomicReference<Running>();
       this.startTime = new Date();
       this.taskListener = taskListener;
     }
@@ -588,8 +597,19 @@ public class WorkQueue {
         return State.CANCELLED;
       } else if (isDone() && !isPeriodic()) {
         return State.DONE;
-      } else if (running.get()) {
-        return State.RUNNING;
+      } else {
+        Running r = running.get();
+        if (r != null) {
+          switch (r) {
+            case STARTING:
+              return State.STARTING;
+            case STOPPING:
+              return State.STOPPING;
+            default:
+            case RUNNING:
+              return State.RUNNING;
+          }
+        }
       }
 
       final long delay = getDelay(TimeUnit.MILLISECONDS);
@@ -617,7 +637,7 @@ public class WorkQueue {
         // not invoke cancel twice.
         //
         if (runnable instanceof CancelableRunnable) {
-          if (running.compareAndSet(false, true)) {
+          if (running.compareAndSet(null, Running.RUNNING)) {
             ((CancelableRunnable) runnable).cancel();
           } else if (runnable instanceof CanceledWhileRunning) {
             ((CanceledWhileRunning) runnable).setCanceledWhileRunning();
@@ -677,14 +697,16 @@ public class WorkQueue {
 
     @Override
     public void run() {
-      if (running.compareAndSet(false, true)) {
+      if (running.compareAndSet(null, Running.STARTING)) {
         try {
           taskListener.onStart(this);
+          running.set(Running.RUNNING);
           task.run();
         } finally {
+          running.set(Running.STOPPING);
           taskListener.onStop(this);
           if (isPeriodic()) {
-            running.set(false);
+            running.set(null);
           } else {
             executor.remove(this);
           }

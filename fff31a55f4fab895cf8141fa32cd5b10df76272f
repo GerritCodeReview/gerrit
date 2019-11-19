@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fd632271_62bddce1",
+        "filename": "Documentation/dev-crafting-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2019-11-19T18:25:11Z",
+      "side": 1,
+      "message": "This is a significantly higher bar than what we have now. Do we know how many classes and methods currently don\u0027t meet this?\n\nIf we have this, can we get a CI/build check that enforces it? I think it will continue to be a problem otherwise.\n\nIf we don\u0027t want to raise the bar high right away, but want to encourage javadocs, we could adopt similar phrasing as what we have for tests (just above this).\n\n * Javadocs for new code (especially public classes and public/protected methods) will greatly help your change get approved.",
+      "range": {
+        "startLine": 236,
+        "startChar": 4,
+        "endLine": 237,
+        "endChar": 11
+      },
+      "revId": "fff31a55f4fab895cf8141fa32cd5b10df76272f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

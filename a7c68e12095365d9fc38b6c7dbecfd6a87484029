@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d44ee81c_f5753bbe",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 4041,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-11-20T07:57:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "80b00093_fe5652aa",
+      "range": {
+        "startLine": 4041,
+        "startChar": 8,
+        "endLine": 4041,
+        "endChar": 13
+      },
+      "revId": "a7c68e12095365d9fc38b6c7dbecfd6a87484029",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1a5acb7c_f60f2bc3",
         "filename": "java/com/google/gerrit/extensions/api/projects/ProjectApi.java",
         "patchSetId": 7
@@ -45,6 +69,30 @@
       "revId": "a7c68e12095365d9fc38b6c7dbecfd6a87484029",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "44342b45_2652d972",
+        "filename": "java/com/google/gerrit/extensions/api/projects/ProjectApi.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-11-20T07:57:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a5acb7c_f60f2bc3",
+      "range": {
+        "startLine": 229,
+        "startChar": 14,
+        "endLine": 229,
+        "endChar": 18
+      },
+      "revId": "a7c68e12095365d9fc38b6c7dbecfd6a87484029",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

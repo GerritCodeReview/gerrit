@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "cd33ce64_a9579a75",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-11-20T22:48:40Z",
+      "side": 1,
+      "message": "its not about browser, its hardwares. https://en.wikipedia.org/wiki/Color_depth#Deep_color_(30/36/48-bit)\n\nbasically, if the monitor is \u003c 24 bit, it probably won\u0027t pick up the alpha value correctly, I remember I read an article about this as well, but can not find it somehow.",
+      "parentUuid": "d6ac7fe2_b588cdcd",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 36
+      },
+      "revId": "bfb5c6d7c42c728e0c9fdde4108d89eaffc2220b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8cf73ad6_44076633",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2019-11-19T08:15:56Z",
       "side": 1,
       "message": "But sometimes you actually want that. :-)",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 42
+      },
+      "revId": "bfb5c6d7c42c728e0c9fdde4108d89eaffc2220b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fa13c17a_ba7a026f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-11-20T22:48:40Z",
+      "side": 1,
+      "message": "ya, I guess its much easier to read / write the color for dark theme or any customize themes with alpha value :( \n\nI will abandon this change",
+      "parentUuid": "8cf73ad6_44076633",
       "range": {
         "startLine": 13,
         "startChar": 0,

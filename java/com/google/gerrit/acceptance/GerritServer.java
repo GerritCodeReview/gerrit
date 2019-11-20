@@ -199,7 +199,7 @@ public class GerritServer implements AutoCloseable {
 
   private static final ImmutableMap<String, Level> LOG_LEVELS =
       ImmutableMap.<String, Level>builder()
-          .put("com.google.gerrit", Level.INFO)
+          .put("com.google.gerrit", getGerritLogLevel())
 
           // Silence non-critical messages from MINA SSHD.
           .put("org.apache.mina", Level.WARN)
@@ -236,6 +236,14 @@ public class GerritServer implements AutoCloseable {
           .put("org.eclipse.jgit.internal.storage.file.FileSnapshot", Level.WARN)
           .put("org.eclipse.jgit.util.FS", Level.WARN)
           .build();
+
+  private static Level getGerritLogLevel() {
+    String value = Strings.nullToEmpty(System.getenv("GERRIT_LOG_LEVEL"));
+    if (value.isEmpty()) {
+      value = Strings.nullToEmpty(System.getProperty("gerrit.logLevel"));
+    }
+    return Level.toLevel(value, Level.INFO);
+  }
 
   private static boolean forceLocalDisk() {
     String value = Strings.nullToEmpty(System.getenv("GERRIT_FORCE_LOCAL_DISK"));

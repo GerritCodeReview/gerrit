@@ -25,6 +25,11 @@ import org.eclipse.jgit.lib.RefUpdate;
  * a retry of the failed operation.
  */
 public class ExceptionHookImpl implements ExceptionHook {
+  private static final String LOCK_FAILURE_USER_MESSAGE =
+      "Updating a ref failed with LOCK_FAILURE."
+          + " This may be a temporary issue due to concurrent updates."
+          + " Please retry later.";
+
   @Override
   public boolean shouldRetry(Throwable throwable) {
     return isLockFailure(throwable);
@@ -34,6 +39,14 @@ public class ExceptionHookImpl implements ExceptionHook {
   public Optional<String> formatCause(Throwable throwable) {
     if (isLockFailure(throwable)) {
       return Optional.of(RefUpdate.Result.LOCK_FAILURE.name());
+    }
+    return Optional.empty();
+  }
+
+  @Override
+  public Optional<String> getUserMessage(Throwable throwable) {
+    if (isLockFailure(throwable)) {
+      return Optional.of(LOCK_FAILURE_USER_MESSAGE);
     }
     return Optional.empty();
   }

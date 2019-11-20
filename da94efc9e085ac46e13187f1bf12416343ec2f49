@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0f22992e_02a8e939",
+        "filename": "Documentation/backup.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-11-20T04:38:08Z",
+      "side": 1,
+      "message": "how about \"This document describes best practices for backing up review data\" \n\n(whether or not this is necessary depends on user\u0027s context)",
+      "range": {
+        "startLine": 2,
+        "startChar": 0,
+        "endLine": 3,
+        "endChar": 77
+      },
+      "revId": "da94efc9e085ac46e13187f1bf12416343ec2f49",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

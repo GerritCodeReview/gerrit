@@ -124,6 +124,24 @@
       "revId": "0da07f223468e2672c50861671ed451642c2d9ad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eaaf41a8_3f5445f1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-11-20T23:54:23Z",
+      "side": 1,
+      "message": "ya you r right, I just checked, with promises it will be executed in an async anonymous functions scope and loose the info on current script link :(\n\nI have sent out the event interface change to stable-2.16: https://gerrit-review.googlesource.com/c/gerrit/+/246393",
+      "parentUuid": "6145a2cb_87a348ab",
+      "revId": "0da07f223468e2672c50861671ed451642c2d9ad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

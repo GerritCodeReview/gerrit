@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "0fdc7e3a_7271c43a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-loader.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-11-20T19:23:08Z",
+      "side": 1,
+      "message": "ya I will add this to the commit and mention it in the release guide.\n\nWe should be able to provide a way to support the case that people need to deploy both fe and be changes on plugin at the same time. The easiest way is for such case, should remove the plugin from cdn and it will automatically fallback to load from server.",
+      "parentUuid": "28a1c2e8_40fc0c72",
+      "revId": "ef0cae49b3f34301400e39b969caa3b41caf63e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e5566bee_ac6f18fa",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-loader.js",
         "patchSetId": 5
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "327f826f_d17896f8",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-loader.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-11-20T19:23:08Z",
+      "side": 1,
+      "message": "good call, will check.",
+      "parentUuid": "e5566bee_ac6f18fa",
+      "revId": "ef0cae49b3f34301400e39b969caa3b41caf63e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e836f18d_898c6a9d",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-loader.js",
         "patchSetId": 5
@@ -50,6 +86,24 @@
       "revId": "ef0cae49b3f34301400e39b969caa3b41caf63e8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "70462e9b_45b0a057",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-loader.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-11-20T19:23:08Z",
+      "side": 1,
+      "message": "ya you r right. it\u0027s handled already. thanks",
+      "parentUuid": "e836f18d_898c6a9d",
+      "revId": "ef0cae49b3f34301400e39b969caa3b41caf63e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

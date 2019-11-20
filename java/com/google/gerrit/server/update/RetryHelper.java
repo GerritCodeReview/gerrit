@@ -35,8 +35,6 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.git.LockFailureException;
-import com.google.gerrit.metrics.Counter1;
-import com.google.gerrit.metrics.Counter2;
 import com.google.gerrit.metrics.Counter3;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.Field;
@@ -130,8 +128,8 @@ public class RetryHelper {
   @VisibleForTesting
   @Singleton
   public static class Metrics {
-    final Counter2<ActionType, String> attemptCounts;
-    final Counter1<ActionType> timeoutCount;
+    final Counter3<ActionType, String, String> attemptCounts;
+    final Counter3<ActionType, String, String> timeoutCount;
     final Counter3<ActionType, String, String> autoRetryCount;
     final Counter3<ActionType, String, String> failuresOnAutoRetryCount;
 
@@ -139,6 +137,19 @@ public class RetryHelper {
     Metrics(MetricMaker metricMaker) {
       Field<ActionType> actionTypeField =
           Field.ofEnum(ActionType.class, "action_type", Metadata.Builder::actionType).build();
+      Field<String> operationNameField =
+          Field.ofString("operation_name", Metadata.Builder::operationName)
+              .description("The name of the operation that was retried.")
+              .build();
+      Field<String> lastAttemptCauseField =
+          Field.ofString("cause", Metadata.Builder::cause)
+              .description("The cause for the last attempt.")
+              .build();
+      Field<String> causeField =
+          Field.ofString("cause", Metadata.Builder::cause)
+              .description("The cause for the retry.")
+              .build();
+
       attemptCounts =
           metricMaker.newCounter(
               "action/retry_attempt_count",
@@ -148,9 +159,8 @@ public class RetryHelper {
                   .setCumulative()
                   .setUnit("attempts"),
               actionTypeField,
-              Field.ofString("cause", Metadata.Builder::cause)
-                  .description("The cause for the last attempt.")
-                  .build());
+              operationNameField,
+              lastAttemptCauseField);
       timeoutCount =
           metricMaker.newCounter(
               "action/retry_timeout_count",
@@ -158,7 +168,9 @@ public class RetryHelper {
                       "Number of action executions of RetryHelper that ultimately timed out")
                   .setCumulative()
                   .setUnit("timeouts"),
-              actionTypeField);
+              actionTypeField,
+              operationNameField,
+              lastAttemptCauseField);
       autoRetryCount =
           metricMaker.newCounter(
               "action/auto_retry_count",
@@ -166,12 +178,8 @@ public class RetryHelper {
                   .setCumulative()
                   .setUnit("retries"),
               actionTypeField,
-              Field.ofString("operation_name", Metadata.Builder::operationName)
-                  .description("The name of the operation that was retried.")
-                  .build(),
-              Field.ofString("cause", Metadata.Builder::cause)
-                  .description("The cause for the retry.")
-                  .build());
+              operationNameField,
+              causeField);
       failuresOnAutoRetryCount =
           metricMaker.newCounter(
               "action/failures_on_auto_retry_count",
@@ -179,12 +187,8 @@ public class RetryHelper {
                   .setCumulative()
                   .setUnit("failures"),
               actionTypeField,
-              Field.ofString("operation_name", Metadata.Builder::operationName)
-                  .description("The name of the operation that was retried.")
-                  .build(),
-              Field.ofString("cause", Metadata.Builder::cause)
-                  .description("The cause for the retry.")
-                  .build());
+              operationNameField,
+              causeField);
     }
   }
 
@@ -365,12 +369,13 @@ public class RetryHelper {
                 return false;
               });
       retryerBuilder.withRetryListener(listener);
-      return executeWithTimeoutCount(actionType, action, retryerBuilder.build());
+      return executeWithTimeoutCount(actionType, action, opts, retryerBuilder.build());
     } finally {
       if (listener.getAttemptCount() > 1) {
         logger.atFine().log("%s was attempted %d times", actionType, listener.getAttemptCount());
         metrics.attemptCounts.incrementBy(
             actionType,
+            opts.caller().orElse("N/A"),
             listener.getCause().map(this::formatCause).orElse("_unknown"),
             listener.getAttemptCount() - 1);
       }
@@ -409,18 +414,22 @@ public class RetryHelper {
    *
    * @param actionType the type of the action
    * @param action the action which should be executed and retried on failure
+   * @param opts options for retrying the action on failure
    * @param retryer the retryer
    * @return the result of executing the action
    * @throws Throwable any error or exception that made the action fail, callers are expected to
    *     catch and inspect this Throwable to decide carefully whether it should be re-thrown
    */
-  private <T> T executeWithTimeoutCount(ActionType actionType, Action<T> action, Retryer<T> retryer)
-      throws Throwable {
+  private <T> T executeWithTimeoutCount(
+      ActionType actionType, Action<T> action, Options opts, Retryer<T> retryer) throws Throwable {
     try {
       return retryer.call(action::call);
     } catch (ExecutionException | RetryException e) {
       if (e instanceof RetryException) {
-        metrics.timeoutCount.increment(actionType);
+        metrics.timeoutCount.increment(
+            actionType,
+            opts.caller().orElse("N/A"),
+            e.getCause() != null ? formatCause(e.getCause()) : "_unknown");
       }
       if (e.getCause() != null) {
         throw e.getCause();

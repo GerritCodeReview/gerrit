@@ -79,6 +79,7 @@ import com.google.gerrit.server.CmdLineParserModule;
 import com.google.gerrit.server.CreateGroupPermissionSyncer;
 import com.google.gerrit.server.DynamicOptions;
 import com.google.gerrit.server.ExceptionHook;
+import com.google.gerrit.server.ExceptionHookImpl;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.RequestListener;
 import com.google.gerrit.server.TraceRequestListener;
@@ -393,6 +394,7 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicSet.bind(binder(), RequestListener.class).to(TraceRequestListener.class);
     DynamicSet.setOf(binder(), ChangeETagComputation.class);
     DynamicSet.setOf(binder(), ExceptionHook.class);
+    DynamicSet.bind(binder(), ExceptionHook.class).to(ExceptionHookImpl.class);
     DynamicSet.setOf(binder(), MailSoyTemplateProvider.class);
 
     DynamicMap.mapOf(binder(), MailFilter.class);

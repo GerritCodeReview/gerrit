@@ -34,7 +34,6 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.git.LockFailureException;
 import com.google.gerrit.metrics.Counter1;
 import com.google.gerrit.metrics.Counter2;
 import com.google.gerrit.metrics.Counter3;
@@ -57,7 +56,6 @@ import java.util.concurrent.ExecutionException;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.lib.RefUpdate;
 
 @Singleton
 public class RetryHelper {
@@ -284,15 +282,7 @@ public class RetryHelper {
       throws RestApiException, UpdateException {
     try {
       return execute(
-          ActionType.CHANGE_UPDATE,
-          () -> changeAction.call(updateFactory),
-          opts,
-          t -> {
-            if (t instanceof UpdateException || t instanceof StorageException) {
-              t = t.getCause();
-            }
-            return t instanceof LockFailureException;
-          });
+          ActionType.CHANGE_UPDATE, () -> changeAction.call(updateFactory), opts, t -> false);
     } catch (Throwable t) {
       Throwables.throwIfUnchecked(t);
       Throwables.throwIfInstanceOf(t, UpdateException.class);
@@ -390,9 +380,6 @@ public class RetryHelper {
       return formattedCause.get();
     }
 
-    if (t instanceof LockFailureException) {
-      return RefUpdate.Result.LOCK_FAILURE.name();
-    }
     return t.getClass().getSimpleName();
   }
 

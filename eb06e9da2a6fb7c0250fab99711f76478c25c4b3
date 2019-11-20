@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "12a8c449_d1ce127d",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.html",
+        "patchSetId": 4
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-11-20T22:51:54Z",
+      "side": 1,
+      "message": "hope no one is using it yet :)",
+      "revId": "eb06e9da2a6fb7c0250fab99711f76478c25c4b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

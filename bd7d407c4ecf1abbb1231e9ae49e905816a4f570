@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a6207167_e9deb178",
+        "filename": "java/com/google/gerrit/index/query/RangeUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-11-20T12:45:14Z",
+      "side": 1,
+      "message": "Here and below: Guava offers Ints#constrainToRange exactly for this use case.",
+      "range": {
+        "startLine": 111,
+        "startChar": 4,
+        "endLine": 114,
+        "endChar": 0
+      },
+      "revId": "bd7d407c4ecf1abbb1231e9ae49e905816a4f570",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "944b942f_866fdbbe",
+        "filename": "java/com/google/gerrit/index/query/RangeUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-11-20T12:45:14Z",
+      "side": 1,
+      "message": "minValue",
+      "range": {
+        "startLine": 115,
+        "startChar": 19,
+        "endLine": 115,
+        "endChar": 27
+      },
+      "revId": "bd7d407c4ecf1abbb1231e9ae49e905816a4f570",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b0beb3de_06821086",
+        "filename": "java/com/google/gerrit/index/query/RangeUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-11-20T12:45:14Z",
+      "side": 1,
+      "message": "It\u0027s a bit strange to me to see a checkState() call this much down into a method. According to my understanding, it\u0027s also just verifying that the code further above in the method works correctly. That\u0027s not what the Preconditions class is meant for. I think that a unit test instead of the check here would help much more as it would catch errors ahead of time instead of an internal server error later on.",
+      "range": {
+        "startLine": 119,
+        "startChar": 4,
+        "endLine": 119,
+        "endChar": 84
+      },
+      "revId": "bd7d407c4ecf1abbb1231e9ae49e905816a4f570",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dfa85f32_5330a0dd",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/QueryChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-11-20T12:45:14Z",
+      "side": 1,
+      "message": "Nit: ImmutableList.of(..) would be more recommended as arrays are trickier to handle most of the time.",
+      "range": {
+        "startLine": 187,
+        "startChar": 27,
+        "endLine": 187,
+        "endChar": 41
+      },
+      "revId": "bd7d407c4ecf1abbb1231e9ae49e905816a4f570",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3ecaa9d1_7c365ed2",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/QueryChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-11-20T12:45:14Z",
+      "side": 1,
+      "message": "I think it would be helpful to test that the query was successful (-\u003e response has status code 200).",
+      "range": {
+        "startLine": 193,
+        "startChar": 6,
+        "endLine": 193,
+        "endChar": 52
+      },
+      "revId": "bd7d407c4ecf1abbb1231e9ae49e905816a4f570",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

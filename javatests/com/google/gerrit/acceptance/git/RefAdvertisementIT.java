@@ -1446,7 +1446,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
   private TestRefAdvertiser.Result getReceivePackRefs() throws Exception {
     try (Repository repo = repoManager.openRepository(project)) {
       AdvertiseRefsHook adv =
-          ReceiveCommitsAdvertiseRefsHookChain.createForTest(queryProvider, project);
+          ReceiveCommitsAdvertiseRefsHookChain.createForTest(queryProvider, project, admin.id());
       ReceivePack rp = new ReceivePack(repo);
       rp.setAdvertiseRefsHook(adv);
       TestRefAdvertiser advertiser = new TestRefAdvertiser(repo);

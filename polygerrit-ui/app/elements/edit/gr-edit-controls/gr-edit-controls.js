@@ -195,6 +195,21 @@
       this._closeDialog(this._getDialogFromEvent(e), true);
     }
 
+    _handleUploadConfirm(path, fileData) {
+      if (!this.change || !path || !fileData) {
+        this._closeDialog(this.$.openDialog, true);
+        return;
+      }
+      this.$.restAPI.saveFileUploadChangeEdit(this.change._number, path,
+          fileData).then(res => {
+        if (!res.ok) { return; }
+
+        this._closeDialog(this.$.openDialog, true);
+        const url = Gerrit.Nav.getUrlForChange(this.change, this.patchNum);
+        Gerrit.Nav.navigateToRelativeUrl(url);
+      });
+    }
+
     _handleDeleteConfirm(e) {
       // Get the dialog before the api call as the event will change during bubbling
       // which will make Polymer.dom(e).path an emtpy array in polymer 2
@@ -236,6 +251,39 @@
 
     _computeIsInvisible(id, hiddenActions) {
       return hiddenActions.includes(id) ? 'invisible' : '';
+    }
+
+    _handleDragAndDropUpload(event) {
+      // We prevent the default clicking.
+      event.preventDefault();
+      event.stopPropagation();
+
+      this._fileUpload(event);
+    }
+
+    _handleFileUploadChanged(event) {
+      this._fileUpload(event);
+    }
+
+    _fileUpload(event) {
+      const e = event.target.files || event.dataTransfer.files;
+      for (const file of e) {
+        if (!file) continue;
+
+        let path = this._path;
+        if (!path) {
+          path = file.name;
+        }
+
+        const fr = new FileReader();
+        fr.file = file;
+        fr.onload = fileLoadEvent => {
+          if (!fileLoadEvent) return;
+          const fileData = fileLoadEvent.target.result;
+          this._handleUploadConfirm(path, fileData);
+        };
+        fr.readAsDataURL(file);
+      }
     }
   }
 

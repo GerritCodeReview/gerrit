@@ -68,6 +68,17 @@ limitations under the License.
           width: 100vw;
         }
       }
+      div#dragDropArea {
+        padding: var(--spacing-xxl) var(--spacing-xxl);
+        border: 2px dashed var(--border-color);
+        border-radius: 1em;
+        text-align: center;
+      }
+      div#dragDropArea>p {
+        font-weight: bold;
+        text-transform: uppercase;
+        padding: 0.25em;
+      }
     </style>
     <template is="dom-repeat" items="[[_actions]]" as="action">
       <gr-button
@@ -93,6 +104,26 @@ limitations under the License.
               placeholder="Enter an existing or new full file path."
               query="[[_query]]"
               text="{{_path}}"></gr-autocomplete>
+          <hr />
+          <div id="dragDropArea"
+               contenteditable="true"
+               on-drop="_handleDragAndDropUpload">
+            <p>Drag and drop file here</p>
+            <p>or</p>
+            <p>
+              <iron-input>
+                <input id="fileUploadInput"
+                       type="file"
+                       on-change="_handleFileUploadChanged"
+                       slot="input">
+              </iron-input>
+              <label for="fileUploadInput">
+                <gr-button id="fileUploadBrowse">
+                  Browse
+                </gr-button>
+              </label>
+            </p>
+          </div>
         </div>
       </gr-dialog>
       <gr-dialog

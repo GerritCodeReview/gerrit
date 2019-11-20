@@ -440,7 +440,6 @@ class RefControl {
     @Override
     public ForChange change(ChangeData cd) {
       try {
-        // TODO(hiesel) Force callers to call database() and use db instead of cd.db()
         return getProjectControl().controlFor(cd.change()).asForChange(cd);
       } catch (StorageException e) {
         return FailedPermissionBackend.change("unavailable", e);

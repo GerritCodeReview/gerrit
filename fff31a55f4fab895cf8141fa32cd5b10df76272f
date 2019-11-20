@@ -22,6 +22,30 @@
       "revId": "fff31a55f4fab895cf8141fa32cd5b10df76272f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "571fae7a_3baf9278",
+        "filename": "Documentation/dev-crafting-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-11-20T08:13:49Z",
+      "side": 1,
+      "message": "\u003e This is a significantly higher bar than what we have now.\n\n\u003e Do we know how many classes and methods currently don\u0027t meet this?\n\nNo, but for sure many.\n\n\u003e If we have this, can we get a CI/build check that enforces it? I think it will continue to be a problem otherwise.\n\nThis is what we want to have in the end, but at the moment the CI/build doesn\u0027t have the capability to detect this (also see linked issue 11954).\n\n\u003e If we don\u0027t want to raise the bar high right away, but want to encourage javadocs, we could adopt similar phrasing as what we have for tests (just above this).\n\nThis was the intention and why it says \"wanted\" instead of \"required\". This is a first step to make contributors aware that we would like to see javadoc for public/protected methods and classes, but not make it required yet.\n\n\u003e  * Javadocs for new code (especially public classes and public/protected methods) will greatly help your change get approved.\n\nWorks for me too. Changed it.\n\nDone.",
+      "parentUuid": "fd632271_62bddce1",
+      "range": {
+        "startLine": 236,
+        "startChar": 4,
+        "endLine": 237,
+        "endChar": 11
+      },
+      "revId": "fff31a55f4fab895cf8141fa32cd5b10df76272f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

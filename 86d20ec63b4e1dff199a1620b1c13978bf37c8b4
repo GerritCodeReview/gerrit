@@ -49,6 +49,29 @@
     },
     {
       "key": {
+        "uuid": "c74f36a7_52de7853",
+        "filename": "Documentation/intro-user.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 461,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2019-11-20T00:19:21Z",
+      "side": 1,
+      "message": "choose one: \"after\" or \"when\"",
+      "range": {
+        "startLine": 461,
+        "startChar": 0,
+        "endLine": 461,
+        "endChar": 11
+      },
+      "revId": "86d20ec63b4e1dff199a1620b1c13978bf37c8b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "261a2c23_ad0455c8",
         "filename": "java/com/google/gerrit/entities/Change.java",
         "patchSetId": 11
@@ -111,6 +134,52 @@
         "startChar": 2,
         "endLine": 612,
         "endChar": 3
+      },
+      "revId": "86d20ec63b4e1dff199a1620b1c13978bf37c8b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f8ef6c94_f00b086f",
+        "filename": "java/com/google/gerrit/server/change/ActionJson.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2019-11-20T00:19:21Z",
+      "side": 1,
+      "message": "If we store the patcheset also, it can help identify if a copy needs to be updated.",
+      "range": {
+        "startLine": 147,
+        "startChar": 0,
+        "endLine": 147,
+        "endChar": 1
+      },
+      "revId": "86d20ec63b4e1dff199a1620b1c13978bf37c8b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f69d109_995d353a",
+        "filename": "java/com/google/gerrit/server/change/SetSourceOp.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2019-11-20T00:19:21Z",
+      "side": 1,
+      "message": "Only used in one method, make local?",
+      "range": {
+        "startLine": 33,
+        "startChar": 10,
+        "endLine": 33,
+        "endChar": 17
       },
       "revId": "86d20ec63b4e1dff199a1620b1c13978bf37c8b4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

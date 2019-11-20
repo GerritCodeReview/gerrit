@@ -15,11 +15,12 @@
 package com.google.gerrit.index;
 
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.collect.ImmutableList.toImmutableList;
 
 import com.google.common.base.MoreObjects;
-import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.flogger.FluentLogger;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -181,12 +182,17 @@ public class Schema<T> {
    * <p>Null values are omitted, as are fields which cause errors, which are logged.
    *
    * @param obj input object.
+   * @param skipFields set of field names to skip when indexing the document
    * @return all non-null field values from the object.
    */
-  public final Iterable<Values<T>> buildFields(T obj) {
-    return FluentIterable.from(fields.values())
-        .transform(
+  public final Iterable<Values<T>> buildFields(T obj, ImmutableSet<String> skipFields) {
+    return fields.values().stream()
+        .map(
             f -> {
+              if (skipFields.contains(f.getName())) {
+                return null;
+              }
+
               Object v;
               try {
                 v = f.get(obj);
@@ -203,7 +209,8 @@ public class Schema<T> {
                 return new Values<>(f, Collections.singleton(v));
               }
             })
-        .filter(Objects::nonNull);
+        .filter(Objects::nonNull)
+        .collect(toImmutableList());
   }
 
   @Override

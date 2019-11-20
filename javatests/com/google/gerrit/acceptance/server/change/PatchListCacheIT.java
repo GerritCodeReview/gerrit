@@ -39,7 +39,9 @@ import com.google.gerrit.server.patch.PatchListKey;
 import com.google.gerrit.server.patch.Text;
 import com.google.inject.Inject;
 import com.google.inject.name.Named;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -64,6 +66,25 @@ public class PatchListCacheIT extends AbstractDaemonTest {
   @Inject
   @Named("diff")
   private Cache<PatchListKey, PatchList> abstractPatchListCache;
+
+  @Test
+  public void ensureLegacyBackendIsUsedForFileCacheBackend() throws Exception {
+    Field fileCacheField = patchListCache.getClass().getDeclaredField("fileCache");
+    fileCacheField.setAccessible(true);
+    // Use the reflection to access "localCache" field that is only present in Guava backend.
+    assertThat(
+            Arrays.stream(fileCacheField.get(patchListCache).getClass().getDeclaredFields())
+                .anyMatch(f -> f.getName().equals("localCache")))
+        .isTrue();
+
+    // intraCache (and all other cache backends) should use Caffeine backend.
+    Field intraCacheField = patchListCache.getClass().getDeclaredField("intraCache");
+    intraCacheField.setAccessible(true);
+    assertThat(
+            Arrays.stream(intraCacheField.get(patchListCache).getClass().getDeclaredFields())
+                .noneMatch(f -> f.getName().equals("localCache")))
+        .isTrue();
+  }
 
   @Test
   public void listPatchesAgainstBase() throws Exception {

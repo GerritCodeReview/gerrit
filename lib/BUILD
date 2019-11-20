@@ -528,7 +528,7 @@ java_library(
         "//java/com/google/gerrit/acceptance:__pkg__",
         "//java/com/google/gerrit/extensions:__pkg__",
         "//java/com/google/gerrit/server:__pkg__",
-        "//plugins:__pkg__",
+        "//plugins:__subpackages__",
     ],
     exports = ["@javax-annotation//jar"],
 )

@@ -52,6 +52,24 @@
       "revId": "134b7e3ece70fe4993619dc034bc126d3aaa21cc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2afb859f_62dace34",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-11-20T11:56:47Z",
+      "side": 1,
+      "message": "With [1] this gets possible.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/246178",
+      "parentUuid": "57557bf6_491060a5",
+      "revId": "134b7e3ece70fe4993619dc034bc126d3aaa21cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

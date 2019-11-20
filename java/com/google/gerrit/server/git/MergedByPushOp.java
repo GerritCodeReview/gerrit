@@ -40,6 +40,7 @@ import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
+import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -52,6 +53,7 @@ public class MergedByPushOp implements BatchUpdateOp {
     MergedByPushOp create(
         RequestScopePropagator requestScopePropagator,
         PatchSet.Id psId,
+        @Assisted @Nullable RequestId submissionId,
         @Assisted("refName") String refName,
         @Assisted("mergeResultRevId") String mergeResultRevId);
   }
@@ -65,6 +67,7 @@ public class MergedByPushOp implements BatchUpdateOp {
   private final ChangeMerged changeMerged;
 
   private final PatchSet.Id psId;
+  private RequestId submissionId;
   private final String refName;
   private final String mergeResultRevId;
 
@@ -84,6 +87,7 @@ public class MergedByPushOp implements BatchUpdateOp {
       ChangeMerged changeMerged,
       @Assisted RequestScopePropagator requestScopePropagator,
       @Assisted PatchSet.Id psId,
+      @Assisted RequestId submissionId,
       @Assisted("refName") String refName,
       @Assisted("mergeResultRevId") String mergeResultRevId) {
     this.patchSetInfoFactory = patchSetInfoFactory;
@@ -93,6 +97,7 @@ public class MergedByPushOp implements BatchUpdateOp {
     this.sendEmailExecutor = sendEmailExecutor;
     this.changeMerged = changeMerged;
     this.requestScopePropagator = requestScopePropagator;
+    this.submissionId = submissionId;
     this.psId = psId;
     this.refName = refName;
     this.mergeResultRevId = mergeResultRevId;
@@ -133,7 +138,9 @@ public class MergedByPushOp implements BatchUpdateOp {
     }
     change.setCurrentPatchSet(info);
     change.setStatus(Change.Status.MERGED);
-    RequestId submissionId = new RequestId(change.getId().toString());
+    if (submissionId == null) {
+      submissionId = new RequestId(change.getId().toString());
+    }
     change.setSubmissionId(submissionId.toStringForStorage());
     // we cannot reconstruct the submit records for when this change was
     // submitted, this is why we must fix the status and other details.

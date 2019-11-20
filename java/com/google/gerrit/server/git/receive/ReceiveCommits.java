@@ -3281,6 +3281,7 @@ class ReceiveCommits {
 
                 int existingPatchSets = 0;
                 int newPatchSets = 0;
+                RequestId submissionId = null;
                 COMMIT:
                 for (RevCommit c; (c = rw.next()) != null; ) {
                   rw.parseBody(c);
@@ -3289,13 +3290,21 @@ class ReceiveCommits {
                       receivePackRefCache.tipsFromObjectId(c.copy(), RefNames.REFS_CHANGES)) {
                     PatchSet.Id psId = PatchSet.Id.fromRef(ref.getName());
                     Optional<ChangeNotes> notes = getChangeNotes(psId.changeId());
+                    submissionId =
+                        submissionId == null
+                            ? new RequestId(psId.changeId().toString())
+                            : submissionId;
                     if (notes.isPresent() && notes.get().getChange().getDest().equals(branch)) {
                       existingPatchSets++;
                       bu.addOp(notes.get().getChangeId(), setPrivateOpFactory.create(false, null));
                       bu.addOp(
                           psId.changeId(),
                           mergedByPushOpFactory.create(
-                              requestScopePropagator, psId, refName, newTip.getId().getName()));
+                              requestScopePropagator,
+                              psId,
+                              submissionId,
+                              refName,
+                              newTip.getId().getName()));
                       continue COMMIT;
                     }
                   }
@@ -3324,13 +3333,18 @@ class ReceiveCommits {
                     logger.atFine().log("Not closing %s because validation failed", id);
                     continue;
                   }
+                  submissionId = submissionId == null ? new RequestId(id.toString()) : submissionId;
                   req.addOps(bu, null);
                   bu.addOp(id, setPrivateOpFactory.create(false, null));
                   bu.addOp(
                       id,
                       mergedByPushOpFactory
                           .create(
-                              requestScopePropagator, req.psId, refName, newTip.getId().getName())
+                              requestScopePropagator,
+                              req.psId,
+                              submissionId,
+                              refName,
+                              newTip.getId().getName())
                           .setPatchSetProvider(req.replaceOp::getPatchSet));
                   bu.addOp(id, new ChangeProgressOp(progress));
                   ids.add(id);

@@ -1817,6 +1817,16 @@
       });
     }
 
+    saveFileUploadChangeEdit(changeNum, path, content) {
+      return this._getChangeURLAndSend({
+        changeNum,
+        method: 'PUT',
+        endpoint: '/edit/' + encodeURIComponent(path),
+        body: {binary_content: content},
+        anonymizedEndpoint: '/edit/*',
+      });
+    }
+
     getRobotCommentFixPreview(changeNum, patchNum, fixId) {
       return this._getChangeURLAndFetch({
         changeNum,

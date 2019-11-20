@@ -60,6 +60,8 @@
       }).enableToggleCheckbox('Display Coverage', checkbox => {
         // Checkbox is attached so now add the notifier that will be controlled
         // by the checkbox.
+        // Checkbox will only be added to the file diff page, in the top right
+        // section near the "Diff view".
         annotationApi.addNotifier(notifyFunc => {
           new Promise(resolve => setTimeout(resolve, 3000)).then(() => {
             populateWithDummyData(coverageData);

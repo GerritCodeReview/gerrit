@@ -1845,13 +1845,13 @@
       });
     }
 
-    saveChangeEdit(changeNum, path, contents) {
+    saveChangeEdit(changeNum, path, contents, upload) {
       return this._getChangeURLAndSend({
         changeNum,
         method: 'PUT',
         endpoint: '/edit/' + encodeURIComponent(path),
-        body: contents,
-        contentType: 'text/plain',
+        body: {contents, upload},
+        contentType: 'application/json',
         anonymizedEndpoint: '/edit/*',
       });
     }

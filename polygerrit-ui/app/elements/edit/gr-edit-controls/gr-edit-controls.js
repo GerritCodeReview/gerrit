@@ -61,6 +61,7 @@
             return this._queryFiles.bind(this);
           },
         },
+        _fileData: String,
       };
     }
 
@@ -79,6 +80,9 @@
           return;
         case GrEditConstants.Actions.RESTORE.id:
           this.openRestoreDialog();
+          return;
+        case GrEditConstants.Actions.UPLOAD.id:
+          this.openUploadDialog();
           return;
       }
     }
@@ -113,6 +117,14 @@
     openRestoreDialog(opt_path) {
       if (opt_path) { this._path = opt_path; }
       return this._showDialog(this.$.restoreDialog);
+    }
+
+    /**
+     * @param {string=} opt_path
+     */
+    openUploadDialog(opt_path) {
+      if (opt_path) { this._path = opt_path; }
+      return this._showDialog(this.$.uploadDialog);
     }
 
     /**
@@ -193,6 +205,19 @@
       this._closeDialog(this._getDialogFromEvent(e), true);
     }
 
+    _handleUploadConfirm(e) {
+      if (!this.change || !this._path || !this._fileData) return;
+      this.$.restAPI.saveChangeEdit(this.change._number, this._path, this._fileData, true).then(res => {
+              //this._saving = false;
+              //this._showAlert(res.ok ? SAVED_MESSAGE : SAVE_FAILED_MSG);
+              if (!res.ok) { return; }
+
+              const url = Gerrit.Nav.getUrlForChange(this.change, this.patchNum);
+              Gerrit.Nav.navigateToRelativeUrl(url);
+              this._closeDialog(this._getDialogFromEvent(e), true);
+            });
+    }
+
     _handleDeleteConfirm(e) {
       // Get the dialog before the api call as the event will change during bubbling
       // which will make Polymer.dom(e).path an emtpy array in polymer 2
@@ -234,6 +259,32 @@
 
     _computeIsInvisible(id, hiddenActions) {
       return hiddenActions.includes(id) ? 'invisible' : '';
+    }
+
+    _handleKeyPress(event) {
+      const ctrlDown = event.ctrlKey || event.metaKey;
+      if (!ctrlDown) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+    }
+
+    _handleDrop(event) {
+      event.preventDefault();
+      event.stopPropagation();
+
+      for (let file of event.dataTransfer.files) {
+        if (!file) continue;
+        if (!this._path) {
+          this._path = file.name;
+        }
+        let fr = new FileReader();
+        fr.onload = fileLoadEvent => {
+          var b64 = fileLoadEvent.target.result.replace(/^data:.+;base64,/, '');
+          this._fileData = b64;
+        };
+        fr.readAsDataURL(file);
+      }
     }
   }
 

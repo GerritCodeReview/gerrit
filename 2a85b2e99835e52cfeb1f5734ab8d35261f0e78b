@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1b7c84a2_bfc4c750",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-11-20T06:00:11Z",
+      "side": 1,
+      "message": "This is not true, as can be seen from the CI vote VRFY-1 on this change:\n  /home/jenkins/.cache/bazel/_bazel_jenkins/3239551e333dc09ba2b5ef07ff4549b6/execroot/gerrit/bazel-out/k8-fastbuild/bin/prologtests/examples/test_examples.runfiles/gerrit/external/remotejdk11_linux/bin/java: No such file or directory\n### Test t3.pl failed.\n/home/jenkins/.cache/bazel/_bazel_jenkins/3239551e333dc09ba2b5ef07ff4549b6/execroot/gerrit/bazel-out/k8-fastbuild/bin/prologtests/examples/test_examples.runfiles/gerrit\n\nFAIL: Test t1.pl\nFAIL: Test t2.pl\nFAIL: Test t3.pl\n\nThe tests are failing after the downgrade, because of this serious Bazel bug: [1], and you would have to revert much more changes in gerrit, e.g.: [2].\n\n* [1] https://github.com/bazelbuild/bazel/issues/9391\n* [2] https://gerrit-review.googlesource.com/c/gerrit/+/237472",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 40
+      },
+      "revId": "2a85b2e99835e52cfeb1f5734ab8d35261f0e78b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4a303826_93041405",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-11-20T06:00:11Z",
+      "side": 1,
+      "message": "This is a confirmed Bazel bug, because 1.0.1 was released after 1.1.0 release and the metadata was overridden. The related Bazel bug, that must be quoted here: [3]?\n\nThere are number of workarounds available, here 7 workarounds from the top of my head:\n\n* Install from the source debian image: https://github.com/bazelbuild/bazel/releases/download/1.1.0/bazel_1.1.0-linux-x86_64.deb\n* Use Baselisk\n* Use older gerrit tree, before the upgrade of Bazel to 1.1.0\n* Apply your revert locally\n* Build bazel from source: git clone https://github.com/bazelbuild/bazel; cd bazel; bazel build src:bazel-bin-dev and use locally built version\n* Vote +1 on the corresponding Bazel issue: [3].\n* Wait a couple of working days, until the 1.2 version is released: [4].\n* Contact Gerrit Engineering Steering committee (ESC) and ask for their help. Two gerrit ESC members are Googlers and are co-located with Bazel team in Google@MUC.\n* Reach out to Gerrit team lead in Google@MUC; he was previously on Bazel team and might be able to help to increase the priority of the correposnindg Bazel bug: [3].\n\n* [3] https://github.com/bazelbuild/bazel/issues/10199\n* [4] https://github.com/bazelbuild/bazel/issues/9983",
+      "range": {
+        "startLine": 10,
+        "startChar": 66,
+        "endLine": 11,
+        "endChar": 32
+      },
+      "revId": "2a85b2e99835e52cfeb1f5734ab8d35261f0e78b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

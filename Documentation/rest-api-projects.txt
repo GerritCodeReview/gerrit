@@ -3233,6 +3233,66 @@ If a label was deleted the response is "`204 No Content`".
   HTTP/1.1 204 No Content
 ----
 
+[[batch-update-labels]]
+=== Batch Update Labels
+--
+'POST /projects/link:#project-name[\{project-name\}]/labels/'
+--
+
+Creates/updates/deletes multiple label definitions in this project at once.
+
+The calling user must have write access to the `refs/meta/config` branch of the
+project.
+
+The updates must be specified in the request body as
+link:#batch-label-input[BatchLabelInput] entity.
+
+The updates are processed in the following order:
+
+1. label deletions
+2. label creations
+3. label updates
+
+.Request
+----
+  POST /projects/My-Project/labels/ HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+  {
+    "commit_message": "Update Labels",
+    "delete": [
+      "Old-Review",
+      "Unused-Review"
+    ],
+    "create": [
+      {
+        "name": "Foo-Review",
+        "values": {
+          " 0": "No score",
+          "-1": "I would prefer this is not merged as is",
+          "-2": "This shall not be merged",
+          "+1": "Looks good to me, but someone else must approve",
+          "+2": "Looks good to me, approved"
+      }
+    ],
+    "update:" {
+      "Bar-Review": {
+        "function": "MaxWithBlock"
+      },
+      "Baz-Review": {
+        "copy_min_score": true
+      }
+    }
+  }
+----
+
+If the label updates were done successfully the response is "`200 OK`".
+
+.Response
+----
+  HTTP/1.1 200 OK
+----
+
 
 [[ids]]
 == IDs
@@ -3874,9 +3934,14 @@ review label].
 |Field Name      ||Description
 |`commit_message`|optional|
 Message that should be used to commit the change of the label in the
-`project.config` file to the `refs/meta/config` branch.
+`project.config` file to the `refs/meta/config` branch.+
+Must not be set if this `LabelDefinitionInput` entity is contained in a
+link:#batch-label-input[BatchLabelInput] entity.
 |`name`          |optional|
-The new link:config-labels.html#label_name[name] of the label.
+The new link:config-labels.html#label_name[name] of the label.+
+For label creation the name is required if this `LabelDefinitionInput` entity
+is contained in a link:#batch-label-input[BatchLabelInput]
+entity.
 |`function`      |optional|
 The new link:config-labels.html#label_function[function] of the label (can be
 `MaxWithBlock`, `AnyWithBlock`, `MaxNoBlock`, `NoBlock`, `NoOp` and `PatchSetLock`.
@@ -3958,6 +4023,27 @@ A string describing whether the value was inherited or overridden from
 the parent project or global config. +
 Not set if not inherited or overridden.
 |===============================
+
+[[batch-label-input]]
+=== BatchLabelInput
+The `BatchLabelInput` entity contains information for batch updating label
+definitions in a project.
+
+[options="header",cols="1,^2,4"]
+|=============================
+|Field Name      ||Description
+|`commit_message`|optional|
+Message that should be used to commit the label updates in the
+`project.config` file to the `refs/meta/config` branch.
+|`delete`        |optional|
+List of labels that should be deleted.
+|`create`        |optional|
+List of link:#label-definition-input[LabelDefinitionInput] entities that
+describe labels that should be created.
+|`update`        |optional|
+Map of label names to link:#label-definition-input[LabelDefinitionInput]
+entities that describe the updates that should be done for the labels.
+|=============================
 
 [[project-access-input]]
 === ProjectAccessInput

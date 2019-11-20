@@ -80,117 +80,9 @@ public class SetLabel implements RestModifyView<LabelResource, LabelDefinitionIn
     LabelType labelType = rsrc.getLabelType();
 
     try (MetaDataUpdate md = updateFactory.create(rsrc.getProject().getNameKey())) {
-      boolean dirty = false;
-
       ProjectConfig config = projectConfigFactory.read(md);
-      config.getLabelSections().remove(labelType.getName());
 
-      if (input.name != null) {
-        String newName = input.name.trim();
-        if (newName.isEmpty()) {
-          throw new BadRequestException("name cannot be empty");
-        }
-        if (!newName.equals(labelType.getName())) {
-          if (config.getLabelSections().containsKey(newName)) {
-            throw new ResourceConflictException(String.format("name %s already in use", newName));
-          }
-
-          for (String labelName : config.getLabelSections().keySet()) {
-            if (labelName.equalsIgnoreCase(newName)) {
-              throw new ResourceConflictException(
-                  String.format("name %s conflicts with existing label %s", newName, labelName));
-            }
-          }
-
-          try {
-            labelType.setName(newName);
-          } catch (IllegalArgumentException e) {
-            throw new BadRequestException("invalid name: " + input.name, e);
-          }
-          dirty = true;
-        }
-      }
-
-      if (input.function != null) {
-        if (input.function.trim().isEmpty()) {
-          throw new BadRequestException("function cannot be empty");
-        }
-        labelType.setFunction(LabelDefinitionInputParser.parseFunction(input.function));
-        dirty = true;
-      }
-
-      if (input.values != null) {
-        if (input.values.isEmpty()) {
-          throw new BadRequestException("values cannot be empty");
-        }
-        labelType.setValues(LabelDefinitionInputParser.parseValues(input.values));
-        dirty = true;
-      }
-
-      if (input.defaultValue != null) {
-        labelType.setDefaultValue(
-            LabelDefinitionInputParser.parseDefaultValue(labelType, input.defaultValue));
-        dirty = true;
-      }
-
-      if (input.branches != null) {
-        labelType.setRefPatterns(LabelDefinitionInputParser.parseBranches(input.branches));
-        dirty = true;
-      }
-
-      if (input.canOverride != null) {
-        labelType.setCanOverride(input.canOverride);
-        dirty = true;
-      }
-
-      if (input.copyAnyScore != null) {
-        labelType.setCopyAnyScore(input.copyAnyScore);
-        dirty = true;
-      }
-
-      if (input.copyMinScore != null) {
-        labelType.setCopyMinScore(input.copyMinScore);
-        dirty = true;
-      }
-
-      if (input.copyMaxScore != null) {
-        labelType.setCopyMaxScore(input.copyMaxScore);
-        dirty = true;
-      }
-
-      if (input.copyAllScoresIfNoChange != null) {
-        labelType.setCopyAllScoresIfNoChange(input.copyAllScoresIfNoChange);
-      }
-
-      if (input.copyAllScoresIfNoCodeChange != null) {
-        labelType.setCopyAllScoresIfNoCodeChange(input.copyAllScoresIfNoCodeChange);
-        dirty = true;
-      }
-
-      if (input.copyAllScoresOnTrivialRebase != null) {
-        labelType.setCopyAllScoresOnTrivialRebase(input.copyAllScoresOnTrivialRebase);
-        dirty = true;
-      }
-
-      if (input.copyAllScoresOnMergeFirstParentUpdate != null) {
-        labelType.setCopyAllScoresOnMergeFirstParentUpdate(
-            input.copyAllScoresOnMergeFirstParentUpdate);
-        dirty = true;
-      }
-
-      if (input.allowPostSubmit != null) {
-        labelType.setAllowPostSubmit(input.allowPostSubmit);
-        dirty = true;
-      }
-
-      if (input.ignoreSelfApproval != null) {
-        labelType.setIgnoreSelfApproval(input.ignoreSelfApproval);
-        dirty = true;
-      }
-
-      if (dirty) {
-        config.getLabelSections().put(labelType.getName(), labelType);
-
+      if (updateLabel(config, labelType, input)) {
         if (input.commitMessage != null) {
           md.setMessage(Strings.emptyToNull(input.commitMessage.trim()));
         } else {
@@ -202,5 +94,129 @@ public class SetLabel implements RestModifyView<LabelResource, LabelDefinitionIn
       }
     }
     return Response.ok(LabelDefinitionJson.format(rsrc.getProject().getNameKey(), labelType));
+  }
+
+  /**
+   * Updates the given label.
+   *
+   * @param config the project config
+   * @param labelType the label type that should be updated
+   * @param input the input that describes the label update
+   * @return whether the label type was modified
+   * @throws BadRequestException if there was invalid data in the input
+   * @throws ResourceConflictException if the update cannot be applied due to a conflict
+   */
+  public boolean updateLabel(ProjectConfig config, LabelType labelType, LabelDefinitionInput input)
+      throws BadRequestException, ResourceConflictException {
+    boolean dirty = false;
+
+    config.getLabelSections().remove(labelType.getName());
+
+    if (input.name != null) {
+      String newName = input.name.trim();
+      if (newName.isEmpty()) {
+        throw new BadRequestException("name cannot be empty");
+      }
+      if (!newName.equals(labelType.getName())) {
+        if (config.getLabelSections().containsKey(newName)) {
+          throw new ResourceConflictException(String.format("name %s already in use", newName));
+        }
+
+        for (String labelName : config.getLabelSections().keySet()) {
+          if (labelName.equalsIgnoreCase(newName)) {
+            throw new ResourceConflictException(
+                String.format("name %s conflicts with existing label %s", newName, labelName));
+          }
+        }
+
+        try {
+          labelType.setName(newName);
+        } catch (IllegalArgumentException e) {
+          throw new BadRequestException("invalid name: " + input.name, e);
+        }
+        dirty = true;
+      }
+    }
+
+    if (input.function != null) {
+      if (input.function.trim().isEmpty()) {
+        throw new BadRequestException("function cannot be empty");
+      }
+      labelType.setFunction(LabelDefinitionInputParser.parseFunction(input.function));
+      dirty = true;
+    }
+
+    if (input.values != null) {
+      if (input.values.isEmpty()) {
+        throw new BadRequestException("values cannot be empty");
+      }
+      labelType.setValues(LabelDefinitionInputParser.parseValues(input.values));
+      dirty = true;
+    }
+
+    if (input.defaultValue != null) {
+      labelType.setDefaultValue(
+          LabelDefinitionInputParser.parseDefaultValue(labelType, input.defaultValue));
+      dirty = true;
+    }
+
+    if (input.branches != null) {
+      labelType.setRefPatterns(LabelDefinitionInputParser.parseBranches(input.branches));
+      dirty = true;
+    }
+
+    if (input.canOverride != null) {
+      labelType.setCanOverride(input.canOverride);
+      dirty = true;
+    }
+
+    if (input.copyAnyScore != null) {
+      labelType.setCopyAnyScore(input.copyAnyScore);
+      dirty = true;
+    }
+
+    if (input.copyMinScore != null) {
+      labelType.setCopyMinScore(input.copyMinScore);
+      dirty = true;
+    }
+
+    if (input.copyMaxScore != null) {
+      labelType.setCopyMaxScore(input.copyMaxScore);
+      dirty = true;
+    }
+
+    if (input.copyAllScoresIfNoChange != null) {
+      labelType.setCopyAllScoresIfNoChange(input.copyAllScoresIfNoChange);
+    }
+
+    if (input.copyAllScoresIfNoCodeChange != null) {
+      labelType.setCopyAllScoresIfNoCodeChange(input.copyAllScoresIfNoCodeChange);
+      dirty = true;
+    }
+
+    if (input.copyAllScoresOnTrivialRebase != null) {
+      labelType.setCopyAllScoresOnTrivialRebase(input.copyAllScoresOnTrivialRebase);
+      dirty = true;
+    }
+
+    if (input.copyAllScoresOnMergeFirstParentUpdate != null) {
+      labelType.setCopyAllScoresOnMergeFirstParentUpdate(
+          input.copyAllScoresOnMergeFirstParentUpdate);
+      dirty = true;
+    }
+
+    if (input.allowPostSubmit != null) {
+      labelType.setAllowPostSubmit(input.allowPostSubmit);
+      dirty = true;
+    }
+
+    if (input.ignoreSelfApproval != null) {
+      labelType.setIgnoreSelfApproval(input.ignoreSelfApproval);
+      dirty = true;
+    }
+
+    config.getLabelSections().put(labelType.getName(), labelType);
+
+    return dirty;
   }
 }

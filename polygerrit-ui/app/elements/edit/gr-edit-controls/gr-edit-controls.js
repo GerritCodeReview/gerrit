@@ -61,6 +61,7 @@
             return this._queryFiles.bind(this);
           },
         },
+        _fileData: String,
       };
     }
 
@@ -79,6 +80,9 @@
           return;
         case GrEditConstants.Actions.RESTORE.id:
           this.openRestoreDialog();
+          return;
+        case GrEditConstants.Actions.UPLOAD.id:
+          this.openUploadDialog();
           return;
       }
     }
@@ -113,6 +117,14 @@
     openRestoreDialog(opt_path) {
       if (opt_path) { this._path = opt_path; }
       return this._showDialog(this.$.restoreDialog);
+    }
+
+    /**
+     * @param {string=} opt_path
+     */
+    openUploadDialog(opt_path) {
+      if (opt_path) { this._path = opt_path; }
+      return this._showDialog(this.$.uploadDialog);
     }
 
     /**
@@ -193,6 +205,19 @@
       this._closeDialog(this._getDialogFromEvent(e), true);
     }
 
+    _handleUploadConfirm(e) {
+      if (!this.change || !this._path || !this._fileData) return;
+      this.$.restAPI.saveChangeEdit(this.change._number, this._path, this._fileData, true).then(res => {
+              //this._saving = false;
+              //this._showAlert(res.ok ? SAVED_MESSAGE : SAVE_FAILED_MSG);
+              if (!res.ok) { return; }
+
+              const url = Gerrit.Nav.getUrlForChange(this.change, this.patchNum);
+              Gerrit.Nav.navigateToRelativeUrl(url);
+              this._closeDialog(this._getDialogFromEvent(e), true);
+            });
+    }
+
     _handleDeleteConfirm(e) {
       // Get the dialog before the api call as the event will change during bubbling
       // which will make Polymer.dom(e).path an emtpy array in polymer 2
@@ -234,6 +259,61 @@
 
     _computeIsInvisible(id, hiddenActions) {
       return hiddenActions.includes(id) ? 'invisible' : '';
+    }
+
+    _handleKeyPress(event) {
+      const ctrlDown = event.ctrlKey || event.metaKey;
+      if (!ctrlDown) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+    }
+
+    _handleDrop(event) {
+      event.preventDefault();
+      event.stopPropagation();
+
+      for (let file of event.dataTransfer.files) {
+        if (!this._path) {
+          this._path = file.name;
+        }
+        //console.log(file);
+        //let formData = new FormData();
+        //formData.append('file', file);
+        //console.log(formData);
+        //console.log(formData && formData.file);
+        //this._fileData = file;
+        let fr = new FileReader();
+        //fr.file = file;
+        fr.onload = fileLoadEvent => {
+          //console.log(fileLoadEvent);
+          //console.log(Base64.decode(fileLoadEvent.target.result));
+          //this._fileData = fileLoadEvent.target.result;
+          var b64 = fileLoadEvent.target.result.replace(/^data:.+;base64,/, '');
+          this._fileData = b64;
+          //console.log(String.fromCharCode.apply(null, fileLoadEvent.target.result));
+          //this._fileData = new TextDecoder("utf-8").decode(new Int8Array(fileLoadEvent.target.result));
+          //this._fileData = String.fromCharCode.apply(null, fileLoadEvent.target.result);
+          //this._fileData = fileLoadEvent.target.result;
+          //console.log(this._fileData);
+        };
+        //fr.readAsArrayBuffer(file);
+        fr.readAsDataURL(file);
+        //fr.readAsText(file);
+        /*fr.readAsArrayBuffer(new Blob([file], {   //was readAsText
+              "type": "text/plain"
+
+        }));*/
+        //fr.readAsDataURL(file);
+        //this._fileData = fr.file;
+        /*
+        if (fr && fr.file && fr.file.name) {
+          this._fileName = fr.file.name;
+          this._fileContent = fr.file;
+          console.log(this._fileName);
+          console.log(this._fileContent);
+        }*/
+      }
     }
   }
 

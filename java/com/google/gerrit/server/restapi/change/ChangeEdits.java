@@ -14,6 +14,10 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.nio.charset.StandardCharsets.US_ASCII;
+
+import com.google.gerrit.common.RawInputUtil;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.entities.Change;
@@ -65,6 +69,9 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.kohsuke.args4j.Option;
+import com.google.common.io.BaseEncoding;
+import org.eclipse.jgit.util.Base64;
+import java.util.Arrays;
 
 @Singleton
 public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditResource> {
@@ -119,8 +126,8 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
 
     @Override
     public Response<?> apply(ChangeResource resource, IdString id, Put.Input input)
-        throws AuthException, ResourceConflictException, IOException, PermissionBackendException {
-      putEdit.apply(resource, id.get(), input.content);
+        throws AuthException, ResourceConflictException, IOException, PermissionBackendException, BadRequestException {
+      putEdit.apply(resource, id.get(), RawInputUtil.create(input.contents));
       return Response.none();
     }
   }
@@ -269,7 +276,8 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
   @Singleton
   public static class Put implements RestModifyView<ChangeEditResource, Put.Input> {
     public static class Input {
-      @DefaultInput public RawInput content;
+      /*@DefaultInput*/ public String contents;
+      public Boolean upload;
     }
 
     private final ChangeEditModifier editModifier;
@@ -282,19 +290,30 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
     }
 
     @Override
-    public Response<?> apply(ChangeEditResource rsrc, Input input)
-        throws AuthException, ResourceConflictException, IOException, PermissionBackendException {
-      return apply(rsrc.getChangeResource(), rsrc.getPath(), input.content);
+    @SuppressWarnings("DefaultCharset")
+    public Response<?> apply(ChangeEditResource rsrc, Put.Input input)
+        throws AuthException, ResourceConflictException, IOException, PermissionBackendException, BadRequestException {
+      if (input.contents == null) {
+        throw new BadRequestException("You must provide contents in the input");
+      }
+      if (input.upload != null && input.upload == true) {
+        byte[] test = Base64.decode(input.contents.getBytes(), 0, input.contents.getBytes().length);
+        //System.out.println(test);
+        //input.contents = new String(test, "UTF-8");
+        return apply(rsrc.getChangeResource(), rsrc.getPath(), RawInputUtil.create(test));
+      }
+
+      return apply(rsrc.getChangeResource(), rsrc.getPath(), RawInputUtil.create(input.contents));
     }
 
-    public Response<?> apply(ChangeResource rsrc, String path, RawInput newContent)
-        throws ResourceConflictException, AuthException, IOException, PermissionBackendException {
+    public Response<?> apply(ChangeResource rsrc, String path, RawInput contents)
+        throws ResourceConflictException, AuthException, IOException, PermissionBackendException, BadRequestException {
       if (Strings.isNullOrEmpty(path) || path.charAt(0) == '/') {
         throw new ResourceConflictException("Invalid path: " + path);
       }
 
       try (Repository repository = repositoryManager.openRepository(rsrc.getProject())) {
-        editModifier.modifyFile(repository, rsrc.getNotes(), path, newContent);
+        editModifier.modifyFile(repository, rsrc.getNotes(), path, contents);
       } catch (InvalidChangeOperationException e) {
         throw new ResourceConflictException(e.getMessage());
       }

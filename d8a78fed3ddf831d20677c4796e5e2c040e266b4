@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8f03639f_fc5b262b",
+        "filename": "Documentation/backup.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-11-20T21:45:12Z",
+      "side": 1,
+      "message": "typically stored in the `${GERRIT_SITE}/git`.\nHowever, the locations can be customized in the gerrit.config.",
+      "range": {
+        "startLine": 12,
+        "startChar": 48,
+        "endLine": 12,
+        "endChar": 75
+      },
+      "revId": "d8a78fed3ddf831d20677c4796e5e2c040e266b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "93f63b51_4fa76a10",
+        "filename": "Documentation/backup.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-11-20T21:45:12Z",
+      "side": 1,
+      "message": "How having filesystem snapshots can help with the consistent backup of Git and ReviewDb? It would only work if the DB is H2.",
+      "range": {
+        "startLine": 128,
+        "startChar": 10,
+        "endLine": 128,
+        "endChar": 46
+      },
+      "revId": "d8a78fed3ddf831d20677c4796e5e2c040e266b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

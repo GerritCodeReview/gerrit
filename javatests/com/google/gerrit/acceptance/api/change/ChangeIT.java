@@ -3573,6 +3573,28 @@ public class ChangeIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void checkSubmissionIdForAutoClosedChange() throws Exception {
+    PushOneCommit.Result first = createChange();
+    PushOneCommit.Result second = createChange();
+
+    PushOneCommit push = pushFactory.create(admin.newIdent(), testRepo);
+
+    PushOneCommit.Result result = push.to("refs/heads/master");
+    result.assertOkStatus();
+
+    ChangeInfo firstChange = gApi.changes().id(first.getChangeId()).get();
+    assertThat(firstChange.status).isEqualTo(ChangeStatus.MERGED);
+    assertThat(firstChange.submissionId).isNotNull();
+
+    ChangeInfo secondChange = gApi.changes().id(second.getChangeId()).get();
+    assertThat(secondChange.status).isEqualTo(ChangeStatus.MERGED);
+    assertThat(secondChange.submissionId).isNotNull();
+
+    assertThat(secondChange.submissionId).isEqualTo(firstChange.submissionId);
+    assertThat(gApi.changes().id(second.getChangeId()).submittedTogether()).hasSize(2);
+  }
+
+  @Test
   public void maxPermittedValueAllowed() throws Exception {
     final int minPermittedValue = -2;
     final int maxPermittedValue = +2;

@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a485b635_20471f82",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-11-20T23:30:03Z",
+      "side": 1,
+      "message": "nit: exceeding line limit (here and below)",
+      "range": {
+        "startLine": 7,
+        "startChar": 71,
+        "endLine": 7,
+        "endChar": 73
+      },
+      "revId": "117773a2a700911d2958e94f1c64d6f946f252da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9c9c3df0_9165a403",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-11-20T23:30:03Z",
+      "side": 1,
+      "message": "typo",
+      "range": {
+        "startLine": 10,
+        "startChar": 42,
+        "endLine": 10,
+        "endChar": 51
+      },
+      "revId": "117773a2a700911d2958e94f1c64d6f946f252da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6f050e8a_e2062d0c",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2229,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-11-20T23:30:03Z",
+      "side": 1,
+      "message": "can we do \"containsExactly\"?",
+      "range": {
+        "startLine": 2229,
+        "startChar": 18,
+        "endLine": 2229,
+        "endChar": 31
+      },
+      "revId": "117773a2a700911d2958e94f1c64d6f946f252da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

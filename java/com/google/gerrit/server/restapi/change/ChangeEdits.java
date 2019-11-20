@@ -20,6 +20,8 @@ import com.google.common.base.Strings;
 import com.google.common.io.CharStreams;
 import com.google.gerrit.common.RawInputUtil;
 import com.google.common.collect.ImmutableList;
+import com.google.common.io.CharStreams;
+import com.google.gerrit.common.RawInputUtil;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
@@ -299,6 +301,18 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
         throws ResourceConflictException, AuthException, IOException, PermissionBackendException {
       if (Strings.isNullOrEmpty(path) || path.charAt(0) == '/') {
         throw new ResourceConflictException("Invalid path: " + path);
+      }
+
+      if (newContent != null) {
+        String contentString =
+            CharStreams.toString(
+                new InputStreamReader(newContent.getInputStream(), UTF_8));
+        Matcher m = Pattern.compile("data:([\\w/.-]+);([\\w]+),(.*)").matcher(contentString);
+        if (m.matches()) {
+          if ("base64".equals(m.group(2))) {
+            newContent = RawInputUtil.create(Base64.decode(m.group(3)));
+          }
+        }
       }
 
       try (Repository repository = repositoryManager.openRepository(rsrc.getProject())) {

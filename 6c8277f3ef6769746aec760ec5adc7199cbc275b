@@ -16,6 +16,24 @@
       "revId": "6c8277f3ef6769746aec760ec5adc7199cbc275b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cba86ef4_4e8b1cf6",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-11-20T10:57:38Z",
+      "side": 1,
+      "message": "We should set it, but to the same value as here: --syntax-params-color: var(--primary-text-color);",
+      "parentUuid": "7a2662c7_5bae7802",
+      "revId": "6c8277f3ef6769746aec760ec5adc7199cbc275b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

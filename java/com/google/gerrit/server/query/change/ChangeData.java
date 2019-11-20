@@ -598,7 +598,11 @@ public class ChangeData {
       committer = c.getCommitterIdent();
       parentCount = c.getParentCount();
     } catch (IOException e) {
-      throw new StorageException(e);
+      throw new StorageException(
+          String.format(
+              "Loading commit %s for ps %d of change %d failed.",
+              ps.commitId(), ps.id().get(), ps.id().changeId().get()),
+          e);
     }
     return true;
   }

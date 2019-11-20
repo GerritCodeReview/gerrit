@@ -53,4 +53,15 @@ public interface ExceptionHook {
   default Optional<String> formatCause(Throwable throwable) {
     return Optional.empty();
   }
+
+  /**
+   * Returns an error message that should be returned to the user.
+   *
+   * @param throwable throwable that was thrown while executing an operation
+   * @return error message that should be returned to the user, {@link Optional#empty()} if no
+   *     message should be returned to the user
+   */
+  default Optional<String> getUserMessage(Throwable throwable) {
+    return Optional.empty();
+  }
 }

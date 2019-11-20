@@ -14,8 +14,12 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import static java.nio.charset.StandardCharsets.UTF_8;
+
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
+import com.google.gerrit.common.RawInputUtil;
+import com.google.common.io.CharStreams;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
@@ -59,11 +63,16 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.Reader;
 import java.util.List;
 import java.util.Optional;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.util.Base64;
 import org.kohsuke.args4j.Option;
 
 @Singleton
@@ -284,6 +293,13 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
     @Override
     public Response<?> apply(ChangeEditResource rsrc, Input input)
         throws AuthException, ResourceConflictException, IOException, PermissionBackendException {
+      try (final Reader reader = new InputStreamReader(input.content.getInputStream(), UTF_8)) {
+        String data = CharStreams.toString(reader);
+        Matcher m = Pattern.compile("data:([\\w/.-]+);([\\w]+),(.*)").matcher(data);
+        if (m.matches()) {
+          input.content = RawInputUtil.create(Base64.decode(m.group(3)));
+        }
+      }
       return apply(rsrc.getChangeResource(), rsrc.getPath(), input.content);
     }
 

@@ -1856,6 +1856,16 @@
       });
     }
 
+    saveFileUploadChangeEdit(changeNum, path, contents) {
+      return this._getChangeURLAndSend({
+        changeNum,
+        method: 'PUT',
+        endpoint: '/edit:upload',
+        body: {content: contents, path: path},
+        reportEndpointAsIs: true,
+      });
+    }
+
     // Deprecated, prefer to use putChangeCommitMessage instead.
     saveChangeCommitMessageEdit(changeNum, message) {
       return this._getChangeURLAndSend({

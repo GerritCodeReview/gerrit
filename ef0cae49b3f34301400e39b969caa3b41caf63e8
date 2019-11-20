@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "28a1c2e8_40fc0c72",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-loader.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-11-20T09:21:23Z",
+      "side": 1,
+      "message": "Side note: When we are doing this then plugins can out of sync when they have a frontend and a backend part. Backend part will go live with backend release, frontend part will go live with CDN push. Just saying.",
+      "revId": "ef0cae49b3f34301400e39b969caa3b41caf63e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e5566bee_ac6f18fa",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-loader.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-11-20T09:21:23Z",
+      "side": 1,
+      "message": "Can you have a look at https://gerrit.googlesource.com/gerrit/+/master/polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js#71\n\nIs that code still required? Seems like dealing with PRELOADED_PROTOCOL and window.ASSETS_PATH is something that only the plugin loader should care about. So can it be removed from the Plugin class?",
+      "revId": "ef0cae49b3f34301400e39b969caa3b41caf63e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e836f18d_898c6a9d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-loader.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 317,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-11-20T09:21:23Z",
+      "side": 1,
+      "message": "Do you need the if-else block? Maybe the if-part is sufficient and handles the case just fine where window.ASSETS_PATH is not defined?\n\nSame in _loadJsPlugin.",
+      "revId": "ef0cae49b3f34301400e39b969caa3b41caf63e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

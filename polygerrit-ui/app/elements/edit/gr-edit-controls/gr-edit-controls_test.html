@@ -57,7 +57,10 @@ suite('gr-edit-controls tests', () => {
   teardown(() => { sandbox.restore(); });
 
   test('all actions exist', () => {
-    assert.equal(Polymer.dom(element.root).querySelectorAll('gr-button').length,
+    // We take 1 away from the total found, due to an extra button being
+    // added for the file uploads (browse).
+    assert.equal(
+        Polymer.dom(element.root).querySelectorAll('gr-button').length - 1,
         element._actions.length);
   });
 

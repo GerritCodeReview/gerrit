@@ -47,6 +47,20 @@ export const htmlTemplate = html`
         width: 100%;
         box-sizing: content-box;
       }
+      #fileUploadBrowse {
+        margin-left: 0;
+      }
+      #dragDropArea {
+        border: 2px dashed var(--border-color);
+        border-radius: var(--border-radius);
+        margin-top: var(--spacing-l);
+        padding: var(--spacing-xxl) var(--spacing-xxl);
+        text-align: center;
+      }
+      #dragDropArea > p {
+        font-weight: var(--font-weight-bold);
+        padding: var(--spacing-s);
+      }
       @media screen and (max-width: 50em) {
         gr-dialog {
           width: 100vw;
@@ -63,6 +77,25 @@ export const htmlTemplate = html`
         </div>
         <div class="main" slot="main">
           <gr-autocomplete placeholder="Enter an existing or new full file path." query="[[_query]]" text="{{_path}}"></gr-autocomplete>
+          <div id="dragDropArea"
+               contenteditable="true"
+               on-drop="_handleDragAndDropUpload">
+            <p>Drag and drop a file here</p>
+            <p>or</p>
+            <p>
+              <iron-input>
+                <input id="fileUploadInput"
+                       type="file"
+                       on-change="_handleFileUploadChanged"
+                       slot="input">
+              </iron-input>
+              <label for="fileUploadInput">
+                <gr-button id="fileUploadBrowse">
+                  Browse
+                </gr-button>
+              </label>
+            </p>
+          </div>
         </div>
       </gr-dialog>
       <gr-dialog id="deleteDialog" class="invisible dialog" disabled\$="[[!_isValidPath(_path)]]" confirm-label="Delete" confirm-on-enter="" on-confirm="_handleDeleteConfirm" on-cancel="_handleDialogCancel">

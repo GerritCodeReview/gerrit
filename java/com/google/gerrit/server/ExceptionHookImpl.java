@@ -14,9 +14,9 @@
 
 package com.google.gerrit.server;
 
-import com.google.gerrit.exceptions.StorageException;
+import com.google.common.base.Predicate;
+import com.google.common.base.Throwables;
 import com.google.gerrit.git.LockFailureException;
-import com.google.gerrit.server.update.UpdateException;
 import java.util.Optional;
 import org.eclipse.jgit.lib.RefUpdate;
 
@@ -39,9 +39,17 @@ public class ExceptionHookImpl implements ExceptionHook {
   }
 
   private static boolean isLockFailure(Throwable throwable) {
-    if (throwable instanceof UpdateException || throwable instanceof StorageException) {
-      throwable = throwable.getCause();
-    }
-    return throwable instanceof LockFailureException;
+    return isMatching(throwable, t -> t instanceof LockFailureException);
+  }
+
+  /**
+   * Check whether the given exception or any of its causes is matches the given predicate.
+   *
+   * @param throwable Exception that should be tested
+   * @param predicate predicate to check if a throwable matches
+   * @return whether the given exception or any of its causes is matches the given predicate
+   */
+  private static boolean isMatching(Throwable throwable, Predicate<Throwable> predicate) {
+    return Throwables.getCausalChain(throwable).stream().anyMatch(predicate);
   }
 }

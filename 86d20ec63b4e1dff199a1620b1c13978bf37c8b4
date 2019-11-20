@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "6943b814_bca45346",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 11
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1012449
+      },
+      "writtenOn": "2019-11-20T23:40:26Z",
+      "side": 1,
+      "message": "Renamed to CherryPickOf",
+      "parentUuid": "3fbc6e55_562f8a00",
+      "range": {
+        "startLine": 7,
+        "startChar": 5,
+        "endLine": 7,
+        "endChar": 11
+      },
+      "revId": "86d20ec63b4e1dff199a1620b1c13978bf37c8b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c74f36a7_52de7853",
         "filename": "Documentation/intro-user.txt",
         "patchSetId": 11
@@ -69,6 +93,30 @@
       "revId": "86d20ec63b4e1dff199a1620b1c13978bf37c8b4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9ec49a02_c5a13f55",
+        "filename": "Documentation/intro-user.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 461,
+      "author": {
+        "id": 1012449
+      },
+      "writtenOn": "2019-11-20T23:40:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c74f36a7_52de7853",
+      "range": {
+        "startLine": 461,
+        "startChar": 0,
+        "endLine": 461,
+        "endChar": 11
+      },
+      "revId": "86d20ec63b4e1dff199a1620b1c13978bf37c8b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -95,6 +143,30 @@
     },
     {
       "key": {
+        "uuid": "9dec75b7_fdfa2c00",
+        "filename": "java/com/google/gerrit/entities/Change.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 517,
+      "author": {
+        "id": 1012449
+      },
+      "writtenOn": "2019-11-20T23:40:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "261a2c23_ad0455c8",
+      "range": {
+        "startLine": 517,
+        "startChar": 25,
+        "endLine": 517,
+        "endChar": 31
+      },
+      "revId": "86d20ec63b4e1dff199a1620b1c13978bf37c8b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "96608a87_998e5771",
         "filename": "java/com/google/gerrit/entities/Change.java",
         "patchSetId": 11
@@ -115,6 +187,30 @@
       "revId": "86d20ec63b4e1dff199a1620b1c13978bf37c8b4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4867fa9d_b9d491c8",
+        "filename": "java/com/google/gerrit/entities/Change.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 609,
+      "author": {
+        "id": 1012449
+      },
+      "writtenOn": "2019-11-20T23:40:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "96608a87_998e5771",
+      "range": {
+        "startLine": 609,
+        "startChar": 2,
+        "endLine": 609,
+        "endChar": 11
+      },
+      "revId": "86d20ec63b4e1dff199a1620b1c13978bf37c8b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -141,6 +237,30 @@
     },
     {
       "key": {
+        "uuid": "128b28be_afb1e2bb",
+        "filename": "java/com/google/gerrit/entities/Change.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 612,
+      "author": {
+        "id": 1012449
+      },
+      "writtenOn": "2019-11-20T23:40:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fa78abdd_e5aade67",
+      "range": {
+        "startLine": 610,
+        "startChar": 2,
+        "endLine": 612,
+        "endChar": 3
+      },
+      "revId": "86d20ec63b4e1dff199a1620b1c13978bf37c8b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f8ef6c94_f00b086f",
         "filename": "java/com/google/gerrit/server/change/ActionJson.java",
         "patchSetId": 11
@@ -152,6 +272,30 @@
       "writtenOn": "2019-11-20T00:19:21Z",
       "side": 1,
       "message": "If we store the patcheset also, it can help identify if a copy needs to be updated.",
+      "range": {
+        "startLine": 147,
+        "startChar": 0,
+        "endLine": 147,
+        "endChar": 1
+      },
+      "revId": "86d20ec63b4e1dff199a1620b1c13978bf37c8b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "67ea5d18_82522774",
+        "filename": "java/com/google/gerrit/server/change/ActionJson.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1012449
+      },
+      "writtenOn": "2019-11-20T23:40:26Z",
+      "side": 1,
+      "message": "@David @Patrick \n\nBased on Martin\u0027s above feedback, we have decided to save the patchset number as well along with the change number in NoteDB. What would your advise when saving in notedb, i.e save the change number and patchset in the same field[1] or as separate fields[2]?\n\n\n 1. Cherry-pick-of: 621,2\n\n 2. Cherry-pick-of-change-number: 621\n    Cherry-pick-of-patchset-number: 2",
+      "parentUuid": "f8ef6c94_f00b086f",
       "range": {
         "startLine": 147,
         "startChar": 0,
@@ -184,6 +328,30 @@
       "revId": "86d20ec63b4e1dff199a1620b1c13978bf37c8b4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "570ff870_a2d469fd",
+        "filename": "java/com/google/gerrit/server/change/SetSourceOp.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1012449
+      },
+      "writtenOn": "2019-11-20T23:40:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5f69d109_995d353a",
+      "range": {
+        "startLine": 33,
+        "startChar": 10,
+        "endLine": 33,
+        "endChar": 17
+      },
+      "revId": "86d20ec63b4e1dff199a1620b1c13978bf37c8b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

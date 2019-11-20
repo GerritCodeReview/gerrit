@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "6b1a4915_3d1f7b15",
+        "filename": "e2e-tests/load-tests/Dockerfile",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2019-11-20T22:55:19Z",
+      "side": 1,
+      "message": "yep, could do. Is it ok if I do it in a separate change?",
+      "parentUuid": "ae7bdb48_fb42bf35",
+      "revId": "d8bf14c1e01f25686e641472e42a15bf45fd7f8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "204a58c1_defadc23",
         "filename": "e2e-tests/load-tests/Dockerfile",
         "patchSetId": 2
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "60e675fc_469641fd",
+        "filename": "e2e-tests/load-tests/Dockerfile",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2019-11-20T22:55:19Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "204a58c1_defadc23",
+      "range": {
+        "startLine": 3,
+        "startChar": 65,
+        "endLine": 3,
+        "endChar": 67
+      },
+      "revId": "d8bf14c1e01f25686e641472e42a15bf45fd7f8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d4442535_1c8a3924",
         "filename": "e2e-tests/load-tests/Dockerfile",
         "patchSetId": 2
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "79ee7a70_5e45638e",
+        "filename": "e2e-tests/load-tests/Dockerfile",
+        "patchSetId": 2
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2019-11-20T22:55:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d4442535_1c8a3924",
+      "revId": "d8bf14c1e01f25686e641472e42a15bf45fd7f8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4c59e2ef_63643a7f",
         "filename": "e2e-tests/load-tests/Dockerfile",
         "patchSetId": 2
@@ -70,6 +130,24 @@
       "writtenOn": "2019-11-13T10:39:47Z",
       "side": 1,
       "message": "This runs the container as root. Can we change that?",
+      "revId": "d8bf14c1e01f25686e641472e42a15bf45fd7f8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7e184bc1_1df64ca3",
+        "filename": "e2e-tests/load-tests/Dockerfile",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2019-11-20T22:55:19Z",
+      "side": 1,
+      "message": "The original image doesn\u0027t have any system user. I could fork create a PR to add a system user to the original image, but I believe it goes out of this scope.",
+      "parentUuid": "4c59e2ef_63643a7f",
       "revId": "d8bf14c1e01f25686e641472e42a15bf45fd7f8f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

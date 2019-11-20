@@ -412,7 +412,8 @@ limitations under the License.
               <template is="dom-if" if="[[editMode]]">
                 <gr-edit-file-controls
                     class$="[[_computeClass('', file.__path)]]"
-                    file-path="[[file.__path]]"></gr-edit-file-controls>
+                    file-path="[[file.__path]]"
+                    hide-upload-action=true></gr-edit-file-controls>
               </template>
             </div>
             <div class="show-hide">

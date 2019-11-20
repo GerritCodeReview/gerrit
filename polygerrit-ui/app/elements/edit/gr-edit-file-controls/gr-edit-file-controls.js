@@ -34,9 +34,10 @@
           type: Array,
           value: () => Object.values(GrEditConstants.Actions),
         },
+        hideUploadAction: Boolean,
         _fileActions: {
           type: Array,
-          computed: '_computeFileActions(_allFileActions)',
+          computed: '_computeFileActions(_allFileActions, hideUploadAction)',
         },
       };
     }
@@ -53,14 +54,15 @@
           {detail: {action, path}, bubbles: true, composed: true}));
     }
 
-    _computeFileActions(actions) {
+    _computeFileActions(actions, hideUploadAction) {
       // TODO(kaspern): conditionally disable some actions based on file status.
-      return actions.map(action => {
-        return {
-          name: action.label,
-          id: action.id,
-        };
-      });
+      return actions.filter(
+          action => action.id !== 'upload' && hideUploadAction).map(action => {
+            return {
+              name: action.label,
+              id: action.id,
+            };
+          });
     }
   }
 

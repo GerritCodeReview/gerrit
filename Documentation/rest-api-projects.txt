@@ -3645,8 +3645,6 @@ project, only set if `inheritable` is true.
 |`inherited_value` |optional|
 The inherited value of the configuration parameter, only set if
 `inheritable` is true.
-|`permitted_values` |optional|
-The list of permitted values, only set if the `type` is `LIST`.
 |===============================
 
 [[dashboard-info]]

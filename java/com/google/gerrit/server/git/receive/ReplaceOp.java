@@ -236,7 +236,8 @@ public class ReplaceOp implements BatchUpdateOp {
       if (mergedInto != null) {
         mergedByPushOp =
             mergedByPushOpFactory.create(
-                requestScopePropagator, patchSetId, mergedInto, mergeResultRevId);
+                // No change id at this point, so submission id will be set later by mergedByPushOp
+                requestScopePropagator, patchSetId, null, mergedInto, mergeResultRevId);
       }
     }
 

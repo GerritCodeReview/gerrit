@@ -33,11 +33,11 @@
         patchNum: String,
 
         /**
-       * TODO(kaspern): by default, the RESTORE action should be hidden in the
-       * file-list as it is a per-file action only. Remove this default value
-       * when the Actions dictionary is moved to a shared constants file and
-       * use the hiddenActions property in the parent component.
-       */
+         * TODO(kaspern): by default, the RESTORE action should be hidden in the
+         * file-list as it is a per-file action only. Remove this default value
+         * when the Actions dictionary is moved to a shared constants file and
+         * use the hiddenActions property in the parent component.
+         */
         hiddenActions: {
           type: Array,
           value() { return [GrEditConstants.Actions.RESTORE.id]; },
@@ -61,6 +61,7 @@
             return this._queryFiles.bind(this);
           },
         },
+        _fileData: String,
       };
     }
 
@@ -79,6 +80,9 @@
           return;
         case GrEditConstants.Actions.RESTORE.id:
           this.openRestoreDialog();
+          return;
+        case GrEditConstants.Actions.UPLOAD.id:
+          this.openUploadDialog();
           return;
       }
     }
@@ -113,6 +117,14 @@
     openRestoreDialog(opt_path) {
       if (opt_path) { this._path = opt_path; }
       return this._showDialog(this.$.restoreDialog);
+    }
+
+    /**
+     * @param {string=} opt_path
+     */
+    openUploadDialog(opt_path) {
+      if (opt_path) { this._path = opt_path; }
+      return this._showDialog(this.$.uploadDialog);
     }
 
     /**
@@ -193,6 +205,18 @@
       this._closeDialog(this._getDialogFromEvent(e), true);
     }
 
+    _handleUploadConfirm(path, fileData) {
+      if (!this.change || !path || !fileData) return;
+      this.$.restAPI.saveFileUploadChangeEdit(this.change._number, path,
+          fileData).then(res => {
+        if (!res.ok) { return; }
+
+        this._closeDialog(this.$.uploadDialog, true);
+        const url = Gerrit.Nav.getUrlForChange(this.change, this.patchNum);
+        Gerrit.Nav.navigateToRelativeUrl(url);
+      });
+    }
+
     _handleDeleteConfirm(e) {
       // Get the dialog before the api call as the event will change during bubbling
       // which will make Polymer.dom(e).path an emtpy array in polymer 2
@@ -234,6 +258,45 @@
 
     _computeIsInvisible(id, hiddenActions) {
       return hiddenActions.includes(id) ? 'invisible' : '';
+    }
+
+    _handleKeyPress(event) {
+      const ctrlDown = event.ctrlKey || event.metaKey;
+      if (!ctrlDown) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+    }
+
+    _handleDrop(event) {
+      event.preventDefault();
+      event.stopPropagation();
+
+      this._fileUpload(event);
+    }
+
+    _handleFileUploadChanged(event) {
+      this._fileUpload(event);
+
+      event.target.value = '';
+    }
+
+    _fileUpload(event) {
+      const e = event.target.files || event.dataTransfer.files;
+      for (const file of e) {
+        if (!file) continue;
+
+        const path = file.name;
+
+        const fr = new FileReader();
+        fr.file = file;
+        fr.onload = fileLoadEvent => {
+          if (!fileLoadEvent) return;
+          const fileData = fileLoadEvent.target.result;
+          this._handleUploadConfirm(path, fileData);
+        };
+        fr.readAsDataURL(file);
+      }
     }
   }
 

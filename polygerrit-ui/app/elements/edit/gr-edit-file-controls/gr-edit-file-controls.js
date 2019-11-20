@@ -32,7 +32,12 @@
         filePath: String,
         _allFileActions: {
           type: Array,
-          value: () => Object.values(GrEditConstants.Actions),
+          value: () => {
+            // Remove upload as we only want one place
+            // to have the upload button.
+            delete GrEditConstants.Actions.UPLOAD;
+            return Object.values(GrEditConstants.Actions);
+          },
         },
         _fileActions: {
           type: Array,

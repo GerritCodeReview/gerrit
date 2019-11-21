@@ -51,11 +51,11 @@ public abstract class AbstractChangeUpdate {
   private final Change change;
   protected final PersonIdent serverIdent;
 
-  protected PatchSet.Id psId;
+  @Nullable protected PatchSet.Id psId;
   private ObjectId result;
-  protected boolean rootOnly;
+  boolean rootOnly;
 
-  protected AbstractChangeUpdate(
+  AbstractChangeUpdate(
       ChangeNotes notes,
       CurrentUser user,
       PersonIdent serverIdent,
@@ -72,7 +72,7 @@ public abstract class AbstractChangeUpdate {
     this.when = when;
   }
 
-  protected AbstractChangeUpdate(
+  AbstractChangeUpdate(
       ChangeNoteUtil noteUtil,
       PersonIdent serverIdent,
       @Nullable ChangeNotes notes,
@@ -172,7 +172,7 @@ public abstract class AbstractChangeUpdate {
   public abstract boolean isEmpty();
 
   /** Wether this update can only be a root commit. */
-  public boolean isRootOnly() {
+  boolean isRootOnly() {
     return rootOnly;
   }
 
@@ -256,7 +256,7 @@ public abstract class AbstractChangeUpdate {
   protected abstract CommitBuilder applyImpl(RevWalk rw, ObjectInserter ins, ObjectId curr)
       throws IOException;
 
-  protected static final CommitBuilder NO_OP_UPDATE = new CommitBuilder();
+  static final CommitBuilder NO_OP_UPDATE = new CommitBuilder();
 
   ObjectId getResult() {
     return result;
@@ -270,7 +270,7 @@ public abstract class AbstractChangeUpdate {
     return ins.insert(Constants.OBJ_TREE, new byte[] {});
   }
 
-  protected void verifyComment(Comment c) {
+  void verifyComment(Comment c) {
     checkArgument(c.getCommitId() != null, "commit ID required for comment: %s", c);
     checkArgument(
         c.author.getId().equals(getAccountId()),

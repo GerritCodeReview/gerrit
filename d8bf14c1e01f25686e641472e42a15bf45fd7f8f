@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "70700e15_aef59e15",
+        "filename": "e2e-tests/load-tests/Dockerfile",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-11-21T08:43:57Z",
+      "side": 1,
+      "message": "Sure.",
+      "parentUuid": "6b1a4915_3d1f7b15",
+      "revId": "d8bf14c1e01f25686e641472e42a15bf45fd7f8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "204a58c1_defadc23",
         "filename": "e2e-tests/load-tests/Dockerfile",
         "patchSetId": 2
@@ -148,6 +166,24 @@
       "side": 1,
       "message": "The original image doesn\u0027t have any system user. I could fork create a PR to add a system user to the original image, but I believe it goes out of this scope.",
       "parentUuid": "4c59e2ef_63643a7f",
+      "revId": "d8bf14c1e01f25686e641472e42a15bf45fd7f8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bb01ca6a_5dbe4359",
+        "filename": "e2e-tests/load-tests/Dockerfile",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-11-21T08:43:57Z",
+      "side": 1,
+      "message": "Why should that keeping you from doing so here? Just create a user here, chown the /opt/gatling directory, use the USER command to change users and you should be fine. No need to change anything in the underlying image (They won\u0027t accept that anyway, since they probably leave it to be root by design to provide the highest flexibility for downstream images.)",
+      "parentUuid": "7e184bc1_1df64ca3",
       "revId": "d8bf14c1e01f25686e641472e42a15bf45fd7f8f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

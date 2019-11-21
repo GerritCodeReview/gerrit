@@ -43,6 +43,18 @@ import org.eclipse.jgit.transport.ReceiveCommand;
  * objects that are jointly closed when invoking {@link #close}.
  */
 class OpenRepo implements AutoCloseable {
+  private static final Integer UNLIMITED_UPDATES = null;
+  private static final Integer UNLIMITED_PATCH_SETS = null;
+
+  final Repository repo;
+  final RevWalk rw;
+  final ChainedReceiveCommands cmds;
+  final ObjectInserter tempIns;
+
+  private final InMemoryInserter inMemIns;
+  @Nullable private final ObjectInserter finalIns;
+  private final boolean close;
+
   /** Returns a {@link OpenRepo} wrapping around an open {@link Repository}. */
   static OpenRepo open(GitRepositoryManager repoManager, Project.NameKey project)
       throws IOException {
@@ -59,15 +71,6 @@ class OpenRepo implements AutoCloseable {
       };
     }
   }
-
-  final Repository repo;
-  final RevWalk rw;
-  final ChainedReceiveCommands cmds;
-  final ObjectInserter tempIns;
-
-  private final InMemoryInserter inMemIns;
-  @Nullable private final ObjectInserter finalIns;
-  private final boolean close;
 
   OpenRepo(
       Repository repo,
@@ -125,12 +128,15 @@ class OpenRepo implements AutoCloseable {
     return updates.iterator().next().allowWriteToNewRef();
   }
 
-  <U extends AbstractChangeUpdate> void addUpdates(ListMultimap<String, U> all) throws IOException {
-    addUpdates(all, Optional.empty());
+  <U extends AbstractChangeUpdate> void addUpdatesNoLimits(ListMultimap<String, U> all)
+      throws IOException {
+    addUpdates(
+        all, Optional.empty() /* unlimited updates */, Optional.empty() /* unlimited patch sets */);
   }
 
   <U extends AbstractChangeUpdate> void addUpdates(
-      ListMultimap<String, U> all, Optional<Integer> maxUpdates) throws IOException {
+      ListMultimap<String, U> all, Optional<Integer> maxUpdates, Optional<Integer> maxPatchSets)
+      throws IOException {
     for (Map.Entry<String, Collection<U>> e : all.asMap().entrySet()) {
       String refName = e.getKey();
       Collection<U> updates = e.getValue();
@@ -142,29 +148,43 @@ class OpenRepo implements AutoCloseable {
         continue;
       }
 
-      int updateCount;
+      int updateCount = 0;
       U first = updates.iterator().next();
       if (maxUpdates.isPresent()) {
         checkState(first.getNotes() != null, "expected ChangeNotes on %s", first);
         updateCount = first.getNotes().getUpdateCount();
-      } else {
-        updateCount = 0;
       }
 
       ObjectId curr = old;
-      for (U u : updates) {
-        if (u.isRootOnly() && !old.equals(ObjectId.zeroId())) {
+      for (U update : updates) {
+        if (maxPatchSets.isPresent() && update.psId != null) {
+          // Patch set IDs are assigned consecutively. Patch sets may have been deleted, but the ID
+          // is still a good estimate and an upper bound.
+          if (update.psId.get() > maxPatchSets.get()) {
+            throw new LimitExceededException(
+                String.format(
+                    "Change %d may not exceed %d patch sets. To continue working on this change, "
+                        + "recreate it with a new Change-Id, then abandon this one.",
+                    update.getId().get(), maxPatchSets.get()));
+          }
+        }
+        if (update.isRootOnly() && !old.equals(ObjectId.zeroId())) {
           throw new StorageException("Given ChangeUpdate is only allowed on initial commit");
         }
-        ObjectId next = u.apply(rw, tempIns, curr);
+        ObjectId next = update.apply(rw, tempIns, curr);
         if (next == null) {
           continue;
         }
         if (maxUpdates.isPresent()
             && !Objects.equals(next, curr)
             && ++updateCount > maxUpdates.get()
-            && !u.bypassMaxUpdates()) {
-          throw new TooManyUpdatesException(u.getId(), maxUpdates.get());
+            && !update.bypassMaxUpdates()) {
+          throw new LimitExceededException(
+              String.format(
+                  "Change %s may not exceed %d updates. It may still be abandoned or submitted. To"
+                      + " continue working on this change, recreate it with a new Change-Id, then"
+                      + " abandon this one.",
+                  update.getId(), maxUpdates.get()));
         }
         curr = next;
       }

@@ -1648,7 +1648,7 @@ Setting this too high may cause the JVM to run out of heap space
 when handling very big binary files, such as device firmware or
 CD-ROM ISO images.
 +
-Defaults to 25% of the available JVM heap, limited to 2048m.
+Defaults to 25% of the available JVM heap, limited to 2g.
 +
 Common unit suffixes of 'k', 'm', or 'g' are supported.
 

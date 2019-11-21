@@ -219,7 +219,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   }
 
   public void setStatus(Change.Status status) {
-    checkArgument(status != Change.Status.MERGED, "use merge(Iterable<SubmitRecord>)");
+    checkArgument(status != Change.Status.MERGED, "use merge(RequestId, Iterable<SubmitRecord>)");
     this.status = status;
   }
 

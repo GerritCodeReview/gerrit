@@ -105,6 +105,30 @@
       "revId": "64217a9f484a79868e668dd46d65368eb2009255",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e2e535ac_d05d5c90",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 1012449
+      },
+      "writtenOn": "2019-11-21T00:04:02Z",
+      "side": 1,
+      "message": "I have updated to remove getUrlForSource and re-use getUrlForChangeId.",
+      "parentUuid": "11ee44a4_c13a3408",
+      "range": {
+        "startLine": 363,
+        "startChar": 24,
+        "endLine": 363,
+        "endChar": 39
+      },
+      "revId": "64217a9f484a79868e668dd46d65368eb2009255",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -22,6 +22,30 @@
       "revId": "70ec51d6385b344f76fa3a1ea50d57482479a87c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a8638eb6_2f8b73b5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2019-11-21T16:40:07Z",
+      "side": 1,
+      "message": "Yes, I specifically use a different eddress when working at Hackathons.",
+      "parentUuid": "862a8d77_669f61d6",
+      "range": {
+        "startLine": 4,
+        "startChar": 24,
+        "endLine": 4,
+        "endChar": 46
+      },
+      "revId": "70ec51d6385b344f76fa3a1ea50d57482479a87c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

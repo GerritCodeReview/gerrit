@@ -128,6 +128,7 @@ import com.google.gerrit.server.git.ReceivePackInitializer;
 import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.git.TransferConfig;
 import com.google.gerrit.server.git.receive.ReceiveCommitsModule;
+import com.google.gerrit.server.git.validators.CommentLimitsValidator;
 import com.google.gerrit.server.git.validators.CommitValidationListener;
 import com.google.gerrit.server.git.validators.MergeValidationListener;
 import com.google.gerrit.server.git.validators.MergeValidators;
@@ -407,6 +408,10 @@ public class GerritGlobalModule extends FactoryModule {
 
     factory(UploadValidators.Factory.class);
     DynamicSet.setOf(binder(), UploadValidationListener.class);
+
+    bind(CommentValidator.class)
+        .annotatedWith(Exports.named(CommentLimitsValidator.class.getSimpleName()))
+        .to(CommentLimitsValidator.class);
 
     DynamicMap.mapOf(binder(), DynamicOptions.DynamicBean.class);
     DynamicMap.mapOf(binder(), ChangeQueryBuilder.ChangeOperatorFactory.class);

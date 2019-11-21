@@ -125,8 +125,8 @@ public class PublishCommentUtil {
     ImmutableList.Builder<CommentValidationFailure> commentValidationFailures =
         new ImmutableList.Builder<>();
     commentValidators.runEach(
-        listener ->
-            commentValidationFailures.addAll(listener.validateComments(commentsForValidation)));
+        validator ->
+            commentValidationFailures.addAll(validator.validateComments(commentsForValidation)));
     return commentValidationFailures.build();
   }
 }

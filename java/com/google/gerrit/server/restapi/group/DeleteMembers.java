@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.restapi.group;
 
+import com.google.common.base.Strings;
 import com.google.common.collect.Sets;
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.entities.Account;
@@ -68,6 +69,9 @@ public class DeleteMembers implements RestModifyView<GroupResource, Input> {
 
     Set<Account.Id> membersToRemove = new HashSet<>();
     for (String nameOrEmail : input.members) {
+      if (Strings.isNullOrEmpty(nameOrEmail)) {
+        continue;
+      }
       membersToRemove.add(accountResolver.resolve(nameOrEmail).asUnique().account().id());
     }
     AccountGroup.UUID groupUuid = internalGroup.getGroupUUID();

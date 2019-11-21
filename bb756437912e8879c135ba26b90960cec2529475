@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "99670ec7_43a76267",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2019-11-21T18:05:16Z",
+      "side": 1,
+      "message": "typo.\n\nanyway, this really isn\u0027t comprehensible by the casual reader. ^^",
+      "range": {
+        "startLine": 7,
+        "startChar": 37,
+        "endLine": 7,
+        "endChar": 39
+      },
+      "revId": "bb756437912e8879c135ba26b90960cec2529475",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

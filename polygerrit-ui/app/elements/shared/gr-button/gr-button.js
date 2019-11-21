@@ -91,7 +91,8 @@
 
     _disabledChanged(disabled) {
       if (disabled) {
-        this._enabledTabindex = this.getAttribute('tabindex');
+        const tabindex = this.getAttribute('tabindex');
+        this._enabledTabindex = tabindex || '0';
       }
       this.setAttribute('tabindex', disabled ? '-1' : this._enabledTabindex);
       this.updateStyles();

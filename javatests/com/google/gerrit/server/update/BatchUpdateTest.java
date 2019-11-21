@@ -35,7 +35,6 @@ import com.google.gerrit.server.logging.RequestId;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.notedb.Sequences;
-import com.google.gerrit.server.notedb.TooManyUpdatesException;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.testing.InMemoryTestEnvironment;
 import com.google.inject.Inject;
@@ -110,7 +109,7 @@ public class BatchUpdateTest {
           assertThrows(ResourceConflictException.class, () -> bu.execute());
       assertThat(thrown)
           .hasMessageThat()
-          .isEqualTo(TooManyUpdatesException.message(id, MAX_UPDATES));
+          .contains(("Change " + id + " may not exceed " + MAX_UPDATES));
     }
     assertThat(getUpdateCount(id)).isEqualTo(MAX_UPDATES);
     assertThat(getMetaId(id)).isEqualTo(oldMetaId);
@@ -128,7 +127,7 @@ public class BatchUpdateTest {
           assertThrows(ResourceConflictException.class, () -> bu.execute());
       assertThat(thrown)
           .hasMessageThat()
-          .isEqualTo(TooManyUpdatesException.message(id, MAX_UPDATES));
+          .contains(("Change " + id + " may not exceed " + MAX_UPDATES));
     }
     assertThat(getUpdateCount(id)).isEqualTo(MAX_UPDATES - 1);
     assertThat(getMetaId(id)).isEqualTo(oldMetaId);

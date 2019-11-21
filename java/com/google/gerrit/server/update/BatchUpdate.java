@@ -52,8 +52,8 @@ import com.google.gerrit.server.index.change.ChangeIndexer;
 import com.google.gerrit.server.logging.RequestId;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
+import com.google.gerrit.server.notedb.LimitExceededException;
 import com.google.gerrit.server.notedb.NoteDbUpdateManager;
-import com.google.gerrit.server.notedb.TooManyUpdatesException;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.NoSuchProjectException;
@@ -181,7 +181,8 @@ public class BatchUpdate implements AutoCloseable {
   private static void wrapAndThrowException(Exception e) throws UpdateException, RestApiException {
     // Convert common non-REST exception types with user-visible messages to corresponding REST
     // exception types.
-    if (e instanceof InvalidChangeOperationException || e instanceof TooManyUpdatesException) {
+    if (e instanceof InvalidChangeOperationException
+        || e instanceof LimitExceededException) {
       throw new ResourceConflictException(e.getMessage(), e);
     } else if (e instanceof NoSuchChangeException
         || e instanceof NoSuchRefException

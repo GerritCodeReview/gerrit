@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
 import static java.util.Objects.requireNonNull;
 
+import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Project;
@@ -28,9 +29,11 @@ import com.google.gerrit.server.git.InsertedObject;
 import com.google.gerrit.server.update.ChainedReceiveCommands;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.Set;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectReader;
@@ -142,17 +145,19 @@ class OpenRepo implements AutoCloseable {
         continue;
       }
 
-      int updateCount;
+      int updateCount = 0;
       U first = updates.iterator().next();
       if (maxUpdates.isPresent()) {
         checkState(first.getNotes() != null, "expected ChangeNotes on %s", first);
         updateCount = first.getNotes().getUpdateCount();
-      } else {
-        updateCount = 0;
       }
 
       ObjectId curr = old;
+      int patchSetCount = 0;
       for (U u : updates) {
+        if (u.psId != null) {
+          patchSetCount = Math.max(patchSetCount, u.psId.get());
+        }
         if (u.isRootOnly() && !old.equals(ObjectId.zeroId())) {
           throw new StorageException("Given ChangeUpdate is only allowed on initial commit");
         }
@@ -164,10 +169,19 @@ class OpenRepo implements AutoCloseable {
             && !Objects.equals(next, curr)
             && ++updateCount > maxUpdates.get()
             && !u.bypassMaxUpdates()) {
-          throw new TooManyUpdatesException(u.getId(), maxUpdates.get());
+          throw new LimitExceededException(
+              String.format(
+                  "Change %s may not exceed %d updates. It may still be abandoned or submitted. To"
+                      + " continue working on this change, recreate it with a new Change-Id, then"
+                      + " abandon this one.",
+                  u.getId(), maxUpdates.get()));
         }
         curr = next;
       }
+      // System.out.println("##### pc " + patchSetCount);
+      // if (patchSetCount > 55) {
+      //   throw new LimitExceededException(String.format("Too many patch sets: %d", patchSetCount));
+      // }
       if (!old.equals(curr)) {
         cmds.add(new ReceiveCommand(old, curr, refName));
       }

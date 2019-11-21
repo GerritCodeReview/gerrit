@@ -14,10 +14,13 @@
 
 package com.google.gerrit.server.restapi.group;
 
+import com.google.common.collect.ListMultimap;
 import com.google.gerrit.common.data.GroupDescription;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.IdString;
+import com.google.gerrit.extensions.restapi.NeedsParams;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestCollection;
 import com.google.gerrit.extensions.restapi.RestView;
@@ -30,25 +33,36 @@ import com.google.gerrit.server.group.GroupResource;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 
-public class GroupsCollection implements RestCollection<TopLevelResource, GroupResource> {
+public class GroupsCollection
+    implements RestCollection<TopLevelResource, GroupResource>, NeedsParams {
   private final DynamicMap<RestView<GroupResource>> views;
+  private final Provider<ListGroups> list;
   private final Provider<QueryGroups> queryGroups;
   private final GroupControl.Factory groupControlFactory;
   private final GroupResolver groupResolver;
   private final Provider<CurrentUser> self;
 
+  private boolean hasQuery;
+
   @Inject
   public GroupsCollection(
       DynamicMap<RestView<GroupResource>> views,
+      Provider<ListGroups> list,
       Provider<QueryGroups> queryGroups,
       GroupControl.Factory groupControlFactory,
       GroupResolver groupResolver,
       Provider<CurrentUser> self) {
     this.views = views;
+    this.list = list;
     this.queryGroups = queryGroups;
     this.groupControlFactory = groupControlFactory;
     this.groupResolver = groupResolver;
     this.self = self;
+  }
+
+  @Override
+  public void setParams(ListMultimap<String, String> params) throws BadRequestException {
+    this.hasQuery = params.containsKey("query");
   }
 
   @Override
@@ -59,7 +73,12 @@ public class GroupsCollection implements RestCollection<TopLevelResource, GroupR
     } else if (!(user.isIdentifiedUser())) {
       throw new ResourceNotFoundException();
     }
-    return queryGroups.get();
+
+    if (hasQuery) {
+      return queryGroups.get();
+    }
+
+    return list.get();
   }
 
   @Override

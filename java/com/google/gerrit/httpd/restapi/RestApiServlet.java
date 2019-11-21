@@ -316,6 +316,7 @@ public class RestApiServlet extends HttpServlet {
     res.setHeader("X-Content-Type-Options", "nosniff");
     int status = SC_OK;
     long responseBytes = -1;
+    Optional<Exception> cause = Optional.empty();
     Response<?> response = null;
     QueryParams qp = null;
     Object inputRequestBody = null;
@@ -597,22 +598,28 @@ public class RestApiServlet extends HttpServlet {
           }
         }
       } catch (MalformedJsonException | JsonParseException e) {
+        cause = Optional.of(e);
         responseBytes =
             replyError(
                 req, res, status = SC_BAD_REQUEST, "Invalid " + JSON_TYPE + " in request", e);
       } catch (BadRequestException e) {
+        cause = Optional.of(e);
         responseBytes =
             replyError(
                 req, res, status = SC_BAD_REQUEST, messageOr(e, "Bad Request"), e.caching(), e);
       } catch (AuthException e) {
+        cause = Optional.of(e);
         responseBytes =
             replyError(req, res, status = SC_FORBIDDEN, messageOr(e, "Forbidden"), e.caching(), e);
       } catch (AmbiguousViewException e) {
+        cause = Optional.of(e);
         responseBytes = replyError(req, res, status = SC_NOT_FOUND, messageOr(e, "Ambiguous"), e);
       } catch (ResourceNotFoundException e) {
+        cause = Optional.of(e);
         responseBytes =
             replyError(req, res, status = SC_NOT_FOUND, messageOr(e, "Not Found"), e.caching(), e);
       } catch (MethodNotAllowedException e) {
+        cause = Optional.of(e);
         responseBytes =
             replyError(
                 req,
@@ -622,9 +629,11 @@ public class RestApiServlet extends HttpServlet {
                 e.caching(),
                 e);
       } catch (ResourceConflictException e) {
+        cause = Optional.of(e);
         responseBytes =
             replyError(req, res, status = SC_CONFLICT, messageOr(e, "Conflict"), e.caching(), e);
       } catch (PreconditionFailedException e) {
+        cause = Optional.of(e);
         responseBytes =
             replyError(
                 req,
@@ -634,6 +643,7 @@ public class RestApiServlet extends HttpServlet {
                 e.caching(),
                 e);
       } catch (UnprocessableEntityException e) {
+        cause = Optional.of(e);
         responseBytes =
             replyError(
                 req,
@@ -643,10 +653,12 @@ public class RestApiServlet extends HttpServlet {
                 e.caching(),
                 e);
       } catch (NotImplementedException e) {
+        cause = Optional.of(e);
         logger.atSevere().withCause(e).log("Error in %s %s", req.getMethod(), uriForLogging(req));
         responseBytes =
             replyError(req, res, status = SC_NOT_IMPLEMENTED, messageOr(e, "Not Implemented"), e);
       } catch (UpdateException e) {
+        cause = Optional.of(e);
         Throwable t = e.getCause();
         if (t instanceof LockFailureException) {
           logger.atSevere().withCause(t).log("Error in %s %s", req.getMethod(), uriForLogging(req));
@@ -656,6 +668,7 @@ public class RestApiServlet extends HttpServlet {
           responseBytes = handleException(e, req, res);
         }
       } catch (QuotaException e) {
+        cause = Optional.of(e);
         responseBytes =
             replyError(
                 req,
@@ -665,13 +678,15 @@ public class RestApiServlet extends HttpServlet {
                 e.caching(),
                 e);
       } catch (Exception e) {
+        cause = Optional.of(e);
         status = SC_INTERNAL_SERVER_ERROR;
         responseBytes = handleException(e, req, res);
       } finally {
         String metric = getViewName(viewData);
+        String formattedCause = cause.map(globals.retryHelper::formatCause).orElse("_none");
         globals.metrics.count.increment(metric);
         if (status >= SC_BAD_REQUEST) {
-          globals.metrics.errorCount.increment(metric, status);
+          globals.metrics.errorCount.increment(metric, status, formattedCause);
         }
         if (responseBytes != -1) {
           globals.metrics.responseBytes.record(metric, responseBytes);

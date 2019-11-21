@@ -29,11 +29,9 @@ limitations under the License.
       }
       gr-autocomplete {
         background-color: var(--view-background-color);
-        border: 1px solid var(--border-color);
         border-radius: var(--border-radius);
         flex: 1;
         outline: none;
-        padding: var(--spacing-xs);
       }
     </style>
     <form>
@@ -45,7 +43,6 @@ limitations under the License.
           on-commit="_handleInputCommit"
           allow-non-suggested-values
           multi
-          borderless
           threshold="[[_threshold]]"
           tab-complete
           vertical-offset="30"></gr-autocomplete>

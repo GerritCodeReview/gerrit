@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f80172a8_5a5980fb",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-11-21T10:49:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "42fa4cb2_c873d5e0",
+      "revId": "5e63e54bc9159441181e48b7dcd2317057249f66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a4154d6c_ccfacd5a",
         "filename": "polygerrit-ui/app/styles/shared-styles.html",
         "patchSetId": 3
@@ -33,6 +51,24 @@
       "revId": "5e63e54bc9159441181e48b7dcd2317057249f66",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e314d1c3_3322fc27",
+        "filename": "polygerrit-ui/app/styles/shared-styles.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-11-21T10:49:41Z",
+      "side": 1,
+      "message": "Good point, done.\n\nAlso turned out that gr-autocomplete already had a property \"borderless\" for what we want to achieve in gr-account-entry, so could just use that.",
+      "parentUuid": "a4154d6c_ccfacd5a",
+      "revId": "5e63e54bc9159441181e48b7dcd2317057249f66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

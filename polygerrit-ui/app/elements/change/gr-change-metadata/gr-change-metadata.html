@@ -177,9 +177,10 @@ limitations under the License.
         <span class="title">Assignee</span>
         <span class="value">
           <gr-account-list
-              max-count="1"
               id="assigneeValue"
               placeholder="Set assignee..."
+              max-count="1"
+              skip-suggest-on-empty
               accounts="{{_assignee}}"
               readonly="[[_computeAssigneeReadOnly(_mutable, change)]]"
               suggestions-provider="[[_getReviewerSuggestionsProvider(change)]]">

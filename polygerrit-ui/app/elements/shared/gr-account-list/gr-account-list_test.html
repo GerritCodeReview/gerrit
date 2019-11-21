@@ -382,6 +382,57 @@ limitations under the License.
       });
     });
 
+    test('suggestion on empty', done => {
+      element.skipSuggestOnEmpty = false;
+      const suggestions = [
+        {
+          email: 'abc@example.com',
+          text: 'abcd',
+        },
+        {
+          email: 'qwe@example.com',
+          text: 'qwer',
+        },
+      ];
+      const getSuggestionsStub =
+          sandbox.stub(suggestionsProvider, 'getSuggestions')
+              .returns(Promise.resolve(suggestions));
+
+      const makeSuggestionItemStub =
+          sandbox.stub(suggestionsProvider, 'makeSuggestionItem', item => item);
+
+      const input = element.$.entry.$.input;
+
+      input.text = '';
+      MockInteractions.focus(input.$.input);
+      input.noDebounce = true;
+      flushAsynchronousOperations();
+      flush(() => {
+        assert.isTrue(getSuggestionsStub.calledOnce);
+        assert.equal(getSuggestionsStub.lastCall.args[0], '');
+        assert.equal(makeSuggestionItemStub.getCalls().length, 2);
+        done();
+      });
+    });
+
+    test('skip suggestion on empty', done => {
+      element.skipSuggestOnEmpty = true;
+      const getSuggestionsStub =
+          sandbox.stub(suggestionsProvider, 'getSuggestions')
+              .returns(Promise.resolve([]));
+
+      const input = element.$.entry.$.input;
+
+      input.text = '';
+      MockInteractions.focus(input.$.input);
+      input.noDebounce = true;
+      flushAsynchronousOperations();
+      flush(() => {
+        assert.isTrue(getSuggestionsStub.notCalled);
+        done();
+      });
+    });
+
     suite('allowAnyInput', () => {
       setup(() => {
         element.allowAnyInput = true;

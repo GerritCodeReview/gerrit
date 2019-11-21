@@ -68,6 +68,21 @@ limitations under the License.
       assert.isTrue(element.$$('paper-button').disabled);
     });
 
+    test('tabindex should be -1 if disabled', () => {
+      element.disabled = true;
+      assert.isTrue(element.getAttribute('tabindex') === '-1');
+    });
+
+    // Regression tests for Issue: 11969
+    test('tabindex should be reset to 0 if enabled', () => {
+      element.disabled = false;
+      assert.isTrue(element.getAttribute('tabindex') === '0');
+      element.disabled = true;
+      assert.isTrue(element.getAttribute('tabindex') === '-1');
+      element.disabled = false;
+      assert.isTrue(element.getAttribute('tabindex') === '0');
+    });
+
     // 'tap' event is tested so we don't loose backward compatibility with older
     // plugins who didn't move to on-click which is faster and well supported.
     for (const eventName of ['tap', 'click']) {

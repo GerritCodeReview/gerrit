@@ -249,6 +249,19 @@ limitations under the License.
             '0<test-wrapper>1234567890</test-wrapper>123456789');
       });
 
+      test('handles zero-length nodes', () => {
+        const container = document.createElement('div');
+        container.appendChild(document.createTextNode('0123456789'));
+        container.appendChild(document.createElement('span'));
+        container.appendChild(document.createTextNode('0123456789'));
+        GrAnnotation.annotateWithElement(
+            container, 1, 10, {tagName: 'test-wrapper'});
+
+        assert.equal(
+            container.innerHTML,
+            '0<test-wrapper>123456789<span></span>0</test-wrapper>123456789');
+      });
+
       test('sets sanitized attributes', () => {
         const container = document.createElement('div');
         container.textContent = fullText;

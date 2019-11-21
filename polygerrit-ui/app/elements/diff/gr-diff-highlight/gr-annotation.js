@@ -69,7 +69,7 @@
       for (let node of childNodes) {
         const initialNodeLength = this.getLength(node);
         // If the current node is completely before the offset.
-        if (initialNodeLength <= offset) {
+        if (offset > 0 && initialNodeLength <= offset) {
           offset -= initialNodeLength;
           continue;
         }

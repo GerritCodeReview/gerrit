@@ -32,7 +32,7 @@ def maven_package(
         src = {},
         doc = {},
         war = {}):
-    build_cmd = ["bazel", "build"]
+    build_cmd = ["bazelisk", "build"]
     mvn_cmd = ["python", "tools/maven/mvn.py", "-v", version]
     api_cmd = mvn_cmd[:]
     api_targets = []

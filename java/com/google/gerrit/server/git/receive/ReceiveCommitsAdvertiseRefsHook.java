@@ -18,14 +18,19 @@ import static com.google.common.collect.ImmutableList.toImmutableList;
 
 import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.exceptions.StorageException;
+import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.server.git.HookUtil;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.query.change.ChangeStatusPredicate;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
+import com.google.gerrit.server.query.change.OwnerPredicate;
+import com.google.gerrit.server.query.change.ProjectPredicate;
 import com.google.gerrit.server.util.MagicBranch;
 import com.google.inject.Provider;
 import java.io.IOException;
@@ -65,11 +70,13 @@ public class ReceiveCommitsAdvertiseRefsHook implements AdvertiseRefsHook {
 
   private final Provider<InternalChangeQuery> queryProvider;
   private final Project.NameKey projectName;
+  private final Account.Id user;
 
   public ReceiveCommitsAdvertiseRefsHook(
-      Provider<InternalChangeQuery> queryProvider, Project.NameKey projectName) {
+      Provider<InternalChangeQuery> queryProvider, Project.NameKey projectName, Account.Id user) {
     this.queryProvider = queryProvider;
     this.projectName = projectName;
+    this.user = user;
   }
 
   @Override
@@ -90,7 +97,9 @@ public class ReceiveCommitsAdvertiseRefsHook implements AdvertiseRefsHook {
 
   private Set<ObjectId> advertiseOpenChanges(Repository repo)
       throws ServiceMayNotContinueException {
-    // Advertise some recent open changes, in case a commit is based on one.
+    // Advertise the user's most recent open changes. It's likely that the user has one of these in
+    // their local repo and they can serve as starting points to figure out the common ancestor of
+    // what the client and server have in common.
     int limit = 32;
     try {
       Set<ObjectId> r = Sets.newHashSetWithExpectedSize(limit);
@@ -105,7 +114,11 @@ public class ReceiveCommitsAdvertiseRefsHook implements AdvertiseRefsHook {
                   ChangeField.PATCH_SET)
               .enforceVisibility(true)
               .setLimit(limit)
-              .byProjectOpen(projectName)) {
+              .query(
+                  Predicate.and(
+                      new ProjectPredicate(projectName.get()),
+                      ChangeStatusPredicate.open(),
+                      new OwnerPredicate(user)))) {
         PatchSet ps = cd.currentPatchSet();
         if (ps != null) {
           // Ensure we actually observed a patch set ref pointing to this

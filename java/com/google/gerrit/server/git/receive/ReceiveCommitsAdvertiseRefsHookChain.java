@@ -15,6 +15,7 @@
 package com.google.gerrit.server.git.receive;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.inject.Provider;
@@ -35,8 +36,9 @@ public class ReceiveCommitsAdvertiseRefsHookChain {
   public static AdvertiseRefsHook create(
       AllRefsWatcher allRefsWatcher,
       Provider<InternalChangeQuery> queryProvider,
-      Project.NameKey projectName) {
-    return create(allRefsWatcher, queryProvider, projectName, false);
+      Project.NameKey projectName,
+      Account.Id user) {
+    return create(allRefsWatcher, queryProvider, projectName, user, false);
   }
 
   /**
@@ -47,18 +49,19 @@ public class ReceiveCommitsAdvertiseRefsHookChain {
    */
   @VisibleForTesting
   public static AdvertiseRefsHook createForTest(
-      Provider<InternalChangeQuery> queryProvider, Project.NameKey projectName) {
-    return create(new AllRefsWatcher(), queryProvider, projectName, true);
+      Provider<InternalChangeQuery> queryProvider, Project.NameKey projectName, Account.Id user) {
+    return create(new AllRefsWatcher(), queryProvider, projectName, user, true);
   }
 
   private static AdvertiseRefsHook create(
       AllRefsWatcher allRefsWatcher,
       Provider<InternalChangeQuery> queryProvider,
       Project.NameKey projectName,
+      Account.Id user,
       boolean skipHackPushNegotiateHook) {
     List<AdvertiseRefsHook> advHooks = new ArrayList<>();
     advHooks.add(allRefsWatcher);
-    advHooks.add(new ReceiveCommitsAdvertiseRefsHook(queryProvider, projectName));
+    advHooks.add(new ReceiveCommitsAdvertiseRefsHook(queryProvider, projectName, user));
     if (!skipHackPushNegotiateHook) {
       advHooks.add(new HackPushNegotiateHook());
     }

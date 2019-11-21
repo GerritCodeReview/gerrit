@@ -310,7 +310,8 @@ public class AsyncReceiveCommits implements PreReceiveHook {
 
     allRefsWatcher = new AllRefsWatcher();
     receivePack.setAdvertiseRefsHook(
-        ReceiveCommitsAdvertiseRefsHookChain.create(allRefsWatcher, queryProvider, projectName));
+        ReceiveCommitsAdvertiseRefsHookChain.create(
+            allRefsWatcher, queryProvider, projectName, user.getAccountId()));
     resultChangeIds = new ResultChangeIds();
     receiveCommits =
         factory.create(

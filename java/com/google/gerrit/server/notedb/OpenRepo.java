@@ -30,7 +30,6 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.Map;
 import java.util.Objects;
-import java.util.Optional;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.ObjectReader;
@@ -43,6 +42,18 @@ import org.eclipse.jgit.transport.ReceiveCommand;
  * objects that are jointly closed when invoking {@link #close}.
  */
 class OpenRepo implements AutoCloseable {
+  private static final Integer UNLIMITED_UPDATES = null;
+  private static final Integer UNLIMITED_PATCH_SETS = null;
+
+  final Repository repo;
+  final RevWalk rw;
+  final ChainedReceiveCommands cmds;
+  final ObjectInserter tempIns;
+
+  private final InMemoryInserter inMemIns;
+  @Nullable private final ObjectInserter finalIns;
+  private final boolean close;
+
   /** Returns a {@link OpenRepo} wrapping around an open {@link Repository}. */
   static OpenRepo open(GitRepositoryManager repoManager, Project.NameKey project)
       throws IOException {
@@ -59,15 +70,6 @@ class OpenRepo implements AutoCloseable {
       };
     }
   }
-
-  final Repository repo;
-  final RevWalk rw;
-  final ChainedReceiveCommands cmds;
-  final ObjectInserter tempIns;
-
-  private final InMemoryInserter inMemIns;
-  @Nullable private final ObjectInserter finalIns;
-  private final boolean close;
 
   OpenRepo(
       Repository repo,
@@ -125,12 +127,14 @@ class OpenRepo implements AutoCloseable {
     return updates.iterator().next().allowWriteToNewRef();
   }
 
-  <U extends AbstractChangeUpdate> void addUpdates(ListMultimap<String, U> all) throws IOException {
-    addUpdates(all, Optional.empty());
+  <U extends AbstractChangeUpdate> void addUpdatesNoLimits(ListMultimap<String, U> all)
+      throws IOException {
+    addUpdates(all, UNLIMITED_UPDATES, UNLIMITED_PATCH_SETS);
   }
 
   <U extends AbstractChangeUpdate> void addUpdates(
-      ListMultimap<String, U> all, Optional<Integer> maxUpdates) throws IOException {
+      ListMultimap<String, U> all, @Nullable Integer maxUpdates, @Nullable Integer maxPatchSets)
+      throws IOException {
     for (Map.Entry<String, Collection<U>> e : all.asMap().entrySet()) {
       String refName = e.getKey();
       Collection<U> updates = e.getValue();
@@ -142,29 +146,43 @@ class OpenRepo implements AutoCloseable {
         continue;
       }
 
-      int updateCount;
+      int updateCount = 0;
       U first = updates.iterator().next();
-      if (maxUpdates.isPresent()) {
+      if (maxUpdates != null) {
         checkState(first.getNotes() != null, "expected ChangeNotes on %s", first);
         updateCount = first.getNotes().getUpdateCount();
-      } else {
-        updateCount = 0;
       }
 
       ObjectId curr = old;
-      for (U u : updates) {
-        if (u.isRootOnly() && !old.equals(ObjectId.zeroId())) {
+      int patchSetCount = 0;
+      for (U update : updates) {
+        if (maxPatchSets != null && update.psId != null) {
+          patchSetCount = Math.max(patchSetCount, update.psId.get());
+          if (patchSetCount > maxPatchSets) {
+            throw new LimitExceededException(
+                String.format(
+                    "Change %d may not exceed %d patch sets. To continue working on this change, "
+                        + "recreate it with a new Change-Id, then abandon this one.",
+                    update.getId().get(), maxPatchSets));
+          }
+        }
+        if (update.isRootOnly() && !old.equals(ObjectId.zeroId())) {
           throw new StorageException("Given ChangeUpdate is only allowed on initial commit");
         }
-        ObjectId next = u.apply(rw, tempIns, curr);
+        ObjectId next = update.apply(rw, tempIns, curr);
         if (next == null) {
           continue;
         }
-        if (maxUpdates.isPresent()
+        if (maxUpdates != null
             && !Objects.equals(next, curr)
-            && ++updateCount > maxUpdates.get()
-            && !u.bypassMaxUpdates()) {
-          throw new TooManyUpdatesException(u.getId(), maxUpdates.get());
+            && ++updateCount > maxUpdates
+            && !update.bypassMaxUpdates()) {
+          throw new LimitExceededException(
+              String.format(
+                  "Change %s may not exceed %d updates. It may still be abandoned or submitted. To"
+                      + " continue working on this change, recreate it with a new Change-Id, then"
+                      + " abandon this one.",
+                  update.getId(), maxUpdates));
         }
         curr = next;
       }

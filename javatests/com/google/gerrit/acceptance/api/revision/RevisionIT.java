@@ -746,7 +746,7 @@ public class RevisionIT extends AbstractDaemonTest {
     input.notify = NotifyHandling.NONE;
     sender.clear();
     gApi.changes().id(changeId).current().cherryPick(input);
-    assertThat(sender.getMessages()).hasSize(0);
+    assertThat(sender.getMessages()).isEmpty();
 
     // Disable the notification. The user provided in the 'notifyDetails' should still be notified.
     TestAccount userToNotify = accountCreator.user2();

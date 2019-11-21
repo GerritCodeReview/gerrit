@@ -367,7 +367,7 @@ public class RetryHelper {
     }
   }
 
-  private String formatCause(Throwable t) {
+  public String formatCause(Throwable t) {
     while ((t instanceof UpdateException
             || t instanceof StorageException
             || t instanceof ExecutionException)

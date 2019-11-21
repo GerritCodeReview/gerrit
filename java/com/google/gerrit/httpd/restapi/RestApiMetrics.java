@@ -19,7 +19,7 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.registration.PluginName;
 import com.google.gerrit.httpd.restapi.RestApiServlet.ViewData;
 import com.google.gerrit.metrics.Counter1;
-import com.google.gerrit.metrics.Counter2;
+import com.google.gerrit.metrics.Counter3;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.Description.Units;
 import com.google.gerrit.metrics.Field;
@@ -37,7 +37,7 @@ public class RestApiMetrics {
   };
 
   final Counter1<String> count;
-  final Counter2<String, Integer> errorCount;
+  final Counter3<String, Integer, String> errorCount;
   final Timer1<String> serverLatency;
   final Histogram1<String> responseBytes;
 
@@ -60,6 +60,9 @@ public class RestApiMetrics {
             viewField,
             Field.ofInteger("error_code", Metadata.Builder::httpStatus)
                 .description("HTTP status code")
+                .build(),
+            Field.ofString("cause", Metadata.Builder::cause)
+                .description("The cause of the error.")
                 .build());
 
     serverLatency =

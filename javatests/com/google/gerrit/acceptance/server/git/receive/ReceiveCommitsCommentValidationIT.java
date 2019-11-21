@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.server.git.receive;
 
 import static com.google.common.truth.Truth.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.clearInvocations;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -132,5 +133,23 @@ public class ReceiveCommitsCommentValidationIT extends AbstractDaemonTest {
                 CommentForValidation.CommentType.INLINE_COMMENT, draftInline.message),
             CommentForValidation.create(
                 CommentForValidation.CommentType.FILE_COMMENT, draftFile.message));
+  }
+
+  @Test
+  public void validateComments_enforceLimits_commentTooLarge() throws Exception {
+    when(mockCommentValidator.validateComments(any())).thenReturn(ImmutableList.of());
+    PushOneCommit.Result result = createChange();
+    String changeId = result.getChangeId();
+    int commentLength = (16 << 10) + 1;
+    DraftInput comment =
+        testCommentHelper.newDraft(new String(new char[commentLength]).replace("\0", "x"));
+    testCommentHelper.addDraft(changeId, result.getCommit().getName(), comment);
+
+    assertThat(testCommentHelper.getPublishedComments(result.getChangeId())).isEmpty();
+    Result amendResult = amendChange(changeId, "refs/for/master%publish-comments", admin, testRepo);
+    amendResult.assertOkStatus();
+    amendResult.assertMessage(
+        String.format("Comment too large (%d > %d)", commentLength, 16 << 10));
+    assertThat(testCommentHelper.getPublishedComments(result.getChangeId())).isEmpty();
   }
 }

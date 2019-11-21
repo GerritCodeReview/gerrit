@@ -25,7 +25,9 @@ import com.google.gerrit.extensions.annotations.ExtensionPoint;
 public interface CommentValidator {
 
   /**
-   * Validate the specified comments.
+   * Validate the specified comments. This method will be called exactly once per validator, with
+   * all new comments that need to be validated. This allows validators to statelessly count the new
+   * comments.
    *
    * @return An empty list if all comments are valid, or else a list of validation failures.
    */

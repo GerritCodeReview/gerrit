@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eb89f2b6_4c2a90d3",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.html",
+        "patchSetId": 12
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2019-11-21T17:17:54Z",
+      "side": 1,
+      "message": "Would \"Cherry pick of\" look/read better in the UI? It matches better the text used for the \"Cherry pick\" button in the UI.\n\nOr \"Cherry picked from\", but that\u0027s longer, so more UI real estate, which I don\u0027t think we want.",
+      "range": {
+        "startLine": 274,
+        "startChar": 30,
+        "endLine": 274,
+        "endChar": 42
+      },
+      "revId": "538723de45bead31886b352295c2173717f17a43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

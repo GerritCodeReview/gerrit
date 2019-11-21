@@ -74,6 +74,7 @@ public class NoteDbUpdateManager implements AutoCloseable {
   private final NoteDbMetrics metrics;
   private final Project.NameKey projectName;
   private final int maxUpdates;
+  private final int maxPatchSets;
   private final ListMultimap<String, ChangeUpdate> changeUpdates;
   private final ListMultimap<String, ChangeDraftUpdate> draftUpdates;
   private final ListMultimap<String, RobotCommentUpdate> robotCommentUpdates;
@@ -104,6 +105,8 @@ public class NoteDbUpdateManager implements AutoCloseable {
     this.updateAllUsersAsync = updateAllUsersAsync;
     this.projectName = projectName;
     maxUpdates = cfg.getInt("change", null, "maxUpdates", 1000);
+    //ö research suitable default
+    maxPatchSets = cfg.getInt("change", null, "maxPatchSets", 1000);
     changeUpdates = MultimapBuilder.hashKeys().arrayListValues().build();
     draftUpdates = MultimapBuilder.hashKeys().arrayListValues().build();
     robotCommentUpdates = MultimapBuilder.hashKeys().arrayListValues().build();
@@ -351,17 +354,17 @@ public class NoteDbUpdateManager implements AutoCloseable {
   }
 
   private void addCommands() throws IOException {
-    changeRepo.addUpdates(changeUpdates, Optional.of(maxUpdates));
+    changeRepo.addUpdates(changeUpdates, maxUpdates, maxPatchSets);
     if (!draftUpdates.isEmpty()) {
       boolean publishOnly = draftUpdates.values().stream().allMatch(ChangeDraftUpdate::canRunAsync);
       if (publishOnly) {
         updateAllUsersAsync.setDraftUpdates(draftUpdates);
       } else {
-        allUsersRepo.addUpdates(draftUpdates);
+        allUsersRepo.addUpdatesNoLimits(draftUpdates);
       }
     }
     if (!robotCommentUpdates.isEmpty()) {
-      changeRepo.addUpdates(robotCommentUpdates);
+      changeRepo.addUpdatesNoLimits(robotCommentUpdates);
     }
     if (!rewriters.isEmpty()) {
       addRewrites(rewriters, changeRepo);
@@ -375,17 +378,15 @@ public class NoteDbUpdateManager implements AutoCloseable {
   private void doDelete(Change.Id id) throws IOException {
     String metaRef = RefNames.changeMetaRef(id);
     Optional<ObjectId> old = changeRepo.cmds.get(metaRef);
-    if (old.isPresent()) {
-      changeRepo.cmds.add(new ReceiveCommand(old.get(), ObjectId.zeroId(), metaRef));
-    }
+    old.ifPresent(
+        objectId -> changeRepo.cmds.add(new ReceiveCommand(objectId, ObjectId.zeroId(), metaRef)));
 
     // Just scan repo for ref names, but get "old" values from cmds.
     for (Ref r :
         allUsersRepo.repo.getRefDatabase().getRefsByPrefix(RefNames.refsDraftCommentsPrefix(id))) {
       old = allUsersRepo.cmds.get(r.getName());
-      if (old.isPresent()) {
-        allUsersRepo.cmds.add(new ReceiveCommand(old.get(), ObjectId.zeroId(), r.getName()));
-      }
+      old.ifPresent(objectId -> allUsersRepo.cmds
+          .add(new ReceiveCommand(objectId, ObjectId.zeroId(), r.getName())));
     }
   }
 

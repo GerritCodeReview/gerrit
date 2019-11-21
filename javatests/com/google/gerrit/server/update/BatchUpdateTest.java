@@ -35,7 +35,6 @@ import com.google.gerrit.server.logging.RequestId;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.notedb.Sequences;
-import com.google.gerrit.server.notedb.TooManyUpdatesException;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.testing.InMemoryTestEnvironment;
 import com.google.inject.Inject;
@@ -51,6 +50,7 @@ import org.junit.Test;
 
 public class BatchUpdateTest {
   private static final int MAX_UPDATES = 4;
+  private static final int MAX_PATCH_SETS = 3;
 
   @Rule
   public InMemoryTestEnvironment testEnvironment =
@@ -58,6 +58,7 @@ public class BatchUpdateTest {
           () -> {
             Config cfg = new Config();
             cfg.setInt("change", null, "maxUpdates", MAX_UPDATES);
+            cfg.setInt("change", null, "maxPatchSets", MAX_PATCH_SETS);
             return cfg;
           });
 
@@ -106,11 +107,10 @@ public class BatchUpdateTest {
     ObjectId oldMetaId = getMetaId(id);
     try (BatchUpdate bu = batchUpdateFactory.create(project, user.get(), TimeUtil.nowTs())) {
       bu.addOp(id, new AddMessageOp("Excessive update"));
-      ResourceConflictException thrown =
-          assertThrows(ResourceConflictException.class, () -> bu.execute());
+      ResourceConflictException thrown = assertThrows(ResourceConflictException.class, bu::execute);
       assertThat(thrown)
           .hasMessageThat()
-          .isEqualTo(TooManyUpdatesException.message(id, MAX_UPDATES));
+          .contains("Change " + id + " may not exceed " + MAX_UPDATES);
     }
     assertThat(getUpdateCount(id)).isEqualTo(MAX_UPDATES);
     assertThat(getMetaId(id)).isEqualTo(oldMetaId);
@@ -118,17 +118,16 @@ public class BatchUpdateTest {
 
   @Test
   public void cannotExceedMaxUpdatesCountingMultipleChangeUpdatesInSingleBatch() throws Exception {
-    Change.Id id = createChangeWithTwoPatchSets(MAX_UPDATES - 1);
+    Change.Id id = createChangeWithPatchSets(2);
 
     ObjectId oldMetaId = getMetaId(id);
     try (BatchUpdate bu = batchUpdateFactory.create(project, user.get(), TimeUtil.nowTs())) {
       bu.addOp(id, new AddMessageOp("Update on PS1", PatchSet.id(id, 1)));
       bu.addOp(id, new AddMessageOp("Update on PS2", PatchSet.id(id, 2)));
-      ResourceConflictException thrown =
-          assertThrows(ResourceConflictException.class, () -> bu.execute());
+      ResourceConflictException thrown = assertThrows(ResourceConflictException.class, bu::execute);
       assertThat(thrown)
           .hasMessageThat()
-          .isEqualTo(TooManyUpdatesException.message(id, MAX_UPDATES));
+          .contains("Change " + id + " may not exceed " + MAX_UPDATES);
     }
     assertThat(getUpdateCount(id)).isEqualTo(MAX_UPDATES - 1);
     assertThat(getMetaId(id)).isEqualTo(oldMetaId);
@@ -187,7 +186,7 @@ public class BatchUpdateTest {
 
   @Test
   public void exceedingMaxUpdatesAllowedWithSubmitAfterOtherOp() throws Exception {
-    Change.Id id = createChangeWithTwoPatchSets(MAX_UPDATES - 1);
+    Change.Id id = createChangeWithPatchSets(2);
     ObjectId oldMetaId = getMetaId(id);
     try (BatchUpdate bu = batchUpdateFactory.create(project, user.get(), TimeUtil.nowTs())) {
       bu.addOp(id, new AddMessageOp("Message on PS1", PatchSet.id(id, 1)));
@@ -222,6 +221,28 @@ public class BatchUpdateTest {
     assertThat(getMetaId(id)).isNotEqualTo(oldMetaId);
   }
 
+  @Test
+  public void limitPatchSetCount_exceed() throws Exception {
+    Change.Id changeId = createChangeWithPatchSets(MAX_PATCH_SETS);
+    ObjectId oldMetaId = getMetaId(changeId);
+    ChangeNotes notes = changeNotesFactory.create(project, changeId);
+    try (BatchUpdate bu = batchUpdateFactory.create(project, user.get(), TimeUtil.nowTs())) {
+      ObjectId commitId =
+          repo.amend(notes.getCurrentPatchSet().commitId()).message("kaboom").create();
+      bu.addOp(
+          changeId,
+          patchSetInserterFactory
+              .create(notes, PatchSet.id(changeId, MAX_PATCH_SETS + 1), commitId)
+              .setMessage("kaboom"));
+      ResourceConflictException thrown = assertThrows(ResourceConflictException.class, bu::execute);
+      assertThat(thrown)
+          .hasMessageThat()
+          .contains("Change " + changeId + " may not exceed " + MAX_PATCH_SETS + " patch sets");
+    }
+    assertThat(changeNotesFactory.create(project, changeId).getPatchSets()).hasSize(MAX_PATCH_SETS);
+    assertThat(getMetaId(changeId)).isEqualTo(oldMetaId);
+  }
+
   private Change.Id createChangeWithUpdates(int totalUpdates) throws Exception {
     checkArgument(totalUpdates > 0);
     checkArgument(totalUpdates <= MAX_UPDATES);
@@ -243,21 +264,22 @@ public class BatchUpdateTest {
     return id;
   }
 
-  private Change.Id createChangeWithTwoPatchSets(int totalUpdates) throws Exception {
-    Change.Id id = createChangeWithUpdates(totalUpdates - 1);
+  private Change.Id createChangeWithPatchSets(int patchSets) throws Exception {
+    checkArgument(patchSets >= 2);
+    Change.Id id = createChangeWithUpdates(MAX_UPDATES - 2);
     ChangeNotes notes = changeNotesFactory.create(project, id);
-
-    try (BatchUpdate bu = batchUpdateFactory.create(project, user.get(), TimeUtil.nowTs())) {
-      ObjectId commitId = repo.amend(notes.getCurrentPatchSet().commitId()).message("PS2").create();
-      bu.addOp(
-          id,
-          patchSetInserterFactory
-              .create(notes, PatchSet.id(id, 2), commitId)
-              .setMessage("Add PS2"));
-      bu.execute();
+    for (int i = 2; i <= patchSets; ++i) {
+      try (BatchUpdate bu = batchUpdateFactory.create(project, user.get(), TimeUtil.nowTs())) {
+        ObjectId commitId =
+            repo.amend(notes.getCurrentPatchSet().commitId()).message("PS" + i).create();
+        bu.addOp(
+            id,
+            patchSetInserterFactory
+                .create(notes, PatchSet.id(id, i), commitId)
+                .setMessage("Add PS" + i));
+        bu.execute();
+      }
     }
-
-    assertThat(getUpdateCount(id)).isEqualTo(totalUpdates);
     return id;
   }
 
@@ -291,7 +313,7 @@ public class BatchUpdateTest {
     }
   }
 
-  private int getUpdateCount(Change.Id changeId) throws Exception {
+  private int getUpdateCount(Change.Id changeId) {
     return changeNotesFactory.create(project, changeId).getUpdateCount();
   }
 

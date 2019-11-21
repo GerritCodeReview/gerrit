@@ -177,6 +177,8 @@
   }
 
   Plugin._sharedAPIElement = document.createElement('gr-js-api-interface');
+  // Shared events pool for Gerrit
+  let _GerritEventsPool = new Map();
 
   Plugin.prototype._name = '';
 
@@ -214,6 +216,16 @@
 
   Plugin.prototype.on = function(eventName, callback) {
     Plugin._sharedAPIElement.addEventCallback(eventName, callback);
+  };
+
+  Plugin.prototype.emit = function(eventName, ...args) {
+    const listeners = _GerritEventsPool.get(eventName) || [];
+    for (const listener of listeners) {
+      // Only run listeners include plugin events
+      if (!listener.opts.skipPluginEvents && listener.cb) {
+        listener.cb(...args);
+      }
+    }
   };
 
   Plugin.prototype.url = function(opt_path) {
@@ -464,6 +476,7 @@
     Gerrit._installPreloadedPlugins = installPreloadedPlugins;
     Gerrit._flushPreinstalls = flushPreinstalls;
     Gerrit._resetPlugins = () => {
+      _GerritEventsPool = new Map();
       _allPluginsPromise = null;
       _pluginsInstalled = [];
       _pluginsPending = {};
@@ -659,6 +672,46 @@
       return name in Gerrit._preloadedPlugins;
     } else {
       return false;
+    }
+  };
+
+  /**
+   *
+   * Event interface on Gerrit.
+   *
+   * Usage:
+   *
+   * // from a plugin
+   * plugin.emit('render-text');
+   *
+   * // from Gerrit core on a endpoint
+   * Gerrit.on('render-text', () => {
+   *   // do something
+   * });
+   *
+   * // if you want to exclude from plugin events
+   * Gerrit.on('core-event-only', () => {
+   *   // do something
+   * }, {skipPluginEvent: true});
+   *
+   */
+  Gerrit.on = function(eventName, cb, opts = {}) {
+    if (!eventName || !cb) {
+      console.warn('A valid eventname and callback is required!');
+      return;
+    }
+
+    const listeners = _GerritEventsPool.get(eventName) || [];
+    listeners.push({cb, opts});
+    _GerritEventsPool.set(eventName, listeners);
+  };
+
+  Gerrit.emit = function(eventName, ...args) {
+    const listeners = _GerritEventsPool.get(eventName) || [];
+    for (const listener of listeners) {
+      if (listener.cb) {
+        listener.cb(...args);
+      }
     }
   };
 

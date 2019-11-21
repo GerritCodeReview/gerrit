@@ -27,15 +27,12 @@ limitations under the License.
   <template>
     <style include="shared-styles">
       :host {
-        background-color: var(--dialog-background-color);
         display: block;
+        padding: var(--spacing-m) 0;
       }
       section {
         display: flex;
         padding: var(--spacing-m) var(--spacing-xl);
-      }
-      section:not(:first-of-type) {
-        border-top: 1px solid var(--border-color);
       }
       .flexContainer {
         display: flex;
@@ -76,9 +73,9 @@ limitations under the License.
       }
     </style>
     <section>
-      <span class="title">
+      <h3 class="title">
         Patch set [[patchNum]] of [[_computePatchSetQuantity(change.revisions)]]
-      </span>
+      </h3>
     </section>
     <section class$="[[_computeShowDownloadCommands(_schemes)]]">
       <gr-download-commands

@@ -32,36 +32,32 @@ limitations under the License.
         display: flex;
         flex-direction: column;
         max-height: 90vh;
+        padding: var(--spacing-xl);
       }
       header {
-        border-bottom: 1px solid var(--border-color);
         flex-shrink: 0;
-        font-weight: var(--font-weight-bold);
+        padding-bottom: var(--spacing-xl);
       }
       main {
         display: flex;
         flex-shrink: 1;
         width: 100%;
       }
-      header,
-      main,
-      footer {
-        padding: var(--spacing-m) var(--spacing-xl);
-      }
-      gr-button {
-        margin-left: var(--spacing-l);
-      }
       footer {
         display: flex;
         flex-shrink: 0;
         justify-content: flex-end;
+        padding-top: var(--spacing-xl);
+      }
+      gr-button {
+        margin-left: var(--spacing-l);
       }
       .hidden {
         display: none;
       }
     </style>
     <div class="container" on-keydown="_handleKeydown">
-      <header><slot name="header"></slot></header>
+      <header class="font-h3"><slot name="header"></slot></header>
       <main><slot name="main"></slot></main>
       <footer>
         <gr-button id="cancel" class$="[[_computeCancelClass(cancelLabel)]]" link on-click="_handleCancelTap">

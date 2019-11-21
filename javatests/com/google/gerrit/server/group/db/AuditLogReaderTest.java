@@ -53,7 +53,7 @@ public final class AuditLogReaderTest extends AbstractGroupTest {
   @Test
   public void createGroupAsServerIdent() throws Exception {
     InternalGroup group = createGroup(1, "test-group", serverIdent, null);
-    assertThat(auditLogReader.getMembersAudit(allUsersRepo, group.getGroupUUID())).hasSize(0);
+    assertThat(auditLogReader.getMembersAudit(allUsersRepo, group.getGroupUUID())).isEmpty();
   }
 
   @Test

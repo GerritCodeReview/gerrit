@@ -91,7 +91,7 @@ public class AllUsersAsyncUpdate {
         executor.submit(
             () -> {
               try (OpenRepo allUsersRepo = OpenRepo.open(repoManager, allUsersName)) {
-                allUsersRepo.addUpdates(draftUpdates);
+                allUsersRepo.addUpdatesNoLimits(draftUpdates);
                 allUsersRepo.flush();
                 BatchRefUpdate bru = allUsersRepo.repo.getRefDatabase().newBatchUpdate();
                 bru.setPushCertificate(pushCert);

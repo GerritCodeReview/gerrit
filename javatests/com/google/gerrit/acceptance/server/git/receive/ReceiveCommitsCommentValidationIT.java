@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.server.git.receive;
 
 import static com.google.common.truth.Truth.assertThat;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.clearInvocations;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -31,9 +32,11 @@ import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.extensions.validators.CommentForValidation;
 import com.google.gerrit.extensions.validators.CommentForValidation.CommentType;
 import com.google.gerrit.extensions.validators.CommentValidator;
+import com.google.gerrit.testing.ConfigSuite;
 import com.google.gerrit.testing.TestCommentHelper;
 import com.google.inject.Inject;
 import com.google.inject.Module;
+import org.eclipse.jgit.lib.Config;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -45,6 +48,15 @@ import org.mockito.Captor;
 public class ReceiveCommitsCommentValidationIT extends AbstractDaemonTest {
   @Inject private CommentValidator mockCommentValidator;
   @Inject private TestCommentHelper testCommentHelper;
+
+  private static final int MAX_COMMENT_LENGTH = 666;
+
+  @ConfigSuite.Default
+  public static Config defaultConfig() {
+    Config cfg = new Config();
+    cfg.setInt("change", null, "maxCommentLength", MAX_COMMENT_LENGTH);
+    return cfg;
+  }
 
   private static final String COMMENT_TEXT = "The comment text";
 
@@ -134,5 +146,23 @@ public class ReceiveCommitsCommentValidationIT extends AbstractDaemonTest {
                 CommentForValidation.CommentType.INLINE_COMMENT, draftInline.message),
             CommentForValidation.create(
                 CommentForValidation.CommentType.FILE_COMMENT, draftFile.message));
+  }
+
+  @Test
+  public void validateComments_enforceLimits_commentTooLarge() throws Exception {
+    when(mockCommentValidator.validateComments(any())).thenReturn(ImmutableList.of());
+    PushOneCommit.Result result = createChange();
+    String changeId = result.getChangeId();
+    int commentLength = MAX_COMMENT_LENGTH + 1;
+    DraftInput comment =
+        testCommentHelper.newDraft(new String(new char[commentLength]).replace("\0", "x"));
+    testCommentHelper.addDraft(changeId, result.getCommit().getName(), comment);
+
+    assertThat(testCommentHelper.getPublishedComments(result.getChangeId())).isEmpty();
+    Result amendResult = amendChange(changeId, "refs/for/master%publish-comments", admin, testRepo);
+    amendResult.assertOkStatus();
+    amendResult.assertMessage(
+        String.format("Comment too large (%d > %d)", commentLength, MAX_COMMENT_LENGTH));
+    assertThat(testCommentHelper.getPublishedComments(result.getChangeId())).isEmpty();
   }
 }

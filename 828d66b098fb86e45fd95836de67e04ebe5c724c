@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7eedb896_272621d0",
+        "filename": "tools/maven/package.bzl",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-11-21T12:25:39Z",
+      "side": 1,
+      "message": "Should we make the use of bazelisk optional here as we do in other places (only use it, if it is installed)?",
+      "revId": "828d66b098fb86e45fd95836de67e04ebe5c724c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

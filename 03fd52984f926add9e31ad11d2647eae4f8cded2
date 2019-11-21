@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fb6639b2_74fe78ef",
+        "filename": "java/com/google/gerrit/server/git/MergedByPushOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-11-21T08:09:17Z",
+      "side": 1,
+      "message": "That\u0027s the wrong Nullable, we use com.google.gerrit.common.Nullable",
+      "revId": "03fd52984f926add9e31ad11d2647eae4f8cded2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c50d1b78_2c09b5ef",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 3284,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-11-21T08:09:17Z",
+      "side": 1,
+      "message": "Would it work to initialize submissionId right here?\nThen you would not need to check for null below.",
+      "revId": "03fd52984f926add9e31ad11d2647eae4f8cded2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d589062e_cd949797",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 3296,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-11-21T08:09:17Z",
+      "side": 1,
+      "message": "Would it be easier to write\n\n  if (submissionId \u003d\u003d null) {\n    submissionId \u003d new RequestId(psId.changeId().toString());\n  }\n\n?",
+      "range": {
+        "startLine": 3293,
+        "startChar": 20,
+        "endLine": 3296,
+        "endChar": 43
+      },
+      "revId": "03fd52984f926add9e31ad11d2647eae4f8cded2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "984a3d06_99729e17",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 3336,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-11-21T08:09:17Z",
+      "side": 1,
+      "message": "same as above",
+      "revId": "03fd52984f926add9e31ad11d2647eae4f8cded2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e15f142b_bdaa4001",
+        "filename": "java/com/google/gerrit/server/git/receive/ReplaceOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-11-21T08:09:17Z",
+      "side": 1,
+      "message": "It is available from patchSetId:\n\n  patchSetId.changeId()",
+      "range": {
+        "startLine": 239,
+        "startChar": 19,
+        "endLine": 239,
+        "endChar": 45
+      },
+      "revId": "03fd52984f926add9e31ad11d2647eae4f8cded2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

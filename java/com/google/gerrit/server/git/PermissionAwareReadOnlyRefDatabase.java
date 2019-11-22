@@ -32,6 +32,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 import org.eclipse.jgit.annotations.NonNull;
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.lib.ObjectId;
@@ -105,11 +107,25 @@ public class PermissionAwareReadOnlyRefDatabase extends DelegateRefDatabase {
 
     Collection<Ref> result;
     try {
+      // The security filtering assumes to receive the same refMap, independently from the ref
+      // prefix offset
       result = forProject.filter(refs.values(), getDelegate(), RefFilterOptions.defaults());
     } catch (PermissionBackendException e) {
       throw new IOException("");
     }
-    return result.stream().collect(toMap(Ref::getName, r -> r));
+    return buildPrefixRefMap(prefix, result);
+  }
+
+  private Map<String, Ref> buildPrefixRefMap(String prefix, Collection<Ref> refs) {
+    int prefixSlashPos = prefix.lastIndexOf('/') + 1;
+    if (prefixSlashPos > 0) {
+      return refs.stream()
+          .collect(
+              Collectors.toMap(
+                  (Ref ref) -> ref.getName().substring(prefixSlashPos), Function.identity()));
+    }
+
+    return refs.stream().collect(toMap(Ref::getName, r -> r));
   }
 
   @Override

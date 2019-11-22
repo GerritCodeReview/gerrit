@@ -51,16 +51,17 @@
         },
 
         /**
-       * Returns suggestions and convert them to list item
-       * @type {Gerrit.GrSuggestionsProvider}
-       */
+         * Returns suggestions and convert them to list item
+         * @type {Gerrit.GrSuggestionsProvider}
+         */
         suggestionsProvider: {
           type: Object,
         },
 
         /**
-       * Needed for template checking since value is initially set to null.
-       * @type {?Object} */
+         * Needed for template checking since value is initially set to null.
+         * @type {?Object}
+         */
         pendingConfirmation: {
           type: Object,
           value: null,
@@ -71,31 +72,40 @@
           value: false,
         },
         /**
-       * When true, allows for non-suggested inputs to be added.
-       */
+         * When true, allows for non-suggested inputs to be added.
+         */
         allowAnyInput: {
           type: Boolean,
           value: false,
         },
 
         /**
-       * Array of values (groups/accounts) that are removable. When this prop is
-       * undefined, all values are removable.
-       */
+         * Array of values (groups/accounts) that are removable. When this prop is
+         * undefined, all values are removable.
+         */
         removableValues: Array,
         maxCount: {
           type: Number,
           value: 0,
         },
 
-        /** Returns suggestion items
-      * @type {!function(string): Promise<Array<Gerrit.GrSuggestionItem>>}
-      */
+        /**
+         * Returns suggestion items
+         * @type {!function(string): Promise<Array<Gerrit.GrSuggestionItem>>}
+         */
         _querySuggestions: {
           type: Function,
           value() {
             return this._getSuggestions.bind(this);
           },
+        },
+
+        /**
+         * Set to true to disable suggestions on empty input.
+         */
+        skipSuggestOnEmpty: {
+          type: Boolean,
+          value: false,
         },
       };
     }
@@ -116,6 +126,9 @@
     }
 
     _getSuggestions(input) {
+      if (this.skipSuggestOnEmpty && !input) {
+        return Promise.resolve([]);
+      }
       const provider = this.suggestionsProvider;
       if (!provider) {
         return Promise.resolve([]);

@@ -95,11 +95,12 @@ public class RevertSubmission
           String.format("change is %s.", ChangeUtil.status(changeResource.getChange())));
     }
 
-    String submissionId =
-        requireNonNull(
-            changeResource.getChange().getSubmissionId(),
-            String.format("merged change %s has no submission ID", changeResource.getId()));
-
+    String submissionId = changeResource.getChange().getSubmissionId();
+    if (submissionId == null) {
+      throw new ResourceConflictException(
+          "This change is merged but doesn't have a submission id, meaning it was not submitted through Gerrit. "
+              + "Changes pushed or submitted in the future will always have a submission id");
+    }
     List<ChangeData> changeDatas = queryProvider.get().bySubmissionId(submissionId);
 
     for (ChangeData changeData : changeDatas) {

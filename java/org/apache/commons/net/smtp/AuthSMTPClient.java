@@ -16,6 +16,7 @@ package org.apache.commons.net.smtp;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import com.google.common.io.BaseEncoding;
 import com.google.gerrit.util.ssl.BlindSSLSocketFactory;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -33,7 +34,6 @@ import javax.crypto.spec.SecretKeySpec;
 import javax.net.ssl.SSLParameters;
 import javax.net.ssl.SSLSocket;
 import javax.net.ssl.SSLSocketFactory;
-import org.apache.commons.codec.binary.Base64;
 
 public class AuthSMTPClient extends SMTPClient {
   private String authTypes;
@@ -134,7 +134,7 @@ public class AuthSMTPClient extends SMTPClient {
     }
 
     final String enc = getReplyStrings()[0].split(" ", 2)[1];
-    final byte[] nonce = Base64.decodeBase64(enc.getBytes(UTF_8));
+    final byte[] nonce = BaseEncoding.base64().decode(enc);
     final String sec;
     try {
       Mac mac = Mac.getInstance(macName);
@@ -187,6 +187,6 @@ public class AuthSMTPClient extends SMTPClient {
   }
 
   private static String encodeBase64(byte[] data) {
-    return new String(Base64.encodeBase64(data), UTF_8);
+    return BaseEncoding.base64().encode(data);
   }
 }

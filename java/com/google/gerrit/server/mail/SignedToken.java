@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.mail;
 
+import com.google.common.io.BaseEncoding;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
@@ -21,7 +22,6 @@ import java.util.Arrays;
 import javax.crypto.Mac;
 import javax.crypto.ShortBufferException;
 import javax.crypto.spec.SecretKeySpec;
-import org.apache.commons.codec.binary.Base64;
 
 /**
  * Utility function to compute and verify XSRF tokens.
@@ -164,11 +164,11 @@ public class SignedToken {
   }
 
   private static byte[] decodeBase64(final String s) {
-    return Base64.decodeBase64(toBytes(s));
+    return BaseEncoding.base64().decode(s);
   }
 
   private static String encodeBase64(final byte[] buf) {
-    return toString(Base64.encodeBase64(buf));
+    return BaseEncoding.base64().encode(buf);
   }
 
   private static void encodeInt(final byte[] buf, final int o, final int v) {
@@ -201,13 +201,5 @@ public class SignedToken {
       r[k] = (byte) s.charAt(k);
     }
     return r;
-  }
-
-  private static String toString(final byte[] b) {
-    final StringBuilder r = new StringBuilder(b.length);
-    for (int i = 0; i < b.length; i++) {
-      r.append((char) b[i]);
-    }
-    return r.toString();
   }
 }

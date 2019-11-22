@@ -38,7 +38,6 @@ java_library(
         "//lib:soy",
         "//lib/auto:auto-value",
         "//lib/auto:auto-value-annotations",
-        "//lib/commons:codec",
         "//lib/commons:lang",
         "//lib/flogger:api",
         "//lib/guice",

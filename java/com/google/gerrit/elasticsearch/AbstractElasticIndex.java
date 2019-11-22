@@ -26,6 +26,7 @@ import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Streams;
 import com.google.common.flogger.FluentLogger;
+import com.google.common.io.BaseEncoding;
 import com.google.common.io.CharStreams;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.elasticsearch.ElasticMapping.MappingProperties;
@@ -68,7 +69,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
-import org.apache.commons.codec.binary.Base64;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpStatus;
 import org.apache.http.StatusLine;
@@ -88,7 +88,7 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
   protected static final String SETTINGS = "settings";
 
   protected static byte[] decodeBase64(String base64String) {
-    return Base64.decodeBase64(base64String);
+    return BaseEncoding.base64().decode(base64String);
   }
 
   protected static <T> List<T> decodeProtos(
@@ -268,7 +268,7 @@ abstract class AbstractElasticIndex<K, V> implements Index<K, V> {
         } else if (type == FieldType.TIMESTAMP) {
           rawFields.put(element.getKey(), new Timestamp(inner.getAsLong()));
         } else if (type == FieldType.STORED_ONLY) {
-          rawFields.put(element.getKey(), Base64.decodeBase64(inner.getAsString()));
+          rawFields.put(element.getKey(), decodeBase64(inner.getAsString()));
         } else {
           throw FieldType.badFieldType(type);
         }

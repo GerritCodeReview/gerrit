@@ -201,7 +201,7 @@
       this.bindShortcut(
           this.Shortcut.TOGGLE_CHANGE_STAR, 's:keyup');
       this.bindShortcut(
-          this.Shortcut.REFRESH_CHANGE_LIST, 'shift+r');
+          this.Shortcut.REFRESH_CHANGE_LIST, 'shift+r:keyup');
       this.bindShortcut(
           this.Shortcut.EDIT_TOPIC, 't');
 
@@ -214,7 +214,7 @@
       this.bindShortcut(
           this.Shortcut.COLLAPSE_ALL_MESSAGES, 'z');
       this.bindShortcut(
-          this.Shortcut.REFRESH_CHANGE, 'shift+r');
+          this.Shortcut.REFRESH_CHANGE, 'shift+r:keyup');
       this.bindShortcut(
           this.Shortcut.UP_TO_DASHBOARD, 'u');
       this.bindShortcut(

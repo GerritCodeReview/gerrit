@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bec40bcb_9ab4649f",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetFixPreview.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-11-22T22:14:02Z",
+      "side": 1,
+      "message": "These can be removed",
+      "range": {
+        "startLine": 33,
+        "startChar": 6,
+        "endLine": 33,
+        "endChar": 86
+      },
+      "revId": "6dfc24e434d61fdcfce313e1652bb9d3e13b8510",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -209,7 +209,6 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
     // keyed by commit ID.
     Map<ObjectId, RevisionNoteBuilder> builders = cache.getBuilders();
     boolean touchedAnyRevs = false;
-    boolean hasComments = false;
     for (Map.Entry<ObjectId, RevisionNoteBuilder> e : builders.entrySet()) {
       updatedCommits.add(e.getKey());
       ObjectId id = e.getKey();
@@ -220,7 +219,6 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
       if (data.length == 0) {
         rnm.noteMap.remove(id);
       } else {
-        hasComments = true;
         ObjectId dataBlob = ins.insert(OBJ_BLOB, data);
         rnm.noteMap.set(id, dataBlob);
       }

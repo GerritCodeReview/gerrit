@@ -332,6 +332,30 @@
     },
     {
       "key": {
+        "uuid": "37b3a86d_16a07200",
+        "filename": "java/com/google/gerrit/server/change/ActionJson.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1012449
+      },
+      "writtenOn": "2019-11-22T20:38:48Z",
+      "side": 1,
+      "message": "Alright, I\u0027ll got with [1]",
+      "parentUuid": "fe833fb6_06acd0be",
+      "range": {
+        "startLine": 147,
+        "startChar": 0,
+        "endLine": 147,
+        "endChar": 1
+      },
+      "revId": "86d20ec63b4e1dff199a1620b1c13978bf37c8b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5f69d109_995d353a",
         "filename": "java/com/google/gerrit/server/change/SetSourceOp.java",
         "patchSetId": 11

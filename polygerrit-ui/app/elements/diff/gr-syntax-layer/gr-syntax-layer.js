@@ -100,6 +100,7 @@
     'gr-diff gr-syntax gr-syntax-attribute': true,
     'gr-diff gr-syntax gr-syntax-built_in': true,
     'gr-diff gr-syntax gr-syntax-comment': true,
+    'gr-diff gr-syntax gr-syntax-doctag': true,
     'gr-diff gr-syntax gr-syntax-function': true,
     'gr-diff gr-syntax gr-syntax-keyword': true,
     'gr-diff gr-syntax gr-syntax-link': true,

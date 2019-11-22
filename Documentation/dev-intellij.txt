@@ -104,7 +104,7 @@ CodeStyleManager with a custom one. Thus, uses of *Reformat Code* either via
 *Code -> Reformat Code*, keyboard shortcuts, or the commit dialog will use the
 custom style defined by the `google-java-format` plugin.
 
-Please refer to the documentation on the <<dev-contributing#style,code style>>
+Please refer to the documentation on the <<dev-crafting-changes#style,code style>>
 for which version of `google-java-format` is used with Gerrit.
 
 ==== Code style settings
@@ -159,7 +159,7 @@ This section is only relevant in case you want to use the Git integration
 plugin in IntelliJ IDEA.
 
 To simplify the creation of commit messages which are compliant with the
-<<dev-contributing#commit-message,Commit Message>> format, do the following:
+<<dev-crafting-changes#commit-message,Commit Message>> format, do the following:
 
 . Go to *File -> Settings -> Version Control -> Commit Dialog*.
 . In the *Commit message inspections*, activate the three inspections:
@@ -171,7 +171,7 @@ To simplify the creation of commit messages which are compliant with the
 right margin*.
 
 In addition, you should follow the instructions of
-<<dev-contributing#git_commit_settings,this section>> (if you haven't
+<<dev-crafting-changes#git-commit-settings,this section>> (if you haven't
 done so already):
 
 * Install the Git commit message hook for the `Change-Id` line.

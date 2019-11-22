@@ -160,10 +160,21 @@ public class RevertSubmission
             "Revert this change and all changes that have been submitted together with this change")
         .setVisible(
             and(
-                change.isMerged() && change.getSubmissionId() != null && projectStatePermitsWrite,
+                change.isMerged()
+                    && change.getSubmissionId() != null
+                    && isChangePartOfSubmission(change.getSubmissionId())
+                    && projectStatePermitsWrite,
                 permissionBackend
                     .user(rsrc.getUser())
                     .ref(change.getDest())
                     .testCond(CREATE_CHANGE)));
+  }
+
+  /**
+   * @param submissionId the submission id of the change.
+   * @return True if the submission has more than one change, false otherwise.
+   */
+  private Boolean isChangePartOfSubmission(String submissionId) {
+    return (queryProvider.get().bySubmissionId(submissionId).size() > 1);
   }
 }

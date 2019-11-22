@@ -62,7 +62,7 @@ Java 8 is still the default:
 To format source code, Gerrit uses the
 link:https://github.com/google/google-java-format[`google-java-format`]
 tool (version 1.7), which automatically formats code to follow the
-style guide. See link:dev-contributing.html#style[Code Style] for the
+style guide. See link:dev-crafting-changes.html#style[Code Style] for the
 instruction how to set up command line tool that uses this formatter.
 The Eclipse plugin is provided that allows to format with the same
 formatter from within the Eclipse IDE. See

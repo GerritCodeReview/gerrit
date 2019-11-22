@@ -17,6 +17,33 @@
 (function(window) {
   'use strict';
 
+  const Defs = {};
+  /**
+   * @typedef {{
+   *   fromPlugin: boolean,
+   *   plugin: ?Plugin,
+   *   detail: *,
+   * }}
+   */
+  Defs.EventDetail;
+
+  /**
+   * This callback is displayed as part of the Requester class.
+   * @callback eventCallback
+   * @param {Defs.EventDetail} event
+   */
+
+  /**
+   * Shared events pool for Gerrit.
+   *
+   * This is to build a communication channel among Gerrit components and Plugins.
+   *
+   * TODO(taoalpha): Move exsting events interface to here as well (plugin.on etc).
+   *
+   * @type {!Object<string, Array<eventCallback>>}
+   */
+  let _gerritEventsPool = new Map();
+
   /**
    * Hash of loaded and installed plugins, name to Plugin object.
    */
@@ -214,6 +241,19 @@
 
   Plugin.prototype.on = function(eventName, callback) {
     Plugin._sharedAPIElement.addEventCallback(eventName, callback);
+  };
+
+  /**
+   * Emit an event, if any listeners registered, will be executed.
+   *
+   * @param {string} eventName
+   * @param {*} detail
+   */
+  Plugin.prototype.emit = function(eventName, detail) {
+    const listeners = _gerritEventsPool.get(eventName) || [];
+    for (const listener of listeners) {
+      listener({fromPlugin: true, plugin: this, detail});
+    }
   };
 
   Plugin.prototype.url = function(opt_path) {
@@ -464,6 +504,7 @@
     Gerrit._installPreloadedPlugins = installPreloadedPlugins;
     Gerrit._flushPreinstalls = flushPreinstalls;
     Gerrit._resetPlugins = () => {
+      _gerritEventsPool = new Map();
       _allPluginsPromise = null;
       _pluginsInstalled = [];
       _pluginsPending = {};
@@ -659,6 +700,74 @@
       return name in Gerrit._preloadedPlugins;
     } else {
       return false;
+    }
+  };
+
+  /**
+   *
+   * Event interface on Gerrit.
+   *
+   * This will allow communication across all components / plugins.
+   *
+   * Usage:
+   *
+   * // from pluginA
+   * pluginA.emit('test-event', 'paramA');
+   *
+   * // from Gerrit
+   * Gerrit.emit('test-event', 'paramGerrit');
+   *
+   * // Listen from Gerrit
+   * Gerrit.on('test-event', event => {
+   *   // event.plugin will refer to where the event comes from
+   *   // if its from a plugin
+   *   // event.detail will be 'paramA' or 'paramGerrit'
+   * });
+   *
+   * // Listen from PluginB and only listen for event from Core
+   * pluginB.on('test-event', event => {
+   *   if (!event.fromPlugin) {
+   *     // do something with event.detail which is 'paramGerrit'
+   *   }
+   * });
+   *
+   * // Listen from PluginC and only listen for event from plugins
+   * pluginC.on('test-event', event => {
+   *   if (event.fromPlugin) {
+   *     // do something with event.detail which is 'paramA'
+   *   }
+   * });
+   *
+   * // TODO(taoalpha): Add internal events list.
+   */
+
+  /**
+   * Register an event listener to an event.
+   *
+   * @param {string} eventName
+   * @param {eventCallback} cb
+   */
+  Gerrit.on = function(eventName, cb) {
+    if (!eventName || !cb) {
+      console.warn('A valid eventname and callback is required!');
+      return;
+    }
+
+    const listeners = _gerritEventsPool.get(eventName) || [];
+    listeners.push(cb);
+    _gerritEventsPool.set(eventName, listeners);
+  };
+
+  /**
+   * Emit an event, broadcast to all listeners.
+   *
+   * @param {string} eventName
+   * @param {*} detail
+   */
+  Gerrit.emit = function(eventName, eventDetail) {
+    const listeners = _gerritEventsPool.get(eventName) || [];
+    for (const listener of listeners) {
+      listener({fromPlugin: false, detail: eventDetail});
     }
   };
 

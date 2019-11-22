@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "88e4e928_ec0fac9f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-11-22T20:13:45Z",
+      "side": 1,
+      "message": "ya updated",
+      "parentUuid": "b369a535_1099e36d",
+      "revId": "f456a7b7955d8f48df0265a86d0cb2ad5ecb79f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "28f77b50_d5e49dc1",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
         "patchSetId": 1
@@ -56,6 +74,48 @@
       "revId": "f456a7b7955d8f48df0265a86d0cb2ad5ecb79f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0ff9daf2_0da2c579",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-11-22T20:13:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "28f77b50_d5e49dc1",
+      "revId": "f456a7b7955d8f48df0265a86d0cb2ad5ecb79f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc949391_15f5f096",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-11-22T20:13:45Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "ee7ba217_4c292709",
+      "range": {
+        "startLine": 180,
+        "startChar": 5,
+        "endLine": 180,
+        "endChar": 24
+      },
+      "revId": "f456a7b7955d8f48df0265a86d0cb2ad5ecb79f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -128,6 +188,78 @@
     },
     {
       "key": {
+        "uuid": "dbf91d18_1e1116a1",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-11-22T20:13:45Z",
+      "side": 1,
+      "message": "not sure what type should be used for Map in closure ... I will find a way",
+      "parentUuid": "193a7485_f3cd41ed",
+      "range": {
+        "startLine": 181,
+        "startChar": 30,
+        "endLine": 181,
+        "endChar": 33
+      },
+      "revId": "f456a7b7955d8f48df0265a86d0cb2ad5ecb79f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fe2a1ac4_ed77c327",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-11-22T20:13:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f586a270_c7c61737",
+      "range": {
+        "startLine": 181,
+        "startChar": 7,
+        "endLine": 181,
+        "endChar": 8
+      },
+      "revId": "f456a7b7955d8f48df0265a86d0cb2ad5ecb79f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7eb46ef4_a6f55464",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-11-22T20:13:45Z",
+      "side": 1,
+      "message": "ya as this is in 2.16, was trying to reduce the possible conflicts when merge forward, but I guess it doesn\u0027t really matter that much as the whole Gerrit moved to a different file.\n\nMoved to the top.",
+      "parentUuid": "e56186c6_e9ed38b6",
+      "range": {
+        "startLine": 181,
+        "startChar": 2,
+        "endLine": 181,
+        "endChar": 5
+      },
+      "revId": "f456a7b7955d8f48df0265a86d0cb2ad5ecb79f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fe6765d4_0b61daf0",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
         "patchSetId": 1
@@ -142,6 +274,24 @@
       "revId": "f456a7b7955d8f48df0265a86d0cb2ad5ecb79f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8ffd22da_d984bf13",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-11-22T20:13:45Z",
+      "side": 1,
+      "message": "Ideally I want to move `plugin.on` to the new events pool interface (not sure why we need those events to rely on DOM at the first place), but this is for 2.16, and I don\u0027t want to make bigger changes here 😞\nI will put a todo there",
+      "parentUuid": "fe6765d4_0b61daf0",
+      "revId": "f456a7b7955d8f48df0265a86d0cb2ad5ecb79f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -162,6 +312,24 @@
     },
     {
       "key": {
+        "uuid": "980e041c_c20ac277",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-11-22T20:13:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "24c4d748_14a60f7d",
+      "revId": "f456a7b7955d8f48df0265a86d0cb2ad5ecb79f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0b03102c_7236f2d7",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
         "patchSetId": 1
@@ -176,6 +344,24 @@
       "revId": "f456a7b7955d8f48df0265a86d0cb2ad5ecb79f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "14284ace_381ba57c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-11-22T20:13:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0b03102c_7236f2d7",
+      "revId": "f456a7b7955d8f48df0265a86d0cb2ad5ecb79f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -202,6 +388,30 @@
     },
     {
       "key": {
+        "uuid": "c45a2236_4bff39d9",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 680,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-11-22T20:13:45Z",
+      "side": 1,
+      "message": "updated.\n\nThe biggest difference between this and typical DOM events is: it doesn\u0027t need a DOM, its purely js callbacks. So it can be used to pass message from plugins to Gerrit which currently doesn\u0027t support. Also it works for components or services that not relying on DOM at the first place.",
+      "parentUuid": "c791fb0f_58feb96f",
+      "range": {
+        "startLine": 680,
+        "startChar": 5,
+        "endLine": 680,
+        "endChar": 31
+      },
+      "revId": "f456a7b7955d8f48df0265a86d0cb2ad5ecb79f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "df6fba4e_054282f3",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
         "patchSetId": 1
@@ -225,6 +435,30 @@
     },
     {
       "key": {
+        "uuid": "abf11fc6_667b1c44",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 687,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-11-22T20:13:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "df6fba4e_054282f3",
+      "range": {
+        "startLine": 687,
+        "startChar": 25,
+        "endLine": 687,
+        "endChar": 38
+      },
+      "revId": "f456a7b7955d8f48df0265a86d0cb2ad5ecb79f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "114548b0_a148d5af",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
         "patchSetId": 1
@@ -245,6 +479,30 @@
       "revId": "f456a7b7955d8f48df0265a86d0cb2ad5ecb79f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ba6f63c3_083b75ce",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 697,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-11-22T20:13:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "114548b0_a148d5af",
+      "range": {
+        "startLine": 697,
+        "startChar": 3,
+        "endLine": 697,
+        "endChar": 5
+      },
+      "revId": "f456a7b7955d8f48df0265a86d0cb2ad5ecb79f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -285,6 +543,48 @@
       "revId": "f456a7b7955d8f48df0265a86d0cb2ad5ecb79f5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3eaa2fc3_17fd0457",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 709,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-11-22T20:13:45Z",
+      "side": 1,
+      "message": "no limit for this at all. This is more like a broadcasting that you want all your listeners to act on. I don\u0027t think we need to limit it to Gerrit core only.",
+      "parentUuid": "7986ad9c_9281db8f",
+      "revId": "f456a7b7955d8f48df0265a86d0cb2ad5ecb79f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d7c4c26d_4bca0094",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 709,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-11-22T20:13:45Z",
+      "side": 1,
+      "message": "ya I will list all INTERNAL events we will support. But the usage should not be limited to those. i.e: if you need to communicate between two plugins, you can use this as well.\n\n```\npluginA.emit(\"event-from-plugin-a\");\npluginB.on(\"event-from-plugin-a\", () \u003d\u003e // do something);\n```",
+      "parentUuid": "ba4de58b_14fa6b9e",
+      "range": {
+        "startLine": 709,
+        "startChar": 25,
+        "endLine": 709,
+        "endChar": 34
+      },
+      "revId": "f456a7b7955d8f48df0265a86d0cb2ad5ecb79f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

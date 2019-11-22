@@ -662,7 +662,8 @@
     }
   };
 
-  window.Gerrit = Gerrit;
+  // TODO(taoalpha): List all internal supported event names.
+  window.Gerrit = EventEmitter.mixin(Gerrit);
 
   // Preloaded plugins should be installed after Gerrit.install() is set,
   // since plugin preloader substitutes Gerrit.install() temporarily.

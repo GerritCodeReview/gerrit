@@ -9,7 +9,8 @@ To build Gerrit from source, you need:
 * A JDK for Java 8|9|10|11|...
 * Python 2 or 3
 * Node.js
-* link:https://www.bazel.io/versions/master/docs/install.html[Bazel]
+* link:https://www.bazel.io/versions/master/docs/install.html[Bazel] directly
+or through link:https://github.com/bazelbuild/bazelisk[Bazelisk]
 * Maven
 * zip, unzip
 * gcc

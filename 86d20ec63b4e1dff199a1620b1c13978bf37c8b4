@@ -308,6 +308,30 @@
     },
     {
       "key": {
+        "uuid": "fe833fb6_06acd0be",
+        "filename": "java/com/google/gerrit/server/change/ActionJson.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-11-22T09:57:02Z",
+      "side": 1,
+      "message": "I would go with Cherry-pick-of: 621,2 because it keeps the data together. Otherwise you need additional logic to ensure that both footers can only appear together.",
+      "parentUuid": "67ea5d18_82522774",
+      "range": {
+        "startLine": 147,
+        "startChar": 0,
+        "endLine": 147,
+        "endChar": 1
+      },
+      "revId": "86d20ec63b4e1dff199a1620b1c13978bf37c8b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5f69d109_995d353a",
         "filename": "java/com/google/gerrit/server/change/SetSourceOp.java",
         "patchSetId": 11

@@ -1,0 +1,290 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b369a535_1099e36d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-11-22T11:15:08Z",
+      "side": 1,
+      "message": "Can you add more about why you are doing this? Is there an issue associated? What use cases do you have in mind?",
+      "revId": "f456a7b7955d8f48df0265a86d0cb2ad5ecb79f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "28f77b50_d5e49dc1",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-11-22T11:15:08Z",
+      "side": 1,
+      "message": "Empty line before comment.",
+      "revId": "f456a7b7955d8f48df0265a86d0cb2ad5ecb79f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ee7ba217_4c292709",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-11-22T11:15:08Z",
+      "side": 1,
+      "message": "Add a bit more of documentation.",
+      "range": {
+        "startLine": 180,
+        "startChar": 5,
+        "endLine": 180,
+        "endChar": 24
+      },
+      "revId": "f456a7b7955d8f48df0265a86d0cb2ad5ecb79f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "193a7485_f3cd41ed",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-11-22T11:15:08Z",
+      "side": 1,
+      "message": "type?",
+      "range": {
+        "startLine": 181,
+        "startChar": 30,
+        "endLine": 181,
+        "endChar": 33
+      },
+      "revId": "f456a7b7955d8f48df0265a86d0cb2ad5ecb79f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e56186c6_e9ed38b6",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-11-22T11:15:08Z",
+      "side": 1,
+      "message": "Move this to where other global lets are defined in this file (already two spots :-/).",
+      "range": {
+        "startLine": 181,
+        "startChar": 2,
+        "endLine": 181,
+        "endChar": 5
+      },
+      "revId": "f456a7b7955d8f48df0265a86d0cb2ad5ecb79f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f586a270_c7c61737",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-11-22T11:15:08Z",
+      "side": 1,
+      "message": "Maybe lower case here to be consistent with other vars?",
+      "range": {
+        "startLine": 181,
+        "startChar": 7,
+        "endLine": 181,
+        "endChar": 8
+      },
+      "revId": "f456a7b7955d8f48df0265a86d0cb2ad5ecb79f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fe6765d4_0b61daf0",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-11-22T11:15:08Z",
+      "side": 1,
+      "message": "Can you align plugin.on with the new event system or document how this is and must be different?",
+      "revId": "f456a7b7955d8f48df0265a86d0cb2ad5ecb79f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "24c4d748_14a60f7d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-11-22T11:15:08Z",
+      "side": 1,
+      "message": "Add a comment about who is supposed to call this and refer to other docs/methods of the new event system.",
+      "revId": "f456a7b7955d8f48df0265a86d0cb2ad5ecb79f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0b03102c_7236f2d7",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-11-22T11:15:08Z",
+      "side": 1,
+      "message": "Drop comment. This is self explaining.",
+      "revId": "f456a7b7955d8f48df0265a86d0cb2ad5ecb79f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c791fb0f_58feb96f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 680,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-11-22T11:15:08Z",
+      "side": 1,
+      "message": "What kind of events?\nWho can be a sender or receiver of such events?\nHow is this different from typical DOM events that are already being used in lots of places?",
+      "range": {
+        "startLine": 680,
+        "startChar": 5,
+        "endLine": 680,
+        "endChar": 31
+      },
+      "revId": "f456a7b7955d8f48df0265a86d0cb2ad5ecb79f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "df6fba4e_054282f3",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 687,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-11-22T11:15:08Z",
+      "side": 1,
+      "message": "What do you mean by \"on a endpoint\"?",
+      "range": {
+        "startLine": 687,
+        "startChar": 25,
+        "endLine": 687,
+        "endChar": 38
+      },
+      "revId": "f456a7b7955d8f48df0265a86d0cb2ad5ecb79f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "114548b0_a148d5af",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 697,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-11-22T11:15:08Z",
+      "side": 1,
+      "message": "Gerrit.emit is not mentioned.",
+      "range": {
+        "startLine": 697,
+        "startChar": 3,
+        "endLine": 697,
+        "endChar": 5
+      },
+      "revId": "f456a7b7955d8f48df0265a86d0cb2ad5ecb79f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7986ad9c_9281db8f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 709,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-11-22T11:15:08Z",
+      "side": 1,
+      "message": "Add a comment. Should not be called by plugins, right?",
+      "revId": "f456a7b7955d8f48df0265a86d0cb2ad5ecb79f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ba4de58b_14fa6b9e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 709,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-11-22T11:15:08Z",
+      "side": 1,
+      "message": "Should there be a list of supported/documented event names somewhere?",
+      "range": {
+        "startLine": 709,
+        "startChar": 25,
+        "endLine": 709,
+        "endChar": 34
+      },
+      "revId": "f456a7b7955d8f48df0265a86d0cb2ad5ecb79f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

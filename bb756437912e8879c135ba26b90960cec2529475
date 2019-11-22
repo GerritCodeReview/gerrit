@@ -22,6 +22,75 @@
       "revId": "bb756437912e8879c135ba26b90960cec2529475",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4f184dcf_8ae1b9ec",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-11-22T21:59:17Z",
+      "side": 1,
+      "message": "I hate when Intellij does this - seems like this is the reason for your build failure.",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 70
+      },
+      "revId": "bb756437912e8879c135ba26b90960cec2529475",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "283ea884_1aa5e2f1",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-11-22T21:59:17Z",
+      "side": 1,
+      "message": "I think the name should be changed.",
+      "range": {
+        "startLine": 298,
+        "startChar": 14,
+        "endLine": 298,
+        "endChar": 27
+      },
+      "revId": "bb756437912e8879c135ba26b90960cec2529475",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9b1dc068_4e5e393c",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/ChangeIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 4371,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-11-22T21:59:17Z",
+      "side": 1,
+      "message": "This comment looks important, it\u0027s probably useful to remove it there, too?",
+      "range": {
+        "startLine": 4371,
+        "startChar": 0,
+        "endLine": 4371,
+        "endChar": 77
+      },
+      "revId": "bb756437912e8879c135ba26b90960cec2529475",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -260,6 +260,30 @@
     },
     {
       "key": {
+        "uuid": "d020d318_e0c378b0",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-11-22T21:31:10Z",
+      "side": 1,
+      "message": "You are very polite. You could also just write this for master and let others merge it back to older releases.",
+      "parentUuid": "7eb46ef4_a6f55464",
+      "range": {
+        "startLine": 181,
+        "startChar": 2,
+        "endLine": 181,
+        "endChar": 5
+      },
+      "revId": "f456a7b7955d8f48df0265a86d0cb2ad5ecb79f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fe6765d4_0b61daf0",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
         "patchSetId": 1

@@ -16,6 +16,24 @@
       "revId": "828d66b098fb86e45fd95836de67e04ebe5c724c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d9ebe58b_e760e767",
+        "filename": "tools/maven/package.bzl",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-11-23T01:33:52Z",
+      "side": 1,
+      "message": "I think we should.",
+      "parentUuid": "7eedb896_272621d0",
+      "revId": "828d66b098fb86e45fd95836de67e04ebe5c724c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

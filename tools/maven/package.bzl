@@ -17,6 +17,14 @@ sh_bang_template = (" && ".join([
     "echo \"# this script should run from the root of your workspace.\" >> $@",
     "echo \"set -e\" >> $@",
     "echo \"\" >> $@",
+    "echo 'function bazel_cmd() {' >> $@",
+    "echo '  if [[ `which bazelisk` ]]; then' >> $@",
+    "echo '    bazelisk \"$$@\"' >> $@",
+    "echo '  else' >> $@",
+    "echo '    bazel \"$$@\"' >> $@",
+    "echo '  fi' >> $@",
+    "echo '}' >> $@",
+    "echo \"\" >> $@",
     "echo 'if [[ \"$$VERBOSE\" ]]; then set -x ; fi' >> $@",
     "echo \"\" >> $@",
     "echo %s >> $@",
@@ -32,7 +40,7 @@ def maven_package(
         src = {},
         doc = {},
         war = {}):
-    build_cmd = ["bazel", "build"]
+    build_cmd = ["bazel_cmd", "build"]
     mvn_cmd = ["python", "tools/maven/mvn.py", "-v", version]
     api_cmd = mvn_cmd[:]
     api_targets = []

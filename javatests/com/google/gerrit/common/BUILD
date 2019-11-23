@@ -7,8 +7,8 @@ junit_tests(
     deps = [
         "//java/com/google/gerrit/common:server",
         "//java/com/google/gerrit/common:version",
-        "//java/com/google/gerrit/entities",
         "//java/com/google/gerrit/launcher",
+        "//java/com/google/gerrit/testing:gerrit-test-util",
         "//lib:guava",
         "//lib/auto:auto-value",
         "//lib/auto:auto-value-annotations",

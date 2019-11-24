@@ -75,7 +75,7 @@
      * Handle a click on the iron-dropdown element.
      * @param {!Event} e
      */
-    _handleDropdownTap(e) {
+    _handleDropdownClick(e) {
       // async is needed so that that the click event is fired before the
       // dropdown closes (This was a bug for touch devices).
       this.async(() => {

@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ebdc177c_f989590d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-11-24T23:29:08Z",
+      "side": 1,
+      "message": "nit: add a blank line here",
+      "revId": "648fa36aff4e966c1fa2db0c5def6c21c885b674",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b2c78c3e_7e79611d",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-11-24T23:29:08Z",
+      "side": 1,
+      "message": "This could be reduced to a single line:\n\n  return queryProvider.get().bySubmissionId(submissionId).size() \u003e 1;",
+      "range": {
+        "startLine": 178,
+        "startChar": 4,
+        "endLine": 179,
+        "endChar": 36
+      },
+      "revId": "648fa36aff4e966c1fa2db0c5def6c21c885b674",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6101e330_f19ba408",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/ActionsIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-11-24T23:29:08Z",
+      "side": 1,
+      "message": "Should this be changeId2?  Otherwise this block (L94-96) is identical to the previous block (L91-93)",
+      "range": {
+        "startLine": 94,
+        "startChar": 56,
+        "endLine": 94,
+        "endChar": 65
+      },
+      "revId": "648fa36aff4e966c1fa2db0c5def6c21c885b674",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

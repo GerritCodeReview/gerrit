@@ -270,11 +270,13 @@ def createVerifyMsgBody(builds) {
 
 node ('master') {
 
-    stage('Preparing'){
-        gerritReview labels: ['Verified': 0, 'Code-Style': 0]
+    if (env.GERRIT_CHANGE_NUMBER != "") {
+        stage('Preparing'){
+            gerritReview labels: ['Verified': 0, 'Code-Style': 0]
 
-        getChangeMetaData()
-        collectBuildModes()
+            getChangeMetaData()
+            collectBuildModes()
+        }
     }
 
     parallel(collectBuilds())
@@ -289,25 +291,27 @@ node ('master') {
         }
     }
 
-    stage('Report to Gerrit'){
-        resCodeStyle = getLabelValue(1, Builds.codeStyle.result)
-        gerritReview(
-            labels: ['Code-Style': resCodeStyle],
-            message: createCodeStyleMsgBody(Builds.codeStyle, resCodeStyle))
-        postCheck(new GerritCheck("codestyle", Change.number, Change.sha1, Builds.codeStyle))
+    if (env.GERRIT_CHANGE_NUMBER != "") {
+        stage('Report to Gerrit'){
+            resCodeStyle = getLabelValue(1, Builds.codeStyle.result)
+            gerritReview(
+                labels: ['Code-Style': resCodeStyle],
+                message: createCodeStyleMsgBody(Builds.codeStyle, resCodeStyle))
+            postCheck(new GerritCheck("codestyle", Change.number, Change.sha1, Builds.codeStyle))
 
-        def verificationResults = Builds.verification.collect { k, v -> v }
-        def resVerify = verificationResults.inject(1) {
-            acc, build -> getLabelValue(acc, build.result)
+            def verificationResults = Builds.verification.collect { k, v -> v }
+            def resVerify = verificationResults.inject(1) {
+                acc, build -> getLabelValue(acc, build.result)
+            }
+            gerritReview(
+                labels: ['Verified': resVerify],
+                message: createVerifyMsgBody(Builds.verification))
+
+            Builds.verification.each { type, build -> postCheck(
+                new GerritCheck(type, Change.number, Change.sha1, build)
+            )}
+
+            setResult(resVerify, resCodeStyle)
         }
-        gerritReview(
-            labels: ['Verified': resVerify],
-            message: createVerifyMsgBody(Builds.verification))
-
-        Builds.verification.each { type, build -> postCheck(
-            new GerritCheck(type, Change.number, Change.sha1, build)
-        )}
-
-        setResult(resVerify, resCodeStyle)
     }
 }

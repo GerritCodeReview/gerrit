@@ -313,7 +313,9 @@
 
       this._coverageRanges = [];
       const {changeNum, path, patchRange: {basePatchNum, patchNum}} = this;
-      this.$.jsAPI.getCoverageRanges(changeNum, path, basePatchNum, patchNum).
+      const coverageRequest = this.$.jsAPI.getCoverageRanges(
+          changeNum, path, basePatchNum, patchNum
+      ).
           then(coverageRanges => {
             if (changeNum !== this.changeNum ||
                 path !== this.path ||
@@ -344,7 +346,7 @@
         return this._loadDiffAssets(diff);
       });
 
-      return Promise.all([diffRequest, assetRequest])
+      return Promise.all([diffRequest, assetRequest, coverageRequest])
           .then(results => {
             const diff = results[0];
             if (!diff) {

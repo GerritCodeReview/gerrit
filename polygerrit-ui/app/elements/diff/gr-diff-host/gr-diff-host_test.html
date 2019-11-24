@@ -316,6 +316,8 @@ limitations under the License.
             }));
         sandbox.stub(element.$.restAPI, 'getDiff').returns(
             Promise.resolve({content: []}));
+        sandbox.stub(element.$.jsAPI, 'getCoverageRanges').returns(
+            Promise.resolve([]));
         element.patchRange = {};
         element.$.restAPI.getDiffPreferences().then(prefs => {
           element.prefs = prefs;
@@ -340,6 +342,8 @@ limitations under the License.
       test('ends total timer w/ no syntax layer processing', done => {
         sandbox.stub(element.$.restAPI, 'getDiff').returns(
             Promise.resolve({content: []}));
+        sandbox.stub(element.$.jsAPI, 'getCoverageRanges').returns(
+            Promise.resolve([]));
         element.patchRange = {};
         element.reload();
         // Multiple cascading microtasks are scheduled.
@@ -359,6 +363,8 @@ limitations under the License.
             }));
         sandbox.stub(element.$.restAPI, 'getDiff').returns(
             Promise.resolve({content: []}));
+        sandbox.stub(element.$.jsAPI, 'getCoverageRanges').returns(
+            Promise.resolve([]));
         element.patchRange = {};
         let reloadComplete = false;
         element.$.restAPI.getDiffPreferences().then(prefs => {
@@ -403,6 +409,8 @@ limitations under the License.
         sandbox.stub(element.$.restAPI, 'getDiff').returns(Promise.resolve({
           content: [],
         }));
+        sandbox.stub(element.$.jsAPI, 'getCoverageRanges').returns(
+            Promise.resolve([]));
         element.projectName = 'test-project';
         element.path = 'test-path';
         element.commitRange = {baseCommit: 'test-base', commit: 'test-commit'};
@@ -449,6 +457,8 @@ limitations under the License.
             (changeNum, basePatchNum, patchNum, path, onErr) => {
               onErr(error);
             });
+        sandbox.stub(element.$.jsAPI, 'getCoverageRanges').returns(
+            Promise.resolve([]));
         element.patchRange = {};
         return element.reload().then(() => {
           assert.isTrue(onErrStub.calledOnce);
@@ -538,7 +548,8 @@ limitations under the License.
           };
           sandbox.stub(element.$.restAPI, 'getDiff')
               .returns(Promise.resolve(mockDiff));
-
+          sandbox.stub(element.$.jsAPI, 'getCoverageRanges').returns(
+              Promise.resolve([]));
           const rendered = () => {
             // Recognizes that it should be an image diff.
             assert.isTrue(element.isImageDiff);
@@ -619,7 +630,8 @@ limitations under the License.
           };
           sandbox.stub(element.$.restAPI, 'getDiff')
               .returns(Promise.resolve(mockDiff));
-
+          sandbox.stub(element.$.jsAPI, 'getCoverageRanges').returns(
+              Promise.resolve([]));
           const rendered = () => {
             // Recognizes that it should be an image diff.
             assert.isTrue(element.isImageDiff);
@@ -701,6 +713,8 @@ limitations under the License.
           };
           sandbox.stub(element.$.restAPI, 'getDiff')
               .returns(Promise.resolve(mockDiff));
+          sandbox.stub(element.$.jsAPI, 'getCoverageRanges').returns(
+              Promise.resolve([]));
 
           element.addEventListener('render', () => {
             // Recognizes that it should be an image diff.
@@ -742,6 +756,8 @@ limitations under the License.
           };
           sandbox.stub(element.$.restAPI, 'getDiff')
               .returns(Promise.resolve(mockDiff));
+          sandbox.stub(element.$.jsAPI, 'getCoverageRanges').returns(
+              Promise.resolve([]));
 
           element.addEventListener('render', () => {
             // Recognizes that it should be an image diff.
@@ -785,6 +801,8 @@ limitations under the License.
 
           sandbox.stub(element.$.restAPI, 'getDiff')
               .returns(Promise.resolve(mockDiff));
+          sandbox.stub(element.$.jsAPI, 'getCoverageRanges').returns(
+              Promise.resolve([]));
 
           element.addEventListener('render', () => {
             // Recognizes that it should be an image diff.
@@ -1383,6 +1401,8 @@ limitations under the License.
         sandbox.stub(element.$.syntaxLayer, 'process').returns(Promise.resolve());
         sandbox.stub(element.$.restAPI, 'getDiff').returns(
             Promise.resolve({content: []}));
+        sandbox.stub(element.$.jsAPI, 'getCoverageRanges').returns(
+            Promise.resolve([]));
         element.reload();
         setTimeout(() => {
           element.dispatchEvent(

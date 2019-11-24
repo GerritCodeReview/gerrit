@@ -17,6 +17,10 @@
 import groovy.json.JsonSlurper
 import groovy.json.JsonOutput
 
+// FIXME: Simulation of a stable branch to be removed before merge
+env.GERRIT_CHANGE_NUMBER = ""
+env.BRANCH_NAME = "stable-2.16"
+
 class Globals {
     static final String gerritUrl = "https://gerrit-review.googlesource.com/"
     static final String gerritCredentialsId = "gerrit-review.googlesource.com"

@@ -181,9 +181,17 @@ def prepareBuildsForMode(buildName, mode="reviewdb", retryTimes = 1) {
 
 def collectBuilds() {
     def builds = [:]
-    builds["Gerrit-codestyle"] = prepareBuildsForMode("Gerrit-codestyle")
-    Builds.modes.each {
-        builds["Gerrit-verification(${it})"] = prepareBuildsForMode("Gerrit-verifier-bazel", it)
+    if (env.GERRIT_CHANGE_NUMBER == "") {
+       builds["java8"] = { -> build "Gerrit-bazel-${env.BRANCH_NAME}" }
+
+       if (env.BRANCH_NAME == "master") {
+          builds["java11"] = { -> build "Gerrit-bazel-java11-${env.BRANCH_NAME}" }
+       }
+    } else {
+        builds["Gerrit-codestyle"] = prepareBuildsForMode("Gerrit-codestyle")
+        Builds.modes.each {
+            builds["Gerrit-verification(${it})"] = prepareBuildsForMode("Gerrit-verifier-bazel", it)
+        }
     }
     return builds
 }
@@ -270,44 +278,48 @@ def createVerifyMsgBody(builds) {
 
 node ('master') {
 
-    stage('Preparing'){
-        gerritReview labels: ['Verified': 0, 'Code-Style': 0]
+    if (env.GERRIT_CHANGE_NUMBER != "") {
+        stage('Preparing'){
+            gerritReview labels: ['Verified': 0, 'Code-Style': 0]
 
-        getChangeMetaData()
-        collectBuildModes()
+            getChangeMetaData()
+            collectBuildModes()
+        }
     }
 
     parallel(collectBuilds())
 
-    stage('Retry Flaky Builds'){
-        def flakyBuildsModes = findFlakyBuilds()
-        if (flakyBuildsModes.size() > 0){
-            parallel flakyBuildsModes.collectEntries {
-                ["Gerrit-verification(${it})" :
-                    prepareBuildsForMode("Gerrit-verifier-bazel", it, 3)]
+    if (env.GERRIT_CHANGE_NUMBER != "") {
+        stage('Retry Flaky Builds'){
+            def flakyBuildsModes = findFlakyBuilds()
+            if (flakyBuildsModes.size() > 0){
+                parallel flakyBuildsModes.collectEntries {
+                    ["Gerrit-verification(${it})" :
+                        prepareBuildsForMode("Gerrit-verifier-bazel", it, 3)]
+                }
             }
         }
-    }
 
-    stage('Report to Gerrit'){
-        resCodeStyle = getLabelValue(1, Builds.codeStyle.result)
-        gerritReview(
-            labels: ['Code-Style': resCodeStyle],
-            message: createCodeStyleMsgBody(Builds.codeStyle, resCodeStyle))
-        postCheck(new GerritCheck("codestyle", Change.number, Change.sha1, Builds.codeStyle))
+        stage('Report to Gerrit'){
+            resCodeStyle = getLabelValue(1, Builds.codeStyle.result)
+            gerritReview(
+                labels: ['Code-Style': resCodeStyle],
+                message: createCodeStyleMsgBody(Builds.codeStyle, resCodeStyle))
+            postCheck(new GerritCheck("codestyle", Change.number, Change.sha1, Builds.codeStyle))
 
-        def verificationResults = Builds.verification.collect { k, v -> v }
-        def resVerify = verificationResults.inject(1) {
-            acc, build -> getLabelValue(acc, build.result)
+            def verificationResults = Builds.verification.collect { k, v -> v }
+            def resVerify = verificationResults.inject(1) {
+                acc, build -> getLabelValue(acc, build.result)
+            }
+            gerritReview(
+                labels: ['Verified': resVerify],
+                message: createVerifyMsgBody(Builds.verification))
+
+            Builds.verification.each { type, build -> postCheck(
+                new GerritCheck(type, Change.number, Change.sha1, build)
+            )}
+
+            setResult(resVerify, resCodeStyle)
         }
-        gerritReview(
-            labels: ['Verified': resVerify],
-            message: createVerifyMsgBody(Builds.verification))
-
-        Builds.verification.each { type, build -> postCheck(
-            new GerritCheck(type, Change.number, Change.sha1, build)
-        )}
-
-        setResult(resVerify, resCodeStyle)
     }
 }

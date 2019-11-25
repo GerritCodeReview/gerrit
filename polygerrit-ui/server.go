@@ -56,19 +56,31 @@ func main() {
 		log.Fatal(err)
 	}
 
-	componentsArchive, err := openDataArchive("app/test_components.zip")
-	if err != nil {
-		log.Fatal(err)
-	}
+	//componentsArchive, err := openDataArchive("app/test_components.zip")
+	//if err != nil {
+	//	log.Fatal(err)
+	//}
 
 	workspace := os.Getenv("BUILD_WORKSPACE_DIRECTORY")
 	if err := os.Chdir(filepath.Join(workspace, "polygerrit-ui")); err != nil {
 		log.Fatal(err)
 	}
+  ///http.Handle("/node_modules/", http.FileServer(http.Dir("build/dev/")))
+	//http.Handle("/", http.FileServer(http.Dir("build/dev/app")))
 
-	http.Handle("/", http.FileServer(http.Dir("app")))
-	http.Handle("/bower_components/",
-		http.FileServer(httpfs.New(zipfs.New(componentsArchive, "bower_components"))))
+
+	//The following lines for bundle
+  //http.Handle("/bower_components/", http.FileServer(http.Dir("out")))
+	//http.Handle("/", http.FileServer(http.Dir("out")))
+  //http.Handle("/styles/", http.FileServer(http.Dir("app")))
+
+	//The following lines for unbundled source:
+  http.Handle("/", http.FileServer(http.Dir("app")))
+  http.HandleFunc("/bower_components/", handleJsModules)
+  http.HandleFunc("/node_modules/", handleJsModules)
+
+	// http.Handle("/bower_components/",
+	//	http.FileServer(httpfs.New(zipfs.New(componentsArchive, "bower_components"))))
 	http.Handle("/fonts/",
 		http.FileServer(httpfs.New(zipfs.New(fontsArchive, "fonts"))))
 
@@ -90,6 +102,33 @@ func main() {
 	log.Println("Serving on port", *port)
 	log.Fatal(http.ListenAndServe(*port, &server{}))
 }
+
+func handleJsModules(writer http.ResponseWriter, originalRequest *http.Request) {
+  path :=originalRequest.RequestURI
+  if strings.HasPrefix(path, "/") {
+    path = path[1:]
+  }
+  path = "/usr/local/google/home/dmfilippov/gerrit-p2/polygerrit-ui/" + path
+  data, err := ioutil.ReadFile(path)
+  if err != nil {
+    writer.WriteHeader(404);
+    return;
+  }
+  //writer.Write([]byte(path))
+
+  if strings.HasSuffix(path, ".js") {
+    r := regexp.MustCompile("(?m)^(import.*)'([^/.].*)';$")
+    data = r.ReplaceAll(data, []byte("$1 '/node_modules/$2'"))
+    writer.Header().Set("Content-Type", "application/javascript")
+  } else {
+    writer.Header().Set("Content-Type", "text/plain")
+
+  }
+  writer.WriteHeader(200)
+  writer.Write(data)
+
+}
+
 
 func openDataArchive(path string) (*zip.ReadCloser, error) {
 	absBinPath, err := resourceBasePath()

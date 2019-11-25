@@ -1,4 +1,11 @@
-workspace(name = "gerrit")
+workspace(
+    name = "gerrit",
+    managed_directories = {
+        "@npm": ["node_modules"],
+        "@ui_npm": ["polygerrit-ui/app/node_modules"],
+        "@tools_npm": ["tools/node_tools/node_modules"],
+    },
+)
 
 load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository")
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive", "http_file")
@@ -14,6 +21,12 @@ http_archive(
         "https://mirror.bazel.build/github.com/bazelbuild/bazel-toolchains/archive/92dd8a7a518a2fb7ba992d47c8b38299fe0be825.tar.gz",
         "https://github.com/bazelbuild/bazel-toolchains/archive/92dd8a7a518a2fb7ba992d47c8b38299fe0be825.tar.gz",
     ],
+)
+
+http_archive(
+    name = "build_bazel_rules_nodejs",
+    sha256 = "9901bc17138a79135048fb0c107ee7a56e91815ec6594c08cb9a17b80276d62b",
+    urls = ["https://github.com/bazelbuild/rules_nodejs/releases/download/0.40.0/rules_nodejs-0.40.0.tar.gz"],
 )
 
 load("@bazel_toolchains//rules:rbe_repo.bzl", "rbe_autoconfig")
@@ -1158,5 +1171,25 @@ bower_archive(
 load("//lib/js:bower_archives.bzl", "load_bower_archives")
 
 load_bower_archives()
+
+load("@build_bazel_rules_nodejs//:defs.bzl", "yarn_install")
+
+yarn_install(
+    name = "ui_npm",
+    package_json = "//:polygerrit-ui/app/package.json",
+    prod_only = False,
+    yarn_lock = "//:polygerrit-ui/app/yarn.lock",
+)
+
+yarn_install(
+    name = "tools_npm",
+    package_json = "//:tools/node_tools/package.json",
+    prod_only = True,
+    yarn_lock = "//:tools/node_tools/yarn.lock",
+)
+
+load("@tools_npm//:install_bazel_dependencies.bzl", "install_bazel_dependencies")
+
+install_bazel_dependencies()
 
 external_plugin_deps()

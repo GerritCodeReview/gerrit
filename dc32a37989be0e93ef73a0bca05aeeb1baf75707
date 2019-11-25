@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "33c680a7_14f51e8e",
+        "filename": "Jenkinsfile",
+        "patchSetId": 5
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-11-25T08:51:38Z",
+      "side": 1,
+      "message": "Do we want to rerun builds, if either java8 or java11 fails, but not both? I am not sure how much sense that makes. If those builds are flaky that should be seen as failed in my opinion. IMHO we should only do this for verifier builds.",
+      "revId": "dc32a37989be0e93ef73a0bca05aeeb1baf75707",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

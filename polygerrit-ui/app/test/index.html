@@ -19,8 +19,10 @@ limitations under the License.
 <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
 <title>Elements Test Runner</title>
 <meta charset="utf-8">
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
+<script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="../node_modules/wct-mocha/wct-mocha.js"></script>
+<!--<script src="../node_modules/mocha/mocha.js"></script>-->
+<!--<script src="../node_modules/web-component-tester/browser.js"></script>-->
 <script>
   const testFiles = [];
   const scriptsPath = '../scripts/';
@@ -218,7 +220,7 @@ limitations under the License.
   /* eslint-enable max-len */
   for (let file of elements) {
     file = elementsPath + file;
-    testFiles.push(file);
+    //testFiles.push(file);
   }
 
   // Behaviors tests.
@@ -226,20 +228,20 @@ limitations under the License.
   const behaviors = [
     'async-foreach-behavior/async-foreach-behavior_test.html',
     'base-url-behavior/base-url-behavior_test.html',
-    'docs-url-behavior/docs-url-behavior_test.html',
-    'dom-util-behavior/dom-util-behavior_test.html',
-    'keyboard-shortcut-behavior/keyboard-shortcut-behavior_test.html',
-    'rest-client-behavior/rest-client-behavior_test.html',
-    'gr-access-behavior/gr-access-behavior_test.html',
-    'gr-admin-nav-behavior/gr-admin-nav-behavior_test.html',
-    'gr-change-table-behavior/gr-change-table-behavior_test.html',
-    'gr-list-view-behavior/gr-list-view-behavior_test.html',
-    'gr-display-name-behavior/gr-display-name-behavior_test.html',
-    'gr-patch-set-behavior/gr-patch-set-behavior_test.html',
-    'gr-path-list-behavior/gr-path-list-behavior_test.html',
-    'gr-tooltip-behavior/gr-tooltip-behavior_test.html',
-    'gr-url-encoding-behavior/gr-url-encoding-behavior_test.html',
-    'safe-types-behavior/safe-types-behavior_test.html',
+    // 'docs-url-behavior/docs-url-behavior_test.html',
+    // 'dom-util-behavior/dom-util-behavior_test.html',
+    // 'keyboard-shortcut-behavior/keyboard-shortcut-behavior_test.html',
+    // 'rest-client-behavior/rest-client-behavior_test.html',
+    // 'gr-access-behavior/gr-access-behavior_test.html',
+    // 'gr-admin-nav-behavior/gr-admin-nav-behavior_test.html',
+    // 'gr-change-table-behavior/gr-change-table-behavior_test.html',
+    // 'gr-list-view-behavior/gr-list-view-behavior_test.html',
+    // 'gr-display-name-behavior/gr-display-name-behavior_test.html',
+    // 'gr-patch-set-behavior/gr-patch-set-behavior_test.html',
+    // 'gr-path-list-behavior/gr-path-list-behavior_test.html',
+    // 'gr-tooltip-behavior/gr-tooltip-behavior_test.html',
+    // 'gr-url-encoding-behavior/gr-url-encoding-behavior_test.html',
+    // 'safe-types-behavior/safe-types-behavior_test.html',
   ];
   /* eslint-enable max-len */
   for (let file of behaviors) {
@@ -257,7 +259,7 @@ limitations under the License.
   /* eslint-enable max-len */
   for (let file of scripts) {
     file = scriptsPath + file;
-    testFiles.push(file);
+    //testFiles.push(file);
   }
 
   WCT.loadSuites(testFiles);

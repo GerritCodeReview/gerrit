@@ -1,16 +1,25 @@
 #!/bin/sh
 
 set -ex
-
 t=$(mktemp -d || mktemp -d -t wct-XXXXXXXXXX)
-components=$TEST_SRCDIR/gerrit/polygerrit-ui/app/test_components.zip
-code=$TEST_SRCDIR/gerrit/polygerrit-ui/app/pg_code.zip
 
-echo $t
-unzip -qd $t $components
-unzip -qd $t $code
-mkdir -p $t/test
-cp $TEST_SRCDIR/gerrit/polygerrit-ui/app/test/index.html $t/test/
+#t=$TEST_SRCDIR/gerrit/polygerrit-ui/app
+#echo $t
+#ls -l $TEST_SRCDIR/ui_npm
+cp -r $TEST_SRCDIR/ui_npm/node_modules $t/
+ln -s $t/node_modules/@polymer/test-fixture $t/node_modules/test-fixture
+ls -l $t
+
+# ls -l $TEST_SRCDIR
+# ls -l $TEST_SRCDIR/gerrit/polygerrit-ui
+# ls -l $TEST_SRCDIR/gerrit/polygerrit-ui/app
+# ls -l $TEST_SRCDIR/gerrit/polygerrit-ui/app/node_modules
+# ls -l $TEST_SRCDIR/gerrit/polygerrit-ui/app/node_modules/web-component-tester
+cp -r $TEST_SRCDIR/gerrit/polygerrit-ui/app/* $t/
+ls -l $t/
+
+#mkdir -p $t/test
+#cp $TEST_SRCDIR/gerrit/polygerrit-ui/app/test/index.html $t/test/
 
 if [ "${WCT_HEADLESS_MODE:-0}" != "0" ]; then
     CHROME_OPTIONS=[\'start-maximized\',\'headless\',\'disable-gpu\',\'no-sandbox\']
@@ -34,9 +43,12 @@ module.exports = {
       'suites': ['test'],
       'webserver': {
         'pathMappings': [
-          {'/components/bower_components': 'bower_components'}
+          {'/components/bower_components': 'node_modules'},
+          {'/components/test-fixture': 'polymer_legacy_support/test-fixture'}
         ]
       },
+      'npm': true,
+      'moduleResolution': 'node',
       'plugins': {
         'local': {
           'skipSeleniumInstall': true,
@@ -63,5 +75,6 @@ export PATH="$(dirname $NPM):$PATH"
 
 cd $t
 test -n "${WCT}"
-
+# ls -l
+# ls -l node_modules/web-component-tester
 ${WCT} ${WCT_ARGS}

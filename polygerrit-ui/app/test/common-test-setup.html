@@ -16,8 +16,20 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
+<script src="/components/@webcomponents/webcomponentsjs/custom-elements-es5-adapter.js"></script>
+<script src="/components/@webcomponents/webcomponentsjs/webcomponents-lite.js"></script>
+<script src="/components/chai/chai.js"></script>
+<script src="/components/mocha/mocha.js"></script>
+<script src="/components/wct-mocha/wct-mocha.js"></script>
+<script src="/components/sinon/pkg/sinon.js"></script>
+
+<!-- This path doesn't exists in node_modules, but web-component-tester expects that it exists.
+When tests are runned, node_modules/test-fixture points to node_modules/@polymer/test-fixture.
+Do not change path here, otherwise code can be loaded twice. -->
+<link rel="import" href="/components/test-fixture/test-fixture.html"></link>
+
 <link rel="import"
-    href="/bower_components/polymer-resin/standalone/polymer-resin.html" />
+    href="/polymer_legacy_support/polymer-resin/standalone/polymer-resin.html" />
 <link rel="import" href="../behaviors/safe-types-behavior/safe-types-behavior.html">
 <script>
   security.polymer_resin.install({
@@ -60,6 +72,6 @@ limitations under the License.
   })();
 </script>
 <link rel="import"
-    href="/bower_components/iron-test-helpers/iron-test-helpers.html" />
+  href="/polymer_legacy_support/iron-test-helpers/iron-test-helpers.html" />
 <link rel="import" href="test-router.html" />
-<script src="/bower_components/moment/moment.js"></script>
+<script src="/components/moment/moment.js"></script>

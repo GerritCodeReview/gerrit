@@ -1522,6 +1522,21 @@ RevertInput] The topic of all created revert changes will be
 The changes will not be rebased on onto the destination branch so the users may still
 have to manually rebase them to resolve conflicts and make them submittable.
 
+However, the changes that have the same project and branch will be rebased on top
+of each other. E.g, the first revert change will have the original change as a
+parent, and the second revert change will have the first revert change as a
+parent.
+
+There is one special case that involves merge commits; if a user has multiple
+changes in the same project and branch, but not in the same change series, those
+changes can still get submitted together if they have the same topic and
+link:config-gerrit.html#change.submitWholeTopic[`change.submitWholeTopic`] in
+gerrit.config is set to true. In the case, Gerrit may create merge commits on
+submit (depending on the link:config-project-config.html#submit-type[submit types]
+of the project).
+The first parent for the reverts will be the most recent merge commit that was
+created by Gerrit to merge the different change series into the target branch.
+
 .Request
 ----
   POST /changes/myProject~master~I1ffe09a505e25f15ce1521bcfb222e51e62c2a14/revert_submission HTTP/1.0

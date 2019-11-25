@@ -35,7 +35,7 @@ import com.google.gerrit.sshd.CommandMetaData;
 import com.google.gerrit.sshd.SshCommand;
 import com.google.inject.Inject;
 import java.io.IOException;
-import java.util.Map;
+import java.util.Collection;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Ref;
@@ -89,14 +89,14 @@ public class LsUserRefs extends SshCommand {
     try (Repository repo = repoManager.openRepository(projectName);
         ManualRequestContext ctx = requestContext.openAs(userAccountId)) {
       try {
-        Map<String, Ref> refsMap =
+        Collection<Ref> refsMap =
             permissionBackend
                 .user(ctx.getUser())
                 .project(projectName)
                 .filter(repo.getRefDatabase().getRefs(), repo, RefFilterOptions.defaults());
 
-        for (String ref : refsMap.keySet()) {
-          if (!onlyRefsHeads || ref.startsWith(RefNames.REFS_HEADS)) {
+        for (Ref ref : refsMap) {
+          if (!onlyRefsHeads || ref.getName().startsWith(RefNames.REFS_HEADS)) {
             stdout.println(ref);
           }
         }

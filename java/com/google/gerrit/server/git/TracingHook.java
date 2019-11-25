@@ -14,8 +14,6 @@
 
 package com.google.gerrit.server.git;
 
-import static com.google.common.base.Preconditions.checkState;
-
 import com.google.gerrit.server.logging.TraceContext;
 import java.util.List;
 import java.util.Optional;
@@ -59,7 +57,10 @@ public class TracingHook implements ProtocolV2Hook, AutoCloseable {
    * @param serverOptionList list of provided server options
    */
   private void maybeStartTrace(List<String> serverOptionList) {
-    checkState(traceContext == null, "Trace was already started.");
+    if (traceContext != null) {
+      // Trace was already started
+      return;
+    }
 
     Optional<String> traceOption = parseTraceOption(serverOptionList);
     traceContext =

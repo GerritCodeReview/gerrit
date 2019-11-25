@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1cde5724_361864f7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-11-25T08:14:00Z",
+      "side": 1,
+      "message": "This fix is problematic, because rendring of diffs will be blocked on Gerrit.awaitPluginsLoaded().\n\nYou could add metrics to check whether this is at all a problem.\n\nYou could wait with the change until we load all plugins from index.html page.\n\nYou could wait for plugins to be loaded, but add a timeout to never wait longer than 500(?) ms.\n\nWait, probably the best solution is to react on layer updates dynamically, and we already have support for this:\n\ngr-diff adds a listener to all layers:\nhttps://gerrit.googlesource.com/gerrit/+/master/polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js#64\n\n_handleLayerUpdate would have to be changed to also re-render the line number \u003ctd\u003e, not just the content \u003ctd\u003e.\n\nThe coverage layer would have to call back to its listeners here:\nhttps://gerrit.googlesource.com/gerrit/+/ed757c0e7ae001c346519024435c8ec252d2de25/polygerrit-ui/app/elements/diff/gr-coverage-layer/gr-coverage-layer.js#104\n\nThe syntax layer already has support for this, so you can copy from there: https://gerrit.googlesource.com/gerrit/+/ed757c0e7ae001c346519024435c8ec252d2de25/polygerrit-ui/app/elements/diff/gr-syntax-layer/gr-syntax-layer.js#526",
+      "revId": "5adcece2c67d7ac9be2343e4728626969f01235c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

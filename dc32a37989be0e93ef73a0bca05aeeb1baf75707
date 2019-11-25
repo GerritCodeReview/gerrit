@@ -16,6 +16,24 @@
       "revId": "dc32a37989be0e93ef73a0bca05aeeb1baf75707",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c9ffebf7_9553c735",
+        "filename": "Jenkinsfile",
+        "patchSetId": 5
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-11-25T09:28:24Z",
+      "side": 1,
+      "message": "Agreed, let me disable for branch-level builds.",
+      "parentUuid": "33c680a7_14f51e8e",
+      "revId": "dc32a37989be0e93ef73a0bca05aeeb1baf75707",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "708f84e0_0466af4c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-11-25T10:05:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "22babae0_85cb7034",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 33
+      },
+      "revId": "a1ae626277217fdd4ee971e584b2fbcc30f347a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a0f3048a_2e6fcc4f",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -45,6 +69,30 @@
       "revId": "a1ae626277217fdd4ee971e584b2fbcc30f347a4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "96c22a92_a9814ba3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-11-25T10:05:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a0f3048a_2e6fcc4f",
+      "range": {
+        "startLine": 10,
+        "startChar": 6,
+        "endLine": 10,
+        "endChar": 62
+      },
+      "revId": "a1ae626277217fdd4ee971e584b2fbcc30f347a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "47acaa8b_3153a365",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-11-25T10:05:11Z",
+      "side": 1,
+      "message": "Changed to just doing one regular revert at first.",
+      "parentUuid": "64d8059c_0905a21e",
+      "range": {
+        "startLine": 12,
+        "startChar": 53,
+        "endLine": 13,
+        "endChar": 71
+      },
+      "revId": "a1ae626277217fdd4ee971e584b2fbcc30f347a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87f875e9_7b77c166",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "7b6ed705_0e294268",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-11-25T10:05:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87f875e9_7b77c166",
+      "range": {
+        "startLine": 17,
+        "startChar": 58,
+        "endLine": 17,
+        "endChar": 65
+      },
+      "revId": "a1ae626277217fdd4ee971e584b2fbcc30f347a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "da69805a_9fdd1d3e",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -114,6 +210,30 @@
       "revId": "a1ae626277217fdd4ee971e584b2fbcc30f347a4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "88bb168f_b49372c2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-11-25T10:05:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da69805a_9fdd1d3e",
+      "range": {
+        "startLine": 28,
+        "startChar": 56,
+        "endLine": 28,
+        "endChar": 63
+      },
+      "revId": "a1ae626277217fdd4ee971e584b2fbcc30f347a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -164,6 +284,30 @@
     },
     {
       "key": {
+        "uuid": "ae07589b_043d44a9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-11-25T10:05:11Z",
+      "side": 1,
+      "message": "https://en.wikipedia.org/wiki/Breadth-first_search\nEssentially, it means traversing by first of all looking at all the immediate parents, and then all the grandparents, and so on.",
+      "parentUuid": "6624a278_69f9a79e",
+      "range": {
+        "startLine": 39,
+        "startChar": 62,
+        "endLine": 39,
+        "endChar": 65
+      },
+      "revId": "a1ae626277217fdd4ee971e584b2fbcc30f347a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "876f8e62_7b8425de",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -204,6 +348,30 @@
     },
     {
       "key": {
+        "uuid": "ae9dbba4_d0528e3d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-11-25T10:05:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "29ff8ab1_a2fd0615",
+      "range": {
+        "startLine": 50,
+        "startChar": 0,
+        "endLine": 50,
+        "endChar": 66
+      },
+      "revId": "a1ae626277217fdd4ee971e584b2fbcc30f347a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "221e0bc1_bc717a30",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -224,6 +392,30 @@
       "revId": "a1ae626277217fdd4ee971e584b2fbcc30f347a4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f3786e1b_c6c8ddb4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-11-25T10:05:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "221e0bc1_bc717a30",
+      "range": {
+        "startLine": 53,
+        "startChar": 65,
+        "endLine": 53,
+        "endChar": 71
+      },
+      "revId": "a1ae626277217fdd4ee971e584b2fbcc30f347a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -273,6 +465,30 @@
     },
     {
       "key": {
+        "uuid": "2bba24b5_2b5cb8fe",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1525,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-11-25T10:05:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "94be2504_1adb5e18",
+      "range": {
+        "startLine": 1525,
+        "startChar": 15,
+        "endLine": 1525,
+        "endChar": 27
+      },
+      "revId": "a1ae626277217fdd4ee971e584b2fbcc30f347a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "064295a5_90e98017",
         "filename": "java/com/google/gerrit/server/restapi/BUILD",
         "patchSetId": 2
@@ -287,6 +503,24 @@
       "revId": "a1ae626277217fdd4ee971e584b2fbcc30f347a4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "98defe51_0007cb41",
+        "filename": "java/com/google/gerrit/server/restapi/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-11-25T10:05:11Z",
+      "side": 1,
+      "message": "I used it for the class \"Pair\", which is helpful.",
+      "parentUuid": "064295a5_90e98017",
+      "revId": "a1ae626277217fdd4ee971e584b2fbcc30f347a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

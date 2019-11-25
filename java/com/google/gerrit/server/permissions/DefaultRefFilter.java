@@ -20,11 +20,10 @@ import static com.google.gerrit.entities.RefNames.REFS_CACHE_AUTOMERGE;
 import static com.google.gerrit.entities.RefNames.REFS_CONFIG;
 import static com.google.gerrit.entities.RefNames.REFS_USERS_SELF;
 import static java.util.Objects.requireNonNull;
-import static java.util.stream.Collectors.toMap;
+import static java.util.stream.Collectors.toCollection;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
@@ -60,6 +59,7 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -129,7 +129,7 @@ class DefaultRefFilter {
   }
 
   /** Filters given refs and tags by visibility. */
-  Map<String, Ref> filter(Map<String, Ref> refs, Repository repo, RefFilterOptions opts)
+  Collection<Ref> filter(Collection<Ref> refs, Repository repo, RefFilterOptions opts)
       throws PermissionBackendException {
     logger.atFinest().log(
         "Filter refs for repository %s by visibility (options = %s, refs = %s)",
@@ -145,10 +145,10 @@ class DefaultRefFilter {
 
     // See if we can get away with a single, cheap ref evaluation.
     if (refs.size() == 1) {
-      String refName = Iterables.getOnlyElement(refs.values()).getName();
+      String refName = Iterables.getOnlyElement(refs).getName();
       if (opts.filterMeta() && isMetadata(refName)) {
         logger.atFinest().log("Filter out metadata ref %s", refName);
-        return ImmutableMap.of();
+        return ImmutableList.of();
       }
       if (RefNames.isRefsChanges(refName)) {
         boolean isChangeRefVisisble = canSeeSingleChangeRef(refName);
@@ -157,18 +157,18 @@ class DefaultRefFilter {
           return refs;
         }
         logger.atFinest().log("Filter out non-visible change ref %s", refName);
-        return ImmutableMap.of();
+        return ImmutableList.of();
       }
     }
 
     // Perform an initial ref filtering with all the refs the caller asked for. If we find tags that
     // we have to investigate separately (deferred tags) then perform a reachability check starting
     // from all visible branches (refs/heads/*).
-    Result initialRefFilter = filterRefs(refs, repo, opts);
-    Map<String, Ref> visibleRefs = initialRefFilter.visibleRefs();
+    Result initialRefFilter = filterRefs(new ArrayList<>(refs), repo, opts);
+    List<Ref> visibleRefs = initialRefFilter.visibleRefs();
     if (!initialRefFilter.deferredTags().isEmpty()) {
       try (TraceTimer traceTimer = TraceContext.newTimer("Check visibility of deferred tags")) {
-        Result allVisibleBranches = filterRefs(getTaggableRefsMap(repo), repo, opts);
+        Result allVisibleBranches = filterRefs(getTaggableRefs(repo), repo, opts);
         checkState(
             allVisibleBranches.deferredTags().isEmpty(),
             "unexpected tags found when filtering refs/heads/* "
@@ -177,12 +177,12 @@ class DefaultRefFilter {
         TagMatcher tags =
             tagCache
                 .get(projectState.getNameKey())
-                .matcher(tagCache, repo, allVisibleBranches.visibleRefs().values());
+                .matcher(tagCache, repo, allVisibleBranches.visibleRefs());
         for (Ref tag : initialRefFilter.deferredTags()) {
           try {
             if (tags.isReachable(tag)) {
               logger.atFinest().log("Include reachable tag %s", tag.getName());
-              visibleRefs.put(tag.getName(), tag);
+              visibleRefs.add(tag);
             } else {
               logger.atFinest().log("Filter out non-reachable tag %s", tag.getName());
             }
@@ -202,7 +202,7 @@ class DefaultRefFilter {
    * separately for later rev-walk-based visibility computation. Tags where visibility is trivial to
    * compute will be returned as part of {@link Result#visibleRefs()}.
    */
-  Result filterRefs(Map<String, Ref> refs, Repository repo, RefFilterOptions opts)
+  Result filterRefs(List<Ref> refs, Repository repo, RefFilterOptions opts)
       throws PermissionBackendException {
     logger.atFinest().log("Filter refs (refs = %s)", refs);
 
@@ -252,9 +252,9 @@ class DefaultRefFilter {
       identifiedUser = null;
     }
 
-    Map<String, Ref> resultRefs = new HashMap<>();
+    List<Ref> resultRefs = new ArrayList<>(refs.size());
     List<Ref> deferredTags = new ArrayList<>();
-    for (Ref ref : refs.values()) {
+    for (Ref ref : refs) {
       String name = ref.getName();
       Change.Id changeId;
       Account.Id accountId;
@@ -268,7 +268,7 @@ class DefaultRefFilter {
         // Edits are visible only to the owning user, if change is visible.
         if (viewMetadata || visibleEdit(repo, name)) {
           logger.atFinest().log("Include edit ref %s", name);
-          resultRefs.put(name, ref);
+          resultRefs.add(ref);
         } else {
           logger.atFinest().log("Filter out edit ref %s", name);
         }
@@ -276,7 +276,7 @@ class DefaultRefFilter {
         // Change ref is visible only if the change is visible.
         if (viewMetadata || visible(repo, changeId)) {
           logger.atFinest().log("Include change ref %s", name);
-          resultRefs.put(name, ref);
+          resultRefs.add(ref);
         } else {
           logger.atFinest().log("Filter out change ref %s", name);
         }
@@ -284,7 +284,7 @@ class DefaultRefFilter {
         // Account ref is visible only to the corresponding account.
         if (viewMetadata || (accountId.equals(userId) && canReadRef(name))) {
           logger.atFinest().log("Include user ref %s", name);
-          resultRefs.put(name, ref);
+          resultRefs.add(ref);
         } else {
           logger.atFinest().log("Filter out user ref %s", name);
         }
@@ -296,7 +296,7 @@ class DefaultRefFilter {
                 && isGroupOwner(group, identifiedUser, isAdmin)
                 && canReadRef(name))) {
           logger.atFinest().log("Include group ref %s", name);
-          resultRefs.put(name, ref);
+          resultRefs.add(ref);
         } else {
           logger.atFinest().log("Filter out group ref %s", name);
         }
@@ -312,7 +312,7 @@ class DefaultRefFilter {
           // the regular Git tree that users interact with, not on any of the Gerrit trees, so this
           // is a negligible risk.
           logger.atFinest().log("Include tag ref %s because user has read on refs/*", name);
-          resultRefs.put(name, ref);
+          resultRefs.add(ref);
         } else {
           // If its a tag, consider it later.
           if (ref.getObjectId() != null) {
@@ -326,7 +326,7 @@ class DefaultRefFilter {
         // Sequences are internal database implementation details.
         if (viewMetadata) {
           logger.atFinest().log("Include sequence ref %s", name);
-          resultRefs.put(name, ref);
+          resultRefs.add(ref);
         } else {
           logger.atFinest().log("Filter out sequence ref %s", name);
         }
@@ -336,7 +336,7 @@ class DefaultRefFilter {
         // users.
         if (viewMetadata) {
           logger.atFinest().log("Include external IDs branch %s", name);
-          resultRefs.put(name, ref);
+          resultRefs.add(ref);
         } else {
           logger.atFinest().log("Filter out external IDs branch %s", name);
         }
@@ -346,13 +346,13 @@ class DefaultRefFilter {
         // not symbolic then getLeaf() is a no-op returning ref itself.
         logger.atFinest().log(
             "Include ref %s because its leaf %s is readable", name, ref.getLeaf().getName());
-        resultRefs.put(name, ref);
+        resultRefs.add(ref);
       } else if (isRefsUsersSelf(ref)) {
         // viewMetadata allows to see all account refs, hence refs/users/self should be included as
         // well
         if (viewMetadata) {
           logger.atFinest().log("Include ref %s", REFS_USERS_SELF);
-          resultRefs.put(name, ref);
+          resultRefs.add(ref);
         }
       } else {
         logger.atFinest().log("Filter out ref %s", name);
@@ -370,8 +370,7 @@ class DefaultRefFilter {
    * <p>We exclude symbolic refs because their target will be included and this will suffice for
    * computing reachability.
    */
-  private static Map<String, Ref> getTaggableRefsMap(Repository repo)
-      throws PermissionBackendException {
+  private static List<Ref> getTaggableRefs(Repository repo) throws PermissionBackendException {
     try {
       return repo.getRefDatabase().getRefs().stream()
           .filter(
@@ -379,29 +378,24 @@ class DefaultRefFilter {
                   !RefNames.isGerritRef(r.getName())
                       && !r.getName().startsWith(RefNames.REFS_TAGS)
                       && !r.isSymbolic())
-          .collect(toMap(Ref::getName, r -> r));
+          .collect(toCollection(ArrayList::new));
     } catch (IOException e) {
       throw new PermissionBackendException(e);
     }
   }
 
-  private Map<String, Ref> fastHideRefsMetaConfig(Map<String, Ref> refs)
-      throws PermissionBackendException {
-    if (refs.containsKey(REFS_CONFIG) && !canReadRef(REFS_CONFIG)) {
-      Map<String, Ref> r = new HashMap<>(refs);
-      r.remove(REFS_CONFIG);
-      return r;
+  private List<Ref> fastHideRefsMetaConfig(List<Ref> refs) throws PermissionBackendException {
+    if (!canReadRef(REFS_CONFIG)) {
+      return refs.stream()
+          .filter(r -> !r.getName().equals(REFS_CONFIG))
+          .collect(toCollection(ArrayList::new));
     }
     return refs;
   }
 
-  private Map<String, Ref> addUsersSelfSymref(Repository repo, Map<String, Ref> refs)
+  private List<Ref> addUsersSelfSymref(Repository repo, List<Ref> refs)
       throws PermissionBackendException {
     if (user.isIdentifiedUser()) {
-      // User self symref is already there
-      if (refs.containsKey(REFS_USERS_SELF)) {
-        return refs;
-      }
       String refName = RefNames.refsUsers(user.getAccountId());
       try {
         Ref r = repo.exactRef(refName);
@@ -411,8 +405,8 @@ class DefaultRefFilter {
         }
 
         SymbolicRef s = new SymbolicRef(REFS_USERS_SELF, r);
-        refs = new HashMap<>(refs);
-        refs.put(s.getName(), s);
+        refs = new ArrayList<>(refs);
+        refs.add(s);
         logger.atFinest().log("Added %s as alias for user ref %s", REFS_USERS_SELF, refName);
       } catch (IOException e) {
         throw new PermissionBackendException(e);
@@ -614,7 +608,7 @@ class DefaultRefFilter {
   @AutoValue
   abstract static class Result {
     /** Subset of the refs passed into the computation that is visible to the user. */
-    abstract Map<String, Ref> visibleRefs();
+    abstract List<Ref> visibleRefs();
 
     /**
      * List of tags where we couldn't figure out visibility in the first pass and need to do an

@@ -1,8 +1,55 @@
 load("//tools/bzl:genrule2.bzl", "genrule2")
 load("//tools/bzl:js.bzl", "bower_component_bundle")
 load(":rules.bzl", "polygerrit_bundle")
+load("@npm_bazel_rollup//:index.bzl", "rollup_bundle")
 
 package(default_visibility = ["//visibility:public"])
+
+filegroup(
+    name = "src_for_build",
+    srcs = glob(
+        [
+            "**/*.html",
+            "**/*.js",
+            "redirects.json",
+        ],
+        exclude = [
+            "bower_components/**",
+            "test/**",
+            "**/*_test.html",
+            "html_to_js.js",
+        ],
+    ),
+)
+
+genrule(
+    name = "my_build",
+    srcs = [":src_for_build"],
+    outs = [
+        "bundle/gr-app.html",
+        "bundle/gr-app.js.zip",
+    ],
+    cmd = " && ".join([
+        "$(location //tools/node_tools:app_preprocessor) polygerrit-ui $(@D)/out app/elements/gr-app.html polygerrit-ui/app/redirects.json",
+        "mkdir $(@D)/out/bundle",
+        "$(location //tools/node_tools:polymer-bundler) --out-file $(@D)/out/bundle/gr-app.html $(@D)/out/app/elements/gr-app.html",
+        "$(location //tools/node_tools:crisper) -s $(@D)/out/bundle/gr-app.html -h $(@D)/bundle/gr-app.html -j $(@D)/bundle/gr-app.js --script-in-head false --always-write-script",
+        "rm -rf $(@D)/out",
+    ]),
+    tools = [
+        "//tools/node_tools:app_preprocessor",
+        "//tools/node_tools:crisper",
+        "//tools/node_tools:polymer-bundler",
+    ],
+)
+
+rollup_bundle(
+    entry_point,
+    name = "my_build_rollup",
+    srcs = [
+        "bundle/gr-app.js",
+    ],
+)
 
 polygerrit_bundle(
     name = "polygerrit_ui",

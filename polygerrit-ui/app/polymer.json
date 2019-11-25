@@ -5,8 +5,14 @@
     "elements/**/*",
     "scripts/**/*",
     "styles/*",
-    "types/**/*"
+    "types/**/*",
+    "package.json"
   ],
+  "extraDependencies": [
+    "node_modules/@polymer/iron-autogrow-textarea"
+  ],
+  "npm": true,
+  "moduleResolution": "node",
   "lint": {
     "rules": ["polymer-2"],
     "ignoreWarnings": ["deprecated-dom-call"]

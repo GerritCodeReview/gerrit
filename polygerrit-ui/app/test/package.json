@@ -1,0 +1,9 @@
+{
+  "name": "gerrit",
+  "version": "3.1.0-SNAPSHOT",
+  "description": "Gerrit Code Review",
+  "dependencies": {
+    "web-component-tester": "^6.9.2"
+  },
+  "license": "Apache-2.0"
+}

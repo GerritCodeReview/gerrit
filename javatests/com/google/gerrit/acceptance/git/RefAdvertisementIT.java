@@ -14,6 +14,7 @@
 
 package com.google.gerrit.acceptance.git;
 
+import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.common.truth.TruthJUnit.assume;
@@ -24,10 +25,8 @@ import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.d
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.permissionKey;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static java.util.stream.Collectors.toList;
-import static java.util.stream.Collectors.toMap;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
@@ -59,12 +58,10 @@ import com.google.gerrit.server.permissions.PermissionBackend.RefFilterOptions;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.testing.ConfigSuite;
 import com.google.inject.Inject;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
 import java.util.function.Predicate;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.junit.TestRepository;
@@ -1365,15 +1362,18 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
     expectedAllRefs.addAll(expectedMetaRefs);
 
     try (Repository repo = repoManager.openRepository(allUsers)) {
-      Map<String, Ref> all = getAllRefs(repo);
-
       PermissionBackend.ForProject forProject = newFilter(allUsers, admin);
-      assertThat(forProject.filter(all, repo, RefFilterOptions.defaults()).keySet())
+      assertThat(
+              names(
+                  forProject.filter(
+                      repo.getRefDatabase().getRefs(), repo, RefFilterOptions.defaults())))
           .containsExactlyElementsIn(expectedAllRefs);
       assertThat(
-              forProject
-                  .filter(all, repo, RefFilterOptions.builder().setFilterMeta(true).build())
-                  .keySet())
+              names(
+                  forProject.filter(
+                      repo.getRefDatabase().getRefs(),
+                      repo,
+                      RefFilterOptions.builder().setFilterMeta(true).build())))
           .containsExactlyElementsIn(expectedNonMetaRefs);
     }
   }
@@ -1384,8 +1384,8 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
     String patchSetRef = change.getPatchSetId().toRefName();
     try (AutoCloseable ignored = disableChangeIndex();
         Repository repo = repoManager.openRepository(project)) {
-      Map<String, Ref> singleRef = ImmutableMap.of(patchSetRef, repo.exactRef(patchSetRef));
-      Map<String, Ref> filteredRefs =
+      Collection<Ref> singleRef = ImmutableList.of(repo.exactRef(patchSetRef));
+      Collection<Ref> filteredRefs =
           permissionBackend
               .user(user(admin))
               .project(project)
@@ -1482,8 +1482,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
     return AccountGroup.uuid(gApi.groups().create(groupInput).get().id);
   }
 
-  private static Map<String, Ref> getAllRefs(Repository repo) throws IOException {
-    return repo.getRefDatabase().getRefs().stream()
-        .collect(toMap(Ref::getName, Function.identity()));
+  private static Collection<String> names(Collection<Ref> refs) {
+    return refs.stream().map(Ref::getName).collect(toImmutableList());
   }
 }

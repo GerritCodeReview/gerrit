@@ -41,8 +41,8 @@ import com.google.inject.Inject;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -127,10 +127,10 @@ public class ListTags implements RestReadView<ProjectResource> {
         permissionBackend.currentUser().project(resource.getNameKey());
     try (Repository repo = getRepository(resource.getNameKey());
         RevWalk rw = new RevWalk(repo)) {
-      Map<String, Ref> all =
+      Collection<Ref> all =
           visibleTags(
               resource.getNameKey(), repo, repo.getRefDatabase().getRefsByPrefix(Constants.R_TAGS));
-      for (Ref ref : all.values()) {
+      for (Ref ref : all) {
         tags.add(
             createTagInfo(perm.ref(ref.getName()), ref, rw, resource.getProjectState(), links));
       }
@@ -223,7 +223,7 @@ public class ListTags implements RestReadView<ProjectResource> {
     }
   }
 
-  private Map<String, Ref> visibleTags(Project.NameKey project, Repository repo, List<Ref> tags)
+  private Collection<Ref> visibleTags(Project.NameKey project, Repository repo, List<Ref> tags)
       throws PermissionBackendException {
     return permissionBackend
         .currentUser()

@@ -15,15 +15,17 @@
 package com.google.gerrit.server.git;
 
 import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toMap;
 
 import com.google.common.base.Preconditions;
-import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackend.RefFilterOptions;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.inject.Inject;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -75,10 +77,9 @@ public class PermissionAwareReadOnlyRefDatabase extends DelegateRefDatabase {
       return null;
     }
 
-    Map<String, Ref> result;
+    Collection<Ref> result;
     try {
-      result =
-          forProject.filter(ImmutableMap.of(name, ref), getDelegate(), RefFilterOptions.defaults());
+      result = forProject.filter(ImmutableList.of(ref), getDelegate(), RefFilterOptions.defaults());
     } catch (PermissionBackendException e) {
       if (e.getCause() instanceof IOException) {
         throw (IOException) e.getCause();
@@ -91,7 +92,7 @@ public class PermissionAwareReadOnlyRefDatabase extends DelegateRefDatabase {
 
     Preconditions.checkState(
         result.size() == 1, "Only one element expected, but was: " + result.size());
-    return Iterables.getOnlyElement(result.values());
+    return Iterables.getOnlyElement(result);
   }
 
   @SuppressWarnings("deprecation")
@@ -102,13 +103,13 @@ public class PermissionAwareReadOnlyRefDatabase extends DelegateRefDatabase {
       return refs;
     }
 
-    Map<String, Ref> result;
+    Collection<Ref> result;
     try {
-      result = forProject.filter(refs, getDelegate(), RefFilterOptions.defaults());
+      result = forProject.filter(refs.values(), getDelegate(), RefFilterOptions.defaults());
     } catch (PermissionBackendException e) {
       throw new IOException("");
     }
-    return result;
+    return result.stream().collect(toMap(Ref::getName, r -> r));
   }
 
   @Override

@@ -15,7 +15,6 @@
 package com.google.gerrit.server.permissions;
 
 import static java.util.Objects.requireNonNull;
-import static java.util.stream.Collectors.toMap;
 import static java.util.stream.Collectors.toSet;
 
 import com.google.auto.value.AutoValue;
@@ -41,7 +40,6 @@ import java.util.Collections;
 import java.util.EnumSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.Ref;
@@ -329,33 +327,18 @@ public abstract class PermissionBackend {
     public abstract BooleanCondition testCond(CoreOrPluginProjectPermission perm);
 
     /**
-     * Filter a map of references by visibility.
-     *
-     * @param refs a map of references to filter.
-     * @param repo an open {@link Repository} handle for this instance's project
-     * @param opts further options for filtering.
-     * @return a partition of the provided refs that are visible to the user that this instance is
-     *     scoped to.
-     * @throws PermissionBackendException if failure consulting backend configuration.
-     */
-    public abstract Map<String, Ref> filter(
-        Map<String, Ref> refs, Repository repo, RefFilterOptions opts)
-        throws PermissionBackendException;
-
-    /**
      * Filter a list of references by visibility.
      *
-     * @param refs a list of references to filter.
+     * @param refs a collection of references to filter.
      * @param repo an open {@link Repository} handle for this instance's project
      * @param opts further options for filtering.
      * @return a partition of the provided refs that are visible to the user that this instance is
      *     scoped to.
      * @throws PermissionBackendException if failure consulting backend configuration.
      */
-    public Map<String, Ref> filter(List<Ref> refs, Repository repo, RefFilterOptions opts)
-        throws PermissionBackendException {
-      return filter(refs.stream().collect(toMap(Ref::getName, r -> r, (a, b) -> b)), repo, opts);
-    }
+    public abstract Collection<Ref> filter(
+        Collection<Ref> refs, Repository repo, RefFilterOptions opts)
+        throws PermissionBackendException;
   }
 
   /** Options for filtering refs using {@link ForProject}. */

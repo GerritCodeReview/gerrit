@@ -1478,11 +1478,9 @@ public class AccountIT extends AbstractDaemonTest {
   public void refsUsersSelfIsAdvertised() throws Exception {
     try (Repository allUsersRepo = repoManager.openRepository(allUsers)) {
       assertThat(
-              permissionBackend
-                  .currentUser()
-                  .project(allUsers)
-                  .filter(ImmutableList.of(), allUsersRepo, RefFilterOptions.defaults())
-                  .keySet())
+              permissionBackend.currentUser().project(allUsers)
+                  .filter(ImmutableList.of(), allUsersRepo, RefFilterOptions.defaults()).stream()
+                  .map(Ref::getName))
           .containsExactly(RefNames.REFS_USERS_SELF);
     }
   }

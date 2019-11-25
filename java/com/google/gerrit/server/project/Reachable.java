@@ -26,8 +26,8 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -56,7 +56,7 @@ public class Reachable {
   public boolean fromRefs(
       Project.NameKey project, Repository repo, RevCommit commit, List<Ref> refs) {
     try (RevWalk rw = new RevWalk(repo)) {
-      Map<String, Ref> filtered =
+      Collection<Ref> filtered =
           permissionBackend
               .currentUser()
               .project(project)
@@ -68,7 +68,7 @@ public class Reachable {
           TraceContext.newTimer(
               "IncludedInResolver.includedInAny",
               Metadata.builder().projectName(project.get()).inputSize(refs.size()).build())) {
-        return IncludedInResolver.includedInAny(repo, rw, commit, filtered.values());
+        return IncludedInResolver.includedInAny(repo, rw, commit, filtered);
       }
     } catch (IOException | PermissionBackendException e) {
       logger.atSevere().withCause(e).log(

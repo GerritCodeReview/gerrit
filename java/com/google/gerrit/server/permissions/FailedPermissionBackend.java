@@ -26,7 +26,6 @@ import com.google.gerrit.server.permissions.PermissionBackend.RefFilterOptions;
 import com.google.gerrit.server.permissions.PermissionBackend.WithUser;
 import com.google.gerrit.server.query.change.ChangeData;
 import java.util.Collection;
-import java.util.Map;
 import java.util.Set;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
@@ -142,7 +141,7 @@ public class FailedPermissionBackend {
     }
 
     @Override
-    public Map<String, Ref> filter(Map<String, Ref> refs, Repository repo, RefFilterOptions opts)
+    public Collection<Ref> filter(Collection<Ref> refs, Repository repo, RefFilterOptions opts)
         throws PermissionBackendException {
       throw new PermissionBackendException(message, cause);
     }

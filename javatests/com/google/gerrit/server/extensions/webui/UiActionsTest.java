@@ -36,7 +36,6 @@ import com.google.gerrit.server.permissions.PermissionBackendCondition;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.permissions.ProjectPermission;
 import java.util.Collection;
-import java.util.Map;
 import java.util.Set;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
@@ -85,7 +84,7 @@ public class UiActionsTest {
     }
 
     @Override
-    public Map<String, Ref> filter(Map<String, Ref> refs, Repository repo, RefFilterOptions opts)
+    public Collection<Ref> filter(Collection<Ref> refs, Repository repo, RefFilterOptions opts)
         throws PermissionBackendException {
       throw new UnsupportedOperationException("not implemented");
     }

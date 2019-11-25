@@ -404,7 +404,7 @@ class ProjectControl {
     }
 
     @Override
-    public Map<String, Ref> filter(Map<String, Ref> refs, Repository repo, RefFilterOptions opts)
+    public Collection<Ref> filter(Collection<Ref> refs, Repository repo, RefFilterOptions opts)
         throws PermissionBackendException {
       if (refFilter == null) {
         refFilter = refFilterFactory.create(ProjectControl.this);

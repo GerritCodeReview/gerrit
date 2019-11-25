@@ -26,10 +26,10 @@ def load_bower_archives():
         sha1 = "849ad3ee7c77506548b7b5db603a4e150b9431aa",
     )
     bower_archive(
-        name = "font-roboto",
-        package = "PolymerElements/font-roboto",
+        name = "font-roboto-local",
+        package = "PolymerElements/font-roboto-local",
         version = "1.1.0",
-        sha1 = "ab4218d87b9ce569d6282b01f7642e551879c3d5",
+        sha1 = "de651abf9b1b2d0935f7b264d48131677196412f",
     )
     bower_archive(
         name = "iron-a11y-announcer",
@@ -136,8 +136,10 @@ def load_bower_archives():
     bower_archive(
         name = "paper-styles",
         package = "PolymerElements/paper-styles",
-        version = "2.1.0",
-        sha1 = "c143c5491571a6922c06ffe7fdf64ec009ec2eb1",
+        # Basically 2.1.0 but with
+        # https://github.com/PolymerElements/paper-styles/pull/165 applied
+        version = "a6c207e6eee3402fd7a6550e6f9c387ca22ec4c4",
+        sha1 = "6bd17410578b5d4017ccef330393a4b41b1c716e",
     )
     bower_archive(
         name = "shadycss",

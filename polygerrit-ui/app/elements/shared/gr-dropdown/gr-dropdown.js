@@ -153,7 +153,7 @@
      * Handle a click on the iron-dropdown element.
      * @param {!Event} e
      */
-    _handleDropdownTap(e) {
+    _handleDropdownClick(e) {
       this._close();
     },
 

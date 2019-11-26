@@ -30,7 +30,7 @@ def define_bower_components():
         seed = True,
     )
     bower_component(
-        name = "font-roboto",
+        name = "font-roboto-local",
         license = "//lib:LICENSE-polymer",
     )
     bower_component(
@@ -286,7 +286,7 @@ def define_bower_components():
         name = "paper-styles",
         license = "//lib:LICENSE-polymer",
         deps = [
-            ":font-roboto",
+            ":font-roboto-local",
             ":iron-flex-layout",
             ":polymer",
         ],

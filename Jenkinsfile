@@ -154,24 +154,28 @@ def collectBuildModes() {
 }
 
 def prepareBuildsForMode(buildName, mode="notedb", retryTimes = 1) {
-    def propagate = retryTimes == 1 ? false : true
     return {
         stage("${buildName}/${mode}") {
-            catchError{
-                retry(retryTimes){
-                    def slaveBuild = build job: "${buildName}", parameters: [
+            def slaveBuild = null
+            for (int i = 1; i <= retryTimes; i++) {
+                try {
+                    slaveBuild = build job: "${buildName}", parameters: [
                         string(name: 'REFSPEC', value: Change.ref),
                         string(name: 'BRANCH', value: Change.sha1),
                         string(name: 'CHANGE_URL', value: Change.url),
                         string(name: 'MODE', value: mode),
                         string(name: 'TARGET_BRANCH', value: Change.branch)
-                    ], propagate: propagate
+                    ], propagate: false
+                } finally {
                     if (buildName == "Gerrit-codestyle"){
                         Builds.codeStyle = new Build(
                             slaveBuild.getAbsoluteUrl(), slaveBuild.getResult())
                     } else {
                         Builds.verification[mode] = new Build(
                             slaveBuild.getAbsoluteUrl(), slaveBuild.getResult())
+                    }
+                    if (slaveBuild.getResult() == "SUCCESS") {
+                        break
                     }
                 }
             }

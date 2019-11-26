@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3704bc65_7e914e44",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 1290,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2019-11-26T14:45:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "10d8a866_0ef91e6a",
+      "revId": "894356b86bedd30eb1b39ca09ed9551aa5c45a6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "db66025f_1dc94560",
         "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
         "patchSetId": 7
@@ -30,6 +48,30 @@
       "writtenOn": "2019-11-22T22:27:29Z",
       "side": 1,
       "message": "should you uriEncodeComponent this?",
+      "range": {
+        "startLine": 1293,
+        "startChar": 36,
+        "endLine": 1293,
+        "endChar": 53
+      },
+      "revId": "894356b86bedd30eb1b39ca09ed9551aa5c45a6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1670bf0f_220c8796",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 1293,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2019-11-26T14:45:49Z",
+      "side": 1,
+      "message": "I did not get this sorry. This behaviour is the same as the changeId link in the commit message.",
+      "parentUuid": "db66025f_1dc94560",
       "range": {
         "startLine": 1293,
         "startChar": 36,
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "15295764_0d5b8472",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 1294,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2019-11-26T14:45:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "abc3139b_d067ef22",
+      "range": {
+        "startLine": 1292,
+        "startChar": 12,
+        "endLine": 1294,
+        "endChar": 15
+      },
+      "revId": "894356b86bedd30eb1b39ca09ed9551aa5c45a6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8a2541a0_bb85bde6",
         "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
         "patchSetId": 7
@@ -76,6 +142,30 @@
       "writtenOn": "2019-11-22T22:27:29Z",
       "side": 1,
       "message": "can this be simplified to\n\nawait this._waitForChangeReachable(change._number);\nthis._waitForChangeReachable(change._number)\n\n--\n\nAlso should you handle the error case?",
+      "range": {
+        "startLine": 1297,
+        "startChar": 14,
+        "endLine": 1299,
+        "endChar": 17
+      },
+      "revId": "894356b86bedd30eb1b39ca09ed9551aa5c45a6d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8ade0950_abafe689",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 1299,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2019-11-26T14:45:49Z",
+      "side": 1,
+      "message": "The await keyword isn\u0027t really used much in the Gerrit codebase as of now, the other occurrences of _waitForChangeReachable are all using the same code style.\nRegarding the error handling, again referring to other uses of _waitForChangeReachable, the error case is not really handled. I will for now just console.error(). If the error rate is noticeable then I can add a proper error dialog for this.",
+      "parentUuid": "8a2541a0_bb85bde6",
       "range": {
         "startLine": 1297,
         "startChar": 14,

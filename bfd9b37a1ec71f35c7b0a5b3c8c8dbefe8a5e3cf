@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a09d46ab_e3ce33eb",
+        "filename": "java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1658,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-11-26T04:12:59Z",
+      "side": 1,
+      "message": "Would it be better to prefix each message with \u0027*\u0027 or \u0027-\u0027 so that they appear as a bulletted list?",
+      "range": {
+        "startLine": 1658,
+        "startChar": 35,
+        "endLine": 1658,
+        "endChar": 41
+      },
+      "revId": "bfd9b37a1ec71f35c7b0a5b3c8c8dbefe8a5e3cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

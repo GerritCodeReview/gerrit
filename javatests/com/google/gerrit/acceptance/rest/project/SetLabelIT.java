@@ -323,6 +323,21 @@ public class SetLabelIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void cannotSetDuplicateValues() throws Exception {
+    LabelDefinitionInput input = new LabelDefinitionInput();
+    // Positive values can be specified as '<value>' or '+<value>'.
+    input.values =
+        ImmutableMap.of(
+            "+1", "Looks Good", "1", "Looks Good", "0", "Don't Know", "-1", "Looks Bad");
+
+    BadRequestException thrown =
+        assertThrows(
+            BadRequestException.class,
+            () -> gApi.projects().name(allProjects.get()).label("Code-Review").update(input));
+    assertThat(thrown).hasMessageThat().contains("duplicate value: 1");
+  }
+
+  @Test
   public void updateDefaultValue() throws Exception {
     LabelDefinitionInput input = new LabelDefinitionInput();
     input.defaultValue = 1;

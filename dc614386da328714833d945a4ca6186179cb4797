@@ -70,6 +70,30 @@
       "revId": "dc614386da328714833d945a4ca6186179cb4797",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4e9e1148_7c24af65",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-11-26T10:42:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5126d0d5_d444f022",
+      "range": {
+        "startLine": 101,
+        "startChar": 10,
+        "endLine": 101,
+        "endChar": 112
+      },
+      "revId": "dc614386da328714833d945a4ca6186179cb4797",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

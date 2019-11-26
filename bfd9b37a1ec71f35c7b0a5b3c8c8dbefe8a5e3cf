@@ -22,6 +22,30 @@
       "revId": "bfd9b37a1ec71f35c7b0a5b3c8c8dbefe8a5e3cf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0f6a16aa_6afb411a",
+        "filename": "java/com/google/gerrit/httpd/restapi/RestApiServlet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1658,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-11-26T08:31:58Z",
+      "side": 1,
+      "message": "Good idea. Done.",
+      "parentUuid": "a09d46ab_e3ce33eb",
+      "range": {
+        "startLine": 1658,
+        "startChar": 35,
+        "endLine": 1658,
+        "endChar": 41
+      },
+      "revId": "bfd9b37a1ec71f35c7b0a5b3c8c8dbefe8a5e3cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

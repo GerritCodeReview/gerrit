@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1c2c8686_fb242fb6",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-11-26T08:50:12Z",
+      "side": 1,
+      "message": "Better also set a limit of 2. Since you are only interested if there is more than 1 change limiting the result to 2 is sufficient (no need to retrieve all results from the index):\n\n  queryProvider.get().setLimit(2).bySubmissionId(submissionId).size() \u003e 1)",
+      "range": {
+        "startLine": 178,
+        "startChar": 12,
+        "endLine": 178,
+        "endChar": 72
+      },
+      "revId": "2cafcbca0b82c1aecd47f3d80de2ac59bf7a79f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

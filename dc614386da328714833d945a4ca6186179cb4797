@@ -46,6 +46,30 @@
       "revId": "dc614386da328714833d945a4ca6186179cb4797",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5126d0d5_d444f022",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-11-26T10:32:28Z",
+      "side": 1,
+      "message": "just something like:\n\n  throw new ResourceConflictException(\n          \"This change is merged but doesn\u0027t have a submission id,\"\n          + \" meaning it was not submitted through Gerrit.\");",
+      "parentUuid": "b7f4f65e_bc84a886",
+      "range": {
+        "startLine": 101,
+        "startChar": 10,
+        "endLine": 101,
+        "endChar": 112
+      },
+      "revId": "dc614386da328714833d945a4ca6186179cb4797",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

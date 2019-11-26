@@ -22,6 +22,30 @@
       "revId": "dc614386da328714833d945a4ca6186179cb4797",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b7f4f65e_bc84a886",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-11-26T10:31:22Z",
+      "side": 1,
+      "message": "What do you mean wrapped? String.format is not necessary here, is it?",
+      "parentUuid": "7ba30b50_e1b74053",
+      "range": {
+        "startLine": 101,
+        "startChar": 10,
+        "endLine": 101,
+        "endChar": 112
+      },
+      "revId": "dc614386da328714833d945a4ca6186179cb4797",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

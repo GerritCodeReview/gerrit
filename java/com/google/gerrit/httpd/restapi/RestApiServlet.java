@@ -17,6 +17,7 @@ package com.google.gerrit.httpd.restapi;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.flogger.LazyArgs.lazy;
 import static com.google.common.net.HttpHeaders.ACCESS_CONTROL_ALLOW_CREDENTIALS;
 import static com.google.common.net.HttpHeaders.ACCESS_CONTROL_ALLOW_HEADERS;
@@ -103,6 +104,7 @@ import com.google.gerrit.json.OutputFormat;
 import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.ExceptionHook;
 import com.google.gerrit.server.OptionUtil;
 import com.google.gerrit.server.RequestInfo;
 import com.google.gerrit.server.RequestListener;
@@ -245,6 +247,7 @@ public class RestApiServlet extends HttpServlet {
     final DynamicSet<PerformanceLogger> performanceLoggers;
     final ChangeFinder changeFinder;
     final RetryHelper retryHelper;
+    final PluginSetContext<ExceptionHook> exceptionHooks;
 
     @Inject
     Globals(
@@ -259,7 +262,8 @@ public class RestApiServlet extends HttpServlet {
         @GerritServerConfig Config config,
         DynamicSet<PerformanceLogger> performanceLoggers,
         ChangeFinder changeFinder,
-        RetryHelper retryHelper) {
+        RetryHelper retryHelper,
+        PluginSetContext<ExceptionHook> exceptionHooks) {
       this.currentUser = currentUser;
       this.webSession = webSession;
       this.paramParser = paramParser;
@@ -272,6 +276,7 @@ public class RestApiServlet extends HttpServlet {
       this.performanceLoggers = performanceLoggers;
       this.changeFinder = changeFinder;
       this.retryHelper = retryHelper;
+      this.exceptionHooks = exceptionHooks;
       allowOrigin = makeAllowOrigin(config);
     }
 
@@ -1661,7 +1666,18 @@ public class RestApiServlet extends HttpServlet {
     if (!res.isCommitted()) {
       res.reset();
       traceId.ifPresent(traceId -> res.addHeader(X_GERRIT_TRACE, traceId));
-      return replyError(req, res, SC_INTERNAL_SERVER_ERROR, "Internal server error", err);
+      StringBuilder msg = new StringBuilder("Internal server error");
+      ImmutableList<String> userMessages =
+          globals.exceptionHooks.stream()
+              .map(h -> h.getUserMessage(err))
+              .filter(Optional::isPresent)
+              .map(Optional::get)
+              .collect(toImmutableList());
+      if (!userMessages.isEmpty()) {
+        msg.append("\n");
+        userMessages.forEach(m -> msg.append("\n* ").append(m));
+      }
+      return replyError(req, res, SC_INTERNAL_SERVER_ERROR, msg.toString(), err);
     }
     return 0;
   }

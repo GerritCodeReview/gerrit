@@ -604,7 +604,7 @@ public class AccessIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void syncCreateGroupPermission() throws Exception {
+  public void syncCreateGroupPermission_addAndRemoveCreateGroupCapability() throws Exception {
     // Grant CREATE_GROUP to Registered Users
     ProjectAccessInput accessInput = newProjectAccessInput();
     AccessSectionInfo accessSection = newAccessSectionInfo();
@@ -639,6 +639,44 @@ public class AccessIT extends AbstractDaemonTest {
     assertThat(permissions2).hasSize(1);
     // READ is the default permission and should be preserved by the syncer
     assertThat(permissions2.keySet()).containsExactly(Permission.READ);
+  }
+
+  @Test
+  public void syncCreateGroupPermission_addCreateGroupCapabilityToMultipleGroups()
+      throws Exception {
+    PermissionRuleInfo pri = new PermissionRuleInfo(PermissionRuleInfo.Action.ALLOW, false);
+
+    // Grant CREATE_GROUP to Registered Users
+    ProjectAccessInput accessInput = newProjectAccessInput();
+    AccessSectionInfo accessSection = newAccessSectionInfo();
+    PermissionInfo createGroup = newPermissionInfo();
+    createGroup.rules.put(SystemGroupBackend.REGISTERED_USERS.get(), pri);
+    accessSection.permissions.put(GlobalCapability.CREATE_GROUP, createGroup);
+    accessInput.add.put(AccessSection.GLOBAL_CAPABILITIES, accessSection);
+    gApi.projects().name(allProjects.get()).access(accessInput);
+
+    // Grant CREATE_GROUP to Administrators
+    accessInput = newProjectAccessInput();
+    accessSection = newAccessSectionInfo();
+    createGroup = newPermissionInfo();
+    createGroup.rules.put(adminGroupUuid().get(), pri);
+    accessSection.permissions.put(GlobalCapability.CREATE_GROUP, createGroup);
+    accessInput.add.put(AccessSection.GLOBAL_CAPABILITIES, accessSection);
+    gApi.projects().name(allProjects.get()).access(accessInput);
+
+    // Assert that the permissions were synced from All-Projects (global) to All-Users (ref)
+    Map<String, AccessSectionInfo> local = gApi.projects().name("All-Users").access().local;
+    assertThat(local).isNotNull();
+    assertThat(local).containsKey(RefNames.REFS_GROUPS + "*");
+    Map<String, PermissionInfo> permissions = local.get(RefNames.REFS_GROUPS + "*").permissions;
+    assertThat(permissions).hasSize(2);
+    // READ is the default permission and should be preserved by the syncer
+    assertThat(permissions.keySet()).containsExactly(Permission.READ, Permission.CREATE);
+    Map<String, PermissionRuleInfo> rules = permissions.get(Permission.CREATE).rules;
+    assertThat(rules.keySet())
+        .containsExactly(SystemGroupBackend.REGISTERED_USERS.get(), adminGroupUuid().get());
+    assertThat(rules.get(SystemGroupBackend.REGISTERED_USERS.get())).isEqualTo(pri);
+    assertThat(rules.get(adminGroupUuid().get())).isEqualTo(pri);
   }
 
   @Test

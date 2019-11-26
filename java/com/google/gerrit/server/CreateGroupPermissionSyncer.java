@@ -115,11 +115,12 @@ public class CreateGroupPermissionSyncer implements ChangeMergedListener {
                 .collect(toList()));
         config.replace(createGroupAccessSection);
       } else {
-        Permission createGroupPermission = new Permission(Permission.CREATE);
-        createGroupAccessSection.addPermission(createGroupPermission);
-        createGroupsGlobal.forEach(createGroupPermission::add);
         // The create permission is managed by Gerrit at this point only so there is no concern of
         // overwriting user-defined permissions here.
+        Permission createGroupPermission = new Permission(Permission.CREATE);
+        createGroupAccessSection.remove(createGroupPermission);
+        createGroupAccessSection.addPermission(createGroupPermission);
+        createGroupsGlobal.forEach(createGroupPermission::add);
         config.replace(createGroupAccessSection);
       }
 

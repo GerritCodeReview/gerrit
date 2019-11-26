@@ -187,6 +187,24 @@ public class GroupsIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void removeMember_nullInMemberInputDoesNotCauseFailure() throws Exception {
+    AccountGroup.UUID group =
+        groupOperations.newGroup().addMember(admin.id()).addMember(user.id()).create();
+    gApi.groups().id(group.get()).removeMembers(user.id().toString(), null);
+    ImmutableSet<Account.Id> members = groupOperations.group(group).get().members();
+    assertThat(members).containsExactly(admin.id());
+  }
+
+  @Test
+  public void removeMember_emptyStringInMemberInputDoesNotCauseFailure() throws Exception {
+    AccountGroup.UUID group =
+        groupOperations.newGroup().addMember(admin.id()).addMember(user.id()).create();
+    gApi.groups().id(group.get()).removeMembers(user.id().toString(), "");
+    ImmutableSet<Account.Id> members = groupOperations.group(group).get().members();
+    assertThat(members).containsExactly(admin.id());
+  }
+
+  @Test
   public void cachedGroupsForMemberAreUpdatedOnMemberAdditionAndRemoval() throws Exception {
     String username = name("user");
     Account.Id accountId = accountOperations.newAccount().username(username).create();

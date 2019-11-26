@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d7fd6609_fe7e52d1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-11-26T23:46:01Z",
+      "side": 1,
+      "message": "Does this commit also fix issue 11986?\n\nIf so this commit message should be rewritten to better describe the problem.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 16
+      },
+      "revId": "7a1c949f09088793641ac861a7e8600ef09bfef8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8586bf54_89ea6ff2",
+        "filename": "javatests/com/google/gerrit/integration/git/GitProtocolV2IT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-11-26T23:46:01Z",
+      "side": 1,
+      "message": "Don\u0027t import Change.Id explicitly.  Just import Change and refer to Change.Id in the code.",
+      "range": {
+        "startLine": 34,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 44
+      },
+      "revId": "7a1c949f09088793641ac861a7e8600ef09bfef8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "90ffbd53_b6827136",
+        "filename": "javatests/com/google/gerrit/integration/git/GitProtocolV2IT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-11-26T23:46:01Z",
+      "side": 1,
+      "message": "Change.Id",
+      "range": {
+        "startLine": 237,
+        "startChar": 6,
+        "endLine": 237,
+        "endChar": 8
+      },
+      "revId": "7a1c949f09088793641ac861a7e8600ef09bfef8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -410,7 +410,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 [[polymer]]
 polymer
 
-* js:font-roboto
+* js:font-roboto-local
 * js:iron-a11y-announcer
 * js:iron-a11y-keys-behavior
 * js:iron-autogrow-textarea

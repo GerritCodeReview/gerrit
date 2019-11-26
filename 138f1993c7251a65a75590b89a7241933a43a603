@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "73fbba57_d067d672",
+        "filename": "java/com/google/gerrit/server/ExceptionHookImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-11-26T04:10:54Z",
+      "side": 1,
+      "message": "just \"matches\"",
+      "range": {
+        "startLine": 46,
+        "startChar": 60,
+        "endLine": 46,
+        "endChar": 71
+      },
+      "revId": "138f1993c7251a65a75590b89a7241933a43a603",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eb528b11_bee10c42",
+        "filename": "java/com/google/gerrit/server/ExceptionHookImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-11-26T04:10:54Z",
+      "side": 1,
+      "message": "\"true if the\" ?",
+      "range": {
+        "startLine": 50,
+        "startChar": 13,
+        "endLine": 50,
+        "endChar": 24
+      },
+      "revId": "138f1993c7251a65a75590b89a7241933a43a603",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "06862c2c_d61180d1",
+        "filename": "java/com/google/gerrit/server/ExceptionHookImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-11-26T04:10:54Z",
+      "side": 1,
+      "message": "same here",
+      "range": {
+        "startLine": 50,
+        "startChar": 62,
+        "endLine": 50,
+        "endChar": 72
+      },
+      "revId": "138f1993c7251a65a75590b89a7241933a43a603",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

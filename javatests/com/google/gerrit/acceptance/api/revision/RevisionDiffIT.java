@@ -2428,6 +2428,46 @@ public class RevisionDiffIT extends AbstractDaemonTest {
   }
 
   @Test
+  @Ignore
+  // TODO(aliceks): Find a way to fix this issue without breaking the other tests.
+  // This issue results from a combination of the logic to filter out files which only contain
+  // rebase hunks (in PatchListLoader) with the logic to properly handle newlines at the end of
+  // files (in PatchScriptBuilder). To fix this, we should rather filter the files in FileInfoJson.
+  // This is not that easy at that point as some details (e.g. the noContentEdits) are lost along
+  // the way from PatchListLoader.
+  public void diffOfFileWithOnlyRebaseHunksWithAddedNewLineAtTheEnd() throws Exception {
+    // create a custom base commit that contains a file without newline at the end
+    ObjectId commit2 =
+        addCommit(
+            commit1,
+            ImmutableMap.of(FILE_NAME, FILE_CONTENT.substring(0, FILE_CONTENT.length() - 1)));
+
+    // create a new change on top of commit2
+    Result result = createEmptyChange();
+    String changeId = result.getChangeId();
+
+    // add a patch set which simply replaces one line
+    addModifiedPatchSet(changeId, FILE_NAME, content -> content.replace("Line 2\n", "Line two\n"));
+    String previousPatchSetId = gApi.changes().id(changeId).get().currentRevision;
+
+    // create a new base commit that
+    // * replaces another line (becomes an edit due to rebase)
+    // * adds a new line at the end of the file
+    String newBaseFileContent = FILE_CONTENT.replace("Line 5\n", "Line V\n") + "\n";
+    ObjectId newBaseCommit = addCommit(commit2, FILE_NAME, newBaseFileContent);
+
+    // rebase the change onto the new base
+    rebaseChangeOn(changeId, newBaseCommit);
+
+    DiffInfo diffInfo =
+        getDiffRequest(changeId, CURRENT, FILE_NAME).withBase(previousPatchSetId).get();
+    assertThat(diffInfo).content().element(0).commonLines().isNotEmpty();
+    assertThat(diffInfo).content().element(1).linesOfA().contains("Line 5");
+    assertThat(diffInfo).content().element(1).linesOfB().containsExactly("Line V").inOrder();
+    assertThat(diffInfo).content().element(1).isDueToRebase();
+  }
+
+  @Test
   public void diffOfNonExistentFileIsAnEmptyDiffResult() throws Exception {
     addModifiedPatchSet(changeId, FILE_NAME, content -> content.replace("Line 2\n", "Line two\n"));
 

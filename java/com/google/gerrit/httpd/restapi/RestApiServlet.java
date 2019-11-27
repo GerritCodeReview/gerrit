@@ -175,6 +175,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 import java.util.zip.GZIPOutputStream;
@@ -291,7 +292,6 @@ public class RestApiServlet extends HttpServlet {
 
   private final Globals globals;
   private final Provider<RestCollection<RestResource, RestResource>> members;
-  private Optional<String> traceId = Optional.empty();
 
   public RestApiServlet(
       Globals globals, RestCollection<? extends RestResource, ? extends RestResource> members) {
@@ -666,7 +666,7 @@ public class RestApiServlet extends HttpServlet {
           responseBytes = replyError(req, res, status = SC_SERVICE_UNAVAILABLE, "Lock failure", e);
         } else {
           status = SC_INTERNAL_SERVER_ERROR;
-          responseBytes = handleException(e, req, res);
+          responseBytes = handleException(traceContext, e, req, res);
         }
       } catch (QuotaException e) {
         cause = Optional.of(e);
@@ -681,7 +681,7 @@ public class RestApiServlet extends HttpServlet {
       } catch (Exception e) {
         cause = Optional.of(e);
         status = SC_INTERNAL_SERVER_ERROR;
-        responseBytes = handleException(e, req, res);
+        responseBytes = handleException(traceContext, e, req, res);
       } finally {
         String metric = getViewName(viewData);
         String formattedCause = cause.map(globals.retryHelper::formatCause).orElse("_none");
@@ -814,6 +814,7 @@ public class RestApiServlet extends HttpServlet {
       ActionType actionType,
       Action<T> action)
       throws Exception {
+    AtomicReference<Optional<String>> traceId = new AtomicReference<>(Optional.empty());
     RetryHelper.Options.Builder retryOptionsBuilder = RetryHelper.options().caller(caller);
     if (!traceContext.isTracing()) {
       // enable automatic retry with tracing in case of non-recoverable failure
@@ -822,7 +823,7 @@ public class RestApiServlet extends HttpServlet {
               .retryWithTrace(t -> !(t instanceof RestApiException))
               .onAutoTrace(
                   autoTraceId -> {
-                    traceId = Optional.of(autoTraceId);
+                    traceId.set(Optional.of(autoTraceId));
 
                     // Include details of the request into the trace.
                     traceRequestData(req);
@@ -838,7 +839,9 @@ public class RestApiServlet extends HttpServlet {
       // If auto-tracing got triggered due to a non-recoverable failure, also trace the rest of
       // this request. This means logging is forced for all further log statements and the logs are
       // associated with the same trace ID.
-      traceId.ifPresent(tid -> traceContext.addTag(RequestId.Type.TRACE_ID, tid).forceLogging());
+      traceId
+          .get()
+          .ifPresent(tid -> traceContext.addTag(RequestId.Type.TRACE_ID, tid).forceLogging());
     }
   }
 
@@ -1660,12 +1663,13 @@ public class RestApiServlet extends HttpServlet {
     }
   }
 
-  private long handleException(Throwable err, HttpServletRequest req, HttpServletResponse res)
+  private long handleException(
+      TraceContext traceContext, Throwable err, HttpServletRequest req, HttpServletResponse res)
       throws IOException {
     logger.atSevere().withCause(err).log("Error in %s %s", req.getMethod(), uriForLogging(req));
     if (!res.isCommitted()) {
       res.reset();
-      traceId.ifPresent(traceId -> res.addHeader(X_GERRIT_TRACE, traceId));
+      traceContext.getTraceId().ifPresent(traceId -> res.addHeader(X_GERRIT_TRACE, traceId));
       StringBuilder msg = new StringBuilder("Internal server error");
       ImmutableList<String> userMessages =
           globals.exceptionHooks.stream()

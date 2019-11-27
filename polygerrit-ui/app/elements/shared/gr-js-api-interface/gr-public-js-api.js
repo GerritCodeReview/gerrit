@@ -17,6 +17,8 @@
 (function(window) {
   'use strict';
 
+  const PRELOADED_PROTOCOL = 'preloaded:';
+
   const PANEL_ENDPOINTS_MAPPING = {
     CHANGE_SCREEN_BELOW_COMMIT_INFO_BLOCK: 'change-view-integration',
     CHANGE_SCREEN_BELOW_CHANGE_INFO_BLOCK: 'change-metadata-item',
@@ -64,6 +66,13 @@
 
     this._url = new URL(opt_url);
     this._name = getPluginNameFromUrl(this._url);
+    if (this._url.protocol === PRELOADED_PROTOCOL) {
+      // Original plugin URL is used in plugin assets URLs calculation.
+      const assetsBaseUrl = window.ASSETS_PATH ||
+          (window.location.origin + Gerrit.BaseUrlBehavior.getBaseUrl());
+      this._url = new URL(assetsBaseUrl + '/plugins/' + this._name +
+          '/static/' + this._name + '.js');
+    }
   }
 
   Plugin._sharedAPIElement = document.createElement('gr-js-api-interface');

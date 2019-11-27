@@ -16,6 +16,24 @@
       "revId": "00a77ac45e00bba59e760517aca0991cd4867e74",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "178a1563_3c3e9129",
+        "filename": "java/com/google/gerrit/server/update/RetryHelper.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-11-27T09:12:32Z",
+      "side": 1,
+      "message": "When looking at the metric you can see the total count, or you can decide to see the count by any of the fields. If a new field is added, you can look at the old fields as before, but you get an additional field to split the data. For the new field data is not available for values which have been recorded previously.\n\nExample, let\u0027s say we have a counter with only the action_type field and then the following gets recorded:\n\nDAY 1:\n1. increase \u003d 1, action_type \u003d CHANGE_UPDATE\n2. increase \u003d 3, action_type \u003d CHANGE_UPDATE\n3. increase \u003d 1, action_type \u003d ACCOUNT_UPDATE\n\nDAY 2:\n1. increase \u003d 1, action_type \u003d CHANGE_UPDATE\n2. increase \u003d 1, action_type \u003d ACCOUNT_UPDATE\n\nDAY 3 (new field added):\n1. increase \u003d 2, action_type \u003d CHANGE_UPDATE, operationName \u003d Foo\n3. increase \u003d 1, action_type \u003d CHANGE_UPDATE, operationName \u003d Bar\n\nThen in the metric graph you can see:\n\n1. total count: Day 1 -\u003e 5 Day 2 -\u003e 2, Day 3 -\u003e 3\n\n2. by action_type:\n   * CHANGE_UPDATE: Day 1 -\u003e 4 Day 2 -\u003e 1, Day 3 -\u003e 3\n   * ACCOUNT_UPDATE: Day 1 -\u003e 1 Day 2 -\u003e 1, Day 3 -\u003e 0\n\n3. by operationName:\n   * Foo: Day 1 -\u003e 0 Day 2 -\u003e 0, Day 3 -\u003e 2\n   * Bar: Day 1 -\u003e 0 Day 2 -\u003e 0, Day 3 -\u003e 1\n\n4. by action_type and operationName:\n   * CHANGE_UPDATE, Foo: Day 1 -\u003e 0 Day 2 -\u003e 0, Day 3 -\u003e 2\n   * CHANGE_UPDATE, Bar: Day 1 -\u003e 0 Day 2 -\u003e 0, Day 3 -\u003e 1\n   * ACCOUNT_UPDATE, Foo: Day 1 -\u003e 0 Day 2 -\u003e 0, Day 3 -\u003e 0\n   * ACCOUNT_UPDATE, Bar: Day 1 -\u003e 0 Day 2 -\u003e 0, Day 3 -\u003e 0",
+      "parentUuid": "cc73e361_f76c1e45",
+      "revId": "00a77ac45e00bba59e760517aca0991cd4867e74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

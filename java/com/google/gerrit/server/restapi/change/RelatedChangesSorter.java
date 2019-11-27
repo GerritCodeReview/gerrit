@@ -15,7 +15,9 @@
 package com.google.gerrit.server.restapi.change;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.flogger.LazyArgs.lazy;
 import static java.util.Objects.requireNonNull;
+import static java.util.stream.Collectors.toMap;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.annotations.VisibleForTesting;
@@ -76,7 +78,15 @@ class RelatedChangesSorter {
     // Map of all patch sets, keyed by commit SHA-1.
     Map<ObjectId, PatchSetData> byId = collectById(in);
     PatchSetData start = byId.get(startPs.commitId());
-    checkArgument(start != null, "%s not found in %s", startPs, in);
+    checkArgument(
+        start != null,
+        "commit %s of patch set %s not found in %s",
+        startPs.commitId().name(),
+        startPs.id(),
+        lazy(
+            () ->
+                byId.entrySet().stream()
+                    .collect(toMap(e -> e.getKey().name(), e -> e.getValue().patchSet().id()))));
 
     // Map of patch set -> immediate parent.
     ListMultimap<PatchSetData, PatchSetData> parents =

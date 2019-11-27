@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cc73e361_f76c1e45",
+        "filename": "java/com/google/gerrit/server/update/RetryHelper.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-11-27T08:50:18Z",
+      "side": 1,
+      "message": "Just out of interest, what happens when this metric was already being reported somewhere without these extra fields, and then gerrit is updated and starts sending the extra fields?",
+      "revId": "00a77ac45e00bba59e760517aca0991cd4867e74",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

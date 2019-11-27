@@ -1,0 +1,22 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5988e597_45fcd74a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-patch-range-select/gr-patch-range-select.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2019-11-27T15:38:22Z",
+      "side": 1,
+      "message": "Comment removed by: Dhruv Srivastava",
+      "parentUuid": "27ae357c_f6b6d750",
+      "revId": "5d32058a185cce7205c613ec1af5cdf909ca7022",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

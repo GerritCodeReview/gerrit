@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e46a163d_dda13296",
+        "filename": "java/com/google/gerrit/server/restapi/change/RelatedChangesSorter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-11-27T09:00:25Z",
+      "side": 1,
+      "message": "Ah, I didn\u0027t know this worked.  In that case, I think we can replace other usages of checkArgument with requireNonNull. I\u0027ll look into that tomorrow.\n\nNote that this is also a slight behavior change.  Now it throws NullPointerException rather than IllegalStateException.  Maybe this should be mentioned in the commit message?",
+      "range": {
+        "startLine": 82,
+        "startChar": 8,
+        "endLine": 82,
+        "endChar": 13
+      },
+      "revId": "18946c40dd101e53b370646b4cc1ae57d8165a20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

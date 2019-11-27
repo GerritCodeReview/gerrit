@@ -24,10 +24,12 @@ import com.google.gerrit.exceptions.InvalidNameException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.server.project.RefPattern;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
+import java.util.Set;
 
 public class LabelDefinitionInputParser {
   public static LabelFunction parseFunction(String functionString) throws BadRequestException {
@@ -39,12 +41,16 @@ public class LabelDefinitionInputParser {
   public static List<LabelValue> parseValues(Map<String, String> values)
       throws BadRequestException {
     List<LabelValue> valueList = new ArrayList<>();
+    Set<Short> allValues = new HashSet<>();
     for (Entry<String, String> e : values.entrySet()) {
       short value;
       try {
         value = Shorts.checkedCast(PermissionRule.parseInt(e.getKey().trim()));
       } catch (NumberFormatException ex) {
         throw new BadRequestException("invalid value: " + e.getKey(), ex);
+      }
+      if (!allValues.add(value)) {
+        throw new BadRequestException("duplicate value: " + value);
       }
       String valueDescription = e.getValue().trim();
       if (valueDescription.isEmpty()) {

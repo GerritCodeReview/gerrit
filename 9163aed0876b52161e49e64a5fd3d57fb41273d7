@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "df7ac468_14e52a48",
+        "filename": "java/com/google/gerrit/server/restapi/change/RelatedChangesSorter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-11-27T08:48:53Z",
+      "side": 1,
+      "message": "Unrelated to this specific fix, but today I was looking into some warnings raised by SpotBugs and it seems it can\u0027t recognise calls to checkArgument as null checks, and thus raises false positive warnings for null dereference on subsequent access.\n\nThis could be fixed by using requireNonNull, however that doesn\u0027t support lazy evaluation of arguments passed into the message.  Maybe that\u0027s why we still use checkArgument here and in other places?",
+      "range": {
+        "startLine": 81,
+        "startChar": 4,
+        "endLine": 81,
+        "endChar": 17
+      },
+      "revId": "9163aed0876b52161e49e64a5fd3d57fb41273d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

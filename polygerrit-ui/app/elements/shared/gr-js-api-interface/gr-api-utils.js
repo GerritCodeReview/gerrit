@@ -50,11 +50,7 @@
       return url.pathname;
     }
     const base = Gerrit.BaseUrlBehavior.getBaseUrl();
-    let pathname = url.pathname.replace(base, '');
-    // Load from ASSETS_PATH
-    if (window.ASSETS_PATH && url.href.includes(window.ASSETS_PATH)) {
-      pathname = url.href.replace(window.ASSETS_PATH, '');
-    }
+    const pathname = url.pathname.replace(base, '');
     // Site theme is server from predefined path.
     if (pathname === '/static/gerrit-theme.html') {
       return 'gerrit-theme';

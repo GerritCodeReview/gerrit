@@ -325,11 +325,11 @@ limitations under the License.
       let loadJsPluginStub;
       setup(() => {
         importHtmlPluginStub = sandbox.stub();
-        sandbox.stub(Gerrit._pluginLoader, '_loadHtmlPlugin', url => {
+        sandbox.stub(Gerrit._pluginLoader, '_importHtmlPlugin', url => {
           importHtmlPluginStub(url);
         });
         loadJsPluginStub = sandbox.stub();
-        sandbox.stub(Gerrit._pluginLoader, '_createScriptTag', url => {
+        sandbox.stub(Gerrit._pluginLoader, '_loadJsPlugin', url => {
           loadJsPluginStub(url);
         });
       });
@@ -346,8 +346,8 @@ limitations under the License.
 
         assert.isTrue(failToLoadStub.calledOnce);
         assert.isTrue(failToLoadStub.calledWithExactly(
-            'Unrecognized plugin path foo/bar',
-            'foo/bar'
+            `Unrecognized plugin url ${url}/foo/bar`,
+            `${url}/foo/bar`
         ));
       });
 
@@ -404,72 +404,6 @@ limitations under the License.
         assert.isTrue(
             loadJsPluginStub.calledWithExactly(`http://e.com/foo/bar.js`)
         );
-      });
-    });
-
-    suite('With ASSETS_PATH', () => {
-      let importHtmlPluginStub;
-      let loadJsPluginStub;
-      setup(() => {
-        window.ASSETS_PATH = 'https://cdn.com';
-        importHtmlPluginStub = sandbox.stub();
-        sandbox.stub(Gerrit._pluginLoader, '_loadHtmlPlugin', url => {
-          importHtmlPluginStub(url);
-        });
-        loadJsPluginStub = sandbox.stub();
-        sandbox.stub(Gerrit._pluginLoader, '_createScriptTag', url => {
-          loadJsPluginStub(url);
-        });
-      });
-
-      teardown(() => {
-        window.ASSETS_PATH = '';
-      });
-
-      test('Should try load plugins from assets path instead', () => {
-        Gerrit._loadPlugins([
-          'foo/bar.js',
-          'foo/bar.html',
-        ]);
-
-        assert.isTrue(importHtmlPluginStub.calledOnce);
-        assert.isTrue(
-            importHtmlPluginStub.calledWithExactly(`https://cdn.com/foo/bar.html`)
-        );
-        assert.isTrue(loadJsPluginStub.calledOnce);
-        assert.isTrue(
-            loadJsPluginStub.calledWithExactly(`https://cdn.com/foo/bar.js`));
-      });
-
-      test('Should honor original path if exists', () => {
-        Gerrit._loadPlugins([
-          'http://e.com/foo/bar.html',
-          'http://e.com/foo/bar.js',
-        ]);
-
-        assert.isTrue(importHtmlPluginStub.calledOnce);
-        assert.isTrue(
-            importHtmlPluginStub.calledWithExactly(`http://e.com/foo/bar.html`)
-        );
-        assert.isTrue(loadJsPluginStub.calledOnce);
-        assert.isTrue(
-            loadJsPluginStub.calledWithExactly(`http://e.com/foo/bar.js`));
-      });
-
-      test('Should try replace current host with assetsPath', () => {
-        const host = window.location.origin;
-        Gerrit._loadPlugins([
-          `${host}/foo/bar.html`,
-          `${host}/foo/bar.js`,
-        ]);
-
-        assert.isTrue(importHtmlPluginStub.calledOnce);
-        assert.isTrue(
-            importHtmlPluginStub.calledWithExactly(`https://cdn.com/foo/bar.html`)
-        );
-        assert.isTrue(loadJsPluginStub.calledOnce);
-        assert.isTrue(
-            loadJsPluginStub.calledWithExactly(`https://cdn.com/foo/bar.js`));
       });
     });
 
@@ -555,10 +489,12 @@ limitations under the License.
 
       test('installing preloaded plugin', () => {
         let plugin;
+        window.ASSETS_PATH = 'http://blips.com/chitz';
         Gerrit.install(p => { plugin = p; }, '0.1', 'preloaded:foo');
         assert.strictEqual(plugin.getPluginName(), 'foo');
         assert.strictEqual(plugin.url('/some/thing.html'),
-            'preloaded:foo/plugins/foo/some/thing.html');
+            'http://blips.com/chitz/plugins/foo/some/thing.html');
+        delete window.ASSETS_PATH;
       });
     });
   });

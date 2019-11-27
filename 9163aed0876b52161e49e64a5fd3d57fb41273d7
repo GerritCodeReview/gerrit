@@ -22,6 +22,30 @@
       "revId": "9163aed0876b52161e49e64a5fd3d57fb41273d7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "63e8b0e1_3945be99",
+        "filename": "java/com/google/gerrit/server/restapi/change/RelatedChangesSorter.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-11-27T08:56:57Z",
+      "side": 1,
+      "message": "Ups, of cause lazy args are only supported by Flogger 😞\n\nIn contrast to checkArgument requireNonNull doesn\u0027t support arguments for the message, but we can use String.format for this. requireNonNull supports a Supplier for the message, so we can use this for lazy generation of the message.",
+      "parentUuid": "df7ac468_14e52a48",
+      "range": {
+        "startLine": 81,
+        "startChar": 4,
+        "endLine": 81,
+        "endChar": 17
+      },
+      "revId": "9163aed0876b52161e49e64a5fd3d57fb41273d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

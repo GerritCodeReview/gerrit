@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "a6b76dab_ab87ddd4",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2019-11-28T13:58:48Z",
+      "side": 1,
+      "message": "primitive data-bindings should always use $\u003d \n\nWe have this check in our presubmit to enforce this:\n\n  check_contents: {\n    prohibited_regexp: \"( hidden\u003d\\\"\\\\[)|( href\u003d\\\"\\\\[)|( disabled\u003d\\\"\\\\[)|( tooltip\u003d\\\"\\\\[)\"\n    failure_message: \"🛑 attribute needs primitive reflection. Use $\u003d\"\n    check_delta_only: false\n    failure_status: ERROR\n  }",
+      "range": {
+        "startLine": 284,
+        "startChar": 21,
+        "endLine": 284,
+        "endChar": 22
+      },
+      "revId": "ca589fb02c5e82141364e5cabffc7aba07d31a47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "821082f6_a1daeae9",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 1262,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2019-11-28T13:58:48Z",
+      "side": 1,
+      "message": "note this pattern seems to not be scaling as well as ideal (global concerns such as the new variable being declared up top), potentially consider at a later time extracting the actions of this switch to private functions to enable more blackboxing of the logic between each case.",
+      "range": {
+        "startLine": 1262,
+        "startChar": 38,
+        "endLine": 1262,
+        "endChar": 39
+      },
+      "revId": "ca589fb02c5e82141364e5cabffc7aba07d31a47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4096231b_4ebccd9d",
         "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
         "patchSetId": 9
@@ -18,6 +64,52 @@
         "startChar": 12,
         "endLine": 1292,
         "endChar": 28
+      },
+      "revId": "ca589fb02c5e82141364e5cabffc7aba07d31a47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f5671d04_cd05feb3",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 1293,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2019-11-28T13:58:48Z",
+      "side": 1,
+      "message": "Do you have a consolidated helper that can be used to generate links instead of hard coding the logic here?\n\nAdditionally I think you should be using https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/encodeURIComponent to avoid your new params from breaking your URL",
+      "range": {
+        "startLine": 1293,
+        "startChar": 21,
+        "endLine": 1293,
+        "endChar": 60
+      },
+      "revId": "ca589fb02c5e82141364e5cabffc7aba07d31a47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1ed193ce_47ad0e9a",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 1297,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2019-11-28T13:58:48Z",
+      "side": 1,
+      "message": "What happens in the error case? it looks like it will silently fail",
+      "range": {
+        "startLine": 1297,
+        "startChar": 58,
+        "endLine": 1297,
+        "endChar": 76
       },
       "revId": "ca589fb02c5e82141364e5cabffc7aba07d31a47",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

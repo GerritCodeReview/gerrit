@@ -223,6 +223,24 @@
       "revId": "d8bf14c1e01f25686e641472e42a15bf45fd7f8f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6aaa0fb4_64573694",
+        "filename": "e2e-tests/load-tests/Dockerfile",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2019-11-28T22:24:42Z",
+      "side": 1,
+      "message": "Seems like the user-files, results and conf directories were created in another layer, hence I cannot modify the permission while building the image. I didn\u0027t find a workaround to it yet. Any suggestion?",
+      "parentUuid": "e208cef6_20cdb8ff",
+      "revId": "d8bf14c1e01f25686e641472e42a15bf45fd7f8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

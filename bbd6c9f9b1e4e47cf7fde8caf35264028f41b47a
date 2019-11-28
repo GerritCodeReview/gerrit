@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2e4c7627_38713298",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 1296,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-11-28T15:58:46Z",
+      "side": 1,
+      "message": "add a comment on why you only need to handle the case when its length is 1.",
+      "revId": "bbd6c9f9b1e4e47cf7fde8caf35264028f41b47a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f27e0f9a_36d00404",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 1449,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-11-28T15:58:46Z",
+      "side": 1,
+      "message": "a test case when its returning false ? since you added the code to handle that :)",
+      "revId": "bbd6c9f9b1e4e47cf7fde8caf35264028f41b47a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0c4ccf7b_bdc655df",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 1472,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-11-28T15:58:46Z",
+      "side": 1,
+      "message": "nit: new line :)",
+      "revId": "bbd6c9f9b1e4e47cf7fde8caf35264028f41b47a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1101,8 +1101,8 @@
           });
     }
 
-    _computeBlameLoaderClass(isImageDiff) {
-      return !isImageDiff ? 'show' : '';
+    _computeBlameLoaderClass(isImageDiff, path) {
+      return !this.isMagicPath(path) && !isImageDiff ? 'show' : '';
     }
 
     _getRevisionInfo(change) {

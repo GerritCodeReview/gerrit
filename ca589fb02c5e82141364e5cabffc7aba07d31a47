@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4096231b_4ebccd9d",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 1292,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-11-28T13:35:26Z",
+      "side": 1,
+      "message": "nit:if you don\u0027t check for `obj.revert_changes` at all, you don\u0027t need this part.\n\nBut I think you may want to check the `length` before proceeding to `map` if there is a chance that `obj.revert_changes` is null/undefined.",
+      "range": {
+        "startLine": 1292,
+        "startChar": 12,
+        "endLine": 1292,
+        "endChar": 28
+      },
+      "revId": "ca589fb02c5e82141364e5cabffc7aba07d31a47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f77f7d03_33d23c19",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 1307,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-11-28T13:35:26Z",
+      "side": 1,
+      "message": "you can get rid of the unnecessary temporary variable of `revertChanges` entirely by just checking the length on `obj.revert_changes` and inline the `url`.\n\nin the `else`, just assign the `map` return back to `_revertChanges`. code will be much nicer :)",
+      "range": {
+        "startLine": 1295,
+        "startChar": 10,
+        "endLine": 1307,
+        "endChar": 13
+      },
+      "revId": "ca589fb02c5e82141364e5cabffc7aba07d31a47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e60af510_6aeef583",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 1478,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-11-28T13:35:26Z",
+      "side": 1,
+      "message": "as an async check, you will need `done` to avoid any flakiness",
+      "revId": "ca589fb02c5e82141364e5cabffc7aba07d31a47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "80cfb1c4_a048dd2e",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 1499,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-11-28T13:35:26Z",
+      "side": 1,
+      "message": "ditto",
+      "revId": "ca589fb02c5e82141364e5cabffc7aba07d31a47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

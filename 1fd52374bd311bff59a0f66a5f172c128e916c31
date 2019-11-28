@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "6a664945_715cf80b",
+        "filename": "polygerrit-ui/app/behaviors/gr-path-list-behavior/gr-path-list-behavior.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-11-28T16:30:43Z",
+      "side": 1,
+      "message": "`!!path`:) to make sure its returning a boolean",
+      "range": {
+        "startLine": 85,
+        "startChar": 13,
+        "endLine": 85,
+        "endChar": 17
+      },
+      "revId": "1fd52374bd311bff59a0f66a5f172c128e916c31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "dfd4b597_601b01cf",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
         "patchSetId": 3

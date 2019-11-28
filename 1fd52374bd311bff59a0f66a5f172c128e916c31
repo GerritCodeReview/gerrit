@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dfd4b597_601b01cf",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 1105,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-11-28T15:15:54Z",
+      "side": 1,
+      "message": "do you need to update test cases on this change ?",
+      "revId": "1fd52374bd311bff59a0f66a5f172c128e916c31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

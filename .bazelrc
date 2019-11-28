@@ -4,6 +4,11 @@ build --action_env=PATH
 build --disk_cache=~/.gerritcodereview/bazel-cache/cas
 build --java_toolchain //tools:error_prone_warnings_toolchain
 
+# Switch to build with Java 11 per default
+build --host_javabase=@bazel_tools//tools/jdk:remote_jdk11
+build --javabase=@bazel_tools//tools/jdk:remote_jdk11
+build --host_java_toolchain=@bazel_tools//tools/jdk:toolchain_java11
+
 # Enable strict_action_env flag to. For more information on this feature see
 # https://groups.google.com/forum/#!topic/bazel-discuss/_VmRfMyyHBk.
 # This will be the new default behavior at some point (and the flag was flipped

@@ -70,6 +70,11 @@ public class FileInfoJson {
 
     Map<String, FileInfo> files = new TreeMap<>();
     for (PatchListEntry e : list.getPatches()) {
+      if (e.getOnlyDueToRebase()) {
+        // Files containing only edits due to rebase are ignored.
+        continue;
+      }
+
       FileInfo d = new FileInfo();
       d.status =
           e.getChangeType() != Patch.ChangeType.MODIFIED ? e.getChangeType().getCode() : null;

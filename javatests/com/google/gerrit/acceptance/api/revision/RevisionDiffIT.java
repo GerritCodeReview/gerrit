@@ -661,10 +661,8 @@ public class RevisionDiffIT extends AbstractDaemonTest {
   }
 
   @Test
-  // TODO: Fix this issue. This test documents the current behavior and ensures that we at least
-  //  don't run into an internal server error.
   public void
-      addedNewlineAtEndOfFileIsNotMarkedWhenEditDueToRebaseIncreasedLineCountAndWhitespaceIgnoredEvenThoughItShould()
+      addedNewlineAtEndOfFileIsMarkedWhenEditDueToRebaseIncreasedLineCountAndWhitespaceIgnored()
           throws Exception {
     addModifiedPatchSet(changeId, FILE_NAME, fileContent -> fileContent.concat("Line 101"));
     String previousPatchSetId = gApi.changes().id(changeId).get().currentRevision;
@@ -678,7 +676,14 @@ public class RevisionDiffIT extends AbstractDaemonTest {
             .withWhitespace(DiffPreferencesInfo.Whitespace.IGNORE_ALL)
             .withBase(previousPatchSetId)
             .get();
-    assertThat(diffInfo).content().element(0).numberOfSkippedLines().isGreaterThan(0);
+    assertThat(diffInfo).content().element(0).commonLines().isNotEmpty();
+    assertThat(diffInfo).content().element(1).isNotNull(); // Line 70.5 insertion
+    assertThat(diffInfo).content().element(2).commonLines().isNotEmpty();
+    assertThat(diffInfo).content().element(3).linesOfA().isNull();
+    assertThat(diffInfo).content().element(3).linesOfB().containsExactly("");
+
+    assertThat(diffInfo).metaA().totalLineCount().isEqualTo(101);
+    assertThat(diffInfo).metaB().totalLineCount().isEqualTo(103);
   }
 
   @Test

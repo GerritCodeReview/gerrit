@@ -62,7 +62,8 @@ public class PatchListEntry {
         0,
         0,
         0,
-        0);
+        0,
+        false);
   }
 
   private final ChangeType changeType;
@@ -76,11 +77,17 @@ public class PatchListEntry {
   private final int deletions;
   private final long size;
   private final long sizeDelta;
+  private final boolean onlyDueToRebase;
   // Note: When adding new fields, the serialVersionUID in PatchListKey must be
   // incremented so that entries from the cache are automatically invalidated.
 
   PatchListEntry(
-      FileHeader hdr, List<Edit> editList, Set<Edit> editsDueToRebase, long size, long sizeDelta) {
+      FileHeader hdr,
+      List<Edit> editList,
+      Set<Edit> editsDueToRebase,
+      long size,
+      long sizeDelta,
+      boolean onlyDueToRebase) {
     changeType = toChangeType(hdr);
     patchType = toPatchType(hdr);
 
@@ -128,6 +135,7 @@ public class PatchListEntry {
     deletions = del;
     this.size = size;
     this.sizeDelta = sizeDelta;
+    this.onlyDueToRebase = onlyDueToRebase;
   }
 
   private PatchListEntry(
@@ -141,7 +149,8 @@ public class PatchListEntry {
       int insertions,
       int deletions,
       long size,
-      long sizeDelta) {
+      long sizeDelta,
+      boolean onlyDueToRebase) {
     this.changeType = changeType;
     this.patchType = patchType;
     this.oldName = oldName;
@@ -153,6 +162,7 @@ public class PatchListEntry {
     this.deletions = deletions;
     this.size = size;
     this.sizeDelta = sizeDelta;
+    this.onlyDueToRebase = onlyDueToRebase;
   }
 
   int weigh() {
@@ -214,6 +224,10 @@ public class PatchListEntry {
     return sizeDelta;
   }
 
+  public boolean getOnlyDueToRebase() {
+    return onlyDueToRebase;
+  }
+
   public List<String> getHeaderLines() {
     final IntList m = RawParseUtils.lineMap(header, 0, header.length);
     final List<String> headerLines = new ArrayList<>(m.size() - 1);
@@ -263,6 +277,7 @@ public class PatchListEntry {
 
     writeEditArray(out, edits);
     writeEditArray(out, editsDueToRebase);
+    writeVarInt32(out, onlyDueToRebase ? 1 : 0);
   }
 
   private static void writeEditArray(OutputStream out, Collection<Edit> edits) throws IOException {
@@ -288,6 +303,7 @@ public class PatchListEntry {
 
     Edit[] editArray = readEditArray(in);
     Edit[] editsDueToRebase = readEditArray(in);
+    boolean onlyDueToRebase = readVarInt32(in) == 1;
 
     return new PatchListEntry(
         changeType,
@@ -300,7 +316,8 @@ public class PatchListEntry {
         ins,
         del,
         size,
-        sizeDelta);
+        sizeDelta,
+        onlyDueToRebase);
   }
 
   private static Edit[] readEditArray(InputStream in) throws IOException {

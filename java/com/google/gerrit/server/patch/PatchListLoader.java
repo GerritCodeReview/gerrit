@@ -390,7 +390,15 @@ public class PatchListLoader implements Callable<PatchList> {
         newEntry(treeA, fileHeader, contentEditsDueToRebase, newSize, newSize - oldSize);
     // All edits in a file are due to rebase -> exclude the file from the diff.
     if (EditTransformer.toEdits(patchListEntry).allMatch(editsDueToRebase::contains)) {
-      return Optional.empty();
+      PatchListEntry correctedPatchListEntry =
+          new PatchListEntry(
+              fileHeader,
+              patchListEntry.getEdits(),
+              patchListEntry.getEditsDueToRebase(),
+              patchListEntry.getSize(),
+              patchListEntry.getSizeDelta(),
+              true);
+      return Optional.of(correctedPatchListEntry);
     }
     return Optional.of(patchListEntry);
   }
@@ -506,7 +514,7 @@ public class PatchListLoader implements Callable<PatchList> {
     RawText bRawText = new RawText(bContent);
     EditList edits = new HistogramDiff().diff(cmp, aRawText, bRawText);
     FileHeader fh = new FileHeader(rawHdr, edits, PatchType.UNIFIED);
-    return new PatchListEntry(fh, edits, ImmutableSet.of(), size, sizeDelta);
+    return new PatchListEntry(fh, edits, ImmutableSet.of(), size, sizeDelta, false);
   }
 
   private static byte[] getRawHeader(boolean hasA, String fileName) {
@@ -534,14 +542,16 @@ public class PatchListLoader implements Callable<PatchList> {
     if (aTree == null // want combined diff
         || fileHeader.getPatchType() != PatchType.UNIFIED
         || fileHeader.getHunks().isEmpty()) {
-      return new PatchListEntry(fileHeader, ImmutableList.of(), ImmutableSet.of(), size, sizeDelta);
+      return new PatchListEntry(
+          fileHeader, ImmutableList.of(), ImmutableSet.of(), size, sizeDelta, false);
     }
 
     List<Edit> edits = fileHeader.toEditList();
     if (edits.isEmpty()) {
-      return new PatchListEntry(fileHeader, ImmutableList.of(), ImmutableSet.of(), size, sizeDelta);
+      return new PatchListEntry(
+          fileHeader, ImmutableList.of(), ImmutableSet.of(), size, sizeDelta, false);
     }
-    return new PatchListEntry(fileHeader, edits, editsDueToRebase, size, sizeDelta);
+    return new PatchListEntry(fileHeader, edits, editsDueToRebase, size, sizeDelta, false);
   }
 
   private RevObject aFor(

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e9a2946b_d4d5a4c1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-11-28T20:05:08Z",
+      "side": 1,
+      "message": "For MERGE_LISTs, we have another issue. That\u0027s why I removed the link to issue 7969.",
+      "range": {
+        "startLine": 7,
+        "startChar": 53,
+        "endLine": 7,
+        "endChar": 71
+      },
+      "revId": "f5c826b2b37300f27555741762a60934d5d4f28e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

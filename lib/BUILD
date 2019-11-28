@@ -521,18 +521,6 @@ java_library(
     exports = ["@icu4j//jar"],
 )
 
-java_library(
-    name = "javax-annotation",
-    data = ["//lib:LICENSE-DO_NOT_DISTRIBUTE"],
-    visibility = [
-        "//java/com/google/gerrit/acceptance:__pkg__",
-        "//java/com/google/gerrit/extensions:__pkg__",
-        "//java/com/google/gerrit/server:__pkg__",
-        "//plugins:__subpackages__",
-    ],
-    exports = ["@javax-annotation//jar"],
-)
-
 sh_test(
     name = "nongoogle_test",
     srcs = ["nongoogle_test.sh"],

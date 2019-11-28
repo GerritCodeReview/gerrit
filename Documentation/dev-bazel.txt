@@ -18,7 +18,7 @@ should generate a .war file under `bazel-bin/gerrit.war`.
 To build Gerrit from source, you need:
 
 * A Linux or macOS system (Windows is not supported at this time)
-* A JDK for Java 8|9|10|11|...
+* A JDK for Java 11|12|13|...
 * Python 2 or 3
 * link:https://github.com/nodesource/distributions/blob/master/README.md[Node.js (including npm),role=external,window=_blank]
 * Bower (`sudo npm install -g bower`)
@@ -33,12 +33,17 @@ or through link:https://github.com/bazelbuild/bazelisk[Bazelisk,role=external,wi
 
 ==== MacOS
 
-On MacOS, ensure that "Java for MacOS X 10.5 Update 4" (or higher) is installed
+On MacOS, ensure that "Java 11" (or higher) is installed
 and that `JAVA_HOME` is set to the
 link:install.html#Requirements[required Java version].
 
 Java installations can typically be found in
-"/System/Library/Frameworks/JavaVM.framework/Versions".
+"/Library/Java/JavaVirtualMachines/".
+
+Find open source installations of OpenJDK e.g. at
+* link:https://adoptopenjdk.net/installation.html[AdoptOpenJDK]
+* link:https://sdkman.io/jdks[SDKMAN!]
+* link:https://docs.google.com/document/d/1nFGazvrCvHMZJgFstlbzoHjpAVwv5DEdnaBr_5pKuHo/preview[Java is Still Free (Java Champions)] lists more free Java distributions
 
 To check the installed version of Java, open a terminal window and run:
 
@@ -90,22 +95,6 @@ $ cat << EOF > ~/.bazelrc
 
 Now, invoking Bazel with just `bazel build :release` would include
 all those options.
-
-[[java-11]]
-==== Java 11 support
-
-Java 11 is supported through alternative java toolchain
-link:https://docs.bazel.build/versions/master/toolchains.html[Bazel option].
-To build Gerrit with Java 11, specify JDK 11 java toolchain:
-
-```
-  $ bazel build \
-      --host_javabase=@bazel_tools//tools/jdk:remote_jdk11 \
-      --javabase=@bazel_tools//tools/jdk:remote_jdk11 \
-      --host_java_toolchain=@bazel_tools//tools/jdk:toolchain_java11 \
-      --java_toolchain=@bazel_tools//tools/jdk:toolchain_java11 \
-      :release
-```
 
 === Node.js and npm packages
 See link:https://gerrit.googlesource.com/gerrit/+/master/polygerrit-ui/README.md#installing-node_js-and-npm-packages[Installing Node.js and npm packages,role=external,window=_blank].

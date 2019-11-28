@@ -1422,6 +1422,7 @@ limitations under the License.
       let payload;
       let onShowError;
       let onShowAlert;
+      let getResponseObjectStub;
 
       setup(() => {
         cleanup = sinon.stub();
@@ -1437,12 +1438,18 @@ limitations under the License.
 
       suite('happy path', () => {
         let sendStub;
-
+        let waitForChangeReachableStub;
         setup(() => {
           sandbox.stub(element, 'fetchChangeUpdates')
               .returns(Promise.resolve({isLatest: true}));
           sendStub = sandbox.stub(element.$.restAPI, 'executeChangeAction')
               .returns(Promise.resolve({}));
+          getResponseObjectStub = sandbox.stub(element.$.restAPI,
+              'getResponseObject');
+          waitForChangeReachableStub = sandbox.stub(element,
+              '_waitForChangeReachable').returns(Promise.resolve(true));
+          sandbox.stub(Gerrit.Nav,
+              'navigateToChange').returns(Promise.resolve(true));
         });
 
         test('change action', () => {
@@ -1453,6 +1460,49 @@ limitations under the License.
                 assert.isTrue(sendStub.calledWith(42, 'DELETE', '/endpoint',
                     null, payload));
               });
+        });
+
+        suite('single changes revert', () => {
+          setup(() => {
+            getResponseObjectStub
+                .returns(Promise.resolve({revert_changes: [
+                  {change_id: 12345},
+                ]}));
+            showActionDialogStub = sandbox.stub(element, '_showActionDialog');
+          });
+
+          test('revert submission single change', done => {
+            element._send('POST', {message: 'Revert submission'},
+                '/revert_submission', false, cleanup).then(res => {
+              element._handleResponse({__key: 'revert_submission'}, {}).
+                  then(() => {
+                    assert.isTrue(waitForChangeReachableStub.called);
+                    done();
+                  });
+            });
+          });
+        });
+
+        suite('multiple changes revert', () => {
+          let showActionDialogStub;
+          setup(() => {
+            getResponseObjectStub
+                .returns(Promise.resolve({revert_changes: [
+                  {change_id: 12345}, {change_id: 23456},
+                ]}));
+            showActionDialogStub = sandbox.stub(element, '_showActionDialog');
+          });
+
+          test('revert submission multiple change', done => {
+            element._send('POST', {message: 'Revert submission'},
+                '/revert_submission', false, cleanup).then(res => {
+              element._handleResponse({__key: 'revert_submission'}, {}).then(
+                  () => {
+                    assert.isTrue(showActionDialogStub.called);
+                    done();
+                  });
+            });
+          });
         });
 
         test('revision action', () => {

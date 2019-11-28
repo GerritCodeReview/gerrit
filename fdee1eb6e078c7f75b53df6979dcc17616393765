@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f90cfc9a_4aff0d8b",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-11-28T16:01:39Z",
+      "side": 1,
+      "message": "this is to override inner component css variable right ? maybe have them in a separate section other than in the common background section ?",
+      "revId": "fdee1eb6e078c7f75b53df6979dcc17616393765",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

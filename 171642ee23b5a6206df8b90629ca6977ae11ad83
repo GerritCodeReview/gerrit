@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "acbea90d_63a6af17",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-11-28T20:25:57Z",
+      "side": 1,
+      "message": "FYI: We should not flush the DiffSummary cache. It would also not be necessary. The PatchList cache and the IntralineDiff cache would need to be flushed, though, which is bad enough for our users.",
+      "range": {
+        "startLine": 12,
+        "startChar": 42,
+        "endLine": 12,
+        "endChar": 57
+      },
+      "revId": "171642ee23b5a6206df8b90629ca6977ae11ad83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "551007fe_fbe248e4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-11-28T20:25:57Z",
+      "side": 1,
+      "message": "FYI: I looked deeper into the listed examples and unfortunately, I\u0027m pretty sure that this fix won\u0027t help for them.",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 15
+      },
+      "revId": "171642ee23b5a6206df8b90629ca6977ae11ad83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2d86f44a_e660dfa1",
+        "filename": "java/com/google/gerrit/server/patch/PatchListKey.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-11-28T20:25:57Z",
+      "side": 1,
+      "message": "To flush the cache, we would need to change this number. Same for the IntraLineDiffKey.",
+      "range": {
+        "startLine": 36,
+        "startChar": 46,
+        "endLine": 36,
+        "endChar": 49
+      },
+      "revId": "171642ee23b5a6206df8b90629ca6977ae11ad83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c04d879f_e6daddfc",
+        "filename": "java/com/google/gerrit/server/patch/PatchListKey.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-11-28T20:25:57Z",
+      "side": 1,
+      "message": "By adding this option to the PatchListKey, we\u0027ll have to compute diffs twice when loading them for a change: Once for the list of files (\u003d when we index a change), once for showing the file contents. This will increase latency a lot when loading the diff screen, especially for changes with expensive diff computations. I don\u0027t think we can afford that. I took your idea and applied it at the other end of the cache: Icd2b211ea. Thus, we wouldn\u0027t have to compute actually similar cache entries twice. I\u0027m also not convinced of that change either as I currently wouldn\u0027t want to flush the diff caches just for a small improvement and I6feea7a37 already fixes the internal server errors.",
+      "range": {
+        "startLine": 61,
+        "startChar": 14,
+        "endLine": 61,
+        "endChar": 51
+      },
+      "revId": "171642ee23b5a6206df8b90629ca6977ae11ad83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "47b782cd_dddadb3f",
+        "filename": "java/com/google/gerrit/server/patch/PatchListKey.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-11-28T20:25:57Z",
+      "side": 1,
+      "message": "FYI: From an API point of view, it would be better to use an enum as boolean values are rather meaningless when directly seen as method argument.",
+      "range": {
+        "startLine": 88,
+        "startChar": 28,
+        "endLine": 88,
+        "endChar": 65
+      },
+      "revId": "171642ee23b5a6206df8b90629ca6977ae11ad83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

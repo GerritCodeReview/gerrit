@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "35829fb2_d6432427",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2019-11-28T10:59:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5ab6381e_b9cbf673",
+      "range": {
+        "startLine": 7,
+        "startChar": 4,
+        "endLine": 7,
+        "endChar": 19
+      },
+      "revId": "6fa5d107dd1914f3429cf00c7d9d87d3a96b88a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "78e35078_19a68cd7",
         "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.js",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "6fa5d107dd1914f3429cf00c7d9d87d3a96b88a7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9e13a845_d36f5e8f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2019-11-28T10:59:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "78e35078_19a68cd7",
+      "range": {
+        "startLine": 140,
+        "startChar": 8,
+        "endLine": 140,
+        "endChar": 20
+      },
+      "revId": "6fa5d107dd1914f3429cf00c7d9d87d3a96b88a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -111,6 +159,72 @@
     },
     {
       "key": {
+        "uuid": "75dc24cf_61273b52",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2019-11-28T10:59:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a649f5bf_3e9276da",
+      "range": {
+        "startLine": 34,
+        "startChar": 26,
+        "endLine": 34,
+        "endChar": 32
+      },
+      "revId": "6fa5d107dd1914f3429cf00c7d9d87d3a96b88a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea342c24_a2bf2885",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2019-11-28T10:59:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a2623dbf_38d48c8a",
+      "revId": "6fa5d107dd1914f3429cf00c7d9d87d3a96b88a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b2d24e34_85731650",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2019-11-28T10:59:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a6845b11_da35c570",
+      "range": {
+        "startLine": 34,
+        "startChar": 4,
+        "endLine": 34,
+        "endChar": 24
+      },
+      "revId": "6fa5d107dd1914f3429cf00c7d9d87d3a96b88a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f67f79f8_8563e676",
         "filename": "polygerrit-ui/app/styles/themes/dark-theme.html",
         "patchSetId": 1
@@ -122,6 +236,24 @@
       "writtenOn": "2019-11-28T10:24:30Z",
       "side": 1,
       "message": "Can you align these two colors with Critique in a follow-up change?\n\n--comment-background-color: #0b162b;\n--unresolved-comment-background-color: #385a9a;",
+      "revId": "6fa5d107dd1914f3429cf00c7d9d87d3a96b88a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b48d84df_2cf569b7",
+        "filename": "polygerrit-ui/app/styles/themes/dark-theme.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2019-11-28T10:59:55Z",
+      "side": 1,
+      "message": "I did not get this.",
+      "parentUuid": "f67f79f8_8563e676",
       "revId": "6fa5d107dd1914f3429cf00c7d9d87d3a96b88a7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

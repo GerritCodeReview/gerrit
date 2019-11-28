@@ -46,6 +46,30 @@
       "revId": "c096a46708398c69e8fdd231dc963cd758c45ac1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d361827e_2dcc1d4b",
+        "filename": "java/com/google/gerrit/server/restapi/account/GetAgreements.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-11-28T13:47:07Z",
+      "side": 1,
+      "message": "If this exception occurs and is logged somewhere else, you would like know if it occurred because the user didn\u0027t have permissions or because there was an error in PermissionBackend that made the permission check fail.\n\nActually this makes me realize that PermissionBackendException should not be mapped to 403 Forbidden, but just stay uncaught so that it results in 500 ISE.\n\nIf you do not pass the cause ErrorProne will complain about this later, when we import this code.",
+      "parentUuid": "eeeb48dd_0fc6ab33",
+      "range": {
+        "startLine": 85,
+        "startChar": 14,
+        "endLine": 85,
+        "endChar": 76
+      },
+      "revId": "c096a46708398c69e8fdd231dc963cd758c45ac1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

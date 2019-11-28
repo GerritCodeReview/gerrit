@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aee83f8f_83c68a10",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-11-28T20:18:59Z",
+      "side": 1,
+      "message": "Also add: Based on the idea of Id68d41dc2.",
+      "range": {
+        "startLine": 9,
+        "startChar": 29,
+        "endLine": 9,
+        "endChar": 30
+      },
+      "revId": "b68dc509e9332367a5f010c33bd253cb6a3af8a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d0870e71_8127ab93",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-11-28T20:18:59Z",
+      "side": 1,
+      "message": "This change is just an experiment for now. I don\u0027t think we\u0027ll continue with it soon.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 27
+      },
+      "revId": "b68dc509e9332367a5f010c33bd253cb6a3af8a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "98ef1b5e_99267e4d",
+        "filename": "java/com/google/gerrit/server/patch/PatchListEntry.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-11-28T20:18:59Z",
+      "side": 1,
+      "message": "TODO: Increase serialVersionUID of PatchListKey and IntraLineDiffKey.",
+      "range": {
+        "startLine": 81,
+        "startChar": 2,
+        "endLine": 83,
+        "endChar": 0
+      },
+      "revId": "b68dc509e9332367a5f010c33bd253cb6a3af8a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2ff93c68_96fb26e3",
+        "filename": "java/com/google/gerrit/server/patch/PatchListEntry.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-11-28T20:18:59Z",
+      "side": 1,
+      "message": "There might be a better way to represent boolean variables. Or maybe rather use an enum instead.",
+      "range": {
+        "startLine": 280,
+        "startChar": 4,
+        "endLine": 280,
+        "endChar": 48
+      },
+      "revId": "b68dc509e9332367a5f010c33bd253cb6a3af8a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "50b2f3d6_cbf22433",
+        "filename": "java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 401,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-11-28T20:18:59Z",
+      "side": 1,
+      "message": "That\u0027s not very efficient but not constructing a PatchListEntry twice would require quite some refactoring, which I skipped for this demonstration.",
+      "range": {
+        "startLine": 393,
+        "startChar": 6,
+        "endLine": 401,
+        "endChar": 50
+      },
+      "revId": "b68dc509e9332367a5f010c33bd253cb6a3af8a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "09dce5ec_09447f2e",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RevisionDiffIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 663,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-11-28T20:18:59Z",
+      "side": 1,
+      "message": "TODO: Cover more test situations.",
+      "range": {
+        "startLine": 663,
+        "startChar": 2,
+        "endLine": 663,
+        "endChar": 7
+      },
+      "revId": "b68dc509e9332367a5f010c33bd253cb6a3af8a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

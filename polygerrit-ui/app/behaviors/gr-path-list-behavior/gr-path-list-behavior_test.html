@@ -56,6 +56,14 @@ limitations under the License.
       assert.equal(name('/MERGE_LIST'), 'Merge list');
     });
 
+    test('isMagicPath', () => {
+      const isMagic = Gerrit.PathListBehavior.isMagicPath;
+      assert.isFalse(isMagic(undefined));
+      assert.isFalse(isMagic('/foo.cc'));
+      assert.isTrue(isMagic('/COMMIT_MSG'));
+      assert.isTrue(isMagic('/MERGE_LIST'));
+    });
+
     test('truncatePath with long path should add ellipsis', () => {
       const truncatePath = Gerrit.PathListBehavior.truncatePath;
       let path = 'level1/level2/level3/level4/file.js';

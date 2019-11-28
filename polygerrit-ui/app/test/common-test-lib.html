@@ -1,4 +1,3 @@
-<!DOCTYPE html>
 <!--
 @license
 Copyright (C) 2017 The Android Open Source Project
@@ -16,11 +15,12 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 
-<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
-<title>Embed Test Runner</title>
-<meta charset="utf-8">
-<script src="/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
-<script src="/bower_components/web-component-tester/browser.js"></script>
-<script>
-  WCT.loadSuites(['../embed/embed_test.html']);
-</script>
+<script src="/components/chai/chai.js"></script>
+<script src="/components/mocha/mocha.js"></script>
+<script src="/components/wct-mocha/wct-mocha.js"></script>
+<script src="/components/sinon/pkg/sinon.js"></script>
+
+<!-- This path doesn't exists in node_modules, but web-component-tester expects that it exists.
+When tests are runned, node_modules/test-fixture points to node_modules/@polymer/test-fixture.
+Do not change path here, otherwise code can be loaded twice. -->
+<link rel="import" href="/components/test-fixture/test-fixture.html">

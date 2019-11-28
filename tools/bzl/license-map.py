@@ -3,8 +3,10 @@
 # reads bazel query XML files, to join target names with their licenses.
 
 from __future__ import print_function
+from collections import namedtuple
 
 import argparse
+import json
 from collections import defaultdict
 from shutil import copyfileobj
 from sys import stdout, stderr
@@ -17,38 +19,98 @@ LICENSE_PREFIX = "//lib:LICENSE-"
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--asciidoctor", action="store_true")
+parser.add_argument("--json-map", action="append", dest="json_maps")
 parser.add_argument("xmls", nargs="+")
 args = parser.parse_args()
 
-entries = defaultdict(list)
-graph = defaultdict(list)
-handled_rules = []
+def load_file_content(filename):
+  try:
+    with open(filename, errors='ignore') as fd:
+      return fd.read()
+  except TypeError:
+    with open(filename) as fd:
+      return fd.read()
 
-for xml in args.xmls:
-    tree = ET.parse(xml)
-    root = tree.getroot()
+LicenseMapItem = namedtuple("LicenseMapItem", ["name", "safename", "packages_names", "license_text"])
 
-    for child in root:
-        rule_name = child.attrib["name"]
-        if rule_name in handled_rules:
-            # already handled in other xml files
-            continue
+def load_xmls(xmls):
+  entries = defaultdict(list)
+  graph = defaultdict(list)
+  handled_rules = []
+  for xml in xmls:
+      tree = ET.parse(xml)
+      root = tree.getroot()
 
-        handled_rules.append(rule_name)
-        for c in list(child):
-            if c.tag != "rule-input":
-                continue
+      for child in root:
+          rule_name = child.attrib["name"]
+          if rule_name in handled_rules:
+              # already handled in other xml files
+              continue
 
-            license_name = c.attrib["name"]
-            if LICENSE_PREFIX in license_name:
-                entries[rule_name].append(license_name)
-                graph[license_name].append(rule_name)
+          handled_rules.append(rule_name)
+          for c in list(child):
+              if c.tag != "rule-input":
+                  continue
 
-if len(graph[DO_NOT_DISTRIBUTE]):
+              license_name = c.attrib["name"]
+              if LICENSE_PREFIX in license_name:
+                  entries[rule_name].append(license_name)
+                  graph[license_name].append(rule_name)
+
+  if len(graph[DO_NOT_DISTRIBUTE]):
     print("DO_NOT_DISTRIBUTE license found in:", file=stderr)
     for target in graph[DO_NOT_DISTRIBUTE]:
-        print(target, file=stderr)
+      print(target, file=stderr)
     exit(1)
+
+  result = []
+  for n in sorted(graph.keys()):
+    if len(graph[n]) == 0:
+      continue
+
+    name = n[len(LICENSE_PREFIX):]
+    safename = name.replace(".", "_")
+    packages_names = []
+    for d in sorted(graph[n]):
+      if d.startswith("//lib:") or d.startswith("//lib/"):
+        p = d[len("//lib:"):]
+      else:
+        p = d[d.index(":")+1:].lower()
+      if "__" in p:
+        p = p[:p.index("__")]
+      packages_names.append(p)
+
+    filename = n[2:].replace(":", "/")
+    content = load_file_content(filename)
+    result.append(LicenseMapItem(
+        name = name,
+        safename = safename,
+        license_text = content,
+        packages_names = packages_names))
+  return result
+
+def load_jsons(jsons):
+  result = []
+  for json_map in jsons:
+    with open(json_map, 'r') as f:
+      licenses_list = json.load(f)
+    for license in licenses_list:
+      name = license["license_name"]
+      safename = name.replace(".", "_")
+      packages_names = []
+      for p in license["packages"]:
+        packages_names.append(p["name"])
+
+      result.append(LicenseMapItem(
+          name = name,
+          safename = safename,
+          license_text = license["license_text"],
+          packages_names = sorted(packages_names)
+      ))
+  return result
+
+xml_data = load_xmls(args.xmls)
+json_map_data = load_jsons(args.json_maps)
 
 if args.asciidoctor:
     # We don't want any blank line before "= Gerrit Code Review - Licenses"
@@ -93,34 +155,19 @@ updates of mirror servers, or realtime backups.
 == Licenses
 """)
 
-for n in sorted(graph.keys()):
-    if len(graph[n]) == 0:
-        continue
-
-    name = n[len(LICENSE_PREFIX):]
-    safename = name.replace(".", "_")
+for data in xml_data + json_map_data:
+    name = data.name
+    safename = data.safename
     print()
     print("[[%s]]" % safename)
     print(name)
     print()
-    for d in sorted(graph[n]):
-        if d.startswith("//lib:") or d.startswith("//lib/"):
-            p = d[len("//lib:"):]
-        else:
-            p = d[d.index(":")+1:].lower()
-        if "__" in p:
-            p = p[:p.index("__")]
+    for p in data.packages_names:
         print("* " + p)
     print()
     print("[[%s_license]]" % safename)
     print("----")
-    filename = n[2:].replace(":", "/")
-    try:
-        with open(filename, errors='ignore') as fd:
-            copyfileobj(fd, stdout)
-    except TypeError:
-        with open(filename) as fd:
-            copyfileobj(fd, stdout)
+    print(data.license_text)
     print()
     print("----")
     print()

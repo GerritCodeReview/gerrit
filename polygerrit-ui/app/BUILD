@@ -55,7 +55,6 @@ filegroup(
         exclude = [
             "bower_components/**",
             "**/*_test.html",
-            "embed/test.html",
             "test/**",
             "samples/**",
         ],
@@ -166,55 +165,10 @@ DIRECTORIES = [
     ],
 ) for directory in DIRECTORIES]
 
-# Embed bundle
-polygerrit_bundle(
-    name = "polygerrit_embed_ui",
-    srcs = glob(
-        [
-            "**/*.html",
-            "**/*.js",
-        ],
-        exclude = [
-            "bower_components/**",
-            "test/**",
-            "**/*_test.html",
-        ],
-    ),
-    outs = ["polygerrit_embed_ui.zip"],
-    app = "embed/embed.html",
-)
-
-filegroup(
-    name = "embed_test_files",
-    srcs = glob(
-        [
-            "embed/**/*_test.html",
-        ],
-    ),
-)
-
 filegroup(
     name = "template_test_srcs",
     srcs = [
         "template_test_srcs/convert_for_template_tests.py",
         "template_test_srcs/template_test.js",
-    ],
-)
-
-sh_test(
-    name = "embed_test",
-    size = "small",
-    srcs = ["embed_test.sh"],
-    data = [
-        "embed/test.html",
-        "test/common-test-setup.html",
-        ":embed_test_files",
-        ":pg_code.zip",
-        ":test_components.zip",
-    ],
-    # Should not run sandboxed.
-    tags = [
-        "local",
-        "manual",
     ],
 )

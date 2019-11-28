@@ -308,7 +308,7 @@ public class PatchListCacheIT extends AbstractDaemonTest {
   }
 
   private PatchListKey getKey(ObjectId revisionIdA, ObjectId revisionIdB) {
-    return PatchListKey.againstCommit(revisionIdA, revisionIdB, Whitespace.IGNORE_NONE);
+    return PatchListKey.againstCommit(revisionIdA, revisionIdB, Whitespace.IGNORE_NONE, false);
   }
 
   private ObjectId getCurrentRevisionId(String changeId) throws Exception {

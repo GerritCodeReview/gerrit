@@ -245,7 +245,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
 
   private PatchListKey keyFor(Whitespace whitespace) {
     if (parentNum < 0) {
-      return PatchListKey.againstCommit(aId, bId, whitespace);
+      return PatchListKey.againstCommit(aId, bId, whitespace, false);
     }
     return PatchListKey.againstParentNum(parentNum + 1, bId, whitespace);
   }

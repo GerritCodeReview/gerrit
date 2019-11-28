@@ -95,7 +95,9 @@ public class FilesInCommitCollection implements ChildCollection<CommitResource, 
             PatchListKey.againstParentNum(
                 parentNum, commit, DiffPreferencesInfo.Whitespace.IGNORE_NONE);
       } else {
-        key = PatchListKey.againstCommit(null, commit, DiffPreferencesInfo.Whitespace.IGNORE_NONE);
+        key =
+            PatchListKey.againstCommit(
+                null, commit, DiffPreferencesInfo.Whitespace.IGNORE_NONE, true);
       }
 
       return Response.ok(fileInfoJson.toFileInfoMap(resource.getProjectState().getNameKey(), key));

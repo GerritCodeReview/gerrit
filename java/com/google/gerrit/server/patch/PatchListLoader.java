@@ -388,8 +388,9 @@ public class PatchListLoader implements Callable<PatchList> {
     Set<Edit> contentEditsDueToRebase = getContentEdits(editsDueToRebase);
     PatchListEntry patchListEntry =
         newEntry(treeA, fileHeader, contentEditsDueToRebase, newSize, newSize - oldSize);
-    // All edits in a file are due to rebase -> exclude the file from the diff.
-    if (EditTransformer.toEdits(patchListEntry).allMatch(editsDueToRebase::contains)) {
+    if (key.ignoreFilesThatOnlyChangedDueToRebase()
+        && EditTransformer.toEdits(patchListEntry).allMatch(editsDueToRebase::contains)) {
+      // All edits in a file are due to rebase -> exclude the file from the diff.
       return Optional.empty();
     }
     return Optional.of(patchListEntry);

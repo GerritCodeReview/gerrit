@@ -47,7 +47,7 @@ public class PatchListKey implements Serializable {
   }
 
   public static PatchListKey againstDefaultBase(AnyObjectId newId, Whitespace ws) {
-    return new PatchListKey(null, newId, ws);
+    return new PatchListKey(null, newId, ws, false);
   }
 
   public static PatchListKey againstParentNum(int parentNum, AnyObjectId newId, Whitespace ws) {
@@ -55,8 +55,12 @@ public class PatchListKey implements Serializable {
   }
 
   public static PatchListKey againstCommit(
-      AnyObjectId otherCommitId, AnyObjectId newId, Whitespace whitespace) {
-    return new PatchListKey(otherCommitId, newId, whitespace);
+      AnyObjectId otherCommitId,
+      AnyObjectId newId,
+      Whitespace whitespace,
+      boolean ignoreFilesThatOnlyChangedDueToRebase) {
+    return new PatchListKey(
+        otherCommitId, newId, whitespace, ignoreFilesThatOnlyChangedDueToRebase);
   }
 
   /**
@@ -81,17 +85,21 @@ public class PatchListKey implements Serializable {
 
   private transient ObjectId newId;
   private transient Whitespace whitespace;
+  private transient boolean ignoreFilesThatOnlyChangedDueToRebase;
 
-  private PatchListKey(AnyObjectId a, AnyObjectId b, Whitespace ws) {
+  private PatchListKey(
+      AnyObjectId a, AnyObjectId b, Whitespace ws, boolean ignoreFilesThatOnlyChangedDueToRebase) {
     oldId = ObjectIds.copyOrNull(a);
     newId = b.copy();
     whitespace = ws;
+    this.ignoreFilesThatOnlyChangedDueToRebase = ignoreFilesThatOnlyChangedDueToRebase;
   }
 
   private PatchListKey(int parentNum, AnyObjectId b, Whitespace ws) {
     this.parentNum = Integer.valueOf(parentNum);
     newId = b.copy();
     whitespace = ws;
+    this.ignoreFilesThatOnlyChangedDueToRebase = false;
   }
 
   /** For use only by DiffSummaryKey. */
@@ -100,6 +108,7 @@ public class PatchListKey implements Serializable {
     this.parentNum = parentNum;
     this.newId = newId;
     this.whitespace = whitespace;
+    this.ignoreFilesThatOnlyChangedDueToRebase = true;
   }
 
   /** Old side commit, or null to assume ancestor or combined merge. */
@@ -123,9 +132,13 @@ public class PatchListKey implements Serializable {
     return whitespace;
   }
 
+  public boolean ignoreFilesThatOnlyChangedDueToRebase() {
+    return ignoreFilesThatOnlyChangedDueToRebase;
+  }
+
   @Override
   public int hashCode() {
-    return Objects.hash(oldId, parentNum, newId, whitespace);
+    return Objects.hash(oldId, parentNum, newId, whitespace, ignoreFilesThatOnlyChangedDueToRebase);
   }
 
   @Override
@@ -135,7 +148,8 @@ public class PatchListKey implements Serializable {
       return Objects.equals(oldId, k.oldId)
           && Objects.equals(parentNum, k.parentNum)
           && Objects.equals(newId, k.newId)
-          && whitespace == k.whitespace;
+          && whitespace == k.whitespace
+          && ignoreFilesThatOnlyChangedDueToRebase == k.ignoreFilesThatOnlyChangedDueToRebase;
     }
     return false;
   }
@@ -153,6 +167,9 @@ public class PatchListKey implements Serializable {
       n.append(" ");
     }
     n.append(whitespace.name());
+    if (ignoreFilesThatOnlyChangedDueToRebase) {
+      n.append(" ignoreFilesThatOnlyChangedDueToRebase");
+    }
     n.append("]");
     return n.toString();
   }
@@ -166,6 +183,7 @@ public class PatchListKey implements Serializable {
       throw new IOException("Invalid whitespace type: " + whitespace);
     }
     out.writeChar(c);
+    out.writeBoolean(ignoreFilesThatOnlyChangedDueToRebase);
   }
 
   private void readObject(ObjectInputStream in) throws IOException {
@@ -178,5 +196,6 @@ public class PatchListKey implements Serializable {
     if (whitespace == null) {
       throw new IOException("Invalid whitespace type code: " + t);
     }
+    ignoreFilesThatOnlyChangedDueToRebase = in.readBoolean();
   }
 }

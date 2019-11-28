@@ -58,6 +58,9 @@ limitations under the License.
       #container.unresolved {
         background-color: var(--unresolved-comment-background-color);
       }
+      #container.robotComment {
+        background-color: var(--robot-comment-background-color);
+      }
       #commentInfoContainer {
         border-top: 1px dotted var(--border-color);
         display: flex;
@@ -82,7 +85,7 @@ limitations under the License.
         <span class="descriptionText">Patchset [[patchNum]]</span>
       </div>
     </template>
-    <div id="container" class$="[[_computeHostClass(unresolved)]]">
+    <div id="container" class$="[[_computeHostClass(unresolved, isRobotComment)]]">
       <template id="commentList" is="dom-repeat" items="[[_orderedComments]]"
           as="comment">
         <gr-comment

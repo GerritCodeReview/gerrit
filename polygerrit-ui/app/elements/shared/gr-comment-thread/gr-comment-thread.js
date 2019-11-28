@@ -137,6 +137,11 @@
         _lastComment: Object,
         _orderedComments: Array,
         _projectConfig: Object,
+        isRobotComment: {
+          type: Boolean,
+          value: false,
+          reflectToAttribute: true,
+        },
       };
     }
 
@@ -221,6 +226,7 @@
         this._lastComment = this._getLastComment();
         this.unresolved = this._lastComment.unresolved;
         this.hasDraft = this._lastComment.__draft;
+        this.isRobotComment = !!(this._lastComment.robot_id);
       }
     }
 
@@ -498,6 +504,9 @@
     }
 
     _computeHostClass(unresolved) {
+      if (this.isRobotComment) {
+        return 'robotComment';
+      }
       return unresolved ? 'unresolved' : '';
     }
 

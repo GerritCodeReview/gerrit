@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "24479055_98a0e6e5",
+        "filename": "tools/BUILD",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-11-28T09:44:33Z",
+      "side": 1,
+      "message": "Do we want to stay with this name even for later Java versions?",
+      "range": {
+        "startLine": 21,
+        "startChar": 15,
+        "endLine": 21,
+        "endChar": 28
+      },
+      "revId": "a9fc844e6500c065b0ab1b45e86e0efb015b9ade",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

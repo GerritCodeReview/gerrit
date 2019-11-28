@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b83efe50_a53e3efa",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RevisionDiffIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2456,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-11-28T20:07:45Z",
+      "side": 1,
+      "message": "FYI: As FILE_CONTENT is used here, this means effectively adding two \\n at the end. That\u0027s also why the IllegalStateException was triggered for that case. I made sure to cover that situation by a test on I6feea7a37.",
+      "range": {
+        "startLine": 2456,
+        "startChar": 32,
+        "endLine": 2456,
+        "endChar": 44
+      },
+      "revId": "678d70c64ecac5a85da86657184fb7153e613fc7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

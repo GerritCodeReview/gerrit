@@ -26,7 +26,7 @@ def _impl(ctx):
     transitive_jar_paths = [j.path for j in transitive_jars.to_list()]
     dir = ctx.outputs.zip.path + ".dir"
     source = ctx.outputs.zip.path + ".source"
-    external_docs = ["https://docs.oracle.com/javase/8/docs/api"] + ctx.attr.external_docs
+    external_docs = ["https://docs.oracle.com/en/java/javase/11/docs/api/"] + ctx.attr.external_docs
     cmd = [
         "TZ=UTC",
         "export TZ",
@@ -61,7 +61,7 @@ def _impl(ctx):
         command = " && ".join(cmd),
     )
 
-_java_doc = rule(
+java_doc = rule(
     attrs = {
         "external_docs": attr.string_list(),
         "libs": attr.label_list(allow_files = False),
@@ -76,16 +76,3 @@ _java_doc = rule(
     outputs = {"zip": "%{name}.zip"},
     implementation = _impl,
 )
-
-def java_doc(**kwargs):
-    libs = kwargs.get("libs", [])
-    libs = libs + select({
-        "//:java11": [],
-        "//:java_next": [],
-        # TODO(davido): Remove this dependency, when Java 8 support is removed.
-        # auto-value generates @javax.annotation.Generated annotation on generated
-        # classes when Java 8 source compatibility level is used, but Java 11 and
-        # later don't have this class any more.
-        "//conditions:default": ["//lib:javax-annotation"],
-    })
-    _java_doc(**dict(kwargs, libs = libs))

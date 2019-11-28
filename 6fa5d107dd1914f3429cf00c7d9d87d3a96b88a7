@@ -257,6 +257,24 @@
       "revId": "6fa5d107dd1914f3429cf00c7d9d87d3a96b88a7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8fbbc312_7905a66c",
+        "filename": "polygerrit-ui/app/styles/themes/dark-theme.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-11-28T11:02:18Z",
+      "side": 1,
+      "message": "Critique uses yellow/gray instead of yellow/another-yellow for coloring comment cards. Delphine and I had agreed to align the colors. But I can do that. Sorry for the confusion.",
+      "parentUuid": "b48d84df_2cf569b7",
+      "revId": "6fa5d107dd1914f3429cf00c7d9d87d3a96b88a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

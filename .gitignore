@@ -4,6 +4,7 @@
 *.pyc
 *.sublime-*
 *.swp
+yarn-error.log
 *~
 .DS_Store
 /.apt_generated

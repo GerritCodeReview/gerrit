@@ -339,9 +339,9 @@
     }
 
     _calculatePatchChange(files) {
-      const magicFilesExcluded = files.filter(files => {
-        return files.__path !== '/COMMIT_MSG' && files.__path !== '/MERGE_LIST';
-      });
+      const magicFilesExcluded = files.filter(files =>
+        !this.isMagicPath(files.__path)
+      );
 
       return magicFilesExcluded.reduce((acc, obj) => {
         const inserted = obj.lines_inserted ? obj.lines_inserted : 0;

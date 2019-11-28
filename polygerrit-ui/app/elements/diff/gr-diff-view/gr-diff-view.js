@@ -1102,7 +1102,7 @@
     }
 
     _computeBlameLoaderClass(isImageDiff) {
-      return !isImageDiff ? 'show' : '';
+      return !this.isMagicPath(this._path) && !isImageDiff ? 'show' : '';
     }
 
     _getRevisionInfo(change) {

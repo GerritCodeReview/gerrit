@@ -125,7 +125,7 @@ To allow the tests to run in Safari:
 To run Chrome tests in headless mode:
 
 ```sh
-WCT_HEADLESS_MODE=1 WCT_ARGS='--verbose -l chrome' ./polygerrit-ui/app/run_test.sh
+WCT_HEADLESS_MODE=1 ./polygerrit-ui/app/run_test.sh --test_arg=--verbose --test_arg=-l --test_arg=chrome
 ```
 
 ## Style guide

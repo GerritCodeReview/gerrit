@@ -29,6 +29,8 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.permissions.GlobalPermission;
+import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.restapi.config.AgreementJson;
@@ -48,17 +50,20 @@ public class GetAgreements implements RestReadView<AccountResource> {
   private final ProjectCache projectCache;
   private final AgreementJson agreementJson;
   private final boolean agreementsEnabled;
+  private final PermissionBackend permissionBackend;
 
   @Inject
   GetAgreements(
       Provider<CurrentUser> self,
       ProjectCache projectCache,
       AgreementJson agreementJson,
+      PermissionBackend permissionBackend,
       @GerritServerConfig Config config) {
     this.self = self;
     this.projectCache = projectCache;
     this.agreementJson = agreementJson;
     this.agreementsEnabled = config.getBoolean("auth", "contributorAgreements", false);
+    this.permissionBackend = permissionBackend;
   }
 
   @Override
@@ -74,7 +79,11 @@ public class GetAgreements implements RestReadView<AccountResource> {
 
     IdentifiedUser user = self.get().asIdentifiedUser();
     if (user != resource.getUser()) {
-      throw new AuthException("not allowed to get contributor agreements");
+      try {
+        permissionBackend.user(user).check(GlobalPermission.ADMINISTRATE_SERVER);
+      } catch (AuthException e) {
+        throw new AuthException("not allowed to get contributor agreements", e);
+      }
     }
 
     List<AgreementInfo> results = new ArrayList<>();

@@ -178,6 +178,18 @@ public class AgreementsIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void listAgreementPermission() throws Exception {
+    assume().that(isContributorAgreementsEnabled()).isTrue();
+    requestScopeOperations.setApiUser(admin.id());
+    // Allowed.
+    gApi.accounts().id(user.id().get()).listAgreements();
+    requestScopeOperations.setApiUser(user.id());
+
+    // Not allowed.
+    assertThrows(AuthException.class, () -> gApi.accounts().id(admin.id().get()).listAgreements());
+  }
+
+  @Test
   public void signAgreementAsOtherUser() throws Exception {
     assume().that(isContributorAgreementsEnabled()).isTrue();
     assertThat(gApi.accounts().self().get().name).isNotEqualTo("admin");

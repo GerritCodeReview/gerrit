@@ -67,7 +67,7 @@ public class Reachable {
       try (TraceTimer timer =
           TraceContext.newTimer(
               "IncludedInResolver.includedInAny",
-              Metadata.builder().projectName(project.get()).inputSize(refs.size()).build())) {
+              Metadata.builder().projectName(project.get()).resourceCount(refs.size()).build())) {
         return IncludedInResolver.includedInAny(repo, rw, commit, filtered.values());
       }
     } catch (IOException | PermissionBackendException e) {

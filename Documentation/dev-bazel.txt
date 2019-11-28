@@ -19,6 +19,15 @@ or through link:https://github.com/bazelbuild/bazelisk[Bazelisk]
 [[java]]
 === Java
 
+Gerrit is using custom Java tool chain with additional activated error prone
+checks. To switch to using default Java 11 tool chain, pass this option:
+
+```
+  $ bazel build \
+    --java_toolchain=@bazel_tools//tools/jdk:toolchain_java11 \
+    :release
+```
+
 ==== MacOS
 
 On MacOS, ensure that "Java for MacOS X 10.5 Update 4" (or higher) is installed
@@ -78,22 +87,6 @@ $ cat << EOF > ~/.bazelrc
 
 Now, invoking Bazel with just `bazel build :release` would include
 all those options.
-
-[[java-11]]
-==== Java 11 support
-
-Java 11 is supported through alternative java toolchain
-link:https://docs.bazel.build/versions/master/toolchains.html[Bazel option].
-To build Gerrit with Java 11, specify JDK 11 java toolchain:
-
-```
-  $ bazel build \
-      --host_javabase=@bazel_tools//tools/jdk:remote_jdk11 \
-      --javabase=@bazel_tools//tools/jdk:remote_jdk11 \
-      --host_java_toolchain=@bazel_tools//tools/jdk:toolchain_java11 \
-      --java_toolchain=@bazel_tools//tools/jdk:toolchain_java11 \
-      :release
-```
 
 === Node.js and npm packages
 See link:https://gerrit.googlesource.com/gerrit/+/master/polygerrit-ui/README.md#installing-node_js-and-npm-packages[Installing Node.js and npm packages].

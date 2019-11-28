@@ -1,0 +1,130 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ab6381e_b9cbf673",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-11-28T10:24:30Z",
+      "side": 1,
+      "message": "\"Google Blue 50\" is not something official I think. Anyway, the community would not care whether this is a \"Google Blue\". We don\u0027t have the goal to brand Gerrit as a Google product.",
+      "range": {
+        "startLine": 7,
+        "startChar": 4,
+        "endLine": 7,
+        "endChar": 19
+      },
+      "revId": "6fa5d107dd1914f3429cf00c7d9d87d3a96b88a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "78e35078_19a68cd7",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-11-28T10:24:30Z",
+      "side": 1,
+      "message": "Maybe rename to \u0027isRobotComment\u0027?",
+      "range": {
+        "startLine": 140,
+        "startChar": 8,
+        "endLine": 140,
+        "endChar": 20
+      },
+      "revId": "6fa5d107dd1914f3429cf00c7d9d87d3a96b88a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a2623dbf_38d48c8a",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-11-28T10:24:30Z",
+      "side": 1,
+      "message": "Move to \"background colors\" section. Also in dark-theme.html.",
+      "revId": "6fa5d107dd1914f3429cf00c7d9d87d3a96b88a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a649f5bf_3e9276da",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-11-28T10:24:30Z",
+      "side": 1,
+      "message": "Space after colon and lower case letters. Also in dark-theme.html.",
+      "range": {
+        "startLine": 34,
+        "startChar": 26,
+        "endLine": 34,
+        "endChar": 32
+      },
+      "revId": "6fa5d107dd1914f3429cf00c7d9d87d3a96b88a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a6845b11_da35c570",
+        "filename": "polygerrit-ui/app/styles/themes/app-theme.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-11-28T10:24:30Z",
+      "side": 1,
+      "message": "Rename to \"robot-comment-background-color\" to align with \"comment-background-color\".",
+      "range": {
+        "startLine": 34,
+        "startChar": 4,
+        "endLine": 34,
+        "endChar": 24
+      },
+      "revId": "6fa5d107dd1914f3429cf00c7d9d87d3a96b88a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f67f79f8_8563e676",
+        "filename": "polygerrit-ui/app/styles/themes/dark-theme.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-11-28T10:24:30Z",
+      "side": 1,
+      "message": "Can you align these two colors with Critique in a follow-up change?\n\n--comment-background-color: #0b162b;\n--unresolved-comment-background-color: #385a9a;",
+      "revId": "6fa5d107dd1914f3429cf00c7d9d87d3a96b88a7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -791,7 +791,7 @@ key is persisted.
 .Request
 ----
   POST /accounts/self/sshkeys HTTP/1.0
-  Content-Type: plain/text
+  Content-Type: text/plain
 
   AAAAB3NzaC1yc2EAAAABIwAAAQEA0T...YImydZAw\u003d\u003d
 ----

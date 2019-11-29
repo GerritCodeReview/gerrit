@@ -2668,7 +2668,7 @@
         method: 'POST',
         url: '/accounts/self/sshkeys',
         body: key,
-        contentType: 'plain/text',
+        contentType: 'text/plain',
         reportUrlAsIs: true,
       };
       return this._send(req)

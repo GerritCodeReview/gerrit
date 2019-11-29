@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "63729c83_2e71e0b8",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-11-29T08:44:25Z",
+      "side": 1,
+      "message": "Trailing blank.",
+      "range": {
+        "startLine": 31,
+        "startChar": 49,
+        "endLine": 31,
+        "endChar": 50
+      },
+      "revId": "c37bb49172eaf06b5fa587d785a45f029a1a3b01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -259,6 +259,24 @@
       "revId": "d8bf14c1e01f25686e641472e42a15bf45fd7f8f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bbd1e784_1633fe26",
+        "filename": "e2e-tests/load-tests/Dockerfile",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2019-11-29T20:31:36Z",
+      "side": 1,
+      "message": "I have moved everything to the newly created gatling home. This way it seems to work.",
+      "parentUuid": "e81dd8b0_e93602d5",
+      "revId": "d8bf14c1e01f25686e641472e42a15bf45fd7f8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

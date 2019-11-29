@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "cb7f5d1e_d519016c",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.html",
+        "patchSetId": 9
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1023872
+      },
+      "writtenOn": "2019-11-29T14:37:42Z",
+      "side": 1,
+      "message": "This should be a trivial check to add via http://go/ayeaye for the gerrit host",
+      "parentUuid": "e8379cf9_5cb9b89c",
+      "range": {
+        "startLine": 284,
+        "startChar": 21,
+        "endLine": 284,
+        "endChar": 22
+      },
+      "revId": "ca589fb02c5e82141364e5cabffc7aba07d31a47",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "821082f6_a1daeae9",
         "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
         "patchSetId": 9

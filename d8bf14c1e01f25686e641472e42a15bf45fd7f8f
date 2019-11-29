@@ -241,6 +241,24 @@
       "revId": "d8bf14c1e01f25686e641472e42a15bf45fd7f8f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e81dd8b0_e93602d5",
+        "filename": "e2e-tests/load-tests/Dockerfile",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-11-29T08:32:58Z",
+      "side": 1,
+      "message": "This is because the /opt/gatling/conf and the other directories in question are made a VOLUME by the parent image [1]. The parent image was made with the idea in mind to mount these directories not copy them into the image.\nMaybe copying the directories in a different location and symlinking them works? Does the user running the tests really need write access to these files at all?\n\n[1] https://stackoverflow.com/questions/26145351/why-doesnt-chown-work-in-dockerfile",
+      "parentUuid": "6aaa0fb4_64573694",
+      "revId": "d8bf14c1e01f25686e641472e42a15bf45fd7f8f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

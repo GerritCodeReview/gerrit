@@ -17,8 +17,6 @@
 (function(window) {
   'use strict';
 
-  const PRELOADED_PROTOCOL = 'preloaded:';
-
   const PANEL_ENDPOINTS_MAPPING = {
     CHANGE_SCREEN_BELOW_COMMIT_INFO_BLOCK: 'change-view-integration',
     CHANGE_SCREEN_BELOW_CHANGE_INFO_BLOCK: 'change-metadata-item',
@@ -26,6 +24,7 @@
 
   // Import utils methods
   const {
+    PRELOADED_PROTOCOL,
     getPluginNameFromUrl,
     send,
   } = window._apiUtils;
@@ -66,13 +65,6 @@
 
     this._url = new URL(opt_url);
     this._name = getPluginNameFromUrl(this._url);
-    if (this._url.protocol === PRELOADED_PROTOCOL) {
-      // Original plugin URL is used in plugin assets URLs calculation.
-      const assetsBaseUrl = window.ASSETS_PATH ||
-          (window.location.origin + Gerrit.BaseUrlBehavior.getBaseUrl());
-      this._url = new URL(assetsBaseUrl + '/plugins/' + this._name +
-          '/static/' + this._name + '.js');
-    }
   }
 
   Plugin._sharedAPIElement = document.createElement('gr-js-api-interface');
@@ -139,9 +131,15 @@
 
   Plugin.prototype.url = function(opt_path) {
     const relPath = '/plugins/' + this._name + (opt_path || '/');
+    const sameOriginPath = window.location.origin +
+      `${Gerrit.BaseUrlBehavior.getBaseUrl()}${relPath}`;
     if (window.location.origin === this._url.origin) {
       // Plugin loaded from the same origin as gr-app, getBaseUrl in effect.
-      return this._url.origin + Gerrit.BaseUrlBehavior.getBaseUrl() + relPath;
+      return sameOriginPath;
+    } else if (this._url.protocol === PRELOADED_PROTOCOL) {
+      // Plugin is preloaded, load plugin with ASSETS_PATH or location.origin
+      return window.ASSETS_PATH ? `${window.ASSETS_PATH}${relPath}`
+        : sameOriginPath;
     } else {
       // Plugin loaded from assets bundle, expect assets placed along with it.
       return this._url.href.split('/plugins/' + this._name)[0] + relPath;

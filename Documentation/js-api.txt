@@ -150,6 +150,13 @@ Returns a URL within the plugin's URL space. If invoked with no
 parameter the URL of the plugin is returned. If passed a string
 the argument is appended to the plugin URL.
 
+A plugin's URL is where this plugin is loaded, it doesn't
+necessary to be the same as the Gerrit host. Use `window.location`
+if you need to access the Gerrit host info.
+
+For preloaded plugins, the plugin url is based on a global
+configuration of where to load all plugins, default to current host.
+
 [source,javascript]
 ----
 self.url();                    // "https://gerrit-review.googlesource.com/plugins/demo/"

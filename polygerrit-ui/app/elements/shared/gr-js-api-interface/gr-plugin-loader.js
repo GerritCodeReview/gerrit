@@ -113,7 +113,7 @@
       this._pluginListLoaded = true;
 
       plugins.forEach(path => {
-        const url = this._urlFor(path);
+        const url = this._urlFor(path, window.ASSETS_PATH);
         // Skip if preloaded, for bundling.
         if (this.isPluginPreloaded(url)) return;
 
@@ -128,11 +128,11 @@
         });
 
         if (this._isPathEndsWith(url, '.html')) {
-          this._importHtmlPlugin(url, opts && opts[path]);
+          this._importHtmlPlugin(path, opts && opts[path]);
         } else if (this._isPathEndsWith(url, '.js')) {
-          this._loadJsPlugin(url);
+          this._loadJsPlugin(path);
         } else {
-          this._failToLoad(`Unrecognized plugin url ${url}`, url);
+          this._failToLoad(`Unrecognized plugin path ${path}`, path);
         }
       });
 
@@ -181,14 +181,15 @@
         return;
       }
 
-      const pluginObject = this.getPlugin(src);
+      const url = this._urlFor(src);
+      const pluginObject = this.getPlugin(url);
       let plugin = pluginObject && pluginObject.plugin;
       if (!plugin) {
-        plugin = new Plugin(src);
+        plugin = new Plugin(url);
       }
       try {
         callback(plugin);
-        this._pluginInstalled(src, plugin);
+        this._pluginInstalled(url, plugin);
       } catch (e) {
         this._failToLoad(`${e.name}: ${e.message}`, src);
       }
@@ -313,38 +314,79 @@
     }
 
     _importHtmlPlugin(pluginUrl, opts = {}) {
-      // onload (second param) needs to be a function. When null or undefined
-      // were passed, plugins were not loaded correctly.
+      const urlWithAP = this._urlFor(pluginUrl, window.ASSETS_PATH);
+      const urlWithoutAP = this._urlFor(pluginUrl);
+      let onerror = null;
+      if (urlWithAP !== urlWithoutAP) {
+        onerror = () => this._loadHtmlPlugin(urlWithoutAP, opts.sync);
+      }
+      this._loadHtmlPlugin(urlWithAP, opts.sync, onerror);
+    }
+
+    _loadHtmlPlugin(url, sync, onerror) {
+      if (!onerror) {
+        onerror = () => {
+          this._failToLoad(`${url} import error`, url);
+        };
+      }
+
       (Polymer.importHref || Polymer.Base.importHref)(
-          this._urlFor(pluginUrl), () => {},
-          () => this._failToLoad(`${pluginUrl} import error`, pluginUrl),
-          !opts.sync);
+          url, () => {},
+          onerror,
+          !sync);
     }
 
     _loadJsPlugin(pluginUrl) {
-      this._createScriptTag(this._urlFor(pluginUrl));
+      const urlWithAP = this._urlFor(pluginUrl, window.ASSETS_PATH);
+      const urlWithoutAP = this._urlFor(pluginUrl);
+      let onerror = null;
+      if (urlWithAP !== urlWithoutAP) {
+        onerror = () => this._createScriptTag(urlWithoutAP);
+      }
+
+      this._createScriptTag(urlWithAP, onerror);
     }
 
-    _createScriptTag(url) {
+    _createScriptTag(url, onerror) {
+      if (!onerror) {
+        onerror = () => this._failToLoad(`${url} load error`, url);
+      }
+
       const el = document.createElement('script');
       el.defer = true;
       el.setAttribute('src', url);
-      el.onerror = () => this._failToLoad(`${url} load error`, url);
+      el.onerror = onerror;
       return document.body.appendChild(el);
     }
 
-    _urlFor(pathOrUrl) {
+    _urlFor(pathOrUrl, assetsPath) {
       if (!pathOrUrl) {
         return pathOrUrl;
       }
+
+      // theme is per host, should always load from assetsPath
+      const isThemeFile = pathOrUrl.endsWith('static/gerrit-theme.html');
+      const shouldTryLoadFromAssetsPathFirst = !isThemeFile && assetsPath;
       if (pathOrUrl.startsWith(PRELOADED_PROTOCOL) ||
           pathOrUrl.startsWith('http')) {
         // Plugins are loaded from another domain or preloaded.
+        if (pathOrUrl.includes(location.host)
+          && shouldTryLoadFromAssetsPathFirst) {
+          // if is loading from host server, try replace with cdn when assetsPath provided
+          return pathOrUrl
+              .replace(location.origin, assetsPath);
+        }
         return pathOrUrl;
       }
+
       if (!pathOrUrl.startsWith('/')) {
         pathOrUrl = '/' + pathOrUrl;
       }
+
+      if (shouldTryLoadFromAssetsPathFirst) {
+        return assetsPath + pathOrUrl;
+      }
+
       return window.location.origin + getBaseUrl() + pathOrUrl;
     }
 

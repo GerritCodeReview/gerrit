@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "80be44b1_b2719074",
+        "filename": "polygerrit-ui/app/rules.bzl",
+        "patchSetId": 2
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-11-29T20:49:18Z",
+      "side": 1,
+      "message": "It seems, now we have 2 copies of the same fonts (font-roboto-local and in gerrit/lib/fonts folder). It can make loading a little bit slower, because browser will load both files. \n\nI think, it makes sense to create a separate issue about it and in the future remove fonts from lib/fonts folder and update all references (in PolyGerritIndexHtml.soy and fonts.css files). Please not, that before removing lib/fonts from master branch we should update internal google build system.",
+      "range": {
+        "startLine": 94,
+        "startChar": 14,
+        "endLine": 94,
+        "endChar": 39
+      },
+      "revId": "c637aa72e9dd21d3bb04dc083cbe3901778ac01c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f62037f3_f10a01fc",
+        "filename": "tools/bzl/javadoc.bzl",
+        "patchSetId": 4
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-11-29T08:35:59Z",
+      "side": 0,
+      "message": "This dependency is unused now and should haven been removed as well.",
+      "range": {
+        "startLine": 89,
+        "startChar": 33,
+        "endLine": 89,
+        "endChar": 57
+      },
+      "revId": "c8f3084984d3fce63298d6b353741c13b411a888",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3c39b504_0711097b",
+        "filename": "tools/bzl/javadoc.bzl",
+        "patchSetId": 4
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-11-29T08:35:59Z",
+      "side": 0,
+      "message": "The whole condition should have been removed as well.",
+      "revId": "c8f3084984d3fce63298d6b353741c13b411a888",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

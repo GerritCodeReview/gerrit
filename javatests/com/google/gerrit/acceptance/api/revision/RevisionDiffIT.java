@@ -19,6 +19,7 @@ import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.extensions.common.testing.DiffInfoSubject.assertThat;
 import static com.google.gerrit.extensions.common.testing.FileInfoSubject.assertThat;
 import static com.google.gerrit.reviewdb.client.Patch.COMMIT_MSG;
+import static com.google.gerrit.reviewdb.client.Patch.MERGE_LIST;
 import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toMap;
 
@@ -398,6 +399,24 @@ public class RevisionDiffIT extends AbstractDaemonTest {
     diff = getDiffRequest(r.getChangeId(), r.getCommit().name(), "foo").withParent(2).get();
     assertThat(diff.metaA.lines).isEqualTo(1);
     assertThat(diff.metaB.lines).isEqualTo(1);
+  }
+
+  @Test
+  public void diffBetweenPatchSetsOfMergeCommitCanBeRetrievedForCommitMessageAndMergeList()
+      throws Exception {
+    PushOneCommit.Result result = createMergeCommitChange("refs/for/master", "my_file.txt");
+    String changeId = result.getChangeId();
+    String previousPatchSetId = gApi.changes().id(changeId).get().currentRevision;
+    addModifiedPatchSet(changeId, "my_file.txt", content -> content.concat("Line I\nLine II\n"));
+
+    // Call both of them in succession to ensure that they don't share the same cache keys.
+    DiffInfo commitMessageDiffInfo =
+        getDiffRequest(changeId, CURRENT, COMMIT_MSG).withBase(previousPatchSetId).get();
+    DiffInfo mergeListDiffInfo =
+        getDiffRequest(changeId, CURRENT, MERGE_LIST).withBase(previousPatchSetId).get();
+
+    assertThat(commitMessageDiffInfo).content().hasSize(3);
+    assertThat(mergeListDiffInfo).content().hasSize(1);
   }
 
   @Test

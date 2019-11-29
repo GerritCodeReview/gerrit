@@ -133,9 +133,7 @@ class PatchScriptBuilder {
     edits = new ArrayList<>(content.getEdits());
     ImmutableSet<Edit> editsDueToRebase = content.getEditsDueToRebase();
 
-    if (!isModify(content)) {
-      intralineDifferenceIsPossible = false;
-    } else if (diffPrefs.intralineDifference) {
+    if (isModify(content) && diffPrefs.intralineDifference && isIntralineModeAllowed(b)) {
       IntraLineDiff d =
           patchListCache.getIntraLineDiff(
               IntraLineDiffKey.create(a.id, b.id, diffPrefs.ignoreWhitespace),
@@ -272,6 +270,16 @@ class PatchScriptBuilder {
       default:
         return entry.getNewName();
     }
+  }
+
+  private static boolean isIntralineModeAllowed(Side side) {
+    // The intraline diff cache keys are the same for these cases. It's better to not show
+    // intraline results than showing completely wrong diffs or to run into a server error.
+    return !Patch.isMagic(side.path) && !isSubmoduleCommit(side.mode);
+  }
+
+  private static boolean isSubmoduleCommit(FileMode mode) {
+    return mode.getObjectType() == Constants.OBJ_COMMIT;
   }
 
   private void correctForDifferencesInNewlineAtEnd() {

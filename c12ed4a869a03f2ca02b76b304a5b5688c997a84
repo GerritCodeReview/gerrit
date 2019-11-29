@@ -118,6 +118,30 @@
       "revId": "c12ed4a869a03f2ca02b76b304a5b5688c997a84",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1857d326_c4e1d816",
+        "filename": "lib/js/bower_archives.bzl",
+        "patchSetId": 7
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-11-29T20:09:29Z",
+      "side": 1,
+      "message": "Fixed with https://gerrit-review.googlesource.com/c/gerrit/+/247133",
+      "parentUuid": "f30b9cbc_1df99d39",
+      "range": {
+        "startLine": 29,
+        "startChar": 16,
+        "endLine": 29,
+        "endChar": 33
+      },
+      "revId": "c12ed4a869a03f2ca02b76b304a5b5688c997a84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

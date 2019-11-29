@@ -16,6 +16,7 @@ package com.google.gerrit.server.index;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
@@ -203,8 +204,9 @@ public abstract class VersionManager implements LifecycleListener {
       String name = def.getName();
       IndexCollection<?, ?, ?> indexes = def.getIndexCollection();
       Index<?, ?> search = indexes.getSearchIndex();
-      checkState(
-          search != null, "no search index ready for %s; should have failed at startup", name);
+      requireNonNull(
+          search,
+          () -> String.format("no search index ready for %s; should have failed at startup", name));
       int searchVersion = search.getSchema().getVersion();
 
       List<Index<?, ?>> write = ImmutableList.copyOf(indexes.getWriteIndexes());
@@ -216,10 +218,11 @@ public abstract class VersionManager implements LifecycleListener {
 
       if (latestWriteVersion != searchVersion) {
         OnlineReindexer<?, ?, ?> reindexer = reindexers.get(name);
-        checkState(
-            reindexer != null,
-            "no reindexer found for %s; should have been initialized at startup",
-            name);
+        requireNonNull(
+            reindexer,
+            () ->
+                String.format(
+                    "no reindexer found for %s; should have been initialized at startup", name));
         reindexer.start();
       }
     }

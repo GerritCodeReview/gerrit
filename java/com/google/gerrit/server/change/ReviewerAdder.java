@@ -15,7 +15,6 @@
 package com.google.gerrit.server.change;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.gerrit.extensions.client.ReviewerState.CC;
@@ -456,8 +455,8 @@ public class ReviewerAdder {
     }
 
     public void gatherResults(ChangeData cd) throws PermissionBackendException {
-      checkState(op != null, "addition did not result in an update op");
-      checkState(op.getResult() != null, "op did not return a result");
+      requireNonNull(op, "addition did not result in an update op");
+      requireNonNull(op.getResult(), "op did not return a result");
 
       // Generate result details and fill AccountLoader. This occurs outside
       // the Op because the accounts are in a different table.
@@ -498,7 +497,7 @@ public class ReviewerAdder {
     }
 
     public boolean isIgnorableFailure() {
-      checkState(failureType != null);
+      requireNonNull(failureType, "failureType must be initialized");
       FailureBehavior behavior =
           (input instanceof InternalAddReviewerInput)
               ? ((InternalAddReviewerInput) input).otherFailureBehavior

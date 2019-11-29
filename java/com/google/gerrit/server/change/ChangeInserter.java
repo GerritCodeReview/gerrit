@@ -217,7 +217,7 @@ public class ChangeInserter implements InsertChangeOp {
   }
 
   public Change getChange() {
-    checkState(change != null, "getChange() only valid after creating change");
+    requireNonNull(change, "getChange() only valid after creating change");
     return change;
   }
 
@@ -310,7 +310,7 @@ public class ChangeInserter implements InsertChangeOp {
   }
 
   public PatchSet getPatchSet() {
-    checkState(patchSet != null, "getPatchSet() only valid after creating change");
+    requireNonNull(patchSet, "getPatchSet() only valid after creating change");
     return patchSet;
   }
 
@@ -340,7 +340,7 @@ public class ChangeInserter implements InsertChangeOp {
     if (message == null) {
       return null;
     }
-    checkState(changeMessage != null, "getChangeMessage() only valid after inserting change");
+    requireNonNull(changeMessage, "getChangeMessage() only valid after inserting change");
     return changeMessage;
   }
 

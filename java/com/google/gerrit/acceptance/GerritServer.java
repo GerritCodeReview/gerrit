@@ -428,7 +428,7 @@ public class GerritServer implements AutoCloseable {
       @Nullable InMemoryRepositoryManager inMemoryRepoManager,
       String... additionalArgs)
       throws Exception {
-    checkArgument(site != null, "site is required (even for in-memory server");
+    requireNonNull(site, "site is required (even for in-memory server");
     desc.checkValidAnnotations();
     configureLogging(desc.logLevelThreshold());
     CyclicBarrier serverStarted = new CyclicBarrier(2);

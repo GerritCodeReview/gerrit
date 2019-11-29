@@ -724,7 +724,7 @@ public class ExternalIdNotes extends VersionedMetaData {
    *     this case the caller must take care to evict them otherwise
    */
   public void updateCaches(Collection<Account.Id> accountsToSkip) throws IOException {
-    checkState(oldRev != null, "no changes committed yet");
+    requireNonNull(oldRev, "no changes committed yet");
 
     ExternalIdCacheUpdates externalIdCacheUpdates = new ExternalIdCacheUpdates();
     for (CacheUpdate cacheUpdate : cacheUpdates) {
@@ -957,7 +957,7 @@ public class ExternalIdNotes extends VersionedMetaData {
   }
 
   private void checkLoaded() {
-    checkState(noteMap != null, "External IDs not loaded yet");
+    requireNonNull(noteMap, "External IDs not loaded yet");
   }
 
   @FunctionalInterface

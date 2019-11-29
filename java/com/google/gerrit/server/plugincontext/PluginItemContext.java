@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.plugincontext;
 
-import static com.google.common.base.Preconditions.checkState;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.gerrit.common.Nullable;
@@ -165,7 +165,7 @@ public class PluginItemContext<T> {
    */
   public <R> R call(ExtensionImplFunction<T, R> extensionImplFunction) {
     Extension<T> extension = dynamicItem.getEntry();
-    checkState(extension != null);
+    requireNonNull(extension);
     return PluginContext.call(pluginMetrics, extension, extensionImplFunction);
   }
 
@@ -187,7 +187,7 @@ public class PluginItemContext<T> {
       CheckedExtensionImplFunction<T, R, X> checkedExtensionImplFunction, Class<X> exceptionClass)
       throws X {
     Extension<T> extension = dynamicItem.getEntry();
-    checkState(extension != null);
+    requireNonNull(extension);
     return PluginContext.call(
         pluginMetrics, extension, checkedExtensionImplFunction, exceptionClass);
   }

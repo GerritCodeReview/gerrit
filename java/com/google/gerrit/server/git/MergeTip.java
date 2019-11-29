@@ -66,7 +66,7 @@ public class MergeTip {
    * @param mergedFrom The result of the merge of {@code newTip}.
    */
   public void moveTipTo(CodeReviewCommit newTip, ObjectId mergedFrom) {
-    checkArgument(newTip != null);
+    requireNonNull(newTip, "newTip may not be null");
     branchTip = newTip;
     mergeResults.put(mergedFrom, newTip.copy());
   }

@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
+import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toSet;
 
 import com.google.common.base.MoreObjects;
@@ -186,7 +187,7 @@ public class ConfigSuite extends Suite {
         callConfigMapMethod(getConfigMap(clazz), configs);
 
     Field parameterField = getOnlyField(clazz, Parameter.class);
-    checkArgument(parameterField != null, "No @ConfigSuite.Parameter found");
+    requireNonNull(parameterField, "No @ConfigSuite.Parameter found");
     Field nameField = getOnlyField(clazz, Name.class);
     List<Runner> result = Lists.newArrayListWithCapacity(configs.size() + 1);
     try {

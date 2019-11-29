@@ -17,6 +17,7 @@ package com.google.gerrit.metrics.dropwizard;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.gerrit.metrics.dropwizard.MetricResource.METRIC_KIND;
 import static com.google.gerrit.server.config.ConfigResource.CONFIG_KIND;
+import static java.util.Objects.requireNonNull;
 
 import com.codahale.metrics.Metric;
 import com.codahale.metrics.MetricRegistry;
@@ -218,7 +219,7 @@ public class DropWizardMetricMaker extends MetricMaker {
     checkArgument(!desc.isGauge(), "timer must not be a gauge");
     checkArgument(!desc.isRate(), "timer must not be a rate");
     checkArgument(desc.isCumulative(), "timer must be cumulative");
-    checkArgument(desc.getTimeUnit() != null, "timer must have a unit");
+    requireNonNull(desc.getTimeUnit(), "timer must have a unit");
   }
 
   TimerImpl newTimerImpl(String name) {

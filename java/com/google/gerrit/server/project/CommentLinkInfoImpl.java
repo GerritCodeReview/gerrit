@@ -15,6 +15,7 @@
 package com.google.gerrit.server.project;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.extensions.api.projects.CommentLinkInfo;
@@ -44,8 +45,9 @@ public class CommentLinkInfoImpl extends CommentLinkInfo {
   }
 
   public CommentLinkInfoImpl(String name, String match, String link, String html, Boolean enabled) {
-    checkArgument(name != null, "invalid commentlink.name");
-    checkArgument(!Strings.isNullOrEmpty(match), "invalid commentlink.%s.match", name);
+    requireNonNull(name, "invalid commentlink.name");
+    requireNonNull(
+        Strings.emptyToNull(match), () -> String.format("invalid commentlink.%s.match", name));
     link = Strings.emptyToNull(link);
     html = Strings.emptyToNull(html);
     checkArgument(

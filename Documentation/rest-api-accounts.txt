@@ -733,8 +733,8 @@ link:#ssh-key-info[SshKeyInfo] entities.
   [
     {
       "seq": 1,
-      "ssh_public_key": "ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEA0T...YImydZAw\u003d\u003d john.doe@example.com",
-      "encoded_key": "AAAAB3NzaC1yc2EAAAABIwAAAQEA0T...YImydZAw\u003d\u003d",
+      "ssh_public_key": "ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEA0T...YImydZAw== john.doe@example.com",
+      "encoded_key": "AAAAB3NzaC1yc2EAAAABIwAAAQEA0T...YImydZAw==",
       "algorithm": "ssh-rsa",
       "comment": "john.doe@example.com",
       "valid": true
@@ -767,8 +767,8 @@ describes the SSH key.
   )]}'
   {
     "seq": 1,
-    "ssh_public_key": "ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEA0T...YImydZAw\u003d\u003d john.doe@example.com",
-    "encoded_key": "AAAAB3NzaC1yc2EAAAABIwAAAQEA0T...YImydZAw\u003d\u003d",
+    "ssh_public_key": "ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEA0T...YImydZAw== john.doe@example.com",
+    "encoded_key": "AAAAB3NzaC1yc2EAAAABIwAAAQEA0T...YImydZAw==",
     "algorithm": "ssh-rsa",
     "comment": "john.doe@example.com",
     "valid": true
@@ -793,7 +793,7 @@ key is persisted.
   POST /accounts/self/sshkeys HTTP/1.0
   Content-Type: text/plain
 
-  AAAAB3NzaC1yc2EAAAABIwAAAQEA0T...YImydZAw\u003d\u003d
+  ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEA0T...YImydZAw== john.doe@example.com
 ----
 
 As response an link:#ssh-key-info[SshKeyInfo] entity is returned that
@@ -808,8 +808,8 @@ describes the new SSH key.
   )]}'
   {
     "seq": 2,
-    "ssh_public_key": "ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEA0T...YImydZAw\u003d\u003d john.doe@example.com",
-    "encoded_key": "AAAAB3NzaC1yc2EAAAABIwAAAQEA0T...YImydZAw\u003d\u003d",
+    "ssh_public_key": "ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEA0T...YImydZAw== john.doe@example.com",
+    "encoded_key": "AAAAB3NzaC1yc2EAAAABIwAAAQEA0T...YImydZAw==",
     "algorithm": "ssh-rsa",
     "comment": "john.doe@example.com",
     "valid": true

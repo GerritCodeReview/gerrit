@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "323a7abd_1ccbdfb7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 24
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-11-29T16:06:30Z",
+      "side": 1,
+      "message": "Here and below: Should be renamed as well.",
+      "range": {
+        "startLine": 7,
+        "startChar": 8,
+        "endLine": 7,
+        "endChar": 22
+      },
+      "revId": "95d34580396ae8efaeb3e24b9fddace59434cf3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "28f1424a_55e7893e",
+        "filename": "java/com/google/gerrit/server/diff/DiffSide.java",
+        "patchSetId": 24
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-11-29T16:06:30Z",
+      "side": 1,
+      "message": "As written before, this class is mutable. We need to also convert it to AutoValue or change this class back to non-AutoValue but leave a comment to clean this up in the future.",
+      "range": {
+        "startLine": 32,
+        "startChar": 18,
+        "endLine": 32,
+        "endChar": 37
+      },
+      "revId": "95d34580396ae8efaeb3e24b9fddace59434cf3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

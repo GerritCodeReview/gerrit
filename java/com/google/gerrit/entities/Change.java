@@ -14,9 +14,9 @@
 
 package com.google.gerrit.entities;
 
-import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.gerrit.entities.RefNames.REFS_CHANGES;
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.util.Objects.requireNonNull;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.primitives.Ints;
@@ -119,7 +119,7 @@ public final class Change {
     /** Parse a Change.Id out of a string representation. */
     public static Id parse(String str) {
       Integer id = Ints.tryParse(str);
-      checkArgument(id != null, "invalid change ID: %s", str);
+      requireNonNull(id, () -> String.format("invalid change ID: %s", str));
       return Change.id(id);
     }
 

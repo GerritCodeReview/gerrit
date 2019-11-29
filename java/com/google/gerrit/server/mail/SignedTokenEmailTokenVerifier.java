@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.mail;
 
-import static com.google.common.base.Preconditions.checkState;
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.io.BaseEncoding;
 import com.google.gerrit.entities.Account;
@@ -81,7 +81,7 @@ public class SignedTokenEmailTokenVerifier implements EmailTokenVerifier {
   }
 
   private void checkEmailRegistrationToken() {
-    checkState(
-        emailRegistrationToken != null, "'auth.registerEmailPrivateKey' not set in gerrit.config");
+    requireNonNull(
+        emailRegistrationToken, "'auth.registerEmailPrivateKey' not set in gerrit.config");
   }
 }

@@ -14,7 +14,7 @@
 
 package com.google.gerrit.sshd;
 
-import static com.google.common.base.Preconditions.checkState;
+import static java.util.Objects.requireNonNull;
 
 import com.google.gerrit.extensions.annotations.PluginName;
 import com.google.inject.Inject;
@@ -31,7 +31,7 @@ public abstract class PluginCommandModule extends CommandModule {
 
   @Override
   protected final void configure() {
-    checkState(command != null, "@PluginName must be provided");
+    requireNonNull(command, "@PluginName must be provided");
     bind(Commands.key(command)).toProvider(new DispatchCommandProvider(command));
     configureCommands();
   }

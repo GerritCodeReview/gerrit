@@ -14,7 +14,7 @@
 
 package com.google.gerrit.pgm.init;
 
-import static com.google.common.base.Preconditions.checkArgument;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
@@ -149,7 +149,7 @@ public class GroupsOnInit {
   @Nullable
   private File getPathToAllUsersRepository() {
     Path basePath = site.resolve(flags.cfg.getString("gerrit", null, "basePath"));
-    checkArgument(basePath != null, "gerrit.basePath must be configured");
+    requireNonNull(basePath, "gerrit.basePath must be configured");
     return RepositoryCache.FileKey.resolve(basePath.resolve(allUsers.get()).toFile(), FS.DETECTED);
   }
 

@@ -147,11 +147,12 @@ public class MergeUtil {
         ChangeMessageModifier changeMessageModifier = ext.get();
         String className = changeMessageModifier.getClass().getName();
         current = changeMessageModifier.onSubmit(current, original, mergeTip, dest);
-        checkState(
-            current != null,
-            "%s.onSubmit from plugin %s returned null instead of new commit message",
-            className,
-            ext.getPluginName());
+        requireNonNull(
+            current,
+            () ->
+                String.format(
+                    "%s.onSubmit from plugin %s returned null instead of new commit message",
+                    className, ext.getPluginName()));
         count++;
         logger.atFine().log(
             "Invoked %s from plugin %s, message length now %d",
@@ -901,7 +902,7 @@ public class MergeUtil {
 
   public static Merger newMerger(ObjectInserter inserter, Config repoConfig, String strategyName) {
     MergeStrategy strategy = MergeStrategy.get(strategyName);
-    checkArgument(strategy != null, "invalid merge strategy: %s", strategyName);
+    requireNonNull(strategy, () -> String.format("invalid merge strategy: %s", strategyName));
     return strategy.newMerger(
         new ObjectInserter.Filter() {
           @Override

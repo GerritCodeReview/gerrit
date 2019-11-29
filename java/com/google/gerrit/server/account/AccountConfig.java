@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.account;
 
-import static com.google.common.base.Preconditions.checkState;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.base.Strings;
@@ -342,7 +341,8 @@ public class AccountConfig extends VersionedMetaData implements ValidationError.
   }
 
   private void checkLoaded() {
-    checkState(loadedAccountProperties != null, "Account %s not loaded yet", accountId.get());
+    requireNonNull(
+        loadedAccountProperties, () -> String.format("Account %s not loaded yet", accountId.get()));
   }
 
   /**

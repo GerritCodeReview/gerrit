@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.git.receive;
 
-import static com.google.common.base.Preconditions.checkState;
+import static java.util.Objects.requireNonNull;
 
 import com.google.gerrit.server.git.HookUtil;
 import java.util.Map;
@@ -44,7 +44,7 @@ class AllRefsWatcher implements AdvertiseRefsHook {
   }
 
   Map<String, Ref> getAllRefs() {
-    checkState(allRefs != null, "getAllRefs() only valid after refs were advertised");
+    requireNonNull(allRefs, "getAllRefs() only valid after refs were advertised");
     return allRefs;
   }
 }

@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.change;
 
-import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.CC;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
 import static java.util.Objects.requireNonNull;
@@ -175,12 +174,12 @@ public class PatchSetInserter implements BatchUpdateOp {
   }
 
   public Change getChange() {
-    checkState(change != null, "getChange() only valid after executing update");
+    requireNonNull(change, "getChange() only valid after executing update");
     return change;
   }
 
   public PatchSet getPatchSet() {
-    checkState(patchSet != null, "getPatchSet() only valid after executing update");
+    requireNonNull(patchSet, "getPatchSet() only valid after executing update");
     return patchSet;
   }
 

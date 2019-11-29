@@ -14,8 +14,8 @@
 
 package com.google.gerrit.sshd;
 
-import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.plugins.AutoRegisterUtil.calculateBindAnnotation;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.ListMultimap;
@@ -61,7 +61,7 @@ class SshAutoRegisterModuleGenerator extends AbstractModule implements ModuleGen
   @SuppressWarnings("unchecked")
   @Override
   public void export(Export export, Class<?> type) throws InvalidPluginException {
-    checkState(command != null, "pluginName must be provided");
+    requireNonNull(command, "pluginName must be provided");
     if (Command.class.isAssignableFrom(type)) {
       Class<Command> old = commands.get(export.value());
       if (old != null) {
@@ -86,7 +86,7 @@ class SshAutoRegisterModuleGenerator extends AbstractModule implements ModuleGen
 
   @Override
   public Module create() throws InvalidPluginException {
-    checkState(command != null, "pluginName must be provided");
+    requireNonNull(command, "pluginName must be provided");
     return !commands.isEmpty() ? this : null;
   }
 }

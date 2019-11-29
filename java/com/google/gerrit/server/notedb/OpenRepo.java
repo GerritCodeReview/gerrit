@@ -15,7 +15,6 @@
 package com.google.gerrit.server.notedb;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkState;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.collect.ListMultimap;
@@ -110,7 +109,7 @@ class OpenRepo implements AutoCloseable {
   }
 
   void flushToFinalInserter() throws IOException {
-    checkState(finalIns != null);
+    requireNonNull(finalIns, "finalIns must be initialized");
     for (InsertedObject obj : inMemIns.getInsertedObjects()) {
       finalIns.insert(obj.type(), obj.data().toByteArray());
     }
@@ -145,7 +144,7 @@ class OpenRepo implements AutoCloseable {
       int updateCount;
       U first = updates.iterator().next();
       if (maxUpdates.isPresent()) {
-        checkState(first.getNotes() != null, "expected ChangeNotes on %s", first);
+        requireNonNull(first.getNotes(), () -> String.format("expected ChangeNotes on %s", first));
         updateCount = first.getNotes().getUpdateCount();
       } else {
         updateCount = 0;

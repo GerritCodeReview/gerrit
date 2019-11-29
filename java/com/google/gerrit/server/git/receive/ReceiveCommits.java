@@ -15,7 +15,6 @@
 package com.google.gerrit.server.git.receive;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
-import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.common.flogger.LazyArgs.lazy;
@@ -2537,7 +2536,7 @@ class ReceiveCommits {
 
     private void addOps(BatchUpdate bu) throws RestApiException {
       try (TraceTimer traceTimer = newTimer(CreateRequest.class, "addOps")) {
-        checkState(changeId != null, "must call setChangeId before addOps");
+        requireNonNull(changeId, "must call setChangeId before addOps");
         try {
           RevWalk rw = receivePack.getRevWalk();
           rw.parseBody(commit);

@@ -221,7 +221,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   }
 
   public void fixStatusToMerged(RequestId submissionId) {
-    checkArgument(submissionId != null, "submission id must be set for merged changes");
+    requireNonNull(submissionId, "submission id must be set for merged changes");
     this.status = Change.Status.MERGED;
     this.submissionId = submissionId.toStringForStorage();
   }
@@ -367,7 +367,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   }
 
   public void setAssignee(Account.Id assignee) {
-    checkArgument(assignee != null, "use removeAssignee");
+    requireNonNull(assignee, "use removeAssignee");
     this.assignee = Optional.of(assignee);
   }
 
@@ -431,7 +431,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       cache.get(c.getCommitId()).putComment(c);
     }
     if (pushCert != null) {
-      checkState(commit != null);
+      requireNonNull(commit, "commmit must be initialized");
       cache.get(ObjectId.fromString(commit)).setPushCertificate(pushCert);
     }
     Map<ObjectId, RevisionNoteBuilder> builders = cache.getBuilders();

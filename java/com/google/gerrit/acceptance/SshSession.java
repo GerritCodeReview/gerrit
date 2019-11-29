@@ -14,10 +14,10 @@
 
 package com.google.gerrit.acceptance;
 
-import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.util.Objects.requireNonNull;
 
 import com.google.gerrit.acceptance.testsuite.account.TestAccount;
 import com.google.gerrit.acceptance.testsuite.account.TestSshKeys;
@@ -128,7 +128,7 @@ public class SshSession {
   }
 
   public String getUrl() {
-    checkState(session != null, "session must be opened");
+    requireNonNull(session, "session must be opened");
     StringBuilder b = new StringBuilder();
     b.append("ssh://");
     b.append(session.getUserName());

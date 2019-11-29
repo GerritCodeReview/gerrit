@@ -553,7 +553,7 @@ public class StoredPreferences {
     }
 
     private Config getConfig() {
-      checkState(cfg != null, "Default preferences not loaded yet.");
+      requireNonNull(cfg, "Default preferences not loaded yet.");
       return cfg;
     }
 

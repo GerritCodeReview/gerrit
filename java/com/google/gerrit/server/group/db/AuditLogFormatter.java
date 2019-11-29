@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.group.db;
 
-import static com.google.common.base.Preconditions.checkState;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.collect.ImmutableSet;
@@ -182,8 +181,8 @@ public class AuditLogFormatter {
   private String getEmailForAuditLog(Account.Id accountId) {
     // If we ever switch to UUIDs for accounts, consider to remove the serverId and to use a similar
     // approach as for group UUIDs.
-    checkState(
-        serverId != null, "serverId must be defined; fall-back AuditLogFormatter isn't sufficient");
+    requireNonNull(
+        serverId, "serverId must be defined; fall-back AuditLogFormatter isn't sufficient");
     return accountId.get() + "@" + serverId;
   }
 

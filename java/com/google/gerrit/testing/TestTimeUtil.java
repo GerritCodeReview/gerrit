@@ -14,7 +14,7 @@
 
 package com.google.gerrit.testing;
 
-import static com.google.common.base.Preconditions.checkState;
+import static java.util.Objects.requireNonNull;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
 import com.google.gerrit.server.util.time.TimeUtil;
@@ -57,7 +57,7 @@ public class TestTimeUtil {
    * @param clockStepUnit time unit for {@code clockStep}.
    */
   public static synchronized void setClockStep(long clockStep, TimeUnit clockStepUnit) {
-    checkState(clockMs != null, "call resetWithClockStep first");
+    requireNonNull(clockMs, "call resetWithClockStep first");
     clockStepMs = MILLISECONDS.convert(clockStep, clockStepUnit);
     TimeUtil.setCurrentMillisSupplier(() -> clockMs.getAndAdd(clockStepMs));
   }
@@ -103,7 +103,7 @@ public class TestTimeUtil {
    * @param ts time to set
    */
   public static synchronized void setClock(Timestamp ts) {
-    checkState(clockMs != null, "call resetWithClockStep first");
+    requireNonNull(clockMs, "call resetWithClockStep first");
     clockMs.set(ts.getTime());
   }
 
@@ -114,7 +114,7 @@ public class TestTimeUtil {
    * @param clockStepUnit time unit for {@code clockStep}.
    */
   public static synchronized void incrementClock(long clockStep, TimeUnit clockStepUnit) {
-    checkState(clockMs != null, "call resetWithClockStep first");
+    requireNonNull(clockMs, "call resetWithClockStep first");
     clockMs.addAndGet(clockStepUnit.toMillis(clockStep));
   }
 

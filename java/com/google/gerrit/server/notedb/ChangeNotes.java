@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.notedb;
 
-import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.gerrit.entities.RefNames.changeMetaRef;
@@ -133,7 +132,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     }
 
     public ChangeNotes create(Project.NameKey project, Change.Id changeId) {
-      checkArgument(project != null, "project is required");
+      requireNonNull(project, "project is required");
       return new ChangeNotes(args, newChange(project, changeId), true, null).load();
     }
 
@@ -262,7 +261,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
        *     that {@link #error()} is absent before attempting to look up the notes.
        */
       public ChangeNotes notes() {
-        checkState(maybeNotes() != null, "no ChangeNotes loaded; check error().isPresent() first");
+        requireNonNull(maybeNotes(), "no ChangeNotes loaded; check error().isPresent() first");
         return maybeNotes();
       }
 

@@ -263,7 +263,7 @@ public class AddReviewersOp implements BatchUpdateOp {
   }
 
   public Result getResult() {
-    checkState(opResult != null, "Batch update wasn't executed yet");
+    requireNonNull(opResult, "Batch update wasn't executed yet");
     return opResult;
   }
 }

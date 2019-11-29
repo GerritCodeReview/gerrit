@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.account;
 
-import static com.google.common.base.Preconditions.checkState;
 import static java.util.Comparator.comparing;
+import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.base.Strings;
@@ -272,6 +272,6 @@ public class VersionedAuthorizedKeys extends VersionedMetaData {
   }
 
   private void checkLoaded() {
-    checkState(keys != null, "SSH keys not loaded yet");
+    requireNonNull(keys, "SSH keys not loaded yet");
   }
 }

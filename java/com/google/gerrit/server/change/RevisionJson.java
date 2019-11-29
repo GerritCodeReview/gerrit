@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.change;
 
-import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.extensions.client.ListChangesOption.ALL_COMMITS;
 import static com.google.gerrit.extensions.client.ListChangesOption.ALL_FILES;
 import static com.google.gerrit.extensions.client.ListChangesOption.ALL_REVISIONS;
@@ -27,6 +26,7 @@ import static com.google.gerrit.extensions.client.ListChangesOption.DOWNLOAD_COM
 import static com.google.gerrit.extensions.client.ListChangesOption.PUSH_CERTIFICATES;
 import static com.google.gerrit.extensions.client.ListChangesOption.WEB_LINKS;
 import static com.google.gerrit.server.CommonConverters.toGitPerson;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
@@ -287,8 +287,8 @@ public class RevisionJson {
     boolean setCommit = has(ALL_COMMITS) || (out.isCurrent && has(CURRENT_COMMIT));
     boolean addFooters = out.isCurrent && has(COMMIT_FOOTERS);
     if (setCommit || addFooters) {
-      checkState(rw != null);
-      checkState(repo != null);
+      requireNonNull(rw, "rw must be initialized");
+      requireNonNull(repo, "repo must be initialized");
       Project.NameKey project = c.getProject();
       String rev = in.commitId().name();
       RevCommit commit = rw.parseCommit(ObjectId.fromString(rev));

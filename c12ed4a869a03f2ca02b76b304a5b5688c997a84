@@ -70,6 +70,30 @@
       "revId": "c12ed4a869a03f2ca02b76b304a5b5688c997a84",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "15c1b95f_096372da",
+        "filename": "lib/js/bower_archives.bzl",
+        "patchSetId": 7
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-11-29T15:31:49Z",
+      "side": 1,
+      "message": "Hmm, or maybe not since paper-styles would be built using the dep i would have guessed?",
+      "parentUuid": "d346d18e_85da2f9d",
+      "range": {
+        "startLine": 29,
+        "startChar": 16,
+        "endLine": 29,
+        "endChar": 33
+      },
+      "revId": "c12ed4a869a03f2ca02b76b304a5b5688c997a84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "250d2cfe_947a46f0",
+        "filename": "contrib/download_gerrit_and_plugins.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-11-29T01:35:32Z",
+      "side": 1,
+      "message": "nit: put import in order",
+      "range": {
+        "startLine": 41,
+        "startChar": 0,
+        "endLine": 46,
+        "endChar": 13
+      },
+      "revId": "cd646cd4404bd8900f7d6858885a53758099ab79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a762c330_e5637ba2",
+        "filename": "contrib/download_gerrit_and_plugins.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-11-29T01:35:32Z",
+      "side": 1,
+      "message": "should go to sys.stderr",
+      "range": {
+        "startLine": 57,
+        "startChar": 23,
+        "endLine": 57,
+        "endChar": 24
+      },
+      "revId": "cd646cd4404bd8900f7d6858885a53758099ab79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0f875108_f8716c23",
+        "filename": "contrib/download_gerrit_and_plugins.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-11-29T01:35:32Z",
+      "side": 1,
+      "message": "If print is used, we should import print_function from _future_",
+      "range": {
+        "startLine": 72,
+        "startChar": 0,
+        "endLine": 72,
+        "endChar": 5
+      },
+      "revId": "cd646cd4404bd8900f7d6858885a53758099ab79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "422362dc_d68a2a70",
+        "filename": "contrib/download_gerrit_and_plugins.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-11-29T01:35:32Z",
+      "side": 1,
+      "message": "this is not imported",
+      "range": {
+        "startLine": 78,
+        "startChar": 52,
+        "endLine": 78,
+        "endChar": 58
+      },
+      "revId": "cd646cd4404bd8900f7d6858885a53758099ab79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2024fc3b_48769bf7",
+        "filename": "contrib/download_gerrit_and_plugins.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-11-29T01:35:32Z",
+      "side": 1,
+      "message": "should go to sys.stderr",
+      "range": {
+        "startLine": 87,
+        "startChar": 65,
+        "endLine": 87,
+        "endChar": 66
+      },
+      "revId": "cd646cd4404bd8900f7d6858885a53758099ab79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6ed673e2_fb804cc5",
+        "filename": "contrib/download_gerrit_and_plugins.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-11-29T01:35:32Z",
+      "side": 1,
+      "message": "Is this still needed?",
+      "range": {
+        "startLine": 101,
+        "startChar": 4,
+        "endLine": 101,
+        "endChar": 19
+      },
+      "revId": "cd646cd4404bd8900f7d6858885a53758099ab79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

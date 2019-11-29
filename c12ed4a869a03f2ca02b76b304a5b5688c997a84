@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cb231133_d5b4cf5c",
+        "filename": "lib/js/bower_archives.bzl",
+        "patchSetId": 7
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-11-29T14:16:56Z",
+      "side": 1,
+      "message": "Hi,\nProbably I am too late, but what is the purpose of this switch?\nGerrit code has its own copy of these fonts:\nhttps://gerrit.googlesource.com/gerrit/+/refs/heads/master/lib/fonts/\n\nWe do not use fonts from font-roboto package:\npolymerSkipLoadingFontRoboto \u003d true here:\nhttps://gerrit.googlesource.com/gerrit/+/refs/heads/master/resources/com/google/gerrit/httpd/raw/PolyGerritIndexHtml.soy#43",
+      "range": {
+        "startLine": 29,
+        "startChar": 16,
+        "endLine": 29,
+        "endChar": 33
+      },
+      "revId": "c12ed4a869a03f2ca02b76b304a5b5688c997a84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

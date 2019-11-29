@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.change;
 
-import static com.google.common.base.Preconditions.checkArgument;
+import static java.util.Objects.requireNonNull;
 
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
@@ -95,12 +95,12 @@ public class ReviewerResource implements RestResource {
   }
 
   public IdentifiedUser getReviewerUser() {
-    checkArgument(user != null, "no user provided");
+    requireNonNull(user, "no user provided");
     return user;
   }
 
   public Address getReviewerByEmail() {
-    checkArgument(address != null, "no address provided");
+    requireNonNull(address, "no address provided");
     return address;
   }
 

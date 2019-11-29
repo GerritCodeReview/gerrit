@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.account;
 
-import static com.google.common.base.Preconditions.checkArgument;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.collect.Iterables;
 import com.google.gerrit.common.Nullable;
@@ -83,7 +83,7 @@ public class AccountLoader {
   }
 
   public synchronized void put(AccountInfo info) {
-    checkArgument(info._accountId != null, "_accountId field required");
+    requireNonNull(info._accountId, "_accountId field required");
     provided.add(info);
   }
 

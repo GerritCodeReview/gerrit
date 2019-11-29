@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.change;
 
-import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.change.HashtagsUtil.extractTags;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableSortedSet;
@@ -152,7 +152,7 @@ public class SetHashtagsOp implements BatchUpdateOp {
   }
 
   public ImmutableSortedSet<String> getUpdatedHashtags() {
-    checkState(updatedHashtags != null, "getUpdatedHashtags() only valid after executing op");
+    requireNonNull(updatedHashtags, "getUpdatedHashtags() only valid after executing op");
     return updatedHashtags;
   }
 

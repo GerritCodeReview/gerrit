@@ -78,13 +78,13 @@ public class IndexVersionsTest {
 
   @Test
   public void invalid() {
-    assertIllegalArgument("foo", "Invalid value for test: foo");
+    assertNullPointer("foo", "Invalid value for test: foo");
   }
 
   @Test
   public void currentAndPrevious() {
     if (SCHEMA_DEF.getPrevious() == null) {
-      assertIllegalArgument(CURRENT + "," + PREVIOUS, "previous version does not exist");
+      assertNullPointer(CURRENT + "," + PREVIOUS, "previous version does not exist");
       return;
     }
 
@@ -110,12 +110,12 @@ public class IndexVersionsTest {
 
   @Test
   public void currentAndAll() {
-    assertIllegalArgument(CURRENT + "," + ALL, "Invalid value for test: " + ALL);
+    assertNullPointer(CURRENT + "," + ALL, "Invalid value for test: " + ALL);
   }
 
   @Test
   public void currentAndInvalid() {
-    assertIllegalArgument(CURRENT + ",foo", "Invalid value for test: foo");
+    assertNullPointer(CURRENT + ",foo", "Invalid value for test: foo");
   }
 
   @Test
@@ -136,6 +136,11 @@ public class IndexVersionsTest {
   private void assertIllegalArgument(String value, String expectedMessage) {
     IllegalArgumentException thrown =
         assertThrows(IllegalArgumentException.class, () -> get(value));
+    assertThat(thrown).hasMessageThat().contains(expectedMessage);
+  }
+
+  private void assertNullPointer(String value, String expectedMessage) {
+    NullPointerException thrown = assertThrows(NullPointerException.class, () -> get(value));
     assertThat(thrown).hasMessageThat().contains(expectedMessage);
   }
 }

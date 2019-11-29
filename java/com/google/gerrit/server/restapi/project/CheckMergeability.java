@@ -120,7 +120,7 @@ public class CheckMergeability implements RestReadView<BranchResource> {
           result.conflicts = ((ResolveMerger) m).getUnmergedPaths();
         }
       }
-    } catch (IllegalArgumentException e) {
+    } catch (NullPointerException e) {
       throw new BadRequestException(e.getMessage());
     }
     return Response.ok(result);

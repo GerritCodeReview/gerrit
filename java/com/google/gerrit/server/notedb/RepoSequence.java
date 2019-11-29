@@ -169,10 +169,9 @@ public class RepoSequence {
     this.gitRefUpdated = requireNonNull(gitRefUpdated, "gitRefUpdated");
     this.projectName = requireNonNull(projectName, "projectName");
 
+    requireNonNull(name, "name is required");
     checkArgument(
-        name != null
-            && !name.startsWith(REFS)
-            && !name.startsWith(REFS_SEQUENCES.substring(REFS.length())),
+        !name.startsWith(REFS) && !name.startsWith(REFS_SEQUENCES.substring(REFS.length())),
         "name should be a suffix to follow \"refs/sequences/\", got: %s",
         name);
     this.refName = RefNames.REFS_SEQUENCES + name;

@@ -14,9 +14,9 @@
 
 package com.google.gerrit.server.schema;
 
-import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.collect.ImmutableSortedMap.toImmutableSortedMap;
 import static java.util.Comparator.naturalOrder;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.collect.ImmutableSortedMap;
 import com.google.common.primitives.Ints;
@@ -47,7 +47,7 @@ public class NoteDbSchemaVersions {
   public static NoteDbSchemaVersion get(
       ImmutableSortedMap<Integer, Class<? extends NoteDbSchemaVersion>> schemaVersions, int i) {
     Class<? extends NoteDbSchemaVersion> clazz = schemaVersions.get(i);
-    checkArgument(clazz != null, "Schema version not found: %s", i);
+    requireNonNull(clazz, () -> String.format("Schema version not found: %s", i));
     try {
       return clazz.getDeclaredConstructor().newInstance();
     } catch (InstantiationException

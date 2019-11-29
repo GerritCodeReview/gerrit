@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.notedb;
 
-import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.collect.ImmutableListMultimap.toImmutableListMultimap;
@@ -423,8 +422,9 @@ public abstract class ChangeNotesState {
 
     @Override
     public byte[] serialize(ChangeNotesState object) {
-      checkArgument(object.metaId() != null, "meta ID is required in: %s", object);
-      checkArgument(object.columns() != null, "ChangeColumns is required in: %s", object);
+      requireNonNull(object.metaId(), () -> String.format("meta ID is required in: %s", object));
+      requireNonNull(
+          object.columns(), () -> String.format("ChangeColumns is required in: %s", object));
       ChangeNotesStateProto.Builder b = ChangeNotesStateProto.newBuilder();
 
       b.setMetaId(ObjectIdConverter.create().toByteString(object.metaId()))

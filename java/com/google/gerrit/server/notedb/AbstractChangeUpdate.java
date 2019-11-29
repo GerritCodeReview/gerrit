@@ -15,7 +15,7 @@
 package com.google.gerrit.server.notedb;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.base.Preconditions.checkState;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
@@ -152,11 +152,12 @@ public abstract class AbstractChangeUpdate {
   }
 
   public Account.Id getAccountId() {
-    checkState(
-        accountId != null,
-        "author identity for %s is not from an IdentifiedUser: %s",
-        getClass().getSimpleName(),
-        authorIdent.toExternalString());
+    requireNonNull(
+        accountId,
+        () ->
+            String.format(
+                "author identity for %s is not from an IdentifiedUser: %s",
+                getClass().getSimpleName(), authorIdent.toExternalString()));
     return accountId;
   }
 
@@ -271,7 +272,7 @@ public abstract class AbstractChangeUpdate {
   }
 
   protected void verifyComment(Comment c) {
-    checkArgument(c.getCommitId() != null, "commit ID required for comment: %s", c);
+    requireNonNull(c.getCommitId(), () -> String.format("commit ID required for comment: %s", c));
     checkArgument(
         c.author.getId().equals(getAccountId()),
         "The author for the following comment does not match the author of this %s (%s): %s",

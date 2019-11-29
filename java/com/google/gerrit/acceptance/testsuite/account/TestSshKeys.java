@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance.testsuite.account;
 
 import static com.google.common.base.Preconditions.checkState;
 import static java.nio.charset.StandardCharsets.US_ASCII;
+import static java.util.Objects.requireNonNull;
 
 import com.google.gerrit.acceptance.SshEnabled;
 import com.google.gerrit.common.Nullable;
@@ -54,10 +55,11 @@ public class TestSshKeys {
   // TODO(ekempin): Remove this method when com.google.gerrit.acceptance.TestAccount is gone
   public KeyPair getKeyPair(com.google.gerrit.acceptance.TestAccount account) throws Exception {
     checkState(sshEnabled, "Requested SSH key pair, but SSH is disabled");
-    checkState(
-        account.username() != null,
-        "Requested SSH key pair for account %s, but username is not set",
-        account.id());
+    requireNonNull(
+        account.username(),
+        () ->
+            String.format(
+                "Requested SSH key pair for account %s, but username is not set", account.id()));
 
     String username = account.username();
     KeyPair keyPair = sshKeyPairs.get(username);

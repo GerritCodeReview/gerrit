@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.submit;
 
-import static com.google.common.base.Preconditions.checkState;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.collect.Maps;
@@ -105,7 +104,7 @@ public class MergeOpRepoManager implements AutoCloseable {
     }
 
     public BatchUpdate getUpdate() {
-      checkState(caller != null, "call setContext before getUpdate");
+      requireNonNull(caller, "call setContext before getUpdate");
       if (update == null) {
         update =
             batchUpdateFactory

@@ -14,7 +14,6 @@
 
 package com.google.gerrit.index;
 
-import static com.google.common.base.Preconditions.checkArgument;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.collect.ImmutableSortedMap;
@@ -48,7 +47,8 @@ public abstract class SchemaDefinitions<V> {
 
   public final Schema<V> get(int version) {
     Schema<V> schema = schemas.get(version);
-    checkArgument(schema != null, "Unrecognized %s schema version: %s", name, version);
+    requireNonNull(
+        schema, () -> String.format("Unrecognized %s schema version: %s", name, version));
     return schema;
   }
 

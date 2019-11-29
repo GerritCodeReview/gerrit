@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server;
 
-import static com.google.common.base.Preconditions.checkArgument;
+import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toSet;
 
 import com.google.common.collect.ImmutableList;
@@ -61,7 +61,7 @@ public class PublishCommentUtil {
       Collection<Comment> draftComments,
       @Nullable String tag) {
     ChangeNotes notes = ctx.getNotes();
-    checkArgument(notes != null);
+    requireNonNull(notes, "change notes required");
     if (draftComments.isEmpty()) {
       return;
     }

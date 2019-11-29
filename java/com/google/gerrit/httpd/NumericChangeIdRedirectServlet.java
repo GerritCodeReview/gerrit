@@ -49,7 +49,7 @@ public class NumericChangeIdRedirectServlet extends HttpServlet {
     Change.Id id;
     try {
       id = Change.Id.parse(idString);
-    } catch (IllegalArgumentException e) {
+    } catch (NullPointerException e) {
       rsp.sendError(HttpServletResponse.SC_NOT_FOUND);
       return;
     }

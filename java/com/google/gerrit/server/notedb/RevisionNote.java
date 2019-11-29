@@ -15,6 +15,7 @@
 package com.google.gerrit.server.notedb;
 
 import static com.google.common.base.Preconditions.checkState;
+import static java.util.Objects.requireNonNull;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
 import com.google.common.collect.ImmutableList;
@@ -85,6 +86,6 @@ public abstract class RevisionNote<T> {
       throws IOException, ConfigInvalidException;
 
   protected void checkParsed() {
-    checkState(raw != null, "revision note not parsed yet");
+    requireNonNull(raw, "revision note not parsed yet");
   }
 }

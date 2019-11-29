@@ -15,6 +15,7 @@
 package com.google.gerrit.server.patch;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
@@ -158,7 +159,7 @@ public class AutoMerger {
     }
 
     if (!save) {
-      checkArgument(tmpIns != null);
+      requireNonNull(tmpIns, "tmpIns must be initialized");
       try (ObjectReader tmpReader = tmpIns.newReader();
           RevWalk tmpRw = new RevWalk(tmpReader)) {
         return tmpRw.parseCommit(tmpIns.insert(cb));

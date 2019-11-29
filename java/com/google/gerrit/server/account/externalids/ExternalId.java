@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.account.externalids;
 
-import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Objects.requireNonNull;
@@ -419,7 +418,7 @@ public abstract class ExternalId implements Serializable {
   public abstract @Nullable ObjectId blobId();
 
   public void checkThatBlobIdIsSet() {
-    checkState(blobId() != null, "No blob ID set for external ID %s", key().get());
+    requireNonNull(blobId(), () -> String.format("No blob ID set for external ID %s", key().get()));
   }
 
   public boolean isScheme(String scheme) {
@@ -427,7 +426,7 @@ public abstract class ExternalId implements Serializable {
   }
 
   public byte[] toByteArray() {
-    checkState(blobId() != null, "Missing blobId in external ID %s", key().get());
+    requireNonNull(blobId(), () -> String.format("Missing blobId in external ID %s", key().get()));
     byte[] b = new byte[2 * ObjectIds.STR_LEN + 1];
     key().sha1().copyTo(b, 0);
     b[ObjectIds.STR_LEN] = ':';

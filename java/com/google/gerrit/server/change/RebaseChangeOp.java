@@ -14,7 +14,7 @@
 
 package com.google.gerrit.server.change;
 
-import static com.google.common.base.Preconditions.checkState;
+import static java.util.Objects.requireNonNull;
 
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.extensions.restapi.MergeConflictException;
@@ -219,17 +219,17 @@ public class RebaseChangeOp implements BatchUpdateOp {
   }
 
   public RevCommit getRebasedCommit() {
-    checkState(rebasedCommit != null, "getRebasedCommit() only valid after updateRepo");
+    requireNonNull(rebasedCommit, "getRebasedCommit() only valid after updateRepo");
     return rebasedCommit;
   }
 
   public PatchSet.Id getPatchSetId() {
-    checkState(rebasedPatchSetId != null, "getPatchSetId() only valid after updateRepo");
+    requireNonNull(rebasedPatchSetId, "getPatchSetId() only valid after updateRepo");
     return rebasedPatchSetId;
   }
 
   public PatchSet getPatchSet() {
-    checkState(rebasedPatchSet != null, "getPatchSet() only valid after executing update");
+    requireNonNull(rebasedPatchSet, "getPatchSet() only valid after executing update");
     return rebasedPatchSet;
   }
 

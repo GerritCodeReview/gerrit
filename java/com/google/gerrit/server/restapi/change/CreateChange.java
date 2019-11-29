@@ -339,7 +339,7 @@ public class CreateChange
         bu.execute();
       }
       return ins.getChange();
-    } catch (IllegalArgumentException e) {
+    } catch (NullPointerException e) {
       throw new BadRequestException(e.getMessage(), e);
     }
   }

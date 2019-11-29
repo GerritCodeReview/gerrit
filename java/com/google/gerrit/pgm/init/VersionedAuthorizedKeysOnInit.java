@@ -14,7 +14,7 @@
 
 package com.google.gerrit.pgm.init;
 
-import static com.google.common.base.Preconditions.checkState;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.entities.Account;
@@ -64,7 +64,7 @@ public class VersionedAuthorizedKeysOnInit extends VersionedMetaDataOnInit {
   }
 
   public AccountSshKey addKey(String pub) {
-    checkState(keys != null, "SSH keys not loaded yet");
+    requireNonNull(keys, "SSH keys not loaded yet");
     int seq = keys.isEmpty() ? 1 : keys.size() + 1;
     AccountSshKey key =
         new VersionedAuthorizedKeys.SimpleSshKeyCreator().create(accountId, seq, pub);

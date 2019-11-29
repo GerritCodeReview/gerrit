@@ -15,6 +15,7 @@
 package com.google.gerrit.server.cache;
 
 import static com.google.common.base.Preconditions.checkState;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheLoader;
@@ -147,7 +148,7 @@ class PersistentCacheProvider<K, V> extends CacheProvider<K, V>
 
   private static <T> void checkSerializer(
       TypeLiteral<T> type, CacheSerializer<T> serializer, String name) {
-    checkState(serializer != null, "%sSerializer is required", name);
+    requireNonNull(serializer, () -> String.format("%sSerializer is required", name));
     if (serializer instanceof JavaCacheSerializer) {
       checkState(
           Serializable.class.isAssignableFrom(type.getRawType()),

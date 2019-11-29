@@ -14,9 +14,9 @@
 
 package com.google.gerrit.httpd.raw;
 
-import static com.google.common.base.Preconditions.checkArgument;
 import static java.nio.file.Files.exists;
 import static java.nio.file.Files.isReadable;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.cache.Cache;
 import com.google.common.collect.ImmutableList;
@@ -249,8 +249,8 @@ public class StaticModule extends ServletModule {
     private Path polyGerritBasePath() {
       Paths p = getPaths();
       if (options.forcePolyGerritDev()) {
-        checkArgument(
-            p.sourceRoot != null, "no source root directory found for PolyGerrit developer mode");
+        requireNonNull(
+            p.sourceRoot, "no source root directory found for PolyGerrit developer mode");
       }
 
       if (p.isDev()) {

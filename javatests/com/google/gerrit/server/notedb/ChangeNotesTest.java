@@ -2561,7 +2561,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
     ChangeUpdate failingUpdate = newUpdate(c, internalUser);
     assertThrows(
-        IllegalStateException.class, () -> failingUpdate.putApproval("Code-Review", (short) 1));
+        NullPointerException.class, () -> failingUpdate.putApproval("Code-Review", (short) 1));
   }
 
   @Test

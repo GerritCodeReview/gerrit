@@ -14,7 +14,7 @@
 
 package com.google.gerrit.testing;
 
-import static com.google.common.base.Preconditions.checkArgument;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.base.Enums;
 import com.google.common.base.Strings;
@@ -46,14 +46,18 @@ public enum SshMode {
     value = value.toUpperCase();
     SshMode mode = Enums.getIfPresent(SshMode.class, value).orNull();
     if (!Strings.isNullOrEmpty(System.getenv(ENV_VAR))) {
-      checkArgument(
-          mode != null, "Invalid value for env variable %s: %s", ENV_VAR, System.getenv(ENV_VAR));
+      requireNonNull(
+          mode,
+          () ->
+              String.format(
+                  "Invalid value for env variable %s: %s", ENV_VAR, System.getenv(ENV_VAR)));
     } else {
-      checkArgument(
-          mode != null,
-          "Invalid value for system property %s: %s",
-          SYS_PROP,
-          System.getProperty(SYS_PROP));
+      requireNonNull(
+          mode,
+          () ->
+              String.format(
+                  "Invalid value for system property %s: %s",
+                  SYS_PROP, System.getProperty(SYS_PROP)));
     }
     return mode;
   }

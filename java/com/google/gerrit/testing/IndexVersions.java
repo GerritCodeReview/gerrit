@@ -15,6 +15,7 @@
 package com.google.gerrit.testing;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toMap;
 
 import com.google.common.annotations.VisibleForTesting;
@@ -101,11 +102,11 @@ public class IndexVersions {
         if (CURRENT.equals(s)) {
           versions.add(schemaDef.getLatest().getVersion());
         } else if (PREVIOUS.equals(s)) {
-          checkArgument(schemaDef.getPrevious() != null, "previous version does not exist");
+          requireNonNull(schemaDef.getPrevious(), "previous version does not exist");
           versions.add(schemaDef.getPrevious().getVersion());
         } else {
           Integer version = Ints.tryParse(s);
-          checkArgument(version != null, "Invalid value for %s: %s", name, s);
+          requireNonNull(version, () -> String.format("Invalid value for %s: %s", name, s));
           checkArgument(
               schemas.containsKey(version),
               "Index version %s that was specified by %s not found." + " Possible versions are: %s",

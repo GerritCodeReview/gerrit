@@ -22,6 +22,30 @@
       "revId": "c12ed4a869a03f2ca02b76b304a5b5688c997a84",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6f8523fc_d487a4f6",
+        "filename": "lib/js/bower_archives.bzl",
+        "patchSetId": 7
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-11-29T15:03:08Z",
+      "side": 1,
+      "message": "Ok, polymerSkipLoadingFontRoboto doesn\u0027t work with font-roboto v1.1.0\nBut the fonts from font-roboto-local are missed in the final gerrit.war file. It seems, BUILD must be also updated to include fonts in the final artifact.",
+      "parentUuid": "cb231133_d5b4cf5c",
+      "range": {
+        "startLine": 29,
+        "startChar": 16,
+        "endLine": 29,
+        "endChar": 33
+      },
+      "revId": "c12ed4a869a03f2ca02b76b304a5b5688c997a84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -118,11 +118,13 @@
     }
 
     _disableAggreements(item, groups, signedAgreements) {
-      for (const group of groups) {
-        if ((item && item.auto_verify_group &&
-            item.auto_verify_group.id === group.id) ||
-            signedAgreements.find(i => i.name === item.name)) {
-          return true;
+      if (groups) {
+        for (const group of groups) {
+          if ((item && item.auto_verify_group &&
+              item.auto_verify_group.id === group.id) ||
+              signedAgreements.find(i => i.name === item.name)) {
+            return true;
+          }
         }
       }
       return false;
@@ -141,6 +143,7 @@
     // if specified it returns 'hideAgreementsTextBox' which
     // then hides the text box and submit button.
     _computeHideAgreementClass(name, config) {
+      if (!config) return '';
       for (const key in config) {
         if (!config.hasOwnProperty(key)) {
           continue;

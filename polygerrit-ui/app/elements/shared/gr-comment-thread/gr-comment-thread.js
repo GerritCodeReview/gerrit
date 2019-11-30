@@ -217,6 +217,8 @@
     }
 
     _commentsChanged() {
+      // REMOVE
+      this.comments.forEach(c => { return c.url = 'hello/world'; });
       this._orderedComments = this._sortedComments(this.comments);
       this.updateThreadProperties();
     }

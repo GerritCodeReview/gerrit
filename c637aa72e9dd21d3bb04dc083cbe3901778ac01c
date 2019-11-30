@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "d0a1bef2_fd0da758",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-11-30T00:23:03Z",
+      "side": 1,
+      "message": "Please add more details. What is broken and how does this commit fix it?",
+      "revId": "c637aa72e9dd21d3bb04dc083cbe3901778ac01c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "80be44b1_b2719074",
         "filename": "polygerrit-ui/app/rules.bzl",
         "patchSetId": 2

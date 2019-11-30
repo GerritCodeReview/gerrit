@@ -274,3 +274,26 @@ Gerrit.GrSuggestionItem;
  * }}
  */
 Gerrit.GrSuggestionsProvider;
+
+/**
+ * @typedef {{
+ *  patch_set: ?number,
+ *  id: ?string,
+ *  path: ?Object,
+ *  side: ?string,
+ *  parent: ?number,
+ *  line: ?Object,
+ *  in_reply_to: ?string,
+ *  message: ?Object,
+ *  updated: ?string,
+ *  author: ?Object,
+ *  tag: ?Object,
+ *  unresolved: ?boolean,
+ *  robot_id: ?string, // The ID of the robot that generated this comment
+ *  robot_run_id: ?string, // ID of the run of the robot.
+ *  url: ?string, // URL to more information
+ *  properties: ?Object,
+ *  fix_suggestions: ?Object,
+ *  }}
+ */
+Gerrit.Comment;

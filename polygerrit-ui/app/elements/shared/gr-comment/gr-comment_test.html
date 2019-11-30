@@ -456,16 +456,12 @@ limitations under the License.
       element.editing = false;
       element.collapsed = false;
       flushAsynchronousOperations();
-      assert.isNotOk(element.$$('.robotRun.link'));
-      assert.notEqual(getComputedStyle(element.$$('.robotRun.text')).display,
-          'none');
+      assert.isTrue(element.$$('.robotRun.link').textContent === 'Run Details');
 
       // A robot comment with run ID and url should display a link.
       element.set(['comment', 'url'], '/path/to/run');
       flushAsynchronousOperations();
       assert.notEqual(getComputedStyle(element.$$('.robotRun.link')).display,
-          'none');
-      assert.equal(getComputedStyle(element.$$('.robotRun.text')).display,
           'none');
     });
 
@@ -525,6 +521,37 @@ limitations under the License.
       assert.isTrue(isVisible(element.textarea), 'textarea is visible');
       assert.isFalse(isVisible(element.$$('.collapsedContent')),
           'header middle content is not visible');
+    });
+
+    test('robot comment layout', () => {
+      const comment = Object.assign({
+        robot_id: 'happy_robot_id',
+        url: '/robot/comment',
+        author: {
+          name: 'Happy Robot',
+        },
+      }, element.comment);
+      element.comment = comment;
+      element.collapsed = false;
+      flushAsynchronousOperations();
+
+      let runIdMessage;
+      runIdMessage = element.$$('.runIdMessage');
+      assert.isFalse(runIdMessage.hidden);
+
+      const runDetailsLink = element.$$('.robotRunLink');
+      assert.isTrue(runDetailsLink.href.indexOf(element.comment.url) !== -1);
+
+      const robotServiceName = element.$$('.authorName');
+      assert.isTrue(robotServiceName.textContent === 'happy_robot_id');
+
+      const authorName = element.$$('.robotId');
+      assert.isTrue(authorName.innerText === 'Happy Robot');
+
+      element.collapsed = true;
+      flushAsynchronousOperations();
+      runIdMessage = element.$$('.runIdMessage');
+      assert.isTrue(runIdMessage.hidden);
     });
 
     test('draft creation/cancellation', done => {

@@ -456,16 +456,12 @@ limitations under the License.
       element.editing = false;
       element.collapsed = false;
       flushAsynchronousOperations();
-      assert.isNotOk(element.$$('.robotRun.link'));
-      assert.notEqual(getComputedStyle(element.$$('.robotRun.text')).display,
-          'none');
+      assert.isTrue(element.$$('.robotRun.link').textContent === 'Run Details');
 
       // A robot comment with run ID and url should display a link.
       element.set(['comment', 'url'], '/path/to/run');
       flushAsynchronousOperations();
       assert.notEqual(getComputedStyle(element.$$('.robotRun.link')).display,
-          'none');
-      assert.equal(getComputedStyle(element.$$('.robotRun.text')).display,
           'none');
     });
 
@@ -525,6 +521,18 @@ limitations under the License.
       assert.isTrue(isVisible(element.textarea), 'textarea is visible');
       assert.isFalse(isVisible(element.$$('.collapsedContent')),
           'header middle content is not visible');
+    });
+
+    test('robot comment layout', () => {
+      element.comment = Object.assign({
+        robot_run_id: 'happy_robot_id',
+        url: '/robot/comment',
+      }, element.comment);
+      element.collapsed = false;
+      const runIdInformation = element.$$('.runIdInformation');
+      assert.isFalse(runIdInformation.hidden);
+      const runDetailsLink = element.$$('.robotRunLink');
+      assert.isTrue(runDetailsLink.href.indexOf(element.comment.url) !== -1);
     });
 
     test('draft creation/cancellation', done => {

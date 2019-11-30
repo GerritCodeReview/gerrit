@@ -108,6 +108,7 @@
     },
 
     _disableAgreements(item, groups, signedAgreements) {
+      if (!groups) return false;
       for (const group of groups) {
         if ((item && item.auto_verify_group &&
             item.auto_verify_group.id === group.id) ||
@@ -131,6 +132,7 @@
     // if specified it returns 'hideAgreementsTextBox' which
     // then hides the text box and submit button.
     _computeHideAgreementClass(name, config) {
+      if (!config) return '';
       for (const key in config) {
         if (!config.hasOwnProperty(key)) { continue; }
         for (const prop in config[key]) {

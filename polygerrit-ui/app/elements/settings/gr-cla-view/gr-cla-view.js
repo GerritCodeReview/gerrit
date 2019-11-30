@@ -118,7 +118,7 @@
     }
 
     _disableAggreements(item, groups, signedAgreements) {
-      for (const group of groups) {
+      for (const group of Object.keys(groups)) {
         if ((item && item.auto_verify_group &&
             item.auto_verify_group.id === group.id) ||
             signedAgreements.find(i => i.name === item.name)) {

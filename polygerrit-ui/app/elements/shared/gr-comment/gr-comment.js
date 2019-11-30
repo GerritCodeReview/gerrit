@@ -75,7 +75,7 @@
     static get properties() {
       return {
         changeNum: String,
-        /** @type {?} */
+        /** @type {!Gerrit.Comment} */
         comment: {
           type: Object,
           notify: true,
@@ -670,6 +670,19 @@
     _openOverlay(overlay) {
       Polymer.dom(Gerrit.getRootElement()).appendChild(overlay);
       return overlay.open();
+    }
+
+    _computeAuthorName(comment) {
+      if (!comment) return '';
+      if (comment.robot_id) {
+        return comment.robot_id;
+      }
+      return comment.author && comment.author.name;
+    }
+
+    _computeHideRunDetails(comment, collapsed) {
+      if (!comment) return true;
+      return !(comment.robot_id && comment.url && !collapsed);
     }
 
     _closeOverlay(overlay) {

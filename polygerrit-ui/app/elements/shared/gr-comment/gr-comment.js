@@ -672,6 +672,17 @@
       return overlay.open();
     }
 
+    computeAuthorName(comment) {
+      if (comment.robot_id) {
+        return comment.robot_id;
+      }
+      return comment.author && comment.author.name;
+    }
+
+    computeShowRunDetails(comment) {
+      return !!(comment.robot_run_id && comment.url);
+    }
+
     _closeOverlay(overlay) {
       Polymer.dom(Gerrit.getRootElement()).removeChild(overlay);
       overlay.close();

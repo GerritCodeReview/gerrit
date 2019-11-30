@@ -457,15 +457,11 @@ limitations under the License.
       element.collapsed = false;
       flushAsynchronousOperations();
       assert.isNotOk(element.$$('.robotRun.link'));
-      assert.notEqual(getComputedStyle(element.$$('.robotRun.text')).display,
-          'none');
 
       // A robot comment with run ID and url should display a link.
       element.set(['comment', 'url'], '/path/to/run');
       flushAsynchronousOperations();
       assert.notEqual(getComputedStyle(element.$$('.robotRun.link')).display,
-          'none');
-      assert.equal(getComputedStyle(element.$$('.robotRun.text')).display,
           'none');
     });
 
@@ -525,6 +521,16 @@ limitations under the License.
       assert.isTrue(isVisible(element.textarea), 'textarea is visible');
       assert.isFalse(isVisible(element.$$('.collapsedContent')),
           'header middle content is not visible');
+    });
+
+    test('robot comment layout', (done) => {
+      element.comment.robot_id = 'happy_robot_id';
+      element.url = '/robot/comment';
+      flush(() => {
+        const runIdInformation = element.$$('.runIdInformation');
+        assert.isFalse(runIdInformation.display === 'none');
+        done();
+      });
     });
 
     test('draft creation/cancellation', done => {

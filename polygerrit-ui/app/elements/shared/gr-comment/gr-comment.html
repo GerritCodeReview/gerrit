@@ -247,7 +247,7 @@ limitations under the License.
     <div id="container" class="container">
       <div class="header" id="header" on-click="_handleToggleCollapsed">
         <div class="headerLeft">
-          <span class="authorName">[[comment.author.name]]</span>
+          <span class="authorName">[[_computeAuthorName(comment)]]</span>
           <span class="draftLabel">DRAFT</span>
           <gr-tooltip-content class="draftTooltip"
               has-tooltip
@@ -257,6 +257,13 @@ limitations under the License.
         </div>
         <div class="headerMiddle">
           <span class="collapsedContent">[[comment.message]]</span>
+        </div>
+        <div hidden$="[[_computeHideRunDetails(comment, collapsed)]]" class="runIdMessage message">
+          <div class="runIdInformation">
+            <a class="robotRunLink" href$="[[comment.url]]">
+              <span class="robotRun link">Run Details</span>
+            </a>
+          </div>
         </div>
         <gr-button
             id="deleteBtn"
@@ -284,10 +291,9 @@ limitations under the License.
         </div>
       </div>
       <div class="body">
-        <template is="dom-if" if="[[comment.robot_id]]">
+        <template is="dom-if" if="[[isRobotComment]]">
           <div class="robotId" hidden$="[[collapsed]]">
-            <iron-icon class="robotIcon" icon="gr-icons:robot"></iron-icon>
-            [[comment.robot_id]]
+            [[comment.author.name]]
           </div>
         </template>
         <template is="dom-if" if="[[editing]]">
@@ -306,19 +312,6 @@ limitations under the License.
             content="[[comment.message]]"
             no-trailing-margin="[[!comment.__draft]]"
             config="[[projectConfig.commentlinks]]"></gr-formatted-text>
-        <div hidden$="[[!comment.robot_run_id]]" class="message">
-          <div class="runIdInformation" hidden$="[[collapsed]]">
-            Run ID:
-            <template is="dom-if" if="[[comment.url]]">
-              <a class="robotRunLink" href$="[[comment.url]]">
-                <span class="robotRun link">[[comment.robot_run_id]]</span>
-              </a>
-            </template>
-            <template is="dom-if" if="[[!comment.url]]">
-              <span class="robotRun text">[[comment.robot_run_id]]</span>
-            </template>
-          </div>
-        </div>
         <div class="actions humanActions" hidden$="[[!_showHumanActions]]">
           <div class="action resolve hideOnPublished">
             <label>

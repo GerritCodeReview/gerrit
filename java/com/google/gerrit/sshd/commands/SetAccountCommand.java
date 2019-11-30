@@ -274,7 +274,7 @@ final class SetAccountCommand extends SshCommand {
       throws RestApiException, IOException, ConfigInvalidException, PermissionBackendException {
     for (String sshKey : sshKeys) {
       SshKeyInput in = new SshKeyInput();
-      in.raw = RawInputUtil.create(sshKey.getBytes(UTF_8), "plain/text");
+      in.raw = RawInputUtil.create(sshKey.getBytes(UTF_8), "text/plain");
       addSshKey.apply(rsrc, in);
     }
   }

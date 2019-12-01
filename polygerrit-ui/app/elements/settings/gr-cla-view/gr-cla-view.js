@@ -107,7 +107,7 @@
       return agreements ? 'show' : '';
     },
 
-    _disableAggreements(item, groups, signedAgreements) {
+    _disableAgreements(item, groups, signedAgreements) {
       for (const group of groups) {
         if ((item && item.auto_verify_group &&
             item.auto_verify_group.id === group.id) ||
@@ -118,8 +118,8 @@
       return false;
     },
 
-    _hideAggreements(item, groups, signedAgreements) {
-      return this._disableAggreements(item, groups, signedAgreements) ?
+    _hideAgreements(item, groups, signedAgreements) {
+      return this._disableAgreements(item, groups, signedAgreements) ?
           '' : 'hide';
     },
 

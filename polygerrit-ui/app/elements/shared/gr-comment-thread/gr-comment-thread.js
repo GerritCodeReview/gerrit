@@ -218,7 +218,18 @@
 
     _commentsChanged() {
       this._orderedComments = this._sortedComments(this.comments);
+      for (let i = 0; i < this._orderedComments.length; i++) {
+        this.set('_orderedComments.'+ i + '.hidePleaseFix',
+            this.computeHidePleaseFix(this._orderedComments[i]));
+      }
       this.updateThreadProperties();
+    }
+
+    computeHidePleaseFix(comment) {
+      // hide please fix button for robot comment that has human reply
+      return this.comments.some(c => {
+        return c.in_reply_to === comment.id && !c.robot_id;
+      });
     }
 
     updateThreadProperties() {

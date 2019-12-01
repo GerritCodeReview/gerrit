@@ -140,16 +140,16 @@ limitations under the License.
           'none');
     });
 
-    test('_disableAggreements', () => {
+    test('_disableAgreements', () => {
       // In the auto verify group and have not yet signed agreement
       assert.isTrue(
-          element._disableAggreements(auth, groups, signedAgreements));
+          element._disableAgreements(auth, groups, signedAgreements));
       // Not in the auto verify group and have not yet signed agreement
       assert.isFalse(
-          element._disableAggreements(auth2, groups, signedAgreements));
+          element._disableAgreements(auth2, groups, signedAgreements));
       // Not in the auto verify group, have signed agreement
       assert.isTrue(
-          element._disableAggreements(auth3, groups, signedAgreements));
+          element._disableAgreements(auth3, groups, signedAgreements));
     });
 
     test('_hideAggreements', () => {

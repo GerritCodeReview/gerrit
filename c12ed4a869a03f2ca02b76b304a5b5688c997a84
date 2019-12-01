@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "c759f1bd_1dcf1569",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-12-01T04:18:21Z",
+      "side": 1,
+      "message": "This PR: [1] was not merged yet and would probably never be merged. So what is the point? Yes we did switched to consuming a non merged PR commits in the past, e.g. rules_closure, but it was only a matter of time and all those PR were merged. And right now, we don\u0027t consume any non-merged commit. So, before diving deeper here, I would like to hear what is the way forward strategy for consuming this non-merged PRs. One option would be to do it conditionally. Not sure, how hard would be to do it, though.\n\n* [1] https://github.com/PolymerElements/paper-styles/pull/164/commits/dd0b13e186b9690d5e74a93f6e51e0835ea60495",
+      "range": {
+        "startLine": 7,
+        "startChar": 23,
+        "endLine": 7,
+        "endChar": 63
+      },
+      "revId": "c12ed4a869a03f2ca02b76b304a5b5688c997a84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f7df7719_ee87a3ac",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-12-01T04:18:21Z",
+      "side": 1,
+      "message": "This would mean a performance degradation for gerrit installation sites because loading from https://fonts.googleapis.com is certainly much faster then loading from the local site.\n\nAs Ben pointed out, there is this privacy statement: [2].\n\nI also don\u0027t understand how loading fonts from https://fonts.googleapis.com is a network issue for Wikimedia users.\n\nIf I am trying to open this site: https://gerrit.wikimedia.org/r/q/status:open, I\u0027m seeing this font is downloaded: [3]. Why would a user on local machine, would have access to gerrit.wikimedia.org, but not to fonts.gstatic.com?\n\nSo, to summarize, I would rather keep loading the fonts from https://fonts.googleapis.com.\n\nIt at all, we could think about doing it conditionally, but it seems that Gerrit would need to be re-built to change the how paper-styles fonts are consumed, especially looking at this fix [4], that the actual addition of the local fonts  artifact was missed in this change.\n\n* [2] https://developers.google.com/fonts/faq?hl\u003den#what_does_using_the_google_fonts_api_mean_for_the_privacy_of_my_users\n* [3] Request URL: https://fonts.gstatic.com/s/robotomono/v7/L0x5DF4xlVMF-BfR8bXMIjhLq38.woff2\n* [4] https://gerrit-review.googlesource.com/c/gerrit/+/247133",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 27
+      },
+      "revId": "c12ed4a869a03f2ca02b76b304a5b5688c997a84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "cb231133_d5b4cf5c",
         "filename": "lib/js/bower_archives.bzl",
         "patchSetId": 7
@@ -142,6 +188,29 @@
       "revId": "c12ed4a869a03f2ca02b76b304a5b5688c997a84",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "08738e30_59264c86",
+        "filename": "tools/js/bower2bazel.py",
+        "patchSetId": 7
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-12-01T04:18:21Z",
+      "side": 1,
+      "message": "Why it is included twice, on L41 above and here?",
+      "range": {
+        "startLine": 80,
+        "startChar": 4,
+        "endLine": 80,
+        "endChar": 35
+      },
+      "revId": "c12ed4a869a03f2ca02b76b304a5b5688c997a84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

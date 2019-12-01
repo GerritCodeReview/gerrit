@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fbdcbeb1_779360bc",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-12-01T17:49:52Z",
+      "side": 1,
+      "message": "Could be as simple as a one liner if (!source) return \u0027\u0027;",
+      "range": {
+        "startLine": 280,
+        "startChar": 0,
+        "endLine": 282,
+        "endChar": 7
+      },
+      "revId": "2b11ca3900fc09377bad877c2d1e3e7b4237626c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

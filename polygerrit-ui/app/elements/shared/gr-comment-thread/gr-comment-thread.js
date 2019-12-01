@@ -230,6 +230,13 @@
       }
     }
 
+    computeHidePleaseFix(comment) {
+      // hide please fix button for robot comment that has human reply
+      return this.comments.some(c => {
+        return c.in_reply_to === comment.id && !c.robot_id;
+      });
+    }
+
     _shouldDisableAction(_showActions, _lastComment) {
       return !_showActions || !_lastComment || !!_lastComment.__draft;
     }

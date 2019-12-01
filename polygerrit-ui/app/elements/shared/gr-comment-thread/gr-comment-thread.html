@@ -91,6 +91,7 @@ limitations under the License.
         <gr-comment
             comment="{{comment}}"
             robot-button-disabled="[[_shouldDisableAction(_showActions, _lastComment)]]"
+            hide-please-fix="[[computeHidePleaseFix(comment)]]"
             change-num="[[changeNum]]"
             patch-num="[[patchNum]]"
             draft="[[_isDraft(comment)]]"

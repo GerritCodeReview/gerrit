@@ -119,6 +119,7 @@
         /** @type {?} */
         projectConfig: Object,
         robotButtonDisabled: Boolean,
+        hidePleaseFix: Boolean,
         _isAdmin: {
           type: Boolean,
           value: false,
@@ -657,6 +658,10 @@
         // Save the resolved state immediately.
         this.save(payload.comment);
       }
+    }
+
+    computeShowPleaseFix(isRobotComment) {
+      return isRobotComment && !this.hidePleaseFix;
     }
 
     _handleCommentDelete() {

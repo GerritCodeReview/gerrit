@@ -354,7 +354,7 @@ limitations under the License.
           </div>
         </div>
         <div class="robotActions" hidden$="[[!_showRobotActions]]">
-          <template is="dom-if" if="[[isRobotComment]]">
+          <template is="dom-if" if="[[computeShowPleaseFix(isRobotComment)]]">
             <gr-button
                 link
                 secondary

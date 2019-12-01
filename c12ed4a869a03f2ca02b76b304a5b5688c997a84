@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "0a0464a0_299327d3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-12-01T12:52:08Z",
+      "side": 1,
+      "message": "For your first point I didn’t noitice a performance degradation when testing.\n\nSecondly as Dmitrii Filippov has mentioned here https://gerrit-review.googlesource.com/c/gerrit/+/247133/2/polygerrit-ui/app/rules.bzl#94 we are loading two copies either through font-roboto or font-roboto-local. So we can change that by getting gerrit to use the consumed fonts rather than https://github.com/GerritCodeReview/gerrit/tree/master/lib/fonts. Which means less duplicates.\n\nFor your second point, even though there’s a privacy statement we still disallow it as far as I’m aware.\n\nFor point 3, I never said wikimedia had issues downloading the fonts :). it was a user who came onto irc who did.\n\nI would like google to merge those pr’s.",
+      "parentUuid": "f7df7719_ee87a3ac",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 27
+      },
+      "revId": "c12ed4a869a03f2ca02b76b304a5b5688c997a84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "cb231133_d5b4cf5c",
         "filename": "lib/js/bower_archives.bzl",
         "patchSetId": 7

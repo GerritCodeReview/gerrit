@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1170272c_3835cc0c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-12-01T04:30:47Z",
+      "side": 1,
+      "message": "Add more context, e.g.:\n\nIn I731e54ca872 paper-styles were switched to consuming the fonts from local gerrit site, instead of from external location. However, the fonts were missed to be added to the final artifact.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 55
+      },
+      "revId": "8c9b355e759fe929ff573aafdc790a3afb71ff90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9c005978_47097b91",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-12-01T04:30:47Z",
+      "side": 1,
+      "message": "Link to the Issue 11993, because previous merged change broke the font loading entirely and is not a complete \"fix\" for Issue 11993.",
+      "revId": "8c9b355e759fe929ff573aafdc790a3afb71ff90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6aa83a4f_0d9ff512",
+        "filename": "polygerrit-ui/app/rules.bzl",
+        "patchSetId": 3
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-12-01T04:30:47Z",
+      "side": 1,
+      "message": "This is wrong and is not sufficient. This would miss all robotomono fonts, see the content of the archive: [1]. And the robotomono fonts are loaded from gr-app.html as well, e.g.:\n\n  src: url(\"../bower_components/font-roboto-local/fonts/robotomono/RobotoMono-Thin.ttf\") format(\"truetype\");\n\n[1] http://paste.openstack.org/show/786940",
+      "range": {
+        "startLine": 106,
+        "startChar": 101,
+        "endLine": 106,
+        "endChar": 137
+      },
+      "revId": "8c9b355e759fe929ff573aafdc790a3afb71ff90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

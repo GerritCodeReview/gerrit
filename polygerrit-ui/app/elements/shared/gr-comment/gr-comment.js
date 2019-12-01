@@ -81,6 +81,9 @@
           notify: true,
           observer: '_commentChanged',
         },
+        comments: {
+          type: Array,
+        },
         isRobotComment: {
           type: Boolean,
           value: false,
@@ -119,6 +122,7 @@
         /** @type {?} */
         projectConfig: Object,
         robotButtonDisabled: Boolean,
+        hidePleaseFix: Boolean,
         _isAdmin: {
           type: Boolean,
           value: false,
@@ -165,6 +169,7 @@
         '_loadLocalDraft(changeNum, patchNum, comment)',
         '_isRobotComment(comment)',
         '_calculateActionstoShow(showActions, isRobotComment)',
+        '_computeHidePleaseFix(comment, comments.*)',
       ];
     }
 
@@ -308,6 +313,14 @@
       }
     }
 
+    _computeHidePleaseFix() {
+      if (!this.comment || !this.comments) return;
+      // hide please fix button for robot comment that has human reply
+      this.hidePleaseFix = this.comments.some(c => {
+        return c.in_reply_to === this.comment.id && !c.robot_id;
+      });
+    }
+
     /**
      * @param {!Object=} opt_mixin
      *
@@ -354,7 +367,7 @@
       if (editing) {
         this.async(() => {
           Polymer.dom.flush();
-          this.textarea.putCursorAtEnd();
+          this.textarea && this.textarea.putCursorAtEnd();
         }, 1);
       }
     }
@@ -657,6 +670,10 @@
         // Save the resolved state immediately.
         this.save(payload.comment);
       }
+    }
+
+    computeShowPleaseFix(isRobotComment, hidePleaseFix) {
+      return isRobotComment && !hidePleaseFix;
     }
 
     _handleCommentDelete() {

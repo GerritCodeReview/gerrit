@@ -840,9 +840,145 @@ limitations under the License.
         done();
       });
       element.isRobotComment = true;
+      element.comments = [element.comment];
       flushAsynchronousOperations();
 
       MockInteractions.tap(element.$$('.fix'));
+    });
+
+    test('do not show Please Fix button if human reply exists', () => {
+      element.comments = [
+        {
+          robot_id: 'happy_robot_id',
+          robot_run_id: '5838406743490560',
+          fix_suggestions: [
+            {
+              fix_id: '478ff847_3bf47aaf',
+              description: 'Make the smiley happier by giving it a nose.',
+              replacements: [
+                {
+                  path: 'Documentation/config-gerrit.txt',
+                  range: {
+                    start_line: 10,
+                    start_character: 7,
+                    end_line: 10,
+                    end_character: 9,
+                  },
+                  replacement: ':-)',
+                },
+              ],
+            },
+          ],
+          author: {
+            _account_id: 1030912,
+            name: 'Alice Kober-Sotzek',
+            email: 'aliceks@google.com',
+            avatars: [
+              {
+                url: '/s32-p/photo.jpg',
+                height: 32,
+              },
+              {
+                url: '/AaAdOFzPlFI/s56-p/photo.jpg',
+                height: 56,
+              },
+              {
+                url: '/AaAdOFzPlFI/s100-p/photo.jpg',
+                height: 100,
+              },
+              {
+                url: '/AaAdOFzPlFI/s120-p/photo.jpg',
+                height: 120,
+              },
+            ],
+          },
+          patch_set: 1,
+          id: 'eb0d03fd_5e95904f',
+          line: 10,
+          updated: '2017-04-04 15:36:17.000000000',
+          message: 'This is a robot comment with a fix.',
+          unresolved: false,
+          __commentSide: 'right',
+          collapsed: false,
+        },
+        {
+          __draft: true,
+          __draftID: '0.wbrfbwj89sa',
+          __date: '2019-12-04T13:41:03.689Z',
+          path: 'Documentation/config-gerrit.txt',
+          patchNum: 1,
+          side: 'REVISION',
+          __commentSide: 'right',
+          line: 10,
+          in_reply_to: 'eb0d03fd_5e95904f',
+          message: '> This is a robot comment with a fix.\n\nPlease Fix',
+          unresolved: true,
+        },
+      ];
+      element.comment = element.comments[0];
+      flushAsynchronousOperations();
+      assert.isNull(element.$$('robotActions gr-button'));
+    });
+
+    test('show Please Fix if no human reply', () => {
+      element.comments = [
+        {
+          robot_id: 'happy_robot_id',
+          robot_run_id: '5838406743490560',
+          fix_suggestions: [
+            {
+              fix_id: '478ff847_3bf47aaf',
+              description: 'Make the smiley happier by giving it a nose.',
+              replacements: [
+                {
+                  path: 'Documentation/config-gerrit.txt',
+                  range: {
+                    start_line: 10,
+                    start_character: 7,
+                    end_line: 10,
+                    end_character: 9,
+                  },
+                  replacement: ':-)',
+                },
+              ],
+            },
+          ],
+          author: {
+            _account_id: 1030912,
+            name: 'Alice Kober-Sotzek',
+            email: 'aliceks@google.com',
+            avatars: [
+              {
+                url: '/s32-p/photo.jpg',
+                height: 32,
+              },
+              {
+                url: '/AaAdOFzPlFI/s56-p/photo.jpg',
+                height: 56,
+              },
+              {
+                url: '/AaAdOFzPlFI/s100-p/photo.jpg',
+                height: 100,
+              },
+              {
+                url: '/AaAdOFzPlFI/s120-p/photo.jpg',
+                height: 120,
+              },
+            ],
+          },
+          patch_set: 1,
+          id: 'eb0d03fd_5e95904f',
+          line: 10,
+          updated: '2017-04-04 15:36:17.000000000',
+          message: 'This is a robot comment with a fix.',
+          unresolved: false,
+          __commentSide: 'right',
+          collapsed: false,
+        },
+      ];
+      element.comment = element.comments[0];
+      flushAsynchronousOperations();
+      assert.isNotNull(element.$$('.robotActions gr-button'));
     });
   });
 </script>

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "64749e16_58e38ca9",
+        "filename": "polygerrit-ui/app/rules.bzl",
+        "patchSetId": 6
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-12-02T13:40:27Z",
+      "side": 1,
+      "message": "You also must escape the \u0027*\u0027 char, e.g.:\n\n  echo *.txt\n  -\u003e *.txt\n\n  touch a.txt\n  echo *.txt\n  -\u003e a.txt\n\nYou shouls asway escape meta chars, because you want to pass \u0027*\u0027 in to the zip command and not that shell command would already expand the meta char for you.",
+      "range": {
+        "startLine": 106,
+        "startChar": 132,
+        "endLine": 106,
+        "endChar": 133
+      },
+      "revId": "1479e078b55be8e69d643df3df5766bf9d963da9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2dccb8c2_5b6681d8",
+        "filename": "polygerrit-ui/app/rules.bzl",
+        "patchSetId": 6
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-12-02T13:40:27Z",
+      "side": 1,
+      "message": "You don\u0027t actually need second command. You have two options, I think:\n\n  unzip -qd $$TMP/polygerrit_ui/bower_components $(location @font-roboto-local//:zipfile) font-roboto-local/fonts/\\*/\\*.ttf\n\nor\n\n  unzip -qd $$TMP/polygerrit_ui/bower_components $(location @font-roboto-local//:zipfile) font-roboto-local/fonts/roboto/\\*.ttf font-roboto-local/fonts/robotomono/\\*.ttf \n\n\nI would go with the first one, because we know that in the archive thre are only two directories. But please test that the release.war contains exactly what needed.",
+      "range": {
+        "startLine": 107,
+        "startChar": 12,
+        "endLine": 107,
+        "endChar": 142
+      },
+      "revId": "1479e078b55be8e69d643df3df5766bf9d963da9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

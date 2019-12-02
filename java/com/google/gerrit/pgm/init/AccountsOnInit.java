@@ -14,8 +14,9 @@
 
 package com.google.gerrit.pgm.init;
 
+import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkState;
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static java.util.Objects.requireNonNull;
 
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.RefNames;
@@ -128,10 +129,9 @@ public class AccountsOnInit {
 
   private File getPath() {
     Path basePath = site.resolve(flags.cfg.getString("gerrit", null, "basePath"));
-    requireNonNull(basePath, "gerrit.basePath must be configured");
-    File file = basePath.resolve(allUsers).toFile();
-    File resolvedFile = FileKey.resolve(file, FS.DETECTED);
-    requireNonNull(resolvedFile, () -> String.format("%s does not exist", file.getAbsolutePath()));
-    return resolvedFile;
+    checkArgument(basePath != null, "gerrit.basePath must be configured");
+    File file = FileKey.resolve(basePath.resolve(allUsers).toFile(), FS.DETECTED);
+    checkState(file != null, "%s does not exist", file.getAbsolutePath());
+    return file;
   }
 }

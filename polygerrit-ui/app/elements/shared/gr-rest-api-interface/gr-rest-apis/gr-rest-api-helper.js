@@ -277,7 +277,6 @@
      * @return {?}
      */
     parsePrefixedJSON(source) {
-      if (!source) return {};
       return JSON.parse(source.substring(JSON_PREFIX.length));
     }
 

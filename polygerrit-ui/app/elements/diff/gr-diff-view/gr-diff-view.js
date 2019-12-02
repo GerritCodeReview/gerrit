@@ -953,7 +953,7 @@
             {
               url: this._computeDownloadFileLink(
                   project, changeNum, patchRange, leftPath, true),
-              name: 'Left Content',
+              name: 'Old Version',
             }
         );
       }
@@ -963,7 +963,7 @@
             {
               url: this._computeDownloadFileLink(
                   project, changeNum, patchRange, path, false),
-              name: 'Right Content',
+              name: 'New Version',
             }
         );
       }

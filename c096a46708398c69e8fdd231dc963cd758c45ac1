@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "4535a6e7_137fafa4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-12-02T14:21:47Z",
+      "side": 1,
+      "message": "I think there is a certain level of trust that we vest in administrators, so that this is OK.\n\nAs in every system, admins have a high responsibility to carefully use their powers.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 55
+      },
+      "revId": "c096a46708398c69e8fdd231dc963cd758c45ac1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f4a04b7a_eea1dc8c",
+        "filename": "java/com/google/gerrit/server/restapi/account/GetAgreements.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-12-02T14:21:47Z",
+      "side": 1,
+      "message": "PermissionBackendException should be propagated",
+      "range": {
+        "startLine": 84,
+        "startChar": 31,
+        "endLine": 84,
+        "endChar": 57
+      },
+      "revId": "c096a46708398c69e8fdd231dc963cd758c45ac1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6df29b5b_b47b42db",
         "filename": "java/com/google/gerrit/server/restapi/account/GetAgreements.java",
         "patchSetId": 1

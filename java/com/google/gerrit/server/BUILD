@@ -112,6 +112,7 @@ java_library(
         "//lib/commons:lang",
         "//lib/commons:net",
         "//lib/commons:validator",
+        "//lib/errorprone:annotations",
         "//lib/flogger:api",
         "//lib/guice",
         "//lib/guice:guice-assistedinject",

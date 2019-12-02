@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5e2271b2_86e6b3d4",
+        "filename": "java/com/google/gerrit/extensions/common/ChangeInfo.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2019-12-02T21:44:17Z",
+      "side": 1,
+      "message": "Since the ChangeInfo is meant for easy parsing, would it be better to have two fields (or a ChangeInfo or something like it) here?",
+      "range": {
+        "startLine": 56,
+        "startChar": 16,
+        "endLine": 56,
+        "endChar": 28
+      },
+      "revId": "29a4015a72e1212b8f9fc6db1bd0082bc3e705b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "19c6bda0_48a0a40c",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 835,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2019-12-02T21:44:17Z",
+      "side": 1,
+      "message": "I am not sure if it matters, but if cherryPickOf is null, then it will be indistinguishable from not having been loaded yet and this will be true everytime (which is true for most changes).",
+      "range": {
+        "startLine": 835,
+        "startChar": 8,
+        "endLine": 835,
+        "endChar": 20
+      },
+      "revId": "29a4015a72e1212b8f9fc6db1bd0082bc3e705b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d6aaa660_21fca9dc",
+        "filename": "java/com/google/gerrit/server/restapi/change/Module.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2019-12-02T21:44:17Z",
+      "side": 1,
+      "message": "alpha order?",
+      "range": {
+        "startLine": 206,
+        "startChar": 12,
+        "endLine": 206,
+        "endChar": 27
+      },
+      "revId": "29a4015a72e1212b8f9fc6db1bd0082bc3e705b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c7bc37d0_6739629d",
+        "filename": "tools/eclipse/gerrit_daemon_test_site.launch",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2019-12-02T21:44:17Z",
+      "side": 1,
+      "message": "Not related to this change?",
+      "revId": "29a4015a72e1212b8f9fc6db1bd0082bc3e705b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

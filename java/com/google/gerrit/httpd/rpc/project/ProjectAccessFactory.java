@@ -268,7 +268,7 @@ class ProjectAccessFactory extends Handler<ProjectAccess> {
     try {
       permissionBackend.currentUser().project(projectName).check(permissionToCheck);
     } catch (AuthException e) {
-      throw new NoSuchProjectException(projectName);
+      throw new NoSuchProjectException(projectName, e);
     }
     state.checkStatePermitsRead();
     return state;

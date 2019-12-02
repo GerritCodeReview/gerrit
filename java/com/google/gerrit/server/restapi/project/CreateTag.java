@@ -147,7 +147,7 @@ public class CreateTag implements RestCollectionCreateView<ProjectResource, TagR
         }
       }
     } catch (InvalidRevisionException e) {
-      throw new BadRequestException("Invalid base revision");
+      throw new BadRequestException("Invalid base revision", e);
     } catch (GitAPIException e) {
       logger.atSevere().withCause(e).log("Cannot create tag \"%s\"", ref);
       throw new IOException(e);

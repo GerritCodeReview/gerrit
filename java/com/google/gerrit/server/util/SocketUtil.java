@@ -96,7 +96,7 @@ public final class SocketUtil {
       try {
         port = Integer.parseInt(portStr);
       } catch (NumberFormatException e) {
-        throw new IllegalArgumentException("invalid port: " + desc);
+        throw new IllegalArgumentException("invalid port: " + desc, e);
       }
     } else {
       port = defaultPort;

@@ -71,7 +71,7 @@ class Libraries {
         try {
           f.set(this, downloadProvider.get());
         } catch (IllegalArgumentException | IllegalAccessException e) {
-          throw new IllegalStateException("Cannot initialize " + f.getName());
+          throw new IllegalStateException("Cannot initialize " + f.getName(), e);
         }
       }
     }
@@ -84,7 +84,7 @@ class Libraries {
             | IllegalAccessException
             | NoSuchFieldException
             | SecurityException e) {
-          throw new IllegalStateException("Cannot configure " + f.getName());
+          throw new IllegalStateException("Cannot configure " + f.getName(), e);
         }
       }
     }

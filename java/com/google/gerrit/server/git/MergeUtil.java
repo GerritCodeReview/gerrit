@@ -745,7 +745,7 @@ public class MergeUtil {
       try {
         failed(rw, mergeTip, n, getCommitMergeStatus(e.getReason()));
       } catch (IOException e2) {
-        throw new IntegrationException("Cannot merge " + n.name(), e);
+        throw new IntegrationException("Cannot merge " + n.name(), e2);
       }
     } catch (IOException e) {
       throw new IntegrationException("Cannot merge " + n.name(), e);

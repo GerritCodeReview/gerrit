@@ -131,7 +131,7 @@ public class RefOperationValidators {
             try {
               perm.check(GlobalPermission.ACCESS_DATABASE);
             } catch (AuthException | PermissionBackendException e) {
-              throw new ValidationException("Not allowed to create user branch.");
+              throw new ValidationException("Not allowed to create user branch.", e);
             }
             if (Account.Id.fromRef(refEvent.command.getRefName()) == null) {
               throw new ValidationException(
@@ -142,7 +142,7 @@ public class RefOperationValidators {
             try {
               perm.check(GlobalPermission.ACCESS_DATABASE);
             } catch (AuthException | PermissionBackendException e) {
-              throw new ValidationException("Not allowed to delete user branch.");
+              throw new ValidationException("Not allowed to delete user branch.", e);
             }
           }
         }

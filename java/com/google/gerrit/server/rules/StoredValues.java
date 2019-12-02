@@ -59,7 +59,8 @@ public final class StoredValues {
     try {
       return cd.change();
     } catch (OrmException e) {
-      throw new SystemException("Cannot load change " + cd.getId());
+      throw new SystemException(
+          String.format("Cannot load change %s: %s", cd.getId(), e.getMessage()));
     }
   }
 
@@ -104,7 +105,7 @@ public final class StoredValues {
           try {
             patchList = plCache.get(plKey, project);
           } catch (PatchListNotAvailableException e) {
-            throw new SystemException("Cannot create " + plKey);
+            throw new SystemException(String.format("Cannot create %s: %s", plKey, e.getMessage()));
           }
           return patchList;
         }

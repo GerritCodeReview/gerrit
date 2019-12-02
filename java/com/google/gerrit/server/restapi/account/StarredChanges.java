@@ -126,10 +126,10 @@ public class StarredChanges
       try {
         change = changes.parse(TopLevelResource.INSTANCE, id);
       } catch (ResourceNotFoundException e) {
-        throw new UnprocessableEntityException(String.format("change %s not found", id.get()));
+        throw new UnprocessableEntityException(String.format("change %s not found", id.get()), e);
       } catch (OrmException | PermissionBackendException | IOException e) {
         logger.atSevere().withCause(e).log("cannot resolve change");
-        throw new UnprocessableEntityException("internal server error");
+        throw new UnprocessableEntityException("internal server error", e);
       }
 
       try {

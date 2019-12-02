@@ -103,7 +103,7 @@ public class Rebuild implements RestModifyView<ChangeResource, Input> {
     try {
       rebuilder.rebuild(db.get(), rsrc.getId());
     } catch (NoSuchChangeException e) {
-      throw new ResourceNotFoundException(IdString.fromDecoded(rsrc.getId().toString()));
+      throw new ResourceNotFoundException(IdString.fromDecoded(rsrc.getId().toString()), e);
     }
   }
 }

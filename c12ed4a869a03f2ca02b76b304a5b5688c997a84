@@ -72,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "1985ec46_a30dec15",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-12-02T13:09:34Z",
+      "side": 1,
+      "message": "Quoting the user on why we cannot use an external font site in addition to my reason above:\n\n[13:01:07]  \u003cBlastuR\u003e\tpaladox: ok, cool. My issue is that I run gerrit in an airgapped environment. in fact, all developers are in the airgapped environment. and gerrit just won\u0027t load the pages if the fonts.googleapis.com is in there",
+      "parentUuid": "0a0464a0_299327d3",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 27
+      },
+      "revId": "c12ed4a869a03f2ca02b76b304a5b5688c997a84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "cb231133_d5b4cf5c",
         "filename": "lib/js/bower_archives.bzl",
         "patchSetId": 7

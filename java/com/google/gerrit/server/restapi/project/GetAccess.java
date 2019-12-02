@@ -170,7 +170,7 @@ public class GetAccess implements RestReadView<ProjectResource> {
     } catch (ConfigInvalidException e) {
       throw new ResourceConflictException(e.getMessage());
     } catch (RepositoryNotFoundException e) {
-      throw new ResourceNotFoundException(rsrc.getName());
+      throw new ResourceNotFoundException(rsrc.getName(), e);
     }
 
     // The following implementation must match the ProjectAccessFactory JSON RPC endpoint.

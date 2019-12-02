@@ -159,7 +159,7 @@ public class CreateAccount
       try {
         addGroupMember(groupUuid, accountId);
       } catch (NoSuchGroupException e) {
-        throw new UnprocessableEntityException(String.format("Group %s not found", groupUuid));
+        throw new UnprocessableEntityException(String.format("Group %s not found", groupUuid), e);
       }
     }
 

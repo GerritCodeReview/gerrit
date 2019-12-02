@@ -169,7 +169,7 @@ class InitHttpd implements InitStep {
         uri = new URI(s + "://" + uri.getHost() + uri.getPath());
       }
     } catch (URISyntaxException e) {
-      throw die("invalid httpd.listenUrl");
+      throw die("invalid httpd.listenUrl", e);
     }
     httpd.set("listenUrl", urlbuf.toString());
     gerrit.string("Canonical URL", "canonicalWebUrl", uri.toString());

@@ -34,11 +34,10 @@ public class SshKeyCreatorImpl implements SshKeyCreator {
       SshUtil.parse(key);
       return key;
     } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
-      throw new InvalidSshKeyException();
-
+      throw new InvalidSshKeyException(e);
     } catch (NoSuchProviderException e) {
       logger.atSevere().withCause(e).log("Cannot parse SSH key");
-      throw new InvalidSshKeyException();
+      throw new InvalidSshKeyException(e);
     }
   }
 }

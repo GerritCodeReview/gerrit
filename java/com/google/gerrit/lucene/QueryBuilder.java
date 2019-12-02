@@ -167,7 +167,7 @@ public class QueryBuilder<V> {
       // subclasses of OperatorPredicate.
       value = Integer.parseInt(p.getValue());
     } catch (NumberFormatException e) {
-      throw new QueryParseException("not an integer: " + p.getValue());
+      throw new QueryParseException("not an integer: " + p.getValue(), e);
     }
     return new TermQuery(intTerm(p.getField().getName(), value));
   }

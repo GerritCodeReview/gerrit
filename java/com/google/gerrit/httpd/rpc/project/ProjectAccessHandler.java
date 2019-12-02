@@ -194,7 +194,7 @@ public abstract class ProjectAccessHandler<T> extends Handler<T> {
 
       return updateProjectConfig(config, md, parentProjectUpdate);
     } catch (RepositoryNotFoundException notFound) {
-      throw new NoSuchProjectException(projectName);
+      throw new NoSuchProjectException(projectName, notFound);
     }
   }
 

@@ -34,6 +34,10 @@ public class ResourceNotFoundException extends RestApiException {
     super("Not found: " + id.get());
   }
 
+  public ResourceNotFoundException(IdString id, Throwable cause) {
+    super("Not found: " + id.get(), cause);
+  }
+
   @SuppressWarnings("unchecked")
   @Override
   public ResourceNotFoundException caching(CacheControl c) {

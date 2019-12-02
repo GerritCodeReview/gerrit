@@ -23,4 +23,8 @@ public class InvalidSshKeyException extends Exception {
   public InvalidSshKeyException() {
     super(MESSAGE);
   }
+
+  public InvalidSshKeyException(Throwable cause) {
+    super(MESSAGE, cause);
+  }
 }

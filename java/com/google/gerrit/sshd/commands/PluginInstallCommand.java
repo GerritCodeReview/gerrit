@@ -70,21 +70,21 @@ final class PluginInstallCommand extends PluginAdminSshCommand {
       try {
         data = Files.newInputStream(new File(source).toPath());
       } catch (IOException e) {
-        throw die("cannot read " + source);
+        throw die("cannot read " + source, e);
       }
     } else {
       try {
         data = new URL(source).openStream();
       } catch (MalformedURLException e) {
-        throw die("invalid url " + source);
+        throw die("invalid url " + source, e);
       } catch (IOException e) {
-        throw die("cannot read " + source);
+        throw die("cannot read " + source, e);
       }
     }
     try {
       loader.installPluginFromStream(name, data);
     } catch (IOException e) {
-      throw die("cannot install plugin");
+      throw die("cannot install plugin", e);
     } catch (PluginInstallException e) {
       e.printStackTrace(stderr);
       String msg = String.format("Plugin failed to install. Cause: %s", e.getMessage());

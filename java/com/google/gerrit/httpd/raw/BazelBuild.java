@@ -63,8 +63,9 @@ public class BazelBuild {
     try {
       status = rebuild.waitFor();
     } catch (InterruptedException e) {
-      throw new InterruptedIOException(
-          "interrupted waiting for: " + Joiner.on(' ').join(proc.command()));
+      String msg = "interrupted waiting for: " + Joiner.on(' ').join(proc.command());
+      logger.atSevere().withCause(e).log(msg);
+      throw new InterruptedIOException(msg);
     }
     if (status != 0) {
       logger.atWarning().log("build failed: %s", new String(out, UTF_8));

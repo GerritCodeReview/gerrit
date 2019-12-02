@@ -75,7 +75,7 @@ public class Capabilities implements ChildCollection<AccountResource, AccountRes
       permissionBackend.absentUser(target.getAccountId()).check(perm);
       return new AccountResource.Capability(target, globalOrPluginPermissionName(perm));
     } catch (AuthException e) {
-      throw new ResourceNotFoundException(id);
+      throw new ResourceNotFoundException(id, e);
     }
   }
 

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4833df21_df701be7",
+        "filename": "java/com/google/gerrit/server/account/externalids/ExternalIdCacheLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-12-02T07:40:40Z",
+      "side": 1,
+      "message": "The cache has an in-mem default size of 2, so this would only happen on restarts. Anyway, suppressing it seems like a good idea.",
+      "revId": "596da9d839d510b35da15e87f09f02e6e2ad1518",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

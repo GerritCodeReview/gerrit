@@ -61,8 +61,8 @@ def declare_nongoogle_deps():
     # elasticsearch-rest-client explicitly depends on this version
     maven_jar(
         name = "httpcore-nio",
-        artifact = "org.apache.httpcomponents:httpcore-nio:4.4.11",
-        sha1 = "7d0a97d01d39cff9aa3e6db81f21fddb2435f4e6",
+        artifact = "org.apache.httpcomponents:httpcore-nio:4.4.12",
+        sha1 = "84cd29eca842f31db02987cfedea245af020198b",
     )
 
     maven_jar(
@@ -94,8 +94,8 @@ def declare_nongoogle_deps():
     # and httpasyncclient as necessary.
     maven_jar(
         name = "elasticsearch-rest-client",
-        artifact = "org.elasticsearch.client:elasticsearch-rest-client:7.4.2",
-        sha1 = "f48725523c0b3402f869214433602f8d3f4c737c",
+        artifact = "org.elasticsearch.client:elasticsearch-rest-client:7.5.0",
+        sha1 = "62535b6fc3a4e943e88e7640eac22e29f03a696d",
     )
 
     maven_jar(

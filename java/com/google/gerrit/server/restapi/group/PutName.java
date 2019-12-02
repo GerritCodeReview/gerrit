@@ -78,9 +78,9 @@ public class PutName implements RestModifyView<GroupResource, NameInput> {
     try {
       groupsUpdateProvider.get().updateGroup(groupUuid, groupUpdate);
     } catch (NoSuchGroupException e) {
-      throw new ResourceNotFoundException(String.format("Group %s not found", groupUuid));
+      throw new ResourceNotFoundException(String.format("Group %s not found", groupUuid), e);
     } catch (OrmDuplicateKeyException e) {
-      throw new ResourceConflictException("group with name " + newName + " already exists");
+      throw new ResourceConflictException("group with name " + newName + " already exists", e);
     }
   }
 }

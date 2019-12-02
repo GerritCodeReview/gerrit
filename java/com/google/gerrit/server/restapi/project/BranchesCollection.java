@@ -82,9 +82,9 @@ public class BranchesCollection implements ChildCollection<ProjectResource, Bran
           .check(RefPermission.READ);
       return new BranchResource(parent.getProjectState(), parent.getUser(), ref);
     } catch (AuthException notAllowed) {
-      throw new ResourceNotFoundException(id);
+      throw new ResourceNotFoundException(id, notAllowed);
     } catch (RepositoryNotFoundException noRepo) {
-      throw new ResourceNotFoundException();
+      throw new ResourceNotFoundException(id, noRepo);
     }
   }
 

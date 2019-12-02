@@ -83,7 +83,7 @@ public class WorkInProgressOp implements BatchUpdateOp {
           .project(change.getProject())
           .check(ProjectPermission.WRITE_CONFIG);
     } catch (AuthException exp) {
-      throw new AuthException("not allowed to toggle work in progress");
+      throw new AuthException("not allowed to toggle work in progress", exp);
     }
   }
 

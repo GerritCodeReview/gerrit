@@ -32,7 +32,7 @@ public class ThreadSettingsConfig {
     httpdMaxThreads = cfg.getInt("httpd", "maxThreads", 25);
     int defaultDatabasePoolLimit = sshdThreads + httpdMaxThreads + 2;
     databasePoolLimit = cfg.getInt("database", "poolLimit", defaultDatabasePoolLimit);
-    sshdBatchThreads = cores == 1 ? 1 : 2;
+    sshdBatchThreads = cores == 1 ? 1 : 0;
   }
 
   public int getDatabasePoolLimit() {

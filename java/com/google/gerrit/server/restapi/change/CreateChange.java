@@ -223,7 +223,7 @@ public class CreateChange
         try {
           permissionBackend.currentUser().change(change).database(db).check(ChangePermission.READ);
         } catch (AuthException e) {
-          throw new UnprocessableEntityException("Read not permitted for " + input.baseChange);
+          throw new UnprocessableEntityException("Read not permitted for " + input.baseChange, e);
         }
         PatchSet ps = psUtil.current(db.get(), change);
         parentCommit = ObjectId.fromString(ps.getRevision().get());
@@ -233,7 +233,7 @@ public class CreateChange
           parentCommit = ObjectId.fromString(input.baseCommit);
         } catch (InvalidObjectIdException e) {
           throw new UnprocessableEntityException(
-              String.format("Base %s doesn't represent a valid SHA-1", input.baseCommit));
+              String.format("Base %s doesn't represent a valid SHA-1", input.baseCommit), e);
         }
         RevCommit parentRevCommit = rw.parseCommit(parentCommit);
         RevCommit destRefRevCommit = rw.parseCommit(destRef.getObjectId());

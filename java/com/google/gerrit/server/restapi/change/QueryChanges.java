@@ -114,7 +114,7 @@ public class QueryChanges implements RestReadView<TopLevelResource>, DynamicOpti
     try {
       out = query();
     } catch (QueryRequiresAuthException e) {
-      throw new AuthException("Must be signed-in to use this operator");
+      throw new AuthException("Must be signed-in to use this operator", e);
     } catch (QueryParseException e) {
       logger.atFine().withCause(e).log("Reject change query with 400 Bad Request: %s", queries);
       throw new BadRequestException(e.getMessage(), e);

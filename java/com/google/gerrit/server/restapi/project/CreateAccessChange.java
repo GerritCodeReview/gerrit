@@ -104,7 +104,7 @@ public class CreateAccessChange implements RestModifyView<ProjectResource, Proje
       try {
         forProject.ref(RefNames.REFS_CONFIG).check(RefPermission.CREATE_CHANGE);
       } catch (AuthException denied) {
-        throw new AuthException("cannot create change for " + RefNames.REFS_CONFIG);
+        throw new AuthException("cannot create change for " + RefNames.REFS_CONFIG, denied);
       }
     }
     projectCache.checkedGet(rsrc.getNameKey()).checkStatePermitsWrite();

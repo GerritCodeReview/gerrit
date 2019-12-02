@@ -180,7 +180,7 @@ public class PreviewSubmit implements RestReadView<RevisionResource> {
           archiveFormat.putEntry(aos, path, bos.toByteArray());
         }
       } catch (LimitExceededException e) {
-        throw new NotImplementedException("The bundle is too big to generate at the server");
+        throw new NotImplementedException("The bundle is too big to generate at the server", e);
       } catch (NoSuchProjectException e) {
         throw new IOException(e);
       }

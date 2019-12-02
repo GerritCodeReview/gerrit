@@ -206,7 +206,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
       try {
         permissionBackend.currentUser().change(notes).database(db).check(ChangePermission.READ);
       } catch (AuthException e) {
-        throw new NoSuchChangeException(changeId);
+        throw new NoSuchChangeException(changeId, e);
       }
     }
 

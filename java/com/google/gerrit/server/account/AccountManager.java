@@ -390,7 +390,7 @@ public class AccountManager {
     try {
       groupsUpdate.updateGroup(groupUuid, groupUpdate);
     } catch (NoSuchGroupException e) {
-      throw new AccountException(String.format("Group %s not found", groupUuid));
+      throw new AccountException(String.format("Group %s not found", groupUuid), e);
     }
   }
 

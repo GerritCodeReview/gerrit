@@ -138,7 +138,7 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
     try {
       addMembers(groupUuid, newMemberIds);
     } catch (NoSuchGroupException e) {
-      throw new ResourceNotFoundException(String.format("Group %s not found", groupUuid));
+      throw new ResourceNotFoundException(String.format("Group %s not found", groupUuid), e);
     }
     return toAccountInfoList(newMemberIds);
   }
@@ -235,7 +235,7 @@ public class AddMembers implements RestModifyView<GroupResource, Input> {
         }
         throw new IllegalStateException();
       } catch (UnprocessableEntityException e) {
-        throw new ResourceNotFoundException(id);
+        throw new ResourceNotFoundException(id, e);
       }
     }
   }

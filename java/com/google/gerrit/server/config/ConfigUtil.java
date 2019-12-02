@@ -30,7 +30,6 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 
 public class ConfigUtil {
-
   @SuppressWarnings("unchecked")
   private static <T> T[] allValuesOf(T defaultValue) {
     try {
@@ -182,7 +181,7 @@ public class ConfigUtil {
     try {
       return getTimeUnit(s, defaultValue, wantUnit);
     } catch (IllegalArgumentException notTime) {
-      throw notTimeUnit(section, subsection, setting, valueString);
+      throw notTimeUnit(section, subsection, setting, valueString, notTime);
     }
   }
 
@@ -250,7 +249,7 @@ public class ConfigUtil {
     try {
       return wantUnit.convert(Long.parseLong(digits) * inputMul, inputUnit);
     } catch (NumberFormatException nfe) {
-      throw notTimeUnit(valueString);
+      throw notTimeUnit(valueString, nfe);
     }
   }
 
@@ -421,13 +420,21 @@ public class ConfigUtil {
   }
 
   private static IllegalArgumentException notTimeUnit(
-      final String section,
-      final String subsection,
-      final String setting,
-      final String valueString) {
-    return new IllegalArgumentException(
-        "Invalid time unit value: "
-            + section
+      String section, String subsection, String setting, String valueString, Throwable why) {
+    return notTimeUnit(
+        section
+            + (subsection != null ? "." + subsection : "")
+            + "."
+            + setting
+            + " = "
+            + valueString,
+        why);
+  }
+
+  private static IllegalArgumentException notTimeUnit(
+      String section, String subsection, String setting, String valueString) {
+    return notTimeUnit(
+        section
             + (subsection != null ? "." + subsection : "")
             + "."
             + setting
@@ -437,6 +444,10 @@ public class ConfigUtil {
 
   private static IllegalArgumentException notTimeUnit(String val) {
     return new IllegalArgumentException("Invalid time unit value: " + val);
+  }
+
+  private static IllegalArgumentException notTimeUnit(String val, Throwable why) {
+    return new IllegalArgumentException("Invalid time unit value: " + val, why);
   }
 
   private ConfigUtil() {}

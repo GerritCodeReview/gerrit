@@ -140,28 +140,31 @@ limitations under the License.
           'none');
     });
 
-    test('_disableAggreements', () => {
+    test('_disableAgreements', () => {
       // In the auto verify group and have not yet signed agreement
       assert.isTrue(
-          element._disableAggreements(auth, groups, signedAgreements));
+          element._disableAgreements(auth, groups, signedAgreements));
       // Not in the auto verify group and have not yet signed agreement
       assert.isFalse(
-          element._disableAggreements(auth2, groups, signedAgreements));
+          element._disableAgreements(auth2, groups, signedAgreements));
       // Not in the auto verify group, have signed agreement
       assert.isTrue(
-          element._disableAggreements(auth3, groups, signedAgreements));
+          element._disableAgreements(auth3, groups, signedAgreements));
+      // Make sure the undefined check works
+      assert.isFalse(
+          element._disableAgreements(auth, undefined, signedAgreements));
     });
 
-    test('_hideAggreements', () => {
+    test('_hideAgreements', () => {
       // Not in the auto verify group and have not yet signed agreement
       assert.equal(
-          element._hideAggreements(auth, groups, signedAgreements), '');
+          element._hideAgreements(auth, groups, signedAgreements), '');
       // In the auto verify group
       assert.equal(
-          element._hideAggreements(auth2, groups, signedAgreements), 'hide');
+          element._hideAgreements(auth2, groups, signedAgreements), 'hide');
       // Not in the auto verify group, have signed agreement
       assert.equal(
-          element._hideAggreements(auth3, groups, signedAgreements), '');
+          element._hideAgreements(auth3, groups, signedAgreements), '');
     });
 
     test('_disableAgreementsText', () => {

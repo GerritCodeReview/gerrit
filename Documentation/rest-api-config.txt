@@ -1572,6 +1572,21 @@ configuration parameter] that controls whether the mergeability bit in
 link:rest-api-changes.html#change-info[ChangeInfo] will never be set.
 |=============================
 
+[[change-index-config-info]]
+=== ChangeIndexConfigInfo
+The `ChangeIndexConfigInfo` entity contains information about Gerrit
+configuration from the link:config-gerrit.html#index.change[index.change]
+section.
+
+[options="header",cols="1,^1,5"]
+|=============================
+|Field Name           ||Description
+|`index_mergeable`        |not set if `false`|
+Value of the link:config-gerrit.html#index.change.indexMergeable[
+configuration parameter] that controls whether the mergeability bit is
+indexed (hence queryable using `is:mergeable`).
+|=============================
+
 [[check-account-external-ids-input]]
 === CheckAccountExternalIdsInput
 The `CheckAccountExternalIdsInput` entity contains input for the
@@ -1821,6 +1836,21 @@ Whether to enable the web UI for editing GPG keys.
 link:config-gerrit.html#gerrit.reportBugUrl[URL to report bugs].
 |=================================
 
+[[index-config-info]]
+=== IndexConfigInfo
+The `IndexConfigInfo` entity contains information about Gerrit
+configuration from the link:config-gerrit.html#index[index]
+section.
+
+[options="header",cols="1,^1,5"]
+|=============================
+|Field Name           ||Description
+|`change`                  ||
+Information about the configuration from the
+link:config-gerrit.html#index.change[index.change] section as
+link:#index.change[ChangeIndexConfigInfo] entity.
+|=============================
+
 [[hit-ration-info]]
 === HitRatioInfo
 The `HitRatioInfo` entity contains information about the hit ratio of a
@@ -1947,6 +1977,10 @@ information about Gerrit
 Information about the configuration from the
 link:config-gerrit.html#gerrit[gerrit] section as link:#gerrit-info[
 GerritInfo] entity.
+|`index`                  ||
+Information about the configuration from the
+link:config-gerrit.html#index[index] section as link:#index[
+IndexConfigInfo] entity.
 |`note_db_enabled`         |not set if `false`|
 Whether the NoteDb storage backend is fully enabled.
 |`plugin`                  ||

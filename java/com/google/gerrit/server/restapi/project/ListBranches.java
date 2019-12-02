@@ -147,7 +147,7 @@ public class ListBranches implements RestReadView<ProjectResource> {
       }
       return toBranchInfo(rsrc, ImmutableList.of(r)).get(0);
     } catch (RepositoryNotFoundException noRepo) {
-      throw new ResourceNotFoundException();
+      throw new ResourceNotFoundException(rsrc.getNameKey().get(), noRepo);
     }
   }
 
@@ -163,7 +163,7 @@ public class ListBranches implements RestReadView<ProjectResource> {
               .exactRef(Constants.HEAD, RefNames.REFS_CONFIG, RefNames.REFS_USERS_DEFAULT)
               .values());
     } catch (RepositoryNotFoundException noGitRepository) {
-      throw new ResourceNotFoundException();
+      throw new ResourceNotFoundException(rsrc.getNameKey().get(), noGitRepository);
     }
     return toBranchInfo(rsrc, refs);
   }

@@ -83,6 +83,7 @@ java_package_configuration(
         "-Xep:TypeParameterUnusedInFormals:WARN",
         "-Xep:URLEqualsHashCode:WARN",
         "-Xep:UnsynchronizedOverridesSynchronized:WARN",
+        "-Xep:UnusedException:ERROR",
         "-Xep:WaitNotInLoop:WARN",
     ],
     packages = ["error_prone_packages"],

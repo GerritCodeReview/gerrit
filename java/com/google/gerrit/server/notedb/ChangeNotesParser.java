@@ -926,7 +926,9 @@ class ChangeNotesParser {
     try {
       adr = Address.parse(line);
     } catch (IllegalArgumentException e) {
-      throw invalidFooter(state.getByEmailFooterKey(), line);
+      ConfigInvalidException cie = invalidFooter(state.getByEmailFooterKey(), line);
+      cie.initCause(e);
+      throw cie;
     }
     if (!reviewersByEmail.containsRow(adr)) {
       reviewersByEmail.put(adr, state, ts);

@@ -78,7 +78,7 @@ public class DeleteSubgroups implements RestModifyView<GroupResource, Input> {
     try {
       removeSubgroups(groupUuid, subgroupsToRemove);
     } catch (NoSuchGroupException e) {
-      throw new ResourceNotFoundException(String.format("Group %s not found", groupUuid));
+      throw new ResourceNotFoundException(String.format("Group %s not found", groupUuid), e);
     }
 
     return Response.none();

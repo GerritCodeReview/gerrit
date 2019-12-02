@@ -131,7 +131,7 @@ public class HtmlDomUtil {
     try {
       d = newBuilder().newDocument();
     } catch (ParserConfigurationException e) {
-      throw new IOException("Cannot clone document");
+      throw new IOException("Cannot clone document", e);
     }
     Node n = d.importNode(doc.getDocumentElement(), true);
     d.appendChild(n);

@@ -103,7 +103,7 @@ public class GetReflog implements RestReadView<BranchResource> {
       } catch (UnsupportedOperationException e) {
         String msg = "reflog not supported on repo " + rsrc.getNameKey().get();
         logger.atSevere().log(msg);
-        throw new MethodNotAllowedException(msg);
+        throw new MethodNotAllowedException(msg, e);
       }
       if (r == null) {
         throw new ResourceNotFoundException(rsrc.getRef());

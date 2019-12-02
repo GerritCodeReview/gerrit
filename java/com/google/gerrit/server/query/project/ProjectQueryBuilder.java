@@ -75,7 +75,7 @@ public class ProjectQueryBuilder extends QueryBuilder<ProjectData> {
     try {
       parsedState = ProjectState.valueOf(state.replace('-', '_').toUpperCase());
     } catch (IllegalArgumentException e) {
-      throw error("state operator must be either 'active' or 'read-only'");
+      throw error("state operator must be either 'active' or 'read-only'", e);
     }
     if (parsedState == ProjectState.HIDDEN) {
       throw error("state operator must be either 'active' or 'read-only'");

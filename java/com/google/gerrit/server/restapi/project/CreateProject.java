@@ -275,9 +275,10 @@ public class CreateProject
               + nameKey.get()
               + " because the name is already occupied by another project."
               + " The other project has the same name, only spelled in a"
-              + " different case.");
+              + " different case.",
+          e);
     } catch (RepositoryNotFoundException badName) {
-      throw new BadRequestException("invalid project name: " + nameKey);
+      throw new BadRequestException("invalid project name: " + nameKey, badName);
     } catch (ConfigInvalidException e) {
       String msg = "Cannot create " + nameKey;
       logger.atSevere().withCause(e).log(msg);

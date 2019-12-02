@@ -76,7 +76,7 @@ public class DeleteMembers implements RestModifyView<GroupResource, Input> {
     try {
       removeGroupMembers(groupUuid, membersToRemove);
     } catch (NoSuchGroupException e) {
-      throw new ResourceNotFoundException(String.format("Group %s not found", groupUuid));
+      throw new ResourceNotFoundException(String.format("Group %s not found", groupUuid), e);
     }
 
     return Response.none();

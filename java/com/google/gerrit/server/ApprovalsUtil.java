@@ -372,7 +372,7 @@ public class ApprovalsUtil {
         forChange.check(new LabelPermission.WithValue(name, value));
       } catch (AuthException e) {
         throw new AuthException(
-            String.format("applying label \"%s\": %d is restricted", name, value));
+            String.format("applying label \"%s\": %d is restricted", name, value), e);
       }
     }
   }

@@ -161,7 +161,8 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
         } catch (MergeConflictException mce) {
           // Unlike in Cherry-pick case, this should never happen.
           toMerge.setStatusCode(CommitMergeStatus.REBASE_MERGE_CONFLICT);
-          throw new IllegalStateException("MergeConflictException on message edit must not happen");
+          throw new IllegalStateException(
+              "MergeConflictException on message edit must not happen", mce);
         } catch (MergeIdenticalTreeException mie) {
           // this should not happen
           toMerge.setStatusCode(SKIPPED_IDENTICAL_TREE);

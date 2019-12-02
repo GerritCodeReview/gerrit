@@ -126,9 +126,9 @@ public final class SuExec extends BaseCommand {
       try {
         permissionBackend.user(caller).check(GlobalPermission.RUN_AS);
       } catch (AuthException e) {
-        throw die("suexec not permitted");
+        throw die("suexec not permitted", e);
       } catch (PermissionBackendException e) {
-        throw die("suexec not available: " + e);
+        throw die("suexec not available", e);
       }
     }
   }

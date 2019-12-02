@@ -125,7 +125,7 @@ public class CreateBranch
         try {
           object = rw.parseCommit(object);
         } catch (IncorrectObjectTypeException notCommit) {
-          throw new BadRequestException("\"" + input.revision + "\" not a commit");
+          throw new BadRequestException("\"" + input.revision + "\" not a commit", notCommit);
         }
       }
 
@@ -198,7 +198,7 @@ public class CreateBranch
         throw err;
       }
     } catch (RefUtil.InvalidRevisionException e) {
-      throw new BadRequestException("invalid revision \"" + input.revision + "\"");
+      throw new BadRequestException("invalid revision \"" + input.revision + "\"", e);
     }
   }
 }

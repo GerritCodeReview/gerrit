@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "4d43c5d7_e33c4880",
+        "filename": "polygerrit-ui/app/rules.bzl",
+        "patchSetId": 6
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-12-02T13:59:12Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "64749e16_58e38ca9",
+      "range": {
+        "startLine": 106,
+        "startChar": 132,
+        "endLine": 106,
+        "endChar": 133
+      },
+      "revId": "1479e078b55be8e69d643df3df5766bf9d963da9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2dccb8c2_5b6681d8",
         "filename": "polygerrit-ui/app/rules.bzl",
         "patchSetId": 6
@@ -45,6 +69,30 @@
       "revId": "1479e078b55be8e69d643df3df5766bf9d963da9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f81e59cb_c1c3f514",
+        "filename": "polygerrit-ui/app/rules.bzl",
+        "patchSetId": 6
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-12-02T13:59:12Z",
+      "side": 1,
+      "message": "Thanks, done.\n\n(Confirmed that the war contains the ttf files for both roboto and robotomono)",
+      "parentUuid": "2dccb8c2_5b6681d8",
+      "range": {
+        "startLine": 107,
+        "startChar": 12,
+        "endLine": 107,
+        "endChar": 142
+      },
+      "revId": "1479e078b55be8e69d643df3df5766bf9d963da9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

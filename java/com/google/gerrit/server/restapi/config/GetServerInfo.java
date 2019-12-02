@@ -26,6 +26,7 @@ import com.google.gerrit.extensions.common.ChangeConfigInfo;
 import com.google.gerrit.extensions.common.DownloadInfo;
 import com.google.gerrit.extensions.common.DownloadSchemeInfo;
 import com.google.gerrit.extensions.common.GerritInfo;
+import com.google.gerrit.extensions.common.IndexConfigInfo;
 import com.google.gerrit.extensions.common.PluginConfigInfo;
 import com.google.gerrit.extensions.common.ReceiveInfo;
 import com.google.gerrit.extensions.common.ServerInfo;
@@ -141,6 +142,7 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     info.change = getChangeInfo();
     info.download = getDownloadInfo();
     info.gerrit = getGerritInfo();
+    info.index = getIndexInfo();
     info.noteDbEnabled = true;
     info.plugin = getPluginInfo();
     info.defaultTheme = getDefaultTheme();
@@ -293,6 +295,12 @@ public class GetServerInfo implements RestReadView<ConfigResource> {
     info.editGpgKeys =
         toBoolean(enableSignedPush && config.getBoolean("gerrit", null, "editGpgKeys", true));
     info.primaryWeblinkName = config.getString("gerrit", null, "primaryWeblinkName");
+    return info;
+  }
+
+  private IndexConfigInfo getIndexInfo() {
+    IndexConfigInfo info = new IndexConfigInfo();
+    info.indexMergeable = toBoolean(config.getBoolean("index", "change", "indexMergeable", true));
     return info;
   }
 

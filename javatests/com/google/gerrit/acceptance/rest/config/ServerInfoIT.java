@@ -180,6 +180,9 @@ public class ServerInfoIT extends AbstractDaemonTest {
     assertThat(i.gerrit.allUsers).isEqualTo(AllUsersNameProvider.DEFAULT);
     assertThat(i.gerrit.reportBugUrl).isNull();
 
+    // index
+    assertThat(i.index.indexMergeable).isNull(); // false in all tests
+
     // plugin
     assertThat(i.plugin.jsResourcePaths).isEmpty();
 
@@ -205,5 +208,12 @@ public class ServerInfoIT extends AbstractDaemonTest {
   public void serverConfigWithExcludeMergeableInChangeInfo() throws Exception {
     ServerInfo i = gApi.config().server().getInfo();
     assertThat(i.change.excludeMergeableInChangeInfo).isTrue();
+  }
+
+  @Test
+  @GerritConfig(name = "index.change.indexMergeable", value = "true")
+  public void indexMergeableIsTrueWhenTrueInConfig() throws Exception {
+    ServerInfo i = gApi.config().server().getInfo();
+    assertThat(i.index.indexMergeable).isTrue();
   }
 }

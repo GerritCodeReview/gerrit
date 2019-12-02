@@ -150,6 +150,9 @@ limitations under the License.
       // Not in the auto verify group, have signed agreement
       assert.isTrue(
           element._disableAgreements(auth3, groups, signedAgreements));
+      // Make sure the undefined check works
+      assert.isFalse(
+          element._disableAgreements(auth, undefined, signedAgreements));
     });
 
     test('_hideAgreements', () => {

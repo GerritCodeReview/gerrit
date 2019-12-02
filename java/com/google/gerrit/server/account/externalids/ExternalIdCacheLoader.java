@@ -71,6 +71,7 @@ public class ExternalIdCacheLoader extends CacheLoader<ObjectId, AllExternalIds>
   private final Counter1<Boolean> reloadCounter;
   private final Timer0 reloadDifferential;
   private final boolean enablePartialReloads;
+  private final boolean isPersistentCache;
 
   @Inject
   ExternalIdCacheLoader(
@@ -101,6 +102,8 @@ public class ExternalIdCacheLoader extends CacheLoader<ObjectId, AllExternalIds>
                 .setUnit(Units.MILLISECONDS));
     this.enablePartialReloads =
         config.getBoolean("cache", ExternalIdCacheImpl.CACHE_NAME, "enablePartialReloads", true);
+    this.isPersistentCache =
+        config.getInt("cache", ExternalIdCacheImpl.CACHE_NAME, "diskLimit", 0) > 0;
   }
 
   @Override
@@ -156,8 +159,11 @@ public class ExternalIdCacheLoader extends CacheLoader<ObjectId, AllExternalIds>
         }
       }
       if (oldExternalIds == null) {
-        logger.atWarning().log(
-            "Unable to find an old ExternalId cache state, falling back to full reload");
+        if (isPersistentCache) {
+          // If there is no persistence, this is normal. Don't upset admins reading the logs.
+          logger.atWarning().log(
+              "Unable to find an old ExternalId cache state, falling back to full reload");
+        }
         return reloadAllExternalIds(notesRev);
       }
 

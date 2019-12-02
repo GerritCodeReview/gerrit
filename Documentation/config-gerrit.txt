@@ -4529,7 +4529,15 @@ If the number of threads requested for non-interactive users is larger
 than the total number of threads allocated in sshd.threads, then the
 value of sshd.threads is increased to accommodate the requested value.
 +
-By default is 1 on single core node, 2 otherwise.
+In recent times, usually one or two non-interactive users cannot meet
+the needs of complex Gerrit code services (for example, multiple repositories
+are hosted on Gerrit and they use different CI / CD tools). So `ssh.batchThreads`
+should not be set too small to prevent users from being confused by the hanging
+timeout failures with huge size repository for this reason. If you need to
+explicitly limit the number of threads for non-interactive users, you can
+reduce this configuration according to the actual scenario.
++
+By default is 1 on single core node, 0 otherwise.
 +
 [NOTE]
 When SSH daemon is enabled then this setting also defines the max number of

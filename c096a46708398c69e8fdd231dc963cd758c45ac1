@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "b05d3b4c_000fdccd",
+        "filename": "java/com/google/gerrit/server/restapi/account/GetAgreements.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-12-02T14:28:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f4a04b7a_eea1dc8c",
+      "range": {
+        "startLine": 84,
+        "startChar": 31,
+        "endLine": 84,
+        "endChar": 57
+      },
+      "revId": "c096a46708398c69e8fdd231dc963cd758c45ac1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6df29b5b_b47b42db",
         "filename": "java/com/google/gerrit/server/restapi/account/GetAgreements.java",
         "patchSetId": 1
@@ -179,6 +203,30 @@
       "side": 1,
       "message": "I\u0027ve enabled this warning locally on stable-2.16 and found that there are numerous places in the code where it is triggered. I think it will be a lot of work to fix them all.  Do you have it at WARN rather than ERROR internally, or have you already fixed/suppressed the existing instances?\n\nBTW in [1] I was trying to enable many more additional checks, but it turned out that they are not available in the version of error-prone that is currently embedded in bazel.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/235098",
       "parentUuid": "aae72b69_d2e99b36",
+      "range": {
+        "startLine": 85,
+        "startChar": 14,
+        "endLine": 85,
+        "endChar": 76
+      },
+      "revId": "c096a46708398c69e8fdd231dc963cd758c45ac1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2aec12f3_069725aa",
+        "filename": "java/com/google/gerrit/server/restapi/account/GetAgreements.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-12-02T14:28:39Z",
+      "side": 1,
+      "message": "If I don\u0027t catch PBE, can I just let AuthExc propagate too?",
+      "parentUuid": "e8c076ff_189ef3ca",
       "range": {
         "startLine": 85,
         "startChar": 14,

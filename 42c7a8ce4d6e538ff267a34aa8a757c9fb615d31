@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "32ccc9e0_ac2aedaf",
+        "filename": "e2e-tests/load-tests/Dockerfile",
+        "patchSetId": 6
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-12-02T08:28:24Z",
+      "side": 1,
+      "message": "nit: Why not use the COPY command to copy it directly into the new home directory? You will still need to chown it though. If you just copy a single file, you may even use the --chown option of COPY.",
+      "revId": "42c7a8ce4d6e538ff267a34aa8a757c9fb615d31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -122,7 +122,7 @@ public abstract class NotificationEmail extends OutgoingEmail {
     soyContext.put("branch", branchData);
 
     footers.add(MailHeader.PROJECT.withDelimiter() + branch.project().get());
-    footers.add("Gerrit-Branch: " + branch.shortName());
+    footers.add(MailHeader.BRANCH.withDelimiter() + branch.shortName());
   }
 
   @VisibleForTesting

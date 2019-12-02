@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "06b61019_7278a511",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1092510
+      },
+      "writtenOn": "2019-12-02T13:19:30Z",
+      "side": 1,
+      "message": "This is BlastuR from IRC. I\u0027m the user who filed the bug with Paladox originally.\n\nAs paladox quotes above, our issue is that we use Gerrit in an airgrapped environment and the pages will not load if there are references to googleapis.com (or any external site). It just stops mid-way while waiting for googleapis.com to timeout (which will take a very long time!)\n\nThe only way I can make Gerrit 3.1.0 load at the moment is by blocking all access to Googleapis.com in Chrome browser.\n\nI did not realize this would become a performance issue, we are just a small team of about 50 developers.\n\nIf possible, could this be configurable? We would gladly pay the performance penalty if the sites load at all 😊",
+      "parentUuid": "1985ec46_a30dec15",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 27
+      },
+      "revId": "c12ed4a869a03f2ca02b76b304a5b5688c997a84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "cb231133_d5b4cf5c",
         "filename": "lib/js/bower_archives.bzl",
         "patchSetId": 7

@@ -198,10 +198,9 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
       return NO_OP_UPDATE;
     }
 
-    // If we touched every revision and there are no comments left, tell the
+    // If there are no comments left, tell the
     // caller to delete the entire ref.
-    boolean touchedAllRevs = updatedRevs.equals(rnm.revisionNotes.keySet());
-    if (touchedAllRevs && !hasComments) {
+    if (!rnm.noteMap.iterator().hasNext()) {
       return null;
     }
 

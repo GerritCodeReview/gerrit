@@ -197,12 +197,12 @@ public abstract class OutgoingEmail {
         }
       }
 
-      Set<Address> intersection = Sets.intersection(smtpRcptTo, smtpRcptToPlaintextOnly);
+      Set<Address> intersection = Sets.intersection(va.smtpRcptTo, smtpRcptToPlaintextOnly);
       if (!intersection.isEmpty()) {
         logger.atSevere().log("Email '%s' will be sent twice to %s", messageClass, intersection);
       }
 
-      if (!smtpRcptTo.isEmpty()) {
+      if (!va.smtpRcptTo.isEmpty()) {
         // Send multipart message
         logger.atFine().log("Sending multipart '%s'", messageClass);
         args.emailSender.send(va.smtpFromAddress, va.smtpRcptTo, va.headers, va.body, va.htmlBody);

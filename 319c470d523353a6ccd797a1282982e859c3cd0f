@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "833585ea_6d2ea4f3",
+        "filename": "java/com/google/gerrit/server/notedb/LimitExceededException.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-12-02T07:18:20Z",
+      "side": 1,
+      "message": "Missing license/copyright header.",
+      "revId": "319c470d523353a6ccd797a1282982e859c3cd0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c6f43a71_1c5ddfb3",
         "filename": "java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
         "patchSetId": 7
@@ -13,6 +30,24 @@
       "writtenOn": "2019-11-29T14:08:19Z",
       "side": 1,
       "message": "Do we need to announce this before merging it? Was the maxUpdates change announced?\n\nIMHO, given that only 8 changes exceeded this so far, I\u0027d say it\u0027s sufficient to announce it to chrome (who own all 8).",
+      "revId": "319c470d523353a6ccd797a1282982e859c3cd0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7ce80b4e_c36d6b63",
+        "filename": "java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-12-02T07:18:20Z",
+      "side": 1,
+      "message": "It can be added to the release notes for 3.2.",
+      "parentUuid": "c6f43a71_1c5ddfb3",
       "revId": "319c470d523353a6ccd797a1282982e859c3cd0f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

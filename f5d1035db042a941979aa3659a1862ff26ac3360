@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "74a24c91_e9b275c4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-12-02T08:40:46Z",
+      "side": 1,
+      "message": "a bit late :) but maybe update the commit message as well if its out of sync with the code :)",
+      "revId": "f5d1035db042a941979aa3659a1862ff26ac3360",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

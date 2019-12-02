@@ -1821,6 +1821,21 @@ Whether to enable the web UI for editing GPG keys.
 link:config-gerrit.html#gerrit.reportBugUrl[URL to report bugs].
 |=================================
 
+[[index-config-info]]
+=== IndexConfigInfo
+The `IndexConfigInfo` entity contains information about Gerrit
+configuration from the link:config-gerrit.html#index[index]
+section.
+
+[options="header",cols="1,^1,5"]
+|=============================
+|Field Name           ||Description
+|`index_mergeable`        |not set if `false`|
+Value of the link:config-gerrit.html#index.change.indexMergeable[
+configuration parameter] that controls whether the mergeability bit is
+indexed (hence queryable using `is:mergeable`).
+|=============================
+
 [[hit-ration-info]]
 === HitRatioInfo
 The `HitRatioInfo` entity contains information about the hit ratio of a

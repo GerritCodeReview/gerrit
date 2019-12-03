@@ -14,4 +14,5 @@
 
 package com.google.gerrit.extensions.common;
 
+/** API response containing values from the {@code sshd} section of {@code gerrit.config}. */
 public class SshdInfo {}

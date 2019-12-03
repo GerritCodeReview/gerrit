@@ -14,6 +14,7 @@
 
 package com.google.gerrit.extensions.common;
 
+/** API response containing values from {@code gerrit.config} as nested objects. */
 public class ServerInfo {
   public AccountsInfo accounts;
   public AuthInfo auth;

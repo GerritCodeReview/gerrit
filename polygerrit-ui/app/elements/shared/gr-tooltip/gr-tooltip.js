@@ -14,32 +14,37 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-(function() {
-  'use strict';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
+import {PolymerElement} from '@polymer/polymer/polymer-element.js';
+import {template} from "./gr-tooltip.html.js";
 
-  class GrTooltip extends Polymer.GestureEventListeners(
-      Polymer.LegacyElementMixin(
-          Polymer.Element)) {
-    static get is() { return 'gr-tooltip'; }
+class GrTooltip extends GestureEventListeners(
+    LegacyElementMixin(
+        PolymerElement)) {
+  static get is() { return 'gr-tooltip'; }
 
-    static get properties() {
-      return {
-        text: String,
-        maxWidth: {
-          type: String,
-          observer: '_updateWidth',
-        },
-        positionBelow: {
-          type: Boolean,
-          reflectToAttribute: true,
-        },
-      };
-    }
-
-    _updateWidth(maxWidth) {
-      this.updateStyles({'--tooltip-max-width': maxWidth});
-    }
+  static get properties() {
+    return {
+      text: String,
+      maxWidth: {
+        type: String,
+        observer: '_updateWidth',
+      },
+      positionBelow: {
+        type: Boolean,
+        reflectToAttribute: true,
+      },
+    };
   }
 
-  customElements.define(GrTooltip.is, GrTooltip);
-})();
+  static get template() {
+    return template;
+  }
+
+  _updateWidth(maxWidth) {
+    this.updateStyles({'--tooltip-max-width': maxWidth});
+  }
+}
+
+customElements.define(GrTooltip.is, GrTooltip);

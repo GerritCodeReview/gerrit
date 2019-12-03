@@ -60,6 +60,24 @@
     },
     {
       "key": {
+        "uuid": "8ef553cc_a207b64a",
+        "filename": "java/com/google/gerrit/httpd/NumericChangeIdRedirectServlet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-12-03T08:52:04Z",
+      "side": 1,
+      "message": "Marking as resolved.",
+      "parentUuid": "558e1a86_811965fc",
+      "revId": "c42b05cf7fbf7059c5df3be83f72777ea0d18ea5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9ec41ec6_0c6e0502",
         "filename": "java/com/google/gerrit/server/restapi/change/CreateChange.java",
         "patchSetId": 2

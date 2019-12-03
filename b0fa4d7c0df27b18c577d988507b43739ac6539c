@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "955cb5b2_17c9a3a3",
+        "filename": "java/com/google/gerrit/exceptions/InvalidMergeStrategyException.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-12-03T23:20:27Z",
+      "side": 1,
+      "message": "It can be a RuntimeException, but that\u0027s an unchecked exception and the compiler will not tell you when you write code that can potentially result in it being thrown. This would be consistent with how it was before, but I think having a checked exception is an improvement.",
+      "parentUuid": "fc45feae_011bed8f",
+      "range": {
+        "startLine": 19,
+        "startChar": 43,
+        "endLine": 19,
+        "endChar": 62
+      },
+      "revId": "b0fa4d7c0df27b18c577d988507b43739ac6539c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "feb854c2_2a47e952",
         "filename": "java/com/google/gerrit/server/restapi/change/CreateChange.java",
         "patchSetId": 2

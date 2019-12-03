@@ -16,6 +16,24 @@
       "revId": "42c7a8ce4d6e538ff267a34aa8a757c9fb615d31",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "57972c25_a503f49b",
+        "filename": "e2e-tests/load-tests/Dockerfile",
+        "patchSetId": 6
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1054778
+      },
+      "writtenOn": "2019-12-03T03:40:23Z",
+      "side": 1,
+      "message": "I thought about that, but since I need to copy multiple files and then \"chown\" them I thought it would have been better to keep the 2 commands in a single layer. Unless you are strong about that I\u0027d leave it as it is. WDYT?",
+      "parentUuid": "32ccc9e0_ac2aedaf",
+      "revId": "42c7a8ce4d6e538ff267a34aa8a757c9fb615d31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

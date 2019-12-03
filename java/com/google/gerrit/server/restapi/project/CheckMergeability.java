@@ -27,6 +27,7 @@ import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.project.BranchResource;
 import com.google.inject.Inject;
 import java.io.IOException;
+import java.util.Optional;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.Ref;
@@ -89,7 +90,10 @@ public class CheckMergeability implements RestReadView<BranchResource> {
     try (Repository git = gitManager.openRepository(resource.getNameKey());
         RevWalk rw = new RevWalk(git);
         ObjectInserter inserter = new InMemoryInserter(git)) {
-      Merger m = MergeUtil.newMerger(inserter, git.getConfig(), strategy);
+      Optional<Merger> maybeMerger = MergeUtil.newMerger(inserter, git.getConfig(), strategy);
+      if (!maybeMerger.isPresent()) {
+        throw new BadRequestException("invalid merge strategy: " + strategy);
+      }
 
       Ref destRef = git.getRefDatabase().exactRef(resource.getRef());
       if (destRef == null) {
@@ -110,6 +114,7 @@ public class CheckMergeability implements RestReadView<BranchResource> {
         return Response.ok(result);
       }
 
+      Merger m = maybeMerger.get();
       if (m.merge(false, targetCommit, sourceCommit)) {
         result.mergeable = true;
         result.commitMerged = false;
@@ -120,8 +125,6 @@ public class CheckMergeability implements RestReadView<BranchResource> {
           result.conflicts = ((ResolveMerger) m).getUnmergedPaths();
         }
       }
-    } catch (IllegalArgumentException e) {
-      throw new BadRequestException(e.getMessage());
     }
     return Response.ok(result);
   }

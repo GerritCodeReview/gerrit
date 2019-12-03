@@ -439,7 +439,9 @@ public class MergeUtil {
           "'" + originalCommit.getName() + "' has already been merged");
     }
 
-    Merger m = newMerger(inserter, repoConfig, mergeStrategy);
+    Optional<Merger> maybeMerger = newMerger(inserter, repoConfig, mergeStrategy);
+    checkArgument(maybeMerger.isPresent());
+    Merger m = maybeMerger.get();
     if (m.merge(false, mergeTip, originalCommit)) {
       ObjectId tree = m.getResultTreeId();
 
@@ -891,31 +893,36 @@ public class MergeUtil {
 
   public static ThreeWayMerger newThreeWayMerger(
       ObjectInserter inserter, Config repoConfig, String strategyName) {
-    Merger m = newMerger(inserter, repoConfig, strategyName);
+    Optional<Merger> m = newMerger(inserter, repoConfig, strategyName);
     checkArgument(
-        m instanceof ThreeWayMerger,
+        m.isPresent() && m.get() instanceof ThreeWayMerger,
         "merge strategy %s does not support three-way merging",
         strategyName);
-    return (ThreeWayMerger) m;
+    return (ThreeWayMerger) m.get();
   }
 
-  public static Merger newMerger(ObjectInserter inserter, Config repoConfig, String strategyName) {
+  public static Optional<Merger> newMerger(
+      ObjectInserter inserter, Config repoConfig, String strategyName) {
     MergeStrategy strategy = MergeStrategy.get(strategyName);
-    checkArgument(strategy != null, "invalid merge strategy: %s", strategyName);
-    return strategy.newMerger(
-        new ObjectInserter.Filter() {
-          @Override
-          protected ObjectInserter delegate() {
-            return inserter;
-          }
+    if (strategy == null) {
+      logger.atSevere().log("invalid merge strategy: %s", strategyName);
+      return Optional.empty();
+    }
+    return Optional.of(
+        strategy.newMerger(
+            new ObjectInserter.Filter() {
+              @Override
+              protected ObjectInserter delegate() {
+                return inserter;
+              }
 
-          @Override
-          public void flush() {}
+              @Override
+              public void flush() {}
 
-          @Override
-          public void close() {}
-        },
-        repoConfig);
+              @Override
+              public void close() {}
+            },
+            repoConfig));
   }
 
   public void markCleanMerges(

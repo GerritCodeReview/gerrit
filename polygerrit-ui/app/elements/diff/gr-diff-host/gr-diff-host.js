@@ -301,7 +301,7 @@
       const layers = [this.$.syntaxLayer];
       // Get layers from plugins (if any).
       for (const pluginLayer of this.$.jsAPI.getDiffLayers(
-          this.diffPath, this.changeNum, this.patchNum)) {
+          this.path, this.changeNum, this.patchNum)) {
         layers.push(pluginLayer);
       }
       this._layers = layers;
@@ -313,7 +313,9 @@
 
       this._coverageRanges = [];
       const {changeNum, path, patchRange: {basePatchNum, patchNum}} = this;
-      this.$.jsAPI.getCoverageRanges(changeNum, path, basePatchNum, patchNum).
+      this.$.jsAPI.getCoverageRanges(
+          changeNum, path, basePatchNum, patchNum
+      ).
           then(coverageRanges => {
             if (changeNum !== this.changeNum ||
                 path !== this.path ||
@@ -344,6 +346,8 @@
         return this._loadDiffAssets(diff);
       });
 
+      // Not waiting for getCoverageRanges intentionally as
+      // plugin loading should not block the content rendering
       return Promise.all([diffRequest, assetRequest])
           .then(results => {
             const diff = results[0];

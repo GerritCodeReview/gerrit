@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.restapi.project;
 
+import com.google.gerrit.exceptions.InvalidMergeStrategyException;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.MergeableInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -120,7 +121,7 @@ public class CheckMergeability implements RestReadView<BranchResource> {
           result.conflicts = ((ResolveMerger) m).getUnmergedPaths();
         }
       }
-    } catch (IllegalArgumentException e) {
+    } catch (InvalidMergeStrategyException e) {
       throw new BadRequestException(e.getMessage());
     }
     return Response.ok(result);

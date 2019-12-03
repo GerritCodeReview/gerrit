@@ -40,6 +40,7 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetApproval;
+import com.google.gerrit.exceptions.InvalidMergeStrategyException;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.registration.DynamicSet;
@@ -265,7 +266,8 @@ public class MergeUtil {
       boolean ignoreIdenticalTree,
       boolean allowConflicts)
       throws MissingObjectException, IncorrectObjectTypeException, IOException,
-          MergeIdenticalTreeException, MergeConflictException, MethodNotAllowedException {
+          MergeIdenticalTreeException, MergeConflictException, MethodNotAllowedException,
+          InvalidMergeStrategyException {
 
     ThreeWayMerger m = newThreeWayMerger(inserter, repoConfig);
     m.setBase(originalCommit.getParent(parentIndex));
@@ -431,7 +433,8 @@ public class MergeUtil {
       PersonIdent committerIndent,
       String commitMsg,
       RevWalk rw)
-      throws IOException, MergeIdenticalTreeException, MergeConflictException {
+      throws IOException, MergeIdenticalTreeException, MergeConflictException,
+          InvalidMergeStrategyException {
 
     if (!MergeStrategy.THEIRS.getName().equals(mergeStrategy)
         && rw.isMergedInto(originalCommit, mergeTip)) {
@@ -745,7 +748,7 @@ public class MergeUtil {
       BranchNameKey destBranch,
       CodeReviewCommit mergeTip,
       CodeReviewCommit n)
-      throws IntegrationException {
+      throws IntegrationException, InvalidMergeStrategyException {
     ThreeWayMerger m = newThreeWayMerger(inserter, repoConfig);
     try {
       if (m.merge(mergeTip, n)) {
@@ -867,7 +870,8 @@ public class MergeUtil {
         .collect(joining(",", "Merge changes ", merged.size() > 5 ? ", ..." : ""));
   }
 
-  public ThreeWayMerger newThreeWayMerger(ObjectInserter inserter, Config repoConfig) {
+  public ThreeWayMerger newThreeWayMerger(ObjectInserter inserter, Config repoConfig)
+      throws InvalidMergeStrategyException {
     return newThreeWayMerger(inserter, repoConfig, mergeStrategyName());
   }
 
@@ -891,7 +895,8 @@ public class MergeUtil {
   }
 
   public static ThreeWayMerger newThreeWayMerger(
-      ObjectInserter inserter, Config repoConfig, String strategyName) {
+      ObjectInserter inserter, Config repoConfig, String strategyName)
+      throws InvalidMergeStrategyException {
     Merger m = newMerger(inserter, repoConfig, strategyName);
     checkArgument(
         m instanceof ThreeWayMerger,
@@ -900,9 +905,12 @@ public class MergeUtil {
     return (ThreeWayMerger) m;
   }
 
-  public static Merger newMerger(ObjectInserter inserter, Config repoConfig, String strategyName) {
+  public static Merger newMerger(ObjectInserter inserter, Config repoConfig, String strategyName)
+      throws InvalidMergeStrategyException {
     MergeStrategy strategy = MergeStrategy.get(strategyName);
-    checkArgument(strategy != null, "invalid merge strategy: %s", strategyName);
+    if (strategy == null) {
+      throw new InvalidMergeStrategyException(strategyName);
+    }
     return strategy.newMerger(
         new ObjectInserter.Filter() {
           @Override

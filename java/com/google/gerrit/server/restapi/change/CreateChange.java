@@ -27,6 +27,7 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
+import com.google.gerrit.exceptions.InvalidMergeStrategyException;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.SubmitType;
@@ -342,8 +343,8 @@ public class CreateChange
         bu.execute();
       }
       return ins.getChange();
-    } catch (IllegalArgumentException e) {
-      throw new BadRequestException(e.getMessage(), e);
+    } catch (InvalidMergeStrategyException e) {
+      throw new BadRequestException(e.getMessage());
     }
   }
 

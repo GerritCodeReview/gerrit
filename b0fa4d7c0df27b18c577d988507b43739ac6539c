@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "30c03c49_12098adb",
+        "filename": "java/com/google/gerrit/exceptions/InvalidMergeStrategyException.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-12-03T11:42:01Z",
+      "side": 1,
+      "message": "Making it an IOException means it gets caught by existing catch blocks for IOException.  Previously an IllegalArgumentException was being thrown, which is an unchecked exception and thus was not caught by those but somewhere at the top level handling.",
+      "parentUuid": "8960ad3c_356b88cf",
+      "range": {
+        "startLine": 19,
+        "startChar": 43,
+        "endLine": 19,
+        "endChar": 62
+      },
+      "revId": "b0fa4d7c0df27b18c577d988507b43739ac6539c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "feb854c2_2a47e952",
         "filename": "java/com/google/gerrit/server/restapi/change/CreateChange.java",
         "patchSetId": 2
@@ -45,6 +69,30 @@
       "revId": "b0fa4d7c0df27b18c577d988507b43739ac6539c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "717b646b_6ad1916b",
+        "filename": "java/com/google/gerrit/server/restapi/change/CreateChange.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 524,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-12-03T11:42:01Z",
+      "side": 1,
+      "message": "It looks like the whole change here is not needed.  The InvalidMergeStrategyException gets caught at L343 and translated into a BadRequestException.",
+      "parentUuid": "feb854c2_2a47e952",
+      "range": {
+        "startLine": 514,
+        "startChar": 4,
+        "endLine": 524,
+        "endChar": 5
+      },
+      "revId": "b0fa4d7c0df27b18c577d988507b43739ac6539c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

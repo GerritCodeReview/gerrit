@@ -2,6 +2,75 @@
   "comments": [
     {
       "key": {
+        "uuid": "373a8a8f_b95fa774",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-12-03T12:59:20Z",
+      "side": 1,
+      "message": "Is there maybe a way to tell those analyzers that those methods serve as null checks, too, or to ignore them for those checks? Do those analyzers maybe work with Preconditions#checkNotNull (which would be much better due to consistency reasons)? Or would it be possible to rather rely on annotations like @Nullable.",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 25
+      },
+      "revId": "c42b05cf7fbf7059c5df3be83f72777ea0d18ea5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cc2d49a7_9b117c49",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-12-03T12:59:20Z",
+      "side": 1,
+      "message": "It introduces two behavior changes. IllegalArgumentException and IllegalStateException are both replaced with NullPointerException. Replacing IllegalArgumentException with NullPointerException for non-null method parameters would be in line with recommendations from Effective Java and it also follows practices of the JDK itself. So, that behavior change should be fine. On the other hand, IllegalStateException expresses another intent. It expresses that an invariant of an object was violated and that the method might not be called at this point if time. By switching to NullPointerException also for that case, we lose this important detail. I don\u0027t think that an exception message can properly convey it and it also goes against regular Java practices.",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 41
+      },
+      "revId": "c42b05cf7fbf7059c5df3be83f72777ea0d18ea5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a31ad4c4_e6dc07fd",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/account/TestSshKeys.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-12-03T12:59:20Z",
+      "side": 1,
+      "message": "This also surfaces another issue: Precondition checks will be inconsistent regarding their syntax, thrown exceptions, and base classes (Preconditions, Objects). Developers will need to remember which of them will be used for which case and they might easily get it wrong.",
+      "range": {
+        "startLine": 57,
+        "startChar": 4,
+        "endLine": 58,
+        "endChar": 19
+      },
+      "revId": "c42b05cf7fbf7059c5df3be83f72777ea0d18ea5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3ae2ba2d_32c0d367",
         "filename": "java/com/google/gerrit/acceptance/testsuite/account/TestSshKeys.java",
         "patchSetId": 2

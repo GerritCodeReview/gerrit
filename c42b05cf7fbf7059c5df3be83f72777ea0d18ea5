@@ -91,6 +91,24 @@
       "revId": "c42b05cf7fbf7059c5df3be83f72777ea0d18ea5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c5d785a9_a06e89c0",
+        "filename": "java/com/google/gerrit/server/restapi/project/CheckMergeability.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-12-03T08:51:41Z",
+      "side": 1,
+      "message": "Done in https://gerrit-review.googlesource.com/c/gerrit/+/247376",
+      "parentUuid": "096a867f_19f4a896",
+      "revId": "c42b05cf7fbf7059c5df3be83f72777ea0d18ea5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

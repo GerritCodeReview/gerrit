@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5beb6508_a3b89738",
+        "filename": "java/com/google/gerrit/server/permissions/DefaultRefFilter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 382,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-12-03T11:28:47Z",
+      "side": 1,
+      "message": "Why not just:\n\n collect(toList())\n\n?",
+      "range": {
+        "startLine": 382,
+        "startChar": 19,
+        "endLine": 382,
+        "endChar": 71
+      },
+      "revId": "9a075ed67392c296bd785f80a4c3b2d01bfc7745",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "136121c0_60f886a1",
+        "filename": "java/com/google/gerrit/server/permissions/DefaultRefFilter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 392,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-12-03T11:28:47Z",
+      "side": 1,
+      "message": "same here",
+      "range": {
+        "startLine": 392,
+        "startChar": 11,
+        "endLine": 392,
+        "endChar": 69
+      },
+      "revId": "9a075ed67392c296bd785f80a4c3b2d01bfc7745",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

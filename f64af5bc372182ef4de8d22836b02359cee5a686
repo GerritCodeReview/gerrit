@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7b861e2b_b1f1da25",
+        "filename": "java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-12-03T08:58:04Z",
+      "side": 1,
+      "message": "This comment only applies to googlesource.com, please remove.",
+      "range": {
+        "startLine": 70,
+        "startChar": 0,
+        "endLine": 70,
+        "endChar": 79
+      },
+      "revId": "f64af5bc372182ef4de8d22836b02359cee5a686",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a413ea12_1e4962e7",
+        "filename": "java/com/google/gerrit/server/notedb/OpenRepo.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-12-03T08:58:04Z",
+      "side": 1,
+      "message": "Why do we need patchSetCount? It looks like we would always just populate that with update.psId which is also directly available to the if condition in the next line.",
+      "range": {
+        "startLine": 162,
+        "startChar": 8,
+        "endLine": 162,
+        "endChar": 69
+      },
+      "revId": "f64af5bc372182ef4de8d22836b02359cee5a686",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

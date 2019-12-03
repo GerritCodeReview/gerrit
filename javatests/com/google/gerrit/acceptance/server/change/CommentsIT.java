@@ -291,8 +291,6 @@ public class CommentsIT extends AbstractDaemonTest {
 
   @Test
   public void postCommentsUnreachableData() throws Exception {
-    setApiUser(admin);
-
     String file = "file";
     PushOneCommit push =
         pushFactory.create(db, admin.getIdent(), testRepo, "first subject", file, "l1\nl2\n");

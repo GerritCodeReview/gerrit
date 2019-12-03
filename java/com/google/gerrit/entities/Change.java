@@ -26,6 +26,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.sql.Timestamp;
 import java.util.Arrays;
+import java.util.Optional;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
@@ -116,11 +117,28 @@ public final class Change {
 
   @AutoValue
   public abstract static class Id {
-    /** Parse a Change.Id out of a string representation. */
+    /**
+     * Parse a Change.Id out of a string representation.
+     *
+     * @deprecated use {@link #tryParse(String)} instead.
+     */
+    @Deprecated
     public static Id parse(String str) {
       Integer id = Ints.tryParse(str);
       checkArgument(id != null, "invalid change ID: %s", str);
       return Change.id(id);
+    }
+
+    /**
+     * Parse a Change.Id out of a string representation.
+     *
+     * @param str the string to parse
+     * @return Optional containing the Change.Id, or {@code Optional.empty()} if str does not
+     *     represent a valid Change.Id.
+     */
+    public static Optional<Id> tryParse(String str) {
+      Integer id = Ints.tryParse(str);
+      return id != null ? Optional.of(Change.id(id)) : Optional.empty();
     }
 
     public static Id fromRef(String ref) {

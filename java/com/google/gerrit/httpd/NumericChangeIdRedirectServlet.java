@@ -24,6 +24,7 @@ import com.google.gerrit.server.restapi.change.ChangesCollection;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import java.util.Optional;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -46,17 +47,15 @@ public class NumericChangeIdRedirectServlet extends HttpServlet {
     if (idString.endsWith("/")) {
       idString = idString.substring(0, idString.length() - 1);
     }
-    Change.Id id;
-    try {
-      id = Change.Id.parse(idString);
-    } catch (IllegalArgumentException e) {
+    Optional<Change.Id> id = Change.Id.tryParse(idString);
+    if (!id.isPresent()) {
       rsp.sendError(HttpServletResponse.SC_NOT_FOUND);
       return;
     }
 
     ChangeResource changeResource;
     try {
-      changeResource = changesCollection.parse(id);
+      changeResource = changesCollection.parse(id.get());
     } catch (ResourceConflictException | ResourceNotFoundException e) {
       rsp.sendError(HttpServletResponse.SC_NOT_FOUND);
       return;

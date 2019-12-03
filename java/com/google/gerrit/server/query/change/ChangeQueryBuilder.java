@@ -1394,7 +1394,11 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
 
   private List<Change> parseChange(String value) throws QueryParseException {
     if (PAT_LEGACY_ID.matcher(value).matches()) {
-      return asChanges(args.queryProvider.get().byLegacyChangeId(Change.Id.parse(value)));
+      Optional<Change.Id> id = Change.Id.tryParse(value);
+      if (!id.isPresent()) {
+        throw error("Invalid change id " + value);
+      }
+      return asChanges(args.queryProvider.get().byLegacyChangeId(id.get()));
     } else if (PAT_CHANGE_ID.matcher(value).matches()) {
       List<Change> changes = asChanges(args.queryProvider.get().byKeyPrefix(parseChangeId(value)));
       if (changes.isEmpty()) {

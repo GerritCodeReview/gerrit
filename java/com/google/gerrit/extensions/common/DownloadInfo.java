@@ -17,6 +17,7 @@ package com.google.gerrit.extensions.common;
 import java.util.List;
 import java.util.Map;
 
+/** API response containing values from the {@code download} section of {@code gerrit.config}. */
 public class DownloadInfo {
   public Map<String, DownloadSchemeInfo> schemes;
   public List<String> archives;

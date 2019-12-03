@@ -14,4 +14,10 @@
 
 package com.google.gerrit.extensions.common;
 
+/**
+ * API response containing values from the {@code sshd} section of {@code gerrit.config}.
+ *
+ * <p>This is currently empty, but is a class (rather than boolean) for consistency. If we ever
+ * export SSH configuration, more fields will be added here.
+ */
 public class SshdInfo {}

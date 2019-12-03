@@ -19,6 +19,7 @@ import com.google.gerrit.extensions.client.AuthType;
 import com.google.gerrit.extensions.client.GitBasicAuthPolicy;
 import java.util.List;
 
+/** API response containing values from the {@code auth} section of {@code gerrit.config}. */
 public class AuthInfo {
   public AuthType authType;
   public Boolean useContributorAgreements;

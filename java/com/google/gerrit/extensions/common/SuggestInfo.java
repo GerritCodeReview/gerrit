@@ -14,6 +14,9 @@
 
 package com.google.gerrit.extensions.common;
 
+/** API response containing values from the {@code suggest} section of {@code gerrit.config}. */
 public class SuggestInfo {
+
+  /** Number of characters after which we provide suggestions for group member completion. */
   public int from;
 }

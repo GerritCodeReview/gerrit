@@ -14,19 +14,41 @@
 
 package com.google.gerrit.server.git;
 
+import static com.google.common.base.MoreObjects.firstNonNull;
+
 import com.google.common.base.Strings;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.Account.Id;
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.entities.PatchSet;
-import com.google.gerrit.entities.Project;
+import com.google.gerrit.extensions.api.changes.NotifyHandling;
+import com.google.gerrit.extensions.api.changes.RevertInput;
 import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
+import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.server.ApprovalsUtil;
+import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.CommonConverters;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.ReviewerSet;
+import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.ChangeMessages;
+import com.google.gerrit.server.change.NotifyResolver;
+import com.google.gerrit.server.extensions.events.ChangeReverted;
+import com.google.gerrit.server.mail.send.RevertedSender;
 import com.google.gerrit.server.notedb.ChangeNotes;
-import com.google.gerrit.server.util.time.TimeUtil;
+import com.google.gerrit.server.notedb.ReviewerStateInternal;
+import com.google.gerrit.server.notedb.Sequences;
+import com.google.gerrit.server.update.BatchUpdate;
+import com.google.gerrit.server.update.BatchUpdateOp;
+import com.google.gerrit.server.update.ChangeContext;
+import com.google.gerrit.server.update.Context;
+import com.google.gerrit.server.update.UpdateException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -34,6 +56,10 @@ import java.io.IOException;
 import java.sql.Timestamp;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
+import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
@@ -47,14 +73,38 @@ import org.eclipse.jgit.util.ChangeIdUtil;
 /** Static utilities for working with {@link RevCommit}s. */
 @Singleton
 public class CommitUtil {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   private final GitRepositoryManager repoManager;
   private final Provider<PersonIdent> serverIdent;
+  private final Sequences seq;
+  private final ApprovalsUtil approvalsUtil;
+  private final ChangeInserter.Factory changeInserterFactory;
+  private final NotifyResolver notifyResolver;
+  private final RevertedSender.Factory revertedSenderFactory;
+  private final ChangeMessagesUtil cmUtil;
+  private final ChangeReverted changeReverted;
 
   @Inject
   CommitUtil(
-      GitRepositoryManager repoManager, @GerritPersonIdent Provider<PersonIdent> serverIdent) {
+      GitRepositoryManager repoManager,
+      @GerritPersonIdent Provider<PersonIdent> serverIdent,
+      Sequences seq,
+      ApprovalsUtil approvalsUtil,
+      ChangeInserter.Factory changeInserterFactory,
+      NotifyResolver notifyResolver,
+      RevertedSender.Factory revertedSenderFactory,
+      ChangeMessagesUtil cmUtil,
+      ChangeReverted changeReverted) {
     this.repoManager = repoManager;
     this.serverIdent = serverIdent;
+    this.seq = seq;
+    this.approvalsUtil = approvalsUtil;
+    this.changeInserterFactory = changeInserterFactory;
+    this.notifyResolver = notifyResolver;
+    this.revertedSenderFactory = revertedSenderFactory;
+    this.cmUtil = cmUtil;
+    this.changeReverted = changeReverted;
   }
 
   public static CommitInfo toCommitInfo(RevCommit commit) throws IOException {
@@ -81,37 +131,77 @@ public class CommitUtil {
   }
 
   /**
-   * Allows creating a revert commit.
+   * Allows creating a revert change.
    *
-   * @param message Commit message for the revert commit.
    * @param notes ChangeNotes of the change being reverted.
    * @param user Current User performing the revert.
+   * @param input the RevertInput entity for conducting the revert.
+   * @param updateFactory the BatchUpdate of that performs all actions in that factory atomically.
+   * @param timestamp current timestamp.
    * @return ObjectId that represents the newly created commit.
-   * @throws ResourceConflictException Can't revert the initial commit.
-   * @throws IOException Thrown in case of I/O errors.
+   * @throws RestApiException
+   * @throws UpdateException
+   * @throws ConfigInvalidException
+   * @throws IOException
    */
-  public ObjectId createRevertCommit(String message, ChangeNotes notes, CurrentUser user)
-      throws ResourceConflictException, IOException {
-    message = Strings.emptyToNull(message);
+  public Change.Id createRevertChange(
+      ChangeNotes notes,
+      CurrentUser user,
+      RevertInput input,
+      BatchUpdate.Factory updateFactory,
+      Timestamp timestamp)
+      throws RestApiException, UpdateException, ConfigInvalidException, IOException {
+    String message = Strings.emptyToNull(input.message);
 
-    Project.NameKey project = notes.getProjectName();
-    try (Repository git = repoManager.openRepository(project);
+    try (Repository git = repoManager.openRepository(notes.getProjectName());
         ObjectInserter oi = git.newObjectInserter();
         ObjectReader reader = oi.newReader();
         RevWalk revWalk = new RevWalk(reader)) {
-      return createRevertCommit(message, notes, user, null, TimeUtil.nowTs(), oi, revWalk);
+      ObjectId generatedChangeId = Change.generateChangeId();
+      ObjectId revCommit =
+          createRevertCommit(message, notes, user, timestamp, oi, revWalk, generatedChangeId);
+      return createRevertChangeFromCommit(
+          revCommit,
+          input,
+          notes,
+          user,
+          generatedChangeId,
+          timestamp,
+          oi,
+          revWalk,
+          git,
+          updateFactory);
+    } catch (RepositoryNotFoundException e) {
+      throw new ResourceNotFoundException(notes.getChangeId().toString(), e);
+    }
+  }
+
+  // Wrapper function from creating a revert Commit.
+  public ObjectId createRevertCommit(
+      String message, ChangeNotes notes, CurrentUser user, Timestamp ts)
+      throws RestApiException, IOException {
+
+    try (Repository git = repoManager.openRepository(notes.getProjectName());
+        ObjectInserter oi = git.newObjectInserter();
+        ObjectReader reader = oi.newReader();
+        RevWalk revWalk = new RevWalk(reader)) {
+      return createRevertCommit(message, notes, user, ts, oi, revWalk, null);
+    } catch (RepositoryNotFoundException e) {
+      throw new ResourceNotFoundException(notes.getChangeId().toString(), e);
     }
   }
 
   /**
+   * allows creating a revert commit.
+   *
    * @param message Commit message for the revert commit.
    * @param notes ChangeNotes of the change being reverted.
    * @param user Current User performing the revert.
-   * @param generatedChangeId The changeId for the commit message, can be null since it is not
-   *     needed for commits, only for changes.
    * @param ts Timestamp of creation for the commit.
    * @param oi ObjectInserter for inserting the newly created commit.
    * @param revWalk Used for parsing the original commit.
+   * @param generatedChangeId The changeId for the commit message, can be null since it is not
+   *     needed for commits, only for changes.
    * @return ObjectId that represents the newly created commit.
    * @throws ResourceConflictException Can't revert the initial commit.
    * @throws IOException Thrown in case of I/O errors.
@@ -120,10 +210,10 @@ public class CommitUtil {
       String message,
       ChangeNotes notes,
       CurrentUser user,
-      @Nullable ObjectId generatedChangeId,
       Timestamp ts,
       ObjectInserter oi,
-      RevWalk revWalk)
+      RevWalk revWalk,
+      @Nullable ObjectId generatedChangeId)
       throws ResourceConflictException, IOException {
 
     PatchSet patch = notes.getCurrentPatchSet();
@@ -161,5 +251,97 @@ public class CommitUtil {
     ObjectId id = oi.insert(revertCommitBuilder);
     oi.flush();
     return id;
+  }
+
+  public Change.Id createRevertChangeFromCommit(
+      ObjectId revertCommitId,
+      RevertInput input,
+      ChangeNotes notes,
+      CurrentUser user,
+      @Nullable ObjectId generatedChangeId,
+      Timestamp ts,
+      ObjectInserter oi,
+      RevWalk revWalk,
+      Repository git,
+      BatchUpdate.Factory updateFactory)
+      throws IOException, RestApiException, UpdateException, ConfigInvalidException {
+
+    RevCommit revertCommit = revWalk.parseCommit(revertCommitId);
+    Change changeToRevert = notes.getChange();
+    Change.Id changeId = Change.id(seq.nextChangeId());
+    NotifyResolver.Result notify =
+        notifyResolver.resolve(firstNonNull(input.notify, NotifyHandling.ALL), input.notifyDetails);
+
+    ChangeInserter ins =
+        changeInserterFactory
+            .create(changeId, revertCommit, notes.getChange().getDest().branch())
+            .setTopic(input.topic == null ? changeToRevert.getTopic() : input.topic.trim());
+    ins.setMessage("Uploaded patch set 1.");
+
+    ReviewerSet reviewerSet = approvalsUtil.getReviewers(notes);
+
+    Set<Id> reviewers = new HashSet<>();
+    reviewers.add(changeToRevert.getOwner());
+    reviewers.addAll(reviewerSet.byState(ReviewerStateInternal.REVIEWER));
+    reviewers.remove(user.getAccountId());
+    Set<Account.Id> ccs = new HashSet<>(reviewerSet.byState(ReviewerStateInternal.CC));
+    ccs.remove(user.getAccountId());
+    ins.setReviewersAndCcs(reviewers, ccs);
+    ins.setRevertOf(notes.getChangeId());
+
+    try (BatchUpdate bu = updateFactory.create(notes.getProjectName(), user, ts)) {
+      bu.setRepository(git, revWalk, oi);
+      bu.setNotify(notify);
+      bu.insertChange(ins);
+      bu.addOp(changeId, new NotifyOp(changeToRevert, ins));
+      bu.addOp(changeToRevert.getId(), new PostRevertedMessageOp(generatedChangeId));
+      bu.execute();
+    }
+    return changeId;
+  }
+
+  private class NotifyOp implements BatchUpdateOp {
+    private final Change change;
+    private final ChangeInserter ins;
+
+    NotifyOp(Change change, ChangeInserter ins) {
+      this.change = change;
+      this.ins = ins;
+    }
+
+    @Override
+    public void postUpdate(Context ctx) throws Exception {
+      changeReverted.fire(change, ins.getChange(), ctx.getWhen());
+      try {
+        RevertedSender cm = revertedSenderFactory.create(ctx.getProject(), change.getId());
+        cm.setFrom(ctx.getAccountId());
+        cm.setNotify(ctx.getNotify(change.getId()));
+        cm.send();
+      } catch (Exception err) {
+        logger.atSevere().withCause(err).log(
+            "Cannot send email for revert change %s", change.getId());
+      }
+    }
+  }
+
+  private class PostRevertedMessageOp implements BatchUpdateOp {
+    private final ObjectId computedChangeId;
+
+    PostRevertedMessageOp(ObjectId computedChangeId) {
+      this.computedChangeId = computedChangeId;
+    }
+
+    @Override
+    public boolean updateChange(ChangeContext ctx) {
+      Change change = ctx.getChange();
+      PatchSet.Id patchSetId = change.currentPatchSetId();
+      ChangeMessage changeMessage =
+          ChangeMessagesUtil.newMessage(
+              ctx,
+              "Created a revert of this change as I" + computedChangeId.name(),
+              ChangeMessagesUtil.TAG_REVERT);
+      cmUtil.addChangeMessage(ctx.getUpdate(patchSetId), changeMessage);
+      return true;
+    }
   }
 }

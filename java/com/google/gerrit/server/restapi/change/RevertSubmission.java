@@ -75,6 +75,7 @@ import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.text.MessageFormat;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -266,6 +267,7 @@ public class RevertSubmission
           NoSuchProjectException, ConfigInvalidException {
 
     String groupName = null;
+    Timestamp timestamp = TimeUtil.nowTs();
     while (sortedChangesInProjectAndBranch.hasNext()) {
       ChangeNotes changeNotes = sortedChangesInProjectAndBranch.next().data().notes();
       if (cherryPickInput.base == null) {
@@ -276,23 +278,27 @@ public class RevertSubmission
       if (cherryPickInput.base.equals(changeNotes.getCurrentPatchSet().commitId().getName())) {
         // This is the code in case this is the first revert of this project + branch, and the
         // revert would be on top of the change being reverted.
-        craeteNormalRevert(revertInput, changeNotes);
+        craeteNormalRevert(revertInput, changeNotes, timestamp);
         groupName = cherryPickInput.base;
       } else {
         // This is the code in case this is the second revert (or more) of this project + branch.
         if (groupName == null) {
           groupName = cherryPickInput.base;
         }
-        createCherryPickedRevert(revertInput, project, groupName, changeNotes);
+        createCherryPickedRevert(revertInput, project, groupName, changeNotes, timestamp);
       }
     }
   }
 
   private void createCherryPickedRevert(
-      RevertInput revertInput, NameKey project, String groupName, ChangeNotes changeNotes)
+      RevertInput revertInput,
+      NameKey project,
+      String groupName,
+      ChangeNotes changeNotes,
+      Timestamp timestamp)
       throws IOException, ConfigInvalidException, UpdateException, RestApiException {
     ObjectId revCommitId =
-        commitUtil.createRevertCommit(revertInput.message, changeNotes, user.get());
+        commitUtil.createRevertCommit(revertInput.message, changeNotes, user.get(), timestamp);
     // TODO (paiking): As a future change, the revert should just be done directly on the
     // target rather than just creating a commit and then cherry-picking it.
     cherryPickInput.message = revertInput.message;
@@ -322,18 +328,16 @@ public class RevertSubmission
     }
   }
 
-  private void craeteNormalRevert(RevertInput revertInput, ChangeNotes changeNotes)
-      throws IOException, RestApiException, UpdateException, PermissionBackendException,
-          NoSuchProjectException, ConfigInvalidException {
-    ChangeInfo revertChangeInfo =
-        revert.apply(changeResourceFactory.create(changeNotes, user.get()), revertInput).value();
-    results.add(revertChangeInfo);
+  private void craeteNormalRevert(
+      RevertInput revertInput, ChangeNotes changeNotes, Timestamp timestamp)
+      throws IOException, RestApiException, UpdateException, ConfigInvalidException {
+
+    Change.Id revertId =
+        commitUtil.createRevertChange(
+            changeNotes, user.get(), revertInput, updateFactory, timestamp);
+    results.add(json.noOptions().format(changeNotes.getProjectName(), revertId));
     cherryPickInput.base =
-        changeNotesFactory
-            .createChecked(Change.id(revertChangeInfo._number))
-            .getCurrentPatchSet()
-            .commitId()
-            .getName();
+        changeNotesFactory.createChecked(revertId).getCurrentPatchSet().commitId().getName();
   }
 
   private CherryPickInput createCherryPickInput(RevertInput revertInput) {

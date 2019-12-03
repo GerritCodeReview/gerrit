@@ -34,6 +34,24 @@
       "revId": "42c7a8ce4d6e538ff267a34aa8a757c9fb615d31",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5ffb00e5_88faf2ab",
+        "filename": "e2e-tests/load-tests/Dockerfile",
+        "patchSetId": 6
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-12-03T08:09:07Z",
+      "side": 1,
+      "message": "I am not against leaving it as it is. At the moment it doesn\u0027t make a difference, since we copy whole directories: There are two layers with the same file (the respective COPY layer and this RUN layer). Less is thus impossible. It just seemed unnecessary to copy them around. I would have suggested:\n\n  ARG gatling_home\u003d/home/gatling\n  RUN addgroup -g 1000 -S appgroup \u0026\u0026 \\\n        adduser -u 1000 -S gatling -G appgroup -h $gatling_home\n\n  COPY ./src/test/scala/com/google/gerrit/scenarios $gatling_home/user-files/simulations\n  COPY ./src/test/resources/application.conf $gatling_home/conf\n  COPY ./src/test/resources/data $gatling_home/user-files/resources/data\n  RUN chown -R gatling:appgroup $gatling_home\n\nThis doesn\u0027t reduce the number of layers with a version of the files, but is just a more direct way of doing this.\nBut that is optional.",
+      "parentUuid": "57972c25_a503f49b",
+      "revId": "42c7a8ce4d6e538ff267a34aa8a757c9fb615d31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

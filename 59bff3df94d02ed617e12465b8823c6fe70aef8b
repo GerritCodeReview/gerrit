@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e7f20051_a311a81a",
+        "filename": "java/com/google/gerrit/extensions/common/SshdInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-12-03T12:32:36Z",
+      "side": 1,
+      "message": "this is a lie, because the struct is empty.",
+      "range": {
+        "startLine": 17,
+        "startChar": 16,
+        "endLine": 17,
+        "endChar": 81
+      },
+      "revId": "59bff3df94d02ed617e12465b8823c6fe70aef8b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c2ac2847_1dfd81b3",
+        "filename": "java/com/google/gerrit/extensions/common/SuggestInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-12-03T12:32:36Z",
+      "side": 1,
+      "message": "this could do with a specific comment. the name is very opaque",
+      "range": {
+        "startLine": 19,
+        "startChar": 13,
+        "endLine": 19,
+        "endChar": 17
+      },
+      "revId": "59bff3df94d02ed617e12465b8823c6fe70aef8b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

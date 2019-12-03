@@ -95,6 +95,24 @@
     },
     {
       "key": {
+        "uuid": "5efd4e0d_0c10d4f6",
+        "filename": "java/com/google/gerrit/server/restapi/change/CreateChange.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-12-03T11:21:17Z",
+      "side": 1,
+      "message": "Also done with https://gerrit-review.googlesource.com/c/gerrit/+/247376",
+      "parentUuid": "9ec41ec6_0c6e0502",
+      "revId": "c42b05cf7fbf7059c5df3be83f72777ea0d18ea5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "096a867f_19f4a896",
         "filename": "java/com/google/gerrit/server/restapi/project/CheckMergeability.java",
         "patchSetId": 2

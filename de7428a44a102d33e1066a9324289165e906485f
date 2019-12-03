@@ -22,6 +22,30 @@
       "revId": "de7428a44a102d33e1066a9324289165e906485f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "132cb76b_de725327",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 956,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-12-03T08:56:07Z",
+      "side": 1,
+      "message": "I picked the terms old/new version based on the terminology used in the \"git diff --help\" which\ntalks about the old and new lines in the diff output. We can look at the diff screen as\nsomething that compares two versions (old and new) regardless what the user chooses to be\nthe old/new version (base, auto-merge, ps-n, parent-n).\n\nOn the other side I see your point in trying to use terms which are less generic and more\nGerrit specific. However, left/right doesn\u0027t work for the unified diff view. Do you have\na better proposal than what I proposed in this change?\n\nAnother alternative would be to avoid the need for these names altogether and let the UI\nprovide separate \"download\" buttons for each pane. I am not sure how this would be done\nfor the unified diff.\n\nWDYT?",
+      "parentUuid": "9b8f555d_608d3468",
+      "range": {
+        "startLine": 956,
+        "startChar": 21,
+        "endLine": 956,
+        "endChar": 32
+      },
+      "revId": "de7428a44a102d33e1066a9324289165e906485f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

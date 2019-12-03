@@ -205,7 +205,6 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
 
     Map<ObjectId, RevisionNoteBuilder> builders = cache.getBuilders();
     boolean touchedAnyRevs = false;
-    boolean hasComments = false;
     for (Map.Entry<ObjectId, RevisionNoteBuilder> e : builders.entrySet()) {
       updatedCommits.add(e.getKey());
       ObjectId id = e.getKey();
@@ -216,7 +215,6 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
       if (data.length == 0) {
         rnm.noteMap.remove(id);
       } else {
-        hasComments = true;
         ObjectId dataBlob = ins.insert(OBJ_BLOB, data);
         rnm.noteMap.set(id, dataBlob);
       }
@@ -229,10 +227,9 @@ public class ChangeDraftUpdate extends AbstractChangeUpdate {
       return NO_OP_UPDATE;
     }
 
-    // If we touched every revision and there are no comments left, tell the
+    // If there are no comments left, tell the
     // caller to delete the entire ref.
-    boolean touchedAllRevs = updatedCommits.equals(rnm.revisionNotes.keySet());
-    if (touchedAllRevs && !hasComments) {
+    if (!rnm.noteMap.iterator().hasNext()) {
       return null;
     }
 

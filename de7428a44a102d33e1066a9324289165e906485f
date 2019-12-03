@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9b8f555d_608d3468",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 956,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-03T07:38:22Z",
+      "side": 1,
+      "message": "Is the term \"Old Version\" correct for all cases (e.g. if you compare against Parent1/2, Auto-Merge, etc.)?",
+      "range": {
+        "startLine": 956,
+        "startChar": 21,
+        "endLine": 956,
+        "endChar": 32
+      },
+      "revId": "de7428a44a102d33e1066a9324289165e906485f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

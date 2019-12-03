@@ -43,9 +43,6 @@ import org.eclipse.jgit.transport.ReceiveCommand;
  * objects that are jointly closed when invoking {@link #close}.
  */
 class OpenRepo implements AutoCloseable {
-  private static final Integer UNLIMITED_UPDATES = null;
-  private static final Integer UNLIMITED_PATCH_SETS = null;
-
   final Repository repo;
   final RevWalk rw;
   final ChainedReceiveCommands cmds;

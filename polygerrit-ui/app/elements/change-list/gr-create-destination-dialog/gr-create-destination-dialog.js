@@ -50,9 +50,13 @@
       this.$.createOverlay.close();
     }
 
-    _pickerConfirm() {
+    _pickerConfirm(e) {
       this.$.createOverlay.close();
       const detail = {repo: this._repo, branch: this._branch};
+      // e is a 'confirm' event from gr-dialog. We want to fire a more detailed
+      // 'confirm' event here, so let's stop propagation of the bare event.
+      e.preventDefault();
+      e.stopPropagation();
       this.dispatchEvent(new CustomEvent('confirm', {detail, bubbles: false}));
     }
 

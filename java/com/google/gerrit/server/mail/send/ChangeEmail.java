@@ -180,6 +180,7 @@ public abstract class ChangeEmail extends NotificationEmail {
     setChangeSubjectHeader();
     setHeader(MailHeader.CHANGE_ID.fieldName(), "" + change.getKey().get());
     setHeader(MailHeader.CHANGE_NUMBER.fieldName(), "" + change.getChangeId());
+    setHeader(MailHeader.PROJECT.fieldName(), "" + change.getProject());
     setChangeUrlHeader();
     setCommitIdHeader();
 

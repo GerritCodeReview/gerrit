@@ -80,10 +80,10 @@ limitations under the License.
               data-name$="[[item.name]]"
               data-url$="[[item.url]]"
               on-click="_handleShowAgreement"
-              disabled$="[[_disableAggreements(item, _groups, _signedAgreements)]]">
+              disabled$="[[_disableAgreements(item, _groups, _signedAgreements)]]">
           <label id="claNewAgreementsLabel">[[item.name]]</label>
         </span>
-        <div class$="alreadySubmittedText [[_hideAggreements(item, _groups, _signedAgreements)]]">
+        <div class$="alreadySubmittedText [[_hideAgreements(item, _groups, _signedAgreements)]]">
           Agreement already submitted.
         </div>
         <div class="agreementsUrl">

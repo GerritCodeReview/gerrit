@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "235fe44b_4046a97e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-event-interface.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-12-03T15:22:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ab553427_93e6bed4",
+      "revId": "ce6203e0b872175ebbd989757d0cf972c456ef6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "15da50db_e5fa7c47",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-event-interface.js",
         "patchSetId": 5
@@ -33,6 +51,24 @@
       "revId": "ce6203e0b872175ebbd989757d0cf972c456ef6a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "08e5235c_4b3e33db",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-event-interface.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-12-03T15:22:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "15da50db_e5fa7c47",
+      "revId": "ce6203e0b872175ebbd989757d0cf972c456ef6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -59,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "870e7f1e_4ddedf8c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-event-interface.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-12-03T15:22:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "afe0a18e_3a2e2be1",
+      "range": {
+        "startLine": 28,
+        "startChar": 5,
+        "endLine": 28,
+        "endChar": 30
+      },
+      "revId": "ce6203e0b872175ebbd989757d0cf972c456ef6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6c8bb1fd_6635f1ed",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-event-interface.js",
         "patchSetId": 5
@@ -82,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "a85f22a7_d2632cfe",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-event-interface.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-12-03T15:22:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6c8bb1fd_6635f1ed",
+      "range": {
+        "startLine": 33,
+        "startChar": 7,
+        "endLine": 33,
+        "endChar": 26
+      },
+      "revId": "ce6203e0b872175ebbd989757d0cf972c456ef6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4ef6d8cd_42d7ae41",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-event-interface.js",
         "patchSetId": 5
@@ -96,6 +180,24 @@
       "revId": "ce6203e0b872175ebbd989757d0cf972c456ef6a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "869ed8e0_1e96639c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-event-interface.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-12-03T15:22:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4ef6d8cd_42d7ae41",
+      "revId": "ce6203e0b872175ebbd989757d0cf972c456ef6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

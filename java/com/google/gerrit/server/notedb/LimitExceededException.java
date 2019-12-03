@@ -26,6 +26,8 @@ import com.google.gerrit.exceptions.StorageException;
  * </ul>
  */
 public class LimitExceededException extends StorageException {
+  private static final long serialVersionUID = 1L;
+
   LimitExceededException(String message) {
     super(message);
   }

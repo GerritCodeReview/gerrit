@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "fc45feae_011bed8f",
+        "filename": "java/com/google/gerrit/exceptions/InvalidMergeStrategyException.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-03T11:50:41Z",
+      "side": 1,
+      "message": "If it\u0027s too much work to handle this exception everywhere, maybe it can continue to be a RuntimeException as it was before with IllegalArgumentException? So we could just extend RuntimeException here.",
+      "parentUuid": "30c03c49_12098adb",
+      "range": {
+        "startLine": 19,
+        "startChar": 43,
+        "endLine": 19,
+        "endChar": 62
+      },
+      "revId": "b0fa4d7c0df27b18c577d988507b43739ac6539c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "feb854c2_2a47e952",
         "filename": "java/com/google/gerrit/server/restapi/change/CreateChange.java",
         "patchSetId": 2

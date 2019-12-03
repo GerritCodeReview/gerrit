@@ -591,6 +591,78 @@ public class SetLabelIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void setCopyNegativeScore() throws Exception {
+    configLabel("foo", LabelFunction.NO_OP);
+    assertThat(gApi.projects().name(project.get()).label("foo").get().copyNegativeScore).isNull();
+
+    LabelDefinitionInput input = new LabelDefinitionInput();
+    input.copyNegativeScore = true;
+
+    LabelDefinitionInfo updatedLabel =
+        gApi.projects().name(project.get()).label("foo").update(input);
+    assertThat(updatedLabel.copyNegativeScore).isTrue();
+
+    assertThat(gApi.projects().name(project.get()).label("foo").get().copyNegativeScore).isTrue();
+  }
+
+  @Test
+  public void unsetCopyNegativeScore() throws Exception {
+    configLabel("foo", LabelFunction.NO_OP);
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      LabelType labelType = u.getConfig().getLabelSections().get("foo");
+      labelType.setCopyNegativeScore(true);
+      u.getConfig().getLabelSections().put(labelType.getName(), labelType);
+      u.save();
+    }
+    assertThat(gApi.projects().name(project.get()).label("foo").get().copyNegativeScore).isTrue();
+
+    LabelDefinitionInput input = new LabelDefinitionInput();
+    input.copyNegativeScore = false;
+
+    LabelDefinitionInfo updatedLabel =
+        gApi.projects().name(project.get()).label("foo").update(input);
+    assertThat(updatedLabel.copyNegativeScore).isNull();
+
+    assertThat(gApi.projects().name(project.get()).label("foo").get().copyNegativeScore).isNull();
+  }
+
+  @Test
+  public void setCopyPositiveScore() throws Exception {
+    configLabel("foo", LabelFunction.NO_OP);
+    assertThat(gApi.projects().name(project.get()).label("foo").get().copyPositiveScore).isNull();
+
+    LabelDefinitionInput input = new LabelDefinitionInput();
+    input.copyPositiveScore = true;
+
+    LabelDefinitionInfo updatedLabel =
+        gApi.projects().name(project.get()).label("foo").update(input);
+    assertThat(updatedLabel.copyPositiveScore).isTrue();
+
+    assertThat(gApi.projects().name(project.get()).label("foo").get().copyPositiveScore).isTrue();
+  }
+
+  @Test
+  public void unsetCopyPositiveScore() throws Exception {
+    configLabel("foo", LabelFunction.NO_OP);
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      LabelType labelType = u.getConfig().getLabelSections().get("foo");
+      labelType.setCopyPositiveScore(true);
+      u.getConfig().getLabelSections().put(labelType.getName(), labelType);
+      u.save();
+    }
+    assertThat(gApi.projects().name(project.get()).label("foo").get().copyPositiveScore).isTrue();
+
+    LabelDefinitionInput input = new LabelDefinitionInput();
+    input.copyPositiveScore = false;
+
+    LabelDefinitionInfo updatedLabel =
+        gApi.projects().name(project.get()).label("foo").update(input);
+    assertThat(updatedLabel.copyPositiveScore).isNull();
+
+    assertThat(gApi.projects().name(project.get()).label("foo").get().copyPositiveScore).isNull();
+  }
+
+  @Test
   public void setCopyAllScoresIfNoChange() throws Exception {
     configLabel("foo", LabelFunction.NO_OP);
     try (ProjectConfigUpdate u = updateProject(project)) {

@@ -37,6 +37,8 @@ public class LabelType {
   public static final boolean DEF_COPY_ANY_SCORE = false;
   public static final boolean DEF_COPY_MAX_SCORE = false;
   public static final boolean DEF_COPY_MIN_SCORE = false;
+  public static final boolean DEF_COPY_NEGATIVE_SCORE = false;
+  public static final boolean DEF_COPY_POSITIVE_SCORE = false;
   public static final boolean DEF_IGNORE_SELF_APPROVAL = false;
 
   public static LabelType withDefaultValues(String name) {
@@ -100,6 +102,8 @@ public class LabelType {
   protected boolean copyAnyScore;
   protected boolean copyMinScore;
   protected boolean copyMaxScore;
+  protected boolean copyNegativeScore;
+  protected boolean copyPositiveScore;
   protected boolean copyAllScoresOnMergeFirstParentUpdate;
   protected boolean copyAllScoresOnTrivialRebase;
   protected boolean copyAllScoresIfNoCodeChange;
@@ -144,6 +148,8 @@ public class LabelType {
     setCopyAnyScore(DEF_COPY_ANY_SCORE);
     setCopyMaxScore(DEF_COPY_MAX_SCORE);
     setCopyMinScore(DEF_COPY_MIN_SCORE);
+    setCopyNegativeScore(DEF_COPY_NEGATIVE_SCORE);
+    setCopyPositiveScore(DEF_COPY_POSITIVE_SCORE);
     setAllowPostSubmit(DEF_ALLOW_POST_SUBMIT);
     setIgnoreSelfApproval(DEF_IGNORE_SELF_APPROVAL);
 
@@ -263,6 +269,22 @@ public class LabelType {
 
   public void setCopyMaxScore(boolean copyMaxScore) {
     this.copyMaxScore = copyMaxScore;
+  }
+
+  public boolean isCopyNegativeScore() {
+    return copyNegativeScore;
+  }
+
+  public void setCopyNegativeScore(boolean copyNegativeScore) {
+    this.copyNegativeScore = copyNegativeScore;
+  }
+
+  public boolean isCopyPositiveScore() {
+    return copyPositiveScore;
+  }
+
+  public void setCopyPositiveScore(boolean copyPositiveScore) {
+    this.copyPositiveScore = copyPositiveScore;
   }
 
   public boolean isCopyAllScoresOnMergeFirstParentUpdate() {

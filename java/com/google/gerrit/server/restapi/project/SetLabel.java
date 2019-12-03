@@ -185,6 +185,16 @@ public class SetLabel implements RestModifyView<LabelResource, LabelDefinitionIn
       dirty = true;
     }
 
+    if (input.copyNegativeScore != null) {
+      labelType.setCopyNegativeScore(input.copyNegativeScore);
+      dirty = true;
+    }
+
+    if (input.copyPositiveScore != null) {
+      labelType.setCopyPositiveScore(input.copyPositiveScore);
+      dirty = true;
+    }
+
     if (input.copyAllScoresIfNoChange != null) {
       labelType.setCopyAllScoresIfNoChange(input.copyAllScoresIfNoChange);
     }

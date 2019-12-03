@@ -283,6 +283,18 @@ forward when a new patch set is uploaded. This can be used to enable
 sticky approvals, reducing turn-around for trivial cleanups prior to
 submitting a change. Defaults to false.
 
+[[label_copyNegativeScore]]
+=== `label.Label-Name.copyNegativeScore`
+
+If true, any negative score (< 0) for the label is copied forward when
+a new patch set is uploaded. Defaults to false.
+
+[[label_copyPositiveScore]]
+=== `label.Label-Name.copyPositiveScore`
+
+If true, any positive score (> 0) for the label is copied forward when
+a new patch set is uploaded. Defaults to false.
+
 [[label_copyAllScoresOnMergeFirstParentUpdate]]
 === `label.Label-Name.copyAllScoresOnMergeFirstParentUpdate`
 

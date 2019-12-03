@@ -101,6 +101,10 @@ public class ApprovalInference {
       return true;
     } else if (type.isCopyAnyScore()) {
       return true;
+    } else if (type.isCopyNegativeScore() && psa.value() < 0) {
+      return true;
+    } else if (type.isCopyPositiveScore() && psa.value() > 0) {
+      return true;
     }
     switch (kind) {
       case MERGE_FIRST_PARENT_UPDATE:

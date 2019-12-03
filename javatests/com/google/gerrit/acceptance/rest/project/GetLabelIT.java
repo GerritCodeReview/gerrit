@@ -113,6 +113,8 @@ public class GetLabelIT extends AbstractDaemonTest {
     assertThat(fooLabel.copyAnyScore).isNull();
     assertThat(fooLabel.copyMinScore).isNull();
     assertThat(fooLabel.copyMaxScore).isNull();
+    assertThat(fooLabel.copyNegativeScore).isNull();
+    assertThat(fooLabel.copyPositiveScore).isNull();
     assertThat(fooLabel.copyAllScoresIfNoChange).isNull();
     assertThat(fooLabel.copyAllScoresIfNoCodeChange).isNull();
     assertThat(fooLabel.copyAllScoresOnTrivialRebase).isNull();
@@ -131,6 +133,8 @@ public class GetLabelIT extends AbstractDaemonTest {
       labelType.setCopyAnyScore(true);
       labelType.setCopyMinScore(true);
       labelType.setCopyMaxScore(true);
+      labelType.setCopyNegativeScore(true);
+      labelType.setCopyPositiveScore(true);
       labelType.setCopyAllScoresIfNoCodeChange(true);
       labelType.setCopyAllScoresOnTrivialRebase(true);
       labelType.setCopyAllScoresOnMergeFirstParentUpdate(true);
@@ -144,6 +148,8 @@ public class GetLabelIT extends AbstractDaemonTest {
     assertThat(fooLabel.copyAnyScore).isTrue();
     assertThat(fooLabel.copyMinScore).isTrue();
     assertThat(fooLabel.copyMaxScore).isTrue();
+    assertThat(fooLabel.copyNegativeScore).isTrue();
+    assertThat(fooLabel.copyPositiveScore).isTrue();
     assertThat(fooLabel.copyAllScoresIfNoChange).isTrue();
     assertThat(fooLabel.copyAllScoresIfNoCodeChange).isTrue();
     assertThat(fooLabel.copyAllScoresOnTrivialRebase).isTrue();

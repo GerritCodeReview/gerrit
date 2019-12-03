@@ -240,6 +240,8 @@ public class CreateLabelIT extends AbstractDaemonTest {
     assertThat(createdLabel.copyAnyScore).isNull();
     assertThat(createdLabel.copyMinScore).isNull();
     assertThat(createdLabel.copyMaxScore).isNull();
+    assertThat(createdLabel.copyNegativeScore).isNull();
+    assertThat(createdLabel.copyPositiveScore).isNull();
     assertThat(createdLabel.copyAllScoresIfNoChange).isTrue();
     assertThat(createdLabel.copyAllScoresIfNoCodeChange).isNull();
     assertThat(createdLabel.copyAllScoresOnTrivialRebase).isNull();
@@ -446,6 +448,50 @@ public class CreateLabelIT extends AbstractDaemonTest {
     LabelDefinitionInfo createdLabel =
         gApi.projects().name(project.get()).label("foo").create(input).get();
     assertThat(createdLabel.copyMaxScore).isNull();
+  }
+
+  @Test
+  public void createWithCopyNegativeScore() throws Exception {
+    LabelDefinitionInput input = new LabelDefinitionInput();
+    input.values = ImmutableMap.of("+1", "Looks Good", " 0", "Don't Know", "-1", "Looks Bad");
+    input.copyNegativeScore = true;
+
+    LabelDefinitionInfo createdLabel =
+        gApi.projects().name(project.get()).label("foo").create(input).get();
+    assertThat(createdLabel.copyNegativeScore).isTrue();
+  }
+
+  @Test
+  public void createWithoutNegativeMaxScore() throws Exception {
+    LabelDefinitionInput input = new LabelDefinitionInput();
+    input.values = ImmutableMap.of("+1", "Looks Good", " 0", "Don't Know", "-1", "Looks Bad");
+    input.copyNegativeScore = false;
+
+    LabelDefinitionInfo createdLabel =
+        gApi.projects().name(project.get()).label("foo").create(input).get();
+    assertThat(createdLabel.copyNegativeScore).isNull();
+  }
+
+  @Test
+  public void createWithCopyPositiveScore() throws Exception {
+    LabelDefinitionInput input = new LabelDefinitionInput();
+    input.values = ImmutableMap.of("+1", "Looks Good", " 0", "Don't Know", "-1", "Looks Bad");
+    input.copyPositiveScore = true;
+
+    LabelDefinitionInfo createdLabel =
+        gApi.projects().name(project.get()).label("foo").create(input).get();
+    assertThat(createdLabel.copyPositiveScore).isTrue();
+  }
+
+  @Test
+  public void createWithoutPositiveMaxScore() throws Exception {
+    LabelDefinitionInput input = new LabelDefinitionInput();
+    input.values = ImmutableMap.of("+1", "Looks Good", " 0", "Don't Know", "-1", "Looks Bad");
+    input.copyPositiveScore = false;
+
+    LabelDefinitionInfo createdLabel =
+        gApi.projects().name(project.get()).label("foo").create(input).get();
+    assertThat(createdLabel.copyPositiveScore).isNull();
   }
 
   @Test

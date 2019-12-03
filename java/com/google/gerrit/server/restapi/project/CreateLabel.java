@@ -174,6 +174,14 @@ public class CreateLabel
       labelType.setCopyMaxScore(input.copyMaxScore);
     }
 
+    if (input.copyNegativeScore != null) {
+      labelType.setCopyNegativeScore(input.copyNegativeScore);
+    }
+
+    if (input.copyPositiveScore != null) {
+      labelType.setCopyPositiveScore(input.copyPositiveScore);
+    }
+
     if (input.copyAllScoresIfNoChange != null) {
       labelType.setCopyAllScoresIfNoChange(input.copyAllScoresIfNoChange);
     }

@@ -35,6 +35,8 @@ public class LabelDefinitionJson {
     label.copyAnyScore = toBoolean(labelType.isCopyAnyScore());
     label.copyMinScore = toBoolean(labelType.isCopyMinScore());
     label.copyMaxScore = toBoolean(labelType.isCopyMaxScore());
+    label.copyNegativeScore = toBoolean(labelType.isCopyNegativeScore());
+    label.copyPositiveScore = toBoolean(labelType.isCopyPositiveScore());
     label.copyAllScoresIfNoChange = toBoolean(labelType.isCopyAllScoresIfNoChange());
     label.copyAllScoresIfNoCodeChange = toBoolean(labelType.isCopyAllScoresIfNoCodeChange());
     label.copyAllScoresOnTrivialRebase = toBoolean(labelType.isCopyAllScoresOnTrivialRebase());

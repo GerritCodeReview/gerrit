@@ -185,6 +185,58 @@ public class StickyApprovalsIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void stickyOnNegativeScore() throws Exception {
+    TestAccount user2 = accountCreator.user2();
+
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      u.getConfig().getLabelSections().get("Code-Review").setCopyNegativeScore(true);
+      u.save();
+    }
+
+    for (ChangeKind changeKind :
+        EnumSet.of(REWORK, TRIVIAL_REBASE, NO_CODE_CHANGE, MERGE_FIRST_PARENT_UPDATE, NO_CHANGE)) {
+      testRepo.reset(projectOperations.project(project).getHead("master"));
+
+      String changeId = createChange(changeKind);
+      vote(admin, changeId, -1, 1);
+      vote(user, changeId, -2, -1);
+      vote(user2, changeId, 1, -1);
+
+      updateChange(changeId, changeKind);
+      ChangeInfo c = detailedChange(changeId);
+      assertVotes(c, admin, -1, 0, changeKind);
+      assertVotes(c, user, -2, 0, changeKind);
+      assertVotes(c, user2, 0, 0, changeKind);
+    }
+  }
+
+  @Test
+  public void stickyOnPositiveScore() throws Exception {
+    TestAccount user2 = accountCreator.user2();
+
+    try (ProjectConfigUpdate u = updateProject(project)) {
+      u.getConfig().getLabelSections().get("Code-Review").setCopyPositiveScore(true);
+      u.save();
+    }
+
+    for (ChangeKind changeKind :
+        EnumSet.of(REWORK, TRIVIAL_REBASE, NO_CODE_CHANGE, MERGE_FIRST_PARENT_UPDATE, NO_CHANGE)) {
+      testRepo.reset(projectOperations.project(project).getHead("master"));
+
+      String changeId = createChange(changeKind);
+      vote(admin, changeId, 1, 1);
+      vote(user, changeId, 2, -1);
+      vote(user2, changeId, -1, -1);
+
+      updateChange(changeId, changeKind);
+      ChangeInfo c = detailedChange(changeId);
+      assertVotes(c, admin, 1, 0, changeKind);
+      assertVotes(c, user, 2, 0, changeKind);
+      assertVotes(c, user2, 0, 0, changeKind);
+    }
+  }
+
+  @Test
   public void stickyOnTrivialRebase() throws Exception {
     try (ProjectConfigUpdate u = updateProject(project)) {
       u.getConfig().getLabelSections().get("Code-Review").setCopyAllScoresOnTrivialRebase(true);

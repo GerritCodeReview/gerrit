@@ -3904,6 +3904,12 @@ label.
 |`copy_max_score`|`false` if not set|
 Whether link:config-labels.html#label_copyMaxScore[copyMaxScore] is set on the
 label.
+|`copy_negative_score`|`false` if not set|
+Whether link:config-labels.html#label_copyNegativeScore[copyNegativeScore] is
+set on the label.
+|`copy_positive_score`|`false` if not set|
+Whether link:config-labels.html#label_copyPositiveScore[copyPositiveScore] is
+set on the label.
 |`copy_all_scores_if_no_change`|`false` if not set|
 Whether link:config-labels.html#label_copyAllScoresIfNoChange[
 copyAllScoresIfNoChange] is set on the label.
@@ -3969,6 +3975,12 @@ label.
 |`copy_max_score`|optional|
 Whether link:config-labels.html#label_copyMaxScore[copyMaxScore] is set on the
 label.
+|`copy_negative_score`|optional|
+Whether link:config-labels.html#label_copyNegativeScore[copyNegativeScore] is
+set on the label.
+|`copy_positive_score`|optional|
+Whether link:config-labels.html#label_copyPositiveScore[copyPositiveScore] is
+set on the label.
 |`copy_all_scores_if_no_change`|optional|
 Whether link:config-labels.html#label_copyAllScoresIfNoChange[
 copyAllScoresIfNoChange] is set on the label.

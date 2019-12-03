@@ -104,6 +104,8 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   public static final String KEY_IGNORE_SELF_APPROVAL = "ignoreSelfApproval";
   public static final String KEY_COPY_ANY_SCORE = "copyAnyScore";
   public static final String KEY_COPY_MAX_SCORE = "copyMaxScore";
+  public static final String KEY_COPY_NEGATIVE_SCORE = "copyNegativeScore";
+  public static final String KEY_COPY_POSITIVE_SCORE = "copyPositiveScore";
   public static final String KEY_COPY_ALL_SCORES_ON_MERGE_FIRST_PARENT_UPDATE =
       "copyAllScoresOnMergeFirstParentUpdate";
   public static final String KEY_COPY_ALL_SCORES_ON_TRIVIAL_REBASE = "copyAllScoresOnTrivialRebase";
@@ -990,6 +992,10 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
           rc.getBoolean(LABEL, name, KEY_COPY_MIN_SCORE, LabelType.DEF_COPY_MIN_SCORE));
       label.setCopyMaxScore(
           rc.getBoolean(LABEL, name, KEY_COPY_MAX_SCORE, LabelType.DEF_COPY_MAX_SCORE));
+      label.setCopyNegativeScore(
+          rc.getBoolean(LABEL, name, KEY_COPY_NEGATIVE_SCORE, LabelType.DEF_COPY_NEGATIVE_SCORE));
+      label.setCopyPositiveScore(
+          rc.getBoolean(LABEL, name, KEY_COPY_POSITIVE_SCORE, LabelType.DEF_COPY_POSITIVE_SCORE));
       label.setCopyAllScoresOnMergeFirstParentUpdate(
           rc.getBoolean(
               LABEL,
@@ -1464,6 +1470,20 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
           KEY_COPY_MAX_SCORE,
           label.isCopyMaxScore(),
           LabelType.DEF_COPY_MAX_SCORE);
+      setBooleanConfigKey(
+          rc,
+          LABEL,
+          name,
+          KEY_COPY_NEGATIVE_SCORE,
+          label.isCopyNegativeScore(),
+          LabelType.DEF_COPY_NEGATIVE_SCORE);
+      setBooleanConfigKey(
+          rc,
+          LABEL,
+          name,
+          KEY_COPY_POSITIVE_SCORE,
+          label.isCopyPositiveScore(),
+          LabelType.DEF_COPY_POSITIVE_SCORE);
       setBooleanConfigKey(
           rc,
           LABEL,

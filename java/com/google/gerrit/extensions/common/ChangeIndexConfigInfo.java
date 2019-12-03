@@ -14,6 +14,9 @@
 
 package com.google.gerrit.extensions.common;
 
+/**
+ * API response containing values from the {@code index.change} section of {@code gerrit.config}.
+ */
 public class ChangeIndexConfigInfo {
   public Boolean indexMergeable;
 }

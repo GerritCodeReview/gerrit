@@ -579,7 +579,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
 
     if ("mergeable".equalsIgnoreCase(value)) {
       if (!args.indexMergeable) {
-        throw new QueryParseException("server does not support 'mergeable'. check configs");
+        throw new QueryParseException("'is:mergeable' operator is not supported by server");
       }
       return new BooleanPredicate(ChangeField.MERGEABLE);
     }

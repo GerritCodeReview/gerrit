@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8960ad3c_356b88cf",
+        "filename": "java/com/google/gerrit/exceptions/InvalidMergeStrategyException.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-03T11:34:52Z",
+      "side": 1,
+      "message": "Should this be an IOException?",
+      "range": {
+        "startLine": 19,
+        "startChar": 43,
+        "endLine": 19,
+        "endChar": 62
+      },
+      "revId": "b0fa4d7c0df27b18c577d988507b43739ac6539c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "feb854c2_2a47e952",
+        "filename": "java/com/google/gerrit/server/restapi/change/CreateChange.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 524,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-03T11:34:52Z",
+      "side": 1,
+      "message": "I think it would be better to have separate catch clauses for NoMergeBaseException and InvalidMergeStrategyException. Or, as it is now InvalidMergeStrategyException is caught and rethrown, so we would not need to catch it at all. However since the merge strategy comes from the input that the user provided, we should actually convert InvalidMergeStrategyException into a BadRequestException (could be done as follow-up change).",
+      "range": {
+        "startLine": 514,
+        "startChar": 4,
+        "endLine": 524,
+        "endChar": 5
+      },
+      "revId": "b0fa4d7c0df27b18c577d988507b43739ac6539c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

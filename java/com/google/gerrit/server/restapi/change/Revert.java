@@ -84,51 +84,27 @@ public class Revert
 
   private final PermissionBackend permissionBackend;
   private final BatchUpdate.Factory updateFactory;
-  private final GitRepositoryManager repoManager;
-  private final ChangeInserter.Factory changeInserterFactory;
-  private final ChangeMessagesUtil cmUtil;
-  private final Sequences seq;
   private final PatchSetUtil psUtil;
-  private final RevertedSender.Factory revertedSenderFactory;
   private final ChangeJson.Factory json;
-  private final ApprovalsUtil approvalsUtil;
-  private final ChangeReverted changeReverted;
   private final ContributorAgreementsChecker contributorAgreements;
   private final ProjectCache projectCache;
-  private final NotifyResolver notifyResolver;
   private final CommitUtil commitUtil;
 
   @Inject
   Revert(
       PermissionBackend permissionBackend,
       BatchUpdate.Factory updateFactory,
-      GitRepositoryManager repoManager,
-      ChangeInserter.Factory changeInserterFactory,
-      ChangeMessagesUtil cmUtil,
-      Sequences seq,
       PatchSetUtil psUtil,
-      RevertedSender.Factory revertedSenderFactory,
       ChangeJson.Factory json,
-      ApprovalsUtil approvalsUtil,
-      ChangeReverted changeReverted,
       ContributorAgreementsChecker contributorAgreements,
       ProjectCache projectCache,
-      NotifyResolver notifyResolver,
       CommitUtil commitUtil) {
     this.permissionBackend = permissionBackend;
     this.updateFactory = updateFactory;
-    this.repoManager = repoManager;
-    this.changeInserterFactory = changeInserterFactory;
-    this.cmUtil = cmUtil;
-    this.seq = seq;
     this.psUtil = psUtil;
-    this.revertedSenderFactory = revertedSenderFactory;
     this.json = json;
-    this.approvalsUtil = approvalsUtil;
-    this.changeReverted = changeReverted;
     this.contributorAgreements = contributorAgreements;
     this.projectCache = projectCache;
-    this.notifyResolver = notifyResolver;
     this.commitUtil = commitUtil;
   }
 
@@ -144,14 +120,7 @@ public class Revert
     contributorAgreements.check(rsrc.getProject(), rsrc.getUser());
     permissionBackend.user(rsrc.getUser()).ref(change.getDest()).check(CREATE_CHANGE);
     projectCache.checkedGet(rsrc.getProject()).checkStatePermitsWrite();
-
-    Change.Id revertId = revert(updateFactory, rsrc.getNotes(), rsrc.getUser(), input);
-    return Response.ok(json.noOptions().format(rsrc.getProject(), revertId));
-  }
-
-  private Change.Id revert(
-      BatchUpdate.Factory updateFactory, ChangeNotes notes, CurrentUser user, RevertInput input)
-      throws IOException, RestApiException, UpdateException, ConfigInvalidException {
+    ChangeNotes notes = rsrc.getNotes();
     Change.Id changeIdToRevert = notes.getChangeId();
     PatchSet.Id patchSetId = notes.getChange().currentPatchSetId();
     PatchSet patch = psUtil.get(notes, patchSetId);
@@ -159,55 +128,8 @@ public class Revert
       throw new ResourceNotFoundException(changeIdToRevert.toString());
     }
 
-    Project.NameKey project = notes.getProjectName();
-    try (Repository git = repoManager.openRepository(project);
-        ObjectInserter oi = git.newObjectInserter();
-        ObjectReader reader = oi.newReader();
-        RevWalk revWalk = new RevWalk(reader)) {
-
-      Timestamp now = TimeUtil.nowTs();
-      ObjectId generatedChangeId = Change.generateChangeId();
-      Change changeToRevert = notes.getChange();
-      ObjectId revertCommitId =
-          commitUtil.createRevertCommit(
-              input.message, notes, user, generatedChangeId, now, oi, revWalk);
-
-      RevCommit revertCommit = revWalk.parseCommit(revertCommitId);
-
-      Change.Id changeId = Change.id(seq.nextChangeId());
-      NotifyResolver.Result notify =
-          notifyResolver.resolve(
-              firstNonNull(input.notify, NotifyHandling.ALL), input.notifyDetails);
-
-      ChangeInserter ins =
-          changeInserterFactory
-              .create(changeId, revertCommit, notes.getChange().getDest().branch())
-              .setTopic(input.topic == null ? changeToRevert.getTopic() : input.topic.trim());
-      ins.setMessage("Uploaded patch set 1.");
-
-      ReviewerSet reviewerSet = approvalsUtil.getReviewers(notes);
-
-      Set<Account.Id> reviewers = new HashSet<>();
-      reviewers.add(changeToRevert.getOwner());
-      reviewers.addAll(reviewerSet.byState(ReviewerStateInternal.REVIEWER));
-      reviewers.remove(user.getAccountId());
-      Set<Account.Id> ccs = new HashSet<>(reviewerSet.byState(ReviewerStateInternal.CC));
-      ccs.remove(user.getAccountId());
-      ins.setReviewersAndCcs(reviewers, ccs);
-      ins.setRevertOf(changeIdToRevert);
-
-      try (BatchUpdate bu = updateFactory.create(project, user, now)) {
-        bu.setRepository(git, revWalk, oi);
-        bu.setNotify(notify);
-        bu.insertChange(ins);
-        bu.addOp(changeId, new NotifyOp(changeToRevert, ins));
-        bu.addOp(changeToRevert.getId(), new PostRevertedMessageOp(generatedChangeId));
-        bu.execute();
-      }
-      return changeId;
-    } catch (RepositoryNotFoundException e) {
-      throw new ResourceNotFoundException(changeIdToRevert.toString(), e);
-    }
+    Change.Id revertId = commitUtil.createRevertChange(notes,rsrc.getUser(), input, updateFactory);
+    return Response.ok(json.noOptions().format(rsrc.getProject(), revertId));
   }
 
   @Override
@@ -232,48 +154,4 @@ public class Revert
                     .testCond(CREATE_CHANGE)));
   }
 
-  private class NotifyOp implements BatchUpdateOp {
-    private final Change change;
-    private final ChangeInserter ins;
-
-    NotifyOp(Change change, ChangeInserter ins) {
-      this.change = change;
-      this.ins = ins;
-    }
-
-    @Override
-    public void postUpdate(Context ctx) throws Exception {
-      changeReverted.fire(change, ins.getChange(), ctx.getWhen());
-      try {
-        RevertedSender cm = revertedSenderFactory.create(ctx.getProject(), change.getId());
-        cm.setFrom(ctx.getAccountId());
-        cm.setNotify(ctx.getNotify(change.getId()));
-        cm.send();
-      } catch (Exception err) {
-        logger.atSevere().withCause(err).log(
-            "Cannot send email for revert change %s", change.getId());
-      }
-    }
-  }
-
-  private class PostRevertedMessageOp implements BatchUpdateOp {
-    private final ObjectId computedChangeId;
-
-    PostRevertedMessageOp(ObjectId computedChangeId) {
-      this.computedChangeId = computedChangeId;
-    }
-
-    @Override
-    public boolean updateChange(ChangeContext ctx) {
-      Change change = ctx.getChange();
-      PatchSet.Id patchSetId = change.currentPatchSetId();
-      ChangeMessage changeMessage =
-          ChangeMessagesUtil.newMessage(
-              ctx,
-              "Created a revert of this change as I" + computedChangeId.name(),
-              ChangeMessagesUtil.TAG_REVERT);
-      cmUtil.addChangeMessage(ctx.getUpdate(patchSetId), changeMessage);
-      return true;
-    }
-  }
 }

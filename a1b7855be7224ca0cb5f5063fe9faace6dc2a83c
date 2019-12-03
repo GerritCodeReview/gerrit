@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d4d445df_db5dd68c",
+        "filename": "java/com/google/gerrit/server/notedb/LimitExceededException.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-12-03T23:32:54Z",
+      "side": 1,
+      "message": "Missing serialUid.  Added in https://gerrit-review.googlesource.com/c/gerrit/+/247452",
+      "revId": "a1b7855be7224ca0cb5f5063fe9faace6dc2a83c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "062758df_2c34efb5",
+        "filename": "java/com/google/gerrit/server/notedb/OpenRepo.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-12-03T23:32:54Z",
+      "side": 1,
+      "message": "These are unused.  Removed in https://gerrit-review.googlesource.com/c/gerrit/+/247453",
+      "range": {
+        "startLine": 46,
+        "startChar": 2,
+        "endLine": 47,
+        "endChar": 59
+      },
+      "revId": "a1b7855be7224ca0cb5f5063fe9faace6dc2a83c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

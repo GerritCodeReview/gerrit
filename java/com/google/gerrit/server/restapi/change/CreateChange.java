@@ -27,6 +27,7 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
+import com.google.gerrit.exceptions.InvalidMergeStrategyException;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.client.SubmitType;
@@ -339,8 +340,8 @@ public class CreateChange
         bu.execute();
       }
       return ins.getChange();
-    } catch (IllegalArgumentException e) {
-      throw new BadRequestException(e.getMessage(), e);
+    } catch (InvalidMergeStrategyException e) {
+      throw new BadRequestException(e.getMessage());
     }
   }
 
@@ -510,11 +511,14 @@ public class CreateChange
           authorIdent,
           commitMessage,
           rw);
-    } catch (NoMergeBaseException e) {
-      if (MergeBaseFailureReason.TOO_MANY_MERGE_BASES == e.getReason()
-          || MergeBaseFailureReason.CONFLICTS_DURING_MERGE_BASE_CALCULATION == e.getReason()) {
-        throw new ResourceConflictException(
-            String.format("Cannot create merge commit: %s", e.getMessage()), e);
+    } catch (NoMergeBaseException | InvalidMergeStrategyException e) {
+      if (e instanceof NoMergeBaseException) {
+        NoMergeBaseException nmbe = (NoMergeBaseException) e;
+        if (MergeBaseFailureReason.TOO_MANY_MERGE_BASES == nmbe.getReason()
+            || MergeBaseFailureReason.CONFLICTS_DURING_MERGE_BASE_CALCULATION == nmbe.getReason()) {
+          throw new ResourceConflictException(
+              String.format("Cannot create merge commit: %s", nmbe.getMessage()), nmbe);
+        }
       }
       throw e;
     }

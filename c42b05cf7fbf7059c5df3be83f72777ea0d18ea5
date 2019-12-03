@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3ae2ba2d_32c0d367",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/account/TestSshKeys.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-03T07:58:06Z",
+      "side": 1,
+      "message": "[optional] may be \u0027%d\u0027 now (AFAIK %d is not supported by checkState/checkArgument so we couldn\u0027t use it before)",
+      "range": {
+        "startLine": 62,
+        "startChar": 52,
+        "endLine": 62,
+        "endChar": 54
+      },
+      "revId": "c42b05cf7fbf7059c5df3be83f72777ea0d18ea5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "79701149_2412944c",
+        "filename": "java/com/google/gerrit/httpd/NumericChangeIdRedirectServlet.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-03T07:58:06Z",
+      "side": 1,
+      "message": "Urgh, catching NullPointerException is really ugly. Can we instead add a Change.Id.tryParse(String) method which returns Optional\u003cId\u003e and use it here?",
+      "revId": "c42b05cf7fbf7059c5df3be83f72777ea0d18ea5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9ec41ec6_0c6e0502",
+        "filename": "java/com/google/gerrit/server/restapi/change/CreateChange.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-03T07:58:06Z",
+      "side": 1,
+      "message": "Here too, we should rewrite the code so that we do not need to catch the NullPointerException.",
+      "revId": "c42b05cf7fbf7059c5df3be83f72777ea0d18ea5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "096a867f_19f4a896",
+        "filename": "java/com/google/gerrit/server/restapi/project/CheckMergeability.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-03T07:58:06Z",
+      "side": 1,
+      "message": "Here too, we should rewrite the code so that we do not need to catch the NullPointerException.",
+      "revId": "c42b05cf7fbf7059c5df3be83f72777ea0d18ea5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

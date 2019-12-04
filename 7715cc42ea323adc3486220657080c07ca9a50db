@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "99487931_b4513137",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-12-04T15:28:29Z",
+      "side": 1,
+      "message": "this can be in a separate line as its not one of the improvements :)",
+      "revId": "7715cc42ea323adc3486220657080c07ca9a50db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

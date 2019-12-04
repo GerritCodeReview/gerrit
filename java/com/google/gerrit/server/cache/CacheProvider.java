@@ -30,6 +30,7 @@ import java.time.Duration;
 
 class CacheProvider<K, V> implements Provider<Cache<K, V>>, CacheBinding<K, V>, CacheDef<K, V> {
   private final CacheModule module;
+  private final CacheBackend backend;
   final String name;
   private final TypeLiteral<K> keyType;
   private final TypeLiteral<V> valType;
@@ -44,11 +45,17 @@ class CacheProvider<K, V> implements Provider<Cache<K, V>>, CacheBinding<K, V>, 
   private MemoryCacheFactory memoryCacheFactory;
   private boolean frozen;
 
-  CacheProvider(CacheModule module, String name, TypeLiteral<K> keyType, TypeLiteral<V> valType) {
+  CacheProvider(
+      CacheModule module,
+      String name,
+      TypeLiteral<K> keyType,
+      TypeLiteral<V> valType,
+      CacheBackend backend) {
     this.module = module;
     this.name = name;
     this.keyType = keyType;
     this.valType = valType;
+    this.backend = backend;
   }
 
   @Inject(optional = true)
@@ -159,7 +166,9 @@ class CacheProvider<K, V> implements Provider<Cache<K, V>>, CacheBinding<K, V>, 
   public Cache<K, V> get() {
     freeze();
     CacheLoader<K, V> ldr = loader();
-    return ldr != null ? memoryCacheFactory.build(this, ldr) : memoryCacheFactory.build(this);
+    return ldr != null
+        ? memoryCacheFactory.build(this, ldr, backend)
+        : memoryCacheFactory.build(this, backend);
   }
 
   protected void checkNotFrozen() {

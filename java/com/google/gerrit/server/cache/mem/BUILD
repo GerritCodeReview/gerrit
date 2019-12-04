@@ -8,6 +8,8 @@ java_library(
         "//java/com/google/gerrit/common:annotations",
         "//java/com/google/gerrit/extensions:api",
         "//java/com/google/gerrit/server",
+        "//lib:caffeine",
+        "//lib:caffeine-guava",
         "//lib:guava",
         "//lib:jgit",
         "//lib/guice",

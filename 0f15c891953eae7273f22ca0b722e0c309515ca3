@@ -94,6 +94,30 @@
       "revId": "0f15c891953eae7273f22ca0b722e0c309515ca3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5775244d_51a90dd2",
+        "filename": "javatests/com/google/gerrit/integration/git/GitProtocolV2IT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-12-04T14:45:16Z",
+      "side": 0,
+      "message": "Nope, I mean both.\nI filed already a couple of bug on Gerrit for Git Protocol v2 and I had to disable it on GerritHub.io after the complains from the users.",
+      "parentUuid": "8235b789_a7eabf55",
+      "range": {
+        "startLine": 66,
+        "startChar": 4,
+        "endLine": 67,
+        "endChar": 66
+      },
+      "revId": "0f15c891953eae7273f22ca0b722e0c309515ca3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

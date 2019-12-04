@@ -31,6 +31,11 @@ ELASTICSEARCH_DEPS = [
     "//lib/jgit/org.eclipse.jgit:jgit",
 ]
 
+HTTP_TEST_DEPS = [
+    "//lib/httpcomponents:httpasyncclient",
+    "//lib/httpcomponents:httpclient",
+]
+
 QUERY_TESTS_DEP = "//javatests/com/google/gerrit/server/query/%s:abstract_query_tests"
 
 TYPES = [
@@ -67,7 +72,7 @@ ELASTICSEARCH_TAGS = [
     size = "large",
     srcs = [src],
     tags = ELASTICSEARCH_TAGS,
-    deps = ELASTICSEARCH_DEPS + [QUERY_TESTS_DEP % name],
+    deps = ELASTICSEARCH_DEPS + [QUERY_TESTS_DEP % name] + HTTP_TEST_DEPS,
 ) for name, src in ELASTICSEARCH_TESTS_V6.items()]
 
 [junit_tests(
@@ -75,10 +80,7 @@ ELASTICSEARCH_TAGS = [
     size = "large",
     srcs = [src],
     tags = ELASTICSEARCH_TAGS,
-    deps = ELASTICSEARCH_DEPS + [QUERY_TESTS_DEP % name] + [
-        "//lib/httpcomponents:httpasyncclient",
-        "//lib/httpcomponents:httpclient",
-    ],
+    deps = ELASTICSEARCH_DEPS + [QUERY_TESTS_DEP % name] + HTTP_TEST_DEPS,
 ) for name, src in ELASTICSEARCH_TESTS_V7.items()]
 
 junit_tests(

@@ -102,6 +102,30 @@
     },
     {
       "key": {
+        "uuid": "0f70ac55_a90cf9a1",
+        "filename": "polygerrit-ui/app/polymer_legacy_support/iron-a11y-keys-behavior/iron-a11y-keys-behavior_bridge.js",
+        "patchSetId": 17
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-12-04T16:20:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9aab98b2_8cc7ea69",
+      "range": {
+        "startLine": 12,
+        "startChar": 36,
+        "endLine": 12,
+        "endChar": 44
+      },
+      "revId": "66f80e1d1e41aedae8dfd008bfdbe0307a55b3b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "beaf9fc2_4a901022",
         "filename": "polygerrit-ui/app/polymer_legacy_support/iron-a11y-keys-behavior/iron-a11y-keys-behavior_bridge.js",
         "patchSetId": 17
@@ -194,6 +218,30 @@
       "revId": "66f80e1d1e41aedae8dfd008bfdbe0307a55b3b6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ffff4fae_6bfd1b06",
+        "filename": "polygerrit-ui/app/polymer_legacy_support/iron-a11y-keys-behavior/iron-a11y-keys-behavior_bridge.js",
+        "patchSetId": 17
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-12-04T16:20:45Z",
+      "side": 1,
+      "message": "Added README.md\nI decided to avoid detail explanation about require_shim and other things related to google-closure-library.",
+      "parentUuid": "07bcb3aa_eeab49cc",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 4
+      },
+      "revId": "66f80e1d1e41aedae8dfd008bfdbe0307a55b3b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

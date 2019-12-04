@@ -16,6 +16,24 @@
       "revId": "ea1443c101bb5282e252955daca3accf3e6857a0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "07309b35_f3bd73ef",
+        "filename": "polygerrit-ui/app/polymer_legacy_support/readme.txt",
+        "patchSetId": 19
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-12-04T16:20:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "57b24cc3_3532b1aa",
+      "revId": "ea1443c101bb5282e252955daca3accf3e6857a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

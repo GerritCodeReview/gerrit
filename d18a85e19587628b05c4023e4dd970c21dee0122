@@ -34,6 +34,24 @@
       "revId": "d18a85e19587628b05c4023e4dd970c21dee0122",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f5ab693_64f0299e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-12-04T06:21:16Z",
+      "side": 1,
+      "message": "OK, can you mention that in the commit message?",
+      "parentUuid": "7d5904ed_1c6deb6f",
+      "revId": "d18a85e19587628b05c4023e4dd970c21dee0122",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

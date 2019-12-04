@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "3842957b_775b8e5f",
+        "filename": "polygerrit-ui/app/polymer_legacy_support/iron-a11y-keys-behavior/iron-a11y-keys-behavior.html",
+        "patchSetId": 17
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-12-04T17:03:57Z",
+      "side": 1,
+      "message": "normally, files that aren\u0027t authored by Google go into third_party library at the toplevel. I think we predate this policy so we have external dependencies in lib/ . but for clarity and uniformity, should rather go into the lib/ directory.\n\nI don\u0027t understand though, can\u0027t we download these files as a zip from an external place?  \n\nAre we planning to change these files? If not, it\u0027s best to not import this as source code.\n\nDo these files have to be here because we can otherwise not serve them during HTML/JS development?",
+      "parentUuid": "8351cc46_54d3100b",
+      "revId": "66f80e1d1e41aedae8dfd008bfdbe0307a55b3b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "edb778b0_6866a910",
         "filename": "polygerrit-ui/app/polymer_legacy_support/iron-a11y-keys-behavior/iron-a11y-keys-behavior_bridge.js",
         "patchSetId": 17

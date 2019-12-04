@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cfe2126e_f898aec9",
+        "filename": "package.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-12-04T15:03:15Z",
+      "side": 1,
+      "message": "This should be ./node_modules/eslint/bin/eslint.js because otherwise it\u0027ll try using the global version (if installed globally).",
+      "revId": "f451e2c9b55dcf1d78ed9af6ad9c1bcaf6e5f4a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

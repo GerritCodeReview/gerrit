@@ -34,6 +34,24 @@
       "revId": "f451e2c9b55dcf1d78ed9af6ad9c1bcaf6e5f4a9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7380aafb_51016273",
+        "filename": "package.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-12-04T15:08:20Z",
+      "side": 1,
+      "message": "Oh, right, thanks!",
+      "parentUuid": "6f47d51c_eda533a8",
+      "revId": "f451e2c9b55dcf1d78ed9af6ad9c1bcaf6e5f4a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

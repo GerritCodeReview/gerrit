@@ -67,7 +67,10 @@ ELASTICSEARCH_TAGS = [
     size = "large",
     srcs = [src],
     tags = ELASTICSEARCH_TAGS,
-    deps = ELASTICSEARCH_DEPS + [QUERY_TESTS_DEP % name],
+    deps = ELASTICSEARCH_DEPS + [QUERY_TESTS_DEP % name] + [
+        "//lib/httpcomponents:httpasyncclient",
+        "//lib/httpcomponents:httpclient",
+    ],
 ) for name, src in ELASTICSEARCH_TESTS_V6.items()]
 
 [junit_tests(

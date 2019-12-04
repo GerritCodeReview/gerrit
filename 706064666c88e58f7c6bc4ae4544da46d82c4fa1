@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "97ab7d43_90d9fe97",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-12-04T09:27:37Z",
+      "side": 1,
+      "message": "tests :)",
+      "revId": "706064666c88e58f7c6bc4ae4544da46d82c4fa1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1ce2c018_16391dea",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-12-04T09:27:37Z",
+      "side": 1,
+      "message": "just suggestions, I feel like this should not be done in the thread component, and it should be done in comment itself. Maybe just pass the `thread` down to every comment.\n\nThe benefit is when you need to check for new conditions, you don\u0027t need to add a new property and have to pass it down from thread to comment. As comment will have the thread info, comment can determine all by itself. And the code should be much easier to read and understand (self-encapsulated logic)",
+      "revId": "706064666c88e58f7c6bc4ae4544da46d82c4fa1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "38e5af43_0e9df699",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-12-04T09:27:37Z",
+      "side": 1,
+      "message": "can this be merged with above hidden ? seems parent div doesn\u0027t have anything else other than this dom-if\nor you can just move the div below the dom-if and then just use `dom-if` as the guide on both checks",
+      "revId": "706064666c88e58f7c6bc4ae4544da46d82c4fa1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "28a4961e_a3560f05",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-12-04T09:27:37Z",
+      "side": 1,
+      "message": "the name is bit confusing, especially combining with the `computeShowPleaseFix` which depends on hidePleaseFix and some other stuff. Can we rename this to `has-human-reply` to be more specific ? and you may rely on it to control other actions as well in the future",
+      "range": {
+        "startLine": 122,
+        "startChar": 8,
+        "endLine": 122,
+        "endChar": 21
+      },
+      "revId": "706064666c88e58f7c6bc4ae4544da46d82c4fa1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ba17c168_b1083f0d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 663,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-12-04T09:27:37Z",
+      "side": 1,
+      "message": "should not this be a private method ? if so, it should start with `_`",
+      "range": {
+        "startLine": 663,
+        "startChar": 4,
+        "endLine": 663,
+        "endChar": 24
+      },
+      "revId": "706064666c88e58f7c6bc4ae4544da46d82c4fa1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

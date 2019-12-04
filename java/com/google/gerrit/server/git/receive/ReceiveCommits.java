@@ -93,6 +93,7 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.extensions.validators.CommentForValidation;
 import com.google.gerrit.extensions.validators.CommentForValidation.CommentType;
+import com.google.gerrit.extensions.validators.CommentValidationContext;
 import com.google.gerrit.extensions.validators.CommentValidationFailure;
 import com.google.gerrit.extensions.validators.CommentValidator;
 import com.google.gerrit.server.ApprovalsUtil;
@@ -2006,7 +2007,10 @@ class ReceiveCommits {
                             comment.message))
                 .collect(toImmutableList());
         ImmutableList<CommentValidationFailure> commentValidationFailures =
-            PublishCommentUtil.findInvalidComments(commentValidators, draftsForValidation);
+            PublishCommentUtil.findInvalidComments(
+                commentValidators,
+                draftsForValidation,
+                CommentValidationContext.create(change.getChangeId(), change.getProject().get()));
         magicBranch.setCommentsValid(commentValidationFailures.isEmpty());
         commentValidationFailures.forEach(
             failure ->

@@ -29,6 +29,7 @@ import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.extensions.validators.CommentForValidation;
+import com.google.gerrit.extensions.validators.CommentValidationContext;
 import com.google.gerrit.extensions.validators.CommentValidator;
 import com.google.gerrit.mail.MailMessage;
 import com.google.gerrit.mail.MailProcessingUtil;
@@ -70,7 +71,7 @@ public class MailProcessorIT extends AbstractMailIT {
   @BeforeClass
   public static void setUpMock() {
     // Let the mock comment validator accept all comments during test setup.
-    when(mockCommentValidator.validateComments(any())).thenReturn(ImmutableList.of());
+    when(mockCommentValidator.validateComments(any(), any())).thenReturn(ImmutableList.of());
   }
 
   @Before
@@ -274,7 +275,8 @@ public class MailProcessorIT extends AbstractMailIT {
         MailProcessingUtil.rfcDateformatter.format(
             ZonedDateTime.ofInstant(comments.get(0).updated.toInstant(), ZoneId.of("UTC")));
 
-    setupFailValidation(CommentForValidation.CommentType.CHANGE_MESSAGE);
+    setupFailValidation(
+        CommentForValidation.CommentType.CHANGE_MESSAGE, changeInfo.project, changeInfo._number);
 
     MailMessage.Builder b = messageBuilderWithDefaultFields();
     String txt = newPlaintextBody(getChangeUrl(changeInfo) + "/1", COMMENT_TEXT, null, null, null);
@@ -298,7 +300,8 @@ public class MailProcessorIT extends AbstractMailIT {
         MailProcessingUtil.rfcDateformatter.format(
             ZonedDateTime.ofInstant(comments.get(0).updated.toInstant(), ZoneId.of("UTC")));
 
-    setupFailValidation(CommentForValidation.CommentType.INLINE_COMMENT);
+    setupFailValidation(
+        CommentForValidation.CommentType.INLINE_COMMENT, changeInfo.project, changeInfo._number);
 
     MailMessage.Builder b = messageBuilderWithDefaultFields();
     String txt = newPlaintextBody(getChangeUrl(changeInfo) + "/1", null, COMMENT_TEXT, null, null);
@@ -322,7 +325,8 @@ public class MailProcessorIT extends AbstractMailIT {
         MailProcessingUtil.rfcDateformatter.format(
             ZonedDateTime.ofInstant(comments.get(0).updated.toInstant(), ZoneId.of("UTC")));
 
-    setupFailValidation(CommentForValidation.CommentType.FILE_COMMENT);
+    setupFailValidation(
+        CommentForValidation.CommentType.FILE_COMMENT, changeInfo.project, changeInfo._number);
 
     MailMessage.Builder b = messageBuilderWithDefaultFields();
     String txt = newPlaintextBody(getChangeUrl(changeInfo) + "/1", null, null, COMMENT_TEXT, null);
@@ -341,11 +345,13 @@ public class MailProcessorIT extends AbstractMailIT {
     return canonicalWebUrl.get() + "c/" + changeInfo.project + "/+/" + changeInfo._number;
   }
 
-  private void setupFailValidation(CommentForValidation.CommentType type) {
+  private void setupFailValidation(
+      CommentForValidation.CommentType type, String failProject, int failChange) {
     CommentForValidation commentForValidation = CommentForValidation.create(type, COMMENT_TEXT);
 
     when(mockCommentValidator.validateComments(
-            ImmutableList.of(CommentForValidation.create(type, COMMENT_TEXT))))
+            ImmutableList.of(CommentForValidation.create(type, COMMENT_TEXT)),
+            CommentValidationContext.create(failChange, failProject)))
         .thenReturn(ImmutableList.of(commentForValidation.failValidation("Oh no!")));
   }
 }

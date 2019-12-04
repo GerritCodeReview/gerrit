@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "84dfd6b2_557fbb49",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryBuilder.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 582,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-12-04T01:08:10Z",
+      "side": 1,
+      "message": "This message is inconsistent with other messages (see L592 for example), and the \"check configs\" part doesn\u0027t make sense for most users who won\u0027t have access to the server configuration.  Fixed in [1].\n\nThrowing this exception breaks the auto change cleanup when changeCleanup.abandonIfMergeable is disabled. Fixed in [2].\n\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/247454\n[2] https://gerrit-review.googlesource.com/c/gerrit/+/247455",
+      "revId": "d03143571d2ef104a0c306e0e1c1831e7adb7958",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

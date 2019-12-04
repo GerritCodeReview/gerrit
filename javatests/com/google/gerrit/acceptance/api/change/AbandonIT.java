@@ -21,6 +21,7 @@ import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.util.concurrent.TimeUnit.HOURS;
 import static java.util.stream.Collectors.toList;
+import static org.eclipse.jgit.lib.Constants.HEAD;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
@@ -32,9 +33,11 @@ import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.client.ChangeStatus;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.change.AbandonUtil;
@@ -45,6 +48,7 @@ import com.google.inject.Inject;
 import java.util.List;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
+import org.eclipse.jgit.lib.ObjectId;
 import org.junit.Test;
 
 public class AbandonIT extends AbstractDaemonTest {
@@ -133,6 +137,93 @@ public class AbandonIT extends AbstractDaemonTest {
     abandonUtil.abandonInactiveOpenChanges(batchUpdateFactory);
     assertThat(toChangeNumbers(query("is:open"))).containsExactly(id3);
     assertThat(toChangeNumbers(query("is:abandoned"))).containsExactly(id1, id2);
+  }
+
+  @Test
+  @UseClockStep
+  @GerritConfig(name = "changeCleanup.abandonAfter", value = "1w")
+  @GerritConfig(name = "changeCleanup.abandonIfMergeable", value = "false")
+  @GerritConfig(name = "index.change.indexMergeable", value = "true")
+  public void notAbandonedIfMergeableWhenMergeableOperatorIsEnabled() throws Exception {
+    ObjectId initial = repo().exactRef(HEAD).getLeaf().getObjectId();
+
+    // create 2 changes
+    int id1 = createChange().getChange().getId().get();
+    int id2 = createChange().getChange().getId().get();
+
+    // create 2 changes that conflict with each other
+    testRepo.reset(initial);
+    int id3 = createChange("change 3", "file.txt", "content").getChange().getId().get();
+    testRepo.reset(initial);
+    int id4 = createChange("change 4", "file.txt", "other content").getChange().getId().get();
+
+    // make all 4 previously created changes older than 1 week
+    TestTimeUtil.incrementClock(7 * 24, HOURS);
+
+    // create 1 new change that will not be abandoned because it is not older than 1 week
+    testRepo.reset(initial);
+    ChangeData cd = createChange().getChange();
+    int id5 = cd.getId().get();
+
+    assertThat(toChangeNumbers(query("is:open"))).containsExactly(id1, id2, id3, id4, id5);
+    assertThat(query("is:abandoned")).isEmpty();
+
+    // submit one of the conflicting changes
+    gApi.changes().id(id3).current().review(ReviewInput.approve());
+    gApi.changes().id(id3).current().submit();
+    assertThat(toChangeNumbers(query("is:merged"))).containsExactly(id3);
+    assertThat(toChangeNumbers(query("-is:mergeable"))).containsExactly(id4);
+
+    abandonUtil.abandonInactiveOpenChanges(batchUpdateFactory);
+    assertThat(toChangeNumbers(query("is:open"))).containsExactly(id5, id2, id1);
+    assertThat(toChangeNumbers(query("is:abandoned"))).containsExactly(id4);
+  }
+
+  @Test
+  @UseClockStep
+  @GerritConfig(name = "changeCleanup.abandonAfter", value = "1w")
+  @GerritConfig(name = "changeCleanup.abandonIfMergeable", value = "false")
+  @GerritConfig(name = "index.change.indexMergeable", value = "false")
+  /**
+   * When indexMergeable is disabled then the abandonIfMergeable option is ineffective and the auto
+   * abandon behaves as though it were set to its default value (true).
+   */
+  public void abandonedIfMergeableWhenMergeableOperatorIsDisabled() throws Exception {
+    ObjectId initial = repo().exactRef(HEAD).getLeaf().getObjectId();
+
+    // create 2 changes
+    int id1 = createChange().getChange().getId().get();
+    int id2 = createChange().getChange().getId().get();
+
+    // create 2 changes that conflict with each other
+    testRepo.reset(initial);
+    int id3 = createChange("change 3", "file.txt", "content").getChange().getId().get();
+    testRepo.reset(initial);
+    int id4 = createChange("change 4", "file.txt", "other content").getChange().getId().get();
+
+    // make all 4 previously created changes older than 1 week
+    TestTimeUtil.incrementClock(7 * 24, HOURS);
+
+    // create 1 new change that will not be abandoned because it is not older than 1 week
+    testRepo.reset(initial);
+    ChangeData cd = createChange().getChange();
+    int id5 = cd.getId().get();
+
+    assertThat(toChangeNumbers(query("is:open"))).containsExactly(id1, id2, id3, id4, id5);
+    assertThat(query("is:abandoned")).isEmpty();
+
+    // submit one of the conflicting changes
+    gApi.changes().id(id3).current().review(ReviewInput.approve());
+    gApi.changes().id(id3).current().submit();
+    assertThat(toChangeNumbers(query("is:merged"))).containsExactly(id3);
+
+    BadRequestException thrown =
+        assertThrows(BadRequestException.class, () -> query("-is:mergeable"));
+    assertThat(thrown).hasMessageThat().contains("operator is not supported");
+
+    abandonUtil.abandonInactiveOpenChanges(batchUpdateFactory);
+    assertThat(toChangeNumbers(query("is:open"))).containsExactly(id5);
+    assertThat(toChangeNumbers(query("is:abandoned"))).containsExactly(id4, id2, id1);
   }
 
   @Test

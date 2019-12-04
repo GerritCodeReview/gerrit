@@ -15,6 +15,7 @@
 package com.google.gerrit.server.config;
 
 import com.google.common.base.Strings;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.server.config.ScheduleConfig.Schedule;
 import com.google.inject.Inject;
@@ -25,6 +26,8 @@ import org.eclipse.jgit.lib.Config;
 
 @Singleton
 public class ChangeCleanupConfig {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   private static String SECTION = "changeCleanup";
   private static String KEY_ABANDON_AFTER = "abandonAfter";
   private static String KEY_ABANDON_IF_MERGEABLE = "abandonIfMergeable";
@@ -48,10 +51,24 @@ public class ChangeCleanupConfig {
     this.urlFormatter = urlFormatter;
     schedule = ScheduleConfig.createSchedule(cfg, SECTION);
     abandonAfter = readAbandonAfter(cfg);
-    abandonIfMergeable = cfg.getBoolean(SECTION, null, KEY_ABANDON_IF_MERGEABLE, true);
+    boolean indexMergeable = cfg.getBoolean("index", "change", "indexMergeable", true);
+    if (!indexMergeable) {
+      if (!readAbandonIfMergeable(cfg)) {
+        logger.atWarning().log(
+            "index.change.indexMergeable is disabled; %s.%s=false will be ineffective",
+            SECTION, KEY_ABANDON_IF_MERGEABLE);
+      }
+      abandonIfMergeable = true;
+    } else {
+      abandonIfMergeable = readAbandonIfMergeable(cfg);
+    }
     cleanupAccountPatchReview =
         cfg.getBoolean(SECTION, null, KEY_CLEANUP_ACCOUNT_PATCH_REVIEW, false);
     abandonMessage = readAbandonMessage(cfg);
+  }
+
+  private boolean readAbandonIfMergeable(Config cfg) {
+    return cfg.getBoolean(SECTION, null, KEY_ABANDON_IF_MERGEABLE, true);
   }
 
   private long readAbandonAfter(Config cfg) {

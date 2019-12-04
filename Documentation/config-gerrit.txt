@@ -1391,9 +1391,15 @@ The following suffixes are supported to define the time unit:
 
 [[changeCleanup.abandonIfMergeable]]changeCleanup.abandonIfMergeable::
 +
-Whether changes which are mergeable should be auto-abandoned.
+Whether changes which are mergeable should be auto-abandoned. When set
+to `false`, `-is:mergeable` is appended to the query used to find
+the changes to auto-abandon.
 +
-By default `true`.
+By default `true`, meaning mergeable changes are auto-abandoned.
++
+If link:#index.change.indexMergeable[`index.change.indexMergeable`]
+is disabled, setting this option to `false` has no effect and it
+behaves as though it were set to `true`.
 
 [[changeCleanup.cleanupAccountPatchReview]]changeCleanup.cleanupAccountPatchReview::
 +

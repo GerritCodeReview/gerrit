@@ -15,8 +15,8 @@
   "scripts": {
     "start": "polygerrit-ui/run-server.sh",
     "test": "WCT_HEADLESS_MODE=1 WCT_ARGS='--verbose -l chrome' ./polygerrit-ui/app/run_test.sh",
-    "eslint": "./node_modules/eslint/bin/eslint.js --ignore-pattern 'bower_components/' --ignore-pattern 'gr-linked-text' --ignore-pattern 'scripts/vendor' --ext .html,.js polygerrit-ui/app || exit 0",
-    "eslintfix": "./node_modules/eslint/bin/eslint.js --fix --ignore-pattern 'bower_components/' --ignore-pattern 'gr-linked-text' --ignore-pattern 'scripts/vendor' --ext .html,.js polygerrit-ui/app || exit 0",
+    "eslint": "./node_modules/eslint/bin/eslint.js --ignore-pattern 'bower_components/' --ignore-pattern 'gr-linked-text' --ignore-pattern 'scripts/vendor' --ext .html,.js polygerrit-ui/app",
+    "eslintfix": "npm run eslint -- --fix",
     "test-template": "./polygerrit-ui/app/run_template_test.sh",
     "polylint": "bazel test polygerrit-ui/app:polylint_test"
   },

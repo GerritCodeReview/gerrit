@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "5aebabcf_f35dc5a9",
+        "filename": "java/com/google/gerrit/exceptions/InvalidMergeStrategyException.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-04T14:49:08Z",
+      "side": 1,
+      "message": "I think in this case we should adapt all callers to handle this exception (instead of extending IOException).",
+      "parentUuid": "955cb5b2_17c9a3a3",
+      "range": {
+        "startLine": 19,
+        "startChar": 43,
+        "endLine": 19,
+        "endChar": 62
+      },
+      "revId": "b0fa4d7c0df27b18c577d988507b43739ac6539c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "feb854c2_2a47e952",
         "filename": "java/com/google/gerrit/server/restapi/change/CreateChange.java",
         "patchSetId": 2

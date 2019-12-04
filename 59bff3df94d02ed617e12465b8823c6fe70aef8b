@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "334754e4_f0841aef",
+        "filename": "java/com/google/gerrit/extensions/common/SshdInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-04T07:32:37Z",
+      "side": 1,
+      "message": "\u003e I\u0027m not sure why it was done like this rather than just a boolean field.\n\nThe idea back then was that this allows us to add SSHD-related config fields here, without breaking the API.",
+      "parentUuid": "7d9b4395_4cbf13ee",
+      "range": {
+        "startLine": 17,
+        "startChar": 16,
+        "endLine": 17,
+        "endChar": 81
+      },
+      "revId": "59bff3df94d02ed617e12465b8823c6fe70aef8b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c2ac2847_1dfd81b3",
         "filename": "java/com/google/gerrit/extensions/common/SuggestInfo.java",
         "patchSetId": 1

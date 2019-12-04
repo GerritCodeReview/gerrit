@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "01e01b36_cd104425",
+        "filename": "plugins/replication",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-12-04T08:38:05Z",
+      "side": 1,
+      "message": "This seems to be an unintended update of the submodule reference. I corrected it in Ic511f3c16.",
+      "revId": "ec4b56677f758101805418f846ae7097da2215f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

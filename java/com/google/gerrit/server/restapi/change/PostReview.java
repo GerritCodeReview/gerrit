@@ -66,6 +66,7 @@ import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.common.AccountInfo;
+import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.FixReplacementInfo;
 import com.google.gerrit.extensions.common.FixSuggestionInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -77,6 +78,7 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.extensions.validators.CommentForValidation;
+import com.google.gerrit.extensions.validators.CommentValidationContext;
 import com.google.gerrit.extensions.validators.CommentValidationFailure;
 import com.google.gerrit.extensions.validators.CommentValidator;
 import com.google.gerrit.json.OutputFormat;
@@ -999,16 +1001,19 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         }
       }
 
+      CommentValidationContext commentValidationCtx =
+          CommentValidationContext.create(ctx.getChange().getChangeId(), ctx.getProject().get());
       switch (in.drafts) {
         case PUBLISH:
         case PUBLISH_ALL_REVISIONS:
-          validateComments(Streams.concat(drafts.values().stream(), toPublish.stream()));
+          validateComments(
+              Streams.concat(drafts.values().stream(), toPublish.stream()), commentValidationCtx);
           publishCommentUtil.publish(ctx, psId, drafts.values(), in.tag);
           comments.addAll(drafts.values());
           break;
         case KEEP:
         default:
-          validateComments(toPublish.stream());
+          validateComments(toPublish.stream(), commentValidationCtx);
           break;
       }
       ChangeUpdate changeUpdate = ctx.getUpdate(psId);
@@ -1017,7 +1022,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       return !toPublish.isEmpty();
     }
 
-    private void validateComments(Stream<Comment> comments) throws CommentsRejectedException {
+    private void validateComments(Stream<Comment> comments, CommentValidationContext ctx)
+        throws CommentsRejectedException {
       ImmutableList<CommentForValidation> draftsForValidation =
           comments
               .map(
@@ -1029,7 +1035,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
                           comment.message))
               .collect(toImmutableList());
       ImmutableList<CommentValidationFailure> draftValidationFailures =
-          PublishCommentUtil.findInvalidComments(commentValidators, draftsForValidation);
+          PublishCommentUtil.findInvalidComments(commentValidators, draftsForValidation, ctx);
       if (!draftValidationFailures.isEmpty()) {
         throw new CommentsRejectedException(draftValidationFailures);
       }
@@ -1420,7 +1426,9 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
                 commentValidators,
                 ImmutableList.of(
                     CommentForValidation.create(
-                        CommentForValidation.CommentType.CHANGE_MESSAGE, msg)));
+                        CommentForValidation.CommentType.CHANGE_MESSAGE, msg)),
+                CommentValidationContext.create(
+                    ctx.getChange().getChangeId(), ctx.getProject().get()));
         if (!messageValidationFailure.isEmpty()) {
           throw new CommentsRejectedException(messageValidationFailure);
         }

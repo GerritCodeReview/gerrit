@@ -70,7 +70,7 @@ public class MailProcessorIT extends AbstractMailIT {
   @BeforeClass
   public static void setUpMock() {
     // Let the mock comment validator accept all comments during test setup.
-    when(mockCommentValidator.validateComments(any())).thenReturn(ImmutableList.of());
+    when(mockCommentValidator.validateComments(any(), any())).thenReturn(ImmutableList.of());
   }
 
   @Before
@@ -345,7 +345,7 @@ public class MailProcessorIT extends AbstractMailIT {
     CommentForValidation commentForValidation = CommentForValidation.create(type, COMMENT_TEXT);
 
     when(mockCommentValidator.validateComments(
-            ImmutableList.of(CommentForValidation.create(type, COMMENT_TEXT))))
+            ImmutableList.of(CommentForValidation.create(type, COMMENT_TEXT)), null))
         .thenReturn(ImmutableList.of(commentForValidation.failValidation("Oh no!")));
   }
 }

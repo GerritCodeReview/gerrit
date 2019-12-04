@@ -14,6 +14,8 @@
 
 package com.google.gerrit.elasticsearch;
 
+import static java.util.concurrent.TimeUnit.MINUTES;
+
 import com.google.gerrit.elasticsearch.ElasticTestUtils.ElasticNodeInfo;
 import com.google.gerrit.server.query.change.AbstractQueryChangesTest;
 import com.google.gerrit.testing.ConfigSuite;
@@ -22,7 +24,12 @@ import com.google.gerrit.testing.InMemoryModule;
 import com.google.gerrit.testing.IndexConfig;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.protocol.HttpClientContext;
+import org.apache.http.impl.nio.client.CloseableHttpAsyncClient;
+import org.apache.http.impl.nio.client.HttpAsyncClients;
 import org.eclipse.jgit.lib.Config;
+import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Rule;
@@ -35,6 +42,7 @@ public class ElasticV6QueryChangesTest extends AbstractQueryChangesTest {
 
   private static ElasticNodeInfo nodeInfo;
   private static ElasticContainer container;
+  private static CloseableHttpAsyncClient client;
 
   @BeforeClass
   public static void startIndexService() {
@@ -45,6 +53,8 @@ public class ElasticV6QueryChangesTest extends AbstractQueryChangesTest {
 
     container = ElasticContainer.createAndStart(ElasticVersion.V6_8);
     nodeInfo = new ElasticNodeInfo(container.getHttpHost().getPort());
+    client = HttpAsyncClients.createDefault();
+    client.start();
   }
 
   @AfterClass
@@ -55,6 +65,19 @@ public class ElasticV6QueryChangesTest extends AbstractQueryChangesTest {
   }
 
   @Rule public final GerritTestName testName = new GerritTestName();
+
+  @After
+  public void closeIndex() throws Exception {
+    client
+        .execute(
+            new HttpPost(
+                String.format(
+                    "http://localhost:%d/%s*/_close",
+                    nodeInfo.port, testName.getSanitizedMethodName())),
+            HttpClientContext.create(),
+            null)
+        .get(5, MINUTES);
+  }
 
   @Override
   protected void initAfterLifecycleStart() throws Exception {

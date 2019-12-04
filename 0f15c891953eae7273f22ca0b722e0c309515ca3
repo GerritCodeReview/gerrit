@@ -46,6 +46,30 @@
       "revId": "0f15c891953eae7273f22ca0b722e0c309515ca3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cc66d000_0c4876c7",
+        "filename": "javatests/com/google/gerrit/integration/git/GitProtocolV2IT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-12-04T13:04:37Z",
+      "side": 0,
+      "message": "That\u0027s just fine. We can only test on the CI what we can test on the CI.\nWe can\u0027t test Java 13 integration on the CI and also not Java 14.\n\nSimilarly, we can\u0027t test Git v2 protocol on the CI, that requires Git 2.18.\n\nWhat if we can\u0027t upgrade the CI, and we would merge this change as is? This would\neffectively mean, no single change would pass the verification.\n\nThat is why assumption violation iq reauired, until we upgrade CI. Here is the change for that: [1]. Any reviewers and tests would be appreciated. I tested it and it works as expected.\n\nStill I don\u0027t understand, what Luca is trying to say with \"Git V2 protocol is not working on release 3.1\"? Can you file yet another issue why Git v2 protocol is broken on release 3.1?\n\n* [1] https://gerrit-review.googlesource.com/c/gerrit-ci-scripts/+/237181",
+      "parentUuid": "7f7e6dbf_da994a0f",
+      "range": {
+        "startLine": 66,
+        "startChar": 4,
+        "endLine": 67,
+        "endChar": 66
+      },
+      "revId": "0f15c891953eae7273f22ca0b722e0c309515ca3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -82,6 +82,7 @@ import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.api.projects.ProjectConfigEntryType;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
+import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.DynamicSet;
@@ -115,6 +116,7 @@ import com.google.gerrit.server.config.PluginConfig;
 import com.google.gerrit.server.config.ProjectConfigEntry;
 import com.google.gerrit.server.edit.ChangeEdit;
 import com.google.gerrit.server.edit.ChangeEditUtil;
+import com.google.gerrit.server.extensions.events.EventUtil;
 import com.google.gerrit.server.git.BanCommit;
 import com.google.gerrit.server.git.ChangeReportFormatter;
 import com.google.gerrit.server.git.GroupCollector;
@@ -341,6 +343,7 @@ class ReceiveCommits {
   private final TagCache tagCache;
   private final ProjectConfig.Factory projectConfigFactory;
   private final SetPrivateOp.Factory setPrivateOpFactory;
+  private final EventUtil eventUtil;
 
   // Assisted injected fields.
   private final ProjectState projectState;
@@ -387,6 +390,7 @@ class ReceiveCommits {
       ChangeIndexer indexer,
       ChangeInserter.Factory changeInserterFactory,
       ChangeNotes.Factory notesFactory,
+      EventUtil eventUtil,
       DynamicItem<ChangeReportFormatter> changeFormatterProvider,
       CmdLineParser.Factory optionParserFactory,
       CommentsUtil commentsUtil,
@@ -463,6 +467,7 @@ class ReceiveCommits {
     this.tagCache = tagCache;
     this.projectConfigFactory = projectConfigFactory;
     this.setPrivateOpFactory = setPrivateOpFactory;
+    this.eventUtil = eventUtil;
 
     // Assisted injected fields.
     this.projectState = projectState;
@@ -2040,7 +2045,7 @@ class ReceiveCommits {
                             comment.message))
                 .collect(toImmutableList());
         ImmutableList<CommentValidationFailure> commentValidationFailures =
-            PublishCommentUtil.findInvalidComments(commentValidators, draftsForValidation);
+            PublishCommentUtil.findInvalidComments(commentValidators, draftsForValidation, eventUtil.changeInfo(change));
         magicBranch.setCommentsValid(commentValidationFailures.isEmpty());
         commentValidationFailures.forEach(
             failure ->

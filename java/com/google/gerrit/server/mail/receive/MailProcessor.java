@@ -28,6 +28,7 @@ import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.client.Side;
+import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.registration.Extension;
@@ -53,6 +54,7 @@ import com.google.gerrit.server.account.Emails;
 import com.google.gerrit.server.change.EmailReviewComments;
 import com.google.gerrit.server.config.UrlFormatter;
 import com.google.gerrit.server.extensions.events.CommentAdded;
+import com.google.gerrit.server.extensions.events.EventUtil;
 import com.google.gerrit.server.mail.MailFilter;
 import com.google.gerrit.server.mail.send.InboundEmailRejectionSender;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -113,6 +115,7 @@ public class MailProcessor {
   private final AccountCache accountCache;
   private final DynamicItem<UrlFormatter> urlFormatter;
   private final PluginSetContext<CommentValidator> commentValidators;
+  private final EventUtil util;
 
   @Inject
   public MailProcessor(
@@ -131,7 +134,8 @@ public class MailProcessor {
       CommentAdded commentAdded,
       AccountCache accountCache,
       DynamicItem<UrlFormatter> urlFormatter,
-      PluginSetContext<CommentValidator> commentValidators) {
+      PluginSetContext<CommentValidator> commentValidators,
+      EventUtil util) {
     this.emails = emails;
     this.emailRejectionSender = emailRejectionSender;
     this.retryHelper = retryHelper;
@@ -148,6 +152,7 @@ public class MailProcessor {
     this.accountCache = accountCache;
     this.urlFormatter = urlFormatter;
     this.commentValidators = commentValidators;
+    this.util = util;
   }
 
   /**
@@ -285,7 +290,8 @@ public class MailProcessor {
                           comment.getMessage()))
               .collect(ImmutableList.toImmutableList());
       ImmutableList<CommentValidationFailure> commentValidationFailures =
-          PublishCommentUtil.findInvalidComments(commentValidators, parsedCommentsForValidation);
+          PublishCommentUtil.findInvalidComments(commentValidators, parsedCommentsForValidation,
+              util.changeInfo(cd.change()));
       if (!commentValidationFailures.isEmpty()) {
         sendRejectionEmail(message, InboundEmailRejectionSender.Error.COMMENT_REJECTED);
         return;

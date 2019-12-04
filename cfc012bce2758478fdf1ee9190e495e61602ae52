@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f02c9461_d7c5f39d",
+        "filename": "javatests/com/google/gerrit/elasticsearch/ElasticV6QueryChangesTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-12-04T07:51:01Z",
+      "side": 1,
+      "message": "This needs to be testName.getSanitizedMethodName",
+      "range": {
+        "startLine": 70,
+        "startChar": 65,
+        "endLine": 70,
+        "endChar": 87
+      },
+      "revId": "cfc012bce2758478fdf1ee9190e495e61602ae52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "5f578b61_8618528a",
+        "filename": "polygerrit-ui/app/polymer_legacy_support/iron-a11y-keys-behavior/iron-a11y-keys-behavior.html",
+        "patchSetId": 17
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-12-04T17:08:41Z",
+      "side": 1,
+      "message": "those bridge files are open source but only available within google :( polymer team doesn\u0027t publish the code to outside as far as we know. Thats why we have to include it in Gerrit code to use them :(",
+      "parentUuid": "3842957b_775b8e5f",
+      "revId": "66f80e1d1e41aedae8dfd008bfdbe0307a55b3b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "edb778b0_6866a910",
         "filename": "polygerrit-ui/app/polymer_legacy_support/iron-a11y-keys-behavior/iron-a11y-keys-behavior_bridge.js",
         "patchSetId": 17

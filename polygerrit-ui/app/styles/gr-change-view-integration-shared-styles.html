@@ -29,6 +29,10 @@ limitations under the License.
       /* Workaround for empty style block - see https://github.com/Polymer/tools/issues/408 */
     </style>
     <style>
+      :host {
+        border-top: 1px solid var(--border-color);
+        display: block;
+      }
       .header {
         color: var(--primary-text-color);
         background-color: var(--table-header-background-color);

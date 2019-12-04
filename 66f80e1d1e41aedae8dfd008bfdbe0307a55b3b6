@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d1a70462_3dbcbfd6",
+        "filename": "polygerrit-ui/app/polymer_legacy_support/iron-a11y-keys-behavior/iron-a11y-keys-behavior.html",
+        "patchSetId": 17
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-12-04T10:30:54Z",
+      "side": 1,
+      "message": "Can you clarify this with Han-Wen?",
+      "parentUuid": "799d3cd7_9af09e42",
+      "revId": "66f80e1d1e41aedae8dfd008bfdbe0307a55b3b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "edb778b0_6866a910",
         "filename": "polygerrit-ui/app/polymer_legacy_support/iron-a11y-keys-behavior/iron-a11y-keys-behavior_bridge.js",
         "patchSetId": 17
@@ -53,6 +71,30 @@
       "writtenOn": "2019-12-04T10:03:55Z",
       "side": 1,
       "message": "this will require google-closure-library, do we have it as a dependency ?",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 4
+      },
+      "revId": "66f80e1d1e41aedae8dfd008bfdbe0307a55b3b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f9091247_e84d1aee",
+        "filename": "polygerrit-ui/app/polymer_legacy_support/iron-a11y-keys-behavior/iron-a11y-keys-behavior_bridge.js",
+        "patchSetId": 17
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-12-04T10:30:54Z",
+      "side": 1,
+      "message": "It would be nice to do this without goog. What does declareModuleId do? Can we maybe pull it out as a separate utility method?",
+      "parentUuid": "beaf9fc2_4a901022",
       "range": {
         "startLine": 19,
         "startChar": 0,

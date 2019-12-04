@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3c95ddca_07e5cc22",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-12-04T15:56:06Z",
+      "side": 1,
+      "message": "camelCase :)",
+      "range": {
+        "startLine": 316,
+        "startChar": 4,
+        "endLine": 316,
+        "endChar": 25
+      },
+      "revId": "6e8a670675ffb0a0968538648fbc467eaa0460ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

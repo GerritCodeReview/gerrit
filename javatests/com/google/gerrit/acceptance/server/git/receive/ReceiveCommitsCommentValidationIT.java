@@ -30,6 +30,7 @@ import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.extensions.validators.CommentForValidation;
 import com.google.gerrit.extensions.validators.CommentForValidation.CommentType;
+import com.google.gerrit.extensions.validators.CommentValidationContext;
 import com.google.gerrit.extensions.validators.CommentValidator;
 import com.google.gerrit.testing.TestCommentHelper;
 import com.google.inject.Inject;
@@ -49,6 +50,7 @@ public class ReceiveCommitsCommentValidationIT extends AbstractDaemonTest {
   private static final String COMMENT_TEXT = "The comment text";
 
   @Captor private ArgumentCaptor<ImmutableList<CommentForValidation>> capture;
+  @Captor private ArgumentCaptor<CommentValidationContext> captureCtx;
 
   @Override
   public Module createModule() {
@@ -72,14 +74,16 @@ public class ReceiveCommitsCommentValidationIT extends AbstractDaemonTest {
 
   @Test
   public void validateComments_commentOK() throws Exception {
-    when(mockCommentValidator.validateComments(
-            ImmutableList.of(
-                CommentForValidation.create(
-                    CommentForValidation.CommentType.FILE_COMMENT, COMMENT_TEXT))))
-        .thenReturn(ImmutableList.of());
     PushOneCommit.Result result = createChange();
     String changeId = result.getChangeId();
     String revId = result.getCommit().getName();
+    when(mockCommentValidator.validateComments(
+            ImmutableList.of(
+                CommentForValidation.create(
+                    CommentForValidation.CommentType.FILE_COMMENT, COMMENT_TEXT)),
+            CommentValidationContext.create(
+                result.getChange().getId().get(), result.getChange().project().get())))
+        .thenReturn(ImmutableList.of());
     DraftInput comment = testCommentHelper.newDraft(COMMENT_TEXT);
     testCommentHelper.addDraft(changeId, revId, comment);
     assertThat(testCommentHelper.getPublishedComments(result.getChangeId())).isEmpty();
@@ -93,14 +97,16 @@ public class ReceiveCommitsCommentValidationIT extends AbstractDaemonTest {
   public void validateComments_commentRejected() throws Exception {
     CommentForValidation commentForValidation =
         CommentForValidation.create(CommentType.FILE_COMMENT, COMMENT_TEXT);
-    when(mockCommentValidator.validateComments(
-            ImmutableList.of(
-                CommentForValidation.create(
-                    CommentForValidation.CommentType.FILE_COMMENT, COMMENT_TEXT))))
-        .thenReturn(ImmutableList.of(commentForValidation.failValidation("Oh no!")));
     PushOneCommit.Result result = createChange();
     String changeId = result.getChangeId();
     String revId = result.getCommit().getName();
+    when(mockCommentValidator.validateComments(
+            ImmutableList.of(
+                CommentForValidation.create(
+                    CommentForValidation.CommentType.FILE_COMMENT, COMMENT_TEXT)),
+            CommentValidationContext.create(
+                result.getChange().getId().get(), result.getChange().project().get())))
+        .thenReturn(ImmutableList.of(commentForValidation.failValidation("Oh no!")));
     DraftInput comment = testCommentHelper.newDraft(COMMENT_TEXT);
     testCommentHelper.addDraft(changeId, revId, comment);
     assertThat(testCommentHelper.getPublishedComments(result.getChangeId())).isEmpty();
@@ -112,7 +118,8 @@ public class ReceiveCommitsCommentValidationIT extends AbstractDaemonTest {
 
   @Test
   public void validateComments_inlineVsFileComments_allOK() throws Exception {
-    when(mockCommentValidator.validateComments(capture.capture())).thenReturn(ImmutableList.of());
+    when(mockCommentValidator.validateComments(capture.capture(), captureCtx.capture()))
+        .thenReturn(ImmutableList.of());
     PushOneCommit.Result result = createChange();
     String changeId = result.getChangeId();
     String revId = result.getCommit().getName();

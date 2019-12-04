@@ -185,6 +185,24 @@
     },
     {
       "key": {
+        "uuid": "9fb4f858_ad9f9379",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-04T15:21:18Z",
+      "side": 1,
+      "message": "Oh, actually scratch that. I realized that BatchUpdate has no support for updating multiple changes at once yet. And even if we had that, we would still not have transactions across repositories, as it would be needed here.",
+      "parentUuid": "a985500e_63bd890c",
+      "revId": "d2a9f2fa1c14ae8be406c2f31e2271318240559c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9dbcfc56_7a9c9af0",
         "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
         "patchSetId": 6

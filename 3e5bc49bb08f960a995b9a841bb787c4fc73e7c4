@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fbfebdc6_fd84157d",
+        "filename": "java/com/google/gerrit/server/patch/PatchScriptBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 267,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-04T08:06:48Z",
+      "side": 1,
+      "message": "I think you can you !Patch.isMagic(side.path) here.",
+      "range": {
+        "startLine": 266,
+        "startChar": 11,
+        "endLine": 267,
+        "endChar": 46
+      },
+      "revId": "3e5bc49bb08f960a995b9a841bb787c4fc73e7c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

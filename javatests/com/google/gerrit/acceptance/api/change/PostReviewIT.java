@@ -218,7 +218,8 @@ public class PostReviewIT extends AbstractDaemonTest {
     testCommentHelper.addDraft(r.getChangeId(), r.getCommit().getName(), draftFile);
     assertThat(testCommentHelper.getPublishedComments(r.getChangeId())).isEmpty();
 
-    when(mockCommentValidator.validateComments(capture.capture())).thenReturn(ImmutableList.of());
+    when(mockCommentValidator.validateComments(capture.capture()))
+        .thenReturn(ImmutableList.of());
 
     ReviewInput input = new ReviewInput();
     input.drafts = DraftHandling.PUBLISH;
@@ -237,8 +238,7 @@ public class PostReviewIT extends AbstractDaemonTest {
   @Test
   public void validateCommentsInChangeMessage_messageOK() throws Exception {
     when(mockCommentValidator.validateComments(
-            ImmutableList.of(
-                CommentForValidation.create(CommentType.CHANGE_MESSAGE, COMMENT_TEXT))))
+            ImmutableList.of(CommentForValidation.create(CommentType.CHANGE_MESSAGE, COMMENT_TEXT))))
         .thenReturn(ImmutableList.of());
     PushOneCommit.Result r = createChange();
 
@@ -256,8 +256,7 @@ public class PostReviewIT extends AbstractDaemonTest {
     CommentForValidation commentForValidation =
         CommentForValidation.create(CommentType.CHANGE_MESSAGE, COMMENT_TEXT);
     when(mockCommentValidator.validateComments(
-            ImmutableList.of(
-                CommentForValidation.create(CommentType.CHANGE_MESSAGE, COMMENT_TEXT))))
+            ImmutableList.of(CommentForValidation.create(CommentType.CHANGE_MESSAGE, COMMENT_TEXT))))
         .thenReturn(ImmutableList.of(commentForValidation.failValidation("Oh no!")));
     PushOneCommit.Result r = createChange();
 

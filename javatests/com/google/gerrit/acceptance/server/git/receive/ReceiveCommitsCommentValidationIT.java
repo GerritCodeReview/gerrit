@@ -112,7 +112,8 @@ public class ReceiveCommitsCommentValidationIT extends AbstractDaemonTest {
 
   @Test
   public void validateComments_inlineVsFileComments_allOK() throws Exception {
-    when(mockCommentValidator.validateComments(capture.capture())).thenReturn(ImmutableList.of());
+    when(mockCommentValidator.validateComments(capture.capture()))
+        .thenReturn(ImmutableList.of());
     PushOneCommit.Result result = createChange();
     String changeId = result.getChangeId();
     String revId = result.getCommit().getName();

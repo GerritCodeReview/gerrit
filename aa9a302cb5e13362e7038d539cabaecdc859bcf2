@@ -8,9 +8,9 @@
     },
     "gerritforge:notedb-a6a0e4682515f3521897c5f950d1394f4619d928": {
       "state": "NOT_STARTED",
-      "url": "https://gerrit-ci.gerritforge.com/job/Gerrit-verifier-bazel/76158/consoleText",
+      "url": "https://gerrit-ci.gerritforge.com/job/Gerrit-verifier-bazel/76159/consoleText",
       "created": "2019-12-04T14:10:49Z",
-      "updated": "2019-12-04T14:10:49Z"
+      "updated": "2019-12-04T14:30:19Z"
     }
   }
 }

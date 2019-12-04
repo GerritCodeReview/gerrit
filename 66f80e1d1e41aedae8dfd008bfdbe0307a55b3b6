@@ -170,6 +170,30 @@
       "revId": "66f80e1d1e41aedae8dfd008bfdbe0307a55b3b6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "07bcb3aa_eeab49cc",
+        "filename": "polygerrit-ui/app/polymer_legacy_support/iron-a11y-keys-behavior/iron-a11y-keys-behavior_bridge.js",
+        "patchSetId": 17
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-12-04T12:05:34Z",
+      "side": 1,
+      "message": "I prefer a README, as it will be available in the gitfiles without having to dig up this commit and also its good for people who don\u0027t have the full context.\n\nAnd stuff like `goog` namespace is provided by the `require_shim` is also worth documenting there.",
+      "parentUuid": "94498cbb_51e74d92",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 4
+      },
+      "revId": "66f80e1d1e41aedae8dfd008bfdbe0307a55b3b6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

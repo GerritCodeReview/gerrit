@@ -1,0 +1,15 @@
+{
+  "name": "polymer_legacy_support",
+  "version": "1.0.0",
+  "description": "Polymer legacy support for Gerrit Code Review",
+  "repository": {
+    "type": "git",
+    "url": "https://gerrit.googlesource.com/gerrit"
+  },
+  "author": "The Polymer Project Authors",
+  "license": "BSD-3-Clause",
+  "homepage": "https://github.com/Polymer/polymer",
+  "publishConfig": {
+    "access": "public"
+  }
+}

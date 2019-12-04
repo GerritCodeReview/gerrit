@@ -437,7 +437,7 @@
     }
 
     _handleFileTabChange(e) {
-      const selectedIndex = this.$$('#primaryTabs').selected;
+      const selectedIndex = this.$.primaryTabs.selected;
       this._showFileTabContent = selectedIndex === 0;
       // Initial tab is the static files list.
       const newSelectedTab =
@@ -458,8 +458,8 @@
         console.warn(e.detail.tab + ' tab not found');
         return;
       }
-      this.$$('#primaryTabs').selected = idx + 1;
-      this.$$('#primaryTabs').scrollIntoView();
+      this.$.primaryTabs.selected = idx + 1;
+      this.$.primaryTabs.scrollIntoView();
       this.$.reporting.reportInteraction('show-tab', e.detail.tab);
     }
 
@@ -799,7 +799,7 @@
       // Selected has to be set after the paper-tabs are visible because
       // the selected underline depends on calculations made by the browser.
       this.$.commentTabs.selected = 0;
-      const primaryTabs = this.$$('#primaryTabs');
+      const primaryTabs = this.$.primaryTabs;
       if (primaryTabs) primaryTabs.selected = 0;
     }
 

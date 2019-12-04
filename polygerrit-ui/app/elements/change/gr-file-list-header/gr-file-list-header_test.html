@@ -216,8 +216,8 @@ limitations under the License.
     test('expand/collapse buttons are toggled correctly', () => {
       element.shownFileCount = 10;
       flushAsynchronousOperations();
-      const expandBtn = element.$$('#expandBtn');
-      const collapseBtn = element.$$('#collapseBtn');
+      const expandBtn = element.$.expandBtn;
+      const collapseBtn = element.$.collapseBtn;
       assert.notEqual(getComputedStyle(expandBtn).display, 'none');
       assert.equal(getComputedStyle(collapseBtn).display, 'none');
       element.filesExpanded = GrFileListConstants.FilesExpandedState.SOME;

@@ -16,6 +16,24 @@
       "revId": "f451e2c9b55dcf1d78ed9af6ad9c1bcaf6e5f4a9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6f47d51c_eda533a8",
+        "filename": "package.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-12-04T15:05:05Z",
+      "side": 1,
+      "message": "this is just alias for `eslint` defined above :) and it should use the `./node_modules` one",
+      "parentUuid": "cfe2126e_f898aec9",
+      "revId": "f451e2c9b55dcf1d78ed9af6ad9c1bcaf6e5f4a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

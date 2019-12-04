@@ -75,7 +75,8 @@ public class ReceiveCommitsCommentValidationIT extends AbstractDaemonTest {
     when(mockCommentValidator.validateComments(
             ImmutableList.of(
                 CommentForValidation.create(
-                    CommentForValidation.CommentType.FILE_COMMENT, COMMENT_TEXT))))
+                    CommentForValidation.CommentType.FILE_COMMENT, COMMENT_TEXT)),
+            null))
         .thenReturn(ImmutableList.of());
     PushOneCommit.Result result = createChange();
     String changeId = result.getChangeId();
@@ -96,7 +97,8 @@ public class ReceiveCommitsCommentValidationIT extends AbstractDaemonTest {
     when(mockCommentValidator.validateComments(
             ImmutableList.of(
                 CommentForValidation.create(
-                    CommentForValidation.CommentType.FILE_COMMENT, COMMENT_TEXT))))
+                    CommentForValidation.CommentType.FILE_COMMENT, COMMENT_TEXT)),
+            null))
         .thenReturn(ImmutableList.of(commentForValidation.failValidation("Oh no!")));
     PushOneCommit.Result result = createChange();
     String changeId = result.getChangeId();
@@ -112,7 +114,8 @@ public class ReceiveCommitsCommentValidationIT extends AbstractDaemonTest {
 
   @Test
   public void validateComments_inlineVsFileComments_allOK() throws Exception {
-    when(mockCommentValidator.validateComments(capture.capture())).thenReturn(ImmutableList.of());
+    when(mockCommentValidator.validateComments(capture.capture(), null))
+        .thenReturn(ImmutableList.of());
     PushOneCommit.Result result = createChange();
     String changeId = result.getChangeId();
     String revId = result.getCommit().getName();

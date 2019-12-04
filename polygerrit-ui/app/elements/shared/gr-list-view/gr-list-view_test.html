@@ -126,11 +126,13 @@ limitations under the License.
     });
 
     test('createNew link appears correctly', () => {
-      assert.isFalse(element.$$('#createNewContainer').classList
+      assert.isFalse(element.shadowRoot
+          .querySelector('#createNewContainer').classList
           .contains('show'));
       element.createNew = true;
       flushAsynchronousOperations();
-      assert.isTrue(element.$$('#createNewContainer').classList
+      assert.isTrue(element.shadowRoot
+          .querySelector('#createNewContainer').classList
           .contains('show'));
     });
 
@@ -139,7 +141,7 @@ limitations under the License.
       element.addEventListener('create-clicked', clickHandler);
       element.createNew = true;
       flushAsynchronousOperations();
-      MockInteractions.tap(element.$$('#createNew'));
+      MockInteractions.tap(element.shadowRoot.querySelector('#createNew'));
       assert.isTrue(clickHandler.called);
     });
 

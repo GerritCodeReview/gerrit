@@ -196,14 +196,15 @@
     }
 
     get textarea() {
-      return this.$$('#editTextarea');
+      return this.shadowRoot.querySelector('#editTextarea');
     }
 
     get confirmDeleteOverlay() {
       if (!this._overlays.confirmDelete) {
         this._enableOverlay = true;
         Polymer.dom.flush();
-        this._overlays.confirmDelete = this.$$('#confirmDeleteOverlay');
+        this._overlays.confirmDelete = this.shadowRoot
+            .querySelector('#confirmDeleteOverlay');
       }
       return this._overlays.confirmDelete;
     }
@@ -212,7 +213,8 @@
       if (!this._overlays.confirmDiscard) {
         this._enableOverlay = true;
         Polymer.dom.flush();
-        this._overlays.confirmDiscard = this.$$('#confirmDiscardOverlay');
+        this._overlays.confirmDiscard = this.shadowRoot
+            .querySelector('#confirmDiscardOverlay');
       }
       return this._overlays.confirmDiscard;
     }

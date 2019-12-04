@@ -16,6 +16,7 @@ package com.google.gerrit.extensions.validators;
 
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
+import com.google.gerrit.extensions.common.ChangeInfo;
 
 /**
  * Validates review comments and messages. Rejecting any comment/message will prevent all comments
@@ -29,6 +30,17 @@ public interface CommentValidator {
    *
    * @return An empty list if all comments are valid, or else a list of validation failures.
    */
-  ImmutableList<CommentValidationFailure> validateComments(
-      ImmutableList<CommentForValidation> comments);
+  default ImmutableList<CommentValidationFailure> validateComments(
+      ImmutableList<CommentForValidation> comments) {
+    return validateCommentsWithContext(comments, null);
+  };
+
+
+  /**
+   * Validate the specified comments with additional context.
+   *
+   * @return An empty list if all comments are valid, or else a list of validation failures.
+   */
+  ImmutableList<CommentValidationFailure> validateCommentsWithContext(
+      ImmutableList<CommentForValidation> comments, CommentValidationContext ctx);
 }

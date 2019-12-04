@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aa07dd0f_95cb0845",
+        "filename": "polygerrit-ui/app/styles/shared-styles.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-12-04T15:03:49Z",
+      "side": 1,
+      "message": "just curious, will we rely on this after the build ? since its support is not so great in safari mobile :(",
+      "range": {
+        "startLine": 18,
+        "startChar": 36,
+        "endLine": 18,
+        "endChar": 49
+      },
+      "revId": "ac1354dc09efe1276211a1042c2eacb55ac66006",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "34efa4f9_6b3147a4",
+        "filename": "polygerrit-ui/app/styles/shared-styles.html.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-12-04T15:03:49Z",
+      "side": 1,
+      "message": "this seems different compared to the shared style modules in polymer 3 doc ?\n\nhttps://polymer-library.polymer-project.org/3.0/docs/devguide/style-shadow-dom#style-modules",
+      "revId": "ac1354dc09efe1276211a1042c2eacb55ac66006",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

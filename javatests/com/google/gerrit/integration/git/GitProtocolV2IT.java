@@ -15,7 +15,6 @@
 package com.google.gerrit.integration.git;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.deny;
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -63,8 +62,8 @@ public class GitProtocolV2IT extends StandaloneSiteTest {
     GitClientVersion requiredGitVersion = new GitClientVersion(2, 18, 0);
     GitClientVersion actualGitVersion =
         new GitClientVersion(execute(ImmutableList.of("git", "version")));
-    // If not found, test succeeds with assumption violation
-    assume().that(actualGitVersion).isAtLeast(requiredGitVersion);
+    // If git version is not sufficient, fail
+    assertThat(actualGitVersion).isAtLeast(requiredGitVersion);
 
     try (ServerContext ctx = startServer()) {
       ctx.getInjector().injectMembers(this);

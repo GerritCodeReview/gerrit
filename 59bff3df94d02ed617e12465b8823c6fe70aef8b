@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "7d9b4395_4cbf13ee",
+        "filename": "java/com/google/gerrit/extensions/common/SshdInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-12-04T06:40:06Z",
+      "side": 1,
+      "message": "Per the documentation:\n\n This entity doesn\u0027t contain any data, but the presence of this (empty)\n entity in the link:#server-info[ServerInfo] entity means that SSHD is\n enabled on the server.\n\nI\u0027m not sure why it was done like this rather than just a boolean field.",
+      "parentUuid": "e7f20051_a311a81a",
+      "range": {
+        "startLine": 17,
+        "startChar": 16,
+        "endLine": 17,
+        "endChar": 81
+      },
+      "revId": "59bff3df94d02ed617e12465b8823c6fe70aef8b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c2ac2847_1dfd81b3",
         "filename": "java/com/google/gerrit/extensions/common/SuggestInfo.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2019-12-03T12:32:36Z",
       "side": 1,
       "message": "this could do with a specific comment. the name is very opaque",
+      "range": {
+        "startLine": 19,
+        "startChar": 13,
+        "endLine": 19,
+        "endChar": 17
+      },
+      "revId": "59bff3df94d02ed617e12465b8823c6fe70aef8b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2cb6f0aa_aeb767b5",
+        "filename": "java/com/google/gerrit/extensions/common/SuggestInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-12-04T06:40:06Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "c2ac2847_1dfd81b3",
       "range": {
         "startLine": 19,
         "startChar": 13,

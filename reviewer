@@ -3,11 +3,11 @@
   description = Own review requests.
   foreach = reviewer:self
 [section "To Review"]
-  query = is:open -owner:self is:mergeable \
+  query = is:open -owner:self \
           -label:Code-Review<=-1,user=self -label:Verified=-1,user=self \
           -label:Code-Review>=1,user=self -label:Verified=1,user=self
 [section "Reviewed"]
-  query = is:open -owner:self is:mergeable \
+  query = is:open -owner:self \
           (label:Code-Review<=-1,user=self OR label:Verified=-1,user=self \
            OR label:Code-Review>=1,user=self OR label:Verified=1,user=self)
 [section "Recently Merged"]

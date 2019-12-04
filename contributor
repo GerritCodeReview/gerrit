@@ -2,11 +2,9 @@
   title = Contributor Dashboard
   description = Own contributions.
   foreach = owner:self
-[section "Mine To Rebase"]
-  query = is:open -is:mergeable
 [section "Mine To Rework"]
-  query = is:open is:mergeable (label:Verified<=-1 OR label:Code-Review<=-1)
+  query = is:open (label:Verified<=-1 OR label:Code-Review<=-1)
 [section "Mine For Review"]
-  query = is:open is:mergeable -(label:Verified<=-1 OR label:Code-Review<=-1)
+  query = is:open -(label:Verified<=-1 OR label:Code-Review<=-1)
 [section "My Recently Merged"]
   query = is:merged limit:10

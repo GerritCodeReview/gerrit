@@ -4,8 +4,8 @@
 [section "Needs Library-Compliance"]
   query = project:gerrit status:open file:lib -label:Library-Compliance
 [section "Gerrit Reviews"]
-  query = project:gerrit is:open is:mergeable limit:15
+  query = project:gerrit is:open limit:15
 [section "Core Plugin Reviews"]
-  query = (project:plugins/codemirror-editor OR project:plugins/commit-message-length-validator OR project:plugins/download-commands OR project:plugins/hooks OR project:plugins/replication OR project:plugins/reviewnotes OR project:plugins/singleusergroup) is:open is:mergeable limit:10
+  query = (project:plugins/codemirror-editor OR project:plugins/commit-message-length-validator OR project:plugins/download-commands OR project:plugins/hooks OR project:plugins/replication OR project:plugins/reviewnotes OR project:plugins/singleusergroup) is:open limit:10
 [section "Recently Merged"]
   query = (project:gerrit OR project:plugins/codemirror-editor OR project:plugins/commit-message-length-validator OR project:plugins/download-commands OR project:plugins/hooks OR project:plugins/replication OR project:plugins/reviewnotes OR project:plugins/singleusergroup) is:merged limit:10

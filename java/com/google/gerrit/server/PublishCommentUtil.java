@@ -24,6 +24,7 @@ import com.google.gerrit.entities.Comment;
 import com.google.gerrit.entities.Comment.Status;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.exceptions.StorageException;
+import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.validators.CommentForValidation;
 import com.google.gerrit.extensions.validators.CommentValidationFailure;
 import com.google.gerrit.extensions.validators.CommentValidator;
@@ -117,16 +118,18 @@ public class PublishCommentUtil {
   /**
    * Helper to run the specified set of {@link CommentValidator}-s on the specified comments.
    *
-   * @return See {@link CommentValidator#validateComments(ImmutableList)}.
+   * @return See {@link CommentValidator#validateComments(ImmutableList,ChangeInfo)}.
    */
   public static ImmutableList<CommentValidationFailure> findInvalidComments(
       PluginSetContext<CommentValidator> commentValidators,
-      ImmutableList<CommentForValidation> commentsForValidation) {
+      ImmutableList<CommentForValidation> commentsForValidation,
+      ChangeInfo changeInfo) {
     ImmutableList.Builder<CommentValidationFailure> commentValidationFailures =
         new ImmutableList.Builder<>();
     commentValidators.runEach(
         validator ->
-            commentValidationFailures.addAll(validator.validateComments(commentsForValidation)));
+            commentValidationFailures.addAll(
+                validator.validateComments(commentsForValidation, changeInfo)));
     return commentValidationFailures.build();
   }
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8676b096_bafeca4b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-12-04T15:26:36Z",
+      "side": 1,
+      "message": "`_` to mark it as private and you don\u0027t expect this to be passed down from parent.",
+      "range": {
+        "startLine": 125,
+        "startChar": 8,
+        "endLine": 125,
+        "endChar": 21
+      },
+      "revId": "dfe2365f9f3d3ae55e31ac94452978a1843e6903",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

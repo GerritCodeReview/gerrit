@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a0d4f30f_64ed07fa",
+        "filename": "javatests/com/google/gerrit/integration/git/GitProtocolV2IT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-12-04T12:15:39Z",
+      "side": 0,
+      "message": "The point of assumption vialation was: if I have lokal outdated git client version it should fail only with assumption violation. If howevere, the assumption was succefful, but after this line if assertion is not successful, e.g., on L44:\n\n  assertGitProtocolV2Refs(commit, out);\n\nthe whole test should fail. have you tried to test it with:\n\n  assertThat(false).isTrue();\n\nafter line 67 an it is not failing? is that then Bazel or JUnit bug or what is change is trying to fix?",
+      "range": {
+        "startLine": 66,
+        "startChar": 4,
+        "endLine": 67,
+        "endChar": 66
+      },
+      "revId": "0f15c891953eae7273f22ca0b722e0c309515ca3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

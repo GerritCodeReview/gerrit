@@ -1,0 +1,899 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "068a8162_dc111d88",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-04T14:04:39Z",
+      "side": 1,
+      "message": "s/Notiify/Notify",
+      "range": {
+        "startLine": 44,
+        "startChar": 5,
+        "endLine": 44,
+        "endChar": 12
+      },
+      "revId": "d2a9f2fa1c14ae8be406c2f31e2271318240559c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6e2328f5_224e9fe8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-04T14:04:39Z",
+      "side": 1,
+      "message": "single change",
+      "range": {
+        "startLine": 69,
+        "startChar": 35,
+        "endLine": 69,
+        "endChar": 41
+      },
+      "revId": "d2a9f2fa1c14ae8be406c2f31e2271318240559c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cf3e8f9b_f23728aa",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 1533,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-04T14:04:39Z",
+      "side": 1,
+      "message": "nit \"merge commits\" or \"a merge commit\"",
+      "range": {
+        "startLine": 1533,
+        "startChar": 61,
+        "endLine": 1533,
+        "endChar": 76
+      },
+      "revId": "d2a9f2fa1c14ae8be406c2f31e2271318240559c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "38206226_0f426c91",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-04T14:04:39Z",
+      "side": 1,
+      "message": "nit: do not import NameKey classes, but use \"Project.NameKey\" in the code instead",
+      "revId": "d2a9f2fa1c14ae8be406c2f31e2271318240559c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8fea2256_9d8d89dc",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-04T14:04:39Z",
+      "side": 1,
+      "message": "As commented at [1] we should not use any flexmark classes here.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/241128/2/java/com/google/gerrit/server/restapi/BUILD",
+      "revId": "d2a9f2fa1c14ae8be406c2f31e2271318240559c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f8f04ae9_052bb3e6",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-04T14:04:39Z",
+      "side": 1,
+      "message": "WalkSorter is not a singleton, keeping a reference to it from a singleton is not thread-safe and will lead to issues when several revert submission requests are processed in parallel.",
+      "revId": "d2a9f2fa1c14ae8be406c2f31e2271318240559c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "24c0435c_60392a8b",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-04T14:04:39Z",
+      "side": 1,
+      "message": "If you have mutable class variables this class can no longer be a singleton. Either remove these vars or make this class non-singleton.",
+      "range": {
+        "startLine": 122,
+        "startChar": 2,
+        "endLine": 124,
+        "endChar": 0
+      },
+      "revId": "d2a9f2fa1c14ae8be406c2f31e2271318240559c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a978eb90_ba026566",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-04T14:04:39Z",
+      "side": 1,
+      "message": "maybe rather do this initialization in the constructor",
+      "range": {
+        "startLine": 211,
+        "startChar": 4,
+        "endLine": 212,
+        "endChar": 20
+      },
+      "revId": "d2a9f2fa1c14ae8be406c2f31e2271318240559c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a985500e_63bd890c",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 217,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-04T14:04:39Z",
+      "side": 1,
+      "message": "Can you please add a TODO on this method saying that the code should use a single BatchUpdate to create all the revert changes, so that revertSubmission becomes an atomic operation (all revert changes are successfully created, or the whole operation fails and none of them get created). I really think that this is the next thing that needs to be addressed.",
+      "revId": "d2a9f2fa1c14ae8be406c2f31e2271318240559c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9dbcfc56_7a9c9af0",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-04T14:04:39Z",
+      "side": 1,
+      "message": "no need to pass this as argument, since it\u0027s available as class var",
+      "range": {
+        "startLine": 218,
+        "startChar": 6,
+        "endLine": 218,
+        "endChar": 40
+      },
+      "revId": "d2a9f2fa1c14ae8be406c2f31e2271318240559c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "334cb2e5_b7b15906",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-04T14:04:39Z",
+      "side": 1,
+      "message": "Just use BranchNameKey here, this class contains both, project name and branch name.",
+      "range": {
+        "startLine": 221,
+        "startChar": 13,
+        "endLine": 221,
+        "endChar": 33
+      },
+      "revId": "d2a9f2fa1c14ae8be406c2f31e2271318240559c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "319a603c_90df43af",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-04T14:04:39Z",
+      "side": 1,
+      "message": "This comment is not clear to me. Drop it?",
+      "revId": "d2a9f2fa1c14ae8be406c2f31e2271318240559c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8fecc3c9_555a05e3",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-04T14:04:39Z",
+      "side": 1,
+      "message": "Just:\n\n  Collection\u003cChangeData\u003e changesInProjectAndBranch \u003d changesPerProjectAndBranch.get(projectAndBranch);\n\nThere is no need to convert the Collection into a List at this point.",
+      "range": {
+        "startLine": 239,
+        "startChar": 6,
+        "endLine": 240,
+        "endChar": 97
+      },
+      "revId": "d2a9f2fa1c14ae8be406c2f31e2271318240559c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9b86b406_76d49ea5",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-04T14:04:39Z",
+      "side": 1,
+      "message": "No need to use changeNotesFactory here, just do:\n\n   ChangeNotes changeNotes \u003d sortedChangesInProject.next().data().notes();",
+      "range": {
+        "startLine": 252,
+        "startChar": 8,
+        "endLine": 253,
+        "endChar": 91
+      },
+      "revId": "d2a9f2fa1c14ae8be406c2f31e2271318240559c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "25468d0a_30dc7959",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-04T14:04:39Z",
+      "side": 1,
+      "message": "nit: can be wrapped into a single line",
+      "range": {
+        "startLine": 259,
+        "startChar": 7,
+        "endLine": 260,
+        "endChar": 56
+      },
+      "revId": "d2a9f2fa1c14ae8be406c2f31e2271318240559c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "24f57bde_fec0df37",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-04T14:04:39Z",
+      "side": 1,
+      "message": "Call this only once and remember the timestamp so that at least all updates that are done by RevertSummit have the same timestamp.",
+      "range": {
+        "startLine": 288,
+        "startChar": 74,
+        "endLine": 288,
+        "endChar": 90
+      },
+      "revId": "d2a9f2fa1c14ae8be406c2f31e2271318240559c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "916903fb_0ba228ca",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-04T14:04:39Z",
+      "side": 1,
+      "message": "We really should not catch all Exceptions here. Maybe the IntegrationException is just wrapped in an UpdateException?",
+      "range": {
+        "startLine": 310,
+        "startChar": 17,
+        "endLine": 310,
+        "endChar": 26
+      },
+      "revId": "d2a9f2fa1c14ae8be406c2f31e2271318240559c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "61b8cfff_b491e2c3",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-04T14:04:39Z",
+      "side": 1,
+      "message": "We shouldn\u0027t need to check the message string. The place where this error occurs should just throw a MergeIdenticalTreeException so we can catch and ignore it here.",
+      "revId": "d2a9f2fa1c14ae8be406c2f31e2271318240559c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e0851bc6_8455d4a2",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-04T14:04:39Z",
+      "side": 1,
+      "message": "Can you add more details here, why it\u0027s safe to ignore this failure on cherry-pick?",
+      "range": {
+        "startLine": 315,
+        "startChar": 72,
+        "endLine": 316,
+        "endChar": 65
+      },
+      "revId": "d2a9f2fa1c14ae8be406c2f31e2271318240559c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b40c56b2_3a173f4e",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-04T14:04:39Z",
+      "side": 1,
+      "message": "better: \"based\"\n\nThe fact that the caller of this method uses rebase instead of creating the revert directly on this base, is outside the scope of this method.",
+      "range": {
+        "startLine": 332,
+        "startChar": 88,
+        "endLine": 332,
+        "endChar": 95
+      },
+      "revId": "d2a9f2fa1c14ae8be406c2f31e2271318240559c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f7280a40_95fd3ceb",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-04T14:04:39Z",
+      "side": 1,
+      "message": "better: \"in\"",
+      "range": {
+        "startLine": 332,
+        "startChar": 56,
+        "endLine": 332,
+        "endChar": 58
+      },
+      "revId": "d2a9f2fa1c14ae8be406c2f31e2271318240559c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dd746e35_7c5182e4",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-04T14:04:39Z",
+      "side": 1,
+      "message": "Should this be ObjectId?",
+      "range": {
+        "startLine": 358,
+        "startChar": 10,
+        "endLine": 358,
+        "endChar": 16
+      },
+      "revId": "d2a9f2fa1c14ae8be406c2f31e2271318240559c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "97b4b01d_cb642dfa",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 365,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-04T14:04:39Z",
+      "side": 1,
+      "message": "maybe call this \"startCommit\"",
+      "range": {
+        "startLine": 365,
+        "startChar": 15,
+        "endLine": 365,
+        "endChar": 25
+      },
+      "revId": "d2a9f2fa1c14ae8be406c2f31e2271318240559c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3b3d6f61_390c61b4",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-04T14:04:39Z",
+      "side": 1,
+      "message": "[optional] I think this conversion to a list can be avoided if you use \"Arrays.stream(revCommit.getParents())\" below in the places that have \"parents.stream()\" right now.",
+      "revId": "d2a9f2fa1c14ae8be406c2f31e2271318240559c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6530e9c8_4f73fb40",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-04T14:04:39Z",
+      "side": 1,
+      "message": "better name: parentsInSubmission\n\nnot sure what the parent of a submission is",
+      "range": {
+        "startLine": 378,
+        "startChar": 26,
+        "endLine": 378,
+        "endChar": 45
+      },
+      "revId": "d2a9f2fa1c14ae8be406c2f31e2271318240559c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7ec2e79b_c294cf5e",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 383,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-04T14:04:39Z",
+      "side": 1,
+      "message": "better: \"Found a merge commit that has multiple parent commits that are part of the submission.\"",
+      "range": {
+        "startLine": 383,
+        "startChar": 12,
+        "endLine": 383,
+        "endChar": 80
+      },
+      "revId": "d2a9f2fa1c14ae8be406c2f31e2271318240559c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "72529b8d_43d7cdbe",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 387,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-04T14:04:39Z",
+      "side": 1,
+      "message": "in",
+      "range": {
+        "startLine": 387,
+        "startChar": 61,
+        "endLine": 387,
+        "endChar": 63
+      },
+      "revId": "d2a9f2fa1c14ae8be406c2f31e2271318240559c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5242f246_d11bc838",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 388,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-04T14:04:39Z",
+      "side": 1,
+      "message": "in",
+      "range": {
+        "startLine": 388,
+        "startChar": 27,
+        "endLine": 388,
+        "endChar": 31
+      },
+      "revId": "d2a9f2fa1c14ae8be406c2f31e2271318240559c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8205c60b_20633c5d",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 389,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-04T14:04:39Z",
+      "side": 1,
+      "message": "drop this",
+      "range": {
+        "startLine": 389,
+        "startChar": 20,
+        "endLine": 389,
+        "endChar": 24
+      },
+      "revId": "d2a9f2fa1c14ae8be406c2f31e2271318240559c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f3faf950_0acf8968",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 397,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-04T14:04:39Z",
+      "side": 1,
+      "message": "This method name is not good. Ancestors are the commits that are reachable from a given commit following the git version history (e.g. its parents, grand-parents, grand-grand-parents, etc). So it\u0027s unclear why this merge commit should be an ancestor of the submission, which is a set of commits (I read this method name as \"Does this merge commit appear in the Git history before the commits that form the submission?\", which I think is not what this method does).\nCan you find a better name?",
+      "range": {
+        "startLine": 397,
+        "startChar": 16,
+        "endLine": 397,
+        "endChar": 49
+      },
+      "revId": "d2a9f2fa1c14ae8be406c2f31e2271318240559c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9df5b23d_7ae6a6d1",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 405,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-04T14:04:39Z",
+      "side": 1,
+      "message": "[optional] would this be easier to read:\n\n  commitsToSearch.addAll(Arrays.asList(revCommit.getParents()));",
+      "range": {
+        "startLine": 405,
+        "startChar": 8,
+        "endLine": 405,
+        "endChar": 93
+      },
+      "revId": "d2a9f2fa1c14ae8be406c2f31e2271318240559c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7488a630_b9c9417e",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 409,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-04T14:04:39Z",
+      "side": 1,
+      "message": "If this should never happen, then this should cause a 500 Internal Server Error when this happens. Hence we shouldn\u0027t throw ResourceConflictException which maps to a 409 Conflict response. I would propose to throw a StorageException instead.",
+      "range": {
+        "startLine": 407,
+        "startChar": 6,
+        "endLine": 409,
+        "endChar": 42
+      },
+      "revId": "d2a9f2fa1c14ae8be406c2f31e2271318240559c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "56a96d00_0bdee55e",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-04T14:04:39Z",
+      "side": 1,
+      "message": "Better make this \"change %s\". We use the term \"Change-Id\" (exactly with this capitalization) only for the I-hash change identifier, but not for numeric change IDs.",
+      "range": {
+        "startLine": 410,
+        "startChar": 39,
+        "endLine": 410,
+        "endChar": 51
+      },
+      "revId": "d2a9f2fa1c14ae8be406c2f31e2271318240559c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d1b47bef_4a14f912",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-04T14:04:39Z",
+      "side": 1,
+      "message": "Also include the repository name into the message.",
+      "range": {
+        "startLine": 410,
+        "startChar": 59,
+        "endLine": 410,
+        "endChar": 69
+      },
+      "revId": "d2a9f2fa1c14ae8be406c2f31e2271318240559c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7a3de8da_55c507d1",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 416,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-04T14:04:39Z",
+      "side": 1,
+      "message": "I think you are misunderstanding the term \"ancestor\". Ancestors are the commits that are reachable from a given commit following the git version history (e.g. its parents, grand-parents, grand-grand-parents, etc).\nI think what you mean here is: \"is part of the submission and an ancestor of the same merge commit\" ?",
+      "range": {
+        "startLine": 415,
+        "startChar": 86,
+        "endLine": 416,
+        "endChar": 58
+      },
+      "revId": "d2a9f2fa1c14ae8be406c2f31e2271318240559c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4881c8fa_4c969090",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 424,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-04T14:04:39Z",
+      "side": 1,
+      "message": "Should be \"boolean\", not \"Boolean\"",
+      "range": {
+        "startLine": 424,
+        "startChar": 10,
+        "endLine": 424,
+        "endChar": 17
+      },
+      "revId": "d2a9f2fa1c14ae8be406c2f31e2271318240559c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "313a1aa9_000acb9e",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 432,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-04T14:04:39Z",
+      "side": 1,
+      "message": "descendant?",
+      "range": {
+        "startLine": 432,
+        "startChar": 48,
+        "endLine": 432,
+        "endChar": 56
+      },
+      "revId": "d2a9f2fa1c14ae8be406c2f31e2271318240559c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ebbbdedb_f76add24",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 446,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-04T14:04:39Z",
+      "side": 1,
+      "message": "If this should never happen this should not be a RestApiException.",
+      "range": {
+        "startLine": 443,
+        "startChar": 4,
+        "endLine": 446,
+        "endChar": 40
+      },
+      "revId": "d2a9f2fa1c14ae8be406c2f31e2271318240559c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b8f96fe1_b6fc18b5",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 447,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-04T14:04:39Z",
+      "side": 1,
+      "message": "Include some pointers to the resources here. Otherwise how would you investigate this error if you find it in the logs?",
+      "range": {
+        "startLine": 447,
+        "startChar": 8,
+        "endLine": 447,
+        "endChar": 70
+      },
+      "revId": "d2a9f2fa1c14ae8be406c2f31e2271318240559c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cbf0a30f_e47f020d",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 485,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-04T14:04:39Z",
+      "side": 1,
+      "message": "This generates a warning (in Eclipse):\n\"The field RevertSubmission.CreateCherryPickOp.updateFactory is hiding a field from type RevertSubmission\"\n\nJust remove this field from this class?",
+      "revId": "d2a9f2fa1c14ae8be406c2f31e2271318240559c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0da1899c_8ba9bee1",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 523,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-04T14:04:39Z",
+      "side": 1,
+      "message": "\"save the commit as base for the next cherryPick on that branch\"",
+      "range": {
+        "startLine": 523,
+        "startChar": 9,
+        "endLine": 523,
+        "endChar": 53
+      },
+      "revId": "d2a9f2fa1c14ae8be406c2f31e2271318240559c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

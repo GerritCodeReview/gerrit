@@ -546,6 +546,24 @@
       "revId": "a1ae626277217fdd4ee971e584b2fbcc30f347a4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3de027b4_7e446fa1",
+        "filename": "java/com/google/gerrit/server/restapi/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-04T14:04:39Z",
+      "side": 1,
+      "message": "Flexmark is a library to format Markdown documentation files as HTML, the restapi module should not depend on this lib. Rather define your own Pair class as an AutoValue class.",
+      "parentUuid": "98defe51_0007cb41",
+      "revId": "a1ae626277217fdd4ee971e584b2fbcc30f347a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

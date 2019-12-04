@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4a09b54a_719a5fc9",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 675,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-12-04T09:53:27Z",
+      "side": 1,
+      "message": "`_`",
+      "range": {
+        "startLine": 675,
+        "startChar": 4,
+        "endLine": 675,
+        "endChar": 21
+      },
+      "revId": "9b6e322211add5a4f1c42d162a5ac98356949e32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b155be48_3e7144df",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 685,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-12-04T09:53:27Z",
+      "side": 1,
+      "message": "maybe `!this.collapsed` or move it to css :)",
+      "range": {
+        "startLine": 685,
+        "startChar": 50,
+        "endLine": 685,
+        "endChar": 64
+      },
+      "revId": "9b6e322211add5a4f1c42d162a5ac98356949e32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "84d8cbf5_829f04c8",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment_test.html",
+        "patchSetId": 6
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-12-04T09:53:27Z",
+      "side": 1,
+      "message": "Oops",
+      "range": {
+        "startLine": 41,
+        "startChar": 11,
+        "endLine": 41,
+        "endChar": 12
+      },
+      "revId": "9b6e322211add5a4f1c42d162a5ac98356949e32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

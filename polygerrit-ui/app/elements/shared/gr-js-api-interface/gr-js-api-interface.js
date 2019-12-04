@@ -270,10 +270,26 @@
           // Only one coverage provider makes sense. If there are more, then we
           // simply ignore them.
           if (provider) {
-            return provider(changeNum, path, basePatchNum, patchNum);
+            return annotationApi;
           }
         }
-        return [];
+        return null;
+      }).then(annotationApi => {
+        if (!annotationApi) return [];
+        const provider = annotationApi.getCoverageProvider();
+        return provider(changeNum, path, basePatchNum, patchNum)
+            .then(ranges => {
+              ranges = ranges || [];
+              // Notify with the coverage data.
+              ranges.forEach(range => {
+                annotationApi.notify(
+                    path,
+                    range.code_range.start_line,
+                    range.code_range.end_line,
+                    range.side);
+              });
+              return ranges;
+            });
       });
     }
 

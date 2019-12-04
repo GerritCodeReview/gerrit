@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "57b24cc3_3532b1aa",
+        "filename": "polygerrit-ui/app/polymer_legacy_support/readme.txt",
+        "patchSetId": 19
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-12-04T16:13:16Z",
+      "side": 1,
+      "message": "can you make this as README.md or some format that can be recognized by the gitfiles, similar to what polygerrit-ui folder has.\n\nAs you can see the README will be picked up and show when you at the directory in gitfiles:\nhttps://gerrit.googlesource.com/gerrit/+/refs/heads/master/polygerrit-ui/",
+      "revId": "ea1443c101bb5282e252955daca3accf3e6857a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

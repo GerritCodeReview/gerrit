@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d2014991_b824174f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-12-04T03:25:44Z",
+      "side": 1,
+      "message": "Note that we replaced checkNotNull with requireNonNull in [1]\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/200172",
+      "parentUuid": "373a8a8f_b95fa774",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 25
+      },
+      "revId": "c42b05cf7fbf7059c5df3be83f72777ea0d18ea5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "cc2d49a7_9b117c49",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2019-12-03T12:59:20Z",
       "side": 1,
       "message": "It introduces two behavior changes. IllegalArgumentException and IllegalStateException are both replaced with NullPointerException. Replacing IllegalArgumentException with NullPointerException for non-null method parameters would be in line with recommendations from Effective Java and it also follows practices of the JDK itself. So, that behavior change should be fine. On the other hand, IllegalStateException expresses another intent. It expresses that an invariant of an object was violated and that the method might not be called at this point if time. By switching to NullPointerException also for that case, we lose this important detail. I don\u0027t think that an exception message can properly convey it and it also goes against regular Java practices.",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 41
+      },
+      "revId": "c42b05cf7fbf7059c5df3be83f72777ea0d18ea5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e8aaacbc_caabf74a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-12-04T03:25:44Z",
+      "side": 1,
+      "message": "Some of these concerns should be fixed by my recent changes to address Edwin\u0027s previous inline comments.",
+      "parentUuid": "cc2d49a7_9b117c49",
       "range": {
         "startLine": 18,
         "startChar": 0,

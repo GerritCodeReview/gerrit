@@ -57,6 +57,7 @@ filegroup(
             "**/*_test.html",
             "test/**",
             "samples/**",
+            "polymer_legacy_support/**",
         ],
     ),
 )

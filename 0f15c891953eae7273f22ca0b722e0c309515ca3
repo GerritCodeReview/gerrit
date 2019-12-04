@@ -22,6 +22,30 @@
       "revId": "0f15c891953eae7273f22ca0b722e0c309515ca3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7f7e6dbf_da994a0f",
+        "filename": "javatests/com/google/gerrit/integration/git/GitProtocolV2IT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-12-04T12:32:17Z",
+      "side": 0,
+      "message": "The point is that with this implementation we don\u0027t know whether it\u0027s broken because the tests are always skipped due to CI having too old version.",
+      "parentUuid": "a0d4f30f_64ed07fa",
+      "range": {
+        "startLine": 66,
+        "startChar": 4,
+        "endLine": 67,
+        "endChar": 66
+      },
+      "revId": "0f15c891953eae7273f22ca0b722e0c309515ca3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

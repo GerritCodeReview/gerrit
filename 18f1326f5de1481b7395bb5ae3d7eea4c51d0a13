@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ee488e4a_05f8ab01",
+        "filename": "Documentation/backup.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2019-12-04T20:08:44Z",
+      "side": 1,
+      "message": "nit: extra space",
+      "range": {
+        "startLine": 43,
+        "startChar": 12,
+        "endLine": 43,
+        "endChar": 13
+      },
+      "revId": "18f1326f5de1481b7395bb5ae3d7eea4c51d0a13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

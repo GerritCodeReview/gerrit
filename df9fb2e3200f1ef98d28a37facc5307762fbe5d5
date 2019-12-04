@@ -1,0 +1,187 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f140c88f_5d459aad",
+        "filename": "WORKSPACE",
+        "patchSetId": 12
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-12-04T14:47:01Z",
+      "side": 1,
+      "message": "what is `ui_dev_npm` ? won\u0027t `devDependencies` also included in the `ui_npm` ? or this is only for other dev purpose ?",
+      "range": {
+        "startLine": 6,
+        "startChar": 10,
+        "endLine": 6,
+        "endChar": 52
+      },
+      "revId": "df9fb2e3200f1ef98d28a37facc5307762fbe5d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6c8a4a47_83298c04",
+        "filename": "WORKSPACE",
+        "patchSetId": 12
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-12-04T14:47:01Z",
+      "side": 1,
+      "message": "just curious, what does this rule do ?",
+      "revId": "df9fb2e3200f1ef98d28a37facc5307762fbe5d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2e384623_0a690a8a",
+        "filename": "WORKSPACE",
+        "patchSetId": 12
+      },
+      "lineNbr": 1016,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-12-04T14:47:01Z",
+      "side": 1,
+      "message": "just curious, do we have a npm_install from the build_bazel_rules_nodejs ? `yarn` is indeed identical to `npm` (better in several aspects), but using both seems weird, and you will have two different lock files.",
+      "range": {
+        "startLine": 1016,
+        "startChar": 46,
+        "endLine": 1016,
+        "endChar": 58
+      },
+      "revId": "df9fb2e3200f1ef98d28a37facc5307762fbe5d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5c9d3ead_41382e52",
+        "filename": "polygerrit-ui/app/BUILD",
+        "patchSetId": 12
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-12-04T14:47:01Z",
+      "side": 1,
+      "message": "may need a better name for this :)",
+      "range": {
+        "startLine": 200,
+        "startChar": 12,
+        "endLine": 200,
+        "endChar": 24
+      },
+      "revId": "df9fb2e3200f1ef98d28a37facc5307762fbe5d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d06d9529_ab4de4e5",
+        "filename": "polygerrit-ui/app/BUILD",
+        "patchSetId": 12
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-12-04T14:47:01Z",
+      "side": 1,
+      "message": "naming... is this just an alias to `pg_code` ? can not we just use `:pg_code` instead ?",
+      "range": {
+        "startLine": 229,
+        "startChar": 12,
+        "endLine": 229,
+        "endChar": 15
+      },
+      "revId": "df9fb2e3200f1ef98d28a37facc5307762fbe5d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3beddd96_84dacb5e",
+        "filename": "polygerrit-ui/app/BUILD",
+        "patchSetId": 12
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-12-04T14:47:01Z",
+      "side": 1,
+      "message": "can you add some comments on code you commented out but not removed ? thx",
+      "revId": "df9fb2e3200f1ef98d28a37facc5307762fbe5d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "db9eb3d2_c88f4322",
+        "filename": "polygerrit-ui/app/polymer_legacy_support/polymer-resin/standalone/polymer-resin_bridge.js",
+        "patchSetId": 12
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-12-04T14:47:01Z",
+      "side": 1,
+      "message": "is this necessary ?",
+      "range": {
+        "startLine": 11,
+        "startChar": 46,
+        "endLine": 11,
+        "endChar": 49
+      },
+      "revId": "df9fb2e3200f1ef98d28a37facc5307762fbe5d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "43dc6503_4f0d669f",
+        "filename": "polygerrit-ui/app/test/yarn.lock",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-12-04T14:47:01Z",
+      "side": 1,
+      "message": "can we add lock files to `.gitignore`?",
+      "revId": "df9fb2e3200f1ef98d28a37facc5307762fbe5d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5cbc719f_6343979f",
+        "filename": "tools/node_tools/.gitignore",
+        "patchSetId": 12
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-12-04T14:47:01Z",
+      "side": 1,
+      "message": "can we add `node_modules` to the top level `.gitignore` to ignore them for all ?",
+      "revId": "df9fb2e3200f1ef98d28a37facc5307762fbe5d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

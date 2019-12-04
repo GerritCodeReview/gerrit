@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bda709a8_1741ff75",
+        "filename": "polygerrit-ui/app/elements/shared/gr-event-interface/gr-event-interface.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-12-04T10:28:37Z",
+      "side": 1,
+      "message": "It would be great, if you could substantially expand this comment. Some questions that come to mind:\n1. How does this relate to DOM events? When should you use the one or the other?\n2. How should this class be used? Only via mixin? Is EventEmitter a singleton? Provide an example code snippet.\n3. Maybe give examples of when to use or not use EventEmitter.\n4. Describe whether this can/should be used for core-core, core-plugin, plugin-core, plugin-plugin event communication.",
+      "revId": "8560e95abbf358aa597215e5b3996ce3eb8c31d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2ab32dc1_4387a386",
+        "filename": "polygerrit-ui/app/elements/shared/gr-event-interface/gr-event-interface.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-12-04T10:28:37Z",
+      "side": 1,
+      "message": "I am not a huge fan of extending and mixing in functionality. Ideally you would have eventEmitter injected as a singleton into classes/components that want to use it. Maybe mention that this is what we would prefer to do.",
+      "revId": "8560e95abbf358aa597215e5b3996ce3eb8c31d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

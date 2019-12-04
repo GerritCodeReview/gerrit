@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "00c6d4e3_7273023c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2019-12-04T15:02:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "97ab7d43_90d9fe97",
+      "revId": "706064666c88e58f7c6bc4ae4544da46d82c4fa1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1ce2c018_16391dea",
         "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.js",
         "patchSetId": 3
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "d2c4d8f9_cb9d1ea8",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2019-12-04T15:02:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1ce2c018_16391dea",
+      "revId": "706064666c88e58f7c6bc4ae4544da46d82c4fa1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "38e5af43_0e9df699",
         "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.html",
         "patchSetId": 3
@@ -47,6 +83,24 @@
       "writtenOn": "2019-12-04T09:27:37Z",
       "side": 1,
       "message": "can this be merged with above hidden ? seems parent div doesn\u0027t have anything else other than this dom-if\nor you can just move the div below the dom-if and then just use `dom-if` as the guide on both checks",
+      "revId": "706064666c88e58f7c6bc4ae4544da46d82c4fa1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f2a20e65_de0393b5",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2019-12-04T15:02:07Z",
+      "side": 1,
+      "message": "Actually I just realised the two conditions cannot be merged.\nIf robot comment has a human reply then we only want to hide the \"Please Fix\" button and not the other buttons added through the gr-endpoint-decorator.\nHence I\u0027m adding a new template dom-if only for the Please Fix button.",
+      "parentUuid": "38e5af43_0e9df699",
       "revId": "706064666c88e58f7c6bc4ae4544da46d82c4fa1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -76,6 +130,30 @@
     },
     {
       "key": {
+        "uuid": "ac720bc7_1e2ebb12",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2019-12-04T15:02:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "28a4961e_a3560f05",
+      "range": {
+        "startLine": 122,
+        "startChar": 8,
+        "endLine": 122,
+        "endChar": 21
+      },
+      "revId": "706064666c88e58f7c6bc4ae4544da46d82c4fa1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ba17c168_b1083f0d",
         "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.js",
         "patchSetId": 3
@@ -96,6 +174,30 @@
       "revId": "706064666c88e58f7c6bc4ae4544da46d82c4fa1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a9f98035_9743d0fe",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 663,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2019-12-04T15:02:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ba17c168_b1083f0d",
+      "range": {
+        "startLine": 663,
+        "startChar": 4,
+        "endLine": 663,
+        "endChar": 24
+      },
+      "revId": "706064666c88e58f7c6bc4ae4544da46d82c4fa1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

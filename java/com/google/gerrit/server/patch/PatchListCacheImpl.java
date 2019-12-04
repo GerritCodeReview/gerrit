@@ -22,6 +22,7 @@ import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.reviewdb.client.Change;
 import com.google.gerrit.reviewdb.client.PatchSet;
 import com.google.gerrit.reviewdb.client.Project;
+import com.google.gerrit.server.cache.CacheBackend;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.inject.Inject;
@@ -45,7 +46,9 @@ public class PatchListCacheImpl implements PatchListCache {
       @Override
       protected void configure() {
         factory(PatchListLoader.Factory.class);
-        persist(FILE_NAME, PatchListKey.class, PatchList.class)
+        // TODO(davido): Switch off using legacy cache backend, after fixing PatchListLoader
+        // to be recursion free.
+        persist(FILE_NAME, PatchListKey.class, PatchList.class, CacheBackend.GUAVA)
             .maximumWeight(10 << 20)
             .weigher(PatchListWeigher.class);
 

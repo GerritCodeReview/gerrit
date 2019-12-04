@@ -17,13 +17,18 @@ package com.google.gerrit.server.cache.mem;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
+import com.github.benmanes.caffeine.cache.Caffeine;
+import com.github.benmanes.caffeine.cache.RemovalListener;
+import com.github.benmanes.caffeine.cache.Weigher;
+import com.github.benmanes.caffeine.guava.CaffeinatedGuava;
 import com.google.common.base.Strings;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
-import com.google.common.cache.Weigher;
+import com.google.common.cache.RemovalNotification;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.server.cache.CacheBackend;
 import com.google.gerrit.server.cache.CacheDef;
 import com.google.gerrit.server.cache.ForwardingRemovalListener;
 import com.google.gerrit.server.cache.MemoryCacheFactory;
@@ -46,29 +51,70 @@ class DefaultMemoryCacheFactory implements MemoryCacheFactory {
   }
 
   @Override
-  public <K, V> Cache<K, V> build(CacheDef<K, V> def) {
-    return create(def).build();
+  public <K, V> Cache<K, V> build(CacheDef<K, V> def, CacheBackend backend) {
+    return backend.isLegacyBackend()
+        ? createLegacy(def).build()
+        : CaffeinatedGuava.build(create(def));
   }
 
   @Override
-  public <K, V> LoadingCache<K, V> build(CacheDef<K, V> def, CacheLoader<K, V> loader) {
-    return create(def).build(loader);
+  public <K, V> LoadingCache<K, V> build(
+      CacheDef<K, V> def, CacheLoader<K, V> loader, CacheBackend backend) {
+    return backend.isLegacyBackend()
+        ? createLegacy(def).build(loader)
+        : CaffeinatedGuava.build(create(def), loader);
   }
 
   @SuppressWarnings("unchecked")
-  private <K, V> CacheBuilder<K, V> create(CacheDef<K, V> def) {
-    CacheBuilder<K, V> builder = newCacheBuilder();
+  private <K, V> CacheBuilder<K, V> createLegacy(CacheDef<K, V> def) {
+    CacheBuilder<K, V> builder = newLegacyCacheBuilder();
     builder.recordStats();
     builder.maximumWeight(
         cfg.getLong("cache", def.configKey(), "memoryLimit", def.maximumWeight()));
 
     builder = builder.removalListener(forwardingRemovalListenerFactory.create(def.name()));
 
-    Weigher<K, V> weigher = def.weigher();
+    com.google.common.cache.Weigher<K, V> weigher = def.weigher();
     if (weigher == null) {
       weigher = unitWeight();
     }
     builder.weigher(weigher);
+
+    Duration expireAfterWrite = def.expireAfterWrite();
+    if (has(def.configKey(), "maxAge")) {
+      builder.expireAfterWrite(
+          ConfigUtil.getTimeUnit(
+              cfg, "cache", def.configKey(), "maxAge", toSeconds(expireAfterWrite), SECONDS),
+          SECONDS);
+    } else if (expireAfterWrite != null) {
+      builder.expireAfterWrite(expireAfterWrite.toNanos(), NANOSECONDS);
+    }
+
+    Duration expireAfterAccess = def.expireFromMemoryAfterAccess();
+    if (has(def.configKey(), "expireFromMemoryAfterAccess")) {
+      builder.expireAfterAccess(
+          ConfigUtil.getTimeUnit(
+              cfg,
+              "cache",
+              def.configKey(),
+              "expireFromMemoryAfterAccess",
+              toSeconds(expireAfterAccess),
+              SECONDS),
+          SECONDS);
+    } else if (expireAfterAccess != null) {
+      builder.expireAfterAccess(expireAfterAccess.toNanos(), NANOSECONDS);
+    }
+
+    return builder;
+  }
+
+  private <K, V> Caffeine<K, V> create(CacheDef<K, V> def) {
+    Caffeine<K, V> builder = newCacheBuilder();
+    builder.recordStats();
+    builder.maximumWeight(
+        cfg.getLong("cache", def.configKey(), "memoryLimit", def.maximumWeight()));
+    builder = builder.removalListener(newRemovalListener(def.name()));
+    builder.weigher(newWeigher(def.weigher()));
 
     Duration expireAfterWrite = def.expireAfterWrite();
     if (has(def.configKey(), "maxAge")) {
@@ -107,16 +153,31 @@ class DefaultMemoryCacheFactory implements MemoryCacheFactory {
   }
 
   @SuppressWarnings("unchecked")
-  private static <K, V> CacheBuilder<K, V> newCacheBuilder() {
+  private static <K, V> CacheBuilder<K, V> newLegacyCacheBuilder() {
     return (CacheBuilder<K, V>) CacheBuilder.newBuilder();
   }
 
-  private static <K, V> Weigher<K, V> unitWeight() {
-    return new Weigher<K, V>() {
-      @Override
-      public int weigh(K key, V value) {
-        return 1;
-      }
-    };
+  private static <K, V> com.google.common.cache.Weigher<K, V> unitWeight() {
+    return (key, value) -> 1;
+  }
+
+  @SuppressWarnings("unchecked")
+  private static <K, V> Caffeine<K, V> newCacheBuilder() {
+    return (Caffeine<K, V>) Caffeine.newBuilder();
+  }
+
+  @SuppressWarnings("unchecked")
+  private <V, K> RemovalListener<K, V> newRemovalListener(String cacheName) {
+    return (k, v, cause) ->
+        forwardingRemovalListenerFactory
+            .create(cacheName)
+            .onRemoval(
+                RemovalNotification.create(
+                    k, v, com.google.common.cache.RemovalCause.valueOf(cause.name())));
+  }
+
+  private static <K, V> Weigher<K, V> newWeigher(
+      com.google.common.cache.Weigher<K, V> guavaWeigher) {
+    return guavaWeigher == null ? Weigher.singletonWeigher() : (k, v) -> guavaWeigher.weigh(k, v);
   }
 }

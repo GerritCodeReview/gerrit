@@ -166,6 +166,30 @@
       "revId": "0f15c891953eae7273f22ca0b722e0c309515ca3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a3309413_9aba328d",
+        "filename": "javatests/com/google/gerrit/integration/git/GitProtocolV2IT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-12-05T03:56:12Z",
+      "side": 0,
+      "message": "As the matter of fact, the assumption violation check is not a goof candidate to use in bazel. That\u0027s because of this long standing bug: [1]. That JUnit feature was supported in Buck out of the box, and the Buck output reported exactly what test was successful and what test was skipped due to assumption violation.\n\nSo, let us remove that. However, we should two things:\n\n* 1. Explain that Bazel doesn\u0027t support assumption violation outcome in test command output and may be even reference: [1]\n* 2. We should add a dedicated tag to the Git wire protocol v2 in BUILD file, e.g.:\n\n  acceptance_tests(\n      srcs \u003d glob([\"*IT.java\"]),\n      group \u003d \"git\",\n      labels \u003d [\n          \"git\",\n          \"git-protocol-v2\",\n     ],\n  )\n\nand document in Documentation/dev-bazel.txt how to skip that test, if git client version is outdated:\n\n  --test_tag_filters\u003d-git-protocol-v2\n\n* [1] https://github.com/bazelbuild/bazel/issues/3476",
+      "parentUuid": "acd25c97_d276fc50",
+      "range": {
+        "startLine": 66,
+        "startChar": 4,
+        "endLine": 67,
+        "endChar": 66
+      },
+      "revId": "0f15c891953eae7273f22ca0b722e0c309515ca3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -42,6 +42,12 @@ limitations under the License.
   </template>
 </test-fixture>
 
+<test-fixture id="empty">
+  <template>
+    <div></div>
+  </template>
+</test-fixture>
+
 <script>
   suite('gr-diff-cursor tests', () => {
     let sandbox;
@@ -368,6 +374,26 @@ limitations under the License.
         assert.isTrue(cursorElement.handleDiffUpdate.called);
         done();
       });
+    });
+  });
+
+  suite('gr-diff-cursor event tests', () => {
+    let sandbox;
+    let someEmptyDiv;
+
+    setup(() => {
+      sandbox = sinon.sandbox.create();
+      someEmptyDiv = fixture('empty');
+    });
+
+    teardown(() => sandbox.restore());
+
+    test('ready is fired after component is rendered', done => {
+      const cursorElement = document.createElement('gr-diff-cursor');
+      cursorElement.addEventListener('ready', () => {
+        done();
+      });
+      someEmptyDiv.appendChild(cursorElement);
     });
   });
 </script>

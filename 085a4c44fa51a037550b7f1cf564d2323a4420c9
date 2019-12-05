@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "44c7bee3_7bd9774e",
+        "filename": "javatests/com/google/gerrit/integration/git/GitProtocolV2IT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-12-05T16:05:12Z",
+      "side": 1,
+      "message": "Shall we put one more comment on why the assume() cannot be used when running the tests with Bazel?",
+      "revId": "085a4c44fa51a037550b7f1cf564d2323a4420c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

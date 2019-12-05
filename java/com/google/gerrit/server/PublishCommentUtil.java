@@ -28,6 +28,7 @@ import com.google.gerrit.extensions.validators.CommentForValidation;
 import com.google.gerrit.extensions.validators.CommentValidationFailure;
 import com.google.gerrit.extensions.validators.CommentValidator;
 import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
@@ -57,7 +58,7 @@ public class PublishCommentUtil {
 
   public void publish(
       ChangeContext ctx,
-      PatchSet.Id psId,
+      ChangeUpdate changeUpdate,
       Collection<Comment> draftComments,
       @Nullable String tag) {
     ChangeNotes notes = ctx.getNotes();
@@ -107,7 +108,7 @@ public class PublishCommentUtil {
       }
       commentsToPublish.add(draftComment);
     }
-    commentsUtil.putComments(ctx.getUpdate(psId), Status.PUBLISHED, commentsToPublish);
+    commentsUtil.putComments(changeUpdate, Status.PUBLISHED, commentsToPublish);
   }
 
   private static PatchSet.Id psId(ChangeNotes notes, Comment c) {

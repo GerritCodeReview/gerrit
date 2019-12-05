@@ -102,6 +102,7 @@ import com.google.gerrit.server.CreateGroupPermissionSyncer;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.PublishCommentUtil;
+import com.google.gerrit.server.PublishCommentsOp;
 import com.google.gerrit.server.RequestInfo;
 import com.google.gerrit.server.RequestListener;
 import com.google.gerrit.server.account.AccountResolver;
@@ -333,6 +334,7 @@ class ReceiveCommits {
   private final RefOperationValidators.Factory refValidatorsFactory;
   private final ReplaceOp.Factory replaceOpFactory;
   private final PluginSetContext<RequestListener> requestListeners;
+  private final PublishCommentsOp.Factory publishCommentsOp;
   private final RetryHelper retryHelper;
   private final RequestScopePropagator requestScopePropagator;
   private final Sequences seq;
@@ -405,6 +407,7 @@ class ReceiveCommits {
       Provider<InternalChangeQuery> queryProvider,
       Provider<MergeOp> mergeOpProvider,
       Provider<MergeOpRepoManager> ormProvider,
+      PublishCommentsOp.Factory publishCommentsOp,
       ReceiveConfig receiveConfig,
       RefOperationValidators.Factory refValidatorsFactory,
       ReplaceOp.Factory replaceOpFactory,
@@ -451,6 +454,7 @@ class ReceiveCommits {
     this.projectCache = projectCache;
     this.psUtil = psUtil;
     this.performanceLoggers = performanceLoggers;
+    this.publishCommentsOp = publishCommentsOp;
     this.queryProvider = queryProvider;
     this.receiveConfig = receiveConfig;
     this.refValidatorsFactory = refValidatorsFactory;
@@ -907,10 +911,15 @@ class ReceiveCommits {
 
         logger.atFine().log("Adding %d replace requests", newChanges.size());
         for (ReplaceRequest replace : replaceByChange.values()) {
+          replace.addOps(bu, replaceProgress);
           if (magicBranch != null) {
             bu.setNotifyHandling(replace.ontoChange, magicBranch.getNotifyHandling(replace.notes));
+            if (magicBranch.shouldPublishComments()) {
+              bu.addOp(
+                  replace.notes.getChangeId(),
+                  publishCommentsOp.create(replace.psId, project.getNameKey()));
+            }
           }
-          replace.addOps(bu, replaceProgress);
         }
 
         logger.atFine().log("Adding %d create requests", newChanges.size());

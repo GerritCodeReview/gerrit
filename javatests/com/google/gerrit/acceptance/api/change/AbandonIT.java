@@ -179,15 +179,15 @@ public class AbandonIT extends AbstractDaemonTest {
     assertThat(toChangeNumbers(query("is:abandoned"))).containsExactly(id4);
   }
 
+  /**
+   * When indexMergeable is disabled then the abandonIfMergeable option is ineffective and the auto
+   * abandon behaves as though it were set to its default value (true).
+   */
   @Test
   @UseClockStep
   @GerritConfig(name = "changeCleanup.abandonAfter", value = "1w")
   @GerritConfig(name = "changeCleanup.abandonIfMergeable", value = "false")
   @GerritConfig(name = "index.change.indexMergeable", value = "false")
-  /**
-   * When indexMergeable is disabled then the abandonIfMergeable option is ineffective and the auto
-   * abandon behaves as though it were set to its default value (true).
-   */
   public void abandonedIfMergeableWhenMergeableOperatorIsDisabled() throws Exception {
     ObjectId initial = repo().exactRef(HEAD).getLeaf().getObjectId();
 

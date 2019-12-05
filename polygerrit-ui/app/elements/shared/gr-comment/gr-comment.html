@@ -60,7 +60,7 @@ limitations under the License.
         display: none;
       }
       .header {
-        align-items: baseline;
+        align-items: center;
         cursor: pointer;
         display: flex;
         margin: calc(0px - var(--spacing-m)) calc(0px - var(--spacing-m)) 0 calc(0px - var(--spacing-m));
@@ -271,7 +271,7 @@ limitations under the License.
             secondary
             class$="action delete [[_computeDeleteButtonClass(_isAdmin, draft)]]"
             on-click="_handleCommentDelete">
-          (Delete)
+          <iron-icon id="icon" icon="gr-icons:delete"></iron-icon>
         </gr-button>
         <span class="date" on-click="_handleAnchorClick">
           <gr-date-formatter

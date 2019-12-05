@@ -43,7 +43,6 @@ import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.common.data.LabelTypes;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
-import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.entities.Comment;
 import com.google.gerrit.entities.FixReplacement;
 import com.google.gerrit.entities.FixSuggestion;
@@ -89,6 +88,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.PublishCommentUtil;
+import com.google.gerrit.server.PublishCommentsOp;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.change.AddReviewersEmail;
@@ -101,7 +101,6 @@ import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.change.WorkInProgressOp;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.extensions.events.CommentAdded;
-import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.patch.DiffSummary;
 import com.google.gerrit.server.patch.DiffSummaryKey;
@@ -117,7 +116,6 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.update.BatchUpdate;
-import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.CommentsRejectedException;
 import com.google.gerrit.server.update.Context;
@@ -881,24 +879,22 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     abstract Comment.Range range();
   }
 
-  private class Op implements BatchUpdateOp {
+  private class Op extends PublishCommentsOp {
     private final ProjectState projectState;
-    private final PatchSet.Id psId;
-    private final ReviewInput in;
-
-    private IdentifiedUser user;
-    private ChangeNotes notes;
-    private PatchSet ps;
-    private ChangeMessage message;
-    private List<Comment> comments = new ArrayList<>();
-    private List<LabelVote> labelDelta = new ArrayList<>();
-    private Map<String, Short> approvals = new HashMap<>();
-    private Map<String, Short> oldApprovals = new HashMap<>();
 
     private Op(ProjectState projectState, PatchSet.Id psId, ReviewInput in) {
+      super(
+          cmUtil,
+          commentAdded,
+          commentsUtil,
+          email,
+          psUtil,
+          commentValidators,
+          projectCache,
+          publishCommentUtil,
+          psId,
+          in);
       this.projectState = projectState;
-      this.psId = psId;
-      this.in = in;
     }
 
     @Override
@@ -906,7 +902,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         throws ResourceConflictException, UnprocessableEntityException, IOException,
             PatchListNotAvailableException, CommentsRejectedException {
       user = ctx.getIdentifiedUser();
-      notes = ctx.getNotes();
+      changeNotes = ctx.getNotes();
       ps = psUtil.get(ctx.getNotes(), psId);
       boolean dirty = insertComments(ctx);
       dirty |= insertRobotComments(ctx);
@@ -920,14 +916,14 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       if (message == null) {
         return;
       }
-      NotifyResolver.Result notify = ctx.getNotify(notes.getChangeId());
+      NotifyResolver.Result notify = ctx.getNotify(changeNotes.getChangeId());
       if (notify.shouldNotify()) {
         email
-            .create(notify, notes, ps, user, message, comments, in.message, labelDelta)
+            .create(notify, changeNotes, ps, user, message, comments, in.message, labelDelta)
             .sendAsync();
       }
       commentAdded.fire(
-          notes.getChange(),
+          changeNotes.getChange(),
           ps,
           user.state(),
           message.getMessage(),
@@ -1400,43 +1396,6 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         }
       }
       return current;
-    }
-
-    private boolean insertMessage(ChangeContext ctx) throws CommentsRejectedException {
-      String msg = Strings.nullToEmpty(in.message).trim();
-
-      StringBuilder buf = new StringBuilder();
-      for (LabelVote d : labelDelta) {
-        buf.append(" ").append(d.format());
-      }
-      if (comments.size() == 1) {
-        buf.append("\n\n(1 comment)");
-      } else if (comments.size() > 1) {
-        buf.append(String.format("\n\n(%d comments)", comments.size()));
-      }
-      if (!msg.isEmpty()) {
-        ImmutableList<CommentValidationFailure> messageValidationFailure =
-            PublishCommentUtil.findInvalidComments(
-                commentValidators,
-                ImmutableList.of(
-                    CommentForValidation.create(
-                        CommentForValidation.CommentType.CHANGE_MESSAGE, msg)));
-        if (!messageValidationFailure.isEmpty()) {
-          throw new CommentsRejectedException(messageValidationFailure);
-        }
-        buf.append("\n\n").append(msg);
-      } else if (in.ready) {
-        buf.append("\n\n" + START_REVIEW_MESSAGE);
-      }
-      if (buf.length() == 0) {
-        return false;
-      }
-
-      message =
-          ChangeMessagesUtil.newMessage(
-              psId, user, ctx.getWhen(), "Patch Set " + psId.get() + ":" + buf, in.tag);
-      cmUtil.addChangeMessage(ctx.getUpdate(psId), message);
-      return true;
     }
 
     private void addLabelDelta(String name, short value) {

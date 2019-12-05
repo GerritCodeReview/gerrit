@@ -79,6 +79,8 @@ import com.google.gerrit.extensions.api.changes.HashtagsInput;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.NotifyInfo;
 import com.google.gerrit.extensions.api.changes.RecipientType;
+import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.api.changes.ReviewInput.DraftHandling;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.api.projects.ProjectConfigEntryType;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
@@ -102,6 +104,7 @@ import com.google.gerrit.server.CreateGroupPermissionSyncer;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.PublishCommentUtil;
+import com.google.gerrit.server.PublishCommentsOp;
 import com.google.gerrit.server.RequestInfo;
 import com.google.gerrit.server.RequestListener;
 import com.google.gerrit.server.account.AccountResolver;
@@ -333,6 +336,7 @@ class ReceiveCommits {
   private final RefOperationValidators.Factory refValidatorsFactory;
   private final ReplaceOp.Factory replaceOpFactory;
   private final PluginSetContext<RequestListener> requestListeners;
+  private final PublishCommentsOp.Factory publishCommentsOp;
   private final RetryHelper retryHelper;
   private final RequestScopePropagator requestScopePropagator;
   private final Sequences seq;
@@ -405,6 +409,7 @@ class ReceiveCommits {
       Provider<InternalChangeQuery> queryProvider,
       Provider<MergeOp> mergeOpProvider,
       Provider<MergeOpRepoManager> ormProvider,
+      PublishCommentsOp.Factory publishCommentsOp,
       ReceiveConfig receiveConfig,
       RefOperationValidators.Factory refValidatorsFactory,
       ReplaceOp.Factory replaceOpFactory,
@@ -451,6 +456,7 @@ class ReceiveCommits {
     this.projectCache = projectCache;
     this.psUtil = psUtil;
     this.performanceLoggers = performanceLoggers;
+    this.publishCommentsOp = publishCommentsOp;
     this.queryProvider = queryProvider;
     this.receiveConfig = receiveConfig;
     this.refValidatorsFactory = refValidatorsFactory;
@@ -907,10 +913,22 @@ class ReceiveCommits {
 
         logger.atFine().log("Adding %d replace requests", newChanges.size());
         for (ReplaceRequest replace : replaceByChange.values()) {
+          replace.addOps(bu, replaceProgress);
           if (magicBranch != null) {
             bu.setNotifyHandling(replace.ontoChange, magicBranch.getNotifyHandling(replace.notes));
+
+            // Publish the draft comments if applicable
+            // Comments will be published on the prior patch set
+            // and then a new patch set will be created (with the ReplaceOp).
+            // These operations will result in 2 different commits on the NoteDb
+            if (magicBranch.shouldPublishComments()) {
+              ReviewInput input = new ReviewInput();
+              input.drafts = DraftHandling.PUBLISH_ALL_REVISIONS;
+              bu.addOp(
+                  replace.notes.getChangeId(),
+                  publishCommentsOp.create(replace.priorPatchSet, input));
+            }
           }
-          replace.addOps(bu, replaceProgress);
         }
 
         logger.atFine().log("Adding %d create requests", newChanges.size());

@@ -33,6 +33,7 @@ import com.google.gerrit.metrics.Histogram1;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.metrics.Timer1;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.PublishCommentsOp;
 import com.google.gerrit.server.config.ConfigUtil;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.ReceiveCommitsExecutor;
@@ -103,6 +104,7 @@ public class AsyncReceiveCommits implements PreReceiveHook {
       // Don't expose the binding for ReceiveCommits.Factory. All callers should
       // be using AsyncReceiveCommits.Factory instead.
       install(new FactoryModuleBuilder().build(ReceiveCommits.Factory.class));
+      install(new FactoryModuleBuilder().build(PublishCommentsOp.Factory.class));
       install(new FactoryModuleBuilder().build(BranchCommitValidator.Factory.class));
     }
 

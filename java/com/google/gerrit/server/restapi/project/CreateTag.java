@@ -87,7 +87,7 @@ public class CreateTag implements RestCollectionCreateView<ProjectResource, TagR
     if (input.ref != null && !ref.equals(input.ref)) {
       throw new BadRequestException("ref must match URL");
     }
-    if (input.revision == null) {
+    if (Strings.isNullOrEmpty(input.revision)) {
       input.revision = Constants.HEAD;
     }
 

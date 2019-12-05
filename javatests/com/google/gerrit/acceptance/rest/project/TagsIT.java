@@ -390,6 +390,21 @@ public class TagsIT extends AbstractDaemonTest {
     assertThat(result.revision).isEqualTo(expectedRevision.name());
   }
 
+  @Test
+  public void baseRevisionIsTrimmed() throws Exception {
+    grantTagPermissions();
+
+    RevCommit revision = projectOperations.project(project).getHead("master");
+
+    TagInput input = new TagInput();
+    input.ref = "test";
+    input.revision = "\t" + revision.name();
+
+    TagInfo result = tag(input.ref).create(input).get();
+    assertThat(result.ref).isEqualTo(R_TAGS + input.ref);
+    assertThat(result.revision).isEqualTo(revision.name());
+  }
+
   private void assertTagList(FluentIterable<String> expected, List<TagInfo> actual)
       throws Exception {
     assertThat(actual).hasSize(expected.size());

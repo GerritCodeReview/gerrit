@@ -16,6 +16,24 @@
       "revId": "085a4c44fa51a037550b7f1cf564d2323a4420c9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b5367a17_827019f5",
+        "filename": "javatests/com/google/gerrit/integration/git/GitProtocolV2IT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-12-05T16:21:24Z",
+      "side": 1,
+      "message": "Good point. We should also extend commit message and expand Documentation, as I suggested in my previous comment.",
+      "parentUuid": "44c7bee3_7bd9774e",
+      "revId": "085a4c44fa51a037550b7f1cf564d2323a4420c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

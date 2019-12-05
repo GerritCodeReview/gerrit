@@ -35,9 +35,9 @@
   const LEFT_SIDE_CLASS = 'target-side-left';
   const RIGHT_SIDE_CLASS = 'target-side-right';
 
-  class GrDiffCursor extends Polymer.GestureEventListeners(
-      Polymer.LegacyElementMixin(
-          Polymer.Element)) {
+  class GrDiffCursor extends Polymer.mixinBehaviors([Gerrit.FireBehavior],
+      Polymer.GestureEventListeners(
+          Polymer.LegacyElementMixin(Polymer.Element))) {
     static get is() { return 'gr-diff-cursor'; }
 
     static get properties() {
@@ -103,6 +103,21 @@
         '_updateSideClass(side)',
         '_diffsChanged(diffs.splices)',
       ];
+    }
+
+    ready() {
+      super.ready();
+      Polymer.RenderStatus.afterNextRender(this, () => {
+        /*
+        This represents the diff cursor is ready for interaction from
+        client components. It means more than just Polymer "ready", it means
+        the component is completely interactable - in this case attached and
+        painted on the page. We name it "ready" instead of "rendered" as the
+        long-term goal is to make gr-diff-cursor a simple class - not a DOM
+        element with an actual lifecycle.
+        */
+        this.fire('ready', null, {bubbles: false});
+      });
     }
 
     attached() {

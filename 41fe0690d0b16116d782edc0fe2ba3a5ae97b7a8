@@ -92,6 +92,30 @@
       "revId": "41fe0690d0b16116d782edc0fe2ba3a5ae97b7a8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "10d06fc7_5bbc560b",
+        "filename": "java/com/google/gerrit/extensions/validators/CommentValidator.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-12-05T08:36:07Z",
+      "side": 1,
+      "message": "There are different issues with ChangeInfo in plugin APIs (and also events) that make me prefer identifiers (other than the general premise in preferring identifiers in APIs instead of rich objects for having more stable APIs):\n1) ChangeInfo is a type we expose on the public APIs. So every time it gains or looses a field, that affects the plugin/event API\n2) ChangeInfo rendering is conditional depending on the provided options - at least on the public API. In plugin APIs, there is no such query option. In events, there is a default option, but the fact as a whole doesn\u0027t feel right\n3) Rendering ChangeInfo can be expensive: If you include \u0027mergeable\u0027 or any diff info or files, the caller of the plugin API is forced to compute these fields at a high cost without knowing if the callee needs them at all. \n4) Gerrit is pretty good with caching these days, so if you want say the ProjectState and have just a Project.NameKey, that lookup is for free (in-memory).\n5) Identifiers are less likely to change, so using only these makes the API more stable. ChangeInfo can gain or loose fields more quickly.",
+      "parentUuid": "f33ab7b6_52ea911f",
+      "range": {
+        "startLine": 34,
+        "startChar": 52,
+        "endLine": 34,
+        "endChar": 62
+      },
+      "revId": "41fe0690d0b16116d782edc0fe2ba3a5ae97b7a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

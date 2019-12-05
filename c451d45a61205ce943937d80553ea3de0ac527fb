@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b4896d58_e3bc895b",
+        "filename": "Documentation/backup.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2019-12-05T00:34:59Z",
+      "side": 1,
+      "message": "It is not clear to me what this section is trying to achieve, it seems like a header for git data, but the subsection below it also describes sql data. Maybe this is meant to be \"primary data\"?",
+      "range": {
+        "startLine": 108,
+        "startChar": 70,
+        "endLine": 109,
+        "endChar": 24
+      },
+      "revId": "c451d45a61205ce943937d80553ea3de0ac527fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "597f628f_bc844901",
+        "filename": "Documentation/backup.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2019-12-05T00:34:59Z",
+      "side": 1,
+      "message": "This doesn\u0027t tell me what I need to do.",
+      "revId": "c451d45a61205ce943937d80553ea3de0ac527fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0d84e119_231b9224",
+        "filename": "Documentation/backup.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2019-12-05T00:34:59Z",
+      "side": 1,
+      "message": "This probably should also suggest shutting down crons and currently running cron jobs that might be affecting the repos (repacking...).",
+      "range": {
+        "startLine": 129,
+        "startChar": 35,
+        "endLine": 129,
+        "endChar": 69
+      },
+      "revId": "c451d45a61205ce943937d80553ea3de0ac527fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "60c1708b_7b7d6163",
+        "filename": "Documentation/backup.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2019-12-05T00:34:59Z",
+      "side": 1,
+      "message": "This does not backup repository meta-data such as the project description file, ref-logs, git configs, and alternate configs.",
+      "revId": "c451d45a61205ce943937d80553ea3de0ac527fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ee55e121_3f0f6030",
+        "filename": "Documentation/backup.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2019-12-05T00:34:59Z",
+      "side": 1,
+      "message": "Also should mention crons...",
+      "revId": "c451d45a61205ce943937d80553ea3de0ac527fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

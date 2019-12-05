@@ -538,7 +538,9 @@ the command line or the user interface. To use the command line, append
 ----
   $ git push origin HEAD:refs/for/master%wip
 ----
-Alternatively, click *WIP* from the Change screen.
+Alternatively, click *WIP* from the *More* menu on the Change screen.
+The Change screen updates with a yellow header, indicating that
+the change is in a Work-in-Progress state.
 
 To mark the change as ready for review, append `%ready` to your push
 request.
@@ -546,17 +548,11 @@ request.
 ----
   $ git push origin HEAD:refs/for/master%ready
 ----
-Alternatively, click *Ready* from the Change screen.
+Alternatively, click *Start Review* from the Change screen.
 
 Change owners, project owners, site administrators and members of a group that
 was granted "Toggle Work In Progress state" permission can mark changes as
 `work-in-progress` and `ready`.
-
-[[wip-polygerrit]]
-In the new PolyGerrit UI, you can mark a change as WIP, by selecting *WIP* from
-the *More* menu. The Change screen updates with a yellow header, indicating that
-the change is in a Work-in-Progress state. To mark a change as ready for review,
-click *Start Review*.
 
 [[private-changes]]
 == Private Changes

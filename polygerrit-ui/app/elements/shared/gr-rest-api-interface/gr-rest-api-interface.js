@@ -1622,6 +1622,11 @@
       });
     }
 
+    getChangesWithSameSubmissionId(submissionId) {
+      const query = 'submissionid:' + submissionId;
+      return this.getChanges('', query);
+    }
+
     getChangesWithSameTopic(topic, changeNum) {
       const options = this.listChangesOptionsToHex(
           this.ListChangesOption.LABELS,

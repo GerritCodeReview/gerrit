@@ -293,13 +293,6 @@ public class ReplaceOp implements BatchUpdateOp {
         change.setWorkInProgress(true);
         update.setWorkInProgress(true);
       }
-      if (shouldPublishComments()) {
-        boolean workInProgress = change.isWorkInProgress();
-        if (magicBranch.workInProgress) {
-          workInProgress = true;
-        }
-        comments = publishComments(ctx, workInProgress);
-      }
     }
 
     newPatchSet =

@@ -2056,14 +2056,14 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     assertThat(comments.stream().map(c -> c.id)).containsExactly(c1.id, c2.id, c3.id);
     assertThat(comments.stream().map(c -> c.message))
         .containsExactly("comment1", "comment2", "comment3");
-    assertThat(getLastMessage(r.getChangeId())).isEqualTo("Uploaded patch set 3.\n\n(3 comments)");
+    assertThat(getLastMessage(r.getChangeId())).isEqualTo("Uploaded patch set 3.");
 
     List<String> messages =
         sender.getMessages().stream()
             .map(Message::body)
             .sorted(Comparator.comparingInt(m -> m.contains("reexamine") ? 0 : 1))
             .collect(toList());
-    assertThat(messages).hasSize(2);
+    assertThat(messages).hasSize(3);
 
     assertThat(messages.get(0)).contains("Gerrit-MessageType: newpatchset");
     assertThat(messages.get(0)).contains("I'd like you to reexamine a change");
@@ -2076,15 +2076,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
                 // A little weird that the comment email contains this text, but it's actually
                 // what's in the ChangeMessage. Really we should fuse the emails into one, but until
                 // then, this test documents the current behavior.
-                "Uploaded patch set 3\\.\n"
-                    + "\n"
-                    + "\\(3 comments\\)\\n.*"
-                    + "PS1, Line 1:.*"
-                    + "comment1\\n.*"
-                    + "PS1, Line 1:.*"
-                    + "comment2\\n.*"
-                    + "PS2, Line 1:.*"
-                    + "comment3\\n",
+                "Uploaded patch set 3",
                 Pattern.DOTALL));
   }
 
@@ -2099,7 +2091,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     Collection<CommentInfo> comments = getPublishedComments(r.getChangeId());
     assertThat(comments.stream().map(c -> c.message)).containsExactly("comment1");
     assertThat(getLastMessage(r.getChangeId()))
-        .isEqualTo("Uploaded patch set 2.\n\n(1 comment)\n\nThe message");
+        .isEqualTo("Uploaded patch set 2.\n\nThe message");
   }
 
   @Test
@@ -2120,13 +2112,13 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     assertThat(cs1.stream().map(c -> c.message)).containsExactly("comment1");
     assertThat(cs1.stream().map(c -> c.id)).containsExactly(c1.id);
     assertThat(getLastMessage(id1))
-        .isEqualTo("Uploaded patch set 2: Commit message was updated.\n\n(1 comment)");
+        .isEqualTo("Uploaded patch set 2: Commit message was updated.");
 
     Collection<CommentInfo> cs2 = getPublishedComments(id2);
     assertThat(cs2.stream().map(c -> c.message)).containsExactly("comment2");
     assertThat(cs2.stream().map(c -> c.id)).containsExactly(c2.id);
     assertThat(getLastMessage(id2))
-        .isEqualTo("Uploaded patch set 2: Commit message was updated.\n\n(1 comment)");
+        .isEqualTo("Uploaded patch set 2: Commit message was updated.");
   }
 
   @Test
@@ -2151,7 +2143,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     assertThat(cs2.stream().map(c -> c.id)).containsExactly(c2.id);
 
     assertThat(getLastMessage(id1)).doesNotMatch("[Cc]omment");
-    assertThat(getLastMessage(id2)).isEqualTo("Uploaded patch set 2.\n\n(1 comment)");
+    assertThat(getLastMessage(id2)).isEqualTo("Uploaded patch set 2.");
   }
 
   @Test

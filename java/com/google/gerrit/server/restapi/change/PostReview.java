@@ -881,7 +881,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     abstract Comment.Range range();
   }
 
-  private class Op implements BatchUpdateOp {
+  public class Op implements BatchUpdateOp {
     private final ProjectState projectState;
     private final PatchSet.Id psId;
     private final ReviewInput in;
@@ -895,7 +895,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     private Map<String, Short> approvals = new HashMap<>();
     private Map<String, Short> oldApprovals = new HashMap<>();
 
-    private Op(ProjectState projectState, PatchSet.Id psId, ReviewInput in) {
+    public Op(ProjectState projectState, PatchSet.Id psId, ReviewInput in) {
       this.projectState = projectState;
       this.psId = psId;
       this.in = in;

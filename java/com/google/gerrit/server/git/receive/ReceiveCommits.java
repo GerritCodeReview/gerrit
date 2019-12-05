@@ -79,6 +79,8 @@ import com.google.gerrit.extensions.api.changes.HashtagsInput;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.NotifyInfo;
 import com.google.gerrit.extensions.api.changes.RecipientType;
+import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.api.changes.ReviewInput.DraftHandling;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.api.projects.ProjectConfigEntryType;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
@@ -155,6 +157,7 @@ import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
+import com.google.gerrit.server.restapi.change.PostReview;
 import com.google.gerrit.server.submit.MergeOp;
 import com.google.gerrit.server.submit.MergeOpRepoManager;
 import com.google.gerrit.server.submit.SubmoduleException;
@@ -341,6 +344,7 @@ class ReceiveCommits {
   private final TagCache tagCache;
   private final ProjectConfig.Factory projectConfigFactory;
   private final SetPrivateOp.Factory setPrivateOpFactory;
+  private final PostReview postReview;
 
   // Assisted injected fields.
   private final ProjectState projectState;
@@ -401,6 +405,7 @@ class ReceiveCommits {
       PatchSetUtil psUtil,
       DynamicSet<PerformanceLogger> performanceLoggers,
       PermissionBackend permissionBackend,
+      PostReview postReview,
       ProjectCache projectCache,
       Provider<InternalChangeQuery> queryProvider,
       Provider<MergeOp> mergeOpProvider,
@@ -451,6 +456,7 @@ class ReceiveCommits {
     this.projectCache = projectCache;
     this.psUtil = psUtil;
     this.performanceLoggers = performanceLoggers;
+    this.postReview = postReview;
     this.queryProvider = queryProvider;
     this.receiveConfig = receiveConfig;
     this.refValidatorsFactory = refValidatorsFactory;
@@ -911,6 +917,20 @@ class ReceiveCommits {
             bu.setNotifyHandling(replace.ontoChange, magicBranch.getNotifyHandling(replace.notes));
           }
           replace.addOps(bu, replaceProgress);
+
+          // Publish the draft comments if applicable
+          if (magicBranch != null && magicBranch.shouldPublishComments()) {
+            ReviewInput input = new ReviewInput();
+            input.drafts = DraftHandling.PUBLISH_ALL_REVISIONS;
+
+            /* Comments will be published on the prior patch set
+               and then a new patch set will be created (with the ReplaceOp).
+               These operations will result in 2 different commits on the NoteDb
+             */
+            bu.addOp(
+                replace.notes.getChangeId(),
+                postReview.new Op(projectState, replace.priorPatchSet, input));
+          }
         }
 
         logger.atFine().log("Adding %d create requests", newChanges.size());

@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "861901ce_21ad7de2",
+        "filename": "java/com/google/gerrit/server/git/receive/ReplaceOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 493,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-12-05T13:16:43Z",
+      "side": 0,
+      "message": "Now unused",
+      "range": {
+        "startLine": 487,
+        "startChar": 0,
+        "endLine": 493,
+        "endChar": 3
+      },
+      "revId": "ff0a38d00dd1d5a8722bca6f43967528fe386869",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d7051a8d_ce5b617c",
+        "filename": "java/com/google/gerrit/server/git/receive/ReplaceOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 529,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-12-05T13:16:43Z",
+      "side": 0,
+      "message": "This code needs to be removed because it would still trigger as shouldPublishComments() is true when there are comments to publish (even though, the would not be published).",
+      "range": {
+        "startLine": 510,
+        "startChar": 0,
+        "endLine": 529,
+        "endChar": 5
+      },
+      "revId": "ff0a38d00dd1d5a8722bca6f43967528fe386869",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "59980240_da6ea593",
+        "filename": "java/com/google/gerrit/server/git/receive/ReplaceOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 576,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-12-05T13:16:43Z",
+      "side": 0,
+      "message": "Please remove (same reason as above)",
+      "revId": "ff0a38d00dd1d5a8722bca6f43967528fe386869",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7ff45c90_d7a7ed5a",
+        "filename": "java/com/google/gerrit/server/git/receive/ReplaceOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 654,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-12-05T13:16:43Z",
+      "side": 0,
+      "message": "Please remove (same reason as above).",
+      "range": {
+        "startLine": 652,
+        "startChar": 0,
+        "endLine": 654,
+        "endChar": 3
+      },
+      "revId": "ff0a38d00dd1d5a8722bca6f43967528fe386869",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -2,6 +2,80 @@
   "comments": [
     {
       "key": {
+        "uuid": "cdb85f07_dc303cbb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-12-05T13:16:43Z",
+      "side": 1,
+      "message": "Can we turn this around? When a user uses the UI, they would first upload the new PS and then hit \u0027publish\u0027. The reason is that as a reviewer publishing the comment resolves it (if specified) when I see a resolved comment, I expect the code to have changed. So it feels more natural to first update the code and only then declare comments to be done.",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 43
+      },
+      "revId": "46e42247ccd73c76304bb8b616806db3bb106244",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7e3cc735_b3622b8b",
+        "filename": "java/com/google/gerrit/server/git/receive/BUILD",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-12-05T13:16:43Z",
+      "side": 1,
+      "message": "Please don\u0027t reference API components in the git package.\n\nPostReview.Op is a pretty complex database update operation, that deals with way more things than just publishing user comments. In general, there are two ways to reuse such code:\n1) Factor out that Op from the API class (PostReview) into a common place (for example the notedb package) and then reuse it from the git package.\n2) Reuse smaller chunks of work by putting these into classes in a common place (a lot of times these chunks of code end up in Util classes) and then have two Ops classes, one in PostReview and one in the git package that just use the relevant parts by calling the Utils.\n\nIn this case, (2) seems to be the better option. Most (all?) code you need is already in CommentsUtil and the event logic is also centrally handled (commentAdded.fired...).",
+      "revId": "46e42247ccd73c76304bb8b616806db3bb106244",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fba850a9_2c0451e5",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 931,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-12-05T13:16:43Z",
+      "side": 1,
+      "message": "As noted in the prior comment, just add your small Op here instead of referencing PostReview.Op.",
+      "revId": "46e42247ccd73c76304bb8b616806db3bb106244",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fba26fca_2b525c96",
+        "filename": "java/com/google/gerrit/server/git/receive/ReplaceOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-12-05T13:16:43Z",
+      "side": 1,
+      "message": "Please remove any code from this class that is about \u0027comments\u0027.",
+      "revId": "46e42247ccd73c76304bb8b616806db3bb106244",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "846511b4_c7cfddc9",
         "filename": "java/com/google/gerrit/server/restapi/change/PostReview.java",
         "patchSetId": 1
@@ -19,6 +93,64 @@
         "endLine": 884,
         "endChar": 42
       },
+      "revId": "46e42247ccd73c76304bb8b616806db3bb106244",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0a10852e_43550310",
+        "filename": "java/com/google/gerrit/server/restapi/change/PostReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 884,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-12-05T13:16:43Z",
+      "side": 1,
+      "message": "See my comment above, there is a cheaper/cleaner way to get the same outcome.",
+      "parentUuid": "846511b4_c7cfddc9",
+      "range": {
+        "startLine": 884,
+        "startChar": 2,
+        "endLine": 884,
+        "endChar": 42
+      },
+      "revId": "46e42247ccd73c76304bb8b616806db3bb106244",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "54f01aa1_21110c3e",
+        "filename": "javatests/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2059,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-12-05T13:16:43Z",
+      "side": 1,
+      "message": "We need to assert that there is a change message that published the comments. You do that with asserting the size of messages, but we also need to assert the String of the message.\n\nFurther down we assert that the message is \"Uploaded patch set 3\" but that seems wrong for publishing comments.",
+      "revId": "46e42247ccd73c76304bb8b616806db3bb106244",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7d9382fd_26275f37",
+        "filename": "javatests/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2123,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-12-05T13:16:43Z",
+      "side": 1,
+      "message": "Please add tests that assert that we send the right emails and fire the right events when comments are published upon push.",
       "revId": "46e42247ccd73c76304bb8b616806db3bb106244",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

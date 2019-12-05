@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "55b24965_7f3c79c9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2019-12-05T14:49:44Z",
+      "side": 1,
+      "message": "I think it would be good to explain here why. e.g.\n\n\n\nFire event when gr-diff-cursor is attached to DOM\n\nThis allows none-Polymer clients of gr-diff and related classes know when the Polymer life cycle has run and the cursor is ready to be used.",
+      "revId": "b9fadd7cdcd6bf1bd13b94a16017f13127e4f506",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

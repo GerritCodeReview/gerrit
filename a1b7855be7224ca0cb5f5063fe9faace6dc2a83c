@@ -39,6 +39,30 @@
       "revId": "a1b7855be7224ca0cb5f5063fe9faace6dc2a83c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9b446d78_60c386a0",
+        "filename": "java/com/google/gerrit/server/notedb/OpenRepo.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2019-12-05T09:19:16Z",
+      "side": 1,
+      "message": "Sorry, forgot to remove those. Thanks for the cleanup!",
+      "parentUuid": "062758df_2c34efb5",
+      "range": {
+        "startLine": 46,
+        "startChar": 2,
+        "endLine": 47,
+        "endChar": 59
+      },
+      "revId": "a1b7855be7224ca0cb5f5063fe9faace6dc2a83c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

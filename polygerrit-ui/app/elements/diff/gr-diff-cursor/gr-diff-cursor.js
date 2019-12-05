@@ -94,6 +94,10 @@
       _listeningForScroll: Boolean,
     },
 
+    behaviors: [
+      Gerrit.FireBehavior,
+    ],
+
     observers: [
       '_updateSideClass(side)',
       '_diffsChanged(diffs.splices)',
@@ -102,6 +106,7 @@
     attached() {
       // Catch when users are scrolling as the view loads.
       this.listen(window, 'scroll', '_handleWindowScroll');
+      this.fire('attached', null, {bubbles: false});
     },
 
     detached() {

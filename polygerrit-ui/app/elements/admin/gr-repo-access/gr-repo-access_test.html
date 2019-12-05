@@ -282,7 +282,8 @@ limitations under the License.
           id: 'test-project',
         };
         flushAsynchronousOperations();
-        assert.equal(getComputedStyle(element.$$('#editInheritFromInput'))
+        assert.equal(getComputedStyle(element.shadowRoot
+            .querySelector('#editInheritFromInput'))
             .display, 'none');
 
         MockInteractions.tap(element.$.editBtn);
@@ -300,7 +301,8 @@ limitations under the License.
           assert.notEqual(getComputedStyle(element.$.saveBtn).display, 'none');
           assert.isTrue(element.$.saveBtn.disabled);
         }
-        assert.notEqual(getComputedStyle(element.$$('#editInheritFromInput'))
+        assert.notEqual(getComputedStyle(element.shadowRoot
+            .querySelector('#editInheritFromInput'))
             .display, 'none');
 
         // Save button should be enabled after access is modified
@@ -365,7 +367,7 @@ limitations under the License.
           id: 'test-project',
         };
         flushAsynchronousOperations();
-        element.$$('#editInheritFromInput').fire('commit');
+        element.shadowRoot.querySelector('#editInheritFromInput').fire('commit');
         sandbox.spy(element, '_handleAccessModified');
         element.fire('access-modified');
         assert.isTrue(element._handleAccessModified.called);

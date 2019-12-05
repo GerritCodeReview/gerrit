@@ -385,7 +385,8 @@ limitations under the License.
 
         assert.isFalse(element._originalExclusiveValue);
         assert.isNotOk(element.permission.value.modified);
-        MockInteractions.tap(element.$$('#exclusiveToggle'));
+        MockInteractions.tap(element.shadowRoot
+            .querySelector('#exclusiveToggle'));
         flushAsynchronousOperations();
         assert.isTrue(element.permission.value.exclusive);
         assert.isTrue(element.permission.value.modified);
@@ -405,21 +406,25 @@ limitations under the License.
       });
 
       test('Exclusive hidden for owner permission', () => {
-        assert.equal(getComputedStyle(element.$$('#exclusiveToggle')).display,
-            'flex');
+        assert.equal(getComputedStyle(element.shadowRoot
+            .querySelector('#exclusiveToggle')).display,
+        'flex');
         element.set(['permission', 'id'], 'owner');
         flushAsynchronousOperations();
-        assert.equal(getComputedStyle(element.$$('#exclusiveToggle')).display,
-            'none');
+        assert.equal(getComputedStyle(element.shadowRoot
+            .querySelector('#exclusiveToggle')).display,
+        'none');
       });
 
       test('Exclusive hidden for any global permissions', () => {
-        assert.equal(getComputedStyle(element.$$('#exclusiveToggle')).display,
-            'flex');
+        assert.equal(getComputedStyle(element.shadowRoot
+            .querySelector('#exclusiveToggle')).display,
+        'flex');
         element.section = 'GLOBAL_CAPABILITIES';
         flushAsynchronousOperations();
-        assert.equal(getComputedStyle(element.$$('#exclusiveToggle')).display,
-            'none');
+        assert.equal(getComputedStyle(element.shadowRoot
+            .querySelector('#exclusiveToggle')).display,
+        'none');
       });
     });
   });

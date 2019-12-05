@@ -187,7 +187,7 @@ limitations under the License.
     });
 
     test('keep drafts with reply', done => {
-      MockInteractions.tap(element.$$('#includeComments'));
+      MockInteractions.tap(element.shadowRoot.querySelector('#includeComments'));
       assert.equal(element._includeComments, false);
 
       // Async tick is needed because iron-selector content is distributed and
@@ -460,7 +460,8 @@ limitations under the License.
       flushAsynchronousOperations();
       assert.isFalse(element._reviewersMutated);
       assert.isTrue(element.$.ccs.allowAnyInput);
-      assert.isFalse(element.$$('#reviewers').allowAnyInput);
+      assert.isFalse(element.shadowRoot
+          .querySelector('#reviewers').allowAnyInput);
       element.$.ccs.dispatchEvent(new CustomEvent('account-text-changed',
           {bubbles: true, composed: true}));
       assert.isTrue(element._reviewersMutated);

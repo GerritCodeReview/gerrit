@@ -197,7 +197,10 @@ limitations under the License.
         assert.equal(Polymer.dom(element.root)
             .querySelectorAll('.sectionTitle').length, 3);
         assert.equal(element.$$('.breadcrumbText').innerText, 'Test Repo');
-        assert.equal(element.$$('#pageSelect').items.length, 6);
+        assert.equal(
+            element.shadowRoot.querySelector('#pageSelect').items.length,
+            6
+        );
         done();
       });
     });
@@ -439,13 +442,16 @@ limitations under the License.
       element.reload().then(() => {
         assert.deepEqual(element._filteredLinks, expectedFilteredLinks);
         assert.deepEqual(element._subsectionLinks, expectedSubsectionLinks);
-        assert.equal(element.$$('#pageSelect').value, 'repoaccess');
+        assert.equal(
+            element.shadowRoot.querySelector('#pageSelect').value,
+            'repoaccess'
+        );
         assert.isTrue(element._selectedIsCurrentPage.calledOnce);
         // Doesn't trigger navigation from the page select menu.
         assert.isFalse(Gerrit.Nav.navigateToRelativeUrl.called);
 
         // When explicitly changed, navigation is called
-        element.$$('#pageSelect').value = 'repo';
+        element.shadowRoot.querySelector('#pageSelect').value = 'repo';
         assert.isTrue(element._selectedIsCurrentPage.calledTwice);
         assert.isTrue(Gerrit.Nav.navigateToRelativeUrl.calledOnce);
         done();

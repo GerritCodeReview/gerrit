@@ -466,7 +466,9 @@ limitations under the License.
         element._handleDeleteEditTap();
         assert.isFalse(element.$.confirmDeleteEditDialog.hidden);
         MockInteractions.tap(
-            element.$$('#confirmDeleteEditDialog').$$('gr-button[primary]'));
+            element.shadowRoot
+                .querySelector('#confirmDeleteEditDialog')
+                .$$('gr-button[primary]'));
         flushAsynchronousOperations();
 
         assert.equal(fireActionStub.lastCall.args[0], '/edit');
@@ -980,9 +982,12 @@ limitations under the License.
 
       test('shows confirm dialog', () => {
         element._handleDeleteTap();
-        assert.isFalse(element.$$('#confirmDeleteDialog').hidden);
+        assert.isFalse(element.shadowRoot
+            .querySelector('#confirmDeleteDialog').hidden);
         MockInteractions.tap(
-            element.$$('#confirmDeleteDialog').$$('gr-button[primary]'));
+            element.shadowRoot
+                .querySelector('#confirmDeleteDialog')
+                .$$('gr-button[primary]'));
         flushAsynchronousOperations();
         assert.isTrue(fireActionStub.calledWith('/', deleteAction, false));
       });
@@ -990,9 +995,12 @@ limitations under the License.
       test('hides delete confirm on cancel', () => {
         element._handleDeleteTap();
         MockInteractions.tap(
-            element.$$('#confirmDeleteDialog').$$('gr-button:not([primary])'));
+            element.shadowRoot
+                .querySelector('#confirmDeleteDialog')
+                .$$('gr-button:not([primary])'));
         flushAsynchronousOperations();
-        assert.isTrue(element.$$('#confirmDeleteDialog').hidden);
+        assert.isTrue(element.shadowRoot
+            .querySelector('#confirmDeleteDialog').hidden);
         assert.isFalse(fireActionStub.called);
       });
     });

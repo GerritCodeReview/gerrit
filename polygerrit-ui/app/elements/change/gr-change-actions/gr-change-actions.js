@@ -1307,7 +1307,8 @@
             } else {
               // show multiple reverted changes in a dialog
               this._revertChanges = revertChanges;
-              this._showActionDialog(this.$.showRevertSubmissionChangesDialog);
+              const topic = this._revertChanges[0].topic;
+              Gerrit.Nav.navigateToSearchQuery('topic: ' + topic);
             }
             break;
           default:

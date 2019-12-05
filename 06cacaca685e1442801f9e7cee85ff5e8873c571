@@ -51,6 +51,24 @@
       "revId": "06cacaca685e1442801f9e7cee85ff5e8873c571",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1668cacc_4a9e82af",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-12-05T17:51:23Z",
+      "side": 1,
+      "message": "is it possible to use something like `Polymer.RenderStatus` to make sure its attached ? (I am not sure about whether it will work or not, but if the element is attached to the dom, theoretically the `RenderStatus.afterNextRender` should guarantee that its attached).\n\nI think what is concerning me here is the `attached` event here is only for external dependencies and only exist in `gr-diff-cursor`. Maybe use a different event name with some comments on why its introduced and the use case of it will be better for people who don\u0027t have the full context. And also prevent people from deleting it by accident.\n\n\nBTW: we have upgraded to polymer 2, so you probably should start checking documents under `2.0` :)",
+      "parentUuid": "98f40e03_49a76c0c",
+      "revId": "06cacaca685e1442801f9e7cee85ff5e8873c571",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

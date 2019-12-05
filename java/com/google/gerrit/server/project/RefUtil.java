@@ -55,7 +55,6 @@ public class RefUtil {
           "Cannot resolve \"%s\" in project \"%s\"", baseRevision, projectName.get());
       throw new InvalidRevisionException(baseRevision);
     } catch (RevisionSyntaxException err) {
-      logger.atSevere().withCause(err).log("Invalid revision syntax \"%s\"", baseRevision);
       throw new InvalidRevisionException(baseRevision);
     }
   }

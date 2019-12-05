@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a3af3e70_f713c6fd",
+        "filename": "Documentation/config-labels.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2019-12-05T00:14:41Z",
+      "side": 1,
+      "message": "I like having the extra flexibility that this introduces, and wonder if it would not be simpler and more flexible to allow the user to specify exactly which scores to copy instead?",
+      "revId": "980251a297eb50068df55764a43cb88e2f5e4774",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

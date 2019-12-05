@@ -86,6 +86,24 @@
       "revId": "70ec51d6385b344f76fa3a1ea50d57482479a87c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4a858e65_25580d4d",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 682,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2019-12-05T17:35:28Z",
+      "side": 1,
+      "message": "This generic listener approach allows for traditional listeners things with pre/post task work, such as logging, to be done from plugins, and it allows for plugins to enforce quotas (limits on what can run) by as you say \"wasting a thread\", likely by sleeping on a semaphore. I could not come up with other ways to limit things in ways that would do what you suggested with light and heavy weight tasks in a way that I thought did not have problems. For example, if you let the lightweight task run, on a busy server how do you prevent blocking the heavyweight task indefinitely? By letting other tasks run you are never reserving the space for the heavyweight task to ever run. By blocking all tasks for the heavyweight one, it guarantees that the heavy weight task will get an opportunity to run as other already running tasks complete. This effectively preserves ordering and is \"fair\".\n\nI agree that there might be additional ways that we can modify core to allow for different types of QOS approaches, I have not come up with them, and I think this listener approach would likely be useful even if we add other approaches.",
+      "parentUuid": "647e30ba_ea65c9f4",
+      "revId": "70ec51d6385b344f76fa3a1ea50d57482479a87c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

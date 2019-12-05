@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "762cba8e_0d87932e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-12-05T15:38:41Z",
+      "side": 1,
+      "message": "FYI: you can run `npm run eslintfix` to address some of linter issues",
+      "revId": "06cacaca685e1442801f9e7cee85ff5e8873c571",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7dec740b_9c62de48",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-12-05T15:38:41Z",
+      "side": 1,
+      "message": "what is the expected usage of this event ?",
+      "revId": "06cacaca685e1442801f9e7cee85ff5e8873c571",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

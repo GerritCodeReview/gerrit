@@ -930,11 +930,17 @@
     }
 
     showRevertSubmissionDialog() {
-      this.$.confirmRevertSubmissionDialog.populateRevertSubmissionMessage(
-          this.commitMessage, this.change.current_revision);
-      this.$.confirmRevertSubmissionDialog.message =
-          this._modifyRevertSubmissionMsg();
-      this._showActionDialog(this.$.confirmRevertSubmissionDialog);
+      return this.$.restAPI.getChangesWithSameSubmissionId(
+          this.change.submission_id)
+          .then(changes => {
+            this.$.confirmRevertSubmissionDialog.
+                populateRevertSubmissionMessage(
+                    this.commitMessage, this.change.current_revision,
+                    this.change.submission_id, changes);
+            this.$.confirmRevertSubmissionDialog.message =
+                this._modifyRevertSubmissionMsg();
+            this._showActionDialog(this.$.confirmRevertSubmissionDialog);
+          });
     }
 
     _handleActionTap(e) {

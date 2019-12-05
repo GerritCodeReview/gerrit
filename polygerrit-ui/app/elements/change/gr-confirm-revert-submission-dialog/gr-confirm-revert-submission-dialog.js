@@ -44,18 +44,33 @@
     static get properties() {
       return {
         message: String,
+        changes: Array,
       };
     }
 
-    populateRevertSubmissionMessage(message, commitHash) {
+    getTrimmedChangeSubject(subject) {
+      if (!subject) return '';
+      if (subject.length < 50) return subject;
+      return subject.substring(0, 50) + '...';
+    }
+
+    populateRevertSubmissionMessage(message, commitHash, submissionId,
+        changes) {
       // Follow the same convention of the revert
-      const revertTitle = 'Revert submission';
+      const revertTitle = 'Revert submission ' + submissionId;
       if (!commitHash) {
         this.fire('show-alert', {message: ERR_COMMIT_NOT_FOUND});
         return;
       }
+      this.changes = changes;
       this.message = `${revertTitle}\n\n` +
           `Reason for revert: <INSERT REASONING HERE>\n`;
+      this.message += 'Reverted Changes:\n';
+      changes = changes || [];
+      changes.forEach(change => {
+        this.message += change.change_id.substring(0, 10) + ':' +
+          this.getTrimmedChangeSubject(change.subject) + '\n';
+      });
     }
 
     _handleConfirmTap(e) {

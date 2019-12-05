@@ -102,6 +102,7 @@ import com.google.gerrit.server.CreateGroupPermissionSyncer;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.PublishCommentUtil;
+import com.google.gerrit.server.PublishCommentsOp;
 import com.google.gerrit.server.RequestInfo;
 import com.google.gerrit.server.RequestListener;
 import com.google.gerrit.server.account.AccountResolver;
@@ -333,6 +334,7 @@ class ReceiveCommits {
   private final RefOperationValidators.Factory refValidatorsFactory;
   private final ReplaceOp.Factory replaceOpFactory;
   private final PluginSetContext<RequestListener> requestListeners;
+  private final PublishCommentsOp.Factory publishCommentsOp;
   private final RetryHelper retryHelper;
   private final RequestScopePropagator requestScopePropagator;
   private final Sequences seq;
@@ -405,6 +407,7 @@ class ReceiveCommits {
       Provider<InternalChangeQuery> queryProvider,
       Provider<MergeOp> mergeOpProvider,
       Provider<MergeOpRepoManager> ormProvider,
+      PublishCommentsOp.Factory publishCommentsOp,
       ReceiveConfig receiveConfig,
       RefOperationValidators.Factory refValidatorsFactory,
       ReplaceOp.Factory replaceOpFactory,
@@ -451,6 +454,7 @@ class ReceiveCommits {
     this.projectCache = projectCache;
     this.psUtil = psUtil;
     this.performanceLoggers = performanceLoggers;
+    this.publishCommentsOp = publishCommentsOp;
     this.queryProvider = queryProvider;
     this.receiveConfig = receiveConfig;
     this.refValidatorsFactory = refValidatorsFactory;
@@ -961,6 +965,10 @@ class ReceiveCommits {
         reject(magicBranchCmd, "internal server error: " + e.getMessage());
       }
 
+      if (magicBranch != null && magicBranch.shouldPublishComments()) {
+        publishComments();
+      }
+
       if (magicBranch != null && magicBranch.submit) {
         try {
           submit(newChanges, replaceByChange.values());
@@ -977,6 +985,29 @@ class ReceiveCommits {
           reject(magicBranchCmd, "error during submit");
         }
       }
+    }
+  }
+
+  private void publishComments() {
+    ReceiveCommand magicBranchCmd = magicBranch != null ? magicBranch.cmd : null;
+
+    BatchUpdate bu =
+        batchUpdateFactory.create(project.getNameKey(), user.materializedCopy(), TimeUtil.nowTs());
+    ObjectInserter ins = repo.newObjectInserter();
+    ObjectReader reader = ins.newReader();
+    RevWalk rw = new RevWalk(reader);
+
+    for (ReplaceRequest replace : replaceByChange.values()) {
+      if (magicBranch != null && magicBranch.shouldPublishComments()) {
+        bu.addOp(replace.notes.getChangeId(), publishCommentsOp.create(replace.psId));
+      }
+    }
+
+    try {
+      bu.execute();
+    } catch (UpdateException | RestApiException e) {
+      logger.atSevere().withCause(e).log("Can't publish projects for %s", project.getName());
+      reject(magicBranchCmd, "internal server error: " + e.getMessage());
     }
   }
 

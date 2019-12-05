@@ -125,8 +125,10 @@ public class ReceiveCommitsCommentValidationIT extends AbstractDaemonTest {
     assertThat(testCommentHelper.getPublishedComments(result.getChangeId())).isEmpty();
     amendChange(changeId, "refs/for/master%publish-comments", admin, testRepo);
     assertThat(testCommentHelper.getPublishedComments(result.getChangeId())).hasSize(2);
+
     assertThat(capture.getAllValues()).hasSize(1);
-    assertThat(capture.getValue())
+
+    assertThat(capture.getAllValues().get(0))
         .containsExactly(
             CommentForValidation.create(
                 CommentForValidation.CommentType.INLINE_COMMENT, draftInline.message),

@@ -64,4 +64,15 @@ public interface ExceptionHook {
   default Optional<String> getUserMessage(Throwable throwable) {
     return Optional.empty();
   }
+
+  /**
+   * Returns the HTTP status code that should be returned to the user.
+   *
+   * @param throwable throwable that was thrown while executing an operation
+   * @return HTTP status code that should be returned to the user, {@link Optional#empty()} if the
+   *     exception should result in {@code 500 Internal Server Error}
+   */
+  default Optional<Integer> getStatusCode(Throwable throwable) {
+    return Optional.empty();
+  }
 }

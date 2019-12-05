@@ -33,6 +33,24 @@
       "revId": "06cacaca685e1442801f9e7cee85ff5e8873c571",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "98f40e03_49a76c0c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2019-12-05T15:50:41Z",
+      "side": 1,
+      "message": "For non-polymer clients that might dynamically include a gr-diff-cursor element in the DOM, gr-diff-cursor is not necessarily already ready for interaction (example is the initialization of properties and default values).\n\n\"attached\" is the last hook in the initialization order for Polymer:\n\nhttps://polymer-library.polymer-project.org/1.0/docs/devguide/registering-elements#initialization-order\n\nTherefore we can use it to guarantee the element can be completely interactable by that point in time.",
+      "parentUuid": "7dec740b_9c62de48",
+      "revId": "06cacaca685e1442801f9e7cee85ff5e8873c571",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

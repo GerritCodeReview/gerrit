@@ -49,9 +49,10 @@ def license_test(name, target):
         # the license files themselves from this list.
         expression = 'rdeps(%s, "%s", 1) - rdeps(%s, "%s", 0)' % (target, forbidden, target, forbidden),
     )
+
     native.sh_test(
         name = name,
         srcs = ["//tools/bzl:test_license.sh"],
-        args = ["$(location :%s)" % txt],
-        data = [txt],
+#        args = ["$(location :%s)" % txt],
+#        data = [txt],
     )

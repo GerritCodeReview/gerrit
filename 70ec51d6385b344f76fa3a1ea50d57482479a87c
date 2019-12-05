@@ -46,6 +46,46 @@
       "revId": "70ec51d6385b344f76fa3a1ea50d57482479a87c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9f8a0aff_742026a1",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 502,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-12-05T14:02:51Z",
+      "side": 1,
+      "message": "How would a listener delay task execution? By putting the calling thread to sleep?",
+      "range": {
+        "startLine": 501,
+        "startChar": 0,
+        "endLine": 502,
+        "endChar": 54
+      },
+      "revId": "70ec51d6385b344f76fa3a1ea50d57482479a87c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "647e30ba_ea65c9f4",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 682,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-12-05T14:02:51Z",
+      "side": 1,
+      "message": "Answering my question from my comment in the dev-plugins.txt, this looks like the listener\nhas to put the thread to sleep if it wants to delay the task? This can potentially waste\nthe threads I think.\n\nExample assume we have one thread free and two tasks in the queue: lightweight-task and heavyweight-task. The heavyweight-task is run first and the listener decides that due to\nthe currently high load the heavyweight-task needs to be delayed. The thread sleeps.\nHowever, this thread could have been used to run the lightweight-task instead of putting\nit to sleep.\n\nMaybe, instead of using just a listener here we need something with richer semantics.\nSomething that gives or rejects a permission for the task to be run, like a semaphore?\nOf course, this would require a more intrusive change here as we would need to consider\nthe return value from the listener.",
+      "revId": "70ec51d6385b344f76fa3a1ea50d57482479a87c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

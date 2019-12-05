@@ -194,6 +194,18 @@ public class CreateBranchIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void createRevisionIsTrimmed() throws Exception {
+    RevCommit revision = projectOperations.project(project).getHead("master");
+
+    BranchInput input = new BranchInput();
+    input.revision = "\t" + revision.name();
+    BranchInfo created = branch(testBranch).create(input).get();
+    assertThat(created.ref).isEqualTo(testBranch.branch());
+    assertThat(created.revision).isEqualTo(revision.name());
+    assertThat(projectOperations.project(project).getHead(testBranch.branch())).isEqualTo(revision);
+  }
+
+  @Test
   public void createWithBranchNameAsRevision() throws Exception {
     RevCommit expectedRevision = projectOperations.project(project).getHead("master");
 

@@ -23,6 +23,7 @@ import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toSet;
 
 import com.google.common.base.Throwables;
+import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ListMultimap;
@@ -34,6 +35,7 @@ import com.google.common.util.concurrent.ListenableFuture;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
+import com.google.gerrit.entities.PatchSet.Id;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.config.FactoryModule;
@@ -256,26 +258,52 @@ public class BatchUpdate implements AutoCloseable {
 
   private class ChangeContextImpl extends ContextImpl implements ChangeContext {
     private final ChangeNotes notes;
-    private final Map<PatchSet.Id, ChangeUpdate> updates;
+
+    /**
+     * Updates where the caller instructed us to create one NoteDb commit per update. Keyed by
+     * PatchSet.Id only for convenience.
+     */
+    private final Map<PatchSet.Id, ChangeUpdate> defaultUpdates;
+
+    /**
+     * Updates where the caller allowed us to combine potentially multiple adjustments into a single
+     * commit in NoteDb by re-using the same ChangeUpdate instance. Will still be one commit per
+     * patch set.
+     */
+    private final ListMultimap<Id, ChangeUpdate> distinctUpdates;
 
     private boolean deleted;
 
     ChangeContextImpl(ChangeNotes notes) {
       this.notes = requireNonNull(notes);
-      updates = new TreeMap<>(comparing(PatchSet.Id::get));
+      defaultUpdates = new TreeMap<>(comparing(PatchSet.Id::get));
+      distinctUpdates = ArrayListMultimap.create();
     }
 
     @Override
     public ChangeUpdate getUpdate(PatchSet.Id psId) {
-      ChangeUpdate u = updates.get(psId);
+      ChangeUpdate u = defaultUpdates.get(psId);
       if (u == null) {
-        u = changeUpdateFactory.create(notes, user, when);
-        if (newChanges.containsKey(notes.getChangeId())) {
-          u.setAllowWriteToNewRef(true);
-        }
-        u.setPatchSetId(psId);
-        updates.put(psId, u);
+        u = getNewChangeUpdate(psId);
+        defaultUpdates.put(psId, u);
       }
+      return u;
+    }
+
+    @Override
+    public ChangeUpdate getDistinctUpdate(PatchSet.Id psId) {
+      Collection<ChangeUpdate> psUpdates = distinctUpdates.get(psId);
+      ChangeUpdate u = getNewChangeUpdate(psId);
+      psUpdates.add(u);
+      return u;
+    }
+
+    private ChangeUpdate getNewChangeUpdate(PatchSet.Id psId) {
+      ChangeUpdate u = changeUpdateFactory.create(notes, user, when);
+      if (newChanges.containsKey(notes.getChangeId())) {
+        u.setAllowWriteToNewRef(true);
+      }
+      u.setPatchSetId(psId);
       return u;
     }
 
@@ -571,7 +599,8 @@ public class BatchUpdate implements AutoCloseable {
         handle.setResult(id, ChangeResult.SKIPPED);
         continue;
       }
-      ctx.updates.values().forEach(handle.manager::add);
+      ctx.defaultUpdates.values().forEach(handle.manager::add);
+      ctx.distinctUpdates.values().forEach(handle.manager::add);
       if (ctx.deleted) {
         logDebug("Change %s was deleted", id);
         handle.manager.deleteChange(id);

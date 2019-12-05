@@ -34,6 +34,24 @@
       "revId": "085a4c44fa51a037550b7f1cf564d2323a4420c9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "85da142f_a40f3517",
+        "filename": "javatests/com/google/gerrit/integration/git/GitProtocolV2IT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-12-05T18:48:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b5367a17_827019f5",
+      "revId": "085a4c44fa51a037550b7f1cf564d2323a4420c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -68,6 +68,30 @@
       "revId": "41fe0690d0b16116d782edc0fe2ba3a5ae97b7a8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f33ab7b6_52ea911f",
+        "filename": "java/com/google/gerrit/extensions/validators/CommentValidator.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2019-12-05T08:24:43Z",
+      "side": 1,
+      "message": "Using ChangeInfo here is by analogy with ChangeEvent. Is the idea that you\u0027d prefer that the caller use the Change.Id and Project.NameKey to look up the change (in particular since this makes validation cheaper if the caller doesn\u0027t need some fields from ChangeInfo)? That makes sense to me.\n\n(not about this change) Should we update ChangeEvent with getChangeNumber and getProject methods and make the getChange method lazy?\n\n(about this change) Can we encapsulate the validateComments args into an interface or struct to make it easier to add additional context info later? E.g.\n\n interface CommentValidationEvent {\n   ImmutableList\u003cCommentForValidation\u003e getComments();\n   Change.Id getChangeId();\n   Project.NameKey getProject();\n }\n\n ImmutableList\u003cCommentValidationFailure\u003e validateComments(CommentValidationEvent event);",
+      "parentUuid": "6b99aaa0_9b32373e",
+      "range": {
+        "startLine": 34,
+        "startChar": 52,
+        "endLine": 34,
+        "endChar": 62
+      },
+      "revId": "41fe0690d0b16116d782edc0fe2ba3a5ae97b7a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

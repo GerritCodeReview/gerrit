@@ -71,6 +71,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.TimeZone;
 import java.util.TreeMap;
+import java.util.stream.Collectors;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -256,7 +257,7 @@ public class BatchUpdate implements AutoCloseable {
 
   private class ChangeContextImpl extends ContextImpl implements ChangeContext {
     private final ChangeNotes notes;
-    private final Map<PatchSet.Id, ChangeUpdate> updates;
+    private final Map<PatchSet.Id, List<ChangeUpdate>> updates;
 
     private boolean deleted;
 
@@ -267,16 +268,25 @@ public class BatchUpdate implements AutoCloseable {
 
     @Override
     public ChangeUpdate getUpdate(PatchSet.Id psId) {
-      ChangeUpdate u = updates.get(psId);
-      if (u == null) {
-        u = changeUpdateFactory.create(notes, user, when);
+      return getUpdate(psId, 0);
+    }
+
+    @Override
+    public ChangeUpdate getUpdate(PatchSet.Id psId, int pos) {
+      List<ChangeUpdate> psUpdates = updates.get(psId);
+      if (psUpdates == null) {
+        psUpdates = new ArrayList<>();
+        updates.put(psId, psUpdates);
+      }
+      while (pos >= psUpdates.size()) {
+        ChangeUpdate u = changeUpdateFactory.create(notes, user, when);
         if (newChanges.containsKey(notes.getChangeId())) {
           u.setAllowWriteToNewRef(true);
         }
         u.setPatchSetId(psId);
-        updates.put(psId, u);
+        psUpdates.add(u);
       }
-      return u;
+      return psUpdates.get(pos);
     }
 
     @Override
@@ -571,7 +581,10 @@ public class BatchUpdate implements AutoCloseable {
         handle.setResult(id, ChangeResult.SKIPPED);
         continue;
       }
-      ctx.updates.values().forEach(handle.manager::add);
+      ctx.updates.values().stream()
+          .flatMap(List::stream)
+          .collect(Collectors.toList())
+          .forEach(handle.manager::add);
       if (ctx.deleted) {
         logDebug("Change %s was deleted", id);
         handle.manager.deleteChange(id);

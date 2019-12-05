@@ -32,7 +32,6 @@ import com.google.gerrit.common.data.LabelType;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.ChangeMessage;
-import com.google.gerrit.entities.Comment;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.entities.PatchSetInfo;
@@ -44,20 +43,15 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
-import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.PatchSetUtil;
-import com.google.gerrit.server.PublishCommentUtil;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.change.AddReviewersOp;
 import com.google.gerrit.server.change.ChangeKindCache;
-import com.google.gerrit.server.change.EmailReviewComments;
-import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.change.ReviewerAdder;
 import com.google.gerrit.server.change.ReviewerAdder.InternalAddReviewerInput;
 import com.google.gerrit.server.change.ReviewerAdder.ReviewerAddition;
 import com.google.gerrit.server.change.ReviewerAdder.ReviewerAdditionList;
 import com.google.gerrit.server.config.SendEmailExecutor;
-import com.google.gerrit.server.extensions.events.CommentAdded;
 import com.google.gerrit.server.extensions.events.RevisionCreated;
 import com.google.gerrit.server.git.MergedByPushOp;
 import com.google.gerrit.server.git.receive.ReceiveCommits.MagicBranchInput;
@@ -119,12 +113,8 @@ public class ReplaceOp implements BatchUpdateOp {
   private final ChangeData.Factory changeDataFactory;
   private final ChangeKindCache changeKindCache;
   private final ChangeMessagesUtil cmUtil;
-  private final CommentsUtil commentsUtil;
-  private final PublishCommentUtil publishCommentUtil;
-  private final EmailReviewComments.Factory emailCommentsFactory;
   private final ExecutorService sendEmailExecutor;
   private final RevisionCreated revisionCreated;
-  private final CommentAdded commentAdded;
   private final MergedByPushOp.Factory mergedByPushOpFactory;
   private final PatchSetUtil psUtil;
   private final ReplacePatchSetSender.Factory replacePatchSetFactory;
@@ -151,7 +141,6 @@ public class ReplaceOp implements BatchUpdateOp {
   private PatchSet newPatchSet;
   private ChangeKind changeKind;
   private ChangeMessage msg;
-  private List<Comment> comments = ImmutableList.of();
   private String rejectMessage;
   private MergedByPushOp mergedByPushOp;
   private RequestScopePropagator requestScopePropagator;
@@ -165,11 +154,7 @@ public class ReplaceOp implements BatchUpdateOp {
       ChangeData.Factory changeDataFactory,
       ChangeKindCache changeKindCache,
       ChangeMessagesUtil cmUtil,
-      CommentsUtil commentsUtil,
-      PublishCommentUtil publishCommentUtil,
-      EmailReviewComments.Factory emailCommentsFactory,
       RevisionCreated revisionCreated,
-      CommentAdded commentAdded,
       MergedByPushOp.Factory mergedByPushOpFactory,
       PatchSetUtil psUtil,
       ReplacePatchSetSender.Factory replacePatchSetFactory,
@@ -193,11 +178,7 @@ public class ReplaceOp implements BatchUpdateOp {
     this.changeDataFactory = changeDataFactory;
     this.changeKindCache = changeKindCache;
     this.cmUtil = cmUtil;
-    this.commentsUtil = commentsUtil;
-    this.publishCommentUtil = publishCommentUtil;
-    this.emailCommentsFactory = emailCommentsFactory;
     this.revisionCreated = revisionCreated;
-    this.commentAdded = commentAdded;
     this.mergedByPushOpFactory = mergedByPushOpFactory;
     this.psUtil = psUtil;
     this.replacePatchSetFactory = replacePatchSetFactory;
@@ -292,13 +273,6 @@ public class ReplaceOp implements BatchUpdateOp {
       } else if (magicBranch.workInProgress) {
         change.setWorkInProgress(true);
         update.setWorkInProgress(true);
-      }
-      if (shouldPublishComments()) {
-        boolean workInProgress = change.isWorkInProgress();
-        if (magicBranch.workInProgress) {
-          workInProgress = true;
-        }
-        comments = publishComments(ctx, workInProgress);
       }
     }
 
@@ -401,11 +375,6 @@ public class ReplaceOp implements BatchUpdateOp {
     } else {
       message.append('.');
     }
-    if (comments.size() == 1) {
-      message.append("\n\n(1 comment)");
-    } else if (comments.size() > 1) {
-      message.append(String.format("\n\n(%d comments)", comments.size()));
-    }
     if (!Strings.isNullOrEmpty(reviewMessage)) {
       message.append("\n\n").append(reviewMessage);
     }
@@ -484,14 +453,6 @@ public class ReplaceOp implements BatchUpdateOp {
     change.setKey(Change.key(idList.get(idList.size() - 1).trim()));
   }
 
-  private List<Comment> publishComments(ChangeContext ctx, boolean workInProgress) {
-    List<Comment> comments =
-        commentsUtil.draftByChangeAuthor(ctx.getNotes(), ctx.getUser().getAccountId());
-    publishCommentUtil.publish(
-        ctx, patchSetId, comments, ChangeMessagesUtil.uploadedPatchSetTag(workInProgress));
-    return comments;
-  }
-
   @Override
   public void postUpdate(Context ctx) throws Exception {
     reviewerAdditions.postUpdate(ctx);
@@ -504,28 +465,6 @@ public class ReplaceOp implements BatchUpdateOp {
       } else {
         e.run();
       }
-    }
-
-    NotifyResolver.Result notify = ctx.getNotify(notes.getChangeId());
-    if (shouldPublishComments()) {
-      emailCommentsFactory
-          .create(
-              notify,
-              notes,
-              newPatchSet,
-              ctx.getUser().asIdentifiedUser(),
-              msg,
-              comments,
-              msg.getMessage(),
-              ImmutableList.of()) // TODO(dborowitz): Include labels.
-          .sendAsync();
-    }
-
-    revisionCreated.fire(notes.getChange(), newPatchSet, ctx.getAccount(), ctx.getWhen(), notify);
-    try {
-      fireCommentAddedEvent(ctx);
-    } catch (Exception e) {
-      logger.atWarning().withCause(e).log("comment-added event invocation failed");
     }
     if (mergedByPushOp != null) {
       mergedByPushOp.postUpdate(ctx);
@@ -573,41 +512,6 @@ public class ReplaceOp implements BatchUpdateOp {
     }
   }
 
-  private void fireCommentAddedEvent(Context ctx) throws IOException {
-    if (approvals.isEmpty()) {
-      return;
-    }
-
-    /* For labels that are not set in this operation, show the "current" value
-     * of 0, and no oldValue as the value was not modified by this operation.
-     * For labels that are set in this operation, the value was modified, so
-     * show a transition from an oldValue of 0 to the new value.
-     */
-    List<LabelType> labels =
-        projectCache.checkedGet(ctx.getProject()).getLabelTypes(notes).getLabelTypes();
-    Map<String, Short> allApprovals = new HashMap<>();
-    Map<String, Short> oldApprovals = new HashMap<>();
-    for (LabelType lt : labels) {
-      allApprovals.put(lt.getName(), (short) 0);
-      oldApprovals.put(lt.getName(), null);
-    }
-    for (Map.Entry<String, Short> entry : approvals.entrySet()) {
-      if (entry.getValue() != 0) {
-        allApprovals.put(entry.getKey(), entry.getValue());
-        oldApprovals.put(entry.getKey(), (short) 0);
-      }
-    }
-
-    commentAdded.fire(
-        notes.getChange(),
-        newPatchSet,
-        ctx.getAccount(),
-        null,
-        allApprovals,
-        oldApprovals,
-        ctx.getWhen());
-  }
-
   public PatchSet getPatchSet() {
     return newPatchSet;
   }
@@ -647,9 +551,5 @@ public class ReplaceOp implements BatchUpdateOp {
       logger.atWarning().withCause(e).log("Can't check for already submitted change");
       return null;
     }
-  }
-
-  private boolean shouldPublishComments() {
-    return magicBranch != null && magicBranch.shouldPublishComments();
   }
 }

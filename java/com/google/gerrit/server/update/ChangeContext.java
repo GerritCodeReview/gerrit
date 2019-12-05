@@ -30,7 +30,7 @@ import com.google.gerrit.server.notedb.ChangeUpdate;
  */
 public interface ChangeContext extends Context {
   /**
-   * Get an update for this change at a given patch set.
+   * Get the first update for this change at a given patch set.
    *
    * <p>A single operation can modify changes at different patch sets. Commits in the NoteDb graph
    * within this update are created in patch set order.
@@ -41,6 +41,17 @@ public interface ChangeContext extends Context {
    * @return handle for change updates.
    */
   ChangeUpdate getUpdate(PatchSet.Id psId);
+
+  /**
+   * Get the ChangeUpdate at position "pos" for this change at a given patch set.
+   *
+   * <p>To get the current patch set ID, use {@link com.google.gerrit.server.PatchSetUtil#current}.
+   *
+   * @param psId patch set ID.
+   * @param pos ChangeUpdate position
+   * @return handle for change updates.
+   */
+  ChangeUpdate getUpdate(PatchSet.Id psId, int pos);
 
   /**
    * Get the up-to-date notes for this change.

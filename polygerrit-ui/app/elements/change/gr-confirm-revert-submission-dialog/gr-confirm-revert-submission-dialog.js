@@ -19,6 +19,7 @@
 
   const ERR_COMMIT_NOT_FOUND =
       'Unable to find the commit hash of this change.';
+  const CHANGE_SUBJECT_LIMIT = 50;
 
   /**
     * @appliesMixin Gerrit.FireMixin
@@ -44,18 +45,40 @@
     static get properties() {
       return {
         message: String,
+        commitMessage: String,
       };
     }
 
-    populateRevertSubmissionMessage(message, commitHash) {
+    getTrimmedChangeSubject(subject) {
+      if (!subject) return '';
+      if (subject.length < CHANGE_SUBJECT_LIMIT) return subject;
+      return subject.substring(0, CHANGE_SUBJECT_LIMIT) + '...';
+    }
+
+    _modifyRevertSubmissionMsg(change) {
+      return this.$.jsAPI.modifyRevertSubmissionMsg(change,
+          this.message, this.commitMessage);
+    }
+
+    populateRevertSubmissionMessage(message, change, changes) {
       // Follow the same convention of the revert
-      const revertTitle = 'Revert submission';
+      const commitHash = change.current_revision;
       if (!commitHash) {
         this.fire('show-alert', {message: ERR_COMMIT_NOT_FOUND});
         return;
       }
-      this.message = `${revertTitle}\n\n` +
-          `Reason for revert: <INSERT REASONING HERE>\n`;
+      const submissionId = change.submission_id;
+      const revertTitle = 'Revert submission ' + submissionId;
+      this.changes = changes;
+      this.message = revertTitle + '\n\n' +
+          'Reason for revert: <INSERT REASONING HERE>\n';
+      this.message += 'Reverted Changes:\n';
+      changes = changes || [];
+      changes.forEach(change => {
+        this.message += change.change_id.substring(0, 10) + ':' +
+          this.getTrimmedChangeSubject(change.subject) + '\n';
+      });
+      this.message = this._modifyRevertSubmissionMsg(change);
     }
 
     _handleConfirmTap(e) {

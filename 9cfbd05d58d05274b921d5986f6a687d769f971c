@@ -16,6 +16,24 @@
       "revId": "9cfbd05d58d05274b921d5986f6a687d769f971c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a287c96c_0f23399a",
+        "filename": "java/com/google/gerrit/server/notedb/LimitExceededException.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-12-05T11:09:07Z",
+      "side": 1,
+      "message": "Leaving it out causes a warning in Eclipse.",
+      "parentUuid": "f375a1d3_61de04f5",
+      "revId": "9cfbd05d58d05274b921d5986f6a687d769f971c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -47,15 +47,20 @@
       };
     }
 
-    populateRevertSubmissionMessage(message, commitHash) {
+    populateRevertSubmissionMessage(message, commitHash, submissionId,
+        changes) {
       // Follow the same convention of the revert
-      const revertTitle = 'Revert submission';
+      const revertTitle = 'Revert submission ' + submissionId;
       if (!commitHash) {
         this.fire('show-alert', {message: ERR_COMMIT_NOT_FOUND});
         return;
       }
       this.message = `${revertTitle}\n\n` +
           `Reason for revert: <INSERT REASONING HERE>\n`;
+      changes = changes || [];
+      changes.forEach(change => {
+        this.message = this.message + '\nChange: ' + change.change_id;
+      });
     }
 
     _handleConfirmTap(e) {

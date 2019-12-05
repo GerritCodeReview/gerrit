@@ -55,13 +55,36 @@ public interface ExceptionHook {
   }
 
   /**
-   * Returns an error message that should be returned to the user.
+   * Returns a message that should be returned to the user.
+   *
+   * <p>This message is included into the HTTP response that is sent to the user.
    *
    * @param throwable throwable that was thrown while executing an operation
    * @return error message that should be returned to the user, {@link Optional#empty()} if no
    *     message should be returned to the user
    */
   default Optional<String> getUserMessage(Throwable throwable) {
+    return Optional.empty();
+  }
+
+  /**
+   * Returns the HTTP status code that should be returned to the user.
+   *
+   * <p>If no value is returned ({@link Optional#empty()}) the HTTP status code defaults to {@code
+   * 500 Internal Server Error}.
+   *
+   * <p>{@link #getUserMessage(Throwable)} allows to define which message should be included into
+   * the body of the HTTP response.
+   *
+   * <p>Implementors may use this method to change the status code for certain exceptions (e.g.
+   * using this method it would be possible to return {@code 409 Conflict} for {@link
+   * com.google.gerrit.git.LockFailureException}s instead of {@code 500 Internal Server Error}).
+   *
+   * @param throwable throwable that was thrown while executing an operation
+   * @return HTTP status code that should be returned to the user, {@link Optional#empty()} if the
+   *     exception should result in {@code 500 Internal Server Error}
+   */
+  default Optional<Integer> getStatusCode(Throwable throwable) {
     return Optional.empty();
   }
 }

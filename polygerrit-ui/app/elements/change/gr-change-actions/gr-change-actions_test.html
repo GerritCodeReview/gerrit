@@ -1446,7 +1446,6 @@ limitations under the License.
 
       suite('happy path', () => {
         let sendStub;
-        let waitForChangeReachableStub;
         setup(() => {
           sandbox.stub(element, 'fetchChangeUpdates')
               .returns(Promise.resolve({isLatest: true}));
@@ -1454,8 +1453,6 @@ limitations under the License.
               .returns(Promise.resolve({}));
           getResponseObjectStub = sandbox.stub(element.$.restAPI,
               'getResponseObject');
-          waitForChangeReachableStub = sandbox.stub(element,
-              '_waitForChangeReachable').returns(Promise.resolve(true));
           sandbox.stub(Gerrit.Nav,
               'navigateToChange').returns(Promise.resolve(true));
         });
@@ -1471,12 +1468,15 @@ limitations under the License.
         });
 
         suite('single changes revert', () => {
+          let navigateToSearchQueryStub;
           setup(() => {
             getResponseObjectStub
                 .returns(Promise.resolve({revert_changes: [
                   {change_id: 12345},
                 ]}));
             showActionDialogStub = sandbox.stub(element, '_showActionDialog');
+            navigateToSearchQueryStub = sandbox.stub(Gerrit.Nav,
+                'navigateToSearchQuery');
           });
 
           test('revert submission single change', done => {
@@ -1484,7 +1484,7 @@ limitations under the License.
                 '/revert_submission', false, cleanup).then(res => {
               element._handleResponse({__key: 'revert_submission'}, {}).
                   then(() => {
-                    assert.isTrue(waitForChangeReachableStub.called);
+                    assert.isTrue(navigateToSearchQueryStub.called);
                     done();
                   });
             });
@@ -1493,12 +1493,16 @@ limitations under the License.
 
         suite('multiple changes revert', () => {
           let showActionDialogStub;
+          let navigateToSearchQueryStub;
           setup(() => {
             getResponseObjectStub
                 .returns(Promise.resolve({revert_changes: [
-                  {change_id: 12345}, {change_id: 23456},
+                  {change_id: 12345, topic: 'T'},
+                  {change_id: 23456, topic: 'T'},
                 ]}));
             showActionDialogStub = sandbox.stub(element, '_showActionDialog');
+            navigateToSearchQueryStub = sandbox.stub(Gerrit.Nav,
+                'navigateToSearchQuery');
           });
 
           test('revert submission multiple change', done => {
@@ -1506,7 +1510,9 @@ limitations under the License.
                 '/revert_submission', false, cleanup).then(res => {
               element._handleResponse({__key: 'revert_submission'}, {}).then(
                   () => {
-                    assert.isTrue(showActionDialogStub.called);
+                    assert.isFalse(showActionDialogStub.called);
+                    assert.isTrue(navigateToSearchQueryStub.calledWith(
+                        'topic: T'));
                     done();
                   });
             });

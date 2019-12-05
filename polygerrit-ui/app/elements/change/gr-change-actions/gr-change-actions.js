@@ -420,10 +420,6 @@
           type: Boolean,
           value: true,
         },
-        _revertChanges: {
-          type: Array,
-          value: [],
-        },
       };
     }
 
@@ -1289,26 +1285,11 @@
             break;
           case ChangeActions.REVERT_SUBMISSION:
             revertChanges = obj.revert_changes || [];
-            revertChanges = revertChanges.map(change => {
-              change.link = '/q/' + encodeURIComponent(change.change_id);
-              return change;
-            });
-            // list of reverted changes can never be 0
-            if (revertChanges.length === 1) {
-              // redirect to the change if only 1 change is reverted
-              const change = revertChanges[0];
-              this._waitForChangeReachable(change._number).then(success => {
-                if (success) {
-                  Gerrit.Nav.navigateToChange(change);
-                } else {
-                  console.error('Change ' + change._number + ' not reachable');
-                }
-              });
-            } else {
-              // show multiple reverted changes in a dialog
-              this._revertChanges = revertChanges;
-              this._showActionDialog(this.$.showRevertSubmissionChangesDialog);
-            }
+            if (!revertChanges.length) return;
+            /* If there is only 1 change then gerrit will automatically
+               redirect to that change */
+            Gerrit.Nav.navigateToSearchQuery('topic: ' +
+                revertChanges[0].topic);
             break;
           default:
             this.dispatchEvent(new CustomEvent('reload-change',

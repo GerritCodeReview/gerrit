@@ -1462,6 +1462,29 @@ limitations under the License.
               });
         });
 
+        suite('show revert submission dialog', () => {
+          setup(() => {
+            element.change.submission_id = '199';
+            element.change.current_revision = '2000';
+            sandbox.stub(element.$.restAPI, 'getChangesWithSameSubmissionId')
+                .returns(Promise.resolve([
+                  {change_id: 12345, topic: 'T'},
+                  {change_id: 23456, topic: 'T'},
+                ]));
+          });
+  
+          test('revert submission shows submissionId', done => {
+            element.showRevertSubmissionDialog().then(() => {
+              flushAsynchronousOperations();
+              const msg = element.$.confirmRevertSubmissionDialog.message;
+              assert.isTrue(msg.includes('submission 199'));
+              assert.isTrue(msg.includes('Change: 12345'));
+              assert.isTrue(msg.includes('Change: 23456'));
+              done();
+            });
+          });
+        });
+
         suite('single changes revert', () => {
           setup(() => {
             getResponseObjectStub

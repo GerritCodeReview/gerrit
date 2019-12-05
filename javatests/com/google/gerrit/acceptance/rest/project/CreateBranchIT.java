@@ -166,6 +166,34 @@ public class CreateBranchIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void createWithoutSpecifyingRevision() throws Exception {
+    // If revision is not specified, the branch is created based on HEAD, which points to master.
+    RevCommit expectedRevision = projectOperations.project(project).getHead("master");
+
+    BranchInput input = new BranchInput();
+    input.revision = null;
+    BranchInfo created = branch(testBranch).create(input).get();
+    assertThat(created.ref).isEqualTo(testBranch.branch());
+    assertThat(created.revision).isEqualTo(expectedRevision.name());
+    assertThat(projectOperations.project(project).getHead(testBranch.branch()))
+        .isEqualTo(expectedRevision);
+  }
+
+  @Test
+  public void createWithEmptyRevision() throws Exception {
+    // If revision is not specified, the branch is created based on HEAD, which points to master.
+    RevCommit expectedRevision = projectOperations.project(project).getHead("master");
+
+    BranchInput input = new BranchInput();
+    input.revision = "";
+    BranchInfo created = branch(testBranch).create(input).get();
+    assertThat(created.ref).isEqualTo(testBranch.branch());
+    assertThat(created.revision).isEqualTo(expectedRevision.name());
+    assertThat(projectOperations.project(project).getHead(testBranch.branch()))
+        .isEqualTo(expectedRevision);
+  }
+
+  @Test
   public void createWithBranchNameAsRevision() throws Exception {
     RevCommit expectedRevision = projectOperations.project(project).getHead("master");
 

@@ -335,6 +335,12 @@ public class RetryHelper {
                 if (retryWithTraceOnFailure
                     && opts.retryWithTrace().isPresent()
                     && opts.retryWithTrace().get().test(t)) {
+                  // Exception hooks may identify exceptions for which retrying with trace should be
+                  // skipped.
+                  if (exceptionHooks.stream().anyMatch(h -> h.skipRetryWithTrace(t))) {
+                    return false;
+                  }
+
                   String caller = opts.caller().orElse("N/A");
                   String cause = formatCause(t);
                   if (!traceContext.isTracing()) {

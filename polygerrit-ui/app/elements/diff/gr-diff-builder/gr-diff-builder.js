@@ -559,7 +559,13 @@
     const blameNode = this._createElement('span',
         isStartOfRange ? 'startOfRange' : '');
     const shaNode = this._createElement('span', 'sha');
+    shaNode.style.cursor = "pointer";
+    shaNode.style.color = "var(--link-color)";
     shaNode.innerText = commit.id.substr(0, 7);
+    shaNode.onclick = function() {
+      location.href = "/q/" +  shaNode.innerText;
+    }
+
     blameNode.appendChild(shaNode);
     blameNode.append(` on ${date} by ${commit.author}`);
     return blameNode;

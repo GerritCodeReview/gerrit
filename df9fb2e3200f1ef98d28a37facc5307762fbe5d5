@@ -65,6 +65,114 @@
     },
     {
       "key": {
+        "uuid": "1252c06a_b01d6ebf",
+        "filename": "polygerrit-ui/app/BUILD",
+        "patchSetId": 12
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-12-05T14:29:23Z",
+      "side": 1,
+      "message": "remove or uncomment",
+      "revId": "df9fb2e3200f1ef98d28a37facc5307762fbe5d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1aa00ed9_eac23da7",
+        "filename": "polygerrit-ui/app/BUILD",
+        "patchSetId": 12
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-12-05T14:29:23Z",
+      "side": 1,
+      "message": "How is this different from pg_release_code_files?",
+      "range": {
+        "startLine": 46,
+        "startChar": 12,
+        "endLine": 46,
+        "endChar": 23
+      },
+      "revId": "df9fb2e3200f1ef98d28a37facc5307762fbe5d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9ad60cd1_0a4ff2db",
+        "filename": "polygerrit-ui/app/BUILD",
+        "patchSetId": 12
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-12-05T14:29:23Z",
+      "side": 1,
+      "message": "Maybe add a comment about what this is doing and why.",
+      "revId": "df9fb2e3200f1ef98d28a37facc5307762fbe5d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6ef07cee_397d450c",
+        "filename": "polygerrit-ui/app/BUILD",
+        "patchSetId": 12
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-12-05T14:29:23Z",
+      "side": 1,
+      "message": "Maybe add a comment about what this is doing and why.",
+      "revId": "df9fb2e3200f1ef98d28a37facc5307762fbe5d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3cbb3b9f_5da88e1a",
+        "filename": "polygerrit-ui/app/BUILD",
+        "patchSetId": 12
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-12-05T14:29:23Z",
+      "side": 1,
+      "message": "Maybe add a comment about what this is doing and why.",
+      "revId": "df9fb2e3200f1ef98d28a37facc5307762fbe5d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "729950c7_480ca091",
+        "filename": "polygerrit-ui/app/BUILD",
+        "patchSetId": 12
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-12-05T14:29:23Z",
+      "side": 1,
+      "message": "remove or uncomment",
+      "revId": "df9fb2e3200f1ef98d28a37facc5307762fbe5d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5c9d3ead_41382e52",
         "filename": "polygerrit-ui/app/BUILD",
         "patchSetId": 12
@@ -82,6 +190,23 @@
         "endLine": 200,
         "endChar": 24
       },
+      "revId": "df9fb2e3200f1ef98d28a37facc5307762fbe5d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9eeab4db_69945f37",
+        "filename": "polygerrit-ui/app/BUILD",
+        "patchSetId": 12
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-12-05T14:29:23Z",
+      "side": 1,
+      "message": "remove",
       "revId": "df9fb2e3200f1ef98d28a37facc5307762fbe5d5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -128,6 +253,23 @@
     },
     {
       "key": {
+        "uuid": "c85d9532_804c3bac",
+        "filename": "polygerrit-ui/app/polymer.json",
+        "patchSetId": 12
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-12-05T14:29:23Z",
+      "side": 1,
+      "message": "Maybe add a comment here why this is an extraDependency and not a normal dep in package.json.",
+      "revId": "df9fb2e3200f1ef98d28a37facc5307762fbe5d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "db9eb3d2_c88f4322",
         "filename": "polygerrit-ui/app/polymer_legacy_support/polymer-resin/standalone/polymer-resin_bridge.js",
         "patchSetId": 12
@@ -151,6 +293,40 @@
     },
     {
       "key": {
+        "uuid": "94856c56_8bfb1bef",
+        "filename": "polygerrit-ui/app/redirects.json",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-12-05T14:29:23Z",
+      "side": 1,
+      "message": "Maybe add a comment at the top of this file explaining its purpose and usage.",
+      "revId": "df9fb2e3200f1ef98d28a37facc5307762fbe5d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "abcf2def_d3883ca8",
+        "filename": "polygerrit-ui/app/rollup.config.js",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-12-05T14:29:23Z",
+      "side": 1,
+      "message": "Maybe add a top-level comment in this file explaining its purpose and usage.",
+      "revId": "df9fb2e3200f1ef98d28a37facc5307762fbe5d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "43dc6503_4f0d669f",
         "filename": "polygerrit-ui/app/test/yarn.lock",
         "patchSetId": 12
@@ -168,6 +344,74 @@
     },
     {
       "key": {
+        "uuid": "cbc7f289_68aa549b",
+        "filename": "polygerrit-ui/package.json",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-12-05T14:29:23Z",
+      "side": 1,
+      "message": "Do we need package.json both here and in test/?",
+      "revId": "df9fb2e3200f1ef98d28a37facc5307762fbe5d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e935834f_407e2a71",
+        "filename": "polygerrit-ui/server.go",
+        "patchSetId": 12
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-12-05T14:29:23Z",
+      "side": 1,
+      "message": "Is this ready for review?",
+      "revId": "df9fb2e3200f1ef98d28a37facc5307762fbe5d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ce9b8e50_bef30587",
+        "filename": "tools/bzl/bower_support.bzl",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-12-05T14:29:23Z",
+      "side": 1,
+      "message": "Maybe add a top-level comment to this file explaining its purpose and usage.",
+      "revId": "df9fb2e3200f1ef98d28a37facc5307762fbe5d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d8b1c634_2e4f32ab",
+        "filename": "tools/bzl/zip_files.sh",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-12-05T14:29:23Z",
+      "side": 1,
+      "message": "Maybe add a top-level comment to this file explaining its purpose and usage.",
+      "revId": "df9fb2e3200f1ef98d28a37facc5307762fbe5d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5cbc719f_6343979f",
         "filename": "tools/node_tools/.gitignore",
         "patchSetId": 12
@@ -179,6 +423,23 @@
       "writtenOn": "2019-12-04T14:47:01Z",
       "side": 1,
       "message": "can we add `node_modules` to the top level `.gitignore` to ignore them for all ?",
+      "revId": "df9fb2e3200f1ef98d28a37facc5307762fbe5d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "362eb813_c46daf78",
+        "filename": "tools/node_tools/app_preprocessor.js",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-12-05T14:29:23Z",
+      "side": 1,
+      "message": "Maybe add a top-level comment to this file explaining its purpose and usage.",
       "revId": "df9fb2e3200f1ef98d28a37facc5307762fbe5d5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

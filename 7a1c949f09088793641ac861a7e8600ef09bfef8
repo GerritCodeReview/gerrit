@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "cec8f8d4_d4d87e8b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-12-05T13:21:42Z",
+      "side": 1,
+      "message": "Not directly, but it could well be a side-effect.\nI would prefer to address Issue 11986 with specific tests on it as a follow-up change.",
+      "parentUuid": "d7fd6609_fe7e52d1",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 16
+      },
+      "revId": "7a1c949f09088793641ac861a7e8600ef09bfef8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8586bf54_89ea6ff2",
         "filename": "javatests/com/google/gerrit/integration/git/GitProtocolV2IT.java",
         "patchSetId": 1

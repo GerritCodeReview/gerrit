@@ -79,6 +79,8 @@ import com.google.gerrit.extensions.api.changes.HashtagsInput;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.NotifyInfo;
 import com.google.gerrit.extensions.api.changes.RecipientType;
+import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.api.changes.ReviewInput.DraftHandling;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.api.projects.ProjectConfigEntryType;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
@@ -333,6 +335,7 @@ class ReceiveCommits {
   private final RefOperationValidators.Factory refValidatorsFactory;
   private final ReplaceOp.Factory replaceOpFactory;
   private final PluginSetContext<RequestListener> requestListeners;
+  private final PublishCommentsOnPsUploadOp.Factory publishCommentsOnPsUploadOpFactory;
   private final RetryHelper retryHelper;
   private final RequestScopePropagator requestScopePropagator;
   private final Sequences seq;
@@ -405,6 +408,7 @@ class ReceiveCommits {
       Provider<InternalChangeQuery> queryProvider,
       Provider<MergeOp> mergeOpProvider,
       Provider<MergeOpRepoManager> ormProvider,
+      PublishCommentsOnPsUploadOp.Factory publishCommentsOnPsUploadOpFactory,
       ReceiveConfig receiveConfig,
       RefOperationValidators.Factory refValidatorsFactory,
       ReplaceOp.Factory replaceOpFactory,
@@ -451,6 +455,7 @@ class ReceiveCommits {
     this.projectCache = projectCache;
     this.psUtil = psUtil;
     this.performanceLoggers = performanceLoggers;
+    this.publishCommentsOnPsUploadOpFactory = publishCommentsOnPsUploadOpFactory;
     this.queryProvider = queryProvider;
     this.receiveConfig = receiveConfig;
     this.refValidatorsFactory = refValidatorsFactory;
@@ -907,10 +912,24 @@ class ReceiveCommits {
 
         logger.atFine().log("Adding %d replace requests", newChanges.size());
         for (ReplaceRequest replace : replaceByChange.values()) {
+          replace.addOps(bu, replaceProgress);
           if (magicBranch != null) {
             bu.setNotifyHandling(replace.ontoChange, magicBranch.getNotifyHandling(replace.notes));
           }
-          replace.addOps(bu, replaceProgress);
+
+          // Publish the draft comments if applicable
+          if (magicBranch != null && magicBranch.shouldPublishComments()) {
+            ReviewInput input = new ReviewInput();
+            input.drafts = DraftHandling.PUBLISH_ALL_REVISIONS;
+
+            /* Comments will be published on the prior patch set
+              and then a new patch set will be created (with the ReplaceOp).
+              These operations will result in 2 different commits on the NoteDb
+            */
+            bu.addOp(
+                replace.notes.getChangeId(),
+                publishCommentsOnPsUploadOpFactory.create(replace.priorPatchSet, input));
+          }
         }
 
         logger.atFine().log("Adding %d create requests", newChanges.size());

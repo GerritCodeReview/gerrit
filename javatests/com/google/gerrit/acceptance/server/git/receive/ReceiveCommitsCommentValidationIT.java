@@ -34,6 +34,7 @@ import com.google.gerrit.extensions.validators.CommentValidator;
 import com.google.gerrit.testing.TestCommentHelper;
 import com.google.inject.Inject;
 import com.google.inject.Module;
+import java.util.stream.Collectors;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -125,8 +126,8 @@ public class ReceiveCommitsCommentValidationIT extends AbstractDaemonTest {
     assertThat(testCommentHelper.getPublishedComments(result.getChangeId())).isEmpty();
     amendChange(changeId, "refs/for/master%publish-comments", admin, testRepo);
     assertThat(testCommentHelper.getPublishedComments(result.getChangeId())).hasSize(2);
-    assertThat(capture.getAllValues()).hasSize(1);
-    assertThat(capture.getValue())
+    assertThat(capture.getAllValues()).hasSize(2);
+    assertThat(capture.getAllValues().get(0))
         .containsExactly(
             CommentForValidation.create(
                 CommentForValidation.CommentType.INLINE_COMMENT, draftInline.message),

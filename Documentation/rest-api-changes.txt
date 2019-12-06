@@ -5356,6 +5356,17 @@ differences are reported in the result.  Valid values are `IGNORE_NONE`,
 The `context` parameter can be specified to control the number of lines of surrounding context
 in the diff.  Valid values are `ALL` or number of lines.
 
+[[preview-fix]]
+=== Preview fix
+--
+'GET /changes/<<change-id,\{change-id\}>>/revisions/<<revision-id,\{revision-id\}>>/fixes/<<fix-id,\{fix-id\}>>/preview'
+--
+
+Gets the diffs of all files for a certain <<fix-id,\{fix-id\}>>.
+As response, a map of link:#diff-info[DiffInfo] entities is returned that describes the diffs.
+
+Each link:#diff-info[DiffInfo] is the differences between the patch set indicated by revision-id and a virtual patch set with the applied fix.
+
 [[get-blame]]
 === Get Blame
 --

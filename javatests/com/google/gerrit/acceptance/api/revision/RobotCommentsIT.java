@@ -16,6 +16,7 @@ package com.google.gerrit.acceptance.api.revision;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.PushOneCommit.SUBJECT;
+import static com.google.gerrit.extensions.common.testing.DiffInfoSubject.assertThat;
 import static com.google.gerrit.extensions.common.testing.EditInfoSubject.assertThat;
 import static com.google.gerrit.extensions.common.testing.RobotCommentInfoSubject.assertThatList;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
@@ -31,7 +32,9 @@ import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.RobotCommentInput;
 import com.google.gerrit.extensions.client.Comment;
 import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.common.ChangeType;
 import com.google.gerrit.extensions.common.DiffInfo;
+import com.google.gerrit.extensions.common.DiffInfo.IntraLineStatus;
 import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.common.FixReplacementInfo;
 import com.google.gerrit.extensions.common.FixSuggestionInfo;
@@ -50,9 +53,12 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class RobotCommentsIT extends AbstractDaemonTest {
+  private static final String PLAIN_TEXT_CONTENT_TYPE = "text/plain";
+
   private static final String FILE_NAME = "file_to_fix.txt";
   private static final String FILE_NAME2 = "another_file_to_fix.txt";
   private static final String FILE_CONTENT =
@@ -61,6 +67,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
   private static final String FILE_CONTENT2 = "1st line\n2nd line\n3rd line\n";
 
   private String changeId;
+  private String commitId;
   private FixReplacementInfo fixReplacementInfo;
   private FixSuggestionInfo fixSuggestionInfo;
   private RobotCommentInput withFixRobotCommentInput;
@@ -75,6 +82,7 @@ public class RobotCommentsIT extends AbstractDaemonTest {
             ImmutableMap.of(FILE_NAME, FILE_CONTENT, FILE_NAME2, FILE_CONTENT2));
     PushOneCommit.Result changeResult = push.to("refs/for/master");
     changeId = changeResult.getChangeId();
+    commitId = changeResult.getCommit().getName();
 
     fixReplacementInfo = createFixReplacementInfo();
     fixSuggestionInfo = createFixSuggestionInfo(fixReplacementInfo);
@@ -971,15 +979,130 @@ public class RobotCommentsIT extends AbstractDaemonTest {
   }
 
   @Test
+  @Ignore
+  public void getFixPreviewForNonExistingFile() throws Exception {
+    // Not implemented yet.
+    fixReplacementInfo.path = "a_non_existent_file.txt";
+    fixReplacementInfo.range = createRange(1, 0, 2, 0);
+    fixReplacementInfo.replacement = "Modified content\n";
+
+    addRobotComment(changeId, withFixRobotCommentInput);
+    List<RobotCommentInfo> robotCommentInfos = getRobotComments();
+    List<String> fixIds = getFixIds(robotCommentInfos);
+    String fixId = Iterables.getOnlyElement(fixIds);
+
+    assertThrows(
+        BadRequestException.class,
+        () -> gApi.changes().id(changeId).current().getFixPreview(fixId));
+  }
+
+  @Test
   public void getFixPreview() throws Exception {
+    FixReplacementInfo fixReplacementInfoFile1 = new FixReplacementInfo();
+    fixReplacementInfoFile1.path = FILE_NAME;
+    fixReplacementInfoFile1.replacement = "some replacement code";
+    fixReplacementInfoFile1.range = createRange(3, 9, 8, 4);
+
+    FixReplacementInfo fixReplacementInfoFile2 = new FixReplacementInfo();
+    fixReplacementInfoFile2.path = FILE_NAME2;
+    fixReplacementInfoFile2.replacement = "New line\n";
+    fixReplacementInfoFile2.range = createRange(2, 0, 2, 0);
+
+    fixSuggestionInfo = createFixSuggestionInfo(fixReplacementInfoFile1, fixReplacementInfoFile2);
+
+    withFixRobotCommentInput = createRobotCommentInput(fixSuggestionInfo);
+
     addRobotComment(changeId, withFixRobotCommentInput);
     List<RobotCommentInfo> robotCommentInfos = getRobotComments();
 
     List<String> fixIds = getFixIds(robotCommentInfos);
     String fixId = Iterables.getOnlyElement(fixIds);
 
-    Map<String, DiffInfo> result = gApi.changes().id(changeId).current().getFixPreview(fixId);
-    assertThat(result).isEmpty();
+    Map<String, DiffInfo> fixPreview = gApi.changes().id(changeId).current().getFixPreview(fixId);
+    assertThat(fixPreview).hasSize(2);
+    assertThat(fixPreview).containsKey(FILE_NAME);
+    assertThat(fixPreview).containsKey(FILE_NAME2);
+
+    DiffInfo diff = fixPreview.get(FILE_NAME);
+    assertThat(diff).intralineStatus().isEqualTo(IntraLineStatus.OK);
+    assertThat(diff).webLinks().isNull();
+    assertThat(diff).binary().isNull();
+    assertThat(diff).diffHeader().isNull();
+    assertThat(diff).changeType().isEqualTo(ChangeType.MODIFIED);
+    assertThat(diff).metaA().totalLineCount().isEqualTo(11);
+    assertThat(diff).metaA().name().isEqualTo(FILE_NAME);
+    assertThat(diff).metaA().commitId().isEqualTo(commitId);
+    assertThat(diff).metaA().contentType().isEqualTo(PLAIN_TEXT_CONTENT_TYPE);
+    assertThat(diff).metaA().webLinks().isNull();
+    assertThat(diff).metaB().totalLineCount().isEqualTo(6);
+    assertThat(diff).metaB().name().isEqualTo(FILE_NAME);
+    assertThat(diff).metaB().commitId().isNull();
+    assertThat(diff).metaB().contentType().isEqualTo(PLAIN_TEXT_CONTENT_TYPE);
+    assertThat(diff).metaB().webLinks().isNull();
+
+    assertThat(diff).content().hasSize(3);
+    assertThat(diff)
+        .content()
+        .element(0)
+        .commonLines()
+        .containsExactly("First line", "Second line");
+    assertThat(diff).content().element(0).linesOfA().isNull();
+    assertThat(diff).content().element(0).linesOfB().isNull();
+
+    assertThat(diff).content().element(1).commonLines().isNull();
+    assertThat(diff)
+        .content()
+        .element(1)
+        .linesOfA()
+        .containsExactly(
+            "Third line", "Fourth line", "Fifth line", "Sixth line", "Seventh line", "Eighth line");
+    assertThat(diff)
+        .content()
+        .element(1)
+        .linesOfB()
+        .containsExactly("Third linsome replacement codeth line");
+
+    assertThat(diff)
+        .content()
+        .element(2)
+        .commonLines()
+        .containsExactly("Ninth line", "Tenth line", "");
+    assertThat(diff).content().element(2).linesOfA().isNull();
+    assertThat(diff).content().element(2).linesOfB().isNull();
+
+    DiffInfo diff2 = fixPreview.get(FILE_NAME2);
+    assertThat(diff2).intralineStatus().isEqualTo(IntraLineStatus.OK);
+    assertThat(diff2).webLinks().isNull();
+    assertThat(diff2).binary().isNull();
+    assertThat(diff2).diffHeader().isNull();
+    assertThat(diff2).changeType().isEqualTo(ChangeType.MODIFIED);
+    assertThat(diff2).metaA().totalLineCount().isEqualTo(4);
+    assertThat(diff2).metaA().name().isEqualTo(FILE_NAME2);
+    assertThat(diff2).metaA().commitId().isEqualTo(commitId);
+    assertThat(diff2).metaA().contentType().isEqualTo(PLAIN_TEXT_CONTENT_TYPE);
+    assertThat(diff2).metaA().webLinks().isNull();
+    assertThat(diff2).metaB().totalLineCount().isEqualTo(5);
+    assertThat(diff2).metaB().name().isEqualTo(FILE_NAME2);
+    assertThat(diff2).metaB().commitId().isNull();
+    assertThat(diff2).metaA().contentType().isEqualTo(PLAIN_TEXT_CONTENT_TYPE);
+    assertThat(diff2).metaB().webLinks().isNull();
+
+    assertThat(diff2).content().hasSize(3);
+    assertThat(diff2).content().element(0).commonLines().containsExactly("1st line");
+    assertThat(diff2).content().element(0).linesOfA().isNull();
+    assertThat(diff2).content().element(0).linesOfB().isNull();
+
+    assertThat(diff2).content().element(1).commonLines().isNull();
+    assertThat(diff2).content().element(1).linesOfA().isNull();
+    assertThat(diff2).content().element(1).linesOfB().containsExactly("New line");
+
+    assertThat(diff2)
+        .content()
+        .element(2)
+        .commonLines()
+        .containsExactly("2nd line", "3rd line", "");
+    assertThat(diff2).content().element(2).linesOfA().isNull();
+    assertThat(diff2).content().element(2).linesOfB().isNull();
   }
 
   private static RobotCommentInput createRobotCommentInputWithMandatoryFields() {

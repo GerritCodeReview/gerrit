@@ -170,26 +170,29 @@ public class ConsistencyChecker {
   public Result check(ChangeNotes notes, @Nullable FixInput f) {
     requireNonNull(notes);
     try {
-      return retryHelper.execute(
-          buf -> {
-            try {
-              reset();
-              this.updateFactory = buf;
-              this.notes = notes;
-              fix = f;
-              checkImpl();
-              return result();
-            } finally {
-              if (rw != null) {
-                rw.getObjectReader().close();
-                rw.close();
-                oi.close();
-              }
-              if (repo != null) {
-                repo.close();
-              }
-            }
-          });
+      return retryHelper
+          .changeUpdate(
+              "checkChangeConsistency",
+              buf -> {
+                try {
+                  reset();
+                  this.updateFactory = buf;
+                  this.notes = notes;
+                  fix = f;
+                  checkImpl();
+                  return result();
+                } finally {
+                  if (rw != null) {
+                    rw.getObjectReader().close();
+                    rw.close();
+                    oi.close();
+                  }
+                  if (repo != null) {
+                    repo.close();
+                  }
+                }
+              })
+          .call();
     } catch (RestApiException e) {
       return logAndReturnOneProblem(e, notes, "Error checking change: " + e.getMessage());
     } catch (UpdateException e) {

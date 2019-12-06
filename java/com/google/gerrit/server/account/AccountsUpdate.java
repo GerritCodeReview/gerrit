@@ -41,8 +41,7 @@ import com.google.gerrit.server.git.meta.MetaDataUpdate;
 import com.google.gerrit.server.index.change.ReindexAfterRefUpdate;
 import com.google.gerrit.server.notedb.Sequences;
 import com.google.gerrit.server.update.RetryHelper;
-import com.google.gerrit.server.update.RetryHelper.Action;
-import com.google.gerrit.server.update.RetryHelper.ActionType;
+import com.google.gerrit.server.update.RetryableAction.Action;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
@@ -421,8 +420,10 @@ public class AccountsUpdate {
   private Optional<AccountState> executeAccountUpdate(Action<Optional<AccountState>> action)
       throws IOException, ConfigInvalidException {
     try {
-      return retryHelper.execute(
-          ActionType.ACCOUNT_UPDATE, action, LockFailureException.class::isInstance);
+      return retryHelper
+          .accountUpdate("updateAccount", action)
+          .retryOn(LockFailureException.class::isInstance)
+          .call();
     } catch (Exception e) {
       Throwables.throwIfUnchecked(e);
       Throwables.throwIfInstanceOf(e, IOException.class);

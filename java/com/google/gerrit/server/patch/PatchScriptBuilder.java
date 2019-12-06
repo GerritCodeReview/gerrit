@@ -22,9 +22,13 @@ import com.google.gerrit.common.data.CommentDetail;
 import com.google.gerrit.common.data.PatchScript;
 import com.google.gerrit.common.data.PatchScript.DisplayMethod;
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.FixReplacement;
 import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.Patch.ChangeType;
+import com.google.gerrit.entities.Patch.PatchType;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
+import com.google.gerrit.extensions.restapi.ResourceConflictException;
+import com.google.gerrit.server.fixes.FixCalculator;
 import com.google.gerrit.server.mime.FileTypeRegistry;
 import com.google.gerrit.server.patch.DiffContentCalculator.DiffCalculatorResult;
 import com.google.gerrit.server.patch.DiffContentCalculator.TextSource;
@@ -32,6 +36,7 @@ import com.google.inject.Inject;
 import eu.medsea.mimeutil.MimeType;
 import eu.medsea.mimeutil.MimeUtil2;
 import java.io.IOException;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
@@ -90,9 +95,7 @@ class PatchScriptBuilder {
     ResolvedSides sides =
         resolveSides(
             git, sidesResolver, oldName(change), newName(change), list.getOldId(), list.getNewId());
-    PatchSide a = sides.a;
-    PatchSide b = sides.b;
-    return build(a, b, change, comments, history);
+    return build(sides.a, sides.b, change, comments, history);
   }
 
   private ResolvedSides resolveSides(
@@ -108,6 +111,49 @@ class PatchScriptBuilder {
       PatchSide b =
           sidesResolver.resolve(registry, reader, newName, a, bId, Objects.equals(aId, bId));
       return new ResolvedSides(a, b);
+    }
+  }
+
+  PatchScript toPatchScript(
+      Repository git, ObjectId baseId, String fileName, List<FixReplacement> fixReplacements)
+      throws IOException, ResourceConflictException {
+    SidesResolver sidesResolver = new SidesResolver(git, ComparisonType.againstOtherPatchSet());
+    PatchSide a = resolveSideA(git, sidesResolver, fileName, baseId, fixReplacements);
+    FixCalculator.FixResult fixResult = FixCalculator.calculateFix(a.src, fixReplacements);
+    PatchSide b =
+        new PatchSide(
+            null,
+            fileName,
+            ObjectId.zeroId(),
+            a.mode,
+            fixResult.text.getContent(),
+            fixResult.text,
+            a.mimeType,
+            a.displayMethod,
+            a.fileMode);
+
+    PatchFileChange change =
+        new PatchFileChange(
+            fixResult.edits,
+            ImmutableSet.of(),
+            ImmutableList.of(),
+            fileName,
+            fileName,
+            ChangeType.MODIFIED,
+            PatchType.UNIFIED);
+
+    return build(a, b, change, null, null);
+  }
+
+  private PatchSide resolveSideA(
+      Repository git,
+      SidesResolver sidesResolver,
+      String oldName,
+      ObjectId baseId,
+      List<FixReplacement> fixReplacements)
+      throws IOException {
+    try (ObjectReader reader = git.newObjectReader()) {
+      return sidesResolver.resolve(registry, reader, oldName, null, baseId, true);
     }
   }
 

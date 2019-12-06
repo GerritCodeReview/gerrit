@@ -74,6 +74,7 @@ import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetInfo;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
+import com.google.gerrit.entities.SubmissionId;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.HashtagsInput;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
@@ -3023,7 +3024,8 @@ class ReceiveCommits {
                     info,
                     groups,
                     magicBranch,
-                    receivePack.getPushCertificate())
+                    receivePack.getPushCertificate(),
+                    notes.getChange())
                 .setRequestScopePropagator(requestScopePropagator);
         bu.addOp(notes.getChangeId(), replaceOp);
         if (progress != null) {
@@ -3281,7 +3283,7 @@ class ReceiveCommits {
 
                 int existingPatchSets = 0;
                 int newPatchSets = 0;
-                RequestId submissionId = null;
+                SubmissionId submissionId = null;
                 COMMIT:
                 for (RevCommit c; (c = rw.next()) != null; ) {
                   rw.parseBody(c);
@@ -3290,10 +3292,10 @@ class ReceiveCommits {
                       receivePackRefCache.tipsFromObjectId(c.copy(), RefNames.REFS_CHANGES)) {
                     PatchSet.Id psId = PatchSet.Id.fromRef(ref.getName());
                     Optional<ChangeNotes> notes = getChangeNotes(psId.changeId());
-                    if (submissionId == null) {
-                      submissionId = new RequestId(psId.changeId().toString());
-                    }
                     if (notes.isPresent() && notes.get().getChange().getDest().equals(branch)) {
+                      if (submissionId == null) {
+                        submissionId = new SubmissionId(notes.get().getChange());
+                      }
                       existingPatchSets++;
                       bu.addOp(notes.get().getChangeId(), setPrivateOpFactory.create(false, null));
                       bu.addOp(
@@ -3333,7 +3335,7 @@ class ReceiveCommits {
                     continue;
                   }
                   if (submissionId == null) {
-                    submissionId = new RequestId(id.toString());
+                    submissionId = new SubmissionId(req.notes.getChange());
                   }
                   req.addOps(bu, null);
                   bu.addOp(id, setPrivateOpFactory.create(false, null));

@@ -6017,6 +6017,10 @@ When present, change has been marked Ready at some point in time.
 The numeric Change-Id of the change that this change reverts.
 |`submission_id`      |optional|
 ID of the submission of this change. Only set if the status is `MERGED`.
+This ID is equal to the numeric ID of the change that triggered the submission.
+If the change that triggered the submission also has a topic, it will be
+"<id>-<topic>" of the change that triggered the submission.
+The callers must not rely on the format of the submission ID.
 |==================================
 
 [[change-input]]

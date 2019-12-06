@@ -140,6 +140,24 @@
     },
     {
       "key": {
+        "uuid": "e8f164fa_6fe14cc6",
+        "filename": "javatests/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 2059,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-12-06T16:21:44Z",
+      "side": 1,
+      "message": "To be more clear here, we need to test two separate things:\n\n1) The number of emails and the content of emails is correct\n2) The number of change messages (\u003dNoteDb commits) and the content of these is correct\n\nI am not convinced that the two ops really produce two commits in NoteDb (I could imagine that the ops get squashed when the write operation gets committed). A test will clear that doubt :-)\n\nConfusingly, we call emails \u0027messages\u0027 and change messages \u0027messages\u0027 and these two are mixed up in this test. It might help renaming the emails to \u0027emails\u0027.",
+      "parentUuid": "54f01aa1_21110c3e",
+      "revId": "46e42247ccd73c76304bb8b616806db3bb106244",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7d9382fd_26275f37",
         "filename": "javatests/com/google/gerrit/acceptance/git/AbstractPushForReview.java",
         "patchSetId": 1

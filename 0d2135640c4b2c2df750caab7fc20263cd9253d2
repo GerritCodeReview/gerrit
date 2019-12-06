@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "42bfc94e_c7f1c941",
+        "filename": "Documentation/backup.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-06T12:34:35Z",
+      "side": 1,
+      "message": "When merging this into 3.1 we should take care to rename all occurrences of \u0027slave\u0027 to \u0027replica\u0027 (see [1]).\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/238661",
+      "range": {
+        "startLine": 179,
+        "startChar": 24,
+        "endLine": 179,
+        "endChar": 30
+      },
+      "revId": "0d2135640c4b2c2df750caab7fc20263cd9253d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

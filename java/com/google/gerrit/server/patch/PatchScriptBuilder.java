@@ -15,7 +15,6 @@
 package com.google.gerrit.server.patch;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static java.util.Comparator.comparing;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
@@ -23,21 +22,16 @@ import com.google.gerrit.common.data.CommentDetail;
 import com.google.gerrit.common.data.PatchScript;
 import com.google.gerrit.common.data.PatchScript.DisplayMethod;
 import com.google.gerrit.entities.Change;
-import com.google.gerrit.entities.Comment;
 import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.Patch.ChangeType;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
-import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
-import com.google.gerrit.prettify.common.EditList;
-import com.google.gerrit.prettify.common.SparseFileContentBuilder;
 import com.google.gerrit.server.mime.FileTypeRegistry;
+import com.google.gerrit.server.patch.DiffContentCalculator.DiffCalculatorResult;
+import com.google.gerrit.server.patch.DiffContentCalculator.TextSource;
 import com.google.inject.Inject;
 import eu.medsea.mimeutil.MimeType;
 import eu.medsea.mimeutil.MimeUtil2;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
@@ -53,16 +47,9 @@ import org.eclipse.jgit.treewalk.TreeWalk;
 
 class PatchScriptBuilder {
 
-  static final int MAX_CONTEXT = 5000000;
-  static final int BIG_FILE = 9000;
-
-  private static final Comparator<Edit> EDIT_SORT = comparing(Edit::getBeginA);
-
   private Change change;
   private DiffPreferencesInfo diffPrefs;
-  private List<Edit> edits;
   private final FileTypeRegistry registry;
-  private int context;
   private IntraLineDiffCalculator intralineDiffCalculator;
   private SidesResolver sidesResolver;
 
@@ -77,13 +64,6 @@ class PatchScriptBuilder {
 
   void setDiffPrefs(DiffPreferencesInfo dp) {
     diffPrefs = dp;
-
-    context = diffPrefs.context;
-    if (context == DiffPreferencesInfo.WHOLE_FILE_CONTEXT) {
-      context = MAX_CONTEXT;
-    } else if (context > MAX_CONTEXT) {
-      context = MAX_CONTEXT;
-    }
   }
 
   void setIntraLineDiffCalculator(IntraLineDiffCalculator calculator) {
@@ -94,12 +74,14 @@ class PatchScriptBuilder {
     sidesResolver = resolver;
   }
 
-  PatchScript toPatchScript(PatchFileChange content, CommentDetail comments, List<Patch> history)
+  PatchScript toPatchScript(
+      PatchFileChange content, CommentDetail comments, ImmutableList<Patch> history)
       throws IOException {
     return build(content, comments, history);
   }
 
-  private PatchScript build(PatchFileChange content, CommentDetail comments, List<Patch> history)
+  private PatchScript build(
+      PatchFileChange content, CommentDetail comments, ImmutableList<Patch> history)
       throws IOException {
 
     ResolvedSides sides = sidesResolver.resolveSides(registry, oldName(content), newName(content));
@@ -116,43 +98,11 @@ class PatchScriptBuilder {
           intralineDiffCalculator.calculateIntraLineDiff(
               contentEdits, editsDueToRebase, a.id, b.id, a.src, b.src, b.treeId, b.path);
     }
-
-    edits = new ArrayList<>(intralineResult.edits.orElse(contentEdits));
-
-    correctForDifferencesInNewlineAtEnd(a, b);
-
-    if (comments != null) {
-      ensureCommentsVisible(comments);
-    }
-
-    boolean hugeFile = false;
-    if (a.src == b.src && a.size() <= context && content.getEdits().isEmpty()) {
-      // Odd special case; the files are identical (100% rename or copy)
-      // and the user has asked for context that is larger than the file.
-      // Send them the entire file, with an empty edit after the last line.
-      //
-      for (int i = 0; i < a.size(); i++) {
-        a.addLine(i);
-      }
-      edits = new ArrayList<>(1);
-      edits.add(new Edit(a.size(), a.size()));
-
-    } else {
-      if (BIG_FILE < Math.max(a.size(), b.size())) {
-        // IF the file is really large, we disable things to avoid choking
-        // the browser client.
-        //
-        hugeFile = true;
-      }
-
-      // In order to expand the skipped common lines or syntax highlight the
-      // file properly we need to give the client the complete file contents.
-      // So force our context temporarily to the complete file size.
-      //
-      context = MAX_CONTEXT;
-
-      packContent(a, b, diffPrefs.ignoreWhitespace != Whitespace.IGNORE_NONE);
-    }
+    ImmutableList<Edit> finalEdits = intralineResult.edits.orElse(contentEdits);
+    DiffContentCalculator calculator = new DiffContentCalculator(diffPrefs);
+    DiffCalculatorResult diffCalculatorResult =
+        calculator.calculateDiffContent(
+            new TextSource(a.src), new TextSource(b.src), finalEdits, comments);
 
     return new PatchScript(
         change.getKey(),
@@ -163,17 +113,15 @@ class PatchScriptBuilder {
         b.fileMode,
         content.getHeaderLines(),
         diffPrefs,
-        a.dst.build(),
-        b.dst.build(),
-        edits,
+        diffCalculatorResult.diffContent.a,
+        diffCalculatorResult.diffContent.b,
+        diffCalculatorResult.edits,
         editsDueToRebase,
         a.displayMethod,
         b.displayMethod,
-        a.mimeType.toString(),
-        b.mimeType.toString(),
-        comments,
+        a.mimeType,
+        b.mimeType,
         history,
-        hugeFile,
         intralineResult.failure,
         intralineResult.timeout,
         content.getPatchType() == Patch.PatchType.BINARY,
@@ -235,204 +183,6 @@ class PatchScriptBuilder {
     return mode.getObjectType() == Constants.OBJ_COMMIT;
   }
 
-  private void correctForDifferencesInNewlineAtEnd(PatchSide a, PatchSide b) {
-    // a.src.size() is the size ignoring a newline at the end whereas a.size() considers it.
-    int aSize = a.src.size();
-    int bSize = b.src.size();
-
-    if (edits.isEmpty() && (aSize == 0 || bSize == 0)) {
-      // The diff was requested for a file which was either added or deleted but which JGit doesn't
-      // consider a file addition/deletion (e.g. requesting a diff for the old file name of a
-      // renamed file looks like a deletion).
-      return;
-    }
-
-    if (edits.isEmpty() && (aSize != bSize)) {
-      // Only edits due to rebase were present. If we now added the edits for the newlines, the
-      // code which later assembles the file contents would fail.
-      return;
-    }
-
-    Optional<Edit> lastEdit = getLast(edits);
-    if (isNewlineAtEndDeleted(a, b)) {
-      Optional<Edit> lastLineEdit = lastEdit.filter(edit -> edit.getEndA() == aSize);
-      if (lastLineEdit.isPresent()) {
-        lastLineEdit.get().extendA();
-      } else {
-        Edit newlineEdit = new Edit(aSize, aSize + 1, bSize, bSize);
-        edits.add(newlineEdit);
-      }
-    } else if (isNewlineAtEndAdded(a, b)) {
-      Optional<Edit> lastLineEdit = lastEdit.filter(edit -> edit.getEndB() == bSize);
-      if (lastLineEdit.isPresent()) {
-        lastLineEdit.get().extendB();
-      } else {
-        Edit newlineEdit = new Edit(aSize, aSize, bSize, bSize + 1);
-        edits.add(newlineEdit);
-      }
-    }
-  }
-
-  private static <T> Optional<T> getLast(List<T> list) {
-    return list.isEmpty() ? Optional.empty() : Optional.ofNullable(list.get(list.size() - 1));
-  }
-
-  private boolean isNewlineAtEndDeleted(PatchSide a, PatchSide b) {
-    return !a.src.isMissingNewlineAtEnd() && b.src.isMissingNewlineAtEnd();
-  }
-
-  private boolean isNewlineAtEndAdded(PatchSide a, PatchSide b) {
-    return a.src.isMissingNewlineAtEnd() && !b.src.isMissingNewlineAtEnd();
-  }
-
-  private void ensureCommentsVisible(CommentDetail comments) {
-    if (comments.getCommentsA().isEmpty() && comments.getCommentsB().isEmpty()) {
-      // No comments, no additional dummy edits are required.
-      //
-      return;
-    }
-
-    // Construct empty Edit blocks around each location where a comment is.
-    // This will force the later packContent method to include the regions
-    // containing comments, potentially combining those regions together if
-    // they have overlapping contexts. UI renders will also be able to make
-    // correct hunks from this, but because the Edit is empty they will not
-    // style it specially.
-    //
-    final List<Edit> empty = new ArrayList<>();
-    int lastLine;
-
-    lastLine = -1;
-    for (Comment c : comments.getCommentsA()) {
-      final int a = c.lineNbr;
-      if (lastLine != a) {
-        final int b = mapA2B(a - 1);
-        if (0 <= b) {
-          safeAdd(empty, new Edit(a - 1, b));
-        }
-        lastLine = a;
-      }
-    }
-
-    lastLine = -1;
-    for (Comment c : comments.getCommentsB()) {
-      int b = c.lineNbr;
-      if (lastLine != b) {
-        final int a = mapB2A(b - 1);
-        if (0 <= a) {
-          safeAdd(empty, new Edit(a, b - 1));
-        }
-        lastLine = b;
-      }
-    }
-
-    // Sort the final list by the index in A, so packContent can combine
-    // them correctly later.
-    //
-    edits.addAll(empty);
-    edits.sort(EDIT_SORT);
-  }
-
-  private void safeAdd(List<Edit> empty, Edit toAdd) {
-    final int a = toAdd.getBeginA();
-    final int b = toAdd.getBeginB();
-    for (Edit e : edits) {
-      if (e.getBeginA() <= a && a <= e.getEndA()) {
-        return;
-      }
-      if (e.getBeginB() <= b && b <= e.getEndB()) {
-        return;
-      }
-    }
-    empty.add(toAdd);
-  }
-
-  private int mapA2B(int a) {
-    if (edits.isEmpty()) {
-      // Magic special case of an unmodified file.
-      //
-      return a;
-    }
-
-    for (int i = 0; i < edits.size(); i++) {
-      final Edit e = edits.get(i);
-      if (a < e.getBeginA()) {
-        if (i == 0) {
-          // Special case of context at start of file.
-          //
-          return a;
-        }
-        return e.getBeginB() - (e.getBeginA() - a);
-      }
-      if (e.getBeginA() <= a && a <= e.getEndA()) {
-        return -1;
-      }
-    }
-
-    final Edit last = edits.get(edits.size() - 1);
-    return last.getEndB() + (a - last.getEndA());
-  }
-
-  private int mapB2A(int b) {
-    if (edits.isEmpty()) {
-      // Magic special case of an unmodified file.
-      //
-      return b;
-    }
-
-    for (int i = 0; i < edits.size(); i++) {
-      final Edit e = edits.get(i);
-      if (b < e.getBeginB()) {
-        if (i == 0) {
-          // Special case of context at start of file.
-          //
-          return b;
-        }
-        return e.getBeginA() - (e.getBeginB() - b);
-      }
-      if (e.getBeginB() <= b && b <= e.getEndB()) {
-        return -1;
-      }
-    }
-
-    final Edit last = edits.get(edits.size() - 1);
-    return last.getEndA() + (b - last.getEndB());
-  }
-
-  private void packContent(PatchSide a, PatchSide b, boolean ignoredWhitespace) {
-    EditList list = new EditList(edits, context, a.size(), b.size());
-    for (EditList.Hunk hunk : list.getHunks()) {
-      while (hunk.next()) {
-        if (hunk.isContextLine()) {
-          String lineA = a.getSourceLine(hunk.getCurA());
-          a.dst.addLine(hunk.getCurA(), lineA);
-
-          if (ignoredWhitespace) {
-            // If we ignored whitespace in some form, also get the line
-            // from b when it does not exactly match the line from a.
-            //
-            String lineB = b.getSourceLine(hunk.getCurB());
-            if (!lineA.equals(lineB)) {
-              b.dst.addLine(hunk.getCurB(), lineB);
-            }
-          }
-          hunk.incBoth();
-          continue;
-        }
-
-        if (hunk.isDeletedA()) {
-          a.addLine(hunk.getCurA());
-          hunk.incA();
-        }
-
-        if (hunk.isInsertedB()) {
-          b.addLine(hunk.getCurB());
-          hunk.incB();
-        }
-      }
-    }
-  }
-
   private static class PatchSide {
     final ObjectId treeId;
     final String path;
@@ -440,10 +190,9 @@ class PatchScriptBuilder {
     final FileMode mode;
     final byte[] srcContent;
     final Text src;
-    final MimeType mimeType;
+    final String mimeType;
     final DisplayMethod displayMethod;
     final PatchScript.FileMode fileMode;
-    final SparseFileContentBuilder dst;
 
     private PatchSide(
         ObjectId treeId,
@@ -452,7 +201,7 @@ class PatchScriptBuilder {
         FileMode mode,
         byte[] srcContent,
         Text src,
-        MimeType mimeType,
+        String mimeType,
         DisplayMethod displayMethod,
         PatchScript.FileMode fileMode) {
       this.treeId = treeId;
@@ -464,26 +213,6 @@ class PatchScriptBuilder {
       this.mimeType = mimeType;
       this.displayMethod = displayMethod;
       this.fileMode = fileMode;
-      dst = new SparseFileContentBuilder(size());
-    }
-
-    int size() {
-      if (src == null) {
-        return 0;
-      }
-      if (src.isMissingNewlineAtEnd()) {
-        return src.size();
-      }
-      return src.size() + 1;
-    }
-
-    void addLine(int lineNumber) {
-      String lineContent = getSourceLine(lineNumber);
-      dst.addLine(lineNumber, lineContent);
-    }
-
-    String getSourceLine(int lineNumber) {
-      return lineNumber >= src.size() ? "" : src.getString(lineNumber);
     }
   }
 
@@ -550,7 +279,7 @@ class PatchScriptBuilder {
                 FileMode.MISSING,
                 Text.NO_BYTES,
                 Text.EMPTY,
-                MimeUtil2.UNKNOWN_MIME_TYPE,
+                MimeUtil2.UNKNOWN_MIME_TYPE.toString(),
                 DisplayMethod.NONE,
                 false);
           }
@@ -575,7 +304,7 @@ class PatchScriptBuilder {
               mode,
               srcContent,
               src,
-              MimeUtil2.UNKNOWN_MIME_TYPE,
+              MimeUtil2.UNKNOWN_MIME_TYPE.toString(),
               displayMethod,
               false);
         }
@@ -601,7 +330,7 @@ class PatchScriptBuilder {
         } else {
           srcContent = Text.NO_BYTES;
         }
-        MimeType mimeType = MimeUtil2.UNKNOWN_MIME_TYPE;
+        String mimeType = MimeUtil2.UNKNOWN_MIME_TYPE.toString();
         DisplayMethod displayMethod = DisplayMethod.DIFF;
         if (reuse) {
           mimeType = other.mimeType;
@@ -609,10 +338,12 @@ class PatchScriptBuilder {
           src = other.src;
 
         } else if (srcContent.length > 0 && FileMode.SYMLINK != mode) {
-          mimeType = registry.getMimeType(path, srcContent);
-          if ("image".equals(mimeType.getMediaType()) && registry.isSafeInline(mimeType)) {
+          MimeType registryMimeType = registry.getMimeType(path, srcContent);
+          if ("image".equals(registryMimeType.getMediaType())
+              && registry.isSafeInline(registryMimeType)) {
             displayMethod = DisplayMethod.IMG;
           }
+          mimeType = registryMimeType.toString();
         }
         return createSide(within, path, id, mode, srcContent, src, mimeType, displayMethod, reuse);
 
@@ -628,7 +359,7 @@ class PatchScriptBuilder {
         FileMode mode,
         byte[] srcContent,
         Text src,
-        MimeType mimeType,
+        String mimeType,
         DisplayMethod displayMethod,
         boolean reuse) {
       if (!reuse) {
@@ -711,7 +442,7 @@ class PatchScriptBuilder {
 
     ImmutableSet<Edit> getEditsDueToRebase();
 
-    List<String> getHeaderLines();
+    ImmutableList<String> getHeaderLines();
 
     String getNewName();
 

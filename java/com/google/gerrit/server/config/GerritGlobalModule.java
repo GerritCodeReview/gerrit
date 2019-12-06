@@ -158,6 +158,7 @@ import com.google.gerrit.server.mime.MimeUtilFileTypeRegistry;
 import com.google.gerrit.server.notedb.NoteDbModule;
 import com.google.gerrit.server.patch.PatchListCacheImpl;
 import com.google.gerrit.server.patch.PatchScriptFactory;
+import com.google.gerrit.server.patch.PatchScriptFactoryForAutoFix;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.permissions.PermissionCollection;
 import com.google.gerrit.server.permissions.SectionSortCache;
@@ -261,6 +262,7 @@ public class GerritGlobalModule extends FactoryModule {
     factory(LabelsJson.Factory.class);
     factory(MergeUtil.Factory.class);
     factory(PatchScriptFactory.Factory.class);
+    factory(PatchScriptFactoryForAutoFix.Factory.class);
     factory(ProjectState.Factory.class);
     factory(RevisionJson.Factory.class);
     factory(InboundEmailRejectionSender.Factory.class);

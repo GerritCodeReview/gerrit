@@ -72,6 +72,15 @@ limitations under the License.
             'gerrit-theme'
         );
       });
+
+      test('with ASSETS_PATH', () => {
+        window.ASSETS_PATH = 'http://cdn.com/2';
+        assert.equal(
+            getPluginNameFromUrl(`${window.ASSETS_PATH}/plugins/a.html`),
+            'a'
+        );
+        window.ASSETS_PATH = undefined;
+      });
     });
   });
 </script>

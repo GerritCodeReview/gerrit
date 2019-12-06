@@ -42,28 +42,34 @@ html {
   --vote-text-color-disliked: #d32f2f;
 
   /* background colors */
+  /* primary background colors */
+  --background-color-primary: #ffffff;
+  --background-color-secondary: #f8f9fa;
+  --background-color-tertiary: #f1f3f4;
+  /* directly derived from primary background colors */
+  --chip-background-color: var(--background-color-tertiary);
+  --default-button-background-color: var(--background-color-primary);
+  --dialog-background-color: var(--background-color-primary);
+  --dropdown-background-color: var(--background-color-primary);
+  --expanded-background-color: var(--background-color-tertiary);
+  --secondary-button-background-color: var(--background-color-primary);
+  --select-background-color: var(--background-color-secondary);
+  --shell-command-background-color: var(--background-color-secondary);
+  --shell-command-decoration-background-color: var(--background-color-tertiary);
+  --table-header-background-color: var(--background-color-secondary);
+  --table-subheader-background-color: var(--background-color-tertiary);
+  --view-background-color: var(--background-color-primary);
+  /* unique background colors */
   --assignee-highlight-color: #fcfad6;
-  --chip-background-color: #eee;
   --comment-background-color: #fcfad6;
   --robot-comment-background-color: #e8f0fe;
-  --default-button-background-color: white;
-  --dialog-background-color: white;
-  --dropdown-background-color: white;
   --edit-mode-background-color: #ebf5fb;
   --emphasis-color: #fff9c4;
-  --expanded-background-color: #eee;
   --hover-background-color: rgba(161, 194, 250, 0.2);
   --primary-button-background-color: #2a66d9;
-  --secondary-button-background-color: white;
-  --select-background-color: #f8f8f8;
   --selection-background-color: rgba(161, 194, 250, 0.1);
-  --shell-command-background-color: #f5f5f5;
-  --shell-command-decoration-background-color: #ebebeb;
-  --table-header-background-color: #fafafa;
-  --table-subheader-background-color: #eaeaea;
   --tooltip-background-color: #333;
   --unresolved-comment-background-color: #fcfaa6;
-  --view-background-color: white;
   --vote-color-approved: #9fcc6b;
   --vote-color-disliked: #f7c4cb;
   --vote-color-neutral: #ebf5fb;
@@ -71,7 +77,7 @@ html {
   --vote-color-rejected: #f7a1ad;
 
   /* misc colors */
-  --border-color: #ddd;
+  --border-color: #dadce0;
 
   /* fonts */
   --font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
@@ -103,9 +109,9 @@ html {
   --spacing-xxl: 24px;
 
   /* header and footer */
-  --footer-background-color: #eee;
+  --footer-background-color: var(--background-color-tertiary);
   --footer-border-top: 1px solid var(--border-color);
-  --header-background-color: #eee;
+  --header-background-color: var(--background-color-tertiary);
   --header-border-bottom: 1px solid var(--border-color);
   --header-border-image: '';
   --header-box-shadow: none;

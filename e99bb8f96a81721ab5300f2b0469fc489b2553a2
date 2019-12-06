@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ab03addf_19b0d01e",
+        "filename": "javatests/com/google/gerrit/integration/git/GitProtocolV2IT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-12-06T03:51:26Z",
+      "side": 1,
+      "message": "This test should be skipped if the git client does not support v2.",
+      "revId": "e99bb8f96a81721ab5300f2b0469fc489b2553a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

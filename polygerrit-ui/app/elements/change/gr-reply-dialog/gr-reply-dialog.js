@@ -634,6 +634,43 @@
       this._reviewers = reviewers;
     }
 
+    _computeAttentionAccounts(owner, reviewers, ccs) {
+      return [owner, ...reviewers, ...ccs];
+    }
+
+    _computeAttentionChipChangeClassOn(account) {
+      let additionalClass = '';
+      const attentionChange = this.changesAttention(account);
+      if (this.hasAttention(account)) {
+        additionalClass = attentionChange ? '' : 'gray';
+      } else {
+        additionalClass = attentionChange ? 'red' : '';
+      }
+      return 'attention-change-chip ' + additionalClass;
+    }
+
+    _computeAttentionChipChangeClassOff(account) {
+      let additionalClass = '';
+      const attentionChange = this.changesAttention(account);
+      if (this.hasAttention(account)) {
+        additionalClass = attentionChange ? 'green' : '';
+      } else {
+        additionalClass = attentionChange ? '' : 'gray';
+      }
+      return 'attention-change-chip ' + additionalClass;
+    }
+
+    changesAttention(account) {
+      return account.name == 'Ben Rohlfs' ||
+          account.name == 'Marco Miller' ||
+          account.name == 'Oswald Buddenhagen' ||
+          account.name == 'Sven Selberg';
+    }
+
+    hasAttention(account) {
+      return account.name == 'Ben Rohlfs';
+    }
+
     _accountOrGroupKey(entry) {
       return entry.id || entry._account_id;
     }

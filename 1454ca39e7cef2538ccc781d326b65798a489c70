@@ -131,6 +131,24 @@
     },
     {
       "key": {
+        "uuid": "1a32d894_c53bfce8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-12-06T11:13:03Z",
+      "side": 1,
+      "message": "Ok, makes sense now.",
+      "parentUuid": "00502232_3330c21b",
+      "revId": "1454ca39e7cef2538ccc781d326b65798a489c70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5db8face_e008a3d8",
         "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
         "patchSetId": 2

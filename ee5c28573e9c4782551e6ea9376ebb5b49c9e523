@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ef6dcca_8ac05193",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 1292,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-12-06T14:54:25Z",
+      "side": 1,
+      "message": "Is adding a link still required?",
+      "revId": "ee5c28573e9c4782551e6ea9376ebb5b49c9e523",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e78bf0c0_bf4e75c0",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 1296,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-12-06T14:54:25Z",
+      "side": 1,
+      "message": "Can you remove the property _revertChanges? It looks like you are only using revertChanges locally here and not anywhere else.",
+      "range": {
+        "startLine": 1296,
+        "startChar": 12,
+        "endLine": 1296,
+        "endChar": 31
+      },
+      "revId": "ee5c28573e9c4782551e6ea9376ebb5b49c9e523",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

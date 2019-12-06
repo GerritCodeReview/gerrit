@@ -17,7 +17,6 @@ package com.google.gerrit.server.restapi.change;
 import com.google.gerrit.common.data.SubmitTypeRecord;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.MergeableInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -133,10 +132,10 @@ public class Mergeable implements RestReadView<RevisionResource> {
     return Response.ok(result);
   }
 
-  private SubmitType getSubmitType(ChangeData cd) {
+  private SubmitType getSubmitType(ChangeData cd) throws ResourceConflictException {
     SubmitTypeRecord rec = submitRuleEvaluator.getSubmitType(cd);
     if (rec.status != SubmitTypeRecord.Status.OK) {
-      throw new StorageException("Submit type rule failed: " + rec);
+      throw new ResourceConflictException("submit type rule error: " + rec.errorMessage);
     }
     return rec.type;
   }

@@ -65,7 +65,7 @@ public class SubmitTypeRecord {
     StringBuilder sb = new StringBuilder();
     sb.append(status);
     if (status == Status.RULE_ERROR && errorMessage != null) {
-      sb.append('(').append(errorMessage).append(")");
+      sb.append(" (").append(errorMessage).append(")");
     }
     if (type != null) {
       sb.append('[');

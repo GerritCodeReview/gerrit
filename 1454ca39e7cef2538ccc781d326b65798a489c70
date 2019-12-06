@@ -65,6 +65,72 @@
     },
     {
       "key": {
+        "uuid": "535661b1_e465302f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2019-12-06T10:33:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f526a42f_c6e588d9",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 8
+      },
+      "revId": "1454ca39e7cef2538ccc781d326b65798a489c70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "00502232_3330c21b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2019-12-06T10:33:27Z",
+      "side": 1,
+      "message": "The changes have all already been reverted. After reverting them, initially we showed a dialog with list of changes, now we redirect them to query page with changes listed.",
+      "parentUuid": "6999f016_b74f2fe3",
+      "revId": "1454ca39e7cef2538ccc781d326b65798a489c70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d7db09f2_69736ded",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2019-12-06T10:33:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "753649b4_9e232814",
+      "range": {
+        "startLine": 7,
+        "startChar": 61,
+        "endLine": 7,
+        "endChar": 67
+      },
+      "revId": "1454ca39e7cef2538ccc781d326b65798a489c70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5db8face_e008a3d8",
         "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
         "patchSetId": 2
@@ -79,6 +145,24 @@
       "revId": "1454ca39e7cef2538ccc781d326b65798a489c70",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "80340512_92bb7d45",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 1308,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2019-12-06T10:33:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5db8face_e008a3d8",
+      "revId": "1454ca39e7cef2538ccc781d326b65798a489c70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

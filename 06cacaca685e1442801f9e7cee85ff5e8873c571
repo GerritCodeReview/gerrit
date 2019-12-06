@@ -69,6 +69,24 @@
       "revId": "06cacaca685e1442801f9e7cee85ff5e8873c571",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3e742d1a_c97c4e2b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2019-12-06T09:21:37Z",
+      "side": 1,
+      "message": "I indeed was checking docs for 1.0. thanks!\n\nAs far as I could understand from the 2.0 docs `RenderStatus.afterNextRender` will be called after the element is actually rendered in the page - which can be in some cases not relevant as attachment happens before. After attachment the component is as far as I understand already interactable and waiting additional time the actual rendering in the page might not be necessary.\n\nTo be honest I could not understand your suggestion regarding naming very well. Would you prefer an event name like \u0027gr-cursor-attached\u0027? Even if the event \u0027attached\u0027 is not bubbling?",
+      "parentUuid": "1668cacc_4a9e82af",
+      "revId": "06cacaca685e1442801f9e7cee85ff5e8873c571",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

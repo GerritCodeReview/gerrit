@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a99b1274_047f2ec4",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 1310,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-12-06T12:09:14Z",
+      "side": 1,
+      "message": "if this query contains only one result, should not it auto redirect to that change ? if so, this will cover the `if` above, maybe merge them ?",
+      "revId": "6b8d87b61cd21983883a69c9bd639411e2eb1372",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

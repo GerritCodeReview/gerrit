@@ -28,12 +28,10 @@ import com.github.rholder.retry.WaitStrategies;
 import com.github.rholder.retry.WaitStrategy;
 import com.google.auto.value.AutoValue;
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.base.Throwables;
 import com.google.common.collect.Maps;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.exceptions.StorageException;
-import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.metrics.Counter3;
 import com.google.gerrit.metrics.Description;
 import com.google.gerrit.metrics.Field;
@@ -44,6 +42,9 @@ import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.RequestId;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
+import com.google.gerrit.server.update.RetryableAction.Action;
+import com.google.gerrit.server.update.RetryableAction.ActionType;
+import com.google.gerrit.server.update.RetryableChangeAction.ChangeAction;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.time.Duration;
@@ -58,26 +59,6 @@ import org.eclipse.jgit.lib.Config;
 @Singleton
 public class RetryHelper {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-
-  @FunctionalInterface
-  public interface ChangeAction<T> {
-    T call(BatchUpdate.Factory batchUpdateFactory) throws Exception;
-  }
-
-  @FunctionalInterface
-  public interface Action<T> {
-    T call() throws Exception;
-  }
-
-  public enum ActionType {
-    ACCOUNT_UPDATE,
-    CHANGE_UPDATE,
-    GROUP_UPDATE,
-    INDEX_QUERY,
-    PLUGIN_UPDATE,
-    REST_READ_REQUEST,
-    REST_WRITE_REQUEST,
-  }
 
   /**
    * Options for retrying a single operation.
@@ -194,10 +175,6 @@ public class RetryHelper {
     return new AutoValue_RetryHelper_Options.Builder();
   }
 
-  private static Options defaults() {
-    return options().build();
-  }
-
   private final Metrics metrics;
   private final BatchUpdate.Factory updateFactory;
   private final PluginSetContext<ExceptionHook> exceptionHooks;
@@ -253,46 +230,98 @@ public class RetryHelper {
     this.retryWithTraceOnFailure = cfg.getBoolean("retry", "retryWithTraceOnFailure", false);
   }
 
-  public Duration getDefaultTimeout(ActionType actionType) {
+  /**
+   * Creates an action that is executed with retrying when called.
+   *
+   * @param actionType the type of the action, used as metric bucket
+   * @param actionName the name of the action, used as metric bucket
+   * @param action the action that should be executed
+   * @return the retryable action, callers need to call {@link RetryableAction#call()} to execute
+   *     the action
+   */
+  public <T> RetryableAction<T> action(ActionType actionType, String actionName, Action<T> action) {
+    return new RetryableAction<>(this, actionType, actionName, action);
+  }
+
+  /**
+   * Creates an action for updating an account that is executed with retrying when called.
+   *
+   * @param actionName the name of the action, used as metric bucket
+   * @param action the action that should be executed
+   * @return the retryable action, callers need to call {@link RetryableAction#call()} to execute
+   *     the action
+   */
+  public <T> RetryableAction<T> accountUpdate(String actionName, Action<T> action) {
+    return new RetryableAction<>(this, ActionType.ACCOUNT_UPDATE, actionName, action);
+  }
+
+  /**
+   * Creates an action for updating a change that is executed with retrying when called.
+   *
+   * @param actionName the name of the action, used as metric bucket
+   * @param action the action that should be executed
+   * @return the retryable action, callers need to call {@link RetryableAction#call()} to execute
+   *     the action
+   */
+  public <T> RetryableAction<T> changeUpdate(String actionName, Action<T> action) {
+    return new RetryableAction<>(this, ActionType.CHANGE_UPDATE, actionName, action);
+  }
+
+  /**
+   * Creates an action for updating a change that is executed with retrying when called.
+   *
+   * <p>The change action gets a {@link BatchUpdate.Factory} provided that can be used to update the
+   * change.
+   *
+   * @param actionName the name of the action, used as metric bucket
+   * @param changeAction the action that should be executed
+   * @return the retryable action, callers need to call {@link RetryableChangeAction#call()} to
+   *     execute the action
+   */
+  public <T> RetryableChangeAction<T> changeUpdate(
+      String actionName, ChangeAction<T> changeAction) {
+    return new RetryableChangeAction<>(this, updateFactory, actionName, changeAction);
+  }
+
+  /**
+   * Creates an action for updating a group that is executed with retrying when called.
+   *
+   * @param actionName the name of the action, used as metric bucket
+   * @param action the action that should be executed
+   * @return the retryable action, callers need to call {@link RetryableAction#call()} to execute
+   *     the action
+   */
+  public <T> RetryableAction<T> groupUpdate(String actionName, Action<T> action) {
+    return new RetryableAction<>(this, ActionType.GROUP_UPDATE, actionName, action);
+  }
+
+  /**
+   * Creates an action for updating of plugin-specific data that is executed with retrying when
+   * called.
+   *
+   * @param actionName the name of the action, used as metric bucket
+   * @param action the action that should be executed
+   * @return the retryable action, callers need to call {@link RetryableAction#call()} to execute
+   *     the action
+   */
+  public <T> RetryableAction<T> pluginUpdate(String actionName, Action<T> action) {
+    return new RetryableAction<>(this, ActionType.PLUGIN_UPDATE, actionName, action);
+  }
+
+  /**
+   * Creates an action for querying an index that is executed with retrying when called.
+   *
+   * @param actionName the name of the action, used as metric bucket
+   * @param action the action that should be executed
+   * @return the retryable action, callers need to call {@link RetryableAction#call()} to execute
+   *     the action
+   */
+  public <T> RetryableAction<T> indexQuery(String actionName, Action<T> action) {
+    return new RetryableAction<>(this, ActionType.INDEX_QUERY, actionName, action);
+  }
+
+  Duration getDefaultTimeout(ActionType actionType) {
     return defaultTimeouts.get(actionType);
-  }
-
-  public <T> T execute(
-      ActionType actionType, Action<T> action, Predicate<Throwable> exceptionPredicate)
-      throws Exception {
-    return execute(actionType, action, defaults(), exceptionPredicate);
-  }
-
-  public <T> T execute(
-      ActionType actionType,
-      Action<T> action,
-      Options opts,
-      Predicate<Throwable> exceptionPredicate)
-      throws Exception {
-    try {
-      return executeWithAttemptAndTimeoutCount(actionType, action, opts, exceptionPredicate);
-    } catch (Throwable t) {
-      Throwables.throwIfUnchecked(t);
-      Throwables.throwIfInstanceOf(t, Exception.class);
-      throw new IllegalStateException(t);
-    }
-  }
-
-  public <T> T execute(ChangeAction<T> changeAction) throws RestApiException, UpdateException {
-    return execute(changeAction, defaults());
-  }
-
-  public <T> T execute(ChangeAction<T> changeAction, Options opts)
-      throws RestApiException, UpdateException {
-    try {
-      return execute(
-          ActionType.CHANGE_UPDATE, () -> changeAction.call(updateFactory), opts, t -> false);
-    } catch (Throwable t) {
-      Throwables.throwIfUnchecked(t);
-      Throwables.throwIfInstanceOf(t, UpdateException.class);
-      Throwables.throwIfInstanceOf(t, RestApiException.class);
-      throw new UpdateException(t);
-    }
   }
 
   /**
@@ -306,7 +335,7 @@ public class RetryHelper {
    * @throws Throwable any error or exception that made the action fail, callers are expected to
    *     catch and inspect this Throwable to decide carefully whether it should be re-thrown
    */
-  private <T> T executeWithAttemptAndTimeoutCount(
+  <T> T execute(
       ActionType actionType,
       Action<T> action,
       Options opts,

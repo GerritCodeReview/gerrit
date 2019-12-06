@@ -79,11 +79,14 @@ public class ChangeCleanupRunner implements Runnable {
       // abandonInactiveOpenChanges skips failures instead of throwing, so retrying will never
       // actually happen. For the purposes of this class that is fine: they'll get tried again the
       // next time the scheduled task is run.
-      retryHelper.execute(
-          updateFactory -> {
-            abandonUtil.abandonInactiveOpenChanges(updateFactory);
-            return null;
-          });
+      retryHelper
+          .changeUpdate(
+              "abandonInactiveOpenChanges",
+              updateFactory -> {
+                abandonUtil.abandonInactiveOpenChanges(updateFactory);
+                return null;
+              })
+          .call();
     } catch (RestApiException | UpdateException e) {
       logger.atSevere().withCause(e).log("Failed to cleanup changes.");
     }

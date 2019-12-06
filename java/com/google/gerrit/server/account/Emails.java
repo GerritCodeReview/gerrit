@@ -29,8 +29,7 @@ import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIds;
 import com.google.gerrit.server.query.account.InternalAccountQuery;
 import com.google.gerrit.server.update.RetryHelper;
-import com.google.gerrit.server.update.RetryHelper.Action;
-import com.google.gerrit.server.update.RetryHelper.ActionType;
+import com.google.gerrit.server.update.RetryableAction.Action;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -85,7 +84,9 @@ public class Emails {
       return accounts;
     }
 
-    return executeIndexQuery(() -> queryProvider.get().byPreferredEmail(email).stream())
+    return executeIndexQuery(
+            "queryAccountsByPreferredEmail",
+            () -> queryProvider.get().byPreferredEmail(email).stream())
         .map(a -> a.account().id())
         .collect(toImmutableSet());
   }
@@ -105,6 +106,7 @@ public class Emails {
         Arrays.stream(emails).filter(e -> !result.containsKey(e)).collect(toImmutableList());
     if (!emailsToBackfill.isEmpty()) {
       executeIndexQuery(
+              "queryAccountsByPreferredEmails",
               () -> queryProvider.get().byPreferredEmail(emailsToBackfill).entries().stream())
           .forEach(e -> result.put(e.getKey(), e.getValue().account().id()));
     }
@@ -139,10 +141,12 @@ public class Emails {
     return u;
   }
 
-  private <T> T executeIndexQuery(Action<T> action) {
+  private <T> T executeIndexQuery(String actionName, Action<T> action) {
     try {
-      return retryHelper.execute(
-          ActionType.INDEX_QUERY, action, StorageException.class::isInstance);
+      return retryHelper
+          .indexQuery(actionName, action)
+          .retryOn(StorageException.class::isInstance)
+          .call();
     } catch (Exception e) {
       Throwables.throwIfUnchecked(e);
       throw new StorageException(e);

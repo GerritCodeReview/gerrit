@@ -18,12 +18,15 @@ import static com.google.common.truth.Truth.assertAbout;
 import static com.google.gerrit.extensions.common.testing.FileMetaSubject.fileMetas;
 import static com.google.gerrit.truth.ListSubject.elements;
 
+import com.google.common.truth.BooleanSubject;
 import com.google.common.truth.ComparableSubject;
 import com.google.common.truth.FailureMetadata;
+import com.google.common.truth.IterableSubject;
 import com.google.common.truth.Subject;
 import com.google.gerrit.extensions.common.ChangeType;
 import com.google.gerrit.extensions.common.DiffInfo;
 import com.google.gerrit.extensions.common.DiffInfo.ContentEntry;
+import com.google.gerrit.extensions.common.DiffInfo.IntraLineStatus;
 import com.google.gerrit.truth.ListSubject;
 
 public class DiffInfoSubject extends Subject {
@@ -59,5 +62,25 @@ public class DiffInfoSubject extends Subject {
   public FileMetaSubject metaB() {
     isNotNull();
     return check("metaB").about(fileMetas()).that(diffInfo.metaB);
+  }
+
+  public ComparableSubject<IntraLineStatus> intralineStatus() {
+    isNotNull();
+    return check("intralineStatus").that(diffInfo.intralineStatus);
+  }
+
+  public IterableSubject webLinks() {
+    isNotNull();
+    return check("webLinks").that(diffInfo.webLinks);
+  }
+
+  public BooleanSubject binary() {
+    isNotNull();
+    return check("binary").that(diffInfo.binary);
+  }
+
+  public IterableSubject diffHeader() {
+    isNotNull();
+    return check("diffHeader").that(diffInfo.diffHeader);
   }
 }

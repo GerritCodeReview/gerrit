@@ -19,6 +19,63 @@
     },
     {
       "key": {
+        "uuid": "ac083e92_7638a2bc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-12-06T12:13:55Z",
+      "side": 1,
+      "message": "nit: new line before CHange-Id",
+      "revId": "30a32f05465d3356b645e1768e16a32de3d4ac01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8510535c_4d4aa6c9",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 943,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-12-06T12:13:55Z",
+      "side": 1,
+      "message": "all these can be retrieved from `this`, maybe just refer it within `populateRevertSubmissionMessage` instead of passing it from here ?",
+      "range": {
+        "startLine": 942,
+        "startChar": 20,
+        "endLine": 943,
+        "endChar": 45
+      },
+      "revId": "30a32f05465d3356b645e1768e16a32de3d4ac01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "62a36b20_adb09ac4",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 1475,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-12-06T12:13:55Z",
+      "side": 1,
+      "message": "nit: new line",
+      "revId": "30a32f05465d3356b645e1768e16a32de3d4ac01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b258632c_4b046781",
         "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-submission-dialog/gr-confirm-revert-submission-dialog.js",
         "patchSetId": 3
@@ -42,6 +99,29 @@
     },
     {
       "key": {
+        "uuid": "41e24f11_07bacf3e",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-submission-dialog/gr-confirm-revert-submission-dialog.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-12-06T12:13:55Z",
+      "side": 1,
+      "message": "`this.message +\u003d`",
+      "range": {
+        "startLine": 62,
+        "startChar": 0,
+        "endLine": 62,
+        "endChar": 38
+      },
+      "revId": "30a32f05465d3356b645e1768e16a32de3d4ac01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3bd8e0c6_e1a4b502",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 3
@@ -53,6 +133,30 @@
       "writtenOn": "2019-12-06T07:51:35Z",
       "side": 1,
       "message": "Maybe simplify to:\n\n  const query \u003d \u0027submissionid:\u0027 + submissionId;",
+      "range": {
+        "startLine": 1626,
+        "startChar": 6,
+        "endLine": 1628,
+        "endChar": 18
+      },
+      "revId": "30a32f05465d3356b645e1768e16a32de3d4ac01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ffeb3030_efc90e53",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 1628,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-12-06T12:13:55Z",
+      "side": 1,
+      "message": "if you need the space, can do `submissionid: ${submissionId}`",
+      "parentUuid": "3bd8e0c6_e1a4b502",
       "range": {
         "startLine": 1626,
         "startChar": 6,

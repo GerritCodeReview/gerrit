@@ -1,0 +1,124 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5d1b80b2_896a1cd6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-12-06T14:39:39Z",
+      "side": 1,
+      "message": "Maybe mention \"frontend\" somewhere in the commit message.",
+      "revId": "7583780920491c9fe4c0f04990709a6942f722bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "26273fd1_fd065943",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-12-06T14:39:39Z",
+      "side": 1,
+      "message": "No dot at the end of first line.\n\nCan you also add a pre-commit hook detecting this? :-)",
+      "range": {
+        "startLine": 7,
+        "startChar": 40,
+        "endLine": 7,
+        "endChar": 41
+      },
+      "revId": "7583780920491c9fe4c0f04990709a6942f722bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e394b846_84a6a969",
+        "filename": "resources/com/google/gerrit/server/tools/root/hooks/pre-commit",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-12-06T14:39:39Z",
+      "side": 1,
+      "message": "2019",
+      "range": {
+        "startLine": 5,
+        "startChar": 16,
+        "endLine": 5,
+        "endChar": 20
+      },
+      "revId": "7583780920491c9fe4c0f04990709a6942f722bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5816a4e4_e2bb64c4",
+        "filename": "resources/com/google/gerrit/server/tools/root/hooks/pre-commit",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-12-06T14:39:39Z",
+      "side": 1,
+      "message": "Maybe add a blank line to detach that from the license.",
+      "revId": "7583780920491c9fe4c0f04990709a6942f722bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fe606747_633dad52",
+        "filename": "resources/com/google/gerrit/server/tools/root/hooks/pre-commit",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-12-06T14:39:39Z",
+      "side": 1,
+      "message": "That is very close to the implementation, maybe instead:\n\n  # Run eslint over frontend code",
+      "revId": "7583780920491c9fe4c0f04990709a6942f722bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9cbf1ce1_9c3da7bf",
+        "filename": "resources/com/google/gerrit/server/tools/root/hooks/pre-commit",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-12-06T14:39:39Z",
+      "side": 1,
+      "message": "Failed",
+      "range": {
+        "startLine": 27,
+        "startChar": 10,
+        "endLine": 27,
+        "endChar": 14
+      },
+      "revId": "7583780920491c9fe4c0f04990709a6942f722bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

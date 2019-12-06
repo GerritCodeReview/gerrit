@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "73315e0d_39c66bf8",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 969,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-12-06T19:59:33Z",
+      "side": 1,
+      "message": "Both lines could be removed as the variables are unused. (fixIds is unused and when removed, robotCommentInfos will be unused.)",
+      "range": {
+        "startLine": 967,
+        "startChar": 4,
+        "endLine": 969,
+        "endChar": 55
+      },
+      "revId": "4f47f30e8b710c66f350c3e37fd1e22d5da1acb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

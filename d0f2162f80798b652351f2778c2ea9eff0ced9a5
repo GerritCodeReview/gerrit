@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "e449d727_06c0afcb",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-12-06T14:20:52Z",
+      "side": 1,
+      "message": "not entirely sure, i added this as a boolean and set default to false for backward compatibility. I am not sure if there are use cases that we want to have the dropdown while not input is not focused. If none, I can remove this boolean or set it to true by default.",
+      "parentUuid": "3daa413f_05de6c5f",
+      "revId": "d0f2162f80798b652351f2778c2ea9eff0ced9a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6fa6c95b_3b8e778d",
         "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete_test.html",
         "patchSetId": 2

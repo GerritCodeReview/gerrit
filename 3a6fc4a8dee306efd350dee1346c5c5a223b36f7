@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "868c76c1_cceb649e",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 1310,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-12-06T07:54:54Z",
+      "side": 0,
+      "message": "Is the dialog used somewhere else still?",
+      "range": {
+        "startLine": 1310,
+        "startChar": 44,
+        "endLine": 1310,
+        "endChar": 77
+      },
+      "revId": "3a6fc4a8dee306efd350dee1346c5c5a223b36f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

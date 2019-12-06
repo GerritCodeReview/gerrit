@@ -24,6 +24,7 @@ import com.google.common.truth.Subject;
 import com.google.gerrit.extensions.common.ChangeType;
 import com.google.gerrit.extensions.common.DiffInfo;
 import com.google.gerrit.extensions.common.DiffInfo.ContentEntry;
+import com.google.gerrit.extensions.common.DiffInfo.IntraLineStatus;
 import com.google.gerrit.truth.ListSubject;
 
 public class DiffInfoSubject extends Subject {
@@ -60,4 +61,10 @@ public class DiffInfoSubject extends Subject {
     isNotNull();
     return check("metaB").about(fileMetas()).that(diffInfo.metaB);
   }
+
+  public ComparableSubject<IntraLineStatus> intralineStatus() {
+    isNotNull();
+    return check("intralineStatus").that(diffInfo.intralineStatus);
+  }
+
 }

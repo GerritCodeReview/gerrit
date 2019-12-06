@@ -18,6 +18,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.PushOneCommit.SUBJECT;
 import static com.google.gerrit.extensions.common.testing.EditInfoSubject.assertThat;
 import static com.google.gerrit.extensions.common.testing.RobotCommentInfoSubject.assertThatList;
+import static com.google.gerrit.extensions.common.testing.DiffInfoSubject.assertThat;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.util.stream.Collectors.toList;
 
@@ -31,11 +32,15 @@ import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.RobotCommentInput;
 import com.google.gerrit.extensions.client.Comment;
 import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.common.ChangeType;
 import com.google.gerrit.extensions.common.DiffInfo;
+import com.google.gerrit.extensions.common.DiffInfo.ContentEntry;
+import com.google.gerrit.extensions.common.DiffInfo.IntraLineStatus;
 import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.common.FixReplacementInfo;
 import com.google.gerrit.extensions.common.FixSuggestionInfo;
 import com.google.gerrit.extensions.common.RobotCommentInfo;
+import com.google.gerrit.extensions.common.testing.DiffInfoSubject;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -53,6 +58,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class RobotCommentsIT extends AbstractDaemonTest {
+
   private static final String FILE_NAME = "file_to_fix.txt";
   private static final String FILE_NAME2 = "another_file_to_fix.txt";
   private static final String FILE_CONTENT =
@@ -978,8 +984,24 @@ public class RobotCommentsIT extends AbstractDaemonTest {
     List<String> fixIds = getFixIds(robotCommentInfos);
     String fixId = Iterables.getOnlyElement(fixIds);
 
-    Map<String, DiffInfo> result = gApi.changes().id(changeId).current().getFixPreview(fixId);
-    assertThat(result).isEmpty();
+    Map<String, DiffInfo> fixPreview = gApi.changes().id(changeId).current().getFixPreview(fixId);
+    assertThat(fixPreview).hasSize(1);
+    assertThat(fixPreview).containsKey(FILE_NAME);
+    DiffInfoSubject diffInfoSubject = assertThat(fixPreview.get(FILE_NAME));
+
+
+    DiffInfo diff = fixPreview.get(FILE_NAME);
+    diffInfoSubject.isNotNull();
+    diffInfoSubject.intralineStatus().isEqualTo(IntraLineStatus.OK);
+    assertThat(diff.webLinks).isNull();
+    assertThat(diff.binary).isNull();
+    assertThat(diff.diffHeader).isNull();
+    diffInfoSubject.changeType().isEqualTo(ChangeType.MODIFIED);
+    diffInfoSubject.metaA().isNotNull();
+    diffInfoSubject.metaB().isNotNull();
+    List<ContentEntry> content = diff.content;
+    assertThat(content).isNotNull();
+    assertThat(content).hasSize(3);
   }
 
   private static RobotCommentInput createRobotCommentInputWithMandatoryFields() {

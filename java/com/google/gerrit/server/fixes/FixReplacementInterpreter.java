@@ -18,7 +18,6 @@ import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.groupingBy;
 
 import com.google.gerrit.common.RawInputUtil;
-import com.google.gerrit.entities.Comment;
 import com.google.gerrit.entities.FixReplacement;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
@@ -96,7 +95,8 @@ public class FixReplacementInterpreter {
       throws BadRequestException, ResourceNotFoundException, IOException,
           ResourceConflictException {
     String fileContent = getFileContent(repository, projectState, patchSetCommitId, filePath);
-    String newFileContent = getNewFileContent(fileContent, fixReplacements);
+    String newFileContent = FixCalculator.getNewFileContent(fileContent, fixReplacements);
+
     return new ChangeFileContentModification(filePath, RawInputUtil.create(newFileContent));
   }
 
@@ -107,49 +107,5 @@ public class FixReplacementInterpreter {
         fileContentUtil.getContent(repository, projectState, patchSetCommitId, filePath)) {
       return fileContent.asString();
     }
-  }
-
-  private static String getNewFileContent(String fileContent, List<FixReplacement> fixReplacements)
-      throws ResourceConflictException {
-    List<FixReplacement> sortedReplacements = new ArrayList<>(fixReplacements);
-    sortedReplacements.sort(ASC_RANGE_FIX_REPLACEMENT_COMPARATOR);
-
-    LineIdentifier lineIdentifier = new LineIdentifier(fileContent);
-    StringModifier fileContentModifier = new StringModifier(fileContent);
-    for (FixReplacement fixReplacement : sortedReplacements) {
-      Comment.Range range = fixReplacement.range;
-      try {
-        int startLineIndex = lineIdentifier.getStartIndexOfLine(range.startLine);
-        int startLineLength = lineIdentifier.getLengthOfLine(range.startLine);
-
-        int endLineIndex = lineIdentifier.getStartIndexOfLine(range.endLine);
-        int endLineLength = lineIdentifier.getLengthOfLine(range.endLine);
-
-        if (range.startChar > startLineLength || range.endChar > endLineLength) {
-          throw new ResourceConflictException(
-              String.format(
-                  "Range %s refers to a non-existent offset (start line length: %s,"
-                      + " end line length: %s)",
-                  toString(range), startLineLength, endLineLength));
-        }
-
-        int startIndex = startLineIndex + range.startChar;
-        int endIndex = endLineIndex + range.endChar;
-        fileContentModifier.replace(startIndex, endIndex, fixReplacement.replacement);
-      } catch (StringIndexOutOfBoundsException e) {
-        // Most of the StringIndexOutOfBoundsException should never occur because we reject fix
-        // replacements for invalid ranges. However, we can't cover all cases for efficiency
-        // reasons. For instance, we don't determine the number of lines in a file. That's why we
-        // need to map this exception and thus provide a meaningful error.
-        throw new ResourceConflictException(
-            String.format("Cannot apply fix replacement for range %s", toString(range)), e);
-      }
-    }
-    return fileContentModifier.getResult();
-  }
-
-  private static String toString(Comment.Range range) {
-    return String.format(
-        "(%s:%s - %s:%s)", range.startLine, range.startChar, range.endLine, range.endChar);
   }
 }

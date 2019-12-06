@@ -38,8 +38,7 @@ import com.google.gerrit.server.query.change.CommitPredicate;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.query.change.ProjectPredicate;
 import com.google.gerrit.server.update.RetryHelper;
-import com.google.gerrit.server.update.RetryHelper.Action;
-import com.google.gerrit.server.update.RetryHelper.ActionType;
+import com.google.gerrit.server.update.RetryableAction.Action;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -132,6 +131,7 @@ public class CommitsCollection implements ChildCollection<ProjectResource, Commi
     // cheaper than ref visibility filtering and reachability computation.
     List<ChangeData> changes =
         executeIndexQuery(
+            "queryChangesByProjectCommitWithLimit1",
             () ->
                 queryProvider
                     .get()
@@ -151,7 +151,10 @@ public class CommitsCollection implements ChildCollection<ProjectResource, Commi
                 Arrays.stream(commit.getParents())
                     .map(parent -> new CommitPredicate(parent.getId().getName()))
                     .collect(toImmutableList())));
-    changes = executeIndexQuery(() -> queryProvider.get().enforceVisibility(true).query(pred));
+    changes =
+        executeIndexQuery(
+            "queryChangesByProjectCommit",
+            () -> queryProvider.get().enforceVisibility(true).query(pred));
 
     Set<Ref> branchesForCommitParents = new HashSet<>(changes.size());
     for (ChangeData cd : changes) {
@@ -175,10 +178,12 @@ public class CommitsCollection implements ChildCollection<ProjectResource, Commi
     return reachable.fromRefs(project, repo, commit, refs);
   }
 
-  private <T> T executeIndexQuery(Action<T> action) {
+  private <T> T executeIndexQuery(String actionName, Action<T> action) {
     try {
-      return retryHelper.execute(
-          ActionType.INDEX_QUERY, action, StorageException.class::isInstance);
+      return retryHelper
+          .indexQuery(actionName, action)
+          .retryOn(StorageException.class::isInstance)
+          .call();
     } catch (Exception e) {
       Throwables.throwIfUnchecked(e);
       throw new StorageException(e);

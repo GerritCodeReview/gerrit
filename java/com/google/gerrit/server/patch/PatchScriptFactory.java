@@ -55,9 +55,7 @@ import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
@@ -112,7 +110,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
   private ChangeNotes notes;
   private ObjectId aId;
   private ObjectId bId;
-  private List<Patch> history;
+  private ImmutableList<Patch> history;
   private CommentDetail comments;
 
   @AssistedInject
@@ -312,7 +310,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
       // will wind up packing the wrong Patch object because we didn't do
       // proper rename detection between the patch sets.
       //
-      history = new ArrayList<>();
+      ImmutableList.Builder<Patch> historyBuilder = ImmutableList.builder();
       for (PatchSet ps : psUtil.byChange(notes)) {
         String name = fileName;
         if (psa != null) {
@@ -333,14 +331,15 @@ public class PatchScriptFactory implements Callable<PatchScript> {
         }
 
         Patch p = new Patch(Patch.key(ps.id(), name));
-        history.add(p);
+        historyBuilder.add(p);
         byKey.put(p.getKey(), p);
       }
       if (edit != null && edit.isPresent()) {
         Patch p = new Patch(Patch.key(PatchSet.id(psb.changeId(), 0), fileName));
-        history.add(p);
+        historyBuilder.add(p);
         byKey.put(p.getKey(), p);
       }
+      history = historyBuilder.build();
     }
 
     if (loadComments && edit == null) {
@@ -425,7 +424,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
     private final Project.NameKey projectKey;
     private final DiffPreferencesInfo diffPrefs;
 
-    public IntraLineDiffCalculatorImpl(
+    IntraLineDiffCalculatorImpl(
         PatchListCache patchListCache, Project.NameKey projectKey, DiffPreferencesInfo diffPrefs) {
       this.patchListCache = patchListCache;
       this.projectKey = projectKey;
@@ -503,7 +502,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
     }
 
     @Override
-    public List<String> getHeaderLines() {
+    public ImmutableList<String> getHeaderLines() {
       return patchListEntry.getHeaderLines();
     }
 

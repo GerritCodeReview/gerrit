@@ -12,7 +12,7 @@ Git repositories::
 The bare Git repositories managed by Gerrit are typically stored in the
 `${SITE}/git` directory. However, the locations can be customized in
 `${site}/etc/gerrit.config`. They contain the history of the respective
-projects, and since 2.15 if you are using _NoteDB_, and for 3.0 and newer,
+projects, and since 2.15 if you are using _NoteDb_, and for 3.0 and newer,
 also change and review metadata, user accounts and groups.
 +
 
@@ -21,14 +21,14 @@ SQL database::
 +
 Gerrit releases in the 2.x series store some data in the database you
 have chosen when installing Gerrit. If you are using 2.16 and have
-migrated to _NoteDB_ only the schema version is stored in the database.
+migrated to _NoteDb_ only the schema version is stored in the database.
 +
 If you are using h2 you need to backup the `.db` files in the folder
 `${SITE}/db`.
 +
 For all other database types refer to their backup documentation.
 +
-Gerrit release 3.0 and newer store all primary data in _NoteDB_ inside
+Gerrit release 3.0 and newer store all primary data in _NoteDb_ inside
 the git repositories of the Gerrit site. Only the review flag marking in
 the UI when you have reviewed a changed file is stored in a relational
 database. If you are using h2 this database is named
@@ -118,14 +118,14 @@ Create a snapshot and then archive the snapshot.
 
 Gerrit 2.x::
 +
-Gerrit 2.16 can use _NoteDB_ to store almost all this data which
+Gerrit 2.16 can use _NoteDb_ to store almost all this data which
 simplifies creating backups since consistency between database and git
-repositories is no longer critical. If you migrated to noteDB you can
+repositories is no longer critical. If you migrated to _NoteDb_ you can
 follow the backup procedure for 3.0 and higher and additionally take
 a backup of the database, which only contains the schema version,
 hence consistency between git and database is no longer critical since
 the schema version only changes during upgrade. If you didn't migrate
-to noteDB then follow the backup procedure for older 2.x Gerrit versions.
+to _NoteDb_ then follow the backup procedure for older 2.x Gerrit versions.
 +
 Older 2.x Gerrit versions store change meta data, review comments, votes,
 accounts and group information in a SQL database. Creating consistent backups
@@ -163,7 +163,7 @@ Best you use a filesystem supporting snapshots to create a backup archive
 of such a replica.
 
 For 2.x Gerrit versions also set up a database slave for the data stored in the
-SQL database. If you are using 2.16 and migrated to noteDB you may consider to
+SQL database. If you are using 2.16 and migrated to _NoteDb_ you may consider to
 skip setting up a database slave, instead take a backup of the database which only
 contains the current schema version in this case.
 In addition you need to ensure that no write operations are in flight before you

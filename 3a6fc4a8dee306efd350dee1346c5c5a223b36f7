@@ -70,6 +70,30 @@
       "revId": "3a6fc4a8dee306efd350dee1346c5c5a223b36f7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "569dedd5_09ef519a",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 1310,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2019-12-06T13:59:23Z",
+      "side": 0,
+      "message": "The dialog was a simple gr-dialog and never really assigned a name. So it\u0027s all occurrences are gone now.",
+      "parentUuid": "b5ad70ee_681de5db",
+      "range": {
+        "startLine": 1310,
+        "startChar": 44,
+        "endLine": 1310,
+        "endChar": 77
+      },
+      "revId": "3a6fc4a8dee306efd350dee1346c5c5a223b36f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

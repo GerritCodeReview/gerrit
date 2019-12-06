@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5e226783_88953ae8",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2019-12-06T04:24:15Z",
+      "side": 1,
+      "message": "Can we have both CHERRY_PICK_OF_CHANGE and CHERRY_PICK_OF_PATCHSET in the index? I think we only want the comma separated value in notedb.",
+      "range": {
+        "startLine": 273,
+        "startChar": 51,
+        "endLine": 273,
+        "endChar": 65
+      },
+      "revId": "88b9a7c0f396847e4b9bf064e38b1b733f9b7f14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e61785d0_1b4cef2f",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2019-12-06T04:24:15Z",
+      "side": 1,
+      "message": "Add assert for patchset too? (below too)",
+      "revId": "88b9a7c0f396847e4b9bf064e38b1b733f9b7f14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

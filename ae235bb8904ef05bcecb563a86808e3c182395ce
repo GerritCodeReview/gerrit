@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "450124b7_8745644d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-12-06T14:54:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "86f7ffdd_f6e55482",
+      "range": {
+        "startLine": 7,
+        "startChar": 38,
+        "endLine": 7,
+        "endChar": 40
+      },
+      "revId": "ae235bb8904ef05bcecb563a86808e3c182395ce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4b888fcf_343080df",
         "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.js",
         "patchSetId": 3

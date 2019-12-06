@@ -382,6 +382,30 @@
       "revId": "30a32f05465d3356b645e1768e16a32de3d4ac01",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1f42f365_6bfe267b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 1628,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2019-12-06T15:27:02Z",
+      "side": 1,
+      "message": "I don\u0027t feel that strongly about it so updated the code. 😊",
+      "parentUuid": "37ba7602_f0284b90",
+      "range": {
+        "startLine": 1626,
+        "startChar": 6,
+        "endLine": 1628,
+        "endChar": 18
+      },
+      "revId": "30a32f05465d3356b645e1768e16a32de3d4ac01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a3ae3931_516f5090",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-submission-dialog/gr-confirm-revert-submission-dialog.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2019-12-06T15:27:02Z",
+      "side": 1,
+      "message": "Gal explained a use case for showing submissionId instead of topic. I will let him leave a comment here to explain.",
+      "parentUuid": "cfc306bf_9e0ab338",
+      "range": {
+        "startLine": 53,
+        "startChar": 49,
+        "endLine": 53,
+        "endChar": 61
+      },
+      "revId": "9a367f5a37f0e5e41406a8ea992329f82d26725c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6551cc5e_dd075594",
         "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-submission-dialog/gr-confirm-revert-submission-dialog.js",
         "patchSetId": 8
@@ -36,6 +60,24 @@
       "writtenOn": "2019-12-06T15:09:40Z",
       "side": 1,
       "message": "Would the change title also be interesting?",
+      "revId": "9a367f5a37f0e5e41406a8ea992329f82d26725c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "84d23263_5cf317ed",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-submission-dialog/gr-confirm-revert-submission-dialog.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2019-12-06T15:27:02Z",
+      "side": 1,
+      "message": "Commit message might become too long. I would for now be willing to not add it, but if users ask for it we can add it later.",
+      "parentUuid": "6551cc5e_dd075594",
       "revId": "9a367f5a37f0e5e41406a8ea992329f82d26725c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

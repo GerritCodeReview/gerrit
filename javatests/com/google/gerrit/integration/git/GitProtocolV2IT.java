@@ -39,6 +39,7 @@ import java.io.File;
 import java.net.InetSocketAddress;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 @UseSsh
@@ -56,16 +57,19 @@ public class GitProtocolV2IT extends StandaloneSiteTest {
   @Inject private @TestSshServerAddress InetSocketAddress sshAddress;
   @Inject private @GerritServerConfig Config config;
 
-  @Test
-  public void testGitWireProtocolV2WithSsh() throws Exception {
+  @BeforeClass
+  public static void assertGitClientVersion() throws Exception {
     // Minimum required git-core version that supports wire protocol v2 is 2.18.0
     GitClientVersion requiredGitVersion = new GitClientVersion(2, 18, 0);
     GitClientVersion actualGitVersion =
-        new GitClientVersion(execute(ImmutableList.of("git", "version")));
+        new GitClientVersion(execute(ImmutableList.of("git", "version"), new File("/")));
     // If git client version cannot be updated, consider to skip this tests. Due to
     // an existing issue in bazel, JUnit assumption violation feature cannot be used.
     assertThat(actualGitVersion).isAtLeast(requiredGitVersion);
+  }
 
+  @Test
+  public void testGitWireProtocolV2WithSsh() throws Exception {
     try (ServerContext ctx = startServer()) {
       ctx.getInjector().injectMembers(this);
 

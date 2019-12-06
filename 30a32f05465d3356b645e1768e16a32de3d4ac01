@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a7d9b67d_628fe455",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-12-06T12:20:46Z",
+      "side": 1,
+      "message": "Yes - Change-Id should be in the end.\nAlso, it should be:\nChanges Reverted:\nSHA1-1\nSHA1-2\n..\n\nChange-Id: ..",
+      "parentUuid": "466d4cc0_d422f930",
+      "revId": "30a32f05465d3356b645e1768e16a32de3d4ac01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ac083e92_7638a2bc",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -115,6 +133,30 @@
         "startChar": 0,
         "endLine": 62,
         "endChar": 38
+      },
+      "revId": "30a32f05465d3356b645e1768e16a32de3d4ac01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f84c2798_afff5f3b",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-submission-dialog/gr-confirm-revert-submission-dialog.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-12-06T12:20:46Z",
+      "side": 1,
+      "message": "Does it need to be a special footer?\nIn this case it should be \"Changes Reverted:\" but same as \"Reason\" is not really a valid footer, I think this also doesn\u0027t need to be.",
+      "parentUuid": "b258632c_4b046781",
+      "range": {
+        "startLine": 62,
+        "startChar": 41,
+        "endLine": 62,
+        "endChar": 48
       },
       "revId": "30a32f05465d3356b645e1768e16a32de3d4ac01",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

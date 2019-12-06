@@ -61,7 +61,7 @@ import com.google.gerrit.server.extensions.events.CommentAdded;
 import com.google.gerrit.server.extensions.events.RevisionCreated;
 import com.google.gerrit.server.git.MergedByPushOp;
 import com.google.gerrit.server.git.receive.ReceiveCommits.MagicBranchInput;
-import com.google.gerrit.server.logging.RequestId;
+import com.google.gerrit.server.logging.SubmissionId;
 import com.google.gerrit.server.mail.MailUtil.MailRecipients;
 import com.google.gerrit.server.mail.send.ReplacePatchSetSender;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -239,7 +239,12 @@ public class ReplaceOp implements BatchUpdateOp {
             mergedByPushOpFactory.create(
                 requestScopePropagator,
                 patchSetId,
-                new RequestId(patchSetId.changeId().toString()),
+                new SubmissionId(
+                    patchSetId.changeId().toString(),
+                    changeDataFactory
+                        .create(ctx.getProject(), patchSetId.changeId())
+                        .change()
+                        .getTopic()),
                 mergedInto,
                 mergeResultRevId);
       }

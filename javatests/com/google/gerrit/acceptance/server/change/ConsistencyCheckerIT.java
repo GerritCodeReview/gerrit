@@ -39,7 +39,7 @@ import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.ConsistencyChecker;
 import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.change.PatchSetInserter;
-import com.google.gerrit.server.logging.RequestId;
+import com.google.gerrit.server.logging.SubmissionId;
 import com.google.gerrit.server.notedb.ChangeNoteUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.Sequences;
@@ -315,7 +315,7 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
             public boolean updateChange(ChangeContext ctx) {
               ctx.getChange().setStatus(Change.Status.MERGED);
               ctx.getUpdate(ctx.getChange().currentPatchSetId())
-                  .fixStatusToMerged(new RequestId(ctx.getChange().getId().toString()));
+                  .fixStatusToMerged(new SubmissionId(ctx.getChange()));
               return true;
             }
           });
@@ -865,7 +865,7 @@ public class ConsistencyCheckerIT extends AbstractDaemonTest {
             public boolean updateChange(ChangeContext ctx) {
               ctx.getChange().setStatus(Change.Status.MERGED);
               ctx.getUpdate(ctx.getChange().currentPatchSetId())
-                  .fixStatusToMerged(new RequestId(ctx.getChange().getId().toString()));
+                  .fixStatusToMerged(new SubmissionId(ctx.getChange()));
               return true;
             }
           });

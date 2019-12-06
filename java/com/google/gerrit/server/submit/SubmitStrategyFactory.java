@@ -22,7 +22,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
 import com.google.gerrit.server.git.MergeTip;
-import com.google.gerrit.server.logging.RequestId;
+import com.google.gerrit.server.logging.SubmissionId;
 import com.google.gerrit.server.submit.MergeOp.CommitStatus;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -52,7 +52,7 @@ public class SubmitStrategyFactory {
       IdentifiedUser caller,
       MergeTip mergeTip,
       CommitStatus commitStatus,
-      RequestId submissionId,
+      SubmissionId submissionId,
       SubmitInput submitInput,
       SubmoduleOp submoduleOp,
       boolean dryrun)

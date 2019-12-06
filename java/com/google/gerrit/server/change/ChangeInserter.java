@@ -55,7 +55,7 @@ import com.google.gerrit.server.extensions.events.RevisionCreated;
 import com.google.gerrit.server.git.GroupCollector;
 import com.google.gerrit.server.git.validators.CommitValidationException;
 import com.google.gerrit.server.git.validators.CommitValidators;
-import com.google.gerrit.server.logging.RequestId;
+import com.google.gerrit.server.logging.SubmissionId;
 import com.google.gerrit.server.mail.send.CreateChangeSender;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
@@ -396,7 +396,7 @@ public class ChangeInserter implements InsertChangeOp {
      * instead of setting the status directly?
      */
     if (change.getStatus() == Change.Status.MERGED) {
-      update.fixStatusToMerged(new RequestId(ctx.getChange().getId().toString()));
+      update.fixStatusToMerged(new SubmissionId(change));
     } else {
       update.setStatus(change.getStatus());
     }

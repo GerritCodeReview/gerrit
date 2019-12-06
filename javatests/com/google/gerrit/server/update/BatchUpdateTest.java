@@ -31,7 +31,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.PatchSetInserter;
 import com.google.gerrit.server.git.GitRepositoryManager;
-import com.google.gerrit.server.logging.RequestId;
+import com.google.gerrit.server.logging.SubmissionId;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.notedb.Sequences;
@@ -332,7 +332,7 @@ public class BatchUpdateTest {
       cr.label = "Code-Review";
       sr.labels = ImmutableList.of(cr);
       ChangeUpdate update = ctx.getUpdate(ctx.getChange().currentPatchSetId());
-      update.merge(new RequestId(), ImmutableList.of(sr));
+      update.merge(new SubmissionId(ctx.getChange()), ImmutableList.of(sr));
       update.setChangeMessage("Submitted");
       return true;
     }

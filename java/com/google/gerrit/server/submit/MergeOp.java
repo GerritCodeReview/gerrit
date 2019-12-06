@@ -63,6 +63,7 @@ import com.google.gerrit.server.git.MergeTip;
 import com.google.gerrit.server.git.validators.MergeValidationException;
 import com.google.gerrit.server.git.validators.MergeValidators;
 import com.google.gerrit.server.logging.RequestId;
+import com.google.gerrit.server.logging.SubmissionId;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -237,7 +238,7 @@ public class MergeOp implements AutoCloseable {
   private final Map<Change.Id, Change> updatedChanges;
 
   private Timestamp ts;
-  private RequestId submissionId;
+  private SubmissionId submissionId;
   private IdentifiedUser caller;
 
   private MergeOpRepoManager orm;
@@ -449,7 +450,7 @@ public class MergeOp implements AutoCloseable {
     this.dryrun = dryrun;
     this.caller = caller;
     this.ts = TimeUtil.nowTs();
-    this.submissionId = new RequestId(change.getId().toString());
+    this.submissionId = new SubmissionId(change);
 
     try (TraceContext traceContext =
         TraceContext.open().addTag(RequestId.Type.SUBMISSION_ID, submissionId)) {

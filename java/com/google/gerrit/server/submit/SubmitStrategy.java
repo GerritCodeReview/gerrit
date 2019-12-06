@@ -42,7 +42,7 @@ import com.google.gerrit.server.git.MergeTip;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.git.validators.OnSubmitValidators;
-import com.google.gerrit.server.logging.RequestId;
+import com.google.gerrit.server.logging.SubmissionId;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectConfig;
@@ -94,7 +94,7 @@ public abstract class SubmitStrategy {
           RevFlag canMergeFlag,
           Set<RevCommit> alreadyAccepted,
           Set<CodeReviewCommit> incoming,
-          RequestId submissionId,
+          SubmissionId submissionId,
           SubmitInput submitInput,
           SubmoduleOp submoduleOp,
           boolean dryrun);
@@ -125,7 +125,7 @@ public abstract class SubmitStrategy {
     final MergeTip mergeTip;
     final RevFlag canMergeFlag;
     final Set<RevCommit> alreadyAccepted;
-    final RequestId submissionId;
+    final SubmissionId submissionId;
     final SubmitType submitType;
     final SubmitInput submitInput;
     final SubmoduleOp submoduleOp;
@@ -164,7 +164,7 @@ public abstract class SubmitStrategy {
         @Assisted RevFlag canMergeFlag,
         @Assisted Set<RevCommit> alreadyAccepted,
         @Assisted Set<CodeReviewCommit> incoming,
-        @Assisted RequestId submissionId,
+        @Assisted SubmissionId submissionId,
         @Assisted SubmitType submitType,
         @Assisted SubmitInput submitInput,
         @Assisted SubmoduleOp submoduleOp,

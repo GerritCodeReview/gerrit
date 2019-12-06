@@ -453,7 +453,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
     Change c = ctx.getChange();
     logger.atFine().log("Setting change %s merged", c.getId());
     c.setStatus(Change.Status.MERGED);
-    c.setSubmissionId(args.submissionId.toStringForStorage());
+    c.setSubmissionId(args.submissionId.toString());
 
     // TODO(dborowitz): We need to be able to change the author of the message,
     // which is not the user from the update context. addMergedMessage was able

@@ -23,7 +23,7 @@ import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.mail.Address;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.logging.RequestId;
+import com.google.gerrit.server.logging.SubmissionId;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.testing.ConfigSuite;
 import com.google.gerrit.testing.TestChanges;
@@ -151,7 +151,7 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
     ChangeUpdate update = newUpdate(c, changeOwner);
     update.setSubjectForCommit("Submit patch set 1");
 
-    RequestId submissionId = submissionId(c);
+    SubmissionId submissionId = new SubmissionId(c);
     update.merge(
         submissionId,
         ImmutableList.of(
@@ -174,7 +174,7 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
             + "Patch-set: 1\n"
             + "Status: merged\n"
             + "Submission-id: "
-            + submissionId.toStringForStorage()
+            + submissionId.toString()
             + "\n"
             + "Submitted-with: NOT_READY\n"
             + "Submitted-with: OK: Verified: Gerrit User 1 <1@gerrit>\n"
@@ -223,7 +223,7 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
     ChangeUpdate update = newUpdate(c, changeOwner);
     update.setSubjectForCommit("Submit patch set 1");
 
-    RequestId submissionId = submissionId(c);
+    SubmissionId submissionId = new SubmissionId(c);
     update.merge(
         submissionId, ImmutableList.of(submitRecord("RULE_ERROR", "Problem with patch set:\n1")));
     update.commit();
@@ -234,7 +234,7 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
             + "Patch-set: 1\n"
             + "Status: merged\n"
             + "Submission-id: "
-            + submissionId.toStringForStorage()
+            + submissionId.toString()
             + "\n"
             + "Submitted-with: RULE_ERROR Problem with patch set: 1\n",
         update.getResult());
@@ -426,9 +426,5 @@ public class CommitMessageOutputTest extends AbstractChangeNotesTest {
   private void assertBodyEquals(String expected, ObjectId commitId) throws Exception {
     RevCommit commit = parseCommit(commitId);
     assertThat(commit.getFullMessage()).isEqualTo(expected);
-  }
-
-  private RequestId submissionId(Change c) {
-    return new RequestId(c.getId().toString());
   }
 }

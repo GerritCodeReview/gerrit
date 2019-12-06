@@ -269,6 +269,54 @@ limitations under the License.
       assert.equal(element._suggestions.length, 0);
     });
 
+    test('when suggestOnlyWhenFocus is true and focused', done => {
+      let promise;
+      const queryStub = sandbox.stub()
+          .returns(promise = Promise.resolve([{name: 'suggestion', value: 0}]));
+      element.query = queryStub;
+      element.suggestOnlyWhenFocus = true;
+      MockInteractions.pressAndReleaseKeyOn(element.$.input, 13, null,
+          'enter');
+      element.text = 'bla';
+      assert.equal(element._focused, true);
+      flushAsynchronousOperations();
+      promise.then(() => {
+        assert.equal(element._suggestions.length, 1);
+        assert.equal(queryStub.notCalled, false);
+        done();
+      });
+    });
+
+    test('when suggestOnlyWhenFocus is true and not focused', done => {
+      let promise;
+      const queryStub = sandbox.stub()
+          .returns(promise = Promise.resolve([{name: 'suggestion', value: 0}]));
+      element.query = queryStub;
+      element.suggestOnlyWhenFocus = true;
+      element.text = 'bla';
+      assert.equal(element._focused, false);
+      flushAsynchronousOperations();
+      promise.then(() => {
+        assert.equal(element._suggestions.length, 0);
+        done();
+      });
+    });
+
+    test('suggestions should not carry over', done => {
+      let promise;
+      const queryStub = sandbox.stub()
+          .returns(promise = Promise.resolve([{name: 'suggestion', value: 0}]));
+      element.query = queryStub;
+      element.text = 'bla';
+      flushAsynchronousOperations();
+      promise.then(() => {
+        assert.equal(element._suggestions.length, 1);
+        element._updateSuggestions('', 0, false);
+        assert.equal(element._suggestions.length, 0);
+        done();
+      });
+    });
+
     test('multi completes only the last part of the query', done => {
       let promise;
       const queryStub = sandbox.stub()

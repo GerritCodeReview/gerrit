@@ -425,6 +425,30 @@
     },
     {
       "key": {
+        "uuid": "9ca2c23c_2339583a",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 835,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2019-12-06T16:48:50Z",
+      "side": 1,
+      "message": "I don\u0027t think it\u0027s the same, they likely have \"empty\" values, such as empty collections or 0, which are distinguishable from null as being already loaded. Do you see examples where that is not the case?",
+      "parentUuid": "cd3d4fb2_1017e320",
+      "range": {
+        "startLine": 835,
+        "startChar": 8,
+        "endLine": 835,
+        "endChar": 20
+      },
+      "revId": "29a4015a72e1212b8f9fc6db1bd0082bc3e705b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "cc65bfff_82737167",
         "filename": "java/com/google/gerrit/server/query/change/CherryPickOfPredicate.java",
         "patchSetId": 14

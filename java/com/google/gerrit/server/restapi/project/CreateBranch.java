@@ -16,6 +16,7 @@ package com.google.gerrit.server.restapi.project;
 
 import static com.google.gerrit.entities.RefNames.isConfigRef;
 
+import com.google.common.base.Strings;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.RefNames;
@@ -92,7 +93,10 @@ public class CreateBranch
     if (input.ref != null && !ref.equals(input.ref)) {
       throw new BadRequestException("ref must match URL");
     }
-    if (input.revision == null) {
+    if (input.revision != null) {
+      input.revision = input.revision.trim();
+    }
+    if (Strings.isNullOrEmpty(input.revision)) {
       input.revision = Constants.HEAD;
     }
     while (ref.startsWith("/")) {

@@ -1,0 +1,400 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "49513866_c7454dd9",
+        "filename": "java/com/google/gerrit/prettify/common/SparseFileContent.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-12-06T12:18:14Z",
+      "side": 1,
+      "message": "In Gerrit, we typically only indicate when something is null (with the com.google.gerrit.common.Nullable annotation) and implicitly assume that everything else is non-null. We shouldn\u0027t use this annotation from JGit in our code.",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 44
+      },
+      "revId": "59afcff0dbf9e4edd1857f045f751fe1d1488489",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "751072f3_d20de559",
+        "filename": "java/com/google/gerrit/prettify/common/SparseFileContent.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-12-06T12:18:14Z",
+      "side": 1,
+      "message": "Very nice refactoring of this class into an AutoValue.",
+      "range": {
+        "startLine": 30,
+        "startChar": 22,
+        "endLine": 30,
+        "endChar": 39
+      },
+      "revId": "59afcff0dbf9e4edd1857f045f751fe1d1488489",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b5f50b7f_e06b8731",
+        "filename": "java/com/google/gerrit/prettify/common/SparseFileContent.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-12-06T12:18:14Z",
+      "side": 1,
+      "message": "Good idea to introduce this method. It\u0027s nice that only this method needs to be publicly visible (for testing).",
+      "range": {
+        "startLine": 39,
+        "startChar": 2,
+        "endLine": 42,
+        "endChar": 3
+      },
+      "revId": "59afcff0dbf9e4edd1857f045f751fe1d1488489",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0467d692_ccd6e5d1",
+        "filename": "java/com/google/gerrit/prettify/common/SparseFileContent.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-12-06T12:18:14Z",
+      "side": 1,
+      "message": "Nested, non-static classes require a lot of care to use. It\u0027s recommended to go for static inner classes whenever possible. This class can be made static by passing in a SparseFileContent as constructor argument.",
+      "range": {
+        "startLine": 54,
+        "startChar": 2,
+        "endLine": 54,
+        "endChar": 14
+      },
+      "revId": "59afcff0dbf9e4edd1857f045f751fe1d1488489",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "750f770a_7ee24c71",
+        "filename": "java/com/google/gerrit/prettify/common/SparseFileContentBuilder.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-12-06T12:18:14Z",
+      "side": 1,
+      "message": "The code of this class is much clearer than the previous logic in SparseFileContent. Nice rewrite.",
+      "range": {
+        "startLine": 21,
+        "startChar": 13,
+        "endLine": 21,
+        "endChar": 37
+      },
+      "revId": "59afcff0dbf9e4edd1857f045f751fe1d1488489",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a60c1df_b71fcf1d",
+        "filename": "java/com/google/gerrit/prettify/common/SparseFileContentBuilder.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-12-06T12:18:14Z",
+      "side": 1,
+      "message": "Nit, here and in line 51: Should be Builder\u003c\u003e() to avoid unchecked warnings.",
+      "range": {
+        "startLine": 29,
+        "startChar": 31,
+        "endLine": 29,
+        "endChar": 40
+      },
+      "revId": "59afcff0dbf9e4edd1857f045f751fe1d1488489",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7d146b09_8130fa9d",
+        "filename": "java/com/google/gerrit/prettify/common/SparseFileContentBuilder.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-12-06T12:18:14Z",
+      "side": 1,
+      "message": "Is it necessary that the size can be varied? Would it be possible to have it as constructor parameter instead?",
+      "revId": "59afcff0dbf9e4edd1857f045f751fe1d1488489",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b92e9e91_4eab7b28",
+        "filename": "java/com/google/gerrit/prettify/common/SparseFileContentBuilder.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-12-06T12:18:14Z",
+      "side": 1,
+      "message": "Tiny nit: \u0027size\u0027 instead of \u0027s\u0027 as parameter name.",
+      "range": {
+        "startLine": 33,
+        "startChar": 26,
+        "endLine": 33,
+        "endChar": 27
+      },
+      "revId": "59afcff0dbf9e4edd1857f045f751fe1d1488489",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dea5817c_70320eaf",
+        "filename": "java/com/google/gerrit/prettify/common/SparseFileContentBuilder.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-12-06T12:18:14Z",
+      "side": 1,
+      "message": "Nit: Unused and can be removed.",
+      "range": {
+        "startLine": 38,
+        "startChar": 4,
+        "endLine": 38,
+        "endChar": 18
+      },
+      "revId": "59afcff0dbf9e4edd1857f045f751fe1d1488489",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "027fdf58_81f32c17",
+        "filename": "java/com/google/gerrit/prettify/common/SparseFileContentBuilder.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-12-06T12:18:14Z",
+      "side": 1,
+      "message": "After looking a bit longer at the code and having seen some comments in SparseFileContent, I understand why this exception is thrown. I think it would be helpful to be more explicit about it. That means, mentioning in the Javadoc of this class that lines can only be added in sequential order. The exception here could also point this out (e.g. \"Adding line \u003clineNumber\u003e after already being at line \u003clastRangeEnd\u003e is not possible.\" or something similar).",
+      "range": {
+        "startLine": 39,
+        "startChar": 4,
+        "endLine": 41,
+        "endChar": 5
+      },
+      "revId": "59afcff0dbf9e4edd1857f045f751fe1d1488489",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6ccda8b3_904a634a",
+        "filename": "java/com/google/gerrit/prettify/common/testing/SparseFileContentSubject.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-12-06T12:18:14Z",
+      "side": 1,
+      "message": "Thank for going the extra mile and adding a Truth Subject implementation for SparseFileContent.",
+      "range": {
+        "startLine": 27,
+        "startChar": 13,
+        "endLine": 27,
+        "endChar": 37
+      },
+      "revId": "59afcff0dbf9e4edd1857f045f751fe1d1488489",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0de63647_1093f65d",
+        "filename": "java/com/google/gerrit/prettify/common/testing/SparseFileContentSubject.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-12-06T12:18:14Z",
+      "side": 1,
+      "message": "Nit, here and below (+ text for check(..)): We decided to not use the getXyz() terminology when writing Truth subjects. Instead, we directly use xyz().",
+      "range": {
+        "startLine": 43,
+        "startChar": 24,
+        "endLine": 43,
+        "endChar": 31
+      },
+      "revId": "59afcff0dbf9e4edd1857f045f751fe1d1488489",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aa177b45_e446bf37",
+        "filename": "java/com/google/gerrit/prettify/common/testing/SparseFileContentSubject.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-12-06T12:18:14Z",
+      "side": 1,
+      "message": "Here and for the other methods: It\u0027s good to call isNotNull() as first line in the method implementation to generate a better failure message if the sparseFileContent is null.",
+      "revId": "59afcff0dbf9e4edd1857f045f751fe1d1488489",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f4b0509a_cd9852d9",
+        "filename": "java/com/google/gerrit/prettify/common/testing/SparseFileContentSubject.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-12-06T12:18:14Z",
+      "side": 1,
+      "message": "It would be better to use\n\n  check(\"lines()\").that(lines);\n\nhere to get better failure messages from Truth. Directly using Truth#assertThat breaks the chain and hence Truth can only show details it knows from there on (\u003d just the map without any connection to the SparseFileContent).",
+      "range": {
+        "startLine": 60,
+        "startChar": 11,
+        "endLine": 60,
+        "endChar": 59
+      },
+      "revId": "59afcff0dbf9e4edd1857f045f751fe1d1488489",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7b92bdf7_0f14e7b1",
+        "filename": "javatests/com/google/gerrit/prettify/common/SparseFileContenBuilderTest.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-12-06T12:18:14Z",
+      "side": 1,
+      "message": "Typo: Missing \u0027t\u0027.",
+      "range": {
+        "startLine": 24,
+        "startChar": 23,
+        "endLine": 24,
+        "endChar": 29
+      },
+      "revId": "59afcff0dbf9e4edd1857f045f751fe1d1488489",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ce95b3ad_1dff38ea",
+        "filename": "javatests/com/google/gerrit/prettify/common/SparseFileContenBuilderTest.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-12-06T12:18:14Z",
+      "side": 1,
+      "message": "Thanks a lot for adding unit tests, especially as we didn\u0027t have good test coverage for that class previously.",
+      "revId": "59afcff0dbf9e4edd1857f045f751fe1d1488489",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dd94c1ab_996aed50",
+        "filename": "javatests/com/google/gerrit/prettify/common/SparseFileContenBuilderTest.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-12-06T12:18:14Z",
+      "side": 1,
+      "message": "Instead of commenting this code, it\u0027s better to use @Ignore. Thus, future refactorings won\u0027t break this code unintentionally.",
+      "range": {
+        "startLine": 42,
+        "startChar": 4,
+        "endLine": 50,
+        "endChar": 75
+      },
+      "revId": "59afcff0dbf9e4edd1857f045f751fe1d1488489",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c6fe286d_17e8ed72",
+        "filename": "javatests/com/google/gerrit/prettify/common/SparseFileContenBuilderTest.java",
+        "patchSetId": 32
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-12-06T12:18:14Z",
+      "side": 1,
+      "message": "Typo, here and below: Should this be \u0027multiple\u0027?",
+      "range": {
+        "startLine": 102,
+        "startChar": 14,
+        "endLine": 102,
+        "endChar": 21
+      },
+      "revId": "59afcff0dbf9e4edd1857f045f751fe1d1488489",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

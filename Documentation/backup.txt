@@ -1,0 +1,270 @@
+= Gerrit Code Review - Backup
+
+A Gerrit Code Review site contains data that needs to be backed up regularly.
+This document describes best practices for backing up review data.
+
+[#mand-backup]
+== Data which must be backed up
+
+[#mand-backup-git]
+Git repositories::
++
+The bare Git repositories managed by Gerrit are typically stored in the
+`${SITE}/git` directory. However, the locations can be customized in
+`${site}/etc/gerrit.config`. They contain the history of the respective
+projects, and since 2.15 if you are using _NoteDB_, and for 3.0 and newer,
+also change and review metadata, user accounts and groups.
++
+
+[#mand-backup-db]
+SQL database::
++
+Gerrit releases in the 2.x series store some data in the database you
+have chosen when installing Gerrit. If you are using 2.16 and have
+migrated to _NoteDB_ only the schema version is stored in the database.
++
+If you are using h2 you need to backup the `.db` files in the folder
+`${SITE}/db`.
++
+For all other database types refer to their backup documentation.
++
+Gerrit release 3.0 and newer store all primary data in _NoteDB_ inside
+the git repositories of the Gerrit site. Only the review flag marking in
+the UI when you have reviewed a changed file is stored in a relational
+database. If you are using h2 this database is named
+`account_patch_reviews.h2.db`.
+
+[#optional-backup]
+== Data optional to be backed up
+
+[#data-optional-backup-index]
+Search index::
++
+The _Lucene_ search index is stored in the `${SITE}/index` folder.
+It can be recomputed from primary data in the git repositories but
+reindexing may take a long time hence backing up the index makes sense
+for production installations.
++
+If you have chosen to use _Elastic Search_ for indexing,
+refer to its
+link:https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-snapshots.html[backup documentation].
+
+[#optional-backup-cache]
+Caches::
++
+Gerrit uses many caches which populate automatically. Some of the caches
+are persisted in the directory `${SITE}/cache` to retain the cached data
+across restarts. Since repopulating persistent caches takes time and server
+resources it makes sense to include them in backups to avoid unnecessary
+higher load and degraded performance when a Gerrit site has been restored
+from backup and caches need to be repopulated.
+
+[#optional-backup-config]
+Configuration::
++
+Gerrit configuration files are located in the directory `${SITE}/etc`
+and should be backed up or versioned in a git repository. The `etc`
+directory also contains secrets which should be handled separately
++
+* `secure.config` contains passwords and `auth.registerEmailPrivateKey`
+* public and private SSH host keys
++
+You may consider to use the
+link:https://gerrit.googlesource.com/plugins/secure-config/[secure-config plugin]
+to encrypt these secrets.
+
+[#optional-backup-plugin-data]
+Plugin Data::
++
+The `${SITE}/data/` directory is used by plugins storing data like e.g.
+the delete-project and the replication plugin.
+
+[#optional-backup-libs]
+Libraries::
++
+The `${SITE}/lib/` directory contains libraries used as statically loaded
+plugin or providing additional dependencies needed by Gerrit plugins.
+
+[#optional-backup-plugins]
+Plugins::
++
+The `${SITE}/plugins/` directory contains the installed Gerrit plugins.
+
+[#optional-backup-static]
+Static Resources::
++
+The `${SITE}/static/` directory contains static resources used to customize the
+Gerrit UI and email templates.
+
+[#optional-backup-logs]
+Logs::
++
+The `${SITE}/logs/` directory contains Gerrit server log files. Logs can still
+be written when the server is in read-only mode.
+
+[#cons-backup]
+== Consistent backups
+
+There are several ways to ensure consistency when backing up primary data.
+
+[#cons-backup-snapshot]
+=== Filesystem snapshots
+
+Gerrit 3.0 or newer::
++
+* all primary data is stored in git
+* Use a file system like lvm, zfs, btrfs or nfs supporting snapshots.
+Create a snapshot and then archive the snapshot.
+
+Gerrit 2.x::
++
+Gerrit 2.16 can use _NoteDB_ to store almost all this data which
+simplifies creating backups since consistency between database and git
+repositories is no longer critical. If you migrated to noteDB you can
+follow the backup procedure for 3.0 and higher and additionally take
+a backup of the database, which only contains the schema version,
+hence consistency between git and database is no longer critical since
+the schema version only changes during upgrade. If you didn't migrate
+to noteDB then follow the backup procedure for older 2.x Gerrit versions.
++
+Older 2.x Gerrit versions store change meta data, review comments, votes,
+accounts and group information in a SQL database. Creating consistent backups
+where git repositories and the data stored in the database are backed up
+consistently requires to turn the server read-only or to shut it down
+while creating the backup since there is no integrated transaction handling
+between git repositories and the SQL database. Also crons and currently
+running cron jobs (e.g. repacking repositories) which affect the repositories
+may need to be shut down.
+Use a file system supporting snapshots to keep the period where the gerrit
+server is read-only or down as short as possible.
+
+[#cons-backup-read-only]
+=== Turn master read-only for backup
+
+Make the server read-only before taking the backup. This means read-access
+is still available during backup, because only write operations have to be
+stopped to ensure consistency. This can be implemented using the
+link:https://gerrit.googlesource.com/plugins/readonly/[_readonly_] plugin.
+
+[#cons-backup-replicate]
+=== Replicate data for backup
+
+Replicating the git repositories can backup the most critical repository data
+but does not backup repository meta-data such as the project description
+file, ref-logs, git configs, and alternate configs.
+
+Replicate all git repositories to another file system using
+`git clone --mirror`,
+or the
+link:https://gerrit.googlesource.com/plugins/replication[replication plugin]
+or the
+link:https://gerrit.googlesource.com/plugins/pull-replication[pull-replication plugin].
+Best you use a filesystem supporting snapshots to create a backup archive
+of such a replica.
+
+For 2.x Gerrit versions also set up a database slave for the data stored in the
+SQL database. If you are using 2.16 and migrated to noteDB you may consider to
+skip setting up a database slave, instead take a backup of the database which only
+contains the current schema version in this case.
+In addition you need to ensure that no write operations are in flight before you
+take the replica offline. Otherwise the database backup might be inconsistent
+with the backup of the git repositories.
+
+Do not skip backing up the replica, the replica alone IS NOT a backup.
+Imagine someone deleted a project by mistake and this deletion got replicated.
+Replication of repository deletions can be switched off using the
+link:https://gerrit.googlesource.com/plugins/replication/+/refs/heads/master/src/main/resources/Documentation/config.md[server option]
+`remote.NAME.replicateProjectDeletions`.
+
+If you are using Gerrit slaves to offload read traffic you can use one of these
+slaves for creating backups.
+
+[#cons-backup-offline]
+=== Take master offline for backup
+
+Shutdown the server before taking a backup. This is simple but means downtime
+for the users. Also crons and currently running cron jobs (e.g. repacking
+repositories) which affect the repositories may need to be shut down.
+
+[#backup-methods]
+== Backup methods
+
+[#backup-methods-snapshots]
+=== Filesystem snapshots
+
+Filesystems supporting copy on write snapshots::
++
+Use a file system supporting copy-on-write snapshots like
+link:https://btrfs.wiki.kernel.org/index.php/SysadminGuide#Snapshots[btrfs]
+or
+https://wiki.debian.org/ZFS#Snapshots[zfs].
+
+
+Other filesystems supporting snapshots::
+https://wiki.archlinux.org/index.php/LVM#Snapshots[lvm] or nfs.
++
+Create a snapshot and then archive the snapshot to another storage.
++
+While snapshots are great for creating high quality backups quickly, they are
+not ideal as a format for storing backup data. Snapshots typically depend and
+reside on the same storage infrastructure as the original disk images.
+Therefore, it’s crucial that you archive these snapshots and store them
+elsewhere.
+
+3.0 or newer::
+Snapshot the complete site directory
+
+2.x::
+Similar, but the data of the database should be stored on the very same volume
+on the same machine, so that the snapshot is taken atomically over both
+the git data and the database data. Because everything should be ACID, it can safely
+crash-recover - as if the power has been plugged and the server got booted up again.
+(Actually more safe than that, because the filesystem knows about taking the snapshot,
+and also about the pending writes it can sync.)
+
+In addition to that, using filesystem snapshots allows to:
+
+* easy and fast roll back without having to access remote backup data (e.g. to restore
+accidental rm -rf git/ back in seconds).
+* incremental transfer of consistent snapshots
+* save a lot of data while still keeping multiple "known consistent states"
+
+[#backup-methods-other]
+=== Other backup methods
+
+To ensure consistent backups these backup methods require to turn the server into
+read-only mode while a backup is running.
+
+* create an archive like `tar.gz` to backup the site
+* `rsync`
+* plain old `cp`
+
+[#backup-methods-test]
+== Test backups
+
+Test backups and fire drill restoring backups to ensure the backups aren't
+corrupt or incomplete and you can restore a backup quickly.
+
+[#backup-dr]
+== Disaster recovery
+
+[#backup-dr-repl]
+=== Replicate backup archives
+
+To enable disaster recovery at least replicate backup archives to another data center.
+And fire drill restoring a new site using the backup.
+
+[#backup-dr-multi-site]
+=== Multi-site setup
+
+Use the https://gerrit.googlesource.com/plugins/multi-site[multi-site plugin]
+to install Gerrit with multiple sites installed in different datacenters
+across different regions. This ensures that in case of a severe problem with
+one of the sites, the other sites can still serve your repositories.
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "6a764649_1de2ef6c",
+        "filename": "java/com/google/gerrit/server/patch/PatchScriptBuilder.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-12-06T19:57:13Z",
+      "side": 1,
+      "message": "Please see my comment [1] about this annotation on I32e6f4100.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/239371/32/java/com/google/gerrit/prettify/common/SparseFileContent.java#20",
+      "range": {
+        "startLine": 45,
+        "startChar": 0,
+        "endLine": 45,
+        "endChar": 44
+      },
+      "revId": "67e369ecf08f37600e24de437e9b3c497721b9b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bf2e5a44_0dc9c17b",
+        "filename": "java/com/google/gerrit/server/patch/PatchScriptBuilder.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-12-06T19:57:13Z",
+      "side": 1,
+      "message": "Nit: Should be plural (-\u003e contentEdits).",
+      "range": {
+        "startLine": 114,
+        "startChar": 24,
+        "endLine": 114,
+        "endChar": 35
+      },
+      "revId": "67e369ecf08f37600e24de437e9b3c497721b9b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8395b588_e9ede935",
         "filename": "java/com/google/gerrit/server/patch/PatchScriptBuilder.java",
         "patchSetId": 19
@@ -13,6 +59,30 @@
       "writtenOn": "2019-12-05T15:34:27Z",
       "side": 1,
       "message": "It is not @Autovalue. Edit is mutable",
+      "range": {
+        "startLine": 679,
+        "startChar": 24,
+        "endLine": 679,
+        "endChar": 53
+      },
+      "revId": "67e369ecf08f37600e24de437e9b3c497721b9b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8cf8e6d4_54fd7cee",
+        "filename": "java/com/google/gerrit/server/patch/PatchScriptBuilder.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 679,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-12-06T19:57:13Z",
+      "side": 1,
+      "message": "Did you mean that this class is not immutable even though it is marked as @AutoValue? There might be some linters which will object to that but as none of it is enforced on our code, it might be fine.",
+      "parentUuid": "8395b588_e9ede935",
       "range": {
         "startLine": 679,
         "startChar": 24,

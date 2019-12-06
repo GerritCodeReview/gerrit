@@ -72,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "6b7714fe_9f821243",
+        "filename": "java/com/google/gerrit/server/patch/PatchScriptBuilder.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-12-06T19:57:13Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "125dd07d_d009f321",
+      "range": {
+        "startLine": 119,
+        "startChar": 8,
+        "endLine": 119,
+        "endChar": 25
+      },
+      "revId": "173370280f921af46406a1352970c415b5ee8679",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7baf832c_be7b63b8",
         "filename": "java/com/google/gerrit/server/patch/PatchScriptBuilder.java",
         "patchSetId": 10
@@ -116,6 +140,30 @@
       "revId": "173370280f921af46406a1352970c415b5ee8679",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "65f466f2_4c961ff1",
+        "filename": "java/com/google/gerrit/server/patch/PatchScriptBuilder.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 425,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-12-06T19:57:13Z",
+      "side": 1,
+      "message": "Thanks for the adjustments after our offline discussions.\n\nJust documenting some insights:\nMaking PatchSide an AutoValue is not easily achievable right now. It can stay private, though, thanks to some further improvements and it will be only used in limited scope.",
+      "parentUuid": "aa6359d6_5053351b",
+      "range": {
+        "startLine": 425,
+        "startChar": 15,
+        "endLine": 425,
+        "endChar": 24
+      },
+      "revId": "173370280f921af46406a1352970c415b5ee8679",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -166,6 +214,30 @@
     },
     {
       "key": {
+        "uuid": "f65fa836_e343cb4b",
+        "filename": "java/com/google/gerrit/server/patch/PatchScriptBuilder.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 483,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-12-06T19:57:13Z",
+      "side": 1,
+      "message": "Optional. Feel free to simply ack this.\n\nI agree that a lot of other code in Gerrit uses these very short variable names. It\u0027s due to legacy reasons and a lot of developers have continued this \u0027tradition\u0027. It goes against naming recommendations, though, especially for Java code. Only in a few cases, single letter variable names are custom in Java (e.g. using \u0027e\u0027 for a caught exception). I had hoped that we could improve Gerrit\u0027s code over time.\n\nIf you don\u0027t want to change the name, I\u0027ll accept that. I understand that the parameter name of an interface method doesn\u0027t seem very relevant as the type is mentioned directly next to it. Just consider this: When somebody starts implementing the interface either manually or via IDE support, the signature will probably just be copied and thus a sub-optimal name would spread into the implementation.\n\nIf you need inspiration for a name: \"fileTypeRegistry\" sounds find as well as \"typeRegistry\" or \"registry\".",
+      "parentUuid": "6f48a7bb_a1bec976",
+      "range": {
+        "startLine": 483,
+        "startChar": 48,
+        "endLine": 483,
+        "endChar": 51
+      },
+      "revId": "173370280f921af46406a1352970c415b5ee8679",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2ab698fb_6f62d262",
         "filename": "java/com/google/gerrit/server/patch/PatchScriptBuilder.java",
         "patchSetId": 10
@@ -201,6 +273,30 @@
       "side": 1,
       "message": "Done",
       "parentUuid": "2ab698fb_6f62d262",
+      "range": {
+        "startLine": 487,
+        "startChar": 15,
+        "endLine": 487,
+        "endChar": 28
+      },
+      "revId": "173370280f921af46406a1352970c415b5ee8679",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a91f2fb_b1461942",
+        "filename": "java/com/google/gerrit/server/patch/PatchScriptBuilder.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 487,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-12-06T19:57:13Z",
+      "side": 1,
+      "message": "Just documenting some insights:\nWe can\u0027t move to AutoValue for ResolvedSides as PatchSide can\u0027t be an AutoValue.",
+      "parentUuid": "59c4bcf4_4f1db27b",
       "range": {
         "startLine": 487,
         "startChar": 15,
@@ -307,6 +403,30 @@
     },
     {
       "key": {
+        "uuid": "8e9599a2_5bb0fb6d",
+        "filename": "java/com/google/gerrit/server/patch/PatchScriptBuilder.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 676,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-12-06T19:57:13Z",
+      "side": 1,
+      "message": "Thanks for the explanations and the adjustments. I see your point.",
+      "parentUuid": "f2b3f1bb_5cf4adb7",
+      "range": {
+        "startLine": 667,
+        "startChar": 4,
+        "endLine": 676,
+        "endChar": 34
+      },
+      "revId": "173370280f921af46406a1352970c415b5ee8679",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "39891f65_18b80f34",
         "filename": "java/com/google/gerrit/server/patch/PatchScriptBuilder.java",
         "patchSetId": 10
@@ -354,6 +474,30 @@
     },
     {
       "key": {
+        "uuid": "95318d11_c3aa1883",
+        "filename": "java/com/google/gerrit/server/patch/PatchScriptBuilder.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 691,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-12-06T19:57:13Z",
+      "side": 1,
+      "message": "Sounds good enough.",
+      "parentUuid": "8cf95275_88742517",
+      "range": {
+        "startLine": 691,
+        "startChar": 12,
+        "endLine": 691,
+        "endChar": 35
+      },
+      "revId": "173370280f921af46406a1352970c415b5ee8679",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f5294217_09e14652",
         "filename": "java/com/google/gerrit/server/patch/PatchScriptFactory.java",
         "patchSetId": 10
@@ -383,6 +527,24 @@
       "side": 1,
       "message": "This was done google-java-format tools. Is it better to submit formatting changes as a separate change?",
       "parentUuid": "f5294217_09e14652",
+      "revId": "173370280f921af46406a1352970c415b5ee8679",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1a7f00aa_5bcf683a",
+        "filename": "java/com/google/gerrit/server/patch/PatchScriptFactory.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-12-06T19:57:13Z",
+      "side": 1,
+      "message": "If google-java-format touches lines which are unrelated to your change, it\u0027s better to create a separate change for those adjustments. Whenever this occurs, please also make sure that you\u0027re using the right version of google-java-format. Our computers might have a newer version installed but the Gerrit project will use the version documented at https://gerrit-review.googlesource.com/Documentation/dev-crafting-changes.html#style. I typically download that version and add an alias so that I can easily run it.",
+      "parentUuid": "b4d4c6f6_e93be8c4",
       "revId": "173370280f921af46406a1352970c415b5ee8679",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

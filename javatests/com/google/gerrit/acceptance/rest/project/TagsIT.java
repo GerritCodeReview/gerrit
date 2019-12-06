@@ -35,6 +35,7 @@ import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import java.sql.Timestamp;
 import java.util.List;
+import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Test;
 
 @NoHttpd
@@ -324,6 +325,53 @@ public class TagsIT extends AbstractDaemonTest {
     exception.expect(BadRequestException.class);
     exception.expectMessage("Invalid base revision");
     tag(input.ref).create(input);
+  }
+
+  @Test
+  public void noBaseRevision() throws Exception {
+    grantTagPermissions();
+
+    // If revision is not specified, the tag is created based on HEAD, which points to master.
+    RevCommit expectedRevision = getRemoteHead(project, "master");
+
+    TagInput input = new TagInput();
+    input.ref = "test";
+    input.revision = null;
+
+    TagInfo result = tag(input.ref).create(input).get();
+    assertThat(result.ref).isEqualTo(R_TAGS + input.ref);
+    assertThat(result.revision).isEqualTo(expectedRevision.name());
+  }
+
+  @Test
+  public void emptyBaseRevision() throws Exception {
+    grantTagPermissions();
+
+    // If revision is not specified, the tag is created based on HEAD, which points to master.
+    RevCommit expectedRevision = getRemoteHead(project, "master");
+
+    TagInput input = new TagInput();
+    input.ref = "test";
+    input.revision = "";
+
+    TagInfo result = tag(input.ref).create(input).get();
+    assertThat(result.ref).isEqualTo(R_TAGS + input.ref);
+    assertThat(result.revision).isEqualTo(expectedRevision.name());
+  }
+
+  @Test
+  public void baseRevisionIsTrimmed() throws Exception {
+    grantTagPermissions();
+
+    RevCommit revision = getRemoteHead(project, "master");
+
+    TagInput input = new TagInput();
+    input.ref = "test";
+    input.revision = "\t" + revision.name();
+
+    TagInfo result = tag(input.ref).create(input).get();
+    assertThat(result.ref).isEqualTo(R_TAGS + input.ref);
+    assertThat(result.revision).isEqualTo(revision.name());
   }
 
   private void assertTagList(FluentIterable<String> expected, List<TagInfo> actual)

@@ -28,12 +28,14 @@ import com.google.gerrit.extensions.api.projects.BranchApi;
 import com.google.gerrit.extensions.api.projects.BranchInfo;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.reviewdb.client.AccountGroup;
 import com.google.gerrit.reviewdb.client.Branch;
 import com.google.gerrit.reviewdb.client.RefNames;
+import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -125,6 +127,112 @@ public class CreateBranchIT extends AbstractDaemonTest {
         RefNames.refsGroups(adminGroupUuid()),
         ResourceConflictException.class,
         "Not allowed to create group branch.");
+  }
+
+  @Test
+  public void createWithRevision() throws Exception {
+    RevCommit revision = getRemoteHead(project, "master");
+
+    // update master so that points to a different revision than the revision on which we create the
+    // new branch
+    pushTo("refs/heads/master");
+    assertThat(getRemoteHead(project, "master")).isNotEqualTo(revision);
+
+    BranchInput input = new BranchInput();
+    input.revision = revision.name();
+    BranchInfo created = branch(testBranch).create(input).get();
+    assertThat(created.ref).isEqualTo(testBranch.get());
+    assertThat(created.revision).isEqualTo(revision.name());
+    assertThat(getRemoteHead(project, testBranch.getShortName())).isEqualTo(revision);
+  }
+
+  @Test
+  public void createWithoutSpecifyingRevision() throws Exception {
+    // If revision is not specified, the branch is created based on HEAD, which points to master.
+    RevCommit expectedRevision = getRemoteHead(project, "master");
+
+    BranchInput input = new BranchInput();
+    input.revision = null;
+    BranchInfo created = branch(testBranch).create(input).get();
+    assertThat(created.ref).isEqualTo(testBranch.get());
+    assertThat(created.revision).isEqualTo(expectedRevision.name());
+    assertThat(getRemoteHead(project, testBranch.getShortName())).isEqualTo(expectedRevision);
+  }
+
+  @Test
+  public void createWithEmptyRevision() throws Exception {
+    // If revision is not specified, the branch is created based on HEAD, which points to master.
+    RevCommit expectedRevision = getRemoteHead(project, "master");
+
+    BranchInput input = new BranchInput();
+    input.revision = "";
+    BranchInfo created = branch(testBranch).create(input).get();
+    assertThat(created.ref).isEqualTo(testBranch.get());
+    assertThat(created.revision).isEqualTo(expectedRevision.name());
+    assertThat(getRemoteHead(project, testBranch.getShortName())).isEqualTo(expectedRevision);
+  }
+
+  @Test
+  public void createRevisionIsTrimmed() throws Exception {
+    RevCommit revision = getRemoteHead(project, "master");
+
+    BranchInput input = new BranchInput();
+    input.revision = "\t" + revision.name();
+    BranchInfo created = branch(testBranch).create(input).get();
+    assertThat(created.ref).isEqualTo(testBranch.get());
+    assertThat(created.revision).isEqualTo(revision.name());
+    assertThat(getRemoteHead(project, testBranch.getShortName())).isEqualTo(revision);
+  }
+
+  @Test
+  public void createWithBranchNameAsRevision() throws Exception {
+    RevCommit expectedRevision = getRemoteHead(project, "master");
+
+    BranchInput input = new BranchInput();
+    input.revision = "master";
+    BranchInfo created = branch(testBranch).create(input).get();
+    assertThat(created.ref).isEqualTo(testBranch.get());
+    assertThat(created.revision).isEqualTo(expectedRevision.name());
+    assertThat(getRemoteHead(project, testBranch.getShortName())).isEqualTo(expectedRevision);
+  }
+
+  @Test
+  public void createWithFullBranchNameAsRevision() throws Exception {
+    RevCommit expectedRevision = getRemoteHead(project, "master");
+
+    BranchInput input = new BranchInput();
+    input.revision = "refs/heads/master";
+    BranchInfo created = branch(testBranch).create(input).get();
+    assertThat(created.ref).isEqualTo(testBranch.get());
+    assertThat(created.revision).isEqualTo(expectedRevision.name());
+    assertThat(getRemoteHead(project, testBranch.getShortName())).isEqualTo(expectedRevision);
+  }
+
+  @Test
+  public void cannotCreateWithNonExistingBranchNameAsRevision() throws Exception {
+    assertCreateFails(
+        testBranch,
+        "refs/heads/non-existing",
+        BadRequestException.class,
+        "invalid revision \"refs/heads/non-existing\"");
+  }
+
+  @Test
+  public void cannotCreateWithNonExistingRevision() throws Exception {
+    assertCreateFails(
+        testBranch,
+        "deadbeefdeadbeefdeadbeefdeadbeefdeadbeef",
+        BadRequestException.class,
+        "invalid revision \"deadbeefdeadbeefdeadbeefdeadbeefdeadbeef\"");
+  }
+
+  @Test
+  public void cannotCreateWithInvalidRevision() throws Exception {
+    assertCreateFails(
+        testBranch,
+        "invalid\trevision",
+        BadRequestException.class,
+        "invalid revision \"invalid\trevision\"");
   }
 
   private void blockCreateReference() throws Exception {

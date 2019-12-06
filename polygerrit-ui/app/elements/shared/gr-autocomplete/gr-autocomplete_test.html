@@ -38,6 +38,10 @@ limitations under the License.
   suite('gr-autocomplete tests', () => {
     let element;
     let sandbox;
+    const focusOnInput = element => {
+      MockInteractions.pressAndReleaseKeyOn(element.$.input, 13, null,
+          'enter');
+    };
 
     setup(() => {
       element = fixture('basic');
@@ -63,6 +67,7 @@ limitations under the License.
       assert.isTrue(element.$.suggestions.isHidden);
       assert.equal(element.$.suggestions.$.cursor.index, -1);
 
+      focusOnInput(element);
       element.text = 'blah';
 
       assert.isTrue(queryStub.called);
@@ -186,6 +191,7 @@ limitations under the License.
         return promise = Promise.resolve([{name: 'suggestion', value: 0}]);
       });
       element.query = queryStub;
+      focusOnInput(element);
       element.text = 'blah';
 
       promise.then(() => {
@@ -207,6 +213,7 @@ limitations under the License.
         return promise = Promise.resolve([{name: 'suggestion', value: 0}]);
       });
       element.query = queryStub;
+      focusOnInput(element);
       element.text = 'blah';
       element.clearOnCommit = true;
 
@@ -228,15 +235,11 @@ limitations under the License.
         return Promise.resolve([]);
       });
       element.query = queryStub;
-
       element.threshold = 2;
-
+      focusOnInput(element);
       element.text = 'a';
-
       assert.isFalse(queryStub.called);
-
       element.text = 'ab';
-
       assert.isTrue(queryStub.called);
     });
 
@@ -249,6 +252,7 @@ limitations under the License.
           (name, cb) => { callback = cb; });
       element.query = queryStub;
       element.noDebounce = false;
+      focusOnInput(element);
       element.text = 'a';
       assert.isFalse(queryStub.called);
       assert.isTrue(debounceStub.called);
@@ -269,11 +273,60 @@ limitations under the License.
       assert.equal(element._suggestions.length, 0);
     });
 
+    test('when focused', done => {
+      let promise;
+      const queryStub = sandbox.stub()
+          .returns(promise = Promise.resolve([{name: 'suggestion', value: 0}]));
+      element.query = queryStub;
+      element.suggestOnlyWhenFocus = true;
+      focusOnInput(element);
+      element.text = 'bla';
+      assert.equal(element._focused, true);
+      flushAsynchronousOperations();
+      promise.then(() => {
+        assert.equal(element._suggestions.length, 1);
+        assert.equal(queryStub.notCalled, false);
+        done();
+      });
+    });
+
+    test('when not focused', done => {
+      let promise;
+      const queryStub = sandbox.stub()
+          .returns(promise = Promise.resolve([{name: 'suggestion', value: 0}]));
+      element.query = queryStub;
+      element.suggestOnlyWhenFocus = true;
+      element.text = 'bla';
+      assert.equal(element._focused, false);
+      flushAsynchronousOperations();
+      promise.then(() => {
+        assert.equal(element._suggestions.length, 0);
+        done();
+      });
+    });
+
+    test('suggestions should not carry over', done => {
+      let promise;
+      const queryStub = sandbox.stub()
+          .returns(promise = Promise.resolve([{name: 'suggestion', value: 0}]));
+      element.query = queryStub;
+      focusOnInput(element);
+      element.text = 'bla';
+      flushAsynchronousOperations();
+      promise.then(() => {
+        assert.equal(element._suggestions.length, 1);
+        element._updateSuggestions('', 0, false);
+        assert.equal(element._suggestions.length, 0);
+        done();
+      });
+    });
+
     test('multi completes only the last part of the query', done => {
       let promise;
       const queryStub = sandbox.stub()
           .returns(promise = Promise.resolve([{name: 'suggestion', value: 0}]));
       element.query = queryStub;
+      focusOnInput(element);
       element.text = 'blah blah';
       element.multi = true;
 

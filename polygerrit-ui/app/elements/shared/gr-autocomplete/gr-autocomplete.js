@@ -264,9 +264,21 @@
         return;
       }
 
+      // Always reset _suggetsions when start a new.
+      // This will also prevent the carry over of suggestions:
+      // @see Issue 12039
+      this._suggestions = [];
+
+      // Skip suggest if input not focused to prevent
+      // unneccessary calls to fetch suggestions
+      if (!this._focused) {
+        return;
+      }
+
+      // TODO(taoalpha): Also skip if text not changed
+
       if (this._disableSuggestions) { return; }
       if (text.length < threshold) {
-        this._suggestions = [];
         this.value = '';
         return;
       }

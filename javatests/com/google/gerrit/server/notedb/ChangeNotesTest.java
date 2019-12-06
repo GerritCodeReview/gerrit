@@ -52,7 +52,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.config.GerritServerId;
-import com.google.gerrit.server.logging.RequestId;
+import com.google.gerrit.server.logging.SubmissionId;
 import com.google.gerrit.server.notedb.ChangeNotesCommit.ChangeNotesRevWalk;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.testing.TestChanges;
@@ -432,7 +432,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
   @Test
   public void approvalsPostSubmit() throws Exception {
     Change c = newChange();
-    RequestId submissionId = submissionId(c);
+    SubmissionId submissionId = submissionId(c);
     ChangeUpdate update = newUpdate(c, changeOwner);
     update.putApproval("Code-Review", (short) 1);
     update.putApproval("Verified", (short) 1);
@@ -467,7 +467,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
   @Test
   public void approvalsDuringSubmit() throws Exception {
     Change c = newChange();
-    RequestId submissionId = submissionId(c);
+    SubmissionId submissionId = submissionId(c);
     ChangeUpdate update = newUpdate(c, changeOwner);
     update.putApproval("Code-Review", (short) 1);
     update.putApproval("Verified", (short) 1);
@@ -604,7 +604,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
   @Test
   public void submitRecords() throws Exception {
     Change c = newChange();
-    RequestId submissionId = submissionId(c);
+    SubmissionId submissionId = submissionId(c);
     ChangeUpdate update = newUpdate(c, changeOwner);
     update.setSubjectForCommit("Submit patch set 1");
 
@@ -640,13 +640,13 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
                 null,
                 submitLabel("Verified", "OK", changeOwner.getAccountId()),
                 submitLabel("Alternative-Code-Review", "NEED", null)));
-    assertThat(notes.getChange().getSubmissionId()).isEqualTo(submissionId.toStringForStorage());
+    assertThat(notes.getChange().getSubmissionId()).isEqualTo(submissionId.toString());
   }
 
   @Test
   public void latestSubmitRecordsOnly() throws Exception {
     Change c = newChange();
-    RequestId submissionId = submissionId(c);
+    SubmissionId submissionId = submissionId(c);
     ChangeUpdate update = newUpdate(c, changeOwner);
     update.setSubjectForCommit("Submit patch set 1");
     update.merge(
@@ -669,7 +669,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     assertThat(notes.getSubmitRecords())
         .containsExactly(
             submitRecord("OK", null, submitLabel("Code-Review", "OK", changeOwner.getAccountId())));
-    assertThat(notes.getChange().getSubmissionId()).isEqualTo(submissionId.toStringForStorage());
+    assertThat(notes.getChange().getSubmissionId()).isEqualTo(submissionId.toString());
   }
 
   @Test
@@ -3141,7 +3141,7 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
     return tr.parseBody(commit);
   }
 
-  private RequestId submissionId(Change c) {
-    return new RequestId(c.getId().toString());
+  private SubmissionId submissionId(Change c) {
+    return new SubmissionId(c.getId().toString(), c.getTopic());
   }
 }

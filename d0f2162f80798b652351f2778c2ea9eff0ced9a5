@@ -16,6 +16,24 @@
       "revId": "d0f2162f80798b652351f2778c2ea9eff0ced9a5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6aeee69f_c54be245",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete_test.html",
+        "patchSetId": 2
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-12-06T11:17:10Z",
+      "side": 1,
+      "message": "hah ya, as `notCalled` is also available, let\u0027s give it a chance to shine\n\nalso it needs to be `true`, and can be shorter to `assert.isTrue` or `assert.isFalse` actually. But I always prefer `equal` as the error message will give more info (expected value and wrong value).",
+      "parentUuid": "6fa6c95b_3b8e778d",
+      "revId": "d0f2162f80798b652351f2778c2ea9eff0ced9a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

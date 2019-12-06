@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5d801cf9_52d493dd",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-12-06T12:59:09Z",
+      "side": 1,
+      "message": "maybe `more than polymer \"ready\" lifecycle` as no `ready` events from polymer :)\n\nAnd also mention it will be triggered only once",
+      "range": {
+        "startLine": 113,
+        "startChar": 51,
+        "endLine": 113,
+        "endChar": 58
+      },
+      "revId": "493031c1cbe6f0dda9cb0443e7a91d4464e835de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b08b4081_1550a80a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-12-06T12:59:09Z",
+      "side": 1,
+      "message": "can you add a test just to make sure if someone tries to delete it, it should be caught by the test.",
+      "revId": "493031c1cbe6f0dda9cb0443e7a91d4464e835de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

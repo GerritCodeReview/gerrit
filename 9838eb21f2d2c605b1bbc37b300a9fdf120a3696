@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "46e5d686_5121dc9d",
+        "filename": "java/com/google/gerrit/common/data/PatchScript.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-12-06T21:09:19Z",
+      "side": 1,
+      "message": "Just a reminder: When writing the commit message for the non-WIP change, please mention that quite some unused methods were additionally removed.",
+      "range": {
+        "startLine": 29,
+        "startChar": 13,
+        "endLine": 29,
+        "endChar": 24
+      },
+      "revId": "9838eb21f2d2c605b1bbc37b300a9fdf120a3696",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9f0b3ed3_2e583a58",
+        "filename": "java/com/google/gerrit/server/patch/PatchScriptBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-12-06T21:09:19Z",
+      "side": 1,
+      "message": "As the hugeFile parameter was removed, this is now unused.",
+      "range": {
+        "startLine": 138,
+        "startChar": 4,
+        "endLine": 138,
+        "endChar": 45
+      },
+      "revId": "9838eb21f2d2c605b1bbc37b300a9fdf120a3696",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bf22da1b_0fc6391a",
+        "filename": "java/com/google/gerrit/server/patch/PatchScriptBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-12-06T21:09:19Z",
+      "side": 1,
+      "message": "Would it be possible to use finalEdits here instead of the originalEdits? If the originalEdits are empty, the finalEdits should also be empty, shouldn\u0027t they? I know that the previous code checked the originalEdits. If you want to keep it that way to keep it a refactoring, that would be fine with me. If you want to simplify the method signature, I think it would also be fine to switch to finalEdits here and not pass in originalEdits to this method.",
+      "range": {
+        "startLine": 149,
+        "startChar": 60,
+        "endLine": 149,
+        "endChar": 83
+      },
+      "revId": "9838eb21f2d2c605b1bbc37b300a9fdf120a3696",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0ff0a698_1a5a699d",
+        "filename": "java/com/google/gerrit/server/patch/PatchScriptBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-12-06T21:09:19Z",
+      "side": 1,
+      "message": "It\u0027s very helpful that this case now directly creates the output instead of unnecessarily calling packContent. It also skips the special comment code but I guess that was previously unnecessary anyway.",
+      "range": {
+        "startLine": 150,
+        "startChar": 8,
+        "endLine": 161,
+        "endChar": 60
+      },
+      "revId": "9838eb21f2d2c605b1bbc37b300a9fdf120a3696",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cc722793_cffd64cc",
+        "filename": "java/com/google/gerrit/server/patch/PatchScriptBuilder.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 493,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-12-06T21:09:19Z",
+      "side": 1,
+      "message": "Was this comment meant to be in line 483 instead of here?",
+      "range": {
+        "startLine": 493,
+        "startChar": 4,
+        "endLine": 493,
+        "endChar": 59
+      },
+      "revId": "9838eb21f2d2c605b1bbc37b300a9fdf120a3696",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

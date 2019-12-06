@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "6074e8d3_f67df67a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-12-06T14:49:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5d1b80b2_896a1cd6",
+      "revId": "7583780920491c9fe4c0f04990709a6942f722bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "26273fd1_fd065943",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -39,6 +57,30 @@
       "revId": "7583780920491c9fe4c0f04990709a6942f722bd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "157350e3_07e202f8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-12-06T14:49:45Z",
+      "side": 1,
+      "message": "won\u0027t be able to do that in `pre-commit` hook as it\u0027s run before `message` phase, but it can be added to `commit-msg` hook, i can add that in a separate change.",
+      "parentUuid": "26273fd1_fd065943",
+      "range": {
+        "startLine": 7,
+        "startChar": 40,
+        "endLine": 7,
+        "endChar": 41
+      },
+      "revId": "7583780920491c9fe4c0f04990709a6942f722bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "291810f2_e79b112e",
+        "filename": "resources/com/google/gerrit/server/tools/root/hooks/pre-commit",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-12-06T14:49:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e394b846_84a6a969",
+      "range": {
+        "startLine": 5,
+        "startChar": 16,
+        "endLine": 5,
+        "endChar": 20
+      },
+      "revId": "7583780920491c9fe4c0f04990709a6942f722bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5816a4e4_e2bb64c4",
         "filename": "resources/com/google/gerrit/server/tools/root/hooks/pre-commit",
         "patchSetId": 2
@@ -82,6 +148,24 @@
     },
     {
       "key": {
+        "uuid": "a1f68b50_0ff3c4b4",
+        "filename": "resources/com/google/gerrit/server/tools/root/hooks/pre-commit",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-12-06T14:49:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5816a4e4_e2bb64c4",
+      "revId": "7583780920491c9fe4c0f04990709a6942f722bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fe606747_633dad52",
         "filename": "resources/com/google/gerrit/server/tools/root/hooks/pre-commit",
         "patchSetId": 2
@@ -96,6 +180,24 @@
       "revId": "7583780920491c9fe4c0f04990709a6942f722bd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8fc00a0e_690d9ea8",
+        "filename": "resources/com/google/gerrit/server/tools/root/hooks/pre-commit",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-12-06T14:49:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fe606747_633dad52",
+      "revId": "7583780920491c9fe4c0f04990709a6942f722bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -119,6 +221,30 @@
       "revId": "7583780920491c9fe4c0f04990709a6942f722bd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3bab05cb_5bcb47d7",
+        "filename": "resources/com/google/gerrit/server/tools/root/hooks/pre-commit",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-12-06T14:49:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9cbf1ce1_9c3da7bf",
+      "range": {
+        "startLine": 27,
+        "startChar": 10,
+        "endLine": 27,
+        "endChar": 14
+      },
+      "revId": "7583780920491c9fe4c0f04990709a6942f722bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

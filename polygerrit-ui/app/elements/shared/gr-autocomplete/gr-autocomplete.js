@@ -264,9 +264,19 @@
         return;
       }
 
+      // Reset _suggestions for every updates
+      // This will also prevent from carrying over suggestions:
+      // @see Issue 12039
+      this._suggestions = [];
+
+      if (!this._focused) {
+        return;
+      }
+
+      // TODO(taoalpha): Also skip if text has not changed
+
       if (this._disableSuggestions) { return; }
       if (text.length < threshold) {
-        this._suggestions = [];
         this.value = '';
         return;
       }

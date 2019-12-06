@@ -16,6 +16,24 @@
       "revId": "392a3792324f380ac6f929ee3272b1c16cc90aab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "34d5257e_61448241",
+        "filename": "resources/com/google/gerrit/server/tools/root/hooks/pre-commit",
+        "patchSetId": 4
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-12-06T15:20:01Z",
+      "side": 1,
+      "message": "some people actually doesn\u0027t have this `pre-commit` file at all in the hooks folder, and if they just create one and copy the content here, then this step is required.",
+      "parentUuid": "87c55f15_e9f27ed5",
+      "revId": "392a3792324f380ac6f929ee3272b1c16cc90aab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

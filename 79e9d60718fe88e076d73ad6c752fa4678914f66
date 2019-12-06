@@ -1,0 +1,28 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "048b194d_aa09abb9",
+        "filename": "resources/com/google/gerrit/server/tools/root/hooks/pre-commit",
+        "patchSetId": 7
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-12-06T22:06:04Z",
+      "side": 1,
+      "message": "\u003e Found mix of white space characters\n\nPlease Fix",
+      "parentUuid": "dad67b2a_71fc7212",
+      "range": {
+        "startLine": 42,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 2
+      },
+      "revId": "79e9d60718fe88e076d73ad6c752fa4678914f66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

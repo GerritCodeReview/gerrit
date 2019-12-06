@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9427907f_b8b1bd0c",
+        "filename": "java/com/google/gerrit/entities/Change.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 516,
+      "author": {
+        "id": 1012449
+      },
+      "writtenOn": "2019-12-06T02:39:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "235b20cd_9f609da7",
+      "range": {
+        "startLine": 516,
+        "startChar": 28,
+        "endLine": 516,
+        "endChar": 34
+      },
+      "revId": "29a4015a72e1212b8f9fc6db1bd0082bc3e705b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5e2271b2_86e6b3d4",
         "filename": "java/com/google/gerrit/extensions/common/ChangeInfo.java",
         "patchSetId": 14
@@ -45,6 +69,30 @@
       "revId": "29a4015a72e1212b8f9fc6db1bd0082bc3e705b2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "23284e27_84af7a66",
+        "filename": "java/com/google/gerrit/extensions/common/ChangeInfo.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1012449
+      },
+      "writtenOn": "2019-12-06T02:39:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5e2271b2_86e6b3d4",
+      "range": {
+        "startLine": 56,
+        "startChar": 16,
+        "endLine": 56,
+        "endChar": 28
+      },
+      "revId": "29a4015a72e1212b8f9fc6db1bd0082bc3e705b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "da31b0b7_2d147157",
+        "filename": "java/com/google/gerrit/server/change/ChangeInserter.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 388,
+      "author": {
+        "id": 1012449
+      },
+      "writtenOn": "2019-12-06T02:39:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c2d524e9_f9344bf9",
+      "range": {
+        "startLine": 388,
+        "startChar": 42,
+        "endLine": 388,
+        "endChar": 52
+      },
+      "revId": "29a4015a72e1212b8f9fc6db1bd0082bc3e705b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dcdaac35_ea2008d8",
         "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
         "patchSetId": 14
@@ -91,6 +163,30 @@
       "revId": "29a4015a72e1212b8f9fc6db1bd0082bc3e705b2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9d660ac5_13bc13f4",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 591,
+      "author": {
+        "id": 1012449
+      },
+      "writtenOn": "2019-12-06T02:39:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dcdaac35_ea2008d8",
+      "range": {
+        "startLine": 591,
+        "startChar": 78,
+        "endLine": 591,
+        "endChar": 88
+      },
+      "revId": "29a4015a72e1212b8f9fc6db1bd0082bc3e705b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "35a1a087_13d2fb71",
+        "filename": "java/com/google/gerrit/server/change/SetCherryPickOp.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1012449
+      },
+      "writtenOn": "2019-12-06T02:39:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "06fc1aca_0679c898",
+      "range": {
+        "startLine": 47,
+        "startChar": 43,
+        "endLine": 47,
+        "endChar": 53
+      },
+      "revId": "29a4015a72e1212b8f9fc6db1bd0082bc3e705b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "171388a9_28dea2ad",
         "filename": "java/com/google/gerrit/server/events/EventFactory.java",
         "patchSetId": 14
@@ -137,6 +257,30 @@
       "revId": "29a4015a72e1212b8f9fc6db1bd0082bc3e705b2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d6de79df_9aa35c7a",
+        "filename": "java/com/google/gerrit/server/events/EventFactory.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1012449
+      },
+      "writtenOn": "2019-12-06T02:39:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "171388a9_28dea2ad",
+      "range": {
+        "startLine": 147,
+        "startChar": 81,
+        "endLine": 147,
+        "endChar": 91
+      },
+      "revId": "29a4015a72e1212b8f9fc6db1bd0082bc3e705b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -163,6 +307,30 @@
     },
     {
       "key": {
+        "uuid": "064a18ba_5f767893",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1012449
+      },
+      "writtenOn": "2019-12-06T02:39:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6b077a16_d93e96b9",
+      "range": {
+        "startLine": 278,
+        "startChar": 54,
+        "endLine": 278,
+        "endChar": 64
+      },
+      "revId": "29a4015a72e1212b8f9fc6db1bd0082bc3e705b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8a007e97_1b56261e",
         "filename": "java/com/google/gerrit/server/notedb/ChangeNotesState.java",
         "patchSetId": 14
@@ -186,6 +354,30 @@
     },
     {
       "key": {
+        "uuid": "10837191_929706a1",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesState.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 526,
+      "author": {
+        "id": 1012449
+      },
+      "writtenOn": "2019-12-06T02:39:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8a007e97_1b56261e",
+      "range": {
+        "startLine": 526,
+        "startChar": 46,
+        "endLine": 526,
+        "endChar": 56
+      },
+      "revId": "29a4015a72e1212b8f9fc6db1bd0082bc3e705b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "19c6bda0_48a0a40c",
         "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
         "patchSetId": 14
@@ -197,6 +389,30 @@
       "writtenOn": "2019-12-02T21:44:17Z",
       "side": 1,
       "message": "I am not sure if it matters, but if cherryPickOf is null, then it will be indistinguishable from not having been loaded yet and this will be true everytime (which is true for most changes).",
+      "range": {
+        "startLine": 835,
+        "startChar": 8,
+        "endLine": 835,
+        "endChar": 20
+      },
+      "revId": "29a4015a72e1212b8f9fc6db1bd0082bc3e705b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cd3d4fb2_1017e320",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 835,
+      "author": {
+        "id": 1012449
+      },
+      "writtenOn": "2019-12-06T02:39:52Z",
+      "side": 1,
+      "message": "We are doing something similar for several other fields as well here. See totalCommentCount, hashtags, etc, for example. Why should cherryPickOf be different?",
+      "parentUuid": "19c6bda0_48a0a40c",
       "range": {
         "startLine": 835,
         "startChar": 8,
@@ -232,6 +448,30 @@
     },
     {
       "key": {
+        "uuid": "a14fa650_ae9f84a8",
+        "filename": "java/com/google/gerrit/server/query/change/CherryPickOfPredicate.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1012449
+      },
+      "writtenOn": "2019-12-06T02:39:52Z",
+      "side": 1,
+      "message": "This is just converting the change-id integer to string. We do same in other predicates as well. See RevertOfPredicate for example.",
+      "parentUuid": "cc65bfff_82737167",
+      "range": {
+        "startLine": 29,
+        "startChar": 52,
+        "endLine": 29,
+        "endChar": 62
+      },
+      "revId": "29a4015a72e1212b8f9fc6db1bd0082bc3e705b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d6aaa660_21fca9dc",
         "filename": "java/com/google/gerrit/server/restapi/change/Module.java",
         "patchSetId": 14
@@ -252,6 +492,30 @@
       "revId": "29a4015a72e1212b8f9fc6db1bd0082bc3e705b2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e8ea4985_41e7a6c9",
+        "filename": "java/com/google/gerrit/server/restapi/change/Module.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1012449
+      },
+      "writtenOn": "2019-12-06T02:39:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d6aaa660_21fca9dc",
+      "range": {
+        "startLine": 206,
+        "startChar": 12,
+        "endLine": 206,
+        "endChar": 27
+      },
+      "revId": "29a4015a72e1212b8f9fc6db1bd0082bc3e705b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -278,6 +542,30 @@
     },
     {
       "key": {
+        "uuid": "d3c18ecc_4d3099c9",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata.js",
+        "patchSetId": 14
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 1012449
+      },
+      "writtenOn": "2019-12-06T02:39:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3a690cba_ca3bb446",
+      "range": {
+        "startLine": 362,
+        "startChar": 28,
+        "endLine": 362,
+        "endChar": 34
+      },
+      "revId": "29a4015a72e1212b8f9fc6db1bd0082bc3e705b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7bc37d0_6739629d",
         "filename": "tools/eclipse/gerrit_daemon_test_site.launch",
         "patchSetId": 14
@@ -292,6 +580,24 @@
       "revId": "29a4015a72e1212b8f9fc6db1bd0082bc3e705b2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eb9a3de9_293e8246",
+        "filename": "tools/eclipse/gerrit_daemon_test_site.launch",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012449
+      },
+      "writtenOn": "2019-12-06T02:39:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c7bc37d0_6739629d",
+      "revId": "29a4015a72e1212b8f9fc6db1bd0082bc3e705b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

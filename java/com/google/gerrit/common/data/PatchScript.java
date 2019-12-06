@@ -14,6 +14,8 @@
 
 package com.google.gerrit.common.data;
 
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.Patch.ChangeType;
@@ -61,20 +63,18 @@ public class PatchScript {
     }
   }
 
-  private Change.Key changeId;
-  private ChangeType changeType;
-  private List<String> header;
-  private DiffPreferencesInfo diffPrefs;
-  private List<Edit> edits;
-  private Set<Edit> editsDueToRebase;
-  private CommentDetail comments;
-  private List<Patch> history;
-  private boolean hugeFile;
-  private boolean intralineFailure;
-  private boolean intralineTimeout;
-  private boolean binary;
-  private PatchScriptFileInfo fileInfoA;
-  private PatchScriptFileInfo fileInfoB;
+  private final Change.Key changeId;
+  private final ChangeType changeType;
+  private final ImmutableList<String> header;
+  private final DiffPreferencesInfo diffPrefs;
+  private final ImmutableList<Edit> edits;
+  private final ImmutableSet<Edit> editsDueToRebase;
+  private final ImmutableList<Patch> history;
+  private final boolean intralineFailure;
+  private final boolean intralineTimeout;
+  private final boolean binary;
+  private final PatchScriptFileInfo fileInfoA;
+  private final PatchScriptFileInfo fileInfoB;
 
   public PatchScript(
       Change.Key ck,
@@ -83,19 +83,17 @@ public class PatchScript {
       String nn,
       FileMode om,
       FileMode nm,
-      List<String> h,
+      ImmutableList<String> h,
       DiffPreferencesInfo dp,
       SparseFileContent ca,
       SparseFileContent cb,
-      List<Edit> e,
-      Set<Edit> editsDueToRebase,
+      ImmutableList<Edit> e,
+      ImmutableSet<Edit> editsDueToRebase,
       DisplayMethod ma,
       DisplayMethod mb,
       String mta,
       String mtb,
-      CommentDetail cd,
-      List<Patch> hist,
-      boolean hf,
+      ImmutableList<Patch> hist,
       boolean idf,
       boolean idt,
       boolean bin,
@@ -107,9 +105,7 @@ public class PatchScript {
     diffPrefs = dp;
     edits = e;
     this.editsDueToRebase = editsDueToRebase;
-    comments = cd;
     history = hist;
-    hugeFile = hf;
     intralineFailure = idf;
     intralineTimeout = idt;
     binary = bin;
@@ -120,22 +116,6 @@ public class PatchScript {
 
   public Change.Key getChangeId() {
     return changeId;
-  }
-
-  public DisplayMethod getDisplayMethodA() {
-    return fileInfoA.displayMethod;
-  }
-
-  public DisplayMethod getDisplayMethodB() {
-    return fileInfoB.displayMethod;
-  }
-
-  public FileMode getFileModeA() {
-    return fileInfoA.mode;
-  }
-
-  public FileMode getFileModeB() {
-    return fileInfoB.mode;
   }
 
   public List<String> getPatchHeader() {
@@ -154,24 +134,12 @@ public class PatchScript {
     return fileInfoB.name;
   }
 
-  public CommentDetail getCommentDetail() {
-    return comments;
-  }
-
   public List<Patch> getHistory() {
     return history;
   }
 
   public DiffPreferencesInfo getDiffPrefs() {
     return diffPrefs;
-  }
-
-  public void setDiffPrefs(DiffPreferencesInfo dp) {
-    diffPrefs = dp;
-  }
-
-  public boolean isHugeFile() {
-    return hugeFile;
   }
 
   public boolean isIgnoreWhitespace() {
@@ -186,24 +154,12 @@ public class PatchScript {
     return intralineTimeout;
   }
 
-  public boolean isExpandAllComments() {
-    return diffPrefs.expandAllComments;
-  }
-
   public SparseFileContent getA() {
     return fileInfoA.content;
   }
 
   public SparseFileContent getB() {
     return fileInfoB.content;
-  }
-
-  public String getMimeTypeA() {
-    return fileInfoA.mimeType;
-  }
-
-  public String getMimeTypeB() {
-    return fileInfoB.mimeType;
   }
 
   public List<Edit> getEdits() {
@@ -216,14 +172,6 @@ public class PatchScript {
 
   public boolean isBinary() {
     return binary;
-  }
-
-  public String getCommitIdA() {
-    return fileInfoA.commitId;
-  }
-
-  public String getCommitIdB() {
-    return fileInfoB.commitId;
   }
 
   public PatchScriptFileInfo getFileInfoA() {

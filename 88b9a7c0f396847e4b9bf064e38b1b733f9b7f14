@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "0462e03c_575da1b2",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1012449
+      },
+      "writtenOn": "2019-12-06T18:29:38Z",
+      "side": 1,
+      "message": "Why do we want to have both in the index? To improve query performance on this field?",
+      "parentUuid": "5e226783_88953ae8",
+      "range": {
+        "startLine": 273,
+        "startChar": 51,
+        "endLine": 273,
+        "endChar": 65
+      },
+      "revId": "88b9a7c0f396847e4b9bf064e38b1b733f9b7f14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e61785d0_1b4cef2f",
         "filename": "javatests/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
         "patchSetId": 15

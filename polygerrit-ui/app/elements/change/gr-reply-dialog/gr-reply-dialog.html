@@ -162,6 +162,48 @@ limitations under the License.
       #pluginMessage:empty {
         display: none;
       }
+      .attention-detail table {
+        margin-top: 8px;
+      }
+      .attention-detail td {
+        padding: 4px;
+      }
+      .attention-icon{
+        vertical-align: top;
+      }
+      .edit-attention-button {
+        vertical-align: top;
+        --padding: 0px 4px;
+      }
+      .edit-attention-button iron-icon {
+        color: inherit;
+      }
+      .attention-change-chip {
+        border-radius: var(--border-radius);
+        background-color: #eee;
+        padding: 2px 4px;
+      }
+      .attention-change-chip,
+      .attention-change-chip iron-icon {
+        color: #aaa;
+      }
+      .attention-change-chip.gray,
+      .attention-change-chip.gray iron-icon,
+      .attention-change-chip.red,
+      .attention-change-chip.red iron-icon,
+      .attention-change-chip.green,
+      .attention-change-chip.green iron-icon {
+        color: #333;
+      }
+      .attention-change-chip.gray {
+        background-color: var(--chip-background-color);
+      }
+      .attention-change-chip.red {
+        background-color: var(--vote-color-approved);
+      }
+      .attention-change-chip.green {
+        background-color: var(--vote-color-disliked);
+      }
     </style>
     <div class="container" tabindex="-1">
       <section class="peopleContainer">
@@ -272,6 +314,60 @@ limitations under the License.
             class$="[[_computeSavingLabelClass(_savingComments)]]">
           Saving comments...
         </span>
+      </section>
+      <section class="attention">
+        <div>
+          <iron-icon class="attention-icon" icon="gr-icons:attention"></iron-icon>
+          <span>Pass turn to all reviewers.</span>
+          <gr-button class="edit-attention-button" link="" position-below="" data-label="Edit" data-action-type="change" data-action-key="edit" title="Edit attention set changes" role="button" tabindex="0">
+            <iron-icon icon="gr-icons:edit" class=""></iron-icon>
+            Modify
+          </gr-button>
+        </div>
+      </section>
+      <section class="attention-detail">
+        <div>
+          <iron-icon class="attention-icon" icon="gr-icons:attention"></iron-icon>
+          <span>Modify individually whose attention will be required:</span>
+        </div>
+        <table>
+          <template id="attention-row" is="dom-repeat" items="[[_computeAttentionAccounts(_owner, _reviewers, _ccs)]]" as="account">
+            <template is="dom-if" if="[[hasAttention(account)]]">
+              <tr>
+                <td><gr-account-link account="[[account]]"></gr-account-link></td>
+                <td>
+                  <div class$="[[_computeAttentionChipChangeClassOn(account)]]">
+                    <iron-icon class="attention-icon" icon="gr-icons:attention"></iron-icon>
+                    Keep
+                  </div>
+                </td>
+                <td>
+                  <div class$="[[_computeAttentionChipChangeClassOff(account)]]">
+                    <iron-icon class="attention-icon" icon="gr-icons:attention-off"></iron-icon>
+                    Remove
+                  </div>
+                </td>
+              </tr>
+            </template>
+            <template is="dom-if" if="[[!hasAttention(account)]]">
+              <tr>
+                <td><gr-account-link account="[[account]]"></gr-account-link></td>
+                <td>
+                  <div class$="[[_computeAttentionChipChangeClassOn(account)]]">
+                    <iron-icon class="attention-icon" icon="gr-icons:attention"></iron-icon>
+                    Add
+                  </div>
+                </td>
+                <td>
+                  <div class$="[[_computeAttentionChipChangeClassOff(account)]]">
+                    <iron-icon class="attention-icon" icon="gr-icons:attention-off"></iron-icon>
+                    Keep
+                  </div>
+                </td>
+              </tr>
+            </template>
+          </template>
+        </table>
       </section>
       <section class="actions">
         <div class="left">

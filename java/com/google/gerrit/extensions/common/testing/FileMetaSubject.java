@@ -18,6 +18,8 @@ import static com.google.common.truth.Truth.assertAbout;
 
 import com.google.common.truth.FailureMetadata;
 import com.google.common.truth.IntegerSubject;
+import com.google.common.truth.IterableSubject;
+import com.google.common.truth.StringSubject;
 import com.google.common.truth.Subject;
 import com.google.gerrit.extensions.common.DiffInfo.FileMeta;
 
@@ -41,5 +43,25 @@ public class FileMetaSubject extends Subject {
   public IntegerSubject totalLineCount() {
     isNotNull();
     return check("totalLineCount()").that(fileMeta.lines);
+  }
+
+  public StringSubject name() {
+    isNotNull();
+    return check("name").that(fileMeta.name);
+  }
+
+  public StringSubject commitId() {
+    isNotNull();
+    return check("commitId").that(fileMeta.commitId);
+  }
+
+  public StringSubject contentType() {
+    isNotNull();
+    return check("contentType").that(fileMeta.contentType);
+  }
+
+  public IterableSubject webLinks() {
+    isNotNull();
+    return check("webLinks").that(fileMeta.webLinks);
   }
 }

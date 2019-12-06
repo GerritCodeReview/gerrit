@@ -133,6 +133,7 @@ import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.PerformanceLogContext;
 import com.google.gerrit.server.logging.PerformanceLogger;
 import com.google.gerrit.server.logging.RequestId;
+import com.google.gerrit.server.logging.SubmissionId;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.logging.TraceContext.TraceTimer;
 import com.google.gerrit.server.mail.MailUtil.MailRecipients;
@@ -3281,7 +3282,7 @@ class ReceiveCommits {
 
                 int existingPatchSets = 0;
                 int newPatchSets = 0;
-                RequestId submissionId = null;
+                SubmissionId submissionId = null;
                 COMMIT:
                 for (RevCommit c; (c = rw.next()) != null; ) {
                   rw.parseBody(c);
@@ -3290,10 +3291,12 @@ class ReceiveCommits {
                       receivePackRefCache.tipsFromObjectId(c.copy(), RefNames.REFS_CHANGES)) {
                     PatchSet.Id psId = PatchSet.Id.fromRef(ref.getName());
                     Optional<ChangeNotes> notes = getChangeNotes(psId.changeId());
-                    if (submissionId == null) {
-                      submissionId = new RequestId(psId.changeId().toString());
-                    }
                     if (notes.isPresent() && notes.get().getChange().getDest().equals(branch)) {
+                      if (submissionId == null) {
+                        submissionId =
+                            new SubmissionId(
+                                psId.changeId().toString(), notes.get().getChange().getTopic());
+                      }
                       existingPatchSets++;
                       bu.addOp(notes.get().getChangeId(), setPrivateOpFactory.create(false, null));
                       bu.addOp(
@@ -3333,7 +3336,8 @@ class ReceiveCommits {
                     continue;
                   }
                   if (submissionId == null) {
-                    submissionId = new RequestId(id.toString());
+                    submissionId =
+                        new SubmissionId(id.toString(), req.notes.getChange().getTopic());
                   }
                   req.addOps(bu, null);
                   bu.addOp(id, setPrivateOpFactory.create(false, null));

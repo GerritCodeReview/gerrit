@@ -59,7 +59,7 @@ import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.mail.Address;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
-import com.google.gerrit.server.logging.RequestId;
+import com.google.gerrit.server.logging.SubmissionId;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.util.LabelVote;
 import com.google.inject.assistedinject.Assisted;
@@ -220,10 +220,10 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     this.status = status;
   }
 
-  public void fixStatusToMerged(RequestId submissionId) {
+  public void fixStatusToMerged(SubmissionId submissionId) {
     checkArgument(submissionId != null, "submission id must be set for merged changes");
     this.status = Change.Status.MERGED;
-    this.submissionId = submissionId.toStringForStorage();
+    this.submissionId = submissionId.toString();
   }
 
   public void putApproval(String label, short value) {
@@ -242,9 +242,9 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     approvals.put(label, reviewer, Optional.empty());
   }
 
-  public void merge(RequestId submissionId, Iterable<SubmitRecord> submitRecords) {
+  public void merge(SubmissionId submissionId, Iterable<SubmitRecord> submitRecords) {
     this.status = Change.Status.MERGED;
-    this.submissionId = submissionId.toStringForStorage();
+    this.submissionId = submissionId.toString();
     this.submitRecords = ImmutableList.copyOf(submitRecords);
     checkArgument(!this.submitRecords.isEmpty(), "no submit records specified at submit time");
   }

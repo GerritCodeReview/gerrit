@@ -1,0 +1,33 @@
+#!/bin/sh
+#
+# Part of Gerrit Code Review (https://www.gerritcodereview.com/)
+#
+# Copyright (C) 2019 The Android Open Source Project
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+
+# To enable this hook:
+# - copy this file or content to ".git/hooks/pre-commit"
+# - make it executable: `chmod +x .git/hooks/pre-commit`
+
+# Run eslint over frontend code
+if git diff --cached --name-only | grep -q 'polygerrit-ui'; then
+  if npm run eslintfix; then
+    # if succeed, make sure add all changed files
+    git add --all
+  else
+    echo "Failed to fix all linter issues.";
+    exit 1
+  fi
+fi

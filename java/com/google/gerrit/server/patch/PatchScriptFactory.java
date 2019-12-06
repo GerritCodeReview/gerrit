@@ -18,7 +18,6 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableSet;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.CommentDetail;
@@ -41,10 +40,7 @@ import com.google.gerrit.server.edit.ChangeEditUtil;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.LargeObjectException;
 import com.google.gerrit.server.notedb.ChangeNotes;
-import com.google.gerrit.server.patch.PatchScriptBuilder.IntraLineDiffCalculator;
 import com.google.gerrit.server.patch.PatchScriptBuilder.IntraLineDiffCalculatorResult;
-import com.google.gerrit.server.patch.PatchScriptBuilder.PatchFileChange;
-import com.google.gerrit.server.patch.PatchScriptBuilder.SidesResolverImpl;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -55,9 +51,7 @@ import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
@@ -103,17 +97,12 @@ public class PatchScriptFactory implements Callable<PatchScript> {
   private final Provider<CurrentUser> userProvider;
   private final PermissionBackend permissionBackend;
   private final ProjectCache projectCache;
-  private Optional<ChangeEdit> edit;
 
   private final Change.Id changeId;
   private boolean loadHistory = true;
   private boolean loadComments = true;
 
   private ChangeNotes notes;
-  private ObjectId aId;
-  private ObjectId bId;
-  private List<Patch> history;
-  private CommentDetail comments;
 
   @AssistedInject
   PatchScriptFactory(
@@ -200,23 +189,6 @@ public class PatchScriptFactory implements Callable<PatchScript> {
   public PatchScript call()
       throws LargeObjectException, AuthException, InvalidChangeOperationException, IOException,
           PermissionBackendException {
-    validatePatchSetId(psa);
-    validatePatchSetId(psb);
-
-    if (psa != null) {
-      checkState(parentNum < 0, "expected no parentNum when psa is present");
-      checkArgument(psa.get() != 0, "edit not supported for left side");
-      aId = getCommitId(psa);
-    } else {
-      aId = null;
-    }
-
-    if (psb.get() != 0) {
-      bId = getCommitId(psb);
-    } else {
-      // Change edit: create synthetic PatchSet corresponding to the edit.
-      bId = getEditRev();
-    }
 
     try {
       permissionBackend.currentUser().change(notes).check(ChangePermission.READ);
@@ -230,13 +202,31 @@ public class PatchScriptFactory implements Callable<PatchScript> {
 
     try (Repository git = repoManager.openRepository(notes.getProjectName())) {
       try {
-        final PatchList list = listFor(keyFor(diffPrefs.ignoreWhitespace));
-        final PatchScriptBuilder b = newBuilder(list, git);
+        validatePatchSetId(psa);
+        validatePatchSetId(psb);
+
+        ObjectId aId = getAId().orElse(null);
+        ObjectId bId = getBId().orElse(null);
+        boolean changeEdit = false;
+        if (bId == null) {
+          // Change edit: create synthetic PatchSet corresponding to the edit.
+          Optional<ChangeEdit> edit = editReader.byChange(notes);
+          if (!edit.isPresent()) {
+            throw new NoSuchChangeException(notes.getChangeId());
+          }
+          bId = edit.get().getEditCommit();
+          changeEdit = true;
+        }
+
+        final PatchList list = listFor(keyFor(aId, bId, diffPrefs.ignoreWhitespace));
+        final PatchScriptBuilder b = newBuilder();
         final PatchListEntry content = list.get(fileName);
 
-        loadCommentsAndHistory(content.getChangeType(), content.getOldName(), content.getNewName());
+        Optional<ImmutableList<Patch>> history = loadHistory(content, changeEdit);
+        Optional<CommentDetail> comments =
+            loadComments(content, changeEdit, history.orElse(ImmutableList.of()));
 
-        return b.toPatchScript(new PatchListFileChange(content), comments, history);
+        return b.toPatchScript(git, list, content, comments.orElse(null), history.orElse(null));
       } catch (PatchListNotAvailableException e) {
         throw new NoSuchChangeException(changeId, e);
       } catch (IOException e) {
@@ -254,7 +244,46 @@ public class PatchScriptFactory implements Callable<PatchScript> {
     }
   }
 
-  private PatchListKey keyFor(Whitespace whitespace) {
+  private Optional<CommentDetail> loadComments(
+      PatchListEntry content, boolean changeEdit, ImmutableList<Patch> history) {
+    if (!loadComments) {
+      return Optional.empty();
+    }
+    return new CommentsLoader(psa, psb, userProvider, notes, commentsUtil)
+        .load(
+            changeEdit,
+            content.getChangeType(),
+            content.getOldName(),
+            content.getNewName(),
+            history);
+  }
+
+  private Optional<ImmutableList<Patch>> loadHistory(PatchListEntry content, boolean changeEdit) {
+    if (!loadHistory) {
+      return Optional.empty();
+    }
+    HistoryLoader loader = new HistoryLoader(psa, psb, psUtil, notes, fileName);
+    return Optional.of(loader.load(changeEdit, content.getChangeType(), content.getOldName()));
+  }
+
+  private Optional<ObjectId> getAId() {
+    if (psa == null) {
+      return Optional.empty();
+    }
+    checkState(parentNum < 0, "expected no parentNum when psa is present");
+    checkArgument(psa.get() != 0, "edit not supported for left side");
+    return Optional.of(getCommitId(psa));
+  }
+
+  private Optional<ObjectId> getBId() {
+    if (psb.get() == 0) {
+      // Change edit
+      return Optional.empty();
+    }
+    return Optional.of(getCommitId(psb));
+  }
+
+  private PatchListKey keyFor(ObjectId aId, ObjectId bId, Whitespace whitespace) {
     if (parentNum < 0) {
       return PatchListKey.againstCommit(aId, bId, whitespace);
     }
@@ -265,17 +294,14 @@ public class PatchScriptFactory implements Callable<PatchScript> {
     return patchListCache.get(key, notes.getProjectName());
   }
 
-  private PatchScriptBuilder newBuilder(PatchList list, Repository git) {
+  private PatchScriptBuilder newBuilder() {
     final PatchScriptBuilder b = builderFactory.get();
     b.setChange(notes.getChange());
     b.setDiffPrefs(diffPrefs);
     if (diffPrefs.intralineDifference) {
       b.setIntraLineDiffCalculator(
-          new IntraLineDiffCalculatorImpl(patchListCache, notes.getProjectName(), diffPrefs));
+          new IntraLineDiffCalculator(patchListCache, notes.getProjectName(), diffPrefs));
     }
-    SidesResolverImpl sidesResolver = new SidesResolverImpl(git);
-    sidesResolver.setTrees(list.getComparisonType(), list.getOldId(), list.getNewId());
-    b.setSidesResolver(sidesResolver);
     return b;
   }
 
@@ -287,14 +313,6 @@ public class PatchScriptFactory implements Callable<PatchScript> {
     return ps.commitId();
   }
 
-  private ObjectId getEditRev() throws AuthException, IOException {
-    edit = editReader.byChange(notes);
-    if (edit.isPresent()) {
-      return edit.get().getEditCommit();
-    }
-    throw new NoSuchChangeException(notes.getChangeId());
-  }
-
   private void validatePatchSetId(PatchSet.Id psId) throws NoSuchChangeException {
     if (psId == null) { // OK, means use base;
     } else if (changeId.equals(psId.changeId())) { // OK, same change;
@@ -303,16 +321,29 @@ public class PatchScriptFactory implements Callable<PatchScript> {
     }
   }
 
-  private void loadCommentsAndHistory(ChangeType changeType, String oldName, String newName) {
-    Map<Patch.Key, Patch> byKey = new HashMap<>();
+  private static class HistoryLoader {
+    private final PatchSet.Id psa;
+    private final PatchSet.Id psb;
+    private final PatchSetUtil psUtil;
+    private final ChangeNotes notes;
+    private final String fileName;
 
-    if (loadHistory) {
+    HistoryLoader(
+        PatchSet.Id psa, PatchSet.Id psb, PatchSetUtil psUtil, ChangeNotes notes, String fileName) {
+      this.psa = psa;
+      this.psb = psb;
+      this.psUtil = psUtil;
+      this.notes = notes;
+      this.fileName = fileName;
+    }
+
+    private ImmutableList<Patch> load(boolean changeEdit, ChangeType changeType, String oldName) {
       // This seems like a cheap trick. It doesn't properly account for a
       // file that gets renamed between patch set 1 and patch set 2. We
       // will wind up packing the wrong Patch object because we didn't do
       // proper rename detection between the patch sets.
       //
-      history = new ArrayList<>();
+      ImmutableList.Builder<Patch> historyBuilder = ImmutableList.builder();
       for (PatchSet ps : psUtil.byChange(notes)) {
         String name = fileName;
         if (psa != null) {
@@ -333,17 +364,51 @@ public class PatchScriptFactory implements Callable<PatchScript> {
         }
 
         Patch p = new Patch(Patch.key(ps.id(), name));
-        history.add(p);
-        byKey.put(p.getKey(), p);
+        historyBuilder.add(p);
       }
-      if (edit != null && edit.isPresent()) {
+      if (changeEdit) {
         Patch p = new Patch(Patch.key(PatchSet.id(psb.changeId(), 0), fileName));
-        history.add(p);
-        byKey.put(p.getKey(), p);
+        historyBuilder.add(p);
       }
+      return historyBuilder.build();
+    }
+  }
+
+  private static class CommentsLoader {
+    private final PatchSet.Id psa;
+    private final PatchSet.Id psb;
+    private final Provider<CurrentUser> userProvider;
+    private final ChangeNotes notes;
+    private final CommentsUtil commentsUtil;
+    private CommentDetail comments;
+
+    CommentsLoader(
+        PatchSet.Id psa,
+        PatchSet.Id psb,
+        Provider<CurrentUser> userProvider,
+        ChangeNotes notes,
+        CommentsUtil commentsUtil) {
+      this.psa = psa;
+      this.psb = psb;
+      this.userProvider = userProvider;
+      this.notes = notes;
+      this.commentsUtil = commentsUtil;
     }
 
-    if (loadComments && edit == null) {
+    private Optional<CommentDetail> load(
+        boolean changeEdit,
+        ChangeType changeType,
+        String oldName,
+        String newName,
+        ImmutableList<Patch> history) {
+      // TODO: Implement this method with CommentDetailBuilder (this class doesn't exists yet).
+      // This is a legacy code which create final object and populate it and then returns it.
+      if (changeEdit) {
+        return Optional.empty();
+      }
+      Map<Patch.Key, Patch> byKey = new HashMap<>();
+      history.forEach(p -> byKey.put(p.getKey(), p));
+
       comments = new CommentDetail(psa, psb);
       switch (changeType) {
         case ADDED:
@@ -392,40 +457,42 @@ public class PatchScriptFactory implements Callable<PatchScript> {
             break;
         }
       }
+      return Optional.of(comments);
     }
-  }
 
-  private void loadPublished(Map<Patch.Key, Patch> byKey, String file) {
-    for (Comment c : commentsUtil.publishedByChangeFile(notes, file)) {
-      comments.include(notes.getChangeId(), c);
-      PatchSet.Id psId = PatchSet.id(notes.getChangeId(), c.key.patchSetId);
-      Patch.Key pKey = Patch.key(psId, c.key.filename);
-      Patch p = byKey.get(pKey);
-      if (p != null) {
-        p.setCommentCount(p.getCommentCount() + 1);
+    private void loadPublished(Map<Patch.Key, Patch> byKey, String file) {
+      for (Comment c : commentsUtil.publishedByChangeFile(notes, file)) {
+        comments.include(notes.getChangeId(), c);
+        PatchSet.Id psId = PatchSet.id(notes.getChangeId(), c.key.patchSetId);
+        Patch.Key pKey = Patch.key(psId, c.key.filename);
+        Patch p = byKey.get(pKey);
+        if (p != null) {
+          p.setCommentCount(p.getCommentCount() + 1);
+        }
+      }
+    }
+
+    private void loadDrafts(Map<Patch.Key, Patch> byKey, Account.Id me, String file) {
+      for (Comment c : commentsUtil.draftByChangeFileAuthor(notes, file, me)) {
+        comments.include(notes.getChangeId(), c);
+        PatchSet.Id psId = PatchSet.id(notes.getChangeId(), c.key.patchSetId);
+        Patch.Key pKey = Patch.key(psId, c.key.filename);
+        Patch p = byKey.get(pKey);
+        if (p != null) {
+          p.setDraftCount(p.getDraftCount() + 1);
+        }
       }
     }
   }
 
-  private void loadDrafts(Map<Patch.Key, Patch> byKey, Account.Id me, String file) {
-    for (Comment c : commentsUtil.draftByChangeFileAuthor(notes, file, me)) {
-      comments.include(notes.getChangeId(), c);
-      PatchSet.Id psId = PatchSet.id(notes.getChangeId(), c.key.patchSetId);
-      Patch.Key pKey = Patch.key(psId, c.key.filename);
-      Patch p = byKey.get(pKey);
-      if (p != null) {
-        p.setDraftCount(p.getDraftCount() + 1);
-      }
-    }
-  }
-
-  private static class IntraLineDiffCalculatorImpl implements IntraLineDiffCalculator {
+  private static class IntraLineDiffCalculator
+      implements PatchScriptBuilder.IntraLineDiffCalculator {
 
     private final PatchListCache patchListCache;
     private final Project.NameKey projectKey;
     private final DiffPreferencesInfo diffPrefs;
 
-    public IntraLineDiffCalculatorImpl(
+    IntraLineDiffCalculator(
         PatchListCache patchListCache, Project.NameKey projectKey, DiffPreferencesInfo diffPrefs) {
       this.patchListCache = patchListCache;
       this.projectKey = projectKey;
@@ -454,62 +521,16 @@ public class PatchScriptFactory implements Callable<PatchScript> {
         case EDIT_LIST:
           return IntraLineDiffCalculatorResult.success(d.getEdits());
 
-        case DISABLED:
-          return IntraLineDiffCalculatorResult.NO_RESULT;
-
         case ERROR:
           return IntraLineDiffCalculatorResult.FAILURE;
 
         case TIMEOUT:
           return IntraLineDiffCalculatorResult.TIMEOUT;
 
+        case DISABLED:
         default:
           return IntraLineDiffCalculatorResult.NO_RESULT;
       }
-    }
-  }
-
-  private static class PatchListFileChange implements PatchFileChange {
-
-    private final PatchListEntry patchListEntry;
-
-    PatchListFileChange(PatchListEntry patchListEntry) {
-      this.patchListEntry = patchListEntry;
-    }
-
-    @Override
-    public ImmutableList<Edit> getEdits() {
-      return patchListEntry.getEdits();
-    }
-
-    @Override
-    public ImmutableSet<Edit> getEditsDueToRebase() {
-      return patchListEntry.getEditsDueToRebase();
-    }
-
-    @Override
-    public String getNewName() {
-      return patchListEntry.getNewName();
-    }
-
-    @Override
-    public String getOldName() {
-      return patchListEntry.getOldName();
-    }
-
-    @Override
-    public ChangeType getChangeType() {
-      return patchListEntry.getChangeType();
-    }
-
-    @Override
-    public List<String> getHeaderLines() {
-      return patchListEntry.getHeaderLines();
-    }
-
-    @Override
-    public Patch.PatchType getPatchType() {
-      return patchListEntry.getPatchType();
     }
   }
 }

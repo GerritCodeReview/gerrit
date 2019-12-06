@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "c0afa3a6_1adaf547",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-12-06T14:28:23Z",
+      "side": 1,
+      "message": "If you want to play it safe, then I fine with the approach, but then please follow-up. I would rather prefer to quickly check where gr-autocomplete is used and just never retrieve suggestions without focus. Otherwise you just add complexity that we will have to deal with in the coming years at some point.",
+      "parentUuid": "e449d727_06c0afcb",
+      "revId": "d0f2162f80798b652351f2778c2ea9eff0ced9a5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6fa6c95b_3b8e778d",
         "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete_test.html",
         "patchSetId": 2

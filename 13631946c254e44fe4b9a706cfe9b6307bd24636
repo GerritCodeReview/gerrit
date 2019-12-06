@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f8e16b97_897ddb07",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 1261,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-12-06T15:16:09Z",
+      "side": 1,
+      "message": "Maybe move the declaration to line 1287.",
+      "revId": "13631946c254e44fe4b9a706cfe9b6307bd24636",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

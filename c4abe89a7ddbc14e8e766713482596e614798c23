@@ -1,0 +1,383 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ad95f796_d020428c",
+        "filename": "java/com/google/gerrit/server/fixes/FixCalculator.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-12-07T00:24:37Z",
+      "side": 1,
+      "message": "After taking a long time to look at this class and understanding each part of it, I finally have an idea how this code works and what the involved classes do. I would have loved to have more guidance for my understanding through the code of this class, though. Maybe also some comments or Javadoc descriptions would be helpful, especially if we look at this class again in the future.\n\nFor me, it would also be okay if further improvements for readability were done in a follow-up change.",
+      "range": {
+        "startLine": 29,
+        "startChar": 13,
+        "endLine": 29,
+        "endChar": 26
+      },
+      "revId": "c4abe89a7ddbc14e8e766713482596e614798c23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b4b9c473_de67cb50",
+        "filename": "java/com/google/gerrit/server/fixes/FixCalculator.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-12-07T00:24:37Z",
+      "side": 1,
+      "message": "Nit: This line could be below the next if-block to be closer to the code where it\u0027s used.",
+      "revId": "c4abe89a7ddbc14e8e766713482596e614798c23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2d78508b_a952b27f",
+        "filename": "java/com/google/gerrit/server/fixes/FixCalculator.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-12-07T00:24:37Z",
+      "side": 1,
+      "message": "Is 1 subtracted because fix replacements are 1-based for lines and the code within this class is 0-based?",
+      "range": {
+        "startLine": 89,
+        "startChar": 24,
+        "endLine": 89,
+        "endChar": 55
+      },
+      "revId": "c4abe89a7ddbc14e8e766713482596e614798c23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "112b4e7f_f85d7db7",
+        "filename": "java/com/google/gerrit/server/fixes/FixCalculator.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-12-07T00:24:37Z",
+      "side": 1,
+      "message": "Nit: It would be easier to understand the code if this was named \"shouldStartNewEdit\" as otherwise it implies that it already starts a new edit.",
+      "range": {
+        "startLine": 129,
+        "startChar": 20,
+        "endLine": 129,
+        "endChar": 32
+      },
+      "revId": "c4abe89a7ddbc14e8e766713482596e614798c23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8cb52a56_c6dd329c",
+        "filename": "java/com/google/gerrit/server/fixes/FixCalculator.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-12-07T00:24:37Z",
+      "side": 1,
+      "message": "Even after understanding the rest of this class, I still don\u0027t see why a new, separate currentRegion should be started if another replacement starts at a line in which a previous replacement ended. Can you please enlighten me?",
+      "revId": "c4abe89a7ddbc14e8e766713482596e614798c23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4dae29ef_07553cc1",
+        "filename": "java/com/google/gerrit/server/fixes/FixCalculator.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-12-07T00:24:37Z",
+      "side": 1,
+      "message": "Nit: Unused.",
+      "range": {
+        "startLine": 303,
+        "startChar": 19,
+        "endLine": 303,
+        "endChar": 46
+      },
+      "revId": "c4abe89a7ddbc14e8e766713482596e614798c23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d9d612fc_a8bed431",
+        "filename": "java/com/google/gerrit/server/fixes/FixReplacementInterpreter.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-12-07T00:24:37Z",
+      "side": 1,
+      "message": "Nit: Unused.",
+      "range": {
+        "startLine": 47,
+        "startChar": 50,
+        "endLine": 47,
+        "endChar": 86
+      },
+      "revId": "c4abe89a7ddbc14e8e766713482596e614798c23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "36bfeb98_98f5b70c",
+        "filename": "java/com/google/gerrit/server/fixes/testing/GitEditSubject.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-12-07T00:24:37Z",
+      "side": 1,
+      "message": "Nit, here and below: The hasXxx() and isXXX() methods should just return void. That\u0027s at least the typical way to write Truth subjects. If another method like isInsert(..) needs to call multiple of them, it can just do so. Chaining is not necessary and can be especially confusing if other chaining methods which return sub-subjects exist.",
+      "range": {
+        "startLine": 43,
+        "startChar": 9,
+        "endLine": 43,
+        "endChar": 23
+      },
+      "revId": "c4abe89a7ddbc14e8e766713482596e614798c23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "393625df_cbd65b2b",
+        "filename": "java/com/google/gerrit/server/fixes/testing/GitEditSubject.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-12-07T00:24:37Z",
+      "side": 1,
+      "message": "Nit: Should rather be \"internalEdits()\" as it returns a sub-subject.",
+      "range": {
+        "startLine": 82,
+        "startChar": 43,
+        "endLine": 82,
+        "endChar": 59
+      },
+      "revId": "c4abe89a7ddbc14e8e766713482596e614798c23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8c86ea4f_2bd4b920",
+        "filename": "java/com/google/gerrit/server/patch/PatchScriptFactory.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 467,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-12-07T00:24:37Z",
+      "side": 1,
+      "message": "Catching all exceptions without doing anything with them is strongly discouraged. As far as I saw, FixCalculator#calcuateFix can throw a ResourceConflictException. Could we maybe just let it bubble up?",
+      "range": {
+        "startLine": 466,
+        "startChar": 10,
+        "endLine": 467,
+        "endChar": 9
+      },
+      "revId": "c4abe89a7ddbc14e8e766713482596e614798c23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "08c255fa_52e86212",
+        "filename": "java/com/google/gerrit/server/patch/PatchScriptFactory.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 515,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-12-07T00:24:37Z",
+      "side": 1,
+      "message": "This sounds as if fixes which are attached to a robot comment which is on the left side of a diff are not supported (e.g. preview fix is not possible). Is this the correct interpretation?\n\nI thought that robot comments were allowed on the left side including suggested fixes. As patch set, the one on which the robot comment is added is taken no matter whether the robot comment is on the left side or right side. That patch set would also serve as base for the fix. I didn\u0027t see a way for patchSet.id() being 0. Did I maybe miss a code path?",
+      "range": {
+        "startLine": 515,
+        "startChar": 6,
+        "endLine": 515,
+        "endChar": 82
+      },
+      "revId": "c4abe89a7ddbc14e8e766713482596e614798c23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "49b9a7a9_7b598e81",
+        "filename": "java/com/google/gerrit/server/patch/PatchScriptFactory.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 536,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-12-07T00:24:37Z",
+      "side": 1,
+      "message": "Nit: Unused.",
+      "range": {
+        "startLine": 536,
+        "startChar": 42,
+        "endLine": 536,
+        "endChar": 56
+      },
+      "revId": "c4abe89a7ddbc14e8e766713482596e614798c23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "377a2ad6_b5b6f9c6",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetFixPreview.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-12-07T00:24:37Z",
+      "side": 1,
+      "message": "Reminder that this is not forgotten: This REST endpoint still needs to be mentioned in the documentation.",
+      "range": {
+        "startLine": 56,
+        "startChar": 13,
+        "endLine": 56,
+        "endChar": 50
+      },
+      "revId": "c4abe89a7ddbc14e8e766713482596e614798c23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "31ad3a4d_3ddb9746",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetFixPreview.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-12-07T00:24:37Z",
+      "side": 1,
+      "message": "Nit: Unused and hence can be removed.",
+      "range": {
+        "startLine": 59,
+        "startChar": 37,
+        "endLine": 59,
+        "endChar": 48
+      },
+      "revId": "c4abe89a7ddbc14e8e766713482596e614798c23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ae601a11_8ec35506",
+        "filename": "javatests/com/google/gerrit/server/fixes/FixCalculatorTest.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-12-07T00:24:37Z",
+      "side": 1,
+      "message": "I like the individual test classes which were split of. Will any test beyond lineNumberMustBePositive() remain in this test class?",
+      "range": {
+        "startLine": 29,
+        "startChar": 13,
+        "endLine": 29,
+        "endChar": 30
+      },
+      "revId": "c4abe89a7ddbc14e8e766713482596e614798c23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3d2d1ed6_ebc61604",
+        "filename": "javatests/com/google/gerrit/server/fixes/fixCalculator/MultilineContentNoEOLTest.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-12-07T00:24:37Z",
+      "side": 1,
+      "message": "Note for myself: This class is still WIP and will get further adjustments from \"First line\" to \"First line\\nSeconde line\\nThird line\".",
+      "range": {
+        "startLine": 23,
+        "startChar": 13,
+        "endLine": 23,
+        "endChar": 38
+      },
+      "revId": "c4abe89a7ddbc14e8e766713482596e614798c23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "34c6c025_b8fad035",
+        "filename": "javatests/com/google/gerrit/server/fixes/fixCalculator/MultilineContentNoEOLTest.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-12-07T00:24:37Z",
+      "side": 1,
+      "message": "Type, here and in the other test files: Missing \u0027d\u0027.",
+      "range": {
+        "startLine": 260,
+        "startChar": 25,
+        "endLine": 260,
+        "endChar": 30
+      },
+      "revId": "c4abe89a7ddbc14e8e766713482596e614798c23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

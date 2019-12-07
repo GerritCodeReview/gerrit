@@ -304,6 +304,12 @@ To exclude tests that require a Docker host:
   bazel test --test_tag_filters=-docker //...
 ----
 
+To exclude tests that require very recent git client version:
+
+----
+  bazel test --test_tag_filters=-git-protocol-v2 //...
+----
+
 To ignore cached test results:
 
 ----
@@ -324,6 +330,7 @@ The following values are currently supported for the group name:
 * edit
 * elastic
 * git
+* git-protocol-v2
 * notedb
 * pgm
 * rest

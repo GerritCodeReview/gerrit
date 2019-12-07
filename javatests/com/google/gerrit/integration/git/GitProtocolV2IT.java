@@ -15,7 +15,6 @@
 package com.google.gerrit.integration.git;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.common.truth.TruthJUnit.assume;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.deny;
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -30,7 +29,10 @@ import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.UseSsh;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.common.data.Permission;
+import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -40,6 +42,7 @@ import java.io.File;
 import java.net.InetSocketAddress;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Constants;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 @UseSsh
@@ -48,6 +51,8 @@ public class GitProtocolV2IT extends StandaloneSiteTest {
       new String[] {"ssh-keygen", "-t", "rsa", "-q", "-P", "", "-f"};
   private final String[] GIT_LS_REMOTE =
       new String[] {"git", "-c", "protocol.version=2", "ls-remote", "-o", "trace=12345"};
+  private final String[] GIT_CLONE_MIRROR =
+      new String[] {"git", "-c", "protocol.version=2", "clone", "--mirror"};
   private final String GIT_SSH_COMMAND =
       "ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i";
 
@@ -57,15 +62,19 @@ public class GitProtocolV2IT extends StandaloneSiteTest {
   @Inject private @TestSshServerAddress InetSocketAddress sshAddress;
   @Inject private @GerritServerConfig Config config;
 
-  @Test
-  public void testGitWireProtocolV2WithSsh() throws Exception {
+  @BeforeClass
+  public static void assertGitClientVersion() throws Exception {
     // Minimum required git-core version that supports wire protocol v2 is 2.18.0
     GitClientVersion requiredGitVersion = new GitClientVersion(2, 18, 0);
     GitClientVersion actualGitVersion =
-        new GitClientVersion(execute(ImmutableList.of("git", "version")));
-    // If not found, test succeeds with assumption violation
-    assume().that(actualGitVersion).isAtLeast(requiredGitVersion);
+        new GitClientVersion(execute(ImmutableList.of("git", "version"), new File("/")));
+    // If git client version cannot be updated, consider to skip this tests. Due to
+    // an existing issue in bazel, JUnit assumption violation feature cannot be used.
+    assertThat(actualGitVersion).isAtLeast(requiredGitVersion);
+  }
 
+  @Test
+  public void testGitWireProtocolV2WithSsh() throws Exception {
     try (ServerContext ctx = startServer()) {
       ctx.getInjector().injectMembers(this);
 
@@ -190,6 +199,61 @@ public class GitProtocolV2IT extends StandaloneSiteTest {
 
       assertGitProtocolV2Refs(commit, out);
       assertThat(out).doesNotContain(secretCommit);
+    }
+  }
+
+  @Test
+  public void testGitWireProtocolV2HidesRefMetaConfig() throws Exception {
+    try (ServerContext ctx = startServer()) {
+      ctx.getInjector().injectMembers(this);
+      String url = config.getString("gerrit", null, "canonicalweburl");
+
+      // Create project
+      Project.NameKey allRefsVisibleProject = Project.nameKey("all-refs-visible");
+      gApi.projects().create(allRefsVisibleProject.get());
+
+      // Set protocol.version=2 in target repository
+      execute(
+          ImmutableList.of("git", "config", "protocol.version", "2"),
+          sitePaths
+              .site_path
+              .resolve("git")
+              .resolve(allRefsVisibleProject.get() + Constants.DOT_GIT)
+              .toFile());
+
+      // Set up project permission to allow reading all refs
+      projectOperations
+          .project(allRefsVisibleProject)
+          .forUpdate()
+          .add(allow(Permission.READ).ref("refs/heads/*").group(SystemGroupBackend.ANONYMOUS_USERS))
+          .add(
+              allow(Permission.READ)
+                  .ref("refs/changes/*")
+                  .group(SystemGroupBackend.ANONYMOUS_USERS))
+          .update();
+
+      // Create new change and retrieve refs for the created patch set
+      ChangeInput visibleChangeIn =
+          new ChangeInput(allRefsVisibleProject.get(), "master", "Test public change");
+      visibleChangeIn.newBranch = true;
+      int visibleChangeNumber = gApi.changes().create(visibleChangeIn).info()._number;
+      Change.Id changeId = Change.id(visibleChangeNumber);
+      String visibleChangeNumberRef = RefNames.patchSetRef(PatchSet.id(changeId, 1));
+      String visibleChangeNumberMetaRef = RefNames.changeMetaRef(changeId);
+
+      // Read refs from target repository using git wire protocol v2 over HTTP anonymously
+      String outAnonymousLsRemote =
+          execute(
+              ImmutableList.<String>builder()
+                  .add(GIT_CLONE_MIRROR)
+                  .add(url + "/" + allRefsVisibleProject.get())
+                  .build(),
+              ImmutableMap.of("GIT_TRACE_PACKET", "1"));
+
+      assertThat(outAnonymousLsRemote).contains("git< version 2");
+      assertThat(outAnonymousLsRemote).doesNotContain(RefNames.REFS_CONFIG);
+      assertThat(outAnonymousLsRemote).contains(visibleChangeNumberRef);
+      assertThat(outAnonymousLsRemote).contains(visibleChangeNumberMetaRef);
     }
   }
 

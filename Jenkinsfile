@@ -88,6 +88,10 @@ class GerritCheck {
     }
 }
 
+def hasChangeNumber() {
+    env.GERRIT_CHANGE_NUMBER?.trim()
+}
+
 def postCheck(check) {
     def gerritPostUrl = Globals.gerritUrl +
         "a/changes/${check.changeNum}/revisions/${check.sha1}/checks"
@@ -185,17 +189,17 @@ def prepareBuildsForMode(buildName, mode="notedb", retryTimes = 1) {
 
 def collectBuilds() {
     def builds = [:]
-    if (env.GERRIT_CHANGE_NUMBER == "") {
+    if (hasChangeNumber()) {
+       builds["Gerrit-codestyle"] = prepareBuildsForMode("Gerrit-codestyle")
+       Builds.modes.each {
+          builds["Gerrit-verification(${it})"] = prepareBuildsForMode("Gerrit-verifier-bazel", it)
+       }
+    } else {
        builds["java8"] = { -> build "Gerrit-bazel-${env.BRANCH_NAME}" }
 
        if (env.BRANCH_NAME == "master") {
           builds["java11"] = { -> build "Gerrit-bazel-java11-${env.BRANCH_NAME}" }
        }
-    } else {
-        builds["Gerrit-codestyle"] = prepareBuildsForMode("Gerrit-codestyle")
-        Builds.modes.each {
-            builds["Gerrit-verification(${it})"] = prepareBuildsForMode("Gerrit-verifier-bazel", it)
-        }
     }
     return builds
 }
@@ -282,7 +286,7 @@ def createVerifyMsgBody(builds) {
 
 node ('master') {
 
-    if (env.GERRIT_CHANGE_NUMBER != "") {
+    if (hasChangeNumber()) {
         stage('Preparing'){
             gerritReview labels: ['Verified': 0, 'Code-Style': 0]
 
@@ -293,7 +297,7 @@ node ('master') {
 
     parallel(collectBuilds())
 
-    if (env.GERRIT_CHANGE_NUMBER != "") {
+    if (hasChangeNumber()) {
         stage('Retry Flaky Builds'){
             def flakyBuildsModes = findFlakyBuilds()
             if (flakyBuildsModes.size() > 0){

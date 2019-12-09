@@ -65,6 +65,24 @@
     },
     {
       "key": {
+        "uuid": "ef8deb64_03e69c06",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-09T10:03:08Z",
+      "side": 1,
+      "message": "This is the ID that is generated on submit, and you cannot submit a change twice.\n\"Revert submission\" generates a unique topic for the revert changes, if you press \"Revert submission\" twice, the created revert changes will have different topics.",
+      "parentUuid": "dc2dfa6f_12bc28ed",
+      "revId": "a93083f7b3303c28209b94566702fe182d235590",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9ca80579_3f14b222",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 3

@@ -298,39 +298,41 @@
         console.error('pageLoaded should be called after window.onload');
         this.async(this.pageLoaded, 100);
       } else {
-        const loadTime = this.performanceTiming.loadEventEnd -
-            this.performanceTiming.navigationStart;
-        this.reporter(TIMING.TYPE, TIMING.CATEGORY_UI_LATENCY,
-            TIMING.PAGE_LOADED, loadTime, true);
+        this._reportPerformanceTiming(this.performanceTiming.loadEventEnd,
+            TIMING.PAGE_LOADED);
 
-        const requestStart = this.performanceTiming.requestStart -
-            this.performanceTiming.navigationStart;
-        this.reporter(TIMING.TYPE, TIMING.CATEGORY_UI_LATENCY,
-            'requestStart', requestStart, true);
+        if (this.performanceTiming.unloadEventEnd > 0) {
+          this._reportPerformanceTiming(this.performanceTiming.unloadEventEnd,
+              'unloadEventEnd');
+        }
 
-        const responseEnd = this.performanceTiming.responseEnd -
-            this.performanceTiming.navigationStart;
-        this.reporter(TIMING.TYPE, TIMING.CATEGORY_UI_LATENCY,
-            'responseEnd', responseEnd, true);
+        this._reportPerformanceTiming(this.performanceTiming.connectEnd,
+            'connectEnd');
 
-        const domLoading = this.performanceTiming.domLoading -
-          this.performanceTiming.navigationStart;
-        this.reporter(TIMING.TYPE, TIMING.CATEGORY_UI_LATENCY,
-            'domLoading', domLoading, true);
+        this._reportPerformanceTiming(this.performanceTiming.requestStart,
+            'requestStart');
 
-        const domContentLoadedEventStart =
-          this.performanceTiming.domContentLoadedEventStart -
-          this.performanceTiming.navigationStart;
-        this.reporter(TIMING.TYPE, TIMING.CATEGORY_UI_LATENCY,
-            'domContentLoadedEventStart', domContentLoadedEventStart, true);
+        this._reportPerformanceTiming(this.performanceTiming.responseEnd,
+            'responseEnd');
+
+        this._reportPerformanceTiming(this.performanceTiming.domLoading,
+            'domLoading');
+
+        this._reportPerformanceTiming(
+            this.performanceTiming.domContentLoadedEventStart,
+            'domContentLoadedEventStart');
 
         if (this.performanceTiming.redirectEnd > 0) {
-          const redirectEnd = this.performanceTiming.redirectEnd -
-              this.performanceTiming.navigationStart;
-          this.reporter(TIMING.TYPE, TIMING.CATEGORY_UI_LATENCY,
-              'redirectEnd', redirectEnd, true);
+          this._reportPerformanceTiming(this.performanceTiming.redirectEnd,
+              'redirectEnd');
         }
       }
+    },
+
+    _reportPerformanceTiming(eventTime, eventLabel) {
+      const elapsedTime = eventTime - this.performanceTiming.navigationStart;
+      this.reporter(TIMING.TYPE, TIMING.CATEGORY_UI_LATENCY, eventLabel,
+          elapsedTime, true);
     },
 
     beforeLocationChanged() {

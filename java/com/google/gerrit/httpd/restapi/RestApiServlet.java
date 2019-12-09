@@ -1692,7 +1692,7 @@ public class RestApiServlet extends HttpServlet {
         }
 
         res.setStatus(statusCode.get());
-        logger.atFinest().withCause(err).log("REST call finished: %d", statusCode);
+        logger.atFinest().withCause(err).log("REST call finished: %d", statusCode.get().intValue());
         return replyText(req, res, true, msg.toString());
       }
 

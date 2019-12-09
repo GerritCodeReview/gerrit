@@ -22,6 +22,30 @@
       "revId": "7afe291c86e58453825f43772d95695836227912",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8eb6a46e_92c874a3",
+        "filename": "java/com/google/gerrit/server/ExceptionHook.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-09T10:11:02Z",
+      "side": 1,
+      "message": "I had considered this, but thought that skipRetryWithTrace would be better to have a consistent behavior with shouldRetry if there are multiple implementations of ExceptionHook registered.\n\nIf there are multiple implementations of ExceptionHook registered, it is sufficient that one of them returns true from shouldRetry to enable retrying.\n\nskipRetryWithTrace behaves the same way. If there are multiple implementations of ExceptionHook registered, it is sufficient that one of them returns true from skipRetryWithTrace to skip auto-retry with trace.",
+      "parentUuid": "5a6b69e2_2cf0cab0",
+      "range": {
+        "startLine": 74,
+        "startChar": 18,
+        "endLine": 74,
+        "endChar": 23
+      },
+      "revId": "7afe291c86e58453825f43772d95695836227912",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

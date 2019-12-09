@@ -24,7 +24,6 @@
     CATEGORY_RPC: 'RPC Timing',
     // Reported events - alphabetize below.
     APP_STARTED: 'App Started',
-    PAGE_LOADED: 'Page Loaded',
   };
 
   // Plugin-related reporting constants.
@@ -298,38 +297,21 @@
         console.error('pageLoaded should be called after window.onload');
         this.async(this.pageLoaded, 100);
       } else {
-        const loadTime = this.performanceTiming.loadEventEnd -
+        const perfEvents = Object.keys(this.performanceTiming.toJSON());
+        perfEvents.forEach(
+            eventName => this._reportPerformanceTiming(eventName)
+        );
+      }
+    },
+
+    _reportPerformanceTiming(eventName) {
+      const eventTiming = this.performanceTiming[eventName];
+      if (eventTiming > 0) {
+        const elapsedTime = eventTiming -
             this.performanceTiming.navigationStart;
+        // NavResTime - Navigation and resource timings.
         this.reporter(TIMING.TYPE, TIMING.CATEGORY_UI_LATENCY,
-            TIMING.PAGE_LOADED, loadTime, true);
-
-        const requestStart = this.performanceTiming.requestStart -
-            this.performanceTiming.navigationStart;
-        this.reporter(TIMING.TYPE, TIMING.CATEGORY_UI_LATENCY,
-            'requestStart', requestStart, true);
-
-        const responseEnd = this.performanceTiming.responseEnd -
-            this.performanceTiming.navigationStart;
-        this.reporter(TIMING.TYPE, TIMING.CATEGORY_UI_LATENCY,
-            'responseEnd', responseEnd, true);
-
-        const domLoading = this.performanceTiming.domLoading -
-          this.performanceTiming.navigationStart;
-        this.reporter(TIMING.TYPE, TIMING.CATEGORY_UI_LATENCY,
-            'domLoading', domLoading, true);
-
-        const domContentLoadedEventStart =
-          this.performanceTiming.domContentLoadedEventStart -
-          this.performanceTiming.navigationStart;
-        this.reporter(TIMING.TYPE, TIMING.CATEGORY_UI_LATENCY,
-            'domContentLoadedEventStart', domContentLoadedEventStart, true);
-
-        if (this.performanceTiming.redirectEnd > 0) {
-          const redirectEnd = this.performanceTiming.redirectEnd -
-              this.performanceTiming.navigationStart;
-          this.reporter(TIMING.TYPE, TIMING.CATEGORY_UI_LATENCY,
-              'redirectEnd', redirectEnd, true);
-        }
+            `NavResTime - ${eventName}`, elapsedTime, true);
       }
     },
 

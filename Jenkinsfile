@@ -24,6 +24,12 @@ class Globals {
     static final int waitForResultTimeout = 10000
     static final String gerritRepositoryNameSha1Suffix = "-a6a0e4682515f3521897c5f950d1394f4619d928"
     static final resTicks = [ 'ABORTED':'\u26aa', 'SUCCESS':'\u2705', 'FAILURE':'\u274c' ]
+    static final checkers = [
+        'codestyle': 'gerritforge:codestyle-a6a0e4682515f3521897c5f950d1394f4619d928',
+        'notedb': 'gerritforge:notedb-a6a0e4682515f3521897c5f950d1394f4619d928',
+        'reviewdb': 'gerritforge:reviewdb-a6a0e4682515f3521897c5f950d1394f4619d928',
+        'polygerrit': 'gerritforge:polygerrit-a6a0e4682515f3521897c5f950d1394f4619d928'
+    ]
 }
 
 class Build {
@@ -42,63 +48,8 @@ class Builds {
     static Map verification = [:]
 }
 
-class GerritCheck {
-    String uuid
-    String changeNum
-    String sha1
-    Build build
-
-    GerritCheck(name, changeNum, sha1, build) {
-        this.uuid = "gerritforge:" + name.replaceAll("(bazel/)", "") +
-            Globals.gerritRepositoryNameSha1Suffix
-        this.changeNum = changeNum
-        this.sha1 = sha1
-        this.build = build
-    }
-
-    def getCheckResultFromBuild() {
-        switch(build.result) {
-            case 'SUCCESS':
-                return "SUCCESSFUL"
-            case 'NOT_BUILT':
-            case 'ABORTED':
-                return "NOT_STARTED"
-            case 'FAILURE':
-            case 'UNSTABLE':
-            default:
-                return "FAILED"
-        }
-    }
-
-    def createCheckPayload() {
-        return JsonOutput.toJson([
-            checker_uuid: uuid,
-            state: getCheckResultFromBuild(),
-            url: "${build.url}consoleText"
-        ])
-    }
-}
-
 def hasChangeNumber() {
     env.GERRIT_CHANGE_NUMBER?.trim()
-}
-
-def postCheck(check) {
-    def gerritPostUrl = Globals.gerritUrl +
-        "a/changes/${check.changeNum}/revisions/${check.sha1}/checks"
-
-    try {
-        def json = check.createCheckPayload()
-        httpRequest(httpMode: 'POST', authentication: Globals.gerritCredentialsId,
-            contentType: 'APPLICATION_JSON', requestBody: json,
-            validResponseCodes: '200', url: gerritPostUrl)
-        echo "----------------------------------------------------------------------------"
-        echo "Gerrit Check: ${check.uuid}=" + check.build.result + " to change " +
-            check.changeNum + "/" + check.sha1
-        echo "----------------------------------------------------------------------------"
-    } catch(Exception e) {
-        echo "ERROR> Failed to post check results to Gerrit: ${e}"
-    }
 }
 
 def queryChangedFiles(url) {
@@ -213,6 +164,20 @@ def getLabelValue(acc, res) {
     }
 }
 
+def getCheckResultFromBuild(build) {
+    switch(build.result) {
+        case 'SUCCESS':
+            return "SUCCESSFUL"
+        case 'NOT_BUILT':
+        case 'ABORTED':
+            return "NOT_STARTED"
+        case 'FAILURE':
+        case 'UNSTABLE':
+        default:
+            return "FAILED"
+    }
+}
+
 def setResult(resultVerify, resultCodeStyle) {
     if (resultVerify == 0 || resultCodeStyle == 0) {
         currentBuild.result = 'ABORTED'
@@ -283,8 +248,10 @@ node ('master') {
             gerritReview(
                 labels: ['Code-Style': resCodeStyle],
                 message: createCodeStyleMsgBody(Builds.codeStyle, resCodeStyle))
-            postCheck(new GerritCheck("codestyle", env.GERRIT_CHANGE_NUMBER,
-                env.GERRIT_PATCHSET_REVISION, Builds.codeStyle))
+            gerritCheck(
+                checks: ["${Globals.checkers['codestyle']}": getCheckResultFromBuild(Builds.codeStyle)],
+                url: "${Builds.codeStyle.url}consoleText"
+            )
 
             def verificationResults = Builds.verification.collect { k, v -> v }
             def resVerify = verificationResults.inject(1) {
@@ -294,10 +261,12 @@ node ('master') {
                 labels: ['Verified': resVerify],
                 message: createVerifyMsgBody(Builds.verification))
 
-            Builds.verification.each { type, build -> postCheck(
-                new GerritCheck(type, env.GERRIT_CHANGE_NUMBER,
-                    env.GERRIT_PATCHSET_REVISION, build)
-            )}
+            Builds.verification.each { type, build ->
+                gerritCheck(
+                    checks: [ "${Globals.checkers[type]}" : getCheckResultFromBuild(build) ],
+                    url: "${build.url}consoleText"
+                )
+            }
 
             setResult(resVerify, resCodeStyle)
         }

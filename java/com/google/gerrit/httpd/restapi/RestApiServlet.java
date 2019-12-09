@@ -1670,18 +1670,37 @@ public class RestApiServlet extends HttpServlet {
     if (!res.isCommitted()) {
       res.reset();
       traceContext.getTraceId().ifPresent(traceId -> res.addHeader(X_GERRIT_TRACE, traceId));
-      StringBuilder msg = new StringBuilder("Internal server error");
       ImmutableList<String> userMessages =
           globals.exceptionHooks.stream()
               .map(h -> h.getUserMessage(err))
               .filter(Optional::isPresent)
               .map(Optional::get)
               .collect(toImmutableList());
+
+      Optional<Integer> statusCode =
+          globals.exceptionHooks.stream()
+              .map(h -> h.getStatusCode(err))
+              .filter(Optional::isPresent)
+              .map(Optional::get)
+              .findFirst();
+      if (statusCode.isPresent() && statusCode.get() < 400) {
+        StringBuilder msg = new StringBuilder();
+        if (userMessages.size() == 1) {
+          msg.append(userMessages.get(0));
+        } else {
+          userMessages.forEach(m -> msg.append("\n* ").append(m));
+        }
+
+        res.setStatus(statusCode.get());
+        logger.atFinest().withCause(err).log("REST call finished: %d", statusCode);
+        return replyText(req, res, true, msg.toString());
+      }
+
+      StringBuilder msg = new StringBuilder("Internal server error");
       if (!userMessages.isEmpty()) {
-        msg.append("\n");
         userMessages.forEach(m -> msg.append("\n* ").append(m));
       }
-      return replyError(req, res, SC_INTERNAL_SERVER_ERROR, msg.toString(), err);
+      return replyError(req, res, statusCode.orElse(SC_INTERNAL_SERVER_ERROR), msg.toString(), err);
     }
     return 0;
   }

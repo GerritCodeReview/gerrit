@@ -9,6 +9,7 @@
 . link:intro-quick.html[Product Overview]
 . link:intro-how-gerrit-works.html[How Gerrit Works]
 . link:intro-gerrit-walkthrough.html[Basic Gerrit Walkthrough]
+.. link:intro-gerrit-walkthrough-github.html[Basic Gerrit Walkthrough -- For GitHub Users]
 . link:dev-community.html[Gerrit Community]
 .. link:dev-contributing.html[Contributor Guide]
 

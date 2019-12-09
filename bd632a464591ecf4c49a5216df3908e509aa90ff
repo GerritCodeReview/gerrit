@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b3bc4e7e_90fcec90",
+        "filename": "tools/dev-hooks/pre-commit",
+        "patchSetId": 9
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-12-09T10:22:34Z",
+      "side": 1,
+      "message": "You can make it executable here already to save the step.",
+      "range": {
+        "startLine": 22,
+        "startChar": 3,
+        "endLine": 22,
+        "endChar": 56
+      },
+      "revId": "bd632a464591ecf4c49a5216df3908e509aa90ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b7f93a31_71d51b3e",
+        "filename": "tools/dev-hooks/pre-commit",
+        "patchSetId": 9
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-12-09T10:22:34Z",
+      "side": 1,
+      "message": "set -u as well ?",
+      "range": {
+        "startLine": 24,
+        "startChar": 4,
+        "endLine": 24,
+        "endChar": 6
+      },
+      "revId": "bd632a464591ecf4c49a5216df3908e509aa90ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ea0e7e8b_2a6535a5",
+        "filename": "tools/dev-hooks/pre-commit",
+        "patchSetId": 9
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-12-09T10:22:34Z",
+      "side": 1,
+      "message": "why?\n\nif you want a nop command, \u0027true\u0027 is probably more self-explanatory.",
+      "range": {
+        "startLine": 34,
+        "startChar": 94,
+        "endLine": 34,
+        "endChar": 98
+      },
+      "revId": "bd632a464591ecf4c49a5216df3908e509aa90ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "13bc520c_db574fa3",
+        "filename": "tools/dev-hooks/pre-commit",
+        "patchSetId": 9
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-12-09T10:22:34Z",
+      "side": 1,
+      "message": "nit: you are inconsistent with ${var} vs $var",
+      "range": {
+        "startLine": 35,
+        "startChar": 7,
+        "endLine": 35,
+        "endChar": 23
+      },
+      "revId": "bd632a464591ecf4c49a5216df3908e509aa90ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

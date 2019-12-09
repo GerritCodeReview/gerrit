@@ -373,7 +373,7 @@
       const comment = e.detail.comment;
       const msg = comment.message;
       const quoteStr = '> ' + msg.replace(NEWLINE_PATTERN, '\n> ') + '\n\n';
-      const response = quoteStr + 'Please Fix';
+      const response = quoteStr + 'Please fix.';
       this._createReplyComment(comment, response, false, true);
     }
 

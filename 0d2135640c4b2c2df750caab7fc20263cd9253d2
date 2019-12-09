@@ -70,6 +70,30 @@
       "revId": "0d2135640c4b2c2df750caab7fc20263cd9253d2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e4b273ba_484427a1",
+        "filename": "Documentation/backup.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-12-09T10:57:15Z",
+      "side": 1,
+      "message": "if we rename master to primary how would you call multi-master ?\nmulti-primary sounds strange ...",
+      "parentUuid": "0a7a6c62_2e1d100c",
+      "range": {
+        "startLine": 179,
+        "startChar": 24,
+        "endLine": 179,
+        "endChar": 30
+      },
+      "revId": "0d2135640c4b2c2df750caab7fc20263cd9253d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -269,25 +269,6 @@ limitations under the License.
           Do you really want to delete the edit?
         </div>
       </gr-dialog>
-      <gr-dialog
-        id="showRevertSubmissionChangesDialog"
-        class="confirmDialog"
-        confirm-label="Close"
-        cancel-label=''
-        on-confirm="_handleShowRevertSubmissionChangesConfirm">
-        <div class="header" slot="header">
-          Reverted Changes
-        </div>
-        <div class="main" slot="main">
-          <template is="dom-repeat" items="[[_revertChanges]]">
-            <div>
-              <a href$="[[item.link]]" target="_blank">
-                Change [[item._number]]
-              </a>
-            </div>
-          </template>
-        </div>
-      </gr-dialog>
     </gr-overlay>
     <gr-js-api-interface id="jsAPI"></gr-js-api-interface>
     <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>

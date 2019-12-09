@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0bbbaaaa_5e4b4a29",
+        "filename": "resources/com/google/gerrit/server/tools/root/hooks/pre-commit",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-12-09T09:48:39Z",
+      "side": 1,
+      "message": "This directory is for hooks that are shipped with Gerrit, ie. ones that are generally useful. \n\nThis one here is specific to developing Gerrit, so it should be somewhere under tools and not here.",
+      "revId": "3e1cbb49874cafca15068d28fc81a9874b2824fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

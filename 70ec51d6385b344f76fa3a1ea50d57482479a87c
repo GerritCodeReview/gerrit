@@ -104,6 +104,24 @@
       "revId": "70ec51d6385b344f76fa3a1ea50d57482479a87c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "41d4c811_ab6bf8e0",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 682,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-12-09T09:47:20Z",
+      "side": 1,
+      "message": "The ProjectQoSFilter uses Jetty\u0027s continuations as a mean to park an http request without\nactually parking the thread. In the servlet 3.0 spec this concept is called asynchronous request processing [1]. It can be worth exploring if we could use the same concept here.\n\nTheoretically, you are correct with your concerns about the \"fair\" processing.\nIn practice we actually see and fight the opposite: heavyweight tasks blocking or\nimpacting too much the lightweight tasks. If a cluster of Jenkins servers all start\ncloning/fetching a large repository at the same time, we could put a significant\nnumber of threads to sleep (wait on semaphore) for significant amount of time (minutes).\nThis is likely to impact the responsiveness of the server for lightweight requests too much.\n\nI am not against the listener concept which you propose here. If neither you nor me have\ntime to explore other possibilities, we can proceed with the listener concept as a\nfirst step towards concurrency limits.\n\n\n[1] https://docs.oracle.com/javaee/7/tutorial/servlets012.htm",
+      "parentUuid": "4a858e65_25580d4d",
+      "revId": "70ec51d6385b344f76fa3a1ea50d57482479a87c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

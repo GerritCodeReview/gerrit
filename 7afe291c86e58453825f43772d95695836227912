@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a6b69e2_2cf0cab0",
+        "filename": "java/com/google/gerrit/server/ExceptionHook.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-12-09T08:45:31Z",
+      "side": 1,
+      "message": "nit: Would feel more natural to me to not negate the name (\"retryWithTrace\")",
+      "range": {
+        "startLine": 74,
+        "startChar": 18,
+        "endLine": 74,
+        "endChar": 23
+      },
+      "revId": "7afe291c86e58453825f43772d95695836227912",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

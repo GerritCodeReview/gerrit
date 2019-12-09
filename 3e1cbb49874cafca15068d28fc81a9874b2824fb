@@ -16,6 +16,24 @@
       "revId": "3e1cbb49874cafca15068d28fc81a9874b2824fb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fefba173_084f193b",
+        "filename": "resources/com/google/gerrit/server/tools/root/hooks/pre-commit",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-12-09T10:04:53Z",
+      "side": 1,
+      "message": "ya thx, moved to `tools/dev-hooks/pre-commit`",
+      "parentUuid": "0bbbaaaa_5e4b4a29",
+      "revId": "3e1cbb49874cafca15068d28fc81a9874b2824fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

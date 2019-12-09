@@ -516,6 +516,77 @@ registering the new listener from a plugin like this:
       .to(MyListener.class);
 ----
 
+[[taskParker]]
+== TaskParkers
+
+It is possible to park `com.google.gerrit.server.git.WorkQueue$Task`s
+before they run without depriving other Tasks of a thread. Parking is
+particularly useful for enforcing resource quotas without blocking other
+resources.  When a task is parked on a maxed out quota it may still be
+desirable to allow other resources to be used unhindered by the quota.
+For example, when there is a desire to limit how many commands a single
+user can run concurrently it is typically also desirable to not prevent
+other users from running commands concurrently, and the Task parking
+mechanism is useful for such a scenario.
+
+The TaskParker interface works well with a Semaphore's `tryAquire()`
+method even when the Semaphore is unavailable. However, blocking should
+not be done with a TaskParker and if it is desired, such as when using a
+Semaphore's `aquire()` method, use a TaskListener interface instead.
+
+To make use of Task parking, implement a
+`com.google.gerrit.server.git.WorkQueue$TaskParker` and register the
+TaskParker from a plugin like this:
+
+[source,java]
+----
+  public class MyParker implements TaskParker {
+    Semaphore semaphore = new Semaphore(3);
+
+    @Override
+    public boolean isReadyToStart(Task<?> task) {
+      try {
+        return sempahore.tryAcquire();
+      } catch (InterruptedException e) {
+      }
+    }
+
+    @Override
+    public void onNotReadyToStart(Task<?> task) {
+      semaphore.release();
+    }
+
+    @Override
+    public void onStart(Task<?> task) {}
+
+    @Override
+    public void onStop(Task<?> task) {
+      semaphore.release();
+    }
+  }
+
+  bind(TaskParker.class)
+      .annotatedWith(Exports.named("MyParker"))
+      .to(MyParker.class);
+----
+
+Before running a Task, the executor will query each TaskParker to see if
+the Task can run by calling `isReadyToStart()`. If any TaskParker
+returns `false` from `isReadyToStart()`, then the Task will get parked
+and the executor will wait until another Task completes before
+attempting to run the parkded task again. It is important to not block
+inside the `isReadyToStart()` method as other TaskParkers may be holding
+resources which they only expect to be held for the duration of the
+Task. Before parking a Task, the executor will call
+`onNotReadyToStart()` on every TaskParker that previously returned
+`true` from `isReadyToStart()`. Calling `onNotReadyToStart()` allows
+those TaskParkers to not only release resources which should not be held
+during the parking period, but also to safely release any resources they
+may have allocated in the `isReadyToStart()` method under the
+expectation that the Task was going to potentially run, thus preventing
+any double allocations of those resources when `isReadyToStart()` is
+eventually called again for the same Task.
+
 [[change-message-modifier]]
 == Change Message Modifier
 

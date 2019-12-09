@@ -41,10 +41,12 @@ import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Delayed;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.PriorityBlockingQueue;
 import java.util.concurrent.RunnableScheduledFuture;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
@@ -78,6 +80,38 @@ public class WorkQueue {
     void onStart(Task<?> task);
 
     void onStop(Task<?> task);
+  }
+
+  /**
+   * Register a TaskParker from a plugin like this:
+   *
+   * <p>bind(TaskParker.class).annotatedWith(Exports.named("MyParker")).to(MyParker.class);
+   */
+  public interface TaskParker extends TaskListener {
+    public static class NoOp extends TaskListener.NoOp implements TaskParker {
+      @Override
+      public boolean isReadyToStart(Task<?> task) {
+        return true;
+      }
+
+      @Override
+      public void onNotReadyToStart(Task<?> task) {}
+    }
+
+    /**
+     * Determine whether a Task is ready to run or whether if should get parked.
+     *
+     * <p>Tasks that are not ready to run will get parked and will not run until all TaskParkers
+     * return True from this method for the Task. This method may get called more than once, but not
+     * before onNotReadyToStart() has been called.
+     */
+    boolean isReadyToStart(Task<?> task);
+
+    /**
+     * This method will get called after a True was returned from isReadyToStart() and another
+     * TaskParker returns False, thus preventing the start.
+     */
+    void onNotReadyToStart(Task<?> task);
   }
 
   public static class Lifecycle implements LifecycleListener {
@@ -272,8 +306,25 @@ public class WorkQueue {
 
   /** An isolated queue. */
   private class Executor extends ScheduledThreadPoolExecutor implements TaskListener {
+    private class ParkedTask implements Comparable<ParkedTask> {
+      public final CountDownLatch latch = new CountDownLatch(1);
+      public final Task<?> task;
+      private final Integer priority = priorityGenerator.getAndIncrement();
+
+      public ParkedTask(Task<?> task) {
+        this.task = task;
+      }
+
+      @Override
+      public int compareTo(ParkedTask o) {
+        return priority.compareTo(o.priority);
+      }
+    }
+
     private final ConcurrentHashMap<Integer, Task<?>> all;
     private final String queueName;
+    private final AtomicInteger priorityGenerator = new AtomicInteger(0);
+    private final PriorityBlockingQueue<ParkedTask> parked = new PriorityBlockingQueue();
 
     Executor(int corePoolSize, final String queueName) {
       super(
@@ -473,6 +524,16 @@ public class WorkQueue {
     @Override
     public void onStart(Task<?> task) {
       if (listeners != null) {
+        if (!isReadyToStart(task)) {
+          incrementCorePoolSizeBy(1);
+          ParkedTask parkedTask = new ParkedTask(task);
+          parked.offer(parkedTask);
+          try {
+            parkedTask.latch.await();
+          } catch (InterruptedException e) {
+          }
+        }
+
         for (Extension<TaskListener> e : listeners) {
           try {
             e.getProvider().get().onStart(task);
@@ -498,6 +559,64 @@ public class WorkQueue {
           }
         }
       }
+
+      updateParked();
+    }
+
+    protected boolean isReadyToStart(Task<?> task) {
+      boolean isReady = true;
+      List<TaskParker> readied = new ArrayList<>();
+      for (Extension<TaskListener> e : listeners) {
+        try {
+          TaskListener listener = e.getProvider().get();
+          if (listener instanceof TaskParker) {
+            TaskParker parker = (TaskParker) listener;
+            if (!parker.isReadyToStart(task)) {
+              isReady = false;
+              break;
+            }
+            readied.add(parker);
+          }
+        } catch (Exception ex) { // Protect operations from unchecked exceptions
+          logger.atSevere().withCause(ex).log(
+              "Error in plugin %s TaskParker(%s) for task %s",
+              e.getPluginName(), e.getExportName(), task.toString());
+        }
+      }
+      if (!isReady) {
+        for (TaskParker parker : readied) {
+          try {
+            parker.onNotReadyToStart(task);
+          } catch (Exception ex) { // Protect operations from unchecked exceptions
+            logger.atSevere().withCause(ex).log("Error in TaskParker for task %s", task.toString());
+          }
+        }
+      }
+      return isReady;
+    }
+
+    public void updateParked() {
+      List<ParkedTask> notReady = new ArrayList<>();
+      ParkedTask ready = parked.poll();
+      while (ready != null && !isReadyToStart(ready.task)) {
+        notReady.add(ready);
+        ready = parked.poll();
+      }
+      parked.addAll(notReady);
+
+      if (ready != null) {
+        incrementCorePoolSizeBy(-1);
+        ready.latch.countDown();
+      }
+    }
+
+    public synchronized void incrementCorePoolSizeBy(int i) {
+      super.setCorePoolSize(getCorePoolSize() + i);
+    }
+
+    @Override
+    public synchronized void setCorePoolSize(int s) {
+      super.setCorePoolSize(s);
     }
   }
 

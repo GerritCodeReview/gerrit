@@ -2,6 +2,69 @@
   "comments": [
     {
       "key": {
+        "uuid": "7e77a584_7c4ffad5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-12-09T09:59:54Z",
+      "side": 1,
+      "message": "What does this mean? Is theer anybody who would copy these by hand?",
+      "range": {
+        "startLine": 13,
+        "startChar": 44,
+        "endLine": 13,
+        "endChar": 58
+      },
+      "revId": "a93083f7b3303c28209b94566702fe182d235590",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cd6879e9_e325bbc4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-12-09T09:59:54Z",
+      "side": 1,
+      "message": "is this the Change-Id string or the Change.Id numeric identifier?",
+      "range": {
+        "startLine": 15,
+        "startChar": 36,
+        "endLine": 15,
+        "endChar": 48
+      },
+      "revId": "a93083f7b3303c28209b94566702fe182d235590",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dc2dfa6f_12bc28ed",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-12-09T09:59:54Z",
+      "side": 1,
+      "message": "What happens if somebody presses \"revert submission\" twice? Wouldn\u0027t that generate the wrong result?",
+      "revId": "a93083f7b3303c28209b94566702fe182d235590",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9ca80579_3f14b222",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 3

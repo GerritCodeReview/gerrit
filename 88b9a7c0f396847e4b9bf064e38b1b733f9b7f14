@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "5fd51cc3_ad364a89",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeField.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2019-12-09T17:28:23Z",
+      "side": 1,
+      "message": "It\u0027s more that there are likely distinct use cases for matching the change # vs change # and patch-set #. i.e. \"What changes have patch sets cherry-picked from any patch set of change \u0027123\u0027?\" vs \"What changes have a patch set cherry-picked from patch set 3 of change \u0027123\u0027?\"\n\nI\u0027m not a lucene/search pro by any means, but I would think you\u0027d want the field to contain only the data you want to match and if the data can easily be store in distinct fields, it should be.",
+      "parentUuid": "0462e03c_575da1b2",
+      "range": {
+        "startLine": 273,
+        "startChar": 51,
+        "endLine": 273,
+        "endChar": 65
+      },
+      "revId": "88b9a7c0f396847e4b9bf064e38b1b733f9b7f14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e61785d0_1b4cef2f",
         "filename": "javatests/com/google/gerrit/acceptance/api/revision/RevisionIT.java",
         "patchSetId": 15

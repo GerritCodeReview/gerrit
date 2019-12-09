@@ -41,10 +41,12 @@ import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Delayed;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.PriorityBlockingQueue;
 import java.util.concurrent.RunnableScheduledFuture;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
@@ -69,13 +71,16 @@ public class WorkQueue {
   public interface TaskListener {
     public static class NoOp implements TaskListener {
       @Override
-      public void onStart(Task<?> task) {}
+      public boolean onStart(Task<?> task) {
+        return true;
+      }
 
       @Override
       public void onStop(Task<?> task) {}
     }
 
-    void onStart(Task<?> task);
+    /** return whether to start. If false, then this will be called again once the next task completes */
+    boolean onStart(Task<?> task);
 
     void onStop(Task<?> task);
   }
@@ -278,16 +283,19 @@ public class WorkQueue {
     }
 
     @Override
-    public void onStart(Task<?> task) {
+    public boolean onStart(Task<?> task) {
       for (Extension<TaskListener> e : listeners) {
         try {
-          e.getProvider().get().onStart(task);
+          if (!e.getProvider().get().onStart(task)) {
+            return false;
+          }
         } catch (Exception ex) { // No checked Exceptions, but protect tasks from plugins.
           logger.atSevere().withCause(ex).log(
               "Error in plugin %s TaskListener(%s) for task %s",
               e.getPluginName(), e.getExportName(), task.toString());
         }
       }
+      return true;
     }
 
     @Override
@@ -306,8 +314,25 @@ public class WorkQueue {
 
   /** An isolated queue. */
   private class Executor extends ScheduledThreadPoolExecutor {
+    private class ThrottledTask implements Comparable<ThrottledTask> {
+      public final CountDownLatch latch = new CountDownLatch(1);
+      public final Task<?> task;
+      private final Integer priority = priorityGenerator.getAndIncrement();
+
+      public ThrottledTask(Task<?> task) {
+        this.task = task;
+      }
+
+      @Override
+      public int compareTo(ThrottledTask o) {
+        return priority.compareTo(o.priority);
+      }
+    }
+
     private final ConcurrentHashMap<Integer, Task<?>> all;
     private final String queueName;
+    private final AtomicInteger priorityGenerator = new AtomicInteger(0);
+    private final PriorityBlockingQueue<ThrottledTask> throttled = new PriorityBlockingQueue();
 
     Executor(int corePoolSize, final String queueName) {
       super(
@@ -470,10 +495,6 @@ public class WorkQueue {
           runnable = ((LoggingContextAwareRunnable) runnable).unwrap();
         }
 
-        if (taskListener == null) {
-          taskListener = new DynamicListener(null);
-        }
-
         if (runnable instanceof ProjectRunnable) {
           task = new ProjectTask<>((ProjectRunnable) runnable, r, this, id, taskListener);
         } else {
@@ -506,6 +527,43 @@ public class WorkQueue {
 
     Collection<Task<?>> getTasks() {
       return all.values();
+    }
+
+    public boolean onStart(Task<?> t) {
+      if (!taskListener.onStart(t)) {
+        ThrottledTask task = new ThrottledTask(t);
+        throttled.offer(task);
+        incrementCorePoolSizeBy(1);
+        try {
+          task.latch.await();
+        } catch (InterruptedException e) {
+        }
+      }
+      return true;
+    }
+
+    public void onStop(Task<?> task) {
+      List<ThrottledTask> notReady = new ArrayList<>();
+      ThrottledTask ready = throttled.poll();
+      while (ready != null && !taskListener.onStart(ready.task)) {
+        notReady.add(ready);
+        ready = throttled.poll();
+      }
+      throttled.addAll(notReady);
+
+      if (ready != null) {
+        incrementCorePoolSizeBy(-1);
+        ready.latch.countDown();
+      }
+    }
+
+    public synchronized void incrementCorePoolSizeBy(int i) {
+      super.setCorePoolSize(getCorePoolSize() + i);
+    }
+
+    @Override
+    public synchronized void setCorePoolSize(int s) {
+      super.setCorePoolSize(s);
     }
   }
 

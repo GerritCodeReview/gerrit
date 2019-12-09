@@ -638,10 +638,9 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
     // However, if there are CPU in abundance and the server is reachable through
     // slow networks, gits with huge amount of refs can benefit from SSH-compression
     // since git does not compress the ref announcement during the handshake.
-    //
-    // Compression can be especially useful when Gerrit slaves are being used
-    // for the larger clones and fetches and the master server mostly takes small
-    // receive-packs.
+    // Compression can be especially useful when Gerrit replica are being used
+    // for the larger clones and fetches and the primary server handling write
+    // operations mostly takes small receive-packs.
 
     if (enableCompression) {
       compressionFactories.add(BuiltinCompressions.zlib);

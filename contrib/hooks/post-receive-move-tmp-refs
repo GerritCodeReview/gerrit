@@ -15,10 +15,10 @@
 # limitations under the License.
 # --------------------------------------------------------
 # Install this hook script as post-receive hook in replicated repositories
-# hosted by a gerrit slave which are updated by push replication from the
-# corresponding gerrit master.
+# hosted by a gerrit replica which are updated by push replication from the
+# corresponding gerrit primary node.
 #
-# In the gerrit master configure the replication plugin to push changes from
+# In the gerrit primary node configure the replication plugin to push changes from
 # refs/changes/ to refs/tmp/changes/
 #   remote.NAME.push = +refs/changes/*:refs/tmp/changes/*
 #   remote.NAME.push = +refs/heads/*:refs/heads/*
@@ -26,26 +26,26 @@
 # And if it's a Gerrit mirror:
 #   remote.NAME.push = +refs/meta/*:refs/meta/*
 #
-# In the replicated repository in the gerrit slave configure
+# In the replicated repository in the gerrit replica configure
 #    receive.hideRefs = refs/changes/
 # in order to not advertise the big number of refs in this namespace when
-# the gerrit master's replication plugin is pushing a change
+# the gerrit primary's replication plugin is pushing a change
 #
 # Whenever a ref under refs/tmp/changes/ is arriving this hook will move it
 # to refs/changes/. This helps to avoid the large overhead of advertising all
-# refs/changes/ refs to the gerrit master when it replicates changes to the
-# slave..
+# refs/changes/ refs to the gerrit primary when it replicates changes to the
+# replica.
 #
 # Make this script executable then link to it in the repository you would like
 # to use it in.
 #   cd /path/to/your/repository.git
 #   ln -sf <shared hooks directory>/post-receive-move-tmp-refs hooks/post-receive
 #
-# If you want to use this by default for repositories on the Gerrit slave you
+# If you want to use this by default for repositories on the Gerrit replica you
 # can set up a git template directory $TEMPLATE_DIR/hooks/post-receive and
 # configure init.templateDir in the ~/.gitconfig of the user that receives the
 # replication on the mirror host. That way when a new repository is created on
-# the master and hence on the mirror (if configured that way) it will
+# the primary and hence on the mirror (if configured that way) it will
 # automatically have the "tmp-refs" commit hook installed.
 # See https://git-scm.com/docs/git-init#_template_directory for details.
 

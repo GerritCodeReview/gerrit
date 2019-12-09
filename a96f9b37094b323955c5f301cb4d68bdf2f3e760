@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "61bdc316_53808e2b",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 309,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-12-09T18:33:48Z",
+      "side": 1,
+      "message": "seems you can just do `[\u0027connectEnd\u0027, \u0027requestStart\u0027, ].forEach(event \u003d\u003e this.performanceTiming[event], event)` instead",
+      "revId": "a96f9b37094b323955c5f301cb4d68bdf2f3e760",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "35b57a3c_1d14fe7a",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 335,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-12-09T18:33:48Z",
+      "side": 1,
+      "message": "what does this true mean ? can you add an inline comment for it ? `/* xxx\u003d */ `. Better to restructure the `reporter` method to accept an object, but seems out of the scope.",
+      "revId": "a96f9b37094b323955c5f301cb4d68bdf2f3e760",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

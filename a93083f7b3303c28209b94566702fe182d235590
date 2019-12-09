@@ -1,0 +1,153 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9ca80579_3f14b222",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 6020,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-09T07:31:45Z",
+      "side": 1,
+      "message": "numeric ID",
+      "range": {
+        "startLine": 6020,
+        "startChar": 24,
+        "endLine": 6020,
+        "endChar": 26
+      },
+      "revId": "a93083f7b3303c28209b94566702fe182d235590",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6f5cf22b_7c2603f0",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 6022,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-09T07:31:45Z",
+      "side": 1,
+      "message": "Please add a sentence, saying that callers must not rely on the format of the submission ID, so that we can change the format when needed.",
+      "revId": "a93083f7b3303c28209b94566702fe182d235590",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3b87d0e3_ca39ba2b",
+        "filename": "java/com/google/gerrit/server/git/MergedByPushOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-09T07:31:45Z",
+      "side": 1,
+      "message": "Maybe change the argument type for this method from String to SubmissionId.",
+      "range": {
+        "startLine": 140,
+        "startChar": 11,
+        "endLine": 140,
+        "endChar": 26
+      },
+      "revId": "a93083f7b3303c28209b94566702fe182d235590",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d5f64be6_1b7db364",
+        "filename": "java/com/google/gerrit/server/git/receive/ReplaceOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-09T07:31:45Z",
+      "side": 1,
+      "message": "Instead of creating a new ChangeData instance here, can use extend the factory of this class with an addition arg to pass in the topic?",
+      "range": {
+        "startLine": 244,
+        "startChar": 19,
+        "endLine": 247,
+        "endChar": 36
+      },
+      "revId": "a93083f7b3303c28209b94566702fe182d235590",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fb62c3e5_8c42a2b5",
+        "filename": "java/com/google/gerrit/server/logging/SubmissionId.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-09T07:31:45Z",
+      "side": 1,
+      "message": "Why is this constructor needed?",
+      "range": {
+        "startLine": 22,
+        "startChar": 2,
+        "endLine": 24,
+        "endChar": 3
+      },
+      "revId": "a93083f7b3303c28209b94566702fe182d235590",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ad5b0592_5f7f7b16",
+        "filename": "java/com/google/gerrit/server/logging/SubmissionId.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-09T07:31:45Z",
+      "side": 1,
+      "message": "Change this to Change.Id.",
+      "range": {
+        "startLine": 26,
+        "startChar": 22,
+        "endLine": 26,
+        "endChar": 28
+      },
+      "revId": "a93083f7b3303c28209b94566702fe182d235590",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7b000094_68f24e2d",
+        "filename": "java/com/google/gerrit/server/logging/SubmissionId.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-09T07:31:45Z",
+      "side": 1,
+      "message": "Should there be another constructor that accepts a Change as arg?",
+      "revId": "a93083f7b3303c28209b94566702fe182d235590",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -497,6 +497,30 @@
     },
     {
       "key": {
+        "uuid": "b5dfe57b_90868119",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeData.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 835,
+      "author": {
+        "id": 1012449
+      },
+      "writtenOn": "2019-12-09T22:05:34Z",
+      "side": 1,
+      "message": "Turns out, this method is actually not being used. I have removed it.",
+      "parentUuid": "43b1714c_0a9cfd9d",
+      "range": {
+        "startLine": 835,
+        "startChar": 8,
+        "endLine": 835,
+        "endChar": 20
+      },
+      "revId": "29a4015a72e1212b8f9fc6db1bd0082bc3e705b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cc65bfff_82737167",
         "filename": "java/com/google/gerrit/server/query/change/CherryPickOfPredicate.java",
         "patchSetId": 14

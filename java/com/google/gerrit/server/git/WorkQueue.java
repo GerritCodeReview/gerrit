@@ -41,10 +41,12 @@ import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Delayed;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+import java.util.concurrent.PriorityBlockingQueue;
 import java.util.concurrent.RunnableScheduledFuture;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
@@ -78,6 +80,38 @@ public class WorkQueue {
     void onStart(Task<?> task);
 
     void onStop(Task<?> task);
+  }
+
+  /**
+   * Register a TaskThrottle from a plugin like this:
+   *
+   * <p>bind(TaskThrottle.class).annotatedWith(Exports.named("MyThrottle")).to(MyThrottle.class);
+   */
+  public interface TaskThrottle extends TaskListener {
+    public static class NoOp extends TaskListener.NoOp implements TaskThrottle {
+      @Override
+      public boolean isReadyToStart(Task<?> task) {
+        return true;
+      }
+
+      @Override
+      public void onNotReadyToStart(Task<?> task) {}
+    }
+
+    /**
+     * Determine whether a Task is ready to run or whether if should get Throttled.
+     *
+     * <p>Tasks that are not ready to run will get throttled and will not run until all
+     * TaskThrottles return True from this method for the Task. This method may get called more than
+     * once, but not before onNotReadyToStart() has been called.
+     */
+    boolean isReadyToStart(Task<?> task);
+
+    /**
+     * This method will get called after a True was returned from isReadyToStart() and another
+     * TaskThrottle returns False, thus preventing the start.
+     */
+    void onNotReadyToStart(Task<?> task);
   }
 
   public static class Lifecycle implements LifecycleListener {
@@ -272,8 +306,25 @@ public class WorkQueue {
 
   /** An isolated queue. */
   private class Executor extends ScheduledThreadPoolExecutor implements TaskListener {
+    private class ThrottledTask implements Comparable<ThrottledTask> {
+      public final CountDownLatch latch = new CountDownLatch(1);
+      public final Task<?> task;
+      private final Integer priority = priorityGenerator.getAndIncrement();
+
+      public ThrottledTask(Task<?> task) {
+        this.task = task;
+      }
+
+      @Override
+      public int compareTo(ThrottledTask o) {
+        return priority.compareTo(o.priority);
+      }
+    }
+
     private final ConcurrentHashMap<Integer, Task<?>> all;
     private final String queueName;
+    private final AtomicInteger priorityGenerator = new AtomicInteger(0);
+    private final PriorityBlockingQueue<ThrottledTask> throttled = new PriorityBlockingQueue();
 
     Executor(int corePoolSize, final String queueName) {
       super(
@@ -473,6 +524,16 @@ public class WorkQueue {
     @Override
     public void onStart(Task<?> task) {
       if (listeners != null) {
+        if (!isReadyToStart(task)) {
+          incrementCorePoolSizeBy(1);
+          ThrottledTask throttledTask = new ThrottledTask(task);
+          throttled.offer(throttledTask);
+          try {
+            throttledTask.latch.await();
+          } catch (InterruptedException e) {
+          }
+        }
+
         for (Extension<TaskListener> e : listeners) {
           try {
             e.getProvider().get().onStart(task);
@@ -498,6 +559,65 @@ public class WorkQueue {
           }
         }
       }
+
+      updateThrottled();
+    }
+
+    protected boolean isReadyToStart(Task<?> task) {
+      boolean isReady = true;
+      List<TaskThrottle> readied = new ArrayList<>();
+      for (Extension<TaskListener> e : listeners) {
+        try {
+          TaskListener listener = e.getProvider().get();
+          if (listener instanceof TaskThrottle) {
+            TaskThrottle throttle = (TaskThrottle) listener;
+            if (!throttle.isReadyToStart(task)) {
+              isReady = false;
+              break;
+            }
+            readied.add(throttle);
+          }
+        } catch (Exception ex) { // No checked Exceptions, but protect tasks from plugins.
+          logger.atSevere().withCause(ex).log(
+              "Error in plugin %s TaskThrottle(%s) for task %s",
+              e.getPluginName(), e.getExportName(), task.toString());
+        }
+      }
+      if (!isReady) {
+        for (TaskThrottle throttle : readied) {
+          try {
+            throttle.onNotReadyToStart(task);
+          } catch (Exception ex) { // No checked Exceptions, but protect tasks from plugins.
+            logger.atSevere().withCause(ex).log(
+                "Error in TaskThrottle for task %s", task.toString());
+          }
+        }
+      }
+      return isReady;
+    }
+
+    public void updateThrottled() {
+      List<ThrottledTask> notReady = new ArrayList<>();
+      ThrottledTask ready = throttled.poll();
+      while (ready != null && !isReadyToStart(ready.task)) {
+        notReady.add(ready);
+        ready = throttled.poll();
+      }
+      throttled.addAll(notReady);
+
+      if (ready != null) {
+        incrementCorePoolSizeBy(-1);
+        ready.latch.countDown();
+      }
+    }
+
+    public synchronized void incrementCorePoolSizeBy(int i) {
+      super.setCorePoolSize(getCorePoolSize() + i);
+    }
+
+    @Override
+    public synchronized void setCorePoolSize(int s) {
+      super.setCorePoolSize(s);
     }
   }
 

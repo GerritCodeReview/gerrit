@@ -510,6 +510,59 @@ registering the new listener from a plugin like this:
       .to(MyListener.class);
 ----
 
+[[taskThrottles]]
+== WorkQueue.TaskThrottles
+
+It is possible to throttle `com.google.gerrit.server.git.WorkQueue$Task`s
+before they run without depriving other tasks of a thread by implementing
+a `com.google.gerrit.server.git.WorkQueue$TaskThrottle` and registering the
+TaskThrottle from a plugin like this:
+
+[source,java]
+----
+  public class MyThrottle implements TaskThrottle {
+    Semaphore semaphore = new Semaphore(3);
+
+    @Override
+    public boolean isReadyToStart(Task<?> task) {
+      try {
+        return sempahore.tryAcquire();
+      } catch (InterruptedException e) {
+      }
+    }
+
+    @Override
+    public void onNotReadyToStart(Task<?> task) {
+      semaphore.release();
+    }
+
+    @Override
+    public void onStart(Task<?> task) {}
+
+    @Override
+    public void onStop(Task<?> task) {
+      semaphore.release();
+    }
+  }
+
+  bind(TaskTrottle.class)
+      .annotatedWith(Exports.named("MyThrottle"))
+      .to(MyThrottle.class);
+----
+
+Before running a Task, the executor will query each TaskThrottle to see if
+the Task can run by calling `isReadyToStart()`. If any TaskThrottle
+returns `False` from `isReadyToStart()`, then the Task will get parked and
+the executor will wait until another Task completes before attempting to
+run the throttled task again. Before throttling a Task, the executor will
+call `onNotReadyToStart()` on every TaskThrottle that previously returned
+`True` from `isReadyToStart()`. Calling `onNotReadyToStart()` allows those
+TaskThrottles to safely release any resources they may have allocated in
+the `isReadyToStart()` method under the expectation that the Task was
+going to potentially run, thus preventing any double allocations of those
+resources when `isReadyToStart()` is eventually called again for the same
+Task.
+
 [[change-message-modifier]]
 == Change Message Modifier
 

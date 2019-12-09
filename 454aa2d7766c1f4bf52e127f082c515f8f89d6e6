@@ -22,6 +22,30 @@
       "revId": "454aa2d7766c1f4bf52e127f082c515f8f89d6e6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e735d7a8_f5bd03f1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1091607
+      },
+      "writtenOn": "2019-12-09T23:26:08Z",
+      "side": 1,
+      "message": "Done. (\"Bug: \" is automatically added by my editor when I upload a CL. Is the best practice here to list a bug # when there is one, and to omit the line when there is no relevant bug? (In Chromium, the best practice is to list \"Bug: none\" when there is no relevant bug, as an acknowledgement that the CL author thought about it.)",
+      "parentUuid": "20a25116_a27e381f",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 9
+      },
+      "revId": "454aa2d7766c1f4bf52e127f082c515f8f89d6e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

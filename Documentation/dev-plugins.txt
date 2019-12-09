@@ -551,6 +551,105 @@ and registering the new listener like this:
       .to(MyListener.class);
 ----
 
+Blocking inside onStop() is a good choice for QOS limits which are
+attempting to restrict total usage of resources as might be done to
+to prevent a server overload. In these cases, when a server's resources
+are being exhausted, it is important to throttle all Tasks, and blocking
+the current thread from being used by any Task then makes sense. However,
+Task parking (see below) is more appropriate if it desirable to limit a
+specific resource usage in favor of other resources, such as when
+prioritization or fairness policies are desired.
+
+[[taskParker]]
+== TaskParkers
+
+It is possible to park `com.google.gerrit.server.git.WorkQueue$Task`s
+before they run without depriving other Tasks of a thread. Parking is
+particularly useful for prioritizing certain Tasks based on resource
+quotas without blocking Tasks not using those resources. For example,
+when there is a desire to limit how many commands a single user can run
+concurrently it is typically also desirable to not do this by
+restricting the total amount of concurrently running commands by all to
+the same limit. The Task parking mechanism is useful for such Task
+limiting scenarios.
+
+The TaskParker interface works well with a Semaphore's `tryAquire()`
+method even when the Semaphore is unavailable. However, blocking should
+not be done with a TaskParker and if it is desired, such as when using a
+Semaphore's `aquire()` method, use a TaskListener interface instead.
+
+To make use of Task parking, implement a
+`com.google.gerrit.server.git.WorkQueue$TaskParker` and register the
+TaskParker from a plugin like this:
+
+[source,java]
+----
+  public class MyParker implements TaskParker {
+    Semaphore semaphore = new Semaphore(3);
+
+    @Override
+    public boolean isReadyToStart(Task<?> task) {
+      try {
+        return sempahore.tryAcquire();
+      } catch (InterruptedException e) {
+      }
+    }
+
+    @Override
+    public void onNotReadyToStart(Task<?> task) {
+      semaphore.release();
+    }
+
+    @Override
+    public void onStart(Task<?> task) {}
+
+    @Override
+    public void onStop(Task<?> task) {
+      semaphore.release();
+    }
+  }
+
+  bind(TaskParker.class)
+      .annotatedWith(Exports.named("MyParker"))
+      .to(MyParker.class);
+----
+
+Before running a Task, the executor will query each TaskParker to see
+if the Task may be run by calling `isReadyToStart()`. If any TaskParker
+returns `false` from `isReadyToStart()`, then the Task will get parked
+and the executor will wait until another Task completes before
+attempting to run a parked task again.
+
+Since parked tasks are not actually running and consuming resources,
+they generally should also not be contributing towards those resouce
+quotas which did not cause the task to be parked. For this reason, once
+it is determined that a Task will be parked, the executor will call
+`onNotReadyToStart()` on every TaskParker that previously returned `true`
+from `isReadyToStart()`. This allows those TaskParkers to reduce their
+resource usage counts which they bumped up in `isReadyToStart()` with
+the belief that the Task may run. Since the Task is not running and the
+resource is not being used, reducing the resource usage count allows
+other Tasks needing that resource to run while the Task is parked.
+
+Once a non parked Task completes, the executor will attempt to run
+parked Tasks (in the order in which they were parked) by again calling
+`isReadyToStart()` on the TaskParkers, even the TaskParkers which
+previously returned a `true` before the Task was parked. This is
+neccessary because allthough a Task may not have exceeded a specific
+resource limit before it was parked, another Task may since have been
+allowed to run and its usage of that resource may now cause the parked
+task under evaluation to need to be throttled and parked again.
+
+Note, the reason that it is important to not block inside the
+`isReadyToStart()` method is to avoid delaying the executor from calling
+`onNotReadyToStart()` on other TaskParkers holding resources, as this
+would prevent them from freeing those resources. Also, just as it is
+important to later release any resources acquired within
+`isReadyToStart()` in `onStop()`, it is even more important to release
+those resources in `onNotReadyToStart()` since `isReadyToStart()` may
+be called many times per TaskParker, but `onStop()` will only ever be
+be called once.
+
 [[change-message-modifier]]
 == Change Message Modifier
 

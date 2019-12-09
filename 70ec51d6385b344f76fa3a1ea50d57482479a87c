@@ -122,6 +122,24 @@
       "revId": "70ec51d6385b344f76fa3a1ea50d57482479a87c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cbc0bf2c_cc370975",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 682,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-12-09T10:44:14Z",
+      "side": 1,
+      "message": "org.eclipse.jgit.lfs.server implements an asynchronous servlet FileLfsServlet [2] to increase scalability for transfer of lfs objects. Here is the corresponding ObjectDownloadListener [3] and ObjectUploadListener [4].\n\nImplementing that was a bit tricky, see the discussion and links to videos recommended by the jetty team explaining the pitfalls of implementing async servlets in [5].\n\n[2] https://git.eclipse.org/r/plugins/gitiles/jgit/jgit/+/master/org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/fs/FileLfsServlet.java#64\n[3] https://git.eclipse.org/r/plugins/gitiles/jgit/jgit/+/master/org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/fs/ObjectDownloadListener.java#63\n[4] https://git.eclipse.org/r/plugins/gitiles/jgit/jgit/+/master/org.eclipse.jgit.lfs.server/src/org/eclipse/jgit/lfs/server/fs/ObjectUploadListener.java#67\n[5] https://github.com/eclipse/jetty.project/issues/2911",
+      "parentUuid": "41d4c811_ab6bf8e0",
+      "revId": "70ec51d6385b344f76fa3a1ea50d57482479a87c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

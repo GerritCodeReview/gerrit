@@ -53,13 +53,17 @@ public class RetryableAction<T> {
   }
 
   private final RetryHelper retryHelper;
-  private final ActionType actionType;
+  private final String actionType;
   private final Action<T> action;
   private final RetryHelper.Options.Builder options = RetryHelper.options();
   private final List<Predicate<Throwable>> exceptionPredicates = new ArrayList<>();
 
   RetryableAction(
       RetryHelper retryHelper, ActionType actionType, String actionName, Action<T> action) {
+    this(retryHelper, requireNonNull(actionType, "actionType").name(), actionName, action);
+  }
+
+  RetryableAction(RetryHelper retryHelper, String actionType, String actionName, Action<T> action) {
     this.retryHelper = requireNonNull(retryHelper, "retryHelper");
     this.actionType = requireNonNull(actionType, "actionType");
     this.action = requireNonNull(action, "action");

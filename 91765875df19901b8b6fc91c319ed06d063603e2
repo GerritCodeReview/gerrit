@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "9424e338_f261327d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-event-interface/gr-event-interface.js",
+        "patchSetId": 13
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-12-10T13:35:18Z",
+      "side": 1,
+      "message": "ya me too. I think its from past and I forgot to remove it..",
+      "parentUuid": "677c3af7_3c663241",
+      "revId": "91765875df19901b8b6fc91c319ed06d063603e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d6616078_27b20d8c",
         "filename": "polygerrit-ui/app/elements/shared/gr-event-interface/gr-event-interface.js",
         "patchSetId": 13
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "239a1557_e011ced9",
+        "filename": "polygerrit-ui/app/elements/shared/gr-event-interface/gr-event-interface.js",
+        "patchSetId": 13
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-12-10T13:35:18Z",
+      "side": 1,
+      "message": "I wrote myself based on the interface description and also from past experience of working with angualr, so should not be.",
+      "parentUuid": "d6616078_27b20d8c",
+      "revId": "91765875df19901b8b6fc91c319ed06d063603e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dbdabf1d_df1772d5",
         "filename": "polygerrit-ui/app/elements/shared/gr-event-interface/gr-event-interface.js",
         "patchSetId": 13
@@ -50,6 +86,24 @@
       "revId": "91765875df19901b8b6fc91c319ed06d063603e2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ae301031_30a80bab",
+        "filename": "polygerrit-ui/app/elements/shared/gr-event-interface/gr-event-interface.js",
+        "patchSetId": 13
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-12-10T13:35:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dbdabf1d_df1772d5",
+      "revId": "91765875df19901b8b6fc91c319ed06d063603e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

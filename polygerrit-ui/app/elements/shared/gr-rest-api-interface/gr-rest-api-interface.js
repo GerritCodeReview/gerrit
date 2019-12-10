@@ -850,11 +850,7 @@
     }
 
     getLoggedIn() {
-      return this.getAccount().then(account => {
-        return account != null;
-      }).catch(() => {
-        return false;
-      });
+      return this._auth.authCheck();
     }
 
     getIsAdmin() {

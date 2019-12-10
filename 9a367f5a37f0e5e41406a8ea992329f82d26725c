@@ -121,6 +121,30 @@
     },
     {
       "key": {
+        "uuid": "3306e001_a2bd9d75",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-submission-dialog/gr-confirm-revert-submission-dialog.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-12-10T16:08:37Z",
+      "side": 1,
+      "message": "\"Submitted together\" doesn\u0027t directly relate to topic, but they do correlate. It is in fact confusing.\n\nSubmission-id in the future will be \"ChangeId-topic\" or \"ChangeId\", so if the submission has a topic, the revert submission will be:\nRevert Submission $changeId-$topic\nwhich is pretty close to what you suggested,isn\u0027t it?",
+      "parentUuid": "3e37239d_5e21073e",
+      "range": {
+        "startLine": 53,
+        "startChar": 49,
+        "endLine": 53,
+        "endChar": 61
+      },
+      "revId": "9a367f5a37f0e5e41406a8ea992329f82d26725c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6551cc5e_dd075594",
         "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-submission-dialog/gr-confirm-revert-submission-dialog.js",
         "patchSetId": 8
@@ -186,6 +210,24 @@
       "side": 1,
       "message": "Maybe just cut off after 50(?) characters and show \"...\"? Would be an easy change and extremely useful for the user.",
       "parentUuid": "a3a3cd27_1752f8fb",
+      "revId": "9a367f5a37f0e5e41406a8ea992329f82d26725c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0b36db6d_fa5248d2",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-submission-dialog/gr-confirm-revert-submission-dialog.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-12-10T16:08:37Z",
+      "side": 1,
+      "message": "Isn\u0027t 50 too much?\n\"Change-Id: I8fee2fb06acb27822e370c5b5ec4127bc27bb460\" is already size 52. Maybe we can just do the first 15 characters of the title like that:\nChange-Id: I8fee2fb06acb27822e370c5b5ec4127bc27bb460 (Title of the change..)",
+      "parentUuid": "ba02737b_82ca4f49",
       "revId": "9a367f5a37f0e5e41406a8ea992329f82d26725c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

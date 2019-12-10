@@ -145,6 +145,30 @@
     },
     {
       "key": {
+        "uuid": "3ad46c68_b482aad6",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-submission-dialog/gr-confirm-revert-submission-dialog.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-10T16:11:54Z",
+      "side": 1,
+      "message": "To add on this. I agree that having 2 revert actions with similar labels is confusing for users. This is why I suggested to have a single revert action with a dialog (see details in b/144643586).",
+      "parentUuid": "3306e001_a2bd9d75",
+      "range": {
+        "startLine": 53,
+        "startChar": 49,
+        "endLine": 53,
+        "endChar": 61
+      },
+      "revId": "9a367f5a37f0e5e41406a8ea992329f82d26725c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6551cc5e_dd075594",
         "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-submission-dialog/gr-confirm-revert-submission-dialog.js",
         "patchSetId": 8

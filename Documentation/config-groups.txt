@@ -103,7 +103,7 @@ Group] reindex the affected groups manually.
 
 == Replication
 
-In a replicated setting (eg. backups and or master/replica
-configurations), all refs in the `All-Users` project must be copied
-onto all replicas, including `refs/groups/*`, `refs/meta/group-names`
-and `refs/sequences/groups`.
+In a replicated setting (eg. backups and or primary/replica configurations), all
+refs in the `All-Users` project on primary nodes must be copied onto all
+replicas, including `refs/groups/*`, `refs/meta/group-names` and
+`refs/sequences/groups`.

@@ -306,7 +306,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     requestScopeOperations.setApiUser(user.id());
 
     // watch keyword in project as user
-    watch(watchedProject, "multimaster");
+    watch(watchedProject, "multiprimary");
 
     // push a change with keyword -> should trigger email notification
     requestScopeOperations.setApiUser(admin.id());
@@ -314,7 +314,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
         cloneProject(Project.nameKey(watchedProject), admin);
     PushOneCommit.Result r =
         pushFactory
-            .create(admin.newIdent(), watchedRepo, "Document multimaster setup", "a.txt", "a1")
+            .create(admin.newIdent(), watchedRepo, "Document multiprimary setup", "a.txt", "a1")
             .to("refs/for/master");
     r.assertOkStatus();
 
@@ -323,7 +323,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     assertThat(messages).hasSize(1);
     Message m = messages.get(0);
     assertThat(m.rcpt()).containsExactly(user.getEmailAddress());
-    assertThat(m.body()).contains("Change subject: Document multimaster setup\n");
+    assertThat(m.body()).contains("Change subject: Document multiprimary setup\n");
     assertThat(m.body()).contains("Gerrit-PatchSet: 1\n");
     sender.clear();
 
@@ -418,7 +418,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     requestScopeOperations.setApiUser(user.id());
 
     // watch keyword in project as user
-    watch(allProjects.get(), "multimaster");
+    watch(allProjects.get(), "multiprimary");
 
     // push a change with keyword to any project -> should trigger email
     // notification
@@ -426,7 +426,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     TestRepository<InMemoryRepository> anyRepo = cloneProject(Project.nameKey(anyProject), admin);
     PushOneCommit.Result r =
         pushFactory
-            .create(admin.newIdent(), anyRepo, "Document multimaster setup", "a.txt", "a1")
+            .create(admin.newIdent(), anyRepo, "Document multiprimary setup", "a.txt", "a1")
             .to("refs/for/master");
     r.assertOkStatus();
 
@@ -435,7 +435,7 @@ public class ProjectWatchIT extends AbstractDaemonTest {
     assertThat(messages).hasSize(1);
     Message m = messages.get(0);
     assertThat(m.rcpt()).containsExactly(user.getEmailAddress());
-    assertThat(m.body()).contains("Change subject: Document multimaster setup\n");
+    assertThat(m.body()).contains("Change subject: Document multiprimary setup\n");
     assertThat(m.body()).contains("Gerrit-PatchSet: 1\n");
     sender.clear();
 

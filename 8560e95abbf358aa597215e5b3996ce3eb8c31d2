@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "2e914c9e_fb638126",
+        "filename": "polygerrit-ui/app/elements/shared/gr-event-interface/gr-event-interface.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-12-10T10:21:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bda709a8_1741ff75",
+      "revId": "8560e95abbf358aa597215e5b3996ce3eb8c31d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2ab32dc1_4387a386",
         "filename": "polygerrit-ui/app/elements/shared/gr-event-interface/gr-event-interface.js",
         "patchSetId": 11
@@ -33,6 +51,24 @@
       "revId": "8560e95abbf358aa597215e5b3996ce3eb8c31d2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "14d05b2b_55b09930",
+        "filename": "polygerrit-ui/app/elements/shared/gr-event-interface/gr-event-interface.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-12-10T10:21:47Z",
+      "side": 1,
+      "message": "I agree. I decide to remove this entirely to avoid misuse. And for now I just copied this part to support those methods on Gerrit only.",
+      "parentUuid": "2ab32dc1_4387a386",
+      "revId": "8560e95abbf358aa597215e5b3996ce3eb8c31d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

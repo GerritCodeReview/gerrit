@@ -98,6 +98,30 @@
     },
     {
       "key": {
+        "uuid": "a7669003_bc04c420",
+        "filename": "javatests/com/google/gerrit/integration/git/GitProtocolV2IT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 321,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-12-10T12:04:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8b1e2497_8e60ea45",
+      "range": {
+        "startLine": 321,
+        "startChar": 6,
+        "endLine": 321,
+        "endChar": 90
+      },
+      "revId": "97cfc7aab0d64e9479a0bcdc329ffbc1345cb03c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f30cb57f_3be0caa5",
         "filename": "javatests/com/google/gerrit/integration/git/GitProtocolV2IT.java",
         "patchSetId": 1
@@ -118,6 +142,30 @@
       "revId": "97cfc7aab0d64e9479a0bcdc329ffbc1345cb03c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7c94b690_44595e2c",
+        "filename": "javatests/com/google/gerrit/integration/git/GitProtocolV2IT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 334,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-12-10T12:04:16Z",
+      "side": 1,
+      "message": "Yes, I believe it is covered already.",
+      "parentUuid": "f30cb57f_3be0caa5",
+      "range": {
+        "startLine": 334,
+        "startChar": 6,
+        "endLine": 334,
+        "endChar": 63
+      },
+      "revId": "97cfc7aab0d64e9479a0bcdc329ffbc1345cb03c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

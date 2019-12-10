@@ -35,6 +35,7 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.common.ChangeInput;
+import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.group.SystemGroupBackend;
 import com.google.inject.Inject;
@@ -47,12 +48,15 @@ import org.junit.Test;
 
 @UseSsh
 public class GitProtocolV2IT extends StandaloneSiteTest {
+  private static final String ADMIN_PASSWORD = "secret";
   private final String[] SSH_KEYGEN_CMD =
       new String[] {"ssh-keygen", "-t", "rsa", "-q", "-P", "", "-f"};
   private final String[] GIT_LS_REMOTE =
       new String[] {"git", "-c", "protocol.version=2", "ls-remote", "-o", "trace=12345"};
   private final String[] GIT_CLONE_MIRROR =
       new String[] {"git", "-c", "protocol.version=2", "clone", "--mirror"};
+  private final String[] GIT_FETCH = new String[] {"git", "-c", "protocol.version=2", "fetch"};
+  private final String[] GIT_INIT = new String[] {"git", "init"};
   private final String GIT_SSH_COMMAND =
       "ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -i";
 
@@ -61,6 +65,7 @@ public class GitProtocolV2IT extends StandaloneSiteTest {
   @Inject private ProjectOperations projectOperations;
   @Inject private @TestSshServerAddress InetSocketAddress sshAddress;
   @Inject private @GerritServerConfig Config config;
+  @Inject private AllProjectsName allProjectsName;
 
   @BeforeClass
   public static void assertGitClientVersion() throws Exception {
@@ -131,7 +136,7 @@ public class GitProtocolV2IT extends StandaloneSiteTest {
               .commit;
 
       // Prepare new change on secret branch
-      in = new ChangeInput(project.get(), "secret", "Test secret change");
+      in = new ChangeInput(project.get(), ADMIN_PASSWORD, "Test secret change");
       in.newBranch = true;
 
       // Create new change and retrieve SHA1 for the created patch set
@@ -257,9 +262,82 @@ public class GitProtocolV2IT extends StandaloneSiteTest {
     }
   }
 
+  @Test
+  public void testGitWireProtocolV2FetchIndividualRef() throws Exception {
+    try (ServerContext ctx = startServer()) {
+      ctx.getInjector().injectMembers(this);
+
+      // Setup admin password
+      gApi.accounts().id(admin.username()).setHttpPassword(ADMIN_PASSWORD);
+
+      // Get authenticated Git/HTTP URL
+      String urlWithCredentials =
+          config
+              .getString("gerrit", null, "canonicalweburl")
+              .replace("http://", "http://" + admin.username() + ":" + ADMIN_PASSWORD + "@");
+
+      // Create project
+      Project.NameKey privateProject = Project.nameKey("private-project");
+      gApi.projects().create(privateProject.get());
+
+      // Set protocol.version=2 in target repository
+      execute(
+          ImmutableList.of("git", "config", "protocol.version", "2"),
+          sitePaths
+              .site_path
+              .resolve("git")
+              .resolve(privateProject.get() + Constants.DOT_GIT)
+              .toFile());
+
+      // Disallow general read permissions for anonymous users
+      projectOperations
+          .project(allProjectsName)
+          .forUpdate()
+          .add(deny(Permission.READ).ref("refs/*").group(SystemGroupBackend.ANONYMOUS_USERS))
+          .add(
+              allow(Permission.READ)
+                  .ref("refs/heads/master")
+                  .group(SystemGroupBackend.REGISTERED_USERS))
+          .update();
+
+      // Set up project permission to allow registered users fetching changes/*
+      projectOperations
+          .project(privateProject)
+          .forUpdate()
+          .add(
+              allow(Permission.READ)
+                  .ref("refs/changes/*")
+                  .group(SystemGroupBackend.REGISTERED_USERS))
+          .update();
+
+      // Create new change and retrieve refs for the created patch set
+      ChangeInput visibleChangeIn =
+          new ChangeInput(privateProject.get(), "master", "Test private change");
+      visibleChangeIn.newBranch = true;
+      int visibleChangeNumber = gApi.changes().create(visibleChangeIn).info()._number;
+      Change.Id changeId = Change.id(visibleChangeNumber);
+      String visibleChangeNumberRef = RefNames.patchSetRef(PatchSet.id(changeId, 1));
+
+      // Fetch a single ref using git wire protocol v2 over HTTP with authentication
+      execute(GIT_INIT);
+
+      String outFetchRef =
+          execute(
+              ImmutableList.<String>builder()
+                  .add(GIT_FETCH)
+                  .add(urlWithCredentials + "/" + privateProject.get())
+                  .add(visibleChangeNumberRef)
+                  .build(),
+              ImmutableMap.of("GIT_TRACE_PACKET", "1"));
+
+      assertThat(outFetchRef).contains("git< version 2");
+      assertThat(outFetchRef).contains(visibleChangeNumberRef);
+    }
+  }
+
   private void setUpUserAuthentication(String username) throws Exception {
     // Assign HTTP password to user
-    gApi.accounts().id(username).setHttpPassword("secret");
+    gApi.accounts().id(username).setHttpPassword(ADMIN_PASSWORD);
 
     // Generate private/public key for user
     execute(
@@ -283,6 +361,10 @@ public class GitProtocolV2IT extends StandaloneSiteTest {
     assertThat(out).contains("refs/changes/01/1/1");
     assertThat(out).contains("refs/changes/01/1/meta");
     assertThat(out).contains(commit);
+  }
+
+  private String execute(String... cmds) throws Exception {
+    return execute(ImmutableList.<String>builder().add(cmds).build());
   }
 
   private String execute(ImmutableList<String> cmd) throws Exception {

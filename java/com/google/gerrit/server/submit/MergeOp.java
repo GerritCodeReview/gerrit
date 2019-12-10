@@ -41,6 +41,7 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.SubmissionId;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
@@ -237,7 +238,7 @@ public class MergeOp implements AutoCloseable {
   private final Map<Change.Id, Change> updatedChanges;
 
   private Timestamp ts;
-  private RequestId submissionId;
+  private SubmissionId submissionId;
   private IdentifiedUser caller;
 
   private MergeOpRepoManager orm;
@@ -449,7 +450,7 @@ public class MergeOp implements AutoCloseable {
     this.dryrun = dryrun;
     this.caller = caller;
     this.ts = TimeUtil.nowTs();
-    this.submissionId = new RequestId(change.getId().toString());
+    this.submissionId = new SubmissionId(change);
 
     try (TraceContext traceContext =
         TraceContext.open().addTag(RequestId.Type.SUBMISSION_ID, submissionId)) {

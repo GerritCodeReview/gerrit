@@ -16,13 +16,13 @@ package com.google.gerrit.server.submit;
 
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.BranchNameKey;
+import com.google.gerrit.entities.SubmissionId;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
 import com.google.gerrit.server.git.MergeTip;
-import com.google.gerrit.server.logging.RequestId;
 import com.google.gerrit.server.submit.MergeOp.CommitStatus;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -52,7 +52,7 @@ public class SubmitStrategyFactory {
       IdentifiedUser caller,
       MergeTip mergeTip,
       CommitStatus commitStatus,
-      RequestId submissionId,
+      SubmissionId submissionId,
       SubmitInput submitInput,
       SubmoduleOp submoduleOp,
       boolean dryrun)

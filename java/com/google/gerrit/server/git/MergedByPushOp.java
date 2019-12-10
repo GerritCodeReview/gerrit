@@ -22,11 +22,11 @@ import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetInfo;
+import com.google.gerrit.entities.SubmissionId;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.config.SendEmailExecutor;
 import com.google.gerrit.server.extensions.events.ChangeMerged;
-import com.google.gerrit.server.logging.RequestId;
 import com.google.gerrit.server.mail.send.MergedSender;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
@@ -52,7 +52,7 @@ public class MergedByPushOp implements BatchUpdateOp {
     MergedByPushOp create(
         RequestScopePropagator requestScopePropagator,
         PatchSet.Id psId,
-        @Assisted RequestId submissionId,
+        @Assisted SubmissionId submissionId,
         @Assisted("refName") String refName,
         @Assisted("mergeResultRevId") String mergeResultRevId);
   }
@@ -66,7 +66,7 @@ public class MergedByPushOp implements BatchUpdateOp {
   private final ChangeMerged changeMerged;
 
   private final PatchSet.Id psId;
-  private final RequestId submissionId;
+  private final SubmissionId submissionId;
   private final String refName;
   private final String mergeResultRevId;
 
@@ -86,7 +86,7 @@ public class MergedByPushOp implements BatchUpdateOp {
       ChangeMerged changeMerged,
       @Assisted RequestScopePropagator requestScopePropagator,
       @Assisted PatchSet.Id psId,
-      @Assisted RequestId submissionId,
+      @Assisted SubmissionId submissionId,
       @Assisted("refName") String refName,
       @Assisted("mergeResultRevId") String mergeResultRevId) {
     this.patchSetInfoFactory = patchSetInfoFactory;
@@ -137,7 +137,7 @@ public class MergedByPushOp implements BatchUpdateOp {
     }
     change.setCurrentPatchSet(info);
     change.setStatus(Change.Status.MERGED);
-    change.setSubmissionId(submissionId.toStringForStorage());
+    change.setSubmissionId(submissionId.toString());
     // we cannot reconstruct the submit records for when this change was
     // submitted, this is why we must fix the status and other details.
     update.fixStatusToMerged(submissionId);

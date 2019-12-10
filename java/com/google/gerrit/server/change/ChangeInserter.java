@@ -37,6 +37,7 @@ import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.entities.PatchSetInfo;
+import com.google.gerrit.entities.SubmissionId;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -55,7 +56,6 @@ import com.google.gerrit.server.extensions.events.RevisionCreated;
 import com.google.gerrit.server.git.GroupCollector;
 import com.google.gerrit.server.git.validators.CommitValidationException;
 import com.google.gerrit.server.git.validators.CommitValidators;
-import com.google.gerrit.server.logging.RequestId;
 import com.google.gerrit.server.mail.send.CreateChangeSender;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
@@ -396,7 +396,7 @@ public class ChangeInserter implements InsertChangeOp {
      * instead of setting the status directly?
      */
     if (change.getStatus() == Change.Status.MERGED) {
-      update.fixStatusToMerged(new RequestId(ctx.getChange().getId().toString()));
+      update.fixStatusToMerged(new SubmissionId(change));
     } else {
       update.setStatus(change.getStatus());
     }

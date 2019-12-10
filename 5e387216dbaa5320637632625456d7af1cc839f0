@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "8ff35454_00e31cf2",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 833,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-12-10T16:21:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "90b0f942_36ba1aba",
+      "range": {
+        "startLine": 832,
+        "startChar": 7,
+        "endLine": 833,
+        "endChar": 39
+      },
+      "revId": "5e387216dbaa5320637632625456d7af1cc839f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4ab51c26_d07337ec",
         "filename": "java/com/google/gerrit/sshd/SshDaemon.java",
         "patchSetId": 1
@@ -39,6 +63,24 @@
       "revId": "5e387216dbaa5320637632625456d7af1cc839f0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "20ec13d4_be5e7679",
+        "filename": "java/com/google/gerrit/sshd/SshDaemon.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 643,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2019-12-10T16:21:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4ab51c26_d07337ec",
+      "revId": "5e387216dbaa5320637632625456d7af1cc839f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,302 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f6056e28_1a770f18",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-10T13:04:11Z",
+      "side": 1,
+      "message": "I\u0027m not sure if ignoring empty revert changes is the right thing to do (see my comment on the revertSubmissionIdenticalTree test). However if we ignore empty revert commits we should do it consistently. At the moment you do it only in one of 2 code paths (in the else block starting at line 265, but not in the if block starting at line 253).\n\nThis means if the submission consists out of 2 changes that depend on each other and one of them is empty, you have 2 different behaviors:\n\n1. non-empty change B depends on empty change A (what you test in revertSubmissionIdenticalTree):\n   result: one revert change for change B, empty revert change for change A is ignored\n2. empty change B depends on non-empty change A:\n   result: one revert change for change A that depends on an empty revert change for change B",
+      "range": {
+        "startLine": 300,
+        "startChar": 12,
+        "endLine": 307,
+        "endChar": 22
+      },
+      "revId": "d7dc92298e086777f27d5c994a8516617fc690e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "240b9a3c_69e7013a",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-10T13:04:11Z",
+      "side": 1,
+      "message": "I think it\u0027s not possible for a merge commit to be a descendant of all changes in the submission, since a submission may span different projects and branches. Still need a more accurate name here.",
+      "range": {
+        "startLine": 418,
+        "startChar": 31,
+        "endLine": 418,
+        "endChar": 68
+      },
+      "revId": "d7dc92298e086777f27d5c994a8516617fc690e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "60ef8349_7f1c3735",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 423,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-10T13:04:11Z",
+      "side": 1,
+      "message": "Should be documented in the Javadoc of this method.",
+      "range": {
+        "startLine": 422,
+        "startChar": 6,
+        "endLine": 423,
+        "endChar": 29
+      },
+      "revId": "d7dc92298e086777f27d5c994a8516617fc690e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dfbf34b7_8d048934",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 448,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-10T13:04:11Z",
+      "side": 1,
+      "message": "The message says \"change\", but then we pass a commit ID as parameter. This doesn\u0027t seem to match.",
+      "range": {
+        "startLine": 448,
+        "startChar": 12,
+        "endLine": 448,
+        "endChar": 66
+      },
+      "revId": "d7dc92298e086777f27d5c994a8516617fc690e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "055b6daf_0f4fd328",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/RevertIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 609,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-10T13:04:11Z",
+      "side": 1,
+      "message": "better: revertSubmissionThatContainsEmptyChange or revertSubmissionIgnoresEmptyChanges\n\nI wonder if ignoring empty changes is actually what users expect. Wouldn\u0027t it be better (e.g. more understandable for users) to just create an empty revert change for any empty change that is part of the submission?\n\nE.g. what is the expected result if all changes in the submission are empty changes? Should it be an empty list of revert changes? If yes, can the UI code deal with this situation and display something understandable to the user?\n\nIf we want to keep ignoring empty reverts, this behavior should be documented somewhere.",
+      "range": {
+        "startLine": 609,
+        "startChar": 14,
+        "endLine": 609,
+        "endChar": 43
+      },
+      "revId": "d7dc92298e086777f27d5c994a8516617fc690e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6fc93513_4f241e27",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/RevertIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 610,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-10T13:04:11Z",
+      "side": 1,
+      "message": "I think this would be better (easier to read and understand):\n\n  String unrelatedChange \u003d createChange(\"change1\", \"a.txt\", \"message\").getChangeId();",
+      "range": {
+        "startLine": 610,
+        "startChar": 4,
+        "endLine": 610,
+        "endChar": 88
+      },
+      "revId": "d7dc92298e086777f27d5c994a8516617fc690e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "260d4e9b_43916788",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/RevertIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 614,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-10T13:04:11Z",
+      "side": 1,
+      "message": "better:\n\n  String emptyChange \u003d createChange(\"change1\", \"a.txt\", \"message\").getChangeId();",
+      "range": {
+        "startLine": 614,
+        "startChar": 4,
+        "endLine": 614,
+        "endChar": 83
+      },
+      "revId": "d7dc92298e086777f27d5c994a8516617fc690e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "98c03011_319e383a",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/RevertIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 616,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-10T13:04:11Z",
+      "side": 1,
+      "message": "Here and below. Is adding a reviewer relevant for this test? If not, drop it, else add a comment explaining why it\u0027s needed.",
+      "revId": "d7dc92298e086777f27d5c994a8516617fc690e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0ad81501_641180ab",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/RevertIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 617,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-10T13:04:11Z",
+      "side": 1,
+      "message": "better:\n\n  String changeToBeReverted \u003d createChange(\"change2\", \"b.txt\", \"message\"),getChangeId();",
+      "range": {
+        "startLine": 617,
+        "startChar": 4,
+        "endLine": 617,
+        "endChar": 84
+      },
+      "revId": "d7dc92298e086777f27d5c994a8516617fc690e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3a7db2b5_1d01bc3d",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/RevertIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 623,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-10T13:04:11Z",
+      "side": 1,
+      "message": "better: .current()",
+      "range": {
+        "startLine": 623,
+        "startChar": 8,
+        "endLine": 623,
+        "endChar": 50
+      },
+      "revId": "d7dc92298e086777f27d5c994a8516617fc690e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "75ba6263_fb325c59",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/RevertIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 735,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-10T13:04:11Z",
+      "side": 1,
+      "message": "Why had this order to be changed?",
+      "range": {
+        "startLine": 730,
+        "startChar": 3,
+        "endLine": 735,
+        "endChar": 89
+      },
+      "revId": "d7dc92298e086777f27d5c994a8516617fc690e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ecd388e8_79765718",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/RevertIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 804,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-10T13:04:11Z",
+      "side": 1,
+      "message": "I think without the @UseClockStep annotation this test will be flaky, as both changes may have the same timestamp. \n\nThe same for all tests below.",
+      "revId": "d7dc92298e086777f27d5c994a8516617fc690e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "193a4f7c_f4be7111",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/RevertIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 812,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-10T13:04:11Z",
+      "side": 1,
+      "message": "Can you clarify what this means and why it\u0027s necessary?",
+      "revId": "d7dc92298e086777f27d5c994a8516617fc690e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "de30e80f_39902145",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/RevertIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 825,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-10T13:04:11Z",
+      "side": 1,
+      "message": "Add an assertion to fail if revertChanges contains more than 2 changes.\n\nThe same for some of the tests below.",
+      "revId": "d7dc92298e086777f27d5c994a8516617fc690e5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

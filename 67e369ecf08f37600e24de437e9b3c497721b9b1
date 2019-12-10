@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f88b2b51_828c8528",
+        "filename": "java/com/google/gerrit/server/patch/PatchScriptBuilder.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-12-10T13:31:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6a764649_1de2ef6c",
+      "range": {
+        "startLine": 45,
+        "startChar": 0,
+        "endLine": 45,
+        "endChar": 44
+      },
+      "revId": "67e369ecf08f37600e24de437e9b3c497721b9b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bf2e5a44_0dc9c17b",
         "filename": "java/com/google/gerrit/server/patch/PatchScriptBuilder.java",
         "patchSetId": 19
@@ -45,6 +69,30 @@
       "revId": "67e369ecf08f37600e24de437e9b3c497721b9b1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b77d651e_d7b30df9",
+        "filename": "java/com/google/gerrit/server/patch/PatchScriptBuilder.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-12-10T13:31:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bf2e5a44_0dc9c17b",
+      "range": {
+        "startLine": 114,
+        "startChar": 24,
+        "endLine": 114,
+        "endChar": 35
+      },
+      "revId": "67e369ecf08f37600e24de437e9b3c497721b9b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -92,6 +140,30 @@
       "revId": "67e369ecf08f37600e24de437e9b3c497721b9b1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1c6212bc_e84db64c",
+        "filename": "java/com/google/gerrit/server/patch/PatchScriptBuilder.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 679,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-12-10T13:31:57Z",
+      "side": 1,
+      "message": "Yes, Edit class is mutable, so this class can\u0027t be AuotValue.\n\nThis comment was a notice for myself to change it on the next update. Sorry, that it was not clear.\n\nWill update it.",
+      "parentUuid": "8cf8e6d4_54fd7cee",
+      "range": {
+        "startLine": 679,
+        "startChar": 24,
+        "endLine": 679,
+        "endChar": 53
+      },
+      "revId": "67e369ecf08f37600e24de437e9b3c497721b9b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

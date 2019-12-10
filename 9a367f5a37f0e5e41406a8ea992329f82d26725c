@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "3e37239d_5e21073e",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-submission-dialog/gr-confirm-revert-submission-dialog.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-10T16:03:38Z",
+      "side": 1,
+      "message": "Please do not name it \"Revert Topic\", because Revert Submission !\u003d Revert Topic.\n\nTo name some issues with \"Revert Topic\":\n* the topic may be reused after a submission, hence the topic may contain more changes than the submission\n* the topic may be removed/changed after a submission\n* the submission may include changes from multiple topics\n* the submission may include changes which have no topic at all\n* the submission may only contain changes without topic",
+      "parentUuid": "b37e99a7_aea13bbf",
+      "range": {
+        "startLine": 53,
+        "startChar": 49,
+        "endLine": 53,
+        "endChar": 61
+      },
+      "revId": "9a367f5a37f0e5e41406a8ea992329f82d26725c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6551cc5e_dd075594",
         "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-submission-dialog/gr-confirm-revert-submission-dialog.js",
         "patchSetId": 8

@@ -162,9 +162,9 @@ link:https://gerrit.googlesource.com/plugins/pull-replication[pull-replication p
 Best you use a filesystem supporting snapshots to create a backup archive
 of such a replica.
 
-For 2.x Gerrit versions also set up a database slave for the data stored in the
+For 2.x Gerrit versions also set up a database replica for the data stored in the
 SQL database. If you are using 2.16 and migrated to _NoteDb_ you may consider to
-skip setting up a database slave, instead take a backup of the database which only
+skip setting up a database replica, instead take a backup of the database which only
 contains the current schema version in this case.
 In addition you need to ensure that no write operations are in flight before you
 take the replica offline. Otherwise the database backup might be inconsistent
@@ -176,8 +176,8 @@ Replication of repository deletions can be switched off using the
 link:https://gerrit.googlesource.com/plugins/replication/+/refs/heads/master/src/main/resources/Documentation/config.md[server option]
 `remote.NAME.replicateProjectDeletions`.
 
-If you are using Gerrit slaves to offload read traffic you can use one of these
-slaves for creating backups.
+If you are using Gerrit replica to offload read traffic you can use one of these
+replica for creating backups.
 
 [#cons-backup-offline]
 === Take master offline for backup

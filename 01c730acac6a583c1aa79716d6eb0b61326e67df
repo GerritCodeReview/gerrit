@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "305339c0_e89164b5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-12-10T09:48:21Z",
+      "side": 1,
+      "message": "Should be in the footer, with the Bug: key, i.e.\n\n Bug: Issue 12055\n Change-Id: ....",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 28
+      },
+      "revId": "01c730acac6a583c1aa79716d6eb0b61326e67df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "dd065cfa_f2c1de10",
         "filename": "java/com/google/gerrit/extensions/validators/CommentValidator.java",
         "patchSetId": 6

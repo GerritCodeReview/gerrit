@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "65982b25_216bff30",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2019-12-10T13:50:10Z",
+      "side": 1,
+      "message": "Ok, I added all. It\u0027s sent only once per tab session.",
+      "parentUuid": "948df229_ce3a6ca2",
+      "revId": "a96f9b37094b323955c5f301cb4d68bdf2f3e760",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d338bacd_47f3d806",
         "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
         "patchSetId": 1
@@ -33,6 +51,24 @@
       "revId": "a96f9b37094b323955c5f301cb4d68bdf2f3e760",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "62921b50_72b99057",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2019-12-10T13:50:10Z",
+      "side": 1,
+      "message": "SQL is working well with missing data. I prefer not send, if they are useless.",
+      "parentUuid": "d338bacd_47f3d806",
+      "revId": "a96f9b37094b323955c5f301cb4d68bdf2f3e760",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -85,6 +121,24 @@
       "revId": "a96f9b37094b323955c5f301cb4d68bdf2f3e760",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be4704e2_5b9a1a61",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 335,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2019-12-10T13:50:10Z",
+      "side": 1,
+      "message": "I will refactor reporter someday 😊",
+      "parentUuid": "35b57a3c_1d14fe7a",
+      "revId": "a96f9b37094b323955c5f301cb4d68bdf2f3e760",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

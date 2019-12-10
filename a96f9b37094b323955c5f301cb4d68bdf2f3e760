@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "948df229_ce3a6ca2",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-12-10T12:22:12Z",
+      "side": 1,
+      "message": "Maybe go full in and report *all* the timestamps that exist in the API? Otherwise you may miss one interesting step and then have to submit another change and wait for the rollout.\n\nCritique does that: PerformanceTiming.java?l\u003d46",
+      "revId": "a96f9b37094b323955c5f301cb4d68bdf2f3e760",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d338bacd_47f3d806",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-12-10T12:22:12Z",
+      "side": 1,
+      "message": "Why only send it if \u003e0? Wouldn\u0027t processing the data become easier if you always send it?\n\nSame for redirectEnd.",
+      "revId": "a96f9b37094b323955c5f301cb4d68bdf2f3e760",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "61bdc316_53808e2b",
         "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
         "patchSetId": 1
@@ -13,6 +47,24 @@
       "writtenOn": "2019-12-09T18:33:48Z",
       "side": 1,
       "message": "seems you can just do `[\u0027connectEnd\u0027, \u0027requestStart\u0027, ].forEach(event \u003d\u003e this.performanceTiming[event], event)` instead",
+      "revId": "a96f9b37094b323955c5f301cb4d68bdf2f3e760",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d65ec879_611c993c",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 309,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-12-10T12:22:12Z",
+      "side": 1,
+      "message": "With that trick you can actually refactor _reportPerformanceTiming() to only take one (string) parameter. Then I think it is a matter of taste whether you do:\n\n  this._reportPerformanceTiming(\u0027requestStart\u0027);\n  this._reportPerformanceTiming(\u0027responseEnd\u0027);\n  this._reportPerformanceTiming(\u0027domLoading\u0027);\n\nOr whether you do the forEach loop. Both are fine for me.",
+      "parentUuid": "61bdc316_53808e2b",
       "revId": "a96f9b37094b323955c5f301cb4d68bdf2f3e760",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

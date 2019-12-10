@@ -234,6 +234,30 @@
       "revId": "1b59348b3ab5f5a96bc440c43b1c6b33fbfc8066",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c39ac359_4ef61159",
+        "filename": "Documentation/intro-gerrit-walkthrough-github.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-12-10T08:13:14Z",
+      "side": 1,
+      "message": "Ah, I didn\u0027t know about that syntax.  I think generally we don\u0027t make documentation links open in a new tab, though.",
+      "parentUuid": "989fbbd0_6b76e866",
+      "range": {
+        "startLine": 111,
+        "startChar": 7,
+        "endLine": 111,
+        "endChar": 8
+      },
+      "revId": "1b59348b3ab5f5a96bc440c43b1c6b33fbfc8066",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

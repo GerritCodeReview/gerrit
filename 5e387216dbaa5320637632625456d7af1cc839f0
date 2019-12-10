@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "90b0f942_36ba1aba",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 833,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-10T08:10:17Z",
+      "side": 1,
+      "message": "nit: re-wrap this comment block",
+      "range": {
+        "startLine": 832,
+        "startChar": 7,
+        "endLine": 833,
+        "endChar": 39
+      },
+      "revId": "5e387216dbaa5320637632625456d7af1cc839f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4ab51c26_d07337ec",
         "filename": "java/com/google/gerrit/sshd/SshDaemon.java",
         "patchSetId": 1

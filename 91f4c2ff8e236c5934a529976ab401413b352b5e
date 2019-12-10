@@ -270,6 +270,30 @@
       "revId": "91f4c2ff8e236c5934a529976ab401413b352b5e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b64bfaac_ac714f7a",
+        "filename": "Documentation/intro-gerrit-walkthrough-github.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-10T13:07:26Z",
+      "side": 1,
+      "message": "Thanks, much clearer now.",
+      "parentUuid": "dfe9d073_b32bf174",
+      "range": {
+        "startLine": 240,
+        "startChar": 60,
+        "endLine": 240,
+        "endChar": 65
+      },
+      "revId": "91f4c2ff8e236c5934a529976ab401413b352b5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

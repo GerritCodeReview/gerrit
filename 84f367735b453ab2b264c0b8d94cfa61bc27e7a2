@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f5d926f4_634a79e4",
+        "filename": "Jenkinsfile",
+        "patchSetId": 5
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-12-10T15:04:43Z",
+      "side": 1,
+      "message": "Why not using `GERRIT_REFNAME` ?",
+      "range": {
+        "startLine": 139,
+        "startChar": 56,
+        "endLine": 139,
+        "endChar": 87
+      },
+      "revId": "84f367735b453ab2b264c0b8d94cfa61bc27e7a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -258,6 +258,30 @@
       "revId": "1b59348b3ab5f5a96bc440c43b1c6b33fbfc8066",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2099edb6_ac675062",
+        "filename": "Documentation/intro-gerrit-walkthrough-github.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1074328
+      },
+      "writtenOn": "2019-12-10T08:21:45Z",
+      "side": 1,
+      "message": "Fair enough. I\u0027ll remove it for all the links to other documentation pages then. I would say it makes sense for linking to external pages, though, doesn\u0027t it?",
+      "parentUuid": "c39ac359_4ef61159",
+      "range": {
+        "startLine": 111,
+        "startChar": 7,
+        "endLine": 111,
+        "endChar": 8
+      },
+      "revId": "1b59348b3ab5f5a96bc440c43b1c6b33fbfc8066",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

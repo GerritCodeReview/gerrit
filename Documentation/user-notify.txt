@@ -125,6 +125,7 @@ link:user-search.html[Change search expression] to match changes that
 should be sent to the emails named in this section. Within a Git-style
 configuration file double quotes around complex operator values may
 need to be escaped, e.g. `filter = branch:\"^(maint|stable)-.*\"`.
+Single quotes are illegal and must be omitted.
 
 When sending email to a bare email address in a notify block, Gerrit
 Code Review ignores read access controls and assumes the administrator

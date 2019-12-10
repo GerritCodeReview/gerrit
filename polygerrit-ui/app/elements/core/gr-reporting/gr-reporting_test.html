@@ -52,6 +52,7 @@ limitations under the License.
         navigationStart: 1,
         loadEventEnd: 2,
       };
+      fakePerformance.toJSON = () => fakePerformance;
       sinon.stub(element, 'performanceTiming',
           {get() { return fakePerformance; }});
       sandbox.stub(element, 'reporter');
@@ -83,7 +84,7 @@ limitations under the License.
       element.pageLoaded();
       assert.isTrue(
           element.reporter.calledWithExactly(
-              'timing-report', 'UI Latency', 'Page Loaded',
+              'timing-report', 'UI Latency', 'NavResTime - loadEventEnd',
               fakePerformance.loadEventEnd - fakePerformance.navigationStart,
               true)
       );

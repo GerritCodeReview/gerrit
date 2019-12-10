@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dd065cfa_f2c1de10",
+        "filename": "java/com/google/gerrit/extensions/validators/CommentValidator.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2019-12-10T09:17:47Z",
+      "side": 1,
+      "message": "ChangeInfo contains a lot of data, making the API a lot more complex. Is there a way we can limit/structure the data passed here?\n\nIIUC you will also want to validate the commit message because that\u0027s where the recent leak happened.\n\nSo from the ChangeInfo object you will (correct me if I\u0027m wrong)\n- ignore most fields\n- evaluate some fields to control parameters of the validation (or simply skip it?)\n- directly validate some String fields, e.g. the commit message and maybe things like the topic name\n\nI think validateComments() would be easiest to understand if it reflected that structure. So it would have one argument to specify the validation context, and a second argument that contains a list of texts (with types) to be validated. Because in the end validation is always run against a String. If that is already evident from the signature it makes the API clearer.\n\nWDYT about extending the CommentType enum for new texts (e.g. COMMIT_MESSAGE, TOPIC_NAME...) and introducing a ValidationContext AutoValue class contains those fields that affect the validation process? That way the API would only take required information and it would be clear already from the method signature what the arguments are used for.\n\nI realize I\u0027m guessing about your exact plans, so feel free to explain in more detail and/or make an alternative proposal.",
+      "revId": "01c730acac6a583c1aa79716d6eb0b61326e67df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -161,7 +161,7 @@ project:'PROJECT', p:'PROJECT'::
 Changes occurring in 'PROJECT'. If 'PROJECT' starts with `^` it
 matches project names by regular expression.  The
 link:http://www.brics.dk/automaton/[dk.brics.automaton
-library] is used for evaluation of such patterns.
+library,role=external,window=_blank] is used for evaluation of such patterns.
 
 [[projects]]
 projects:'PREFIX'::
@@ -180,7 +180,7 @@ repository:'REPOSITORY', repo:'REPOSITORY'::
 Changes occurring in 'REPOSITORY'. If 'REPOSITORY' starts with `^` it
 matches repository names by regular expression.  The
 link:http://www.brics.dk/automaton/[dk.brics.automaton
-library] is used for evaluation of such patterns.
+library,role=external,window=_blank] is used for evaluation of such patterns.
 
 [[repositories]]
 repositories:'PREFIX', repos:'PREFIX'::
@@ -203,7 +203,7 @@ the traditional 'refs/heads/' prefix.
 If 'BRANCH' starts with `^` it matches branch names by regular
 expression patterns.  The
 link:http://www.brics.dk/automaton/[dk.brics.automaton
-library] is used for evaluation of such patterns.
+library,role=external,window=_blank] is used for evaluation of such patterns.
 
 [[intopic]]
 intopic:'TOPIC'::
@@ -213,7 +213,7 @@ Changes whose designated topic contains 'TOPIC', using a full-text search.
 If 'TOPIC' starts with `^` it matches topic names by regular
 expression patterns.  The
 link:http://www.brics.dk/automaton/[dk.brics.automaton
-library] is used for evaluation of such patterns.
+library,role=external,window=_blank] is used for evaluation of such patterns.
 
 [[topic]]
 topic:'TOPIC'::
@@ -238,7 +238,7 @@ must start with 'refs/'.
 If 'REF' starts with `^` it matches reference names by regular
 expression patterns.  The
 link:http://www.brics.dk/automaton/[dk.brics.automaton
-library] is used for evaluation of such patterns.
+library,role=external,window=_blank] is used for evaluation of such patterns.
 
 [[tr,bug]]
 tr:'ID', bug:'ID'::
@@ -273,7 +273,7 @@ path:'PATH'::
 Matches any change touching file at 'PATH'. By default exact path
 matching is used, but regular expressions can be enabled by starting
 with `^`.  For example, to match all XML files use `file:^.*\.xml$`.
-The link:http://www.brics.dk/automaton/[dk.brics.automaton library]
+The link:http://www.brics.dk/automaton/[dk.brics.automaton library,role=external,window=_blank]
 is used for the evaluation of such patterns.
 +
 The `^` required at the beginning of the regular expression not only
@@ -332,7 +332,7 @@ but are not mandatory.
 +
 If 'DIR' starts with `^` it matches directories and directory segments by
 regular expression. The link:http://www.brics.dk/automaton/[dk.brics.automaton
-library] is used for evaluation of such patterns.
+library,role=external,window=_blank] is used for evaluation of such patterns.
 
 [[footer-operator]]
 footer:'FOOTER'::

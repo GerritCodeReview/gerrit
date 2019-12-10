@@ -9,7 +9,7 @@ This error happens if the Change-Id is the only line in the commit
 message.
 
 You can see the commit messages for existing commits in the history
-by doing a link:http://www.kernel.org/pub/software/scm/git/docs/git-log.html[git log].
+by doing a link:http://www.kernel.org/pub/software/scm/git/docs/git-log.html[git log,role=external,window=_blank].
 
 == Change-Id is the only line in the commit message
 

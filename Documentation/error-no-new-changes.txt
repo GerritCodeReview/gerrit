@@ -38,7 +38,7 @@ means:
   in the Gerrit Web UI will not find any change)
 
 If you need to re-push a commit you may rewrite this commit by
-link:http://www.kernel.org/pub/software/scm/git/docs/git-commit.html[amending] it or doing an interactive link:http://www.kernel.org/pub/software/scm/git/docs/git-rebase.html[git rebase]. By rewriting the
+link:http://www.kernel.org/pub/software/scm/git/docs/git-commit.html[amending,role=external,window=_blank] it or doing an interactive link:http://www.kernel.org/pub/software/scm/git/docs/git-rebase.html[git rebase,role=external,window=_blank]. By rewriting the
 commit you actually create a new commit (with a new commit ID in
 project scope) which can then be pushed to Gerrit.
 

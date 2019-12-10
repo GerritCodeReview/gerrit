@@ -4,17 +4,17 @@
 
 Plugins may provide
 link:https://www.polymer-project.org/2.0/docs/devguide/style-shadow-dom#style-modules[Polymer
-style modules] for UI CSS-based customization.
+style modules,role=external,window=_blank] for UI CSS-based customization.
 
 PolyGerrit UI implements number of styling endpoints, which apply CSS mixins
-link:https://tabatkins.github.io/specs/css-apply-rule/[using @apply] to its
+link:https://tabatkins.github.io/specs/css-apply-rule/[using @apply,role=external,window=_blank] to its
 direct contents.
 
 NOTE: Only items (i.e. CSS properties and mixin targets) documented here are
 guaranteed to work in the long term, since they are covered by integration
 tests. + When there is a need to add new property or endpoint, please
 link:https://bugs.chromium.org/p/gerrit/issues/entry?template=PolyGerrit%20Issue[file
-a bug] stating your use case to track and maintain for future releases.
+a bug,role=external,window=_blank] stating your use case to track and maintain for future releases.
 
 Plugins should be html-based and imported following PolyGerrit's
 link:pg-plugin-dev.html#loading[dev guide].
@@ -64,7 +64,7 @@ is applied to `gr-change-metadata section.topic`
 
 Following CSS properties have
 link:https://gerrit.googlesource.com/gerrit/+/master/polygerrit-ui/app/elements/change/gr-change-metadata/gr-change-metadata-it_test.html[long-term
-support via integration test]:
+support via integration test,role=external,window=_blank]:
 
 * `display`
 +

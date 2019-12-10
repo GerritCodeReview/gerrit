@@ -8,10 +8,10 @@ To build Gerrit from source, you need:
 * A Linux or macOS system (Windows is not supported at this time)
 * A JDK for Java 8|9|10|11|...
 * Python 2 or 3
-* link:https://github.com/nodesource/distributions/blob/master/README.md[Node.js (including npm)]
+* link:https://github.com/nodesource/distributions/blob/master/README.md[Node.js (including npm),role=external,window=_blank]
 * Bower (`sudo npm install -g bower`)
-* link:https://docs.bazel.build/versions/master/install.html[Bazel] directly
-or through link:https://github.com/bazelbuild/bazelisk[Bazelisk]
+* link:https://docs.bazel.build/versions/master/install.html[Bazel,role=external,window=_blank] directly
+or through link:https://github.com/bazelbuild/bazelisk[Bazelisk,role=external,window=_blank]
 * Maven
 * zip, unzip
 * gcc
@@ -36,7 +36,7 @@ To check the installed version of Java, open a terminal window and run:
 ==== Java 13 support
 
 Java 13 (and newer) is supported through vanilla java toolchain
-link:https://docs.bazel.build/versions/master/toolchains.html[Bazel option].
+link:https://docs.bazel.build/versions/master/toolchains.html[Bazel option,role=external,window=_blank].
 To build Gerrit with Java 13 and newer, specify vanilla java toolchain and
 provide the path to JDK home:
 
@@ -96,7 +96,7 @@ To build Gerrit with Java 11, specify JDK 11 java toolchain:
 ```
 
 === Node.js and npm packages
-See link:https://gerrit.googlesource.com/gerrit/+/master/polygerrit-ui/README.md#installing-node_js-and-npm-packages[Installing Node.js and npm packages].
+See link:https://gerrit.googlesource.com/gerrit/+/master/polygerrit-ui/README.md#installing-node_js-and-npm-packages[Installing Node.js and npm packages,role=external,window=_blank].
 
 [[build]]
 == Building on the Command Line
@@ -212,7 +212,7 @@ is not regenerated.
 
 === IntelliJ
 
-The Gerrit build works with Bazel's link:https://ij.bazel.build[IntelliJ plugin].
+The Gerrit build works with Bazel's link:https://ij.bazel.build[IntelliJ plugin,role=external,window=_blank].
 Please follow the instructions on <<dev-intellij#,IntelliJ Setup>>.
 
 === Eclipse
@@ -232,7 +232,7 @@ and then follow the link:dev-eclipse.html#setup[setup instructions].
 If an updated classpath is needed, the Eclipse project can be
 refreshed and missing dependency JARs can be downloaded by running
 `project.py` again. For IntelliJ, you need to click the `Sync Project
-with BUILD Files` button of link:https://ij.bazel.build[Bazel plugin].
+with BUILD Files` button of link:https://ij.bazel.build[Bazel plugin,role=external,window=_blank].
 
 [[documentation]]
 === Documentation
@@ -342,11 +342,11 @@ The following values are currently supported for the group name:
 
 Successfully running the Elasticsearch tests requires Docker, and
 may require setting the local
-link:https://www.elastic.co/guide/en/elasticsearch/reference/current/vm-max-map-count.html[virtual memory].
+link:https://www.elastic.co/guide/en/elasticsearch/reference/current/vm-max-map-count.html[virtual memory,role=external,window=_blank].
 
 If Docker is not available, the Elasticsearch tests will be skipped.
 Note that Bazel currently does not show
-link:https://github.com/bazelbuild/bazel/issues/3476[the skipped tests].
+link:https://github.com/bazelbuild/bazel/issues/3476[the skipped tests,role=external,window=_blank].
 
 == Dependencies
 
@@ -459,7 +459,7 @@ To accelerate builds, several caches are activated per default:
 * ~/.gerritcodereview/bazel-cache/cas
 
 Currently none of these caches have a maximum size limit. See
-link:https://github.com/bazelbuild/bazel/issues/5139[this bazel issue] for
+link:https://github.com/bazelbuild/bazel/issues/5139[this bazel issue,role=external,window=_blank] for
 details. Users should watch the cache sizes and clean them manually if
 necessary.
 
@@ -470,7 +470,7 @@ Parts of the PolyGerrit build require running NPM-based JavaScript programs as
 "binaries". We don't attempt to resolve and download NPM dependencies at build
 time, but instead use pre-built bundles of the NPM binary along with all its
 dependencies. Some packages on
-link:https://docs.npmjs.com/misc/registry[registry.npmjs.org] come with their
+link:https://docs.npmjs.com/misc/registry[registry.npmjs.org,role=external,window=_blank] come with their
 dependencies bundled, but this is the exception rather than the rule. More
 commonly, to add a new binary to this list, you will need to bundle the binary
 yourself.
@@ -498,7 +498,7 @@ its transitive dependencies. We can only legally distribute a bundle via our
 storage bucket if the licenses allow us to do so. As long as all of the listed
 license are allowed by
 link:https://opensource.google.com/docs/thirdparty/licenses/[Google's
-standards]. Any `by_exception_only`, commercial, prohibited, or unlisted
+standards,role=external,window=_blank]. Any `by_exception_only`, commercial, prohibited, or unlisted
 licenses are not allowed; otherwise, it is ok to distribute the source. If in
 doubt, contact a maintainer who is a Googler.
 
@@ -523,7 +523,7 @@ This creates a file named `$package-$version.tgz` in your working directory.
 
 Any project maintainer can upload this file to the
 link:https://console.cloud.google.com/storage/browser/gerrit-maven/npm-packages[storage
-bucket].
+bucket,role=external,window=_blank].
 
 Finally, add the new binary to the build process:
 ----

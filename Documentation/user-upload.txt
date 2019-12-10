@@ -618,7 +618,7 @@ To create multiple new changes, run push multiple times.
 
 repo is a multiple repository management tool, most commonly
 used by the Android Open Source Project.  For more details, see
-link:http://source.android.com/source/using-repo.html[using repo].
+link:http://source.android.com/source/using-repo.html[using repo,role=external,window=_blank].
 
 [[repo_create]]
 === Create Changes

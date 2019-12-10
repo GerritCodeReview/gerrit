@@ -64,7 +64,7 @@ To squash the commits, use `git rebase -i` to do an interactive rebase. For
 the example above where the last two commits have the same Change-Id,
 this means an interactive rebase for the last two commits should be
 done. For further details about the git rebase command please check
-the link:http://www.kernel.org/pub/software/scm/git/docs/git-rebase.html[Git documentation for rebase].
+the link:http://www.kernel.org/pub/software/scm/git/docs/git-rebase.html[Git documentation for rebase,role=external,window=_blank].
 
 ----
   $ git rebase -i HEAD~2
@@ -100,7 +100,7 @@ Gerrit does not exist yet, the Change-Id should be generated (either
 by using a link:cmd-hook-commit-msg.html[commit hook] or by using EGit) or the Change-Id could be
 removed (not recommended since then amending this commit to create
 subsequent patch sets is more error prone). To change the Change-Id
-of an existing commit do an interactive link:http://www.kernel.org/pub/software/scm/git/docs/git-rebase.html[git rebase] and fix the
+of an existing commit do an interactive link:http://www.kernel.org/pub/software/scm/git/docs/git-rebase.html[git rebase,role=external,window=_blank] and fix the
 affected commit messages.
 
 

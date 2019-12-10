@@ -47,7 +47,7 @@ for production installations.
 +
 If you have chosen to use _Elastic Search_ for indexing,
 refer to its
-link:https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-snapshots.html[backup documentation].
+link:https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-snapshots.html[backup documentation,role=external,window=_blank].
 
 [#optional-backup-cache]
 Caches::
@@ -70,7 +70,7 @@ directory also contains secrets which should be handled separately
 * public and private SSH host keys
 +
 You may consider to use the
-link:https://gerrit.googlesource.com/plugins/secure-config/[secure-config plugin]
+link:https://gerrit.googlesource.com/plugins/secure-config/[secure-config plugin,role=external,window=_blank]
 to encrypt these secrets.
 
 [#optional-backup-plugin-data]
@@ -144,7 +144,7 @@ server is read-only or down as short as possible.
 Make the server read-only before taking the backup. This means read-access
 is still available during backup, because only write operations have to be
 stopped to ensure consistency. This can be implemented using the
-link:https://gerrit.googlesource.com/plugins/readonly/[_readonly_] plugin.
+link:https://gerrit.googlesource.com/plugins/readonly/[_readonly_,role=external,window=_blank] plugin.
 
 [#cons-backup-replicate]
 === Replicate data for backup
@@ -156,9 +156,9 @@ file, ref-logs, git configs, and alternate configs.
 Replicate all git repositories to another file system using
 `git clone --mirror`,
 or the
-link:https://gerrit.googlesource.com/plugins/replication[replication plugin]
+link:https://gerrit.googlesource.com/plugins/replication[replication plugin,role=external,window=_blank]
 or the
-link:https://gerrit.googlesource.com/plugins/pull-replication[pull-replication plugin].
+link:https://gerrit.googlesource.com/plugins/pull-replication[pull-replication plugin,role=external,window=_blank].
 Best you use a filesystem supporting snapshots to create a backup archive
 of such a replica.
 
@@ -173,7 +173,7 @@ with the backup of the git repositories.
 Do not skip backing up the replica, the replica alone IS NOT a backup.
 Imagine someone deleted a project by mistake and this deletion got replicated.
 Replication of repository deletions can be switched off using the
-link:https://gerrit.googlesource.com/plugins/replication/+/refs/heads/master/src/main/resources/Documentation/config.md[server option]
+link:https://gerrit.googlesource.com/plugins/replication/+/refs/heads/master/src/main/resources/Documentation/config.md[server option,role=external,window=_blank]
 `remote.NAME.replicateProjectDeletions`.
 
 If you are using Gerrit replica to offload read traffic you can use one of these
@@ -195,13 +195,13 @@ repositories) which affect the repositories may need to be shut down.
 Filesystems supporting copy on write snapshots::
 +
 Use a file system supporting copy-on-write snapshots like
-link:https://btrfs.wiki.kernel.org/index.php/SysadminGuide#Snapshots[btrfs]
+link:https://btrfs.wiki.kernel.org/index.php/SysadminGuide#Snapshots[btrfs,role=external,window=_blank]
 or
-https://wiki.debian.org/ZFS#Snapshots[zfs].
+https://wiki.debian.org/ZFS#Snapshots[zfs,role=external,window=_blank].
 
 
 Other filesystems supporting snapshots::
-https://wiki.archlinux.org/index.php/LVM#Snapshots[lvm] or nfs.
+https://wiki.archlinux.org/index.php/LVM#Snapshots[lvm,role=external,window=_blank] or nfs.
 +
 Create a snapshot and then archive the snapshot to another storage.
 +
@@ -257,7 +257,7 @@ And fire drill restoring a new site using the backup.
 [#backup-dr-multi-site]
 === Multi-site setup
 
-Use the https://gerrit.googlesource.com/plugins/multi-site[multi-site plugin]
+Use the https://gerrit.googlesource.com/plugins/multi-site[multi-site plugin,role=external,window=_blank]
 to install Gerrit with multiple sites installed in different datacenters
 across different regions. This ensures that in case of a severe problem with
 one of the sites, the other sites can still serve your repositories.

@@ -121,7 +121,7 @@ update the author for the last 3 commits:
 ----
 
 For further details about git rebase please check the
-link:http://www.kernel.org/pub/software/scm/git/docs/git-rebase.html[Git documentation].
+link:http://www.kernel.org/pub/software/scm/git/docs/git-rebase.html[Git documentation,role=external,window=_blank].
 
 
 == Missing privileges to push commits of other users

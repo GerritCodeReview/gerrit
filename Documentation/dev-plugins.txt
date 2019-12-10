@@ -36,7 +36,7 @@ Most of this documentation refers to either type as a plugin.
 
 To get started with the development of a plugin, take a look at
 the samples in the
-link:https://gerrit.googlesource.com/plugins/examples[examples plugin project].
+link:https://gerrit.googlesource.com/plugins/examples[examples plugin project,role=external,window=_blank].
 
 This is a project that demonstrates the various features of the
 plugin API. It can be taken as an example to develop an own plugin.
@@ -367,7 +367,7 @@ from the hosting server.
 Plugins are loaded from a single JAR file. If a plugin needs
 additional libraries, it must include those dependencies within
 its own JAR. Plugins built using Maven may be able to use the
-link:http://maven.apache.org/plugins/maven-shade-plugin/[shade plugin]
+link:http://maven.apache.org/plugins/maven-shade-plugin/[shade plugin,role=external,window=_blank]
 to package additional dependencies. Relocating (or renaming) classes
 should not be necessary due to the ClassLoader isolation.
 
@@ -2189,7 +2189,7 @@ basis.
 
 Gerrit provides an extension point that enables development of
 link:https://github.com/github/git-lfs/blob/master/docs/api/v1/http-v1-batch.md[
-LFS (Large File Storage)] storage plugins. Gerrit core exposes the default LFS
+LFS (Large File Storage),role=external,window=_blank] storage plugins. Gerrit core exposes the default LFS
 protocol endpoint `<project-name>/info/lfs/objects/batch` and forwards the requests
 to the configured link:config-gerrit.html#lfs[lfs.plugin] plugin which implements
 the LFS protocol. By exposing the default LFS endpoint, the git-lfs client can be
@@ -2247,16 +2247,16 @@ public class S3LargeFileRepository extends S3Repository {
 To send Gerrit's metrics data to an external reporting backend, a plugin can
 get a `MetricRegistry` injected and register an instance of a class that
 implements the `Reporter` interface from link:http://metrics.dropwizard.io/[
-DropWizard Metrics].
+DropWizard Metrics,role=external,window=_blank].
 
 Metric reporting plugin implementations are provided for
-link:https://gerrit.googlesource.com/plugins/metrics-reporter-jmx/[JMX],
-link:https://gerrit.googlesource.com/plugins/metrics-reporter-elasticsearch/[Elastic Search],
-and link:https://gerrit.googlesource.com/plugins/metrics-reporter-graphite/[Graphite].
+link:https://gerrit.googlesource.com/plugins/metrics-reporter-jmx/[JMX,role=external,window=_blank],
+link:https://gerrit.googlesource.com/plugins/metrics-reporter-elasticsearch/[Elastic Search,role=external,window=_blank],
+and link:https://gerrit.googlesource.com/plugins/metrics-reporter-graphite/[Graphite,role=external,window=_blank].
 
 There is also a working example of reporting metrics to the console in the
 link:https://gerrit.googlesource.com/plugins/cookbook-plugin/+/master/src/main/java/com/googlesource/gerrit/plugins/cookbook/ConsoleMetricReporter.java[
-cookbook plugin].
+cookbook plugin,role=external,window=_blank].
 
 === Providing own metrics
 
@@ -2293,7 +2293,7 @@ will cause the metrics to be recorded under `my-metrics/${metric-name}`.
 
 See the replication metrics in the
 link:https://gerrit.googlesource.com/plugins/replication/+/master/src/main/java/com/googlesource/gerrit/plugins/replication/ReplicationMetrics.java[
-replication plugin] for an example of usage.
+replication plugin,role=external,window=_blank] for an example of usage.
 
 [[account-patch-review-store]]
 == AccountPatchReviewStore
@@ -2338,7 +2338,7 @@ prefix is configurable by setting the `Gerrit-HttpDocumentationPrefix`
 attribute.
 
 Documentation may be written in the Markdown flavor
-link:https://github.com/vsch/flexmark-java[flexmark-java]
+link:https://github.com/vsch/flexmark-java[flexmark-java,role=external,window=_blank]
 if the file name ends with `.md`. Gerrit will automatically convert
 Markdown to HTML if accessed with extension `.html`.
 

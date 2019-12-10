@@ -1,19 +1,19 @@
 = Gerrit Community
 
 Gerrit is developed as a
-link:https://gerrit-review.googlesource.com/[self-hosting open source project]
+link:https://gerrit-review.googlesource.com/[self-hosting open source project,role=external,window=_blank]
 and very much welcomes contributions from anyone with a
 link:dev-cla.html[contributor's agreement] on file with the project.
 
 [[project-information]]
 == Project Information
 
-* link:https://www.gerritcodereview.com/[Project Homepage]
-* link:https://www.gerritcodereview.com/codeofconduct.html[Code of Conduct]
-* link:https://www.gerritcodereview.com/releases-readme.html[Release Versions]
-* link:https://gerrit.googlesource.com/gerrit[Source]
-* link:https://bugs.chromium.org/p/gerrit/issues/list[Issue Tracking]
-* link:https://gerrit-review.googlesource.com/q/status:open+project:gerrit[Change Review]
+* link:https://www.gerritcodereview.com/[Project Homepage,role=external,window=_blank]
+* link:https://www.gerritcodereview.com/codeofconduct.html[Code of Conduct,role=external,window=_blank]
+* link:https://www.gerritcodereview.com/releases-readme.html[Release Versions,role=external,window=_blank]
+* link:https://gerrit.googlesource.com/gerrit[Source,role=external,window=_blank]
+* link:https://bugs.chromium.org/p/gerrit/issues/list[Issue Tracking,role=external,window=_blank]
+* link:https://gerrit-review.googlesource.com/q/status:open+project:gerrit[Change Review,role=external,window=_blank]
 * link:dev-design.html[System Design]
 * Processes
 ** link:dev-processes.html#project-governance[Project Governance / Engineering Steering Committee]

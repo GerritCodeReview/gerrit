@@ -1,7 +1,7 @@
 = Gerrit Code Review - Signed-off-by Lines
 
 [NOTE]
-This document was literally taken from link:http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=blob;f=Documentation/SubmittingPatches;hb=4e8a2372f9255a1464ef488ed925455f53fbdaa1[linux-2.6 Documentation/SubmittingPatches]
+This document was literally taken from link:http://git.kernel.org/?p=linux/kernel/git/torvalds/linux-2.6.git;a=blob;f=Documentation/SubmittingPatches;hb=4e8a2372f9255a1464ef488ed925455f53fbdaa1[linux-2.6 Documentation/SubmittingPatches,role=external,window=_blank]
 and is covered by the GPLv2.
 
 [[Signed-off-by]]

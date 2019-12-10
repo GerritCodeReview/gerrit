@@ -30,7 +30,7 @@ The steering committee has 5 members:
   period of 1 year (see link:#steering-committee-election[below])
 
 Refer to the project homepage for the link:https://www.gerritcodereview.com/members.html#engineering-steering-committee[
-list of current committee members].
+list of current committee members,role=external,window=_blank].
 
 The steering committee should act in the interest of the Gerrit project
 and the whole Gerrit community.
@@ -84,7 +84,7 @@ See link:dev-design-docs.html#review[here].
 [[versioning]]
 == Semantic versioning
 
-Gerrit follows a light link:https://semver.org/[semantic versioning scheme] MAJOR.MINOR[.PATCH[.HOTFIX]]
+Gerrit follows a light link:https://semver.org/[semantic versioning scheme,role=external,window=_blank] MAJOR.MINOR[.PATCH[.HOTFIX]]
 format:
 
   * MAJOR is incremented when there are substantial incompatible changes and/or
@@ -182,7 +182,7 @@ available.
 
 To report a security vulnerability file a
 link:https://bugs.chromium.org/p/gerrit/issues/entry?template=Security+Issue[
-security issue] in the Gerrit issue tracker. The visibility of issues that are
+security issue,role=external,window=_blank] in the Gerrit issue tracker. The visibility of issues that are
 created with the `Security Issue` template is automatically restricted to
 Gerrit maintainers and a few long-term contributors. This means as a reporter
 you may not be able to see the issue once it is created. Security issues are
@@ -222,7 +222,7 @@ community is informed about the security vulnerability with the advise to
 address the security vulnerability immediately (either by upgrading to a fixed
 release or applying the mitigation). The information about the security
 vulnerability is disclosed via the
-link:https://groups.google.com/d/forum/repo-discuss[repo-discuss] mailing list.
+link:https://groups.google.com/d/forum/repo-discuss[repo-discuss,role=external,window=_blank] mailing list.
 
 [[handle-security-issue]]
 === Handling of the Security Vulnerability
@@ -253,7 +253,7 @@ link:intro-user.html[security-fixes]).
 +
 Instead security fixes should be implemented and reviewed in the non-public
 link:https://gerrit-review.googlesource.com/admin/repos/gerrit-security-fixes[
-gerrit-security-fixes] repository which is only accessible by Gerrit
+gerrit-security-fixes,role=external,window=_blank] repository which is only accessible by Gerrit
 maintainers and Gerrit community members that work on security fixes.
 +
 The change that fixes the security vulnerability should contain an integration
@@ -284,7 +284,7 @@ The announcement should recommend to upgrade to fixed releases immediately.
 Once all releases are ready and tested and the announcement is prepared, the
 releases should be all published at the same time. Immediately after that, the
 announcement should be sent out to the
-link:https://groups.google.com/d/forum/repo-discuss[repo-discuss] mailing list.
+link:https://groups.google.com/d/forum/repo-discuss[repo-discuss,role=external,window=_blank] mailing list.
 +
 This ends the embargo and any issue that discusses the security vulnerability
 should be made public.
@@ -293,7 +293,7 @@ should be made public.
 +
 The ESC should discuss if there are any learnings from the security
 vulnerability and define action items to follow up in the
-link:https://bugs.chromium.org/p/gerrit[issue tracker].
+link:https://bugs.chromium.org/p/gerrit[issue tracker,role=external,window=_blank].
 
 [[core-plugins]]
 == Core Plugins

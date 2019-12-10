@@ -10,7 +10,7 @@ Every change is expected to have an unique Change-Id.
 
 Since this error should never occur in practice, you should inform
 your Gerrit administrator if you hit this problem and/or
-link:https://bugs.chromium.org/p/gerrit/issues/list[open a Gerrit issue].
+link:https://bugs.chromium.org/p/gerrit/issues/list[open a Gerrit issue,role=external,window=_blank].
 
 In any case to not be blocked with your work, you can simply create a
 new Change-Id for your commit and then push it as new change to

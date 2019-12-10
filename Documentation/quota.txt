@@ -3,7 +3,7 @@
 Gerrit does not provide out of the box quota enforcement. However, it does
 support an extension mechanism for plugins to hook into to provide this
 functionality. The most prominent plugin is the
-link:https://gerrit.googlesource.com/plugins/quota/[Quota Plugin].
+link:https://gerrit.googlesource.com/plugins/quota/[Quota Plugin,role=external,window=_blank].
 
 This documentation is intended to be read by plugin developers. It contains all
 quota requests implemented in Gerrit-core as well as the metadata that they have

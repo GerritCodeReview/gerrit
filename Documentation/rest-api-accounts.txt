@@ -2661,7 +2661,7 @@ The `GpgKeyInfo` entity contains information about a GPG public key.
 |`id`         |Not set in map context|The 8-char hex GPG key ID.
 |`fingerprint`|Not set for deleted keys|The 40-char (plus spaces) hex GPG key fingerprint.
 |`user_ids`   |Not set for deleted keys|
-link:https://tools.ietf.org/html/rfc4880#section-5.11[OpenPGP User IDs]
+link:https://tools.ietf.org/html/rfc4880#section-5.11[OpenPGP User IDs,role=external,window=_blank]
 associated with the public key.
 |`key`        |Not set for deleted keys|ASCII armored public key material.
 |`status`     |Not set for deleted keys|

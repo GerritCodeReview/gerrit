@@ -238,6 +238,30 @@
     },
     {
       "key": {
+        "uuid": "2a6a58c2_e83f2c1f",
+        "filename": "java/com/google/gerrit/server/patch/PatchScriptBuilder.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 483,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-12-10T13:31:57Z",
+      "side": 1,
+      "message": "\u003e\u003e...thus a sub-optimal name would spread into the implementation.\nGood point, thank you. Will change name.",
+      "parentUuid": "f65fa836_e343cb4b",
+      "range": {
+        "startLine": 483,
+        "startChar": 48,
+        "endLine": 483,
+        "endChar": 51
+      },
+      "revId": "173370280f921af46406a1352970c415b5ee8679",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2ab698fb_6f62d262",
         "filename": "java/com/google/gerrit/server/patch/PatchScriptBuilder.java",
         "patchSetId": 10
@@ -297,6 +321,30 @@
       "side": 1,
       "message": "Just documenting some insights:\nWe can\u0027t move to AutoValue for ResolvedSides as PatchSide can\u0027t be an AutoValue.",
       "parentUuid": "59c4bcf4_4f1db27b",
+      "range": {
+        "startLine": 487,
+        "startChar": 15,
+        "endLine": 487,
+        "endChar": 28
+      },
+      "revId": "173370280f921af46406a1352970c415b5ee8679",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e9dbdc6d_034087de",
+        "filename": "java/com/google/gerrit/server/patch/PatchScriptBuilder.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 487,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-12-10T13:31:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2a91f2fb_b1461942",
       "range": {
         "startLine": 487,
         "startChar": 15,
@@ -548,6 +596,24 @@
       "revId": "173370280f921af46406a1352970c415b5ee8679",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "57d20547_463ade1d",
+        "filename": "java/com/google/gerrit/server/patch/PatchScriptFactory.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-12-10T13:31:57Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "1a7f00aa_5bcf683a",
+      "revId": "173370280f921af46406a1352970c415b5ee8679",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

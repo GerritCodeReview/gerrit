@@ -1,7 +1,7 @@
 = The refs/for namespace
 
 When pushing a new or updated commit to Gerrit, you push that commit using a
-link:https://www.kernel.org/pub/software/scm/git/docs/gitglossary.html#def_ref[reference],
+link:https://www.kernel.org/pub/software/scm/git/docs/gitglossary.html#def_ref[reference,role=external,window=_blank],
 in the `refs/for` namespace. This reference must also define
 the target branch, such as `refs/for/[BRANCH_NAME]`.
 

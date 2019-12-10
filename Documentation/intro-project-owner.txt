@@ -181,7 +181,7 @@ them, e.g. link:access-control.html#ldap_groups[LDAP group names] need
 to be prefixed with `ldap/`.
 
 If the link:https://gerrit-review.googlesource.com/admin/repos/plugins/singleusergroup[
-singleusergroup] plugin is installed you can also directly assign
+singleusergroup,role=external,window=_blank] plugin is installed you can also directly assign
 access rights to users, by prefixing the username with `user/` or the
 user's account ID by `userid/`.
 
@@ -374,10 +374,10 @@ There are several solutions for integrating continuous integration
 systems. The most commonly used are:
 
 - link:https://wiki.jenkins-ci.org/display/JENKINS/Gerrit+Trigger[
-  Gerrit Trigger] plugin for link:http://jenkins-ci.org/[Jenkins]
+  Gerrit Trigger,role=external,window=_blank] plugin for link:http://jenkins-ci.org/[Jenkins,role=external,window=_blank]
 
 - link:http://www.mediawiki.org/wiki/Continuous_integration/Zuul[
-  Zuul] for link:http://jenkins-ci.org/[Jenkins]
+  Zuul,role=external,window=_blank] for link:http://jenkins-ci.org/[Jenkins,role=external,window=_blank]
 
 For the integration with the continuous integration system you must
 have a service user that is able to access Gerrit. To create a service
@@ -387,7 +387,7 @@ Create Account] global capability is granted. If not, you need to ask
 a Gerrit administrator to create the service user.
 
 If the link:https://gerrit-review.googlesource.com/admin/repos/plugins/serviceuser[
-serviceuser] plugin is installed you can also create new service users
+serviceuser,role=external,window=_blank] plugin is installed you can also create new service users
 in the Gerrit Web UI under `People` > `Create Service User`. For this
 the `Create Service User` global capability must be assigned.
 
@@ -407,7 +407,7 @@ capability assigned.
 
 Gerrit provides an
 link:https://gerrit-review.googlesource.com/Documentation/config-validation.html#new-commit-validation[
-extension point to do validation of new commits]. A Gerrit plugin
+extension point to do validation of new commits,role=external,window=_blank]. A Gerrit plugin
 implementing this extension point can perform validation checks when
 new commits are pushed to Gerrit. The plugin can either provide a
 message to the client or reject the commit and cause the push to fail.
@@ -415,13 +415,13 @@ message to the client or reject the commit and cause the push to fail.
 There are some plugins available that provide commit validation:
 
 - link:https://gerrit-review.googlesource.com/admin/repos/plugins/uploadvalidator[
-  uploadvalidator]:
+  uploadvalidator,role=external,window=_blank]:
 +
 The `uploadvalidator` plugin allows project owners to configure blocked
 file extensions, required footers and a maximum allowed path length.
 
 - link:https://gerrit-review.googlesource.com/admin/repos/plugins/commit-message-length-validator[
-  commit-message-length-validator]
+  commit-message-length-validator,role=external,window=_blank]
 +
 The `commit-message-length-validator` core plugin validates that commit
 messages conform to line length limits.
@@ -501,9 +501,9 @@ only be done globally by a Gerrit administrator.
 - Issue Tracker System Plugins
 +
 There are Gerrit plugins for a tight integration with
-link:https://gerrit-review.googlesource.com//admin/repos/plugins/its-jira[Jira],
-link:https://gerrit-review.googlesource.com/admin/repos/plugins/its-bugzilla[Bugzilla] and
-link:https://gerrit-review.googlesource.com/admin/repos/plugins/its-rtc[IBM Rational Team Concert].
+link:https://gerrit-review.googlesource.com//admin/repos/plugins/its-jira[Jira,role=external,window=_blank],
+link:https://gerrit-review.googlesource.com/admin/repos/plugins/its-bugzilla[Bugzilla,role=external,window=_blank] and
+link:https://gerrit-review.googlesource.com/admin/repos/plugins/its-rtc[IBM Rational Team Concert,role=external,window=_blank].
 If installed, these plugins can e.g. be used to automatically add links
 to Gerrit changes to the issues in the issue tracker system or to
 automatically close an issue if the corresponding change is merged.
@@ -551,15 +551,15 @@ by adding this person in the Gerrit Web UI as a reviewer on the change.
 Gerrit will then notify this person by email about the review request.
 
 With the link:https://gerrit-review.googlesource.com/admin/repos/plugins/reviewers[
-reviewers] plugin it is possible to configure default reviewers who
+reviewers,role=external,window=_blank] plugin it is possible to configure default reviewers who
 will be automatically added to each change. The default reviewers can
 be configured in the Gerrit Web UI under `Projects` > `List` >
 <your project> > `General` in the `reviewers Plugin` section.
 
 The link:https://gerrit-review.googlesource.com/admin/repos/plugins/reviewers-by-blame[
-reviewers-by-blame] plugin can automatically add reviewers to changes
+reviewers-by-blame,role=external,window=_blank] plugin can automatically add reviewers to changes
 based on the link:https://www.kernel.org/pub/software/scm/git/docs/git-blame.html[
-git blame] computation on the changed files. This means that the plugin
+git blame,role=external,window=_blank] computation on the changed files. This means that the plugin
 will add those users as reviewer that authored most of the lines
 touched by the change, since these users should be familiar with the
 code and can most likely review the change. How many reviewers the
@@ -578,7 +578,7 @@ that the available download commands depend on the installed Gerrit
 plugins:
 
 - link:https://gerrit-review.googlesource.com/admin/repos/plugins/download-commands[
-  download-commands] plugin:
+  download-commands,role=external,window=_blank] plugin:
 +
 The `download-commands` plugin provides the default download commands
 (`Checkout`, `Cherry Pick`, `Format Patch` and `Pull`).
@@ -587,14 +587,14 @@ Gerrit administrators may configure which of the commands are shown on
 the change screen.
 
 - link:https://gerrit-review.googlesource.com/admin/repos/plugins/egit[
-  egit] plugin:
+  egit,role=external,window=_blank] plugin:
 +
 The `egit` plugin provides the change ref as a download command, which is
 needed for downloading a change from within
 link:https://www.eclipse.org/egit/[EGit].
 
 - link:https://gerrit-review.googlesource.com/admin/repos/plugins/project-download-commands[
-  project-download-commands] plugin:
+  project-download-commands,role=external,window=_blank] plugin:
 +
 The `project-download-commands` plugin enables project owners to
 configure project-specific download commands. For example, a
@@ -678,14 +678,14 @@ project. To do this you need to have a local Git repository that
 contains this history. If your existing codebase is in another VCS you
 must migrate it to Git first. For Subversion you can use the
 link:http://git-scm.com/book/en/Git-and-Other-Systems-Git-and-Subversion[
-git svn] command as described in the
+git svn,role=external,window=_blank] command as described in the
 link:http://git-scm.com/book/en/Git-and-Other-Systems-Migrating-to-Git#Subversion[
-Subversion migration guide]. An importer for Perforce is available in
+Subversion migration guide,role=external,window=_blank]. An importer for Perforce is available in
 the `contrib` section of the Git source code; how to use
-link:http://git-scm.com/docs/git-p4[git p4] to do the import from
+link:http://git-scm.com/docs/git-p4[git p4,role=external,window=_blank] to do the import from
 Perforce is described in the
 link:http://git-scm.com/book/en/Git-and-Other-Systems-Migrating-to-Git#Perforce[
-Perforce migration guide].
+Perforce migration guide,role=external,window=_blank].
 
 To import an existing history into a Gerrit project you bypass code
 review and push it directly to `refs/heads/<branch>`. For this you must
@@ -699,7 +699,7 @@ Some Gerrit servers may disallow forging committers by blocking the
 link:access-control.html#category_forge_committer[Forge Committer]
 access right globally. In this case you must use the
 link:https://www.kernel.org/pub/software/scm/git/docs/git-filter-branch.html[
-git filter-branch] command to rewrite the committer information for all
+git filter-branch,role=external,window=_blank] command to rewrite the committer information for all
 commits (the author information that records who was writing the code
 stays intact; signed tags will lose their signature):
 
@@ -741,7 +741,7 @@ have been rewritten are removed.
 Gerrit core does not support the deletion of projects.
 
 If the link:https://gerrit-review.googlesource.com/admin/repos/plugins/delete-project[
-delete-project] plugin is installed, projects can be deleted from the
+delete-project,role=external,window=_blank] plugin is installed, projects can be deleted from the
 Gerrit Web UI under `Projects` > `List` > <project> > `General` by
 clicking on the `Delete` command under `Project Commands`. The `Delete`
 command is only available if you have the `Delete Projects` global
@@ -769,7 +769,7 @@ Please note that a drawback of this workaround is that the whole review
 history (changes, review comments) is lost.
 
 Alternatively, you can use the
-link:https://gerrit.googlesource.com/plugins/importer/[importer] plugin
+link:https://gerrit.googlesource.com/plugins/importer/[importer,role=external,window=_blank] plugin
 to copy the project _including the review history_, and then
 link:#project-deletion[delete the old project].
 

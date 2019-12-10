@@ -167,21 +167,21 @@ link:http://localhost/gitweb[http://localhost/gitweb]
 Instructions are available for installing the gitweb module distributed with
 MsysGit:
 
-link:https://github.com/msysgit/msysgit/wiki/GitWeb[GitWeb]
+link:https://github.com/msysgit/msysgit/wiki/GitWeb[GitWeb,role=external,window=_blank]
 
 If you don't have Apache installed, you can download the appropriate build for
 Windows from link:http://www.apachelounge.com/download[apachelounge.org].
 
 After you have installed Apache, you will want to create a link:http://httpd.apache.org/docs/2.0/platform/windows.html#winsvc[new service user
-account] to use with Apache.
+account,role=external,window=_blank] to use with Apache.
 
 If you're still having difficulty setting up permissions, you may find this
 tech note useful for configuring Apache Service to run under another account.
-You must grant the new account link:http://technet.microsoft.com/en-us/library/cc794944(WS.10).aspx["run as service"] permission:
+You must grant the new account link:http://technet.microsoft.com/en-us/library/cc794944(WS.10).aspx["run as service",role=external,window=_blank] permission:
 
 The gitweb version in msysgit is missing several important and required
 perl modules, including CGI.pm. The perl included with the msysgit distro 1.7.8
-is broken.. The link:http://groups.google.com/group/msysgit/browse_thread/thread/ba3501f1f0ed95af[unicore folder is missing along with utf8_heavy.pl and CGI.pm]. You can
+is broken.. The link:http://groups.google.com/group/msysgit/browse_thread/thread/ba3501f1f0ed95af[unicore folder is missing along with utf8_heavy.pl and CGI.pm,role=external,window=_blank]. You can
 verify by checking for perl modules. From an msys console, execute the
 following to check:
 
@@ -202,7 +202,7 @@ failed--compilation aborted.
 If you're missing CGI.pm, you'll have to deploy the module to the msys
 environment: You will have to retrieve them from the 5.8.8 distro on :
 
-http://strawberryperl.com/releases.html
+http://strawberryperl.com/releases.html[role=external,window=_blank]
 
 File: strawberry-perl-5.8.8.3.zip
 
@@ -272,7 +272,7 @@ It is also possible to define custom patterns.
 === SEE ALSO
 
 * link:config-gerrit.html#gitweb[Section gitweb]
-* link:http://git.zx2c4.com/cgit/about/[cgit]
+* link:http://git.zx2c4.com/cgit/about/[cgit,role=external,window=_blank]
 
 GERRIT
 ------

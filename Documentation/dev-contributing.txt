@@ -33,7 +33,7 @@ link:dev-roles.html#maintainer[maintainers] can require to follow the
 design-driven contribution process instead.
 
 If you are in doubt which process is right for you, consult the
-link:https://groups.google.com/d/forum/repo-discuss[repo-discuss]
+link:https://groups.google.com/d/forum/repo-discuss[repo-discuss,role=external,window=_blank]
 mailing list.
 
 These contribution processes apply to everyone who contributes code to
@@ -83,11 +83,11 @@ As Gerrit is a code review tool, naturally contributions will
 be reviewed before they will get submitted to the code base.  To
 start your contribution, please make a git commit and upload it
 for review to the link:https://gerrit-review.googlesource.com/[
-gerrit-review.googlesource.com] Gerrit server.  To help speed up the
+gerrit-review.googlesource.com,role=external,window=_blank] Gerrit server.  To help speed up the
 review of your change, review these link:dev-crafting-changes.html[
 guidelines] before submitting your change.  You can view the pending
 Gerrit contributions and their statuses
-link:https://gerrit-review.googlesource.com/#/q/status:open+project:gerrit[here].
+link:https://gerrit-review.googlesource.com/#/q/status:open+project:gerrit[here,role=external,window=_blank].
 
 Depending on the size of that list it might take a while for
 your change to get reviewed.  Naturally there are fewer

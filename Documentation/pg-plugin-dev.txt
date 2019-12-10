@@ -2,7 +2,7 @@
 
 CAUTION: Work in progress. Hard hat area. Please
 link:https://bugs.chromium.org/p/gerrit/issues/entry?template=PolyGerrit%20plugins[send
-feedback] if something's not right.
+feedback,role=external,window=_blank] if something's not right.
 
 For migrating existing GWT UI plugins, please check out the
 link:pg-plugin-migration.html#migration[migration guide].
@@ -11,7 +11,7 @@ link:pg-plugin-migration.html#migration[migration guide].
 == Plugin loading and initialization
 
 link:js-api.html#_entry_point[Entry point] for the plugin and the loading method
-is based on link:http://w3c.github.io/webcomponents/spec/imports/[HTML Imports]
+is based on link:http://w3c.github.io/webcomponents/spec/imports/[HTML Imports,role=external,window=_blank]
 spec.
 
 * The plugin provides pluginname.html, and can be a standalone file or a static
@@ -103,7 +103,7 @@ Gerrit.install(plugin => {
 
 A plugin may provide Polymer's
 https://www.polymer-project.org/2.0/docs/devguide/style-shadow-dom#style-modules[style
-modules] to style individual endpoints using
+modules,role=external,window=_blank] to style individual endpoints using
 `plugin.registerStyleModule(endpointName, moduleName)`. A style must be defined
 as a standalone `<dom-module>` defined in the same .html file.
 
@@ -152,7 +152,7 @@ The low-level DOM API methods are the base of all UI customization.
 
 Alternative for
 link:https://www.polymer-project.org/1.0/docs/devguide/data-binding[Polymer data
-binding] for plugins that don't use Polymer. Can be used to bind element
+binding,role=external,window=_blank] for plugins that don't use Polymer. Can be used to bind element
 attribute changes to callbacks.
 
 See `samples/bind-parameters.html` for examples on both Polymer data bindings

@@ -1,10 +1,10 @@
 = Gerrit Code Review - Starter Projects
 
 We have created a
-link:https://bugs.chromium.org/p/gerrit/issues/list?can=2&q=label%3AStarterProject[StarterProject]
+link:https://bugs.chromium.org/p/gerrit/issues/list?can=2&q=label%3AStarterProject[StarterProject,role=external,window=_blank]
 category in the issue tracker and try to assign easy hack projects to it. If in
 doubt, do not hesitate to ask on the developer
-link:https://groups.google.com/forum/#!forum/repo-discuss[mailing list].
+link:https://groups.google.com/forum/#!forum/repo-discuss[mailing list,role=external,window=_blank].
 
 GERRIT
 ------

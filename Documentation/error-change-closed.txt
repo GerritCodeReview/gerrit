@@ -15,7 +15,7 @@ already submitted and merged you may want to push your commit as a
 new change. To do this you have to remove the Change-Id from the
 commit message as explained link:error-push-fails-due-to-commit-message.html[here] and ideally generate a new Change-Id
 using the link:cmd-hook-commit-msg.html[commit hook] or EGit. Before pushing again it is also
-recommended to do a link:http://www.kernel.org/pub/software/scm/git/docs/git-rebase.html[git rebase] to base your commit on the submitted
+recommended to do a link:http://www.kernel.org/pub/software/scm/git/docs/git-rebase.html[git rebase,role=external,window=_blank] to base your commit on the submitted
 change. Pushing again should now create a new change in Gerrit.
 
 If the change for which you wanted to upload a new patch set was

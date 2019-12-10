@@ -68,10 +68,10 @@ on a J2EE servlet container and an SQL database.
 Since Gerrit 3.x link:note-db.html[NoteDb] replaced the SQL database
 and all metadata is now stored in Git.
 
-* link:http://video.google.com/videoplay?docid=-8502904076440714866[Mondrian Code Review On The Web]
-* link:https://github.com/rietveld-codereview/rietveld[Rietveld - Code Review for Subversion]
-* link:http://eagain.net/gitweb/?p=gitosis.git;a=blob;f=README.rst;hb=HEAD[Gitosis README]
-* link:http://source.android.com/[Android Open Source Project]
+* link:http://video.google.com/videoplay?docid=-8502904076440714866[Mondrian Code Review On The Web,role=external,window=_blank]
+* link:https://github.com/rietveld-codereview/rietveld[Rietveld - Code Review for Subversion,role=external,window=_blank]
+* link:http://eagain.net/gitweb/?p=gitosis.git;a=blob;f=README.rst;hb=HEAD[Gitosis README,role=external,window=_blank]
+* link:http://source.android.com/[Android Open Source Project,role=external,window=_blank]
 
 
 == Overview
@@ -167,8 +167,8 @@ User authentication is handled by OpenID, and therefore Gerrit
 requires that the OpenID provider selected by a user must be
 online and operating in order to authenticate that user.
 
-* link:http://www.kernel.org/pub/software/scm/git/docs/gitrepository-layout.html[Git Repository Format]
-* link:http://openid.net/developers/specs/[OpenID Specifications]
+* link:http://www.kernel.org/pub/software/scm/git/docs/gitrepository-layout.html[Git Repository Format,role=external,window=_blank]
+* link:http://openid.net/developers/specs/[OpenID Specifications,role=external,window=_blank]
 
 *1  Although an effort is underway to eliminate the use of the
 database altogether, and to store all the metadata directly in

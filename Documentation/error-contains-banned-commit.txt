@@ -11,7 +11,7 @@ repository again by rejecting every push of such a commit with the
 error message "contains banned commit ...".
 
 If you have commits that you want to push that are based on a banned
-commit you may want to link:http://www.kernel.org/pub/software/scm/git/docs/git-cherry-pick.html[cherry-pick] them onto a clean base and push
+commit you may want to link:http://www.kernel.org/pub/software/scm/git/docs/git-cherry-pick.html[cherry-pick,role=external,window=_blank] them onto a clean base and push
 them again.
 
 

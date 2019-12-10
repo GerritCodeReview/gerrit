@@ -143,7 +143,7 @@ Stores the link:#project-watches[project watches] of the account.
 
 In addition it contains an
 link:https://en.wikibooks.org/wiki/OpenSSH/Client_Configuration_Files#.7E.2F.ssh.2Fauthorized_keys[
-authorized_keys] file with the link:#ssh-keys[SSH keys] of the account.
+authorized_keys,role=external,window=_blank] file with the link:#ssh-keys[SSH keys] of the account.
 
 [[account-properties]]
 === Account Properties
@@ -256,7 +256,7 @@ matches the change and the event.
 SSH keys are stored in the user branch in an `authorized_keys` file,
 which is the
 link:https://en.wikibooks.org/wiki/OpenSSH/Client_Configuration_Files#.7E.2F.ssh.2Fauthorized_keys[
-standard OpenSSH file format] for storing SSH keys:
+standard OpenSSH file format,role=external,window=_blank] for storing SSH keys:
 
 ----
 ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAAAgQCgug5VyMXQGnem2H1KVC4/HcRcD4zzBqSuJBRWVonSSoz3RoAZ7bWXCVVGwchtXwUURD689wFYdiPecOrWOUgeeyRq754YWRhU+W28vf8IZixgjCmiBhaL2gt3wff6pP+NXJpTSA4aeWE5DfNK5tZlxlSxqkKOS8JRSUeNQov5Tw== john.doe@example.com

@@ -158,14 +158,14 @@ the `version.bzl` file:
 ** SNAPSHOT versions are directly uploaded into the Sonatype snapshots
 repository and no further action is needed:
 +
-https://oss.sonatype.org/content/repositories/snapshots/com/google/gerrit/
+https://oss.sonatype.org/content/repositories/snapshots/com/google/gerrit/[role=external,window=_blank]
 
 ** Release versions are uploaded into a staging repository in the
 link:https://oss.sonatype.org/[Sonatype Nexus Server].
 
 * Verify the staging repository
 
-** Go to the link:https://oss.sonatype.org/[Sonatype Nexus Server] and
+** Go to the link:https://oss.sonatype.org/[Sonatype Nexus Server,role=external,window=_blank] and
 sign in with your Sonatype credentials.
 
 ** Click on 'Build Promotion' in the left navigation bar under
@@ -188,7 +188,7 @@ modified anymore, but you may still drop it if you find any issues.
 ** Test closed staging repository
 +
 Once a repository is closed you can find the URL to it in the `Summary`
-section, e.g. https://oss.sonatype.org/content/repositories/comgooglegerrit-1029
+section, e.g. https://oss.sonatype.org/content/repositories/comgooglegerrit-1029[role=external,window=_blank]
 +
 Use this URL for further testing of the artifacts in this repository,
 e.g. to try building a plugin against the plugin API in this repository
@@ -207,7 +207,7 @@ update the version in the `*_pom.xml` and configure the repository:
 +
 How to release a staging repository is described in the
 link:https://docs.sonatype.org/display/Repository/Sonatype+OSS+Maven+Repository+Usage+Guide#SonatypeOSSMavenRepositoryUsageGuide-8.a.2.ReleasingaStagingRepository[
-Sonatype OSS Maven Repository Usage Guide].
+Sonatype OSS Maven Repository Usage Guide,role=external,window=_blank].
 +
 [WARNING]
 Releasing artifacts to Maven Central cannot be undone!
@@ -217,17 +217,17 @@ link:https://oss.sonatype.org/[Sonatype Nexus Server], select it and
 click on `Release`.
 
 ** The released artifacts are available in
-https://oss.sonatype.org/content/repositories/releases/com/google/gerrit/
+https://oss.sonatype.org/content/repositories/releases/com/google/gerrit/[role=external,window=_blank]
 
 ** It may take up to 2 hours until the artifacts appear on Maven
 Central:
 +
-http://central.maven.org/maven2/com/google/gerrit/
+http://central.maven.org/maven2/com/google/gerrit/[role=external,window=_blank]
 
 * [optional]: View download statistics
 
 ** Sign in to the
-link:https://oss.sonatype.org/[Sonatype Nexus Server].
+link:https://oss.sonatype.org/[Sonatype Nexus Server,role=external,window=_blank].
 
 ** Click on 'Views/Repositories' in the left navigation bar under
 'Central Statistics'.
@@ -239,7 +239,7 @@ link:https://oss.sonatype.org/[Sonatype Nexus Server].
 ==== Publish the Gerrit WAR to the Google Cloud Storage
 
 * go to the link:https://console.cloud.google.com/storage/browser/gerrit-releases/?project=api-project-164060093628[
-gerrit-releases bucket in the Google cloud storage console]
+gerrit-releases bucket in the Google cloud storage console,role=external,window=_blank]
 * make sure you are signed in with your Gmail account
 * manually upload the Gerrit WAR file by using the `Upload` button
 
@@ -248,7 +248,7 @@ gerrit-releases bucket in the Google cloud storage console]
 
 * Create the stable branch `stable-$version` in the `gerrit` project via the
 link:https://gerrit-review.googlesource.com/admin/repos/gerrit,branches[
-Gerrit Web UI] or by push.
+Gerrit Web UI,role=external,window=_blank] or by push.
 
 * Push the commits done on `stable-$version` to `refs/for/stable-$version` and
 get them merged.
@@ -282,7 +282,7 @@ Push the new Release Tag on the plugins:
 * Upload the files manually via web browser to the appropriate folder
 in the
 link:https://console.cloud.google.com/storage/browser/gerrit-documentation/?project=api-project-164060093628[
-gerrit-documentation] storage bucket.
+gerrit-documentation,role=external,window=_blank] storage bucket.
 
 [[finalize-release-notes]]
 === Finalize the Release Notes
@@ -298,7 +298,7 @@ latest version bold.
 ==== Update homepage links
 
 Upload a change on the link:https://gerrit-review.googlesource.com/admin/repos/homepage[
-homepage project] to change the version numbers to the new version.
+homepage project,role=external,window=_blank] to change the version numbers to the new version.
 
 [[update-issues]]
 ==== Update the Issues
@@ -364,7 +364,7 @@ none of the changes/fixes ever get lost.
 
 Bazlets is used by gerrit plugins to simplify build process. To allow the
 new released version to be used by gerrit plugins,
-link:https://gerrit.googlesource.com/bazlets/+/master/gerrit_api.bzl#8[gerrit_api.bzl]
+link:https://gerrit.googlesource.com/bazlets/+/master/gerrit_api.bzl#8[gerrit_api.bzl,role=external,window=_blank]
 must reference the new version. Upload a change to bazlets repository with
 api version upgrade.
 

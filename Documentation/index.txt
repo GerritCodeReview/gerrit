@@ -16,7 +16,7 @@
 == Guides
 . link:intro-user.html[User Guide]
 . link:intro-project-owner.html[Project Owner Guide]
-. link:https://source.android.com/source/developing[Default Android Workflow] (external)
+. link:https://source.android.com/source/developing[Default Android Workflow,role=external,window=_blank] (external)
 
 == Tutorials
 . Web
@@ -43,7 +43,7 @@
 . link:access-control.html[Access Controls]
 . Multi-project management
 .. link:user-submodules.html[Submodules]
-.. link:https://source.android.com/source/using-repo.html[Repo] (external)
+.. link:https://source.android.com/source/using-repo.html[Repo,role=external,window=_blank] (external)
 . Prolog rules
 .. link:prolog-cookbook.html[Prolog Cookbook]
 .. link:prolog-change-facts.html[Prolog Facts for Gerrit Changes]
@@ -84,11 +84,11 @@
 
 == Resources
 * link:licenses.html[Licenses and Notices]
-* link:https://www.gerritcodereview.com/[Homepage]
-* link:https://gerrit-releases.storage.googleapis.com/index.html[Downloads]
-* link:https://bugs.chromium.org/p/gerrit/issues/list[Issue Tracking]
-* link:https://gerrit.googlesource.com/gerrit[Source Code]
-* link:https://www.gerritcodereview.com/about.md[A History of Gerrit Code Review]
+* link:https://www.gerritcodereview.com/[Homepage,role=external,window=_blank]
+* link:https://gerrit-releases.storage.googleapis.com/index.html[Downloads,role=external,window=_blank]
+* link:https://bugs.chromium.org/p/gerrit/issues/list[Issue Tracking,role=external,window=_blank]
+* link:https://gerrit.googlesource.com/gerrit[Source Code,role=external,window=_blank]
+* link:https://www.gerritcodereview.com/about.md[A History of Gerrit Code Review,role=external,window=_blank]
 
 GERRIT
 ------

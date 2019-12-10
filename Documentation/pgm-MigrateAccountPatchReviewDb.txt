@@ -30,7 +30,7 @@ To migrate AccountPatchReviewDb:
 [NOTE]
 When using MySQL, the file_name column length in the account_patch_reviews table will be shortened
 from the standard 4096 characters down to 255 characters. This is due to a
-link:https://dev.mysql.com/doc/refman/5.7/en/innodb-restrictions.html[MySQL limitation]
+link:https://dev.mysql.com/doc/refman/5.7/en/innodb-restrictions.html[MySQL limitation,role=external,window=_blank]
 on the max size of 767 bytes for each column in an index.
 
 == OPTIONS

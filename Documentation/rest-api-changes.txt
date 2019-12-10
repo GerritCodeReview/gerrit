@@ -2356,7 +2356,7 @@ If the change was already not private, the response is "`409 Conflict`".
 A message can be specified in the request body inside a
 link:#private-input[PrivateInput] entity. Historically, this method allowed
 a body in the DELETE, but that behavior is
-link:https://www.gerritcodereview.com/releases/2.16.md[deprecated].
+link:https://www.gerritcodereview.com/releases/2.16.md[deprecated,role=external,window=_blank].
 In this case, use a POST request instead:
 
 .Request
@@ -3342,7 +3342,7 @@ Deletes a reviewer from a change.
 Options can be provided in the request body as a
 link:#delete-reviewer-input[DeleteReviewerInput] entity.
 Historically, this method allowed a body in the DELETE, but that behavior is
-link:https://www.gerritcodereview.com/releases/2.16.md[deprecated].
+link:https://www.gerritcodereview.com/releases/2.16.md[deprecated,role=external,window=_blank].
 In this case, use a POST request instead:
 
 .Request
@@ -3422,7 +3422,7 @@ a reviewer is removed the reviewer itself is still listed on the change.
 Options can be provided in the request body as a
 link:#delete-vote-input[DeleteVoteInput] entity.
 Historically, this method allowed a body in the DELETE, but that behavior is
-link:https://www.gerritcodereview.com/releases/2.16.md[deprecated].
+link:https://www.gerritcodereview.com/releases/2.16.md[deprecated,role=external,window=_blank].
 In this case, use a POST request instead:
 
 .Request
@@ -4795,7 +4795,7 @@ global capability are permitted to delete a comment.
 Deletion reason can be provided in the request body as a
 link:#delete-comment-input[DeleteCommentInput] entity.
 Historically, this method allowed a body in the DELETE, but that behavior is
-link:https://www.gerritcodereview.com/releases/2.16.md[deprecated].
+link:https://www.gerritcodereview.com/releases/2.16.md[deprecated,role=external,window=_blank].
 In this case, use a POST request instead:
 
 .Request
@@ -5615,7 +5615,7 @@ is still listed on the change.
 Options can be provided in the request body as a
 link:#delete-vote-input[DeleteVoteInput] entity.
 Historically, this method allowed a body in the DELETE, but that behavior is
-link:https://www.gerritcodereview.com/releases/2.16.md[deprecated].
+link:https://www.gerritcodereview.com/releases/2.16.md[deprecated,role=external,window=_blank].
 In this case, use a POST request instead:
 
 .Request

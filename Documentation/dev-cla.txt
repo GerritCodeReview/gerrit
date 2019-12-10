@@ -6,17 +6,17 @@ contributions are accepted. To view and accept the agreements do the
 following:
 
 . Click 'Sign In' at the top right corner of
-  https://gerrit-review.googlesource.com/
+  https://gerrit-review.googlesource.com/[role=external,window=_blank]
 . Sign In with your Google account
 . After signing in, go to the
-  link:https://gerrit-review.googlesource.com/#/settings/agreements[Agreements]
+  link:https://gerrit-review.googlesource.com/#/settings/agreements[Agreements,role=external,window=_blank]
   tab on the settings page
 . Click on 'New Contributor Agreement' and follow the instructions
 
 For reference, the actual agreements are linked below:
 
-* link:https://cla.developers.google.com/about/google-individual[Individual Agreement]
-* link:https://cla.developers.google.com/about/google-corporate[Corporate Agreement]
+* link:https://cla.developers.google.com/about/google-individual[Individual Agreement,role=external,window=_blank]
+* link:https://cla.developers.google.com/about/google-corporate[Corporate Agreement,role=external,window=_blank]
 
 GERRIT
 ------

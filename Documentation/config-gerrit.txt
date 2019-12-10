@@ -174,7 +174,7 @@ values are:
 +
 The default setting.  Gerrit uses any valid OpenID
 provider chosen by the end-user.  For more information see
-http://openid.net/[openid.net].
+http://openid.net/[openid.net,role=external,window=_blank].
 +
 * `OpenID_SSO`
 +
@@ -286,7 +286,7 @@ is set to `OpenID` (the default).
 +
 Patterns may be either a
 link:http://download.oracle.com/javase/6/docs/api/java/util/regex/Pattern.html[standard
-Java regular expression (java.util.regex)] (start with `^` and
+Java regular expression (java.util.regex),role=external,window=_blank] (start with `^` and
 end with `$`) or be a simple prefix (any other string).
 +
 By default, the list contains two values, `http://` and `https://`,
@@ -304,7 +304,7 @@ pattern from this list.
 +
 Patterns may be either a
 link:http://download.oracle.com/javase/6/docs/api/java/util/regex/Pattern.html[standard
-Java regular expression (java.util.regex)] (start with `^` and
+Java regular expression (java.util.regex),role=external,window=_blank] (start with `^` and
 end with `$`) or be a simple prefix (any other string).
 +
 By default, the list contains two values, `http://` and `https://`,
@@ -695,7 +695,7 @@ caused by the H2 database using too much memory.
 +
 Technically the H2 cache size is configured using the CACHE_SIZE parameter in
 the H2 JDBC connection URL, as described
-link:http://www.h2database.com/html/features.html#cache_settings[here]
+link:http://www.h2database.com/html/features.html#cache_settings[here,role=external,window=_blank]
 +
 Default is unset, using up to half of the available memory.
 +
@@ -708,7 +708,7 @@ Common unit suffixes of 'k', 'm', or 'g' are supported.
 If set to true, enable H2 autoserver mode for the H2-backed persistent cache
 databases.
 +
-See link:http://www.h2database.com/html/features.html#auto_mixed_mode[here]
+See link:http://www.h2database.com/html/features.html#auto_mixed_mode[here,role=external,window=_blank]
 for detail.
 +
 Default is false.
@@ -1712,7 +1712,7 @@ projects that allow content merges.
 +
 As explained in this
 link:http://codicesoftware.blogspot.com/2011/09/merge-recursive-strategy.html[
-blog], the recursive merge produces better results if the two commits
+blog,role=external,window=_blank], the recursive merge produces better results if the two commits
 that are merged have more than one common predecessor.
 +
 Default is true.
@@ -2245,9 +2245,9 @@ By default, Gerrit will use hexadecimal encoding for slashes in project and
 branch names. Some web servers, such as Tomcat, reject this hexadecimal
 encoding in the URL.
 +
-Some alternative gitweb services, such as link:http://gitblit.com[Gitblit],
+Some alternative gitweb services, such as link:http://gitblit.com[Gitblit,role=external,window=_blank],
 allow using an alternative path separator character. In Gitblit, this can be
-configured through the property link:http://gitblit.com/properties.html[web.forwardSlashCharacter].
+configured through the property link:http://gitblit.com/properties.html[web.forwardSlashCharacter,role=external,window=_blank].
 In Gerrit, the alternative path separator can be configured correspondingly
 using the property `gitweb.pathSeparator`.
 +
@@ -2397,7 +2397,7 @@ supplied, defaults to 8080.
 Like `http://`, but additional header parsing features are
 enabled to honor `X-Forwarded-For`, `X-Forwarded-Host` and
 `X-Forwarded-Server`.  These headers are typically set by Apache's
-link:https://httpd.apache.org/docs/2.4/mod/mod_proxy.html#x-headers[mod_proxy].
+link:https://httpd.apache.org/docs/2.4/mod/mod_proxy.html#x-headers[mod_proxy,role=external,window=_blank].
 +
 [NOTE]
 --
@@ -2748,7 +2748,7 @@ A link:http://lucene.apache.org/[Lucene] index is used.
 +
 * `ELASTICSEARCH` look into link:#elasticsearch[Elasticsearch section]
 +
-An link:https://www.elastic.co/products/elasticsearch[Elasticsearch] index is
+An link:https://www.elastic.co/products/elasticsearch[Elasticsearch,role=external,window=_blank] index is
 used. Refer to the link:#elasticsearch[Elasticsearch section] for further
 configuration details.
 
@@ -2912,7 +2912,7 @@ The following settings are only used when the index type is `LUCENE`.
 Determines the amount of RAM that may be used for buffering added documents
 and deletions before they are flushed to the index.  See the
 link:http://lucene.apache.org/core/4_6_0/core/org/apache/lucene/index/LiveIndexWriterConfig.html#setRAMBufferSizeMB(double)[
-Lucene documentation] for further details.
+Lucene documentation,role=external,window=_blank] for further details.
 +
 Defaults to 16M.
 
@@ -2922,7 +2922,7 @@ Determines the minimal number of documents required before the buffered
 in-memory documents are flushed to the index. Large values generally
 give faster indexing.  See the
 link:http://lucene.apache.org/core/4_6_0/core/org/apache/lucene/index/LiveIndexWriterConfig.html#setMaxBufferedDocs(int)[
-Lucene documentation] for further details.
+Lucene documentation,role=external,window=_blank] for further details.
 +
 Defaults to -1, meaning no maximum is set and the writer will flush
 according to RAM usage.
@@ -2955,7 +2955,7 @@ is necessary yet we already have this many threads running, the incoming thread
 completed.  Note that Lucene will only run the smallest maxThreadCount merges
 at a time. See the
 link:https://lucene.apache.org/core/5_5_0/core/org/apache/lucene/index/ConcurrentMergeScheduler.html#setDefaultMaxMergesAndThreads(boolean)[
-Lucene documentation] for further details.
+Lucene documentation,role=external,window=_blank] for further details.
 +
 Defaults to -1 for (auto detection).
 
@@ -2965,13 +2965,13 @@ Defaults to -1 for (auto detection).
 Determines the max number of simultaneous Lucene merge threads that should be running at
 once. This must be less than or equal to maxMergeCount. See the
 link:https://lucene.apache.org/core/5_5_0/core/org/apache/lucene/index/ConcurrentMergeScheduler.html#setDefaultMaxMergesAndThreads(boolean)[
-Lucene documentation] for further details.
+Lucene documentation,role=external,window=_blank] for further details.
 +
 For further details on Lucene index configuration (auto detection) which
 affects maxThreadCount and maxMergeCount settings.
 See the
 link:https://lucene.apache.org/core/5_5_0/core/org/apache/lucene/index/ConcurrentMergeScheduler.html#AUTO_DETECT_MERGES_AND_THREADS[
-Lucene documentation]
+Lucene documentation,role=external,window=_blank]
 +
 Defaults to -1 for (auto detection).
 
@@ -2982,7 +2982,7 @@ default in the lucene merge queue.  Automatic dynamic IO throttling, which when
 on is used to adaptively rate limit writes bytes/sec to the minimal rate necessary
 so merges do not fall behind. See the
 link:https://lucene.apache.org/core/5_5_0/core/org/apache/lucene/index/ConcurrentMergeScheduler.html#enableAutoIOThrottle()[
-Lucene documentation] for further details.
+Lucene documentation,role=external,window=_blank] for further details.
 +
 Defaults to true (throttling enabled).
 
@@ -3012,7 +3012,7 @@ Sample Lucene index configuration:
 
 WARNING: Support for Elasticsearch is still experimental and is not recommended
 for production use. For compatibility information, please refer to the
-link:https://www.gerritcodereview.com/elasticsearch.html[project homepage].
+link:https://www.gerritcodereview.com/elasticsearch.html[project homepage,role=external,window=_blank].
 
 When using Elasticsearch version 5.6, the open and closed changes are
 indexed in a single index, separated into types `open_changes` and `closed_changes`
@@ -3047,7 +3047,7 @@ manually.
 +
 Sets the number of shards to use per index. Refer to the
 link:https://www.elastic.co/guide/en/elasticsearch/reference/current/getting-started-concepts.html#getting-started-shards-and-replicas[
-Elasticsearch documentation] for details.
+Elasticsearch documentation,role=external,window=_blank] for details.
 +
 Defaults to 5 for Elasticsearch versions 5 and 6, and to 1 starting with Elasticsearch 7.
 
@@ -3055,7 +3055,7 @@ Defaults to 5 for Elasticsearch versions 5 and 6, and to 1 starting with Elastic
 +
 Sets the number of replicas to use per index. Refer to the
 link:https://www.elastic.co/guide/en/elasticsearch/reference/current/getting-started-concepts.html#getting-started-shards-and-replicas[
-Elasticsearch documentation] for details.
+Elasticsearch documentation,role=external,window=_blank] for details.
 +
 Defaults to 1.
 
@@ -3066,12 +3066,12 @@ Note that the same username and password are used for all servers.
 
 For further information about Elasticsearch security, please refer to the documentation:
 
-* link:https://www.elastic.co/guide/en/x-pack/5.6/security-getting-started.html[Elasticsearch 5.6]
-* link:https://www.elastic.co/guide/en/x-pack/6.2/security-getting-started.html[Elasticsearch 6.2]
-* link:https://www.elastic.co/guide/en/elastic-stack-overview/6.3/security-getting-started.html[Elasticsearch 6.3]
-* link:https://www.elastic.co/guide/en/elastic-stack-overview/6.4/security-getting-started.html[Elasticsearch 6.4]
-* link:https://www.elastic.co/guide/en/elastic-stack-overview/6.5/security-getting-started.html[Elasticsearch 6.5]
-* link:https://www.elastic.co/guide/en/elastic-stack-overview/6.6/security-getting-started.html[Elasticsearch 6.6]
+* link:https://www.elastic.co/guide/en/x-pack/5.6/security-getting-started.html[Elasticsearch 5.6,role=external,window=_blank]
+* link:https://www.elastic.co/guide/en/x-pack/6.2/security-getting-started.html[Elasticsearch 6.2,role=external,window=_blank]
+* link:https://www.elastic.co/guide/en/elastic-stack-overview/6.3/security-getting-started.html[Elasticsearch 6.3,role=external,window=_blank]
+* link:https://www.elastic.co/guide/en/elastic-stack-overview/6.4/security-getting-started.html[Elasticsearch 6.4,role=external,window=_blank]
+* link:https://www.elastic.co/guide/en/elastic-stack-overview/6.5/security-getting-started.html[Elasticsearch 6.5,role=external,window=_blank]
+* link:https://www.elastic.co/guide/en/elastic-stack-overview/6.6/security-getting-started.html[Elasticsearch 6.6,role=external,window=_blank]
 
 [[elasticsearch.username]]elasticsearch.username::
 +
@@ -3122,8 +3122,8 @@ An example LDAP configuration follows, and then discussion of
 the parameters introduced here.  Suitable defaults for most
 parameters are automatically guessed based on the type of server
 detected during startup.  The guessed defaults support
-link:http://www.ietf.org/rfc/rfc2307.txt[RFC 2307], Active
-Directory and link:https://www.freeipa.org[FreeIPA].
+link:http://www.ietf.org/rfc/rfc2307.txt[RFC 2307,role=external,window=_blank], Active
+Directory and link:https://www.freeipa.org[FreeIPA,role=external,window=_blank].
 
 ----
 [ldap]
@@ -3477,8 +3477,8 @@ needed. When a Context instance is done with a connection (closed or
 garbage collected), the connection is returned to the pool for future use.
 +
 For details, see link:http://docs.oracle.com/javase/tutorial/jndi/ldap/pool.html[
-LDAP connection management (Pool)] and link:http://docs.oracle.com/javase/tutorial/jndi/ldap/config.html[
-LDAP connection management (Configuration)]
+LDAP connection management (Pool),role=external,window=_blank] and link:http://docs.oracle.com/javase/tutorial/jndi/ldap/config.html[
+LDAP connection management (Configuration),role=external,window=_blank]
 +
 By default, false.
 
@@ -3497,7 +3497,7 @@ Once LDAP connection pooling is enabled by setting the link:#ldap.useConnectionP
 ldap.useConnectionPooling] configuration property to `true`, the connection pool
 can be configured using JVM system properties as explained in the
 link:http://docs.oracle.com/javase/7/docs/technotes/guides/jndi/jndi-ldap.html#POOL[
-Java SE Documentation].
+Java SE Documentation,role=external,window=_blank].
 
 For standalone Gerrit (running with the embedded Jetty), JVM system properties
 are specified in the link:#container[container section]:
@@ -3515,7 +3515,7 @@ are specified in the link:#container[container section]:
 +
 The name of a plugin which serves the
 link:https://github.com/github/git-lfs/blob/master/docs/api/v1/http-v1-batch.md[
-LFS protocol] on the `<project-name>/info/lfs/objects/batch` endpoint. When
+LFS protocol,role=external,window=_blank] on the `<project-name>/info/lfs/objects/batch` endpoint. When
 not configured Gerrit will respond with `501 Not Implemented` on LFS protocol
 requests.
 +
@@ -3926,7 +3926,7 @@ Key fingerprints can be displayed with `gpg --list-keys
 +
 Trust signatures can be added to a key using the `tsign` command to
 link:https://www.gnupg.org/documentation/manuals/gnupg/OpenPGP-Key-Management.html[
-`gpg --edit-key`], after which the signed key should be re-uploaded.
+`gpg --edit-key`,role=external,window=_blank], after which the signed key should be re-uploaded.
 +
 If no keys are specified, web-of-trust checks are disabled. This is the
 default behavior.
@@ -4379,7 +4379,7 @@ Reply-To if inbound email is enabled and the review's author otherwise.
 [[sendemail.allowTLD]]sendemail.allowTLD::
 +
 List of custom TLDs to allow sending emails to in addition to those specified
-in the link:http://data.iana.org/TLD/[IANA list].
+in the link:http://data.iana.org/TLD/[IANA list,role=external,window=_blank].
 +
 Defaults to an empty list, meaning no additional TLDs are allowed.
 
@@ -4889,7 +4889,7 @@ The trailing ":" is optional.
 [[trackingid.name.match]]trackingid.<name>.match::
 +
 A link:http://download.oracle.com/javase/6/docs/api/java/util/regex/Pattern.html[standard
-Java regular expression (java.util.regex)] used to match the
+Java regular expression (java.util.regex),role=external,window=_blank] used to match the
 external tracking id part of the footer line. The match can
 result in several entries in the DB.  If grouping is used in the
 regex the first group will be interpreted as the tracking id.

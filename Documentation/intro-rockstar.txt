@@ -42,7 +42,7 @@ functional change, as is required for:
 
 * git cherry-pick
 
-* link:https://www.kernel.org/pub/software/scm/git/docs/git-bisect-lk2009.html[git bisect]
+* link:https://www.kernel.org/pub/software/scm/git/docs/git-bisect-lk2009.html[git bisect,role=external,window=_blank]
 
 
 [[amending]]
@@ -59,8 +59,8 @@ older (imperfect) revision is not lost. It can be found via the `git reflog`.
 
 At least two well-known open source projects insist on these practices:
 
-* link:http://git-scm.com/[Git]
-* link:http://www.kernel.org/category/about.html[Linux Kernel]
+* link:http://git-scm.com/[Git,role=external,window=_blank]
+* link:http://www.kernel.org/category/about.html[Linux Kernel,role=external,window=_blank]
 
 However, contributors to these projects don’t refine and polish their changes
 in private until they’re perfect. Instead, polishing code is part of a review

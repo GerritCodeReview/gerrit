@@ -6,7 +6,7 @@ the problem can often be resolved by fixing the commit message.
 
 If the commit message of the last commit needs to be fixed you can
 simply amend the last commit (please find a detailed description in
-the link:http://www.kernel.org/pub/software/scm/git/docs/git-commit.html[Git documentation]):
+the link:http://www.kernel.org/pub/software/scm/git/docs/git-commit.html[Git documentation,role=external,window=_blank]):
 
 ----
   $ git commit --amend
@@ -17,7 +17,7 @@ commit other than the last one you have to do an interactive git
 rebase for the affected commits. While doing the interactive rebase
 you can e.g. choose 'reword' for those commits for which you want to
 fix the commit messages. For a detailed description of git rebase
-please check the link:http://www.kernel.org/pub/software/scm/git/docs/git-rebase.html[Git documentation].
+please check the link:http://www.kernel.org/pub/software/scm/git/docs/git-rebase.html[Git documentation,role=external,window=_blank].
 
 Please use interactive git rebase with care as it rewrites existing
 commits. Generally you should never rewrite commits that have already

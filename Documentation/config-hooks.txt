@@ -3,7 +3,7 @@
 Gerrit does not run any of the standard git hooks in the repositories
 it works with, but it does have its own hook mechanism included via
 the link:https://gerrit-review.googlesource.com/admin/repos/plugins/hooks[
-hooks plugin].
+hooks plugin,role=external,window=_blank].
 
 GERRIT
 ------

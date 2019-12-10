@@ -4,7 +4,7 @@ This is a Gerrit guide that is dedicated to Gerrit end-users. It
 explains the standard Gerrit workflows and how a user can adapt Gerrit
 to personal preferences.
 
-It is expected that readers know about link:http://git-scm.com/[Git]
+It is expected that readers know about link:http://git-scm.com/[Git,role=external,window=_blank]
 and that they are familiar with basic git commands and workflows.
 
 [[gerrit]]
@@ -21,20 +21,20 @@ link:#no-code-review[work without code review].
 
 Gerrit uses the git protocol. This means in order to work with Gerrit
 you do *not* need to install any Gerrit client, but having a regular
-git client, such as the link:http://git-scm.com/[git command line] or
-link:http://eclipse.org/egit/[EGit] in Eclipse, is sufficient.
+git client, such as the link:http://git-scm.com/[git command line,role=external,window=_blank] or
+link:http://eclipse.org/egit/[EGit,role=external,window=_blank] in Eclipse, is sufficient.
 
 Still there are some client-side tools for Gerrit, which can be used
 optionally:
 
-* link:http://eclipse.org/mylyn/[Mylyn Gerrit Connector]: Gerrit
+* link:http://eclipse.org/mylyn/[Mylyn Gerrit Connector,role=external,window=_blank]: Gerrit
   integration with Mylyn
 * link:https://github.com/uwolfer/gerrit-intellij-plugin[Gerrit
-  IntelliJ Plugin]: Gerrit integration with the
-  link:http://www.jetbrains.com/idea/[IntelliJ Platform]
+  IntelliJ Plugin,role=external,window=_blank]: Gerrit integration with the
+  link:http://www.jetbrains.com/idea/[IntelliJ Platform,role=external,window=_blank]
 * link:https://play.google.com/store/apps/details?id=com.jbirdvegas.mgerrit[
-  mGerrit]: Android client for Gerrit
-* link:https://github.com/stackforge/gertty[Gertty]: Console-based
+  mGerrit,role=external,window=_blank]: Android client for Gerrit
+* link:https://github.com/stackforge/gertty[Gertty,role=external,window=_blank]: Console-based
   interface for Gerrit
 
 [[clone]]
@@ -209,7 +209,7 @@ documentation].
 Instead of manually installing the `commit-msg` hook for each git
 repository, you can copy it into the
 link:http://git-scm.com/docs/git-init#_template_directory[git template
-directory]. Then it is automatically copied to every newly cloned
+directory,role=external,window=_blank]. Then it is automatically copied to every newly cloned
 repository.
 
 [[review-change]]

@@ -432,7 +432,7 @@ image::images/user-review-ui-change-screen-download-commands.png[width=800, link
 The available download commands depend on the installed Gerrit plugins.
 The most popular plugin for download commands, the
 link:https://gerrit-review.googlesource.com/admin/repos/plugins/download-commands[
-download-commands] plugin, provides commands to checkout, pull and
+download-commands,role=external,window=_blank] plugin, provides commands to checkout, pull and
 cherry-pick a patch set.
 
 Each command has a copy-to-clipboard icon that allows the command to be
@@ -943,7 +943,7 @@ previous match. Skipped lines are automatically expanded if they
 contain a match and one navigates to it.
 
 For additional possibilities to search please check the
-link:http://www.vim.org/docs.php[Vim documentation]. There are other
+link:http://www.vim.org/docs.php[Vim documentation,role=external,window=_blank]. There are other
 useful ways to search, e.g. while the cursor is on a word, pressing `*`
 or `#` searches for the next or previous occurrence of the word.
 
@@ -962,7 +962,7 @@ Vim-like commands can be used to navigate within a patch file:
 - `gg` / `G` moves to cursor to the start / end of the file
 - `Ctrl-D` / `Ctrl-U` scrolls downwards / upwards
 
-Please check the link:http://www.vim.org/docs.php[Vim documentation]
+Please check the link:http://www.vim.org/docs.php[Vim documentation,role=external,window=_blank]
 for further information.
 
 [[diff-preferences]]

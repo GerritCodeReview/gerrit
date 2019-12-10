@@ -12,7 +12,7 @@ for this project.
 If one of your changes could not be merged in Gerrit due to conflicts
 and you created the merge commit to resolve the conflicts, you might
 want to revert the merge and instead of this do a
-link:http://www.kernel.org/pub/software/scm/git/docs/git-rebase.html[rebase].
+link:http://www.kernel.org/pub/software/scm/git/docs/git-rebase.html[rebase,role=external,window=_blank].
 
 
 GERRIT

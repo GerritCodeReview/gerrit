@@ -6,7 +6,7 @@ message if the commit message of the pushed commit does not contain
 a Change-Id.
 
 You can see the commit messages for existing commits in the history
-by doing a link:http://www.kernel.org/pub/software/scm/git/docs/git-log.html[git log].
+by doing a link:http://www.kernel.org/pub/software/scm/git/docs/git-log.html[git log,role=external,window=_blank].
 
 To avoid this error you should use the link:cmd-hook-commit-msg.html[commit hook] or EGit to
 automatically create and insert a unique Change-Id into the commit

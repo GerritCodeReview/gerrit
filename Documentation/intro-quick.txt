@@ -1,7 +1,7 @@
 = Gerrit Code Review Product Overview
 
 Gerrit Code Review is a web-based code review tool built on
-https://git-scm.com/[Git version control].
+https://git-scm.com/[Git version control,role=external,window=_blank].
 
 == What is Gerrit Code Review?
 
@@ -45,7 +45,7 @@ To learn more, see:
 
 . link:intro-user.html[User Guide]
 . link:intro-project-owner.html[Project Owner Guide]
-. link:https://source.android.com/source/life-of-a-patch[Default Android Workflow] (external)
+. link:https://source.android.com/source/life-of-a-patch[Default Android Workflow,role=external,window=_blank] (external)
 
 GERRIT
 ------

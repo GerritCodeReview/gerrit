@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "102ab2e0_52221dbe",
+        "filename": "java/com/google/gerrit/server/logging/BUILD",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-10T13:16:04Z",
+      "side": 1,
+      "message": "Oh, that\u0027s not nice. The logging package has intentionally as few dependencies as possible. Can we move the SubmissionId class into another package so that we don\u0027t need to add this dependency here? It anyway doesn\u0027t have anything to do with logging, hence it shouldn\u0027t be in this package.",
+      "revId": "d68773e75af2f0e6e95aa280a43d139d0ed85890",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "66f02715_47543443",
+        "filename": "java/com/google/gerrit/server/rules/RuleUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2019-12-10T17:14:17Z",
+      "side": 1,
+      "message": "You mean the reduction limit above?\n\nI found this sentence hard to parse. You introduce this limit as \"compile reduction limit\" but then refer to it as \"compiled limit\", or is that something else?\n\nIn the other files it\u0027s also referred to as \"compiled reduction limit\" (past tense). The meaning is probably obvious when you have domain knowledge, but reading this with no background info I think it\u0027s helpful if the names match exactly.",
+      "range": {
+        "startLine": 20,
+        "startChar": 73,
+        "endLine": 20,
+        "endChar": 78
+      },
+      "revId": "1917c12a96068ca1b1eaadf3c181802b0a4e7c93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -182,6 +182,11 @@ limitations under the License.
       test('input text change triggers function', () => {
         sandbox.spy(element, '_getRecentChanges');
         element.$.parentInput.noDebounce = true;
+        MockInteractions.pressAndReleaseKeyOn(
+            element.$.parentInput.$.input,
+            13,
+            null,
+            'enter');
         element._text = '1';
         assert.isTrue(element._getRecentChanges.calledOnce);
         element._text = '12';

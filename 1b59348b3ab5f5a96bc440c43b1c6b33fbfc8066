@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cd4022dc_20f8a128",
+        "filename": "Documentation/intro-gerrit-walkthrough-github.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-12-10T02:44:10Z",
+      "side": 1,
+      "message": "remove this",
+      "range": {
+        "startLine": 19,
+        "startChar": 45,
+        "endLine": 19,
+        "endChar": 46
+      },
+      "revId": "1b59348b3ab5f5a96bc440c43b1c6b33fbfc8066",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "51ffaa97_a24693fa",
+        "filename": "Documentation/intro-gerrit-walkthrough-github.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-12-10T02:44:10Z",
+      "side": 1,
+      "message": "Missing hyperlink?",
+      "range": {
+        "startLine": 28,
+        "startChar": 29,
+        "endLine": 28,
+        "endChar": 44
+      },
+      "revId": "1b59348b3ab5f5a96bc440c43b1c6b33fbfc8066",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eb716de3_1a109174",
+        "filename": "Documentation/intro-gerrit-walkthrough-github.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-12-10T02:44:10Z",
+      "side": 1,
+      "message": "remove",
+      "range": {
+        "startLine": 56,
+        "startChar": 134,
+        "endLine": 56,
+        "endChar": 135
+      },
+      "revId": "1b59348b3ab5f5a96bc440c43b1c6b33fbfc8066",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c9b28c71_9d33c35a",
+        "filename": "Documentation/intro-gerrit-walkthrough-github.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-12-10T02:44:10Z",
+      "side": 1,
+      "message": "remove",
+      "range": {
+        "startLine": 60,
+        "startChar": 96,
+        "endLine": 60,
+        "endChar": 97
+      },
+      "revId": "1b59348b3ab5f5a96bc440c43b1c6b33fbfc8066",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2670fd6c_9337bfc5",
+        "filename": "Documentation/intro-gerrit-walkthrough-github.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-12-10T02:44:10Z",
+      "side": 1,
+      "message": "remove\n\n(This is in several places and I\u0027m wondering if it was intentional for some reason?)",
+      "range": {
+        "startLine": 111,
+        "startChar": 7,
+        "endLine": 111,
+        "endChar": 8
+      },
+      "revId": "1b59348b3ab5f5a96bc440c43b1c6b33fbfc8066",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

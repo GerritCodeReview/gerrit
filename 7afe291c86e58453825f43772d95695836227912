@@ -46,6 +46,30 @@
       "revId": "7afe291c86e58453825f43772d95695836227912",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "45925639_a1c07ba0",
+        "filename": "java/com/google/gerrit/server/ExceptionHook.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-12-10T13:27:02Z",
+      "side": 1,
+      "message": "SG, thanks for the explanation.",
+      "parentUuid": "8eb6a46e_92c874a3",
+      "range": {
+        "startLine": 74,
+        "startChar": 18,
+        "endLine": 74,
+        "endChar": 23
+      },
+      "revId": "7afe291c86e58453825f43772d95695836227912",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "d2ea95aa_ef263cf1",
+        "filename": "Documentation/intro-gerrit-walkthrough-github.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1074328
+      },
+      "writtenOn": "2019-12-10T11:30:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "511c3620_1134a6ca",
+      "revId": "91f4c2ff8e236c5934a529976ab401413b352b5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7ff99bb9_768a3115",
         "filename": "Documentation/intro-gerrit-walkthrough-github.txt",
         "patchSetId": 5
@@ -39,6 +57,30 @@
       "revId": "91f4c2ff8e236c5934a529976ab401413b352b5e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bfeab74d_03ac0b78",
+        "filename": "Documentation/intro-gerrit-walkthrough-github.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1074328
+      },
+      "writtenOn": "2019-12-10T11:30:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7ff99bb9_768a3115",
+      "range": {
+        "startLine": 155,
+        "startChar": 24,
+        "endLine": 155,
+        "endChar": 39
+      },
+      "revId": "91f4c2ff8e236c5934a529976ab401413b352b5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "c3ad0510_a06ece08",
+        "filename": "Documentation/intro-gerrit-walkthrough-github.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1074328
+      },
+      "writtenOn": "2019-12-10T11:30:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "348f5954_dfeb1ce7",
+      "range": {
+        "startLine": 224,
+        "startChar": 27,
+        "endLine": 224,
+        "endChar": 43
+      },
+      "revId": "91f4c2ff8e236c5934a529976ab401413b352b5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "905c5093_3d918ca9",
         "filename": "Documentation/intro-gerrit-walkthrough-github.txt",
         "patchSetId": 5
@@ -88,6 +154,30 @@
     },
     {
       "key": {
+        "uuid": "0411db7d_25950e57",
+        "filename": "Documentation/intro-gerrit-walkthrough-github.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1074328
+      },
+      "writtenOn": "2019-12-10T11:30:52Z",
+      "side": 1,
+      "message": "Fair. I\u0027ll add a sentence.",
+      "parentUuid": "905c5093_3d918ca9",
+      "range": {
+        "startLine": 235,
+        "startChar": 11,
+        "endLine": 236,
+        "endChar": 24
+      },
+      "revId": "91f4c2ff8e236c5934a529976ab401413b352b5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "644b94b2_387b3d9d",
         "filename": "Documentation/intro-gerrit-walkthrough-github.txt",
         "patchSetId": 5
@@ -99,6 +189,30 @@
       "writtenOn": "2019-12-10T08:53:54Z",
       "side": 1,
       "message": "after you did the rebase with conflict resolution you are done, another amend is usually not needed",
+      "range": {
+        "startLine": 240,
+        "startChar": 60,
+        "endLine": 240,
+        "endChar": 65
+      },
+      "revId": "91f4c2ff8e236c5934a529976ab401413b352b5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3fe03a37_659c84ea",
+        "filename": "Documentation/intro-gerrit-walkthrough-github.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1074328
+      },
+      "writtenOn": "2019-12-10T11:30:52Z",
+      "side": 1,
+      "message": "but doesn\u0027t the conflict resolution result in an amended commit? Or, I guess, you are saying that the git rebase operation automatically does that so people might not see this as an explicit amended commit?",
+      "parentUuid": "644b94b2_387b3d9d",
       "range": {
         "startLine": 240,
         "startChar": 60,

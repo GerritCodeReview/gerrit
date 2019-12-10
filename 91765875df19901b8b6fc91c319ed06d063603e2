@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "677c3af7_3c663241",
+        "filename": "polygerrit-ui/app/elements/shared/gr-event-interface/gr-event-interface.js",
+        "patchSetId": 13
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-12-10T12:13:47Z",
+      "side": 1,
+      "message": "I don\u0027t understand this comment. :-)",
+      "revId": "91765875df19901b8b6fc91c319ed06d063603e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d6616078_27b20d8c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-event-interface/gr-event-interface.js",
+        "patchSetId": 13
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-12-10T12:13:47Z",
+      "side": 1,
+      "message": "Is it license compliant that we actively copy and alter nodejs.org code?",
+      "revId": "91765875df19901b8b6fc91c319ed06d063603e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dbdabf1d_df1772d5",
+        "filename": "polygerrit-ui/app/elements/shared/gr-event-interface/gr-event-interface.js",
+        "patchSetId": 13
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-12-10T12:13:47Z",
+      "side": 1,
+      "message": "Maybe move this comment to the jsdoc of the method.",
+      "revId": "91765875df19901b8b6fc91c319ed06d063603e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

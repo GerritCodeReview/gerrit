@@ -95,6 +95,29 @@
       "revId": "97cfc7aab0d64e9479a0bcdc329ffbc1345cb03c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f30cb57f_3be0caa5",
+        "filename": "javatests/com/google/gerrit/integration/git/GitProtocolV2IT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 334,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-12-10T11:31:49Z",
+      "side": 1,
+      "message": "Would it make sense to also verify, that you cannot fetch that refs without authentication? Or it\u0027s fine to assume that this part was already tested in testGitWireProtocolV2WithSsh()-method?",
+      "range": {
+        "startLine": 334,
+        "startChar": 6,
+        "endLine": 334,
+        "endChar": 63
+      },
+      "revId": "97cfc7aab0d64e9479a0bcdc329ffbc1345cb03c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

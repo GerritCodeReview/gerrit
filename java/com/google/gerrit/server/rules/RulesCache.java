@@ -87,6 +87,7 @@ public class RulesCache {
 
   private final boolean enableProjectRules;
   private final int maxDbSize;
+  private final int compileReductionLimit;
   private final int maxSrcBytes;
   private final Path cacheDir;
   private final Path rulesDir;
@@ -104,6 +105,7 @@ public class RulesCache {
       PluginSetContext<PredicateProvider> predicateProviders,
       @Named(CACHE_NAME) Cache<ObjectId, PrologMachineCopy> machineCache) {
     maxDbSize = config.getInt("rules", null, "maxPrologDatabaseSize", 256);
+    compileReductionLimit = RuleUtil.compileReductionLimit(config);
     maxSrcBytes = config.getInt("rules", null, "maxSourceBytes", 128 << 10);
     enableProjectRules = config.getBoolean("rules", null, "enable", true) && maxSrcBytes > 0;
     cacheDir = site.resolve(config.getString("cache", null, "directory"));
@@ -252,6 +254,9 @@ public class RulesCache {
   private BufferingPrologControl newEmptyMachine(ClassLoader cl) {
     BufferingPrologControl ctl = new BufferingPrologControl();
     ctl.setMaxDatabaseSize(maxDbSize);
+    // Use the compiled reduction limit because the first term evaluation is done with
+    // consult_stream - an internal, combined Prolog term.
+    ctl.setReductionLimit(compileReductionLimit);
     ctl.setPrologClassLoader(
         new PrologClassLoader(new PredicateClassLoader(predicateProviders, cl)));
     ctl.setEnabled(EnumSet.allOf(Prolog.Feature.class), false);

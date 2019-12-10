@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "511c3620_1134a6ca",
+        "filename": "Documentation/intro-gerrit-walkthrough-github.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-10T08:53:54Z",
+      "side": 1,
+      "message": "I think it would be good to add an anchor to all the sections:\n\n[[clone]]\n\u003d\u003d 1. Cloning a Repository",
+      "revId": "91f4c2ff8e236c5934a529976ab401413b352b5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7ff99bb9_768a3115",
+        "filename": "Documentation/intro-gerrit-walkthrough-github.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-10T08:53:54Z",
+      "side": 1,
+      "message": "maybe better \"change\" (having access to a Gerrit instance usually doesn\u0027t mean that you can see all changes on it)",
+      "range": {
+        "startLine": 155,
+        "startChar": 24,
+        "endLine": 155,
+        "endChar": 39
+      },
+      "revId": "91f4c2ff8e236c5934a529976ab401413b352b5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "348f5954_dfeb1ce7",
+        "filename": "Documentation/intro-gerrit-walkthrough-github.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-10T08:53:54Z",
+      "side": 1,
+      "message": "Not sure if this is correct for a majority of Gerrit instances (it\u0027s how we have configured our Gerrit, but it\u0027s not the default setup, by default only project owners are allowed to submit). Maybe say \"anyone with Submit permissions\".",
+      "range": {
+        "startLine": 224,
+        "startChar": 27,
+        "endLine": 224,
+        "endChar": 43
+      },
+      "revId": "91f4c2ff8e236c5934a529976ab401413b352b5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "905c5093_3d918ca9",
+        "filename": "Documentation/intro-gerrit-walkthrough-github.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-10T08:53:54Z",
+      "side": 1,
+      "message": "I\u0027m not sure if this gets sufficiently clear here. In Gerrit you resolve conflicts for changes by using git rebase, but never by git merge (which I think you do use with GitHub?).",
+      "range": {
+        "startLine": 235,
+        "startChar": 11,
+        "endLine": 236,
+        "endChar": 24
+      },
+      "revId": "91f4c2ff8e236c5934a529976ab401413b352b5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "644b94b2_387b3d9d",
+        "filename": "Documentation/intro-gerrit-walkthrough-github.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-10T08:53:54Z",
+      "side": 1,
+      "message": "after you did the rebase with conflict resolution you are done, another amend is usually not needed",
+      "range": {
+        "startLine": 240,
+        "startChar": 60,
+        "endLine": 240,
+        "endChar": 65
+      },
+      "revId": "91f4c2ff8e236c5934a529976ab401413b352b5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

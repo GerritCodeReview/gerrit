@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1426c715_86a03726",
+        "filename": "tools/dev-hooks/pre-commit",
+        "patchSetId": 9
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-12-11T14:25:58Z",
+      "side": 1,
+      "message": "done, i will leave it here but mark it optional as some people may copy the content instead of copy the file.",
+      "parentUuid": "b3bc4e7e_90fcec90",
+      "range": {
+        "startLine": 22,
+        "startChar": 3,
+        "endLine": 22,
+        "endChar": 56
+      },
+      "revId": "bd632a464591ecf4c49a5216df3908e509aa90ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b7f93a31_71d51b3e",
         "filename": "tools/dev-hooks/pre-commit",
         "patchSetId": 9
@@ -45,6 +69,30 @@
       "revId": "bd632a464591ecf4c49a5216df3908e509aa90ff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "88e241aa_65caff73",
+        "filename": "tools/dev-hooks/pre-commit",
+        "patchSetId": 9
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-12-11T14:25:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b7f93a31_71d51b3e",
+      "range": {
+        "startLine": 24,
+        "startChar": 4,
+        "endLine": 24,
+        "endChar": 6
+      },
+      "revId": "bd632a464591ecf4c49a5216df3908e509aa90ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "3fb44295_af6ec0fb",
+        "filename": "tools/dev-hooks/pre-commit",
+        "patchSetId": 9
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-12-11T14:25:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea0e7e8b_2a6535a5",
+      "range": {
+        "startLine": 34,
+        "startChar": 94,
+        "endLine": 34,
+        "endChar": 98
+      },
+      "revId": "bd632a464591ecf4c49a5216df3908e509aa90ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "13bc520c_db574fa3",
         "filename": "tools/dev-hooks/pre-commit",
         "patchSetId": 9
@@ -91,6 +163,30 @@
       "revId": "bd632a464591ecf4c49a5216df3908e509aa90ff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e64b4006_098c9f3d",
+        "filename": "tools/dev-hooks/pre-commit",
+        "patchSetId": 9
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-12-11T14:25:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "13bc520c_db574fa3",
+      "range": {
+        "startLine": 35,
+        "startChar": 7,
+        "endLine": 35,
+        "endChar": 23
+      },
+      "revId": "bd632a464591ecf4c49a5216df3908e509aa90ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

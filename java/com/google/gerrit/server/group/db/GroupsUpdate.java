@@ -26,7 +26,6 @@ import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.exceptions.DuplicateKeyException;
 import com.google.gerrit.exceptions.NoSuchGroupException;
-import com.google.gerrit.git.LockFailureException;
 import com.google.gerrit.git.RefUpdateUtil;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
@@ -311,7 +310,6 @@ public class GroupsUpdate {
     try {
       return retryHelper
           .groupUpdate("createGroup", () -> createGroupInNoteDb(groupCreation, groupUpdate))
-          .retryOn(LockFailureException.class::isInstance)
           .call();
     } catch (Exception e) {
       Throwables.throwIfUnchecked(e);
@@ -351,7 +349,6 @@ public class GroupsUpdate {
     try {
       return retryHelper
           .groupUpdate("updateGroup", () -> updateGroupInNoteDb(groupUuid, groupUpdate))
-          .retryOn(LockFailureException.class::isInstance)
           .call();
     } catch (Exception e) {
       Throwables.throwIfUnchecked(e);

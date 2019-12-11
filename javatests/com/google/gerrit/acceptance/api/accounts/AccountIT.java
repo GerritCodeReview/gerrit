@@ -105,7 +105,6 @@ import com.google.gerrit.extensions.common.GroupInfo;
 import com.google.gerrit.extensions.common.SshKeyInfo;
 import com.google.gerrit.extensions.events.AccountIndexedListener;
 import com.google.gerrit.extensions.events.GitReferenceUpdatedListener;
-import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -117,6 +116,7 @@ import com.google.gerrit.gpg.Fingerprint;
 import com.google.gerrit.gpg.PublicKeyStore;
 import com.google.gerrit.gpg.testing.TestKey;
 import com.google.gerrit.mail.Address;
+import com.google.gerrit.server.ExceptionHook;
 import com.google.gerrit.server.ServerInitiated;
 import com.google.gerrit.server.account.AccountProperties;
 import com.google.gerrit.server.account.AccountState;
@@ -135,7 +135,6 @@ import com.google.gerrit.server.index.account.StalenessChecker;
 import com.google.gerrit.server.notedb.Sequences;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackend.RefFilterOptions;
-import com.google.gerrit.server.plugincontext.PluginContext.PluginMetrics;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.RefPattern;
@@ -221,6 +220,7 @@ public class AccountIT extends AbstractDaemonTest {
   @Inject private VersionedAuthorizedKeys.Accessor authorizedKeys;
   @Inject private PermissionBackend permissionBackend;
   @Inject private ExtensionRegistry extensionRegistry;
+  @Inject private PluginSetContext<ExceptionHook> exceptionHooks;
 
   @Inject protected Emails emails;
 
@@ -2761,7 +2761,9 @@ public class AccountIT extends AbstractDaemonTest {
                 cfg,
                 retryMetrics,
                 null,
-                new PluginSetContext<>(DynamicSet.emptySet(), PluginMetrics.DISABLED_INSTANCE),
+                null,
+                null,
+                exceptionHooks,
                 r -> r.withBlockStrategy(noSleepBlockStrategy)),
             extIdNotesFactory,
             ident,
@@ -2815,7 +2817,9 @@ public class AccountIT extends AbstractDaemonTest {
                 cfg,
                 retryMetrics,
                 null,
-                new PluginSetContext<>(DynamicSet.emptySet(), PluginMetrics.DISABLED_INSTANCE),
+                null,
+                null,
+                exceptionHooks,
                 r ->
                     r.withStopStrategy(StopStrategies.stopAfterAttempt(status.size()))
                         .withBlockStrategy(noSleepBlockStrategy)),
@@ -2873,7 +2877,9 @@ public class AccountIT extends AbstractDaemonTest {
                 cfg,
                 retryMetrics,
                 null,
-                new PluginSetContext<>(DynamicSet.emptySet(), PluginMetrics.DISABLED_INSTANCE),
+                null,
+                null,
+                exceptionHooks,
                 r -> r.withBlockStrategy(noSleepBlockStrategy)),
             extIdNotesFactory,
             ident,
@@ -2946,7 +2952,9 @@ public class AccountIT extends AbstractDaemonTest {
                 cfg,
                 retryMetrics,
                 null,
-                new PluginSetContext<>(DynamicSet.emptySet(), PluginMetrics.DISABLED_INSTANCE),
+                null,
+                null,
+                exceptionHooks,
                 r -> r.withBlockStrategy(noSleepBlockStrategy)),
             extIdNotesFactory,
             ident,

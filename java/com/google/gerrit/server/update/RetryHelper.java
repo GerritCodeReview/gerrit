@@ -28,9 +28,9 @@ import com.github.rholder.retry.WaitStrategies;
 import com.github.rholder.retry.WaitStrategy;
 import com.google.auto.value.AutoValue;
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.collect.Maps;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.metrics.Counter3;
 import com.google.gerrit.metrics.Description;
@@ -42,13 +42,18 @@ import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.RequestId;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
+import com.google.gerrit.server.query.account.InternalAccountQuery;
+import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.update.RetryableAction.Action;
 import com.google.gerrit.server.update.RetryableAction.ActionType;
 import com.google.gerrit.server.update.RetryableChangeAction.ChangeAction;
+import com.google.gerrit.server.update.RetryableIndexQueryAction.IndexQueryAction;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.time.Duration;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
@@ -107,15 +112,15 @@ public class RetryHelper {
   @VisibleForTesting
   @Singleton
   public static class Metrics {
-    final Counter3<ActionType, String, String> attemptCounts;
-    final Counter3<ActionType, String, String> timeoutCount;
-    final Counter3<ActionType, String, String> autoRetryCount;
-    final Counter3<ActionType, String, String> failuresOnAutoRetryCount;
+    final Counter3<String, String, String> attemptCounts;
+    final Counter3<String, String, String> timeoutCount;
+    final Counter3<String, String, String> autoRetryCount;
+    final Counter3<String, String, String> failuresOnAutoRetryCount;
 
     @Inject
     Metrics(MetricMaker metricMaker) {
-      Field<ActionType> actionTypeField =
-          Field.ofEnum(ActionType.class, "action_type", Metadata.Builder::actionType).build();
+      Field<String> actionTypeField =
+          Field.ofString("action_type", Metadata.Builder::actionType).build();
       Field<String> operationNameField =
           Field.ofString("operation_name", Metadata.Builder::operationName)
               .description("The name of the operation that was retried.")
@@ -175,10 +180,14 @@ public class RetryHelper {
     return new AutoValue_RetryHelper_Options.Builder();
   }
 
+  private final Config cfg;
   private final Metrics metrics;
   private final BatchUpdate.Factory updateFactory;
+  private final Provider<InternalAccountQuery> internalAccountQuery;
+  private final Provider<InternalChangeQuery> internalChangeQuery;
   private final PluginSetContext<ExceptionHook> exceptionHooks;
-  private final Map<ActionType, Duration> defaultTimeouts;
+  private final Duration defaultTimeout;
+  private final Map<String, Duration> defaultTimeouts;
   private final WaitStrategy waitStrategy;
   @Nullable private final Consumer<RetryerBuilder<?>> overwriteDefaultRetryerStrategySetup;
   private final boolean retryWithTraceOnFailure;
@@ -188,8 +197,17 @@ public class RetryHelper {
       @GerritServerConfig Config cfg,
       Metrics metrics,
       PluginSetContext<ExceptionHook> exceptionHooks,
-      BatchUpdate.Factory updateFactory) {
-    this(cfg, metrics, updateFactory, exceptionHooks, null);
+      BatchUpdate.Factory updateFactory,
+      Provider<InternalAccountQuery> internalAccountQuery,
+      Provider<InternalChangeQuery> internalChangeQuery) {
+    this(
+        cfg,
+        metrics,
+        updateFactory,
+        internalAccountQuery,
+        internalChangeQuery,
+        exceptionHooks,
+        null);
   }
 
   @VisibleForTesting
@@ -197,21 +215,25 @@ public class RetryHelper {
       @GerritServerConfig Config cfg,
       Metrics metrics,
       BatchUpdate.Factory updateFactory,
+      Provider<InternalAccountQuery> internalAccountQuery,
+      Provider<InternalChangeQuery> internalChangeQuery,
       PluginSetContext<ExceptionHook> exceptionHooks,
       @Nullable Consumer<RetryerBuilder<?>> overwriteDefaultRetryerStrategySetup) {
+    this.cfg = cfg;
     this.metrics = metrics;
     this.updateFactory = updateFactory;
+    this.internalAccountQuery = internalAccountQuery;
+    this.internalChangeQuery = internalChangeQuery;
     this.exceptionHooks = exceptionHooks;
-
-    Duration defaultTimeout =
+    this.defaultTimeout =
         Duration.ofMillis(
             cfg.getTimeUnit("retry", null, "timeout", SECONDS.toMillis(20), MILLISECONDS));
-    this.defaultTimeouts = Maps.newEnumMap(ActionType.class);
+    this.defaultTimeouts = new HashMap<>();
     Arrays.stream(ActionType.values())
         .forEach(
             at ->
                 defaultTimeouts.put(
-                    at,
+                    at.name(),
                     Duration.ofMillis(
                         cfg.getTimeUnit(
                             "retry",
@@ -228,6 +250,25 @@ public class RetryHelper {
             WaitStrategies.randomWait(50, MILLISECONDS));
     this.overwriteDefaultRetryerStrategySetup = overwriteDefaultRetryerStrategySetup;
     this.retryWithTraceOnFailure = cfg.getBoolean("retry", "retryWithTraceOnFailure", false);
+  }
+
+  /**
+   * Creates an action that is executed with retrying when called.
+   *
+   * <p>This method allows to use a custom action type. If the action type is one of {@link
+   * ActionType} the usage of {@link #action(ActionType, String, Action)} is preferred.
+   *
+   * <p>The action type is used as metric bucket and decides which default timeout is used.
+   *
+   * @param actionType the type of the action, used as metric bucket
+   * @param actionName the name of the action, used as metric bucket
+   * @param action the action that should be executed
+   * @return the retryable action, callers need to call {@link RetryableAction#call()} to execute
+   *     the action
+   */
+  @UsedAt(UsedAt.Project.GOOGLE)
+  public <T> RetryableAction<T> action(String actionType, String actionName, Action<T> action) {
+    return new RetryableAction<>(this, actionType, actionName, action);
   }
 
   /**
@@ -309,19 +350,85 @@ public class RetryHelper {
   }
 
   /**
-   * Creates an action for querying an index that is executed with retrying when called.
+   * Creates an action for querying the account index that is executed with retrying when called.
+   *
+   * <p>The index query action gets a {@link InternalAccountQuery} provided that can be used to
+   * query the account index.
    *
    * @param actionName the name of the action, used as metric bucket
-   * @param action the action that should be executed
-   * @return the retryable action, callers need to call {@link RetryableAction#call()} to execute
-   *     the action
+   * @param indexQueryAction the action that should be executed
+   * @return the retryable action, callers need to call {@link RetryableIndexQueryAction#call()} to
+   *     execute the action
    */
-  public <T> RetryableAction<T> indexQuery(String actionName, Action<T> action) {
-    return new RetryableAction<>(this, ActionType.INDEX_QUERY, actionName, action);
+  public <T> RetryableIndexQueryAction<InternalAccountQuery, T> accountIndexQuery(
+      String actionName, IndexQueryAction<T, InternalAccountQuery> indexQueryAction) {
+    return new RetryableIndexQueryAction<>(
+        this, internalAccountQuery.get(), actionName, indexQueryAction);
   }
 
-  Duration getDefaultTimeout(ActionType actionType) {
-    return defaultTimeouts.get(actionType);
+  /**
+   * Creates an action for querying the change index that is executed with retrying when called.
+   *
+   * <p>The index query action gets a {@link InternalChangeQuery} provided that can be used to query
+   * the change index.
+   *
+   * @param actionName the name of the action, used as metric bucket
+   * @param indexQueryAction the action that should be executed
+   * @return the retryable action, callers need to call {@link RetryableIndexQueryAction#call()} to
+   *     execute the action
+   */
+  public <T> RetryableIndexQueryAction<InternalChangeQuery, T> changeIndexQuery(
+      String actionName, IndexQueryAction<T, InternalChangeQuery> indexQueryAction) {
+    return new RetryableIndexQueryAction<>(
+        this, internalChangeQuery.get(), actionName, indexQueryAction);
+  }
+
+  /**
+   * Returns the default timeout for an action type.
+   *
+   * <p>The default timeout for an action type is defined by the 'retry.<action-type>.timeout'
+   * parameter in gerrit.config. If this parameter is not set the value from the 'retry.timeout'
+   * parameter is used (if this is also not set we fall back to to a hard-coded timeout of 20s).
+   *
+   * <p>Callers can overwrite the default timeout by setting another timeout in the {@link Options},
+   * see {@link Options#timeout()}.
+   *
+   * @param actionType the action type for which the default timeout should be retrieved
+   * @return the default timeout for the given action type
+   */
+  Duration getDefaultTimeout(String actionType) {
+    Duration timeout = defaultTimeouts.get(actionType);
+    if (timeout != null) {
+      return timeout;
+    }
+    return readDefaultTimeoutFromConfig(actionType);
+  }
+
+  /**
+   * Thread-safe method to read and cache a default timeout from gerrit.config.
+   *
+   * <p>After reading the default timeout from gerrit.config it is cached in the {@link
+   * #defaultTimeouts} map, so that it's read only once.
+   *
+   * @param actionType the action type for which the default timeout should be retrieved
+   * @return the default timeout for the given action type
+   */
+  private synchronized Duration readDefaultTimeoutFromConfig(String actionType) {
+    Duration timeout = defaultTimeouts.get(actionType);
+    if (timeout != null) {
+      // some other thread has read the default timeout from the config in the meantime
+      return timeout;
+    }
+    timeout =
+        Duration.ofMillis(
+            cfg.getTimeUnit(
+                "retry",
+                actionType,
+                "timeout",
+                SECONDS.toMillis(defaultTimeout.getSeconds()),
+                MILLISECONDS));
+    defaultTimeouts.put(actionType, timeout);
+    return timeout;
   }
 
   /**
@@ -336,10 +443,7 @@ public class RetryHelper {
    *     catch and inspect this Throwable to decide carefully whether it should be re-thrown
    */
   <T> T execute(
-      ActionType actionType,
-      Action<T> action,
-      Options opts,
-      Predicate<Throwable> exceptionPredicate)
+      String actionType, Action<T> action, Options opts, Predicate<Throwable> exceptionPredicate)
       throws Throwable {
     MetricListener listener = new MetricListener();
     try (TraceContext traceContext = TraceContext.open()) {
@@ -354,8 +458,11 @@ public class RetryHelper {
                   return true;
                 }
 
+                String actionName = opts.caller().orElse("N/A");
+
                 // Exception hooks may identify additional exceptions for retry.
-                if (exceptionHooks.stream().anyMatch(h -> h.shouldRetry(t))) {
+                if (exceptionHooks.stream()
+                    .anyMatch(h -> h.shouldRetry(actionType, actionName, t))) {
                   return true;
                 }
 
@@ -366,19 +473,19 @@ public class RetryHelper {
                     && opts.retryWithTrace().get().test(t)) {
                   // Exception hooks may identify exceptions for which retrying with trace should be
                   // skipped.
-                  if (exceptionHooks.stream().anyMatch(h -> h.skipRetryWithTrace(t))) {
+                  if (exceptionHooks.stream()
+                      .anyMatch(h -> h.skipRetryWithTrace(actionType, actionName, t))) {
                     return false;
                   }
 
-                  String caller = opts.caller().orElse("N/A");
                   String cause = formatCause(t);
                   if (!traceContext.isTracing()) {
                     String traceId = "retry-on-failure-" + new RequestId();
                     traceContext.addTag(RequestId.Type.TRACE_ID, traceId).forceLogging();
                     opts.onAutoTrace().ifPresent(c -> c.accept(traceId));
                     logger.atFine().withCause(t).log(
-                        "AutoRetry: %s failed, retry with tracing enabled", caller);
-                    metrics.autoRetryCount.increment(actionType, caller, cause);
+                        "AutoRetry: %s failed, retry with tracing enabled", actionName);
+                    metrics.autoRetryCount.increment(actionType, actionName, cause);
                     return true;
                   }
 
@@ -386,8 +493,8 @@ public class RetryHelper {
                   // enabled and it failed again. Log the failure so that admin can see if it
                   // differs from the failure that triggered the retry.
                   logger.atFine().withCause(t).log(
-                      "AutoRetry: auto-retry of %s has failed", caller);
-                  metrics.failuresOnAutoRetryCount.increment(actionType, caller, cause);
+                      "AutoRetry: auto-retry of %s has failed", actionName);
+                  metrics.failuresOnAutoRetryCount.increment(actionType, actionName, cause);
                   return false;
                 }
 
@@ -443,7 +550,7 @@ public class RetryHelper {
    *     catch and inspect this Throwable to decide carefully whether it should be re-thrown
    */
   private <T> T executeWithTimeoutCount(
-      ActionType actionType, Action<T> action, Options opts, Retryer<T> retryer) throws Throwable {
+      String actionType, Action<T> action, Options opts, Retryer<T> retryer) throws Throwable {
     try {
       return retryer.call(action::call);
     } catch (ExecutionException | RetryException e) {
@@ -461,7 +568,7 @@ public class RetryHelper {
   }
 
   private <O> RetryerBuilder<O> createRetryerBuilder(
-      ActionType actionType, Options opts, Predicate<Throwable> exceptionPredicate) {
+      String actionType, Options opts, Predicate<Throwable> exceptionPredicate) {
     RetryerBuilder<O> retryerBuilder =
         RetryerBuilder.<O>newBuilder().retryIfException(exceptionPredicate::test);
     if (opts.listener() != null) {

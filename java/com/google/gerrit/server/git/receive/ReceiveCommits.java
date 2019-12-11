@@ -43,7 +43,6 @@ import static org.eclipse.jgit.transport.ReceiveCommand.Result.REJECTED_OTHER_RE
 import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
 import com.google.common.base.Strings;
-import com.google.common.base.Throwables;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
 import com.google.common.collect.ImmutableList;
@@ -167,7 +166,6 @@ import com.google.gerrit.server.update.Context;
 import com.google.gerrit.server.update.RepoContext;
 import com.google.gerrit.server.update.RepoOnlyOp;
 import com.google.gerrit.server.update.RetryHelper;
-import com.google.gerrit.server.update.RetryableAction.Action;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.LabelVote;
 import com.google.gerrit.server.util.MagicBranch;
@@ -3315,9 +3313,11 @@ class ReceiveCommits {
                       for (String changeId : c.getFooterLines(FooterConstants.CHANGE_ID)) {
                         if (byKey == null) {
                           byKey =
-                              executeIndexQuery(
-                                  "queryOpenChangesByKeyByBranch",
-                                  () -> openChangesByKeyByBranch(branch));
+                              retryHelper
+                                  .changeIndexQuery(
+                                      "queryOpenChangesByKeyByBranch",
+                                      q -> openChangesByKeyByBranch(q, branch))
+                                  .call();
                         }
 
                         ChangeNotes onto = byKey.get(Change.key(changeId.trim()));
@@ -3397,23 +3397,12 @@ class ReceiveCommits {
     }
   }
 
-  private <T> T executeIndexQuery(String actionName, Action<T> action) {
-    try (TraceTimer traceTimer = newTimer("executeIndexQuery")) {
-      return retryHelper
-          .indexQuery(actionName, action)
-          .retryOn(StorageException.class::isInstance)
-          .call();
-    } catch (Exception e) {
-      Throwables.throwIfUnchecked(e);
-      throw new StorageException(e);
-    }
-  }
-
-  private Map<Change.Key, ChangeNotes> openChangesByKeyByBranch(BranchNameKey branch) {
+  private Map<Change.Key, ChangeNotes> openChangesByKeyByBranch(
+      InternalChangeQuery internalChangeQuery, BranchNameKey branch) {
     try (TraceTimer traceTimer =
         newTimer("openChangesByKeyByBranch", Metadata.builder().branchName(branch.branch()))) {
       Map<Change.Key, ChangeNotes> r = new HashMap<>();
-      for (ChangeData cd : queryProvider.get().byBranchOpen(branch)) {
+      for (ChangeData cd : internalChangeQuery.byBranchOpen(branch)) {
         try {
           r.put(cd.change().getKey(), cd.notes());
         } catch (NoSuchChangeException e) {

@@ -420,10 +420,7 @@ public class AccountsUpdate {
   private Optional<AccountState> executeAccountUpdate(Action<Optional<AccountState>> action)
       throws IOException, ConfigInvalidException {
     try {
-      return retryHelper
-          .accountUpdate("updateAccount", action)
-          .retryOn(LockFailureException.class::isInstance)
-          .call();
+      return retryHelper.accountUpdate("updateAccount", action).call();
     } catch (Exception e) {
       Throwables.throwIfUnchecked(e);
       Throwables.throwIfInstanceOf(e, IOException.class);

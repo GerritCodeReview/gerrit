@@ -38,12 +38,14 @@ public interface ExceptionHook {
    * retry of the operation has a chance to succeed.
    *
    * <p>If {@code false} is returned the operation is still retried once to capture a trace, unless
-   * {@link #skipRetryWithTrace(Throwable)} skips the auto-retry.
+   * {@link #skipRetryWithTrace(String, String, Throwable)} skips the auto-retry.
    *
    * @param throwable throwable that was thrown while executing the operation
+   * @param actionType the type of the action for which the exception occurred
+   * @param actionName the name of the action for which the exception occurred
    * @return whether the operation should be retried
    */
-  default boolean shouldRetry(Throwable throwable) {
+  default boolean shouldRetry(String actionType, String actionName, Throwable throwable) {
     return false;
   }
 
@@ -54,7 +56,7 @@ public interface ExceptionHook {
    * com.google.gerrit.server.update.RetryHelper}.
    *
    * <p>This method is only called for exceptions for which the operation should not be retried
-   * ({@link #shouldRetry(Throwable)} returned {@code false}).
+   * ({@link #shouldRetry(String, String, Throwable)} returned {@code false}).
    *
    * <p>By default this method returns {@code false}, so that by default traces for unexpected
    * exceptions are captured, which allows to investigate them.
@@ -68,10 +70,12 @@ public interface ExceptionHook {
    * retry.retryWithTraceOnFailure} in {@code gerrit.config} is set to {@code true}).
    *
    * @param throwable throwable that was thrown while executing the operation
+   * @param actionType the type of the action for which the exception occurred
+   * @param actionName the name of the action for which the exception occurred
    * @return whether auto-retrying of an operation with tracing should be skipped for the given
    *     throwable
    */
-  default boolean skipRetryWithTrace(Throwable throwable) {
+  default boolean skipRetryWithTrace(String actionType, String actionName, Throwable throwable) {
     return false;
   }
 

@@ -17,21 +17,16 @@ package com.google.gerrit.server.account;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
 
-import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.SetMultimap;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.UserIdentity;
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.server.account.externalids.ExternalId;
 import com.google.gerrit.server.account.externalids.ExternalIds;
-import com.google.gerrit.server.query.account.InternalAccountQuery;
 import com.google.gerrit.server.update.RetryHelper;
-import com.google.gerrit.server.update.RetryableAction.Action;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.sql.Timestamp;
@@ -44,16 +39,11 @@ import org.eclipse.jgit.lib.PersonIdent;
 @Singleton
 public class Emails {
   private final ExternalIds externalIds;
-  private final Provider<InternalAccountQuery> queryProvider;
   private final RetryHelper retryHelper;
 
   @Inject
-  public Emails(
-      ExternalIds externalIds,
-      Provider<InternalAccountQuery> queryProvider,
-      RetryHelper retryHelper) {
+  public Emails(ExternalIds externalIds, RetryHelper retryHelper) {
     this.externalIds = externalIds;
-    this.queryProvider = queryProvider;
     this.retryHelper = retryHelper;
   }
 
@@ -84,9 +74,9 @@ public class Emails {
       return accounts;
     }
 
-    return executeIndexQuery(
-            "queryAccountsByPreferredEmail",
-            () -> queryProvider.get().byPreferredEmail(email).stream())
+    return retryHelper
+        .accountIndexQuery("queryAccountsByPreferredEmail", q -> q.byPreferredEmail(email)).call()
+        .stream()
         .map(a -> a.account().id())
         .collect(toImmutableSet());
   }
@@ -105,9 +95,10 @@ public class Emails {
     List<String> emailsToBackfill =
         Arrays.stream(emails).filter(e -> !result.containsKey(e)).collect(toImmutableList());
     if (!emailsToBackfill.isEmpty()) {
-      executeIndexQuery(
-              "queryAccountsByPreferredEmails",
-              () -> queryProvider.get().byPreferredEmail(emailsToBackfill).entries().stream())
+      retryHelper
+          .accountIndexQuery(
+              "queryAccountsByPreferredEmails", q -> q.byPreferredEmail(emailsToBackfill))
+          .call().entries().stream()
           .forEach(e -> result.put(e.getKey(), e.getValue().account().id()));
     }
     return ImmutableSetMultimap.copyOf(result);
@@ -139,17 +130,5 @@ public class Emails {
     }
 
     return u;
-  }
-
-  private <T> T executeIndexQuery(String actionName, Action<T> action) {
-    try {
-      return retryHelper
-          .indexQuery(actionName, action)
-          .retryOn(StorageException.class::isInstance)
-          .call();
-    } catch (Exception e) {
-      Throwables.throwIfUnchecked(e);
-      throw new StorageException(e);
-    }
   }
 }

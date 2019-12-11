@@ -40,7 +40,6 @@ import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.RestModifyView;
-import com.google.gerrit.git.LockFailureException;
 import com.google.gerrit.gpg.CheckResult;
 import com.google.gerrit.gpg.Fingerprint;
 import com.google.gerrit.gpg.GerritPublicKeyChecker;
@@ -208,7 +207,6 @@ public class PostGpgKeys implements RestModifyView<AccountResource, GpgKeysInput
     try {
       retryHelper
           .accountUpdate("storeGpgKeys", () -> tryStoreKeys(rsrc, keyRings, toRemove))
-          .retryOn(LockFailureException.class::isInstance)
           .call();
     } catch (Exception e) {
       Throwables.throwIfUnchecked(e);

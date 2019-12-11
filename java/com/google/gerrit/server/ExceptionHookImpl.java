@@ -31,7 +31,7 @@ public class ExceptionHookImpl implements ExceptionHook {
           + "Please retry later.";
 
   @Override
-  public boolean shouldRetry(Throwable throwable) {
+  public boolean shouldRetry(String actionType, String actionName, Throwable throwable) {
     return isLockFailure(throwable);
   }
 

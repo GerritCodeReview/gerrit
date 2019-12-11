@@ -743,7 +743,7 @@ public class TraceIT extends AbstractDaemonTest {
             .add(
                 new ExceptionHook() {
                   @Override
-                  public boolean shouldRetry(Throwable t) {
+                  public boolean shouldRetry(String actionType, String actionName, Throwable t) {
                     return true;
                   }
                 })) {

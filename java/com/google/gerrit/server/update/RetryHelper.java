@@ -458,8 +458,11 @@ public class RetryHelper {
                   return true;
                 }
 
+                String actionName = opts.caller().orElse("N/A");
+
                 // Exception hooks may identify additional exceptions for retry.
-                if (exceptionHooks.stream().anyMatch(h -> h.shouldRetry(t))) {
+                if (exceptionHooks.stream()
+                    .anyMatch(h -> h.shouldRetry(actionType, actionName, t))) {
                   return true;
                 }
 
@@ -470,19 +473,19 @@ public class RetryHelper {
                     && opts.retryWithTrace().get().test(t)) {
                   // Exception hooks may identify exceptions for which retrying with trace should be
                   // skipped.
-                  if (exceptionHooks.stream().anyMatch(h -> h.skipRetryWithTrace(t))) {
+                  if (exceptionHooks.stream()
+                      .anyMatch(h -> h.skipRetryWithTrace(actionType, actionName, t))) {
                     return false;
                   }
 
-                  String caller = opts.caller().orElse("N/A");
                   String cause = formatCause(t);
                   if (!traceContext.isTracing()) {
                     String traceId = "retry-on-failure-" + new RequestId();
                     traceContext.addTag(RequestId.Type.TRACE_ID, traceId).forceLogging();
                     opts.onAutoTrace().ifPresent(c -> c.accept(traceId));
                     logger.atFine().withCause(t).log(
-                        "AutoRetry: %s failed, retry with tracing enabled", caller);
-                    metrics.autoRetryCount.increment(actionType, caller, cause);
+                        "AutoRetry: %s failed, retry with tracing enabled", actionName);
+                    metrics.autoRetryCount.increment(actionType, actionName, cause);
                     return true;
                   }
 
@@ -490,8 +493,8 @@ public class RetryHelper {
                   // enabled and it failed again. Log the failure so that admin can see if it
                   // differs from the failure that triggered the retry.
                   logger.atFine().withCause(t).log(
-                      "AutoRetry: auto-retry of %s has failed", caller);
-                  metrics.failuresOnAutoRetryCount.increment(actionType, caller, cause);
+                      "AutoRetry: auto-retry of %s has failed", actionName);
+                  metrics.failuresOnAutoRetryCount.increment(actionType, actionName, cause);
                   return false;
                 }
 

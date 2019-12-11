@@ -22,6 +22,30 @@
       "revId": "baf6bc1a06d6250d207bbfa40746c74eefa89d58",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ea2f0e34_ab6d8157",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2019-12-11T23:43:03Z",
+      "side": 1,
+      "message": "It was specifically requested, I\u0027m assuming because it makes it easy to extend.",
+      "parentUuid": "ae00d7f8_11c7cdc6",
+      "range": {
+        "startLine": 70,
+        "startChar": 24,
+        "endLine": 70,
+        "endChar": 28
+      },
+      "revId": "baf6bc1a06d6250d207bbfa40746c74eefa89d58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

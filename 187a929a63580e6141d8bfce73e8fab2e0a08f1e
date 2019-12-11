@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ef500fdd_38e680dc",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/RevertIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 434,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-11T14:20:37Z",
+      "side": 1,
+      "message": "nit: rename to \u0027change1\u0027 or \u0027changeId1\u0027\n\nHere and below.",
+      "range": {
+        "startLine": 434,
+        "startChar": 11,
+        "endLine": 434,
+        "endChar": 18
+      },
+      "revId": "187a929a63580e6141d8bfce73e8fab2e0a08f1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eaeb2d19_4e6896d9",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/RevertIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 543,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-11T14:20:37Z",
+      "side": 1,
+      "message": "nit: just \"change\"?",
+      "range": {
+        "startLine": 543,
+        "startChar": 11,
+        "endLine": 543,
+        "endChar": 23
+      },
+      "revId": "187a929a63580e6141d8bfce73e8fab2e0a08f1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fae8c2f1_243a1426",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/RevertIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 601,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-11T14:20:37Z",
+      "side": 1,
+      "message": "nit: revertSubmissionIdenticalTreeIsAllowed",
+      "range": {
+        "startLine": 601,
+        "startChar": 14,
+        "endLine": 601,
+        "endChar": 53
+      },
+      "revId": "187a929a63580e6141d8bfce73e8fab2e0a08f1e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

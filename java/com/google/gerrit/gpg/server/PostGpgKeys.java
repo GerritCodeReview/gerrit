@@ -59,7 +59,6 @@ import com.google.gerrit.server.mail.send.AddKeySender;
 import com.google.gerrit.server.mail.send.DeleteKeySender;
 import com.google.gerrit.server.query.account.InternalAccountQuery;
 import com.google.gerrit.server.update.RetryHelper;
-import com.google.gerrit.server.update.RetryHelper.ActionType;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
@@ -207,10 +206,10 @@ public class PostGpgKeys implements RestModifyView<AccountResource, GpgKeysInput
       AccountResource rsrc, List<PGPPublicKeyRing> keyRings, Collection<Fingerprint> toRemove)
       throws RestApiException, PGPException, IOException {
     try {
-      retryHelper.execute(
-          ActionType.ACCOUNT_UPDATE,
-          () -> tryStoreKeys(rsrc, keyRings, toRemove),
-          LockFailureException.class::isInstance);
+      retryHelper
+          .accountUpdate("storeGpgKeys", () -> tryStoreKeys(rsrc, keyRings, toRemove))
+          .retryOn(LockFailureException.class::isInstance)
+          .call();
     } catch (Exception e) {
       Throwables.throwIfUnchecked(e);
       Throwables.throwIfInstanceOf(e, RestApiException.class);

@@ -156,11 +156,14 @@ public class MailProcessor {
    * @param message {@link MailMessage} to process
    */
   public void process(MailMessage message) throws RestApiException, UpdateException {
-    retryHelper.execute(
-        buf -> {
-          processImpl(buf, message);
-          return null;
-        });
+    retryHelper
+        .changeUpdate(
+            "processCommentsReceivedByEmail",
+            buf -> {
+              processImpl(buf, message);
+              return null;
+            })
+        .call();
   }
 
   private void processImpl(BatchUpdate.Factory buf, MailMessage message)

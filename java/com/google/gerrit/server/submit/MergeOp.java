@@ -77,7 +77,6 @@ import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.RetryHelper;
-import com.google.gerrit.server.update.RetryHelper.ActionType;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
@@ -483,41 +482,39 @@ public class MergeOp implements AutoCloseable {
         }
 
         RetryTracker retryTracker = new RetryTracker();
-        retryHelper.execute(
-            updateFactory -> {
-              long attempt = retryTracker.lastAttemptNumber + 1;
-              boolean isRetry = attempt > 1;
-              if (isRetry) {
-                logger.atFine().log("Retrying, attempt #%d; skipping merged changes", attempt);
-                this.ts = TimeUtil.nowTs();
-                openRepoManager();
-              }
-              this.commitStatus = new CommitStatus(cs, isRetry);
-              if (checkSubmitRules) {
-                logger.atFine().log("Checking submit rules and state");
-                checkSubmitRulesAndState(cs, isRetry);
-              } else {
-                logger.atFine().log("Bypassing submit rules");
-                bypassSubmitRules(cs, isRetry);
-              }
-              try {
-                integrateIntoHistory(cs);
-              } catch (IntegrationException e) {
-                logger.atWarning().withCause(e).log("Error from integrateIntoHistory");
-                throw new ResourceConflictException(e.getMessage(), e);
-              }
-              return null;
-            },
-            RetryHelper.options()
-                .listener(retryTracker)
-                // Up to the entire submit operation is retried, including possibly many projects.
-                // Multiply the timeout by the number of projects we're actually attempting to
-                // submit.
-                .timeout(
-                    retryHelper
-                        .getDefaultTimeout(ActionType.CHANGE_UPDATE)
-                        .multipliedBy(cs.projects().size()))
-                .build());
+        retryHelper
+            .changeUpdate(
+                "integrateIntoHistory",
+                updateFactory -> {
+                  long attempt = retryTracker.lastAttemptNumber + 1;
+                  boolean isRetry = attempt > 1;
+                  if (isRetry) {
+                    logger.atFine().log("Retrying, attempt #%d; skipping merged changes", attempt);
+                    this.ts = TimeUtil.nowTs();
+                    openRepoManager();
+                  }
+                  this.commitStatus = new CommitStatus(cs, isRetry);
+                  if (checkSubmitRules) {
+                    logger.atFine().log("Checking submit rules and state");
+                    checkSubmitRulesAndState(cs, isRetry);
+                  } else {
+                    logger.atFine().log("Bypassing submit rules");
+                    bypassSubmitRules(cs, isRetry);
+                  }
+                  try {
+                    integrateIntoHistory(cs);
+                  } catch (IntegrationException e) {
+                    logger.atWarning().withCause(e).log("Error from integrateIntoHistory");
+                    throw new ResourceConflictException(e.getMessage(), e);
+                  }
+                  return null;
+                })
+            .listener(retryTracker)
+            // Up to the entire submit operation is retried, including possibly many projects.
+            // Multiply the timeout by the number of projects we're actually attempting to
+            // submit.
+            .defaultTimeoutMultiplier(cs.projects().size())
+            .call();
 
         if (projects > 1) {
           topicMetrics.topicSubmissionsCompleted.increment();

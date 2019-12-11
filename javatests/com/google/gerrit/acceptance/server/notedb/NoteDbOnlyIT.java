@@ -154,16 +154,20 @@ public class NoteDbOnlyIT extends AbstractDaemonTest {
     AtomicInteger afterUpdateReposCalledCount = new AtomicInteger();
 
     String result =
-        retryHelper.execute(
-            batchUpdateFactory -> {
-              try (BatchUpdate bu = newBatchUpdate(batchUpdateFactory)) {
-                bu.addOp(
-                    id,
-                    new UpdateRefAndAddMessageOp(updateRepoCalledCount, updateChangeCalledCount));
-                bu.execute(new ConcurrentWritingListener(afterUpdateReposCalledCount));
-              }
-              return "Done";
-            });
+        retryHelper
+            .changeUpdate(
+                "testUpdateRefAndAddMessageOp",
+                batchUpdateFactory -> {
+                  try (BatchUpdate bu = newBatchUpdate(batchUpdateFactory)) {
+                    bu.addOp(
+                        id,
+                        new UpdateRefAndAddMessageOp(
+                            updateRepoCalledCount, updateChangeCalledCount));
+                    bu.execute(new ConcurrentWritingListener(afterUpdateReposCalledCount));
+                  }
+                  return "Done";
+                })
+            .call();
 
     assertThat(result).isEqualTo("Done");
     assertThat(updateRepoCalledCount.get()).isEqualTo(2);

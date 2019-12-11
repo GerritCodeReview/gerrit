@@ -309,10 +309,10 @@ public class GroupsUpdate {
       InternalGroupCreation groupCreation, InternalGroupUpdate groupUpdate)
       throws IOException, ConfigInvalidException, DuplicateKeyException {
     try {
-      return retryHelper.execute(
-          RetryHelper.ActionType.GROUP_UPDATE,
-          () -> createGroupInNoteDb(groupCreation, groupUpdate),
-          LockFailureException.class::isInstance);
+      return retryHelper
+          .groupUpdate("createGroup", () -> createGroupInNoteDb(groupCreation, groupUpdate))
+          .retryOn(LockFailureException.class::isInstance)
+          .call();
     } catch (Exception e) {
       Throwables.throwIfUnchecked(e);
       Throwables.throwIfInstanceOf(e, IOException.class);
@@ -349,10 +349,10 @@ public class GroupsUpdate {
       AccountGroup.UUID groupUuid, InternalGroupUpdate groupUpdate)
       throws IOException, ConfigInvalidException, DuplicateKeyException, NoSuchGroupException {
     try {
-      return retryHelper.execute(
-          RetryHelper.ActionType.GROUP_UPDATE,
-          () -> updateGroupInNoteDb(groupUuid, groupUpdate),
-          LockFailureException.class::isInstance);
+      return retryHelper
+          .groupUpdate("updateGroup", () -> updateGroupInNoteDb(groupUuid, groupUpdate))
+          .retryOn(LockFailureException.class::isInstance)
+          .call();
     } catch (Exception e) {
       Throwables.throwIfUnchecked(e);
       Throwables.throwIfInstanceOf(e, IOException.class);

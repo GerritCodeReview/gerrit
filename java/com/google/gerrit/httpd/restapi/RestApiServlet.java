@@ -126,8 +126,9 @@ import com.google.gerrit.server.quota.QuotaException;
 import com.google.gerrit.server.restapi.change.ChangesCollection;
 import com.google.gerrit.server.restapi.project.ProjectsCollection;
 import com.google.gerrit.server.update.RetryHelper;
-import com.google.gerrit.server.update.RetryHelper.Action;
-import com.google.gerrit.server.update.RetryHelper.ActionType;
+import com.google.gerrit.server.update.RetryableAction;
+import com.google.gerrit.server.update.RetryableAction.Action;
+import com.google.gerrit.server.update.RetryableAction.ActionType;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.util.http.CacheHeaders;
@@ -814,27 +815,22 @@ public class RestApiServlet extends HttpServlet {
       ActionType actionType,
       Action<T> action)
       throws Exception {
+    RetryableAction<T> retryableAction = globals.retryHelper.action(actionType, caller, action);
     AtomicReference<Optional<String>> traceId = new AtomicReference<>(Optional.empty());
-    RetryHelper.Options.Builder retryOptionsBuilder = RetryHelper.options().caller(caller);
     if (!traceContext.isTracing()) {
       // enable automatic retry with tracing in case of non-recoverable failure
-      retryOptionsBuilder =
-          retryOptionsBuilder
-              .retryWithTrace(t -> !(t instanceof RestApiException))
-              .onAutoTrace(
-                  autoTraceId -> {
-                    traceId.set(Optional.of(autoTraceId));
+      retryableAction
+          .retryWithTrace(t -> !(t instanceof RestApiException))
+          .onAutoTrace(
+              autoTraceId -> {
+                traceId.set(Optional.of(autoTraceId));
 
-                    // Include details of the request into the trace.
-                    traceRequestData(req);
-                  });
+                // Include details of the request into the trace.
+                traceRequestData(req);
+              });
     }
     try {
-      // ExceptionHookImpl controls on which exceptions we retry.
-      // The passed in exceptionPredicate allows to define additional exceptions on which retry
-      // should happen, but here we have none (hence pass in "t -> false" as exceptionPredicate).
-      return globals.retryHelper.execute(
-          actionType, action, retryOptionsBuilder.build(), t -> false);
+      return retryableAction.call();
     } finally {
       // If auto-tracing got triggered due to a non-recoverable failure, also trace the rest of
       // this request. This means logging is forced for all further log statements and the logs are

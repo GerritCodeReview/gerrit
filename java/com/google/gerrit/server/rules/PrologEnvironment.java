@@ -205,17 +205,8 @@ public class PrologEnvironment extends BufferingPrologControl {
       this.anonymousUser = anonymousUser;
       this.patchsetUtil = patchsetUtil;
       this.emails = emails;
-
-      int limit = config.getInt("rules", null, "reductionLimit", 100000);
-      reductionLimit = limit <= 0 ? Integer.MAX_VALUE : limit;
-
-      limit =
-          config.getInt(
-              "rules",
-              null,
-              "compileReductionLimit",
-              (int) Math.min(10L * limit, Integer.MAX_VALUE));
-      compileLimit = limit <= 0 ? Integer.MAX_VALUE : limit;
+      this.reductionLimit = RuleUtil.reductionLimit(config);
+      this.compileLimit = RuleUtil.compileReductionLimit(config);
 
       logger.atInfo().log("reductionLimit: %d, compileLimit: %d", reductionLimit, compileLimit);
     }

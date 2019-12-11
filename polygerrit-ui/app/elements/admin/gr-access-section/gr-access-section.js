@@ -25,6 +25,7 @@
 
   /**
    * Fired when a section that was previously added was removed.
+   *
    * @event added-section-removed
    */
 
@@ -37,15 +38,15 @@
   const LABEL = 'Label';
 
   /**
-    * @appliesMixin Gerrit.AccessMixin
-    * @appliesMixin Gerrit.FireMixin
-    */
+   * @appliesMixin Gerrit.AccessMixin
+   * @appliesMixin Gerrit.FireMixin
+   */
   class GrAccessSection extends Polymer.mixinBehaviors( [
     Gerrit.AccessBehavior,
     /**
-       * Unused in this element, but called by other elements in tests
-       * e.g gr-repo-access_test.
-       */
+     * Unused in this element, but called by other elements in tests
+     * e.g gr-repo-access_test.
+     */
     Gerrit.FireBehavior,
   ], Polymer.GestureEventListeners(
       Polymer.LegacyElementMixin(

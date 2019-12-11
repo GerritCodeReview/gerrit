@@ -22,8 +22,8 @@
   const ME_EXPRESSION = 'me';
 
   /**
-    * @appliesMixin Gerrit.DisplayNameMixin
-    */
+   * @appliesMixin Gerrit.DisplayNameMixin
+   */
   class GrSmartSearch extends Polymer.mixinBehaviors( [
     Gerrit.DisplayNameBehavior,
   ], Polymer.GestureEventListeners(
@@ -76,6 +76,7 @@
 
     /**
      * Fetch from the API the predicted projects.
+     *
      * @param {string} predicate - The first part of the search term, e.g.
      *     'project'
      * @param {string} expression - The second part of the search term, e.g.
@@ -96,6 +97,7 @@
 
     /**
      * Fetch from the API the predicted groups.
+     *
      * @param {string} predicate - The first part of the search term, e.g.
      *     'ownerin'
      * @param {string} expression - The second part of the search term, e.g.
@@ -117,6 +119,7 @@
 
     /**
      * Fetch from the API the predicted accounts.
+     *
      * @param {string} predicate - The first part of the search term, e.g.
      *     'owner'
      * @param {string} expression - The second part of the search term, e.g.

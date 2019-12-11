@@ -18,8 +18,8 @@
   'use strict';
 
   /**
-    * @appliesMixin Gerrit.ChangeTableMixin
-    */
+   * @appliesMixin Gerrit.ChangeTableMixin
+   */
   class GrChangeTableEditor extends Polymer.mixinBehaviors( [
     Gerrit.ChangeTableBehavior,
   ], Polymer.GestureEventListeners(
@@ -43,6 +43,7 @@
     /**
      * Get the list of enabled column names from whichever checkboxes are
      * checked (excluding the number checkbox).
+     *
      * @return {!Array<string>}
      */
     _getDisplayedColumns() {

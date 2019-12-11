@@ -20,9 +20,9 @@
   const {ShortcutSection} = window.Gerrit.KeyboardShortcutBinder;
 
   /**
-    * @appliesMixin Gerrit.FireMixin
-    * @appliesMixin Gerrit.KeyboardShortcutMixin
-    */
+   * @appliesMixin Gerrit.FireMixin
+   * @appliesMixin Gerrit.KeyboardShortcutMixin
+   */
   class GrKeyboardShortcutsDialog extends Polymer.mixinBehaviors( [
     Gerrit.FireBehavior,
     Gerrit.KeyboardShortcutBehavior,

@@ -18,10 +18,10 @@
   'use strict';
 
   /**
-    * @appliesMixin Gerrit.BaseUrlMixin
-    * @appliesMixin Gerrit.PathListMixin
-    * @appliesMixin Gerrit.URLEncodingMixin
-    */
+   * @appliesMixin Gerrit.BaseUrlMixin
+   * @appliesMixin Gerrit.PathListMixin
+   * @appliesMixin Gerrit.URLEncodingMixin
+   */
   class GrCommentList extends Polymer.mixinBehaviors( [
     Gerrit.BaseUrlBehavior,
     Gerrit.PathListBehavior,

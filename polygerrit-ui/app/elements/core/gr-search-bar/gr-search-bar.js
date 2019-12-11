@@ -104,9 +104,9 @@
   const TOKENIZE_REGEX = /(?:[^\s"]+|"[^"]*")+\s*/g;
 
   /**
-    * @appliesMixin Gerrit.KeyboardShortcutMixin
-    * @appliesMixin Gerrit.URLEncodingMixin
-    */
+   * @appliesMixin Gerrit.KeyboardShortcutMixin
+   * @appliesMixin Gerrit.URLEncodingMixin
+   */
   class GrSearchBar extends Polymer.mixinBehaviors( [
     Gerrit.KeyboardShortcutBehavior,
     Gerrit.URLEncodingBehavior,
@@ -215,6 +215,7 @@
     /**
      * Determine what array of possible suggestions should be provided
      *     to _getSearchSuggestions.
+     *
      * @param {string} input - The full search term, in lowercase.
      * @return {!Promise} This returns a promise that resolves to an array of
      *     suggestion objects.
@@ -256,6 +257,7 @@
 
     /**
      * Get the sorted, pruned list of suggestions for the current search query.
+     *
      * @param {string} input - The complete search query.
      * @return {!Promise} This returns a promise that resolves to an array of
      *     suggestions.

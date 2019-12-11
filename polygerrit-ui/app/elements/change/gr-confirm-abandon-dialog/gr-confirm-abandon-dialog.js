@@ -18,9 +18,9 @@
   'use strict';
 
   /**
-    * @appliesMixin Gerrit.FireMixin
-    * @appliesMixin Gerrit.KeyboardShortcutMixin
-    */
+   * @appliesMixin Gerrit.FireMixin
+   * @appliesMixin Gerrit.KeyboardShortcutMixin
+   */
   class GrConfirmAbandonDialog extends Polymer.mixinBehaviors( [
     Gerrit.FireBehavior,
     Gerrit.KeyboardShortcutBehavior,

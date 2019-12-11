@@ -18,8 +18,8 @@
   'use strict';
 
   /**
-    * @appliesMixin Gerrit.FireMixin
-    */
+   * @appliesMixin Gerrit.FireMixin
+   */
   class GrConfirmDeleteCommentDialog extends Polymer.mixinBehaviors( [
     Gerrit.FireBehavior,
   ], Polymer.GestureEventListeners(

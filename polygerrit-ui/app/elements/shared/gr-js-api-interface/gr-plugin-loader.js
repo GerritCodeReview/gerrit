@@ -95,6 +95,7 @@
 
     /**
      * Use the plugin name or use the full url if not recognized.
+     *
      * @see gr-api-utils#getPluginNameFromUrl
      * @param {string|URL} url
      */
@@ -283,6 +284,7 @@
 
     /**
      * Checks if given plugin path/url is enabled or not.
+     *
      * @param {string} pathOrUrl
      */
     isPluginEnabled(pathOrUrl) {
@@ -294,6 +296,7 @@
 
     /**
      * Returns the plugin object with a given url.
+     *
      * @param {string} pathOrUrl
      */
     getPlugin(pathOrUrl) {
@@ -303,6 +306,7 @@
 
     /**
      * Checks if given plugin path/url is loaded or not.
+     *
      * @param {string} pathOrUrl
      */
     isPluginLoaded(pathOrUrl) {

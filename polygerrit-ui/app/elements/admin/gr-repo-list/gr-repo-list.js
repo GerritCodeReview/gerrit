@@ -18,8 +18,8 @@
   'use strict';
 
   /**
-    * @appliesMixin Gerrit.ListViewMixin
-    */
+   * @appliesMixin Gerrit.ListViewMixin
+   */
   class GrRepoList extends Polymer.mixinBehaviors( [
     Gerrit.ListViewBehavior,
   ], Polymer.GestureEventListeners(
@@ -38,8 +38,8 @@
         },
 
         /**
-       * Offset of currently visible query results.
-       */
+         * Offset of currently visible query results.
+         */
         _offset: Number,
         _path: {
           type: String,
@@ -54,9 +54,9 @@
         _repos: Array,
 
         /**
-       * Because  we request one more than the projectsPerPage, _shownProjects
-       * maybe one less than _projects.
-       * */
+         * Because  we request one more than the projectsPerPage, _shownProjects
+         * maybe one less than _projects.
+         * */
         _shownRepos: {
           type: Array,
           computed: 'computeShownItems(_repos)',
@@ -96,6 +96,7 @@
 
     /**
      * Opens the create overlay if the route has a hash 'create'
+     *
      * @param {!Object} params
      */
     _maybeOpenCreateOverlay(params) {

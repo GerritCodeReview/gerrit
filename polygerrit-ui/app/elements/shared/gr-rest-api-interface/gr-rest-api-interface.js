@@ -40,11 +40,11 @@
       '/revisions/*';
 
   /**
-    * @appliesMixin Gerrit.FireMixin
-    * @appliesMixin Gerrit.PathListMixin
-    * @appliesMixin Gerrit.PatchSetMixin
-    * @appliesMixin Gerrit.RESTClientMixin
-    */
+   * @appliesMixin Gerrit.FireMixin
+   * @appliesMixin Gerrit.PathListMixin
+   * @appliesMixin Gerrit.PatchSetMixin
+   * @appliesMixin Gerrit.RESTClientMixin
+   */
   class GrRestApiInterface extends Polymer.mixinBehaviors( [
     Gerrit.FireBehavior,
     Gerrit.PathListBehavior,
@@ -106,8 +106,8 @@
           value: new GrEtagDecorator(), // Share across instances.
         },
         /**
-       * Used to maintain a mapping of changeNums to project names.
-       */
+         * Used to maintain a mapping of changeNums to project names.
+         */
         _projectLookup: {
           type: Object,
           value: {}, // Intentional to share the object across instances.
@@ -1004,6 +1004,7 @@
 
     /**
      * Inserts a change into _projectLookup iff it has a valid structure.
+     *
      * @param {?{ _number: (number|string) }} change
      */
     _maybeInsertInLookup(change) {
@@ -1206,6 +1207,7 @@
     /**
      * The closure compiler doesn't realize this.specialFilePathCompare is
      * valid.
+     *
      * @suppress {checkTypes}
      */
     getChangeFilePathsAsSpeciallySortedArray(changeNum, patchRange) {
@@ -1766,6 +1768,7 @@
 
     /**
      * Gets a file in a specific change and revision.
+     *
      * @param {number|string} changeNum
      * @param {string} path
      * @param {number|string} patchNum
@@ -1785,6 +1788,7 @@
 
     /**
      * Gets a file in a change edit.
+     *
      * @param {number|string} changeNum
      * @param {string} path
      */
@@ -1911,6 +1915,7 @@
 
     /**
      * Public version of the _restApiHelper.send method preserved for plugins.
+     *
      * @param {string} method
      * @param {string} url
      * @param {?string|number|Object=} opt_body passed as null sometimes
@@ -2603,6 +2608,7 @@
 
     /**
      * Alias for _changeBaseURL.then(send).
+     *
      * @todo(beckysiegel) clean up comments
      * @param {Gerrit.ChangeSendRequest} req
      * @return {!Promise<!Object>}
@@ -2630,6 +2636,7 @@
 
     /**
      * Alias for _changeBaseURL.then(_fetchJSON).
+     *
      * @param {Gerrit.ChangeFetchRequest} req
      * @return {!Promise<!Object>}
      */
@@ -2652,6 +2659,7 @@
 
     /**
      * Execute a change action or revision action on a change.
+     *
      * @param {number} changeNum
      * @param {string} method
      * @param {string} endpoint
@@ -2674,6 +2682,7 @@
 
     /**
      * Get blame information for the given diff.
+     *
      * @param {string|number} changeNum
      * @param {string|number} patchNum
      * @param {string} path
@@ -2695,6 +2704,7 @@
     /**
      * Modify the given create draft request promise so that it fails and throws
      * an error if the response bears HTTP status 200 instead of HTTP 201.
+     *
      * @see Issue 7763
      * @param {Promise} promise The original promise.
      * @return {Promise} The modified promise.
@@ -2724,6 +2734,7 @@
     /**
      * Fetch a project dashboard definition.
      * https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#get-dashboard
+     *
      * @param {string} project
      * @param {string} dashboard
      * @param {function(?Response, string=)=} opt_errFn

@@ -97,6 +97,7 @@
     /**
      * The DOM API textContent.length calculation is broken when the text
      * contains Unicode. See https://mathiasbynens.be/notes/javascript-unicode .
+     *
      * @param {text} node A text node.
      * @return {number} The length of the text.
      */

@@ -70,11 +70,11 @@
   ]);
 
   /**
-    * @appliesMixin Gerrit.AdminNavMixin
-    * @appliesMixin Gerrit.BaseUrlMixin
-    * @appliesMixin Gerrit.DocsUrlMixin
-    * @appliesMixin Gerrit.FireMixin
-    */
+   * @appliesMixin Gerrit.AdminNavMixin
+   * @appliesMixin Gerrit.BaseUrlMixin
+   * @appliesMixin Gerrit.DocsUrlMixin
+   * @appliesMixin Gerrit.FireMixin
+   */
   class GrMainHeader extends Polymer.mixinBehaviors( [
     Gerrit.AdminNavBehavior,
     Gerrit.BaseUrlBehavior,

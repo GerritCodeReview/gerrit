@@ -18,9 +18,9 @@
   'use strict';
 
   /**
-    * @appliesMixin Gerrit.FireMixin
-    * @appliesMixin Gerrit.ListViewMixin
-    */
+   * @appliesMixin Gerrit.FireMixin
+   * @appliesMixin Gerrit.ListViewMixin
+   */
   class GrAdminGroupList extends Polymer.mixinBehaviors( [
     Gerrit.FireBehavior,
     Gerrit.ListViewBehavior,
@@ -40,8 +40,8 @@
         },
 
         /**
-       * Offset of currently visible query results.
-       */
+         * Offset of currently visible query results.
+         */
         _offset: Number,
         _path: {
           type: String,
@@ -56,9 +56,9 @@
         _groups: Array,
 
         /**
-       * Because  we request one more than the groupsPerPage, _shownGroups
-       * may be one less than _groups.
-       * */
+         * Because  we request one more than the groupsPerPage, _shownGroups
+         * may be one less than _groups.
+         * */
         _shownGroups: {
           type: Array,
           computed: 'computeShownItems(_groups)',
@@ -95,6 +95,7 @@
 
     /**
      * Opens the create overlay if the route has a hash 'create'
+     *
      * @param {!Object} params
      */
     _maybeOpenCreateOverlay(params) {

@@ -64,11 +64,11 @@
   const SEND_REPLY_TIMING_LABEL = 'SendReply';
 
   /**
-    * @appliesMixin Gerrit.FireMixin
-    * @appliesMixin Gerrit.KeyboardShortcutMixin
-    * @appliesMixin Gerrit.PatchSetMixin
-    * @appliesMixin Gerrit.RESTClientMixin
-    */
+   * @appliesMixin Gerrit.FireMixin
+   * @appliesMixin Gerrit.KeyboardShortcutMixin
+   * @appliesMixin Gerrit.PatchSetMixin
+   * @appliesMixin Gerrit.RESTClientMixin
+   */
   class GrChangeView extends Polymer.mixinBehaviors( [
     Gerrit.FireBehavior,
     Gerrit.KeyboardShortcutBehavior,
@@ -942,6 +942,7 @@
     /**
      * Gets base patch number, if it is a parent try and decide from
      * preference whether to default to `auto merge`, `Parent 1` or `PARENT`.
+     *
      * @param {Object} change
      * @param {Object} patchRange
      * @return {number|string}
@@ -1415,6 +1416,7 @@
 
     /**
      * Reload the change.
+     *
      * @param {boolean=} opt_isLocationChange Reloads the related changes
      *     when true and ends reporting events that started on location change.
      * @return {Promise} A promise that resolves when the core data has loaded.

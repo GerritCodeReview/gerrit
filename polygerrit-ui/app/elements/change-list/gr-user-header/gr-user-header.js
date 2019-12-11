@@ -41,8 +41,8 @@
         },
 
         /**
-       * @type {?{name: ?, email: ?, registered_on: ?}}
-       */
+         * @type {?{name: ?, email: ?, registered_on: ?}}
+         */
         _accountDetails: {
           type: Object,
           value: null,

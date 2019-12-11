@@ -60,6 +60,7 @@
 
   /**
    * Is a part of _groupUpdates(). Creates a new batch of updates.
+   *
    * @param {Object} update instance of ReviewerUpdateInfo
    */
   GrReviewerUpdatesParser.prototype._startBatch = function(update) {
@@ -75,6 +76,7 @@
    * Is a part of _groupUpdates(). Validates current batch:
    * - filters out updates that don't change reviewer state.
    * - updates current reviewer state.
+   *
    * @param {Object} update instance of ReviewerUpdateInfo
    */
   GrReviewerUpdatesParser.prototype._completeBatch = function(update) {
@@ -136,6 +138,7 @@
 
   /**
    * Generates update message for reviewer state change.
+   *
    * @param {string} prev previous reviewer state.
    * @param {string} state current reviewer state.
    * @return {string}
@@ -157,6 +160,7 @@
   /**
    * Groups updates for same category (eg CC->CC) into a hash arrays of
    * reviewers.
+   *
    * @param {!Array<!Object>} updates Array of ReviewerUpdateItemInfo.
    * @return {!Object} Hash of arrays of AccountInfo, message as key.
    */
@@ -174,6 +178,7 @@
   /**
    * Generates text messages for grouped reviewer updates.
    * Formats reviewer updates to a (not yet implemented) EventInfo instance.
+   *
    * @see https://gerrit-review.googlesource.com/c/94490/
    */
   GrReviewerUpdatesParser.prototype._formatUpdates = function() {

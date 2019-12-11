@@ -20,9 +20,9 @@
   const PROJECT_PLACEHOLDER_PATTERN = /\$\{project\}/g;
 
   /**
-    * @appliesMixin Gerrit.FireMixin
-    * @appliesMixin Gerrit.RESTClientMixin
-    */
+   * @appliesMixin Gerrit.FireMixin
+   * @appliesMixin Gerrit.RESTClientMixin
+   */
   class GrDashboardView extends Polymer.mixinBehaviors( [
     Gerrit.FireBehavior,
     Gerrit.RESTClientBehavior,
@@ -61,8 +61,8 @@
         _results: Array,
 
         /**
-       * For showing a "loading..." string during ajax requests.
-       */
+         * For showing a "loading..." string during ajax requests.
+         */
         _loading: {
           type: Boolean,
           value: true,

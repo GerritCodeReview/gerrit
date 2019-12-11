@@ -21,8 +21,8 @@
   const LABEL_TITLE_SCORE_PATTERN = /^([A-Za-z0-9-]+)([+-]\d+)$/;
 
   /**
-    * @appliesMixin Gerrit.FireMixin
-    */
+   * @appliesMixin Gerrit.FireMixin
+   */
   class GrMessage extends Polymer.mixinBehaviors( [
     Gerrit.FireBehavior,
   ], Polymer.GestureEventListeners(
@@ -86,14 +86,14 @@
         },
 
         /**
-       * A mapping from label names to objects representing the minimum and
-       * maximum possible values for that label.
-       */
+         * A mapping from label names to objects representing the minimum and
+         * maximum possible values for that label.
+         */
         labelExtremes: Object,
 
         /**
-       * @type {{ commentlinks: Array }}
-       */
+         * @type {{ commentlinks: Array }}
+         */
         _projectConfig: Object,
         // Computed property needed to trigger Polymer value observing.
         _expanded: {

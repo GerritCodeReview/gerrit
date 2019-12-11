@@ -25,10 +25,10 @@
   const PGP_START = '-----BEGIN PGP SIGNATURE-----';
 
   /**
-    * @appliesMixin Gerrit.ListViewMixin
-    * @appliesMixin Gerrit.FireMixin
-    * @appliesMixin Gerrit.URLEncodingMixin
-    */
+   * @appliesMixin Gerrit.ListViewMixin
+   * @appliesMixin Gerrit.FireMixin
+   * @appliesMixin Gerrit.URLEncodingMixin
+   */
   class GrRepoDetailList extends Polymer.mixinBehaviors( [
     Gerrit.ListViewBehavior,
     Gerrit.FireBehavior,
@@ -48,9 +48,9 @@
           observer: '_paramsChanged',
         },
         /**
-       * The kind of detail we are displaying, possibilities are determined by
-       * the const DETAIL_TYPES.
-       */
+         * The kind of detail we are displaying, possibilities are determined by
+         * the const DETAIL_TYPES.
+         */
         detailType: String,
 
         _editing: {
@@ -66,15 +66,15 @@
           value: false,
         },
         /**
-       * Offset of currently visible query results.
-       */
+         * Offset of currently visible query results.
+         */
         _offset: Number,
         _repo: Object,
         _items: Array,
         /**
-       * Because  we request one more than the projectsPerPage, _shownProjects
-       * maybe one less than _projects.
-       */
+         * Because  we request one more than the projectsPerPage, _shownProjects
+         * maybe one less than _projects.
+         */
         _shownItems: {
           type: Array,
           computed: 'computeShownItems(_items)',

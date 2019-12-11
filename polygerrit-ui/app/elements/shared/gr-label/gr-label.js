@@ -18,8 +18,8 @@
   'use strict';
 
   /**
-    * @appliesMixin Gerrit.TooltipMixin
-    */
+   * @appliesMixin Gerrit.TooltipMixin
+   */
   class GrLabel extends Polymer.mixinBehaviors( [
     Gerrit.TooltipBehavior,
   ], Polymer.GestureEventListeners(

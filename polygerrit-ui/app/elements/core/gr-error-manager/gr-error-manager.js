@@ -26,9 +26,9 @@
   const AUTHENTICATION_REQUIRED = 'Authentication required\n';
 
   /**
-    * @appliesMixin Gerrit.BaseUrlMixin
-    * @appliesMixin Gerrit.FireMixin
-    */
+   * @appliesMixin Gerrit.BaseUrlMixin
+   * @appliesMixin Gerrit.FireMixin
+   */
   class GrErrorManager extends Polymer.mixinBehaviors( [
     Gerrit.BaseUrlBehavior,
     Gerrit.FireBehavior,
@@ -55,8 +55,8 @@
         },
 
         /**
-       * The time (in milliseconds) since the most recent credential check.
-       */
+         * The time (in milliseconds) since the most recent credential check.
+         */
         _lastCredentialCheck: {
           type: Number,
           value() { return Date.now(); },

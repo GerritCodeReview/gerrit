@@ -44,6 +44,7 @@
      * Get the HLJS library. Returns a promise that resolves with a reference to
      * the library after it's been loaded. The promise resolves immediately if
      * it's already been loaded.
+     *
      * @return {!Promise<Object>}
      */
     getHLJS() {
@@ -68,6 +69,7 @@
     /**
      * Loads the dark theme document. Returns a promise that resolves with a
      * custom-style DOM element.
+     *
      * @return {!Promise<Element>}
      * @suppress {checkTypes}
      */
@@ -103,6 +105,7 @@
     /**
      * Get the HLJS library, assuming it has been loaded. Configure the library
      * if it hasn't already been configured.
+     *
      * @return {!Object}
      */
     _getHighlightLib() {
@@ -118,6 +121,7 @@
     /**
      * Get the resource path used to load the application. If the application
      * was loaded through a CDN, then this will be the path to CDN resources.
+     *
      * @return {string}
      */
     _getLibRoot() {
@@ -129,6 +133,7 @@
 
     /**
      * Load and execute a JS file from the lib root.
+     *
      * @param {string} src The path to the JS file without the lib root.
      * @return {Promise} a promise that resolves when the script's onload
      *     executes.

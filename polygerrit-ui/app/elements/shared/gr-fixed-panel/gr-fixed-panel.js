@@ -39,13 +39,13 @@
         },
 
         /**
-       * Initial offset from the top of the document, in pixels.
-       */
+         * Initial offset from the top of the document, in pixels.
+         */
         _topInitial: Number,
 
         /**
-       * Current offset from the top of the window, in pixels.
-       */
+         * Current offset from the top of the window, in pixels.
+         */
         _topLast: Number,
 
         _headerHeight: Number,

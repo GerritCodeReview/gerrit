@@ -25,11 +25,11 @@
   const STORAGE_DEBOUNCE_INTERVAL_MS = 100;
 
   /**
-    * @appliesMixin Gerrit.FireMixin
-    * @appliesMixin Gerrit.KeyboardShortcutMixin
-    * @appliesMixin Gerrit.PatchSetMixin
-    * @appliesMixin Gerrit.PathListMixin
-    */
+   * @appliesMixin Gerrit.FireMixin
+   * @appliesMixin Gerrit.KeyboardShortcutMixin
+   * @appliesMixin Gerrit.PatchSetMixin
+   * @appliesMixin Gerrit.PathListMixin
+   */
   class GrEditorView extends Polymer.mixinBehaviors( [
     Gerrit.FireBehavior,
     Gerrit.KeyboardShortcutBehavior,

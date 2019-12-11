@@ -20,10 +20,10 @@
   const INTERNAL_GROUP_REGEX = /^[\da-f]{40}$/;
 
   /**
-    * @appliesMixin Gerrit.AdminNavMixin
-    * @appliesMixin Gerrit.BaseUrlMixin
-    * @appliesMixin Gerrit.URLEncodingMixin
-    */
+   * @appliesMixin Gerrit.AdminNavMixin
+   * @appliesMixin Gerrit.BaseUrlMixin
+   * @appliesMixin Gerrit.URLEncodingMixin
+   */
   class GrAdminView extends Polymer.mixinBehaviors( [
     Gerrit.AdminNavBehavior,
     Gerrit.BaseUrlBehavior,

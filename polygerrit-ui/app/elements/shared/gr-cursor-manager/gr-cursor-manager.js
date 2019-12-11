@@ -37,22 +37,23 @@
           observer: '_updateIndex',
         },
         /**
-       * @type (?Object)
-       */
+         * @type {?Object}
+         */
         target: {
           type: Object,
           notify: true,
           observer: '_scrollToTarget',
         },
         /**
-       * The height of content intended to be included with the target.
-       * @type (?number)
-       */
+         * The height of content intended to be included with the target.
+         *
+         * @type {?number}
+         */
         _targetHeight: Number,
 
         /**
-       * The index of the current target (if any). -1 otherwise.
-       */
+         * The index of the current target (if any). -1 otherwise.
+         */
         index: {
           type: Number,
           value: -1,
@@ -60,28 +61,29 @@
         },
 
         /**
-       * The class to apply to the current target. Use null for no class.
-       */
+         * The class to apply to the current target. Use null for no class.
+         */
         cursorTargetClass: {
           type: String,
           value: null,
         },
 
         /**
-       * The scroll behavior for the cursor. Values are 'never' and
-       * 'keep-visible'. 'keep-visible' will only scroll if the cursor is beyond
-       * the viewport.
-       * TODO (beckysiegel) figure out why it can be undefined
-       * @type (string|undefined)
-       */
+         * The scroll behavior for the cursor. Values are 'never' and
+         * 'keep-visible'. 'keep-visible' will only scroll if the cursor is beyond
+         * the viewport.
+         * TODO (beckysiegel) figure out why it can be undefined
+         *
+         * @type {string|undefined}
+         */
         scrollBehavior: {
           type: String,
           value: ScrollBehavior.NEVER,
         },
 
         /**
-       * When true, will call element.focus() during scrolling.
-       */
+         * When true, will call element.focus() during scrolling.
+         */
         focusOnMove: {
           type: Boolean,
           value: false,
@@ -96,6 +98,7 @@
 
     /**
      * Move the cursor forward. Clipped to the ends of the stop list.
+     *
      * @param {!Function=} opt_condition Optional stop condition. If a condition
      *    is passed the cursor will continue to move in the specified direction
      *    until the condition is met.
@@ -117,6 +120,7 @@
 
     /**
      * Set the cursor to an arbitrary element.
+     *
      * @param {!HTMLElement} element
      * @param {boolean=} opt_noScroll prevent any potential scrolling in response
      *   setting the cursor.
@@ -164,6 +168,7 @@
     /**
      * Move the cursor forward or backward by delta. Clipped to the beginning or
      * end of stop list.
+     *
      * @param {number} delta either -1 or 1.
      * @param {!Function=} opt_condition Optional stop condition. If a condition
      *    is passed the cursor will continue to move in the specified direction
@@ -220,6 +225,7 @@
 
     /**
      * Get the next stop index indicated by the delta direction.
+     *
      * @param {number} delta either -1 or 1.
      * @param {!Function=} opt_condition Optional stop condition.
      * @param {boolean=} opt_clipToTop When none of the next indices match, move
@@ -270,6 +276,7 @@
 
     /**
      * Calculate where the element is relative to the window.
+     *
      * @param {!Object} target Target to scroll to.
      * @return {number} Distance to top of the target.
      */

@@ -18,8 +18,8 @@
   'use strict';
 
   /**
-    * @appliesMixin Gerrit.BaseUrlMixin
-    */
+   * @appliesMixin Gerrit.BaseUrlMixin
+   */
   class GrAccountLink extends Polymer.mixinBehaviors( [
     Gerrit.BaseUrlBehavior,
   ], Polymer.GestureEventListeners(

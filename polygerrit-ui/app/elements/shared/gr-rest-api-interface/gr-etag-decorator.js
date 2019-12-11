@@ -30,6 +30,7 @@
 
   /**
    * Get or upgrade fetch options to include an ETag in a request.
+   *
    * @param {string} url The URL being fetched.
    * @param {!Object=} opt_options Optional options object in which to include
    *     the ETag request header. If omitted, the result will be a fresh option
@@ -77,6 +78,7 @@
 
   /**
    * Get the cached payload for a given URL.
+   *
    * @param {string} url
    * @return {string|undefined} Returns the unparsed JSON payload from the
    *     cache.

@@ -46,10 +46,10 @@
   ];
 
   /**
-    * @appliesMixin Gerrit.DocsUrlMixin
-    * @appliesMixin Gerrit.ChangeTableMixin
-    * @appliesMixin Gerrit.FireMixin
-    */
+   * @appliesMixin Gerrit.DocsUrlMixin
+   * @appliesMixin Gerrit.ChangeTableMixin
+   * @appliesMixin Gerrit.FireMixin
+   */
   class GrSettingsView extends Polymer.mixinBehaviors( [
     Gerrit.DocsUrlBehavior,
     Gerrit.ChangeTableBehavior,
@@ -143,8 +143,8 @@
         _emailsChanged: Boolean,
 
         /**
-       * For testing purposes.
-       */
+         * For testing purposes.
+         */
         _loadingPromise: Object,
 
         _showNumber: Boolean,

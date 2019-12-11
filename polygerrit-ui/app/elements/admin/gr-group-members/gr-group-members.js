@@ -24,10 +24,10 @@
   const URL_REGEX = '^(?:[a-z]+:)?//';
 
   /**
-    * @appliesMixin Gerrit.BaseUrlMixin
-    * @appliesMixin Gerrit.FireMixin
-    * @appliesMixin Gerrit.URLEncodingMixin
-    */
+   * @appliesMixin Gerrit.BaseUrlMixin
+   * @appliesMixin Gerrit.FireMixin
+   * @appliesMixin Gerrit.URLEncodingMixin
+   */
   class GrGroupMembers extends Polymer.mixinBehaviors( [
     Gerrit.BaseUrlBehavior,
     Gerrit.FireBehavior,

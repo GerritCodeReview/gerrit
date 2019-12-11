@@ -21,8 +21,8 @@
   const STORAGE_DEBOUNCE_INTERVAL_MS = 400;
 
   /**
-    * @appliesMixin Gerrit.FireMixin
-    */
+   * @appliesMixin Gerrit.FireMixin
+   */
   class GrEditableContent extends Polymer.mixinBehaviors( [
     Gerrit.FireBehavior,
   ], Polymer.GestureEventListeners(

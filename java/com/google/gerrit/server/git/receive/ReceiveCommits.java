@@ -3399,10 +3399,7 @@ class ReceiveCommits {
 
   private <T> T executeIndexQuery(String actionName, Action<T> action) {
     try (TraceTimer traceTimer = newTimer("executeIndexQuery")) {
-      return retryHelper
-          .indexQuery(actionName, action)
-          .retryOn(StorageException.class::isInstance)
-          .call();
+      return retryHelper.indexQuery(actionName, action).call();
     } catch (Exception e) {
       Throwables.throwIfUnchecked(e);
       throw new StorageException(e);

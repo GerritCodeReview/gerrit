@@ -271,7 +271,6 @@ public class ProjectsConsistencyChecker {
                           .get()
                           .setRequestedFields(ChangeField.CHANGE, ChangeField.PATCH_SET)
                           .query(and(basePredicate, or(predicates))))
-              .retryOn(StorageException.class::isInstance)
               .call();
 
       // Result for this query that we want to return to the client.
@@ -308,7 +307,6 @@ public class ProjectsConsistencyChecker {
                     }
                     return null;
                   })
-              .retryOn(StorageException.class::isInstance)
               .call();
         }
       }

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<!--
+@license
+Copyright (C) 2019 The Android Open Source Project
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+<title>gr-api-interface</title>
+
+<script src="../../../bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
+<script src="../../../bower_components/web-component-tester/browser.js"></script>
+<link rel="import" href="../../../test/common-test-setup.html"/>
+<link rel="import" href="../gr-js-api-interface/gr-js-api-interface.html">
+
+<script>void(0);</script>
+
+<test-fixture id="basic">
+  <template>
+    <gr-js-api-interface></gr-js-api-interface>
+  </template>
+</test-fixture>
+
+<script>
+  suite('gr-event-interface tests', () => {
+    let sandbox;
+
+    setup(() => {
+      sandbox = sinon.sandbox.create();
+    });
+
+    teardown(() => {
+      sandbox.restore();
+    });
+
+    suite('test on Gerrit', () => {
+      setup(() => {
+        fixture('basic');
+        Gerrit.removeAllListeners();
+      });
+
+      test('communicate between plugin and Gerrit', done => {
+        const eventName = 'test-plugin-event';
+        let p;
+        Gerrit.on(eventName, e => {
+          assert.equal(e.value, 'test');
+          assert.equal(e.plugin, p);
+          done();
+        });
+        Gerrit.install(plugin => {
+          p = plugin;
+          Gerrit.emit(eventName, {value: 'test', plugin});
+        }, '0.1',
+            'http://test.com/plugins/testplugin/static/test.js');
+      });
+
+      test('listen on events from core', done => {
+        const eventName = 'test-plugin-event';
+        Gerrit.on(eventName, e => {
+          assert.equal(e.value, 'test');
+          done();
+        });
+
+        Gerrit.emit(eventName, {value: 'test'});
+      });
+
+      test('communicate across plugins', done => {
+        const eventName = 'test-plugin-event';
+        Gerrit.install(plugin => {
+          Gerrit.on(eventName, e => {
+            assert.equal(e.plugin.getPluginName(), 'testB');
+            done();
+          });
+        }, '0.1',
+            'http://test.com/plugins/testA/static/testA.js');
+
+        Gerrit.install(plugin => {
+          Gerrit.emit(eventName, {plugin});
+        }, '0.1',
+            'http://test.com/plugins/testB/static/testB.js');
+      });
+    });
+
+    suite('test on interfaces', () => {
+      let testObj;
+      class TestClass extends EventEmitter {
+      }
+      setup(() => {
+        testObj = new TestClass();
+      });
+
+      test('on', () => {
+        const cbStub = sinon.stub();
+        testObj.on('test', cbStub);
+        testObj.emit('test');
+        testObj.emit('test');
+        assert.isTrue(cbStub.calledTwice);
+      });
+
+      test('once', () => {
+        const cbStub = sinon.stub();
+        testObj.once('test', cbStub);
+        testObj.emit('test');
+        testObj.emit('test');
+        assert.isTrue(cbStub.calledOnce);
+      });
+
+      test('unsubscribe', () => {
+        const cbStub = sinon.stub();
+        const unsubscribe = testObj.on('test', cbStub);
+        testObj.emit('test');
+        unsubscribe();
+        testObj.emit('test');
+        assert.isTrue(cbStub.calledOnce);
+      });
+
+      test('off', () => {
+        const cbStub = sinon.stub();
+        testObj.on('test', cbStub);
+        testObj.emit('test');
+        testObj.off('test', cbStub);
+        testObj.emit('test');
+        assert.isTrue(cbStub.calledOnce);
+      });
+
+      test('removeAllListeners', () => {
+        const cbStub = sinon.stub();
+        testObj.on('test', cbStub);
+        testObj.removeAllListeners('test');
+        testObj.emit('test');
+        assert.isTrue(cbStub.notCalled);
+      });
+    });
+  });
+</script>

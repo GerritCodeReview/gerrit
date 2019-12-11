@@ -383,4 +383,40 @@
   };
 
   window.Plugin = Plugin;
+  // TODO(taoalpha): List all internal supported event names.
+  // Also convert this to inherited class once we move Gerrit to class.
+  Gerrit._eventEmitter = new EventEmitter();
+  ['addListener',
+    'dispatch',
+    'emit',
+    'off',
+    'on',
+    'once',
+    'removeAllListeners',
+    'removeListener',
+  ].forEach(method => {
+    /**
+     * Enabling EventEmitter interface on Gerrit.
+     *
+     * This will enable to signal across different parts of js code without relying on DOM,
+     * including core to core, plugin to plugin and also core to plugin.
+     *
+     * @example
+     *
+     * // Emit this event from pluginA
+     * Gerrit.install(pluginA => {
+     *   fetch("some-api").then(() => {
+     *     Gerrit.on("your-special-event", {plugin: pluginA});
+     *   });
+     * });
+     *
+     * // Listen on your-special-event from pluignB
+     * Gerrit.install(pluginB => {
+     *   Gerrit.on("your-special-event", ({plugin}) => {
+     *     // do something, plugin is pluginA
+     *   });
+     * });
+     */
+    Gerrit[method] = Gerrit._eventEmitter[method].bind(Gerrit._eventEmitter);
+  });
 })(window);

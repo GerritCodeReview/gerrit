@@ -39,6 +39,24 @@
       "revId": "2d872f0dade96cab3d1b392de6a1424274819154",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b580a63a_7d77187e",
+        "filename": "java/com/google/gerrit/server/account/Emails.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-11T12:05:46Z",
+      "side": 1,
+      "message": "Yes, I agree. This is actually somewhere on my todo list :)\nAt the moment we have retrying only for few index queries, but it would be better to have it consistently for all.",
+      "parentUuid": "7f0fb904_816a468b",
+      "revId": "2d872f0dade96cab3d1b392de6a1424274819154",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

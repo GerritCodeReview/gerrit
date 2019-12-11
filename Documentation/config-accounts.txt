@@ -386,10 +386,10 @@ stored in a local H2 database, but there is an extension point that
 allows to plug in alternate implementations for storing the reviewed
 flags. To replace the storage for reviewed flags a plugin needs to
 implement the link:dev-plugins.html#account-patch-review-store[
-AccountPatchReviewStore] interface. E.g. to support a multi-master
-setup where reviewed flags should be replicated between the master
-nodes one could implement a store for the reviewed flags that is
-based on MySQL with replication.
+AccountPatchReviewStore] interface. E.g. to support a cluster setup with
+multiple primary servers handling write operations where reviewed flags should
+be replicated between the primary nodes one could implement a store for the
+reviewed flags that is based on MySQL with replication.
 
 [[account-sequence]]
 == Account Sequence

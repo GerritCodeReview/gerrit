@@ -30,7 +30,8 @@ import java.util.Optional;
  * number of reviewed flags is growing without bound. The store must be able handle this data volume
  * efficiently.
  *
- * <p>For a multi-master setup the store must replicate the data between the masters.
+ * <p>For a cluster setups with multiple primary nodes the store must replicate the data between the
+ * primary servers.
  */
 public interface AccountPatchReviewStore {
 

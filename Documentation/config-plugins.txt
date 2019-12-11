@@ -795,8 +795,8 @@ Configuration,role=external,window=_blank]
 
 This plugin replaces the built-in Gerrit H2 based websession cache with
 a flatfile based implementation. This implementation is shareable
-among multiple Gerrit servers, making it useful for multi-master
-Gerrit installations.
+among multiple Gerrit servers, making it useful for cluster
+Gerrit installations having multiple primary Gerrit nodes.
 
 link:https://gerrit-review.googlesource.com/admin/repos/plugins/websession-flatfile[
 Project,role=external,window=_blank] |

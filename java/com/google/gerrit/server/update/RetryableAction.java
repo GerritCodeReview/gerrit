@@ -32,9 +32,9 @@ import java.util.function.Predicate;
  * Action)}, {@link RetryHelper#changeUpdate(String, Action)}, {@link
  * RetryHelper#groupUpdate(String, Action)}, {@link RetryHelper#pluginUpdate(String, Action)}).
  *
- * <p>Which exceptions cause a retry is controlled by {@link ExceptionHook#shouldRetry(Throwable)}.
- * In addition callers can specify additional exception that should cause a retry via {@link
- * #retryOn(Predicate)}.
+ * <p>Which exceptions cause a retry is controlled by {@link ExceptionHook#shouldRetry(String,
+ * String, Throwable)}. In addition callers can specify additional exception that should cause a
+ * retry via {@link #retryOn(Predicate)}.
  */
 public class RetryableAction<T> {
   public enum ActionType {
@@ -74,8 +74,8 @@ public class RetryableAction<T> {
    * Adds an additional condition that should trigger retries.
    *
    * <p>For some exceptions retrying is enabled globally (see {@link
-   * ExceptionHook#shouldRetry(Throwable)}). Conditions for those exceptions do not need to be
-   * specified here again.
+   * ExceptionHook#shouldRetry(String, String, Throwable)}). Conditions for those exceptions do not
+   * need to be specified here again.
    *
    * <p>This method can be invoked multiple times to add further conditions that should trigger
    * retries.

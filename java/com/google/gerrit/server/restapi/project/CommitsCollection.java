@@ -16,10 +16,8 @@ package com.google.gerrit.server.restapi.project;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
 
-import com.google.common.base.Throwables;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.registration.DynamicMap;
 import com.google.gerrit.extensions.restapi.ChildCollection;
 import com.google.gerrit.extensions.restapi.IdString;
@@ -35,12 +33,9 @@ import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.Reachable;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.CommitPredicate;
-import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.query.change.ProjectPredicate;
 import com.google.gerrit.server.update.RetryHelper;
-import com.google.gerrit.server.update.RetryableAction.Action;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.Arrays;
@@ -62,7 +57,6 @@ public class CommitsCollection implements ChildCollection<ProjectResource, Commi
   private final GitRepositoryManager repoManager;
   private final RetryHelper retryHelper;
   private final ChangeIndexCollection indexes;
-  private final Provider<InternalChangeQuery> queryProvider;
   private final Reachable reachable;
 
   @Inject
@@ -71,13 +65,11 @@ public class CommitsCollection implements ChildCollection<ProjectResource, Commi
       GitRepositoryManager repoManager,
       RetryHelper retryHelper,
       ChangeIndexCollection indexes,
-      Provider<InternalChangeQuery> queryProvider,
       Reachable reachable) {
     this.views = views;
     this.repoManager = repoManager;
     this.retryHelper = retryHelper;
     this.indexes = indexes;
-    this.queryProvider = queryProvider;
     this.reachable = reachable;
   }
 
@@ -130,14 +122,11 @@ public class CommitsCollection implements ChildCollection<ProjectResource, Commi
     // Check first if any patchset of any change references the commit in question. This is much
     // cheaper than ref visibility filtering and reachability computation.
     List<ChangeData> changes =
-        executeIndexQuery(
-            "queryChangesByProjectCommitWithLimit1",
-            () ->
-                queryProvider
-                    .get()
-                    .enforceVisibility(true)
-                    .setLimit(1)
-                    .byProjectCommit(project, commit));
+        retryHelper
+            .changeIndexQuery(
+                "queryChangesByProjectCommitWithLimit1",
+                q -> q.enforceVisibility(true).setLimit(1).byProjectCommit(project, commit))
+            .call();
     if (!changes.isEmpty()) {
       return true;
     }
@@ -152,9 +141,10 @@ public class CommitsCollection implements ChildCollection<ProjectResource, Commi
                     .map(parent -> new CommitPredicate(parent.getId().getName()))
                     .collect(toImmutableList())));
     changes =
-        executeIndexQuery(
-            "queryChangesByProjectCommit",
-            () -> queryProvider.get().enforceVisibility(true).query(pred));
+        retryHelper
+            .changeIndexQuery(
+                "queryChangesByProjectCommit", q -> q.enforceVisibility(true).query(pred))
+            .call();
 
     Set<Ref> branchesForCommitParents = new HashSet<>(changes.size());
     for (ChangeData cd : changes) {
@@ -176,14 +166,5 @@ public class CommitsCollection implements ChildCollection<ProjectResource, Commi
             .filter(r -> !r.getName().startsWith(RefNames.REFS_CHANGES))
             .collect(toImmutableList());
     return reachable.fromRefs(project, repo, commit, refs);
-  }
-
-  private <T> T executeIndexQuery(String actionName, Action<T> action) {
-    try {
-      return retryHelper.indexQuery(actionName, action).call();
-    } catch (Exception e) {
-      Throwables.throwIfUnchecked(e);
-      throw new StorageException(e);
-    }
   }
 }

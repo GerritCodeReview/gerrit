@@ -48,12 +48,10 @@ import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeIdPredicate;
 import com.google.gerrit.server.query.change.CommitPredicate;
-import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.query.change.ProjectPredicate;
 import com.google.gerrit.server.query.change.RefPredicate;
 import com.google.gerrit.server.update.RetryHelper;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -75,7 +73,6 @@ public class ProjectsConsistencyChecker {
 
   private final GitRepositoryManager repoManager;
   private final RetryHelper retryHelper;
-  private final Provider<InternalChangeQuery> changeQueryProvider;
   private final ChangeJson.Factory changeJsonFactory;
   private final IndexConfig indexConfig;
 
@@ -83,12 +80,10 @@ public class ProjectsConsistencyChecker {
   ProjectsConsistencyChecker(
       GitRepositoryManager repoManager,
       RetryHelper retryHelper,
-      Provider<InternalChangeQuery> changeQueryProvider,
       ChangeJson.Factory changeJsonFactory,
       IndexConfig indexConfig) {
     this.repoManager = repoManager;
     this.retryHelper = retryHelper;
-    this.changeQueryProvider = changeQueryProvider;
     this.changeJsonFactory = changeJsonFactory;
     this.indexConfig = indexConfig;
   }
@@ -264,12 +259,10 @@ public class ProjectsConsistencyChecker {
     try {
       List<ChangeData> queryResult =
           retryHelper
-              .indexQuery(
+              .changeIndexQuery(
                   "projectsConsistencyCheckerQueryChanges",
-                  () ->
-                      changeQueryProvider
-                          .get()
-                          .setRequestedFields(ChangeField.CHANGE, ChangeField.PATCH_SET)
+                  q ->
+                      q.setRequestedFields(ChangeField.CHANGE, ChangeField.PATCH_SET)
                           .query(and(basePredicate, or(predicates))))
               .call();
 

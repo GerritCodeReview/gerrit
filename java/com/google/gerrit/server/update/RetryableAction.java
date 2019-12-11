@@ -67,7 +67,7 @@ public class RetryableAction<T> {
     this.retryHelper = requireNonNull(retryHelper, "retryHelper");
     this.actionType = requireNonNull(actionType, "actionType");
     this.action = requireNonNull(action, "action");
-    options.caller(requireNonNull(actionName, "actionName"));
+    options.actionName(requireNonNull(actionName, "actionName"));
   }
 
   /**

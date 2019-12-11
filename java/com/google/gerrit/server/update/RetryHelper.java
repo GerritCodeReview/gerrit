@@ -87,7 +87,7 @@ public class RetryHelper {
     @Nullable
     abstract Duration timeout();
 
-    abstract Optional<String> caller();
+    abstract Optional<String> actionName();
 
     abstract Optional<Predicate<Throwable>> retryWithTrace();
 
@@ -99,7 +99,7 @@ public class RetryHelper {
 
       public abstract Builder timeout(Duration timeout);
 
-      public abstract Builder caller(String caller);
+      public abstract Builder actionName(String caller);
 
       public abstract Builder retryWithTrace(Predicate<Throwable> exceptionPredicate);
 
@@ -458,7 +458,7 @@ public class RetryHelper {
                   return true;
                 }
 
-                String actionName = opts.caller().orElse("N/A");
+                String actionName = opts.actionName().orElse("N/A");
 
                 // Exception hooks may identify additional exceptions for retry.
                 if (exceptionHooks.stream()
@@ -507,7 +507,7 @@ public class RetryHelper {
         logger.atFine().log("%s was attempted %d times", actionType, listener.getAttemptCount());
         metrics.attemptCounts.incrementBy(
             actionType,
-            opts.caller().orElse("N/A"),
+            opts.actionName().orElse("N/A"),
             listener.getCause().map(this::formatCause).orElse("_unknown"),
             listener.getAttemptCount() - 1);
       }
@@ -557,7 +557,7 @@ public class RetryHelper {
       if (e instanceof RetryException) {
         metrics.timeoutCount.increment(
             actionType,
-            opts.caller().orElse("N/A"),
+            opts.actionName().orElse("N/A"),
             e.getCause() != null ? formatCause(e.getCause()) : "_unknown");
       }
       if (e.getCause() != null) {

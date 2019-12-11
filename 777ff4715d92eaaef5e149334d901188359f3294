@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "95ff313f_e51178fe",
+        "filename": "java/com/google/gerrit/server/restapi/change/CherryPickChange.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 365,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-12-11T23:47:10Z",
+      "side": 1,
+      "message": "Please add test coverage for this condition.",
+      "range": {
+        "startLine": 355,
+        "startChar": 12,
+        "endLine": 365,
+        "endChar": 13
+      },
+      "revId": "777ff4715d92eaaef5e149334d901188359f3294",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

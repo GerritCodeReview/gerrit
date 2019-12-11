@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "998e7863_5fa21001",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-12-11T12:02:00Z",
+      "side": 1,
+      "message": "typo",
+      "range": {
+        "startLine": 32,
+        "startChar": 7,
+        "endLine": 32,
+        "endChar": 23
+      },
+      "revId": "2d872f0dade96cab3d1b392de6a1424274819154",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7f0fb904_816a468b",
+        "filename": "java/com/google/gerrit/server/account/Emails.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-12-11T12:02:00Z",
+      "side": 1,
+      "message": "This isn\u0027t directly related to this change, but if we are in the business of retrying index queries, I would rather put that logic into the index code directly instead of forcing callers to add retrying code.",
+      "revId": "2d872f0dade96cab3d1b392de6a1424274819154",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

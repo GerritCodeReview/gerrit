@@ -20,22 +20,76 @@
   // Prevent redefinition.
   if (window.Gerrit.Auth) { return; }
 
+  // Max wait time beofre checking auth again
+  const MAX_AUTH_CHECK_WAIT_TIME = 1000 * 30; // 30s
+
   const MAX_GET_TOKEN_RETRIES = 2;
 
-  Gerrit.Auth = {
-    TYPE: {
-      XSRF_TOKEN: 'xsrf_token',
-      ACCESS_TOKEN: 'access_token',
-    },
+  class Auth {
+    constructor() {
+      this._type = null;
+      this._cachedTokenPromise = null;
+      this._defaultOptions = {};
+      this._retriesLeft = MAX_GET_TOKEN_RETRIES;
+      this._status = Auth.STATUS.UNDETERMINED;
+      this._authCheckPromise = null;
+      this._last_auth_check_time = Date.now();
+    }
 
-    _type: null,
-    _cachedTokenPromise: null,
-    _defaultOptions: {},
-    _retriesLeft: MAX_GET_TOKEN_RETRIES,
+    /**
+     * Returns if user is authed or not.
+     * @param {boolean} skipCache
+     * @returns {!Promise<boolean>}
+     */
+    authCheck(skipCache = false) {
+      if (skipCache || !this._authCheckPromise ||
+        (Date.now() - this._last_auth_check_time > MAX_AUTH_CHECK_WAIT_TIME)) {
+        // Refetch after last check expired
+        this._authCheckPromise = fetch('/auth-check');
+        this._last_auth_check_time = Date.now();
+      }
+
+      return this._authCheckPromise.then(res => {
+        // auth-check will return 204 if authed
+        // treat the rest as unauthed
+        if (res.status === 204) {
+          this._setStatus(Auth.STATUS.AUTHED);
+          return true;
+        } else {
+          this._setStatus(Auth.STATUS.NOT_AUTHED);
+          return false;
+        }
+      }).catch(e => {
+        this._setStatus(Auth.STATUS.ERROR);
+        return false;
+      });
+    }
+
+    /**
+     * @param {string} status
+     */
+    _setStatus(status) {
+      if (this._status === status) return;
+
+      if (this._status === Auth.STATUS.AUTHED) {
+        Gerrit.emit('auth-error', {
+          message: Auth.CREDS_EXPIRED_MSG, action: 'Refresh credentials',
+        });
+      }
+      this._status = status;
+    }
+
+    get status() {
+      return this._status;
+    }
+
+    get isAuthed() {
+      return this._status === Auth.STATUS.AUTHED;
+    }
 
     _getToken() {
       return Promise.resolve(this._cachedTokenPromise);
-    },
+    }
 
     /**
      * Enable cross-domain authentication using OAuth access token.
@@ -51,7 +105,7 @@
     setup(getToken, defaultOptions) {
       this._retriesLeft = MAX_GET_TOKEN_RETRIES;
       if (getToken) {
-        this._type = Gerrit.Auth.TYPE.ACCESS_TOKEN;
+        this._type = Auth.TYPE.ACCESS_TOKEN;
         this._cachedTokenPromise = null;
         this._getToken = getToken;
       }
@@ -61,7 +115,7 @@
           this._defaultOptions[p] = defaultOptions[p];
         }
       }
-    },
+    }
 
     /**
      * Perform network fetch with authentication.
@@ -74,7 +128,7 @@
       const options = Object.assign({
         headers: new Headers(),
       }, this._defaultOptions, opt_options);
-      if (this._type === Gerrit.Auth.TYPE.ACCESS_TOKEN) {
+      if (this._type === Auth.TYPE.ACCESS_TOKEN) {
         return this._getAccessToken().then(
             accessToken =>
               this._fetchWithAccessToken(url, options, accessToken)
@@ -82,7 +136,7 @@
       } else {
         return this._fetchWithXsrfToken(url, options);
       }
-    },
+    }
 
     _getCookie(name) {
       const key = name + '=';
@@ -95,7 +149,7 @@
         }
       });
       return result;
-    },
+    }
 
     _isTokenValid(token) {
       if (!token) { return false; }
@@ -105,7 +159,7 @@
       if (Date.now() >= expiration.getTime()) { return false; }
 
       return true;
-    },
+    }
 
     _fetchWithXsrfToken(url, options) {
       if (options.method && options.method !== 'GET') {
@@ -116,7 +170,7 @@
       }
       options.credentials = 'same-origin';
       return fetch(url, options);
-    },
+    }
 
     /**
      * @return {!Promise<string>}
@@ -138,7 +192,7 @@
         // Fall back to anonymous access.
         return null;
       });
-    },
+    }
 
     _fetchWithAccessToken(url, options, accessToken) {
       const params = [];
@@ -180,8 +234,24 @@
         url = url + (url.indexOf('?') === -1 ? '?' : '&') + params.join('&');
       }
       return fetch(url, options);
-    },
+    }
+  }
+
+  Auth.TYPE = {
+    XSRF_TOKEN: 'xsrf_token',
+    ACCESS_TOKEN: 'access_token',
   };
 
+  Auth.STATUS = {
+    UNDETERMINED: 0,
+    AUTHED: 1,
+    NOT_AUTHED: 2,
+    ERROR: 3,
+  };
+
+  Auth.CREDS_EXPIRED_MSG = 'Credentails expired.';
+
+  window.Auth = Auth;
+  Gerrit.Auth = new Auth();
   window.Gerrit.Auth = Gerrit.Auth;
 })(window);

@@ -67,12 +67,6 @@
      */
 
     /**
-     * Fired when credentials were rejected by server (e.g. expired).
-     *
-     * @event auth-error
-     */
-
-    /**
      * Fired after an RPC completes.
      *
      * @event rpc-log
@@ -88,10 +82,6 @@
         _cache: {
           type: Object,
           value: new SiteBasedCache(), // Shared across instances.
-        },
-        _credentialCheck: {
-          type: Object,
-          value: {checking: false}, // Shared across instances.
         },
         _sharedFetchPromises: {
           type: Object,
@@ -153,14 +143,13 @@
       if (this._restApiHelper) {
         return;
       }
-      if (this._cache && this._auth && this._sharedFetchPromises
-          && this._credentialCheck) {
+      if (this._cache && this._auth && this._sharedFetchPromises) {
         this._restApiHelper = new GrRestApiHelper(this._cache, this._auth,
-            this._sharedFetchPromises, this._credentialCheck, this);
+            this._sharedFetchPromises, this);
       }
     }
 
-    _fetchSharedCacheURL(req) {
+    _fetchSharedCacheURL(req, skipCache = false) {
       // Cache is shared across instances
       return this._restApiHelper.fetchCacheURL(req);
     }
@@ -849,12 +838,8 @@
       });
     }
 
-    getLoggedIn() {
-      return this.getAccount().then(account => {
-        return account != null;
-      }).catch(() => {
-        return false;
-      });
+    getLoggedIn(skipCache) {
+      return this._auth.authCheck(skipCache);
     }
 
     getIsAdmin() {
@@ -867,10 +852,6 @@
       }).then(capabilities => {
         return capabilities && capabilities.administrateServer;
       });
-    }
-
-    checkCredentials() {
-      return this._restApiHelper.checkCredentials();
     }
 
     getDefaultPreferences() {
@@ -1343,6 +1324,10 @@
 
     invalidateReposCache() {
       this._restApiHelper.invalidateFetchPromisesPrefix('/projects/?');
+    }
+
+    invalidateAccountsCache() {
+      this._restApiHelper.invalidateFetchPromisesPrefix('/accounts/');
     }
 
     /**

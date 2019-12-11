@@ -52,6 +52,24 @@
       "revId": "71708d99bbe89f32d0ff626f2aa8cf119165953c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "84a27d26_2257ad39",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 421,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-12-11T11:39:03Z",
+      "side": 1,
+      "message": "nope, if it broke anything, the test will catch it. it just in the wrong place.\n\nMoved to the right place with following change:\nhttps://gerrit-review.googlesource.com/c/gerrit/+/247919",
+      "parentUuid": "41c80ab7_39200128",
+      "revId": "71708d99bbe89f32d0ff626f2aa8cf119165953c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

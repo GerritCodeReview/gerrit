@@ -30,9 +30,9 @@
         },
 
         /**
-       * If set to true, the user's preference will be updated every time a
-       * button is tapped. Don't set to true if there is no user.
-       */
+         * If set to true, the user's preference will be updated every time a
+         * button is tapped. Don't set to true if there is no user.
+         */
         saveOnChange: {
           type: Boolean,
           value: false,

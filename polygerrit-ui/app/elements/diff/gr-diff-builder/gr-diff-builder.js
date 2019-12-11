@@ -92,6 +92,7 @@
 
   /**
    * Abstract method
+   *
    * @param {string} outputEl
    * @param {number} fontSize
    */
@@ -101,6 +102,7 @@
 
   /**
    * Abstract method
+   *
    * @param {Object} group
    */
   GrDiffBuilder.prototype.buildSectionElement = function() {
@@ -463,6 +465,7 @@
   /**
    * Finds the next DIV.contentText element following the given element, and on
    * the same side. Will only search within a group.
+   *
    * @param {HTMLElement} content
    * @param {string} side Either 'left' or 'right'
    * @return {HTMLElement}
@@ -474,6 +477,7 @@
   /**
    * Determines whether the given group is either totally an addition or totally
    * a removal.
+   *
    * @param {!Object} group (GrDiffGroup)
    * @return {boolean}
    */
@@ -486,6 +490,7 @@
   /**
    * Set the blame information for the diff. For any already-rendered line,
    * re-render its blame cell content.
+   *
    * @param {Object} blame
    */
   GrDiffBuilder.prototype.setBlame = function(blame) {
@@ -513,6 +518,7 @@
 
   /**
    * Find the blame cell for a given line number.
+   *
    * @param {number} lineNum
    * @return {HTMLTableDataCellElement}
    */
@@ -525,6 +531,7 @@
    * Given a base line number, return the commit containing that line in the
    * current set of blame information. If no blame information has been
    * provided, null is returned.
+   *
    * @param {number} lineNum
    * @return {Object} The commit information.
    */
@@ -544,6 +551,7 @@
   /**
    * Given the number of a base line, get the content for the blame cell of that
    * line. If there is no blame information for that line, returns null.
+   *
    * @param {number} lineNum
    * @param {Object=} opt_commit Optionally provide the commit object, so that
    *     it does not need to be searched.
@@ -568,6 +576,7 @@
   /**
    * Create a blame cell for the given base line. Blame information will be
    * included in the cell if available.
+   *
    * @param {GrDiffLine} line
    * @return {HTMLTableDataCellElement}
    */

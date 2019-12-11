@@ -73,30 +73,30 @@
       return {
 
         /**
-       * The amount of context around collapsed groups.
-       */
+         * The amount of context around collapsed groups.
+         */
         context: Number,
 
         /**
-       * The array of groups output by the processor.
-       */
+         * The array of groups output by the processor.
+         */
         groups: {
           type: Array,
           notify: true,
         },
 
         /**
-       * Locations that should not be collapsed, including the locations of
-       * comments.
-       */
+         * Locations that should not be collapsed, including the locations of
+         * comments.
+         */
         keyLocations: {
           type: Object,
           value() { return {left: {}, right: {}}; },
         },
 
         /**
-       * The maximum number of lines to process synchronously.
-       */
+         * The maximum number of lines to process synchronously.
+         */
         _asyncThreshold: {
           type: Number,
           value: 64,
@@ -105,11 +105,12 @@
         /** @type {?number} */
         _nextStepHandle: Number,
         /**
-       * The promise last returned from `process()` while the asynchronous
-       * processing is running - `null` otherwise. Provides a `cancel()`
-       * method that rejects it with `{isCancelled: true}`.
-       * @type {?Object}
-       */
+         * The promise last returned from `process()` while the asynchronous
+         * processing is running - `null` otherwise. Provides a `cancel()`
+         * method that rejects it with `{isCancelled: true}`.
+         *
+         * @type {?Object}
+         */
         _processPromise: {
           type: Object,
           value: null,
@@ -139,6 +140,7 @@
     /**
      * Asynchronously process the diff chunks into groups. As it processes, it
      * will splice groups into the `groups` property of the component.
+     *
      * @param {!Array<!Gerrit.DiffChunk>} chunks
      * @param {boolean} isBinary
      * @return {!Promise<!Array<!Object>>} A promise that resolves with an
@@ -464,6 +466,7 @@
      * In order to show key locations, such as comments, out of the bounds of
      * the selected context, treat them as separate chunks within the model so
      * that the content (and context surrounding it) renders correctly.
+     *
      * @param {!Array<!Object>} chunks DiffContents as returned from server.
      * @return {!Array<!Object>} Finer grained DiffContents.
      */
@@ -607,6 +610,7 @@
      * If a group is an addition or a removal, break it down into smaller groups
      * of that type using the MAX_GROUP_SIZE. If the group is a shared chunk
      * or a delta it is returned as the single element of the result array.
+     *
      * @param {!Gerrit.DiffChunk} chunk A raw chunk from a diff response.
      * @return {!Array<!Array<!Object>>}
      */
@@ -636,6 +640,7 @@
     /**
      * Given an array and a size, return an array of arrays where no inner array
      * is larger than that size, preserving the original order.
+     *
      * @param {!Array<T>} array
      * @param {number} size
      * @return {!Array<!Array<T>>}

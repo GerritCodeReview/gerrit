@@ -27,8 +27,8 @@
   const CREATE_CHANGE_SUCCEEDED_MESSAGE = 'Navigating to change';
 
   /**
-    * @appliesMixin Gerrit.FireMixin
-    */
+   * @appliesMixin Gerrit.FireMixin
+   */
   class GrRepoCommands extends Polymer.mixinBehaviors( [
     Gerrit.FireBehavior,
   ], Polymer.GestureEventListeners(

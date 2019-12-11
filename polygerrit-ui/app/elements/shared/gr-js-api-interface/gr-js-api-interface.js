@@ -38,8 +38,8 @@
   };
 
   /**
-    * @appliesMixin Gerrit.PatchSetMixin
-    */
+   * @appliesMixin Gerrit.PatchSetMixin
+   */
   class GrJsApiInterface extends Polymer.mixinBehaviors( [
     Gerrit.PatchSetBehavior,
   ], Polymer.GestureEventListeners(

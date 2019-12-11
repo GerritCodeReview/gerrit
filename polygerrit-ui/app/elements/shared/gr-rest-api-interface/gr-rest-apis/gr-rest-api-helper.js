@@ -122,6 +122,7 @@
     /**
      * Wraps calls to the underlying authenticated fetch function (_auth.fetch)
      * with timing and logging.
+     *
      * @param {Gerrit.FetchRequest} req
      */
     fetch(req) {
@@ -139,6 +140,7 @@
      * Log information about a REST call. Because the elapsed time is determined
      * by this method, it should be called immediately after the request
      * finishes.
+     *
      * @param {Gerrit.FetchRequest} req
      * @param {number} startTime the time that the request was started.
      * @param {number} status the HTTP status of the response. The status value
@@ -171,6 +173,7 @@
      * Returns a Promise that resolves to a native Response.
      * Doesn't do error checking. Supports cancel condition. Performs auth.
      * Validates auth expiry errors.
+     *
      * @param {Gerrit.FetchJSONRequest} req
      */
     fetchRawJSON(req) {
@@ -205,6 +208,7 @@
      * Fetch JSON from url provided.
      * Returns a Promise that resolves to a parsed response.
      * Same as {@link fetchRawJSON}, plus error handling.
+     *
      * @param {Gerrit.FetchJSONRequest} req
      */
     fetchJSON(req) {
@@ -329,6 +333,7 @@
 
     /**
      * Send an XHR.
+     *
      * @param {Gerrit.SendRequest} req
      * @return {Promise}
      */

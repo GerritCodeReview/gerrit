@@ -23,13 +23,13 @@
   const MAX_SHORTCUT_CHARS = 5;
 
   /**
-    * @appliesMixin Gerrit.BaseUrlMixin
-    * @appliesMixin Gerrit.ChangeTableMixin
-    * @appliesMixin Gerrit.FireMixin
-    * @appliesMixin Gerrit.KeyboardShortcutMixin
-    * @appliesMixin Gerrit.RESTClientMixin
-    * @appliesMixin Gerrit.URLEncodingMixin
-    */
+   * @appliesMixin Gerrit.BaseUrlMixin
+   * @appliesMixin Gerrit.ChangeTableMixin
+   * @appliesMixin Gerrit.FireMixin
+   * @appliesMixin Gerrit.KeyboardShortcutMixin
+   * @appliesMixin Gerrit.RESTClientMixin
+   * @appliesMixin Gerrit.URLEncodingMixin
+   */
   class GrChangeList extends Polymer.mixinBehaviors( [
     Gerrit.BaseUrlBehavior,
     Gerrit.ChangeTableBehavior,
@@ -64,23 +64,23 @@
           value: null,
         },
         /**
-       * An array of ChangeInfo objects to render.
-       * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#change-info
-       */
+         * An array of ChangeInfo objects to render.
+         * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#change-info
+         */
         changes: {
           type: Array,
           observer: '_changesChanged',
         },
         /**
-       * ChangeInfo objects grouped into arrays. The sections and changes
-       * properties should not be used together.
-       *
-       * @type {!Array<{
-       *   name: string,
-       *   query: string,
-       *   results: !Array<!Object>
-       * }>}
-       */
+         * ChangeInfo objects grouped into arrays. The sections and changes
+         * properties should not be used together.
+         *
+         * @type {!Array<{
+         *   name: string,
+         *   query: string,
+         *   results: !Array<!Object>
+         * }>}
+         */
         sections: {
           type: Array,
           value() { return []; },

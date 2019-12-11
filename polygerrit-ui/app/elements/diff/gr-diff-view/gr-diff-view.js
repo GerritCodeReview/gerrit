@@ -34,12 +34,12 @@
   };
 
   /**
-    * @appliesMixin Gerrit.FireMixin
-    * @appliesMixin Gerrit.KeyboardShortcutMixin
-    * @appliesMixin Gerrit.PatchSetMixin
-    * @appliesMixin Gerrit.PathListMixin
-    * @appliesMixin Gerrit.RESTClientMixin
-    */
+   * @appliesMixin Gerrit.FireMixin
+   * @appliesMixin Gerrit.KeyboardShortcutMixin
+   * @appliesMixin Gerrit.PatchSetMixin
+   * @appliesMixin Gerrit.PathListMixin
+   * @appliesMixin Gerrit.RESTClientMixin
+   */
   class GrDiffView extends Polymer.mixinBehaviors( [
     Gerrit.FireBehavior,
     Gerrit.KeyboardShortcutBehavior,
@@ -76,8 +76,8 @@
           value() { return document.body; },
         },
         /**
-       * @type {{ diffMode: (string|undefined) }}
-       */
+         * @type {{ diffMode: (string|undefined) }}
+         */
         changeViewState: {
           type: Object,
           notify: true,
@@ -97,20 +97,20 @@
         /** @type {?} */
         _commitRange: Object,
         /**
-       * @type {{
-       *  subject: string,
-       *  project: string,
-       *  revisions: string,
-       * }}
-       */
+         * @type {{
+         *  subject: string,
+         *  project: string,
+         *  revisions: string,
+         * }}
+         */
         _change: Object,
         /** @type {?} */
         _changeComments: Object,
         _changeNum: String,
         /**
-       * This is a DiffInfo object.
-       * This is retrieved and owned by a child component.
-       */
+         * This is a DiffInfo object.
+         * This is retrieved and owned by a child component.
+         */
         _diff: Object,
         // An array specifically formatted to be used in a gr-dropdown-list
         // element for selected a file to view.
@@ -152,17 +152,17 @@
         _filesWeblinks: Object,
 
         /**
-       * Map of paths in the current change and patch range that have comments
-       * or drafts or robot comments.
-       */
+         * Map of paths in the current change and patch range that have comments
+         * or drafts or robot comments.
+         */
         _commentMap: Object,
 
         _commentsForDiff: Object,
 
         /**
-       * Object to contain the path of the next and previous file in the current
-       * change and patch range that has comments.
-       */
+         * Object to contain the path of the next and previous file in the current
+         * change and patch range that has comments.
+         */
         _commentSkips: {
           type: Object,
           computed: '_computeCommentSkips(_commentMap, _fileList, _path)',

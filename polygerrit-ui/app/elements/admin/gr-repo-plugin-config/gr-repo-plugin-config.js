@@ -18,8 +18,8 @@
   'use strict';
 
   /**
-    * @appliesMixin Gerrit.RepoPluginConfigMixin
-    */
+   * @appliesMixin Gerrit.RepoPluginConfigMixin
+   */
   class GrRepoPluginConfig extends Polymer.mixinBehaviors( [
     Gerrit.RepoPluginConfig,
   ], Polymer.GestureEventListeners(

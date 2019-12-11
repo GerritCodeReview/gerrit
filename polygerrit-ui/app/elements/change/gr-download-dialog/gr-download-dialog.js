@@ -18,10 +18,10 @@
   'use strict';
 
   /**
-    * @appliesMixin Gerrit.FireMixin
-    * @appliesMixin Gerrit.PatchSetMixin
-    * @appliesMixin Gerrit.RESTClientMixin
-    */
+   * @appliesMixin Gerrit.FireMixin
+   * @appliesMixin Gerrit.PatchSetMixin
+   * @appliesMixin Gerrit.RESTClientMixin
+   */
   class GrDownloadDialog extends Polymer.mixinBehaviors( [
     Gerrit.FireBehavior,
     Gerrit.PatchSetBehavior,

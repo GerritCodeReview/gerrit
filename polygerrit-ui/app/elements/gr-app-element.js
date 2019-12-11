@@ -18,9 +18,9 @@
   'use strict';
 
   /**
-    * @appliesMixin Gerrit.BaseUrlMixin
-    * @appliesMixin Gerrit.KeyboardShortcutMixin
-    */
+   * @appliesMixin Gerrit.BaseUrlMixin
+   * @appliesMixin Gerrit.KeyboardShortcutMixin
+   */
   class GrAppElement extends Polymer.mixinBehaviors( [
     Gerrit.BaseUrlBehavior,
     Gerrit.KeyboardShortcutBehavior,
@@ -51,18 +51,19 @@
         },
 
         /**
-       * The last time the g key was pressed in milliseconds (or a keydown event
-       * was handled if the key is held down).
-       * @type {number|null}
-       */
+         * The last time the g key was pressed in milliseconds (or a keydown event
+         * was handled if the key is held down).
+         *
+         * @type {number|null}
+         */
         _lastGKeyPressTimestamp: {
           type: Number,
           value: null,
         },
 
         /**
-       * @type {{ plugin: Object }}
-       */
+         * @type {{ plugin: Object }}
+         */
         _serverConfig: Object,
         _version: String,
         _showChangeListView: Boolean,

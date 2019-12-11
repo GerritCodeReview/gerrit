@@ -39,6 +39,7 @@
     constructor() {
       /**
        * Shared events map from name to the listeners.
+       *
        * @type {!Object<string, Array<eventCallback>>}
        */
       this._listenersMap = new Map();

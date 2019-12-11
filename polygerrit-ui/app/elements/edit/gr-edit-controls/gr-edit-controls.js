@@ -18,8 +18,8 @@
   'use strict';
 
   /**
-    * @appliesMixin Gerrit.PatchSetMixin
-    */
+   * @appliesMixin Gerrit.PatchSetMixin
+   */
   class GrEditControls extends Polymer.mixinBehaviors( [
     Gerrit.PatchSetBehavior,
   ], Polymer.GestureEventListeners(
@@ -33,11 +33,11 @@
         patchNum: String,
 
         /**
-       * TODO(kaspern): by default, the RESTORE action should be hidden in the
-       * file-list as it is a per-file action only. Remove this default value
-       * when the Actions dictionary is moved to a shared constants file and
-       * use the hiddenActions property in the parent component.
-       */
+         * TODO(kaspern): by default, the RESTORE action should be hidden in the
+         * file-list as it is a per-file action only. Remove this default value
+         * when the Actions dictionary is moved to a shared constants file and
+         * use the hiddenActions property in the parent component.
+         */
         hiddenActions: {
           type: Array,
           value() { return [GrEditConstants.Actions.RESTORE.id]; },
@@ -117,6 +117,7 @@
 
     /**
      * Given a path string, checks that it is a valid file path.
+     *
      * @param {string} path
      * @return {boolean}
      */
@@ -131,6 +132,7 @@
 
     /**
      * Given a dom event, gets the dialog that lies along this event path.
+     *
      * @param {!Event} e
      * @return {!Element|undefined}
      */

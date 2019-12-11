@@ -41,13 +41,13 @@
         side: String,
 
         /**
-       * We keep track of the line number from the previous annotate() call,
-       * and also of the index of the coverage range that had matched.
-       * annotate() calls are coming in with increasing line numbers and
-       * coverage ranges are sorted by line number. So this is a very simple
-       * and efficient way for finding the coverage range that matches a given
-       * line number.
-       */
+         * We keep track of the line number from the previous annotate() call,
+         * and also of the index of the coverage range that had matched.
+         * annotate() calls are coming in with increasing line numbers and
+         * coverage ranges are sorted by line number. So this is a very simple
+         * and efficient way for finding the coverage range that matches a given
+         * line number.
+         */
         _lineNumber: {
           type: Number,
           value: 0,

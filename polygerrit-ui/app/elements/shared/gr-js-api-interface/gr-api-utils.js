@@ -35,6 +35,7 @@
 
   /**
    * Retrieves the name of the plugin base on the url.
+   *
    * @param {string|URL} url
    */
   function getPluginNameFromUrl(url) {

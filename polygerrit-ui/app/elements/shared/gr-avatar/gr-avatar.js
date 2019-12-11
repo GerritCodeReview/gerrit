@@ -18,8 +18,8 @@
   'use strict';
 
   /**
-    * @appliesMixin Gerrit.BaseUrlMixin
-    */
+   * @appliesMixin Gerrit.BaseUrlMixin
+   */
   class GrAvatar extends Polymer.mixinBehaviors( [
     Gerrit.BaseUrlBehavior,
   ], Polymer.GestureEventListeners(

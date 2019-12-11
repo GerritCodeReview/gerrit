@@ -28,6 +28,7 @@
 
   /**
    * Returns true if the property is defined on wrapped element.
+   *
    * @param {string} name
    * @return {boolean}
    */

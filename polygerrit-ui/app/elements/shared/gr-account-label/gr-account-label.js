@@ -18,9 +18,9 @@
   'use strict';
 
   /**
-    * @appliesMixin Gerrit.DisplayNameMixin
-    * @appliesMixin Gerrit.TooltipMixin
-    */
+   * @appliesMixin Gerrit.DisplayNameMixin
+   * @appliesMixin Gerrit.TooltipMixin
+   */
   class GrAccountLabel extends Polymer.mixinBehaviors( [
     Gerrit.DisplayNameBehavior,
     Gerrit.TooltipBehavior,

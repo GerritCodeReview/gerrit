@@ -18,8 +18,8 @@
   'use strict';
 
   /**
-    * @appliesMixin Gerrit.FireMixin
-    */
+   * @appliesMixin Gerrit.FireMixin
+   */
   class GrDiffHighlight extends Polymer.mixinBehaviors( [
     Gerrit.FireBehavior,
   ], Polymer.GestureEventListeners(
@@ -36,20 +36,20 @@
         },
         loggedIn: Boolean,
         /**
-       * querySelector can return null, so needs to be nullable.
-       *
-       * @type {?HTMLElement}
-       * */
+         * querySelector can return null, so needs to be nullable.
+         *
+         * @type {?HTMLElement}
+         * */
         _cachedDiffBuilder: Object,
 
         /**
-       * Which range is currently selected by the user.
-       * Stored in order to add a range-based comment
-       * later.
-       * undefined if no range is selected.
-       *
-       * @type {{side: string, range: Gerrit.Range}|undefined}
-       */
+         * Which range is currently selected by the user.
+         * Stored in order to add a range-based comment
+         * later.
+         * undefined if no range is selected.
+         *
+         * @type {{side: string, range: Gerrit.Range}|undefined}
+         */
         selectedRange: {
           type: Object,
           notify: true,
@@ -162,6 +162,7 @@
      * Merges multiple ranges, accounts for triple click, accounts for
      * syntax highligh, convert native DOM Range objects to Gerrit concepts
      * (line, side, etc).
+     *
      * @param {Selection} selection
      * @return {({
      *   start: {
@@ -197,6 +198,7 @@
 
     /**
      * Normalize a specific DOM Range.
+     *
      * @return {!Object} fixed normalized range
      */
     _normalizeRange(domRange) {

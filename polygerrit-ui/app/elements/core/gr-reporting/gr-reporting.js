@@ -212,6 +212,7 @@
 
     /**
      * The default reporter reports events immediately.
+     *
      * @param {string} type
      * @param {string} category
      * @param {string} eventName
@@ -254,6 +255,7 @@
     /**
      * The caching reporter will queue reports until plugins have loaded, and
      * log events immediately if they're reported after plugins have loaded.
+     *
      * @param {string} type
      * @param {string} category
      * @param {string} eventName
@@ -437,6 +439,7 @@
     /**
      * Reports just line timeEnd, but additionally reports an average given a
      * denominator and a separate reporiting name for the average.
+     *
      * @param {string} name Timing name.
      * @param {string} averageName Average timing name.
      * @param {number} denominator Number by which to divide the total to
@@ -455,6 +458,7 @@
 
     /**
      * Send a timing report with an arbitrary time value.
+     *
      * @param {string} name Timing name.
      * @param {number} time The time to report as an integer of milliseconds.
      */
@@ -467,6 +471,7 @@
      * Get a timer object to for reporing a user timing. The start time will be
      * the time that the object has been created, and the end time will be the
      * time that the "end" method is called on the object.
+     *
      * @param {string} name Timing name.
      * @returns {!Object} The timer object.
      */
@@ -513,6 +518,7 @@
 
     /**
      * Log timing information for an RPC.
+     *
      * @param {string} anonymizedUrl The URL of the RPC with tokens obfuscated.
      * @param {number} elapsed The time elapsed of the RPC.
      */

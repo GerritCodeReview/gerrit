@@ -22,8 +22,8 @@
   const BREAKPOINT_FULLSCREEN_OVERLAY = '50em';
 
   /**
-    * @appliesMixin Gerrit.FireMixin
-    */
+   * @appliesMixin Gerrit.FireMixin
+   */
   class GrOverlay extends Polymer.mixinBehaviors( [
     Gerrit.FireBehavior,
     Polymer.IronOverlayBehavior,

@@ -18,8 +18,8 @@
   'use strict';
 
   /**
-    * @appliesMixin Gerrit.BaseUrlMixin
-    */
+   * @appliesMixin Gerrit.BaseUrlMixin
+   */
   class GrAgreementsList extends Polymer.mixinBehaviors( [
     Gerrit.BaseUrlBehavior,
   ], Polymer.GestureEventListeners(

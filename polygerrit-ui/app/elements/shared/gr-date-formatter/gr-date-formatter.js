@@ -32,8 +32,8 @@
   };
 
   /**
-    * @appliesMixin Gerrit.TooltipMixin
-    */
+   * @appliesMixin Gerrit.TooltipMixin
+   */
   class GrDateFormatter extends Polymer.mixinBehaviors( [
     Gerrit.TooltipBehavior,
   ], Polymer.GestureEventListeners(
@@ -54,14 +54,14 @@
         },
 
         /**
-       * When true, the detailed date appears in a GR-TOOLTIP rather than in the
-       * native browser tooltip.
-       */
+         * When true, the detailed date appears in a GR-TOOLTIP rather than in the
+         * native browser tooltip.
+         */
         hasTooltip: Boolean,
 
         /**
-       * The title to be used as the native tooltip or by the tooltip behavior.
-       */
+         * The title to be used as the native tooltip or by the tooltip behavior.
+         */
         title: {
           type: String,
           reflectToAttribute: true,

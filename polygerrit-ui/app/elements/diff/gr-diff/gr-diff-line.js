@@ -37,7 +37,7 @@
     /** @type {boolean} */
     this.hasIntralineInfo = false;
 
-    /** @type Array<GrDiffLine.Highlights> */
+    /** @type {!Array<GrDiffLine.Highlights>} */
     this.highlights = [];
 
     /** @type {?Array<Object>} ?Array<!GrDiffGroup> */

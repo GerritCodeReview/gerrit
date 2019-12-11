@@ -38,41 +38,41 @@
         _target: Object,
 
         /**
-       * Determines whether or not the hovercard is visible.
-       *
-       * @type {boolean}
-       */
+         * Determines whether or not the hovercard is visible.
+         *
+         * @type {boolean}
+         */
         _isShowing: {
           type: Boolean,
           value: false,
         },
         /**
-       * The `id` of the element that the hovercard is anchored to.
-       *
-       * @type {string}
-       */
+         * The `id` of the element that the hovercard is anchored to.
+         *
+         * @type {string}
+         */
         for: {
           type: String,
           observer: '_forChanged',
         },
 
         /**
-       * The spacing between the top of the hovercard and the element it is
-       * anchored to.
-       *
-       * @type {number}
-       */
+         * The spacing between the top of the hovercard and the element it is
+         * anchored to.
+         *
+         * @type {number}
+         */
         offset: {
           type: Number,
           value: 14,
         },
 
         /**
-       * Positions the hovercard to the top, right, bottom, left, bottom-left,
-       * bottom-right, top-left, or top-right of its content.
-       *
-       * @type {string}
-       */
+         * Positions the hovercard to the top, right, bottom, left, bottom-left,
+         * bottom-right, top-left, or top-right of its content.
+         *
+         * @type {string}
+         */
         position: {
           type: String,
           value: 'bottom',
@@ -80,10 +80,10 @@
 
         container: Object,
         /**
-       * ID for the container element.
-       *
-       * @type {string}
-       */
+         * ID for the container element.
+         *
+         * @type {string}
+         */
         containerId: {
           type: String,
           value: 'gr-hovercard-container',

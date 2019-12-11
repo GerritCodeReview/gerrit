@@ -57,33 +57,33 @@
         },
 
         /**
-       * The diff views to cursor through and listen to.
-       */
+         * The diff views to cursor through and listen to.
+         */
         diffs: {
           type: Array,
           value() { return []; },
         },
 
         /**
-       * If set, the cursor will attempt to move to the line number (instead of
-       * the first chunk) the next time the diff renders. It is set back to null
-       * when used. It should be only used if you want the line to be focused
-       * after initialization of the component and page should scroll
-       * to that position. This parameter should be set at most for one gr-diff
-       * element in the page.
-       *
-       * @type (?number)
-       */
+         * If set, the cursor will attempt to move to the line number (instead of
+         * the first chunk) the next time the diff renders. It is set back to null
+         * when used. It should be only used if you want the line to be focused
+         * after initialization of the component and page should scroll
+         * to that position. This parameter should be set at most for one gr-diff
+         * element in the page.
+         *
+         * @type {?number}
+         */
         initialLineNumber: {
           type: Number,
           value: null,
         },
 
         /**
-       * The scroll behavior for the cursor. Values are 'never' and
-       * 'keep-visible'. 'keep-visible' will only scroll if the cursor is beyond
-       * the viewport.
-       */
+         * The scroll behavior for the cursor. Values are 'never' and
+         * 'keep-visible'. 'keep-visible' will only scroll if the cursor is beyond
+         * the viewport.
+         */
         _scrollBehavior: {
           type: String,
           value: ScrollBehavior.KEEP_VISIBLE,
@@ -201,6 +201,7 @@
 
     /**
      * Get the line number element targeted by the cursor row and side.
+     *
      * @return {?Element|undefined}
      */
     getTargetLineElement() {
@@ -290,6 +291,7 @@
      * {leftSide: false, number: 123} for line 123 of the revision, or
      * {leftSide: true, number: 321} for line 321 of the base patch.
      * Returns null if an address is not available.
+     *
      * @return {?Object}
      */
     getAddress() {
@@ -414,6 +416,7 @@
     /**
      * Setup and tear down on-render listeners for any diffs that are added or
      * removed from the cursor.
+     *
      * @private
      */
     _diffsChanged(changeRecord) {

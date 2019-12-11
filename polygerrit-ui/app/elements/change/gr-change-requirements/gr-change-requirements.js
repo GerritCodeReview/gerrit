@@ -18,8 +18,8 @@
   'use strict';
 
   /**
-    * @appliesMixin Gerrit.RESTClientMixin
-    */
+   * @appliesMixin Gerrit.RESTClientMixin
+   */
   class GrChangeRequirements extends Polymer.mixinBehaviors( [
     Gerrit.RESTClientBehavior,
   ], Polymer.GestureEventListeners(

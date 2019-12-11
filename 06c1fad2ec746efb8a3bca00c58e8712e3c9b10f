@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2f31dabf_dc981d9e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 562,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-12-11T14:10:11Z",
+      "side": 1,
+      "message": "can you move css part to here: https://gerrit.googlesource.com/gerrit/+/refs/changes/33/247633/3/polygerrit-ui/app/elements/diff/gr-diff/gr-diff.html#274\n\nso all styles are in the same place ;)",
+      "revId": "06c1fad2ec746efb8a3bca00c58e8712e3c9b10f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4271666c_27ba2215",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 567,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-12-11T14:10:11Z",
+      "side": 1,
+      "message": "; :) you can run `npm run eslintfix` before commit to fix those",
+      "range": {
+        "startLine": 567,
+        "startChar": 4,
+        "endLine": 567,
+        "endChar": 5
+      },
+      "revId": "06c1fad2ec746efb8a3bca00c58e8712e3c9b10f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -47,7 +47,7 @@ directly to change 4543.
 Download and unzip a release version of Jetty.  From here on we
 call the unpacked directory `$JETTY_HOME`.
 
-* link:http://www.eclipse.org/jetty/downloads.php[Jetty Downloads]
+* link:http://www.eclipse.org/jetty/downloads.php[Jetty Downloads,role=external,window=_blank]
 
 If this is a fresh installation of Jetty, move into the installation
 directory and do some cleanup to remove the sample webapps:
@@ -99,7 +99,7 @@ slashes]. Otherwise Tomcat must be configured to encode slashes, by adding
 
 Excerpt from the
 link:https://tomcat.apache.org/tomcat-7.0-doc/config/systemprops.html[
-documentation]:
+documentation,role=external,window=_blank]:
 
 ----
 Property org.apache.tomcat.util.buf.UDecoder.ALLOW_ENCODED_SLASH:

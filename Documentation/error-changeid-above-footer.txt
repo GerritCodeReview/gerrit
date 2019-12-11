@@ -8,7 +8,7 @@ To be picked up by Gerrit, a Change-Id must be in the last paragraph
 of a commit message. For details, see link:user-changeid.html[Change-Id Lines].
 
 You can see the commit messages for existing commits in the history
-by doing a link:http://www.kernel.org/pub/software/scm/git/docs/git-log.html[git log].
+by doing a link:http://www.kernel.org/pub/software/scm/git/docs/git-log.html[git log,role=external,window=_blank].
 
 
 == Change-Id is contained in the commit message but not in the last paragraph

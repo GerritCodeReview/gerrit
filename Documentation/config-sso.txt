@@ -17,7 +17,7 @@ setting should be `OpenID`:
 As this is the default setting there is nothing required from the
 site administrator to make use of the OpenID authentication services.
 
-* http://openid.net/[openid.net]
+* http://openid.net/[openid.net,,role=external,window=_blank]
 
 If Jetty is being used, you may need to increase the header
 buffer size parameter, due to very long header lines.
@@ -34,7 +34,7 @@ must only have OpenIDs which match at least one pattern from the
 `auth.trustedOpenID` list in `gerrit.config`.  Patterns may be
 either a
 link:http://download.oracle.com/javase/6/docs/api/java/util/regex/Pattern.html[standard
-Java regular expression (java.util.regex)] (must start with `^`
+Java regular expression (java.util.regex),,role=external,window=_blank] (must start with `^`
 and end with `$`) or be a simple prefix (any other string).
 
 Out of the box Gerrit is configured to trust two patterns, which
@@ -65,12 +65,12 @@ with that identity. Doing so will result in a new account being created, and
 subsequent attempts to link that account with the existing account will fail.
 In cases where this happens, the administrator will need to manually merge the
 accounts.  See link:https://gerrit.googlesource.com/homepage/+/md-pages/docs/SqlMergeUserAccounts.md[
-Merging Gerrit User Accounts] on the Gerrit Wiki for details.
+Merging Gerrit User Accounts,,role=external,window=_blank] on the Gerrit Wiki for details.
 
 Linking another identity is also useful for users whose primary OpenID provider
 shuts down. For example Google
 link:https://developers.google.com/+/api/auth-migration[shut down their OpenID
-service on 20th April 2015]. Users who failed to add an alternative identity with
+service on 20th April 2015,,role=external,window=_blank]. Users who failed to add an alternative identity with
 another OpenID provider before that date will end up with their account only having
 a disabled Google identity. After creating a separate account with an alternative
 provider, they will need to ask the administrator to merge the accounts using the

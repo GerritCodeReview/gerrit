@@ -28,8 +28,8 @@ remote branch evolves. If you are now pushing your commit, with
 bypassing code review, your push will be rejected with the error
 message 'non-fast forward'. To solve the problem you have to either
 
-. link:http://www.kernel.org/pub/software/scm/git/docs/git-rebase.html[rebase] your commit on the new tip of the remote branch or
-. link:http://www.kernel.org/pub/software/scm/git/docs/git-merge.html[merge] your commit with the new tip of the remote branch.
+. link:http://www.kernel.org/pub/software/scm/git/docs/git-rebase.html[rebase,role=external,window=_blank] your commit on the new tip of the remote branch or
+. link:http://www.kernel.org/pub/software/scm/git/docs/git-merge.html[merge,role=external,window=_blank] your commit with the new tip of the remote branch.
 
 Afterwards the push should be successful.
 
@@ -46,7 +46,7 @@ the commit to the correct project.
 Although it is considered bad practice, it is possible to allow
 non-fast forward updates with Git. For this the remote Git repository
 has to be configured to not deny non-fast forward updates (set the
-link:http://www.kernel.org/pub/software/scm/git/docs/git-config.html[Git configuration] parameter 'receive.denyNonFastForwards' to
+link:http://www.kernel.org/pub/software/scm/git/docs/git-config.html[Git configuration,role=external,window=_blank] parameter 'receive.denyNonFastForwards' to
 'false'). Then it is possible to push a non-fast forward update by
 using the '--force' option.
 

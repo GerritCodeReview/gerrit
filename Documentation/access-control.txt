@@ -7,10 +7,10 @@ users.
 
 To view/edit the access controls for a specific project, first
 navigate to the projects page: for example,
-https://gerrit-review.googlesource.com/admin/repos/ . Then click on
+https://gerrit-review.googlesource.com/admin/repos/[role=external,window=_blank]. Then click on
 the individual project, and then click Access. This will bring you
 to a url that looks like
-https://gerrit-review.googlesource.com/admin/repos/gerrit,access
+https://gerrit-review.googlesource.com/admin/repos/gerrit,access[role=external,window=_blank]
 
 [[system_groups]]
 == System Groups
@@ -218,7 +218,7 @@ by prefixing the reference name with `^`.  For example
 `^refs/heads/[a-z]{1,8}` matches all lower case branch names
 between 1 and 8 characters long.  Within a regular expression `.`
 is a wildcard matching any character, but may be escaped as `\.`.
-The link:http://www.brics.dk/automaton/[dk.brics.automaton library]
+The link:http://www.brics.dk/automaton/[dk.brics.automaton library,role=external,window=_blank]
 is used for evaluation of regular expression access control
 rules. See the library documentation for details on this
 particular regular expression flavor. One quirk is that the
@@ -979,7 +979,7 @@ A typical Continuous Integration system should be able to download new changes
 to build and then leave a verdict somehow.
 
 As an example, the popular
-link:https://wiki.jenkins-ci.org/display/JENKINS/Gerrit+Trigger[gerrit-trigger plugin]
+link:https://wiki.jenkins-ci.org/display/JENKINS/Gerrit+Trigger[gerrit-trigger plugin,role=external,window=_blank]
 for Jenkins/Hudson can set labels at:
 
 * The start of a build

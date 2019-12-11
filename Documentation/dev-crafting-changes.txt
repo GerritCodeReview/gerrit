@@ -86,10 +86,10 @@ To set up git's remote for easy pushing, run the following:
 The HTTPS access requires proper username and password; this can be obtained
 by clicking the 'Obtain Password' link on the
 link:https://gerrit-review.googlesource.com/#/settings/http-password[HTTP
-Password tab of the user settings page].
+Password tab of the user settings page,role=external,window=_blank].
 
 Alternately, you may use the
-link:https://pypi.org/project/git-review/[git-review] tool to submit changes
+link:https://pypi.org/project/git-review/[git-review,role=external,window=_blank] tool to submit changes
 to Gerrit. If you do, it will set up the Change-Id hook and `gerrit` remote
 for you. You will still need to do the HTTP access step.
 
@@ -109,12 +109,12 @@ extend gerrit CI to take care of this, but it's not yet implemented.
 
 Gerrit generally follows the
 link:https://google.github.io/styleguide/javaguide.html[Google Java Style
-Guide].
+Guide,role=external,window=_blank].
 
 To format Java source code, Gerrit uses the
-link:https://github.com/google/google-java-format[`google-java-format`]
+link:https://github.com/google/google-java-format[`google-java-format`,role=external,window=_blank]
 tool (version 1.7), and to format Bazel BUILD, WORKSPACE and .bzl files the
-link:https://github.com/bazelbuild/buildtools/tree/master/buildifier[`buildifier`]
+link:https://github.com/bazelbuild/buildtools/tree/master/buildifier[`buildifier`,role=external,window=_blank]
 tool (version 0.29.0).
 These tools automatically apply format according to the style guides; this
 streamlines code review by reducing the need for time-consuming, tedious,

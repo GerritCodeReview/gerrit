@@ -3,8 +3,8 @@
 With this error message an SSH command to Gerrit is rejected if the
 SSH authentication is not successful.
 
-The link:http://en.wikipedia.org/wiki/Secure_Shell[SSH] protocol can use
-link:http://en.wikipedia.org/wiki/Public-key_cryptography[Public-key Cryptography]
+The link:http://en.wikipedia.org/wiki/Secure_Shell[SSH,role=external,window=_blank] protocol can use
+link:http://en.wikipedia.org/wiki/Public-key_cryptography[Public-key Cryptography,role=external,window=_blank]
 for authentication.
 In general configurations, Gerrit will authenticate you by the public keys
 known to you. Optionally, it can be configured by the administrator to allow

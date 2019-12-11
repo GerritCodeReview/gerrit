@@ -4,7 +4,7 @@ With this error message Gerrit rejects to push a commit if the commit
 message footer of the pushed commit contains several Change-Id lines.
 
 You can see the commit messages for existing commits in the history
-by doing a link:http://www.kernel.org/pub/software/scm/git/docs/git-log.html[git log].
+by doing a link:http://www.kernel.org/pub/software/scm/git/docs/git-log.html[git log,role=external,window=_blank].
 
 If it was the intention to rework a change and to push a new patch
 set, find the change in the Gerrit Web UI, copy its Change-Id line and

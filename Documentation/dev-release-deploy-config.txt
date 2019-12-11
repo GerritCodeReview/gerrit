@@ -11,7 +11,7 @@ To be able to publish artifacts to Maven Central some preparations must
 be done:
 
 * Create an account on
-link:https://issues.sonatype.org/secure/Signup!default.jspa[Sonatype's Jira].
+link:https://issues.sonatype.org/secure/Signup!default.jspa[Sonatype's Jira,role=external,window=_blank].
 +
 Sonatype is the company that runs Maven Central and you need a Sonatype
 account to be able to upload artifacts to Maven Central.
@@ -30,7 +30,7 @@ account to be able to upload artifacts to Maven Central.
 repository on Maven Central:
 +
 Ask for this permission by adding a comment on the
-link:https://issues.sonatype.org/browse/OSSRH-7392[OSSRH-7392] Jira
+link:https://issues.sonatype.org/browse/OSSRH-7392[OSSRH-7392,role=external,window=_blank] Jira
 ticket at Sonatype.
 +
 The request needs to be approved by someone who already has this
@@ -43,7 +43,7 @@ the upload to Maven Central, and to sign the release announcement email.
 +
 Generate and publish a PGP key as described in
 link:http://central.sonatype.org/pages/working-with-pgp-signatures.html[
-Working with PGP Signatures]. In addition to the keyserver mentioned
+Working with PGP Signatures,role=external,window=_blank]. In addition to the keyserver mentioned
 there it is recommended to also publish the key to the
 link:https://keyserver.ubuntu.com/[Ubuntu key server].
 +
@@ -51,7 +51,7 @@ Please be aware that after publishing your public key it may take a
 while until it is visible to the Sonatype server.
 +
 Add an entry for the public key in the
-link:https://gerrit.googlesource.com/homepage/+/md-pages/releases/public-keys.md[key list]
+link:https://gerrit.googlesource.com/homepage/+/md-pages/releases/public-keys.md[key list,role=external,window=_blank]
 on the homepage.
 +
 The PGP passphrase can be put in `~/.m2/settings.xml`:
@@ -80,7 +80,7 @@ It can also be included in the key chain on OS X.
 
 Gerrit Subproject Artifacts are stored on
 link:https://developers.google.com/storage/[Google Cloud Storage].
-Via the link:https://console.developers.google.com/project/164060093628[Developers Console] the
+Via the link:https://console.developers.google.com/project/164060093628[Developers Console,role=external,window=_blank] the
 Gerrit maintainers have access to the `Gerrit Code Review` project.
 This projects host several buckets for storing Gerrit artifacts:
 
@@ -96,7 +96,7 @@ Bucket to store Gerrit Subproject Artifacts (e.g. Prolog Cafe).
 To upload artifacts to a bucket the user must authenticate with a
 username and password. The username and password need to be retrieved
 from the link:https://console.cloud.google.com/storage/settings?project=api-project-164060093628[
-Storage Setting in the Google Cloud Platform Console]:
+Storage Setting in the Google Cloud Platform Console,role=external,window=_blank]:
 
 Select the `Interoperability` tab, and if no keys are listed under
 `Interoperable storage access keys`, select 'Create a new key'.

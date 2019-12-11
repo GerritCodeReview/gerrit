@@ -610,7 +610,7 @@ Deletes the description of a project.
 A commit message can be provided in the request body as a
 link:#project-description-input[ProjectDescriptionInput] entity.
 Historically, this method allowed a body in the DELETE, but that behavior is
-link:https://www.gerritcodereview.com/releases/2.16.md[deprecated].
+link:https://www.gerritcodereview.com/releases/2.16.md[deprecated,role=external,window=_blank].
 In this case, use link:#set-project-description[PUT] instead.
 
 .Request

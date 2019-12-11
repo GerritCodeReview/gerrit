@@ -1,6 +1,6 @@
 = Gerrit Code Review - Mail Templates
 
-Gerrit uses link:https://developers.google.com/closure/templates/[Closure Templates]
+Gerrit uses link:https://developers.google.com/closure/templates/[Closure Templates,role=external,window=_blank]
 (Soy) for the bulk of the standard mails it sends out.
 There are builtin default templates which are used if they are not overridden.
 These defaults are also provided as examples so that administrators may copy

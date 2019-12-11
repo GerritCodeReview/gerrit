@@ -5,7 +5,7 @@
 
 To run the Gerrit service, the following requirement must be met on the host:
 
-* JRE, version 1.8 http://www.oracle.com/technetwork/java/javase/downloads/index.html[Download]
+* JRE, version 1.8 http://www.oracle.com/technetwork/java/javase/downloads/index.html[Download,role=external,window=_blank]
 +
 Gerrit is not yet compatible with Java 9 or newer at this time.
 
@@ -22,8 +22,8 @@ Installing JCE extensions is optional and export restrictions may apply.
 
 . Download the unlimited strength JCE policy files.
 +
-- link:http://www.oracle.com/technetwork/java/javase/downloads/jce-7-download-432124.html[JDK7 JCE policy files]
-- link:http://www.oracle.com/technetwork/java/javase/downloads/jce8-download-2133166.html[JDK8 JCE policy files]
+- link:http://www.oracle.com/technetwork/java/javase/downloads/jce-7-download-432124.html[JDK7 JCE policy files,role=external,window=_blank]
+- link:http://www.oracle.com/technetwork/java/javase/downloads/jce8-download-2133166.html[JDK8 JCE policy files,role=external,window=_blank]
 . Uncompress and extract the downloaded file.
 +
 The downloaded file  contains the following files:
@@ -47,7 +47,7 @@ found in `README.txt`.
 
 Current and past binary releases of Gerrit can be obtained from
 the link:https://gerrit-releases.storage.googleapis.com/index.html[
-Gerrit Releases site].
+Gerrit Releases site,role=external,window=_blank].
 
 Download any current `*.war` package. The war will be referred to as
 `gerrit.war` from this point forward, so you may find it easier to
@@ -173,7 +173,7 @@ link:install-j2ee.html[J2EE installation].
 
 The `ssh-keygen` command must be available during the init phase to
 generate SSH host keys. If you have
-link:https://git-for-windows.github.io/[Git for Windows] installed,
+link:https://git-for-windows.github.io/[Git for Windows,role=external,window=_blank] installed,
 start Command Prompt and temporary add directory with ssh-keygen to the
 PATH environment variable just before running init command:
 
@@ -197,7 +197,7 @@ To stop the daemon press Ctrl+C.
 
 To install Gerrit as Windows Service use the
 link:http://commons.apache.org/proper/commons-daemon/procrun.html[Apache
-Commons Daemon Procrun].
+Commons Daemon Procrun,role=external,window=_blank].
 
 Sample install command:
 
@@ -235,7 +235,7 @@ anonymous, unencrypted git:// protocol is more efficient than
 Gerrit's internal SSH daemon.  See the `git-daemon` documentation
 for details on how to configure this if anonymous access is desired.
 
-* http://www.kernel.org/pub/software/scm/git/docs/git-daemon.html[man git-daemon]
+* http://www.kernel.org/pub/software/scm/git/docs/git-daemon.html[man git-daemon,role=external,window=_blank]
 
 
 [[plugins]]
@@ -246,7 +246,7 @@ Place Gerrit plugins in the review_site/plugins directory to have them loaded on
 
 == External Documentation Links
 
-* http://www.kernel.org/pub/software/scm/git/docs/git-daemon.html[git-daemon]
+* http://www.kernel.org/pub/software/scm/git/docs/git-daemon.html[git-daemon,role=external,window=_blank]
 
 
 [[backup]]

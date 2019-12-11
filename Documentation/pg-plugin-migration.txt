@@ -2,7 +2,7 @@
 
 CAUTION: Work in progress. Hard hat area. Please
 link:https://bugs.chromium.org/p/gerrit/issues/entry?template=PolyGerrit%20plugins[send
-feedback] if something's not right.
+feedback,role=external,window=_blank] if something's not right.
 
 [[migration]]
 == Incremental migration of existing GWT UI plugins

@@ -23,10 +23,10 @@ Loading and executing Prolog submit rules may be disabled by setting
 link:config-gerrit.html#_a_id_rules_a_section_rules[rules section])
 
 link:https://groups.google.com/d/topic/repo-discuss/wJxTGhlHZMM/discussion[This
-discussion thread] explains why Prolog was chosen for the purpose of writing
+discussion thread,role=external,window=_blank] explains why Prolog was chosen for the purpose of writing
 project specific submit rules.
 link:http://gerrit-documentation.googlecode.com/svn/ReleaseNotes/ReleaseNotes-2.2.2.html[Gerrit
-2.2.2 ReleaseNotes] introduces Prolog support in Gerrit.
+2.2.2 ReleaseNotes,role=external,window=_blank] introduces Prolog support in Gerrit.
 
 [[SubmitType]]
 == Submit Type
@@ -58,14 +58,14 @@ situation.
 
 == Prolog Language
 This document is not a complete Prolog tutorial.
-link:http://en.wikipedia.org/wiki/Prolog[This Wikipedia page on Prolog] is a
+link:http://en.wikipedia.org/wiki/Prolog[This Wikipedia page on Prolog,role=external,window=_blank] is a
 good starting point for learning the Prolog language. This document will only
 explain some elements of Prolog that are necessary to understand the provided
 examples.
 
 == Prolog in Gerrit
-Gerrit uses its own link:https://gerrit.googlesource.com/prolog-cafe/[fork] of the
-original link:http://kaminari.istc.kobe-u.ac.jp/PrologCafe/[prolog-cafe]
+Gerrit uses its own link:https://gerrit.googlesource.com/prolog-cafe/[fork,role=external,window=_blank] of the
+original link:http://kaminari.istc.kobe-u.ac.jp/PrologCafe/[prolog-cafe,role=external,window=_blank]
 project. Gerrit embeds the prolog-cafe library and can interpret Prolog programs
 at runtime.
 
@@ -75,7 +75,7 @@ link:pgm-prolog-shell.html[prolog-shell] program which opens an interactive
 Prolog interpreter shell.
 
 For batch or unit tests, see the examples in Gerrit source directory
-link:https://gerrit.googlesource.com/gerrit/+/refs/heads/master/prologtests/examples/[prologtests/examples].
+link:https://gerrit.googlesource.com/gerrit/+/refs/heads/master/prologtests/examples/[prologtests/examples,role=external,window=_blank].
 
 [NOTE]
 The interactive shell is just a prolog shell, it does not load
@@ -84,7 +84,7 @@ xref:TestingSubmitRules[testing submit rules].
 
 == SWI-Prolog
 Instead of using the link:pgm-prolog-shell.html[prolog-shell] program one can
-also use the link:http://www.swi-prolog.org/[SWI-Prolog] environment. It
+also use the link:http://www.swi-prolog.org/[SWI-Prolog,role=external,window=_blank] environment. It
 provides a better shell interface and a graphical source-level debugger.
 
 [[RulesFile]]

@@ -8,9 +8,9 @@ under different load profiles.
 == What is Gatling?
 
 Gatling is a load testing tool which provides out of the box support for the HTTP protocol. Documentation on how to write an
-HTTP load test can be found link:https://gatling.io/docs/current/http/http_protocol/[`here`].
+HTTP load test can be found link:https://gatling.io/docs/current/http/http_protocol/[`here`,role=external,window=_blank].
 
-However, in the scenario we are proposing, we are leveraging the link:https://github.com/GerritForge/gatling-git[`Gatling Git extension`]
+However, in the scenario we are proposing, we are leveraging the link:https://github.com/GerritForge/gatling-git[`Gatling Git extension`,role=external,window=_blank]
 to run tests at Git protocol level.
 
 Gatling is written in Scala, but the abstraction provided by the Gatling DSL makes the scenarios implementation easy even without any Scala knowledge.
@@ -32,7 +32,7 @@ sbt compile
 ==== Setup
 
 If you are running SSH commands the private keys of the users used for testing need to go in `/tmp/ssh-keys`.
-The keys need to be generated this way (JSch won't validate them [otherwise](https://stackoverflow.com/questions/53134212/invalid-privatekey-when-using-jsch):
+The keys need to be generated this way (JSch won't validate them [otherwise,role=external,window=_blank](https://stackoverflow.com/questions/53134212/invalid-privatekey-when-using-jsch):
 
 ----
 ssh-keygen -m PEM -t rsa -C "test@mail.com" -f /tmp/ssh-keys/id_rsa

@@ -1,6 +1,6 @@
 = Gerrit Code Review: Developer Setup
 
-To build a developer instance, you'll need link:https://bazel.build/[Bazel] to
+To build a developer instance, you'll need link:https://bazel.build/[Bazel,role=external,window=_blank] to
 compile the code.
 
 == Git Setup
@@ -31,7 +31,7 @@ the submodules.
 
 CAUTION: If you store Eclipse or IntelliJ project files in the Gerrit source
 directories, do *_not_* run `git clean -fdx`. Doing so may remove untracked files and damage your project. For more information, see
-link:https://git-scm.com/docs/git-clean[git-clean].
+link:https://git-scm.com/docs/git-clean[git-clean,role=external,window=_blank].
 
 Run the following:
 

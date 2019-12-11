@@ -1,7 +1,7 @@
 = Plugin Lifecycle
 
 Most of the plugins are hosted on the same instance as the
-link:https://gerrit-review.googlesource.com[Gerrit project itself] to make them
+link:https://gerrit-review.googlesource.com[Gerrit project itself,role=external,window=_blank] to make them
 more discoverable and have more chances to be reviewed by the whole community.
 
 [[hosting_lifecycle]]
@@ -12,7 +12,7 @@ The process of writing a new plugin goes through different phases:
 - Ideation and Discussion:
 +
 The idea of creating a new plugin is posted and discussed on the
-link:https://groups.google.com/d/forum/repo-discuss[repo-discuss] mailing list.
+link:https://groups.google.com/d/forum/repo-discuss[repo-discuss,role=external,window=_blank] mailing list.
 +
 Also see section link#ideation_discussion[Ideation and discussion] below.
 
@@ -27,14 +27,14 @@ Also see section link#plugin_prototyping[Plugin Prototyping] below.
 +
 The author proposes to release the plugin under the
 link:https://www.apache.org/licenses/LICENSE-2.0.html[Apache 2.0 OpenSource
-license] and requests the plugin to be hosted on
-link:https://gerrit-review.googlesource.com[the Gerrit project site]. The
+license,role=external,window=_blank] and requests the plugin to be hosted on
+link:https://gerrit-review.googlesource.com[the Gerrit project site,role=external,window=_blank]. The
 proposal must be   accepted by at least one Gerrit maintainer. In case of
 disagreement between maintainers, the issue can be escalated to the
 link:dev-processes.html#steering-committee[Engineering Steering Committee]. If
 the plugin is accepted, the Gerrit maintainer creates the project under the
 plugins path on link:https://gerrit-review.googlesource.com[the Gerrit project
-site].
+site,role=external,window=_blank].
 +
 Also see section link#plugin_proposal[Plugin Proposal] below.
 
@@ -42,7 +42,7 @@ Also see section link#plugin_proposal[Plugin Proposal] below.
 +
 To make the consumption of the plugin easy and to notice plugin breakages early
 the plugin author should setup build jobs on
-link:https://gerrit-ci.gerritforge.com[the GerritForge CI] that build the
+link:https://gerrit-ci.gerritforge.com[the GerritForge CI,role=external,window=_blank] that build the
 plugin for each Gerrit version that it supports.
 +
 Also see section link#build[Build] below.
@@ -58,7 +58,7 @@ below.
 - Release:
 +
 The author releases the plugin by creating a Git tag and announcing the plugin
-on the link:https://groups.google.com/d/forum/repo-discuss[repo-discuss]
+on the link:https://groups.google.com/d/forum/repo-discuss[repo-discuss,role=external,window=_blank]
 mailing list.
 +
 Also see section link#plugin_release[Plugin release] below.
@@ -84,7 +84,7 @@ identification of a gap in the Gerrit Code Review product but evolves with the
 contribution of ideas and suggestions by the whole community.
 
 The ideator of the plugin starts with an RFC (Request For Comments) post on the
-link:https://groups.google.com/d/forum/repo-discuss[repo-discuss] mailing list
+link:https://groups.google.com/d/forum/repo-discuss[repo-discuss,role=external,window=_blank] mailing list
 with a description of the main reasons for starting a new plugin.
 
 Example of a post:
@@ -138,9 +138,9 @@ and try the plugin themselves.
 
 The author decides that the plugin prototype makes sense as a general purpose
 plugin and decides to release the code with the same
-link:https://www.apache.org/licenses/LICENSE-2.0.html[Apache 2.0 license]
+link:https://www.apache.org/licenses/LICENSE-2.0.html[Apache 2.0 license,role=external,window=_blank]
 as the Gerrit Code Review project and have it hosted on
-link:https://gerrit-review.googlesource.com[the Gerrit project site].
+link:https://gerrit-review.googlesource.com[the Gerrit project site,role=external,window=_blank].
 
 The plugin author formalizes the proposal with a follow-up of the initial RFC
 post and asks for public opinion on it.
@@ -167,7 +167,7 @@ project; the result of the discussion can end up in one of the following cases:
 - The plugin's project request is widely appreciated and formally accepted by
   at least one Gerrit maintainer who creates the repository as child project of
   'Public-Projects' on link:https://gerrit-review.googlesource.com[the Gerrit
-  project site], creates an associated plugin owners group with "Owner"
+  project site,role=external,window=_blank], creates an associated plugin owners group with "Owner"
   permissions for the plugin and adds the plugin's author as member of it.
 - The plugin's project is widely appreciated; however, another existing plugin
   already partially covers the same use-case and thus it would make more sense
@@ -177,15 +177,15 @@ project; the result of the discussion can end up in one of the following cases:
 - The plugin's project is found useful; however, it is too specific to the
   author's use-case and would not make sense outside of it. The plugin remains
   in a public repository, widely accessible and OpenSource, but not hosted on
-  link:https://gerrit-review.googlesource.com[the Gerrit project site].
+  link:https://gerrit-review.googlesource.com[the Gerrit project site,role=external,window=_blank].
 
 [[build]]
 == Build
 
 The plugin's maintainer creates a job on the
-link:https://gerrit-ci.gerritforge.com[GerritForge CI] by creating a new YAML
+link:https://gerrit-ci.gerritforge.com[GerritForge CI,role=external,window=_blank] by creating a new YAML
 definition in the link:https://gerrit.googlesource.com/gerrit-ci-scripts[Gerrit
-CI Scripts] repository.
+CI Scripts,role=external,window=_blank] repository.
 
 Example of a YAML CI job for plugins:
 
@@ -203,7 +203,7 @@ Example of a YAML CI job for plugins:
 
 The plugin follows the same lifecycle as Gerrit Code Review and needs to be
 kept up-to-date with the current active branches, according to the
-link:https://www.gerritcodereview.com/#support[current support policy].
+link:https://www.gerritcodereview.com/#support[current support policy,role=external,window=_blank].
 During the development, the plugin's maintainer can reward contributors
 requesting to be more involved and making them maintainers of his plugin,
 adding them to the list of the project owners.

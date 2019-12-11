@@ -25,7 +25,7 @@ Here’s how getting code reviewed and submitted with Gerrit is different from
 doing the same with GitHub:
 
 * You need the add a commit-msg hook script when you clone a repo for the first
-time using a snippet you can find e.g. https://gerrit-review.googlesource.com/admin/repos/gerrit[here];
+time using a snippet you can find e.g. https://gerrit-review.googlesource.com/admin/repos/gerrit[here,role=external,window=_blank];
 * Your review will be on a single commit instead of a branch. You use
 `git commit --amend` to modify a code change.
 * Instead of using the Web UI to create a pull request, you use
@@ -54,11 +54,11 @@ The first step to working with the code is to clone the repo. For both, Gerrit
 and GitHub, you can simply use the `git clone` command.
 
 For Gerrit, there is an additional step before you can start making changes. For
-reasons we explain below, you’ll have to add a https://gerrit-review.googlesource.com/Documentation/user-changeid.html[commit-msg hook] script. This will
+reasons we explain below, you’ll have to add a https://gerrit-review.googlesource.com/Documentation/user-changeid.html[commit-msg hook,role=external,window=_blank] script. This will
 append the Gerrit Change-Id to every commit message such that Gerrit can track
 commits through the review process. To make this process a little easier in
 Gerrit, you can find a command snippet for cloning and adding the commit-msg
-hook on the repository page (e.g. https://gerrit-review.googlesource.com/admin/repos/gerrit[here]).
+hook on the repository page (e.g. https://gerrit-review.googlesource.com/admin/repos/gerrit[here,role=external,window=_blank]).
 
 [[create-change]]
 == 2. Making a Change
@@ -141,7 +141,7 @@ any way. You can also see all changes on a Gerrit server by using the top menu
 (“Changes” -> “Open”). This view is more similar to what you see on Github, when
 you navigate to the Pull Requests tab of the project/repository you are working
 on. Note, however, that a single Gerrit instance can host multiple projects
-(also referred to as repositories; a list can be found, for example, https://gerrit-review.googlesource.com/admin/repos[here]). Your
+(also referred to as repositories; a list can be found, for example, https://gerrit-review.googlesource.com/admin/repos[here,role=external,window=_blank]). Your
 dashboard and other lists of changes will show all changes across the
 projects/repositories by default.
 
@@ -191,7 +191,7 @@ need to make a few updates to the code in your change. As mentioned in Section 2
 on. To do that, you might have to checkout the respective commit first if it is
 not at the tip of your local branch, for example if you stacked multiple changes
 on top of each other. Another common use case is to not have a local branch but
-to work in the so-called https://www.git-tower.com/learn/git/faq/detached-head-when-checkout-commit["detached HEAD"] mode. In that case you can use the
+to work in the so-called https://www.git-tower.com/learn/git/faq/detached-head-when-checkout-commit["detached HEAD",role=external,window=_blank] mode. In that case you can use the
 “Download” button on the files tab to copy a command that fetches and checks out
 the commit underlying your change. Make sure to select the latest patchset,
 though!

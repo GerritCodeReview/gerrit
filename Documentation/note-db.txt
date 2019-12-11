@@ -36,7 +36,7 @@ data in the same repository as code changes.
   the upgrade process by running `gerrit.war init`
 - Account, group and change metadata on the servers behind `googlesource.com` is fully
   migrated to NoteDb. In other words, if you use
-  link:https://gerrit-review.googlesource.com/[gerrit-review], you're already
+  link:https://gerrit-review.googlesource.com/[gerrit-review,role=external,window=_blank], you're already
   using NoteDb.
 - NoteDb is the only database format supported by Gerrit 3.0. The change data
   migration tools are only included in Gerrit 2.15 and 2.16; they are not
@@ -197,5 +197,5 @@ section serves primarily as a reference.
 
 In case of rollback from NoteDB to ReviewDB, all the meta refs and the
 sequence ref need to be removed.
-The [remove-notedb-refs.sh](https://gerrit.googlesource.com/gerrit/+/refs/heads/master/contrib/remove-notedb-refs.sh)
+The [remove-notedb-refs.sh,role=external,window=_blank](https://gerrit.googlesource.com/gerrit/+/refs/heads/master/contrib/remove-notedb-refs.sh)
 script has been written to automate this process.

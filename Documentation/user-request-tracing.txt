@@ -75,7 +75,7 @@ triggered the auto-retry, however this is not guaranteed:
 [[auto-retry-succeeded]]
 If an auto-retry succeeds you may consider filing this as
 link:https://bugs.chromium.org/p/gerrit/issues/entry?template=GoogleSource+Issue[
-Gerrit issue] so that the Gerrit developers can fix this and treat this
+Gerrit issue,role=external,window=_blank] so that the Gerrit developers can fix this and treat this
 exception as recoverable.
 
 The trace IDs for auto-retries are generated and start with

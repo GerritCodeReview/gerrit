@@ -14,7 +14,7 @@ for Java 8 from the command line first. Ensure that at least
 === IntelliJ version and Bazel plugin
 
 Before downloading IntelliJ, look at the
-link:https://plugins.jetbrains.com/plugin/8609-bazel/versions[JetBrains plugin repository page of the Bazel plugin]
+link:https://plugins.jetbrains.com/plugin/8609-bazel/versions[JetBrains plugin repository page of the Bazel plugin,role=external,window=_blank]
 to see what version of the IntelliJ IDEA it is actually compatible with.
 
 Also note that the version of the Bazel plugin used in turn may or may not be
@@ -30,7 +30,7 @@ indicates that the Bazel plugin couldn't find Java 8.
 === Installation of IntelliJ IDEA
 
 Please refer to the
-link:https://www.jetbrains.com/help/idea/installation-guide.html[installation guide provided by Jetbrains]
+link:https://www.jetbrains.com/help/idea/installation-guide.html[installation guide provided by Jetbrains,role=external,window=_blank]
 to install it on your platform. Make sure to install a version compatible with
 the Bazel plugin as mentioned above.
 
@@ -47,7 +47,7 @@ link:https://github.com/bazelbuild/intellij[build it from source].
 . Search for the plugin `Bazel` (by Google).
 +
 TIP: In case the Bazel plugin is not listed, or if it shows an outdated version,
-verify the compatibility between the Bazel plugin and IntelliJ IDEA on link:https://plugins.jetbrains.com/plugin/8609-bazel/versions[the JetBrains plugin page].
+verify the compatibility between the Bazel plugin and IntelliJ IDEA on link:https://plugins.jetbrains.com/plugin/8609-bazel/versions[the JetBrains plugin page,role=external,window=_blank].
 . Install it.
 . Restart IntelliJ IDEA.
 
@@ -117,7 +117,7 @@ to be as close as possible. So before submitting code, please make sure to run
 
 . Download
 https://raw.githubusercontent.com/google/styleguide/gh-pages/intellij-java-google-style.xml[
-intellij-java-google-style.xml].
+intellij-java-google-style.xml,role=external,window=_blank].
 . Go to *File -> Settings -> Editor -> Code Style*.
 . Click on the wrench icon with the tooltip _Show Scheme Actions_.
 . Click on *Import Scheme*.
@@ -196,7 +196,7 @@ At the moment running this (local) configuration results in a
 use the instructions of <<dev-readme#run_daemon,Running the Daemon>> in
 combination with <<remote-debug,Debugging a remote Gerrit server>>.
 
-(link:https://bugs.chromium.org/p/gerrit/issues/detail?id=11360[Issue 11360])
+(link:https://bugs.chromium.org/p/gerrit/issues/detail?id=11360[Issue 11360,role=external,window=_blank])
 ====
 
 Copy `$(gerrit_source_code)/tools/intellij/gerrit_daemon.xml` to

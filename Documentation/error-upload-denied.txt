@@ -9,7 +9,7 @@ There are two possibilities how to continue in this situation:
 . contact one of the project owners and request upload permissions
   for the project (access right
   link:access-control.html#category_push['Push'])
-. export your commit as a patch using the link:http://www.kernel.org/pub/software/scm/git/docs/git-format-patch.html[git format-patch] command
+. export your commit as a patch using the link:http://www.kernel.org/pub/software/scm/git/docs/git-format-patch.html[git format-patch,role=external,window=_blank] command
   and provide the patch file to one of the project owners
 
 

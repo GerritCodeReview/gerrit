@@ -72,7 +72,7 @@ It is expected that:
 
 To propose a new design, upload a change to the
 link:https://gerrit-review.googlesource.com/admin/repos/homepage[
-homepage] repository that adds a new folder under `pages/design-docs/`
+homepage,role=external,window=_blank] repository that adds a new folder under `pages/design-docs/`
 which contains at least an `index.md` and a `uses-cases.md` file (see
 link:#structure[design doc structure] above).
 
@@ -87,7 +87,7 @@ to do it (which is not guaranteed to happen).
 
 Only very few maintainers actively watch out for uploaded design docs.
 To raise awareness you may want to send a notification to the
-link:https://groups.google.com/d/forum/repo-discuss[repo-discuss]
+link:https://groups.google.com/d/forum/repo-discuss[repo-discuss,role=external,window=_blank]
 mailing list about your uploaded design doc. But the discussion should
 not take place on the mailing list, comments should be made by reviewing
 the change in Gerrit.
@@ -122,7 +122,7 @@ scope of the project and if it can be accepted.
 
 . Go to the
   link:https://gerrit-review.googlesource.com/settings/#Notifications[
-  notification settings]
+  notification settings,role=external,window=_blank]
 . Add a project watch for the `homepage` repository with the following
   query: `dir:pages/design-docs`
 

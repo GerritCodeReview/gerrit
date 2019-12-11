@@ -33,7 +33,7 @@ and/or destroy the data.
 
 Gerrit Inspector requires Jython library ('jython.jar') to be installed
 in the '$site_path/lib' directory. Jython, a Python interpreter for
-the Java Virtual Machine, can be obtained from the http://www.jython.org/
+the Java Virtual Machine, can be obtained from the http://www.jython.org/[role=external,window=_blank]
 website. Only 'jython.jar' file is needed, installation of Jython libraries
 is optional. Gerrit Inspector has been tested with Jython 2.5.2 but
 might work an earlier version.
@@ -87,7 +87,7 @@ members are also available.
 
 For more information on using Jython, especially with regards to its limitations
 in interfacing to the Java Virtual Machine, please refer to the
-http://www.jython.org/[Jython documentation].
+http://www.jython.org/[Jython documentation,role=external,window=_blank].
 
 After successful initialization it is possible to examine components of
 Java packages, classes and live instances.

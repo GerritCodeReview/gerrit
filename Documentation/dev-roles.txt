@@ -14,19 +14,19 @@ Gerrit community or get in touch by other means.
 There are many possibilities to support the project, e.g.:
 
 * get involved in discussions on the
-  link:https://groups.google.com/d/forum/repo-discuss[repo-discuss]
+  link:https://groups.google.com/d/forum/repo-discuss[repo-discuss,role=external,window=_blank]
   mailing list (post your questions, provide feedback, share your
   experiences, help other users)
 * attend community events like user summits (see
   link:https://calendar.google.com/calendar?cid=Z29vZ2xlLmNvbV91YmIxcGxhNmlqNzg1b3FianI2MWg0dmRpc0Bncm91cC5jYWxlbmRhci5nb29nbGUuY29t[
-  community calendar])
-* report link:https://bugs.chromium.org/p/gerrit/issues/list[issues]
+  community calendar,role=external,window=_blank])
+* report link:https://bugs.chromium.org/p/gerrit/issues/list[issues,role=external,window=_blank]
   and help to clarify existing issues
 * provide feedback on
   link:https://www.gerritcodereview.com/releases-readme.html[new
-  releases and release candidates]
+  releases and release candidates,role=external,window=_blank]
 * review
-  link:https://gerrit-review.googlesource.com/q/status:open[changes]
+  link:https://gerrit-review.googlesource.com/q/status:open[changes,role=external,window=_blank]
   and help to verify that they work as advertised, comment if you like
   or dislike a feature
 * serve as contact person for a proprietary Gerrit installation and
@@ -35,7 +35,7 @@ There are many possibilities to support the project, e.g.:
 Supporters can:
 
 * post on the
-  link:https://groups.google.com/d/forum/repo-discuss[repo-discuss]
+  link:https://groups.google.com/d/forum/repo-discuss[repo-discuss,role=external,window=_blank]
   mailing list (Please note that the `repo-discuss` mailing list is
   managed to prevent spam posts. This means posts from new participants
   must be approved manually before they appear on the mailing list.
@@ -43,7 +43,7 @@ Supporters can:
   participate in mailing list discussions frequently are approved
   automatically)
 * comment on
-  link:https://gerrit-review.googlesource.com/q/status:open[changes]
+  link:https://gerrit-review.googlesource.com/q/status:open[changes,role=external,window=_blank]
   and vote from `-1` to `+1` on the `Code-Review` label (these votes
   are important to understand the interest in a change and to address
   concerns early, however link:#maintainer[maintainers] can
@@ -53,7 +53,7 @@ Supporters can:
   permissions to vote on the `Verified` label are granted by request,
   see below)
 * file issues in the link:https://bugs.chromium.org/p/gerrit/issues/list[
-  issue tracker] and comment on existing issues
+  issue tracker,role=external,window=_blank] and comment on existing issues
 * support the
   link:dev-processes.html#design-driven-contribution-process[
   design-driven contribution process] by reviewing incoming
@@ -62,7 +62,7 @@ Supporters can:
 
 Supporters who want to engage further can get additional privileges
 on request (ask for it on the
-link:https://groups.google.com/d/forum/repo-discuss[repo-discuss]
+link:https://groups.google.com/d/forum/repo-discuss[repo-discuss,role=external,window=_blank]
 mailing list):
 
 * become member of the `gerrit-verifiers` group, which allows to:
@@ -71,10 +71,10 @@ mailing list):
 ** edit topics on all open changes
 ** abandon changes
 * approve posts to the
-  link:https://groups.google.com/d/forum/repo-discuss[repo-discuss]
+  link:https://groups.google.com/d/forum/repo-discuss[repo-discuss,role=external,window=_blank]
   mailing list
 * administrate issues in the
-  link:https://bugs.chromium.org/p/gerrit/issues/list[issue tracker]
+  link:https://bugs.chromium.org/p/gerrit/issues/list[issue tracker,role=external,window=_blank]
 
 Supporters can become link:#contributor[contributors] by signing a
 contributor license agreement and contributing code to the Gerrit
@@ -87,7 +87,7 @@ Everyone who has a valid link:dev-cla.html[contributor license
 agreement] and who has link:dev-contributing.html[contributed] at least
 one change to any project on
 link:https://gerrit-review.googlesource.com/[
-gerrit-review.googlesource.com] is a contributor.
+gerrit-review.googlesource.com,role=external,window=_blank] is a contributor.
 
 Contributions can be:
 
@@ -123,10 +123,10 @@ done.
 
 Contributors may also be invited to join the Gerrit hackathons which
 happen regularly (e.g. twice a year). Hackathons are announced on the
-link:https://groups.google.com/d/forum/repo-discuss[repo-discuss]
+link:https://groups.google.com/d/forum/repo-discuss[repo-discuss,role=external,window=_blank]
 mailing list (also see
 link:https://calendar.google.com/calendar?cid=Z29vZ2xlLmNvbV91YmIxcGxhNmlqNzg1b3FianI2MWg0dmRpc0Bncm91cC5jYWxlbmRhci5nb29nbGUuY29t[
-community calendar]).
+community calendar,role=external,window=_blank]).
 
 Outstanding contributors that are actively engaged in the community, in
 activities outlined above, may be nominated as link:#maintainer[
@@ -138,7 +138,7 @@ maintainers].
 Maintainers are the gatekeepers of the project and are in charge of
 approving and submitting changes. Refer to the project homepage for
 the link:https://www.gerritcodereview.com/members.html#maintainers[
-list of current maintainers].
+list of current maintainers,role=external,window=_blank].
 
 Maintainers should only approve changes that:
 
@@ -185,20 +185,20 @@ Maintainers can:
   link:dev-processes.html#project-governance[Project Governance]
 * nominate new maintainers and vote on nominations (see below)
 * administrate the link:https://groups.google.com/d/forum/repo-discuss[
-  mailing list], the
-  link:https://bugs.chromium.org/p/gerrit/issues/list[issue tracker]
-  and the link:https://www.gerritcodereview.com/[homepage]
+  mailing list,role=external,window=_blank], the
+  link:https://bugs.chromium.org/p/gerrit/issues/list[issue tracker,role=external,window=_blank]
+  and the link:https://www.gerritcodereview.com/[homepage,role=external,window=_blank]
 * gain permissions to do Gerrit releases and publish release artifacts
 * create new projects and groups on
   link:https://gerrit-review.googlesource.com/[
-  gerrit-review.googlesource.com]
+  gerrit-review.googlesource.com,role=external,window=_blank]
 * administrate the Gerrit projects on
   link:https://gerrit-review.googlesource.com/[
-  gerrit-review.googlesource.com] (e.g. edit ACLs, update project
+  gerrit-review.googlesource.com,role=external,window=_blank] (e.g. edit ACLs, update project
   configuration)
 * create events in the
   link:https://calendar.google.com/calendar?cid=Z29vZ2xlLmNvbV91YmIxcGxhNmlqNzg1b3FianI2MWg0dmRpc0Bncm91cC5jYWxlbmRhci5nb29nbGUuY29t[
-  community calendar]
+  community calendar,role=external,window=_blank]
 * discuss with other maintainers on the private maintainers mailing
   list and Slack channel
 
@@ -243,7 +243,7 @@ governs the project, see link:dev-processes.html#project-governance[Project Gove
 Members of the steering committee are expected to act in the interest
 of the Gerrit project and the whole Gerrit community. Refer to the project
 homepage for the link:https://www.gerritcodereview.com/members.html#engineering-steering-committee[
-list of current committee members].
+list of current committee members,role=external,window=_blank].
 
 For those that are familiar with scrum, the steering committee member
 role is similar to the role of an agile product owner.
@@ -254,7 +254,7 @@ responsibilities and live up to the promise of answering incoming
 requests in a timely manner.
 
 Community members may submit new items under the
-link:https://bugs.chromium.org/p/gerrit/issues/list?q=component:ESC[ESC component]
+link:https://bugs.chromium.org/p/gerrit/issues/list?q=component:ESC[ESC component,role=external,window=_blank]
 in the issue tracker, or add that component to existing items, to raise them to
 the attention of ESC members.
 
@@ -301,7 +301,7 @@ design doc].
 Community managers should act as stakeholders for the Gerrit community
 and focus on the health of the community. Refer to the project homepage
 for the link:https://www.gerritcodereview.com/members.html#community-managers[
-list of current community managers].
+list of current community managers,role=external,window=_blank].
 
 Tasks:
 
@@ -315,7 +315,7 @@ Tasks:
 * serve as contact person for community issues
 
 Community members may submit new items under the
-link:https://bugs.chromium.org/p/gerrit/issues/list?q=component:Community[Community component]
+link:https://bugs.chromium.org/p/gerrit/issues/list?q=component:Community[Community component,role=external,window=_blank]
 backlog, for community managers to refine. Only public topics should be
 issued through that backlog.
 

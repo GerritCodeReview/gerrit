@@ -128,7 +128,7 @@ must be URL encoded.
 === Response Codes
 The Gerrit REST endpoints use HTTP status codes as described
 in the link:http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html[
-HTTP specification].
+HTTP specification,role=external,window=_blank].
 
 In most cases, the response body of an error response will be a
 plaintext, human-readable error message.

@@ -37,6 +37,17 @@ import java.util.function.Predicate;
  * retry via {@link #retryOn(Predicate)}.
  */
 public class RetryableAction<T> {
+  /**
+   * Type of an retryable action.
+   *
+   * <p>The action type is used for two purposes:
+   *
+   * <ul>
+   *   <li>to determine the default timeout for executing the action (see {@link
+   *       RetryHelper#getDefaultTimeout(String)})
+   *   <li>as bucket for all retry metrics (see {@link RetryHelper.Metrics})
+   * </ul>
+   */
   public enum ActionType {
     ACCOUNT_UPDATE,
     CHANGE_UPDATE,

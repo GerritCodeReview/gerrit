@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "991ebd24_36e1164c",
+        "filename": "java/com/google/gerrit/server/restapi/change/CherryPickChange.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-11T14:53:27Z",
+      "side": 1,
+      "message": "Maybe add: \"If provided and the cherry-pick doesn\u0027t result in creating a new change, then ...\"\n\nThe then-part depends on which exception you decide to throw below in case the change already exists.",
+      "revId": "0a76db94c0a11f93240bc054f6e2507ecebdeb81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9358bbaf_7d3f0a4a",
+        "filename": "java/com/google/gerrit/server/restapi/change/CherryPickChange.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-11T14:53:27Z",
+      "side": 1,
+      "message": "Since this is called \"idForNewChange\" would it be clearer/easier to just fail if a change already exists, and hence a new change cannot be created?\n\n  if (idForNewChange !\u003d null) {\n      throw new InvalidChangeOperationException(\n          \"Expected that cherry-pick of commit %s with Change-Id %s to branch %s\"\n              + \" in project %s creates a new change, but found existing change %d\",                      sourceCommit.getName(),\n          changeKey,\n          dest.branch(),\n          dest.project(),\n          destChanges.get(0).getId().get()));\n  }",
+      "range": {
+        "startLine": 353,
+        "startChar": 11,
+        "endLine": 358,
+        "endChar": 13
+      },
+      "revId": "0a76db94c0a11f93240bc054f6e2507ecebdeb81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "435e6704_40b2d31f",
+        "filename": "java/com/google/gerrit/server/restapi/change/CherryPickChange.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 365,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-11T14:53:27Z",
+      "side": 1,
+      "message": "Checking this is not be needed since the changeKey was given as input to the index query which returned the destChanges. So it\u0027s safe to assume that these changes have changeKey as Change-Id.",
+      "range": {
+        "startLine": 359,
+        "startChar": 12,
+        "endLine": 365,
+        "endChar": 13
+      },
+      "revId": "0a76db94c0a11f93240bc054f6e2507ecebdeb81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "409de002_240562ab",
+        "filename": "java/com/google/gerrit/server/restapi/change/CherryPickChange.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 468,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-11T14:53:27Z",
+      "side": 1,
+      "message": "the variable name should start with a lowercase: \"idForNewChange\"",
+      "range": {
+        "startLine": 468,
+        "startChar": 26,
+        "endLine": 468,
+        "endChar": 40
+      },
+      "revId": "0a76db94c0a11f93240bc054f6e2507ecebdeb81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "8dce3bba_c28cb0c9",
+        "filename": "polygerrit-ui/app/lint_test.sh",
+        "patchSetId": 9
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-12-11T15:56:42Z",
+      "side": 1,
+      "message": "asdfasdfasdfasdf asdfasdfasdfasdf",
+      "range": {
+        "startLine": 15,
+        "startChar": 4,
+        "endLine": 15,
+        "endChar": 8
+      },
+      "revId": "bd632a464591ecf4c49a5216df3908e509aa90ff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b3bc4e7e_90fcec90",
         "filename": "tools/dev-hooks/pre-commit",
         "patchSetId": 9

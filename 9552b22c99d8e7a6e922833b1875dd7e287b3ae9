@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "34008d27_98553794",
+        "filename": "java/com/google/gerrit/server/PublishCommentUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2019-12-11T09:30:09Z",
+      "side": 1,
+      "message": "Copied this class from PostReview. I couldn\u0027t find a better way to do it.",
+      "range": {
+        "startLine": 284,
+        "startChar": 24,
+        "endLine": 284,
+        "endChar": 39
+      },
+      "revId": "9552b22c99d8e7a6e922833b1875dd7e287b3ae9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6d04ff7d_11a8e855",
+        "filename": "javatests/com/google/gerrit/acceptance/server/git/receive/ReceiveCommitsCommentValidationIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2019-12-11T09:30:09Z",
+      "side": 1,
+      "message": "Need to recheck. Not sure if this behavior is expected.",
+      "range": {
+        "startLine": 129,
+        "startChar": 4,
+        "endLine": 130,
+        "endChar": 45
+      },
+      "revId": "9552b22c99d8e7a6e922833b1875dd7e287b3ae9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

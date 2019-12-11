@@ -179,6 +179,29 @@
       "revId": "ff0a38d00dd1d5a8722bca6f43967528fe386869",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b0c48bee_5b4191a9",
+        "filename": "java/com/google/gerrit/server/git/receive/ReplaceOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 509,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2019-12-11T09:30:09Z",
+      "side": 0,
+      "message": "Will remove this line",
+      "range": {
+        "startLine": 509,
+        "startChar": 4,
+        "endLine": 509,
+        "endChar": 70
+      },
+      "revId": "ff0a38d00dd1d5a8722bca6f43967528fe386869",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

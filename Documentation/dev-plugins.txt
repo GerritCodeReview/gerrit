@@ -2306,7 +2306,8 @@ flags is growing without bound. The store must be able handle this data
 volume efficiently.
 
 Gerrit implements this extension point, but plugins may bind another
-implementation, e.g. one that supports multi-master.
+implementation, e.g. one that supports cluster setup with multiple
+primary Gerrit nodes handling write operations.
 
 ----
 DynamicItem.bind(binder(), AccountPatchReviewStore.class)

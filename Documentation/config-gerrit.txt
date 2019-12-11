@@ -826,7 +826,8 @@ changes for up to 1024 projects can be held in the cache.
 +
 Default value is 0 (disabled). It is disabled by default due to the fact
 that change updates are not communicated between Gerrit servers. Hence
-this cache should be disabled in an multi-master/multi-replica setup.
+this cache should be disabled in a cluster setup using multiple primary
+or multiple replica nodes.
 +
 The cache should be flushed whenever the database changes table is modified
 outside of Gerrit.
@@ -1575,7 +1576,8 @@ options.
 +
 Used on Gerrit replica installations. If set to true the Gerrit JVM is
 called with the '--replica' switch, enabling replica mode. If no value is
-set (or any other value), Gerrit defaults to master mode.
+set (or any other value), Gerrit defaults to primary mode enabling write
+operations.
 
 [[container.slave]]container.slave::
 +
@@ -4442,7 +4444,7 @@ SSH-compression since git does not compress the ref announcement during
 handshake.
 +
 Compression can be especially useful when Gerrit replicas are being used
-for the larger clones and fetches and the master server mostly takes
+for the larger clones and fetches and the primary server mostly takes
 small receive-packs.
 +
 By default, `false`.

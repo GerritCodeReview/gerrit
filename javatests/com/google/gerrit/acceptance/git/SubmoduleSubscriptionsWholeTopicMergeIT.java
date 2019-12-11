@@ -109,7 +109,7 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT extends AbstractSubmoduleSu
         .git()
         .push()
         .setRemote("origin")
-        .setRefSpecs(new RefSpec("HEAD:refs/for/master/" + name("topic-foo")))
+        .setRefSpecs(new RefSpec("HEAD:refs/for/master%topic=" + name("topic-foo")))
         .call();
 
     subRepo.reset(c.getId());
@@ -134,7 +134,7 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT extends AbstractSubmoduleSu
         .git()
         .push()
         .setRemote("origin")
-        .setRefSpecs(new RefSpec("HEAD:refs/for/master/" + name("topic-foo")))
+        .setRefSpecs(new RefSpec("HEAD:refs/for/master%topic=" + name("topic-foo")))
         .call();
 
     String id1 = getChangeId(subRepo, c1).get();
@@ -212,7 +212,7 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT extends AbstractSubmoduleSu
         .git()
         .push()
         .setRemote("origin")
-        .setRefSpecs(new RefSpec("HEAD:refs/for/master/" + name("topic-foo")))
+        .setRefSpecs(new RefSpec("HEAD:refs/for/master%topic=" + name("topic-foo")))
         .call();
 
     subRepo.reset(c.getId());
@@ -237,7 +237,7 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT extends AbstractSubmoduleSu
         .git()
         .push()
         .setRemote("origin")
-        .setRefSpecs(new RefSpec("HEAD:refs/for/master/" + name("topic-foo")))
+        .setRefSpecs(new RefSpec("HEAD:refs/for/master%topic=" + name("topic-foo")))
         .call();
 
     RevCommit c4 =
@@ -252,7 +252,7 @@ public class SubmoduleSubscriptionsWholeTopicMergeIT extends AbstractSubmoduleSu
         .git()
         .push()
         .setRemote("origin")
-        .setRefSpecs(new RefSpec("HEAD:refs/for/master/" + name("topic-foo")))
+        .setRefSpecs(new RefSpec("HEAD:refs/for/master%topic=" + name("topic-foo")))
         .call();
 
     String id1 = getChangeId(subRepo, c1).get();

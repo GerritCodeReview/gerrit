@@ -614,11 +614,11 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   @Test
   public void submitWithHiddenBranchInSameTopic() throws Throwable {
     assume().that(isSubmitWholeTopicEnabled()).isTrue();
-    PushOneCommit.Result visible = createChange("refs/for/master/" + name("topic"));
+    PushOneCommit.Result visible = createChange("refs/for/master%topic=" + name("topic"));
     Change.Id num = visible.getChange().getId();
 
     createBranch(BranchNameKey.create(project, "hidden"));
-    PushOneCommit.Result hidden = createChange("refs/for/hidden/" + name("topic"));
+    PushOneCommit.Result hidden = createChange("refs/for/hidden%topic=" + name("topic"));
     approve(hidden.getChangeId());
     projectOperations
         .project(project)
@@ -789,8 +789,8 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
 
     // create and submit 2 changes with the same topic
     String topic = name("topic");
-    PushOneCommit.Result change1 = createChange("refs/for/master/" + topic);
-    PushOneCommit.Result change2 = createChange("refs/for/master/" + topic);
+    PushOneCommit.Result change1 = createChange("refs/for/master%topic=" + topic);
+    PushOneCommit.Result change2 = createChange("refs/for/master%topic=" + topic);
     approve(change1.getChangeId());
     submit(change2.getChangeId());
     assertMerged(change1.getChangeId());
@@ -938,7 +938,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     testRepo
         .git()
         .push()
-        .setRefSpecs(new RefSpec("refs/heads/stable:refs/for/stable/" + name("topic")))
+        .setRefSpecs(new RefSpec("refs/heads/stable:refs/for/stable%topic=" + name("topic")))
         .call();
 
     // Merge the fix into master.
@@ -955,7 +955,7 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
     testRepo
         .git()
         .push()
-        .setRefSpecs(new RefSpec("refs/heads/master:refs/for/master/" + name("topic")))
+        .setRefSpecs(new RefSpec("refs/heads/master:refs/for/master%topic=" + name("topic")))
         .call();
 
     // Submit together.
@@ -1475,6 +1475,6 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
   protected PushOneCommit.Result createChange(
       String subject, String fileName, String content, String topic) throws Throwable {
     PushOneCommit push = pushFactory.create(admin.newIdent(), testRepo, subject, fileName, content);
-    return push.to("refs/for/master/" + name(topic));
+    return push.to("refs/for/master%topic=" + name(topic));
   }
 }

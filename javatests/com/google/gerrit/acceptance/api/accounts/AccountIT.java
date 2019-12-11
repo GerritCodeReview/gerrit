@@ -2761,6 +2761,8 @@ public class AccountIT extends AbstractDaemonTest {
                 cfg,
                 retryMetrics,
                 null,
+                null,
+                null,
                 exceptionHooks,
                 r -> r.withBlockStrategy(noSleepBlockStrategy)),
             extIdNotesFactory,
@@ -2814,6 +2816,8 @@ public class AccountIT extends AbstractDaemonTest {
             new RetryHelper(
                 cfg,
                 retryMetrics,
+                null,
+                null,
                 null,
                 exceptionHooks,
                 r ->
@@ -2872,6 +2876,8 @@ public class AccountIT extends AbstractDaemonTest {
             new RetryHelper(
                 cfg,
                 retryMetrics,
+                null,
+                null,
                 null,
                 exceptionHooks,
                 r -> r.withBlockStrategy(noSleepBlockStrategy)),
@@ -2945,6 +2951,8 @@ public class AccountIT extends AbstractDaemonTest {
             new RetryHelper(
                 cfg,
                 retryMetrics,
+                null,
+                null,
                 null,
                 exceptionHooks,
                 r -> r.withBlockStrategy(noSleepBlockStrategy)),

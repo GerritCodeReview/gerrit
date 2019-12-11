@@ -42,10 +42,14 @@ import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.RequestId;
 import com.google.gerrit.server.logging.TraceContext;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
+import com.google.gerrit.server.query.account.InternalAccountQuery;
+import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.update.RetryableAction.Action;
 import com.google.gerrit.server.update.RetryableAction.ActionType;
 import com.google.gerrit.server.update.RetryableChangeAction.ChangeAction;
+import com.google.gerrit.server.update.RetryableIndexQueryAction.IndexQueryAction;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.time.Duration;
 import java.util.Arrays;
@@ -177,6 +181,8 @@ public class RetryHelper {
 
   private final Metrics metrics;
   private final BatchUpdate.Factory updateFactory;
+  private final Provider<InternalAccountQuery> internalAccountQuery;
+  private final Provider<InternalChangeQuery> internalChangeQuery;
   private final PluginSetContext<ExceptionHook> exceptionHooks;
   private final Map<ActionType, Duration> defaultTimeouts;
   private final WaitStrategy waitStrategy;
@@ -188,8 +194,17 @@ public class RetryHelper {
       @GerritServerConfig Config cfg,
       Metrics metrics,
       PluginSetContext<ExceptionHook> exceptionHooks,
-      BatchUpdate.Factory updateFactory) {
-    this(cfg, metrics, updateFactory, exceptionHooks, null);
+      BatchUpdate.Factory updateFactory,
+      Provider<InternalAccountQuery> internalAccountQuery,
+      Provider<InternalChangeQuery> internalChangeQuery) {
+    this(
+        cfg,
+        metrics,
+        updateFactory,
+        internalAccountQuery,
+        internalChangeQuery,
+        exceptionHooks,
+        null);
   }
 
   @VisibleForTesting
@@ -197,10 +212,14 @@ public class RetryHelper {
       @GerritServerConfig Config cfg,
       Metrics metrics,
       BatchUpdate.Factory updateFactory,
+      Provider<InternalAccountQuery> internalAccountQuery,
+      Provider<InternalChangeQuery> internalChangeQuery,
       PluginSetContext<ExceptionHook> exceptionHooks,
       @Nullable Consumer<RetryerBuilder<?>> overwriteDefaultRetryerStrategySetup) {
     this.metrics = metrics;
     this.updateFactory = updateFactory;
+    this.internalAccountQuery = internalAccountQuery;
+    this.internalChangeQuery = internalChangeQuery;
     this.exceptionHooks = exceptionHooks;
 
     Duration defaultTimeout =
@@ -309,15 +328,37 @@ public class RetryHelper {
   }
 
   /**
-   * Creates an action for querying an index that is executed with retrying when called.
+   * Creates an action for querying the account index that is executed with retrying when called.
+   *
+   * <p>The index query action gets a {@link InternalAccountQuery} provided that can be used to
+   * query the account index.
    *
    * @param actionName the name of the action, used as metric bucket
-   * @param action the action that should be executed
-   * @return the retryable action, callers need to call {@link RetryableAction#call()} to execute
-   *     the action
+   * @param indexQueryAction the action that should be executed
+   * @return the retryable action, callers need to call {@link RetryableIndexQueryAction#call()} to
+   *     execute the action
    */
-  public <T> RetryableAction<T> indexQuery(String actionName, Action<T> action) {
-    return new RetryableAction<>(this, ActionType.INDEX_QUERY, actionName, action);
+  public <T> RetryableIndexQueryAction<InternalAccountQuery, T> accountIndexQuery(
+      String actionName, IndexQueryAction<T, InternalAccountQuery> indexQueryAction) {
+    return new RetryableIndexQueryAction<>(
+        this, internalAccountQuery.get(), actionName, indexQueryAction);
+  }
+
+  /**
+   * Creates an action for querying the change index that is executed with retrying when called.
+   *
+   * <p>The index query action gets a {@link InternalChangeQuery} provided that can be used to query
+   * the change index.
+   *
+   * @param actionName the name of the action, used as metric bucket
+   * @param indexQueryAction the action that should be executed
+   * @return the retryable action, callers need to call {@link RetryableIndexQueryAction#call()} to
+   *     execute the action
+   */
+  public <T> RetryableIndexQueryAction<InternalChangeQuery, T> changeIndexQuery(
+      String actionName, IndexQueryAction<T, InternalChangeQuery> indexQueryAction) {
+    return new RetryableIndexQueryAction<>(
+        this, internalChangeQuery.get(), actionName, indexQueryAction);
   }
 
   Duration getDefaultTimeout(ActionType actionType) {

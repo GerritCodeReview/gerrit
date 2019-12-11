@@ -820,9 +820,9 @@ public class MergeOp implements AutoCloseable {
         }
 
         // The patch set ref is not found but we want to merge the change. We can't safely do that
-        // if the patch set ref is missing. In a multi-master setup this can indicate a replication
-        // lag (e.g. the change meta data was already replicated, but the replication of the patch
-        // set ref is still pending).
+        // if the patch set ref is missing. In a cluster setups with multiple primary nodes this can
+        // indicate a replication lag (e.g. the change meta data was already replicated, but the
+        // replication of the patch set ref is still pending).
         commitStatus.logProblem(
             changeId,
             "Patch set ref "

@@ -273,6 +273,24 @@
       "revId": "9a367f5a37f0e5e41406a8ea992329f82d26725c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4bf01010_d629ba60",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-submission-dialog/gr-confirm-revert-submission-dialog.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-12-11T13:14:12Z",
+      "side": 1,
+      "message": "We can probably remove the word \"Change-Id\" (or \"Change\" as it is currently implemented).\nAnd then it will be:\n\"\nReverted Changes:\nI8fee2fb06 (Title of the change.. More space for the title...)\nI8fee2f434 (Title of the change.. More space for the title...)\nI8fee2f554 (Title of the change.. More space for the title...)\n..\n\"",
+      "parentUuid": "bde94d77_5d350473",
+      "revId": "9a367f5a37f0e5e41406a8ea992329f82d26725c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

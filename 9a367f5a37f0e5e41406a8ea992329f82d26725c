@@ -169,6 +169,30 @@
     },
     {
       "key": {
+        "uuid": "69483003_2fed4d30",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-submission-dialog/gr-confirm-revert-submission-dialog.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2019-12-11T17:43:00Z",
+      "side": 1,
+      "message": "I will then let it remain as it is?",
+      "parentUuid": "3ad46c68_b482aad6",
+      "range": {
+        "startLine": 53,
+        "startChar": 49,
+        "endLine": 53,
+        "endChar": 61
+      },
+      "revId": "9a367f5a37f0e5e41406a8ea992329f82d26725c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6551cc5e_dd075594",
         "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-submission-dialog/gr-confirm-revert-submission-dialog.js",
         "patchSetId": 8
@@ -291,6 +315,24 @@
       "revId": "9a367f5a37f0e5e41406a8ea992329f82d26725c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "56d18ab1_e77250c9",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-submission-dialog/gr-confirm-revert-submission-dialog.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2019-12-11T17:43:00Z",
+      "side": 1,
+      "message": "I\u0027ve gone with showing 10 chars of Change Id followed by first 50 chars of the change subject.",
+      "parentUuid": "4bf01010_d629ba60",
+      "revId": "9a367f5a37f0e5e41406a8ea992329f82d26725c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

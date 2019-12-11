@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "efd68160_25de89a4",
+        "filename": "java/com/google/gerrit/server/rules/RuleUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2019-12-11T16:57:05Z",
+      "side": 1,
+      "message": "This calls reductionLimit even if we don\u0027t need to. Small, but I guess these things can add up. While at it, we can add an overflow check. How about:\n\n  int result \u003d gerritConfig.getInt(..., -1);\n  if (result \u003c\u003d 0) {\n    int l \u003d reductionLimit(gerritConfig);\n    return l \u003e\u003d MAX_VALUE / 10 ? MAX_VALUE : 10 * l;\n  }\n  return result;",
+      "revId": "10b0ae021e1cce7c5a4c9b1ed6354aa48f239c7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

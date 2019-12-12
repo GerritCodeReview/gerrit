@@ -32,6 +32,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
+/** Toggler for account active state. */
 @Singleton
 public class SetInactiveFlag {
   private final PluginSetContext<AccountActivationValidationListener>

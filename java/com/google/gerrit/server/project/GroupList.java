@@ -28,6 +28,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * File format for group name aliases
+ *
+ * <p>Project configuration supports aliases for groups. The aliases/group mapping is stored in a
+ * file "groups", (de)serialized with this class.
+ */
 public class GroupList extends TabFile {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 

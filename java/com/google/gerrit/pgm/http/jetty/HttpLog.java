@@ -72,7 +72,7 @@ class HttpLog extends AbstractLifeCycle implements RequestLog {
             TimeUtil.nowMs(), // when
             Level.INFO, // level
             "", // message text
-            "HTTPD", // thread name
+            Thread.currentThread().getName(), // thread name
             null, // exception information
             null, // current NDC string
             null, // caller location

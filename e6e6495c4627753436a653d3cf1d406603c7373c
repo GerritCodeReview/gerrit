@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7bd63ffc_1e7472ce",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-12T09:33:16Z",
+      "side": 1,
+      "message": "At Google we upgraded to 9.4.24 now. Can we switch directly to 9.4.24? Then we could directly approve this change.",
+      "range": {
+        "startLine": 7,
+        "startChar": 22,
+        "endLine": 7,
+        "endChar": 28
+      },
+      "revId": "e6e6495c4627753436a653d3cf1d406603c7373c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

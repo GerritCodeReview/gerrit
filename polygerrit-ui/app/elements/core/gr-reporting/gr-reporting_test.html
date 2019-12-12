@@ -160,14 +160,14 @@ limitations under the License.
     test('time and timeEnd', () => {
       const nowStub = sandbox.stub(element, 'now').returns(0);
       element.time('foo');
-      nowStub.returns(1.1);
+      nowStub.returns(1);
       element.time('bar');
       nowStub.returns(2);
       element.timeEnd('bar');
-      nowStub.returns(3.511);
+      nowStub.returns(3);
       element.timeEnd('foo');
       assert.isTrue(element.reporter.calledWithExactly(
-          'timing-report', 'UI Latency', 'foo', 4
+          'timing-report', 'UI Latency', 'foo', 3
       ));
       assert.isTrue(element.reporter.calledWithExactly(
           'timing-report', 'UI Latency', 'bar', 1
@@ -246,6 +246,18 @@ limitations under the License.
       element.reportExtension('foo');
       assert.isTrue(element.reporter.calledWithExactly(
           'lifecycle', 'Extension detected', 'foo'
+      ));
+    });
+
+    test('report start time', () => {
+      element.reporter.restore();
+      sandbox.stub(element, 'now').returns(42);
+      sandbox.stub(element, 'cachingReporter');
+      element.time('timeAction');
+      element.timeEnd('timeAction');
+      assert.isTrue(element.cachingReporter.calledWithMatch(
+          'timing-report', 'UI Latency', 'timeAction', 0,
+          {startTime: 42}
       ));
     });
 

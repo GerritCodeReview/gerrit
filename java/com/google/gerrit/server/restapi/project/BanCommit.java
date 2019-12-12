@@ -31,6 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.eclipse.jgit.lib.ObjectId;
 
+/** The REST endpoint that inserts banned commits into a project. */
 @Singleton
 public class BanCommit implements RestModifyView<ProjectResource, BanCommitInput> {
   private final com.google.gerrit.server.git.BanCommit banCommit;

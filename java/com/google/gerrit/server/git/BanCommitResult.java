@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.eclipse.jgit.lib.ObjectId;
 
+/** The outcome of the {@code BanCommit} operation. */
 public class BanCommitResult {
   private final List<ObjectId> newlyBannedCommits = new ArrayList<>(4);
   private final List<ObjectId> alreadyBannedCommits = new ArrayList<>(4);

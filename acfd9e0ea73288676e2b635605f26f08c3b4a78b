@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "04947070_ef75997d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 13
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-12-12T17:07:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "136377aa_15fba80d",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 3
+      },
+      "revId": "acfd9e0ea73288676e2b635605f26f08c3b4a78b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d13ce8d2_2cc84615",
         "filename": "java/com/google/gerrit/server/fixes/FixReplacementInterpreter.java",
         "patchSetId": 13
@@ -190,6 +214,30 @@
     },
     {
       "key": {
+        "uuid": "416d18b2_c9f25364",
+        "filename": "java/com/google/gerrit/server/patch/PatchScriptBuilder.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 521,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-12-12T17:07:13Z",
+      "side": 1,
+      "message": "This question is not valid anymore (final change doesn\u0027t have this change)",
+      "parentUuid": "5c44d874_a2e4acc8",
+      "range": {
+        "startLine": 521,
+        "startChar": 24,
+        "endLine": 521,
+        "endChar": 77
+      },
+      "revId": "acfd9e0ea73288676e2b635605f26f08c3b4a78b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "249e7bfa_ea1a3c28",
         "filename": "java/com/google/gerrit/server/patch/PatchScriptBuilder.java",
         "patchSetId": 13
@@ -210,6 +258,30 @@
       "revId": "acfd9e0ea73288676e2b635605f26f08c3b4a78b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3212ba4f_2d7f94a3",
+        "filename": "java/com/google/gerrit/server/patch/PatchScriptBuilder.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 538,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-12-12T17:07:13Z",
+      "side": 1,
+      "message": "Final change doesn\u0027t have this change, decided to rollback this.",
+      "parentUuid": "249e7bfa_ea1a3c28",
+      "range": {
+        "startLine": 538,
+        "startChar": 61,
+        "endLine": 538,
+        "endChar": 71
+      },
+      "revId": "acfd9e0ea73288676e2b635605f26f08c3b4a78b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -260,6 +332,30 @@
     },
     {
       "key": {
+        "uuid": "c60cbc2c_6f4c8d6e",
+        "filename": "java/com/google/gerrit/server/patch/PatchScriptFactory.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-12-12T17:07:13Z",
+      "side": 1,
+      "message": "In the final patchset the openRepository method is called only once for each rest-api request.",
+      "parentUuid": "6882a9d3_6fa7063b",
+      "range": {
+        "startLine": 252,
+        "startChar": 79,
+        "endLine": 252,
+        "endChar": 99
+      },
+      "revId": "acfd9e0ea73288676e2b635605f26f08c3b4a78b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e64e69de_24c37653",
         "filename": "java/com/google/gerrit/server/patch/PatchScriptFactory.java",
         "patchSetId": 13
@@ -280,6 +376,30 @@
       "revId": "acfd9e0ea73288676e2b635605f26f08c3b4a78b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "163decbe_f8160c9a",
+        "filename": "java/com/google/gerrit/server/patch/PatchScriptFactory.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 485,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-12-12T17:07:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e64e69de_24c37653",
+      "range": {
+        "startLine": 485,
+        "startChar": 20,
+        "endLine": 485,
+        "endChar": 39
+      },
+      "revId": "acfd9e0ea73288676e2b635605f26f08c3b4a78b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

@@ -72,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "21840292_61e06f11",
+        "filename": "java/com/google/gerrit/server/fixes/FixReplacementInterpreter.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-12-12T12:48:42Z",
+      "side": 1,
+      "message": "Yes, I want some explanation. Method is small, but why it is bad to put in a separate method? If code changes, the change will affect all places. I.e. it is safer to have less code duplication, even if it is a small portion.",
+      "parentUuid": "d13ce8d2_2cc84615",
+      "range": {
+        "startLine": 56,
+        "startChar": 50,
+        "endLine": 56,
+        "endChar": 83
+      },
+      "revId": "acfd9e0ea73288676e2b635605f26f08c3b4a78b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d07444b7_922c4155",
         "filename": "java/com/google/gerrit/server/fixes/FixReplacementInterpreter.java",
         "patchSetId": 13

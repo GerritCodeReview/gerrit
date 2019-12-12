@@ -43,6 +43,7 @@ import java.io.PrintWriter;
 import java.util.Collections;
 import java.util.Optional;
 
+/** REST endpoint that executes GC on a project. */
 @RequiresCapability(GlobalCapability.RUN_GC)
 @Singleton
 public class GarbageCollect

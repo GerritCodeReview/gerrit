@@ -27,6 +27,7 @@ import java.io.PrintWriter;
 import java.util.List;
 import java.util.Properties;
 import java.util.Set;
+import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.api.GarbageCollectCommand;
 import org.eclipse.jgit.api.Git;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
@@ -37,6 +38,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.TextProgressMonitor;
 import org.eclipse.jgit.storage.pack.PackConfig;
 
+/** Serial execution of GC on a list of repositories. */
 public class GarbageCollection {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
@@ -69,8 +71,9 @@ public class GarbageCollection {
     return run(projectNames, gcConfig.isAggressive(), writer);
   }
 
+  /** Runs GC on the given projects, serially. Progress is written to writer if non-null. */
   public GarbageCollectionResult run(
-      List<Project.NameKey> projectNames, boolean aggressive, PrintWriter writer) {
+      List<Project.NameKey> projectNames, boolean aggressive, @Nullable PrintWriter writer) {
     GarbageCollectionResult result = new GarbageCollectionResult();
     Set<Project.NameKey> projectsToGc = gcQueue.addAll(projectNames);
     for (Project.NameKey projectName :

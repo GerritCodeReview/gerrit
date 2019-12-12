@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3ac24fa8_0a9dee9e",
+        "filename": "java/com/google/gerrit/server/git/BranchOrderSection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-12T12:59:51Z",
+      "side": 1,
+      "message": "I don\u0027t think that this is implemented in the UI, is it?",
+      "range": {
+        "startLine": 24,
+        "startChar": 81,
+        "endLine": 25,
+        "endChar": 72
+      },
+      "revId": "4ff1f7be3bcd9b9bf8eb6c5bee9622a6425c6134",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

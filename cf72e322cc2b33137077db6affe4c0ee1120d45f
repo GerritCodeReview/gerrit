@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c64e79b9_ed7f7e1f",
+        "filename": "java/com/google/gerrit/server/project/FileResource.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-12-12T17:29:31Z",
+      "side": 1,
+      "message": "😄\n\nMaybe explain what a resource is?",
+      "range": {
+        "startLine": 31,
+        "startChar": 3,
+        "endLine": 31,
+        "endChar": 10
+      },
+      "revId": "cf72e322cc2b33137077db6affe4c0ee1120d45f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

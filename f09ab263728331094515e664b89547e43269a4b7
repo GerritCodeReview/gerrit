@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2d943818_b69eca3e",
+        "filename": "java/com/google/gerrit/server/git/BranchOrderSection.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-12T16:14:14Z",
+      "side": 1,
+      "message": "nit: drop this or \"in development branches\"",
+      "range": {
+        "startLine": 25,
+        "startChar": 37,
+        "endLine": 25,
+        "endChar": 39
+      },
+      "revId": "f09ab263728331094515e664b89547e43269a4b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

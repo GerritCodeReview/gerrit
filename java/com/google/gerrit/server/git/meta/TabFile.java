@@ -27,6 +27,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/** (De)serializer for tab-delimited text files. */
 public class TabFile {
   @FunctionalInterface
   public interface Parser {

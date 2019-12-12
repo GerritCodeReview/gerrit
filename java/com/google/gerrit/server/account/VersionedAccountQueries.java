@@ -28,7 +28,12 @@ import java.util.List;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
 
-/** Named Queries for user accounts. */
+/**
+ * Named Queries for user accounts.
+ *
+ * <p>Users can define aliases for change queries. These are stored as versioned account data and
+ * (de)serialized with this class.
+ */
 public class VersionedAccountQueries extends VersionedMetaData {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 

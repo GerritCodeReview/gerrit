@@ -26,6 +26,7 @@ import org.eclipse.jgit.transport.PreUploadHook;
 import org.eclipse.jgit.transport.ServiceMayNotContinueException;
 import org.eclipse.jgit.transport.UploadPack;
 
+/** Collection of validators to run before Gerrit sends pack data to a client. */
 public class UploadValidators implements PreUploadHook {
 
   private final PluginSetContext<UploadValidationListener> uploadValidationListeners;

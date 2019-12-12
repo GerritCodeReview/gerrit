@@ -36,6 +36,12 @@ import java.util.List;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.transport.ReceiveCommand;
 
+/**
+ * Collection of validation listeners that are called before a ref update is performed with the
+ * command to be run. This is called from the git push path as well as Gerrit's handlers for
+ * creating or deleting refs. Calls out to {@link RefOperationValidationListener} provided by
+ * plugins.
+ */
 public class RefOperationValidators {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
@@ -70,6 +76,11 @@ public class RefOperationValidators {
     event.user = user;
   }
 
+  /**
+   * Returns informational validation messages and throws a {@link RefOperationValidationException}
+   * when the first validator fails. Will not process any more validators after the first failure
+   * was encountered.
+   */
   public List<ValidationMessage> validateForRefOperation() throws RefOperationValidationException {
     List<ValidationMessage> messages = new ArrayList<>();
     boolean withException = false;

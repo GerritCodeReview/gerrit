@@ -19,6 +19,10 @@ import static java.util.stream.Collectors.joining;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.server.validators.ValidationException;
 
+/**
+ * Exception to be thrown when the validation of a ref operation fails and should be aborted.
+ * Examples of a ref operations include creating or updating refs.
+ */
 public class RefOperationValidationException extends ValidationException {
   private static final long serialVersionUID = 1L;
   private final ImmutableList<ValidationMessage> messages;

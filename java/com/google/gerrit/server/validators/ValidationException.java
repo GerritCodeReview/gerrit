@@ -14,6 +14,11 @@
 
 package com.google.gerrit.server.validators;
 
+/**
+ * Exception to be thrown either directly or subclassed indicating that we failed to validate a Git
+ * operation. Failures range from internal checks for NoteDb format and consistency to
+ * plugin-provided checks.
+ */
 public class ValidationException extends Exception {
   private static final long serialVersionUID = 1L;
 

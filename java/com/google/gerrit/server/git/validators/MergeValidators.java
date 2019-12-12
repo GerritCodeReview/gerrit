@@ -52,6 +52,15 @@ import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
 
+/**
+ * Collection of validators that run inside Gerrit before a change is submitted. The main purpose is
+ * to ensure that NoteDb data is mutated in a controlled way.
+ *
+ * <p>The difference between this and {@link OnSubmitValidators} is that this validates the original
+ * commit. Depending on the {@link com.google.gerrit.server.submit.SubmitStrategy} that the project
+ * chooses, the resulting commit in the repo might differ from this original commit. In case you
+ * want to validate the resulting commit, use {@link OnSubmitValidators}
+ */
 public class MergeValidators {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
@@ -76,6 +85,10 @@ public class MergeValidators {
     this.groupValidatorFactory = groupValidatorFactory;
   }
 
+  /**
+   * Runs all validators and throws a {@link MergeValidationException} for the first validator that
+   * failed. Only the first violation is propagated and processing is stopped thereafter.
+   */
   public void validatePreMerge(
       Repository repo,
       CodeReviewCommit commit,
@@ -96,6 +109,7 @@ public class MergeValidators {
     }
   }
 
+  /** Validator for any commits to {@code refs/meta/config}. */
   public static class ProjectConfigValidator implements MergeValidationListener {
     private static final String INVALID_CONFIG =
         "Change contains an invalid project configuration.";
@@ -237,7 +251,7 @@ public class MergeValidators {
     }
   }
 
-  /** Execute merge validation plug-ins */
+  /** Validator that calls to plugins that provide additional validators. */
   public static class PluginMergeValidationListener implements MergeValidationListener {
     private final PluginSetContext<MergeValidationListener> mergeValidationListeners;
 
@@ -318,6 +332,7 @@ public class MergeValidators {
     }
   }
 
+  /** Validator to ensure that group refs are not mutated. */
   public static class GroupMergeValidator implements MergeValidationListener {
     public interface Factory {
       GroupMergeValidator create();

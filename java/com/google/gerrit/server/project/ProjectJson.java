@@ -31,6 +31,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.util.HashMap;
 
+/** Collection of routines to populate {@link ProjectInfo}. */
 @Singleton
 public class ProjectJson {
 

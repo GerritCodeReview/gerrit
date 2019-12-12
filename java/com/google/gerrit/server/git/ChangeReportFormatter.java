@@ -18,6 +18,7 @@ import com.google.auto.value.AutoValue;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Change;
 
+/** Formatter for git command-line progress messages. */
 public interface ChangeReportFormatter {
   @AutoValue
   public abstract static class Input {

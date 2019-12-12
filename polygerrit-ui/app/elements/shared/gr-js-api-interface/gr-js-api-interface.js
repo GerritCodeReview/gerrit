@@ -264,32 +264,31 @@
      */
     getCoverageRanges(changeNum, path, basePatchNum, patchNum) {
       return Gerrit.awaitPluginsLoaded().then(() => {
-        for (const annotationApi of
-          this._getEventCallbacks(EventType.ANNOTATE_DIFF)) {
-          const provider = annotationApi.getCoverageProvider();
-          // Only one coverage provider makes sense. If there are more, then we
-          // simply ignore them.
-          if (provider) {
-            return annotationApi;
-          }
-        }
-        return null;
-      }).then(annotationApi => {
+        const annotationApi = this._getEventCallbacks(EventType.ANNOTATE_DIFF)
+            .find(api => api.getCoverageProvider());
         if (!annotationApi) return [];
+
         const provider = annotationApi.getCoverageProvider();
-        return provider(changeNum, path, basePatchNum, patchNum)
-            .then(ranges => {
-              ranges = ranges || [];
-              // Notify with the coverage data.
-              ranges.forEach(range => {
-                annotationApi.notify(
-                    path,
-                    range.code_range.start_line,
-                    range.code_range.end_line,
-                    range.side);
-              });
-              return ranges;
-            });
+        return provider(changeNum, path, basePatchNum, patchNum);
+      });
+    }
+
+    /**
+     * Notify all listeners when coverage ranges changed.
+     *
+     * @param {string} path
+     * @param {!Gerrit.CoverageRange} ranges
+     */
+    coverageRangeChanged(path, ranges = []) {
+      const annotationApis = this._getEventCallbacks(EventType.ANNOTATE_DIFF);
+
+      // Notify with the coverage data.
+      ranges.forEach(range => {
+        annotationApis.forEach(annotationApi => annotationApi.notify(
+            path,
+            range.code_range.start_line,
+            range.code_range.end_line,
+            range.side));
       });
     }
 

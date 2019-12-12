@@ -324,6 +324,9 @@
               return;
             }
             this._coverageRanges = coverageRanges;
+
+            // Now notify coverage data changed
+            this.$.jsAPI.coverageRangeChanged(path, this._coverageRanges);
           }).catch(err => {
             console.warn('Loading coverage ranges failed: ', err);
           });

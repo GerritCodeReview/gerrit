@@ -22,6 +22,30 @@
       "revId": "777ff4715d92eaaef5e149334d901188359f3294",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bca7c577_f7a5deb7",
+        "filename": "java/com/google/gerrit/server/restapi/change/CherryPickChange.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 365,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-12-12T09:23:39Z",
+      "side": 1,
+      "message": "I think this is being tested by all of the other tests passing, since this part of the code should never be called.\nWe always use idForNewChange \u003d\u003d null currently, in the the future change I will use one that isn\u0027t null, but destChanges.size() will be 0.\n\nIn order to write a test case for this we will need to call this function directly, which seems to be too much effort for it to be worth it.",
+      "parentUuid": "95ff313f_e51178fe",
+      "range": {
+        "startLine": 355,
+        "startChar": 12,
+        "endLine": 365,
+        "endChar": 13
+      },
+      "revId": "777ff4715d92eaaef5e149334d901188359f3294",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

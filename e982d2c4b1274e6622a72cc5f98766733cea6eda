@@ -22,6 +22,30 @@
       "revId": "e982d2c4b1274e6622a72cc5f98766733cea6eda",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4a78399f_5a3c31df",
+        "filename": "polygerrit-ui/server.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-12-12T17:01:09Z",
+      "side": 1,
+      "message": "it\u0027s never been accurate; :8081 is also not a port.",
+      "parentUuid": "6bed6222_3ee76435",
+      "range": {
+        "startLine": 42,
+        "startChar": 1,
+        "endLine": 42,
+        "endChar": 5
+      },
+      "revId": "e982d2c4b1274e6622a72cc5f98766733cea6eda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

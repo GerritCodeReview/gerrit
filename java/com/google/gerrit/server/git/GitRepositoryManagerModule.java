@@ -18,6 +18,10 @@ import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.config.RepositoryConfig;
 import com.google.inject.Inject;
 
+/**
+ * Module to install {@link com.google.gerrit.server.git.MultiBaseLocalDiskRepositoryManager} if
+ * needed.
+ */
 public class GitRepositoryManagerModule extends LifecycleModule {
 
   private final RepositoryConfig repoConfig;

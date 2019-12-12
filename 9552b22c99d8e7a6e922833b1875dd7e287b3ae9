@@ -2,6 +2,46 @@
   "comments": [
     {
       "key": {
+        "uuid": "67bf7571_f5339080",
+        "filename": "java/com/google/gerrit/server/PublishCommentUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-12T09:16:46Z",
+      "side": 1,
+      "message": "Please add some javadoc.",
+      "revId": "9552b22c99d8e7a6e922833b1875dd7e287b3ae9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c12732d9_213d9cdd",
+        "filename": "java/com/google/gerrit/server/PublishCommentUtil.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-12T09:16:46Z",
+      "side": 1,
+      "message": "Can we avoid that this is used both as input and output?\nIt\u0027s not obvious that the method will update this list during it\u0027s execution to tell callers which comments it has published.",
+      "range": {
+        "startLine": 140,
+        "startChar": 89,
+        "endLine": 140,
+        "endChar": 97
+      },
+      "revId": "9552b22c99d8e7a6e922833b1875dd7e287b3ae9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "34008d27_98553794",
         "filename": "java/com/google/gerrit/server/PublishCommentUtil.java",
         "patchSetId": 2
@@ -25,6 +65,189 @@
     },
     {
       "key": {
+        "uuid": "88fe9b7e_b8899c5d",
+        "filename": "java/com/google/gerrit/server/PublishCommentsOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-12T09:16:46Z",
+      "side": 1,
+      "message": "nit: missing licence header",
+      "revId": "9552b22c99d8e7a6e922833b1875dd7e287b3ae9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ea1afc6c_e8d6d400",
+        "filename": "java/com/google/gerrit/server/PublishCommentsOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-12T09:16:46Z",
+      "side": 1,
+      "message": "In Gerrit we differentiate between comments (inline comments on lines or ranges of lines, comments on file level) and change messages (comments/messages on change level). This differentiation is a bit unfortunate and we would not have it again, if we started from scratch.\n\nThe name of this class suggests that its publishing comments, but actually it\u0027s only inserting change messages. The publishing of the comments happens only in the child classes (PublishCommentsOnPsUploadOp: line 56, PostReview.Op: line 889 and 902), but there is nothing here that tells or forces implementors of subclasses to do so. For abstract classes we should define clearly what we expect subclasses to do. The current way how this class and the subclasses play together is not obvious and should be improved. E.g. the subclasses publish the comments, they add the comments to the protected \u0027comments\u0027 variable which then makes the superclass include them into the change message, email and the fired event.",
+      "range": {
+        "startLine": 27,
+        "startChar": 22,
+        "endLine": 27,
+        "endChar": 39
+      },
+      "revId": "9552b22c99d8e7a6e922833b1875dd7e287b3ae9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "955e6b0c_be83b280",
+        "filename": "java/com/google/gerrit/server/PublishCommentsOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-12T09:16:46Z",
+      "side": 1,
+      "message": "Please add some javadoc to explain the purpose of this class. We have neglected javadocs in the past, but we try to do better now.",
+      "revId": "9552b22c99d8e7a6e922833b1875dd7e287b3ae9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7f81f864_e40c050d",
+        "filename": "java/com/google/gerrit/server/git/receive/PublishCommentsOnPsUploadOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-12T09:16:46Z",
+      "side": 1,
+      "message": "nit: missing licence header\n\nEach source file should have a Copyright header. You can copy it from any other Java class, but remember to update the year in it.",
+      "revId": "9552b22c99d8e7a6e922833b1875dd7e287b3ae9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6747f2fb_f901c47b",
+        "filename": "java/com/google/gerrit/server/git/receive/PublishCommentsOnPsUploadOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-12T09:16:46Z",
+      "side": 1,
+      "message": "nit: Should be formatted as:\n\n\"\n/**\n * This Op is used by the Git Receive commits workflow\n * to publish any draft comments when uploading a new patch set.\n */\n\"",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 2
+      },
+      "revId": "9552b22c99d8e7a6e922833b1875dd7e287b3ae9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0ed659c6_2c55a9b0",
+        "filename": "java/com/google/gerrit/server/git/receive/PublishCommentsOnPsUploadOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-12T09:16:46Z",
+      "side": 1,
+      "message": "maybe a better name would be \"PublishDraftCommentsOp\"\n\nThe fact that this is called on PS upload doesn\u0027t need to be reflected in the name. Maybe later we would like to use this Op from other places too, and then the name would be misleading.",
+      "range": {
+        "startLine": 26,
+        "startChar": 13,
+        "endLine": 26,
+        "endChar": 40
+      },
+      "revId": "9552b22c99d8e7a6e922833b1875dd7e287b3ae9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b1cccad9_f44d73df",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 921,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-12T09:16:46Z",
+      "side": 1,
+      "message": "[optional] Check magicBranch !\u003d null only once:\n\n  if (magicBranch !\u003d null) {\n    bu.setNotifyHandling(replace.ontoChange, magicBranch.getNotifyHandling(replace.notes));\n    \n    // Publish the draft comments if applicable\n    if (magicBranch.shouldPublishComments()) {\n      ...\n    }\n  }",
+      "range": {
+        "startLine": 918,
+        "startChar": 10,
+        "endLine": 921,
+        "endChar": 75
+      },
+      "revId": "9552b22c99d8e7a6e922833b1875dd7e287b3ae9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "62d0b1dd_50a9e0e7",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 928,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-12T09:16:46Z",
+      "side": 1,
+      "message": "nit: this should be formatted as:\n\n\"\n// Comments will be published on the prior patch set\n// and then a new patch set will be created (with the ReplaceOp).\n// These operations will result in 2 different commits on the NoteDb\n\"",
+      "range": {
+        "startLine": 925,
+        "startChar": 12,
+        "endLine": 928,
+        "endChar": 14
+      },
+      "revId": "9552b22c99d8e7a6e922833b1875dd7e287b3ae9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "16a8d54d_7e5d6b2f",
+        "filename": "javatests/com/google/gerrit/acceptance/server/git/receive/ReceiveCommitsCommentValidationIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-12T09:16:46Z",
+      "side": 1,
+      "message": "nit: unused import",
+      "revId": "9552b22c99d8e7a6e922833b1875dd7e287b3ae9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6d04ff7d_11a8e855",
         "filename": "javatests/com/google/gerrit/acceptance/server/git/receive/ReceiveCommitsCommentValidationIT.java",
         "patchSetId": 2
@@ -36,6 +259,30 @@
       "writtenOn": "2019-12-11T09:30:09Z",
       "side": 1,
       "message": "Need to recheck. Not sure if this behavior is expected.",
+      "range": {
+        "startLine": 129,
+        "startChar": 4,
+        "endLine": 130,
+        "endChar": 45
+      },
+      "revId": "9552b22c99d8e7a6e922833b1875dd7e287b3ae9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4a53e5d6_a65f4e9b",
+        "filename": "javatests/com/google/gerrit/acceptance/server/git/receive/ReceiveCommitsCommentValidationIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-12T09:16:46Z",
+      "side": 1,
+      "message": "I think this is expected, but maybe it\u0027s worth to add a comment here that explains these assertions.\nI think readers want to know that the validateComments method is expected to be invoked twice, once for publishing the comments on the old patch set, and once when adding the change message for the new patch set (first assertion). The first call of validateComments is for publishing the comments on the old patch, hence it should have gotten these comments for validation (second assert). Maybe there should also be a third assert to verify that the second call of validateComments didn\u0027t get any comments passed in.",
+      "parentUuid": "6d04ff7d_11a8e855",
       "range": {
         "startLine": 129,
         "startChar": 4,

@@ -202,6 +202,29 @@
       "revId": "ff0a38d00dd1d5a8722bca6f43967528fe386869",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "39b1763b_628a1373",
+        "filename": "java/com/google/gerrit/server/git/receive/ReplaceOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 600,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-12T09:16:46Z",
+      "side": 0,
+      "message": "This functionality seems to be lost. During the receive commits code path the old and new approvals are no longer computed and hence not included into the commentAdded event that is now fired at PublishCommentsOp: line 72\n\nThis seems to indicate some missing tests. It would be nice to add these tests, maybe even as a separate predecessor change.",
+      "range": {
+        "startLine": 581,
+        "startChar": 3,
+        "endLine": 600,
+        "endChar": 0
+      },
+      "revId": "ff0a38d00dd1d5a8722bca6f43967528fe386869",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

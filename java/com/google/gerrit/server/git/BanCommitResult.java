@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.eclipse.jgit.lib.ObjectId;
 
+/** The outcome of the {@link com.google.gerrit.server.git.BanCommit} operation. */
 public class BanCommitResult {
   private final List<ObjectId> newlyBannedCommits = new ArrayList<>(4);
   private final List<ObjectId> alreadyBannedCommits = new ArrayList<>(4);

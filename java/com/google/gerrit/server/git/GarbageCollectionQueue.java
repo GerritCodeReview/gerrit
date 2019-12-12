@@ -21,6 +21,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
+/** A thread-safe list of projects scheduled for GC. */
 @Singleton
 public class GarbageCollectionQueue {
   private final Set<Project.NameKey> projectsScheduledForGc = new HashSet<>();

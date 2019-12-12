@@ -16,6 +16,7 @@ package com.google.gerrit.server.git;
 
 import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GarbageCollectionResult;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.events.GarbageCollectorListener;
@@ -37,6 +38,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.TextProgressMonitor;
 import org.eclipse.jgit.storage.pack.PackConfig;
 
+/** Serial execution of GC on a list of repositories. */
 public class GarbageCollection {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
@@ -69,8 +71,9 @@ public class GarbageCollection {
     return run(projectNames, gcConfig.isAggressive(), writer);
   }
 
+  /** Runs GC on the given projects, serially. Progress is written to writer if non-null. */
   public GarbageCollectionResult run(
-      List<Project.NameKey> projectNames, boolean aggressive, PrintWriter writer) {
+      List<Project.NameKey> projectNames, boolean aggressive, @Nullable PrintWriter writer) {
     GarbageCollectionResult result = new GarbageCollectionResult();
     Set<Project.NameKey> projectsToGc = gcQueue.addAll(projectNames);
     for (Project.NameKey projectName :

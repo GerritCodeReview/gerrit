@@ -18,6 +18,7 @@ import com.google.gerrit.entities.Project;
 import java.util.ArrayList;
 import java.util.List;
 
+/** A list of errors occurred during GC. */
 public class GarbageCollectionResult {
   protected List<Error> errors;
 

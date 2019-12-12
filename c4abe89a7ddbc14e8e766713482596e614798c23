@@ -42,6 +42,24 @@
     },
     {
       "key": {
+        "uuid": "e79a309c_009500fc",
+        "filename": "java/com/google/gerrit/server/fixes/FixCalculator.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-12-12T16:32:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b4b9c473_de67cb50",
+      "revId": "c4abe89a7ddbc14e8e766713482596e614798c23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2d78508b_a952b27f",
         "filename": "java/com/google/gerrit/server/fixes/FixCalculator.java",
         "patchSetId": 18
@@ -53,6 +71,30 @@
       "writtenOn": "2019-12-07T00:24:37Z",
       "side": 1,
       "message": "Is 1 subtracted because fix replacements are 1-based for lines and the code within this class is 0-based?",
+      "range": {
+        "startLine": 89,
+        "startChar": 24,
+        "endLine": 89,
+        "endChar": 55
+      },
+      "revId": "c4abe89a7ddbc14e8e766713482596e614798c23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b7fd3ee5_7eb9ea72",
+        "filename": "java/com/google/gerrit/server/fixes/FixCalculator.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-12-12T16:32:34Z",
+      "side": 1,
+      "message": "Yes",
+      "parentUuid": "2d78508b_a952b27f",
       "range": {
         "startLine": 89,
         "startChar": 24,
@@ -85,6 +127,30 @@
       "revId": "c4abe89a7ddbc14e8e766713482596e614798c23",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "68efe014_cbb50b0b",
+        "filename": "java/com/google/gerrit/server/fixes/FixCalculator.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-12-12T16:32:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "112b4e7f_f85d7db7",
+      "range": {
+        "startLine": 129,
+        "startChar": 20,
+        "endLine": 129,
+        "endChar": 32
+      },
+      "revId": "c4abe89a7ddbc14e8e766713482596e614798c23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -128,6 +194,30 @@
     },
     {
       "key": {
+        "uuid": "d3926694_871403e7",
+        "filename": "java/com/google/gerrit/server/fixes/FixCalculator.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 303,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-12-12T16:32:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4dae29ef_07553cc1",
+      "range": {
+        "startLine": 303,
+        "startChar": 19,
+        "endLine": 303,
+        "endChar": 46
+      },
+      "revId": "c4abe89a7ddbc14e8e766713482596e614798c23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d9d612fc_a8bed431",
         "filename": "java/com/google/gerrit/server/fixes/FixReplacementInterpreter.java",
         "patchSetId": 18
@@ -148,6 +238,30 @@
       "revId": "c4abe89a7ddbc14e8e766713482596e614798c23",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "df14d408_1488d8ab",
+        "filename": "java/com/google/gerrit/server/fixes/FixReplacementInterpreter.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-12-12T16:32:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d9d612fc_a8bed431",
+      "range": {
+        "startLine": 47,
+        "startChar": 50,
+        "endLine": 47,
+        "endChar": 86
+      },
+      "revId": "c4abe89a7ddbc14e8e766713482596e614798c23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -174,6 +288,30 @@
     },
     {
       "key": {
+        "uuid": "685779a7_4d2d4b7e",
+        "filename": "java/com/google/gerrit/server/fixes/testing/GitEditSubject.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-12-12T16:32:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "36bfeb98_98f5b70c",
+      "range": {
+        "startLine": 43,
+        "startChar": 9,
+        "endLine": 43,
+        "endChar": 23
+      },
+      "revId": "c4abe89a7ddbc14e8e766713482596e614798c23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "393625df_cbd65b2b",
         "filename": "java/com/google/gerrit/server/fixes/testing/GitEditSubject.java",
         "patchSetId": 18
@@ -197,6 +335,30 @@
     },
     {
       "key": {
+        "uuid": "7b243451_5469a23f",
+        "filename": "java/com/google/gerrit/server/fixes/testing/GitEditSubject.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-12-12T16:32:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "393625df_cbd65b2b",
+      "range": {
+        "startLine": 82,
+        "startChar": 43,
+        "endLine": 82,
+        "endChar": 59
+      },
+      "revId": "c4abe89a7ddbc14e8e766713482596e614798c23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8c86ea4f_2bd4b920",
         "filename": "java/com/google/gerrit/server/patch/PatchScriptFactory.java",
         "patchSetId": 18
@@ -217,6 +379,30 @@
       "revId": "c4abe89a7ddbc14e8e766713482596e614798c23",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d08b1db7_75673e86",
+        "filename": "java/com/google/gerrit/server/patch/PatchScriptFactory.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 467,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-12-12T16:32:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8c86ea4f_2bd4b920",
+      "range": {
+        "startLine": 466,
+        "startChar": 10,
+        "endLine": 467,
+        "endChar": 9
+      },
+      "revId": "c4abe89a7ddbc14e8e766713482596e614798c23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -290,6 +476,30 @@
     },
     {
       "key": {
+        "uuid": "424a3ade_39487820",
+        "filename": "java/com/google/gerrit/server/patch/PatchScriptFactory.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 536,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-12-12T16:32:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "49b9a7a9_7b598e81",
+      "range": {
+        "startLine": 536,
+        "startChar": 42,
+        "endLine": 536,
+        "endChar": 56
+      },
+      "revId": "c4abe89a7ddbc14e8e766713482596e614798c23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "377a2ad6_b5b6f9c6",
         "filename": "java/com/google/gerrit/server/restapi/change/GetFixPreview.java",
         "patchSetId": 18
@@ -313,6 +523,30 @@
     },
     {
       "key": {
+        "uuid": "cb9849ad_df5fa4d2",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetFixPreview.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-12-12T16:32:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "377a2ad6_b5b6f9c6",
+      "range": {
+        "startLine": 56,
+        "startChar": 13,
+        "endLine": 56,
+        "endChar": 50
+      },
+      "revId": "c4abe89a7ddbc14e8e766713482596e614798c23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "31ad3a4d_3ddb9746",
         "filename": "java/com/google/gerrit/server/restapi/change/GetFixPreview.java",
         "patchSetId": 18
@@ -333,6 +567,30 @@
       "revId": "c4abe89a7ddbc14e8e766713482596e614798c23",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0b04b3f5_0fd2c284",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetFixPreview.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-12-12T16:32:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "31ad3a4d_3ddb9746",
+      "range": {
+        "startLine": 59,
+        "startChar": 37,
+        "endLine": 59,
+        "endChar": 48
+      },
+      "revId": "c4abe89a7ddbc14e8e766713482596e614798c23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -402,6 +660,30 @@
       "revId": "c4abe89a7ddbc14e8e766713482596e614798c23",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "359eec9c_64dfb8aa",
+        "filename": "javatests/com/google/gerrit/server/fixes/fixCalculator/MultilineContentNoEOLTest.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-12-12T16:32:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "34c6c025_b8fad035",
+      "range": {
+        "startLine": 260,
+        "startChar": 25,
+        "endLine": 260,
+        "endChar": 30
+      },
+      "revId": "c4abe89a7ddbc14e8e766713482596e614798c23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

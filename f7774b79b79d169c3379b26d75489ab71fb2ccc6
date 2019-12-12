@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f7e6a180_1099b252",
+        "filename": "lib/greenmail/BUILD",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2019-12-12T10:27:18Z",
+      "side": 0,
+      "message": "So, the qestion is, whether or not //:java11-configuration and friends are still required or can be removed entirely.",
+      "range": {
+        "startLine": 20,
+        "startChar": 9,
+        "endLine": 20,
+        "endChar": 18
+      },
+      "revId": "f7774b79b79d169c3379b26d75489ab71fb2ccc6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

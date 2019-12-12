@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8b0a54bf_4a88d27c",
+        "filename": "java/com/google/gerrit/server/git/GarbageCollection.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-12T13:12:41Z",
+      "side": 1,
+      "message": "That\u0027s the wrong Nullable, in Gerrit we use com.google.gerrit.common.Nullable.",
+      "revId": "0d47f33a3e371b1a1c2c1646478cf2dc00af6cb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ef4d4b3b_1801637d",
+        "filename": "java/com/google/gerrit/server/git/GarbageCollectionQueue.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-12T13:12:41Z",
+      "side": 1,
+      "message": "nit: projects",
+      "range": {
+        "startLine": 24,
+        "startChar": 26,
+        "endLine": 24,
+        "endChar": 33
+      },
+      "revId": "0d47f33a3e371b1a1c2c1646478cf2dc00af6cb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

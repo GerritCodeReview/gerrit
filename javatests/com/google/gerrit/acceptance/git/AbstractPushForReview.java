@@ -485,15 +485,9 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
   @Test
   public void pushForMasterWithTopic() throws Exception {
-    // specify topic in ref
     String topic = "my/topic";
-    PushOneCommit.Result r = pushTo("refs/for/master/" + topic);
-    r.assertOkStatus();
-    r.assertChange(Change.Status.NEW, topic);
-    r.assertMessage("deprecated topic syntax");
-
     // specify topic as option
-    r = pushTo("refs/for/master%topic=" + topic);
+    PushOneCommit.Result r = pushTo("refs/for/master%topic=" + topic);
     r.assertOkStatus();
     r.assertChange(Change.Status.NEW, topic);
   }
@@ -514,14 +508,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   }
 
   @Test
-  public void pushForMasterWithTopicInRefExceedLimitFails() throws Exception {
-    String topic = Stream.generate(() -> "t").limit(2049).collect(joining());
-    PushOneCommit.Result r = pushTo("refs/for/master/" + topic);
-    r.assertErrorStatus("topic length exceeds the limit (2048)");
-  }
-
-  @Test
-  public void pushForMasterWithTopicAsOptionExceedLimitFails() throws Exception {
+  public void pushForMasterWithTopicExceedLimitFails() throws Exception {
     String topic = Stream.generate(() -> "t").limit(2049).collect(joining());
     PushOneCommit.Result r = pushTo("refs/for/master%topic=" + topic);
     r.assertErrorStatus("topic length exceeds the limit (2048)");
@@ -605,16 +592,16 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   public void pushForMasterWithCc() throws Exception {
     // cc one user
     String topic = "my/topic";
-    PushOneCommit.Result r = pushTo("refs/for/master/" + topic + "%cc=" + user.email());
+    PushOneCommit.Result r = pushTo("refs/for/master%topic=" + topic + ",cc=" + user.email());
     r.assertOkStatus();
     r.assertChange(Change.Status.NEW, topic, ImmutableList.of(), ImmutableList.of(user));
 
     // cc several users
     r =
         pushTo(
-            "refs/for/master/"
+            "refs/for/master%topic="
                 + topic
-                + "%cc="
+                + ",cc="
                 + admin.email()
                 + ",cc="
                 + user.email()
@@ -632,9 +619,9 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     String nonExistingEmail = "non.existing@example.com";
     r =
         pushTo(
-            "refs/for/master/"
+            "refs/for/master%topic="
                 + topic
-                + "%cc="
+                + ",cc="
                 + admin.email()
                 + ",cc="
                 + nonExistingEmail
@@ -684,7 +671,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   public void pushForMasterWithReviewer() throws Exception {
     // add one reviewer
     String topic = "my/topic";
-    PushOneCommit.Result r = pushTo("refs/for/master/" + topic + "%r=" + user.email());
+    PushOneCommit.Result r = pushTo("refs/for/master%topic=" + topic + ",r=" + user.email());
     r.assertOkStatus();
     r.assertChange(Change.Status.NEW, topic, user);
 
@@ -693,9 +680,9 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
         accountCreator.create("another-user", "another.user@example.com", "Another User");
     r =
         pushTo(
-            "refs/for/master/"
+            "refs/for/master%topic="
                 + topic
-                + "%r="
+                + ",r="
                 + admin.email()
                 + ",r="
                 + user.email()
@@ -709,9 +696,9 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     String nonExistingEmail = "non.existing@example.com";
     r =
         pushTo(
-            "refs/for/master/"
+            "refs/for/master%topic="
                 + topic
-                + "%r="
+                + ",r="
                 + admin.email()
                 + ",r="
                 + nonExistingEmail
@@ -942,7 +929,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
   @Test
   public void pushForMasterWithMessage() throws Exception {
-    PushOneCommit.Result r = pushTo("refs/for/master/%m=my_test_message");
+    PushOneCommit.Result r = pushTo("refs/for/master%m=my_test_message");
     r.assertOkStatus();
     r.assertChange(Change.Status.NEW, null);
     ChangeInfo ci = get(r.getChangeId(), MESSAGES, ALL_REVISIONS);
@@ -966,7 +953,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
         pushFactory.create(admin.newIdent(), testRepo, PushOneCommit.SUBJECT, "a.txt", "content");
     // %2C is comma; the value below tests that percent decoding happens after splitting.
     // All three ways of representing space ("%20", "+", and "_" are also exercised.
-    PushOneCommit.Result r = push.to("refs/for/master/%m=my_test%20+_message%2Cm=");
+    PushOneCommit.Result r = push.to("refs/for/master%m=my_test%20+_message%2Cm=");
     r.assertOkStatus();
 
     push =
@@ -977,7 +964,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
             "b.txt",
             "anotherContent",
             r.getChangeId());
-    r = push.to("refs/for/master/%m=new_test_message");
+    r = push.to("refs/for/master%m=new_test_message");
     r.assertOkStatus();
 
     ChangeInfo ci = get(r.getChangeId(), ALL_REVISIONS);
@@ -997,7 +984,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
     // Exercise percent-encoding of UTF-8, underscores, and patterns reserved by git-rev-parse.
     PushOneCommit.Result r =
         pushTo(
-            "refs/for/master/%m="
+            "refs/for/master%m="
                 + "Punctu%2E%2e%2Eation%7E%2D%40%7Bu%7D%20%7C%20%28%E2%95%AF%C2%B0%E2%96%A1%C2%B0"
                 + "%EF%BC%89%E2%95%AF%EF%B8%B5%20%E2%94%BB%E2%94%81%E2%94%BB%20%5E%5F%5E");
     r.assertOkStatus();
@@ -1018,7 +1005,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
   @Test
   public void pushForMasterWithInvalidPercentEncodedMessage() throws Exception {
-    PushOneCommit.Result r = pushTo("refs/for/master/%m=not_percent_decodable_%%oops%20");
+    PushOneCommit.Result r = pushTo("refs/for/master%m=not_percent_decodable_%%oops%20");
     r.assertOkStatus();
     r.assertChange(Change.Status.NEW, null);
     ChangeInfo ci = get(r.getChangeId(), MESSAGES, ALL_REVISIONS);
@@ -1036,7 +1023,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
   @Test
   public void pushForMasterWithApprovals() throws Exception {
-    PushOneCommit.Result r = pushTo("refs/for/master/%l=Code-Review");
+    PushOneCommit.Result r = pushTo("refs/for/master%l=Code-Review");
     r.assertOkStatus();
     ChangeInfo ci = get(r.getChangeId(), DETAILED_LABELS, MESSAGES, DETAILED_ACCOUNTS);
     LabelInfo cr = ci.labels.get("Code-Review");
@@ -1054,7 +1041,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
             "b.txt",
             "anotherContent",
             r.getChangeId());
-    r = push.to("refs/for/master/%l=Code-Review+2");
+    r = push.to("refs/for/master%l=Code-Review+2");
 
     ci = get(r.getChangeId(), DETAILED_LABELS, MESSAGES, DETAILED_ACCOUNTS);
     cr = ci.labels.get("Code-Review");
@@ -1075,7 +1062,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
             "c.txt",
             "moreContent",
             r.getChangeId());
-    r = push.to("refs/for/master/%l=Code-Review+2");
+    r = push.to("refs/for/master%l=Code-Review+2");
     ci = get(r.getChangeId(), MESSAGES);
     assertThat(Iterables.getLast(ci.messages).message).isEqualTo("Uploaded patch set 3.");
   }
@@ -1093,7 +1080,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
             "b.txt",
             "anotherContent",
             r.getChangeId());
-    r = push.to("refs/for/master/%l=Code-Review+2");
+    r = push.to("refs/for/master%l=Code-Review+2");
 
     ChangeInfo ci = get(r.getChangeId(), DETAILED_LABELS, MESSAGES, DETAILED_ACCOUNTS);
     LabelInfo cr = ci.labels.get("Code-Review");
@@ -1180,7 +1167,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
             .create();
 
     // Push this commit as "Administrator" (requires Forge Committer Identity)
-    pushHead(testRepo, "refs/for/master/%l=Code-Review+1", false);
+    pushHead(testRepo, "refs/for/master%l=Code-Review+1", false);
 
     // Expected Code-Review votes:
     // 1. 0 from User (committer):
@@ -1228,7 +1215,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
             .message(PushOneCommit.SUBJECT)
             .create();
 
-    pushHead(testRepo, "refs/for/master/%l=Code-Review+1,l=Custom-Label-1", false);
+    pushHead(testRepo, "refs/for/master%l=Code-Review+1,l=Custom-Label-1", false);
 
     ChangeInfo ci = get(GitUtil.getChangeId(testRepo, c).get(), DETAILED_LABELS, DETAILED_ACCOUNTS);
     LabelInfo cr = ci.labels.get("Code-Review");
@@ -1258,13 +1245,13 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
 
   @Test
   public void pushForMasterWithApprovals_MissingLabel() throws Exception {
-    PushOneCommit.Result r = pushTo("refs/for/master/%l=Verify");
+    PushOneCommit.Result r = pushTo("refs/for/master%l=Verify");
     r.assertErrorStatus("label \"Verify\" is not a configured label");
   }
 
   @Test
   public void pushForMasterWithApprovals_ValueOutOfRange() throws Exception {
-    PushOneCommit.Result r = pushTo("refs/for/master/%l=Code-Review-3");
+    PushOneCommit.Result r = pushTo("refs/for/master%l=Code-Review-3");
     r.assertErrorStatus("label \"Code-Review\": -3 is not a valid value");
   }
 
@@ -1297,7 +1284,7 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
             "b.txt",
             "anotherContent",
             r.getChangeId());
-    r = push.to("refs/for/master/%hashtag=" + hashtag2);
+    r = push.to("refs/for/master%hashtag=" + hashtag2);
     r.assertOkStatus();
     expected = ImmutableSet.of(hashtag1, hashtag2);
     hashtags = gApi.changes().id(r.getChangeId()).getHashtags();

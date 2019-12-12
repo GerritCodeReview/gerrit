@@ -217,7 +217,7 @@ public class SubmitResolvingMergeCommitIT extends AbstractDaemonTest {
             "new.txt",
             "Conflicting line #2",
             ImmutableList.of(f.getCommit()),
-            "refs/for/master/" + name("topic1"));
+            "refs/for/master%topic=" + name("topic1"));
 
     PushOneCommit.Result h = createChange(project2, "H");
     PushOneCommit.Result i =
@@ -231,7 +231,7 @@ public class SubmitResolvingMergeCommitIT extends AbstractDaemonTest {
             "new.txt",
             "Sadly conflicting topic-wise",
             ImmutableList.of(i.getCommit(), j.getCommit()),
-            "refs/for/master/" + name("topic1"));
+            "refs/for/master%topic=" + name("topic1"));
 
     approve(h.getChangeId());
     approve(i.getChangeId());
@@ -253,7 +253,7 @@ public class SubmitResolvingMergeCommitIT extends AbstractDaemonTest {
             "new.txt",
             "Resolving conflicts again",
             ImmutableList.of(c.getCommit(), g.getCommit()),
-            "refs/for/master/" + name("topic1"));
+            "refs/for/master%topic=" + name("topic1"));
 
     approve(l.getChangeId());
     assertChangeSetMergeable(l.getChange(), true);

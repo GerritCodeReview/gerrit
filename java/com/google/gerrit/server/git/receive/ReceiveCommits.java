@@ -1428,7 +1428,6 @@ class ReceiveCommits {
     private final ProjectState projectState;
     private final boolean defaultPublishComments;
 
-    boolean deprecatedTopicSeen;
     final ReceiveCommand cmd;
     final LabelTypes labelTypes;
     /**
@@ -1590,7 +1589,6 @@ class ReceiveCommits {
         IdentifiedUser user, ProjectState projectState, ReceiveCommand cmd, LabelTypes labelTypes) {
       this.user = user;
       this.projectState = projectState;
-      this.deprecatedTopicSeen = false;
       this.cmd = cmd;
       this.labelTypes = labelTypes;
       GeneralPreferencesInfo prefs = user.state().generalPreferences();
@@ -1678,28 +1676,7 @@ class ReceiveCommits {
       if (!options.isEmpty()) {
         cmdLineParser.parseOptionMap(options);
       }
-
-      // We accept refs/for/BRANCHNAME/TOPIC. Since we don't know
-      // for sure where the branch ends and the topic starts, look
-      // backward for a split that works. This behavior is deprecated.
-      String head = readHEAD(repo);
-      int split = ref.length();
-      for (; ; ) {
-        String name = ref.substring(0, split);
-        if (refCache.exactRef(name) != null || name.equals(head)) {
-          break;
-        }
-
-        split = name.lastIndexOf('/', split - 1);
-        if (split <= Constants.R_REFS.length()) {
-          return ref;
-        }
-      }
-      if (split < ref.length()) {
-        topic = Strings.emptyToNull(ref.substring(split + 1));
-        deprecatedTopicSeen = true;
-      }
-      return ref.substring(0, split);
+      return ref;
     }
 
     public boolean shouldSetWorkInProgressOnNewChanges() {
@@ -1927,13 +1904,6 @@ class ReceiveCommits {
             "Error walking to %s in project %s", destBranch, project.getName());
         reject(cmd, "internal server error");
         return;
-      }
-
-      if (magicBranch.deprecatedTopicSeen) {
-        messages.add(
-            new ValidationMessage(
-                "WARNING: deprecated topic syntax. Use -o topic=TOPIC instead", false));
-        logger.atInfo().log("deprecated topic push seen for project %s", project.getName());
       }
 
       if (validateConnected(magicBranch.cmd, magicBranch.dest, tip)) {

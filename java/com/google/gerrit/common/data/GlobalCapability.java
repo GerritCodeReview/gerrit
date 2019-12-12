@@ -20,7 +20,12 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-/** Server wide capabilities. Represented as {@link Permission} objects. */
+/**
+ * Server wide capabilities. Represented as {@link Permission} objects.
+ *
+ * <p>Contrary to {@link Permission}, global capabilities do not need a resource to check
+ * permissions on.
+ */
 public class GlobalCapability {
   /** Ability to view code review metadata refs in repositories. */
   public static final String ACCESS_DATABASE = "accessDatabase";

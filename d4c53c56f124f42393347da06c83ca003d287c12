@@ -1,0 +1,181 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6d651a36_97933824",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 939,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-12-12T12:23:23Z",
+      "side": 1,
+      "message": "maybe just pass in the `change` instead.\n\nwill the `commitMesage` available in `this.change` ?",
+      "range": {
+        "startLine": 938,
+        "startChar": 39,
+        "endLine": 939,
+        "endChar": 45
+      },
+      "revId": "d4c53c56f124f42393347da06c83ca003d287c12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ddcf4689_c2f6bba8",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 940,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-12-12T12:23:23Z",
+      "side": 1,
+      "message": "hmmm this is to kick off all listeners on `SubmissionMsg` changed event, should not this be triggered inside of the dialog instead of here ?",
+      "revId": "d4c53c56f124f42393347da06c83ca003d287c12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "507ebc26_ff918b99",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 1480,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-12-12T12:23:23Z",
+      "side": 1,
+      "message": "extra white spaces ?",
+      "revId": "d4c53c56f124f42393347da06c83ca003d287c12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "58448a3b_09070e0a",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 1485,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-12-12T12:23:23Z",
+      "side": 1,
+      "message": "just check for the entire msg, much easier and more robust\n\nalso check with change_id more than 10 characters",
+      "revId": "d4c53c56f124f42393347da06c83ca003d287c12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bf036965_0c643179",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-submission-dialog/gr-confirm-revert-submission-dialog.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-12-12T12:23:23Z",
+      "side": 1,
+      "message": "why you need this as a property ? its neither passed in nor used in the template, seems unnecessary",
+      "revId": "d4c53c56f124f42393347da06c83ca003d287c12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "26a77ffa_7ba787b7",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-submission-dialog/gr-confirm-revert-submission-dialog.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-12-12T12:23:23Z",
+      "side": 1,
+      "message": "can you define this 50 as a constant at the top with a meaningful name ?  and use it in all occurrences",
+      "range": {
+        "startLine": 53,
+        "startChar": 27,
+        "endLine": 53,
+        "endChar": 29
+      },
+      "revId": "d4c53c56f124f42393347da06c83ca003d287c12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f05b57d7_8a4fc6a8",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-submission-dialog/gr-confirm-revert-submission-dialog.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-12-12T12:23:23Z",
+      "side": 1,
+      "message": "move this if to the top, always have early termination at the top 😊",
+      "range": {
+        "startLine": 61,
+        "startChar": 6,
+        "endLine": 64,
+        "endChar": 7
+      },
+      "revId": "d4c53c56f124f42393347da06c83ca003d287c12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "85100525_8aba7724",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-submission-dialog/gr-confirm-revert-submission-dialog.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-12-12T12:23:23Z",
+      "side": 1,
+      "message": "use template string for consistent please",
+      "range": {
+        "startLine": 71,
+        "startChar": 24,
+        "endLine": 72,
+        "endChar": 61
+      },
+      "revId": "d4c53c56f124f42393347da06c83ca003d287c12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6c83f468_2d9e7d7d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 1625,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-12-12T12:23:23Z",
+      "side": 1,
+      "message": "is this really necessary as its just a proxy to `getChanges` ? If you think its really necessary to add this method, make sure test it",
+      "revId": "d4c53c56f124f42393347da06c83ca003d287c12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

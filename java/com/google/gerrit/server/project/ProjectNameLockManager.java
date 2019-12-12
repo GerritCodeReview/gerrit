@@ -17,6 +17,14 @@ package com.google.gerrit.server.project;
 import com.google.gerrit.entities.Project;
 import java.util.concurrent.locks.Lock;
 
+/**
+ * A per-repo lock mechanism.
+ *
+ * <p>This ensures that project creation (repo creation, config creation, first commit) is atomic,
+ * and can be used to separate creation and deletion in the delete-project plugin.
+ *
+ * <p>This is an interface because distributed setup may need something beyond an in-memory lock.
+ */
 public interface ProjectNameLockManager {
   public Lock getLock(Project.NameKey name);
 }

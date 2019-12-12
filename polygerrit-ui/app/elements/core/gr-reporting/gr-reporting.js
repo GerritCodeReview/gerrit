@@ -184,7 +184,7 @@
     },
 
     now() {
-      return window.performance.now();
+      return Math.round(window.performance.now());
     },
 
     _arePluginsLoaded() {
@@ -205,6 +205,7 @@
         detectedExtensions,
         repoName: reportRepoName,
         isInBackgroundTab: document.visibilityState === 'hidden',
+        startTimeMs: this.now(),
       };
       args.splice(4, 0, contextInfo);
       report.apply(this, args);
@@ -237,6 +238,9 @@
       }
       if (contextInfo && contextInfo.isInBackgroundTab !== undefined) {
         detail.inBackgroundTab = contextInfo.isInBackgroundTab;
+      }
+      if (contextInfo && contextInfo.startTimeMs) {
+        detail.startTime = contextInfo.startTimeMs;
       }
       document.dispatchEvent(new CustomEvent(type, {detail}));
       if (opt_noLog) { return; }
@@ -449,7 +453,7 @@
 
       // Guard against division by zero.
       if (!denominator) { return; }
-      const time = Math.round(this.now() - baseTime);
+      const time = this.now() - baseTime;
       this._reportTiming(averageName, time / denominator);
     },
 
@@ -459,8 +463,7 @@
      * @param {number} time The time to report as an integer of milliseconds.
      */
     _reportTiming(name, time) {
-      this.reporter(TIMING.TYPE, TIMING.CATEGORY_UI_LATENCY, name,
-          Math.round(time));
+      this.reporter(TIMING.TYPE, TIMING.CATEGORY_UI_LATENCY, name, time);
     },
 
     /**

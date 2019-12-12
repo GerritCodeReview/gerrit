@@ -205,6 +205,7 @@
         detectedExtensions,
         repoName: reportRepoName,
         isInBackgroundTab: document.visibilityState === 'hidden',
+        startTime: Math.round(this.now()),
       };
       args.splice(4, 0, contextInfo);
       report.apply(this, args);
@@ -237,6 +238,9 @@
       }
       if (contextInfo && contextInfo.isInBackgroundTab !== undefined) {
         detail.inBackgroundTab = contextInfo.isInBackgroundTab;
+      }
+      if (contextInfo && contextInfo.startTime) {
+        detail.startTime = contextInfo.startTime;
       }
       document.dispatchEvent(new CustomEvent(type, {detail}));
       if (opt_noLog) { return; }

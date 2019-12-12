@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0c5e212e_ff4b08e2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-12-12T23:24:04Z",
+      "side": 1,
+      "message": "Remove the \"Merge\" prefix and quotes",
+      "revId": "75168dbebbd671b4e60e570f6f6c7563b7d1f9c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

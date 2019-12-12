@@ -45,6 +45,30 @@
       "revId": "62fcdcea290757064304d193c0e202ea33751924",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7b51a584_8922748e",
+        "filename": "java/com/google/gerrit/server/patch/PatchScriptBuilder.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 686,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-12-12T17:07:13Z",
+      "side": 0,
+      "message": "interface doesn\u0027t exist in the final change.",
+      "parentUuid": "2b9ab633_d6bd905a",
+      "range": {
+        "startLine": 686,
+        "startChar": 4,
+        "endLine": 686,
+        "endChar": 17
+      },
+      "revId": "62fcdcea290757064304d193c0e202ea33751924",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

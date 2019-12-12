@@ -19,4 +19,6 @@ if [ -z "$eslint_bin" ] || [ "$eslint_config" -eq "0" ] || [ "$eslint_plugin" -e
     exit 1
 fi
 
+npm link eslint eslint-config-google eslint-plugin-html
+
 ${eslint_bin} --ignore-pattern 'bower_components/' --ignore-pattern 'gr-linked-text' --ignore-pattern 'scripts/vendor' --ext .html,.js .

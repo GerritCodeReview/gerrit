@@ -1652,9 +1652,7 @@ class ReceiveCommits {
     /**
      * returns the destination ref of the magic branch, and populates options in the cmdLineParser.
      */
-    String parse(
-        Repository repo, ReceivePackRefCache refCache, ListMultimap<String, String> pushOptions)
-        throws CmdLineException, IOException {
+    String parse(ListMultimap<String, String> pushOptions) throws CmdLineException {
       String ref = RefNames.fullName(MagicBranch.getDestBranchName(cmd.getRefName()));
 
       ListMultimap<String, String> options = LinkedListMultimap.create(pushOptions);
@@ -1731,7 +1729,7 @@ class ReceiveCommits {
       magicBranch.cmdLineParser = optionParserFactory.create(magicBranch);
 
       try {
-        ref = magicBranch.parse(repo, receivePackRefCache, pushOptions);
+        ref = magicBranch.parse(pushOptions);
       } catch (CmdLineException e) {
         if (!magicBranch.cmdLineParser.wasHelpRequestedByOption()) {
           logger.atFine().log("Invalid branch syntax");

@@ -132,6 +132,7 @@ final class ShowQueue extends SshCommand {
       switch (task.state) {
         case DONE:
         case CANCELLED:
+        case THROTTLED:
         case STARTING:
         case RUNNING:
         case STOPPING:
@@ -206,6 +207,8 @@ final class ShowQueue extends SshCommand {
         return "";
       case STARTING:
         return "starting ...";
+      case THROTTLED:
+        return "throttled...";
       case READY:
         return "waiting ....";
       case SLEEPING:

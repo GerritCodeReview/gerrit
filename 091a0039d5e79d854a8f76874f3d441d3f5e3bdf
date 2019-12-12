@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "51fd20cc_c088a5d1",
+        "filename": "java/com/google/gerrit/server/git/BanCommitResult.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-12T12:33:38Z",
+      "side": 1,
+      "message": "Please use {@link com.google.gerrit.server.git.BanCommit} here so that this gets linkified in the IDE.",
+      "range": {
+        "startLine": 21,
+        "startChar": 24,
+        "endLine": 21,
+        "endChar": 39
+      },
+      "revId": "091a0039d5e79d854a8f76874f3d441d3f5e3bdf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "841e26a2_6364b2ea",
+        "filename": "java/com/google/gerrit/server/restapi/project/BanCommit.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-12T12:33:38Z",
+      "side": 1,
+      "message": "better: \"marks commits as banned\" (it doesn\u0027t insert them, but rather makes sure that they don\u0027t get inserted)",
+      "range": {
+        "startLine": 34,
+        "startChar": 27,
+        "endLine": 34,
+        "endChar": 50
+      },
+      "revId": "091a0039d5e79d854a8f76874f3d441d3f5e3bdf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -52,6 +52,24 @@
       "revId": "4b04e97ca58c3034d15997a74daaf5b090f26180",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a8716513_d032e4e9",
+        "filename": "polygerrit-ui/app/lint_test.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-12-12T14:14:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bca7eccb_96bdc623",
+      "revId": "4b04e97ca58c3034d15997a74daaf5b090f26180",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

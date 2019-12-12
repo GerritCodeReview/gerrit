@@ -17,6 +17,7 @@ package com.google.gerrit.extensions.api.projects;
 import com.google.common.collect.Lists;
 import java.util.List;
 
+/** Commits that will forbidden to be uploaded. */
 public class BanCommitInput {
   public List<String> commits;
   public String reason;

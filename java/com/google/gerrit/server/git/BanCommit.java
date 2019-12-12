@@ -20,7 +20,6 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.restapi.AuthException;
-import com.google.gerrit.git.LockFailureException;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
@@ -47,6 +46,12 @@ import org.eclipse.jgit.notes.NoteMap;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 
+/**
+ * Logic for banning commits from being uploaded.
+ *
+ * <p>Gerrit has a per-project list of commits that are forbidden to be pushed. This class reads and
+ * writes the banned commits list in {@code refs/meta/reject-commits}.
+ */
 @Singleton
 public class BanCommit {
   /**
@@ -91,9 +96,14 @@ public class BanCommit {
     this.tz = gerritIdent.getTimeZone();
   }
 
+  /**
+   * Bans a list of commits from the given project.
+   *
+   * <p>The user must be specified, so it can be checked for the {@code BAN_COMMIT} permission.
+   */
   public BanCommitResult ban(
       Project.NameKey project, CurrentUser user, List<ObjectId> commitsToBan, String reason)
-      throws AuthException, LockFailureException, IOException, PermissionBackendException {
+      throws AuthException, IOException, PermissionBackendException {
     permissionBackend.user(user).project(project).check(ProjectPermission.BAN_COMMIT);
 
     final BanCommitResult result = new BanCommitResult();

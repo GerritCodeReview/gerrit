@@ -55,6 +55,12 @@ import org.eclipse.jgit.lib.RefUpdate.Result;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.ReceiveCommand;
 
+/**
+ * Business logic for creating projects.
+ *
+ * <p>This creates the repository, the underlying configuration in {@code refs/meta/config} and
+ * initializes a first commit if necessary.
+ */
 public class ProjectCreator {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 

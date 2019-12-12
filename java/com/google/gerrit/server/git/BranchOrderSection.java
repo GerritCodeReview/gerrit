@@ -18,6 +18,14 @@ import com.google.common.collect.ImmutableList;
 import com.google.gerrit.entities.RefNames;
 import java.util.List;
 
+/**
+ * An ordering of branches by stability.
+ *
+ * <p>Changes on a development branch can be backported to release branches. The REST API supports
+ * automatically checking if changes in can be merged into stable branches. This is configured by
+ * the {@code branchOrder.branch} project setting. This class represents the ordered list of
+ * branches.
+ */
 public class BranchOrderSection {
 
   /**

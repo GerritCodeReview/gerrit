@@ -45,6 +45,12 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 
+/**
+ * Operation to close a change on push.
+ *
+ * <p>When we find a change corresponding to a commit that is pushed to a branch directly, we close
+ * the change. This class marks the change as merged, and sends out the email notification.
+ */
 public class MergedByPushOp implements BatchUpdateOp {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 

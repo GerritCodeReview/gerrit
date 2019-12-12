@@ -250,7 +250,7 @@ class SshLog implements LifecycleListener, GerritConfigListener {
             TimeUtil.nowMs(), // when
             Level.INFO, // level
             msg, // message text
-            "SSHD", // thread name
+            Thread.currentThread().getName(), // thread name
             null, // exception information
             null, // current NDC string
             null, // caller location

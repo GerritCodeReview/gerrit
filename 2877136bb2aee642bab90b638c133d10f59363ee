@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "10823228_bf61ada5",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-12-12T13:59:28Z",
+      "side": 1,
+      "message": "can we move this `round` to `now` ? and lets make `now` as a getter instead :)",
+      "range": {
+        "startLine": 208,
+        "startChar": 19,
+        "endLine": 208,
+        "endChar": 42
+      },
+      "revId": "2877136bb2aee642bab90b638c133d10f59363ee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

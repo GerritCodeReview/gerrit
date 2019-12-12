@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ae685548_1e48a5ca",
+        "filename": "java/com/google/gerrit/server/git/DefaultQueueOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-12T13:09:48Z",
+      "side": 1,
+      "message": "I don\u0027t think this is accurate.\nYou cannot use this class to put (arbitrary) runnables onto the Gerrit Workqueue, but this class is a Runnable that can schedule itself on the workqueue.\n\nSince this is an abstract class I think it\u0027s also important to document what implementors of child classes are supposed to implement (in this case the run method with the logic that should be executed in the background).",
+      "revId": "f5456c8da02c9a54adecebc2d817401152f31194",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

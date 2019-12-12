@@ -16,6 +16,24 @@
       "revId": "4b04e97ca58c3034d15997a74daaf5b090f26180",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cdb2fb8a_a2fd326b",
+        "filename": "polygerrit-ui/app/lint_test.sh",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-12-12T10:41:24Z",
+      "side": 1,
+      "message": "oh never mind, it will be prevented from previous step. its only looking for `-g`.",
+      "parentUuid": "c7fd8a34_e8ca186d",
+      "revId": "4b04e97ca58c3034d15997a74daaf5b090f26180",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

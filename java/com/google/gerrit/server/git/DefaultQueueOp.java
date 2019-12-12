@@ -17,6 +17,7 @@ package com.google.gerrit.server.git;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
 
+/** Wrapper class so we can put Runnables onto the Gerrit Workqueue. */
 public abstract class DefaultQueueOp implements Runnable {
   private final WorkQueue workQueue;
 

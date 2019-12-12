@@ -2,7 +2,7 @@
 
 This step is only necessary if we need to create an unofficial JGit
 snapshot release and publish it to the
-link:https://developers.google.com/storage/[Google Cloud Storage,role=external,window=_blank].
+link:https://developers.google.com/storage/[Google Cloud Storage].
 
 [[prepare-environment]]
 == Prepare the Maven Environment

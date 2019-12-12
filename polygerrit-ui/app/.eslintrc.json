@@ -60,6 +60,8 @@
     "no-undef": "off",
     "no-useless-escape": "off",
     "no-var": "error",
+    "no-prototype-builtins": "off",
+    "no-redeclare": "off",
     "object-shorthand": ["error", "always"],
     "prefer-arrow-callback": "error",
     "prefer-const": "error",

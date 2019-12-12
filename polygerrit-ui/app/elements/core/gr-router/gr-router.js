@@ -316,7 +316,7 @@
       // Use primary weblink if configured and exists.
       if (config && config.gerrit && config.gerrit.primary_weblink_name) {
         weblink = weblinks.find(
-            weblink => weblink.name === config.gerrit.primary_weblink_name
+            weblink => weblink.name === config.gerrit.primary_weblink_name,
         );
       }
       if (!weblink) {
@@ -686,7 +686,7 @@
           url => { page.show(url); },
           this._generateUrl.bind(this),
           params => this._generateWeblinks(params),
-          x => x
+          x => x,
       );
 
       page.exit('*', (ctx, next) => {

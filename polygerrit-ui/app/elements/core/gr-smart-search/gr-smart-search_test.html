@@ -54,7 +54,7 @@ limitations under the License.
             name: 'fred',
             email: 'fred@goog.co',
           },
-        ])
+        ]),
       );
       return element._fetchAccounts('owner', 'fr').then(s => {
         assert.deepEqual(s[0], {text: 'owner:fred@goog.co', label: 'fred'});
@@ -68,7 +68,7 @@ limitations under the License.
             name: 'fred',
             email: 'fred@goog.co',
           },
-        ])
+        ]),
       );
       element._fetchAccounts('owner', 's').then(s => {
         assert.deepEqual(s[0], {text: 'owner:fred@goog.co', label: 'fred'});
@@ -85,7 +85,7 @@ limitations under the License.
             name: 'fred',
             email: 'fred@goog.co',
           },
-        ])
+        ]),
       );
       return element._fetchAccounts('owner', 'm').then(s => {
         assert.deepEqual(s[0], {text: 'owner:fred@goog.co', label: 'fred'});
@@ -101,7 +101,7 @@ limitations under the License.
           Polygerrit: 0,
           gerrit: 0,
           gerrittest: 0,
-        })
+        }),
       );
       return element._fetchGroups('ownerin', 'pol').then(s => {
         assert.deepEqual(s[0], {text: 'ownerin:Polygerrit'});
@@ -122,7 +122,7 @@ limitations under the License.
           Polygerrit: 0,
           gerrit: 0,
           gerrittest: 0,
-        })
+        }),
       );
       return element._fetchGroups('ownerin', 'gerrit').then(s => {
         assert.deepEqual(s[0], {text: 'ownerin:Polygerrit'});

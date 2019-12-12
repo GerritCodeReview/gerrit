@@ -44,7 +44,7 @@ limitations under the License.
       element = fixture('basic');
 
       loadStub = sandbox.stub(element, '_loadScript', () =>
-        new Promise(resolve => resolveLoad = resolve)
+        new Promise(resolve => resolveLoad = resolve),
       );
 
       // Assert preconditions:

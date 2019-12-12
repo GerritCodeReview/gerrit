@@ -53,7 +53,7 @@ limitations under the License.
       const showAuthErrorStub = sandbox.stub(element, '_showAuthErrorAlert');
       const responseText = Promise.resolve('server says no.');
       element.fire('server-error',
-          {response: {status: 403, text() { return responseText; }}}
+          {response: {status: 403, text() { return responseText; }}},
       );
       Promise.all([
         element.$.restAPI.getLoggedIn.lastCall.returnValue,
@@ -68,7 +68,7 @@ limitations under the License.
       const showAuthErrorStub = sandbox.stub(element, '_showAuthErrorAlert');
       const responseText = Promise.resolve('Authentication required\n');
       element.fire('server-error',
-          {response: {status: 403, text() { return responseText; }}}
+          {response: {status: 403, text() { return responseText; }}},
       );
       Promise.all([
         element.$.restAPI.getLoggedIn.lastCall.returnValue,
@@ -162,7 +162,7 @@ limitations under the License.
       const windowOpen = sandbox.stub(window, 'open');
       const responseText = Promise.resolve('Authentication required\n');
       element.fire('server-error',
-          {response: {status: 403, text() { return responseText; }}}
+          {response: {status: 403, text() { return responseText; }}},
       );
       Promise.all([
         element.$.restAPI.getLoggedIn.lastCall.returnValue,

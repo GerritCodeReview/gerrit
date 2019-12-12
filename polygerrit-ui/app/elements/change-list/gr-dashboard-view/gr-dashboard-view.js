@@ -82,7 +82,7 @@
       return this.listChangesOptionsToHex(
           this.ListChangesOption.LABELS,
           this.ListChangesOption.DETAILED_ACCOUNTS,
-          this.ListChangesOption.REVIEWED
+          this.ListChangesOption.REVIEWED,
       );
     },
 

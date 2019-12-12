@@ -225,7 +225,7 @@
     }
     if (!opt_patchNum) { return allComments; }
     return (allComments || []).filter(c =>
-      this._patchNumEquals(c.patch_set, opt_patchNum)
+      this._patchNumEquals(c.patch_set, opt_patchNum),
     );
   };
 
@@ -241,7 +241,7 @@
     const comments = this._drafts[path] || [];
     if (!opt_patchNum) { return comments; }
     return (comments || []).filter(c =>
-      this._patchNumEquals(c.patch_set, opt_patchNum)
+      this._patchNumEquals(c.patch_set, opt_patchNum),
     );
   };
 

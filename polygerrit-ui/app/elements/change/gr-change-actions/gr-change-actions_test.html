@@ -935,13 +935,13 @@ limitations under the License.
       test('unmark the private change', done => {
         flush(() => {
           assert.isOk(
-              element.$.moreActions.$$('span[data-id="private.delete-change"]')
+              element.$.moreActions.$$('span[data-id="private.delete-change"]'),
           );
           element.setActionOverflow('change', 'private.delete', false);
           flushAsynchronousOperations();
           assert.isOk(element.$$('[data-action-key="private.delete"]'));
           assert.isNotOk(
-              element.$.moreActions.$$('span[data-id="private.delete-change"]')
+              element.$.moreActions.$$('span[data-id="private.delete-change"]'),
           );
           done();
         });

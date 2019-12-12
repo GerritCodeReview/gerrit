@@ -76,7 +76,8 @@
       }, this._defaultOptions, opt_options);
       if (this._type === Gerrit.Auth.TYPE.ACCESS_TOKEN) {
         return this._getAccessToken().then(
-            accessToken => this._fetchWithAccessToken(url, options, accessToken)
+            accessToken => this._fetchWithAccessToken(
+                url, options, accessToken),
         );
       } else {
         return this._fetchWithXsrfToken(url, options);

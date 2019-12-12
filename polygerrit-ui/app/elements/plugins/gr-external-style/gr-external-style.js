@@ -50,7 +50,7 @@
 
     _importAndApply() {
       Promise.all(Gerrit._endpoints.getPlugins(this.name).map(
-          pluginUrl => this._import(pluginUrl))
+          pluginUrl => this._import(pluginUrl)),
       ).then(() => {
         const moduleNames = Gerrit._endpoints.getModules(this.name);
         for (const name of moduleNames) {

@@ -138,7 +138,7 @@ limitations under the License.
     suite('_getSearchSuggestions', () => {
       test('Autocompletes accounts', () => {
         sandbox.stub(element, 'accountSuggestions', () =>
-          Promise.resolve([{text: 'owner:fred@goog.co'}])
+          Promise.resolve([{text: 'owner:fred@goog.co'}]),
         );
         return element._getSearchSuggestions('owner:fr').then(s => {
           assert.equal(s[0].value, 'owner:fred@goog.co');
@@ -150,7 +150,7 @@ limitations under the License.
           Promise.resolve([
             {text: 'ownerin:Polygerrit'},
             {text: 'ownerin:gerrit'},
-          ])
+          ]),
         );
         element._getSearchSuggestions('ownerin:pol').then(s => {
           assert.equal(s[0].value, 'ownerin:Polygerrit');
@@ -164,7 +164,7 @@ limitations under the License.
             {text: 'project:Polygerrit'},
             {text: 'project:gerrit'},
             {text: 'project:gerrittest'},
-          ])
+          ]),
         );
         element._getSearchSuggestions('project:pol').then(s => {
           assert.equal(s[0].value, 'project:Polygerrit');

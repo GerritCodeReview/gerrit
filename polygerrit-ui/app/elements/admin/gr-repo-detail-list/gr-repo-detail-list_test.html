@@ -238,7 +238,7 @@ limitations under the License.
         sandbox.stub(element.$.restAPI, 'setRepoHead').returns(
             Promise.resolve({
               status: 400,
-            })
+            }),
         );
 
         element._setRepoHead('test', 'newRef', event).then(() => {
@@ -254,7 +254,7 @@ limitations under the License.
         sandbox.stub(element.$.restAPI, 'setRepoHead').returns(
             Promise.resolve({
               status: 200,
-            })
+            }),
         );
 
         element._setRepoHead('test', 'newRef', event).then(() => {

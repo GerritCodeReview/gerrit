@@ -1248,7 +1248,7 @@
     getChanges(opt_changesPerPage, opt_query, opt_offset, opt_options) {
       const options = opt_options || this.listChangesOptionsToHex(
           this.ListChangesOption.LABELS,
-          this.ListChangesOption.DETAILED_ACCOUNTS
+          this.ListChangesOption.DETAILED_ACCOUNTS,
       );
       // Issue 4524: respect legacy token with max sortkey.
       if (opt_offset === 'n,z') {
@@ -1353,7 +1353,7 @@
       const params = this.listChangesOptionsToHex(
           this.ListChangesOption.ALL_COMMITS,
           this.ListChangesOption.ALL_REVISIONS,
-          this.ListChangesOption.SKIP_MERGEABLE
+          this.ListChangesOption.SKIP_MERGEABLE,
       );
       return this._getChangeDetail(changeNum, params, opt_errFn,
           opt_cancelCondition);
@@ -1851,7 +1851,7 @@
     getChangeConflicts(changeNum) {
       const options = this.listChangesOptionsToHex(
           this.ListChangesOption.CURRENT_REVISION,
-          this.ListChangesOption.CURRENT_COMMIT
+          this.ListChangesOption.CURRENT_COMMIT,
       );
       const params = {
         O: options,
@@ -1867,7 +1867,7 @@
     getChangeCherryPicks(project, changeID, changeNum) {
       const options = this.listChangesOptionsToHex(
           this.ListChangesOption.CURRENT_REVISION,
-          this.ListChangesOption.CURRENT_COMMIT
+          this.ListChangesOption.CURRENT_COMMIT,
       );
       const query = [
         'project:' + project,
@@ -1891,7 +1891,7 @@
           this.ListChangesOption.LABELS,
           this.ListChangesOption.CURRENT_REVISION,
           this.ListChangesOption.CURRENT_COMMIT,
-          this.ListChangesOption.DETAILED_LABELS
+          this.ListChangesOption.DETAILED_LABELS,
       );
       const query = [
         'status:open',

@@ -90,7 +90,7 @@
         const paramName = paramEl.getAttribute('name');
         return helper.get('value').then(
             value => helper.bind('value',
-                value => plugin.attributeHelper(el).set(paramName, value))
+                value => plugin.attributeHelper(el).set(paramName, value)),
             );
       });
       let timeoutId;
@@ -139,11 +139,11 @@
       Gerrit._endpoints.onNewEndpoint(this.name, this._initModule.bind(this));
       Gerrit.awaitPluginsLoaded().then(() => Promise.all(
           Gerrit._endpoints.getPlugins(this.name).map(
-              pluginUrl => this._import(pluginUrl)))
+              pluginUrl => this._import(pluginUrl))),
       ).then(() =>
         Gerrit._endpoints
             .getDetails(this.name)
-            .forEach(this._initModule, this)
+            .forEach(this._initModule, this),
       );
     },
   });

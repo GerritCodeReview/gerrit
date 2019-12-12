@@ -1020,7 +1020,7 @@
             base: el.baseCommit ? el.baseCommit : null,
             message: el.message,
             allow_conflicts: conflicts,
-          }
+          },
       );
     },
 
@@ -1039,7 +1039,7 @@
           {
             destination_branch: el.branch,
             message: el.message,
-          }
+          },
       );
     },
 

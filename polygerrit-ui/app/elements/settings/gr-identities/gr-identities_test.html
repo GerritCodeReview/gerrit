@@ -74,7 +74,7 @@ limitations under the License.
       assert.equal(rows.length, 2);
 
       const nameCells = rows.map(row =>
-        row.querySelectorAll('td')[2].textContent
+        row.querySelectorAll('td')[2].textContent,
       );
 
       assert.equal(nameCells[0], 'gerrit:gerrit');
@@ -87,7 +87,7 @@ limitations under the License.
       assert.equal(rows.length, 2);
 
       const nameCells = rows.map(row =>
-        row.querySelectorAll('td')[1].textContent
+        row.querySelectorAll('td')[1].textContent,
       );
 
       assert.equal(nameCells[0], 'gerrit@example.com');

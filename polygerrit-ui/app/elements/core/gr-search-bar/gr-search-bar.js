@@ -190,7 +190,7 @@
         const predefinedOpOnlyQuery = SEARCH_OPERATORS_WITH_NEGATIONS.some(
             op => {
               return op.endsWith(':') && op === trimmedInput;
-            }
+            },
         );
         if (predefinedOpOnlyQuery) {
           return;

@@ -59,7 +59,7 @@ limitations under the License.
       assert.equal(rows.length, 3);
 
       const nameCells = rows.map(row =>
-        row.querySelectorAll('td')[0].textContent
+        row.querySelectorAll('td')[0].textContent,
       );
 
       assert.equal(nameCells[0], 'Agreements 1');

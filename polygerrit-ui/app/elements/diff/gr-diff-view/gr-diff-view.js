@@ -906,7 +906,7 @@
               url: this._computeDownloadFileLink(
                   project, changeNum, patchRange, leftPath, true),
               name: 'Left Content',
-            }
+            },
         );
       }
 
@@ -916,7 +916,7 @@
               url: this._computeDownloadFileLink(
                   project, changeNum, patchRange, path, false),
               name: 'Right Content',
-            }
+            },
         );
       }
 

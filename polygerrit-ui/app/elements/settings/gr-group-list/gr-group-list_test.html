@@ -76,7 +76,7 @@ limitations under the License.
       assert.equal(rows.length, 3);
 
       const nameCells = rows.map(row =>
-        row.querySelectorAll('td a')[0].textContent.trim()
+        row.querySelectorAll('td a')[0].textContent.trim(),
       );
 
       assert.equal(nameCells[0], 'Group 1');

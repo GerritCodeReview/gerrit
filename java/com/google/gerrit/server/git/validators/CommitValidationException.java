@@ -18,6 +18,11 @@ import com.google.common.collect.ImmutableList;
 import com.google.gerrit.server.validators.ValidationException;
 import java.util.List;
 
+/**
+ * Exception thrown when a Git commit fails validations. Gerrit supports a wide range of validations
+ * (for example it validates any commits pushed to NoteDb refs for format compliance or allows to
+ * enforce commit message lengths to not exceed a certain length).
+ */
 public class CommitValidationException extends ValidationException {
   private static final long serialVersionUID = 1L;
   private final ImmutableList<CommitValidationMessage> messages;
@@ -42,11 +47,12 @@ public class CommitValidationException extends ValidationException {
     this.messages = ImmutableList.of();
   }
 
+  /** Returns all validation messages individually. */
   public ImmutableList<CommitValidationMessage> getMessages() {
     return messages;
   }
 
-  /** @return the reason string along with all validation messages. */
+  /** Returns all validation as a single, formatted string. */
   public String getFullMessage() {
     StringBuilder sb = new StringBuilder(getMessage());
     if (!messages.isEmpty()) {

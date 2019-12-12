@@ -14,6 +14,10 @@
 
 package com.google.gerrit.server.git.validators;
 
+/**
+ * Message used as result of a validation that run during a git operation (for example {@code git
+ * push}. Intended to be shown to users.
+ */
 public class ValidationMessage {
   public enum Type {
     ERROR("ERROR: "),
@@ -35,24 +39,34 @@ public class ValidationMessage {
   private final String message;
   private final Type type;
 
+  /** @see ValidationMessage */
   public ValidationMessage(String message, Type type) {
     this.message = message;
     this.type = type;
   }
 
+  // TODO: Remove and move callers to ValidationMessage(String message, Type type)
   public ValidationMessage(String message, boolean isError) {
     this.message = message;
     this.type = (isError ? Type.ERROR : Type.OTHER);
   }
 
+  /** Returns the message to be shown to the user. */
   public String getMessage() {
     return message;
   }
 
+  /**
+   * Returns the {@link Type}. Used to as prefix for the message in the git CLI and to color
+   * messages.
+   */
   public Type getType() {
     return type;
   }
 
+  /**
+   * Returns {@true} if this message is an error. Used to decide if the operation should be aborted.
+   */
   public boolean isError() {
     return type == Type.ERROR;
   }

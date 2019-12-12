@@ -521,8 +521,7 @@ public class WorkQueue {
       return all.values();
     }
 
-    @Override
-    public void onStart(Task<?> task) {
+    public void waitUntilReadyToStart(Task<?> task) {
       if (listeners != null) {
         if (!isReadyToStart(task)) {
           incrementCorePoolSizeBy(1);
@@ -533,7 +532,12 @@ public class WorkQueue {
           } catch (InterruptedException e) {
           }
         }
+      }
+    }
 
+    @Override
+    public void onStart(Task<?> task) {
+      if (listeners != null) {
         for (Extension<TaskListener> e : listeners) {
           try {
             e.getProvider().get().onStart(task);
@@ -652,19 +656,22 @@ public class WorkQueue {
      *   <li>{@link #READY}: waiting for an available worker thread.
      *   <li>{@link #RUNNING}: actively executing on a worker thread.
      *   <li>{@link #DONE}: finished executing, if not periodic.
+     *   <li>{@link #PARKED}: waiting on external condition.
      * </ol>
      */
     public enum State {
       // Ordered like this so ordinal matches the order we would
       // prefer to see tasks sorted in: done before running,
-      // stopping before running, running before starting,
-      // starting before ready, ready before sleeping.
+      // stopping before running, running before parked,
+      // parked before starting, starting before ready,
+      // ready before sleeping.
       //
       DONE,
       CANCELLED,
       STOPPING,
       RUNNING,
       STARTING,
+      PARKED,
       READY,
       SLEEPING,
       OTHER
@@ -673,6 +680,7 @@ public class WorkQueue {
     private enum Running {
       RUNNING,
       STARTING,
+      PARKED,
       STOPPING
     }
 
@@ -705,6 +713,8 @@ public class WorkQueue {
         Running r = running.get();
         if (r != null) {
           switch (r) {
+            case PARKED:
+              return State.PARKED;
             case STARTING:
               return State.STARTING;
             case STOPPING:
@@ -801,9 +811,11 @@ public class WorkQueue {
 
     @Override
     public void run() {
-      if (running.compareAndSet(null, Running.STARTING)) {
+      if (running.compareAndSet(null, Running.PARKED)) {
         String oldThreadName = Thread.currentThread().getName();
         try {
+          executor.waitUntilReadyToStart(this);
+          running.set(Running.STARTING);
           executor.onStart(this);
           running.set(Running.RUNNING);
           Thread.currentThread().setName(oldThreadName + "[" + task.toString() + "]");

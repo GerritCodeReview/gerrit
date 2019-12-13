@@ -120,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "d0ce08c4_d9941343",
+        "filename": "java/com/google/gerrit/server/fixes/FixReplacementInterpreter.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-12-13T14:20:01Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "21840292_61e06f11",
+      "range": {
+        "startLine": 56,
+        "startChar": 50,
+        "endLine": 56,
+        "endChar": 83
+      },
+      "revId": "acfd9e0ea73288676e2b635605f26f08c3b4a78b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d07444b7_922c4155",
         "filename": "java/com/google/gerrit/server/fixes/FixReplacementInterpreter.java",
         "patchSetId": 13

@@ -1,0 +1,251 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dcaee108_30f51c1a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-12-13T12:54:23Z",
+      "side": 1,
+      "message": "is\n\nReason: Present tense is used to describe what is done inside of a commit/change.",
+      "range": {
+        "startLine": 10,
+        "startChar": 37,
+        "endLine": 10,
+        "endChar": 40
+      },
+      "revId": "bfe3dc1f4fd81e7c8cae18bf81d72a1f63227667",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "60e78e97_481e86bc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-12-13T12:54:23Z",
+      "side": 1,
+      "message": "is",
+      "range": {
+        "startLine": 11,
+        "startChar": 56,
+        "endLine": 11,
+        "endChar": 59
+      },
+      "revId": "bfe3dc1f4fd81e7c8cae18bf81d72a1f63227667",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "102ff83d_de96f6df",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-12-13T12:54:23Z",
+      "side": 1,
+      "message": "are",
+      "range": {
+        "startLine": 12,
+        "startChar": 50,
+        "endLine": 12,
+        "endChar": 54
+      },
+      "revId": "bfe3dc1f4fd81e7c8cae18bf81d72a1f63227667",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9629a4f2_71f6a936",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-12-13T12:54:23Z",
+      "side": 1,
+      "message": "Typo",
+      "range": {
+        "startLine": 12,
+        "startChar": 27,
+        "endLine": 12,
+        "endChar": 35
+      },
+      "revId": "bfe3dc1f4fd81e7c8cae18bf81d72a1f63227667",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5b28798f_da7d75c5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-12-13T12:54:23Z",
+      "side": 1,
+      "message": "Remove",
+      "range": {
+        "startLine": 14,
+        "startChar": 3,
+        "endLine": 14,
+        "endChar": 10
+      },
+      "revId": "bfe3dc1f4fd81e7c8cae18bf81d72a1f63227667",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f80cd70c_af6a90c3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-12-13T12:54:23Z",
+      "side": 1,
+      "message": "4",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 1
+      },
+      "revId": "bfe3dc1f4fd81e7c8cae18bf81d72a1f63227667",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6a68249d_44633045",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-12-13T12:54:23Z",
+      "side": 1,
+      "message": "\"5) Remove dead code for the unused \u0027hugeFile\u0027 parameter\"",
+      "revId": "bfe3dc1f4fd81e7c8cae18bf81d72a1f63227667",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cbf55999_55f23581",
+        "filename": "java/com/google/gerrit/server/patch/DiffContentCalculator.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-12-13T12:54:23Z",
+      "side": 1,
+      "message": "FYI: This could be an unordered html list for better formatting.",
+      "range": {
+        "startLine": 48,
+        "startChar": 93,
+        "endLine": 51,
+        "endChar": 94
+      },
+      "revId": "bfe3dc1f4fd81e7c8cae18bf81d72a1f63227667",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fd775244_3b11d850",
+        "filename": "java/com/google/gerrit/server/patch/DiffContentCalculator.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-12-13T12:54:23Z",
+      "side": 1,
+      "message": "Nit: Unnecessary \u0027else\u0027.",
+      "range": {
+        "startLine": 77,
+        "startChar": 6,
+        "endLine": 77,
+        "endChar": 10
+      },
+      "revId": "bfe3dc1f4fd81e7c8cae18bf81d72a1f63227667",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "161885f3_398c866f",
+        "filename": "java/com/google/gerrit/server/patch/PatchScriptBuilder.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-12-13T12:54:23Z",
+      "side": 1,
+      "message": "Optional as already present before this change: \u0027comments\u0027 and \u0027history\u0027 should be annotated as being nullable with the com.google.gerrit.common.Nullable annotation. This should also be done for all methods to which they are passed.",
+      "range": {
+        "startLine": 72,
+        "startChar": 14,
+        "endLine": 72,
+        "endChar": 27
+      },
+      "revId": "bfe3dc1f4fd81e7c8cae18bf81d72a1f63227667",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "62777321_e1ca6a49",
+        "filename": "java/com/google/gerrit/server/patch/PatchScriptFactory.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 397,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-12-13T12:54:23Z",
+      "side": 1,
+      "message": "Fields of a class should be above the constructor.",
+      "range": {
+        "startLine": 397,
+        "startChar": 4,
+        "endLine": 397,
+        "endChar": 35
+      },
+      "revId": "bfe3dc1f4fd81e7c8cae18bf81d72a1f63227667",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

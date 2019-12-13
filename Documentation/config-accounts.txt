@@ -320,6 +320,20 @@ The note content is a Git config file:
   password = bcrypt:4:LCbmSBDivK/hhGVQMfkDpA==:XcWn0pKYSVU/UJgOvhidkEtmqCp6oKB7
 ----
 
+Once SHA1 of an external ID is known the following command can be used to
+show the content of the note:
+
+----
+$ echo -n 'gerrit:jdoe' | shasum
+7c2a55657d911109dbc930836e7a770fb946e8ef  -
+
+$ git show refs/meta/external-ids:7c/2a55657d911109dbc930836e7a770fb946e8ef
+[externalId "username:jdoe"]
+  accountId = 1003407
+  email = jdoe@example.com
+  password = bcrypt:4:LCbmSBDivK/hhGVQMfkDpA==:XcWn0pKYSVU/UJgOvhidkEtmqCp6oKB7
+----
+
 The config file has one `externalId` section. The external ID key, which
 consists of scheme and ID in the format '<scheme>:<id>', is used as
 subsection name.

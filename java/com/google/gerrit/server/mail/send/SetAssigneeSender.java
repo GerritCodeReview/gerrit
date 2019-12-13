@@ -22,6 +22,7 @@ import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
+/** Sender that informs a user by email that they were set as assignee on a change. */
 public class SetAssigneeSender extends ChangeEmail {
   public interface Factory {
     SetAssigneeSender create(Project.NameKey project, Change.Id changeId, Account.Id assignee);

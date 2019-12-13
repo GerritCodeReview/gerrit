@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "36c3dc94_853e6eea",
+        "filename": "java/com/google/gerrit/server/git/validators/AccountValidator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-13T10:36:57Z",
+      "side": 1,
+      "message": "that is",
+      "range": {
+        "startLine": 40,
+        "startChar": 13,
+        "endLine": 40,
+        "endChar": 15
+      },
+      "revId": "a1a581a6b748f73feb407e1f8ca79c04acec957b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ffbd857e_afb29749",
+        "filename": "java/com/google/gerrit/server/git/validators/CommitValidationException.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-13T10:36:57Z",
+      "side": 1,
+      "message": "better: \"allows to enforce\"\n\nIt\u0027s not really the user aka developer who enforces the commit message length, but rather the project owner or admin.",
+      "range": {
+        "startLine": 23,
+        "startChar": 88,
+        "endLine": 24,
+        "endChar": 11
+      },
+      "revId": "a1a581a6b748f73feb407e1f8ca79c04acec957b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

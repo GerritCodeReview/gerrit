@@ -1,3 +1,4 @@
+:linkattrs:
 = Gerrit Code Review - Configuration
 
 == File `etc/gerrit.config`

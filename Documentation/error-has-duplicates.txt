@@ -1,3 +1,4 @@
+:linkattrs:
 = ... has duplicates
 
 With this error message Gerrit rejects to push a commit if its commit

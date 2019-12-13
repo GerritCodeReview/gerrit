@@ -1,3 +1,4 @@
+:linkattrs:
 = Gerrit Code Review - REST API
 
 Gerrit Code Review comes with a REST like API available over HTTP.

@@ -1,3 +1,4 @@
+:linkattrs:
 = Gerrit Code Review - Starter Projects
 
 We have created a

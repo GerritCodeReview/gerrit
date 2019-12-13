@@ -1,3 +1,4 @@
+:linkattrs:
 = Gerrit Code Review - /changes/ REST API
 
 This page describes the change related REST endpoints.

@@ -1,3 +1,4 @@
+:linkattrs:
 = Gerrit Code Review - /accounts/ REST API
 
 This page describes the account related REST endpoints.

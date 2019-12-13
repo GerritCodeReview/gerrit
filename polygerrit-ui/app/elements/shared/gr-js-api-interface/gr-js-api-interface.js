@@ -253,44 +253,15 @@
      * Retrieves coverage data possibly provided by a plugin.
      *
      * Will wait for plugins to be loaded. If multiple plugins offer a coverage
-     * provider, the first one is used. If no plugin offers a coverage provider,
-     * will resolve to [].
+     * provider, the first one is returned. If no plugin offers a coverage provider,
+     * will resolve to null.
      *
-     * @param {string|number} changeNum
-     * @param {string} path
-     * @param {string|number} basePatchNum
-     * @param {string|number} patchNum
-     * @return {!Promise<!Array<!Gerrit.CoverageRange>>}
+     * @return {!Promise<?GrAnnotationActionsInterface>}
      */
-    getCoverageRanges(changeNum, path, basePatchNum, patchNum) {
-      return Gerrit.awaitPluginsLoaded().then(() => {
-        for (const annotationApi of
-          this._getEventCallbacks(EventType.ANNOTATE_DIFF)) {
-          const provider = annotationApi.getCoverageProvider();
-          // Only one coverage provider makes sense. If there are more, then we
-          // simply ignore them.
-          if (provider) {
-            return annotationApi;
-          }
-        }
-        return null;
-      }).then(annotationApi => {
-        if (!annotationApi) return [];
-        const provider = annotationApi.getCoverageProvider();
-        return provider(changeNum, path, basePatchNum, patchNum)
-            .then(ranges => {
-              ranges = ranges || [];
-              // Notify with the coverage data.
-              ranges.forEach(range => {
-                annotationApi.notify(
-                    path,
-                    range.code_range.start_line,
-                    range.code_range.end_line,
-                    range.side);
-              });
-              return ranges;
-            });
-      });
+    getCoverageAnnotationApi() {
+      return Gerrit.awaitPluginsLoaded()
+          .then(() => this._getEventCallbacks(EventType.ANNOTATE_DIFF)
+              .find(api => api.getCoverageProvider()));
     }
 
     getAdminMenuLinks() {

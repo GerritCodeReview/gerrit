@@ -16,6 +16,7 @@ package com.google.gerrit.server.git.validators;
 
 import org.eclipse.jgit.transport.ServiceMayNotContinueException;
 
+/** Exception to be thrown when an {@link UploadValidationListener} fails. */
 public class UploadValidationException extends ServiceMayNotContinueException {
 
   private static final long serialVersionUID = 1L;

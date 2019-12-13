@@ -16,6 +16,24 @@
       "revId": "a982c62939fb4609435ae6c81857343a57938821",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4391dc12_ba3e2b11",
+        "filename": "polygerrit-ui/app/lint_test.sh",
+        "patchSetId": 7
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-12-13T10:34:51Z",
+      "side": 1,
+      "message": "good point, replaced with absolute path from this file",
+      "parentUuid": "2092de5f_8ee8cbac",
+      "revId": "a982c62939fb4609435ae6c81857343a57938821",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

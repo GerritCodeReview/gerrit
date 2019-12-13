@@ -42,6 +42,24 @@
     },
     {
       "key": {
+        "uuid": "058a5525_a03df034",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-js-api-interface.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-12-13T13:03:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ef9ed276_8eb17348",
+      "revId": "fb296a61fe01fb420c5379098e9b975985182c2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ac6d474a_74dec4d3",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-js-api-interface.js",
         "patchSetId": 1
@@ -65,6 +83,30 @@
     },
     {
       "key": {
+        "uuid": "6893f658_25ccbee0",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-js-api-interface.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-12-13T13:03:23Z",
+      "side": 1,
+      "message": "since moved to diff-host, i can just notify update on existing coverage ranges instead.\n\nthe MAX_SAFE_INTEGER may hurt performance",
+      "parentUuid": "ac6d474a_74dec4d3",
+      "range": {
+        "startLine": 286,
+        "startChar": 6,
+        "endLine": 286,
+        "endChar": 20
+      },
+      "revId": "fb296a61fe01fb420c5379098e9b975985182c2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "89acbfc3_1c10c3b4",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-js-api-interface.js",
         "patchSetId": 1
@@ -85,6 +127,30 @@
       "revId": "fb296a61fe01fb420c5379098e9b975985182c2a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5d0ae8cf_ac05bea1",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-js-api-interface.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-12-13T13:03:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "89acbfc3_1c10c3b4",
+      "range": {
+        "startLine": 286,
+        "startChar": 4,
+        "endLine": 291,
+        "endChar": 25
+      },
+      "revId": "fb296a61fe01fb420c5379098e9b975985182c2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

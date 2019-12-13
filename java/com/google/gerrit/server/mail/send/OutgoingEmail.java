@@ -52,6 +52,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.StringJoiner;
 import org.apache.james.mime4j.dom.field.FieldName;
+import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.util.SystemReader;
 
 /** Sends an email to one or more interested parties. */
@@ -256,7 +257,7 @@ public abstract class OutgoingEmail {
   protected void init() throws EmailException {
     setupSoyContext();
 
-    smtpFromAddress = args.fromAddressGenerator.from(fromId);
+    smtpFromAddress = args.fromAddressGenerator.get().from(fromId);
     setHeader(FieldName.DATE, new Date());
     headers.put(FieldName.FROM, new EmailHeader.AddressList(smtpFromAddress));
     headers.put(FieldName.TO, new EmailHeader.AddressList());
@@ -273,7 +274,7 @@ public abstract class OutgoingEmail {
     textBody = new StringBuilder();
     htmlBody = new StringBuilder();
 
-    if (fromId != null && args.fromAddressGenerator.isGenericAddress(fromId)) {
+    if (fromId != null && args.fromAddressGenerator.get().isGenericAddress(fromId)) {
       appendText(getFromLine());
     }
   }
@@ -353,7 +354,7 @@ public abstract class OutgoingEmail {
   /** Lookup a human readable name for an account, usually the "full name". */
   protected String getNameFor(@Nullable Account.Id accountId) {
     if (accountId == null) {
-      return args.gerritPersonIdent.getName();
+      return args.gerritPersonIdent.get().getName();
     }
 
     Optional<Account> account = args.accountCache.get(accountId).map(AccountState::account);
@@ -379,10 +380,8 @@ public abstract class OutgoingEmail {
    */
   protected String getNameEmailFor(@Nullable Account.Id accountId) {
     if (accountId == null) {
-      return args.gerritPersonIdent.getName()
-          + " <"
-          + args.gerritPersonIdent.getEmailAddress()
-          + ">";
+      PersonIdent gerritIdent = args.gerritPersonIdent.get();
+      return gerritIdent.getName() + " <" + gerritIdent.getEmailAddress() + ">";
     }
 
     Optional<Account> account = args.accountCache.get(accountId).map(AccountState::account);
@@ -591,7 +590,10 @@ public abstract class OutgoingEmail {
 
   /** Configures a soy renderer for the given template name and rendering data map. */
   private SoySauce.Renderer configureRenderer(String templateName) {
-    return args.soySauce.renderTemplate(SOY_TEMPLATE_NAMESPACE + templateName).setData(soyContext);
+    return args.soySauce
+        .get()
+        .renderTemplate(SOY_TEMPLATE_NAMESPACE + templateName)
+        .setData(soyContext);
   }
 
   protected void removeUser(Account user) {

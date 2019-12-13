@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ec4f95ae_0d38d36a",
+        "filename": "Documentation/config-accounts.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 299,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-13T11:24:30Z",
+      "side": 1,
+      "message": "nit: the SHA1",
+      "range": {
+        "startLine": 299,
+        "startChar": 40,
+        "endLine": 299,
+        "endChar": 44
+      },
+      "revId": "bb6b7520f48e76b3453cac813530fb45c8c8687c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

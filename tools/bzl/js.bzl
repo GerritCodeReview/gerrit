@@ -363,6 +363,7 @@ def _bundle_impl(ctx):
             "python",
             ctx.file._run_npm.path,
             ctx.file._crisper_archive.path,
+            "--script-in-head=false",
             "--always-write-script",
             "--source",
             bundled.path,

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c2740eff_44575c42",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-12-13T10:54:40Z",
+      "side": 1,
+      "message": "It broke the request cleanup mechanism, not the protocol",
+      "revId": "b2d6e5f77f951eb0b692233777d5af2a225bc18e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,3 +1,4 @@
+:linkattrs:
 = Gerrit Code Review - Contributor License Agreement
 
 In order to link::dev-community.html#how-to-contribute[contribute] to

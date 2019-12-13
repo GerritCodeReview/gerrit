@@ -1,3 +1,4 @@
+:linkattrs:
 = Gerrit Code Review - Hooks
 
 Gerrit does not run any of the standard git hooks in the repositories

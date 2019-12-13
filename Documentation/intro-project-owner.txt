@@ -1,3 +1,4 @@
+:linkattrs:
 = Project Owner Guide
 
 This is a Gerrit guide that is dedicated to project owners. It

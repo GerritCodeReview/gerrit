@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher F41A2656 1576232243 +0100\nnonce AC6AUtPKgUm3oC703BgBmgrweK9Ic+5mOZLlSJbQHMQovv5sIevoRm9gHnjg2u9aYDQsmR4ihOz0\n\n0000000000000000000000000000000000000000 c5f7f320031304577364e52055234f98ffd3a19e refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJd82UzAAoJEHFVO370GiZWZagH/jFLCkRXIG72CuCJaNEY6Qcv\nVbQcXmryOpMf3ng1FY5/5fnFf6eUhQZMNb0bjMlVx1U/oJWlXePNUWrpBEgZacRm\nztXkytg0d/eYorrYg3O5g+7/cOUFvP1E89goHRtIguQBlgnTZW/22qMmyEzd4TY1\n8srZAkUkd+YYVmoLorz+XXBs/r1CwZBtBK9snoQ6oGiiW5Te17qa+t//uxshOdHW\ne9r/Ou78VLbH5iuaWNmXQCrYbuN4OwPneYCRf04nRCZ1ayggQjLEhThVkATFZSLl\nxAiyeRcWLtJuQ45g+7gBShlf/KFeKZPZVw5kH9cwP79v2bUz1XmVK2oJg8OwkqE\u003d\n\u003dAc92\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "05bcb124_72c8575a",
+        "filename": "java/com/google/gerrit/server/mail/send/RegisterNewEmailSender.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-12-13T10:50:14Z",
+      "side": 1,
+      "message": "maybe: email address?\n\nmail/email etc get confusing otherwise",
+      "range": {
+        "startLine": 27,
+        "startChar": 72,
+        "endLine": 27,
+        "endChar": 77
+      },
+      "revId": "c5f7f320031304577364e52055234f98ffd3a19e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

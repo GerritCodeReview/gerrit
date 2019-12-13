@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8d400a38_38efbb6e",
+        "filename": "java/com/google/gerrit/server/project/GroupList.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-13T09:50:56Z",
+      "side": 1,
+      "message": "nit: missing trailing \u0027.\u0027",
+      "range": {
+        "startLine": 32,
+        "startChar": 30,
+        "endLine": 32,
+        "endChar": 37
+      },
+      "revId": "d473bedbfd5086ebd3048819b64e01e0b25c81be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cb6d6a41_1ca4ea56",
+        "filename": "java/com/google/gerrit/server/project/GroupList.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-13T09:50:56Z",
+      "side": 1,
+      "message": "This sounds like it\u0027s something optional, but setting an alias or local name is required for all groups to which permissions on the project are assigned. Maybe it should also be mentioned that these aliases are only used for ACLs?",
+      "range": {
+        "startLine": 34,
+        "startChar": 6,
+        "endLine": 34,
+        "endChar": 56
+      },
+      "revId": "d473bedbfd5086ebd3048819b64e01e0b25c81be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

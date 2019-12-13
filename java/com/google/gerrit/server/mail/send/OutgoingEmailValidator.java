@@ -24,6 +24,13 @@ import org.apache.commons.validator.routines.DomainValidator;
 import org.apache.commons.validator.routines.EmailValidator;
 import org.eclipse.jgit.lib.Config;
 
+/**
+ * Validator that checks if an email address is valid and allowed for receiving notification emails.
+ *
+ * <p>An email address is valid if it is syntactically correct.
+ *
+ * <p>An email address is allowed if its top level domain is allowed by Gerrit's configuration.
+ */
 @Singleton
 public class OutgoingEmailValidator {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();

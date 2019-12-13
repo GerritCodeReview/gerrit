@@ -1,4 +1,28 @@
 {
   "pushCert": "certificate version 0.1\npusher F41A2656 1576239925 +0100\nnonce AC6AUtMNUwKjLAFj/gxNGZnvpSA06Fl2lolOrMiFZQPpguXQ5b60NdWgf0HMBffQillSNh+W/iRC\n\n0000000000000000000000000000000000000000 37f9748ca5d9fa5c86d67402a1aed960a828cb75 refs/for/master\n-----BEGIN PGP SIGNATURE-----\nVersion: GnuPG v1\n\niQEcBAABAgAGBQJd84M1AAoJEHFVO370GiZW9vIH/AtAZBM6IJoaMbE49nmMhzat\nc+ah5kXTbo3ZQPGzsqDCqlM32vRJT2ipl1m2y4Sswuf5inISHV5v9auW74gK4WhE\nYI14uDciACEBwGsJxppj89VHvvZKA0c0qNg+u6tBQoeYGg6WKM8Y5nieE5TldOZc\n4wtd7nzjtFVJLnn33BUUe2XRUTLoe0SLxQEEIINMAkMcA3ApjvQqIKIYCmmg0LdX\nh8rZXeHVKvd63eE46xPtkxx72LUIefrxc8nNV5iZNZd//nrp+INk0CQrpyyVOFPS\nVsBsm3w91IuXR4oG8oBdItq3abWoeAE1E+WK6mkLvJzfcefgRIObBiS61bCNmPY\u003d\n\u003d58zV\n-----END PGP SIGNATURE-----\n",
-  "comments": []
+  "comments": [
+    {
+      "key": {
+        "uuid": "113708d1_35ec5265",
+        "filename": "java/com/google/gerrit/server/mail/send/EmailArguments.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2019-12-13T14:16:50Z",
+      "side": 1,
+      "message": "Holding PersonIdent in singletons is discouraged because PersonIdent contains a timestamp from when it was created. It\u0027s not a problem here because we don\u0027t use the time stamp, but for good practice, I\u0027d avoid it anyway by using a provider or storing an Address instead.",
+      "range": {
+        "startLine": 83,
+        "startChar": 0,
+        "endLine": 83,
+        "endChar": 38
+      },
+      "revId": "37f9748ca5d9fa5c86d67402a1aed960a828cb75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
 }

@@ -62,6 +62,13 @@ import java.util.List;
 import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
+/**
+ * REST endpoint for creating a new account.
+ *
+ * <p>This REST endpoint handles {@code PUT /accounts/<account-identifier>} requests if the
+ * specified account doesn't exist yet. If it already exists, the request is handled by {@link
+ * PutAccount}.
+ */
 @RequiresCapability(GlobalCapability.CREATE_ACCOUNT)
 @Singleton
 public class CreateAccount

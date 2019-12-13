@@ -22,6 +22,23 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.inject.Singleton;
 
+/**
+ * REST endpoint for updating an existing account.
+ *
+ * <p>This REST endpoint handles {@code PUT /accounts/<account-identifier>} requests if the
+ * specified account already exists. If it doesn't exist yet, the request is handled by {@link
+ * CreateAccount}.
+ *
+ * <p>We do not support account updates via this path, hence this REST endpoint always throws a
+ * {@link ResourceConflictException} which results in a {@code 409 Conflict} response. Account
+ * properties can only be updated via the dedicated REST endpoints that serve {@code PUT} requests
+ * on {@code /accounts/<account-identifier>/<account-view>}.
+ *
+ * <p>This REST endpoint solely exists to avoid user confusion if they create a new account with
+ * {@code PUT /accounts/<account-identifier>} and then repeat the same request. Without this REST
+ * endpoint the second request would fail with {@code 404 Not Found}, which would be surprising to
+ * the user.
+ */
 @Singleton
 public class PutAccount implements RestModifyView<AccountResource, AccountInput> {
   @Override

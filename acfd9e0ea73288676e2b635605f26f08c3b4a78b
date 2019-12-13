@@ -542,6 +542,30 @@
       "revId": "acfd9e0ea73288676e2b635605f26f08c3b4a78b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "840856e2_dd783c1c",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 1002,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-12-13T17:18:47Z",
+      "side": 1,
+      "message": "There are some additional tests I would like to see, which are not completely covered by the unit tests or other diff tests. Commented here: https://gerrit-review.googlesource.com/c/gerrit/+/239854/44/javatests/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java#980\n\nMarking this as fixed now.",
+      "parentUuid": "d53ffb0f_e21b1c42",
+      "range": {
+        "startLine": 994,
+        "startChar": 3,
+        "endLine": 1002,
+        "endChar": 35
+      },
+      "revId": "acfd9e0ea73288676e2b635605f26f08c3b4a78b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9808b64e_396ff6ea",
+        "filename": "polygerrit-ui/app/lint_test.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-12-13T09:32:11Z",
+      "side": 1,
+      "message": "Maybe add a comment here that \"npm link\" allows the global eslint package to be used locally.",
+      "revId": "d8933253a8a22126157b3d3a050c5f0445826b7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

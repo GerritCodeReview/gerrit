@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "80b36bb0_f797b1f3",
+        "filename": "java/com/google/gerrit/server/git/GitRepositoryManagerModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-13T09:55:46Z",
+      "side": 1,
+      "message": "Better say that it installs a GitRepositoryManager, which is either LocalDiskRepositoryManager or MultiBaseLocalDiskRepositoryManager. Otherwise this comment sounds like this is a noop if MultiBaseLocalDiskRepositoryManager is not needed.",
+      "range": {
+        "startLine": 22,
+        "startChar": 57,
+        "endLine": 22,
+        "endChar": 92
+      },
+      "revId": "aa7a58f9deabd0c8f70bdbcd8a9b1ab786627c56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8e60b7db_cc5e38dc",
+        "filename": "java/com/google/gerrit/server/git/GitRepositoryManagerModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-13T09:55:46Z",
+      "side": 1,
+      "message": "nit: The qualified package name in @link is only needed if this class is not already imported.",
+      "range": {
+        "startLine": 22,
+        "startChar": 28,
+        "endLine": 22,
+        "endChar": 57
+      },
+      "revId": "aa7a58f9deabd0c8f70bdbcd8a9b1ab786627c56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

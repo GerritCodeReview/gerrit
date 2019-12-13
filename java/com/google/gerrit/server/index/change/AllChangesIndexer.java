@@ -123,7 +123,7 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
         projectsFailed++;
         if (projectsFailed > projects.size() / 2) {
           logger.atSevere().log("Over 50%% of the projects could not be collected: aborted");
-          return new Result(sw, false, 0, 0);
+          return Result.create(sw, false, 0, 0);
         }
       }
       pm.update(1);
@@ -192,7 +192,7 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
           nFailed, nTotal, Math.round(pctFailed));
       ok.set(false);
     }
-    return new Result(sw, ok.get(), nDone, nFailed);
+    return Result.create(sw, ok.get(), nDone, nFailed);
   }
 
   public Callable<Void> reindexProject(

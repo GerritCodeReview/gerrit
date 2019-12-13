@@ -71,7 +71,7 @@ public class AllAccountsIndexer extends SiteIndexer<Account.Id, AccountState, Ac
       ids = collectAccounts(progress);
     } catch (IOException e) {
       logger.atSevere().withCause(e).log("Error collecting accounts");
-      return new SiteIndexer.Result(sw, false, 0, 0);
+      return SiteIndexer.Result.create(sw, false, 0, 0);
     }
     return reindexAccounts(index, ids, progress);
   }
@@ -113,11 +113,11 @@ public class AllAccountsIndexer extends SiteIndexer<Account.Id, AccountState, Ac
       Futures.successfulAsList(futures).get();
     } catch (ExecutionException | InterruptedException e) {
       logger.atSevere().withCause(e).log("Error waiting on account futures");
-      return new SiteIndexer.Result(sw, false, 0, 0);
+      return SiteIndexer.Result.create(sw, false, 0, 0);
     }
 
     progress.endTask();
-    return new SiteIndexer.Result(sw, ok.get(), done.get(), failed.get());
+    return SiteIndexer.Result.create(sw, ok.get(), done.get(), failed.get());
   }
 
   private List<Account.Id> collectAccounts(ProgressMonitor progress) throws IOException {

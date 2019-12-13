@@ -95,11 +95,11 @@ public class AllProjectsIndexer extends SiteIndexer<Project.NameKey, ProjectData
       Futures.successfulAsList(futures).get();
     } catch (ExecutionException | InterruptedException e) {
       logger.atSevere().withCause(e).log("Error waiting on project futures");
-      return new SiteIndexer.Result(sw, false, 0, 0);
+      return SiteIndexer.Result.create(sw, false, 0, 0);
     }
 
     progress.endTask();
-    return new SiteIndexer.Result(sw, ok.get(), done.get(), failed.get());
+    return SiteIndexer.Result.create(sw, ok.get(), done.get(), failed.get());
   }
 
   private List<Project.NameKey> collectProjects(ProgressMonitor progress) {

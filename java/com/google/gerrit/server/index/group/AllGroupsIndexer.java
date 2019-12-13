@@ -75,7 +75,7 @@ public class AllGroupsIndexer extends SiteIndexer<AccountGroup.UUID, InternalGro
       uuids = collectGroups(progress);
     } catch (IOException | ConfigInvalidException e) {
       logger.atSevere().withCause(e).log("Error collecting groups");
-      return new SiteIndexer.Result(sw, false, 0, 0);
+      return SiteIndexer.Result.create(sw, false, 0, 0);
     }
     return reindexGroups(index, uuids, progress);
   }
@@ -121,11 +121,11 @@ public class AllGroupsIndexer extends SiteIndexer<AccountGroup.UUID, InternalGro
       Futures.successfulAsList(futures).get();
     } catch (ExecutionException | InterruptedException e) {
       logger.atSevere().withCause(e).log("Error waiting on group futures");
-      return new SiteIndexer.Result(sw, false, 0, 0);
+      return SiteIndexer.Result.create(sw, false, 0, 0);
     }
 
     progress.endTask();
-    return new SiteIndexer.Result(sw, ok.get(), done.get(), failed.get());
+    return SiteIndexer.Result.create(sw, ok.get(), done.get(), failed.get());
   }
 
   private List<AccountGroup.UUID> collectGroups(ProgressMonitor progress)

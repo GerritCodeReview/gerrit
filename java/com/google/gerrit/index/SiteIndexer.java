@@ -17,6 +17,7 @@ package com.google.gerrit.index;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Objects.requireNonNull;
 
+import com.google.auto.value.AutoValue;
 import com.google.common.base.Stopwatch;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.util.concurrent.ListenableFuture;
@@ -36,33 +37,23 @@ public abstract class SiteIndexer<K, V, I extends Index<K, V>> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   /** Result of an operation to index a subset or all of the entities of a given type. */
-  public static class Result {
-    private final long elapsedNanos;
-    private final boolean success;
-    private final int done;
-    private final int failed;
+  @AutoValue
+  public abstract static class Result {
+    public abstract long elapsedNanos();
 
-    public Result(Stopwatch sw, boolean success, int done, int failed) {
-      this.elapsedNanos = sw.elapsed(TimeUnit.NANOSECONDS);
-      this.success = success;
-      this.done = done;
-      this.failed = failed;
-    }
+    public abstract boolean success();
 
-    public boolean success() {
-      return success;
-    }
+    public abstract int doneCount();
 
-    public int doneCount() {
-      return done;
-    }
+    public abstract int failedCount();
 
-    public int failedCount() {
-      return failed;
+    public static Result create(Stopwatch sw, boolean success, int done, int failed) {
+      return new AutoValue_SiteIndexer_Result(
+          sw.elapsed(TimeUnit.NANOSECONDS), success, done, failed);
     }
 
     public long elapsed(TimeUnit timeUnit) {
-      return timeUnit.convert(elapsedNanos, TimeUnit.NANOSECONDS);
+      return timeUnit.convert(elapsedNanos(), TimeUnit.NANOSECONDS);
     }
   }
 

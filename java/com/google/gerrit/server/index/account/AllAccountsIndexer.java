@@ -39,6 +39,10 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.TextProgressMonitor;
 
+/**
+ * Implementation that can index all accounts on a host. Used by Gerrit's initialization and upgrade
+ * programs as well as by REST API endpoints that offer this functionality.
+ */
 @Singleton
 public class AllAccountsIndexer extends SiteIndexer<Account.Id, AccountState, AccountIndex> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();

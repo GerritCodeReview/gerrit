@@ -22,6 +22,7 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.FS;
 
+/** Status to decide if a specific index (e.g. change) is initialized and ready for use. */
 public class GerritIndexStatus {
   private static final String SECTION = "index";
   private static final String KEY_READY = "ready";

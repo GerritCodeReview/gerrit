@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.index;
 
+/** Exception to be thrown when attempting to start a second reindex job. */
 public class ReindexerAlreadyRunningException extends Exception {
 
   private static final long serialVersionUID = 1L;

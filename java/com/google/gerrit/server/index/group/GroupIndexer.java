@@ -16,6 +16,7 @@ package com.google.gerrit.server.index.group;
 
 import com.google.gerrit.entities.AccountGroup;
 
+/** Interface for indexing an internal Gerrit group. */
 public interface GroupIndexer {
 
   /**

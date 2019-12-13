@@ -20,6 +20,7 @@ import com.google.gerrit.index.IndexCollection;
 import com.google.gerrit.server.group.InternalGroup;
 import com.google.inject.Singleton;
 
+/** Collection of active group indices. See {@link IndexCollection} for detail collections. */
 @Singleton
 public class GroupIndexCollection
     extends IndexCollection<AccountGroup.UUID, InternalGroup, GroupIndex> {

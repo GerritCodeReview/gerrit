@@ -35,8 +35,6 @@ import org.eclipse.jgit.lib.Repository;
  *
  * <p>An index document is considered stale if the stored SHA1 differs from the HEAD SHA1 of the
  * groups branch.
- *
- * <p>Note: This only applies to NoteDb.
  */
 @Singleton
 public class StalenessChecker {

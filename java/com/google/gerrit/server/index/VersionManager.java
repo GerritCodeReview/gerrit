@@ -37,6 +37,7 @@ import java.util.TreeMap;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 
+/** Trigger for online reindexing in case the index version in use is not the latest. */
 public abstract class VersionManager implements LifecycleListener {
   public static boolean getOnlineUpgrade(Config cfg) {
     return cfg.getBoolean("index", null, "onlineUpgrade", true);

@@ -43,6 +43,10 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.TextProgressMonitor;
 
+/**
+ * Implementation that can index all groups on a host. Used by Gerrit's initialization and upgrade
+ * programs as well as by REST API endpoints that offer this functionality.
+ */
 @Singleton
 public class AllGroupsIndexer extends SiteIndexer<AccountGroup.UUID, InternalGroup, GroupIndex> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();

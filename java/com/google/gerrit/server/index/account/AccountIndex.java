@@ -21,9 +21,12 @@ import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.query.account.AccountPredicates;
 
+/**
+ * Index for Gerrit accounts. This class is mainly used for typing the generic parent that contains
+ * actual implementations.
+ */
 public interface AccountIndex extends Index<Account.Id, AccountState> {
-  public interface Factory
-      extends IndexDefinition.IndexFactory<Account.Id, AccountState, AccountIndex> {}
+  interface Factory extends IndexDefinition.IndexFactory<Account.Id, AccountState, AccountIndex> {}
 
   @Override
   default Predicate<AccountState> keyPredicate(Account.Id id) {

@@ -21,8 +21,12 @@ import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.query.group.GroupPredicates;
 
+/**
+ * Index for internal Gerrit groups. This class is mainly used for typing the generic parent that
+ * contains actual implementations.
+ */
 public interface GroupIndex extends Index<AccountGroup.UUID, InternalGroup> {
-  public interface Factory
+  interface Factory
       extends IndexDefinition.IndexFactory<AccountGroup.UUID, InternalGroup, GroupIndex> {}
 
   @Override

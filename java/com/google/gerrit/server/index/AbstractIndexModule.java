@@ -28,6 +28,10 @@ import com.google.inject.assistedinject.FactoryModuleBuilder;
 import java.util.Map;
 import org.eclipse.jgit.lib.Config;
 
+/**
+ * Base class to establish implementation-independent index bindings. To be subclassed by concrete
+ * index implementations, such as {@link com.google.gerrit.lucene.LuceneIndexModule}.
+ */
 public abstract class AbstractIndexModule extends AbstractModule {
 
   private final int threads;

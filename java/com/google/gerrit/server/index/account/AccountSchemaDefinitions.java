@@ -20,6 +20,7 @@ import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.SchemaDefinitions;
 import com.google.gerrit.server.account.AccountState;
 
+/** Definition of account index versions (schemata). See {@link SchemaDefinitions}. */
 public class AccountSchemaDefinitions extends SchemaDefinitions<AccountState> {
   @Deprecated
   static final Schema<AccountState> V4 =
@@ -62,7 +63,12 @@ public class AccountSchemaDefinitions extends SchemaDefinitions<AccountState> {
           .legacyNumericFields(false)
           .build();
 
+  /**
+   * Name of the account index to be used when contacting index backends or loading configurations.
+   */
   public static final String NAME = "accounts";
+
+  /** Singleton instance of the schema definitions. This is one per JVM. */
   public static final AccountSchemaDefinitions INSTANCE = new AccountSchemaDefinitions();
 
   private AccountSchemaDefinitions() {

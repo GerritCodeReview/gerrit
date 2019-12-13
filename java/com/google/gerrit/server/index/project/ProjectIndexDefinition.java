@@ -23,6 +23,7 @@ import com.google.gerrit.index.project.ProjectIndexCollection;
 import com.google.gerrit.index.project.ProjectSchemaDefinitions;
 import com.google.inject.Inject;
 
+/** Bundle of service classes that make up the change index. */
 public class ProjectIndexDefinition
     extends IndexDefinition<Project.NameKey, ProjectData, ProjectIndex> {
 

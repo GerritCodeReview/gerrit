@@ -19,7 +19,6 @@ import static com.google.gerrit.server.index.change.ChangeField.LEGACY_ID;
 import static com.google.gerrit.server.index.change.ChangeField.LEGACY_ID_STR;
 import static com.google.gerrit.server.index.change.ChangeField.PROJECT;
 
-import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.google.gerrit.exceptions.StorageException;
@@ -36,10 +35,10 @@ import java.io.IOException;
 import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
+/** Set of index-related utility methods. */
 public final class IndexUtils {
-  public static final ImmutableMap<String, String> CUSTOM_CHAR_MAPPING =
-      ImmutableMap.of("_", " ", ".", " ");
 
+  /** Mark an index as ready to serve queries. */
   public static void setReady(SitePaths sitePaths, String name, int version, boolean ready) {
     try {
       GerritIndexStatus cfg = new GerritIndexStatus(sitePaths);
@@ -50,25 +49,31 @@ public final class IndexUtils {
     }
   }
 
-  public static boolean getReady(SitePaths sitePaths, String name, int version) {
-    try {
-      GerritIndexStatus cfg = new GerritIndexStatus(sitePaths);
-      return cfg.getReady(name, version);
-    } catch (ConfigInvalidException | IOException e) {
-      throw new StorageException(e);
-    }
-  }
-
+  /**
+   * Returns a sanitized set of fields for account index queries by removing fields that the index
+   * doesn't support and accounting for numeric vs. string primary keys. The primary key situation
+   * is temporary and should be removed after the migration is done.
+   */
   public static Set<String> accountFields(QueryOptions opts, boolean useLegacyNumericFields) {
     return accountFields(opts.fields(), useLegacyNumericFields);
   }
 
+  /**
+   * Returns a sanitized set of fields for account index queries by removing fields that the index
+   * doesn't support and accounting for numeric vs. string primary keys. The primary key situation
+   * is temporary and should be removed after the migration is done.
+   */
   public static Set<String> accountFields(Set<String> fields, boolean useLegacyNumericFields) {
     String idFieldName =
         useLegacyNumericFields ? AccountField.ID.getName() : AccountField.ID_STR.getName();
     return fields.contains(idFieldName) ? fields : Sets.union(fields, ImmutableSet.of(idFieldName));
   }
 
+  /**
+   * Returns a sanitized set of fields for change index queries by removing fields that the index
+   * doesn't support and accounting for numeric vs. string primary keys. The primary key situation
+   * is temporary and should be removed after the migration is done.
+   */
   public static Set<String> changeFields(QueryOptions opts, boolean useLegacyNumericFields) {
     FieldDef<ChangeData, ?> idField = useLegacyNumericFields ? LEGACY_ID : LEGACY_ID_STR;
     // Ensure we request enough fields to construct a ChangeData. We need both
@@ -85,6 +90,11 @@ public final class IndexUtils {
     return Sets.union(fs, ImmutableSet.of(idField.getName(), PROJECT.getName()));
   }
 
+  /**
+   * Returns a sanitized set of fields for group index queries by removing fields that the index
+   * doesn't support and accounting for numeric vs. string primary keys. The primary key situation
+   * is temporary and should be removed after the migration is done.
+   */
   public static Set<String> groupFields(QueryOptions opts) {
     Set<String> fs = opts.fields();
     return fs.contains(GroupField.UUID.getName())
@@ -92,6 +102,7 @@ public final class IndexUtils {
         : Sets.union(fs, ImmutableSet.of(GroupField.UUID.getName()));
   }
 
+  /** Returns a index-friendly representation of a {@link CurrentUser} to be used in queries. */
   public static String describe(CurrentUser user) {
     if (user.isIdentifiedUser()) {
       return user.getAccountId().toString();
@@ -102,6 +113,11 @@ public final class IndexUtils {
     return user.toString();
   }
 
+  /**
+   * Returns a sanitized set of fields for project index queries by removing fields that the index
+   * doesn't support and accounting for numeric vs. string primary keys. The primary key situation
+   * is temporary and should be removed after the migration is done.
+   */
   public static Set<String> projectFields(QueryOptions opts) {
     Set<String> fs = opts.fields();
     return fs.contains(ProjectField.NAME.getName())

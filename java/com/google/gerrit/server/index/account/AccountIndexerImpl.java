@@ -35,9 +35,14 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Optional;
 
+/**
+ * Implementation for indexing a Gerrit account. The account will be loaded from {@link
+ * AccountCache}.
+ */
 public class AccountIndexerImpl implements AccountIndexer {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
+  /** Factory for creating an instance. */
   public interface Factory {
     AccountIndexerImpl create(AccountIndexCollection indexes);
 

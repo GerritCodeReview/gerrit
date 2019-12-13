@@ -34,6 +34,10 @@ import com.google.inject.assistedinject.AssistedInject;
 import java.util.Collection;
 import java.util.Collections;
 
+/**
+ * Implementation for indexing a Gerrit-managed repository (project). The account will be loaded
+ * from {@link ProjectCache}.
+ */
 public class ProjectIndexerImpl implements ProjectIndexer {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 

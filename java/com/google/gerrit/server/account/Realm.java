@@ -24,6 +24,12 @@ import java.util.Set;
 import javax.naming.NamingException;
 import javax.security.auth.login.LoginException;
 
+/**
+ * Interface between Gerrit and an account system.
+ *
+ * <p>This interface provides the glue layer between the Gerrit and external account/authentication
+ * systems (eg. LDAP, OpenID).
+ */
 public interface Realm {
   /** Can the end-user modify this field of their own account? */
   boolean allowsEdit(AccountFieldName field);

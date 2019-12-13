@@ -25,6 +25,9 @@ import com.google.inject.assistedinject.AssistedInject;
 import java.util.Collections;
 import java.util.List;
 
+/**
+ * Sender that informs a user by email about the removal of an SSH or GPG key from their account.
+ */
 public class DeleteKeySender extends OutgoingEmail {
   public interface Factory {
     DeleteKeySender create(IdentifiedUser user, AccountSshKey sshKey);

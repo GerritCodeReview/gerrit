@@ -24,6 +24,7 @@ import com.google.gerrit.server.group.InternalGroup;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 
+/** Rewriter for the group index. See {@link IndexRewriter} for details. */
 @Singleton
 public class GroupIndexRewriter implements IndexRewriter<InternalGroup> {
   private final GroupIndexCollection indexes;

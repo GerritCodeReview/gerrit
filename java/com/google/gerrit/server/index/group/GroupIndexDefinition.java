@@ -20,6 +20,7 @@ import com.google.gerrit.index.IndexDefinition;
 import com.google.gerrit.server.group.InternalGroup;
 import com.google.inject.Inject;
 
+/** Bundle of service classes that make up the group index. */
 public class GroupIndexDefinition
     extends IndexDefinition<AccountGroup.UUID, InternalGroup, GroupIndex> {
 

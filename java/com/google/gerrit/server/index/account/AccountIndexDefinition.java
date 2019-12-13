@@ -20,6 +20,7 @@ import com.google.gerrit.index.IndexDefinition;
 import com.google.gerrit.server.account.AccountState;
 import com.google.inject.Inject;
 
+/** Bundle of service classes that make up the account index. */
 public class AccountIndexDefinition
     extends IndexDefinition<Account.Id, AccountState, AccountIndex> {
 

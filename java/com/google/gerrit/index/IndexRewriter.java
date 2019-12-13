@@ -17,7 +17,15 @@ package com.google.gerrit.index;
 import com.google.gerrit.index.query.Predicate;
 import com.google.gerrit.index.query.QueryParseException;
 
+/**
+ * Rewriter to sanitize queries before they are sent to the index. The idea here is that the
+ * rewriter swaps out predicates so that the query can be processed by the index.
+ */
 public interface IndexRewriter<T> {
 
+  /**
+   * Returns a sanitized version of the provided predicate. Uses {@link QueryOptions} to enforce
+   * index-specific limits such as {@code maxTerms}.
+   */
   Predicate<T> rewrite(Predicate<T> in, QueryOptions opts) throws QueryParseException;
 }

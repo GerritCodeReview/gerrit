@@ -35,6 +35,10 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Optional;
 
+/**
+ * Implementation for indexing an internal Gerrit group. The group will be loaded from {@link
+ * GroupCache}.
+ */
 public class GroupIndexerImpl implements GroupIndexer {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 

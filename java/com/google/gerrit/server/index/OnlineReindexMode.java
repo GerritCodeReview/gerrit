@@ -16,6 +16,7 @@ package com.google.gerrit.server.index;
 
 import java.util.Optional;
 
+/** Per-thread singleton to signal if online reindexing is in progress. */
 public class OnlineReindexMode {
   private static ThreadLocal<Boolean> isOnlineReindex = new ThreadLocal<>();
 

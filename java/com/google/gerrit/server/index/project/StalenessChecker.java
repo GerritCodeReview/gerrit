@@ -32,6 +32,10 @@ import com.google.gerrit.server.project.ProjectCache;
 import com.google.inject.Inject;
 import java.util.Optional;
 
+/**
+ * Checker that compares values stored in the project index to metadata in NoteDb to detect index
+ * documents that should have been updated (= stale).
+ */
 public class StalenessChecker {
   private static final ImmutableSet<String> FIELDS =
       ImmutableSet.of(ProjectField.NAME.getName(), ProjectField.REF_STATE.getName());
@@ -48,6 +52,10 @@ public class StalenessChecker {
     this.indexConfig = indexConfig;
   }
 
+  /**
+   * Returns a {@link StalenessCheckResult} with structured information about staleness of the
+   * provided {@link Project.NameKey}.
+   */
   public StalenessCheckResult check(Project.NameKey project) {
     ProjectData projectData = projectCache.get(project).toProjectData();
     ProjectIndex i = indexes.getSearchIndex();

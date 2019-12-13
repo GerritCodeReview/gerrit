@@ -20,6 +20,7 @@ import com.google.gerrit.index.IndexDefinition;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
 
+/** Bundle of service classes that make up the change index. */
 public class ChangeIndexDefinition extends IndexDefinition<Change.Id, ChangeData, ChangeIndex> {
 
   @Inject

@@ -31,9 +31,11 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.util.io.NullOutputStream;
 
+/** Base class for implementations that can index all entities of a given type. */
 public abstract class SiteIndexer<K, V, I extends Index<K, V>> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
+  /** Result of an operation to index a subset or all of the entities of a given type. */
   public static class Result {
     private final long elapsedNanos;
     private final boolean success;
@@ -80,6 +82,7 @@ public abstract class SiteIndexer<K, V, I extends Index<K, V>> {
     verboseWriter = newPrintWriter(requireNonNull(out));
   }
 
+  /** Indexes all entities for the provided index. */
   public abstract Result indexAll(I index);
 
   protected final void addErrorListener(

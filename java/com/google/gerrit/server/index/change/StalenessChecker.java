@@ -47,6 +47,10 @@ import java.util.regex.Pattern;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 
+/**
+ * Checker that compares values stored in the change index to metadata in NoteDb to detect index
+ * documents that should have been updated (= stale).
+ */
 @Singleton
 public class StalenessChecker {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
@@ -69,6 +73,10 @@ public class StalenessChecker {
     this.indexConfig = indexConfig;
   }
 
+  /**
+   * Returns a {@link StalenessCheckResult} with structured information about staleness of the
+   * provided {@link Change.Id}.
+   */
   public StalenessCheckResult check(Change.Id id) {
     ChangeIndex i = indexes.getSearchIndex();
     if (i == null) {
@@ -89,6 +97,10 @@ public class StalenessChecker {
     return check(repoManager, id, parseStates(cd), parsePatterns(cd));
   }
 
+  /**
+   * Returns a {@link StalenessCheckResult} with structured information about staleness of the
+   * provided change.
+   */
   @UsedAt(UsedAt.Project.GOOGLE)
   public static StalenessCheckResult check(
       GitRepositoryManager repoManager,
@@ -124,6 +136,10 @@ public class StalenessChecker {
     return parsePatterns(cd.getRefStatePatterns());
   }
 
+  /**
+   * Returns a map containing the parsed version of {@link RefStatePattern}. See {@link
+   * RefStatePattern}.
+   */
   public static ListMultimap<Project.NameKey, RefStatePattern> parsePatterns(
       Iterable<byte[]> patterns) {
     RefStatePattern.check(patterns != null, null);

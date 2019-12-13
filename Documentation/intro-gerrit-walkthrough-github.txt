@@ -1,3 +1,4 @@
+:linkattrs:
 = Basic Gerrit Walkthrough -- For GitHub Users
 
 

@@ -1,3 +1,4 @@
+:linkattrs:
 = Making a Gerrit Release
 
 [NOTE]

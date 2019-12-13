@@ -171,6 +171,24 @@
     },
     {
       "key": {
+        "uuid": "670916f1_589450b5",
+        "filename": "java/com/google/gerrit/server/fixes/FixCalculator.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-12-13T13:48:24Z",
+      "side": 1,
+      "message": "Nice catch - it was a mistake, I didn\u0027t have enough tests in this patch set.\nFixed and tests added.",
+      "parentUuid": "8cb52a56_c6dd329c",
+      "revId": "c4abe89a7ddbc14e8e766713482596e614798c23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4dae29ef_07553cc1",
         "filename": "java/com/google/gerrit/server/fixes/FixCalculator.java",
         "patchSetId": 18
@@ -605,6 +623,30 @@
       "writtenOn": "2019-12-07T00:24:37Z",
       "side": 1,
       "message": "I like the individual test classes which were split of. Will any test beyond lineNumberMustBePositive() remain in this test class?",
+      "range": {
+        "startLine": 29,
+        "startChar": 13,
+        "endLine": 29,
+        "endChar": 30
+      },
+      "revId": "c4abe89a7ddbc14e8e766713482596e614798c23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fb8bbe6a_4ed95b61",
+        "filename": "javatests/com/google/gerrit/server/fixes/FixCalculatorTest.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-12-13T13:48:24Z",
+      "side": 1,
+      "message": "This class renamed to FixCalculatorVariousTest and now has more tests.\nThese tests checks different use-cases with multiple fixes.",
+      "parentUuid": "ae601a11_8ec35506",
       "range": {
         "startLine": 29,
         "startChar": 13,

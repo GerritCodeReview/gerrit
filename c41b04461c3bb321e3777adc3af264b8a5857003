@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "498cad4e_7e1598d8",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 853,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-12-13T11:25:48Z",
+      "side": 1,
+      "message": "If you use getUrlForChangeById instead you can call it from gr-message directly.",
+      "range": {
+        "startLine": 853,
+        "startChar": 29,
+        "endLine": 853,
+        "endChar": 44
+      },
+      "revId": "c41b04461c3bb321e3777adc3af264b8a5857003",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "87288083_352448d5",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 854,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-12-13T11:25:48Z",
+      "side": 1,
+      "message": "I am not sure whether including the patch nums is helpful for links to messages. I would rather leave them unset.\n\nSame for editMode. I don\u0027t think that you would want to point to this message with edit mode enabled.",
+      "revId": "c41b04461c3bb321e3777adc3af264b8a5857003",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "80d52821_65a19910",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 859,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-12-13T11:25:48Z",
+      "side": 1,
+      "message": "Maybe this method can be removed then?",
+      "revId": "c41b04461c3bb321e3777adc3af264b8a5857003",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "693c64ef_77c67105",
+        "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-12-13T11:25:48Z",
+      "side": 1,
+      "message": "Rename such that it is clear that this is a URL. Currently this sounds more like a boolean.\n\nMaybe just \"navLink\" or \"linkUrl\" or \"navUrl\"?",
+      "range": {
+        "startLine": 71,
+        "startChar": 8,
+        "endLine": 71,
+        "endChar": 22
+      },
+      "revId": "c41b04461c3bb321e3777adc3af264b8a5857003",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "afb2282f_f2cb5634",
+        "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-12-13T11:25:48Z",
+      "side": 1,
+      "message": "Add a comment.",
+      "revId": "c41b04461c3bb321e3777adc3af264b8a5857003",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

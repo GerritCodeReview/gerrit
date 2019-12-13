@@ -1,0 +1,464 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5790778e_58ae8d4a",
+        "filename": "java/com/google/gerrit/index/project/ProjectSchemaDefinitions.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-13T16:12:06Z",
+      "side": 1,
+      "message": "project",
+      "range": {
+        "startLine": 44,
+        "startChar": 17,
+        "endLine": 44,
+        "endChar": 24
+      },
+      "revId": "f2ae978a25d735740811eb2ae3a74a8de077b8ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "19f6bfcf_e802b8cd",
+        "filename": "java/com/google/gerrit/server/index/GerritIndexStatus.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-13T16:12:06Z",
+      "side": 1,
+      "message": "Maybe explain what being ready means for an index (or under which conditions an index is not ready).",
+      "range": {
+        "startLine": 25,
+        "startChar": 74,
+        "endLine": 25,
+        "endChar": 79
+      },
+      "revId": "f2ae978a25d735740811eb2ae3a74a8de077b8ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7f865f2d_fcea0a73",
+        "filename": "java/com/google/gerrit/server/index/GerritIndexStatus.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-13T16:12:06Z",
+      "side": 1,
+      "message": "Is this for an entire index? I think it\u0027s rather for one version of an index. E.g. change index version 1 can be ready while change index version 2 is not ready yet.",
+      "range": {
+        "startLine": 25,
+        "startChar": 35,
+        "endLine": 25,
+        "endChar": 40
+      },
+      "revId": "f2ae978a25d735740811eb2ae3a74a8de077b8ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "18d789fb_0989b357",
+        "filename": "java/com/google/gerrit/server/index/IndexUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-13T16:12:06Z",
+      "side": 1,
+      "message": "index version",
+      "range": {
+        "startLine": 41,
+        "startChar": 14,
+        "endLine": 41,
+        "endChar": 19
+      },
+      "revId": "f2ae978a25d735740811eb2ae3a74a8de077b8ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4209b555_26d7777e",
+        "filename": "java/com/google/gerrit/server/index/IndexUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-13T16:12:06Z",
+      "side": 1,
+      "message": "current index version?\n\nHere and below",
+      "range": {
+        "startLine": 53,
+        "startChar": 93,
+        "endLine": 53,
+        "endChar": 98
+      },
+      "revId": "f2ae978a25d735740811eb2ae3a74a8de077b8ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ecc6d7da_3785a9f2",
+        "filename": "java/com/google/gerrit/server/index/IndexUtils.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-13T16:12:06Z",
+      "side": 1,
+      "message": "I think this doesn\u0027t apply to the project index.",
+      "range": {
+        "startLine": 118,
+        "startChar": 21,
+        "endLine": 119,
+        "endChar": 68
+      },
+      "revId": "f2ae978a25d735740811eb2ae3a74a8de077b8ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d735b653_1a6e9c20",
+        "filename": "java/com/google/gerrit/server/index/account/AccountIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-13T16:12:06Z",
+      "side": 1,
+      "message": "parent class",
+      "range": {
+        "startLine": 25,
+        "startChar": 79,
+        "endLine": 25,
+        "endChar": 85
+      },
+      "revId": "f2ae978a25d735740811eb2ae3a74a8de077b8ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "82391bac_c2d9ffaf",
+        "filename": "java/com/google/gerrit/server/index/account/AccountIndexCollection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-13T16:12:06Z",
+      "side": 1,
+      "message": "details?",
+      "range": {
+        "startLine": 23,
+        "startChar": 74,
+        "endLine": 23,
+        "endChar": 92
+      },
+      "revId": "f2ae978a25d735740811eb2ae3a74a8de077b8ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6d0e832e_ba93ab46",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-13T16:12:06Z",
+      "side": 1,
+      "message": "parent class",
+      "range": {
+        "startLine": 26,
+        "startChar": 78,
+        "endLine": 26,
+        "endChar": 84
+      },
+      "revId": "f2ae978a25d735740811eb2ae3a74a8de077b8ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "21258354_7284d812",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeIndexCollection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-13T16:12:06Z",
+      "side": 1,
+      "message": "details?",
+      "range": {
+        "startLine": 23,
+        "startChar": 73,
+        "endLine": 23,
+        "endChar": 91
+      },
+      "revId": "f2ae978a25d735740811eb2ae3a74a8de077b8ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "59496982_6a149b4f",
+        "filename": "java/com/google/gerrit/server/index/change/ChangeSchemaDefinitions.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-13T16:12:06Z",
+      "side": 1,
+      "message": "change",
+      "range": {
+        "startLine": 103,
+        "startChar": 17,
+        "endLine": 103,
+        "endChar": 24
+      },
+      "revId": "f2ae978a25d735740811eb2ae3a74a8de077b8ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "65315877_c96cf446",
+        "filename": "java/com/google/gerrit/server/index/change/ReindexAfterRefUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-13T16:12:06Z",
+      "side": 1,
+      "message": "reindexes",
+      "range": {
+        "startLine": 48,
+        "startChar": 39,
+        "endLine": 48,
+        "endChar": 51
+      },
+      "revId": "f2ae978a25d735740811eb2ae3a74a8de077b8ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3a85b185_331143da",
+        "filename": "java/com/google/gerrit/server/index/change/ReindexAfterRefUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-13T16:12:06Z",
+      "side": 1,
+      "message": "an",
+      "range": {
+        "startLine": 49,
+        "startChar": 31,
+        "endLine": 49,
+        "endChar": 34
+      },
+      "revId": "f2ae978a25d735740811eb2ae3a74a8de077b8ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "740b4b0a_ff11a2e9",
+        "filename": "java/com/google/gerrit/server/index/change/ReindexAfterRefUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-13T16:12:06Z",
+      "side": 1,
+      "message": "Reindexes\n\nAlso below",
+      "range": {
+        "startLine": 51,
+        "startChar": 6,
+        "endLine": 51,
+        "endChar": 19
+      },
+      "revId": "f2ae978a25d735740811eb2ae3a74a8de077b8ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2ffe6b0a_2f71784d",
+        "filename": "java/com/google/gerrit/server/index/change/ReindexAfterRefUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-13T16:12:06Z",
+      "side": 1,
+      "message": "any open changes that has a destination branch that was updated to ensure ...",
+      "range": {
+        "startLine": 51,
+        "startChar": 19,
+        "endLine": 51,
+        "endChar": 30
+      },
+      "revId": "f2ae978a25d735740811eb2ae3a74a8de077b8ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d20ad7cb_4c4952dc",
+        "filename": "java/com/google/gerrit/server/index/group/GroupIndex.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-13T16:12:06Z",
+      "side": 1,
+      "message": "parent class",
+      "range": {
+        "startLine": 25,
+        "startChar": 86,
+        "endLine": 25,
+        "endChar": 92
+      },
+      "revId": "f2ae978a25d735740811eb2ae3a74a8de077b8ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c231ba02_48369af2",
+        "filename": "java/com/google/gerrit/server/index/group/GroupIndexCollection.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-13T16:12:06Z",
+      "side": 1,
+      "message": "details?",
+      "range": {
+        "startLine": 23,
+        "startChar": 72,
+        "endLine": 23,
+        "endChar": 91
+      },
+      "revId": "f2ae978a25d735740811eb2ae3a74a8de077b8ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8b5f2582_337da76a",
+        "filename": "java/com/google/gerrit/server/index/group/GroupIndexerImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-13T16:12:06Z",
+      "side": 1,
+      "message": "group",
+      "range": {
+        "startLine": 39,
+        "startChar": 61,
+        "endLine": 39,
+        "endChar": 68
+      },
+      "revId": "f2ae978a25d735740811eb2ae3a74a8de077b8ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "800198c0_2d034af9",
+        "filename": "java/com/google/gerrit/server/index/project/ProjectIndexDefinition.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-13T16:12:06Z",
+      "side": 1,
+      "message": "project",
+      "range": {
+        "startLine": 26,
+        "startChar": 47,
+        "endLine": 26,
+        "endChar": 53
+      },
+      "revId": "f2ae978a25d735740811eb2ae3a74a8de077b8ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5108bd2f_deb3510c",
+        "filename": "java/com/google/gerrit/server/index/project/ProjectIndexerImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-13T16:12:06Z",
+      "side": 1,
+      "message": "project",
+      "range": {
+        "startLine": 38,
+        "startChar": 74,
+        "endLine": 38,
+        "endChar": 81
+      },
+      "revId": "f2ae978a25d735740811eb2ae3a74a8de077b8ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -21,6 +21,7 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Singleton;
 import java.util.concurrent.locks.Lock;
 
+/** In-memory lock for project names. */
 @Singleton
 public class DefaultProjectNameLockManager implements ProjectNameLockManager {
 

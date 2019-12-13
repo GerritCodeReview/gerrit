@@ -143,6 +143,30 @@
     },
     {
       "key": {
+        "uuid": "32187df3_7914d335",
+        "filename": "java/com/google/gerrit/server/fixes/FixReplacementInterpreter.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-12-13T13:48:24Z",
+      "side": 1,
+      "message": "Moved this method to the FixCalculator",
+      "parentUuid": "d07444b7_922c4155",
+      "range": {
+        "startLine": 121,
+        "startChar": 11,
+        "endLine": 121,
+        "endChar": 69
+      },
+      "revId": "acfd9e0ea73288676e2b635605f26f08c3b4a78b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2c4e1cc6_738cda92",
         "filename": "java/com/google/gerrit/server/patch/PatchScriptBuilder.java",
         "patchSetId": 13

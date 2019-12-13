@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c5867359_b5761c0d",
+        "filename": "java/com/google/gerrit/server/fixes/FixReplacementInterpreter.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-12-13T13:48:24Z",
+      "side": 0,
+      "message": "Removed.\n\nI reviewed tests for LineIdentifier - it seems, that new tests with different line endings covers the same use-cases",
+      "parentUuid": "ffaf6985_56d30423",
+      "range": {
+        "startLine": 114,
+        "startChar": 4,
+        "endLine": 114,
+        "endChar": 18
+      },
+      "revId": "62fcdcea290757064304d193c0e202ea33751924",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2b9ab633_d6bd905a",
         "filename": "java/com/google/gerrit/server/patch/PatchScriptBuilder.java",
         "patchSetId": 13

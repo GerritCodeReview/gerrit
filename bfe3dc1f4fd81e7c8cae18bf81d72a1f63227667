@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "3ea69ba6_d04a0986",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-12-13T13:27:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dcaee108_30f51c1a",
+      "range": {
+        "startLine": 10,
+        "startChar": 37,
+        "endLine": 10,
+        "endChar": 40
+      },
+      "revId": "bfe3dc1f4fd81e7c8cae18bf81d72a1f63227667",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "60e78e97_481e86bc",
         "filename": "/COMMIT_MSG",
         "patchSetId": 14
@@ -45,6 +69,30 @@
       "revId": "bfe3dc1f4fd81e7c8cae18bf81d72a1f63227667",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "167250f0_1707d227",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-12-13T13:27:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "60e78e97_481e86bc",
+      "range": {
+        "startLine": 11,
+        "startChar": 56,
+        "endLine": 11,
+        "endChar": 59
+      },
+      "revId": "bfe3dc1f4fd81e7c8cae18bf81d72a1f63227667",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -94,6 +142,54 @@
     },
     {
       "key": {
+        "uuid": "e0b3af3c_9b261f27",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-12-13T13:27:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9629a4f2_71f6a936",
+      "range": {
+        "startLine": 12,
+        "startChar": 27,
+        "endLine": 12,
+        "endChar": 35
+      },
+      "revId": "bfe3dc1f4fd81e7c8cae18bf81d72a1f63227667",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "35e0ea1b_9290f2d8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-12-13T13:27:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "102ff83d_de96f6df",
+      "range": {
+        "startLine": 12,
+        "startChar": 50,
+        "endLine": 12,
+        "endChar": 54
+      },
+      "revId": "bfe3dc1f4fd81e7c8cae18bf81d72a1f63227667",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5b28798f_da7d75c5",
         "filename": "/COMMIT_MSG",
         "patchSetId": 14
@@ -140,6 +236,54 @@
     },
     {
       "key": {
+        "uuid": "d6175110_9cc5a638",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-12-13T13:27:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f80cd70c_af6a90c3",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 1
+      },
+      "revId": "bfe3dc1f4fd81e7c8cae18bf81d72a1f63227667",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "225b0d94_e78e2cfc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-12-13T13:27:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5b28798f_da7d75c5",
+      "range": {
+        "startLine": 14,
+        "startChar": 3,
+        "endLine": 14,
+        "endChar": 10
+      },
+      "revId": "bfe3dc1f4fd81e7c8cae18bf81d72a1f63227667",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6a68249d_44633045",
         "filename": "/COMMIT_MSG",
         "patchSetId": 14
@@ -157,6 +301,24 @@
     },
     {
       "key": {
+        "uuid": "52edb6e8_dd6c1c12",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 14
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-12-13T13:27:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6a68249d_44633045",
+      "revId": "bfe3dc1f4fd81e7c8cae18bf81d72a1f63227667",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cbf55999_55f23581",
         "filename": "java/com/google/gerrit/server/patch/DiffContentCalculator.java",
         "patchSetId": 14
@@ -168,6 +330,30 @@
       "writtenOn": "2019-12-13T12:54:23Z",
       "side": 1,
       "message": "FYI: This could be an unordered html list for better formatting.",
+      "range": {
+        "startLine": 48,
+        "startChar": 93,
+        "endLine": 51,
+        "endChar": 94
+      },
+      "revId": "bfe3dc1f4fd81e7c8cae18bf81d72a1f63227667",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8097802f_6e0d6ebf",
+        "filename": "java/com/google/gerrit/server/patch/DiffContentCalculator.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-12-13T13:27:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cbf55999_55f23581",
       "range": {
         "startLine": 48,
         "startChar": 93,
@@ -200,6 +386,30 @@
       "revId": "bfe3dc1f4fd81e7c8cae18bf81d72a1f63227667",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5fcb430b_edf90dfd",
+        "filename": "java/com/google/gerrit/server/patch/DiffContentCalculator.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-12-13T13:27:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fd775244_3b11d850",
+      "range": {
+        "startLine": 77,
+        "startChar": 6,
+        "endLine": 77,
+        "endChar": 10
+      },
+      "revId": "bfe3dc1f4fd81e7c8cae18bf81d72a1f63227667",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -246,6 +456,30 @@
       "revId": "bfe3dc1f4fd81e7c8cae18bf81d72a1f63227667",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "637f68b2_19d47c5c",
+        "filename": "java/com/google/gerrit/server/patch/PatchScriptFactory.java",
+        "patchSetId": 14
+      },
+      "lineNbr": 397,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-12-13T13:27:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "62777321_e1ca6a49",
+      "range": {
+        "startLine": 397,
+        "startChar": 4,
+        "endLine": 397,
+        "endChar": 35
+      },
+      "revId": "bfe3dc1f4fd81e7c8cae18bf81d72a1f63227667",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

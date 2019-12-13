@@ -24,6 +24,9 @@ import org.apache.commons.validator.routines.DomainValidator;
 import org.apache.commons.validator.routines.EmailValidator;
 import org.eclipse.jgit.lib.Config;
 
+/**
+ * Validator that checks if an email address is valid and allowed for receiving notification emails.
+ */
 @Singleton
 public class OutgoingEmailValidator {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();

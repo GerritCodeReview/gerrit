@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6c18a458_4fa72165",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
+        "patchSetId": 57
+      },
+      "lineNbr": 995,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-12-13T18:32:47Z",
+      "side": 1,
+      "message": "FYI when this test is enabled: For \"Apply fix\", we use a ResourceNotFoundException for this case. We should be consistent in the exceptions we return from \"Preview fix\" and \"Apply fix\" no matter which one it is in the end.",
+      "range": {
+        "startLine": 995,
+        "startChar": 8,
+        "endLine": 995,
+        "endChar": 27
+      },
+      "revId": "cc05ca973495f3fef9f10f89ec50050ad339e8e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

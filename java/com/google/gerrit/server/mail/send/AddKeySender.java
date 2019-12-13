@@ -78,15 +78,26 @@ public class AddKeySender extends OutgoingEmail {
     }
   }
 
-  public String getEmail() {
+  @Override
+  protected void setupSoyContext() {
+    super.setupSoyContext();
+    soyContextEmailData.put("email", getEmail());
+    soyContextEmailData.put("gpgKeys", getGpgKeys());
+    soyContextEmailData.put("keyType", getKeyType());
+    soyContextEmailData.put("sshKey", getSshKey());
+    soyContextEmailData.put("userNameEmail", getUserNameEmailFor(user.getAccountId()));
+  }
+
+  @Override
+  protected boolean supportsHtml() {
+    return true;
+  }
+
+  private String getEmail() {
     return user.getAccount().preferredEmail();
   }
 
-  public String getUserNameEmail() {
-    return getUserNameEmailFor(user.getAccountId());
-  }
-
-  public String getKeyType() {
+  private String getKeyType() {
     if (sshKey != null) {
       return "SSH";
     } else if (gpgKeys != null) {
@@ -95,29 +106,14 @@ public class AddKeySender extends OutgoingEmail {
     return "Unknown";
   }
 
-  public String getSshKey() {
+  private String getSshKey() {
     return (sshKey != null) ? sshKey.sshPublicKey() + "\n" : null;
   }
 
-  public String getGpgKeys() {
+  private String getGpgKeys() {
     if (gpgKeys != null) {
       return Joiner.on("\n").join(gpgKeys);
     }
     return null;
-  }
-
-  @Override
-  protected void setupSoyContext() {
-    super.setupSoyContext();
-    soyContextEmailData.put("email", getEmail());
-    soyContextEmailData.put("gpgKeys", getGpgKeys());
-    soyContextEmailData.put("keyType", getKeyType());
-    soyContextEmailData.put("sshKey", getSshKey());
-    soyContextEmailData.put("userNameEmail", getUserNameEmail());
-  }
-
-  @Override
-  protected boolean supportsHtml() {
-    return true;
   }
 }

@@ -241,9 +241,9 @@ public class ProjectWatch {
     Predicate<ChangeData> p = null;
 
     if (user == null) {
-      qb = args.queryBuilder.asUser(args.anonymousUser);
+      qb = args.queryBuilder.get().asUser(args.anonymousUser.get());
     } else {
-      qb = args.queryBuilder.asUser(user);
+      qb = args.queryBuilder.get().asUser(user);
       p = qb.is_visible();
     }
 

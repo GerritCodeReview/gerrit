@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "2d627666_6b7828b7",
+        "filename": "java/com/google/gerrit/server/fixes/FixCalculator.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-12-13T15:41:19Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "d29f82ba_7d39169a",
+      "range": {
+        "startLine": 29,
+        "startChar": 13,
+        "endLine": 29,
+        "endChar": 26
+      },
+      "revId": "c4abe89a7ddbc14e8e766713482596e614798c23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b4b9c473_de67cb50",
         "filename": "java/com/google/gerrit/server/fixes/FixCalculator.java",
         "patchSetId": 18
@@ -119,6 +143,30 @@
       "side": 1,
       "message": "Yes",
       "parentUuid": "2d78508b_a952b27f",
+      "range": {
+        "startLine": 89,
+        "startChar": 24,
+        "endLine": 89,
+        "endChar": 55
+      },
+      "revId": "c4abe89a7ddbc14e8e766713482596e614798c23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "014251d8_fe5b3e9f",
+        "filename": "java/com/google/gerrit/server/fixes/FixCalculator.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-12-13T15:41:19Z",
+      "side": 1,
+      "message": "Please add a comment for this so that others don\u0027t have to know this detail.",
+      "parentUuid": "b7fd3ee5_7eb9ea72",
       "range": {
         "startLine": 89,
         "startChar": 24,
@@ -206,6 +254,24 @@
       "writtenOn": "2019-12-13T13:48:24Z",
       "side": 1,
       "message": "Nice catch - it was a mistake, I didn\u0027t have enough tests in this patch set.\nFixed and tests added.",
+      "parentUuid": "8cb52a56_c6dd329c",
+      "revId": "c4abe89a7ddbc14e8e766713482596e614798c23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "761891ce_9b42804a",
+        "filename": "java/com/google/gerrit/server/fixes/FixCalculator.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-12-13T15:41:19Z",
+      "side": 1,
+      "message": "I see that you adjusted the logic in a newer patch set. Thanks also for the helpful comment. Marking this as resolved now.",
       "parentUuid": "8cb52a56_c6dd329c",
       "revId": "c4abe89a7ddbc14e8e766713482596e614798c23",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
@@ -707,6 +773,30 @@
     },
     {
       "key": {
+        "uuid": "1a45fd43_daea9eba",
+        "filename": "javatests/com/google/gerrit/server/fixes/FixCalculatorTest.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-12-13T15:41:19Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "fb8bbe6a_4ed95b61",
+      "range": {
+        "startLine": 29,
+        "startChar": 13,
+        "endLine": 29,
+        "endChar": 30
+      },
+      "revId": "c4abe89a7ddbc14e8e766713482596e614798c23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3d2d1ed6_ebc61604",
         "filename": "javatests/com/google/gerrit/server/fixes/fixCalculator/MultilineContentNoEOLTest.java",
         "patchSetId": 18
@@ -727,6 +817,30 @@
       "revId": "c4abe89a7ddbc14e8e766713482596e614798c23",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cc79b44b_9b5fb05c",
+        "filename": "javatests/com/google/gerrit/server/fixes/fixCalculator/MultilineContentNoEOLTest.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-12-13T15:41:19Z",
+      "side": 1,
+      "message": "Superseded by another comment on a newer patch set and hence marking as resolved.",
+      "parentUuid": "3d2d1ed6_ebc61604",
+      "range": {
+        "startLine": 23,
+        "startChar": 13,
+        "endLine": 23,
+        "endChar": 38
+      },
+      "revId": "c4abe89a7ddbc14e8e766713482596e614798c23",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

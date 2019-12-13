@@ -313,17 +313,45 @@
 
       this._coverageRanges = [];
       const {changeNum, path, patchRange: {basePatchNum, patchNum}} = this;
-      this.$.jsAPI.getCoverageRanges(
-          changeNum, path, basePatchNum, patchNum
-      ).
-          then(coverageRanges => {
-            if (changeNum !== this.changeNum ||
-                path !== this.path ||
-                basePatchNum !== this.patchRange.basePatchNum ||
-                patchNum !== this.patchRange.patchNum) {
-              return;
-            }
-            this._coverageRanges = coverageRanges;
+      this.$.jsAPI.getCoverageAnnotationApi().
+          then(coverageAnnotationApi => {
+            if (!coverageAnnotationApi) return;
+            const provider = coverageAnnotationApi.getCoverageProvider();
+            return provider(changeNum, path, basePatchNum, patchNum)
+                .then(coverageRanges => {
+                  if (!coverageRanges ||
+                    changeNum !== this.changeNum ||
+                    path !== this.path ||
+                    basePatchNum !== this.patchRange.basePatchNum ||
+                    patchNum !== this.patchRange.patchNum) {
+                    return;
+                  }
+
+                  const existingCoverageRanges = this._coverageRanges;
+
+                  // Set coverageRanges, this will be passed down to coverage-layer
+                  // to be used to render coverage layer
+                  this._coverageRanges = coverageRanges;
+
+                  // Notify with existing coverage ranges
+                  // in case there are some existing coverage data that needs to be removed
+                  existingCoverageRanges.forEach(range => {
+                    coverageAnnotationApi.notify(
+                        path,
+                        range.code_range.start_line,
+                        range.code_range.end_line,
+                        range.side);
+                  });
+
+                  // Notify with new coverage data
+                  coverageRanges.forEach(range => {
+                    coverageAnnotationApi.notify(
+                        path,
+                        range.code_range.start_line,
+                        range.code_range.end_line,
+                        range.side);
+                  });
+                });
           }).catch(err => {
             console.warn('Loading coverage ranges failed: ', err);
           });
@@ -346,7 +374,7 @@
         return this._loadDiffAssets(diff);
       });
 
-      // Not waiting for getCoverageRanges intentionally as
+      // Not waiting for get coverage ranges intentionally as
       // plugin loading should not block the content rendering
       return Promise.all([diffRequest, assetRequest])
           .then(results => {
@@ -357,8 +385,8 @@
             this.filesWeblinks = this._getFilesWeblinks(diff);
             return new Promise(resolve => {
               const callback = event => {
-                const needsSyntaxHighlighting = event.detail
-                      && event.detail.contentRendered;
+                const needsSyntaxHighlighting = event.detail &&
+                      event.detail.contentRendered;
                 if (needsSyntaxHighlighting) {
                   this.$.reporting.time(TimingLabel.SYNTAX);
                   this.$.syntaxLayer.process().then(() => {

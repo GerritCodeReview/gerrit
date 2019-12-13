@@ -24,6 +24,7 @@ import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 import java.util.List;
 
+/** Sender that informs a user by email about the addition of an SSH or GPG key to their account. */
 public class AddKeySender extends OutgoingEmail {
   public interface Factory {
     AddKeySender create(IdentifiedUser user, AccountSshKey sshKey);

@@ -296,6 +296,16 @@ for the external ID `username:jdoe` is `e0b751ae90ef039f320e097d7d212f490e933706
 This ensures that an external ID is used only once (e.g. an external ID can
 never be assigned to multiple accounts at a point in time).
 
+The following commands show how to find the SHA1 of an external ID:
+
+----
+$ echo -n 'gerrit:jdoe' | shasum
+7c2a55657d911109dbc930836e7a770fb946e8ef  -
+
+$ echo -n 'username:jdoe' | shasum
+e0b751ae90ef039f320e097d7d212f490e933706  -
+----
+
 [IMPORTANT]
 If the external ID key is changed manually you must adapt the note key
 to the new SHA1, otherwise the external ID becomes inconsistent and is

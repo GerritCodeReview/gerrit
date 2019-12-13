@@ -1,3 +1,4 @@
+:linkattrs:
 = Gerrit Code Review - Standalone Daemon Installation Guide
 
 [[prerequisites]]

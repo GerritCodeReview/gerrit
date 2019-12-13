@@ -1,3 +1,4 @@
+:linkattrs:
 = Gerrit Code Review - /projects/ REST API
 
 This page describes the project related REST endpoints.

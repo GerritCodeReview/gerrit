@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9ea80ac9_848138fe",
+        "filename": "java/com/google/gerrit/server/fixes/FixCalculator.java",
+        "patchSetId": 44
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-12-13T16:42:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2d4e4bf2_a3bf2c7b",
+      "range": {
+        "startLine": 33,
+        "startChar": 13,
+        "endLine": 33,
+        "endChar": 26
+      },
+      "revId": "a5db1c7ffe2007a994545f07ed0e7a80bbafe3e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "63b096ec_8ff2c805",
         "filename": "java/com/google/gerrit/server/fixes/FixCalculator.java",
         "patchSetId": 44
@@ -45,6 +69,30 @@
       "revId": "a5db1c7ffe2007a994545f07ed0e7a80bbafe3e9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "10af780c_b965be83",
+        "filename": "java/com/google/gerrit/server/fixes/FixCalculator.java",
+        "patchSetId": 44
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-12-13T16:42:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "63b096ec_8ff2c805",
+      "range": {
+        "startLine": 37,
+        "startChar": 5,
+        "endLine": 37,
+        "endChar": 89
+      },
+      "revId": "a5db1c7ffe2007a994545f07ed0e7a80bbafe3e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "8eba5060_dcaca29e",
+        "filename": "java/com/google/gerrit/server/fixes/FixCalculator.java",
+        "patchSetId": 44
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-12-13T16:42:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e73c9528_26729706",
+      "range": {
+        "startLine": 42,
+        "startChar": 44,
+        "endLine": 42,
+        "endChar": 46
+      },
+      "revId": "a5db1c7ffe2007a994545f07ed0e7a80bbafe3e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e739958f_30f9a5ef",
         "filename": "java/com/google/gerrit/server/fixes/FixCalculator.java",
         "patchSetId": 44
@@ -91,6 +163,30 @@
       "revId": "a5db1c7ffe2007a994545f07ed0e7a80bbafe3e9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8935942a_08b741ec",
+        "filename": "java/com/google/gerrit/server/fixes/FixCalculator.java",
+        "patchSetId": 44
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-12-13T16:42:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e739958f_30f9a5ef",
+      "range": {
+        "startLine": 48,
+        "startChar": 8,
+        "endLine": 48,
+        "endChar": 22
+      },
+      "revId": "a5db1c7ffe2007a994545f07ed0e7a80bbafe3e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "083aa8ba_a28a5543",
+        "filename": "java/com/google/gerrit/server/fixes/FixCalculator.java",
+        "patchSetId": 44
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-12-13T16:42:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c4413de8_96ff8136",
+      "range": {
+        "startLine": 59,
+        "startChar": 44,
+        "endLine": 59,
+        "endChar": 46
+      },
+      "revId": "a5db1c7ffe2007a994545f07ed0e7a80bbafe3e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "55ad5764_104f5340",
         "filename": "java/com/google/gerrit/server/patch/PatchScriptBuilder.java",
         "patchSetId": 44
@@ -137,6 +257,30 @@
       "revId": "a5db1c7ffe2007a994545f07ed0e7a80bbafe3e9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dbbd5a6e_97602530",
+        "filename": "java/com/google/gerrit/server/patch/PatchScriptBuilder.java",
+        "patchSetId": 44
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-12-13T16:42:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "55ad5764_104f5340",
+      "range": {
+        "startLine": 151,
+        "startChar": 13,
+        "endLine": 151,
+        "endChar": 20
+      },
+      "revId": "a5db1c7ffe2007a994545f07ed0e7a80bbafe3e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -163,6 +307,30 @@
     },
     {
       "key": {
+        "uuid": "f4b0c6df_192faa74",
+        "filename": "java/com/google/gerrit/server/patch/PatchScriptBuilder.java",
+        "patchSetId": 44
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-12-13T16:42:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2637109b_1eb47907",
+      "range": {
+        "startLine": 153,
+        "startChar": 27,
+        "endLine": 153,
+        "endChar": 42
+      },
+      "revId": "a5db1c7ffe2007a994545f07ed0e7a80bbafe3e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3c917eff_5a1d0152",
         "filename": "java/com/google/gerrit/server/patch/PatchScriptFactoryForAutoFix.java",
         "patchSetId": 44
@@ -183,6 +351,30 @@
       "revId": "a5db1c7ffe2007a994545f07ed0e7a80bbafe3e9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "942104fc_2e5aaaa9",
+        "filename": "java/com/google/gerrit/server/patch/PatchScriptFactoryForAutoFix.java",
+        "patchSetId": 44
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-12-13T16:42:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3c917eff_5a1d0152",
+      "range": {
+        "startLine": 62,
+        "startChar": 9,
+        "endLine": 62,
+        "endChar": 10
+      },
+      "revId": "a5db1c7ffe2007a994545f07ed0e7a80bbafe3e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -209,6 +401,30 @@
     },
     {
       "key": {
+        "uuid": "4401e858_c54f9205",
+        "filename": "java/com/google/gerrit/server/patch/PatchScriptFactoryForAutoFix.java",
+        "patchSetId": 44
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-12-13T16:42:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "66cc5312_64224ca8",
+      "range": {
+        "startLine": 129,
+        "startChar": 4,
+        "endLine": 129,
+        "endChar": 9
+      },
+      "revId": "a5db1c7ffe2007a994545f07ed0e7a80bbafe3e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8e4f5387_8eab9692",
         "filename": "javatests/com/google/gerrit/server/fixes/fixCalculator/MultilineContentNoEOLTest.java",
         "patchSetId": 44
@@ -220,6 +436,30 @@
       "writtenOn": "2019-12-13T15:41:19Z",
       "side": 1,
       "message": "Here and for the other tests (also in the other test classes): This part can be replaced by\n\n  assertThat(fixResult).edits().onlyElement().isReplace(0, 1, 0, 1);\n  assertThat(fixResult).edits().onlyElement().internalEdits().onlyElement().isInsert(0, 0, 3);",
+      "range": {
+        "startLine": 32,
+        "startChar": 4,
+        "endLine": 35,
+        "endChar": 69
+      },
+      "revId": "a5db1c7ffe2007a994545f07ed0e7a80bbafe3e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7d4fc104_8ae29932",
+        "filename": "javatests/com/google/gerrit/server/fixes/fixCalculator/MultilineContentNoEOLTest.java",
+        "patchSetId": 44
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-12-13T16:42:31Z",
+      "side": 1,
+      "message": "Let\u0027s keep at as is right now. I want to think how to do it in a nicer way.",
+      "parentUuid": "8e4f5387_8eab9692",
       "range": {
         "startLine": 32,
         "startChar": 4,

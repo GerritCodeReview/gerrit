@@ -580,15 +580,15 @@ public class Daemon extends SiteProgram {
 
   private Injector createWebInjector() {
     final List<Module> modules = new ArrayList<>();
-    if (sshd) {
-      modules.add(new ProjectQoSFilter.Module());
-    }
     modules.add(RequestContextFilter.module());
     modules.add(RequestMetricsFilter.module());
     modules.add(H2CacheBasedWebSession.module());
     modules.add(sysInjector.getInstance(GerritAuthModule.class));
     modules.add(sysInjector.getInstance(GitOverHttpModule.class));
     modules.add(RequestContextFilter.module());
+    if (sshd) {
+      modules.add(new ProjectQoSFilter.Module());
+    }
     modules.add(RequestCleanupFilter.module());
     modules.add(AllRequestFilter.module());
     modules.add(sysInjector.getInstance(WebModule.class));

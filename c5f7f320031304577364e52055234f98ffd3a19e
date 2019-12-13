@@ -23,6 +23,30 @@
       "revId": "c5f7f320031304577364e52055234f98ffd3a19e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1f824668_71dde9b7",
+        "filename": "java/com/google/gerrit/server/mail/send/RegisterNewEmailSender.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-13T10:57:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "05bcb124_72c8575a",
+      "range": {
+        "startLine": 27,
+        "startChar": 72,
+        "endLine": 27,
+        "endChar": 77
+      },
+      "revId": "c5f7f320031304577364e52055234f98ffd3a19e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

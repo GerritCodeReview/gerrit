@@ -1,3 +1,4 @@
+:linkattrs:
 = Plugins
 
 The Gerrit server functionality can be extended by installing plugins.

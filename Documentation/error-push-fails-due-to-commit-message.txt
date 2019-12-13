@@ -1,3 +1,4 @@
+:linkattrs:
 = Push fails due to commit message
 
 If Gerrit rejects pushing a commit it is often the case that there is

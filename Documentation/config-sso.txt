@@ -1,3 +1,4 @@
+:linkattrs:
 = Gerrit Code Review - Single Sign-On Security
 
 Gerrit supports integration with some types of single sign-on

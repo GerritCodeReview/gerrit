@@ -1,3 +1,4 @@
+:linkattrs:
 = Gerrit Code Review - End to end load tests
 
 This document provides a description of a Gerrit load test scenario implemented using the link:http://gatling.io[`Gatling`] framework.

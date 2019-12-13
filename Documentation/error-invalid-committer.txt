@@ -1,3 +1,4 @@
+:linkattrs:
 = invalid committer
 
 For every pushed commit Gerrit verifies that the e-mail address of

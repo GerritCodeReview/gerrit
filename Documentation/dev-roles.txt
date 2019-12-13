@@ -1,3 +1,4 @@
+:linkattrs:
 = Gerrit Code Review - Supporting Roles
 
 As an open source project Gerrit has a large community of people

@@ -1,3 +1,4 @@
+:linkattrs:
 = Gerrit Code Review Product Overview
 
 Gerrit Code Review is a web-based code review tool built on

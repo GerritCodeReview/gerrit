@@ -1,3 +1,4 @@
+:linkattrs:
 = Gerrit Code Review - Crafting Changes
 
 Here are some hints as to what approvers may be looking for

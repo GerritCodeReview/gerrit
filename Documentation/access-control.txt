@@ -1,3 +1,4 @@
+:linkattrs:
 = Gerrit Code Review - Access Controls
 
 Access controls in Gerrit are group based.  Every user account is a

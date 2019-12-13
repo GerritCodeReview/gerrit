@@ -70,6 +70,30 @@
       "revId": "388570ce4ea20728455dc8b9dfa9686f30680b55",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2f0cc961_869a8cc6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1074328
+      },
+      "writtenOn": "2019-12-13T11:30:36Z",
+      "side": 1,
+      "message": "I figured ;)",
+      "parentUuid": "1803ce27_3313c864",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 52
+      },
+      "revId": "388570ce4ea20728455dc8b9dfa9686f30680b55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

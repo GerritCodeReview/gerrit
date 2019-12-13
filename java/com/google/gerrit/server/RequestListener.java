@@ -16,6 +16,12 @@ package com.google.gerrit.server;
 
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
 
+/**
+ * Extension point that allows to listen to incoming requests.
+ *
+ * <p>This extension point is invoked each time the server executes a request from a user (REST
+ * request, SSH request, Git push/fetch).
+ */
 @ExtensionPoint
 public interface RequestListener {
   void onRequest(RequestInfo requestInfo);

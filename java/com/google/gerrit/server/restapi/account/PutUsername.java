@@ -46,6 +46,17 @@ import java.io.IOException;
 import java.util.Optional;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
+/**
+ * REST endpoint to set the username of an account.
+ *
+ * <p>This REST endpoint handles {@code PUT /accounts/<account-identifier>/username} requests.
+ *
+ * <p>Whether a username can be set depends on whether the used {@link Realm} supports this.
+ *
+ * <p>Once set a username cannot be changed or deleted. Changing usernames is disallowed because
+ * they can be used in ref names that represent user-specific sandbox branches which can exist in
+ * any repository and we have no way to find and rename those refs.
+ */
 @Singleton
 public class PutUsername implements RestModifyView<AccountResource, UsernameInput> {
   private final Provider<CurrentUser> self;

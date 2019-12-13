@@ -16,6 +16,24 @@
       "revId": "d8933253a8a22126157b3d3a050c5f0445826b7f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a54d8a64_3e29a284",
+        "filename": "polygerrit-ui/app/lint_test.sh",
+        "patchSetId": 4
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-12-13T09:53:53Z",
+      "side": 1,
+      "message": "Done\nAlso made one command out of the three commands again.",
+      "parentUuid": "9808b64e_396ff6ea",
+      "revId": "d8933253a8a22126157b3d3a050c5f0445826b7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

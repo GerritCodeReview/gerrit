@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2092de5f_8ee8cbac",
+        "filename": "polygerrit-ui/app/lint_test.sh",
+        "patchSetId": 7
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2019-12-13T10:08:30Z",
+      "side": 1,
+      "message": "Using this relative paths could lead to unexpected effects, since it expects the working directory to be gerrit\u0027s root directory. I think we should better make sure, that we are in the correct directory here.",
+      "revId": "a982c62939fb4609435ae6c81857343a57938821",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

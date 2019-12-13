@@ -426,6 +426,30 @@
     },
     {
       "key": {
+        "uuid": "2272702f_a72546c7",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 993,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-12-13T10:24:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a752feb_32e87802",
+      "range": {
+        "startLine": 993,
+        "startChar": 4,
+        "endLine": 993,
+        "endChar": 36
+      },
+      "revId": "acfd9e0ea73288676e2b635605f26f08c3b4a78b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c4b8d8e3_010fcbd3",
         "filename": "javatests/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
         "patchSetId": 13
@@ -437,6 +461,30 @@
       "writtenOn": "2019-11-07T19:53:39Z",
       "side": 1,
       "message": "I guess this is just a sanity check that the REST endpoint is working in general. When you add more tests, can you please only do those assertions which are necessary for the specific test? We should also rather have more but smaller, targeted tests.",
+      "range": {
+        "startLine": 994,
+        "startChar": 3,
+        "endLine": 1002,
+        "endChar": 35
+      },
+      "revId": "acfd9e0ea73288676e2b635605f26f08c3b4a78b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d53ffb0f_e21b1c42",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 1002,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-12-13T10:24:07Z",
+      "side": 1,
+      "message": "Test was updated, added more assertions/checks.\n\nI think, one integration test is enough. It checks result of an API call.\nBecause fixPreview reuses diff calculation, it is expected that diff calculation already has tests (even if this is not true right now, such tests must be added separately).\n\nA part of diff calculation which is specific to fixPreview are covered by unit tests (see FixCalculator tests).",
+      "parentUuid": "c4b8d8e3_010fcbd3",
       "range": {
         "startLine": 994,
         "startChar": 3,

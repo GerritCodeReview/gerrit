@@ -1,3 +1,4 @@
+:linkattrs:
 = Making a Snapshot Release of JGit
 
 This step is only necessary if we need to create an unofficial JGit

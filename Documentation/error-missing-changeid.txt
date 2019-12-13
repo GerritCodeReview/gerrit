@@ -1,3 +1,4 @@
+:linkattrs:
 = commit xxxxxxx: missing Change-Id in message footer
 
 With this error message Gerrit rejects to push a commit to a project

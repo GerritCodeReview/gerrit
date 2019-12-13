@@ -1,3 +1,4 @@
+:linkattrs:
 = invalid Change-Id line format in commit message footer
 
 With this error message Gerrit rejects to push a commit if its commit

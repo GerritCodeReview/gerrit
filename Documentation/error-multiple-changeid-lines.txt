@@ -1,3 +1,4 @@
+:linkattrs:
 = commit xxxxxxx: multiple Change-Id lines in message footer
 
 With this error message Gerrit rejects to push a commit if the commit

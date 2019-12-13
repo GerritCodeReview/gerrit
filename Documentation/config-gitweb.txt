@@ -1,3 +1,4 @@
+:linkattrs:
 == Gitweb Integration
 
 Gerrit Code Review can manage and generate hyperlinks to gitweb,

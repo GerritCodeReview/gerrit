@@ -1,3 +1,4 @@
+:linkattrs:
 = Gerrit Code Review - Mail Templates
 
 Gerrit uses link:https://developers.google.com/closure/templates/[Closure Templates,role=external,window=_blank]

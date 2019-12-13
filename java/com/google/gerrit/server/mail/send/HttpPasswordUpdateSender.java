@@ -58,24 +58,20 @@ public class HttpPasswordUpdateSender extends OutgoingEmail {
     }
   }
 
-  public String getEmail() {
-    return user.getAccount().preferredEmail();
-  }
-
-  public String getUserNameEmail() {
-    return getUserNameEmailFor(user.getAccountId());
-  }
-
   @Override
   protected void setupSoyContext() {
     super.setupSoyContext();
     soyContextEmailData.put("email", getEmail());
-    soyContextEmailData.put("userNameEmail", getUserNameEmail());
+    soyContextEmailData.put("userNameEmail", getUserNameEmailFor(user.getAccountId()));
     soyContextEmailData.put("operation", operation);
   }
 
   @Override
   protected boolean supportsHtml() {
     return true;
+  }
+
+  private String getEmail() {
+    return user.getAccount().preferredEmail();
   }
 }

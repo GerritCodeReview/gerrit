@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7e81ad8b_50cb21ab",
+        "filename": "polygerrit-ui/app/elements/core/gr-error-manager/gr-error-manager.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-12-13T10:52:40Z",
+      "side": 1,
+      "message": "Maybe rename, because that is not a handler, but a hook to deregister. I don\u0027t have a great name suggestion, but even _authErrorHandlerDeregistrationHook would be better than just _authErrorHandler.",
+      "range": {
+        "startLine": 76,
+        "startChar": 11,
+        "endLine": 76,
+        "endChar": 28
+      },
+      "revId": "19b48f7cb75b1b106006ec947642c15654490780",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "45395f5a_e05668b3",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-12-13T10:52:40Z",
+      "side": 1,
+      "message": "unused argument",
+      "range": {
+        "startLine": 152,
+        "startChar": 30,
+        "endLine": 152,
+        "endChar": 48
+      },
+      "revId": "19b48f7cb75b1b106006ec947642c15654490780",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "54750501_99d5849d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-12-13T14:08:09Z",
+      "side": 1,
+      "message": "I believe that we should eliminate the complexity of using SSH\nthread pool plus Jetty continuations in that filter just to ensure\nthat sshd.batchThreads also defines the max number of concurrent\nGit requests over both SSH and HTTP protocols. This policy can\nbe implemented much easier a Sempahore with N permits, where N\nis the max allowed concurrency. Both git-over-http and git-over-ssh\nrequests should first obtain a permit from the semaphore, then proceed with the request and release the permit in the end.\n\nWe can also introduce a more explicit configuration option:\n\n  [git]\n    concurrencyLimit \u003d N",
+      "range": {
+        "startLine": 10,
+        "startChar": 31,
+        "endLine": 10,
+        "endChar": 47
+      },
+      "revId": "02b731e1514b7676e7c6b73e2bb25aab9e64105b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

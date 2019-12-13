@@ -1,0 +1,136 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dad83be1_d9a0cc14",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-12-13T14:08:47Z",
+      "side": 1,
+      "message": "Does this have to happen before line 314?",
+      "revId": "3ddb85ed782ac235c6272c42c28fa78fb032bde3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b555a688_5c1bfb12",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-12-13T14:08:47Z",
+      "side": 1,
+      "message": "That is just repeating what the code does. Maybe remove.",
+      "range": {
+        "startLine": 332,
+        "startChar": 21,
+        "endLine": 332,
+        "endChar": 40
+      },
+      "revId": "3ddb85ed782ac235c6272c42c28fa78fb032bde3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "965f7308_5c53b41d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-12-13T14:08:47Z",
+      "side": 1,
+      "message": "\"for rending the\"",
+      "range": {
+        "startLine": 333,
+        "startChar": 32,
+        "endLine": 333,
+        "endChar": 42
+      },
+      "revId": "3ddb85ed782ac235c6272c42c28fa78fb032bde3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "06f875cd_0a6cca52",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-12-13T14:08:47Z",
+      "side": 1,
+      "message": "is",
+      "range": {
+        "startLine": 337,
+        "startChar": 35,
+        "endLine": 337,
+        "endChar": 38
+      },
+      "revId": "3ddb85ed782ac235c6272c42c28fa78fb032bde3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "97467681_d653158a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-12-13T14:08:47Z",
+      "side": 1,
+      "message": "Maybe move this into its own method.",
+      "range": {
+        "startLine": 316,
+        "startChar": 6,
+        "endLine": 357,
+        "endChar": 13
+      },
+      "revId": "3ddb85ed782ac235c6272c42c28fa78fb032bde3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a98a7ce3_4ca4a100",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-12-13T14:08:47Z",
+      "side": 1,
+      "message": "Remove \"get\".",
+      "range": {
+        "startLine": 377,
+        "startChar": 25,
+        "endLine": 377,
+        "endChar": 28
+      },
+      "revId": "3ddb85ed782ac235c6272c42c28fa78fb032bde3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

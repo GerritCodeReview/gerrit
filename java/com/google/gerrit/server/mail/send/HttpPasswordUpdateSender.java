@@ -21,6 +21,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.assistedinject.AssistedInject;
 
+/** Sender that informs a user by email that the HTTP password of their account was updated. */
 public class HttpPasswordUpdateSender extends OutgoingEmail {
   public interface Factory {
     HttpPasswordUpdateSender create(IdentifiedUser user, String operation);

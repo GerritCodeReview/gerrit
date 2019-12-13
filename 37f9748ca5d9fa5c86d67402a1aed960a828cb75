@@ -23,6 +23,30 @@
       "revId": "37f9748ca5d9fa5c86d67402a1aed960a828cb75",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "13f34548_83fa3d4c",
+        "filename": "java/com/google/gerrit/server/mail/send/EmailArguments.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-13T14:23:14Z",
+      "side": 1,
+      "message": "Ups, I overlooked this. Thanks for noticing.\n\nDone.",
+      "parentUuid": "113708d1_35ec5265",
+      "range": {
+        "startLine": 83,
+        "startChar": 0,
+        "endLine": 83,
+        "endChar": 38
+      },
+      "revId": "37f9748ca5d9fa5c86d67402a1aed960a828cb75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

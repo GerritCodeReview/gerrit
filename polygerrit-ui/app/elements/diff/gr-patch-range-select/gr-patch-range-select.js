@@ -155,8 +155,8 @@
 
     _computeText(patchNum, prefix, changeComments, sha) {
       return `${prefix}${patchNum}` +
-        `${this._computePatchSetCommentsString(changeComments, patchNum)}`
-          + (` | ${sha}`);
+        `${this._computePatchSetCommentsString(changeComments, patchNum)}` +
+          (` | ${sha}`);
     }
 
     _createDropdownEntry(patchNum, prefix, sortedRevisions, changeComments,

@@ -138,8 +138,8 @@
       return sameOriginPath;
     } else if (this._url.protocol === PRELOADED_PROTOCOL) {
       // Plugin is preloaded, load plugin with ASSETS_PATH or location.origin
-      return window.ASSETS_PATH ? `${window.ASSETS_PATH}${relPath}`
-        : sameOriginPath;
+      return window.ASSETS_PATH ? `${window.ASSETS_PATH}${relPath}` :
+        sameOriginPath;
     } else {
       // Plugin loaded from assets bundle, expect assets placed along with it.
       return this._url.href.split('/plugins/' + this._name)[0] + relPath;

@@ -153,8 +153,8 @@
       if (this._restApiHelper) {
         return;
       }
-      if (this._cache && this._auth && this._sharedFetchPromises
-          && this._credentialCheck) {
+      if (this._cache && this._auth && this._sharedFetchPromises &&
+          this._credentialCheck) {
         this._restApiHelper = new GrRestApiHelper(this._cache, this._auth,
             this._sharedFetchPromises, this._credentialCheck, this);
       }

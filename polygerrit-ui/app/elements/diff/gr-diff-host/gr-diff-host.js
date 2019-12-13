@@ -357,8 +357,8 @@
             this.filesWeblinks = this._getFilesWeblinks(diff);
             return new Promise(resolve => {
               const callback = event => {
-                const needsSyntaxHighlighting = event.detail
-                      && event.detail.contentRendered;
+                const needsSyntaxHighlighting = event.detail &&
+                      event.detail.contentRendered;
                 if (needsSyntaxHighlighting) {
                   this.$.reporting.time(TimingLabel.SYNTAX);
                   this.$.syntaxLayer.process().then(() => {

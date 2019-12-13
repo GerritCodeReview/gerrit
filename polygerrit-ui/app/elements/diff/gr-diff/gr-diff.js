@@ -302,8 +302,8 @@
 
     showNoChangeMessage(loading, prefs, diffLength) {
       return !loading &&
-        prefs && prefs.ignore_whitespace !== 'IGNORE_NONE'
-        && diffLength === 0;
+        prefs && prefs.ignore_whitespace !== 'IGNORE_NONE' &&
+        diffLength === 0;
     }
 
     _enableSelectionObserver(loggedIn, isAttached) {

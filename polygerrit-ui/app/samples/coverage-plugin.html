@@ -45,9 +45,9 @@
         const line = context.line;
         // Highlight lines missing coverage with this background color if
         // coverage should be displayed, else do nothing.
-        const annotationStyle = displayCoverage
-          ? coverageStyle
-          : emptyStyle;
+        const annotationStyle = displayCoverage ?
+          coverageStyle :
+          emptyStyle;
         if (coverageData[path] &&
               coverageData[path].changeNum === context.changeNum &&
               coverageData[path].patchNum === context.patchNum) {

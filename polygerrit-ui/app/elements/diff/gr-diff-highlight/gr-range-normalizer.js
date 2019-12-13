@@ -101,9 +101,9 @@
      * @return {number} The length of the text.
      */
     _getLength(node) {
-      return node
-        ? node.textContent.replace(REGEX_ASTRAL_SYMBOL, '_').length
-        : 0;
+      return node ?
+        node.textContent.replace(REGEX_ASTRAL_SYMBOL, '_').length :
+        0;
     },
   };
 

@@ -370,8 +370,8 @@
       if (pathOrUrl.startsWith(PRELOADED_PROTOCOL) ||
           pathOrUrl.startsWith('http')) {
         // Plugins are loaded from another domain or preloaded.
-        if (pathOrUrl.includes(location.host)
-          && shouldTryLoadFromAssetsPathFirst) {
+        if (pathOrUrl.includes(location.host) &&
+          shouldTryLoadFromAssetsPathFirst) {
           // if is loading from host server, try replace with cdn when assetsPath provided
           return pathOrUrl
               .replace(location.origin, assetsPath);

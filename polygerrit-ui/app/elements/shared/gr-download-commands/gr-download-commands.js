@@ -80,8 +80,8 @@
     }
 
     _computeSelected(schemes, selectedScheme) {
-      return (schemes.findIndex(scheme => scheme === selectedScheme) || 0)
-          + '';
+      return (schemes.findIndex(scheme => scheme === selectedScheme) || 0) +
+          '';
     }
 
     _computeShowTabs(schemes) {

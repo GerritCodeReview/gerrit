@@ -388,8 +388,8 @@
 
       const inheritFromChanged =
           // Inherit from changed
-          (originalInheritsFromId
-              && originalInheritsFromId !== inheritsFromId) ||
+          (originalInheritsFromId &&
+              originalInheritsFromId !== inheritsFromId) ||
           // Inherit from added (did not have one initially);
           (!originalInheritsFromId && inheritsFromId);
 

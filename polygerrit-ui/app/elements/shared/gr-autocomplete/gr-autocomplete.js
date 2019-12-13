@@ -376,8 +376,8 @@
      */
     _handleInputCommit(opt_tabComplete) {
       // Nothing to do if the dropdown is not open.
-      if (!this.allowNonSuggestedValues
-          && this.$.suggestions.isHidden) { return; }
+      if (!this.allowNonSuggestedValues &&
+          this.$.suggestions.isHidden) { return; }
 
       this._selected = this.$.suggestions.getCursorTarget();
       this._commit(opt_tabComplete);

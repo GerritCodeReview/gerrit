@@ -1022,8 +1022,8 @@
         forEachQuery = forEachParam[1];
       }
       const sectionParams = queryParams.filter(
-          elem => elem[0] && elem[1] && elem[0].toLowerCase() !== 'title'
-          && elem[0].toLowerCase() !== 'foreach');
+          elem => elem[0] && elem[1] && elem[0].toLowerCase() !== 'title' &&
+          elem[0].toLowerCase() !== 'foreach');
       const sections = sectionParams.map(elem => {
         const query = forEachQuery ? `${forEachQuery} ${elem[1]}` : elem[1];
         return {

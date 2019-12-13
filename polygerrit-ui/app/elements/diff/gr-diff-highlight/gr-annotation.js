@@ -91,9 +91,9 @@
       const sanitizer = window.Polymer.sanitizeDOMValue;
       for (const [name, value] of Object.entries(attributes)) {
         wrapper.setAttribute(
-            name, sanitizer
-              ? sanitizer(value, name, 'attribute', wrapper)
-              : value);
+            name, sanitizer ?
+              sanitizer(value, name, 'attribute', wrapper) :
+              value);
       }
       for (const inner of nestedNodes) {
         parent.replaceChild(wrapper, inner);

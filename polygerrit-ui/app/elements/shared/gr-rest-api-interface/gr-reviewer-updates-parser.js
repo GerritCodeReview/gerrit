@@ -206,8 +206,8 @@
         util.parseDate(messages[index + 1].date).getTime();
       for (const update of updates) {
         const date = util.parseDate(update.date).getTime();
-        if (date >= messageDate
-            && (!nextMessageDate || date < nextMessageDate)) {
+        if (date >= messageDate &&
+            (!nextMessageDate || date < nextMessageDate)) {
           const timestamp = util.parseDate(update.date).getTime() -
               GrReviewerUpdatesParser.MESSAGE_REVIEWERS_THRESHOLD_MILLIS;
           update.date = new Date(timestamp)

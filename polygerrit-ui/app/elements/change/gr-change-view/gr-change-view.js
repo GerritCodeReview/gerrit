@@ -367,8 +367,8 @@
             Gerrit._endpoints.getDynamicEndpoints('change-view-tab-header');
         this._dynamicTabContentEndpoints =
             Gerrit._endpoints.getDynamicEndpoints('change-view-tab-content');
-        if (this._dynamicTabContentEndpoints.length
-            !== this._dynamicTabHeaderEndpoints.length) {
+        if (this._dynamicTabContentEndpoints.length !==
+            this._dynamicTabHeaderEndpoints.length) {
           console.warn('Different number of tab headers and tab content.');
         }
       }).then(() => this._setPrimaryTab());

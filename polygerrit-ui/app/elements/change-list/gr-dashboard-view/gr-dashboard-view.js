@@ -239,8 +239,8 @@
     }
 
     _computeUserHeaderClass(params) {
-      if (!params || !!params.project || !params.user
-          || params.user === 'self') {
+      if (!params || !!params.project || !params.user ||
+          params.user === 'self') {
         return 'hide';
       }
       return '';

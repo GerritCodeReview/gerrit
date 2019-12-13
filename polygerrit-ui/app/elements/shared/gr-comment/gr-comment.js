@@ -319,8 +319,8 @@
       if (!this.comment || !this.comments) return;
       // hide please fix button for robot comment that has human reply
       this._hasHumanReply = this.comments.some(c => {
-        return c.in_reply_to && c.in_reply_to === this.comment.id
-            && !c.robot_id;
+        return c.in_reply_to && c.in_reply_to === this.comment.id &&
+            !c.robot_id;
       });
     }
 

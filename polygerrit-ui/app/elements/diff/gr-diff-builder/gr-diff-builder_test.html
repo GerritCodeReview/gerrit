@@ -256,8 +256,8 @@ limitations under the License.
     });
 
     test('tab wrapper style', () => {
-      const pattern = new RegExp('^<span class="style-scope gr-diff tab" '
-          + 'style="(?:-moz-)?tab-size: (\\d+);">\\t<\\/span>$');
+      const pattern = new RegExp('^<span class="style-scope gr-diff tab" ' +
+        'style="(?:-moz-)?tab-size: (\\d+);">\\t<\\/span>$');
 
       for (const size of [1, 3, 8, 55]) {
         const html = builder._getTabWrapper(size).outerHTML;

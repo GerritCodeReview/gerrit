@@ -37,8 +37,8 @@
    * @return {string} Appropriate class name for the element is returned
    */
   GrStyleObject.prototype.getClassName = function(element) {
-    let rootNode = Polymer.Settings.useShadow
-      ? element.getRootNode() : document.body;
+    let rootNode = Polymer.Settings.useShadow ?
+      element.getRootNode() : document.body;
     if (rootNode === document) {
       rootNode = document.head;
     }

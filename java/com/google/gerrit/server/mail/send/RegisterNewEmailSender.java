@@ -62,17 +62,6 @@ public class RegisterNewEmailSender extends OutgoingEmail {
     appendText(textTemplate("RegisterNewEmail"));
   }
 
-  public String getUserNameEmail() {
-    return getUserNameEmailFor(user.getAccountId());
-  }
-
-  public String getEmailRegistrationToken() {
-    if (emailToken == null) {
-      emailToken = requireNonNull(tokenVerifier.encode(user.getAccountId(), addr), "token");
-    }
-    return emailToken;
-  }
-
   public boolean isAllowed() {
     return args.emailSender.canEmail(addr);
   }
@@ -81,6 +70,13 @@ public class RegisterNewEmailSender extends OutgoingEmail {
   protected void setupSoyContext() {
     super.setupSoyContext();
     soyContextEmailData.put("emailRegistrationToken", getEmailRegistrationToken());
-    soyContextEmailData.put("userNameEmail", getUserNameEmail());
+    soyContextEmailData.put("userNameEmail", getUserNameEmailFor(user.getAccountId()));
+  }
+
+  private String getEmailRegistrationToken() {
+    if (emailToken == null) {
+      emailToken = requireNonNull(tokenVerifier.encode(user.getAccountId(), addr), "token");
+    }
+    return emailToken;
   }
 }

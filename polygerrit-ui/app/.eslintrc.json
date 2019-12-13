@@ -25,7 +25,13 @@
     "block-spacing": ["error", "always"],
     "brace-style": ["error", "1tbs", { "allowSingleLine": true }],
     "camelcase": "off",
-    "comma-dangle": ["error", "always-multiline"],
+    "comma-dangle": ["error", {
+        "arrays": "always-multiline",
+        "objects": "always-multiline",
+        "imports": "always-multiline",
+        "exports": "always-multiline",
+        "functions": "never"
+    }],
     "eol-last": "off",
     "indent": "off",
     "indent-legacy": ["error", 2, {
@@ -60,6 +66,9 @@
     "no-undef": "off",
     "no-useless-escape": "off",
     "no-var": "error",
+    "no-prototype-builtins": "off",
+    "no-redeclare": "off",
+    "operator-linebreak": "off",
     "object-shorthand": ["error", "always"],
     "prefer-arrow-callback": "error",
     "prefer-const": "error",

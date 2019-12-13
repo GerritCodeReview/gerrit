@@ -24,6 +24,7 @@ import com.google.gerrit.server.mail.EmailTokenVerifier;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
+/** Sender that informs a user by email about the registration of a new email for their account. */
 public class RegisterNewEmailSender extends OutgoingEmail {
   public interface Factory {
     RegisterNewEmailSender create(String address);

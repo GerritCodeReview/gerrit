@@ -488,6 +488,30 @@
     },
     {
       "key": {
+        "uuid": "6dcb0895_2ece6432",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
+        "patchSetId": 44
+      },
+      "lineNbr": 987,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2019-12-13T18:01:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0667b1d1_5f5878a6",
+      "range": {
+        "startLine": 987,
+        "startChar": 48,
+        "endLine": 987,
+        "endChar": 66
+      },
+      "revId": "a5db1c7ffe2007a994545f07ed0e7a80bbafe3e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6a552b17_f30905fd",
         "filename": "javatests/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
         "patchSetId": 44

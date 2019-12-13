@@ -256,7 +256,7 @@ public abstract class OutgoingEmail {
   protected void init() throws EmailException {
     setupSoyContext();
 
-    smtpFromAddress = args.fromAddressGenerator.from(fromId);
+    smtpFromAddress = args.fromAddressGenerator.get().from(fromId);
     setHeader(FieldName.DATE, new Date());
     headers.put(FieldName.FROM, new EmailHeader.AddressList(smtpFromAddress));
     headers.put(FieldName.TO, new EmailHeader.AddressList());
@@ -273,7 +273,7 @@ public abstract class OutgoingEmail {
     textBody = new StringBuilder();
     htmlBody = new StringBuilder();
 
-    if (fromId != null && args.fromAddressGenerator.isGenericAddress(fromId)) {
+    if (fromId != null && args.fromAddressGenerator.get().isGenericAddress(fromId)) {
       appendText(getFromLine());
     }
   }
@@ -591,7 +591,10 @@ public abstract class OutgoingEmail {
 
   /** Configures a soy renderer for the given template name and rendering data map. */
   private SoySauce.Renderer configureRenderer(String templateName) {
-    return args.soySauce.renderTemplate(SOY_TEMPLATE_NAMESPACE + templateName).setData(soyContext);
+    return args.soySauce
+        .get()
+        .renderTemplate(SOY_TEMPLATE_NAMESPACE + templateName)
+        .setData(soyContext);
   }
 
   protected void removeUser(Account user) {

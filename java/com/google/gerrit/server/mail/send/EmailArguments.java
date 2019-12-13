@@ -45,6 +45,7 @@ import com.google.gerrit.server.ssh.SshAdvertisedAddresses;
 import com.google.gerrit.server.validators.OutgoingEmailValidationListener;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.google.inject.Singleton;
 import com.google.template.soy.jbcsrc.api.SoySauce;
 import java.util.List;
 import org.eclipse.jgit.lib.Config;
@@ -61,8 +62,7 @@ import org.eclipse.jgit.lib.PersonIdent;
  *
  * <p>This class is public because plugins need access to it for sending emails.
  */
-// TODO(ekempin): Can we make this class a singleton so that we don't need to instantiate it for
-// each and every email?
+@Singleton
 @UsedAt(UsedAt.Project.PLUGINS_ALL)
 public class EmailArguments {
   final GitRepositoryManager server;
@@ -73,12 +73,12 @@ public class EmailArguments {
   final PatchListCache patchListCache;
   final PatchSetUtil patchSetUtil;
   final ApprovalsUtil approvalsUtil;
-  final FromAddressGenerator fromAddressGenerator;
+  final Provider<FromAddressGenerator> fromAddressGenerator;
   final EmailSender emailSender;
   final PatchSetInfoFactory patchSetInfoFactory;
   final IdentifiedUser.GenericFactory identifiedUserFactory;
   final ChangeNotes.Factory changeNotesFactory;
-  final AnonymousUser anonymousUser;
+  final Provider<AnonymousUser> anonymousUser;
   final String anonymousCowardName;
   final PersonIdent gerritPersonIdent;
   final DynamicItem<UrlFormatter> urlFormatter;
@@ -86,9 +86,9 @@ public class EmailArguments {
   final List<String> sshAddresses;
   final SitePaths site;
 
-  final ChangeQueryBuilder queryBuilder;
+  final Provider<ChangeQueryBuilder> queryBuilder;
   final ChangeData.Factory changeDataFactory;
-  final SoySauce soySauce;
+  final Provider<SoySauce> soySauce;
   final EmailSettings settings;
   final DynamicSet<OutgoingEmailValidationListener> outgoingEmailValidationListeners;
   final Provider<InternalAccountQuery> accountQueryProvider;
@@ -106,19 +106,19 @@ public class EmailArguments {
       PatchListCache patchListCache,
       PatchSetUtil patchSetUtil,
       ApprovalsUtil approvalsUtil,
-      FromAddressGenerator fromAddressGenerator,
+      Provider<FromAddressGenerator> fromAddressGenerator,
       EmailSender emailSender,
       PatchSetInfoFactory patchSetInfoFactory,
       GenericFactory identifiedUserFactory,
       ChangeNotes.Factory changeNotesFactory,
-      AnonymousUser anonymousUser,
+      Provider<AnonymousUser> anonymousUser,
       @AnonymousCowardName String anonymousCowardName,
       GerritPersonIdentProvider gerritPersonIdentProvider,
       DynamicItem<UrlFormatter> urlFormatter,
       AllProjectsName allProjectsName,
-      ChangeQueryBuilder queryBuilder,
+      Provider<ChangeQueryBuilder> queryBuilder,
       ChangeData.Factory changeDataFactory,
-      @MailTemplates SoySauce soySauce,
+      @MailTemplates Provider<SoySauce> soySauce,
       EmailSettings settings,
       @SshAdvertisedAddresses List<String> sshAddresses,
       SitePaths site,

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6d4613c5_9f933aff",
+        "filename": "java/com/google/gerrit/server/fixes/FixReplacementInterpreter.java",
+        "patchSetId": 47
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-12-13T17:15:49Z",
+      "side": 1,
+      "message": "This is introduced again. Unintended side effect of rebase?",
+      "range": {
+        "startLine": 54,
+        "startChar": 50,
+        "endLine": 54,
+        "endChar": 83
+      },
+      "revId": "ea986c4651a2a9271e38d4f0fe873f45e1af103b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bdbaa9e6_955654cf",
+        "filename": "java/com/google/gerrit/server/patch/PatchScriptFactoryForAutoFix.java",
+        "patchSetId": 47
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-12-13T17:15:49Z",
+      "side": 1,
+      "message": "Unintended revert of a previous change?",
+      "range": {
+        "startLine": 112,
+        "startChar": 4,
+        "endLine": 112,
+        "endChar": 17
+      },
+      "revId": "ea986c4651a2a9271e38d4f0fe873f45e1af103b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

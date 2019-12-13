@@ -22,6 +22,30 @@
       "revId": "02b731e1514b7676e7c6b73e2bb25aab9e64105b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "64a0f9d8_87349fb6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2019-12-13T22:12:57Z",
+      "side": 1,
+      "message": "Yes, we can refactor the whole thing. It is more something we would like to do on master rather than in v2.16, which is a pretty stable and consolidated release.",
+      "parentUuid": "54750501_99d5849d",
+      "range": {
+        "startLine": 10,
+        "startChar": 31,
+        "endLine": 10,
+        "endChar": 47
+      },
+      "revId": "02b731e1514b7676e7c6b73e2bb25aab9e64105b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

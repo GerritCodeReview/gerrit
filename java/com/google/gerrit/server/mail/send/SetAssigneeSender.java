@@ -54,14 +54,10 @@ public class SetAssigneeSender extends ChangeEmail {
     }
   }
 
-  public String getAssigneeName() {
-    return getNameFor(assignee);
-  }
-
   @Override
   protected void setupSoyContext() {
     super.setupSoyContext();
-    soyContextEmailData.put("assigneeName", getAssigneeName());
+    soyContextEmailData.put("assigneeName", getNameFor(assignee));
   }
 
   @Override

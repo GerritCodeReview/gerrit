@@ -27,6 +27,11 @@ import org.eclipse.jgit.revwalk.RevTree;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
 
+/**
+ * A file.
+ *
+ * <p>This is in the project package because it is accessed through the project/branch/file path.
+ */
 public class FileResource implements RestResource {
   public static final TypeLiteral<RestView<FileResource>> FILE_KIND =
       new TypeLiteral<RestView<FileResource>>() {};

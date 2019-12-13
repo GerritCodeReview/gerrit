@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6f98a0f4_ae96c2e8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-12-13T09:47:16Z",
+      "side": 1,
+      "message": "external",
+      "revId": "80e6f73a2148faf6f9f6aa4d275b451c4640aec4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a8cd29e3_6d753116",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-12-13T09:47:16Z",
+      "side": 1,
+      "message": "Please add a link to the issue",
+      "revId": "80e6f73a2148faf6f9f6aa4d275b451c4640aec4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

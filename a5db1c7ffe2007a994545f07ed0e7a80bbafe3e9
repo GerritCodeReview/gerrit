@@ -1,0 +1,280 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2d4e4bf2_a3bf2c7b",
+        "filename": "java/com/google/gerrit/server/fixes/FixCalculator.java",
+        "patchSetId": 44
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-12-13T15:41:19Z",
+      "side": 1,
+      "message": "This class has only static methods and fields. Make it noninstantiable by adding a private constructor. (Effective Java 3rd edition - item 4)",
+      "range": {
+        "startLine": 33,
+        "startChar": 13,
+        "endLine": 33,
+        "endChar": 26
+      },
+      "revId": "a5db1c7ffe2007a994545f07ed0e7a80bbafe3e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "63b096ec_8ff2c805",
+        "filename": "java/com/google/gerrit/server/fixes/FixCalculator.java",
+        "patchSetId": 44
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-12-13T15:41:19Z",
+      "side": 1,
+      "message": "This is the same text as for calculateFix but the return type is different.",
+      "range": {
+        "startLine": 37,
+        "startChar": 5,
+        "endLine": 37,
+        "endChar": 89
+      },
+      "revId": "a5db1c7ffe2007a994545f07ed0e7a80bbafe3e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e73c9528_26729706",
+        "filename": "java/com/google/gerrit/server/fixes/FixCalculator.java",
+        "patchSetId": 44
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-12-13T15:41:19Z",
+      "side": 1,
+      "message": "or",
+      "range": {
+        "startLine": 42,
+        "startChar": 44,
+        "endLine": 42,
+        "endChar": 46
+      },
+      "revId": "a5db1c7ffe2007a994545f07ed0e7a80bbafe3e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e739958f_30f9a5ef",
+        "filename": "java/com/google/gerrit/server/fixes/FixCalculator.java",
+        "patchSetId": 44
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-12-13T15:41:19Z",
+      "side": 1,
+      "message": "Omit.",
+      "range": {
+        "startLine": 48,
+        "startChar": 8,
+        "endLine": 48,
+        "endChar": 22
+      },
+      "revId": "a5db1c7ffe2007a994545f07ed0e7a80bbafe3e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c4413de8_96ff8136",
+        "filename": "java/com/google/gerrit/server/fixes/FixCalculator.java",
+        "patchSetId": 44
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-12-13T15:41:19Z",
+      "side": 1,
+      "message": "or",
+      "range": {
+        "startLine": 59,
+        "startChar": 44,
+        "endLine": 59,
+        "endChar": 46
+      },
+      "revId": "a5db1c7ffe2007a994545f07ed0e7a80bbafe3e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "55ad5764_104f5340",
+        "filename": "java/com/google/gerrit/server/patch/PatchScriptBuilder.java",
+        "patchSetId": 44
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-12-13T15:41:19Z",
+      "side": 1,
+      "message": "It\u0027s strange to have this named \u0027oldName\u0027 as sideA only has one file name.",
+      "range": {
+        "startLine": 151,
+        "startChar": 13,
+        "endLine": 151,
+        "endChar": 20
+      },
+      "revId": "a5db1c7ffe2007a994545f07ed0e7a80bbafe3e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2637109b_1eb47907",
+        "filename": "java/com/google/gerrit/server/patch/PatchScriptBuilder.java",
+        "patchSetId": 44
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-12-13T15:41:19Z",
+      "side": 1,
+      "message": "Unused.",
+      "range": {
+        "startLine": 153,
+        "startChar": 27,
+        "endLine": 153,
+        "endChar": 42
+      },
+      "revId": "a5db1c7ffe2007a994545f07ed0e7a80bbafe3e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3c917eff_5a1d0152",
+        "filename": "java/com/google/gerrit/server/patch/PatchScriptFactoryForAutoFix.java",
+        "patchSetId": 44
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-12-13T15:41:19Z",
+      "side": 1,
+      "message": "Missing \u0027final\u0027.",
+      "range": {
+        "startLine": 62,
+        "startChar": 9,
+        "endLine": 62,
+        "endChar": 10
+      },
+      "revId": "a5db1c7ffe2007a994545f07ed0e7a80bbafe3e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "66cc5312_64224ca8",
+        "filename": "java/com/google/gerrit/server/patch/PatchScriptFactoryForAutoFix.java",
+        "patchSetId": 44
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-12-13T15:41:19Z",
+      "side": 1,
+      "message": "Omit.",
+      "range": {
+        "startLine": 129,
+        "startChar": 4,
+        "endLine": 129,
+        "endChar": 9
+      },
+      "revId": "a5db1c7ffe2007a994545f07ed0e7a80bbafe3e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8e4f5387_8eab9692",
+        "filename": "javatests/com/google/gerrit/server/fixes/fixCalculator/MultilineContentNoEOLTest.java",
+        "patchSetId": 44
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-12-13T15:41:19Z",
+      "side": 1,
+      "message": "Here and for the other tests (also in the other test classes): This part can be replaced by\n\n  assertThat(fixResult).edits().onlyElement().isReplace(0, 1, 0, 1);\n  assertThat(fixResult).edits().onlyElement().internalEdits().onlyElement().isInsert(0, 0, 3);",
+      "range": {
+        "startLine": 32,
+        "startChar": 4,
+        "endLine": 35,
+        "endChar": 69
+      },
+      "revId": "a5db1c7ffe2007a994545f07ed0e7a80bbafe3e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "00f34fa7_f124fab3",
+        "filename": "javatests/com/google/gerrit/server/fixes/fixCalculator/MultilineContentNoEOLTest.java",
+        "patchSetId": 44
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-12-13T15:41:19Z",
+      "side": 1,
+      "message": "Here and below: Shouldn\u0027t this be \"First line\\nSecond line\\nThird line\" to follow the idea of this test class testing multiline content?",
+      "range": {
+        "startLine": 53,
+        "startChar": 64,
+        "endLine": 53,
+        "endChar": 74
+      },
+      "revId": "a5db1c7ffe2007a994545f07ed0e7a80bbafe3e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b675445b_a8833381",
+        "filename": "javatests/com/google/gerrit/server/fixes/fixCalculator/MultilineContentWithEOLTest.java",
+        "patchSetId": 44
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-12-13T15:41:19Z",
+      "side": 1,
+      "message": "Here and below: Shouldn\u0027t this be \"First line\\nSecond line\\nThird line\\n\"?",
+      "range": {
+        "startLine": 53,
+        "startChar": 63,
+        "endLine": 53,
+        "endChar": 76
+      },
+      "revId": "a5db1c7ffe2007a994545f07ed0e7a80bbafe3e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

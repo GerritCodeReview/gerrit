@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cb9af855_3ac6c1b8",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 34
+      },
+      "lineNbr": 5364,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-12-13T15:41:19Z",
+      "side": 1,
+      "message": "Printed as\n\n  \u003c\u003cfix-id,\\{fix-id\\}\u003e\n\nin the rendered documentation, which doesn\u0027t seem intended.\n\nHint: Render the documentation by using the contrib/show_new_gerrit_doc_in_chrome.sh script.",
+      "range": {
+        "startLine": 5364,
+        "startChar": 42,
+        "endLine": 5364,
+        "endChar": 62
+      },
+      "revId": "74b419539d6477a3d923a44de2a0e3ca341ee2c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bcfb5fc3_153d4e08",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 34
+      },
+      "lineNbr": 5365,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-12-13T15:41:19Z",
+      "side": 1,
+      "message": "Missing comma.",
+      "range": {
+        "startLine": 5365,
+        "startChar": 11,
+        "endLine": 5365,
+        "endChar": 12
+      },
+      "revId": "74b419539d6477a3d923a44de2a0e3ca341ee2c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9fda359a_d0230f5e",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 34
+      },
+      "lineNbr": 5367,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-12-13T15:41:19Z",
+      "side": 1,
+      "message": "Two nouns without any link between them (e.g. missing verb?).",
+      "range": {
+        "startLine": 5367,
+        "startChar": 0,
+        "endLine": 5367,
+        "endChar": 46
+      },
+      "revId": "74b419539d6477a3d923a44de2a0e3ca341ee2c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

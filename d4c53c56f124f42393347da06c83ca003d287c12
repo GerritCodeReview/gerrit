@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c54a6161_55f2798b",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 939,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2019-12-13T15:03:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6d651a36_97933824",
+      "range": {
+        "startLine": 938,
+        "startChar": 39,
+        "endLine": 939,
+        "endChar": 45
+      },
+      "revId": "d4c53c56f124f42393347da06c83ca003d287c12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ddcf4689_c2f6bba8",
         "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
         "patchSetId": 10
@@ -39,6 +63,24 @@
       "revId": "d4c53c56f124f42393347da06c83ca003d287c12",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "550c6aa4_6b5fdfe4",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 940,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2019-12-13T15:03:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ddcf4689_c2f6bba8",
+      "revId": "d4c53c56f124f42393347da06c83ca003d287c12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "de2bade9_5fbe2155",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 1480,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2019-12-13T15:03:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "507ebc26_ff918b99",
+      "revId": "d4c53c56f124f42393347da06c83ca003d287c12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "58448a3b_09070e0a",
         "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.html",
         "patchSetId": 10
@@ -76,6 +136,24 @@
     },
     {
       "key": {
+        "uuid": "50751163_82ff6cfd",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions_test.html",
+        "patchSetId": 10
+      },
+      "lineNbr": 1485,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2019-12-13T15:03:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "58448a3b_09070e0a",
+      "revId": "d4c53c56f124f42393347da06c83ca003d287c12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bf036965_0c643179",
         "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-submission-dialog/gr-confirm-revert-submission-dialog.js",
         "patchSetId": 10
@@ -90,6 +168,24 @@
       "revId": "d4c53c56f124f42393347da06c83ca003d287c12",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c4ac4fb5_65ca2dfd",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-submission-dialog/gr-confirm-revert-submission-dialog.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2019-12-13T15:03:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bf036965_0c643179",
+      "revId": "d4c53c56f124f42393347da06c83ca003d287c12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -116,6 +212,30 @@
     },
     {
       "key": {
+        "uuid": "d7b804eb_8e73c669",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-submission-dialog/gr-confirm-revert-submission-dialog.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2019-12-13T15:03:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "26a77ffa_7ba787b7",
+      "range": {
+        "startLine": 53,
+        "startChar": 27,
+        "endLine": 53,
+        "endChar": 29
+      },
+      "revId": "d4c53c56f124f42393347da06c83ca003d287c12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f05b57d7_8a4fc6a8",
         "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-submission-dialog/gr-confirm-revert-submission-dialog.js",
         "patchSetId": 10
@@ -136,6 +256,30 @@
       "revId": "d4c53c56f124f42393347da06c83ca003d287c12",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cc72bc19_e21e491f",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-submission-dialog/gr-confirm-revert-submission-dialog.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2019-12-13T15:03:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f05b57d7_8a4fc6a8",
+      "range": {
+        "startLine": 61,
+        "startChar": 6,
+        "endLine": 64,
+        "endChar": 7
+      },
+      "revId": "d4c53c56f124f42393347da06c83ca003d287c12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -162,6 +306,30 @@
     },
     {
       "key": {
+        "uuid": "1ac42b8e_0b289307",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-submission-dialog/gr-confirm-revert-submission-dialog.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2019-12-13T15:03:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "85100525_8aba7724",
+      "range": {
+        "startLine": 71,
+        "startChar": 24,
+        "endLine": 72,
+        "endChar": 61
+      },
+      "revId": "d4c53c56f124f42393347da06c83ca003d287c12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6c83f468_2d9e7d7d",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 10
@@ -176,6 +344,24 @@
       "revId": "d4c53c56f124f42393347da06c83ca003d287c12",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fbf5d528_0229cfe7",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 1625,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2019-12-13T15:03:16Z",
+      "side": 1,
+      "message": "Yeah, I think no need for this proxy function. Will remove occurrences.",
+      "parentUuid": "6c83f468_2d9e7d7d",
+      "revId": "d4c53c56f124f42393347da06c83ca003d287c12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -442,6 +442,24 @@
     },
     {
       "key": {
+        "uuid": "292d436f_f4cc394c",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
+        "patchSetId": 44
+      },
+      "lineNbr": 980,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2019-12-13T18:32:47Z",
+      "side": 1,
+      "message": "As the tests cover corner cases and \u0027preview fix\u0027 is a non-write endpoint, I would be fine deferring those tests and potential implementation adjustments to follow-up changes.",
+      "parentUuid": "e7b2180c_1e15e2b7",
+      "revId": "a5db1c7ffe2007a994545f07ed0e7a80bbafe3e9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1445a7a2_a950659c",
         "filename": "javatests/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
         "patchSetId": 44

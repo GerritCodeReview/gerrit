@@ -1,4 +1,4 @@
-// Copyright (C) 2009 The Android Open Source Project
+// Copyright (C) 2019 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -14,8 +14,7 @@
 
 package com.google.gerrit.httpd;
 
-import com.google.gerrit.server.util.RequestContext;
-import com.google.gerrit.server.util.ThreadLocalRequestContext;
+import com.google.gerrit.server.RequestCleanup;
 import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.Provider;
@@ -29,25 +28,23 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
-/** Set the request context for the downstream filters and invocation. */
+/** Executes any pending {@link RequestCleanup} at the end of a request. */
 @Singleton
-public class RequestContextFilter implements Filter {
+public class RequestCleanupFilter implements Filter {
   public static Module module() {
     return new ServletModule() {
       @Override
       protected void configureServlets() {
-        filter("/*").through(RequestContextFilter.class);
+        filter("/*").through(RequestCleanupFilter.class);
       }
     };
   }
 
-  private final Provider<HttpRequestContext> requestContext;
-  private final ThreadLocalRequestContext local;
+  private final Provider<RequestCleanup> cleanup;
 
   @Inject
-  RequestContextFilter(Provider<HttpRequestContext> c, ThreadLocalRequestContext l) {
-    requestContext = c;
-    local = l;
+  RequestCleanupFilter(Provider<RequestCleanup> r) {
+    cleanup = r;
   }
 
   @Override
@@ -59,11 +56,10 @@ public class RequestContextFilter implements Filter {
   @Override
   public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
       throws IOException, ServletException {
-    RequestContext old = local.setContext(requestContext.get());
     try {
       chain.doFilter(request, response);
     } finally {
-      local.setContext(old);
+      cleanup.get().run();
     }
   }
 }

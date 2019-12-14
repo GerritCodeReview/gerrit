@@ -31,9 +31,7 @@ public class RequestCleanup implements Runnable {
   /** Register a task to be completed after the request ends. */
   public void add(Runnable task) {
     synchronized (cleanup) {
-      if (ran) {
-        throw new IllegalStateException("Request has already been cleaned up");
-      }
+      assertNotRan();
       cleanup.add(task);
     }
   }
@@ -41,6 +39,7 @@ public class RequestCleanup implements Runnable {
   @Override
   public void run() {
     synchronized (cleanup) {
+      assertNotRan();
       ran = true;
       for (Iterator<Runnable> i = cleanup.iterator(); i.hasNext(); ) {
         try {
@@ -50,6 +49,12 @@ public class RequestCleanup implements Runnable {
         }
         i.remove();
       }
+    }
+  }
+
+  private void assertNotRan() {
+    if (ran) {
+      throw new IllegalStateException("Request has already been cleaned up");
     }
   }
 }

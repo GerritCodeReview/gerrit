@@ -15,7 +15,7 @@ load("//javatests/com/google/gerrit/acceptance:tests.bzl", "acceptance_tests")
 java_library(
     name = "push_for_review",
     testonly = True,
-    srcs = ["AbstractPushForReview.java"],
+    srcs = glob(["Abstract*.java"]),
     deps = [
         "//java/com/google/gerrit/acceptance:lib",
         "//java/com/google/gerrit/mail",

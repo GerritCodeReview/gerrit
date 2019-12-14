@@ -11,6 +11,12 @@
       "url": "https://gerrit-ci.gerritforge.com/job/Gerrit-verifier-bazel/76712/consoleText",
       "created": "2019-12-14T00:22:21Z",
       "updated": "2019-12-14T00:22:21Z"
+    },
+    "gerritforge:polygerrit-a6a0e4682515f3521897c5f950d1394f4619d928": {
+      "state": "NOT_STARTED",
+      "url": "https://gerrit-ci.gerritforge.com/job/Gerrit-verifier-bazel/76714/consoleText",
+      "created": "2019-12-14T00:22:25Z",
+      "updated": "2019-12-14T00:22:25Z"
     }
   }
 }

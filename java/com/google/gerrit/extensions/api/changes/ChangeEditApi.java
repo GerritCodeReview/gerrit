@@ -76,6 +76,15 @@ public interface ChangeEditApi {
   void create() throws RestApiException;
 
   /**
+   * Upload a file using base64 data uri. If the change edit doesn't exist, it will be created based
+   * on the current patch set of the change.
+   *
+   * @param fileUploadInput a {@code FileUploadInput} specifying the options which should be applied
+   * @throws RestApiException if the content of the file couldn't be modified
+   */
+  void upload(FileUploadInput fileUploadInput) throws RestApiException;
+
+  /**
    * Deletes the change edit.
    *
    * @throws RestApiException if the change edit couldn't be deleted or a change edit wasn't present
@@ -196,6 +205,11 @@ public interface ChangeEditApi {
 
     @Override
     public void create() throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public void upload(FileUploadInput fileUploadInput) throws RestApiException {
       throw new NotImplementedException();
     }
 

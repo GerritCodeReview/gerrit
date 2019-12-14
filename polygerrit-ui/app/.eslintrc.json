@@ -69,6 +69,9 @@
     "no-undef": "off",
     "no-useless-escape": "off",
     "no-var": "error",
+    "no-prototype-builtins": "off",
+    "no-redeclare": "off",
+    "operator-linebreak": "off",
     "object-shorthand": ["error", "always"],
     "padding-line-between-statements": [
       "error",

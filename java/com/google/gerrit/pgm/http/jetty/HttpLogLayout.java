@@ -41,6 +41,11 @@ public final class HttpLogLayout extends Layout {
     opt(buf, event, HttpLog.P_HOST);
 
     buf.append(' ');
+    buf.append('[');
+    buf.append(event.getThreadName());
+    buf.append(']');
+
+    buf.append(' ');
     buf.append('-'); // identd on client system (never requested)
 
     buf.append(' ');

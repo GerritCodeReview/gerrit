@@ -54,6 +54,12 @@ public final class SshLogLayout extends Layout {
     buf.append(']');
 
     req(P_SESSION, buf, event);
+
+    buf.append(' ');
+    buf.append('[');
+    buf.append(event.getThreadName());
+    buf.append(']');
+
     req(P_USER_NAME, buf, event);
     req(P_ACCOUNT_ID, buf, event);
 

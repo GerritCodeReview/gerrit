@@ -2,13 +2,13 @@
 
 set -ex
 
-node_bin=$(which node)
+node_bin=$(which node) && true
 if [ -z "$node_bin" ]; then
     echo "node must be on the path."
     exit 1
 fi
 
-npm_bin=$(which npm)
+npm_bin=$(which npm) && true
 if [[ -z "$npm_bin" ]]; then
     echo "NPM must be on the path. (https://www.npmjs.com/)"
     exit 1

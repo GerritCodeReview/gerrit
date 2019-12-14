@@ -2739,6 +2739,34 @@ content that the file already has, '409 no changes were made' is returned.
   HTTP/1.1 409 no changes were made
 ----
 
+[[put-upload-file]]
+=== Upload File in Change Edit
+--
+'PUT /changes/link:#change-id[\{change-id\}]/edit:upload
+--
+
+Upload a file. The request body needs to include "path" and "content"
+as json. "content" must also be encoded as base64 and be a data uri.
+
+.Request
+----
+  PUT /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/edit:upload HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+  {
+    "path": "hello_world.txt",
+    "content": "data:text/plain;base64,SGVsbG8sIFdvcmxkIQ%3D%3D"
+  }
+----
+
+If a change edit doesn't exist for this change yet, it is created. As
+response "`204 No Content`" is returned.
+
+.Response
+----
+  HTTP/1.1 204 No Content
+----
+
 [[post-edit]]
 === Restore file content or rename files in Change Edit
 --

@@ -12,7 +12,7 @@ link:rest-api.html[REST API].
 === Create Change
 --
 'POST /changes/'
---
+--p
 
 The change input link:#change-input[ChangeInput] entity must be provided in the
 request body.
@@ -2766,6 +2766,35 @@ content that the file already has, '409 no changes were made' is returned.
 .Response
 ----
   HTTP/1.1 409 no changes were made
+----
+
+[[put-upload-file]]
+=== Upload File in Change Edit
+--
+'PUT /changes/link:#change-id[\{change-id\}]/edit:upload
+--
+
+Upload file. The request body needs to include a
+link:#change-edit-upload-file[FileUploadInput]
+entity.
+
+.Request
+----
+  PUT /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/edit:upload HTTP/1.0
+  Content-Type: application/json; charset=UTF-8
+
+  {
+    "path": "hello_world.txt",
+    "content": "data:text/plain;base64,SGVsbG8sIFdvcmxkIQ=="
+  }
+----
+
+If a change edit doesn't exist for this change yet, it is created. As
+response "`201 Created`" is returned.
+
+.Response
+----
+  HTTP/1.1 201 Created
 ----
 
 [[post-edit]]
@@ -5913,6 +5942,18 @@ the commit message within a change edit.
 |===========================
 |Field Name    ||Description
 |`message`     ||New commit message.
+|===========================
+
+[[change-edit-upload-file]]
+=== FileUploadInput
+The `FileUploadInput` entity contains information for uploading
+a file within a change edit.
+
+[options="header",cols="1,^1,5"]
+|===========================
+|Field Name    ||Description
+|`content`     ||Contains a encoded base64 data uri string.
+|`path`        ||File name.
 |===========================
 
 [[change-info]]

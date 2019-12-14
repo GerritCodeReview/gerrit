@@ -16,6 +16,24 @@
       "revId": "af6bf58025efd3acfe77e601d4d4802495281e17",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f9af469e_5c22d548",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-12-14T01:02:31Z",
+      "side": 1,
+      "message": "Oh, ignore the whole above. Just seen you\u0027ve set \"false\".",
+      "parentUuid": "05445546_681d283c",
+      "revId": "af6bf58025efd3acfe77e601d4d4802495281e17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

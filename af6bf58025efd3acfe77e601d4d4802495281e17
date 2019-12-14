@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "05445546_681d283c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-12-14T01:00:22Z",
+      "side": 1,
+      "message": "According to [1] this is already set (default value is true). We use version 2.0.2 [2].\n\nChange was introduced in [3] which was 2.0 (so is included in 2.0.2). Gerrit 3.0 also runs crisper 2.0.2.\n\n[1] https://github.com/PolymerLabs/crisper/blob/eab26dec74ab5ddfda96d846bab757138c76c42f/README.md#breaking-changes-from-1x\n[2] https://github.com/GerritCodeReview/gerrit/blob/e24a7a4d2dc1acd0852ae43f92f7a4e3b1bcb6c3/lib/js/npm.bzl#L3\n[3] https://github.com/PolymerLabs/crisper/commit/d1224fdaf6e7f319eec8e86f10ffb2320208ddb5",
+      "revId": "af6bf58025efd3acfe77e601d4d4802495281e17",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

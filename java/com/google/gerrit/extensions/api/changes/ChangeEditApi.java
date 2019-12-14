@@ -142,6 +142,14 @@ public interface ChangeEditApi {
   void restoreFile(String filePath) throws RestApiException;
 
   /**
+   * Same as below but is for uploading binary files using base64 uri.
+   *
+   * @param fileUploadInput a {@code FileUploadInput} specifying the options which should be applied
+   * @throws RestApiException if the content of the file couldn't be modified
+   */
+  void modifyFile(FileUploadInput fileUploadInput) throws RestApiException;
+
+  /**
    * Modify the contents of the specified file of the change edit. If no content is provided, the
    * content of the file is erased but the file isn't deleted. If the change edit doesn't exist, it
    * will be created based on the current patch set of the change.
@@ -251,6 +259,11 @@ public interface ChangeEditApi {
 
     @Override
     public void modifyFile(String filePath, FileContentInput input) throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public void modifyFile(FileUploadInput fileUploadInput) throws RestApiException {
       throw new NotImplementedException();
     }
 

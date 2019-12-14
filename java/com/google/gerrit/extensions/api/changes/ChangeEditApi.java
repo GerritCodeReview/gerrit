@@ -76,6 +76,14 @@ public interface ChangeEditApi {
   void create() throws RestApiException;
 
   /**
+   * Uploads a file whilst creating a new change edit. It has exactly the same Git tree as the
+   * current patch set of the change.
+   *
+   * @throws RestApiException if the change edit couldn't be created or a change edit already exists
+   */
+  void upload(FileUploadInput fileUploadInput) throws RestApiException;
+
+  /**
    * Deletes the change edit.
    *
    * @throws RestApiException if the change edit couldn't be deleted or a change edit wasn't present
@@ -196,6 +204,11 @@ public interface ChangeEditApi {
 
     @Override
     public void create() throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public void upload(FileUploadInput fileUploadInput) throws RestApiException {
       throw new NotImplementedException();
     }
 

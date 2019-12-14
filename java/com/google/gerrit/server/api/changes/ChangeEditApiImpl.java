@@ -18,6 +18,7 @@ import static com.google.gerrit.server.api.ApiUtil.asRestApiException;
 
 import com.google.gerrit.extensions.api.changes.ChangeEditApi;
 import com.google.gerrit.extensions.api.changes.FileContentInput;
+import com.google.gerrit.extensions.api.changes.FileUploadInput;
 import com.google.gerrit.extensions.api.changes.PublishChangeEditInput;
 import com.google.gerrit.extensions.client.ChangeEditDetailOption;
 import com.google.gerrit.extensions.common.EditInfo;
@@ -34,6 +35,7 @@ import com.google.gerrit.server.restapi.change.ChangeEdits;
 import com.google.gerrit.server.restapi.change.DeleteChangeEdit;
 import com.google.gerrit.server.restapi.change.PublishChangeEdit;
 import com.google.gerrit.server.restapi.change.RebaseChangeEdit;
+import com.google.gerrit.server.restapi.change.UploadFile;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
@@ -56,6 +58,7 @@ public class ChangeEditApiImpl implements ChangeEditApi {
   private final Provider<ChangeEdits.GetMessage> getChangeEditCommitMessageProvider;
   private final ChangeEdits.EditMessage modifyChangeEditCommitMessage;
   private final ChangeEdits changeEdits;
+  private final UploadFile uploadFile;
   private final ChangeResource changeResource;
 
   @Inject
@@ -71,6 +74,7 @@ public class ChangeEditApiImpl implements ChangeEditApi {
       Provider<ChangeEdits.GetMessage> getChangeEditCommitMessageProvider,
       ChangeEdits.EditMessage modifyChangeEditCommitMessage,
       ChangeEdits changeEdits,
+      UploadFile uploadFile,
       @Assisted ChangeResource changeResource) {
     this.editDetailProvider = editDetailProvider;
     this.changeEditsPost = changeEditsPost;
@@ -83,6 +87,7 @@ public class ChangeEditApiImpl implements ChangeEditApi {
     this.getChangeEditCommitMessageProvider = getChangeEditCommitMessageProvider;
     this.modifyChangeEditCommitMessage = modifyChangeEditCommitMessage;
     this.changeEdits = changeEdits;
+    this.uploadFile = uploadFile;
     this.changeResource = changeResource;
   }
 
@@ -196,6 +201,15 @@ public class ChangeEditApiImpl implements ChangeEditApi {
       changeEditsPost.apply(changeResource, restoreInput);
     } catch (Exception e) {
       throw asRestApiException("Cannot restore file of change edit", e);
+    }
+  }
+
+  @Override
+  public void modifyFile(FileUploadInput fileUploadInput) throws RestApiException {
+    try {
+      uploadFile.apply(changeResource, fileUploadInput);
+    } catch (Exception e) {
+      throw asRestApiException("Cannot upload file", e);
     }
   }
 

@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1ba15eb9_2f5ab8ea",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 5923,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-12-15T01:25:37Z",
+      "side": 1,
+      "message": "misaligned with the previous line",
+      "range": {
+        "startLine": 5923,
+        "startChar": 12,
+        "endLine": 5923,
+        "endChar": 24
+      },
+      "revId": "242c7fe9e539760061681c15d840e57190c139b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "915732be_6ff9bbf0",
+        "filename": "java/com/google/gerrit/extensions/api/changes/FileUploadChangeEditInput.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-12-15T01:25:37Z",
+      "side": 1,
+      "message": "Maybe just \"FileUploadInput\"?",
+      "range": {
+        "startLine": 17,
+        "startChar": 13,
+        "endLine": 17,
+        "endChar": 38
+      },
+      "revId": "242c7fe9e539760061681c15d840e57190c139b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5c1d6101_2c2b337b",
+        "filename": "java/com/google/gerrit/server/restapi/change/FileUploadChangeEdit.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-12-15T01:25:37Z",
+      "side": 1,
+      "message": "\"UploadFile\"?",
+      "range": {
+        "startLine": 40,
+        "startChar": 13,
+        "endLine": 40,
+        "endChar": 33
+      },
+      "revId": "242c7fe9e539760061681c15d840e57190c139b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

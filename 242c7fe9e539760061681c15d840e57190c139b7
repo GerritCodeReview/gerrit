@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "61cb24a6_1aba33a7",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 5923,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-12-15T01:42:47Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "1ba15eb9_2f5ab8ea",
+      "range": {
+        "startLine": 5923,
+        "startChar": 12,
+        "endLine": 5923,
+        "endChar": 24
+      },
+      "revId": "242c7fe9e539760061681c15d840e57190c139b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "915732be_6ff9bbf0",
         "filename": "java/com/google/gerrit/extensions/api/changes/FileUploadChangeEditInput.java",
         "patchSetId": 7
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "0d3c6284_790a1d08",
+        "filename": "java/com/google/gerrit/extensions/api/changes/FileUploadChangeEditInput.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-12-15T01:42:47Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "915732be_6ff9bbf0",
+      "range": {
+        "startLine": 17,
+        "startChar": 13,
+        "endLine": 17,
+        "endChar": 38
+      },
+      "revId": "242c7fe9e539760061681c15d840e57190c139b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5c1d6101_2c2b337b",
         "filename": "java/com/google/gerrit/server/restapi/change/FileUploadChangeEdit.java",
         "patchSetId": 7
@@ -68,6 +116,30 @@
       "revId": "242c7fe9e539760061681c15d840e57190c139b7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d72e2df3_0888d294",
+        "filename": "java/com/google/gerrit/server/restapi/change/FileUploadChangeEdit.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-12-15T01:42:47Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "5c1d6101_2c2b337b",
+      "range": {
+        "startLine": 40,
+        "startChar": 13,
+        "endLine": 40,
+        "endChar": 33
+      },
+      "revId": "242c7fe9e539760061681c15d840e57190c139b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

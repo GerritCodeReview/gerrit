@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b6c6198c_156c87d2",
+        "filename": "java/com/google/gerrit/server/restapi/change/FileUploadChangeEdit.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-12-15T00:41:58Z",
+      "side": 1,
+      "message": "There was some effort previously to replace static Input classes with standalone classes in the extension API package.",
+      "range": {
+        "startLine": 43,
+        "startChar": 2,
+        "endLine": 46,
+        "endChar": 3
+      },
+      "revId": "24f6b30fd0569fe7842dcf149ef24cf987176bfa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f6ebcc6b_b65609e4",
+        "filename": "java/com/google/gerrit/server/restapi/change/FileUploadChangeEdit.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-12-15T00:41:58Z",
+      "side": 1,
+      "message": "Should be a BadRequestException?",
+      "range": {
+        "startLine": 66,
+        "startChar": 16,
+        "endLine": 66,
+        "endChar": 41
+      },
+      "revId": "24f6b30fd0569fe7842dcf149ef24cf987176bfa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4d436c60_9bacd472",
+        "filename": "java/com/google/gerrit/server/restapi/change/FileUploadChangeEdit.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-12-15T00:41:58Z",
+      "side": 1,
+      "message": "Same here",
+      "range": {
+        "startLine": 74,
+        "startChar": 16,
+        "endLine": 74,
+        "endChar": 41
+      },
+      "revId": "24f6b30fd0569fe7842dcf149ef24cf987176bfa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a1c679b2_f803596c",
+        "filename": "java/com/google/gerrit/server/restapi/change/FileUploadChangeEdit.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-12-15T00:41:58Z",
+      "side": 1,
+      "message": "should this rather return \"201 Created\"?",
+      "range": {
+        "startLine": 82,
+        "startChar": 20,
+        "endLine": 82,
+        "endChar": 24
+      },
+      "revId": "24f6b30fd0569fe7842dcf149ef24cf987176bfa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

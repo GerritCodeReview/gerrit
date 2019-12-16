@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cba6666c_651f55fb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-12-16T13:01:45Z",
+      "side": 1,
+      "message": "Add an issue number.",
+      "revId": "ebba6daeaf155f0912289a1528218a4b45132e4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "49f15d19_9ebd5d15",
+        "filename": "resources/com/google/gerrit/httpd/raw/PolyGerritIndexHtml.soy",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-12-16T13:01:45Z",
+      "side": 1,
+      "message": "Maybe add a comment about where fonts are loaded from, if useGoogleFonts is false.",
+      "revId": "ebba6daeaf155f0912289a1528218a4b45132e4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7dd46c89_f1429e29",
+        "filename": "resources/com/google/gerrit/httpd/raw/PolyGerritIndexHtml.soy",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-12-16T13:01:45Z",
+      "side": 1,
+      "message": "Why don\u0027t we load this from fonts.googleapis.com?",
+      "revId": "ebba6daeaf155f0912289a1528218a4b45132e4c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -29,6 +29,7 @@ limitations under the License.
 <link rel="import" href="../gr-create-change-help/gr-create-change-help.html">
 <link rel="import" href="../gr-create-destination-dialog/gr-create-destination-dialog.html">
 <link rel="import" href="../gr-user-header/gr-user-header.html">
+<link rel="import" href="../../shared/gr-feature-flag/gr-feature-flag.html">
 
 <dom-module id="gr-dashboard-view">
   <template>
@@ -72,6 +73,9 @@ limitations under the License.
         }
       }
     </style>
+    <gr-feature-flag feature="topHeader">
+      <h1>Test feature flag!</h1>
+    </gr-feature-flag>
     <div class$="banner [[_computeBannerClass(_showDraftsBanner)]]">
       <div>
         You have draft comments on closed changes.

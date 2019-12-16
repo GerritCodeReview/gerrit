@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1b7d79f0_c677474a",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-submission-dialog/gr-confirm-revert-submission-dialog.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-12-16T08:50:21Z",
+      "side": 1,
+      "message": "you still want to re-assign the returned message back to `this.message` as the `modifyRevertSubmissionMsg` may change that.\n\nMaybe add a test for that as well. (you can fake the listener in jsAPI)",
+      "revId": "9af01670edb28d32d2160aacfd79d4110374ad32",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

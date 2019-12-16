@@ -307,10 +307,16 @@
       td.classList.add(opt_class);
     }
 
-    if (line.type === GrDiffLine.Type.REMOVE) {
-      td.setAttribute('aria-label', `${number} removed`);
-    } else if (line.type === GrDiffLine.Type.ADD) {
-      td.setAttribute('aria-label', `${number} added`);
+    // Add aria-labels for valid line numbers.
+    // For unified diff, this method will be called with number set to 0 for
+    // the empty line number column for added/removed lines. This should not
+    // be announced to the screenreader.
+    if (number > 0) {
+      if (line.type === GrDiffLine.Type.REMOVE) {
+        td.setAttribute('aria-label', `${number} removed`);
+      } else if (line.type === GrDiffLine.Type.ADD) {
+        td.setAttribute('aria-label', `${number} added`);
+      }
     }
 
     if (line.type === GrDiffLine.Type.BLANK) {

@@ -38,6 +38,8 @@
         type: Boolean,
         value: false,
       },
+      // Index of currently showing sugrested fix.
+      _selectedFixIdx: Number,
     },
 
     behaviors: [
@@ -59,6 +61,7 @@
       if (this._fixSuggestions == null || this._fixSuggestions.length == 0) {
         return Promise.resolve();
       }
+      this._selectedFixIdx = 0;
       const promises = [];
       promises.push(
           this._showSelectedFixSuggestion(this._fixSuggestions[0]),
@@ -95,6 +98,10 @@
           });
     },
 
+    hasSingleFix(_fixSuggestions) {
+      return (_fixSuggestions || {}).length === 1;
+    },
+
     overridePartialPrefs(prefs) {
       // generate a smaller gr-diff than fullscreen for dialog
       return Object.assign({}, prefs, {line_length: 50});
@@ -105,6 +112,37 @@
         e.stopPropagation();
       }
       this._close();
+    },
+
+    addOneTo(_selectedFixIdx) {
+      return _selectedFixIdx + 1;
+    },
+
+    _onPrevFixClick(e) {
+      if (e) e.stopPropagation();
+      if (this._selectedFixIdx >= 1 && this._fixSuggestions != null) {
+        this._selectedFixIdx -= 1;
+        return this._showSelectedFixSuggestion(
+            this._fixSuggestions[this._selectedFixIdx]);
+      }
+    },
+
+    _onNextFixClick(e) {
+      if (e) e.stopPropagation();
+      if (this._selectedFixIdx < this._fixSuggestions.length && this._fixSuggestions != null) {
+        this._selectedFixIdx += 1;
+        return this._showSelectedFixSuggestion(
+            this._fixSuggestions[this._selectedFixIdx]);
+      }
+    },
+
+    _noPrevFix(_selectedFixIdx) {
+      return _selectedFixIdx === 0;
+    },
+
+    _noNextFix(_selectedFixIdx) {
+      if (this._fixSuggestions == null) return true;
+      return _selectedFixIdx === this._fixSuggestions.length - 1;
     },
 
     _close() {

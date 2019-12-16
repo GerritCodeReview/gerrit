@@ -125,9 +125,9 @@ public class RetryHelper {
           Field.ofString("operation_name", Metadata.Builder::operationName)
               .description("The name of the operation that was retried.")
               .build();
-      Field<String> lastAttemptCauseField =
+      Field<String> originalCauseField =
           Field.ofString("cause", Metadata.Builder::cause)
-              .description("The cause for the last attempt.")
+              .description("The original cause that triggered the retry.")
               .build();
       Field<String> causeField =
           Field.ofString("cause", Metadata.Builder::cause)
@@ -144,7 +144,7 @@ public class RetryHelper {
                   .setUnit("attempts"),
               actionTypeField,
               operationNameField,
-              lastAttemptCauseField);
+              originalCauseField);
       timeoutCount =
           metricMaker.newCounter(
               "action/retry_timeout_count",
@@ -154,7 +154,7 @@ public class RetryHelper {
                   .setUnit("timeouts"),
               actionTypeField,
               operationNameField,
-              lastAttemptCauseField);
+              originalCauseField);
       autoRetryCount =
           metricMaker.newCounter(
               "action/auto_retry_count",
@@ -501,14 +501,14 @@ public class RetryHelper {
                 return false;
               });
       retryerBuilder.withRetryListener(listener);
-      return executeWithTimeoutCount(actionType, action, opts, retryerBuilder.build());
+      return executeWithTimeoutCount(actionType, action, opts, retryerBuilder.build(), listener);
     } finally {
       if (listener.getAttemptCount() > 1) {
         logger.atFine().log("%s was attempted %d times", actionType, listener.getAttemptCount());
         metrics.attemptCounts.incrementBy(
             actionType,
             opts.actionName().orElse("N/A"),
-            listener.getCause().map(this::formatCause).orElse("_unknown"),
+            listener.getOriginalCause().map(this::formatCause).orElse("_unknown"),
             listener.getAttemptCount() - 1);
       }
     }
@@ -545,12 +545,18 @@ public class RetryHelper {
    * @param action the action which should be executed and retried on failure
    * @param opts options for retrying the action on failure
    * @param retryer the retryer
+   * @param listener metric listener
    * @return the result of executing the action
    * @throws Throwable any error or exception that made the action fail, callers are expected to
    *     catch and inspect this Throwable to decide carefully whether it should be re-thrown
    */
   private <T> T executeWithTimeoutCount(
-      String actionType, Action<T> action, Options opts, Retryer<T> retryer) throws Throwable {
+      String actionType,
+      Action<T> action,
+      Options opts,
+      Retryer<T> retryer,
+      MetricListener listener)
+      throws Throwable {
     try {
       return retryer.call(action::call);
     } catch (ExecutionException | RetryException e) {
@@ -558,7 +564,7 @@ public class RetryHelper {
         metrics.timeoutCount.increment(
             actionType,
             opts.actionName().orElse("N/A"),
-            e.getCause() != null ? formatCause(e.getCause()) : "_unknown");
+            listener.getOriginalCause().map(this::formatCause).orElse("_unknown"));
       }
       if (e.getCause() != null) {
         throw e.getCause();
@@ -590,18 +596,18 @@ public class RetryHelper {
 
   private static class MetricListener implements RetryListener {
     private long attemptCount;
-    private Optional<Throwable> cause;
+    private Optional<Throwable> originalCause;
 
     MetricListener() {
       attemptCount = 1;
-      cause = Optional.empty();
+      originalCause = Optional.empty();
     }
 
     @Override
     public <V> void onRetry(Attempt<V> attempt) {
       attemptCount = attempt.getAttemptNumber();
-      if (attempt.hasException()) {
-        cause = Optional.of(attempt.getExceptionCause());
+      if (attemptCount == 1 && attempt.hasException()) {
+        originalCause = Optional.of(attempt.getExceptionCause());
       }
     }
 
@@ -609,8 +615,8 @@ public class RetryHelper {
       return attemptCount;
     }
 
-    Optional<Throwable> getCause() {
-      return cause;
+    Optional<Throwable> getOriginalCause() {
+      return originalCause;
     }
   }
 }

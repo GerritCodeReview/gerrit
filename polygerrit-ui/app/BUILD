@@ -104,6 +104,7 @@ sh_test(
     ],
 )
 
+# TODO(taoalpha): alias to `npm run eslint` or just remove once CI moved to npm
 sh_test(
     name = "lint_test",
     size = "large",

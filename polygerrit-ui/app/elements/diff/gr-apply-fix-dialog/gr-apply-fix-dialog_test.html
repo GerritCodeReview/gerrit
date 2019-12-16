@@ -40,7 +40,7 @@ limitations under the License.
     let sandbox;
     const ROBOT_COMMENT = {
       robot_id: 'robot_1',
-      fix_suggestions: [{fix_id: 'fix_1'}],
+      fix_suggestions: [{fix_id: 'fix_1'}, {fix_id: 'fix_2'}],
     };
 
     setup(() => {
@@ -59,9 +59,11 @@ limitations under the License.
       };
     });
 
-    teardown(() => { sandbox.restore(); });
+    teardown(() => {
+      sandbox.restore();
+    });
 
-    test('dialog opens fetch and set previews', done => {
+    test('dialog opens fetch and sets previews', done => {
       sandbox.stub(element.$.restAPI, 'getRobotCommentFixPreview')
           .returns(Promise.resolve({
             f1: {
@@ -138,6 +140,52 @@ limitations under the License.
         assert.equal(element._currentPreviews.length, 0);
         done();
       });
+    });
+
+    test('select fix forward and back of multiple suggested fixes', done => {
+      sandbox.stub(element.$.restAPI, 'getRobotCommentFixPreview')
+          .returns(Promise.resolve({
+            f1: {
+              meta_a: {},
+              meta_b: {},
+              content: [
+                {
+                  ab: ['loqlwkqll'],
+                },
+                {
+                  b: ['qwqqsqw'],
+                },
+                {
+                  ab: ['qwqqsqw', 'qweqeqweqeq', 'qweqweq'],
+                },
+              ],
+            },
+            f2: {
+              meta_a: {},
+              meta_b: {},
+              content: [
+                {
+                  ab: ['eqweqweqwex'],
+                },
+                {
+                  b: ['zassdasd'],
+                },
+                {
+                  ab: ['zassdasd', 'dasdasda', 'asdasdad'],
+                },
+              ],
+            },
+          }));
+      sandbox.stub(element.$.applyFixOverlay, 'open').returns(Promise.resolve());
+
+      element.open({detail: {patchNum: 2, comment: ROBOT_COMMENT}})
+          .then(() => {
+            element._onNextFixClick();
+            assert.equal(element._currentFix.fix_id, 'fix_2');
+            element._onPrevFixClick();
+            assert.equal(element._currentFix.fix_id, 'fix_1');
+            done();
+          });
     });
   });
 </script>

@@ -63,6 +63,12 @@ limitations under the License.
         display: flex;
         flex-shrink: 0;
         justify-content: flex-end;
+        padding: .5em 1.5em;
+      }
+      .fix-picker {
+        display: flex;
+        align-items: center;
+        margin-right: 15px;
       }
     </style>
     <gr-overlay id="applyFixOverlay" with-backdrop>
@@ -82,6 +88,15 @@ limitations under the License.
         </div>
       </template>
       <footer>
+        <div class="fix-picker" hidden$="[[hasSingleFix(_fixSuggestions)]]">
+          <span>Suggested fix [[addOneTo(_selectedFixIdx)]] of [[_fixSuggestions.length]]</span>
+          <gr-button on-click="_onPrevFixClick" disabled$="[[_noPrevFix(_selectedFixIdx)]]">
+            <iron-icon icon="gr-icons:chevron-left"></iron-icon>
+          </gr-button>
+          <gr-button on-click="_onNextFixClick" disabled$="[[_noNextFix(_selectedFixIdx)]]">
+            <iron-icon icon="gr-icons:chevron-right"></iron-icon>
+          </gr-button>
+        </div>
         <gr-button
           link
           secondary

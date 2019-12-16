@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9353e947_2ab5f25d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-12-16T23:18:21Z",
+      "side": 1,
+      "message": "Need an undefined check?",
+      "revId": "7f9fb9dc2a03770248b9b1ce8e381b16e43525da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "77f7749e_622da892",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-12-16T23:18:21Z",
+      "side": 1,
+      "message": "if (e) e.stopPropagation();",
+      "range": {
+        "startLine": 133,
+        "startChar": 0,
+        "endLine": 135,
+        "endChar": 7
+      },
+      "revId": "7f9fb9dc2a03770248b9b1ce8e381b16e43525da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a5c20b39_99e5757e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-12-16T23:18:21Z",
+      "side": 1,
+      "message": "Need an undefined check for this._fixSuggestions?",
+      "revId": "7f9fb9dc2a03770248b9b1ce8e381b16e43525da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bf5471d7_2d786830",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-12-16T23:18:21Z",
+      "side": 1,
+      "message": "Need an undefined check for this._fixSuggestions?",
+      "revId": "7f9fb9dc2a03770248b9b1ce8e381b16e43525da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

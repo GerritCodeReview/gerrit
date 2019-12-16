@@ -60,6 +60,7 @@ limitations under the License.
       <header class="font-h3"><slot name="header"></slot></header>
       <main><slot name="main"></slot></main>
       <footer>
+        <slot name="footer"></slot>
         <gr-button id="cancel" class$="[[_computeCancelClass(cancelLabel)]]" link on-click="_handleCancelTap">
           [[cancelLabel]]
         </gr-button>

@@ -33,6 +33,10 @@ import java.util.Map;
 import java.util.Set;
 import org.eclipse.jgit.lib.Config;
 
+/**
+ * Module that installs a listener to Gerrit's lifecycle events to specify which index versions to
+ * use.
+ */
 @Singleton
 public class SingleVersionModule extends LifecycleModule {
   public static final String SINGLE_VERSIONS = "IndexModule/SingleVersions";
@@ -51,6 +55,7 @@ public class SingleVersionModule extends LifecycleModule {
         .toProvider(Providers.of(singleVersions));
   }
 
+  /** Listener to Gerrit's lifecycle events to specify which index versions to use. */
   @Singleton
   public static class SingleVersionListener implements LifecycleListener {
     private final Set<String> disabled;

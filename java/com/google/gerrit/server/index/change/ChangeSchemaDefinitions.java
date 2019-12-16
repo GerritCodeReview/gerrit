@@ -20,6 +20,7 @@ import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.SchemaDefinitions;
 import com.google.gerrit.server.query.change.ChangeData;
 
+/** Definition of change index versions (schemata). See {@link SchemaDefinitions}. */
 public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
   @Deprecated
   static final Schema<ChangeData> V55 =
@@ -98,7 +99,12 @@ public class ChangeSchemaDefinitions extends SchemaDefinitions<ChangeData> {
           .legacyNumericFields(false)
           .build();
 
+  /**
+   * Name of the change index to be used when contacting index backends or loading configurations.
+   */
   public static final String NAME = "changes";
+
+  /** Singleton instance of the schema definitions. This is one per JVM. */
   public static final ChangeSchemaDefinitions INSTANCE = new ChangeSchemaDefinitions();
 
   private ChangeSchemaDefinitions() {

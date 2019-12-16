@@ -22,6 +22,10 @@ import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.FS;
 
+/**
+ * Status to decide if a specific index version (e.g. change v55) is initialized and ready for use.
+ * An index version is ready for use after documents for all entities were created.
+ */
 public class GerritIndexStatus {
   private static final String SECTION = "index";
   private static final String KEY_READY = "ready";

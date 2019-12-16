@@ -28,6 +28,7 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import org.eclipse.jgit.util.MutableInteger;
 
+/** Rewriter for the account index. See {@link IndexRewriter} for details. */
 @Singleton
 public class AccountIndexRewriter implements IndexRewriter<AccountState> {
   private final AccountIndexCollection indexes;

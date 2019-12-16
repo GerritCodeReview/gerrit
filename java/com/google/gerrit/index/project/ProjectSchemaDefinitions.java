@@ -19,6 +19,7 @@ import static com.google.gerrit.index.SchemaUtil.schema;
 import com.google.gerrit.index.Schema;
 import com.google.gerrit.index.SchemaDefinitions;
 
+/** Definition of project index versions (schemata). See {@link SchemaDefinitions}. */
 public class ProjectSchemaDefinitions extends SchemaDefinitions<ProjectData> {
 
   @Deprecated
@@ -39,9 +40,13 @@ public class ProjectSchemaDefinitions extends SchemaDefinitions<ProjectData> {
   // Lucene index was changed to add an additional field for sorting.
   static final Schema<ProjectData> V4 = schema(V3);
 
-  public static final ProjectSchemaDefinitions INSTANCE = new ProjectSchemaDefinitions();
-
+  /**
+   * Name of the project index to be used when contacting index backends or loading configurations.
+   */
   public static final String NAME = "projects";
+
+  /** Singleton instance of the schema definitions. This is one per JVM. */
+  public static final ProjectSchemaDefinitions INSTANCE = new ProjectSchemaDefinitions();
 
   private ProjectSchemaDefinitions() {
     super(NAME, ProjectData.class);

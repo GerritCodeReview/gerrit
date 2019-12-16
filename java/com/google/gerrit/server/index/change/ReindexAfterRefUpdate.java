@@ -44,6 +44,15 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.Future;
 import org.eclipse.jgit.lib.Config;
 
+/**
+ * Listener for ref update events that reindexes entities in case the updated Git reference was used
+ * to compute contents of an index document.
+ *
+ * <p>Reindexes any open changes that has a destination branch that was updated to ensure that
+ * 'mergeable' is still current.
+ *
+ * <p>Will reindex accounts when the account's NoteDb ref changes.
+ */
 public class ReindexAfterRefUpdate implements GitReferenceUpdatedListener {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 

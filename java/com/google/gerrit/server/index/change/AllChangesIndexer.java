@@ -55,6 +55,11 @@ import org.eclipse.jgit.lib.ProgressMonitor;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.TextProgressMonitor;
 
+/**
+ * Implementation that can index all changes on a host or within a project. Used by Gerrit's
+ * initialization and upgrade programs as well as by REST API endpoints that offer this
+ * functionality.
+ */
 public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, ChangeIndex> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 

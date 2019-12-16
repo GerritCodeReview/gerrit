@@ -26,6 +26,10 @@ import com.google.gerrit.server.group.InternalGroup;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Wrapper around {@link Predicate}s that is returned by the {@link
+ * com.google.gerrit.index.IndexRewriter}. See {@link IndexedQuery}.
+ */
 public class IndexedGroupQuery extends IndexedQuery<AccountGroup.UUID, InternalGroup>
     implements DataSource<InternalGroup> {
 

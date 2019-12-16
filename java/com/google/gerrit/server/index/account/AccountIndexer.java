@@ -16,6 +16,7 @@ package com.google.gerrit.server.index.account;
 
 import com.google.gerrit.entities.Account;
 
+/** Interface for indexing a Gerrit account. */
 public interface AccountIndexer {
 
   /**

@@ -26,6 +26,11 @@ import com.google.gerrit.server.plugincontext.PluginSetContext;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+/**
+ * Background thread for running an index schema upgrade by reindexing all documents in an index
+ * using the new version. Intended to be run while Gerrit is serving traffic to prepare for a
+ * near-zero downtime upgrade.
+ */
 public class OnlineReindexer<K, V, I extends Index<K, V>> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
@@ -51,37 +56,38 @@ public class OnlineReindexer<K, V, I extends Index<K, V>> {
     this.listeners = listeners;
   }
 
+  /** Starts the background process. */
   public void start() {
     if (running.compareAndSet(false, true)) {
       Thread t =
-          new Thread() {
-            @Override
-            public void run() {
-              boolean ok = false;
-              try {
-                reindex();
-                ok = true;
-              } catch (RuntimeException e) {
-                logger.atSevere().withCause(e).log(
-                    "Online reindex of %s schema version %s failed", name, version(index));
-              } finally {
-                running.set(false);
-                if (!ok) {
-                  listeners.runEach(listener -> listener.onFailure(name, oldVersion, newVersion));
+          new Thread(
+              () -> {
+                boolean ok = false;
+                try {
+                  reindex();
+                  ok = true;
+                } catch (RuntimeException e) {
+                  logger.atSevere().withCause(e).log(
+                      "Online reindex of %s schema version %s failed", name, version(index));
+                } finally {
+                  running.set(false);
+                  if (!ok) {
+                    listeners.runEach(listener -> listener.onFailure(name, oldVersion, newVersion));
+                  }
                 }
-              }
-            }
-          };
+              });
       t.setName(
           String.format("Reindex %s v%d-v%d", name, version(indexes.getSearchIndex()), newVersion));
       t.start();
     }
   }
 
+  /** Returns {@code true} if the background indexer is currently running. */
   public boolean isRunning() {
     return running.get();
   }
 
+  /** Returns the index version that this indexer is creating documents for. */
   public int getVersion() {
     return newVersion;
   }
@@ -116,6 +122,10 @@ public class OnlineReindexer<K, V, I extends Index<K, V>> {
     listeners.runEach(listener -> listener.onSuccess(name, oldVersion, newVersion));
   }
 
+  /**
+   * Switches the search index from the old version to the new version. This method should be called
+   * when the new version is fully ready.
+   */
   public void activateIndex() {
     indexes.setSearchIndex(index);
     logger.atInfo().log("Using %s schema version %s", name, version(index));

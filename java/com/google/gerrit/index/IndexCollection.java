@@ -32,7 +32,7 @@ public abstract class IndexCollection<K, V, I extends Index<K, V>> implements Li
     this.searchIndex = new AtomicReference<>();
   }
 
-  /** @return the current search index version. */
+  /** Returns the current search index version. */
   public I getSearchIndex() {
     return searchIndex.get();
   }

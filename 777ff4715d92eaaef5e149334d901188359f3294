@@ -70,6 +70,30 @@
       "revId": "777ff4715d92eaaef5e149334d901188359f3294",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "14d2a16f_eac24c2e",
+        "filename": "java/com/google/gerrit/server/restapi/change/CherryPickChange.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 365,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2019-12-16T08:20:12Z",
+      "side": 1,
+      "message": "David, are you okay with submitting this without any further test?\nThe problem is that this new option is not exposed via REST (hence it cannot be tested by integration tests) and we do not have any unit test for this class at all yet.",
+      "parentUuid": "82aefcad_3063fc1e",
+      "range": {
+        "startLine": 355,
+        "startChar": 12,
+        "endLine": 365,
+        "endChar": 13
+      },
+      "revId": "777ff4715d92eaaef5e149334d901188359f3294",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

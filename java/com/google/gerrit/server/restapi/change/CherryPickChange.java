@@ -168,6 +168,8 @@ public class CherryPickChange {
         patch.commitId(),
         input,
         dest,
+        false,
+        null,
         null,
         null,
         null);
@@ -204,7 +206,17 @@ public class CherryPickChange {
       throws IOException, InvalidChangeOperationException, IntegrationException, UpdateException,
           RestApiException, ConfigInvalidException, NoSuchProjectException {
     return cherryPick(
-        batchUpdateFactory, sourceChange, project, sourceCommit, input, dest, null, null, null);
+        batchUpdateFactory,
+        sourceChange,
+        project,
+        sourceCommit,
+        input,
+        dest,
+        false,
+        null,
+        null,
+        null,
+        null);
   }
 
   /**
@@ -219,16 +231,21 @@ public class CherryPickChange {
    * @param sourceCommit Id of the commit to be cherry picked.
    * @param input Input object for different configurations of cherry pick.
    * @param dest Destination branch for the cherry pick.
+   * @param ignoreIdenticalTree When false, we throw an error when trying to cherry-pick creates an
+   *     empty commit. When true, we allow creation of an empty commit.
    * @param topic Topic name for the change created.
    * @param revertedChange The id of the change that is reverted. This is used for the "revertOf"
    *     field to mark the created cherry pick change as "revertOf" the original change that was
    *     reverted.
-   * @param changeIdForNewChange The Change-Id that the new change that of the cherry pick will
-   *     have.
+   * @param changeIdForNewChange The Change-Id that the new change of the cherry pick will have.
+   * @param idForNewChange The ID that the new change of the cherry pick will have. If provided and
+   *     the cherry-pick doesn't result in creating a new change, then
+   *     InvalidChangeOperationException is thrown.
    * @return Result object that describes the cherry pick.
    * @throws IOException Unable to open repository or read from the database.
    * @throws InvalidChangeOperationException Parent or branch don't exist, or two changes with same
-   *     key exist in the branch.
+   *     key exist in the branch. Also thrown when idForNewChange is not null but cherry-pick only
+   *     creates a new patchset rather than a new change.
    * @throws IntegrationException Merge conflict or trees are identical after cherry pick.
    * @throws UpdateException Problem updating the database using batchUpdateFactory.
    * @throws RestApiException Error such as invalid SHA1
@@ -242,9 +259,11 @@ public class CherryPickChange {
       ObjectId sourceCommit,
       CherryPickInput input,
       BranchNameKey dest,
+      boolean ignoreIdenticalTree,
       @Nullable String topic,
       @Nullable Change.Id revertedChange,
-      @Nullable ObjectId changeIdForNewChange)
+      @Nullable ObjectId changeIdForNewChange,
+      @Nullable Change.Id idForNewChange)
       throws IOException, InvalidChangeOperationException, IntegrationException, UpdateException,
           RestApiException, ConfigInvalidException, NoSuchProjectException {
 
@@ -308,7 +327,7 @@ public class CherryPickChange {
                 commitMessage,
                 revWalk,
                 input.parent - 1,
-                false,
+                ignoreIdenticalTree,
                 input.allowConflicts);
 
         Change.Key changeKey;
@@ -336,7 +355,19 @@ public class CherryPickChange {
           Change.Id changeId;
           if (destChanges.size() == 1) {
             // The change key exists on the destination branch. The cherry pick
-            // will be added as a new patch set.
+            // will be added as a new patch set. If "idForNewChange" is not null we must fail,
+            // since we are not expecting an already existing change.
+            if (idForNewChange != null) {
+              throw new InvalidChangeOperationException(
+                  String.format(
+                      "Expected that cherry-pick of commit %s with Change-Id %s to branch %s"
+                          + "in project %s creates a new change, but found existing change %d",
+                      sourceCommit.getName(),
+                      changeKey,
+                      dest.branch(),
+                      dest.project(),
+                      destChanges.get(0).getId().get()));
+            }
             changeId = insertPatchSet(bu, git, destChanges.get(0).notes(), cherryPickCommit);
           } else {
             // Change key not found on destination branch. We can create a new
@@ -356,7 +387,8 @@ public class CherryPickChange {
                     sourceChange,
                     sourceCommit,
                     input,
-                    revertedChange);
+                    revertedChange,
+                    idForNewChange);
           }
           bu.execute();
           return Result.create(changeId, cherryPickCommit.getFilesWithGitConflicts());
@@ -436,9 +468,10 @@ public class CherryPickChange {
       @Nullable Change sourceChange,
       @Nullable ObjectId sourceCommit,
       CherryPickInput input,
-      @Nullable Change.Id revertOf)
+      @Nullable Change.Id revertOf,
+      @Nullable Change.Id idForNewChange)
       throws IOException {
-    Change.Id changeId = Change.id(seq.nextChangeId());
+    Change.Id changeId = idForNewChange != null ? idForNewChange : Change.id(seq.nextChangeId());
     ChangeInserter ins = changeInserterFactory.create(changeId, cherryPickCommit, refName);
     ins.setRevertOf(revertOf);
     BranchNameKey sourceBranch = sourceChange == null ? null : sourceChange.getDest();

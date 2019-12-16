@@ -72,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "55adfb06_68318576",
+        "filename": "java/com/google/gerrit/extensions/api/changes/ChangeEditApi.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-12-16T23:21:47Z",
+      "side": 1,
+      "message": "In that case we should make it clear in the commit message and the documentation of the new endpoint that it is for binary files.\n\nWe should also look again into how we can combine these into one API method.  Perhaps we can deprecate this one and replace it with one that takes an input (like the one you\u0027ve added) and allows to differentiate between binary and non-binary input.",
+      "parentUuid": "6cc27b07_fb5c6de5",
+      "range": {
+        "startLine": 152,
+        "startChar": 2,
+        "endLine": 161,
+        "endChar": 80
+      },
+      "revId": "9b32d2a76c87c22ff1e973b06224f86c72b028e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "de73b624_ac0f7fdf",
         "filename": "java/com/google/gerrit/server/api/changes/ChangeEditApiImpl.java",
         "patchSetId": 13

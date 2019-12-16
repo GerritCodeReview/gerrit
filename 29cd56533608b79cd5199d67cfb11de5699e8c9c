@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "35af059c_56e68249",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2019-12-16T16:22:13Z",
+      "side": 1,
+      "message": "I did not understand this.",
+      "parentUuid": "d835f84e_f7f45d43",
+      "range": {
+        "startLine": 231,
+        "startChar": 32,
+        "endLine": 231,
+        "endChar": 52
+      },
+      "revId": "29cd56533608b79cd5199d67cfb11de5699e8c9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "adf1c7a5_773cbbd3",
         "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.html",
         "patchSetId": 8
@@ -36,6 +60,30 @@
       "writtenOn": "2019-12-16T06:23:43Z",
       "side": 1,
       "message": "Maybe just let the browser handle the click on the \u003ca\u003e element?",
+      "range": {
+        "startLine": 241,
+        "startChar": 31,
+        "endLine": 241,
+        "endChar": 61
+      },
+      "revId": "29cd56533608b79cd5199d67cfb11de5699e8c9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "27dcee5c_3b914f9d",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2019-12-16T16:22:13Z",
+      "side": 1,
+      "message": "I tried that but it seems that the page is reloading. Probably not something we want.",
+      "parentUuid": "adf1c7a5_773cbbd3",
       "range": {
         "startLine": 241,
         "startChar": 31,
@@ -65,6 +113,24 @@
     },
     {
       "key": {
+        "uuid": "3ee3b542_6187f713",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2019-12-16T16:22:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a4f2a0ed_fe296b21",
+      "revId": "29cd56533608b79cd5199d67cfb11de5699e8c9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1c716e23_983f15f3",
         "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.js",
         "patchSetId": 8
@@ -79,6 +145,24 @@
       "revId": "29cd56533608b79cd5199d67cfb11de5699e8c9c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9c278f0a_6dee89a7",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2019-12-16T16:22:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1c716e23_983f15f3",
+      "revId": "29cd56533608b79cd5199d67cfb11de5699e8c9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

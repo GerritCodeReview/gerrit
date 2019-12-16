@@ -15,6 +15,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 -->
 <link rel="import" href="/bower_components/polymer/polymer.html">
+<link rel="import" href="/bower_components/iron-icon/iron-icon.html">
 <link rel="import" href="../../../behaviors/fire-behavior/fire-behavior.html">
 <link rel="import" href="../../../styles/shared-styles.html">
 <link rel="import" href="../../shared/gr-dialog/gr-dialog.html">
@@ -42,6 +43,14 @@ limitations under the License.
         display: flex;
         justify-content: flex-end;
       }
+      gr-button {
+        margin-left: var(--spacing-m);
+      }
+      .fix-picker {
+        display: flex;
+        align-items: center;
+        margin-right: var(--spacing-l);
+      }
     </style>
     <gr-overlay id="applyFixOverlay" with-backdrop>
       <gr-dialog
@@ -64,6 +73,15 @@ limitations under the License.
               diff="[[item.preview]]"></gr-diff>
             </div>
           </template>
+        </div>
+        <div slot="footer" class="fix-picker" hidden$="[[hasSingleFix(_fixSuggestions)]]">
+          <span>Suggested fix [[addOneTo(_selectedFixIdx)]] of [[_fixSuggestions.length]]</span>
+          <gr-button on-click="_onPrevFixClick" disabled$="[[_noPrevFix(_selectedFixIdx)]]">
+            <iron-icon icon="gr-icons:chevron-left"></iron-icon>
+          </gr-button>
+          <gr-button on-click="_onNextFixClick" disabled$="[[_noNextFix(_selectedFixIdx)]]">
+            <iron-icon icon="gr-icons:chevron-right"></iron-icon>
+          </gr-button>
         </div>
       </gr-dialog>
     </gr-overlay>

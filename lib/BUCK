@@ -156,8 +156,8 @@ maven_jar(
 
 maven_jar(
   name = 'postgresql',
-  id = 'postgresql:postgresql:9.1-901-1.jdbc4',
-  sha1 = '9bfabe48876ec38f6cbaa6931bad05c64a9ea942',
+  id = 'org.postgresql:postgresql:9.4.1212',
+  sha1 = '38931d70811d9bfcecf9c06f7222973c038a12de',
   license = 'postgresql',
   attach_source = False,
 )

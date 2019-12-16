@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f816bc12_bf52d6e1",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-12-16T14:19:19Z",
+      "side": 1,
+      "message": "why not just make it as a `getter` as well ? same as the one above ?",
+      "revId": "01b1bb13b26e0f17d1d3d2ab8a0fae9f081b2d72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

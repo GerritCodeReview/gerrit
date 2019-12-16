@@ -1429,5 +1429,69 @@ limitations under the License.
         assert.isFalse(element.$.syntaxLayer.enabled);
       });
     });
+
+    suite('coverage layer', () => {
+      let notifyStub;
+      setup(() => {
+        notifyStub = sinon.stub();
+        stub('gr-js-api-interface', {
+          getCoverageAnnotationApi() {
+            return Promise.resolve({
+              notify: notifyStub,
+              getCoverageProvider() {
+                return () => Promise.resolve([
+                  {
+                    type: 'COVERED',
+                    side: 'right',
+                    code_range: {
+                      start_line: 1,
+                      end_line: 2,
+                    },
+                  },
+                  {
+                    type: 'NOT_COVERED',
+                    side: 'right',
+                    code_range: {
+                      start_line: 3,
+                      end_line: 4,
+                    },
+                  },
+                ]);
+              },
+            });
+          },
+        });
+        element = fixture('basic');
+        const prefs = {
+          line_length: 10,
+          show_tabs: true,
+          tab_size: 4,
+          context: -1,
+        };
+        element.diff = {
+          content: [{
+            a: ['foo'],
+          }],
+        };
+        element.patchRange = {};
+        element.prefs = prefs;
+      });
+
+      test('getCoverageAnnotationApi should be called', done => {
+        element.reload();
+        flush(() => {
+          assert.isTrue(element.$.jsAPI.getCoverageAnnotationApi.calledOnce);
+          done();
+        });
+      });
+
+      test('coverageRangeChanged should be called', done => {
+        element.reload();
+        flush(() => {
+          assert.equal(notifyStub.callCount, 2);
+          done();
+        });
+      });
+    });
   });
 </script>

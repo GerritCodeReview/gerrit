@@ -312,22 +312,7 @@
       }
 
       this._coverageRanges = [];
-      const {changeNum, path, patchRange: {basePatchNum, patchNum}} = this;
-      this.$.jsAPI.getCoverageRanges(
-          changeNum, path, basePatchNum, patchNum
-      ).
-          then(coverageRanges => {
-            if (changeNum !== this.changeNum ||
-                path !== this.path ||
-                basePatchNum !== this.patchRange.basePatchNum ||
-                patchNum !== this.patchRange.patchNum) {
-              return;
-            }
-            this._coverageRanges = coverageRanges;
-          }).catch(err => {
-            console.warn('Loading coverage ranges failed: ', err);
-          });
-
+      this._getCoverageData();
       const diffRequest = this._getDiff()
           .then(diff => {
             this._loadedWhitespaceLevel = whitespaceLevel;
@@ -346,7 +331,7 @@
         return this._loadDiffAssets(diff);
       });
 
-      // Not waiting for getCoverageRanges intentionally as
+      // Not waiting for coverage ranges intentionally as
       // plugin loading should not block the content rendering
       return Promise.all([diffRequest, assetRequest])
           .then(results => {
@@ -385,6 +370,49 @@
             console.warn('Error encountered loading diff:', err);
           })
           .then(() => { this._loading = false; });
+    }
+
+    _getCoverageData() {
+      const {changeNum, path, patchRange: {basePatchNum, patchNum}} = this;
+      this.$.jsAPI.getCoverageAnnotationApi().
+          then(coverageAnnotationApi => {
+            if (!coverageAnnotationApi) return;
+            const provider = coverageAnnotationApi.getCoverageProvider();
+            return provider(changeNum, path, basePatchNum, patchNum)
+                .then(coverageRanges => {
+                  if (!coverageRanges ||
+                    changeNum !== this.changeNum ||
+                    path !== this.path ||
+                    basePatchNum !== this.patchRange.basePatchNum ||
+                    patchNum !== this.patchRange.patchNum) {
+                    return;
+                  }
+
+                  const existingCoverageRanges = this._coverageRanges;
+                  this._coverageRanges = coverageRanges;
+
+                  // Notify with existing coverage ranges
+                  // in case there is some existing coverage data that needs to be removed
+                  existingCoverageRanges.forEach(range => {
+                    coverageAnnotationApi.notify(
+                        path,
+                        range.code_range.start_line,
+                        range.code_range.end_line,
+                        range.side);
+                  });
+
+                  // Notify with new coverage data
+                  coverageRanges.forEach(range => {
+                    coverageAnnotationApi.notify(
+                        path,
+                        range.code_range.start_line,
+                        range.code_range.end_line,
+                        range.side);
+                  });
+                });
+          }).catch(err => {
+            console.warn('Loading coverage ranges failed: ', err);
+          });
     }
 
     _getFilesWeblinks(diff) {

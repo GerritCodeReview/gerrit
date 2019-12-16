@@ -1,0 +1,182 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a0a21ed_f4d890bc",
+        "filename": "java/com/google/gerrit/extensions/api/changes/ChangeEditApi.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-12-16T05:58:02Z",
+      "side": 1,
+      "message": "This doesn\u0027t make sense.\n\nIf an edit already exists, it should add the file to that edit.  Otherwise adding multiple files one after the other will not be possible.",
+      "range": {
+        "startLine": 82,
+        "startChar": 69,
+        "endLine": 82,
+        "endChar": 100
+      },
+      "revId": "9b32d2a76c87c22ff1e973b06224f86c72b028e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b321a9ba_cf8353ed",
+        "filename": "java/com/google/gerrit/extensions/api/changes/ChangeEditApi.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-12-16T05:58:02Z",
+      "side": 1,
+      "message": "Looking at this again, is there any reason why we can\u0027t use this existing method to upload a file content?",
+      "range": {
+        "startLine": 152,
+        "startChar": 2,
+        "endLine": 161,
+        "endChar": 80
+      },
+      "revId": "9b32d2a76c87c22ff1e973b06224f86c72b028e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "de73b624_ac0f7fdf",
+        "filename": "java/com/google/gerrit/server/api/changes/ChangeEditApiImpl.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-12-16T05:58:02Z",
+      "side": 1,
+      "message": "\"Cannot upload file\"",
+      "range": {
+        "startLine": 146,
+        "startChar": 32,
+        "endLine": 146,
+        "endChar": 57
+      },
+      "revId": "9b32d2a76c87c22ff1e973b06224f86c72b028e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c7ef8cdb_7abf79a1",
+        "filename": "javatests/com/google/gerrit/acceptance/edit/FileUploadIT.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-12-16T05:58:02Z",
+      "side": 1,
+      "message": "Remove the trailing \u0027w\u0027?",
+      "range": {
+        "startLine": 46,
+        "startChar": 53,
+        "endLine": 46,
+        "endChar": 59
+      },
+      "revId": "9b32d2a76c87c22ff1e973b06224f86c72b028e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b037b4d8_01c60c9d",
+        "filename": "javatests/com/google/gerrit/acceptance/edit/FileUploadIT.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-12-16T05:58:02Z",
+      "side": 1,
+      "message": "These are not used.",
+      "range": {
+        "startLine": 49,
+        "startChar": 2,
+        "endLine": 50,
+        "endChar": 64
+      },
+      "revId": "9b32d2a76c87c22ff1e973b06224f86c72b028e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "86f693d6_1c95ed0d",
+        "filename": "javatests/com/google/gerrit/acceptance/edit/FileUploadIT.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-12-16T05:58:02Z",
+      "side": 1,
+      "message": "It would be better to use the gApi here too, and then the class can be annotated @Nohttpd",
+      "range": {
+        "startLine": 62,
+        "startChar": 2,
+        "endLine": 70,
+        "endChar": 0
+      },
+      "revId": "9b32d2a76c87c22ff1e973b06224f86c72b028e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8d7e92e9_8b4bc52e",
+        "filename": "javatests/com/google/gerrit/acceptance/edit/FileUploadIT.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-12-16T05:58:02Z",
+      "side": 1,
+      "message": "In this case, if the path is not specified at all, the message should be something like \"path is required\"",
+      "range": {
+        "startLine": 79,
+        "startChar": 49,
+        "endLine": 79,
+        "endChar": 65
+      },
+      "revId": "9b32d2a76c87c22ff1e973b06224f86c72b028e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d7b722fd_6f1cffcb",
+        "filename": "javatests/com/google/gerrit/acceptance/edit/FileUploadIT.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1011123
+      },
+      "writtenOn": "2019-12-16T05:58:02Z",
+      "side": 1,
+      "message": "Some use cases are missing:\n\n- Upload content to a file that already exists\n- Upload file to an existing change edit",
+      "revId": "9b32d2a76c87c22ff1e973b06224f86c72b028e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -16,6 +16,24 @@
       "revId": "01b1bb13b26e0f17d1d3d2ab8a0fae9f081b2d72",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f63216ff_00b428d3",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2019-12-16T14:48:05Z",
+      "side": 1,
+      "message": "Since window.performance.now() is a method I left it as method. Window.performance.timing is property. But it doesn\u0027t matter, can be getter",
+      "parentUuid": "f816bc12_bf52d6e1",
+      "revId": "01b1bb13b26e0f17d1d3d2ab8a0fae9f081b2d72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

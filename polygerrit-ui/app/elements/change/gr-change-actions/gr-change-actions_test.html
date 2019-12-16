@@ -1467,6 +1467,36 @@ limitations under the License.
               });
         });
 
+        suite('show revert submission dialog', () => {
+          setup(() => {
+            element.change.submission_id = '199';
+            element.change.current_revision = '2000';
+            sandbox.stub(element.$.restAPI, 'getChanges')
+                .returns(Promise.resolve([
+                  {change_id: '12345678901234', topic: 'T', subject: 'random'},
+                  {change_id: '23456', topic: 'T', subject: 'a'.repeat(100)},
+                ]));
+          });
+
+          test('revert submission shows submissionId', done => {
+            const expectedMsg = 'Revert submission 199' + '\n\n' +
+              'Reason for revert: <INSERT REASONING HERE>' + '\n' +
+              'Reverted Changes:' + '\n' +
+              '1234567890:random' + '\n' +
+              '23456:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa...' +
+              '\n';
+            const modifiedMsg = expectedMsg + 'abcd';
+            sandbox.stub(element.$.confirmRevertSubmissionDialog,
+                '_modifyRevertSubmissionMsg').returns(modifiedMsg);
+            element.showRevertSubmissionDialog();
+            flush(() => {
+              const msg = element.$.confirmRevertSubmissionDialog.message;
+              assert.equal(msg, modifiedMsg);
+              done();
+            });
+          });
+        });
+
         suite('single changes revert', () => {
           let navigateToSearchQueryStub;
           setup(() => {

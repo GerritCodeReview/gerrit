@@ -20,6 +20,7 @@ limitations under the License.
 <link rel="import" href="../../../behaviors/fire-behavior/fire-behavior.html">
 <link rel="import" href="../../shared/gr-dialog/gr-dialog.html">
 <link rel="import" href="../../../styles/shared-styles.html">
+<link rel="import" href="../../shared/gr-js-api-interface/gr-js-api-interface.html">
 
 <dom-module id="gr-confirm-revert-submission-dialog">
   <template>
@@ -66,6 +67,7 @@ limitations under the License.
             bind-value="{{message}}"></iron-autogrow-textarea>
       </div>
     </gr-dialog>
+    <gr-js-api-interface id="jsAPI"></gr-js-api-interface>
   </template>
   <script src="gr-confirm-revert-submission-dialog.js"></script>
 </dom-module>

@@ -924,17 +924,15 @@
       this._showActionDialog(this.$.confirmRevertDialog);
     }
 
-    _modifyRevertSubmissionMsg() {
-      return this.$.jsAPI.modifyRevertSubmissionMsg(this.change,
-          this.$.confirmRevertSubmissionDialog.message, this.commitMessage);
-    }
-
     showRevertSubmissionDialog() {
-      this.$.confirmRevertSubmissionDialog.populateRevertSubmissionMessage(
-          this.commitMessage, this.change.current_revision);
-      this.$.confirmRevertSubmissionDialog.message =
-          this._modifyRevertSubmissionMsg();
-      this._showActionDialog(this.$.confirmRevertSubmissionDialog);
+      const query = 'submissionid:' + this.change.submission_id;
+      this.$.restAPI.getChanges('', query)
+          .then(changes => {
+            this.$.confirmRevertSubmissionDialog.
+                populateRevertSubmissionMessage(
+                    this.commitMessage, this.change, changes);
+            this._showActionDialog(this.$.confirmRevertSubmissionDialog);
+          });
     }
 
     _handleActionTap(e) {

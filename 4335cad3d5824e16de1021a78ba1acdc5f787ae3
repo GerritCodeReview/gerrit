@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a49720ec_d70adf98",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 540,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-12-16T14:15:27Z",
+      "side": 1,
+      "message": "I wonder if we really need both isReadyToStart and onStart methods? If onStart method\nwould return boolean (just like the isReadyToStart) then we could still achieve both policies:\n* delay a task by letting the thread sleep on a semaphore\n* throttle by using the non-blocking tryAcquire. The false return value from onStart would\nhave to be handled the same way as when isReadyToStart returns false.\n\nThis documentation gives impression that we need the new isReadyToStart method in order\nto call tryAcquire instead of the acquireUninterruptibly but this distinction seems arbitrary to me.\n\nOf course, I am interested if you have good examples where indeed both methods are needed.",
+      "revId": "4335cad3d5824e16de1021a78ba1acdc5f787ae3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

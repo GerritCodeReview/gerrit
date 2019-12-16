@@ -25,6 +25,75 @@
     },
     {
       "key": {
+        "uuid": "6aa90439_abc1f4aa",
+        "filename": "polygerrit-ui/app/elements/core/gr-error-manager/gr-error-manager.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2019-12-16T09:34:49Z",
+      "side": 1,
+      "message": "This is different logic - is it ok when _refreshingCredentials is false than we requestCheckLoggedIn?",
+      "range": {
+        "startLine": 251,
+        "startChar": 8,
+        "endLine": 256,
+        "endChar": 39
+      },
+      "revId": "19b48f7cb75b1b106006ec947642c15654490780",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f6fc0840_96282337",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-auth.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2019-12-16T09:34:49Z",
+      "side": 1,
+      "message": "Is this ok? That you extend auth_check automatically every time without checking if authCheckPromise was successful? \n\nAnyone can refresh every 30s authentication.",
+      "range": {
+        "startLine": 49,
+        "startChar": 13,
+        "endLine": 49,
+        "endChar": 34
+      },
+      "revId": "19b48f7cb75b1b106006ec947642c15654490780",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c91f53f0_2d19e580",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-auth.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2019-12-16T09:34:49Z",
+      "side": 1,
+      "message": "This will not be thrown as well when you log out?",
+      "range": {
+        "startLine": 75,
+        "startChar": 5,
+        "endLine": 78,
+        "endChar": 7
+      },
+      "revId": "19b48f7cb75b1b106006ec947642c15654490780",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "45395f5a_e05668b3",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 3

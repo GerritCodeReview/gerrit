@@ -16,6 +16,24 @@
       "revId": "4335cad3d5824e16de1021a78ba1acdc5f787ae3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2d2afcec_158aa74f",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 540,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2019-12-16T18:54:51Z",
+      "side": 1,
+      "message": "If onStart() returns a boolean, and a plugin returns a false from it, how would you inform the other plugins that have already returned true that the task is not actually going to start? If you look at the example posted, and at the docs you will see that in the onNotReadyToStart() the plugins can release the semaphore that they acquired during the isReadyToStart() method so as to not double up the usage count on the next call to onNotReadyToStart().\n\n\nAlso I think the semantics of using onStart() that way is a bit deceiving, i.e. if we call one plugin\u0027s onStart() and it returns true, then I think that plugin would expect the task to actually start and not potentially block if the next plugin returns false.",
+      "parentUuid": "a49720ec_d70adf98",
+      "revId": "4335cad3d5824e16de1021a78ba1acdc5f787ae3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

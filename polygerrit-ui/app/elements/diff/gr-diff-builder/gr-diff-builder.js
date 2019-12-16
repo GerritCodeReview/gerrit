@@ -357,7 +357,9 @@
     }
 
     for (const layer of this.layers) {
-      layer.annotate(contentText, lineNumberEl, line);
+      if (typeof layer.annotate == 'function') {
+        layer.annotate(contentText, lineNumberEl, line);
+      }
     }
 
     td.appendChild(contentText);

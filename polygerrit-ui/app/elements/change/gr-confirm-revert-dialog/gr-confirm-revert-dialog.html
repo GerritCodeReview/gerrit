@@ -21,6 +21,7 @@ limitations under the License.
 <link rel="import" href="../../shared/gr-dialog/gr-dialog.html">
 <link rel="import" href="../../../styles/shared-styles.html">
 <link rel="import" href="../../plugins/gr-endpoint-decorator/gr-endpoint-decorator.html">
+<link rel="import" href="../../shared/gr-js-api-interface/gr-js-api-interface.html">
 
 <dom-module id="gr-confirm-revert-dialog">
   <template>
@@ -36,6 +37,13 @@ limitations under the License.
         cursor: pointer;
         display: block;
         width: 100%;
+      }
+      .revertSubmissionLayout {
+        display: flex;
+      }
+      .label {
+        margin-left: var(--spacing-m);
+        margin-bottom: var(--spacing-m);
       }
       iron-autogrow-textarea {
         font-family: var(--monospace-font-family);
@@ -58,6 +66,30 @@ limitations under the License.
       <div class="header" slot="header">Revert Merged Change</div>
       <div class="main" slot="main">
         <gr-endpoint-decorator name="confirm-revert-change">
+          <template is="dom-if" if="[[_showRevertSubmission]]">
+            <div on-click="_handleRevertSingleChangeClicked" class="revertSubmissionLayout">
+              <div>
+                <input
+                  name="rebaseOptions"
+                  type="radio"
+                  checked="[[_computeChecked('REVERT_SINGLE_CHANGE', _revertType)]]">
+              </div>
+              <div>
+                <label class="label revertSingleChange">Revert single change</label>
+              </div>
+            </div>
+            <div on-click="_handleRevertSubmissionClicked" class="revertSubmissionLayout">
+              <div class="revertSubmissionLayout">
+                <input
+                  name="rebaseOptions"
+                  type="radio"
+                  checked="[[_computeChecked('REVERT_SUBMISSION', _revertType)]]">
+              </div>
+              <div>
+                <label class="label revertSubmission">Revert entire submission ([[changes.length]] Changes)</label>
+              </div>
+            </div>
+          </template>
           <label for="messageInput">
             Revert Commit Message
           </label>
@@ -70,6 +102,7 @@ limitations under the License.
         </gr-endpoint-decorator>
       </div>
     </gr-dialog>
+    <gr-js-api-interface id="jsAPI"></gr-js-api-interface>
   </template>
   <script src="gr-confirm-revert-dialog.js"></script>
 </dom-module>

@@ -192,6 +192,11 @@
   const AWAIT_CHANGE_ATTEMPTS = 5;
   const AWAIT_CHANGE_TIMEOUT_MS = 1000;
 
+  const REVERT_TYPES = {
+    REVERT_SINGLE_CHANGE: 1,
+    REVERT_SUBMISSION: 2,
+  };
+
   /**
    * @appliesMixin Gerrit.FireMixin
    * @appliesMixin Gerrit.PatchSetMixin
@@ -919,10 +924,26 @@
     }
 
     showRevertDialog() {
-      this.$.confirmRevertDialog.populateRevertMessage(
-          this.commitMessage, this.change.current_revision);
-      this.$.confirmRevertDialog.message = this._modifyRevertMsg();
-      this._showActionDialog(this.$.confirmRevertDialog);
+      const query = 'submissionid:' + this.change.submission_id;
+      this.$.restAPI.getChanges('', query)
+          .then(changes => {
+            this.$.confirmRevertDialog.populateRevertSingleChangeMessage(
+                this.commitMessage, this.change.current_revision);
+            if (changes.length > 1) {
+              this.$.confirmRevertDialog.
+                  populateRevertSubmissionMessage(
+                      this.change, changes);
+              this.$.confirmRevertDialog.revertSubmissionMessage =
+                this._modifyRevertMsg();
+              this.$.confirmRevertDialog.message =
+                  this.$.confirmRevertDialog.revertSubmissionMessage;
+            }
+            this._showActionDialog(this.$.confirmRevertDialog);
+          });
+      // this.$.confirmRevertDialog.populateRevertMessage(
+      //     this.commitMessage, this.change.current_revision);
+      // this.$.confirmRevertDialog.message = this._modifyRevertMsg();
+      // this._showActionDialog(this.$.confirmRevertDialog);
     }
 
     showRevertSubmissionDialog() {
@@ -1143,20 +1164,21 @@
       );
     }
 
-    _handleRevertDialogConfirm() {
+    _handleRevertDialogConfirm(e) {
+      const revertType = e.detail.revertType;
       const el = this.$.confirmRevertDialog;
       this.$.overlay.close();
       el.hidden = true;
-      this._fireAction('/revert', this.actions.revert, false,
-          {message: el.message});
-    }
-
-    _handleRevertSubmissionDialogConfirm() {
-      const el = this.$.confirmRevertSubmissionDialog;
-      this.$.overlay.close();
-      el.hidden = true;
-      this._fireAction('/revert_submission', this.actions.revert_submission,
-          false, {message: el.message});
+      switch (revertType) {
+        case REVERT_TYPES.REVERT_SINGLE_CHANGE:
+          this._fireAction('/revert', this.actions.revert, false,
+              {message: el.revertSingleChangeMessage});
+          break;
+        case REVERT_TYPES.REVERT_SUBMISSION:
+          this._fireAction('/revert_submission', this.actions.revert_submission,
+              false, {message: el.revertSubmissionMessage});
+          break;
+      }
     }
 
     _handleAbandonDialogConfirm() {

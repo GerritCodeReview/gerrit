@@ -33,6 +33,9 @@ import org.eclipse.jgit.lib.RefDatabase;
  * Simple cache for accessing refs by name, prefix or {@link ObjectId}. Intended to be used when
  * processing a {@code git push}.
  *
+ * <p>Callers should assume that the refs returned by this cache are not filtered by visibility.
+ * Consequently returned refs can include refs that the user does not have access to.
+ *
  * <p>This class is not thread safe.
  */
 public interface ReceivePackRefCache {

@@ -41,7 +41,6 @@ limitations under the License.
       sandbox = sinon.sandbox.create();
       cache = new SiteBasedCache();
       fetchPromisesCache = new FetchPromisesCache();
-      const credentialCheck = {checking: false};
 
       window.CANONICAL_PATH = 'testhelper';
 
@@ -59,7 +58,7 @@ limitations under the License.
       }));
 
       helper = new GrRestApiHelper(cache, Gerrit.Auth, fetchPromisesCache,
-          credentialCheck, mockRestApiInterface);
+          mockRestApiInterface);
     });
 
     teardown(() => {

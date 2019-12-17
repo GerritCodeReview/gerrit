@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "47c3fd8a_c50698ff",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-12-17T08:15:38Z",
+      "side": 1,
+      "message": "You are adding a link-url attribute to gr-date-formatter in line 236, but you know that message.id is not defined, so computeLinkUrl will not produce a URL.",
+      "parentUuid": "35af059c_56e68249",
+      "range": {
+        "startLine": 231,
+        "startChar": 32,
+        "endLine": 231,
+        "endChar": 52
+      },
+      "revId": "29cd56533608b79cd5199d67cfb11de5699e8c9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "adf1c7a5_773cbbd3",
         "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.html",
         "patchSetId": 8
@@ -84,6 +108,30 @@
       "side": 1,
       "message": "I tried that but it seems that the page is reloading. Probably not something we want.",
       "parentUuid": "adf1c7a5_773cbbd3",
+      "range": {
+        "startLine": 241,
+        "startChar": 31,
+        "endLine": 241,
+        "endChar": 61
+      },
+      "revId": "29cd56533608b79cd5199d67cfb11de5699e8c9c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "21562d1d_72c71e65",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.html",
+        "patchSetId": 8
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-12-17T08:15:38Z",
+      "side": 1,
+      "message": "To avoid this maybe we have to compute the URL differently: Use \"Protocol + Domain + Path\" from window.location, then append the hash with the message ID. That should avoid the reloading issue.",
+      "parentUuid": "27dcee5c_3b914f9d",
       "range": {
         "startLine": 241,
         "startChar": 31,

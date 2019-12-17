@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "790e7a2a_2ff87a99",
+        "filename": "polygerrit-ui/app/elements/core/gr-error-manager/gr-error-manager.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-12-17T15:32:03Z",
+      "side": 1,
+      "message": "In the long run, I feel this should be a service injected into this component, and currently its fallback to `Gerrit.Auth` as a global service instance. So no real benefits, but it feels cleaner to understand ? i hope.",
+      "parentUuid": "eb697281_469eff98",
+      "revId": "635a73eb8c3f62f394d5e2176997d2a066421a7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1aaf172a_92c99cd2",
         "filename": "polygerrit-ui/app/elements/core/gr-error-manager/gr-error-manager.js",
         "patchSetId": 4
@@ -33,6 +51,24 @@
       "revId": "635a73eb8c3f62f394d5e2176997d2a066421a7f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "58a41845_00ac2d14",
+        "filename": "polygerrit-ui/app/elements/core/gr-error-manager/gr-error-manager.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-12-17T15:32:03Z",
+      "side": 1,
+      "message": "oh did not realize that we have `gr-error-manager.html` ... will do that.",
+      "parentUuid": "1aaf172a_92c99cd2",
+      "revId": "635a73eb8c3f62f394d5e2176997d2a066421a7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

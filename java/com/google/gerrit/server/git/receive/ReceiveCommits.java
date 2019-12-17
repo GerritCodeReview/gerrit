@@ -500,7 +500,7 @@ class ReceiveCommits {
     receivePackRefCache =
         useRefCache
             ? ReceivePackRefCache.withAdvertisedRefs(() -> allRefsWatcher.getAllRefs())
-            : ReceivePackRefCache.noCache(receivePack.getRepository().getRefDatabase());
+            : ReceivePackRefCache.noCache(repo.getRefDatabase());
   }
 
   void init() {

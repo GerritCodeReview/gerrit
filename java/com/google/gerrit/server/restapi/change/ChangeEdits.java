@@ -19,6 +19,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.extensions.api.changes.FileContentInput;
 import com.google.gerrit.extensions.common.DiffWebLinkInfo;
 import com.google.gerrit.extensions.common.EditInfo;
 import com.google.gerrit.extensions.common.Input;
@@ -109,7 +110,7 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
    */
   @Singleton
   public static class Create
-      implements RestCollectionCreateView<ChangeResource, ChangeEditResource, Put.Input> {
+      implements RestCollectionCreateView<ChangeResource, ChangeEditResource, FileContentInput> {
     private final Put putEdit;
 
     @Inject
@@ -118,7 +119,7 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
     }
 
     @Override
-    public Response<?> apply(ChangeResource resource, IdString id, Put.Input input)
+    public Response<?> apply(ChangeResource resource, IdString id, FileContentInput input)
         throws AuthException, ResourceConflictException, IOException, PermissionBackendException {
       putEdit.apply(resource, id.get(), input.content);
       return Response.none();
@@ -267,11 +268,7 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
 
   /** Put handler that is activated when PUT request is called on collection element. */
   @Singleton
-  public static class Put implements RestModifyView<ChangeEditResource, Put.Input> {
-    public static class Input {
-      @DefaultInput public RawInput content;
-    }
-
+  public static class Put implements RestModifyView<ChangeEditResource, FileContentInput> {
     private final ChangeEditModifier editModifier;
     private final GitRepositoryManager repositoryManager;
 
@@ -282,7 +279,7 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
     }
 
     @Override
-    public Response<?> apply(ChangeEditResource rsrc, Input input)
+    public Response<?> apply(ChangeEditResource rsrc, FileContentInput input)
         throws AuthException, ResourceConflictException, IOException, PermissionBackendException {
       return apply(rsrc.getChangeResource(), rsrc.getPath(), input.content);
     }

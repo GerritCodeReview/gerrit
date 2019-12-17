@@ -61,10 +61,10 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.server.ChangeMessagesUtil;
+import com.google.gerrit.server.api.changes.FileContentInput;
 import com.google.gerrit.server.project.testing.TestLabels;
 import com.google.gerrit.server.restapi.change.ChangeEdits.EditMessage;
 import com.google.gerrit.server.restapi.change.ChangeEdits.Post;
-import com.google.gerrit.server.restapi.change.ChangeEdits.Put;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import com.google.inject.Inject;
@@ -501,7 +501,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
 
   @Test
   public void createAndChangeEditInOneRequestRest() throws Exception {
-    Put.Input in = new Put.Input();
+    FileContentInput in = new FileContentInput();
     in.content = RawInputUtil.create(CONTENT_NEW);
     adminRestSession.putRaw(urlEditFile(changeId, FILE_NAME), in.content).assertNoContent();
     ensureSameBytes(getFileContentOfEdit(changeId, FILE_NAME), CONTENT_NEW);
@@ -513,7 +513,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
   @Test
   public void changeEditRest() throws Exception {
     createEmptyEditFor(changeId);
-    Put.Input in = new Put.Input();
+    FileContentInput in = new FileContentInput();
     in.content = RawInputUtil.create(CONTENT_NEW);
     adminRestSession.putRaw(urlEditFile(changeId, FILE_NAME), in.content).assertNoContent();
     ensureSameBytes(getFileContentOfEdit(changeId, FILE_NAME), CONTENT_NEW);
@@ -534,7 +534,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
 
   @Test
   public void getFileContentRest() throws Exception {
-    Put.Input in = new Put.Input();
+    FileContentInput in = new FileContentInput();
     in.content = RawInputUtil.create(CONTENT_NEW);
     adminRestSession.putRaw(urlEditFile(changeId, FILE_NAME), in.content).assertNoContent();
     gApi.changes().id(changeId).edit().modifyFile(FILE_NAME, RawInputUtil.create(CONTENT_NEW2));

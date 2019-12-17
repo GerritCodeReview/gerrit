@@ -75,7 +75,7 @@
       this.message += 'Reverted Changes:\n';
       changes = changes || [];
       changes.forEach(change => {
-        this.message += change.change_id.substring(0, 10) + ':' +
+        this.message += change.change_id.substring(0, 10) + ': ' +
           this.getTrimmedChangeSubject(change.subject) + '\n';
       });
       this.message = this._modifyRevertSubmissionMsg(change);

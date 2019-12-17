@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "d090381e_206baabc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-12-17T19:57:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3270dae9_2d8a922d",
+      "range": {
+        "startLine": 8,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 39
+      },
+      "revId": "c41272d536642db667c21c375e6bd910a3cc979b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a79a0672_76e4e7a9",
         "filename": "javatests/com/google/gerrit/acceptance/api/change/RevertIT.java",
         "patchSetId": 1

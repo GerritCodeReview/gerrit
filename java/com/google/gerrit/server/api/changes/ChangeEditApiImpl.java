@@ -202,7 +202,9 @@ public class ChangeEditApiImpl implements ChangeEditApi {
   @Override
   public void modifyFile(String filePath, RawInput newContent) throws RestApiException {
     try {
-      changeEditsPut.apply(changeResource, filePath, newContent);
+      FileContentInput input = new FileContentInput();
+      input.content = newContent;
+      changeEditsPut.apply(changeResource, filePath, input);
     } catch (Exception e) {
       throw asRestApiException("Cannot modify file of change edit", e);
     }

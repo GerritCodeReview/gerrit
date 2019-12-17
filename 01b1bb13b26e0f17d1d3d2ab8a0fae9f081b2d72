@@ -57,6 +57,30 @@
       "revId": "01b1bb13b26e0f17d1d3d2ab8a0fae9f081b2d72",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e1b54950_707dd32d",
+        "filename": "polygerrit-ui/app/elements/core/gr-reporting/gr-reporting.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2019-12-17T09:25:50Z",
+      "side": 1,
+      "message": "Thanks for catching this bug. I added one more assert to check this, so next time it will be catched by test.",
+      "parentUuid": "e10b291b_444c48f5",
+      "range": {
+        "startLine": 242,
+        "startChar": 37,
+        "endLine": 242,
+        "endChar": 46
+      },
+      "revId": "01b1bb13b26e0f17d1d3d2ab8a0fae9f081b2d72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

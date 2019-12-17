@@ -20,6 +20,7 @@ import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.NotImplementedException;
 import com.google.gerrit.extensions.restapi.RawInput;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.server.api.changes.FileContentInput;
 import java.util.EnumSet;
 import java.util.Optional;
 
@@ -150,7 +151,22 @@ public interface ChangeEditApi {
    * @param newContent the desired content of the file
    * @throws RestApiException if the content of the file couldn't be modified
    */
-  void modifyFile(String filePath, RawInput newContent) throws RestApiException;
+  default void modifyFile(String filePath, RawInput newContent) throws RestApiException {
+    FileContentInput input = new FileContentInput();
+    input.content = newContent;
+    modifyFile(filePath, input);
+  }
+
+  /**
+   * Modify the contents of the specified file of the change edit. If no content is provided, the
+   * content of the file is erased but the file isn't deleted. If the change edit doesn't exist, it
+   * will be created based on the current patch set of the change.
+   *
+   * @param filePath the path of the file which should be modified
+   * @param input the desired content of the file
+   * @throws RestApiException if the content of the file couldn't be modified
+   */
+  void modifyFile(String filePath, FileContentInput input) throws RestApiException;
 
   /**
    * Deletes the specified file from the change edit. If the change edit doesn't exist, it will be
@@ -235,7 +251,7 @@ public interface ChangeEditApi {
     }
 
     @Override
-    public void modifyFile(String filePath, RawInput newContent) throws RestApiException {
+    public void modifyFile(String filePath, FileContentInput input) throws RestApiException {
       throw new NotImplementedException();
     }
 

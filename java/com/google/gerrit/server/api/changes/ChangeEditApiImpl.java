@@ -24,7 +24,6 @@ import com.google.gerrit.extensions.common.Input;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.IdString;
-import com.google.gerrit.extensions.restapi.RawInput;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -200,10 +199,8 @@ public class ChangeEditApiImpl implements ChangeEditApi {
   }
 
   @Override
-  public void modifyFile(String filePath, RawInput newContent) throws RestApiException {
+  public void modifyFile(String filePath, FileContentInput input) throws RestApiException {
     try {
-      FileContentInput input = new FileContentInput();
-      input.content = newContent;
       changeEditsPut.apply(changeResource, filePath, input);
     } catch (Exception e) {
       throw asRestApiException("Cannot modify file of change edit", e);

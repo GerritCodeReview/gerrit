@@ -78,7 +78,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.LinkedList;
+import java.util.ArrayDeque;
 import java.util.List;
 import java.util.Queue;
 import java.util.Set;
@@ -341,7 +341,7 @@ public class RevertSubmission
 
       ObjectId startCommit =
           git.getRefDatabase().findRef(changeNotes.getChange().getDest().branch()).getObjectId();
-      Queue<ObjectId> commitsToSearch = new LinkedList<>();
+      Queue<ObjectId> commitsToSearch = new ArrayDeque<>();
       commitsToSearch.add(startCommit);
 
       while (!commitsToSearch.isEmpty()) {
@@ -433,7 +433,8 @@ public class RevertSubmission
     // reverting.
     throw new StorageException(
         String.format(
-            "Couldn't find a non-merge commit after encountering commit %s when trying to revert the submission of change %d",
+            "Couldn't find a non-merge commit after encountering commit %s when trying to revert"
+                + " the submission of change %d",
             potentialCommitToReturn.getName(), changeNotes.getChange().getChangeId()));
   }
 

@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "4021cd68_a38e5cb5",
+        "filename": "java/com/google/gerrit/extensions/api/changes/ChangeEditApi.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2019-12-17T01:07:17Z",
+      "side": 1,
+      "message": "Managed to do it by creating modifyFile with an input.",
+      "parentUuid": "55adfb06_68318576",
+      "range": {
+        "startLine": 152,
+        "startChar": 2,
+        "endLine": 161,
+        "endChar": 80
+      },
+      "revId": "9b32d2a76c87c22ff1e973b06224f86c72b028e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "de73b624_ac0f7fdf",
         "filename": "java/com/google/gerrit/server/api/changes/ChangeEditApiImpl.java",
         "patchSetId": 13

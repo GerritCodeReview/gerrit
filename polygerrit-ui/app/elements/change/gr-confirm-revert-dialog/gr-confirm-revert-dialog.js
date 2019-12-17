@@ -19,6 +19,7 @@
 
   const ERR_COMMIT_NOT_FOUND =
       'Unable to find the commit hash of this change.';
+  const CHANGE_SUBJECT_LIMIT = 50;
 
   /**
     * @appliesMixin Gerrit.FireMixin
@@ -44,10 +45,18 @@
     static get properties() {
       return {
         message: String,
+        _revertSingleChange: {
+          type: Boolean,
+          value: true,
+        },
+        _showRevertSubmission: {
+          type: Boolean,
+          value: false,
+        },
       };
     }
 
-    populateRevertMessage(message, commitHash) {
+    populateRevertSingleChangeMessage(message, commitHash) {
       // Figure out what the revert title should be.
       const originalTitle = message.split('\n')[0];
       const revertTitle = `Revert "${originalTitle}"`;
@@ -57,20 +66,73 @@
       }
       const revertCommitText = `This reverts commit ${commitHash}.`;
 
-      this.message = `${revertTitle}\n\n${revertCommitText}\n\n` +
+      this.revertSingleChangeMessage =
+          `${revertTitle}\n\n${revertCommitText}\n\n` +
           `Reason for revert: <INSERT REASONING HERE>\n`;
+      this.message = this.revertSingleChangeMessage;
+    }
+
+    getTrimmedChangeSubject(subject) {
+      if (!subject) return '';
+      if (subject.length < CHANGE_SUBJECT_LIMIT) return subject;
+      return subject.substring(0, CHANGE_SUBJECT_LIMIT) + '...';
+    }
+
+    _modifyRevertSubmissionMsg(change) {
+      return this.$.jsAPI.modifyRevertSubmissionMsg(change,
+          this.revertSubmissionMessage, this.commitMessage);
+    }
+
+    populateRevertSubmissionMessage(change, changes) {
+      // Follow the same convention of the revert
+      const commitHash = change.current_revision;
+      if (!commitHash) {
+        this.fire('show-alert', {message: ERR_COMMIT_NOT_FOUND});
+        return;
+      }
+      const submissionId = change.submission_id;
+      const revertTitle = 'Revert submission ' + submissionId;
+      this.changes = changes;
+      this.revertSubmissionMessage = revertTitle + '\n\n' +
+          'Reason for revert: <INSERT REASONING HERE>\n';
+      this.revertSubmissionMessage += 'Reverted Changes:\n';
+      changes = changes || [];
+      changes.forEach(change => {
+        this.revertSubmissionMessage += change.change_id.substring(0, 10) + ':'
+          + this.getTrimmedChangeSubject(change.subject) + '\n';
+      });
+      this.revertSubmissionMessage = this._modifyRevertSubmissionMsg(change);
+      this.message = this.revertSubmissionMessage;
+      this._revertSingleChange = false;
+      this._showRevertSubmission = true;
+    }
+
+    _handleRevertSingleChangeClicked() {
+      if (this._revertSingleChange) return;
+      this.revertSubmissionMessage = this.message;
+      this.message = this.revertSingleChangeMessage;
+      this._revertSingleChange = true;
+    }
+
+    _handleRevertSubmissionClicked() {
+      if (!this._revertSingleChange) return;
+      this._revertSingleChange = false;
+      this.revertSingleChangeMessage = this.message;
+      this.message = this.revertSubmissionMessage;
     }
 
     _handleConfirmTap(e) {
       e.preventDefault();
       e.stopPropagation();
-      this.fire('confirm', null, {bubbles: false});
+      this.fire('confirm', {revertSingleChange: this._revertSingleChange},
+          {bubbles: false});
     }
 
     _handleCancelTap(e) {
       e.preventDefault();
       e.stopPropagation();
-      this.fire('cancel', null, {bubbles: false});
+      this.fire('cancel', {revertSingleChange: this._revertSingleChange},
+          {bubbles: false});
     }
   }
 

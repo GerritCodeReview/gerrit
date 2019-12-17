@@ -37,6 +37,11 @@ limitations under the License.
 </test-fixture>
 
 <script>
+  const REVERT_TYPES = {
+    REVERT_SINGLE_CHANGE: 1,
+    REVERT_SUBMISSION: 2,
+  };
+
   suite('gr-change-actions tests', () => {
     let element;
     let sandbox;
@@ -796,12 +801,10 @@ limitations under the License.
     });
 
     suite('revert change', () => {
-      let alertStub;
       let fireActionStub;
 
       setup(() => {
         fireActionStub = sandbox.stub(element, '_fireAction');
-        alertStub = sandbox.stub(window, 'alert');
         element.actions = {
           revert: {
             method: 'POST',
@@ -813,51 +816,85 @@ limitations under the License.
         return element.reload();
       });
 
-      test('revert change with plugin hook', done => {
-        element.change = {
-          current_revision: 'abc1234',
-        };
-        const newRevertMsg = 'Modified revert msg';
-        sandbox.stub(element, '_modifyRevertMsg',
-            () => { return newRevertMsg; });
-        sandbox.stub(element.$.confirmRevertDialog, 'populateRevertMessage',
-            () => { return 'original msg'; });
-        flush(() => {
-          const revertButton =
-              element.$$('gr-button[data-action-key="revert"]');
+      suite('revert change submitted together', () => {
+        setup(() => {
+          element.change = {
+            submission_id: '199',
+            current_revision: '2000',
+          };
+          sandbox.stub(element.$.restAPI, 'getChanges')
+              .returns(Promise.resolve([
+                {change_id: '12345678901234', topic: 'T', subject: 'random'},
+                {change_id: '23456', topic: 'T', subject: 'a'.repeat(100)},
+              ]));
+        });
+        test('confirm revert dialog shows both options', done => {
+          const revertButton = element.shadowRoot
+              .querySelector('gr-button[data-action-key="revert"]');
           MockInteractions.tap(revertButton);
-
-          assert.equal(element.$.confirmRevertDialog.message, newRevertMsg);
-          done();
+          flush(() => {
+            const confirmRevertDialog = element.$.confirmRevertDialog;
+            const revertSingleChangeLabel = confirmRevertDialog
+                .shadowRoot.querySelector('.revertSingleChange');
+            const revertSubmissionLabel = confirmRevertDialog.
+                shadowRoot.querySelector('.revertSubmission');
+            assert(revertSingleChangeLabel.innerText ===
+                'Revert single change');
+            assert(revertSubmissionLabel.innerText ===
+                'Revert entire submission (2 Changes)');
+            let expectedMsg = 'Revert submission 199' + '\n\n' +
+              'Reason for revert: <INSERT REASONING HERE>' + '\n' +
+              'Reverted Changes:' + '\n' +
+              '1234567890:random' + '\n' +
+              '23456:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa...' +
+              '\n';
+            assert.equal(confirmRevertDialog.message, expectedMsg);
+            const radioInputs = confirmRevertDialog.shadowRoot
+                .querySelectorAll('input[name="rebaseOptions"]');
+            MockInteractions.tap(radioInputs[0]);
+            flush(() => {
+              expectedMsg = 'Revert ""\n\nThis reverts commit 2000.\n\nReason'
+               + ' for revert: <INSERT REASONING HERE>\n';
+              assert.equal(confirmRevertDialog.message, expectedMsg);
+              done();
+            });
+          });
         });
       });
 
-      test('works', () => {
-        element.change = {
-          current_revision: 'abc1234',
-        };
-        sandbox.stub(element.$.confirmRevertDialog, 'populateRevertMessage',
-            () => { return 'original msg'; });
-        const revertButton = element.$$('gr-button[data-action-key="revert"]');
-        MockInteractions.tap(revertButton);
-
-        element.$.confirmRevertDialog.message = 'foo message';
-        element._handleRevertDialogConfirm();
-        assert.notOk(alertStub.called);
-
-        const action = {
-          __key: 'revert',
-          __type: 'change',
-          __primary: false,
-          enabled: true,
-          label: 'Revert',
-          method: 'POST',
-          title: 'Revert the change',
-        };
-        assert.deepEqual(fireActionStub.lastCall.args, [
-          '/revert', action, false, {
-            message: 'foo message',
-          }]);
+      suite('revert single change', () => {
+        setup(() => {
+          element.change = {
+            submission_id: '199',
+            current_revision: '2000',
+          };
+          sandbox.stub(element.$.restAPI, 'getChanges')
+              .returns(Promise.resolve([
+                {change_id: '12345678901234', topic: 'T', subject: 'random'},
+              ]));
+        });
+        test('confirm revert dialog shows no radio buttons', done => {
+          const revertButton = element.$$('gr-button[data-action-key="revert"]');
+          MockInteractions.tap(revertButton);
+          flush(() => {
+            const confirmRevertDialog = element.$.confirmRevertDialog;
+            const radioInputs = confirmRevertDialog.shadowRoot
+                .querySelectorAll('input[name="rebaseOptions"]');
+            assert.equal(radioInputs.length, 0);
+            const msg = 'Revert ""\n\nThis reverts commit 2000.\n\nReason '
+              + 'for revert: <INSERT REASONING HERE>\n';
+            assert.equal(confirmRevertDialog.message, msg);
+            confirmRevertDialog.fire('confirm', {
+              revertType: REVERT_TYPES.REVERT_SINGLE_CHANGE}
+            , {bubbles: false});
+            flush(() => {
+              assert.equal(fireActionStub.getCall(0).args[0], '/revert');
+              assert.equal(fireActionStub.getCall(0).args[1].__key, 'revert');
+              assert.equal(fireActionStub.getCall(0).args[3].message, msg);
+              done();
+            });
+          });
+        });
       });
     });
 

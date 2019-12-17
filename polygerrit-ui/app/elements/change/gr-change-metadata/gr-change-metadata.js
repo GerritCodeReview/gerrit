@@ -410,6 +410,7 @@
     /**
      * Get the user with the specified role on the change. Returns null if the
      * user with that role is the same as the owner.
+     *
      * @param {!Object} change
      * @param {string} role One of the values from _CHANGE_ROLE
      * @return {Object|null} either an accound or null.

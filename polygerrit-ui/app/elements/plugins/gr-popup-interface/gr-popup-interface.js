@@ -22,6 +22,7 @@
    * Provides method for opening and closing popups from plugin.
    * opt_moduleName is a name of custom element that will be automatically
    * inserted on popup opening.
+   *
    * @param {!Object} plugin
    * @param {opt_moduleName=} string
    */
@@ -40,6 +41,7 @@
    * Opens the popup, inserts it into DOM over current UI.
    * Creates the popup if not previously created. Creates popup content element,
    * if it was provided with constructor.
+   *
    * @returns {!Promise<!Object>}
    */
   GrPopupInterface.prototype.open = function() {

@@ -66,7 +66,7 @@
        * the first chunk) the next time the diff renders. It is set back to null
        * when used.
        *
-       * @type (?number)
+       * @type {?number}
        */
       initialLineNumber: {
         type: Number,
@@ -173,6 +173,7 @@
 
     /**
      * Get the line number element targeted by the cursor row and side.
+     *
      * @return {?Element|undefined}
      */
     getTargetLineElement() {
@@ -240,6 +241,7 @@
      * {leftSide: false, number: 123} for line 123 of the revision, or
      * {leftSide: true, number: 321} for line 321 of the base patch.
      * Returns null if an address is not available.
+     *
      * @return {?Object}
      */
     getAddress() {
@@ -364,6 +366,7 @@
     /**
      * Setup and tear down on-render listeners for any diffs that are added or
      * removed from the cursor.
+     *
      * @private
      */
     _diffsChanged(changeRecord) {

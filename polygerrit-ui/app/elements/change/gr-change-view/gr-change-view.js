@@ -810,6 +810,7 @@
     /**
      * Gets base patch number, if it is a parent try and decide from
      * preference weather to default to `auto merge`, `Parent 1` or `PARENT`.
+     *
      * @param {Object} change
      * @param {Object} patchRange
      * @return {number|string}
@@ -1282,6 +1283,7 @@
 
     /**
      * Reload the change.
+     *
      * @param {boolean=} opt_reloadRelatedChanges Reloads the related chanegs
      *     when true.
      * @return {Promise} A promise that resolves when the core data has loaded.

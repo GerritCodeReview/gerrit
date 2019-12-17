@@ -28,6 +28,6 @@ cd ${UI_PATH}
 
 # Linking global eslint packages to the local project. Required to use eslint plugins with a global
 # eslint installation.
-npm link eslint eslint-config-google eslint-plugin-html
+npm link eslint eslint-config-google eslint-plugin-html eslint-plugin-jsdoc
 
 ${eslint_bin} -c ${UI_PATH}/.eslintrc.json --ext .html,.js ${UI_PATH}

@@ -345,6 +345,7 @@
             /**
              * As add / delete both can happen in the new section,
              * so here to make sure it will remove the deleted ones.
+             *
              * @see Issue 11339
              */
             this._recursivelyRemoveDeleted(addRemoveObj.add[k]);

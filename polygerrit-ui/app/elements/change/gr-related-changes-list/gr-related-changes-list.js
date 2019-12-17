@@ -157,6 +157,7 @@
      * Determines whether or not the given change has a parent change. If there
      * is a relation chain, and the change id is not the last item of the
      * relation chain, there is a parent.
+     *
      * @param  {number} currentChangeId
      * @param  {!Array} relatedChanges
      * @return {boolean}
@@ -215,6 +216,7 @@
     /**
      * Do the given objects describe the same change? Compares the changes by
      * their numbers.
+     *
      * @see /Documentation/rest-api-changes.html#change-info
      * @see /Documentation/rest-api-changes.html#related-change-and-commit-info
      * @param {!Object} a Either ChangeInfo or RelatedChangeAndCommitInfo
@@ -232,6 +234,7 @@
      * SubmittedTogetherInfo responses) or get the change number from a
      * RelatedChangeAndCommitInfo (such as those included in a
      * RelatedChangesInfo response).
+     *
      * @see /Documentation/rest-api-changes.html#change-info
      * @see /Documentation/rest-api-changes.html#related-change-and-commit-info
      *

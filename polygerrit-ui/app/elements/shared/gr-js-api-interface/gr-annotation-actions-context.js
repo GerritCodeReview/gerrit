@@ -19,6 +19,7 @@
 
   /**
    * Used to create a context for GrAnnotationActionsInterface.
+   *
    * @param {HTMLElement} el The DIV.contentText element to apply the
    *     annotation to using annotateRange.
    * @param {GrDiffLine} line The line object.
@@ -37,6 +38,7 @@
 
   /**
    * Method to add annotations to a line.
+   *
    * @param {Number} start The line number where the update starts.
    * @param {Number} end The line number where the update ends.
    * @param {String} cssClass The name of a CSS class created using Gerrit.css.

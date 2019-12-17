@@ -204,6 +204,7 @@
     /**
      * Determine what array of possible suggestions should be provided
      *     to _getSearchSuggestions.
+     *
      * @param {string} input - The full search term, in lowercase.
      * @return {!Promise} This returns a promise that resolves to an array of
      *     suggestion objects.
@@ -245,6 +246,7 @@
 
     /**
      * Get the sorted, pruned list of suggestions for the current search query.
+     *
      * @param {string} input - The complete search query.
      * @return {!Promise} This returns a promise that resolves to an array of
      *     suggestions.

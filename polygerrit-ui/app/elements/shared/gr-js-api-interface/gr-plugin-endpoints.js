@@ -66,6 +66,7 @@
   /**
    * Get detailed information about modules registered with an extension
    * endpoint.
+   *
    * @param {string} name Endpoint name.
    * @param {?{
    *   type: (string|undefined),
@@ -92,6 +93,7 @@
 
   /**
    * Get detailed module names for instantiating at the endpoint.
+   *
    * @param {string} name Endpoint name.
    * @param {?{
    *   type: (string|undefined),
@@ -109,6 +111,7 @@
 
   /**
    * Get .html plugin URLs with element and module definitions.
+   *
    * @param {string} name Endpoint name.
    * @param {?{
    *   type: (string|undefined),

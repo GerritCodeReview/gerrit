@@ -32,6 +32,7 @@
 
   /**
    * Fired when a permission that was previously added was removed.
+   *
    * @event added-permission-removed
    */
 

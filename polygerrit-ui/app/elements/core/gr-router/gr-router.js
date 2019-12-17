@@ -103,6 +103,7 @@
 
     /**
      * Support vestigial params from GWT UI.
+     *
      * @see Issue 7673.
      * @type {!RegExp}
      */
@@ -159,6 +160,7 @@
    * the hash of diff URLs. In this format, a number on its own indicates that
    * line number in the revision of the diff. A number prefixed by either an 'a'
    * or a 'b' indicates that line number of the base of the diff.
+   *
    * @type {RegExp}
    */
   const LINE_ADDRESS_PATTERN = /^([ab]?)(\d+)$/;
@@ -521,6 +523,7 @@
      * Given an object of parameters, potentially including a `patchNum` or a
      * `basePatchNum` or both, return a string representation of that range. If
      * no range is indicated in the params, the empty string is returned.
+     *
      * @param {!Object} params
      * @return {string}
      */
@@ -597,6 +600,7 @@
     /**
      * Redirect the user to login using the given return-URL for redirection
      * after authentication success.
+     *
      * @param {string} returnUrl
      */
     _redirectToLogin(returnUrl) {
@@ -609,6 +613,7 @@
      * Hashes parsed by page.js exclude "inner" hashes, so a URL like "/a#b#c"
      * is parsed to have a hash of "b" rather than "b#c". Instead, this method
      * parses hashes correctly. Will return an empty string if there is no hash.
+     *
      * @param {!string} canonicalPath
      * @return {!string} Everything after the first '#' ("a#b#c" -> "b#c").
      */
@@ -629,6 +634,7 @@
      * Check to see if the user is logged in and return a promise that only
      * resolves if the user is logged in. If the user us not logged in, the
      * promise is rejected and the page is redirected to the login flow.
+     *
      * @param {!Object} data The parsed route data.
      * @return {!Promise<!Object>} A promise yielding the original route data
      *     (if it resolves).

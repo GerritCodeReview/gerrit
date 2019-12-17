@@ -168,6 +168,7 @@
     /**
      * Annotation layer method to add syntax annotations to the given element
      * for the given line.
+     *
      * @param {!HTMLElement} el
      * @param {!Object} line (GrDiffLine)
      */
@@ -204,6 +205,7 @@
     /**
      * Start processing symtax for the loaded diff and notify layer listeners
      * as syntax info comes online.
+     *
      * @return {Promise}
      */
     process() {
@@ -291,6 +293,7 @@
      * Take a string of HTML with the (potentially nested) syntax markers
      * Highlight.js emits and emit a list of text ranges and classes for the
      * markers.
+     *
      * @param {string} str The string of HTML.
      * @return {!Array<!Object>} The list of ranges.
      */
@@ -326,6 +329,7 @@
     /**
      * For a given state, process the syntax for the next line (or pair of
      * lines).
+     *
      * @param {!Object} state The processing state for the layer.
      */
     _processNextLine(state) {
@@ -438,6 +442,7 @@
 
     /**
      * Tells whether the state has exhausted its current section.
+     *
      * @param {!Object} state
      * @return {boolean}
      */
@@ -454,6 +459,7 @@
     /**
      * For a given state, notify layer listeners of any processed line ranges
      * that have not yet been notified.
+     *
      * @param {!Object} state
      */
     _notify(state) {

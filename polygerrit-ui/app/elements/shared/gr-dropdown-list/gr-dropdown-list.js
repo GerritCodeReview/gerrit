@@ -73,6 +73,7 @@
 
     /**
      * Handle a click on the iron-dropdown element.
+     *
      * @param {!Event} e
      */
     _handleDropdownClick(e) {
@@ -85,6 +86,7 @@
 
     /**
      * Handle a click on the button to open the dropdown.
+     *
      * @param {!Event} e
      */
     _showDropdownTapHandler(e) {

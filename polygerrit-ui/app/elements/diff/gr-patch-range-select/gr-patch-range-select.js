@@ -157,6 +157,7 @@
      * The basePatchNum should always be <= patchNum -- because sortedRevisions
      * is sorted in reverse order (higher patchset nums first), invalid base
      * patch nums have an index greater than the index of patchNum.
+     *
      * @param {number|string} basePatchNum The possible base patch num.
      * @param {number|string} patchNum The current selected patch num.
      * @param {!Array} sortedRevisions

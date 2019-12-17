@@ -453,6 +453,7 @@
 
     /**
      * Load the project config when a project name has been provided.
+     *
      * @param {string} name The project name.
      */
     _projectNameChanged(name) {

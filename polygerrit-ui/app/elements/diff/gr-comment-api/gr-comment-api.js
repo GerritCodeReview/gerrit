@@ -426,12 +426,13 @@
   };
 
   /**
-  * Whether the given comment should be included in the base side of the
-  * given patch range.
-  * @param {!Object} comment
-  * @param {!Defs.patchRange} range
-  * @return {boolean}
-  */
+   * Whether the given comment should be included in the base side of the
+   * given patch range.
+   *
+   * @param {!Object} comment
+   * @param {!Defs.patchRange} range
+   * @return {boolean}
+   */
   ChangeComments.prototype._isInBaseOfPatchRange = function(comment, range) {
     // If the base of the patch range is a parent of a merge, and the comment
     // appears on a specific parent then only show the comment if the parent
@@ -459,6 +460,7 @@
   /**
    * Whether the given comment should be included in the revision side of the
    * given patch range.
+   *
    * @param {!Object} comment
    * @param {!Defs.patchRange} range
    * @return {boolean}
@@ -471,6 +473,7 @@
 
   /**
    * Whether the given comment should be included in the given patch range.
+   *
    * @param {!Object} comment
    * @param {!Defs.patchRange} range
    * @return {boolean|undefined}

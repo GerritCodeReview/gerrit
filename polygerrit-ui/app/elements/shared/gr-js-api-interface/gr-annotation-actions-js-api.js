@@ -34,6 +34,7 @@
    * Register a function to call to apply annotations. Plugins should use
    * GrAnnotationActionsContext.annotateRange to apply a CSS class to a range
    * within a line.
+   *
    * @param {function(GrAnnotationActionsContext)} addLayerFunc The function
    *     that will be called when the AnnotationLayer is ready to annotate.
    */
@@ -45,6 +46,7 @@
   /**
    * The specified function will be called with a notify function for the plugin
    * to call when it has all required data for annotation. Optional.
+   *
    * @param {function(function(String, Number, Number, String))} notifyFunc See
    *     doc of the notify function below to see what it does.
    */
@@ -97,6 +99,7 @@
    * The notify function will call the listeners of all required annotation
    * layers. Intended to be called by the plugin when all required data for
    * annotation is available.
+   *
    * @param {String} path The file path whose listeners should be notified.
    * @param {Number} start The line where the update starts.
    * @param {Number} end The line where the update ends.
@@ -117,6 +120,7 @@
   /**
    * Should be called to register annotation layers by the framework. Not
    * intended to be called by plugins.
+   *
    * @param {String} path The file path (eg: /COMMIT_MSG').
    * @param {String} changeNum The Gerrit change number.
    * @param {String} patchNum The Gerrit patch number.
@@ -131,6 +135,7 @@
 
   /**
    * Used to create an instance of the Annotation Layer interface.
+   *
    * @param {String} path The file path (eg: /COMMIT_MSG').
    * @param {String} changeNum The Gerrit change number.
    * @param {String} patchNum The Gerrit patch number.
@@ -148,6 +153,7 @@
 
   /**
    * Register a listener for layer updates.
+   *
    * @param {function(Number, Number, String)} fn The update handler function.
    *     Should accept as arguments the line numbers for the start and end of
    *     the update and the side as a string.
@@ -158,6 +164,7 @@
 
   /**
    * Layer method to add annotations to a line.
+   *
    * @param {HTMLElement} el The DIV.contentText element to apply the
    *     annotation to.
    * @param {GrDiffLine} line The line object.
@@ -170,6 +177,7 @@
 
   /**
    * Notify Layer listeners of changes to annotations.
+   *
    * @param {Number} start The line where the update starts.
    * @param {Number} end The line where the update ends.
    * @param {String} side The side of the update. ('left' or 'right')

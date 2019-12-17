@@ -54,6 +54,7 @@
 
     /**
      * Fired when the user selects a line.
+     *
      * @event line-selected
      */
 
@@ -70,10 +71,10 @@
      */
 
     /**
-      * Fired when a draft is added or edited.
-      *
-      * @event draft-interaction
-      */
+     * Fired when a draft is added or edited.
+     *
+     * @event draft-interaction
+     */
 
     properties: {
       changeNum: String,
@@ -126,6 +127,7 @@
 
       /**
        * Special line number which should not be collapsed into a shared region.
+       *
        * @type {{
        *  number: number,
        *  leftSide: {boolean}
@@ -167,7 +169,7 @@
        * bypassed. If the value is a number, then that number represents the
        * context preference to use when rendering the bypassed diff.
        *
-       * @type (number|null)
+       * @type {number|null}
        */
       _safetyBypass: {
         type: Number,
@@ -746,6 +748,7 @@
 
     /**
      * Find the last chunk for the given side.
+     *
      * @param {!Object} diff
      * @param {boolean} leftSide true if checking the base of the diff,
      *     false if testing the revision.
@@ -781,6 +784,7 @@
 
     /**
      * Check whether the specified side of the diff has a trailing newline.
+     *
      * @param {!Object} diff
      * @param {boolean} leftSide true if checking the base of the diff,
      *     false if testing the revision.

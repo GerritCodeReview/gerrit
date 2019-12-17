@@ -38,6 +38,7 @@
     /**
      * Get the list of enabled column names from whichever checkboxes are
      * checked (excluding the number checkbox).
+     *
      * @return {!Array<string>}
      */
     _getDisplayedColumns() {

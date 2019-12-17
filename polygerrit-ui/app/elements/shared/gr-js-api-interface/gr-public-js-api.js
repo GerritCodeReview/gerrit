@@ -294,6 +294,7 @@
 
   /**
    * To make REST requests for plugin-provided endpoints, use
+   *
    * @example
    * const pluginRestApi = plugin.restApi(plugin.url());
    *
@@ -567,6 +568,7 @@
 
   /**
    * Install "stepping stones" API for GWT-compiled plugins by default.
+   *
    * @deprecated best effort support, will be removed with GWT UI.
    */
   Gerrit.installGwt = function(url) {

@@ -51,6 +51,7 @@
       /**
        * The last time the g key was pressed in milliseconds (or a keydown event
        * was handled if the key is held down).
+       *
        * @type {number|null}
        */
       _lastGKeyPressTimestamp: {

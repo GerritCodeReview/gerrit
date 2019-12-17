@@ -203,7 +203,7 @@
     /**
      * Fired when an action is tapped.
      *
-     * @event <action key>-tap
+     * @event custom-tap - naming pattern: <action key>-tap
      */
 
     /**
@@ -569,8 +569,8 @@
     },
 
     /**
-       * @param {string=} actionName
-       */
+     * @param {string=} actionName
+     */
     _deleteAndNotify(actionName) {
       if (this.actions[actionName]) {
         delete this.actions[actionName];
@@ -800,6 +800,7 @@
 
     /**
      * Capitalize the first letter and lowecase all others.
+     *
      * @param {string} s
      * @return {string}
      */
@@ -1295,6 +1296,7 @@
     /**
      * Merge sources of change actions into a single ordered array of action
      * values.
+     *
      * @param {!Array} changeActionsRecord
      * @param {!Array} revisionActionsRecord
      * @param {!Array} primariesRecord

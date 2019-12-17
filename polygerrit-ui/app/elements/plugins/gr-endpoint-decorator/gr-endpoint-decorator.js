@@ -33,6 +33,7 @@
        * This map prevents importing the same endpoint twice.
        * Without caching, if a plugin is loaded after the loaded plugins
        * callback fires, it will be imported twice and appear twice on the page.
+       *
        * @type {!Map}
        */
       _initializedPlugins: {

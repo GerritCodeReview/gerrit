@@ -46,6 +46,7 @@
 
     /**
      * Layer method to add annotations to a line.
+     *
      * @param {!HTMLElement} el The DIV.contentText element to apply the
      *     annotation to.
      * @param {!Object} line The line object. (GrDiffLine)
@@ -72,6 +73,7 @@
 
     /**
      * Register a listener for layer updates.
+     *
      * @param {function(number, number, string)} fn The update handler function.
      *     Should accept as arguments the line numbers for the start and end of
      *     the update and the side as a string.
@@ -82,6 +84,7 @@
 
     /**
      * Notify Layer listeners of changes to annotations.
+     *
      * @param {number} start The line where the update starts.
      * @param {number} end The line where the update ends.
      * @param {string} side The side of the update. ('left' or 'right')
@@ -95,6 +98,7 @@
     /**
      * Handle change in the comments by updating the comment maps and by
      * emitting appropriate update notifications.
+     *
      * @param {Object} record The change record.
      */
     _handleCommentChange(record) {
@@ -136,6 +140,7 @@
      * Take a list of comments and return a sparse list mapping line numbers to
      * partial ranges. Uses an end-character-index of -1 to indicate the end of
      * the line.
+     *
      * @param {?} commentList The list of comments.
      *    Getting this param to match closure requirements caused problems.
      * @return {!Object} The sparse list.

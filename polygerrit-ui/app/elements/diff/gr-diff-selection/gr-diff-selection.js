@@ -101,6 +101,7 @@
     /**
      * Set the provided list of classes on the element, to the exclusion of all
      * other SelectionClass values.
+     *
      * @param {!Array<!string>} targetClasses
      */
     _setClasses(targetClasses) {

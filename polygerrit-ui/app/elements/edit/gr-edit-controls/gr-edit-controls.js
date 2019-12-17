@@ -111,6 +111,7 @@
 
     /**
      * Given a path string, checks that it is a valid file path.
+     *
      * @param {string} path
      * @return {boolean}
      */
@@ -125,6 +126,7 @@
 
     /**
      * Given a dom event, gets the dialog that lies along this event path.
+     *
      * @param {!Event} e
      * @return {!Element|undefined}
      */

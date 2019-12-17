@@ -160,6 +160,7 @@
 
     /**
      * Update the patchset description with the rest API.
+     *
      * @param {string} desc
      * @param {?(Event|Node)} e
      * @return {!Promise}

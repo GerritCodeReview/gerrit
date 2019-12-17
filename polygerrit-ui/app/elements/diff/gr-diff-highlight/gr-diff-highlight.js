@@ -107,6 +107,7 @@
      * Merges multiple ranges, accounts for triple click, accounts for
      * syntax highligh, convert native DOM Range objects to Gerrit concepts
      * (line, side, etc).
+     *
      * @return {({
      *   start: {
      *     node: Node,
@@ -142,6 +143,7 @@
 
     /**
      * Normalize a specific DOM Range.
+     *
      * @return {!Object} fixed normalized range
      */
     _normalizeRange(domRange) {

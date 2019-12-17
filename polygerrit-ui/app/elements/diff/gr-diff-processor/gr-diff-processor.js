@@ -104,6 +104,7 @@
     /**
      * Asynchronously process the diff object into groups. As it processes, it
      * will splice groups into the `groups` property of the component.
+     *
      * @return {Promise} A promise that resolves when the diff is completely
      *     processed.
      */
@@ -230,6 +231,7 @@
     /**
      * Take rows of a shared diff section and produce an array of corresponding
      * (potentially collapsed) groups.
+     *
      * @param {!Array<string>} rows
      * @param {number} context
      * @param {number} startLineNumLeft
@@ -293,6 +295,7 @@
     /**
      * Take the rows of a delta diff section and produce the corresponding
      * group.
+     *
      * @param {!Array<string>} rowsAdded
      * @param {!Array<string>} rowsRemoved
      * @param {number} startLineNumLeft
@@ -353,6 +356,7 @@
      * In order to show comments out of the bounds of the selected context,
      * treat them as separate chunks within the model so that the content (and
      * context surrounding it) renders correctly.
+     *
      * @param {?} content The diff content object. (has to be iterable)
      * @return {!Object} A new diff content object with regions split up.
      */
@@ -497,6 +501,7 @@
      * If a group is an addition or a removal, break it down into smaller groups
      * of that type using the MAX_GROUP_SIZE. If the group is a shared section
      * or a delta it is returned as the single element of the result array.
+     *
      * @param {!Object} group A raw chunk from a diff response.
      * @return {!Array<!Array<!Object>>}
      */
@@ -526,6 +531,7 @@
     /**
      * Given an array and a size, return an array of arrays where no inner array
      * is larger than that size, preserving the original order.
+     *
      * @param {!Array<T>} array
      * @param {number} size
      * @return {!Array<!Array<T>>}

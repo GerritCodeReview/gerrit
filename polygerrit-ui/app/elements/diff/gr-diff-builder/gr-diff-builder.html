@@ -452,6 +452,7 @@ limitations under the License.
          * which, in turn, triggers a reflow on the page. Create a hidden
          * thread, attach it to the page, and remove it so the stylesheet will
          * already exist and the user's comment will be quick to load.
+         *
          * @see https://gerrit-review.googlesource.com/c/82213/
          */
         _preRenderThread() {
@@ -489,6 +490,7 @@ limitations under the License.
         /**
          * Get the approximate length of the diff as the sum of the maximum
          * length of the chunks.
+         *
          * @return {number}
          */
         getDiffLength() {

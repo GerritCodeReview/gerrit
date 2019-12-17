@@ -20,6 +20,7 @@
   /**
    * Ensure GrChangeReplyInterface instance has access to gr-reply-dialog
    * element and retrieve if the interface was created before element.
+   *
    * @param {!GrChangeReplyInterfaceOld} api
    */
   function ensureEl(api) {

@@ -92,10 +92,10 @@
      */
 
     /**
-      * Fires when the state of the send button (enabled/disabled) changes.
-      *
-      * @event send-disabled-changed
-      */
+     * Fires when the state of the send button (enabled/disabled) changes.
+     *
+     * @event send-disabled-changed
+     */
 
     properties: {
       /**
@@ -677,6 +677,7 @@
      * Generates a function to filter out reviewer/CC entries. When isCCs is
      * truthy, the function filters out entries that already exist in this._ccs.
      * When falsy, the function filters entries that exist in this._reviewers.
+     *
      * @param {boolean} isCCs
      * @return {!Function}
      */

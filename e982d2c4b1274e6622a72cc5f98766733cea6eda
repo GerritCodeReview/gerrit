@@ -46,6 +46,30 @@
       "revId": "e982d2c4b1274e6622a72cc5f98766733cea6eda",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5babb796_6f60f70b",
+        "filename": "polygerrit-ui/server.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2019-12-17T15:23:48Z",
+      "side": 1,
+      "message": "that is to say: sure - but let\u0027s do it in a different change.",
+      "parentUuid": "4a78399f_5a3c31df",
+      "range": {
+        "startLine": 42,
+        "startChar": 1,
+        "endLine": 42,
+        "endChar": 5
+      },
+      "revId": "e982d2c4b1274e6622a72cc5f98766733cea6eda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

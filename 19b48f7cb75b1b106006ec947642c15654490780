@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9fe33c69_f1447bb1",
+        "filename": "polygerrit-ui/app/elements/core/gr-error-manager/gr-error-manager.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-12-17T14:19:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7e81ad8b_50cb21ab",
+      "range": {
+        "startLine": 76,
+        "startChar": 11,
+        "endLine": 76,
+        "endChar": 28
+      },
+      "revId": "19b48f7cb75b1b106006ec947642c15654490780",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6aa90439_abc1f4aa",
         "filename": "polygerrit-ui/app/elements/core/gr-error-manager/gr-error-manager.js",
         "patchSetId": 3
@@ -45,6 +69,30 @@
       "revId": "19b48f7cb75b1b106006ec947642c15654490780",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6a047e94_4443c7ec",
+        "filename": "polygerrit-ui/app/elements/core/gr-error-manager/gr-error-manager.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-12-17T14:19:34Z",
+      "side": 1,
+      "message": "oh nice catch, will keep it same as before and do nothing when _refreshingCredentials is false.",
+      "parentUuid": "6aa90439_abc1f4aa",
+      "range": {
+        "startLine": 251,
+        "startChar": 8,
+        "endLine": 256,
+        "endChar": 39
+      },
+      "revId": "19b48f7cb75b1b106006ec947642c15654490780",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "8b9b45ce_dac5ae00",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-auth.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-12-17T14:19:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f6fc0840_96282337",
+      "range": {
+        "startLine": 49,
+        "startChar": 13,
+        "endLine": 49,
+        "endChar": 34
+      },
+      "revId": "19b48f7cb75b1b106006ec947642c15654490780",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c91f53f0_2d19e580",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-auth.js",
         "patchSetId": 3
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "64720a49_3081f7b7",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-auth.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-12-17T14:19:34Z",
+      "side": 1,
+      "message": "it won\u0027t, as logout is a page refresh and all status will be reset.",
+      "parentUuid": "c91f53f0_2d19e580",
+      "range": {
+        "startLine": 75,
+        "startChar": 5,
+        "endLine": 78,
+        "endChar": 7
+      },
+      "revId": "19b48f7cb75b1b106006ec947642c15654490780",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "45395f5a_e05668b3",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
         "patchSetId": 3
@@ -114,6 +210,30 @@
       "revId": "19b48f7cb75b1b106006ec947642c15654490780",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "442eebb1_988da9c9",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-12-17T14:19:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "45395f5a_e05668b3",
+      "range": {
+        "startLine": 152,
+        "startChar": 30,
+        "endLine": 152,
+        "endChar": 48
+      },
+      "revId": "19b48f7cb75b1b106006ec947642c15654490780",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

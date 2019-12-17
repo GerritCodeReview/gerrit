@@ -22,6 +22,30 @@
       "revId": "c902572b5ba3ee4c27bcf363a4981c3d6a8ce132",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8ddbeee2_8549b26d",
+        "filename": "polygerrit-ui/app/elements/core/gr-error-manager/gr-error-manager.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-12-17T14:19:34Z",
+      "side": 0,
+      "message": "after the change, the `getLoggedIn` will be called again to recheck the auth state and it should handle the error if there is one.",
+      "parentUuid": "a6d7d8c7_4149568e",
+      "range": {
+        "startLine": 113,
+        "startChar": 14,
+        "endLine": 113,
+        "endChar": 38
+      },
+      "revId": "c902572b5ba3ee4c27bcf363a4981c3d6a8ce132",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

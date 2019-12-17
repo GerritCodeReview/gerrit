@@ -34,6 +34,24 @@
       "revId": "4335cad3d5824e16de1021a78ba1acdc5f787ae3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "09786bd7_55b48ed2",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 540,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2019-12-17T10:50:36Z",
+      "side": 1,
+      "message": "\u003e If onStart() returns a boolean, and a plugin returns a false from it, how would you inform the other plugins that have already returned true that the task is not actually going to start?\n\nI thought that this would be done by calling the onNotReadyToStart()\n\n\u003e If you look at the example posted, and at the docs you will see that in the onNotReadyToStart() the plugins can release the semaphore that they acquired during the isReadyToStart() method so as to not double up the usage count on the next call to onNotReadyToStart()\n\nYes, this is clear.\nI feel like two methods: isReadyToStart + onNotReadyToStart are enough and propose to use\nthe onStart method name instead of the isReadyToStart.\n\n\n\u003e \n\u003e \n\u003e Also I think the semantics of using onStart() that way is a bit deceiving, i.e. if we call one plugin\u0027s onStart() and it returns true, then I think that plugin would expect the task to actually start and not potentially block if the next plugin returns false.\n\nI think that we need a good example which demonstrates the necessity of both isReadyToStart\nand onStart (as these methods are designed in this patch-set). Right now I feel like\nplugins can do everything in the isReadyToStart method (acquire permission from a semaphore,\nnon-blocking or blocking) and they can do the necessary cleanup in the onNotReadyToStart.\n\n\nReading the documentation it looks like onStart method is intended for implementing a delay\n(the calling thread blocks) and onReadToStart is intended for acquiring start permission\nin a non-blocking manner. However, these are only recommendations, the design doesn\u0027t\nenforce anything of that. A plugin developer may still do the opposite: sleep in the onReadyToStart and perform a non-blocking acquire in the onStart and may not be aware\nthat he is doing something wrong... or something that he is not expected to do. This is why\nI believe that having one \"on start\" method would be a cleaner design.",
+      "parentUuid": "2d2afcec_158aa74f",
+      "revId": "4335cad3d5824e16de1021a78ba1acdc5f787ae3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

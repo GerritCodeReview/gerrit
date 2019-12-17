@@ -2,6 +2,46 @@
   "comments": [
     {
       "key": {
+        "uuid": "947052ea_28d7fd7d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-feature-flag/gr-feature-flag.html",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-12-17T14:21:29Z",
+      "side": 1,
+      "message": "remove?",
+      "revId": "46ecd9b7af0f19d7373eb0f43ebeea287a74e264",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "449da81f_413c5eb5",
+        "filename": "polygerrit-ui/app/elements/shared/gr-feature-flag/gr-feature-flag.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-12-17T14:21:29Z",
+      "side": 1,
+      "message": "That should go into its own files. Some parts of the app may not sue the gr-feature-flag component, but directly call the provider. Then they should just depend on the provider file, not the entire component.",
+      "range": {
+        "startLine": 34,
+        "startChar": 8,
+        "endLine": 34,
+        "endChar": 27
+      },
+      "revId": "46ecd9b7af0f19d7373eb0f43ebeea287a74e264",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "99d20448_4347e8ff",
         "filename": "polygerrit-ui/app/elements/shared/gr-feature-flag/gr-feature-flag.js",
         "patchSetId": 1
@@ -18,6 +58,29 @@
         "startChar": 11,
         "endLine": 36,
         "endChar": 24
+      },
+      "revId": "46ecd9b7af0f19d7373eb0f43ebeea287a74e264",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3d2eec1f_698f50ca",
+        "filename": "polygerrit-ui/app/elements/shared/gr-feature-flag/gr-feature-flag.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2019-12-17T14:21:29Z",
+      "side": 1,
+      "message": "Why not a whitelist per flag? (Also a blacklist would be nice.)",
+      "range": {
+        "startLine": 53,
+        "startChar": 17,
+        "endLine": 53,
+        "endChar": 39
       },
       "revId": "46ecd9b7af0f19d7373eb0f43ebeea287a74e264",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

@@ -26,6 +26,12 @@ import com.google.inject.Singleton;
 import java.nio.file.Path;
 import org.eclipse.jgit.lib.Config;
 
+/**
+ * RepositoryManager that looks up repos stored across directories.
+ *
+ * <p>Each repository has a path configured in Gerrit server config, repository.NAME.basePath,
+ * indicating where the repo can be found
+ */
 @Singleton
 public class MultiBaseLocalDiskRepositoryManager extends LocalDiskRepositoryManager {
 

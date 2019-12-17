@@ -78,6 +78,7 @@ import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Queue;
@@ -300,6 +301,11 @@ public class RevertSubmission
       }
       cherryPickInput.base = null;
     }
+    Collections.sort(
+        results,
+        (change1, change2) -> {
+          return change1.updated.compareTo(change2.updated);
+        });
     RevertSubmissionInfo revertSubmissionInfo = new RevertSubmissionInfo();
     revertSubmissionInfo.revertChanges = results;
     return revertSubmissionInfo;

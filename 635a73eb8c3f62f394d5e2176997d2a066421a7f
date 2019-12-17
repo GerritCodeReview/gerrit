@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "e8e9e486_484327a6",
+        "filename": "polygerrit-ui/app/elements/core/gr-error-manager/gr-error-manager.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2019-12-17T15:49:23Z",
+      "side": 1,
+      "message": "from what I understand about polymer, `properties` should include those related to polymer data system (used in template / listeners etc), and `_auth` seems not belong to any of them. I probably should have it defined in the `constructor`. I don\u0027t understand why we need to have it defined in `properties` ?\n\nI can have it defined in constructor with proper documentation, and ya `authService` is a better name, will replace all\n\n\n\u003e https://polymer-library.polymer-project.org/2.0/docs/devguide/properties",
+      "parentUuid": "1c429089_95f6b896",
+      "revId": "635a73eb8c3f62f394d5e2176997d2a066421a7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1aaf172a_92c99cd2",
         "filename": "polygerrit-ui/app/elements/core/gr-error-manager/gr-error-manager.js",
         "patchSetId": 4

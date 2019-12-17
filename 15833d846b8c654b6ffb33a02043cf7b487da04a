@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c6dabd71_3b2996a9",
+        "filename": "java/com/google/gerrit/server/restapi/change/RevertSubmission.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2019-12-17T12:16:07Z",
+      "side": 1,
+      "message": "Please run the formatting command\nalias format\u003d\u0027git ls-files | grep java$ | xargs java -jar ~/Downloads/google-java-format-1.7-all-deps.jar -i\u0027\n\nI think I downloaded it from here:\nhttps://github.com/google/google-java-format",
+      "revId": "15833d846b8c654b6ffb33a02043cf7b487da04a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

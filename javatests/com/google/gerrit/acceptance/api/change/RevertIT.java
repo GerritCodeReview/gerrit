@@ -684,18 +684,9 @@ public class RevertIT extends AbstractDaemonTest {
 
   @Test
   @GerritConfig(name = "change.submitWholeTopic", value = "true")
-  /**
-   * In this test and some of the following, we use @UseClockStep since the result of the Revert
-   * Submission depends partly on the update time of the changes reverted.
-   *
-   * <p>The order of the changes returned by Revert Submission are as following: 1. The internal
-   * order between each dependant change will always be from the descendant to the ancestor, and the
-   * order will be consecutive. 2. If there are some changes in the same project and branch that are
-   * not dependant, and they have the same submission, the order will be by update time of those
-   * changes. 3. If there are some changes in different project and branches, the order between two
-   * changes in seperate project/branch will be sorted by the name of the branch alphabetically. If
-   * the name of the branch happens to be the same, then it will be sorted by update time.
-   */
+
+  // In this test and some of the following, we use @UseClockStep because the test depends on the
+  // update time.
   @UseClockStep
   public void revertSubmissionDifferentRepositoriesWithDependantChange() throws Exception {
     projectOperations.newProject().name("secondProject").create();

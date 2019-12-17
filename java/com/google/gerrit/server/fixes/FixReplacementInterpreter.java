@@ -31,7 +31,6 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import org.eclipse.jgit.lib.ObjectId;
@@ -40,9 +39,6 @@ import org.eclipse.jgit.lib.Repository;
 /** An interpreter for {@code FixReplacement}s. */
 @Singleton
 public class FixReplacementInterpreter {
-
-  private static final Comparator<FixReplacement> ASC_RANGE_FIX_REPLACEMENT_COMPARATOR =
-      Comparator.comparing(fixReplacement -> fixReplacement.range);
 
   private final FileContentUtil fileContentUtil;
 

@@ -49,7 +49,7 @@
       };
     }
 
-    getTrimmedChangeSubject(subject) {
+    _getTrimmedChangeSubject(subject) {
       if (!subject) return '';
       if (subject.length < CHANGE_SUBJECT_LIMIT) return subject;
       return subject.substring(0, CHANGE_SUBJECT_LIMIT) + '...';
@@ -76,7 +76,7 @@
       changes = changes || [];
       changes.forEach(change => {
         this.message += change.change_id.substring(0, 10) + ': ' +
-          this.getTrimmedChangeSubject(change.subject) + '\n';
+          this._getTrimmedChangeSubject(change.subject) + '\n';
       });
       this.message = this._modifyRevertSubmissionMsg(change);
     }
